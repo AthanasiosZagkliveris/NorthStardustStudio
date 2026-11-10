@@ -1,6 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import TextLink from "../components/interview/fields/TextLink.tsx";
-import AddButton from "../components/controls/AddButton.tsx";
 import { useEffect, useState } from "react";
 
 import { capabilities, getCapabilityColor } from "../data/capabilities";
@@ -287,19 +286,6 @@ export default function SystemSelection() {
                                 statuses={systemStatuses}
                                 onSystemClick={handleSystemSelection}
                             />
-
-                            {/* What the four Foundation Systems add up to. */}
-                            {activeCapability === "foundation" && (
-                                <div className="workspace-documents">
-                                    <p className="workspace-documents-text">
-                                        Turn the Foundation answers into a Business Plan, a Business Model Canvas and a Financial Forecast.
-                                    </p>
-                                    <AddButton
-                                        onClick={() => navigate("/documents")}>
-                                        Business Documents
-                                    </AddButton>
-                                </div>
-                            )}
 
                         </section>
 

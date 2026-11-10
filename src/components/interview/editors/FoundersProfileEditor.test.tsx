@@ -70,7 +70,7 @@ describe("FoundersProfileEditor founders", () => {
         );
 
         expect(document.querySelectorAll(".legal-entity-card")).toHaveLength(0);
-        fireEvent.click(screen.getByRole("button", { name: "1. Identity System → 3. Legal Entity → 2. Founders & Ownership" }));
+        fireEvent.click(screen.getByRole("button", { name: "1. Identity System → 1. Definition → Founders & Ownership" }));
         expect(onOpen).toHaveBeenCalledWith(["legal-section-1"]);
 
     });

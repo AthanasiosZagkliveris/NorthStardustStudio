@@ -16,47 +16,48 @@ Thinking Time: About 1–1.5 hr
 
 ### Positioning
 
-- Who is your target audience?
-- Which market or category do you belong to?
-- How are you different from competitors?
+- Who is your target audience: who pays, and who uses it?
+- Why do they buy it: what purpose does it serve?
+- How you stand apart is asked on your Segments, under their Competitors.
 
 ### Mission
 
-- What is your purpose?
-- What problem are you trying to solve?
-- Why does solving it matter?
+- Who do you serve? What do you do for them? Why does it matter to them?
+- Say what you do today; the future you aim for belongs in the Vision.
+- Make it specific enough to describe your business alone.
+- Example: "We weave personalised throws that let people give a gift that lasts."
 
 ### Vision
 
-- What future are you working towards?
-- What would success look like?
-- Think ten years or more ahead.
+- What will be different for your customers when you succeed, and what will the business be by then?
+- Think five to ten years ahead. Describe the result; the steps belong in the Strategy.
+- Example: "Every home in the UK and Ireland has one throw it keeps for life."
 
-## 2. Ethics
+## 2. Purpose
 
 ### Philosophy
 
-- How do you understand the work you do?
-- How do you see the world around it?
-- Which beliefs shape your choices?
+- What do you believe about your trade that sets you apart? Why do you work this way?
+- Explain the belief; the rules it leads to go in Principles.
+- Example: "We believe a thing made slowly is used for longer, so we make fewer and better."
 
 ### Values
 
-- What matters most to you?
-- What will you never compromise on?
-- List 3 to 5 values, one per line.
+- What matters most in how you work? What would you hold to, even at the cost of a sale?
+- List three to five, one a line, each with what it means here.
+- Example: "Craft: every piece is finished by hand and checked before it leaves."
 
 ### Principles
 
-- Which rules guide your decisions?
-- How do you behave and treat people?
-- Which standards do you always keep?
+- For each value, what do you always do, and what do you always avoid?
+- One rule a line, beginning "We …".
+- Example: "We remake any piece with a fault, at no cost, within a year."
 
 ### Manifesto
 
-- What do you stand for, and against?
-- What purpose drives your products?
-- It should inspire your people and attract like-minded customers.
+- What do you stand for, and what do you stand against?
+- Write it for your customers, in your own voice. Draw on your Values and say them in fresh words.
+- Example: "We are for things that last. We are against the throwaway gift."
 
 ## 3. Legal Entity
 

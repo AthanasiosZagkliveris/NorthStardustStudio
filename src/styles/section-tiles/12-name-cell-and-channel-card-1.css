@@ -571,7 +571,7 @@ main.conversation-content[data-reserve],
 
     background: var(--tab-bg);
 
-    box-shadow: 4px 4px 12px color-mix(in srgb, var(--tab-edge) 18%, transparent);
+    box-shadow: var(--shadow-menu);
 
     align-items: flex-start;
 
@@ -739,7 +739,7 @@ main.conversation-content[data-reserve],
 
 }
 
-/* ONE RAIL SYSTEM (the pages rail's): the lit item is bold, a bullet under the pointer or the focus is only UNDERLINED, its name never bold. */
+/* ONE RAIL SYSTEM (the pages rail's): the lit item is bold, a bullet under the pointer or the focus is only UNDERLINED, its name never bold. (Underlined only where the names stand beside the bullets: a name shown as a tooltip is a tooltip, never underlined; owner, 2026-11-10.) */
 .carousel-rail.carousel-rail-tab .bullet-rail-item.active .strategy-card-nav-tip {
 
     font-weight: 400;
@@ -749,7 +749,7 @@ main.conversation-content[data-reserve],
 
 }
 
-.carousel-rail.carousel-rail-tab .bullet-rail-item:is(:hover, :focus-visible) .strategy-card-nav-tip {
+.carousel-rail.carousel-rail-tab.carousel-rail-named .bullet-rail-item:is(:hover, :focus-visible) .strategy-card-nav-tip {
 
     text-decoration: underline;
     text-decoration-color: currentColor;
@@ -1014,7 +1014,13 @@ body:has(.floating-overlay) .section-tile-dialog .section-tile-back {
 /* GLOBAL: A STATUS PILL (Total Ownership: short / met / over) has no fill of its own, like a wired button at rest: it takes the ground behind it; its state is told by its line and its ink. */
 .legal-entity-total:is(.legal-entity-total-short, .legal-entity-total-met, .legal-entity-total-over) {
     background: transparent !important;
+    /* A soft glow in the pill's own line colour, a further sign of its state (owner, 2026-11-09): green when met, red when short or over. */
+    box-shadow: 0 0 10px 2px color-mix(in srgb, var(--total-glow) 45%, transparent);
 }
+
+.legal-entity-total.legal-entity-total-met { --total-glow: var(--line-met); }
+.legal-entity-total.legal-entity-total-short { --total-glow: var(--line-short); }
+.legal-entity-total.legal-entity-total-over { --total-glow: var(--line-danger); }
 
 /* THE CUSTOMER RELATIONSHIP'S FIRST ROW: [Relationship Type: label over a cell as wide as its longest option] [Purpose: its label, then its cell beside it] [x], all on the cells' top line, 12px apart; the x in its own column, 12px from the block's edge. */
 .business-relationship-block .business-relationship-type-row {
@@ -1112,18 +1118,12 @@ body:has(.floating-overlay) .section-tile-dialog .section-tile-back {
 
 }
 
-/* THE PAGE TAB STANDS AT THE TOP OF ITS LAYER, its top level with the layer's title; the arrow is above it (never hidden), and where it stands in the tab, the arrow alone takes the bullets' tint, so it reads against the tab's own ground. */
+/* THE PAGE TAB STANDS AT THE TOP OF ITS LAYER, its top level with the layer's title; the arrows stand over it (never hidden) and, where the tab reaches down to
+   their level, together just under its foot (CarouselArrows.tsx), so the tab's list runs on with no gap. */
 .page-arrow.carousel-arrow {
 
-    z-index: 6;
-
-}
-
-.page-arrow.carousel-arrow.carousel-arrow-on-tab,
-:root[data-theme="dark"] .page-arrow.carousel-arrow.carousel-arrow-on-tab {
-
-    /* Over the page tab: the tab's edge colour in its brighter version (in every reading mode: the dark mode's own arrow colour is more specific, so it is named here too). */
-    color: color-mix(in srgb, var(--tab-edge) 55%, white);
+    /* Above the tab (.carousel-rail, z-index 8, 11-segment-card-3.css). */
+    z-index: 9;
 
 }
 

@@ -1,6 +1,6 @@
 # 18. The reactions
 
-Status: **current design**, written 2026-10-17, updated 2026-11-02. The kinds of reaction (R1 to R14), and which component takes which.
+Status: **current design**, written 2026-10-17, updated 2026-11-10. The kinds of reaction (R1 to R15), and which component takes which.
 
 What the app does when a part of it is pointed at, pressed, focused, ticked, opened or switched off: the kinds of reaction, and which fields and components take which. Written from the stylesheets. The rulebook (`docs/ai/layout-rules.md`, section 6, "Interactions: one set of reactions per kind") holds the same rules as the table the automatic layout check runs against, and fails a kind that does not react as its row says; this document is the lookup: the kinds, and which component takes which.
 
@@ -15,13 +15,14 @@ What the app does when a part of it is pointed at, pressed, focused, ticked, ope
 | R5 | **Bold and underline** (text links) | The letters thicken (the app's bold, no change of width) and a line 1px under the descenders. | Every text link (the look and the list of kinds are in `19-text-links.md`); list items of a tile are underlined only. |
 | R6 | **Marquee** (a long text link) | The text slides across its place to be read whole (about 100px a second, quicker on the way back, `textLinks.ts`). | One row only; at rest an ellipsis. It slides whatever the system's motion setting (only while the pointer is on it; it is the one way to read the cut text). |
 | R7 | **Bold** (titles and labels) | The letters thicken, nothing moves (the bold's letter spacing is already there). | Tile titles, buttons, the label of a tick option. A labelled button keeps its size: the thickening takes no room and its tracking stays what it is at rest. |
-| R8 | **Grow** (tiles and blocks) | A tile grows about its aimed corner, edge or centre, above its neighbours, a drop shadow growing with it; a colour or image block (6px corners) grows 10% inwards and keeps its inset light and shade. | Page tiles, boxes of a dialog, the blocks of a master tile. |
+| R8 | **Grow** (tiles and blocks) | A tile grows about its aimed corner, edge or centre, above its neighbours, a short soft shadow under it (`--shadow-tile-lift`, fading out within its card); a colour or image block (6px corners) grows 10% inwards and keeps its inset light and shade. | Page tiles, boxes of a dialog, the blocks of a master tile. |
 | R9 | **Grow 20%** (the link symbol) | The symbol is 20% larger about its centre; the box it stands in does not change. | Nothing moves. |
 | R10 | **Halo** (the tile that opened a card) | A steady ring 2px and a glow in the opened card's tint (the Completed grey for a completed card) round the tile or box that holds the card now shown, while the card is open; the list line that opens it is bold and underlined. It follows the card when the arrows step. | Not flashing: the flashing glow is only the error. |
 | R11 | **Error glow** (an incomplete card) | The tile flashes a red glow; its line in a tile's list is red, bold and flashing and comes first. | A card just made and still open is not flagged. Any other card is flagged in its fields exactly when its tile flashes (one lacking its Name too). |
 | R12 | **Deactivated** (disabled, frozen, completed) | Flat, no reaction, the muted ground; the not-allowed cursor. | A **completed card** is the exception: it keeps the shapes of an open card in four greys only (card ground, cells' ground, line, text), its tab, bullets, arrows and halo grey too; only its Completed row is live. |
 | R13 | **Close** (a card that pops up) | A click anywhere outside it, and Escape, close it. | Calendars, the colour picker, a dropdown's list, the funnel, notes, the tile views. |
 | R14 | **Press** (a control held down) | Every button, tab, menu item, summary and link darkens a little more (`filter: brightness(0.93)`, `cell-focus.css`); a field has its ring. | One rule for every control. |
+| R15 | **Landing** (where a link leads) | The part a link leads to is brought into view and framed: a 4px line in the links' blue of the reading mode, the box's 8px corners and a soft glow, held about a second and a half, then fading (`.jump-highlight`, `land` in `jumpTo.ts`). A part a Note's link leads to is lit in the Notes' orange instead (`is-noted-hot`). | Search, the Review, the Glossary's "In the app", the Card Notes, the competitors under a Differentiation, a reference in an "i"; the frame stands over the lines beside it. |
 
 ## 2. By component
 

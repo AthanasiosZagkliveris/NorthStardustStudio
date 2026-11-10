@@ -57,6 +57,24 @@ html {
 
 }
 
+/* WHERE A BAR IS SHOWN (the Inventory, the Forecast's table), the pointer over it is an open hand and, while it holds the bar, a closed one (owner,
+   2026-11-10: "make the cursor as grabbing hand, so it would work as an indicator"): ScrollbarGrab.tsx marks the box whose bar is under the pointer. */
+/* (The app's own hands, src/assets/cursors, as the tables' drag hand draws them (02-dynamic-tables.css): the hotspot at their middle. Owner, 2026-11-10: "for the grab
+   hand, use the hand from the src/assets/cursors".) */
+[data-on-scrollbar] {
+
+  cursor: url("../assets/cursors/grab.svg") 32 32, grab;
+  cursor: image-set(url("../assets/cursors/grab.svg") 1x, url("../assets/cursors/grab-2x.png") 2x) 32 32, grab;
+
+}
+
+[data-scrollbar-grabbing] {
+
+  cursor: url("../assets/cursors/grabbing.svg") 32 32, grabbing;
+  cursor: image-set(url("../assets/cursors/grabbing.svg") 1x, url("../assets/cursors/grabbing-2x.png") 2x) 32 32, grabbing;
+
+}
+
 html,
 body,
 #root {
@@ -326,6 +344,32 @@ body {
   --cell-shade: rgba(0, 0, 0, 0.12);
   --cell-inset: inset 2px 2px 3px var(--cell-light), inset -2px -2px 3px var(--cell-shade);
   /* A TEXT OR NUMBER CELL reads as a deeper part of its card: the same light and shade, the other way round (the shade at the top left, the light at the bottom right). */
+  /* THE CELL'S FILL is a warm off-white in light (owner, 2026-11-09), which pairs with the near-black text and spares the eyes the glare of pure white. Its edge
+     is the soft light and shade alone: the 1px edge tried that evening was taken away by the owner ("Remove the thin darker inset edge"). */
+  --cell-fill: #faf9f6;
+  /* THE ICON IN A BUTTON: one size for every one (the header tools, Export, the funnel, the calendar, the link symbol; owner, 2026-11-10). */
+  --icon-size: 24px;
+  /* THE TWO DROP SHADOWS (owner, 2026-11-10: "Fix the drop shadows ... blur so to fade smoothly"): one wide, faint blur each, no tight second layer, so a
+     shadow fades out with no edge. --shadow-drop under what stands over the page (a dialog, a floating card); --shadow-menu under what drops from a
+     control (a dropdown list, a menu, a funnel, a popover, a toast). */
+  /* SHORT AND SOFT (owner, 2026-11-10, 20:56-21:00: "Can you do something to smooth this line effect? Like blur it?"; "Can we do that to all the dropped
+     shadows?", with the header's and the Export menu's shadows shown): every shadow is a short lift that fades out within about 12px of its box, so it never
+     reaches far across the page nor crosses the edge of what it stands in -- the header's band, a menu, a dialog, a floating card, a tile grown under the pointer. */
+  /* (Then gently: wide and faint, so they melt away with no edge to see; owner, 2026-11-10, 21:02: "I like it to faint gently".) */
+  /* (Layered, owner 21:04: "Make it to gradually get darker from transparent to more opaque, and add some blur": four soft layers, each wider and fainter
+     than the last, so the shade deepens gradually towards the box and blurs away to clear, with no edge.) */
+  /* (Shorter, owner 21:06: "I do not like it too long"; and with no hard line, 21:07: "the transparency should change gradually": no tight layer, every layer
+     blurred at least four times its offset, each fainter, so the shade rises from clear to its deepest without an edge.) */
+  /* (More blur, owner 21:12: "Can you blur the drop shadows?": each layer blurred further on the same small offset.) */
+  /* (Short and smooth, a haze rather than a ring, owner 21:18: "I want the shadows short and smooth, spread as dust noise, not as bands around defined
+     forms": one soft shadow, pulled in by a negative spread so it does not trace the box's outline, its blur wide against its reach, so it settles under
+     the box as a diffuse haze and thins out within about 16px.) */
+  --shadow-drop: 0 8px 28px -8px var(--shadow-ink-16);
+  --shadow-menu: 0 6px 20px -6px var(--shadow-ink-16);
+  --shadow-tile-lift: 0 4px 16px -6px var(--shadow-ink-16);
+  /* (Both end in clear: one blur only, wide against its offset, its colour faint; a tile lifted under the pointer takes the menu's.) */
+  /* THE LINE BETWEEN TWO BANDS (owner, 2026-11-10: "a divider line (12px, 1px, 12px) with a light colour (the card's tint colour)"): 1px in a light step of the card's own hue, the bands' 12px on each side of it. */
+  --band-divider: color-mix(in srgb, hsl(var(--strategy-theme-hue, 220) var(--theme-bg-ink)) 30%, hsl(var(--strategy-theme-hue, 220) var(--theme-bg-inner)));
   --cell-inset-recess: inset 2px 2px 3px var(--cell-shade), inset -2px -2px 3px var(--cell-light);
   /* The "+" box's fill: the darker tone of the tile's hue (the card's hue at this saturation and lightness). */
   --plus-fill-saturation: 36%;
@@ -387,6 +431,7 @@ body {
   --box-shade: rgba(0, 0, 0, 0.5);
   --cell-light: rgba(255, 255, 255, 0.07);
   --cell-shade: rgba(0, 0, 0, 0.45);
+  --cell-fill: var(--bg-surface);
   --plus-fill-saturation: 42%;
   --plus-fill-lightness: 68%;
 }
@@ -396,6 +441,7 @@ body {
   --box-shade: rgba(60, 40, 20, 0.2);
   --cell-light: rgba(255, 252, 244, 0.55);
   --cell-shade: rgba(60, 40, 20, 0.14);
+  --cell-fill: var(--bg-surface);
   --plus-fill-saturation: 34%;
   --plus-fill-lightness: 36%;
 }
@@ -1236,7 +1282,7 @@ input[type="checkbox"] {
   box-sizing: border-box;
   border: 1px solid transparent;
   border-radius: var(--tick-radius);
-  background: var(--bg-surface) center / 70% no-repeat;
+  background: var(--cell-fill) center / 70% no-repeat;
   box-shadow: var(--cell-inset-recess);
   cursor: pointer;
   transition: background-color .15s ease, box-shadow .15s ease;
@@ -1382,4 +1428,26 @@ label:has(> input[type="checkbox"]:not(:disabled)):hover > :not(input),
 .app-tooltip[data-tint] {
   border-color: hsl(var(--strategy-theme-hue, 0) var(--theme-line-accent));
   background: color-mix(in srgb, var(--tooltip-bg) 78%, hsl(var(--strategy-theme-hue, 0) var(--theme-line-accent)));
+}
+
+
+/* THE BANDS IN THE CARD'S OWN HUE (owner, 2026-11-10: "Use the same Saturation and Light values as the app (cards and tiles), same as the channel card, but
+   adjust the hue accordingly; general rule"): the channel card tints its parts with 12% of its label colour, the hue at 28% saturation and 34% lightness;
+   every card and dialog does the same in its own hue. A section's title band is that colour itself, a box's title band 24% of it with the colour as its bar,
+   a question band 12% of it. Set where the hue is (the card, the dialog), so each takes its own. */
+.business-foundation-card,
+.section-tile-dialog,
+.legal-entity-card,
+.floating-card-body {
+  --card-band-ink: hsl(var(--strategy-theme-hue, 217) var(--theme-bg-ink));
+  --tint-row-band: color-mix(in srgb, var(--card-band-ink) 12%, transparent);
+  --tint-box-title: color-mix(in srgb, var(--card-band-ink) 24%, transparent);
+  /* (The line between two bands is a light tint of the card's colour (owner, 2026-11-10: "I did not say white, but a light card's colour tint!"):
+     30% of the card's ink in the card's light tone.) */
+  --band-divider: color-mix(in srgb, var(--card-band-ink) 30%, hsl(var(--strategy-theme-hue, 217) var(--theme-bg-inner)));
+}
+
+/* (In the dark the bands are dark, so the light line is the card's ink, lighter than them.) */
+:root[data-theme="dark"] :is(.business-foundation-card, .section-tile-dialog, .legal-entity-card, .floating-card-body) {
+  --band-divider: var(--card-band-ink);
 }

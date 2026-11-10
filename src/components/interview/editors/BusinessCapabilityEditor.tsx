@@ -64,7 +64,41 @@ export default function BusinessCapabilityEditor(props: BusinessCapabilityEditor
             const cards = [...document.querySelectorAll<HTMLElement>(".answer-columns.business-capability > .business-foundation-card")];
             const stacked = cards.length > 1 && Math.abs(cards[0].getBoundingClientRect().left - cards[1].getBoundingClientRect().left) < 4;
             let side: number;
-            if (!stacked && footerBox && tiles) {
+            // SQUARES UNDER THE TILES ABOVE, WHERE THERE IS ROOM (owner, 2026-11-10: "When there is space, make the inventory and completed tiles (bricks) squares
+            // (like the regular tiles) and place them to align with their top tiles, letting 12 px gap from above"): the page tile's side, in the first two columns
+            // of tiles of the cards above, 12px under the cards; only while that square ends above the footer. Otherwise the row is the footer's band, as before.
+            const pageTiles = cards.flatMap(card => [...card.querySelectorAll<HTMLElement>(".section-tile-slot > .section-tile")]).filter(tile => tile.offsetWidth > 0);
+            const pageSide = pageTiles[0]?.offsetWidth ?? 0;
+            const cardsBottom = Math.max(0, ...cards.map(card => card.getBoundingClientRect().bottom));
+            // (In the centre, under the two middle columns of the page's tiles: owner, 2026-11-10, 20:50, "Place the inventory and the completed tiles in the centre".)
+            const allColumns = [...new Set(pageTiles.map(tile => Math.round(tile.getBoundingClientRect().left)))].sort((a, b) => a - b);
+            const middle = Math.max(0, Math.floor(allColumns.length / 2) - 1);
+            const columnsLeft = allColumns.slice(middle, middle + 2);
+            // (As large as the page's tiles where the room allows, smaller where it does not, down to 150px, under which they stay the footer's bricks.)
+            const room = footerBox ? Math.floor(footerBox.top - 12 - (cardsBottom + 12)) : 0;
+            const squareSide = Math.min(pageSide, room);
+            const squares = !stacked && !!footerBox && !!tiles && pageSide > 0 && columnsLeft.length >= 2 && squareSide >= 150;
+            row.style.removeProperty("--completed-width");
+            if (tiles) {
+                tiles.style.gridTemplateColumns = "";
+                tiles.style.columnGap = "";
+            }
+            if (squares && tiles) {
+                side = squareSide;
+                row.style.height = "0";
+                row.style.overflow = "visible";
+                row.style.setProperty("--completed-width", side + "px");
+                tiles.style.gridTemplateColumns = "repeat(2, " + side + "px)";
+                // (12px apart where they are smaller than the page's tiles; at the page's size, in the two middle columns exactly. Either way centred on the page.)
+                const gap = side < pageSide ? 12 : columnsLeft[1] - columnsLeft[0] - side;
+                tiles.style.columnGap = gap + "px";
+                tiles.style.transform = "";
+                tiles.style.position = "relative";
+                tiles.style.zIndex = "40";
+                const first = tiles.querySelector<HTMLElement>(".section-tile-slot")?.getBoundingClientRect();
+                const top = row.getBoundingClientRect().top;
+                tiles.style.transform = "translate(" + Math.round((columnsLeft[0] + columnsLeft[1] + pageSide) / 2 - (2 * side + gap) / 2 - (first?.left ?? columnsLeft[0])) + "px, " + Math.round(cardsBottom + 12 - top) + "px)";
+            } else if (!stacked && footerBox && tiles) {
                 side = Math.min(SQUEEZED_ROW_MIN, Math.round(footer - 8));
                 row.style.height = "0";
                 row.style.overflow = "visible";

@@ -1,6 +1,7 @@
 /* ==========================================================
    The Notepad (Notepad.tsx): the header's Notes button, the panel
-   on the right, the links as chips, and picking a field.
+   on the right, the links as chips, and picking a field; and the
+   Card Notes' rows on the Workbook page (WorkbookCardNotes).
 
    The panel lies between the header (80px) and the footer (64px),
    as the Organization rail does on the left, and slides in from the
@@ -63,6 +64,7 @@
 
 .notepad-head {
 
+    /* "Notes" with its closing arrow beside it, the dividing line under them; "+ Add note" is the list's first line, at the label's left edge. */
     display: flex;
     align-items: center;
     gap: var(--gap-8);
@@ -73,9 +75,15 @@
 
 }
 
+.notepad-add {
+
+    align-self: flex-start;
+
+}
+
 .notepad-title {
 
-    flex: 1 1 auto;
+    flex: none;
 
     margin: 0;
 
@@ -255,7 +263,7 @@
 
     color: var(--accent-ink);
 
-    box-shadow: 0 12px 28px var(--shadow-ink-18);
+    box-shadow: var(--shadow-menu);
 
 }
 
@@ -295,7 +303,20 @@ html.notepad-picking [data-pick-hover] {
    kept: an outline takes no room, so nothing moves. */
 .is-noted.is-noted.is-noted:is(:hover, :focus, :focus-visible, :focus-within, .is-noted-hot) {
 
-    outline-offset: 0;
+    /* (1px over the box's own edge, so no pale hairline opens between the stroke and the border at any screen scale; owner, 2026-11-10: "There is still a double frame!") */
+    outline-offset: -1px;
+
+}
+
+/* ONE FRAME ON A NOTED TILE (owner, 2026-11-10, 17:35: "There is still a double frame!"): a page tile and the slot that holds it carry the same key, so both were
+   marked: the slot's square stroke stood round the tile's rounded one. The tile draws the mark; the slot that holds a marked tile draws none. */
+.section-tile-slot.section-tile-slot.is-noted.is-noted.is-noted:has(> .section-tile.is-noted) {
+
+    outline: none;
+
+    box-shadow: none;
+
+    background-color: transparent;
 
 }
 
@@ -393,8 +414,12 @@ html.notepad-picking [data-pick-hover] {
 .notepad-note.is-noted-hot,
 .notepad-chip.is-noted-hot {
 
+    /* (One frame: the stroke over the box's own border, in its colour; owner, 2026-11-10: "The Noted marked frame has a double frame".) */
+    border-color: var(--line-noted);
+
     outline: 4px solid var(--line-noted);
-    outline-offset: 0;
+    /* (2px in: over the 1px border with room to spare, so no pale hairline shows between them at a fractional screen scale.) */
+    outline-offset: -2px;
 
     box-shadow: 0 0 16px 4px var(--glow-noted);
 
@@ -435,7 +460,8 @@ html.notepad-picking [data-pick-hover] {
 
 .notepad-date-label{
 
-    font-size:var(--font-small);
+    /* (A tick's words are a value: the body size, as every tick's; owner, 2026-11-10.) */
+    font-size:var(--font-body);
 
 }
 
@@ -454,46 +480,18 @@ html.notepad-picking [data-pick-hover] {
 /* The fold arrow that slides the notes away is as large as the page's other fold arrows. */
 
 
-/* THE CARD NOTES (Notepad.tsx, CardNotes): a group like the Organization's, then one note-box for each card -- its name, its page, its text. The panel's one column is padded 16px; a
-   head is its fold arrow, its name, its count and the funnel on one line (12px apart, the funnel ending where the boxes end); a box is a note's box (12px padding, a note's corners and
-   ground), its three lines 6px apart, set as a note's text is (the body size, no tracking). The pointer on a box is the glow; the keyboard's focus, the ring. */
-/* The funnel in the panel has no card hue to take its tone from (the hue 0 it would fall back to is red): it is the neutral one, the text colour on the panel's ground. */
-.notepad-card-notes-head .funnel-box {
-
-    --plus-ground: var(--bg-surface);
-    --plus-fill: var(--text-primary);
-
-}
-
-.notepad-card-notes-head {
-
-    display: flex;
-    align-items: center;
-    gap: var(--gap-12);
-    min-width: 0;
-
-}
-
-.notepad-card-notes-head > .notepad-group-head {
-
-    flex: 1 1 0;
-    min-width: 0;
-
-}
-
-.notepad-card-notes-head > .responsibility-filter {
-
-    flex: none;
-    margin-left: 0;
-
-}
+/* THE CARD NOTES (Notepad.tsx, WorkbookCardNotes: the Workbook page's Card Notes tab): one note-box for each card -- its name, its page, its text -- under the page's funnel (the
+   Glossary's bar). A box is a note's box (12px padding, a note's corners and ground), the name and its page on one line (12px apart, the page wrapping where there is no room), the text under them 6px down, set as a note's text is (the body size, no tracking). The pointer on a
+   box is the glow; the keyboard's focus, the ring. */
 
 .notepad-card-note {
 
+    /* The name and its page on one line where there is room (owner, 2026-11-09: "place the names and sections next to each other"), the page wrapping under
+       the name where there is not; the text on a line of its own. */
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--gap-6);
+    flex-flow: row wrap;
+    align-items: baseline;
+    gap: var(--gap-6) var(--gap-12);
 
     box-sizing: border-box;
     width: 100%;
@@ -548,6 +546,8 @@ html.notepad-picking [data-pick-hover] {
 
 .notepad-card-note-text {
 
+    flex-basis: 100%;
+
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 3;
@@ -581,16 +581,5 @@ html.notepad-picking [data-pick-hover] {
 
     max-width: 100%;
     flex-wrap: wrap;
-
-}
-
-/* THE FUNNEL'S LIST in the Notes panel is the panel's own colour (neutral surface, line and ink), not the hue of the page behind it. */
-.notepad-card-notes-head .responsibility-filter-panel {
-
-    border: 1px solid var(--line-box);
-
-    background: var(--bg-surface);
-
-    color: var(--text-default);
 
 }

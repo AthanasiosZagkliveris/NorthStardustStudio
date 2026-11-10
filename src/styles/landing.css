@@ -63,7 +63,8 @@
 
     transform: translateY(-3px);
 
-    box-shadow: 0 10px 25px var(--shadow-08);
+    /* (The app's one short lift: global.css, --shadow-menu.) */
+    box-shadow: var(--shadow-menu);
 }
 
 .landing-card:active {
@@ -385,17 +386,6 @@
     margin-bottom: 3vh;
 }
 
-.user-name-label {
-
-    font-size: var(--font-small);
-    font-weight: 700;
-
-    text-transform: uppercase;
-    letter-spacing: .4px;
-
-    color: var(--text-faint);
-}
-
 .user-name-input {
 
     box-sizing: border-box;
@@ -405,7 +395,7 @@
     border: 1px solid var(--line-box);
     border-radius: 12px;
 
-    background: var(--bg-surface);
+    background: var(--cell-fill);
 
     font: inherit;
     font-size: var(--font-body);
@@ -470,7 +460,6 @@
 
 /* Bold labels on the landing page, brought up to the app's 5%
    floor for bold text from the 0.4px (~3%) they carried. */
-.user-name-label,
 .user-name-input,
 .user-preferences-label {
 

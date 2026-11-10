@@ -320,7 +320,9 @@ export function useListAutoFormat(
 
             if (rewritten !== nextValue) {
 
-                pendingSelection.current = cursor + (normalizedInserted.length - insertedText.length);
+                // (The end of the paste in the value actually written: the text up to it, renumbered as the whole is -- a number only depends on the
+                // lines above it -- so a renumbering that adds a digit (9. to 10.) moves the cursor with it.)
+                pendingSelection.current = renumberNumberedBlocks(nextValue.slice(0, prefixLength) + normalizedInserted).length;
 
                 onChange(rewritten);
 

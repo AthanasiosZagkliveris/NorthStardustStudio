@@ -1,6 +1,6 @@
 # 1. Current design of the Foundation capability
 
-Status: **current design**, written 2026-10-14, updated 2026-11-02. It is the single description of what the Foundation capability (Identity, Brand, Business and Strategy Systems) is and what has been decided for it. Where the code and this document disagree, the code is right.
+Status: **current design**, written 2026-10-14, updated 2026-11-09. It is the single description of what the Foundation capability (Identity, Brand, Business and Strategy Systems) is and what has been decided for it. Where the code and this document disagree, the code is right.
 
 Part F is document 26 (card structure). The catalogue tool (`tools/scripts/catalogue/load.mjs`) reads it from there, taking the headings with " > " and the numbered table rows between the headings of Part F and Part G, and the structure tables (document 7) and the catalogue record (document 6) are generated from it: its headings and row format stay as they are.
 
@@ -29,7 +29,7 @@ The app does six things (the owner's description):
 | 1 | **Requests specific information** by different methods (text, multiple choice, filling a field, numbers and so on), with the necessary help | Questions per System and page; field types; help notes ("i"); limits on numbers |
 | 2 | **Stores and connects** this information with the relevant parts, and creates further requests accordingly | Answers saved per organisation; cards linked by choice; generated cards (channel expenses, insurance); frozen answers that wait for the one they depend on |
 | 3 | **Calculates** the inputs, records and presents the results in different forms (tables, diagrams, per time schedule, per category) | Demand and capacity, costs by nature, Funding Need, Financial Position, Break Even, forecast statements, Calendar, the Inventory view |
-| 4 | **Proves and validates** the results | Completeness rules and open items, the Review page, capacity check, date checks, Stress Test, "What It Would Take" |
+| 4 | **Proves and validates** the results | Completeness rules and open items, the Review (the Workbook's), capacity check, date checks, Stress Test, "What It Would Take" |
 | 5 | **Helps the user** with different methods | Help and instructions, resources, pre-filled information (from connected or existing data); Note and Calendar tools; messages, errors, reminders, confirmations, limits; smart navigation (rails of page, tile and card; arrows; clear requests) |
 | 6 | **Generates and exports Business Documents** | Business Plan, Business Model Canvas, Forecast; PDF and Markdown |
 
@@ -41,8 +41,8 @@ A page of a System can be a **compound page**: several sections drawn as chapter
 
 | System | Page | Chapters (frames) and their Master Tiles |
 |---|---|---|
-| 1. Identity | 1. Definition and Ethics | Chapter 1 Definition: Organisation, Positioning (named by the business stage: Early Positioning, Core Market Positioning, Corporate & Portfolio Positioning), Mission, Vision. Chapter 2 Ethics: Philosophy, Values, Principles, Manifesto. |
-| 1. Identity | 2. Legal Entity | Founders & Ownership; Capability (Gaps and Cover); Registrations (a dialog of sub tiles: Registration Numbers, Additional Legal Requirements); Expenses (the Legal Entity's expenses). |
+| 1. Identity | 1. Definition and Purpose | Chapter 1 Definition: Organisation, Positioning (named by the business stage: Early Positioning, Core Market Positioning, Corporate & Portfolio Positioning), Founders & Ownership (saved in the Legal Entity). Chapter 2 Purpose: Mission & Vision (saved in Definition), Values & Principles, Philosophy & Manifesto (doc 45). |
+| 1. Identity | 2. Legal Entity | Capability (Gaps and Cover); Registrations (a dialog of sub tiles: Registration Numbers, Additional Legal Requirements); Expenses (the Legal Entity's expenses). |
 | 2. Brand | Brand System (one page) | Chapter 1 Ambassador: Aesthetics, Body Language, Communication & Voice, Imprint. Chapter 2 Style: Colours, Typography, Text Hierarchy, Icon & Logo, Brand Images (the brand inventory is part of this page). |
 | 3. Business | 1. Foundation | One chapter per Segment: Segment Description (the Segment's questions and its Profiles), Competitors, Value Proposition, Offerings. A Profile, a Competitor and an Offering are cards that open floating. |
 | 3. Business | 2. Customer Engagement | Customer Channel (tiles per Segment); Customer Relationship; Demand & Conversion (these two still folding sections, see document 5). |
@@ -99,7 +99,7 @@ Pages come from `src/assets/SystemAnswers/01..04_*.md`. Each page's `Structure` 
 
 | System | Pages | AnswerType and renderer |
 |---|---|---|
-| 1 Identity | Definition, Ethics | Free Text drawn as column tiles (`AnswerRenderer`, `ColumnFields`, `ColumnHeads`) |
+| 1 Identity | Definition, Purpose | Free Text drawn as column tiles (`AnswerRenderer`, `ColumnFields`, `ColumnHeads`) |
 | 1 Identity | Legal Entity | `LegalEntityEditor` |
 | 1 Identity | Founders Profile | `FoundersProfileEditor` |
 | 2 Brand | Ambassador (with the Imprint field) | Free Text, column tiles |
@@ -116,21 +116,20 @@ Pages come from `src/assets/SystemAnswers/01..04_*.md`. Each page's `Structure` 
 
 | Element | Contains and does | File | Used on |
 |---|---|---|---|
-| App header | Logo, save status, reading-mode picker, Focus mode, Search, Glossary, Notes, Review, Settings, undo toast, organisation name | `C/AppHeader.tsx` | All pages |
-| Header tools | Icon plus word (the icon alone below 1700px): Search (Ctrl+K), Glossary, Notes, Review (with open-item count), Settings, Focus mode | `SearchButton`, `GlossaryButton`, `notepad/Notepad.tsx`, `ReviewButton`, `SettingsButton`, `FocusModeButton` | With an organisation open; on the Landing page only Review is shown, with no count, and it opens the review of every organisation |
+| App header | Logo, save status, reading-mode picker, Focus mode, Search, Workbook, Notes, Settings, undo toast, organisation name | `C/AppHeader.tsx` | All pages |
+| Header tools | Icon plus word (the icon alone below 1700px): Search (Ctrl+K), Workbook (no count, a closed notebook icon; 2026-11-09), Notes (with the count of notes), Settings, Focus mode | `SearchButton`, `WorkbookButton`, `NotepadButton` (`notepad/Notepad.tsx`), `SettingsButton`, `FocusModeButton` | With an organisation open; on the Landing page the same `WorkbookButton` (`total`: the review of every organisation, the Glossary and the References) |
 | Save status | Saved or failed-save hint | `C/SaveStatus.tsx` | Header |
 | Theme switch | Reading mode | `C/ThemeSwitch.tsx` | Header |
-| Footer | Back button | `C/AppFooter.tsx` | Interview, Review, Documents, Settings |
+| Footer | Back button | `C/AppFooter.tsx` | Interview, Workbook, Settings |
 | Landing | Organisation list, add button, cards, delete confirmation, first-run preferences | `pages/Landing.tsx`, `C/UserPreferencesDialog.tsx` | `/` |
 | System selection | Capability list, System list, Continue, Documents button | `pages/SystemSelection.tsx`, `CapabilityList`, `SystemList`, `SystemItem` | `/assistant` |
 | Calendar panel | Slide-in rail with month view, task notes and times, periods, date-format toggle, funnel | `C/OrganizationCalendarPanel.tsx`, `CalendarFunnel.tsx`, `services/CalendarPeriods.ts` | System selection |
-| Notepad panel | Right slide-in; notes linked to fields or cards; "pick" banner; empty state; marks on linked fields | `C/notepad/Notepad.tsx`, `NotedHover.tsx` | All pages with an organisation |
-| Search dialog | Results in four groups (Pages, Fields, Glossary, Your answers) open a System, page, field (card unfolded), a term on the Glossary page, or an answer | `C/SearchDialog.tsx`, `services/SearchService.ts` | Header |
+| Notepad panel | Right slide-in, opened by the header's Notes (as before the Workbook, 2026-11-09); notes linked to fields or cards; "pick" banner; empty state; marks on linked fields | `C/notepad/Notepad.tsx`, `NotedHover.tsx` | All pages with an organisation |
+| Search dialog | Results in four groups (Pages, Fields, Glossary, Your answers) open a System, page, field (card unfolded), a term on the Workbook page's Glossary, or an answer | `C/SearchDialog.tsx`, `services/SearchService.ts` | Header |
 | Undo toast | One toast for the app, after a removal | `C/UndoToast.tsx`, `services/UndoService.ts` | Header |
-| Review page | Four groups (Still open, Worth a second look, Missing from the documents, Key dates), each item with "Go there"; it shows the open organisation only, or every organisation (each in its own section) when opened from the Landing page; each organisation always open, its head with no fold arrow (owner, 2026-11-05); Worth a second look also names a value every Competitor of a Segment is weak on that its Profiles rate Essential (2026-11-06, doc 41) | `pages/Review.tsx` | `/review` |
-| Glossary page | Two tabs. Glossary: every term A to Z, the app's own terms (`data/glossary.ts`) in the app's blue and the user's own (the names of their Segments, Profiles, Competitors, Offerings, Founders, Partners and suppliers, Themes, Objectives and the Organisation, `services/GlossaryService.ts`) in terracotta (no legend on the page and no tag on an app term: one of yours names its kind, "Segment"; the funnel names the two kinds and the title's "i" their colours), a funnel that shows either kind and a funnel of letter ranges cut as the References' are (2026-11-05), an app term's Harvard citations (each opens its reference), "Open the ..." on the user's terms. References: every source of `Sources.ts` as a Harvard reference list, with a funnel of letter ranges cut from the list (`letterRanges`: about 20 references a range, a letter never split, the first from A and the last to Z; today A–I and K–Z) | `pages/Glossary.tsx`, `C/references/HarvardReference.tsx` | `/glossary` |
+| Workbook page | One page drawn as a dialog: the title "Workbook", one framed panel with the carousel arrows and a tab of bullets; sections Card Notes, Review, Glossary, References and Business Documents (Business Plan, Business Model Canvas, Financial Forecast); from the Landing page, the total review, the Glossary of every Organisation and the References. Its shape: layout rules 22.37. Review: four groups (Still open, Worth a second look, Missing from the documents, Key dates), each item with "Go there". Glossary: the app's terms (`data/glossary.ts`) in blue and the user's own (`services/GlossaryService.ts`) in terracotta, A to Z, under ONE funnel. References: `Sources.ts` as a Harvard list, a funnel of letter ranges (`letterRanges`) | `pages/Workbook.tsx`, `C/notepad/Notepad.tsx`, `C/OrganizationReview.tsx`, `C/GlossaryList.tsx`, `C/BusinessDocumentsView.tsx`, `C/references/HarvardReference.tsx` | `/workbook` (`/glossary`, `/review` and `/documents` open it on their section) |
 | Global Settings page | Financial plan, Business stages, Pay and tax, Assets (useful life, amortisation), Rates, Reserve, Channel Fee Table | `pages/GlobalSettings.tsx`, `FinancialPlanSettings.tsx` | `/settings` |
-| Business Documents page | Tabs (Business Plan, Business Model Canvas, Financial Forecast), period picker, downloads | `pages/BusinessDocuments.tsx` | `/documents` |
+| Business Documents | A section of the Workbook page (2026-11-09): tabs (Business Plan, Business Model Canvas, Financial Forecast), period picker, downloads | `C/BusinessDocumentsView.tsx` | `/workbook` (`/documents` opens it there) |
 | Confirmation dialog | Overlay, title, message, action buttons | Markup repeated in `Conversation.tsx`, `Landing.tsx` and others (6 uses; no shared component) | Delete, strategy prompt, export steps |
 | Export dialogs | Two steps: options, then Markdown or PDF | `Conversation.tsx` | Last page |
 | Error screen | Message with a clear-saved-data action | `C/ErrorBoundary.tsx` | App-wide |
@@ -158,7 +157,7 @@ A "Chapter" has no named type in the code. Frames are classes:
 
 | Frame | Class and file | Used on |
 |---|---|---|
-| Tiles frame (heading plus tiles) | `.answer-columns … column-tiles-page`, `.tiles-frame-head` (`AnswerRenderer`) | Identity Definition and Ethics, Brand Ambassador |
+| Tiles frame (heading plus tiles) | `.answer-columns … column-tiles-page`, `.tiles-frame-head` (`AnswerRenderer`) | Identity Definition and Purpose, Brand Ambassador |
 | Single wide frame | `column-tiles-page-wide` | Strategy Roadmap |
 | Single frame | `strategy-single-frame` | Strategy 1 |
 | Two section cards | `.business-foundation-card` with `CardTitleHelp` and `.card-scroll` | Business 3 |
@@ -170,7 +169,7 @@ A "Chapter" has no named type in the code. Frames are classes:
 
 | Tile | Holds | Notes |
 |---|---|---|
-| Large column tile | Identity Definition, Ethics, Brand Ambassador; Legal Entity Organisation, Founders & Ownership, Registrations, Expenses | `large: true`; `view: true` gives a dialog of sub tiles |
+| Large column tile | Identity Definition, Purpose (its pair tiles), Brand Ambassador; Definition's Organisation and Founders & Ownership; Legal Entity Capability, Registrations, Expenses | `large: true`; `view: true` gives a dialog of sub tiles |
 | Brand picture tiles | Colours, Typography & Text Hierarchy, Icon & Logo, Brand Images | `picture` property |
 | Founders Profile tile | Capability and the founder card tiles | `FoundersProfileEditor` |
 | Business Foundation tiles | Segment Description (the Segment card: its five boxes ask choice questions, `SegmentQuestions.ts`, read through `SegmentContext.ts`; a Profiles section with the Profile cards, which ask `ProfileQuestions.ts`), Value Proposition and card boxes (Profile, Competitor, Offering) | `BusinessFoundationEditor`; doc 35 and doc 36 |
@@ -246,7 +245,7 @@ Tile dialogs (`SectionTiles.tsx`): header with a trail and Back (`DialogHeading`
 | Financial costs ledger | `FinancialFoundationEditor` | Business 4 |
 | Figure table | `FigureTable` (`FinancialParts.tsx`) | Business 4 and 5 |
 | Settings tables (Assets, Channel Fee) | `GlobalSettings.tsx` | Settings |
-| Forecast table | `BusinessDocuments.tsx` | Documents |
+| Forecast table | `BusinessDocumentsView.tsx` | Workbook, Business Documents |
 
 ### C.9 Layer H: panels, popups, menus, tooltips and info notes
 
@@ -268,7 +267,7 @@ Tile dialogs (`SectionTiles.tsx`): header with a trail and Back (`DialogHeading`
 | Empty states | `section-tile-empty`, `strategy-empty-note`, `legal-entity-empty-note`, `BusinessEmpty`, `review-empty`, `search-empty`, `notepad-empty`, `option-picker-empty`, `roadmap-empty-row` and others |
 | Missing or incomplete | Red glowing tile, `missingWords`, `incompleteTitle`, `capability-overview-incomplete` |
 | Alerts | `legal-entity-total-alert`, `settings-alarm`, `brand-inventory-error`, the `FrozenUntil` hint |
-| Open items | Review page, `OpenItems.ts`, `ReviewItems.ts` |
+| Open items | The Workbook's Review, `OpenItems.ts`, `ReviewItems.ts` |
 | Signals | `SignalList` (risk, caution, good, info) |
 | Isolation notes | `IsolationNote` |
 | Limits | The 3-point cap on info notes; the open-founder cap; "Already uses this subchannel" |
@@ -280,7 +279,7 @@ Tile dialogs (`SectionTiles.tsx`): header with a trail and Back (`DialogHeading`
 
 | Output | Source |
 |---|---|
-| Business Plan, Business Model Canvas, Financial Forecast (annual, quarterly, monthly), with CSV and PDF | `pages/BusinessDocuments.tsx`, `engine/BusinessDocuments.ts`, `FinancialForecast.ts` |
+| Business Plan, Business Model Canvas, Financial Forecast (annual, quarterly, monthly), with CSV and PDF | `components/BusinessDocumentsView.tsx`, `engine/BusinessDocuments.ts`, `FinancialForecast.ts` |
 | Export (Markdown and PDF) | `ExportContentBuilder.ts`, `MarkdownExporter.ts`, `PdfExporter.ts`, `ExportRenderers.ts` |
 | Calendar items from card dates (Key dates: plan start, registration, opening, the end of each stage's window; Warranty ends, Payment due, Contract or supply ends, Activity deadline, Legal fee, Starts, Activity starts, Founder starts) | `CalendarCardDates.ts`, `CalendarTaskService.ts` |
 | Charts | `CashTimelineChart` (`FinancialParts.tsx`); Strategic Roadmap (`StrategicRoadmapEditor`, `roadmapZoom.ts`, `roadmapTooltip.ts`) |
@@ -684,7 +683,7 @@ The engine reads a card from the top. At each step it asks one question. Where t
 
 | Step | Question | Rules | If yes |
 |---|---|---|---|
-| 0 | Is the card complete: status Costs or Buy, a price, valid dates, and a linked offering for a card of the Offering place? | V1 to V8, V10 to V14 | No: it is excluded from every total, shows the red glow, and is listed on the Review page. Evaluation stops. |
+| 0 | Is the card complete: status Costs or Buy, a price, valid dates, and a linked offering for a card of the Offering place? | V1 to V8, V10 to V14 | No: it is excluded from every total, shows the red glow, and is listed in the Workbook's Review. Evaluation stops. |
 | 1 | Does a billing type or cost option lock the driver? | V9 | Yes: Percentage gives % of Rev, Fixed amount gives Monthly or Annually, Lump sum gives One-time. |
 | 2 | Is the billing type Percentage? | C5 | Yes: a calculated COGS line, whatever the date. Evaluation stops. |
 | 3 | Is it a stock loss, or (in a later batch, with actual data) a repair? | C11, C12 | Yes: drawn from the Contingency Fund; not in the forecast. Evaluation stops. |
@@ -785,7 +784,7 @@ The user never chooses fixed, variable, semi-variable or step.
 |---|---|---|---|
 | F1 | Total Pre-operational Budget | CapEx + Startup Expenses + Pre-Operating Expenses (everything dated before the Opening Date, except opening stock). It is the contingency base. | 30,000 + 5,000 + 9,000 = 44,000. |
 | F2 | Startup Contingency Fund | 10 to 15% of the Total Pre-operational Budget; already held when operations start. | 4,400 at 10%, 6,600 at 15%. |
-| F3 | Operational Contingency Fund | Each month, 3 to 5% of OpEx is added on top of the startup fund until the total equals the target reserve months of OpEx (3 by default, a setting). The contribution is a cash set-aside, not an expense. | OpEx 4,000: target 12,000; startup fund 4,400; at 4% a month 160 is added for 48 months. |
+| F3 | Operational Contingency Fund | Each month, 3 to 5% of OpEx is added on top of the startup fund until the total equals the target reserve months of OpEx (3 by default, a setting). The contribution is a cash set-aside, held as savings. | OpEx 4,000: target 12,000; startup fund 4,400; at 4% a month 160 is added for 48 months. |
 | F4 | Months to reach the target | (target months × monthly OpEx − startup fund) ÷ (rate × monthly OpEx). Zero if the startup fund already equals the target. |  |
 | F5 | Using the fund | A repair or a stock loss is an expense when it happens; the fund pays it, and the contribution restarts until the target is reached again. |  |
 | F6 | Cash to raise before the opening | Total Pre-operational Budget + Startup Contingency Fund + the cash for opening inventory, added as a flat line after the contingency calculation. | 44,000 + 4,400 + 8,000 of opening stock = 56,400. |
@@ -794,7 +793,7 @@ The user never chooses fixed, variable, semi-variable or step.
 
 | No. | When | Result |
 |---|---|---|
-| V1 | A card has no price at status Costs | Incomplete: red glow, left out of every total, listed on the Review page. |
+| V1 | A card has no price at status Costs | Incomplete: red glow, left out of every total, listed in the Workbook's Review. |
 | V2 | A card has no Start date | The card cannot be completed. |
 | V3 | End date before start date | Not accepted. |
 | V4 | The status Rent on a space or vehicle card, or Partners & Suppliers, with no name chosen | The card cannot be completed: the supplier holds the rent or the lease. |
@@ -1030,7 +1029,7 @@ Colour = what the user does in the section (work type). The code applies these w
 |---|---|---|
 | 1. Identity |  |  |
 | Definition (Organisation, Early Positioning, Mission, Vision) | Create | Purple |
-| Ethics (Philosophy, Values, Principles, Manifesto) | Decide | Orange |
+| Purpose (Mission & Vision, Values & Principles, Philosophy & Manifesto) | Decide | Orange |
 | Legal Entity | Define | Green |
 | Founders Profile | Define | Green |
 | 2. Brand |  |  |

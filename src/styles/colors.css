@@ -12,6 +12,7 @@
 /* The documents stay on paper: the Business Plan, the Canvas and
    the Forecast tables keep the light tokens (declared on them in
    colors.generated.css) and light native parts. */
+:root[data-theme="dark"] .business-documents-page,
 :root[data-theme="dark"] .business-document,
 :root[data-theme="dark"] .business-canvas,
 :root[data-theme="dark"] .business-forecast-table-wrap {

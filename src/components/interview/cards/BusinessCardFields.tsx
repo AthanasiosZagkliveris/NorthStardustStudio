@@ -558,6 +558,10 @@ export interface BusinessTickOption {
     blocked?: string;
     /** Not open yet (a stage's lock): drawn grey and cannot be ticked, with nothing said beside it; one already ticked can still be unticked. */
     locked?: boolean;
+    /** Said under it, small, the option still open (K14: which competitors it came from, a bullet each). */
+    note?: ReactNode;
+    /** Its own "i", beside its name: what the option means (owner, 2026-11-10: K14, "place the related i next to each option"). */
+    info?: InfoPoint[];
 }
 
 /**
@@ -637,7 +641,7 @@ export function BusinessTicks({
 
                     <span className="business-foundation-tick-label">
                         {option.meaning === undefined
-                            ? option.label
+                            ? (option.info ? <InfoText text={option.label}><InfoNote label={option.label} points={option.info} fullList /></InfoText> : option.label)
                             : (
                                 <>
                                     <strong className="business-tick-name">
@@ -646,6 +650,7 @@ export function BusinessTicks({
                                     {": " + option.meaning}
                                 </>
                             )}
+                        {!option.blocked && option.note && <span className="business-foundation-tick-source">{option.note}</span>}
                     </span>
 
                     {option.blocked && <span className="business-foundation-tick-note">{option.blocked}</span>}

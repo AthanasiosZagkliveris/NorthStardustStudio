@@ -255,6 +255,10 @@ describe("a founder's Frequency, migrated", () => {
         const weeklyParts = (globalThis as unknown as { process?: { env: Record<string, string | undefined> } }).process?.env.WRITE_GOLDEN === "all"
             ? ["forecast", "plan", "exported"] as const
             : ["plan", "exported"] as const;
+        // (WRITE_GOLDEN=all: the weekly fixture's founders' table too, whose words carry the example's names.)
+        if ((globalThis as unknown as { process?: { env: Record<string, string | undefined> } }).process?.env.WRITE_GOLDEN === "all") {
+            next["lumen-weekly"].founders = now["lumen-weekly"].founders;
+        }
         for (const part of weeklyParts) {
             const text = now["lumen-weekly"].texts[part];
             next["lumen-weekly"][part + "Shape"] = digest(text.replace(NUMBER, "#"));

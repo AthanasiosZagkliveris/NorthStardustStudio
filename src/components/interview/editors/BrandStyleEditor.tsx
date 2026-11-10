@@ -186,7 +186,7 @@ const COLOUR_ASSOCIATIONS: InfoPoint[] = [
     { title: "Black", text: "strength, sophistication, authority and elegance." },
     { title: "White", text: "simplicity, purity, cleanliness and openness." },
     { title: "Grey", text: "neutrality, balance, practicality and formality." },
-    "These are common associations rather than fixed meanings, and can change with context, shade and culture."
+    "These are common associations, and their meaning can change with context, shade and culture."
 ];
 
 const COLOUR_COMBINATIONS: InfoPoint[] = [
@@ -196,7 +196,7 @@ const COLOUR_COMBINATIONS: InfoPoint[] = [
     { title: "Triadic", text: "three evenly spaced colours create balanced variety and visual interest." },
     { title: "Neutral + Accent", text: "neutral colours with one stronger colour create restrained designs with focused emphasis." },
     { title: "Primary + Secondary", text: "a dominant brand colour supported by secondary colours creates recognition with visual flexibility." },
-    "The 60 / 30 / 10 ratio is a starting point, not a rule, and the balance can change according to the application."
+    "The 60 / 30 / 10 ratio is a starting point, and the balance can change according to the application."
 ];
 
 const TYPEFACE_STYLES: InfoPoint[] = [
@@ -205,7 +205,7 @@ const TYPEFACE_STYLES: InfoPoint[] = [
     { title: "Slab serif", text: "serif typefaces with thick, block-like finishing strokes, often giving a strong, solid and distinctive feel. E.g. Rockwell, Roboto Slab." },
     { title: "Script", text: "typefaces inspired by handwriting or calligraphy, often giving a personal, elegant or expressive feel. E.g. Pacifico, Dancing Script." },
     { title: "Display", text: "typefaces designed for visual impact at larger sizes, often used for headlines, titles and short statements. E.g. Bebas Neue, Abril Fatface." },
-    "These categories describe common visual characteristics and associations, not fixed meanings."
+    "These categories describe common visual characteristics and associations, and context shapes what each one means."
 ];
 
 const HIERARCHY_RELATIONSHIP: InfoPoint[] = [
@@ -235,7 +235,7 @@ const TYPEFACE_PAIRINGS: InfoPoint[] = [
     { title: "Display + Sans-serif", text: "Abril Fatface + Inter creates expressive headings with clear supporting text." },
     { title: "Sans-serif + Sans-serif", text: "Montserrat + Open Sans creates a clean, contemporary system with subtle contrast." },
     { title: "Serif + Serif", text: "Garamond + Georgia can create an editorial feel when each has a distinct role." },
-    { title: "Single typeface family", text: "Inter Regular + Inter Bold creates a simple, consistent system using weight rather than different typefaces." },
+    { title: "Single typeface family", text: "Inter Regular + Inter Bold creates a simple, consistent system from one typeface, with weight giving the contrast." },
     { title: "Readability", text: "use highly expressive typefaces selectively and prioritise clear, comfortable reading for body text and interface content." }
 ];
 

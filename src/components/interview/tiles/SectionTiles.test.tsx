@@ -9,7 +9,7 @@ import { asBusinessCapabilityValue, createBusinessActivity, createBusinessPartne
 import { stylesheet } from "../../../test/stylesheet";
 import { tableRows } from "./CapabilityOverview";
 import { belongsLines, floorSubgroups, filterFloor, DEFAULT_FLOOR_FILTER, subgroupKey } from "./capabilityFloor";
-import { dialogFrame, drawnTitle, gridColumns, tailPlacement, tileName } from "./SectionTiles";
+import SectionTiles, { dialogFrame, drawnTitle, gridColumns, tailPlacement, tileName } from "./SectionTiles";
 
 afterEach(cleanup);
 
@@ -166,6 +166,31 @@ describe("ONE SHAPE for every set of tiles, boxes and card boxes", () => {
         // Resources, Activities, Partners & Suppliers, Delivery: the channel-made cards stand inside the views, not as tiles of their own.
         expect(tilesOf("Offering's Capability sections")).toEqual(["Resources", "Activities", "Partners & Suppliers", "Delivery"]);
         expect(across("Offering's Capability sections")).toBe("2");
+    });
+
+});
+
+describe("MASTER TILES NEVER CHANGE THEIR SIZES, AND LAYOUT (owner, 2026-11-09)", () => {
+
+    const masters = (count: number, large = true) => Array.from({ length: count }, (_, at) => ({ id: "t" + at, title: "Tile " + at, items: [], large, content: () => null }));
+    const box = () => document.querySelector<HTMLElement>(".section-tiles-box")!;
+    const places = () => [...document.querySelectorAll<HTMLElement>(".section-tile-slot")].map(slot => slot.getAttribute("data-row") + ":" + slot.getAttribute("data-column"));
+
+    it("draws a chapter of three large tiles as the 2 x 2 of four, its fourth place empty, at the size of four", () => {
+        render(<SectionTiles hue={150} label="Three" tiles={masters(3)} />);
+        expect(box().classList.contains("section-tiles-quad")).toBe(true);
+        expect(across("Three")).toBe("2");
+        expect(places()).toEqual(["0:0", "0:1", "1:0"]);
+        cleanup();
+        render(<SectionTiles hue={150} label="Four" tiles={masters(4)} />);
+        expect(box().classList.contains("section-tiles-quad")).toBe(true);
+        expect(across("Four")).toBe("2");
+    });
+
+    it("keeps three tiles that are not master tiles in one row of the page's small size", () => {
+        render(<SectionTiles hue={150} label="Small" tiles={masters(3, false)} />);
+        expect(box().classList.contains("section-tiles-quad")).toBe(false);
+        expect(across("Small")).toBe("3");
     });
 
 });
@@ -793,7 +818,7 @@ describe("the page's cards and titles", () => {
         expect(global).toMatch(/--font-small: 14px;/);
         const css = stylesheet("section-tiles.css");
         expect(css).toMatch(/\.business-capability > \.business-foundation-card:not\(\.section-tile-dialog\) \.answer-column-label \{[^}]*font-size: var\(--font-h2\);/);
-        expect(css).toMatch(/\.business-capability-tiles-section > \.business-engagement-section-head \.field-group-title,\s*\.section-tile-dialog-body > div > \.business-engagement-section-head \.field-group-title \{[^}]*font-size: var\(--font-h3\);/);
+        expect(css).toMatch(/\.business-capability-tiles-section > \.business-engagement-section-head \.field-group-title,\s*\.section-tile-dialog-body > div > \.business-engagement-section-head \.field-group-title,\s*\.workbook-head > \.business-engagement-section-head \.field-group-title \{[^}]*font-size: var\(--font-h3\);/);
     });
 
 });

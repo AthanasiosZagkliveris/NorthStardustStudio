@@ -50,10 +50,8 @@
     display: flex;
     flex-direction: column;
 
-    /* THE WINDOW'S TYPE IS THE APP'S: the body size; its words in the card's label colour (review-criteria.md, "Typography"). */
+    /* THE WINDOW'S TYPE IS THE APP'S: the body size (review-criteria.md, "Typography"); its words in the text colour, as every dropdown card's (below). */
     font-size: var(--font-body);
-
-    color: hsl(var(--strategy-theme-hue, 0) var(--theme-text-ink));
 
 }
 
@@ -265,8 +263,9 @@
     flex: 1 1 auto;
     min-height: 0;
 
-    /* (No side room: a tile grows inwards, never past the panel.) */
-    padding: 4px 0 12px;
+    /* (No side room at the left: a tile grows inwards, never past the panel. At the right, 12px from the last tile to the bar, and the bar 12px from the
+       card's edge, the dialog's own padding: owner, 2026-11-10, "end of the last tile - 12 px gap - Scrolling bar - 12 px gap - end/edge".) */
+    padding: 4px 12px 12px 0;
 
     overflow-y: auto;
     scrollbar-width: auto;
@@ -312,6 +311,9 @@
 
     background: transparent;
 
+    /* (The bar starts at the first row's top, never above it: the 4px over the tiles is taken off its track.) */
+    margin-top: 4px;
+
 }
 
 .capability-overview-scroll::-webkit-scrollbar-thumb {
@@ -320,9 +322,11 @@
 
     border-radius: var(--radius-sm);
 
-    background: color-mix(in srgb, currentColor 45%, transparent);
+    /* (In the app's blue, the links' colour of the reading mode: owner, 2026-11-10, "make the scrolling bar in blue colour (the default blue)".) */
+    background: var(--text-primary);
 
 }
+
 
 /* THE COSTS of the tiles shown, with the cost order and range under them. */
 
@@ -655,6 +659,9 @@
 
     color: var(--table-ink);
 
+    /* The name follows the table's text size, as every cell does (owner, 2026-11-10: "the Names do not change size"); a text link is the body size elsewhere, by a rule that wins with !important, so this one says it the same way. */
+    font-size: var(--table-font, var(--font-body)) !important;
+
 }
 
 .capability-overview-table-extra th,
@@ -716,8 +723,12 @@
 
 }
 
-/* THE FILTER AND SORT WINDOW stands in the colour of the card it belongs to (the Inventory's hue): its ground, its wireframe and its ink are the card's. */
-.strategy-sort-menu.strategy-sort-menu-wide {
+/* THE FILTER AND SORT WINDOW stands in the colour of the card it belongs to (the Inventory's hue): its ground, its wireframe and its ink are the card's.
+   EVERY FUNNEL'S WINDOW IS DRAWN SO (owner, 2026-11-10, 18:57: "I like the inventory's style"): the Inventory's, and the Glossary's, the Review's, the Card
+   Notes' and a founder's Responsibilities' (ResponsibilityFilter); 12px from its sides to what it holds and 12px between its blocks (owner, 19:00: "12 px
+   should be the side margin"; "12 px should be also the in between margin"). */
+.strategy-sort-menu.strategy-sort-menu-wide,
+.responsibility-filter-panel.responsibility-filter-panel {
 
     max-height: calc(100vh - 120px);
 
@@ -733,9 +744,55 @@
 
 }
 
+/* (12px at its sides: the window's own; the filters inside it add none.) */
+.strategy-sort-menu.strategy-sort-menu-wide {
+
+    padding: 0;
+
+}
+
+.responsibility-filter-panel.responsibility-filter-panel {
+
+    padding: var(--space-field);
+
+    gap: var(--space-field);
+
+}
+
+.responsibility-filter-panel > .capability-overview-menu {
+
+    padding: 0;
+
+}
+
+/* (The Notes panel has no card hue: its funnel's window stands on the panel's own neutral ground and edge, as its funnel does, layout rules 33.) */
+.notepad-panel .responsibility-filter-panel.responsibility-filter-panel {
+
+    border-color: var(--box-border);
+
+    background: var(--bg-panel);
+
+    color: var(--text-default);
+
+}
+
 /* A name in the table is the app's text link at the table's own size. */
 .capability-overview-table .capability-overview-name {
 
     font-size: inherit;
+
+}
+
+/* A FUNNEL'S WINDOW IS A DROPDOWN CARD (owner, 2026-11-10: "Make sure the drop down cards, follow the rules and style (cell and text colour, gaps)"): its
+   ticks and orders in the text colour, as every list's rows (the option list, the menus), its folded categories' heads in the one caps title colour. */
+.capability-overview-menu {
+
+    color: var(--text-default);
+
+}
+
+.capability-overview-menu .capability-overview-menu-head > strong {
+
+    color: var(--caps-title-color, var(--text-muted));
 
 }

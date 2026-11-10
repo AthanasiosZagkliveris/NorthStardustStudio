@@ -4,7 +4,12 @@
  * The words are the owner's. Where a list names platforms or brands they stand in the question's "i" as examples, never in the option.
  */
 
-export type SegmentBox = "demographics" | "geographics" | "business-data" | "purchasing" | "market-size" | "user";
+import { DIFFERENTIATION_WORDS, OUTCOME_USER_WORDS } from "./ActivityClassification.ts";
+import { choiceLimit } from "./PositioningIds.ts";
+import { onlyPlanning } from "./BusinessStage.ts";
+
+/** The boxes of the Segment's Description, its user block, and "competitors": a question of the Segment asked once in its Competitors column, after the Competitor cards (doc 41, K14). */
+export type SegmentBox = "demographics" | "geographics" | "business-data" | "purchasing" | "market-size" | "user" | "competitors";
 
 export interface SegmentOption {
     id: string;
@@ -26,6 +31,16 @@ export interface SegmentQuestion {
     name?: string;
     /** A degree, asked as a rating from 1 to 5 (RatingScale): the words over its ends (doc 35, owner 2026-11-04). The answer is the point, "1" to "5". */
     rating?: { low: string; high: string };
+    /**
+     * A question that left Positioning for the Segment (owner, 2026-11-08): its limit is the business stage's (Positioning's outcome limit, `choiceLimit`), an answer over it goes back to
+     * empty, and an answer cleared stays cleared (saved as an empty list), so the Positioning answer saved before, its start, does not come back (`segmentPositioningShown`).
+     */
+    fromPositioning?: boolean;
+    /**
+     * Moved on to the Profile (owner, 2026-11-08: the end user's outcome is asked in each Profile's end-user part, doc 36, E4): not shown on the Segment and not printed with its
+     * answers; a saved answer stays readable and settled, as the Profile's start.
+     */
+    startsProfile?: boolean;
 }
 
 /** What a Segment's questions follow: Identity's answers and the business stage. */
@@ -38,6 +53,8 @@ export interface SegmentContext {
     lifeStages: readonly string[];
     /** Whether the buyer is a Proxy or Dual-Intent buyer, so the user is described too. */
     endsUser: boolean;
+    /** Whether that buyer is Dual-Intent: the buyer also uses it, so the end user's part is the others who use it (2026-11-09). */
+    dual?: boolean;
     /** The user's life stages chosen in Positioning (age:minor, age:young, age:adult, age:senior). */
     userStages: readonly string[];
     /** The buyer and user relationships chosen in Positioning (rel:parent and so on). */
@@ -193,7 +210,7 @@ export const JOB_INFO = [
     "Someone who owns and runs a business: Manager / director. Armed forces: choose the group that fits the role."
 ] as const;
 
-const AGE_NOTE = "Each age group holds the years from its first number to its last, both included, so no age is in two groups (25–39, then 40–54).";
+const AGE_NOTE = "Each age group holds the years from its first number to its last, both included, so each age is in one group only (25–39, then 40–54).";
 
 const RAW_QUESTIONS: readonly SegmentQuestion[] = [
 
@@ -204,8 +221,8 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
         options: BUYER_AGES.map(({ id, label }) => ({ id, label })),
         info: [
             "Minors, semi-dependent: Mid and Late Adolescence, with limited buying power; mostly cash, wallets and gift cards.",
-            "Credit and long contracts are not open to them. Look up the country's online-consent age and its minimum working age.",
-            "Choose the group that pays, not the one that uses it.",
+            "Credit and long contracts are for adults. Look up the country's online-consent age and its minimum working age.",
+            "Choose the group that pays, even when another group uses it.",
             AGE_NOTE
         ]
     },
@@ -261,17 +278,17 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
             { id: "hourly", label: "Hourly wage (Fluctuating based on scheduled shifts)" },
             { id: "variable", label: "Variable pay (Freelance invoices, commission, seasonal contracts)" }
         ],
-        info: ["How steady their pay is, not how much it is (that is the household income below).", "A fixed salary suits regular subscriptions; variable or hourly earners feel sudden cash-flow dips."]
+        info: ["How steady their pay is; how much they earn is the household income below.", "A fixed salary suits regular subscriptions; variable or hourly earners feel sudden cash-flow dips."]
     },
     {
         id: "income", box: "demographics", label: "How high is your customers' household income?", many: false,
         rating: INCOME_RATING, options: ratingOptions(INCOME_RATING),
-        info: ["Compare with the typical household income in their country: 3 is around the median.", "Household income is what the home earns together, not one person's pay."]
+        info: ["Compare with the typical household income in their country: 3 is around the median.", "Household income is what everyone in the home earns together."]
     },
     {
         id: "gender", box: "demographics", label: "What is the gender mix of your customers?", many: false,
         rating: GENDER_RATING, options: ratingOptions(GENDER_RATING),
-        info: ["1 is 80% or more men, 2 is 60 to 80%, 3 a balanced mix (40 to 60%), 4 is 60 to 80% women, 5 is 80% or more.", "Choose 3 when it does not matter for what you sell."]
+        info: ["1 is 80% or more men, 2 is 60 to 80%, 3 a balanced mix (40 to 60%), 4 is 60 to 80% women, 5 is 80% or more.", "Choose 3 when what you sell suits everyone alike."]
     },
 
     /* ---- Box 2, Geographics ---- */
@@ -290,7 +307,7 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
     {
         id: "area", box: "geographics", label: "Where do your customers live or work?", many: false,
         rating: AREA_RATING, options: ratingOptions(AREA_RATING),
-        info: ["1 is countryside or remote places, 3 the suburbs and towns around a city, 5 a city centre.", "Asked once the business is managing or growing, and only for customers in one place or one country."]
+        info: ["1 is countryside or remote places, 3 the suburbs and towns around a city, 5 a city centre."]
     },
 
     /* ---- Box 3, Business Data ---- */
@@ -308,7 +325,7 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
     {
         id: "size", name: "Size", box: "business-data", label: "How big are your customers' organisations?", many: false,
         options: ORG_SIZES,
-        info: ["The EU's definition of small and medium-sized enterprises: micro under 10 employees, small under 50, medium-sized under 250.", "Countries define them a little differently; the United States and Canada use other limits.", "The sizes follow the scale chosen in Positioning."]
+        info: ["The EU's definition of small and medium-sized enterprises: micro under 10 employees, small under 50, medium-sized under 250.", "Countries define them a little differently; the United States and Canada use other limits.", "The sizes follow the scale chosen in Positioning.", "A public body can be of any size, so every size is offered for one."]
     },
     {
         id: "sector", box: "business-data", label: "Which sector are your customers in?", many: false,
@@ -324,12 +341,14 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
         ]
     },
 
-    /* ---- Box 4, Purchasing Power & Behaviour ---- */
+    /* ---- Box 4, Purchasing Power & Behaviour ----
+       In the order of a purchase (owner, 2026-11-08, P3): online comfort and how they socialise, what makes them shop, where they discover, how they decide (a business:
+       who decides), where they shop, how they pay, then how they share it. The codes stay Box 4, 1 to 9 (doc 44: codes are ids, not positions). */
 
     {
         id: "comfort", box: "purchasing", label: "How comfortable are your customers online?", many: false,
         rating: COMFORT_RATING, options: ratingOptions(COMFORT_RATING),
-        info: ["How easily they use websites, apps and online payment, not whether they own a device."]
+        info: ["How easily they use websites, apps and online payment."]
     },
     {
         id: "social", box: "purchasing", label: "How do your customers like to socialise?", many: false,
@@ -342,30 +361,6 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
         info: ["Where they spend their free time. It decides how they meet brands and products."]
     },
     {
-        id: "discover", box: "purchasing", label: "Where do your customers discover new products?", many: true, max: 3,
-        options: [
-            { id: "peers", label: "Friends, family and colleagues" },
-            { id: "communities", label: "Online communities / forums" },
-            { id: "creators", label: "Creators / influencers / experts" },
-            { id: "media", label: "Media, reviews and comparison sites" },
-            { id: "algorithmic", label: "Feeds, ads and marketplace suggestions" }
-        ],
-        info: [
-            "Examples: communities such as Reddit, Discord and Facebook Groups; creators on TikTok, Instagram, YouTube and LinkedIn.",
-            "Choose up to three."
-        ]
-    },
-    {
-        id: "share", box: "purchasing", label: "How do your customers share what they like?", many: true,
-        options: [
-            { id: "public", label: "They post it publicly on social media" },
-            { id: "private", label: "They send it to friends in private chats" },
-            { id: "verbal", label: "They tell people in person" },
-            { id: "none", label: "They rarely share what they buy" }
-        ],
-        info: ["Private chat apps are for example WhatsApp and iMessage. \"They rarely share what they buy\" excludes the other three."]
-    },
-    {
         id: "trigger", box: "purchasing", label: "What makes your customers go shopping?", many: true, max: 2,
         options: [
             { id: "boredom", label: "Boredom or entertainment (browsing feeds, window shopping)" },
@@ -376,13 +371,48 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
         info: ["Choose up to two."]
     },
     {
+        id: "discover", box: "purchasing", label: "Where do your customers discover new products?", many: true, max: 3,
+        options: [
+            { id: "peers", label: "Friends, family and colleagues" },
+            { id: "communities", label: "Online communities / forums" },
+            { id: "creators", label: "Creators / influencers / experts" },
+            { id: "media", label: "Media, reviews and comparison sites" },
+            { id: "algorithmic", label: "Feeds, ads and marketplace suggestions" },
+            // (Added 2026-11-08, the research; "Sales calls or tenders" is offered for business customers only, segmentOptions.)
+            { id: "search", label: "Search engines / maps" },
+            { id: "passing", label: "Seeing it in person / passing by" },
+            { id: "events", label: "Events / trade shows" },
+            { id: "sales", label: "Sales calls or tenders" }
+        ],
+        info: [
+            "Examples: communities such as Reddit, Discord and Facebook Groups; creators on TikTok, Instagram, YouTube and LinkedIn.",
+            "Seeing it in person / passing by: a shop window, a stall, a sign or a vehicle.",
+            "Choose up to three."
+        ]
+    },
+    {
         id: "path", box: "purchasing", label: "How do your customers usually decide to buy?", many: false,
         options: [
-            { id: "impulse", label: "Straight away: They see it, like it and buy it there and then" },
+            // (2026-11-08, the research: "Straight away" reworded as an impulse, its id kept; habit and urgent need added.)
+            { id: "impulse", label: "On impulse: They see it, like it and buy it there and then" },
             { id: "researcher", label: "After comparing options: They weigh prices, features and reviews first" },
-            { id: "validator", label: "On a recommendation: They buy what friends, family or colleagues suggest" }
+            { id: "validator", label: "On a recommendation: They buy what friends, family or colleagues suggest" },
+            { id: "habit", label: "Out of habit: They buy again what they bought before, as a routine" },
+            { id: "urgent", label: "When they urgently need it: They buy what solves it now" }
         ],
-        info: ["Their usual way of buying, the one that fits most of them. Reviews read online count as comparing; advice from people they know is a recommendation."]
+        info: ["Their usual way of buying, the one that fits most of them. Reviews read online count as comparing; advice from people they know is a recommendation.",
+            "On impulse or when they urgently need it, their Profiles skip the question of how they compare options."]
+    },
+    {
+        id: "authorise", name: "Decision", box: "purchasing", label: "Who decides to buy?", many: true,
+        options: [
+            { id: "solo", label: "One person decides: The person who uses it has the budget and the final say." },
+            { id: "champions", label: "The team agrees: The people who use it try it and push it upward." },
+            { id: "executive", label: "A manager signs off: Needs formal approval from a manager or executive." },
+            { id: "multi", label: "Several departments check: IT or security, legal and finance." },
+            { id: "procurement", label: "Formal procurement: A tender or a request for proposals (RFP), with strict compliance." }
+        ],
+        info: ["Select all that apply."]
     },
     {
         id: "setting", box: "purchasing", label: "Where do your customers usually shop?", many: false,
@@ -406,21 +436,20 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
         info: [
             "Digital wallets are for example Apple Pay, Google Pay and PayPal. Buy Now, Pay Later is for example Klarna and Afterpay.",
             "Cash is still about one payment in ten in the UK (UK Finance, 2024).",
-            "Invoicing is asked for business customers only. Credit and Buy Now, Pay Later are not open to minors.",
+            "Invoice is offered for business customers only. Credit and Buy Now, Pay Later are for adults.",
             "Choosing a phone as where they buy starts Digital wallets here; change it freely.",
             "Select all that apply."
         ]
     },
     {
-        id: "authorise", name: "Decision", box: "purchasing", label: "Who decides to buy?", many: true,
+        id: "share", box: "purchasing", label: "How do your customers share what they like?", many: true,
         options: [
-            { id: "solo", label: "One person decides: The person who uses it has the budget and the final say." },
-            { id: "champions", label: "The team agrees: The people who use it try it and push it upward." },
-            { id: "executive", label: "A manager signs off: Needs formal approval from a manager or executive." },
-            { id: "multi", label: "Several departments check: IT or security, legal and finance." },
-            { id: "procurement", label: "Formal procurement: A tender or a request for proposals (RFP), with strict compliance." }
+            { id: "public", label: "They post it publicly on social media" },
+            { id: "private", label: "They send it to friends in private chats" },
+            { id: "verbal", label: "They tell people in person" },
+            { id: "none", label: "They rarely share what they buy" }
         ],
-        info: ["Asked for business customers only.", "Select all that apply."]
+        info: ["Private chat apps are for example WhatsApp and iMessage. \"They rarely share what they buy\" excludes the other three."]
     },
 
     /* ---- Box 5, Market Size & Industry Outlook ---- */
@@ -433,7 +462,7 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
             { id: "mid", label: "Mid-market, 50,000–499,999" },
             { id: "mass", label: "Mass market, 500,000 or more" }
         ],
-        info: ["Everyone in the area you serve who could buy it, if every one of them chose you (the total addressable market).", "For a Segment of businesses, count the organisations, not the people in them."]
+        info: ["Everyone in the area you serve who could buy it, if every one of them chose you (the total addressable market).", "For a Segment of businesses, count each organisation once."]
     },
     {
         id: "trajectory", box: "market-size", label: "Is your market growing or shrinking?", many: false,
@@ -448,10 +477,12 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
         id: "trends", box: "market-size", label: "What is changing most for your customers?", many: true, max: 2,
         options: [
             { id: "technology", label: "Technology: Automation, AI, old systems being replaced" },
-            { id: "regulation", label: "Rules and law: New compliance, tax changes, environmental mandates" },
+            { id: "regulation", label: "Rules and law: New compliance, tax changes" },
             { id: "economy", label: "The economy: Inflation, budget cuts, shifts in spending power" },
-            { id: "society", label: "Society and lifestyle: Remote work, sustainability, changing habits" },
-            { id: "supply", label: "Supply and delivery: Material shortages, logistics costs, local sourcing" }
+            { id: "society", label: "Society and lifestyle: Remote work, changing habits" },
+            { id: "supply", label: "Supply and delivery: Material shortages, logistics costs, local sourcing" },
+            // (Added 2026-11-08, the research: the E of PESTLE. The environmental mandates and sustainability moved here from Rules and law and Society, so nothing overlaps.)
+            { id: "environment", label: "Environment and climate: Extreme weather, sustainability, environmental mandates" }
         ],
         info: ["The changes that affect your customers most. Choose up to two.", "Each Competitor is rated on how every one of these could affect it, the ones ticked here first."]
     },
@@ -482,12 +513,12 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
             { id: "primary", label: "Primary school" },
             { id: "secondary", label: "Secondary school" }
         ],
-        info: ["Asked of a parent or guardian, and of a caregiver, who buy for a child. Secondary school is not offered for a Baby or a Child."]
+        info: ["Asked when the buyer buys for a child: a parent or guardian, a caregiver, a family member, or an institution such as a school.", "Secondary school is offered for a Teenager."]
     },
     {
         id: "u-work", box: "user", label: "Are your customers working?", many: false,
         options: WORKING,
-        info: ["The same question as for the buyer, asked of the end user: an adult the buyer is related to, or sponsors.", ...WORKING_INFO]
+        info: ["The same question as for the buyer, asked of the end user: an adult the buyer is related to, sponsors or serves.", ...WORKING_INFO]
     },
     {
         id: "u-work2", box: "user", label: "Why are your customers not working?", many: false,
@@ -512,7 +543,27 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
     {
         id: "u-comfort", box: "user", label: "How comfortable are your customers online?", many: false,
         rating: COMFORT_RATING, options: ratingOptions(COMFORT_RATING),
-        info: ["How easily they use websites, apps and online payment, not whether they own a device."]
+        info: ["How easily they use websites, apps and online payment."]
+    },
+    // Positioning's question 10, moved here on 2026-11-08 (owner: "Move all three"), its options and "i" as built; moved on the same day to each Profile's end-user part (doc 36, E4),
+    // where a saved answer here is the start: kept and settled, no longer shown.
+    {
+        id: "u-outcome", box: "user", label: "Outcome for the end user", many: true, fromPositioning: true, startsProfile: true,
+        options: Object.entries(OUTCOME_USER_WORDS).map(([id, label]) => ({ id, label })),
+        info: [
+            "What matters most to the end user, apart from the buyer's own reasons for paying: the result the end user gets. It starts the end user's Profile.",
+            "Enjoyment & fun. Comfort & ease. Safety & care. Learning & growth. Looks & belonging (fitting in with friends, a style). Practical use."
+        ]
+    },
+
+    /* ---- Asked once in the Segment's Competitors column, after its Competitors (doc 41, K14) ---- */
+
+    // Positioning's question 8, moved here on 2026-11-08 (owner: "Move all three"; differentiation is set against the alternatives, Dunford): its options as built; its "i" and its order
+    // are the Positioning ones (`INFO.differentiation`, `differentiationOptionsFor` in legal/shared.tsx), drawn by the card.
+    {
+        id: "differentiation", box: "competitors", label: "Differentiation", many: true, fromPositioning: true,
+        options: Object.entries(DIFFERENTIATION_WORDS).map(([id, label]) => ({ id, label })),
+        info: []
     }
 
 ];
@@ -564,8 +615,14 @@ function retiredByAge(answers: SegmentAnswers): boolean {
 /** The user's age terms from 18 on: no school stage is asked of them. */
 const ADULT_USER_AGES = ["young", "established", "peak", "mature", "active", "dependent"];
 
-const PERSONAL = ["rel:parent", "rel:caregiver"];
-const ADULT_PERSONAL = ["rel:family", "rel:partner", "rel:friend", "rel:otherpersonal", "rel:commercial", "rel:sponsor"];
+/** The relationships whose end user may be at school: a parent, a caregiver, a family member (a grandparent buying for a child) and an institution (a school for its pupils; 2026-11-09). */
+const PERSONAL = ["rel:parent", "rel:caregiver", "rel:family", "rel:institution"];
+const ADULT_PERSONAL = ["rel:family", "rel:partner", "rel:friend", "rel:otherpersonal", "rel:commercial", "rel:sponsor", "rel:institution"];
+
+/** Whether the end users are the people an institution or membership body serves: of any age, a business buyer's though they are (owner, 2026-11-09). */
+export function segmentServesPeople(context: Pick<SegmentContext, "relations">): boolean {
+    return context.relations.includes("rel:institution");
+}
 const JOB = ["rel:employer", "rel:copartner", "rel:otherbusiness"];
 const CLIENTS = ["rel:serving", "rel:intermediary"];
 
@@ -578,8 +635,23 @@ function has(answers: SegmentAnswers, id: string, option: string): boolean {
     return (answers[id] ?? []).includes(option);
 }
 
+/**
+ * The questions held back while the business is only Planning (owner, 2026-11-08, P5: progressive disclosure): where they mainly work (Box 1, 5), how they are paid (Box 1, 7) and how they
+ * share what they like (Box 4, 4). Shown from Launching; a saved answer is kept while they are held back (segmentSettle), never removed.
+ */
+export const SEGMENT_HELD_WHILE_PLANNING: readonly string[] = ["workenv", "workincome", "share"];
+
+/** Whether a question is held back by the stage alone: it would be asked from Launching, with the same answers. */
+export function segmentHeldBack(question: SegmentQuestion, answers: SegmentAnswers, context: SegmentContext): boolean {
+    return SEGMENT_HELD_WHILE_PLANNING.includes(question.id) && onlyPlanning(context.stage) && segmentQuestionAsked(question, answers, { ...context, stage: "launch" });
+}
+
 /** Whether a question is asked of a Segment, given its answers so far. */
 export function segmentQuestionAsked(question: SegmentQuestion, answers: SegmentAnswers, context: SegmentContext): boolean {
+
+    if (SEGMENT_HELD_WHILE_PLANNING.includes(question.id) && onlyPlanning(context.stage)) {
+        return false;
+    }
 
     const people = context.frame !== "business";
     const business = context.frame !== "people";
@@ -605,7 +677,7 @@ export function segmentQuestionAsked(question: SegmentQuestion, answers: Segment
             return people;
         case "authorise":
             return business;
-        case "u-age":
+        case "u-age": case "u-outcome":
             return context.endsUser;
         case "u-comfort":
             // A baby does not use online tools.
@@ -657,9 +729,18 @@ export function segmentOptions(question: SegmentQuestion, answers: SegmentAnswer
                 || (option.id === "self" ? solo : option.id === "public" ? scales.includes("enterprise") : bigger)));
         }
         case "size": {
+            // A public body (a school, a small council) can be of any size: for one, Enterprise or Public Sector holds every size (owner, 2026-11-08).
             const scales = context.scales;
-            const sizes = scales.flatMap(id => SIZES_OF_SCALE[id] ?? []);
+            const sizes = scales.flatMap(id => id === "enterprise" && has(answers, "orgtype", "public") ? ORG_SIZES.map(size => size.id) : SIZES_OF_SCALE[id] ?? []);
             return question.options.filter(option => keep(option, scales.length === 0 || sizes.length === 0 || sizes.includes(option.id)));
+        }
+        case "path": {
+            // ORDERED BY WHAT MAKES THEM GO SHOPPING (Box 4, 5; 2026-11-09), never locked: boredom or a friend or creator puts On impulse first; a need or problem, When they
+            // urgently need it and After comparing options.
+            const trigger = answers.trigger ?? [];
+            const first = [...(trigger.includes("boredom") || trigger.includes("proof") ? ["impulse"] : []), ...(trigger.includes("need") ? ["urgent", "researcher"] : [])];
+            const rank = (id: string) => first.includes(id) ? first.indexOf(id) : first.length;
+            return [...question.options].sort((a, b) => rank(a.id) - rank(b.id));
         }
         case "authorise":
             // A self-employed customer, or one who is only a freelancer, decides alone.
@@ -669,6 +750,9 @@ export function segmentOptions(question: SegmentQuestion, answers: SegmentAnswer
         case "industry":
             return SEGMENT_INDUSTRIES.filter(option => keep(option, (answers.sector ?? []).includes(option.sector)))
                 .map(({ id, label }) => ({ id, label }));
+        case "discover":
+            // Sales calls or tenders: how a business finds a supplier, not a person (2026-11-08).
+            return question.options.filter(option => keep(option, option.id !== "sales" || context.frame === "business"));
         case "pay":
             return question.options.filter(option => keep(option,
                 !(option.id === "bnpl" && has(answers, "age", "minor"))
@@ -681,7 +765,10 @@ export function segmentOptions(question: SegmentQuestion, answers: SegmentAnswer
                         : has(answers, "u-age", "teen") ? option.id === "secondary"
                             : true));
         case "u-age":
-            return USER_AGES.filter(option => keep(option, context.userStages.length === 0 || context.userStages.includes(option.stage)))
+            // A business Segment's end user (staff, a partner, clients) is of working age: no age under 18 (owner, 2026-11-08) and no retiree (phase 5, 2026-11-08), Young adult to Mature.
+            // The people an institution serves are of any age (a school's pupils, a care home's residents; 2026-11-09).
+            return USER_AGES.filter(option => keep(option, !(context.frame === "business" && !segmentServesPeople(context) && (option.stage === "age:minor" || option.stage === "age:senior"))
+                && (context.userStages.length === 0 || context.userStages.includes(option.stage))))
                 .map(({ id, label }) => ({ id, label }));
         default:
             return question.options;
@@ -719,7 +806,7 @@ export function segmentSettledNotes(box: SegmentBox, answers: SegmentAnswers, co
 
 /** The questions of one box a Segment is asked and shows, in order: a question with only one option left is not shown (there is nothing to choose); its answer is that option (see segmentSettle). */
 export function segmentQuestionsOf(box: SegmentBox, answers: SegmentAnswers, context: SegmentContext): SegmentQuestion[] {
-    return QUESTIONS.filter(question => question.box === box && segmentQuestionAsked(question, answers, context)
+    return QUESTIONS.filter(question => question.box === box && !question.startsProfile && segmentQuestionAsked(question, answers, context)
         && segmentOptions(question, answers, context, false).length !== 1)
         .map(question => ({ ...question, label: segmentWho(question.label, question.box, context) }));
 }
@@ -729,7 +816,8 @@ export function segmentQuestionsOf(box: SegmentBox, answers: SegmentAnswers, con
  * end user says "your end users". The questions are written for customers; the documents and the answers' lines keep that word.
  */
 export function segmentWho(label: string, box: SegmentBox, context: SegmentContext): string {
-    return context.endsUser ? label.replace(/your customers/g, box === "user" ? "your end users" : "your buyers") : label;
+    // ("How many potential customers are there?": the buyers too, as the rest of the buyer's boxes, 2026-11-09.)
+    return context.endsUser ? label.replace(/your customers/g, box === "user" ? "your end users" : "your buyers").replace(/potential customers/g, box === "user" ? "potential end users" : "potential buyers") : label;
 }
 
 /** The answers after one question's choice changed: "They don't typically share" and the other ways exclude each other; ticks stay within their limit. */
@@ -750,10 +838,21 @@ export function segmentChoose(question: SegmentQuestion, answers: SegmentAnswers
 
     const settled = { ...answers };
 
-    if (chosen.length > 0) {
+    // (A question moved from Positioning keeps an empty answer: cleared, it does not fall back to the Positioning answer saved before.)
+    if (chosen.length > 0 || question.fromPositioning) {
         settled[question.id] = chosen;
     } else {
         delete settled[question.id];
+    }
+
+    // A starting value the user can change (2026-11-09): Who decides to buy (Box 4, 9) from the kind and size of organisation (Box 3, 1 and 2), where it is not answered yet: a public
+    // body or a large organisation buys by Formal procurement; a micro or self-employed one, One person decides.
+    if ((question.id === "orgtype" || question.id === "size") && !settled.authorise) {
+        const formal = has(settled, "orgtype", "public") || has(settled, "size", "large");
+        const alone = has(settled, "orgtype", "self") || has(settled, "size", "micro");
+        if (formal || alone) {
+            settled.authorise = [formal ? "procurement" : "solo"];
+        }
     }
 
     // A starting value the user can change (owner, 2026-11-01): Digital wallets, where they buy on a phone and no way of paying is chosen yet.
@@ -762,13 +861,14 @@ export function segmentChoose(question: SegmentQuestion, answers: SegmentAnswers
     }
 
     // A starting value the user confirms: the work situation that goes with the age term, where none is chosen yet.
+    // Young adults 18–24 start nothing (owner, 2026-11-09): most of them work (BLS: 67.5% of 20 to 24 year-olds employed), so "No / Student" was a wrong start.
     if (question.id === "age" && chosen.length > 0 && !settled.work) {
         const age = chosen[0];
         if (age === "established" || age === "peak" || age === "mature") {
             settled.work = ["working"];
-        } else {
+        } else if (age === "minor" || age === "active" || age === "dependent") {
             settled.work = ["notworking"];
-            settled.work2 = [age === "active" || age === "dependent" ? "retired" : "student"];
+            settled.work2 = [age === "minor" ? "student" : "retired"];
         }
     }
 
@@ -791,6 +891,10 @@ export function segmentSettle(answers: SegmentAnswers, context: SegmentContext):
             const chosen = current[question.id];
 
             if (!segmentQuestionAsked(question, current, context)) {
+                // Held back by the stage alone (while Planning): the saved answer is kept, to show again from Launching.
+                if (chosen && segmentHeldBack(question, current, context)) {
+                    next[question.id] = chosen;
+                }
                 continue;
             }
 
@@ -802,7 +906,19 @@ export function segmentSettle(answers: SegmentAnswers, context: SegmentContext):
                 continue;
             }
 
-            if (!chosen || chosen.length === 0) {
+            if (!chosen) {
+                continue;
+            }
+
+            // A question moved from Positioning: kept even when empty (cleared), and back to empty when the stage allows fewer choices than it holds (as on Positioning).
+            if (question.fromPositioning) {
+                const limit = choiceLimit(context.stage, "outcome");
+                const kept = chosen.filter(id => offered.includes(id));
+                next[question.id] = limit !== null && kept.length > limit ? [] : kept;
+                continue;
+            }
+
+            if (chosen.length === 0) {
                 continue;
             }
 
@@ -863,7 +979,8 @@ export function asSegmentAnswers(source: unknown): SegmentAnswers {
         const ids = (Array.isArray(entry) ? entry : []).filter((id): id is string => typeof id === "string");
         const known = ids.filter((id, at) => ids.indexOf(id) === at && question.options.some(option => option.id === id));
 
-        if (known.length > 0) {
+        // (A question moved from Positioning keeps an answer cleared: an empty list saved.)
+        if (known.length > 0 || (question.fromPositioning && Array.isArray(entry))) {
             answers[question.id] = question.many ? known : known.slice(0, 1);
         }
 
@@ -881,7 +998,8 @@ export function segmentBoxAnswered(answers: SegmentAnswers, box: SegmentBox): bo
 /** Each answered question as its label and the words chosen, for the documents. */
 export function segmentAnswerLines(answers: SegmentAnswers): { label: string; value: string }[] {
 
-    return QUESTIONS.flatMap(question => {
+    // (A question moved on to the Profile is printed there: doc 36, E4.)
+    return QUESTIONS.filter(question => !question.startsProfile).flatMap(question => {
 
         const chosen = answers[question.id] ?? [];
         const words = question.rating

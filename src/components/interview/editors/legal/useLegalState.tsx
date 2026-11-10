@@ -531,15 +531,15 @@ export function useLegalState(props: LegalEntityEditorProps) {
      * verified), and what the tick does in this app.
      */
     const consumptionTaxNote: InfoPoint[] = [
-        profile.consumptionTax + " is a tax on sales: a registered business adds it to its prices, " +
-            "pays it on to the tax authority, and reclaims what it paid on its own purchases.",
+        profile.consumptionTax + " is a tax on sales: you add it to your prices, pay it to the tax authority " +
+            "and reclaim what you paid on your purchases.",
         entity.organisation.country === "GB"
             ? "You must register when your taxable turnover for the last 12 months goes over £90,000, " +
                 "and you can register below that by choice."
             : "Registration is required once your sales pass the threshold your country sets, and " +
                 "some businesses can register by choice. Check with your tax authority.",
-        "Ticked, this asks for your " + profile.consumptionTax + " number, and the Financial Foundation " +
-            "takes its amounts as excluding " + profile.consumptionTax + " unless you choose otherwise.",
+        "Ticked, it asks for your number, and the Financial Foundation reads your amounts as excluding " +
+            profile.consumptionTax + " unless you choose otherwise.",
         ...(entity.organisation.country === "GB" ? [{ title: "Source", source: SOURCES.ukVatRegistration }] : [])
     ];
     /** The Type's "i": the kinds of requirement this country usually asks for. */

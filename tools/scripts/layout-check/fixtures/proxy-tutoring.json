@@ -1,0 +1,404 @@
+{
+  "id": "org-fixture-proxy-tutoring",
+  "name": "Brightpath Tutoring (fixture)",
+  "createdAt": 1793000000000,
+  "systems": {
+    "1": {
+      "systemNumber": 1,
+      "responses": [
+        {
+          "sectionNumber": 1,
+          "value": {
+            "description": "Brightpath Tutoring is a one-person tutoring business in Melbourne. We give primary-school children one-to-one maths and reading sessions, online or at home, booked and paid for by their parents.",
+            "mission": "To help every child who falls behind in maths or reading catch up with calm, patient one-to-one teaching.",
+            "positioning": "For working parents of primary-school children who need help with maths or reading, Brightpath Tutoring is a qualified teacher who tutors one child at a time.",
+            "vision": "Children who leave primary school confident in maths and reading."
+          }
+        },
+        {
+          "sectionNumber": 3,
+          "value": {
+            "organisation": {
+              "name": "Brightpath Tutoring",
+              "country": "AU",
+              "subdivision": "",
+              "legalForm": "Sole Trader",
+              "legalFormOther": "",
+              "mainActivity": "One-to-one tutoring in maths and reading for primary-school children, online and at the family's home (ANZSIC 8219: Adult, Community and Other Education n.e.c.).",
+              "activityCode": "8219",
+              "activityCodeOn": true,
+              "activities": [
+                {
+                  "code": "8219",
+                  "edition": "2006"
+                }
+              ],
+              "businessStage": "",
+              "customerType": [
+                "b2c"
+              ],
+              "marketType": "single",
+              "audience": [
+                "adult"
+              ],
+              "differentiation": [],
+              "outcome": [],
+              "outcomeUser": [],
+              "buyerCategory": [
+                "b2c:proxy"
+              ],
+              "purpose": [
+                "learning"
+              ],
+              "endUser": [
+                "rel:parent",
+                "age:minor"
+              ],
+              "addressLine1": "",
+              "addressLine2": "",
+              "city": "",
+              "postalCode": ""
+            },
+            "capitalApplies": false,
+            "founders": [
+              {
+                "id": "founder-bp4tutor",
+                "name": "Sam Rivera",
+                "ownership": "100",
+                "capital": "",
+                "roles": [
+                  ""
+                ],
+                "experience": ""
+              }
+            ],
+            "formation": {
+              "status": "",
+              "date": "",
+              "authority": "",
+              "registrationNumber": "",
+              "additionalNumbers": []
+            },
+            "tax": {
+              "identificationNumber": "",
+              "consumptionTaxStatus": "",
+              "consumptionTaxNumber": "",
+              "additionalRegistrations": []
+            },
+            "requirements": [],
+            "expenses": []
+          }
+        }
+      ],
+      "questionResponses": [],
+      "currentSectionIndex": 2,
+      "capability": "",
+      "interviewStarted": true
+    },
+    "3": {
+      "systemNumber": 3,
+      "responses": [
+        {
+          "sectionNumber": 1,
+          "value": {
+            "segments": [
+              {
+                "id": "segment-bp7parnt",
+                "hue": 210,
+                "name": "Working parents of primary-school children",
+                "description": {},
+                "questions": {
+                  "age": [
+                    "peak"
+                  ],
+                  "education": [
+                    "bachelor"
+                  ],
+                  "work": [
+                    "working"
+                  ],
+                  "workenv": [
+                    "office"
+                  ],
+                  "workschedule": [
+                    "standard"
+                  ],
+                  "workincome": [
+                    "salary"
+                  ],
+                  "income": [
+                    "3"
+                  ],
+                  "reach": [
+                    "region"
+                  ],
+                  "comfort": [
+                    "4"
+                  ],
+                  "discover": [
+                    "communities"
+                  ],
+                  "trigger": [
+                    "seasonal"
+                  ],
+                  "setting": [
+                    "mobile"
+                  ],
+                  "pay": [
+                    "card"
+                  ],
+                  "trajectory": [
+                    "3"
+                  ],
+                  "tam": [
+                    "mid"
+                  ],
+                  "trends": [
+                    "society"
+                  ],
+                  "competition": [
+                    "4"
+                  ],
+                  "u-age": [
+                    "child"
+                  ],
+                  "u-school": [
+                    "primary"
+                  ],
+                  "u-comfort": [
+                    "3"
+                  ],
+                  "differentiation": [
+                    "personal"
+                  ]
+                },
+                "profiles": [
+                  {
+                    "id": "profile-bp2paren",
+                    "name": "The Worried Working Parent",
+                    "description": {
+                      "personal": "Priya, a nurse working shifts; her son Leo, 9, is in Year 4 and has fallen behind in maths."
+                    },
+                    "questions": {
+                      "a1": [
+                        "41"
+                      ],
+                      "a2": [
+                        "woman"
+                      ],
+                      "a3": [
+                        "professional"
+                      ],
+                      "a7": [
+                        "family"
+                      ],
+                      "b1": [
+                        "expert-knowledge",
+                        "trust-and-reputation"
+                      ],
+                      "b1-rating": [
+                        "expert-knowledge:5",
+                        "trust-and-reputation:5"
+                      ],
+                      "c1": [
+                        "phone"
+                      ],
+                      "d1": [
+                        "what-other-people-recommend"
+                      ],
+                      "d2": [
+                        "person"
+                      ],
+                      "d3": [
+                        "evenings"
+                      ],
+                      "e1": [
+                        "learn-something-new"
+                      ],
+                      "e1-rating": [
+                        "learn-something-new:5"
+                      ],
+                      "e2": [
+                        "they-lack-the-know-how"
+                      ],
+                      "e2-rating": [
+                        "they-lack-the-know-how:4"
+                      ],
+                      "e3": [
+                        "the-price-or-their-budget",
+                        "whether-they-can-trust-you"
+                      ],
+                      "e3-rating": [
+                        "the-price-or-their-budget:4",
+                        "whether-they-can-trust-you:5"
+                      ],
+                      "functional": [
+                        "information"
+                      ],
+                      "functional-rating": [
+                        "information:4"
+                      ],
+                      "emotional": [
+                        "motivated"
+                      ],
+                      "emotional-rating": [
+                        "motivated:4"
+                      ]
+                    },
+                    "user": {
+                      "questions": {
+                        "a1": [
+                          "9"
+                        ],
+                        "comfort": [
+                          "3"
+                        ],
+                        "outcome": [
+                          "learning"
+                        ]
+                      },
+                      "note": "Leo likes numbers games but freezes on written tests."
+                    },
+                    "goals": "Leo catches up with his class and stops dreading maths homework.",
+                    "challenges": "School reports say he is behind, but there is no time at home to work through it with him.",
+                    "objections": "Whether a tutor is safe to have at home; the cost of weekly sessions.",
+                    "needs": {
+                      "functional": [
+                        "Weekly sessions that fit after school",
+                        "A short note to the parent after each session"
+                      ],
+                      "functionalIds": [
+                        "need-bp1weekl",
+                        "need-bp2notes"
+                      ],
+                      "emotional": [
+                        ""
+                      ],
+                      "social": [
+                        ""
+                      ]
+                    }
+                  }
+                ],
+                "valueProposition": "For working parents whose primary-school child has fallen behind in maths or reading, Brightpath gives one-to-one sessions with a qualified teacher, online or at home, and a short note after every session. Your child has the same tutor every week.",
+                "competitors": [
+                  {
+                    "id": "competitor-bp5centr",
+                    "name": "Tutoring centres in the suburb",
+                    "type": "direct",
+                    "description": {
+                      "offerings": "Small-group maths and English classes after school.",
+                      "market": "Parents of primary and secondary pupils nearby."
+                    },
+                    "strengths": "",
+                    "weaknesses": "",
+                    "opportunities": "",
+                    "threats": "",
+                    "insights": "We compete on one tutor for each child and on the note after every session.",
+                    "questions": {
+                      "k1": [
+                        "Service"
+                      ],
+                      "k2": [
+                        "region"
+                      ],
+                      "k3": [
+                        "micro"
+                      ],
+                      "k4": [
+                        "3"
+                      ],
+                      "k5": [
+                        "website",
+                        "in-person"
+                      ],
+                      "k6": [
+                        "google"
+                      ],
+                      "k6-rating": [
+                        "google:4"
+                      ],
+                      "k7-rating": [
+                        "discovery:4",
+                        "evaluation:3",
+                        "purchase:4",
+                        "delivery:3",
+                        "support:2"
+                      ],
+                      "k8-rating": [
+                        "lower-price:3",
+                        "expert-knowledge:3",
+                        "trust-and-reputation:4"
+                      ],
+                      "k9-rating": [
+                        "society:3"
+                      ],
+                      "k10": [
+                        "stage:support"
+                      ]
+                    }
+                  }
+                ],
+                "offerings": [
+                  {
+                    "id": "offering-bp3sessn",
+                    "name": "One-to-one tutoring sessions",
+                    "needsAddressed": [
+                      "need-bp1weekl",
+                      "need-bp2notes"
+                    ],
+                    "category": "Service",
+                    "categoryOther": "",
+                    "description": {
+                      "function": "A 50-minute one-to-one maths or reading session with a qualified primary teacher.",
+                      "delivery": "Online by video call, or at the family's home within 10 km."
+                    },
+                    "questions": {
+                      "o1": [
+                        "live"
+                      ],
+                      "o2": [
+                        "now"
+                      ],
+                      "o3": [
+                        "session"
+                      ],
+                      "o3t": [
+                        "before"
+                      ],
+                      "o15": [
+                        "week"
+                      ],
+                      "o6": [
+                        "live"
+                      ],
+                      "o10": [
+                        "attendance",
+                        "equipment"
+                      ]
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "questionResponses": [],
+      "currentSectionIndex": 0,
+      "capability": "",
+      "interviewStarted": true
+    }
+  },
+  "products": [],
+  "businessStrategySequenceSwapped": true,
+  "businessFoundationPageInserted": true,
+  "customerEngagementPageInserted": true,
+  "capabilityPageInserted": true,
+  "financialFoundationPageInserted": true,
+  "financialSustainabilityPageInserted": true,
+  "legacyBusinessPagesRetired": true,
+  "globalSettings": {
+    "openingDate": "2026-09-01"
+  }
+}

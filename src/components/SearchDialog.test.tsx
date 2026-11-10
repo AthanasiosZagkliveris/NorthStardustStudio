@@ -2,6 +2,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { act, cleanup, fireEvent, render, screen } from "@testing-library/react";
 
 import { entry } from "../framework/engine/Search";
+import { stylesheet } from "../test/stylesheet";
 
 const navigate = vi.fn();
 
@@ -83,11 +84,11 @@ describe("the search dialog", () => {
         });
     });
 
-    it("opens a Glossary term on the Glossary page, found by its other words too, and Back returns here", () => {
+    it("opens a Glossary term on the Workbook page's Glossary, found by its other words too, and Back returns here", () => {
         render(<SearchDialog organizationId="org-1" onClose={() => undefined} />);
         fireEvent.change(box(), { target: { value: "kind of legal entity" } });
         fireEvent.click(screen.getByRole("option"));
-        expect(navigate).toHaveBeenLastCalledWith("/glossary", {
+        expect(navigate).toHaveBeenLastCalledWith("/workbook", {
             state: { tab: "glossary", term: "legal-form", from: { pathname: "/conversation", state: { page: 1 } } }
         });
     });
@@ -126,6 +127,22 @@ describe("the header's Search button", () => {
 
         await act(async () => { fireEvent.keyDown(window, { key: "K", metaKey: true }); });
         expect(await screen.findByRole("dialog", { name: "Search" })).toBeTruthy();
+    });
+
+});
+
+describe("the search box's look", () => {
+
+    it("is a cell of the app: the shared cell look and the one ring, with the floating card's edge and shadow round the dialog", () => {
+        const cells = stylesheet("cell-focus.css");
+        expect(cells).toContain(":is(.settings-page, .business-documents, .search-dialog) :is(input.interview-input");
+        expect(cells).toContain(".search-dialog { background-color: var(--bg-card-tint);");
+        const search = stylesheet("search.css");
+        expect(search).toContain("border-radius: var(--radius-lg);");
+        expect(search).toContain("box-shadow: var(--shadow-drop);");
+        expect(search).toContain("font-size: var(--font-body);");
+        // (No colour of its own: every colour is a token, in light, dark and sepia.)
+        expect(search).not.toMatch(/#[0-9a-f]{3,6}\b|rgba?\(/i);
     });
 
 });

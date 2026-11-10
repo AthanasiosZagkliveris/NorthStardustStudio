@@ -302,3 +302,36 @@ describe("a revenue stream's Begins and Payment and Orders & Delivery", () => {
     });
 
 });
+
+describe("FinancialSustainabilityEditor starts from Page 1 (phase 5f, 2026-11-09)", () => {
+
+    const foundation = {
+        segments: [{
+            id: "s",
+            name: "Firms",
+            offerings: [
+                { id: "offering-1", name: "Build", category: "Service", questions: { o3: ["project"], o3t: ["deposit"] } },
+                { id: "offering-2", name: "Care", category: "Service", questions: { o3: ["licence"], o3t: ["before"] } }
+            ]
+        }]
+    };
+
+    it("starts Charged from O3 and Customer Pays from O3's second row on a stream not saved yet", () => {
+        render(<FinancialSustainabilityEditor value={asFinancialSustainabilityValue(undefined)} foundation={foundation} onChange={() => {}} />);
+        expect(screen.getByRole("button", { name: "Revenue Stream 1 charged: Per project" })).toBeTruthy();
+        expect(screen.getByRole("button", { name: "Revenue Stream 1 payment timing: Split" })).toBeTruthy();
+        expect(screen.getByRole("button", { name: "Revenue Stream 2 charged: Annually" })).toBeTruthy();
+        expect(screen.getByRole("button", { name: "Revenue Stream 2 payment timing: Upfront" })).toBeTruthy();
+    });
+
+    it("keeps the page's own stream over the starts, and saves the starts with the first thing written", () => {
+        let saved: unknown;
+        const value = asFinancialSustainabilityValue({ streams: [{ id: "stream-offering-1", offeringId: "offering-1", frequency: "per-sale", paymentTiming: "" }] });
+        render(<FinancialSustainabilityEditor value={value} foundation={foundation} onChange={(next) => { saved = next; }} />);
+        expect(screen.getByRole("button", { name: "Revenue Stream 1 charged: Per sale" })).toBeTruthy();
+        expect(screen.getByRole("button", { name: "Revenue Stream 1 payment timing: When earned" })).toBeTruthy();
+        fireEvent.change(screen.getByLabelText("Revenue Stream 2 price"), { target: { value: "90" } });
+        expect(asFinancialSustainabilityValue(saved).streams.find(stream => stream.offeringId === "offering-2")).toMatchObject({ frequency: "annually", paymentTiming: "upfront", price: "90" });
+    });
+
+});

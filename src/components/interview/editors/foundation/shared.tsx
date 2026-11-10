@@ -34,30 +34,31 @@ export const SUBSECTIONS = {
             { id: "market-size", title: "Market Size & Industry Outlook", text: "How large is this group, and where is its market heading: growth, the changes that matter, how crowded it is?" }
         ],
         // What the "i" of the Segment Description adds to the two instructions (which stand above the line on the page): how the questions of its boxes come and go.
-        questionsNote: "Which choices each box asks follows your Positioning (who buys, their life stage and category) and your stage. An answer no longer asked is removed.",
+        // (Two points since 2026-11-08: an answer held back while Planning is kept.)
+        questionsNote: "The choices in each box follow your Positioning (who buys, their life stage and category) and your stage; a question that leaves a box takes its answer with it.",
+        questionsHeldNote: "Some questions wait until you launch; an answer given to one of them is kept.",
         // What the "i" of each box adds to its prompt: what it asks and what its questions follow.
         boxNotes: {
             demographics: [
-                "Asked when the customers are people. The age groups follow the life stage chosen in Positioning.", "Questions that do not apply to minors are not asked of them.",
+                "Asked when the customers are people. The age groups follow the life stage chosen in Positioning.", "Minors are asked only the questions that fit them.",
                 "Choosing an age group starts the work situation with the one that goes with it, which you can change."
             ],
             geographics: [
-                "Where most of your customers are.", "Once you are managing or growing, and for customers in one place or one country: the kind of area they live or work in.",
-                "If your customers are in more than one place, make another Segment."
+                "Where most of your customers are.", "Once you are managing or growing, and for customers in one place or one country: the kind of area they live or work in."
             ],
             "business-data": [
                 "Asked when the customers are businesses; for a business buyer this box comes before Geographics.",
                 "Where Positioning chose both, the first Segment is of people and the second of businesses; one added later asks which it is."
             ],
+            // In the order of a purchase (owner, 2026-11-08, P3).
             purchasing: [
-                "For every customer: online comfort, where they discover new products, where they shop, how they pay.",
-                "For people: how they socialise and share, what makes them shop and how they decide. For businesses: who decides to buy."
+                "Socialising, what makes them shop, how they decide and how they share are asked about people; who decides to buy, about businesses."
             ],
             "market-size": [
-                "These answers describe the market the customers belong to, not your own business."
+                "These answers describe the market the customers belong to."
             ],
             user: [
-                "Shown when the buyer buys for someone else (a Proxy or Dual-Intent buyer in Positioning).", "It describes who uses what is bought: their life stage, how they relate to the buyer, how comfortable they are online."
+                "Shown when the buyer buys for someone else (a Proxy or Dual-Intent buyer in Positioning).", "It describes who uses what is bought: their life stage, their school or work, and how comfortable they are online."
             ]
         } as Record<string, string[]>,
         profileDescription: [
@@ -72,6 +73,15 @@ export const SUBSECTIONS = {
             goals: ["What does the customer want to achieve, experience, or have?"],
             challenges: ["What problems, difficulties, or frustrations does the customer face?"],
             objections: ["What concerns or reasons might stop the customer from choosing a solution?"]
+        },
+        // A Profile of a Segment with an end user (owner, 2026-11-08: "If the buyer is proxy, the profile should contain questions for both buyer and end user."): its two
+        // parts, each a section with its "i" (doc 36, 2.1). Choosing, paying and deciding are the buyer's; who they are, how they use it and what they want from it, the end user's.
+        profileParts: {
+            buyer: ["The person who chooses and pays: what matters to them when choosing, where they find you, how they compare and what might hold them back."],
+            user: ["The person it is for, who uses it: who they are, what they want from it, what frustrates them and what they need."],
+            userDual: ["The people the buyer buys for besides themselves (the buyer uses it too): who they are, what they want from it, what frustrates them and what they need.", "What they want, what frustrates them and what they need are asked of a typical user: the buyer or the others."],
+            userPersonal: "Who is the end user, the person it is for?",
+            userPersonalHint: "Use Notes for a name, what they do and where they live."
         },
         // One list each, with the specification's own explanation
         // on each as its "i". The word "Needs" is dropped from
@@ -103,7 +113,8 @@ export const SUBSECTIONS = {
         // specification's, word for word.
         description: [
             { id: "offerings", title: "Offerings", text: "What do they sell or provide?" },
-            { id: "market", title: "Market", text: "Which areas and industries do they serve?" },
+            // K2 to K4 (owner, 2026-11-08, S10): the box asks where they sell, how big they are and whether they are growing; it no longer promises industries.
+            { id: "market", title: "Market", text: "Where do they sell, how big are they, and are they growing?" },
             // "and attract" dropped (2026-11-06): the box asks only where they reach customers (K5), since the attract question went (doc 41).
             { id: "acquisition", title: "Customer Acquisition", text: "How do they reach customers?" },
             { id: "experience", title: "Customer Experience", text: "What do customers say about their experience?" }
@@ -127,12 +138,15 @@ export const SUBSECTIONS = {
     offerings: {
         instructions: [
             "Turn customer problems and functional needs into practical product features and solutions.",
-            "Ensure every feature supports the Value Proposition."
+            "Make sure each one answers your Profiles' needs."
         ],
         description: [
             { id: "function", title: "Function", text: "What does it do, and what result should it deliver?" },
             { id: "benefit", title: "Customer Benefit", text: "Which problem does it solve, in your customers' words?" },
-            { id: "scope", title: "Content & Scope", text: "What does it include, and what are its boundaries?" },
+            { id: "scope", title: "Content & Scope", text: "What does it include, and what are its boundaries?" }
+        ],
+        // The second section of the card, "Terms & Service" (owner, 2026-11-09): how it is bought and delivered, the help given, and what the customers give and agree to.
+        terms: [
             { id: "delivery", title: "Purchase & Delivery", text: "The steps from order to delivery: prices, deposits, timings." },
             { id: "support", title: "Support & Communication", text: "What the help and the updates include." },
             { id: "requirements", title: "Requirements & Conditions", text: "The details of what they give you, and the conditions that apply." }
@@ -149,6 +163,8 @@ export const SUBSECTIONS = {
 /** What each note of a Profile or a Competitor says before anything is written (owner, 2026-11-04): what belongs there and is not asked above. */
 export const NOTE_PLACEHOLDERS: Record<string, string> = {
     personal: "A name, a job title, where they live",
+    // (The end user's Personal box, doc 36, 2.1.)
+    userPersonal: "A name, what they do, where they live",
     psychographics: "What they believe and enjoy, beyond what matters most",
     hubs: "The names of their groups, accounts and events",
     habits: "How they buy, in their words",
@@ -189,6 +205,17 @@ export interface DescriptionPart {
     level?: number;
     /** What its note says before anything is written: what belongs there that the questions do not ask. */
     placeholder?: string;
+    /**
+     * Where its note is kept, when not in the Description's own text under its id (a Profile's Objections, Goals and Challenges notes, and the end user's Personal note: doc 36,
+     * 2.1): the note's text, how it is written, and the key of its field where the title is used twice on one card.
+     */
+    noteValue?: string;
+    onNote?: (next: string) => void;
+    noteId?: string;
+    /** The box's bands, drawn as they are, in place of a band per question (a Profile's Needs in the end user's part). */
+    body?: ReactNode;
+    /** Where the boxes stand in two columns, this one stays in the first box's column, so it reads right after it (the Segment's End user part: owner, 2026-11-08, P9a). */
+    withFirst?: boolean;
 
 }
 
@@ -216,7 +243,7 @@ export interface DescriptionPart {
 export interface CompetitorTypeQuestions {
     /** By part id: a new title and/or question, or null to hide. */
     parts?: Record<string, { title?: string; text?: string } | null>;
-    /** A new question behind Insights & Differentiation. */
+    /** A new question behind Insights. */
     insights?: string;
 }
 
@@ -402,4 +429,16 @@ export interface BusinessFoundationEditorProps {
     /** With `asTiles`: the frame's title over the tiles. */
     frameTitle?: string;
 
+}
+
+/**
+ * ONE COLUMN OF BANDS, the width of the card (2026-11-09: one helper for what four places wrote out): a Description in one column, a Profile's Motivations and Needs, a Competitor's
+ * question standing alone in a group (K8 to K10). Only the layout; the bands inside are the caller's.
+ */
+export function SingleColumn({ children }: { children: ReactNode }) {
+    return (
+        <div className="legal-entity-grid legal-entity-grid-pairs legal-entity-grid-organization legal-entity-audience business-segment-grid business-segment-grid-single">
+            <div className="legal-entity-field">{children}</div>
+        </div>
+    );
 }

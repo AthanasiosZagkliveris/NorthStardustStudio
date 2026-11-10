@@ -13,6 +13,7 @@ import OptionPicker from "../../fields/OptionPicker.tsx";
 import StrategyTextArea from "../../fields/StrategyTextArea.tsx";
 import FoldArrow from "../../fields/FoldArrow.tsx";
 import { DEMAND_COUNT_LIMITS, SECTIONS, DEMAND_BUY_ONCE, DEMAND_BUY_MONTHLY, DEMAND_BUYING_HELP, DEMAND_BY_FIGURE, DEMAND_BY_CALCULATION, DEMAND_CALCULATION_HELP, DEMAND_ASSUMPTIONS_PLACEHOLDER, DEMAND_SOURCE_FORMULA_HELP, DEMAND_ACTIVE_CLIENTS_HELP, DEMAND_MONTHS_TO_NORMAL_HELP, capitalized, channelChoices, numberStep } from "../BusinessEngagementModel.ts";
+import { offeringStartsById } from "../../../../framework/engine/EffectiveAnswers.ts";
 import { DEMAND_BLOCK_HELP } from "./shared.tsx";
 import type { useEngagementState } from "./useEngagementState.tsx";
 import type { useEngagementChannelBoxes } from "./useEngagementChannelBoxes.tsx";
@@ -22,17 +23,20 @@ type Earlier = ReturnType<typeof useEngagementState> & ReturnType<typeof useEnga
 
 export function useEngagementDemand(earlier: Earlier) {
 
-    const { disabled, engagement, folds, onChange, segmentOf } = earlier;
+    const { disabled, engagement, folds, onChange, segmentOf, segments } = earlier;
 
     /* ---------- Demand & Conversion ---------- */
 
     /**
      * What is recorded about how one Offering's customers come, or an
      * empty answer. Keyed by the Offering alone: an Offering belongs to
-     * one Segment, so its id is enough.
+     * one Segment, so its id is enough. Not recorded yet, Customers Buy
+     * starts from the Offering's O3 on Page 1 (offeringStarts), saved
+     * with the first thing written here; what is recorded wins.
      */
     function demandOf(offeringId: string): DemandValue {
-        return engagement.demand[offeringId] ?? createDemand();
+        const recurring = offeringStartsById(segments, offeringId).recurring;
+        return engagement.demand[offeringId] ?? { ...createDemand(), ...(recurring !== undefined ? { recurring } : {}) };
     }
     /* The whole engagement is spread, so the Segments' channels and
        relationships are carried through every demand edit. */
@@ -149,7 +153,7 @@ export function useEngagementDemand(earlier: Earlier) {
 
             /* Why a source is not counted, when it needs saying. */
             const note = excluded
-                ? "Not counted: a client who buys every month stays rather than buying again."
+                ? "Not counted: a client who buys every month keeps buying as a staying client."
                 : !counted && type?.id === "repeat" && calculated
                     ? "Repeat purchases come from the customers the other sources bring: complete one of them first."
                     : "";

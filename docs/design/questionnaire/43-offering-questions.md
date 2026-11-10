@@ -1,22 +1,31 @@
 # 43. The Offering card: every question and option, as built in part
 
-Status: **specification**, as built in part (O12 not built), written 2026-11-03, updated 2026-11-08. Every question of the Offering card (Business System, page 1, tile "Offerings"), in the order it is asked. For each: its control, when it is asked, its options, what its "i" says and what it connects to. The Type, the needs addressed and the text boxes are built; the questions O1 to O4, O3's second row, O6 to O8, O10 and O14 to O18 are **built** too (owner, 2026-11-07: "Update the Value Proposition and Offering card according to their docs"; `OfferingQuestions.ts`), O12 is not.
+Status: **specification**, as built in part (O12 not built), written 2026-11-03, updated 2026-11-09. Every question of the Offering card (Business System, page 1, tile "Offerings"), in the order it is asked. For each: its control, when it is asked, its options, what its "i" says and what it connects to. The Type, the needs addressed and the text boxes are built; the questions O1 to O4, O3b, O6 to O8, O10 and O14 to O18 are **built** too (owner, 2026-11-07: "Update the Value Proposition and Offering card according to their docs"; `OfferingQuestions.ts`), O12 is not.
 
-Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the Profile: the needs, B1, D2, E3), doc 38 (Positioning: Differentiation), doc 41 (the Competitor: K8), doc 42 (the Value Proposition, which reads O1, O4 and O8), doc 34 (the lists L1 and L11, the value crosswalk 5.2a), doc 37 (the Organisation's fields: the Opening Date for O2; the activities and the country for O12), doc 28 (6.8, 7.4, 10.1 to 10.3 and 11.7, the design this refines), `src/framework/engine/AnswerBusinessFoundation.ts` (the card today).
+Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the Profile: the needs, B1, D2, E3), doc 38 (Positioning: the Differentiation and the buyer's outcome saved there before 2026-11-08), doc 41 (K14, the Segment's Differentiation), doc 41 (the Competitor: K8), doc 42 (the Value Proposition, which reads O1, O4 and O8), doc 34 (the lists L1 and L11, the value crosswalk 5.2a), doc 37 (the Organisation's fields: the Opening Date for O2; the activities and the country for O12), doc 28 (6.8, 7.4, 10.1 to 10.3 and 11.7, the design this refines), `src/framework/engine/AnswerBusinessFoundation.ts` (the card today).
+
+**The card's order:** doc 44 (the questions register) lists the Offering's questions box by box in the card's order; the codes O1 to O18 are permanent ids, not positions.
+
+**Where it stands.** The Offerings are the third tile of the Segment's frame, after the Segment Description and the Competitors and before the Value Proposition, which is drafted from them (owner, 2026-11-08; built the same day). The tile's instructions: "Turn customer problems and functional needs into practical product features and solutions." and "Make sure each one answers your Profiles' needs." (it pointed forward to the Value Proposition until 2026-11-08).
 
 **What the card is.** An Offering belongs to its Segment, as a Profile does. Pages 2 to 5 read it by id and never copy it (the page specifications' README, point 1). The card has these parts, in order:
 - **The head:** the number, the name cell and the one x (built).
-- **The Type** (built): Product, Service or Hybrid. No "Other" (owner, 2026-11-04; built 2026-11-08: a saved "Other" still shows until it is changed).
-- **Functional Needs Addressed** (built): ticks of the Segment's Profiles' functional needs. **Built 2026-11-07** (owner: "Update the app"): one tick list, the Profiles' numbered functional items, ticked by each item's id (the same words on two Profiles are one tick, holding both ids), so editing an item's words keeps the tick; a tick saved as words is read as the item's id (`businessSegmentFunctionalItems`, `AnswerBusinessFoundation.ts`); the export and the Customer Engagement page match by id. The functional categories (L17) are read from the Profile, not ticked again here. O13 is retired (it was never built).
-- **The six Description boxes** (owner, 2026-11-07: "Approve Decisions 2, 3, and 4 as proposed, and for Decision 1, approve Q1–Q6 with two targeted adjustments"; built the same day): each box is a band with its title and "i", then its questions, one band each, then an optional **Notes** (`OptionalNote`) for what no question says; the Notes open when they hold text. The two separate boxes of questions of earlier on 2026-11-07 are gone. The box's prompt is its "i".
-  - **Function:** O1, O2. Notes: what it is, by name (the Business Plan reads it).
-  - **Customer Benefit:** O4, O8. Notes: the benefit in the customers' words (the Business Plan reads it).
+- **The Type** (built): Product, Service or Hybrid. No "Other" (owner, 2026-11-04; built 2026-11-08: a saved "Other" still shows until it is changed). An Offering with no Type is an open item on the Review ("[Offering]: Type: not chosen yet.", 2026-11-09), as Page 3 reads it (doc 28, 11.7).
+- **Functional Needs Addressed** (built; since 2026-11-08 the first band of the Customer Benefit box, owner, P6): ticks of the Segment's Profiles' functional needs. **Built 2026-11-07** (owner: "Update the app"): one tick list, the Profiles' numbered functional items, ticked by each item's id (the same words on two Profiles are one tick, holding both ids), so editing an item's words keeps the tick; a tick saved as words is read as the item's id (`businessSegmentFunctionalItems`, `AnswerBusinessFoundation.ts`); the export and the Customer Engagement page match by id. The functional categories (L17) are read from the Profile, not ticked again here. O13 is retired (it was never built).
+  - *A Segment with an end user (doc 36, 2.4; owner, 2026-11-08):* the functional tasks are the end user's there, kept on the Profile with the same ids, so the ticks are unchanged; O8 reads the worries (E3), which are the buyer's.
+- **The six boxes, in two sections** (owner, 2026-11-07: "Approve Decisions 2, 3, and 4 as proposed, and for Decision 1, approve Q1–Q6 with two targeted adjustments"; built the same day; the two sections, owner, 2026-11-09): **Description** holds Function, Customer Benefit and Content & Scope; **Terms & Service** holds Purchase & Delivery, Support & Communication and Requirements & Conditions. Each section is a band with its title and its fold, the shared double rule between the two, as the Profile's sections (doc 36). Each box is a band with its title and "i", then its questions, one band each, then an optional **Notes** (`OptionalNote`) for what no question says; the Notes open when they hold text. The two separate boxes of questions of earlier on 2026-11-07 are gone. The box's prompt is its "i".
+  - **Function:** O1. Notes: what it is, by name (the Business Plan reads it).
+  - **Customer Benefit:** the Functional Needs Addressed, then O8, then O4 (owner, 2026-11-08, P6: what it answers before what it does best). Notes: the benefit in the customers' words (the Business Plan reads it).
   - **Content & Scope:** O14. Notes: counts, inclusions and limits.
-  - **Purchase & Delivery:** O3 with its second row, "When do they pay?"; O6; O15. Notes: packaging and the steps.
+  - **Purchase & Delivery:** O2 (owner, 2026-11-08, P7: whether it can be bought today opens the purchase); O3; O3b, "When do they pay?", a band of its own straight after O3's (owner, 2026-11-09: one question per band); O15; O6 (how long until they have it, then how it reaches them). Notes: packaging and the steps.
   - **Support & Communication:** O7, O17, O16. Notes: names and how often.
   - **Requirements & Conditions:** O10, O18. Notes: care instructions and standards.
   - Saved text of the boxes is kept: it is the Notes. A question no longer asked, or an option no longer offered, loses its answer; a starting value (O2, O4, O6) shows until that field is changed (another answer does not fix it), and the Business Plan, the export and the Value Proposition read it too (built 2026-11-08).
   - The Business Plan's Offerings table reads "What it does" from the Function Notes, else the form (O1), and "Customer benefit" from the Customer Benefit Notes, else what it does best (O4); the export prints every answer with its question.
+
+**Who it is about, where the buyer is Proxy (2026-11-09; `offeringWho`):** how it reaches them, how long until they have it and what they give you are the end user's: O6 "How do your end users receive it?", O15 "How long until your end users have it?", O10 "What do your end users need to give you?"; the terms are the buyer's: O3 "On what terms do your buyers pay for it?", O3b "When do your buyers pay?"; and what matters most is the buyer's, who chooses (owner, 2026-11-09, as K8): O4 "Which of what matters most to your buyers does it do best?". A Dual-Intent buyer uses it too, so the card keeps "your customers" and "they" there. The documents keep the words as written.
+
+**One term per subject (owner, 2026-11-08, P10):** the card says "your customers" for the customers everywhere (O2, O4, O6, O10, the "i" of O16 and O18), never "the customer" or a bare "customers"; the legal rules quoted in O18's "i" keep their own words ("a consumer").
 
 **The rules of the card** are the Segment's (doc 35):
 - A radio is one choice; ticks are several, with the limit shown.
@@ -25,11 +34,9 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
 - There is no "Not sure" option (owner, 2026-11-02).
 - A slash joins similar things and "or" joins different things. Spelling is UK English.
 
-**What the Offering shapes later.** O3 is the one place that says how customers pay over time; O6 and O7 propose page 2's channels; O1 and the Type decide the goods options of pages 2 and 3 (doc 28, 11.7). So these are asked first, after what the Offering is.
+**What the Offering shapes later.** O3 is the one place that says how customers pay over time; O6 and O7 propose page 2's channels; O1 and the Type decide the goods options of pages 2 and 3 (doc 28, 11.7).
 
-## Box. What it is and how it reaches them
-
-(The card's six boxes are listed above; this heading groups the questions as written on 2026-11-03.)
+## Box. Function
 
 ### O1. What form does it take?
 
@@ -46,57 +53,35 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
 - **Connections:**
   - *Comes from:* the Type.
   - *Read by (built, 2026-11-07):* O6's starting value; the Value Proposition draft (doc 42).
-  - *Read by (not built yet):* the goods and service options of pages 2 and 3 (doc 28, 11.7: without a physical item, Physical Delivery and the delivery costs are hidden, not deleted).
+  - *Read by (built, 2026-11-09, with the Type):* Pages 2 and 3 (doc 28, 11.7): while no Offering has a physical item (a Service, or a form with none: A digital file, An app / online tool, Online access, A live online session, Project work, An ongoing service), Page 2 hides the Physical Delivery and Retail & Wholesale channels where the Segment has none (their tiles and the Channel list; `channelCategoryHidden`), and Page 3 the Offering's Vehicles and Materials & Inventory categories and the Logistics & Fulfilment group where they hold no card; hidden, not deleted (`noPhysicalOffering`, EffectiveAnswers.ts). Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
+  - *Read by (not built yet):* Page 2's Physical Delivery and Retail & Wholesale channels (doc 28, 11.7). Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
 
-### O2. Can customers buy it today?
+## Box. Customer Benefit
 
-- **Control:** one choice (a radio).
-- **Asked when:** always.
-- **Options:**
-  - Yes, now
-  - Almost ready
-  - In a trial / beta
-  - Still being built
-  - Just an idea
-- **Starts from the business stage** (owner 2026-11-06; `BusinessStage.ts`, from the Opening Date): Planning → "Still being built"; Launching → "Almost ready"; Managing or Growing → "Yes, now". Only a starting value: an answer chosen is never overwritten, and every option stays (a growing business can still plan a new Offering, "Just an idea").
+### O8. Which of their worries does it answer?
+
+*The worry Support (after they buy) is not listed here (owner, 2026-11-07: "fix and optimise the cards, avoid overlapping and repetition"): O7, the help after the sale, answers it; any help but None counts as answering it on the Value Proposition. O8 is asked only when a Profile has another worry.*
+
+- **Control:** ticks, as many as apply.
+- **Asked when:** a Profile of the Segment has answered E3 (doc 36).
+- **Options:** the worries ticked in the Segment's Profiles' E3 (the list L2), in the order of the list.
 - **The "i" says:**
-  - Where it stands today.
-  - It starts from your business stage; change it for this Offering.
+  - The doubts that stop your customers buying from you, as your Profiles say. A worry left unanswered shows as an open item on the Value Proposition.
+  - Support is answered by the help after they buy, in Support & Communication. (It said "above" until 2026-11-08: O7 stands in the box below.)
 - **Connections:**
-  - *Comes from:* the business stage (Organisation: the Opening Date and the Global Settings' durations).
-  - *Read by (not built yet):* the Review (a Demand estimate for an Offering that is not ready; a mismatch with the stage: Planning with an Offering "Yes, now", sales before the opening, or Managing with every Offering "Just an idea"); the Business Plan's product section.
+  - *Comes from:* the Profiles' E3.
+  - *Read by (built, 2026-11-07):* the Value Proposition's open items (doc 42).
+  - *Read by (not built yet):* the actions proposed at the Evaluation stage on page 2 (doc 28, 11.5, rule 8: price → a quote; trust → proof; fit → a demo). Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
 
-### O3. On what terms do they pay for it?
+**The emotional and social needs are not asked here** (owner, 2026-11-06): the Value Proposition answers them (doc 42, its one owner). An "Emotional and social needs addressed" question proposed here on 2026-11-03 is withdrawn.
 
-*Renamed (owner, 2026-11-07: "fix and optimise the cards, avoid overlapping and repetition"): "How do customers pay for it?" read as the Segment's "How do your customers pay?" (card, invoice); this asks the terms. A minimum term is written in the Notes. Id kept.*
+### O4. Which of what matters most to your customers does it do best?
 
-- **Control:** one choice (a radio).
-- **Asked when:** always.
-- **Options:**
-  - One purchase
-  - A subscription
-  - A membership
-  - A licence
-  - Pay as they go
-  - A project or contract
-  - A monthly retainer
-- **The "i" says:**
-  - How often they pay, and on what terms. How they pay (card, invoice) is the Segment's question.
-  - Subscription: regular payments until they cancel. Pay as they go: they pay for what they use.
-  - A minimum term: write it in the Notes.
-- **Connections:**
-  - *Comes from:* the Segment's "How do your customers pay?" (doc 35, Box 4, question 8). Invoice, bank transfer or purchase order puts A project or contract first, as an order only.
-  - *Read by (not built yet):* Demand's "Customers buy", Delivery's "Delivered" and the Revenue stream's "Charged" (doc 28, 11.7 and 10.2); the Review (doc 28, 11.5, rule 14).
-
-**O3, second row: "When do they pay?"** (owner, 2026-11-07: "Approve Decisions 2, 3, and 4 as proposed, and for Decision 1, approve Q1–Q6 with two targeted adjustments": one commercial decision, terms and timing, in one band). One choice (a radio), under the terms, in the same band; saved as `o3t`.
-- **Options:** Before they get it; A deposit, then the rest; When it is done / delivered; In instalments / monthly; On invoice terms (for example 30 days).
-- **The "i" says:** When the money comes in. How they pay (card, invoice) is the Segment's question.
-- **Connections:** *Read by (not built yet):* the Revenue stream's cash timing (doc 28, 10.2).
-
-### O4. What does it do best for the customer?
+*Worded on 2026-11-08 (owner, P10) as one phrase with B1 ("What matters most to this person?") and K8 ("How do they do on what matters most to your customers?"), the three questions of list L1; it read "What does it do best for the customer?". The "i" keeps "The first you tick is the main benefit."*
 
 - **Control:** ticks, up to 3. The first ticked is the main benefit.
 - **Asked when:** always.
+- **Wording by buyer (owner, 2026-11-09):** on a Proxy Segment "Which of what matters most to your buyers does it do best?", as K8 (the buyer chooses); a Dual-Intent or Direct one keeps "your customers" (`offeringWho`).
 - **Options:** the list L1, the Profile's "What matters most" (doc 36, B1):
   - Affordability
   - Speed
@@ -110,67 +95,12 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
   - Values
 - **The "i" says:**
   - The first you tick is the main benefit. The same list as "What matters most" on your Profiles and Competitors, so they can be compared.
-  - Your Positioning's Differentiation starts the ticks; change them freely.
+  - The Segment's Differentiation (under its Competitors) starts the ticks; change them freely.
 - **Connections:**
-  - *Comes from:* Positioning's Differentiation, through the value crosswalk (doc 34, 5.2a), as starting ticks.
-  - *Read by (built, 2026-11-07):* the Value Proposition draft and its open items (doc 42).
+  - *Comes from:* the Segment's own Differentiation (K14, doc 41; Positioning's, saved before 2026-11-08, where the Segment saved none), then the buyer's outcome saved on Positioning before 2026-11-08, through the value crosswalk (doc 34, 5.2a), as starting ticks (at most three). All seven differentiations start ticks: Performance & Innovation starts Quality and Expertise, Ecosystem & Integration starts Convenience (owner, 2026-11-08); Personal Service & Relationship starts Personalisation and Support (2026-11-08).
+  - *Owns the buyer's outcome* (owner, 2026-11-08, "Move all three"): Positioning's question 9 (doc 38) left the tile and is not asked twice; O4 is its one owner. Each of its four options has its value in L1 already (Lower costs: Affordability; Time saved: Speed, Convenience; Legal & data-protection cover: Safety / security, Reputation; Higher quality & prestige: Quality, Values), so no option was added; a saved `organisation.outcome` starts the ticks after the Differentiation's (`OUTCOME_CROSSWALK`, `OfferingQuestions.ts`).
+  - *Read by (built, 2026-11-07):* the Value Proposition draft and its open items (doc 42). The open item "Unwanted benefit" reads only the ticks the App User saved, never the starting ticks (owner, 2026-11-08).
   - *Read by (not built yet):* the Review (doc 28, 11.5, rules 21 and 22: against the Profiles' B1 and the Competitors' K8).
-
-### O6. How does the customer receive it?
-
-- **Control:** one choice (a radio).
-- **Asked when:** always.
-- **Options:**
-  - Sent automatically online
-  - Sent by you online
-  - In a live online session
-  - In person
-  - Posted / shipped to them
-  - They collect it
-  - Ongoing online access
-- **The "i" says:**
-  - How it reaches them once bought.
-  - Sent automatically online: a download or an email sent by the shop. Sent by you online: a file you send when it is ready.
-- **Connections:**
-  - *Comes from:* O1, the starting value: a physical item → Posted / shipped to them; a digital file → Sent automatically online; a live online session → In a live online session; an app / online tool → Ongoing online access; online access → Ongoing online access; an in-person service → In person.
-  - *Read by (not built yet):* the Delivery stage's proposed channels (doc 28, 7.4); the Review (the Segment's "Rural / remote", doc 35 Box 2 question 2, with In person or Posted / shipped: a delivery-cost check, rule 17).
-
-### O7. What help do you give after they buy?
-
-- **Control:** one choice (a radio).
-- **Asked when:** always.
-- **Options:**
-  - None
-  - Guides and how-tos
-  - Automatic help, such as chat or emails
-  - Personal help when needed
-  - A dedicated person or team
-  - It depends on the plan
-- **The "i" says:**
-  - The help that comes with it after the sale.
-- **Connections:**
-  - *Read by (not built yet):* the relationship type's starting value and the Support & Follow Up channels on page 2 (doc 28, 7.4); the Review against the Profiles' D2 (doc 36): "wants to talk to a person" while the help is None or Guides and how-tos (rule 10).
-
-## Box. What it answers
-
-(The card's six boxes are listed above; this heading groups the questions as written on 2026-11-03.)
-
-### O8. Which of their worries does it answer?
-
-*The worry Support (after they buy) is not listed here (owner, 2026-11-07: "fix and optimise the cards, avoid overlapping and repetition"): O7, the help after the sale, answers it; any help but None counts as answering it on the Value Proposition. O8 is asked only when a Profile has another worry.*
-
-- **Control:** ticks, as many as apply.
-- **Asked when:** a Profile of the Segment has answered E3 (doc 36).
-- **Options:** the worries ticked in the Segment's Profiles' E3 (the list L2), in the order of the list.
-- **The "i" says:**
-  - The doubts that stop your customers buying from you, as your Profiles say. A worry nothing answers is shown on the Value Proposition.
-  - Support is answered by the help after they buy, above.
-- **Connections:**
-  - *Comes from:* the Profiles' E3.
-  - *Read by (built, 2026-11-07):* the Value Proposition's open items (doc 42).
-  - *Read by (not built yet):* the actions proposed at the Evaluation stage on page 2 (doc 28, 11.5, rule 8: price → a quote; trust → proof; fit → a demo).
-
-**The emotional and social needs are not asked here** (owner, 2026-11-06): the Value Proposition answers them (doc 42, its one owner). An "Emotional and social needs addressed" question proposed here on 2026-11-03 is withdrawn.
 
 ### O13. What job does it do for them? (RETIRED 2026-11-07)
 
@@ -192,7 +122,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
   - Based on: Bain's Elements of Value (HBR).
 - **Connections:**
   - *Comes from:* nothing. The Profiles' functional needs stay their own words (doc 36, section 10); the owner proposed this list (2026-11-03) to compare the Offering with the Competitors; the Competitor's job question was withdrawn on 2026-11-04, so the comparison is gone and whether O13 stays is open.
-  - *Read by (not built yet):* the Review. Doc 41's job question was withdrawn on 2026-11-04 as an Offering question, and with it the Value Proposition's open item "Job left to a competitor" (doc 42); a Competitor chosen for the same thing (rated 4 or 5 in K8, doc 41, against O4) is still a close rival, to be answered in its Insights & Differentiation. No Competitor question uses L17 now.
+  - *Read by (not built yet):* the Review. Doc 41's job question was withdrawn on 2026-11-04 as an Offering question, and with it the Value Proposition's open item "Job left to a competitor" (doc 42); a Competitor chosen for the same thing (rated 4 or 5 in K8, doc 41, against O4) is still a close rival, to be answered in its Insights. No Competitor question uses L17 now.
 
 **Proposed (owner, 2026-11-06): the functional needs as choices, and O13 merged into them.** *Replaced by what was approved on 2026-11-07 (the head of this doc, Functional Needs Addressed; doc 36, Needs; doc 34, 5.2c): the Profile ticks up to three of five functional jobs above its numbered list, and the Offering ticks only the numbered items, by id. The paragraph below is the record.* L17 is the rest of Bain's functional elements of value [FUN-48], those the Profile's "What matters most" (B1, L1) does not already hold: saves time is Speed, simplifies and avoids hassles are Convenience, reduces cost is Affordability, reduces risk is Safety / security, quality is Quality. So:
 - The Profile's Functional needs (doc 36, section 10) become ticks from L17, up to 3, each rated, as the Emotional and Social needs are, with the Notes under them for what no tick says (the specifics in the App User's words).
@@ -200,23 +130,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
 - Saved answers: the Profiles' typed functional needs stay as their Notes; an Offering's "needs addressed" that matched a typed line is kept until the App User ticks again.
 - Not built: it changes the Profile's and the Offering's code.
 
-### O10. What does the customer need to give you?
-
-*"A minimum commitment / term" and "Payment upfront" left the list (owner, 2026-11-07: "fix and optimise the cards, avoid overlapping and repetition"): they are payment terms (O3, Purchase & Delivery). Six options remain.*
-
-- **Control:** ticks, as many as apply.
-- **Asked when:** the Type is Service or Hybrid.
-- **Options:** the list L11 (doc 34, 5.2):
-  - Access to their systems or information
-  - A clear brief
-  - Approval within an agreed time
-  - A place to work
-  - Their own equipment or software
-  - ("To meet certain conditions" left on 2026-11-07, owner, 2026-11-07: "Approve Decisions 2, 3, and 4 as proposed, and for Decision 1, approve Q1–Q6 with two targeted adjustments": the conditions of sale are O18.)
-- **The "i" says:**
-  - What you need from them before or during the work. The details go in the Notes.
-- **Connections:**
-  - *Read by (not built yet):* the Delivery card's "What could slow the work down?" (doc 28, 9.3, W3), as starting ticks: approval and access.
+## Box. Content & Scope
 
 ### O14. How is it offered?
 
@@ -229,36 +143,156 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
   - Based on: the product mix (Kotler and Keller).
 - **Connections:** *Read by:* the export. Source [FUN-73].
 
+## Box. Purchase & Delivery
+
+### O2. Can your customers buy it today?
+
+- **Control:** one choice (a radio).
+- **Asked when:** always.
+- **Options:**
+  - Yes, now
+  - Almost ready
+  - In a trial / beta
+  - Still being built
+  - Just an idea
+- **Starts from the business stage** (owner 2026-11-06; `BusinessStage.ts`, from the Opening Date): Planning → "Still being built"; Launching → "Yes, now" (was "Almost ready" until 2026-11-08, the options-and-wording research: a business that is launching sells); Managing or Growing → "Yes, now". Only a starting value: an answer chosen is never overwritten, and every option stays (a growing business can still plan a new Offering, "Just an idea").
+- **The "i" says:**
+  - It starts from your business stage; change it for this Offering.
+- **Connections:**
+  - *Comes from:* the business stage (Organisation: the Opening Date and the Global Settings' durations).
+  - *Read by (not built yet):* the Review (a Demand estimate for an Offering that is not ready; a mismatch with the stage: Planning with an Offering "Yes, now", sales before the opening, or Managing with every Offering "Just an idea"); the Business Plan's product section. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
+
+### O3. On what terms do they pay for it?
+
+*Renamed (owner, 2026-11-07: "fix and optimise the cards, avoid overlapping and repetition"): "How do customers pay for it?" read as the Segment's "How do your customers pay?" (card, invoice); this asks the terms. A minimum term is written in the Notes. Id kept.*
+
+- **Control:** one choice (a radio).
+- **Asked when:** always.
+- **Options:**
+  - One purchase
+  - A subscription / membership (A membership merged in, 2026-11-08: the id `subscription` kept; a saved `membership` is read as it, `OFFERING_MERGED`, tested)
+  - A licence
+  - Pay as they go
+  - Per session / per hour (`session`)
+  - Rent / hire (`rent`)
+  - A project or contract
+  - A monthly retainer
+  - Commission on each sale (`commission`)
+  - Free to them (`free`: someone else pays; "paid by others" is in the "i", not in the option)
+  - (The four added 2026-11-08, the options-and-wording research.)
+- **The "i" says:**
+  - How often they pay, and on what terms. How they pay (card, invoice) is the Segment's question.
+  - Subscription / membership: regular payments until they cancel. Pay as they go: they pay for what they use.
+  - Per session / per hour: a price for each session or hour. Rent / hire: they pay to use it for a time, then give it back.
+  - Commission on each sale: a share of each sale you make for them. Free to them: someone else pays, such as an advertiser or a funder.
+  - A minimum term: write it in the Notes.
+- **Connections:**
+  - **Starts from O1 (2026-11-09):** Online access, A subscription / membership; Project work, A project or contract; An ongoing service, A monthly retainer; A live online session or An in-person service, Per session / per hour; the others start nothing. A saved answer wins.
+  - *Comes from:* the Segment's "How do your customers pay?" (doc 35, Box 4, question 8). Invoice, bank transfer or purchase order puts A project or contract first, as an order only (found by its id, so the options added do not move it). It reads the Segment's **settled** answer (`segmentSettle`, in `offeringContextOf`; 2026-11-08): an invoice saved on a people Segment, where invoicing is not offered, no longer puts it first.
+  - *Read by (built, 2026-11-09, as starts):* Demand's "Customers Buy" (Page 2), Delivery's "Delivered" (Page 3) and the Revenue stream's "Charged" (Page 5) start from it on a card those pages have not saved yet (`offeringStarts`, EffectiveAnswers.ts); a one-off term (One purchase, Per session / per hour, Rent / hire, Commission on each sale, A project or contract) is one sale at a time and per unit, a recurring one (A subscription / membership, A monthly retainer, Pay as they go, A licence) every month; Free to them starts nothing. The mapping, with Charged's, is the map's. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
+  - *Read by (built, 2026-11-09):* the Review: an Offering with no answer here is an open item ("[Offering]: the terms they pay on: not chosen yet.", `OpenItems.ts`). *Not built yet:* the Review's rule 14 (doc 28, 11.5).
+
+**O3b. "When do they pay?"** (owner, 2026-11-07: "Approve Decisions 2, 3, and 4 as proposed, and for Decision 1, approve Q1–Q6 with two targeted adjustments": one commercial decision, terms and timing; built as O3's second row in O3's band, a band of its own since 2026-11-09, as every question: one question per band, the tints alternating). One choice (a radio), straight after the terms; saved as `o3t`; the code stays.
+- **Options:** Before they get it; A deposit, then the rest; When it is done / delivered; In instalments / monthly; On invoice terms (for example 30 days).
+- **Starts from O3 (2026-11-09):** A subscription / membership or A monthly retainer, In instalments / monthly; A project or contract, A deposit, then the rest; One purchase, Before they get it. A saved answer wins.
+- **The "i" says:** When the money comes in.
+- **Connections:** *Read by (built, 2026-11-09, as a start):* the Revenue stream's "Customer Pays" (its payment timing, Page 5; doc 28, 10.2), on a stream not saved yet. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
+
 ### O15. How long until they have it?
 
 *Added (owner, 2026-11-07: "Approve Decisions 2, 3, and 4 as proposed, and for Decision 1, approve Q1–Q6 with two targeted adjustments"; placed in Purchase & Delivery, beside O6).*
 - **Control:** one choice (a radio).
 - **Asked when:** always.
 - **Options** (L20): Straight away; Within a week; One to four weeks; One to three months; Longer.
+- **Starts from O1 (2026-11-09):** A digital file, An app / online tool or Online access, Straight away. A saved answer wins.
 - **The "i" says:**
-  - The time from order to having it. How it reaches them is the question above.
+  - The time from order to having it. How it reaches them is the question below (O6 follows O15 since 2026-11-08).
+- **Connections:** *Read by:* the export; *(built, 2026-11-09, as a start)* the Delivery card's Calendar Time (Page 3, weeks), for an Offering delivered per unit, on a Delivery not saved yet: the band's upper end (1, 4 or 13 weeks; Straight away and Longer start nothing). Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
+
+### O6. How do your customers receive it?
+
+- **Control:** ticks, as many as apply, no limit (2026-11-09; a radio until then): one Offering is often delivered several ways (posted or collected; in person or online). A single answer saved before reads as one tick.
+- **Asked when:** always.
+- **Options:**
+  - Sent automatically online
+  - Sent by you online
+  - In a live online session
+  - In person
+  - Posted / shipped to them
+  - They collect it
+  - Ongoing online access
+- **The "i" says:**
+  - How it reaches them once bought: tick each way, as one Offering is often delivered in several.
+  - Sent automatically online: a download or an email sent by the shop. Sent by you online: a file you send when it is ready.
+- **Connections:**
+  - *Comes from:* O1, the starting value, the clearest way only (ticks since 2026-11-09: the others are ticked by hand, such as In person or They collect it for a physical item sold in a shop or café): a physical item → Posted / shipped to them; a digital file → Sent automatically online; a live online session → In a live online session; an app / online tool → Ongoing online access; online access → Ongoing online access; an in-person service → In person; project work → Sent by you online (2026-11-09); an ongoing service → none.
+  - *Read by (not built yet):* the Delivery stage's proposed channels (doc 28, 7.4); the Review (the Segment's "Rural / remote", doc 35 Box 2 question 2, with In person or Posted / shipped: a delivery-cost check, rule 17). Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
+
+## Box. Support & Communication
+
+### O7. What help do you give after they buy?
+
+- **Control:** ticks, as many as apply, no limit; "None" stands alone, as in O17 (`offeringChoose`) (2026-11-09; a radio until then): an Offering often comes with guides and personal help both. A single answer saved before reads as one tick.
+- **Asked when:** always.
+- **Options:**
+  - None
+  - Guides and how-tos
+  - Automatic help, such as chat or emails
+  - Personal help when needed
+  - A dedicated person or team
+  - ("It depends on the plan" is no longer offered, 2026-11-09: with ticks, each kind of help given is ticked, and the plans are O14's Packages / tiers. A saved one stays shown, and printed, until it is unticked: `OFFERING_RETIRED`, `offeringOptionsWith`; it still answers the Support worry.)
+- **The "i" says:**
+  - The help that comes with it after the sale: tick each kind you give.
+  - None stands alone: ticking it clears the others.
+- **Connections:**
+  - *Read by (built):* O8 and the Value Proposition's open item "Worry left open": any tick but None answers the Profiles' worry Support (after they buy), so O8 does not offer it. *Read by (not built yet):* the relationship type's starting value and the Support & Follow Up channels on page 2 (doc 28, 7.4); the Review against the Profiles' D2 (doc 36): "wants to talk to a person" while the help is None or Guides and how-tos (rule 10). Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
+
+### O17. What comes after the sale?
+
+*Added (owner, 2026-11-07: "Approve Decisions 2, 3, and 4 as proposed, and for Decision 1, approve Q1–Q6 with two targeted adjustments").* Box: Support & Communication, under O7.
+- **Control:** ticks, as many as apply; "None" stands alone.
+- **Asked when:** always. **Held back while Planning (owner, 2026-11-08, P5):** not asked while the business stage is Planning (the stage from the Opening Date; no date is Planning), asked from Launching; a saved answer is kept, not removed (the settling keeps an answer held back only by the stage), and the documents still print it.
+- **Options** (L23): Guarantee / warranty; Repairs / maintenance; Updates; Training; Replacements / refills; None.
+- **Starts from O7 (2026-11-09):** O7 None starts None. A saved answer wins.
+- **The "i" says:**
+  - What else comes with it after the sale; the help you give is the question above.
+  - None stands alone: ticking it clears the others.
 - **Connections:** *Read by:* the export.
 
 ### O16. How fast do you reply?
 
 *Added (owner, 2026-11-07: "Approve Decisions 2, 3, and 4 as proposed, and for Decision 1, approve Q1–Q6 with two targeted adjustments").* Box: Support & Communication.
 - **Control:** one choice (a radio).
-- **Asked when:** always.
+- **Asked when:** always. **Held back while Planning (owner, 2026-11-08, P5):** not asked while the business stage is Planning (the stage from the Opening Date; no date is Planning), asked from Launching; a saved answer is kept, not removed (the settling keeps an answer held back only by the stage), and the documents still print it.
 - **Options** (L22): The same day; Within one working day; Within a few days; No set time.
 - **The "i" says:**
-  - How soon a customer hears back. The channels are on the Customer Engagement page.
+  - How soon your customers hear back. The channels are on the Customer Engagement page.
 - **Connections:** *Read by:* the export.
 
-### O17. What comes after the sale?
+## Box. Requirements & Conditions
 
-*Added (owner, 2026-11-07: "Approve Decisions 2, 3, and 4 as proposed, and for Decision 1, approve Q1–Q6 with two targeted adjustments").* Box: Support & Communication, under O7.
-- **Control:** ticks, as many as apply; "None" stands alone.
-- **Asked when:** always.
-- **Options** (L23): Guarantee / warranty; Repairs; Updates; Training; Replacements / refills; None.
+### O10. What do your customers need to give you?
+
+*"A minimum commitment / term" and "Payment upfront" left the list (owner, 2026-11-07: "fix and optimise the cards, avoid overlapping and repetition"): they are payment terms (O3, Purchase & Delivery). Six options remain.*
+
+- **Control:** ticks, as many as apply.
+- **Asked when:** the Type is Service or Hybrid.
+- **Options:** the list L11 (doc 34, 5.2):
+  - Access to their systems or information
+  - A clear brief
+  - Approval within an agreed time
+  - A place to work
+  - Their own equipment or software
+  - Access to their home or site (`home`; added 2026-11-08, the options-and-wording research)
+  - Their time or attendance (`attendance`; added 2026-11-08)
+  - ("To meet certain conditions" left on 2026-11-07, owner, 2026-11-07: "Approve Decisions 2, 3, and 4 as proposed, and for Decision 1, approve Q1–Q6 with two targeted adjustments": the conditions of sale are O18.)
+- **Order from O1 (2026-11-09; an order, never a lock):** An in-person service puts Access to their home or site first; A live online session, Their time or attendance (`offeringOptionsWith`).
 - **The "i" says:**
-  - What the help after the sale includes. How much help there is, is the question above.
-  - None stands alone: ticking it clears the others.
-- **Connections:** *Read by:* the export.
+  - What you need from them before or during the work. The details go in the Notes.
+  - A place to work: a desk or a room for you to use. Access to their home or site: the work is done there, such as a repair or a fitting.
+  - Their time or attendance: they must take part or be there, such as at a session or a fitting.
+- **Connections:**
+  - *Read by (built, 2026-11-09, as a start):* the Delivery card's Constraints (Page 3) start with the options ticked, in their words, on a Delivery not saved yet. *Not built yet:* the Delivery card's "What could slow the work down?" (doc 28, 9.3, W3) ticks. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
 
 ### O18. Which conditions of sale apply?
 
@@ -266,10 +300,21 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
 - **Control:** ticks, as many as apply.
 - **Asked when:** always.
 - **Options** (L24): A minimum order; Trade / account only; Non-refundable once made (unless faulty); Notice to cancel; A booking / cancellation fee.
-- **The "i" says:**
-  - The terms a customer agrees to. In the UK and the EU, most online and distance sales can be cancelled within 14 days; goods made to their specification are an exception. Elsewhere, check your country's rules.
-  - Based on: the Consumer Contracts Regulations 2013 (UK). A legal minimum age is not ticked here: write an age limit in the Notes.
-- **Connections:** *Read by:* the export. Source [FUN-74].
+- **The "i" says** (built 2026-11-08, the options-and-wording research: only the Organisation's country's rule, `offeringInfo`, the country from the Organisation tile through `OfferingContext.country`):
+  - The terms your customers agree to.
+  - **On a business Segment** (the Segment's frame is business, passed as `OfferingContext.frame`; 2026-11-08): "Between businesses, your contract terms set the cancellation rules." in place of the country's rule and its source.
+  - Otherwise the country's rule, one of:
+    - **United Kingdom (GB):** "In the UK, a consumer can cancel most online, phone and doorstep sales within 14 days (goods: from delivery; services: from the contract)." Then "Exceptions: goods made to their specification or personalised, perishable goods, and leisure, catering or accommodation booked for a set date."
+    - **Ireland (IE):** the same, beginning "In Ireland and the EU, …".
+    - **United States (US):** "No general right to cancel. The FTC Cooling-Off Rule gives 3 business days for sales made at the customer's home or at a temporary location." Then "Online, phone and shop sales are not covered. State laws can add more."
+    - **Canada (CA):** "Set by each province, with no general right to cancel an online purchase (Ontario: 10 days for door-to-door sales)."
+    - **Australia (AU):** "No change-of-mind right for shop or website purchases; 10 business days to cancel an unsolicited sale of $100 or more."
+    - **New Zealand (NZ):** "No change-of-mind right; 5 working days to cancel an uninvited direct sale over $100."
+    - **No country, or another:** "Cancellation rights differ by country; check the rules where you sell." (no source line)
+  - For an age limit, write it in the Notes.
+  - The source, last: GB "Based on: the Consumer Contracts Regulations 2013, regulation 28 (UK)." [FUN-74]; IE "Based on: the Consumer Rights Directive 2011/83/EU, Article 16 (EU)." [FUN-75]; US "Based on: the FTC Cooling-Off Rule (US)." [FUN-76]; CA "Based on: Ontario's Consumer Protection Act (CA)." [FUN-77]; AU "Based on: the Australian Consumer Law (ACCC)." [FUN-78]; NZ "Based on: the Fair Trading Act 1986, section 36M (NZ)." [FUN-79].
+  - (Each point is within 160 characters, tested.)
+- **Connections:** *Comes from:* the Organisation's country (the "i" only). *Read by:* the export. Sources [FUN-74] to [FUN-79].
 
 ### O12. Is a minimum age to buy it set by law? (no longer a question; proposed, owner 2026-11-06)
 
@@ -306,6 +351,7 @@ The answer is already in the app: the Organisation's business activities (doc 28
 - A change of a Profile's E3 changes O8's options. A worry no longer ticked on any Profile is removed from O8 on the next choice.
 - A change of an activity, an age or the country changes O12's derived Review item at once (proposed).
 - A change of the business stage changes O2's starting value only, never an answer chosen.
+- A change of the Organisation's country changes only what O18's "i" says (2026-11-08).
 
 ## Decided, and still to decide
 

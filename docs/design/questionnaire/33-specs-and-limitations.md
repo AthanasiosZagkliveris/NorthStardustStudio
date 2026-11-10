@@ -1,6 +1,6 @@
 # 33. Specs and limitations: the first published version, and what is left for later (owner, 2026-10-29)
 
-Status: **specification**, written 2026-10-29, updated 2026-11-08, as given by the owner. What the first published version of the app contains and what it does not. The owner's items are written as given; the assistant's checks against the app, doc 28 and doc 31 are marked **Check** and are for the owner to confirm. The Organisation tile, Early Positioning and the Segment card follow it (section 8); the Profile card is built in part (doc 36). What the first version leaves out is in sections 10 to 15 (the future features: **all other existing information is a future feature**; nothing there is scheduled; items already built stay in the code, hidden or unused, and are not deleted; they were document 33 until 2026-11-02, a living list).
+Status: **specification**, written 2026-10-29, updated 2026-11-09, as given by the owner. What the first published version of the app contains and what it does not. The owner's items are written as given; the assistant's checks against the app, doc 28 and doc 31 are marked **Check** and are for the owner to confirm. The Organisation tile, Early Positioning and the Segment card follow it (section 8); the Profile card is built in part (doc 36). What the first version leaves out is in sections 10 to 15 (the future features: **all other existing information is a future feature**; nothing there is scheduled; items already built stay in the code, hidden or unused, and are not deleted; they were document 33 until 2026-11-02, a living list).
 
 Related: doc 28 (questionnaire specification), doc 31 (positioning categories), doc 32 (sources), `docs/README.md` (contents), `docs/index.md` (index) and `docs/app/glossary.md` (glossary).
 
@@ -67,7 +67,7 @@ English only, and **UK English** (owner, 2026-11-03: organisation, centre, speci
 
 ## 5. The buyer: category and life stage are two separate things
 
-The buyer's category no longer sits inside the life-stage list.
+The buyer's category is a question of its own, apart from the life-stage list.
 
 **Buyer's category** (what the buyer buys for):
 1. **Direct Buyers**: purchasing exclusively for their own personal use.
@@ -90,10 +90,9 @@ The buyer's category no longer sits inside the life-stage list.
 | Family member | Business serving clients |
 | Spouse or partner | Professional intermediary |
 | Friend or acquaintance | Sponsor or funder |
-| Commercial & Professional (a proxy buyer; added 2026-10-30) | |
-| Other | Other |
+| Commercial & Professional (a proxy buyer; added 2026-10-30) | Institution or membership body (Proxy or Dual-Intent; doc 31, decision 39) |
 
-The B2B list is the six business relationships of doc 31 section 6.2, each with the owner's description of how it positions (doc 31 section 10.6). They split into **Proxy archetypes** (Employer; Professional intermediary; Sponsor or funder; Other, for example a franchise owner buying for franchise operators) and **Dual-Intent archetypes** (Business partner; Business serving clients).
+The B2B list is the business relationships of doc 31 section 6.2, each with the owner's description of how it positions (doc 31 section 10.6), and the Institution or membership body (doc 31, decision 39). They split into **Proxy archetypes** (Employer; Professional intermediary; Sponsor or funder) and **Dual-Intent archetypes** (Business partner; Business serving clients); the Institution or membership body is either. Each list holds named relationships only: an answer saved as "Other" still reads, opens its questions and shows until it is unticked (doc 31, decision 39).
 
 **2. End user's life stage (B2C):**
 1. Minors
@@ -107,7 +106,7 @@ The B2B list is the six business relationships of doc 31 section 6.2, each with 
 
 **Checks** (all settled and built, section 8, except check 3, which stays open for the owner):
 1. **This replaces the I7b design of doc 31 decision 19.** There the life-stage list had five options, with Proxy and Dual-Intent among them. Now **I7b keeps three life-stage options** and **the category is a separate question**. The End User block is shown by the category.
-2. **The life-stage list no longer holds "Proxy Buyers / Gifters"** (section 8): an older saved answer is read in the new form and the buyer's category is asked again.
+2. **The life-stage list holds the life stages alone; "Proxy Buyers / Gifters" is a buyer's category** (section 8): an older saved answer is read in the new form and the buyer's category is asked again.
 3. **Open: the end user's life stage has four coarse groups** with no age edges given. Minors is read as under 18 and Seniors as 65 and over (which includes the Dependent seniors of 75 and over). Do the four replace the detailed stages of doc 31 section 1 or group them? Not stated.
 4. **B2B end users have no life stage.** The end user's life stage is read as B2C only; for B2B the relationship is the only End User item.
 5. **The buyer's category for B2B:** the archetypes of section 10.6 suggest a category for each relationship (Proxy or Dual-Intent); as decided in doc 31 decisions 8 to 10, the relationship only **suggests** it and the buyer's own answer governs.
@@ -207,7 +206,7 @@ The owner removed these from the first version; they are kept here until a later
 
 ### 14.2 Government-to-business relationships
 
-These examples are slightly different because G2B often involves a government service or regulatory obligation rather than a conventional purchase.
+These examples differ a little: G2B often involves a government service or a regulatory obligation, where B2B is a conventional purchase.
 
 | Relationship | Example |
 |---|---|

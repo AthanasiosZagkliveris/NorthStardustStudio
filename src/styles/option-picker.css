@@ -129,7 +129,7 @@
 
     background:var(--bg-surface);
 
-    box-shadow:var(--box-inset), 0 12px 28px var(--shadow-ink-18);
+    box-shadow:var(--box-inset), var(--shadow-menu);
 
     /* The list holds the keyboard while it is open, and it is a
        listbox rather than a field -- so no focus ring of its own;
@@ -226,7 +226,7 @@
 .option-picker .option-picker-trigger.interview-input{
     border:1px solid transparent;
     border-radius:var(--radius-md);
-    background-color:var(--bg-surface);
+    background-color:var(--cell-fill);
     box-shadow:var(--cell-inset);
     color:var(--text-default);
     /* (The size and the height are the cell's own, so a page that draws none of its own has the same cell: the body size, 44px.) */

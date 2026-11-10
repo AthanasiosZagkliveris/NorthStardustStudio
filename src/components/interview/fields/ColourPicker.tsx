@@ -161,7 +161,7 @@ export default function ColourPicker({
                 }}
             />
 
-            <PopupPanel open={open} onClose={() => setOpen(false)} anchorRef={triggerRef} insideRefs={[boxRef]} className="date-cell-popup colour-popup" ariaLabel={ariaLabel}>
+            <PopupPanel open={open} onClose={() => setOpen(false)} anchorRef={triggerRef} insideRefs={[boxRef]} below className="date-cell-popup colour-popup" ariaLabel={ariaLabel}>
 
                     <div
                         ref={areaRef}

@@ -2,10 +2,8 @@ import logo from "../assets/NORTH STARDUST Organization Framework.svg";
 
 import AddButton from "./controls/AddButton.tsx";
 import SaveStatus from "./SaveStatus";
-import { NotepadButton, NotepadPanel, NotepadPicker } from "./notepad/Notepad";
+import { WorkbookButton, NotepadButton, NotepadPanel, NotepadPicker } from "./notepad/Notepad";
 import FocusModeButton from "./FocusModeButton";
-import GlossaryButton from "./GlossaryButton";
-import ReviewButton from "./ReviewButton";
 import SearchButton from "./SearchButton";
 import SettingsButton from "./SettingsButton";
 import ThemeSwitch from "./ThemeSwitch";
@@ -28,7 +26,7 @@ interface AppHeaderProps {
     focusable?: boolean;
     /** The landing page: a Reload tool beside the theme switch (the app's view is drawn again; the data is kept: it is on disk). */
     reloadable?: boolean;
-    /** The landing page: the Review tool is offered, for every Organization (none is open). */
+    /** The landing page: the Workbook is offered with the review of every Organization (none is open), the Glossary and the References. */
     totalReview?: boolean;
     /** Called before the reload (the Landing page refreshes the saved examples from the current example files). */
     onReload?: () => void;
@@ -56,7 +54,7 @@ export default function AppHeader({ organizationName, focusable = false, reloada
                 <AddButton className="header-tool app-reload"
                     aria-label="Reload the app and refresh the examples"
                     onClick={() => { onReload?.(); window.location.reload(); }}>
-                    <svg className="header-tool-icon" viewBox="0 0 20 20" aria-hidden="true">
+                    <svg className="header-tool-icon" viewBox="2.97 2.47 14.05 14.05" aria-hidden="true">
                         <path d="M16 10a6 6 0 1 1-2-4.5M16 3v3.5h-3.5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                     <span className="header-tool-word">Reload</span>
@@ -66,12 +64,11 @@ export default function AppHeader({ organizationName, focusable = false, reloada
             {/* Focus mode: on an interview page. */}
             {organizationName && focusable && <FocusModeButton />}
 
-            {/* Search (Ctrl+K), the Glossary and its References, and the person's own notes: wherever an Organization is open. */}
+            {/* Search (Ctrl+K), the Workbook (the Card Notes, the Review, the Glossary and the References: one page, /workbook; owner, 2026-11-09) and the person's own notes (the Notes tool, its side panel, as before: "Card Notes and Notes tool are different"): wherever an Organization is open. */}
             {organizationName && <SearchButton />}
-            {organizationName && <GlossaryButton />}
+            {/* The Workbook: the same button on the Landing page (owner, 2026-11-09), there with the review of every Organisation, the Glossary and the References. */}
+            {(organizationName || totalReview) && <WorkbookButton total={!organizationName} />}
             {organizationName && <NotepadButton />}
-            {organizationName && <ReviewButton />}
-            {!organizationName && totalReview && <ReviewButton total />}
             {organizationName && <SettingsButton />}
             {organizationName && <NotepadPanel />}
             {organizationName && <NotepadPicker />}

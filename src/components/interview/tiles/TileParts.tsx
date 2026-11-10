@@ -35,7 +35,8 @@ export function useTitleSlide(ref: RefObject<HTMLElement | null>) {
     useEffect(() => {
         // (A numbered title slides its TEXT: the order number stays where it stands and the text goes behind it.)
         const node = ref.current?.querySelector<HTMLElement>(".section-tile-title-text") ?? ref.current;
-        const host = node?.closest<HTMLElement>(".section-tile-slot") ?? node?.closest<HTMLElement>("button, .section-tile");
+        // (A title one types in -- a frame's name -- is its own host.)
+        const host = node?.closest<HTMLElement>(".section-tile-slot") ?? node?.closest<HTMLElement>("button, .section-tile") ?? (node instanceof HTMLInputElement ? node : null);
         if (!node || !host || typeof requestAnimationFrame === "undefined") {
             return;
         }
@@ -66,6 +67,10 @@ export function useTitleSlide(ref: RefObject<HTMLElement | null>) {
             frame = requestAnimationFrame(step);
         };
         const enter = () => {
+            // (A title being typed in stays where the cursor puts it.)
+            if (node === document.activeElement) {
+                return;
+            }
             const room = node.scrollWidth - node.clientWidth;
             if (room > 1) {
                 node.style.textOverflow = "clip";
@@ -73,13 +78,21 @@ export function useTitleSlide(ref: RefObject<HTMLElement | null>) {
                 slideTo(Math.ceil(node.scrollWidth - node.clientWidth));
             }
         };
-        const leave = () => slideTo(0);
+        const leave = () => {
+            if (node !== document.activeElement) {
+                slideTo(0);
+            }
+        };
         host.addEventListener("pointerenter", enter);
         host.addEventListener("pointerleave", leave);
+        // (Left after typing, it goes home: the start of the name and its ellipsis.)
+        const home = () => slideTo(0);
+        node.addEventListener("blur", home);
         return () => {
             cancelAnimationFrame(frame);
             host.removeEventListener("pointerenter", enter);
             host.removeEventListener("pointerleave", leave);
+            node.removeEventListener("blur", home);
             node.scrollLeft = 0;
             node.style.textOverflow = "";
         };
@@ -124,7 +137,8 @@ export function TileTitle({ children, className }: { children: ReactNode; classN
                     slot.style.setProperty("--tile-lift", corrected);
                 }
             }
-            node.title = node.textContent ?? "";
+            // (A title with a forced break says itself on one line: a space where its lines meet.)
+            node.title = [...node.childNodes].map(part => part.nodeName === "BR" ? " " : part.textContent ?? "").join("");
         };
         apply();
         if (typeof ResizeObserver === "undefined") {
@@ -145,10 +159,10 @@ export function TileTitle({ children, className }: { children: ReactNode; classN
 
 /**
  * WHAT A SECTION INCLUDES, under its tile's title (docs/ai/layout-rules.md, "Tile anatomy"): a
- * bulleted list in small muted text, one line per item cut by an ellipsis, as many lines as the room
- * under the title holds (measured) and then "+N more" as the last line. On a page tile the items that lead
+ * bulleted list in small muted text, one line per item cut by an ellipsis; it holds every item and scrolls
+ * (a thin themed scrollbar) where they are more than the room under the title. On a page tile the items that lead
  * somewhere are real controls (`links`: a button each, underlined under the pointer and the focus, opening
- * that card alone or the section on that subcategory; "+N more" opens the section); the list of a tile
+ * that card alone or the section on that subcategory); the list of a tile
  * without links is decoration -- it says again what the tile's accessible name says -- and hidden from
  * assistive technology.
  */

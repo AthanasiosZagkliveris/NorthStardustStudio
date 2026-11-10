@@ -31,7 +31,7 @@
 
     background: var(--bg-surface);
 
-    box-shadow: 0 12px 28px var(--shadow-ink-18);
+    box-shadow: var(--shadow-menu);
 
     font-size: var(--font-body);
     line-height: 1.4;

@@ -185,7 +185,7 @@
 .floating-card-body :is(.legal-entity-card, .brand-style-card, .strategy-theme-box) {
 
     /* A card has no inner light and shade (that edge is a tile's): its drop shadow alone. */
-    box-shadow: 0 24px 56px var(--shadow-18), 0 8px 20px var(--shadow-12);
+    box-shadow: var(--shadow-drop);
 
 }
 
@@ -447,7 +447,7 @@
     z-index: 2;
 
     /* (The block keeps its inset light and shade -- it is a tile -- and the drop shadow is added to them.) */
-    box-shadow: var(--box-inset), 0 10px 22px var(--shadow-18), 0 3px 8px var(--shadow-12);
+    box-shadow: var(--box-inset), var(--shadow-tile-lift);
 
 }
 
@@ -746,10 +746,21 @@ body:has(.floating-overlay) .section-tile-overlay:not(.floating-overlay) > .caro
 
 }
 
-/* A legal expense card: Cost | Frequency in one row, the labels above (the other rows span both columns). */
+/* A legal expense card (owner, 2026-11-09): Date | Cost | Frequency in one row, each label over its cell (the other rows span the row); the Date
+   is the date cell's own width (--control-date), the Frequency as wide as its longest option, the Cost takes the rest. */
 .floating-card-body .legal-entity-grid-card.legal-entity-grid-expense-card {
 
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: var(--control-date) minmax(0, 1fr) auto;
+
+    column-gap: var(--space-cell);
+
+}
+
+/* Its Responsible row on the same columns (owner, 2026-11-09: "the cells well aligned"): the tick and its words in the Date's column, the picker from
+   the Cost's left edge to the Frequency's right edge. */
+.floating-card-body .legal-entity-grid-card.legal-entity-grid-expense-card > .business-field-inline.business-field-inline {
+
+    --side-label-short: var(--control-date);
 
 }
 
@@ -1112,8 +1123,8 @@ body:has(.floating-overlay) .section-tile-overlay:not(.floating-overlay) > .caro
 
 }
 
-/* The page's own arrows give way to the carousel's: while a dialog or a card with arrows of its own is open, the page's are not drawn under them. */
-body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
+/* The page's own arrows give way to the carousel's: while a dialog or a card with arrows of its own is open, the page's are not drawn under them. (The Notes' closing arrow is no page arrow: it stays, owner 2026-11-10.) */
+body:has([data-carousel]) .page-arrow:not(.carousel-arrow, .notepad-close) {
 
     visibility: hidden;
 
@@ -1315,5 +1326,123 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
 .section-tile-slot:has(.brand-mosaic-images) {
 
     will-change: transform;
+
+}
+
+/* THE LEGAL ENTITY'S FLOATING CARDS IN BANDS (owner, 2026-11-09: one style for every card of the Foundation): each row of a requirement's or an expense's card is
+   a band from side to side of the card, with no gap between them, the first untinted and then every other tinted, as the Foundation's cards (tile and card
+   pattern, "One band pattern"). A requirement reads Type, Reference, the offer to Expenses, Notes; an expense its Date, Cost and Frequency row, then its wide
+   rows (Responsible, Linked registration, Notes). */
+.floating-card-body .legal-entity-grid-card.legal-entity-grid-requirement,
+.floating-card-body .legal-entity-grid-card.legal-entity-grid-expense-card {
+
+    row-gap: 0;
+
+}
+
+.floating-card-body .legal-entity-grid-requirement > *,
+.floating-card-body .legal-entity-grid-expense-card > .legal-entity-field-wide {
+
+    /* (From the card's left side to its right side, past the x column: the content keeps its place, ending at the name cell's right edge.) */
+    margin-left: calc(-1 * var(--card-padding));
+    margin-right: calc(-1 * (var(--card-padding) + var(--card-x-column)));
+
+    /* (12px above and below its content, as a channel card's sections: each band reads as a field of its own; owner, 2026-11-10.) */
+    padding: var(--space-cell) calc(var(--card-padding) + var(--card-x-column)) var(--space-cell) var(--card-padding);
+
+}
+
+.floating-card-body .legal-entity-grid-expense-card > :not(.legal-entity-field-wide) {
+
+    padding-bottom: var(--space-cell);
+
+}
+
+.floating-card-body .legal-entity-grid-requirement > :is(.optional-field, .legal-entity-field-wide),
+.floating-card-body .legal-entity-grid-expense-card > :nth-child(odd of .legal-entity-field-wide) {
+
+    background: var(--tint-row-band);
+
+}
+
+/* THE BRAND'S FLOATING CARDS IN BANDS (owner, 2026-11-09: one style for every card of the Foundation): a colour's, a typeface's and an image's card read their
+   fields on the card's ground (the first band, untinted), then their Notes in the next band, tinted, from side to side of the card, past the x column, down to
+   the card's end. */
+.floating-card-body .brand-style-card > .optional-field:last-child,
+.floating-card-body .brand-style-card > .brand-image-card-body:last-child > .optional-field:last-child {
+
+    margin: calc(var(--space-cell) / -2) calc(-1 * (var(--card-padding) + var(--card-x-column, 44px))) calc(-1 * var(--card-padding)) calc(-1 * var(--card-padding));
+
+    padding: var(--space-cell) calc(var(--card-padding) + var(--card-x-column, 44px)) var(--card-padding) var(--card-padding);
+
+    background: var(--tint-row-band);
+
+}
+
+/* THE LINE BETWEEN TWO BANDS, on every card and dialog (owner, 2026-11-10, a general rule): where one band follows another, a 1px line in a light tint of
+   the card's colour (--band-divider) stands between them, each band keeping its 12px. */
+.legal-entity-audience .legal-entity-org-section + .legal-entity-org-section,
+.legal-entity-bands > .legal-entity-org-section + .legal-entity-org-section,
+.floating-card-body .legal-entity-grid-requirement > * + *,
+.floating-card-body .legal-entity-grid-expense-card > .legal-entity-field-wide,
+.column-tile-content .founders-profile .founder-band + .founder-band,
+.column-tile-content .founders-profile .founders-profile-row + .founders-profile-row > .founder-band:first-child,
+.floating-card-body .brand-style-card > .optional-field:last-child,
+.floating-card-body .brand-style-card > .brand-image-card-body:last-child > .optional-field:last-child {
+
+    border-top: 1px solid var(--band-divider);
+
+}
+
+/* A CARD THAT ENDS WITH A BAND ends with that band's own 12px (owner, 2026-11-10: "Check the in-between and side spaces/margins (normal gap 12 px)"):
+   the band's room and the card's padding stood one on the other, 24px under the last field; the card's padding under it goes, so the band runs to the
+   card's edge. */
+.floating-card-body :is(.legal-entity-card, .business-foundation-card):has(.legal-entity-org-section, .legal-entity-field-wide, .legal-entity-grid-requirement){
+
+    padding-bottom:0;
+
+}
+
+/* The rule between a card's bands and its Notes (or the next group of bands) is a line between two coloured parts: the light line (owner, 2026-11-10: "light
+   hue only between the colour transit parts"). The double rule and the lines inside a part keep their grey. */
+.business-capability-card-rule.legal-entity-org-rule:not(.business-capability-card-rule-double){
+
+    background:var(--band-divider);
+
+}
+
+/* A legal requirement's rows in the order they are drawn (the Type moved first): the light line stands between the Type and the Reference, not over the
+   Type under the card's head (owner, 2026-11-10: "all the floated cards ... should use the same components and rules": the Expense card in the same
+   section has no line under its head). */
+.floating-card-body .legal-entity-grid-requirement > .legal-entity-field-side{
+
+    border-top:0;
+
+}
+
+.floating-card-body .legal-entity-grid-requirement > :first-child:not(.legal-entity-field-side){
+
+    border-top:1px solid var(--band-divider);
+
+}
+
+/* THE ORGANISATION'S RIGHT COLUMN takes the light line where its colour changes, as the left one does (owner, 2026-11-10: "Organization dialogue card,
+   still has different colour divider lines ... some they do not align properly"): the Registration Date (the dates' first, under the Legal Form) and the
+   Activities (under the dates) had none, so the two columns' bands stood a pixel apart. */
+.legal-entity-grid-organization .legal-entity-org-dates > .legal-entity-org-section:first-child,
+.legal-entity-grid-organization .legal-entity-org-dates + .legal-entity-org-section{
+
+    border-top:1px solid var(--band-divider);
+
+}
+
+/* An arrow standing in the page tab's list: filled with the tab's edge colour in its brighter version, its wire's (in every reading mode: the dark mode's own
+   arrow colour is more specific, so it is named here too); restored 2026-11-10, owner: "fill colour used to be like its wire". */
+.page-arrow.carousel-arrow.carousel-arrow-on-tab,
+:root[data-theme="dark"] .page-arrow.carousel-arrow.carousel-arrow-on-tab {
+
+    /* (Filled with the tab's edge colour itself, the BACK arrow's under it: owner, 2026-11-10, 20:18, "For the navigation arrow, in the page tag, use as fill
+       this colour".) */
+    color: var(--tab-edge);
 
 }

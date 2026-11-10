@@ -40,7 +40,7 @@ export function usePopupDismiss(open: boolean, inside: readonly RefObject<HTMLEl
 /**
  * THE POPUP PANEL: a panel that opens from a control (a note, a colour's picker): drawn OUTSIDE the boxes around its control (in the dialog's overlay, else on the page), so a card or a dialog that clips or stacks its content never cuts it off or paints its own controls over it; placed free of them (below the control if it fits, else above, capped where neither does; placed again when its size changes); the hue of the box it opens from; closed by a press outside and by Escape (\`usePopupDismiss\`).
  */
-export default function PopupPanel({ open, onClose, anchorRef, insideRefs = [], className, role = "dialog", ariaLabel, escape = true, focusOnOpen = false, children }: {
+export default function PopupPanel({ open, onClose, anchorRef, insideRefs = [], className, role = "dialog", ariaLabel, escape = true, focusOnOpen = false, below = false, children }: {
     open: boolean;
     /** What closes it: a press outside, or Escape (the focus goes back to the control on Escape). */
     onClose: (reason: "press" | "escape") => void;
@@ -55,9 +55,11 @@ export default function PopupPanel({ open, onClose, anchorRef, insideRefs = [], 
     escape?: boolean;
     /** The panel takes the focus when it opens (a note a screen reader reads). */
     focusOnOpen?: boolean;
+    /** A panel (P2: a colour card) opens below its control first; a note keeps the place over its "i". */
+    below?: boolean;
     children: ReactNode;
 }) {
-    const { panelRef, panelStyle } = useFloatingPanel(open, anchorRef, undefined, true);
+    const { panelRef, panelStyle } = useFloatingPanel(open, anchorRef, undefined, true, below);
     const [hue, setHue] = useState("");
     useEffect(() => {
         if (open && anchorRef.current) {

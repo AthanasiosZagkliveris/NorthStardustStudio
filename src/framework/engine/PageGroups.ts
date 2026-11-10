@@ -23,7 +23,8 @@ export interface PageGroup {
 }
 
 export const PAGE_GROUPS: readonly PageGroup[] = [
-    { systemNumber: 1, members: [1, 2], title: "Definition and Ethics", inHeader: true },
+    // (Mission and Vision are saved in Definition, the first section, and drawn in Purpose as one pair tile: doc 45.)
+    { systemNumber: 1, members: [1, 2], title: "Definition and Purpose", inHeader: true },
     // (The Founders Profile, the fourth section, is no frame of its own: its founders are tiles in the Founders & Ownership dialog and its Capability a tile beside it. It keeps its saved answer.)
     { systemNumber: 1, members: [3], title: "Legal Entity", inHeader: true, frameTitles: ["Legal Entity"] },
     { systemNumber: 2, members: [1, 2], title: "Brand System", inHeader: false },

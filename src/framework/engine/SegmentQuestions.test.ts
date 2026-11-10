@@ -87,6 +87,15 @@ describe("the Segment's questions", () => {
         expect(ids(segmentQuestionsOf("user", { "u-orgtype": ["self"] }, serving))).toEqual(["u-age", "u-orgtype", "u-comfort"]);
         const employer = { ...OPEN, endsUser: true, relations: ["rel:employer", "rel:friend"] };
         expect(ids(segmentQuestionsOf("user", {}, employer))).toEqual(["u-age", "u-work", "u-job", "u-comfort"]);
+        // A family member buying for a child is asked the school stage (a grandparent; 2026-11-09).
+        const family = { ...OPEN, endsUser: true, relations: ["rel:family"] };
+        expect(ids(segmentQuestionsOf("user", { "u-age": ["child"] }, family))).toEqual(["u-age", "u-school", "u-comfort"]);
+        // An institution's end users are the people it serves, of any age: the school stage for a child, work for an adult, never its clients' organisation.
+        const institution = { ...OPEN, frame: "business" as const, endsUser: true, relations: ["rel:institution"] };
+        expect(ids(segmentOptions(question("u-age"), {}, institution))).toContain("baby");
+        expect(ids(segmentOptions(question("u-age"), {}, institution))).toContain("dependent");
+        expect(ids(segmentQuestionsOf("user", { "u-age": ["child"] }, institution))).toEqual(["u-age", "u-school", "u-comfort"]);
+        expect(ids(segmentQuestionsOf("user", { "u-age": ["active"] }, institution))).toEqual(["u-age", "u-work", "u-comfort"]);
     });
 
     it("settles the answers: what is no longer asked, or no longer offered, goes", () => {
@@ -107,7 +116,9 @@ describe("the Segment's questions", () => {
         const started = (age: string, before: SegmentAnswers = {}) => segmentChoose(question("age"), before, [age]);
         expect(started("minor").work).toEqual(["notworking"]);
         expect(started("minor").work2).toEqual(["student"]);
-        expect(started("young").work2).toEqual(["student"]);
+        // Young adults 18–24 start nothing (owner, 2026-11-09; BLS: 67.5% of 20 to 24 year-olds employed).
+        expect(started("young").work).toBeUndefined();
+        expect(started("young").work2).toBeUndefined();
         expect(started("peak").work).toEqual(["working"]);
         expect(started("peak").work2).toBeUndefined();
         expect(started("active").work2).toEqual(["retired"]);
@@ -164,9 +175,10 @@ describe("the Segment's questions", () => {
         const lines = segmentAnswerLines({ comfort: ["5"], competition: ["4"] });
         expect(lines).toContainEqual({ label: "How comfortable are your customers online?", value: "5 of 5 (Confident)" });
         expect(lines).toContainEqual({ label: "How crowded is your market?", value: "4 of 5" });
+        // (In the card's order: how they share is the last of Box 4 since 2026-11-08.)
         expect(segmentAnswerLines({ share: ["public", "verbal"], pay: ["card"] })).toEqual([
-            { label: "How do your customers share what they like?", value: "They post it publicly on social media; They tell people in person" },
-            { label: "How do your customers pay?", value: "Credit / debit card" }
+            { label: "How do your customers pay?", value: "Credit / debit card" },
+            { label: "How do your customers share what they like?", value: "They post it publicly on social media; They tell people in person" }
         ]);
     });
 
@@ -191,6 +203,15 @@ describe("the Segment's questions", () => {
             expect(ids(segmentOptions(question("orgtype"), {}, { ...business, scales: ["enterprise"] }))).toEqual(["private", "public", "nonprofit"]);
             expect(ids(segmentOptions(question("orgtype"), {}, { ...business, scales: ["solo", "smb"] }))).toEqual(["private", "nonprofit", "self"]);
             expect(ids(segmentOptions(question("size"), {}, { ...business, scales: [] }))).toEqual(["micro", "small", "medium", "large"]);
+        });
+
+        it("keeps the size a choice for a public body of Enterprise or Public Sector, which can be small (owner, 2026-11-08)", () => {
+            const enterprise = { ...business, scales: ["enterprise"] };
+            expect(ids(segmentOptions(question("size"), { orgtype: ["public"] }, enterprise))).toEqual(["micro", "small", "medium", "large"]);
+            expect(ids(segmentQuestionsOf("business-data", { orgtype: ["public"] }, enterprise))).toContain("size");
+            expect(segmentSettle({ orgtype: ["public"], size: ["small"] }, enterprise).size).toEqual(["small"]);
+            // A private enterprise is still large.
+            expect(segmentSettle({ orgtype: ["private"] }, enterprise).size).toEqual(["large"]);
         });
 
         it("makes a self-employed customer decide alone", () => {
@@ -226,5 +247,65 @@ describe("who the questions are about", () => {
         expect(segmentWho("How old are your customers?", "demographics", direct)).toBe("How old are your customers?");
         expect(segmentWho("How old are your customers?", "demographics", proxy)).toBe("How old are your buyers?");
         expect(segmentWho("How old are your customers?", "user", proxy)).toBe("How old are your end users?");
+    });
+});
+
+describe("what is changing, the path to purchase and where they discover (2026-11-08)", () => {
+
+    const PEOPLE: SegmentContext = { ...OPEN, frame: "people" };
+    const BUSINESS: SegmentContext = { ...OPEN, frame: "business" };
+
+    it("adds Environment and climate to what is changing", () => {
+        expect(ids(question("trends").options)).toEqual(["technology", "regulation", "economy", "society", "supply", "environment"]);
+        expect(question("trends").options.find(option => option.id === "environment")?.label).toBe("Environment and climate");
+    });
+
+    it("reads Straight away as On impulse, its id kept, and adds habit and urgent need", () => {
+        expect(question("path").options.map(option => option.label)).toEqual(["On impulse", "After comparing options", "On a recommendation", "Out of habit", "When they urgently need it"]);
+        expect(asSegmentAnswers({ path: ["impulse"] }).path).toEqual(["impulse"]);
+    });
+
+    it("offers Sales calls or tenders to business customers only", () => {
+        const discover = (context: SegmentContext) => ids(segmentOptions(question("discover"), {}, context, false));
+        expect(discover(BUSINESS)).toEqual(["peers", "communities", "creators", "media", "algorithmic", "search", "passing", "events", "sales"]);
+        expect(discover(PEOPLE)).not.toContain("sales");
+        expect(discover(OPEN)).not.toContain("sales");
+        expect(segmentSettle({ discover: ["sales", "search"] }, PEOPLE).discover).toEqual(["search"]);
+        expect(segmentSettle({ discover: ["sales", "search"] }, BUSINESS).discover).toEqual(["sales", "search"]);
+        expect(question("discover").max).toBe(3);
+    });
+
+});
+
+/* Phase 5, P3 (owner, 2026-11-08): Box 4 in the order of a purchase; the codes stay. */
+describe("Box 4's order", () => {
+    it("asks comfort and socialising, then what makes them shop, where they discover, how they decide, where they shop, how they pay and how they share", () => {
+        const people = { ...OPEN, frame: "people" as const };
+        const business = { ...OPEN, frame: "business" as const };
+        expect(ids(segmentQuestionsOf("purchasing", {}, people))).toEqual(["comfort", "social", "trigger", "discover", "path", "setting", "pay", "share"]);
+        expect(ids(segmentQuestionsOf("purchasing", {}, business))).toEqual(["comfort", "discover", "authorise", "setting", "pay"]);
+    });
+});
+
+/* Phase 5, P5 (owner, 2026-11-08): questions held back while Planning, their saved answers kept. */
+describe("the questions held back while Planning", () => {
+    const at = (stage: string) => ({ ...OPEN, frame: "people" as const, stage });
+    const working = { age: ["peak"], work: ["working"] };
+    it("does not ask where they work, how they are paid or how they share while Planning (an empty stage too), and asks them from Launching", () => {
+        for (const stage of ["plan", ""]) {
+            expect(ids(segmentQuestionsOf("demographics", working, at(stage)))).not.toEqual(expect.arrayContaining(["workenv"]));
+            expect(ids(segmentQuestionsOf("demographics", working, at(stage)))).not.toContain("workincome");
+            expect(ids(segmentQuestionsOf("purchasing", working, at(stage)))).not.toContain("share");
+        }
+        expect(ids(segmentQuestionsOf("demographics", working, at("launch")))).toEqual(expect.arrayContaining(["workenv", "workincome"]));
+        expect(ids(segmentQuestionsOf("purchasing", working, at("launch")))).toContain("share");
+    });
+    it("keeps a saved answer through a stage change back and forth", () => {
+        const saved = { ...working, workenv: ["office"], workincome: ["salary"], share: ["public"] };
+        const planning = segmentSettle(saved, at("plan"));
+        expect(planning).toEqual(expect.objectContaining({ workenv: ["office"], workincome: ["salary"], share: ["public"] }));
+        expect(segmentSettle(planning, at("launch"))).toEqual(expect.objectContaining({ workenv: ["office"], workincome: ["salary"], share: ["public"] }));
+        // (A question not asked for another reason still loses its answer: no longer working.)
+        expect(segmentSettle({ ...saved, work: ["notworking"] }, at("plan")).workenv).toBeUndefined();
     });
 });

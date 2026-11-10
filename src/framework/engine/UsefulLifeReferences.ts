@@ -12,7 +12,7 @@ import { SOURCES, type Source } from "./Sources.ts";
 
 export const USEFUL_LIFE_MEANING: readonly { title: string; text: string }[] = [
     { title: "What it is", text: "The years an asset serves the business before it is worn out, outdated or replaced." },
-    { title: "What it does", text: "The cost (CapEx) is spread over those years instead of being counted in the year of purchase." }
+    { title: "What it does", text: "The cost (CapEx) is spread over those years, a share in each year of use." }
 ];
 
 export const USEFUL_LIFE_SOURCES: readonly Source[] = [SOURCES.texasAssetClasses];

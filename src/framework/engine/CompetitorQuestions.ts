@@ -9,6 +9,7 @@ import { BUSINESS_JOURNEY_STAGES } from "./AnswerBusinessFoundation.ts";
 import { schemeKeyOf } from "./ActivityClassification.ts";
 import { PROFILE_QUESTIONS } from "./ProfileQuestions.ts";
 import { SEGMENT_QUESTIONS, type SegmentOption } from "./SegmentQuestions.ts";
+import { onlyPlanning } from "./BusinessStage.ts";
 
 /** One saved answer: question id to the ids chosen. */
 export type CompetitorAnswers = Record<string, string[]>;
@@ -29,8 +30,17 @@ const ASKED: Record<CompetitorQuestionId, readonly TypeId[]> = {
 
 const typeOf = (type: string): TypeId => (ALL as readonly string[]).includes(type) ? type as TypeId : "direct";
 
-/** Whether a type of competitor is asked a question. */
-export function competitorAsks(type: string, id: CompetitorQuestionId): boolean {
+/** The questions held back while the business is only Planning (owner, 2026-11-08, P5): K3, how big their organisation is. Shown from Launching; a saved answer is kept. */
+export const COMPETITOR_HELD_WHILE_PLANNING: readonly CompetitorQuestionId[] = ["k3"];
+
+/**
+ * Whether a type of competitor is asked a question. Given `at` (the business stage, as the card passes it; an empty stage is Planning), a question held back while Planning is not
+ * asked then; without it the type alone decides, as competitorSettle reads it, so an answer held back by the stage is kept.
+ */
+export function competitorAsks(type: string, id: CompetitorQuestionId, at?: { stage?: string }): boolean {
+    if (at && COMPETITOR_HELD_WHILE_PLANNING.includes(id) && onlyPlanning(at.stage)) {
+        return false;
+    }
     return ASKED[id].includes(typeOf(type));
 }
 
@@ -44,10 +54,11 @@ const WORDING: Record<CompetitorQuestionId, Partial<Record<TypeId, string>> & { 
     k6: { direct: "Where are they reviewed, and how are they rated?", substitutes: "Where is this alternative reviewed, and how is it rated?" },
     k7: { direct: "How easy do they make each stage for customers?", substitutes: "How easy does this alternative make each stage for customers?" },
     k8: {
-        direct: "How do they do on what customers value?",
-        substitutes: "How does this alternative do on what customers value?",
-        internal: "How does doing it themselves do on what customers value?",
-        "status-quo": "How does doing nothing do on what customers value?"
+        // One phrase for the parallel questions of list L1 (owner, 2026-11-08, P10): B1 "What matters most to this person?", K8, O4.
+        direct: "How do they do on what matters most to your customers?",
+        substitutes: "How does this alternative do on what matters most to your customers?",
+        internal: "How does doing it themselves do on what matters most to your customers?",
+        "status-quo": "How does doing nothing do on what matters most to your customers?"
     },
     k9: {
         direct: "How could each change affect them?",
@@ -77,24 +88,24 @@ export const COMPETITOR_RATINGS = {
 /** What each question's "i" says (doc 41). */
 export const COMPETITOR_INFO: Record<CompetitorQuestionId, readonly string[]> = {
     k1: ["The kinds the app uses for Offerings. A product and a service sold together is a Hybrid."],
-    k2: ["The widest area they sell in. Write the industries they serve in the note."],
+    k2: ["The widest area they sell in. Write the places by name in the note."],
     k3: ["The EU's sizes, as on your Segment. A sole trader is Micro."],
     k4: ["From what you can see: more branches, staff, products or reviews, or fewer."],
     k5: [
-        "Tick each channel they use to find customers, then which ones: the same lists as your Profiles, so the app can see where your customers are and they are not.",
-        "Write their account and shop names in the note. Payment and delivery channels are not listed: they do not reach new customers."
+        "Tick each channel they use to find customers, then which ones. The lists are your Profiles', so the openings below show the channels they leave free.",
+        "Write their account and shop names in the note. The list holds the channels that reach new customers."
     ],
     k6: [
         "Tick each place they are reviewed and give their average there, to the nearest star. Most people only use a business with 4 stars or more.",
-        "Not listed? Tick Other and write it. Google is where most people read reviews of local businesses (71% in 2026)."
+        "For another place, tick Other and write it. Google is where most people read reviews of local businesses (71% in 2026)."
     ],
     k7: [
         "Where their customers are let down along the way, and where it goes smoothly. The values below say what falls short; this says where.",
         "To find out, look at their website and social media, sign up to their newsletter or buy from them once."
     ],
-    k8: ["Rate each from what their customers say and what you have seen: 1 is a clear weakness, 5 a clear strength."],
-    k9: ["How each change could help or hurt them. The examples of each change, as on your Segment."],
-    k10: ["Openings drawn from what you answered above. Tick the ones you will act on, then write how in the text."]
+    k8: ["Rate each from what their customers say and what you have seen."],
+    k9: ["How each change could help or hurt them. The changes and their examples are your Segment's."],
+    k10: ["Openings drawn from what you answered above. Tick the ones you will act on, then write how in the text.", "Your ticks here start the Segment's Differentiation, under your Competitors: an opening on price, ease, safety, quality, expertise or service starts its match."]
 };
 
 /** K8's "i" line for the band (owner, 2026-11-04). */
@@ -267,12 +278,39 @@ export function industryOfActivity(country: string, code: string): string | unde
     return industryOfDivision(scheme, division);
 }
 
-/** K6's rows in their order (doc 34, 5.2b): Google and Facebook, the industry's, the country's; any other platform is shown only where it was ticked before. A platform is never shown twice. */
+/** Hospitality's platforms by the kind of place (owner, 2026-11-09; doc 34, 5.2b), in their order: food and drink, or accommodation. */
+const HOSPITALITY_FIRST: Record<"food" | "accommodation", readonly string[]> = {
+    food: ["opentable", "food-delivery", "tripadvisor", "tabelog"],
+    accommodation: ["booking", "airbnb", "tripadvisor"]
+};
+
+/** A hospitality activity's kind from its code, as `industryOfActivity` reads the scheme: food and drink is NACE/ISIC (and the UK's and Ireland's SIC) division 56,
+    NAICS 722, ANZSIC 45; accommodation is division 55, NAICS 721, ANZSIC 44. Undefined where the code does not say (not hospitality, or NAICS 72 alone). */
+export function hospitalityOfActivity(country: string, code: string): "food" | "accommodation" | undefined {
+    const digits = (code ?? "").replace(/[^0-9]/g, "");
+    const key = schemeKeyOf(country);
+    if (key === "us" || key === "ca") {
+        const group = digits.slice(0, 3);
+        return group === "722" ? "food" : group === "721" ? "accommodation" : undefined;
+    }
+    const division = digits.slice(0, 2);
+    if (key === "au" || key === "nz") {
+        return division === "45" ? "food" : division === "44" ? "accommodation" : undefined;
+    }
+    return division === "56" ? "food" : division === "55" ? "accommodation" : undefined;
+}
+
+/** K6's rows in their order (doc 34, 5.2b): Google and Facebook, the industry's, the country's; any other platform is shown only where it was ticked before. A platform is never shown twice.
+    Hospitality is split by the activity code (owner, 2026-11-09): food and drink puts OpenTable, Food delivery app and Tripadvisor first; accommodation Booking.com, Airbnb and Tripadvisor. */
 export function reviewPlatformOrder(country: string, activityCode: string): { first: readonly ReviewPlatform[]; rest: readonly ReviewPlatform[] } {
     const industry = industryOfActivity(country, activityCode);
     const place = country && !SIX.includes(country) ? "other" : country;
     const core = REVIEW_PLATFORMS.filter(platform => platform.id === "google" || platform.id === "facebook");
-    const byIndustry = REVIEW_PLATFORMS.filter(platform => industry && platform.industries?.includes(industry) && (!platform.onlyIn || platform.onlyIn.includes(country)));
+    const kind = industry === "hospitality" ? hospitalityOfActivity(country, activityCode) : undefined;
+    const ofIndustry = (platform: ReviewPlatform) => industry && platform.industries?.includes(industry) && (!platform.onlyIn || platform.onlyIn.includes(country));
+    const byIndustry = kind
+        ? HOSPITALITY_FIRST[kind].map(id => REVIEW_PLATFORMS.find(platform => platform.id === id)!).filter(ofIndustry)
+        : REVIEW_PLATFORMS.filter(ofIndustry);
     const byCountry = REVIEW_PLATFORMS.filter(platform => place && (platform.countries?.includes(place) || platform.countries?.includes(country)));
     const first: ReviewPlatform[] = [];
     for (const platform of [...core, ...byIndustry, ...byCountry]) {
@@ -427,7 +465,7 @@ const SINGLE: readonly CompetitorQuestionId[] = ["k1", "k2", "k3", "k4"];
 
 /**
  * A Competitor's answers settled against its type: a question the type no longer asks loses its answer (doc 41: removed on the next choice), as does an option
- * or a row not offered; a platform's rating goes with its tick; K10's ticks are settled against its options by the card (competitorOpenings).
+ * or a row not offered; a question held back only by the stage (K3 while Planning) keeps it, since the type alone is read here; a platform's rating goes with its tick; K10's ticks are settled against its options by the card (competitorOpenings).
  */
 export function competitorSettle(answers: CompetitorAnswers, type: string): CompetitorAnswers {
     const settled: CompetitorAnswers = {};
@@ -672,6 +710,83 @@ export function hardToBeat(name: string, answers: CompetitorAnswers, context?: P
 function listedValues(answers: CompetitorAnswers, context?: Pick<OpeningContext, "profiles">): Partial<Record<string, Point>> {
     const shown = context ? competitorValueRows(context) : COMPETITOR_VALUES;
     return Object.fromEntries(Object.entries(competitorRatings(answers, "k8")).filter(([value]) => shown.some(option => option.id === value))) as Partial<Record<string, Point>>;
+}
+
+/**
+ * K10 → K14, THE CROSSWALK (doc 41; 2026-11-09): which Differentiation an opening argues for. Only an opening that sets the offering apart counts: "Offer ..." / "Be ..." / "Make ..."
+ * (`better:`) and "Be known for ..." (`standout:`) by their value, and the stages that are about ease or help. "Match them on ..." keeps level, the status quo's "doing nothing costs"
+ * argues for acting at all, and the reach, review, growth and change openings say where or when, not how the offering differs: none of them starts a Differentiation.
+ */
+const VALUE_DIFFERENTIATION: Readonly<Record<string, string>> = {
+    "lower-price": "cost",
+    speed: "convenience",
+    "ease-and-convenience": "convenience",
+    "safety-and-low-risk": "compliance",
+    "quality-and-results": "premium",
+    "trust-and-reputation": "premium",
+    "expert-knowledge": "performance",
+    "a-service-made-for-them": "personal",
+    "good-support": "personal"
+};
+const STAGE_DIFFERENTIATION: Readonly<Record<string, string>> = { purchase: "convenience", delivery: "convenience", support: "personal" };
+
+/** The Differentiation (K14's option id) one K10 opening argues for, by the crosswalk; none where it argues for none. */
+export function openingDifferentiation(opening: string): string | undefined {
+    const [kind, value] = [opening.slice(0, opening.indexOf(":")), opening.slice(opening.indexOf(":") + 1)];
+    if (kind === "better" || kind === "standout") {
+        return VALUE_DIFFERENTIATION[value];
+    }
+    return kind === "stage" ? STAGE_DIFFERENTIATION[value] : undefined;
+}
+
+/**
+ * The Differentiations the K10 ticks across a Segment's competitors argue for, the most ticked first (ties in the order first ticked): what starts the Segment's K14 where it has no
+ * answer of its own, and what orders its options.
+ */
+export function differentiationFromOpenings(competitors: readonly { questions?: Readonly<Record<string, readonly string[]>> }[]): string[] {
+    const counts = new Map<string, number>();
+    for (const competitor of competitors) {
+        for (const opening of competitor.questions?.k10 ?? []) {
+            const differentiation = openingDifferentiation(opening);
+            if (differentiation) {
+                counts.set(differentiation, (counts.get(differentiation) ?? 0) + 1);
+            }
+        }
+    }
+    const first = [...counts.keys()];
+    return [...first].sort((a, b) => (counts.get(b) ?? 0) - (counts.get(a) ?? 0) || first.indexOf(a) - first.indexOf(b));
+}
+
+/**
+ * Where each Differentiation the K10 ticks argue for came from (owner, 2026-11-09: K14's options say which competitor each start came from): the names of the
+ * competitors whose ticks argue for it, in the competitors' order ("Competitor N" for one not named yet).
+ */
+export function differentiationSources(competitors: readonly { id?: string; name?: string; questions?: Readonly<Record<string, readonly string[]>> }[]): Record<string, string[]> {
+    const sources: Record<string, string[]> = {};
+    for (const [differentiation, cards] of Object.entries(differentiationSourceCards(competitors))) {
+        sources[differentiation] = cards.map(card => card.name);
+    }
+    return sources;
+}
+
+/** The same, each competitor with its card's id (owner, 2026-11-10: "Link the competitors listed under each Differentiation option to their related field"). */
+export function differentiationSourceCards(competitors: readonly { id?: string; name?: string; questions?: Readonly<Record<string, readonly string[]>> }[]): Record<string, { id: string; name: string }[]> {
+    const sources: Record<string, { id: string; name: string }[]> = {};
+    competitors.forEach((competitor, at) => {
+        const name = (competitor.name ?? "").trim() || "Competitor " + (at + 1);
+        for (const opening of competitor.questions?.k10 ?? []) {
+            const differentiation = openingDifferentiation(opening);
+            if (differentiation && !(sources[differentiation] ??= []).some(card => card.name === name)) {
+                sources[differentiation].push({ id: competitor.id ?? "", name });
+            }
+        }
+    });
+    return sources;
+}
+
+/** Names joined as a sentence says them: "A", "A and B", "A, B and C". */
+export function namesInSentence(names: readonly string[]): string {
+    return names.length <= 1 ? names.join("") : names.slice(0, -1).join(", ") + " and " + names[names.length - 1];
 }
 
 /** K10's options shown (owner, 2026-11-05: thirteen options under "3 max" were too many): the first six, in their order (the values by their score first), and any already ticked. */

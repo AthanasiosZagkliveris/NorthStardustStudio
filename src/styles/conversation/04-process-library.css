@@ -27,7 +27,7 @@
     border:1px solid var(--box-border);
     border-radius:var(--radius-md);
 
-    background:var(--bg-surface);
+    background:var(--cell-fill);
 
 }
 

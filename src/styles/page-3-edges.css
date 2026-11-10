@@ -35,7 +35,7 @@
 /* (A floating card also throws its drop shadow.) */
 .floating-card-host :is(.business-capability-slot, .business-founder-open, .business-capability-activity) {
 
-    --card-drop: 0 24px 56px var(--shadow-18), 0 8px 20px var(--shadow-12);
+    --card-drop: var(--shadow-drop);
 
 }
 

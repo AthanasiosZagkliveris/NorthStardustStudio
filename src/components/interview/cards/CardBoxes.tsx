@@ -1,7 +1,7 @@
 import { ReactNode, useContext, useEffect, useRef, useState, useSyncExternalStore } from "react";
 
 import { freshCards } from "./freshCards.ts";
-import { OpenCardContext, type ItemMark } from "../tiles/SectionTiles.tsx";
+import { CARD_LIST_COLUMNS, OpenCardContext, gridColumns, type ItemMark } from "../tiles/SectionTiles.tsx";
 import CardTile, { inwardOrigin } from "../tiles/CardTile.tsx";
 import TileGrid from "../tiles/TileGrid.tsx";
 import { AddTile } from "../tiles/SectionView.tsx";
@@ -179,7 +179,9 @@ export default function CardBoxes({
     }, []);
 
     return (
-        <TileGrid label={label} className={className} threeAcross={threeAcross}>
+        // (A list of cards one adds to -- it has an Add Card -- is three in a row, the Add Card in the next free place (owner, 2026-11-09: "each row should fit 3 tiles");
+        // a fixed set of cards with no Add takes the one shape of every grid: 1 to 3 in a row, 4 as a 2 x 2 square, 5 or more in two rows.)
+        <TileGrid label={label} className={className} threeAcross={threeAcross} columns={threeAcross ? undefined : add ? CARD_LIST_COLUMNS : gridColumns(items.length)}>
             {({ across }) => (
             <>
                 {items.map((item, index) => {
@@ -233,7 +235,7 @@ export default function CardBoxes({
                         />
                     );
                 })}
-                {add && <AddTile label={add.label} disabled={add.disabled} across={across} after={addNext ? items.length : undefined} onAdd={(pointer) => create(pointer)} />}
+                {add && <AddTile label={add.label} disabled={add.disabled} across={across} after={addNext ? items.length : undefined} column={!addNext && !threeAcross ? (items.length % Math.max(across, 1)) + 1 : undefined} onAdd={(pointer) => create(pointer)} />}
             </>
             )}
         </TileGrid>

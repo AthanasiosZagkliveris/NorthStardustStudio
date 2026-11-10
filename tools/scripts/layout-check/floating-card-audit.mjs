@@ -2,12 +2,14 @@
  * THE AUDIT OF A FLOATING CARD OF QUESTIONS (docs/ai/tile-and-card-pattern.md, "A floating card of questions"): the Profile card is the model, and a new card of this kind is run
  * through this before it is called done. It opens the card in the running app (a Vite server on BASE_URL, 1420 by default), in light, sepia and dark and at two widths, and checks:
  *   width and reflow; the one content line; bands, lines and rules from side to side; bands flush; rules (the shared double rule between sections, one line between subsections);
- *   heading levels that never skip; no "None of these" in an option; text 4.5:1 and a control's boundary 3:1 (measured on the pixels); targets of 24px; names; console errors.
+ *   one band pattern, by the colours drawn (under a title band the first band untinted, then the tints alternate, the Notes the next tint); one question per band; heading levels that never skip; no "None of these" in an option; text 4.5:1 and a control's boundary 3:1 (measured on the pixels); targets of 24px; names; console errors.
  *
  *   node tools/scripts/layout-check/floating-card-audit.mjs
  *   CARD_PAGE="1. Foundation" CARD_SYSTEM="Business System" CARD_OPEN="The Considered Nester" EXAMPLE=lumen-and-loom-studio node tools/scripts/layout-check/floating-card-audit.mjs
  *
- * It lists what fails and exits 1 if anything does. It reads the example from src/data/examples.
+ * With no CARD_OPEN or EXAMPLE it audits each card of CARDS in turn: the Considered Nester, a Competitor and an Offering of the Lumen example (src/data/examples), and the Profile of the check-only fixture
+ * fixtures/proxy-tutoring.json (a parent buying tutoring for a child: B2C Proxy), the two-part Profile, whose "The buyer" and "The end user" sections it also requires.
+ * It lists what fails and exits 1 if anything does.
  */
 import { chromium } from "playwright";
 import { PNG } from "playwright-core/lib/utilsBundle";
@@ -16,11 +18,20 @@ import { readFileSync } from "node:fs";
 const BASE = process.env.BASE_URL ?? "http://localhost:1420";
 const SYSTEM = process.env.CARD_SYSTEM ?? "Business System";
 const PAGE = process.env.CARD_PAGE ?? "1. Foundation";
-const OPEN = process.env.CARD_OPEN ?? "The Considered Nester";
-const EXAMPLE = process.env.EXAMPLE ?? "lumen-and-loom-studio";
+/** The cards audited by default: an example's card, then a fixture's (./fixtures, never one of the examples: no test reads it). `parts`: the section headings the card must show. */
+const CARDS = [
+    { open: "The Considered Nester", file: new URL("../../../src/data/examples/lumen-and-loom-studio.json", import.meta.url) },
+    // The Competitor and the Offering cards of the same Segment: the one band pattern holds on every card of the Foundation page.
+    { open: "Independent weavers on Etsy & at craft markets", file: new URL("../../../src/data/examples/lumen-and-loom-studio.json", import.meta.url) },
+    // (The Offering's two sections, owner, 2026-11-09.)
+    { open: "Handwoven Homeware Collection", file: new URL("../../../src/data/examples/lumen-and-loom-studio.json", import.meta.url), parts: ["Description", "Terms & Service"] },
+    { open: "The Worried Working Parent", file: new URL("./fixtures/proxy-tutoring.json", import.meta.url), parts: ["The buyer", "The end user"] }
+];
+const chosen = process.env.CARD_OPEN || process.env.EXAMPLE
+    ? [{ open: process.env.CARD_OPEN ?? "The Considered Nester", file: new URL("../../../src/data/examples/" + (process.env.EXAMPLE ?? "lumen-and-loom-studio") + ".json", import.meta.url) }]
+    : CARDS;
 const RUNS = [["sepia", 1440], ["light", 1440], ["dark", 1440], ["sepia", 520]];
 
-const org = JSON.parse(readFileSync(new URL("../../../src/data/examples/" + EXAMPLE + ".json", import.meta.url), "utf8"));
 const lum = c => { const f = v => { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); }; return 0.2126 * f(c.r) + 0.7152 * f(c.g) + 0.0722 * f(c.b); };
 const ratio = (a, c) => { const x = lum(a), y = lum(c); return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05); };
 
@@ -65,7 +76,33 @@ const structure = () => {
     // a cell beside its label has equal room above and below
     for (const cell of card.querySelectorAll(".business-profile-age")) { const a = cell.getBoundingClientRect(), b = cell.closest(".legal-entity-org-section").getBoundingClientRect(); if (Math.round(a.top - b.top) !== Math.round(b.bottom - a.bottom)) fail("cell room", Math.round(a.top - b.top) + " above, " + Math.round(b.bottom - a.bottom) + " below"); if (Math.abs(a.width - a.height) > 1) fail("cell square", Math.round(a.width) + "x" + Math.round(a.height)); }
     // notes: a band of its own, the next tint, a field gap above
-    for (const n of card.querySelectorAll(".business-note-band")) { if (n.classList.contains("legal-entity-org-band") === n.previousElementSibling.classList.contains("legal-entity-org-band")) fail("notes tint", "same tint as the band above"); if (getComputedStyle(n).paddingTop !== "12px") fail("notes gap", getComputedStyle(n).paddingTop); }
+    for (const n of card.querySelectorAll(".business-note-band")) { if (getComputedStyle(n).paddingTop !== "12px") fail("notes gap", getComputedStyle(n).paddingTop); }
+    // one band pattern, by the colours drawn (not the classes, which a rule can restyle): under a title band (a box's first band, or a section's head) the first band is untinted,
+    // then each band the other tint from the one above it (the Notes included, the next tint)
+    const clear = e => { const c = getComputedStyle(e).backgroundColor; return c === "transparent" || /^rgba\(.*, 0\)$/.test(c) || / \/ 0\)$/.test(c); };
+    for (const run of card.querySelectorAll(".business-segment-box, .business-segment-grid > .legal-entity-field")) {
+        const bands = [...run.children].filter(k => k.classList.contains("legal-entity-org-section") && k.getBoundingClientRect().height > 0);
+        const list = run.classList.contains("business-segment-box") ? bands.slice(1) : bands;
+        const what = e => (e.querySelector(".field-label")?.textContent ?? e.textContent).trim().slice(0, 30);
+        if (list.length && !clear(list[0])) fail("band pattern", "the first band under a title is tinted: " + what(list[0]));
+        for (let i = 1; i < list.length; i++) { if (clear(list[i]) === clear(list[i - 1])) fail("band pattern", "same tint as the band above: " + what(list[i])); }
+        // one question per band: a band holds one question (one labelled field row, the outermost in the band), so the tints alternate question by question
+        for (const band of list) {
+            const questions = [...band.querySelectorAll(".legal-entity-pair, .legal-entity-field")].filter(q => { const up = q.parentElement.closest(".legal-entity-pair, .legal-entity-field"); const label = q.querySelector(".field-label"); return (!up || !band.contains(up)) && label && label.getBoundingClientRect().height > 0; });
+            if (questions.length > 1) fail("one question per band", questions.length + " questions in one band: " + questions.map(q => q.querySelector(".field-label").textContent.trim().slice(0, 30)).join(" | "));
+        }
+    }
+    // the card's end: its last band's colour runs to the card's end (owner, 2026-11-09; cardEndGround.ts): the last band ends at the card's foot, or the card paints its end in that band's colour (data-end-ground).
+    {
+        const body = document.querySelector(".floating-card-body");
+        const bands = [...body.querySelectorAll(".legal-entity-org-section")].filter(b => b.getBoundingClientRect().height > 0);
+        const last = bands.reduce((low, b) => !low || b.getBoundingClientRect().bottom > low.getBoundingClientRect().bottom + 0.5 ? b : low, null);
+        if (last) {
+            const ground = getComputedStyle(last).backgroundColor, tinted = ground !== "transparent" && !ground.replace(/\s/g, "").endsWith(",0)") && !ground.replace(/\s/g, "").endsWith("/0)");
+            const gap = body.getBoundingClientRect().bottom - last.getBoundingClientRect().bottom;
+            if (tinted && gap > 1 && body.dataset.endGround !== ground) fail("card end", "the end shows another colour under the last band (" + Math.round(gap) + "px)");
+        }
+    }
     // words: no "None of these" (an Other the user writes in). (The word "or" is right between two different things, a slash between similar ones: owner, 2026-11-03, docs/ai/tile-and-card-pattern.md, "Options".)
     const words = [...card.querySelectorAll(".radio-choice-option span, .business-foundation-tick-label")].map(e => e.textContent.trim()).filter(w => /None of these/.test(w));
     if (words.length) fail("option words", words.slice(0, 4).join(" | "));
@@ -87,6 +124,9 @@ const collect = () => {
 
 const browser = await chromium.launch();
 let failed = 0;
+for (const { open: OPEN, file, parts = [] } of chosen) {
+const org = JSON.parse(readFileSync(file, "utf8"));
+console.log(org.name + ": " + OPEN);
 for (const [theme, width] of RUNS) {
     const page = await browser.newPage({ viewport: { width, height: 7000 } });
     const errors = []; page.on("console", m => { if (m.type() === "error") errors.push(m.text().slice(0, 100)); });
@@ -100,6 +140,9 @@ for (const [theme, width] of RUNS) {
     for (let r = 0; r < 3; r++) { for (const bt of await page.getByRole("button", { name: /^(Expand all|Maximize)/ }).all()) { try { await bt.click({ timeout: 400 }); } catch {} } await page.waitForTimeout(250); }
     await page.locator("text=" + OPEN).first().evaluate(n => n.click()); await page.waitForTimeout(3500);
     const problems = await page.evaluate(structure);
+    const heads = await page.evaluate(() => [...document.querySelectorAll(".floating-card-body [role=heading]")].map(h => h.textContent.replace(/\s+/g, " ").trim().replace(/i$/, "").trim()));
+    const missing = parts.filter(part => !heads.includes(part));
+    if (missing.length) problems.push("parts [missing: " + missing.join(", ") + "]");
     if (!problems.some(p => p.startsWith("card "))) {
         const { texts, controls } = await page.evaluate(collect);
         const withText = PNG.sync.read(await page.screenshot({ fullPage: true }));
@@ -122,7 +165,9 @@ for (const [theme, width] of RUNS) {
             // a control's boundary: its own line (a box, a list) or its fill, against the ground beside it
             const ground = px(withText, c.x - 4, c.y + c.h / 2);
             const a = c.border.a, line = { r: c.border.r * a + ground.r * (1 - a), g: c.border.g * a + ground.g * (1 - a), b: c.border.b * a + ground.b * (1 - a) };
-            const own = c.bw !== "0px" ? ratio(line, ground) : 0;
+            // (Its edge as drawn: its border, or a shade inside it, read from the screenshot at its top and left edges, the first two pixels in.)
+            const drawn = Math.max(...[0.5, 1.5].flatMap(d => [ratio(px(withText, c.x + d, c.y + c.h / 2), ground), ratio(px(withText, c.x + c.w / 2, c.y + d), px(withText, c.x + c.w / 2, c.y - 4))]));
+            const own = Math.max(c.bw !== "0px" ? ratio(line, ground) : 0, drawn);
             if (own < 3 && !["button"].includes(c.kind)) edges.push(c.kind + " " + c.name + " " + own.toFixed(2));
         }
         if (edges.length) problems.push("control boundary under 3:1 [" + [...new Set(edges)].slice(0, 4).join(" | ") + "]");
@@ -133,6 +178,7 @@ for (const [theme, width] of RUNS) {
     console.log((problems.length ? "FAIL " : "pass ") + theme + " " + width + (problems.length ? ": " + problems.join("; ") : ""));
     failed += problems.length;
     await page.close();
+}
 }
 await browser.close();
 process.exit(failed ? 1 : 0);

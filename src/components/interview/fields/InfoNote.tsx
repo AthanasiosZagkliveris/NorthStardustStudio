@@ -2,7 +2,9 @@ import { Children, ReactNode, useRef, useState } from "react";
 
 import PopupPanel from "../../controls/PopupPanel.tsx";
 
-import type { Source } from "../../../framework/engine/Sources.ts";
+import { SOURCES, harvardCitation, type Source, type SourceId } from "../../../framework/engine/Sources.ts";
+import { useInRouterContext, useLocation, useNavigate } from "react-router-dom";
+import { openWorkbook } from "../../notepad/Notepad.tsx";
 import HarvardReference from "../../references/HarvardReference.tsx";
 
 import TextLink from "./TextLink.tsx";
@@ -154,6 +156,55 @@ export function InfoText({ text, children }: { text: string; children?: ReactNod
  * (see useFloatingPanel). A note that opened under the window edge
  * would be a note nobody reads.
  */
+/** The references a "Based on:" line names in words, by the phrase that names them: each a link to the References (owner, 2026-11-10). */
+const BASED_ON_SOURCES: readonly { phrase: string; id: SourceId }[] = [
+    { phrase: "Moore's positioning template", id: "positioningTemplate" },
+    // (Every work a "Based on:" line names, each in the References: owner, 2026-11-10, "Yes".)
+    { phrase: "Elements of Value (HBR, 2016", id: "elementsOfValue" },
+    { phrase: "2016 and 2018", id: "b2bElementsOfValue" },
+    { phrase: "Value Proposition Design", id: "valuePropositionDesign" },
+    { phrase: "Value Proposition Canvas", id: "valuePropositionDesign" },
+    { phrase: "Kotler and Keller", id: "marketingManagement" },
+    { phrase: "ONS, Census 2021", id: "householdComposition" },
+    { phrase: "ISCO-08", id: "isco08" },
+    { phrase: "Consumer Contracts Regulations 2013", id: "ukConsumerContracts" },
+    { phrase: "Consumer Rights Directive 2011/83/EU", id: "euConsumerRights" },
+    { phrase: "FTC Cooling-Off Rule", id: "ftcCoolingOff" },
+    { phrase: "Ontario's Consumer Protection Act", id: "ontarioConsumerProtection" },
+    { phrase: "Australian Consumer Law", id: "acccDoorToDoor" },
+    { phrase: "Fair Trading Act 1986", id: "nzUninvitedSales" }
+];
+
+/** The id of a reference in the app's list, or none. */
+function sourceIdOf(source: Source): SourceId | undefined {
+    return (Object.keys(SOURCES) as SourceId[]).find(id => SOURCES[id] === source);
+}
+
+/**
+ * A REFERENCE IN AN "i" LINKS TO THE REFERENCES (owner, 2026-11-10: "When placing a reference in the i, it should be linked to the references table"):
+ * "In the References" opens the Workbook's References at it. Drawn only inside the app's pages (a router), never in a document or a test with none.
+ */
+function ReferencesLink({ id, cite = false }: { id: SourceId; cite?: boolean }) {
+    if (!useInRouterContext()) {
+        return null;
+    }
+    return <ReferencesLinkInRouter id={id} cite={cite} />;
+}
+
+/** (A "Based on:" line in words names its work by its citation in the link, so two works on one line are told apart.) */
+function ReferencesLinkInRouter({ id, cite }: { id: SourceId; cite: boolean }) {
+    const navigate = useNavigate();
+    const location = useLocation();
+    return (
+        <>
+            {" "}
+            <TextLink className="info-note-reference-link" onClick={() => openWorkbook(navigate, location, { tab: "references", term: id })}>
+                {"In the References" + (cite ? " " + harvardCitation(SOURCES[id]) : "")}
+            </TextLink>
+        </>
+    );
+}
+
 export default function InfoNote({
     label, points, fullList, asReference, size = "standard"
 }: InfoNoteProps) {
@@ -208,7 +259,12 @@ export default function InfoNote({
                             >
                                 {shown.map(point => (
                                     typeof point === "string"
-                                        ? <li key={point}>{point}</li>
+                                        ? (
+                                            <li key={point}>
+                                                {point}
+                                                {point.startsWith("Based on:") && [...new Set(BASED_ON_SOURCES.filter(entry => point.includes(entry.phrase)).map(entry => entry.id))].map(id => <ReferencesLink key={id} id={id} cite />)}
+                                            </li>
+                                        )
                                         : "source" in point
                                         ? (
                                             /* A citation: the title names
@@ -223,6 +279,7 @@ export default function InfoNote({
                                                 </strong>
                                                 {" "}
                                                 <HarvardReference source={point.source} />
+                                                {sourceIdOf(point.source) && <ReferencesLink id={sourceIdOf(point.source) as SourceId} />}
                                             </li>
                                         )
                                         : asReference

@@ -1,4 +1,6 @@
 import { systems } from "../../data/systems";
+import { PAGE_GROUPS, groupOf } from "../../framework/engine/PageGroups";
+import { land } from "../interview/tiles/jumpTo";
 import { frameworkRegistry } from "../../framework/engine/FrameworkRegistry";
 import { registeredFields, parseFieldKey } from "../../framework/engine/FieldKeys";
 import { OrganizationService } from "../../services/OrganizationService";
@@ -126,6 +128,114 @@ type Navigate = (to: string, options?: { state?: unknown }) => void;
  * open, then opens the System, the page, or the field (openField:
  * unfolded, scrolled to, focused and highlighted).
  */
+/** A page in words, as a place is said in the app ("3. Business System → 1. Foundation"): the Glossary's "In the app". */
+export function pagePlace(systemNumber: number, sectionNumber: number): string {
+    const system = systems.find(candidate => candidate.number === systemNumber);
+    // (A page that groups sections is said by its group's title and its place among the System's pages: "1. Definition and Purpose", "2. Legal Entity".)
+    const group = groupOf(systemNumber, sectionNumber);
+    if (group) {
+        const index = PAGE_GROUPS.filter(entry => entry.systemNumber === systemNumber).indexOf(group) + 1;
+        return systemTitle(systemNumber) + " → " + index + ". " + group.title;
+    }
+    let title = "";
+    try {
+        title = system && frameworkRegistry.exists(system.id) ? frameworkRegistry.getFramework(system.id).sections.find(section => section.number === sectionNumber)?.title ?? "" : "";
+    } catch {
+        title = "";
+    }
+    // (A title's date placeholder, "MM/YY - MM/YY", is the page's own period, never part of its name.)
+    return systemTitle(systemNumber) + " → " + sectionNumber + ". " + title.replace(/\s+MM\/YY.*$/, "");
+}
+
+/*
+ * LANDING ON A PART (owner, 2026-11-10, 18:25: "Check the link reaction on the Note tool, they act slow and not properly. Make a deeper fix in the code"):
+ * a link no longer waits fixed times (900 ms, then 700 ms) and hopes the page is ready. It waits FOR what it needs -- the page's tile, then the field in
+ * its dialog -- checking every 40 ms, so it lands as soon as the part is drawn and still lands on a slow page (up to 5 s). A dialog of another tile is
+ * closed first, so its tile can be pressed; a part already on screen is brought into view at once.
+ */
+const POLL_MS = 40;
+const GIVE_UP_MS = 5000;
+
+/** What `find` returns, once it returns something (null after the time given). */
+function waitFor<T>(find: () => T | null | undefined, timeout = GIVE_UP_MS): Promise<T | null> {
+    const started = Date.now();
+    return new Promise(resolve => {
+        const look = () => {
+            const found = find();
+            if (found) {
+                resolve(found);
+            } else if (Date.now() - started > timeout) {
+                resolve(null);
+            } else {
+                window.setTimeout(look, POLL_MS);
+            }
+        };
+        look();
+    });
+}
+
+/** One step for the router to take the new page (its old one leaves the document). */
+const afterNavigation = () => new Promise<void>(resolve => window.setTimeout(resolve, POLL_MS));
+
+/** A page tile's dialog open, and no other: the tile pressed once the dialog of another tile has closed. */
+async function openTileDialog(tile: HTMLElement): Promise<void> {
+    const id = tile.dataset.tile ?? "";
+    if (document.querySelector(".section-tile-dialog[data-tile=\"" + CSS.escape(id) + "\"]")) {
+        return;
+    }
+    if (document.querySelector(".section-tile-dialog, .floating-card-host")) {
+        document.dispatchEvent(new CustomEvent("section-tiles:close"));
+        await waitFor(() => document.querySelector(".section-tile-dialog, .floating-card-host") ? null : true, 1500);
+    }
+    tile.click();
+    await waitFor(() => document.querySelector(".section-tile-dialog"), 2000);
+}
+
+/** The field asked for, by its key: the part itself, never the page tile or the slot that carries the same key. */
+function fieldByKey(key: string): HTMLElement | null {
+    return [...document.querySelectorAll<HTMLElement>("[data-field-key]")].find(element => element.dataset.fieldKey === key && !element.matches("button.section-tile, .section-tile-slot")) ?? null;
+}
+
+/** A part drawn by its children (no box of its own, as a question's pair): its first child shows instead. */
+function shownBox(element: HTMLElement): HTMLElement {
+    return getComputedStyle(element).display === "contents" && element.firstElementChild instanceof HTMLElement ? element.firstElementChild : element;
+}
+
+/** A Note's link lands: into view, lit in the Notes' own orange for a moment. */
+function lightNoted(field: HTMLElement) {
+    const box = field.matches(".is-noted") ? field : field.querySelector<HTMLElement>(".is-noted") ?? shownBox(field);
+    box.scrollIntoView({ block: "center" });
+    box.classList.add("is-noted-hot");
+    window.setTimeout(() => box.classList.remove("is-noted-hot"), 1800);
+}
+
+/**
+ * Opens a page of the open Organisation and, there, the part a Glossary term names (owner, 2026-11-10: "Clicking on it should direct the user to that
+ * specific field"): the tile it is in (its dialog opens) and the field, brought into view and framed as a jump lands (`land`, jumpTo.ts).
+ */
+export function openPage(navigate: Navigate, systemNumber: number, pageNumber: number, target: { tile?: string; field?: string; has?: string } = {}): void {
+    openLink(navigate, { id: "page", organizationId: OrganizationService.getSelected() ?? "", kind: "page", systemNumber, sectionNumber: pageNumber, label: "", place: "" });
+    if (!target.tile && !target.field) {
+        return;
+    }
+    void (async () => {
+        await afterNavigation();
+        const tile = target.tile ? await waitFor(() => document.querySelector<HTMLElement>(target.tile as string)) : null;
+        if (tile) {
+            await openTileDialog(tile);
+        }
+        // (The field asked for, as long as a page takes to draw; or, in the dialog, the small tile that names it: the VAT among the Registrations.)
+        const field = target.field ? await waitFor(() => document.querySelector<HTMLElement>(target.field as string)) : null;
+        const line = !field && target.has ? [...document.querySelectorAll<HTMLElement>(".section-tile-dialog .section-tile-list-line, .section-tile-dialog .section-tile-title")].find(text => (text.textContent ?? "").includes(target.has as string)) ?? null : null;
+        const slot = line ? line.closest<HTMLElement>(".section-tile-slot") : null;
+        const named = slot ? slot.querySelector<HTMLElement>("button.section-tile") ?? slot : line;
+        const shown = field ?? named ?? (tile ? document.querySelector<HTMLElement>(".section-tile-dialog") : null);
+        if (shown) {
+            land(shown);
+        }
+    })();
+}
+
 export function openLink(navigate: Navigate, link: NoteLink): void {
 
     if (OrganizationService.getSelected() !== link.organizationId) {
@@ -143,6 +253,34 @@ export function openLink(navigate: Navigate, link: NoteLink): void {
         if (location) {
             navigate(location.pathname, { state: location.state });
         }
+        // A PAGE'S TILE APPEARS: a link to a tile opens it, as a press on it does (owner, 2026-11-10: "when clicking on a note's link, the related part
+        // should appear"), once the page has drawn it.
+        // A FIELD IN A TILE'S DIALOG APPEARS TOO: its tile is opened, then the field is brought into view and lit for a moment (owner, 2026-11-10: "The links
+        // in the Note window do not work properly").
+        const key = link.key;
+        const tileId = link.tile;
+        void (async () => {
+            await afterNavigation();
+            // (Already on screen: lit at once.)
+            const here = fieldByKey(key);
+            if (here && shownBox(here).getClientRects().length > 0) {
+                lightNoted(here);
+                return;
+            }
+            const tile = await waitFor(() => document.querySelector<HTMLElement>("button.section-tile[data-field-key=\"" + CSS.escape(key) + "\"]")
+                ?? (tileId ? document.querySelector<HTMLElement>("button.section-tile[data-tile=\"" + CSS.escape(tileId) + "\"]") : null)
+                ?? fieldByKey(key));
+            if (!tile) {
+                return;
+            }
+            if (tile.matches("button.section-tile")) {
+                await openTileDialog(tile);
+            }
+            const field = await waitFor(() => fieldByKey(key), 2500);
+            if (field) {
+                lightNoted(field);
+            }
+        })();
         return;
     }
 
@@ -159,13 +297,34 @@ export function openLink(navigate: Navigate, link: NoteLink): void {
  * page's tiles once they have drawn (the tiles' open event,
  * SectionTiles.tsx, OPEN_EVENT: the same string, so this file need not
  * import the tiles). The Card notes and the Glossary's own terms open
- * their cards this way.
+ * their cards this way. The page's tiles answer once they are drawn,
+ * so the request is made again every 40 ms until the card floats
+ * (up to 5 s), never after a fixed wait.
  */
-export function openCard(navigate: Navigate, organizationId: string, systemNumber: number, sectionNumber: number, cardId: string): void {
+export function openCard(navigate: Navigate, organizationId: string, systemNumber: number, sectionNumber: number, cardId: string, fieldEnd?: string): void {
     openLink(navigate, { id: cardId, organizationId, kind: "page", systemNumber, sectionNumber, label: "", place: "" });
-    if (cardId) {
-        window.setTimeout(() => document.dispatchEvent(new CustomEvent("section-tiles:open", { detail: { card: cardId } })), 900);
+    if (!cardId) {
+        return;
     }
+    void (async () => {
+        await afterNavigation();
+        const card = await waitFor(() => {
+            document.dispatchEvent(new CustomEvent("section-tiles:open", { detail: { card: cardId } }));
+            return document.querySelector(".floating-card-host");
+        });
+        // (A Glossary term's own field on the card, framed where it stands: owner, 2026-11-10, "The links on the Glossary open the related card, but they do
+        // not frame the specific part".)
+        if (card && fieldEnd) {
+            const field = await waitFor(() => [...document.querySelectorAll<HTMLElement>(".floating-card-host [data-field-key]")].find(element => (element.dataset.fieldKey ?? "").endsWith("/" + fieldEnd)), 2500);
+            if (field) {
+                (getComputedStyle(field).display === "contents" ? field.parentElement ?? field : field).scrollIntoView({ block: "center" });
+                land(field);
+            } else {
+                // (The card does not show the field now, as a card of another status: the card itself is framed.)
+                land(card.querySelector<HTMLElement>(".floating-card-body") ?? (card as HTMLElement));
+            }
+        }
+    })();
 }
 
 /** "registration-number" as words: "Registration Number". */

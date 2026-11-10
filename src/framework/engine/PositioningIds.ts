@@ -13,21 +13,46 @@ export const BUYER_CATEGORY_KEYS = ["direct", "proxy", "dual"] as const;
 /** The audience: the scales of a business buyer and the life stages of a consumer buyer (the Proxy Buyers option is now the buyer's category). */
 export const AUDIENCE_IDS = ["solo", "smb", "mid", "enterprise", "young", "adult", "senior"] as const;
 
-/** The differentiation: what the OFFERING does differently from the competitors (it was the first half of "Differentiation & Outcome"; an older answer's outcome is the differentiation). */
-export const DIFFERENTIATION_IDS = ["cost", "convenience", "compliance", "premium", "performance", "ecosystem"] as const;
+/**
+ * The differentiation: what the OFFERING does differently from the competitors (it was the first half of "Differentiation & Outcome"; an older answer's outcome is the differentiation).
+ * Asked on the Business System since 2026-11-08, once per Segment after its Competitors (doc 41, K14); the Positioning answer saved before (`organisation.differentiation`) is its start.
+ */
+export const DIFFERENTIATION_IDS = ["cost", "convenience", "compliance", "premium", "performance", "ecosystem", "personal"] as const;
 
-/** The outcome for the buyer: the measurable result the buyer gets. */
+/** The outcome for the buyer: the measurable result the buyer gets. No longer asked (2026-11-08): the Offering's O4 owns it, and a saved answer starts O4 (doc 34, 5.2a). */
 export const OUTCOME_IDS = ["savings", "time", "assurance", "prestige"] as const;
 
-/** The outcome for the user, asked when the buyer is a Proxy or Dual-Intent Buyer (the buyer and the user want different things): what matters most to the user. */
+/**
+ * The outcome for the user, asked when the buyer is a Proxy or Dual-Intent Buyer (the buyer and the user want different things): what matters most to the user. Asked on the Segment's
+ * End user part since 2026-11-08 (doc 35, End user, 9); the Positioning answer saved before (`organisation.outcomeUser`) is its start.
+ */
 export const USER_OUTCOME_IDS = ["enjoy", "comfort", "safety", "learning", "belong", "practical"] as const;
+
+/**
+ * HOW MANY CHOICES EACH QUESTION OF EARLY POSITIONING ALLOWS follows the business stage (design document 28, 8.2, the owner's matrix): the earlier the business, the narrower the focus.
+ * Planning (and no stage yet): one everywhere. Launching: one, except two in the outcome. Managing: two in each. Growing: free (null). The Differentiation and the end user's outcome keep
+ * the outcome's limit where they are asked now (the Segment, 2026-11-08).
+ */
+export type PositioningQuestion = "relationship" | "audience" | "outcome";
+export function choiceLimit(stage: string, question: PositioningQuestion): number | null {
+    if (stage === "grow") {
+        return null;
+    }
+    if (stage === "manage") {
+        return 2;
+    }
+    if (stage === "launch") {
+        return question === "outcome" ? 2 : 1;
+    }
+    return 1;
+}
 
 /** The twelve purposes of an offering (document 31, section 7). */
 export const PURPOSE_IDS = ["learning", "health", "gifting", "entertainment", "social", "productivity", "growth", "creation", "everyday", "protection", "compliance", "access"] as const;
 
 /** The buyer and user relationships (document 31, 6.1 and 6.2), saved in the End User answers. */
 export const RELATION_IDS_B2C = ["rel:parent", "rel:caregiver", "rel:family", "rel:partner", "rel:friend", "rel:commercial", "rel:otherpersonal"] as const;
-export const RELATION_IDS_B2B = ["rel:employer", "rel:copartner", "rel:serving", "rel:intermediary", "rel:sponsor", "rel:otherbusiness"] as const;
+export const RELATION_IDS_B2B = ["rel:employer", "rel:copartner", "rel:serving", "rel:intermediary", "rel:sponsor", "rel:institution", "rel:otherbusiness"] as const;
 
 /** The user's life stage (a consumer buyer's Proxy and Dual-Intent buyers), saved in the End User answers. */
 export const USER_AGE_IDS = ["age:minor", "age:young", "age:adult", "age:senior"] as const;

@@ -384,7 +384,8 @@
             for (const cell of cells) {
                 const control = cell.matches(CONTROL) ? cell : cell.querySelector(CONTROL);
                 // A cell that is a row of its own (the VAT tick and its number, a list of numbers) is checked as one.
-                if (!control || !visible(control) || cell.classList.contains("business-field-inline") || cell.classList.contains("business-field-side") || cell.classList.contains("legal-entity-field-side") || cell.matches(".business-capability-cost-after:has(> .business-field-side), .legal-entity-tax-row, .legal-entity-registrations, .legal-entity-field-wide:has(.legal-entity-number-row), .legal-entity-field:has(> .numbered-list), .legal-entity-side-row, .founders-profile-row")) {
+                // (The right column of a grid of bands, the Positioning's and the Organisation's, starts its controls 12px after the middle divider, inside its own padding; a Legal card's row is a band from the card's side, its control inside its padding: declared, 2026-11-09.)
+                if (!control || !visible(control) || cell.classList.contains("business-field-inline") || cell.classList.contains("business-field-side") || cell.classList.contains("legal-entity-field-side") || cell.matches(".business-capability-cost-after:has(> .business-field-side), .legal-entity-tax-row, .legal-entity-registrations, .legal-entity-field-wide:has(.legal-entity-number-row), .legal-entity-field:has(> .numbered-list), .legal-entity-side-row, .founders-profile-row, .legal-entity-audience > .legal-entity-field + .legal-entity-field, .legal-entity-grid-requirement > *, .legal-entity-grid-expense-card > .legal-entity-field-wide, .founders-profile .founder-band")) {
                     continue;
                 }
                 // DECLARED (docs/ai/tile-and-card-pattern.md, "Text holders and side cells"): in a box of bands (the Segment and Profile cards) a label with its cell beside it has the cell at the right end of the band, level with the label; `npm run check:card` measures it.
@@ -791,7 +792,9 @@
                     // DECLARED (docs/ai/tile-and-card-pattern.md, "Three levels" and "Flush"): a box of bands (the Segment and Profile cards) stacks its questions as bands that follow each other with no gap, each with its own padding, not as fields a row gap apart; `npm run check:card` measures those bands.
                     // (The Profile's Needs are bands of the same grid, outside a box: since their Emotional and Social notes became the shared Notes,
                     // 2026-11-05, a box's text stands over the next band's question as in every box.)
-                    if (item.element.closest(".business-segment-box, .business-segment-grid-single .legal-entity-org-section")) {
+                    // (The Value Proposition's bands, 2026-11-09: a section of bands straight in its full-width grid, as the Needs are in theirs.)
+                    // (The Organisation's and the Positioning's bands, 2026-11-09: their fields and questions are bands of their columns; so are the rows of a Legal card and the fields of a founder's card in its dialog.)
+                    if (item.element.closest(".business-segment-box, .business-segment-grid-single .legal-entity-org-section, .business-segment-grid-full > .legal-entity-field > .legal-entity-org-section, .business-proposition-needs > .legal-entity-field > .legal-entity-org-section, .legal-entity-audience > .legal-entity-field .legal-entity-org-section, .floating-card-body .legal-entity-grid-requirement > *, .floating-card-body .legal-entity-grid-expense-card > *, .column-tile-content .founders-profile .founder-band")) {
                         continue;
                     }
                     // What stands directly above it, in its column, in the same card.
@@ -985,6 +988,69 @@
                 if (!rules.near(gap, spec.fieldGap, 0.5)) {
                     fail("action buttons a cell gap apart", actions, { gap, expected: spec.fieldGap });
                 }
+            }
+        }
+
+        // 16. FOCUS MODE NEVER NARROWS THE PAGE (owner, 2026-11-09: "the focus mode has smaller tiles / interface than the regular mode"):
+        //     the page's card measured with and without html.focus-mode; in focus it is at least as wide.
+        {
+            const card = document.querySelector(".conversation-card");
+            const html = document.documentElement;
+            if (card && visible(card)) {
+                const was = html.classList.contains("focus-mode");
+                // (The page's scroll is kept: the header's band goes in focus, and the window must not move under the checks after this one.)
+                const scrolled = [window.scrollX, window.scrollY];
+                html.classList.remove("focus-mode");
+                const regular = card.getBoundingClientRect().width;
+                html.classList.add("focus-mode");
+                const focused = card.getBoundingClientRect().width;
+                html.classList.toggle("focus-mode", was);
+                card.getBoundingClientRect();
+                window.scrollTo(scrolled[0], scrolled[1]);
+                if (focused + 0.5 < regular) {
+                    fail("focus mode keeps the page at least as wide as the regular view", card, { regular, focused });
+                }
+            }
+        }
+
+        // 16d. EVERY TILE IS A SQUARE, AT EVERY WIDTH (docs/ai/layout-rules.md, section 23; owner, 2026-11-09: "Does not matter the screen's width, the tiles
+        //      should always be squares"): a master tile on a page, a sub tile, a card tile and an add box inside a dialog; width equals height within 1px.
+        //      (The Inventory and Completed row's rectangles are no tiles of a grid: section 12.)
+        for (const tile of [...document.querySelectorAll(".section-tile")].filter(visible)) {
+            if (tile.closest(".section-tiles-completed")) continue;
+            // (The Strategic Period's Roadmap draws its Objectives as timeline bars, as long as their period: the decided exception, Thanos, 2026-11-09: they stay timeline bars.)
+            if (tile.closest(".strategy-period-roadmap")) continue;
+            if (Math.abs(tile.offsetWidth - tile.offsetHeight) > 1) {
+                fail("every tile is a square, at every width", tile, { width: tile.offsetWidth, height: tile.offsetHeight });
+            }
+        }
+
+        // 16c. THE ARROWS NEVER MOVE, AND THE TAB'S LIST FLOWS ROUND THEM (docs/ai/layout-rules.md, section 10, "Carousel arrows" and "Page tab"): the two arrows
+        //      stand level with each other, and no line of the page tab lies under an arrow (the line that would reach it continues after it).
+        {
+            const arrows = [...document.querySelectorAll(".page-arrow.carousel-arrow")].filter(visible).filter(arrow => getComputedStyle(arrow).display !== "none");
+            if (arrows.length === 2 && Math.abs(rect(arrows[0]).top - rect(arrows[1]).top) > 1) {
+                fail("the two carousel arrows stand level, at the middle of their layer", arrows[0], { tops: arrows.map(arrow => rect(arrow).top) });
+            }
+            for (const arrow of arrows) {
+                const a = rect(arrow);
+                for (const line of [...document.querySelectorAll(".carousel-rail-tab .bullet-rail-list > li, .carousel-rail-tab .carousel-rail-back")].filter(visible)) {
+                    const l = rect(line);
+                    if (l.left < a.right && l.right > a.left && l.top < a.bottom && l.bottom > a.top) {
+                        fail("no line of the page tab lies under a carousel arrow (it continues after it)", line, { line: [l.left, l.top, l.right, l.bottom], arrow: [a.left, a.top, a.right, a.bottom] });
+                    }
+                }
+            }
+        }
+
+        // 16b. THE CAROUSEL ARROWS ARE NEVER COVERED (owner, 2026-11-09: "Where is the left arrow?"): each arrow of the layer opened last is
+        //      the topmost thing at its own centre -- not under the page tab (.carousel-rail), however long its list.
+        for (const arrow of [...document.querySelectorAll(".page-arrow.carousel-arrow")].filter(visible)) {
+            if (getComputedStyle(arrow).display === "none" || getComputedStyle(arrow).visibility === "hidden") continue;
+            const box = rect(arrow);
+            const top = document.elementFromPoint(box.left + box.width / 2, box.top + box.height / 2);
+            if (top && top !== arrow && !arrow.contains(top)) {
+                fail("a carousel arrow is never covered", arrow, { direction: arrow.getAttribute("data-direction"), covering: (top.className && top.className.baseVal !== undefined ? top.className.baseVal : top.className) || top.tagName });
             }
         }
 
@@ -1307,6 +1373,33 @@
             }
         }
 
+        // 17a. MASTER TILES NEVER CHANGE THEIR SIZES, AND LAYOUT (owner, 2026-11-09; layout rules, section 23): on a page, every
+        //      master tile of every chapter (the tiles of a .section-tiles-quad: four, three in the 2 x 2 with its fourth place
+        //      empty, two large ones) has one and the same side, min((the box's width - the gap) / 2, its --quad-max-side).
+        {
+            const masters = [...document.querySelectorAll(".section-tiles-quad")]
+                .filter(quad => !quad.closest(".section-tile-dialog, .floating-card-host") && visible(quad));
+            const sides = [];
+            for (const quad of masters) {
+                const style = getComputedStyle(quad);
+                const gap = parseFloat(style.getPropertyValue("--space-card")) || spec.fieldGap;
+                const most = parseFloat(style.getPropertyValue("--quad-max-side")) || Infinity;
+                const inner = quad.clientWidth - (parseFloat(style.paddingLeft) || 0) - (parseFloat(style.paddingRight) || 0);
+                const wanted = Math.min((inner - gap) / 2, most);
+                for (const tile of [...quad.querySelectorAll(".section-tile[data-tile]")].filter(visible)) {
+                    // (offsetWidth: the tile under the pointer is grown on hover, and a rect would read that.)
+                    const side = tile.offsetWidth;
+                    sides.push(side);
+                    if (!rules.near(side, wanted, 1.5)) {
+                        fail("a chapter's master tiles are min((the box's width - the gap) / 2, --quad-max-side) a side, whatever their number", tile, { side, wanted });
+                    }
+                }
+            }
+            if (sides.length > 1 && Math.max(...sides) - Math.min(...sides) > 1.5) {
+                fail("every master tile of every chapter of a page has one side", masters[0], { sides: [...new Set(sides)] });
+            }
+        }
+
         // 17. SECTION TILES (docs/ai/layout-rules.md, "Section tiles and dialog"): every
         //     tile is a true square of the one size -- a third of its group's width less the
         //     two gaps (--section-tile-size, never under --section-tile-min), so three across
@@ -1397,9 +1490,11 @@
                         fail("a section tile's title is centred across its square", tile, { aside });
                     }
                     // THE TITLE'S FIRST LINE STANDS 24px FROM THE SQUARE'S TOP (+ the tile's 1px edge) on every tile of every size (docs/ai/tile-and-card-pattern.md): a title of two lines keeps its first line there.
+                    // (A dialog's small tiles have it 12px from the top, so four lines of the list fit above the tile's foot: owner, 2026-11-09.)
                     const firstFromTop = titleBox.top - box.top;
-                    if (Math.abs(firstFromTop - 25) > 2.5) {
-                        fail("a tile's title has its first line 24px from the top of the square (whatever the number of lines)", tile, { firstFromTop, wanted: 25, tile: box.height });
+                    const wantedTop = tile.closest(".section-tile-dialog") ? 13 : 25;
+                    if (Math.abs(firstFromTop - wantedTop) > 2.5) {
+                        fail("a tile's title has its first line 24px from the top of the square (12px on a dialog's small tile), whatever the number of lines", tile, { firstFromTop, wanted: wantedTop, tile: box.height });
                     }
                     if (titleBox.top - box.top < 12 - tolerance - 1) {
                         fail("a tile's title is 12px or more from the top of the square", tile, { fromTop: titleBox.top - box.top });
@@ -1571,8 +1666,16 @@
                 // (The tile of every dialog is the one a page card of three across would have; the four tiles of a page card are scaled up from it.)
                 const quadBox = pageTile ? pageTile.closest(".section-tiles-quad") : null;
                 const side = quadBox ? Math.floor((quadBox.clientWidth - 2 * spec.fieldGap) / 3 - 0.01) : pageTile ? pageTile.offsetWidth : (boxes.length > 0 ? boxes[0].offsetWidth : null);
+                // (The Inventory's tiles fill their row to the last pixel, its last tile 12px before the bar (owner, 2026-11-10): squares of the page tile's side
+                // or a little more, never more than one tile and gap shared across the row.)
+                const fills = !!grid.closest(".capability-overview-scroll");
                 for (const box of boxes) {
-                    if (side !== null && (!rules.near(rect(box).width, side, tolerance) || !rules.near(rect(box).height, side, tolerance))) {
+                    if (fills && side !== null) {
+                        const w = rect(box).width;
+                        if (!rules.near(w, rect(box).height, tolerance) || w < side - tolerance || w > side + (side + spec.fieldGap) / Math.max(1, Math.floor((grid.clientWidth + spec.fieldGap) / (side + spec.fieldGap))) + tolerance) {
+                            fail("card tiles are squares of the page tile's side", box, { width: w, height: rect(box).height, side, fills });
+                        }
+                    } else if (side !== null && (!rules.near(rect(box).width, side, tolerance) || !rules.near(rect(box).height, side, tolerance))) {
                         fail("card tiles are squares of the page tile's side", box, { width: rect(box).width, height: rect(box).height, side });
                     }
                     const title = box.querySelector(".section-tile-title");
@@ -1605,6 +1708,22 @@
                     // (A grid may end with several add boxes: Resources has "Add Resource" and "Add Workspace".)
                     if (all.indexOf(add) !== all.length - adds.length) {
                         fail("the add box comes after the last card tile", add, {});
+                    }
+                    // A LIST OF CARDS ONE ADDS TO (layout-rules, "Tile grids"; owner, 2026-11-09): three in a row, the add box in the next free place,
+                    // where the grid is wide enough for three at the tile size (a narrower dialog wraps to fewer).
+                    if (boxes.length > 0 && !grid.closest(".strategy-goal-box")) {
+                        const placedAll = [...boxes, add].map(rect);
+                        const across = rules.distinct(placedAll.map(tile => Math.round(tile.left))).length;
+                        const wanted = Math.min(3, placedAll.length);
+                        const fits = wanted * placedAll[0].width + (wanted - 1) * spec.fieldGap <= rect(grid).width + 1;
+                        if (fits && across !== wanted) {
+                            fail("a list of cards with an add box is three in a row", grid, { across, wanted, n: boxes.length });
+                        }
+                        const last = rect(boxes[boxes.length - 1]);
+                        const next = boxes.length % 3 === 0 ? null : last.right + spec.fieldGap;
+                        if (fits && next !== null && (!rules.near(a.left, next, tolerance + 1) || !rules.near(a.top, last.top, tolerance + 1))) {
+                            fail("the add box of a list of cards takes the next free place", add, { left: a.left, top: a.top, expected: [next, last.top] });
+                        }
                     }
                     if (!/^Add [A-Z]/.test(add.getAttribute("aria-label") || "")) {
                         fail("the add box is named 'Add <Item>' (title case)", add, { label: add.getAttribute("aria-label") });
@@ -2684,6 +2803,20 @@
             }
         }
 
+        // 21. ONE QUESTION PER BAND (docs/ai/tile-and-card-pattern.md, "One band pattern"): in a box of bands (the Foundation page's cards and dialogs, on the page or in a dialog) each band
+        // holds one question -- one labelled field row, the outermost in the band -- so the tints alternate question by question. `npm run check:card` measures it on the floating cards too.
+        for (const band of [...document.querySelectorAll(".business-segment-box > .legal-entity-org-section, .business-segment-grid > .legal-entity-field > .legal-entity-org-section")].filter(visible)) {
+            const questions = [...band.querySelectorAll(".legal-entity-pair, .legal-entity-field")].filter(row => {
+                const up = row.parentElement.closest(".legal-entity-pair, .legal-entity-field");
+                // (A field row can be display: contents, no box of its own: its label is what is measured.)
+                const label = row.querySelector(".field-label");
+                return (!up || !band.contains(up)) && label && visible(label);
+            });
+            if (questions.length > 1) {
+                fail("a band holds one question", band, { questions: questions.map(row => row.querySelector(".field-label").textContent.trim().slice(0, 30)) });
+            }
+        }
+
         // A remove x never lies on a cell, and keeps 12px from the cell beside it (it stands in the x column): no text box, picker or text area of the same card overlaps it
         // or ends less than 12px before it on its row.
         for (const remove of [...document.querySelectorAll(".strategy-box-remove, .card-remove")].filter(visible)) {
@@ -2736,6 +2869,28 @@
             root.__layoutProbe.openSide = tile.getBoundingClientRect().width;
             tile.click();
             await pause(settle);
+            // WAIT FOR WHAT OPENS, THEN RETRY ONCE (2026-11-09): a faded tile (a channel the Segment does not use yet) makes its channel and opens the new card
+            // only after a timer, and on a busy page the dialog's or card's transition can outlast the settle, so the check failed "no dialog" on a different
+            // tile from run to run (Quillfield's Customer Engagement). It waits up to 1.5s for a dialog or a floating card; if neither came, it presses the
+            // tile once more (found again by its title: the press may have redrawn the tiles) and waits again; then the transition is given its settle.
+            const openedNow = () => !!(document.querySelector(".section-tile-dialog") || document.querySelector(".floating-card-host"));
+            const waitOpened = async (limit) => {
+                for (let waited = 0; waited < limit && !openedNow(); waited += 50) {
+                    await pause(50);
+                }
+                return openedNow();
+            };
+            if (!openedNow()) {
+                if (!(await waitOpened(1500))) {
+                    const again = [...document.querySelectorAll(".section-tile")].filter(visible)
+                        .find(other => (other.querySelector(".section-tile-title") || other).textContent.trim().replace(/ /g, " ") === title) ?? (tile.isConnected ? tile : null);
+                    if (again) {
+                        again.click();
+                        await waitOpened(1500);
+                    }
+                }
+                await pause(settle);
+            }
             stats.dialogs++;
             const dialog = document.querySelector(".section-tile-dialog");
             // A TILE THAT HOLDS ONE CARD (or none: a blank one is made) opens that card ALONE, floating on its section part (the Workspace: its form, over its

@@ -475,7 +475,7 @@
 
     z-index:20;
 
-    margin-top:4px;
+    margin-top:6px;
 
     display:flex;
 
@@ -485,12 +485,14 @@
 
     padding:4px;
 
-    border:1px solid var(--box-border);
+    /* THE ONE DROPDOWN CARD (layout rules, "The dropdown list"; owner, 2026-11-10: "Everything should be consistent"): the option list's card --
+       no stroke, the boxes' inset light and shade, its drop shadow, 6px under its button -- for every menu a button opens (a sort, Export). */
+    border:0;
     border-radius:var(--radius-lg);
 
     background:var(--bg-surface);
 
-    box-shadow:0 8px 24px var(--shadow-ink-18);
+    box-shadow:var(--box-inset), var(--shadow-menu);
 
 }
 
@@ -869,14 +871,20 @@
    the one it happens to follow. Same order and the same two rows as
    before; only the spacing changed.
 
-   Each pair carries its own two-track grid at a fixed label
-   width, which is what keeps the four controls the same width
-   and in the same two columns.
+   The two columns are sized by their content (owner, 2026-11-09):
+   each is at least as wide as its widest picker needs for its
+   longest option (Frequency's "Semiannually"; the Unit's
+   "Percentage", with the currency picker beside a Currency Unit),
+   and what the row has over is shared between the two. The number
+   cells under them ask nothing of the columns (their fields fill
+   what the pickers leave), so a figure never widens a column at a
+   picker's cost. Where the row is narrower than the pickers need,
+   the columns give way from equal shares, as before.
 ========================================================== */
 
 .strategy-metric-fields{
 
-    grid-template-columns:repeat(2, minmax(0, 1fr));
+    grid-template-columns:repeat(2, auto);
 
     gap:12px var(--space-cell);
 

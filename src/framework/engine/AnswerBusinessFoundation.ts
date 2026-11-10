@@ -164,6 +164,11 @@ export interface BusinessCustomerProfileValue {
     description: BusinessDescriptionValue;
     /** The Profile's choice questions (ProfileQuestions.ts): question id -> the option ids chosen. */
     questions?: Record<string, string[]>;
+    /**
+     * The end user's own part, on a Segment whose buyer is Proxy or Dual-Intent (owner, 2026-11-08; doc 36, 2.1): its answers to the questions both parts ask (A1, A7) and to its
+     * own (A8, E4), by question, and its Personal note. The end user's E1, E2 and Needs are kept with the other answers above (`questions`, `goals`, `challenges`, `needs`).
+     */
+    user?: { questions?: Record<string, string[]>; note?: string };
     goals: string;
     challenges: string;
     objections: string;
@@ -489,7 +494,8 @@ function competitorQuestionsOf(source: unknown): { questions?: Record<string, st
  */
 function competitorLayoutOf2026_11_04(questions: Record<string, string[]>): Record<string, string[]> {
     const ATTRACT = ["discounts", "trial", "referral", "ads", "content", "events", "partnerships"];
-    const CHANGES = ["technology", "regulation", "economy", "society", "supply"];
+    // (Environment added 2026-11-08 with the Segment's new change, so its rating is not read as the older layout.)
+    const CHANGES = ["technology", "regulation", "economy", "society", "supply", "environment"];
     const older = "k11" in questions || "k10-rating" in questions || "k9-other" in questions || "k7-other" in questions
         || (questions.k6 ?? []).some(id => ATTRACT.includes(id))
         || (questions["k9-rating"] ?? []).some(entry => !CHANGES.includes(entry.split(":")[0]));
@@ -578,6 +584,11 @@ export function asBusinessFoundationValue(value: unknown): BusinessFoundationVal
                 .map(candidate => {
 
                     const profile = asObject(candidate);
+                    // The end user's part (doc 36, 2.1): kept where it holds anything.
+                    const userSource = asObject(profile.user);
+                    const userQuestions = asProfileAnswers(userSource.questions);
+                    const userNote = asText(userSource.note);
+                    const user = Object.keys(userQuestions).length > 0 || userNote ? { ...(Object.keys(userQuestions).length > 0 ? { questions: userQuestions } : {}), ...(userNote ? { note: userNote } : {}) } : undefined;
 
                     return {
                         id: asText(profile.id) || randomId("profile"),
@@ -587,6 +598,7 @@ export function asBusinessFoundationValue(value: unknown): BusinessFoundationVal
                             BUSINESS_FIRST_DESCRIPTION_PART.profile
                         ),
                         ...(Object.keys(asProfileAnswers(profile.questions)).length > 0 ? { questions: asProfileAnswers(profile.questions) } : {}),
+                        ...(user ? { user } : {}),
                         goals: asText(profile.goals),
                         challenges: asText(profile.challenges),
                         objections: asText(profile.objections),
@@ -767,10 +779,11 @@ export function businessSegmentNeeds(
  * 2. A named competitor or alternative, under any Segment. The
  *    specification asks for three to five, but a page that refused
  *    to finish on four would be enforcing a recommendation.
- * 3. A Value Proposition for every Segment that has a name. One
+ * 3. A named Offering, under any Segment.
+ * 4. A Value Proposition for every Segment that has a name. One
  *    Segment left blank is the subsection left unfinished, which is
- *    the point of writing one per Segment.
- * 4. A named Offering, under any Segment.
+ *    the point of writing one per Segment. (Last since 2026-11-08: it
+ *    reads the Offerings, so they come before it.)
  */
 export function businessFoundationSubsectionsEmpty(value: unknown): boolean[] {
 
@@ -799,7 +812,7 @@ export function businessFoundationSubsectionsEmpty(value: unknown): boolean[] {
         )
     );
 
-    return [segmentsEmpty, competitorsEmpty, propositionEmpty, offeringsEmpty];
+    return [segmentsEmpty, competitorsEmpty, offeringsEmpty, propositionEmpty];
 
 }
 
@@ -808,12 +821,14 @@ export function businessFoundationSubsectionsEmpty(value: unknown): boolean[] {
  *
  * Singular throughout, as the page's headings read them: each
  * names the kind of thing being answered, not the pile of them.
+ * The Offering before the Value Proposition (owner, 2026-11-08): the
+ * Value Proposition is drafted from the Offerings, so it comes last.
  */
 export const BUSINESS_FOUNDATION_SUBSECTIONS = [
     "Customer Segment and Profile",
     "Competitor and Alternative",
-    "Value Proposition",
-    "Offering"
+    "Offering",
+    "Value Proposition"
 ] as const;
 
 /* ==================================================================
@@ -1067,6 +1082,19 @@ export const BUSINESS_CHANNEL_CATEGORIES = [
         otherDescription: "A channel of your own."
     }
 ] as const;
+
+/**
+ * The channels that serve a physical item only (doc 28, 11.7): Physical Delivery and Retail & Wholesale. While no Offering on Page 1 has a physical item
+ * (noPhysicalOffering, EffectiveAnswers.ts), Page 2 hides each of them that holds no subchannel, as Page 3 hides its physical categories: hidden, never deleted,
+ * and shown again when an Offering's Type or form (O1) changes.
+ */
+export const PHYSICAL_CHANNEL_CATEGORY_IDS: readonly string[] = ["physical-delivery", "retail-wholesale"];
+
+/** Whether Page 2 hides a channel category: it serves a physical item only, no Offering has one, and the Segment has no channel under it. */
+export function channelCategoryHidden(label: string, noPhysical: boolean, usedLabels: readonly string[]): boolean {
+    const category = BUSINESS_CHANNEL_CATEGORIES.find(entry => entry.label === label);
+    return noPhysical && category !== undefined && PHYSICAL_CHANNEL_CATEGORY_IDS.includes(category.id) && !usedLabels.includes(label);
+}
 
 /** A point of help: a name and what it means. */
 export interface ChannelHelpPoint {

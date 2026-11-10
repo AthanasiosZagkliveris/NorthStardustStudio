@@ -26,7 +26,7 @@ describe("the Founders Profile page", () => {
 
     test("is the Identity System's fourth page, after Legal Entity", () => {
         const sections = frameworkRegistry.getFramework("identity").sections;
-        expect(sections.map(section => section.title)).toEqual(["Definition", "Ethics", "Legal Entity", "Founders Profile"]);
+        expect(sections.map(section => section.title)).toEqual(["Definition", "Purpose", "Legal Entity", "Founders Profile"]);
         expect(sections[3].number).toBe(4);
         expect(sections[3].answer?.type).toBe(AnswerType.FoundersProfile);
         expect(sections[3].answer?.nestedNumbering).toBe(true);

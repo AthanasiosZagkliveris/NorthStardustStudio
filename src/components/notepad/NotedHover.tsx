@@ -95,7 +95,13 @@ export function markNotesHot(organizationId: string, key: string | null): void {
 /** The noted box an event happened in, inside `root`. */
 function notedAt(target: EventTarget | null, root: HTMLElement): HTMLElement | null {
     const box = target instanceof Element ? target.closest<HTMLElement>(".is-noted") : null;
-    return box && root.contains(box) ? box : null;
+    if (!box) {
+        return null;
+    }
+    // (The page's own boxes, and those of the dialogs and floating cards opened over it, drawn in their own layer with no page of their own; owner,
+    // 2026-11-10: "When hovering over the Strength, there is no reaction in the Note window, nor is there a tooltip".)
+    const page = box.closest(".field-page");
+    return page === root || (!page && box.closest(".section-tile-overlay, .floating-card-host")) ? box : null;
 }
 
 /**
@@ -145,7 +151,7 @@ export function NotedHover({ root, organizationId }: { root: RefObject<HTMLEleme
             }
         };
         const onLeavePage = (event: PointerEvent) => {
-            if (!(event.relatedTarget instanceof Node && page.contains(event.relatedTarget))) {
+            if (!notedAt(event.relatedTarget, page)) {
                 hovered = null;
                 update();
             }
@@ -173,18 +179,18 @@ export function NotedHover({ root, organizationId }: { root: RefObject<HTMLEleme
             }
         };
 
-        page.addEventListener("pointerover", onOver);
-        page.addEventListener("pointerout", onLeavePage);
-        page.addEventListener("focusin", onFocusIn);
-        page.addEventListener("focusout", onFocusOut);
+        document.addEventListener("pointerover", onOver);
+        document.addEventListener("pointerout", onLeavePage);
+        document.addEventListener("focusin", onFocusIn);
+        document.addEventListener("focusout", onFocusOut);
         document.addEventListener("keydown", onKey);
         const unsubscribe = NotepadService.subscribe(update);
 
         return () => {
-            page.removeEventListener("pointerover", onOver);
-            page.removeEventListener("pointerout", onLeavePage);
-            page.removeEventListener("focusin", onFocusIn);
-            page.removeEventListener("focusout", onFocusOut);
+            document.removeEventListener("pointerover", onOver);
+            document.removeEventListener("pointerout", onLeavePage);
+            document.removeEventListener("focusin", onFocusIn);
+            document.removeEventListener("focusout", onFocusOut);
             document.removeEventListener("keydown", onKey);
             unsubscribe();
             markNotesHot(organizationId, null);

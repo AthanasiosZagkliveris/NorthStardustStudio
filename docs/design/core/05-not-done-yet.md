@@ -1,12 +1,14 @@
 # 5. What has not been done yet
 
-Status: **living list**, written 2026-10-14, updated 2026-11-02. Remove an item when it is done and record it in the log (`04-log.md`). Everything here is a plan or a proposal unless it says "decided". Nothing in section 5.3 is built, and of section 5.5 only what a row says is built.
+Status: **living list**, written 2026-10-14, updated 2026-11-09. Remove an item when it is done and record it in the log (`04-log.md`). Everything here is a plan or a proposal unless it says "decided". Nothing in section 5.3 is built, and of section 5.5 only what a row says is built.
 
 ## Open now
 
 **The questionnaire build**: built are the Segment card's questions (doc 35), the Profile card's questions A1 to A3, A5, B1, C1 to C4, D1, D2 and E1 to E3 (doc 36), and the Organisation and Positioning tiles (docs 37 and 38). Not built: the Profile's A4 (kind of business) and A6 (specialised needs), the proposed Profiles and the user's own Profile (the second Profile of a Proxy or Dual-Intent Segment), and every read of the Segment's and Profile's answers listed as "Read by (not built yet)" in docs 35 and 36. What else is left of the first version is doc 33; where each tile stands is doc 40. The help texts follow doc 39 (a proposal: only its size budget is built).
 
 **The release**: `chore/light-cleanup` is merged into `main` (log, 2026-10-22). Next: the Tile System (5.3), then Batches D and E (5.4), then the extraction (5.7).
+
+**On hold (owner, 2026-11-09)**: P2, the Profile's Needs before its Motivations; P4, the Segment's Box 4 (Purchasing Power & Behaviour) split in two; a full third example Organisation. None is built; each waits for the owner's word.
 
 **Waiting for the owner**: the proposals in `17-frequency-options.md` (frequency groups); the generated cards' inputs beyond "adding, not removing"; the open decisions of 5.8; the sizes and gaps that are not on a step (5.6).
 
@@ -51,7 +53,7 @@ Eleven of thirteen chapters are drawn as tiles. The rest:
 
 The briefs (in `docs/archive/plans/`; they are not finished work, only kept there) say D and E wait until the structure is stable; it is, and the order is decided (after the Tile System). What they ask for is checked below against the code.
 
-**Already built** (the briefs asked to reuse them): `FieldKey`, `openField`, the field status line (with the unused "Changed in … · Reset" parts), the Review page, the Notepad, the undo toast, search, and `Sources.ts`. **Absent:** `planOutcomes`, scenarios, duplicate organisation and card, the Compare route, the lender check, the One-Pager, the glossary.
+**Already built** (the briefs asked to reuse them): `FieldKey`, `openField`, the field status line (with the unused "Changed in … · Reset" parts), the Workbook (its Review and its Glossary), the Notepad (the Notes tool), the undo toast, search, and `Sources.ts`. **Absent:** `planOutcomes`, scenarios, duplicate organisation and card, the Compare route, the lender check, the One-Pager.
 
 | Item | State | Outdated in the brief | Effort |
 |---|---|---|---|
@@ -86,7 +88,7 @@ From the analysis in document 3, R10. Each requirement has an id, a priority (**
 | **1. Requests information** by text, choice, field, number, with help | Field types on all pages; help notes; limits on numbers | F1–F4, C1, C4, I4–I5 (more choices instead of free text) |
 | **2. Stores and connects it** and creates further requests from it | Answers saved per organisation; cards link by id (resources, activities, offerings); generated cards (channel expenses, insurance) | F1, F6, C2, C11, C16 (links by id), I1 (Delivery Team shown on Delivery) |
 | **3. Calculates, records, presents** (tables, diagrams, by time and category) | Demand, capacity, costs by nature, Funding Need, Break Even, forecast, Calendar, Inventory | C14 (spend by channel), I7–I9, A6, T1–T2 (tiles for the Financial pages), D4 Compare |
-| **4. Proves and validates** | Completeness rules, open items, Review page, capacity check, date checks, Stress Test, "What It Would Take" | A5, F7, C9, E2 (Lender check), planOutcomes |
+| **4. Proves and validates** | Completeness rules, open items, the Workbook's Review, capacity check, date checks, Stress Test, "What It Would Take" | A5, F7, C9, E2 (Lender check), planOutcomes |
 | **5. Helps** (instructions, resources, pre-filled data; Note and Calendar; messages, errors, reminders, limits; smart navigation) | InfoNote, Notepad, Calendar, Search, rails, arrows, Undo | A6, E4 (Glossary), C5 (proposals) |
 | **6. Generates and exports Business Documents** | Business Plan, Canvas, Forecast; PDF and Markdown | E3 (One-Pager) |
 

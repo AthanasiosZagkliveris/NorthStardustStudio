@@ -8,6 +8,7 @@ import { COMPETITOR_VALUES, clearOpenings, valueInSentence } from "./CompetitorQ
 import { PROFILE_QUESTIONS, profileRatings } from "./ProfileQuestions.ts";
 import type { BusinessCustomerSegmentValue, BusinessOfferingValue } from "./AnswerBusinessFoundation.ts";
 import { businessSegmentFunctionalItems } from "./AnswerBusinessFoundation.ts";
+import { onlyPlanning } from "./BusinessStage.ts";
 
 export type OfferingAnswers = Record<string, string[]>;
 export type OfferingQuestionId = "o1" | "o2" | "o3" | "o3t" | "o4" | "o6" | "o7" | "o8" | "o10" | "o14" | "o15" | "o16" | "o17" | "o18";
@@ -27,12 +28,22 @@ export interface OfferingContext {
     type: string;
     /** The business stage (plan, launch, manage, grow), for O2's starting value. */
     stage?: string;
-    /** Positioning's differentiation ids, for O4's starting ticks. */
+    /** The Segment's Differentiation ids (K14, doc 41; the Positioning one saved before 2026-11-08 is its start), for O4's starting ticks. */
     differentiation?: readonly string[];
+    /** The buyer's outcome ids saved on Positioning before 2026-11-08 (no longer asked: O4 owns it), for O4's starting ticks after the differentiation's. */
+    outcome?: readonly string[];
     /** The Segment's "How do your customers pay?" ids, for O3's order. */
     pay?: readonly string[];
     /** The worries ticked in the Segment's Profiles' E3, for O8's options. */
     worries?: readonly string[];
+    /** The Organisation's country (ISO code), for the cancellation rule O18's "i" shows. */
+    country?: string;
+    /** The Segment's frame (its customers are people or businesses): a business Segment's O18 "i" says consumer cancellation rights do not apply (2026-11-08). */
+    frame?: "people" | "business" | "open";
+    /** The Segment has an end user (its buyer is Proxy or Dual-Intent): the draft's goal and frustration are the end user's (doc 36, 2.1; doc 42, 1). */
+    endsUser?: boolean;
+    /** That buyer is Dual-Intent (uses it too): the card keeps "your customers" (2026-11-09; offeringWho). */
+    dual?: boolean;
 }
 
 const PRODUCT_FORMS: readonly SegmentOption[] = [
@@ -45,21 +56,32 @@ const READINESS: readonly SegmentOption[] = [
     { id: "now", label: "Yes, now" }, { id: "almost", label: "Almost ready" }, { id: "trial", label: "In a trial / beta" }, { id: "building", label: "Still being built" }, { id: "idea", label: "Just an idea" }
 ];
 const PAYMENT: readonly SegmentOption[] = [
-    { id: "once", label: "One purchase" }, { id: "subscription", label: "A subscription" }, { id: "membership", label: "A membership" }, { id: "licence", label: "A licence" },
-    { id: "payg", label: "Pay as they go" }, { id: "project", label: "A project or contract" }, { id: "retainer", label: "A monthly retainer" }
+    { id: "once", label: "One purchase" }, { id: "subscription", label: "A subscription / membership" }, { id: "licence", label: "A licence" },
+    { id: "payg", label: "Pay as they go" }, { id: "session", label: "Per session / per hour" }, { id: "rent", label: "Rent / hire" },
+    { id: "project", label: "A project or contract" }, { id: "retainer", label: "A monthly retainer" }, { id: "commission", label: "Commission on each sale" },
+    { id: "free", label: "Free to them" }
 ];
+/** Options merged into another (2026-11-08): a saved answer of the first is read as the second (asOfferingAnswers). */
+const OFFERING_MERGED: Readonly<Record<string, Readonly<Record<string, string>>>> = { o3: { membership: "subscription" } };
 const RECEIVE: readonly SegmentOption[] = [
     { id: "auto", label: "Sent automatically online" }, { id: "byyou", label: "Sent by you online" }, { id: "live", label: "In a live online session" }, { id: "inperson", label: "In person" },
     { id: "shipped", label: "Posted / shipped to them" }, { id: "collect", label: "They collect it" }, { id: "access", label: "Ongoing online access" }
 ];
 const HELP: readonly SegmentOption[] = [
     { id: "none", label: "None" }, { id: "guides", label: "Guides and how-tos" }, { id: "auto", label: "Automatic help, such as chat or emails" },
-    { id: "personal", label: "Personal help when needed" }, { id: "dedicated", label: "A dedicated person or team" }, { id: "plan", label: "It depends on the plan" }
+    { id: "personal", label: "Personal help when needed" }, { id: "dedicated", label: "A dedicated person or team" }
 ];
+/**
+ * Options no longer offered whose saved answer still shows (and prints) until it is unticked: O7's "It depends on the plan" (2026-11-09: O7 became ticks, so the plans' different help
+ * is ticked as each kind given, and the plans themselves are O14's packages).
+ */
+const OFFERING_RETIRED: Readonly<Partial<Record<OfferingQuestionId, readonly SegmentOption[]>>> = { o7: [{ id: "plan", label: "It depends on the plan" }] };
 /** L11 as doc 43 lists it for O10. */
 const PROVIDE: readonly SegmentOption[] = [
     { id: "access", label: "Access to their systems or information" }, { id: "brief", label: "A clear brief" }, { id: "approval", label: "Approval within an agreed time" },
-    { id: "place", label: "A place to work" }, { id: "equipment", label: "Their own equipment or software" }
+    { id: "place", label: "A place to work" }, { id: "equipment", label: "Their own equipment or software" },
+    // (Added 2026-11-08, the research: a visit needs their home or site; a session needs them there.)
+    { id: "home", label: "Access to their home or site" }, { id: "attendance", label: "Their time or attendance" }
     // ("A minimum commitment / term" and "Payment upfront" left on 2026-11-07, owner: "avoid overlapping and repetition": they are payment terms, O3's.
     // "To meet certain conditions" left the same day: the conditions of sale are O18.)
 ];
@@ -79,7 +101,7 @@ const REPLY: readonly SegmentOption[] = [
     { id: "sameday", label: "The same day" }, { id: "oneday", label: "Within one working day" }, { id: "fewdays", label: "Within a few days" }, { id: "none", label: "No set time" }
 ];
 const AFTER_SALE: readonly SegmentOption[] = [
-    { id: "guarantee", label: "Guarantee / warranty" }, { id: "repairs", label: "Repairs" }, { id: "updates", label: "Updates" }, { id: "training", label: "Training" },
+    { id: "guarantee", label: "Guarantee / warranty" }, { id: "repairs", label: "Repairs / maintenance" }, { id: "updates", label: "Updates" }, { id: "training", label: "Training" },
     { id: "replacements", label: "Replacements / refills" }, { id: "none", label: "None" }
 ];
 const CONDITIONS: readonly SegmentOption[] = [
@@ -94,43 +116,96 @@ const SUPPORT_WORRY = "support-after-they-buy";
 /** The questions, in the order doc 43 asks them, with the "i" each carries (what the doc's "i" says that is built). */
 export const OFFERING_QUESTIONS: readonly OfferingQuestion[] = [
     { id: "o1", label: "What form does it take?", many: false, info: ["It refines the Type. For a Hybrid, make one Offering for each form, or choose the main one.", "Online access: a membership area, a course platform or a subscription library."] },
-    { id: "o2", label: "Can customers buy it today?", many: false, info: ["Where it stands today.", "It starts from your business stage; change it for this Offering."] },
-    { id: "o3", label: "On what terms do they pay for it?", many: false, info: ["How often they pay, and on what terms. How they pay (card, invoice) is the Segment's question.", "Subscription: regular payments until they cancel. Pay as they go: they pay for what they use.", "A minimum term: write it in the Notes."] },
-    { id: "o3t", label: "When do they pay?", many: false, info: ["When the money comes in. How they pay (card, invoice) is the Segment's question."] },
-    { id: "o4", label: "What does it do best for the customer?", many: true, max: 3, info: ["The first you tick is the main benefit. The same list as \"What matters most\" on your Profiles and Competitors, so they can be compared.", "Your Positioning's Differentiation starts the ticks; change them freely."] },
-    { id: "o6", label: "How does the customer receive it?", many: false, info: ["How it reaches them once bought.", "Sent automatically online: a download or an email sent by the shop. Sent by you online: a file you send when it is ready."] },
-    { id: "o7", label: "What help do you give after they buy?", many: false, info: ["The help that comes with it after the sale."] },
-    { id: "o8", label: "Which of their worries does it answer?", many: true, info: ["The doubts that stop your customers buying from you, as your Profiles say. A worry nothing answers is shown on the Value Proposition.", "Support is answered by the help after they buy, above."] },
-    { id: "o10", label: "What does the customer need to give you?", many: true, info: ["What you need from them before or during the work. The details go in the Notes."] },
+    { id: "o2", label: "Can your customers buy it today?", many: false, info: ["It starts from your business stage; change it for this Offering."] },
+    { id: "o3", label: "On what terms do they pay for it?", many: false, info: ["How often they pay, and on what terms. How they pay (card, invoice) is the Segment's question.",
+        "Subscription / membership: regular payments until they cancel. Pay as they go: they pay for what they use.",
+        "Per session / per hour: a price for each session or hour. Rent / hire: they pay to use it for a time, then give it back.",
+        "Commission on each sale: a share of each sale you make for them. Free to them: someone else pays, such as an advertiser or a funder.",
+        "A minimum term: write it in the Notes."] },
+    { id: "o3t", label: "When do they pay?", many: false, info: ["When the money comes in."] },
+    { id: "o4", label: "Which of what matters most to your customers does it do best?", many: true, max: 3, info: ["The first you tick is the main benefit. The same list as \"What matters most\" on your Profiles and Competitors, so they can be compared.", "The Segment's Differentiation (under its Competitors) starts the ticks; change them freely."] },
+    { id: "o6", label: "How do your customers receive it?", many: true, info: ["How it reaches them once bought: tick each way, as one Offering is often delivered in several.", "Sent automatically online: a download or an email sent by the shop. Sent by you online: a file you send when it is ready."] },
+    { id: "o7", label: "What help do you give after they buy?", many: true, info: ["The help that comes with it after the sale: tick each kind you give.", "None stands alone: ticking it clears the others."] },
+    { id: "o8", label: "Which of their worries does it answer?", many: true, info: ["The doubts that stop your customers buying from you, as your Profiles say. A worry left unanswered shows as an open item on the Value Proposition.", "Support is answered by the help after they buy, in Support & Communication."] },
+    { id: "o10", label: "What do your customers need to give you?", many: true, info: ["What you need from them before or during the work. The details go in the Notes.",
+        "A place to work: a desk or a room for you to use. Access to their home or site: the work is done there, such as a repair or a fitting.",
+        "Their time or attendance: they must take part or be there, such as at a session or a fitting."] },
     { id: "o14", label: "How is it offered?", many: true, max: 3, info: ["How it is put together for sale: one range, made to each order, packages, limited runs or extras. Counts and what is included go in the Notes.", "Based on: the product mix (Kotler and Keller)."] },
-    { id: "o15", label: "How long until they have it?", many: false, info: ["The time from order to having it. How it reaches them is the question above."] },
-    { id: "o16", label: "How fast do you reply?", many: false, info: ["How soon a customer hears back. The channels are on the Customer Engagement page."] },
-    { id: "o17", label: "What comes after the sale?", many: true, info: ["What the help after the sale includes. How much help there is, is the question above.", "None stands alone: ticking it clears the others."] },
-    { id: "o18", label: "Which conditions of sale apply?", many: true, info: ["The terms a customer agrees to. In the UK and the EU, most online and distance sales can be cancelled within 14 days; goods made to their specification are an exception. Elsewhere, check your country's rules.","Based on: the Consumer Contracts Regulations 2013 (UK). A legal minimum age is not ticked here: write an age limit in the Notes."] }
+    { id: "o15", label: "How long until they have it?", many: false, info: ["The time from order to having it. How it reaches them is the question below."] },
+    { id: "o16", label: "How fast do you reply?", many: false, info: ["How soon your customers hear back. The channels are on the Customer Engagement page."] },
+    { id: "o17", label: "What comes after the sale?", many: true, info: ["What else comes with it after the sale; the help you give is the question above.", "None stands alone: ticking it clears the others."] },
+    // O18's "i" says the cancellation rule of the Organisation's country only (offeringInfo); this is what it says with no country, or another one.
+    { id: "o18", label: "Which conditions of sale apply?", many: true, info: ["The terms your customers agree to.", "Cancellation rights differ by country; check the rules where you sell.", "For an age limit, write it in the Notes."] }
 ];
 
+/** What is not covered by the 14 days in the UK and the EU (the same exceptions in both). */
+const NOT_COVERED = "Exceptions: goods made to their specification or personalised, perishable goods, and leisure, catering or accommodation booked for a set date.";
+/** The right to cancel a consumer sale in each of the six countries (doc 43, O18; 2026-11-08): what the "i" says, then its source. */
+const CANCELLING: Readonly<Record<string, { rule: readonly string[]; source: string }>> = {
+    GB: {
+        rule: ["In the UK, a consumer can cancel most online, phone and doorstep sales within 14 days (goods: from delivery; services: from the contract).", NOT_COVERED],
+        source: "Based on: the Consumer Contracts Regulations 2013, regulation 28 (UK)."
+    },
+    IE: {
+        rule: ["In Ireland and the EU, a consumer can cancel most online, phone and doorstep sales within 14 days (goods: from delivery; services: from the contract).", NOT_COVERED],
+        source: "Based on: the Consumer Rights Directive 2011/83/EU, Article 16 (EU)."
+    },
+    US: {
+        rule: ["No general right to cancel. The FTC Cooling-Off Rule gives 3 business days for sales made at the customer's home or at a temporary location.", "Online, phone and shop sales are not covered. State laws can add more."],
+        source: "Based on: the FTC Cooling-Off Rule (US)."
+    },
+    CA: {
+        rule: ["Set by each province, with no general right to cancel an online purchase (Ontario: 10 days for door-to-door sales)."],
+        source: "Based on: Ontario's Consumer Protection Act (CA)."
+    },
+    AU: {
+        rule: ["No change-of-mind right for shop or website purchases; 10 business days to cancel an unsolicited sale of $100 or more."],
+        source: "Based on: the Australian Consumer Law (ACCC)."
+    },
+    NZ: {
+        rule: ["No change-of-mind right; 5 working days to cancel an uninvited direct sale over $100."],
+        source: "Based on: the Fair Trading Act 1986, section 36M (NZ)."
+    }
+};
+
+/** What O18's "i" says on a business Segment, in place of the consumer rule (phase 5, 2026-11-08). */
+export const BUSINESS_CANCELLING = "Between businesses, your contract terms set the cancellation rules.";
+
+/** What a question's "i" says for this Offering: O18 the cancellation rule of the Organisation's country (none between businesses), the others their own. */
+export function offeringInfo(id: OfferingQuestionId, context: OfferingContext): readonly string[] {
+    const info = OFFERING_QUESTIONS.find(question => question.id === id)?.info ?? [];
+    if (id === "o18" && context.frame === "business") {
+        return [info[0], BUSINESS_CANCELLING, info[2]];
+    }
+    const country = id === "o18" && context.country ? CANCELLING[context.country] : undefined;
+    return country ? [info[0], ...country.rule, info[2], country.source] : info;
+}
+
 /**
- * The questions of each Description box (doc 43; owner, 2026-11-07): each box asks its questions, one band each, then its optional Notes. A band can hold two
- * rows (O3, the terms, then when they pay).
+ * The questions of each Description box (doc 43; owner, 2026-11-07): each box asks its questions, one band each (one question per band, the tints alternating),
+ * then its optional Notes.
  */
-export const OFFERING_BOX_QUESTIONS: Readonly<Record<string, readonly (readonly OfferingQuestionId[])[]>> = {
-    function: [["o1"], ["o2"]],
-    benefit: [["o4"], ["o8"]],
-    scope: [["o14"]],
-    delivery: [["o3", "o3t"], ["o6"], ["o15"]],
-    support: [["o7"], ["o17"], ["o16"]],
-    requirements: [["o10"], ["o18"]]
+// (Owner, 2026-11-08, P6 and P7: Function asks O1 alone; Customer Benefit opens with the Functional Needs Addressed (the card draws that band), then O8 and O4; O2 opens
+// Purchase & Delivery, and how long until they have it (O15) comes before how they receive it (O6). The codes stay.)
+// (Owner, 2026-11-09: when they pay (O3b) is a band of its own, straight after O3's, no longer a second row in O3's band.)
+export const OFFERING_BOX_QUESTIONS: Readonly<Record<string, readonly OfferingQuestionId[]>> = {
+    function: ["o1"],
+    benefit: ["o8", "o4"],
+    scope: ["o14"],
+    delivery: ["o2", "o3", "o3t", "o15", "o6"],
+    support: ["o7", "o17", "o16"],
+    requirements: ["o10", "o18"]
 };
 
 /**
- * A choice of ticks, where "None" stands alone (O17): ticking None clears the others, ticking another clears None. O4 keeps the order they were ticked in, so the
+ * A choice of ticks, where "None" stands alone (O7 and O17): ticking None clears the others, ticking another clears None. O4 keeps the order they were ticked in, so the
  * first ticked is the main benefit (doc 43, O4): a tick kept stays where it was, a new one goes last.
  */
 export function offeringChoose(id: OfferingQuestionId, chosen: readonly string[], next: readonly string[]): string[] {
     if (id === "o4") {
         return [...chosen.filter(entry => next.includes(entry)), ...next.filter(entry => !chosen.includes(entry))];
     }
-    if (id !== "o17") {
+    if (id !== "o17" && id !== "o7") {
         return [...next];
     }
     const added = next.filter(entry => !chosen.includes(entry));
@@ -140,8 +215,17 @@ export function offeringChoose(id: OfferingQuestionId, chosen: readonly string[]
     return next.filter(entry => entry !== "none");
 }
 
-/** Whether a question is asked of this Offering (doc 43, "Asked when"). */
+/** The questions held back while the business is only Planning (owner, 2026-11-08, P5): how fast you reply (O16) and what comes after the sale (O17); shown from Launching. */
+export const OFFERING_HELD_WHILE_PLANNING: readonly OfferingQuestionId[] = ["o16", "o17"];
+
+/**
+ * Whether a question is asked of this Offering (doc 43, "Asked when"). A question held back while Planning (an empty stage is Planning) is not asked then, but its saved answer stays
+ * on the Offering (only the question answered is ever written), so it shows again from Launching.
+ */
 export function offeringAsks(id: OfferingQuestionId, context: OfferingContext): boolean {
+    if (OFFERING_HELD_WHILE_PLANNING.includes(id) && onlyPlanning(context.stage)) {
+        return false;
+    }
     switch (id) {
         case "o1": return context.type === "Product" || context.type === "Service" || context.type === "Hybrid";
         case "o8": return (context.worries ?? []).some(id => id !== SUPPORT_WORRY);
@@ -155,7 +239,7 @@ export function offeringOptions(id: OfferingQuestionId, context: OfferingContext
     switch (id) {
         case "o1": return context.type === "Product" ? PRODUCT_FORMS : context.type === "Service" ? SERVICE_FORMS : context.type === "Hybrid" ? [...PRODUCT_FORMS, ...SERVICE_FORMS] : [];
         case "o2": return READINESS;
-        case "o3": return (context.pay ?? []).includes("invoice") ? [PAYMENT[5], ...PAYMENT.filter((_, at) => at !== 5)] : PAYMENT;
+        case "o3": return (context.pay ?? []).includes("invoice") ? [...PAYMENT.filter(option => option.id === "project"), ...PAYMENT.filter(option => option.id !== "project")] : PAYMENT;
         case "o4": return COMPETITOR_VALUES;
         case "o6": return RECEIVE;
         case "o7": return HELP;
@@ -170,28 +254,89 @@ export function offeringOptions(id: OfferingQuestionId, context: OfferingContext
     }
 }
 
+/** What O10 puts first by the form (O1; 2026-11-09), an order, never a lock: an in-person service, Access to their home or site; a live online session, Their time or attendance. */
+const PROVIDE_FIRST: Readonly<Record<string, string>> = { inperson: "home", live: "attendance" };
+
+/**
+ * A question's options as the card shows them: those offered, in the order the answers above give (O10 by O1, `answers`), then a retired option still saved (OFFERING_RETIRED),
+ * so it shows until it is unticked.
+ */
+export function offeringOptionsWith(id: OfferingQuestionId, context: OfferingContext, chosen: readonly string[] = [], answers: OfferingAnswers = {}): readonly SegmentOption[] {
+    const listed = offeringOptions(id, context);
+    const first = id === "o10" ? PROVIDE_FIRST[answers.o1?.[0] ?? ""] : undefined;
+    const offered = first ? [...listed.filter(option => option.id === first), ...listed.filter(option => option.id !== first)] : listed;
+    const retired = (OFFERING_RETIRED[id] ?? []).filter(option => chosen.includes(option.id));
+    return retired.length > 0 ? [...offered, ...retired] : offered;
+}
+
+/**
+ * Who a question is about on a Segment whose buyer is Proxy (2026-11-09): how it reaches them (O6), how long until they have it (O15) and what they give you (O10) are the end user's;
+ * the terms and when they pay (O3, O3b) and what matters most (O4, as K8) the buyer's. A Direct or Dual-Intent buyer (who uses it too) keeps the words as written. The documents keep them as written.
+ */
+export function offeringWho(id: OfferingQuestionId, label: string, context: Pick<OfferingContext, "endsUser" | "dual">): string {
+    if (!context.endsUser || context.dual) {
+        return label;
+    }
+    switch (id) {
+        case "o6": case "o10": return label.replace("your customers", "your end users");
+        case "o15": return label.replace("until they have", "until your end users have");
+        case "o3": return label.replace("do they pay", "do your buyers pay");
+        case "o3t": return label.replace("do they pay", "do your buyers pay");
+        // What matters most to the buyer, who chooses (owner, 2026-11-09), as K8 reads the buyer's B1.
+        case "o4": return label.replace("your customers", "your buyers");
+        default: return label;
+    }
+}
+
 /** Positioning's differentiation, through the value crosswalk (doc 34, 5.2a), as O4's starting ticks (at most three). */
 const CROSSWALK: Record<string, readonly string[]> = {
     cost: ["lower-price"],
     convenience: ["speed", "ease-and-convenience"],
     compliance: ["safety-and-low-risk", "trust-and-reputation"],
-    premium: ["quality-and-results", "shared-values-or-identity"]
+    premium: ["quality-and-results", "shared-values-or-identity"],
+    // The nearest L1 options (owner, 2026-11-08): L1 has no option of their own.
+    performance: ["quality-and-results", "expert-knowledge"],
+    ecosystem: ["ease-and-convenience"],
+    // Personal Service & Relationship (2026-11-08): Personalisation and Support.
+    personal: ["a-service-made-for-them", "good-support"]
 };
-const STAGE_START: Record<string, string> = { plan: "building", launch: "almost", manage: "now", grow: "now" };
-const RECEIVE_START: Record<string, string> = { physical: "shipped", digital: "auto", app: "access", access: "access", live: "live", inperson: "inperson" };
+/**
+ * The buyer's outcome (Positioning's question 9 until 2026-11-08; O4 is its one owner now, owner: "Move all three"), through the same crosswalk (doc 34, 5.2a): each of its four options has
+ * its value in L1 already, so O4 needed no new option; a saved outcome starts O4's ticks after the differentiation's.
+ */
+const OUTCOME_CROSSWALK: Record<string, readonly string[]> = {
+    savings: ["lower-price"],
+    time: ["speed", "ease-and-convenience"],
+    assurance: ["safety-and-low-risk", "trust-and-reputation"],
+    prestige: ["quality-and-results", "shared-values-or-identity"]
+};
+// (Launching starts "Yes, now", 2026-11-08: a business that is launching sells.)
+const STAGE_START: Record<string, string> = { plan: "building", launch: "now", manage: "now", grow: "now" };
+// (O6 is ticks since 2026-11-09: the clearest way only, the others ticked by hand. Project work, sent by you; an ongoing service, none.)
+const RECEIVE_START: Record<string, string> = { physical: "shipped", digital: "auto", app: "access", access: "access", live: "live", inperson: "inperson", project: "byyou" };
+/** O1 → O15 (2026-11-09): a digital file, an app or online access is theirs straight away. */
+const LEAD_TIME_START: Record<string, string> = { digital: "now", app: "now", access: "now" };
+/** O1 → O3 (2026-11-09): online access by subscription; project work as a project or contract; an ongoing service on a retainer; a session, live or in person, per session. */
+const TERMS_START: Record<string, string> = { access: "subscription", project: "project", ongoing: "retainer", live: "session", inperson: "session" };
+/** O3 → O3b (2026-11-09): a subscription or retainer monthly; a project a deposit, then the rest; one purchase before they get it. */
+const PAY_WHEN_START: Record<string, string> = { subscription: "monthly", retainer: "monthly", project: "deposit", once: "before" };
 
 /**
  * The answers as the card shows them: those saved, then a starting value where a question has none (doc 43: O2 from the business stage, O4 from the
- * differentiation, O6 from O1), never over an answer chosen; an answer to a question not asked, or an option not offered, is dropped.
+ * Segment's differentiation and the buyer's outcome saved before, O6, O15 and O3 from O1, O3b from O3, O17 from O7's None), never over an answer chosen; an answer to a question not asked, or an option not offered, is dropped.
  */
 export function offeringShown(saved: OfferingAnswers, context: OfferingContext): OfferingAnswers {
     const shown: OfferingAnswers = {};
     for (const question of OFFERING_QUESTIONS) {
-        if (!offeringAsks(question.id, context)) {
+        // (A question held back only by the stage keeps its saved answer here, so the documents still print it; the card does not ask it while Planning.)
+        const heldBack = OFFERING_HELD_WHILE_PLANNING.includes(question.id) && offeringAsks(question.id, { ...context, stage: "launch" });
+        if (!offeringAsks(question.id, context) && !heldBack) {
             continue;
         }
-        const offered = offeringOptions(question.id, context).map(option => option.id);
-        const kept = (saved[question.id] ?? []).filter(id => offered.includes(id));
+        // (A retired option saved stays: OFFERING_RETIRED.)
+        const offered = [...offeringOptions(question.id, context), ...(OFFERING_RETIRED[question.id] ?? [])].map(option => option.id);
+        // A merged option is read as the one kept (OFFERING_MERGED), so an answer saved before the merge still shows.
+        const kept = [...new Set((saved[question.id] ?? []).map(id => OFFERING_MERGED[question.id]?.[id] ?? id))].filter(id => offered.includes(id));
         if (kept.length > 0) {
             shown[question.id] = kept;
         }
@@ -200,13 +345,27 @@ export function offeringShown(saved: OfferingAnswers, context: OfferingContext):
         shown.o2 = [STAGE_START[context.stage]];
     }
     if (!saved.o4) {
-        const start = [...new Set((context.differentiation ?? []).flatMap(id => CROSSWALK[id] ?? []))].slice(0, 3);
+        const start = [...new Set([...(context.differentiation ?? []).flatMap(id => CROSSWALK[id] ?? []), ...(context.outcome ?? []).flatMap(id => OUTCOME_CROSSWALK[id] ?? [])])].slice(0, 3);
         if (start.length > 0) {
             shown.o4 = start;
         }
     }
     if (!saved.o6 && shown.o1 && RECEIVE_START[shown.o1[0]]) {
         shown.o6 = [RECEIVE_START[shown.o1[0]]];
+    }
+    // The starts of 2026-11-09 (doc 43): never over a saved answer, each from the answer shown above it.
+    if (!saved.o15 && shown.o1 && LEAD_TIME_START[shown.o1[0]]) {
+        shown.o15 = [LEAD_TIME_START[shown.o1[0]]];
+    }
+    if (!saved.o3 && shown.o1 && TERMS_START[shown.o1[0]]) {
+        shown.o3 = [TERMS_START[shown.o1[0]]];
+    }
+    if (!saved.o3t && shown.o3 && PAY_WHEN_START[shown.o3[0]]) {
+        shown.o3t = [PAY_WHEN_START[shown.o3[0]]];
+    }
+    // None of help after the sale (O7) starts None of what comes after it (O17).
+    if (!saved.o17 && shown.o7?.length === 1 && shown.o7[0] === "none") {
+        shown.o17 = ["none"];
     }
     return shown;
 }
@@ -222,6 +381,12 @@ export function asOfferingAnswers(source: unknown): OfferingAnswers {
             result[key] = value as string[];
         }
     }
+    // Merged options (2026-11-08): a saved A membership is A subscription / membership, counted once.
+    for (const [id, merged] of Object.entries(OFFERING_MERGED)) {
+        if (result[id]) {
+            result[id] = [...new Set(result[id].map(option => merged[option] ?? option))];
+        }
+    }
     return result;
 }
 
@@ -229,7 +394,7 @@ export function asOfferingAnswers(source: unknown): OfferingAnswers {
 export function offeringAnswerLines(answers: OfferingAnswers, context: OfferingContext): { label: string; value: string }[] {
     return OFFERING_QUESTIONS.filter(question => (answers[question.id] ?? []).length > 0).map(question => ({
         label: question.label,
-        value: (answers[question.id] ?? []).map(id => offeringOptions(question.id, { ...context, worries: WORRIES.map(option => option.id) }).find(option => option.id === id)?.label ?? id).join("; ")
+        value: (answers[question.id] ?? []).map(id => offeringOptionsWith(question.id, { ...context, worries: WORRIES.map(option => option.id) }, answers[question.id]).find(option => option.id === id)?.label ?? id).join("; ")
     }));
 }
 
@@ -238,7 +403,9 @@ export function offeringAnswerLines(answers: OfferingAnswers, context: OfferingC
 /** Each goal (L4, E1) after "and want to …", and each frustration (L3, E2) after "who …" (doc 34, 5.2d): hidden, only the draft reads them. */
 const GOAL_PHRASES: Record<string, string> = {
     "get-easier-access": "get easier access", "express-who-they-are": "express themselves", "win-customers-or-earn-more": "grow their income",
-    "meet-a-requirement": "meet their legal duties", "learn-something-new": "learn and grow", "stay-within-the-rules": "run things properly"
+    // (Stay within the rules merged into Meet a requirement, 2026-11-08: the phrase covers both.)
+    "meet-a-requirement": "meet their obligations", "learn-something-new": "learn and grow",
+    "save-time-money": "save time and money", "get-a-problem-fixed": "get a problem fixed", "enjoy-themselves": "enjoy themselves"
 };
 const FRUSTRATION_PHRASES: Record<string, string> = {
     "it-costs-too-much": "find it too costly", "it-takes-too-long": "wait too long", "the-quality-is-inconsistent": "get uneven results",
@@ -286,9 +453,10 @@ export function draftOffered(segment: BusinessCustomerSegmentValue): boolean {
 }
 
 /**
- * The draft sentence for one Offering (doc 42, 1): "For [Segment] who [frustration] and want to [goal], [Offering] is [form] that offers [benefit]. Unlike
- * its competitors, it offers [the clear opening]." The goal and frustration are the highest-rated across the Profiles, in their draft phrases; a blank whose
- * answer is missing stays in square brackets; with no clear opening the sentence ends after the benefit.
+ * The draft sentence for one Offering (doc 42, 1): "For [Segment] who [frustration] and want to [goal], [Offering] is [form] that offers [benefit], and
+ * it stands out for [the clear opening]." The goal and frustration are the highest-rated across the Profiles, in their draft phrases; a blank whose
+ * answer is missing stays in square brackets; with no clear opening the sentence ends after the benefit. A Segment with an end user reads "For [Segment] whose end users
+ * [frustration] and want to [goal]": E1 and E2 are the end user's there (doc 36, 2.1).
  */
 export function valuePropositionDraft(segment: BusinessCustomerSegmentValue, offering: BusinessOfferingValue, answers: OfferingAnswers, context: OfferingContext,
     profileAnswers: readonly Record<string, string[]>[] = segment.profiles.map(profile => profile.questions ?? {})): string {
@@ -297,11 +465,12 @@ export function valuePropositionDraft(segment: BusinessCustomerSegmentValue, off
     const frustration = highestRated(profiles, "e2");
     const benefit = answers.o4?.[0];
     const name = offering.name.trim() || "[the Offering's name]";
-    const sentence = "For " + segment.name.trim() + " who " + (frustration ? FRUSTRATION_PHRASES[frustration] ?? "[a frustration]" : "[a frustration]")
+    // A Segment with an end user (Proxy or Dual-Intent): the goal and the frustration are the end user's (doc 36, 2.1), so the sentence says whose ("whose end users").
+    const sentence = "For " + segment.name.trim() + (context.endsUser ? " whose end users " : " who ") + (frustration ? FRUSTRATION_PHRASES[frustration] ?? "[a frustration]" : "[a frustration]")
         + " and want to " + (goal ? GOAL_PHRASES[goal] ?? "[a goal]" : "[a goal]") + ", " + name + " is " + formWords(offering, answers, context)
-        + " that offers " + (benefit ? valueInSentence(benefit) : "[its main benefit]") + ".";
+        + " that offers " + (benefit ? valueInSentence(benefit) : "[its main benefit]");
     const clear = clearOpenings(profiles, segment.competitors.map(competitor => competitor.questions ?? {}));
-    return clear.length > 0 ? sentence + " Unlike its competitors, it offers " + valueInSentence(clear[0]) + "." : sentence;
+    return sentence + (clear.length > 0 ? ", and it stands out for " + valueInSentence(clear[0]) : "") + ".";
 }
 
 /* ---- The Value Proposition's open items (doc 42, 2) ---- */
@@ -341,7 +510,9 @@ export function valuePropositionOpenItems(segment: BusinessCustomerSegmentValue,
     for (const value of mismatch.unmet) {
         items.push({ kind: "Unmet value", text: "Your Profiles care about " + valueWord(value) + ", and no Offering does it best." });
     }
-    for (const entry of mismatch.unwanted) {
+    // An unwanted benefit is one the user ticked: O4's starting ticks (from the Differentiation) are not counted until saved (owner, 2026-11-08).
+    const saved = segment.offerings.map((offering, at) => ({ name: named(offering, at), answers: { o4: (offering.questions?.o4 ?? []).filter(id => (answers[at]?.o4 ?? []).includes(id)) } }));
+    for (const entry of valueMismatch(profiles, saved).unwanted) {
         items.push({ kind: "Unwanted benefit", text: entry.offering + " does " + entry.values.map(valueWord).join(" and ") + " best, which no Profile ticks as what matters most." });
     }
     const ticked = new Set(segment.offerings.flatMap(offering => offering.needsAddressed));

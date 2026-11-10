@@ -1,8 +1,8 @@
 # 40. The tile documents: the form, and where each tile stands
 
-Status: **rules**, written 2026-11-01, updated 2026-11-08. The form every document about a tile or a card takes (so that one can be read like the others), the list of the tiles and the document each one has, and what is still missing.
+Status: **rules**, written 2026-11-01, updated 2026-11-09. The form every document about a tile or a card takes (so that one can be read like the others), the list of the tiles and the document each one has, and what is still missing.
 
-Related: doc 35 (the Segment), doc 36 (the Profile), doc 37 (the Organisation), doc 38 (Positioning), doc 39 (what an "i" says), doc 28 (the design these documents refine), doc 21 (the shared components).
+Related: doc 35 (the Segment), doc 36 (the Profile), doc 37 (the Organisation), doc 38 (Positioning), doc 39 (what an "i" says), doc 44 (the questions register: every question by card and position, with its code), doc 28 (the design these documents refine), doc 21 (the shared components).
 
 ## 1. The form
 
@@ -20,6 +20,8 @@ A tile document is **one document for one tile or card**, in this order:
 4. **What changes when an answer above changes:** what is removed and what is kept (the rule of every tile: an answer to a question no longer asked, or to an option no longer offered, is removed on the next choice).
 5. **Decided, and still to decide:** the owner's decisions with their dates, and what is open.
 
+**Codes are permanent ids, not positions (owner, 2026-11-08).** Never renumber; reorder freely; the register (doc 44) shows the order. A new question takes the next free code; a retired code stays listed as retired with what replaced it. A tile document lists its questions in the card's order under their codes; the code map in `tools/scripts/docs/questions-register.mjs` gets one line for a new question, and `npm run docs:index` rewrites doc 44.
+
 **Where the words are kept.** The words of a built tile are kept in one place in the code (the Segment: `src/framework/engine/SegmentQuestions.ts`; the Profile: `src/framework/engine/ProfileQuestions.ts`; the Competitor: `src/framework/engine/CompetitorQuestions.ts`; the Offering, with the Value Proposition's draft and open items: `src/framework/engine/OfferingQuestions.ts`), and the document is made from them; where the two differ, the most recent owner decision wins. How a floating card of questions is built (the engine file, the parts, the three levels, the notes) is in `docs/ai/tile-and-card-pattern.md`.
 
 ## 2. Where each tile stands
@@ -28,7 +30,7 @@ A tile document is **one document for one tile or card**, in this order:
 |---|---|---|
 | Identity 1: Organisation | 37 | built (specification) |
 | Identity 1: Early Positioning (Core Market, Corporate and Portfolio by stage) | 38 | built (specification) |
-| Identity 1: Mission, Vision, Values and the others | none | not yet |
+| Identity 1: Purpose (Mission, Vision, Philosophy, Values, Principles, Manifesto) | 45 | proposal |
 | Identity 2: Legal Entity (Founders & Ownership, Capability, Registrations, Expenses) | none (doc 26) | not yet |
 | Brand: Ambassador and Style (the nine tiles) | none | not yet |
 | Business 1: Segment Description | 35 | built (specification) |

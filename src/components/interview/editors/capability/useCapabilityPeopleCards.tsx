@@ -31,7 +31,7 @@ type Earlier = ReturnType<typeof useCapabilityState> & ReturnType<typeof useCapa
 
 export function useCapabilityPeopleCards(earlier: Earlier) {
 
-    const { capability, cardDates, categoryRow, channelCardIds, channelMade, channelTitle, completedOpen, costFields, costOptionRows, defaultRateOf, disabled, extrasFields, folds, founders, latestPaymentOf, legalEntity, legalExpenses, linksSection, live, offeringsField, onChange, onChangeLegalEntity, onOpenLegalEntity, openPair, organisationCurrency, partnersOf, patchPartner, paymentPlanFields, planTotalOf, rateOverrideField, responsibilityFolds, responsibilityOff, setCompletedOpen, setLegalUnder, setPair, setResponsibilityFolds, setResponsibilityOff, withDefaultRate, withPartners } = earlier;
+    const { capability, cardDates, categoryRow, partnerGroupHidden, channelCardIds, channelMade, channelTitle, completedOpen, costFields, costOptionRows, defaultRateOf, disabled, extrasFields, folds, founders, latestPaymentOf, legalEntity, legalExpenses, linksSection, live, offeringsField, onChange, onChangeLegalEntity, onOpenLegalEntity, openPair, organisationCurrency, partnersOf, patchPartner, paymentPlanFields, planTotalOf, rateOverrideField, responsibilityFolds, responsibilityOff, setCompletedOpen, setLegalUnder, setPair, setResponsibilityFolds, setResponsibilityOff, withDefaultRate, withPartners } = earlier;
 
     /**
      * A resource group's subcategories, as the links of its tile's list. A subcategory that holds exactly ONE card opens that card, floating,
@@ -560,7 +560,8 @@ export function useCapabilityPeopleCards(earlier: Earlier) {
             return null;
         }
         // Every group of the place, Partners' then Suppliers': the group picked says whether the card is a Partner or a Supplier.
-        const options = (["partners", "suppliers"] as const).flatMap(type => BUSINESS_PARTNER_GROUPS[scope][type].map(entry => ({ id: entry.id, label: entry.label, type })));
+        // (Logistics & Fulfilment is left out while no Offering has a physical item and no card is in it: partnerGroupHidden.)
+        const options = (["partners", "suppliers"] as const).flatMap(type => BUSINESS_PARTNER_GROUPS[scope][type].filter(entry => !partnerGroupHidden(entry.id) || entry.id === partner.group).map(entry => ({ id: entry.id, label: entry.label, type })));
         const current = options.find(entry => entry.type === partner.category && entry.id === partner.group);
         // A card a Customer Channel made files itself: its Group is text where it is known.
         if (channelMade(scope, partner.id) && current) {
@@ -729,7 +730,7 @@ export function useCapabilityPeopleCards(earlier: Earlier) {
             current,
             onNext,
             "Select",
-            "Add a founder under 1. Identity System → 3. Legal Entity → 2. Founders & Ownership.",
+            "Add a founder under 1. Identity System → 1. Definition → Founders & Ownership.",
             info,
             what ? what + " responsible" : undefined,
             !side,

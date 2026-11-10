@@ -91,16 +91,47 @@ export function FieldPageProvider({
         if (!root || !value) {
             return;
         }
+        // (The dialogs and floating cards opened over the page are drawn in their own layer: their controls get keys too, so they can be linked.)
+        const overlays = () => [...document.querySelectorAll<HTMLElement>(".section-tile-overlay, .floating-card-host")].filter(layer => !root.contains(layer));
         const mark = () => {
             markControls(root, value);
+            for (const layer of overlays()) {
+                markControls(layer, value);
+            }
             markNoted(root, value.organizationId);
         };
         mark();
         const observer = new MutationObserver(mark);
         observer.observe(root, { childList: true, subtree: true });
         const unsubscribe = NotepadService.subscribe(() => markNoted(root, value.organizationId));
+        // (A dialog and a floating card are drawn outside the page (in their own layer): what opens there is marked too, once it has drawn; owner,
+        // 2026-11-10: "Did you check the Notes effect in the browser?" -- a list linked in the SWOT dialog was left plain.)
+        let frame = 0;
+        const layers = new MutationObserver(() => {
+            cancelAnimationFrame(frame);
+            frame = requestAnimationFrame(mark);
+        });
+        layers.observe(document.body, { childList: true });
+        // (What changes inside an open layer -- a card opened in a dialog -- is marked as it draws.)
+        const inner = new MutationObserver(() => {
+            cancelAnimationFrame(frame);
+            frame = requestAnimationFrame(mark);
+        });
+        const watchLayers = () => {
+            inner.disconnect();
+            for (const layer of overlays()) {
+                inner.observe(layer, { childList: true, subtree: true });
+            }
+        };
+        watchLayers();
+        const relayers = new MutationObserver(watchLayers);
+        relayers.observe(document.body, { childList: true });
         return () => {
             observer.disconnect();
+            layers.disconnect();
+            inner.disconnect();
+            relayers.disconnect();
+            cancelAnimationFrame(frame);
             unsubscribe();
         };
     }, [value]);
@@ -152,11 +183,20 @@ function anchorsWithin(element: HTMLElement, rail: HTMLElement | null): string[]
  * its own accessible name. A card is marked by its section and anchor.
  * So every answer can be linked from a note and opened again.
  */
+/** The page whose controls are marked from a root: the page itself, or, for a dialog or floating card drawn in its own layer with no page of its own, none. */
+function pageOf(root: HTMLElement): HTMLElement | null {
+    return root.classList.contains("field-page") ? root : null;
+}
+
 function markControls(root: HTMLElement, page: FieldPageValue): void {
 
     for (const card of root.querySelectorAll<HTMLElement>(CARDS)) {
+        if (card.closest(".field-page") !== pageOf(root)) {
+            continue;
+        }
         const anchor = (card.dataset.anchor ?? "").split(/\s+/)[0];
-        if (!anchor || card.dataset.fieldKey) {
+        // (A page of tiles is no card: its tiles are marked one by one, below. Linked whole, a note said "Column Tiles"; owner, 2026-11-10.)
+        if (!anchor || card.dataset.fieldKey || anchor === "column-tiles") {
             continue;
         }
         const rail = card.closest<HTMLElement>("[data-rail]");
@@ -167,7 +207,26 @@ function markControls(root: HTMLElement, page: FieldPageValue): void {
         registerField({ key, label: name, pageTitle: page.pageTitle, kind: "answer", anchors: anchorsWithin(card.parentElement ?? card, rail) });
     }
 
+    // A PAGE'S TILE (a Master Tile) can be linked from a note by itself: named by its title, as the page shows it.
+    for (const tile of root.querySelectorAll<HTMLElement>(".section-tile[data-tile]")) {
+        if (tile.closest(".field-page") !== pageOf(root) || tile.dataset.fieldKey || tile.closest(".section-tile-dialog, .floating-card-body")) {
+            continue;
+        }
+        const id = tile.dataset.tile ?? "";
+        const key = fieldKey({ systemNumber: page.systemNumber, sectionNumber: page.sectionNumber, path: [id] });
+        const name = tile.querySelector(".section-tile-title")?.textContent?.replace(/\s+/g, " ").trim() || (tile.getAttribute("aria-label") ?? id).split(",")[0];
+        // (On the tile's frame, which holds the tile and the layer of its list's lines: a press anywhere on it links the tile.)
+        (tile.closest<HTMLElement>(".section-tile-slot") ?? tile).dataset.fieldKey = key;
+        tile.dataset.fieldKey = key;
+        registerField({ key, label: name, pageTitle: page.pageTitle, kind: "answer", anchors: [] });
+    }
+
     for (const control of root.querySelectorAll<HTMLElement>(ANSWER_CONTROLS)) {
+
+        // (A part drawn from another section's answer has a page of its own inside this one, which marks it: Purpose' Mission & Vision.)
+        if (control.closest(".field-page") !== pageOf(root)) {
+            continue;
+        }
 
         const held = control.closest<HTMLElement>("[data-field-key]");
         // Marked already by its label, and not merely by the card around it.
@@ -214,19 +273,31 @@ function markNoted(root: HTMLElement, organizationId: string): void {
         .map(link => link.key as string)));
 
     const noted = new Set<HTMLElement>();
-    for (const holder of root.querySelectorAll<HTMLElement>("[data-field-key]")) {
+    // The page, and the dialogs and floating cards opened over it (drawn in their own layer, outside the page).
+    const scopes = [root, ...document.querySelectorAll<HTMLElement>(".section-tile-overlay, .floating-card-host")].filter(scope => scope === root || !root.contains(scope));
+    const holders = scopes.flatMap(scope => [...scope.querySelectorAll<HTMLElement>("[data-field-key]")]);
+    for (const holder of holders) {
         if (!keys.has(holder.dataset.fieldKey ?? "") || holder.closest("[hidden]")) {
             continue;
         }
-        const box = holder.matches(CARDS) || holder.matches(NOTED_BOX)
-            ? holder
-            : holder.querySelector<HTMLElement>(NOTED_BOX);
-        if (box) {
-            noted.add(box);
+        // (A page's tile is a card too: a note linked to it draws it so (owner, 2026-11-10: "Check and fix, in the notes panel, the linked parts").)
+        // (A tick or a choice is marked by its row, its box and its words: the bare box is too small to carry the mark; owner, 2026-11-10, the Notes tests.)
+        if (holder.matches("input[type=checkbox], input[type=radio]")) {
+            const row = holder.closest<HTMLElement>("label") ?? holder.parentElement;
+            if (row) {
+                noted.add(row);
+            }
+            continue;
         }
+        const box = holder.matches(CARDS) || holder.matches(".section-tile") || holder.matches(NOTED_BOX)
+            ? holder
+            // (A list is marked as one box, the list's own, not its first line.)
+            : holder.querySelector<HTMLElement>(".numbered-list") ?? holder.querySelector<HTMLElement>(NOTED_BOX);
+        // (A question whose answer is a set of ticks or choices has no one box: the question itself, its words and its choices, carries the mark.)
+        noted.add(box ?? holder);
     }
 
-    for (const element of root.querySelectorAll<HTMLElement>(".is-noted")) {
+    for (const element of scopes.flatMap(scope => [...scope.querySelectorAll<HTMLElement>(".is-noted")])) {
         if (!noted.has(element)) {
             element.classList.remove("is-noted");
             element.removeAttribute("aria-description");

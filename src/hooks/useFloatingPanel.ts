@@ -93,7 +93,12 @@ export function useFloatingPanel(
      * label it opens inside cannot cut it off -- a note opened from
      * a table head. Placed by hand, not by the styles below.
      */
-    free = false
+    free = false,
+    /**
+     * A panel (a calendar, a colour card) opens BELOW its control first, as doc 23 sets a P2 panel (owner, 2026-11-10: "check that it opens at the
+     * proper place, follows the rules"); a note over its "i" keeps the place above.
+     */
+    belowFirst = false
 ): FloatingPanelPlacement {
 
     const panelRef = useRef<HTMLDivElement | null>(null);
@@ -114,7 +119,7 @@ export function useFloatingPanel(
         const anchorRect = anchor.getBoundingClientRect();
 
         if (free) {
-            placeFree(panel, anchorRect, ceiling);
+            placeFree(panel, anchorRect, ceiling, belowFirst);
             return;
         }
 
@@ -158,7 +163,7 @@ export function useFloatingPanel(
 
         setShiftX(overflowRight > 0 ? -Math.min(overflowRight, Math.max(0, naturalLeft - bounds.left)) : 0);
 
-    }, [anchorRef, shiftX, ceiling, free]);
+    }, [anchorRef, shiftX, ceiling, free, belowFirst]);
 
     useLayoutEffect(() => {
 
@@ -223,7 +228,7 @@ export function useFloatingPanel(
  * Measured and corrected once, so a transformed box around it (which
  * makes "fixed" relative to itself) cannot throw it off.
  */
-function placeFree(panel: HTMLElement, anchor: DOMRect, ceiling?: number): void {
+function placeFree(panel: HTMLElement, anchor: DOMRect, ceiling?: number, belowFirst = false): void {
 
     panel.style.maxHeight = "";
     panel.style.overflowY = "";
@@ -240,7 +245,9 @@ function placeFree(panel: HTMLElement, anchor: DOMRect, ceiling?: number): void 
     const roomUp = Math.min(roomAbove, anchor.top - ANCHOR_GAP - Math.max(header, 0));
     let height = needed;
     let below = false;
-    if (needed > roomUp) {
+    if (belowFirst && needed <= roomBelow) {
+        below = true;
+    } else if (needed > roomUp) {
         if (needed <= roomBelow) {
             below = true;
         } else {

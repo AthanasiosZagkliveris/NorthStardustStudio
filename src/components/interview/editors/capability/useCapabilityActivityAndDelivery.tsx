@@ -5,7 +5,7 @@
 import AddButton from "../../../controls/AddButton.tsx";
 import NumberCell from "../../../controls/NumberCell.tsx";
 import { Fragment, ReactNode } from "react";
-import { BUSINESS_ACTIVITY_CATEGORIES, soleGroupOf, BUSINESS_PARTNER_GROUPS, resourcesStartingTooLate, cappedUnits, unitsCap, BusinessActivityValue, partnerNoun, BusinessPartnerValue, BusinessResourceSlotValue, createBusinessActivity, createBusinessPartner, createBusinessResourceSlot, resourceUnitCount } from "../../../../framework/engine/AnswerUtils.ts";
+import { BUSINESS_ACTIVITY_CATEGORIES, businessFoundationSegments, soleGroupOf, BUSINESS_PARTNER_GROUPS, resourcesStartingTooLate, cappedUnits, unitsCap, BusinessActivityValue, partnerNoun, BusinessPartnerValue, BusinessResourceSlotValue, createBusinessActivity, createBusinessPartner, createBusinessResourceSlot, resourceUnitCount } from "../../../../framework/engine/AnswerUtils.ts";
 import { BusinessCard, LinkSymbol, BusinessEmpty, BusinessField, OptionalField, OptionalNote, BusinessRemove, uniqueChoices } from "../../cards/BusinessCardFields.tsx";
 import { DeliveryValue, createDelivery, deliveryAllocation, deliveryHours, WEEKS_PER_MONTH, demandResult, founderDeliveryHours } from "../../../../framework/engine/DemandCapacity.ts";
 import { asFinancialFoundationValue, moneyFormatter } from "../../../../framework/engine/FinancialModel.ts";
@@ -19,6 +19,7 @@ import FoldArrow from "../../fields/FoldArrow.tsx";
 import { CAPACITY_UTILISATION_HELP } from "../FinancialParts.tsx";
 import { toggledIn } from "../../fields/toggledIn.ts";
 import { DELIVERY_HELP, formatHours, readHours, deliveryIsEmpty, FIXED_ACTIVITY_IDS, ACTIVITY_CATEGORY_ORDER, Scope, blankSlot, blankActivity, blankPartner } from "../BusinessCapabilityModel.ts";
+import { offeringStartsById } from "../../../../framework/engine/EffectiveAnswers.ts";
 import type { useCapabilityState } from "./useCapabilityState.tsx";
 import type { useCapabilityCardFields } from "./useCapabilityCardFields.tsx";
 import type { useCapabilityPeopleCards } from "./useCapabilityPeopleCards.tsx";
@@ -27,7 +28,7 @@ type Earlier = ReturnType<typeof useCapabilityState> & ReturnType<typeof useCapa
 
 export function useCapabilityActivityAndDelivery(earlier: Earlier) {
 
-    const { capability, collapsed, disabled, engagementValue, financialFoundation, founderChoices, founders, live, offeringChoices, onChange, openPair, organisationCurrency, partnersOf, setCollapsed, setPartners, update } = earlier;
+    const { capability, collapsed, disabled, engagementValue, financialFoundation, foundation, founderChoices, founders, live, offeringChoices, onChange, openPair, organisationCurrency, partnersOf, setCollapsed, setPartners, update } = earlier;
 
     /** The first day of the plan (Plan Start is a month on 4. Finances); "" until it is given. */
     const planStartDay = (() => {
@@ -542,13 +543,26 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
      * ONE CARD PER OFFERING, WITHOUT ASKING. Every Offering on the
      * Foundation page has its card; its Delivery is stored the first
      * time something is written in it, and dropped again when it is
-     * emptied, so an untouched card leaves nothing behind.
+     * emptied (or back to its starts), so an untouched card leaves nothing behind.
+     * Not stored yet, it starts from the Offering's answers on Page 1
+     * (offeringStarts: Delivered from O3, Calendar Time from O15,
+     * Constraints from O10), saved with the first thing written.
      */
+    function startedDelivery(offeringId: string): DeliveryValue {
+        const starts = offeringStartsById(businessFoundationSegments(foundation), offeringId);
+        return {
+            ...createDelivery(),
+            ...(starts.deliveryMode ? { mode: starts.deliveryMode } : {}),
+            ...(starts.duration ? { duration: starts.duration } : {}),
+            ...(starts.constraints ? { constraints: starts.constraints } : {})
+        };
+    }
     function changeDelivery(offeringId: string, patch: Partial<DeliveryValue>) {
-        const shown = capability.delivery[offeringId] ?? createDelivery();
+        const started = startedDelivery(offeringId);
+        const shown = capability.delivery[offeringId] ?? started;
         const next = { ...shown, ...patch };
         const delivery = { ...capability.delivery };
-        if (deliveryIsEmpty(next)) {
+        if (deliveryIsEmpty(next) || JSON.stringify(next) === JSON.stringify(started)) {
             delete delivery[offeringId];
         } else {
             delivery[offeringId] = next;
@@ -645,7 +659,7 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
     }
     function deliveryCard(offering: { id: string; label: string }, index: number) {
 
-        const delivery = capability.delivery[offering.id] ?? createDelivery();
+        const delivery = capability.delivery[offering.id] ?? startedDelivery(offering.id);
 
         const cardKey = "delivery-" + offering.id;
 

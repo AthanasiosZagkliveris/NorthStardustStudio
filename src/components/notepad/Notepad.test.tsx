@@ -270,7 +270,7 @@ describe("a dated note", () => {
 
 describe("notes by Organisation", () => {
 
-    it("belong to the Organisation they were written in; the open one first and open, the others folded with their counts, General last", () => {
+    it("belong to the Organisation they were written in; the open one's first, directly, with no heading (its name is the header's), the others folded with their counts, General last", () => {
         const lumen = OrganizationService.create("Lumen");
         const quill = OrganizationService.create("Quillfield");
         OrganizationService.setSelected(lumen.id);
@@ -282,12 +282,12 @@ describe("notes by Organisation", () => {
         act(() => { NotepadService.open(); });
 
         const heads = screen.getAllByRole("button", { name: /(Minimise|Maximise) (Lumen|Quillfield|General)/ });
-        expect(heads.map(head => head.closest(".fold-head")?.querySelector(".fold-head-name")?.textContent! + head.closest(".fold-head")?.querySelector(".fold-head-count")?.textContent)).toEqual(["Lumen1", "Quillfield1", "General1"]);
-        expect(heads.map(head => head.getAttribute("aria-expanded"))).toEqual(["true", "false", "false"]);
+        expect(heads.map(head => head.closest(".fold-head")?.querySelector(".fold-head-name")?.textContent! + head.closest(".fold-head")?.querySelector(".fold-head-count")?.textContent)).toEqual(["Quillfield1", "General1"]);
+        expect(heads.map(head => head.getAttribute("aria-expanded"))).toEqual(["false", "false"]);
         expect((screen.getAllByRole("textbox", { name: "Note" }) as HTMLTextAreaElement[]).map(box => box.value)).toEqual(["About Lumen"]);
 
         // Only a note of the open Organization can pick a field on its pages.
-        act(() => { fireEvent.click(heads[1]); });
+        act(() => { fireEvent.click(heads[0]); });
         expect(screen.getAllByRole("button", { name: "Link a field" })).toHaveLength(1);
     });
 
@@ -307,7 +307,8 @@ describe("a field in your notes, pointed at", () => {
     it("draws its stroke inside the box, and outside it (the glow kept) while hovered, focused or its note is hovered", () => {
         const css = stylesheet("notepad.css");
         expect(css).toContain("outline: 4px solid var(--line-noted); outline-offset: -4px;");
-        expect(css).toContain(".is-noted.is-noted.is-noted:is(:hover, :focus, :focus-visible, :focus-within, .is-noted-hot) { outline-offset: 0; }");
+        // (1px over the box's edge, so no hairline opens between the stroke and the border: owner, 2026-11-10, "There is still a double frame!")
+        expect(css).toMatch(/\.is-noted\.is-noted\.is-noted:is\(:hover, :focus, :focus-visible, :focus-within, \.is-noted-hot\) \{[^}]*outline-offset: -1px; \}/);
         expect(css).toContain(".is-noted.is-noted.is-noted:is(:hover, .is-noted-hot):not(:focus, :focus-within):not(:disabled) { box-shadow: 0 0 16px 4px var(--glow-noted); }");
     });
 
@@ -349,6 +350,52 @@ describe("the Notepad panel", () => {
         expect(screen.getByRole("complementary", { name: "Notes" })).toBeTruthy();
         act(() => { fireEvent.click(screen.getByRole("button", { name: "Close notes" })); });
         expect(screen.queryByRole("complementary", { name: "Notes" })).toBeNull();
+    });
+
+    it("holds the person's own notes, not the card notes (owner, 2026-11-09: the Card Notes are the Workbook page's)", () => {
+        const organization = OrganizationService.create("Lumen");
+        OrganizationService.setSelected(organization.id);
+        render(<MemoryRouter><NotepadButton /><NotepadPanel /></MemoryRouter>);
+        act(() => { fireEvent.click(screen.getByRole("button", { name: /^Notes/ })); });
+        const panel = screen.getByRole("complementary", { name: "Notes" });
+        expect(panel.querySelector("[role=tablist]")).toBeNull();
+        expect(panel.querySelector(".notepad-card-note")).toBeNull();
+        expect(screen.getByRole("button", { name: "+ Add note" })).toBeTruthy();
+        // The Notes button opens and closes it.
+        act(() => { fireEvent.click(screen.getByRole("button", { name: /^Notes/ })); });
+        expect(screen.queryByRole("complementary", { name: "Notes" })).toBeNull();
+    });
+
+});
+
+describe("an empty note (owner, 2026-11-09: \"empty notes should be removed\")", () => {
+
+    it("goes when it is left, when the panel closes and when the notes are read; a note with text, a link or a date stays", () => {
+        OrganizationService.setSelected(OrganizationService.create("Lumen").id);
+        render(<MemoryRouter><NotepadPanel /></MemoryRouter>);
+        act(() => { NotepadService.open(); });
+        act(() => { fireEvent.click(screen.getByRole("button", { name: /Add note/ })); });
+        const box = screen.getByRole("textbox", { name: "Note" });
+        // (While it is being written it stays.)
+        expect(NotepadService.count()).toBe(1);
+        act(() => { fireEvent.blur(box, { relatedTarget: document.body }); });
+        expect(NotepadService.count()).toBe(0);
+
+        const written = NotepadService.addNote("");
+        NotepadService.setText(written, "Kept");
+        const dated = NotepadService.addNote("");
+        NotepadService.setDate(dated, "2026-11-20");
+        NotepadService.addNote("");
+        act(() => { NotepadService.close(); });
+        expect(NotepadService.notes().map(note => note.id).sort()).toEqual([written, dated].sort());
+
+        // Saved empty notes are taken away when the notes are read again.
+        localStorage.setItem(notepadStorageKey(DEFAULT_PROFILE), JSON.stringify({ version: 1, notes: [
+            { id: "n1", organizationId: "", text: "", links: [], createdAt: 1 },
+            { id: "n2", organizationId: "", text: "A thought", links: [], createdAt: 2 }
+        ] }));
+        NotepadService.use(LocalNotepadStore);
+        expect(NotepadService.notes().map(note => note.id)).toEqual(["n2"]);
     });
 
 });

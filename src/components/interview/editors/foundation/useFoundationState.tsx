@@ -12,7 +12,7 @@ import { FieldMark, FieldStatus } from "../../fields/fieldMarks.tsx";
 import StrategyTextArea from "../../fields/StrategyTextArea.tsx";
 import { useItemFolds } from "../../fields/useItemFolds.ts";
 import { toggledIn } from "../../fields/toggledIn.ts";
-import { BusinessFoundationEditorProps, DescriptionPart, OPTIONAL_DESCRIPTION_PART } from "./shared.tsx";
+import { BusinessFoundationEditorProps, DescriptionPart, OPTIONAL_DESCRIPTION_PART, SingleColumn } from "./shared.tsx";
 import { createBusinessCustomerSegment, segmentHue } from "../../../../framework/engine/AnswerUtils.ts";
 import { segmentSettle } from "../../../../framework/engine/SegmentQuestions.ts";
 import { segmentContextFor } from "../../../../framework/engine/SegmentContext.ts";
@@ -179,7 +179,7 @@ export function useFoundationState(props: BusinessFoundationEditorProps) {
     }
     /**
      * A named group of fields inside a card -- the treatment
-     * "Competitors SWOT Analysis" already had. Its title is a
+     * "SWOT Analysis" already had. Its title is a
      * subhead rather than a field label, so several fields can
      * belong to it and read as one piece of work.
      */
@@ -238,7 +238,10 @@ export function useFoundationState(props: BusinessFoundationEditorProps) {
         /** Its fold, where the group folds (see groupFold). */
         fold?: { open: boolean; label: string; onToggle: () => void },
         /** The boxes of questions in ONE column, in their order (the Profile's card, which floats at the width every floating card has). */
-        oneColumn = false
+        oneColumn = false,
+        /** The section's title and its "i": a Profile with an end user has two, "The buyer" and "The end user" (doc 36, 2.1). */
+        title = "Description",
+        info?: InfoPoint[]
     ) {
 
         const box = (part: DescriptionPart) => {
@@ -320,20 +323,20 @@ export function useFoundationState(props: BusinessFoundationEditorProps) {
                 return (
                     <div className="business-segment-box" key={part.id}>
                         <div className="legal-entity-org-section">{labelRow}</div>
-                        {asked && part.questions.map((question, at) => (
+                        {asked && (part.body ?? part.questions.map((question, at) => (
                             <div className={"legal-entity-org-section" + (at % 2 === 1 ? " legal-entity-org-band" : "")} key={at}>{question}</div>
-                        ))}
+                        )))}
                         {/* The box ends with the shared Note (the tick and the word, as every card has), ticked where it holds words. */}
                         {part.note && (
                             <div className={"legal-entity-org-section business-note-band" + (part.questions.length % 2 === 1 ? " legal-entity-org-band" : "")}>
                                 <OptionalNote
                                     label="Notes"
-                                    fieldId={part.title + " notes"}
+                                    fieldId={part.noteId ?? part.title + " notes"}
                                     ariaLabel={kind + " description: " + part.title + " notes"}
                                     placeholder={part.placeholder ?? "Add a note"}
                                     disabled={disabled}
-                                    value={current[part.id] ?? ""}
-                                    onChange={(next) => onNext({ ...current, [part.id]: next })}
+                                    value={part.noteValue ?? current[part.id] ?? ""}
+                                    onChange={(next) => part.onNote ? part.onNote(next) : onNext({ ...current, [part.id]: next })}
                                 />
                             </div>
                         )}
@@ -391,7 +394,8 @@ export function useFoundationState(props: BusinessFoundationEditorProps) {
         let leftSet = new Set(parts.slice(0, Math.min(half, parts.length)).map(part => part.id));
         let best = Infinity;
         for (let mask = 1; mask < (1 << parts.length) - 1; mask++) {
-            if (!(mask & 1)) {
+            // (A box that stays with the first, the Segment's End user part, stands in the left column too.)
+            if (!(mask & 1) || parts.some((part, at) => part.withFirst && !(mask & (1 << at)))) {
                 continue;
             }
             const left = weights.reduce((sum, weight, at) => sum + (mask & (1 << at) ? weight : 0), 0);
@@ -405,11 +409,7 @@ export function useFoundationState(props: BusinessFoundationEditorProps) {
         const rightBoxes = parts.filter(part => !leftSet.has(part.id));
 
         const boxes = split && oneColumn && parts.some(part => part.questions)
-            ? (
-                <div className="legal-entity-grid legal-entity-grid-pairs legal-entity-grid-organization legal-entity-audience business-segment-grid business-segment-grid-single">
-                    <div className="legal-entity-field">{column(parts)}</div>
-                </div>
-            )
+            ? <SingleColumn>{column(parts)}</SingleColumn>
             : split && parts.some(part => part.questions)
             ? (
                 <div className="legal-entity-grid legal-entity-grid-pairs legal-entity-grid-organization legal-entity-audience business-segment-grid">
@@ -437,9 +437,9 @@ export function useFoundationState(props: BusinessFoundationEditorProps) {
                 : parts.map(box);
 
         return group(
-            "Description",
+            title,
             boxes,
-            undefined,
+            info,
             fold
         );
 

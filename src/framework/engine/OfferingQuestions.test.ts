@@ -1,6 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { asBusinessFoundationValue } from "./AnswerBusinessFoundation";
-import { draftOffered, highestRated, offeringAsks, offeringOptions, offeringShown, valueMismatch, valuePropositionDraft, valuePropositionOpenItems } from "./OfferingQuestions";
+import { OUTCOME_IDS } from "./PositioningIds";
+import { offeringContextOf } from "./EffectiveAnswers";
+import { OFFERING_BOX_QUESTIONS, OFFERING_QUESTIONS, asOfferingAnswers, draftOffered, highestRated, offeringAnswerLines, offeringAsks, offeringChoose, offeringInfo, offeringOptions, offeringOptionsWith, offeringShown, valueMismatch, valuePropositionDraft, valuePropositionOpenItems } from "./OfferingQuestions";
 
 const segment = asBusinessFoundationValue({
     segments: [{
@@ -28,6 +30,25 @@ describe("the Offering's questions (doc 43; owner, 2026-11-07)", () => {
         expect(offeringShown({ o2: ["idea"], o4: ["speed"] }, { type: "Product", stage: "grow", differentiation: ["cost"] })).toMatchObject({ o2: ["idea"], o4: ["speed"] });
         expect(offeringShown({ o1: ["physical"] }, { type: "Service" }).o1).toBeUndefined();
     });
+    it("starts O4 from Performance & Innovation and Ecosystem & Integration through the nearest L1 options (doc 34, 5.2a; owner, 2026-11-08)", () => {
+        expect(offeringShown({}, { type: "Product", differentiation: ["performance"] }).o4).toEqual(["quality-and-results", "expert-knowledge"]);
+        expect(offeringShown({}, { type: "Product", differentiation: ["ecosystem"] }).o4).toEqual(["ease-and-convenience"]);
+    });
+    it("starts O4 from the buyer's outcome saved on Positioning before 2026-11-08 (O4 owns it now), through the crosswalk, after the differentiation's ticks (doc 34, 5.2a)", () => {
+        // (Every outcome has its value in O4's list already: O4 needed no new option.)
+        const values = offeringOptions("o4", { type: "Product" }).map(option => option.id);
+        for (const outcome of OUTCOME_IDS) {
+            const start = offeringShown({}, { type: "Product", outcome: [outcome] }).o4 ?? [];
+            expect(start.length, outcome).toBeGreaterThan(0);
+            expect(start.every(id => values.includes(id)), outcome).toBe(true);
+        }
+        expect(offeringShown({}, { type: "Product", outcome: ["savings"] }).o4).toEqual(["lower-price"]);
+        expect(offeringShown({}, { type: "Product", outcome: ["assurance"] }).o4).toEqual(["safety-and-low-risk", "trust-and-reputation"]);
+        // The differentiation's first, then the outcome's, three at most; a saved O4 wins.
+        expect(offeringShown({}, { type: "Product", differentiation: ["cost"], outcome: ["time"] }).o4).toEqual(["lower-price", "speed", "ease-and-convenience"]);
+        expect(offeringShown({}, { type: "Product", differentiation: ["premium"], outcome: ["prestige"] }).o4).toEqual(["quality-and-results", "shared-values-or-identity"]);
+        expect(offeringShown({ o4: ["good-support"] }, { type: "Product", outcome: ["time"] }).o4).toEqual(["good-support"]);
+    });
 });
 
 describe("the Value Proposition's draft and open items (doc 42)", () => {
@@ -38,6 +59,12 @@ describe("the Value Proposition's draft and open items (doc 42)", () => {
         expect(highestRated(segment.profiles.map(profile => profile.questions ?? {}), "e1")).toBe("win-customers-or-earn-more");
         expect(valuePropositionDraft(segment, offering, answers, { type: "Service" }))
             .toBe("For Busy parents who wait too long and want to grow their income, Quick Book is a live online session that offers speed.");
+    });
+    it("ends the draft with what the Offering stands out for: a value a Profile rates Essential that every Competitor is weak on (owner, 2026-11-09)", () => {
+        const answers = offeringShown(segment.offerings[0].questions ?? {}, { type: "Service" });
+        const draft = valuePropositionDraft(segment, segment.offerings[0], answers, { type: "Service" }, [{ ...segment.profiles[0].questions, "b1-rating": ["speed:5"] }]);
+        expect(draft).toBe("For Busy parents who wait too long and want to grow their income, Quick Book is a live online session that offers speed, and it stands out for speed.");
+        expect(draft).not.toMatch(/unlike/i);
     });
     it("lists what is open: values, needs by id, worries", () => {
         const answers = [offeringShown(segment.offerings[0].questions ?? {}, { type: "Service", worries: ["the-price-or-their-budget", "whether-it-fits-their-needs"] })];
@@ -50,16 +77,176 @@ describe("the Value Proposition's draft and open items (doc 42)", () => {
         ]);
         expect(valueMismatch([{ b1: ["speed"] }], [{ name: "X", answers: { o4: ["speed"] } }])).toEqual({ unmet: [], unwanted: [] });
     });
+    it("counts an unwanted benefit only from O4 ticks the user saved, not from its starting ticks (owner, 2026-11-08)", () => {
+        const unsaved = { ...segment, offerings: [{ ...segment.offerings[0], questions: { o1: ["live"] } }] };
+        const started = [offeringShown(unsaved.offerings[0].questions, { type: "Service", differentiation: ["premium"] })];
+        expect(started[0].o4).toEqual(["quality-and-results", "shared-values-or-identity"]);
+        const items = valuePropositionOpenItems(unsaved, started);
+        expect(items.map(item => item.kind)).not.toContain("Unwanted benefit");
+        // (The starting ticks still count for the other open items: Quality is done best, so only Speed is unmet.)
+        expect(items.filter(item => item.kind === "Unmet value").map(item => item.text)).toEqual(["Your Profiles care about Speed, and no Offering does it best."]);
+        // A tick the user saved counts.
+        const savedTicks = { ...segment, offerings: [{ ...segment.offerings[0], questions: { o1: ["live"], o4: ["shared-values-or-identity"] } }] };
+        expect(valuePropositionOpenItems(savedTicks, [offeringShown(savedTicks.offerings[0].questions, { type: "Service" })]).map(item => item.kind)).toContain("Unwanted benefit");
+    });
 });
 
 describe("no question asked twice (owner, 2026-11-07: \"avoid overlapping and repetition\")", () => {
     it("asks the terms in O3, leaves the payment terms out of O10, and lets O7 answer the Support worry", () => {
-        expect(offeringOptions("o10", { type: "Service" }).map(option => option.id)).toEqual(["access", "brief", "approval", "place", "equipment"]);
+        expect(offeringOptions("o10", { type: "Service" }).map(option => option.id)).toEqual(["access", "brief", "approval", "place", "equipment", "home", "attendance"]);
         expect(offeringOptions("o8", { type: "Service", worries: ["support-after-they-buy", "risk-or-security"] }).map(option => option.id)).toEqual(["risk-or-security"]);
         expect(offeringAsks("o8", { type: "Service", worries: ["support-after-they-buy"] })).toBe(false);
         const support = { ...segment, profiles: [{ ...segment.profiles[0], questions: { e3: ["support-after-they-buy"] } }] };
         const kinds = (o7: string) => valuePropositionOpenItems(support, [{ o7: [o7] }]).filter(item => item.kind === "Worry left open").length;
         expect(kinds("none")).toBe(1);
         expect(kinds("guides")).toBe(0);
+    });
+});
+
+describe("O2, O3, O10 and O18 from the research (2026-11-08)", () => {
+
+    it("starts O2 at Yes, now while launching", () => {
+        expect(offeringShown({}, { type: "Service", stage: "launch" }).o2).toEqual(["now"]);
+        expect(offeringShown({}, { type: "Service", stage: "plan" }).o2).toEqual(["building"]);
+    });
+
+    it("reads a saved A membership as A subscription / membership, and keeps A project or contract first for an invoice", () => {
+        expect(asOfferingAnswers({ o3: ["membership"] }).o3).toEqual(["subscription"]);
+        expect(offeringShown({ o3: ["membership"] }, { type: "Service" }).o3).toEqual(["subscription"]);
+        const ids = offeringOptions("o3", { type: "Service" }).map(option => option.id);
+        expect(ids).toEqual(["once", "subscription", "licence", "payg", "session", "rent", "project", "retainer", "commission", "free"]);
+        expect(offeringOptions("o3", { type: "Service" }).find(option => option.id === "subscription")?.label).toBe("A subscription / membership");
+        expect(offeringOptions("o3", { type: "Service", pay: ["invoice"] })[0].id).toBe("project");
+        expect(offeringOptions("o3", { type: "Service", pay: ["invoice"] })).toHaveLength(10);
+    });
+
+    it("says only the Organisation country's cancellation rule in O18's \"i\"", () => {
+        const info = (country?: string) => offeringInfo("o18", { type: "Service", country });
+        expect(info()).toEqual(["The terms your customers agree to.", "Cancellation rights differ by country; check the rules where you sell.", "For an age limit, write it in the Notes."]);
+        expect(info("DE")).toEqual(info());
+        expect(info("GB")[1]).toMatch(/^In the UK, a consumer can cancel/);
+        expect(info("GB")[2]).toMatch(/^Exceptions: goods made to their specification/);
+        expect(info("GB")[4]).toMatch(/Consumer Contracts Regulations 2013, regulation 28/);
+        expect(info("IE")[1]).toMatch(/^In Ireland and the EU/);
+        expect(info("IE")[4]).toMatch(/2011\/83\/EU, Article 16/);
+        expect(info("US").join(" ")).toMatch(/Cooling-Off Rule gives 3 business days/);
+        expect(info("CA")[1]).toMatch(/^Set by each province/);
+        expect(info("AU")[1]).toMatch(/10 business days/);
+        expect(info("NZ")[1]).toMatch(/5 working days/);
+        for (const country of ["GB", "IE", "US", "CA", "AU", "NZ"]) {
+            const lines = info(country);
+            expect(lines[0]).toBe("The terms your customers agree to.");
+            expect(lines).toContain("For an age limit, write it in the Notes.");
+            expect(lines[lines.length - 1]).toMatch(/^Based on: /);
+            for (const line of lines) {
+                expect(line.length, line).toBeLessThanOrEqual(160);
+            }
+        }
+        expect(offeringInfo("o3", { type: "Service", country: "GB" })).toBe(offeringInfo("o3", { type: "Service" }));
+    });
+
+    it("keeps every new point of O3 and O10 within 160 characters", () => {
+        for (const line of [...offeringInfo("o3", { type: "Service" }), ...offeringInfo("o10", { type: "Service" })]) {
+            expect(line.length, line).toBeLessThanOrEqual(160);
+        }
+    });
+
+    it("starts O4 from Personal Service & Relationship with Personalisation and Support", () => {
+        expect(offeringShown({}, { type: "Service", differentiation: ["personal"] }).o4).toEqual(["a-service-made-for-them", "good-support"]);
+    });
+
+    it("drafts the new goals in their phrases", () => {
+        const draft = (goal: string) => valuePropositionDraft(segment, segment.offerings[0], {}, { type: "Service" }, [{ e1: [goal], e2: ["it-takes-too-long"] }]);
+        expect(draft("save-time-money")).toContain("want to save time and money");
+        expect(draft("get-a-problem-fixed")).toContain("want to get a problem fixed");
+        expect(draft("enjoy-themselves")).toContain("want to enjoy themselves");
+        expect(draft("meet-a-requirement")).toContain("want to meet their obligations");
+    });
+
+});
+
+/* Phase 5, P6 and P7 (owner, 2026-11-08): the boxes in the order of the card; the codes stay. */
+describe("the Offering's boxes", () => {
+    it("asks O1 alone in Function, O8 then O4 in Customer Benefit (after the needs addressed), and O2, O3, O15, O6 in Purchase & Delivery", () => {
+        expect(OFFERING_BOX_QUESTIONS.function).toEqual(["o1"]);
+        expect(OFFERING_BOX_QUESTIONS.benefit).toEqual(["o8", "o4"]);
+        // (Owner, 2026-11-09: O3b is a band of its own, straight after O3's.)
+        expect(OFFERING_BOX_QUESTIONS.delivery).toEqual(["o2", "o3", "o3t", "o15", "o6"]);
+    });
+    it("points O8's and O15's \"i\" where the other question stands now", () => {
+        expect(offeringInfo("o8", { type: "Service" }).join(" ")).toContain("in Support & Communication");
+        expect(offeringInfo("o8", { type: "Service" }).join(" ")).not.toContain("above");
+        expect(offeringInfo("o15", { type: "Service" }).join(" ")).toContain("the question below");
+    });
+});
+
+/* Phase 5, P5 (owner, 2026-11-08): O16 and O17 held back while Planning, their saved answers kept. */
+describe("O16 and O17 held back while Planning", () => {
+    it("are not asked while Planning (an empty stage too) and are from Launching; a saved answer stays readable", () => {
+        for (const stage of ["plan", undefined]) {
+            expect(offeringAsks("o16", { type: "Service", stage })).toBe(false);
+            expect(offeringAsks("o17", { type: "Service", stage })).toBe(false);
+        }
+        expect(offeringAsks("o16", { type: "Service", stage: "launch" })).toBe(true);
+        expect(offeringAsks("o17", { type: "Service", stage: "launch" })).toBe(true);
+        expect(offeringShown({ o16: ["sameday"], o17: ["updates"] }, { type: "Service", stage: "plan" })).toEqual(expect.objectContaining({ o16: ["sameday"], o17: ["updates"] }));
+    });
+    it("names O17's repairs option \"Repairs / maintenance\", its id unchanged (owner, 2026-11-09)", () => {
+        expect(offeringOptions("o17", { type: "Service", stage: "launch" }).find(option => option.id === "repairs")?.label).toBe("Repairs / maintenance");
+    });
+});
+
+/* Phase 5, three small fixes (2026-11-08). */
+describe("O18 between businesses and O3's order from the settled pay", () => {
+    it("says on a business Segment that consumer cancellation rights do not apply, instead of the country's consumer rule", () => {
+        const info = offeringInfo("o18", { type: "Service", country: "GB", frame: "business" });
+        expect(info).toContain("Between businesses, your contract terms set the cancellation rules.");
+        expect(info.join(" ")).not.toContain("14 days");
+        expect(offeringInfo("o18", { type: "Service", country: "GB", frame: "people" }).join(" ")).toContain("14 days");
+    });
+    it("orders O3 by the Segment's settled pay: a stale invoice on a people Segment no longer puts A project or contract first", () => {
+        const foundation = asBusinessFoundationValue({ segments: [{ id: "s", name: "Parents", questions: { pay: ["card", "invoice"] }, offerings: [{ id: "o", name: "Tutoring", category: "Service" }] }] });
+        const segment = foundation.segments[0];
+        const people = { relationships: ["b2c"], marketType: "single", audience: ["adult"], buyerCategory: ["b2c:direct"], endUser: [], stage: "launch" };
+        const context = offeringContextOf(segment.offerings[0], segment, people);
+        expect(context.pay).toEqual(["card"]);
+        expect(context.frame).toBe("people");
+        expect(offeringOptions("o3", context)[0].id).not.toBe("project");
+    });
+});
+
+describe("O6 and O7 are ticks (2026-11-09: one Offering is often delivered several ways, and given several kinds of help)", () => {
+    it("asks both as ticks with no limit, and reads a saved single answer as one tick", () => {
+        for (const id of ["o6", "o7"]) {
+            const question = OFFERING_QUESTIONS.find(entry => entry.id === id)!;
+            expect(question.many).toBe(true);
+            expect(question.max).toBeUndefined();
+        }
+        expect(offeringShown({ o6: ["collect"], o7: ["guides"] }, { type: "Product" })).toMatchObject({ o6: ["collect"], o7: ["guides"] });
+        expect(offeringShown({ o6: ["collect", "shipped"] }, { type: "Product" }).o6).toEqual(["collect", "shipped"]);
+    });
+
+    it("lets None stand alone in O7, as in O17", () => {
+        expect(offeringChoose("o7", ["guides"], ["guides", "none"])).toEqual(["none"]);
+        expect(offeringChoose("o7", ["none"], ["none", "personal"])).toEqual(["personal"]);
+        expect(offeringChoose("o7", ["guides"], ["guides", "personal"])).toEqual(["guides", "personal"]);
+    });
+
+    it("no longer offers It depends on the plan, but keeps a saved one shown and printed until it is unticked", () => {
+        expect(offeringOptions("o7", { type: "Service" }).map(option => option.id)).not.toContain("plan");
+        expect(offeringOptionsWith("o7", { type: "Service" }, ["plan"]).map(option => option.id)).toContain("plan");
+        const shown = offeringShown({ o7: ["plan"] }, { type: "Service" });
+        expect(shown.o7).toEqual(["plan"]);
+        expect(offeringAnswerLines(shown, { type: "Service" })).toContainEqual({ label: "What help do you give after they buy?", value: "It depends on the plan" });
+    });
+
+    it("counts any help but None as answering the Support worry", () => {
+        const support = asBusinessFoundationValue({ segments: [{ id: "s", name: "S", profiles: [{ id: "p", name: "A", questions: { e3: ["support-after-they-buy"] } }], offerings: [{ id: "o", name: "O", category: "Service" }] }] }).segments[0];
+        const open = (o7: string[]) => valuePropositionOpenItems(support, [{ o7 }]).filter(item => item.kind === "Worry left open").length;
+        expect(open(["none"])).toBe(1);
+        expect(open(["guides", "personal"])).toBe(0);
+        expect(open(["plan"])).toBe(0);
+        // (O8 never offers Support: O7 answers it.)
+        expect(offeringAsks("o8", { type: "Service", worries: ["support-after-they-buy"] })).toBe(false);
     });
 });

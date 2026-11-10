@@ -56,26 +56,25 @@ const INFO = {
     ],
 
     managementExperience: [
-        "Experience leading people, projects, budgets, businesses, or operations.",
-        "Say how big: how many people, how much money.",
+        "Say how big it was: how many people, how much money and for how long.",
         "It shows they can run the organisation as it grows."
     ],
 
     achievements: [
-        "What was achieved, what was your contribution, and what was the measurable result?",
+        "One achievement a line, with a figure where there is one: sales, customers, savings.",
         "Any business they started before, and how it turned out.",
         "Results are what make a track record believable."
     ],
 
     skills: [
-        "Add one entry for each, and choose its type: a skill, professional or technical expertise, a degree or qualification, a certification, a licence, or a professional membership or other credential.",
+        "Add one entry for each, and choose its type.",
         "Name what the plan relies on them for: sales, finance, operations, technical.",
         "Lenders and investors check that every capability the plan needs is covered by someone."
     ],
 
     teamGaps: [
-        "What important capabilities does the team currently lack, and how will they be covered?",
-        "For example: planned hires, advisors, mentors, partners, contractors or external specialists, training.",
+        "The capabilities the plan needs that the team lacks today.",
+        "For each gap, say who covers it and from when.",
         "A gap that is named and covered reads as a strength; one left unnamed reads as a risk."
     ]
 
@@ -294,9 +293,10 @@ export default function FoundersProfileEditor({
         );
     }
 
-    function field(text: string, info: string[], control: ReactNode, wide = false) {
+    /** `tint`: in the founder's card in its dialog, the field is a tinted band (the bands alternate: owner, 2026-11-10). */
+    function field(text: string, info: string[], control: ReactNode, wide = false, tint = false) {
         return (
-            <div className={wide ? "legal-entity-field-wide" : "legal-entity-field"}>
+            <div className={(wide ? "legal-entity-field-wide" : "legal-entity-field") + " founder-band" + (tint ? " founder-band-tint" : "")}>
                 {label(text, info)}
                 {control}
             </div>
@@ -418,7 +418,7 @@ export default function FoundersProfileEditor({
                                 disabled={disabled}
                                 onChange={(items) => updateFounder(founder.id, { roles: items })}
                             />
-                        ))}
+                        ), false, true)}
                         </div>
 
                         {/* ROW 1, TWO EQUAL COLUMNS: Relevant Industry
@@ -447,7 +447,7 @@ export default function FoundersProfileEditor({
                                 value={founder.managementExperience}
                                 onChange={(next) => updateFounder(founder.id, { managementExperience: next })}
                             />
-                        ))}
+                        ), false, true)}
 
                         </div>
 
@@ -465,7 +465,7 @@ export default function FoundersProfileEditor({
                             />
                         ))}
 
-                        {field("Skills, Expertise & Qualifications", INFO.skills, skillList(founder, who))}
+                        {field("Skills, Expertise & Qualifications", INFO.skills, skillList(founder, who), false, true)}
 
                         </div>
 
@@ -478,16 +478,17 @@ export default function FoundersProfileEditor({
 
     }
 
-    const lines = (list: readonly string[], count = 4) => list.map(text => text.trim()).filter(text => text.length > 0).slice(0, count);
+    /** Every line, as written (no display cap: the tile lists them all and scrolls, as the Legal Entity tiles; owner, 2026-11-09). */
+    const lines = (list: readonly string[]) => list.map(text => text.trim()).filter(text => text.length > 0);
     /** What a founder's tile says: the roles, a line, then the skills and degrees (each as written: no kind before it). */
     const founderLines = (founder: FounderProfileValue & { name: string }) => {
-        const skills = lines(founder.skills.map(entry => entry.text), 6);
-        return [...lines(founder.roles, 5), ...(skills.length > 0 ? [TILE_DIVIDER, ...skills] : [])];
+        const skills = lines(founder.skills.map(entry => entry.text));
+        return [...lines(founder.roles), ...(skills.length > 0 ? [TILE_DIVIDER, ...skills] : [])];
     };
-    /** The Capability dialog's body: the gaps and how each is covered. */
+    /** The Capability dialog's body: the gaps and how each is covered. (No "i" on its title: it only repeated the Gaps' and the Cover's, doc 39; owner, 2026-11-09.) */
     const capabilityDialog = (
         <div className="column-tile-content legal-entity legal-entity-unframed founders-profile" data-rail={railId(FOUNDERS_PROFILE_SECTIONS[1])}>
-            <div className="business-engagement-section-head"><DialogHeading title="Capability" info={INFO.teamGaps} /></div>
+            <div className="business-engagement-section-head"><DialogHeading title="Capability" /></div>
             <div className="legal-entity-body">
                 {field("Gaps", [INFO.teamGaps[0]], (
                     <StrategyTextArea
@@ -537,7 +538,7 @@ export default function FoundersProfileEditor({
                 };
             })
         ];
-        return <SubTiles label="Founders & Ownership" tiles={tiles} header={subTilesWith} />;
+        return <SubTiles label="Founders & Ownership" tiles={tiles} header={subTilesWith} tilesTitle="Profiles" />;
     }
 
     /* THE PAGE AS TILES: each founder is a tile (the name, the roles), and the capability gaps another. A tile opens its card in its dialog. */
@@ -546,8 +547,8 @@ export default function FoundersProfileEditor({
             ...founders.map((founder, index): SectionTile => {
                 // The roles, a line, then the skills and degrees: two lists, each line with its bullet.
                 // (The skills as the section lists them, each as written: no kind before it.)
-                const skills = lines(founder.skills.map(entry => entry.text), 6);
-                const listed = [...lines(founder.roles, 5), ...(skills.length > 0 ? [TILE_DIVIDER, ...skills] : [])];
+                const skills = lines(founder.skills.map(entry => entry.text));
+                const listed = [...lines(founder.roles), ...(skills.length > 0 ? [TILE_DIVIDER, ...skills] : [])];
                 return {
                 id: "founder-profile-" + founder.id,
                 large: true,
@@ -564,10 +565,10 @@ export default function FoundersProfileEditor({
                 // (Named for what it holds, with no order number: a gaps text and a cover text.)
                 title: "Capability",
                 rail: railId(FOUNDERS_PROFILE_SECTIONS[1]),
-                items: lines([...profile.teamGaps.split("\n"), ...profile.teamCover.split("\n")], 8),
+                items: lines([...profile.teamGaps.split("\n"), ...profile.teamCover.split("\n")]),
                 content: () => (
                     <div className="column-tile-content legal-entity legal-entity-unframed founders-profile" data-rail={railId(FOUNDERS_PROFILE_SECTIONS[1])}>
-                        <div className="business-engagement-section-head"><DialogHeading title="Capability" info={INFO.teamGaps} /></div>
+                        <div className="business-engagement-section-head"><DialogHeading title="Capability" /></div>
                         <div className="legal-entity-body">
                             {field("Gaps", [INFO.teamGaps[0]], (
                                 <StrategyTextArea
@@ -605,7 +606,7 @@ export default function FoundersProfileEditor({
                         <div className="business-capability-section business-capability-tiles-section">
                             {frameTitle ? <div className="business-engagement-section-head tiles-frame-head"><span className="field-group-title business-foundation-subhead">{frameTitle}</span></div> : <div className="business-capability-heading-spacer" aria-hidden="true" />}
                             {founders.length === 0 && (
-                                <p className="legal-entity-empty-note">Add founders under 1. Identity System → 3. Legal Entity → 2. Founders & Ownership and they appear here.</p>
+                                <p className="legal-entity-empty-note">Add founders under 1. Identity System → 1. Definition → Founders & Ownership and they appear here.</p>
                             )}
                             <SectionTiles label="Founders Profile" hue={workHue("define")} tiles={tiles} />
                         </div>
@@ -664,10 +665,10 @@ export default function FoundersProfileEditor({
                                             className="business-engagement-link"
                                             onClick={() => onOpenLegalEntity(["legal-section-1"])}
                                         >
-                                            1. Identity System → 3. Legal Entity → 2. Founders & Ownership
+                                            1. Identity System → 1. Definition → Founders & Ownership
                                         </TextLink>
                                     )
-                                    : "1. Identity System → 3. Legal Entity → 2. Founders & Ownership"}
+                                    : "1. Identity System → 1. Definition → Founders & Ownership"}
                                 {" "}and they appear here.
                             </p>
                         )

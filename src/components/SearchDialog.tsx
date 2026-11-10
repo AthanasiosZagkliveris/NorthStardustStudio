@@ -7,7 +7,7 @@ import { organizationSearchIndex } from "../services/SearchService";
 import { fieldLocation } from "./interview/tiles/openField";
 import { consumeKey } from "./interview/fields/consumeKey";
 import { PALETTE } from "../framework/engine/Palette";
-import type { GlossaryState } from "../pages/Glossary";
+import type { WorkbookState } from "./notepad/Notepad";
 
 type Navigate = ReturnType<typeof useNavigate>;
 
@@ -20,11 +20,11 @@ const YOUR_TERMS_HUE = PALETTE.find(colour => colour.name === "terracotta")?.hue
  * at that term; Back returns to `from`); an answer (its cards
  * unfolded, the box holding it focused, focusText).
  */
-export function openTarget(navigate: Navigate, target: SearchTarget, from?: GlossaryState["from"]): void {
+export function openTarget(navigate: Navigate, target: SearchTarget, from?: WorkbookState["from"]): void {
 
     if (target.term) {
-        const state: GlossaryState = { tab: "glossary", term: target.term.key, from };
-        navigate("/glossary", { state });
+        const state: WorkbookState = { tab: "glossary", term: target.term.key, from };
+        navigate("/workbook", { state });
         return;
     }
 
@@ -115,8 +115,8 @@ export default function SearchDialog({
             return;
         }
         onClose(true);
-        openTarget(navigate, hit.entry.target, location.pathname === "/glossary"
-            ? (location.state as GlossaryState | null)?.from
+        openTarget(navigate, hit.entry.target, location.pathname === "/workbook"
+            ? (location.state as WorkbookState | null)?.from
             : { pathname: location.pathname, state: location.state });
     }
 

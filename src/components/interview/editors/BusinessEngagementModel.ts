@@ -118,7 +118,7 @@ export const SECTIONS = {
             "When in the customer journey does the interaction take place? Each stage chosen is answered separately, because the Approach is individual to each."
         ],
         channelAction: [
-            "Recorded against that Channel in 1. Customer Channel, and shown here so the Approach can build on it rather than repeat it."
+            "Recorded against that Channel in 1. Customer Channel, and shown here so the Approach can build on it."
         ],
         approach: [
             "How will you use this interaction to maintain the relationship with the customer?"
@@ -249,12 +249,12 @@ export interface RelativeQuestion {
  * What the Customer Segment column asks -- and its third question
  * depends on the Segment.
  *
- * Business Data is Page 1's one OPTIONAL parameter: it opens with
- * "If you sell to companies", and a founder selling to people
- * leaves it unticked. Asking an unticked parameter here would show
- * "Nothing recorded yet." against a question that does not apply.
+ * Business Data is asked of a Segment of businesses only: a Segment
+ * is one group, of people or of businesses (doc 35), and a Segment of
+ * people has no Business Data. Asking it here would show "Nothing
+ * recorded yet." against a question that does not apply.
  *
- * So when it is off, the column asks what it can usefully ask
+ * So for a Segment of people the column asks what it can usefully ask
  * about a Segment of people instead -- Market Size & Industry
  * Outlook, and a short form of Page 1's question for it. The tick is the presence of the key, the
  * same test Page 1 makes.

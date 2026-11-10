@@ -67,6 +67,23 @@ export function namedCardsOfPage(value: unknown, systemNumber: number, sectionNu
     return found;
 }
 
+/** Whether a saved answer holds anything the person wrote or chose (an empty page saves empty strings and lists). */
+function hasAnswer(value: unknown): boolean {
+    if (typeof value === "string") {
+        return value.trim() !== "";
+    }
+    if (typeof value === "number" || typeof value === "boolean") {
+        return true;
+    }
+    if (Array.isArray(value)) {
+        return value.some(hasAnswer);
+    }
+    if (value && typeof value === "object") {
+        return Object.entries(value).some(([key, entry]) => key !== "id" && key !== "hue" && hasAnswer(entry));
+    }
+    return false;
+}
+
 export class GlossaryService {
 
     /** Every term the app user has named in an Organisation, each card once (where it is first saved), the Organisation itself first. */
@@ -91,6 +108,62 @@ export class GlossaryService {
     }
 
     /** The app's terms, in alphabetical order. */
+    /**
+     * THE APP'S TERMS THAT HAVE APPEARED (owner, 2026-11-10: "If a term exists in the app but has not appeared yet, it does not need to be in the glossary"):
+     * a term is listed once one of the pages it is used on holds a saved answer in one of these Organisations (or with none open, every term).
+     */
+    static appTermsAppeared(organizationIds: readonly string[]) {
+        const terms = GlossaryService.appTerms();
+        if (organizationIds.length === 0) {
+            return terms;
+        }
+        const answered = new Set<string>();
+        for (const organizationId of organizationIds) {
+            const document = OrganizationService.loadDocument(organizationId) as { systems?: Record<string, { responses?: { sectionNumber: number; value: unknown }[] }> } | null;
+            for (const [system, entry] of Object.entries(document?.systems ?? {})) {
+                for (const response of entry.responses ?? []) {
+                    if (hasAnswer(response.value)) {
+                        answered.add(system + "." + response.sectionNumber);
+                    }
+                }
+            }
+        }
+        return terms.filter(term => !term.places || term.places.some(place => place.card ? GlossaryService.cardWith(organizationIds, place.card) !== null : answered.has(place.system + "." + place.page)));
+    }
+
+    /**
+     * The first card of these Organisations that holds a field (an amortisation period, a useful life): the card a Glossary term is used on, named and
+     * opened by its id (owner, 2026-11-10: "In which card is the Amortisation?").
+     */
+    static cardWith(organizationIds: readonly string[], field: string): { organizationId: string; cardId: string; name: string } | null {
+        for (const organizationId of organizationIds) {
+            const document = OrganizationService.loadDocument(organizationId) as { systems?: Record<string, { responses?: { value: unknown }[] }> } | null;
+            let found: { cardId: string; name: string } | null = null;
+            const walk = (value: unknown) => {
+                if (found || !value || typeof value !== "object") {
+                    return;
+                }
+                if (Array.isArray(value)) {
+                    value.forEach(walk);
+                    return;
+                }
+                const record = value as Record<string, unknown>;
+                if (typeof record.id === "string" && typeof record.name === "string" && record.name.trim() && record[field]) {
+                    found = { cardId: record.id, name: record.name.trim() };
+                    return;
+                }
+                Object.values(record).forEach(walk);
+            };
+            for (const response of document?.systems?.["3"]?.responses ?? []) {
+                walk(response.value);
+            }
+            if (found) {
+                return { organizationId, ...(found as { cardId: string; name: string }) };
+            }
+        }
+        return null;
+    }
+
     static appTerms() {
         return [...APP_TERMS].sort((one, other) => one.term.localeCompare(other.term, "en-GB", { sensitivity: "base" }));
     }

@@ -16,7 +16,7 @@ Clear ownership is what makes every other section in this System (quality, secur
 
 ## 03. Data Quality Help
 
-Data Quality documents how you actually keep your data accurate and usable, not just what you'd like to be true about it.
+Data Quality documents how you actually keep your data accurate and usable.
 Define your quality standards, the methods you use to validate data, how often quality gets reviewed, and what improvement actions are underway.
 Name concrete standards, like "duplicate records minimized," and pair them with a real review cadence, such as monthly audits by a named team.
 Consistent quality here is what makes every report and decision built on this data trustworthy.
@@ -25,7 +25,7 @@ Consistent quality here is what makes every report and decision built on this da
 
 Data Security documents how you actually protect your data from unauthorized access, loss, or misuse.
 Cover your protection measures, how access is controlled, your backup strategy, and how you respond to incidents.
-Combine multiple layers (encryption, multi-factor authentication, monitoring, and backups) rather than relying on a single safeguard.
+Combine multiple layers (encryption, multi-factor authentication, monitoring, and backups), so each safeguard backs up the others.
 Having a documented incident response process is what determines how quickly you can react if something actually goes wrong.
 
 ## 05. Data Lifecycle Help
@@ -46,5 +46,5 @@ This section is your evidence that data governance isn't just a policy on paper:
 
 Data Review is how this entire System stays current: a regular check on whether your governance approach still works as your data and requirements change.
 Set a review schedule, describe what the review actually evaluates, and list improvement actions coming out of it.
-Cover everything above it in one pass (ownership, security, quality, and compliance) rather than reviewing each in isolation.
+Cover everything above it in one pass (ownership, security, quality, and compliance), seeing how each part affects the others.
 Without this section, even a well-designed governance framework slowly falls out of step with how the organization actually operates.

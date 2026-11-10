@@ -11,8 +11,8 @@
           "value": {
             "description": "Quillfield Automation is a one-person automation studio in Brooklyn, New York, founded in 2026 by Jordan Ellis. We design and build AI-assisted workflow automations for small professional-services firms: law, accounting, architecture and marketing firms of 5 to 50 staff. We provide three services. The AI Workflow Audit finds the repetitive work worth automating. The Automation Build puts the chosen workflows into daily use. The Automation Care Retainer keeps them running, secure and up to date.",
             "mission": "To give small professional firms back the hours they lose to repetitive admin. Many small firms spend a large part of each week copying data between tools, chasing documents and writing the same emails again and again. Large consultancies do not serve them, and ready-made AI tools rarely fit how they work. We build reliable, well-documented automations around the tools a firm already uses, so its people can spend their time on client work. This matters because small firms compete on care and expertise, not on admin capacity.",
-            "positioning": "For owners and office managers of small professional-services firms who know automation could help but have no technical staff, Quillfield Automation is a hands-on automation partner in the small-business IT and consulting market. Unlike larger agencies, clients work directly with the person who designs and builds their system, at fixed project prices. Unlike do-it-yourself AI tools, we map the workflow first, build on the firm's existing software, document every step and stay on to maintain it.",
-            "vision": "A future in which every small professional firm can use automation and AI as safely and confidently as a large one. Ten years from now, Quillfield is a trusted name for practical automation among small firms across the north-east United States: a small team of automation specialists, a library of proven and well-documented workflows, and hundreds of client firms whose staff spend their days on skilled work rather than admin. Success means clients who stay for years, recommend us to their peers and never feel locked in."
+            "positioning": "For owners and office managers of small professional-services firms who know automation could help but have no technical staff, Quillfield Automation is a hands-on automation partner in the small-business IT and consulting market. Clients work directly with the person who designs and builds their system, at fixed project prices, and we map the workflow first, build on the firm's existing software, document every step and stay on to maintain it.",
+            "vision": "A future in which every small professional firm can use automation and AI as safely and confidently as a large one. Ten years from now, Quillfield is a trusted name for practical automation among small firms across the north-east United States: a small team of automation specialists, a library of proven and well-documented workflows, and hundreds of client firms whose staff spend their days on skilled work. Success means clients who stay for years, recommend us to their peers and never feel locked in."
           }
         },
         {
@@ -99,17 +99,17 @@
               {
                 "id": "requirement-p3u8b1lc",
                 "type": "additional",
-                "name": "Certificate of Assumed Name (NY General Business Law, Section 130)",
+                "name": "Assumed Name",
                 "reference": "Filed with the Kings County Clerk on 2026-08-17",
-                "notes": "A sole proprietor who trades under a name other than their own files a certificate of assumed name with the county clerk before using it. It is the only registration a sole proprietorship needs in New York: no state filing, no publication, no annual fee. The Kings County Clerk's fee is $25.",
+                "notes": "A sole proprietor who trades under a name other than their own files a certificate of assumed name with the county clerk before using it. It is the only registration a sole proprietorship needs in New York: no state filing, no publication, no annual fee. The Kings County Clerk's fee is $25.\nCertificate of Assumed Name, NY General Business Law, Section 130.",
                 "offerInExpenses": false
               },
               {
                 "id": "requirement-o9a3g6mk",
                 "type": "other",
-                "name": "Self-employment tax and estimated payments (IRS Schedule SE, Form 1040-ES)",
+                "name": "Self-employment tax",
                 "reference": "First estimated payment due 2027-01-15",
-                "notes": "As a sole proprietor, Jordan pays income tax and self-employment tax (Social Security and Medicare, about 15.3% of net earnings) personally, in quarterly estimated payments. The business itself pays no income tax. To be confirmed with the accountant.",
+                "notes": "As a sole proprietor, Jordan pays income tax and self-employment tax (Social Security and Medicare, about 15.3% of net earnings) personally, in quarterly estimated payments. The business itself pays no income tax. To be confirmed with the accountant.\nEstimated payments: IRS Schedule SE, Form 1040-ES.",
                 "offerInExpenses": false
               },
               {
@@ -123,16 +123,16 @@
               {
                 "id": "requirement-u5b8t2rz",
                 "type": "additional",
-                "name": "NYC Unincorporated Business Tax (UBT)",
+                "name": "NYC Business Tax",
                 "reference": "Not yet required",
-                "notes": "A sole proprietor doing business in New York City may owe the Unincorporated Business Tax (UBT) once business income passes the exemption threshold. To be confirmed with the accountant each year.",
+                "notes": "A sole proprietor doing business in New York City may owe the Unincorporated Business Tax (UBT) once business income passes the exemption threshold. To be confirmed with the accountant each year.\nUnincorporated Business Tax (UBT).",
                 "offerInExpenses": false
               }
             ],
             "expenses": [
               {
                 "id": "expense-a1r7t3oz",
-                "name": "Certificate of Assumed Name filing",
+                "name": "Assumed Name filing",
                 "date": "2026-08-17",
                 "responsibility": "founder-q7m2x4ke",
                 "cost": "25",
@@ -203,7 +203,7 @@
           "sectionNumber": 1,
           "value": {
             "aesthetics": "A person in their thirties or forties in smart-casual clothes: a navy overshirt or knit over a plain white or light grey top, dark trousers and clean, simple shoes. Few accessories: a plain watch and a laptop in a matte grey sleeve. Neat, practical and unfussy, in navy, teal, off-white and grey. Nothing flashy, and nothing that looks like a tech start-up.",
-            "attitude-body-language": "Calm and attentive. Sits beside the client at the same screen rather than presenting from the front of the room. Open posture, relaxed shoulders and steady eye contact. Listens more than they talk and takes notes by hand. Points to the real workflow on screen when explaining something. Never rushes and never glances at the clock.",
+            "attitude-body-language": "Calm and attentive. Sits beside the client at the same screen. Open posture, relaxed shoulders and steady eye contact. Listens more than they talk and takes notes by hand. Points to the real workflow on screen when explaining something. Never rushes and never glances at the clock.",
             "communication-voice": "Plain, precise and friendly. An even tone at a steady pace. Uses the client's own names for their tasks and avoids jargon; when a technical term is needed, it is explained once, in one sentence. Short sentences and concrete numbers: hours saved, steps removed. Honest about limits, and happy to say: \"I don't know yet, I'll check.\" Writes as it speaks: clear subject lines, a summary at the top, then short bullet points.",
             "imprint": "First impression: \"this person understands how our office really works, and won't oversell.\" Lasting impression: relief and a sense of control. People should feel that their messy processes were taken seriously, that nothing will break without warning, and that they now own a system they understand. They remember the calm, the clear documentation and the hours they got back."
           }
@@ -349,7 +349,7 @@
               {
                 "id": "segment-qf3n8d2w",
                 "hue": 204,
-                "name": "Small professional-services firms in New York City",
+                "name": "NYC Service Firms",
                 "description": {},
                 "questions": {
                   "reach": [
@@ -400,7 +400,7 @@
                 "profiles": [
                   {
                     "id": "profile-h5t9w2rk",
-                    "name": "The Stretched Operations Manager",
+                    "name": "The Busy Ops Manager",
                     "description": {
                       "personal": "Dana Morales, operations manager at a 22-person accounting firm in Downtown Brooklyn; the person everyone asks when a system breaks.",
                       "psychographics": "Practical, organised and overloaded; wants fewer manual steps and fewer mistakes; wary of hype and of tools that create more work than they save.",
@@ -492,9 +492,9 @@
                     "objections": "",
                     "needs": {
                       "functional": [
-                        "Hand repetitive admin work to reliable automations",
-                        "Faster client intake and document handling",
-                        "Automations that keep working after launch"
+                        "Stop doing repetitive admin by hand",
+                        "Set up new clients faster",
+                        "Keep automations running after launch"
                       ],
                       "functionalIds": [
                         "need-1f10ah4",
@@ -614,9 +614,9 @@
                     "objections": "Has tried no-code tools alone and hit limits; unsure about paying a consultant for something that might be done in-house; concerned about lock-in.",
                     "needs": {
                       "functional": [
-                        "A clear plan for where AI actually saves time",
-                        "Scale delivery without hiring more staff",
-                        "Automations that keep working after launch"
+                        "Find where AI saves time",
+                        "Take on more clients without hiring",
+                        "Keep automations running after launch"
                       ],
                       "functionalIds": [
                         "need-bpzdza",
@@ -632,11 +632,11 @@
                     }
                   }
                 ],
-                "valueProposition": "For small New York professional-services firms that are drowning in repetitive admin, Quillfield Automation finds where AI and automation will save the most hours, builds those workflows on the tools the firm already uses, and keeps them running. A fixed-price audit comes first, so every build starts with a clear business case, and every automation is documented, privacy-reviewed and monitored. Unlike marketplace freelancers, Quillfield stays accountable after launch; unlike large AI consultancies, it works at a price and pace that suits a 10-person firm.",
+                "valueProposition": "For small New York professional-services firms that are drowning in repetitive admin, Quillfield Automation finds where AI and automation will save the most hours, builds those workflows on the tools the firm already uses, and keeps them running. A fixed-price audit comes first, so every build starts with a clear business case, and every automation is documented, privacy-reviewed and monitored. Quillfield stays accountable after launch, at a price and pace that suit a 10-person firm.",
                 "competitors": [
                   {
                     "id": "competitor-f1r3l8ns",
-                    "name": "Freelance automation specialists on marketplaces (Upwork, Fiverr)",
+                    "name": "Freelance specialists",
                     "type": "direct",
                     "description": {
                       "offerings": "Zapier, Make and AI chatbot builds, priced by the task or the hour.",
@@ -706,7 +706,7 @@
                   },
                   {
                     "id": "competitor-c9n2s5ul",
-                    "name": "Larger AI consultancies and systems integrators",
+                    "name": "AI consultancies",
                     "type": "indirect",
                     "description": {
                       "offerings": "AI strategy, custom model work and enterprise integrations.",
@@ -774,7 +774,7 @@
                   },
                   {
                     "id": "competitor-s4d6i7ty",
-                    "name": "DIY no-code and built-in AI tools",
+                    "name": "DIY AI tools",
                     "type": "substitutes",
                     "description": {
                       "offerings": "Zapier, Make, Microsoft Copilot and AI features inside practice-management software, set up by the firm itself.",
@@ -831,7 +831,7 @@
                   },
                   {
                     "id": "competitor-m3q5o8dx",
-                    "name": "Doing it manually or hiring an admin",
+                    "name": "Manual work",
                     "type": "status-quo",
                     "description": {
                       "offerings": "Staff keep copying data and chasing documents by hand, or the firm hires another administrator.",
@@ -1154,7 +1154,7 @@
                   {
                     "id": "channel-qfbook01",
                     "category": "Website",
-                    "name": "Booking / Registration Page",
+                    "name": "Booking Page",
                     "links": [
                       "quillfieldautomation.com/book"
                     ],
@@ -1248,7 +1248,7 @@
                   {
                     "id": "channel-r4f7p1xk",
                     "category": "Other",
-                    "name": "Referral partners (bookkeepers and IT providers)",
+                    "name": "Referral partners",
                     "links": [
                       ""
                     ],
@@ -2042,9 +2042,9 @@
                   "slots": [
                     {
                       "id": "resource-h9s3u5fz",
-                      "name": "Laptop stand, keyboard and mouse",
+                      "name": "Laptop stand",
                       "quantity": "1",
-                      "description": "Already owned.",
+                      "description": "Already owned.\nWith a keyboard and mouse.",
                       "status": "exists",
                       "cost": {
                         "price": "",
@@ -2091,9 +2091,9 @@
                   "slots": [
                     {
                       "id": "resource-l5p1t7yq",
-                      "name": "Laptop (14-inch, 32 GB memory)",
+                      "name": "Laptop",
                       "quantity": "1",
-                      "description": "Jordan's own laptop, bought in 2025.",
+                      "description": "Jordan's own laptop, bought in 2025.\n14-inch, 32 GB memory.",
                       "status": "exists",
                       "cost": {
                         "price": "",
@@ -2214,9 +2214,9 @@
                     },
                     {
                       "id": "resource-qf-videokit",
-                      "name": "Video-conferencing kit (camera, microphone, light)",
+                      "name": "Video kit",
                       "quantity": "1",
-                      "description": "For remote workshops and handover calls with clients. Bought once the loan arrives; used for about three years.",
+                      "description": "For remote workshops and handover calls with clients. Bought once the loan arrives; used for about three years.\nCamera, microphone and light.",
                       "status": "costs",
                       "cost": {
                         "price": "450",
@@ -2263,9 +2263,9 @@
                   "slots": [
                     {
                       "id": "resource-g1w5s8ha",
-                      "name": "Google Workspace Business Standard",
+                      "name": "Google Workspace",
                       "quantity": "1",
-                      "description": "Email, calendar, shared folders and documents for one user. Approximate price.",
+                      "description": "Email, calendar, shared folders and documents for one user. Approximate price.\nBusiness Standard plan.",
                       "status": "costs",
                       "cost": {
                         "price": "14",
@@ -2427,9 +2427,9 @@
                     },
                     {
                       "id": "resource-q9b3k6lu",
-                      "name": "QuickBooks Online Simple Start",
+                      "name": "QuickBooks Online",
                       "quantity": "1",
-                      "description": "Bookkeeping, invoices and recurring billing, shared with the accountant. Approximate price.",
+                      "description": "Bookkeeping, invoices and recurring billing, shared with the accountant. Approximate price.\nSimple Start plan.",
                       "status": "costs",
                       "cost": {
                         "price": "35",
@@ -2509,9 +2509,9 @@
                     },
                     {
                       "id": "resource-d8o2m6nh",
-                      "name": "Domain quillfieldautomation.com",
+                      "name": "Domain",
                       "quantity": "1",
-                      "description": "Annual renewal. Approximate price.",
+                      "description": "Annual renewal. Approximate price.\nquillfieldautomation.com",
                       "status": "costs",
                       "cost": {
                         "price": "20",
@@ -2556,9 +2556,9 @@
                   "slots": [
                     {
                       "id": "resource-x3v8a2ip",
-                      "name": "Password and credential vault for client logins",
+                      "name": "Password vault",
                       "quantity": "1",
-                      "description": "Earlier status: Needs Investigation. Compare business password managers with shared vaults for client access.",
+                      "description": "Earlier status: Needs Investigation. Compare business password managers with shared vaults for client access.\nFor client logins.",
                       "status": "activity",
                       "cost": {
                         "price": "",
@@ -2607,8 +2607,8 @@
                   {
                     "id": "activity-f2l8c4ow",
                     "category": "pre-operational",
-                    "name": "Register the business name and get an EIN",
-                    "description": "Certificate of Assumed Name filed with the Kings County Clerk in August 2026; EIN issued by the IRS the same week.",
+                    "name": "Register business name",
+                    "description": "Certificate of Assumed Name filed with the Kings County Clerk in August 2026; EIN issued by the IRS the same week.\nAnd get an EIN.",
                     "performerIds": [
                       "founder-q7m2x4ke"
                     ],
@@ -2645,8 +2645,8 @@
                   {
                     "id": "activity-g3c7t4nl",
                     "category": "pre-operational",
-                    "name": "Standard client contract templates",
-                    "description": "Earlier category: Sales & Customer. Master services agreement, NDA and retainer terms drafted with the lawyer.",
+                    "name": "Contract templates",
+                    "description": "Earlier category: Sales & Customer. Master services agreement, NDA and retainer terms drafted with the lawyer.\nStandard client contracts.",
                     "performerIds": [
                       "founder-q7m2x4ke",
                       "professional-lawyer"
@@ -2665,8 +2665,8 @@
                   {
                     "id": "activity-t5d8w1hs",
                     "category": "pre-operational",
-                    "name": "Write a client data privacy and AI use policy",
-                    "description": "Earlier category: Production. What data is sent to AI models, how it is protected, and how clients approve each use.",
+                    "name": "Write privacy policy",
+                    "description": "Earlier category: Production. What data is sent to AI models, how it is protected, and how clients approve each use.\nClient data privacy and AI use.",
                     "performerIds": [
                       "founder-q7m2x4ke",
                       "professional-lawyer"
@@ -2710,8 +2710,8 @@
                   {
                     "id": "activity-q3a5x8me",
                     "category": "pre-operational",
-                    "name": "Set up bookkeeping and quarterly estimated taxes",
-                    "description": "QuickBooks categories, receipts and a quarterly estimated tax routine agreed with the accountant.",
+                    "name": "Set up bookkeeping",
+                    "description": "QuickBooks categories, receipts and a quarterly estimated tax routine agreed with the accountant.\nWith quarterly estimated taxes.",
                     "performerIds": [
                       "founder-q7m2x4ke",
                       "professional-accountant"
@@ -2741,8 +2741,8 @@
                   {
                     "id": "activity-x9v2i6cr",
                     "category": "operational",
-                    "name": "Investigate Password and credential vault for client logins",
-                    "description": "Compare business password managers with shared vaults and audit logs for client credentials.",
+                    "name": "Investigate password vault",
+                    "description": "Compare business password managers with shared vaults and audit logs for client credentials.\nFor client logins.",
                     "performerIds": [
                       "founder-q7m2x4ke"
                     ],
@@ -2841,8 +2841,8 @@
                 "madeBy": "",
                 "startDate": "2027-01-04",
                 "endDate": "",
-                "name": "Copywriting and web design for launch",
-                "description": "Freelance copywriter and designer for the website, case study layout and proposal templates.",
+                "name": "Launch web design",
+                "description": "Freelance copywriter and designer for the website, case study layout and proposal templates.\nCopywriting and web design.",
                 "responsibleId": "founder-q7m2x4ke",
                 "cost": {
                   "price": "1500",
@@ -2871,8 +2871,8 @@
                 "madeBy": "",
                 "startDate": "2027-01-01",
                 "endDate": "",
-                "name": "Brooklyn coworking space (hot desk membership)",
-                "description": "Hot desk membership in Downtown Brooklyn; electricity, Wi-Fi and air conditioning included. Provides the Workspace.",
+                "name": "Brooklyn coworking",
+                "description": "Hot desk membership in Downtown Brooklyn; electricity, Wi-Fi and air conditioning included. Provides the Workspace.\nHot desk membership.",
                 "responsibleId": "founder-q7m2x4ke",
                 "cost": {
                   "price": "300",
@@ -3380,8 +3380,8 @@
                 {
                   "id": "activity-r7c2m9fk",
                   "category": "production",
-                  "name": "Build a reusable automation component library",
-                  "description": "Earlier category: Production. Tested Make and Zapier templates for intake forms, document requests, reminders and reporting.",
+                  "name": "Build component library",
+                  "description": "Earlier category: Production. Tested Make and Zapier templates for intake forms, document requests, reminders and reporting.\nReusable automation components.",
                   "performerIds": [
                     "founder-q7m2x4ke",
                     "partner-d8f3v6ls"
@@ -3406,8 +3406,8 @@
                 {
                   "id": "activity-a8u2d5kx",
                   "category": "production",
-                  "name": "Create the audit interview guide and roadmap template",
-                  "description": "Standard questions, a workflow scoring sheet and a roadmap report template.",
+                  "name": "Create audit guide",
+                  "description": "Standard questions, a workflow scoring sheet and a roadmap report template.\nThe interview guide and roadmap template.",
                   "performerIds": [
                     "founder-q7m2x4ke"
                   ],
@@ -3427,7 +3427,7 @@
                 {
                   "id": "activity-b1h6q3zr",
                   "category": "production",
-                  "name": "Define the build handover pack",
+                  "name": "Define handover pack",
                   "description": "Documentation template, training checklist and a 30-day fix window.",
                   "performerIds": [
                     "founder-q7m2x4ke"
@@ -3448,8 +3448,8 @@
                 {
                   "id": "activity-c5m9r7wj",
                   "category": "production",
-                  "name": "Set up retainer monitoring and alerts",
-                  "description": "Error alerts from Make and Zapier into one dashboard, and a monthly usage report template.",
+                  "name": "Set up monitoring",
+                  "description": "Error alerts from Make and Zapier into one dashboard, and a monthly usage report template.\nRetainer monitoring and alerts.",
                   "performerIds": [
                     "founder-q7m2x4ke"
                   ],
@@ -3559,8 +3559,8 @@
                 {
                   "id": "activity-o6p3t8qa",
                   "category": "sales",
-                  "name": "Proposal and statement-of-work templates",
-                  "description": "Earlier category: Sales & Customer. Fixed-price proposal for the audit and a statement-of-work template for builds.",
+                  "name": "Proposal templates",
+                  "description": "Earlier category: Sales & Customer. Fixed-price proposal for the audit and a statement-of-work template for builds.\nWith statement-of-work templates.",
                   "performerIds": [
                     "founder-q7m2x4ke"
                   ],
@@ -3584,8 +3584,8 @@
                 {
                   "id": "activity-k9r5f2vm",
                   "category": "sales",
-                  "name": "Recruit three referral partners",
-                  "description": "Earlier category: Sales & Customer. Bookkeepers and managed IT providers serving small NYC firms.",
+                  "name": "Recruit referral partners",
+                  "description": "Earlier category: Sales & Customer. Bookkeepers and managed IT providers serving small NYC firms.\nThree partners.",
                   "performerIds": [
                     "founder-q7m2x4ke"
                   ],
@@ -3622,8 +3622,8 @@
                   "madeBy": "",
                   "startDate": "2027-01-01",
                   "endDate": "",
-                  "name": "Referral partners (10% of a referred audit)",
-                  "description": "10% of the $2,500 audit fee ($250), paid to the partner only on a referred audit; about four audits in ten are referred, so 4% of the audit revenue on average.",
+                  "name": "Referral partners",
+                  "description": "10% of the $2,500 audit fee ($250), paid to the partner only on a referred audit; about four audits in ten are referred, so 4% of the audit revenue on average.\n10% of a referred audit.",
                   "responsibleId": "founder-q7m2x4ke",
                   "cost": {
                     "price": "4",
@@ -3656,8 +3656,8 @@
                   "madeBy": "",
                   "startDate": "2027-01-01",
                   "endDate": "",
-                  "name": "Freelance developer (overflow)",
-                  "description": "An external developer brought in for custom code on larger builds: about 20 hours of each build, at about $75 an hour ($1,500 a project on average).",
+                  "name": "Freelance developer",
+                  "description": "An external developer brought in for custom code on larger builds: about 20 hours of each build, at about $75 an hour ($1,500 a project on average).\nFor overflow work.",
                   "responsibleId": "founder-q7m2x4ke",
                   "cost": {
                     "price": "1500",
@@ -3692,8 +3692,8 @@
                   "madeBy": "",
                   "startDate": "2027-01-01",
                   "endDate": "",
-                  "name": "Card and ACH processing (QuickBooks Payments)",
-                  "description": "QuickBooks Payments: ACH is about 1% capped near $10 an invoice, a card 2.9% + 25¢. Most clients pay by ACH, so about $15 an order, 0.7% of the revenue on average.",
+                  "name": "QuickBooks Payments",
+                  "description": "QuickBooks Payments: ACH is about 1% capped near $10 an invoice, a card 2.9% + 25¢. Most clients pay by ACH, so about $15 an order, 0.7% of the revenue on average.\nCard and ACH processing.",
                   "responsibleId": "founder-q7m2x4ke",
                   "cost": {
                     "price": "0.7",
@@ -4009,7 +4009,7 @@
               },
               {
                 "id": "theme-qf7capa3",
-                "name": "Delivery Capacity & Quality",
+                "name": "Delivery Capacity",
                 "description": "Deliver more projects to a high standard without longer hours: reusable templates, clear documentation and trusted delivery partners."
               }
             ]
@@ -4022,7 +4022,7 @@
               "theme-qf7stab1": [
                 {
                   "id": "theme-qf7stab1-goal-1",
-                  "name": "Become financially self-sustaining",
+                  "name": "Become self-sustaining",
                   "description": "Cover all running costs and loan repayments from revenue, with no further borrowing.",
                   "objectives": [
                     {
@@ -4090,13 +4090,13 @@
                         },
                         {
                           "id": "metric-qf7resv4",
-                          "name": "Cash reserve (months of costs)",
+                          "name": "Cash reserve",
                           "baseline": "0",
                           "target": "3",
                           "frequency": "Quarterly",
                           "unit": "Number",
                           "currency": "",
-                          "description": "Cash at month end divided by average monthly running costs"
+                          "description": "Cash at month end divided by average monthly running costs\nIn months of costs."
                         }
                       ],
                       "ownerId": "founder-q7m2x4ke"
@@ -4107,12 +4107,12 @@
               "theme-qf7recu2": [
                 {
                   "id": "theme-qf7recu2-goal-1",
-                  "name": "Build a dependable recurring revenue base",
+                  "name": "Build recurring revenue",
                   "description": "Make the Care Retainer the steady core of the business, with new clients coming mostly through referrals.",
                   "objectives": [
                     {
                       "id": "theme-qf7recu2-objective-1",
-                      "name": "Convert builds into Care Retainers",
+                      "name": "Convert builds to retainers",
                       "description": "Most Build clients stay on a monthly Care Retainer after go-live.",
                       "period": {
                         "start": {
@@ -4192,12 +4192,12 @@
               "theme-qf7capa3": [
                 {
                   "id": "theme-qf7capa3-goal-1",
-                  "name": "Deliver more without working longer hours",
-                  "description": "Raise the number of projects delivered while keeping quality high and the founder's week sustainable.",
+                  "name": "Deliver more",
+                  "description": "Raise the number of projects delivered while keeping quality high and the founder's week sustainable.\nWithout working longer hours.",
                   "objectives": [
                     {
                       "id": "theme-qf7capa3-objective-1",
-                      "name": "Standardise the build process",
+                      "name": "Standardise builds",
                       "description": "Reusable templates and a standard handover for every Build.",
                       "period": {
                         "start": {

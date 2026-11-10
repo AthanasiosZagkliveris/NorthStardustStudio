@@ -1,13 +1,13 @@
 import TextBox from "../../controls/TextBox.tsx";
-import FieldLabel from "../../controls/FieldLabel.tsx";
-import { CSSProperties, ReactNode } from "react";
+import { CSSProperties, ReactNode, useRef } from "react";
 import CardShell from "../cards/CardShell.tsx";
 import CardHead from "../cards/CardHead.tsx";
 import NameCell from "../cards/NameCell.tsx";
 import { cardNameMissing } from "../../../framework/engine/SystemCardCompleteness.ts";
 import { workHue } from "../../../framework/engine/WorkColours.ts";
 import CardBoxes, { type CardBox } from "../cards/CardBoxes.tsx";
-import SectionTiles, { DialogHeading, type SectionTile, type TileAdd } from "../tiles/SectionTiles.tsx";
+import DialogSectionBand from "../tiles/DialogSectionBand.tsx";
+import SectionTiles, { DialogHeading, useTitleSlide, type SectionTile, type TileAdd } from "../tiles/SectionTiles.tsx";
 import { BUSINESS_COMPETITOR_TYPES, BUSINESS_FOUNDATION_SUBSECTIONS, BusinessCustomerSegmentValue, createBusinessCompetitor, createBusinessCustomerProfile, createBusinessCustomerSegment, createBusinessOffering, segmentHue } from "../../../framework/engine/AnswerUtils.ts";
 import FoldAllToggle from "../fields/FoldAllToggle.tsx";
 import InfoNote, { InfoPoint, InfoText } from "../fields/InfoNote.tsx";
@@ -99,16 +99,17 @@ export default function BusinessFoundationEditor(props: BusinessFoundationEditor
         const ownCard = (segment: BusinessCustomerSegmentValue, index: number, which: "description" | "proposition"): ReactNode => (
             // (Only the section itself: the Segment's number, name and x are the frame's, outside the tiles.)
             <div className="column-tile-content" style={{ "--strategy-theme-hue": workHue("discover") } as CSSProperties}>
-                <CardShell engagement={false} data-anchor={segment.id + ":" + (which === "description" ? 0 : 2)}>
+                <CardShell engagement={false} data-anchor={segment.id + ":" + (which === "description" ? 0 : 3)}>
                     {which === "description"
                         ? <div className="business-foundation-description" data-rail={rail(0)}>{subsectionsFor(segment, index).segmentDescription}</div>
-                        : <div className="business-foundation-proposition" data-rail={rail(2)}>{subsectionsFor(segment, index).valueProposition}</div>}
+                        : <div className="business-foundation-proposition" data-rail={rail(3)}>{subsectionsFor(segment, index).valueProposition}</div>}
                 </CardShell>
             </div>
         );
         const DESCRIPTION = ":description";
         const PROPOSITION = ":proposition";
-        const info = (section: number): InfoPoint[] => [...heads[section].instructions, ...(section === 0 ? [SUBSECTIONS.segments.questionsNote] : [])];
+        // (The Segment, the Competitors and the Offerings each hold questions that wait while Planning, owner 2026-11-08: their "i" says so; the Value Proposition's none.)
+        const info = (section: number): InfoPoint[] => [...heads[section].instructions, ...(section === 0 ? [SUBSECTIONS.segments.questionsNote] : []), ...(section < 3 ? [SUBSECTIONS.segments.questionsHeldNote] : [])];
         const written = (names: readonly string[], count = 6) => names.map(name => name.trim()).filter(name => name.length > 0).slice(0, count);
         const boxesOf = (segment: BusinessCustomerSegmentValue, kind: Kind): CardBox[] => listOf(segment, kind).map((entry, at) => ({
             id: entry.id,
@@ -130,7 +131,7 @@ export default function BusinessFoundationEditor(props: BusinessFoundationEditor
             </div>
         );
         /**
-         * A SEGMENT'S FOUR TILES, two by two, in its frame: Customers (its Description and its Profiles), Value Proposition, Competitors and Offerings. Customers, Competitors
+         * A SEGMENT'S FOUR TILES, two by two, in its frame: Customers (its Description and its Profiles), Competitors, Offerings and Value Proposition (owner, 2026-11-08: the Offerings before the Value Proposition). Customers, Competitors
          * and Offerings open the small tiles of their cards; every card -- the Description, a Profile, the Value Proposition, a Competitor, an Offering -- floats over its tile.
          */
         const tilesOf = (segment: BusinessCustomerSegmentValue, index: number): SectionTile[] => {
@@ -154,7 +155,16 @@ export default function BusinessFoundationEditor(props: BusinessFoundationEditor
                     links: listOf(segment, kind).filter(entry => entry.name.trim()).slice(0, 6).map(entry => ({ card: entry.id })),
                     add,
                     cardFor,
-                    content: () => dialog(section, title, <CardBoxes items={boxesOf(segment, kind)} label={title} what={NOUN[kind]} add={add} autoStart={false} />)
+                    content: () => dialog(section, title, kind === "competitors" ? (
+                        <>
+                            <CardBoxes items={boxesOf(segment, kind)} label={title} what={NOUN[kind]} add={add} autoStart={false} />
+                            {/* THE DIFFERENTIATION (doc 41, K14; owner, 2026-11-08): once for the Segment, under its Competitors' tiles, a section of the dialog as the Segment
+                                Description's Profiles are: split by the shared double rule, its title a band on the primary fill, its question in a band under it. */}
+                            <DialogSectionBand title="Differentiation">
+                                {subsectionsFor(segment, index).differentiation}
+                            </DialogSectionBand>
+                        </>
+                    ) : <CardBoxes items={boxesOf(segment, kind)} label={title} what={NOUN[kind]} add={add} autoStart={false} />)
                 };
             };
             const profileAdd = addOf(segment.id, "profiles");
@@ -180,47 +190,36 @@ export default function BusinessFoundationEditor(props: BusinessFoundationEditor
                     content: () => dialog(0, "Segment Description", (
                         <>
                             <div className="business-foundation-description" data-rail={rail(0)}>{subsectionsFor(segment, index).segmentDescription}</div>
-                            {/* PROFILES is a section of the Segment card as its boxes are: split from them by the shared double rule, its title a band on the primary fill, its tiles in a band under it. */}
-                            <div className="legal-entity-grid legal-entity-grid-pairs legal-entity-grid-organization legal-entity-audience business-segment-grid business-segment-grid-full">
-                                <div className="legal-entity-field">
-                                    <div className="business-capability-card-rule legal-entity-org-rule business-capability-card-rule-double" role="separator" />
-                                    <div className="business-segment-box">
-                                        <div className="legal-entity-org-section">
-                                            <span className="business-foundation-label-info legal-entity-label-info">
-                                                <FieldLabel className="business-foundation-label" role="heading" aria-level={3}>Profiles</FieldLabel>
-                                            </span>
-                                        </div>
-                                        <div className="legal-entity-org-section business-profiles-band">
-                                            <CardBoxes
-                                                items={boxesOf(segment, "profiles")}
-                                                label="Profiles"
-                                                what="Profile"
-                                                add={profileAdd}
-                                                autoStart={false}
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            {/* PROFILES is a section of the Segment card as its boxes are (DialogSectionBand). */}
+                            <DialogSectionBand title="Profiles" tiles>
+                                <CardBoxes
+                                    items={boxesOf(segment, "profiles")}
+                                    label="Profiles"
+                                    what="Profile"
+                                    add={profileAdd}
+                                    autoStart={false}
+                                />
+                            </DialogSectionBand>
                         </>
                     ))
                 },
+                listTile("competitors", 1, "Competitors"),
+                // The Offerings before the Value Proposition (owner, 2026-11-08): it is drafted from them, so it is the last tile.
+                listTile("offerings", 2, "Offerings"),
                 {
                     id: segment.id + ":value-proposition",
                     title: "Value Proposition",
                     group: "Value Proposition",
                     large: true,
-                    rail: rail(2),
+                    rail: rail(3),
                     items: segment.valueProposition.trim() ? [segment.valueProposition.trim()] : [],
                     // (The Value Proposition is a section of the Segment, one each: it opens in the dialog, a tile the arrows go through.)
-                    content: () => dialog(2, "Value Proposition", (
+                    content: () => dialog(3, "Value Proposition", (
                         <div className="column-tile-content" style={{ "--strategy-theme-hue": workHue("discover") } as CSSProperties}>
-                            <div className="business-foundation-proposition" data-rail={rail(2)}>{subsectionsFor(segment, index).valueProposition}</div>
+                            <div className="business-foundation-proposition" data-rail={rail(3)}>{subsectionsFor(segment, index).valueProposition}</div>
                         </div>
                     ))
-                },
-                listTile("competitors", 1, "Competitors"),
-                listTile("offerings", 3, "Offerings")
+                }
             ];
         };
         /** A Segment's frame title: "Segment" until it has a name, then the name; with several Segments each is numbered. */
@@ -241,13 +240,11 @@ export default function BusinessFoundationEditor(props: BusinessFoundationEditor
                                     <div className="business-engagement-section-head tiles-frame-head business-foundation-frame-head">
                                         <span className="field-group-title business-foundation-subhead business-foundation-frame-title">
                                             {foundation.segments.length > 1 && <span className="business-foundation-frame-number">{(index + 1) + "."}</span>}
-                                            <TextBox
-                                                className="business-foundation-frame-name"
-                                                aria-label={"Segment " + (index + 1) + " name"}
-                                                placeholder="Segment name"
+                                            <SegmentName
+                                                number={index + 1}
                                                 disabled={disabled}
                                                 value={segment.name}
-                                                onChange={(event) => updateSegment(index, { name: event.target.value })}
+                                                onChange={(name) => updateSegment(index, { name })}
                                             />
                                         </span>
                                         {foundation.segments.length > 1 && remove(
@@ -255,7 +252,7 @@ export default function BusinessFoundationEditor(props: BusinessFoundationEditor
                                             () => update({ segments: foundation.segments.filter((_candidate, position) => position !== index) })
                                         )}
                                     </div>
-                                    <SectionTiles label={frameName(segment, index) + ": Customers, Value Proposition, Competitors, Offerings"} hue={workHue("discover")} tiles={tilesOf(segment, index)} incomplete={missingFoundation} />
+                                    <SectionTiles label={frameName(segment, index) + ": Customers, Competitors, Offerings, Value Proposition"} hue={workHue("discover")} tiles={tilesOf(segment, index)} incomplete={missingFoundation} />
                                 </div>
                             </div>
                         </CardShell>
@@ -473,17 +470,14 @@ export default function BusinessFoundationEditor(props: BusinessFoundationEditor
                                         and what is sold to it to
                                         keep that promise, level with
                                         the Profile and Competitor
-                                        cards. */}
-                                    <div
-                                        className="business-foundation-proposition"
-                                        data-rail={railId(BUSINESS_FOUNDATION_SUBSECTIONS[2])}
-                                    >
-                                        {parts.valueProposition}
-                                    </div>
-
+                                        cards. Where the card stacks
+                                        (1500px and less), the
+                                        Offerings come before the
+                                        Value Proposition (owner,
+                                        2026-11-08). */}
                                     <div
                                         className="business-foundation-offerings"
-                                        data-rail={railId(BUSINESS_FOUNDATION_SUBSECTIONS[3])}
+                                        data-rail={railId(BUSINESS_FOUNDATION_SUBSECTIONS[2])}
                                     >
                                         <span className="field-group-title business-foundation-subhead business-foundation-column-title fold-group-head">
                                             Offerings
@@ -494,6 +488,13 @@ export default function BusinessFoundationEditor(props: BusinessFoundationEditor
                                             />
                                         </span>
                                         {parts.offerings}
+                                    </div>
+
+                                    <div
+                                        className="business-foundation-proposition"
+                                        data-rail={railId(BUSINESS_FOUNDATION_SUBSECTIONS[3])}
+                                    >
+                                        {parts.valueProposition}
                                     </div>
 
                                 </>
@@ -534,4 +535,24 @@ export default function BusinessFoundationEditor(props: BusinessFoundationEditor
 
     );
 
+}
+
+/**
+ * A SEGMENT'S NAME, its frame's title, written right there: a title as every tile title is (layout rules, section 9, "Tile title"): one line, cut by an ellipsis before the x, sliding to its end under the pointer (`useTitleSlide`), the full name its tooltip.
+ */
+function SegmentName({ number, value, disabled, onChange }: { number: number; value: string; disabled: boolean; onChange: (name: string) => void }) {
+    const name = useRef<HTMLInputElement | null>(null);
+    useTitleSlide(name);
+    return (
+        <TextBox
+            ref={name}
+            className="business-foundation-frame-name"
+            aria-label={"Segment " + number + " name"}
+            title={value.trim() || undefined}
+            placeholder="Segment name"
+            disabled={disabled}
+            value={value}
+            onChange={(event) => onChange(event.target.value)}
+        />
+    );
 }

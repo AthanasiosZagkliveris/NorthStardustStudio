@@ -26,6 +26,14 @@ export const STAGES: readonly { id: StageKey; label: string }[] = [
     { id: "grow", label: "Growing" }
 ];
 
+/**
+ * Whether the business is still only Planning, for the questions held back while Planning (owner, 2026-11-08, P5: progressive disclosure): an empty stage counts as Planning, as
+ * `stageOf` gives Planning with no Opening Date. Held back is not removed: a saved answer is kept, and shows again from Launching.
+ */
+export function onlyPlanning(stage?: string): boolean {
+    return !stage || stage === "plan";
+}
+
 const ISO = /^(\d{4})-(\d{2})-(\d{2})$/;
 const MONTH_NAMES = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 

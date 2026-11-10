@@ -246,7 +246,7 @@
     border:1px solid var(--box-border);
     border-radius:var(--radius-md);
 
-    background:var(--bg-surface);
+    background:var(--cell-fill);
 
 }
 
@@ -439,7 +439,7 @@
     border:1px solid var(--box-border);
     border-radius:var(--radius-md);
 
-    background:var(--bg-surface);
+    background:var(--cell-fill);
 
 }
 
@@ -582,7 +582,7 @@
     border:1px solid var(--box-border);
     border-radius:var(--radius-lg);
 
-    background:var(--bg-surface);
+    background:var(--cell-fill);
 
     /* 2 lines of 15px/1.5 text (~22.5px each) plus the
        10px top+bottom padding and 1px+1px border -- the

@@ -1,9 +1,9 @@
-import { offeringAnswerLines } from "./OfferingQuestions.ts";
+import { OFFERING_QUESTIONS, offeringAnswerLines } from "./OfferingQuestions.ts";
 import { workspacesOf, WORKSPACE_GROUP_ID } from "./AnswerUtils.ts";
 import { activitiesLine, positioningDocumentTitle } from "./ActivityClassification.ts";
 import { stageOf } from "./BusinessStage.ts";
 import { segmentAnswerLines, segmentBoxAnswered } from "./SegmentQuestions.ts";
-import { segmentIdentityOf, settledSegmentAnswers } from "./SegmentContext.ts";
+import { segmentContextFor, segmentIdentityOf, segmentIsBusiness, settledSegmentAnswers } from "./SegmentContext.ts";
 import { effectiveOfferingAnswers, offeringContextOf } from "./EffectiveAnswers.ts";
 /*
     The two documents the Foundation capability adds up to, built from
@@ -310,7 +310,8 @@ export function readFoundation(sessions: FoundationSessions, options?: { wholeOn
         legalEntity, foundersProfile, currency, format, drawings, business, strategy, foundationValue, segments,
         capability, engagement, financial, lines, position, revenuePage, outlook, name, calculated,
         definition: responseByTitle(sessions.identity, /^definition$/i),
-        ethics: responseByTitle(sessions.identity, /^ethics$/i),
+        // (The six texts of Purpose, doc 45: the Values, Principles, Philosophy and Manifesto are saved in its section; the Mission and Vision in Definition.)
+        ethics: responseByTitle(sessions.identity, /^purpose( & beliefs)?$/i),
         ambassador: responseByTitle(sessions.brand, /ambassador/i),
         brandStyle: asBrandStyleValue(responseByType(sessions.brand, AnswerType.BrandStyle)),
         brandStyleValue: responseByType(sessions.brand, AnswerType.BrandStyle),
@@ -827,7 +828,8 @@ function marketBlocks(f: Foundation): ExportBlock[] {
         ...f.segments.flatMap((segment, index) => [
             heading("Segment " + (index + 1) + ": " + (segment.name.trim() || "Unnamed segment")),
             ...titled2("What we know of them", details(segmentAnswerLines(settledSegmentAnswers(segment, f.legalEntity.organisation)).map(line => [line.label, line.value]))),
-            ...titled2("Customer Profiles", table(["Profile", "Goals", "Challenges", "Needs"], segment.profiles.map(profile => [
+            // A Segment with an end user (Proxy or Dual-Intent): the goals, challenges and needs are the end user's (doc 36, 2.1).
+            ...titled2("Customer Profiles", table(segmentContextFor(segmentIdentityOf(f.legalEntity.organisation), segmentIsBusiness(segment)).endsUser ? ["Profile", "End user's goals", "End user's challenges", "End user's needs"] : ["Profile", "Goals", "Challenges", "Needs"], segment.profiles.map(profile => [
                 profile.name,
                 profile.goals,
                 profile.challenges,
@@ -862,8 +864,8 @@ function offeringBlocks(f: Foundation): ExportBlock[] {
                 return [
                     // What it does and its benefit: the Notes, else the answers (owner, 2026-11-07: the Notes are optional), O1's form and O4's values.
                     offering.name, offering.category,
-                    (offering.description.function ?? "").trim() || lines.find(line => line.label === "What form does it take?")?.value || "",
-                    (offering.description.benefit ?? "").trim() || lines.find(line => line.label === "What does it do best for the customer?")?.value || "",
+                    (offering.description.function ?? "").trim() || lines.find(line => line.label === OFFERING_QUESTIONS.find(question => question.id === "o1")?.label)?.value || "",
+                    (offering.description.benefit ?? "").trim() || lines.find(line => line.label === OFFERING_QUESTIONS.find(question => question.id === "o4")?.label)?.value || "",
                     priceText(stream, f.format), stream ? revenueModelLabel(stream) : ""
                 ];
             }))

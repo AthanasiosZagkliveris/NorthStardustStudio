@@ -5,10 +5,10 @@
  */
 export type CategoryKey = "proxy" | "dual";
 
-/** The categories each relationship can have. Consumer buyer: the parent and the caregiver buy for a dependent (proxy) or one plan for the household (dual); a friend or a commercial and professional buyer buys for the other only; a partner shares the purchase. Business buyer: an employer, a professional intermediary, a sponsor or another business buys for the other; a partner or a business serving its clients shares the use. */
+/** The categories each relationship can have. Consumer buyer: the parent and the caregiver buy for a dependent (proxy) or one plan for the household (dual); a friend or a commercial and professional buyer buys for the other only; a partner shares the purchase. Business buyer: an employer, a professional intermediary, a sponsor or another business buys for the other; a partner or a business serving its clients shares the use; an institution or membership body does either (a school buying for its pupils, or one plan for its members and its staff; owner, 2026-11-09). An "Other" is no longer offered; its row reads a saved one. */
 export const RELATIONSHIP_FITS: Record<string, readonly CategoryKey[]> = {
     "rel:parent": ["proxy", "dual"], "rel:caregiver": ["proxy", "dual"], "rel:family": ["proxy", "dual"], "rel:partner": ["dual"], "rel:friend": ["proxy"], "rel:commercial": ["proxy"], "rel:otherpersonal": ["proxy", "dual"],
-    "rel:employer": ["proxy"], "rel:copartner": ["dual"], "rel:serving": ["dual"], "rel:intermediary": ["proxy"], "rel:sponsor": ["proxy"], "rel:otherbusiness": ["proxy"]
+    "rel:employer": ["proxy"], "rel:copartner": ["dual"], "rel:serving": ["dual"], "rel:intermediary": ["proxy"], "rel:sponsor": ["proxy"], "rel:institution": ["proxy", "dual"], "rel:otherbusiness": ["proxy"]
 };
 
 /** The buyer's category of a model ("b2c:proxy" in the saved list gives "proxy"), or "" where it is not Proxy or Dual-Intent. */

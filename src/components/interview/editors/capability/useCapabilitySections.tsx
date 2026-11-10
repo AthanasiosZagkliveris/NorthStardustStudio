@@ -30,7 +30,7 @@ type Earlier = ReturnType<typeof useCapabilityState> & ReturnType<typeof useCapa
 
 export function useCapabilitySections(earlier: Earlier) {
 
-    const { activityAdd, activityCategoryCell, activityResources, capability, cardDates, cardRule, categoryActivityList, categoryInfo, channelCardIds, channelNamesById, channelTileIds, completedActivities, deliveryCard, deliverySection, disabled, discard, formatMoney, founderCard, founderChoices, founderIds, founderItems, founders, groupSlots, legalExpenses, linksSection, offeringAdd, offeringChoices, offeringNumberOf, offeringSlotsIn, offeringsField, onChange, openPair, openingDate, organisationCurrency, partnerAddIn, partnerCard, partnerCardFor, partnersOf, performerChoices, performerCosts, performerFields, planStartDay, resourceCard, responsibilityField, setCategoryActivities, setResponsibilityFolds, subAdd, tileSection, update } = earlier;
+    const { activityAdd, activityCategoryCell, partnerGroupHidden, resourceCategoryHidden, activityResources, capability, cardDates, cardRule, categoryActivityList, categoryInfo, channelCardIds, channelNamesById, channelTileIds, completedActivities, deliveryCard, deliverySection, disabled, discard, formatMoney, founderCard, founderChoices, founderIds, founderItems, founders, groupSlots, legalExpenses, linksSection, offeringAdd, offeringChoices, offeringNumberOf, offeringSlotsIn, offeringsField, onChange, openPair, openingDate, organisationCurrency, partnerAddIn, partnerCard, partnerCardFor, partnersOf, performerChoices, performerCosts, performerFields, planStartDay, resourceCard, responsibilityField, setCategoryActivities, setResponsibilityFolds, subAdd, tileSection, update } = earlier;
 
     /**
      * THE CARDS IN THE CHANNEL'S COLOUR: the cards a channel holds, the activity one of them generated (Needs Activity / Investigation) and the Partner or
@@ -866,15 +866,17 @@ export function useCapabilitySections(earlier: Earlier) {
         const all = capability.offering.resources;
         const unsorted = offeringSlotsIn("");
         const channel = all.filter(slot => channelTileIds.has(slot.id));
+        // (Vehicles and Materials & Inventory are left out while no Offering has a physical item and they hold no card: resourceCategoryHidden.)
+        const shown = BUSINESS_OFFERING_RESOURCE_GROUPS.filter(category => !resourceCategoryHidden(category.id));
         return [
-            ...BUSINESS_OFFERING_RESOURCE_GROUPS.map(category => categoryView(
+            ...shown.map(category => categoryView(
                 category.id,
                 category.label,
                 offeringBoxes(offeringSlotsIn(category.id)),
                 () => offeringResourceGroup(category),
                 // (A new card of a category has no Group yet.)
                 offeringAdd(category.id, soleGroupOf(category.kinds))
-            )).map((view, at) => ({ ...view, info: categoryInfo(BUSINESS_OFFERING_RESOURCE_GROUPS[at].label, groupHelpPoints(BUSINESS_OFFERING_RESOURCE_GROUPS[at].kinds)) })),
+            )).map((view, at) => ({ ...view, info: categoryInfo(shown[at].label, groupHelpPoints(shown[at].kinds)) })),
             // The cards that have no Category yet (the new ones, and an earlier answer's): a tile of their own while there are any.
             ...(unsorted.length > 0
                 ? [categoryView(
@@ -910,7 +912,7 @@ export function useCapabilitySections(earlier: Earlier) {
                 const add = partnerAddIn(scope, id);
                 const view = categoryView(id, label, boxes(list), () => <CardBoxes label={label} what={partnerNoun(id)} items={boxes(list)} add={add} />, add);
                 // (Partners and Suppliers: the groups of the category in this place, with their texts.)
-                return id === "partners" || id === "suppliers" ? { ...view, info: categoryInfo(label, groupHelpPoints(BUSINESS_PARTNER_GROUPS[scope][id])) } : view;
+                return id === "partners" || id === "suppliers" ? { ...view, info: categoryInfo(label, groupHelpPoints(BUSINESS_PARTNER_GROUPS[scope][id].filter(group => !partnerGroupHidden(group.id)))) } : view;
             }),
             ...(scope === "offering" && every.some(made)
                 ? [categoryView("channel", "Channel", boxes(every.filter(made)), () => <CardBoxes label="Channel" what="Partner" items={boxes(every.filter(made))} />, undefined, true)]

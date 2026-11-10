@@ -1,6 +1,6 @@
 # Glossary
 
-Status: **reference**, written 2026-08-02, updated 2026-11-02 (every term checked against its owner document and the code). Covers the framework, the app, the questionnaire and the first version, and the documents.
+Status: **reference**, written 2026-08-02, updated 2026-11-09 (every term checked against its owner document and the code on 2026-11-02; the Glossary entry on 2026-11-09). Covers the framework, the app, the questionnaire and the first version, and the documents.
 
 One-line definitions, so that terminology is the same in every document and Skill; each term has one owner document, where the full explanation is. A name without a folder is a file in `docs/ai/`; "doc 28" is the document numbered 28 in `docs/README.md`.
 
@@ -50,7 +50,7 @@ One-line definitions, so that terminology is the same in every document and Skil
 
 **Opening Date** — the date the organisation opens, a field of the Organisation tile (doc 37); the budget before it is the cash to raise. **Business stage** — Planning, Launching, Managing or Growing, worked out from the Opening Date and the four durations in the Global Settings, never chosen; it sets the limits and locks of the Positioning questions. Defaults: Planning 3 months, counted back from the Opening Date; Launching 12 months from it; Managing the next 12 (to month 24); Growing the next 3 years (to month 60). **Key dates** — the milestones of the organisation (plan start, registration, opening, the end of each stage's window), shown on the Review and the Calendar. *Owner: doc 28, 8.2a.*
 
-**Glossary page / app term / your term** — the header's Glossary (`/glossary`): an A to Z list of the app's own terms (their meaning for the app user is owned by `src/data/glossary.ts`; this document stays the developers' glossary) and of the user's own terms, the names they gave their Segments, Profiles, Competitors, Offerings, Founders, Partners and suppliers, Themes, Objectives and the Organisation; each kind has its colour (app terms blue, yours terracotta) and a funnel shows either. Its second tab is the **References**. *Owner: doc 1, C.2.*
+**Glossary / app term / your term** — the Workbook's Glossary tab (`/workbook`; `/glossary` opens it there): an A to Z list of the app's own terms (their meaning for the app user is owned by `src/data/glossary.ts`; this document stays the developers' glossary) and of the user's own terms, the names they gave their Segments, Profiles, Competitors, Offerings, Founders, Partners and suppliers, Themes, Objectives and the Organisation; each kind has its colour (app terms blue, yours terracotta), and one funnel chooses the kinds and the letter ranges. From the Landing page it lists every organisation's terms, each named with its organisation, and the funnel chooses the organisations too. The tab after it is the **References**. *Owner: doc 1, C.2.*
 
 **Harvard reference / citation** — how every source the app shows is written: in the text the author and year ("(Gupta et al., 2006)"), in an "i" note and on the References tab the full reference (author, year, title in italics, place and publisher or journal details, "Available at:" and "Accessed:"). *Owner: doc 2, 2.1; `Sources.ts`.*
 

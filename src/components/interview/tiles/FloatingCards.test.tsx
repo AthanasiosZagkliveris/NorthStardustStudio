@@ -648,7 +648,7 @@ describe("the stylesheet of the page tiles, the floating cards and the dialog gr
     it("scales a page tile to 110% on HOVER only, about its aimed corner, above its neighbours, with no motion when reduced", () => {
         expect(css).toMatch(/\.section-tile-slot \{[^}]*position: relative;[^}]*transform-origin: 50% 50%;[^}]*transition: transform \.15s ease;/);
         expect(css).toMatch(/\.section-tile-slot:hover \{[^}]*transform: scale\(1\.1\);[^}]*z-index: 6;/);
-        expect(css).toMatch(/\.section-tile-slot:hover > \.section-tile \{[^}]*box-shadow: var\(--box-inset\), 0 10px 22px var\(--shadow-18\)/);
+        expect(css).toMatch(/\.section-tile-slot:hover > \.section-tile \{[^}]*box-shadow: var\(--box-inset\), var\(--shadow-tile-lift\)/);
         // Never with the focus: a tile that holds the focus has its ring, it does not grow.
         expect(css).not.toMatch(/\.section-tile-slot:[^{]*focus[^{]*\{[^}]*transform: scale/);
         // Closed, the page is the default page until the pointer really moves.
@@ -677,7 +677,7 @@ describe("the stylesheet of the page tiles, the floating cards and the dialog gr
     });
 
     it("floats a card over the dimmed page with a drop shadow, 492px wide unless it is a founder's or the Workspace's", () => {
-        expect(stylesheet("page-3-edges.css")).toMatch(/\.floating-card-host :is\([^)]*\) \{[^}]*--card-drop: 0 24px 56px var\(--shadow-18\)/);
+        expect(stylesheet("page-3-edges.css")).toMatch(/\.floating-card-host :is\([^)]*\) \{[^}]*--card-drop: var\(--shadow-drop\)/);
         expect(css).toMatch(/\.floating-card-card \{[^}]*width: min\(var\(--open-card-width\), calc\(100vw - 16px\)\);/);
         expect(css).toMatch(/\.floating-card-founder \{[^}]*width: min\(var\(--founder-card-min\), calc\(100vw - 16px\)\);/);
         expect(global).toMatch(/--open-card-width: 492px;/);

@@ -1,13 +1,15 @@
 import type { StageKey } from "../../../../framework/engine/BusinessStage.ts";
 import { ReactNode } from "react";
-import { SCHEME_CODE_LABEL, schemeKeyOf } from "../../../../framework/engine/ActivityClassification.ts";
+import { BUSINESS_STAGE_WORDS, SCHEME_CODE_LABEL, schemeKeyOf } from "../../../../framework/engine/ActivityClassification.ts";
+import { choiceLimit } from "../../../../framework/engine/PositioningIds.ts";
 import { isoToDisplay } from "../../fields/DateCellInput.tsx";
 import { PreferencesService } from "../../../../services/PreferencesService.ts";
 import { FoundersProfileValue, LegalEntityValue, todayIsoDate, createLegalEntityExpense } from "../../../../framework/engine/AnswerUtils.ts";
 import { InfoPoint } from "../../fields/InfoNote.tsx";
 import { SOURCES } from "../../../../framework/engine/Sources.ts";
 import { FIRST_VERSION_COUNTRIES } from "../../../../framework/engine/LegalEntityJurisdictions.ts";
-import { categoryOfModel, relationshipFits, relationshipFitsBuyerStage, userStageFits } from "../../../../framework/engine/RelationshipFit.ts";
+import { categoryOfModel, orderedByCategory, relationshipFits, relationshipFitsBuyerStage, userStageFits } from "../../../../framework/engine/RelationshipFit.ts";
+import { differentiationByLifeStage, differentiationByPurpose, differentiationByRelationship, differentiationRelevance, orderedByRelevance, outcomesByLifeStage, userOutcomeByPurpose } from "../../../../framework/engine/PurposeRelevance.ts";
 
 /**
  * A Legal Form saved as "Other (not listed)" before 2026-10-30. The list no
@@ -126,7 +128,10 @@ export const BUYER_CATEGORIES = [
     { id: "dual", label: "Dual-Intent Buyers" }
 ] as const;
 
-/** The End User, asked when the buyer's category is Proxy or Dual-Intent: the buyer and user relationship of the model, and (a consumer buyer) the user's life stage. */
+/**
+ * The End User, asked when the buyer's category is Proxy or Dual-Intent: the buyer and user relationship of the model, and (a consumer buyer) the user's life stage. The two "Other" rows are
+ * no longer offered (owner, 2026-11-09: they record nothing the app can use); they stay in the lists so that a saved one still reads, shows until it is unticked and opens the same questions.
+ */
 export const BUYER_USER_RELATIONS = {
     b2c: [
         { id: "rel:parent", label: "Parent or guardian" },
@@ -143,9 +148,12 @@ export const BUYER_USER_RELATIONS = {
         { id: "rel:serving", label: "Business serving clients" },
         { id: "rel:intermediary", label: "Professional intermediary" },
         { id: "rel:sponsor", label: "Sponsor or funder" },
+        { id: "rel:institution", label: "Institution or membership body" },
         { id: "rel:otherbusiness", label: "Other" }
     ]
 } as const;
+/** The relationships kept for a saved answer only, never offered to a new choice (owner, 2026-11-09). */
+export const RELATIONS_NOT_OFFERED: readonly string[] = ["rel:otherpersonal", "rel:otherbusiness"];
 export const USER_LIFE_STAGES = [
     { id: "age:minor", label: "Minors" },
     { id: "age:young", label: "Young Adults" },
@@ -176,18 +184,14 @@ export const DIFFERENTIATIONS = [
     { id: "compliance", label: "Compliance, Risk & Security" },
     { id: "premium", label: "Status & Premium" },
     { id: "performance", label: "Performance & Innovation" },
-    { id: "ecosystem", label: "Ecosystem & Integration" }
+    { id: "ecosystem", label: "Ecosystem & Integration" },
+    { id: "personal", label: "Personal Service & Relationship" }
 ] as const;
 
-/** Outcome for the buyer: the measurable result the buyer gets (the results the differentiation text names: lower costs, time saved, legal cover, prestige). */
-export const OUTCOMES = [
-    { id: "savings", label: "Lower costs" },
-    { id: "time", label: "Time saved" },
-    { id: "assurance", label: "Legal & data-protection cover" },
-    { id: "prestige", label: "Higher quality & prestige" }
-] as const;
+/* (The Outcome for the buyer left Positioning on 2026-11-08, owner: the Offering's O4 owns it; a saved answer starts O4 through the crosswalk, doc 34, 5.2a. Its words stay
+   for the saved answer: OUTCOME_WORDS, ActivityClassification.ts.) */
 
-/** Outcome for the user, asked of a Proxy or Dual-Intent Buyer: what matters most to the user. */
+/** Outcome for the user, asked of a Proxy or Dual-Intent Buyer: what matters most to the user. Asked on the Segment's End user part since 2026-11-08 (SegmentQuestions.ts, `u-outcome`); the order below. */
 export const USER_OUTCOMES = [
     { id: "enjoy", label: "Enjoyment & fun" },
     { id: "comfort", label: "Comfort & ease" },
@@ -197,22 +201,66 @@ export const USER_OUTCOMES = [
     { id: "practical", label: "Practical use" }
 ] as const;
 
+/** The Positioning answers that order the Differentiation and the end user's outcome (asked on the Business System since 2026-11-08, ordered as they were on Positioning). */
+export interface PositioningOrder {
+    customerType: readonly string[];
+    audience: readonly string[];
+    buyerCategory: readonly string[];
+    endUser: readonly string[];
+    purpose: readonly string[];
+}
+
+/** Whether a relationship's buyer is a Proxy or Dual-Intent buyer (an end user follows). */
+function endsUserOf(order: PositioningOrder, model: string): boolean {
+    return order.buyerCategory.includes(model + ":proxy") || order.buyerCategory.includes(model + ":dual");
+}
+
+/** The buyer's and the user's life stages, once a consumer buyer has an end user: the first key of the differentiations and of the outcomes (the owner's precedence, 2026-10-30). */
+function lifeStagesOf(order: PositioningOrder): { buyer: string[]; user: string[] } {
+    const consumer = order.customerType.includes("b2c") && endsUserOf(order, "b2c");
+    return {
+        buyer: consumer ? order.audience.filter(id => ["young", "adult", "senior"].includes(id)) : [],
+        user: consumer ? order.endUser.filter(id => id.startsWith("age:")) : []
+    };
+}
+
 /**
- * HOW MANY CHOICES EACH QUESTION OF EARLY POSITIONING ALLOWS follows the business stage (design document 28, 8.2, the owner's matrix): the earlier the business, the narrower the focus.
- * Planning (and no stage yet): one everywhere. Launching: one, except two in the outcome. Managing: two in each. Growing: free (null).
+ * THE DIFFERENTIATIONS IN THEIR ORDER (as built on Positioning; doc 31, the owner's tables): a business buyer's audience scale and category order them (a blank of the scale's table is not
+ * offered; one already chosen stays), otherwise the buyer's category does; the business relationships, the purposes chosen and the life stages come before them, in that precedence.
  */
-export type PositioningQuestion = "relationship" | "audience" | "outcome";
-export function choiceLimit(stage: string, question: PositioningQuestion): number | null {
-    if (stage === "grow") {
-        return null;
-    }
-    if (stage === "manage") {
-        return 2;
-    }
-    if (stage === "launch") {
-        return question === "outcome" ? 2 : 1;
-    }
-    return 1;
+export function differentiationOptionsFor(order: PositioningOrder, chosen: readonly string[]): { id: string; label: string }[] {
+    const models = [...order.customerType];
+    const scales = models.includes("b2b") ? order.audience.filter(id => ["solo", "smb", "mid", "enterprise"].includes(id)) : [];
+    const about = differentiationRelevance({ models, categories: [...order.buyerCategory], relationships: [], businessScales: scales });
+    const first = about ? orderedByRelevance(DIFFERENTIATIONS, about).filter(option => about[option.id] > 0 || chosen.includes(option.id)) : orderedByCategory(DIFFERENTIATIONS, order.buyerCategory);
+    const options = orderedByRelevance(orderedByRelevance(first, differentiationByRelationship(order.endUser)), differentiationByPurpose(order.purpose));
+    const life = lifeStagesOf(order);
+    return orderedByRelevance(options, differentiationByLifeStage(life.buyer, life.user));
+}
+
+/** THE END USER'S OUTCOMES IN THEIR ORDER (as built on Positioning): the purposes chosen, then the life stages. */
+export function userOutcomeOptionsFor(order: PositioningOrder): { id: string; label: string }[] {
+    const life = lifeStagesOf(order);
+    return orderedByRelevance(orderedByRelevance(USER_OUTCOMES, userOutcomeByPurpose(order.purpose)), outcomesByLifeStage(life.buyer, life.user)?.user ?? null);
+}
+
+/** How many choices a question allows at the business stage (defined in the engine, where the Segment's questions read it too). */
+export { choiceLimit, type PositioningQuestion } from "../../../../framework/engine/PositioningIds.ts";
+
+/**
+ * What the business stage allows in a question, for its "i" (before its sources): "At this stage (Planning): choose one. When the stage changes (the Opening Date), an answer over the
+ * limit goes back to empty." One sentence for Positioning's questions and for the ones that left it for the Business System (2026-11-08).
+ */
+export function stageLimitLine(stage: string, limit: number | null): string {
+    return "At this stage (" + (BUSINESS_STAGE_WORDS[stage] ?? "Planning") + "): "
+        + (limit === null ? "choose as many as apply." : limit === 1 ? "choose one." : "choose up to " + limit + ".")
+        + " When the stage changes (the Opening Date), an answer over the limit goes back to empty.";
+}
+
+/** An "i" with the stage's line added before its sources. */
+export function withStageLine(info: readonly InfoPoint[], line: string): InfoPoint[] {
+    const sourceAt = info.findIndex(point => typeof point !== "string" && "source" in point);
+    return sourceAt < 0 ? [...info, line] : [...info.slice(0, sourceAt), line, ...info.slice(sourceAt)];
 }
 
 /**
@@ -310,31 +358,28 @@ export const INFO = {
 
     requirements: [
         "What else the law asks of this organisation, if anything applies: for example a licence, a professional registration, or a named officer.",
-        "Add one if it applies to your activity, your legal form, or where you are registered. If none does, add none."
+        "Add one for each that applies to your activity, your legal form or where you are registered."
     ],
 
     expenses: [
-        "What it costs to register and keep registered: filing, renewal and agent fees. Each pays for one registration.",
-        "Insurance, licences and certificates are cards of Documents & Rights on 3. Infrastructure & Capability.",
-        "Add the ones that apply. If there are none, add none."
+        "What it costs to register and keep registered: filing, renewal and agent fees. Each is linked to one registration or requirement.",
+        "Licences, insurance and certificates for an offering are recorded in Documents & Rights, on 3. Infrastructure & Capability."
     ],
 
     mainActivity: [
         "Who are you, and what do you do? What do you create or provide?",
-        "Write it as a registry or a bank would expect to read it.",
-        "Name, country, address and legal form are above."
+        "Write it as a registry or a bank would expect to read it."
     ],
 
     registrationDate: [
-        "The day the organisation was registered with the registry of its country. It is its own date: it does not depend on the registration number, and the number does not depend on it.",
-        "It cannot be later than today, nor later than the Opening Date: the business cannot open before the company exists."
+        "The day the organisation was registered with the registry of its country.",
+        "It is today or earlier, and on or before the Opening Date: the company exists before the business opens."
     ],
 
     openingDate: [
         "The day the business opens and issues its first receipt. It sets the stage: planning before it, launching from it.",
-        "The stage also sets the name of the Positioning tile and how many choices each of its questions allows. When a new date moves the business into another stage, an answer that no longer fits goes back to empty.",
-        "The days from the plan's start to the day before it are the pre-operational period: every cost is split around it by its own dates.",
-        "You can change it at any time."
+        "The stage also sets Positioning's name and how many choices its questions allow; a change of stage empties an answer over the new limit.",
+        "Costs dated before it make the pre-operational budget, on the Financial Foundation."
     ],
 
     businessStage: [
@@ -343,9 +388,10 @@ export const INFO = {
     ],
 
     customerType: [
-        "Who pays: focuses on the Economic Buyer who approves the budget, separating them from the end user. The positioning statement is written for the target market, and each distinct segment may need its own.",
+        "Who pays: the buyer who approves the budget; the person who uses it can be someone else.",
+        "The positioning statement is written for the buyers; each distinct group of them may need its own.",
         "B2C (Business-to-Consumer): individuals or consumers who pay for personal or family use.",
-        "B2B (Business-to-Business): businesses, companies or freelancers.",
+        "B2B (Business-to-Business): businesses, companies, freelancers or public bodies.",
         { title: "Based on", source: SOURCES.positioningStatement },
         { title: "Also", source: SOURCES.positioningTemplate }
     ],
@@ -359,7 +405,7 @@ export const INFO = {
     ],
 
     audienceScale: [
-        "Limits the target group to a specific niche, aligning the startup with the corresponding sales cycle and the buyer's daily life.",
+        "How big the businesses you sell to are. Your Segment's size question offers the sizes that go with it.",
         "Solopreneurs & Freelancers: individual professionals (immediate decision, need for low cost or self-service).",
         "Startups & SMBs: small and medium-sized or rapidly growing companies (need for speed, flexibility and an immediate solution).",
         "Mid-Market: medium-sized businesses with structured departments (need for workflows, roles and scale).",
@@ -368,10 +414,11 @@ export const INFO = {
     ],
 
     lifeStage: [
-        "Limits the target group to a specific niche, aligning the startup with the corresponding sales cycle and the buyer's daily life.",
+        "The stage of life of the people who buy. Your Segment's age groups follow it.",
         "Students / Young Adults: they buy for themselves; tech-savvy, low budget, sensitive to trends.",
         "Workers / Professionals: they buy for themselves, with their own income; they seek time savings, convenience or status and decide inside a busy working life.",
-        "Seniors: they buy for themselves, often with a fixed income and more time to compare; needs for accessibility, simplicity, trust and health support; a family member may help decide (then the buyer's category below is Proxy or Dual-Intent).",
+        "Seniors: they buy for themselves, often on a fixed income and with time to compare; they look for accessibility, simplicity, trust and health support.",
+        "Where a family member buys for them, the buyer's category below is Proxy or Dual-Intent.",
         { title: "Based on", source: SOURCES.marketResearch },
         { title: "Also", source: SOURCES.brandPositioningStatement }
     ],
@@ -395,51 +442,42 @@ export const INFO = {
     buyerCategory: [
         "What the buyer buys for. It tells the buyer who pays from the person who uses it, whatever the buyer's life stage or scale.",
         "Direct Buyers: purchasing exclusively for their own personal use.",
-        "Proxy Buyers: purchasing exclusively on behalf of someone else. The payer is not the end user (a gift, a parent buying for a child, an employer buying for its staff).",
+        "Proxy Buyers: purchasing exclusively on behalf of someone else (a gift, a parent buying for a child, an employer buying for its staff).",
         "Dual-Intent Buyers: purchasing a single offering to be used by themselves and their dependents (a family plan, a shared tier).",
         "For Proxy and Dual-Intent Buyers the questions about the end user follow.",
         { title: "Based on", source: SOURCES.buyingRoles }
     ],
 
     buyerUserRelation: [
-        "How is the buyer related to the person who will use it? It shapes the message: a parent is reached by safety and trust, an employer by compliance and duty of care.",
-        "The relationship suggests the category above; the buyer's own answer decides it."
+        "How is the buyer related to the person who will use it?",
+        "It orders the purposes below and your Segment's Differentiation: a parent looks for safety and trust, an employer for compliance and duty of care.",
+        "Only the relationships that fit the buyer's category above are offered.",
+        "Institution or membership body: a school for its pupils, a care home for its residents, a club or union for its members, a council for its residents."
     ],
 
     userLifeStage: [
         "The life stage of the person who will use it. A broad group is enough to give the end user's Profile its first shape; the exact age comes later, on the Profile.",
-        "Minors: under 18 (online services and some goods have extra rules that differ by country: see the minimum ages in the documentation). Young Adults: 18 to 24. Adults: 25 to 64. Seniors: 65 and over. The Segment's Description then asks the end user's stage within it (Baby, Child, Teenager, Established, Peak and so on)."
+        "Minors: under 18; some goods and online services have extra rules for them. Young Adults: 18 to 24. Adults: 25 to 64. Seniors: 65 and over.",
+        "The Segment then asks the end user's stage within it (Baby, Child, Teenager and so on)."
     ],
 
     purpose: [
-        "Why the offering is bought: the purpose it serves for the person who gets it. Choose the ones that fit best.",
-        "Only the purposes that fit your answers above are offered: the primary ones first, then the possible ones. The ones that are generally less directly relevant to that buyer are left out.",
-        "Learning & Development. Health, Care & Wellbeing. Gifting & Appreciation. Entertainment & Enjoyment. Social Connection & Relationships. Productivity & Efficiency. Business Growth & Performance. Creation & Expression. Everyday Needs & Convenience. Protection & Risk Reduction. Compliance & Obligations. Access & Social Support."
+        "Why the offering is bought: the purpose it serves for the person who gets it.",
+        "Only the purposes that fit your answers above are offered: the primary ones first, then the possible ones."
     ],
 
     differentiation: [
-        "What the offering does differently from the competitors: where it hits exactly the blind spot they leave. It is about the offering; the result the buyer gets from it is the outcome, asked next.",
+        "What the offering does differently from the competitors: where it hits exactly the blind spot they leave.",
+        "It is about the offering; the result the buyer gets from it is asked on each Offering.",
         "Cost-driven (saving resources): targets the blind spot of expensive competitors with a budget-friendly alternative.",
         "Convenience-driven (speed and ease): targets the blind spot of complex or slow solutions.",
         "Compliance, Risk & Security: targets the blind spot of uncertified or questionable alternatives.",
         "Status & Premium (exclusivity): targets the blind spot of mass-market or cheap products with top quality and custom service.",
         "Performance & Innovation (product superiority): targets the blind spot of dated or underpowered alternatives with better results and newer methods.",
-        "Ecosystem & Integration (fits what they already use): targets the blind spot of standalone tools that do not connect to the buyer's other systems and workflows.",
+        "Ecosystem & Integration (fits what they already use): targets the blind spot of standalone tools cut off from the buyer's other systems and workflows.",
+        "Personal Service & Relationship (customer intimacy): targets the blind spot of impersonal providers with a service shaped around each customer.",
         { title: "Based on", source: SOURCES.strategicPositioning },
         { title: "Also", source: SOURCES.positioningTemplate }
-    ],
-
-    outcome: [
-        "The measurable result the buyer gets from the offering (outcome or return): what the buyer is paying for.",
-        "Lower costs: an immediate reduction in operating costs. Time saved: the execution time of a process cut to almost nothing, or the workflow drastically simplified. Legal & data-protection cover: absolute legal coverage and no risk of fines. Higher quality & prestige: top quality, custom service and an upgrade of the buyer's prestige.",
-        "For a Proxy or Dual-Intent Buyer the end user has an outcome of their own, asked next.",
-        { title: "Based on", source: SOURCES.strategicPositioning },
-        { title: "Also", source: SOURCES.positioningTemplate }
-    ],
-
-    outcomeUser: [
-        "What matters most to the end user, apart from the buyer's own reasons for paying: the result the end user gets. It starts the end user's Profile.",
-        "Enjoyment & fun. Comfort & ease. Safety & care. Learning & growth. Looks & belonging (fitting in with friends, a style). Practical use."
     ],
 
     legalForm: [
@@ -458,8 +496,8 @@ export const INFO = {
         "Not yet registered: you are planning it. Choose the legal form you intend to use; the date, the registration number and the tax numbers can wait until it is registered."
     ],
     registrationAuthority: [
-        "The body that keeps the public register your organisation is listed on.",
-        "Filled in from the country you chose. Change it to match yours."
+        "The body that keeps the public register your organisation is on; on a further row, the name of that registration.",
+        "Filled in from the country you chose; for another country, write it."
     ],
 
     taxNumber: [
@@ -468,8 +506,8 @@ export const INFO = {
     ],
 
     links: [
-        "Says which registration or requirement this expense pays for. Only one can be chosen.",
-        "Lists what you have already recorded further up the page."
+        "Says which registration or requirement this expense pays for.",
+        "It lists the registration numbers and the requirements recorded under Registrations."
     ]
 
 };
@@ -506,6 +544,8 @@ export interface LegalEntityEditorProps {
 
     /** Only the Organization's dialog (the Organization tile of page 1, Definition): its fields, drawn as the tile's dialog body. */
     organizationOnly?: boolean;
+    /** Only the Founders & Ownership tile's dialog (the tile stands on 1. Definition; its answer is this page's). */
+    foundersOnly?: boolean;
 
     /** Only the Positioning questions (market structure, seller and buyer relationship, audience, outcome): the body of the Positioning tile's dialog, above its Notes (design document 28, 8.2). */
     audienceOnly?: boolean;

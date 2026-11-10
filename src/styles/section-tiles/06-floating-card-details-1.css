@@ -216,7 +216,7 @@
 
     background: color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
     border: 1px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
-    box-shadow: 0 8px 20px var(--shadow-ink-18);
+    box-shadow: var(--shadow-menu);
 
     /* The card's label colour: the darker tint of its hue. */
     color: hsl(var(--strategy-theme-hue, 0) var(--theme-text-ink));
@@ -1118,5 +1118,38 @@ body:has([data-pair]) .section-tile-overlay.floating-overlay.business-foundation
 .business-capability-card-rule.sub-tiles-rule {
 
     margin: 0 calc(-1 * var(--card-padding));
+
+}
+
+/* A FOUNDER'S CARD IN ITS DIALOG IN BANDS (owner, 2026-11-10: "The Founders & Ownership dialogue card needs coloured bands"): each field is a band from side to
+   side of the dialog, 12px above and below its content, no gap between; Roles tinted under the name (as a Profile's first band under its name; owner,
+   2026-11-10), then the bands alternate down the card (Management Experience and Skills tinted beside Relevant Industry Experience and Key
+   Achievements), as every card of the Foundation. */
+.column-tile-content .founders-profile .legal-entity-grid,
+.column-tile-content .founders-profile .founders-profile-row {
+
+    row-gap: 0;
+
+}
+
+.column-tile-content .founders-profile .founder-band {
+
+    margin-inline: calc(-1 * var(--card-padding));
+
+    padding: var(--space-cell) var(--card-padding);
+
+}
+
+.column-tile-content .founders-profile .founder-band-tint {
+
+    background: var(--tint-row-band);
+
+}
+
+/* The Resources' list fills its column, as the Performers' does: its dropdowns end at one x and its + stands in the head's x column whatever the names'
+   length (it took the width of its longest name: shorter example names drew it 14px short). */
+.business-capability-slot .business-foundation-field.optional-field-inline > .optional-field-body:has(> .business-capability-resource-rows) {
+
+    justify-self: stretch;
 
 }

@@ -20,7 +20,7 @@ export function useDatePopup(anchor: RefObject<HTMLElement | null>): {
     const [open, setOpen] = useState(false);
     const [free, setFree] = useState(false);
     const containerRef = useRef<HTMLDivElement | null>(null);
-    const { panelRef, panelStyle } = useFloatingPanel(open, anchor, undefined, free);
+    const { panelRef, panelStyle } = useFloatingPanel(open, anchor, undefined, free, true);
 
     usePopupDismiss(open, [containerRef], () => setOpen(false), { capture: true });
 

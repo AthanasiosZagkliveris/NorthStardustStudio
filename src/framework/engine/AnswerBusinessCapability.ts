@@ -313,6 +313,14 @@ export const BUSINESS_OFFERING_RESOURCE_GROUPS: readonly { id: string; label: st
 ];
 
 /**
+ * The Offering's categories and the partner group that serve a physical item only (doc 28, 11.7): Delivery Vehicles and Delivery Running Costs (Vehicles), Materials & Stock
+ * (Materials & Inventory) and Logistics & Fulfilment. While no Offering on Page 1 has a physical item (noPhysicalOffering), Page 3 hides each of them that holds no card: hidden,
+ * never deleted, and shown again when an Offering's Type or form (O1) changes.
+ */
+export const PHYSICAL_RESOURCE_CATEGORY_IDS: readonly string[] = ["vehicles", "materials"];
+export const PHYSICAL_PARTNER_GROUP_IDS: readonly string[] = ["logistics-fulfilment"];
+
+/**
  * The groups whose cards are bought things (assets): a purchase there is
  * priced Per unit, and the quantity multiplies the price. A space bought
  * is One-time.

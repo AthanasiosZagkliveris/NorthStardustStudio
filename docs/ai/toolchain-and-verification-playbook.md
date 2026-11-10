@@ -1,6 +1,6 @@
 # Toolchain and verification playbook
 
-Status: **playbook**, written 2026-10-21, updated 2026-11-02. The procedure for working on the frontend, and the record of which test failures are expected.
+Status: **playbook**, written 2026-10-21, updated 2026-11-10. The procedure for working on the frontend, and the record of which test failures are expected.
 
 The exact procedure for working on NorthStardustStudio's frontend, and the record of which test failures are expected. Everything here was checked by use. The list of what to look at on screen is `review-checklist.md`; this file is what to run.
 
@@ -70,9 +70,9 @@ Where practical, an expected failure is also marked in the test itself (`it.fail
 
 ## Currently known expected failures
 
-- `src/hooks/useListAutoFormat.test.tsx`, `keeps the cursor at the end of a pasted numbered block whose renumbering adds a digit`: marked `it.fails`. It documents a real bug (`outstanding-findings.md`, the `useListAutoFormat` entry), so do not loosen the assertion. `it.fails` reports the still-broken behaviour as a pass, which keeps `npm test` and CI green. When the fix lands, the assertions pass and `it.fails` turns that into a failure: that is the signal to remove `.fails` and close the entry.
+None today. (The last one, the cursor after a pasted numbered block whose renumbering adds a digit, `useListAutoFormat`, was fixed on 2026-11-10; its test is a plain test again.)
 
-That is the whole list. Everything else is expected to be green.
+Everything is expected to be green.
 
 ## Stability
 

@@ -63,7 +63,7 @@ export const hues = PALETTE;
 
 export const modeSources: Record<Mode, ModeSource> = {
     light: {
-        selector: ":root, .business-document, .business-canvas, .business-forecast-table-wrap",
+        selector: ":root, .business-documents-page, .business-documents .tab-list-tab-active, .business-document, .business-canvas, .business-forecast-table-wrap",
         note: "Colours\nEvery colour the stylesheets draw with is one of these tokens;\nno rule names a colour of its own. A token is named for its role\nand what it colours:\n--text-*   text           --line-*    borders, rules, rings\n--bg-*     backgrounds    --shadow-*  shadows\nA colour used both as text and as a line (the blue #0b57d0 is a\nlink, a border and a fill) has one token per role, so dark mode\ncan lighten the text and keep the fill.\n--theme-*-* are the System colour families: \"saturation\nlightness\" pairs that a rule completes with the hue of the card,\nSegment or Theme it sits in:\nhsl(var(--strategy-theme-hue, 0) var(--theme-bg-ground))\nThe hue is always one of the seven soft hues of the palette\n(src/framework/engine/Palette.ts: sky, periwinkle, teal, sage,\nlavender, rose, terracotta), so these families,\nlight and dark, are the palette's ground, tint, bar fill,\nborder and label ink.\nThe same values are declared again on the Business Documents\n\"paper\" (the Plan, the Canvas and the Forecast tables): a\ndocument stays a document, on white, in either theme.",
         properties: [],
         groups: [

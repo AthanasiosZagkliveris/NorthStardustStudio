@@ -1,56 +1,16 @@
 /* ==========================================================
    Business Documents -- the Business Plan and the Business
-   Model Canvas, previewed (pages/BusinessDocuments.tsx)
+   Model Canvas, previewed (components/BusinessDocumentsView.tsx, the Workbook's Business Documents)
 ========================================================== */
 
-.business-documents-main{
-
-    flex:1;
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:20px;
-
-    width:100%;
-    max-width:1180px;
-
-    margin:0 auto;
-
-    /* Clears the fixed header above and footer below, as
-       .workspace-main does. */
-    padding:152px 40px 124px;
-
-    box-sizing:border-box;
-
-}
-
-/* Centred like the other workspace pages. The title's rule hangs
-   18px below it (.workspace-title::after), so the line under it
-   starts well clear of that. */
-.business-documents-head{
+/* The Workbook's Business Documents section: its tabs, its actions and the document, one under the other, as the Glossary's parts are. */
+.business-documents{
 
     display:flex;
 
     flex-direction:column;
 
-    align-items:center;
-
-    gap:36px;
-
-    text-align:center;
-
-}
-
-.business-documents-lead{
-
-    margin:0;
-
-    font-size:var(--font-body);
-    line-height:1.5;
-
-    color:var(--text-secondary);
+    gap:var(--gap-24);
 
 }
 
@@ -73,17 +33,44 @@
 
 }
 
-.business-documents-actions{
+/* ---------- The plan, as a page ---------- */
 
-    display:flex;
+/* THE PAGE UNDER THE TABS (owner, 2026-11-10, 18:27: "Connect the tags with the content as a solid page with page tags"): the tabs stand on the page's top
+   edge, the chosen one open into it (its ground, no line under it), and the page holds the chosen document, the Canvas and the Forecast as the Plan, in
+   one frame. The Plan is drawn on the page itself (no sheet of its own inside it). */
+.business-documents-page{
 
-    flex-wrap:wrap;
+    margin-top:calc(-1 * var(--gap-24));
 
-    gap:var(--gap-12);
+    /* (The app's gaps: 24px inside, the double of the 12px step; owner, 2026-11-10, 19:26: "make sure the docs follow the proper gaps/margins".) */
+    padding:var(--gap-24);
+
+    /* ROUNDED AS EVERY CARD (owner, 2026-11-10, 19:26: "make their corners rounded"): its own top edge, under the tabs, the chosen tab open into it; the
+       corner under the first tab stays square while that tab is the chosen one, so the tab and the page meet as one edge. */
+    border:1px solid var(--line-sheet);
+    border-radius:var(--radius-lg);
+
+    background:var(--bg-surface);
+
+    /* (The page is the documents' paper in every reading mode, colors.css: its words in the paper's ink, the Canvas's and the Forecast's titles too.) */
+    color:var(--text-strong);
 
 }
 
-/* ---------- The plan, as a page ---------- */
+.business-documents-page[data-first-tab]{
+
+    border-top-left-radius:0;
+
+}
+
+.business-documents-page > .business-document{
+
+    padding:0;
+
+    border:none;
+    border-radius:0;
+
+}
 
 .business-document{
 
@@ -126,24 +113,16 @@
 
 .business-document .business-document-title{
 
-    margin:0 0 4px;
+    margin:0 0 var(--gap-6);
 
     font-size:var(--font-h2);
     line-height:1.25;
 
 }
 
-.business-document-subtitle{
-
-    margin:0 0 8px;
-
-    color:var(--text-muted);
-
-}
-
 .business-document h3{
 
-    margin:36px 0 12px;
+    margin:var(--gap-24) 0 var(--gap-12);
 
     padding-bottom:4px;
 
@@ -164,13 +143,13 @@
 
 .business-document h4{
 
-    margin:24px 0 8px;
+    margin:var(--gap-12) 0 var(--gap-6);
 
 }
 
 .business-document h5{
 
-    margin:18px 0 6px;
+    margin:var(--gap-12) 0 var(--gap-6);
 
     color:var(--text-secondary);
 
@@ -178,7 +157,7 @@
 
 .business-document p{
 
-    margin:0 0 12px;
+    margin:0 0 var(--gap-12);
 
 }
 
@@ -433,13 +412,6 @@
 
     }
 
-    .business-documents-main{
-
-        padding-left:16px;
-        padding-right:16px;
-
-    }
-
     .business-document{
 
         padding:20px 16px;
@@ -449,12 +421,6 @@
 }
 
 /* ---------- The financial forecast ---------- */
-
-.business-documents-options{
-
-    align-items:flex-end;
-
-}
 
 /* A field and its label, as everywhere: the label in the body size, regular, the card's label colour, a label gap over its cell; the cell is the app's one dropdown cell (option-picker.css), drawn by no rule of this page. */
 .business-documents-option{
@@ -926,8 +892,3 @@
 }
 
 /* The export buttons stand on the foot of the row, level with the cells (their own place is the top of a row). */
-.business-documents-options > .strategy-add-button{
-
-    align-self:flex-end;
-
-}

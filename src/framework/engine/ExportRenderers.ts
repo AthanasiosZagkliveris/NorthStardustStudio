@@ -1,10 +1,10 @@
 import { segmentAnswerLines } from "./SegmentQuestions.ts";
-import { profileAnswerLines } from "./ProfileQuestions.ts";
+import { profileAnswerLines, profileUserAnswerLines } from "./ProfileQuestions.ts";
 import { offeringAnswerLines } from "./OfferingQuestions.ts";
-import { segmentIdentityOf, settledSegmentAnswers } from "./SegmentContext.ts";
-import { effectiveOfferingAnswers, effectiveProfileAnswers, offeringContextOf } from "./EffectiveAnswers.ts";
+import { segmentContextFor, segmentIdentityOf, segmentIsBusiness, settledSegmentAnswers } from "./SegmentContext.ts";
+import { effectiveOfferingAnswers, effectiveProfileAnswers, effectiveProfileUserAnswers, offeringContextOf } from "./EffectiveAnswers.ts";
 import { workspacesOf, WORKSPACE_GROUP_ID, businessOfferingNeedTexts } from "./AnswerUtils.ts";
-import { AUDIENCE_WORDS, BUYER_CATEGORY_WORDS, END_USER_WORDS, CUSTOMER_TYPE_WORDS, MARKET_TYPE_WORDS, DIFFERENTIATION_WORDS, OUTCOME_USER_WORDS, OUTCOME_WORDS, PURPOSE_WORDS, activitiesLine } from "./ActivityClassification.ts";
+import { AUDIENCE_WORDS, BUYER_CATEGORY_WORDS, END_USER_WORDS, CUSTOMER_TYPE_WORDS, MARKET_TYPE_WORDS, PURPOSE_WORDS, activitiesLine } from "./ActivityClassification.ts";
 /*
     Export blocks for the Answer Structures that have an editor of
     their own -- the pages buildAnswerBlocks has no generic shape for.
@@ -365,9 +365,7 @@ function legalEntityBlocks(value: unknown, context: ExportContext): ExportBlock[
             ["Buyer's category", organisation.buyerCategory.map(id => BUYER_CATEGORY_WORDS[id] ?? "").filter(Boolean).join("; ")],
             ["End User", organisation.endUser.map(id => END_USER_WORDS[id] ?? "").filter(Boolean).join("; ")],
             ["Purpose", organisation.purpose.map(id => PURPOSE_WORDS[id] ?? "").filter(Boolean).join("; ")],
-            ["Differentiation", organisation.differentiation.map(id => DIFFERENTIATION_WORDS[id] ?? "").filter(Boolean).join("; ")],
-            ["Outcome for the buyer", organisation.outcome.map(id => OUTCOME_WORDS[id] ?? "").filter(Boolean).join("; ")],
-            ["Outcome for the user", organisation.outcomeUser.map(id => OUTCOME_USER_WORDS[id] ?? "").filter(Boolean).join("; ")],
+            // (The Differentiation and the outcomes left Positioning on 2026-11-08: each Segment's block prints its Differentiation and its end user's outcome, each Offering O4.)
             ["Legal Form", organisation.legalForm === "Other (not listed)" ? organisation.legalFormOther : organisation.legalForm],
             ["Country", COUNTRIES.find(country => country.code === organisation.country)?.name ?? organisation.country],
             ["Region", organisation.subdivision],
@@ -493,17 +491,43 @@ function segmentBlocks(segment: BusinessCustomerSegmentValue, index: number, org
         heading("Segment " + (index + 1) + ": " + (segment.name.trim() || "Unnamed segment")),
         ...details(segmentAnswerLines(settledSegmentAnswers(segment, organisation)).map((line): [string, string] => [line.label, line.value])),
 
-        ...segment.profiles.flatMap((profile, position) => [
-            heading("Profile " + (index + 1) + "." + (position + 1) + ": " + (profile.name.trim() || "Unnamed profile"), 2),
-            ...details(profileAnswerLines(effectiveProfileAnswers(profile, segment, identity)).map((line): [string, string] => [line.label, line.value])),
-            ...describe(profile.description, PROFILE_FIELDS),
-            ...paragraph(profile.goals, "Goals & Desires"),
-            ...paragraph(profile.challenges, "Challenges & Problems"),
-            ...paragraph(profile.objections, "Objections"),
-            ...paragraph(profile.needs.functional.filter(Boolean).join("; "), "Functional needs"),
-            ...paragraph(profile.needs.emotional.filter(Boolean).join("; "), "Emotional needs"),
-            ...paragraph(profile.needs.social.filter(Boolean).join("; "), "Social needs")
-        ]),
+        ...segment.profiles.flatMap((profile, position) => {
+            const head = heading("Profile " + (index + 1) + "." + (position + 1) + ": " + (profile.name.trim() || "Unnamed profile"), 2);
+            const answers = effectiveProfileAnswers(profile, segment, identity);
+            const lines = (entries: { label: string; value: string }[]) => details(entries.map((line): [string, string] => [line.label, line.value]));
+            const userNeeds = [
+                ...paragraph(profile.goals, "Goals & Desires"),
+                ...paragraph(profile.challenges, "Challenges & Problems")
+            ];
+            const needs = [
+                ...paragraph(profile.needs.functional.filter(Boolean).join("; "), "Functional needs"),
+                ...paragraph(profile.needs.emotional.filter(Boolean).join("; "), "Emotional needs"),
+                ...paragraph(profile.needs.social.filter(Boolean).join("; "), "Social needs")
+            ];
+            // A Segment with an end user (Proxy or Dual-Intent; doc 36, 2.1): the Profile is printed in its two parts, the buyer's and the end user's.
+            if (segmentContextFor(identity, segmentIsBusiness(segment)).endsUser) {
+                return [
+                    head,
+                    { kind: "paragraph", label: "The buyer", text: "who chooses and pays" } as ExportBlock,
+                    ...lines(profileAnswerLines(answers, "buyer")),
+                    ...describe(profile.description, PROFILE_FIELDS),
+                    ...paragraph(profile.objections, "Objections"),
+                    { kind: "paragraph", label: "The end user", text: "who it is for" } as ExportBlock,
+                    ...lines([...profileUserAnswerLines(effectiveProfileUserAnswers(profile, segment, identity)), ...profileAnswerLines(answers, "user")]),
+                    ...paragraph(profile.user?.note ?? "", "Specific Personal Information"),
+                    ...userNeeds,
+                    ...needs
+                ];
+            }
+            return [
+                head,
+                ...lines(profileAnswerLines(answers)),
+                ...describe(profile.description, PROFILE_FIELDS),
+                ...userNeeds,
+                ...paragraph(profile.objections, "Objections"),
+                ...needs
+            ];
+        }),
 
         ...(segment.competitors.length > 0 ? [heading("Competitors and Alternatives", 2)] : []),
         ...segment.competitors.flatMap(competitor => [
@@ -517,7 +541,7 @@ function segmentBlocks(segment: BusinessCustomerSegmentValue, index: number, org
             // Two notes since 2026-11-05 (owner): strengths and weaknesses, opportunities and threats.
             ...table(["Strengths and weaknesses", "Opportunities and threats"],
                 [[competitor.strengths, competitor.opportunities]]),
-            ...paragraph(competitor.insights, "Insights & Differentiation")
+            ...paragraph(competitor.insights, "Insights")
         ]),
 
         ...(text(segment.valueProposition) ? [heading("Value Proposition", 2)] : []),

@@ -107,6 +107,13 @@
 
 }
 
+/* With both B2C and B2B chosen each column holds one relationship's questions (the consumer's on the left, the business's on the right): two equal columns, as the Segment card's, so neither column's options wrap where the other's do not. */
+.legal-entity-grid-organization.legal-entity-audience.legal-entity-audience-both{
+
+    grid-template-columns:repeat(2, minmax(0, 1fr));
+
+}
+
 .legal-entity-grid-organization.legal-entity-audience::before{
 
     display:none;
@@ -130,7 +137,8 @@
 @media (max-width: 900px){
 
     .legal-entity-grid,
-    .legal-entity-grid-organization.legal-entity-audience{
+    .legal-entity-grid-organization.legal-entity-audience,
+    .legal-entity-grid-organization.legal-entity-audience.legal-entity-audience-both{
 
         grid-template-columns:minmax(0, 1fr);
 
@@ -955,6 +963,14 @@
 
 }
 
+/* A vertical divider reaches the horizontal line under its columns (owner, 2026-11-09): where a rule follows the two columns (the Organisation's, over
+   its Notes), the divider runs on through the field gap to it. */
+.legal-entity-grid-organization:has(+ .legal-entity-org-rule)::before{
+
+    bottom:calc(-1 * var(--space-field));
+
+}
+
 .legal-entity-grid-organization > .legal-entity-field{
 
     gap:var(--space-field);
@@ -1458,8 +1474,9 @@
 
 }
 
-/* A divider line under the title of each question of the Positioning card, across its column. */
-.legal-entity-audience .legal-entity-label-info{
+/* A divider line under the title of each question of the Positioning card, across its column; and under the Value Proposition's Emotional Needs and Social Needs (owner, 2026-11-09). */
+.legal-entity-audience .legal-entity-label-info,
+.business-proposition-needs .legal-entity-pair > .legal-entity-label{
 
     display:flex;
 
@@ -1514,7 +1531,8 @@
 
     margin:0 calc(-1 * var(--space-cell));
 
-    padding:var(--space-label) var(--space-cell) var(--space-cell);
+    /* 12px above and below the band's content, so each band reads as a field of its own (owner, 2026-11-10: "Give the proper space to the coloured bands, so to be recognised as a field. - General rule!"). */
+    padding:var(--space-cell);
 
 }
 
@@ -1523,15 +1541,6 @@
 .legal-entity-audience .legal-entity-org-band{
 
     background:var(--tint-row-band);
-
-}
-
-/* THE BANDS AND THE DOUBLE RULES RUN FROM THE CARD'S SIDES TO THE MIDDLE DIVIDER: the dialog's body, which scrolls and so clips what is wider than itself, reaches the dialog's own sides for this card (it stands 6px inside them otherwise), its contents keeping their place; and a double rule has a field gap (12px) above and below it. */
-.section-tile-dialog-body:has(.legal-entity-audience){
-
-    margin-inline:calc(-1 * var(--card-padding));
-
-    padding-inline:var(--card-padding);
 
 }
 
@@ -1546,5 +1555,84 @@
 .legal-entity-audience .business-capability-card-rule-double + .legal-entity-org-set > .legal-entity-org-section:first-child{
 
     padding-top:var(--space-field);
+
+}
+
+/* THE ORGANISATION'S FIELDS IN BANDS (owner, 2026-11-09: one style for every card of the Foundation): the Positioning's bands, with what a field is: two equal
+   columns; a label over a text holder or a single cell has no line under it (tile and card pattern, "Text holders and side cells"); the bands of the two columns
+   end together at the line over the Notes. */
+.legal-entity-grid-organization.legal-entity-audience.legal-entity-org-fields{
+
+    grid-template-columns:repeat(2, minmax(0, 1fr));
+
+}
+
+:is(.legal-entity-org-fields, .legal-entity-bands) .legal-entity-label-info{
+
+    border-bottom:0;
+
+    /* (No line, so no room kept for one: a label with an "i" is as tall as one without, and the rows of the two columns fall on the same lines.) */
+    min-height:0;
+
+    padding-bottom:0;
+
+}
+
+.legal-entity-org-fields > .legal-entity-field > .legal-entity-org-section:last-child{
+
+    flex:1 1 auto;
+
+}
+
+/* The two dates are two bands: their wrapper takes no room of its own (no gap, no inset), each date's band runs to the column's edges and keeps the room
+   before the x column inside it. */
+.legal-entity-org-fields .legal-entity-org-dates{
+
+    gap:0;
+
+    padding-right:0;
+
+}
+
+.legal-entity-org-fields .legal-entity-org-dates > .legal-entity-org-section{
+
+    padding-right:calc(var(--space-cell) + 32px + var(--gap-8));
+
+}
+
+/* A DIALOG OF THE LEGAL ENTITY IN BANDS (owner, 2026-11-09): Founders & Ownership (the capital's tick, the owners' table with its "+ Add founder", the totals: one band each, from
+   side to side of the dialog, the table's band tinted), the Registration Numbers (the registry's, then the tax's, tinted); inside a band its parts keep their own rhythm (12px). */
+.legal-entity-bands{
+
+    display:flex;
+    flex-direction:column;
+
+}
+
+.legal-entity-bands > .legal-entity-org-section{
+
+    display:flex;
+    flex-direction:column;
+
+    gap:var(--space-field);
+
+    padding-top:var(--space-cell);
+
+}
+
+/* (In the Legal Entity's bands a label keeps its own place and width: the tax number's label stands at the right, as the VAT tick does; only the band is new.) */
+.legal-entity-bands .legal-entity-label-info{
+
+    width:auto;
+
+    margin-inline:0;
+
+    padding-inline:0;
+
+}
+
+.legal-entity-bands .legal-entity-number-row > .legal-entity-label-info.legal-entity-row-label{
+
+    justify-content:flex-end;
 
 }

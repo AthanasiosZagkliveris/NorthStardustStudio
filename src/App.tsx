@@ -2,6 +2,7 @@ import "./styles/accent-button.css";
 import { lazy, Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
 import TitleTooltips from "./components/controls/TitleTooltips";
+import ScrollbarGrab from "./components/controls/ScrollbarGrab";
 
 // Loaded lazily, one chunk per page, instead of all four being
 // bundled and evaluated together up front. This matters most for
@@ -15,10 +16,10 @@ const Landing = lazy(() => import("./pages/Landing"));
 const SystemSelection = lazy(() => import("./pages/SystemSelection"));
 const Conversation = lazy(() => import("./pages/Conversation"));
 const CapabilityGenerator = lazy(() => import("./pages/CapabilityGenerator"));
-const BusinessDocuments = lazy(() => import("./pages/BusinessDocuments"));
-const Review = lazy(() => import("./pages/Review"));
 const GlobalSettings = lazy(() => import("./pages/GlobalSettings"));
-const Glossary = lazy(() => import("./pages/Glossary"));
+const Workbook = lazy(() => import("./pages/Workbook"));
+// (The Glossary's, the Review's and the Business Documents' old addresses open the Workbook on their tab.)
+const WorkbookRedirect = lazy(() => import("./pages/Workbook").then(module => ({ default: module.WorkbookRedirect })));
 
 // The asset library's gallery: development only (`npm run dev`), absent from the built app.
 // dev-only:start (`npm run export:app` leaves everything between the two markers out of the exported app)
@@ -34,6 +35,8 @@ export default function App() {
         <Suspense fallback={null}>
 
             <TitleTooltips />
+
+            <ScrollbarGrab />
 
             <Routes>
 
@@ -59,12 +62,12 @@ export default function App() {
 
                 <Route
                     path="/documents"
-                    element={<BusinessDocuments />}
+                    element={<WorkbookRedirect tab="documents" />}
                 />
 
                 <Route
                     path="/review"
-                    element={<Review />}
+                    element={<WorkbookRedirect tab="review" />}
                 />
 
                 <Route
@@ -74,7 +77,12 @@ export default function App() {
 
                 <Route
                     path="/glossary"
-                    element={<Glossary />}
+                    element={<WorkbookRedirect tab="glossary" />}
+                />
+
+                <Route
+                    path="/workbook"
+                    element={<Workbook />}
                 />
 
                 <Route

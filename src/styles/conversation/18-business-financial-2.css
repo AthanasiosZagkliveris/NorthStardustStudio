@@ -837,17 +837,42 @@
 
    A card opened from a link on another page glows once, so the eye
    finds it in a page full of cards. */
+/* WHERE A LINK LANDS, FRAMED IN THE LINK'S BLUE (owner, 2026-11-10, 18:25: "the app should guide and direct the user to the related part/field etc. framing
+   it in a related colour (blue like the link, and according the reading mode)"): a 3px frame in the links' own colour (--text-primary, set by each reading
+   mode), drawn just inside the part's edge so no scrolling box cuts it, held, then fading out. An outline takes no room: nothing moves. A part lit by a
+   Note keeps the Notes' orange. */
+/* ROUNDED, AND GLOWING AS THE TOTAL OWNERSHIP'S PILL (owner, 2026-11-10, 19:26: "Make the frames (from the links) have rounded corners, and give them a glow
+   effect like the Total Ownerships glowing effect"): the frame takes a card's corners (8px) and the pill's soft glow, 10px with 2px spread in its own colour
+   at 45%, both fading out together. */
 .jump-highlight{
 
-    animation:jump-highlight 1.8s ease-out;
+    border-radius:var(--radius-lg);
+
+    /* (4px: twice the line it had, owner, 2026-11-10, 20:20: "Double the wireframe thickness of the frames (linked)".) */
+    outline:4px solid var(--text-primary);
+    outline-offset:0;
+
+    box-shadow:0 0 10px 2px color-mix(in srgb, var(--text-primary) 45%, transparent);
+
+    /* (Over the lines of the bands and rows beside it, which are drawn after it: owner, 2026-11-10, 20:34, "The blue wire frame should be above the divider lines".) */
+    position:relative;
+    z-index:3;
+
+    animation:jump-highlight 2.4s ease-out forwards;
 
 }
 
 @keyframes jump-highlight{
 
-    0%, 35%{ box-shadow:0 0 0 3px var(--line-primary), 0 0 0 7px var(--line-primary-a25); }
+    0%, 70%{
+        outline-color:var(--text-primary);
+        box-shadow:0 0 10px 2px color-mix(in srgb, var(--text-primary) 45%, transparent);
+    }
 
-    100%{ box-shadow:0 0 0 0 transparent; }
+    100%{
+        outline-color:transparent;
+        box-shadow:0 0 10px 2px transparent;
+    }
 
 }
 
@@ -856,9 +881,6 @@
     .jump-highlight{
 
         animation:none;
-
-        outline:3px solid var(--line-primary);
-        outline-offset:2px;
 
     }
 

@@ -96,9 +96,11 @@ describe("the relevance of a purpose to the buyer (the owner's tables of 2026-10
 
     it("orders the differentiations by the business buyer's audience scale and category", () => {
         const levels = (scale: string, category: string) => differentiationRelevance({ models: ["b2b"], categories: ["b2b:" + category], relationships: [], businessScales: [scale] });
-        expect(levels("solo", "direct")).toEqual({ cost: 2, convenience: 2, compliance: 0, premium: 1, performance: 2, ecosystem: 1 });
-        expect(levels("mid", "proxy")).toEqual({ cost: 1, convenience: 1, compliance: 2, premium: 0, performance: 1, ecosystem: 2 });
-        expect(levels("enterprise", "dual")).toEqual({ cost: 0, convenience: 2, compliance: 2, premium: 2, performance: 2, ecosystem: 2 });
+        expect(levels("solo", "direct")).toEqual({ cost: 2, convenience: 2, compliance: 0, premium: 1, performance: 2, ecosystem: 1, personal: 1 });
+        expect(levels("mid", "proxy")).toEqual({ cost: 1, convenience: 1, compliance: 2, premium: 0, performance: 1, ecosystem: 2, personal: 1 });
+        expect(levels("enterprise", "dual")).toEqual({ cost: 1, convenience: 2, compliance: 2, premium: 2, performance: 2, ecosystem: 2, personal: 1 });
+        // Cost-driven is offered to an Enterprise or Public Sector Direct buyer (owner, 2026-11-08): a public body can buy on cost.
+        expect(levels("enterprise", "direct")?.cost).toBe(1);
         expect(differentiationRelevance({ models: ["b2b"], categories: ["b2b:dual"], relationships: [] })).toBeNull();
     });
 
@@ -115,22 +117,31 @@ describe("the relevance of a purpose to the buyer (the owner's tables of 2026-10
         const serving = purposeRelevance({ models: ["b2b"], categories: ["b2b:dual"], relationships: ["rel:serving"] })!;
         expect(serving).toMatchObject({ learning: 2, entertainment: 2, health: 0 });
         expect(purposeOrderAbout({ models: ["b2b"], categories: ["b2b:dual"], relationships: ["rel:serving"] })).toBe("the buyer and user relationship");
+        // An institution or membership body (owner, 2026-11-09): Learning, Health, Compliance and Access primary, as Proxy or Dual-Intent.
+        for (const category of ["b2b:proxy", "b2b:dual"]) {
+            const institution = purposeRelevance({ ...base, categories: [category], relationships: ["rel:institution"] })!;
+            expect(institution).toMatchObject({ learning: 2, health: 2, compliance: 2, access: 2, entertainment: 1, productivity: 1 });
+            // Only those four primary (owner, 2026-11-09): Gifting, Everyday Needs and Protection, the employer's primaries, are only possible.
+            expect(institution).toMatchObject({ gifting: 1, everyday: 1, protection: 1 });
+        }
+        expect(purposeRelevance({ ...base, categories: ["b2b:proxy"], relationships: ["rel:employer"] })).toMatchObject({ gifting: 2, everyday: 2, protection: 2 });
     });
 
     it("says which differentiations the purposes chosen drive", () => {
         expect(differentiationByPurpose([])).toBeNull();
-        expect(differentiationByPurpose(["compliance"])).toEqual({ cost: 0, convenience: 0, compliance: 2, premium: 0, performance: 0, ecosystem: 2 });
-        expect(differentiationByPurpose(["growth", "protection"])).toEqual({ cost: 0, convenience: 2, compliance: 2, premium: 2, performance: 2, ecosystem: 2 });
-        expect(differentiationByPurpose(["access"])).toEqual({ cost: 2, convenience: 2, compliance: 1, premium: 0, performance: 0, ecosystem: 0 });
-        expect(differentiationByPurpose(["entertainment"])).toEqual({ cost: 0, convenience: 1, compliance: 0, premium: 2, performance: 0, ecosystem: 0 });
+        expect(differentiationByPurpose(["compliance"])).toEqual({ cost: 0, convenience: 0, compliance: 2, premium: 0, performance: 0, ecosystem: 2, personal: 1 });
+        expect(differentiationByPurpose(["growth", "protection"])).toEqual({ cost: 0, convenience: 2, compliance: 2, premium: 2, performance: 2, ecosystem: 2, personal: 1 });
+        expect(differentiationByPurpose(["access"])).toEqual({ cost: 2, convenience: 2, compliance: 1, premium: 0, performance: 0, ecosystem: 0, personal: 1 });
+        expect(differentiationByPurpose(["entertainment"])).toEqual({ cost: 0, convenience: 1, compliance: 0, premium: 2, performance: 0, ecosystem: 0, personal: 1 });
     });
 
     it("says which differentiations a business buyer and user relationship drives", () => {
         expect(differentiationByRelationship(["age:minor"])).toBeNull();
-        expect(differentiationByRelationship(["rel:copartner"])).toEqual({ cost: 0, convenience: 1, compliance: 1, premium: 2, performance: 2, ecosystem: 2 });
-        expect(differentiationByRelationship(["rel:employer"])).toEqual({ cost: 1, convenience: 2, compliance: 2, premium: 0, performance: 0, ecosystem: 2 });
-        expect(differentiationByRelationship(["rel:sponsor"])).toEqual({ cost: 2, convenience: 0, compliance: 2, premium: 0, performance: 0, ecosystem: 1 });
-        expect(differentiationByRelationship(["rel:otherbusiness"])).toEqual({ cost: 2, convenience: 2, compliance: 1, premium: 0, performance: 0, ecosystem: 1 });
+        expect(differentiationByRelationship(["rel:copartner"])).toEqual({ cost: 0, convenience: 1, compliance: 1, premium: 2, performance: 2, ecosystem: 2, personal: 1 });
+        expect(differentiationByRelationship(["rel:employer"])).toEqual({ cost: 1, convenience: 2, compliance: 2, premium: 0, performance: 0, ecosystem: 2, personal: 1 });
+        expect(differentiationByRelationship(["rel:sponsor"])).toEqual({ cost: 2, convenience: 0, compliance: 2, premium: 0, performance: 0, ecosystem: 1, personal: 1 });
+        expect(differentiationByRelationship(["rel:otherbusiness"])).toEqual({ cost: 2, convenience: 2, compliance: 1, premium: 0, performance: 0, ecosystem: 1, personal: 1 });
+        expect(differentiationByRelationship(["rel:institution"])).toEqual(differentiationByRelationship(["rel:employer"]));
     });
 
     it("says which outcomes the purposes chosen drive: the buyer's, by the category, and the user's", () => {
@@ -151,9 +162,9 @@ describe("the relevance of a purpose to the buyer (the owner's tables of 2026-10
         expect(differentiationByLifeStage(["young"], [])).toBeNull();
         expect(outcomesByLifeStage([], ["age:minor"])).toBeNull();
         // The buyer's life stage prefers: a Student cost and convenience, a Worker convenience and compliance, a Senior compliance and premium.
-        expect(differentiationByLifeStage(["young"], ["age:minor"])).toEqual({ cost: 2, convenience: 2, compliance: 0, premium: 0, performance: 0, ecosystem: 0 });
-        expect(differentiationByLifeStage(["adult"], ["age:senior"])).toEqual({ cost: 0, convenience: 2, compliance: 2, premium: 0, performance: 0, ecosystem: 0 });
-        expect(differentiationByLifeStage(["senior"], ["age:adult"])).toEqual({ cost: 0, convenience: 0, compliance: 2, premium: 2, performance: 0, ecosystem: 0 });
+        expect(differentiationByLifeStage(["young"], ["age:minor"])).toEqual({ cost: 2, convenience: 2, compliance: 0, premium: 0, performance: 0, ecosystem: 0, personal: 0 });
+        expect(differentiationByLifeStage(["adult"], ["age:senior"])).toEqual({ cost: 0, convenience: 2, compliance: 2, premium: 0, performance: 0, ecosystem: 0, personal: 0 });
+        expect(differentiationByLifeStage(["senior"], ["age:adult"])).toEqual({ cost: 0, convenience: 0, compliance: 2, premium: 2, performance: 0, ecosystem: 0, personal: 0 });
         // A Worker buying for a Senior: health, protection and compliance are primary, so the legal cover (buyer) and safety and care (user) come out first.
         const workerSenior = outcomesByLifeStage(["adult"], ["age:senior"])!;
         // (Health, protection and compliance make the legal cover and the safety and care score at the top; everyday needs and access tie them, so they are among the first, not alone.)

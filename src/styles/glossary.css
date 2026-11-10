@@ -1,7 +1,9 @@
 /* ==========================================================
-   Glossary and References (Glossary.tsx): one page, two tabs,
-   laid out as the Review page is -- one column, clear of the
-   fixed header and footer.
+   The Workbook (Workbook.tsx): one page, its tabs Card Notes, Review,
+   Glossary and References, in the System pages' shape: the title at
+   the top left over its rule (InterviewHeader), the tabs as the
+   bullets of the page tab at the left (BulletRail), one column clear
+   of the fixed header and footer.
 
    Two kinds of term, one colour each: the app's own words in
    the app's blue (--text-primary), YOUR TERMS (the names the
@@ -25,15 +27,47 @@
     margin:0 auto;
     padding:152px 40px 124px;
 
+}
+
+/* The two kinds' colours: on the page, and on the list wherever it stands. */
+.glossary-page,
+.glossary-section{
+
     --glossary-app-ink: var(--text-primary);
     --glossary-yours-ink: hsl(var(--glossary-yours-hue, 0) var(--theme-text-ink));
     --glossary-yours-ground: hsl(var(--glossary-yours-hue, 0) var(--theme-bg-inner));
 
 }
 
-.glossary-title{
+/* THE WORKBOOK'S COLUMN is a System page's card (--card-width, bullet-rail.css: up to 1400px, the window less a rail gutter on each side),
+   its title 24px under the header (the 104px of .conversation-content), its sections in one panel drawn as a dialog (owner, 2026-11-09):
+   the dialog's padding, gap, ground and edge (section-tiles, "The dialog's ground"), the carousel arrows and the tab at its sides. */
+.workbook .workbook-panel{
 
-    align-self:center;
+    display:flex;
+    flex-direction:column;
+
+    gap:var(--space-field);
+
+    box-sizing:border-box;
+
+    padding:var(--card-padding);
+
+}
+
+.workbook .workbook-section{
+
+    display:flex;
+    flex-direction:column;
+
+    gap:var(--gap-24);
+
+}
+
+.workbook .glossary-page{
+
+    max-width:var(--card-width);
+    padding:104px 0 96px;
 
 }
 
@@ -45,37 +79,49 @@
 
 }
 
-/* The funnel, alone at the end of its row (the Glossary's chooses the kind of term, the References' the letter ranges; the title's "i" names the two colours). */
+/* The funnel, alone at the end of its row: ONE on each tab (the Glossary's chooses the kinds of term and the letter ranges, the References' the letter ranges; the title's "i" names the two colours). */
+/* THE WORKBOOK'S HEAD: the section's heading and, at the right end of its row, the section's buttons (WorkbookTools; layout rules 22.37), 12px apart, on the
+   heading's line; it stands outside the body that scrolls, so it stays. */
+.workbook .workbook-head{
+
+    display:flex;
+    align-items:center;
+    flex-wrap:wrap;
+
+    gap:var(--gap-12);
+
+}
+
+.workbook .workbook-tools{
+
+    display:flex;
+    align-items:center;
+    gap:var(--gap-12);
+
+    margin-left:auto;
+
+}
+
 .glossary-bar{
 
     display:flex;
     align-items:center;
     justify-content:flex-end;
 
-    /* Two funnels (the kinds, the letter ranges) a cell apart. */
-    gap:var(--space-cell);
-
     /* One margin: 12px (layout rules, section 1). The funnel belongs to what is under the tabs, so it stands --space-field from the tab line and from the list: the page's and the section's 24px gaps are taken back to 12px on both sides. */
     margin-block:calc(var(--space-field) - var(--gap-24));
 
 }
 
-.glossary-bar .funnel-box{
+.glossary-bar .funnel-box,
+.workbook-tools .funnel-box{
 
     --plus-ground: var(--bg-surface);
     --plus-fill: var(--text-primary);
 
 }
 
-.glossary-bar .responsibility-filter-panel{
-
-    border:1px solid var(--line-box);
-
-    background:var(--bg-surface);
-
-    color:var(--text-default);
-
-}
+/* (The funnel's window here is every funnel's: the Inventory's style, capability-overview.css; owner, 2026-11-10: "I like the inventory's style".) */
 
 /* Your term's kind ("Segment"), in its colour; an app term has no tag. */
 .glossary-entry-yours .glossary-term-tag{
@@ -144,9 +190,16 @@
 }
 
 /* The term the search, or a citation, asked for: marked for a moment. */
+/* (The term or reference a link asked for: framed in the links' blue, as every part a link lands on is; see .jump-highlight.) */
 .glossary-entry-target{
 
-    background:var(--bg-highlight);
+    /* (Inside the list's own box, which would cut a frame drawn outside: drawn just inside, rounded and glowing inward as a link's landing does.) */
+    border-radius:var(--radius-lg);
+
+    outline:4px solid var(--text-primary);
+    outline-offset:-4px;
+
+    box-shadow:inset 0 0 10px 2px color-mix(in srgb, var(--text-primary) 45%, transparent);
 
 }
 
@@ -244,5 +297,215 @@
         padding-right:16px;
 
     }
+
+}
+
+/* The section's text size (the Inventory's three steps, 14, 18 and 24px): the section drawn at that scale. */
+.workbook .workbook-section[data-size="small"]{
+
+    zoom:calc(14 / 18);
+
+}
+
+.workbook .workbook-section[data-size="large"]{
+
+    zoom:calc(24 / 18);
+
+}
+
+/* The Business Documents' tabs stay at the top of the body while the document scrolls under them. */
+.workbook .workbook-section .tab-list{
+
+    position:sticky;
+    top:-6px;
+
+    z-index:2;
+
+    /* (The panel's own ground, so the document passes under it unseen.) */
+    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-ground)) var(--theme-ground-weight), var(--theme-ground-paper));
+
+}
+
+/* The Forecast's period and last year in the title's row: each label beside its picker. */
+.workbook .workbook-tools .business-documents-option{
+
+    display:flex;
+    flex-direction:row;
+    align-items:center;
+
+    gap:var(--gap-8);
+
+}
+
+/* The Forecast's Period and Until stand before the text size, Export after it (owner, 2026-11-10: "place the Period and Until fields before the text size
+   fields"). */
+.workbook .workbook-tools > .business-documents-option{
+
+    order:-1;
+
+}
+
+/* The page itself does not scroll (its title stays, owner, 2026-11-10): the panel ends over the footer and scrolls inside. */
+.workbook .glossary-page{
+
+    padding-bottom:0;
+
+}
+
+/* THE WORKBOOK'S LISTS IN BANDS (owner, 2026-11-10: "Use colour variations in different parts"): a card's note, a review item, a term and a reference
+   alternate, two close steps of the card's own light tone over the surface: 35% and 70% (owner, 2026-11-10: "The colour difference in the content can be
+   smaller"; "the same card's hue colour"). */
+.workbook .workbook-section :is(.notepad-card-note, .review-item, .glossary-entry, .references-entry):nth-child(even){
+
+    background-image:none;
+    background-color:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) 70%, var(--bg-surface));
+
+}
+
+/* THE CONTENTS LIGHTER THAN THE CARD (owner, 2026-11-10: "The contents and card colours should differ ... different lightness, so there is contrast and
+   the user can understand and locate the content more easily"): every row of the Workbook's lists is lighter than the card, in the card's own hue;
+   the card around keeps its own, deeper ground. */
+.workbook .workbook-section :is(.notepad-card-note, .review-item, .glossary-entry, .references-entry){
+
+    background-color:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) 35%, var(--bg-surface));
+
+}
+
+/* THE REFERENCES' BANDS SIDE TO SIDE (owner, 2026-11-10: "Make the coloured bands side to side"): in the Workbook the references stand as the Review's
+   and the Glossary's rows do, one band against the next across the whole list, in one framed list, each with the 12px margin; the hanging indent stays. */
+.workbook .references-list{
+
+    gap:0;
+
+    border:1px solid var(--line-sheet);
+    border-radius:var(--radius-md);
+
+}
+
+.workbook .references-entry{
+
+    padding:var(--card-padding) var(--card-padding) var(--card-padding) calc(var(--card-padding) + 2em);
+
+}
+
+.workbook .references-entry + .references-entry{
+
+    border-top:1px solid var(--line-sheet);
+
+}
+
+/* NO DROP SHADOW ON THE WORKBOOK (owner, 2026-11-10: yes to "dropping both shadows on the Workbook only and keeping them on real dialogs"): its panel is a
+   page of its own, over nothing, so neither the panel nor its rail's tab lifts off the page; a real dialog keeps its shadow. */
+.workbook .workbook-panel,
+.workbook .bullet-rail{
+
+    box-shadow:none !important;
+
+}
+
+/* The text size changes the document, never the tabs' names (owner, 2026-11-10: "changing the text size should not affect the names in the tags"): the
+   tab list undoes the section's scale. */
+.workbook .workbook-section[data-size="small"] .tab-list{
+
+    zoom:calc(18 / 14);
+
+}
+
+.workbook .workbook-section[data-size="large"] .tab-list{
+
+    zoom:calc(18 / 24);
+
+}
+
+/* THE WORKBOOK'S LISTS IN THE CARD'S HUE, WITH ROUND CORNERS (owner, 2026-11-10: "make sure that the corners are rounded, and that the same card's hue
+   colour is used"): the rows are the card's light tone over the surface (above), never a warm or a grey fill, and a framed list clips its rows to its own round
+   corners. */
+.workbook :is(.review-list, .glossary-list, .references-list){
+
+    overflow:hidden;
+
+}
+
+/* The Card Notes in the Workbook as its other lists: one framed list, its rows band against band, no box of their own. */
+.workbook .notepad-group-notes{
+
+    gap:0;
+
+    border:1px solid var(--line-sheet);
+    border-radius:var(--radius-md);
+
+    overflow:hidden;
+
+}
+
+.workbook .notepad-group-notes > .notepad-card-note{
+
+    border:0;
+    border-radius:0;
+
+}
+
+.workbook .notepad-group-notes > .notepad-card-note + .notepad-card-note{
+
+    border-top:1px solid var(--line-sheet);
+
+}
+
+/* The lines between the Workbook's rows in the card's one divider colour, as between the parts of every card (owner, 2026-11-10: "the divider lines
+   colours ... many cards are inconsistent"). */
+.workbook .workbook-section :is(.notepad-card-note, .review-item, .glossary-entry, .references-entry) + :is(.notepad-card-note, .review-item, .glossary-entry, .references-entry){
+
+    border-top-color:var(--band-divider);
+
+}
+
+/* An app term's places in the app, a line of its own under its meaning (owner, 2026-11-10: "where in the app does this term exist"). */
+.glossary-places{
+
+    display:block;
+
+    margin-top:var(--gap-6);
+
+    color:var(--text-muted);
+
+}
+
+/* THE BUSINESS DOCUMENTS' TABS IN THE CARD'S HUE (owner, 2026-11-10: "make the tags colours ... match the card's hue tint"): a tab not chosen stands on the
+   card's tint, as the Workbook's rows do, its words in the card's ink; the chosen one is the document's own sheet, framed in the card's edge. */
+.workbook .workbook-section .tab-list{
+
+    border-bottom-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-accent));
+
+}
+
+.workbook .workbook-section .tab-list-tab{
+
+    border-color:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-line-accent)) 30%, transparent);
+
+    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) 70%, var(--bg-surface));
+
+    color:hsl(var(--strategy-theme-hue, 0) var(--theme-text-ink));
+
+}
+
+.workbook .workbook-section .tab-list-tab-active{
+
+    border-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-accent));
+
+    background:var(--bg-surface);
+
+}
+
+/* (The page under the tabs takes the same edge: the tabs' rule is its top, so the chosen tab and the page read as one sheet.) */
+.workbook .business-documents-page{
+
+    border-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-accent));
+
+}
+
+/* (The tabs draw no rule of their own here: the page's rounded top edge is the line the tabs stand on; the chosen tab, a pixel over it, opens into it.) */
+.workbook .business-documents .tab-list{
+
+    border-bottom:none;
 
 }

@@ -536,7 +536,7 @@ Each field once, with the component it uses (CO) and the functions it carries (F
 | F128 | Opportunitiesi | text area | CO09 | - | 1 |
 | F129 | Threats: what this means | info | CO04 | - | 1 |
 | F130 | Threatsi | text area | CO09 | - | 1 |
-| F131 | Insights & Differentiation: what this me | info | CO04 | - | 1 |
+| F131 | Insights: what this means | info | CO04 | - | 1 |
 | F132 | Type | text area | CO09 | - | 1 |
 | F133 | Type | x | CO12 | - | 1 |
 | F134 | tick box | tick box | CO11 | - | 5 |

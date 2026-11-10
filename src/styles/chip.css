@@ -16,7 +16,10 @@
 .notepad-chip {
 
     display: inline-flex;
-    align-items: flex-start;
+    /* (The x inside the chip, 4px clear of its edge, centred on its two lines: it stood on the chip's border; owner, 2026-11-10.) */
+    align-items: center;
+    gap: var(--gap-6);
+    padding-right: 4px;
 
     max-width: 100%;
 

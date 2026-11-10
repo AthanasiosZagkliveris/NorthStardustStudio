@@ -1,6 +1,6 @@
 # Index of the documents
 
-Status: **index**, updated 2026-11-08, written by `npm run docs:index` (the subjects are in `tools/scripts/docs/write-index.mjs`; do not edit by hand). An alphabetical list of subjects and where each is described. The contents by chapter are in [README.md](README.md); the places in the app are in [app/index.md](app/index.md); the terms are in [app/glossary.md](app/glossary.md).
+Status: **index**, updated 2026-11-10, written by `npm run docs:index` (the subjects are in `tools/scripts/docs/write-index.mjs`; do not edit by hand). An alphabetical list of subjects and where each is described. The contents by chapter are in [README.md](README.md); the places in the app are in [app/index.md](app/index.md); the terms are in [app/glossary.md](app/glossary.md).
 
 ## A
 
@@ -25,7 +25,7 @@ Status: **index**, updated 2026-11-08, written by `npm run docs:index` (the subj
 - **Card structure**: [26](design/current/26-card-structure.md); [tile and card pattern](ai/tile-and-card-pattern.md)
 - **Caregiving**: [31 section 4](design/questionnaire/31-positioning-categories.md)
 - **Catalogue record**: [6](design/core/06-catalogue-record.md)
-- **Change history (log)**: [4](design/core/04-log.md); [archive (before 2026-10-22)](archive/log/log-archive-2026-07-to-10.md)
+- **Change history (log)**: [4](design/core/04-log.md); [archive (before 2026-11-01)](archive/log/log-archive-2026-07-to-10.md)
 - **Colour map of the pages**: [1 Part I](design/core/01-current-design.md)
 - **Competitor card**: [41 (proposal)](design/questionnaire/41-competitor-questions.md); [28 section 6.6](design/questionnaire/28-questionnaire-specification.md)
 - **Components, defaults**: [12](design/library/12-component-defaults.md)
@@ -76,10 +76,11 @@ Status: **index**, updated 2026-11-08, written by `npm run docs:index` (the subj
 - **Pop-ups**: [23](design/current/23-popups.md)
 - **Positioning**: [38 (the tile as built)](design/questionnaire/38-positioning-questions.md); [28 section 8.2](design/questionnaire/28-questionnaire-specification.md); [31](design/questionnaire/31-positioning-categories.md)
 - **Profile card**: [36 (as built)](design/questionnaire/36-profile-questions.md); [28 section 6.4](design/questionnaire/28-questionnaire-specification.md)
+- **Purpose & Beliefs (Mission, Vision, Values, Principles, Philosophy, Manifesto)**: [45 (proposal)](design/questionnaire/45-purpose-and-beliefs-questions.md); [28 section 8.1](design/questionnaire/28-questionnaire-specification.md)
 - **Purposes of an offering**: [31 sections 7 and 10.4](design/questionnaire/31-positioning-categories.md)
 ## Q
 
-- **Questions, the plan and the guide**: [27](design/questionnaire/27-questionnaire-plan.md); [29](design/questionnaire/29-question-guide.md); [28](design/questionnaire/28-questionnaire-specification.md)
+- **Questions, the plan and the guide**: [44 (the register: every question and its code)](design/questionnaire/44-questions-register.md); [27](design/questionnaire/27-questionnaire-plan.md); [29](design/questionnaire/29-question-guide.md); [28](design/questionnaire/28-questionnaire-specification.md)
 ## R
 
 - **Reactions (hover, press, focus)**: [18](design/current/18-reactions.md)
@@ -100,6 +101,9 @@ Status: **index**, updated 2026-11-08, written by `npm run docs:index` (the subj
 - **Tile and card pattern**: [tile-and-card-pattern](ai/tile-and-card-pattern.md)
 - **Tile documents (the form and the list)**: [40](design/questionnaire/40-tile-documents.md)
 - **Tooltips**: [24](design/current/24-tooltips.md)
+## U
+
+- **User guide (how to use the app)**: [guide/user-guide](guide/user-guide.md)
 ## V
 
 - **Value Proposition**: [42 (proposal)](design/questionnaire/42-value-proposition-questions.md); [28 section 6.7](design/questionnaire/28-questionnaire-specification.md)

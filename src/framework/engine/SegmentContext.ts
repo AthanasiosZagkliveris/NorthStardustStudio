@@ -3,8 +3,10 @@
  * Pure functions, so the card, the documents and the tests read the same rules (in the engine, since the documents settle a Segment's answers against Identity too).
  */
 import { AUDIENCE_WORDS } from "./ActivityClassification.ts";
-import { type SegmentAnswers, type SegmentContext, segmentSettle } from "./SegmentQuestions.ts";
+import { type SegmentAnswers, type SegmentContext, SEGMENT_QUESTIONS, segmentQuestionAsked, segmentSettle } from "./SegmentQuestions.ts";
+import { choiceLimit } from "./PositioningIds.ts";
 import { withOnlyUserStage } from "./RelationshipFit.ts";
+import { differentiationFromOpenings } from "./CompetitorQuestions.ts";
 
 /** The Identity answers the Segment card reads. Absent: nothing is known, and the card is as it was. */
 export interface SegmentIdentity {
@@ -23,8 +25,15 @@ export interface SegmentIdentity {
     /** The Organisation's country (ISO code) and its first activity's code: the order of the Competitor's review platforms (doc 41, K6). */
     country?: string;
     activityCode?: string;
-    /** Positioning's differentiation ids: the Offering's O4 starts from them (doc 43). */
+    /**
+     * The Positioning answers saved before they left Positioning (owner, 2026-11-08): the differentiation starts each Segment's own (K14, doc 41), the end user's outcome each Segment's
+     * End user, 9 (doc 35), the buyer's outcome the Offering's O4 (doc 43, through the crosswalk of doc 34, 5.2a). Never asked again; read only as starts.
+     */
     differentiation?: readonly string[];
+    outcome?: readonly string[];
+    outcomeUser?: readonly string[];
+    /** Positioning's purposes: the order of the Differentiation and of the end user's outcome. */
+    purpose?: readonly string[];
 }
 
 /** The Organisation's answers the Segment, Profile and Offering cards read (the Organisation tile and Positioning). */
@@ -37,6 +46,9 @@ export interface IdentityOrganisation {
     country?: string;
     activities?: readonly { code: string }[];
     differentiation?: readonly string[];
+    outcome?: readonly string[];
+    outcomeUser?: readonly string[];
+    purpose?: readonly string[];
 }
 
 /** The Identity answers as the cards read them, from the Organisation and the business stage: one mapping for the page, the documents and the exports. */
@@ -50,8 +62,40 @@ export function segmentIdentityOf(organisation: IdentityOrganisation, stage?: st
         stage,
         country: organisation.country,
         activityCode: organisation.activities?.[0]?.code ?? "",
-        differentiation: organisation.differentiation
+        differentiation: organisation.differentiation,
+        outcome: organisation.outcome,
+        outcomeUser: organisation.outcomeUser,
+        purpose: organisation.purpose
     };
+}
+
+/** The Segment's questions that came from Positioning, and the Positioning answer (saved before 2026-11-08) each starts from. */
+const POSITIONING_STARTS: readonly { id: string; from: "differentiation" | "outcomeUser" }[] = [
+    { id: "differentiation", from: "differentiation" },
+    { id: "u-outcome", from: "outcomeUser" }
+];
+
+/**
+ * A SEGMENT'S ANSWERS WITH THE POSITIONING STARTS (owner, 2026-11-08: the Differentiation and the end user's outcome left Positioning for each Segment): where the Segment never answered
+ * one (no key saved), the Positioning answer saved before is its starting value, within the stage's limit; a value saved on the Segment wins, even an empty one (cleared). The end user's
+ * outcome is started only where the Segment has an end user. What the card shows, and what the documents, the exports and the Offering's O4 read.
+ * Where Positioning saved no Differentiation, the K10 ticks across the Segment's `competitors` start it, through the crosswalk (doc 41, K14; 2026-11-09), within the same limit.
+ */
+export function segmentPositioningShown(answers: SegmentAnswers, identity: Pick<SegmentIdentity, "differentiation" | "outcomeUser"> | undefined, context: SegmentContext, competitors: readonly { questions?: Readonly<Record<string, readonly string[]>> }[] = []): SegmentAnswers {
+    const shown: SegmentAnswers = { ...answers };
+    const limit = choiceLimit(context.stage, "outcome");
+    for (const { id, from } of POSITIONING_STARTS) {
+        const question = SEGMENT_QUESTIONS.find(entry => entry.id === id);
+        if (!question || id in answers || !segmentQuestionAsked(question, answers, context)) {
+            continue;
+        }
+        const saved = (identity?.[from] ?? []).filter(option => question.options.some(entry => entry.id === option));
+        const start = saved.length === 0 && id === "differentiation" ? differentiationFromOpenings(competitors).filter(option => question.options.some(entry => entry.id === option)) : saved;
+        if (start.length > 0) {
+            shown[id] = limit === null ? start : start.slice(0, limit);
+        }
+    }
+    return shown;
 }
 
 /** Whether a Segment is of businesses: the presence of its Business Data key. */
@@ -126,10 +170,30 @@ export function segmentContext(identity: SegmentIdentity | undefined): SegmentCo
 export function segmentContextFor(identity: SegmentIdentity | undefined, business: boolean): SegmentContext {
 
     const context = segmentContext(identity);
+    const frame = context.frame === "open" ? (business ? "business" : "people") : context.frame;
 
-    return context.frame === "open" ? { ...context, frame: business ? "business" : "people" } : context;
+    // The end user is that of the Segment's own relationship (owner, 2026-11-08): a people Segment reads the consumer buyer's category and relationships, a business Segment the business
+    // buyer's, so a B2C Direct Segment of a business that also sells B2B Proxy has no end user.
+    const models = frame === "people" ? ["b2c"] : ["b2b", "b2g", "g2b"];
+    const categories = identity?.buyerCategory ?? [];
+    const endsUser = (identity?.relationships ?? []).some(model => models.includes(model) && (categories.includes(model + ":proxy") || categories.includes(model + ":dual")));
+    // (Dual-Intent: the buyer also uses it, so the end user's part is the others who use it; 2026-11-09.)
+    const dual = (identity?.relationships ?? []).some(model => models.includes(model) && categories.includes(model + ":dual"));
+
+    return {
+        ...context,
+        frame,
+        endsUser,
+        ...(dual ? { dual } : {}),
+        relations: context.relations.filter(id => BUSINESS_RELATIONS.includes(id) === (frame === "business")),
+        // (The user's life stage is asked of a consumer buyer only.)
+        userStages: frame === "people" ? context.userStages : []
+    };
 
 }
+
+/** The buyer and user relationships of a business buyer (Positioning's End User); the others are a consumer buyer's. */
+const BUSINESS_RELATIONS = ["rel:employer", "rel:copartner", "rel:serving", "rel:intermediary", "rel:sponsor", "rel:institution", "rel:otherbusiness"];
 
 /** The audience ids of a buyer who is a person, and of a business or public buyer. */
 export const PEOPLE_AUDIENCE = ["young", "adult", "senior"];
@@ -142,8 +206,8 @@ export const BUSINESS_AUDIENCE = ["solo", "smb", "mid", "enterprise", "local", "
  * The stage is taken as Growing: the kind of area is a check that the stage only holds back, never an answer to drop.
  */
 export function settledSegmentAnswers(
-    segment: { questions: SegmentAnswers; description: Record<string, string> },
-    organisation: { customerType: readonly string[]; marketType: string; audience: readonly string[]; buyerCategory?: readonly string[]; endUser?: readonly string[] }
+    segment: { questions: SegmentAnswers; description: Record<string, string>; competitors?: readonly { questions?: Readonly<Record<string, readonly string[]>> }[] },
+    organisation: { customerType: readonly string[]; marketType: string; audience: readonly string[]; buyerCategory?: readonly string[]; endUser?: readonly string[]; differentiation?: readonly string[]; outcomeUser?: readonly string[] }
 ): SegmentAnswers {
 
     const context = segmentContextFor({
@@ -155,6 +219,7 @@ export function settledSegmentAnswers(
         stage: "grow"
     }, segment.description["business-data"] !== undefined);
 
-    return segmentSettle(segment.questions, context);
+    // (With the Positioning answers saved before 2026-11-08 as the starts of the Differentiation and the end user's outcome: segmentPositioningShown.)
+    return segmentPositioningShown(segmentSettle(segment.questions, context), organisation, context, segment.competitors);
 
 }

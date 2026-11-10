@@ -11,6 +11,7 @@ import {
     businessFoundationSegments,
     withLegalEntityFounders
 } from "../../../framework/engine/AnswerUtils.ts";
+import { offeringStartsById } from "../../../framework/engine/EffectiveAnswers.ts";
 
 import {
     FINANCIAL_SUSTAINABILITY_SECTIONS,
@@ -102,7 +103,7 @@ const STREAM_HELP: Record<"price" | "volume" | "timing", InfoPoint[]> = {
     timing: [
         "Revenue begins after the sales cycle, the time from first contact to a signed sale: for services to businesses it is often 4 to 12 weeks.",
         "One sale often leads to another, such as a build after an audit: start the later stream when the first ones finish.",
-        "Money arrives when the customer pays, not when the sale is made: invoices are often paid 30 days after they are sent, and some later.",
+        "Money arrives when the customer pays, which can be well after the sale: invoices are often paid 30 days after they are sent, and some later.",
         "Ask for deposits on larger projects: part at signing, the rest on completion."
     ]
 };
@@ -168,7 +169,7 @@ const SECTIONS = {
         ],
         info: [
             { title: "Revenue", text: "Money generated through the organisation's Offerings." },
-            "Funding, loans, founder capital, grants and investment are financing, not revenue, and are never counted here.",
+            "Funding, loans, founder capital, grants and investment are financing, and this list counts revenue only.",
             "Revenue may be zero at first. That is a valid model for an organisation under development."
         ] as InfoPoint[]
     },
@@ -321,14 +322,21 @@ export default function FinancialSustainabilityEditor({
         Foundation page has its card here; its stream is stored the
         first time something is written in it, under an id taken from
         the Offering's. A stream whose Offering is gone is shown after
-        them, so its figures are not counted unseen.
+        them, so its figures are not counted unseen. Not stored yet, its
+        Charged starts from the Offering's O3 on Page 1 and its Payment
+        Timing from O3's second row (offeringStarts), saved with the first
+        thing written; what is stored wins.
     */
+    function streamStarts(offeringId: string): Partial<RevenueStreamValue> {
+        const starts = offeringStartsById(businessFoundationSegments(foundation), offeringId);
+        return { ...(starts.charged ? { frequency: starts.charged } : {}), ...(starts.paymentTiming ? { paymentTiming: starts.paymentTiming } : {}) };
+    }
     const shownStreams: { stream: RevenueStreamValue; orphan: boolean }[] = [
         ...offerings.flatMap(offering => {
             const saved = page.streams.filter(stream => stream.offeringId === offering.id);
             return saved.length > 0
                 ? saved.map(stream => ({ stream, orphan: false }))
-                : [{ stream: { ...createRevenueStream(), id: "stream-" + offering.id, offeringId: offering.id }, orphan: false }];
+                : [{ stream: { ...createRevenueStream(), ...streamStarts(offering.id), id: "stream-" + offering.id, offeringId: offering.id }, orphan: false }];
         }),
         ...page.streams
             .filter(stream => !offerings.some(offering => offering.id === stream.offeringId))
@@ -539,7 +547,7 @@ export default function FinancialSustainabilityEditor({
                                 </ul>
                                 {entry.variableOverridden && (
                                     <p className="financial-muted">
-                                        The revenue stream's own figure, {format(entry.variable)}, is used instead of the {format(costs.variablePerUnit)} recorded above.
+                                        The revenue stream's own figure, {format(entry.variable)}, applies here and replaces the {format(costs.variablePerUnit)} recorded above.
                                     </p>
                                 )}
 
@@ -667,7 +675,7 @@ export default function FinancialSustainabilityEditor({
                 key={stream.id}
                 kind="Revenue Stream"
                 number={index + 1}
-                name={orphan ? "Offering no longer on the Foundation page" : offeringName(stream)}
+                name={orphan ? "Offering removed from the Foundation page" : offeringName(stream)}
                 open={folds.isOpen(stream.id)}
                 onToggle={() => folds.toggle(stream.id)}
                 disabled={disabled}
@@ -1460,7 +1468,7 @@ export default function FinancialSustainabilityEditor({
                     title="Costs Used"
                     info={[
                         "Read from Financial Foundation, by behaviour.",
-                        "Fixed: the monthly equivalent of every recurring cost, plus loan interest. Loan principal is repayment of borrowed money, not a cost; one-time costs are what the funding is for.",
+                        "Fixed: the monthly equivalent of every recurring cost, plus loan interest. Loan principal is repayment of borrowed money, kept outside the costs; one-time costs are what the funding is for.",
                         "Variable: per-unit and per-project costs linked to each Offering."
                     ]}
                 >
@@ -1486,7 +1494,7 @@ export default function FinancialSustainabilityEditor({
                     <FinancialBlock title="Break-Even Point" info={[
                         "Contribution per unit = price − variable cost per unit.",
                         "Offering break even: the units this Offering alone would need to sell to cover all fixed costs.",
-                        "Organisation break even: the expected revenue mix, scaled until its contribution covers the fixed costs, not the Offerings' figures added together.",
+                        "Organisation break even: the expected revenue mix, scaled as a whole until its contribution covers the fixed costs.",
                         BREAK_EVEN_UNITS_FORMULA,
                         BREAK_EVEN_SOURCE
                     ]}>

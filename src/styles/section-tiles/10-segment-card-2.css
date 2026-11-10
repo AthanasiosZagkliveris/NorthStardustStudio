@@ -339,7 +339,7 @@ table.business-relationship-table {
 .strategy-goal-card .strategy-objective-box,
 .strategy-goal-card .strategy-goal-box [class*="strategy-"][class*="-box"]:not(.strategy-box-remove):not(.strategy-box-toggle):not(.plus-box):not(.strategy-box-tiles) {
 
-    background: color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
+    background: var(--nest-ground, color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper)));
 
     border-radius: var(--radius-lg);
 
@@ -482,7 +482,9 @@ table.business-relationship-table {
 
 }
 
-/* THE STRATEGY CARDS (Theme, Goal, Objective, Initiatives, Metric): two tints only, the Theme's and the Objective's, swapped from card to card (Theme, Goal, Objective, Initiatives and Metric); each card keeps a 12px margin at its left, and what stands under a head is as wide as the head's name cell, ending 12px before its x button. */
+/* THE STRATEGY CARDS (Theme, Goal, Objective, Initiatives, Metric): two tints only, the Theme's and the Objective's, swapped from card to card, each card
+   keeping its edge (owner, 2026-11-10: "In the nested cards, swap the same colour, and keep their wireframes"); each card keeps a 12px margin at its left,
+   and what stands under a head is as wide as the head's name cell, ending 12px before its x button. */
 .strategy-theme-dialog,
 .strategy-goal-card {
 
@@ -493,18 +495,26 @@ table.business-relationship-table {
 }
 
 .strategy-theme-dialog .strategy-goal-box,
-.strategy-goal-card .strategy-goal-box,
-.strategy-theme-dialog .strategy-metric-box,
-.strategy-goal-card .strategy-metric-box {
+.strategy-goal-card .strategy-goal-box {
 
-    background: var(--tint-objective) !important;
+    --nest-ground: var(--tint-objective);
+    background: var(--nest-ground) !important;
 
 }
 
 .strategy-theme-dialog .strategy-objective-box,
 .strategy-goal-card .strategy-objective-box {
 
-    background: var(--tint-theme) !important;
+    --nest-ground: var(--tint-theme);
+    background: var(--nest-ground) !important;
+
+}
+
+.strategy-theme-dialog .strategy-metric-box,
+.strategy-goal-card .strategy-metric-box {
+
+    --nest-ground: var(--tint-objective);
+    background: var(--nest-ground) !important;
 
 }
 
@@ -740,9 +750,12 @@ table.business-relationship-table {
 
 }
 
+/* A Metric's Baseline and Target fill their column and ask nothing of it (no width of their own while the columns are sized): the pickers size the columns (08-strategy-roadmap.css, "Metric fields -- pairing"). */
 :is(.strategy-theme-dialog, .strategy-goal-card) .strategy-metric-box:not(.strategy-initiatives-box) .strategy-metric-field > .interview-input {
 
-    width: 100%;
+    width: 0;
+
+    min-width: 100%;
 
 }
 
@@ -832,7 +845,7 @@ table.business-relationship-table {
 
 }
 
-/* The x's ground at rest is the ground of the card it stands on (the Theme and the Objective the Theme's tint, the Goal and the Metric the Objective's). */
+/* The x's ground at rest is the ground of the card it stands on (each nested card's own, --nest-ground). */
 .strategy-theme-dialog,
 .strategy-goal-card {
 
@@ -840,15 +853,9 @@ table.business-relationship-table {
 
 }
 
-:is(.strategy-theme-dialog, .strategy-goal-card) :is(.strategy-goal-box, .strategy-metric-box) {
+:is(.strategy-theme-dialog, .strategy-goal-card) :is(.strategy-goal-box, .strategy-objective-box, .strategy-metric-box) {
 
-    --x-ground: var(--tint-objective);
-
-}
-
-:is(.strategy-theme-dialog, .strategy-goal-card) .strategy-objective-box {
-
-    --x-ground: var(--tint-theme);
+    --x-ground: var(--nest-ground);
 
 }
 

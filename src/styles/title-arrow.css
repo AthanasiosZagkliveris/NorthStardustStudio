@@ -58,7 +58,7 @@
 
     background: var(--bg-help);
 
-    box-shadow: 0 8px 24px var(--shadow-18);
+    box-shadow: var(--shadow-menu);
 
 }
 

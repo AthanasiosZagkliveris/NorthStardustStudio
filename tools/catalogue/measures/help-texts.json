@@ -54,11 +54,11 @@
   {
    "label": "Colours",
    "place": "tile dialog",
-   "text": "Choose colours that support the character and purpose of your organisation.\nRed: energy, passion, excitement and urgency.\nOrange: enthusiasm, creativity, warmth and playfulness.\nYellow: optimism, happiness, positivity and attention.\nGreen: nature, growth, health and renewal.\nBlue: trust, stability, calm and reliability.\nPurple: creativity, luxury, mystery and sophistication.\nPink: love, care, playfulness and romance.\nBrown: natural, earthy, reliable and comforting.\nBlack: strength, sophistication, authority and elegance.\nWhite: simplicity, purity, cleanliness and openness.\nGrey: neutrality, balance, practicality and formality.\nThese are common associations rather than fixed meanings, and can change with context, shade and culture.\nAs a starting point, consider a 60 / 30 / 10 distribution guide.\nMonochromatic: variations of one colour create a cohesive and controlled appearance.\nAnalogous: neighbouring colours create harmony and visual continuity.\nComplementary: opposing colours create strong contrast and visual energy.\nTriadic: three evenly spaced colours create balanced variety and visual interest.\nNeutral + Accent: neutral colours with one stronger colour create restrained designs with focused emphasis.\nPrimary + Secondary: a dominant brand colour supported by secondary colours creates recognition with visual flexibility.\nThe 60 / 30 / 10 ratio is a starting point, not a rule, and the balance can change according to the application.\nAccessibility: check text/background contrast before assigning a colour to text or essential interface elements.",
-   "lines": 60,
+   "text": "Choose colours that support the character and purpose of your organisation.\nRed: energy, passion, excitement and urgency.\nOrange: enthusiasm, creativity, warmth and playfulness.\nYellow: optimism, happiness, positivity and attention.\nGreen: nature, growth, health and renewal.\nBlue: trust, stability, calm and reliability.\nPurple: creativity, luxury, mystery and sophistication.\nPink: love, care, playfulness and romance.\nBrown: natural, earthy, reliable and comforting.\nBlack: strength, sophistication, authority and elegance.\nWhite: simplicity, purity, cleanliness and openness.\nGrey: neutrality, balance, practicality and formality.\nThese are common associations, and their meaning can change with context, shade and culture.\nAs a starting point, consider a 60 / 30 / 10 distribution guide.\nMonochromatic: variations of one colour create a cohesive and controlled appearance.\nAnalogous: neighbouring colours create harmony and visual continuity.\nComplementary: opposing colours create strong contrast and visual energy.\nTriadic: three evenly spaced colours create balanced variety and visual interest.\nNeutral + Accent: neutral colours with one stronger colour create restrained designs with focused emphasis.\nPrimary + Secondary: a dominant brand colour supported by secondary colours creates recognition with visual flexibility.\nThe 60 / 30 / 10 ratio is a starting point, and the balance can change according to the application.\nAccessibility: check text/background contrast before assigning a colour to text or essential interface elements.",
+   "lines": 59,
    "points": 22,
    "w": 480,
-   "chars": 1571,
+   "chars": 1546,
    "scenes": [
     "Brand System / main / tile Colours",
     "Brand System / main / tile Colours / card 1",
@@ -68,11 +68,11 @@
   {
    "label": "Colours",
    "place": "floating card",
-   "text": "Choose colours that support the character and purpose of your organisation.\nRed: energy, passion, excitement and urgency.\nOrange: enthusiasm, creativity, warmth and playfulness.\nYellow: optimism, happiness, positivity and attention.\nGreen: nature, growth, health and renewal.\nBlue: trust, stability, calm and reliability.\nPurple: creativity, luxury, mystery and sophistication.\nPink: love, care, playfulness and romance.\nBrown: natural, earthy, reliable and comforting.\nBlack: strength, sophistication, authority and elegance.\nWhite: simplicity, purity, cleanliness and openness.\nGrey: neutrality, balance, practicality and formality.\nThese are common associations rather than fixed meanings, and can change with context, shade and culture.\nAs a starting point, consider a 60 / 30 / 10 distribution guide.\nMonochromatic: variations of one colour create a cohesive and controlled appearance.\nAnalogous: neighbouring colours create harmony and visual continuity.\nComplementary: opposing colours create strong contrast and visual energy.\nTriadic: three evenly spaced colours create balanced variety and visual interest.\nNeutral + Accent: neutral colours with one stronger colour create restrained designs with focused emphasis.\nPrimary + Secondary: a dominant brand colour supported by secondary colours creates recognition with visual flexibility.\nThe 60 / 30 / 10 ratio is a starting point, not a rule, and the balance can change according to the application.\nAccessibility: check text/background contrast before assigning a colour to text or essential interface elements.",
-   "lines": 77,
+   "text": "Choose colours that support the character and purpose of your organisation.\nRed: energy, passion, excitement and urgency.\nOrange: enthusiasm, creativity, warmth and playfulness.\nYellow: optimism, happiness, positivity and attention.\nGreen: nature, growth, health and renewal.\nBlue: trust, stability, calm and reliability.\nPurple: creativity, luxury, mystery and sophistication.\nPink: love, care, playfulness and romance.\nBrown: natural, earthy, reliable and comforting.\nBlack: strength, sophistication, authority and elegance.\nWhite: simplicity, purity, cleanliness and openness.\nGrey: neutrality, balance, practicality and formality.\nThese are common associations, and their meaning can change with context, shade and culture.\nAs a starting point, consider a 60 / 30 / 10 distribution guide.\nMonochromatic: variations of one colour create a cohesive and controlled appearance.\nAnalogous: neighbouring colours create harmony and visual continuity.\nComplementary: opposing colours create strong contrast and visual energy.\nTriadic: three evenly spaced colours create balanced variety and visual interest.\nNeutral + Accent: neutral colours with one stronger colour create restrained designs with focused emphasis.\nPrimary + Secondary: a dominant brand colour supported by secondary colours creates recognition with visual flexibility.\nThe 60 / 30 / 10 ratio is a starting point, and the balance can change according to the application.\nAccessibility: check text/background contrast before assigning a colour to text or essential interface elements.",
+   "lines": 75,
    "points": 22,
    "w": 360,
-   "chars": 1571,
+   "chars": 1546,
    "scenes": [
     "Brand System / main / tile Colours / card 1",
     "Brand System / main / tile Colours / card 2"
@@ -141,11 +141,11 @@
   {
    "label": "Icon & Logo",
    "place": "tile dialog",
-   "text": "Upload your icon and logo in PNG or SVG formats, with a maximum file size of 50 KB each.\nSVG: a vector file: stays sharp at any size and is tiny, so it is the best format for a logo or icon on screen and on the web.\nPNG: a pixel image with a transparent background: use it when you only have the logo or icon as an image, at a large enough size to stay sharp.\nPDF: a vector file for print: the format printers and sign makers usually ask for, so keep one for business cards, signage and merchandise (upload the SVG or PNG here).\nChoose an icon and logo that represent your organisation clearly and consistently.\nCircle: unity, community, harmony and continuity.\nSquare: stability, structure, reliability and balance.\nRectangle: order, practicality, structure and professionalism.\nTriangle: direction, progress, strength and movement.\nHexagon: balance, connection, efficiency and structure.\nOrganic shapes: natural, friendly, creative and approachable.\nAbstract shapes: distinctive, conceptual and open to interpretation.\nThese are common visual associations rather than fixed meanings.\nIcon vs Logo: the icon should remain recognisable at small sizes, while the logo can combine the icon with the organisation name.",
+   "text": "Upload your icon and logo in PNG or SVG formats, with a maximum file size of 50 KB each.\nSVG: a vector file: stays sharp at any size and is tiny, so it is the best format for a logo or icon on screen and on the web.\nPNG: a pixel image with a transparent background: use it when you only have the logo or icon as an image, at a large enough size to stay sharp.\nPDF: a vector file for print: the format printers and sign makers usually ask for, so keep one for business cards, signage and merchandise (upload the SVG or PNG here).\nChoose an icon and logo that represent your organisation clearly and consistently.\nCircle: unity, community, harmony and continuity.\nSquare: stability, structure, reliability and balance.\nRectangle: order, practicality, structure and professionalism.\nTriangle: direction, progress, strength and movement.\nHexagon: balance, connection, efficiency and structure.\nOrganic shapes: natural, friendly, creative and approachable.\nAbstract shapes: distinctive, conceptual and open to interpretation.\nThese are common visual associations, and context shapes what each one means.\nIcon vs Logo: the icon should remain recognisable at small sizes, while the logo can combine the icon with the organisation name.",
    "lines": 44,
    "points": 14,
    "w": 480,
-   "chars": 1215,
+   "chars": 1228,
    "scenes": [
     "Brand System / main / tile Icon & Logo"
    ]
@@ -165,11 +165,11 @@
   {
    "label": "Typography",
    "place": "tile dialog",
-   "text": "Choose typefaces that support your brand's character while remaining appropriate for their intended use.\nSerif: letters with finishing strokes, often giving a traditional, editorial or refined feel. E.g. Georgia, Garamond, Times New Roman.\nSans-serif: letters without finishing strokes, often giving a modern, clear and straightforward feel. E.g. Inter, Helvetica, Arial.\nSlab serif: serif typefaces with thick, block-like finishing strokes, often giving a strong, solid and distinctive feel. E.g. Rockwell, Roboto Slab.\nScript: typefaces inspired by handwriting or calligraphy, often giving a personal, elegant or expressive feel. E.g. Pacifico, Dancing Script.\nDisplay: typefaces designed for visual impact at larger sizes, often used for headlines, titles and short statements. E.g. Bebas Neue, Abril Fatface.\nThese categories describe common visual characteristics and associations, not fixed meanings.\nUse complementary typefaces and prioritise readability over personality.\nSerif + Sans-serif: Georgia + Inter creates classic headings with clean, modern body text.\nDisplay + Sans-serif: Abril Fatface + Inter creates expressive headings with clear supporting text.\nSans-serif + Sans-serif: Montserrat + Open Sans creates a clean, contemporary system with subtle contrast.\nSerif + Serif: Garamond + Georgia can create an editorial feel when each has a distinct role.\nSingle typeface family: Inter Regular + Inter Bold creates a simple, consistent system using weight rather than different typefaces.\nReadability: use highly expressive typefaces selectively and prioritise clear, comfortable reading for body text and interface content.\nRecommended: use 1–2 typefaces for most brands; use 3 only when each has a clearly defined purpose.",
+   "text": "Choose typefaces that support your brand's character while remaining appropriate for their intended use.\nSerif: letters with finishing strokes, often giving a traditional, editorial or refined feel. E.g. Georgia, Garamond, Times New Roman.\nSans-serif: letters without finishing strokes, often giving a modern, clear and straightforward feel. E.g. Inter, Helvetica, Arial.\nSlab serif: serif typefaces with thick, block-like finishing strokes, often giving a strong, solid and distinctive feel. E.g. Rockwell, Roboto Slab.\nScript: typefaces inspired by handwriting or calligraphy, often giving a personal, elegant or expressive feel. E.g. Pacifico, Dancing Script.\nDisplay: typefaces designed for visual impact at larger sizes, often used for headlines, titles and short statements. E.g. Bebas Neue, Abril Fatface.\nThese categories describe common visual characteristics and associations, and context shapes what each one means.\nUse complementary typefaces and prioritise readability over personality.\nSerif + Sans-serif: Georgia + Inter creates classic headings with clean, modern body text.\nDisplay + Sans-serif: Abril Fatface + Inter creates expressive headings with clear supporting text.\nSans-serif + Sans-serif: Montserrat + Open Sans creates a clean, contemporary system with subtle contrast.\nSerif + Serif: Garamond + Georgia can create an editorial feel when each has a distinct role.\nSingle typeface family: Inter Regular + Inter Bold creates a simple, consistent system from one typeface, with weight giving the contrast.\nReadability: use highly expressive typefaces selectively and prioritise clear, comfortable reading for body text and interface content.\nRecommended: use 1–2 typefaces for most brands; use 3 only when each has a clearly defined purpose.",
    "lines": 55,
    "points": 15,
    "w": 480,
-   "chars": 1740,
+   "chars": 1766,
    "scenes": [
     "Brand System / main / tile Typography &Text HierarchyManr",
     "Brand System / main / tile Typography &Text HierarchyManr / card 1",
@@ -193,11 +193,11 @@
   {
    "label": "Typography &\nText Hierarchy",
    "place": "floating card",
-   "text": "Choose typefaces that support your brand's character while remaining appropriate for their intended use.\nSerif: letters with finishing strokes, often giving a traditional, editorial or refined feel. E.g. Georgia, Garamond, Times New Roman.\nSans-serif: letters without finishing strokes, often giving a modern, clear and straightforward feel. E.g. Inter, Helvetica, Arial.\nSlab serif: serif typefaces with thick, block-like finishing strokes, often giving a strong, solid and distinctive feel. E.g. Rockwell, Roboto Slab.\nScript: typefaces inspired by handwriting or calligraphy, often giving a personal, elegant or expressive feel. E.g. Pacifico, Dancing Script.\nDisplay: typefaces designed for visual impact at larger sizes, often used for headlines, titles and short statements. E.g. Bebas Neue, Abril Fatface.\nThese categories describe common visual characteristics and associations, not fixed meanings.\nUse complementary typefaces and prioritise readability over personality.\nSerif + Sans-serif: Georgia + Inter creates classic headings with clean, modern body text.\nDisplay + Sans-serif: Abril Fatface + Inter creates expressive headings with clear supporting text.\nSans-serif + Sans-serif: Montserrat + Open Sans creates a clean, contemporary system with subtle contrast.\nSerif + Serif: Garamond + Georgia can create an editorial feel when each has a distinct role.\nSingle typeface family: Inter Regular + Inter Bold creates a simple, consistent system using weight rather than different typefaces.\nReadability: use highly expressive typefaces selectively and prioritise clear, comfortable reading for body text and interface content.\nRecommended: use 1–2 typefaces for most brands; use 3 only when each has a clearly defined purpose.",
-   "lines": 72,
+   "text": "Choose typefaces that support your brand's character while remaining appropriate for their intended use.\nSerif: letters with finishing strokes, often giving a traditional, editorial or refined feel. E.g. Georgia, Garamond, Times New Roman.\nSans-serif: letters without finishing strokes, often giving a modern, clear and straightforward feel. E.g. Inter, Helvetica, Arial.\nSlab serif: serif typefaces with thick, block-like finishing strokes, often giving a strong, solid and distinctive feel. E.g. Rockwell, Roboto Slab.\nScript: typefaces inspired by handwriting or calligraphy, often giving a personal, elegant or expressive feel. E.g. Pacifico, Dancing Script.\nDisplay: typefaces designed for visual impact at larger sizes, often used for headlines, titles and short statements. E.g. Bebas Neue, Abril Fatface.\nThese categories describe common visual characteristics and associations, and context shapes what each one means.\nUse complementary typefaces and prioritise readability over personality.\nSerif + Sans-serif: Georgia + Inter creates classic headings with clean, modern body text.\nDisplay + Sans-serif: Abril Fatface + Inter creates expressive headings with clear supporting text.\nSans-serif + Sans-serif: Montserrat + Open Sans creates a clean, contemporary system with subtle contrast.\nSerif + Serif: Garamond + Georgia can create an editorial feel when each has a distinct role.\nSingle typeface family: Inter Regular + Inter Bold creates a simple, consistent system from one typeface, with weight giving the contrast.\nReadability: use highly expressive typefaces selectively and prioritise clear, comfortable reading for body text and interface content.\nRecommended: use 1–2 typefaces for most brands; use 3 only when each has a clearly defined purpose.",
+   "lines": 74,
    "points": 15,
    "w": 360,
-   "chars": 1740,
+   "chars": 1766,
    "scenes": [
     "Brand System / main / tile Typography &Text HierarchyManr / card 1",
     "Brand System / main / tile Typography &Text HierarchyManr / card 2"
@@ -230,11 +230,25 @@
   {
    "label": "Competitors",
    "place": "tile dialog",
-   "text": "Select 3–5 competitors and analyse them for each Customer Segment.\nFocus on a relevant product line, pricing tier, or geography.",
-   "lines": 6,
-   "points": 2,
+   "text": "Select 3–5 competitors and analyse them for each Customer Segment.\nFocus on a relevant product line, pricing tier, or geography.\nSome questions wait until you launch; an answer given to one of them is kept.",
+   "lines": 10,
+   "points": 3,
    "w": 360,
-   "chars": 128,
+   "chars": 206,
+   "scenes": [
+    "Business System / 1. Foundation / tile Competitors",
+    "Business System / 1. Foundation / tile Competitors / card 1",
+    "Business System / 1. Foundation / tile Competitors / card 2"
+   ]
+  },
+  {
+   "label": "How will you stand apart?",
+   "place": "tile dialog",
+   "text": "What the offering does differently from the competitors: where it hits exactly the blind spot they leave.\nStarted from the openings you ticked on your Competitors (What could you do differently?); change it freely.\nIt is about the offering; the result the buyer gets from it is asked on each Offering.\nCost-driven (saving resources): targets the blind spot of expensive competitors with a budget-friendly alternative.\nConvenience-driven (speed and ease): targets the blind spot of complex or slow solutions.\nCompliance, Risk & Security: targets the blind spot of uncertified or questionable alternatives.\nStatus & Premium (exclusivity): targets the blind spot of mass-market or cheap products with top quality and custom service.\nPerformance & Innovation (product superiority): targets the blind spot of dated or underpowered alternatives with better results and newer methods.\nEcosystem & Integration (fits what they already use): targets the blind spot of standalone tools cut off from the buyer's other systems and workflows.\nPersonal Service & Relationship (customer intimacy): targets the blind spot of impersonal providers with a service shaped around each customer.\nAt this stage (Planning): choose one. When the stage changes (the Opening Date), an answer over the limit goes back to empty.\nBased on: Institute for Strategy and Competitiveness (n.d.) Strategic Positioning. Boston, MA: Harvard Business School. Available at: https://www.isc.hbs.edu/strategy/business-strategy/Pages/strategic-positioning.aspx (Accessed: 25 October 2026).\nAlso: Loy, T. (2007) E145 Technology Entrepreneurship, Session 6: Entrepreneurial Marketing. Stanford, CA: Stanford University. Available at: https://web.stanford.edu/class/e145/2007_fall/startup_mktg_details.shtml (Accessed: 25 October 2026).",
+   "lines": 72,
+   "points": 13,
+   "w": 360,
+   "chars": 1789,
    "scenes": [
     "Business System / 1. Foundation / tile Competitors",
     "Business System / 1. Foundation / tile Competitors / card 1",
@@ -244,11 +258,11 @@
   {
    "label": "Competitor",
    "place": "floating card",
-   "text": "Select 3–5 competitors and analyse them for each Customer Segment.\nFocus on a relevant product line, pricing tier, or geography.",
-   "lines": 6,
-   "points": 2,
+   "text": "Select 3–5 competitors and analyse them for each Customer Segment.\nFocus on a relevant product line, pricing tier, or geography.\nSome questions wait until you launch; an answer given to one of them is kept.",
+   "lines": 10,
+   "points": 3,
    "w": 360,
-   "chars": 128,
+   "chars": 206,
    "scenes": [
     "Business System / 1. Foundation / tile Competitors / card 1",
     "Business System / 1. Foundation / tile Competitors / card 2"
@@ -296,11 +310,11 @@
   {
    "label": "Market",
    "place": "floating card",
-   "text": "Which areas and industries do they serve?",
+   "text": "Where do they sell, how big are they, and are they growing?",
    "lines": 3,
    "points": 1,
    "w": 360,
-   "chars": 41,
+   "chars": 59,
    "scenes": [
     "Business System / 1. Foundation / tile Competitors / card 1",
     "Business System / 1. Foundation / tile Competitors / card 2"
@@ -309,24 +323,11 @@
   {
    "label": "Where do they sell?",
    "place": "floating card",
-   "text": "The widest area they sell in. Write the industries they serve in the note.",
+   "text": "The widest area they sell in. Write the places by name in the note.",
    "lines": 3,
    "points": 1,
    "w": 360,
-   "chars": 74,
-   "scenes": [
-    "Business System / 1. Foundation / tile Competitors / card 1",
-    "Business System / 1. Foundation / tile Competitors / card 2"
-   ]
-  },
-  {
-   "label": "How big is their organisation?",
-   "place": "floating card",
-   "text": "The EU's sizes, as on your Segment. A sole trader is Micro.",
-   "lines": 3,
-   "points": 1,
-   "w": 360,
-   "chars": 59,
+   "chars": 67,
    "scenes": [
     "Business System / 1. Foundation / tile Competitors / card 1",
     "Business System / 1. Foundation / tile Competitors / card 2"
@@ -361,11 +362,11 @@
   {
    "label": "How do they reach customers?",
    "place": "floating card",
-   "text": "Tick each channel they use to find customers, then which ones: the same lists as your Profiles, so the app can see where your customers are and they are not.\nWrite their account and shop names in the note. Payment and delivery channels are not listed: they do not reach new customers.",
-   "lines": 12,
+   "text": "Tick each channel they use to find customers, then which ones. The lists are your Profiles', so the openings below show the channels they leave free.\nWrite their account and shop names in the note. The list holds the channels that reach new customers.",
+   "lines": 11,
    "points": 2,
    "w": 360,
-   "chars": 284,
+   "chars": 251,
    "scenes": [
     "Business System / 1. Foundation / tile Competitors / card 1",
     "Business System / 1. Foundation / tile Competitors / card 2"
@@ -387,11 +388,11 @@
   {
    "label": "Where are they reviewed, and how are they rated?",
    "place": "floating card",
-   "text": "1 = Poor, 5 = Excellent.\nTick each place they are reviewed and give their average there, to the nearest star. Most people only use a business with 4 stars or more.\nNot listed? Tick Other and write it. Google is where most people read reviews of local businesses (71% in 2026).\nMarketplace: where they sell, such as Etsy, Amazon or eBay.\nApp store: Apple's App Store or Google Play.\nTrade directory: Checkatrade or TrustATrader in the UK, Angi or HomeAdvisor in the US, HomeStars in Canada.\nFood delivery app: Just Eat or Deliveroo in the UK, Grubhub in the US, SkipTheDishes in Canada, Menulog in Australia.",
+   "text": "1 = Poor, 5 = Excellent.\nTick each place they are reviewed and give their average there, to the nearest star. Most people only use a business with 4 stars or more.\nFor another place, tick Other and write it. Google is where most people read reviews of local businesses (71% in 2026).\nMarketplace: where they sell, such as Etsy, Amazon or eBay.\nApp store: Apple's App Store or Google Play.\nTrade directory: Checkatrade or TrustATrader in the UK, Angi or HomeAdvisor in the US, HomeStars in Canada.\nFood delivery app: Just Eat or Deliveroo in the UK, Grubhub in the US, SkipTheDishes in Canada, Menulog in Australia.",
    "lines": 28,
    "points": 7,
    "w": 360,
-   "chars": 607,
+   "chars": 614,
    "scenes": [
     "Business System / 1. Foundation / tile Competitors / card 1",
     "Business System / 1. Foundation / tile Competitors / card 2"
@@ -411,13 +412,13 @@
    ]
   },
   {
-   "label": "How do they do on what customers value?",
+   "label": "How do they do on what matters most to your customers?",
    "place": "floating card",
-   "text": "1 = Weak, 5 = Strong.\nRate each from what their customers say and what you have seen: 1 is a clear weakness, 5 a clear strength.\nThe darker the band, the more of your Profiles chose it.",
-   "lines": 10,
+   "text": "1 = Weak, 5 = Strong.\nRate each from what their customers say and what you have seen.\nThe darker the band, the more of your Profiles chose it.",
+   "lines": 9,
    "points": 3,
    "w": 360,
-   "chars": 185,
+   "chars": 142,
    "scenes": [
     "Business System / 1. Foundation / tile Competitors / card 1",
     "Business System / 1. Foundation / tile Competitors / card 2"
@@ -426,18 +427,18 @@
   {
    "label": "How could each change affect them?",
    "place": "floating card",
-   "text": "1 = Threat, 5 = Opportunity.\nHow each change could help or hurt them. The examples of each change, as on your Segment.",
+   "text": "1 = Threat, 5 = Opportunity.\nHow each change could help or hurt them. The changes and their examples are your Segment's.",
    "lines": 6,
    "points": 2,
    "w": 360,
-   "chars": 118,
+   "chars": 120,
    "scenes": [
     "Business System / 1. Foundation / tile Competitors / card 1",
     "Business System / 1. Foundation / tile Competitors / card 2"
    ]
   },
   {
-   "label": "Insights & Differentiation",
+   "label": "Insights",
    "place": "floating card",
    "text": "What can you learn from competitors to make your offering more distinctive?",
    "lines": 5,
@@ -452,11 +453,11 @@
   {
    "label": "What could you do differently?",
    "place": "floating card",
-   "text": "Openings drawn from what you answered above. Tick the ones you will act on, then write how in the text.\nFreelance automation specialists on marketplaces (Upwork, Fiverr) is hard to beat on affordability, so compete elsewhere.",
-   "lines": 11,
-   "points": 2,
+   "text": "Openings drawn from what you answered above. Tick the ones you will act on, then write how in the text.\nYour ticks here start the Segment's Differentiation, under your Competitors: an opening on price, ease, safety, quality, expertise or service starts its match.\nFreelance automation specialists on marketplaces (Upwork, Fiverr) is hard to beat on affordability, so compete elsewhere.",
+   "lines": 17,
+   "points": 3,
    "w": 360,
-   "chars": 225,
+   "chars": 385,
    "scenes": [
     "Business System / 1. Foundation / tile Competitors / card 1",
     "Business System / 1. Foundation / tile Competitors / card 2"
@@ -465,11 +466,11 @@
   {
    "label": "Offerings",
    "place": "tile dialog",
-   "text": "Turn customer problems and functional needs into practical product features and solutions.\nEnsure every feature supports the Value Proposition.",
-   "lines": 7,
-   "points": 2,
+   "text": "Turn customer problems and functional needs into practical product features and solutions.\nMake sure each one answers your Profiles' needs.\nSome questions wait until you launch; an answer given to one of them is kept.",
+   "lines": 11,
+   "points": 3,
    "w": 360,
-   "chars": 143,
+   "chars": 217,
    "scenes": [
     "Business System / 1. Foundation / tile Offerings",
     "Business System / 1. Foundation / tile Offerings / card 1",
@@ -479,11 +480,11 @@
   {
    "label": "Offering",
    "place": "floating card",
-   "text": "Turn customer problems and functional needs into practical product features and solutions.\nEnsure every feature supports the Value Proposition.",
-   "lines": 7,
-   "points": 2,
+   "text": "Turn customer problems and functional needs into practical product features and solutions.\nMake sure each one answers your Profiles' needs.\nSome questions wait until you launch; an answer given to one of them is kept.",
+   "lines": 11,
+   "points": 3,
    "w": 360,
-   "chars": 143,
+   "chars": 217,
    "scenes": [
     "Business System / 1. Foundation / tile Offerings / card 1",
     "Business System / 1. Foundation / tile Offerings / card 2"
@@ -516,19 +517,6 @@
    ]
   },
   {
-   "label": "Can customers buy it today?",
-   "place": "floating card",
-   "text": "Where it stands today.\nIt starts from your business stage; change it for this Offering.",
-   "lines": 5,
-   "points": 2,
-   "w": 360,
-   "chars": 87,
-   "scenes": [
-    "Business System / 1. Foundation / tile Offerings / card 1",
-    "Business System / 1. Foundation / tile Offerings / card 2"
-   ]
-  },
-  {
    "label": "Customer Benefit",
    "place": "floating card",
    "text": "Which problem does it solve, in your customers' words?",
@@ -542,26 +530,26 @@
    ]
   },
   {
-   "label": "What does it do best for the customer?",
+   "label": "Which of their worries does it answer?",
    "place": "floating card",
-   "text": "The first you tick is the main benefit. The same list as \"What matters most\" on your Profiles and Competitors, so they can be compared.\nYour Positioning's Differentiation starts the ticks; change them freely.",
-   "lines": 10,
+   "text": "The doubts that stop your customers buying from you, as your Profiles say. A worry left unanswered shows as an open item on the Value Proposition.\nSupport is answered by the help after they buy, in Support & Communication.",
+   "lines": 11,
    "points": 2,
    "w": 360,
-   "chars": 208,
+   "chars": 222,
    "scenes": [
     "Business System / 1. Foundation / tile Offerings / card 1",
     "Business System / 1. Foundation / tile Offerings / card 2"
    ]
   },
   {
-   "label": "Which of their worries does it answer?",
+   "label": "Which of what matters most to your customers does it do best?",
    "place": "floating card",
-   "text": "The doubts that stop your customers buying from you, as your Profiles say. A worry nothing answers is shown on the Value Proposition.\nSupport is answered by the help after they buy, above.",
-   "lines": 10,
+   "text": "The first you tick is the main benefit. The same list as \"What matters most\" on your Profiles and Competitors, so they can be compared.\nThe Segment's Differentiation (under its Competitors) starts the ticks; change them freely.",
+   "lines": 11,
    "points": 2,
    "w": 360,
-   "chars": 188,
+   "chars": 227,
    "scenes": [
     "Business System / 1. Foundation / tile Offerings / card 1",
     "Business System / 1. Foundation / tile Offerings / card 2"
@@ -607,13 +595,26 @@
    ]
   },
   {
+   "label": "Can your customers buy it today?",
+   "place": "floating card",
+   "text": "It starts from your business stage; change it for this Offering.",
+   "lines": 3,
+   "points": 1,
+   "w": 360,
+   "chars": 64,
+   "scenes": [
+    "Business System / 1. Foundation / tile Offerings / card 1",
+    "Business System / 1. Foundation / tile Offerings / card 2"
+   ]
+  },
+  {
    "label": "On what terms do they pay for it?",
    "place": "floating card",
-   "text": "How often they pay, and on what terms. How they pay (card, invoice) is the Segment's question.\nSubscription: regular payments until they cancel. Pay as they go: they pay for what they use.\nA minimum term: write it in the Notes.",
-   "lines": 11,
-   "points": 3,
+   "text": "How often they pay, and on what terms. How they pay (card, invoice) is the Segment's question.\nSubscription / membership: regular payments until they cancel. Pay as they go: they pay for what they use.\nPer session / per hour: a price for each session or hour. Rent / hire: they pay to use it for a time, then give it back.\nCommission on each sale: a share of each sale you make for them. Free to them: someone else pays, such as an advertiser or a funder.\nA minimum term: write it in the Notes.",
+   "lines": 21,
+   "points": 5,
    "w": 360,
-   "chars": 227,
+   "chars": 494,
    "scenes": [
     "Business System / 1. Foundation / tile Offerings / card 1",
     "Business System / 1. Foundation / tile Offerings / card 2"
@@ -622,24 +623,11 @@
   {
    "label": "When do they pay?",
    "place": "floating card",
-   "text": "When the money comes in. How they pay (card, invoice) is the Segment's question.",
-   "lines": 5,
+   "text": "When the money comes in.",
+   "lines": 2,
    "points": 1,
    "w": 360,
-   "chars": 80,
-   "scenes": [
-    "Business System / 1. Foundation / tile Offerings / card 1",
-    "Business System / 1. Foundation / tile Offerings / card 2"
-   ]
-  },
-  {
-   "label": "How does the customer receive it?",
-   "place": "floating card",
-   "text": "How it reaches them once bought.\nSent automatically online: a download or an email sent by the shop. Sent by you online: a file you send when it is ready.",
-   "lines": 7,
-   "points": 2,
-   "w": 360,
-   "chars": 154,
+   "chars": 24,
    "scenes": [
     "Business System / 1. Foundation / tile Offerings / card 1",
     "Business System / 1. Foundation / tile Offerings / card 2"
@@ -648,11 +636,24 @@
   {
    "label": "How long until they have it?",
    "place": "floating card",
-   "text": "The time from order to having it. How it reaches them is the question above.",
+   "text": "The time from order to having it. How it reaches them is the question below.",
    "lines": 3,
    "points": 1,
    "w": 360,
    "chars": 76,
+   "scenes": [
+    "Business System / 1. Foundation / tile Offerings / card 1",
+    "Business System / 1. Foundation / tile Offerings / card 2"
+   ]
+  },
+  {
+   "label": "How do your customers receive it?",
+   "place": "floating card",
+   "text": "How it reaches them once bought: tick each way, as one Offering is often delivered in several.\nSent automatically online: a download or an email sent by the shop. Sent by you online: a file you send when it is ready.",
+   "lines": 10,
+   "points": 2,
+   "w": 360,
+   "chars": 216,
    "scenes": [
     "Business System / 1. Foundation / tile Offerings / card 1",
     "Business System / 1. Foundation / tile Offerings / card 2"
@@ -674,37 +675,11 @@
   {
    "label": "What help do you give after they buy?",
    "place": "floating card",
-   "text": "The help that comes with it after the sale.",
-   "lines": 3,
-   "points": 1,
-   "w": 360,
-   "chars": 43,
-   "scenes": [
-    "Business System / 1. Foundation / tile Offerings / card 1",
-    "Business System / 1. Foundation / tile Offerings / card 2"
-   ]
-  },
-  {
-   "label": "What comes after the sale?",
-   "place": "floating card",
-   "text": "What the help after the sale includes. How much help there is, is the question above.\nNone stands alone: ticking it clears the others.",
-   "lines": 7,
+   "text": "The help that comes with it after the sale: tick each kind you give.\nNone stands alone: ticking it clears the others.",
+   "lines": 6,
    "points": 2,
    "w": 360,
-   "chars": 134,
-   "scenes": [
-    "Business System / 1. Foundation / tile Offerings / card 1",
-    "Business System / 1. Foundation / tile Offerings / card 2"
-   ]
-  },
-  {
-   "label": "How fast do you reply?",
-   "place": "floating card",
-   "text": "How soon a customer hears back. The channels are on the Customer Engagement page.",
-   "lines": 5,
-   "points": 1,
-   "w": 360,
-   "chars": 81,
+   "chars": 117,
    "scenes": [
     "Business System / 1. Foundation / tile Offerings / card 1",
     "Business System / 1. Foundation / tile Offerings / card 2"
@@ -724,13 +699,13 @@
    ]
   },
   {
-   "label": "What does the customer need to give you?",
+   "label": "What do your customers need to give you?",
    "place": "floating card",
-   "text": "What you need from them before or during the work. The details go in the Notes.",
-   "lines": 5,
-   "points": 1,
+   "text": "What you need from them before or during the work. The details go in the Notes.\nA place to work: a desk or a room for you to use. Access to their home or site: the work is done there, such as a repair or a fitting.\nTheir time or attendance: they must take part or be there, such as at a session or a fitting.",
+   "lines": 13,
+   "points": 3,
    "w": 360,
-   "chars": 79,
+   "chars": 308,
    "scenes": [
     "Business System / 1. Foundation / tile Offerings / card 1",
     "Business System / 1. Foundation / tile Offerings / card 2"
@@ -739,11 +714,11 @@
   {
    "label": "Which conditions of sale apply?",
    "place": "floating card",
-   "text": "The terms a customer agrees to. In the UK and the EU, most online and distance sales can be cancelled within 14 days; goods made to their specification are an exception. Elsewhere, check your country's rules.\nBased on: the Consumer Contracts Regulations 2013 (UK). A legal minimum age is not ticked here: write an age limit in the Notes.",
-   "lines": 14,
-   "points": 2,
+   "text": "The terms your customers agree to.\nBetween businesses, your contract terms set the cancellation rules.\nFor an age limit, write it in the Notes.",
+   "lines": 8,
+   "points": 3,
    "w": 360,
-   "chars": 337,
+   "chars": 143,
    "scenes": [
     "Business System / 1. Foundation / tile Offerings / card 1",
     "Business System / 1. Foundation / tile Offerings / card 2"
@@ -752,11 +727,11 @@
   {
    "label": "Segment Description",
    "place": "tile dialog",
-   "text": "Divide your Target Audience into segments, starting with the groups worth most or easiest to reach.\nHow many follows your stage: one while planning or launching, up to two while managing, any number while growing.\nDefine up to 3 customer profiles, including their problems, needs, and the best approach for reaching them.\nWhich choices each box asks follows your Positioning (who buys, their life stage and category) and your stage. An answer no longer asked is removed.",
-   "lines": 21,
-   "points": 4,
+   "text": "Divide your Target Audience into segments, starting with the groups worth most or easiest to reach.\nHow many follows your stage: one while planning or launching, up to two while managing, any number while growing.\nDefine up to 3 customer profiles, including their problems, needs, and the best approach for reaching them.\nThe choices in each box follow your Positioning (who buys, their life stage and category) and your stage; a question that leaves a box takes its answer with it.\nSome questions wait until you launch; an answer given to one of them is kept.",
+   "lines": 25,
+   "points": 5,
    "w": 360,
-   "chars": 470,
+   "chars": 560,
    "scenes": [
     "Business System / 1. Foundation / tile Segment Description",
     "Business System / 1. Foundation / tile Segment Description / card 1",
@@ -794,11 +769,11 @@
   {
    "label": "How big are your customers' organisations?",
    "place": "tile dialog",
-   "text": "The EU's definition of small and medium-sized enterprises: micro under 10 employees, small under 50, medium-sized under 250.\nCountries define them a little differently; the United States and Canada use other limits.\nThe sizes follow the scale chosen in Positioning.",
-   "lines": 12,
-   "points": 3,
+   "text": "The EU's definition of small and medium-sized enterprises: micro under 10 employees, small under 50, medium-sized under 250.\nCountries define them a little differently; the United States and Canada use other limits.\nThe sizes follow the scale chosen in Positioning.\nA public body can be of any size, so every size is offered for one.",
+   "lines": 15,
+   "points": 4,
    "w": 360,
-   "chars": 265,
+   "chars": 333,
    "scenes": [
     "Business System / 1. Foundation / tile Segment Description",
     "Business System / 1. Foundation / tile Segment Description / card 1",
@@ -836,11 +811,11 @@
   {
    "label": "Market Size & Industry Outlook",
    "place": "tile dialog",
-   "text": "How large is this group, and where is its market heading: growth, the changes that matter, how crowded it is?\nThese answers describe the market the customers belong to, not your own business.",
-   "lines": 10,
+   "text": "How large is this group, and where is its market heading: growth, the changes that matter, how crowded it is?\nThese answers describe the market the customers belong to.",
+   "lines": 8,
    "points": 2,
    "w": 360,
-   "chars": 191,
+   "chars": 168,
    "scenes": [
     "Business System / 1. Foundation / tile Segment Description",
     "Business System / 1. Foundation / tile Segment Description / card 1",
@@ -850,11 +825,11 @@
   {
    "label": "How many potential customers are there?",
    "place": "tile dialog",
-   "text": "Everyone in the area you serve who could buy it, if every one of them chose you (the total addressable market).\nFor a Segment of businesses, count the organisations, not the people in them.",
-   "lines": 10,
+   "text": "Everyone in the area you serve who could buy it, if every one of them chose you (the total addressable market).\nFor a Segment of businesses, count each organisation once.",
+   "lines": 8,
    "points": 2,
    "w": 360,
-   "chars": 189,
+   "chars": 170,
    "scenes": [
     "Business System / 1. Foundation / tile Segment Description",
     "Business System / 1. Foundation / tile Segment Description / card 1",
@@ -878,11 +853,11 @@
   {
    "label": "What is changing most for your customers?",
    "place": "tile dialog",
-   "text": "The changes that affect your customers most. Choose up to two.\nEach Competitor is rated on how every one of these could affect it, the ones ticked here first.\nTechnology: Automation, AI, old systems being replaced\nRules and law: New compliance, tax changes, environmental mandates\nThe economy: Inflation, budget cuts, shifts in spending power\nSociety and lifestyle: Remote work, sustainability, changing habits\nSupply and delivery: Material shortages, logistics costs, local sourcing",
-   "lines": 22,
-   "points": 7,
+   "text": "The changes that affect your customers most. Choose up to two.\nEach Competitor is rated on how every one of these could affect it, the ones ticked here first.\nTechnology: Automation, AI, old systems being replaced\nRules and law: New compliance, tax changes\nThe economy: Inflation, budget cuts, shifts in spending power\nSociety and lifestyle: Remote work, changing habits\nSupply and delivery: Material shortages, logistics costs, local sourcing\nEnvironment and climate: Extreme weather, sustainability, environmental mandates",
+   "lines": 26,
+   "points": 8,
    "w": 360,
-   "chars": 483,
+   "chars": 524,
    "scenes": [
     "Business System / 1. Foundation / tile Segment Description",
     "Business System / 1. Foundation / tile Segment Description / card 1",
@@ -906,11 +881,11 @@
   {
    "label": "Geographics",
    "place": "tile dialog",
-   "text": "Where do they live, work or operate?\nWhere most of your customers are.\nOnce you are managing or growing, and for customers in one place or one country: the kind of area they live or work in.\nIf your customers are in more than one place, make another Segment.",
-   "lines": 13,
-   "points": 4,
+   "text": "Where do they live, work or operate?\nWhere most of your customers are.\nOnce you are managing or growing, and for customers in one place or one country: the kind of area they live or work in.",
+   "lines": 10,
+   "points": 3,
    "w": 360,
-   "chars": 258,
+   "chars": 190,
    "scenes": [
     "Business System / 1. Foundation / tile Segment Description",
     "Business System / 1. Foundation / tile Segment Description / card 1",
@@ -934,11 +909,11 @@
   {
    "label": "Purchasing Power & Behaviour",
    "place": "tile dialog",
-   "text": "How do they find, choose, buy and pay, and who decides?\nFor every customer: online comfort, where they discover new products, where they shop, how they pay.\nFor people: how they socialise and share, what makes them shop and how they decide. For businesses: who decides to buy.",
-   "lines": 12,
-   "points": 3,
+   "text": "How do they find, choose, buy and pay, and who decides?\nSocialising, what makes them shop, how they decide and how they share are asked about people; who decides to buy, about businesses.",
+   "lines": 8,
+   "points": 2,
    "w": 360,
-   "chars": 276,
+   "chars": 187,
    "scenes": [
     "Business System / 1. Foundation / tile Segment Description",
     "Business System / 1. Foundation / tile Segment Description / card 1",
@@ -948,11 +923,11 @@
   {
    "label": "How comfortable are your customers online?",
    "place": "tile dialog",
-   "text": "1 = Uneasy, 5 = Confident.\nHow easily they use websites, apps and online payment, not whether they own a device.",
-   "lines": 6,
+   "text": "1 = Uneasy, 5 = Confident.\nHow easily they use websites, apps and online payment.",
+   "lines": 5,
    "points": 2,
    "w": 360,
-   "chars": 112,
+   "chars": 81,
    "scenes": [
     "Business System / 1. Foundation / tile Segment Description",
     "Business System / 1. Foundation / tile Segment Description / card 1",
@@ -962,11 +937,25 @@
   {
    "label": "Where do your customers discover new products?",
    "place": "tile dialog",
-   "text": "Examples: communities such as Reddit, Discord and Facebook Groups; creators on TikTok, Instagram, YouTube and LinkedIn.\nChoose up to three.",
-   "lines": 7,
-   "points": 2,
+   "text": "Examples: communities such as Reddit, Discord and Facebook Groups; creators on TikTok, Instagram, YouTube and LinkedIn.\nSeeing it in person / passing by: a shop window, a stall, a sign or a vehicle.\nChoose up to three.",
+   "lines": 11,
+   "points": 3,
    "w": 360,
-   "chars": 139,
+   "chars": 218,
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description",
+    "Business System / 1. Foundation / tile Segment Description / card 1",
+    "Business System / 1. Foundation / tile Segment Description / card 2"
+   ]
+  },
+  {
+   "label": "Who decides to buy?",
+   "place": "tile dialog",
+   "text": "Select all that apply.\nOne person decides: The person who uses it has the budget and the final say.\nThe team agrees: The people who use it try it and push it upward.\nA manager signs off: Needs formal approval from a manager or executive.\nSeveral departments check: IT or security, legal and finance.\nFormal procurement: A tender or a request for proposals (RFP), with strict compliance.",
+   "lines": 19,
+   "points": 6,
+   "w": 360,
+   "chars": 386,
    "scenes": [
     "Business System / 1. Foundation / tile Segment Description",
     "Business System / 1. Foundation / tile Segment Description / card 1",
@@ -990,25 +979,11 @@
   {
    "label": "How do your customers pay?",
    "place": "tile dialog",
-   "text": "Digital wallets are for example Apple Pay, Google Pay and PayPal. Buy Now, Pay Later is for example Klarna and Afterpay.\nCash is still about one payment in ten in the UK (UK Finance, 2024).\nInvoicing is asked for business customers only. Credit and Buy Now, Pay Later are not open to minors.\nChoosing a phone as where they buy starts Digital wallets here; change it freely.\nSelect all that apply.",
-   "lines": 19,
+   "text": "Digital wallets are for example Apple Pay, Google Pay and PayPal. Buy Now, Pay Later is for example Klarna and Afterpay.\nCash is still about one payment in ten in the UK (UK Finance, 2024).\nInvoice is offered for business customers only. Credit and Buy Now, Pay Later are for adults.\nChoosing a phone as where they buy starts Digital wallets here; change it freely.\nSelect all that apply.",
+   "lines": 18,
    "points": 5,
    "w": 360,
-   "chars": 396,
-   "scenes": [
-    "Business System / 1. Foundation / tile Segment Description",
-    "Business System / 1. Foundation / tile Segment Description / card 1",
-    "Business System / 1. Foundation / tile Segment Description / card 2"
-   ]
-  },
-  {
-   "label": "Who decides to buy?",
-   "place": "tile dialog",
-   "text": "Asked for business customers only.\nSelect all that apply.\nOne person decides: The person who uses it has the budget and the final say.\nThe team agrees: The people who use it try it and push it upward.\nA manager signs off: Needs formal approval from a manager or executive.\nSeveral departments check: IT or security, legal and finance.\nFormal procurement: A tender or a request for proposals (RFP), with strict compliance.",
-   "lines": 21,
-   "points": 7,
-   "w": 360,
-   "chars": 421,
+   "chars": 388,
    "scenes": [
     "Business System / 1. Foundation / tile Segment Description",
     "Business System / 1. Foundation / tile Segment Description / card 1",
@@ -1018,11 +993,11 @@
   {
    "label": "Profile",
    "place": "floating card",
-   "text": "Divide your Target Audience into segments, starting with the groups worth most or easiest to reach.\nHow many follows your stage: one while planning or launching, up to two while managing, any number while growing.\nDefine up to 3 customer profiles, including their problems, needs, and the best approach for reaching them.\nWhich choices each box asks follows your Positioning (who buys, their life stage and category) and your stage. An answer no longer asked is removed.",
-   "lines": 21,
-   "points": 4,
+   "text": "Divide your Target Audience into segments, starting with the groups worth most or easiest to reach.\nHow many follows your stage: one while planning or launching, up to two while managing, any number while growing.\nDefine up to 3 customer profiles, including their problems, needs, and the best approach for reaching them.\nThe choices in each box follow your Positioning (who buys, their life stage and category) and your stage; a question that leaves a box takes its answer with it.\nSome questions wait until you launch; an answer given to one of them is kept.",
+   "lines": 25,
+   "points": 5,
    "w": 360,
-   "chars": 470,
+   "chars": 560,
    "scenes": [
     "Business System / 1. Foundation / tile Segment Description / card 1",
     "Business System / 1. Foundation / tile Segment Description / card 2"
@@ -1031,11 +1006,11 @@
   {
    "label": "Specific Personal Information",
    "place": "floating card",
-   "text": "What are their age, job level and role in buying?\nThe note is for what is not asked above: a name, their job title, where they live. Their age, household and work are asked above.",
-   "lines": 8,
+   "text": "What are their age, job level and role in buying?\nUse Notes for a name, a job title and where they live.",
+   "lines": 6,
    "points": 2,
    "w": 360,
-   "chars": 179,
+   "chars": 104,
    "scenes": [
     "Business System / 1. Foundation / tile Segment Description / card 1",
     "Business System / 1. Foundation / tile Segment Description / card 2"
@@ -1044,11 +1019,11 @@
   {
    "label": "How old is this person?",
    "place": "floating card",
-   "text": "One age within the Segment's age group: a typical person, not the average.\nIf the Segment's age group changes and this age falls outside it, the age is cleared.",
+   "text": "One age within the Segment's age group: a typical person, as you picture them.\nIf the Segment's age group changes and this age falls outside it, the age is cleared.",
    "lines": 8,
    "points": 2,
    "w": 360,
-   "chars": 160,
+   "chars": 164,
    "scenes": [
     "Business System / 1. Foundation / tile Segment Description / card 1",
     "Business System / 1. Foundation / tile Segment Description / card 2"
@@ -1070,11 +1045,11 @@
   {
    "label": "What is this person's role in buying?",
    "place": "floating card",
-   "text": "The five buying-centre roles credited to Webster and Wind (1972).\n\"Uses it\" is the person who uses the offering day to day, who may be neither the one who pays nor the one who decides.",
+   "text": "The five buying-centre roles credited to Webster and Wind (1972).\n\"Uses it\" is the person who uses the offering day to day; the one who pays and the one who decides can be other people.",
    "lines": 10,
    "points": 2,
    "w": 360,
-   "chars": 184,
+   "chars": 185,
    "scenes": [
     "Business System / 1. Foundation / tile Segment Description / card 1",
     "Business System / 1. Foundation / tile Segment Description / card 2"
@@ -1083,11 +1058,11 @@
   {
    "label": "Psychographics",
    "place": "floating card",
-   "text": "What do they value, believe in, enjoy and consider important?\nThe note is for what they value, believe in and enjoy, in your words. What matters most when choosing is asked above.",
-   "lines": 8,
+   "text": "What do they value, believe in, enjoy and consider important?\nUse Notes for what they value, believe in and enjoy, in your words.",
+   "lines": 6,
    "points": 2,
    "w": 360,
-   "chars": 179,
+   "chars": 129,
    "scenes": [
     "Business System / 1. Foundation / tile Segment Description / card 1",
     "Business System / 1. Foundation / tile Segment Description / card 2"
@@ -1096,11 +1071,11 @@
   {
    "label": "What matters most to this person?",
    "place": "floating card",
-   "text": "1 = Optional, 5 = Essential.\nWhat they weigh when choosing between offers. Tick up to five, then rate how much each matters.\nFor example, a busy parent may weigh Speed and Convenience; a collector, Quality.\nAffordability: a price they can pay. Convenience: easy to find, buy and use. Reputation: a name they trust. Expertise: deep knowledge.\nPersonalisation: made for them, not for everyone. Safety / security: low risk, nothing goes wrong. Values: it stands for what they believe in.\nWrite their interests, lifestyle and hopes in the note.",
+   "text": "1 = Optional, 5 = Essential.\nWhat they weigh when choosing between offers. Tick up to five, then rate how much each matters.\nFor example, a busy parent may weigh Speed and Convenience; a collector, Quality.\nAffordability: a price they can pay. Convenience: easy to find, buy and use. Reputation: a name they trust. Expertise: deep knowledge.\nPersonalisation: made just for them. Safety / security: low risk, nothing goes wrong. Values: it stands for what they believe in.\nWrite their interests, lifestyle and hopes in the note.",
    "lines": 23,
    "points": 6,
    "w": 360,
-   "chars": 540,
+   "chars": 527,
    "scenes": [
     "Business System / 1. Foundation / tile Segment Description / card 1",
     "Business System / 1. Foundation / tile Segment Description / card 2"
@@ -1109,24 +1084,11 @@
   {
    "label": "Social & Interest Hubs",
    "place": "floating card",
-   "text": "Which communities, professional networks, events and other places do they regularly visit or take part in?\nThe note is for names: the groups, accounts, events and places. Which kinds of platform and event they use is asked above.",
-   "lines": 11,
+   "text": "Which communities, professional networks, events and other places do they regularly visit or take part in?\nUse Notes for names: their groups, accounts, events and places.",
+   "lines": 8,
    "points": 2,
    "w": 360,
-   "chars": 229,
-   "scenes": [
-    "Business System / 1. Foundation / tile Segment Description / card 1",
-    "Business System / 1. Foundation / tile Segment Description / card 2"
-   ]
-  },
-  {
-   "label": "Which devices does this person use?",
-   "place": "floating card",
-   "text": "The devices they use to find and buy, not those they own.\nThe Segment's choice of where they buy starts this; change it freely.",
-   "lines": 6,
-   "points": 2,
-   "w": 360,
-   "chars": 127,
+   "chars": 170,
    "scenes": [
     "Business System / 1. Foundation / tile Segment Description / card 1",
     "Business System / 1. Foundation / tile Segment Description / card 2"
@@ -1135,11 +1097,11 @@
   {
    "label": "Which social media does this person use?",
    "place": "floating card",
-   "text": "The platforms they actually use, if any.\nTick Other to write one that is not listed.",
-   "lines": 6,
+   "text": "The platforms they actually use, if any.\nTick Other to write another.",
+   "lines": 5,
    "points": 2,
    "w": 360,
-   "chars": 84,
+   "chars": 69,
    "scenes": [
     "Business System / 1. Foundation / tile Segment Description / card 1",
     "Business System / 1. Foundation / tile Segment Description / card 2"
@@ -1159,13 +1121,39 @@
    ]
   },
   {
-   "label": "Information & Shopping Habits",
+   "label": "Which events does this person attend?",
    "place": "floating card",
-   "text": "How do they find, learn about, compare and buy products or services?\nThe note is for what the choices above do not hold: how they buy, in their words.",
-   "lines": 8,
+   "text": "The kinds of events a typical person of the Segment goes to.\nWrite the names of the events in the note.",
+   "lines": 6,
    "points": 2,
    "w": 360,
-   "chars": 150,
+   "chars": 103,
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description / card 1",
+    "Business System / 1. Foundation / tile Segment Description / card 2"
+   ]
+  },
+  {
+   "label": "Information & Shopping Habits",
+   "place": "floating card",
+   "text": "How do they find, learn about, compare and buy products or services?\nUse Notes for how they buy, in their words.",
+   "lines": 7,
+   "points": 2,
+   "w": 360,
+   "chars": 112,
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description / card 1",
+    "Business System / 1. Foundation / tile Segment Description / card 2"
+   ]
+  },
+  {
+   "label": "Which devices does this person use?",
+   "place": "floating card",
+   "text": "The devices they use to find and buy.\nThe Segment's choice of where they buy starts this; change it freely.",
+   "lines": 6,
+   "points": 2,
+   "w": 360,
+   "chars": 107,
    "scenes": [
     "Business System / 1. Foundation / tile Segment Description / card 1",
     "Business System / 1. Foundation / tile Segment Description / card 2"
@@ -1200,11 +1188,11 @@
   {
    "label": "Goals & Desires",
    "place": "floating card",
-   "text": "What does the customer want to achieve, experience, or have?\nThe note is for what the list above does not say: the details that are theirs.",
-   "lines": 7,
+   "text": "What does the customer want to achieve, experience, or have?\nUse Notes for what they want, in their own words.",
+   "lines": 6,
    "points": 2,
    "w": 360,
-   "chars": 139,
+   "chars": 110,
    "scenes": [
     "Business System / 1. Foundation / tile Segment Description / card 1",
     "Business System / 1. Foundation / tile Segment Description / card 2"
@@ -1213,11 +1201,11 @@
   {
    "label": "What does this person want to achieve?",
    "place": "floating card",
-   "text": "1 = Minor, 5 = Main.\nThe results they are after, not what they weigh when choosing (that is \"What matters most\"). Choose up to three, then rate each.\nFor example, to learn a new craft, or to win more clients.\nAccessibility: getting something hard to reach. Development: learning something new. Expression: showing who they are. Revenue: winning customers or income.\nCompliance: meeting a requirement, at work or by law. Governance: staying within the rules.\nBased on: gains (Value Proposition Canvas).",
-   "lines": 24,
-   "points": 6,
+   "text": "1 = Minor, 5 = Main.\nThe results they are after; what they weigh when choosing goes in \"What matters most\". Choose up to three, then rate each.\nFor example, to learn a new craft, or to win more clients.\nAccessibility: getting something hard to reach. Development: learning something new. Expression: showing who they are. Revenue: winning customers or income.\nCompliance: meeting a requirement or staying within the rules, at work or by law. Efficiency: saving time or money.\nResolution: getting a specific problem fixed. Enjoyment: having fun or a good time.\nBased on: gains (Value Proposition Canvas).",
+   "lines": 29,
+   "points": 7,
    "w": 360,
-   "chars": 501,
+   "chars": 603,
    "scenes": [
     "Business System / 1. Foundation / tile Segment Description / card 1",
     "Business System / 1. Foundation / tile Segment Description / card 2"
@@ -1226,11 +1214,11 @@
   {
    "label": "Challenges & Problems",
    "place": "floating card",
-   "text": "What problems, difficulties, or frustrations does the customer face?\nThe note is for what the list above does not say: the details that are theirs.",
-   "lines": 8,
+   "text": "What problems, difficulties, or frustrations does the customer face?\nUse Notes for what goes wrong for them, in their words.",
+   "lines": 7,
    "points": 2,
    "w": 360,
-   "chars": 147,
+   "chars": 124,
    "scenes": [
     "Business System / 1. Foundation / tile Segment Description / card 1",
     "Business System / 1. Foundation / tile Segment Description / card 2"
@@ -1239,11 +1227,11 @@
   {
    "label": "What frustrates this person today?",
    "place": "floating card",
-   "text": "1 = Mild, 5 = Severe.\nWhat goes wrong with the way they do it now, before they buy from you. Choose up to three, then rate how much each bothers them.\nFor example, the cheap version breaks too soon, or nobody explains how to start.\nCost: too costly, or unclear prices. Delays: it takes too long. Inconsistency: results vary. Trust: hard to find someone reliable.\nInsecurity: not knowing how, or fearing a mistake. Capacity: no time or staff. Complexity: too complicated, or poor support.\nBased on: pains (Value Proposition Canvas).",
+   "text": "1 = Mild, 5 = Severe.\nWhat goes wrong with the way they do it now, before they buy from you. Choose up to three, then rate how much each bothers them.\nFor example, the cheap version breaks too soon, or nobody explains how to start.\nCost: too costly, or unclear prices. Delays: it takes too long. Inconsistency: results vary. Trust: hard to find someone reliable.\nSkills gap: not knowing how, or fearing a mistake. Capacity: no time or staff. Hassle: too complicated, or poor support.\nBased on: pains (Value Proposition Canvas).",
    "lines": 24,
    "points": 6,
    "w": 360,
-   "chars": 531,
+   "chars": 527,
    "scenes": [
     "Business System / 1. Foundation / tile Segment Description / card 1",
     "Business System / 1. Foundation / tile Segment Description / card 2"
@@ -1252,11 +1240,11 @@
   {
    "label": "Objections",
    "place": "floating card",
-   "text": "What concerns or reasons might stop the customer from choosing a solution?\nThe note is for what the list above does not say: the details that are theirs.",
-   "lines": 8,
+   "text": "What concerns or reasons might stop the customer from choosing a solution?\nUse Notes for their doubts, in their own words.",
+   "lines": 7,
    "points": 2,
    "w": 360,
-   "chars": 153,
+   "chars": 122,
    "scenes": [
     "Business System / 1. Foundation / tile Segment Description / card 1",
     "Business System / 1. Foundation / tile Segment Description / card 2"
@@ -1265,11 +1253,11 @@
   {
    "label": "What might hold this person back?",
    "place": "floating card",
-   "text": "1 = Minor, 5 = Blocking.\nTheir doubts about buying from you, not what frustrates them today (the question above). Choose up to three, then rate each.\nFor example, whether a beginner can keep up, or whether you will still be there after the sale.\nCredibility: whether you can be trusted. Onboarding: the time to get started. Complexity: how hard it is to use. Fit: whether it suits their need.\nSupport: help after buying. Migration: the work of leaving what they use now. Risk: risk or security.\nStarts with the price where the Segment's household income is rated 1; change it freely.",
-   "lines": 25,
+   "text": "1 = Minor, 5 = Blocking.\nTheir doubts about buying from you; today's frustrations have their own question. Choose up to three, then rate each.\nFor example, whether a beginner can keep up, or whether you will still be there after the sale.\nCredibility: whether you can be trusted. Onboarding: the time to get started. Complexity: how hard it is to use. Fit: whether it suits their need.\nSupport: help after buying. Migration: the work of leaving what they use now. Risk: risk or security. Image: what others will think of them.\nStarts with the price where the Segment's household income is rated 1; change it freely.",
+   "lines": 27,
    "points": 6,
    "w": 360,
-   "chars": 583,
+   "chars": 615,
    "scenes": [
     "Business System / 1. Foundation / tile Segment Description / card 1",
     "Business System / 1. Foundation / tile Segment Description / card 2"
@@ -1291,11 +1279,11 @@
   {
    "label": "What kind of job does this person need done?",
    "place": "floating card",
-   "text": "1 = Mild, 5 = Strong.\nThe jobs they need done, not every task. Choose up to three, then rate each; write their own tasks in the list below.\nOrganisation: keeps tasks, records or belongings in order. Integration: works with the tools or routines they already use.\nConnection: helps them reach or work with other people. Variety: gives more options than they had.\nInformation: gives answers or facts they need now (learning is the goal Development).\nBased on: Bain's Elements of Value (HBR, 2016).",
+   "text": "1 = Mild, 5 = Strong.\nThe main jobs they need done. Choose up to three, then rate each; write their own tasks in the list below.\nOrganisation: keeps tasks, records or belongings in order. Integration: works with the tools or routines they already use.\nConnection: helps them reach or work with other people. Variety: gives more options than they had.\nInformation: gives answers or facts they need now (learning is the goal Development).\nBased on: Bain's Elements of Value (HBR, 2016).",
    "lines": 23,
    "points": 6,
    "w": 360,
-   "chars": 495,
+   "chars": 484,
    "scenes": [
     "Business System / 1. Foundation / tile Segment Description / card 1",
     "Business System / 1. Foundation / tile Segment Description / card 2"
@@ -1317,11 +1305,11 @@
   {
    "label": "How does this person want to feel?",
    "place": "floating card",
-   "text": "1 = Mild, 5 = Strong.\nThe feelings that make them buy, not every one they have. Choose up to three, then rate each.\nFor example, sure they chose the right supplier, or glad to work with you again.\nBased on: Bain's Elements of Value (HBR, 2016 and 2018).\nConfident: sure they made the right choice. Prosperous: growing in their work. Optimistic: hopeful about their business.",
+   "text": "1 = Mild, 5 = Strong.\nThe feelings that decide whether they buy. Choose up to three, then rate each.\nFor example, sure they chose the right supplier, or glad to work with you again.\nBased on: Bain's Elements of Value (HBR, 2016 and 2018).\nConfident: sure they made the right choice. Prosperous: growing in their work. Optimistic: hopeful about their business.",
    "lines": 18,
    "points": 5,
    "w": 360,
-   "chars": 374,
+   "chars": 359,
    "scenes": [
     "Business System / 1. Foundation / tile Segment Description / card 1",
     "Business System / 1. Foundation / tile Segment Description / card 2"
@@ -1330,11 +1318,11 @@
   {
    "label": "How does this person want to be seen?",
    "place": "floating card",
-   "text": "1 = Mild, 5 = Strong.\nThe ways of being seen by others that make them buy, not every one they have. Choose up to three, then rate each.\nFor example, as someone colleagues trust, or as a responsible business.\nBased on: Bain's Elements of Value (HBR, 2016 and 2018).\nInfluential: well connected. Respected: valued in their field.",
-   "lines": 16,
+   "text": "1 = Mild, 5 = Strong.\nThe ways of being seen by others that decide whether they buy. Choose up to three, then rate each.\nFor example, as someone colleagues trust, or as a responsible business.\nBased on: Bain's Elements of Value (HBR, 2016 and 2018).\nInfluential: well connected. Respected: valued in their field.",
+   "lines": 15,
    "points": 5,
    "w": 360,
-   "chars": 327,
+   "chars": 312,
    "scenes": [
     "Business System / 1. Foundation / tile Segment Description / card 1",
     "Business System / 1. Foundation / tile Segment Description / card 2"
@@ -1367,11 +1355,11 @@
   {
    "label": "Open items",
    "place": "tile dialog",
-   "text": "Gaps between what your customers want and what your Offerings give. They are reminders, not errors.",
+   "text": "Gaps between what your customers want and what your Offerings give. Each one is a reminder to look at.",
    "lines": 5,
    "points": 1,
    "w": 360,
-   "chars": 99,
+   "chars": 102,
    "scenes": [
     "Business System / 1. Foundation / tile Value Proposition"
    ]
@@ -1411,8 +1399,6 @@
     "Business System / Customer Engagement / tile File Delivery / card 2",
     "Business System / Customer Engagement / tile Community",
     "Business System / Customer Engagement / tile Marketplace",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
     "Business System / Customer Engagement / tile Referral & Affiliates"
    ]
   },
@@ -1451,8 +1437,6 @@
     "Business System / Customer Engagement / tile File Delivery / card 2",
     "Business System / Customer Engagement / tile Community",
     "Business System / Customer Engagement / tile Marketplace",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
     "Business System / Customer Engagement / tile Referral & Affiliates"
    ]
   },
@@ -1491,8 +1475,6 @@
     "Business System / Customer Engagement / tile File Delivery / card 2",
     "Business System / Customer Engagement / tile Community",
     "Business System / Customer Engagement / tile Marketplace",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
     "Business System / Customer Engagement / tile Referral & Affiliates"
    ]
   },
@@ -1531,8 +1513,6 @@
     "Business System / Customer Engagement / tile File Delivery / card 2",
     "Business System / Customer Engagement / tile Community",
     "Business System / Customer Engagement / tile Marketplace",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
     "Business System / Customer Engagement / tile Referral & Affiliates"
    ]
   },
@@ -1571,8 +1551,6 @@
     "Business System / Customer Engagement / tile File Delivery / card 2",
     "Business System / Customer Engagement / tile Community",
     "Business System / Customer Engagement / tile Marketplace",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
     "Business System / Customer Engagement / tile Referral & Affiliates"
    ]
   },
@@ -1611,8 +1589,6 @@
     "Business System / Customer Engagement / tile File Delivery / card 2",
     "Business System / Customer Engagement / tile Community",
     "Business System / Customer Engagement / tile Marketplace",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
     "Business System / Customer Engagement / tile Referral & Affiliates"
    ]
   },
@@ -1651,8 +1627,6 @@
     "Business System / Customer Engagement / tile File Delivery / card 2",
     "Business System / Customer Engagement / tile Community",
     "Business System / Customer Engagement / tile Marketplace",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
     "Business System / Customer Engagement / tile Referral & Affiliates"
    ]
   },
@@ -1691,8 +1665,6 @@
     "Business System / Customer Engagement / tile File Delivery / card 2",
     "Business System / Customer Engagement / tile Community",
     "Business System / Customer Engagement / tile Marketplace",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
     "Business System / Customer Engagement / tile Referral & Affiliates"
    ]
   },
@@ -1731,8 +1703,6 @@
     "Business System / Customer Engagement / tile File Delivery / card 2",
     "Business System / Customer Engagement / tile Community",
     "Business System / Customer Engagement / tile Marketplace",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
     "Business System / Customer Engagement / tile Referral & Affiliates"
    ]
   },
@@ -1771,8 +1741,6 @@
     "Business System / Customer Engagement / tile File Delivery / card 2",
     "Business System / Customer Engagement / tile Community",
     "Business System / Customer Engagement / tile Marketplace",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
     "Business System / Customer Engagement / tile Referral & Affiliates"
    ]
   },
@@ -1811,8 +1779,6 @@
     "Business System / Customer Engagement / tile File Delivery / card 2",
     "Business System / Customer Engagement / tile Community",
     "Business System / Customer Engagement / tile Marketplace",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
     "Business System / Customer Engagement / tile Referral & Affiliates"
    ]
   },
@@ -1903,12 +1869,6 @@
     "Business System / Customer Engagement / tile Marketplace",
     "Business System / Customer Engagement / tile Marketplace",
     "Business System / Customer Engagement / tile Marketplace",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
     "Business System / Customer Engagement / tile Referral & Affiliates",
     "Business System / Customer Engagement / tile Referral & Affiliates",
     "Business System / Customer Engagement / tile Referral & Affiliates"
@@ -2001,12 +1961,6 @@
     "Business System / Customer Engagement / tile Marketplace",
     "Business System / Customer Engagement / tile Marketplace",
     "Business System / Customer Engagement / tile Marketplace",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
     "Business System / Customer Engagement / tile Referral & Affiliates",
     "Business System / Customer Engagement / tile Referral & Affiliates",
     "Business System / Customer Engagement / tile Referral & Affiliates"
@@ -2099,12 +2053,6 @@
     "Business System / Customer Engagement / tile Marketplace",
     "Business System / Customer Engagement / tile Marketplace",
     "Business System / Customer Engagement / tile Marketplace",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
     "Business System / Customer Engagement / tile Referral & Affiliates",
     "Business System / Customer Engagement / tile Referral & Affiliates",
     "Business System / Customer Engagement / tile Referral & Affiliates"
@@ -2197,12 +2145,6 @@
     "Business System / Customer Engagement / tile Marketplace",
     "Business System / Customer Engagement / tile Marketplace",
     "Business System / Customer Engagement / tile Marketplace",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
     "Business System / Customer Engagement / tile Referral & Affiliates",
     "Business System / Customer Engagement / tile Referral & Affiliates",
     "Business System / Customer Engagement / tile Referral & Affiliates"
@@ -2295,12 +2237,6 @@
     "Business System / Customer Engagement / tile Marketplace",
     "Business System / Customer Engagement / tile Marketplace",
     "Business System / Customer Engagement / tile Marketplace",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
     "Business System / Customer Engagement / tile Referral & Affiliates",
     "Business System / Customer Engagement / tile Referral & Affiliates",
     "Business System / Customer Engagement / tile Referral & Affiliates"
@@ -2393,12 +2329,6 @@
     "Business System / Customer Engagement / tile Marketplace",
     "Business System / Customer Engagement / tile Marketplace",
     "Business System / Customer Engagement / tile Marketplace",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
     "Business System / Customer Engagement / tile Referral & Affiliates",
     "Business System / Customer Engagement / tile Referral & Affiliates",
     "Business System / Customer Engagement / tile Referral & Affiliates"
@@ -2439,8 +2369,6 @@
     "Business System / Customer Engagement / tile File Delivery / card 2",
     "Business System / Customer Engagement / tile Community",
     "Business System / Customer Engagement / tile Marketplace",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
     "Business System / Customer Engagement / tile Referral & Affiliates"
    ]
   },
@@ -2505,10 +2433,6 @@
     "Business System / Customer Engagement / tile Community",
     "Business System / Customer Engagement / tile Marketplace",
     "Business System / Customer Engagement / tile Marketplace",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
     "Business System / Customer Engagement / tile Referral & Affiliates",
     "Business System / Customer Engagement / tile Referral & Affiliates"
    ]
@@ -2600,12 +2524,6 @@
     "Business System / Customer Engagement / tile Marketplace",
     "Business System / Customer Engagement / tile Marketplace",
     "Business System / Customer Engagement / tile Marketplace",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
     "Business System / Customer Engagement / tile Referral & Affiliates",
     "Business System / Customer Engagement / tile Referral & Affiliates",
     "Business System / Customer Engagement / tile Referral & Affiliates"
@@ -2672,10 +2590,6 @@
     "Business System / Customer Engagement / tile Community",
     "Business System / Customer Engagement / tile Marketplace",
     "Business System / Customer Engagement / tile Marketplace",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
     "Business System / Customer Engagement / tile Referral & Affiliates",
     "Business System / Customer Engagement / tile Referral & Affiliates"
    ]
@@ -2767,12 +2681,6 @@
     "Business System / Customer Engagement / tile Marketplace",
     "Business System / Customer Engagement / tile Marketplace",
     "Business System / Customer Engagement / tile Marketplace",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
     "Business System / Customer Engagement / tile Referral & Affiliates",
     "Business System / Customer Engagement / tile Referral & Affiliates",
     "Business System / Customer Engagement / tile Referral & Affiliates"
@@ -2813,8 +2721,6 @@
     "Business System / Customer Engagement / tile File Delivery / card 2",
     "Business System / Customer Engagement / tile Community",
     "Business System / Customer Engagement / tile Marketplace",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
     "Business System / Customer Engagement / tile Referral & Affiliates"
    ]
   },
@@ -2853,8 +2759,6 @@
     "Business System / Customer Engagement / tile File Delivery / card 2",
     "Business System / Customer Engagement / tile Community",
     "Business System / Customer Engagement / tile Marketplace",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
     "Business System / Customer Engagement / tile Referral & Affiliates"
    ]
   },
@@ -2893,8 +2797,6 @@
     "Business System / Customer Engagement / tile File Delivery / card 2",
     "Business System / Customer Engagement / tile Community",
     "Business System / Customer Engagement / tile Marketplace",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
     "Business System / Customer Engagement / tile Referral & Affiliates"
    ]
   },
@@ -2933,8 +2835,6 @@
     "Business System / Customer Engagement / tile File Delivery / card 2",
     "Business System / Customer Engagement / tile Community",
     "Business System / Customer Engagement / tile Marketplace",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
     "Business System / Customer Engagement / tile Referral & Affiliates"
    ]
   },
@@ -2973,8 +2873,6 @@
     "Business System / Customer Engagement / tile File Delivery / card 2",
     "Business System / Customer Engagement / tile Community",
     "Business System / Customer Engagement / tile Marketplace",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
     "Business System / Customer Engagement / tile Referral & Affiliates"
    ]
   },
@@ -3013,8 +2911,6 @@
     "Business System / Customer Engagement / tile File Delivery / card 2",
     "Business System / Customer Engagement / tile Community",
     "Business System / Customer Engagement / tile Marketplace",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
     "Business System / Customer Engagement / tile Referral & Affiliates"
    ]
   },
@@ -3053,8 +2949,6 @@
     "Business System / Customer Engagement / tile File Delivery / card 2",
     "Business System / Customer Engagement / tile Community",
     "Business System / Customer Engagement / tile Marketplace",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
     "Business System / Customer Engagement / tile Referral & Affiliates"
    ]
   },
@@ -3145,12 +3039,6 @@
     "Business System / Customer Engagement / tile Marketplace",
     "Business System / Customer Engagement / tile Marketplace",
     "Business System / Customer Engagement / tile Marketplace",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
     "Business System / Customer Engagement / tile Referral & Affiliates",
     "Business System / Customer Engagement / tile Referral & Affiliates",
     "Business System / Customer Engagement / tile Referral & Affiliates"
@@ -3191,8 +3079,6 @@
     "Business System / Customer Engagement / tile File Delivery / card 2",
     "Business System / Customer Engagement / tile Community",
     "Business System / Customer Engagement / tile Marketplace",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
     "Business System / Customer Engagement / tile Referral & Affiliates"
    ]
   },
@@ -3335,16 +3221,6 @@
     "Business System / Customer Engagement / tile Marketplace",
     "Business System / Customer Engagement / tile Marketplace",
     "Business System / Customer Engagement / tile Marketplace",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
     "Business System / Customer Engagement / tile Referral & Affiliates",
     "Business System / Customer Engagement / tile Referral & Affiliates",
     "Business System / Customer Engagement / tile Referral & Affiliates",
@@ -3439,12 +3315,6 @@
     "Business System / Customer Engagement / tile Marketplace",
     "Business System / Customer Engagement / tile Marketplace",
     "Business System / Customer Engagement / tile Marketplace",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
     "Business System / Customer Engagement / tile Referral & Affiliates",
     "Business System / Customer Engagement / tile Referral & Affiliates",
     "Business System / Customer Engagement / tile Referral & Affiliates"
@@ -3485,8 +3355,6 @@
     "Business System / Customer Engagement / tile File Delivery / card 2",
     "Business System / Customer Engagement / tile Community",
     "Business System / Customer Engagement / tile Marketplace",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
     "Business System / Customer Engagement / tile Referral & Affiliates"
    ]
   },
@@ -3525,8 +3393,6 @@
     "Business System / Customer Engagement / tile File Delivery / card 2",
     "Business System / Customer Engagement / tile Community",
     "Business System / Customer Engagement / tile Marketplace",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
     "Business System / Customer Engagement / tile Referral & Affiliates"
    ]
   },
@@ -3565,8 +3431,6 @@
     "Business System / Customer Engagement / tile File Delivery / card 2",
     "Business System / Customer Engagement / tile Community",
     "Business System / Customer Engagement / tile Marketplace",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
     "Business System / Customer Engagement / tile Referral & Affiliates"
    ]
   },
@@ -3709,16 +3573,6 @@
     "Business System / Customer Engagement / tile Marketplace",
     "Business System / Customer Engagement / tile Marketplace",
     "Business System / Customer Engagement / tile Marketplace",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
     "Business System / Customer Engagement / tile Referral & Affiliates",
     "Business System / Customer Engagement / tile Referral & Affiliates",
     "Business System / Customer Engagement / tile Referral & Affiliates",
@@ -3787,10 +3641,6 @@
     "Business System / Customer Engagement / tile Community",
     "Business System / Customer Engagement / tile Marketplace",
     "Business System / Customer Engagement / tile Marketplace",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
     "Business System / Customer Engagement / tile Referral & Affiliates",
     "Business System / Customer Engagement / tile Referral & Affiliates"
    ]
@@ -3856,10 +3706,6 @@
     "Business System / Customer Engagement / tile Community",
     "Business System / Customer Engagement / tile Marketplace",
     "Business System / Customer Engagement / tile Marketplace",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
     "Business System / Customer Engagement / tile Referral & Affiliates",
     "Business System / Customer Engagement / tile Referral & Affiliates"
    ]
@@ -3925,10 +3771,6 @@
     "Business System / Customer Engagement / tile Community",
     "Business System / Customer Engagement / tile Marketplace",
     "Business System / Customer Engagement / tile Marketplace",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
     "Business System / Customer Engagement / tile Referral & Affiliates",
     "Business System / Customer Engagement / tile Referral & Affiliates"
    ]
@@ -4020,12 +3862,6 @@
     "Business System / Customer Engagement / tile Marketplace",
     "Business System / Customer Engagement / tile Marketplace",
     "Business System / Customer Engagement / tile Marketplace",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
     "Business System / Customer Engagement / tile Referral & Affiliates",
     "Business System / Customer Engagement / tile Referral & Affiliates",
     "Business System / Customer Engagement / tile Referral & Affiliates"
@@ -4118,12 +3954,6 @@
     "Business System / Customer Engagement / tile Marketplace",
     "Business System / Customer Engagement / tile Marketplace",
     "Business System / Customer Engagement / tile Marketplace",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
     "Business System / Customer Engagement / tile Referral & Affiliates",
     "Business System / Customer Engagement / tile Referral & Affiliates",
     "Business System / Customer Engagement / tile Referral & Affiliates"
@@ -4164,8 +3994,6 @@
     "Business System / Customer Engagement / tile File Delivery / card 2",
     "Business System / Customer Engagement / tile Community",
     "Business System / Customer Engagement / tile Marketplace",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
     "Business System / Customer Engagement / tile Referral & Affiliates"
    ]
   },
@@ -4204,8 +4032,6 @@
     "Business System / Customer Engagement / tile File Delivery / card 2",
     "Business System / Customer Engagement / tile Community",
     "Business System / Customer Engagement / tile Marketplace",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
     "Business System / Customer Engagement / tile Referral & Affiliates"
    ]
   },
@@ -4244,8 +4070,6 @@
     "Business System / Customer Engagement / tile File Delivery / card 2",
     "Business System / Customer Engagement / tile Community",
     "Business System / Customer Engagement / tile Marketplace",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
     "Business System / Customer Engagement / tile Referral & Affiliates"
    ]
   },
@@ -4284,8 +4108,6 @@
     "Business System / Customer Engagement / tile File Delivery / card 2",
     "Business System / Customer Engagement / tile Community",
     "Business System / Customer Engagement / tile Marketplace",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
     "Business System / Customer Engagement / tile Referral & Affiliates"
    ]
   },
@@ -4324,8 +4146,6 @@
     "Business System / Customer Engagement / tile File Delivery / card 2",
     "Business System / Customer Engagement / tile Community",
     "Business System / Customer Engagement / tile Marketplace",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
     "Business System / Customer Engagement / tile Referral & Affiliates"
    ]
   },
@@ -4615,30 +4435,6 @@
    ]
   },
   {
-   "label": "Physical Delivery",
-   "place": "floating card",
-   "text": "Physical Delivery: Methods used to physically deliver products to customers, such as courier, postal service or local delivery.\nSocial Media: Social platforms where people can discover your organisation, engage with your content and stay connected.\nCommunity: Spaces where people gather to discuss, participate, share knowledge and interact with your organisation or community.\nWebsite: Your organisation's own website and pages, used to present information, offerings, transactions, delivery or support.\nMarketplace: Third-party platforms where customers can discover, evaluate, purchase or receive your offerings.\nIn Person: Physical locations, meetings, events or activities where you interact directly with customers.\nEmail: Communication with customers through email, including direct messages, newsletters and follow-ups.\nOnline / Live: Live digital interactions or experiences delivered through online meeting, streaming or communication platforms.\nDirect Payment: Methods customers use to pay your organisation directly, such as cash, card or bank transfer.\nFile Delivery: Services or methods used to deliver digital files or downloadable products to customers.\nRetail & Wholesale: Shops, stockists and trade buyers who sell your offerings to their own customers, or buy them in bulk to resell.\nReferral & Affiliates: People and partners who send customers to you and are rewarded for the sales or leads they bring.\nOther: A channel that does not fit any of the categories above.",
-   "lines": 65,
-   "points": 13,
-   "w": 360,
-   "chars": 1487,
-   "scenes": [
-    "Business System / Customer Engagement / tile Physical Delivery"
-   ]
-  },
-  {
-   "label": "Channel",
-   "place": "floating card",
-   "text": "Physical Delivery: Methods used to physically deliver products to customers, such as courier, postal service or local delivery.\nSocial Media: Social platforms where people can discover your organisation, engage with your content and stay connected.\nCommunity: Spaces where people gather to discuss, participate, share knowledge and interact with your organisation or community.\nWebsite: Your organisation's own website and pages, used to present information, offerings, transactions, delivery or support.\nMarketplace: Third-party platforms where customers can discover, evaluate, purchase or receive your offerings.\nIn Person: Physical locations, meetings, events or activities where you interact directly with customers.\nEmail: Communication with customers through email, including direct messages, newsletters and follow-ups.\nOnline / Live: Live digital interactions or experiences delivered through online meeting, streaming or communication platforms.\nDirect Payment: Methods customers use to pay your organisation directly, such as cash, card or bank transfer.\nFile Delivery: Services or methods used to deliver digital files or downloadable products to customers.\nRetail & Wholesale: Shops, stockists and trade buyers who sell your offerings to their own customers, or buy them in bulk to resell.\nReferral & Affiliates: People and partners who send customers to you and are rewarded for the sales or leads they bring.\nOther: A channel that does not fit any of the categories above.",
-   "lines": 45,
-   "points": 13,
-   "w": 540,
-   "chars": 1487,
-   "scenes": [
-    "Business System / Customer Engagement / tile Physical Delivery"
-   ]
-  },
-  {
    "label": "Referral & Affiliates",
    "place": "floating card",
    "text": "Referral & Affiliates: People and partners who send customers to you and are rewarded for the sales or leads they bring.\nSocial Media: Social platforms where people can discover your organisation, engage with your content and stay connected.\nCommunity: Spaces where people gather to discuss, participate, share knowledge and interact with your organisation or community.\nWebsite: Your organisation's own website and pages, used to present information, offerings, transactions, delivery or support.\nMarketplace: Third-party platforms where customers can discover, evaluate, purchase or receive your offerings.\nIn Person: Physical locations, meetings, events or activities where you interact directly with customers.\nEmail: Communication with customers through email, including direct messages, newsletters and follow-ups.\nOnline / Live: Live digital interactions or experiences delivered through online meeting, streaming or communication platforms.\nDirect Payment: Methods customers use to pay your organisation directly, such as cash, card or bank transfer.\nFile Delivery: Services or methods used to deliver digital files or downloadable products to customers.\nPhysical Delivery: Methods used to physically deliver products to customers, such as courier, postal service or local delivery.\nRetail & Wholesale: Shops, stockists and trade buyers who sell your offerings to their own customers, or buy them in bulk to resell.\nOther: A channel that does not fit any of the categories above.",
@@ -4660,30 +4456,6 @@
    "chars": 1487,
    "scenes": [
     "Business System / Customer Engagement / tile Referral & Affiliates"
-   ]
-  },
-  {
-   "label": "Retail & Wholesale",
-   "place": "floating card",
-   "text": "Retail & Wholesale: Shops, stockists and trade buyers who sell your offerings to their own customers, or buy them in bulk to resell.\nSocial Media: Social platforms where people can discover your organisation, engage with your content and stay connected.\nCommunity: Spaces where people gather to discuss, participate, share knowledge and interact with your organisation or community.\nWebsite: Your organisation's own website and pages, used to present information, offerings, transactions, delivery or support.\nMarketplace: Third-party platforms where customers can discover, evaluate, purchase or receive your offerings.\nIn Person: Physical locations, meetings, events or activities where you interact directly with customers.\nEmail: Communication with customers through email, including direct messages, newsletters and follow-ups.\nOnline / Live: Live digital interactions or experiences delivered through online meeting, streaming or communication platforms.\nDirect Payment: Methods customers use to pay your organisation directly, such as cash, card or bank transfer.\nFile Delivery: Services or methods used to deliver digital files or downloadable products to customers.\nPhysical Delivery: Methods used to physically deliver products to customers, such as courier, postal service or local delivery.\nReferral & Affiliates: People and partners who send customers to you and are rewarded for the sales or leads they bring.\nOther: A channel that does not fit any of the categories above.",
-   "lines": 65,
-   "points": 13,
-   "w": 360,
-   "chars": 1487,
-   "scenes": [
-    "Business System / Customer Engagement / tile Retail & Wholesale"
-   ]
-  },
-  {
-   "label": "Channel",
-   "place": "floating card",
-   "text": "Retail & Wholesale: Shops, stockists and trade buyers who sell your offerings to their own customers, or buy them in bulk to resell.\nSocial Media: Social platforms where people can discover your organisation, engage with your content and stay connected.\nCommunity: Spaces where people gather to discuss, participate, share knowledge and interact with your organisation or community.\nWebsite: Your organisation's own website and pages, used to present information, offerings, transactions, delivery or support.\nMarketplace: Third-party platforms where customers can discover, evaluate, purchase or receive your offerings.\nIn Person: Physical locations, meetings, events or activities where you interact directly with customers.\nEmail: Communication with customers through email, including direct messages, newsletters and follow-ups.\nOnline / Live: Live digital interactions or experiences delivered through online meeting, streaming or communication platforms.\nDirect Payment: Methods customers use to pay your organisation directly, such as cash, card or bank transfer.\nFile Delivery: Services or methods used to deliver digital files or downloadable products to customers.\nPhysical Delivery: Methods used to physically deliver products to customers, such as courier, postal service or local delivery.\nReferral & Affiliates: People and partners who send customers to you and are rewarded for the sales or leads they bring.\nOther: A channel that does not fit any of the categories above.",
-   "lines": 45,
-   "points": 13,
-   "w": 540,
-   "chars": 1487,
-   "scenes": [
-    "Business System / Customer Engagement / tile Retail & Wholesale"
    ]
   },
   {
@@ -4756,10 +4528,6 @@
     "Business System / Customer Engagement / tile Community",
     "Business System / Customer Engagement / tile Marketplace",
     "Business System / Customer Engagement / tile Marketplace",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
     "Business System / Customer Engagement / tile Referral & Affiliates",
     "Business System / Customer Engagement / tile Referral & Affiliates"
    ]
@@ -4790,8 +4558,6 @@
     "Business System / Customer Engagement / tile File Delivery / card 2",
     "Business System / Customer Engagement / tile Community",
     "Business System / Customer Engagement / tile Marketplace",
-    "Business System / Customer Engagement / tile Physical Delivery",
-    "Business System / Customer Engagement / tile Retail & Wholesale",
     "Business System / Customer Engagement / tile Referral & Affiliates"
    ]
   },
@@ -5033,11 +4799,11 @@
   {
    "label": "Operational Contingency Fund",
    "place": "page",
-   "text": "After the launch, each month a share of OpEx is set aside on top of the startup fund, until the fund equals the target reserve months of OpEx. The contribution is a cash set-aside, not an expense. The rates and the target are in the Global Settings.",
+   "text": "After the launch, each month a share of OpEx is set aside on top of the startup fund, until the fund equals the target reserve months of OpEx. The contribution is a cash set-aside, held as savings. The rates and the target are in the Global Settings.",
    "lines": 9,
    "points": 1,
    "w": 360,
-   "chars": 249,
+   "chars": 250,
    "scenes": [
     "Business System / Financial Foundation / page"
    ]
@@ -5069,11 +4835,11 @@
   {
    "label": "Status",
    "place": "page",
-   "text": "Planned: Identified, not yet pursued.\nPreparing: An application or proposal is being prepared.\nRequested / Applied: Asked for; no answer yet.\nApproved / Agreed: Confirmed, but not all of it has arrived.\nReceived / Available: The money has arrived and can be used.\nCompleted / Closed: Fully received; nothing more to come.",
+   "text": "Planned: Identified, waiting to be pursued.\nPreparing: An application or proposal is being prepared.\nRequested / Applied: Asked for; no answer yet.\nApproved / Agreed: Confirmed, but not all of it has arrived.\nReceived / Available: The money has arrived and can be used.\nCompleted / Closed: Fully received; nothing more to come.",
    "lines": 17,
    "points": 6,
    "w": 360,
-   "chars": 321,
+   "chars": 327,
    "scenes": [
     "Business System / Financial Foundation / page",
     "Business System / Financial Foundation / page"
@@ -5202,11 +4968,11 @@
   {
    "label": "Pending",
    "place": "page",
-   "text": "Expected, not yet confirmed. Not counted in the gap or the runway.",
-   "lines": 3,
+   "text": "Expected and awaiting confirmation; the gap and the runway count it once it is confirmed.",
+   "lines": 5,
    "points": 1,
    "w": 360,
-   "chars": 66,
+   "chars": 89,
    "scenes": [
     "Business System / Financial Foundation / page"
    ]
@@ -5593,11 +5359,11 @@
   {
    "label": "Suppliers",
    "place": "tile dialog",
-   "text": "Producers & Wholesalers: Producers and wholesalers that sell the materials and parts in the product, e.g. Wool mill, Box maker, Fabric importer, Flour miller.\nLogistics & Fulfilment: Carriers and warehouses that deliver orders to buyers, e.g. Courier, National post, Fulfilment centre, Freight forwarder.\nContractors & Advisers: Outsourced specialists who do part of an offering's job or guide it, e.g. Dye works, Freelance developer, Product-safety adviser, Electrician.\nAgencies & Influencers: Firms and creators paid to spread the word, e.g. Marketing agency, Instagram creator, Poster press, Podcast sponsor.\nVenues & Organisers: Hosts of the places and events where you sell, e.g. Fair organiser, Exhibition hall, Show promoter.\nLandlords, Leasing & Warehouses: Owners of premises used for making or storing stock, and lessors of vehicles, e.g. Estate owner, Depot firm, Chilled-storage outfit, Van leasing specialist.\nPlatforms & Payments: Intermediaries between you and the customer who charge a fee, e.g. Online marketplace, Payment processor, App store, Reservation portal.",
-   "lines": 45,
-   "points": 7,
+   "text": "Producers & Wholesalers: Producers and wholesalers that sell the materials and parts in the product, e.g. Wool mill, Box maker, Fabric importer, Flour miller.\nContractors & Advisers: Outsourced specialists who do part of an offering's job or guide it, e.g. Dye works, Freelance developer, Product-safety adviser, Electrician.\nAgencies & Influencers: Firms and creators paid to spread the word, e.g. Marketing agency, Instagram creator, Poster press, Podcast sponsor.\nVenues & Organisers: Hosts of the places and events where you sell, e.g. Fair organiser, Exhibition hall, Show promoter.\nLandlords, Leasing & Warehouses: Owners of premises used for making or storing stock, and lessors of vehicles, e.g. Estate owner, Depot firm, Chilled-storage outfit, Van leasing specialist.\nPlatforms & Payments: Intermediaries between you and the customer who charge a fee, e.g. Online marketplace, Payment processor, App store, Reservation portal.",
+   "lines": 39,
+   "points": 6,
    "w": 360,
-   "chars": 1082,
+   "chars": 936,
    "scenes": [
     "Business System / Infrastructure / tile Partners & Suppliers / card 2"
    ]
@@ -5665,11 +5431,11 @@
   {
    "label": "Revenue",
    "place": "page",
-   "text": "Revenue: Money generated through the organisation's Offerings.\nFunding, loans, founder capital, grants and investment are financing, not revenue, and are never counted here.\nRevenue may be zero at first. That is a valid model for an organisation under development.",
-   "lines": 13,
+   "text": "Revenue: Money generated through the organisation's Offerings.\nFunding, loans, founder capital, grants and investment are financing, and this list counts revenue only.\nRevenue may be zero at first. That is a valid model for an organisation under development.",
+   "lines": 12,
    "points": 3,
    "w": 360,
-   "chars": 264,
+   "chars": 258,
    "scenes": [
     "Business System / Sustainability / page"
    ]
@@ -5773,11 +5539,11 @@
   {
    "label": "Begins and Payment",
    "place": "page",
-   "text": "Revenue begins after the sales cycle, the time from first contact to a signed sale: for services to businesses it is often 4 to 12 weeks.\nOne sale often leads to another, such as a build after an audit: start the later stream when the first ones finish.\nMoney arrives when the customer pays, not when the sale is made: invoices are often paid 30 days after they are sent, and some later.\nAsk for deposits on larger projects: part at signing, the rest on completion.",
-   "lines": 20,
+   "text": "Revenue begins after the sales cycle, the time from first contact to a signed sale: for services to businesses it is often 4 to 12 weeks.\nOne sale often leads to another, such as a build after an audit: start the later stream when the first ones finish.\nMoney arrives when the customer pays, which can be well after the sale: invoices are often paid 30 days after they are sent, and some later.\nAsk for deposits on larger projects: part at signing, the rest on completion.",
+   "lines": 21,
    "points": 4,
    "w": 360,
-   "chars": 465,
+   "chars": 472,
    "scenes": [
     "Business System / Sustainability / page",
     "Business System / Sustainability / page",
@@ -5957,11 +5723,11 @@
   {
    "label": "Costs Used",
    "place": "page",
-   "text": "Read from Financial Foundation, by behaviour.\nFixed: the monthly equivalent of every recurring cost, plus loan interest. Loan principal is repayment of borrowed money, not a cost; one-time costs are what the funding is for.\nVariable: per-unit and per-project costs linked to each Offering.",
+   "text": "Read from Financial Foundation, by behaviour.\nFixed: the monthly equivalent of every recurring cost, plus loan interest. Loan principal is repayment of borrowed money, kept outside the costs; one-time costs are what the funding is for.\nVariable: per-unit and per-project costs linked to each Offering.",
    "lines": 13,
    "points": 3,
    "w": 360,
-   "chars": 289,
+   "chars": 301,
    "scenes": [
     "Business System / Sustainability / page"
    ]
@@ -5969,11 +5735,11 @@
   {
    "label": "Break-Even Point",
    "place": "page",
-   "text": "Contribution per unit = price − variable cost per unit.\nOffering break even: the units this Offering alone would need to sell to cover all fixed costs.\nOrganisation break even: the expected revenue mix, scaled until its contribution covers the fixed costs, not the Offerings' figures added together.\nFormula: Break-even units = Fixed costs ÷ (Price − Variable cost per unit)\nSource: U.S. Small Business Administration (n.d.) Calculate your startup costs: break-even point. Available at: https://www.sba.gov/business-guide/plan-your-business/calculate-your-startup-costs/break-even-point (Accessed: 29 September 2026).",
-   "lines": 25,
+   "text": "Contribution per unit = price − variable cost per unit.\nOffering break even: the units this Offering alone would need to sell to cover all fixed costs.\nOrganisation break even: the expected revenue mix, scaled as a whole until its contribution covers the fixed costs.\nFormula: Break-even units = Fixed costs ÷ (Price − Variable cost per unit)\nSource: U.S. Small Business Administration (n.d.) Calculate your startup costs: break-even point. Available at: https://www.sba.gov/business-guide/plan-your-business/calculate-your-startup-costs/break-even-point (Accessed: 29 September 2026).",
+   "lines": 23,
    "points": 5,
    "w": 360,
-   "chars": 617,
+   "chars": 585,
    "scenes": [
     "Business System / Sustainability / page"
    ]
@@ -6103,11 +5869,11 @@
   {
    "label": "Income Tax",
    "place": "settings page",
-   "text": "Income tax on profit. Pass-through businesses (e.g. most sole traders and single-member LLCs) pay it personally, not at business level. For a company, enter the corporate rate; ask your accountant.",
+   "text": "Income tax on profit. Pass-through businesses (e.g. most sole traders and single-member LLCs) pay it personally, on the owner's own tax return. For a company, enter the corporate rate; ask your accountant.",
    "lines": 8,
    "points": 1,
    "w": 360,
-   "chars": 197,
+   "chars": 205,
    "scenes": [
     "Global Settings"
    ]
@@ -6127,11 +5893,11 @@
   {
    "label": "Opening Date",
    "place": "settings page",
-   "text": "The day the business opens and issues its first receipt. It sets the stage: planning before it, launching from it.\nThe stage also sets the name of the Positioning tile and how many choices each of its questions allows. When a new date moves the business into another stage, an answer that no longer fits goes back to empty.\nThe days from the plan's start to the day before it are the pre-operational period: every cost is split around it by its own dates.",
-   "lines": 19,
+   "text": "The day the business opens and issues its first receipt. It sets the stage: planning before it, launching from it.\nThe stage also sets Positioning's name and how many choices its questions allow; a change of stage empties an answer over the new limit.\nCosts dated before it make the pre-operational budget, on the Financial Foundation.",
+   "lines": 16,
    "points": 3,
    "w": 360,
-   "chars": 455,
+   "chars": 335,
    "scenes": [
     "Global Settings"
    ]
@@ -6235,11 +6001,11 @@
   {
    "label": "Useful Life",
    "place": "settings page",
-   "text": "What it is: The years an asset serves the business before it is worn out, outdated or replaced.\nWhat it does: The cost (CapEx) is spread over those years instead of being counted in the year of purchase.\nA group has one useful life in years; an asset of the group can have its own under it, and an empty one takes the group's.\nSource: Texas Department of Family and Protective Services (2011) ‘Appendix B: State Property Class Codes’, in Asset Management Handbook. Austin, TX: Texas DFPS. Available at: https://dfps.texas.gov/handbooks/Asset_Management/Files/ASM_px_2.asp (Accessed: 10 October 2026).",
-   "lines": 24,
+   "text": "What it is: The years an asset serves the business before it is worn out, outdated or replaced.\nWhat it does: The cost (CapEx) is spread over those years, a share in each year of use.\nA group has one useful life in years; an asset of the group can have its own under it, and an empty one takes the group's.\nSource: Texas Department of Family and Protective Services (2011) ‘Appendix B: State Property Class Codes’, in Asset Management Handbook. Austin, TX: Texas DFPS. Available at: https://dfps.texas.gov/handbooks/Asset_Management/Files/ASM_px_2.asp (Accessed: 10 October 2026).",
+   "lines": 23,
    "points": 4,
    "w": 360,
-   "chars": 600,
+   "chars": 580,
    "scenes": [
     "Global Settings"
    ]
@@ -6295,11 +6061,11 @@
   {
    "label": "Operational Contingency Fund",
    "place": "settings page",
-   "text": "A share of a month's OpEx, 3 to 5%, set aside each month after the launch until the target is reached. A cash set-aside, not an expense.",
+   "text": "A share of a month's OpEx, 3 to 5%, set aside each month after the launch until the target is reached. A cash set-aside, held as savings.",
    "lines": 6,
    "points": 1,
    "w": 360,
-   "chars": 136,
+   "chars": 137,
    "scenes": [
     "Global Settings"
    ]
@@ -6331,11 +6097,11 @@
   {
    "label": "Early Positioning",
    "place": "tile dialog",
-   "text": "Who is your target audience?\nWhich market or category do you belong to?\nHow are you different from competitors?",
-   "lines": 8,
+   "text": "Who is your target audience: who pays, and who uses it?\nWhy do they buy it: what purpose does it serve?\nHow you stand apart is asked on your Segments, under their Competitors.",
+   "lines": 10,
    "points": 3,
    "w": 360,
-   "chars": 111,
+   "chars": 175,
    "scenes": [
     "Identity System / 1. Definition / tile Early Positioning"
    ]
@@ -6343,11 +6109,11 @@
   {
    "label": "Seller & Buyer Relationship",
    "place": "tile dialog",
-   "text": "Who pays: focuses on the Economic Buyer who approves the budget, separating them from the end user. The positioning statement is written for the target market, and each distinct segment may need its own.\nB2C (Business-to-Consumer): individuals or consumers who pay for personal or family use.\nB2B (Business-to-Business): businesses, companies or freelancers.\nAt this stage (Planning): choose one. When the stage changes (the Opening Date), an answer over the limit goes back to empty.\nBased on: Stayman, D. (2015) ‘How to Write Market Positioning Statements’, eCornell #IMPACT, Cornell University, 20 March. Available at: https://ecornell-impact.cornell.edu/how-to-write-market-positioning-statements/ (Accessed: 25 October 2026).\nAlso: Loy, T. (2007) E145 Technology Entrepreneurship, Session 6: Entrepreneurial Marketing. Stanford, CA: Stanford University. Available at: https://web.stanford.edu/class/e145/2007_fall/startup_mktg_details.shtml (Accessed: 25 October 2026).",
+   "text": "Who pays: the buyer who approves the budget; the person who uses it can be someone else.\nThe positioning statement is written for the buyers; each distinct group of them may need its own.\nB2C (Business-to-Consumer): individuals or consumers who pay for personal or family use.\nB2B (Business-to-Business): businesses, companies, freelancers or public bodies.\nAt this stage (Planning): choose one. When the stage changes (the Opening Date), an answer over the limit goes back to empty.\nBased on: Stayman, D. (2015) ‘How to Write Market Positioning Statements’, eCornell #IMPACT, Cornell University, 20 March. Available at: https://ecornell-impact.cornell.edu/how-to-write-market-positioning-statements/ (Accessed: 25 October 2026).\nAlso: Loy, T. (2007) E145 Technology Entrepreneurship, Session 6: Entrepreneurial Marketing. Stanford, CA: Stanford University. Available at: https://web.stanford.edu/class/e145/2007_fall/startup_mktg_details.shtml (Accessed: 25 October 2026).",
    "lines": 38,
-   "points": 6,
+   "points": 7,
    "w": 360,
-   "chars": 974,
+   "chars": 973,
    "scenes": [
     "Identity System / 1. Definition / tile Early Positioning"
    ]
@@ -6355,11 +6121,11 @@
   {
    "label": "Audience Specialisation & Scale",
    "place": "tile dialog",
-   "text": "Limits the target group to a specific niche, aligning the startup with the corresponding sales cycle and the buyer's daily life.\nSolopreneurs & Freelancers: individual professionals (immediate decision, need for low cost or self-service).\nStartups & SMBs: small and medium-sized or rapidly growing companies (need for speed, flexibility and an immediate solution).\nMid-Market: medium-sized businesses with structured departments (need for workflows, roles and scale).\nEnterprise or Public Sector: multinationals or public bodies (multi-month sales or tender cycle, need for maximum security).\nAt this stage (Planning): choose one. When the stage changes (the Opening Date), an answer over the limit goes back to empty.\nBased on: U.S. Small Business Administration (n.d.) Market research and competitive analysis. Available at: https://www.sba.gov/business-guide/plan-your-business/market-research-competitive-analysis (Accessed: 25 October 2026).",
-   "lines": 39,
+   "text": "How big the businesses you sell to are. Your Segment's size question offers the sizes that go with it.\nSolopreneurs & Freelancers: individual professionals (immediate decision, need for low cost or self-service).\nStartups & SMBs: small and medium-sized or rapidly growing companies (need for speed, flexibility and an immediate solution).\nMid-Market: medium-sized businesses with structured departments (need for workflows, roles and scale).\nEnterprise or Public Sector: multinationals or public bodies (multi-month sales or tender cycle, need for maximum security).\nAt this stage (Planning): choose one. When the stage changes (the Opening Date), an answer over the limit goes back to empty.\nBased on: U.S. Small Business Administration (n.d.) Market research and competitive analysis. Available at: https://www.sba.gov/business-guide/plan-your-business/market-research-competitive-analysis (Accessed: 25 October 2026).",
+   "lines": 38,
    "points": 7,
    "w": 360,
-   "chars": 946,
+   "chars": 920,
    "scenes": [
     "Identity System / 1. Definition / tile Early Positioning"
    ]
@@ -6367,11 +6133,11 @@
   {
    "label": "Buyer's category",
    "place": "tile dialog",
-   "text": "What the buyer buys for. It tells the buyer who pays from the person who uses it, whatever the buyer's life stage or scale.\nDirect Buyers: purchasing exclusively for their own personal use.\nProxy Buyers: purchasing exclusively on behalf of someone else. The payer is not the end user (a gift, a parent buying for a child, an employer buying for its staff).\nDual-Intent Buyers: purchasing a single offering to be used by themselves and their dependents (a family plan, a shared tier).\nFor Proxy and Dual-Intent Buyers the questions about the end user follow.\nAt this stage (Planning): choose one. When the stage changes (the Opening Date), an answer over the limit goes back to empty.\nBased on: The Open University (n.d.) ‘3.4 Business decision makers’, in Understanding your customers. Milton Keynes: The Open University (OpenLearn). Available at: https://www.open.edu/openlearn/money-business/understanding-your-customers/content-section-3.4 (Accessed: 26 October 2026).",
+   "text": "What the buyer buys for. It tells the buyer who pays from the person who uses it, whatever the buyer's life stage or scale.\nDirect Buyers: purchasing exclusively for their own personal use.\nProxy Buyers: purchasing exclusively on behalf of someone else (a gift, a parent buying for a child, an employer buying for its staff).\nDual-Intent Buyers: purchasing a single offering to be used by themselves and their dependents (a family plan, a shared tier).\nFor Proxy and Dual-Intent Buyers the questions about the end user follow.\nAt this stage (Planning): choose one. When the stage changes (the Opening Date), an answer over the limit goes back to empty.\nBased on: The Open University (n.d.) ‘3.4 Business decision makers’, in Understanding your customers. Milton Keynes: The Open University (OpenLearn). Available at: https://www.open.edu/openlearn/money-business/understanding-your-customers/content-section-3.4 (Accessed: 26 October 2026).",
    "lines": 39,
    "points": 7,
    "w": 360,
-   "chars": 971,
+   "chars": 940,
    "scenes": [
     "Identity System / 1. Definition / tile Early Positioning"
    ]
@@ -6379,71 +6145,119 @@
   {
    "label": "Purpose",
    "place": "tile dialog",
-   "text": "Why the offering is bought: the purpose it serves for the person who gets it. Choose the ones that fit best.\nOnly the purposes that fit your answers above are offered: the primary ones first, then the possible ones. The ones that are generally less directly relevant to that buyer are left out.\nLearning & Development. Health, Care & Wellbeing. Gifting & Appreciation. Entertainment & Enjoyment. Social Connection & Relationships. Productivity & Efficiency. Business Growth & Performance. Creation & Expression. Everyday Needs & Convenience. Protection & Risk Reduction. Compliance & Obligations. Access & Social Support.\nAt this stage (Planning): choose one. When the stage changes (the Opening Date), an answer over the limit goes back to empty.",
-   "lines": 32,
-   "points": 4,
-   "w": 360,
-   "chars": 747,
-   "scenes": [
-    "Identity System / 1. Definition / tile Early Positioning"
-   ]
-  },
-  {
-   "label": "Differentiation",
-   "place": "tile dialog",
-   "text": "What the offering does differently from the competitors: where it hits exactly the blind spot they leave. It is about the offering; the result the buyer gets from it is the outcome, asked next.\nCost-driven (saving resources): targets the blind spot of expensive competitors with a budget-friendly alternative.\nConvenience-driven (speed and ease): targets the blind spot of complex or slow solutions.\nCompliance, Risk & Security: targets the blind spot of uncertified or questionable alternatives.\nStatus & Premium (exclusivity): targets the blind spot of mass-market or cheap products with top quality and custom service.\nPerformance & Innovation (product superiority): targets the blind spot of dated or underpowered alternatives with better results and newer methods.\nEcosystem & Integration (fits what they already use): targets the blind spot of standalone tools that do not connect to the buyer's other systems and workflows.\nAt this stage (Planning): choose one. When the stage changes (the Opening Date), an answer over the limit goes back to empty.\nBased on: Institute for Strategy and Competitiveness (n.d.) Strategic Positioning. Boston, MA: Harvard Business School. Available at: https://www.isc.hbs.edu/strategy/business-strategy/Pages/strategic-positioning.aspx (Accessed: 25 October 2026).\nAlso: Loy, T. (2007) E145 Technology Entrepreneurship, Session 6: Entrepreneurial Marketing. Stanford, CA: Stanford University. Available at: https://web.stanford.edu/class/e145/2007_fall/startup_mktg_details.shtml (Accessed: 25 October 2026).",
-   "lines": 60,
-   "points": 10,
-   "w": 360,
-   "chars": 1547,
-   "scenes": [
-    "Identity System / 1. Definition / tile Early Positioning"
-   ]
-  },
-  {
-   "label": "Outcome",
-   "place": "tile dialog",
-   "text": "The measurable result the buyer gets from the offering (outcome or return): what the buyer is paying for.\nLower costs: an immediate reduction in operating costs. Time saved: the execution time of a process cut to almost nothing, or the workflow drastically simplified. Legal & data-protection cover: absolute legal coverage and no risk of fines. Higher quality & prestige: top quality, custom service and an upgrade of the buyer's prestige.\nFor a Proxy or Dual-Intent Buyer the end user has an outcome of their own, asked next.\nAt this stage (Planning): choose one. When the stage changes (the Opening Date), an answer over the limit goes back to empty.\nBased on: Institute for Strategy and Competitiveness (n.d.) Strategic Positioning. Boston, MA: Harvard Business School. Available at: https://www.isc.hbs.edu/strategy/business-strategy/Pages/strategic-positioning.aspx (Accessed: 25 October 2026).\nAlso: Loy, T. (2007) E145 Technology Entrepreneurship, Session 6: Entrepreneurial Marketing. Stanford, CA: Stanford University. Available at: https://web.stanford.edu/class/e145/2007_fall/startup_mktg_details.shtml (Accessed: 25 October 2026).",
-   "lines": 42,
-   "points": 6,
-   "w": 360,
-   "chars": 1144,
-   "scenes": [
-    "Identity System / 1. Definition / tile Early Positioning"
-   ]
-  },
-  {
-   "label": "Manifesto",
-   "place": "tile dialog",
-   "text": "What do you stand for, and against?\nWhat purpose drives your products?\nIt should inspire your people and attract like-minded customers.",
-   "lines": 6,
+   "text": "Why the offering is bought: the purpose it serves for the person who gets it.\nOnly the purposes that fit your answers above are offered: the primary ones first, then the possible ones.\nAt this stage (Planning): choose one. When the stage changes (the Opening Date), an answer over the limit goes back to empty.",
+   "lines": 15,
    "points": 3,
    "w": 360,
-   "chars": 135,
+   "chars": 310,
    "scenes": [
-    "Identity System / 1. Definition / tile Manifesto"
+    "Identity System / 1. Definition / tile Early Positioning"
+   ]
+  },
+  {
+   "label": "Founders & Ownership",
+   "place": "tile dialog",
+   "text": "Who the founders are, how much of the organisation each owns, and what each brings to it.",
+   "lines": 5,
+   "points": 1,
+   "w": 360,
+   "chars": 89,
+   "scenes": [
+    "Identity System / 1. Definition / tile Founders & Ownership"
+   ]
+  },
+  {
+   "label": "Roles",
+   "place": "tile dialog",
+   "text": "What does this founder do in the organisation?\nOne role a line: a founder is often several things at once.\nLenders and investors look for every key job to have someone who owns it.",
+   "lines": 10,
+   "points": 3,
+   "w": 360,
+   "chars": 180,
+   "scenes": [
+    "Identity System / 1. Definition / tile Founders & Ownership"
+   ]
+  },
+  {
+   "label": "Relevant Industry Experience",
+   "place": "tile dialog",
+   "text": "Which relevant companies, sectors, positions, projects or markets have they worked in?\nSay how long, where it helps.\nLenders and investors look for a team that already knows the market it is entering.",
+   "lines": 10,
+   "points": 3,
+   "w": 360,
+   "chars": 200,
+   "scenes": [
+    "Identity System / 1. Definition / tile Founders & Ownership"
+   ]
+  },
+  {
+   "label": "Management Experience",
+   "place": "tile dialog",
+   "text": "Say how big it was: how many people, how much money and for how long.\nIt shows they can run the organisation as it grows.",
+   "lines": 7,
+   "points": 2,
+   "w": 360,
+   "chars": 121,
+   "scenes": [
+    "Identity System / 1. Definition / tile Founders & Ownership"
+   ]
+  },
+  {
+   "label": "Key Achievements",
+   "place": "tile dialog",
+   "text": "One achievement a line, with a figure where there is one: sales, customers, savings.\nAny business they started before, and how it turned out.\nResults are what make a track record believable.",
+   "lines": 10,
+   "points": 3,
+   "w": 360,
+   "chars": 190,
+   "scenes": [
+    "Identity System / 1. Definition / tile Founders & Ownership"
+   ]
+  },
+  {
+   "label": "Skills, Expertise & Qualifications",
+   "place": "tile dialog",
+   "text": "Add one entry for each, and choose its type.\nName what the plan relies on them for: sales, finance, operations, technical.\nLenders and investors check that every capability the plan needs is covered by someone.",
+   "lines": 11,
+   "points": 3,
+   "w": 360,
+   "chars": 210,
+   "scenes": [
+    "Identity System / 1. Definition / tile Founders & Ownership"
    ]
   },
   {
    "label": "Mission",
    "place": "tile dialog",
-   "text": "What is your purpose?\nWhat problem are you trying to solve?\nWhy does solving it matter?",
-   "lines": 6,
+   "text": "Who do you serve? What do you do for them? Why does it matter to them?\nSay what you do today; the future you aim for belongs in the Vision.\nMake it specific enough to describe your business alone.\nExample: \"We weave personalised throws that let people give a gift that lasts.\"",
+   "lines": 14,
+   "points": 4,
+   "w": 360,
+   "chars": 276,
+   "scenes": [
+    "Identity System / 1. Definition / tile Mission &Vision"
+   ]
+  },
+  {
+   "label": "Vision",
+   "place": "tile dialog",
+   "text": "What will be different for your customers when you succeed, and what will the business be by then?\nThink five to ten years ahead. Describe the result; the steps belong in the Strategy.\nExample: \"Every home in the UK and Ireland has one throw it keeps for life.\"",
+   "lines": 12,
    "points": 3,
    "w": 360,
-   "chars": 87,
+   "chars": 261,
    "scenes": [
-    "Identity System / 1. Definition / tile Mission"
+    "Identity System / 1. Definition / tile Mission &Vision"
    ]
   },
   {
    "label": "Organisation",
    "place": "tile dialog",
-   "text": "What the organisation is: its name, where it is, its legal form, what it does and where it stands.",
+   "text": "Choose the country first: the legal forms, the registry and the activity codes follow it.",
    "lines": 5,
    "points": 1,
    "w": 360,
-   "chars": 98,
+   "chars": 89,
    "scenes": [
     "Identity System / 1. Definition / tile Organisation"
    ]
@@ -6463,11 +6277,11 @@
   {
    "label": "Opening Date",
    "place": "tile dialog",
-   "text": "The day the business opens and issues its first receipt. It sets the stage: planning before it, launching from it.\nThe stage also sets the name of the Positioning tile and how many choices each of its questions allows. When a new date moves the business into another stage, an answer that no longer fits goes back to empty.\nThe days from the plan's start to the day before it are the pre-operational period: every cost is split around it by its own dates.",
-   "lines": 19,
+   "text": "The day the business opens and issues its first receipt. It sets the stage: planning before it, launching from it.\nThe stage also sets Positioning's name and how many choices its questions allow; a change of stage empties an answer over the new limit.\nCosts dated before it make the pre-operational budget, on the Financial Foundation.",
+   "lines": 16,
    "points": 3,
    "w": 360,
-   "chars": 455,
+   "chars": 335,
    "scenes": [
     "Identity System / 1. Definition / tile Organisation"
    ]
@@ -6487,11 +6301,11 @@
   {
    "label": "Notes",
    "place": "tile dialog",
-   "text": "Who are you, and what do you do? What do you create or provide?\nWrite it as a registry or a bank would expect to read it.\nName, country, address and legal form are above.",
-   "lines": 9,
-   "points": 3,
+   "text": "Who are you, and what do you do? What do you create or provide?\nWrite it as a registry or a bank would expect to read it.",
+   "lines": 6,
+   "points": 2,
    "w": 360,
-   "chars": 170,
+   "chars": 121,
    "scenes": [
     "Identity System / 1. Definition / tile Organisation"
    ]
@@ -6499,71 +6313,59 @@
   {
    "label": "Philosophy",
    "place": "tile dialog",
-   "text": "How do you understand the work you do?\nHow do you see the world around it?\nWhich beliefs shape your choices?",
-   "lines": 8,
+   "text": "What do you believe about your trade that sets you apart? Why do you work this way?\nExplain the belief; the rules it leads to go in Principles.\nExample: \"We believe a thing made slowly is used for longer, so we make fewer and better.\"",
+   "lines": 11,
    "points": 3,
    "w": 360,
-   "chars": 108,
+   "chars": 234,
    "scenes": [
-    "Identity System / 1. Definition / tile Philosophy"
+    "Identity System / 1. Definition / tile Philosophy &Manifesto"
    ]
   },
   {
-   "label": "Principles",
+   "label": "Manifesto",
    "place": "tile dialog",
-   "text": "Which rules guide your decisions?\nHow do you behave and treat people?\nWhich standards do you always keep?",
-   "lines": 8,
+   "text": "What do you stand for, and what do you stand against?\nWrite it for your customers, in your own voice. Draw on your Values and say them in fresh words.\nExample: \"We are for things that last. We are against the throwaway gift.\"",
+   "lines": 11,
    "points": 3,
    "w": 360,
-   "chars": 105,
+   "chars": 225,
    "scenes": [
-    "Identity System / 1. Definition / tile Principles"
+    "Identity System / 1. Definition / tile Philosophy &Manifesto"
    ]
   },
   {
    "label": "Values",
    "place": "tile dialog",
-   "text": "What matters most to you?\nWhat will you never compromise on?\nList 3 to 5 values, one per line.",
-   "lines": 6,
+   "text": "What matters most in how you work? What would you hold to, even at the cost of a sale?\nList three to five, one a line, each with what it means here.\nExample: \"Craft: every piece is finished by hand and checked before it leaves.\"",
+   "lines": 11,
    "points": 3,
    "w": 360,
-   "chars": 94,
+   "chars": 228,
    "scenes": [
-    "Identity System / 1. Definition / tile Values"
+    "Identity System / 1. Definition / tile Values &Principles"
    ]
   },
   {
-   "label": "Vision",
+   "label": "Principles",
    "place": "tile dialog",
-   "text": "What future are you working towards?\nWhat would success look like?\nThink ten years or more ahead.",
-   "lines": 6,
+   "text": "For each value, what do you always do, and what do you always avoid?\nOne rule a line, beginning \"We …\".\nExample: \"We remake any piece with a fault, at no cost, within a year.\"",
+   "lines": 9,
    "points": 3,
    "w": 360,
-   "chars": 97,
+   "chars": 175,
    "scenes": [
-    "Identity System / 1. Definition / tile Vision"
-   ]
-  },
-  {
-   "label": "Capability",
-   "place": "tile dialog",
-   "text": "What important capabilities does the team currently lack, and how will they be covered?\nFor example: planned hires, advisors, mentors, partners, contractors or external specialists, training.\nA gap that is named and covered reads as a strength; one left unnamed reads as a risk.",
-   "lines": 13,
-   "points": 3,
-   "w": 360,
-   "chars": 278,
-   "scenes": [
-    "Identity System / 2. Legal Entity / tile Capability"
+    "Identity System / 1. Definition / tile Values &Principles"
    ]
   },
   {
    "label": "Gaps",
    "place": "tile dialog",
-   "text": "What important capabilities does the team currently lack, and how will they be covered?",
-   "lines": 5,
+   "text": "The capabilities the plan needs that the team lacks today.",
+   "lines": 3,
    "points": 1,
    "w": 360,
-   "chars": 87,
+   "chars": 58,
    "scenes": [
     "Identity System / 2. Legal Entity / tile Capability"
    ]
@@ -6571,11 +6373,11 @@
   {
    "label": "Cover",
    "place": "tile dialog",
-   "text": "For example: planned hires, advisors, mentors, partners, contractors or external specialists, training.\nA gap that is named and covered reads as a strength; one left unnamed reads as a risk.",
-   "lines": 10,
+   "text": "For each gap, say who covers it and from when.\nA gap that is named and covered reads as a strength; one left unnamed reads as a risk.",
+   "lines": 7,
    "points": 2,
    "w": 360,
-   "chars": 190,
+   "chars": 133,
    "scenes": [
     "Identity System / 2. Legal Entity / tile Capability"
    ]
@@ -6583,11 +6385,11 @@
   {
    "label": "Expenses",
    "place": "tile dialog",
-   "text": "What it costs to register and keep registered: filing, renewal and agent fees. Each pays for one registration.\nInsurance, licences and certificates are cards of Documents & Rights on 3. Infrastructure & Capability.\nAdd the ones that apply. If there are none, add none.",
+   "text": "What it costs to register and keep registered: filing, renewal and agent fees. Each is linked to one registration or requirement.\nLicences, insurance and certificates for an offering are recorded in Documents & Rights, on 3. Infrastructure & Capability.",
    "lines": 11,
-   "points": 3,
+   "points": 2,
    "w": 360,
-   "chars": 268,
+   "chars": 253,
    "scenes": [
     "Identity System / 2. Legal Entity / tile Expenses",
     "Identity System / 2. Legal Entity / tile Expenses / card 1"
@@ -6596,11 +6398,11 @@
   {
    "label": "Expenses",
    "place": "floating card",
-   "text": "What it costs to register and keep registered: filing, renewal and agent fees. Each pays for one registration.\nInsurance, licences and certificates are cards of Documents & Rights on 3. Infrastructure & Capability.\nAdd the ones that apply. If there are none, add none.",
+   "text": "What it costs to register and keep registered: filing, renewal and agent fees. Each is linked to one registration or requirement.\nLicences, insurance and certificates for an offering are recorded in Documents & Rights, on 3. Infrastructure & Capability.",
    "lines": 11,
-   "points": 3,
+   "points": 2,
    "w": 360,
-   "chars": 268,
+   "chars": 253,
    "scenes": [
     "Identity System / 2. Legal Entity / tile Expenses / card 1"
    ]
@@ -6608,95 +6410,23 @@
   {
    "label": "Linked registration",
    "place": "floating card",
-   "text": "Says which registration or requirement this expense pays for. Only one can be chosen.\nLists what you have already recorded further up the page.",
+   "text": "Says which registration or requirement this expense pays for.\nIt lists the registration numbers and the requirements recorded under Registrations.",
    "lines": 7,
    "points": 2,
    "w": 360,
-   "chars": 143,
+   "chars": 146,
    "scenes": [
     "Identity System / 2. Legal Entity / tile Expenses / card 1"
    ]
   },
   {
-   "label": "Founders & Ownership",
-   "place": "tile dialog",
-   "text": "Who owns the organisation, and how much of it each founder owns.",
-   "lines": 3,
-   "points": 1,
-   "w": 360,
-   "chars": 64,
-   "scenes": [
-    "Identity System / 2. Legal Entity / tile Founders & Ownership"
-   ]
-  },
-  {
-   "label": "Roles",
-   "place": "tile dialog",
-   "text": "What does this founder do in the organisation?\nOne role a line: a founder is often several things at once.\nLenders and investors look for every key job to have someone who owns it.",
-   "lines": 10,
-   "points": 3,
-   "w": 360,
-   "chars": 180,
-   "scenes": [
-    "Identity System / 2. Legal Entity / tile Founders & Ownership"
-   ]
-  },
-  {
-   "label": "Relevant Industry Experience",
-   "place": "tile dialog",
-   "text": "Which relevant companies, sectors, positions, projects or markets have they worked in?\nSay how long, where it helps.\nLenders and investors look for a team that already knows the market it is entering.",
-   "lines": 10,
-   "points": 3,
-   "w": 360,
-   "chars": 200,
-   "scenes": [
-    "Identity System / 2. Legal Entity / tile Founders & Ownership"
-   ]
-  },
-  {
-   "label": "Management Experience",
-   "place": "tile dialog",
-   "text": "Experience leading people, projects, budgets, businesses, or operations.\nSay how big: how many people, how much money.\nIt shows they can run the organisation as it grows.",
-   "lines": 9,
-   "points": 3,
-   "w": 360,
-   "chars": 170,
-   "scenes": [
-    "Identity System / 2. Legal Entity / tile Founders & Ownership"
-   ]
-  },
-  {
-   "label": "Key Achievements",
-   "place": "tile dialog",
-   "text": "What was achieved, what was your contribution, and what was the measurable result?\nAny business they started before, and how it turned out.\nResults are what make a track record believable.",
-   "lines": 10,
-   "points": 3,
-   "w": 360,
-   "chars": 188,
-   "scenes": [
-    "Identity System / 2. Legal Entity / tile Founders & Ownership"
-   ]
-  },
-  {
-   "label": "Skills, Expertise & Qualifications",
-   "place": "tile dialog",
-   "text": "Add one entry for each, and choose its type: a skill, professional or technical expertise, a degree or qualification, a certification, a licence, or a professional membership or other credential.\nName what the plan relies on them for: sales, finance, operations, technical.\nLenders and investors check that every capability the plan needs is covered by someone.",
-   "lines": 16,
-   "points": 3,
-   "w": 360,
-   "chars": 361,
-   "scenes": [
-    "Identity System / 2. Legal Entity / tile Founders & Ownership"
-   ]
-  },
-  {
    "label": "Authority / Name",
    "place": "tile dialog",
-   "text": "The body that keeps the public register your organisation is listed on.\nFilled in from the country you chose. Change it to match yours.",
-   "lines": 7,
+   "text": "The body that keeps the public register your organisation is on; on a further row, the name of that registration.\nFilled in from the country you chose; for another country, write it.",
+   "lines": 8,
    "points": 2,
    "w": 360,
-   "chars": 135,
+   "chars": 182,
    "scenes": [
     "Identity System / 2. Legal Entity / tile Registrations / card 1"
    ]
@@ -6716,11 +6446,11 @@
   {
    "label": "Sales Tax",
    "place": "tile dialog",
-   "text": "Sales Tax is a tax on sales: a registered business adds it to its prices, pays it on to the tax authority, and reclaims what it paid on its own purchases.\nRegistration is required once your sales pass the threshold your country sets, and some businesses can register by choice. Check with your tax authority.\nTicked, this asks for your Sales Tax number, and the Financial Foundation takes its amounts as excluding Sales Tax unless you choose otherwise.",
-   "lines": 19,
+   "text": "Sales Tax is a tax on sales: you add it to your prices, pay it to the tax authority and reclaim what you paid on your purchases.\nRegistration is required once your sales pass the threshold your country sets, and some businesses can register by choice. Check with your tax authority.\nTicked, it asks for your number, and the Financial Foundation reads your amounts as excluding Sales Tax unless you choose otherwise.",
+   "lines": 17,
    "points": 3,
    "w": 360,
-   "chars": 452,
+   "chars": 415,
    "scenes": [
     "Identity System / 2. Legal Entity / tile Registrations / card 1"
    ]
@@ -6752,11 +6482,11 @@
   {
    "label": "Strategic Compass",
    "place": "tile dialog",
-   "text": "Where do you want your organisation to be heading, and what do you want it to build, become, or achieve over the long term?\nChoose a time horizon far enough ahead to give your strategy direction, yet close enough for your organisation to make meaningful decisions about.\nThe Vision is the goal; the Compass is the route.: A future in which every small professional firm can use automation and AI as safely and confidently as a large one. Ten years from now, Quillfield is a trusted name for practical automation among small firms across the north-east United States: a small team of automation specialists, a library of proven and well-documented workflows, and hundreds of client firms whose staff spend their days on skilled work rather than admin. Success means clients who stay for years, recommend us to their peers and never feel locked in.",
-   "lines": 34,
+   "text": "Where do you want your organisation to be heading, and what do you want it to build, become, or achieve over the long term?\nChoose a time horizon far enough ahead to give your strategy direction, yet close enough for your organisation to make meaningful decisions about.\nThe Vision is the goal; the Compass is the route.: A future in which every small professional firm can use automation and AI as safely and confidently as a large one. Ten years from now, Quillfield is a trusted name for practical automation among small firms across the north-east United States: a small team of automation specialists, a library of proven and well-documented workflows, and hundreds of client firms whose staff spend their days on skilled work. Success means clients who stay for years, recommend us to their peers and never feel locked in.",
+   "lines": 33,
    "points": 3,
    "w": 360,
-   "chars": 846,
+   "chars": 828,
    "scenes": [
     "Strategy System / main / tile Strategic Compass"
    ]

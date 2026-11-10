@@ -2,13 +2,13 @@ import { CSSProperties, ReactNode } from "react";
 import CardShell from "../cards/CardShell.tsx";
 import { legalExpenseMissing, legalRequirementMissing } from "../../../framework/engine/SystemCardCompleteness.ts";
 import type { FloorLink } from "../tiles/capabilityFloor.ts";
-import SectionTiles, { DialogHeading, type SectionTile, type TileLink } from "../tiles/SectionTiles.tsx";
+import SectionTiles, { DialogHeading, type SectionTile } from "../tiles/SectionTiles.tsx";
 import CardBoxes, { type CardBox, type CardBoxAdd } from "../cards/CardBoxes.tsx";
 import SubTiles from "../tiles/SubTiles.tsx";
 import FoundersProfileEditor from "./FoundersProfileEditor.tsx";
 import { workHue } from "../../../framework/engine/WorkColours.ts";
 import { FOUNDERS_PROFILE_SECTIONS, LEGAL_ENTITY_SECTIONS, LegalEntityValue, asFoundersProfileValue, asLegalEntityValue, createLegalEntityExpense, createLegalEntityRequirement } from "../../../framework/engine/AnswerUtils.ts";
-import { LEGAL_REQUIREMENT_TYPES } from "../../../framework/engine/LegalEntityJurisdictions.ts";
+import { LEGAL_REQUIREMENT_TYPES, legalFormOptions, registrationAuthorityFor } from "../../../framework/engine/LegalEntityJurisdictions.ts";
 import { moneyText } from "../../../framework/engine/ExportRenderers.ts";
 import { railId } from "../rails/railItems.ts";
 import { InfoPoint } from "../fields/InfoNote.tsx";
@@ -42,12 +42,38 @@ import { useLegalCardsAndSections } from "./legal/useLegalCardsAndSections.tsx";
  * on screen, which is what keeps a page this long readable for the
  * many organizations that need only the first half of it.
  */
+/**
+ * THE FOUNDERS & OWNERSHIP TILE'S FACE (a master tile of 1. Definition, the Identity System's page 1, since 2026-11-09; its answer is still the
+ * Legal Entity's): with the Founders Profile's saver, the founders' names, each a link to the founder's card in its dialog (a one-owner form
+ * has no such cards); without it, the owners with their shares.
+ */
+export function foundersTileFace(value: unknown, holdsFounders: boolean): Pick<SectionTile, "items" | "itemMarks" | "links"> {
+    const entity = asLegalEntityValue(value);
+    const lines = (list: readonly string[]) => list.map(text => text.trim()).filter(text => text.length > 0);
+    const named = entity.founders.filter(founder => founder.name.trim());
+    const soleFounderSettled = legalFormOptions(entity.organisation.country, entity.organisation.subdivision)
+        .find(form => form.label === entity.organisation.legalForm)?.soleFounder === true && entity.founders.length === 1;
+    if (holdsFounders) {
+        const names = lines(named.map(founder => founder.name.trim()));
+        return {
+            items: names,
+            itemMarks: names.map(() => ({ bullet: true })),
+            links: soleFounderSettled ? undefined : named.map(founder => ({ box: "founder-profile-" + founder.id }))
+        };
+    }
+    return named.length === 1
+        ? { items: [named[0].name.trim()], itemMarks: [{ centre: true }] }
+        // (A name, then its share after a dash: two columns, the dashes in one.)
+        : { items: lines(named.map(founder => founder.name.trim() + "\u0001" + (founder.ownership.trim() ? "\u2014 " + founder.ownership.trim() + "%" : ""))), itemMarks: named.map(() => undefined) };
+}
+
 export default function LegalEntityEditor(props: LegalEntityEditorProps) {
 
     const part1 = useLegalState(props);
     const part2 = { ...part1, ...useLegalFieldsAndSections({ ...part1 }) };
     const part3 = { ...part1, ...part2, ...useLegalCardsAndSections({ ...part1, ...part2 }) };
-    const { amountLabel, soleFounderSettled, updateFounder, foundersProfile, onChangeFoundersProfile, organizationOnly, audienceOnly, audience, asTiles, cardsOnly, columnsDivider, currency, disabled, entity, expenseCard, frameTitle, latest, linkTargets, profile, requirementCard, section0, section1, section2, section3, section4, section5, showInstructions, update } = part3;
+    const foundersOnly = props.foundersOnly === true;
+    const { amountLabel, chosenSubdivision, countryChosen, profiled, soleFounderSettled, updateFounder, foundersProfile, onChangeFoundersProfile, organizationOnly, audienceOnly, audience, asTiles, cardsOnly, columnsDivider, currency, disabled, entity, expenseCard, frameTitle, latest, linkTargets, profile, requirementCard, section0, section1, section2, section3, section4, section5, showInstructions, update } = part3;
 
     /* THE PAGE AS TILES (the page's tile system), one for each of its six sections. A tile opens its section in its dialog: Organization and Founders & Ownership with no
        frame around them, Formation & Registration and Tax & Business Registration in theirs; Additional Legal Requirements and Legal Entity Expenses open a box for each card
@@ -65,18 +91,19 @@ export default function LegalEntityEditor(props: LegalEntityEditorProps) {
     if (organizationOnly) {
         return (
             <div className="column-tile-content legal-entity legal-entity-unframed" data-rail={railId(LEGAL_ENTITY_SECTIONS[0])}>
-                <div className="business-engagement-section-head"><DialogHeading title="Organisation" info={["What the organisation is: its name, where it is, its legal form, what it does and where it stands."]} /></div>
+                <div className="business-engagement-section-head"><DialogHeading title="Organisation" info={["Choose the country first: the legal forms, the registry and the activity codes follow it."]} /></div>
                 <div className="legal-entity-body">{section0}</div>
             </div>
         );
     }
     if (asTiles) {
-        const lines = (list: readonly string[], count = 4) => list.map(text => text.trim()).filter(text => text.length > 0).slice(0, count);
+        // (A tile lists every line, no display cap: its list scrolls where they do not all fit, as every tile's list does; layout rules, "Lists on the tiles".)
+        const lines = (list: readonly string[]) => list.map(text => text.trim()).filter(text => text.length > 0);
         const rail = (section: number) => railId(LEGAL_ENTITY_SECTIONS[section]);
         // (Every dialog of the page opens with the one heading the Business System's do: the title, then its "i".)
         const SECTION_INFO: Record<number, InfoPoint[]> = {
             0: ["What the organisation is in law: its name, what it does, its legal form and where it is."],
-            1: ["Who owns the organisation, and how much of it each founder owns."]
+            1: ["Who the founders are, how much of the organisation each owns, and what each brings to it."]
         };
         const plain = (section: number, body: ReactNode) => (
             <div className="column-tile-content legal-entity legal-entity-unframed" data-rail={rail(section)}>
@@ -169,42 +196,33 @@ export default function LegalEntityEditor(props: LegalEntityEditorProps) {
             const expense = entity.expenses.findIndex(candidate => candidate.id === id);
             return expense >= 0 ? floating(expenseCard(entity.expenses[expense], expense, true)) : null;
         };
-        const named = entity.founders.filter(founder => founder.name.trim());
         /** The page holds the founders' tiles and the Capability tile (a page of the Identity System that is given the Founders Profile's saver). */
         const holdsFounders = onChangeFoundersProfile !== undefined;
         const capability = asFoundersProfileValue(foundersProfile);
-        const foundersListed = named.length === 1
-            ? { items: [named[0].name.trim()], marks: [{ centre: true }] }
-            : {
-                // (A name, then its share after a dash: two columns, the dashes in one.)
-                items: lines(named.map(founder => founder.name.trim() + "\u0001" + (founder.ownership.trim() ? "\u2014 " + founder.ownership.trim() + "%" : "")), 8),
-                marks: named.map(() => undefined)
-            };
-        const expenseEntries = entity.expenses.filter(expense => expense.name.trim().length > 0).slice(0, 8);
-        /** The link of a line that names a registration: the first expense linked to it (a press opens that expense's card). */
-        const expenseLink = (targetId: string): TileLink | undefined => {
-            const expense = entity.expenses.find(candidate => candidate.links.includes(targetId));
-            return expense ? { card: expense.id } : undefined;
-        };
-        // The lines of the Formation's and the Tax's tiles, each with the registration it names (the expense linked to it gives the line its link).
+        const expenseEntries = entity.expenses.filter(expense => expense.name.trim().length > 0);
+        // The lines of the Formation's and the Tax's tiles. (They name no card, so they are no links: what a registration is linked to is a circle on the tile.)
+        // (Every line, no cap: the tile's list scrolls where they do not all fit, as every tile's list does.)
+        // THE REGISTRATION NUMBERS' LIST IS WHAT ITS DIALOG HOLDS (owner, 2026-11-09): each row that has something written, in the dialog's order and in its words,
+        // "<name>: <number>" -- the registry's (the authority as the dialog shows it, the country's own), the further numbers, the tax identification number
+        // under its label, the consumption tax where the dialog asks it and it is ticked, the further tax registrations. No status line: the list starts with the entries.
+        const entry = (name: string, number: string) => [name.trim(), number.trim()].filter(text => text.length > 0).join(": ");
+        const taxIdLabel = profile.taxIdName ? "Tax Identification Number (" + profile.taxIdName + ")" : "Tax Identification Number";
+        const consumptionAsked = countryChosen && profiled && !chosenSubdivision?.noConsumptionTax;
         const formationEntries = [
-            { text: entity.formation.status === "planned" ? "Planned" : "Registered", target: "formation-registration-number" },
-            { text: entity.formation.authority, target: "" },
-            ...entity.formation.additionalNumbers.map(number => ({ text: number.label, target: number.id }))
-        ].filter(entry => entry.text.trim().length > 0).slice(0, 6);
+            entry(registrationAuthorityFor(entity.organisation.country, entity.organisation.subdivision) || entity.formation.authority, entity.formation.registrationNumber),
+            ...(entity.formation.status === "planned" ? [] : entity.formation.additionalNumbers.map(number => entry(number.label, number.number)))
+        ].filter(text => text.length > 0);
         const taxEntries = [
-            { text: entity.tax.identificationNumber.trim() ? (profile.taxIdName || "Tax ID") + ": " + entity.tax.identificationNumber.trim() : "", target: "" },
-            { text: entity.tax.consumptionTaxStatus === "yes" ? "VAT " + entity.tax.consumptionTaxNumber : "", target: "tax-consumption-number" },
-            ...entity.tax.additionalRegistrations.map(registration => ({ text: registration.label, target: registration.id }))
-        ].filter(entry => entry.text.trim().length > 0).slice(0, 6);
-        const tiles: SectionTile[] = [
-            {
-                id: "legal-entity-founders", title: "Founders & Ownership", large: true, rail: rail(1),
-                // (The dialog holds the Ownership, with the founders' profile tiles under it.)
-// (The founders' profiles: each name a link that opens that founder's card in the dialog. Without the Founders Profile saver, as before: the owners with their shares.)
-                items: holdsFounders ? lines(named.map(founder => founder.name.trim()), 8) : foundersListed.items,
-                itemMarks: holdsFounders ? lines(named.map(founder => founder.name.trim()), 8).map(() => ({ bullet: true })) : foundersListed.marks,
-                links: holdsFounders && !soleFounderSettled ? named.slice(0, 8).map(founder => ({ box: "founder-profile-" + founder.id })) : undefined,
+            entity.tax.identificationNumber.trim() ? entry(taxIdLabel, entity.tax.identificationNumber) : "",
+            consumptionAsked && entity.tax.consumptionTaxStatus === "yes" ? entry(profile.consumptionTax, entity.tax.consumptionTaxNumber) : "",
+            ...entity.tax.additionalRegistrations.map(registration => entry(registration.label, registration.number))
+        ].filter(text => text.length > 0);
+        // THE FOUNDERS & OWNERSHIP TILE stands on 1. Definition (owner, 2026-11-09): the Definition draws it (AnswerRenderer) with this dialog
+        // (`foundersOnly`); its face is `foundersTileFace`. It is no tile of the Legal Entity page.
+        // (The dialog holds the Ownership, with the founders' profile tiles under it; without the Founders Profile saver, the Ownership alone.)
+        const foundersTile: SectionTile = {
+                id: "legal-entity-founders", title: "Founders & Ownership", large: true, rail: rail(1), anchor: "legal-section-1",
+                ...foundersTileFace(entity, holdsFounders),
                 content: () => holdsFounders && onChangeFoundersProfile
                     ? (
                         <div className="column-tile-content legal-entity legal-entity-unframed" data-rail={rail(1)}>
@@ -234,10 +252,14 @@ export default function LegalEntityEditor(props: LegalEntityEditorProps) {
                         </div>
                     )
                     : plain(1, section1)
-            },
+        };
+        if (foundersOnly) {
+            return <>{foundersTile.content()}</>;
+        }
+        const tiles: SectionTile[] = [
             ...(holdsFounders && onChangeFoundersProfile ? [{
                 id: "founders-gaps", title: "Capability", large: true, rail: railId(FOUNDERS_PROFILE_SECTIONS[1]),
-                items: lines([...capability.teamGaps.split("\n"), ...capability.teamCover.split("\n")], 8),
+                items: lines([...capability.teamGaps.split("\n"), ...capability.teamCover.split("\n")]),
                 content: () => (
                     <FoundersProfileEditor
                         value={foundersProfile}
@@ -250,8 +272,8 @@ export default function LegalEntityEditor(props: LegalEntityEditorProps) {
             } as SectionTile] : []),
             {
                 id: "legal-entity-registrations", title: "Registrations", large: true, rail: rail(2), view: true,
-                // The state, then the names of the registration numbers (the formation's, the tax's) and the requirements.
-                items: ["Registration numbers", "Additional legal requirements"],
+                // What its dialog holds, in the dialog's words: its two sub tiles, each line a link to its own.
+                items: ["Registration Numbers", "Additional Legal Requirements"],
                 // (A second bullet, in the link's colour, where a registration of that section is linked to an expense.)
                 itemMarks: [{ bullet: true }, { bullet: true }],
                 links: [{ box: "registration-numbers" }, { box: "requirements" }],
@@ -268,25 +290,28 @@ export default function LegalEntityEditor(props: LegalEntityEditorProps) {
                                 {
                                     // THE REGISTRATION NUMBERS, ONE TILE (owner, 2026-10-24): the numbers of the registry (formation) and of the tax, under one heading; the Registration Date is on the Organization tile.
                                     id: "registration-numbers",
+                                    // (A sub tile's title is one line, as every tile's: a long one is cut and slides under the pointer, never broken.)
                                     title: "Registration Numbers",
-                                    items: [...formationEntries, ...taxEntries].slice(0, 8).map(entry => entry.text),
-                                    itemMarks: [...formationEntries, ...taxEntries].slice(0, 8).map((_entry, at) => at === 0 ? { plain: true } : { bullet: true }),
-                                    links: [...formationEntries, ...taxEntries].slice(0, 8).map(entry => expenseLink(entry.target)),
+                                    items: [...formationEntries, ...taxEntries],
+                                    itemMarks: [...formationEntries, ...taxEntries].map(() => ({ bullet: true })),
                                     circles: expenseCircles(["formation-registration-number", ...entity.formation.additionalNumbers.map(number => number.id), "tax-consumption-number", ...entity.tax.additionalRegistrations.map(registration => registration.id)]),
                                     content: () => (
                                         <div className="legal-entity-body legal-entity-subview">
-                                            {section2}
-                                            <div className="business-capability-card-rule legal-entity-org-rule" role="separator" />
-                                            {section3}
+                                            {/* In bands (owner, 2026-11-09: one style for every card of the Foundation): the registry's numbers, then the tax's, tinted. */}
+                                            <div className="legal-entity-audience legal-entity-bands">
+                                                <div className="legal-entity-org-section">{section2}</div>
+                                                <div className="legal-entity-org-section legal-entity-org-band">{section3}</div>
+                                            </div>
                                         </div>
                                     )
                                 },
                                 {
                                     id: "requirements",
-                                    title: "Additional legal requirements",
-                                    items: entity.requirements.filter(requirement => requirement.name.trim()).slice(0, 6).map(requirement => requirement.name.trim()),
-                                    itemMarks: entity.requirements.filter(requirement => requirement.name.trim()).slice(0, 6).map(() => ({ bullet: true })),
-                                    links: entity.requirements.filter(requirement => requirement.name.trim()).slice(0, 6).map(requirement => ({ card: requirement.id })),
+                                    title: "Additional Legal Requirements",
+                                    // (Every requirement its dialog holds, in its order and with the name its box shows: the list scrolls where they do not all fit, as every tile's list does.)
+                                    items: entity.requirements.map(requirement => requirement.name.trim() || "Unnamed requirement"),
+                                    itemMarks: entity.requirements.map(() => ({ bullet: true })),
+                                    links: entity.requirements.map(requirement => ({ card: requirement.id })),
                                     circles: expenseCircles(entity.requirements.map(requirement => requirement.id)),
                                     add: addOf("requirement"),
                                     content: () => <CardBoxes items={requirementBoxes} label="Legal requirements" what="Requirement" add={addOf("requirement")} autoStart={false} />

@@ -26,7 +26,7 @@
 
     border-radius: var(--radius-lg) 0 0 var(--radius-lg);
 
-    box-shadow: -4px 4px 12px color-mix(in srgb, var(--tab-edge) 18%, transparent);
+    box-shadow: var(--shadow-menu);
 
     align-items: flex-end;
 
@@ -528,6 +528,17 @@ label:has(> input[type="checkbox"]) > :not(input) {
 
 }
 
+/* A line under an option's words, small and muted, wrapping as it needs (K14: the competitors a Differentiation came from; owner, 2026-11-09). */
+.business-foundation-tick-source {
+
+    display: block;
+
+    font-size: var(--font-small);
+
+    color: var(--text-muted);
+
+}
+
 .business-foundation-tick-note {
 
     margin-left: 0;
@@ -665,5 +676,30 @@ label:has(> input[type="checkbox"]) > :not(input) {
         transition: none;
 
     }
+
+}
+
+/* K14's competitors under an option, a bullet each (owner, 2026-11-10: "under its option make a bullet list"): the tile lists' bullet, hanging. */
+.business-foundation-tick-source-list {
+
+    display: flex;
+    flex-direction: column;
+
+}
+
+.business-foundation-tick-source-list > span {
+
+    position: relative;
+
+    padding-left: 1em;
+
+}
+
+.business-foundation-tick-source-list > span::before {
+
+    content: "\2022";
+
+    position: absolute;
+    left: 0.2em;
 
 }

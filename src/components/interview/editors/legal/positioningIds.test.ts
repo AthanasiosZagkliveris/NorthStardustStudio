@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import { asLegalEntityValue } from "../../../../framework/engine/AnswerLegal.ts";
 import { AUDIENCE_WORDS, BUYER_CATEGORY_WORDS, DIFFERENTIATION_WORDS, END_USER_WORDS, OUTCOME_USER_WORDS, OUTCOME_WORDS, PURPOSE_WORDS } from "../../../../framework/engine/ActivityClassification.ts";
 import { AUDIENCE_IDS, BUYER_CATEGORY_KEYS, DIFFERENTIATION_IDS, MODEL_IDS, OUTCOME_IDS, PURPOSE_IDS, RELATION_IDS_B2B, RELATION_IDS_B2C, USER_AGE_IDS, USER_OUTCOME_IDS, endUserFrom, userOutcomeFrom } from "../../../../framework/engine/PositioningIds.ts";
-import { AUDIENCE_SCALES, BUYER_CATEGORIES, BUYER_USER_RELATIONS, DIFFERENTIATIONS, FIRST_VERSION_CUSTOMER_TYPES, LIFE_STAGES, OUTCOMES, PURPOSES, USER_LIFE_STAGES, USER_OUTCOMES } from "./shared.tsx";
+import { AUDIENCE_SCALES, BUYER_CATEGORIES, BUYER_USER_RELATIONS, DIFFERENTIATIONS, FIRST_VERSION_CUSTOMER_TYPES, LIFE_STAGES, PURPOSES, USER_LIFE_STAGES, USER_OUTCOMES } from "./shared.tsx";
 
 const ids = (list: readonly { id: string }[]) => list.map(option => option.id);
 
@@ -17,7 +17,6 @@ describe("the ids of Early Positioning (design document 33): the lists the user 
         expect(ids(BUYER_USER_RELATIONS.b2b)).toEqual([...RELATION_IDS_B2B]);
         expect(ids(USER_LIFE_STAGES)).toEqual([...USER_AGE_IDS]);
         expect(ids(DIFFERENTIATIONS)).toEqual([...DIFFERENTIATION_IDS]);
-        expect(ids(OUTCOMES)).toEqual([...OUTCOME_IDS]);
         expect(ids(USER_OUTCOMES)).toEqual([...USER_OUTCOME_IDS]);
         expect(ids(PURPOSES)).toEqual([...PURPOSE_IDS]);
     });

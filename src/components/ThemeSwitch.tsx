@@ -21,11 +21,20 @@ function themeState(): string {
     return choice + ":" + ThemeService.resolve(choice);
 }
 
+/** Each drawing's box, cut round it so every header icon's drawing stands the same height in its 24px (owner, 2026-11-10: "the icons in the header
+ *  buttons having the same size (high)"): as tall as the buttons' capitals (13px with its line), its line one weight (app-header.css). */
+const THEME_ICON_BOX: Record<ThemeChoice, string> = {
+    light: "0.43 0.43 15.13 15.13",
+    sepia: "1.51 1.74 12.97 12.97",
+    dark: "1.39 2.03 12.57 12.57",
+    auto: "1.51 1.51 12.97 12.97"
+};
+
 /** A sun, an open book for Sepia, a moon, and a half-filled circle for Auto. Drawn in the text colour. */
 function ThemeIcon({ value }: { value: ThemeChoice }) {
 
     return (
-        <svg className="header-tool-icon theme-switch-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+        <svg className="header-tool-icon theme-switch-icon" viewBox={THEME_ICON_BOX[value]} aria-hidden="true" focusable="false">
             {value === "light" && (
                 <>
                     <circle cx="8" cy="8" r="3" fill="currentColor" />

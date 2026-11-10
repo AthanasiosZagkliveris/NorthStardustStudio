@@ -1,8 +1,9 @@
 import { ReactNode, useContext, useState } from "react";
+import DialogSectionBand from "./DialogSectionBand.tsx";
 
 import Tile from "./Tile.tsx";
 import TileGrid from "./TileGrid.tsx";
-import { InitialBoxContext, InnerLevel, OpenCardContext, TileFace, TileLinks, TilePlus, useDialogInnerBack, useDialogInnerStep, type ItemMark, type TileAdd, type TileLink } from "./SectionTiles.tsx";
+import { InitialBoxContext, InnerLevel, OpenCardContext, TileFace, TileLinks, TilePlus, plainTitle, useDialogInnerBack, useDialogInnerStep, type ItemMark, type TileAdd, type TileLink } from "./SectionTiles.tsx";
 import { Dots, inwardOrigin } from "./CardTile.tsx";
 import type { FloorLink } from "./capabilityFloor.ts";
 
@@ -16,7 +17,7 @@ export interface SubTile {
 
     id: string;
 
-    /** Its name: a sub tile's title is one line (capitals, as every category tile's). */
+    /** Its name: a sub tile's title is one line (capitals, as every category tile's); a long one is cut with an ellipsis and slides under the pointer, never broken. */
     title: string;
 
     /** What it lists under its name. */
@@ -44,7 +45,7 @@ export interface SubTile {
  * THE SECTIONS OF A DIALOG AS TILES (the Business System's category tiles, one level in): the dialog's grid shows a tile for each section; pressing one opens
  * that section in the dialog, with its name after the dialog's title and Back returning to the grid. Its lines may be links to cards.
  */
-export default function SubTiles({ tiles, label, header }: { tiles: readonly SubTile[]; label: string; /** What stands above the tiles (the dialog's own content: the Founders & Ownership's owners), only while the grid shows, not while a tile is open. */ header?: ReactNode }) {
+export default function SubTiles({ tiles, label, header, tilesTitle }: { tiles: readonly SubTile[]; label: string; /** What stands above the tiles (the dialog's own content: the Founders & Ownership's owners), only while the grid shows, not while a tile is open. */ header?: ReactNode; /** A title over the tiles, as a section of the dialog (DialogSectionBand): the founders' Profiles. */ tilesTitle?: string }) {
 
     const initial = useContext(InitialBoxContext);
     // ("@last": the dialog was entered from the tile after it by the carousel's left arrow, so it opens on its last section.)
@@ -52,7 +53,7 @@ export default function SubTiles({ tiles, label, header }: { tiles: readonly Sub
     const open = tiles.find(tile => tile.id === openId) ?? null;
     const openCard = useContext(OpenCardContext);
 
-    useDialogInnerBack(open ? () => setOpenId(null) : null, open?.title);
+    useDialogInnerBack(open ? () => setOpenId(null) : null, open ? plainTitle(open.title) : undefined);
     // The carousel arrows go through these sections first (Formation, Tax, Additional requirements); past the last or the first they go on to the next tile of the page.
     // The arrows go round the sections only while one is open; the grid itself leaves for the page's next tile.
     useDialogInnerStep(open
@@ -62,7 +63,7 @@ export default function SubTiles({ tiles, label, header }: { tiles: readonly Sub
         }
         : null,
         // (The rail follows the names of the dialog's sections while one is open.)
-        open ? { items: tiles.map(tile => ({ id: tile.id, label: tile.title })), current: tiles.findIndex(tile => tile.id === open.id), go: (id: string) => setOpenId(id) } : null);
+        open ? { items: tiles.map(tile => ({ id: tile.id, label: plainTitle(tile.title) })), current: tiles.findIndex(tile => tile.id === open.id), go: (id: string) => setOpenId(id) } : null);
 
 
     if (open) {
@@ -73,20 +74,21 @@ export default function SubTiles({ tiles, label, header }: { tiles: readonly Sub
         <>
         {header}
         {/* A divider line between the dialog's own content and its tiles, 12px either side of it. */}
-        {header && tiles.length > 0 && <div className="business-capability-card-rule sub-tiles-rule" role="separator" />}
+        {header && tiles.length > 0 && !tilesTitle && <div className="business-capability-card-rule sub-tiles-rule" role="separator" />}
+        {(() => { const grid = (
         <TileGrid label={label}>
             {({ across }) => (
             <>
                 {tiles.map((tile, index) => (
                     <Tile
                         key={tile.id}
-                        frame={{ className: "section-tile-slot card-tile-slot", style: { transformOrigin: inwardOrigin(index, tiles.length, across) } }}
+                        frame={{ className: "section-tile-slot card-tile-slot" + (tile.add || tile.circles?.length ? " section-tile-slot-plus" : ""), style: { transformOrigin: inwardOrigin(index, tiles.length, across) } }}
                         face={<TileFace title={tile.title} glyph={false} />}
                         className="section-tile section-tile-category"
                         data-tile={tile.id}
                         data-opens=""
                         aria-haspopup="dialog"
-                        aria-label={tile.title}
+                        aria-label={plainTitle(tile.title)}
                         onClick={(event) => { if (tile.card) { openCard?.(tile.card, undefined, undefined, event.detail > 0, false); } else { setOpenId(tile.id); } }}
                     >
                         {tile.items && tile.items.length > 0 && (
@@ -94,16 +96,16 @@ export default function SubTiles({ tiles, label, header }: { tiles: readonly Sub
                                     items={tile.items}
                                     marks={tile.itemMarks}
                                     links={tile.links}
-                                    title={tile.title}
+                                    title={plainTitle(tile.title)}
                                     onLink={(link, _from, pointer) => { if ("card" in link) { openCard?.(link.card, undefined, undefined, pointer, false); } }}
                                     onPlain={() => setOpenId(tile.id)}
                                 />
                         )}
-                        {tile.circles && tile.circles.length > 0 && <Dots id={tile.id} name={tile.title} links={tile.circles} />}
+                        {tile.circles && tile.circles.length > 0 && <Dots id={tile.id} name={plainTitle(tile.title)} links={tile.circles} />}
                         {tile.add && (
                             <TilePlus
                                 what={tile.add.label}
-                                title={tile.title}
+                                title={plainTitle(tile.title)}
                                 disabled={tile.add.disabled}
                                 onClick={(event) => { if (tile.add) { openCard?.(tile.add.onAdd(), undefined, undefined, event.detail > 0, true); } }}
                             />
@@ -113,6 +115,7 @@ export default function SubTiles({ tiles, label, header }: { tiles: readonly Sub
     </>
     )}
         </TileGrid>
+        ); return tilesTitle && tiles.length > 0 ? <DialogSectionBand title={tilesTitle} tiles>{grid}</DialogSectionBand> : grid; })()}
         </>
     );
 

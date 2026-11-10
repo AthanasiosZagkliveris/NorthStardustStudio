@@ -77,7 +77,7 @@ Related: doc 38 (Early Positioning, the next tile, in the same form), doc 35 (th
 
 - **Control:** a date cell.
 - **Asked when:** always, except where the legal form is a sole trader or a sole proprietorship in the six countries: then it is not asked, not required and not checked (`registrationDateApplies`; see the note "Built on 2026-11-01" below). It cannot be later than today (the cell's limit), nor later than the Opening Date (an alert under the dates on the tile says so).
-- **The "i" says:** The day the organisation was registered with the registry of its country. It is its own date: it does not depend on the registration number, and the number does not depend on it. It cannot be later than today, nor later than the Opening Date: the business cannot open before the company exists.
+- **The "i" says:** The day the organisation was registered with the registry of its country. It is today or earlier, and on or before the Opening Date: the company exists before the business opens.
 - **Connections:**
   - *Comes from:* nothing; it is checked against the Opening Date. It is saved with the Legal Entity page's formation.
   - *Read by (built):* the plan's start (the legal expenses), the key dates on the Review and the Calendar.
@@ -86,7 +86,7 @@ Related: doc 38 (Early Positioning, the next tile, in the same form), doc 35 (th
 
 - **Control:** a date cell.
 - **Asked when:** always. It can be changed at any time.
-- **The "i" says:** The day the business opens and issues its first receipt. It sets the stage: planning before it, launching from it. The stage also sets the name of the Positioning tile and how many choices each of its questions allows. When a new date moves the business into another stage, an answer that no longer fits goes back to empty. The days from the plan's start to the day before it are the pre-operational period: every cost is split around it by its own dates. You can change it at any time.
+- **The "i" says:** The day the business opens and issues its first receipt. It sets the stage: planning before it, launching from it. The stage also sets Positioning's name and how many choices its questions allow; a change of stage empties an answer over the new limit. Costs dated before it make the pre-operational budget, on the Financial Foundation.
 - **Connections:**
   - *Comes from:* nothing (it is saved with the Global Settings).
   - *Read by (built):* the business stage (Planning, Launching, Managing, Growing) and so the name and the limits of Early Positioning (doc 38), the number of Segments, the questions the Segment holds back; the financial plan's pre-operational period; the key dates on the Review and the Calendar.
@@ -107,7 +107,7 @@ Related: doc 38 (Early Positioning, the next tile, in the same form), doc 35 (th
 
 - **Control:** the shared optional note: a tick and the word, the box opening on ticking. It saves the page's Description.
 - **Asked when:** always. The Organisation section counts as complete only once the main activity (`organisation.mainActivity`) is given; the box the user sees for it is this Notes box, which shows the main activity until the page's Description is written.
-- **The "i" says:** Who are you, and what do you do? What do you create or provide? Write it as a registry or a bank would expect to read it. Name, country, address and legal form are above.
+- **The "i" says:** Who are you, and what do you do? What do you create or provide? Write it as a registry or a bank would expect to read it.
 - **Connections:**
   - *Read by (built):* the Business Plan's company description and the exports.
 

@@ -559,7 +559,7 @@
     border-right: 0;
 
     /* (A shadow, not a glow: the ink shadow every card has, not the edge colour, which in the dark mode is light.) */
-    box-shadow: -4px 4px 12px var(--shadow-ink-18);
+    box-shadow: var(--shadow-menu); /* (the app's one soft shadow, owner 2026-11-10) */
 
     --rail-dot: color-mix(in srgb, var(--rail-left-edge) 38%, transparent);
     --rail-dot-active: var(--rail-left-edge);
@@ -580,7 +580,7 @@
 
     border-left: 0;
 
-    box-shadow: 4px 4px 12px var(--shadow-ink-18);
+    box-shadow: 2px 6px 24px var(--shadow-ink-12);
 
     --rail-dot: color-mix(in srgb, var(--rail-right-edge) 38%, transparent);
     --rail-dot-active: var(--rail-right-edge);
@@ -676,5 +676,19 @@
         margin: 0;
 
     }
+
+}
+
+/* A rail with no bullets (a page with no sections: only its page arrow) draws no tab: the empty tab stood beside the chapter as a pale patch, behind a
+   floating card as well (owner, 2026-11-10: "a whitish shadow behind the floated card"). The arrow stays. */
+:root .bullet-rail:not(:has(.bullet-rail-list)),
+:root[style*="--rail-left-bg"] .bullet-rail-left:not(:has(.bullet-rail-list)),
+:root[style*="--rail-right-bg"] .bullet-rail-right:not(:has(.bullet-rail-list)) {
+
+    background: none;
+
+    border: 0;
+
+    box-shadow: none;
 
 }

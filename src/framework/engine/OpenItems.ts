@@ -44,6 +44,7 @@ import { InterviewValidator } from "./InterviewValidator.ts";
 import { monthOrdinal } from "./FinancialModel.ts";
 import { parseAmount } from "./Amounts.ts";
 import { pageStatus } from "./PageStatus.ts";
+import { effectiveOfferingAnswers } from "./EffectiveAnswers.ts";
 
 /*
     STILL OPEN: what is missing, by the CARD (or, where a page has no
@@ -71,8 +72,11 @@ export interface OpenItem {
 
 const validator = new InterviewValidator();
 
-/** What the Positioning tile still lacks: each of its questions with no choice (the audience and the buyer's category are asked for each relationship chosen). */
-export function positioningLacks(organisation: { customerType: string[]; audience: string[]; buyerCategory: string[]; purpose: string[]; differentiation: string[]; outcome: string[] }): string[] {
+/**
+ * What the Positioning tile still lacks: each of its questions with no choice (the audience and the buyer's category are asked for each relationship chosen). The differentiation and the
+ * outcomes are not Positioning's since 2026-11-08 (owner): the Business System asks them.
+ */
+export function positioningLacks(organisation: { customerType: string[]; audience: string[]; buyerCategory: string[]; purpose: string[] }): string[] {
     const scales = ["solo", "smb", "mid", "enterprise"];
     const stages = ["young", "adult", "senior"];
     const models = organisation.customerType;
@@ -80,9 +84,7 @@ export function positioningLacks(organisation: { customerType: string[]; audienc
         models.length === 0 && "the seller and buyer relationship",
         models.some(model => !organisation.audience.some(id => (model === "b2b" ? scales : stages).includes(id))) && "the audience",
         models.some(model => !organisation.buyerCategory.some(id => id.startsWith(model + ":"))) && "the buyer's category",
-        organisation.purpose.length === 0 && "the purpose",
-        organisation.differentiation.length === 0 && "the differentiation",
-        organisation.outcome.length === 0 && "the outcome"
+        organisation.purpose.length === 0 && "the purpose"
     ].filter((word): word is string => !!word);
 }
 
@@ -149,6 +151,14 @@ export function openItemsOf(
                     continue;
                 }
                 if (isAnswerEmpty(part.answer, values[part.id])) {
+                    // (On the Identity System the Mission and the Vision are saved in Definition and drawn in Purpose, Mission & Vision (doc 45): the item says where they are drawn; its key is the saved one.)
+                    const drawnIn = noted && (part.id === "mission" || part.id === "vision")
+                        ? session.getSections().find(candidate => candidate.answer?.parts?.some(other => other.id === "philosophy"))
+                        : undefined;
+                    if (drawnIn) {
+                        items.push({ text: where(drawnIn) + ": " + part.label + ": not answered yet.", place: { systemNumber, sectionNumber: section.number, key: key(part.id) } });
+                        continue;
+                    }
                     add(part.label + ": not answered yet.", { key: key(part.id) });
                 }
             }
@@ -171,7 +181,8 @@ export function openItemsOf(
                     items.push({ text: at.replace(/ → [^→]*$/, " → 1. Definition") + ": Organisation: " + list(missing) + ".", place: { systemNumber, sectionNumber: 1, key: fieldKey({ systemNumber, sectionNumber: 1, path: ["description"] }) } });
                 }
                 if (!entity.founders.some(founder => !blank(founder.name))) {
-                    sectionItem(LEGAL_ENTITY_SECTIONS[1], "a founder's name", ["legal-section-1"]);
+                    // (Founders & Ownership is a tile of the Identity System's Definition, page 1, since 2026-11-09: the item says it there and opens that page.)
+                    items.push({ text: at.replace(/ → [^→]*$/, " → 1. Definition") + ": " + LEGAL_ENTITY_SECTIONS[1] + ": a founder's name.", place: { systemNumber, sectionNumber: 1, anchors: ["legal-section-1"] } });
                 }
                 const planned = entity.formation.status === "planned";
                 const formation = [
@@ -251,11 +262,26 @@ export function openItemsOf(
                 if (!foundation.segments.some(segment => segment.competitors.some(competitor => !blank(competitor.name)))) {
                     sectionItem(BUSINESS_FOUNDATION_SUBSECTIONS[1], "a named competitor or alternative");
                 }
-                named.filter(segment => blank(segment.valueProposition)).forEach(segment =>
-                    add(segment.name.trim() + ": value proposition.", { key: key(sectionSegment(BUSINESS_FOUNDATION_SUBSECTIONS[2])), anchors: [segment.id] }));
                 if (!foundation.segments.some(segment => segment.offerings.some(offering => !blank(offering.name)))) {
-                    sectionItem(BUSINESS_FOUNDATION_SUBSECTIONS[3], "a named Offering");
+                    sectionItem(BUSINESS_FOUNDATION_SUBSECTIONS[2], "a named Offering");
+                } else {
+                    // A second Segment reaches the later pages with nothing of its own (phase 5f, 2026-11-09): named, with no named Offering and no named competitor.
+                    named.filter(segment => !segment.offerings.some(offering => !blank(offering.name)) && !segment.competitors.some(competitor => !blank(competitor.name))).forEach(segment =>
+                        add(segment.name.trim() + ": a named Offering and a named competitor or alternative.", { key: key(sectionSegment(BUSINESS_FOUNDATION_SUBSECTIONS[0])), anchors: [segment.id] }));
                 }
+                // What the later pages read of each Offering (specifications/business-system/README.md): its Type (Page 3 hides stock for a service) and its terms, O3 (Pages 2, 3 and 5 start from them).
+                foundation.segments.forEach(segment => segment.offerings.forEach((offering, at) => {
+                    const name = offering.name.trim() || "Offering " + (at + 1);
+                    const place = { key: key(sectionSegment(BUSINESS_FOUNDATION_SUBSECTIONS[2])), anchors: [offering.id] };
+                    if (blank(offering.category)) {
+                        add(name + ": Type: not chosen yet.", place);
+                    }
+                    if ((effectiveOfferingAnswers(offering, segment, undefined).o3 ?? []).length === 0) {
+                        add(name + ": the terms they pay on: not chosen yet.", place);
+                    }
+                }));
+                named.filter(segment => blank(segment.valueProposition)).forEach(segment =>
+                    add(segment.name.trim() + ": value proposition.", { key: key(sectionSegment(BUSINESS_FOUNDATION_SUBSECTIONS[3])), anchors: [segment.id] }));
                 break;
             }
 

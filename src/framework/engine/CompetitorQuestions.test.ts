@@ -24,7 +24,9 @@ import {
     competitorValueRows,
     industryOfActivity,
     insightsDraft,
-    reviewPlatformOrder
+    reviewPlatformOrder,
+    differentiationSources,
+    namesInSentence
 } from "./CompetitorQuestions";
 
 const none = { profiles: [], others: [] };
@@ -47,7 +49,7 @@ describe("what each type of competitor is asked (doc 41)", () => {
         expect(competitorWording("direct", "k1")).toBe("What do they offer?");
         expect(competitorWording("indirect", "k1")).toBe("What do they offer?");
         expect(competitorWording("substitutes", "k1")).toBe("What form does this alternative take?");
-        expect(competitorWording("internal", "k8")).toBe("How does doing it themselves do on what customers value?");
+        expect(competitorWording("internal", "k8")).toBe("How does doing it themselves do on what matters most to your customers?");
         expect(competitorWording("status-quo", "k9")).toBe("How could each change affect customers who do nothing?");
     });
 
@@ -84,10 +86,22 @@ describe("the review platforms in the order of the App User's industry and count
     it("puts Google and Facebook first, then the industry's, then the country's; the rest after them", () => {
         expect(ids(reviewPlatformOrder("GB", "13921").first)).toEqual(["google", "facebook", "marketplace", "trustpilot"]);
         expect(ids(reviewPlatformOrder("US", "511210").first)).toEqual(["google", "facebook", "g2", "capterra", "app-store", "apple-maps", "yelp", "bbb"]);
-        expect(ids(reviewPlatformOrder("AU", "4511").first)).toEqual(["google", "facebook", "tripadvisor", "booking", "airbnb", "opentable", "food-delivery", "trustpilot", "productreview"]);
+        expect(ids(reviewPlatformOrder("AU", "4511").first)).toEqual(["google", "facebook", "opentable", "food-delivery", "tripadvisor", "trustpilot", "productreview"]);
         // Outside the six countries: Trustpilot; Japan's restaurants: Tabelog.
-        expect(ids(reviewPlatformOrder("JP", "5610").first)).toEqual(["google", "facebook", "tripadvisor", "booking", "airbnb", "opentable", "food-delivery", "tabelog", "trustpilot"]);
+        expect(ids(reviewPlatformOrder("JP", "5610").first)).toEqual(["google", "facebook", "opentable", "food-delivery", "tripadvisor", "tabelog", "trustpilot"]);
         expect(ids(reviewPlatformOrder("DE", "6201").first)).toEqual(["google", "facebook", "g2", "capterra", "app-store", "omr", "trustpilot"]);
+        // Hospitality by the activity code (owner, 2026-11-09): a café (food and drink) against a hotel (accommodation), in each scheme.
+        const food = ["google", "facebook", "opentable", "food-delivery", "tripadvisor"];
+        const rooms = ["google", "facebook", "booking", "airbnb", "tripadvisor"];
+        expect(ids(reviewPlatformOrder("GB", "56102").first)).toEqual([...food, "trustpilot"]);
+        expect(ids(reviewPlatformOrder("GB", "55100").first)).toEqual([...rooms, "trustpilot"]);
+        expect(ids(reviewPlatformOrder("IE", "5630").first)).toEqual([...food, "trustpilot"]);
+        expect(ids(reviewPlatformOrder("US", "722515").first)).toEqual([...food, "apple-maps", "yelp", "bbb"]);
+        expect(ids(reviewPlatformOrder("CA", "721111").first)).toEqual([...rooms, "yelp", "bbb"]);
+        expect(ids(reviewPlatformOrder("NZ", "H440000").first)).toEqual([...rooms, "trustpilot"]);
+        expect(ids(reviewPlatformOrder("GB", "55100").rest)).toContain("opentable");
+        // The kind not known from the code (NAICS 72 alone): every hospitality platform, in the list's order.
+        expect(ids(reviewPlatformOrder("US", "72").first)).toEqual(["google", "facebook", "tripadvisor", "booking", "airbnb", "opentable", "food-delivery", "apple-maps", "yelp", "bbb"]);
         // Nothing known: the two first, the rest after them.
         const unknown = reviewPlatformOrder("", "");
         expect(ids(unknown.first)).toEqual(["google", "facebook"]);
@@ -254,6 +268,31 @@ describe("Customer Acquisition and Other (owner, 2026-11-04)", () => {
         const answers = { "k8-rating": ["expert-knowledge:1", "speed:5"] };
         expect(competitorOpenings(answers, "direct", { profiles, others: [] }).map(opening => opening.id)).toEqual(["better:expert-knowledge"]);
         expect(hardToBeat("Them", answers, { profiles })).toEqual(["Them is hard to beat on speed, so compete elsewhere."]);
+    });
+
+});
+
+/* Phase 5, P5 (owner, 2026-11-08): K3 held back while Planning, its saved answer kept. */
+describe("K3 held back while Planning", () => {
+    it("is not asked by the card while Planning (an empty stage too), is asked from Launching, and keeps its saved answer", () => {
+        expect(competitorAsks("direct", "k3", { stage: "plan" })).toBe(false);
+        expect(competitorAsks("direct", "k3", { stage: undefined })).toBe(false);
+        expect(competitorAsks("direct", "k3", { stage: "launch" })).toBe(true);
+        expect(competitorAsks("direct", "k2", { stage: "plan" })).toBe(true);
+        expect(competitorSettle({ k3: ["small"] }, "direct")).toEqual({ k3: ["small"] });
+    });
+});
+
+describe("K14's options say which competitors each start came from (owner, 2026-11-09)", () => {
+
+    it("names, in the competitors' order, those whose K10 ticks argue for each Differentiation", () => {
+        const sources = differentiationSources([
+            { name: "Kvadrat", questions: { k10: ["better:lower-price", "standout:good-support"] } },
+            { name: " ", questions: { k10: ["better:lower-price", "reach:online"] } },
+            { name: "Designers Guild", questions: { k10: ["stage:support"] } }
+        ]);
+        expect(sources).toEqual({ cost: ["Kvadrat", "Competitor 2"], personal: ["Kvadrat", "Designers Guild"] });
+        expect([namesInSentence(["A"]), namesInSentence(["A", "B"]), namesInSentence(["A", "B", "C"])]).toEqual(["A", "A and B", "A, B and C"]);
     });
 
 });

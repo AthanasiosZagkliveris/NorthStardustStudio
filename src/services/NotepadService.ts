@@ -26,6 +26,8 @@ export interface NoteLink {
     key?: FieldKey;
     /** The cards to unfold on the way, innermost first (see focusField). */
     anchors?: string[];
+    /** The page tile whose dialog holds the field (the dialog's `data-tile`): opened on the way, so the field appears. */
+    tile?: string;
     /** What the chip says ("Market Size & Industry Outlook"). */
     label: string;
     /** Where it is, in words ("3. Business System → 1. Foundation"). */
@@ -135,9 +137,19 @@ export interface NotepadView {
 
 let view: NotepadView = { open: false, focusNoteIds: [], pickingFor: null };
 
+/** An empty note: no text, no link and no date (owner, 2026-11-09: "empty notes should be removed"). */
+export function noteIsBlank(note: Note): boolean {
+    return note.text.trim() === "" && note.links.length === 0 && !note.date;
+}
+
 function read(): NotepadDocument {
     if (!cache) {
         cache = store.load(profileId);
+        // (Empty notes saved before they were taken away on leaving them go when the notes are read.)
+        if (cache.notes.some(noteIsBlank)) {
+            cache = { ...cache, notes: cache.notes.filter(note => !noteIsBlank(note)) };
+            store.save(profileId, cache);
+        }
     }
     return cache;
 }
@@ -259,8 +271,18 @@ export const NotepadService = {
         setView({ open: true, focusNoteIds });
     },
 
+    /** Closes the panel; an empty note goes with it. */
     close(): void {
+        NotepadService.removeBlankNotes();
         setView({ open: false, focusNoteIds: [], pickingFor: null });
+    },
+
+    /** Takes away every empty note (no text, no link, no date), but `keep` (the one being written). */
+    removeBlankNotes(keep?: string): void {
+        const document = read();
+        if (document.notes.some(note => note.id !== keep && noteIsBlank(note))) {
+            write({ ...document, notes: document.notes.filter(note => note.id === keep || !noteIsBlank(note)) });
+        }
     },
 
     toggle(): void {

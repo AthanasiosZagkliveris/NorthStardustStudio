@@ -617,6 +617,18 @@
     justify-content:center;
 }
 
+/* (Its icon is a block at the one icon size, so it adds no line box of its own to the row it stands in.) */
+.funnel-box{
+    /* (No line box below it where it stands inline: the row it stands in is as tall as the box.) */
+    vertical-align:top;
+}
+
+.funnel-box > svg{
+    display:block;
+    width:var(--icon-size);
+    height:var(--icon-size);
+}
+
 /* A filter that leaves something out shows its box filled, as under the pointer. */
 .funnel-box[data-active]{
     border-color:transparent;
@@ -634,9 +646,9 @@
     display:flex;
     flex-direction:column;
     gap:var(--gap-8);
-    border-radius:var(--radius-md);
+    border-radius:var(--radius-lg);
     background:var(--plus-ground);
-    box-shadow:var(--box-inset), 0 12px 28px var(--shadow-ink-18);
+    box-shadow:var(--box-inset), var(--shadow-menu);
     white-space:nowrap;
 }
 
@@ -684,4 +696,10 @@
 /* (A grid card: across every column, the x's too, so the line runs from edge to edge.) */
 .business-capability-slot > .business-capability-card-rule.business-capability-card-rule{
     grid-column:1 / -1;
+}
+
+/* A funnel's folded category keeps its label on one line (owner, 2026-11-10: the Landing Glossary's labels stood letter by letter while every category
+   was folded: the panel took the width of its narrowest content). */
+.responsibility-filter-panel .capability-overview-menu-head > strong{
+    white-space:nowrap;
 }

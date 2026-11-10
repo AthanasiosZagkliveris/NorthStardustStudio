@@ -18,26 +18,26 @@ This register is what keeps opportunities from getting lost once they've been ra
 
 Improvement Prioritization decides which improvements actually get worked on first, since you can't do everything at once.
 For each improvement, set a priority (high, medium, low), a target completion, and its approval status.
-Reserve "High" for improvements with real, immediate impact, like reducing ergonomic risks, rather than marking everything urgent.
+Reserve "High" for improvements with real, immediate impact, like reducing ergonomic risks.
 Honest prioritization here is what keeps limited resources focused on what actually matters most.
 
 ## 04. Improvement Implementation Help
 
 Improvement Implementation tracks approved improvements as they actually get carried out.
 For each one, track its implementation status (planned, in review, in progress, completed), responsible role, and target completion.
-Be specific about where each improvement stands, distinguishing "In Review" preparation work from active "In Progress" implementation, rather than a single vague "working on it" status.
+Be specific about where each improvement stands, distinguishing "In Review" preparation work from active "In Progress" implementation.
 This is what turns an approved improvement into a coordinated, trackable piece of work.
 
 ## 05. Improvement Review Help
 
 Improvement Review looks back at completed improvements to see what actually happened, and what you learned from it.
 Set a review schedule, define what you'll evaluate (objectives achieved, implementation effectiveness, operational impact, and similar), and capture lessons learned.
-Make lessons genuinely reusable, like "early stakeholder involvement increases adoption": insights that will help the next improvement, not just a summary of this one.
+Make lessons genuinely reusable, like "early stakeholder involvement increases adoption": insights that will help the next improvement.
 This is what keeps your improvement process itself getting better over time.
 
 ## 06. Improvement Monitoring Help
 
-Improvement Monitoring checks that implemented improvements keep delivering their intended benefit after the initial rollout, rather than assuming they will.
+Improvement Monitoring checks that implemented improvements keep delivering their intended benefit after the initial rollout.
 For each improvement, define a follow-up activity and track its review status (planned, in progress, ongoing, completed).
-Keep monitoring active well past implementation, like ongoing quarterly supplier assessments, rather than treating the improvement as finished once it's live.
+Keep monitoring active well past implementation, like ongoing quarterly supplier assessments, so each improvement stays watched after it goes live.
 This is what prevents improvements from quietly fading once everyone's attention moves elsewhere.

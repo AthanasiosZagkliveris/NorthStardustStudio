@@ -550,7 +550,7 @@ export default function GlobalSettings() {
                 <section className="settings-section" aria-label="Reserve">
                     {sectionTitle("Reserve")}
                     {figureField("Startup Contingency Fund", "A share of the Total Pre-operational Budget, 10 to 15%. It is held when operations start.", settings.startupContingencyRate, (next) => change({ startupContingencyRate: next }), NUMBER_LIMITS.percent, "%")}
-                    {figureField("Operational Contingency Fund", "A share of a month's OpEx, 3 to 5%, set aside each month after the launch until the target is reached. A cash set-aside, not an expense.", settings.operationalContingencyRate, (next) => change({ operationalContingencyRate: next }), NUMBER_LIMITS.percent, "%")}
+                    {figureField("Operational Contingency Fund", "A share of a month's OpEx, 3 to 5%, set aside each month after the launch until the target is reached. A cash set-aside, held as savings.", settings.operationalContingencyRate, (next) => change({ operationalContingencyRate: next }), NUMBER_LIMITS.percent, "%")}
                     {figureField("Target operating reserve", "Months of OpEx the Operational Contingency Fund builds up to. 3 by default; an investor may ask for 6.", settings.targetReserveMonths, (next) => change({ targetReserveMonths: next }), NUMBER_LIMITS.months, "months")}
                 </section>
 

@@ -65,8 +65,9 @@ interface Scenario {
     organisation: Record<string, unknown>;
 }
 
-const B2C_RELATIONS = Object.keys(RELATIONSHIP_FITS).filter(id => ["rel:parent", "rel:caregiver", "rel:family", "rel:partner", "rel:friend", "rel:commercial", "rel:otherpersonal"].includes(id));
-const B2B_RELATIONS = Object.keys(RELATIONSHIP_FITS).filter(id => ["rel:employer", "rel:copartner", "rel:serving", "rel:intermediary", "rel:sponsor", "rel:otherbusiness"].includes(id));
+// (The relationships offered: an "Other" is no longer offered, owner 2026-11-09.)
+const B2C_RELATIONS = Object.keys(RELATIONSHIP_FITS).filter(id => ["rel:parent", "rel:caregiver", "rel:family", "rel:partner", "rel:friend", "rel:commercial"].includes(id));
+const B2B_RELATIONS = Object.keys(RELATIONSHIP_FITS).filter(id => ["rel:employer", "rel:copartner", "rel:serving", "rel:intermediary", "rel:sponsor", "rel:institution"].includes(id));
 const USER_STAGES = ["age:minor", "age:young", "age:adult", "age:senior"];
 
 /** The Positioning answers of one random business, valid by construction (the rules of the lists are applied as the editor applies them). */
@@ -197,13 +198,14 @@ describe.each(["GB", "IE", "US", "CA", "AU", "NZ"])("ten scenarios for %s, three
             const value = asLegalEntityValue({ organisation: scenario.organisation });
             const { container, unmount } = render(<Org value={value} audienceOnly />);
             const checked = [...container.querySelectorAll("input:checked")].map(input => (input.closest("label")?.textContent ?? "").trim());
-            // One answer for each question that is asked: the relationship, its audience, the category, the purposes, the differentiations, the outcome (and, for a Proxy or Dual-Intent buyer, the user's).
-            const expected = 1 + 1 + 1 + value.organisation.purpose.length + value.organisation.differentiation.length + value.organisation.outcome.length
-                + value.organisation.endUser.length + value.organisation.outcomeUser.length;
+            // One answer for each question that is asked: the relationship, its audience, the category, the purposes (and, for a Proxy or Dual-Intent buyer, the user's relationship and
+            // life stage). (The differentiations and the outcomes are asked on the Business System since 2026-11-08: not here.)
+            const expected = 1 + 1 + 1 + value.organisation.purpose.length + value.organisation.endUser.length;
             expect(checked.length, where + ": " + checked.join(" | ")).toBe(expected);
-            // (The groups are told apart by double divider lines, no subtitles: one between the Offering and the Outcome, and one between the Business and the User where there is a user.)
+            // (The groups are told apart by double divider lines, no subtitles: one between the Seller & Buyer Relationship and its relationship's group, and with both
+            // relationships one more, between the business buyer's group and the Purpose (owner, 2026-11-09: grouped by relationship).)
             const user = !value.organisation.buyerCategory[0].endsWith("direct");
-            expect(container.querySelectorAll(".business-capability-card-rule-double").length, where).toBe(user ? 2 : 1);
+            expect(container.querySelectorAll(".business-capability-card-rule-double").length, where).toBe(value.organisation.customerType.length > 1 ? 2 : 1);
             expect(container.textContent?.includes("Buyer & End User relationship"), where).toBe(user);
             unmount();
         }

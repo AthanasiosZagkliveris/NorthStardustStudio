@@ -31,20 +31,37 @@
     max-height: 76vh;
     padding: 12px;
 
-    border: 1px solid var(--line-box);
-    border-radius: 12px;
+    /* A floating card's edge, corners and drop shadow; its ground is the tinted one the Systems' cells stand on (cell-focus.css), so the box shows as a field. */
+    border: 1px solid var(--box-border);
+    border-radius: var(--radius-lg);
 
-    background: var(--bg-surface);
-
-    box-shadow: 0 16px 40px var(--shadow-18);
+    box-shadow: var(--shadow-drop);
 
 }
 
+/* The box is a cell of the app (layout rules, 6: "Text box"): its size and type as a card's cell, its ground, recess and glow from cell-focus.css, the one ring (--focus-ring-mix) the global one. */
 .search-dialog > .search-input {
 
     flex: none;
 
+    display: block;
+
+    box-sizing: border-box;
     width: 100%;
+
+    padding: 7.5px 10px;
+
+    font: inherit;
+    font-size: var(--font-body);
+    line-height: 1.5;
+
+    color: var(--text-default);
+
+}
+
+.search-dialog > .search-input::placeholder {
+
+    color: var(--text-muted);
 
 }
 

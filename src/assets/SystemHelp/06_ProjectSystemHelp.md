@@ -4,7 +4,7 @@
 
 The Project Overview is the quick summary anyone should be able to read to understand what this project is.
 Give it a name, classify its type (product, website, event, business initiative, and similar), and write a short summary of what it involves.
-Keep the summary tight and outcome-focused, like "increase order processing capacity, reduce delivery times," rather than a vague description of activity.
+Keep the summary tight and outcome-focused, like "increase order processing capacity, reduce delivery times."
 Everything else in this System should stay consistent with what you establish here.
 
 ## 02. Project Purpose Help
@@ -26,21 +26,21 @@ A clearly scoped project is what prevents quiet scope creep and mismatched expec
 Project Resources lists everything this project draws on: related Systems, documents, assets, or research that inform how it's carried out.
 For each resource, name it, classify its type, and describe how it actually supports the project.
 Don't just list resources: explain their role, like a Market Analysis "supporting location selection and expected demand."
-This keeps the project connected to your organization's existing knowledge instead of starting from scratch.
+This keeps the project connected to your organization's existing knowledge, so it builds on what you already have.
 
 ## 05. Deliverables Help
 
 Deliverables are the actual outputs this project needs to produce: the concrete things that get built or completed.
 For each one, name it, describe it, set a priority (critical, important, optional), and track its status.
-Be honest about what's still Planned versus already In Progress, giving a real picture of where the work stands rather than an idealized one.
+Be honest about what's still Planned versus already In Progress, giving a real picture of where the work stands.
 This list is what turns the project's purpose into a checklist of tangible things to finish.
 
 ## 06. Milestones Help
 
 Milestones mark significant checkpoints along the way, so you can see progress before every deliverable is finished.
 For each milestone, describe it, define a clear success condition (how you'll know it's actually been reached), and track its status.
-Tie each milestone to something verifiable, like "all approvals received," rather than a vague sense of progress.
-These checkpoints are what let you catch problems early instead of only discovering issues at the final deadline.
+Tie each milestone to something verifiable, like "all approvals received."
+These checkpoints are what let you catch problems early, well before the final deadline.
 
 ## 07. Project Status Help
 

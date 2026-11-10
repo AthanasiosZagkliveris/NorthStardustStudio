@@ -95,9 +95,9 @@ describe("Landing reload", () => {
 
 });
 
-describe("Landing header Review", () => {
+describe("Landing header Workbook", () => {
 
-    it("opens the Review of every Organisation", () => {
+    it("shows the Workbook, the one button of every header, and it opens the Review of every Organisation", () => {
 
         function Where() {
             const location = useLocation();
@@ -107,13 +107,31 @@ describe("Landing header Review", () => {
             <MemoryRouter>
                 <Routes>
                     <Route path="/" element={<Landing />} />
-                    <Route path="/review" element={<Where />} />
+                    <Route path="/workbook" element={<Where />} />
                 </Routes>
             </MemoryRouter>
         );
 
-        fireEvent.click(screen.getByRole("button", { name: /^Review/ }));
-        expect(screen.getByText("/review true")).toBeTruthy();
+        // The Review and Glossary buttons are gone: the Workbook holds them (owner, 2026-11-09).
+        expect(screen.queryByRole("button", { name: /^Review/ })).toBeNull();
+        expect(screen.queryByRole("button", { name: /^Glossary/ })).toBeNull();
+        fireEvent.click(screen.getByRole("button", { name: /^Workbook/ }));
+        expect(screen.getByText("/workbook true")).toBeTruthy();
+
+    });
+
+});
+
+describe("Landing user name", () => {
+
+    it("has no label above the box: the words inside it say what is asked and why, and name it for a screen reader", () => {
+
+        render(<MemoryRouter><Landing /></MemoryRouter>);
+
+        const box = screen.getByRole("textbox", { name: "Your name, as it should appear on your documents" });
+        expect(box.getAttribute("placeholder")).toBe("Your name, as it should appear on your documents");
+        expect(document.querySelector(".user-name-label")).toBeNull();
+        expect(screen.queryByText(/^User Name$/i)).toBeNull();
 
     });
 

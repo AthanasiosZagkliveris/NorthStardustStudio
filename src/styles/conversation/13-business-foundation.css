@@ -141,15 +141,16 @@
 
     /* Two thirds of two columns is both of them, so what is offered
        to the Segment drops below rather than squeezing into half a
-       column. */
+       column. The page order: the Offerings before the Value
+       Proposition (owner, 2026-11-08). */
     .business-foundation > .business-foundation-input{
 
         grid-template-areas:
             "head        head"
-            "proposition proposition"
             "description description"
             "profiles    competitors"
-            "offerings   offerings";
+            "offerings   offerings"
+            "proposition proposition";
 
     }
 
@@ -169,11 +170,11 @@
 
         grid-template-areas:
             "head"
-            "proposition"
             "description"
             "profiles"
             "competitors"
-            "offerings";
+            "offerings"
+            "proposition";
 
     }
 
@@ -214,10 +215,10 @@
 
         grid-template-areas:
             "head head        head"
-            ".    proposition proposition"
             ".    description description"
             ".    profiles    competitors"
-            ".    offerings   offerings";
+            ".    offerings   offerings"
+            ".    proposition proposition";
 
     }
 
@@ -231,11 +232,11 @@
 
         grid-template-areas:
             "head head"
-            ".    proposition"
             ".    description"
             ".    profiles"
             ".    competitors"
-            ".    offerings";
+            ".    offerings"
+            ".    proposition";
 
     }
 
@@ -685,78 +686,6 @@
 
 }
 
-/* The Emotional and Social needs, recalled under the Value
-   Proposition in two columns.
-
-   Read-only on purpose: they are answered in the Profile, and a
-   second editable copy of an answer is two answers waiting to
-   disagree. They are here because this is the box that has to
-   address them -- "Identify how the Value Proposition addresses
-   each Customer Profile's emotional and social needs" -- and
-   nobody can do that while the list is in another column. */
-.business-foundation-needs-recall{
-
-    display:grid;
-
-    grid-template-columns:repeat(2, minmax(0, 1fr));
-
-    /* 24 across, and nothing down: the rule between the titles and
-       the lists carries its own spacing, so a row gap here would be
-       added to it twice. */
-    column-gap:var(--gap-24);
-    row-gap:0;
-
-    /* Held in from the panel's edges, so the two lists read as
-       something the box above them refers to rather than as two
-       more fields of the panel.
-
-       The 6px on top makes 12 with the field's own gap, which puts
-       these two titles on the same line as Geographics and Market
-       Size across the card -- the Description leaves 12 between one
-       field and the next. */
-    margin:6px 12px 0;
-
-}
-
-/* The shown lists: held in 12px from the panel's edges by their own
-   margin (above), so the number needs no inset of its own; the rest is
-   the shared shown list (numbered-list.css). */
-.business-foundation-needs-recall .numbered-list-static > li::before{
-
-    padding-left:0;
-
-}
-
-/* ONE rule across both columns, where the boxes opposite have
-   their top edge.
-
-   Geographics and Market Size start their boxes on this line, and
-   these two lists start their entries on it -- so the line is
-   drawn, 1px, at exactly that height, and drawn ONCE: a rule per
-   column read as two of something.
-
-   The 6px above it is the Description's label-to-box gap and the
-   8px below is the padding a box puts between its edge and its
-   first line of text, so a need lands on the same line as the
-   first word written opposite. */
-.business-foundation-needs-recall-rule{
-
-    grid-column:1 / -1;
-
-    height:1px;
-
-    margin:6px 0 8px;
-
-    background:hsl(var(--strategy-theme-hue, 0) var(--theme-bg-edge));
-
-}
-
-/* The lists simply run on down the panel. They were given a fixed
-   share of it and a scroll, which kept the panel one height but
-   hid needs behind a gesture that had nothing to say it was there.
-   The panel grows instead: the answer box above them keeps its own
-   height either way, so the one distance that has to hold -- box to
-   first list title -- holds however long the lists get. */
 
 /* ---------- Fields ---------- */
 
@@ -988,7 +917,7 @@
 /* A box's title is a band on the primary fill with light letters (the inverse of the tinted question bands under it), in capitals as the other subtitles of the cards are (.dialog-heading-sub). */
 .business-segment-grid .business-segment-box > .legal-entity-org-section:first-child{
 
-    background:var(--bg-primary);
+    background:var(--card-band-ink, var(--bg-primary));
 
     /* The band ends at the title's own line: no strip of the card's ground under it. */
     padding-bottom:0;
@@ -1010,7 +939,18 @@
 
 }
 
-.business-segment-grid .business-segment-box > .legal-entity-org-section:first-child .info-note-button{
+/* (On a coloured card the "i" draws itself from the pair set on the button, page-3-edges.css: the dark band sets that pair here, so its letter and ring stay the light ink, 3:1 and more.) */
+.business-segment-grid:not(.business-segment-grid-single) .business-segment-box > .legal-entity-org-section:first-child .info-note > .info-note-button.info-note-button{
+
+    /* (Under the pointer: the light disc with its letter in the band's own colour, owner, 2026-11-10, 18:41: "Check the i in the Business system, at the
+       section parts. on Hovering they get total white". The light ring and letter are the rest state's only, so the hover rule draws the letter.) */
+    --info-fill:var(--card-band-ink, var(--bg-primary));
+
+    --info-ink:var(--text-on-fill);
+
+}
+
+.business-segment-grid:not(.business-segment-grid-single) .business-segment-box > .legal-entity-org-section:first-child .info-note > .info-note-button.info-note-button:not(:hover):not(:focus-visible):not([aria-expanded="true"]){
 
     border-color:var(--text-on-fill);
 
@@ -1023,7 +963,7 @@
 
     background:var(--text-on-fill);
 
-    color:var(--bg-primary);
+    color:var(--card-band-ink, var(--bg-primary));
 
 }
 
@@ -1135,6 +1075,76 @@
 
 }
 
+/* THE VALUE PROPOSITION'S NEEDS SIDE BY SIDE (owner, 2026-11-09: "Place needs next to each other."): Emotional and Social in the Description's two columns (the grid above, its 1px
+   divider), their two bands one tinted band across, as tall as the longer list, flush under the text and over the Open items. The columns follow the dialog's width, as a founder's
+   two-column rows do (the card container, 11-legal-entity.css): side by side wherever the dialog is 600px or wider (656px at every window the app serves, 768 up), one under the other below. */
+.legal-entity-grid-organization.legal-entity-audience.business-segment-grid.business-proposition-needs{
+
+    grid-template-columns:repeat(2, minmax(0, 1fr));
+
+    row-gap:0;
+
+    align-items:stretch;
+
+}
+
+.legal-entity-grid-organization.legal-entity-audience.business-proposition-needs > .legal-entity-field:first-child{
+
+    padding-right:var(--space-cell);
+
+}
+
+.legal-entity-grid-organization.legal-entity-audience.business-proposition-needs > .legal-entity-field + .legal-entity-field{
+
+    padding-left:var(--space-cell);
+
+    border-left:1px solid var(--line-divider);
+
+}
+
+.business-proposition-needs > .legal-entity-field > .legal-entity-org-section{
+
+    flex:1;
+
+}
+
+/* One under the other the run goes on band by band: Social untinted, Open items tinted. */
+@container card (max-width: 599.98px){
+
+    .legal-entity-grid-organization.legal-entity-audience.business-segment-grid.business-proposition-needs{
+
+        grid-template-columns:minmax(0, 1fr);
+
+    }
+
+    .legal-entity-grid-organization.legal-entity-audience.business-proposition-needs > .legal-entity-field:first-child{
+
+        padding-right:0;
+
+    }
+
+    .legal-entity-grid-organization.legal-entity-audience.business-proposition-needs > .legal-entity-field + .legal-entity-field{
+
+        padding-left:0;
+
+        border-left:0;
+
+    }
+
+    .business-proposition-needs > .legal-entity-field + .legal-entity-field > .legal-entity-org-band{
+
+        background:none;
+
+    }
+
+    .business-proposition-needs + .business-proposition-items{
+
+        background:var(--tint-row-band);
+
+    }
+
+}
+
 .business-segment-grid .business-profiles-band{
 
     padding-top:var(--space-field);
@@ -1152,9 +1162,9 @@
 
     padding:8px var(--card-padding);
 
-    background:var(--bg-primary);
+    background:var(--card-band-ink, var(--bg-primary));
 
-    --info-fill:var(--bg-primary);
+    --info-fill:var(--card-band-ink, var(--bg-primary));
 
 }
 
@@ -1172,7 +1182,16 @@
 
 }
 
-.floating-card-body .column-tile-content > .business-foundation-card > .business-group-fold-head .info-note-button{
+.floating-card-body .column-tile-content > .business-foundation-card > .business-group-fold-head .info-note > .info-note-button.info-note-button{
+
+    /* (The pair the coloured card's "i" is drawn from, set on the button: page-3-edges.css; under the pointer the letter in the band's own colour.) */
+    --info-fill:var(--card-band-ink, var(--bg-primary));
+
+    --info-ink:var(--text-on-fill);
+
+}
+
+.floating-card-body .column-tile-content > .business-foundation-card > .business-group-fold-head .info-note > .info-note-button.info-note-button:not(:hover):not(:focus-visible):not([aria-expanded="true"]){
 
     border-color:var(--text-on-fill);
 
@@ -1185,15 +1204,15 @@
 
     background:var(--text-on-fill);
 
-    color:var(--bg-primary);
+    color:var(--card-band-ink, var(--bg-primary));
 
 }
 
 .business-segment-grid.business-segment-grid-single .business-segment-box > .legal-entity-org-section:first-child{
 
-    background:color-mix(in srgb, var(--bg-primary) 14%, transparent);
+    background:var(--tint-box-title, color-mix(in srgb, var(--bg-primary) 14%, transparent));
 
-    box-shadow:inset 4px 0 0 var(--bg-primary);
+    box-shadow:inset 4px 0 0 var(--card-band-ink, var(--bg-primary));
 
     --info-fill:transparent;
 
@@ -1442,5 +1461,31 @@
 
     display:flex;
     justify-content:flex-start;
+
+}
+
+/* The Value Proposition's notes stand apart from the numbered needs (owner, 2026-11-09): their label 12px under the needs, in the field label's own style,
+   and each note's Profile after it, small and muted. */
+.business-proposition-notes-label{
+
+    display:block;
+
+    margin-top:var(--space-card);
+
+}
+
+.business-proposition-notes-label:first-child{
+
+    margin-top:0;
+
+}
+
+.business-proposition-note-profile{
+
+    margin-left:var(--gap-6);
+
+    font-size:var(--font-small);
+
+    color:var(--text-muted);
 
 }

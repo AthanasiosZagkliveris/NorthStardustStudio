@@ -15,6 +15,11 @@
 
     font: inherit;
     font-size: var(--font-body);
+    /* (The option list's own tracking, whatever the menu stands in: a button's 0.1em tracking is not a list row's; owner, 2026-11-10: consistent.) */
+    --rest-tracking: 0em;
+    letter-spacing: 0;
+    /* (The option list's own line: `font: inherit` took the button's.) */
+    line-height: 1.5;
     text-align: left;
 
     white-space: nowrap;

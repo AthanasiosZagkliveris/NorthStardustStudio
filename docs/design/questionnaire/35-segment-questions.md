@@ -1,6 +1,6 @@
 # 35. The Segment's questions: every question and option as built
 
-Status: **specification**, written 2026-11-01, updated 2026-11-08. Every question of the Segment card in the order it is asked, with its control, when it is asked, its options and what its "i" says. **Who the questions are about:** the questions are written for "your customers" (a direct buyer); when the buyer is a Proxy or Dual-Intent buyer, the buyer's boxes say "your buyers" and the end user's box says "your end users" (`segmentWho`).
+Status: **specification**, written 2026-11-01, updated 2026-11-09. Every question of the Segment card in the order it is asked, with its control, when it is asked, its options and what its "i" says. Since 2026-11-08 (owner, "Move all three") the end user's outcome was asked here (The end user, 9); the same day it moved on to each Profile's end-user part (doc 36, 2.1, E4: owner, 2026-11-08, "If the buyer is proxy, the profile should contain questions for both buyer and end user."), where the answer saved here is its start. The Segment holds its Differentiation, asked once under its Competitors (doc 41, K14). **Who the questions are about:** the questions are written for "your customers" (a direct buyer); when the buyer is a Proxy or Dual-Intent buyer, the buyer's boxes say "your buyers" and the end user's box says "your end users" (`segmentWho`).
 
 Related: doc 36 (the Profile's questions, in the same form), doc 28 (6.3a, the Segment card in the specification), doc 31 (the age terms), doc 33 (the first version; its section 15 holds the thoughts), `src/framework/engine/SegmentQuestions.ts` (where these words are kept; where the two differ, the code is right).
 
@@ -31,7 +31,7 @@ The rules that hold for all of them: a radio is one choice, ticks are several (w
 
 The people who pay (the buyer is people: B2C alone, or the first of the two Segments made where both are chosen). Questions that have no answer for Minors are skipped for them. The specialised needs (accessibility and caregiving) are not asked here: they belong to the Profile, which is specified in doc 36.
 
-### Before 1. Who is this Segment's customer?
+### 0. Who is this Segment's customer?
 
 - **Control:** one choice (a radio).
 - **Asked when:** Positioning chose both B2C and B2B, and the Segment is the third or a later one (the first two are made for the user, people then businesses, and are not asked). It is the first question of the Segment's first box.
@@ -59,9 +59,9 @@ The people who pay (the buyer is people: B2C alone, or the first of the two Segm
   - Dependent seniors 75+
 - **The "i" says:**
   - Minors, semi-dependent: Mid and Late Adolescence, with limited buying power; mostly cash, wallets and gift cards.
-  - Credit and long contracts are not open to them. Look up the country's online-consent age and its minimum working age.
-  - Choose the group that pays, not the one that uses it.
-  - Each age group holds the years from its first number to its last, both included, so no age is in two groups (25–39, then 40–54).
+  - Credit and long contracts are for adults. Look up the country's online-consent age and its minimum working age.
+  - Choose the group that pays, even when another group uses it.
+  - Each age group holds the years from its first number to its last, both included, so each age is in one group only (25–39, then 40–54).
 - **Connections:**
   - *Comes from:* Early Positioning: the buyer's life stage (the terms offered) and the seller and buyer relationship (people).
   - *Read by (built):* The Market document and the export; the Profile's typical age (A1) is held to this group and cleared when it falls outside it; Minors makes the Profile ask A5 (role in buying) and, when every age chosen is Minors, skips A7 (doc 36).
@@ -99,7 +99,7 @@ The people who pay (the buyer is people: B2C alone, or the first of the two Segm
   - No opens a second question about why they are not working.
   - Choosing an age group starts this with the one that goes with it; change it freely.
 - **Connections:**
-  - *Comes from:* This Segment's age: choosing the age term starts it.
+  - *Comes from:* This Segment's age: choosing the age term starts it. **Starts:** Established, Peak and Mature adults start Yes; Minors start No, with Student; Active Retirees and Dependent seniors No, with Retired. Young adults 18–24 start nothing (owner, 2026-11-09: most of them work; BLS, *Employment status of the civilian noninstitutional population by age*, 67.5% of 20 to 24 year-olds employed). A saved answer wins.
   - *Read by (built):* The Market document and the export; the Profile asks A3 (job) when this is Yes (doc 36).
 
 ### 4. Why are your customers not working?
@@ -123,7 +123,7 @@ The people who pay (the buyer is people: B2C alone, or the first of the two Segm
 ### 5. Where do your customers mainly work?
 
 - **Control:** one choice (a radio).
-- **Asked when:** The answer to "Are your customers working?" is Yes.
+- **Asked when:** The answer to "Are your customers working?" is Yes. **Held back while Planning (owner, 2026-11-08, P5):** not asked while the business stage is Planning (the stage from the Opening Date; no date is Planning), asked from Launching; a saved answer is kept, not removed (the settling keeps an answer held back only by the stage), and the documents still print it.
 - **Options:**
   - At home
   - In an office
@@ -138,7 +138,7 @@ The people who pay (the buyer is people: B2C alone, or the first of the two Segm
 - **Connections:**
   - *Comes from:* This Segment's work status.
   - *Read by (built):* The Market document and the export.
-  - *Read by (not built yet):* Channel order (desktop and daytime channels for remote workers) and the customer journey (a thought, doc 33, row 7).
+  - *Read by (not built yet):* Channel order (desktop and daytime channels for remote workers) and the customer journey (a thought, doc 33, row 7). Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
 
 ### 6. What is your customers' work schedule?
 
@@ -156,18 +156,18 @@ The people who pay (the buyer is people: B2C alone, or the first of the two Segm
 - **Connections:**
   - *Comes from:* This Segment's work status.
   - *Read by (built):* The Market document and the export.
-  - *Read by (not built yet):* The times to reach them in the customer journey (a thought, doc 33, row 7).
+  - *Read by (not built yet):* The times to reach them in the customer journey (a thought, doc 33, row 7). Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
 
 ### 7. How are your customers paid?
 
 - **Control:** one choice (a radio).
-- **Asked when:** The answer to "Are your customers working?" is Yes.
+- **Asked when:** The answer to "Are your customers working?" is Yes. **Held back while Planning (owner, 2026-11-08, P5):** not asked while the business stage is Planning (the stage from the Opening Date; no date is Planning), asked from Launching; a saved answer is kept, not removed (the settling keeps an answer held back only by the stage), and the documents still print it.
 - **Options:**
   - Fixed salary
   - Hourly wage
   - Variable pay
 - **The "i" says:**
-  - How steady their pay is, not how much it is (that is the household income below).
+  - How steady their pay is; how much they earn is the household income below.
   - A fixed salary suits regular subscriptions; variable or hourly earners feel sudden cash-flow dips.
   - Fixed salary: Predictable monthly or fortnightly pay
   - Hourly wage: Fluctuating based on scheduled shifts
@@ -185,7 +185,7 @@ The people who pay (the buyer is people: B2C alone, or the first of the two Segm
 - **The "i" says:**
   - 1 = Low, 5 = High.
   - Compare with the typical household income in their country: 3 is around the median.
-  - Household income is what the home earns together, not one person's pay.
+  - Household income is what everyone in the home earns together.
 - **Connections:**
   - *Comes from:* This Segment's age (not asked of Minors).
   - *Read by (built):* The Market document and the export.
@@ -200,7 +200,7 @@ The people who pay (the buyer is people: B2C alone, or the first of the two Segm
 - **The "i" says:**
   - 1 = Mostly men, 5 = Mostly women.
   - 1 is 80% or more men, 2 is 60 to 80%, 3 a balanced mix (40 to 60%), 4 is 60 to 80% women, 5 is 80% or more.
-  - Choose 3 when it does not matter for what you sell.
+  - Choose 3 when what you sell suits everyone alike.
 - **Connections:**
   - *Comes from:* Nothing; the seller and buyer relationship (people).
   - *Read by (built):* The Market document and the export.
@@ -228,7 +228,7 @@ Both.
   - *Comes from:* Nothing.
   - *Read by (built, 2026-11-04):* the Competitor's K2 takes this list as its options, this Segment's answer first (doc 41).
   - *Read by (built):* The Market document and the export.
-  - *Read by (not built yet):* Channel suggestions by country; the Review (distant customers and delivery).
+  - *Read by (not built yet):* Channel suggestions by country; the Review (distant customers and delivery). Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
 
 ### 2. Where do your customers live or work?
 
@@ -238,7 +238,6 @@ Both.
 - **The "i" says:**
   - 1 = Rural, 5 = Urban.
   - 1 is countryside or remote places, 3 the suburbs and towns around a city, 5 a city centre.
-  - Asked once the business is managing or growing, and only for customers in one place or one country.
 - **Connections:**
   - *Comes from:* This Segment's reach, and the business stage (Organisation: the Opening Date).
   - *Read by (built):* The Market document and the export.
@@ -267,12 +266,12 @@ The buyer is a business, or the Segment is of businesses where both relationship
 - **Connections:**
   - *Comes from:* Early Positioning: the seller and buyer relationship (business), (Business Data has no tick).
   - *Read by (built):* The Market document and the export; Self-employed sets the Profile's A3b (job level) to Owner / partner and does not show it (doc 36).
-  - *Read by (not built yet):* The tender row for a public body on the Customer Engagement page; the Profile's kind of business.
+  - *Read by (not built yet):* The tender row for a public body on the Customer Engagement page; the Profile's kind of business. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
 
 ### 2. How big are your customers' organisations?
 
 - **Control:** one choice (a radio).
-- **Asked when:** As above, and the type is not self-employed. When the type is changed to self-employed, an answer already given here is removed at once. The sizes follow the scale chosen in Positioning: Startups & SMBs: Micro and Small; Mid-Market: Medium-sized only (set, not shown); Enterprise or Public Sector: Large only (set, not shown); Solopreneurs & Freelancers: not asked.
+- **Asked when:** As above, and the type is not self-employed. When the type is changed to self-employed, an answer already given here is removed at once. The sizes follow the scale chosen in Positioning: Startups & SMBs: Micro and Small; Mid-Market: Medium-sized only (set, not shown); Enterprise or Public Sector: Large only (set, not shown), except for a public body, which can be of any size (a school, a small council), so every size is offered (owner, 2026-11-08); Solopreneurs & Freelancers: not asked.
 - **Options:**
   - Micro, 1–9 employees
   - Small, 10–49 employees
@@ -282,11 +281,12 @@ The buyer is a business, or the Segment is of businesses where both relationship
   - The EU's definition of small and medium-sized enterprises: micro under 10 employees, small under 50, medium-sized under 250.
   - Countries define them a little differently; the United States and Canada use other limits.
   - The sizes follow the scale chosen in Positioning.
+  - A public body can be of any size, so every size is offered for one.
 - **Connections:**
   - *Comes from:* This Segment's type of organisation.
   - *Read by (built, 2026-11-04):* the Competitor's K3 takes this list as its options (doc 41).
   - *Read by (built):* The Market document and the export.
-  - *Read by (not built yet):* Channel suggestions by size.
+  - *Read by (not built yet):* Channel suggestions by size. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
 
 ### 3. Which sector are your customers in?
 
@@ -336,12 +336,12 @@ The buyer is a business, or the Segment is of businesses where both relationship
 - **Connections:**
   - *Comes from:* This Segment's sector.
   - *Read by (built):* The Market document and the export.
-  - *Read by (not built yet):* The Profile's kind of business; competitor industry overlap; channel suggestions by industry.
+  - *Read by (not built yet):* The Profile's kind of business; competitor industry overlap; channel suggestions by industry. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
 
 
 ## Box 4. Purchasing Power & Behaviour
 
-Part A (every Segment): questions 1 and 3. Part B (the buyer is people): 2, 4, 5 and 6 (since 2026-11-06). Part C (every Segment): 7 and 8. Part D (the buyer is a business): 9. A Segment of people is asked parts A, B and C; one of businesses, part D and the questions that are not about people.
+**Order (owner, 2026-11-08, P3): the order of a purchase.** Online comfort (1) and how they socialise (2), what makes them shop (5), where they discover (3), how they decide (6; a business: who decides, 9), where they shop (7), how they pay (8), then how they share it (4). One box, as before; the numbers are the permanent codes (doc 44), not positions. Every Segment is asked 1, 3, 7 and 8; the buyer is people: 2, 4, 5 and 6 (since 2026-11-06); the buyer is a business: 9.
 
 ### 1. How comfortable are your customers online?
 
@@ -350,12 +350,12 @@ Part A (every Segment): questions 1 and 3. Part B (the buyer is people): 2, 4, 5
 - **Options:** the points 1 to 5.
 - **The "i" says:**
   - 1 = Uneasy, 5 = Confident.
-  - How easily they use websites, apps and online payment, not whether they own a device.
+  - How easily they use websites, apps and online payment.
 - **Connections:**
   - *Comes from:* Nothing.
   - *Read by (built, 2026-11-04):* the Profile's C2, not asked when this is rated 1, and D2's start: 4 or 5 starts "Works it out alone", 1 or 2 "Wants to talk to a person" (doc 36).
   - *Read by (built):* The Market document and the export.
-  - *Read by (not built yet):* Channel order (digital-only channels lower, personal help higher).
+  - *Read by (not built yet):* Channel order (digital-only channels lower, personal help higher). Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
 
 ### 2. How do your customers like to socialise?
 
@@ -375,41 +375,6 @@ Part A (every Segment): questions 1 and 3. Part B (the buyer is people): 2, 4, 5
   - *Read by (built):* The Market document and the export; the Profile's C4 (events) is asked when this is Online and in person or Mostly in person (doc 36).
   - *Read by (not built yet):* The Profile's social and interest hubs.
 
-### 3. Where do your customers discover new products?
-
-- **Control:** ticks, up to 3.
-- **Asked when:** Always.
-- **Options:**
-  - Friends, family and colleagues
-  - Online communities / forums
-  - Creators / influencers / experts
-  - Media, reviews and comparison sites
-  - Feeds, ads and marketplace suggestions
-- **The "i" says:**
-  - Examples: communities such as Reddit, Discord and Facebook Groups; creators on TikTok, Instagram, YouTube and LinkedIn.
-  - Choose up to three.
-- **Connections:**
-  - *Comes from:* Nothing.
-  - *Read by (built):* The Market document and the export; "Online communities / forums" makes the Profile ask C3 (doc 36).
-  - *Read by (not built yet):* The Profile's related platforms first; the order of the channels where customers discover you.
-
-### 4. How do your customers share what they like?
-
-- **Control:** ticks, as many as apply.
-- **Asked when:** The buyer is people.
-- **Exclusion:** choosing "They rarely share what they buy" clears every other choice, and choosing any other way clears it.
-- **Options:**
-  - They post it publicly on social media
-  - They send it to friends in private chats
-  - They tell people in person
-  - They rarely share what they buy
-- **The "i" says:**
-  - Private chat apps are for example WhatsApp and iMessage. "They rarely share what they buy" excludes the other three.
-- **Connections:**
-  - *Comes from:* Early Positioning: the relationship (people).
-  - *Read by (built):* The Market document and the export.
-  - *Read by (not built yet):* The Profile's habits.
-
 ### 5. What makes your customers go shopping?
 
 - **Control:** ticks, up to 2.
@@ -425,26 +390,80 @@ Part A (every Segment): questions 1 and 3. Part B (the buyer is people): 2, 4, 5
 - **Connections:**
   - *Comes from:* Early Positioning: the relationship (people).
   - *Read by (built):* The Market document and the export.
-  - *Read by (not built yet):* The customer journey.
+  - *Read by (not built yet):* The customer journey. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
+
+### 3. Where do your customers discover new products?
+
+- **Control:** ticks, up to 3.
+- **Asked when:** Always.
+- **Options:**
+  - Friends, family and colleagues
+  - Online communities / forums
+  - Creators / influencers / experts
+  - Media, reviews and comparison sites
+  - Feeds, ads and marketplace suggestions
+  - Search engines / maps
+  - Seeing it in person / passing by
+  - Events / trade shows
+  - Sales calls or tenders (business customers only: `segmentOptions`; a saved tick of it on a people Segment is removed)
+  - (The last four added 2026-11-08, the options-and-wording research. Checked for overlap first: none repeats an option here, and the Profile's D1 asks how they compare options, not where they first hear of one, so nothing was merged. Profile C4 asks which events a typical person attends; this asks whether events are where the Segment discovers products.)
+- **The "i" says:**
+  - Examples: communities such as Reddit, Discord and Facebook Groups; creators on TikTok, Instagram, YouTube and LinkedIn.
+  - Seeing it in person / passing by: a shop window, a stall, a sign or a vehicle.
+  - Choose up to three.
+- **Connections:**
+  - *Comes from:* Nothing.
+  - *Read by (built):* The Market document and the export; "Online communities / forums" makes the Profile ask C3 (doc 36).
+  - *Read by (not built yet):* The Profile's related platforms first; the order of the channels where customers discover you. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
 
 ### 6. How do your customers usually decide to buy?
 
 - **Control:** one choice (a radio).
 - **Asked when:** The buyer is people.
 - **Options:**
-  - Straight away: They see it, like it and buy it there and then (was "On impulse", renamed 2026-11-06)
+  - On impulse: They see it, like it and buy it there and then (was "Straight away", renamed 2026-11-08 so it reads as an impulse; it was "On impulse" before 2026-11-06; the id `impulse` kept)
   - After comparing options: They weigh prices, features and reviews first
   - On a recommendation: They buy what friends, family or colleagues suggest
+  - Out of habit: They buy again what they bought before, as a routine (`habit`; added 2026-11-08)
+  - When they urgently need it: They buy what solves it now (`urgent`; added 2026-11-08)
   - (Reworded 2026-11-05, owner: "improve the wording of the options". The ids are unchanged. Reading reviews was in two options before; it is comparing now, and advice from people they know is a recommendation, as the Profile's D1 starts already read them.)
+  - (2026-11-08, the options-and-wording research: a routine rebuy and an urgent need are ways of buying none of the three held. With five options and "When they urgently need it" over 24 characters, the choice stands one under the other, not in a row.)
 - **The "i" says:**
   - Their usual way of buying, the one that fits most of them. Reviews read online count as comparing; advice from people they know is a recommendation.
-  - Straight away: They see it, like it and buy it there and then
+  - On impulse or when they urgently need it, their Profiles skip the question of how they compare options.
+  - On impulse: They see it, like it and buy it there and then
   - After comparing options: They weigh prices, features and reviews first
   - On a recommendation: They buy what friends, family or colleagues suggest
+  - Out of habit: They buy again what they bought before, as a routine
+  - When they urgently need it: They buy what solves it now
 - **Connections:**
   - *Comes from:* Early Positioning: the relationship (people).
-  - *Read by (built):* The Market document and the export; the Profile's D1 is not asked on "Straight away" and otherwise starts from this answer (doc 36).
-  - *Read by (not built yet):* The customer journey (consideration).
+  - *Comes from (an order, 2026-11-09):* What makes them go shopping (Box 4, 5): Boredom or entertainment, or Seeing a friend or creator use it, puts On impulse first; A need / problem to solve puts When they urgently need it and After comparing options first. Never a lock.
+  - *Read by (built):* The Market document and the export; the Profile's D1 is not asked on "On impulse" or "When they urgently need it" (neither compares first), is asked with no start on "Out of habit", and otherwise starts from this answer (doc 36).
+  - *Read by (not built yet):* The customer journey (consideration). Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
+
+### 9. Who decides to buy?
+
+- **Control:** ticks, as many as apply. **Decided (owner, 2026-11-09):** it stays ticks, not one choice.
+- **Asked when:** The buyer is a business. For a self-employed customer (chosen, or because only freelancers were chosen in Positioning) only "One person decides" is offered, so it is answered and not shown.
+- **Options:**
+  - One person decides: The person who uses it has the budget and the final say.
+  - The team agrees: The people who use it try it and push it upward.
+  - A manager signs off: Needs formal approval from a manager or executive.
+  - Several departments check: IT or security, legal and finance.
+  - Formal procurement: A tender or a request for proposals (RFP), with strict compliance.
+- **The "i" says:**
+  - Select all that apply.
+  - One person decides: The person who uses it has the budget and the final say.
+  - The team agrees: The people who use it try it and push it upward.
+  - A manager signs off: Needs formal approval from a manager or executive.
+  - Several departments check: IT or security, legal and finance.
+  - Formal procurement: A tender or a request for proposals (RFP), with strict compliance.
+- **Connections:**
+  - *Comes from:* Early Positioning: the relationship (business). **Starts (2026-11-09):** where it is not answered yet, choosing a Public body (Box 3, 1) or Large (Box 3, 2) sets Formal procurement, and Micro or Self-employed sets One person decides; change it freely (a saved answer wins).
+  - *Read by (built):* The Market document and the export; the Profile's role in buying (A5 starts with every role where one person decides) and the proposed B2B Profiles by buying role (doc 36, 2); Formal procurement starts the Profile's D2 at "formal" (doc 36).
+  - *Read by (not built yet):* the tender row (a formal procurement loop). Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
+
 
 ### 7. Where do your customers usually shop?
 
@@ -460,7 +479,7 @@ Part A (every Segment): questions 1 and 3. Part B (the buyer is people): 2, 4, 5
 - **Connections:**
   - *Comes from:* Nothing.
   - *Read by (built):* The Market document and the export; the Profile's C1 (devices) starts from this answer (doc 36).
-  - *Read by (not built yet):* The order of the channels where customers buy; the customer journey.
+  - *Read by (not built yet):* The order of the channels where customers buy; the customer journey. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
 
 ### 8. How do your customers pay?
 
@@ -475,37 +494,30 @@ Part A (every Segment): questions 1 and 3. Part B (the buyer is people): 2, 4, 5
 - **The "i" says:**
   - Digital wallets are for example Apple Pay, Google Pay and PayPal. Buy Now, Pay Later is for example Klarna and Afterpay.
   - Cash is still about one payment in ten in the UK (UK Finance, 2024) [PAY-06].
-  - Invoicing is asked for business customers only. Credit and Buy Now, Pay Later are not open to minors.
+  - Invoice is offered for business customers only. Credit and Buy Now, Pay Later are for adults.
   - Choosing a phone as where they buy starts Digital wallets here; change it freely.
   - Select all that apply.
 - **Connections:**
   - *Comes from:* This Segment's age (credit and Buy Now, Pay Later not for Minors) and Early Positioning's relationship (invoicing for business).
-  - *Read by (built):* The Market document and the export.
-  - *Read by (not built yet):* The Offering's payment plan (instalments, invoicing) and the Direct Payment channels.
+  - *Read by (built):* The Market document and the export; the Offering's O3, whose options it orders (Invoice, bank transfer or purchase order puts A project or contract first; the settled answer is read, 2026-11-08; doc 43, O3).
+  - *Read by (not built yet):* The Offering's payment plan (instalments, invoicing) and the Direct Payment channels. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
 
-### 9. Who decides to buy?
+### 4. How do your customers share what they like?
 
 - **Control:** ticks, as many as apply.
-- **Asked when:** The buyer is a business. For a self-employed customer (chosen, or because only freelancers were chosen in Positioning) only "One person decides" is offered, so it is answered and not shown.
+- **Asked when:** The buyer is people. **Held back while Planning (owner, 2026-11-08, P5):** not asked while the business stage is Planning (the stage from the Opening Date; no date is Planning), asked from Launching; a saved answer is kept, not removed (the settling keeps an answer held back only by the stage), and the documents still print it.
+- **Exclusion:** choosing "They rarely share what they buy" clears every other choice, and choosing any other way clears it.
 - **Options:**
-  - One person decides: The person who uses it has the budget and the final say.
-  - The team agrees: The people who use it try it and push it upward.
-  - A manager signs off: Needs formal approval from a manager or executive.
-  - Several departments check: IT or security, legal and finance.
-  - Formal procurement: A tender or a request for proposals (RFP), with strict compliance.
+  - They post it publicly on social media
+  - They send it to friends in private chats
+  - They tell people in person
+  - They rarely share what they buy
 - **The "i" says:**
-  - Asked for business customers only.
-  - Select all that apply.
-  - One person decides: The person who uses it has the budget and the final say.
-  - The team agrees: The people who use it try it and push it upward.
-  - A manager signs off: Needs formal approval from a manager or executive.
-  - Several departments check: IT or security, legal and finance.
-  - Formal procurement: A tender or a request for proposals (RFP), with strict compliance.
+  - Private chat apps are for example WhatsApp and iMessage. "They rarely share what they buy" excludes the other three.
 - **Connections:**
-  - *Comes from:* Early Positioning: the relationship (business).
-  - *Read by (built):* The Market document and the export; the Profile's role in buying (A5 starts with every role where one person decides) and the proposed B2B Profiles by buying role (doc 36, 2); Formal procurement starts the Profile's D2 at "formal" (doc 36).
-  - *Read by (not built yet):* the tender row (a formal procurement loop).
-
+  - *Comes from:* Early Positioning: the relationship (people).
+  - *Read by (built):* The Market document and the export.
+  - *Read by (not built yet):* The Profile's habits.
 
 ## Box 5. Market Size & Industry Outlook
 
@@ -514,6 +526,8 @@ Part A (every Segment): questions 1 and 3. Part B (the buyer is people): 2, 4, 5
 Both.
 
 ### 1. How many potential customers are there?
+
+*Where the Segment's buyer is Proxy or Dual-Intent, "How many potential buyers are there?", as the rest of the buyer's boxes (`segmentWho`; 2026-11-09).*
 
 - **Control:** one choice (a radio).
 - **Asked when:** Always.
@@ -524,7 +538,7 @@ Both.
   - Mass market, 500,000 or more
 - **The "i" says:**
   - Everyone in the area you serve who could buy it, if every one of them chose you (the total addressable market).
-  - For a Segment of businesses, count the organisations, not the people in them.
+  - For a Segment of businesses, count each organisation once.
 - **Connections:**
   - *Comes from:* Nothing.
   - *Read by (built):* The Market document and the export; the Business Plan's Market Analysis is covered once a market question is answered.
@@ -555,17 +569,19 @@ Both.
   - The economy
   - Society and lifestyle
   - Supply and delivery
+  - Environment and climate (`environment`; added 2026-11-08, the options-and-wording research: the E of PESTLE, which no option held. Its examples "environmental mandates" and "sustainability" moved here from Rules and law and Society and lifestyle, so no two options overlap.)
 - **The "i" says:**
   - The changes that affect your customers most. Choose up to two.
   - Each Competitor is rated on how every one of these could affect it, the ones ticked here first.
   - Technology: Automation, AI, old systems being replaced
-  - Rules and law: New compliance, tax changes, environmental mandates
+  - Rules and law: New compliance, tax changes
   - The economy: Inflation, budget cuts, shifts in spending power
-  - Society and lifestyle: Remote work, sustainability, changing habits
+  - Society and lifestyle: Remote work, changing habits
   - Supply and delivery: Material shortages, logistics costs, local sourcing
+  - Environment and climate: Extreme weather, sustainability, environmental mandates
 - **Connections:**
   - *Comes from:* Nothing.
-  - *Read by (built, 2026-11-04):* the Competitor's K9 rates each of these changes, the ones ticked here first (doc 41).
+  - *Read by (built, 2026-11-04):* the Competitor's K9 rates each of these changes, the ones ticked here first (doc 41); Environment and climate is a K9 row too since 2026-11-08.
   - *Read by (built):* The Market document and the export; the Business Plan's Market Analysis is covered once a market question is answered.
   - *Read by (not built yet):* The Review.
 
@@ -586,12 +602,14 @@ Both.
 
 ## The end user (a part of the same card)
 
-Asked when a buyer relationship chosen in Positioning has a Proxy or Dual-Intent buyer. Questions only.
+**Where it stands (owner, 2026-11-08, P9a):** right after who the buyer is: after Box 1, Demographics, on a people Segment; after Box 3, Business Data (which comes first there), on a business Segment. Its codes stay End user, 1 to 9 (doc 44).
+
+Asked when the Segment's own buyer relationship has a Proxy or Dual-Intent buyer: a people Segment reads the B2C buyer's category and relationships, a business Segment the B2B buyer's (owner, 2026-11-08; `segmentContextFor`). So where Positioning chose B2C Direct and B2B Proxy, only the business Segment has an end user. Questions only. The Segment asks the end users as a group (their stage, school, work, clients, online comfort); each Profile then holds a typical end user beside its buyer (doc 36, 2.1; owner, 2026-11-08), whose age is held to the stage asked here and whose online comfort starts from 8.
 
 ### 1. How old are your customers?
 
 - **Control:** one choice (a radio).
-- **Asked when:** A buyer relationship chosen in Positioning has a Proxy or Dual-Intent buyer. The terms follow the end user's life stage chosen in Positioning: Minors: Baby, Child, Teenager; Young Adults: Young adult; Adults: Established, Peak, Mature; Seniors: Active Retirees, Dependent seniors. Not shown when only one term is left.
+- **Asked when:** The Segment's buyer relationship has a Proxy or Dual-Intent buyer. The terms follow the end user's life stage chosen in Positioning: Minors: Baby, Child, Teenager; Young Adults: Young adult; Adults: Established, Peak, Mature; Seniors: Active Retirees, Dependent seniors. A business Segment's end user (staff, a partner, clients) is offered the working-age terms only, Young adult to Mature (owner, 2026-11-08: no minors; phase 5, the same day: no Active Retirees or Dependent seniors either; a retiree's term saved before is removed on the next choice); the people an Institution or membership body serves are offered every term (owner, 2026-11-09: a school serves minors, a care home seniors). Not shown when only one term is left.
 - **Options:**
   - Baby 0–2
   - Child 3–10
@@ -604,7 +622,7 @@ Asked when a buyer relationship chosen in Positioning has a Proxy or Dual-Intent
   - Dependent seniors 75+
 - **The "i" says:**
   - Teenager covers Early Adolescence (11 to 13), Mid (13 to 16) and Late (16 to 18).
-  - Each age group holds the years from its first number to its last, both included, so no age is in two groups (25–39, then 40–54).
+  - Each age group holds the years from its first number to its last, both included, so each age is in one group only (25–39, then 40–54).
 - **Connections:**
   - *Comes from:* Early Positioning: the buyer's category (Proxy or Dual-Intent) and the end user's life stage.
   - *Read by (built):* The Market document and the export.
@@ -613,13 +631,14 @@ Asked when a buyer relationship chosen in Positioning has a Proxy or Dual-Intent
 ### 2. Which school stage are your customers in?
 
 - **Control:** one choice (a radio).
-- **Asked when:** As the end user's life stage, and the relationship is Parent or guardian, or Caregiver. "Secondary school" is not offered when the end user is a Baby or a Child; one already chosen goes when the life stage changes. Not asked of an end user of 18 or more. A Baby: Early years only (set, not shown); a Child: Early years or Primary school; a Teenager: Secondary school only (set, not shown).
+- **Asked when:** As the end user's life stage, and the relationship is Parent or guardian, Caregiver, Family member (a grandparent buying for a child; owner, 2026-11-09) or Institution or membership body (a school for its pupils; 2026-11-09). "Secondary school" is not offered when the end user is a Baby or a Child; one already chosen goes when the life stage changes. Not asked of an end user of 18 or more. A Baby: Early years only (set, not shown); a Child: Early years or Primary school; a Teenager: Secondary school only (set, not shown).
 - **Options:**
   - Early years
   - Primary school
   - Secondary school
 - **The "i" says:**
-  - Asked of a parent or guardian, and of a caregiver, who buy for a child. Secondary school is not offered for a Baby or a Child.
+  - Asked when the buyer buys for a child: a parent or guardian, a caregiver, a family member, or an institution such as a school.
+  - Secondary school is offered for a Teenager.
 - **Connections:**
   - *Comes from:* Early Positioning: the buyer and end user relationship; this part's life stage.
   - *Read by (built):* The Market document and the export.
@@ -628,12 +647,12 @@ Asked when a buyer relationship chosen in Positioning has a Proxy or Dual-Intent
 ### 3. Are your customers working?
 
 - **Control:** one choice (a radio).
-- **Asked when:** As the end user's life stage, and the relationship is Family member, Spouse or partner, Friend or acquaintance, Commercial & Professional, Other (personal) or Sponsor or funder. Not asked of a Baby or a Child.
+- **Asked when:** As the end user's life stage, and the relationship is Family member, Spouse or partner, Friend or acquaintance, Commercial & Professional, Other (personal, a saved answer only since 2026-11-09), Sponsor or funder, or Institution or membership body (its adults; 2026-11-09; never its clients' type or size, which are a business serving clients'). Not asked of a Baby or a Child.
 - **Options:**
   - Yes
   - No
 - **The "i" says:**
-  - The same question as for the buyer, asked of the end user: an adult the buyer is related to, or sponsors.
+  - The same question as for the buyer, asked of the end user: an adult the buyer is related to, sponsors or serves.
   - Yes includes working full-time, part-time, on contract or self-employed.
   - No opens a second question about why they are not working.
 - **Connections:**
@@ -723,8 +742,24 @@ Asked when a buyer relationship chosen in Positioning has a Proxy or Dual-Intent
 - **Options:** the points 1 to 5.
 - **The "i" says:**
   - 1 = Uneasy, 5 = Confident.
-  - How easily they use websites, apps and online payment, not whether they own a device.
+  - How easily they use websites, apps and online payment.
 - **Connections:**
   - *Comes from:* Early Positioning: the buyer's category.
   - *Read by (built):* The Market document and the export.
-  - *Read by (not built yet):* Channel order for the end user's side.
+  - *Read by (not built yet):* Channel order for the end user's side. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
+
+### 9. Outcome for the end user (moved from Positioning, then to the Profile, owner, 2026-11-08; retired here)
+
+*Moved on to each Profile's end-user part (doc 36, 2.1, E4; owner, 2026-11-08: "If the buyer is proxy, the profile should contain questions for both buyer and end user."): the outcome is what one typical end user gets, so it stands with the end user's goals. It is no longer shown on the Segment, nor printed with its answers; the saved key `u-outcome` stays readable and settled (its stage limit holds), and it is the starting value of each Profile's E4 until the Profile saves its own (the saved value in the Profile wins, even cleared). Its code here, End user, 9, is retired (doc 44). What follows is the question as it was asked here.*
+
+- **Control:** a radio while the stage allows one choice, else ticks that lock at the limit with "2 max" beside the label, as on Positioning: Planning 1, Launching 2, Managing 2, Growing free (`choiceLimit`, the outcome's limit). A saved answer over the stage's limit goes back to empty.
+- **Asked when:** no longer asked here (2026-11-08): the Profile's E4 asks it where the Segment has an end user. (Positioning's question 10 until 2026-11-08, owner, "Move all three".)
+- **Options:** as built on Positioning: Enjoyment & fun; Comfort & ease; Safety & care; Learning & growth; Looks & belonging; Practical use. Ordered as before by Positioning's purposes, then the buyer's and the end user's life stages (`userOutcomeOptionsFor`).
+- **Starts:** Positioning's answer saved before 2026-11-08 (`organisation.outcomeUser`), within the stage's limit, until the Segment saves its own; a value saved here wins, even cleared (saved as an empty list).
+- **The "i" says:**
+  - What matters most to the end user, apart from the buyer's own reasons for paying: the result the end user gets. It starts the end user's Profile.
+  - Enjoyment & fun. Comfort & ease. Safety & care. Learning & growth. Looks & belonging (fitting in with friends, a style). Practical use.
+  - The stage's line ("At this stage (Planning): choose one. …").
+- **Connections:**
+  - *Comes from:* Early Positioning: the buyer's category, the purposes and the life stages (the order); the stage (the limit).
+  - *Read by (built):* each Profile's E4, as its start (doc 36, 2.1). The Market document and the export print it with the Profile's end-user part, no longer under the Segment.

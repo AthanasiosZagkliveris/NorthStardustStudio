@@ -1,8 +1,11 @@
+import type { ReactNode } from "react";
+
 import { getCapabilityColor } from "../../../data/capabilities";
 import { getSystemIcon } from "../../../data/systemIcons";
 
 interface InterviewHeaderProps {
-    systemNumber: string;
+    /** Left out on a page that belongs to no System (the Workbook): its title is the name alone. */
+    systemNumber?: string;
     systemName: string;
     capabilityId?: string;
 
@@ -23,6 +26,15 @@ interface InterviewHeaderProps {
      * "Introduction", not a spelled-out word.
      */
     pageTitleCapitals?: boolean;
+
+    /** What stands after the title, inside the heading. */
+    note?: ReactNode;
+
+    /** The icon before the title on a page that belongs to no System (the Workbook's), drawn as a System's is. */
+    icon?: string;
+
+    /** What stands at the right end of the title's row (the Workbook's section buttons), on the title's line. */
+    actions?: ReactNode;
 }
 
 export default function InterviewHeader({
@@ -30,11 +42,14 @@ export default function InterviewHeader({
     systemName,
     capabilityId,
     pageTitle,
-    pageTitleCapitals = false
+    pageTitleCapitals = false,
+    note,
+    icon: ownIcon,
+    actions
 }: InterviewHeaderProps) {
 
     const color = getCapabilityColor(capabilityId);
-    const icon = getSystemIcon(Number(systemNumber));
+    const icon = ownIcon ?? (systemNumber ? getSystemIcon(Number(systemNumber)) : undefined);
 
     return (
 
@@ -54,13 +69,16 @@ export default function InterviewHeader({
                 )}
 
                 <h1>
-                    {systemNumber}. {systemName}
+                    {systemNumber ? `${systemNumber}. ${systemName}` : systemName}
                     {pageTitle && (
                         <span className={"interview-header-page-title" + (pageTitleCapitals ? " interview-header-page-title-capitals" : "")}>
                             {` — ${pageTitle}`}
                         </span>
                     )}
+                    {note}
                 </h1>
+
+                {actions}
 
             </div>
 

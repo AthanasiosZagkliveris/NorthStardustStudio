@@ -12,6 +12,7 @@ import { jumpTo } from "../../tiles/jumpTo.ts";
 import { rowActions, withChosenAction, withRowLines } from "../../../../framework/engine/ChannelActions.ts";
 import { actionAtOrder, actionPlacements, actionRows, channelNamesOf, connectionPaint, markTint, orderAt, orderIn, parseOrderReference, resourceColours, sharedColours } from "../../../../framework/engine/ActionOrder.ts";
 import { useChannelColumns } from "../useChannelColumns.ts";
+import { noPhysicalOffering } from "../../../../framework/engine/EffectiveAnswers.ts";
 import { type CostCard, actionResourceLinks, capabilityCards, costCardName } from "../../../../framework/engine/ChannelResources.ts";
 import { type ActionIsolation, type ActionLit, ResourceSymbol, SharedSymbol } from "../ActionMarkers.tsx";
 import { OPEN_EVENT, type OpenRequest } from "../../tiles/SectionTiles.tsx";
@@ -212,6 +213,8 @@ export function useEngagementState(props: BusinessEngagementEditorProps) {
     }
     /** Page 1's Segments, read for reference only. */
     const segments = businessFoundationSegments(foundation);
+    /** NO PHYSICAL ITEM (doc 28, 11.7): while no Offering on Page 1 has one, the Physical Delivery and Retail & Wholesale channels are hidden where a Segment has none (channelCategoryHidden), as Page 3 hides its physical categories. */
+    const noPhysical = noPhysicalOffering(segments);
     /** The cards folded away, by key. Not stored with the answer:
      *  which cards a reader has closed is how they are looking at
      *  the page, not part of what they have said. */
@@ -674,6 +677,6 @@ export function useEngagementState(props: BusinessEngagementEditorProps) {
 
     }
 
-    return { asTiles, cards, channelActions, channelCategoryFoldKey, channelCategoryFoldKeys, channelResources, channelTileId, clearIsolation, collapsed, columnsDivider, currency, disabled, engagement, folds, interactionOf, isolated, isolatingSegment, isolationNames, offeringRelationshipsOf, offeringsOfMadeCards, onChange, onOpenCapability, onOpenFoundation, openAction, relatedStages, segmentOf, segments, setLit, toggle, typeOf, updateChannel, updateInteraction, updateOfferingRelationships, updateSegment, updateType, value };
+    return { asTiles, cards, channelActions, noPhysical, channelCategoryFoldKey, channelCategoryFoldKeys, channelResources, channelTileId, clearIsolation, collapsed, columnsDivider, currency, disabled, engagement, folds, interactionOf, isolated, isolatingSegment, isolationNames, offeringRelationshipsOf, offeringsOfMadeCards, onChange, onOpenCapability, onOpenFoundation, openAction, relatedStages, segmentOf, segments, setLit, toggle, typeOf, updateChannel, updateInteraction, updateOfferingRelationships, updateSegment, updateType, value };
 
 }
