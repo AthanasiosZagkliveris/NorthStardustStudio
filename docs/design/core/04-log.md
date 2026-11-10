@@ -14,6 +14,7 @@ Status: **log**, started 2026-10-14, updated 2026-11-09. The rows of sections 4.
 
 | Dates | What happened |
 |---|---|
+| 2026-11-10 | **The line between two bands is light (owner, Thanos, 08:08: "I said a light (in colour) divide line between the colour bars").** `--band-divider` is now the card's own tint mixed mostly with paper, so it reads lighter than the bands on either side; in the dark, the card's ink, lighter than the dark bands. Set where the card's hue is, so each card takes its own. |
 | 2026-11-10 | **A rail with no bullets draws no tab (owner, Thanos, 07:53: "I can see a whitish shadow behind the floated card. What is this?").** On a page with no sections the right rail holds only its page arrow; its empty tab stood as a pale patch beside the chapter, and behind a floating card. The arrow stays; the tab goes (`bullet-rail.css`). |
 | 2026-11-10 | **The Workbook icon at the System icons' weight (owner, Thanos, 08:07: "Right now the Workbook icon is far too thick").** Its lines now take about 5.7% of its width, as the icons in `src/assets/Icons` do. |
 | 2026-11-10 | **Every card's bands in the channel card's saturation and lightness, in the card's own hue, a general rule (owner, Thanos, 07:53).** Three card tokens: `--card-band-ink` (the hue at the theme's ink, 28% 34%) for the section and box title bands, `--tint-row-band` (12% of it) for the alternating rows, `--tint-box-title` (24%) for a single box's title. |

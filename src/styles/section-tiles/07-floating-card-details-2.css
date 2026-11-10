@@ -1379,8 +1379,8 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow, .notepad-close) {
 
 }
 
-/* THE LINE BETWEEN TWO BANDS, on every card and dialog (owner, 2026-11-10, a general rule): where one band follows another, a 1px line in a light step of
-   the card's hue (--band-divider) stands between them, each band keeping its 12px. */
+/* THE LINE BETWEEN TWO BANDS, on every card and dialog (owner, 2026-11-10, a general rule): where one band follows another, a 1px LIGHT line, lighter than
+   the bands (--band-divider) stands between them, each band keeping its 12px. */
 .legal-entity-audience .legal-entity-org-section + .legal-entity-org-section,
 .legal-entity-bands > .legal-entity-org-section + .legal-entity-org-section,
 .floating-card-body .legal-entity-grid-requirement > * + *,
