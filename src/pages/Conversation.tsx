@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import TextLink from "../components/interview/fields/TextLink.tsx";
 import AddButton from "../components/controls/AddButton.tsx";
-import TextBox from "../components/controls/TextBox.tsx";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import AppHeader from "../components/AppHeader";
@@ -16,23 +15,17 @@ import type { PageSectionAnswer } from "../components/interview/editors/answer/s
 import { InterviewSession } from "../framework/interview";
 import {
     currentSituationDraft,
-    financialPlanRange,
-    businessModelCanvas } from "../framework/engine/BusinessDocuments.ts";
+    financialPlanRange } from "../framework/engine/BusinessDocuments.ts";
 import { frameworkRegistry } from "../framework/engine/FrameworkRegistry";
 import { AnswerDefinition, Section, ValidationIssue } from "../framework/model";
 import { AnswerType } from "../framework/enums/AnswerType";
 import { financialPlanPeriod } from "../framework/engine/FinancialModel.ts";
 import {
     defaultAnswerValue,
-    generateOperationalLogEntriesFromProcessLibrary,
     numberedUnitCount,
-    OperationalLogRowValue,
-    processDisplayId,
     ProcessRecordValue,
-    sopDisplayId,
     StrategyRangeValue,
     StrategyThemeValue,
-    TableAnswerRow,
     asLegalEntityValue,
     asStrategicPeriodValue,
     type StrategicPeriodValue,
@@ -43,24 +36,17 @@ import {
     monthIndex,
     strategyGoalsForTheme,
     strategyThemeHasContent } from "../framework/engine/AnswerUtils.ts";
-import {
-    buildExportContent,
-    buildMultiProductExportContent,
-    buildSingleProductExportContent
-} from "../framework/engine/ExportContentBuilder.ts";
-import { countryCurrency } from "../framework/engine/LegalEntityJurisdictions.ts";
 
 import { StorageService } from "../services/StorageService";
 import { OrganizationService } from "../services/OrganizationService";
 import { asGlobalSettings, stageDurationsOf } from "../framework/engine/GlobalSettings";
 import { stageOf } from "../framework/engine/BusinessStage";
 import { fitPositioningToStage } from "../components/interview/editors/legal/shared";
-import { PreferencesService } from "../services/PreferencesService";
 import { offerRemovalUndo, UndoService } from "../services/UndoService";
 import { FocusModeService } from "../services/FocusModeService";
 import { useFocusMode } from "../components/FocusModeButton";
 import { systems } from "../data/systems";
-import { focusField, focusText, jumpTo, type OpenPage } from "../components/interview/tiles/jumpTo.ts";
+import { focusField, focusText } from "../components/interview/tiles/jumpTo.ts";
 import { FieldPageProvider } from "../components/interview/fields/fieldMarks.tsx";
 import BulletRail from "../components/interview/rails/BulletRail";
 import PageArrow, { pageKey } from "../components/interview/fields/PageArrow";
@@ -72,7 +58,6 @@ import { drawnAsTiles, pageIndexFromRailId, pageRailItems, sectionRailItems } fr
 import { pageStatuses } from "../framework/engine/PageStatus";
 import { sectionStatuses } from "../framework/engine/SectionStatus";
 import { scrollToRailSection, useActiveRailSection } from "../components/interview/rails/useActiveRailSection";
-import { toggledIn } from "../components/interview/fields/toggledIn";
 
 import useRailTab from "../hooks/useRailTab.ts";
 import useScrollRules from "../hooks/useScrollRules.ts";
@@ -80,7 +65,10 @@ import "../styles/conversation.css";
 import "../styles/conversation-layout.css";
 import "../styles/system-confirmation.css";
 
-import { IDENTITY_SYSTEM_NUMBER, IDENTITY_DEFINITION_SECTION, BUSINESS_SYSTEM_NUMBER, interviewManager, reviewManager, normalize, findSystemSection, resolveSharedAnswerValue, ExportStep, CapabilityChoice, ExportScope, OperationsExportScope, OPERATIONS_PROCESS_LIBRARY_SECTION, OPERATIONS_OPERATIONAL_LOG_SECTION, OPERATIONS_ROLES_SECTION, sectionTitleOf, isSharedProductRegisterSection, findSharedTargetAudiencePartBinding, isSocialMediaAudienceProfilesSection, extractSharedAudienceRows, mergeSharedAudienceIntoSocialMediaRows, PRODUCT_DEVELOPMENT_PER_PRODUCT_SECTIONS, extractProductNames, extractDynamicOptions, groupValidationIssues, validateProductDevelopmentForProduct, validateOperationsProcessOwnership, splitIntoSentences, withBold } from "./conversationHelpers";
+import { IDENTITY_SYSTEM_NUMBER, BUSINESS_SYSTEM_NUMBER, interviewManager, normalize, findSystemSection, resolveSharedAnswerValue, ExportStep, OPERATIONS_PROCESS_LIBRARY_SECTION, sectionTitleOf, isSharedProductRegisterSection, findSharedTargetAudiencePartBinding, isSocialMediaAudienceProfilesSection, extractSharedAudienceRows, mergeSharedAudienceIntoSocialMediaRows, extractProductNames, extractDynamicOptions, splitIntoSentences, withBold } from "./conversationHelpers";
+import { readCrossSystem } from "./crossSystemReaders.ts";
+import ExportFlow from "./ExportFlow.tsx";
+import { pageNavigation } from "./pageNavigation.ts";
 
 export default function Conversation() {
 
@@ -154,31 +142,8 @@ export default function Conversation() {
         apply: () => void;
     } | null>(null);
     const [validationIssues, setValidationIssues] = useState<ValidationIssue[]>([]);
-    const [capabilityChoice, setCapabilityChoice] = useState<CapabilityChoice>("original");
-    const [otherCapabilityName, setOtherCapabilityName] = useState("");
-
-    // The Business System can export its answers, or the Business
-    // Model Canvas they add up to (see BusinessDocuments.ts).
-    const [documentChoice, setDocumentChoice] = useState<"answers" | "canvas">("answers");
-    const [includeMd, setIncludeMd] = useState(true);
-    const [includePdf, setIncludePdf] = useState(false);
-
-    // Defaults to "system" (the whole file, every Product) so
-    // behavior is unchanged for anyone who doesn't touch this new
-    // choice -- that was the ONLY export shape the Product
-    // Development System produced before this option existed.
-    const [exportScope, setExportScope] = useState<ExportScope>("system");
-
-    // Defaults to "all" (every Process, exactly as before this
-    // option existed) -- the picker below only appears once a
-    // narrower scope is chosen. Both selection Sets are ephemeral
-    // (index-keyed, not persisted into the saved Process Library
-    // answer) and reset every time the Export Options dialog is
-    // reopened, so a stale pick from a previous export can't
-    // silently narrow a later one.
-    const [operationsExportScope, setOperationsExportScope] = useState<OperationsExportScope>("all");
-    const [selectedProcessIndexes, setSelectedProcessIndexes] = useState<Set<number>>(new Set());
-    const [selectedSopKeys, setSelectedSopKeys] = useState<Set<string>>(new Set());
+    // Grows by one each time Export Options opens (ExportFlow.tsx).
+    const [exportOpenCount, setExportOpenCount] = useState(0);
 
     // ← and → turn the page (pageKey says when they may): set below,
     // once the session's page functions exist, and read by one
@@ -495,182 +460,8 @@ export default function Conversation() {
         window.scrollTo({ top: 0, left: 0, behavior: "auto" });
     }
 
-    // Start Interview (and → on the Introduction): the System's FIRST
-    // page, not the last one visited -- Continue and the rails keep
-    // their own places.
-    function startInterview() {
-
-        if (!session) {
-            return;
-        }
-
-        session.startInterview();
-        session.goToSection(0);
-        persistAndRedraw(session);
-        scrollToTop();
-
-    }
-
-    // A page named on the opening screen: the interview, opened there.
-    function startInterviewAt(index: number) {
-
-        if (!session) {
-            return;
-        }
-
-        session.startInterview();
-        session.goToSection(index);
-        persistAndRedraw(session);
-        scrollToTop();
-
-    }
-
-    // The Operations System's Operational Log (Section 3) is no
-    // longer independently authored -- it's auto-written FROM
-    // Process Library (Section 2) itself, one entry per Process
-    // that actually changed since the last time the Log was
-    // updated (see generateOperationalLogEntriesFromProcessLibrary
-    // in AnswerUtils.ts). The ways to leave Process Library are
-    // clicking Next or Previous, or a page on the left bullet rail
-    // (goToPage); goToIntroduction is only ever reachable FROM
-    // Section 1 -- so this runs at the top of all three handlers
-    // below, BEFORE the actual section change, comparing
-    // Process Library's current response against each Process's
-    // own lastLoggedSnapshot and appending any newly-generated Log
-    // rows. It's a no-op (same object identity in, effectively)
-    // whenever there's nothing new to log, so calling it
-    // unconditionally on every page change while already
-    // past Process Library, or while on a different System
-    // entirely, is intentionally cheap and harmless.
-    function commitProcessLibraryChangesToOperationalLog() {
-
-        if (!session || !organizationId || system?.id !== "operations") {
-            return;
-        }
-
-        if (session.getCurrentSectionNumber() !== OPERATIONS_PROCESS_LIBRARY_SECTION) {
-            return;
-        }
-
-        const currentProcesses =
-            (session.getResponse(OPERATIONS_PROCESS_LIBRARY_SECTION) as ProcessRecordValue[] | undefined) ?? [];
-
-        const currentLogRows =
-            (session.getResponse(OPERATIONS_OPERATIONAL_LOG_SECTION) as OperationalLogRowValue[] | undefined) ?? [];
-
-        const { processes: updatedProcesses, logRows: updatedLogRows } =
-            generateOperationalLogEntriesFromProcessLibrary(currentProcesses, currentLogRows);
-
-        session.saveResponse(OPERATIONS_PROCESS_LIBRARY_SECTION, updatedProcesses);
-        session.saveResponse(OPERATIONS_OPERATIONAL_LOG_SECTION, updatedLogRows);
-
-    }
-
-    function nextSection() {
-
-        if (!session) {
-            return;
-        }
-
-        commitProcessLibraryChangesToOperationalLog();
-
-        if (session.isLastSection() || session.getCurrentSectionIndex() >= session.getSections().reduce((last, section, index) => isCompanion(groupSystemNumber, section.number) ? last : index, 0)) {
-
-            if (organizationId) {
-                StorageService.saveInterview(organizationId, session);
-            }
-
-            // The Product Development System's Sections are
-            // completed once PER PRODUCT (see
-            // PRODUCT_DEVELOPMENT_PER_PRODUCT_SECTIONS) -- "Finish"
-            // should only require the currently selected Product's
-            // own Sections (and its own row in the shared Product
-            // Register) to be complete, not every OTHER Product's
-            // too. See validateProductDevelopmentForProduct's own
-            // comment for why this can't just reuse
-            // `reviewManager.validate` as-is.
-            const selectedProductForValidation =
-                system?.id === "product-development" && organizationId
-                    ? OrganizationService.getSelectedProductId(organizationId)
-                    : undefined;
-
-            const validation =
-                selectedProductForValidation && organizationId
-                    ? validateProductDevelopmentForProduct(session, organizationId, selectedProductForValidation)
-                    : system?.id === "operations"
-                        ? validateOperationsProcessOwnership(session)
-                        : reviewManager.validate(
-                            session,
-                            (answer) => resolveSharedAnswerValue(organizationId, answer)
-                        );
-
-            if (!validation.valid) {
-                setValidationIssues(validation.issues);
-                setExportStep("warning");
-            } else {
-                openExportOptions();
-            }
-
-            return;
-
-        }
-
-        session.nextSection();
-        while (isCompanion(groupSystemNumber, session.getCurrentSection().number) && !session.isLastSection()) {
-            session.nextSection();
-        }
-        persistAndRedraw(session);
-        scrollToTop();
-
-    }
-
-    function previousSection() {
-
-        if (!session) {
-            return;
-        }
-
-        commitProcessLibraryChangesToOperationalLog();
-
-        if (session.previousSection()) {
-            while (isCompanion(groupSystemNumber, session.getCurrentSection().number) && session.previousSection()) {
-                // (A companion is not a page: on to the page it stands beside.)
-            }
-            persistAndRedraw(session);
-            scrollToTop();
-        }
-
-    }
-
-    // The page rail's own jump: the same bookkeeping Next and
-    // Previous do (commit the Process Library, save, redraw, back
-    // to the top), to any page at once.
-    function goToPage(index: number) {
-
-        if (!session || index === session.getCurrentSectionIndex()) {
-            return;
-        }
-
-        commitProcessLibraryChangesToOperationalLog();
-
-        if (session.goToSection(index)) {
-            persistAndRedraw(session);
-            scrollToTop();
-        }
-
-    }
-
-    function goToIntroduction() {
-
-        if (!session) {
-            return;
-        }
-
-        session.viewIntroduction();
-        persistAndRedraw(session);
-        scrollToTop();
-
-    }
+    // The page moves: Start Interview, Next, Previous, the rail's jump, the Introduction (pageNavigation.ts).
+    const { startInterview, startInterviewAt, nextSection, previousSection, goToPage, goToIntroduction } = pageNavigation({ session, organizationId, system, persistAndRedraw, scrollToTop, setValidationIssues, setExportStep, openExportOptions });
 
     // Stabilized so this is the SAME function reference across a
     // keystroke-driven re-render triggered by editing THIS field --
@@ -874,240 +665,12 @@ export default function Conversation() {
 
     }, [organizationId]);
 
+    // Export Options starts again from All Processes each time it opens (ExportFlow.tsx).
     function openExportOptions() {
-
-        // Reset the Operations System's own picker every time the
-        // dialog opens, rather than only on mount -- otherwise a
-        // scope/selection left over from a previous export (of a
-        // since-edited Process Library) could silently narrow a
-        // later "export everything" attempt.
-        setOperationsExportScope("all");
-        setSelectedProcessIndexes(new Set());
-        setSelectedSopKeys(new Set());
-
+        setExportOpenCount(count => count + 1);
         setExportStep("options");
-
     }
 
-
-    function toggleSelectedProcess(processIndex: number) {
-
-        setSelectedProcessIndexes(current => toggledIn(current, processIndex));
-
-    }
-
-    function toggleSelectedSop(processIndex: number, sopIndex: number) {
-
-        const key = `${processIndex}:${sopIndex}`;
-
-        setSelectedSopKeys(current => toggledIn(current, key));
-
-    }
-
-    function handleFinalExport() {
-
-        if (!session) {
-            return;
-        }
-
-        const framework = session.getFramework();
-
-        const capabilityLabel =
-            capabilityChoice === "original"
-                ? framework.metadata.capability
-                : otherCapabilityName;
-
-        const exportContent =
-            system?.id === "business" && documentChoice === "canvas"
-                ? businessModelCanvas({
-                      identity: organizationId ? StorageService.loadInterview(organizationId, IDENTITY_SYSTEM_NUMBER) : null,
-                      business: session,
-                      organisationName: organizationName
-                  }, capabilityLabel)
-            : system?.id === "product-development" && organizationId
-                ? (() => {
-
-                      // One document load for the whole export, rather than
-                      // one per (Product, Section) pair -- OrganizationService.
-                      // getProductSectionResponse alone would re-parse the
-                      // entire Organization document from localStorage once
-                      // per lookup here.
-                      const allProductAnswers =
-                          OrganizationService.getAllProductSectionResponses(organizationId);
-
-                      const getProductSectionResponse = (productName: string, sectionNumber: number) =>
-                          allProductAnswers[productName]?.[String(sectionNumber)] ?? null;
-
-                      // "This Product only" (exportScope === "product"): the
-                      // shared Product Register (Section 1) narrowed down to
-                      // just the selected Product's own row, followed by that
-                      // Product's own Sections 2-7 -- everything flattened
-                      // into one document, no Product-heading grouping, since
-                      // there's only one Product's worth of content here.
-                      const selectedProductId =
-                          exportScope === "product"
-                              ? OrganizationService.getSelectedProductId(organizationId)
-                              : undefined;
-
-                      if (selectedProductId) {
-
-                          return buildSingleProductExportContent(
-                              session,
-                              capabilityLabel,
-                              selectedProductId,
-                              PRODUCT_DEVELOPMENT_PER_PRODUCT_SECTIONS,
-                              getProductSectionResponse,
-                              (sectionNumber, response) => {
-
-                                  if (sectionNumber !== 1 || !Array.isArray(response)) {
-                                      return response;
-                                  }
-
-                                  return (response as TableAnswerRow[]).filter(row => {
-                                      const name = row["product"];
-                                      return typeof name === "string" && name.trim() === selectedProductId;
-                                  });
-
-                              }
-                          );
-
-                      }
-
-                      // "Whole System" (exportScope === "system", or no
-                      // Product selected): the Product Register in full,
-                      // followed by EVERY Product's own Sections 2-7,
-                      // grouped one Product at a time (see
-                      // buildMultiProductExportContent) -- unchanged from
-                      // before this option existed.
-                      return buildMultiProductExportContent(
-                          session,
-                          capabilityLabel,
-                          extractProductNames(session.getResponse(1)),
-                          PRODUCT_DEVELOPMENT_PER_PRODUCT_SECTIONS,
-                          getProductSectionResponse
-                      );
-
-                  })()
-                : system?.id === "operations"
-                ? (() => {
-
-                      // The FULL, unfiltered Process Library, with every
-                      // Process/SOP's already-displayed ID (custom or
-                      // auto-generated from its ORIGINAL position) stamped
-                      // on -- shared by Section 2's own scope-filtered
-                      // export below AND, unfiltered, by Sections 3/4's
-                      // cross-reference (see BuildAnswerBlocksOptions.
-                      // processLibrary): an Operational Log entry or a
-                      // Roles & Responsibilities grouping should resolve
-                      // against every actual Process, regardless of which
-                      // subset the user chose to show under Section 2
-                      // itself -- choosing "Selected Processes" narrows
-                      // what Section 2 lists, it doesn't mean a Log entry
-                      // pointing at an excluded Process should go blank.
-                      const allProcessesRaw =
-                          (session.getResponse(OPERATIONS_PROCESS_LIBRARY_SECTION) as ProcessRecordValue[] | undefined) ?? [];
-
-                      const stampedAllProcesses = allProcessesRaw.map((process, processIndex) => ({
-                          ...process,
-                          id: processDisplayId(allProcessesRaw, processIndex),
-                          sops: process.sops.map((sop, sopIndex) => ({
-                              ...sop,
-                              id: sopDisplayId(process.sops, sopIndex)
-                          }))
-                      }));
-
-                      return buildExportContent(
-                          session,
-                          capabilityLabel,
-                          (sectionNumber, response) => {
-
-                              if (sectionNumber !== OPERATIONS_PROCESS_LIBRARY_SECTION || !Array.isArray(response)) {
-                                  return response;
-                              }
-
-                              if (operationsExportScope === "selected-processes") {
-                                  return stampedAllProcesses.filter((_, processIndex) => selectedProcessIndexes.has(processIndex));
-                              }
-
-                              if (operationsExportScope === "selected-sops") {
-
-                                  // Keep only the Processes with at least 1
-                                  // selected SOP, and within those, only the
-                                  // SOPs the user actually ticked.
-                                  return stampedAllProcesses
-                                      .map((process, processIndex) => ({
-                                          ...process,
-                                          sops: process.sops.filter((_sop, sopIndex) =>
-                                              selectedSopKeys.has(`${processIndex}:${sopIndex}`)
-                                          )
-                                      }))
-                                      .filter(process => process.sops.length > 0);
-
-                              }
-
-                              return stampedAllProcesses;
-
-                          },
-                          (sectionNumber) => {
-
-                              if (sectionNumber === OPERATIONS_PROCESS_LIBRARY_SECTION) {
-
-                                  // The response this Section exports (see
-                                  // above) is always `stampedAllProcesses`
-                                  // (or a filtered subset of it), whose
-                                  // `.id` fields already hold the FINAL
-                                  // computed display ID, not raw initials
-                                  // -- idsPreResolved tells the export
-                                  // block to use them as-is rather than
-                                  // recomputing (see its own doc comment
-                                  // on BuildAnswerBlocksOptions).
-                                  return {
-                                      idsPreResolved: true,
-                                      forceExpandProcessSops: operationsExportScope === "selected-sops"
-                                  };
-
-                              }
-
-                              if (sectionNumber === OPERATIONS_OPERATIONAL_LOG_SECTION || sectionNumber === OPERATIONS_ROLES_SECTION) {
-
-                                  // Unlike the Process Library Section's own
-                                  // export above, resolveProcessLogLabel/
-                                  // resolveProcessId (used to cross-
-                                  // reference a Process from here) compute
-                                  // the display ID themselves from raw
-                                  // initials -- so this needs the RAW,
-                                  // unstamped list, not `stampedAllProcesses`
-                                  // (which would double-append a suffix on
-                                  // top of the already-final one).
-                                  return { processLibrary: allProcessesRaw };
-
-                              }
-
-                              return undefined;
-
-                          }
-                      );
-
-                  })()
-                // Every other System: what is saved, with the Identity
-                // System facts the Business pages are answered against.
-                : buildExportContent(session, capabilityLabel, undefined, undefined, {
-                      legalEntity,
-                      foundersProfile,
-                      currency: organisationCurrency
-                  });
-
-        if (includeMd) {
-            reviewManager.exportMarkdown(session, capabilityLabel, exportContent);
-        }
-
-        if (includePdf) {
-            reviewManager.exportPdf(session, capabilityLabel, exportContent);
-        }
-
-        setExportStep("none");
-
-    }
 
     // A Shared Answer Section (see AnswerType.SharedAnswer) holds no
     // data of its own: it renders ANOTHER System's Section and reads
@@ -1437,305 +1000,32 @@ export default function Conversation() {
         effectiveAnswer?.type === AnswerType.StrategicPeriod ||
         effectiveAnswer?.type === AnswerType.StrategicRoadmap;
 
-    // What the Legal Entity page can answer for the user without
-    // asking: the Organization's name and the User's own, both
-    // given when the app was set up. Read here because the page
-    // itself has no access to either.
-    const legalEntityPrefill = {
-        organisationName:
-            (organizationId && OrganizationService.getSummary(organizationId)?.name) || "",
-        founderName: PreferencesService.getUserName()
-    };
-
-    /*
-        The Target Audience the Business System's Foundation page
-        asks the founder to divide into Segments.
-
-        It was answered two Systems earlier, under the Identity
-        System's Positioning column ("Who is your target
-        audience?"), so the Foundation page shows it rather than
-        asking again -- the same reason the Legal Entity page
-        prefills the organization's own name above.
-
-        Read straight from storage rather than through a Session:
-        this is another System's saved answer, and opening a
-        Session for it would run that System's migrations as a
-        side effect of drawing a note.
-    */
-    const targetAudience = (() => {
-
-        if (!organizationId) {
-            return "";
-        }
-
-        const state = OrganizationService.loadSystemState(
-            organizationId,
-            IDENTITY_SYSTEM_NUMBER
-        ) as { responses?: Array<{ sectionNumber: number; value?: unknown }> } | null;
-
-        const definition = state?.responses?.find(
-            response => response.sectionNumber === IDENTITY_DEFINITION_SECTION
-        )?.value;
-
-        const positioning = definition &&
-            typeof definition === "object" &&
-            !Array.isArray(definition)
-            ? (definition as Record<string, unknown>).positioning
-            : undefined;
-
-        return typeof positioning === "string" ? positioning : "";
-
-    })();
-
-    /* The Vision, from the same Identity answer: shown beside the
-       Strategy System's Strategic Compass, which follows from it. */
-    const identityVision = (() => {
-
-        if (!organizationId) {
-            return "";
-        }
-
-        const state = OrganizationService.loadSystemState(
-            organizationId,
-            IDENTITY_SYSTEM_NUMBER
-        ) as { responses?: Array<{ sectionNumber: number; value?: unknown }> } | null;
-
-        const definition = state?.responses?.find(
-            response => response.sectionNumber === IDENTITY_DEFINITION_SECTION
-        )?.value;
-
-        const vision = definition && typeof definition === "object" && !Array.isArray(definition)
-            ? (definition as Record<string, unknown>).vision
-            : undefined;
-
-        return typeof vision === "string" ? vision : "";
-
-    })();
-
-    /*
-        The currency the organisation is registered in: the country
-        chosen on the Identity System's Legal Entity page, through
-        the same countryCurrency that page shows beside its own
-        amounts. The Business System's Infrastructure & Capability
-        page puts it beside every Price, so a founder names the
-        currency once, by saying where they are registered.
-
-        Read straight from storage, for the reason targetAudience
-        gives, and resolved by Answer Structure rather than by
-        Section number. "" when no country has been chosen yet.
-
-        The same page's 2. Founders & Ownership are that page's
-        founders too: they are who Infrastructure & Capability lists
-        under 1. Founders and names in every Responsibility, and who
-        the Founders Profile page draws a card for.
-    */
-    function identityResponse(type: AnswerType): unknown {
-
-        if (!organizationId) {
-            return undefined;
-        }
-
-        const identity = systems.find(
-            candidate => candidate.number === IDENTITY_SYSTEM_NUMBER
-        );
-
-        const section = identity
-            ? frameworkRegistry.getFramework(identity.id).sections.find(
-                candidate => candidate.answer?.type === type
-            )
-            : undefined;
-
-        if (!section) {
-            return undefined;
-        }
-
-        const state = OrganizationService.loadSystemState(
-            organizationId,
-            IDENTITY_SYSTEM_NUMBER
-        ) as { responses?: Array<{ sectionNumber: number; value?: unknown }> } | null;
-
-        return state?.responses?.find(
-            response => response.sectionNumber === section.number
-        )?.value;
-
-    }
-
-    const legalEntity = asLegalEntityValue(identityResponse(AnswerType.LegalEntity));
-
-    /*
-        The Identity System's Founders Profile, as saved: each
-        founder's Roles, which Infrastructure & Capability shows
-        under 1. Founders, and the profiles the Legal Entity page
-        will not drop a founder's row from (see founderProfiles).
-    */
-    const foundersProfile = identityResponse(AnswerType.FoundersProfile);
-
-    const organisationCurrency = countryCurrency(legalEntity.organisation.country);
-
-    /*
-        The Business System's first two pages read the same way the
-        Strategy System's three do: Customer Engagement (Page 2) is
-        answered entirely against the Segments, Profiles and
-        Offerings the Foundation page (Page 1) defines, and refers
-        to them rather than asking for them again.
-
-        A Section can only see its own response, so the Foundation's
-        is resolved here, once, and handed down -- and so is the way
-        back to it, for the links Page 2 draws on the names it
-        borrows.
-
-        Resolved by Answer Structure rather than by Section number,
-        so this stays correct if the Business pages are reordered.
-    */
-    const businessFoundationSection = framework.sections.find(
-        candidate => candidate.answer?.type === AnswerType.BusinessFoundation
-    );
-
-    const businessFoundationValue = businessFoundationSection
-        ? session.getResponse(businessFoundationSection.number)
-        : undefined;
-
-    const openBusinessFoundation: OpenPage | undefined = businessFoundationSection
-        ? (path) => {
-
-            // Sections are numbered from 1; goToSection is 0-based.
-            session.goToSection(businessFoundationSection.number - 1);
-
-            persistAndRedraw(session);
-
-            // At the card the link names, or at the top.
-            if (path && path.length > 0) {
-                jumpTo(path);
-            } else {
-                scrollToTop();
-            }
-
-        }
-        : undefined;
-
-    /*
-        The two Financial pages read the pages before them: Page 4
-        consolidates the costs recorded on Page 3 (and on the Legal
-        Entity, resolved above), and Page 5 measures revenue against
-        everything Page 4 establishes. Resolved by Answer Structure,
-        as Page 1 is.
-    */
-    const sectionOfType = (type: AnswerType) => framework.sections.find(
-        candidate => candidate.answer?.type === type
-    );
-
-    const capabilitySection = sectionOfType(AnswerType.BusinessCapability);
-    const financialFoundationSection = sectionOfType(AnswerType.FinancialFoundation);
-    const financialSustainabilitySection = sectionOfType(AnswerType.FinancialSustainability);
-    const businessEngagementSection = sectionOfType(AnswerType.BusinessEngagement);
-
-    const businessCapabilityValue = capabilitySection
-        ? session.getResponse(capabilitySection.number)
-        : undefined;
-
-    const financialFoundationValue = financialFoundationSection
-        ? session.getResponse(financialFoundationSection.number)
-        : undefined;
-
-    // The Opening Date lives in the Global Settings; the Organization tile edits it, and the pages that place costs around it read it.
-    const globalSettings = asGlobalSettings(organizationId ? OrganizationService.getGlobalSettings(organizationId) : undefined);
-    const openingDate = globalSettings.openingDate;
-    // The business stage: the Opening Date's, with the Global Settings' durations (BusinessStage.ts).
-    const businessStage = stageOf(openingDate, new Date(), stageDurationsOf(globalSettings));
-    const changeOpeningDate = (iso: string) => {
-        if (organizationId) {
-            OrganizationService.saveGlobalSettings(organizationId, { ...asGlobalSettings(OrganizationService.getGlobalSettings(organizationId)), openingDate: iso });
-            redraw();
-        }
-    };
-
-    // Its Demand & Conversion gives the expected sales both Financial pages use.
-    const businessEngagementValue = businessEngagementSection
-        ? session.getResponse(businessEngagementSection.number)
-        : undefined;
-
-    // Its revenue is what Financial Foundation's operating need is net of.
-    const financialSustainabilityValue = financialSustainabilitySection
-        ? session.getResponse(financialSustainabilitySection.number)
-        : undefined;
-
-    const openBusinessSection = (type: AnswerType): OpenPage | undefined => {
-
-        const target = sectionOfType(type);
-
-        if (!target) {
-            return undefined;
-        }
-
-        return (path) => {
-            session.goToSection(target.number - 1);
-            persistAndRedraw(session);
-            if (path && path.length > 0) {
-                jumpTo(path);
-            } else {
-                scrollToTop();
-            }
-        };
-
-    };
-
-    /*
-        The Legal Entity is another System's page (1. Identity System),
-        so it is opened as the Calendar opens a task: the Identity
-        System, at its Legal Entity Section. The browser's Back, and the
-        app's, return here.
-    */
-    const identitySystem = systems.find(candidate => candidate.id === "identity");
-    const legalEntitySection = identitySystem
-        ? frameworkRegistry.getFramework(identitySystem.id).sections
-            .find(candidate => candidate.answer?.type === AnswerType.LegalEntity)
-        : undefined;
-    /** Saves the Legal Entity page's answer (the Identity System's) from the Business System, where its legal cards float over 3. Infrastructure & Capability. */
-    const changeLegalEntity = identitySystem && legalEntitySection && organizationId
-        ? (next: unknown) => {
-            const state = OrganizationService.loadSystemState(organizationId, IDENTITY_SYSTEM_NUMBER) as { responses?: Array<{ sectionNumber: number; value?: unknown }> } | null;
-            if (!state?.responses) {
-                return;
-            }
-            OrganizationService.saveSystemState(organizationId, IDENTITY_SYSTEM_NUMBER, {
-                ...state,
-                responses: state.responses.map(response => response.sectionNumber === legalEntitySection.number ? { ...response, value: next } : response)
-            });
-            redraw();
-        }
-        : undefined;
-    /** On the Identity System's own pages the answers are saved through the interview that is open, so what the page saves is not written over by it later. */
-    const foundersProfileSection = identitySystem
-        ? frameworkRegistry.getFramework(identitySystem.id).sections.find(candidate => candidate.answer?.type === AnswerType.FoundersProfile)
-        : undefined;
-    const identityHere = system.number === IDENTITY_SYSTEM_NUMBER;
-    const changeLegalEntityHere = identityHere && legalEntitySection
-        ? (next: unknown) => {
-            session.saveResponse(legalEntitySection.number, next);
-            persistAndRedraw(session);
-        }
-        : changeLegalEntity;
-    const changeFoundersProfile = identityHere && foundersProfileSection
-        ? (next: unknown) => {
-            session.saveResponse(foundersProfileSection.number, next);
-            persistAndRedraw(session);
-        }
-        : undefined;
-    const openLegalEntity: OpenPage | undefined = identitySystem && legalEntitySection
-        ? (path) => {
-            if (organizationId) {
-                persistAndRedraw(session);
-            }
-            // (The Founders & Ownership tile stands on the Definition, the Identity System's first section, since 2026-11-09.)
-            const onDefinition = path?.[0] === "legal-section-1";
-            navigate("/introduction", {
-                state: { system: identitySystem, targetSectionNumber: onDefinition ? frameworkRegistry.getFramework(identitySystem.id).sections[0].number : legalEntitySection.number }
-            });
-            if (path && path.length > 0) {
-                jumpTo(path);
-            }
-        }
-        : undefined;
+    // What this page reads from the other Systems, and the ways to open or save their pages (crossSystemReaders.ts).
+    const {
+        legalEntityPrefill,
+        targetAudience,
+        identityVision,
+        legalEntity,
+        foundersProfile,
+        organisationCurrency,
+        businessFoundationValue,
+        openBusinessFoundation,
+        capabilitySection,
+        financialFoundationSection,
+        businessCapabilityValue,
+        financialFoundationValue,
+        globalSettings,
+        openingDate,
+        businessStage,
+        changeOpeningDate,
+        businessEngagementValue,
+        financialSustainabilityValue,
+        openBusinessSection,
+        legalEntitySection,
+        changeLegalEntityHere,
+        changeFoundersProfile,
+        openLegalEntity
+    } = readCrossSystem({ session, organizationId, systemNumber: system.number, navigate, redraw, persistAndRedraw, scrollToTop });
 
 
     /*
@@ -1965,19 +1255,6 @@ export default function Conversation() {
         : effectiveAnswer?.nestedNumbering && resolvedSectionTitle
         ? currentSection.number + ". " + resolvedSectionTitle
         : resolvedSectionTitle;
-
-    const canConfirmCapability =
-        capabilityChoice === "original" || otherCapabilityName.trim().length > 0;
-
-    // A narrowed Operations export scope needs at least 1 picked
-    // Process/SOP to actually produce anything -- otherwise "Export"
-    // would silently hand back an empty document.
-    const hasValidOperationsSelection =
-        operationsExportScope === "all" ||
-        (operationsExportScope === "selected-processes" && selectedProcessIndexes.size > 0) ||
-        (operationsExportScope === "selected-sops" && selectedSopKeys.size > 0);
-
-    const canExport = (includeMd || includePdf) && hasValidOperationsSelection;
 
     // Product Development System product picker (item 7): Section
     // 1 (Product Register) requires picking one of its own rows
@@ -2439,294 +1716,21 @@ export default function Conversation() {
                 </div>
             )}
 
-            {exportStep === "warning" && (
-                <div className="confirmation-overlay" onClick={() => setExportStep("none")}>
-                    <div className="confirmation-dialog" onClick={(event) => event.stopPropagation()}>
-                        <h2 className="confirmation-title">
-                            Sections Incomplete
-                        </h2>
-
-                        {/*
-                            What the list is and what the two buttons
-                            do, before the list rather than after it.
-                            A page of red names on their own reads as
-                            a refusal; nothing here refuses anything.
-                        */}
-                        <p className="confirmation-lead">
-                            These answers are still empty. Go back and fill them in, or
-                            continue and export the System as it stands.
-                        </p>
-
-                        {/*
-                            Grouped by the page each one is on, so the
-                            reader sees three pages to return to
-                            rather than eleven names in a column. A
-                            page whose whole Section is incomplete is
-                            its own heading and has nothing under it,
-                            which is what the empty `units` means.
-                        */}
-                        <ul className="confirmation-warning-list">
-                            {groupValidationIssues(validationIssues, framework.sections).map(group => (
-                                <li key={group.number} className="confirmation-warning-group">
-
-                                    <span className="confirmation-warning-page">
-                                        {group.number}. {group.title}
-                                    </span>
-
-                                    {group.units.length > 0 && (
-                                        <ul className="confirmation-warning-units">
-                                            {group.units.map(unit => (
-                                                <li key={unit.label}>
-                                                    {unit.label} {unit.title}
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    )}
-
-                                </li>
-                            ))}
-                        </ul>
-
-                        <div className="confirmation-actions">
-                            <AddButton look="confirmation-button secondary"
-                                onClick={() => setExportStep("none")}>
-                                Cancel
-                            </AddButton>
-
-                            <AddButton look="confirmation-button primary"
-                                onClick={() => openExportOptions()}>
-                                Continue
-                            </AddButton>
-                        </div>
-                    </div>
-                </div>
-            )}
-
-            {exportStep === "options" && (
-                <div className="confirmation-overlay" onClick={() => setExportStep("none")}>
-                    <div className="confirmation-dialog export-options-dialog" onClick={(event) => event.stopPropagation()}>
-                        <h2 className="confirmation-title">
-                            Export Options
-                        </h2>
-
-                        {isProductDevelopmentSystem && (
-                            <div className="export-options-group">
-                                <div className="export-options-label">Include</div>
-
-                                <label className="export-options-radio">
-                                    <input
-                                        type="radio"
-                                        name="export-scope"
-                                        checked={exportScope === "product"}
-                                        onChange={() => setExportScope("product")}
-                                    />
-                                    This Product only
-                                    {selectedProductName ? ` (${selectedProductName})` : ""}
-                                </label>
-
-                                <label className="export-options-radio">
-                                    <input
-                                        type="radio"
-                                        name="export-scope"
-                                        checked={exportScope === "system"}
-                                        onChange={() => setExportScope("system")}
-                                    />
-                                    Whole System (all Products)
-                                </label>
-                            </div>
-                        )}
-
-                        {isOperationsSystem && (
-                            <div className="export-options-group">
-                                <div className="export-options-label">Include</div>
-
-                                <label className="export-options-radio">
-                                    <input
-                                        type="radio"
-                                        name="operations-export-scope"
-                                        checked={operationsExportScope === "all"}
-                                        onChange={() => setOperationsExportScope("all")}
-                                    />
-                                    All Processes
-                                </label>
-
-                                <label className="export-options-radio">
-                                    <input
-                                        type="radio"
-                                        name="operations-export-scope"
-                                        checked={operationsExportScope === "selected-processes"}
-                                        onChange={() => setOperationsExportScope("selected-processes")}
-                                    />
-                                    Selected Processes
-                                </label>
-
-                                <label className="export-options-radio">
-                                    <input
-                                        type="radio"
-                                        name="operations-export-scope"
-                                        checked={operationsExportScope === "selected-sops"}
-                                        onChange={() => setOperationsExportScope("selected-sops")}
-                                    />
-                                    Selected SOPs
-                                </label>
-
-                                {operationsExportScope === "selected-processes" && (
-                                    <div className="export-options-picker">
-                                        {operationsProcesses.length === 0 && (
-                                            <div className="export-options-picker-empty">
-                                                No Processes yet.
-                                            </div>
-                                        )}
-                                        {operationsProcesses.map((process, processIndex) => (
-                                            <label
-                                                key={processIndex}
-                                                className="export-options-checkbox export-options-picker-row"
-                                            >
-                                                <input
-                                                    type="checkbox"
-                                                    checked={selectedProcessIndexes.has(processIndex)}
-                                                    onChange={() => toggleSelectedProcess(processIndex)}
-                                                />
-                                                {processDisplayId(operationsProcesses, processIndex)}
-                                                {" - "}
-                                                {process.name?.trim() || "Untitled Process"}
-                                            </label>
-                                        ))}
-                                    </div>
-                                )}
-
-                                {operationsExportScope === "selected-sops" && (
-                                    <div className="export-options-picker">
-                                        {operationsProcesses.length === 0 && (
-                                            <div className="export-options-picker-empty">
-                                                No Processes yet.
-                                            </div>
-                                        )}
-                                        {operationsProcesses.map((process, processIndex) => (
-                                            <div key={processIndex} className="export-options-picker-process">
-                                                <div className="export-options-picker-process-name">
-                                                    {processDisplayId(operationsProcesses, processIndex)}
-                                                    {" - "}
-                                                    {process.name?.trim() || "Untitled Process"}
-                                                </div>
-                                                {process.sops.map((sop, sopIndex) => (
-                                                    <label
-                                                        key={sopIndex}
-                                                        className="export-options-checkbox export-options-picker-row export-options-picker-row-nested"
-                                                    >
-                                                        <input
-                                                            type="checkbox"
-                                                            checked={selectedSopKeys.has(`${processIndex}:${sopIndex}`)}
-                                                            onChange={() => toggleSelectedSop(processIndex, sopIndex)}
-                                                        />
-                                                        {sopDisplayId(process.sops, sopIndex)}
-                                                        {" - "}
-                                                        {sop.name?.trim() || "Untitled SOP"}
-                                                    </label>
-                                                ))}
-                                            </div>
-                                        ))}
-                                    </div>
-                                )}
-                            </div>
-                        )}
-
-                        {system?.id === "business" && (
-                            <div className="export-options-group">
-                                <div className="export-options-label">Document</div>
-
-                                <label className="export-options-radio">
-                                    <input
-                                        type="radio"
-                                        name="document-choice"
-                                        checked={documentChoice === "answers"}
-                                        onChange={() => setDocumentChoice("answers")}
-                                    />
-                                    The Business System's answers
-                                </label>
-
-                                <label className="export-options-radio">
-                                    <input
-                                        type="radio"
-                                        name="document-choice"
-                                        checked={documentChoice === "canvas"}
-                                        onChange={() => setDocumentChoice("canvas")}
-                                    />
-                                    Business Model Canvas
-                                </label>
-                            </div>
-                        )}
-
-                        <div className="export-options-group">
-                            <div className="export-options-label">Capability</div>
-
-                            <label className="export-options-radio">
-                                <input
-                                    type="radio"
-                                    name="capability-choice"
-                                    checked={capabilityChoice === "original"}
-                                    onChange={() => setCapabilityChoice("original")}
-                                />
-                                Original ({framework.metadata.capability})
-                            </label>
-
-                            <label className="export-options-radio">
-                                <input
-                                    type="radio"
-                                    name="capability-choice"
-                                    checked={capabilityChoice === "other"}
-                                    onChange={() => setCapabilityChoice("other")}
-                                />
-                                Another Capability
-                            </label>
-
-                            {capabilityChoice === "other" && (
-                                <TextBox
-                                    className="export-options-text-input"
-                                    placeholder="Capability name"
-                                    value={otherCapabilityName}
-                                    onChange={(event) => setOtherCapabilityName(event.target.value)}
-                                />
-                            )}
-                        </div>
-
-                        <div className="export-options-group">
-                            <div className="export-options-label">Format</div>
-
-                            <label className="export-options-checkbox">
-                                <input
-                                    type="checkbox"
-                                    checked={includeMd}
-                                    onChange={(event) => setIncludeMd(event.target.checked)}
-                                />
-                                Markdown (.md)
-                            </label>
-
-                            <label className="export-options-checkbox">
-                                <input
-                                    type="checkbox"
-                                    checked={includePdf}
-                                    onChange={(event) => setIncludePdf(event.target.checked)}
-                                />
-                                PDF
-                            </label>
-                        </div>
-
-                        <div className="confirmation-actions">
-                            <AddButton look="confirmation-button secondary"
-                                onClick={() => setExportStep("none")}>
-                                Cancel
-                            </AddButton>
-
-                            <AddButton look="confirmation-button primary"
-                                onClick={handleFinalExport}
-                                disabled={!canExport || !canConfirmCapability}>
-                                Export
-                            </AddButton>
-                        </div>
-                    </div>
-                </div>
-            )}
+            <ExportFlow
+                step={exportStep}
+                onStep={setExportStep}
+                onContinue={openExportOptions}
+                openCount={exportOpenCount}
+                validationIssues={validationIssues}
+                session={session}
+                system={system}
+                organizationId={organizationId}
+                organizationName={organizationName}
+                selectedProductName={selectedProductName}
+                operationsProcesses={operationsProcesses}
+                legalEntity={legalEntity}
+                foundersProfile={foundersProfile}
+                organisationCurrency={organisationCurrency} />
         </div>
     );
 }
