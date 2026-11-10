@@ -1120,3 +1120,33 @@
 
 }
 
+
+/* THE ICON & LOGO IN BANDS (owner, 2026-11-10: "The Icon & Logo does not have any colour variation per section"): the Logo, the Icon and the Notes each a
+   band across the dialog, as every card's parts: the Logo on the card's ground, the Icon on the row tint, the Notes on the ground again; the light line
+   and the bands' 12px between them (tile and card pattern, "A band has room", "A light line between two bands"). */
+.section-tile-dialog .brand-inventory > .brand-inventory-rows > .brand-asset-slot{
+
+    margin-inline:calc(-1 * var(--card-padding));
+    padding:var(--space-cell) var(--card-padding);
+
+}
+
+.section-tile-dialog .brand-inventory > .brand-inventory-rows > .brand-asset-slot-icon{
+
+    border-top:1px solid var(--band-divider);
+
+    background:var(--tint-row-band);
+
+}
+
+.section-tile-dialog .brand-asset-slot-icon > .brand-slot-aside{
+
+    margin:var(--space-cell) calc(-1 * var(--card-padding)) calc(-1 * var(--space-cell));
+    padding:var(--space-cell) var(--card-padding);
+
+    border-top:1px solid var(--band-divider);
+
+    /* (The dialog's own ground: --theme-bg-ground, as .section-tile-dialog.) */
+    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-ground)) var(--theme-ground-weight), var(--theme-ground-paper));
+
+}
