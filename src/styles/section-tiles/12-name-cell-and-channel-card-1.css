@@ -571,7 +571,7 @@ main.conversation-content[data-reserve],
 
     background: var(--tab-bg);
 
-    box-shadow: 4px 4px 12px color-mix(in srgb, var(--tab-edge) 18%, transparent);
+    box-shadow: var(--shadow-menu);
 
     align-items: flex-start;
 
