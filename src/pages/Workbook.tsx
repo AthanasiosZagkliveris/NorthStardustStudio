@@ -1,6 +1,7 @@
 import { CSSProperties, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 
+import AppFooter from "../components/AppFooter";
 import AppHeader from "../components/AppHeader";
 import InterviewHeader from "../components/interview/editors/InterviewHeader";
 import CardShell from "../components/interview/cards/CardShell";
@@ -171,16 +172,18 @@ export default function Workbook() {
     // The text size of the section (owner, 2026-11-10: "Add a letter-size option like the Inventory"): the Inventory's three steps, 14, 18 and 24px, kept while
     // the page stays open; the section is drawn at that scale.
     const [textSize, setTextSize] = useState<string>("body");
-    // (From under the title's rule down to the window's end, 12px clear of it (owner, 2026-11-10: "Extend the cards to the end of the screen"; the Back stands in
-    // the tab): what is taller scrolls in its body, under the heading and the tabs, which stay.)
+    // (From under the title's rule down to the footer, where the Back stands (owner, 2026-11-10: "Move the back button out of the tag and back to its previous
+    // position"), 12px clear of it: the page itself never scrolls, so its title stays; what is taller scrolls in the panel's body, under its head and tabs.)
     const [panelHeight, setPanelHeight] = useState<number | null>(null);
     useLayoutEffect(() => {
         const measure = () => {
             const node = panel.current;
+            const foot = document.querySelector(".workbook .workspace-footer");
             if (!node) {
                 return;
             }
-            const next = Math.max(240, Math.round(window.innerHeight - 12 - (node.getBoundingClientRect().top + window.scrollY)));
+            const end = foot ? foot.getBoundingClientRect().top : window.innerHeight;
+            const next = Math.max(240, Math.round(end - 12 - (node.getBoundingClientRect().top + window.scrollY)));
             setPanelHeight(current => current === next ? current : next);
         };
         measure();
@@ -312,7 +315,9 @@ export default function Workbook() {
 
             </main>
 
-            <CarouselArrows target={panel} step={step} hue={WORKBOOK_HUE} side="left" back={back} />
+            <CarouselArrows target={panel} step={step} hue={WORKBOOK_HUE} side="left" />
+
+            <AppFooter onBack={back} />
 
 
         </div>

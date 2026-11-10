@@ -338,3 +338,26 @@
     gap:var(--gap-8);
 
 }
+
+/* The Forecast's Period and Until stand before the text size, Export after it (owner, 2026-11-10: "place the Period and Until fields before the text size
+   fields"). */
+.workbook .workbook-tools > .business-documents-option{
+
+    order:-1;
+
+}
+
+/* The page itself does not scroll (its title stays, owner, 2026-11-10): the panel ends over the footer and scrolls inside. */
+.workbook .glossary-page{
+
+    padding-bottom:0;
+
+}
+
+/* THE WORKBOOK'S LISTS IN BANDS (owner, 2026-11-10: "Use colour variations in different parts"): a card's note, a review item, a term and a reference
+   alternate as every card's bands do, the first on its own ground, the next on the 6% tint. */
+.workbook .workbook-section :is(.notepad-card-note, .review-item, .glossary-entry, .references-entry):nth-child(even){
+
+    background-image:linear-gradient(var(--tint-row-band), var(--tint-row-band));
+
+}

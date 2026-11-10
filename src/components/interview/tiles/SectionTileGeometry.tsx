@@ -167,7 +167,8 @@ export function tileGapLevel(): number | null {
 
 /** The level the carousel arrows stand at: the page arrows' own. */
 export function arrowLevel(): number | null {
-    const page = document.querySelector<HTMLElement>(".page-arrow:not(.carousel-arrow)");
+    // (The Notes' closing arrow is no page arrow: with the Notes open, the carousel kept its level and stood at the top; owner, 2026-11-10.)
+    const page = document.querySelector<HTMLElement>(".page-arrow:not(.carousel-arrow, .notepad-close)");
     if (page) {
         const box = page.getBoundingClientRect();
         if (box.height > 0) {
