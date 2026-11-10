@@ -1425,3 +1425,13 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow, .notepad-close) {
     border-top:1px solid var(--band-divider);
 
 }
+
+/* THE ORGANISATION'S RIGHT COLUMN takes the light line where its colour changes, as the left one does (owner, 2026-11-10: "Organization dialogue card,
+   still has different colour divider lines ... some they do not align properly"): the Registration Date (the dates' first, under the Legal Form) and the
+   Activities (under the dates) had none, so the two columns' bands stood a pixel apart. */
+.legal-entity-grid-organization .legal-entity-org-dates > .legal-entity-org-section:first-child,
+.legal-entity-grid-organization .legal-entity-org-dates + .legal-entity-org-section{
+
+    border-top:1px solid var(--band-divider);
+
+}
