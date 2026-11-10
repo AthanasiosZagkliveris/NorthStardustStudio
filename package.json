@@ -28,6 +28,7 @@
     "verify": "tsc --noEmit && vitest run && npm run tokens:check && npm run lint:styles && npm run lint:controls && npm run lint:css && npm run docs:check && npm run tables:check && npm run library:check",
     "lint:styles": "node tools/scripts/lint/lint-styles.mjs",
     "lint:css": "node tools/scripts/lint/css-usage.mjs --check && node tools/scripts/lint/css-shadowed.mjs --check",
+    "css:map": "node tools/scripts/lint/css-map.mjs",
     "css:where": "node tools/scripts/lint/css-where.mjs",
     "lint:controls": "node tools/scripts/lint/shared-controls.mjs",
     "lint:controls:baseline": "node tools/scripts/lint/shared-controls.mjs --write-baseline",
