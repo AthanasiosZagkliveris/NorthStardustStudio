@@ -80,8 +80,19 @@
 }
 
 /* The funnel, alone at the end of its row: ONE on each tab (the Glossary's chooses the kinds of term and the letter ranges, the References' the letter ranges; the title's "i" names the two colours). */
-/* THE WORKBOOK'S SECTION BUTTONS stand at the right end of its title's row (WorkbookTools; layout rules 22.37), 12px apart, on the title's line. */
-.interview-header .workbook-tools{
+/* THE WORKBOOK'S HEAD: the section's heading and, at the right end of its row, the section's buttons (WorkbookTools; layout rules 22.37), 12px apart, on the
+   heading's line; it stands outside the body that scrolls, so it stays. */
+.workbook .workbook-head{
+
+    display:flex;
+    align-items:center;
+    flex-wrap:wrap;
+
+    gap:var(--gap-12);
+
+}
+
+.workbook .workbook-tools{
 
     display:flex;
     align-items:center;
@@ -288,5 +299,42 @@
         padding-right:16px;
 
     }
+
+}
+
+/* The section's text size (the Inventory's three steps, 14, 18 and 24px): the section drawn at that scale. */
+.workbook .workbook-section[data-size="small"]{
+
+    zoom:calc(14 / 18);
+
+}
+
+.workbook .workbook-section[data-size="large"]{
+
+    zoom:calc(24 / 18);
+
+}
+
+/* The Business Documents' tabs stay at the top of the body while the document scrolls under them. */
+.workbook .workbook-section .tab-list{
+
+    position:sticky;
+    top:-6px;
+
+    z-index:2;
+
+    /* (The panel's own ground, so the document passes under it unseen.) */
+    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-ground)) var(--theme-ground-weight), var(--theme-ground-paper));
+
+}
+
+/* The Forecast's period and last year in the title's row: each label beside its picker. */
+.workbook .workbook-tools .business-documents-option{
+
+    display:flex;
+    flex-direction:row;
+    align-items:center;
+
+    gap:var(--gap-8);
 
 }

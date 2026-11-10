@@ -662,7 +662,8 @@
 }
 
 .business-capability-tiles-section > .business-engagement-section-head .field-group-title,
-.section-tile-dialog-body > div > .business-engagement-section-head .field-group-title {
+.section-tile-dialog-body > div > .business-engagement-section-head .field-group-title,
+.workbook-head > .business-engagement-section-head .field-group-title {
 
     font-size: var(--font-h3);
 

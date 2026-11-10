@@ -82,7 +82,7 @@ describe("the Glossary", () => {
     it("has ONE funnel: the kinds of term first, then the letter ranges", () => {
         open();
         // (In the title's row, with the section's other buttons: WorkbookTools.)
-        expect(document.querySelectorAll(".interview-header .workbook-tools .funnel-box, .interview-header .workbook-tools [aria-label^='Choose']")).toHaveLength(1);
+        expect(document.querySelectorAll(".workbook-head .workbook-tools .funnel-box, .workbook-head .workbook-tools [aria-label^='Choose']")).toHaveLength(1);
         fireEvent.click(screen.getByRole("button", { name: "Choose which terms show" }));
         const options = screen.getAllByRole("checkbox").map(box => box.getAttribute("aria-label") ?? box.closest("label")?.textContent ?? "");
         expect(options.slice(0, 2).join("|")).toMatch(/App terms.*\|.*Your terms/);
@@ -197,7 +197,7 @@ describe("the Workbook, a whole page (owner, 2026-11-09)", () => {
     it("opens from the header's Workbook on the Card Notes, with the Review, the Glossary and the References as its other tabs", () => {
         NotepadService.addNote(OrganizationService.getSelected()!);
         openFrom("/assistant");
-        const tabs = within(screen.getByRole("navigation", { name: "Go to a section" })).getAllByRole("button").map(tab => tab.textContent);
+        const tabs = within(screen.getByRole("navigation", { name: "Go to a section" })).getAllByRole("button").map(tab => tab.textContent).filter(name => name !== "Back");
         expect(tabs).toEqual(["Card Notes", "Review", "Glossary", "References", "Business Documents"]);
         expect(screen.getByRole("heading", { name: /^Card Notes$/ })).toBeTruthy();
         expect(screen.getByText(/^No card notes yet/)).toBeTruthy();
@@ -213,7 +213,7 @@ describe("the Workbook, a whole page (owner, 2026-11-09)", () => {
 
     it("opens from the Landing page's Workbook (the same button) with the Landing's tabs: the total review, the Glossary and the References", () => {
         openFrom("/assistant", "landing");
-        const tabs = within(screen.getByRole("navigation", { name: "Go to a section" })).getAllByRole("button").map(tab => tab.textContent);
+        const tabs = within(screen.getByRole("navigation", { name: "Go to a section" })).getAllByRole("button").map(tab => tab.textContent).filter(name => name !== "Back");
         expect(tabs).toEqual(["Review", "Glossary", "References"]);
         act(() => { fireEvent.click(railTab("Review")); });
         expect(screen.getByRole("heading", { name: /^Total review$/ })).toBeTruthy();

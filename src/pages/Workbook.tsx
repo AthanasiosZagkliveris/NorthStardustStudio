@@ -1,11 +1,13 @@
 import { CSSProperties, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 
-import AppFooter from "../components/AppFooter";
 import AppHeader from "../components/AppHeader";
 import InterviewHeader from "../components/interview/editors/InterviewHeader";
 import CardShell from "../components/interview/cards/CardShell";
 import { CarouselArrows } from "../components/interview/tiles/CarouselArrows";
+import RadioChoice from "../components/controls/RadioChoice";
+import { TABLE_SIZES } from "../components/interview/tiles/CapabilityOverview";
+import "../styles/capability-overview.css";
 import { DialogHeading } from "../components/interview/tiles/SectionTiles";
 import BusinessDocumentsView from "../components/BusinessDocumentsView";
 import { workHue } from "../framework/engine/WorkColours";
@@ -61,6 +63,7 @@ export const GLOSSARY_INFO: Record<"glossary" | "references" | "documents", stri
     // (The Business Documents: what they are drawn from is the Plan's own subtitle; how to change them is said here, once.)
     documents: [
         "Your Business Plan, Business Model Canvas and Financial Forecast, written from your Foundation answers each time you open them.",
+        "Figures are estimates over the plan's length, from its first month: set them on 3. Business System, 4. Financial Foundation.",
         "To change a line, change the answer it came from. Export each one as Markdown or PDF, and the Forecast as CSV too."
     ]
 };
@@ -165,16 +168,19 @@ export default function Workbook() {
     const panel = useRef<HTMLDivElement | null>(null);
     // (The row of the title holds the section's buttons at its right end: WorkbookTools.)
     const [toolsSlot, setToolsSlot] = useState<HTMLElement | null>(null);
-    // (As a section dialog stands, from under the title's rule down to the footer, 12px clear of it: what is taller scrolls in its body.)
+    // The text size of the section (owner, 2026-11-10: "Add a letter-size option like the Inventory"): the Inventory's three steps, 14, 18 and 24px, kept while
+    // the page stays open; the section is drawn at that scale.
+    const [textSize, setTextSize] = useState<string>("body");
+    // (From under the title's rule down to the window's end, 12px clear of it (owner, 2026-11-10: "Extend the cards to the end of the screen"; the Back stands in
+    // the tab): what is taller scrolls in its body, under the heading and the tabs, which stay.)
     const [panelHeight, setPanelHeight] = useState<number | null>(null);
     useLayoutEffect(() => {
         const measure = () => {
             const node = panel.current;
-            const foot = document.querySelector(".workbook .workspace-footer");
-            if (!node || !foot) {
+            if (!node) {
                 return;
             }
-            const next = Math.max(240, Math.round(foot.getBoundingClientRect().top - 12 - (node.getBoundingClientRect().top + window.scrollY)));
+            const next = Math.max(240, Math.round(window.innerHeight - 12 - (node.getBoundingClientRect().top + window.scrollY)));
             setPanelHeight(current => current === next ? current : next);
         };
         measure();
@@ -204,19 +210,33 @@ export default function Workbook() {
             <main className="glossary-page">
 
                 {/* The top of the page as on a System page: "Workbook" at the top left, over its rule; the section's name is the panel's heading. */}
-                <InterviewHeader systemName="Workbook" icon={workbookIcon} actions={<div className="workbook-tools" ref={setToolsSlot} />} />
+                <InterviewHeader systemName="Workbook" icon={workbookIcon} />
 
                 <WorkbookToolsSlot.Provider value={toolsSlot}>
 
                 <CardShell ref={panel} className="section-tile-dialog workbook-panel" data-carousel="" style={{ "--strategy-theme-hue": WORKBOOK_HUE, ...(panelHeight === null ? {} : { height: panelHeight }) } as CSSProperties}>
 
-                {/* As a dialog's: the body that holds the heading and the section. */}
-                <div className="section-tile-dialog-body">
-                <div className="column-tile-content workbook-section">
-
-                <div className="business-engagement-section-head" role="heading" aria-level={2}>
-                    <DialogHeading key={tab} title={title} info={tab === "glossary" || tab === "references" || tab === "documents" ? GLOSSARY_INFO[tab] : undefined} />
+                {/* The section's heading and its buttons in one row at the panel's top (owner, 2026-11-10: "The buttons should be in the same row as the Card's
+                    Title"; "should stay in place, not move on scrolling down"): outside the body that scrolls. */}
+                <div className="workbook-head">
+                    <div className="business-engagement-section-head" role="heading" aria-level={2}>
+                        <DialogHeading key={tab} title={title} info={tab === "glossary" || tab === "references" || tab === "documents" ? GLOSSARY_INFO[tab] : undefined} />
+                    </div>
+                    <div className="workbook-tools" ref={setToolsSlot}>
+                        <RadioChoice
+                            className="capability-overview-sizes"
+                            label="Text size"
+                            group="workbook-text-size"
+                            options={TABLE_SIZES.map((size, at) => ({ id: size.id, label: <span className="capability-overview-size-aa" data-size={size.id}>Aa</span>, name: ["Smaller text", "Standard text", "Larger text"][at] }))}
+                            value={textSize}
+                            onChange={setTextSize}
+                        />
+                    </div>
                 </div>
+
+                {/* As a dialog's: the body that holds the section and scrolls. */}
+                <div className="section-tile-dialog-body">
+                <div className="column-tile-content workbook-section" data-size={textSize}>
 
                 {tab === "card-notes" && <WorkbookCardNotes />}
 
@@ -292,9 +312,8 @@ export default function Workbook() {
 
             </main>
 
-            <CarouselArrows target={panel} step={step} hue={WORKBOOK_HUE} side="left" />
+            <CarouselArrows target={panel} step={step} hue={WORKBOOK_HUE} side="left" back={back} />
 
-            <AppFooter onBack={back} />
 
         </div>
 
