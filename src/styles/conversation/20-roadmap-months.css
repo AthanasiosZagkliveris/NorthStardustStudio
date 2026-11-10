@@ -143,7 +143,8 @@
 
     /* As wide as its longest line (every line is ONE line; a line too long for the room is cut by an ellipsis and says itself whole), held inside the window. */
     /* (Narrowed 2026-10-21: as wide as its dropdown cells need -- a cell's closed width, --control-s, and the window's 12px at each side; the From and To cells share it, a longer line is one line cut by an ellipsis.) */
-    width:calc(var(--control-s) + 24px);
+    /* (24px inside at each side since 2026-11-10: the one dropdown card's.) */
+    width:calc(var(--control-s) + 48px);
     min-width:0;
     max-width:calc(100vw - 24px);
 

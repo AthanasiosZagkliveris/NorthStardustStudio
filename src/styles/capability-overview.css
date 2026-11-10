@@ -719,16 +719,14 @@
 
 }
 
-/* THE FILTER AND SORT WINDOW stands in the colour of the card it belongs to (the Inventory's hue): its ground, its wireframe and its ink are the card's. */
+/* THE FILTER AND SORT WINDOW IS THE ONE DROPDOWN CARD (owner, 2026-11-10, 18:37: "So all these follow the same rules?"): the ground, the inset light and
+   shade, the drop shadow and the corners of every menu (`.strategy-sort-menu`), no stroke; 24px inside, as the Glossary's and the Review's funnel windows
+   (the window's 12px and the filters' own 12px). It was the card's tinted ground with a wireframe. */
 .strategy-sort-menu.strategy-sort-menu-wide {
 
     max-height: calc(100vh - 120px);
 
-    border: 1px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
-
-    background: color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
-
-    color: hsl(var(--strategy-theme-hue, 0) var(--theme-text-ink));
+    padding: var(--space-field);
 
     /* The glow under the pointer and the ring on the focus of what stands in the window are the card's tint, never the app's blue. */
     --glow-color: hsl(var(--strategy-theme-hue, 0) var(--theme-line-accent));
