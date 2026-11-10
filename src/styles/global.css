@@ -360,9 +360,10 @@ body {
      than the last, so the shade deepens gradually towards the box and blurs away to clear, with no edge.) */
   /* (Shorter, owner 21:06: "I do not like it too long"; and with no hard line, 21:07: "the transparency should change gradually": no tight layer, every layer
      blurred at least four times its offset, each fainter, so the shade rises from clear to its deepest without an edge.) */
-  --shadow-drop: 0 2px 10px color-mix(in srgb, var(--shadow-ink-08) 90%, transparent), 0 6px 18px color-mix(in srgb, var(--shadow-ink-08) 70%, transparent), 0 10px 28px color-mix(in srgb, var(--shadow-ink-08) 45%, transparent);
-  --shadow-menu: 0 2px 8px color-mix(in srgb, var(--shadow-ink-08) 90%, transparent), 0 4px 14px color-mix(in srgb, var(--shadow-ink-08) 70%, transparent), 0 8px 22px color-mix(in srgb, var(--shadow-ink-08) 40%, transparent);
-  --shadow-tile-lift: 0 2px 8px color-mix(in srgb, var(--shadow-ink-08) 90%, transparent), 0 4px 14px color-mix(in srgb, var(--shadow-ink-08) 60%, transparent);
+  /* (More blur, owner 21:12: "Can you blur the drop shadows?": each layer blurred further on the same small offset.) */
+  --shadow-drop: 0 2px 16px color-mix(in srgb, var(--shadow-ink-08) 90%, transparent), 0 6px 28px color-mix(in srgb, var(--shadow-ink-08) 70%, transparent), 0 10px 40px color-mix(in srgb, var(--shadow-ink-08) 45%, transparent);
+  --shadow-menu: 0 2px 12px color-mix(in srgb, var(--shadow-ink-08) 90%, transparent), 0 4px 22px color-mix(in srgb, var(--shadow-ink-08) 70%, transparent), 0 8px 32px color-mix(in srgb, var(--shadow-ink-08) 40%, transparent);
+  --shadow-tile-lift: 0 2px 12px color-mix(in srgb, var(--shadow-ink-08) 90%, transparent), 0 4px 22px color-mix(in srgb, var(--shadow-ink-08) 60%, transparent);
   /* (Both end in clear: one blur only, wide against its offset, its colour faint; a tile lifted under the pointer takes the menu's.) */
   /* THE LINE BETWEEN TWO BANDS (owner, 2026-11-10: "a divider line (12px, 1px, 12px) with a light colour (the card's tint colour)"): 1px in a light step of the card's own hue, the bands' 12px on each side of it. */
   --band-divider: color-mix(in srgb, hsl(var(--strategy-theme-hue, 220) var(--theme-bg-ink)) 30%, hsl(var(--strategy-theme-hue, 220) var(--theme-bg-inner)));
