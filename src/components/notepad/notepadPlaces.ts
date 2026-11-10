@@ -143,6 +143,13 @@ export function openLink(navigate: Navigate, link: NoteLink): void {
         if (location) {
             navigate(location.pathname, { state: location.state });
         }
+        // A PAGE'S TILE APPEARS: a link to a tile opens it, as a press on it does (owner, 2026-11-10: "when clicking on a note's link, the related part
+        // should appear"), once the page has drawn it.
+        const key = link.key;
+        window.setTimeout(() => {
+            const tile = document.querySelector<HTMLElement>("button.section-tile[data-field-key=\"" + CSS.escape(key) + "\"]");
+            tile?.click();
+        }, 900);
         return;
     }
 

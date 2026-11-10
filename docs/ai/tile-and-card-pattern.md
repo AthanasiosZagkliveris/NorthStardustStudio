@@ -52,6 +52,11 @@ The questions are an engine file (`ProfileQuestions.ts`, as `SegmentQuestions.ts
 - A floating card shades only the chapter (frame) it stands over, the size and shape of that frame, and freezes it (a press on the shade closes the card); the rest of the page is not darkened. It has the same inner light and shade as every card.
 - A dialog header is one row: the root name, then the names one size lower; a long trail slides off to the left.
 
+## A part in your notes (the Notes panel's links)
+- **What a note does to the part it links** (owner, 2026-11-10: "it should be written in the doc, the effect of taking a note (the colour and wireframe)"): a field, a card or a page's tile that a note links is drawn in the noted orange: a 4px stroke (`--line-noted`) just inside its edge, over its own border, so nothing moves; a gentle orange ground (`--bg-noted`); and a soft glow round it (`--glow-noted`, 12px), drawn inside where a box clips what it holds. It says "In your notes" to a screen reader (`markNoted`, fieldMarks.tsx; notepad.css).
+- **Pointed at** (the part itself, or its note or one of its links in the Notes panel): the stroke steps outside the edge and the glow widens (16px, 4px spread); the note and its link chips light the same way. While the part holds the focus, the focus ring is drawn in place of the glow.
+- **A link opens its part**: a press on a link chip goes to the page and opens what it names; a page's tile opens its dialog, as a press on it does (`openLink`, notepadPlaces.ts). A chip is the link's number over its name, its x inside it, 4px clear of its edge.
+
 ## The two documents
 This file is the short, visual brief: what a tile, frame and card look like, for anyone drawing one. `layout-rules.md` is the rulebook: every measured rule, token and class, batch by batch, and the automated check that proves them. A new pattern is written here in a line and in `layout-rules.md` in full.
 

@@ -241,7 +241,8 @@ function markNoted(root: HTMLElement, organizationId: string): void {
         if (!keys.has(holder.dataset.fieldKey ?? "") || holder.closest("[hidden]")) {
             continue;
         }
-        const box = holder.matches(CARDS) || holder.matches(NOTED_BOX)
+        // (A page's tile is a card too: a note linked to it draws it so (owner, 2026-11-10: "Check and fix, in the notes panel, the linked parts").)
+        const box = holder.matches(CARDS) || holder.matches(".section-tile") || holder.matches(NOTED_BOX)
             ? holder
             : holder.querySelector<HTMLElement>(NOTED_BOX);
         if (box) {
