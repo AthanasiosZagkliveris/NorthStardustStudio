@@ -355,10 +355,12 @@
 }
 
 /* THE WORKBOOK'S LISTS IN BANDS (owner, 2026-11-10: "Use colour variations in different parts"): a card's note, a review item, a term and a reference
-   alternate as every card's bands do, the first on its own ground, the next on the 6% tint. */
+   alternate, two close steps of the card's ink over the cell's fill: 3% and 7% (owner, 2026-11-10: "The colour difference in the content can be
+   smaller"). */
 .workbook .workbook-section :is(.notepad-card-note, .review-item, .glossary-entry, .references-entry):nth-child(even){
 
-    background-image:linear-gradient(var(--tint-row-band), var(--tint-row-band));
+    background-image:none;
+    background-color:color-mix(in srgb, var(--card-band-ink) 7%, var(--cell-fill));
 
 }
 
@@ -367,7 +369,7 @@
    app's fields, and the even rows take the card's band tint over it; the card around keeps its own, darker ground. */
 .workbook .workbook-section :is(.notepad-card-note, .review-item, .glossary-entry, .references-entry){
 
-    background-color:var(--cell-fill);
+    background-color:color-mix(in srgb, var(--card-band-ink) 3%, var(--cell-fill));
 
 }
 
