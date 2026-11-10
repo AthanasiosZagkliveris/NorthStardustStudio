@@ -25,7 +25,7 @@ export interface AppTerm {
     sources?: readonly SourceId[];
     /** WHERE IN THE APP THE TERM IS USED (owner, 2026-11-10: "where in the app does this term exist"; "Clicking on it should direct the user to that specific
      *  field"): its System, its page (the section's number) and the part of it in words; the tile to open there and the field to bring into view (selectors). */
-    places?: readonly { system: number; page: number; part: string; tile?: string; field?: string }[];
+    places?: readonly { system: number; page: number; part: string; tile?: string; field?: string; card?: "amortisationYears" | "usefulLife" }[];
 }
 
 export const APP_TERMS: readonly AppTerm[] = [
@@ -235,7 +235,7 @@ export const APP_TERMS: readonly AppTerm[] = [
     {
         id: "useful-life",
         term: "Useful life",
-        places: [{ system: 3, page: 3, part: "Resources, a Resource card", tile: "button.section-tile[data-field-key=\"3.3:resources\"]" }],
+        places: [{ system: 3, page: 3, part: "Useful life", card: "usefulLife" }],
         meaning: "The years an asset serves the business before it is worn out, outdated or replaced. Its cost is spread over those years, a share in each year.",
         also: ["depreciation"],
         sources: ["texasAssetClasses"]
@@ -243,7 +243,7 @@ export const APP_TERMS: readonly AppTerm[] = [
     {
         id: "amortisation",
         term: "Amortisation",
-        places: [{ system: 3, page: 3, part: "Resources, a Resource card", tile: "button.section-tile[data-field-key=\"3.3:resources\"]" }],
+        places: [{ system: 3, page: 3, part: "Amortisation period", card: "amortisationYears" }],
         meaning: "Depreciation for an asset you cannot touch, such as a licence, software, a website or a trademark: its cost is spread over the years it serves the business, in a straight line.",
         also: ["intangible asset", "amortization"],
         sources: ["frs102Intangibles", "ias38Examples", "section197Amortisation"]

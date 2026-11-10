@@ -128,7 +128,40 @@ export class GlossaryService {
                 }
             }
         }
-        return terms.filter(term => !term.places || term.places.some(place => answered.has(place.system + "." + place.page)));
+        return terms.filter(term => !term.places || term.places.some(place => place.card ? GlossaryService.cardWith(organizationIds, place.card) !== null : answered.has(place.system + "." + place.page)));
+    }
+
+    /**
+     * The first card of these Organisations that holds a field (an amortisation period, a useful life): the card a Glossary term is used on, named and
+     * opened by its id (owner, 2026-11-10: "In which card is the Amortisation?").
+     */
+    static cardWith(organizationIds: readonly string[], field: string): { organizationId: string; cardId: string; name: string } | null {
+        for (const organizationId of organizationIds) {
+            const document = OrganizationService.loadDocument(organizationId) as { systems?: Record<string, { responses?: { value: unknown }[] }> } | null;
+            let found: { cardId: string; name: string } | null = null;
+            const walk = (value: unknown) => {
+                if (found || !value || typeof value !== "object") {
+                    return;
+                }
+                if (Array.isArray(value)) {
+                    value.forEach(walk);
+                    return;
+                }
+                const record = value as Record<string, unknown>;
+                if (typeof record.id === "string" && typeof record.name === "string" && record.name.trim() && record[field]) {
+                    found = { cardId: record.id, name: record.name.trim() };
+                    return;
+                }
+                Object.values(record).forEach(walk);
+            };
+            for (const response of document?.systems?.["3"]?.responses ?? []) {
+                walk(response.value);
+            }
+            if (found) {
+                return { organizationId, ...(found as { cardId: string; name: string }) };
+            }
+        }
+        return null;
     }
 
     static appTerms() {

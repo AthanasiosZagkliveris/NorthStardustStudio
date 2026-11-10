@@ -10,6 +10,7 @@ vi.mock("../services/GlossaryService", async (importOriginal) => {
             appTerms: original.GlossaryService.appTerms,
             // (Every app term, as on a page with answers: which terms have appeared is GlossaryService's own test.)
             appTermsAppeared: original.GlossaryService.appTerms,
+            cardWith: () => null,
             userTerms: () => [
                 { cardId: "segment-1", name: "Conscious London Homemakers", kind: "Segment", description: "Homeowners who buy handmade.", systemNumber: 3, sectionNumber: 1 }
             ]

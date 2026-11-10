@@ -35,7 +35,7 @@ interface Entry {
     organisation?: string;
     open?: () => void;
     /** Where in the app an app term is used: its pages, each a link (owner, 2026-11-10: "where in the app does this term exist"). */
-    places?: readonly { system: number; page: number; part: string; tile?: string; field?: string }[];
+    places?: readonly { system: number; page: number; part: string; tile?: string; field?: string; card?: "amortisationYears" | "usefulLife" }[];
 }
 
 /** The letter a term or a reference is filed under: its first letter. */
@@ -224,14 +224,21 @@ export default function GlossaryList({ organizationIds, target, onCitation }: {
                                     {entry.places && entry.places.length > 0 && (
                                         <span className="glossary-places">
                                             {"In the app: "}
-                                            {entry.places.map((place, at) => (
-                                                <Fragment key={place.system + "." + place.page + place.part}>
-                                                    {at > 0 && "; "}
-                                                    <TextLink className="glossary-place" onClick={() => openPage(navigate, place.system, place.page, place)}>
-                                                        {pagePlace(place.system, place.page) + ", " + place.part}
-                                                    </TextLink>
-                                                </Fragment>
-                                            ))}
+                                            {entry.places.map((place, at) => {
+                                                // (A field on one kind of card: the first card that holds it, named, and opened by a press.)
+                                                const card = place.card ? GlossaryService.cardWith(organizationIds, place.card) : null;
+                                                if (place.card && !card) {
+                                                    return null;
+                                                }
+                                                return (
+                                                    <Fragment key={place.system + "." + place.page + place.part}>
+                                                        {at > 0 && "; "}
+                                                        <TextLink className="glossary-place" onClick={() => card ? openCard(navigate, card.organizationId, place.system, place.page, card.cardId) : openPage(navigate, place.system, place.page, place)}>
+                                                            {pagePlace(place.system, place.page) + ", " + (card ? "the " + card.name + " card, " : "") + place.part}
+                                                        </TextLink>
+                                                    </Fragment>
+                                                );
+                                            })}
                                         </span>
                                     )}
                                     {entry.open && (
