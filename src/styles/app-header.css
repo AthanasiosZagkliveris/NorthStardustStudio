@@ -241,6 +241,6 @@ body:has(.section-tile-overlay) .app-header {
 /* The top band throws a soft drop shadow on what scrolls under it. */
 .app-header {
 
-    box-shadow: 0 6px 16px var(--shadow-ink-18, rgba(0, 0, 0, 0.18));
+    box-shadow: var(--shadow-menu);
 
 }

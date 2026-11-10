@@ -40,7 +40,7 @@
 
     padding: 36px 40px;
 
-    box-shadow: 0 16px 40px var(--shadow-18);
+    box-shadow: var(--shadow-drop);
 
 }
 

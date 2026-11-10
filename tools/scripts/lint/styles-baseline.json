@@ -1,8 +1,5 @@
 {
   "colour": {
-    "app-header.css": {
-      "rgba(0, 0, 0, 0.18)": 1
-    },
     "capability-overview.css": {
       "#1d2029": 1,
       "#2a2f38": 1,
@@ -101,9 +98,6 @@
     },
     "system-confirmation.css": {
       "12px": 1
-    },
-    "workspace.css": {
-      "10px": 1
     }
   },
   "gap": {
@@ -154,7 +148,6 @@
     },
     "workspace.css": {
       "14px": 1,
-      "20px": 1,
       "40px": 1,
       "56px": 1
     }

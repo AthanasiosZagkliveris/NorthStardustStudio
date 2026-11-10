@@ -129,7 +129,7 @@
 
     background:var(--bg-surface);
 
-    box-shadow:var(--box-inset), 0 12px 28px var(--shadow-ink-18);
+    box-shadow:var(--box-inset), var(--shadow-menu);
 
     /* The list holds the keyboard while it is open, and it is a
        listbox rather than a field -- so no focus ring of its own;

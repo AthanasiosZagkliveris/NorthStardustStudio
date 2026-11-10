@@ -242,7 +242,7 @@
 
     background:var(--bg-surface);
 
-    box-shadow:0 8px 24px var(--shadow-ink-16);
+    box-shadow:var(--shadow-menu);
 
 
     /* Its text always wraps inside it, even where the label it belongs
@@ -264,7 +264,7 @@
 
     outline:none;
 
-    box-shadow:0 8px 24px var(--shadow-ink-16),
+    box-shadow:var(--shadow-menu),
         0 0 0 4px color-mix(in srgb, var(--glow-color) 28%, transparent);
 
 }

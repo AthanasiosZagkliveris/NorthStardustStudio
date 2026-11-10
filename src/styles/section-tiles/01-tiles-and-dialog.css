@@ -405,7 +405,7 @@
 
     --glow-color: hsl(var(--strategy-theme-hue, 0) var(--theme-line-accent));
 
-    box-shadow: 0 16px 40px var(--shadow-18);
+    box-shadow: var(--shadow-drop);
 
 }
 

@@ -648,7 +648,7 @@
     gap:var(--gap-8);
     border-radius:var(--radius-md);
     background:var(--plus-ground);
-    box-shadow:var(--box-inset), 0 12px 28px var(--shadow-ink-18);
+    box-shadow:var(--box-inset), var(--shadow-menu);
     white-space:nowrap;
 }
 

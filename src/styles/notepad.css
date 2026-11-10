@@ -263,7 +263,7 @@
 
     color: var(--accent-ink);
 
-    box-shadow: 0 12px 28px var(--shadow-ink-18);
+    box-shadow: var(--shadow-menu);
 
 }
 

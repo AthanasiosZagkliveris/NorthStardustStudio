@@ -378,7 +378,7 @@
 
     border-color: hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
 
-    box-shadow: 0 24px 56px var(--shadow-18), 0 8px 20px var(--shadow-12);
+    box-shadow: var(--shadow-drop);
 
     --glow-color: hsl(var(--strategy-theme-hue, 0) var(--theme-line-accent));
 

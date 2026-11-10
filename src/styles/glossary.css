@@ -361,7 +361,7 @@
 .workbook .workbook-section :is(.notepad-card-note, .review-item, .glossary-entry, .references-entry):nth-child(even){
 
     background-image:none;
-    background-color:color-mix(in srgb, var(--card-band-ink) 7%, var(--cell-fill));
+    background-color:color-mix(in srgb, var(--card-band-ink) 7%, var(--theme-ground-paper));
 
 }
 
@@ -370,7 +370,7 @@
    app's fields, and the even rows take the card's band tint over it; the card around keeps its own, darker ground. */
 .workbook .workbook-section :is(.notepad-card-note, .review-item, .glossary-entry, .references-entry){
 
-    background-color:color-mix(in srgb, var(--card-band-ink) 3%, var(--cell-fill));
+    background-color:color-mix(in srgb, var(--card-band-ink) 3%, var(--theme-ground-paper));
 
 }
 
@@ -417,5 +417,39 @@
 .workbook .workbook-section[data-size="large"] .tab-list{
 
     zoom:calc(18 / 24);
+
+}
+
+/* THE WORKBOOK'S LISTS IN THE CARD'S HUE, WITH ROUND CORNERS (owner, 2026-11-10: "make sure that the corners are rounded, and that the same card's hue
+   colour is used"): the rows are the card's ink over the paper (above), never a warm or a grey fill, and a framed list clips its rows to its own round
+   corners. */
+.workbook :is(.review-list, .glossary-list, .references-list){
+
+    overflow:hidden;
+
+}
+
+/* The Card Notes in the Workbook as its other lists: one framed list, its rows band against band, no box of their own. */
+.workbook .notepad-group-notes{
+
+    gap:0;
+
+    border:1px solid var(--line-sheet);
+    border-radius:var(--radius-md);
+
+    overflow:hidden;
+
+}
+
+.workbook .notepad-group-notes > .notepad-card-note{
+
+    border:0;
+    border-radius:0;
+
+}
+
+.workbook .notepad-group-notes > .notepad-card-note + .notepad-card-note{
+
+    border-top:1px solid var(--line-sheet);
 
 }
