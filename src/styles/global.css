@@ -332,7 +332,7 @@ body {
   /* THE ICON IN A BUTTON: one size for every one (the header tools, Export, the funnel, the calendar, the link symbol; owner, 2026-11-10). */
   --icon-size: 24px;
   /* THE LINE BETWEEN TWO BANDS (owner, 2026-11-10: "a divider line (12px, 1px, 12px) with a light colour (the card's tint colour)"): 1px in a light step of the card's own hue, the bands' 12px on each side of it. */
-  --band-divider: color-mix(in srgb, hsl(var(--strategy-theme-hue, 220) var(--theme-bg-inner)) 40%, var(--theme-ground-paper));
+  --band-divider: color-mix(in srgb, hsl(var(--strategy-theme-hue, 220) var(--theme-bg-ink)) 30%, hsl(var(--strategy-theme-hue, 220) var(--theme-bg-inner)));
   --cell-inset-recess: inset 2px 2px 3px var(--cell-shade), inset -2px -2px 3px var(--cell-light);
   /* The "+" box's fill: the darker tone of the tile's hue (the card's hue at this saturation and lightness). */
   --plus-fill-saturation: 36%;
@@ -1405,9 +1405,9 @@ label:has(> input[type="checkbox"]:not(:disabled)):hover > :not(input),
   --card-band-ink: hsl(var(--strategy-theme-hue, 217) var(--theme-bg-ink));
   --tint-row-band: color-mix(in srgb, var(--card-band-ink) 12%, transparent);
   --tint-box-title: color-mix(in srgb, var(--card-band-ink) 24%, transparent);
-  /* (The line between two bands is LIGHT (owner, 2026-11-10: "a light (in colour) divide line between the colour bars"): the card's own tint, mostly
-     paper, so it reads lighter than the bands on either side.) */
-  --band-divider: color-mix(in srgb, hsl(var(--strategy-theme-hue, 217) var(--theme-bg-inner)) 40%, var(--theme-ground-paper));
+  /* (The line between two bands is a light tint of the card's colour (owner, 2026-11-10: "I did not say white, but a light card's colour tint!"):
+     30% of the card's ink in the card's light tone.) */
+  --band-divider: color-mix(in srgb, var(--card-band-ink) 30%, hsl(var(--strategy-theme-hue, 217) var(--theme-bg-inner)));
 }
 
 /* (In the dark the bands are dark, so the light line is the card's ink, lighter than them.) */
