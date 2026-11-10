@@ -159,7 +159,8 @@ function markControls(root: HTMLElement, page: FieldPageValue): void {
             continue;
         }
         const anchor = (card.dataset.anchor ?? "").split(/\s+/)[0];
-        if (!anchor || card.dataset.fieldKey) {
+        // (A page of tiles is no card: its tiles are marked one by one, below. Linked whole, a note said "Column Tiles"; owner, 2026-11-10.)
+        if (!anchor || card.dataset.fieldKey || anchor === "column-tiles") {
             continue;
         }
         const rail = card.closest<HTMLElement>("[data-rail]");
@@ -168,6 +169,20 @@ function markControls(root: HTMLElement, page: FieldPageValue): void {
             || card.querySelector(".strategy-name-static, .strategy-box-number, .card-number")?.textContent?.trim() || anchor;
         card.dataset.fieldKey = key;
         registerField({ key, label: name, pageTitle: page.pageTitle, kind: "answer", anchors: anchorsWithin(card.parentElement ?? card, rail) });
+    }
+
+    // A PAGE'S TILE (a Master Tile) can be linked from a note by itself: named by its title, as the page shows it.
+    for (const tile of root.querySelectorAll<HTMLElement>(".section-tile[data-tile]")) {
+        if (tile.closest(".field-page") !== root || tile.dataset.fieldKey || tile.closest(".section-tile-dialog, .floating-card-body")) {
+            continue;
+        }
+        const id = tile.dataset.tile ?? "";
+        const key = fieldKey({ systemNumber: page.systemNumber, sectionNumber: page.sectionNumber, path: [id] });
+        const name = tile.querySelector(".section-tile-title")?.textContent?.replace(/\s+/g, " ").trim() || (tile.getAttribute("aria-label") ?? id).split(",")[0];
+        // (On the tile's frame, which holds the tile and the layer of its list's lines: a press anywhere on it links the tile.)
+        (tile.closest<HTMLElement>(".section-tile-slot") ?? tile).dataset.fieldKey = key;
+        tile.dataset.fieldKey = key;
+        registerField({ key, label: name, pageTitle: page.pageTitle, kind: "answer", anchors: [] });
     }
 
     for (const control of root.querySelectorAll<HTMLElement>(ANSWER_CONTROLS)) {

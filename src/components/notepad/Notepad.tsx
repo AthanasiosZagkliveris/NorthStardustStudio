@@ -484,7 +484,7 @@ export function NotepadPanel() {
                     + Add note
                 </AddButton>
                 {notes.length === 0
-                    ? <p className="notepad-empty">No notes yet. Add one, and link it to any page, card or field.</p>
+                    ? <p className="notepad-empty">Add a note, and link it to any page, card or field.</p>
                     : noteGroups(notes).map(group => group.current ? (
                         <div key={group.id} className="notepad-group-notes" aria-label={"Notes of " + group.name}>
                             {group.notes.map(note => (
@@ -510,7 +510,8 @@ function anchorsOf(element: HTMLElement): string[] {
             break;
         }
         const token = (at.dataset.anchor ?? "").split(/\s+/)[0];
-        if (token) {
+        // (A page of tiles is no card to unfold.)
+        if (token && token !== "column-tiles") {
             anchors.push(token);
         }
     }
@@ -612,6 +613,10 @@ export function NotepadPicker() {
         };
 
         document.addEventListener("mouseover", onOver, true);
+        // (A tile answers the press itself, the pointer's down and up as well as the click: while picking, none of them reaches it.)
+        document.addEventListener("pointerdown", onPress, true);
+        document.addEventListener("pointerup", onPress, true);
+        document.addEventListener("mouseup", onPress, true);
         document.addEventListener("mousedown", onPress, true);
         document.addEventListener("click", onClick, true);
         window.addEventListener("keydown", onKey, true);
@@ -620,7 +625,10 @@ export function NotepadPicker() {
             root.classList.remove("notepad-picking");
             hovered?.removeAttribute("data-pick-hover");
             document.removeEventListener("mouseover", onOver, true);
-            document.removeEventListener("mousedown", onPress, true);
+            document.removeEventListener("pointerdown", onPress, true);
+        document.removeEventListener("pointerup", onPress, true);
+        document.removeEventListener("mouseup", onPress, true);
+        document.removeEventListener("mousedown", onPress, true);
             document.removeEventListener("click", onClick, true);
             window.removeEventListener("keydown", onKey, true);
         };

@@ -1123,8 +1123,8 @@ body:has(.floating-overlay) .section-tile-overlay:not(.floating-overlay) > .caro
 
 }
 
-/* The page's own arrows give way to the carousel's: while a dialog or a card with arrows of its own is open, the page's are not drawn under them. */
-body:has([data-carousel]) .page-arrow:not(.carousel-arrow) {
+/* The page's own arrows give way to the carousel's: while a dialog or a card with arrows of its own is open, the page's are not drawn under them. (The Notes' closing arrow is no page arrow: it stays, owner 2026-11-10.) */
+body:has([data-carousel]) .page-arrow:not(.carousel-arrow, .notepad-close) {
 
     visibility: hidden;
 
