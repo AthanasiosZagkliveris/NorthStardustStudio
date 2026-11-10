@@ -683,14 +683,14 @@
 .business-capability-card-rule{
     height:1px;
     margin:0 calc(-1 * var(--card-padding));
-    background:var(--line-rule);
+    background:var(--band-divider);
 }
 /* THE DOUBLE RULE: two 1px lines with 2px between them (the groups of the Positioning card). */
 .business-capability-card-rule.business-capability-card-rule-double{
     box-sizing:border-box;
     height:4px;
-    border-top:1px solid var(--line-rule);
-    border-bottom:1px solid var(--line-rule);
+    border-top:1px solid var(--band-divider);
+    border-bottom:1px solid var(--band-divider);
     background:none;
 }
 /* (A grid card: across every column, the x's too, so the line runs from edge to edge.) */

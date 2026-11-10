@@ -453,3 +453,11 @@
     border-top:1px solid var(--line-sheet);
 
 }
+
+/* The lines between the Workbook's rows in the card's one divider colour, as between the parts of every card (owner, 2026-11-10: "the divider lines
+   colours ... many cards are inconsistent"). */
+.workbook .workbook-section :is(.notepad-card-note, .review-item, .glossary-entry, .references-entry) + :is(.notepad-card-note, .review-item, .glossary-entry, .references-entry){
+
+    border-top-color:var(--band-divider);
+
+}

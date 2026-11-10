@@ -130,7 +130,7 @@
 
     padding-left:var(--space-cell);
 
-    border-left:1px solid var(--line-divider);
+    border-left:1px solid var(--band-divider);
 
 }
 
@@ -955,7 +955,7 @@
     bottom:0;
     left:50%;
 
-    border-left:1px solid var(--line-divider);
+    border-left:1px solid var(--band-divider);
 
     transform:translateX(-0.5px);
 
@@ -1491,7 +1491,7 @@
 
     padding-bottom:4px;
 
-    border-bottom:1px solid var(--line-divider);
+    border-bottom:1px solid var(--band-divider);
 
     /* Every title row is one height, so the first lines of the two columns stand at one height whatever a row holds (the "i", a limit's note). */
     align-items:center;
