@@ -81,8 +81,13 @@ function openCompetitorOpenings(cardId: string) {
     document.dispatchEvent(new CustomEvent<OpenRequest>(OPEN_EVENT, { detail: { card: cardId } }));
     window.setTimeout(() => {
         const field = [...document.querySelectorAll<HTMLElement>(".floating-card-host [data-field-key]")].find(element => /what-could-you-do-differently$/.test(element.dataset.fieldKey ?? ""));
-        if (field) {
-            land(field);
+        // (The question's pair is drawn by its children: its label row is what is brought into view.)
+        const shown = field && field.getBoundingClientRect().height === 0 ? field.firstElementChild as HTMLElement | null : field;
+        if (shown) {
+            // (In the card's own scroll: the floating card scrolls inside itself, the page stays.)
+            shown.scrollIntoView({ block: "center" });
+            land(shown);
+            window.setTimeout(() => shown.scrollIntoView({ block: "center" }), 300);
         }
     }, 700);
 }
