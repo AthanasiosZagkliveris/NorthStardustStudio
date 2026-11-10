@@ -482,17 +482,14 @@ table.business-relationship-table {
 
 }
 
-/* THE STRATEGY CARDS (Theme, Goal, Objective, Initiatives, Metric): ONE TINT A CARD (owner, 2026-11-10: "In the nested Cards, use the colour tint
-   variations (saturation and light levels) per card (not in each card)"): the Theme on its ground, a Goal one step deeper, an Objective two, its
-   Initiatives and Metrics three; each step a share of the card's ink (the hue at the channel card's saturation and lightness) over the Theme's ground, so
-   every level reads as its own card. Each card keeps a 12px margin at its left, and what stands under a head is as wide as the head's name cell, ending
-   12px before its x button. */
+/* THE STRATEGY CARDS (Theme, Goal, Objective, Initiatives, Metric): two tints only, the Theme's and the Objective's, swapped from card to card, each card
+   keeping its edge (owner, 2026-11-10: "In the nested cards, swap the same colour, and keep their wireframes"); each card keeps a 12px margin at its left,
+   and what stands under a head is as wide as the head's name cell, ending 12px before its x button. */
 .strategy-theme-dialog,
 .strategy-goal-card {
 
     --tint-objective: color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
     --tint-theme: color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-ground)) var(--theme-ground-weight), var(--theme-ground-paper));
-    --nest-ink: hsl(var(--strategy-theme-hue, 0) var(--theme-bg-ink));
     --x-reserve: 56px;
 
 }
@@ -500,7 +497,7 @@ table.business-relationship-table {
 .strategy-theme-dialog .strategy-goal-box,
 .strategy-goal-card .strategy-goal-box {
 
-    --nest-ground: color-mix(in srgb, var(--nest-ink) 8%, var(--tint-theme));
+    --nest-ground: var(--tint-objective);
     background: var(--nest-ground) !important;
 
 }
@@ -508,7 +505,7 @@ table.business-relationship-table {
 .strategy-theme-dialog .strategy-objective-box,
 .strategy-goal-card .strategy-objective-box {
 
-    --nest-ground: color-mix(in srgb, var(--nest-ink) 16%, var(--tint-theme));
+    --nest-ground: var(--tint-theme);
     background: var(--nest-ground) !important;
 
 }
@@ -516,7 +513,7 @@ table.business-relationship-table {
 .strategy-theme-dialog .strategy-metric-box,
 .strategy-goal-card .strategy-metric-box {
 
-    --nest-ground: color-mix(in srgb, var(--nest-ink) 24%, var(--tint-theme));
+    --nest-ground: var(--tint-objective);
     background: var(--nest-ground) !important;
 
 }
@@ -848,7 +845,7 @@ table.business-relationship-table {
 
 }
 
-/* The x's ground at rest is the ground of the card it stands on (each nested card its own step, --nest-ground). */
+/* The x's ground at rest is the ground of the card it stands on (each nested card's own, --nest-ground). */
 .strategy-theme-dialog,
 .strategy-goal-card {
 
