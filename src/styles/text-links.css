@@ -102,3 +102,9 @@
 .marquee-text:hover {
     text-overflow: clip;
 }
+
+/* ON A COLOURED BAND the link takes the deeper blue (the shared band, .legal-entity-org-band: 12% of the card's ink over the card): the default blue fell
+   to 4.2:1 there; the deeper one keeps 4.5:1 or more (WCAG 2.2 AA; found by the card audit, 2026-11-10). */
+.legal-entity-org-band :is(.text-link, .business-engagement-link, .channel-resource-open, .notepad-text-button, .legal-entity-name-link, .business-capability-link, .business-capability-child-name, .business-capability-responsibility-link):is(button, a, span) {
+    color: var(--text-primary-deep) !important;
+}

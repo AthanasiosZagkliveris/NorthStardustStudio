@@ -14,6 +14,7 @@ Status: **log**, started 2026-10-14, updated 2026-11-09. The rows of sections 4.
 
 | Dates | What happened |
 |---|---|
+| 2026-11-10 | **A text link on a coloured band takes the deeper blue.** The card audit found the Competitor card's "Add to text" at 4.2:1 on its note band once the bands took 12% of the card's ink; on the shared band (`.legal-entity-org-band`) every text link is now `--text-primary-deep`, 4.5:1 or more (text-links.css). |
 | 2026-11-10 | **No drop shadow on the Workbook (owner, Thanos, 10:04: yes to dropping both shadows on the Workbook only).** Its panel and its rail's tab stand flat on the page; a real dialog keeps its shadow (glossary.css). Layout rules 22.37. |
 | 2026-11-10 | **The Strategy's nested cards swap two tints again, each with its edge (owner, Thanos, 09:50: "In the nested cards, swap the same colour, and keep their wireframes").** The Goal and the Metric on the Objective's tint, the Objective on the Theme's, every card's 1px edge kept; the steps of 09:17 are gone (10-segment-card-2.css). |
 | 2026-11-10 | **Every menu in the one dropdown card (owner, Thanos, 09:41: "Everything should be consistent. Follow the rules and use only the existing components").** The sort and Export menus (`.strategy-sort-menu`) and the funnel's ticks now draw the option list's card: no stroke, the boxes' inset light and shade, its drop shadow, 6px under the button; a MenuOption row drops the 0.1em tracking every button has, so it reads as the list's rows do. Layout rules, the dropdown list. |
