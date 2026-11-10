@@ -1145,3 +1145,11 @@ body:has([data-pair]) .section-tile-overlay.floating-overlay.business-foundation
     background: var(--tint-row-band);
 
 }
+
+/* The Resources' list fills its column, as the Performers' does: its dropdowns end at one x and its + stands in the head's x column whatever the names'
+   length (it took the width of its longest name: shorter example names drew it 14px short). */
+.business-capability-slot .business-foundation-field.optional-field-inline > .optional-field-body:has(> .business-capability-resource-rows) {
+
+    justify-self: stretch;
+
+}

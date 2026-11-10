@@ -33,7 +33,7 @@ describe("business documents", () => {
         for (const [block, entries] of Object.entries(data.blocks)) {
             expect(entries.length, block).toBeGreaterThan(0);
         }
-        expect(data.blocks.segments[0]).toContain("Conscious London Homemakers");
+        expect(data.blocks.segments[0]).toContain("London Homemakers");
         expect(data.blocks.partners.join(" ")).toContain("Accountant");
         // Every bracket closed: "Name (Category)".
         data.blocks.activities.forEach(entry => expect(entry.split("(").length).toBe(entry.split(")").length));
@@ -454,7 +454,7 @@ describe("Quillfield: the documents tie together", () => {
         const { blocks } = businessModelCanvasData(all);
         const everything = Object.values(blocks).flat();
         everything.forEach(entry => expect(entry, entry).not.toContain(") ("));
-        expect(blocks.partners).toContain("Freelance developer (overflow, for Automation Build)");
+        expect(blocks.partners).toContain("Freelance developer (for Automation Build)");
         expect(blocks.activities).toEqual(["Deliver AI Workflow Audit", "Deliver Automation Build", "Deliver Automation Care Retainer",
             "Marketing and sales through social media, website, email, in person, online / live and file delivery"]);
         // The relationships are their own block, not repeated as activities.
@@ -467,8 +467,8 @@ describe("Quillfield: the documents tie together", () => {
         expect(blocks.resources.map(entry => entry.split(":")[0])).toEqual(["Human", "Physical", "Physical (systems)", "Intellectual", "Financial"]);
         // What a channel needs (the website, booking, email, video, event and LinkedIn costs) is an Offering's Capability resource;
         // the tools the work needs anyway (Google Workspace, QuickBooks, Miro and Loom) stay with the systems on Infrastructure.
-        expect(resources).toContain("Webcam and headset; Video-conferencing kit (camera, microphone, light); Squarespace Core; Calendly Standard; Mailchimp Standard; Zoom Workplace Pro; LinkedIn Premium Business");
-        expect(resources).toContain("Physical (systems): Google Workspace Business Standard; Make.com Core plan; Zapier Professional and 5 more");
+        expect(resources).toContain("Webcam and headset; Video kit; Squarespace Core; Calendly Standard; Mailchimp Standard; Zoom Workplace Pro; LinkedIn Premium Business");
+        expect(resources).toContain("Physical (systems): Google Workspace; Make.com Core plan; Zapier Professional and 5 more");
         expect(resources).toContain("Intellectual: the Quillfield Automation brand; the website quillfieldautomation.com");
         expect(resources).toContain("Financial: $10,700 in hand; $15,000 sought (SBA Microloan)");
         expect(resources).not.toMatch(/Electricity|AI model and API usage|Coworking Space/);
@@ -478,14 +478,14 @@ describe("Quillfield: the documents tie together", () => {
         // The audit’s $40 of AI usage (the payment fees and the referral fees are calculated percents of the audit’s revenue).
         expect(blocks.costs).toContain("Variable costs: $40 per project (AI Workflow Audit)");
         expect(blocks.costs.join(" ")).not.toMatch(/[.][0-9][0-9]/);
-        expect(blocks.revenue).toContain("AI Workflow Audit (Small professional-services firms in New York City): $2,500 per project, one-time");
-        expect(blocks.revenue).toContain("Automation Care Retainer (Small professional-services firms in New York City): $1,200 per client a month, recurring");
+        expect(blocks.revenue).toContain("AI Workflow Audit (NYC Service Firms): $2,500 per project, one-time");
+        expect(blocks.revenue).toContain("Automation Care Retainer (NYC Service Firms): $1,200 per client a month, recurring");
         expect(blocks.revenue.join(" ")).not.toContain("×");
         // One segment: the relationships need not name it.
         expect(blocks.relationships).toContain("AI Workflow Audit: Personal Assistance");
         // Two segments (Lumen): each relationship names its segment.
         expect(businessModelCanvasData(sessions).blocks.relationships)
-            .toContain("Weaving Workshops (Conscious London Homemakers): Community");
+            .toContain("Weaving Workshops (London Homemakers): Community");
         const content = businessModelCanvas(all, "Deliver Value");
         expect(content.capability).toBe("Deliver Value");
         expect(content.canvas).toHaveLength(9);
@@ -511,8 +511,8 @@ describe("Quillfield: the documents tie together", () => {
         // (The $25 formation fee is inside the plan now: the plan starts with the registration, so nothing is "paid before the plan".)
         expect(planMd).toContain("Available Now: $10,700");
         // Segment names lower-case mid-sentence.
-        expect(planMd).toContain("to small professional-services firms in New York City.");
-        expect(planMd).toContain("### For small professional-services firms in New York City");
+        expect(planMd).toContain("to NYC Service Firms.");
+        expect(planMd).toContain("### For NYC Service Firms");
         // The costs, by group, with subtotals and a total, without their source.
         const appendix = planMd.slice(planMd.indexOf("## 13. Appendix"));
         expect(appendix).toContain("#### Establishment");

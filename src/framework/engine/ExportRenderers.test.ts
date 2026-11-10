@@ -41,7 +41,7 @@ describe("exporting the Foundation capability", () => {
         expect(outputs.identity).toMatch(/Maya Chen \| 40/);
         expect(outputs.brand).toContain("Loom Indigo");
         expect(outputs.brand).toContain("herringbone-throw.png");
-        expect(outputs.business).toContain("Segment 1: Conscious London Homemakers");
+        expect(outputs.business).toContain("Segment 1: London Homemakers");
         expect(outputs.business).toContain("1. Customer Channel");
         expect(outputs.business).toContain("8-shaft floor looms");
         expect(outputs.business).toContain("Total Funding Need: £57,100");

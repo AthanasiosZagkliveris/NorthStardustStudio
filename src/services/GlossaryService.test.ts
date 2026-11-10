@@ -11,7 +11,7 @@ describe("the Glossary's terms", () => {
         const systems = (example as { systems: Record<string, { responses: { sectionNumber: number; value: unknown }[] }> }).systems;
         const terms = systems["3"].responses.flatMap(response => namedCardsOfPage(response.value, 3, response.sectionNumber));
         const byName = new Map(terms.map(term => [term.name, term.kind]));
-        expect(byName.get("Conscious London Homemakers")).toBe("Segment");
+        expect(byName.get("London Homemakers")).toBe("Segment");
         expect(byName.get("The Considered Nester")).toBe("Profile");
         expect(byName.get("Weaving Workshops")).toBe("Offering");
         // A channel is named by the app, not by you: not a term of yours.

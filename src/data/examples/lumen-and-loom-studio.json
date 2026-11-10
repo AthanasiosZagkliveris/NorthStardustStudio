@@ -134,9 +134,9 @@
               {
                 "id": "requirement-b3ccbbds",
                 "type": "beneficial-owner",
-                "name": "Persons with Significant Control (PSC register)",
+                "name": "PSC register",
                 "reference": "Maya Chen 40%, Oliver Grant 30%, Priya Shah 30%",
-                "notes": "",
+                "notes": "Persons with Significant Control, kept at Companies House.",
                 "offerInExpenses": false
               },
               {
@@ -150,16 +150,16 @@
               {
                 "id": "requirement-xag05b3o",
                 "type": "additional",
-                "name": "ICO Data Protection Fee registration",
+                "name": "ICO registration",
                 "reference": "ZB712345",
-                "notes": "",
+                "notes": "The ICO data protection fee, renewed each year.",
                 "offerInExpenses": true
               }
             ],
             "expenses": [
               {
                 "id": "expense-pb9sv685",
-                "name": "Companies House incorporation",
+                "name": "Incorporation",
                 "date": "2026-03-02",
                 "responsibility": "founder-3fhkh0cm",
                 "cost": "50",
@@ -167,7 +167,7 @@
                 "links": [
                   "formation-registration-number"
                 ],
-                "description": "",
+                "description": "Registered at Companies House.",
                 "fromRequirement": ""
               },
               {
@@ -185,7 +185,7 @@
               },
               {
                 "id": "expense-y97pryvw",
-                "name": "Trade mark registration (2 classes)",
+                "name": "Trade mark",
                 "date": "2026-10-05",
                 "responsibility": "founder-z2jgpf8v",
                 "cost": "220",
@@ -193,7 +193,7 @@
                 "links": [
                   "number-1sm5nsnz"
                 ],
-                "description": "",
+                "description": "UK trade mark in 2 classes.",
                 "fromRequirement": ""
               },
               {
@@ -476,7 +476,7 @@
               {
                 "id": "segment-8lu427u5",
                 "hue": 34.5,
-                "name": "Conscious London Homemakers",
+                "name": "London Homemakers",
                 "description": {},
                 "questions": {
                   "age": [
@@ -672,9 +672,9 @@
                     "objections": "Delivery times for made-to-order; worries about care and washing.",
                     "needs": {
                       "functional": [
-                        "Durable textiles that last years",
-                        "Natural, traceable materials",
-                        "Easy care and repair"
+                        "Furnish her home to last",
+                        "Choose materials she can trace",
+                        "Keep her textiles looking good"
                       ],
                       "functionalIds": [
                         "need-41brmd",
@@ -799,9 +799,9 @@
                     "objections": "Whether a beginner can keep up; fitting a full-day class into her weekend.",
                     "needs": {
                       "functional": [
-                        "Beginner-friendly workshop with all materials",
-                        "Something finished to take home",
-                        "Evening and weekend dates"
+                        "Learn to weave from scratch",
+                        "Make something to take home",
+                        "Fit a class around work"
                       ],
                       "functionalIds": [
                         "need-1r8ym3j",
@@ -821,7 +821,7 @@
                 "competitors": [
                   {
                     "id": "competitor-bojhioje",
-                    "name": "Independent weavers on Etsy & at craft markets",
+                    "name": "Independent weavers",
                     "type": "direct",
                     "description": {
                       "offerings": "Handwoven cushions, scarves and wall hangings; one-off pieces.",
@@ -896,7 +896,7 @@
                   },
                   {
                     "id": "competitor-90fq81ag",
-                    "name": "Premium lifestyle homeware brands",
+                    "name": "Premium homeware brands",
                     "type": "indirect",
                     "description": {
                       "offerings": "Wool and linen throws and cushions, largely factory-made overseas (e.g. The White Company, Toast Home).",
@@ -966,7 +966,7 @@
                   },
                   {
                     "id": "competitor-nmtnvlut",
-                    "name": "High-street homeware (H&M Home, IKEA, Dunelm)",
+                    "name": "High-street homeware",
                     "type": "substitutes",
                     "description": {
                       "market": "Mass market, all ages and incomes.",
@@ -1023,7 +1023,7 @@
                 "offerings": [
                   {
                     "id": "offering-nvfuu2km",
-                    "name": "Handwoven Homeware Collection",
+                    "name": "Homeware Collection",
                     "needsAddressed": [
                       "need-41brmd",
                       "need-l94bfg",
@@ -1153,7 +1153,7 @@
               {
                 "id": "segment-majxtl1u",
                 "hue": 214,
-                "name": "Interior Designers & Boutique Hospitality",
+                "name": "Designers & Boutique Hotels",
                 "description": {
                   "business-data": ""
                 },
@@ -1210,7 +1210,7 @@
                 "profiles": [
                   {
                     "id": "profile-kzl24r4d",
-                    "name": "The Sustainability-Led Interior Designer",
+                    "name": "The Eco Interior Designer",
                     "description": {
                       "personal": "Amelia, founder of a 6-person interior studio in Clerkenwell working on boutique hotels and high-end residential projects.",
                       "psychographics": "Wants every project to tell a local, sustainable story; proud of working with makers; detail-obsessed and deadline-driven.",
@@ -1309,9 +1309,9 @@
                     "objections": "Lead times, capacity for larger orders, fire-retardancy compliance for hospitality, trade pricing.",
                     "needs": {
                       "functional": [
-                        "Custom colours and sizes to specification",
-                        "Reliable lead times",
-                        "Compliance and sustainability documentation"
+                        "Specify textiles in custom colours and sizes",
+                        "Plan installs around firm lead times",
+                        "Show clients the sustainability papers"
                       ],
                       "functionalIds": [
                         "need-1xkfvoq",
@@ -1331,7 +1331,7 @@
                 "competitors": [
                   {
                     "id": "competitor-ke6xsdjg",
-                    "name": "Contract textile mills (e.g. Kvadrat, Designers Guild Contract)",
+                    "name": "Contract textile mills",
                     "type": "direct",
                     "description": {
                       "offerings": "Large contract fabric ranges, fire-rated, sold by the metre to the trade.",
@@ -1396,7 +1396,7 @@
                   },
                   {
                     "id": "competitor-bhg38l6r",
-                    "name": "Other independent textile studios (UK)",
+                    "name": "Textile studios",
                     "type": "direct",
                     "description": {
                       "offerings": "Bespoke woven and printed textiles for interiors.",
@@ -1465,7 +1465,7 @@
                 "offerings": [
                   {
                     "id": "offering-vhtapa3v",
-                    "name": "Bespoke Textile Commissions",
+                    "name": "Bespoke Commissions",
                     "needsAddressed": [
                       "need-1xkfvoq",
                       "need-11p9i9q"
@@ -2998,9 +2998,9 @@
                     },
                     {
                       "id": "resource-v9zfws7n",
-                      "name": "Task lighting & extension leads",
+                      "name": "Task lighting",
                       "quantity": "6",
-                      "description": "",
+                      "description": "With extension leads.",
                       "status": "costs",
                       "cost": {
                         "price": "40",
@@ -3039,9 +3039,9 @@
                     },
                     {
                       "id": "resource-vxijfh3l",
-                      "name": "Ironing & finishing station",
+                      "name": "Finishing station",
                       "quantity": "1",
-                      "description": "Brought from Maya’s previous studio.",
+                      "description": "Brought from Maya’s previous studio.\nIroning and finishing.",
                       "status": "exists",
                       "cost": {
                         "price": "",
@@ -3218,9 +3218,9 @@
                     },
                     {
                       "id": "resource-kgzjhy7g",
-                      "name": "Label printer & product camera",
+                      "name": "Label printer",
                       "quantity": "1",
-                      "description": "A thermal label printer and a second-hand mirrorless camera for product photos.",
+                      "description": "A thermal label printer and a second-hand mirrorless camera for product photos.\nWith a product camera.",
                       "status": "costs",
                       "cost": {
                         "price": "520",
@@ -3300,9 +3300,9 @@
                     },
                     {
                       "id": "resource-v92etal6",
-                      "name": "Studio lighting & backdrop kit",
+                      "name": "Photo lighting",
                       "quantity": "1",
-                      "description": "",
+                      "description": "Studio lights and a backdrop for product photos.",
                       "status": "costs",
                       "cost": {
                         "price": "420",
@@ -3472,9 +3472,9 @@
                     },
                     {
                       "id": "resource-s8k4965l",
-                      "name": "Design & pattern software licences",
+                      "name": "Design software",
                       "quantity": "1",
-                      "description": "",
+                      "description": "Design and pattern software licences.",
                       "status": "costs",
                       "cost": {
                         "price": "34",
@@ -3519,9 +3519,9 @@
                   "slots": [
                     {
                       "id": "resource-29wbimw4",
-                      "name": "Cloud backup & password vault",
+                      "name": "Cloud backup",
                       "quantity": "1",
-                      "description": "",
+                      "description": "With a password vault.",
                       "status": "costs",
                       "cost": {
                         "price": "9",
@@ -3575,7 +3575,7 @@
                   {
                     "id": "activity-rf2dybpu",
                     "category": "operational",
-                    "name": "Register trade mark and ICO data protection fee",
+                    "name": "Register trade mark and ICO",
                     "description": "Filed with the IPO and ICO in March 2026.",
                     "performerIds": [
                       "founder-3fhkh0cm",
@@ -3595,8 +3595,8 @@
                   {
                     "id": "activity-mo6e4wzz",
                     "category": "operational",
-                    "name": "Set up Xero, VAT returns and payroll",
-                    "description": "Making Tax Digital-compliant VAT and PAYE for three directors.",
+                    "name": "Set up Xero",
+                    "description": "Making Tax Digital-compliant VAT and PAYE for three directors.\nVAT returns and payroll.",
                     "performerIds": [
                       "founder-3fhkh0cm",
                       "professional-accountant"
@@ -3620,8 +3620,8 @@
                   {
                     "id": "activity-lm-bookkeeping",
                     "category": "operational",
-                    "name": "Monthly bookkeeping with the accountant",
-                    "description": "",
+                    "name": "Monthly bookkeeping",
+                    "description": "With the accountant.",
                     "performerIds": [
                       "founder-3fhkh0cm",
                       "professional-accountant"
@@ -3749,8 +3749,8 @@
                 "madeBy": "",
                 "startDate": "2026-10-01",
                 "endDate": "",
-                "name": "Hackney Wick Maker Yard (landlord)",
-                "description": "The landlord of the unit. The rent of the Dedicated Workspace sits here, with the service charge for the shared yard and the deposit of three months.",
+                "name": "Hackney Wick Maker Yard",
+                "description": "The landlord of the unit. The rent of the Dedicated Workspace sits here, with the service charge for the shared yard and the deposit of three months.\nThe landlord.",
                 "responsibleId": "founder-3fhkh0cm",
                 "cost": {
                   "price": "1250",
@@ -3779,8 +3779,8 @@
                 "madeBy": "resource-lm-fitout",
                 "startDate": "2026-10-01",
                 "endDate": "",
-                "name": "Hackney Sparks (electrician)",
-                "description": "Wiring for the shop-front lighting and the sockets at the looms: installed with the studio fit-out.",
+                "name": "Hackney Sparks",
+                "description": "Wiring for the shop-front lighting and the sockets at the looms: installed with the studio fit-out.\nElectrician.",
                 "responsibleId": "founder-3fhkh0cm",
                 "cost": {
                   "price": "300",
@@ -3797,9 +3797,9 @@
               "resources": [
                 {
                   "id": "resource-c1ehnp3b",
-                  "name": "Yarn (British wool & organic cotton)",
+                  "name": "Yarn",
                   "quantity": "1",
-                  "description": "About 0.45 kg of yarn per piece on average (a cushion about 0.35 kg, a throw about 1.1 kg) at about £35 per kg, with loom waste. Bought in cones as needed.",
+                  "description": "About 0.45 kg of yarn per piece on average (a cushion about 0.35 kg, a throw about 1.1 kg) at about £35 per kg, with loom waste. Bought in cones as needed.\nBritish wool and organic cotton.",
                   "status": "costs",
                   "cost": {
                     "price": "17",
@@ -3934,9 +3934,9 @@
                 },
                 {
                   "id": "resource-commission-materials",
-                  "name": "Commission materials & making time",
+                  "name": "Commission materials",
                   "quantity": "1",
-                  "description": "Yarn, backing cloth, fittings and hired weaving time for an average commission.",
+                  "description": "Yarn, backing cloth, fittings and hired weaving time for an average commission.\nMaterials and making time for each commission.",
                   "status": "costs",
                   "cost": {
                     "price": "828",
@@ -3977,9 +3977,9 @@
                 },
                 {
                   "id": "resource-etzbztap",
-                  "name": "Fire-retardant treatment and certificate",
+                  "name": "Fire-retardant treatment",
                   "quantity": "1",
-                  "description": "Applied by a specialist finisher for hospitality orders.",
+                  "description": "Applied by a specialist finisher for hospitality orders.\nWith its certificate, for hotel orders.",
                   "status": "partners-suppliers",
                   "cost": {
                     "price": "",
@@ -4547,9 +4547,9 @@
                 },
                 {
                   "id": "resource-lnfair",
-                  "name": "Trade fair stands (Clerkenwell Design Week, Decorex)",
+                  "name": "Trade fair stands",
                   "quantity": "2",
-                  "description": "A shared stand with a loom for live weaving at Clerkenwell Design Week in May and Decorex in the autumn, about £3,000 across the year in all. Estimate.",
+                  "description": "A shared stand with a loom for live weaving at Clerkenwell Design Week in May and Decorex in the autumn, about £3,000 across the year in all. Estimate.\nClerkenwell Design Week and Decorex.",
                   "status": "costs",
                   "cost": {
                     "price": "1500",
@@ -4607,9 +4607,9 @@
                 },
                 {
                   "id": "resource-lnvan",
-                  "name": "Installation travel and van hire",
+                  "name": "Installation travel",
                   "quantity": "1",
-                  "description": "A day’s van hire, parking and the congestion charge to hang wall textiles on site in London.",
+                  "description": "A day’s van hire, parking and the congestion charge to hang wall textiles on site in London.\nWith van hire.",
                   "status": "costs",
                   "cost": {
                     "price": "75",
@@ -4650,9 +4650,9 @@
                 },
                 {
                   "id": "resource-lpb1dmch",
-                  "name": "Market trading licence (Hackney)",
+                  "name": "Market trading licence",
                   "quantity": "1",
-                  "description": "",
+                  "description": "From Hackney Council.",
                   "status": "costs",
                   "cost": {
                     "price": "180",
@@ -4701,9 +4701,9 @@
                 },
                 {
                   "id": "resource-6xvlligs",
-                  "name": "Heritage motif collaboration licence",
+                  "name": "Motif licence",
                   "quantity": "1",
-                  "description": "",
+                  "description": "A heritage motif collaboration licence.",
                   "status": "costs",
                   "cost": {
                     "price": "4000",
@@ -4752,9 +4752,9 @@
                 },
                 {
                   "id": "resource-ytcwjiel",
-                  "name": "Product & public liability insurance",
+                  "name": "Liability insurance",
                   "quantity": "1",
-                  "description": "",
+                  "description": "Product and public liability.",
                   "status": "costs",
                   "cost": {
                     "price": "360",
@@ -4827,8 +4827,8 @@
                 {
                   "id": "activity-3ukis4h4",
                   "category": "production",
-                  "name": "Source British wool and organic cotton yarns",
-                  "description": "Earlier category: Production. Agree supply with two British mills and one organic cotton importer.",
+                  "name": "Source yarns",
+                  "description": "Earlier category: Production. Agree supply with two British mills and one organic cotton importer.\nBritish wool and organic cotton.",
                   "performerIds": [
                     "founder-3aux8uyh"
                   ],
@@ -4857,8 +4857,8 @@
                 {
                   "id": "activity-l7ai37v1",
                   "category": "production",
-                  "name": "Weave spring collection (40 pieces)",
-                  "description": "Earlier category: Production. Cushions, throws and runners in the five core colourways.",
+                  "name": "Weave spring collection",
+                  "description": "Earlier category: Production. Cushions, throws and runners in the five core colourways.\n40 pieces.",
                   "performerIds": [
                     "founder-3aux8uyh",
                     "founder-3fhkh0cm"
@@ -4888,8 +4888,8 @@
                 {
                   "id": "activity-qog9c2zr",
                   "category": "production",
-                  "name": "Test fire-retardant finish for hospitality orders",
-                  "description": "Earlier category: Production. BS 5852 testing for hotel commissions.",
+                  "name": "Test fire-retardant finish",
+                  "description": "Earlier category: Production. BS 5852 testing for hotel commissions.\nFor hotel orders.",
                   "performerIds": [
                     "founder-3aux8uyh",
                     "partner-3w37yf3a"
@@ -4915,8 +4915,8 @@
                 {
                   "id": "activity-chzfi0gr",
                   "category": "production",
-                  "name": "Sample three headboard panels for hotel pitches",
-                  "description": "Wool bouclé and linen panels to present at Decorex.",
+                  "name": "Sample headboard panels",
+                  "description": "Wool bouclé and linen panels to present at Decorex.\nThree panels for hotel pitches.",
                   "performerIds": [
                     "founder-3aux8uyh"
                   ],
@@ -4961,8 +4961,8 @@
                 {
                   "id": "activity-l76pgijh",
                   "category": "marketing",
-                  "name": "Plan Clerkenwell Design Week stand",
-                  "description": "Earlier category: Marketing. Live-weaving stand and trade lookbook for May.",
+                  "name": "Plan trade fair stand",
+                  "description": "Earlier category: Marketing. Live-weaving stand and trade lookbook for May.\nClerkenwell Design Week.",
                   "performerIds": [
                     "founder-z2jgpf8v",
                     "founder-3aux8uyh"
@@ -5017,8 +5017,8 @@
                 {
                   "id": "activity-n8jupram",
                   "category": "sales",
-                  "name": "Build trade price list and swatch box",
-                  "description": "Earlier category: Sales & Customer.",
+                  "name": "Build trade price list",
+                  "description": "Earlier category: Sales & Customer.\nWith a swatch box.",
                   "performerIds": [
                     "founder-z2jgpf8v",
                     "founder-3fhkh0cm"
@@ -5044,8 +5044,8 @@
                 {
                   "id": "activity-1p999t4p",
                   "category": "sales",
-                  "name": "Run the first six beginner workshops",
-                  "description": "Earlier category: Sales & Customer. Two per month from May; eight places each.",
+                  "name": "Run first workshops",
+                  "description": "Earlier category: Sales & Customer. Two per month from May; eight places each.\nSix beginner workshops.",
                   "performerIds": [
                     "founder-3aux8uyh",
                     "founder-3fhkh0cm",
@@ -5076,8 +5076,8 @@
                 {
                   "id": "activity-gaw5cbvf",
                   "category": "sales",
-                  "name": "Set up the lifetime repair service",
-                  "description": "Earlier category: Sales & Customer. Repair request form, pricing and turnaround times.",
+                  "name": "Set up repair service",
+                  "description": "Earlier category: Sales & Customer. Repair request form, pricing and turnaround times.\nThe lifetime repair service.",
                   "performerIds": [
                     "founder-3fhkh0cm"
                   ],
@@ -5151,8 +5151,8 @@
                   "madeBy": "resource-etzbztap",
                   "startDate": "2026-10-01",
                   "endDate": "",
-                  "name": "FlameGuard Finishing Ltd (Tottenham)",
-                  "description": "BS 5852 flame-retardant treatment and certificate for hospitality orders. £6 a metre treated; a typical commission needs about 12 metres.",
+                  "name": "FlameGuard Finishing",
+                  "description": "BS 5852 flame-retardant treatment and certificate for hospitality orders. £6 a metre treated; a typical commission needs about 12 metres.\nTottenham.",
                   "responsibleId": "founder-3fhkh0cm",
                   "cost": {
                     "price": "6",
@@ -5250,8 +5250,8 @@
                   "madeBy": "",
                   "startDate": "2026-10-01",
                   "endDate": "",
-                  "name": "Stripe card payments (Shopify Payments)",
-                  "description": "Shopify Payments charges 2.0% + 25p on an online order, about £2.10 on a £95 order. The rates come from the Channel Fee Table.",
+                  "name": "Shopify Payments",
+                  "description": "Shopify Payments charges 2.0% + 25p on an online order, about £2.10 on a £95 order. The rates come from the Channel Fee Table.\nCard payments.",
                   "responsibleId": "founder-3fhkh0cm",
                   "cost": {
                     "price": "2",
@@ -5370,7 +5370,7 @@
             "funding": [
               {
                 "id": "funding-dg2he08e",
-                "name": "Hackney Business Growth Grant",
+                "name": "Hackney Growth Grant",
                 "category": "external",
                 "type": "grant",
                 "provider": "London Borough of Hackney",
@@ -5802,7 +5802,7 @@
               },
               {
                 "id": "theme-9u2xfsr6",
-                "name": "Craft Capacity & Traceability",
+                "name": "Craft Capacity",
                 "description": "Increase what we can make without losing quality: more looms, a trained maker, and a fully documented low-carbon supply chain."
               }
             ]
@@ -5815,7 +5815,7 @@
               "theme-c1woqy5y": [
                 {
                   "id": "theme-c1woqy5y-goal-1",
-                  "name": "Become financially self-sustaining",
+                  "name": "Become self-sustaining",
                   "description": "Cover all operating costs from revenue and stop depending on new funding to survive.",
                   "objectives": [
                     {
@@ -5900,7 +5900,7 @@
               "theme-p8f8o5y7": [
                 {
                   "id": "theme-p8f8o5y7-goal-1",
-                  "name": "Build a dependable trade business",
+                  "name": "Build trade business",
                   "description": "Make designers and boutique hotels a steady second income stream alongside direct sales.",
                   "objectives": [
                     {
@@ -5938,7 +5938,7 @@
                     },
                     {
                       "id": "objective-7mcznjh4",
-                      "name": "Deliver bespoke hotel commissions",
+                      "name": "Deliver hotel commissions",
                       "description": "Win and deliver commissions for boutique hotels on time.",
                       "period": {
                         "start": {
@@ -5958,7 +5958,7 @@
                       "metrics": [
                         {
                           "id": "metric-0cym0vy8",
-                          "name": "Commissions delivered on time",
+                          "name": "On-time commissions",
                           "baseline": "0",
                           "target": "95",
                           "frequency": "Quarterly",
@@ -5985,8 +5985,8 @@
               "theme-tx00wv50": [
                 {
                   "id": "theme-tx00wv50-goal-1",
-                  "name": "Grow a workshop programme with a waiting list",
-                  "description": "Make workshops a reliable income and the front door to the brand.",
+                  "name": "Grow workshops",
+                  "description": "Make workshops a reliable income and the front door to the brand.\nA programme with a waiting list.",
                   "objectives": [
                     {
                       "id": "theme-tx00wv50-objective-1",
@@ -6069,8 +6069,8 @@
               "theme-9u2xfsr6": [
                 {
                   "id": "theme-9u2xfsr6-goal-1",
-                  "name": "Make more, without losing craft or provenance",
-                  "description": "Grow capacity while keeping every piece handmade and every material traceable.",
+                  "name": "Make more by hand",
+                  "description": "Grow capacity while keeping every piece handmade and every material traceable.\nWithout losing craft or provenance.",
                   "objectives": [
                     {
                       "id": "theme-9u2xfsr6-objective-1",
@@ -6107,8 +6107,8 @@
                     },
                     {
                       "id": "objective-7sof6q1f",
-                      "name": "Publish a traceable supply chain",
-                      "description": "Every yarn traced to farm or mill, with a carbon estimate per product.",
+                      "name": "Publish supply chain",
+                      "description": "Every yarn traced to farm or mill, with a carbon estimate per product.\nTraceable, from farm to cloth.",
                       "period": {
                         "start": {
                           "month": "10",
