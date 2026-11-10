@@ -193,7 +193,11 @@ export default function Workbook() {
             if (!node) {
                 return;
             }
-            const end = foot ? foot.getBoundingClientRect().top : window.innerHeight;
+            // (To the window's end, 12px clear of it (owner, 2026-11-10: "I said to extend its frame to the end of the screen"), wherever the Back stands
+            // beside the panel, in the gutter; over the footer only where the Back would stand under the panel, in a narrow window.)
+            const back = foot?.querySelector(".workspace-footer-back, button, a");
+            const beside = !!back && back.getBoundingClientRect().right + 12 <= node.getBoundingClientRect().left;
+            const end = foot && !beside ? foot.getBoundingClientRect().top : window.innerHeight;
             const next = Math.max(240, Math.round(end - 12 - (node.getBoundingClientRect().top + window.scrollY)));
             setPanelHeight(current => current === next ? current : next);
         };

@@ -356,21 +356,21 @@
 }
 
 /* THE WORKBOOK'S LISTS IN BANDS (owner, 2026-11-10: "Use colour variations in different parts"): a card's note, a review item, a term and a reference
-   alternate, two close steps of the card's ink over the cell's fill: 3% and 7% (owner, 2026-11-10: "The colour difference in the content can be
-   smaller"). */
+   alternate, two close steps of the card's own light tone over the surface: 35% and 70% (owner, 2026-11-10: "The colour difference in the content can be
+   smaller"; "the same card's hue colour"). */
 .workbook .workbook-section :is(.notepad-card-note, .review-item, .glossary-entry, .references-entry):nth-child(even){
 
     background-image:none;
-    background-color:color-mix(in srgb, var(--card-band-ink) 7%, var(--theme-ground-paper));
+    background-color:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) 70%, var(--bg-surface));
 
 }
 
 /* THE CONTENTS LIGHTER THAN THE CARD (owner, 2026-11-10: "The contents and card colours should differ ... different lightness, so there is contrast and
-   the user can understand and locate the content more easily"): every row of the Workbook's lists stands on the cell's fill, the light ground of the
-   app's fields, and the even rows take the card's band tint over it; the card around keeps its own, darker ground. */
+   the user can understand and locate the content more easily"): every row of the Workbook's lists is lighter than the card, in the card's own hue;
+   the card around keeps its own, deeper ground. */
 .workbook .workbook-section :is(.notepad-card-note, .review-item, .glossary-entry, .references-entry){
 
-    background-color:color-mix(in srgb, var(--card-band-ink) 3%, var(--theme-ground-paper));
+    background-color:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) 35%, var(--bg-surface));
 
 }
 
@@ -421,7 +421,7 @@
 }
 
 /* THE WORKBOOK'S LISTS IN THE CARD'S HUE, WITH ROUND CORNERS (owner, 2026-11-10: "make sure that the corners are rounded, and that the same card's hue
-   colour is used"): the rows are the card's ink over the paper (above), never a warm or a grey fill, and a framed list clips its rows to its own round
+   colour is used"): the rows are the card's light tone over the surface (above), never a warm or a grey fill, and a framed list clips its rows to its own round
    corners. */
 .workbook :is(.review-list, .glossary-list, .references-list){
 
