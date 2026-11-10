@@ -26,6 +26,8 @@ export interface NoteLink {
     key?: FieldKey;
     /** The cards to unfold on the way, innermost first (see focusField). */
     anchors?: string[];
+    /** The page tile whose dialog holds the field (the dialog's `data-tile`): opened on the way, so the field appears. */
+    tile?: string;
     /** What the chip says ("Market Size & Industry Outlook"). */
     label: string;
     /** Where it is, in words ("3. Business System → 1. Foundation"). */

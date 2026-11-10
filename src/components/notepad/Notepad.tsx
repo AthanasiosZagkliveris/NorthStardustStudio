@@ -532,6 +532,8 @@ export function linkFor(element: HTMLElement, organizationId: string): Omit<Note
     }
     const entry = registeredFields().find(candidate => candidate.key === key);
     const anchors = anchorsOf(element);
+    // (A field in a tile's dialog: the tile, so a press on the link opens that dialog and shows the field.)
+    const tile = element.closest<HTMLElement>(".section-tile-dialog[data-tile]")?.dataset.tile;
     return {
         organizationId,
         kind: "field",
@@ -539,6 +541,7 @@ export function linkFor(element: HTMLElement, organizationId: string): Omit<Note
         sectionNumber: address.sectionNumber,
         key,
         ...(anchors.length > 0 ? { anchors } : {}),
+        ...(tile ? { tile } : {}),
         label: entry?.label ?? (element.querySelector(".field-label")?.textContent?.trim() || key),
         place: entry?.pageTitle ?? ""
     };

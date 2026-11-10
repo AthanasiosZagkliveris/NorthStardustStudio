@@ -401,8 +401,11 @@ html.notepad-picking [data-pick-hover] {
 .notepad-note.is-noted-hot,
 .notepad-chip.is-noted-hot {
 
+    /* (One frame: the stroke over the box's own border, in its colour; owner, 2026-11-10: "The Noted marked frame has a double frame".) */
+    border-color: var(--line-noted);
+
     outline: 4px solid var(--line-noted);
-    outline-offset: 0;
+    outline-offset: -1px;
 
     box-shadow: 0 0 16px 4px var(--glow-noted);
 

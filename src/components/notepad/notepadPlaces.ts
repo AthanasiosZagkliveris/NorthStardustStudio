@@ -170,10 +170,25 @@ export function openLink(navigate: Navigate, link: NoteLink): void {
         }
         // A PAGE'S TILE APPEARS: a link to a tile opens it, as a press on it does (owner, 2026-11-10: "when clicking on a note's link, the related part
         // should appear"), once the page has drawn it.
+        // A FIELD IN A TILE'S DIALOG APPEARS TOO: its tile is opened, then the field is brought into view and lit for a moment (owner, 2026-11-10: "The links
+        // in the Note window do not work properly").
         const key = link.key;
+        const tileId = link.tile;
         window.setTimeout(() => {
-            const tile = document.querySelector<HTMLElement>("button.section-tile[data-field-key=\"" + CSS.escape(key) + "\"]");
-            tile?.click();
+            const tile = document.querySelector<HTMLElement>("button.section-tile[data-field-key=\"" + CSS.escape(key) + "\"]")
+                ?? (tileId ? document.querySelector<HTMLElement>("button.section-tile[data-tile=\"" + CSS.escape(tileId) + "\"]") : null);
+            if (tile && !document.querySelector(".section-tile-dialog[data-tile=\"" + CSS.escape(tile.dataset.tile ?? "") + "\"]")) {
+                tile.click();
+            }
+            window.setTimeout(() => {
+                const field = [...document.querySelectorAll<HTMLElement>("[data-field-key]")].find(element => element.dataset.fieldKey === key && !element.matches("button.section-tile, .section-tile-slot"));
+                if (field) {
+                    field.scrollIntoView({ block: "center" });
+                    const box = field.matches(".is-noted") ? field : field.querySelector<HTMLElement>(".is-noted") ?? field;
+                    box.classList.add("is-noted-hot");
+                    window.setTimeout(() => box.classList.remove("is-noted-hot"), 1600);
+                }
+            }, 700);
         }, 900);
         return;
     }
