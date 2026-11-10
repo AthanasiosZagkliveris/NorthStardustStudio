@@ -14,6 +14,7 @@ Status: **log**, started 2026-10-14, updated 2026-11-09. The rows of sections 4.
 
 | Dates | What happened |
 |---|---|
+| 2026-11-10 | **The rail tabs' drop shadow blurred (owner, Thanos, 09:57: "Blur the drop shadows; right now, it creates a harsh line").** From 4px offset, 12px blur at 18% to 2px across, 6px down, 24px blur at 12%, so it fades with no edge (bullet-rail.css); the dialogs' shadow (0 16px 40px) was soft already. |
 | 2026-11-10 | **A text link on a coloured band takes the deeper blue.** The card audit found the Competitor card's "Add to text" at 4.2:1 on its note band once the bands took 12% of the card's ink; on the shared band (`.legal-entity-org-band`) every text link is now `--text-primary-deep`, 4.5:1 or more (text-links.css). |
 | 2026-11-10 | **No drop shadow on the Workbook (owner, Thanos, 10:04: yes to dropping both shadows on the Workbook only).** Its panel and its rail's tab stand flat on the page; a real dialog keeps its shadow (glossary.css). Layout rules 22.37. |
 | 2026-11-10 | **The Strategy's nested cards swap two tints again, each with its edge (owner, Thanos, 09:50: "In the nested cards, swap the same colour, and keep their wireframes").** The Goal and the Metric on the Objective's tint, the Objective on the Theme's, every card's 1px edge kept; the steps of 09:17 are gone (10-segment-card-2.css). |
