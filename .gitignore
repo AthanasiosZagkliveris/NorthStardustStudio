@@ -14,7 +14,8 @@ src-tauri/target/
 *.suo
 
 # VS Code
-.vscode/
+.vscode/*
+!.vscode/extensions.json
 
 # Logs
 *.log

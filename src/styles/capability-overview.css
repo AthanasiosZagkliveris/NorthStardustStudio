@@ -50,10 +50,8 @@
     display: flex;
     flex-direction: column;
 
-    /* THE WINDOW'S TYPE IS THE APP'S: the body size; its words in the card's label colour (review-criteria.md, "Typography"). */
+    /* THE WINDOW'S TYPE IS THE APP'S: the body size (review-criteria.md, "Typography"); its words in the text colour, as every dropdown card's (below). */
     font-size: var(--font-body);
-
-    color: hsl(var(--strategy-theme-hue, 0) var(--theme-text-ink));
 
 }
 

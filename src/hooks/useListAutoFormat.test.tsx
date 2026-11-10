@@ -99,21 +99,9 @@ describe("useListAutoFormat", () => {
 
     });
 
-    // Documents a confirmed, currently-open bug (see
-    // docs/ai/outstanding-findings.md, "useListAutoFormat -- cursor
-    // lands mid-word after a paste whose renumbering crosses a
-    // digit-count boundary"), rather than asserting the bug's
-    // behavior as correct. Uses `it.fails` (not a plain `it`, and not
-    // `it.skip`) deliberately: the assertions below still run and are
-    // still expected to fail internally -- `it.fails` is what reports
-    // that as an overall PASS to `npm test` and CI, so this one known
-    // issue doesn't leave the suite permanently red and train anyone
-    // watching to ignore red checks. The moment the real fix lands,
-    // these assertions will start succeeding, which `it.fails` turns
-    // into a visible, un-ignorable FAILURE -- the signal to remove the
-    // `.fails` modifier and close the Outstanding Findings entry,
-    // instead of the fix silently going unnoticed.
-    it.fails("keeps the cursor at the end of a pasted numbered block whose renumbering adds a digit", () => {
+    // A pasted numbered block that continues a run past a digit-count boundary (9. then 10.) grows as it is renumbered; the cursor lands at
+    // the end of the paste in the value actually written (fixed 2026-11-10; it was an expected failure until then).
+    it("keeps the cursor at the end of a pasted numbered block whose renumbering adds a digit", () => {
 
         const before = Array.from({ length: 9 }, (_, i) => `${i + 1}. Item ${String.fromCharCode(65 + i)}`).join("\n") + "\n";
         // before = "1. Item A\n2. Item B\n...\n9. Item I\n" -- an
