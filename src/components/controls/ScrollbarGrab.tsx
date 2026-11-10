@@ -9,13 +9,21 @@ import { useEffect } from "react";
 function barUnder(event: PointerEvent): HTMLElement | null {
     let node = event.target instanceof Element ? event.target : null;
     while (node && node !== document.documentElement) {
-        if (node instanceof HTMLElement) {
+        // (Only a box that scrolls and draws its bar: an inline element has no client box at all, which once read as a bar under every word; owner,
+        // 2026-11-10: "The hand grab only on the scrolling bars should appeared".)
+        if (node instanceof HTMLElement && node.clientWidth > 0 && node.clientHeight > 0) {
+            const style = getComputedStyle(node);
             const rect = node.getBoundingClientRect();
-            // (A vertical bar: the box is wider than what it shows; the pointer stands in the strip between them.)
-            const vertical = node.offsetWidth - node.clientWidth - node.clientLeft * 2 > 0
-                && event.clientX > rect.left + node.clientLeft + node.clientWidth && event.clientX <= rect.right;
-            const horizontal = node.offsetHeight - node.clientHeight - node.clientTop * 2 > 0
-                && event.clientY > rect.top + node.clientTop + node.clientHeight && event.clientY <= rect.bottom;
+            // (A tile grown under the pointer is scaled: its client box is measured in its own pixels, so it is scaled too.)
+            const scaleX = node.offsetWidth > 0 ? rect.width / node.offsetWidth : 1;
+            const scaleY = node.offsetHeight > 0 ? rect.height / node.offsetHeight : 1;
+            // (A vertical bar: the box scrolls up and down, is wider than what it shows, and the pointer stands in the strip between them.)
+            const vertical = /(auto|scroll)/.test(style.overflowY) && node.scrollHeight > node.clientHeight
+                && node.offsetWidth - node.clientWidth - node.clientLeft * 2 > 0
+                && event.clientX > rect.left + (node.clientLeft + node.clientWidth) * scaleX && event.clientX <= rect.right;
+            const horizontal = /(auto|scroll)/.test(style.overflowX) && node.scrollWidth > node.clientWidth
+                && node.offsetHeight - node.clientHeight - node.clientTop * 2 > 0
+                && event.clientY > rect.top + (node.clientTop + node.clientHeight) * scaleY && event.clientY <= rect.bottom;
             if (vertical || horizontal) {
                 return node;
             }
