@@ -20,7 +20,7 @@ export type OpenPage = (path?: readonly string[]) => void;
 
 const STEP_MS = 60;
 const GIVE_UP_MS = 4000;
-const HIGHLIGHT_MS = 1800;
+const HIGHLIGHT_MS = 2400;
 
 function find(token: string): HTMLElement | null {
     return document.querySelector<HTMLElement>('[data-anchor~="' + CSS.escape(token) + '"]');
@@ -69,7 +69,11 @@ function scrollToElement(element: HTMLElement) {
     });
 }
 
-export function land(element: HTMLElement) {
+export function land(target: HTMLElement) {
+    // (A part drawn by its children, with no box of its own -- a question's pair -- is framed by the band that holds it alone, else by its label row.)
+    const element = getComputedStyle(target).display !== "contents" ? target
+        : target.parentElement && target.parentElement.childElementCount === 1 ? target.parentElement
+            : target.firstElementChild instanceof HTMLElement ? target.firstElementChild : target;
     /* Instant, and once more after the page settles: a page still
        laying itself out can move the card after the first scroll. */
     scrollToElement(element);

@@ -307,7 +307,8 @@ describe("a field in your notes, pointed at", () => {
     it("draws its stroke inside the box, and outside it (the glow kept) while hovered, focused or its note is hovered", () => {
         const css = stylesheet("notepad.css");
         expect(css).toContain("outline: 4px solid var(--line-noted); outline-offset: -4px;");
-        expect(css).toContain(".is-noted.is-noted.is-noted:is(:hover, :focus, :focus-visible, :focus-within, .is-noted-hot) { outline-offset: 0; }");
+        // (1px over the box's edge, so no hairline opens between the stroke and the border: owner, 2026-11-10, "There is still a double frame!")
+        expect(css).toMatch(/\.is-noted\.is-noted\.is-noted:is\(:hover, :focus, :focus-visible, :focus-within, \.is-noted-hot\) \{[^}]*outline-offset: -1px; \}/);
         expect(css).toContain(".is-noted.is-noted.is-noted:is(:hover, .is-noted-hot):not(:focus, :focus-within):not(:disabled) { box-shadow: 0 0 16px 4px var(--glow-noted); }");
     });
 

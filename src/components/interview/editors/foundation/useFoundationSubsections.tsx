@@ -79,17 +79,23 @@ const DIFFERENTIATION_SHARED = POSITIONING_INFO.differentiation.filter(point => 
  */
 function openCompetitorOpenings(cardId: string) {
     document.dispatchEvent(new CustomEvent<OpenRequest>(OPEN_EVENT, { detail: { card: cardId } }));
-    window.setTimeout(() => {
+    // (Lands as soon as the card has drawn the question, looked for every 40 ms for up to 3 s: no fixed wait.)
+    const started = Date.now();
+    const look = () => {
         const field = [...document.querySelectorAll<HTMLElement>(".floating-card-host [data-field-key]")].find(element => /what-could-you-do-differently$/.test(element.dataset.fieldKey ?? ""));
-        // (The question's pair is drawn by its children: its label row is what is brought into view.)
-        const shown = field && field.getBoundingClientRect().height === 0 ? field.firstElementChild as HTMLElement | null : field;
-        if (shown) {
-            // (In the card's own scroll: the floating card scrolls inside itself, the page stays.)
-            shown.scrollIntoView({ block: "center" });
-            land(shown);
-            window.setTimeout(() => shown.scrollIntoView({ block: "center" }), 300);
+        if (!field) {
+            if (Date.now() - started < 3000) {
+                window.setTimeout(look, 40);
+            }
+            return;
         }
-    }, 700);
+        // (The question's pair is drawn by its children: what shows it is brought into view, in the card's own scroll; land frames it.)
+        const shown = getComputedStyle(field).display !== "contents" ? field : field.parentElement ?? field;
+        shown.scrollIntoView({ block: "center" });
+        land(field);
+        window.setTimeout(() => shown.scrollIntoView({ block: "center" }), 300);
+    };
+    look();
 }
 
 const DIFFERENTIATION_FROM_OPENINGS = "Started from the openings you ticked on your Competitors (What could you do differently?); change it freely.";
@@ -645,7 +651,7 @@ export function useFoundationSubsections(earlier: Earlier) {
                         <div className="legal-entity-org-section legal-entity-org-band">
                             {/* (The list's label and its "i", owner, 2026-11-10: "I was talking about the list text": the practical tasks of the Value Proposition
                                 Canvas's customer jobs, in the person's words; tried on a person, a business buyer and a parent buying for a child.) */}
-                            <FieldRow pair fullList label={inBox ? profileUserWho("What is {s} trying to get done?", asked.dual ? DUAL_USER : profileUserName(asked)) : profileWho("What is {s} trying to get done?", shown.a2?.[0])} info={OWN_TASKS_INFO}>
+                            <FieldRow pair fullList label={inBox ? profileUserWho("What does {s} want to achieve?", asked.dual ? DUAL_USER : profileUserName(asked)) : profileWho("What does {s} want to achieve?", shown.a2?.[0])} info={OWN_TASKS_INFO}>
                                 <NumberedListInput
                                     label={kind.title + " needs for " + segmentPath + ", Profile " + (profileIndex + 1)}
                                     items={profile.needs.functional}

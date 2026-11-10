@@ -837,17 +837,24 @@
 
    A card opened from a link on another page glows once, so the eye
    finds it in a page full of cards. */
+/* WHERE A LINK LANDS, FRAMED IN THE LINK'S BLUE (owner, 2026-11-10, 18:25: "the app should guide and direct the user to the related part/field etc. framing
+   it in a related colour (blue like the link, and according the reading mode)"): a 3px frame in the links' own colour (--text-primary, set by each reading
+   mode), drawn just inside the part's edge so no scrolling box cuts it, held, then fading out. An outline takes no room: nothing moves. A part lit by a
+   Note keeps the Notes' orange. */
 .jump-highlight{
 
-    animation:jump-highlight 1.8s ease-out;
+    outline:3px solid var(--text-primary);
+    outline-offset:-3px;
+
+    animation:jump-highlight 2.4s ease-out forwards;
 
 }
 
 @keyframes jump-highlight{
 
-    0%, 35%{ box-shadow:0 0 0 3px var(--line-primary), 0 0 0 7px var(--line-primary-a25); }
+    0%, 70%{ outline-color:var(--text-primary); }
 
-    100%{ box-shadow:0 0 0 0 transparent; }
+    100%{ outline-color:transparent; }
 
 }
 
@@ -856,9 +863,6 @@
     .jump-highlight{
 
         animation:none;
-
-        outline:3px solid var(--line-primary);
-        outline-offset:2px;
 
     }
 

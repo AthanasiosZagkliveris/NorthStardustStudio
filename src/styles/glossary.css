@@ -200,9 +200,11 @@
 }
 
 /* The term the search, or a citation, asked for: marked for a moment. */
+/* (The term or reference a link asked for: framed in the links' blue, as every part a link lands on is; see .jump-highlight.) */
 .glossary-entry-target{
 
-    background:var(--bg-highlight);
+    outline:3px solid var(--text-primary);
+    outline-offset:-3px;
 
 }
 
