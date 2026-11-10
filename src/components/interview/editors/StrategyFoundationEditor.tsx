@@ -1,4 +1,5 @@
 import { CSSProperties, ReactNode, useEffect, useRef } from "react";
+import DialogSectionBand from "../tiles/DialogSectionBand.tsx";
 
 import AddButton from "../../controls/AddButton.tsx";
 import CardShell from "../cards/CardShell.tsx";
@@ -425,18 +426,21 @@ export default function StrategyFoundationEditor({
                 {periodTiles
                     ? (
                         <div className="strategy-period-themes">
-                            {periodTiles({
-                                only: "themes",
-                                foundation,
-                                onEditTheme: editTheme,
-                                onRemoveTheme: removeThemeById,
-                                onAddTheme,
-                                trailing: <AddThemeMenu
-                                    disabled={disabled}
-                                    info={themeInfo}
-                                    onAdd={addThemeAndShow}
-                                />
-                            })}
+                            {/* THE THEMES, a titled section of the dialog above their tiles (owner, 2026-11-10: "Add a section above the tiles with the name Themes"; DialogSectionBand). */}
+                            <DialogSectionBand title="Themes" tiles>
+                                {periodTiles({
+                                    only: "themes",
+                                    foundation,
+                                    onEditTheme: editTheme,
+                                    onRemoveTheme: removeThemeById,
+                                    onAddTheme,
+                                    trailing: <AddThemeMenu
+                                        disabled={disabled}
+                                        info={themeInfo}
+                                        onAdd={addThemeAndShow}
+                                    />
+                                })}
+                            </DialogSectionBand>
                         </div>
                     )
                     : (

@@ -550,3 +550,22 @@
     border-bottom-color: transparent;
 
 }
+
+/* Its name stands in the middle of the banner, across and down (owner, 2026-11-10: "The Roadmap title seems off, not centred"). */
+.section-tile.section-tile-diagram {
+
+    grid-template-rows: minmax(0, 1fr);
+
+    align-items: center;
+
+    padding-block: 1px;
+
+}
+
+.section-tile.section-tile-diagram .section-tile-title {
+
+    align-self: center;
+
+    margin-block: 0;
+
+}
