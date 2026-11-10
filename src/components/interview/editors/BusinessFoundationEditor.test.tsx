@@ -302,7 +302,7 @@ describe("BusinessFoundationEditor asks the questions that left Positioning", ()
         expect(screen.queryByLabelText("How old is the end user?")).toBeNull();
     });
 
-    it("starts the Differentiation from the openings ticked on the Competitors where Positioning saved none, and puts them first (doc 41, K14)", () => {
+    it("starts the Differentiation from the openings ticked on the Competitors where Positioning saved none, in the question's own order (doc 41, K14)", () => {
         function Ticked() {
             const [value, setValue] = useState<unknown>(() => {
                 const segment = createBusinessCustomerSegment([]);
@@ -312,8 +312,10 @@ describe("BusinessFoundationEditor asks the questions that left Positioning", ()
         }
         render(<Ticked />);
         const ticks = screen.getAllByRole("checkbox", { name: /^How will you stand apart\?: / });
-        expect(ticks[0].getAttribute("aria-label")).toBe("How will you stand apart?: Personal Service & Relationship");
-        expect((ticks[0] as HTMLInputElement).checked).toBe(true);
+        const personal = ticks.find(tick => tick.getAttribute("aria-label") === "How will you stand apart?: Personal Service & Relationship") as HTMLInputElement;
+        expect(personal.checked).toBe(true);
+        // (In the question's own order, owner 2026-11-10: the ticked option is not moved first.)
+        expect(ticks[0].getAttribute("aria-label")).toBe("How will you stand apart?: Compliance, Risk & Security");
         expect(screen.getByRole("heading", { name: "Differentiation" })).toBeTruthy();
     });
 

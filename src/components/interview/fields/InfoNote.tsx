@@ -2,7 +2,9 @@ import { Children, ReactNode, useRef, useState } from "react";
 
 import PopupPanel from "../../controls/PopupPanel.tsx";
 
-import type { Source } from "../../../framework/engine/Sources.ts";
+import { SOURCES, type Source, type SourceId } from "../../../framework/engine/Sources.ts";
+import { useInRouterContext, useLocation, useNavigate } from "react-router-dom";
+import { openWorkbook } from "../../notepad/Notepad.tsx";
 import HarvardReference from "../../references/HarvardReference.tsx";
 
 import TextLink from "./TextLink.tsx";
@@ -154,6 +156,40 @@ export function InfoText({ text, children }: { text: string; children?: ReactNod
  * (see useFloatingPanel). A note that opened under the window edge
  * would be a note nobody reads.
  */
+/** The references a "Based on:" line names in words, by the phrase that names them: each a link to the References (owner, 2026-11-10). */
+const BASED_ON_SOURCES: readonly { phrase: string; id: SourceId }[] = [
+    { phrase: "Moore's positioning template", id: "positioningTemplate" }
+];
+
+/** The id of a reference in the app's list, or none. */
+function sourceIdOf(source: Source): SourceId | undefined {
+    return (Object.keys(SOURCES) as SourceId[]).find(id => SOURCES[id] === source);
+}
+
+/**
+ * A REFERENCE IN AN "i" LINKS TO THE REFERENCES (owner, 2026-11-10: "When placing a reference in the i, it should be linked to the references table"):
+ * "In the References" opens the Workbook's References at it. Drawn only inside the app's pages (a router), never in a document or a test with none.
+ */
+function ReferencesLink({ id }: { id: SourceId }) {
+    if (!useInRouterContext()) {
+        return null;
+    }
+    return <ReferencesLinkInRouter id={id} />;
+}
+
+function ReferencesLinkInRouter({ id }: { id: SourceId }) {
+    const navigate = useNavigate();
+    const location = useLocation();
+    return (
+        <>
+            {" "}
+            <TextLink className="info-note-reference-link" onClick={() => openWorkbook(navigate, location, { tab: "references", term: id })}>
+                In the References
+            </TextLink>
+        </>
+    );
+}
+
 export default function InfoNote({
     label, points, fullList, asReference, size = "standard"
 }: InfoNoteProps) {
@@ -208,7 +244,12 @@ export default function InfoNote({
                             >
                                 {shown.map(point => (
                                     typeof point === "string"
-                                        ? <li key={point}>{point}</li>
+                                        ? (
+                                            <li key={point}>
+                                                {point}
+                                                {point.startsWith("Based on:") && BASED_ON_SOURCES.filter(entry => point.includes(entry.phrase)).map(entry => <ReferencesLink key={entry.id} id={entry.id} />)}
+                                            </li>
+                                        )
                                         : "source" in point
                                         ? (
                                             /* A citation: the title names
@@ -223,6 +264,7 @@ export default function InfoNote({
                                                 </strong>
                                                 {" "}
                                                 <HarvardReference source={point.source} />
+                                                {sourceIdOf(point.source) && <ReferencesLink id={sourceIdOf(point.source) as SourceId} />}
                                             </li>
                                         )
                                         : asReference

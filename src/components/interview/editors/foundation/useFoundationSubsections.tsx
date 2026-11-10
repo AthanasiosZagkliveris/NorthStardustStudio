@@ -14,15 +14,17 @@ import RatingScale, { type Rating } from "../../../controls/RatingScale.tsx";
 import { ratingScaleMeaning } from "../../../controls/RatingScaleEnds.tsx";
 import RatingScaleGroup from "../../../controls/RatingScaleGroup.tsx";
 import TextLink from "../../fields/TextLink.tsx";
-import { draftToAdd, differentiationFromOpenings, differentiationSources, namesInSentence } from "../../../../framework/engine/CompetitorQuestions.ts";
+import { draftToAdd, differentiationSourceCards, namesInSentence } from "../../../../framework/engine/CompetitorQuestions.ts";
 import FittingRadioChoice from "./FittingRadioChoice.tsx";
 import { type OfferingContext, draftOffered, valuePropositionDraft, valuePropositionOpenItems } from "../../../../framework/engine/OfferingQuestions.ts";
 import { effectiveOfferingAnswers, effectiveProfileAnswers, effectiveProfileUserAnswers, offeringContextOf, withFieldSet } from "../../../../framework/engine/EffectiveAnswers.ts";
 import NumberCell from "../../../controls/NumberCell.tsx";
 import { type ProfileBox, type ProfilePart, type ProfileQuestion, DUAL_USER, OWN_TASKS_INFO, PROFILE_NOTE_HINTS, profileAgeRange, profileChoose, profileOutcomeLimit, profileRate, profileRatings, profileWho, profileQuestionsOf, profileSettle, profileUserAgeRange, profileUserQuestionsOf, profileUserSettle, profileUserWho, profileUserName, profileOptionsShown, proposedBusinessProfiles, segmentNeedTicks } from "../../../../framework/engine/ProfileQuestions.ts";
 import { type SegmentBox, type SegmentQuestion, SEGMENT_QUESTIONS, segmentChoose, segmentOptions, segmentQuestionsOf, segmentRowChoice, segmentSettle, segmentSettledNotes } from "../../../../framework/engine/SegmentQuestions.ts";
-import { INFO as POSITIONING_INFO, choiceLimit, differentiationOptionsFor, stageLimitLine, userOutcomeOptionsFor, withStageLine } from "../legal/shared.tsx";
+import { DIFFERENTIATIONS, INFO as POSITIONING_INFO, choiceLimit, differentiationOptionsFor, stageLimitLine, userOutcomeOptionsFor, withStageLine } from "../legal/shared.tsx";
 import InfoNote, { InfoPoint, InfoText } from "../../fields/InfoNote.tsx";
+import { OPEN_EVENT, type OpenRequest } from "../../tiles/SectionTiles.tsx";
+import { land } from "../../tiles/jumpTo.ts";
 import NumberedListInput from "../../fields/NumberedListInput.tsx";
 import StrategyTextArea from "../../fields/StrategyTextArea.tsx";
 import { BusinessNeedKind, DescriptionPart, NOTE_PLACEHOLDERS, OPTIONAL_DESCRIPTION_PART, SUBSECTIONS, SingleColumn, otherProfileNeeds } from "./shared.tsx";
@@ -60,6 +62,31 @@ export interface FoundationCardScope extends Pick<Earlier, "description" | "disa
 }
 
 /** K14's "i": how it links to K10 (doc 41). */
+/**
+ * EACH DIFFERENTIATION'S OWN "i" (owner, 2026-11-10: "put the options in the question's sequence and place the related i next to each option"): its line of the
+ * Positioning "i" (the line that starts with its name), beside it; the question's "i" keeps what is said of them all.
+ */
+const DIFFERENTIATION_LINES = POSITIONING_INFO.differentiation.filter((point): point is string => typeof point === "string" && DIFFERENTIATIONS.some(option => point.startsWith(option.label + " ") || point.startsWith(option.label + ":")));
+const differentiationMeaning = (label: string): InfoPoint[] | undefined => {
+    const line = DIFFERENTIATION_LINES.find(point => point.startsWith(label + " ") || point.startsWith(label + ":"));
+    return line ? [line] : undefined;
+};
+const DIFFERENTIATION_SHARED = POSITIONING_INFO.differentiation.filter(point => !(DIFFERENTIATION_LINES as InfoPoint[]).includes(point));
+
+/**
+ * A competitor named under a Differentiation opens its card, at the question its ticks came from, "What could you do differently?" (owner, 2026-11-10: "Link the
+ * competitors listed under each Differentiation option to their related field").
+ */
+function openCompetitorOpenings(cardId: string) {
+    document.dispatchEvent(new CustomEvent<OpenRequest>(OPEN_EVENT, { detail: { card: cardId } }));
+    window.setTimeout(() => {
+        const field = [...document.querySelectorAll<HTMLElement>(".floating-card-host [data-field-key]")].find(element => /what-could-you-do-differently$/.test(element.dataset.fieldKey ?? ""));
+        if (field) {
+            land(field);
+        }
+    }, 700);
+}
+
 const DIFFERENTIATION_FROM_OPENINGS = "Started from the openings you ticked on your Competitors (What could you do differently?); change it freely.";
 
 /**
@@ -237,14 +264,13 @@ export function useFoundationSubsections(earlier: Earlier) {
         // answer saved before starts each where the Segment has none saved (segmentPositioningShown); the business stage sets their limit, and they keep Positioning's order and "i".
         // (Where Positioning saved none, the Differentiation starts from the Competitors' K10 ticks, through the crosswalk: doc 41, K14.)
         const shownAnswers = segmentPositioningShown(segment.questions, identity, asked, segment.competitors);
-        const fromOpenings = differentiationFromOpenings(segment.competitors);
         // (Beside each Differentiation the K10 ticks argue for, the competitors it came from: owner, 2026-11-09.)
-        const sources = differentiationSources(segment.competitors);
+        const sources = differentiationSourceCards(segment.competitors);
         // (A bullet list under the option, a competitor a line; owner, 2026-11-10: "under its option make a bullet list".)
         const sourceNote = (id: string) => sources[id]?.length
-            ? <span className="business-foundation-tick-source-list">{sources[id].map(name => <span key={name}>{name}</span>)}</span>
+            ? <span className="business-foundation-tick-source-list">{sources[id].map(card => <span key={card.name}>{card.id ? <TextLink onClick={() => openCompetitorOpenings(card.id)}>{card.name}</TextLink> : card.name}</span>)}</span>
             : undefined;
-        const sourceText = (id: string) => sources[id]?.length ? "from " + namesInSentence(sources[id]) : undefined;
+        const sourceText = (id: string) => sources[id]?.length ? "from " + namesInSentence(sources[id].map(card => card.name)) : undefined;
         const positioningOrder = { customerType: identity?.relationships ?? [], audience: identity?.audience ?? [], buyerCategory: identity?.buyerCategory ?? [], endUser: identity?.endUser ?? [], purpose: identity?.purpose ?? [] };
         const stageLimit = choiceLimit(asked.stage, "outcome");
 
@@ -253,12 +279,12 @@ export function useFoundationSubsections(earlier: Earlier) {
             const chosen = shownAnswers[question.id] ?? [];
             // (K14 stands under its section's title, "Differentiation": its label asks the question rather than repeating the title.)
             const label = question.id === "differentiation" ? "How will you stand apart?" : question.label;
-            // (K14's options: those the K10 ticks argue for first, the most ticked first; then Positioning's order.)
-            const options = question.id === "differentiation" ? [...differentiationOptionsFor(positioningOrder, chosen)].sort((a, b) => (fromOpenings.includes(a.id) ? fromOpenings.indexOf(a.id) : fromOpenings.length) - (fromOpenings.includes(b.id) ? fromOpenings.indexOf(b.id) : fromOpenings.length)).map(option => ({ ...option, note: sourceNote(option.id), noteText: sourceText(option.id) }))
+            // (K14's options in the question's own order, Positioning's (owner, 2026-11-10: "put the options in the question's sequence"), each with its "i" and the competitors it came from.)
+            const options = question.id === "differentiation" ? differentiationOptionsFor(positioningOrder, chosen).map(option => ({ ...option, info: differentiationMeaning(option.label), note: sourceNote(option.id), noteText: sourceText(option.id) }))
                 : question.id === "u-outcome" ? userOutcomeOptionsFor(positioningOrder)
                     : segmentOptions(question, segment.questions, asked);
             // (On a radio, the note stands in the option's words: its accessible name says both.)
-            const radioOptions = (options as readonly { id: string; label: string; note?: ReactNode; noteText?: string }[]).map(option => option.note ? { ...option, label: <>{option.label}<span className="business-foundation-tick-source">{option.note}</span></>, name: option.label + ", " + (option.noteText ?? "") } : option);
+            const radioOptions = (options as readonly { id: string; label: string; info?: InfoPoint[]; note?: ReactNode; noteText?: string }[]).map(option => option.note || option.info ? { ...option, label: <>{option.info ? <InfoText text={option.label}><InfoNote label={option.label} points={option.info} fullList /></InfoText> : option.label}{option.note && <span className="business-foundation-tick-source">{option.note}</span>}</>, name: option.label + (option.noteText ? ", " + option.noteText : "") } : option);
             const choose = (next: string[]) => updateSegment(segmentIndex, {
                 questions: segmentSettle(segmentChoose(question, segment.questions, next), asked)
             });
@@ -266,7 +292,7 @@ export function useFoundationSubsections(earlier: Earlier) {
             const max = question.fromPositioning ? stageLimit ?? undefined : question.max;
             const radio = question.fromPositioning && stageLimit === 1 && chosen.length <= 1;
             const info: InfoPoint[] = question.rating ? [ratingScaleMeaning(question.rating), ...question.info]
-                : question.fromPositioning ? withStageLine(question.id === "differentiation" ? [POSITIONING_INFO.differentiation[0], DIFFERENTIATION_FROM_OPENINGS, ...POSITIONING_INFO.differentiation.slice(1)] : question.info, stageLimitLine(asked.stage, stageLimit))
+                : question.fromPositioning ? withStageLine(question.id === "differentiation" ? [DIFFERENTIATION_SHARED[0], DIFFERENTIATION_FROM_OPENINGS, ...DIFFERENTIATION_SHARED.slice(1)] : question.info, stageLimitLine(asked.stage, stageLimit))
                     : [...question.info];
             return (
                 <FieldRow
@@ -614,7 +640,7 @@ export function useFoundationSubsections(earlier: Earlier) {
                         <div className="legal-entity-org-section legal-entity-org-band">
                             {/* (The list's label and its "i", owner, 2026-11-10: "I was talking about the list text": the practical tasks of the Value Proposition
                                 Canvas's customer jobs, in the person's words; tried on a person, a business buyer and a parent buying for a child.) */}
-                            <FieldRow pair fullList label={inBox ? profileUserWho("Tasks {s} wants done", asked.dual ? DUAL_USER : profileUserName(asked)) : profileWho("Tasks {s} wants done", shown.a2?.[0])} info={OWN_TASKS_INFO}>
+                            <FieldRow pair fullList label={inBox ? profileUserWho("What is {s} trying to get done?", asked.dual ? DUAL_USER : profileUserName(asked)) : profileWho("What is {s} trying to get done?", shown.a2?.[0])} info={OWN_TASKS_INFO}>
                                 <NumberedListInput
                                     label={kind.title + " needs for " + segmentPath + ", Profile " + (profileIndex + 1)}
                                     items={profile.needs.functional}

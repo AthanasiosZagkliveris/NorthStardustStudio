@@ -129,10 +129,16 @@ export default function Workbook() {
         if (!target || (tab !== "glossary" && tab !== "references")) {
             return;
         }
-        const node = document.getElementById(tab === "references" ? "reference-" + target : anchorOf(target));
-        node?.scrollIntoView?.({ block: "center" });
+        // (Once the panel has its height, measured as the page opens: a term asked for from another page, such as a reference in an "i", lands too.)
+        const into = window.setTimeout(() => {
+            const node = document.getElementById(tab === "references" ? "reference-" + target : anchorOf(target));
+            node?.scrollIntoView?.({ block: "center" });
+        }, 80);
         const timer = window.setTimeout(() => setTarget(undefined), 2400);
-        return () => window.clearTimeout(timer);
+        return () => {
+            window.clearTimeout(into);
+            window.clearTimeout(timer);
+        };
     }, [target, tab]);
 
     // The References are filed by the first letter of each reference (its first author); the funnel shows the letter ranges ticked.

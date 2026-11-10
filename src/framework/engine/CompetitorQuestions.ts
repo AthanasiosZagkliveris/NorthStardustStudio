@@ -761,14 +761,23 @@ export function differentiationFromOpenings(competitors: readonly { questions?: 
  * Where each Differentiation the K10 ticks argue for came from (owner, 2026-11-09: K14's options say which competitor each start came from): the names of the
  * competitors whose ticks argue for it, in the competitors' order ("Competitor N" for one not named yet).
  */
-export function differentiationSources(competitors: readonly { name?: string; questions?: Readonly<Record<string, readonly string[]>> }[]): Record<string, string[]> {
+export function differentiationSources(competitors: readonly { id?: string; name?: string; questions?: Readonly<Record<string, readonly string[]>> }[]): Record<string, string[]> {
     const sources: Record<string, string[]> = {};
+    for (const [differentiation, cards] of Object.entries(differentiationSourceCards(competitors))) {
+        sources[differentiation] = cards.map(card => card.name);
+    }
+    return sources;
+}
+
+/** The same, each competitor with its card's id (owner, 2026-11-10: "Link the competitors listed under each Differentiation option to their related field"). */
+export function differentiationSourceCards(competitors: readonly { id?: string; name?: string; questions?: Readonly<Record<string, readonly string[]>> }[]): Record<string, { id: string; name: string }[]> {
+    const sources: Record<string, { id: string; name: string }[]> = {};
     competitors.forEach((competitor, at) => {
         const name = (competitor.name ?? "").trim() || "Competitor " + (at + 1);
         for (const opening of competitor.questions?.k10 ?? []) {
             const differentiation = openingDifferentiation(opening);
-            if (differentiation && !(sources[differentiation] ??= []).includes(name)) {
-                sources[differentiation].push(name);
+            if (differentiation && !(sources[differentiation] ??= []).some(card => card.name === name)) {
+                sources[differentiation].push({ id: competitor.id ?? "", name });
             }
         }
     });
