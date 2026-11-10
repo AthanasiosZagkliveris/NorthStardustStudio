@@ -697,3 +697,9 @@
 .business-capability-slot > .business-capability-card-rule.business-capability-card-rule{
     grid-column:1 / -1;
 }
+
+/* A funnel's folded category keeps its label on one line (owner, 2026-11-10: the Landing Glossary's labels stood letter by letter while every category
+   was folded: the panel took the width of its narrowest content). */
+.responsibility-filter-panel .capability-overview-menu-head > strong{
+    white-space:nowrap;
+}
