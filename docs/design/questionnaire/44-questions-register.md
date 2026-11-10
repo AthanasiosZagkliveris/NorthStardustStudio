@@ -671,21 +671,24 @@ None.
 
 | Pos | Code | Saved id | Label | Control | Max | Asked when | Starts | Status | Owner |
 |---|---|---|---|---|---|---|---|---|---|
-| 17 | N1 | `functional` | What kind of job does this person need done? | RatingScaleGroup (selectable) | 3 | always (above the numbered list "Their own tasks"); in the end user's part where the Segment has an end user | – | built | doc 36, 10 |
+| 17 | N1 | `functional` | What does this person need help with? | RatingScaleGroup (selectable) | 3 | always (above the numbered list "Their own tasks"); in the end user's part where the Segment has an end user | – | built | doc 36, 10 |
 | 18 | N2 | `emotional` | How does this person want to feel? | RatingScaleGroup (selectable) | 3 | a people Segment; in the end user's part where it has one | – | built | doc 36, 10 |
 | 18 | N3 | `emotional-b2b` | How does this person want to feel? | RatingScaleGroup (selectable) | 3 | a business Segment; in the end user's part where it has one | – | built | doc 36, 10 |
 | 19 | N4 | `social` | How does this person want to be seen? | RatingScaleGroup (selectable) | 3 | a people Segment; in the end user's part where it has one; a Baby or Child end user of a Proxy buyer is offered Stylish and Included only, a Teenager all but Impactful | – | built | doc 36, 10 |
 | 19 | N5 | `social-b2b` | How does this person want to be seen? | RatingScaleGroup (selectable) | 3 | a business Segment; in the end user's part where it has one | – | built | doc 36, 10 |
 
-- **N1. What kind of job does this person need done?**
+- **N1. What does this person need help with?**
   - Options: ticked, then each rated 1 to 5: Organisation; Integration; Connection; Information; Variety.
   - "i":
     - 1 = Mild, 5 = Strong.
-    - The main jobs they need done. Choose up to three, then rate each; write their own tasks in the list below.
-    - Organisation: keeps tasks, records or belongings in order. Integration: works with the tools or routines they already use.
-    - Connection: helps them reach or work with other people. Variety: gives more options than they had.
-    - Information: gives answers or facts they need now (learning is the goal Development).
-    - Based on: Bain's Elements of Value (HBR, 2016).
+    - The practical jobs they want done, in five kinds. Tick up to three, then rate how much each matters to them, from Mild to Strong.
+    - Organisation: keeping tasks, records or belongings in order, such as a weekly plan or a tidy stock room.
+    - Integration: fitting in with the tools and routines they already use, such as their calendar or their till.
+    - Connection: reaching or working with other people, such as booking a teacher or sharing a file with a client.
+    - Information: the answers or facts they need now, such as a price, a size or a delivery date.
+    - Variety: more to choose from, such as colours, sizes or times.
+    - Write their own tasks in their words in the list below, for example "furnish a flat that lasts"; your Offerings tick these.
+    - Based on: Almquist, Senior and Bloch, The Elements of Value (Harvard Business Review, 2016); Osterwalder et al., Value Proposition Design (2014), customer jobs.
 - **N2. How does this person want to feel?**
   - Options: ticked, then each rated 1 to 5: Calm; Rewarded; Nurtured; Entertained; Attractive; Healthy; Delighted; Nostalgic; Motivated; Hopeful; Fulfilled; Proud.
   - "i":
