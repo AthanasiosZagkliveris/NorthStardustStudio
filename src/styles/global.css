@@ -356,9 +356,11 @@ body {
      shadows?", with the header's and the Export menu's shadows shown): every shadow is a short lift that fades out within about 12px of its box, so it never
      reaches far across the page nor crosses the edge of what it stands in -- the header's band, a menu, a dialog, a floating card, a tile grown under the pointer. */
   /* (Then gently: wide and faint, so they melt away with no edge to see; owner, 2026-11-10, 21:02: "I like it to faint gently".) */
-  --shadow-drop: 0 12px 40px var(--shadow-ink-12);
-  --shadow-menu: 0 8px 28px var(--shadow-ink-08);
-  --shadow-tile-lift: 0 6px 20px var(--shadow-ink-08);
+  /* (Layered, owner 21:04: "Make it to gradually get darker from transparent to more opaque, and add some blur": four soft layers, each wider and fainter
+     than the last, so the shade deepens gradually towards the box and blurs away to clear, with no edge.) */
+  --shadow-drop: 0 1px 3px var(--shadow-ink-08), 0 4px 10px var(--shadow-ink-08), 0 10px 24px var(--shadow-ink-08), 0 22px 48px color-mix(in srgb, var(--shadow-ink-08) 50%, transparent);
+  --shadow-menu: 0 1px 2px var(--shadow-ink-08), 0 3px 8px var(--shadow-ink-08), 0 8px 18px color-mix(in srgb, var(--shadow-ink-08) 50%, transparent), 0 16px 36px color-mix(in srgb, var(--shadow-ink-08) 50%, transparent);
+  --shadow-tile-lift: 0 1px 2px var(--shadow-ink-08), 0 3px 8px var(--shadow-ink-08), 0 8px 20px color-mix(in srgb, var(--shadow-ink-08) 50%, transparent);
   /* (Both end in clear: one blur only, wide against its offset, its colour faint; a tile lifted under the pointer takes the menu's.) */
   /* THE LINE BETWEEN TWO BANDS (owner, 2026-11-10: "a divider line (12px, 1px, 12px) with a light colour (the card's tint colour)"): 1px in a light step of the card's own hue, the bands' 12px on each side of it. */
   --band-divider: color-mix(in srgb, hsl(var(--strategy-theme-hue, 220) var(--theme-bg-ink)) 30%, hsl(var(--strategy-theme-hue, 220) var(--theme-bg-inner)));
