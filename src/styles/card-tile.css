@@ -46,7 +46,7 @@
 
 [data-tiles-settled] .card-tile-slot:hover > .section-tile {
 
-    box-shadow: var(--box-inset), var(--shadow-menu);
+    box-shadow: var(--box-inset), var(--shadow-tile-lift);
 
 }
 

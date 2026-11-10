@@ -447,7 +447,7 @@
     z-index: 2;
 
     /* (The block keeps its inset light and shade -- it is a tile -- and the drop shadow is added to them.) */
-    box-shadow: var(--box-inset), var(--shadow-menu);
+    box-shadow: var(--box-inset), var(--shadow-tile-lift);
 
 }
 
