@@ -25,7 +25,7 @@ function themeState(): string {
  *  buttons having the same size (high)"): as tall as the buttons' capitals (13px with its line), its line one weight (app-header.css). */
 const THEME_ICON_BOX: Record<ThemeChoice, string> = {
     light: "0.43 0.43 15.13 15.13",
-    sepia: "2.29 2.52 11.4 11.4",
+    sepia: "1.51 1.74 12.97 12.97",
     dark: "1.39 2.03 12.57 12.57",
     auto: "1.51 1.51 12.97 12.97"
 };

@@ -59,4 +59,8 @@
     width: var(--icon-size);
     height: var(--icon-size);
 
+    /* (The header tools' blue, as on the button above them, the words keeping the list's ink; owner, 2026-11-10: "change their default colour to something
+       other than black, to fit to the app".) */
+    color: var(--text-primary);
+
 }
