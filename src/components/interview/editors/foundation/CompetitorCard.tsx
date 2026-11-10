@@ -14,12 +14,11 @@ import { ratingScaleMeaning } from "../../../controls/RatingScaleEnds.tsx";
 import RatingScaleGroup from "../../../controls/RatingScaleGroup.tsx";
 import TextLink from "../../fields/TextLink.tsx";
 import TextBox from "../../../controls/TextBox.tsx";
-import { type OtherQuestion, competitorOtherAdd, competitorOtherName, competitorOtherRemove, competitorOtherSettle, competitorOtherTick, competitorOthers, COMPETITOR_CHANNEL_OPTIONS, COMPETITOR_EXPERIENCE_HOW, COMPETITOR_INFO, COMPETITOR_OFFER_OPTIONS, COMPETITOR_RATINGS, COMPETITOR_REACH_OPTIONS, COMPETITOR_SIZE_OPTIONS, COMPETITOR_STAGES, type CompetitorAnswers, type CompetitorQuestionId, REVIEW_PLATFORM_EXAMPLES, competitorAsks, competitorOpenings, competitorRate, competitorRatings, competitorSettle, competitorWording, competitorValueRows, shownOpenings, COMPETITOR_SUBCHANNELS, COMPETITOR_BAND_LINE, bandTone, COMPETITOR_CHANGES, valueProfiles, draftToAdd, hardToBeat, insightsDraft, reviewPlatformOrder } from "../../../../framework/engine/CompetitorQuestions.ts";
+import { type OtherQuestion, competitorOtherAdd, competitorOtherName, competitorOtherRemove, competitorOtherSettle, competitorOtherTick, competitorOthers, COMPETITOR_CHANNEL_OPTIONS, COMPETITOR_EXPERIENCE_HOW, COMPETITOR_INFO, COMPETITOR_OFFER_OPTIONS, COMPETITOR_RATINGS, COMPETITOR_REACH_OPTIONS, COMPETITOR_SIZE_OPTIONS, COMPETITOR_STAGES, type CompetitorAnswers, type CompetitorQuestionId, REVIEW_PLATFORM_EXAMPLES, competitorAsks, competitorOpenings, competitorRate, competitorRatings, competitorSettle, competitorWording, competitorValueRows, shownOpenings, COMPETITOR_SUBCHANNELS, COMPETITOR_BAND_LINE, bandTone, COMPETITOR_CHANGES, valueProfiles, hardToBeat, reviewPlatformOrder } from "../../../../framework/engine/CompetitorQuestions.ts";
 import FittingRadioChoice from "./FittingRadioChoice.tsx";
 import { type SegmentQuestion, segmentRowChoice } from "../../../../framework/engine/SegmentQuestions.ts";
 import { summaryText } from "../../cards/cardSummary.ts";
 import OptionPicker from "../../fields/OptionPicker.tsx";
-import StrategyTextArea from "../../fields/StrategyTextArea.tsx";
 import { COMPETITOR_TYPE_QUESTIONS, NOTE_PLACEHOLDERS, SUBSECTIONS, SingleColumn, competitorParts } from "./shared.tsx";
 import type { FoundationCardScope } from "./useFoundationSubsections.tsx";
 
@@ -120,7 +119,6 @@ export function competitorCard(scope: FoundationCardScope, competitor: BusinessC
     // K10: the openings, from the answers above; a tick no longer offered goes.
     const openings = competitorOpenings(answers, competitor.type, context);
     const openingTicks = (answers.k10 ?? []).filter(id => openings.some(opening => opening.id === id));
-    const draft = insightsDraft(competitor.name, { ...answers, k10: openingTicks }, { ...context, names: segment.competitors.map(other => ({ name: other.name, answers: other.questions ?? {} })) }, openings);
     const controls: Record<CompetitorQuestionId, () => ReactNode> = {
     k1: () => <FittingRadioChoice label={words("k1")} group={competitor.id + "-k1"} disabled={disabled} value={answers.k1?.[0] ?? ""} onChange={(next) => write({ ...answers, k1: [next] })} options={COMPETITOR_OFFER_OPTIONS} />,
     k2: () => radio("k2", COMPETITOR_REACH_OPTIONS),
@@ -356,30 +354,18 @@ export function competitorCard(scope: FoundationCardScope, competitor: BusinessC
         {/* "Insights" (2026-11-09): the Differentiation is the Segment's, once, under its Competitors (K14); the Business Plan's table says Insights too. */}
         {group(
             "Insights",
-            // K10 untinted under the title band, then the Insights text (and its "Add to text") in the note band, the next tint.
+            // K10 untinted under the title band, then the Insights in a Notes field, the note band, the next tint (owner, 2026-11-10: "replace the free text
+            // to a Note field. It does not need Add to text option").
             band(openings.length > 0 ? question("k10") : null, (
-                <>
-                    {/* Only the sentences not already in the text; nothing new, no link. */}
-                    {draftToAdd(competitor.insights, draft) && (
-                        <TextLink
-                            className="business-competitor-draft"
-                            disabled={disabled}
-                            onClick={() => {
-                                const adding = draftToAdd(competitor.insights, draft);
-                                change({ insights: competitor.insights.trim() ? competitor.insights.replace(/\s+$/, "") + "\n\n" + adding : adding });
-                            }}
-                        >
-                            Add to text
-                        </TextLink>
-                    )}
-                    <StrategyTextArea
-                        className="interview-input business-foundation-note"
-                        ariaLabel={whose + " insights"}
-                        disabled={disabled}
-                        value={competitor.insights}
-                        onChange={(next) => change({ insights: next })}
-                    />
-                </>
+                <OptionalNote
+                    label="Notes"
+                    fieldId="insights notes"
+                    ariaLabel={whose + " insights"}
+                    placeholder="Add a note"
+                    disabled={disabled}
+                    value={competitor.insights}
+                    onChange={(next) => change({ insights: next })}
+                />
             )),
             asked.insights === undefined
                 ? SUBSECTIONS.competitors.insights
