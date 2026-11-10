@@ -719,18 +719,56 @@
 
 }
 
-/* THE FILTER AND SORT WINDOW IS THE ONE DROPDOWN CARD (owner, 2026-11-10, 18:37: "So all these follow the same rules?"): the ground, the inset light and
-   shade, the drop shadow and the corners of every menu (`.strategy-sort-menu`), no stroke; 24px inside, as the Glossary's and the Review's funnel windows
-   (the window's 12px and the filters' own 12px). It was the card's tinted ground with a wireframe. */
-.strategy-sort-menu.strategy-sort-menu-wide {
+/* THE FILTER AND SORT WINDOW stands in the colour of the card it belongs to (the Inventory's hue): its ground, its wireframe and its ink are the card's.
+   EVERY FUNNEL'S WINDOW IS DRAWN SO (owner, 2026-11-10, 18:57: "I like the inventory's style"): the Inventory's, and the Glossary's, the Review's, the Card
+   Notes' and a founder's Responsibilities' (ResponsibilityFilter); 12px from its sides to what it holds and 12px between its blocks (owner, 19:00: "12 px
+   should be the side margin"; "12 px should be also the in between margin"). */
+.strategy-sort-menu.strategy-sort-menu-wide,
+.responsibility-filter-panel.responsibility-filter-panel {
 
     max-height: calc(100vh - 120px);
 
-    padding: var(--space-field);
+    border: 1px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
+
+    background: color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
+
+    color: hsl(var(--strategy-theme-hue, 0) var(--theme-text-ink));
 
     /* The glow under the pointer and the ring on the focus of what stands in the window are the card's tint, never the app's blue. */
     --glow-color: hsl(var(--strategy-theme-hue, 0) var(--theme-line-accent));
     --focus-ring-ink: hsl(var(--strategy-theme-hue, 0) var(--theme-line-accent));
+
+}
+
+/* (12px at its sides: the window's own; the filters inside it add none.) */
+.strategy-sort-menu.strategy-sort-menu-wide {
+
+    padding: 0;
+
+}
+
+.responsibility-filter-panel.responsibility-filter-panel {
+
+    padding: var(--space-field);
+
+    gap: var(--space-field);
+
+}
+
+.responsibility-filter-panel > .capability-overview-menu {
+
+    padding: 0;
+
+}
+
+/* (The Notes panel has no card hue: its funnel's window stands on the panel's own neutral ground and edge, as its funnel does, layout rules 33.) */
+.notepad-panel .responsibility-filter-panel.responsibility-filter-panel {
+
+    border-color: var(--box-border);
+
+    background: var(--bg-panel);
+
+    color: var(--text-default);
 
 }
 

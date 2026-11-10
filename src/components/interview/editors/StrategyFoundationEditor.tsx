@@ -427,7 +427,8 @@ export default function StrategyFoundationEditor({
                     ? (
                         <div className="strategy-period-themes">
                             {/* THE THEMES, a titled section of the dialog above their tiles (owner, 2026-11-10: "Add a section above the tiles with the name Themes"; DialogSectionBand). */}
-                            <DialogSectionBand title="Themes" tiles>
+                            {/* (The Themes' "i" beside the title, the Add card plain: owner, 2026-11-10, "move the i from the Add Card, next to the THEMES".) */}
+                            <DialogSectionBand title="Themes" tiles info={themeInfo} infoSize="double">
                                 {periodTiles({
                                     only: "themes",
                                     foundation,
@@ -436,7 +437,6 @@ export default function StrategyFoundationEditor({
                                     onAddTheme,
                                     trailing: <AddThemeMenu
                                         disabled={disabled}
-                                        info={themeInfo}
                                         onAdd={addThemeAndShow}
                                     />
                                 })}

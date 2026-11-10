@@ -942,9 +942,15 @@
 /* (On a coloured card the "i" draws itself from the pair set on the button, page-3-edges.css: the dark band sets that pair here, so its letter and ring stay the light ink, 3:1 and more.) */
 .business-segment-grid:not(.business-segment-grid-single) .business-segment-box > .legal-entity-org-section:first-child .info-note > .info-note-button.info-note-button{
 
-    --info-fill:var(--bg-primary);
+    /* (Under the pointer: the light disc with its letter in the band's own colour, owner, 2026-11-10, 18:41: "Check the i in the Business system, at the
+       section parts. on Hovering they get total white". The light ring and letter are the rest state's only, so the hover rule draws the letter.) */
+    --info-fill:var(--card-band-ink, var(--bg-primary));
 
     --info-ink:var(--text-on-fill);
+
+}
+
+.business-segment-grid:not(.business-segment-grid-single) .business-segment-box > .legal-entity-org-section:first-child .info-note > .info-note-button.info-note-button:not(:hover):not(:focus-visible):not([aria-expanded="true"]){
 
     border-color:var(--text-on-fill);
 
@@ -957,7 +963,7 @@
 
     background:var(--text-on-fill);
 
-    color:var(--bg-primary);
+    color:var(--card-band-ink, var(--bg-primary));
 
 }
 
@@ -1178,10 +1184,14 @@
 
 .floating-card-body .column-tile-content > .business-foundation-card > .business-group-fold-head .info-note > .info-note-button.info-note-button{
 
-    /* (The pair the coloured card's "i" is drawn from, set on the button: page-3-edges.css.) */
-    --info-fill:var(--bg-primary);
+    /* (The pair the coloured card's "i" is drawn from, set on the button: page-3-edges.css; under the pointer the letter in the band's own colour.) */
+    --info-fill:var(--card-band-ink, var(--bg-primary));
 
     --info-ink:var(--text-on-fill);
+
+}
+
+.floating-card-body .column-tile-content > .business-foundation-card > .business-group-fold-head .info-note > .info-note-button.info-note-button:not(:hover):not(:focus-visible):not([aria-expanded="true"]){
 
     border-color:var(--text-on-fill);
 
@@ -1194,7 +1204,7 @@
 
     background:var(--text-on-fill);
 
-    color:var(--bg-primary);
+    color:var(--card-band-ink, var(--bg-primary));
 
 }
 

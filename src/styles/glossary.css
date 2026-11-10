@@ -121,17 +121,7 @@
 
 }
 
-.glossary-bar .responsibility-filter-panel,
-.workbook-tools .responsibility-filter-panel{
-
-    /* (No stroke: the one dropdown card, as every menu's; owner, 2026-11-10.) */
-    border:0;
-
-    background:var(--bg-surface);
-
-    color:var(--text-default);
-
-}
+/* (The funnel's window here is every funnel's: the Inventory's style, capability-overview.css; owner, 2026-11-10: "I like the inventory's style".) */
 
 /* Your term's kind ("Segment"), in its colour; an app term has no tag. */
 .glossary-entry-yours .glossary-term-tag{
