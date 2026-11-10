@@ -59,15 +59,19 @@ html {
 
 /* WHERE A BAR IS SHOWN (the Inventory, the Forecast's table), the pointer over it is an open hand and, while it holds the bar, a closed one (owner,
    2026-11-10: "make the cursor as grabbing hand, so it would work as an indicator"): ScrollbarGrab.tsx marks the box whose bar is under the pointer. */
+/* (The app's own hands, src/assets/cursors, as the tables' drag hand draws them (02-dynamic-tables.css): the hotspot at their middle. Owner, 2026-11-10: "for the grab
+   hand, use the hand from the src/assets/cursors".) */
 [data-on-scrollbar] {
 
-  cursor: grab;
+  cursor: url("../assets/cursors/grab.svg") 32 32, grab;
+  cursor: image-set(url("../assets/cursors/grab.svg") 1x, url("../assets/cursors/grab-2x.png") 2x) 32 32, grab;
 
 }
 
 [data-scrollbar-grabbing] {
 
-  cursor: grabbing;
+  cursor: url("../assets/cursors/grabbing.svg") 32 32, grabbing;
+  cursor: image-set(url("../assets/cursors/grabbing.svg") 1x, url("../assets/cursors/grabbing-2x.png") 2x) 32 32, grabbing;
 
 }
 

@@ -52,6 +52,9 @@
 
     background:var(--bg-surface);
 
+    /* (The page is the documents' paper in every reading mode, colors.css: its words in the paper's ink, the Canvas's and the Forecast's titles too.) */
+    color:var(--text-strong);
+
 }
 
 .business-documents-page[data-first-tab]{

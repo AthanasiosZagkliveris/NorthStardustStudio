@@ -848,10 +848,15 @@
 
     border-radius:var(--radius-lg);
 
-    outline:2px solid var(--text-primary);
+    /* (4px: twice the line it had, owner, 2026-11-10, 20:20: "Double the wireframe thickness of the frames (linked)".) */
+    outline:4px solid var(--text-primary);
     outline-offset:0;
 
     box-shadow:0 0 10px 2px color-mix(in srgb, var(--text-primary) 45%, transparent);
+
+    /* (Over the lines of the bands and rows beside it, which are drawn after it: owner, 2026-11-10, 20:34, "The blue wire frame should be above the divider lines".) */
+    position:relative;
+    z-index:3;
 
     animation:jump-highlight 2.4s ease-out forwards;
 

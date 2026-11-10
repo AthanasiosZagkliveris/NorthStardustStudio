@@ -64,7 +64,7 @@ for (const selector of selectors) {
 
 /* Resolved per reading mode. */
 const modeSelector = {
-    light: ":root, .business-document, .business-canvas, .business-forecast-table-wrap",
+    light: ":root, .business-documents-page, .business-documents .tab-list-tab-active, .business-document, .business-canvas, .business-forecast-table-wrap",
     dark: ":root[data-theme=\"dark\"]",
     sepia: ":root[data-theme=\"sepia\"]"
 };

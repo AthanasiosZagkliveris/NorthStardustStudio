@@ -79,7 +79,8 @@
 .section-tiles-completed .section-tile-slot,
 .section-tiles-completed .section-tile-slot > .section-tile {
 
-    width: 215px;
+    /* (Squares of the page tile's side where there is room under the cards: BusinessCapabilityEditor sets --completed-width.) */
+    width: var(--completed-width, 215px);
     height: var(--section-tile-size);
 
     aspect-ratio: auto;

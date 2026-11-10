@@ -27,7 +27,7 @@
    "paper" (the Plan, the Canvas and the Forecast tables): a
    document stays a document, on white, in either theme.
 ========================================================== */
-:root, .business-document, .business-canvas, .business-forecast-table-wrap {
+:root, .business-documents-page, .business-documents .tab-list-tab-active, .business-document, .business-canvas, .business-forecast-table-wrap {
 
     /* Text: body copy, labels, links and coloured words. */
     --text-add: #1f9254;

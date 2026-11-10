@@ -1441,6 +1441,8 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow, .notepad-close) {
 .page-arrow.carousel-arrow.carousel-arrow-on-tab,
 :root[data-theme="dark"] .page-arrow.carousel-arrow.carousel-arrow-on-tab {
 
-    color: color-mix(in srgb, var(--tab-edge) 55%, var(--text-on-fill));
+    /* (Filled with the tab's edge colour itself, the BACK arrow's under it: owner, 2026-11-10, 20:18, "For the navigation arrow, in the page tag, use as fill
+       this colour".) */
+    color: var(--tab-edge);
 
 }

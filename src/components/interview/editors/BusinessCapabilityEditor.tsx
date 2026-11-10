@@ -64,7 +64,36 @@ export default function BusinessCapabilityEditor(props: BusinessCapabilityEditor
             const cards = [...document.querySelectorAll<HTMLElement>(".answer-columns.business-capability > .business-foundation-card")];
             const stacked = cards.length > 1 && Math.abs(cards[0].getBoundingClientRect().left - cards[1].getBoundingClientRect().left) < 4;
             let side: number;
-            if (!stacked && footerBox && tiles) {
+            // SQUARES UNDER THE TILES ABOVE, WHERE THERE IS ROOM (owner, 2026-11-10: "When there is space, make the inventory and completed tiles (bricks) squares
+            // (like the regular tiles) and place them to align with their top tiles, letting 12 px gap from above"): the page tile's side, in the first two columns
+            // of tiles of the cards above, 12px under the cards; only while that square ends above the footer. Otherwise the row is the footer's band, as before.
+            const pageTiles = [...(cards[0]?.querySelectorAll<HTMLElement>(".section-tile-slot > .section-tile") ?? [])].filter(tile => tile.offsetWidth > 0);
+            const pageSide = pageTiles[0]?.offsetWidth ?? 0;
+            const cardsBottom = Math.max(0, ...cards.map(card => card.getBoundingClientRect().bottom));
+            const columnsLeft = [...new Set(pageTiles.map(tile => Math.round(tile.getBoundingClientRect().left)))].sort((a, b) => a - b);
+            // (As large as the page's tiles where the room allows, smaller where it does not, down to 150px, under which they stay the footer's bricks.)
+            const room = footerBox ? Math.floor(footerBox.top - 12 - (cardsBottom + 12)) : 0;
+            const squareSide = Math.min(pageSide, room);
+            const squares = !stacked && !!footerBox && !!tiles && pageSide > 0 && columnsLeft.length >= 2 && squareSide >= 150;
+            row.style.removeProperty("--completed-width");
+            if (tiles) {
+                tiles.style.gridTemplateColumns = "";
+                tiles.style.columnGap = "";
+            }
+            if (squares && tiles) {
+                side = squareSide;
+                row.style.height = "0";
+                row.style.overflow = "visible";
+                row.style.setProperty("--completed-width", side + "px");
+                tiles.style.gridTemplateColumns = "repeat(2, " + side + "px)";
+                tiles.style.columnGap = (columnsLeft[1] - columnsLeft[0] - side) + "px";
+                tiles.style.transform = "";
+                tiles.style.position = "relative";
+                tiles.style.zIndex = "40";
+                const first = tiles.querySelector<HTMLElement>(".section-tile-slot")?.getBoundingClientRect();
+                const top = row.getBoundingClientRect().top;
+                tiles.style.transform = "translate(" + Math.round(columnsLeft[0] - (first?.left ?? columnsLeft[0])) + "px, " + Math.round(cardsBottom + 12 - top) + "px)";
+            } else if (!stacked && footerBox && tiles) {
                 side = Math.min(SQUEEZED_ROW_MIN, Math.round(footer - 8));
                 row.style.height = "0";
                 row.style.overflow = "visible";
