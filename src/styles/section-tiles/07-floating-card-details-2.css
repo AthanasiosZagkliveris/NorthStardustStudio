@@ -1441,6 +1441,6 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow, .notepad-close) {
 .page-arrow.carousel-arrow.carousel-arrow-on-tab,
 :root[data-theme="dark"] .page-arrow.carousel-arrow.carousel-arrow-on-tab {
 
-    color: color-mix(in srgb, var(--tab-edge) 55%, white);
+    color: color-mix(in srgb, var(--tab-edge) 55%, var(--text-on-fill));
 
 }

@@ -19,7 +19,7 @@ import FittingRadioChoice from "./FittingRadioChoice.tsx";
 import { type OfferingContext, draftOffered, valuePropositionDraft, valuePropositionOpenItems } from "../../../../framework/engine/OfferingQuestions.ts";
 import { effectiveOfferingAnswers, effectiveProfileAnswers, effectiveProfileUserAnswers, offeringContextOf, withFieldSet } from "../../../../framework/engine/EffectiveAnswers.ts";
 import NumberCell from "../../../controls/NumberCell.tsx";
-import { type ProfileBox, type ProfilePart, type ProfileQuestion, DUAL_USER, PROFILE_NOTE_HINTS, profileAgeRange, profileChoose, profileOutcomeLimit, profileRate, profileRatings, profileWho, profileQuestionsOf, profileSettle, profileUserAgeRange, profileUserQuestionsOf, profileUserSettle, profileUserWho, profileUserName, profileOptionsShown, proposedBusinessProfiles, segmentNeedTicks } from "../../../../framework/engine/ProfileQuestions.ts";
+import { type ProfileBox, type ProfilePart, type ProfileQuestion, DUAL_USER, OWN_TASKS_INFO, PROFILE_NOTE_HINTS, profileAgeRange, profileChoose, profileOutcomeLimit, profileRate, profileRatings, profileWho, profileQuestionsOf, profileSettle, profileUserAgeRange, profileUserQuestionsOf, profileUserSettle, profileUserWho, profileUserName, profileOptionsShown, proposedBusinessProfiles, segmentNeedTicks } from "../../../../framework/engine/ProfileQuestions.ts";
 import { type SegmentBox, type SegmentQuestion, SEGMENT_QUESTIONS, segmentChoose, segmentOptions, segmentQuestionsOf, segmentRowChoice, segmentSettle, segmentSettledNotes } from "../../../../framework/engine/SegmentQuestions.ts";
 import { INFO as POSITIONING_INFO, choiceLimit, differentiationOptionsFor, stageLimitLine, userOutcomeOptionsFor, withStageLine } from "../legal/shared.tsx";
 import InfoNote, { InfoPoint, InfoText } from "../../fields/InfoNote.tsx";
@@ -612,7 +612,9 @@ export function useFoundationSubsections(earlier: Earlier) {
                         // Functional (owner, 2026-11-07): the jobs ticked and rated above, the customer's own tasks in the numbered list below,
                         // as built; each line keeps its id, so an Offering's tick follows the line through edits.
                         <div className="legal-entity-org-section legal-entity-org-band">
-                            <FieldRow pair fullList label="Their own tasks" info={[kind.text]}>
+                            {/* (The list's label and its "i", owner, 2026-11-10: "I was talking about the list text": the practical tasks of the Value Proposition
+                                Canvas's customer jobs, in the person's words; tried on a person, a business buyer and a parent buying for a child.) */}
+                            <FieldRow pair fullList label={inBox ? profileUserWho("Tasks {s} wants done", asked.dual ? DUAL_USER : profileUserName(asked)) : profileWho("Tasks {s} wants done", shown.a2?.[0])} info={OWN_TASKS_INFO}>
                                 <NumberedListInput
                                     label={kind.title + " needs for " + segmentPath + ", Profile " + (profileIndex + 1)}
                                     items={profile.needs.functional}
