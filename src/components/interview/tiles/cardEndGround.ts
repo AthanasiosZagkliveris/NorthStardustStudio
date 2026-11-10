@@ -24,7 +24,8 @@ export function paintCardEnd(card: HTMLElement): void {
     const ground = last ? getComputedStyle(last).backgroundColor : "";
     const tinted = !!ground && ground !== "transparent" && !/rgba\([^)]*,\s*0\)$/.test(ground) && !/\/\s*0\)$/.test(ground);
     // (Measured in the card's own box: where its last band ends, less its top edge.)
-    const from = last ? Math.round((lowest - box.top - card.clientTop) * 10) / 10 : 0;
+    // (On whole pixels, as the band's own ground is drawn: a stop at a part of a pixel tinted the band's last row twice, a darker line under the last band.)
+    const from = last ? Math.round(lowest) - Math.round(box.top) - card.clientTop : 0;
     if (!last || !tinted || lowest >= box.bottom - 1) {
         if (card.dataset.endGround !== undefined) {
             card.style.backgroundImage = "";
@@ -72,7 +73,7 @@ export function paintCardEnd(card: HTMLElement): void {
         if (!opaque || r.bottom <= lowest + 1) {
             continue;
         }
-        const at = Math.round((lowest - r.top - inner.clientTop) * 10) / 10;
+        const at = Math.round(lowest) - Math.round(r.top) - inner.clientTop;
         const ownImage = "linear-gradient(to bottom, transparent " + at + "px, " + ground + " " + at + "px)";
         if (inner.style.getPropertyValue("background-image") !== ownImage) {
             inner.style.setProperty("background-image", ownImage, "important");

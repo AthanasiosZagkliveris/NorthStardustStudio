@@ -418,7 +418,7 @@ export default function FoundersProfileEditor({
                                 disabled={disabled}
                                 onChange={(items) => updateFounder(founder.id, { roles: items })}
                             />
-                        ))}
+                        ), false, true)}
                         </div>
 
                         {/* ROW 1, TWO EQUAL COLUMNS: Relevant Industry
@@ -436,7 +436,7 @@ export default function FoundersProfileEditor({
                                 value={founder.industryExperience}
                                 onChange={(next) => updateFounder(founder.id, { industryExperience: next })}
                             />
-                        ), false, true)}
+                        ))}
 
                         {field("Management Experience", INFO.managementExperience, (
                             <StrategyTextArea
@@ -447,7 +447,7 @@ export default function FoundersProfileEditor({
                                 value={founder.managementExperience}
                                 onChange={(next) => updateFounder(founder.id, { managementExperience: next })}
                             />
-                        ))}
+                        ), false, true)}
 
                         </div>
 
@@ -463,9 +463,9 @@ export default function FoundersProfileEditor({
                                 disabled={disabled}
                                 onChange={(items) => updateFounder(founder.id, { achievements: items })}
                             />
-                        ), false, true)}
+                        ))}
 
-                        {field("Skills, Expertise & Qualifications", INFO.skills, skillList(founder, who))}
+                        {field("Skills, Expertise & Qualifications", INFO.skills, skillList(founder, who), false, true)}
 
                         </div>
 

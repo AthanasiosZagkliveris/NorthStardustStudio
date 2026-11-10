@@ -447,7 +447,7 @@
     z-index: 2;
 
     /* (The block keeps its inset light and shade -- it is a tile -- and the drop shadow is added to them.) */
-    box-shadow: var(--box-inset), 0 10px 22px var(--shadow-18), 0 3px 8px var(--shadow-12);
+    box-shadow: var(--box-inset), var(--shadow-menu);
 
 }
 
@@ -1391,5 +1391,22 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow, .notepad-close) {
 .floating-card-body .brand-style-card > .brand-image-card-body:last-child > .optional-field:last-child {
 
     border-top: 1px solid var(--band-divider);
+
+}
+
+/* A CARD THAT ENDS WITH A BAND ends with that band's own 12px (owner, 2026-11-10: "Check the in-between and side spaces/margins (normal gap 12 px)"):
+   the band's room and the card's padding stood one on the other, 24px under the last field; the card's padding under it goes, so the band runs to the
+   card's edge. */
+.floating-card-body :is(.legal-entity-card, .business-foundation-card):has(.legal-entity-org-section, .legal-entity-field-wide, .legal-entity-grid-requirement){
+
+    padding-bottom:0;
+
+}
+
+/* The rule between a card's bands and its Notes (or the next group of bands) is a line between two coloured parts: the light line (owner, 2026-11-10: "light
+   hue only between the colour transit parts"). The double rule and the lines inside a part keep their grey. */
+.business-capability-card-rule.legal-entity-org-rule:not(.business-capability-card-rule-double){
+
+    background:var(--band-divider);
 
 }

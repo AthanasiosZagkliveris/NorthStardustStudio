@@ -1122,7 +1122,8 @@ body:has([data-pair]) .section-tile-overlay.floating-overlay.business-foundation
 }
 
 /* A FOUNDER'S CARD IN ITS DIALOG IN BANDS (owner, 2026-11-10: "The Founders & Ownership dialogue card needs coloured bands"): each field is a band from side to
-   side of the dialog, 12px above and below its content, no gap between; Roles untinted, then every other field tinted (Relevant Industry Experience, Key
+   side of the dialog, 12px above and below its content, no gap between; Roles tinted under the name (as a Profile's first band under its name; owner,
+   2026-11-10), then the bands alternate down the card (Management Experience and Skills tinted beside Relevant Industry Experience and Key
    Achievements), as every card of the Foundation. */
 .column-tile-content .founders-profile .legal-entity-grid,
 .column-tile-content .founders-profile .founders-profile-row {

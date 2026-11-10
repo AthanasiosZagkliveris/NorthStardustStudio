@@ -648,7 +648,7 @@ describe("the stylesheet of the page tiles, the floating cards and the dialog gr
     it("scales a page tile to 110% on HOVER only, about its aimed corner, above its neighbours, with no motion when reduced", () => {
         expect(css).toMatch(/\.section-tile-slot \{[^}]*position: relative;[^}]*transform-origin: 50% 50%;[^}]*transition: transform \.15s ease;/);
         expect(css).toMatch(/\.section-tile-slot:hover \{[^}]*transform: scale\(1\.1\);[^}]*z-index: 6;/);
-        expect(css).toMatch(/\.section-tile-slot:hover > \.section-tile \{[^}]*box-shadow: var\(--box-inset\), 0 10px 22px var\(--shadow-18\)/);
+        expect(css).toMatch(/\.section-tile-slot:hover > \.section-tile \{[^}]*box-shadow: var\(--box-inset\), var\(--shadow-menu\)/);
         // Never with the focus: a tile that holds the focus has its ring, it does not grow.
         expect(css).not.toMatch(/\.section-tile-slot:[^{]*focus[^{]*\{[^}]*transform: scale/);
         // Closed, the page is the default page until the pointer really moves.
