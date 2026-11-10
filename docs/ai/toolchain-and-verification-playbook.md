@@ -40,6 +40,14 @@ A green run proves the logic, not the look. How the app renders and responds to 
 
 To rewrite the examples after an interface change: `UPDATE_EXAMPLES=1 npx vitest run src/services/ExampleDrift.test.ts` (it writes both examples, in `src/data/examples/`, from the app's own readers); the golden figures are rewritten with `WRITE_GOLDEN=all`.
 
+## The screen snapshot
+
+Before and after a change that must not change the screen (code moved between files, a component split), take the screen snapshot and compare: `node tools/scripts/layout-check/style-snapshot.mjs --out exports/snapshots/before.json`, the change, the same with `after.json`, then `--compare exports/snapshots/before.json exports/snapshots/after.json`. It records the final style of every drawn element (about 70 properties) on every Foundation page and in every section tile's dialog, for both examples, in Light, Dark and Sepia (342 scenes, about 64,000 elements, six and a half minutes), with a fixed clock and no transitions, so two runs of the same code are the same. It needs the dev server; do not edit `src/` while it runs (the dev server reloads). It does not see a state under the pointer or the focus: the layout check's reactions do.
+
+## Finding where something is styled
+
+`npm run css:where <class>` lists every rule that names a class (file, line, selector, what it sets; `-- --props` with the values); `npm run css:map <words>` lists the headed blocks of the stylesheets about a topic, in the order they load. The rules stay where they are: their order decides which wins.
+
 ## The console walk
 
 `npm run check:console` opens every Foundation page of both examples with every tile's dialog and reports what the browser console, the page and the network said (errors, warnings, uncaught exceptions, failed requests); it fails on any. Run it after a change to how a page is built, as the layout check shows how a page looks and this shows whether it throws. It starts the dev server itself when none answers.
