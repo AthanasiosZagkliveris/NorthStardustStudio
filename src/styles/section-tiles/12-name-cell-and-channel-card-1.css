@@ -739,7 +739,7 @@ main.conversation-content[data-reserve],
 
 }
 
-/* ONE RAIL SYSTEM (the pages rail's): the lit item is bold, a bullet under the pointer or the focus is only UNDERLINED, its name never bold. */
+/* ONE RAIL SYSTEM (the pages rail's): the lit item is bold, a bullet under the pointer or the focus is only UNDERLINED, its name never bold. (Underlined only where the names stand beside the bullets: a name shown as a tooltip is a tooltip, never underlined; owner, 2026-11-10.) */
 .carousel-rail.carousel-rail-tab .bullet-rail-item.active .strategy-card-nav-tip {
 
     font-weight: 400;
@@ -749,7 +749,7 @@ main.conversation-content[data-reserve],
 
 }
 
-.carousel-rail.carousel-rail-tab .bullet-rail-item:is(:hover, :focus-visible) .strategy-card-nav-tip {
+.carousel-rail.carousel-rail-tab.carousel-rail-named .bullet-rail-item:is(:hover, :focus-visible) .strategy-card-nav-tip {
 
     text-decoration: underline;
     text-decoration-color: currentColor;
