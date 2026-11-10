@@ -35,7 +35,7 @@ interface Entry {
     organisation?: string;
     open?: () => void;
     /** Where in the app an app term is used: its pages, each a link (owner, 2026-11-10: "where in the app does this term exist"). */
-    places?: readonly { system: number; page: number; part: string }[];
+    places?: readonly { system: number; page: number; part: string; tile?: string; field?: string }[];
 }
 
 /** The letter a term or a reference is filed under: its first letter. */
@@ -128,7 +128,7 @@ export default function GlossaryList({ organizationIds, target, onCitation }: {
     const [organisationsOff, setOrganisationsOff] = useState<ReadonlySet<string>>(new Set());
 
     const entries = useMemo<Entry[]>(() => {
-        const app: Entry[] = GlossaryService.appTerms().map(term => ({
+        const app: Entry[] = GlossaryService.appTermsAppeared(organizationIds).map(term => ({
             key: term.id, kind: "app", term: term.term, tag: "App term", meaning: term.meaning, sources: term.sources ?? [], places: term.places
         }));
         const several = organizationIds.length > 1;
@@ -227,7 +227,7 @@ export default function GlossaryList({ organizationIds, target, onCitation }: {
                                             {entry.places.map((place, at) => (
                                                 <Fragment key={place.system + "." + place.page + place.part}>
                                                     {at > 0 && "; "}
-                                                    <TextLink className="glossary-place" onClick={() => openPage(navigate, place.system, place.page)}>
+                                                    <TextLink className="glossary-place" onClick={() => openPage(navigate, place.system, place.page, place)}>
                                                         {pagePlace(place.system, place.page) + ", " + place.part}
                                                     </TextLink>
                                                 </Fragment>

@@ -1,5 +1,6 @@
 import { systems } from "../../data/systems";
 import { PAGE_GROUPS, groupOf } from "../../framework/engine/PageGroups";
+import { land } from "../interview/tiles/jumpTo";
 import { frameworkRegistry } from "../../framework/engine/FrameworkRegistry";
 import { registeredFields, parseFieldKey } from "../../framework/engine/FieldKeys";
 import { OrganizationService } from "../../services/OrganizationService";
@@ -146,9 +147,26 @@ export function pagePlace(systemNumber: number, sectionNumber: number): string {
     return systemTitle(systemNumber) + " → " + sectionNumber + ". " + title.replace(/\s+MM\/YY.*$/, "");
 }
 
-/** Opens a page of the open Organisation (the Glossary's "In the app"). */
-export function openPage(navigate: Navigate, systemNumber: number, pageNumber: number): void {
+/**
+ * Opens a page of the open Organisation and, there, the part a Glossary term names (owner, 2026-11-10: "Clicking on it should direct the user to that
+ * specific field"): the tile it is in (its dialog opens) and the field, brought into view and highlighted as a jump lands (`land`, jumpTo.ts).
+ */
+export function openPage(navigate: Navigate, systemNumber: number, pageNumber: number, target: { tile?: string; field?: string } = {}): void {
     openLink(navigate, { id: "page", organizationId: OrganizationService.getSelected() ?? "", kind: "page", systemNumber, sectionNumber: pageNumber, label: "", place: "" });
+    if (!target.tile && !target.field) {
+        return;
+    }
+    window.setTimeout(() => {
+        const tile = target.tile ? document.querySelector<HTMLElement>(target.tile) : null;
+        tile?.click();
+        window.setTimeout(() => {
+            const field = target.field ? document.querySelector<HTMLElement>(target.field) : null;
+            const into = field ?? (tile ? document.querySelector<HTMLElement>(".section-tile-dialog") : null);
+            if (into) {
+                land(into);
+            }
+        }, tile ? 800 : 0);
+    }, 1000);
 }
 
 export function openLink(navigate: Navigate, link: NoteLink): void {

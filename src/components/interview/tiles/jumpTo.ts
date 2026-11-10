@@ -69,7 +69,7 @@ function scrollToElement(element: HTMLElement) {
     });
 }
 
-function land(element: HTMLElement) {
+export function land(element: HTMLElement) {
     /* Instant, and once more after the page settles: a page still
        laying itself out can move the card after the first scroll. */
     scrollToElement(element);

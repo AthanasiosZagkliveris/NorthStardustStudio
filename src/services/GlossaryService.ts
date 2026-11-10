@@ -67,6 +67,23 @@ export function namedCardsOfPage(value: unknown, systemNumber: number, sectionNu
     return found;
 }
 
+/** Whether a saved answer holds anything the person wrote or chose (an empty page saves empty strings and lists). */
+function hasAnswer(value: unknown): boolean {
+    if (typeof value === "string") {
+        return value.trim() !== "";
+    }
+    if (typeof value === "number" || typeof value === "boolean") {
+        return true;
+    }
+    if (Array.isArray(value)) {
+        return value.some(hasAnswer);
+    }
+    if (value && typeof value === "object") {
+        return Object.entries(value).some(([key, entry]) => key !== "id" && key !== "hue" && hasAnswer(entry));
+    }
+    return false;
+}
+
 export class GlossaryService {
 
     /** Every term the app user has named in an Organisation, each card once (where it is first saved), the Organisation itself first. */
@@ -91,6 +108,29 @@ export class GlossaryService {
     }
 
     /** The app's terms, in alphabetical order. */
+    /**
+     * THE APP'S TERMS THAT HAVE APPEARED (owner, 2026-11-10: "If a term exists in the app but has not appeared yet, it does not need to be in the glossary"):
+     * a term is listed once one of the pages it is used on holds a saved answer in one of these Organisations (or with none open, every term).
+     */
+    static appTermsAppeared(organizationIds: readonly string[]) {
+        const terms = GlossaryService.appTerms();
+        if (organizationIds.length === 0) {
+            return terms;
+        }
+        const answered = new Set<string>();
+        for (const organizationId of organizationIds) {
+            const document = OrganizationService.loadDocument(organizationId) as { systems?: Record<string, { responses?: { sectionNumber: number; value: unknown }[] }> } | null;
+            for (const [system, entry] of Object.entries(document?.systems ?? {})) {
+                for (const response of entry.responses ?? []) {
+                    if (hasAnswer(response.value)) {
+                        answered.add(system + "." + response.sectionNumber);
+                    }
+                }
+            }
+        }
+        return terms.filter(term => !term.places || term.places.some(place => answered.has(place.system + "." + place.page)));
+    }
+
     static appTerms() {
         return [...APP_TERMS].sort((one, other) => one.term.localeCompare(other.term, "en-GB", { sensitivity: "base" }));
     }
