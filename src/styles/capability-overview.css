@@ -655,6 +655,9 @@
 
     color: var(--table-ink);
 
+    /* The name follows the table's text size, as every cell does (owner, 2026-11-10: "the Names do not change size"); a text link is the body size elsewhere, by a rule that wins with !important, so this one says it the same way. */
+    font-size: var(--table-font, var(--font-body)) !important;
+
 }
 
 .capability-overview-table-extra th,
