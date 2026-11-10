@@ -361,3 +361,12 @@
     background-image:linear-gradient(var(--tint-row-band), var(--tint-row-band));
 
 }
+
+/* THE CONTENTS LIGHTER THAN THE CARD (owner, 2026-11-10: "The contents and card colours should differ ... different lightness, so there is contrast and
+   the user can understand and locate the content more easily"): every row of the Workbook's lists stands on the cell's fill, the light ground of the
+   app's fields, and the even rows take the card's band tint over it; the card around keeps its own, darker ground. */
+.workbook .workbook-section :is(.notepad-card-note, .review-item, .glossary-entry, .references-entry){
+
+    background-color:var(--cell-fill);
+
+}

@@ -14,6 +14,7 @@ Status: **log**, started 2026-10-14, updated 2026-11-09. The rows of sections 4.
 
 | Dates | What happened |
 |---|---|
+| 2026-11-10 | **The Workbook's contents lighter than its card (owner, Thanos, 09:05: "The contents and card colours should differ ... different lightness, so there is contrast and the user can understand and locate the content more easily").** Every row of its lists (card notes, review items, terms, references) stands on the cell's fill, the even rows with the card's band tint over it; the card keeps its own ground (glossary.css). |
 | 2026-11-10 | **The line between two bands in a light tint of the card's colour, not white (owner, Thanos, 09:01: "I did not say white, but a light card's colour tint!").** `--band-divider` is 30% of the card's ink in the card's light tone; in the dark, the card's ink. |
 | 2026-11-10 | **The line between two bands is light (owner, Thanos, 08:08: "I said a light (in colour) divide line between the colour bars").** `--band-divider` is now the card's own tint mixed mostly with paper, so it reads lighter than the bands on either side; in the dark, the card's ink, lighter than the dark bands. Set where the card's hue is, so each card takes its own. |
 | 2026-11-10 | **A rail with no bullets draws no tab (owner, Thanos, 07:53: "I can see a whitish shadow behind the floated card. What is this?").** On a page with no sections the right rail holds only its page arrow; its empty tab stood as a pale patch beside the chapter, and behind a floating card. The arrow stays; the tab goes (`bullet-rail.css`). |
