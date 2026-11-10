@@ -198,7 +198,7 @@
 }
 
 /* ONE DRAWN HEIGHT, ONE LINE (owner, 2026-11-10: "the icons in the header buttons having the same size (high)"): each icon's box is cut round its
-   drawing, so every drawing stands as tall as the buttons' capitals (13px with its line) in its 24px; the boxes differ, so the line is drawn at one screen weight, 1.8px, whatever the box. */
+   drawing, so every drawing stands 24px tall with its line, the box's full height; the boxes differ, so the line is drawn at one screen weight, 1.8px, whatever the box. */
 .header-tool-icon :is(path, circle, line, rect, polyline) {
 
     vector-effect: non-scaling-stroke;

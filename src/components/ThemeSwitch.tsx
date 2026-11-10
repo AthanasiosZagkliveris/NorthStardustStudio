@@ -24,10 +24,10 @@ function themeState(): string {
 /** Each drawing's box, cut round it so every header icon's drawing stands the same height in its 24px (owner, 2026-11-10: "the icons in the header
  *  buttons having the same size (high)"): as tall as the buttons' capitals (13px with its line), its line one weight (app-header.css). */
 const THEME_ICON_BOX: Record<ThemeChoice, string> = {
-    light: "-7 -7 29.99 29.99",
-    sepia: "-3.31 -3.08 22.6 22.6",
-    dark: "-4.78 -4.14 24.92 24.92",
-    auto: "-4.86 -4.86 25.71 25.71"
+    light: "0.43 0.43 15.13 15.13",
+    sepia: "2.29 2.52 11.4 11.4",
+    dark: "1.39 2.03 12.57 12.57",
+    auto: "1.51 1.51 12.97 12.97"
 };
 
 /** A sun, an open book for Sepia, a moon, and a half-filled circle for Auto. Drawn in the text colour. */

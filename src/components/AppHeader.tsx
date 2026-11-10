@@ -54,7 +54,7 @@ export default function AppHeader({ organizationName, focusable = false, reloada
                 <AddButton className="header-tool app-reload"
                     aria-label="Reload the app and refresh the examples"
                     onClick={() => { onReload?.(); window.location.reload(); }}>
-                    <svg className="header-tool-icon" viewBox="-3.93 -4.43 27.85 27.85" aria-hidden="true">
+                    <svg className="header-tool-icon" viewBox="2.97 2.47 14.05 14.05" aria-hidden="true">
                         <path d="M16 10a6 6 0 1 1-2-4.5M16 3v3.5h-3.5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                     <span className="header-tool-word">Reload</span>

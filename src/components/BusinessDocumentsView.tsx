@@ -73,7 +73,7 @@ function ExportMenu({ what, options, disabled }: { what: string; options: { labe
     return (
         <div className="strategy-sort" ref={box}>
             <AddButton className="header-tool" aria-label={"Export the " + what} aria-haspopup="menu" aria-expanded={open} disabled={disabled} onClick={() => setOpen(current => !current)}>
-                <svg className="header-tool-icon" viewBox="-3.93 -3.93 27.85 27.85" aria-hidden="true">
+                <svg className="header-tool-icon" viewBox="2.97 2.97 14.05 14.05" aria-hidden="true">
                     <path d="M10 3.5v9M6.5 9 10 12.5 13.5 9M4 13.5v2a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-2" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" strokeLinecap="round" />
                 </svg>
                 <span className="header-tool-word">Export</span>
