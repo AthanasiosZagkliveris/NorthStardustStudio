@@ -33,16 +33,6 @@
 
 }
 
-.business-documents-actions{
-
-    display:flex;
-
-    flex-wrap:wrap;
-
-    gap:var(--gap-12);
-
-}
-
 /* ---------- The plan, as a page ---------- */
 
 .business-document{
@@ -90,14 +80,6 @@
 
     font-size:var(--font-h2);
     line-height:1.25;
-
-}
-
-.business-document-subtitle{
-
-    margin:0 0 8px;
-
-    color:var(--text-muted);
 
 }
 
@@ -402,12 +384,6 @@
 }
 
 /* ---------- The financial forecast ---------- */
-
-.business-documents-options{
-
-    align-items:flex-end;
-
-}
 
 /* A field and its label, as everywhere: the label in the body size, regular, the card's label colour, a label gap over its cell; the cell is the app's one dropdown cell (option-picker.css), drawn by no rule of this page. */
 .business-documents-option{
@@ -879,8 +855,3 @@
 }
 
 /* The export buttons stand on the foot of the row, level with the cells (their own place is the top of a row). */
-.business-documents-options > .strategy-add-button{
-
-    align-self:flex-end;
-
-}
