@@ -461,3 +461,14 @@
     border-top-color:var(--band-divider);
 
 }
+
+/* An app term's places in the app, a line of its own under its meaning (owner, 2026-11-10: "where in the app does this term exist"). */
+.glossary-places{
+
+    display:block;
+
+    margin-top:var(--gap-6);
+
+    color:var(--text-muted);
+
+}

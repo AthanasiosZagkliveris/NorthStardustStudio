@@ -1,4 +1,5 @@
 import { systems } from "../../data/systems";
+import { PAGE_GROUPS, groupOf } from "../../framework/engine/PageGroups";
 import { frameworkRegistry } from "../../framework/engine/FrameworkRegistry";
 import { registeredFields, parseFieldKey } from "../../framework/engine/FieldKeys";
 import { OrganizationService } from "../../services/OrganizationService";
@@ -126,6 +127,30 @@ type Navigate = (to: string, options?: { state?: unknown }) => void;
  * open, then opens the System, the page, or the field (openField:
  * unfolded, scrolled to, focused and highlighted).
  */
+/** A page in words, as a place is said in the app ("3. Business System → 1. Foundation"): the Glossary's "In the app". */
+export function pagePlace(systemNumber: number, sectionNumber: number): string {
+    const system = systems.find(candidate => candidate.number === systemNumber);
+    // (A page that groups sections is said by its group's title and its place among the System's pages: "1. Definition and Purpose", "2. Legal Entity".)
+    const group = groupOf(systemNumber, sectionNumber);
+    if (group) {
+        const index = PAGE_GROUPS.filter(entry => entry.systemNumber === systemNumber).indexOf(group) + 1;
+        return systemTitle(systemNumber) + " → " + index + ". " + group.title;
+    }
+    let title = "";
+    try {
+        title = system && frameworkRegistry.exists(system.id) ? frameworkRegistry.getFramework(system.id).sections.find(section => section.number === sectionNumber)?.title ?? "" : "";
+    } catch {
+        title = "";
+    }
+    // (A title's date placeholder, "MM/YY - MM/YY", is the page's own period, never part of its name.)
+    return systemTitle(systemNumber) + " → " + sectionNumber + ". " + title.replace(/\s+MM\/YY.*$/, "");
+}
+
+/** Opens a page of the open Organisation (the Glossary's "In the app"). */
+export function openPage(navigate: Navigate, systemNumber: number, pageNumber: number): void {
+    openLink(navigate, { id: "page", organizationId: OrganizationService.getSelected() ?? "", kind: "page", systemNumber, sectionNumber: pageNumber, label: "", place: "" });
+}
+
 export function openLink(navigate: Navigate, link: NoteLink): void {
 
     if (OrganizationService.getSelected() !== link.organizationId) {

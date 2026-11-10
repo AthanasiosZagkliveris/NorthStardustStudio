@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import TextLink from "./interview/fields/TextLink";
 import ResponsibilityFilter from "./interview/fields/ResponsibilityFilter";
 import WorkbookTools from "./WorkbookTools";
-import { openCard } from "./notepad/notepadPlaces";
+import { openCard, openPage, pagePlace } from "./notepad/notepadPlaces";
 import { PALETTE } from "../framework/engine/Palette";
 import { harvardCitation, SOURCES, type SourceId } from "../framework/engine/Sources";
 import { GLOSSARY_KINDS, GlossaryService, type GlossaryKind } from "../services/GlossaryService";
@@ -34,6 +34,8 @@ interface Entry {
     /** That Organisation's name beside the kind ("Offering of Quillfield Automation"); an Organisation's own name needs none. */
     organisation?: string;
     open?: () => void;
+    /** Where in the app an app term is used: its pages, each a link (owner, 2026-11-10: "where in the app does this term exist"). */
+    places?: readonly { system: number; page: number; part: string }[];
 }
 
 /** The letter a term or a reference is filed under: its first letter. */
@@ -127,7 +129,7 @@ export default function GlossaryList({ organizationIds, target, onCitation }: {
 
     const entries = useMemo<Entry[]>(() => {
         const app: Entry[] = GlossaryService.appTerms().map(term => ({
-            key: term.id, kind: "app", term: term.term, tag: "App term", meaning: term.meaning, sources: term.sources ?? []
+            key: term.id, kind: "app", term: term.term, tag: "App term", meaning: term.meaning, sources: term.sources ?? [], places: term.places
         }));
         const several = organizationIds.length > 1;
         const yours: Entry[] = organizationIds.flatMap(organizationId => {
@@ -214,6 +216,19 @@ export default function GlossaryList({ organizationIds, target, onCitation }: {
                                                         onClick={() => onCitation(id)}
                                                     >
                                                         {harvardCitation(SOURCES[id])}
+                                                    </TextLink>
+                                                </Fragment>
+                                            ))}
+                                        </span>
+                                    )}
+                                    {entry.places && entry.places.length > 0 && (
+                                        <span className="glossary-places">
+                                            {"In the app: "}
+                                            {entry.places.map((place, at) => (
+                                                <Fragment key={place.system + "." + place.page + place.part}>
+                                                    {at > 0 && "; "}
+                                                    <TextLink className="glossary-place" onClick={() => openPage(navigate, place.system, place.page)}>
+                                                        {pagePlace(place.system, place.page) + ", " + place.part}
                                                     </TextLink>
                                                 </Fragment>
                                             ))}
