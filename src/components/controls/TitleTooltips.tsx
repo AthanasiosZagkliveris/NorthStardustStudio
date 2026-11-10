@@ -214,6 +214,17 @@ export default function TitleTooltips() {
             setPosition(null);
             return;
         }
+        // A TILE GROWS UNDER THE POINTER (110%, 0.15s): its tip waits until it has grown and stands over the grown tile (owner, 2026-11-10: "The tooltips on
+        // the tiles during hovering, should open after the tiles grow, and for that action should be their position").
+        if (tip.element.closest(".section-tile-slot, .card-tile-slot")) {
+            setPosition(null);
+            const timer = window.setTimeout(() => {
+                if (box.current) {
+                    setPosition(aboveTipPosition(tip.element.getBoundingClientRect(), box.current.getBoundingClientRect()));
+                }
+            }, 170);
+            return () => window.clearTimeout(timer);
+        }
         setPosition(aboveTipPosition(tip.element.getBoundingClientRect(), box.current.getBoundingClientRect()));
     }, [tip]);
 
