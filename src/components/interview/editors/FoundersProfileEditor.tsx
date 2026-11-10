@@ -293,9 +293,10 @@ export default function FoundersProfileEditor({
         );
     }
 
-    function field(text: string, info: string[], control: ReactNode, wide = false) {
+    /** `tint`: in the founder's card in its dialog, the field is a tinted band (the bands alternate: owner, 2026-11-10). */
+    function field(text: string, info: string[], control: ReactNode, wide = false, tint = false) {
         return (
-            <div className={wide ? "legal-entity-field-wide" : "legal-entity-field"}>
+            <div className={(wide ? "legal-entity-field-wide" : "legal-entity-field") + " founder-band" + (tint ? " founder-band-tint" : "")}>
                 {label(text, info)}
                 {control}
             </div>
@@ -435,7 +436,7 @@ export default function FoundersProfileEditor({
                                 value={founder.industryExperience}
                                 onChange={(next) => updateFounder(founder.id, { industryExperience: next })}
                             />
-                        ))}
+                        ), false, true)}
 
                         {field("Management Experience", INFO.managementExperience, (
                             <StrategyTextArea
@@ -462,7 +463,7 @@ export default function FoundersProfileEditor({
                                 disabled={disabled}
                                 onChange={(items) => updateFounder(founder.id, { achievements: items })}
                             />
-                        ))}
+                        ), false, true)}
 
                         {field("Skills, Expertise & Qualifications", INFO.skills, skillList(founder, who))}
 

@@ -1120,3 +1120,27 @@ body:has([data-pair]) .section-tile-overlay.floating-overlay.business-foundation
     margin: 0 calc(-1 * var(--card-padding));
 
 }
+
+/* A FOUNDER'S CARD IN ITS DIALOG IN BANDS (owner, 2026-11-10: "The Founders & Ownership dialogue card needs coloured bands"): each field is a band from side to
+   side of the dialog, 12px above and below its content, no gap between; Roles untinted, then every other field tinted (Relevant Industry Experience, Key
+   Achievements), as every card of the Foundation. */
+.column-tile-content .founders-profile .legal-entity-grid,
+.column-tile-content .founders-profile .founders-profile-row {
+
+    row-gap: 0;
+
+}
+
+.column-tile-content .founders-profile .founder-band {
+
+    margin-inline: calc(-1 * var(--card-padding));
+
+    padding: var(--space-cell) var(--card-padding);
+
+}
+
+.column-tile-content .founders-profile .founder-band-tint {
+
+    background: var(--tint-row-band);
+
+}
