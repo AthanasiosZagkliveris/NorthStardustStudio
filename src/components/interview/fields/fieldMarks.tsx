@@ -91,8 +91,13 @@ export function FieldPageProvider({
         if (!root || !value) {
             return;
         }
+        // (The dialogs and floating cards opened over the page are drawn in their own layer: their controls get keys too, so they can be linked.)
+        const overlays = () => [...document.querySelectorAll<HTMLElement>(".section-tile-overlay, .floating-card-host")].filter(layer => !root.contains(layer));
         const mark = () => {
             markControls(root, value);
+            for (const layer of overlays()) {
+                markControls(layer, value);
+            }
             markNoted(root, value.organizationId);
         };
         mark();
@@ -104,12 +109,28 @@ export function FieldPageProvider({
         let frame = 0;
         const layers = new MutationObserver(() => {
             cancelAnimationFrame(frame);
-            frame = requestAnimationFrame(() => markNoted(root, value.organizationId));
+            frame = requestAnimationFrame(mark);
         });
         layers.observe(document.body, { childList: true });
+        // (What changes inside an open layer -- a card opened in a dialog -- is marked as it draws.)
+        const inner = new MutationObserver(() => {
+            cancelAnimationFrame(frame);
+            frame = requestAnimationFrame(mark);
+        });
+        const watchLayers = () => {
+            inner.disconnect();
+            for (const layer of overlays()) {
+                inner.observe(layer, { childList: true, subtree: true });
+            }
+        };
+        watchLayers();
+        const relayers = new MutationObserver(watchLayers);
+        relayers.observe(document.body, { childList: true });
         return () => {
             observer.disconnect();
             layers.disconnect();
+            inner.disconnect();
+            relayers.disconnect();
             cancelAnimationFrame(frame);
             unsubscribe();
         };
@@ -162,10 +183,15 @@ function anchorsWithin(element: HTMLElement, rail: HTMLElement | null): string[]
  * its own accessible name. A card is marked by its section and anchor.
  * So every answer can be linked from a note and opened again.
  */
+/** The page whose controls are marked from a root: the page itself, or, for a dialog or floating card drawn in its own layer with no page of its own, none. */
+function pageOf(root: HTMLElement): HTMLElement | null {
+    return root.classList.contains("field-page") ? root : null;
+}
+
 function markControls(root: HTMLElement, page: FieldPageValue): void {
 
     for (const card of root.querySelectorAll<HTMLElement>(CARDS)) {
-        if (card.closest(".field-page") !== root) {
+        if (card.closest(".field-page") !== pageOf(root)) {
             continue;
         }
         const anchor = (card.dataset.anchor ?? "").split(/\s+/)[0];
@@ -183,7 +209,7 @@ function markControls(root: HTMLElement, page: FieldPageValue): void {
 
     // A PAGE'S TILE (a Master Tile) can be linked from a note by itself: named by its title, as the page shows it.
     for (const tile of root.querySelectorAll<HTMLElement>(".section-tile[data-tile]")) {
-        if (tile.closest(".field-page") !== root || tile.dataset.fieldKey || tile.closest(".section-tile-dialog, .floating-card-body")) {
+        if (tile.closest(".field-page") !== pageOf(root) || tile.dataset.fieldKey || tile.closest(".section-tile-dialog, .floating-card-body")) {
             continue;
         }
         const id = tile.dataset.tile ?? "";
@@ -198,7 +224,7 @@ function markControls(root: HTMLElement, page: FieldPageValue): void {
     for (const control of root.querySelectorAll<HTMLElement>(ANSWER_CONTROLS)) {
 
         // (A part drawn from another section's answer has a page of its own inside this one, which marks it: Purpose & Beliefs' Mission & Vision.)
-        if (control.closest(".field-page") !== root) {
+        if (control.closest(".field-page") !== pageOf(root)) {
             continue;
         }
 
@@ -255,13 +281,20 @@ function markNoted(root: HTMLElement, organizationId: string): void {
             continue;
         }
         // (A page's tile is a card too: a note linked to it draws it so (owner, 2026-11-10: "Check and fix, in the notes panel, the linked parts").)
+        // (A tick or a choice is marked by its row, its box and its words: the bare box is too small to carry the mark; owner, 2026-11-10, the Notes tests.)
+        if (holder.matches("input[type=checkbox], input[type=radio]")) {
+            const row = holder.closest<HTMLElement>("label") ?? holder.parentElement;
+            if (row) {
+                noted.add(row);
+            }
+            continue;
+        }
         const box = holder.matches(CARDS) || holder.matches(".section-tile") || holder.matches(NOTED_BOX)
             ? holder
             // (A list is marked as one box, the list's own, not its first line.)
             : holder.querySelector<HTMLElement>(".numbered-list") ?? holder.querySelector<HTMLElement>(NOTED_BOX);
-        if (box) {
-            noted.add(box);
-        }
+        // (A question whose answer is a set of ticks or choices has no one box: the question itself, its words and its choices, carries the mark.)
+        noted.add(box ?? holder);
     }
 
     for (const element of scopes.flatMap(scope => [...scope.querySelectorAll<HTMLElement>(".is-noted")])) {
