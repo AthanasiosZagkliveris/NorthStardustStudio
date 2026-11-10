@@ -14,7 +14,7 @@ export function useFocusMode(): boolean {
 /** Four corners drawn in: the page, closed in on. */
 function FocusIcon({ exit = false }: { exit?: boolean }) {
     return (
-        <svg className="header-tool-icon" viewBox="0.12 0.12 19.76 19.76" aria-hidden="true">
+        <svg className="header-tool-icon" viewBox="-5 -5 29.99 29.99" aria-hidden="true">
             <path
                 d={exit
                     ? "M7 3v4H3M13 3v4h4M7 17v-4H3M13 17v-4h4"

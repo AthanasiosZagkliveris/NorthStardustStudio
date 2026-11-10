@@ -1092,7 +1092,7 @@
 
     padding-left:var(--space-cell);
 
-    border-left:1px solid var(--band-divider);
+    border-left:1px solid var(--line-divider);
 
 }
 

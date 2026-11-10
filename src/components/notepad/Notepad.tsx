@@ -73,7 +73,7 @@ export function NotepadButton() {
             aria-expanded={view.open}
             aria-label={"Notes, " + notes.length + (notes.length === 1 ? " note" : " notes")}
             onClick={() => NotepadService.toggle()}>
-            <svg className="header-tool-icon" viewBox="-0.09 -0.59 21.18 21.18" aria-hidden="true">
+            <svg className="header-tool-icon" viewBox="-5.57 -6.07 32.15 32.15" aria-hidden="true">
                 <path d="M5 2.5h7.5L16 6v11.5H5z" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
                 <path d="M7.5 9h6M7.5 12h6M7.5 15h4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
             </svg>
@@ -121,7 +121,7 @@ export function WorkbookButton({ total = false }: { total?: boolean }) {
                     openWorkbook(navigate, location, total ? { total: true } : {});
                 }
             }}>
-            <svg className="header-tool-icon" viewBox="1.32 0.82 18.35 18.35" aria-hidden="true">
+            <svg className="header-tool-icon" viewBox="-3.43 -3.93 27.85 27.85" aria-hidden="true">
                 <path d="M5 3.5h10a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H5zM7.5 3.5v13M11 3.5v5l1.5-1.2 1.5 1.2v-5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" strokeLinecap="round" />
             </svg>
             <span className="header-tool-word">Workbook</span>

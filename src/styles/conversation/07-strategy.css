@@ -484,8 +484,7 @@
    enough to tell them apart inside the one box. */
 .numbered-list-row + .numbered-list-row{
 
-    /* (The card's one divider colour, as every line between parts of a card; owner, 2026-11-10.) */
-    border-top:1px solid var(--band-divider);
+    border-top:1px solid var(--line-rule);
 
 }
 

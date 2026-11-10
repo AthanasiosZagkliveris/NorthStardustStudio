@@ -21,7 +21,7 @@ export default function SettingsButton() {
                 }
                 navigate("/settings", { state: { from: { pathname: location.pathname, state: location.state } } });
             }}>
-            <svg className="header-tool-icon" viewBox="1.81 1.81 16.38 16.38" aria-hidden="true">
+            <svg className="header-tool-icon" viewBox="-2.43 -2.43 24.86 24.86" aria-hidden="true">
                 <path d="M3 6h9M15 6h2M3 14h2M8 14h9" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
                 <circle cx="13.5" cy="6" r="1.8" fill="none" stroke="currentColor" strokeWidth="1.5" />
                 <circle cx="6.5" cy="14" r="1.8" fill="none" stroke="currentColor" strokeWidth="1.5" />
