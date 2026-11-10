@@ -1531,7 +1531,8 @@
 
     margin:0 calc(-1 * var(--space-cell));
 
-    padding:var(--space-label) var(--space-cell) var(--space-cell);
+    /* 12px above and below the band's content, so each band reads as a field of its own (owner, 2026-11-10: "Give the proper space to the coloured bands, so to be recognised as a field. - General rule!"). */
+    padding:var(--space-cell);
 
 }
 
