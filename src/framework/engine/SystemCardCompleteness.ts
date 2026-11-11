@@ -56,8 +56,3 @@ export function brandTypefaceMissing(typeface: { font: string; purpose: string }
 export function brandImageMissing(image: { dataUrl: string; name: string; description: string }): string[] {
     return lacking([image.dataUrl, image.name, image.description].some(filled), [...(filled(image.dataUrl) ? [] : ["Image"]), ...(filled(image.name) ? [] : ["Name"])]);
 }
-
-/** A Profile, Competitor or Offering of a Segment, a Strategy Goal, Objective or Metric: it needs a name once anything else is written. */
-export function namedCardMissing(card: { name: string }, others: readonly string[]): string[] {
-    return lacking(others.some(filled) || filled(card.name), filled(card.name) ? [] : ["Name"]);
-}

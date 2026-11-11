@@ -757,9 +757,6 @@ export function noteHint(groupId: string): string {
     }
 }
 
-/** A supplier connected to a rented vehicle shows a Qty before its price (how many vehicles the lease covers). */
-export const supplierHasQuantity = (connections: SupplierConnections) => connections.vehicle;
-
 /** Whether a partner or supplier card has a Qty before its price: a lessor of vehicles, and any card priced Per unit (per hour, per kg ...). */
 export const partnerHasQuantity = (connections: SupplierConnections, cost: { frequency: string }) => connections.vehicle || cost.frequency === "per-unit";
 

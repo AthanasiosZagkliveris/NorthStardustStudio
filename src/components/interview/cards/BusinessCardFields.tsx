@@ -88,22 +88,11 @@ const MISSING_LABELS: Record<string, readonly string[]> = {
     "Delivery Hours": ["delivery hrs"]
 };
 
-/** What a missing cell says under it. */
-const MISSING_WORDS: Record<string, string> = {
-    "Payment Plan": "The payments must total 100%, each with a date.",
-    "Offering shares": "The shares must total 100%, or every Offering needs its units.",
-    "Linked Offerings": "Link at least one Offering.",
-    "Category": "Pick a Group so the card knows where it belongs."
-};
-
 /** The thing the card lacks that a field of this label stands for, or "" when it is none. */
 export function missingFor(lacking: readonly string[], label: string): string {
     const text = label.trim().toLowerCase();
     return lacking.find(item => (MISSING_LABELS[item] ?? []).some(start => text.startsWith(start))) ?? "";
 }
-
-/** The words under a missing cell. */
-export const missingWords = (item: string) => MISSING_WORDS[item] ?? "Required: this card is not counted until it is given.";
 
 /** The tick box next to a BusinessField's label (see BusinessField's `tick`). */
 export interface BusinessFieldTick {

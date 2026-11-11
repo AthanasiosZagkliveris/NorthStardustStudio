@@ -17,14 +17,6 @@ const CURRENCY_LOCALES: Record<string, string> = {
     USD: "en-US", GBP: "en-GB", EUR: "en-IE", CAD: "en-CA", AUD: "en-AU", NZD: "en-NZ"
 };
 
-/** The figures of an amount alone, in the currency's own locale: for a table that writes the currency once, in the header of the column. */
-export function moneyFigures(currency: string, options?: { wholeOnly?: boolean }): (amount: number) => string {
-    const locale = CURRENCY_LOCALES[currency];
-    const whole = new Intl.NumberFormat(locale, { maximumFractionDigits: 0 });
-    const pence = new Intl.NumberFormat(locale, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-    return (amount: number) => options?.wholeOnly || Math.abs(amount - Math.round(amount)) < 0.005 ? whole.format(Math.round(amount)) : pence.format(amount);
-}
-
 export function moneyFormatter(
     currency: string,
     options?: {

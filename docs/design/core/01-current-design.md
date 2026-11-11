@@ -186,7 +186,7 @@ A "Chapter" has no named type in the code. Frames are classes:
 | Subcategory box | A dialog's category tile | `SectionView.tsx` |
 | Figure tile | Label, value, detail (financial figures) | `FigureTiles` in `FinancialParts.tsx` |
 
-Tile dialogs (`SectionTiles.tsx`): header with a trail and Back (`DialogHeading`, `useDialogInnerBack`, `useDialogInnerStep`, `InnerLevel`, `DialogRail`); frame sizing (`dialogFrame`, `useDialogTileSize`). Dialog kinds: a navigation grid of boxes that closes on choosing a card; a section view of category tiles; a section content dialog; a wide dialog (Roadmap).
+Tile dialogs (`SectionTiles.tsx`): header with a trail and Back (`DialogHeading`, `useDialogInnerBack`, `useDialogInnerStep`, `InnerLevel`, `DialogRail`); frame sizing (`dialogFrame`). Dialog kinds: a navigation grid of boxes that closes on choosing a card; a section view of category tiles; a section content dialog; a wide dialog (Roadmap).
 
 ### C.6 Layer E: cards and their parts
 
@@ -265,7 +265,7 @@ Tile dialogs (`SectionTiles.tsx`): header with a trail and Back (`DialogHeading`
 | Kind | Where |
 |---|---|
 | Empty states | `section-tile-empty`, `strategy-empty-note`, `legal-entity-empty-note`, `BusinessEmpty`, `review-empty`, `search-empty`, `notepad-empty`, `option-picker-empty`, `roadmap-empty-row` and others |
-| Missing or incomplete | Red glowing tile, `missingWords`, `incompleteTitle`, `capability-overview-incomplete` |
+| Missing or incomplete | Red glowing tile, `incompleteTitle`, `capability-overview-incomplete` |
 | Alerts | `legal-entity-total-alert`, `settings-alarm`, `brand-inventory-error`, the `FrozenUntil` hint |
 | Open items | The Workbook's Review, `OpenItems.ts`, `ReviewItems.ts` |
 | Signals | `SignalList` (risk, caution, good, info) |

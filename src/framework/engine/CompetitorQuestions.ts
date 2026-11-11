@@ -516,20 +516,6 @@ export function competitorSettle(answers: CompetitorAnswers, type: string): Comp
     return settled;
 }
 
-/** What a saved Competitor's questions keep: lists of words only. */
-export function asCompetitorAnswers(source: unknown): CompetitorAnswers {
-    const answers: CompetitorAnswers = {};
-    if (!source || typeof source !== "object" || Array.isArray(source)) {
-        return answers;
-    }
-    for (const [key, value] of Object.entries(source as Record<string, unknown>)) {
-        if (Array.isArray(value) && value.every(entry => typeof entry === "string") && value.length > 0) {
-            answers[key] = value as string[];
-        }
-    }
-    return answers;
-}
-
 /* ---- K10: the openings, from the card's own answers ---- */
 
 /** What K10 reads besides the card itself: the Segment's Profiles' B1 and its other competitors. */
