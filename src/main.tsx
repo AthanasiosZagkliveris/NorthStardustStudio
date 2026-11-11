@@ -26,18 +26,32 @@ import "./styles/back-button.css";
 import { installTextLinkMarquee } from "./components/interview/fields/textLinks.ts";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 import { ThemeService } from "./services/ThemeService";
+import { IndexedDbStorage } from "./services/IndexedDbStorage";
+import { keepOrganizationsIn } from "./services/OrganizationService";
 
 // The theme is already on <html> (public/theme-init.js, loaded by index.html); from here Auto also
 // follows the system's setting while the app is open.
 ThemeService.start();
 installTextLinkMarquee();
 
-ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-    <React.StrictMode>
-        <ErrorBoundary>
-            <BrowserRouter>
-                <App />
-            </BrowserRouter>
-        </ErrorBoundary>
-    </React.StrictMode>
-);
+// THE ORGANIZATIONS live in IndexedDB (IndexedDbStorage.ts): opened, read into memory and, the first time, moved in from
+// localStorage, before the app draws, so every read after it sees them. Where IndexedDB cannot open, the app stays on localStorage.
+async function start() {
+    try {
+        keepOrganizationsIn(await IndexedDbStorage.open());
+        void IndexedDbStorage.keep();
+    } catch (error) {
+        console.error("The Organizations stay in localStorage: IndexedDB did not open.", error);
+    }
+    ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
+        <React.StrictMode>
+            <ErrorBoundary>
+                <BrowserRouter>
+                    <App />
+                </BrowserRouter>
+            </ErrorBoundary>
+        </React.StrictMode>
+    );
+}
+
+void start();

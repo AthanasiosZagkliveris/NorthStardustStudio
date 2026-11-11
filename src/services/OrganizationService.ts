@@ -217,8 +217,9 @@ function createOrganizationId(): string {
 }
 
 /**
- * Where every Organization is kept: this device's localStorage, for
- * now (see OrganizationStore for the seam a server store would take).
+ * Where every Organization is kept: this device's IndexedDB once main.tsx has opened it (IndexedDbStorage.ts,
+ * `keepOrganizationsIn`), localStorage until then and wherever IndexedDB is missing (the tests); see OrganizationStore
+ * for the seam a server store would take.
  */
 const store = new LocalOrganizationStore(
     typeof localStorage !== "undefined" ? localStorage : ({} as Storage)
@@ -226,6 +227,11 @@ const store = new LocalOrganizationStore(
 
 if (typeof window !== "undefined") {
     store.attachToPage(window);
+}
+
+/** Moves every Organization's reads and writes onto `storage` (main.tsx, with the IndexedDB storage, before the app draws). */
+export function keepOrganizationsIn(storage: Parameters<LocalOrganizationStore["useStorage"]>[0]): void {
+    store.useStorage(storage);
 }
 
 export class OrganizationService {

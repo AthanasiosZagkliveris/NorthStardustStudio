@@ -80,9 +80,26 @@ export class LocalOrganizationStore implements OrganizationStore {
     private state: SaveState = { status: "saved" };
 
     constructor(
-        private readonly storage: Storage,
+        private storage: Storage,
         private readonly debounceMs = WRITE_DEBOUNCE_MS
     ) {}
+
+    /**
+     * Moves the store onto another storage (main.tsx hands it the IndexedDB one before the app draws; see IndexedDbStorage.ts).
+     * A storage that writes in the background reports how each write ended, and a failed one keeps the saved signal at
+     * "Not saved" until a later write of the same key succeeds.
+     */
+    useStorage(storage: Storage & { reportWritesTo?: (report: (key: string, failure: string | null) => void) => void }): void {
+        this.storage = storage;
+        storage.reportWritesTo?.((key, failure) => {
+            if (failure) {
+                this.failures.set(key, failure);
+            } else {
+                this.failures.delete(key);
+            }
+            this.updateState();
+        });
+    }
 
     /**
      * Best-effort safety net: if the tab/app closes (or is hidden,

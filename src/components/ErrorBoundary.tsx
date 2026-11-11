@@ -71,6 +71,18 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
         } catch {
             // Ignore -- storage may be unavailable.
         }
+        // The Organizations themselves are in IndexedDB (IndexedDbStorage.ts): the whole database is deleted too. The deletion
+        // waits for this page's open connection, which the reload closes, and the app's next start waits for the deletion.
+        try {
+            const deletion = indexedDB.deleteDatabase("northstardust");
+            const reload = () => { window.location.href = "/"; };
+            deletion.onsuccess = reload;
+            deletion.onerror = reload;
+            deletion.onblocked = reload;
+            return;
+        } catch {
+            // Ignore -- IndexedDB may be unavailable.
+        }
         window.location.href = "/";
     };
 
