@@ -3,13 +3,17 @@
  */
 import { CSSProperties } from "react";
 import CardShell from "../../cards/CardShell.tsx";
+import ProcessLibraryEditor from "../ProcessLibraryEditor.tsx";
+import OperationalLogEditor from "../OperationalLogEditor.tsx";
+import RolesResponsibilitiesEditor from "../RolesResponsibilitiesEditor.tsx";
+import StrategyFoundationEditor from "../StrategyFoundationEditor.tsx";
+import StrategicPeriodEditor from "../StrategicPeriodEditor.tsx";
+import StrategicRoadmapEditor from "../StrategicRoadmapEditor.tsx";
 import { OperationalLogAnswerValue, ProcessLibraryAnswerValue, RolesResponsibilitiesAnswerValue, strategyThemeName } from "../../../../framework/engine/AnswerUtils.ts";
 import SectionTiles from "../../tiles/SectionTiles.tsx";
 import { workHue } from "../../../../framework/engine/WorkColours.ts";
 
 import type { AnswerScope } from "./scope.ts";
-import { ProcessLibraryEditor, OperationalLogEditor, RolesResponsibilitiesEditor, StrategyFoundationEditor, StrategicPeriodEditor, StrategicRoadmapEditor } from "./pageEditors.tsx";
-
 
 export function renderProcessLibrary(scope: AnswerScope) {
 

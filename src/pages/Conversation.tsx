@@ -4,7 +4,6 @@ import AddButton from "../components/controls/AddButton.tsx";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import AppHeader from "../components/AppHeader";
-import { preloadPageEditors } from "../components/interview/editors/answer/pageEditors.tsx";
 import AppFooter from "../components/AppFooter";
 import InterviewHeader from "../components/interview/editors/InterviewHeader";
 import InterviewProgress, { SHOW_PROGRESS_LINE } from "../components/InterviewProgress";
@@ -145,12 +144,6 @@ export default function Conversation() {
     strategyPromptOpen.current = strategyPrompt !== null;
     const exportOpen = useRef(false);
     exportOpen.current = exportStep !== "none";
-
-    // The page editors are their own pieces of the built app: fetch them all once the interview has drawn, so a page seldom waits (pageEditors.tsx).
-    useEffect(() => {
-        const id = window.setTimeout(() => { void preloadPageEditors(); }, 500);
-        return () => window.clearTimeout(id);
-    }, []);
 
     useEffect(() => {
         function onKey(event: KeyboardEvent) {
