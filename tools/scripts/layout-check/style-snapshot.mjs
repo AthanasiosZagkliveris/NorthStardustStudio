@@ -88,7 +88,9 @@ const newPage = async () => {
 };
 
 /** Every drawn element under `rootSelector`, named by its path, with its computed values joined in PROPS order. */
-const take = (page, rootSelector) => page.evaluate(([selector, props]) => {
+const take = (page, rootSelector) => page.evaluate(async ([selector, props]) => {
+    // (The fonts first: a box measured while a font still loads is a pixel or two short, and two runs would differ by the page's timing.)
+    await document.fonts.ready;
     const root = document.querySelector(selector) ?? document.body;
     const name = element => {
         const parts = [];

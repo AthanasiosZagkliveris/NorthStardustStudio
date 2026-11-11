@@ -1,5 +1,34 @@
 import { lazy, useState, type ComponentType } from "react";
 
+// The stylesheets the editors bring in, imported here in their order, so each keeps the place in the cascade it had when the editors were loaded up front.
+import "../../../../styles/add-button.css";
+import "../../../../styles/option-picker.css";
+import "../../../../styles/fold-head.css";
+import "../../../../styles/fold-arrow.css";
+import "../../../../styles/label-arrow.css";
+import "../../../../styles/chip.css";
+import "../../../../styles/suggestion-option.css";
+import "../../../../styles/nav-arrow.css";
+import "../../../../styles/text-field.css";
+import "../../../../styles/section-tiles.css";
+import "../../../../styles/card-folding.css";
+import "../../../../styles/capability-overview.css";
+import "../../../../styles/day-button.css";
+import "../../../../styles/notepad.css";
+import "../../../../styles/card-tile.css";
+import "../../../../styles/menu-option.css";
+import "../../../../styles/numbered-list.css";
+import "../../../../styles/radio-choice.css";
+import "../../../../styles/title-arrow.css";
+import "../../../../styles/system-confirmation.css";
+import "../../../../styles/delivery.css";
+import "../../../../styles/page-3-edges.css";
+import "../../../../styles/demand.css";
+import "../../../../styles/channel-resource-table.css";
+import "../../../../styles/rating-scale.css";
+import "../../../../styles/status-shape.css";
+import "../../../../styles/bullet-rail.css";
+
 /**
  * THE PAGE EDITORS, LOADED WHEN NEEDED (owner, 2026-11-11, the folder report's item 2): the big editors of the Business, Financial, Brand,
  * Strategy and Operations pages are their own pieces of the built app, so opening the interview does not load them all. A page's editor
