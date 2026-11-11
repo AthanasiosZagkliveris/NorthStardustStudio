@@ -209,7 +209,7 @@ export interface StreamAnalysis {
     breakEvenAlone: number | null;
 }
 
-export interface SustainabilityResult {
+interface SustainabilityResult {
     inputs: BreakEvenInputs;
     streams: StreamAnalysis[];
     /** At the normal level. */

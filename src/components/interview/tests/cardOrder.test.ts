@@ -49,7 +49,7 @@ describe("the one card order: fields, the Description, the tick-box link lists, 
     });
 
     it("keeps a funding source's Linked Funding Need last, under its optional texts", () => {
-        const text = source("financialFoundationFunding.tsx");
+        const text = source("FinancialFoundationEditor.tsx");
         const links = text.indexOf("label=\"Linked Funding Need\"");
         expect(text.lastIndexOf("label=\"Conditions\"", links)).toBeGreaterThan(text.lastIndexOf("<BusinessCard", links));
         expect(text.slice(links, text.indexOf("</BusinessCard>", links))).not.toMatch(/<OptionalNote/);

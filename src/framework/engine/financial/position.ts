@@ -306,7 +306,7 @@ export function effectiveVatBasis(value: FinancialFoundationValue, legalEntity: 
  * One Funding Need, calculated: never typed. Its id is its category's,
  * so a funding source can say which need it is for.
  */
-export interface CalculatedNeed {
+interface CalculatedNeed {
     id: FundingNeedCategory;
     label: string;
     amount: number;
