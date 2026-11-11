@@ -29,7 +29,8 @@
 
 /* THE CLICK AREA IS AT LEAST 24 BY 24 PX (WCAG 2.2 AA, 2.5.8 Target Size; owner, 2026-11-11): where the button is narrower -- the arrow alone,
    12px wide -- an invisible box of 24px centred on it takes the click. Nothing is drawn, so the look and the layout are unchanged. */
-.back-button.back-button {
+/* (With no weight of its own, :where: a place that positions its Back -- the page footer's stands absolute -- keeps its own position.) */
+:where(.back-button) {
     position: relative;
 }
 
