@@ -1,6 +1,6 @@
 # 25. Folders: the app files, the examples and the working files
 
-Status: **current design**, written 2026-10-22, updated 2026-11-02. Where the app's files, the examples and the working files are kept apart, and how the app alone is exported.
+Status: **current design**, written 2026-10-22, updated 2026-11-11. Where the app's files, the examples and the working files are kept apart, and how the app alone is exported.
 
 ## Where things are
 
@@ -29,6 +29,37 @@ The root holds `src/`, `src-tauri/`, `public/`, `docs/`, `tools/` and the settin
 - `App.tsx` loads the library's gallery pages only in development; those lines sit between `dev-only:start` and `dev-only:end` markers, and the export leaves them out.
 - `npm run export:app -- --clean` goes further: it installs (`npm ci`) and builds in the exported folder alone, which also proves the dependency list. Without it the build uses this project's `node_modules` (fast).
 - `src/styles/tokens/tokens.ts` holds the three corner numbers itself (a test in `src/library/componentTokens.test.ts` keeps them equal to the library's), so the styles do not pull the library into the app.
+
+## The layout to come
+
+Decided (owner, 2026-11-11: "Yes", on the folder report's proposal; the reasons are in the project Library, `2026-11-11-folder-report` and `2026-11-11-app-practice-review`). Today `src/` is grouped by kind of file (`components/`, `framework/`, `services/`, `styles/`), so a change to one card touches four folders; the layout to come groups it by part of the app, and keeps the parts every page uses ready to be shared by other apps. It comes in three steps.
+
+1. **The boundaries (in force since 2026-11-11).** The shared parts import nothing from the pages or the editors, so each can later move unchanged. Shared: `src/components/controls`, `src/hooks`, `src/styles/tokens`, `src/framework`, `src/services`, `src/data`, `src/types`. App: `src/pages` and the rest of `src/components`. `npm run lint:boundaries` (`tools/scripts/lint/boundaries.mjs`) checks it before every commit, in `npm run verify` and on GitHub; the six crossings found when it was written are listed in the script, each to go when its file moves in step 2 (`FoldArrow.tsx` and `consumeKey.ts` into the controls, `railItems.ts` and `notepadPlaces.ts` into the shared logic).
+2. **One folder per part, as each page becomes Tiles.** That page's tiles, cards, rules, styles and tests move together; nothing moves before its page is rebuilt.
+
+```
+src/
+  app/            the shell: routes, header, rails, start-up
+  features/
+    business-foundation/   its tiles, cards, rules, styles, tests
+    financial-foundation/
+    identity/ ...
+  shared/
+    controls/     the shared controls
+    tokens/       the colours and sizes
+    storage/      IndexedDB and the saved signal
+    framework/    the System content reader and the engine
+```
+
+3. **Packages, when the Foundation becomes an app of its own.** The shared parts become packages of one repository (npm workspaces), which every app imports, so a fix to a control reaches every app at once.
+
+```
+packages/ui          the controls and the tokens
+packages/framework   the content reader, the engine, the storage
+packages/tools       the layout check, the screen snapshot, the documents' checks
+apps/tiles           this app
+apps/foundation      the Foundation web app
+```
 
 ## In short
 

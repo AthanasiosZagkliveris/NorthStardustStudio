@@ -43,6 +43,8 @@ jobs:
         run: npm run lint:styles
       - name: Shared-control lint
         run: npm run lint:controls
+      - name: Boundaries
+        run: npm run lint:boundaries
       - name: CSS lint
         run: npm run lint:css
       - name: Documents
