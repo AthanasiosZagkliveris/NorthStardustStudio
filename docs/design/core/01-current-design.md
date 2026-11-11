@@ -208,7 +208,7 @@ Tile dialogs (`SectionTiles.tsx`): header with a trail and Back (`DialogHeading`
 | Strategy card navigation | `CardNav.tsx`, `groupView.ts` |
 | Strategy box actions | `BoxActions` in `ReorderControls.tsx` (remove, sort funnel, drag, keyboard move) |
 | Missing-answer marks | `MissingScope`, `missingFor`, `CardCompleteness.ts` |
-| Founder cards | `FounderCards.tsx` (at most 8 open, 4 per row) |
+| Founder cards | the founders' master tiles in the Founders & Ownership dialog (`SubTiles` in `FoundersProfileEditor.tsx`) |
 | Floating card | `FloatingCards` in `SectionTiles.tsx` (also pair mode: parent above, child below) |
 
 ### C.7 Layer F: fields and controls
@@ -290,7 +290,7 @@ Tile dialogs (`SectionTiles.tsx`): header with a trail and Back (`DialogHeading`
 
 - **In code, not named in `tile-and-card-pattern.md` or `card-kinds.md`:** `SubTiles`, `PictureBoxes`, `CardBoxes`, `SectionView`, `SubcategoryBoxes`, `AddTile`, `CardNav`, `BoxActions`, `FoldAllToggle`, `FigureTiles`, `SignalList`, `CashTimelineChart`, the Introduction page, the status line, Focus mode, the undo toast, the Notepad, the search dialog, the Inventory funnel, "Completed".
 - **Named in documents, not in code:** "Master Tile", "Chapter" and "help tile" are the owner's words and have no code counterpart. "Marker column" is gone, as `card-kinds.md` says.
-- **Unused:** `I/cards/CardColumns.tsx` is imported only by its own test; `InterviewProgress` is switched off.
+- **Unused:** `InterviewProgress` is switched off (`CardColumns` and `FounderCards`, used by nothing, were removed on 2026-11-11).
 - **Near-duplicates (the shared components are in document 21):** the two funnels (`CapabilityOverview`, `CalendarFunnel`); the confirmation-dialog markup repeated in six places; `business-channel-table` and `business-relationship-table`; the three rails (`BulletRail`, `CardNav`, the dialog rail); several "empty note" classes.
 
 

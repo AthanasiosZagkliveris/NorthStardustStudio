@@ -101,7 +101,7 @@ export function jumpTo(path: readonly string[]) {
         const target = find(path[0]);
 
         if (target) {
-            // A closed box that opens its card in place (a founder's, FounderCards): pressed, then
+            // A closed box that opens its card in place (a founder's master tile): pressed, then
             // the card that replaces it is the target.
             if (target.hasAttribute("data-opens") && Date.now() - started < GIVE_UP_MS) {
                 target.click();

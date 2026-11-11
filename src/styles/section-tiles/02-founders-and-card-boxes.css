@@ -83,19 +83,6 @@
 
 }
 
-/* CLOSED SQUARE BOXES (more than 8 founders): the tile component at --section-box-size
-   (global.css), as many across as fit the dialog's width, left-aligned like every
-   group of tiles, 12px apart. */
-.section-tiles-founders {
-
-    /* Not a third of the dialog's width (the dialog is the page's width): a box of
-       --section-box-size, as many across as fit. */
-    --section-tile-size: var(--section-box-size);
-
-    grid-template-columns: repeat(auto-fill, var(--section-tile-size));
-
-}
-
 /* SUBCATEGORY BOXES (SubcategoryBoxes): the whole set -- the boxes and the half-size add box
    counted as one -- stands in TWO ROWS across the dialog's content width: --sub-columns =
    ceil(n / 2) columns. The side of a box is the width left after the gaps, over the columns,
@@ -183,25 +170,6 @@
     width: min(100%, var(--open-card-width));
 
     margin-inline: auto;
-
-}
-
-/* A box's second line: the founder's role, small and plain under the name. */
-.section-tile-sub {
-
-    align-self: start;
-
-    min-width: 0;
-    max-width: 100%;
-
-    margin-top: var(--tile-list-gap);
-
-    font-size: var(--font-small);
-    font-weight: 400;
-    letter-spacing: 0;
-    line-height: var(--section-tile-line-height);
-
-    overflow-wrap: anywhere;
 
 }
 
@@ -684,8 +652,7 @@
 
 }
 
-.section-tile-completed .section-tile-list,
-.section-tile-completed .section-tile-sub {
+.section-tile-completed .section-tile-list {
 
     color: var(--text-completed-ink);
 

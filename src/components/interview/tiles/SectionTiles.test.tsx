@@ -1023,9 +1023,6 @@ describe("a category with several groups opens on tiles", () => {
             closeTile();
             expect(screen.queryByRole("dialog")).toBeNull();
         }
-        const css = stylesheet("section-tiles.css");
-        // The founders' closed boxes keep the fixed box size; the group tiles are the page tile's size.
-        expect(css).toMatch(/\.section-tiles-founders \{[^}]*--section-tile-size: var\(--section-box-size\);/);
         expect(stylesheet("global.css")).toMatch(/--section-box-size: 160px;/);
     });
 
