@@ -8,7 +8,7 @@ import { BEGIN, END, renderAssets } from "../../tools/scripts/docs/assets.ts";
    result (or, if the rulebook's block was edited by hand, edit the contract). */
 
 // (a built path, not a literal: Vite turns new URL("literal", import.meta.url) into an asset URL)
-const RULEBOOK = "docs/ai/layout-rules.md";
+const RULEBOOK = "docs/ai/layout-assets.md";
 const rulebook = readFileSync(new URL("../../" + RULEBOOK, import.meta.url), "utf8").replace(/\r\n/g, "\n");
 
 describe("the rulebook's section on the assets", () => {

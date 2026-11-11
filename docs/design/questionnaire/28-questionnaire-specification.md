@@ -4,7 +4,7 @@ Status: **proposal**, written 2026-10-22, updated 2026-11-09; parts are built. I
 
 > **First published version (owner, 2026-10-29):** English only; UK, Ireland, USA, Canada, Australia, New Zealand and Other; single-sided; B2C and/or B2B; the buyer's category separate from the buyer's life stage. **Doc 33 governs** where it differs from this document. Everything described here that the first version does not contain (B2G, G2B, multi-sided markets, other countries, accessibility, caregiving and the rest) is a future feature: doc 33. Age limits are checked on the Offering (O12) and the Review (doc 43; O12 is not built yet). Contents of the documents: `docs/README.md`; index: `docs/index.md`; glossary: `docs/app/glossary.md`.
 
-> **Where each part stands (2026-11-08).** What is built, tile by tile, is held in the questionnaire README (`docs/design/questionnaire/README.md`) and in document 40; this note says only which document governs each section. Current: 1 to 5 (the summary, the rules and the wording), 11 (the connection map and the evidence), 12 to 15. Governed by their tile documents: 6.3a by **document 35** (the Segment), 6.4 and 6.5 by **document 36** (the Profile), 6.6 by **document 41** (the Competitor), 6.7 by **document 42** (the Value Proposition), 6.8 by **document 43** (the Offering), 8.2 by **document 38** (Positioning), 8.5 by **document 37** (the Organisation); where they differ, those documents are right. Replaced and archived: 6.3 (the Segment's G-list). Not yet specified in that form: 7 (Customer Engagement), 9 and 10. Age limits by activity: **document 30**. What an "i" says: **document 39**. The form every tile document takes: **document 40**.
+> **Where each part stands (2026-11-08).** What is built, tile by tile, is held in the questionnaire README (`docs/design/questionnaire/README.md`) and in document 40; this note says only which document governs each section. Current: 1 to 5 (the summary, the rules and the wording), 11 (the connection map and the evidence), 12 to 15. Governed by their tile documents: 6.3a by **document 35** (the Segment), 6.4 and 6.5 by **document 36** (the Profile), 6.6 to 6.8 by **documents 41, 42 and 43** (the Competitor, the Value Proposition, the Offering), 8.2 by **document 38** (Positioning), 8.5 by **document 37** (the Organisation); where they differ, those documents are right. Replaced and archived: 6.3 (the Segment's G-list), the 6.6 tables and the 6.7 paragraph of 2026-11-03. Not yet specified in that form: 7 (Customer Engagement), 9 and 10. Age limits by activity: **document 30**. What an "i" says: **document 39**. The form every tile document takes: **document 40**.
 
 **Contents**
 
@@ -315,32 +315,11 @@ Questions asked only at the Profile, with no Segment range: P9 to P22 (doc 36, b
 
 ### 6.6 Competitor card (tile "Competitors")
 
-> Every question and option, as proposed on 2026-11-03: **document 41**, which refines this section. **As built** (2026-11-06) the card asks K1 to K10 of doc 41 (K5 the channels with their sub-channels, K8 the values rated, two SWOT Notes, K10 the openings); the two tables below are the proposal of 2026-11-03, kept as the record, and their ids are not the built ones.
-
-| Today | Target |
-|---|---|
-| Name, **Type** (Direct competitor; Indirect competitor; Substitute; Internal solution; Status quo) | keep |
-| Description: **What they sell** | stays text |
-| Description: **Which areas and industries they serve** | the area stays in the box; industries overlap with G15 is a Review check |
-| Description: **How they reach customers** | **K4** |
-| Description: **What customers say** | **K6** (K5 is not asked) |
-| SWOT **Strengths**, **Weaknesses** | **K2, K3** plus the note |
-| SWOT **Opportunities**, **Threats** | **removed from the card** (owner, 2026-11-03): a competitor is assessed by its strengths and weaknesses [FUN-47]; opportunities and threats are the business's own and belong to the Strategy System's SWOT ("outside, in your market"). Text already saved is kept and shown read-only until the user moves it (K7 and K8 are not asked) |
-| **Insights** (named "Insights & Differentiation" until 2026-11-09) | stays text; a **draft** is proposed from K2, K3 and O4 |
-
-| Id | Question (plain) | Component | Options | Tier | Reads it |
-|---|---|---|---|---|---|
-| K1 | Is their price lower, about the same, or higher than yours? | Dropdown | Lower; About the same; Higher; I do not know | Optional | Review; price evidence (R2) |
-| K2 | What do customers choose them for? | Ticks | L1 | Core | Differentiation draft; compared with P9 and P19 |
-| K3 | Where do they fall short? | Ticks | L1 | Core | Differentiation draft: an opening where they are weak and you are strong |
-| K4 | How do they reach customers? | Ticks | the 13 channel categories | Optional | Review: a channel customers use (P11) that you and your competitors do not cover, or that competitors use and you do not |
-| K6 | How sure are you about this competitor? | Dropdown | I checked it at the source; Several reliable sources agree; Customers told me; It is what I have noticed; It is a guess | Optional | Review: "a guess" |
+> **Document 41 owns the Competitor card**: every question as built (K1 to K10), its options, its "i" and its connections. The tables of 2026-11-03 that stood here are in `docs/archive/proposals/competitor-and-value-proposition-2026-11-03.md`.
 
 ### 6.7 Tile "Value Proposition"
 
-> Every question and option, as proposed on 2026-11-03: **document 42**, which refines this section. **As built** (2026-11-07): the text, the needs ticked on the Profiles, "Add a draft" for each Offering and the open items, as doc 42 says; this section is the record of 2026-11-03.
-
-The text stays (one per Segment). A **draft sentence** is proposed from what the Profiles care about (B1), want and are frustrated by (E1, the gains; E2, the pains: the Value Proposition Canvas [FUN-46]), the needs addressed, the Offering's benefit (O4), the positioning's purpose, differentiation and outcomes (doc 38, questions 7 to 10) and the weak points of a competitor (doc 41, K8, the clear opening of K10), in the template of 8.2 ("For [Segment] who [E2], [Offering] is a [O1] that [O4]. Unlike [competitor], it [the clear opening]."; the words as built are doc 42's); the user adds it with a button, and nothing is overwritten. The tile also lists, as read-only open items: *something customers care about that no offering delivers*, *an offering that answers no need*, and *a benefit you claim that nobody cares about*.
+> **Document 42 owns the Value Proposition tile**: the text, the draft sentence and the open items as built. The paragraph of 2026-11-03 that stood here is in `docs/archive/proposals/competitor-and-value-proposition-2026-11-03.md`.
 
 ### 6.8 Offering card (tile "Offerings")
 

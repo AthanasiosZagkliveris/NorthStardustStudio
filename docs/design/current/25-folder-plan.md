@@ -9,7 +9,7 @@ Status: **current design**, written 2026-10-22, updated 2026-11-02. Where the ap
 | **The app** | `src/` without the tests, `src/library/`, `src/docs/` and `src/test/`, and without the development-only pages that `App.tsx` marks | yes |
 | The desktop shell | `src-tauri/` | yes (the desktop build) |
 | The page and its settings | `index.html`, `public/`, `package.json`, `package-lock.json`, `vite.config.ts`, `tsconfig.json`, `tsconfig.node.json` | yes (the build reads them) |
-| The test and check settings | `vitest.config.ts`, `vite.verify.config.mjs` | no |
+| The test and check settings | `vitest.config.ts` | no |
 | **Tests** | `src/**/*.test.*` and `src/test/` | no |
 | **The component library** | `src/library/`; its gallery is reached only by `npm run dev` (`import.meta.env.DEV` in `App.tsx`) and is absent from the build | no (development only) |
 | **The examples** | `src/data/examples/` (two organisations; the app loads them through `services/ExampleOrganizations.ts`); one copy only (`ExampleDrift.test.ts` updates it) | yes (they are the demo data) |

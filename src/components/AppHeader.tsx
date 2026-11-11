@@ -29,7 +29,7 @@ interface AppHeaderProps {
     /** The landing page: the Workbook is offered with the review of every Organization (none is open), the Glossary and the References. */
     totalReview?: boolean;
     /** Called before the reload (the Landing page refreshes the saved examples from the current example files). */
-    onReload?: () => void;
+    onReload?: () => void | Promise<unknown>;
 }
 
 export default function AppHeader({ organizationName, focusable = false, reloadable = false, totalReview = false, onReload }: AppHeaderProps) {
@@ -53,7 +53,7 @@ export default function AppHeader({ organizationName, focusable = false, reloada
             {reloadable && (
                 <AddButton className="header-tool app-reload"
                     aria-label="Reload the app and refresh the examples"
-                    onClick={() => { onReload?.(); window.location.reload(); }}>
+                    onClick={async () => { await onReload?.(); window.location.reload(); }}>
                     <svg className="header-tool-icon" viewBox="2.97 2.47 14.05 14.05" aria-hidden="true">
                         <path d="M16 10a6 6 0 1 1-2-4.5M16 3v3.5h-3.5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>

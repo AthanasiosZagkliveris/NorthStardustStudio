@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { cleanup, fireEvent, render, screen } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { MemoryRouter, Route, Routes, useLocation } from "react-router-dom";
 
 import Landing from "./Landing";
@@ -48,7 +48,7 @@ describe("Landing import of an Organisation file", () => {
 
 describe("Landing reload", () => {
 
-    it("offers a Reload tool in the header that reloads the app view and keeps the data", () => {
+    it("offers a Reload tool in the header that reloads the app view and keeps the data", async () => {
 
         const reload = vi.fn();
         const original = window.location;
@@ -59,7 +59,7 @@ describe("Landing reload", () => {
             const button = screen.getByRole("button", { name: /^Reload the app/ });
             expect(button.closest("header.app-header")).toBeTruthy();
             fireEvent.click(button);
-            expect(reload).toHaveBeenCalledTimes(1);
+            await waitFor(() => expect(reload).toHaveBeenCalledTimes(1));
         } finally {
             Object.defineProperty(window, "location", { configurable: true, value: original });
         }
@@ -82,7 +82,7 @@ describe("Landing reload", () => {
             localStorage.setItem("northstardust-organization-mine", JSON.stringify({ id: "mine", name: "Mine", createdAt: 2, systems: { mine: true }, products: [] }));
             render(<MemoryRouter><Landing /></MemoryRouter>);
             fireEvent.click(screen.getByRole("button", { name: /^Reload the app/ }));
-            expect(reload).toHaveBeenCalledTimes(1);
+            await waitFor(() => expect(reload).toHaveBeenCalledTimes(1));
             const refreshed = OrganizationService.loadDocument(lumen.id)!;
             expect(Object.keys(refreshed.systems)).not.toContain("old");
             expect(OrganizationService.loadDocument("mine")!.systems).toEqual({ mine: true });
