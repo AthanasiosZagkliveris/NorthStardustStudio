@@ -3,12 +3,12 @@ import { useEffect, type RefObject } from "react";
 /**
  * THE CARD'S END TAKES ITS LAST BAND'S COLOUR (owner, 2026-11-09: "The end of all the cards' colour should follow the last field's colour"; docs/ai/tile-and-card-pattern.md,
  * "One band pattern"). A card or a dialog whose bands end above its own foot (its padding, the room a dialog keeps under its content) is painted from the foot of its LAST band
- * down to its end in that band's colour: a tinted last band runs to the card's end, an untinted one leaves the card's own ground. The bands are the `legal-entity-org-section`s and the rows of a Legal card;
- * the last is the one that ends lowest (two side by side end together). The colour drawn is said in `data-end-ground` for the card audit.
+ * down to its end in that band's colour: a tinted last band runs to the card's end, an untinted one leaves the card's own ground. The bands are the `legal-entity-org-section`s, the rows of a Legal card and
+ * a founder's bands (owner, 2026-11-11: the Founder card's end in its Skills band's colour); the last is the one that ends lowest (two side by side end together). The colour drawn is said in `data-end-ground` for the card audit.
  */
 export function paintCardEnd(card: HTMLElement): void {
     const box = card.getBoundingClientRect();
-    const bands = [...card.querySelectorAll<HTMLElement>(".legal-entity-org-section, .legal-entity-grid-requirement > *, .legal-entity-grid-expense-card > *")].filter(band => {
+    const bands = [...card.querySelectorAll<HTMLElement>(".legal-entity-org-section, .legal-entity-grid-requirement > *, .legal-entity-grid-expense-card > *, .founders-profile .founder-band")].filter(band => {
         const r = band.getBoundingClientRect();
         return r.width > 0 && r.height > 0 && band.closest(".section-tile-dialog, .floating-card-body") === card;
     });
