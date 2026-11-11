@@ -250,6 +250,11 @@ export function BusinessGroup({
         return (
             <>
 
+                {/* THE DOUBLE RULE THAT SPLITS THE SECTIONS is the section heading's own (owner, 2026-11-11: "all these should already exist as rules ... because everywhere used
+                    the same components"): every section of a card is split from the one before it, with no card placing it by hand; the first section, under the card's
+                    head, has none (13-business-foundation.css). */}
+                <div className="business-capability-card-rule legal-entity-org-rule business-capability-card-rule-double business-profile-section-rule" role="separator" />
+
                 <div className="fold-group-head business-group-fold-head">
                     <FoldArrow open={fold.open} label={fold.label} onToggle={fold.onToggle} />
                     {heading}

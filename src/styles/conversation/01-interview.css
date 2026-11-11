@@ -578,3 +578,26 @@
 
 }
 
+
+/* THE PAGE TITLE STAYS IN PLACE (owner, 2026-11-11: "Do not forget the page title, should always stay in place"): the System's name, the page's and the line under
+   them stand under the app header while the page scrolls under them, on the page's own ground. The band takes in the 24px above the title and the 12px under the
+   line (and gives them back in its margins), so the title stands where it does unscrolled, and nothing shows between it and the header or the line. */
+.interview-header{
+
+    position:sticky;
+
+    top:80px;
+
+    z-index:5;
+
+    margin-top:-24px;
+
+    padding-top:24px;
+
+    margin-bottom:-12px;
+
+    padding-bottom:12px;
+
+    background:var(--bg-page);
+
+}

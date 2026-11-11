@@ -563,9 +563,8 @@ main.conversation-content[data-reserve],
 
     padding: 12px;
 
+    /* (Edged on all four sides: the side against the layer stands over the layer's own edge, so the edge runs on unbroken where the tab joins it; owner, 2026-11-11.) */
     border: 1px solid var(--tab-edge);
-
-    border-left: 0;
 
     border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
 
@@ -582,6 +581,20 @@ main.conversation-content[data-reserve],
     --rail-hover-ring: color-mix(in srgb, var(--tab-edge) 40%, transparent);
     --rail-status: var(--tab-edge);
     --rail-status-hover: color-mix(in srgb, var(--tab-edge) 65%, var(--text-strong));
+
+}
+
+/* THE TAB STANDS BEHIND ITS LAYER (owner, 2026-11-11: "The tab should be behind the card"): drawn under the dialog or the card it is attached to and over the dimmed page, as a chapter's page tab stands behind its frame, so the layer's own edge is what shows where the two meet. (Under every layer of the overlay, over its dim: the overlay is its own stack, and the arrows above the tab keep theirs.) */
+.carousel-rail.carousel-rail-tab {
+
+    z-index: -1;
+
+}
+
+/* (The shade over the chapters round a floating card stands under its tab, so the tab is not dimmed with them and its bullets stay pressable.) */
+.floating-chapter-shade {
+
+    z-index: -2;
 
 }
 
@@ -838,12 +851,6 @@ body:has(.floating-overlay) .section-tile-dialog .section-tile-back {
 .floating-card-host .floating-card-body > :is(.brand-style, .brand-inventory, .brand-style-columns) > .brand-style-body {
 
     background: none;
-
-}
-
-.carousel-rail.carousel-rail-tab {
-
-    border-color: color-mix(in srgb, var(--tab-edge) 55%, transparent);
 
 }
 

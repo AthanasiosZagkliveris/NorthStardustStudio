@@ -136,8 +136,11 @@ export function FloatingCards({
         const position = () => {
             const width = node.offsetWidth;
             const frame = dialogFrame();
-            // (Only the app header cuts a floating card: it scrolls under it, nothing else clips it.)
-            const bandTop = document.querySelector<HTMLElement>(".app-header")?.getBoundingClientRect().bottom ?? (frame ? frame.top : 0);
+            // (Only the app header and the page title under it cut a floating card: the title stays in place while the page scrolls, so the card stands under its
+            // underline, never over it; owner, 2026-11-11: "the page title, should always stay in place".)
+            const header = document.querySelector<HTMLElement>(".app-header")?.getBoundingClientRect().bottom;
+            const underline = document.querySelector<HTMLElement>(".interview-divider")?.getBoundingClientRect().bottom;
+            const bandTop = header !== undefined || underline !== undefined ? Math.max(header ?? 0, underline ?? 0) : (frame ? frame.top : 0);
             // (Only the header cuts a card: it runs to the window's bottom, never to the footer.)
             const bandBottom = window.innerHeight - 8;
             const where = anchorRef.current;

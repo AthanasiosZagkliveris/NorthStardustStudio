@@ -317,6 +317,7 @@ export function competitorCard(scope: FoundationCardScope, competitor: BusinessC
             true
         )}
 
+
         {group("SWOT Analysis", <>
 
         {/* K8, one band over Strengths and Weaknesses; K9, one over Opportunities and Threats (doc 41): the built boxes stay as the notes. */}
@@ -352,6 +353,7 @@ export function competitorCard(scope: FoundationCardScope, competitor: BusinessC
             than labelled like one more field
             inside it. K10 above the text: openings drawn from the answers above (doc 41). */}
         {/* "Insights" (2026-11-09): the Differentiation is the Segment's, once, under its Competitors (K14); the Business Plan's table says Insights too. */}
+
         {group(
             "Insights",
             // K10 untinted under the title band, then the Insights in a Notes field, the note band, the next tint (owner, 2026-11-10: "replace the free text

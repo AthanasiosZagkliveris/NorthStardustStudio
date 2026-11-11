@@ -834,6 +834,39 @@ body:has(.floating-overlay) .section-tile-overlay:not(.floating-overlay) > .caro
 
 }
 
+/* "+ ADD SEGMENT" STANDS IN THE FOOTER'S BAND, level with Back, as the Inventory and Completed tiles do on Infrastructure & Capability (owner, 2026-11-11: "why does
+   this page scroll? There is nothing lower to reveal"; "make sure all chapters and their master tiles are the same size across pages"): it takes no room above the
+   footer, so the page fits the window as every tile page does and its chapters are their size. At the left edge of the page card; where the page card stacks or
+   the window is short (under 640px, where the chapters reach the footer's band), it stays under the chapters. */
+@media (min-width: 1212px) and (min-height: 640px) {
+
+    .business-foundation-segment-frames + .business-foundation-input-actions {
+
+        position: fixed;
+
+        z-index: 31;
+
+        left: max(var(--rail-gutter, 56px), (var(--view-width) - 1400px) / 2);
+
+        bottom: 0;
+
+        height: 64px;
+
+        align-items: center;
+
+        margin-top: 0;
+
+    }
+
+    /* (Its middle level with Back's.) */
+    .business-foundation-segment-frames + .business-foundation-input-actions > * {
+
+        align-self: center;
+
+    }
+
+}
+
 @media (max-width: 1100px) {
 
     .business-foundation-segment-frames {

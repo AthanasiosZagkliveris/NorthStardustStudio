@@ -726,7 +726,6 @@ export function useFoundationSubsections(earlier: Earlier) {
             return (
                 <>
                     {description(path, buyer, profile.description, (next) => updateProfile(segmentIndex, profileIndex, { description: next }), true, undefined, groupFold(profile.id, "The buyer", path), true, dual ? "The buyer (who also uses it)" : "The buyer", parts.buyer)}
-                    <div className="business-capability-card-rule legal-entity-org-rule business-capability-card-rule-double business-profile-section-rule" role="separator" />
                     {description(path + ", end user", user, {}, () => undefined, true, undefined, groupFold(profile.id, "The end user", path), true, dual ? "The others who use it" : "The end user", dual ? parts.userDual : parts.user)}
                 </>
             );
@@ -784,7 +783,6 @@ export function useFoundationSubsections(earlier: Earlier) {
                             below, and a section called "... and
                             Needs" containing a section called "Needs"
                             says it twice. */}
-                        <div className="business-capability-card-rule legal-entity-org-rule business-capability-card-rule-double business-profile-section-rule" role="separator" />
 
                         {group("Motivations", <>
 
@@ -802,7 +800,6 @@ export function useFoundationSubsections(earlier: Earlier) {
                             line is what the Offerings subsection
                             picks from. */}
                         {/* NEEDS is a section as Description and Motivations are: its heading, then its labelled bands (Functional, Emotional, Social), each label over its numbered list. */}
-                        <div className="business-capability-card-rule legal-entity-org-rule business-capability-card-rule-double business-profile-section-rule" role="separator" />
 
                         {group("Needs", (
                             <SingleColumn>

@@ -60,9 +60,15 @@
     color: var(--text-primary);
 }
 
-/* ONE RULE FOR EVERY NARROW WINDOW: at 1100px and narrower the page footer's Back keeps only its arrow, as the rails' Back does where there is no room beside the card (the word would stand over the page). The button keeps its name (aria-label). */
-@media (max-width: 1100px) {
+/* ONE RULE FOR EVERY NARROW WINDOW: below 1700px (where the side gutters widen to 220px) the page footer's Back keeps only its arrow, as the rails' Back does where there is no room beside the card: the word would stand over the page (owner, 2026-11-11: "If the screen size is small, then the Back is hidden and a tooltip is appear on hovering"; it was 1100px, and the word stood over "+ Add Segment" at 1152px). The button keeps its name (aria-label), which the app's tooltip shows under the pointer. */
+@media (max-width: 1699px) {
     .workspace-footer .back-button .back-button-word {
         display: none;
+    }
+
+    /* The arrow alone stands on the line of the rail's dots, under them (owner, 2026-11-11: "The Back arrow, Should Align with the rail dots"): the dots' middle is 18px
+       outside the page card's left edge (the gutter, or half of what the 1400px card leaves); the arrow's middle is 54px from the window's left as the footer places it. Only on a page with the rail. */
+    body:has(.bullet-rail-left .bullet-rail-dot) .workspace-footer .back-button.back-button {
+        translate: calc(max(var(--rail-gutter, 56px), (var(--view-width) - 1400px) / 2) - 18px - 54px) 0;
     }
 }

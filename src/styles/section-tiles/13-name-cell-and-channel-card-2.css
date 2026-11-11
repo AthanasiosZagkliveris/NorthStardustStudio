@@ -20,9 +20,10 @@
 /* THE TAB STANDS ON THE SIDE OF ITS LAYER NEARER THE WINDOW'S EDGE: a layer in the left half has it at its left (mirrored: its names -- where the room is -- outside the bullets, the bullets still 12px from the layer). */
 .carousel-rail.carousel-rail-tab.carousel-rail-tab-left {
 
-    border-left: 1px solid color-mix(in srgb, var(--tab-edge) 55%, transparent);
+    /* (In the layer's own edge colour, as the page tab's and the chapter's frame: owner, 2026-11-11, "the dialogue cards and their cards' tags do not have wireframes".) */
+    border-left: 1px solid var(--tab-edge);
 
-    border-right: 0;
+    border-right: 1px solid var(--tab-edge);
 
     border-radius: var(--radius-lg) 0 0 var(--radius-lg);
 

@@ -1,4 +1,12 @@
 {
+  "breakpoint": {
+    "back-button.css": {
+      "max-width: 1699px": 1
+    },
+    "section-tiles.css": {
+      "min-height: 640px": 1
+    }
+  },
   "colour": {
     "capability-overview.css": {
       "#1d2029": 1,

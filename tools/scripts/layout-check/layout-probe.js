@@ -2840,6 +2840,86 @@
             }
         }
 
+        // THE SOURCE RULES (owner, 2026-11-11: "all these should already exist as rules, and because everywhere used the same components"): four rules that the
+        // shared components keep, checked here so a card or page that steps outside them is caught.
+
+        // A. Every section of a card after the first is split from the one before it by the double rule, drawn by the section heading itself (BusinessGroup).
+        for (const head of [...document.querySelectorAll(".business-group-fold-head")].filter(visible)) {
+            let earlier = false;
+            for (let node = head.previousElementSibling; node; node = node.previousElementSibling) {
+                if (node.matches(".business-group-fold-head")) {
+                    earlier = true;
+                    break;
+                }
+            }
+            if (!earlier) {
+                continue;
+            }
+            const before = head.previousElementSibling;
+            if (!before || !before.matches(".business-capability-card-rule-double") || !visible(before)) {
+                fail("a card's section after the first is split from the one before it by the double rule", head, { before: before ? before.className : null });
+            }
+        }
+
+        // B. A card or dialog ends in its last band's colour: the lowest band of see-through tint (a band is as wide as the card or half of it) runs to the
+        //    card's end, or the card paints its end in that colour (data-end-ground, cardEndGround.ts). Measured from the colours drawn, not from a list of
+        //    band classes, so a band the end-colour helper does not know is caught.
+        const seeThrough = colour => /\/\s*0?\.\d+\)$|rgba\([^)]*,\s*0?\.\d+\)$/.test(colour) && !/\/\s*0\)$|,\s*0\)$/.test(colour);
+        for (const layer of [...document.querySelectorAll(".section-tile-dialog, .floating-card-body")].filter(visible)) {
+            const box = rect(layer);
+            let lowest = null;
+            for (const band of layer.querySelectorAll("div, section")) {
+                if (band.closest(".section-tile-dialog, .floating-card-body") !== layer || band.closest(".section-tile, .floating-card-caption") || !visible(band)) {
+                    continue;
+                }
+                const colour = band.dataset.endBand ?? getComputedStyle(band).backgroundColor;
+                const r = rect(band);
+                if (!seeThrough(colour) || r.width < box.width * 0.45 || r.bottom > box.bottom + 1) {
+                    continue;
+                }
+                if (!lowest || r.bottom > lowest.r.bottom + 0.5) {
+                    lowest = { band, r, colour };
+                }
+            }
+            if (!lowest || box.bottom - lowest.r.bottom <= 1.5) {
+                continue;
+            }
+            // (A later band without a tint, or a field, standing under it: the card ends in its own ground, rightly.)
+            const under = [...layer.querySelectorAll(".legal-entity-org-section, .optional-field, .business-foundation-field, .founder-band")].filter(visible).some(other => rect(other).top >= lowest.r.bottom - 0.5 && other.closest(".section-tile-dialog, .floating-card-body") === layer);
+            if (!under && layer.dataset.endGround !== lowest.colour) {
+                fail("a card ends in its last band's colour", layer, { band: place(lowest.band), colour: lowest.colour, endGround: layer.dataset.endGround ?? null, gap: box.bottom - lowest.r.bottom });
+            }
+        }
+
+        // C. A layer's tab (its bullets and names) is edged in the layer's own edge colour, at full strength, and stands behind its layer.
+        for (const tab of [...document.querySelectorAll(".carousel-rail.carousel-rail-tab")].filter(visible)) {
+            const style = getComputedStyle(tab);
+            // (The edge as the browser draws it: a colour written as hex or as rgb is the same colour.)
+            const swatch = document.createElement("span");
+            swatch.style.color = tab.style.getPropertyValue("--tab-edge").trim();
+            document.body.appendChild(swatch);
+            const edge = swatch.style.color ? getComputedStyle(swatch).color : "";
+            swatch.remove();
+            const sides = ["Top", "Bottom"].map(side => style["border" + side + "Color"]);
+            if (edge && sides.some(colour => colour.replace(/\s/g, "") !== edge.replace(/\s/g, ""))) {
+                fail("a layer's tab is edged in the layer's own edge colour", tab, { edge, drawn: sides });
+            }
+            if (!(Number(style.zIndex) < 0)) {
+                fail("a layer's tab stands behind its layer", tab, { zIndex: style.zIndex });
+            }
+        }
+
+        // D. A page of tiles whose chapters all stand above the footer does not scroll: there is nothing lower to reveal (what adds to the page stands in the
+        //    footer's band, as Inventory, Completed and "+ Add Segment" do).
+        if (!document.querySelector(".section-tile-overlay") && window.innerWidth >= 1212 && window.innerHeight >= 640) {
+            const chapters = [...document.querySelectorAll(".conversation-card .business-foundation-card:not(.section-tile-dialog)")].filter(chapter => visible(chapter) && chapter.querySelector(".section-tile") && !chapter.parentElement.closest(".business-foundation-card"));
+            const footer = document.querySelector(".workspace-footer");
+            const footerTop = footer ? rect(footer).top : window.innerHeight;
+            if (chapters.length > 0 && chapters.every(chapter => rect(chapter).bottom + window.scrollY <= footerTop + 0.5) && document.documentElement.scrollHeight > window.innerHeight + 1) {
+                fail("a page of tiles whose chapters fit above the footer does not scroll", chapters[0], { scrollHeight: document.documentElement.scrollHeight, window: window.innerHeight });
+            }
+        }
+
         return failures;
     }
 
@@ -2945,7 +3025,8 @@
                 } else if (tallCard) {
                     width = cardBox.width;
                     height = 0;
-                    top = header ? header.getBoundingClientRect().bottom : 0;
+                    // (Under the header and the page title that stays under it while the page scrolls; owner, 2026-11-11.)
+                    top = Math.max(cardBox.top, header ? header.getBoundingClientRect().bottom : 0, underline ? underline.getBoundingClientRect().bottom : 0);
                 } else if (underline) {
                     // A page-wide dialog (Inventory, Completed) stands from the top of the page's cards to 12px above the footer.
                     const cardsTop = document.querySelector(".answer-columns.business-capability > .business-foundation-card");
