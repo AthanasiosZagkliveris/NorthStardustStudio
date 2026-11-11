@@ -1,4 +1,4 @@
-import { createContext, Fragment, ReactNode, useContext, useEffect, useLayoutEffect, useRef } from "react";
+import { createContext, Fragment, ReactNode, useContext, useLayoutEffect, useRef } from "react";
 import InfoNote, { InfoPoint, InfoText } from "../fields/InfoNote.tsx";
 import { type TileAdd, type CrumbNote, type DialogRail, type FloatingItem } from "./SectionTileTypes.ts";
 import { drawnTitle } from "./SectionTileGeometry.tsx";
@@ -224,19 +224,4 @@ export function DialogHeading({ title, info, noteSize }: { title: string; info?:
 /** THE OVERALL NUMBER OF ACTIVE CARDS next to a dialog's title (Activities): "ACTIVE 11". */
 export function ActiveCount({ overall }: { overall: number }) {
     return <span className="dialog-heading-count" aria-live="polite">{"Active " + overall}</span>;
-}
-
-
-/** The side, in px, of the tile that opened the dialog (0 where unknown). */
-export function useDialogTileSize(): number {
-    return useContext(InnerBackContext)?.tileSize ?? 0;
-}
-
-
-/** Registers what to do when the dialog is closed (the latest function is called). */
-export function useDialogClosing(fn: () => void) {
-    const context = useContext(InnerBackContext);
-    const latest = useRef(fn);
-    latest.current = fn;
-    useEffect(() => context?.onClose(() => latest.current()), [context]);
 }

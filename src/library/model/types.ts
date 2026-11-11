@@ -33,8 +33,6 @@ export const KINDS = {
     FRM: { name: "frame", category: "frame" }
 } as const satisfies Record<string, { name: string; category: AssetCategory }>;
 
-export type KindLetters = keyof typeof KINDS;
-
 /**
  * The look an asset has by default: the most used one that the card scan measured. The text
  * hierarchy of the app is 14 (small), 18 (body), 24 (h3), 28 (h2) and 36 (h1); scale says where

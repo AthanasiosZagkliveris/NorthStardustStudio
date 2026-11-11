@@ -107,9 +107,6 @@ export function descendSole(): number {
     return levels;
 }
 
-/** The name of the section tile of Infrastructure that holds a category. */
-export const sectionOfCategory = (category: string) => SECTION_OF_CATEGORY[category] ?? category;
-
 function tileExists(name: string): boolean {
     return screen.queryAllByRole("button").some(button => {
         const label = button.getAttribute("aria-label") ?? "";

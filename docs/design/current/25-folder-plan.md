@@ -16,7 +16,7 @@ Status: **current design**, written 2026-10-22, updated 2026-11-02. Where the ap
 | **Documents** | `docs/` and `src/docs/` (the tests of the documents) | no |
 | **Working tools** | `tools/scripts/` (library, catalogue, docs, lint, tokens, layout check, cards, export) and `tools/catalogue/` (measures, probes, scans, exports) | no |
 | Automation | `.github/workflows/ci.yml` | no |
-| Not tracked | `dist/`, `exports/`, `.claude/`, `.vscode/`, `.playwright-mcp/`, `node_modules/`, `.superpowers/`, `.scratch/` (all in `.gitignore`) | no |
+| Not tracked | `dist/`, `exports/`, `.claude/`, `.vscode/`, `.playwright-mcp/`, `node_modules/`, `.superpowers/`, `.scratch/`, `claude-project/` (all in `.gitignore`; `exports/snapshots/` holds the screen snapshots while they are compared, and is emptied after) | no |
 
 The root holds `src/`, `src-tauri/`, `public/`, `docs/`, `tools/` and the settings files. `src/library/` stays in `src/`: it is development-only and the app does not import it.
 
