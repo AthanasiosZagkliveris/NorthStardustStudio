@@ -1368,8 +1368,8 @@ The check starts the dev server itself when none answers (port 1420) and stops i
   functions with `page` bound (strip its imports and `export`s, fetch the
   probe from `/tools/scripts/layout-check/layout-probe.js`, the examples from
   `/src/data/examples/`), then call `runLayoutCheck(page, { probe })` for each
-  seeded example. The check writes the examples into the browser's storage:
-  back up and restore localStorage around it.
+  seeded example. The check writes the examples into localStorage, and the app moves them into its IndexedDB at its next start (merged by id, `IndexedDbStorage.ts`):
+  run it in a browser profile of its own, or delete the examples afterwards.
 
 **The real mouse.** `checkRealMouse(page, where)` in `run.mjs` (called for page 3 at 1366 x 1000, 1366 x 700 and 1920 x 1000) presses every list item of every first-row tile, the page scrolled to its top, with real mouse events (move, down, up): the item must not move 0.5px between the press and the release, its card or dialog must open, Escape must return to the default page (no tile grown, no ring on a mouse-opened opener), and one Enter-opened item must keep its ring on closing with no tile grown. (The old code fails it: 38 failures at 1600 x 780.)
 
