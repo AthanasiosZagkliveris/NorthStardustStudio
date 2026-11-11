@@ -563,9 +563,8 @@ main.conversation-content[data-reserve],
 
     padding: 12px;
 
+    /* (Edged on all four sides: the side against the layer stands over the layer's own edge, so the edge runs on unbroken where the tab joins it; owner, 2026-11-11.) */
     border: 1px solid var(--tab-edge);
-
-    border-left: 0;
 
     border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
 

@@ -23,7 +23,7 @@
     /* (In the layer's own edge colour, as the page tab's and the chapter's frame: owner, 2026-11-11, "the dialogue cards and their cards' tags do not have wireframes".) */
     border-left: 1px solid var(--tab-edge);
 
-    border-right: 0;
+    border-right: 1px solid var(--tab-edge);
 
     border-radius: var(--radius-lg) 0 0 var(--radius-lg);
 
