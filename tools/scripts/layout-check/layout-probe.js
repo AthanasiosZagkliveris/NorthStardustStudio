@@ -2920,6 +2920,68 @@
             }
         }
 
+        // E. WCAG 2.2 AA, 2.5.8 TARGET SIZE (owner, 2026-11-11): a button narrower or lower than 24px takes the click across a 24px box centred on it
+        //    (its invisible click area, as the rail dots and the Back arrow have), or no other button reaches into a 24px circle round its middle
+        //    (the spacing exception). Links inside text are exempt, as WCAG allows.
+        {
+            const targets = [...document.querySelectorAll("button, [role=button], a[href]")].filter(target => visible(target) && !target.closest("p, li > span"));
+            const centres = targets.map(target => { const box = rect(target); return { target, box, x: (box.left + box.right) / 2, y: (box.top + box.bottom) / 2 }; });
+            for (const { target, box, x, y } of centres) {
+                if (box.width >= 24 && box.height >= 24) {
+                    continue;
+                }
+                if (x < 12 || y < 12 || x > window.innerWidth - 12 || y > window.innerHeight - 12) {
+                    continue;
+                }
+                const takes = (px, py) => { const hit = document.elementFromPoint(px, py); return !!hit && (hit === target || target.contains(hit)); };
+                // (A button under an open dialog or its dim takes no click at all for now: not a target while it is covered.)
+                if (!takes(x, y)) {
+                    continue;
+                }
+                const covered = [[-11, -11], [11, -11], [-11, 11], [11, 11]].every(([dx, dy]) => takes(x + dx, y + dy));
+                if (covered) {
+                    continue;
+                }
+                const crowded = centres.some(other => other.target !== target && !other.target.contains(target) && !target.contains(other.target) &&
+                    Math.max(other.box.left - x, 0, x - other.box.right) ** 2 + Math.max(other.box.top - y, 0, y - other.box.bottom) ** 2 < 12 * 12);
+                if (crowded) {
+                    fail("a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)", target, { width: box.width, height: box.height });
+                }
+            }
+        }
+
+        // F. WCAG 2.2 AA, 2.4.11 FOCUS NOT OBSCURED (owner, 2026-11-11): a field reached by the keyboard from below the page's top is not hidden under the
+        //    app header and the page's sticky title. Up to five fields of the page are each scrolled out of view above, then focused, as Shift+Tab does.
+        {
+            const band = document.querySelector(".interview-header");
+            const header = document.querySelector("header.app-header");
+            const cover = Math.max(band && getComputedStyle(band).position === "sticky" ? rect(band).bottom : 0, header ? rect(header).bottom : 0);
+            const fields = [...document.querySelectorAll(".conversation-card input:not([type=hidden]):not([type=checkbox]):not([type=radio]), .conversation-card textarea, .conversation-card select")]
+                .filter(field => visible(field) && !field.disabled && !field.closest(".section-tile-overlay, .interview-header"));
+            const sample = fields.filter((field, index) => index % Math.max(1, Math.ceil(fields.length / 5)) === 0).slice(0, 5);
+            const start = window.scrollY;
+            for (const field of sample) {
+                if (cover <= 0) {
+                    break;
+                }
+                field.blur();
+                window.scrollBy(0, rect(field).bottom + 5);
+                if (rect(field).bottom > 0) {
+                    continue; // (the page cannot scroll the field out of view: nothing to test)
+                }
+                field.focus();
+                if (document.activeElement !== field) {
+                    continue; // (a field under an open dialog takes no focus: not reached by the keyboard now)
+                }
+                const top = band ? rect(band).bottom : cover;
+                if (rect(field).bottom <= Math.max(top, header ? rect(header).bottom : 0) + 0.5) {
+                    fail("a field reached by the keyboard is not hidden under the header and the sticky title (WCAG 2.2, 2.4.11)", field, { field: rect(field).bottom, cover: top });
+                }
+                field.blur();
+            }
+            window.scrollTo(0, start);
+        }
+
         return failures;
     }
 

@@ -309,13 +309,17 @@ describe("ThemeSwitch", () => {
 
 });
 
-/* The script in index.html that sets the theme before the first
-   paint: the same choices and rule as ThemeService. */
+/* The script that sets the theme before the first paint (public/theme-init.js,
+   loaded by index.html): the same choices and rule as ThemeService. */
 describe("the pre-paint theme script", () => {
 
     // Read from the project root, where the test runner runs.
-    const html = readFileSync("index.html", "utf8");
-    const source = html.slice(html.indexOf("<script>") + "<script>".length, html.indexOf("</script>"));
+    const source = readFileSync("public/theme-init.js", "utf8");
+    it("is loaded by index.html before the app", () => {
+        const html = readFileSync("index.html", "utf8");
+        expect(html.indexOf("<script src=\"/theme-init.js\"></script>")).toBeGreaterThan(-1);
+        expect(html.indexOf("/theme-init.js")).toBeLessThan(html.indexOf("/src/main.tsx"));
+    });
     const run = (stored: string | null, prefersDark: boolean) => {
         localStorage.clear();
         if (stored !== null) localStorage.setItem(THEME_KEY, stored);

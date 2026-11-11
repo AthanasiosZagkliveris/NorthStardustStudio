@@ -8,7 +8,7 @@ export type ThemeChoice = "light" | "sepia" | "dark" | "auto";
 export type Theme = "light" | "sepia" | "dark";
 
 /**
- * Where the choice is remembered, on this device. index.html reads
+ * Where the choice is remembered, on this device. public/theme-init.js (loaded by index.html) reads
  * the same key before the first paint -- keep the two in step.
  */
 export const THEME_KEY = "northstardust-theme";

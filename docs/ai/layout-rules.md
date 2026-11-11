@@ -15,7 +15,7 @@ Where the rules need a decision the code could not give, section 20 lists it.
 - [3. Anatomy](#3-anatomy): A folded card is one fixed height; A folded card's head is the open card's head; A group that folds inside a card; Head to body: 12px; Head buttons; A grip and no fold arrow; One vertical rhythm; A frozen field's hint.
 - [4. Sizes: the closed set](#4-sizes-the-closed-set): One single-line control height: 45px; Square; Text boxes.
 - [5. Alignment](#5-alignment): Text beside a control; A tick box; An "i".
-- [6. Shared components and states](#6-shared-components-and-states): No bracketed text in an option; Exception: an abbreviation in brackets stays; Exception: official and legal names stay as written.
+- [6. Shared components and states](#6-shared-components-and-states): A button takes the click across at least 24 by 24px; A field reached by the keyboard is never hidden under the sticky title; No bracketed text in an option; Exception: an abbreviation in brackets stays; Exception: official and legal names stay as written.
 - [7. Lists, grids and card layouts](#7-lists-grids-and-card-layouts): Page grids; List-end add button; Free-text numbers wrap; Tick rows; Activity cards: Completed and the Links; Navigation rails; Founder card; Objective card; A Metric box's x under its Objective's filter (funnel) button; A Metric's two rows of figures; Segment card; Competitor and Offering cards; Customer Engagement; Additional Legal Requirement card; Name / Number list; Founders table; Side-label row snapped to the grid; Capability cards: short side labels.
 - [8. Section tiles and dialog](#8-section-tiles-and-dialog): Tiles; The page tile's slot; Floating cards; A status and the activity it creates: PARENT -> CHILD; Tile grids: ONE SHAPE; The two cards; The label arrow and its drop-down help; Channel tiles; One ground for every dialog and its cards (solid); The dialog header; Content centred, at the top; Subcategory boxes; Card tiles; Completed activities (the grey); The opened card; Page 3: corners, cells, arrows, the dropdown list, the opened card's columns, the tiles and the Landing; Page 3: names, one way to present a card, the cost row, the x, the hover lift, the focus ring, numbers, the help, lists, titles and the type scale; The edge of an opened card and its cells (no stroke); The "i" of a coloured card; The label arrows have no ground, ring or bolder glyph under the pointer; The column title's "i"; Title sizes; Title Case; Page 3 scrolls in its cards; The Founders & Ownership dialog; Closing; The check.
 - [9. Tiles: kinds, titles, lists, marks, hover and size](#9-tiles-kinds-titles-lists-marks-hover-and-size): Diagram tile; Incomplete card; Add Card; Categories; Growth; Page cards; Tile title; Hover; The text on a column page's tile; Large tiles; A title with a forced break; A tile's lines; A "+" on a tile; Business tiles; Two columns on a tile; A tile's title; A tile's content may be linkable; Sub tiles; The blocks of Colours and Brand Images; A Business card tile; A Business card tile lists its dates first; Small tiles (`small` on SectionTiles); Deactivated tiles; Tables with equal columns; A tile not used yet; Values placed by the app; Partner and Supplier tiles.
@@ -361,6 +361,11 @@ It must list none.
 ## 6. Shared components and states
 
 The owner's rules on the components every card shares, then the reactions of each kind, the picker options, tracking and the label arrow.
+
+### Click areas and focus (WCAG 2.2 AA)
+
+- **A button takes the click across at least 24 by 24px** (2.5.8 Target Size): where it is smaller, an invisible box of 24px centred on it takes the click and nothing is drawn (the rail dots, `bullet-rail.css`; the Back arrow, `back-button.css`), or it stands clear of every other button by a 24px circle round its middle. The layout probe checks every small button (rule E). Known and kept until their pages become Tiles (owner, 2026-11-11): the tiles' list links (20px rows) and the page-3 "show only what … is connected to" buttons (12px); for these, centres 24px apart (the spacing exception) or one target with their label.
+- **A field reached by the keyboard is never hidden under the sticky title** (2.4.11 Focus Not Obscured): when a field takes the focus under the title band, the page scrolls on until it stands 8px below the band, measured at that moment (`src/components/interview/stickyFocus.ts`); a field already clear, or inside a dialog or a floating card, is left alone. The layout probe checks it (rule F).
 
 ### The shared components (rules 6 to 20)
 
@@ -1368,8 +1373,8 @@ The check starts the dev server itself when none answers (port 1420) and stops i
   functions with `page` bound (strip its imports and `export`s, fetch the
   probe from `/tools/scripts/layout-check/layout-probe.js`, the examples from
   `/src/data/examples/`), then call `runLayoutCheck(page, { probe })` for each
-  seeded example. The check writes the examples into the browser's storage:
-  back up and restore localStorage around it.
+  seeded example. The check writes the examples into localStorage, and the app moves them into its IndexedDB at its next start (merged by id, `IndexedDbStorage.ts`):
+  run it in a browser profile of its own, or delete the examples afterwards.
 
 **The real mouse.** `checkRealMouse(page, where)` in `run.mjs` (called for page 3 at 1366 x 1000, 1366 x 700 and 1920 x 1000) presses every list item of every first-row tile, the page scrolled to its top, with real mouse events (move, down, up): the item must not move 0.5px between the press and the release, its card or dialog must open, Escape must return to the default page (no tile grown, no ring on a mouse-opened opener), and one Enter-opened item must keep its ring on closing with no tile grown. (The old code fails it: 38 failures at 1600 x 780.)
 

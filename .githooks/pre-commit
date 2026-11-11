@@ -1,13 +1,14 @@
 #!/bin/sh
 # THE SAFETY NET BEFORE EVERY COMMIT (owner, 2026-11-10: "optimise the app and the folders, to make them easier to work and avoid any mistakes").
-# The three quick checks, about 15 seconds: the types, the CSS lint (dead and shadowed rules) and the documents check (the generated parts of the
+# The quick checks, about 15 seconds: the types, the boundaries (a shared part imports no page or editor), the CSS lint (dead and shadowed rules) and the documents check (the generated parts of the
 # rulebook, the standard, the questions register). A failure stops the commit; fix it, then commit again. The full set runs on GitHub on every push
 # (.github/workflows/ci.yml) and by hand with `npm run verify`. Git uses this folder through `core.hooksPath`, set by `npm install` (the "prepare" script).
 
-echo "pre-commit: types, CSS lint, documents"
+echo "pre-commit: types, boundaries, CSS lint, documents"
 
 npx tsc --noEmit || { echo "pre-commit: the types do not check (npx tsc --noEmit). Commit stopped."; exit 1; }
+npm run --silent lint:boundaries > /dev/null || { echo "pre-commit: a shared part imports a page or an editor (npm run lint:boundaries). Commit stopped."; exit 1; }
 npm run --silent lint:css > /dev/null || { echo "pre-commit: the CSS lint found dead or shadowed rules (npm run lint:css). Commit stopped."; exit 1; }
 npm run --silent docs:check > /dev/null || { echo "pre-commit: the documents check failed (npm run docs:check). Commit stopped."; exit 1; }
 
-echo "pre-commit: all three pass"
+echo "pre-commit: all four pass"
