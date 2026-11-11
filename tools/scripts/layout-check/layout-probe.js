@@ -2950,6 +2950,38 @@
             }
         }
 
+        // F. WCAG 2.2 AA, 2.4.11 FOCUS NOT OBSCURED (owner, 2026-11-11): a field reached by the keyboard from below the page's top is not hidden under the
+        //    app header and the page's sticky title. Up to five fields of the page are each scrolled out of view above, then focused, as Shift+Tab does.
+        {
+            const band = document.querySelector(".interview-header");
+            const header = document.querySelector("header.app-header");
+            const cover = Math.max(band && getComputedStyle(band).position === "sticky" ? rect(band).bottom : 0, header ? rect(header).bottom : 0);
+            const fields = [...document.querySelectorAll(".conversation-card input:not([type=hidden]):not([type=checkbox]):not([type=radio]), .conversation-card textarea, .conversation-card select")]
+                .filter(field => visible(field) && !field.disabled && !field.closest(".section-tile-overlay, .interview-header"));
+            const sample = fields.filter((field, index) => index % Math.max(1, Math.ceil(fields.length / 5)) === 0).slice(0, 5);
+            const start = window.scrollY;
+            for (const field of sample) {
+                if (cover <= 0) {
+                    break;
+                }
+                field.blur();
+                window.scrollBy(0, rect(field).bottom + 5);
+                if (rect(field).bottom > 0) {
+                    continue; // (the page cannot scroll the field out of view: nothing to test)
+                }
+                field.focus();
+                if (document.activeElement !== field) {
+                    continue; // (a field under an open dialog takes no focus: not reached by the keyboard now)
+                }
+                const top = band ? rect(band).bottom : cover;
+                if (rect(field).bottom <= Math.max(top, header ? rect(header).bottom : 0) + 0.5) {
+                    fail("a field reached by the keyboard is not hidden under the header and the sticky title (WCAG 2.2, 2.4.11)", field, { field: rect(field).bottom, cover: top });
+                }
+                field.blur();
+            }
+            window.scrollTo(0, start);
+        }
+
         return failures;
     }
 

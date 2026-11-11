@@ -24,6 +24,7 @@ import "./styles/text-links.css";
 import "./styles/cell-focus.css";
 import "./styles/back-button.css";
 import { installTextLinkMarquee } from "./components/interview/fields/textLinks.ts";
+import { installFocusClearOfStickyTitle } from "./components/interview/stickyFocus.ts";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 import { ThemeService } from "./services/ThemeService";
 import { IndexedDbStorage } from "./services/IndexedDbStorage";
@@ -33,6 +34,7 @@ import { keepOrganizationsIn } from "./services/OrganizationService";
 // follows the system's setting while the app is open.
 ThemeService.start();
 installTextLinkMarquee();
+installFocusClearOfStickyTitle();
 
 // THE ORGANIZATIONS live in IndexedDB (IndexedDbStorage.ts): opened, read into memory and, the first time, moved in from
 // localStorage, before the app draws, so every read after it sees them. Where IndexedDB cannot open, the app stays on localStorage.
