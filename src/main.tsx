@@ -27,7 +27,7 @@ import { installTextLinkMarquee } from "./components/interview/fields/textLinks.
 import { ErrorBoundary } from "./components/ErrorBoundary";
 import { ThemeService } from "./services/ThemeService";
 
-// The theme is already on <html> (index.html); from here Auto also
+// The theme is already on <html> (public/theme-init.js, loaded by index.html); from here Auto also
 // follows the system's setting while the app is open.
 ThemeService.start();
 installTextLinkMarquee();
