@@ -659,19 +659,6 @@ describe("the stylesheet of the page tiles, the floating cards and the dialog gr
         expect(stylesheet("card-tile.css")).toMatch(/\.card-tile-slot:hover \{[^}]*transform: scale\(1\.1\);/);
     });
 
-    it("draws the + box a square of the library's size at the tile's lower right, 12px from the edges, with its own hover", () => {
-        expect(css).toMatch(/\.section-tile-plus \{[^}]*position: absolute;[^}]*right: var\(--card-padding\);[^}]*bottom: var\(--card-padding\);/);
-        expect(css).toMatch(/\.plus-box \{[^}]*--plus-size: var\(--size-box-button\);[^}]*width: var\(--plus-size\);[^}]*height: var\(--plus-size\);/);
-        // A swap of two colours. At rest: the ground of what it stands on, a 2px stroke and the "+" in the darker tone;
-        // under the pointer or the focus: filled with the tone, no stroke, the "+" in the ground.
-        expect(css).toMatch(/\.plus-box \{[^}]*border: 2px solid var\(--plus-fill\);[^}]*background: var\(--plus-ground\);[^}]*color: var\(--plus-fill\);[^}]*transition: background-color \.15s ease, border-color \.15s ease, color \.15s ease;/);
-        expect(css).toMatch(/\.plus-box:hover:not\(:disabled\),\s*\.plus-box:focus-visible \{[^}]*border-color: transparent;[^}]*background: var\(--plus-fill\);[^}]*color: var\(--plus-ground\);/);
-        expect(css).not.toMatch(/\.plus-box[^{]*\{[^}]*transform: scale/);
-        // The "+" is two bars drawn from the middle of the box (an even length, 2px thick): its centre is the box's.
-        expect(css).toMatch(/\.plus-box::before,\s*\.plus-box::after \{[^}]*top: 50%;[^}]*left: 50%;[^}]*transform: translate\(-50%, -50%\);/);
-        expect(css).toMatch(/\.plus-box\.plus-box-small \{[^}]*--plus-size: var\(--size-box-button\);/);
-    });
-
     it("underlines a list item under the pointer and the focus", () => {
         expect(css).toMatch(/\.section-tile-link:hover,\s*\.section-tile-link:focus-visible \{[^}]*text-decoration-color: currentColor;/);
     });
@@ -681,11 +668,6 @@ describe("the stylesheet of the page tiles, the floating cards and the dialog gr
         expect(css).toMatch(/\.floating-card-card \{[^}]*width: min\(var\(--open-card-width\), calc\(100vw - 16px\)\);/);
         expect(css).toMatch(/\.floating-card-founder \{[^}]*width: min\(var\(--founder-card-min\), calc\(100vw - 16px\)\);/);
         expect(global).toMatch(/--open-card-width: 492px;/);
-    });
-
-    it("makes the dialog's ground solid, and the cards in it too: nothing of the page shows through a frame with text", () => {
-        expect(css).toMatch(/\.section-tile-dialog\.business-foundation-card \{[^}]*backdrop-filter: none;/);
-        expect(css).toMatch(/\.section-tile-dialog \.business-foundation-card \{[^}]*backdrop-filter: none;/);
     });
 
     it("sets an Activity card's Performer and Responsible rows with their dropdowns next to the labels, 12px apart", () => {

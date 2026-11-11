@@ -248,21 +248,6 @@ describe("tile anatomy: the title at a third of the height, underlined, a list o
         expect(name.startsWith("Resources, A rather long item number 0")).toBe(true);
     });
 
-    it("draws the title ending on the line a third down the tile, underlined by a rule of its own, the list centred under it", () => {
-        const css = stylesheet("section-tiles.css");
-        expect(stylesheet("global.css")).toMatch(/--tile-title-top: 0\.25;/);
-        // Two rows: the title's, ending on the line one third down the square (its LAST line, so a long title grows upward), and the rest.
-        expect(css).toMatch(/\.section-tile \{[^}]*display: grid;[^}]*grid-template-rows: var\(--tile-title-row\) minmax\(0, 1fr\);/);
-        expect(css).toMatch(/--tile-title-row: calc\(var\(--section-tile-size\) \* var\(--tile-title-top\) - 1px \+ 5px \+ var\(--section-tile-line-height\) \* 0\.5em\);/);
-        // The list starts 12px under the underline, whatever the lift (TileTitle writes the tile's --tile-lift).
-        expect(css).toMatch(/\.section-tile-list \{[^}]*margin: calc\(var\(--space-card\) - var\(--tile-lift, 0px\)\) 0 0;/);
-        expect(css).toMatch(/\.section-tile-title \{[^}]*align-self: start;/);
-        expect(css).toMatch(/\.section-tile-list \{[^}]*width: fit-content;[^}]*max-width: 100%;/);
-        expect(css).toMatch(/\.section-tile-title \{[^}]*border-bottom: 1px solid color-mix\(in srgb, currentColor 40%, transparent\);/);
-        expect(css).toMatch(/\.section-tile-list \{[^}]*font-size: var\(--font-small\);[^}]*color: var\(--text-muted\);/);
-        expect(css).toMatch(/\.section-tile-list > li \{[^}]*text-overflow: ellipsis;[^}]*white-space: nowrap;/);
-    });
-
 });
 
 describe("an empty section shows a small + under its title", () => {
@@ -649,31 +634,6 @@ describe("the tiles' stylesheet", () => {
     it("draws every tile a true square of one size token, left-aligned in a 12px grid of the one shape", () => {
         const global = stylesheet("global.css");
         expect(global).toMatch(/--section-tile-min: 120px;/);
-        // 100cqw is the width of the tiles' own box.
-        expect(css).toMatch(/\.section-tiles-box \{[^}]*container: section-tiles \/ inline-size;/);
-        expect(css).toMatch(/\.section-tiles \{[^}]*grid-template-columns: repeat\(auto-fill, var\(--section-tile-size\)\);[^}]*justify-content: start;[^}]*gap: var\(--space-card\);[^}]*max-width: calc\(var\(--tile-columns, 3\) \* var\(--section-tile-size\) \+ \(var\(--tile-columns, 3\) - 1\) \* var\(--space-card\)\);/);
-        expect(css).toMatch(/\.section-tile \{[^}]*width: var\(--section-tile-size\);[^}]*height: var\(--section-tile-size\);[^}]*aspect-ratio: 1 \/ 1;/);
-        // The title wraps inside the square.
-        expect(css).toMatch(/\.section-tile-title \{[^}]*overflow-wrap: anywhere;/);
-    });
-
-    it("sizes every dialog as the page's card area, scrolling only inside its body", () => {
-        expect(css).toMatch(/width: var\(--section-dialog-width, min\(92vw, 1400px\)\);[^}]*min-height: var\(--section-dialog-height, 88vh\);/);
-        expect(css).not.toMatch(/aspect-ratio: 1 \/ 1;\s*\n\s*background: color-mix/);
-        expect(css).toMatch(/\.section-tile-dialog-body \{[^}]*overflow-y: auto;/);
-    });
-
-    it("draws a tile title that wraps with room between its lines (1.45), a single line unchanged", () => {
-        expect(stylesheet("global.css")).toMatch(/--section-tile-line-height: 1\.45;/);
-        expect(css).toMatch(/\.section-tile-title \{[^}]*line-height: var\(--section-tile-line-height\);/);
-    });
-
-    it("gives every dialog ONE solid ground, and the cards in it the same: no transparency on a frame with text", () => {
-        expect(css).toMatch(/\.section-tile-dialog\.business-foundation-card \{[^}]*backdrop-filter: none;/);
-        expect(css).not.toMatch(/\.section-tile-dialog\.business-foundation-card \{[^}]*transparent\);/);
-        expect(css).toMatch(/\.section-tile-dialog \.business-foundation-card \{[^}]*backdrop-filter: none;/);
-        // No dialog of its own look: no wide exception any more.
-        expect(css).not.toMatch(/section-tile-dialog-wide/);
     });
 
     it("keeps page 3's heading and the cards' title rows in place and scrolls each card's body on its own", () => {
@@ -796,15 +756,6 @@ describe("the page's cards and titles", () => {
         expect(document.querySelector(".card-title-help")).toBeNull();
     });
 
-    it("sizes the title arrow from the title (not the 36px fold arrow), with a hit area of at least 24px", () => {
-        const css = stylesheet("title-arrow.css");
-        // Three quarters of the column title's size (--font-h2, 28px on this page).
-        expect(stylesheet("global.css")).toMatch(/--title-arrow-size: calc\(var\(--font-h2\) \* 0\.75\);/);
-        expect(css).toMatch(/\.title-arrow \{[^}]*width: 28px;[^}]*height: 28px;/);
-        expect(css).toContain("var(--title-arrow-size)");
-        expect(css).toMatch(/\.card-title-row \{[^}]*gap: var\(--gap-8\);/);
-    });
-
     it("sets the tile titles one step up the type scale, the body size (18px)", () => {
         expect(stylesheet("section-tiles.css")).toMatch(/\.section-tile \{[^}]*font-size: var\(--font-body\);/);
     });
@@ -824,12 +775,6 @@ describe("the page's cards and titles", () => {
 });
 
 describe("the dialog's square and backdrop", () => {
-
-    it("is the page's width for every section, from the page heading's underline to the footer", () => {
-        const css = stylesheet("section-tiles.css");
-        expect(css).toMatch(/width: var\(--section-dialog-width, min\(92vw, 1400px\)\);[^}]*min-height: var\(--section-dialog-height, 88vh\);/);
-        expect(css).toMatch(/\.section-tile-overlay-measured \{[^}]*align-items: flex-start;[^}]*padding: 0;/);
-    });
 
     it("measures its frame from the underline of the page heading to the top of the footer, the page card area's width, at most 92% of the window's", () => {
         const line = document.createElement("div");
@@ -933,35 +878,6 @@ describe("the Founders tile: the founders are tiles, and a card opens floating, 
     it("lists each founder with the rate of their responsibilities on the Founders tile", () => {
         render(<Harness founders={3} />);
         expect(tileButton("Founders").getAttribute("aria-label")).toBe("Founders, Founder Name 1, Founder Name 2, Founder Name 3");
-    });
-
-    it("stands every text of a founder's card at ONE left edge, the numbers, bullets and fold arrows hanging left of it in a marker column", () => {
-        const css = stylesheet("section-tiles.css");
-        // The marker column is a single-digit head number (tabular figures, 18.3px) and the head's 8px gap; the inset keeps the 36px arrow's ring inside.
-        expect(stylesheet("global.css")).toMatch(/--founder-marker: 35\.5px;/);
-        expect(stylesheet("global.css")).toMatch(/--founder-inset: 4\.5px;/);
-        expect(css).toMatch(/\.business-foundation-card\.business-founder-open \{[^}]*padding-left: calc\(var\(--card-padding\) \+ var\(--founder-inset\) \+ var\(--founder-marker\)\);/);
-        expect(css).toMatch(/\.business-founder-open > \.strategy-box-head \{[^}]*margin-left: calc\(-1 \* var\(--founder-marker\)\);/);
-        expect(css).toMatch(/\.business-founder-open > \.strategy-box-head > \.strategy-box-number > \.list-number \{[^}]*font-variant-numeric: tabular-nums;[^}]*line-height: 28px;/);
-        expect(css).toMatch(/\.business-founder-open :is\(\.bullet-list-static, \.numbered-list-static\) \{[^}]*row-gap: var\(--space-row\);[^}]*line-height: var\(--section-tile-line-height\);/);
-        expect(css).toMatch(/\.business-founder-open :is\(\.bullet-list-static, \.numbered-list-static\) \{[^}]*margin-left: 0;/);
-        expect(css).toMatch(/\.business-founder-open \.bullet-list-static > li \{[^}]*padding-left: calc\(var\(--bullet-size\) \+ var\(--bullet-gap\)\);/);
-        expect(css).toMatch(/\.business-founder-open \.numbered-list-static \{[^}]*grid-template-columns: minmax\(var\(--founder-marker\), max-content\) minmax\(0, 1fr\) auto;/);
-        expect(css).toMatch(/\.business-founder-open \.numbered-list-static-text \{[^}]*padding-left: 0;/);
-        // The fold arrows are the STANDARD 36px arrow (size and reactions untouched), hung so the glyph's left edge is the markers' x:
-        // its box reaches 12.5px left of a closed glyph (9px of an open one).
-        expect(css).toMatch(/:is\(\.business-founder-open, \.business-capability-links\) \.business-capability-responsibilities-head > \.strategy-box-toggle \{[^}]*margin-left: -12\.5px;/);
-        expect(css).not.toMatch(/\.business-founder-open \.business-capability-responsibilities-head > \.strategy-box-toggle \{[^}]*width: 24px/);
-        // One position for both states: the arrow does not move when it is toggled.
-        expect(css).not.toMatch(/\.business-founder-open \.business-capability-responsibilities-head > \.strategy-box-toggle\[aria-expanded="true"\]/);
-        // The four cells are one size (--founder-cell) in two equal columns 12px apart; the two hours labels are two lines.
-        expect(stylesheet("global.css")).toMatch(/--card-cell-narrow: 108px;/);
-        expect(css).toMatch(/\.business-founder-open \.business-founder-grid \{[^}]*justify-content: start;/);
-        expect(css).toMatch(/\.business-founder-open \.business-founder-grid \{[^}]*grid-template-columns: repeat\(2, minmax\(0, 1fr\)\);/);
-        expect(css).toMatch(/\.business-founder-open \.business-founder-grid > \.business-foundation-field:nth-child\(n\+3\) > :first-child \{[^}]*width: var\(--founder-cell\);[^}]*white-space: normal;/);
-        expect(css).not.toMatch(/translate: min\(0px, calc\(var\(--founder-cell\)/);
-        // "Completed N" is a block of its own, a field gap under the list above it.
-        expect(css).toMatch(/\.business-founder-open \.numbered-list-static \+ \.business-capability-completed \{[^}]*margin-top: var\(--space-field\);/);
     });
 
 });

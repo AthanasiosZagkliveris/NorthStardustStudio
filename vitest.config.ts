@@ -17,9 +17,29 @@ import react from "@vitejs/plugin-react";
 export default defineConfig({
     plugins: [react()],
     test: {
-        environment: "jsdom",
-        include: ["src/**/*.test.{ts,tsx}"],
         // (The suite is heavy and the machines slow: the default 5s timed out tests that pass alone.)
-        testTimeout: 40000
+        testTimeout: 40000,
+        // TWO GROUPS (2026-11-11, the owner: "any way to improve or optimise them?"): the pure logic -- the framework's engine and parser, the
+        // design library, the documents' and the stylesheets' checks -- needs no DOM and runs in plain Node, without a jsdom set up for each of its
+        // files (that set-up was more than half the run); everything that draws or uses the browser's storage runs in jsdom, each file in its own.
+        projects: [
+            {
+                extends: true,
+                test: {
+                    name: "logic",
+                    environment: "node",
+                    include: ["src/framework/**/*.test.ts", "src/library/**/*.test.ts", "src/docs/**/*.test.ts", "src/styles/**/*.test.ts"]
+                }
+            },
+            {
+                extends: true,
+                test: {
+                    name: "dom",
+                    environment: "jsdom",
+                    include: ["src/**/*.test.{ts,tsx}"],
+                    exclude: ["src/framework/**/*.test.ts", "src/library/**/*.test.ts", "src/docs/**/*.test.ts", "src/styles/**/*.test.ts"]
+                }
+            }
+        ]
     }
 });
