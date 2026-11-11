@@ -578,7 +578,7 @@ label:has(> input[type="checkbox"]) > :not(input) {
 
     grid-template-columns: max-content minmax(0, 1fr) !important;
 
-    align-items: start !important;
+    align-items: start;
 
 }
 
@@ -586,7 +586,7 @@ label:has(> input[type="checkbox"]) > :not(input) {
 
     flex-direction: row !important;
 
-    align-items: flex-start !important;
+    align-items: flex-start;
 
     gap: var(--gap-12) !important;
 
@@ -609,7 +609,7 @@ label:has(> input[type="checkbox"]) > :not(input) {
 
 .business-relationship-block > .business-relationship-block-remove {
 
-    top: 6px !important;
+    top: 6px;
 
 }
 

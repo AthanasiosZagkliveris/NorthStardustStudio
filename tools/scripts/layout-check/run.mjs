@@ -42,6 +42,34 @@ export const SPEC = {
     tolerance: 0.5
 };
 
+/**
+ * EVERY SYSTEM OF THE APP, read from src/data/systems.ts and src/data/capabilities.ts (so a new System is found without a list to keep): [capability title,
+ * System title], in the order the app lists them. The screen snapshot opens every page of each (pagesOf).
+ */
+export const ALL_SYSTEMS = (() => {
+    const read = name => readFileSync(new URL("../../../src/data/" + name, import.meta.url), "utf8");
+    const capabilities = new Map([...read("capabilities.ts").matchAll(/id:\s*"([^"]+)",\s*title:\s*"([^"]+)"/g)].map(m => [m[1], m[2]]));
+    return [...read("systems.ts").matchAll(/title:\s*"([^"]+)",\s*capability:\s*"([^"]+)"/g)].map(m => [capabilities.get(m[2]), m[1]]);
+})();
+
+/** The pages of a System as its Pages rail lists them ("^1\. ", "^2\. ", ...), opened from its capability. */
+export async function pagesOf(page, base, capability, system) {
+    await page.goto(base + "/assistant");
+    await page.waitForTimeout(600);
+    await page.getByText(capability, { exact: true }).first().click();
+    await page.waitForTimeout(250);
+    await page.keyboard.press("Escape");
+    await page.locator("li.system-item", { hasText: system }).press("Enter");
+    await page.waitForTimeout(800);
+    const start = page.getByRole("button", { name: /Start Interview/i });
+    if (await start.count()) {
+        await start.first().click();
+        await page.waitForTimeout(600);
+    }
+    const labels = await page.getByRole("navigation", { name: "Pages" }).getByRole("button").allTextContents();
+    return labels.map(label => label.match(/^(\d+)\. /)).filter(Boolean).map(m => "^" + m[1] + "\\. ");
+}
+
 export const PAGES = [
     // Each name is matched from the start of the page's button ("1. Definition"),
     // so "Foundation" does not also find "Financial Foundation".
@@ -77,10 +105,10 @@ export const WIDE_THEMES = ["light", "sepia", "dark"];
 export const WIDE_SIZES = [[768, 1024], [1024, 768], [1366, 768], [1440, 864], [1440, 1024], [1920, 1000], [1920, 1300]];
 
 /** Opens a page of a System, from the System list. */
-export async function openPage(page, base, system, pageName) {
+export async function openPage(page, base, system, pageName, capability = "Foundation") {
     await page.goto(base + "/assistant");
     await page.waitForTimeout(600);
-    await page.getByText("Foundation", { exact: true }).first().click();
+    await page.getByText(capability, { exact: true }).first().click();
     await page.waitForTimeout(250);
     await page.keyboard.press("Escape");
     await page.locator("li.system-item", { hasText: system }).press("Enter");

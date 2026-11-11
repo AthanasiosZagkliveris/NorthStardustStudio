@@ -615,7 +615,7 @@
 .floating-card-host .floating-card-body > * > .business-foundation-card,
 .floating-card-host .floating-card-body .column-tile-content > .business-foundation-card {
 
-    --strategy-theme-hue: var(--floating-hue) !important;
+    --strategy-theme-hue: var(--floating-hue);
 
 }
 

@@ -244,7 +244,7 @@
 /* THE RELATIONSHIP TABLE, as a whole: round corners (8px) folded or not, 12px at the sides and between, the type and the Purpose starting on one line. */
 table.business-relationship-table {
 
-    border-collapse: separate !important;
+    border-collapse: separate;
     border-spacing: 0 !important;
 
     border-radius: var(--radius-lg);
@@ -263,7 +263,7 @@ table.business-relationship-table {
 
 .business-relationship-type-row {
 
-    align-items: start !important;
+    align-items: start;
 
     column-gap: var(--gap-12);
 
@@ -273,14 +273,14 @@ table.business-relationship-table {
 
     margin-top: 0 !important;
 
-    padding-top: 0 !important;
+    padding-top: 0;
 
 }
 
 .business-relationship-type-row .business-relationship-purpose > *,
 .business-relationship-type-row .business-relationship-type-field > * {
 
-    margin-top: 0 !important;
+    margin-top: 0;
 
 }
 
@@ -448,7 +448,7 @@ table.business-relationship-table {
 
 .business-subchannel-card .business-channel-td-name .business-foundation-field.optional-field.optional-field-inline {
 
-    flex-direction: column !important;
+    flex-direction: column;
 
     align-items: stretch;
 
@@ -498,7 +498,7 @@ table.business-relationship-table {
 .strategy-goal-card .strategy-goal-box {
 
     --nest-ground: var(--tint-objective);
-    background: var(--nest-ground) !important;
+    background: var(--nest-ground);
 
 }
 
@@ -506,7 +506,7 @@ table.business-relationship-table {
 .strategy-goal-card .strategy-objective-box {
 
     --nest-ground: var(--tint-theme);
-    background: var(--nest-ground) !important;
+    background: var(--nest-ground);
 
 }
 
@@ -514,7 +514,7 @@ table.business-relationship-table {
 .strategy-goal-card .strategy-metric-box {
 
     --nest-ground: var(--tint-objective);
-    background: var(--nest-ground) !important;
+    background: var(--nest-ground);
 
 }
 
