@@ -590,15 +590,6 @@ Today: the chapter titles of 3. Infrastructure & Capability (right of the title 
   read through `businessResponsibleId`, `businessPartnerResponsibleId`,
   `strategyObjectiveOwnerId`), and exports / documents leave it empty. With one founder there
   is no field and so no tick.
-  Offering's Capability › 1. Resources and 2. Activities lay their cards out in
-  **independent columns** (`CardColumns`, `.card-columns` / `.card-column`): as many columns
-  as fit (each at least 410px wide; Activities at most 2), recomputed from the container's
-  width (ResizeObserver); card i goes to column (i - 1) mod N, so the numbering still counts
-  across -- 1 2 3, then 4 5 6, card 4 under card 1 -- and each column is its own vertical
-  stack, tops aligned, `--space-card` (12px) between cards and columns. Opening or closing a
-  card moves only the cards below it in ITS column (no grid row couples the heights). The
-  DOM, so the tab order, runs column by column. Active / Completed lists distribute
-  within themselves; "+ Add ..." sits under the columns.
   **Folded Capability cards are one fixed size** (Resource, Activity, Partner / Provider:
   `fixedFolded`, `.fold-card-head-fixed`): the name on ONE line cut by an ellipsis (the full
   name is its tooltip) and the summary on one line under it, cut the same way and kept when
@@ -984,14 +975,7 @@ drawn only in a dialog that its tile opens.
   at most, the card's). Rails and links: a rail bullet scrolls its card's body to the
   top; `jumpTo` scrolls the element into view inside its `.card-scroll`. Stacked (under 812px)
   or in a window under 560px high the page scrolls as the other pages do and the body does not.
-- **The Founders' dialog.** The same frame as every dialog. Its content (`FounderCards.tsx`) depends on the number of founders: **1 to 4** founders:
-  every founder's card OPEN (no fold arrow), side by side in ONE row, the row centred; **5 to 8**: two balanced rows of open cards (5 is 3 + 2, 6 is
-  3 + 3, 7 is 4 + 3, 8 is 4 + 4), an incomplete last row centred; every open card is one width, **`--founder-card-min` (297px: what the content needs and no more)**, 12px apart. As many
-  stand across as the dialog's content holds: **four from 1224px** (4 x 297 + 3 gaps) -- at 1600 (content 1375px) and at 1366 (1229px) -- **three from 915px, two from 606px**, else one
-  (`--founder-across`). **More than 8**: each founder is a CLOSED SQUARE BOX (the subcategory box look, `--section-box-size`; the name, the first role under it small), as many across
-  as fit, left-aligned; pressing one opens that founder's card in place of the grid (one at a time; the header reads "1. Founders / Maya Chen");
-  **Back and Escape return to the grid first, then close the dialog**. A link to a founder presses their box (`data-opens`, `jumpTo.ts`); a founder's name on the Founders tile opens the
-  card alone, floating.
+- **The Founders & Ownership dialog.** The same frame as every dialog: the founders' table, then the founders as master tiles under the Profiles band (`SubTiles`); a tile opens that founder's card in place of the tiles (the heading reads "Founders & Ownership / Maya Chen"), its rail names the founders, and Back and Escape return to the tiles first.
   **A founder's card: ONE LEFT EDGE, one marker column.** Padding `--card-padding` (12px) + `--founder-inset` (4.5px) + `--founder-marker` (26.3px) on its left: the
   CONTENT EDGE is 43.5px in (the border included). Every text -- the name, the roles' text, the labels (Salary, Working Hrs ...), the left column's cells, the share line, the
   Responsibilities label, the list items' text, "Completed N" -- starts at the content edge; the head's number "1.", the roles' bullets, the

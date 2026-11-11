@@ -144,8 +144,8 @@ export function useCapabilityPeopleCards(earlier: Earlier) {
         const KIND_OPTION = { activity: "Activities", partner: "Partners & Suppliers", supplier: "Partners & Suppliers", legal: "Legal" } as const;
         const shownResponsibilities = responsibilities.filter(entry => !filterOff.has(KIND_OPTION[entry.kind]) && (entry.scope === "legal" || !filterOff.has(entry.scope === "offering" ? "Offerings" : "Infrastructure")));
 
-        /* COLLAPSED each time the dialog (or a founder's box) opens: FounderCards
-           clears these folds on opening; toggling inside an open dialog works. */
+        /* COLLAPSED until the founder's Responsibilities are opened; the fold is kept
+           while the page is open. */
         const responsibilitiesOpen = responsibilityFolds.get(founder.id) ?? false;
 
         const responsibilitiesId = "responsibilities-" + founder.id;
