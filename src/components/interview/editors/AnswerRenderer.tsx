@@ -1,5 +1,5 @@
 import ChoiceCard from "../../controls/ChoiceCard.tsx";
-import { CSSProperties, Fragment, useState } from "react";
+import { CSSProperties, Fragment, Suspense, useState } from "react";
 import CardShell from "../cards/CardShell.tsx";
 import { OptionalNote } from "../cards/BusinessCardFields.tsx";
 import { BUYER_CATEGORIES, BUYER_USER_RELATIONS, USER_LIFE_STAGES, positioningName } from "./legal/shared.tsx";
@@ -592,11 +592,12 @@ function MultiPartAnswerRenderer({
 }
 export default function AnswerRenderer(props: AnswerRendererProps) {
 
-    if (props.definition.type === AnswerType.MultiPart) {
-        return <MultiPartAnswerRenderer {...props} />;
-    }
-
-    return <SingleAnswerRenderer {...props} />;
+    // The page editors are loaded when their page first opens (answer/renderPageAnswers.tsx, renderProcessAndStrategyAnswers.tsx).
+    return (
+        <Suspense fallback={null}>
+            {props.definition.type === AnswerType.MultiPart ? <MultiPartAnswerRenderer {...props} /> : <SingleAnswerRenderer {...props} />}
+        </Suspense>
+    );
 
 }
 
