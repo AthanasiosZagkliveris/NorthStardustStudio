@@ -60,8 +60,8 @@
     color: var(--text-primary);
 }
 
-/* ONE RULE FOR EVERY NARROW WINDOW: at 1100px and narrower the page footer's Back keeps only its arrow, as the rails' Back does where there is no room beside the card (the word would stand over the page). The button keeps its name (aria-label). */
-@media (max-width: 1100px) {
+/* ONE RULE FOR EVERY NARROW WINDOW: below 1700px (where the side gutters widen to 220px) the page footer's Back keeps only its arrow, as the rails' Back does where there is no room beside the card: the word would stand over the page (owner, 2026-11-11: "If the screen size is small, then the Back is hidden and a tooltip is appear on hovering"; it was 1100px, and the word stood over "+ Add Segment" at 1152px). The button keeps its name (aria-label), which the app's tooltip shows under the pointer. */
+@media (max-width: 1699px) {
     .workspace-footer .back-button .back-button-word {
         display: none;
     }
