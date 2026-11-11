@@ -1,6 +1,6 @@
 # Index of the documents
 
-Status: **index**, updated 2026-11-10, written by `npm run docs:index` (the subjects are in `tools/scripts/docs/write-index.mjs`; do not edit by hand). An alphabetical list of subjects and where each is described. The contents by chapter are in [README.md](README.md); the places in the app are in [app/index.md](app/index.md); the terms are in [app/glossary.md](app/glossary.md).
+Status: **index**, updated 2026-11-11, written by `npm run docs:index` (the subjects are in `tools/scripts/docs/write-index.mjs`; do not edit by hand). An alphabetical list of subjects and where each is described. The contents by chapter are in [README.md](README.md); the places in the app are in [app/index.md](app/index.md); the terms are in [app/glossary.md](app/glossary.md).
 
 ## A
 
@@ -25,7 +25,7 @@ Status: **index**, updated 2026-11-10, written by `npm run docs:index` (the subj
 - **Card structure**: [26](design/current/26-card-structure.md); [tile and card pattern](ai/tile-and-card-pattern.md)
 - **Caregiving**: [31 section 4](design/questionnaire/31-positioning-categories.md)
 - **Catalogue record**: [6](design/core/06-catalogue-record.md)
-- **Change history (log)**: [4](design/core/04-log.md); [archive (before 2026-11-01)](archive/log/log-archive-2026-07-to-10.md)
+- **Change history (log)**: [4](design/core/04-log.md); [archive (before 2026-11-01)](archive/log/log-archive-2026-07-to-10.md); [archive (2026-11-01 to 07)](archive/log/log-archive-2026-11-01-to-07.md)
 - **Colour map of the pages**: [1 Part I](design/core/01-current-design.md)
 - **Competitor card**: [41 (proposal)](design/questionnaire/41-competitor-questions.md); [28 section 6.6](design/questionnaire/28-questionnaire-specification.md)
 - **Components, defaults**: [12](design/library/12-component-defaults.md)
