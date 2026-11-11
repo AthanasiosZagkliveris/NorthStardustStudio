@@ -368,7 +368,6 @@
     color:hsl(var(--strategy-theme-hue, 0) var(--theme-text-ink));
 
     text-decoration:underline;
-    text-underline-offset:3px;
 
 }
 

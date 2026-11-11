@@ -21,7 +21,8 @@ describe("the text links", () => {
         expect(css).toContain("text-decoration: none !important;");
         expect(css).toContain("text-shadow: var(--hover-bold) !important;");
         expect(css).toContain("text-decoration: underline !important;");
-        expect(css).toContain("text-underline-offset: 1px !important;");
+        // (The underline itself is the app's one underline, cell-focus.css: no offset of its own here.)
+        expect(css).not.toContain("text-underline-offset");
     });
 
 });

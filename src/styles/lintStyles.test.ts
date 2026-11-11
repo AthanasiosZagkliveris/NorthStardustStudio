@@ -97,3 +97,18 @@ describe("the stylesheets", () => {
     });
 
 });
+
+describe("the one underline", () => {
+
+    /* ONE UNDERLINE, EVERYWHERE (cell-focus.css): 1px thick, 1px under the descenders, set once for every element (owner, 2026-11-11: the rules
+       that fought it removed at their source). Its !important stays: every `text-decoration` (none, underline) resets the thickness with it. */
+    it("is set in one place only", () => {
+        const files = import.meta.glob("../styles/**/*.css", { query: "?raw", import: "default", eager: true }) as Record<string, string>;
+        const others = Object.entries(files)
+            .filter(([path]) => !path.endsWith("/cell-focus.css") && !path.includes(".generated."))
+            .filter(([, text]) => /text-underline-offset|text-decoration-thickness|text-underline-position/.test(text))
+            .map(([path]) => path);
+        expect(others).toEqual([]);
+    });
+
+});

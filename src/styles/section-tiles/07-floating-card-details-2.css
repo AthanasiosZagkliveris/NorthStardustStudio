@@ -454,7 +454,6 @@
 .section-tile .brand-specimens > [data-card]:hover {
 
     text-decoration: underline;
-    text-underline-offset: 4px;
 
 }
 

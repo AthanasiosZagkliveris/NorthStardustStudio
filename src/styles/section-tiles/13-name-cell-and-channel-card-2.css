@@ -435,8 +435,6 @@ label:has(> input[type="checkbox"]) > :not(input) {
 
     text-decoration: underline transparent !important;
 
-    text-underline-offset: 3px;
-
 }
 
 .legal-entity-name-link:is(:hover, :focus-visible),

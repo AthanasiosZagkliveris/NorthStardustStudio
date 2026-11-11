@@ -233,7 +233,6 @@
     color: var(--text-primary);
 
     text-decoration: underline;
-    text-underline-offset: 0.2em;
 
     cursor: pointer;
 
@@ -435,14 +434,6 @@ html.notepad-picking [data-pick-hover] {
 .notepad-chip:not(.notepad-chip-gone):hover {
 
     box-shadow: 0 0 0 4px color-mix(in srgb, var(--glow-color) 18%, transparent);
-
-}
-
-/* "Link a field" and the other text buttons: only the underline
-   thickens. */
-.notepad-text-button:hover {
-
-    text-decoration-thickness: 2px;
 
 }
 

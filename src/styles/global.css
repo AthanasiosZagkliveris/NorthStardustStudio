@@ -1097,7 +1097,6 @@ h6 {
   color: var(--text-subtle);
   text-decoration: underline;
   text-decoration-color: currentColor;
-  text-underline-offset: 0.2em;
 }
 
 /* THE FIELD STATUS LINE (FieldStatusLine.tsx): what is said about a
@@ -1134,7 +1133,6 @@ h6 {
   letter-spacing: inherit;
   color: inherit;
   text-decoration: underline;
-  text-underline-offset: 0.2em;
   cursor: pointer;
 }
 
@@ -1350,7 +1348,6 @@ label:has(> input[type="checkbox"]) > input[type="checkbox"] {
 label:has(> input[type="checkbox"]:not(:disabled)):hover > :not(input),
 .brand-tick:has(> input[type="checkbox"]:not(:disabled):hover) > :not(input) {
   text-decoration: underline;
-  text-underline-offset: 0.2em;
 }
 
 /* THE PAGE ARROWS (PageArrow.tsx): "‹" and "›", previous and next

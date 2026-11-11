@@ -46,6 +46,10 @@ Before and after a change that must not change the screen (code moved between fi
 
 **What an `!important` overrides**: `node tools/scripts/lint/css-important.mjs` opens the Foundation pages, their dialogs and the first floating card of each tile, and lists for each `!important` declaration the declarations of other rules it beats on the elements it applies to (`--json FILE` writes them all). One with no rival is a candidate to remove, and the screen snapshot and the layout check prove it (an `!important` that wins over a rule in a state the tool does not open, a completed card, a Goal in a Theme, is found by them); one with rivals goes only once its rival is corrected at its source.
 
+**The page snapshot test** (`src/pages/examplePages.test.tsx`): every page of the Identity, Brand, Business, Strategy and Operations Systems, and every section tile's dialog, opened with both examples; what each reads is kept in `src/pages/__snapshots__/`. A change that means to change what a page says updates it with `npx vitest run src/pages/examplePages.test.tsx -u` and says so in the log.
+
+**The rules-in-force summaries**: `npm run docs:in-force` writes, at the top of the rulebook and of doc 26, a summary from their own text (`npm run docs:check` fails where one is stale).
+
 ## Finding where something is styled
 
 `npm run css:where <class>` lists every rule that names a class (file, line, selector, what it sets; `-- --props` with the values); `npm run css:map <words>` lists the headed blocks of the stylesheets about a topic, in the order they load. The rules stay where they are: their order decides which wins.

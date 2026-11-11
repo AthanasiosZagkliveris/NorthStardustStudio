@@ -346,7 +346,6 @@ button.card-tile-symbol[aria-pressed="true"] {
     text-shadow: var(--hover-bold);
     letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
     text-decoration: underline;
-    text-underline-offset: 1px;
 
 }
 
@@ -373,6 +372,5 @@ body:has(.floating-card-host .business-capability-activity-completed) .section-t
     box-shadow: none !important;
 
     text-decoration: underline;
-    text-underline-offset: 4px;
 
 }

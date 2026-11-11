@@ -92,7 +92,6 @@
     line-height: 1.5;
     text-align: left;
     text-decoration: underline transparent;
-    text-underline-offset: 3px;
     overflow-wrap: anywhere;
 
     cursor: pointer;
@@ -428,7 +427,6 @@
     font: inherit;
 
     text-decoration: underline;
-    text-underline-offset: 3px;
 
     cursor: pointer;
 

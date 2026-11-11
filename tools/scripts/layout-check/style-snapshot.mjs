@@ -30,7 +30,7 @@ const PROPS = [
     "border-bottom-right-radius", "border-bottom-left-radius", "outline-style", "outline-width", "outline-color", "outline-offset",
     "color", "background-color", "background-image", "box-shadow", "opacity", "filter", "transform", "z-index", "overflow-x", "overflow-y",
     "font-family", "font-size", "font-weight", "font-style", "line-height", "letter-spacing", "text-transform", "text-decoration-line",
-    "text-align", "white-space", "flex-direction", "flex-wrap", "justify-content", "align-items", "row-gap", "column-gap",
+    "text-underline-offset", "text-decoration-thickness", "text-underline-position", "text-align", "white-space", "flex-direction", "flex-wrap", "justify-content", "align-items", "row-gap", "column-gap",
     "grid-template-columns", "grid-template-rows", "visibility", "cursor"
 ];
 

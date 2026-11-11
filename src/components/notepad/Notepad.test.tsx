@@ -316,10 +316,11 @@ describe("a field in your notes, pointed at", () => {
 
 describe("what can be clicked in the Notepad", () => {
 
-    it("gives a note and a chip a field's hover, \"Link a field\" a thicker underline, a chip's × the app's one ×, and a note the app's one ×", () => {
+    it("gives a note and a chip a field's hover, \"Link a field\" the app's one underline, a chip's × the app's one ×, and a note the app's one ×", () => {
         const css = stylesheet("notepad.css");
         expect(css).toContain(".notepad-note:hover, .notepad-chip:not(.notepad-chip-gone):hover { box-shadow: 0 0 0 4px color-mix(in srgb, var(--glow-color) 18%, transparent); }");
-        expect(css).toContain(".notepad-text-button:hover { text-decoration-thickness: 2px; }");
+        // (The underline is the app's one underline, 1px everywhere, cell-focus.css.)
+        expect(css).not.toContain("text-decoration-thickness");
         // (A chip's × is the app's one ×, RemoveButton: no look of its own here.)
         expect(css).not.toContain(".notepad-chip-remove");
         expect(css).not.toContain(".notepad-chip:is(:hover, :focus-within) > .notepad-chip-remove");
