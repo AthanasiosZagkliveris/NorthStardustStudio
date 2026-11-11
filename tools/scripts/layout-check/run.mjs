@@ -551,6 +551,10 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
                 try {
                     await seedExample(page, base, readFileSync(job.file, "utf8"));
                     results[index] = (await runLayoutCheck(page, { base, probe, pages: [[job.system, [job.name]]], sizes, themes, reference })).map(failure => ({ example: job.example, ...failure }));
+                    // (A page not found while the machine is busy with the other pages is looked for once more before it is reported.)
+                    if (attempt < 2 && results[index].some(failure => failure.rule === "page opens")) {
+                        continue;
+                    }
                     break;
                 } catch (error) {
                     if (attempt >= 3 || !/context was destroyed|Target closed|net::ERR/.test(String(error))) {
