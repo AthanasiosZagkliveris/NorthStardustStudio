@@ -197,8 +197,8 @@ export function dialogFrame(opener?: HTMLElement | null): { width: number; heigh
     if (section) {
         const box = section.getBoundingClientRect();
         if (box.width > 200 && box.height > 200) {
-            // (A card taller than the window is covered only as far as the window shows: under the header, above the footer.)
-            const header = document.querySelector<HTMLElement>(".app-header")?.getBoundingClientRect().bottom ?? 0;
+            // (A card taller than the window is covered only as far as the window shows: under the header and the page title that stays under it, above the footer.)
+            const header = Math.max(document.querySelector<HTMLElement>(".app-header")?.getBoundingClientRect().bottom ?? 0, document.querySelector<HTMLElement>(".interview-divider")?.getBoundingClientRect().bottom ?? 0);
             const footer = document.querySelector<HTMLElement>(".workspace-footer")?.getBoundingClientRect().top;
             const top = Math.max(box.top, header);
             const bottom = Math.min(box.bottom, footer !== undefined ? footer - 12 : window.innerHeight);

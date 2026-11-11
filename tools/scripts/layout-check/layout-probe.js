@@ -2945,7 +2945,8 @@
                 } else if (tallCard) {
                     width = cardBox.width;
                     height = 0;
-                    top = header ? header.getBoundingClientRect().bottom : 0;
+                    // (Under the header and the page title that stays under it while the page scrolls; owner, 2026-11-11.)
+                    top = Math.max(cardBox.top, header ? header.getBoundingClientRect().bottom : 0, underline ? underline.getBoundingClientRect().bottom : 0);
                 } else if (underline) {
                     // A page-wide dialog (Inventory, Completed) stands from the top of the page's cards to 12px above the footer.
                     const cardsTop = document.querySelector(".answer-columns.business-capability > .business-foundation-card");
