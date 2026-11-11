@@ -9,7 +9,7 @@ The standard for these documents is [the standard of the documents](../../standa
 | Document | Kind | What it holds | Updated |
 |---|---|---|---|
 | [27-questionnaire-plan.md](27-questionnaire-plan.md) | proposal | The questionnaire plan: the goal, the funnel, the one test (does an answer save the founder work?), the order of building and what was cut. | 2026-11-08 |
-| [28-questionnaire-specification.md](28-questionnaire-specification.md) | proposal | The questionnaire specification: every question, option and rule for the Identity, Segment, Profile, Competitor, Offering and Engagement cards, the connections and the evidence. | 2026-11-10 |
+| [28-questionnaire-specification.md](28-questionnaire-specification.md) | proposal | The questionnaire specification: every question, option and rule for the Identity, Segment, Profile, Competitor, Offering and Engagement cards, the connections and the evidence. | 2026-11-11 |
 | [29-question-guide.md](29-question-guide.md) | proposal | The question guide: the flow of the questions as trees, the key branches and how a question earns its place. | 2026-11-08 |
 | [30-age-limits-by-activity.md](30-age-limits-by-activity.md) | research | Age limits by activity and country: which kinds of business are connected with a minimum age (direct or possible) in the six countries, with sources and status. | 2026-11-08 |
 | [31-positioning-categories.md](31-positioning-categories.md) | collection | The owner's positioning data as given (age stages, buyer categories, relationships, purposes), the register of decisions on it and the reference tables. | 2026-11-09 |
