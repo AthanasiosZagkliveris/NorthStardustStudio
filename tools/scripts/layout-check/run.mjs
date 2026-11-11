@@ -388,11 +388,11 @@ export async function checkRealMouse(page, where) {
 }
 
 /** The whole check: a list of failures (empty is a pass). */
-export async function runLayoutCheck(page, { base = "http://localhost:1420", probe, pages = PAGES, widths, sizes = (widths ?? WIDTHS).map(width => [width, 1000]), themes = THEMES } = {}) {
+export async function runLayoutCheck(page, { base = "http://localhost:1420", probe, pages = PAGES, widths, sizes = (widths ?? WIDTHS).map(width => [width, 1000]), themes = THEMES, reference } = {}) {
     const failures = [];
-    // The reference x: the first Legal Entity card's.
-    let referenceX = null;
-    if (await openPage(page, base, "Identity System", "^2\\. Legal Entity")) {
+    // The reference x: the first Legal Entity card's (measured here, or handed in by a run that measured it once).
+    let referenceX = reference ?? null;
+    if (reference === undefined && await openPage(page, base, "Identity System", "^2\\. Legal Entity")) {
         const card = page.locator(".legal-entity-card .strategy-box-remove").first();
         if (await card.count()) {
             referenceX = await removeLook(page, card);
@@ -470,14 +470,19 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
     process.on("exit", stopServer);
     const { chromium } = await import("playwright");
     const browser = await chromium.launch(process.env.PW_CHANNEL ? { channel: process.env.PW_CHANNEL } : {});
-    const page = await browser.newPage();
     // STEADIER ON A BUSY MACHINE: every wait of the check is first the fonts being ready (a line measured before the font swaps has the wrong height), then its time times CHECK_SLOW
     // (1.5 by default; CHECK_SLOW=3 on a machine that is busy with other work, 1 on a quiet one).
     const slow = Number(process.env.CHECK_SLOW ?? 1.5);
-    const waitOnce = page.waitForTimeout.bind(page);
-    page.waitForTimeout = async (milliseconds) => {
-        await page.evaluate(() => document.fonts?.ready).catch(() => {});
-        await waitOnce(Math.round(milliseconds * slow));
+    // A page of its own, in a context of its own (its own storage): the pages are checked side by side.
+    const newCheckPage = async () => {
+        const context = await browser.newContext();
+        const page = await context.newPage();
+        const waitOnce = page.waitForTimeout.bind(page);
+        page.waitForTimeout = async (milliseconds) => {
+            await page.evaluate(() => document.fonts?.ready).catch(() => {});
+            await waitOnce(Math.round(milliseconds * slow));
+        };
+        return page;
     };
     const probe = readFileSync(new URL("./layout-probe.js", import.meta.url), "utf8");
     const base = process.env.BASE_URL ?? "http://localhost:1420";
@@ -499,26 +504,69 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
     const sizes = sizeText ?? (widths ? widths.map(width => [width, 1000]) : wide ? WIDE_SIZES : SIZES);
     const themes = only("CHECK_THEMES") ?? (wide ? WIDE_THEMES : THEMES);
     const exampleFilter = only("CHECK_EXAMPLES");
+    // SIDE BY SIDE (CHECK_WORKERS, 4 by default): every page of every example is a job, checked in a page of its own with its example seeded afresh;
+    // the findings are listed in the same order as before (by example, then page).
+    const jobs = [];
     for (const { name: example, file, pages: ownPages } of EXAMPLES.filter(entry => !exampleFilter || exampleFilter.some(text => entry.name.includes(text)))) {
         // (A fixture opens only the pages it is made for, within CHECK_PAGES.)
         const examplePages = ownPages ? ownPages.map(([system, names]) => [system, names.filter(name => pages.some(([other, kept]) => other === system && kept.includes(name)))]).filter(([, names]) => names.length > 0) : pages;
-        if (examplePages.length === 0) {
-            continue;
-        }
-        // (A page that reloads under the script -- the dev server hot-reloading, a slow machine -- makes the run start again, twice at most, instead of ending it.)
-        for (let attempt = 1; ; attempt += 1) {
-            try {
-                await seedExample(page, base, readFileSync(file, "utf8"));
-                failures.push(...(await runLayoutCheck(page, { base, probe, pages: examplePages, sizes, themes })).map(failure => ({ example, ...failure })));
-                break;
-            } catch (error) {
-                if (attempt >= 3 || !/context was destroyed|Target closed|net::ERR/.test(String(error))) {
-                    throw error;
-                }
-                console.error("The page changed under the check (" + String(error).split("\n")[0] + "): starting this example again.");
+        for (const [system, names] of examplePages) {
+            for (const name of names) {
+                jobs.push({ example, file, system, name });
             }
         }
     }
+    // The reference x (the first Legal Entity card's), measured once for each example.
+    const references = new Map();
+    const referenceOf = (job) => {
+        if (!references.has(job.example)) {
+            references.set(job.example, (async () => {
+                const page = await newCheckPage();
+                try {
+                    await seedExample(page, base, readFileSync(job.file, "utf8"));
+                    if (await openPage(page, base, "Identity System", "^2\\. Legal Entity")) {
+                        const card = page.locator(".legal-entity-card .strategy-box-remove").first();
+                        if (await card.count()) {
+                            return await removeLook(page, card);
+                        }
+                    }
+                    return null;
+                } finally {
+                    await page.context().close();
+                }
+            })());
+        }
+        return references.get(job.example);
+    };
+    const results = new Array(jobs.length);
+    let next = 0;
+    const worker = async () => {
+        while (next < jobs.length) {
+            const index = next++;
+            const job = jobs[index];
+            const reference = await referenceOf(job);
+            // (A page that reloads under the script -- the dev server hot-reloading, a slow machine -- makes the job start again, twice at most, instead of ending the run.)
+            for (let attempt = 1; ; attempt += 1) {
+                const page = await newCheckPage();
+                try {
+                    await seedExample(page, base, readFileSync(job.file, "utf8"));
+                    results[index] = (await runLayoutCheck(page, { base, probe, pages: [[job.system, [job.name]]], sizes, themes, reference })).map(failure => ({ example: job.example, ...failure }));
+                    break;
+                } catch (error) {
+                    if (attempt >= 3 || !/context was destroyed|Target closed|net::ERR/.test(String(error))) {
+                        throw error;
+                    }
+                    console.error("The page changed under the check (" + String(error).split("\n")[0] + "): starting " + job.system + " › " + job.name + " again.");
+                } finally {
+                    await page.context().close();
+                }
+            }
+        }
+    };
+    const workers = Math.max(1, Number(process.env.CHECK_WORKERS ?? 4));
+    await Promise.all(Array.from({ length: Math.min(workers, jobs.length) }, worker));
+    results.forEach(found => failures.push(...(found ?? [])));
+    console.error("Checked " + jobs.length + " pages (" + [...new Set(jobs.map(job => job.example))].join(", ") + "), " + Math.min(workers, jobs.length) + " side by side.");
     await browser.close();
     // THE BASELINE: the findings known today (BASELINE_FILE). The check fails only on a finding that is NOT in it, so it can run after every change; a finding that is gone is said, and the baseline is rewritten with --write-baseline.
     // (A card made by a "+" gets a random id each run: an id -- eight letters and digits after a hyphen -- is not part of a finding's key.)
