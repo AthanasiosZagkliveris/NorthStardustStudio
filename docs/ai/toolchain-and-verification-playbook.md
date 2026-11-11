@@ -67,7 +67,8 @@ A git hook (`.githooks/pre-commit`) runs the three quick checks, about 15 second
 ## Common failure modes
 
 - **The dev server port is fixed:** `vite.config.ts` sets `port: 1420` with `strictPort: true` because Tauri expects it. A stale process holding 1420 makes `npm run dev` fail; stop it, do not change the port.
-- **Slow machine, timeouts:** the tests carry a 40-second timeout in `vitest.config.ts`; the layout check takes minutes and must run alone.
+- **Slow machine, timeouts:** the tests carry a 40-second timeout in `vitest.config.ts`; the layout check checks four pages side by side (`CHECK_WORKERS`, 4 by default; each page in a browser context of its own, its example seeded afresh) and takes about 3 minutes; it must run alone (`CHECK_WORKERS=2 CHECK_SLOW=3` on a busy machine). It ends by saying how many pages it checked.
+- **Package versions:** Playwright is pinned (1.64.1): a newer one needs its own browser downloaded before the checks run (`npx playwright install chromium`). The Tauri packages (`@tauri-apps/cli`, `@tauri-apps/plugin-opener`) move only together with their Rust crates in `src-tauri/Cargo.lock`, or the desktop build stops on the mismatch.
 - **Filename guesses fail:** a System's file triad is not named alike everywhere (`framework-dsl-grammar.md`, "File triad"). List the directory first.
 - **A test looks wrong but the app is right:** check whether the assertion's assumption (an old label, a stale fixture) is what is stale. Decide which side is wrong before fixing either.
 - **A test of a document fails after a rename:** `documentReferences.test.ts` fails when one of its documents names a property, class or file the code does not have (a bare file name such as `21-shared-components.md` is read as a file: write "doc 21" instead); fix the document's reference, not the test.
