@@ -160,7 +160,6 @@ export function offeringCard(scope: FoundationCardScope, offering: BusinessOffer
                 return (
                     <>
                         {description(whose, parts(SUBSECTIONS.offerings.description), offering.description, (next) => change({ description: next }), true, undefined, groupFold(offering.id, "Description", whose), true)}
-                        <div className="business-capability-card-rule legal-entity-org-rule business-capability-card-rule-double business-profile-section-rule" role="separator" />
                         {description(whose, parts(SUBSECTIONS.offerings.terms), offering.description, (next) => change({ description: next }), true, undefined, groupFold(offering.id, "Terms & Service", whose), true, "Terms & Service")}
                     </>
                 );

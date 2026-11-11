@@ -11,6 +11,13 @@ import { useEffect, type RefObject } from "react";
  * screen pixel and the two cannot be made to meet. So where the last band stands alone under its own divider line (the opaque 1px line between two bands), the colour is
  * painted from the middle of that line down, under the band too, and the band itself is drawn clear (`data-end-band` keeps its colour): the one edge is under the line.
  */
+/**
+ * THE BANDS OF A CARD, in one place (docs/ai/tile-and-card-pattern.md, "One band pattern"): an Organisation section, a Legal card's row, an Expense card's row,
+ * a founder's band and a Brand inventory's row (its Notes the last). Every band draws the same tokens (--tint-row-band, --space-cell, --band-divider); a new kind of band is added here, and the layout check
+ * ("a card ends in its last band's colour", measured from the colours drawn) fails on any band this list does not know.
+ */
+export const CARD_BANDS = ".legal-entity-org-section, .legal-entity-grid-requirement > *, .legal-entity-grid-expense-card > *, .founders-profile .founder-band, .brand-inventory-rows > .brand-asset-slot";
+
 const CLEAR = "transparent";
 
 function isTinted(colour: string): boolean {
@@ -25,7 +32,7 @@ function restoreBand(band: HTMLElement): void {
 
 export function paintCardEnd(card: HTMLElement): void {
     const box = card.getBoundingClientRect();
-    const bands = [...card.querySelectorAll<HTMLElement>(".legal-entity-org-section, .legal-entity-grid-requirement > *, .legal-entity-grid-expense-card > *, .founders-profile .founder-band")].filter(band => {
+    const bands = [...card.querySelectorAll<HTMLElement>(CARD_BANDS)].filter(band => {
         const r = band.getBoundingClientRect();
         return r.width > 0 && r.height > 0 && band.closest(".section-tile-dialog, .floating-card-body") === card;
     });

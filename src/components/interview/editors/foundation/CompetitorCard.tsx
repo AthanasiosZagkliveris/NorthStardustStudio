@@ -317,8 +317,6 @@ export function competitorCard(scope: FoundationCardScope, competitor: BusinessC
             true
         )}
 
-        {/* The sections are split by the double rule, as on the Profile and the Offering cards (owner, 2026-11-11). */}
-        <div className="business-capability-card-rule legal-entity-org-rule business-capability-card-rule-double business-profile-section-rule" role="separator" />
 
         {group("SWOT Analysis", <>
 
@@ -355,7 +353,6 @@ export function competitorCard(scope: FoundationCardScope, competitor: BusinessC
             than labelled like one more field
             inside it. K10 above the text: openings drawn from the answers above (doc 41). */}
         {/* "Insights" (2026-11-09): the Differentiation is the Segment's, once, under its Competitors (K14); the Business Plan's table says Insights too. */}
-        <div className="business-capability-card-rule legal-entity-org-rule business-capability-card-rule-double business-profile-section-rule" role="separator" />
 
         {group(
             "Insights",

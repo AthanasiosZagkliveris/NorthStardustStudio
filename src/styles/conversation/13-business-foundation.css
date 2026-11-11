@@ -1250,6 +1250,14 @@
 
 }
 
+/* THE FIRST SECTION HAS NO RULE ABOVE IT: the section heading draws the double rule before itself (BusinessGroup), and where no section heading stands before it --
+   the first section, under the card's head -- the rule is not drawn. */
+.business-profile-section-rule:not(.business-group-fold-head ~ .business-profile-section-rule) {
+
+    display: none;
+
+}
+
 /* THE DOUBLE RULE THAT SPLITS THE SECTIONS IS THE SAME COMPONENT AS THE ONE BETWEEN THE SEGMENT CARD’S BOXES (two 1px lines, 2px between), not a variant: it only stands from side to side of the card, flush with the bands above and under it (the card's row gap is taken back). The band under a section's heading, and the first band of the section, follow it without a gap. */
 .floating-card-body .column-tile-content > .business-foundation-card > .business-profile-section-rule{
 
@@ -1271,7 +1279,7 @@
 
 }
 
-.floating-card-body .column-tile-content > .business-foundation-card > .business-profile-section-rule + .business-group-fold-head{
+.floating-card-body .column-tile-content > .business-foundation-card > .business-group-fold-head ~ .business-profile-section-rule + .business-group-fold-head{
 
     margin-top:calc(-1 * var(--space-field));
 
