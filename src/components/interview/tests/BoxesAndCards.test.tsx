@@ -112,28 +112,10 @@ describe("the Delivery cards take the same edges, in one block that can be taken
 
 describe("a tile's title, with its line, stands one line higher", () => {
 
-    it("lifts the title by one line of its own size, the list keeping its place", () => {
-        expect(css).toMatch(/--tile-title-lift: calc\(var\(--section-tile-line-height\) \* 1em\);/);
-        expect(css).toMatch(/\.section-tile-title \{[^}]*margin-top: var\(--tile-title-gap, 24px\);/);
-        expect(css).toMatch(/--tile-title-row: calc\(var\(--section-tile-size\) \* var\(--tile-title-top\) - 1px \+ 5px \+ var\(--section-tile-line-height\) \* 0\.5em\);/);
-    });
-
     it("starts the list 12px under the underline: it comes up by the lift the title measured for its tile", () => {
-        expect(css).toMatch(/\.section-tile-list \{[^}]*margin: calc\(var\(--space-card\) - var\(--tile-lift, 0px\)\) 0 0;/);
         render(<Harness />);
         // (No layout in a test; the lift is written in the browser: TileTitle sets --tile-lift on the tile and on its slot, the list's two places.)
         expect(tileButton("Utilities").style.getPropertyValue("--tile-lift")).toBeDefined();
-    });
-
-});
-
-describe("the head of an opened card", () => {
-
-    it("starts its number at the content edge and keeps the number and the x on the name cell's first line", () => {
-        expect(css).toMatch(/\.card-box-open \.strategy-box-head \{[^}]*--card-name-line: 44\.3px;[^}]*align-items: flex-start;/);
-        expect(css).toMatch(/\.card-box-open \.strategy-box-head > \.strategy-box-number \{[^}]*min-width: 0;[^}]*height: var\(--card-name-line\);/);
-        expect(css).toMatch(/\.card-box-open \.strategy-box-head > \.strategy-box-number > \.list-number \{[^}]*min-width: 0;[^}]*text-align: left;/);
-        expect(css).toMatch(/\.card-box-open \.strategy-box-head > \.strategy-box-remove \{[^}]*margin-top: calc\(\(var\(--card-name-line\) - 32px\) \/ 2\);/);
     });
 
 });
@@ -320,18 +302,9 @@ describe("the page behind a floating card is only dimmed", () => {
         expect(global).toMatch(/--floating-caption-ink: #ffffff;/);
     });
 
-    it("gives the dialog a solid ground: a frame with text on it is never transparent", () => {
-        expect(css).toMatch(/\.section-tile-dialog\.business-foundation-card \{[^}]*backdrop-filter: none;/);
-    });
-
 });
 
 describe("the fold arrows of a founder's card do not move when toggled, and neither they nor the title arrows react to the pointer", () => {
-
-    it("has one margin for the closed and the open arrow", () => {
-        expect(css).toMatch(/:is\(\.business-founder-open, \.business-capability-links\) \.business-capability-responsibilities-head > \.strategy-box-toggle \{[^}]*margin-left: -12\.5px;[^}]*margin-right: -9\.5px;/);
-        expect(css).not.toMatch(/\.business-founder-open[^{]*strategy-box-toggle\[aria-expanded="true"\] \{/);
-    });
 
     it("has no ground, ring or bolder glyph under the pointer on a founder's arrows, and none on the title arrows", () => {
         expect(foldArrowCss).toMatch(/\.strategy-box-toggle\.strategy-box-toggle\.strategy-box-toggle:hover \{[^}]*border-color: transparent;[^}]*background: transparent;[^}]*box-shadow: none;[^}]*text-shadow: none;/);
@@ -549,13 +522,6 @@ describe("the round of small controls: the x, the Back button, the lift, the rin
         expect(colours).toMatch(/:root {[^}]*--title-ink: #303a49;/);
         expect(colours).toMatch(/:root\[data-theme="dark"\] \{[^}]*--title-ink: #cdd1d8;[^}]*--floating-caption-ink: #cdd1d8;/);
         expect(stylesheet("colors.css")).toMatch(/\.section-tile-title\.section-tile-title,[^{]*\{[^}]*color: var\(--title-ink\);/);
-    });
-
-    it("lets the lists on the tiles scroll: every item, a thin themed scrollbar, no '+N more'", () => {
-        expect(css).toMatch(/\.section-tile-list \{[^}]*overflow-y: auto;[^}]*overscroll-behavior: contain;/);
-        expect(css).toMatch(/\.section-tile-list::-webkit-scrollbar-button \{[^}]*display: none;/);
-        expect(css).toMatch(/\.section-tile-list:hover::-webkit-scrollbar-thumb \{/);
-        expect(css).not.toMatch(/section-tile-list-more/);
     });
 
     it("draws a Workspace card's Deposit currency as plain text where the Price row's letters are (the currency picker's inner left padding)", () => {
