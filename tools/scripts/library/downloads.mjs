@@ -16,7 +16,7 @@ copyFileSync("tools/catalogue/exports/dropdowns.csv", "exports/The-dropdowns.csv
 execFileSync(process.execPath, ["tools/scripts/library/components-pdf.mjs", "exports/The-components.pdf"], { stdio: "inherit" });
 execFileSync(process.execPath, ["tools/scripts/library/fields-list.mjs", "--export"], { stdio: "inherit" });
 execFileSync(process.execPath, ["tools/scripts/library/components-pdf.mjs", "exports/The-fields.pdf"], { stdio: "inherit", env: { ...process.env, DOC: "docs/design/library/14-fields-list.md", LANDSCAPE: "1", TITLE: "The fields" } });
-// The design documents that have a downloadable version: a PDF of each, and the CSV its own script writes.
+// The design documents that have a downloadable version: a PDF of each (md-to-pdf.mjs, no pictures), and the CSV its own script writes.
 const DOCUMENTS = [
     ["docs/design/current/16-text-holders.md", "The-text-holders", "The text holders", "tools/scripts/catalogue/text-holders-doc.mjs"],
     ["docs/design/current/18-reactions.md", "The-reactions", "The reactions"],
@@ -32,6 +32,6 @@ for (const [doc, file, title, csvScript] of DOCUMENTS) {
     if (csvScript) {
         execFileSync(process.execPath, [csvScript], { stdio: "inherit" });
     }
-    execFileSync(process.execPath, ["tools/scripts/library/components-pdf.mjs", "exports/" + file + ".pdf"], { stdio: "inherit", env: { ...process.env, DOC: doc, TITLE: title } });
+    execFileSync(process.execPath, ["tools/scripts/docs/md-to-pdf.mjs", doc, "exports/" + file + ".pdf", title], { stdio: "inherit" });
 }
 console.log("downloadable versions in exports/: The-fields.pdf, The-fields.xlsx, The-fields.csv, The-add-buttons.xlsx, The-components.pdf, The-components.xlsx, The-dropdowns.xlsx, The-components.csv, The-dropdowns.csv, and " + DOCUMENTS.map(([, file, , csv]) => file + ".pdf" + (csv ? ", " + file + ".csv" : "")).join(", "));
