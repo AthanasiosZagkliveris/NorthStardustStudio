@@ -584,6 +584,20 @@ main.conversation-content[data-reserve],
 
 }
 
+/* THE TAB STANDS BEHIND ITS LAYER (owner, 2026-11-11: "The tab should be behind the card"): drawn under the dialog or the card it is attached to and over the dimmed page, as a chapter's page tab stands behind its frame, so the layer's own edge is what shows where the two meet. (Under every layer of the overlay, over its dim: the overlay is its own stack, and the arrows above the tab keep theirs.) */
+.carousel-rail.carousel-rail-tab {
+
+    z-index: -1;
+
+}
+
+/* (The shade over the chapters round a floating card stands under its tab, so the tab is not dimmed with them and its bullets stay pressable.) */
+.floating-chapter-shade {
+
+    z-index: -2;
+
+}
+
 /* A tab never stands taller than the window leaves it (its height is capped in CarouselArrows.tsx): where the bullets do not fit they scroll, and the Back under them stays in view. Only a capped tab scrolls: a scrolling list clips whatever stands out of it (the bullets' name tips), so a tab that fits is left alone. The list keeps 12px of room on every side, so the scrolling does not cut the lit bullet's ring and halo. */
 .carousel-rail.carousel-rail-tab .bullet-rail-list {
 

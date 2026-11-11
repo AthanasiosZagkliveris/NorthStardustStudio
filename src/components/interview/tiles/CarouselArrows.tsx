@@ -318,7 +318,7 @@ export function CarouselArrows({ target, step, hue, back, side: fixedSide }: { t
                     ref={railRef}
                     className={"carousel-rail" + (step.what === "section" && (at.tab && at.side === "left" ? at.left : at.right) >= 160 ? " carousel-rail-named" : "") + (at.tab ? " carousel-rail-tab" : "") + (at.tab && capped ? " carousel-rail-capped" : "") + (at.tab && at.side === "left" ? " carousel-rail-tab-left" : "")}
                     aria-label={"Go to a " + step.what}
-                    // (A tab stands 1px over its layer's edge and draws that edge itself, in the same colour: where they meet, the layer's edge shows whichever is drawn on top; owner, 2026-11-11.)
+                    // (A tab stands behind its layer, 1px under the layer's edge, so no gap opens between them: the layer's own edge is what shows where they meet; owner, 2026-11-11.)
                     style={{ ...(at.tab && at.side === "left" ? { right: window.innerWidth - at.leftEdge - 1 } : { left: at.tab ? at.edge - 1 : at.edge }), top: at.tab ? at.titleTop : at.top + 36, ...(at.tab ? { maxHeight: Math.max(120, window.innerHeight - at.titleTop - 12) } : {}), "--rail-label-room": Math.max(0, (at.tab ? (at.side === "left" ? at.leftEdge : window.innerWidth - at.edge) - 25 : at.right) - 8 - (at.tab ? 0 : 24)) + "px", "--strategy-theme-hue": hue, ...(at.tab ? { "--tab-bg": at.tab.bg, "--tab-edge": at.tab.edge, "--tab-ink": at.tab.ink } : {}) } as unknown as CSSProperties}
                 >
                     <ol className="bullet-rail-list">
