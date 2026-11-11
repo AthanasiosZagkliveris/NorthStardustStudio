@@ -27,6 +27,22 @@
     transition: color .15s ease;
 }
 
+/* THE CLICK AREA IS AT LEAST 24 BY 24 PX (WCAG 2.2 AA, 2.5.8 Target Size; owner, 2026-11-11): where the button is narrower -- the arrow alone,
+   12px wide -- an invisible box of 24px centred on it takes the click. Nothing is drawn, so the look and the layout are unchanged. */
+.back-button.back-button {
+    position: relative;
+}
+
+.back-button.back-button::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: max(100%, 24px);
+    height: max(100%, 24px);
+    translate: -50% -50%;
+}
+
 .back-button.back-button > .back-arrow {
     flex: none;
     margin: 0 calc((12px - 0.8em * 22 / 28) / 2);

@@ -206,6 +206,19 @@
 
 .bullet-rail-left .bullet-rail-item { text-align: right; }
 
+/* THE CLICK AREA IS AT LEAST 24 BY 24 PX (WCAG 2.2 AA, 2.5.8 Target Size; owner, 2026-11-11): a dot alone is 12 by 16px, so an invisible box of
+   24px centred on the item takes the click; the items stand 18px apart (34px from one middle to the next), so two boxes never overlap. Nothing
+   is drawn, so the look and the layout are unchanged. */
+.bullet-rail-item::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: max(100%, 24px);
+    height: max(100%, 24px);
+    translate: -50% -50%;
+}
+
 /* Its shape is the page status (status-shape.css), drawn in the
    rail ink: ice blue at rest, the hover blue, the active blue. */
 .bullet-rail-dot {

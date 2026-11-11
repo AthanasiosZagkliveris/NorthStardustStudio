@@ -1,1 +1,506 @@
-[]
+[
+ {
+  "key": "quillfield-automation-llc.json|Identity System › ^2\\. Legal Entity|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Registrations",
+  "example": "quillfield-automation-llc.json",
+  "page": "Identity System › ^2\\. Legal Entity",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Social Media",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Social Media > Subchannel 1: LinkedIn",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Social Media > Subchannel 2: Instagram",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Social Media > Subchannel 2: Instagram > Subchannel 1: LinkedIn",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Social Media > Subchannel 2: Instagram > Subchannel 2: Instagram",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Social Media > Subchannel 2: Instagram > Subchannel 3: Facebook",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Social Media > Subchannel 2: Instagram > Subchannel 3: Facebook > Subchannel 1: LinkedIn",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Social Media > Subchannel 2: Instagram > Subchannel 3: Facebook > Subchannel 2: Instagram",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Social Media > Subchannel 2: Instagram > Subchannel 3: Facebook > Subchannel 3: Facebook",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Website",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Website > Subchannel 1: Main Website",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Website > Subchannel 2: Booking Page",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Email",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Email > Subchannel 1: Newsletter",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Email > Subchannel 2: Direct Email",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Other",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Other > Subchannel 1: Referral partners",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|In Person",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|In Person > Subchannel 1: Event / Talk",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|In Person > Subchannel 2: Studio / Shop",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|In Person > Subchannel 2: Studio / Shop > Subchannel 1: Event / Talk",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|In Person > Subchannel 2: Studio / Shop > Subchannel 2: Studio / Shop",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|In Person > Subchannel 2: Studio / Shop > Subchannel 3: Market / Pop-up",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|In Person > Subchannel 2: Studio / Shop > Subchannel 3: Market / Pop-up > Subchannel 1: Event / Talk",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|In Person > Subchannel 2: Studio / Shop > Subchannel 3: Market / Pop-up > Subchannel 2: Studio / Shop",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|In Person > Subchannel 2: Studio / Shop > Subchannel 3: Market / Pop-up > Subchannel 3: Market / Pop-up",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Direct Payment",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Direct Payment > Subchannel 1: Invoice",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Direct Payment > Subchannel 2: Card",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Direct Payment > Subchannel 2: Card > Subchannel 1: Invoice",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Direct Payment > Subchannel 2: Card > Subchannel 2: Card",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Direct Payment > Subchannel 2: Card > Subchannel 3: Cash",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Direct Payment > Subchannel 2: Card > Subchannel 3: Cash > Subchannel 1: Invoice",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Direct Payment > Subchannel 2: Card > Subchannel 3: Cash > Subchannel 2: Card",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Direct Payment > Subchannel 2: Card > Subchannel 3: Cash > Subchannel 3: Cash",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Online / Live",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Online / Live > Subchannel 1: Zoom",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Online / Live > Subchannel 2: Google Meet",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Online / Live > Subchannel 2: Google Meet > Subchannel 1: Zoom",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Online / Live > Subchannel 2: Google Meet > Subchannel 2: Google Meet",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Online / Live > Subchannel 2: Google Meet > Subchannel 3: Microsoft Teams",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Online / Live > Subchannel 2: Google Meet > Subchannel 3: Microsoft Teams > Subchannel 1: Zoom",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Online / Live > Subchannel 2: Google Meet > Subchannel 3: Microsoft Teams > Subchannel 2: Google Meet",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Online / Live > Subchannel 2: Google Meet > Subchannel 3: Microsoft Teams > Subchannel 3: Microsoft Teams",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|File Delivery",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|File Delivery > Subchannel 1: Client Portal",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|File Delivery > Subchannel 2: WeTransfer",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|File Delivery > Subchannel 2: WeTransfer > Subchannel 1: Client Portal",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|File Delivery > Subchannel 2: WeTransfer > Subchannel 2: WeTransfer",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|File Delivery > Subchannel 2: WeTransfer > Subchannel 3: Google Drive",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|File Delivery > Subchannel 2: WeTransfer > Subchannel 3: Google Drive > Subchannel 1: Client Portal",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|File Delivery > Subchannel 2: WeTransfer > Subchannel 3: Google Drive > Subchannel 2: WeTransfer",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|File Delivery > Subchannel 2: WeTransfer > Subchannel 3: Google Drive > Subchannel 3: Google Drive",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Social Media (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Website (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Email (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Other (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|In Person (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Direct Payment (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Online / Live (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|File Delivery (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Community (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Marketplace (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Customer Engagement|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Referral & Affiliates (card added with +)",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Customer Engagement",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Resources",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Resources > Workspace, Coworking Space",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Resources > Workspace, Coworking Space > Premises, Coworking Space",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Resources > Utilities, Electricity, High-speed Wi-Fi, Air conditioning",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Activities",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Partners & Suppliers",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Resources > Workspace, Meetup and event costs",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Resources > Workspace, Meetup and event costs > Site Hire, Meetup and event costs",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Resources > Workspace, Meetup and event costs > Workshop & Storage",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Resources > Utilities > Process Utilities",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|Supplier: Brooklyn coworking, show only what Electricity is connected to|Inventory",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|Supplier: Brooklyn coworking, show only what High-speed Wi-Fi is connected to|Inventory",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|Supplier: Brooklyn coworking, show only what Air conditioning is connected to|Inventory",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|Supplier: Brooklyn coworking, show only what Electricity is connected to|Inventory > Resource: Electricity, 01/01/2027, Infrastructure, Utilities, Premises Utilities, Partners & Suppliers",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|Supplier: Brooklyn coworking, show only what High-speed Wi-Fi is connected to|Inventory > Resource: Electricity, 01/01/2027, Infrastructure, Utilities, Premises Utilities, Partners & Suppliers",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|Supplier: Brooklyn coworking, show only what Air conditioning is connected to|Inventory > Resource: Electricity, 01/01/2027, Infrastructure, Utilities, Premises Utilities, Partners & Suppliers",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|Supplier: Brooklyn coworking, show only what Electricity is connected to|Inventory > Resource: High-speed Wi-Fi, 01/01/2027, Infrastructure, Utilities, Premises Utilities, Partners & Suppliers",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|Supplier: Brooklyn coworking, show only what High-speed Wi-Fi is connected to|Inventory > Resource: High-speed Wi-Fi, 01/01/2027, Infrastructure, Utilities, Premises Utilities, Partners & Suppliers",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|Supplier: Brooklyn coworking, show only what Air conditioning is connected to|Inventory > Resource: High-speed Wi-Fi, 01/01/2027, Infrastructure, Utilities, Premises Utilities, Partners & Suppliers",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ }
+]
