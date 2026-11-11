@@ -18,9 +18,9 @@
     border: 0;
     background: none;
     vertical-align: bottom;
-    overflow: hidden !important;
-    white-space: nowrap !important;
-    text-overflow: ellipsis !important;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
     text-align: left;
     color: var(--text-primary) !important;
     font: inherit;
@@ -28,7 +28,7 @@
     font-weight: 400 !important;
     letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking)) !important;
     text-decoration: none !important;
-    text-shadow: none !important;
+    text-shadow: none;
     text-indent: 0;
     cursor: pointer;
     transition: text-indent 0s;
@@ -37,9 +37,6 @@
 :is(.text-link, .business-engagement-link, .channel-resource-open, .notepad-text-button, .legal-entity-name-link, .business-capability-link, .business-capability-child-name, .business-capability-responsibility-link):is(button, a, span):is(:hover, :focus-visible):not(:disabled) {
     text-shadow: var(--hover-bold) !important;
     text-decoration: underline !important;
-    text-decoration-thickness: 1px !important;
-    text-underline-position: under;
-    text-underline-offset: 1px !important;
     text-overflow: clip !important;
     /* (The text moves across by the scroll of the link's box: textLinks.ts.) */
 }
@@ -85,9 +82,6 @@
 .text-link[aria-pressed="true"]:not(:disabled) {
     text-shadow: var(--hover-bold) !important;
     text-decoration: underline !important;
-    text-decoration-thickness: 1px !important;
-    text-underline-position: under;
-    text-underline-offset: 1px !important;
 }
 
 /* A plain text that slides as a link does (textLinks.ts, MARQUEE_TEXT_SELECTOR): one row, an ellipsis at rest, cut clean while it slides. It has no link look. */

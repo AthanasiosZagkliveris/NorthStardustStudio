@@ -6,6 +6,20 @@ Related: document 1 (the rest of the current design; Part G is the access by typ
 
 **Cards of questions.** The Segment card and the Profile card ask choice questions in sections, subsections and questions instead of a table of rows by group; they are not in the tables below. The questions are in docs 35 (the Segment) and 37 (the Profile); the pattern a card of questions follows (width, content line, three levels, the Note that ends each part, the audit `npm run check:card`) is in `docs/ai/tile-and-card-pattern.md`; the parts they are drawn with are in doc 21.
 
+<!-- generated:in-force -->
+
+**The cards at a glance** (written from this document by `npm run docs:in-force`): each card's entry, by its place.
+
+- [Display rules](#display-rules).
+- [The order of rows, the same on every card](#the-order-of-rows-the-same-on-every-card).
+- [Infrastructure](#infrastructure): [Resources](#resources), [Category: Workspace](#category-workspace), [Category: Utilities](#category-utilities), [Category: Workstation](#category-workstation), [Category: Equipment](#category-equipment), [Category: Vehicles](#category-vehicles), [Category: Digital Infrastructure](#category-digital-infrastructure), [Category: Materials & Inventory](#category-materials--inventory), [Category: Documents & Rights](#category-documents--rights), [Category: Human Resources](#category-human-resources), [Activities](#activities), [Partners](#partners), [Suppliers](#suppliers).
+- [Offering](#offering): [Resources](#resources-1), [Category: Workspace](#category-workspace-1), [Category: Utilities](#category-utilities-1), [Category: Workstation](#category-workstation-1), [Category: Equipment](#category-equipment-1), [Category: Vehicles](#category-vehicles-1), [Category: Digital Infrastructure](#category-digital-infrastructure-1), [Category: Materials & Inventory](#category-materials--inventory-1), [Category: Documents & Rights](#category-documents--rights-1), [Category: Human Resources](#category-human-resources-1), [Activities](#activities-1), [Partners](#partners-1), [Suppliers](#suppliers-1).
+- [Channel cards](#channel-cards): [How a channel-made card looks in the app](#how-a-channel-made-card-looks-in-the-app), [What the templates below would add](#what-the-templates-below-would-add).
+- [Legal Entity expense card](#legal-entity-expense-card).
+- [Points to decide](#points-to-decide).
+
+<!-- /generated:in-force -->
+
 ## Contents
 
 - [Display rules](#display-rules) and [The order of rows, the same on every card](#order-of-rows)

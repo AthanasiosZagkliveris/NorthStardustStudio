@@ -233,7 +233,6 @@
     color:hsl(var(--strategy-theme-hue, 0) var(--theme-text-ink));
 
     text-decoration:underline;
-    text-underline-offset:3px;
 
 }
 
@@ -337,17 +336,8 @@
     color:hsl(var(--strategy-theme-hue, 0) var(--theme-text-ink));
 
     text-decoration:underline;
-    text-underline-offset:3px;
 
     cursor:pointer;
-
-}
-
-/* Thicker rather than gone: removing the underline on hover would
-   take away the thing that says it is a link. */
-.business-engagement-link:hover{
-
-    text-decoration-thickness:2px;
 
 }
 
@@ -934,7 +924,7 @@
 
     list-style:none;
 
-    margin:0 !important;
+    margin:0;
 
     padding:0;
 

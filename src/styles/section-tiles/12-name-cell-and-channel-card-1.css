@@ -766,7 +766,6 @@ main.conversation-content[data-reserve],
 
     text-decoration: underline;
     text-decoration-color: currentColor;
-    text-underline-offset: 0.2em;
 
 }
 
@@ -860,7 +859,7 @@ body:has(.floating-overlay) .section-tile-dialog .section-tile-back {
 .section-tile-dialog .brand-style-columns .business-foundation-card.brand-style-card,
 .section-tile-dialog .brand-hierarchy-card {
 
-    background: color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper)) !important;
+    background: color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
 
     --x-ground: color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
 
@@ -1044,7 +1043,7 @@ body:has(.floating-overlay) .section-tile-dialog .section-tile-back {
 
 .business-relationship-block .business-relationship-purpose > .business-foundation-field {
 
-    display: flex !important;
+    display: flex;
 
     flex-direction: row !important;
 
@@ -1070,7 +1069,7 @@ body:has(.floating-overlay) .section-tile-dialog .section-tile-back {
 
 .business-relationship-block > .business-relationship-block-remove {
 
-    right: 12px !important;
+    right: 12px;
 
 }
 
@@ -1164,7 +1163,7 @@ body:has(.floating-overlay) .section-tile-dialog .section-tile-back {
 
     .floating-card-body .business-founder-open .business-founder-grid > .business-foundation-field > :first-child {
 
-        margin-left: 0 !important;
+        margin-left: 0;
         width: auto !important;
         white-space: nowrap;
 
