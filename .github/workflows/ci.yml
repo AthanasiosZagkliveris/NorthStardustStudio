@@ -1,20 +1,9 @@
-# Runs the same three fast, deterministic checks the Toolchain and Verification
-# Playbook (docs/ai/toolchain-and-verification-playbook.md)
-# already establishes as steps 1, 2 and 4 of verifying any change: typecheck,
-# unit tests, build. Deliberately does NOT cover the playbook's steps 3 and 5-6
-# (the lints, the layout check, the look): those need a browser or a look, so they stay
-# a manual/AI-assisted step (the regression-verifier Skill) rather
-# than something that has to pass on every single push. See that
-# playbook's "Continuous integration" section for the full reasoning.
+# Every push: the typecheck, the tests, the build and the fast checks that need no browser (the same as npm run verify).
+# Pull requests to main and runs started by hand: the layout check too, in its own job.
+# See docs/ai/toolchain-and-verification-playbook.md, "Continuous integration".
 name: CI
 
-# Quoted "on" rather than bare `on:` -- functionally identical to
-# GitHub's own parser (which special-cases this key regardless), but
-# avoids the well-known YAML 1.1 quirk where a bare `on`/`off`/`yes`/
-# `no` key is read as the boolean true/false by strict YAML 1.1
-# parsers (confirmed locally: PyYAML parses a bare `on:` here as
-# `true`). Quoting removes the ambiguity for every tool, not just
-# GitHub's.
+# "on" is quoted so strict YAML 1.1 readers do not read it as true.
 "on":
   push:
     branches: ["**"]
@@ -34,10 +23,7 @@ jobs:
           node-version: 22
           cache: npm
 
-      # npm ci (not npm install) -- CI should install exactly what
-      # package-lock.json pins, and fail loudly if the lockfile and
-      # package.json have drifted apart, rather than silently
-      # resolving something slightly different.
+      # npm ci installs exactly what package-lock.json pins.
       - run: npm ci
 
       - name: Typecheck
