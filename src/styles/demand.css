@@ -349,19 +349,3 @@
     gap:var(--gap-4);
 
 }
-
-.business-demand-ticks{
-
-    display:flex;
-
-    flex-wrap:wrap;
-
-    gap:var(--space-field) 16px;
-
-}
-
-.business-demand-ticks > .business-foundation-tick{
-
-    flex:0 0 auto;
-
-}

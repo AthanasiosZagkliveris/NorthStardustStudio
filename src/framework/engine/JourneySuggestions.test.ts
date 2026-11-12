@@ -85,22 +85,22 @@ describe("the relationship type the Foundation suggests", () => {
 
 describe("the Demand rows the Foundation proposes", () => {
 
-    test("one row for each Discover channel serving the Offering that is not yet among its channels, by the channel's category", () => {
+    test("one row for each Discover channel serving the Offering that no source of it names yet, by the channel's category", () => {
         const segment = quill.foundation.segments[0];
         const channels = quill.engagement.segments[0].channels;
         const build = segment.offerings[1];
         const rows = demandSuggestions(segment, build.id, channels, quill.engagement.demand[build.id]);
         expect(rows.map(row => row.type + " " + row.label)).toEqual(["funnel LinkedIn", "funnel Main Website", "other Referral partners"]);
-        // (The Audit's channels already bring its customers: nothing more to propose.)
+        // (The Audit's sources name LinkedIn and Referral partners, so those already bring its customers: only its other Discover channels are proposed.)
         const audit = segment.offerings[0];
-        expect(demandSuggestions(segment, audit.id, channels, quill.engagement.demand[audit.id])).toEqual([]);
+        expect(demandSuggestions(segment, audit.id, channels, quill.engagement.demand[audit.id]).map(row => row.label)).toEqual(["Main Website", "Event / Talk", "Slack"]);
     });
 
     test("Contracts or tenders where the buyer decides by a formal tender, once", () => {
         const segment = { ...quill.foundation.segments[0], questions: { ...quill.foundation.segments[0].questions, authorise: ["procurement"] } };
-        const empty = { sources: [], channelIds: [] };
+        const empty = { sources: [] };
         expect(demandSuggestions(segment, "x", [], empty).map(row => row.type)).toEqual(["contracts"]);
-        expect(demandSuggestions(segment, "x", [], { sources: [{ type: "contracts" }], channelIds: [] })).toEqual([]);
+        expect(demandSuggestions(segment, "x", [], { sources: [{ type: "contracts", channelId: "" }] })).toEqual([]);
     });
 
 });

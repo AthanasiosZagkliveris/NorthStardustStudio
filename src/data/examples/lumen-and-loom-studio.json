@@ -2599,7 +2599,8 @@
                       "visitors": "2000",
                       "buy": "1.2"
                     },
-                    "basis": "About 2,000 visits a month to the online store, most from Instagram and Pinterest; 1.2% buy, the rate the shop reached in its first three months."
+                    "basis": "About 2,000 visits a month to the online store, most from Instagram and Pinterest; 1.2% buy, the rate the shop reached in its first three months.",
+                    "channelId": "channel-xrenzwzk"
                   },
                   {
                     "id": "source-lumen-market",
@@ -2610,17 +2611,13 @@
                       "visitors": "400",
                       "buy": "4"
                     },
-                    "basis": "About 400 people stop at the stall over four market days a month; one in 25 buys a piece."
+                    "basis": "About 400 people stop at the stall over four market days a month; one in 25 buys a piece.",
+                    "channelId": "channel-kuy4u7hj"
                   }
                 ],
                 "recurring": false,
                 "cancel": "",
-                "channelIds": [
-                  "segment-8lu427u5-channel",
-                  "channel-enk0uesk",
-                  "channel-xrenzwzk",
-                  "channel-kuy4u7hj"
-                ],
+                "channelIds": [],
                 "assumptions": "Reached over the first year, as Sustainability's gradual start plans: about 10 pieces a month at the opening."
               },
               "offering-8e935f0e": {
@@ -2635,7 +2632,8 @@
                       "qualified": "25",
                       "buy": "50"
                     },
-                    "basis": "About 160 people a month ask about workshops through Instagram and the Facebook group; one in four asks for dates, and half of those book."
+                    "basis": "About 160 people a month ask about workshops through Instagram and the Facebook group; one in four asks for dates, and half of those book.",
+                    "channelId": "segment-8lu427u5-channel"
                   },
                   {
                     "id": "source-lumen-ws-referrals",
@@ -2646,17 +2644,13 @@
                       "referrals": "20",
                       "buy": "60"
                     },
-                    "basis": "Past participants bring friends: about 20 introductions a month, three in five book."
+                    "basis": "Past participants bring friends: about 20 introductions a month, three in five book.",
+                    "channelId": ""
                   }
                 ],
                 "recurring": false,
                 "cancel": "",
-                "channelIds": [
-                  "segment-8lu427u5-channel",
-                  "channel-kenelogh",
-                  "channel-lnstudio1",
-                  "channel-lumen-taster"
-                ],
+                "channelIds": [],
                 "assumptions": "Places a month in groups of at most eight, reached over the first year from about 12 at the opening."
               },
               "offering-vhtapa3v": {
@@ -2671,7 +2665,8 @@
                       "win": "50",
                       "units": "1"
                     },
-                    "basis": "About 18 quotes a year to designers met at trade fairs; half are won, one commission each."
+                    "basis": "About 18 quotes a year to designers met at trade fairs; half are won, one commission each.",
+                    "channelId": "channel-imbnizvs"
                   },
                   {
                     "id": "source-lumen-bespoke-referrals",
@@ -2682,15 +2677,13 @@
                       "referrals": "2.5",
                       "buy": "30"
                     },
-                    "basis": "Designers recommend us to other studios: about 2.5 introductions a month, three in ten commission."
+                    "basis": "Designers recommend us to other studios: about 2.5 introductions a month, three in ten commission.",
+                    "channelId": ""
                   }
                 ],
                 "recurring": false,
                 "cancel": "",
-                "channelIds": [
-                  "channel-imbnizvs",
-                  "segment-majxtl1u-channel"
-                ],
+                "channelIds": [],
                 "assumptions": "Commissions a month, reached over the first year from about one every two months."
               },
               "offering-kfyakcw5": {
@@ -2705,7 +2698,8 @@
                       "qualified": "50",
                       "buy": "50"
                     },
-                    "basis": "About 60 stockists and designers contacted a month through LinkedIn and Instagram; half ask for the trade price list, half of those order."
+                    "basis": "About 60 stockists and designers contacted a month through LinkedIn and Instagram; half ask for the trade price list, half of those order.",
+                    "channelId": "segment-majxtl1u-channel"
                   },
                   {
                     "id": "source-lumen-trade-fairs",
@@ -2716,16 +2710,13 @@
                       "visitors": "150",
                       "buy": "10"
                     },
-                    "basis": "About 150 trade visitors a month at fairs and the studio; one in ten orders."
+                    "basis": "About 150 trade visitors a month at fairs and the studio; one in ten orders.",
+                    "channelId": "channel-imbnizvs"
                   }
                 ],
                 "recurring": false,
                 "cancel": "",
-                "channelIds": [
-                  "segment-majxtl1u-channel",
-                  "channel-eo91172u",
-                  "channel-imbnizvs"
-                ],
+                "channelIds": [],
                 "assumptions": "Pieces a month on trade terms, reached over the first year from about 10 at the opening."
               }
             },

@@ -5,14 +5,16 @@
 import NumberCell from "../../../controls/NumberCell.tsx";
 import FieldLabel from "../../../controls/FieldLabel.tsx";
 import { BusinessCustomerSegmentValue } from "../../../../framework/engine/AnswerUtils.ts";
-import { DEMAND_SOURCES, DemandSource, DemandValue, createDemand, createDemandSource, demandResult } from "../../../../framework/engine/DemandCapacity.ts";
-import { BusinessAddButton, BusinessEmpty, BusinessField, OptionalNote, BusinessRemove, BusinessTickOption, BusinessTicks } from "../../cards/BusinessCardFields.tsx";
+import { DEMAND_SOURCES, DemandSource, DemandValue, createDemand, createDemandSource, demandChannelIds, demandResult } from "../../../../framework/engine/DemandCapacity.ts";
+import TextLink from "../../fields/TextLink.tsx";
+import { OPEN_EVENT, type OpenRequest } from "../../tiles/SectionTiles.tsx";
+import { BusinessAddButton, BusinessEmpty, BusinessField, OptionalNote, BusinessRemove, BusinessTickOption } from "../../cards/BusinessCardFields.tsx";
 import InfoNote, { InfoPoint, InfoText } from "../../fields/InfoNote.tsx";
 import { NUMBER_LIMITS, NumberLimit, limitedNumberText, numberInputMode } from "../../fields/numberInput.ts";
 import OptionPicker from "../../fields/OptionPicker.tsx";
 import StrategyTextArea from "../../fields/StrategyTextArea.tsx";
 import FoldArrow from "../../fields/FoldArrow.tsx";
-import { DEMAND_COUNT_LIMITS, SECTIONS, DEMAND_BUY_ONCE, DEMAND_BUY_MONTHLY, DEMAND_BUYING_HELP, DEMAND_BY_FIGURE, DEMAND_BY_CALCULATION, DEMAND_CALCULATION_HELP, DEMAND_ASSUMPTIONS_PLACEHOLDER, DEMAND_SOURCE_FORMULA_HELP, DEMAND_ACTIVE_CLIENTS_HELP, DEMAND_MONTHS_TO_NORMAL_HELP, capitalized, channelChoices, numberStep } from "../BusinessEngagementModel.ts";
+import { DEMAND_COUNT_LIMITS, SECTIONS, DEMAND_BUY_ONCE, DEMAND_BUY_MONTHLY, DEMAND_BUYING_HELP, DEMAND_BY_FIGURE, DEMAND_BY_CALCULATION, DEMAND_CALCULATION_HELP, DEMAND_SOURCE_CHANNEL_HELP, DEMAND_ASSUMPTIONS_PLACEHOLDER, DEMAND_SOURCE_FORMULA_HELP, DEMAND_ACTIVE_CLIENTS_HELP, DEMAND_MONTHS_TO_NORMAL_HELP, capitalized, channelChoices, numberStep } from "../BusinessEngagementModel.ts";
 import { offeringStartsById } from "../../../../framework/engine/EffectiveAnswers.ts";
 import { demandSuggestions } from "../../../../framework/engine/JourneySuggestions.ts";
 import { BusinessStep } from "../../cards/BusinessCardFields.tsx";
@@ -26,7 +28,7 @@ type Earlier = ReturnType<typeof useEngagementState> & ReturnType<typeof useEnga
 
 export function useEngagementDemand(earlier: Earlier) {
 
-    const { disabled, engagement, folds, onChange, openFoundationAt, segmentOf, segments } = earlier;
+    const { channelTileId, disabled, engagement, folds, onChange, openFoundationAt, segmentOf, segments } = earlier;
     // (The folds of the floating card's sections: open until folded.)
     const sectionFold = useSectionFolds();
 
@@ -209,6 +211,21 @@ export function useEngagementDemand(earlier: Earlier) {
                     />
                 </BusinessField>
             );
+            // ITS CHANNEL (owner, 2026-11-12: "Fill it from the sources"): the Segment's channel its customers come through; the Offering's Channels That Bring Them are
+            // read from these.
+            const channelPicker = (
+                <BusinessField key="channel" label="Channel" info={DEMAND_SOURCE_CHANNEL_HELP}>
+                    <OptionPicker
+                        label={"Channel, " + what}
+                        placeholder="Select"
+                        hug
+                        options={channelOptions.map(option => option.label)}
+                        disabled={disabled}
+                        value={channelOptions.find(option => option.id === source.channelId)?.label ?? ""}
+                        onChange={(next) => changeSource(source.id, { channelId: channelOptions.find(option => option.label === next)?.id ?? "" })}
+                    />
+                </BusinessField>
+            );
             const estimatedPicker = type && type.fields.length > 0 && (
                 <BusinessField key="estimated" label="Estimated" info={DEMAND_CALCULATION_HELP}>
                     <OptionPicker
@@ -278,6 +295,7 @@ export function useEngagementDemand(earlier: Earlier) {
                         extra={<>{figure}{remove}</>}
                         bands={[
                             sourcePicker,
+                            channelPicker,
                             estimatedPicker,
                             // (One band per figure, as the Offering card asks one question per band.)
                             ...(Array.isArray(figures) ? figures : [figures]),
@@ -303,6 +321,7 @@ export function useEngagementDemand(earlier: Earlier) {
                     {/* FOUR COLUMNS, labels above: the source and how it is estimated, then its figure or its calculation. */}
                     <div className="business-demand-fields">
                         {sourcePicker}
+                        {channelPicker}
                         {estimatedPicker}
                         {figures}
                     </div>
@@ -335,8 +354,7 @@ export function useEngagementDemand(earlier: Earlier) {
                                         label={label}
                                         disabled={disabled}
                                         onClick={() => updateDemand(offeringId, {
-                                            sources: [...demand.sources, createDemandSource(row.type)],
-                                            ...(row.channelId ? { channelIds: [...demand.channelIds, row.channelId] } : {})
+                                            sources: [...demand.sources, createDemandSource(row.type, row.channelId)]
                                         })}
                                     />
                                 );
@@ -446,29 +464,32 @@ export function useEngagementDemand(earlier: Earlier) {
                 })}
             />
         );
-        const channelTicks = channelOptions.length === 0
-                ? (
+        /*
+            CHANNELS THAT BRING THEM, WORKED OUT FROM THE SOURCES (owner, 2026-11-12: "Fill it from the sources"): each source's channel, once, a link that opens it;
+            read, never ticked (demandChannelIds). Where a source names no channel, a line says how it joins the list.
+        */
+        const broughtBy = demandChannelIds(demand).filter(id => channelOptions.some(option => option.id === id));
+        const unchannelled = demand.sources.filter(source => source.type !== "" && !channelOptions.some(option => option.id === source.channelId)).length;
+        const channelsBringing = (
+            <>
+                {broughtBy.length > 0 && (
+                    <ul className="business-relationship-profile-list">
+                        {broughtBy.map(id => (
+                            <li key={id}>
+                                <TextLink className="business-engagement-link" onClick={() => openChannel(segment, id)}>
+                                    {channelOptions.find(option => option.id === id)?.label ?? ""}
+                                </TextLink>
+                            </li>
+                        ))}
+                    </ul>
+                )}
+                {(broughtBy.length === 0 || unchannelled > 0) && (
                     <BusinessEmpty>
-                        No channel recorded for this Segment yet.
+                        {broughtBy.length === 0 ? "Choose each Customer Source's channel to list the channels that bring these customers here." : "Choose the channel of each Customer Source to list it here too."}
                     </BusinessEmpty>
-                )
-                : (
-                    <div className="business-demand-ticks">
-                        <BusinessTicks
-                            name={"Channels that bring customers for " + offeringLabel}
-                            options={channelOptions}
-                            /* Only ids still on the page: a channel
-                               removed above is no longer offered. */
-                            chosen={demand.channelIds.filter(id =>
-                                channelOptions.some(option => option.id === id)
-                            )}
-                            disabled={disabled}
-                            onChange={(next) => updateDemand(offeringId, {
-                                channelIds: next
-                            })}
-                        />
-                    </div>
-                );
+                )}
+            </>
+        );
 
         /*
             ONE OFFERING'S DEMAND & CONVERSION AS A FLOATING CARD, IN THE DEFAULT LAYOUT (owner, 2026-11-12 18:41: "does not follow the default floated card's lay out ...
@@ -499,7 +520,7 @@ export function useEngagementDemand(earlier: Earlier) {
                         <div className={"legal-entity-org-section business-note-band" + ([cancelField, resultBlock].filter(Boolean).length % 2 === 1 ? " legal-entity-org-band" : "")}>{assumptions}</div>
                     </EngagementSection>
                     <EngagementSection title="Channels That Bring Them" fold={sectionFold(offeringId + " channels", whose + " → Channels That Bring Them")}>
-                        <div className="legal-entity-org-section">{channelTicks}</div>
+                        <div className="legal-entity-org-section">{channelsBringing}</div>
                     </EngagementSection>
                 </EngagementCard>
             );
@@ -563,7 +584,7 @@ export function useEngagementDemand(earlier: Earlier) {
                     <FieldLabel className="business-foundation-label">
                         Channels That Bring Them
                     </FieldLabel>
-                    {channelTicks}
+                    {channelsBringing}
                 </div>
 
                 </>)}
@@ -597,6 +618,17 @@ export function useEngagementDemand(earlier: Earlier) {
         }
     ];
 
+    /** A channel named in Channels That Bring Them, opened: its card, in its channel's dialog of Channels and Journey. */
+    function openChannel(segment: BusinessCustomerSegmentValue, channelId: string) {
+        const channels = segmentOf(segment.id).channels;
+        const channel = channels.find(entry => entry.id === channelId);
+        if (channel) {
+            const first = channels.find(entry => entry.category === channel.category) ?? channel;
+            // (Its channel's tile stands in the Channels and Journey dialog: that opens first, then the card.)
+            document.dispatchEvent(new CustomEvent<OpenRequest>(OPEN_EVENT, { detail: { tile: segment.id + ":channels", box: "open" } }));
+            window.setTimeout(() => document.dispatchEvent(new CustomEvent<OpenRequest>(OPEN_EVENT, { detail: { tile: channelTileId(segment.id, first.id), card: channel.id } })), 300);
+        }
+    }
     /** The "+" on an Offering's tile in Demand & Conversion (with All): a new Customer Source, its card then opened. */
     function addCustomerSource(offeringId: string) {
         updateDemand(offeringId, { sources: [...demandOf(offeringId).sources, createDemandSource()] });

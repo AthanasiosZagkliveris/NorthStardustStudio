@@ -1703,7 +1703,8 @@
                       "qualified": "15",
                       "buy": "25"
                     },
-                    "basis": "About 24 new firms reached a month through LinkedIn messages, posts and meetups. A pre-launch test of 20 messages brought 3 calls (15%); one call in four is expected to book an audit."
+                    "basis": "About 24 new firms reached a month through LinkedIn messages, posts and meetups. A pre-launch test of 20 messages brought 3 calls (15%); one call in four is expected to book an audit.",
+                    "channelId": "segment-qf3n8d2w-channel"
                   },
                   {
                     "id": "source-r7d3n9wb",
@@ -1714,18 +1715,13 @@
                       "referrals": "1.5",
                       "buy": "40"
                     },
-                    "basis": "Introductions from the coworking community and two partner agencies; they arrive warm, so about 2 in 5 book."
+                    "basis": "Introductions from the coworking community and two partner agencies; they arrive warm, so about 2 in 5 book.",
+                    "channelId": "channel-r4f7p1xk"
                   }
                 ],
                 "recurring": false,
                 "cancel": "",
-                "channelIds": [
-                  "segment-qf3n8d2w-channel",
-                  "channel-w8e2b5sq",
-                  "channel-m2u5e8gv",
-                  "channel-r4f7p1xk",
-                  "channel-qf-slack"
-                ],
+                "channelIds": [],
                 "assumptions": "Slower in the first months while the first case studies are written."
               },
               "offering-b7w3m5qx": {
@@ -1736,15 +1732,13 @@
                     "calculate": false,
                     "estimate": "0.6",
                     "inputs": {},
-                    "basis": "Builds come from audits: about 40% of audited firms go on to a build (1.5 audits a month x 40%)."
+                    "basis": "Builds come from audits: about 40% of audited firms go on to a build (1.5 audits a month x 40%).",
+                    "channelId": ""
                   }
                 ],
                 "recurring": false,
                 "cancel": "",
-                "channelIds": [
-                  "channel-qfemail01",
-                  "channel-qfzoom01"
-                ],
+                "channelIds": [],
                 "assumptions": ""
               },
               "offering-c2p8j6nv": {
@@ -1755,7 +1749,8 @@
                     "calculate": false,
                     "estimate": "0.3",
                     "inputs": {},
-                    "basis": "About half of finished builds move onto the retainer (0.6 builds a month x 50%)."
+                    "basis": "About half of finished builds move onto the retainer (0.6 builds a month x 50%).",
+                    "channelId": ""
                   },
                   {
                     "id": "source-m9t4k7jr",
@@ -1766,15 +1761,13 @@
                       "referrals": "0.5",
                       "buy": "40"
                     },
-                    "basis": "Firms introduced by retainer clients who want ongoing support without a build first."
+                    "basis": "Firms introduced by retainer clients who want ongoing support without a build first.",
+                    "channelId": ""
                   }
                 ],
                 "recurring": true,
                 "cancel": "10",
-                "channelIds": [
-                  "channel-qfzoom01",
-                  "channel-qfemail01"
-                ],
+                "channelIds": [],
                 "assumptions": "About 10% of retainer clients cancel each month, so a client stays about 10 months on average."
               }
             },

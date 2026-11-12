@@ -1,6 +1,7 @@
 import type { BusinessCustomerSegmentValue } from "./AnswerBusinessFoundation.ts";
 import { BUSINESS_CHANNEL_ALL_OFFERINGS, type BusinessChannelValue } from "./businessFoundation/engagementReaders.ts";
 import { effectiveOfferingAnswers, effectiveProfileAnswers, effectiveSegmentAnswers, offeringIsPhysical } from "./EffectiveAnswers.ts";
+import { demandChannelIds } from "./DemandCapacity.ts";
 import type { SegmentIdentity } from "./SegmentContext.ts";
 
 /*
@@ -199,13 +200,15 @@ const SOURCE_OF: Readonly<Record<string, string>> = {
 
 /**
  * The Demand rows the Foundation proposes for one Offering (doc 28, 7.5): one for each Discover channel that serves it and is not yet among the channels that
- * bring its customers, and Contracts or tenders where the Segment's buyer decides by a formal tender and no such row exists yet.
+ * bring its customers (the channels its sources name), and Contracts or tenders where the Segment's buyer decides by a formal tender and no such row exists yet.
  */
-export function demandSuggestions(segment: BusinessCustomerSegmentValue, offeringId: string, channels: readonly BusinessChannelValue[], demand: { sources: readonly { type: string }[]; channelIds: readonly string[] }, identity?: SegmentIdentity): DemandSuggestion[] {
+export function demandSuggestions(segment: BusinessCustomerSegmentValue, offeringId: string, channels: readonly BusinessChannelValue[], demand: { sources: readonly { type: string; channelId: string }[] }, identity?: SegmentIdentity): DemandSuggestion[] {
     const out: DemandSuggestion[] = [];
+    // (The channels that already bring its customers: those its sources name, demandChannelIds.)
+    const used = demandChannelIds(demand);
     channels
         .filter(channel => channel.stages.includes("discovery") && (channel.offerings.includes(BUSINESS_CHANNEL_ALL_OFFERINGS) || channel.offerings.includes(offeringId)))
-        .filter(channel => !demand.channelIds.includes(channel.id))
+        .filter(channel => !used.includes(channel.id))
         .forEach(channel => out.push({
             type: SOURCE_OF[channel.category] ?? "other",
             channelId: channel.id,

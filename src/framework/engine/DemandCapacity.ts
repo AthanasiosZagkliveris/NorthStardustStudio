@@ -146,6 +146,8 @@ export interface DemandSource {
     inputs: Record<string, string>;
     /** What the figure rests on: a test, an enquiry, past sales. */
     basis: string;
+    /** The Page 2 channel (subchannel) this source's customers come through; "" while none is chosen. The Offering's Channels That Bring Them are read from these. */
+    channelId: string;
 }
 
 export interface DemandValue {
@@ -154,7 +156,10 @@ export interface DemandValue {
     recurring: boolean;
     /** For a recurring Offering: the share of active clients cancelling a month, as typed. */
     cancel: string;
-    /** Page 2 channels that bring these customers. */
+    /**
+     * SAVED BEFORE 2026-11-12: the channels ticked as bringing these customers. Read, so old answers stay valid, but no longer asked or shown: the channels that
+     * bring the customers are worked out from the sources (demandChannelIds; owner, 2026-11-12: "Fill it from the sources").
+     */
     channelIds: string[];
     /** What the figures rest on, overall. */
     assumptions: string;
@@ -164,14 +169,15 @@ export function createDemand(): DemandValue {
     return { sources: [], recurring: false, cancel: "", channelIds: [], assumptions: "" };
 }
 
-export function createDemandSource(type = ""): DemandSource {
+export function createDemandSource(type = "", channelId = ""): DemandSource {
     return {
         id: randomId("source"),
         type,
         calculate: false,
         estimate: "",
         inputs: {},
-        basis: ""
+        basis: "",
+        channelId
     };
 }
 
@@ -194,8 +200,17 @@ function asDemandSource(value: unknown, position: number): DemandSource {
         calculate: source.calculate === true,
         estimate: asText(source.estimate),
         inputs: asInputs(source.inputs),
-        basis: asText(source.basis)
+        basis: asText(source.basis),
+        channelId: asText(source.channelId)
     };
+}
+
+/**
+ * THE CHANNELS THAT BRING AN OFFERING'S CUSTOMERS: each of its Customer Sources' channels, once, in the sources' order (owner, 2026-11-12: "Fill it from the
+ * sources"). The ticks saved before (`channelIds`) are not read: this list wins. It feeds the cost per customer per channel (doc 47, step two).
+ */
+export function demandChannelIds(demand: { sources: readonly { channelId: string }[] }): string[] {
+    return [...new Set(demand.sources.map(source => source.channelId).filter(id => id !== ""))];
 }
 
 /**

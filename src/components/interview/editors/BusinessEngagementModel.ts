@@ -176,6 +176,12 @@ export const DEMAND_BUYING_HELP: InfoPoint[] = [
 export const DEMAND_BY_FIGURE = "Enter a figure";
 export const DEMAND_BY_CALCULATION = "Calculate";
 
+/** A Customer Source's channel: what it is for (owner, 2026-11-12: "Fill it from the sources"). */
+export const DEMAND_SOURCE_CHANNEL_HELP: InfoPoint[] = [
+    "The channel this source's customers come through, one of the Segment's channels in Channels and Journey.",
+    "The Offering's Channels That Bring Them list the channels its sources name."
+];
+
 export const DEMAND_CALCULATION_HELP: InfoPoint[] = [
     { title: DEMAND_BY_FIGURE, text: "The sales (for an Offering bought every month, the new clients) you expect from this source in a normal month, with its basis." },
     { title: DEMAND_BY_CALCULATION, text: "Worked out from a few inputs, such as the prospects reached and the share who buy." }
