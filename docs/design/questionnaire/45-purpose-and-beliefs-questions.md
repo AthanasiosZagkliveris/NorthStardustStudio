@@ -225,7 +225,7 @@ The Identity texts have no codes in the register (doc 44 lists the Foundation's 
 | PB7 | The Vision's ambitions | section 1, `visionAmbitions` (new) | proposed |
 | PB8 | The Vision's reach | section 1, `visionReach` (new) | proposed |
 
-The codes follow the pairs' order, not today's tile order. They enter the register (`tools/scripts/docs/questions-register.mjs`) now that the chapter is built (section 6); they are not in it yet. No structured question is proposed (sections 3.3 and 3.4), so no further code is taken.
+The codes follow the pairs' order, not today's tile order. They enter the register (`tools/scripts/docs/questions-register.mjs`) now that the chapter is built (section 6); they are not in it yet. The Values and Principles take no structured question (sections 3.3 and 3.4). The Vision gains two, PB7 and PB8 (section 3.8, approved 2026-11-12), the next free codes.
 
 ## 6. The owner's decisions
 
