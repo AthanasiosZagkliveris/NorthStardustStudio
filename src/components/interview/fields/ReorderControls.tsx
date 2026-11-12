@@ -83,7 +83,7 @@ export default function BoxActions({
     const menuRef = useRef<HTMLDivElement | null>(null);
     const sortButtonRef = useRef<HTMLButtonElement | null>(null);
     // The wide menu (the Inventory funnel) is drawn outside the box around its button, OUTWARD -- beside the dialog, over no tile -- where the window has room for
-    // it there, else under the funnel, inside the window.
+    // it there, else INWARD, under the funnel inside the dialog; the dialog itself never changes.
     const wideRef = useRef<HTMLDivElement | null>(null);
     const wideHost = menuOpen && menuContent ? sortButtonRef.current?.closest<HTMLElement>(".section-tile-overlay") ?? document.body : null;
     useLayoutEffect(() => {
@@ -112,20 +112,14 @@ export default function BoxActions({
             const anchor = button.getBoundingClientRect();
             let left: number;
             let top: number;
-            // ALWAYS OUTWARD: right of the dialog if it fits, else left of it, else the dialog gives way (it narrows, its left edge kept) so that the window stands whole
-            // on its right; inside the dialog, under the funnel, only where even that would leave the dialog under 640px.
+            // OUTWARD WHERE THERE IS ROOM: right of the dialog if it fits, else left of it; where neither side has room, INWARD, inside the dialog under the funnel,
+            // over its tiles -- the dialog itself never changes (owner, 2026-11-12: "when the side panel opens, and there is not enough side space, it should not change
+            // the dialog card, but it should open inwards").
             const margin = 8 + 12;
             if (dialog && dialogNode) {
                 const roomRight = window.innerWidth - dialog.right - margin;
                 const roomLeft = dialog.left - margin;
-                let side: "right" | "left" | null = roomRight >= width ? "right" : roomLeft >= width ? "left" : null;
-                if (!side && window.innerWidth - width - margin - dialog.left >= 640) {
-                    dialogNode.style.marginLeft = dialog.left + "px";
-                    dialogNode.style.marginRight = "auto";
-                    dialogNode.style.width = window.innerWidth - width - margin - dialog.left + "px";
-                    dialogNode.style.maxWidth = "none";
-                    side = "right";
-                }
+                const side: "right" | "left" | null = roomRight >= width ? "right" : roomLeft >= width ? "left" : null;
                 if (side) {
                     const box = dialogNode.getBoundingClientRect();
                     left = side === "right" ? box.right + 8 : box.left - 8 - width;
@@ -143,7 +137,7 @@ export default function BoxActions({
             menu.removeAttribute("data-outward");
             menu.style.left = left + "px";
             menu.style.top = top + "px";
-            menu.style.maxHeight = Math.max(160, window.innerHeight - top - 12) + "px";
+            menu.style.maxHeight = Math.max(160, Math.min(window.innerHeight, dialog ? dialog.bottom : window.innerHeight) - top - 12) + "px";
         };
         place();
         window.addEventListener("resize", place);

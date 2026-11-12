@@ -160,32 +160,6 @@ export const SUBSECTIONS = {
  * shown as the box's label, and the question it asks -- which its
  * "i" carries.
  */
-/** What each note of a Profile or a Competitor says before anything is written (owner, 2026-11-04): what belongs there and is not asked above. */
-export const NOTE_PLACEHOLDERS: Record<string, string> = {
-    personal: "A name, a job title, where they live",
-    // (The end user's Personal box, doc 36, 2.1.)
-    userPersonal: "A name, what they do, where they live",
-    psychographics: "What they believe and enjoy, beyond what matters most",
-    hubs: "The names of their groups, accounts and events",
-    habits: "How they buy, in their words",
-    goals: "What they want, in their own words",
-    challenges: "What goes wrong for them, in their words",
-    objections: "Their doubts, in their own words",
-    offerings: "What they sell, by name",
-    market: "What no answer above says about their market",
-    acquisition: "Their account and shop names, their partners",
-    experience: "What no rating above says, in their customers' words",
-    strengths: "Strengths and weaknesses no rating above says",
-    opportunities: "Opportunities and threats no change above says",
-    needs: "What no tick above says",
-    // The Offering's Notes (owner, 2026-11-07): what no question of the box says.
-    function: "What it is, by name",
-    benefit: "The benefit in your customers' words",
-    scope: "Counts, inclusions and limits",
-    delivery: "Packaging and the steps",
-    support: "Names and how often",
-    requirements: "Care instructions and standards"
-};
 
 export interface DescriptionPart {
     id: string;
@@ -203,8 +177,6 @@ export interface DescriptionPart {
     note?: boolean;
     /** The heading level of its title (3 where it is a section of its card, 4 where it stands under a section: the Profile's boxes). */
     level?: number;
-    /** What its note says before anything is written: what belongs there that the questions do not ask. */
-    placeholder?: string;
     /**
      * Where its note is kept, when not in the Description's own text under its id (a Profile's Objections, Goals and Challenges notes, and the end user's Personal note: doc 36,
      * 2.1): the note's text, how it is written, and the key of its field where the title is used twice on one card.

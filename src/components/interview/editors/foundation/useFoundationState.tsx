@@ -333,7 +333,6 @@ export function useFoundationState(props: BusinessFoundationEditorProps) {
                                     label="Notes"
                                     fieldId={part.noteId ?? part.title + " notes"}
                                     ariaLabel={kind + " description: " + part.title + " notes"}
-                                    placeholder={part.placeholder ?? "Add a note"}
                                     disabled={disabled}
                                     value={part.noteValue ?? current[part.id] ?? ""}
                                     onChange={(next) => part.onNote ? part.onNote(next) : onNext({ ...current, [part.id]: next })}

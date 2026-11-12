@@ -34,7 +34,7 @@
     position: relative;
 }
 
-.back-button.back-button::after {
+.back-button.back-button.back-link::after {
     content: "";
     position: absolute;
     top: 50%;

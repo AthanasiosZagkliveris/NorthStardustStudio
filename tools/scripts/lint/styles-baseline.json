@@ -4,7 +4,8 @@
       "max-width: 1699px": 1
     },
     "section-tiles.css": {
-      "min-height: 640px": 1
+      "min-height: 640px": 1,
+      "max-width: 443.98px": 1
     }
   },
   "colour": {

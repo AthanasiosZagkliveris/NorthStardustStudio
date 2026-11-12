@@ -554,7 +554,7 @@ export default function ProcessLibraryEditor({
                                     <td className="process-library-col-purpose">
                                         <TextField list={false} className="interview-input process-library-autogrow-field"
                                             ariaLabel="Process purpose"
-                                            placeholder="One line"
+                                            placeholder="What this process achieves, in one line"
                                             value={process.purpose}
                                             disabled={disabled}
                                             onChange={(next) => updateProcess(index, { purpose: next })}

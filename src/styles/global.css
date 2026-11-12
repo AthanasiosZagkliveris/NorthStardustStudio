@@ -1197,6 +1197,22 @@ h6 {
 
 }
 
+/* Its tick and words are one line as tall as the tick (each line of the words as tall), so the "i", centred on the row, is on the words' centre line
+   as the tick is: one centre (owner, 2026-11-12: every Notes field has an "i" beside its label). */
+.optional-field > .optional-field-head > label:has(> input[type="checkbox"]),
+.optional-field > .optional-field-head > label:has(> input[type="checkbox"]) > :not(input){
+
+    line-height:var(--size-mark);
+
+}
+
+/* (The "i" of a label row is raised 1.5px to the row's middle, .business-foundation-label-info > .info-note; this row is centred already: the "i" stays on it.) */
+.optional-field > .optional-field-head > .info-note{
+
+    top:0;
+
+}
+
 /* AN ADD BUTTON AT THE END OF A LIST OF ROWS (the Legal Entity's
    extra registration numbers and tax registrations): the list's whole
    content width, its label centred -- as the add button standing

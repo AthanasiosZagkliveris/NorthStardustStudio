@@ -929,7 +929,7 @@ export function useEngagementChannelBoxes(earlier: Earlier) {
                                                         >
                                                             <NumberedListInput
                                                                 label={"Links for Subchannel " + number}
-                                                                placeholder="Link"
+                                                                placeholder="A web address, e.g. www.example.com"
                                                                 items={channel.links}
                                                                 maxItems={isolating ? channel.links.length : undefined}
                                                                 disabled={disabled}

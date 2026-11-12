@@ -866,7 +866,7 @@ function ObjectiveList({
                                             label={`Objective ${objectiveIndex + 1} initiative`}
                                             items={objective.initiatives}
                                             disabled={disabled}
-                                            placeholder="Initiative"
+                                            placeholder="A piece of work toward this Objective"
                                             onChange={(initiatives) => updateObjective(
                                                 objectiveIndex, { initiatives }
                                             )}

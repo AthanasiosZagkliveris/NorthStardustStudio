@@ -776,7 +776,7 @@ describe("the page's cards and titles", () => {
 
 describe("the dialog's square and backdrop", () => {
 
-    it("measures its frame from the underline of the page heading to the top of the footer, the page card area's width, at most 92% of the window's", () => {
+    it("measures a page-wide frame from the underline of the page heading to 12px above the window's foot, over the footer's band (owner, 2026-11-12), the page card area's width, at most 92% of the window's", () => {
         const line = document.createElement("div");
         line.className = "interview-divider";
         const footer = document.createElement("footer");
@@ -787,14 +787,14 @@ describe("the dialog's square and backdrop", () => {
         Object.defineProperty(window, "innerWidth", { value: 1600, configurable: true });
         Object.defineProperty(window, "innerHeight", { value: 964, configurable: true });
         // No card area: 92% of the window.
-        expect(dialogFrame()).toEqual({ width: 1472, height: 688, top: 200 });
+        expect(dialogFrame()).toEqual({ width: 1472, height: 752, top: 200 });
         const area = document.createElement("div");
         area.className = "conversation-card";
         area.getBoundingClientRect = () => ({ width: 1400 } as DOMRect);
         document.body.append(area);
-        expect(dialogFrame()).toEqual({ width: 1400, height: 688, top: 200 });
+        expect(dialogFrame()).toEqual({ width: 1400, height: 752, top: 200 });
         Object.defineProperty(window, "innerWidth", { value: 1000, configurable: true });
-        expect(dialogFrame()).toEqual({ width: 920, height: 688, top: 200 });
+        expect(dialogFrame()).toEqual({ width: 920, height: 752, top: 200 });
         area.remove();
         Object.defineProperty(window, "innerWidth", { value: 1600, configurable: true });
         // Without the lines the CSS fallback applies.

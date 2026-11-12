@@ -413,7 +413,7 @@ export default function FoundersProfileEditor({
                         {field("Roles", INFO.roles, (
                             <NumberedListInput
                                 label={who + " roles"}
-                                placeholder="Role"
+                                placeholder="A role, e.g. Head of Sales"
                                 items={founder.roles}
                                 disabled={disabled}
                                 onChange={(items) => updateFounder(founder.id, { roles: items })}

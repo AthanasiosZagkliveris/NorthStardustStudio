@@ -96,7 +96,7 @@ export function renderChecklist(scope: AnswerScope) {
 
                     <TextBox
                         className="answer-checklist-input"
-                        placeholder="Checklist item"
+                        placeholder="A step to tick off"
                         disabled={disabled}
                         value={item.text}
                         onChange={(event) =>
@@ -434,7 +434,7 @@ export function renderProfileCards(scope: AnswerScope) {
 
                             <TextBox
                                 className="answer-checklist-input profile-card-title-input"
-                                placeholder="Add a title..."
+                                placeholder="A title"
                                 disabled={disabled}
                                 value={card.title}
                                 onChange={(event) => updateCardTitle(card.id, event.target.value)}
