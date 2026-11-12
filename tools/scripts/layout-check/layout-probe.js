@@ -2950,6 +2950,16 @@
             }
         }
 
+        // G. A TAB'S BULLETS TAKE THE POINTER (owner, 2026-11-12: the Workbook's tab "does not work"): every bullet of a carousel's tab is on top
+        //    where it is drawn, so hovering and pressing it work as on every dialog's tab.
+        for (const item of [...document.querySelectorAll(".carousel-rail .bullet-rail-item")].filter(visible)) {
+            const box = rect(item);
+            const hit = document.elementFromPoint(box.left + box.width / 2, box.top + box.height / 2);
+            if (!hit || !(hit === item || item.contains(hit))) {
+                fail("a carousel tab's bullet takes the pointer where it is drawn", item, { on: hit ? String(hit.className).slice(0, 60) : null });
+            }
+        }
+
         // F. WCAG 2.2 AA, 2.4.11 FOCUS NOT OBSCURED (owner, 2026-11-11): a field reached by the keyboard from below the page's top is not hidden under the
         //    app header and the page's sticky title. Up to five fields of the page are each scrolled out of view above, then focused, as Shift+Tab does.
         {

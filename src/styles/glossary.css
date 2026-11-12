@@ -42,6 +42,11 @@
 /* THE WORKBOOK'S COLUMN is a System page's card (--card-width, bullet-rail.css: up to 1400px, the window less a rail gutter on each side),
    its title 24px under the header (the 104px of .conversation-content), its sections in one panel drawn as a dialog (owner, 2026-11-09):
    the dialog's padding, gap, ground and edge (section-tiles, "The dialog's ground"), the carousel arrows and the tab at its sides. */
+/* THE WORKBOOK IS A LAYER OF ITS OWN, as a dialog is in its overlay (owner, 2026-11-12: "its page tag does not work ... it should work exactly as the other page tags of the dialogue cards"): the tab stands behind its layer (z-index -1, 12-name-cell-and-channel-card-1.css), which only holds inside a layer's own stack; without one the tab fell behind the page and took no pointer. */
+.workspace.workbook{
+    isolation:isolate;
+}
+
 .workbook .workbook-panel{
 
     display:flex;
