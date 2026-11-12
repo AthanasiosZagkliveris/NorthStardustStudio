@@ -59,6 +59,10 @@ export function acrossFrom(pressed: HTMLElement | null): HTMLElement | null {
     }
     const frames = Array.from(document.querySelectorAll<HTMLElement>(".business-foundation-input[data-anchor]"))
         .filter(frame => !frame.closest(".section-tile-overlay") && frame.getBoundingClientRect().width > 0);
+    if (frames.length === 1) {
+        // (A page of one chapter: its card stands in the empty half beside it -- the next chapter's place -- where there is room; the card places itself there, emptyHalfCentre.)
+        return emptyHalfCentre(frames[0]) !== null ? frames[0] : null;
+    }
     if (frames.length < 2) {
         return null;
     }
@@ -68,6 +72,22 @@ export function acrossFrom(pressed: HTMLElement | null): HTMLElement | null {
     const leftHalf = here.left + here.width / 2 < middle;
     const across = frames.filter((_frame, at) => (boxes[at].left + boxes[at].width / 2 < middle) !== leftHalf);
     return across[0] ?? null;
+}
+
+/**
+ * THE EMPTY HALF BESIDE A PAGE'S ONE CHAPTER (owner, 2026-11-12: "the floated cards should appear at the other side (next chapter)"): the centre of the place a second
+ * chapter would take -- the chapter's own width, a frame gap (12px) beyond it, on the side of the window with room -- or null where the window has no room for it
+ * (a narrow window, where the chapters stack) or the page has more than one chapter.
+ */
+export function emptyHalfCentre(chapter: HTMLElement): number | null {
+    const chapters = Array.from(document.querySelectorAll<HTMLElement>(".business-foundation-input[data-anchor]"))
+        .filter(frame => !frame.closest(".section-tile-overlay") && frame.getBoundingClientRect().width > 0);
+    if (chapters.length !== 1 || chapters[0] !== chapter) {
+        return null;
+    }
+    const box = chapter.getBoundingClientRect();
+    const left = box.left + box.width / 2 < window.innerWidth / 2 ? box.right + 12 : box.left - 12 - box.width;
+    return left >= 0 && left + box.width <= window.innerWidth ? left + box.width / 2 : null;
 }
 
 

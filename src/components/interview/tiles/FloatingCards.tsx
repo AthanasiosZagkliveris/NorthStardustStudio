@@ -6,7 +6,7 @@ import { createPortal } from "react-dom";
 import { consumeKey } from "../fields/consumeKey.ts";
 import InfoNote, { InfoText } from "../fields/InfoNote.tsx";
 import { type SectionTile, type TileAdd, type CrumbNote, type CarouselStep, type FloatingItem, type DialogRail } from "./SectionTileTypes.ts";
-import { dialogFrame } from "./SectionTileGeometry.tsx";
+import { dialogFrame, emptyHalfCentre } from "./SectionTileGeometry.tsx";
 import { useCardEndGround } from "./cardEndGround.ts";
 import { settlePage, InnerBackContext, CrumbsContext, OpenCardContext, InitialBoxContext, type InnerBackApi, type Crumb } from "./DialogLevels.tsx";
 import { CARD_LEVEL, CarouselArrows } from "./CarouselArrows.tsx";
@@ -145,7 +145,10 @@ export function FloatingCards({
             const bandBottom = window.innerHeight - 8;
             const where = anchorRef.current;
             // Across: centred over the anchor (the page's column, or the Workspace's group of tiles).
-            const centreX = where ? where.getBoundingClientRect().left + where.getBoundingClientRect().width / 2 : window.innerWidth / 2;
+            // (A card opened from a dialog of a page's ONE chapter stands in the empty half beside it, the next chapter's place, clear of the dialog: emptyHalfCentre.)
+            const fromDialog = !!document.querySelector(".section-tile-overlay:not(.floating-overlay) > .section-tile-dialog");
+            const beside = where && fromDialog ? emptyHalfCentre(where) : null;
+            const centreX = beside ?? (where ? where.getBoundingClientRect().left + where.getBoundingClientRect().width / 2 : window.innerWidth / 2);
             // Down: the TOP of the first card stands on the top of the first row of tiles of the page's column as the page rests (scrolled up) --
             // that row's top now, plus how far the column's body is scrolled. Its box name stands above that line; a taller stack extends
             // downward and scrolls inside the host (the Back button stays in view at its foot).

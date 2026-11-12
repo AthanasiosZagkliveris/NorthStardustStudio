@@ -3435,13 +3435,19 @@
             fail("a floating card is wholly in the window", { card: [mine.left, mine.top, mine.right, mine.bottom] });
         }
         // A CARD OPENED FROM A DIALOG STANDS ON THE OTHER HALF OF THE PAGE, clear of the dialog's tiles (layout rules, "A floating card opens on the half of the page its tile
-        // is NOT in"; acrossFrom): wherever the page has chapters side by side. (A page of one chapter keeps its chapter.)
+        // is NOT in"; acrossFrom): wherever the page has chapters side by side, and on a page of one chapter, in the empty half beside it (emptyHalfCentre).
         {
             const dialogs = [...document.querySelectorAll(".section-tile-overlay:not(.floating-overlay) > .section-tile-dialog")];
             const dialog = dialogs[dialogs.length - 1];
             const chapters = [...document.querySelectorAll(".business-foundation-input[data-anchor]")].filter(frame => !frame.closest(".section-tile-overlay") && frame.getBoundingClientRect().width > 0);
             const sideBySide = chapters.length >= 2 && chapters.some(frame => Math.abs(frame.getBoundingClientRect().top - chapters[0].getBoundingClientRect().top) < 2 && frame !== chapters[0]);
-            if (dialog && sideBySide && dialog.dataset.tile !== "overview" && dialog.dataset.tile !== "completed") {
+            // (A page of one chapter has the empty half beside it, where the window has room for a second chapter.)
+            const lone = chapters.length === 1 && (() => {
+                const only = chapters[0].getBoundingClientRect();
+                const left = only.left + only.width / 2 < window.innerWidth / 2 ? only.right + 12 : only.left - 12 - only.width;
+                return left >= 0 && left + only.width <= window.innerWidth;
+            })();
+            if (dialog && (sideBySide || lone) && dialog.dataset.tile !== "overview" && dialog.dataset.tile !== "completed") {
                 const covered = [...dialog.querySelectorAll(".section-tile, .card-tile")].map(tile => tile.getBoundingClientRect())
                     .filter(tile => tile.width > 0 && tile.left < mine.right - 1 && tile.right > mine.left + 1 && tile.top < mine.bottom - 1 && tile.bottom > mine.top + 1);
                 if (covered.length > 0) {
@@ -3471,6 +3477,17 @@
         if (anchor) {
             const a = box(anchor);
             centreX = a.left + a.width / 2;
+            // (A card opened from a dialog of a page's one chapter stands in the empty half beside it, where the window has room: emptyHalfCentre.)
+            {
+                const lone = [...document.querySelectorAll(".business-foundation-input[data-anchor]")].filter(frame => !frame.closest(".section-tile-overlay") && frame.getBoundingClientRect().width > 0);
+                const fromDialog = !!document.querySelector(".section-tile-overlay:not(.floating-overlay) > .section-tile-dialog");
+                if (fromDialog && lone.length === 1 && lone[0] === anchor) {
+                    const left = a.left + a.width / 2 < window.innerWidth / 2 ? a.right + 12 : a.left - 12 - a.width;
+                    if (left >= 0 && left + a.width <= window.innerWidth) {
+                        centreX = left + a.width / 2;
+                    }
+                }
+            }
             if (!bandOnly) {
                 const top = Math.max(a.top, bandTop);
                 const bottom = Math.min(a.bottom, bandBottom);
