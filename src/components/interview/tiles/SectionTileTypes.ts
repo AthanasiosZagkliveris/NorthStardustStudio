@@ -31,6 +31,9 @@ export interface SectionTile {
     view?: boolean;
 
 
+    /** A card opened from this tile's own dialog carries no box name above it: the dialog's heading says it (Customer Engagement; owner, 2026-11-12 17:33: "Remove the section Tab, there is no need"). */
+    bareCards?: boolean;
+
     /** The section's content, drawn only while its dialog is open. */
     content: () => ReactNode;
 

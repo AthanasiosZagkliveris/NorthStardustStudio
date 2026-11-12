@@ -3420,6 +3420,12 @@
         for (const item of host.querySelectorAll(".floating-card-item")) {
             const caption = item.querySelector(":scope > .floating-card-caption");
             const body = item.querySelector(":scope > .floating-card-body");
+            // (A card opened from its own tile's dialog has none: the dialog's heading says it -- owner, 2026-11-12 17:33.)
+            const dialogsOpen = [...document.querySelectorAll(".section-tile-overlay:not(.floating-overlay) > .section-tile-dialog")];
+            const fromItsDialog = dialogsOpen.some(dialog => dialog.dataset.tile === host.closest("[data-floating]")?.dataset.floating || dialog.dataset.tile === item.closest("[data-floating]")?.dataset.floating);
+            if (!caption && body && fromItsDialog) {
+                continue;
+            }
             if (!caption || !body || caption.textContent.trim() === "") {
                 fail("every floating card has its box name above it", { caption: caption && caption.textContent });
                 continue;

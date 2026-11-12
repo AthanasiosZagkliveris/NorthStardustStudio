@@ -71,6 +71,8 @@ export function useEngagementRelationships(earlier: Earlier) {
                 id: channelTileId(segment.id, group.key),
                 title: group.label.trim() || "New channel",
                 view: true,
+                // (Its subchannel's card, opened from this channel's dialog, carries no box name: the dialog's heading says it.)
+                bareCards: true,
                 items: [...names, ...extra],
                 itemMarks: [...names.map(() => ({ bullet: true })), ...extra.map(() => ({ bullet: true, empty: true }))],
                 // (The "+" adds a subchannel to this channel and opens its card.)
@@ -281,7 +283,8 @@ export function useEngagementRelationships(earlier: Earlier) {
      * sixth column. It belongs to the same interaction, and it is
      * optional.
      */
-    function relationshipsFor(segment: BusinessCustomerSegmentValue) {
+    /** `only`: that one Offering alone (its card, opened from its tile in the Customer's Relationship dialog). */
+    function relationshipsFor(segment: BusinessCustomerSegmentValue, only?: string) {
 
         const answers = segmentOf(segment.id);
 
@@ -332,7 +335,7 @@ export function useEngagementRelationships(earlier: Earlier) {
         /* The Offerings with any interaction at all, in the order
            the interaction list gives -- which is Page 1's own
            Offering order. */
-        const offeringIds = engagedOfferingIds(segment);
+        const offeringIds = engagedOfferingIds(segment).filter(offeringId => !only || offeringId === only);
 
         if (segment.offerings.length === 0) {
             return (

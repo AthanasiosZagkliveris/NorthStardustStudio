@@ -280,11 +280,13 @@ export function FloatingCards({
                 <div className="floating-card-stack">
                     {cards.map(card => (
                         <div className="floating-card-item" key={card.key} data-kind={card.kind} style={card.hue !== undefined ? { "--strategy-theme-hue": card.hue, "--floating-hue": card.hue } as CSSProperties : undefined}>
-                            <div className="floating-card-caption">
-                                <InfoText text={card.caption}>
-                                    {card.note && card.note.length > 0 && <InfoNote label={card.caption} points={card.note} fullList />}
-                                </InfoText>
-                            </div>
+                            {card.caption !== "" && (
+                                <div className="floating-card-caption">
+                                    <InfoText text={card.caption}>
+                                        {card.note && card.note.length > 0 && <InfoNote label={card.caption} points={card.note} fullList />}
+                                    </InfoText>
+                                </div>
+                            )}
                             <div className={"floating-card-body floating-card-" + card.kind + (card.kind === "card" ? " card-box-open" : "")}>{card.node}</div>
                             <FloatingRecord id={card.key} />
                         </div>
