@@ -845,6 +845,114 @@ table.business-relationship-table {
 
 }
 
+/* WHERE THE START AND THE END NO LONGER FIT ON ONE ROW (owner, 2026-11-12: "when the screen gets smaller place the start and end dates vertically, so
+   their drop down cells align properly. Place the responsible field structure vertical (Label on top, and its drop down cell below), next (right side)
+   to the Start and End Date"): the Start over the End, their labels in one column so the two cells start at one x; the Responsible beside them, its
+   label over its cell, the cell level with the End's and the label just above it. The row measures itself (the objective's top is its container). */
+.strategy-objective-box .strategy-objective-top {
+
+    container: objective-top / inline-size;
+
+}
+
+@container objective-top (max-width: 443.98px) {
+
+    .strategy-objective-box .strategy-objective-when {
+
+        display: grid;
+
+        grid-template-columns: minmax(0, max-content) minmax(8em, 1fr);
+
+        grid-template-rows: auto auto;
+
+        column-gap: 24px;
+
+        row-gap: var(--space-field);
+
+        align-items: center;
+
+    }
+
+    .strategy-objective-box .strategy-objective-when > .month-picker {
+
+        grid-column: 1;
+
+    }
+
+    .strategy-objective-box .strategy-objective-when > :nth-child(2) {
+
+        margin-left: 0;
+
+    }
+
+    /* (Start and End in one label column: the wider word's width, so both cells start at one x.) */
+    .strategy-objective-box .strategy-objective-when .month-picker-label {
+
+        min-width: 2.75em;
+
+    }
+
+    /* (Weighted to outrank the rule that keeps a field with a tick on one row at every width, 13-business-foundation.css: here the owner asks for the label over its cell, 2026-11-12.) */
+    .strategy-objective-box .strategy-objective-when.strategy-objective-when > .business-field-side.business-field-side.business-field-side:has(> .business-foundation-label-info) {
+
+        grid-column: 2;
+
+        grid-row: 1 / span 2;
+
+        align-self: stretch;
+
+        display: flex;
+
+        flex-direction: column;
+
+        justify-content: flex-end;
+
+        gap: var(--space-label);
+
+    }
+
+    .strategy-objective-box .strategy-objective-when > .business-field-side > .option-picker {
+
+        width: 100%;
+
+    }
+
+    /* (The tick and its word stand at the cell's left edge, over it.) */
+    .strategy-objective-box .strategy-objective-when > .business-field-side > .business-foundation-label-info {
+
+        align-self: flex-start;
+
+    }
+
+
+
+}
+
+/* Narrower still, where the Responsible no longer fits beside the dates at their full width (a Start or End cell and a Responsible cell of 8em and more): under them, its label still over its cell. */
+@container objective-top (max-width: 395.98px) {
+
+    .strategy-objective-box .strategy-objective-when {
+
+        grid-template-columns: minmax(0, 1fr);
+
+    }
+
+    .strategy-objective-box .strategy-objective-when.strategy-objective-when > .business-field-side.business-field-side.business-field-side:has(> .business-foundation-label-info) {
+
+        grid-column: 1;
+
+        grid-row: auto;
+
+    }
+
+    .strategy-objective-box .strategy-objective-when .month-picker-trigger {
+
+        min-width: 0;
+
+    }
+
+}
+
 /* The x's ground at rest is the ground of the card it stands on (each nested card's own, --nest-ground). */
 .strategy-theme-dialog,
 .strategy-goal-card {
