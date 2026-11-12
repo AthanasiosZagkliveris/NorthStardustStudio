@@ -258,6 +258,22 @@
 
 }
 
+/* THE TILES RUN DOWN TO THE DIALOG'S FOOT (owner, 2026-11-12: "The Inventory and Complete dialogue card, should reach the bottom of the screen"): the scrolling
+   list ends the dialog's own padding (12px) above its lower edge, as it stands from its sides, not the body's 20px more. */
+.section-tile-dialog-body:has(> .capability-overview) {
+
+    padding-bottom: 0;
+    margin-bottom: 0;
+
+}
+
+/* (Its foot -- the Back, which stands in the tab here -- takes no row: the gap before it is given back.) */
+.section-tile-dialog:has(> .section-tile-dialog-body > .capability-overview) > .section-tile-dialog-foot {
+
+    margin-top: calc(-1 * var(--gap-12));
+
+}
+
 .capability-overview-scroll {
 
     flex: 1 1 auto;
