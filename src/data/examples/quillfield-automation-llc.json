@@ -374,20 +374,20 @@
                     "peers",
                     "communities"
                   ],
+                  "authorise": [
+                    "executive"
+                  ],
                   "setting": [
                     "desktop"
                   ],
                   "pay": [
                     "invoice"
                   ],
-                  "authorise": [
-                    "executive"
+                  "tam": [
+                    "boutique"
                   ],
                   "trajectory": [
                     "4"
-                  ],
-                  "tam": [
-                    "boutique"
                   ],
                   "trends": [
                     "technology",
@@ -1408,6 +1408,30 @@
                         "Record the handover call and share the Loom walkthrough"
                       ]
                     }
+                  },
+                  {
+                    "id": "channel-qf-slack",
+                    "category": "Community",
+                    "name": "Slack",
+                    "links": [
+                      ""
+                    ],
+                    "offerings": [
+                      "offering-a4k9r2td"
+                    ],
+                    "stages": [
+                      "discovery"
+                    ],
+                    "actionIds": {
+                      "discovery": [
+                        "action-qf-slack-1"
+                      ]
+                    },
+                    "actions": {
+                      "discovery": [
+                        "Answer automation questions in two NYC ops-leader Slack communities each week"
+                      ]
+                    }
                   }
                 ],
                 "actions": [
@@ -1522,6 +1546,10 @@
                   {
                     "id": "action-channel-qfemail01-support-1",
                     "text": "Send retainer clients a monthly usage report of what ran, what failed and what was fixed, so they can see what the retainer delivers"
+                  },
+                  {
+                    "id": "action-qf-slack-1",
+                    "text": "Answer automation questions in two NYC ops-leader Slack communities each week"
                   }
                 ],
                 "offerings": [
@@ -1695,7 +1723,8 @@
                   "segment-qf3n8d2w-channel",
                   "channel-w8e2b5sq",
                   "channel-m2u5e8gv",
-                  "channel-r4f7p1xk"
+                  "channel-r4f7p1xk",
+                  "channel-qf-slack"
                 ],
                 "assumptions": "Slower in the first months while the first case studies are written."
               },

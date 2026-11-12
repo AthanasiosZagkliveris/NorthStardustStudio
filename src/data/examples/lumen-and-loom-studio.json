@@ -512,20 +512,16 @@
                   "comfort": [
                     "5"
                   ],
+                  "social": [
+                    "mixed"
+                  ],
+                  "trigger": [
+                    "seasonal"
+                  ],
                   "discover": [
                     "communities",
                     "creators",
                     "media"
-                  ],
-                  "social": [
-                    "mixed"
-                  ],
-                  "share": [
-                    "public",
-                    "private"
-                  ],
-                  "trigger": [
-                    "seasonal"
                   ],
                   "path": [
                     "researcher"
@@ -537,11 +533,15 @@
                     "card",
                     "wallet"
                   ],
-                  "trajectory": [
-                    "3"
+                  "share": [
+                    "public",
+                    "private"
                   ],
                   "tam": [
                     "mid"
+                  ],
+                  "trajectory": [
+                    "3"
                   ],
                   "trends": [
                     "economy",
@@ -1183,6 +1183,9 @@
                     "peers",
                     "media"
                   ],
+                  "authorise": [
+                    "solo"
+                  ],
                   "setting": [
                     "multi"
                   ],
@@ -1190,14 +1193,11 @@
                     "card",
                     "invoice"
                   ],
-                  "authorise": [
-                    "solo"
+                  "tam": [
+                    "boutique"
                   ],
                   "trajectory": [
                     "4"
-                  ],
-                  "tam": [
-                    "boutique"
                   ],
                   "trends": [
                     "regulation",
@@ -1930,6 +1930,30 @@
                         "Send the tracking link and dispatch email"
                       ]
                     }
+                  },
+                  {
+                    "id": "channel-lumen-taster",
+                    "category": "In Person",
+                    "name": "Workshop / Class",
+                    "links": [
+                      ""
+                    ],
+                    "offerings": [
+                      "offering-8e935f0e"
+                    ],
+                    "stages": [
+                      "discovery"
+                    ],
+                    "actionIds": {
+                      "discovery": [
+                        "action-lumen-taster-1"
+                      ]
+                    },
+                    "actions": {
+                      "discovery": [
+                        "Run a 30-minute taster loom at makers' fairs and workshops; sign up those who enjoy it"
+                      ]
+                    }
                   }
                 ],
                 "actions": [
@@ -2048,6 +2072,10 @@
                   {
                     "id": "action-channel-lncour01-delivery-2",
                     "text": "Send the tracking link and dispatch email"
+                  },
+                  {
+                    "id": "action-lumen-taster-1",
+                    "text": "Run a 30-minute taster loom at makers' fairs and workshops; sign up those who enjoy it"
                   }
                 ],
                 "offerings": [
@@ -2559,7 +2587,148 @@
                 "profiles": []
               }
             ],
-            "demand": {},
+            "demand": {
+              "offering-nvfuu2km": {
+                "sources": [
+                  {
+                    "id": "source-lumen-store",
+                    "type": "marketplace",
+                    "calculate": true,
+                    "estimate": "",
+                    "inputs": {
+                      "visitors": "2000",
+                      "buy": "1.2"
+                    },
+                    "basis": "About 2,000 visits a month to the online store, most from Instagram and Pinterest; 1.2% buy, the rate the shop reached in its first three months."
+                  },
+                  {
+                    "id": "source-lumen-market",
+                    "type": "marketplace",
+                    "calculate": true,
+                    "estimate": "",
+                    "inputs": {
+                      "visitors": "400",
+                      "buy": "4"
+                    },
+                    "basis": "About 400 people stop at the stall over four market days a month; one in 25 buys a piece."
+                  }
+                ],
+                "recurring": false,
+                "cancel": "",
+                "channelIds": [
+                  "segment-8lu427u5-channel",
+                  "channel-enk0uesk",
+                  "channel-xrenzwzk",
+                  "channel-kuy4u7hj"
+                ],
+                "assumptions": "Reached over the first year, as Sustainability's gradual start plans: about 10 pieces a month at the opening."
+              },
+              "offering-8e935f0e": {
+                "sources": [
+                  {
+                    "id": "source-lumen-ws-funnel",
+                    "type": "funnel",
+                    "calculate": true,
+                    "estimate": "",
+                    "inputs": {
+                      "prospects": "160",
+                      "qualified": "25",
+                      "buy": "50"
+                    },
+                    "basis": "About 160 people a month ask about workshops through Instagram and the Facebook group; one in four asks for dates, and half of those book."
+                  },
+                  {
+                    "id": "source-lumen-ws-referrals",
+                    "type": "referrals",
+                    "calculate": true,
+                    "estimate": "",
+                    "inputs": {
+                      "referrals": "20",
+                      "buy": "60"
+                    },
+                    "basis": "Past participants bring friends: about 20 introductions a month, three in five book."
+                  }
+                ],
+                "recurring": false,
+                "cancel": "",
+                "channelIds": [
+                  "segment-8lu427u5-channel",
+                  "channel-kenelogh",
+                  "channel-lnstudio1",
+                  "channel-lumen-taster"
+                ],
+                "assumptions": "Places a month in groups of at most eight, reached over the first year from about 12 at the opening."
+              },
+              "offering-vhtapa3v": {
+                "sources": [
+                  {
+                    "id": "source-lumen-bespoke-fairs",
+                    "type": "contracts",
+                    "calculate": true,
+                    "estimate": "",
+                    "inputs": {
+                      "bids": "18",
+                      "win": "50",
+                      "units": "1"
+                    },
+                    "basis": "About 18 quotes a year to designers met at trade fairs; half are won, one commission each."
+                  },
+                  {
+                    "id": "source-lumen-bespoke-referrals",
+                    "type": "referrals",
+                    "calculate": true,
+                    "estimate": "",
+                    "inputs": {
+                      "referrals": "2.5",
+                      "buy": "30"
+                    },
+                    "basis": "Designers recommend us to other studios: about 2.5 introductions a month, three in ten commission."
+                  }
+                ],
+                "recurring": false,
+                "cancel": "",
+                "channelIds": [
+                  "channel-imbnizvs",
+                  "segment-majxtl1u-channel"
+                ],
+                "assumptions": "Commissions a month, reached over the first year from about one every two months."
+              },
+              "offering-kfyakcw5": {
+                "sources": [
+                  {
+                    "id": "source-lumen-trade-funnel",
+                    "type": "funnel",
+                    "calculate": true,
+                    "estimate": "",
+                    "inputs": {
+                      "prospects": "60",
+                      "qualified": "50",
+                      "buy": "50"
+                    },
+                    "basis": "About 60 stockists and designers contacted a month through LinkedIn and Instagram; half ask for the trade price list, half of those order."
+                  },
+                  {
+                    "id": "source-lumen-trade-fairs",
+                    "type": "marketplace",
+                    "calculate": true,
+                    "estimate": "",
+                    "inputs": {
+                      "visitors": "150",
+                      "buy": "10"
+                    },
+                    "basis": "About 150 trade visitors a month at fairs and the studio; one in ten orders."
+                  }
+                ],
+                "recurring": false,
+                "cancel": "",
+                "channelIds": [
+                  "segment-majxtl1u-channel",
+                  "channel-eo91172u",
+                  "channel-imbnizvs"
+                ],
+                "assumptions": "Pieces a month on trade terms, reached over the first year from about 10 at the opening."
+              }
+            },
             "channelResources": [
               {
                 "id": "channel-resource-resource-mszvpqno",

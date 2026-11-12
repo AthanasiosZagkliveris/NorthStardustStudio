@@ -456,7 +456,7 @@ describe("Quillfield: the documents tie together", () => {
         everything.forEach(entry => expect(entry, entry).not.toContain(") ("));
         expect(blocks.partners).toContain("Freelance developer (for Automation Build)");
         expect(blocks.activities).toEqual(["Deliver AI Workflow Audit", "Deliver Automation Build", "Deliver Automation Care Retainer",
-            "Marketing and sales through social media, website, email, in person, online / live and file delivery"]);
+            "Marketing and sales through social media, website, email, in person, online / live, file delivery and community"]);
         // The relationships are their own block, not repeated as activities.
         expect(blocks.activities.join(" ")).not.toMatch(/Support|Assistance|^Run /);
         expect(blocks.activities.join(" ")).not.toContain("Set up bookkeeping");
