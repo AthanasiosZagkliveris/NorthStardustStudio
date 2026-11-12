@@ -8,6 +8,7 @@ Status: **index**, updated 2026-11-12, written by `npm run docs:index` (the subj
 - **Activities and codes (classifications)**: [34 sections 5.7 to 5.10](design/questionnaire/34-lists-and-classifications.md); [28 section 8.5](design/questionnaire/28-questionnaire-specification.md)
 - **Age limits by activity and country**: [30](design/questionnaire/30-age-limits-by-activity.md); [31 section 10.2](design/questionnaire/31-positioning-categories.md)
 - **Age stages**: [31 section 10.1](design/questionnaire/31-positioning-categories.md)
+- **Ambassador (Brand)**: [46 (proposal)](design/questionnaire/46-ambassador-questions.md)
 - **App, contents**: [app/contents](app/contents.md)
 - **App, places (index)**: [app/index](app/index.md)
 - **Archive**: [README section 9](README.md)
@@ -33,7 +34,7 @@ Status: **index**, updated 2026-11-12, written by `npm run docs:index` (the subj
 - **Components, shared**: [21](design/current/21-shared-components.md)
 - **Cost model**: [1 Part D](design/core/01-current-design.md)
 - **Countries of the first version**: [33 section 3](design/questionnaire/33-specs-and-limitations.md)
-- **Customer Engagement**: [specifications page 2](specifications/business-system/page-2-section-1-channels.md); [28 section 7](design/questionnaire/28-questionnaire-specification.md)
+- **Customer Engagement**: [47 (proposal)](design/questionnaire/47-customer-engagement-tiles.md); [specifications page 2](specifications/business-system/page-2-section-1-channels.md); [28 section 7](design/questionnaire/28-questionnaire-specification.md)
 ## D
 
 - **Differentiation and Outcome**: [28 section 8.2](design/questionnaire/28-questionnaire-specification.md)
@@ -44,6 +45,7 @@ Status: **index**, updated 2026-11-12, written by `npm run docs:index` (the subj
 ## F
 
 - **Fields, list**: [14](design/library/14-fields-list.md)
+- **Financial pages and Inventory (tiles)**: [48 (proposal)](design/questionnaire/48-financial-pages-tiles.md)
 - **First version**: [33](design/questionnaire/33-specs-and-limitations.md)
 - **Folders of the repository**: [25](design/current/25-folder-plan.md)
 - **Free texts**: [20](design/current/20-free-text-categories.md); [16 (text holders)](design/current/16-text-holders.md)
@@ -93,6 +95,7 @@ Status: **index**, updated 2026-11-12, written by `npm run docs:index` (the subj
 - **Segment card**: [35 (as built)](design/questionnaire/35-segment-questions.md); [28 section 6.3](design/questionnaire/28-questionnaire-specification.md)
 - **Shared components**: [21](design/current/21-shared-components.md)
 - **Standard of the documents**: [standard](standard.md)
+- **Strategy (SWOT, Compass, Themes, Metrics)**: [49 (proposal)](design/questionnaire/49-strategy-questions.md)
 - **Structure tables**: [7](design/core/07-structure-tables.md)
 ## T
 
