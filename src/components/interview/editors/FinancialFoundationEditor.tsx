@@ -785,7 +785,7 @@ export default function FinancialFoundationEditor({
                                         <TextBox
                                             className="interview-input"
                                             aria-label={what + " milestone " + (position + 1) + " condition"}
-                                            placeholder="Milestone / condition"
+                                            placeholder="A milestone or condition, e.g. Product launch"
                                             disabled={disabled}
                                             value={milestone.condition}
                                             onChange={(event) => setSchedule({

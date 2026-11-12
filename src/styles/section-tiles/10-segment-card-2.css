@@ -865,7 +865,7 @@ table.business-relationship-table {
 
         grid-template-rows: auto auto;
 
-        column-gap: 24px;
+        column-gap: var(--gap-24);
 
         row-gap: var(--space-field);
 

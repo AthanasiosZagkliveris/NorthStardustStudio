@@ -132,7 +132,7 @@ function SelectFieldWithCustom({
 
                     value={currentValue}
 
-                    placeholder="Type a custom value"
+                    placeholder="Your own answer"
 
                     disabled={disabled}
 

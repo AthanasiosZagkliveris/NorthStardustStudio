@@ -378,7 +378,7 @@ export function useCapabilityCardFields(earlier: Earlier) {
                             <TextBox
                                 className="interview-input"
                                 aria-label={label + " title"}
-                                placeholder="Milestone"
+                                placeholder="A milestone, e.g. Prototype ready"
                                 disabled={disabled}
                                 value={line.title}
                                 onChange={(event) => setLine(line.id, { title: event.target.value.slice(0, 80) })}

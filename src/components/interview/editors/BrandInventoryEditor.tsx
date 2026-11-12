@@ -444,7 +444,7 @@ export default function BrandInventoryEditor({
                                     <StrategyTextArea
                                         className="interview-input brand-image-note"
                                         ariaLabel={`Image ${index + 1} description`}
-                                        placeholder="Short description"
+                                        placeholder="What the image shows"
                                         disabled={disabled}
                                         value={image.description}
                                         onChange={(next) => updateImage(index, { description: next })}
