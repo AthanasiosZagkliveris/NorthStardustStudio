@@ -497,3 +497,22 @@ describe("BusinessEngagementEditor without a physical item (doc 28, 11.7)", () =
     });
 
 });
+
+describe("Customer Engagement follows the Foundation (doc 47, section 3)", () => {
+
+    it("suggests a channel from how the customers discover you, and pressing it adds that channel at its stage", () => {
+        const segment = { ...createBusinessCustomerSegment([]), name: "Firms", questions: { discover: ["search"] } };
+        const foundation = { ...asBusinessFoundationValue(undefined), segments: [segment] };
+        let saved: ReturnType<typeof asBusinessEngagementValue> | null = null;
+        render(<BusinessEngagementEditor value={asBusinessEngagementValue(undefined)} onChange={(next) => { saved = next as ReturnType<typeof asBusinessEngagementValue>; }} foundation={foundation} asTiles />);
+        openTile("Journey");
+        expect(screen.getByText("Suggested from your Foundation")).toBeTruthy();
+        const tile = screen.getAllByText("Main Website").map(node => node.closest("button")).find(Boolean) as HTMLElement;
+        expect(tile).toBeTruthy();
+        fireEvent.click(tile);
+        const channels = saved!.segments.find(entry => entry.segmentId === segment.id)!.channels;
+        // (A new Segment starts with one blank channel; the suggestion is added beside it.)
+        expect(channels.filter(channel => channel.category !== "").map(channel => [channel.category, channel.name, channel.stages])).toEqual([["Website", "Main Website", ["discovery"]]]);
+    });
+
+});

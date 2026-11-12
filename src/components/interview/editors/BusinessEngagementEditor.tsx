@@ -4,7 +4,11 @@ import { BUSINESS_JOURNEY_STAGES, BUSINESS_RELATIONSHIP_TYPES, segmentHue } from
 import { demandResult } from "../../../framework/engine/DemandCapacity.ts";
 import { buildChannelResourceTable, variableCostText } from "../../../framework/engine/ChannelResourceTable.ts";
 import { moneyFormatter } from "../../../framework/engine/FinancialModel.ts";
-import SectionTiles, { DialogHeading, type SectionTile } from "../tiles/SectionTiles.tsx";
+import SectionTiles, { DialogHeading, OPEN_EVENT, type OpenRequest, type SectionTile } from "../tiles/SectionTiles.tsx";
+import DialogSectionBand from "../tiles/DialogSectionBand.tsx";
+import CardBoxes, { type CardBox } from "../cards/CardBoxes.tsx";
+import { createBusinessChannel } from "../../../framework/engine/AnswerUtils.ts";
+import { journeySuggestions, suggestionMet } from "../../../framework/engine/JourneySuggestions.ts";
 import { DEMAND_BLOCK_HELP } from "./engagement/shared.tsx";
 import { BusinessEmpty } from "../cards/BusinessCardFields.tsx";
 import FoldAllToggle from "../fields/FoldAllToggle.tsx";
@@ -26,7 +30,7 @@ export default function BusinessEngagementEditor(props: BusinessEngagementEditor
     const part2 = { ...part1, ...useEngagementChannelBoxes({ ...part1 }) };
     const part3 = { ...part1, ...part2, ...useEngagementRelationships({ ...part1, ...part2 }) };
     const part4 = { ...part1, ...part2, ...part3, ...useEngagementDemand({ ...part1, ...part2, ...part3 }) };
-    const { asTiles, cards, channelCategoryFoldKeys, channelResourceTable, channelTiles, channelsFor, clearIsolation, collapsed, columnsDivider, currency, demandFor, engagement, engagedOfferingIds, foldingSection, folds, heads, isolated, isolationNames, offeringRelationshipsOf, referenceColumn, relationshipsFor, segmentOf, segments, toggle } = part4;
+    const { asTiles, cards, channelTileId, disabled, updateSegment, channelCategoryFoldKeys, channelResourceTable, channelTiles, channelsFor, clearIsolation, collapsed, columnsDivider, currency, demandFor, engagement, engagedOfferingIds, foldingSection, folds, heads, isolated, isolationNames, offeringRelationshipsOf, referenceColumn, relationshipsFor, segmentOf, segments, toggle } = part4;
 
     /*
         THE PAGE AS TILES (doc 47, section 3, step one): one chapter per Segment, in the Segment's colour, as Page 1's, holding four Master Tiles -- Journey,
@@ -55,6 +59,50 @@ export default function BusinessEngagementEditor(props: BusinessEngagementEditor
                 </div>
             );
             const table = buildChannelResourceTable(engagement, answers, cards, currency, segments.flatMap(entry => entry.offerings));
+
+            /* WHAT THE FOUNDATION SAYS OF THIS SEGMENT, at the head of the Journey (as the card's three reference columns were): the Segment, its Profiles and
+               its Offerings, each with the Page 1 answers that matter for channels in its "i". */
+            const references = (
+                <DialogSectionBand title="From your Foundation">
+                    <div className="business-engagement-references">
+                        <div className="business-engagement-reference-columns">
+                            {referenceColumn("Segment", "Segment", segmentQuestions, [{ key: segment.id, name: segment.name, description: segment.description }], true)}
+                            {referenceColumn("Profiles", "Profile", () => SECTIONS.channels.profileInformation, segment.profiles.map(profile => ({ key: profile.id, name: profile.name, description: profile.description })), true)}
+                            {referenceColumn("Offerings", "Offering", () => SECTIONS.channels.offeringInformation, segment.offerings.map(offering => ({ key: offering.id, name: offering.name, description: offering.description })), true)}
+                        </div>
+                    </div>
+                </DialogSectionBand>
+            );
+
+            /* THE CHANNELS THE FOUNDATION SUGGESTS, stage by stage (JourneySuggestions.ts): a faded tile each, its stage and where it comes from under its name;
+               pressing it adds the channel at that stage and opens its card. A suggestion goes once the Segment has the channel. Nothing is added by itself. */
+            const open = journeySuggestions(segment).filter(suggestion => !suggestionMet(suggestion, answers.channels));
+            const stageLabel = (stage: string) => BUSINESS_JOURNEY_STAGES.find(entry => entry.id === stage)?.label ?? stage;
+            const addSuggested = (category: string, name: string, stage: string) => {
+                const current = segmentOf(segment.id).channels;
+                const made = { ...createBusinessChannel(), category, name, stages: [stage] };
+                updateSegment(segment.id, { channels: [...current, made] });
+                // (Its tile is its category's: the first channel of the category names it, or the new one where the category is new.)
+                const group = current.find(channel => channel.category === category)?.id ?? made.id;
+                window.setTimeout(() => document.dispatchEvent(new CustomEvent<OpenRequest>(OPEN_EVENT, { detail: { tile: channelTileId(segment.id, group), card: made.id } })), 80);
+            };
+            const suggested: CardBox[] = open.map((suggestion, at) => ({
+                id: "suggested-" + segment.id + "-" + at,
+                number: at + 1,
+                plain: true,
+                name: suggestion.name || suggestion.category,
+                unnamed: suggestion.category,
+                lines: [stageLabel(suggestion.stage), suggestion.source],
+                own: true,
+                faded: true,
+                press: disabled ? undefined : () => addSuggested(suggestion.category, suggestion.name, suggestion.stage),
+                content: () => null
+            }));
+            const suggestions = suggested.length > 0 && (
+                <DialogSectionBand title="Suggested from your Foundation" tiles info={["Channels your Foundation's answers point to: under each, its stage and the answer it comes from.", "Press one to add it at that stage; it opens for you to complete."]}>
+                    <CardBoxes items={suggested} label={"Suggested channels for " + (segment.name.trim() || "this Segment")} what="Suggested channel" autoStart={false} />
+                </DialogSectionBand>
+            );
             return [
                 {
                     id: segment.id + ":journey",
@@ -62,7 +110,7 @@ export default function BusinessEngagementEditor(props: BusinessEngagementEditor
                     anchor: "engagement-section-" + segment.id + "-channels",
                     // The five stages, each with the number of channels used at it.
                     items: BUSINESS_JOURNEY_STAGES.map(stage => pair(stage.label, String(answers.channels.filter(channel => channel.stages.includes(stage.id)).length))),
-                    content: () => dialog("Journey", SECTIONS.channels.instructions, channelTiles(segment), isolated && isolated.segmentId === segment.id
+                    content: () => dialog("Journey", SECTIONS.channels.instructions, <>{references}{suggestions}<DialogSectionBand title="Your channels" tiles>{channelTiles(segment)}</DialogSectionBand></>, isolated && isolated.segmentId === segment.id
                         ? <IsolationNote kind={isolated.kind === "action" ? "shared" : "linked"} names={isolationNames()} onClear={clearIsolation} />
                         : undefined)
                 },

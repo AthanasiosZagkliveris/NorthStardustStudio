@@ -14,6 +14,8 @@ import StrategyTextArea from "../../fields/StrategyTextArea.tsx";
 import FoldArrow from "../../fields/FoldArrow.tsx";
 import { DEMAND_COUNT_LIMITS, SECTIONS, DEMAND_BUY_ONCE, DEMAND_BUY_MONTHLY, DEMAND_BUYING_HELP, DEMAND_BY_FIGURE, DEMAND_BY_CALCULATION, DEMAND_CALCULATION_HELP, DEMAND_ASSUMPTIONS_PLACEHOLDER, DEMAND_SOURCE_FORMULA_HELP, DEMAND_ACTIVE_CLIENTS_HELP, DEMAND_MONTHS_TO_NORMAL_HELP, capitalized, channelChoices, numberStep } from "../BusinessEngagementModel.ts";
 import { offeringStartsById } from "../../../../framework/engine/EffectiveAnswers.ts";
+import { demandSuggestions } from "../../../../framework/engine/JourneySuggestions.ts";
+import { BusinessStep } from "../../cards/BusinessCardFields.tsx";
 import { DEMAND_BLOCK_HELP } from "./shared.tsx";
 import type { useEngagementState } from "./useEngagementState.tsx";
 import type { useEngagementChannelBoxes } from "./useEngagementChannelBoxes.tsx";
@@ -329,6 +331,33 @@ export function useEngagementDemand(earlier: Earlier) {
 
                 <div className="business-demand-sources">
                     {demand.sources.map(sourceCard)}
+                    {/* THE ROWS THE FOUNDATION PROPOSES (doc 28, 7.5): one for each Discover channel that serves this Offering, and Contracts or tenders where the
+                        buyer decides by a formal tender; each added by its own Add, never written by itself. A channel's row also records the channel. */}
+                    {(() => {
+                        const proposed = demandSuggestions(segment, offeringId, segmentOf(segment.id).channels, demand);
+                        return proposed.length > 0 && (
+                            <>
+                                <BusinessEmpty>Suggested from your Foundation: the Discover channels that serve it{proposed.some(row => row.type === "contracts") ? ", and contracts or tenders for a buyer who decides by tender" : ""}.</BusinessEmpty>
+                                {proposed.map(row => {
+                                    const sourceLabel = DEMAND_SOURCES.find(type => type.id === row.type)?.label ?? "Other";
+                                    const label = row.channelId ? sourceLabel + ": " + row.label : sourceLabel;
+                                    return (
+                                        <BusinessStep
+                                            key={row.type + row.channelId}
+                                            kind="add"
+                                            what={label + " for " + offeringLabel}
+                                            label={label}
+                                            disabled={disabled}
+                                            onClick={() => updateDemand(offeringId, {
+                                                sources: [...demand.sources, createDemandSource(row.type)],
+                                                ...(row.channelId ? { channelIds: [...demand.channelIds, row.channelId] } : {})
+                                            })}
+                                        />
+                                    );
+                                })}
+                            </>
+                        );
+                    })()}
                     <BusinessAddButton
                         label="Customer Source"
                         disabled={disabled}
