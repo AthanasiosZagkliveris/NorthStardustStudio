@@ -7,7 +7,7 @@ Status: **current design**, written 2026-10-22, updated 2026-11-11. Where the ap
 | Kind | Where | Ships with the app? |
 |---|---|---|
 | **The app** | `src/` without the tests, `src/library/`, `src/docs/` and `src/test/`, and without the development-only pages that `App.tsx` marks | yes |
-| The desktop shell | `src-tauri/` | yes (the desktop build) |
+| The desktop shell | `src-tauri/` (its icons in `icons/`, made by `npm run icons` from the logo files in `icon-source/`) | yes (the desktop build) |
 | The page and its settings | `index.html`, `public/`, `package.json`, `package-lock.json`, `vite.config.ts`, `tsconfig.json`, `tsconfig.node.json` | yes (the build reads them) |
 | The test and check settings | `vitest.config.ts` | no |
 | **Tests** | `src/**/*.test.*` and `src/test/` | no |

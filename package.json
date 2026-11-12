@@ -34,6 +34,7 @@
     "css:where": "node tools/scripts/lint/css-where.mjs",
     "lint:controls": "node tools/scripts/lint/shared-controls.mjs",
     "lint:boundaries": "node tools/scripts/lint/boundaries.mjs",
+    "icons": "node tools/scripts/icons/build.mjs",
     "lint:controls:baseline": "node tools/scripts/lint/shared-controls.mjs --write-baseline",
     "lint:styles:baseline": "node tools/scripts/lint/lint-styles.mjs --write-baseline",
     "tauri": "tauri",
