@@ -76,7 +76,8 @@ describe("the table", () => {
         fireEvent.click(screen.getByRole("radio", { name: "Table" }));
         const heads = [...document.querySelectorAll("th[scope=col]")];
         const costHead = heads.find(head => head.textContent?.startsWith("Cost"))!;
-        expect(costHead.textContent).toBe("Cost (EUR)");
+        // (The currency's symbol beside the label, as every amount's label: labelWithCurrency.)
+        expect(costHead.textContent).toBe("Cost (€)");
         expect(costHead.classList.contains("capability-overview-number")).toBe(true);
         const cell = [...document.querySelectorAll("tbody td")].find(td => td.textContent === "1,250.5")!;
         expect(cell.classList.contains("capability-overview-number")).toBe(true);

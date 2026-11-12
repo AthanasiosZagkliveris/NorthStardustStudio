@@ -1,4 +1,5 @@
 import { NUMBER_LIMITS, limitedNumberText } from "../fields/numberInput.ts";
+import { labelWithCurrency } from "../../../framework/engine/Currencies.ts";
 import { CSSProperties, ReactNode, useContext, useMemo, useState } from "react";
 import TextLink from "../fields/TextLink.tsx";
 import InfoNote from "../fields/InfoNote.tsx";
@@ -595,7 +596,7 @@ export default function CapabilityOverview({ rows, format = String, currency = "
                             <th scope="col" data-col="name">Name</th>
                             {TABLE_COLUMNS.filter(column => !hiddenColumns.has(column.id)).map(column => (
                                 <th scope="col" key={column.id} data-col={column.id} className={column.id === "cost" ? "capability-overview-number" : undefined}>
-                                    {column.id === "cost" && currency ? column.label + " (" + currency + ")" : column.label}
+                                    {column.id === "cost" ? labelWithCurrency(column.label, currency) : column.label}
                                 </th>
                             ))}
                         </tr>

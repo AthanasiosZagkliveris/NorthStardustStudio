@@ -5,6 +5,7 @@ import type { ActionLit } from "./ActionMarkers.tsx";
 
 import "../../../styles/channel-resource-table.css";
 import TextLink from "../fields/TextLink.tsx";
+import { labelWithCurrency } from "../../../framework/engine/Currencies.ts";
 
 /*
     THE CHANNEL RESOURCES TABLE (ChannelResourceTable.ts): a Segment's
@@ -88,7 +89,7 @@ export default function ChannelResourceTable({ table, segmentName, onOpenCard, o
                     <thead>
                         <tr>
                             <th scope="col" className="channel-resource-col-resource">Channel Expense</th>
-                            <th scope="col" className="channel-resource-col-cost">{table.currency ? "Cost (" + table.currency + ")" : "Cost"}</th>
+                            <th scope="col" className="channel-resource-col-cost">{labelWithCurrency("Cost", table.currency)}</th>
                             <th scope="col" className="channel-resource-col-frequency">Frequency</th>
                             <th scope="col" className="channel-resource-col-behaviour">Behaviour</th>
                             <th scope="col" className="channel-resource-col-channel">

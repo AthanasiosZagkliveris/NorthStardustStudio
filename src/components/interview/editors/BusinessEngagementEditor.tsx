@@ -2,6 +2,7 @@ import { CSSProperties, ReactNode } from "react";
 import CardShell from "../cards/CardShell.tsx";
 import { BUSINESS_JOURNEY_STAGES, BUSINESS_RELATIONSHIP_TYPES, segmentHue } from "../../../framework/engine/AnswerUtils.ts";
 import { demandResult } from "../../../framework/engine/DemandCapacity.ts";
+import { suggestedRelationshipType } from "../../../framework/engine/JourneySuggestions.ts";
 import SectionTiles, { DialogHeading, OPEN_EVENT, type ItemMark, type OpenRequest, type SectionTile } from "../tiles/SectionTiles.tsx";
 import { DEMAND_BLOCK_HELP } from "./engagement/shared.tsx";
 import CardBoxes, { type CardBox } from "../cards/CardBoxes.tsx";
@@ -25,7 +26,7 @@ export default function BusinessEngagementEditor(props: BusinessEngagementEditor
     const part2 = { ...part1, ...useEngagementChannelBoxes({ ...part1 }) };
     const part3 = { ...part1, ...part2, ...useEngagementRelationships({ ...part1, ...part2 }) };
     const part4 = { ...part1, ...part2, ...part3, ...useEngagementDemand({ ...part1, ...part2, ...part3 }) };
-    const { addCustomerSource, addRelationshipType, profilesOf, scopeChoice, showsAll, asTiles, channelCategoryFoldKeys, channelResourceTable, channelTiles, channelViewChoice, channelsFor, clearIsolation, collapsed, columnsDivider, demandFor, engagement, engagedOfferingIds, foldingSection, folds, heads, isolated, isolationNames, offeringRelationshipsOf, referenceColumn, relationshipsFor, segmentOf, segments, toggle } = part4;
+    const { addCustomerSource, addSuggestedSource, suggestedSources, addRelationshipType, addSuggestedRelationshipType, profilesOf, scopeChoice, showsAll, asTiles, channelCategoryFoldKeys, channelResourceTable, channelTiles, channelViewChoice, channelsFor, clearIsolation, collapsed, columnsDivider, demandFor, engagement, engagedOfferingIds, foldingSection, folds, heads, isolated, isolationNames, offeringRelationshipsOf, referenceColumn, relationshipsFor, segmentOf, segments, toggle } = part4;
 
     /*
         THE PAGE AS TILES (doc 47, section 3, step one): one chapter per Segment, in the Segment's colour, as Page 1's, holding three Master Tiles -- Channels and
@@ -82,8 +83,63 @@ export default function BusinessEngagementEditor(props: BusinessEngagementEditor
                 content: () => null
             }));
             // (Under the Offering's name on its relationship tile, the Profiles it serves, then its relationship types: owner, 2026-11-12 19:54.)
-            const relLines = (offeringId: string) => [...profilesOf(segment, offeringId).map((profile, at) => profile.name.trim() || "Profile " + (at + 1)), ...relTypes(offeringId)];
-            const relMarks = (offeringId: string): ItemMark[] => [...profilesOf(segment, offeringId).map(() => ({ plain: true })), ...relTypes(offeringId).map(() => ({ bullet: true }))];
+            // (Then, faded, the type the Foundation suggests, while the Offering has not it: pressing it adds it and opens the card -- the add is on the tile, as the
+            // Channels dialog's suggestions; owner, 2026-11-12 23:16.)
+            const relSuggested = (offeringId: string) => {
+                const suggested = suggestedRelationshipType(segment, offeringId);
+                return suggested && !offeringRelationshipsOf(segment.id, offeringId).types.includes(suggested) ? suggested : null;
+            };
+            const relLines = (offeringId: string) => [
+                ...profilesOf(segment, offeringId).map((profile, at) => profile.name.trim() || "Profile " + (at + 1)),
+                ...relTypes(offeringId),
+                ...(relSuggested(offeringId) ? ["Suggested: " + (BUSINESS_RELATIONSHIP_TYPES.find(entry => entry.id === relSuggested(offeringId))?.label ?? "")] : [])
+            ];
+            const relMarks = (offeringId: string): ItemMark[] => [
+                ...profilesOf(segment, offeringId).map(() => ({ plain: true })),
+                ...relTypes(offeringId).map(() => ({ bullet: true })),
+                ...(relSuggested(offeringId) ? [{ bullet: true, empty: true }] : [])
+            ];
+            // (An Offering's tile in Demand & Conversion: its expected sales, then, faded, the sources the Foundation suggests; pressing one adds it, with its channel,
+            // and opens the card -- the add on the tile; owner, 2026-11-12 23:16.)
+            const demLines = (offeringId: string) => [...(expected(offeringId) ? [expected(offeringId)] : []), ...suggestedSources(segment, offeringId).map(row => "Suggested: " + row.words)];
+            const demMarks = (offeringId: string): ItemMark[] => [...(expected(offeringId) ? [{ bullet: true }] : []), ...suggestedSources(segment, offeringId).map(() => ({ bullet: true, empty: true }))];
+            const demBoxes = (): CardBox[] => offeringBoxes("dem:", demLines, demMarks, { what: "Customer Source", add: addCustomerSource }).map(box => {
+                const offeringId = box.id.slice(4);
+                const rows = suggestedSources(segment, offeringId);
+                if (rows.length === 0) {
+                    return box;
+                }
+                const first = demLines(offeringId).length - rows.length;
+                return {
+                    ...box,
+                    linkedLines: demLines(offeringId).map((_line, at) => at >= first),
+                    onLine: (at: number) => {
+                        const row = rows[at - first];
+                        if (row) {
+                            addSuggestedSource(offeringId, row);
+                            window.setTimeout(() => document.dispatchEvent(new CustomEvent<OpenRequest>(OPEN_EVENT, { detail: { tile: segment.id + ":demand", card: box.id } })), 80);
+                        }
+                    }
+                };
+            });
+            const relBoxes = (): CardBox[] => offeringBoxes("rel:", relLines, relMarks, { what: "Relationship Type", add: (offeringId) => addRelationshipType(segment, offeringId) }).map(box => {
+                const offeringId = box.id.slice(4);
+                const suggested = relSuggested(offeringId);
+                if (!suggested) {
+                    return box;
+                }
+                const last = relLines(offeringId).length - 1;
+                return {
+                    ...box,
+                    linkedLines: relLines(offeringId).map((_line, at) => at === last),
+                    onLine: (at: number) => {
+                        if (at === last) {
+                            addSuggestedRelationshipType(segment, offeringId, suggested);
+                            window.setTimeout(() => document.dispatchEvent(new CustomEvent<OpenRequest>(OPEN_EVENT, { detail: { tile: segment.id + ":relationships", card: box.id } })), 80);
+                        }
+                    }
+                };
+            });
             const offeringOf = (id: string) => id.slice(4);
             // (The card is its own shell, BusinessCard, straight in the content: the floating card styles of the Foundation's cards reach it.)
             const floatingOf = (body: ReactNode) => <div className="column-tile-content" style={{ "--strategy-theme-hue": hue } as CSSProperties}>{body}</div>;
@@ -120,7 +176,7 @@ export default function BusinessEngagementEditor(props: BusinessEngagementEditor
                     holds: offeringIds.map(offeringId => "rel:" + offeringId),
                     cardFor: (id: string) => offeringIds.includes(offeringOf(id)) ? floatingOf(relationshipsFor(segment, offeringOf(id), true)) : null,
                     content: () => dialog("Customer's Relationship", SECTIONS.relationships.instructions.slice(0, 3), offeringIds.length > 0
-                        ? <CardBoxes items={offeringBoxes("rel:", relLines, relMarks, { what: "Relationship Type", add: (offeringId) => addRelationshipType(segment, offeringId) })} label={"Customer's Relationship of " + (segment.name.trim() || "this Segment")} what="Offering" autoStart={false} />
+                        ? <CardBoxes items={relBoxes()} label={"Customer's Relationship of " + (segment.name.trim() || "this Segment")} what="Offering" autoStart={false} />
                         : relationshipsFor(segment), scopeChoice(segment.id))
                 },
                 {
@@ -138,7 +194,7 @@ export default function BusinessEngagementEditor(props: BusinessEngagementEditor
                     holds: offeringIds.map(offeringId => "dem:" + offeringId),
                     cardFor: (id: string) => offeringIds.includes(offeringOf(id)) ? floatingOf(demandFor(segment, offeringOf(id), offeringName(segment, offeringOf(id)), true)) : null,
                     content: () => dialog("Demand & Conversion", [SECTIONS.relationships.instructions[3], ...DEMAND_BLOCK_HELP.map(point => typeof point === "string" ? point : "")].filter(Boolean) as string[], (
-                        <CardBoxes items={offeringBoxes("dem:", offeringId => expected(offeringId) ? [expected(offeringId)] : [], undefined, { what: "Customer Source", add: addCustomerSource })} label={"Demand & Conversion of " + (segment.name.trim() || "this Segment")} what="Offering" autoStart={false} />
+                        <CardBoxes items={demBoxes()} label={"Demand & Conversion of " + (segment.name.trim() || "this Segment")} what="Offering" autoStart={false} />
                     ), scopeChoice(segment.id))
                 }
             // (Channel Costs is no tile of its own: the channel expenses are the Inventory's, its Channel expenses set-up; owner, 2026-11-12 19:54.)

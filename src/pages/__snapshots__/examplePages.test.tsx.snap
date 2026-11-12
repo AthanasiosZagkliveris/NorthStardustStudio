@@ -146,12 +146,12 @@ exports[`Lumen & Loom Studio > Business System › 2. Customer Engagement > tile
 `;
 
 exports[`Lumen & Loom Studio > Business System › 2. Customer Engagement > tile segment-8lu427u5:demand 1`] = `
-"Demand & ConversionDemand & ConversioniFrom your answersAll1. Homeware Collection40 a month2. Weaving Workshops32 a monthBack‹›Channels and JourneyCustomer's RelationshipDemand & ConversionBack
+"Demand & ConversionDemand & ConversioniFrom your answersAll1. Homeware Collection40 a monthSuggested: InstagramSuggested: PinterestSuggested: Studio / Shop2. Weaving Workshops32 a monthSuggested: Online StoreSuggested: Facebook GroupSuggested: Studio / ShopSuggested: Market / Pop-upSuggested: Workshop / ClassBack‹›Channels and JourneyCustomer's RelationshipDemand & ConversionBack
 [fields] "
 `;
 
 exports[`Lumen & Loom Studio > Business System › 2. Customer Engagement > tile segment-8lu427u5:relationships 1`] = `
-"Customer's RelationshipCustomer's RelationshipiFrom your answersAll1. Homeware CollectionThe Considered NesterPersonal Assistance2. Weaving WorkshopsThe Hands-On Hobby LearnerCommunityBack‹›Channels and JourneyCustomer's RelationshipDemand & ConversionBack
+"Customer's RelationshipCustomer's RelationshipiFrom your answersAll1. Homeware CollectionThe Considered NesterPersonal Assistance2. Weaving WorkshopsThe Hands-On Hobby LearnerCommunitySuggested: Personal AssistanceBack‹›Channels and JourneyCustomer's RelationshipDemand & ConversionBack
 [fields] "
 `;
 
@@ -166,12 +166,12 @@ exports[`Lumen & Loom Studio > Business System › 2. Customer Engagement > tile
 `;
 
 exports[`Lumen & Loom Studio > Business System › 2. Customer Engagement > tile segment-majxtl1u:demand 1`] = `
-"Demand & ConversionDemand & ConversioniFrom your answersAll1. Bespoke Commissions1.5 a month2. Trade Collection30 a monthBack‹›Channels and JourneyCustomer's RelationshipDemand & ConversionBack
+"Demand & ConversionDemand & ConversioniFrom your answersAll1. Bespoke Commissions1.5 a monthSuggested: LinkedInSuggested: Instagram2. Trade Collection30 a monthSuggested: InstagramBack‹›Channels and JourneyCustomer's RelationshipDemand & ConversionBack
 [fields] "
 `;
 
 exports[`Lumen & Loom Studio > Business System › 2. Customer Engagement > tile segment-majxtl1u:relationships 1`] = `
-"Customer's RelationshipCustomer's RelationshipiFrom your answersAll1. Bespoke CommissionsThe Eco Interior DesignerDedicated Support2. Trade CollectionThe Eco Interior DesignerPersonal AssistanceBack‹›Channels and JourneyCustomer's RelationshipDemand & ConversionBack
+"Customer's RelationshipCustomer's RelationshipiFrom your answersAll1. Bespoke CommissionsThe Eco Interior DesignerDedicated Support2. Trade CollectionThe Eco Interior DesignerPersonal AssistanceSuggested: Dedicated SupportBack‹›Channels and JourneyCustomer's RelationshipDemand & ConversionBack
 [fields] "
 `;
 
@@ -580,12 +580,12 @@ exports[`Quillfield Automation > Business System › 2. Customer Engagement > ti
 `;
 
 exports[`Quillfield Automation > Business System › 2. Customer Engagement > tile segment-qf3n8d2w:demand 1`] = `
-"Demand & ConversionDemand & ConversioniFrom your answersAll1. AI Workflow Audit1.5 a month2. Automation Build0.6 a month3. Automation Care Retainer5 activeBack‹›Channels and JourneyCustomer's RelationshipDemand & ConversionBack
+"Demand & ConversionDemand & ConversioniFrom your answersAll1. AI Workflow Audit1.5 a monthSuggested: Main WebsiteSuggested: Event / TalkSuggested: Slack2. Automation Build0.6 a monthSuggested: LinkedInSuggested: Main WebsiteSuggested: Referral partners3. Automation Care Retainer5 activeSuggested: LinkedInSuggested: Main WebsiteBack‹›Channels and JourneyCustomer's RelationshipDemand & ConversionBack
 [fields] "
 `;
 
 exports[`Quillfield Automation > Business System › 2. Customer Engagement > tile segment-qf3n8d2w:relationships 1`] = `
-"Customer's RelationshipCustomer's RelationshipiFrom your answersAll1. AI Workflow AuditThe Busy Ops ManagerThe Agency FounderPersonal Assistance2. Automation BuildThe Busy Ops ManagerThe Agency FounderDedicated Support3. Automation Care RetainerThe Busy Ops ManagerThe Agency FounderDedicated SupportBack‹›Channels and JourneyCustomer's RelationshipDemand & ConversionBack
+"Customer's RelationshipCustomer's RelationshipiFrom your answersAll1. AI Workflow AuditThe Busy Ops ManagerThe Agency FounderPersonal Assistance2. Automation BuildThe Busy Ops ManagerThe Agency FounderDedicated SupportSuggested: Personal Assistance3. Automation Care RetainerThe Busy Ops ManagerThe Agency FounderDedicated SupportBack‹›Channels and JourneyCustomer's RelationshipDemand & ConversionBack
 [fields] "
 `;
 

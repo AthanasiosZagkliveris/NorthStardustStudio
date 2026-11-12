@@ -42,6 +42,8 @@ Status: **specification**, written 2026-09-27, updated 2026-11-02. The requireme
 
 **As built, Channels That Bring Them (2026-11-12; doc 47, section 3).** Each Customer Source names its channel (the Segment's channels); an Offering's Channels That Bring Them are its sources' channels, shown read only, each a link to its channel. The ticks saved before are read but no longer shown.
 
+**As built, 23:16 (2026-11-12; doc 47, section 3).** A relationship type is a box of the card with its x on its light title band. What the Foundation suggests -- a relationship type, a Customer Source -- is a faded line on the Offering's tile that adds it and opens the card; the cards carry no add.
+
 Section 1 is "1. Customer Channel" in each Segment's card on Page 2 (the page, its editor and the sections that follow are in `page-2-section-2-customer-relationships.md`, "As built"; the layout is `ai/customer-engagement-layout.md`). The reference header of section 4 is the card's three reference columns (Segment, Profiles, Offerings), always shown. The channels are a four-column table (Channel, Offerings, Journey Stage, Action) with each channel's Links under its name (an optional field: the "Links" tick opens a numbered list of links, placeholder "Link"). Channels are grouped under their category, drawn once, in the fixed category order; each category carries a fold arrow and its channels sit a step in from it, and channels keep their numbers when a category is folded. Actions are stored by Journey Stage (`Record<stageId, string[]>`), so unticking a stage hides its Actions without deleting them.
 
 ## 1. Purpose

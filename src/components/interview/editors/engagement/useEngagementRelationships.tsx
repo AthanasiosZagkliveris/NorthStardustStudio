@@ -12,7 +12,7 @@ import { BUSINESS_CHANNEL_ALL_OFFERINGS, BUSINESS_CHANNEL_CATEGORIES, BUSINESS_C
 import { BusinessAddButton, BusinessEmpty, BusinessNote, BusinessRemove, BusinessStep, BusinessTicks } from "../../cards/BusinessCardFields.tsx";
 import FieldRow from "../../fields/FieldRow.tsx";
 import { SingleColumn } from "../foundation/shared.tsx";
-import { EngagementBox, EngagementBoxes, EngagementCard, EngagementSection, ScopeChoice, TickRow, useSectionFolds, type OptionScope } from "./EngagementCard.tsx";
+import { EngagementBox, EngagementBoxes, EngagementCard, ScopeChoice, TickRow, type OptionScope } from "./EngagementCard.tsx";
 import { journeySuggestions, suggestedRelationshipType, suggestionMet, type ChannelSuggestion } from "../../../../framework/engine/JourneySuggestions.ts";
 import { BUSINESS_JOURNEY_STAGES } from "../../../../framework/engine/AnswerUtils.ts";
 import { summaryText } from "../../cards/cardSummary.ts";
@@ -34,8 +34,6 @@ const SUGGESTED_FOR = "Suggested for";
 
 export function useEngagementRelationships(earlier: Earlier) {
 
-    // (The folds of the floating cards' sections: open until folded.)
-    const sectionFold = useSectionFolds();
     // (How each Segment's Channels and Journey dialog places its tiles: by channel, or by journey stage; by channel until changed, kept while the page is open.)
     const [channelViews, setChannelViews] = useState<Readonly<Record<string, "channels" | "stages">>>({});
     // (A stage's dialog in the Journey Stages view: its subchannels as a table, until Tiles is chosen; owner, 2026-11-12 19:54: "The default should be a table".)
@@ -390,6 +388,13 @@ export function useEngagementRelationships(earlier: Earlier) {
         }
         return !!free;
     }
+    /** The type the Foundation suggests, added from its faded line on the Offering's tile. */
+    function addSuggestedRelationshipType(segment: BusinessCustomerSegmentValue, offeringId: string, typeId: string) {
+        const kept = offeringRelationshipsOf(segment.id, offeringId);
+        if (!kept.types.includes(typeId)) {
+            updateOfferingRelationships(segment.id, offeringId, { types: [...kept.types.filter(type => type !== ""), typeId] });
+        }
+    }
     /* ---------- 2. Customer Relationship ---------- */
 
     /**
@@ -548,9 +553,7 @@ export function useEngagementRelationships(earlier: Earlier) {
             const offeringId = only;
             const offeringRows = rowsOf(offeringId);
             const kept = offeringRelationshipsOf(segment.id, offeringId);
-            const suggested = suggestedRelationshipType(segment, offeringId);
             const number = segment.offerings.findIndex(offering => offering.id === offeringId) + 1;
-            const whose = (segment.name.trim() || "Segment") + ", Offering " + number;
             return (
                 <EngagementCard
                     kind="Offering"
@@ -559,80 +562,66 @@ export function useEngagementRelationships(earlier: Earlier) {
                     anchor={"relationship-offering-" + offeringId}
                     headless
                 >
-                    {kept.types.map(typeId => {
-                        const type = typeOf(segment.id, offeringId, typeId);
-                        const label = TYPE_LABELS[typeId] ?? "Relationship Type";
-                        return (
-                            <EngagementSection
-                                key={typeId}
-                                title={label}
-                                info={SECTIONS.relationships.types}
-                                fold={sectionFold(offeringId + " " + typeId, whose + " → " + label)}
-                                extra={<BusinessRemove what={label + " Relationship Type for " + offeringName(offeringId)} disabled={disabled} onRemove={() => updateOfferingRelationships(segment.id, offeringId, { types: kept.types.filter(candidate => candidate !== typeId) })} />}
-                            >
-                                <EngagementBoxes>{[
-                                    <EngagementBox key="purpose" title="Purpose" info={SECTIONS.relationships.purpose} bands={[
-                                        <StrategyTextArea
-                                            key="purpose"
-                                            className="interview-input business-foundation-note"
-                                            ariaLabel={"Purpose of " + label + " for " + offeringName(offeringId)}
-                                            disabled={disabled}
-                                            value={type.purpose}
-                                            onChange={(next) => updateType(segment.id, offeringId, typeId, { purpose: next })}
-                                        />
-                                    ]} />,
-                                    ...offeringRows.map(interaction => {
-                                        const answersFor = interactionOf(segment.id, offeringId, typeId, interaction.key, interaction.legacyKeys);
-                                        const stage = STAGE_LABELS[interaction.stageId] ?? "";
-                                        const about = stage + ", " + offeringName(offeringId) + ", " + label;
-                                        return (
-                                            <EngagementBox
-                                                key={interaction.key}
-                                                title={stage}
-                                                info={interaction.groups.length > 0 ? interaction.groups.map(group => ({ title: group.category.trim().length ? group.category : "No category", text: group.channelIds.map(id => channelName(id)).join(", ") })) : undefined}
-                                                bands={[
-                                                    <FieldRow key="goals" pair label="Goals">
-                                                        <TickRow label={"Goals for " + about}>
-                                                            <BusinessTicks
-                                                                name={"Goals for " + about}
-                                                                options={GOAL_OPTIONS}
-                                                                chosen={answersFor.goals}
-                                                                disabled={disabled}
-                                                                onChange={(next) => updateInteraction(segment.id, offeringId, typeId, interaction.key, interaction.legacyKeys, { goals: next })}
-                                                            />
-                                                        </TickRow>
-                                                    </FieldRow>,
-                                                    <FieldRow key="approach" pair label="Approach">
-                                                        <StrategyTextArea
-                                                            className="interview-input business-foundation-note"
-                                                            ariaLabel={"Approach for " + about}
-                                                            disabled={disabled}
-                                                            value={answersFor.approach}
-                                                            onChange={(next) => updateInteraction(segment.id, offeringId, typeId, interaction.key, interaction.legacyKeys, { approach: next })}
-                                                        />
-                                                    </FieldRow>
-                                                ]}
+                    {/* EACH RELATIONSHIP TYPE A BOX (owner, 2026-11-12 23:16: "Rearrange the colour tints ... to see the x button is not possible"): its name, its "i" and its
+                        x on the box's title band, as a Customer Source's on the Demand card; then a band for its Purpose and a band for each stage, its Goals in one row
+                        and its Approach under them, the tints alternating. The double rule stands between one type and the next. */}
+                    <SingleColumn>
+                        <EngagementBoxes>{kept.types.map(typeId => {
+                            const type = typeOf(segment.id, offeringId, typeId);
+                            const label = TYPE_LABELS[typeId] ?? "Relationship Type";
+                            return (
+                                <EngagementBox
+                                    key={typeId}
+                                    title={label}
+                                    info={SECTIONS.relationships.types}
+                                    extra={<BusinessRemove what={label + " Relationship Type for " + offeringName(offeringId)} disabled={disabled} onRemove={() => updateOfferingRelationships(segment.id, offeringId, { types: kept.types.filter(candidate => candidate !== typeId) })} />}
+                                    bands={[
+                                        <FieldRow key="purpose" pair label="Purpose" info={SECTIONS.relationships.purpose}>
+                                            <StrategyTextArea
+                                                className="interview-input business-foundation-note"
+                                                ariaLabel={"Purpose of " + label + " for " + offeringName(offeringId)}
+                                                disabled={disabled}
+                                                value={type.purpose}
+                                                onChange={(next) => updateType(segment.id, offeringId, typeId, { purpose: next })}
                                             />
-                                        );
-                                    })
-                                ]}</EngagementBoxes>
-                            </EngagementSection>
-                        );
-                    })}
-                    {suggested && !kept.types.includes(suggested) && (
-                        <SingleColumn>
-                                <div className="legal-entity-org-section">
-                                    <BusinessEmpty>Suggested from your Foundation: {TYPE_LABELS[suggested]}, from the help your customers want before and after they buy.</BusinessEmpty>
-                                    <BusinessStep
-                                        kind="add"
-                                        what={TYPE_LABELS[suggested] + " for " + offeringName(offeringId)}
-                                        label={TYPE_LABELS[suggested]}
-                                        disabled={disabled}
-                                        onClick={() => updateOfferingRelationships(segment.id, offeringId, { types: [...kept.types.filter(candidate => candidate !== ""), suggested] })}
-                                    />
-                                </div>
-                        </SingleColumn>
-                    )}
+                                        </FieldRow>,
+                                        ...offeringRows.map(interaction => {
+                                            const answersFor = interactionOf(segment.id, offeringId, typeId, interaction.key, interaction.legacyKeys);
+                                            const stage = STAGE_LABELS[interaction.stageId] ?? "";
+                                            const about = stage + ", " + offeringName(offeringId) + ", " + label;
+                                            return (
+                                                <FieldRow
+                                                    key={interaction.key}
+                                                    pair
+                                                    fullList
+                                                    label={stage}
+                                                    info={interaction.groups.length > 0 ? interaction.groups.map(group => ({ title: group.category.trim().length ? group.category : "No category", text: group.channelIds.map(id => channelName(id)).join(", ") })) : undefined}
+                                                >
+                                                    <TickRow label={"Goals for " + about}>
+                                                        <BusinessTicks
+                                                            name={"Goals for " + about}
+                                                            options={GOAL_OPTIONS}
+                                                            chosen={answersFor.goals}
+                                                            disabled={disabled}
+                                                            onChange={(next) => updateInteraction(segment.id, offeringId, typeId, interaction.key, interaction.legacyKeys, { goals: next })}
+                                                        />
+                                                    </TickRow>
+                                                    <StrategyTextArea
+                                                        className="interview-input business-foundation-note"
+                                                        ariaLabel={"Approach for " + about}
+                                                        placeholder="Approach"
+                                                        disabled={disabled}
+                                                        value={answersFor.approach}
+                                                        onChange={(next) => updateInteraction(segment.id, offeringId, typeId, interaction.key, interaction.legacyKeys, { approach: next })}
+                                                    />
+                                                </FieldRow>
+                                            );
+                                        })
+                                    ]}
+                                />
+                            );
+                        })}</EngagementBoxes>
+                    </SingleColumn>
                 </EngagementCard>
             );
         }
@@ -1150,6 +1139,6 @@ export function useEngagementRelationships(earlier: Earlier) {
 
     }
 
-    return { addRelationshipType, channelTiles, channelViewChoice, engagedOfferingIds, relationshipsFor, profilesOf, scopeChoice, showsAll };
+    return { addRelationshipType, addSuggestedRelationshipType, channelTiles, channelViewChoice, engagedOfferingIds, relationshipsFor, profilesOf, scopeChoice, showsAll };
 
 }

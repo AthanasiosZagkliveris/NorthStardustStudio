@@ -693,6 +693,14 @@
 
 }
 
+/* A NAME OVER A NAME (a channel expense's Type and Group: Resource over Channel, the channel over its subchannel) keeps each on one line, so the lines of the two
+   cells stand level (owner, 2026-11-12 23:16). */
+.capability-overview-table :is(.channel-resource-place-channel, .channel-resource-place-sub) {
+
+    white-space: nowrap;
+
+}
+
 .capability-overview-table tbody tr:nth-child(even) > * {
 
     background: var(--table-tint);
