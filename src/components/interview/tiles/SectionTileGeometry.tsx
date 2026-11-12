@@ -213,11 +213,11 @@ export function dialogFrame(opener?: HTMLElement | null): { width: number; heigh
         return null;
     }
     const header = document.querySelector<HTMLElement>(".app-header");
-    const footer = document.querySelector<HTMLElement>(".workspace-footer");
-    // A page-wide dialog (Inventory, Completed) starts where the page's cards start and ends 12px above the footer.
+    // A page-wide dialog (Inventory, Completed) starts where the page's cards start and runs down to the window's foot, 12px above it, over the footer's band
+    // (owner, 2026-11-12: "The dialogue card (inventory) should reach the bottom part of the screen").
     const cardsTop = document.querySelector<HTMLElement>(".answer-columns.business-capability > .business-foundation-card")?.getBoundingClientRect().top;
     const top = Math.max(cardsTop ?? underline.getBoundingClientRect().bottom, underline.getBoundingClientRect().bottom, header?.getBoundingClientRect().bottom ?? 0);
-    const bottom = footer ? footer.getBoundingClientRect().top - 12 : window.innerHeight;
+    const bottom = window.innerHeight - 12;
     const space = bottom - top;
     if (!(space >= 200)) {
         return null;

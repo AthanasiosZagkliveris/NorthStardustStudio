@@ -3090,10 +3090,10 @@
                     // (Under the header and the page title that stays under it while the page scrolls; owner, 2026-11-11.)
                     top = Math.max(cardBox.top, header ? header.getBoundingClientRect().bottom : 0, underline ? underline.getBoundingClientRect().bottom : 0);
                 } else if (underline) {
-                    // A page-wide dialog (Inventory, Completed) stands from the top of the page's cards to 12px above the footer.
+                    // A page-wide dialog (Inventory, Completed) stands from the top of the page's cards to 12px above the window's foot, over the footer's band (owner, 2026-11-12).
                     const cardsTop = document.querySelector(".answer-columns.business-capability > .business-foundation-card");
                     const upper = Math.max(cardsTop ? cardsTop.getBoundingClientRect().top : 0, underline.getBoundingClientRect().bottom, header ? header.getBoundingClientRect().bottom : 0);
-                    const lower = footer ? footer.getBoundingClientRect().top - 12 : window.innerHeight;
+                    const lower = window.innerHeight - 12;
                     if (lower - upper >= 200) {
                         width = Math.min(card ? card.getBoundingClientRect().width : most, most);
                         height = lower - upper;
