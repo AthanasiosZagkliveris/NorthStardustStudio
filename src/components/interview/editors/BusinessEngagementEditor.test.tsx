@@ -500,15 +500,16 @@ describe("BusinessEngagementEditor without a physical item (doc 28, 11.7)", () =
 
 describe("Customer Engagement follows the Foundation (doc 47, section 3)", () => {
 
-    it("suggests a channel from how the customers discover you, and pressing it adds that channel at its stage", () => {
+    it("suggests a channel from how the customers discover you, in the one grid of channels, and pressing it adds that channel at its stage", () => {
         const segment = { ...createBusinessCustomerSegment([]), name: "Firms", questions: { discover: ["search"] } };
         const foundation = { ...asBusinessFoundationValue(undefined), segments: [segment] };
         let saved: ReturnType<typeof asBusinessEngagementValue> | null = null;
         render(<BusinessEngagementEditor value={asBusinessEngagementValue(undefined)} onChange={(next) => { saved = next as ReturnType<typeof asBusinessEngagementValue>; }} foundation={foundation} asTiles />);
         openTile("Journey");
-        expect(screen.getByText("Suggested from your Foundation")).toBeTruthy();
-        const tile = screen.getAllByText("Main Website").map(node => node.closest("button")).find(Boolean) as HTMLElement;
+        // (One grid: the channel the Segment does not use yet is a faded tile listing the subchannel suggested for it.)
+        const tile = [...document.querySelectorAll<HTMLElement>(".section-tile")].find(candidate => (candidate.textContent ?? "").startsWith("Website")) as HTMLElement;
         expect(tile).toBeTruthy();
+        expect(tile.closest(".section-tile-slot")?.textContent).toContain("Main Website");
         fireEvent.click(tile);
         const channels = saved!.segments.find(entry => entry.segmentId === segment.id)!.channels;
         // (A new Segment starts with one blank channel; the suggestion is added beside it.)

@@ -6,7 +6,8 @@ import { CSSProperties } from "react";
 import CardShell from "../../cards/CardShell.tsx";
 import { BUSINESS_CHANNEL_ALL_OFFERINGS, BUSINESS_CHANNEL_CATEGORIES, BUSINESS_CHANNEL_OTHER, BUSINESS_RELATIONSHIP_TYPES, BusinessChannelValue, BusinessCustomerSegmentValue, channelCategoryHelp, channelCategoryHidden, businessProfileOfferings, businessRelationshipInteractions, createBusinessChannel, segmentHue } from "../../../../framework/engine/AnswerUtils.ts";
 import { BusinessAddButton, BusinessEmpty, BusinessNote, BusinessStep, BusinessTicks } from "../../cards/BusinessCardFields.tsx";
-import { suggestedRelationshipType } from "../../../../framework/engine/JourneySuggestions.ts";
+import { journeySuggestions, suggestedRelationshipType, suggestionMet, type ChannelSuggestion } from "../../../../framework/engine/JourneySuggestions.ts";
+import { BUSINESS_JOURNEY_STAGES } from "../../../../framework/engine/AnswerUtils.ts";
 import { summaryText } from "../../cards/cardSummary.ts";
 import InfoNote, { InfoText } from "../../fields/InfoNote.tsx";
 import OptionPicker from "../../fields/OptionPicker.tsx";
@@ -40,33 +41,45 @@ export function useEngagementRelationships(earlier: Earlier) {
                 groups.push({ key: channel.id, label: channel.category, channels: [channel] });
             }
         }
-        // A subchannel of a channel (named, when it is one the category offers).
-        const addSub = (category: string, name = "") => {
-            const channel = { ...createBusinessChannel(), category, name };
+        /* WHAT THE FOUNDATION SUGGESTS (JourneySuggestions.ts), shown in this one grid: on a channel's tile, its suggested subchannels as faded lines; on a
+           channel not used yet, the faded tile lists them; in a channel's dialog, a suggested subchannel's faded tile says its stage and where it comes from.
+           Each is added only when pressed, at its stage. */
+        const open = journeySuggestions(segment).filter(suggestion => !suggestionMet(suggestion, answers.channels));
+        const suggestedIn = (category: string) => open.filter(suggestion => suggestion.category === category);
+        const stageLabel = (stage: string) => BUSINESS_JOURNEY_STAGES.find(entry => entry.id === stage)?.label ?? stage;
+        const said = (suggestion: ChannelSuggestion) => (suggestion.name || suggestion.category) + ": " + stageLabel(suggestion.stage) + ", from " + suggestion.source + ".";
+        const suggestionNote = (category: string) => suggestedIn(category).length > 0 ? ["Suggested from your Foundation:", ...suggestedIn(category).map(said)] : [];
+        // A subchannel of a channel (named, when it is one the category offers), at a stage where a suggestion gives one.
+        const addSub = (category: string, name = "", stage = "") => {
+            const channel = { ...createBusinessChannel(), category, name, ...(stage ? { stages: [stage] } : {}) };
             updateSegment(segment.id, { channels: [...answers.channels, channel] });
             return channel;
         };
+        // (A channel the Foundation suggests starts as its first suggestion: its subchannel, at its stage.)
         const addChannel = (category: string) => {
-            const channel = { ...createBusinessChannel(), category };
+            const first = suggestedIn(category)[0];
+            const channel = { ...createBusinessChannel(), category, ...(first ? { name: first.name, stages: [first.stage] } : {}) };
             updateSegment(segment.id, { channels: [...answers.channels, channel] });
             folds.expand(channelCategoryFoldKey(segment.id, channel.id));
             return channel;
         };
         const tiles: SectionTile[] = groups.map(group => {
             const names = group.channels.map(channel => channel.name.trim()).filter(name => name.length > 0);
+            // (Its suggested subchannels follow its own, faded.)
+            const extra = suggestedIn(group.label).filter(suggestion => suggestion.name !== "").map(suggestion => suggestion.name);
             return {
                 id: channelTileId(segment.id, group.key),
                 title: group.label.trim() || "New channel",
                 view: true,
-                items: names,
-                itemMarks: names.map(() => ({ bullet: true })),
+                items: [...names, ...extra],
+                itemMarks: [...names.map(() => ({ bullet: true })), ...extra.map(() => ({ bullet: true, empty: true }))],
                 // (The "+" adds a subchannel to this channel and opens its card.)
                 plus: () => {
                     const made = addSub(group.label);
                     window.setTimeout(() => document.dispatchEvent(new CustomEvent<OpenRequest>(OPEN_EVENT, { detail: { tile: channelTileId(segment.id, group.key), card: made.id, fresh: true } })), 80);
                 },
                 holds: group.channels.map(channel => channel.id),
-                note: channelCategoryHelp(group.label),
+                note: [...channelCategoryHelp(group.label), ...suggestionNote(group.label)],
                 cardFor: (id: string) => answers.channels.some(channel => channel.id === id)
                     ? <div className="column-tile-content" style={{ "--strategy-theme-hue": segmentHue(segment) } as CSSProperties}><CardShell engagement={false} className="business-subchannel-card">{channelsFor(segment, group.key, id)}</CardShell></div>
                     : null,
@@ -117,20 +130,25 @@ export function useEngagementRelationships(earlier: Earlier) {
                     };
                     const spare: CardBox[] = (category?.channels ?? [])
                         .filter(entry => !names.includes(entry.label))
-                        .map((entry, at) => ({
+                        .map((entry, at) => {
+                            const suggestion = suggestedIn(group.label).find(candidate => candidate.name === entry.label);
+                            return {
                             id: "subchannel-inactive-" + group.key + "-" + at,
                             number: group.channels.length + at + 1,
                             plain: true,
                             name: entry.label,
                             unnamed: entry.label,
+                            // (A suggested one says its stage and the Foundation answer it comes from.)
+                            lines: suggestion ? [stageLabel(suggestion.stage), suggestion.source] : undefined,
                             own: true,
                             faded: true,
                             press: () => {
-                                const made = addSub(group.label, entry.label);
+                                const made = addSub(group.label, entry.label, suggestion?.stage ?? "");
                                 window.setTimeout(() => document.dispatchEvent(new CustomEvent<OpenRequest>(OPEN_EVENT, { detail: { tile: channelTileId(segment.id, group.key), card: made.id } })), 80);
                             },
                             content: () => null
-                        }));
+                            };
+                        });
                     return (
                         <div className="column-tile-content">
                             <div className="business-engagement-section-head"><DialogHeading title={group.label.trim() || "New channel"} info={channelCategoryHelp(group.label)} /></div>
@@ -164,7 +182,9 @@ export function useEngagementRelationships(earlier: Earlier) {
                 id: channelTileId(segment.id, "inactive-" + category.id),
                 title: category.label,
                 inactive: true,
-                items: [],
+                // (A channel the Foundation suggests lists what it suggests: its subchannels, or the stage where it suggests the channel alone.)
+                items: [...new Set(suggestedIn(category.label).map(suggestion => suggestion.name || stageLabel(suggestion.stage)))],
+                note: suggestionNote(category.label),
                 press: () => {
                     const channel = addChannel(category.label);
                     window.setTimeout(() => document.dispatchEvent(new CustomEvent<OpenRequest>(OPEN_EVENT, { detail: { tile: channelTileId(segment.id, channel.id), card: channel.id, fresh: true } })), 80);

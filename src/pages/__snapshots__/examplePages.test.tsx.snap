@@ -211,7 +211,7 @@ exports[`Lumen & Loom Studio > Business System › 2. Customer Engagement > tile
 `;
 
 exports[`Lumen & Loom Studio > Business System › 2. Customer Engagement > tile segment-8lu427u5:journey 1`] = `
-"JourneyJourneyiFrom your FoundationSegmentiLondon HomemakersProfilesiThe Considered NesteriThe Hands-On Hobby LearneriOfferingsiHomeware CollectioniWeaving WorkshopsiSuggested from your FoundationiInfluencer / AmbassadorDiscoverhow they discover youTikTokDiscoveryour Profiles' social mediaYouTubeDiscoveryour Profiles' social mediaMeetupDiscoveryour Profiles' communitiesWorkshop / ClassDiscoveryour Profiles' eventsMain WebsiteEvaluationhow they compare optionsCustomer ReferralEvaluationhow they compare optionsPayment LinkPurchasehow they payCustomer LocationDeliveryhow they receive itDirect EmailSupport & Follow Upyour help after they buyOnline / LiveSupport & Follow Upyour help after they buyYour channelsSocial MediaInstagramPinterestWebsiteOnline StoreEmailNewsletterCommunityFacebook GroupIn PersonStudio / ShopMarket / Pop-upDirect PaymentCardPhysical DeliveryCourierMarketplaceOnline / LiveFile DeliveryRetail & WholesaleReferral & Affiliates+ Add ChannelBack‹›JourneyRelationshipsDemand & ConversionChannel CostsBack
+"JourneyJourneyiSocial MediaInstagramPinterestTikTokYouTubeWebsiteOnline StoreMain WebsiteEmailNewsletterDirect EmailCommunityFacebook GroupMeetupIn PersonStudio / ShopMarket / Pop-upWorkshop / ClassCustomer LocationDirect PaymentCardPayment LinkPhysical DeliveryCourierMarketplaceOnline / LiveSupport & Follow UpFile DeliveryRetail & WholesaleReferral & AffiliatesInfluencer / AmbassadorCustomer Referral+ Add ChannelBack‹›JourneyRelationshipsDemand & ConversionChannel CostsBack
 [fields] "
 `;
 
@@ -231,7 +231,7 @@ exports[`Lumen & Loom Studio > Business System › 2. Customer Engagement > tile
 `;
 
 exports[`Lumen & Loom Studio > Business System › 2. Customer Engagement > tile segment-majxtl1u:journey 1`] = `
-"JourneyJourneyiFrom your FoundationSegmentiDesigners & Boutique HotelsProfilesiThe Eco Interior DesigneriOfferingsiBespoke CommissionsiTrade CollectioniSuggested from your FoundationiCustomer ReferralDiscoverhow they discover youPinterestDiscoveryour Profiles' social mediaCustomer ReferralEvaluationhow they compare optionsMain WebsiteEvaluationhow they compare optionsOnline StorePurchasewhere they shopCardPurchasehow they payOnline / LiveSupport & Follow Upyour help after they buyYour channelsSocial MediaLinkedInInstagramWebsiteLanding PageEmailDirect EmailIn PersonTrade Fair / ExhibitionStudio / ShopCustomer LocationDirect PaymentInvoicePhysical DeliveryPostal ServiceCommunityMarketplaceOnline / LiveFile DeliveryRetail & WholesaleReferral & Affiliates+ Add ChannelBack‹›JourneyRelationshipsDemand & ConversionChannel CostsBack
+"JourneyJourneyiSocial MediaLinkedInInstagramPinterestWebsiteLanding PageMain WebsiteOnline StoreEmailDirect EmailIn PersonTrade Fair / ExhibitionStudio / ShopCustomer LocationDirect PaymentInvoiceCardPhysical DeliveryPostal ServiceCommunityMarketplaceOnline / LiveSupport & Follow UpFile DeliveryRetail & WholesaleReferral & AffiliatesCustomer Referral+ Add ChannelBack‹›JourneyRelationshipsDemand & ConversionChannel CostsBack
 [fields] "
 `;
 
@@ -685,7 +685,7 @@ exports[`Quillfield Automation > Business System › 2. Customer Engagement > ti
 `;
 
 exports[`Quillfield Automation > Business System › 2. Customer Engagement > tile segment-qf3n8d2w:journey 1`] = `
-"JourneyJourneyiFrom your FoundationSegmentiNYC Service FirmsProfilesiThe Busy Ops ManageriThe Agency FounderiOfferingsiAI Workflow AuditiAutomation BuildiAutomation Care RetaineriSuggested from your FoundationiCustomer ReferralDiscoverhow they discover youCommunityDiscoverhow they discover youX (Twitter)Discoveryour Profiles' social mediaSlackDiscoveryour Profiles' communitiesOnline StorePurchasewhere they shopYour channelsSocial MediaLinkedInWebsiteMain WebsiteBooking PageEmailNewsletterDirect EmailOtherReferral partnersIn PersonEvent / TalkDirect PaymentInvoiceOnline / LiveZoomFile DeliveryClient PortalCommunityMarketplaceReferral & Affiliates+ Add ChannelBack‹›JourneyRelationshipsDemand & ConversionChannel CostsBack
+"JourneyJourneyiSocial MediaLinkedInX (Twitter)WebsiteMain WebsiteBooking PageOnline StoreEmailNewsletterDirect EmailOtherReferral partnersIn PersonEvent / TalkDirect PaymentInvoiceOnline / LiveZoomFile DeliveryClient PortalCommunityDiscoverSlackMarketplaceReferral & AffiliatesCustomer Referral+ Add ChannelBack‹›JourneyRelationshipsDemand & ConversionChannel CostsBack
 [fields] "
 `;
 
