@@ -12,7 +12,7 @@ import { OFFERING_BOX_QUESTIONS, OFFERING_QUESTIONS, offeringChoose, type Offeri
 import { type SegmentQuestion, segmentRowChoice } from "../../../../framework/engine/SegmentQuestions.ts";
 import { summaryText } from "../../cards/cardSummary.ts";
 import OptionPicker from "../../fields/OptionPicker.tsx";
-import { CATEGORY_OTHER, SUBSECTIONS, noteInfo } from "./shared.tsx";
+import { CATEGORY_OTHER, SUBSECTIONS } from "./shared.tsx";
 import type { FoundationCardScope } from "./useFoundationSubsections.tsx";
 
 /** `read`: the Segment's functional needs, and each Offering's context and answers as the cards show them (the Value Proposition reads them too). */
@@ -150,7 +150,6 @@ export function offeringCard(scope: FoundationCardScope, offering: BusinessOffer
                         ...part,
                         questions: [...(part.id === "benefit" ? [<Fragment key="needs">{needsBand}</Fragment>] : []), ...asked.map(ask)],
                         note: true,
-                        noteInfo: noteInfo(part.id),
                         level: 4,
                         weight: 2 + (asked.length + (part.id === "benefit" ? 1 : 0)) * 4
                     };

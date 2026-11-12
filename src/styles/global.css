@@ -1197,15 +1197,19 @@ h6 {
 
 }
 
-/* Its "i" is centred on the first line of the tick's words, as the tick is (the words' line is 1em, global tick label rule): one centre,
-   as the Legal Entity's capital tick and its "i" (.legal-entity-switch-row). */
+/* Its tick and words are one line as tall as the tick (each line of the words as tall), so the "i", centred on the row, is on the words' centre line
+   as the tick is: one centre (owner, 2026-11-12: every Notes field has an "i" beside its label). */
+.optional-field > .optional-field-head > label:has(> input[type="checkbox"]),
+.optional-field > .optional-field-head > label:has(> input[type="checkbox"]) > :not(input){
+
+    line-height:var(--size-mark);
+
+}
+
+/* (The "i" of a label row is raised 1.5px to the row's middle, .business-foundation-label-info > .info-note; this row is centred already: the "i" stays on it.) */
 .optional-field > .optional-field-head > .info-note{
 
-    align-self:flex-start;
-
-    line-height:1;
-
-    margin-top:calc((1lh - var(--size-mark)) / 2);
+    top:0;
 
 }
 

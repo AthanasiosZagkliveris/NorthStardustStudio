@@ -217,7 +217,10 @@ export default function InfoNote({
     // (Placed, drawn outside the boxes around its button, in the hue of the box it opens from, and closed by a press outside or Escape: PopupPanel.)
 
 
-    const shown = fullList ? points : points.slice(0, 3);
+    // References always come last in an "i" (owner, 2026-11-12: "the references in the i, should always be at the end. That is a rule"): a citation, or a "Based on:" line.
+    const isReference = (point: InfoPoint) => typeof point === "string" ? point.startsWith("Based on:") : "source" in point;
+    const picked = fullList ? points : points.slice(0, 3);
+    const shown = [...picked.filter(point => !isReference(point)), ...picked.filter(isReference)];
 
     function close() {
         setOpen(false);

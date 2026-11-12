@@ -19,7 +19,7 @@ import FittingRadioChoice from "./FittingRadioChoice.tsx";
 import { type SegmentQuestion, segmentRowChoice } from "../../../../framework/engine/SegmentQuestions.ts";
 import { summaryText } from "../../cards/cardSummary.ts";
 import OptionPicker from "../../fields/OptionPicker.tsx";
-import { COMPETITOR_TYPE_QUESTIONS, SUBSECTIONS, noteInfo, SingleColumn, competitorParts } from "./shared.tsx";
+import { COMPETITOR_TYPE_QUESTIONS, SUBSECTIONS, SingleColumn, competitorParts } from "./shared.tsx";
 import type { FoundationCardScope } from "./useFoundationSubsections.tsx";
 
 /** Which of the card's questions each box of its Description asks (doc 41): K1 in Offerings, K2 to K4 in Market, K5 in Customer Acquisition, K6 and K7 in Customer Experience. */
@@ -304,7 +304,6 @@ export function competitorCard(scope: FoundationCardScope, competitor: BusinessC
                     extra: part.id === "experience" ? [COMPETITOR_EXPERIENCE_HOW] : part.extra,
                     questions,
                     note: true,
-                    noteInfo: noteInfo(part.id),
                     level: 4,
                     weight: 2 + questions.length * 4
                 };
@@ -327,7 +326,6 @@ export function competitorCard(scope: FoundationCardScope, competitor: BusinessC
                 label="Notes"
                 fieldId="strengths and weaknesses notes"
                 ariaLabel={whose + " strengths and weaknesses notes"}
-                info={noteInfo("strengths")}
                 disabled={disabled}
                 value={competitor.strengths}
                 onChange={(next) => change({ strengths: next })}
@@ -339,7 +337,6 @@ export function competitorCard(scope: FoundationCardScope, competitor: BusinessC
                 label="Notes"
                 fieldId="opportunities and threats notes"
                 ariaLabel={whose + " opportunities and threats notes"}
-                info={noteInfo("opportunities")}
                 disabled={disabled}
                 value={competitor.opportunities}
                 onChange={(next) => change({ opportunities: next })}

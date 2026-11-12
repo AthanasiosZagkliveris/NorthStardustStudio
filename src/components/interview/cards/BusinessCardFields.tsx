@@ -475,6 +475,13 @@ export function OptionalField({
 }
 
 /**
+ * The one "i" of every Notes field (owner, 2026-11-12: "Should be the same i for all the Notes field. Concise, simple, and easily understandable";
+ * "More as a generic brainstorm, or what the user could write").
+ */
+// A list, one idea a line (owner, 2026-11-12: "structure it like a bullet list").
+export const NOTES_INFO: InfoPoint[] = ["A reminder or a task", "A question to check", "Where a figure came from", "A decision and why", "Someone to talk to"];
+
+/**
  * OptionalField holding a written answer: the growing box of
  * BusinessNote, behind its tick box.
  */
@@ -513,7 +520,7 @@ export function OptionalNote({
 }) {
 
     return (
-        <OptionalField label={label} info={info} filled={value.trim() !== ""} onClear={() => onChange("")} disabled={disabled} fieldId={fieldId}>
+        <OptionalField label={label} info={label === "Notes" ? NOTES_INFO : info} filled={value.trim() !== ""} onClear={() => onChange("")} disabled={disabled} fieldId={fieldId}>
             <StrategyTextArea
                 className={className}
                 ariaLabel={ariaLabel ?? label}
