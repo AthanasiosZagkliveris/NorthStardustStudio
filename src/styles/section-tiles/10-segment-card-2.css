@@ -907,7 +907,7 @@ table.business-relationship-table {
 
         justify-content: flex-end;
 
-        gap: var(--space-label);
+        gap: var(--space-field);
 
     }
 
@@ -917,10 +917,16 @@ table.business-relationship-table {
 
     }
 
-    /* (The tick and its word stand at the cell's left edge, over it.) */
+    /* (The tick and its word stand at the cell's left edge, one cell high, so their middle is the Start's middle and the cell under them is level with the End: owner, 2026-11-12, "Align the fields properly".) */
     .strategy-objective-box .strategy-objective-when > .business-field-side > .business-foundation-label-info {
 
         align-self: flex-start;
+
+        min-height: var(--card-cell-height);
+
+        display: flex;
+
+        align-items: center;
 
     }
 
