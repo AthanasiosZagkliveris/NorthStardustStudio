@@ -45,7 +45,6 @@ Eleven of thirteen chapters are drawn as tiles. The rest:
 |---|---|---|---|
 | Business 4 · Financial Foundation | Not tiles | Four folding cards: Costs, Funding Need, Capital & Funding, Financial Position; plan dates and VAT inline | One frame of four Master Tiles; each opens its existing section in a dialog (the pattern the Roadmap and Registrations use). Plan settings become a small tile or the first tile. |
 | Business 5 · Sustainability | Not tiles | Two folding cards: Revenue, Break Even | Two tiles, same method |
-| Business 2 · Customer Engagement | Mixed | The channel resource table, Customer Relationship and Demand & Conversion are folding sections | Add Relationship and Demand as large tiles in each segment's frame; the resource table becomes a table tile |
 | Four editors | Old non-tile layout kept below an early return | Unreachable code (`asTiles` is always true) | Remove after confirming the tests do not use it |
 | Help tile | Not a real kind in the code | Inventory and Completed are normal tiles recognised by id | Add a real "help tile" kind |
 
@@ -108,7 +107,7 @@ Ordering of work (decided): the **Tile System** is finished first (T1–T2), the
 | A8 | Example organisations and their tests are updated with every interface or requirement change. | M | Rule |
 | A9 | Documents in the project are Markdown; PDFs are exports only. | M | Rule |
 | T1 | **Tile System complete:** Financial Foundation (4 sections) and Sustainability (2 sections) are drawn as tiles that open their existing sections in dialogs. | M | Gap |
-| T2 | **Customer Engagement:** Customer Relationship, Demand & Conversion and the channel resource table become tiles in each segment's frame. | M | Gap |
+| T2 | **Customer Engagement:** Customer Relationship, Demand & Conversion and the channel resource table become tiles in each segment's frame. | M | Done 2026-11-12 (doc 47, section 3); the Channel Costs table's width waits for the owner |
 | T3 | The old non-tile layout under the `asTiles` early return in four editors is removed once tests no longer use it. | S | Fix |
 | X1 | **Extraction readiness:** shared parts (reading mode, notes, calendar, search, review, undo, help, export, preferences) have no import from Systems 05–24; the operations and social-media branches in `Conversation` are removed; storage stays behind the store interface; the desktop opener is the only Tauri import. | S | New |
 | X2 | The examples load on demand, and are optional in the new app. | S | New |

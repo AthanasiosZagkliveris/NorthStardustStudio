@@ -1520,7 +1520,8 @@
                         if (!rules.near(listBox.top - titleBox.bottom, spec.fieldGap, 1.25)) {
                             fail("a tile's list starts 12px under the title's underline", tile, { gap: listBox.top - titleBox.bottom });
                         }
-                        const items = [...list.children].filter(visible);
+                        // (A line of two columns -- a name and its figure -- is drawn by its two parts: the line itself has no box, display: contents.)
+                        const items = [...list.children].filter(item => visible(item) || (getComputedStyle(item).display === "contents" && [...item.children].some(visible)));
                         // A list holds EVERY item and scrolls inside its bounds when they do not fit (thin themed scrollbar, no "+N more").
                         const scrolls = list.scrollHeight > list.clientHeight + 1;
                         if (scrolls && (getComputedStyle(list).overflowY !== "auto" || !list.hasAttribute("data-scrolls"))) {

@@ -1,6 +1,11 @@
-import { CSSProperties } from "react";
+import { CSSProperties, ReactNode } from "react";
 import CardShell from "../cards/CardShell.tsx";
-import { segmentHue } from "../../../framework/engine/AnswerUtils.ts";
+import { BUSINESS_JOURNEY_STAGES, BUSINESS_RELATIONSHIP_TYPES, segmentHue } from "../../../framework/engine/AnswerUtils.ts";
+import { demandResult } from "../../../framework/engine/DemandCapacity.ts";
+import { buildChannelResourceTable } from "../../../framework/engine/ChannelResourceTable.ts";
+import { moneyFormatter } from "../../../framework/engine/FinancialModel.ts";
+import SectionTiles, { DialogHeading, type SectionTile } from "../tiles/SectionTiles.tsx";
+import { DEMAND_BLOCK_HELP } from "./engagement/shared.tsx";
 import { BusinessEmpty } from "../cards/BusinessCardFields.tsx";
 import FoldAllToggle from "../fields/FoldAllToggle.tsx";
 import { ActionPicker } from "./ChannelResources.tsx";
@@ -21,7 +26,118 @@ export default function BusinessEngagementEditor(props: BusinessEngagementEditor
     const part2 = { ...part1, ...useEngagementChannelBoxes({ ...part1 }) };
     const part3 = { ...part1, ...part2, ...useEngagementRelationships({ ...part1, ...part2 }) };
     const part4 = { ...part1, ...part2, ...part3, ...useEngagementDemand({ ...part1, ...part2, ...part3 }) };
-    const { asTiles, channelCategoryFoldKeys, channelResourceTable, channelTiles, channelsFor, clearIsolation, collapsed, columnsDivider, demandFor, engagedOfferingIds, foldingSection, folds, heads, isolated, isolationNames, referenceColumn, relationshipsFor, segments, toggle } = part4;
+    const { asTiles, cards, channelCategoryFoldKeys, channelResourceTable, channelTiles, channelsFor, clearIsolation, collapsed, columnsDivider, currency, demandFor, engagement, engagedOfferingIds, foldingSection, folds, heads, isolated, isolationNames, offeringRelationshipsOf, referenceColumn, relationshipsFor, segmentOf, segments, toggle } = part4;
+
+    /*
+        THE PAGE AS TILES (doc 47, section 3, step one): one chapter per Segment, in the Segment's colour, as Page 1's, holding four Master Tiles -- Journey,
+        Relationships, Demand & Conversion, Channel Costs. Each opens its section, as it was, in a dialog; the section's help is the "i" beside the dialog's heading.
+        No question, field or saved key changes.
+    */
+    if (asTiles && segments.length > 0) {
+
+        /* A face's line of two columns: a name and its figure, the figure in bold (as the Financial Foundation's). */
+        const pair = (name: string, figure: string) => name + "\u0001" + (figure ? "**" + figure + "**" : "");
+        const format = moneyFormatter(currency, { wholeOnly: false });
+        const offeringName = (segment: (typeof segments)[number], offeringId: string) =>
+            segment.offerings.find(offering => offering.id === offeringId)?.name.trim() || "Offering";
+
+        const tilesOf = (segment: (typeof segments)[number]): SectionTile[] => {
+            const answers = segmentOf(segment.id);
+            const offeringIds = engagedOfferingIds(segment);
+            const hue = segmentHue(segment);
+            const dialog = (title: string, info: readonly string[] | undefined, body: ReactNode, extra?: ReactNode) => (
+                <div className="column-tile-content" style={{ "--strategy-theme-hue": hue } as CSSProperties}>
+                    <div className="business-engagement-section-head">
+                        <DialogHeading title={title} info={info ? [...info] : undefined} />
+                        {extra}
+                    </div>
+                    {body}
+                </div>
+            );
+            const table = buildChannelResourceTable(engagement, answers, cards, currency, segments.flatMap(entry => entry.offerings));
+            return [
+                {
+                    id: segment.id + ":journey",
+                    title: "Journey",
+                    anchor: "engagement-section-" + segment.id + "-channels",
+                    // The five stages, each with the number of channels used at it.
+                    items: BUSINESS_JOURNEY_STAGES.map(stage => pair(stage.label, String(answers.channels.filter(channel => channel.stages.includes(stage.id)).length))),
+                    content: () => dialog("Journey", SECTIONS.channels.instructions, channelTiles(segment), isolated && isolated.segmentId === segment.id
+                        ? <IsolationNote kind={isolated.kind === "action" ? "shared" : "linked"} names={isolationNames()} onClear={clearIsolation} />
+                        : undefined)
+                },
+                {
+                    id: segment.id + ":relationships",
+                    title: "Relationships",
+                    anchor: "engagement-section-" + segment.id + "-relationships",
+                    // Each Offering with its relationship types.
+                    items: offeringIds.map(offeringId => pair(offeringName(segment, offeringId), offeringRelationshipsOf(segment.id, offeringId).types
+                        .map(type => BUSINESS_RELATIONSHIP_TYPES.find(entry => entry.id === type)?.label ?? "").filter(label => label !== "").join(", "))),
+                    content: () => dialog("Relationships", SECTIONS.relationships.instructions.slice(0, 3), relationshipsFor(segment))
+                },
+                {
+                    id: segment.id + ":demand",
+                    title: "Demand & Conversion",
+                    anchor: "engagement-section-" + segment.id + "-demand",
+                    // Each Offering with its expected sales a month (active clients for a recurring one).
+                    items: offeringIds.map(offeringId => {
+                        const result = demandResult(engagement.demand[offeringId]);
+                        return pair(offeringName(segment, offeringId), result.expected === null ? "" : result.recurring ? result.expected + " active" : result.expected + " a month");
+                    }),
+                    content: () => dialog("Demand & Conversion", [SECTIONS.relationships.instructions[3], ...DEMAND_BLOCK_HELP.map(point => typeof point === "string" ? point : "")].filter(Boolean) as string[], (
+                        <div className="business-demand-section">
+                            {offeringIds.map(offeringId => (
+                                <div className="business-demand-cell" key={offeringId} data-anchor={"demand-section-" + offeringId}>
+                                    {demandFor(segment, offeringId, offeringName(segment, offeringId))}
+                                </div>
+                            ))}
+                        </div>
+                    ))
+                },
+                {
+                    id: segment.id + ":channel-costs",
+                    title: "Channel Costs",
+                    anchor: "engagement-section-" + segment.id + "-channel-resources",
+                    // What the channels cost: a month, and what moves with sales.
+                    items: [
+                        ...(table.summary.fixedPerMonth !== null ? [pair("A month", format(table.summary.fixedPerMonth))] : []),
+                        // (A share of revenue is a percentage, the rest an amount.)
+                        ...table.summary.variable.map(entry => pair("Variable", /revenue/.test(entry.words) ? entry.amount + "% " + entry.words : format(entry.amount) + " " + entry.words)),
+                        ...(table.summary.oneTime !== null ? [pair("One-time", format(table.summary.oneTime))] : [])
+                    ],
+                    content: () => dialog("Channel Costs", undefined, channelResourceTable(segment, true) ?? <BusinessEmpty>A channel's expenses appear here once its card has one.</BusinessEmpty>)
+                }
+            ];
+        };
+
+        return (
+            <div className="answer-columns business-foundation business-engagement business-capability column-tiles-page" style={{ "--answer-column-count": 1 } as CSSProperties}>
+                {/* A resource waiting for one of its channel's actions: the table's action lines take a click. */}
+                <ActionPicker />
+                <div className="business-foundation-segment-frames">
+                    {segments.map((segment, index) => {
+                        const name = (segments.length > 1 ? (index + 1) + ". " : "") + (segment.name.trim() || "Segment");
+                        return (
+                            <CardShell
+                                key={segment.id}
+                                data-anchor={"engagement-segment-" + segment.id}
+                                style={{ "--strategy-theme-hue": segmentHue(segment) } as CSSProperties}
+                            >
+                                <div className="card-scroll">
+                                    <div className="business-capability-section business-capability-tiles-section">
+                                        {/* The Segment's chapter, named as on Page 1 (its name is edited there). */}
+                                        <div className="business-engagement-section-head tiles-frame-head"><span className="field-group-title business-foundation-subhead">{name}</span></div>
+                                        <SectionTiles label={name + ": Journey, Relationships, Demand & Conversion, Channel Costs"} hue={segmentHue(segment)} tiles={tilesOf(segment)} />
+                                    </div>
+                                </div>
+                            </CardShell>
+                        );
+                    })}
+                </div>
+            </div>
+        );
+
+    }
 
     return (
 

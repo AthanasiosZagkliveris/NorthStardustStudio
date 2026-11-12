@@ -242,7 +242,8 @@ export function useEngagementChannelBoxes(earlier: Earlier) {
      * what the Customer Channel table isolates leaves it as it is: it
      * lists every resource, whatever the rows above show.
      */
-    function channelResourceTable(segment: BusinessCustomerSegmentValue) {
+    /** `bare`: the table alone, with no fold of its own (the Channel Costs tile's dialog, which carries the title). */
+    function channelResourceTable(segment: BusinessCustomerSegmentValue, bare = false) {
 
         const answers = segmentOf(segment.id);
         const table = buildChannelResourceTable(
@@ -255,6 +256,19 @@ export function useEngagementChannelBoxes(earlier: Earlier) {
 
         if (table.rows.length === 0) {
             return null;
+        }
+
+        const tableOf = (
+            <ChannelResourceTable
+                table={table}
+                segmentName={segment.name.trim() || "this Segment"}
+                onOpenCard={onOpenCapability ? (row) => onOpenCapability(row.anchors) : undefined}
+                onOpenAction={(actionId) => openAction(answers.segmentId, actionId)}
+                onLit={setLit}
+            />
+        );
+        if (bare) {
+            return tableOf;
         }
 
         const key = segment.id + "-channel-resources";
@@ -271,15 +285,7 @@ export function useEngagementChannelBoxes(earlier: Earlier) {
 
                 </div>
 
-                {open && (
-                    <ChannelResourceTable
-                        table={table}
-                        segmentName={segment.name.trim() || "this Segment"}
-                        onOpenCard={onOpenCapability ? (row) => onOpenCapability(row.anchors) : undefined}
-                        onOpenAction={(actionId) => openAction(answers.segmentId, actionId)}
-                        onLit={setLit}
-                    />
-                )}
+                {open && tableOf}
 
             </div>
         );

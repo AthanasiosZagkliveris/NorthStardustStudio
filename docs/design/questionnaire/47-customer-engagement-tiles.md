@@ -1,6 +1,6 @@
 # 47. Customer Engagement: the chapter, its tiles and the Offering's four faces, as proposed
 
-Status: **proposal**, written 2026-11-12, updated 2026-11-12. The owner approved it on 2026-11-12 (D6). Step one (the layout) and the delivery check on page 3 (section 2) are built in phase 1; step two (the journey rebuild) in phase 5 (the order of work: doc 49, section 8). Nothing here is built yet.
+Status: **specification**, written 2026-11-12, updated 2026-11-12. Built in part. The owner approved it on 2026-11-12 (D6). **Step one (the layout) is built (2026-11-12, phase 1)**: one chapter per Segment of four Master Tiles, each opening its section as it was (section 3). Step two (the journey rebuild) comes in phase 5 (the order of work: doc 49, section 8).
 
 Related: doc 28 (section 7, the journey and its questions J1, J2, J3, J7), doc 40 (the form), the page 2 specification (`specifications/business-system/page-2-section-1-channels.md`), `ai/customer-engagement-layout.md`, `ai/tile-and-card-pattern.md`, doc 5 (5.3, C4, C7, C8), doc 48 (the Offering Economics card), doc 46 (BA3 and the Body Language draft read this page).
 
@@ -16,11 +16,11 @@ One card per Segment, in its colour, with the references (Segment, Profiles, Off
 | **Delivery and capacity** | Page 3, Offering's Capability → Delivery card | Delivered, Hours Given, hours per unit or client, Calendar Time, Constraints; capacity = founders' delivery hours | O3, O15, O10 |
 | **Cost** | Page 3 cards linked to the Offering → Page 4 | Resources, Activities, Partners, Suppliers with shares; cost per unit | none |
 | **Price and revenue** | Page 5, Revenue stream card | Charged, Unit, Price, Volume, Development, Payment Timing, variable cost per unit | O3, O3b |
-| **Can it be delivered?** | Page 3, the Delivery card, read from pages 2 and 3 (phase 1) | expected sales × hours per unit against the founders' delivery hours | read |
+| **Can it be delivered?** | Page 3, the Delivery dialog, at the normal level of sales; Page 5, month by month as sales grow (the busiest month) | expected sales × hours per unit against the founders' delivery hours | read |
 
 The Offering is the hub of pages 2 to 5 and each page holds one face; the founder never sees the four together.
 
-**The delivery check moves to page 3** (owner, 2026-11-12 15:37; doc 49, section 8, phase 1). It reads Expected Sales (page 2), the hours per unit or client (the Delivery card) and the founders' delivery hours (page 3), and involves no money, so it stands where the hours are written. Page 5's block "Can the Expected Sales Be Delivered?" becomes a link to it: one owner.
+**The delivery check stays where it is** (owner, 2026-11-12 15:54: "Leave Page 5 until step 7"). Page 3 already owns it at the normal level of sales: the Delivery dialog gives the founders' delivery capacity, each Offering's hours at the expected sales and what is left. Page 5's "Can the Expected Sales Be Delivered?" answers another question, the busiest month as sales grow, which needs page 5's growth figures; it stays, and in phase 7 it joins the Offering Economics card on the Revenue & Pricing page (doc 48, section 11).
 
 ## 3. One chapter per Segment
 
@@ -33,7 +33,7 @@ The Foundation page's shape (one chapter per Segment, four Master Tiles, 2 × 2)
 | **Demand & Conversion** | one card tile per Offering | the floating **demand card** | the Offerings with their expected sales a month |
 | **Channel Costs** | a table tile (read-only) | the Channel resources table, plus spend a month and cost per customer per channel | the total spend a month and the cost per customer |
 
-**Step one (layout only):** the four tiles open the existing sections and table as they are, with no question changed (doc 5, 5.3).
+**Step one (layout only), built 2026-11-12:** the four tiles open the existing sections and table as they are, with no question changed (doc 5, 5.3). The faces: Journey (the five stages, each with the number of channels used at it), Relationships (each Offering with its relationship types), Demand & Conversion (each Offering with its expected sales a month, or its active clients), Channel Costs (the fixed cost a month, each variable cost, the one-time costs). Each dialog's help is the "i" beside its heading. The Segment's three reference columns (Segment, Profiles, Offerings) are no longer on the page: the chapter carries the Segment's name, and Page 1 holds the three. The Channel Costs table is wider than the chapter's card (its dialog is the card's width): the owner decides how it is shown.
 
 **Step two (the journey rebuild, doc 28, 7):**
 - **The channel card** holds doc 28, 7.3's fields: category (the stage's usual ones), subchannel, Links, Offerings served, J1 *Are you using this channel yet?*, J2 *What do you do here?* (by stage), the Approach (a note), J7 the goal, "+ Add expense". One channel at several stages is one card shown in each (the shared-action pattern).

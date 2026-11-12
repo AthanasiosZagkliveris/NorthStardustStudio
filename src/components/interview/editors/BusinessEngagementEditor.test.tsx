@@ -2,6 +2,7 @@ import { afterEach, describe, expect, it } from "vitest";
 import { useState } from "react";
 import { cleanup, fireEvent, render as renderBase, screen } from "@testing-library/react";
 import { openFolds } from "../../../test/openFolds.ts";
+import { openTile } from "../../../test/interviewTestUtils.ts";
 
 /** The page as it opens, its structural sections opened (every fold arrow starts closed: see openFolds). */
 function render(ui: Parameters<typeof renderBase>[0], options?: Parameters<typeof renderBase>[1]) {
@@ -465,6 +466,8 @@ describe("BusinessEngagementEditor without a physical item (doc 28, 11.7)", () =
             segments: [{ ...createBusinessSegmentEngagement(segment.id), channels: channels.map(category => ({ ...createBusinessChannel(), category, name: "Shop" })) }]
         };
         render(<BusinessEngagementEditor value={engagement} onChange={() => undefined} foundation={foundation} asTiles />);
+        // (The channels are tiles of the Journey: its dialog opens first.)
+        openTile("Journey");
         const titles = [...document.querySelectorAll(".section-tile .section-tile-title")].map(title => (title.textContent ?? "").replace(/\s+/g, " "));
         cleanup();
         return titles;

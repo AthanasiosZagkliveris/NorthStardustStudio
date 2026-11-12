@@ -52,6 +52,9 @@
 
 .channel-resource-table > caption{
 
+    /* (Read by a screen reader only; on the type scale all the same.) */
+    font-size:var(--font-small);
+
     position:absolute;
 
     width:1px;
