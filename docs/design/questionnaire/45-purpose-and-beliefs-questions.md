@@ -1,6 +1,6 @@
 # 45. Purpose & Beliefs: the six texts and their questions
 
-Status: **specification**, written 2026-11-09, updated 2026-11-09. How the Identity System's six texts (Mission, Vision, Values, Principles, Philosophy, Manifesto) become one chapter, "Purpose & Beliefs", of three pair tiles, and, for each text, the guiding questions, the control, the length, the "i" and the connections. **Built 2026-11-09** as the owner decided (section 6): the chapter, its three pair tiles, the page name and the "i" of the six texts; the saved keys stay as they are. Not built: the Positioning note beside the Mission (section 6, 7) and the codes in the register (section 5).
+Status: **specification**, written 2026-11-09, updated 2026-11-12. How the Identity System's six texts (Mission, Vision, Values, Principles, Philosophy, Manifesto) become one chapter, "Purpose & Beliefs", of three pair tiles, and, for each text, the guiding questions, the control, the length, the "i" and the connections. **Built 2026-11-09** as the owner decided (section 6): the chapter, its three pair tiles, the page name and the "i" of the six texts; the saved keys stay as they are. Not built: the Positioning note beside the Mission (section 6, 7) and the codes in the register (section 5).
 
 Related: doc 40 (the form of a tile document), doc 39 (what an "i" says), doc 28 (4.1, the wording rules; 8.1, the page as built; 8.6a, the Review), doc 38 (Positioning, which comes before), doc 44 (the questions register and the code rule), doc 2 (the source rule).
 
@@ -134,6 +134,66 @@ Each entry follows doc 40. The "i" follows doc 39, 3.2: the guiding questions fi
 
 Nothing is removed: the six are free texts and none decides whether another is asked. An empty text is one Review item, "<text>: not answered yet."
 
+### 3.8 The Vision's two choices (PB7, PB8)
+
+Added 2026-11-12 (owner approved, D1). In the Mission & Vision dialog, in the Vision's column, under its text, one question per band. Built in phase 3 (the order of work: doc 49, section 8). The phrases the Business Plan prints are at the end of this section.
+
+#### PB7. What will your business be when your Vision comes true?
+
+- **Label:** What will your business be when your Vision comes true?
+- **Control:** ticks, "3 max".
+- **Asked when:** always.
+- **Options**, each with the Theme it puts first and its phrase for the Business Plan:
+
+  | id | Label | Theme | Plan phrase |
+  |---|---|---|---|
+  | `customers` | Serving a large, growing customer base | Growth & Market | serving a large, growing customer base |
+  | `loved` | Loved and recommended by its customers | Customers & Experience | recommended by loyal customers |
+  | `range` | Offering a strong, growing range | Products & Innovation | offering a strong, growing range |
+  | `profitable` | Profitable and paying its own way | Revenue & Financial Sustainability | profitable, paying its own way |
+  | `trusted` | Known and trusted in its field | Brand & Positioning | trusted in its field |
+  | `smooth` | Running smoothly with a strong team | Operations & Capability | running smoothly with a strong team |
+  | `partners` | Working closely with strong partners | Partnerships & Expansion | working closely with strong partners |
+
+- **"i":**
+  - The kind of future your Vision describes.
+  - Your choices put the matching Strategic Themes first on the Strategy page.
+- **Saved as:** `purpose.visionAmbitions: string[]`.
+- **Read by:** the Theme order; the Compass draft; the Business Plan's Executive Summary.
+
+#### PB8. Where will your customers be?
+
+- **Label:** Where will your customers be?
+- **Control:** one choice (radio).
+- **Asked when:** always.
+- **Options**, with the Segment's ids, the shared rank, and the plan phrase:
+
+  | id | Rank | Label | Plan phrase |
+  |---|---|---|---|
+  | `city` | 1 | In my city / town | in our city / town |
+  | `region` | 2 | In my state / region | across our state / region |
+  | `country` | 3 | Across my country | across our country |
+  | `countries` | 4 | In several countries | in several countries |
+  | `worldwide` | 5 | Worldwide | worldwide |
+
+  The Segment's own ids are `city`, `region`, `country`, `countries` and `online` ("Anywhere online"), as built in `SegmentQuestions.ts` (`reach`). The Segment's `online` takes rank 5, level with `worldwide`.
+- **Shown under it:** a muted line, "Today: [the widest Segment answer] ([Segment])".
+- **"i":**
+  - Where your customers will be when your Vision comes true.
+  - The distance from today's reach, shown below, guides the growth choices on the Strategy page.
+- **Saved as:** `purpose.visionReach: string`.
+- **Read by:**
+  - The SWOT Opportunity "Customers beyond your reach today: [PB8 label]". It shows when PB8's rank is above every Segment's rank.
+  - SC2's start.
+  - The order of the Partnerships & Expansion Theme.
+- **The Review:** "Your Vision's future: not chosen yet". It shows once the Vision has text and PB7 or PB8 is empty.
+- **The Business Plan prints:** "When our Vision comes true, the business will be [PB7 phrases, joined with commas and 'and'], with customers [PB8 phrase]."
+
+| Answer | Option → phrase |
+|---|---|
+| PB7 (plan) | customers → serving a large, growing customer base; loved → recommended by loyal customers; range → offering a strong, growing range; profitable → profitable, paying its own way; trusted → trusted in its field; smooth → running smoothly with a strong team; partners → working closely with strong partners |
+| PB8 (plan) | city → in our city / town; region → across our state / region; country → across our country; countries → in several countries; worldwide → worldwide |
+
 ## 4. How the texts connect without repeating one another
 
 | Text | Owns | Does not hold |
@@ -162,6 +222,8 @@ The Identity texts have no codes in the register (doc 44 lists the Foundation's 
 | PB4 | Principles | section 2, `principles` | proposed |
 | PB5 | Philosophy | section 2, `philosophy` | proposed |
 | PB6 | Manifesto | section 2, `manifesto` | proposed |
+| PB7 | The Vision's ambitions | section 1, `visionAmbitions` (new) | proposed |
+| PB8 | The Vision's reach | section 1, `visionReach` (new) | proposed |
 
 The codes follow the pairs' order, not today's tile order. They enter the register (`tools/scripts/docs/questions-register.mjs`) now that the chapter is built (section 6); they are not in it yet. No structured question is proposed (sections 3.3 and 3.4), so no further code is taken.
 
@@ -176,6 +238,7 @@ The owner, 2026-11-09 ("Change the 2. Ethics to Purpose & Beliefs, and move ther
 5. **The Business Plan's headings: as they are.** The readers stay untouched (section 1): the plan prints Philosophy under "Values and Principles" and the Manifesto apart. Its reader now finds the four texts by the chapter's new title (`BusinessDocuments.ts`).
 6. **A pair tile's face: both texts' lines, built**, the first's, a hairline, the second's, as a tile shows one text; the list scrolls.
 7. **The Positioning beside the Mission: yes, not built.** It needs a new note beside the Mission's box (section 3.1, "Read by (not built yet)"), a new feature; it waits, with the Review note on a customer no Segment describes.
+8. **The Vision's two choices, PB7 and PB8 (owner, 2026-11-12 14:10, D1): approved, not built** (section 3.8; built in phase 3, doc 49, section 8).
 
 The codes PB1 to PB6 (section 5) are decided; they are not yet in the register (`tools/scripts/docs/questions-register.mjs`, doc 44).
 
