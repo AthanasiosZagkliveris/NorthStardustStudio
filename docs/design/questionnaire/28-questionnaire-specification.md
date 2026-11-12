@@ -665,7 +665,7 @@ Notes (the page's Description)  [auto-growing, the whole width]
 - **Registration Date** (`DateCellInput`), **not asked for a sole trader or sole proprietorship in the six countries** (owner, 2026-11-01; doc 37), **and independent of the Registration Number** (owner, 2026-10-26): the date does not need a number and the number does not need the date. It cannot be later than today or later than the Opening Date. The warnings that go with it (a date that has not come; a company formed after the Opening Date) stand under it. The Key dates read it whenever it is filled.
 - **Opening Date** (`DateCellInput`, with an "i"), saved in the Global Settings (`openingDate`). It decides the business stage (8.2a), the plan start where it is the earliest date recorded, the key dates and the Review's messages, and it can be changed at any time. Registration Date and Opening Date stand one under the other: side by side they do not fit a column that ends before the x column.
 - **Activities:** below.
-- **Notes** is the shared optional note, `OptionalNote` (a tick box and the word, the box opening on ticking; bullets and numbered lists, regular weight, grows with its text), named **Notes** with the placeholder "Add a note". It still saves the page's Description (its field key stays "Description"), which the Business Plan prints.
+- **Notes** is the shared optional note, `OptionalNote` (a tick box and the word, the box opening on ticking; bullets and numbered lists, regular weight, grows with its text), named **Notes**, with no placeholder (owner, 2026-11-12). It still saves the page's Description (its field key stays "Description"), which the Business Plan prints.
 
 **How the options react.**
 

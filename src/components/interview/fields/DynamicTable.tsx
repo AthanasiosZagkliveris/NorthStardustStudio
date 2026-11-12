@@ -1139,10 +1139,9 @@ function DynamicTable({
                 // border/focus for any `.interview-input` in this
                 // table, so NotesField needs no extra className here.
                 //
-                // The placeholder itself still tells the two apart --
-                // "Add a description" for a Description column, only
-                // NotesField's own default ("Add a note") for an
-                // actual Notes column.
+                // The placeholder tells the two apart: "Add a description"
+                // for a Description column, nothing for an actual Notes
+                // column (a Notes box says nothing, owner 2026-11-12).
                 return (
 
                     <NotesField

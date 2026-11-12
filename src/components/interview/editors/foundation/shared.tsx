@@ -160,32 +160,6 @@ export const SUBSECTIONS = {
  * shown as the box's label, and the question it asks -- which its
  * "i" carries.
  */
-/** What each note of a Profile or a Competitor says before anything is written (owner, 2026-11-04): what belongs there and is not asked above. */
-export const NOTE_PLACEHOLDERS: Record<string, string> = {
-    personal: "A name, a job title, where they live",
-    // (The end user's Personal box, doc 36, 2.1.)
-    userPersonal: "A name, what they do, where they live",
-    psychographics: "What they believe and enjoy, beyond what matters most",
-    hubs: "The names of their groups, accounts and events",
-    habits: "How they buy, in their words",
-    goals: "What they want, in their own words",
-    challenges: "What goes wrong for them, in their words",
-    objections: "Their doubts, in their own words",
-    offerings: "What they sell, by name",
-    market: "Other points on their market, such as regions and trends",
-    acquisition: "Their account and shop names, their partners",
-    experience: "Other points on their service, in their customers' words",
-    strengths: "Other strengths and weaknesses you have noticed",
-    opportunities: "Other changes that could help or harm them",
-    needs: "Other needs, in their words",
-    // The Offering's Notes (owner, 2026-11-07): what no question of the box says.
-    function: "What it is, by name",
-    benefit: "The benefit in your customers' words",
-    scope: "Counts, inclusions and limits",
-    delivery: "Packaging and the steps",
-    support: "Names and how often",
-    requirements: "Care instructions and standards"
-};
 
 export interface DescriptionPart {
     id: string;

@@ -663,7 +663,6 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
             label="Notes"
             fieldId="Description"
             ariaLabel="Notes"
-            placeholder="Add a note"
             info={INFO.mainActivity}
             disabled={disabled}
             value={description ?? entity.organisation.mainActivity}

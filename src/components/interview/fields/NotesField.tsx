@@ -10,8 +10,8 @@ interface NotesFieldProps {
 
     /**
      * Accessible name for the notes field -- see
-     * InterviewInput.ariaLabel. Its placeholder ("Add a note")
-     * says what to do, not which column it belongs to.
+     * InterviewInput.ariaLabel. A Notes box shows no placeholder (owner,
+     * 2026-11-12): the notes are the user's own, to use as each wants.
      */
     ariaLabel?: string;
 
@@ -58,18 +58,9 @@ interface NotesFieldProps {
  * user's own request scoped this to "note column[s] or window[s]"
  * specifically.
  *
- * `placeholder` DEFAULTS to "Add a note" -- originally "Add a note
- * (optional)" ("All the notes should have a default message: Add a
- * note (optional)"), with "(optional)" later dropped ("On Notes
- * Columns/Cards remove the (optional) from the message"). Each call
- * site used to pass its own slightly different wording ("Add a
- * relevant note (optional)", "Add a brief note (optional)", "Add a
- * note for this task") before this was standardized; a call site can
- * still override it with something more specific if a future Notes
- * field genuinely needs to, but the shared default means nobody has
- * to remember to type the standard wording by hand -- a new Notes
- * field gets it for free just by using this component without
- * passing `placeholder` at all.
+ * `placeholder` is empty unless a call site passes one: a Notes box says nothing before the user writes
+ * (owner, 2026-11-12: "Do not place any message in the text cells" -- the notes work as each user wants; earlier
+ * every Notes box said "Add a note").
  */
 export default function NotesField({
 
@@ -77,7 +68,7 @@ export default function NotesField({
 
     onChange,
 
-    placeholder = "Add a note",
+    placeholder,
 
     disabled = false,
 

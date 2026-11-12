@@ -228,7 +228,7 @@ function MultiPartAnswerRenderer({
                 ? <ImprintFields value={from[part.id]} onChange={(next) => save({ ...from, [part.id]: next })} disabled={disabled} />
                 : part.id === "positioning" && onChangeLegalEntity
                     // The Early Positioning text under its questions is the shared optional note (the Notes of every card).
-                    ? <OptionalNote label="Notes" fieldId={part.label} ariaLabel="Notes" placeholder="Add a note" value={typeof from[part.id] === "string" ? from[part.id] as string : ""} onChange={(next) => save({ ...from, [part.id]: next })} disabled={disabled} />
+                    ? <OptionalNote label="Notes" fieldId={part.label} ariaLabel="Notes" value={typeof from[part.id] === "string" ? from[part.id] as string : ""} onChange={(next) => save({ ...from, [part.id]: next })} disabled={disabled} />
                 : part.id === "values" || part.id === "principles"
                     ? <NumberedTextList label={part.label} value={from[part.id]} onChange={(next) => save({ ...from, [part.id]: next })} disabled={disabled} />
                     : (

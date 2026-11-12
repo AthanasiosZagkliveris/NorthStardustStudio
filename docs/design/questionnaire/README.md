@@ -1,6 +1,6 @@
 # The first version and the questionnaire (documents 27 to 45)
 
-Status: **index**, updated 2026-11-11. Written by `npm run docs:index` from `tools/scripts/docs/write-index.mjs`; do not edit by hand.
+Status: **index**, updated 2026-11-12. Written by `npm run docs:index` from `tools/scripts/docs/write-index.mjs`; do not edit by hand.
 
 What the first published version contains and what it leaves for later (33, which governs the other documents of this chapter), the questions of each tile as built, and the plan, the lists and the research behind them. Read in this order. **What governs:** 33 (the first version, sections 1 to 9; what is left for later, sections 10 to 15). **The tiles as built, one document each (40 gives the form and the list):** 37 (the Organisation), 38 (Positioning), 35 (the Segment), 36 (the Profile, built in part), 41 (the Competitor), 42 (the Value Proposition, built in part), 43 (the Offering, built in part). **Proposed:** 45 (Purpose & Beliefs: the six texts of the Identity System, with their questions). **Every question in one table, by card and position, with its permanent code:** 44 (generated). **How to word them:** 39 (what an "i" says) and, in 28, sections 3 and 4 (the rules and the plain wording). **The design behind them:** 27 (the plan), 28 (every question, the connections and the evidence), 29 (the flow). **The lists and the data:** 34 (the lists and classifications), 31 and 32 (the positioning decisions and their sources), 30 (age limits).
 
@@ -22,7 +22,7 @@ The standard for these documents is [the standard of the documents](../../standa
 | [38-positioning-questions.md](38-positioning-questions.md) | specification | The Positioning tile's questions as built, by stage: control, limits, options, the help and the connections. | 2026-11-09 |
 | [39-help-texts-guide.md](39-help-texts-guide.md) | specification | What a help text says: the analysis of the 159 help texts and a proposed structure per place and field, standard phrases, size budgets and a check. | 2026-11-09 |
 | [40-tile-documents.md](40-tile-documents.md) | rules | The form every tile document takes (one for each tile or card), and where each tile stands: which has a document and which does not yet. | 2026-11-10 |
-| [41-competitor-questions.md](41-competitor-questions.md) | specification | The Competitor card: every question and option, as built (K1 to K10, in the card's order, by the competitor's type). | 2026-11-10 |
+| [41-competitor-questions.md](41-competitor-questions.md) | specification | The Competitor card: every question and option, as built (K1 to K10, in the card's order, by the competitor's type). | 2026-11-12 |
 | [42-value-proposition-questions.md](42-value-proposition-questions.md) | proposal | The Value Proposition tile: the draft sentence and the open items, as proposed. | 2026-11-09 |
 | [43-offering-questions.md](43-offering-questions.md) | specification | The Offering card: every question and option (O1 to O18), built in part. | 2026-11-09 |
 | [44-questions-register.md](44-questions-register.md) | generated | The questions register: every question of the Foundation's cards by card and position, with its permanent code, saved id, control, limit, when it is asked, its start, options and "i", and the retired codes; generated from the code. | 2026-11-11 |

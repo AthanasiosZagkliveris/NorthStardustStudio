@@ -209,9 +209,10 @@ export default function BusinessDocumentsView({ organizationId }: { organization
                                 />
                             </div>
                             <div className="business-documents-option">
-                                <span>Until</span>
+                                {/* ("Forecast": how far the forecast runs; one short word, owner 2026-11-12.) */}
+                                <span>Forecast</span>
                                 <OptionPicker
-                                    label="Forecast until"
+                                    label="Forecast"
                                     placeholder="Select"
                                     options={Array.from({ length: planYearCount }, (_, index) => yearLabel(index + 1))}
                                     value={yearLabel(lastYear)}
