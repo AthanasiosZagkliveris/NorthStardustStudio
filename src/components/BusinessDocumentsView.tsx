@@ -195,32 +195,6 @@ export default function BusinessDocumentsView({ organizationId }: { organization
                 {/* ONE EXPORT (owner, 2026-11-09: "a single button, with CSV, MD and PDF drop down options. It should have its symbol too"), in the Workbook's
                     title row with the other buttons (WorkbookTools): the formats the document has, the Forecast's CSV too. */}
                 <WorkbookTools>
-                    {/* (The Forecast's period and its last year: in the title's row with the Export, owner 2026-11-10.) */}
-                    {documentId === "forecast" && (
-                        <>
-                            <div className="business-documents-option">
-                                <span>Period</span>
-                                <OptionPicker
-                                    label="Forecast period"
-                                    placeholder="Select"
-                                    options={PERIODS.map(entry => entry.label)}
-                                    value={PERIODS.find(entry => entry.id === period)?.label ?? ""}
-                                    onChange={(next) => setPeriod(PERIODS.find(entry => entry.label === next)?.id ?? "annual")}
-                                />
-                            </div>
-                            <div className="business-documents-option">
-                                {/* ("Forecast": how far the forecast runs; one short word, owner 2026-11-12.) */}
-                                <span>Forecast</span>
-                                <OptionPicker
-                                    label="Forecast"
-                                    placeholder="Select"
-                                    options={Array.from({ length: planYearCount }, (_, index) => yearLabel(index + 1))}
-                                    value={yearLabel(lastYear)}
-                                    onChange={(next) => setUntilYear(Number(next.split(" ")[1]) || planYearCount)}
-                                />
-                            </div>
-                        </>
-                    )}
                     <ExportMenu
                         what={documentId === "plan" ? "Business Plan" : documentId === "canvas" ? "Business Model Canvas" : "Financial Forecast"}
                         disabled={!anySession}
@@ -272,14 +246,40 @@ export default function BusinessDocumentsView({ organizationId }: { organization
 
                 {documentId === "forecast" && (
                     <div className="business-forecast">
-                        {/* The logo on the Forecast's cover, as on the Plan's. */}
-                        {loaded.plan.documentLogo && (
-                            <div className="business-forecast-logo">
-                                <div className="business-document-logo">
-                                    <img src={loaded.plan.documentLogo.src} alt={loaded.plan.documentLogo.alt} />
+                        {/* The logo on the Forecast's cover, as on the Plan's, and beside it the Period and the Forecast. */}
+                        <div className="business-forecast-head">
+                            {loaded.plan.documentLogo && (
+                                <div className="business-forecast-logo">
+                                    <div className="business-document-logo">
+                                        <img src={loaded.plan.documentLogo.src} alt={loaded.plan.documentLogo.alt} />
+                                    </div>
+                                </div>
+                            )}
+                            {/* THE FORECAST'S PERIOD AND LENGTH, on the sheet beside the logo (owner, 2026-11-12: "Place the Period and Forecast buttons in the page next to the logo"). */}
+                            <div className="business-forecast-options">
+                                <div className="business-documents-option">
+                                    <span>Period</span>
+                                    <OptionPicker
+                                        label="Forecast period"
+                                        placeholder="Select"
+                                        options={PERIODS.map(entry => entry.label)}
+                                        value={PERIODS.find(entry => entry.id === period)?.label ?? ""}
+                                        onChange={(next) => setPeriod(PERIODS.find(entry => entry.label === next)?.id ?? "annual")}
+                                    />
+                                </div>
+                                <div className="business-documents-option">
+                                    {/* ("Forecast": how far the forecast runs; one short word, owner 2026-11-12.) */}
+                                    <span>Forecast</span>
+                                    <OptionPicker
+                                        label="Forecast"
+                                        placeholder="Select"
+                                        options={Array.from({ length: planYearCount }, (_, index) => yearLabel(index + 1))}
+                                        value={yearLabel(lastYear)}
+                                        onChange={(next) => setUntilYear(Number(next.split(" ")[1]) || planYearCount)}
+                                    />
                                 </div>
                             </div>
-                        )}
+                        </div>
                         {view.tables.map(table => (
                             <div className="business-forecast-table-wrap" key={table.title}>
                                 {/* The table's caption: stays in view while a monthly table scrolls sideways. */}

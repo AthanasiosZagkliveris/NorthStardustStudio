@@ -440,6 +440,42 @@
 
 }
 
+/* THE FORECAST'S HEAD: the logo, and beside it the Period and the Forecast, each label beside its picker (owner, 2026-11-12: "Place the Period and
+   Forecast buttons in the page next to the logo"); under the logo where the sheet is too narrow for both. */
+.business-forecast-head{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    align-items:center;
+
+    gap:var(--gap-24);
+
+}
+
+.business-forecast-options{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    align-items:center;
+
+    gap:var(--gap-24);
+
+}
+
+.business-forecast-options .business-documents-option{
+
+    flex-direction:row;
+
+    align-items:center;
+
+    gap:var(--gap-8);
+
+}
+
 .business-forecast{
 
     display:flex;

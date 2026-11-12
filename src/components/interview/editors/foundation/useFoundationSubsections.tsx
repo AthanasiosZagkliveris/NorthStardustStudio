@@ -27,7 +27,7 @@ import { OPEN_EVENT, type OpenRequest } from "../../tiles/SectionTiles.tsx";
 import { land } from "../../tiles/jumpTo.ts";
 import NumberedListInput from "../../fields/NumberedListInput.tsx";
 import StrategyTextArea from "../../fields/StrategyTextArea.tsx";
-import { BusinessNeedKind, DescriptionPart, OPTIONAL_DESCRIPTION_PART, SUBSECTIONS, SingleColumn, otherProfileNeeds } from "./shared.tsx";
+import { BusinessNeedKind, DescriptionPart, OPTIONAL_DESCRIPTION_PART, SUBSECTIONS, noteInfo, SingleColumn, otherProfileNeeds } from "./shared.tsx";
 import { BUSINESS_AUDIENCE, PEOPLE_AUDIENCE, audienceLine, segmentContextFor, segmentFrame, segmentPositioningShown } from "./identityLink.ts";
 import type { useFoundationState } from "./useFoundationState.tsx";
 import { competitorCard } from "./CompetitorCard.tsx";
@@ -569,6 +569,7 @@ export function useFoundationSubsections(earlier: Earlier) {
                 // The Personal box's prompt says what it asks (owner, 2026-11-03): a B2B Profile is asked its job level and role in buying, not its household.
                 text: asked.frame === "business" && textBusiness ? textBusiness : part.text,
                 note: true,
+                noteInfo: noteInfo(part.id),
                 level: 4,
                 extra: [PROFILE_NOTE_HINTS[part.id as ProfileBox]],
                 questions: profileQuestionsOf(part.id as ProfileBox, segment.questions, asked).map(question => profileQuestionOf(profile, profileIndex, shown, question)),
@@ -611,6 +612,7 @@ export function useFoundationSubsections(earlier: Earlier) {
                                             label="Notes"
                                             fieldId={entry.title + " notes"}
                                             ariaLabel={segmentPath + ", Profile " + (profileIndex + 1) + " " + entry.title + " notes"}
+                                            info={noteInfo(entry.box)}
                                             disabled={disabled}
                                             value={entry.text}
                                             onChange={(next) => updateProfile(segmentIndex, profileIndex, { [entry.field]: next })}
@@ -666,6 +668,7 @@ export function useFoundationSubsections(earlier: Earlier) {
                             label="Notes"
                             fieldId={kind.title + " notes"}
                             ariaLabel={kind.title + " needs notes for " + segmentPath + ", Profile " + (profileIndex + 1)}
+                            info={noteInfo("needs")}
                             disabled={disabled}
                             value={profile.needs[kind.id as BusinessNeedKind].join("\n").replace(/^\n+|\n+$/g, "")}
                             onChange={(next) => updateProfile(segmentIndex, profileIndex, { needs: { ...profile.needs, [kind.id]: next.split("\n") } })}
@@ -705,14 +708,14 @@ export function useFoundationSubsections(earlier: Earlier) {
             const own = (box: ProfileBox) => profileUserQuestionsOf(box, segment.questions, asked).map(question => profileQuestionOf(profile, profileIndex, userShown, question, "own"));
             const motivation = (box: "goals" | "challenges" | "objections", title: string, part: ProfilePart, before: ReactNode[] = []): DescriptionPart => ({
                 id: box, title, text: SUBSECTIONS.segments.motivations[box][0], extra: [PROFILE_NOTE_HINTS[box]], level: 4, note: true,
-                noteValue: profile[box], onNote: (next) => updateProfile(segmentIndex, profileIndex, { [box]: next }),
+                noteInfo: noteInfo(box), noteValue: profile[box], onNote: (next) => updateProfile(segmentIndex, profileIndex, { [box]: next }),
                 questions: [...before, ...profileQuestionsOf(box, segment.questions, asked, part).map(question => profileQuestionOf(profile, profileIndex, shown, question, part))]
             });
             const buyer: DescriptionPart[] = [...profileParts(profile, profileIndex), motivation("objections", "Objections", "buyer")];
             const user: DescriptionPart[] = [
                 {
                     id: "user-personal", title: "Specific Personal Information", text: parts.userPersonal, extra: [parts.userPersonalHint], level: 4, note: true,
-                    noteValue: profile.user?.note ?? "", noteId: "End user Specific Personal Information notes",
+                    noteInfo: noteInfo("userPersonal"), noteValue: profile.user?.note ?? "", noteId: "End user Specific Personal Information notes",
                     onNote: (next) => updateProfile(segmentIndex, profileIndex, { user: { ...profile.user, note: next } }),
                     questions: own("personal")
                 },

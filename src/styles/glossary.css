@@ -331,25 +331,6 @@
 
 }
 
-/* The Forecast's period and last year in the title's row: each label beside its picker. */
-.workbook .workbook-tools .business-documents-option{
-
-    display:flex;
-    flex-direction:row;
-    align-items:center;
-
-    gap:var(--gap-8);
-
-}
-
-/* The Forecast's Period and Until stand before the text size, Export after it (owner, 2026-11-10: "place the Period and Until fields before the text size
-   fields"). */
-.workbook .workbook-tools > .business-documents-option{
-
-    order:-1;
-
-}
-
 /* The page itself does not scroll (its title stays, owner, 2026-11-10): the panel ends over the footer and scrolls inside. */
 .workbook .glossary-page{
 

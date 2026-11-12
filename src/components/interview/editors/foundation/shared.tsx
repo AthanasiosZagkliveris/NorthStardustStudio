@@ -161,6 +161,36 @@ export const SUBSECTIONS = {
  * "i" carries.
  */
 
+/** What each Notes box of a Profile, a Competitor or an Offering is for, shown in the "i" beside its label (owner, 2026-11-12: the box itself stays empty). */
+export const NOTE_HELP: Record<string, string> = {
+    personal: "A name, a job title, where they live",
+    // (The end user's Personal box, doc 36, 2.1.)
+    userPersonal: "A name, what they do, where they live",
+    psychographics: "What they believe and enjoy, beyond what matters most",
+    hubs: "The names of their groups, accounts and events",
+    habits: "How they buy, in their words",
+    goals: "What they want, in their own words",
+    challenges: "What goes wrong for them, in their words",
+    objections: "Their doubts, in their own words",
+    offerings: "What they sell, by name",
+    market: "Other points on their market, such as regions and trends",
+    acquisition: "Their account and shop names, their partners",
+    experience: "Other points on their service, in their customers' words",
+    strengths: "Other strengths and weaknesses you have noticed",
+    opportunities: "Other changes that could help or harm them",
+    needs: "Other needs, in their words",
+    // The Offering's Notes (owner, 2026-11-07).
+    function: "What it is, by name",
+    benefit: "The benefit in your customers' words",
+    scope: "Counts, inclusions and limits",
+    delivery: "Packaging and the steps",
+    support: "Names and how often",
+    requirements: "Care instructions and standards"
+};
+
+/** The "i" of a Notes box: its help text, where it has one. */
+export const noteInfo = (id: string): string[] | undefined => NOTE_HELP[id] ? [NOTE_HELP[id]] : undefined;
+
 export interface DescriptionPart {
     id: string;
     title: string;
@@ -177,8 +207,8 @@ export interface DescriptionPart {
     note?: boolean;
     /** The heading level of its title (3 where it is a section of its card, 4 where it stands under a section: the Profile's boxes). */
     level?: number;
-    /** What its note says before anything is written: what belongs there that the questions do not ask. */
-    placeholder?: string;
+    /** What its note is for, shown in the "i" beside the Notes label. */
+    noteInfo?: string[];
     /**
      * Where its note is kept, when not in the Description's own text under its id (a Profile's Objections, Goals and Challenges notes, and the end user's Personal note: doc 36,
      * 2.1): the note's text, how it is written, and the key of its field where the title is used twice on one card.

@@ -1197,6 +1197,18 @@ h6 {
 
 }
 
+/* Its "i" is centred on the first line of the tick's words, as the tick is (the words' line is 1em, global tick label rule): one centre,
+   as the Legal Entity's capital tick and its "i" (.legal-entity-switch-row). */
+.optional-field > .optional-field-head > .info-note{
+
+    align-self:flex-start;
+
+    line-height:1;
+
+    margin-top:calc((1lh - var(--size-mark)) / 2);
+
+}
+
 /* AN ADD BUTTON AT THE END OF A LIST OF ROWS (the Legal Entity's
    extra registration numbers and tax registrations): the list's whole
    content width, its label centred -- as the add button standing
