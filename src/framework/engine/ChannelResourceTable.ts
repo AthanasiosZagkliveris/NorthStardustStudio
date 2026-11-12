@@ -87,6 +87,11 @@ export interface ChannelResourceSummary {
     notSummed: number;
 }
 
+/** One variable cost of the summary in words: a share of revenue as a percentage ("4.7% of revenue"), any other as an amount ("£340 per set"). */
+export function variableCostText(entry: { words: string; amount: number }, format: (amount: number) => string): string {
+    return entry.words === "of revenue" ? entry.amount + "% of revenue" : format(entry.amount) + " " + entry.words;
+}
+
 export interface ChannelResourceTable {
     rows: ChannelResourceRow[];
     summary: ChannelResourceSummary;
@@ -264,7 +269,7 @@ export function buildChannelResourceTable(
         parts.push("Fixed per month: " + format(summary.fixedPerMonth));
     }
     if (summary.variable.length > 0) {
-        parts.push("Variable: " + summary.variable.map(entry => format(entry.amount) + " " + entry.words).join(", "));
+        parts.push("Variable: " + summary.variable.map(entry => variableCostText(entry, format)).join(", "));
     }
     if (summary.oneTime !== null) {
         parts.push("One-time: " + format(summary.oneTime));

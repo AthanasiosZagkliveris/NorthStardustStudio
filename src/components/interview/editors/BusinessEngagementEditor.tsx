@@ -2,7 +2,7 @@ import { CSSProperties, ReactNode } from "react";
 import CardShell from "../cards/CardShell.tsx";
 import { BUSINESS_JOURNEY_STAGES, BUSINESS_RELATIONSHIP_TYPES, segmentHue } from "../../../framework/engine/AnswerUtils.ts";
 import { demandResult } from "../../../framework/engine/DemandCapacity.ts";
-import { buildChannelResourceTable } from "../../../framework/engine/ChannelResourceTable.ts";
+import { buildChannelResourceTable, variableCostText } from "../../../framework/engine/ChannelResourceTable.ts";
 import { moneyFormatter } from "../../../framework/engine/FinancialModel.ts";
 import SectionTiles, { DialogHeading, type SectionTile } from "../tiles/SectionTiles.tsx";
 import { DEMAND_BLOCK_HELP } from "./engagement/shared.tsx";
@@ -102,7 +102,7 @@ export default function BusinessEngagementEditor(props: BusinessEngagementEditor
                     items: [
                         ...(table.summary.fixedPerMonth !== null ? [pair("A month", format(table.summary.fixedPerMonth))] : []),
                         // (A share of revenue is a percentage, the rest an amount.)
-                        ...table.summary.variable.map(entry => pair("Variable", /revenue/.test(entry.words) ? entry.amount + "% " + entry.words : format(entry.amount) + " " + entry.words)),
+                        ...table.summary.variable.map(entry => pair("Variable", variableCostText(entry, format))),
                         ...(table.summary.oneTime !== null ? [pair("One-time", format(table.summary.oneTime))] : [])
                     ],
                     content: () => dialog("Channel Costs", undefined, channelResourceTable(segment, true) ?? <BusinessEmpty>A channel's expenses appear here once its card has one.</BusinessEmpty>)
