@@ -3434,6 +3434,21 @@
         if (mine.left < 7.5 || mine.top < 7.5 || mine.right > window.innerWidth - 7.5 || (mine.bottom > window.innerHeight - 7.5 && mine.height <= window.innerHeight - 15 && mine.top > 140)) {
             fail("a floating card is wholly in the window", { card: [mine.left, mine.top, mine.right, mine.bottom] });
         }
+        // A CARD OPENED FROM A DIALOG STANDS ON THE OTHER HALF OF THE PAGE, clear of the dialog's tiles (layout rules, "A floating card opens on the half of the page its tile
+        // is NOT in"; acrossFrom): wherever the page has chapters side by side. (A page of one chapter keeps its chapter.)
+        {
+            const dialogs = [...document.querySelectorAll(".section-tile-overlay:not(.floating-overlay) > .section-tile-dialog")];
+            const dialog = dialogs[dialogs.length - 1];
+            const chapters = [...document.querySelectorAll(".business-foundation-input[data-anchor]")].filter(frame => !frame.closest(".section-tile-overlay") && frame.getBoundingClientRect().width > 0);
+            const sideBySide = chapters.length >= 2 && chapters.some(frame => Math.abs(frame.getBoundingClientRect().top - chapters[0].getBoundingClientRect().top) < 2 && frame !== chapters[0]);
+            if (dialog && sideBySide && dialog.dataset.tile !== "overview" && dialog.dataset.tile !== "completed") {
+                const covered = [...dialog.querySelectorAll(".section-tile, .card-tile")].map(tile => tile.getBoundingClientRect())
+                    .filter(tile => tile.width > 0 && tile.left < mine.right - 1 && tile.right > mine.left + 1 && tile.top < mine.bottom - 1 && tile.bottom > mine.top + 1);
+                if (covered.length > 0) {
+                    fail("a floating card opened from a dialog stands on the other half of the page, clear of the dialog's tiles", { dialog: dialog.dataset.tile, covered: covered.length });
+                }
+            }
+        }
         const wanted = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--open-card-width")) || 480;
         // (A card wide by nature -- the Roadmap, a Goal with its Objectives -- is as wide as that needs.)
         const wide = !!(card && card.closest(".floating-card-body")?.querySelector(".strategy-goal-card, .strategy-roadmap-card"));

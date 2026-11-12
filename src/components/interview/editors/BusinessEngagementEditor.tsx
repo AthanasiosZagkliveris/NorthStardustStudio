@@ -29,7 +29,7 @@ export default function BusinessEngagementEditor(props: BusinessEngagementEditor
     const { asTiles, cards, channelCategoryFoldKeys, channelResourceTable, channelTiles, channelsFor, clearIsolation, collapsed, columnsDivider, currency, demandFor, engagement, engagedOfferingIds, foldingSection, folds, heads, isolated, isolationNames, offeringRelationshipsOf, referenceColumn, relationshipsFor, segmentOf, segments, toggle } = part4;
 
     /*
-        THE PAGE AS TILES (doc 47, section 3, step one): one chapter per Segment, in the Segment's colour, as Page 1's, holding four Master Tiles -- Journey,
+        THE PAGE AS TILES (doc 47, section 3, step one): one chapter per Segment, in the Segment's colour, as Page 1's, holding four Master Tiles -- Channels,
         Relationships, Demand & Conversion, Channel Costs. Each opens its section, as it was, in a dialog; the section's help is the "i" beside the dialog's heading.
         No question, field or saved key changes.
     */
@@ -58,12 +58,12 @@ export default function BusinessEngagementEditor(props: BusinessEngagementEditor
 
             return [
                 {
-                    id: segment.id + ":journey",
-                    title: "Journey",
+                    id: segment.id + ":channels",
+                    title: "Channels",
                     anchor: "engagement-section-" + segment.id + "-channels",
                     // The five stages, each with the number of channels used at it.
                     items: BUSINESS_JOURNEY_STAGES.map(stage => pair(stage.label, String(answers.channels.filter(channel => channel.stages.includes(stage.id)).length))),
-                    content: () => dialog("Journey", [...SECTIONS.channels.instructions, "Faded channels and subchannels are suggestions from your Foundation answers: each is added only when you press it."], channelTiles(segment), isolated && isolated.segmentId === segment.id
+                    content: () => dialog("Channels", [...SECTIONS.channels.instructions, "Faded channels and subchannels are suggestions from your Foundation answers: each is added only when you press it."], channelTiles(segment), isolated && isolated.segmentId === segment.id
                         ? <IsolationNote kind={isolated.kind === "action" ? "shared" : "linked"} names={isolationNames()} onClear={clearIsolation} />
                         : undefined)
                 },
@@ -128,7 +128,7 @@ export default function BusinessEngagementEditor(props: BusinessEngagementEditor
                                     <div className="business-capability-section business-capability-tiles-section">
                                         {/* The Segment's chapter, named as on Page 1 (its name is edited there). */}
                                         <div className="business-engagement-section-head tiles-frame-head"><span className="field-group-title business-foundation-subhead">{name}</span></div>
-                                        <SectionTiles label={name + ": Journey, Relationships, Demand & Conversion, Channel Costs"} hue={segmentHue(segment)} tiles={tilesOf(segment)} />
+                                        <SectionTiles label={name + ": Channels, Relationships, Demand & Conversion, Channel Costs"} hue={segmentHue(segment)} tiles={tilesOf(segment)} />
                                     </div>
                                 </div>
                             </CardShell>

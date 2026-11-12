@@ -80,7 +80,7 @@ export default function ChannelResourceTable({ table, segmentName, onOpenCard, o
                 <table className="channel-resource-table">
 
                     <caption>
-                        {"Channel expenses of " + segmentName + ": each resource, what it costs and the actions it serves. Generated from the channels of the Journey."}
+                        {"Channel expenses of " + segmentName + ": each resource, what it costs and the actions it serves. Generated from the Channels."}
                     </caption>
 
                     <thead>

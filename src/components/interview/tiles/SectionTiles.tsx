@@ -192,7 +192,9 @@ export default function SectionTiles({
         // The column of the page the tile stands in (Infrastructure's card or Offering's Capability's), or -- the Workspace -- its tile group.
         const anchor = centre === "group"
             ? from.closest<HTMLElement>(".section-tiles-box")
-            : otherColumn(sectionAnchor(from));
+            // (A tile inside a dialog -- a channel of the Channels dialog, a category of a section -- opens its card on the half of the page it is NOT in, as a box's
+            // card does (acrossFrom); a tile on the page, over the other column.)
+            : acrossFrom(from) ?? otherColumn(sectionAnchor(from));
         setFloating({ tileId: tile.id, id, opener: from, anchor, fresh, linked, alone, under });
     };
 
