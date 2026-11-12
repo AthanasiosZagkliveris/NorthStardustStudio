@@ -14,7 +14,7 @@ import FinancialFoundationEditor from "../editors/FinancialFoundationEditor";
 import FinancialSustainabilityEditor from "../editors/FinancialSustainabilityEditor";
 import FinancialPlanSettings from "../editors/FinancialPlanSettings";
 import { asLegalEntityValue } from "../../../framework/engine/AnswerUtils";
-import { toggles, typeInto } from "../../../test/interviewTestUtils";
+import { openTile, toggles, typeInto } from "../../../test/interviewTestUtils";
 import { asFinancialFoundationValue, asFinancialSustainabilityValue, createFundingSource } from "../../../framework/engine/FinancialModel";
 
 /** Opens a fold that is closed; where the item starts OPEN (Customer Engagement, the financial pages) it is left as it is. */
@@ -42,6 +42,7 @@ describe("FinancialFoundationEditor folding", () => {
         };
 
         render(<Harness initial={initial} />);
+        openTile("Capital & Funding");
 
         toggles(/Source \d+$/).forEach(t => expect(t.getAttribute("aria-expanded")).toBe("true"));
 
@@ -145,6 +146,7 @@ describe("FinancialFoundationEditor number limits", () => {
         };
 
         render(<Harness initial={initial} />);
+        openTile("Capital & Funding");
 
         const card = toggles(/Source 1$/)[0];
         if (card.getAttribute("aria-expanded") === "false") {
@@ -247,12 +249,14 @@ describe("the Operating need's Loan Repayments column", () => {
 
     it("is there, with its i, when a loan is recorded, whatever its status", () => {
         render(<Harness initial={withFunding([{ ...createFundingSource("external"), type: "bank-loan", name: "Start Up Loan", amount: "9000", status: "requested" }])} />);
+        openTile("Funding Need");
         expect(loanHead()).toBeDefined();
         expect(screen.getByRole("button", { name: "Loan Repayments: what this means" })).toBeTruthy();
     });
 
     it("is not there when no loan is recorded", () => {
         render(<Harness initial={withFunding([{ ...createFundingSource("external"), type: "grant", amount: "5000", status: "received" }])} />);
+        openTile("Funding Need");
         expect(screen.queryAllByRole("columnheader").some(head => /Running Costs/.test(head.textContent ?? ""))).toBe(true);
         expect(loanHead()).toBeUndefined();
     });

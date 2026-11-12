@@ -1,6 +1,6 @@
 # Business System — Page 4: Financial Foundation
 
-Status: **specification**, written 2026-09-27, updated 2026-11-02. The requirement as written (sections 1 to 29) is preceded by "As built", which wins where they differ; section 30 gives the rules of the cost nature, the funds and the scheduling.
+Status: **specification**, written 2026-09-27, updated 2026-11-12. The requirement as written (sections 1 to 29) is preceded by "As built", which wins where they differ; section 30 gives the rules of the cost nature, the funds and the scheduling.
 
 > **3. Business System — Page 4 of 5.**
 > The first of the two Financial pages; **Page 5 — Financial Sustainability** follows it.
@@ -53,6 +53,8 @@ Status: **specification**, written 2026-09-27, updated 2026-11-02. The requireme
 - [30.7 Not built](#307-not-built)
 
 ## As built
+
+**The page as tiles (2026-11-12, doc 48, section 1).** The page is one chapter, "Financial Foundation", standing at the left at half width as Strategy's one chapter does (`strategy-single-frame`), of four Master Tiles: Costs, Funding Need, Capital & Funding, Financial Position. Each tile opens its section, as described below, in a dialog; the section's help (its instructions and its "i") is the "i" beside the dialog's heading. The faces: Costs, the Launch budget, the running costs a month and the cost of each sale; Funding Need, Establishment, Operating and Offering with their amounts; Capital & Funding, the sources by status (a count each); Financial Position, the Funding Gap, or Covered with the Financial Runway. The plan's months and currency stay in the page title; the plan's settings, the VAT basis among them, stay on the Global Settings screen; the notes on a missing currency or Offerings stand at the head of the Costs dialog. No field, calculation or saved key changed.
 
 **The page and the model it shares with Page 5.** Page 4 is a Structure of its own, `Financial Foundation` (editor `FinancialFoundationEditor`); Page 5 is `Financial Sustainability`. Every calculation on either page lives in one module of pure functions, `src/framework/engine/FinancialModel.ts`, tested in `FinancialModel.test.ts` against the specifications' own worked examples. The two editors share their month field, figure tiles, cash timeline chart and signal list (`FinancialParts.tsx`). The four sections are folding cards numbered 1 to 4 (`**Numbering:** Nested`); they are not tiles yet (document 5, section 5.3).
 

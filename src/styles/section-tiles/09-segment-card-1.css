@@ -742,7 +742,8 @@
 
 .financial-costs-ledger .financial-ledger-source {
 
-    font-size: 0.85em;
+    /* (On the type scale: the small size, as every second line of the app.) */
+    font-size: var(--font-small);
 
 }
 

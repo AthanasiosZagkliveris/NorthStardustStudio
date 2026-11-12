@@ -2,6 +2,7 @@ import { afterEach, describe, expect, it } from "vitest";
 import { useState } from "react";
 import { cleanup, render as renderBase, screen } from "@testing-library/react";
 import { openFolds } from "../../../test/openFolds.ts";
+import { openTile } from "../../../test/interviewTestUtils.ts";
 
 /** The page as it opens, its structural sections opened (every fold arrow starts closed: see openFolds). */
 function render(ui: Parameters<typeof renderBase>[0], options?: Parameters<typeof renderBase>[1]) {
@@ -42,6 +43,8 @@ function show(openingDate: string) {
             globalSettings={{ ...createGlobalSettings(), capitalisationLimit: "500" }}
         />
     );
+    // (Funding Need is a tile of the page: its section opens in the tile's dialog.)
+    openTile("Funding Need");
 }
 
 describe("the funds under Funding Need", () => {
@@ -91,6 +94,7 @@ describe("the Costs and Funding Need sections with the cost nature and the cash 
 
     it("is a read-only table: the three totals on top, then a line for each cost under its heading, with its group, its amount and its nature, and nothing to type", () => {
         render(<Stateful />);
+        openTile("Costs");
         const costs = (document.querySelector("[data-anchor=financial-costs]") as HTMLElement).textContent ?? "";
         expect(costs).toMatch(/Launch budget/);
         expect(costs).toMatch(/Running costs a month/);
@@ -104,17 +108,20 @@ describe("the Costs and Funding Need sections with the cost nature and the cash 
 
     it("says what the Global Settings contribute: the Opening Date, the capitalisation limit and the reserves", () => {
         render(<Stateful />);
+        openTile("Costs");
         expect(document.body.textContent).toMatch(/From the Global Settings: Opening Date 2027-04-01 .* capitalisation limit 500/);
     });
 
     it("shows the Total Pre-operational Budget under the costs", () => {
         render(<Stateful />);
+        openTile("Costs");
         const total = document.querySelector("[data-anchor='financial-pre-operational-budget']") as HTMLElement;
         expect(total.textContent).toMatch(/Total Pre-operational Budget:.*30,000/);
     });
 
     it("the Establishment need is the cash to raise before the opening: the 30,000 of CapEx and its 3,000 contingency, not counted again as running costs", () => {
         render(<Stateful />);
+        openTile("Funding Need");
         const establishment = [...document.querySelectorAll(".financial-need-card")].find(card => card.textContent?.includes("Establishment")) as HTMLElement;
         expect(establishment).toBeTruthy();
         expect(establishment.textContent).toMatch(/33,000/);

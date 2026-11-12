@@ -40,7 +40,7 @@ A tile document is **one document for one tile or card**, in this order:
 | Business 1: Offerings | 43 | built in part (specification) |
 | Business 2: Customer Engagement | 47 | built in part (specification) |
 | Business 3: Business Capability | none (doc 28, section 9) | not yet |
-| Business 4 and 5: Financial Foundation, Sustainability, and the Inventory | 48 | proposal |
+| Business 4 and 5: Financial Foundation, Sustainability, and the Inventory | 48 | built in part (specification) |
 | Strategy: Situation & Direction (Current Situation Analysis, SWOT Analysis, Strategic Compass, Strategic Period) | 49 | proposal |
 
 A tile gets its document when it is built or about to be; the tile's design in doc 28 is then marked as governed by it, as 6.3a, 8.2 and 8.5 are.

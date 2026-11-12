@@ -45,7 +45,7 @@ Status: **index**, updated 2026-11-17, written by `npm run docs:index` (the subj
 ## F
 
 - **Fields, list**: [14](design/library/14-fields-list.md)
-- **Financial pages and Inventory (tiles)**: [48 (proposal)](design/questionnaire/48-financial-pages-tiles.md)
+- **Financial pages and Inventory (tiles)**: [48 (built in part)](design/questionnaire/48-financial-pages-tiles.md)
 - **First version**: [33](design/questionnaire/33-specs-and-limitations.md)
 - **Folders of the repository**: [25](design/current/25-folder-plan.md)
 - **Free texts**: [20](design/current/20-free-text-categories.md); [16 (text holders)](design/current/16-text-holders.md)

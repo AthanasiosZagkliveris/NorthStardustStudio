@@ -6,12 +6,15 @@ import { calculatedLines } from "../../../framework/engine/CalculatedLines.ts";
 import { contingencyFunds, launchNeedOf } from "../../../framework/engine/ContingencyFunds.ts";
 import { ownersTakeDrawings } from "../../../framework/engine/FinancialForecast.ts";
 import { capitalisationLimitOf, createGlobalSettings, type GlobalSettingsValue } from "../../../framework/engine/GlobalSettings.ts";
-import { type ReactNode, useEffect, useState } from "react";
+import { type CSSProperties, type ReactNode, useEffect, useState } from "react";
 import { type LegalEntityValue, type StrategyMonthValue, asBusinessCapabilityValue, asBusinessEngagementValue, asLegalEntityValue, businessFoundationSegments, withLegalEntityFounders } from "../../../framework/engine/AnswerUtils.ts";
 import { assetUnitCostsOf, incomeTaxRate, COST_GROUPS, COST_FREQUENCIES, COST_NATURES, COST_NATURE_LABELS, natureSplitOf, FINANCIAL_FOUNDATION_SECTIONS, FUNDING_CATEGORIES, FUNDING_NEED_CATEGORIES, FUNDING_SCHEDULES, FUNDING_STATUSES, FUNDING_TYPES, LOAN_METHODS, PERIOD_FREQUENCIES, planLength, asFinancialFoundationValue, consolidateCosts, createFundingSource, createMilestone, financialPosition, founderCapitalSources, fundingNeeds, fundingStanding, fundingType, isNonCash, loanRepaymentNotes, loanSchedule, moneyFormatter, allFunding, monthlyEquivalent, planMonthLabel, withPlanStart, derivedPlanStart, legalExpenseDates, costStartDates, type CostLine, type FinancialFoundationValue, asFinancialSustainabilityValue, withDemand, type FundingSourceValue } from "../../../framework/engine/FinancialModel.ts";
 import { costSourcesFor } from "../../../framework/engine/ExportRenderers.ts";
 import { BusinessAddButton, BusinessCard, BusinessEmpty, BusinessField, OptionalNote, BusinessRemove, BusinessTicks, uniqueChoices } from "../cards/BusinessCardFields.tsx";
-import { CashTimelineChart, FigureTable, FigureTiles, FinancialBlock, FinancialPageHead, FinancialSectionCard, PlanMonthField, SignalList, type FinancialSection } from "./FinancialParts.tsx";
+import { CashTimelineChart, FigureTable, FigureTiles, FinancialBlock, PlanMonthField, SignalList } from "./FinancialParts.tsx";
+import CardShell from "../cards/CardShell.tsx";
+import SectionTiles, { DialogHeading, type SectionTile } from "../tiles/SectionTiles.tsx";
+import { workHue } from "../../../framework/engine/WorkColours.ts";
 import { summaryText } from "../cards/cardSummary.ts";
 import FoldAllToggle from "../fields/FoldAllToggle.tsx";
 import InfoNote, { type InfoPoint, InfoText } from "../fields/InfoNote.tsx";
@@ -23,7 +26,7 @@ import { railId } from "../rails/railItems.ts";
 import { useItemFolds } from "../fields/useItemFolds.ts";
 import { toggledIn } from "../fields/toggledIn.ts";
 import TextLink from "../fields/TextLink.tsx";
-import { CATEGORY_INFO, DEFINITIONS, FUNDING_GAP_FORMULA, LOAN_PAYMENT_HELP, LOAN_PRE_INTEREST_HELP, RUNWAY_FORMULA, RUNWAY_SOURCE, SECTIONS, SECTION_HUES, explain } from "./financialFoundationTexts.ts";
+import { CATEGORY_INFO, DEFINITIONS, FUNDING_GAP_FORMULA, LOAN_PAYMENT_HELP, LOAN_PRE_INTEREST_HELP, RUNWAY_FORMULA, RUNWAY_SOURCE, SECTIONS, explain } from "./financialFoundationTexts.ts";
 
 /* ==========================================================
    The editor
@@ -74,10 +77,6 @@ export default function FinancialFoundationEditor({
     onChange,
 
     disabled = false,
-
-    showInstructions = true,
-
-    columnsDivider,
 
     foundation,
 
@@ -156,8 +155,6 @@ export default function FinancialFoundationEditor({
         "Unnamed offering"
     );
 
-    const [collapsed, setCollapsed] = useState<ReadonlySet<string>>(new Set());
-
     /**
      * Which Funding Source cards are open. Funding sources start
      * CLOSED -- see useItemFolds -- unlike the structural sections
@@ -170,9 +167,6 @@ export default function FinancialFoundationEditor({
     const [costFilter, setCostFilter] = useState({ group: "", offering: "", nature: "", sort: "amount" });
 
     const [schedulesOpen, setSchedulesOpen] = useState<ReadonlySet<string>>(new Set());
-    function toggle(key: string) {
-        setCollapsed(current => toggledIn(current, key));
-    }
 
     /* Writes go to what is STORED, so an unchosen plan start stays unchosen. */
     function update(patch: Partial<FinancialFoundationValue>) {
@@ -267,27 +261,6 @@ export default function FinancialFoundationEditor({
 
     /* ---------- The four sections ---------- */
 
-    function sectionCard(
-        id: string,
-        section: FinancialSection,
-        body: () => ReactNode,
-        sectionIndex: number
-    ) {
-        return (
-            <FinancialSectionCard
-                key={id}
-                anchor={id}
-                rail={railId(FINANCIAL_FOUNDATION_SECTIONS[sectionIndex])}
-                number={sectionIndex + 1}
-                section={section}
-                hue={SECTION_HUES[id] ?? 0}
-                open={!collapsed.has(id)}
-                onToggle={() => toggle(id)}
-                body={body}
-            />
-        );
-    }
-
     /* ---------- 1. Costs ---------- */
 
     /** One part of a cost: where it stands in the Costs table, what it comes to, and what kind of cost it is. */
@@ -329,6 +302,14 @@ export default function FinancialFoundationEditor({
         return { rows, uncounted };
     }
 
+    /** The cost of each sale: the prices per unit added up, and how many costs are a percent of revenue instead (the Costs section's third total, and its tile's). */
+    function saleTextOf(rows: CostRow[]): string {
+        const sales = rows.filter(row => row.bucket === "sale");
+        const perSale = sales.filter(row => row.line.frequency !== "usage-based").reduce((sum, row) => sum + (row.line.variablePerUnit ?? row.amount), 0);
+        const percentCosts = sales.filter(row => row.line.frequency === "usage-based").length;
+        return sales.length === 0 ? format(0) : format(perSale) + (percentCosts > 0 ? " + " + percentCosts + " % of Rev" : "");
+    }
+
     function costsSection() {
 
         const setting = (text: string, empty = "not set") => text.trim() !== "" ? text.trim() : empty;
@@ -348,11 +329,7 @@ export default function FinancialFoundationEditor({
             ? (left.line.startDate ?? "~").localeCompare(right.line.startDate ?? "~")
             : costFilter.sort === "name" ? left.line.name.localeCompare(right.line.name) : right.amount - left.amount;
 
-        /* The cost of each sale: the prices per unit added up, and how many costs are a percent of revenue instead. */
-        const sales = rows.filter(row => row.bucket === "sale");
-        const perSale = sales.filter(row => row.line.frequency !== "usage-based").reduce((sum, row) => sum + (row.line.variablePerUnit ?? row.amount), 0);
-        const percentCosts = sales.filter(row => row.line.frequency === "usage-based").length;
-        const saleText = sales.length === 0 ? format(0) : format(perSale) + (percentCosts > 0 ? " + " + percentCosts + " % of Rev" : "");
+        const saleText = saleTextOf(rows);
 
         const filterOptions = (list: readonly { id: string; label: string }[], all: string) => [{ id: "", label: all }, ...list];
         const groupInfo = COST_GROUPS.map(group => ({ title: group.label, text: group.explanation }));
@@ -372,6 +349,8 @@ export default function FinancialFoundationEditor({
 
         return (
             <div className="financial-section-body">
+
+                {planNotesOf()}
 
                 <p className="financial-lead">
                     A summary of the costs recorded on the Legal Entity, the Founders and Infrastructure & Capability. Nothing is typed here: a cost is
@@ -1183,17 +1162,18 @@ export default function FinancialFoundationEditor({
 
     /* ---------- 4. Financial Position ---------- */
 
+    /* Worked out once: its section and its tile's headline read the same figures. */
+    const position = financialPosition(page, lines, legalEntity, currency, format, revenuePage, launched?.launch);
+
+    const runway = !position.hasOutflows
+        ? "n/a"
+        : position.runwayMonths === null
+            ? months + "+ months"
+            : position.runwayMonths + " month" + (position.runwayMonths === 1 ? "" : "s");
+
+    const covered = position.need > 0 && position.gap <= 0.005;
+
     function positionSection() {
-
-        const position = financialPosition(page, lines, legalEntity, currency, format, revenuePage, launched?.launch);
-
-        const runway = !position.hasOutflows
-            ? "n/a"
-            : position.runwayMonths === null
-                ? months + "+ months"
-                : position.runwayMonths + " month" + (position.runwayMonths === 1 ? "" : "s");
-
-        const covered = position.need > 0 && position.gap <= 0.005;
 
         const mixTotal = position.mix.reduce((sum, entry) => sum + entry.confirmed + entry.pending, 0);
 
@@ -1343,28 +1323,57 @@ export default function FinancialFoundationEditor({
 
     }
 
-    /* ---------- The page ---------- */
+    /* ---------- The page: one chapter of four Master Tiles (doc 48, section 1), each opening its section in a dialog ---------- */
+
+    /* What each tile says of its section (doc 48, section 1): two columns, a name and its figure in bold. */
+    const pair = (name: string, figure: string) => name + "\u0001" + (figure ? "**" + figure + "**" : "");
+    const costFace = [
+        pair("Launch budget", format(funds.schedule.total)),
+        pair("Running costs a month", format(funds.monthlyOpEx)),
+        pair("Cost of each sale", saleTextOf(costRows().rows))
+    ];
+    const needFace = calculatedNeeds.map(need => pair(need.label, format(need.amount)));
+    const sources = allFunding(page, legalEntity);
+    const fundingFace = FUNDING_STATUSES
+        .map(status => ({ status, count: sources.filter(source => (source.status || "planned") === status.id).length }))
+        .filter(entry => entry.count > 0)
+        .map(entry => pair(entry.status.label, String(entry.count)));
+    const positionFace = position.gap > 0.005
+        ? [pair("Funding Gap", format(position.gap))]
+        : covered
+            ? [pair("Funding", "Covered"), pair("Financial Runway", runway)]
+            : [];
 
     const sections = [
-        { id: "financial-costs", section: SECTIONS.costs, body: costsSection },
-        { id: "financial-need", section: SECTIONS.need, body: needSection },
-        { id: "financial-funding", section: SECTIONS.funding, body: fundingSection },
-        { id: "financial-position", section: SECTIONS.position, body: positionSection }
+        { id: "financial-costs", section: SECTIONS.costs, body: costsSection, items: costFace, anchor: "financial-costs financial-pre-operational-budget" },
+        { id: "financial-need", section: SECTIONS.need, body: needSection, items: needFace, anchor: "financial-need" },
+        { id: "financial-funding", section: SECTIONS.funding, body: fundingSection, items: fundingFace, anchor: "financial-funding" },
+        { id: "financial-position", section: SECTIONS.position, body: positionSection, items: positionFace, anchor: "financial-position" }
     ];
 
-    return (
-        <div className="financial-page business-foundation business-engagement business-capability">
+    const hue = workHue("build");
 
-            <FinancialPageHead
-                sections={[SECTIONS.costs, SECTIONS.need, SECTIONS.funding, SECTIONS.position]}
-                showInstructions={showInstructions}
-                columnsDivider={columnsDivider}
-            />
+    const tiles: SectionTile[] = sections.map((entry, index) => ({
+        id: entry.id,
+        title: entry.section.title,
+        anchor: entry.anchor,
+        rail: railId(FINANCIAL_FOUNDATION_SECTIONS[index]),
+        items: entry.items,
+        content: () => (
+            <div className="column-tile-content" data-anchor={entry.id} data-rail={railId(FINANCIAL_FOUNDATION_SECTIONS[index])} role="group" aria-label={entry.section.title}>
+                <div className="business-engagement-section-head">
+                    <DialogHeading title={entry.section.title} info={[...entry.section.instructions, ...entry.section.info]} />
+                </div>
+                {/* (The page's chart colours, which the Financial pages define, hold in the dialog too.) */}
+                <div className="financial-page">{entry.body()}</div>
+            </div>
+        )
+    }));
 
-            {/* (The plan's own settings -- Plan Start, Opening Date, Plan Length, Amounts, Income Tax -- are on the Global Settings screen.) */}
+    /** The plan's own notes, at the head of the Costs dialog. (The plan's settings -- Plan Start, Opening Date, Plan Length, Amounts, Income Tax, the VAT basis -- are on the Global Settings screen; its months and currency are in the page title.) */
+    function planNotesOf(): ReactNode {
+        return (!currency || (offerings.length === 0 && onOpenFoundation)) ? (
             <div className="financial-plan-bar">
-                {/* The plan's months and its currency are in the
-                    page title ("… · Jan 2027 – Dec 2029 · USD"). */}
                 {!currency && (
                     <span className="financial-plan-meta">
                         Choose a country on 1. Identity System → 3. Legal Entity to set the currency.
@@ -1379,15 +1388,24 @@ export default function FinancialFoundationEditor({
                     </span>
                 )}
             </div>
+        ) : null;
+    }
 
-            {sections.map((entry, index) => (
-                <div className="financial-flow-step" key={entry.id}>
-                    {index > 0 && <span className="financial-flow-arrow" aria-hidden="true">↓</span>}
-                    {sectionCard(entry.id, entry.section, entry.body, index)}
+    return (
+        <div className="answer-columns business-foundation business-engagement business-capability column-tiles-page strategy-single-frame" style={{ "--answer-column-count": 1 } as CSSProperties}>
+            <CardShell
+                data-anchor="column-tiles"
+                style={{ "--strategy-theme-hue": hue } as CSSProperties}
+            >
+                <div className="card-scroll">
+                    <div className="business-capability-section business-capability-tiles-section">
+                        <div className="business-engagement-section-head tiles-frame-head"><span className="field-group-title business-foundation-subhead">Financial Foundation</span></div>
+                        <SectionTiles label={FINANCIAL_FOUNDATION_SECTIONS.join(", ")} hue={hue} tiles={tiles} />
+                    </div>
                 </div>
-            ))}
-
+            </CardShell>
         </div>
     );
 
 }
+

@@ -35,8 +35,7 @@
 */
 .financial-page-head > .answer-columns-divider,
 .financial-page > .financial-plan-bar,
-.financial-page > .business-foundation-card,
-.financial-page > .financial-flow-step{
+.financial-page > .business-foundation-card{
 
     margin-inline:-13px;
 
@@ -122,16 +121,6 @@
     font-size:var(--font-body);
 
     color:var(--text-muted);
-
-}
-
-.financial-flow-step{
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:var(--gap-12);
 
 }
 
