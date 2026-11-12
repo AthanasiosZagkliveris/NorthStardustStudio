@@ -2,7 +2,7 @@
  * THE CHANNEL TILES and the relationships of each Offering.
  * One part of BusinessEngagementEditor (see BusinessEngagementEditor.tsx): what it needs of the parts before it comes in as `earlier`; what the parts after it need goes out.
  */
-import { CSSProperties } from "react";
+import { CSSProperties, Fragment } from "react";
 import CardShell from "../../cards/CardShell.tsx";
 import { BUSINESS_CHANNEL_ALL_OFFERINGS, BUSINESS_CHANNEL_CATEGORIES, BUSINESS_CHANNEL_OTHER, BUSINESS_RELATIONSHIP_TYPES, BusinessChannelValue, BusinessCustomerSegmentValue, channelCategoryHelp, channelCategoryHidden, businessProfileOfferings, businessRelationshipInteractions, createBusinessChannel, segmentHue } from "../../../../framework/engine/AnswerUtils.ts";
 import { BusinessAddButton, BusinessEmpty, BusinessNote, BusinessStep, BusinessTicks } from "../../cards/BusinessCardFields.tsx";
@@ -11,6 +11,7 @@ import { BUSINESS_JOURNEY_STAGES } from "../../../../framework/engine/AnswerUtil
 import { summaryText } from "../../cards/cardSummary.ts";
 import InfoNote, { InfoText } from "../../fields/InfoNote.tsx";
 import OptionPicker from "../../fields/OptionPicker.tsx";
+import FieldLabel from "../../../controls/FieldLabel.tsx";
 import StrategyTextArea from "../../fields/StrategyTextArea.tsx";
 import SectionTiles, { DialogHeading, OPEN_EVENT, type OpenRequest, type SectionTile } from "../../tiles/SectionTiles.tsx";
 import CardBoxes, { type CardBox } from "../../cards/CardBoxes.tsx";
@@ -283,8 +284,8 @@ export function useEngagementRelationships(earlier: Earlier) {
      * sixth column. It belongs to the same interaction, and it is
      * optional.
      */
-    /** `only`: that one Offering alone (its card, opened from its tile in the Customer's Relationship dialog). */
-    function relationshipsFor(segment: BusinessCustomerSegmentValue, only?: string) {
+    /** `only`: that one Offering alone; with `asCard`, as its floating card (opened from its tile in the Customer's Relationship dialog). */
+    function relationshipsFor(segment: BusinessCustomerSegmentValue, only?: string, asCard = false) {
 
         const answers = segmentOf(segment.id);
 
@@ -375,6 +376,143 @@ export function useEngagementRelationships(earlier: Earlier) {
 
         const offeringOpen = (offeringId: string) =>
             folds.isOpen(offeringFoldKey(offeringId));
+
+        /*
+            ONE OFFERING'S RELATIONSHIP AS A FLOATING CARD (owner, 2026-11-12 17:53: "Offering relationship should be a floated card"): the card's own bands, as every
+            card of the Foundation has them (the Segment's boxes: a box's title, then a band per question, the tints alternating). The Offering and its Profiles; then a
+            box for each relationship type: the type, its Purpose, and the five stages one under another, each with its Goal and its Approach; then the suggested type
+            and "+ Add Relationship Type". The same fields and saved answers as the table above.
+        */
+        if (asCard && only) {
+            const offeringId = only;
+            const offeringRows = rowsOf(offeringId);
+            const kept = offeringRelationshipsOf(segment.id, offeringId);
+            const served = profilesFor(offeringId);
+            const band = (at: number) => "legal-entity-org-section" + (at % 2 === 1 ? " legal-entity-org-band" : "");
+            const rule = <div className="business-capability-card-rule legal-entity-org-rule business-capability-card-rule-double" role="separator" />;
+            const suggested = suggestedRelationshipType(segment, offeringId);
+            return (
+                <div className="legal-entity-grid legal-entity-grid-pairs legal-entity-grid-organization legal-entity-audience business-segment-grid business-segment-grid-full" data-anchor={"relationship-offering-" + offeringId}>
+                    <div className="legal-entity-field">
+                        <div className="business-segment-box">
+                            <div className="legal-entity-org-section">
+                                <span className="business-foundation-label-info legal-entity-label-info">
+                                    <FieldLabel className="business-foundation-label" role="heading" aria-level={3}>{offeringName(offeringId)}</FieldLabel>
+                                </span>
+                            </div>
+                            <div className={band(0)}>
+                                <FieldLabel>Profiles</FieldLabel>
+                                {served.length === 0
+                                    ? <BusinessEmpty>Tick this Offering under a Profile's Functional Needs on the Foundation page.</BusinessEmpty>
+                                    : <ul className="business-relationship-profile-list">{served.map((profile, index) => <li key={profile.id}>{foundationLink(profile.name.trim() || "Profile " + (index + 1), "Profile", profile.id)}</li>)}</ul>}
+                            </div>
+                        </div>
+                        {kept.types.map(typeId => {
+                            const type = typeOf(segment.id, offeringId, typeId);
+                            return (
+                                <Fragment key={typeId}>
+                                    {rule}
+                                    {/* (The type's x in the box's top right corner, as the relationship block's.) */}
+                                    <div className="business-relationship-block">
+                                    <span className="business-relationship-block-remove">
+                                        <BusinessStep
+                                            kind="remove"
+                                            what={(TYPE_LABELS[typeId] ?? "") + " Relationship Type for " + offeringName(offeringId)}
+                                            disabled={disabled}
+                                            onClick={() => updateOfferingRelationships(segment.id, offeringId, { types: kept.types.filter(candidate => candidate !== typeId) })}
+                                        />
+                                    </span>
+                                    <div className="business-segment-box">
+                                        <div className="legal-entity-org-section">
+                                            <span className="business-foundation-label-info legal-entity-label-info">
+                                                <FieldLabel className="business-foundation-label" role="heading" aria-level={3}>{TYPE_LABELS[typeId] ?? "Relationship Type"}</FieldLabel>
+                                                <InfoNote label="Relationship Type" points={SECTIONS.relationships.types} fullList />
+                                            </span>
+                                        </div>
+                                        <div className={band(0)}>
+                                            <BusinessNote
+                                                label="Purpose"
+                                                ariaLabel={"Purpose of " + TYPE_LABELS[typeId] + " for " + offeringName(offeringId)}
+                                                info={SECTIONS.relationships.purpose}
+                                                disabled={disabled}
+                                                value={type.purpose}
+                                                onChange={(next) => updateType(segment.id, offeringId, typeId, { purpose: next })}
+                                            />
+                                        </div>
+                                        {offeringRows.map((interaction, at) => {
+                                            const answersFor = interactionOf(segment.id, offeringId, typeId, interaction.key, interaction.legacyKeys);
+                                            const about = (STAGE_LABELS[interaction.stageId] ?? "") + ", " + offeringName(offeringId) + ", " + TYPE_LABELS[typeId];
+                                            return (
+                                                <div className={band(at + 1)} key={interaction.key}>
+                                                    <span className="business-foundation-label-info legal-entity-label-info">
+                                                        <InfoText text={STAGE_LABELS[interaction.stageId] ?? ""}>
+                                                            {interaction.groups.length > 0 && (
+                                                                <InfoNote
+                                                                    label={STAGE_LABELS[interaction.stageId] + ": the channels"}
+                                                                    points={interaction.groups.map(group => ({ title: group.category.trim().length ? group.category : "No category", text: group.channelIds.map(id => channelName(id)).join(", ") }))}
+                                                                    fullList
+                                                                />
+                                                            )}
+                                                        </InfoText>
+                                                    </span>
+                                                    <BusinessTicks
+                                                        name={"Goals for " + about}
+                                                        options={GOAL_OPTIONS}
+                                                        chosen={answersFor.goals}
+                                                        disabled={disabled}
+                                                        onChange={(next) => updateInteraction(segment.id, offeringId, typeId, interaction.key, interaction.legacyKeys, { goals: next })}
+                                                    />
+                                                    <StrategyTextArea
+                                                        className="interview-input business-foundation-note"
+                                                        ariaLabel={"Approach for " + about}
+                                                        placeholder="Approach"
+                                                        disabled={disabled}
+                                                        value={answersFor.approach}
+                                                        onChange={(next) => updateInteraction(segment.id, offeringId, typeId, interaction.key, interaction.legacyKeys, { approach: next })}
+                                                    />
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
+                                    </div>
+                                </Fragment>
+                            );
+                        })}
+                        {rule}
+                        <div className="business-segment-box">
+                            {suggested && !kept.types.includes(suggested) && (
+                                <div className={band(0)}>
+                                    <BusinessEmpty>Suggested from your Foundation: {TYPE_LABELS[suggested]}, from the help your customers want before and after they buy.</BusinessEmpty>
+                                    <BusinessStep
+                                        kind="add"
+                                        what={TYPE_LABELS[suggested] + " for " + offeringName(offeringId)}
+                                        label={TYPE_LABELS[suggested]}
+                                        disabled={disabled}
+                                        onClick={() => updateOfferingRelationships(segment.id, offeringId, { types: [...kept.types.filter(candidate => candidate !== ""), suggested] })}
+                                    />
+                                </div>
+                            )}
+                            {kept.types.length < BUSINESS_RELATIONSHIP_TYPES.length && (
+                                <div className="legal-entity-org-section">
+                                    <BusinessStep
+                                        kind="add"
+                                        what={"Relationship Type for " + offeringName(offeringId)}
+                                        label="Relationship Type"
+                                        disabled={disabled}
+                                        onClick={() => {
+                                            const free = BUSINESS_RELATIONSHIP_TYPES.find(entryType => !kept.types.includes(entryType.id));
+                                            if (free) {
+                                                updateOfferingRelationships(segment.id, offeringId, { types: [...kept.types, free.id] });
+                                            }
+                                        }}
+                                    />
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            );
+        }
 
         return (
             <div className="business-channel-table-wrap">

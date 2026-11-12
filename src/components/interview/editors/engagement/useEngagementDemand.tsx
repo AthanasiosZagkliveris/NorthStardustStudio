@@ -63,7 +63,9 @@ export function useEngagementDemand(earlier: Earlier) {
     function demandFor(
         segment: BusinessCustomerSegmentValue,
         offeringId: string,
-        offeringLabel: string
+        offeringLabel: string,
+        /** As a floating card (opened from its tile in the Demand & Conversion dialog): always open, its title with no fold arrow. */
+        asCard = false
     ) {
 
         const demand = demandOf(offeringId);
@@ -74,7 +76,7 @@ export function useEngagementDemand(earlier: Earlier) {
            its head still says what it gives. Unlike the structural
            sections, this starts OPEN (`useItemFolds(true)`). */
         const foldKey = "demand-" + offeringId;
-        const open = folds.isOpen(foldKey);
+        const open = asCard || folds.isOpen(foldKey);
 
         const channelOptions: BusinessTickOption[] = channelChoices(
             segmentOf(segment.id).channels
@@ -299,11 +301,13 @@ export function useEngagementDemand(earlier: Earlier) {
 
                 <div className="business-demand-head">
                     <div className="business-demand-title-row">
-                        <FoldArrow
-                            open={open}
-                            label={"Demand & Conversion for " + offeringLabel}
-                            onToggle={() => folds.toggle(foldKey)}
-                        />
+                        {!asCard && (
+                            <FoldArrow
+                                open={open}
+                                label={"Demand & Conversion for " + offeringLabel}
+                                onToggle={() => folds.toggle(foldKey)}
+                            />
+                        )}
                         {/* What the block is for, and where its result is
                             used: one "i" on the title rather than two
                             paragraphs around the fields. */}

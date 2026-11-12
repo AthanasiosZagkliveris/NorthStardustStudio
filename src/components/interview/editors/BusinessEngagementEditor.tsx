@@ -98,7 +98,7 @@ export default function BusinessEngagementEditor(props: BusinessEngagementEditor
                     group: "Customer's Relationship",
                     bareCards: true,
                     holds: offeringIds.map(offeringId => "rel:" + offeringId),
-                    cardFor: (id: string) => offeringIds.includes(offeringOf(id)) ? floatingOf(relationshipsFor(segment, offeringOf(id))) : null,
+                    cardFor: (id: string) => offeringIds.includes(offeringOf(id)) ? floatingOf(relationshipsFor(segment, offeringOf(id), true)) : null,
                     content: () => dialog("Customer's Relationship", SECTIONS.relationships.instructions.slice(0, 3), offeringIds.length > 0
                         ? <CardBoxes items={offeringBoxes("rel:", relTypes)} label={"Customer's Relationship of " + (segment.name.trim() || "this Segment")} what="Offering" autoStart={false} />
                         : relationshipsFor(segment))
@@ -118,7 +118,7 @@ export default function BusinessEngagementEditor(props: BusinessEngagementEditor
                     cardFor: (id: string) => offeringIds.includes(offeringOf(id)) ? floatingOf(
                         <div className="business-demand-section">
                             <div className="business-demand-cell" data-anchor={"demand-section-" + offeringOf(id)}>
-                                {demandFor(segment, offeringOf(id), offeringName(segment, offeringOf(id)))}
+                                {demandFor(segment, offeringOf(id), offeringName(segment, offeringOf(id)), true)}
                             </div>
                         </div>
                     ) : null,
