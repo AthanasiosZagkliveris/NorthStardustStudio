@@ -84,6 +84,21 @@ export interface FloorRow {
     warranty?: string;
     /** The Customer Channels it is under ("Social Media › Instagram"), when a channel made it or it is connected to a card one made. */
     channels?: string[];
+    /** AS A CHANNEL EXPENSE (ChannelResourceTable.ts; the Inventory's Channel expenses): the channels and subchannels it is in, the Offerings it holds, the
+     * journey stages and the actions that use it, its colour in the channels' palette and the links that make it one. */
+    channel?: FloorChannel;
+}
+
+/** A channel expense's facts, as the Customer Engagement page records them. */
+export interface FloorChannel {
+    places: readonly { channel: string; sub: string }[];
+    offerings: readonly string[];
+    stages: readonly string[];
+    actions: readonly { id: string; order: number; text: string; segmentId: string }[];
+    colour: number;
+    linkIds: readonly string[];
+    /** Fixed or Variable, as the channels' table reads its cost: the row's Behaviour where the Financial Foundation gives none (Customer Engagement's Inventory). */
+    behaviour: string;
 }
 
 /** An ISO day in the form the date boxes show (the reader's own). */
@@ -118,7 +133,8 @@ export function floorRows(
     capability: BusinessCapabilityValue,
     legalExpenses: readonly LegalEntityExpenseValue[] = [],
     channelIds: ReadonlySet<string> = new Set(),
-    channelNames: ReadonlyMap<string, readonly string[]> = new Map()
+    channelNames: ReadonlyMap<string, readonly string[]> = new Map(),
+    channelFacts: ReadonlyMap<string, FloorChannel> = new Map()
 ): FloorRow[] {
 
     const rows: Omit<FloorRow, "tone">[] = [];
@@ -332,6 +348,7 @@ export function floorRows(
         ...row,
         ...(lacking.has(row.id) && !freshCards.has(row.id) ? { missing: lacking.get(row.id) } : {}),
         ...(channelNames.has(row.id) ? { channels: [...channelNames.get(row.id)!] } : {}),
+        ...(channelFacts.has(row.id) ? { channel: channelFacts.get(row.id), behaviour: channelFacts.get(row.id)!.behaviour } : {}),
         tone: row.kind === "legal"
             ? "legal" as const
             : channelIds.has(row.id) ? "channel" as const : row.path[0] === OFFERING ? "offering" as const : "infrastructure" as const
@@ -417,11 +434,13 @@ export interface FloorFilter {
     connectedOnly: boolean;
     /** ISOLATES THE COSTS: only the tiles that have an expense (a price, or a Workspace's deposit); the cost order and range then apply to them. */
     costsOnly: boolean;
+    /** ONLY THE CHANNEL EXPENSES: the cards a Customer Channel holds (the Channel expenses set-up). */
+    channelsOnly: boolean;
 }
 
 export const DEFAULT_FLOOR_FILTER: FloorFilter = {
     kinds: new Set<FloorKind>(["resource", "activity", "partner", "provider", "founder", "legal"]),
-    place: "", groups: [], categories: [], subgroups: [], placeKinds: [], sort: "page", status: "", frequency: "", min: "", max: "", connectedOnly: false, costsOnly: false
+    place: "", groups: [], categories: [], subgroups: [], placeKinds: [], sort: "page", status: "", frequency: "", min: "", max: "", connectedOnly: false, costsOnly: false, channelsOnly: false
 };
 
 /** The top-level places, in the order Belongs to offers them. */
@@ -515,6 +534,9 @@ export function filterFloor(rows: readonly FloorRow[], filter: FloorFilter): Flo
     return rows.filter(row => {
         // (The Workspace is included with the Resources.)
         if (!filter.kinds.has(kindClass(row))) {
+            return false;
+        }
+        if (filter.channelsOnly && !row.channel) {
             return false;
         }
         if (filter.place !== "" && placeOf(row) !== filter.place) {

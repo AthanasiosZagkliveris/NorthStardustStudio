@@ -136,47 +136,47 @@ exports[`Lumen & Loom Studio > Business System › 1. Foundation 1`] = `
 `;
 
 exports[`Lumen & Loom Studio > Business System › 2. Customer Engagement > tile segment-8lu427u5:channel-costs 1`] = `
-"Channel CostsChannel Costs9 of 9TilesTable1. Shopify Basic£25 a monthWebsite · Online StoreFixed2. Shopify Payments£2 of revenueWebsite · Online StoreVariable3. Workshop booking app£23 a monthWebsite · Online StoreFixed4. Klaviyo email marketing£16 a monthEmail · NewsletterFixed5. Market pitch fees£1,440 per projectIn Person · Market / Pop-upVariable6. Stall display kit£340 per setIn Person · Market / Pop-upVariable7. SumUp card reader£30 per itemDirect Payment · CardVariable8. SumUp in-person card fees£1.69 of revenueDirect Payment · CardVariable9. DPD Local (courier)£7.50 per parcelPhysical Delivery · CourierVariableBack‹›ChannelsCustomer's RelationshipDemand & ConversionChannel CostsBack
+"Channel CostsChannel Costs9 of 67ResourceActivityPartnerSupplierTilesTableAaAaAaNameTypeGroupCost (GBP)FrequencyBehaviourOfferingJourneyActionsStall display kitResourceChannelIn PersonMarket / Pop-up340Per unitVariableHomeware CollectionWeaving WorkshopsDiscover#25Market pitch feesResourceChannelIn PersonMarket / Pop-up60Per projectVariableHomeware CollectionWeaving WorkshopsDiscover#25SumUp card readerResourceChannelDirect PaymentCardIn PersonMarket / Pop-up30Per unitVariableHomeware CollectionWeaving WorkshopsPurchase#26Shopify BasicResourceChannelWebsiteOnline Store25MonthlyFixedHomeware CollectionWeaving WorkshopsEvaluationPurchase#10#12#13Workshop booking appResourceChannelWebsiteOnline Store23MonthlyFixedWeaving WorkshopsPurchase#13Klaviyo email marketingResourceChannelEmailNewsletter16MonthlyFixedHomeware CollectionWeaving WorkshopsEvaluationSupport & Follow Up#16#17#19DPD Local (courier)SupplierChannelPhysical DeliveryCourier7.5Per unitVariableHomeware CollectionDelivery#29#30Shopify PaymentsSupplierChannelWebsiteOnline Store2% of RevVariableHomeware CollectionWeaving WorkshopsPurchase#12SumUp in-person card feesSupplierChannelDirect PaymentCardIn PersonMarket / Pop-up1.69% of RevVariableHomeware CollectionWeaving WorkshopsPurchase#26Back‹›Channels and JourneyCustomer's RelationshipDemand & ConversionChannel CostsBack
 [fields] "
 `;
 
 exports[`Lumen & Loom Studio > Business System › 2. Customer Engagement > tile segment-8lu427u5:channels 1`] = `
-"ChannelsChannelsiSocial MediaInstagramPinterestTikTokYouTubeWebsiteOnline StoreMain WebsiteEmailNewsletterDirect EmailCommunityFacebook GroupMeetupIn PersonStudio / ShopMarket / Pop-upWorkshop / ClassCustomer LocationDirect PaymentCardPayment LinkPhysical DeliveryCourierMarketplaceOnline / LiveSupport & Follow UpFile DeliveryRetail & WholesaleReferral & AffiliatesInfluencer / AmbassadorCustomer Referral+ Add ChannelBack‹›ChannelsCustomer's RelationshipDemand & ConversionChannel CostsBack
+"Channels and JourneyChannels and JourneyiChannelsJourney StagesSocial MediaInstagramPinterestTikTokYouTubeWebsiteOnline StoreMain WebsiteEmailNewsletterDirect EmailCommunityFacebook GroupMeetupIn PersonStudio / ShopMarket / Pop-upWorkshop / ClassCustomer LocationDirect PaymentCardPayment LinkPhysical DeliveryCourierMarketplaceOnline / LiveSuggested forSupport & Follow UpFile DeliveryRetail & WholesaleReferral & AffiliatesInfluencer / AmbassadorCustomer Referral+ Add ChannelBack‹›Channels and JourneyCustomer's RelationshipDemand & ConversionChannel CostsBack
 [fields] "
 `;
 
 exports[`Lumen & Loom Studio > Business System › 2. Customer Engagement > tile segment-8lu427u5:demand 1`] = `
-"Demand & ConversionDemand & Conversioni1. Homeware Collection40 a month2. Weaving Workshops32 a monthBack‹›ChannelsCustomer's RelationshipDemand & ConversionChannel CostsBack
+"Demand & ConversionDemand & Conversioni1. Homeware Collection40 a month2. Weaving Workshops32 a monthBack‹›Channels and JourneyCustomer's RelationshipDemand & ConversionChannel CostsBack
 [fields] "
 `;
 
 exports[`Lumen & Loom Studio > Business System › 2. Customer Engagement > tile segment-8lu427u5:relationships 1`] = `
-"Customer's RelationshipCustomer's Relationshipi1. Homeware CollectionPersonal Assistance2. Weaving WorkshopsCommunityBack‹›ChannelsCustomer's RelationshipDemand & ConversionChannel CostsBack
+"Customer's RelationshipCustomer's Relationshipi1. Homeware CollectionPersonal Assistance2. Weaving WorkshopsCommunityBack‹›Channels and JourneyCustomer's RelationshipDemand & ConversionChannel CostsBack
 [fields] "
 `;
 
 exports[`Lumen & Loom Studio > Business System › 2. Customer Engagement > tile segment-majxtl1u:channel-costs 1`] = `
-"Channel CostsChannel Costs3 of 3TilesTable1. Trade fair stands£3,000 per projectIn Person · Trade Fair / ExhibitionVariable2. Installation travel£75 per tripIn Person · Customer LocationVariable3. Royal Mail Tracked 48£6.20 per parcelPhysical Delivery · Postal ServiceVariableBack‹›ChannelsCustomer's RelationshipDemand & ConversionChannel CostsBack
+"Channel CostsChannel Costs3 of 67ResourceActivityPartnerSupplierTilesTableAaAaAaNameTypeGroupCost (GBP)FrequencyBehaviourOfferingJourneyActionsTrade fair standsResourceChannelIn PersonTrade Fair / Exhibition1,500Per projectVariableBespoke CommissionsTrade CollectionDiscover#10Installation travelResourceChannelIn PersonCustomer Location75Per unitVariableBespoke CommissionsDelivery#12Royal Mail Tracked 48SupplierChannelPhysical DeliveryPostal Service6.2Per unitVariableTrade CollectionDelivery#16Back‹›Channels and JourneyCustomer's RelationshipDemand & ConversionChannel CostsBack
 [fields] "
 `;
 
 exports[`Lumen & Loom Studio > Business System › 2. Customer Engagement > tile segment-majxtl1u:channels 1`] = `
-"ChannelsChannelsiSocial MediaLinkedInInstagramPinterestWebsiteLanding PageMain WebsiteOnline StoreEmailDirect EmailIn PersonTrade Fair / ExhibitionStudio / ShopCustomer LocationDirect PaymentInvoiceCardPhysical DeliveryPostal ServiceCommunityMarketplaceOnline / LiveSupport & Follow UpFile DeliveryRetail & WholesaleReferral & AffiliatesCustomer Referral+ Add ChannelBack‹›ChannelsCustomer's RelationshipDemand & ConversionChannel CostsBack
+"Channels and JourneyChannels and JourneyiChannelsJourney StagesSocial MediaLinkedInInstagramPinterestWebsiteLanding PageMain WebsiteOnline StoreEmailDirect EmailIn PersonTrade Fair / ExhibitionStudio / ShopCustomer LocationDirect PaymentInvoiceCardPhysical DeliveryPostal ServiceCommunityMarketplaceOnline / LiveSuggested forSupport & Follow UpFile DeliveryRetail & WholesaleReferral & AffiliatesCustomer Referral+ Add ChannelBack‹›Channels and JourneyCustomer's RelationshipDemand & ConversionChannel CostsBack
 [fields] "
 `;
 
 exports[`Lumen & Loom Studio > Business System › 2. Customer Engagement > tile segment-majxtl1u:demand 1`] = `
-"Demand & ConversionDemand & Conversioni1. Bespoke Commissions1.5 a month2. Trade Collection30 a monthBack‹›ChannelsCustomer's RelationshipDemand & ConversionChannel CostsBack
+"Demand & ConversionDemand & Conversioni1. Bespoke Commissions1.5 a month2. Trade Collection30 a monthBack‹›Channels and JourneyCustomer's RelationshipDemand & ConversionChannel CostsBack
 [fields] "
 `;
 
 exports[`Lumen & Loom Studio > Business System › 2. Customer Engagement > tile segment-majxtl1u:relationships 1`] = `
-"Customer's RelationshipCustomer's Relationshipi1. Bespoke CommissionsDedicated Support2. Trade CollectionPersonal AssistanceBack‹›ChannelsCustomer's RelationshipDemand & ConversionChannel CostsBack
+"Customer's RelationshipCustomer's Relationshipi1. Bespoke CommissionsDedicated Support2. Trade CollectionPersonal AssistanceBack‹›Channels and JourneyCustomer's RelationshipDemand & ConversionChannel CostsBack
 [fields] "
 `;
 
 exports[`Lumen & Loom Studio > Business System › 2. Customer Engagement 1`] = `
-"…Saving…AutoFocusSearchWorkbookNotesSettingsLumen & Loom Studio3. Business System — 2. Customer Engagement1. London HomemakersChannelsDiscover7Evaluation5Purchase3Delivery4Support & Follow Up4Customer's RelationshipHomeware CollectionPersonal AssistanceWeaving WorkshopsCommunityDemand & ConversionHomeware Collection40 a monthWeaving Workshops32 a monthChannel CostsA month£64Variable3.69% of revenueVariable£340 per setVariable£30 per itemVariable£7.50 per parcelVariable£1,440 per project2. Designers & Boutique HotelsChannelsDiscover3Evaluation4Purchase2Delivery3Support & Follow Up1Customer's RelationshipBespoke CommissionsDedicated SupportTrade CollectionPersonal AssistanceDemand & ConversionBespoke Commissions1.5 a monthTrade Collection30 a monthChannel CostsVariable£75 per tripVariable£6.20 per parcelVariable£3,000 per project‹PagesIntroduction1. Foundation: defined2. Customer Engagement: defined3. Infrastructure & Capability: defined4. Financial Foundation: defined5. Sustainability: defined›Sections1. Customer Channel: defined2. Customer Relationship: definedBack
+"…Saving…AutoFocusSearchWorkbookNotesSettingsLumen & Loom Studio3. Business System — 2. Customer Engagement1. London HomemakersChannels andJourneyDiscover7Evaluation5Purchase3Delivery4Support & Follow Up4Customer'sRelationshipHomeware CollectionPersonal AssistanceWeaving WorkshopsCommunityDemand &ConversionHomeware Collection40 a monthWeaving Workshops32 a monthChannel CostsA month£64Variable3.69% of revenueVariable£340 per setVariable£30 per itemVariable£7.50 per parcelVariable£1,440 per project2. Designers & Boutique HotelsChannels andJourneyDiscover3Evaluation4Purchase2Delivery3Support & Follow Up1Customer'sRelationshipBespoke CommissionsDedicated SupportTrade CollectionPersonal AssistanceDemand &ConversionBespoke Commissions1.5 a monthTrade Collection30 a monthChannel CostsVariable£75 per tripVariable£6.20 per parcelVariable£3,000 per project‹PagesIntroduction1. Foundation: defined2. Customer Engagement: defined3. Infrastructure & Capability: defined4. Financial Foundation: defined5. Sustainability: defined›Sections1. Customer Channel: defined2. Customer Relationship: definedBack
 [fields] "
 `;
 
@@ -570,27 +570,27 @@ exports[`Quillfield Automation > Business System › 1. Foundation 1`] = `
 `;
 
 exports[`Quillfield Automation > Business System › 2. Customer Engagement > tile segment-qf3n8d2w:channel-costs 1`] = `
-"Channel CostsChannel Costs8 of 8TilesTable1. LinkedIn Premium Business$60 a monthSocial Media · LinkedInFixed2. Squarespace Core$36 a monthWebsite · Main WebsiteFixed3. Calendly Standard$12 a monthWebsite · Booking PageFixed4. Mailchimp Standard$20 a monthEmail · NewsletterFixed5. Referral partners$4 of revenueOther · Referral partnersVariable6. Meetup and event costs$1,200 per projectIn Person · Event / TalkVariable7. QuickBooks Payments$0.70 of revenueDirect Payment · InvoiceVariable8. Zoom Workplace Pro$17 a monthOnline / Live · ZoomFixedBack‹›ChannelsCustomer's RelationshipDemand & ConversionChannel CostsBack
+"Channel CostsChannel Costs8 of 50ResourceActivityPartnerSupplierTilesTableAaAaAaNameTypeGroupCost (USD)FrequencyBehaviourOfferingJourneyActionsLinkedIn Premium BusinessResourceChannelSocial MediaLinkedIn60MonthlyFixedAI Workflow AuditAutomation BuildAutomation Care RetainerDiscover#2Meetup and event costsResourceChannelIn PersonEvent / Talk50Per projectVariableAI Workflow AuditDiscover#20#21Squarespace CoreResourceChannelWebsiteMain WebsiteSocial MediaLinkedIn36MonthlyFixedAI Workflow AuditAutomation BuildAutomation Care RetainerDiscoverEvaluation#3#7#8Mailchimp StandardResourceChannelEmailNewsletter20MonthlyFixedAI Workflow AuditAutomation BuildAutomation Care RetainerEvaluationSupport & Follow Up#11#12Zoom Workplace ProResourceChannelOnline / LiveZoomFile DeliveryClient Portal17MonthlyFixedAI Workflow AuditAutomation BuildAutomation Care RetainerEvaluationDeliverySupport & Follow Up#24#25#26#27Calendly StandardResourceChannelWebsiteBooking Page12MonthlyFixedAI Workflow AuditAutomation BuildEvaluation#10Referral partnersPartnerChannelOtherReferral partners4% of RevVariableAI Workflow AuditDiscover#17QuickBooks PaymentsSupplierChannelDirect PaymentInvoice0.7% of RevVariableAI Workflow AuditAutomation BuildAutomation Care RetainerPurchase#22#23Back‹›Channels and JourneyCustomer's RelationshipDemand & ConversionChannel CostsBack
 [fields] "
 `;
 
 exports[`Quillfield Automation > Business System › 2. Customer Engagement > tile segment-qf3n8d2w:channels 1`] = `
-"ChannelsChannelsiSocial MediaLinkedInX (Twitter)WebsiteMain WebsiteBooking PageOnline StoreEmailNewsletterDirect EmailOtherReferral partnersIn PersonEvent / TalkDirect PaymentInvoiceOnline / LiveZoomFile DeliveryClient PortalCommunitySlackMarketplaceReferral & AffiliatesCustomer Referral+ Add ChannelBack‹›ChannelsCustomer's RelationshipDemand & ConversionChannel CostsBack
+"Channels and JourneyChannels and JourneyiChannelsJourney StagesSocial MediaLinkedInX (Twitter)WebsiteMain WebsiteBooking PageOnline StoreEmailNewsletterDirect EmailOtherReferral partnersIn PersonEvent / TalkDirect PaymentInvoiceOnline / LiveZoomFile DeliveryClient PortalCommunitySlackMarketplaceReferral & AffiliatesCustomer Referral+ Add ChannelBack‹›Channels and JourneyCustomer's RelationshipDemand & ConversionChannel CostsBack
 [fields] "
 `;
 
 exports[`Quillfield Automation > Business System › 2. Customer Engagement > tile segment-qf3n8d2w:demand 1`] = `
-"Demand & ConversionDemand & Conversioni1. AI Workflow Audit1.5 a month2. Automation Build0.6 a month3. Automation Care Retainer5 activeBack‹›ChannelsCustomer's RelationshipDemand & ConversionChannel CostsBack
+"Demand & ConversionDemand & Conversioni1. AI Workflow Audit1.5 a month2. Automation Build0.6 a month3. Automation Care Retainer5 activeBack‹›Channels and JourneyCustomer's RelationshipDemand & ConversionChannel CostsBack
 [fields] "
 `;
 
 exports[`Quillfield Automation > Business System › 2. Customer Engagement > tile segment-qf3n8d2w:relationships 1`] = `
-"Customer's RelationshipCustomer's Relationshipi1. AI Workflow AuditPersonal Assistance2. Automation BuildDedicated Support3. Automation Care RetainerDedicated SupportBack‹›ChannelsCustomer's RelationshipDemand & ConversionChannel CostsBack
+"Customer's RelationshipCustomer's Relationshipi1. AI Workflow AuditPersonal Assistance2. Automation BuildDedicated Support3. Automation Care RetainerDedicated SupportBack‹›Channels and JourneyCustomer's RelationshipDemand & ConversionChannel CostsBack
 [fields] "
 `;
 
 exports[`Quillfield Automation > Business System › 2. Customer Engagement 1`] = `
-"…Saving…AutoFocusSearchWorkbookNotesSettingsQuillfield Automation3. Business System — 2. Customer EngagementNYC Service FirmsChannelsDiscover5Evaluation8Purchase2Delivery3Support & Follow Up4Customer's RelationshipAI Workflow AuditPersonal AssistanceAutomation BuildDedicated SupportAutomation Care RetainerDedicated SupportDemand & ConversionAI Workflow Audit1.5 a monthAutomation Build0.6 a monthAutomation Care Retainer5 activeChannel CostsA month$145Variable4.7% of revenueVariable$1,200 per project‹PagesIntroduction1. Foundation: defined2. Customer Engagement: defined3. Infrastructure & Capability: defined4. Financial Foundation: defined5. Sustainability: defined›Sections1. Customer Channel: defined2. Customer Relationship: definedBack
+"…Saving…AutoFocusSearchWorkbookNotesSettingsQuillfield Automation3. Business System — 2. Customer EngagementNYC Service FirmsChannels andJourneyDiscover5Evaluation8Purchase2Delivery3Support & Follow Up4Customer'sRelationshipAI Workflow AuditPersonal AssistanceAutomation BuildDedicated SupportAutomation Care RetainerDedicated SupportDemand &ConversionAI Workflow Audit1.5 a monthAutomation Build0.6 a monthAutomation Care Retainer5 activeChannel CostsA month$145Variable4.7% of revenueVariable$1,200 per project‹PagesIntroduction1. Foundation: defined2. Customer Engagement: defined3. Infrastructure & Capability: defined4. Financial Foundation: defined5. Sustainability: defined›Sections1. Customer Channel: defined2. Customer Relationship: definedBack
 [fields] "
 `;
 

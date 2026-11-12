@@ -27,7 +27,7 @@ export default function BusinessEngagementEditor(props: BusinessEngagementEditor
     const part2 = { ...part1, ...useEngagementChannelBoxes({ ...part1 }) };
     const part3 = { ...part1, ...part2, ...useEngagementRelationships({ ...part1, ...part2 }) };
     const part4 = { ...part1, ...part2, ...part3, ...useEngagementDemand({ ...part1, ...part2, ...part3 }) };
-    const { asTiles, cards, channelCategoryFoldKeys, channelResourceTable, channelTiles, channelsFor, clearIsolation, collapsed, columnsDivider, currency, demandFor, engagement, engagedOfferingIds, foldingSection, folds, heads, isolated, isolationNames, offeringRelationshipsOf, referenceColumn, relationshipsFor, segmentOf, segments, toggle } = part4;
+    const { asTiles, cards, channelCategoryFoldKeys, channelResourceTable, channelTiles, channelViewChoice, channelsFor, clearIsolation, collapsed, columnsDivider, currency, demandFor, engagement, engagedOfferingIds, foldingSection, folds, heads, isolated, isolationNames, offeringRelationshipsOf, referenceColumn, relationshipsFor, segmentOf, segments, toggle } = part4;
 
     /*
         THE PAGE AS TILES (doc 47, section 3, step one): one chapter per Segment, in the Segment's colour, as Page 1's, holding four Master Tiles -- Channels,
@@ -73,24 +73,30 @@ export default function BusinessEngagementEditor(props: BusinessEngagementEditor
                 content: () => null
             }));
             const offeringOf = (id: string) => id.slice(4);
-            const floatingOf = (body: ReactNode) => <div className="column-tile-content" style={{ "--strategy-theme-hue": hue } as CSSProperties}><CardShell engagement={false}>{body}</CardShell></div>;
+            // (The card is its own shell, BusinessCard, straight in the content: the floating card styles of the Foundation's cards reach it.)
+            const floatingOf = (body: ReactNode) => <div className="column-tile-content" style={{ "--strategy-theme-hue": hue } as CSSProperties}>{body}</div>;
 
             const table = buildChannelResourceTable(engagement, answers, cards, currency, segments.flatMap(entry => entry.offerings));
 
             return [
                 {
                     id: segment.id + ":channels",
-                    title: "Channels",
+                    // (Its title on two lines, as a Master Tile's long title is: layout rules 9, "A title with a forced break"; owner, 18:41.)
+                    title: "Channels and\nJourney",
                     anchor: "engagement-section-" + segment.id + "-channels",
                     // The five stages, each with the number of channels used at it.
                     items: BUSINESS_JOURNEY_STAGES.map(stage => pair(stage.label, String(answers.channels.filter(channel => channel.stages.includes(stage.id)).length))),
-                    content: () => dialog("Channels", [...SECTIONS.channels.instructions, "Faded channels and subchannels are suggestions from your Foundation answers: each is added only when you press it."], channelTiles(segment), isolated && isolated.segmentId === segment.id
-                        ? <IsolationNote kind={isolated.kind === "action" ? "shared" : "linked"} names={isolationNames()} onClear={clearIsolation} />
-                        : undefined)
+                    content: () => dialog("Channels and Journey", [...SECTIONS.channels.instructions, "Faded channels and subchannels stand ready to add: those your Foundation answers suggest list what they suggest, and pressing any of them adds it.", "Place the tiles by Channels, or by Journey Stages to see the subchannels used at each stage."], channelTiles(segment), (
+                        // (The choice of how the tiles are placed, then the isolation note while one stands.)
+                        <>
+                            {channelViewChoice(segment)}
+                            {isolated && isolated.segmentId === segment.id && <IsolationNote kind={isolated.kind === "action" ? "shared" : "linked"} names={isolationNames()} onClear={clearIsolation} />}
+                        </>
+                    ))
                 },
                 {
                     id: segment.id + ":relationships",
-                    title: "Customer's Relationship",
+                    title: "Customer's\nRelationship",
                     anchor: "engagement-section-" + segment.id + "-relationships",
                     // Each Offering with its relationship types.
                     items: offeringIds.map(offeringId => pair(offeringName(segment, offeringId), offeringRelationshipsOf(segment.id, offeringId).types
@@ -105,7 +111,7 @@ export default function BusinessEngagementEditor(props: BusinessEngagementEditor
                 },
                 {
                     id: segment.id + ":demand",
-                    title: "Demand & Conversion",
+                    title: "Demand &\nConversion",
                     anchor: "engagement-section-" + segment.id + "-demand",
                     // Each Offering with its expected sales a month (active clients for a recurring one).
                     items: offeringIds.map(offeringId => {
@@ -115,13 +121,7 @@ export default function BusinessEngagementEditor(props: BusinessEngagementEditor
                     group: "Demand & Conversion",
                     bareCards: true,
                     holds: offeringIds.map(offeringId => "dem:" + offeringId),
-                    cardFor: (id: string) => offeringIds.includes(offeringOf(id)) ? floatingOf(
-                        <div className="business-demand-section">
-                            <div className="business-demand-cell" data-anchor={"demand-section-" + offeringOf(id)}>
-                                {demandFor(segment, offeringOf(id), offeringName(segment, offeringOf(id)), true)}
-                            </div>
-                        </div>
-                    ) : null,
+                    cardFor: (id: string) => offeringIds.includes(offeringOf(id)) ? floatingOf(demandFor(segment, offeringOf(id), offeringName(segment, offeringOf(id)), true)) : null,
                     content: () => dialog("Demand & Conversion", [SECTIONS.relationships.instructions[3], ...DEMAND_BLOCK_HELP.map(point => typeof point === "string" ? point : "")].filter(Boolean) as string[], (
                         <CardBoxes items={offeringBoxes("dem:", offeringId => expected(offeringId) ? [expected(offeringId)] : [])} label={"Demand & Conversion of " + (segment.name.trim() || "this Segment")} what="Offering" autoStart={false} />
                     ))

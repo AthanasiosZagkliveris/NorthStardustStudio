@@ -185,9 +185,9 @@
         return { column: rect(number), text: { left: first.left, right: text.right } };
     }
 
-    /** A card head's name: its box, or its text. */
+    /** A card's name cell: its box, or its name drawn as a link where the name belongs to another page (a Customer Engagement card's Offering, a child card's parent). */
     function nameBox(head) {
-        const name = head.querySelector(":scope > .card-name-input, :scope > .strategy-name-input, :scope > .strategy-name-static, :scope > .strategy-theme-name, :scope > textarea");
+        const name = head.querySelector(":scope > .card-name-input, :scope > .strategy-name-input, :scope > .strategy-name-static, :scope > .strategy-theme-name, :scope > .business-capability-child-name, :scope > textarea");
         return name && visible(name) ? rect(name) : null;
     }
 

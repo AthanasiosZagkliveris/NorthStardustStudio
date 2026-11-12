@@ -2,16 +2,19 @@
  * THE CHANNEL TILES and the relationships of each Offering.
  * One part of BusinessEngagementEditor (see BusinessEngagementEditor.tsx): what it needs of the parts before it comes in as `earlier`; what the parts after it need goes out.
  */
-import { CSSProperties, Fragment } from "react";
+import { CSSProperties, Fragment, useState } from "react";
 import CardShell from "../../cards/CardShell.tsx";
+import RadioChoice from "../../../controls/RadioChoice.tsx";
 import { BUSINESS_CHANNEL_ALL_OFFERINGS, BUSINESS_CHANNEL_CATEGORIES, BUSINESS_CHANNEL_OTHER, BUSINESS_RELATIONSHIP_TYPES, BusinessChannelValue, BusinessCustomerSegmentValue, channelCategoryHelp, channelCategoryHidden, businessProfileOfferings, businessRelationshipInteractions, createBusinessChannel, segmentHue } from "../../../../framework/engine/AnswerUtils.ts";
-import { BusinessAddButton, BusinessEmpty, BusinessNote, BusinessStep, BusinessTicks } from "../../cards/BusinessCardFields.tsx";
+import { BusinessAddButton, BusinessEmpty, BusinessField, BusinessNote, BusinessRemove, BusinessStep, BusinessTicks } from "../../cards/BusinessCardFields.tsx";
+import FieldRow from "../../fields/FieldRow.tsx";
+import { SingleColumn } from "../foundation/shared.tsx";
+import { EngagementBox, EngagementBoxes, EngagementCard, EngagementSection, TickRow, useSectionFolds } from "./EngagementCard.tsx";
 import { journeySuggestions, suggestedRelationshipType, suggestionMet, type ChannelSuggestion } from "../../../../framework/engine/JourneySuggestions.ts";
 import { BUSINESS_JOURNEY_STAGES } from "../../../../framework/engine/AnswerUtils.ts";
 import { summaryText } from "../../cards/cardSummary.ts";
 import InfoNote, { InfoText } from "../../fields/InfoNote.tsx";
 import OptionPicker from "../../fields/OptionPicker.tsx";
-import FieldLabel from "../../../controls/FieldLabel.tsx";
 import StrategyTextArea from "../../fields/StrategyTextArea.tsx";
 import SectionTiles, { DialogHeading, OPEN_EVENT, type OpenRequest, type SectionTile } from "../../tiles/SectionTiles.tsx";
 import CardBoxes, { type CardBox } from "../../cards/CardBoxes.tsx";
@@ -23,15 +26,25 @@ import type { useEngagementChannelBoxes } from "./useEngagementChannelBoxes.tsx"
 
 type Earlier = ReturnType<typeof useEngagementState> & ReturnType<typeof useEngagementChannelBoxes>;
 
+/** The line over the stages a channel is suggested for: they are stages, centred under it, never drawn as if they were subchannels. */
+const SUGGESTED_FOR = "Suggested for";
+
 export function useEngagementRelationships(earlier: Earlier) {
 
-    const { channelCategoryFoldKey, channelTileId, channelsFor, disabled, folds, noPhysical, foundationLink, interactionOf, offeringRelationshipsOf, segmentOf, typeOf, updateInteraction, updateOfferingRelationships, updateSegment, updateType } = earlier;
+    // (The folds of the floating cards' sections: open until folded.)
+    const sectionFold = useSectionFolds();
+    // (How each Segment's Channels and Journey dialog places its tiles: by channel, or by journey stage; by channel until changed, kept while the page is open.)
+    const [channelViews, setChannelViews] = useState<Readonly<Record<string, "channels" | "stages">>>({});
+    const { channelCategoryFoldKey, channelTileId, channelsFor, disabled, folds, noPhysical, foundationLink, openFoundationAt, interactionOf, offeringRelationshipsOf, segmentOf, typeOf, updateInteraction, updateOfferingRelationships, updateSegment, updateType } = earlier;
 
     /**
      * 1. CUSTOMER CHANNEL AS TILES: a tile for each channel (the group of subchannels under one category), listing its subchannels; pressing it opens that channel's
      * table in a dialog. A new channel is added under the tiles.
      */
     function channelTiles(segment: BusinessCustomerSegmentValue) {
+        if (channelViews[segment.id] === "stages") {
+            return stageTiles(segment);
+        }
         const answers = segmentOf(segment.id);
         const groups: { key: string; label: string; channels: BusinessChannelValue[] }[] = [];
         for (const channel of answers.channels) {
@@ -64,10 +77,17 @@ export function useEngagementRelationships(earlier: Earlier) {
             folds.expand(channelCategoryFoldKey(segment.id, channel.id));
             return channel;
         };
+        // (A channel not used yet lists its suggested subchannels, bulleted; then, where it is suggested alone, "Suggested for" and its stages, centred.)
+        const inactiveNames = (category: string) => [...new Set(suggestedIn(category).filter(suggestion => suggestion.name).map(suggestion => suggestion.name))];
+        const inactiveStages = (category: string) => [...new Set(suggestedIn(category).filter(suggestion => !suggestion.name).map(suggestion => stageLabel(suggestion.stage)))];
+        const inactiveLines = (category: string) => [...inactiveNames(category), ...(inactiveStages(category).length > 0 ? [SUGGESTED_FOR, ...inactiveStages(category)] : [])];
         const tiles: SectionTile[] = groups.map(group => {
             const names = group.channels.map(channel => channel.name.trim()).filter(name => name.length > 0);
             // (Its suggested subchannels follow its own, faded.)
             const extra = suggestedIn(group.label).filter(suggestion => suggestion.name !== "").map(suggestion => suggestion.name);
+            // (The subchannels the category offers that this channel does not use yet: the faded tiles of its dialog.)
+            const spareOf = (BUSINESS_CHANNEL_CATEGORIES.find(entry => entry.label === group.label)?.channels ?? []).filter(entry => !names.includes(entry.label));
+            const spareId = (at: number) => "subchannel-inactive-" + group.key + "-" + at;
             return {
                 id: channelTileId(segment.id, group.key),
                 title: group.label.trim() || "New channel",
@@ -76,6 +96,15 @@ export function useEngagementRelationships(earlier: Earlier) {
                 bareCards: true,
                 items: [...names, ...extra],
                 itemMarks: [...names.map(() => ({ bullet: true })), ...extra.map(() => ({ bullet: true, empty: true }))],
+                // EVERY LISTED SUBCHANNEL IS A LINK (layout rules 9, "A tile's content may be linkable"; owner, 2026-11-12 18:41: "the listed items are not linked"): a
+                // subchannel opens its card; a suggested one opens the channel's dialog at its faded tile, where pressing it adds it.
+                links: [
+                    ...group.channels.filter(channel => channel.name.trim().length > 0).map(channel => ({ card: channel.id })),
+                    ...extra.map(name => {
+                        const at = spareOf.findIndex(entry => entry.label === name);
+                        return at >= 0 ? { box: spareId(at) } : undefined;
+                    })
+                ],
                 // (The "+" adds a subchannel to this channel and opens its card.)
                 plus: () => {
                     const made = addSub(group.label);
@@ -88,7 +117,6 @@ export function useEngagementRelationships(earlier: Earlier) {
                     : null,
                 // The channel's dialog: a tile for each subchannel, and, faded, the ones its category offers that are not used yet.
                 content: () => {
-                    const category = BUSINESS_CHANNEL_CATEGORIES.find(entry => entry.label === group.label);
                     // A SUBCHANNEL'S TILE lists ALL the Offerings, each a LINK: the ones a card of this subchannel serves open that card (numbered 1., 2. ... where the subchannel has several cards, the Offerings of one card sharing its number); the others are half transparent, and pressing one makes a card of this subchannel for it.
                     const openCardOf = (cardId: string) => window.setTimeout(() => document.dispatchEvent(new CustomEvent<OpenRequest>(OPEN_EVENT, { detail: { tile: channelTileId(segment.id, group.key), card: cardId } })), 80);
                     const every = segment.offerings.map(offering => offering.id);
@@ -131,12 +159,11 @@ export function useEngagementRelationships(earlier: Earlier) {
                             content: () => null
                         };
                     };
-                    const spare: CardBox[] = (category?.channels ?? [])
-                        .filter(entry => !names.includes(entry.label))
+                    const spare: CardBox[] = spareOf
                         .map((entry, at) => {
                             const suggestion = suggestedIn(group.label).find(candidate => candidate.name === entry.label);
                             return {
-                            id: "subchannel-inactive-" + group.key + "-" + at,
+                            id: spareId(at),
                             number: group.channels.length + at + 1,
                             plain: true,
                             name: entry.label,
@@ -185,8 +212,10 @@ export function useEngagementRelationships(earlier: Earlier) {
                 id: channelTileId(segment.id, "inactive-" + category.id),
                 title: category.label,
                 inactive: true,
-                // (A channel the Foundation suggests lists what it suggests: its subchannels, or the stage where it suggests the channel alone.)
-                items: [...new Set(suggestedIn(category.label).map(suggestion => suggestion.name || stageLabel(suggestion.stage)))],
+                // (A channel the Foundation suggests lists what it suggests: its subchannels, bulleted; where it suggests the channel alone, the stage, said as a
+                // suggestion and centred, never as if it were a subchannel: owner, 2026-11-12 18:41.)
+                items: inactiveLines(category.label),
+                itemMarks: inactiveLines(category.label).map((_line, at) => at < inactiveNames(category.label).length ? { bullet: true } : { centre: true }),
                 note: suggestionNote(category.label),
                 press: () => {
                     const channel = addChannel(category.label);
@@ -224,6 +253,66 @@ export function useEngagementRelationships(earlier: Earlier) {
                     }}
                 />
             </>
+        );
+    }
+    /**
+     * THE CHANNELS AND JOURNEY DIALOG BY JOURNEY STAGE (owner, 2026-11-12 18:41: "an option to place the tiles according the channels or the Journey Stages"): a tile
+     * for each of the five stages, listing the subchannels used at it, each a link to its card; pressing a tile opens the stage's dialog, a tile for each of them.
+     */
+    function stageTiles(segment: BusinessCustomerSegmentValue) {
+        const answers = segmentOf(segment.id);
+        // (A subchannel's card is drawn by its channel: the group its category forms, keyed by the category's first subchannel, as on the tiles by channel.)
+        const groupKey = (channel: BusinessChannelValue) => answers.channels.find(entry => entry.category === channel.category)?.id ?? channel.id;
+        const nameOf = (channel: BusinessChannelValue) => channel.name.trim() || "Unnamed subchannel";
+        const hue = { "--strategy-theme-hue": segmentHue(segment) } as CSSProperties;
+        const tiles: SectionTile[] = BUSINESS_JOURNEY_STAGES.map(stage => {
+            const used = answers.channels.filter(channel => channel.stages.includes(stage.id));
+            return {
+                id: channelTileId(segment.id, "stage-" + stage.id),
+                title: stage.label,
+                view: true,
+                // (Its subchannel's card, opened from this stage's dialog, carries no box name: the dialog's heading says it.)
+                bareCards: true,
+                items: used.map(nameOf),
+                itemMarks: used.map(() => ({ bullet: true })),
+                links: used.map(channel => ({ card: channel.id })),
+                holds: used.map(channel => channel.id),
+                cardFor: (id: string) => {
+                    const channel = answers.channels.find(entry => entry.id === id);
+                    return channel
+                        ? <div className="column-tile-content" style={hue}><CardShell engagement={false} className="business-subchannel-card">{channelsFor(segment, groupKey(channel), id)}</CardShell></div>
+                        : null;
+                },
+                content: () => (
+                    <div className="column-tile-content">
+                        <div className="business-engagement-section-head"><DialogHeading title={stage.label} /></div>
+                        {used.length === 0
+                            ? <BusinessEmpty>Tick this stage on a subchannel's card to list it here.</BusinessEmpty>
+                            : (
+                                <CardBoxes
+                                    label={"Subchannels at " + stage.label}
+                                    what="Subchannel"
+                                    autoStart={false}
+                                    items={used.map((channel, at) => ({ id: channel.id, number: at + 1, plain: true, name: channel.name, unnamed: "Unnamed subchannel", lines: [channel.category.trim() || "New channel"], own: true, content: () => null }))}
+                                />
+                            )}
+                    </div>
+                )
+            };
+        });
+        return <SectionTiles label={"Journey stages of " + (segment.name.trim() || "this Segment")} hue={segmentHue(segment)} tiles={tiles} />;
+    }
+    /** The choice at the head of the Channels and Journey dialog: its tiles by channel or by journey stage (the radio of the reports' Tiles or Table). */
+    function channelViewChoice(segment: BusinessCustomerSegmentValue) {
+        return (
+            <RadioChoice
+                className="capability-overview-views"
+                label="Place the tiles by"
+                group={"channel-view-" + segment.id}
+                options={[{ id: "channels", label: "Channels" }, { id: "stages", label: "Journey Stages" }]}
+                value={channelViews[segment.id] ?? "channels"}
+                onChange={(next) => setChannelViews(current => ({ ...current, [segment.id]: next as "channels" | "stages" }))}
+            />
         );
     }
     /* ---------- 2. Customer Relationship ---------- */
@@ -378,110 +467,100 @@ export function useEngagementRelationships(earlier: Earlier) {
             folds.isOpen(offeringFoldKey(offeringId));
 
         /*
-            ONE OFFERING'S RELATIONSHIP AS A FLOATING CARD (owner, 2026-11-12 17:53: "Offering relationship should be a floated card"): the card's own bands, as every
-            card of the Foundation has them (the Segment's boxes: a box's title, then a band per question, the tints alternating). The Offering and its Profiles; then a
-            box for each relationship type: the type, its Purpose, and the five stages one under another, each with its Goal and its Approach; then the suggested type
-            and "+ Add Relationship Type". The same fields and saved answers as the table above.
+            ONE OFFERING'S RELATIONSHIP AS A FLOATING CARD, IN THE DEFAULT LAYOUT (owner, 2026-11-12 17:53: "Offering relationship should be a floated card"; 18:41: "does not
+            follow the default floated card's lay out ... Place the Goals (get, keep, grow) in a row"): the Offering card's head (its number and name, the name a link to the
+            Foundation), the Profiles it serves under the name; a section for each relationship type, its x at the end of its title band: a box for its Purpose, then a box
+            for each stage with its Goals in one row and its Approach; then the suggested type and "+ Add Relationship Type". The same fields and saved answers as the table.
         */
         if (asCard && only) {
             const offeringId = only;
             const offeringRows = rowsOf(offeringId);
             const kept = offeringRelationshipsOf(segment.id, offeringId);
             const served = profilesFor(offeringId);
-            const band = (at: number) => "legal-entity-org-section" + (at % 2 === 1 ? " legal-entity-org-band" : "");
-            const rule = <div className="business-capability-card-rule legal-entity-org-rule business-capability-card-rule-double" role="separator" />;
             const suggested = suggestedRelationshipType(segment, offeringId);
+            const number = segment.offerings.findIndex(offering => offering.id === offeringId) + 1;
+            const whose = (segment.name.trim() || "Segment") + ", Offering " + number;
             return (
-                <div className="legal-entity-grid legal-entity-grid-pairs legal-entity-grid-organization legal-entity-audience business-segment-grid business-segment-grid-full" data-anchor={"relationship-offering-" + offeringId}>
-                    <div className="legal-entity-field">
-                        <div className="business-segment-box">
-                            <div className="legal-entity-org-section">
-                                <span className="business-foundation-label-info legal-entity-label-info">
-                                    <FieldLabel className="business-foundation-label" role="heading" aria-level={3}>{offeringName(offeringId)}</FieldLabel>
-                                </span>
-                            </div>
-                            <div className={band(0)}>
-                                <FieldLabel>Profiles</FieldLabel>
+                <EngagementCard
+                    kind="Offering"
+                    number={number}
+                    name={offeringName(offeringId)}
+                    anchor={"relationship-offering-" + offeringId}
+                    onOpenName={openFoundationAt ? () => openFoundationAt(offeringId) : undefined}
+                    headRow={(
+                        <div className="business-field-run business-field-run-compact">
+                            <BusinessField label="Profiles" inline>
                                 {served.length === 0
                                     ? <BusinessEmpty>Tick this Offering under a Profile's Functional Needs on the Foundation page.</BusinessEmpty>
-                                    : <ul className="business-relationship-profile-list">{served.map((profile, index) => <li key={profile.id}>{foundationLink(profile.name.trim() || "Profile " + (index + 1), "Profile", profile.id)}</li>)}</ul>}
-                            </div>
+                                    : <span className="business-relationship-profile-list">{served.map((profile, index) => <Fragment key={profile.id}>{index > 0 && ", "}{foundationLink(profile.name.trim() || "Profile " + (index + 1), "Profile", profile.id)}</Fragment>)}</span>}
+                            </BusinessField>
                         </div>
-                        {kept.types.map(typeId => {
-                            const type = typeOf(segment.id, offeringId, typeId);
-                            return (
-                                <Fragment key={typeId}>
-                                    {rule}
-                                    {/* (The type's x in the box's top right corner, as the relationship block's.) */}
-                                    <div className="business-relationship-block">
-                                    <span className="business-relationship-block-remove">
-                                        <BusinessStep
-                                            kind="remove"
-                                            what={(TYPE_LABELS[typeId] ?? "") + " Relationship Type for " + offeringName(offeringId)}
+                    )}
+                >
+                    {kept.types.map(typeId => {
+                        const type = typeOf(segment.id, offeringId, typeId);
+                        const label = TYPE_LABELS[typeId] ?? "Relationship Type";
+                        return (
+                            <EngagementSection
+                                key={typeId}
+                                title={label}
+                                info={SECTIONS.relationships.types}
+                                fold={sectionFold(offeringId + " " + typeId, whose + " → " + label)}
+                                extra={<BusinessRemove what={label + " Relationship Type for " + offeringName(offeringId)} disabled={disabled} onRemove={() => updateOfferingRelationships(segment.id, offeringId, { types: kept.types.filter(candidate => candidate !== typeId) })} />}
+                            >
+                                <EngagementBoxes>{[
+                                    <EngagementBox key="purpose" title="Purpose" info={SECTIONS.relationships.purpose} bands={[
+                                        <StrategyTextArea
+                                            key="purpose"
+                                            className="interview-input business-foundation-note"
+                                            ariaLabel={"Purpose of " + label + " for " + offeringName(offeringId)}
                                             disabled={disabled}
-                                            onClick={() => updateOfferingRelationships(segment.id, offeringId, { types: kept.types.filter(candidate => candidate !== typeId) })}
+                                            value={type.purpose}
+                                            onChange={(next) => updateType(segment.id, offeringId, typeId, { purpose: next })}
                                         />
-                                    </span>
-                                    <div className="business-segment-box">
-                                        <div className="legal-entity-org-section">
-                                            <span className="business-foundation-label-info legal-entity-label-info">
-                                                <FieldLabel className="business-foundation-label" role="heading" aria-level={3}>{TYPE_LABELS[typeId] ?? "Relationship Type"}</FieldLabel>
-                                                <InfoNote label="Relationship Type" points={SECTIONS.relationships.types} fullList />
-                                            </span>
-                                        </div>
-                                        <div className={band(0)}>
-                                            <BusinessNote
-                                                label="Purpose"
-                                                ariaLabel={"Purpose of " + TYPE_LABELS[typeId] + " for " + offeringName(offeringId)}
-                                                info={SECTIONS.relationships.purpose}
-                                                disabled={disabled}
-                                                value={type.purpose}
-                                                onChange={(next) => updateType(segment.id, offeringId, typeId, { purpose: next })}
+                                    ]} />,
+                                    ...offeringRows.map(interaction => {
+                                        const answersFor = interactionOf(segment.id, offeringId, typeId, interaction.key, interaction.legacyKeys);
+                                        const stage = STAGE_LABELS[interaction.stageId] ?? "";
+                                        const about = stage + ", " + offeringName(offeringId) + ", " + label;
+                                        return (
+                                            <EngagementBox
+                                                key={interaction.key}
+                                                title={stage}
+                                                info={interaction.groups.length > 0 ? interaction.groups.map(group => ({ title: group.category.trim().length ? group.category : "No category", text: group.channelIds.map(id => channelName(id)).join(", ") })) : undefined}
+                                                bands={[
+                                                    <FieldRow key="goals" pair label="Goals">
+                                                        <TickRow label={"Goals for " + about}>
+                                                            <BusinessTicks
+                                                                name={"Goals for " + about}
+                                                                options={GOAL_OPTIONS}
+                                                                chosen={answersFor.goals}
+                                                                disabled={disabled}
+                                                                onChange={(next) => updateInteraction(segment.id, offeringId, typeId, interaction.key, interaction.legacyKeys, { goals: next })}
+                                                            />
+                                                        </TickRow>
+                                                    </FieldRow>,
+                                                    <FieldRow key="approach" pair label="Approach">
+                                                        <StrategyTextArea
+                                                            className="interview-input business-foundation-note"
+                                                            ariaLabel={"Approach for " + about}
+                                                            disabled={disabled}
+                                                            value={answersFor.approach}
+                                                            onChange={(next) => updateInteraction(segment.id, offeringId, typeId, interaction.key, interaction.legacyKeys, { approach: next })}
+                                                        />
+                                                    </FieldRow>
+                                                ]}
                                             />
-                                        </div>
-                                        {offeringRows.map((interaction, at) => {
-                                            const answersFor = interactionOf(segment.id, offeringId, typeId, interaction.key, interaction.legacyKeys);
-                                            const about = (STAGE_LABELS[interaction.stageId] ?? "") + ", " + offeringName(offeringId) + ", " + TYPE_LABELS[typeId];
-                                            return (
-                                                <div className={band(at + 1)} key={interaction.key}>
-                                                    <span className="business-foundation-label-info legal-entity-label-info">
-                                                        <InfoText text={STAGE_LABELS[interaction.stageId] ?? ""}>
-                                                            {interaction.groups.length > 0 && (
-                                                                <InfoNote
-                                                                    label={STAGE_LABELS[interaction.stageId] + ": the channels"}
-                                                                    points={interaction.groups.map(group => ({ title: group.category.trim().length ? group.category : "No category", text: group.channelIds.map(id => channelName(id)).join(", ") }))}
-                                                                    fullList
-                                                                />
-                                                            )}
-                                                        </InfoText>
-                                                    </span>
-                                                    <BusinessTicks
-                                                        name={"Goals for " + about}
-                                                        options={GOAL_OPTIONS}
-                                                        chosen={answersFor.goals}
-                                                        disabled={disabled}
-                                                        onChange={(next) => updateInteraction(segment.id, offeringId, typeId, interaction.key, interaction.legacyKeys, { goals: next })}
-                                                    />
-                                                    <StrategyTextArea
-                                                        className="interview-input business-foundation-note"
-                                                        ariaLabel={"Approach for " + about}
-                                                        placeholder="Approach"
-                                                        disabled={disabled}
-                                                        value={answersFor.approach}
-                                                        onChange={(next) => updateInteraction(segment.id, offeringId, typeId, interaction.key, interaction.legacyKeys, { approach: next })}
-                                                    />
-                                                </div>
-                                            );
-                                        })}
-                                    </div>
-                                    </div>
-                                </Fragment>
-                            );
-                        })}
-                        {rule}
-                        <div className="business-segment-box">
+                                        );
+                                    })
+                                ]}</EngagementBoxes>
+                            </EngagementSection>
+                        );
+                    })}
+                    {kept.types.length < BUSINESS_RELATIONSHIP_TYPES.length && (
+                        <SingleColumn>
                             {suggested && !kept.types.includes(suggested) && (
-                                <div className={band(0)}>
+                                <div className="legal-entity-org-section">
                                     <BusinessEmpty>Suggested from your Foundation: {TYPE_LABELS[suggested]}, from the help your customers want before and after they buy.</BusinessEmpty>
                                     <BusinessStep
                                         kind="add"
@@ -492,25 +571,23 @@ export function useEngagementRelationships(earlier: Earlier) {
                                     />
                                 </div>
                             )}
-                            {kept.types.length < BUSINESS_RELATIONSHIP_TYPES.length && (
-                                <div className="legal-entity-org-section">
-                                    <BusinessStep
-                                        kind="add"
-                                        what={"Relationship Type for " + offeringName(offeringId)}
-                                        label="Relationship Type"
-                                        disabled={disabled}
-                                        onClick={() => {
-                                            const free = BUSINESS_RELATIONSHIP_TYPES.find(entryType => !kept.types.includes(entryType.id));
-                                            if (free) {
-                                                updateOfferingRelationships(segment.id, offeringId, { types: [...kept.types, free.id] });
-                                            }
-                                        }}
-                                    />
-                                </div>
-                            )}
-                        </div>
-                    </div>
-                </div>
+                            <div className="legal-entity-org-section">
+                                <BusinessStep
+                                    kind="add"
+                                    what={"Relationship Type for " + offeringName(offeringId)}
+                                    label="Relationship Type"
+                                    disabled={disabled}
+                                    onClick={() => {
+                                        const free = BUSINESS_RELATIONSHIP_TYPES.find(entryType => !kept.types.includes(entryType.id));
+                                        if (free) {
+                                            updateOfferingRelationships(segment.id, offeringId, { types: [...kept.types, free.id] });
+                                        }
+                                    }}
+                                />
+                            </div>
+                        </SingleColumn>
+                    )}
+                </EngagementCard>
             );
         }
 
@@ -1027,6 +1104,6 @@ export function useEngagementRelationships(earlier: Earlier) {
 
     }
 
-    return { channelTiles, engagedOfferingIds, relationshipsFor };
+    return { channelTiles, channelViewChoice, engagedOfferingIds, relationshipsFor };
 
 }

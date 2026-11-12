@@ -4,14 +4,15 @@
  */
 import { orphanedCards, withInheritedOfferings, type GeneratedCard } from "../../../../framework/engine/GeneratedCards.ts";
 import { useEffect, useRef, useState } from "react";
-import { BUSINESS_COST_FREQUENCIES, BUSINESS_RESOURCE_GROUPS, BUSINESS_OFFERING_RESOURCE_GROUPS, PHYSICAL_PARTNER_GROUP_IDS, PHYSICAL_RESOURCE_CATEGORY_IDS, businessFoundationSegments, offeringGroupsOf, soleGroupOf, BUSINESS_PARTNER_GROUPS, partnerGroupHelp, statusInGroup, RENT_SUPPLIER_GROUP, usesSupplier, type BusinessPaymentPlan, BILLING_TYPES, billingOf, costOptionsOf, withNewInsurances, BUSINESS_WORKSPACE_KINDS, BusinessCategoryValue, partnerNoun, BusinessCapabilityValue, BusinessCostValue, BusinessPartnerValue, BusinessResourceSlotValue, asBusinessCapabilityValue, asBusinessEngagementValue, createBusinessPartner, orderedByDate, todayIsoDate, workspacesOf, withLegalEntityFounders } from "../../../../framework/engine/AnswerUtils.ts";
+import { BUSINESS_COST_FREQUENCIES, BUSINESS_RESOURCE_GROUPS, BUSINESS_OFFERING_RESOURCE_GROUPS, PHYSICAL_PARTNER_GROUP_IDS, PHYSICAL_RESOURCE_CATEGORY_IDS, businessFoundationSegments, offeringGroupsOf, soleGroupOf, BUSINESS_PARTNER_GROUPS, partnerGroupHelp, statusInGroup, RENT_SUPPLIER_GROUP, type BusinessPaymentPlan, BILLING_TYPES, billingOf, costOptionsOf, withNewInsurances, BUSINESS_WORKSPACE_KINDS, BusinessCategoryValue, partnerNoun, BusinessCapabilityValue, BusinessCostValue, BusinessPartnerValue, BusinessResourceSlotValue, asBusinessCapabilityValue, asBusinessEngagementValue, createBusinessPartner, orderedByDate, todayIsoDate, workspacesOf, withLegalEntityFounders } from "../../../../framework/engine/AnswerUtils.ts";
 import { LinkSymbol, BusinessField, BusinessText, uniqueChoices } from "../../cards/BusinessCardFields.tsx";
 import { moneyFormatter } from "../../../../framework/engine/FinancialModel.ts";
 import { PreferencesService } from "../../../../services/PreferencesService.ts";
 import { parseAmount } from "../../../../framework/engine/Amounts.ts";
 import { randomId } from "../../../../framework/engine/Readers.ts";
 import DateCellInput, { isoToDisplay } from "../../fields/DateCellInput.tsx";
-import { resourceChannels, resourceReach } from "../../../../framework/engine/ChannelResources.ts";
+import { capabilityCards, resourceChannels, resourceReach } from "../../../../framework/engine/ChannelResources.ts";
+import { channelCards, channelFacts } from "../../tiles/channelInventory.ts";
 import OptionPicker from "../../fields/OptionPicker.tsx";
 import { useItemFolds } from "../../fields/useItemFolds.ts";
 import { ADD_ACTIVITY, Scope, newActivityFor, costInGroup, startOfCard, withActivity, withActivityPatched, OTHER_PARTNER, WORKSPACE_PROVIDER, NO_CATEGORY, NO_GROUP, blankSlot, blankActivity, blankPartner } from "../BusinessCapabilityModel.ts";
@@ -192,30 +193,13 @@ export function useCapabilityState(props: BusinessCapabilityEditorProps) {
             && ![...capability.offering.professionals, ...capability.offering.providers].some(partner => partner.group === groupId);
     }
     /**
-     * The cards a Customer Channel made ("+ Add expenses" on a channel,
-     * ChannelResources.ts): they get their own tile and colour, apart
-     * from the user's own cards, in the category they belong to.
+     * The cards a Customer Channel made ("+ Add expenses" on a channel, ChannelResources.ts): they get their own tile and colour, apart from the user's own cards,
+     * in the category they belong to; the cards in the channel's colour; the channels each card is under, by name (channelInventory.ts, shared with Customer
+     * Engagement's Inventory).
      */
-    const channelCardIds: ReadonlySet<string> = new Set(
-        engagementValue.channelResources.map(link => link.resourceId)
-    );
-    /** The channels each card is under, by name ("Social Media › Instagram"): the cards the channels hold, and the Partner or Supplier a held card is connected to. */
-    const channelNamesById = (() => {
-        const names = new Map<string, string[]>();
-        const add = (id: string, name: string) => names.set(id, [...new Set([...(names.get(id) ?? []), name])]);
-        engagementValue.channelResources.forEach(link => {
-            const channel = engagementValue.segments.find(entry => entry.segmentId === link.segmentId)?.channels.find(entry => entry.id === link.channelId);
-            if (channel) {
-                add(link.resourceId, [channel.category, channel.name.trim() || "Unnamed channel"].filter(Boolean).join(" › "));
-            }
-        });
-        [...Object.values(capability.resources).flat().flatMap(entry => entry.slots), ...capability.offering.resources].forEach(slot => {
-            if (usesSupplier(slot.status) && slot.providerId) {
-                (names.get(slot.id) ?? []).forEach(name => add(slot.providerId, name));
-            }
-        });
-        return names;
-    })();
+    const { cardIds: channelCardIds, toneIds: channelToneIds, names: channelNamesById } = channelCards(engagementValue, capability);
+    /** Each channel expense's facts for the Inventory (its Channel expenses set-up): read from the channels' table, their one owner (channelInventory.ts). */
+    const channelFactsById = channelFacts(engagementValue, capabilityCards(capability), organisationCurrency ?? "", businessFoundationSegments(foundation).flatMap(segment => segment.offerings));
     const formatMoney = moneyFormatter(organisationCurrency ?? "");
     /** A card a Customer Channel MADE (in Offering's Capability; a card of Infrastructure only linked from a channel is the user's own). */
     const channelMade = (scope: Scope, id: string) => scope === "offering" && channelCardIds.has(id);
@@ -998,6 +982,6 @@ export function useCapabilityState(props: BusinessCapabilityEditorProps) {
         return billingOf(place, groupId, optionId) === "percentage" && cost.price.trim() === "" && rate !== "" ? { ...cost, price: rate } : cost;
     }
 
-    return { activityRows, capability, partnerGroupHidden, resourceCategoryHidden, cardDates, categoryRow, channelCardIds, channelCategoryText, channelMade, channelNamesById, channelTitle, collapsed, columnsDivider, completedOpen, costOptionRows, dateNotice, defaultRateOf, disabled, discard, engagementValue, financialFoundation, folds, formatMoney, foundation, founders, foundersProfile, globalSettings, helpOpen, latestPaymentOf, legalEntity, legalEntityFounders, legalEntityPrefill, legalExpenses, legalUnder, linksOpen, live, offeringCategoryCells, onChange, onChangeLegalEntity, onOpenFoundation, onOpenLegalEntity, openPair, openingDate, organisationCurrency, pair, partnersOf, patchPartner, pending, rentRow, resourceCategoryCells, responsibilityFolds, responsibilityOff, setCollapsed, setCompletedOpen, setDateNotice, setHelpOpen, setLegalUnder, setLinksOpen, setPair, setPending, setResponsibilityFolds, setResponsibilityOff, showInstructions, stored, supplierRows, value, withDefaultRate, withPartners, write };
+    return { activityRows, capability, partnerGroupHidden, resourceCategoryHidden, cardDates, categoryRow, channelCardIds, channelCategoryText, channelFactsById, channelMade, channelNamesById, channelTitle, channelToneIds, collapsed, columnsDivider, completedOpen, costOptionRows, dateNotice, defaultRateOf, disabled, discard, engagementValue, financialFoundation, folds, formatMoney, foundation, founders, foundersProfile, globalSettings, helpOpen, latestPaymentOf, legalEntity, legalEntityFounders, legalEntityPrefill, legalExpenses, legalUnder, linksOpen, live, offeringCategoryCells, onChange, onChangeLegalEntity, onOpenFoundation, onOpenLegalEntity, openPair, openingDate, organisationCurrency, pair, partnersOf, patchPartner, pending, rentRow, resourceCategoryCells, responsibilityFolds, responsibilityOff, setCollapsed, setCompletedOpen, setDateNotice, setHelpOpen, setLegalUnder, setLinksOpen, setPair, setPending, setResponsibilityFolds, setResponsibilityOff, showInstructions, stored, supplierRows, value, withDefaultRate, withPartners, write };
 
 }

@@ -44,7 +44,7 @@ export interface ChannelResourceTableProps {
 /** Two or more values as a bullet list, one under the other, all alike; one value
  *  as plain text indented to where the bullets' text starts, so the text of a
  *  column begins at one x. */
-function Values({ items }: { items: { key: string; node: ReactNode }[] }) {
+export function Values({ items }: { items: { key: string; node: ReactNode }[] }) {
     if (items.length === 0) {
         return <>{DASH}</>;
     }
@@ -59,7 +59,7 @@ function Values({ items }: { items: { key: string; node: ReactNode }[] }) {
 }
 
 /** The action buttons: no bullets, side by side and wrapping, each one line. */
-function Chips({ items }: { items: { key: string; node: ReactNode }[] }) {
+export function Chips({ items }: { items: { key: string; node: ReactNode }[] }) {
     if (items.length === 0) {
         return <>{DASH}</>;
     }

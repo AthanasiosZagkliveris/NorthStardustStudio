@@ -17,6 +17,7 @@ import { offeringStartsById } from "../../../../framework/engine/EffectiveAnswer
 import { demandSuggestions } from "../../../../framework/engine/JourneySuggestions.ts";
 import { BusinessStep } from "../../cards/BusinessCardFields.tsx";
 import { DEMAND_BLOCK_HELP } from "./shared.tsx";
+import { EngagementBox, EngagementBoxes, EngagementCard, EngagementSection, useSectionFolds } from "./EngagementCard.tsx";
 import type { useEngagementState } from "./useEngagementState.tsx";
 import type { useEngagementChannelBoxes } from "./useEngagementChannelBoxes.tsx";
 import type { useEngagementRelationships } from "./useEngagementRelationships.tsx";
@@ -25,7 +26,9 @@ type Earlier = ReturnType<typeof useEngagementState> & ReturnType<typeof useEnga
 
 export function useEngagementDemand(earlier: Earlier) {
 
-    const { disabled, engagement, folds, onChange, segmentOf, segments } = earlier;
+    const { disabled, engagement, folds, onChange, openFoundationAt, segmentOf, segments } = earlier;
+    // (The folds of the floating card's sections: open until folded.)
+    const sectionFold = useSectionFolds();
 
     /* ---------- Demand & Conversion ---------- */
 
@@ -145,7 +148,7 @@ export function useEngagementDemand(earlier: Earlier) {
             );
         }
 
-        function sourceCard(source: DemandSource, index: number) {
+        function sourceCard(source: DemandSource, index: number, asBox = false) {
 
             const type = DEMAND_SOURCES.find(entry => entry.id === source.type);
             const what = "customer source " + (index + 1) + " for " + offeringLabel;
@@ -162,135 +165,345 @@ export function useEngagementDemand(earlier: Earlier) {
                     ? "Repeat purchases come from the customers the other sources bring: complete one of them first."
                     : "";
 
+            /* THE SOURCE'S PIECES, laid out as the page's block lays them (a head, four columns, the basis) or, on the floating card, as a box of bands. */
+            const figure = type && (
+                <span className="business-demand-figure">
+                    <span className={"business-demand-pill" + (counted ? "" : " business-demand-pill-pending")}>
+                        {counted ? "About " + part!.expected + perMonth : "Not counted yet"}
+                    </span>
+                    {/* The formula behind a CALCULATED result, once it counts: an entered figure has none to show. */}
+                    {counted && calculated && DEMAND_SOURCE_FORMULA_HELP[type.id] && (
+                        <InfoNote
+                            label={type.label + " result"}
+                            points={DEMAND_SOURCE_FORMULA_HELP[type.id]}
+                        />
+                    )}
+                </span>
+            );
+            const remove = (
+                <BusinessRemove
+                    what={capitalized(what)}
+                    disabled={disabled}
+                    onRemove={() => updateDemand(offeringId, {
+                        sources: demand.sources.filter(other => other.id !== source.id)
+                    })}
+                />
+            );
+            const sourcePicker = (
+                <BusinessField
+                    key="source"
+                    label="Customer Source"
+                    info={available.map(entry => ({ title: entry.label, text: entry.explanation }))}
+                >
+                    <OptionPicker
+                        label={capitalized(what)}
+                        placeholder="Select"
+                        hug
+                        options={available.map(entry => entry.label)}
+                        disabled={disabled}
+                        value={type?.label ?? ""}
+                        /* The inputs are kept when the source changes: several share keys ("buy"). */
+                        onChange={(next) => changeSource(source.id, {
+                            type: available.find(entry => entry.label === next)?.id ?? ""
+                        })}
+                    />
+                </BusinessField>
+            );
+            const estimatedPicker = type && type.fields.length > 0 && (
+                <BusinessField key="estimated" label="Estimated" info={DEMAND_CALCULATION_HELP}>
+                    <OptionPicker
+                        label={"How the sales are estimated, " + what}
+                        placeholder={DEMAND_BY_FIGURE}
+                        hug
+                        options={[DEMAND_BY_FIGURE, DEMAND_BY_CALCULATION]}
+                        disabled={disabled}
+                        value={source.calculate ? DEMAND_BY_CALCULATION : DEMAND_BY_FIGURE}
+                        onChange={(next) => changeSource(source.id, {
+                            calculate: next === DEMAND_BY_CALCULATION
+                        })}
+                    />
+                </BusinessField>
+            );
+            const figures = type && !excluded && (
+                calculated
+                    ? type.fields.map(field => numberField(
+                        field.label,
+                        field.help,
+                        field.label + ", " + what,
+                        field.placeholder,
+                        source.inputs[field.key] ?? "",
+                        (next) => changeSource(source.id, {
+                            inputs: { ...source.inputs, [field.key]: next }
+                        }),
+                        field.kind === "percent" ? NUMBER_LIMITS.percent : DEMAND_COUNT_LIMITS[field.key] ?? NUMBER_LIMITS.volume
+                    ))
+                    : numberField(
+                        type.id === "repeat"
+                            ? "Repeat Sales / Month"
+                            : demand.recurring ? "New Clients / Month" : "Sales / Month",
+                        demand.recurring
+                            ? "New clients expected to join from this source in a normal month."
+                            : "Sales expected from this source in a normal month.",
+                        "Expected" + perMonth + ", " + what,
+                        "e.g. 1",
+                        source.estimate,
+                        (next) => changeSource(source.id, { estimate: next }),
+                        NUMBER_LIMITS.volume
+                    )
+            );
+            const noteLine = note && <p className="business-demand-source-note">{note}</p>;
+            const basis = type && !excluded && (
+                <BusinessField
+                    label="Basis"
+                    info={["What this source's figure rests on: a test, an enquiry, a promise, past sales."]}
+                >
+                    <StrategyTextArea
+                        className="interview-input business-demand-basis"
+                        ariaLabel={"Basis, " + what}
+                        placeholder="e.g. 3 of 20 test messages led to a call"
+                        disabled={disabled}
+                        value={source.basis}
+                        onChange={(next) => changeSource(source.id, { basis: next })}
+                    />
+                </BusinessField>
+            );
+
+            // ON THE FLOATING CARD: a box, "Source 1" its title band with its figure and its x at the end; a band for the source, how it is estimated, each figure, the basis.
+            if (asBox) {
+                return (
+                    <EngagementBox
+                        key={source.id}
+                        anchor={"demand-source-" + source.id}
+                        title={"Source " + (index + 1)}
+                        extra={<>{figure}{remove}</>}
+                        bands={[
+                            sourcePicker,
+                            estimatedPicker,
+                            // (One band per figure, as the Offering card asks one question per band.)
+                            ...(Array.isArray(figures) ? figures : [figures]),
+                            noteLine,
+                            basis
+                        ]}
+                    />
+                );
+            }
+
             return (
                 <div className="business-demand-source" key={source.id} data-anchor={"demand-source-" + source.id}>
 
-                    {/* THE CARD'S HEAD: which source, and what it gives. */}
+                    {/* THE CARD'S HEAD: which source, and what it gives. The figure and its "i" as ONE unit at the far end, 12px before the × (see .business-demand-figure). */}
                     <div className="business-demand-source-head">
                         <span className="business-demand-source-title">
                             {"Source " + (index + 1)}
                         </span>
-                        {/* The figure and its "i" as ONE unit at the far
-                            end, 12px before the × (see
-                            .business-demand-figure) -- the "i" never
-                            splits the space between them. */}
-                        {type && (
-                            <span className="business-demand-figure">
-                                <span className={"business-demand-pill" + (counted ? "" : " business-demand-pill-pending")}>
-                                    {counted ? "About " + part!.expected + perMonth : "Not counted yet"}
-                                </span>
-                                {/* The formula behind a CALCULATED result,
-                                    once it counts: an entered figure has
-                                    none to show. */}
-                                {counted && calculated && DEMAND_SOURCE_FORMULA_HELP[type.id] && (
-                                    <InfoNote
-                                        label={type.label + " result"}
-                                        points={DEMAND_SOURCE_FORMULA_HELP[type.id]}
-                                    />
-                                )}
-                            </span>
-                        )}
-                        <BusinessRemove
-                            what={capitalized(what)}
-                            disabled={disabled}
-                            onRemove={() => updateDemand(offeringId, {
-                                sources: demand.sources.filter(other => other.id !== source.id)
-                            })}
-                        />
+                        {figure}
+                        {remove}
                     </div>
 
-                    {/* FOUR COLUMNS, labels above: the source and how it is
-                        estimated, then its figure or its calculation. */}
+                    {/* FOUR COLUMNS, labels above: the source and how it is estimated, then its figure or its calculation. */}
                     <div className="business-demand-fields">
-
-                        <BusinessField
-                            label="Customer Source"
-                            info={available.map(entry => ({ title: entry.label, text: entry.explanation }))}
-                        >
-                            <OptionPicker
-                                label={capitalized(what)}
-                                placeholder="Select"
-                                hug
-                                options={available.map(entry => entry.label)}
-                                disabled={disabled}
-                                value={type?.label ?? ""}
-                                /* The inputs are kept when the source
-                                   changes: several share keys ("buy"). */
-                                onChange={(next) => changeSource(source.id, {
-                                    type: available.find(entry => entry.label === next)?.id ?? ""
-                                })}
-                            />
-                        </BusinessField>
-
-                        {type && type.fields.length > 0 && (
-                            <BusinessField label="Estimated" info={DEMAND_CALCULATION_HELP}>
-                                <OptionPicker
-                                    label={"How the sales are estimated, " + what}
-                                    placeholder={DEMAND_BY_FIGURE}
-                                    hug
-                                    options={[DEMAND_BY_FIGURE, DEMAND_BY_CALCULATION]}
-                                    disabled={disabled}
-                                    value={source.calculate ? DEMAND_BY_CALCULATION : DEMAND_BY_FIGURE}
-                                    onChange={(next) => changeSource(source.id, {
-                                        calculate: next === DEMAND_BY_CALCULATION
-                                    })}
-                                />
-                            </BusinessField>
-                        )}
-
-                        {type && !excluded && (
-                            <>
-                                {calculated
-                                    ? type.fields.map(field => numberField(
-                                        field.label,
-                                        field.help,
-                                        field.label + ", " + what,
-                                        field.placeholder,
-                                        source.inputs[field.key] ?? "",
-                                        (next) => changeSource(source.id, {
-                                            inputs: { ...source.inputs, [field.key]: next }
-                                        }),
-                                        field.kind === "percent" ? NUMBER_LIMITS.percent : DEMAND_COUNT_LIMITS[field.key] ?? NUMBER_LIMITS.volume
-                                    ))
-                                    : numberField(
-                                        type.id === "repeat"
-                                            ? "Repeat Sales / Month"
-                                            : demand.recurring ? "New Clients / Month" : "Sales / Month",
-                                        demand.recurring
-                                            ? "New clients expected to join from this source in a normal month."
-                                            : "Sales expected from this source in a normal month.",
-                                        "Expected" + perMonth + ", " + what,
-                                        "e.g. 1",
-                                        source.estimate,
-                                        (next) => changeSource(source.id, { estimate: next }),
-                                        NUMBER_LIMITS.volume
-                                    )}
-                            </>
-                        )}
-
+                        {sourcePicker}
+                        {estimatedPicker}
+                        {figures}
                     </div>
 
-                    {note && <p className="business-demand-source-note">{note}</p>}
+                    {noteLine}
 
-                    {type && !excluded && (
-                        <BusinessField
-                            label="Basis"
-                            info={["What this source's figure rests on: a test, an enquiry, a promise, past sales."]}
-                        >
-                            <StrategyTextArea
-                                className="interview-input business-demand-basis"
-                                ariaLabel={"Basis, " + what}
-                                placeholder="e.g. 3 of 20 test messages led to a call"
-                                disabled={disabled}
-                                value={source.basis}
-                                onChange={(next) => changeSource(source.id, { basis: next })}
-                            />
-                        </BusinessField>
-                    )}
+                    {basis}
 
                 </div>
             );
 
+        }
+
+        /* THE PIECES UNDER THE SOURCES, laid out by the page's block or by the floating card. */
+        // THE ROWS THE FOUNDATION PROPOSES (doc 28, 7.5): one for each Discover channel that serves this Offering, and Contracts or tenders where the buyer decides by a
+        // formal tender; each added by its own Add, never written by itself. A channel's row also records the channel.
+        const suggestions = (() => {
+                    const proposed = demandSuggestions(segment, offeringId, segmentOf(segment.id).channels, demand);
+                    return proposed.length > 0 && (
+                        <>
+                            <BusinessEmpty>Suggested from your Foundation: the Discover channels that serve it{proposed.some(row => row.type === "contracts") ? ", and contracts or tenders for a buyer who decides by tender" : ""}.</BusinessEmpty>
+                            {proposed.map(row => {
+                                const sourceLabel = DEMAND_SOURCES.find(type => type.id === row.type)?.label ?? "Other";
+                                const label = row.channelId ? sourceLabel + ": " + row.label : sourceLabel;
+                                return (
+                                    <BusinessStep
+                                        key={row.type + row.channelId}
+                                        kind="add"
+                                        what={label + " for " + offeringLabel}
+                                        label={label}
+                                        disabled={disabled}
+                                        onClick={() => updateDemand(offeringId, {
+                                            sources: [...demand.sources, createDemandSource(row.type)],
+                                            ...(row.channelId ? { channelIds: [...demand.channelIds, row.channelId] } : {})
+                                        })}
+                                    />
+                                );
+                            })}
+                        </>
+                    );
+                })();
+        const addSource = (
+                <BusinessAddButton
+                    label="Customer Source"
+                    disabled={disabled}
+                    onAdd={() => updateDemand(offeringId, {
+                        sources: [...demand.sources, createDemandSource()]
+                    })}
+                />
+        );
+        // HOW IT IS BOUGHT: Customers Buy and, for an Offering kept until cancelled, the share cancelling a month -- one row, labels above.
+        const buyPicker = (
+            <OptionPicker
+                label={"How customers buy " + offeringLabel}
+                placeholder={DEMAND_BUY_ONCE}
+                hug
+                options={[DEMAND_BUY_ONCE, DEMAND_BUY_MONTHLY]}
+                disabled={disabled}
+                value={demand.recurring ? DEMAND_BUY_MONTHLY : DEMAND_BUY_ONCE}
+                onChange={(next) => updateDemand(offeringId, {
+                    recurring: next === DEMAND_BUY_MONTHLY
+                })}
+            />
+        );
+        const cancelField = demand.recurring && demand.sources.length > 0 && numberField(
+            "Cancel / Month (%)",
+            "The share of active clients who cancel each month. At 5%, a client stays about 20 months on average.",
+            "Share of clients cancelling a month, " + offeringLabel,
+            "e.g. 5",
+            demand.cancel,
+            (next) => updateDemand(offeringId, { cancel: next }),
+            NUMBER_LIMITS.cancelPercent
+        );
+        const buying = (
+            <div className="business-demand-fields business-demand-buying">
+                <BusinessField label="Customers Buy" info={DEMAND_BUYING_HELP}>
+                    {buyPicker}
+                </BusinessField>
+                {cancelField}
+            </div>
+        );
+        const resultBlock = demand.sources.length > 0 && (
+                <div
+                    className="business-demand-result"
+                    role="status"
+                    aria-label={"Expected sales for " + offeringLabel}
+                >
+                    {result.expected === null
+                        ? (
+                            <p className="business-demand-result-empty">
+                                {result.joining !== null
+                                    ? "About " + result.joining + " new clients a month. Enter the share cancelling a month to see the active clients."
+                                    : "Complete a source above to see the expected sales."}
+                            </p>
+                        )
+                        : (
+                            <>
+                                <p className="business-demand-result-main">
+                                    {result.recurring
+                                        ? (
+                                            <>
+                                                <InfoText text={"Expected Sales: about " + result.expected + " active clients"}>
+                                                    <InfoNote label="Active clients" points={DEMAND_ACTIVE_CLIENTS_HELP} />
+                                                </InfoText>
+                                                {result.monthsToNormal !== null && (
+                                                    <InfoText
+                                                        text={", reached in about " + result.monthsToNormal +
+                                                            (result.monthsToNormal === 1 ? " month" : " months")}
+                                                    >
+                                                        <InfoNote label="Months to level" points={DEMAND_MONTHS_TO_NORMAL_HELP} />
+                                                    </InfoText>
+                                                )}
+                                            </>
+                                        )
+                                        : "Expected Sales: about " + result.expected + " a month"}
+                                </p>
+                                <ul className="business-demand-working">
+                                    {result.sources.filter(part => part.expected !== null).map(part => (
+                                        <li key={part.id}>{part.label}: {part.working}.</li>
+                                    ))}
+                                    {result.recurring && result.joining !== null && (
+                                        <li>
+                                            {result.sources.filter(part => part.expected !== null).length > 1 ? "Together about " : "About "}{result.joining} new clients a month; with {demand.cancel}% cancelling a month, they level off at about {result.expected} active clients.
+                                        </li>
+                                    )}
+                                </ul>
+                            </>
+                        )}
+                </div>
+            );
+        const assumptions = (
+            <OptionalNote
+                label="Assumptions"
+                info={["Anything else the figures rest on, beyond each source's basis."]}
+                ariaLabel={"Demand assumptions for " + offeringLabel}
+                placeholder={DEMAND_ASSUMPTIONS_PLACEHOLDER}
+                disabled={disabled}
+                value={demand.assumptions}
+                onChange={(next) => updateDemand(offeringId, {
+                    assumptions: next
+                })}
+            />
+        );
+        const channelTicks = channelOptions.length === 0
+                ? (
+                    <BusinessEmpty>
+                        No channel recorded for this Segment yet.
+                    </BusinessEmpty>
+                )
+                : (
+                    <div className="business-demand-ticks">
+                        <BusinessTicks
+                            name={"Channels that bring customers for " + offeringLabel}
+                            options={channelOptions}
+                            /* Only ids still on the page: a channel
+                               removed above is no longer offered. */
+                            chosen={demand.channelIds.filter(id =>
+                                channelOptions.some(option => option.id === id)
+                            )}
+                            disabled={disabled}
+                            onChange={(next) => updateDemand(offeringId, {
+                                channelIds: next
+                            })}
+                        />
+                    </div>
+                );
+
+        /*
+            ONE OFFERING'S DEMAND & CONVERSION AS A FLOATING CARD, IN THE DEFAULT LAYOUT (owner, 2026-11-12 18:41: "does not follow the default floated card's lay out ...
+            Compare it with a Profile, Competitor or offering floated card"): the Offering card's head (its number and name, the name a link to the Foundation), how its
+            customers buy under the name, as the Offering's Type; then three sections: Customer Sources (a box per source, the suggestions and "+ Add Customer Source"),
+            Expected Sales (the result, the assumptions) and Channels That Bring Them. The same fields and saved answers as the page's block.
+        */
+        if (asCard) {
+            const number = segment.offerings.findIndex(offering => offering.id === offeringId) + 1;
+            const whose = (segment.name.trim() || "Segment") + ", Offering " + number;
+            return (
+                <EngagementCard
+                    kind="Offering"
+                    number={number}
+                    name={offeringLabel}
+                    anchor={"demand-" + offeringId}
+                    onOpenName={openFoundationAt ? () => openFoundationAt(offeringId) : undefined}
+                    // (How its customers buy under the name, as the Offering card's Type: its label beside its dropdown.)
+                    headRow={<div className="business-field-run business-field-run-compact"><BusinessField label="Customers Buy" info={DEMAND_BUYING_HELP} inline>{buyPicker}</BusinessField></div>}
+                >
+                    <EngagementSection title="Customer Sources" info={DEMAND_BLOCK_HELP} fold={sectionFold(offeringId + " sources", whose + " → Customer Sources")}>
+                        <EngagementBoxes>{demand.sources.map((source, index) => sourceCard(source, index, true))}</EngagementBoxes>
+                        {suggestions && <div className="legal-entity-org-section">{suggestions}</div>}
+                        <div className="legal-entity-org-section">{addSource}</div>
+                    </EngagementSection>
+                    <EngagementSection title="Expected Sales" fold={sectionFold(offeringId + " expected", whose + " → Expected Sales")}>
+                        {/* (Its bands, the tints alternating: the share cancelling a month where it applies, the result, then the Assumptions, the note band.) */}
+                        {[cancelField, resultBlock].filter(Boolean).map((band, at) => <div key={at} className={"legal-entity-org-section" + (at % 2 === 1 ? " legal-entity-org-band" : "")}>{band}</div>)}
+                        <div className={"legal-entity-org-section business-note-band" + ([cancelField, resultBlock].filter(Boolean).length % 2 === 1 ? " legal-entity-org-band" : "")}>{assumptions}</div>
+                    </EngagementSection>
+                    <EngagementSection title="Channels That Bring Them" fold={sectionFold(offeringId + " channels", whose + " → Channels That Bring Them")}>
+                        <div className="legal-entity-org-section">{channelTicks}</div>
+                    </EngagementSection>
+                </EngagementCard>
+            );
         }
 
         return (
@@ -334,160 +547,24 @@ export function useEngagementDemand(earlier: Earlier) {
                 {open && (<>
 
                 <div className="business-demand-sources">
-                    {demand.sources.map(sourceCard)}
+                    {demand.sources.map((source, index) => sourceCard(source, index))}
                     {/* THE ROWS THE FOUNDATION PROPOSES (doc 28, 7.5): one for each Discover channel that serves this Offering, and Contracts or tenders where the
                         buyer decides by a formal tender; each added by its own Add, never written by itself. A channel's row also records the channel. */}
-                    {(() => {
-                        const proposed = demandSuggestions(segment, offeringId, segmentOf(segment.id).channels, demand);
-                        return proposed.length > 0 && (
-                            <>
-                                <BusinessEmpty>Suggested from your Foundation: the Discover channels that serve it{proposed.some(row => row.type === "contracts") ? ", and contracts or tenders for a buyer who decides by tender" : ""}.</BusinessEmpty>
-                                {proposed.map(row => {
-                                    const sourceLabel = DEMAND_SOURCES.find(type => type.id === row.type)?.label ?? "Other";
-                                    const label = row.channelId ? sourceLabel + ": " + row.label : sourceLabel;
-                                    return (
-                                        <BusinessStep
-                                            key={row.type + row.channelId}
-                                            kind="add"
-                                            what={label + " for " + offeringLabel}
-                                            label={label}
-                                            disabled={disabled}
-                                            onClick={() => updateDemand(offeringId, {
-                                                sources: [...demand.sources, createDemandSource(row.type)],
-                                                ...(row.channelId ? { channelIds: [...demand.channelIds, row.channelId] } : {})
-                                            })}
-                                        />
-                                    );
-                                })}
-                            </>
-                        );
-                    })()}
-                    <BusinessAddButton
-                        label="Customer Source"
-                        disabled={disabled}
-                        onAdd={() => updateDemand(offeringId, {
-                            sources: [...demand.sources, createDemandSource()]
-                        })}
-                    />
+                    {suggestions}
+                    {addSource}
                 </div>
 
-                {/* HOW IT IS BOUGHT, UNDER THE SOURCES: Customers Buy and,
-                    for an Offering kept until cancelled, the share
-                    cancelling a month -- one row, labels above. */}
-                <div className="business-demand-fields business-demand-buying">
-                    <BusinessField label="Customers Buy" info={DEMAND_BUYING_HELP}>
-                        <OptionPicker
-                            label={"How customers buy " + offeringLabel}
-                            placeholder={DEMAND_BUY_ONCE}
-                            hug
-                            options={[DEMAND_BUY_ONCE, DEMAND_BUY_MONTHLY]}
-                            disabled={disabled}
-                            value={demand.recurring ? DEMAND_BUY_MONTHLY : DEMAND_BUY_ONCE}
-                            onChange={(next) => updateDemand(offeringId, {
-                                recurring: next === DEMAND_BUY_MONTHLY
-                            })}
-                        />
-                    </BusinessField>
-                    {demand.recurring && demand.sources.length > 0 && numberField(
-                        "Cancel / Month (%)",
-                        "The share of active clients who cancel each month. At 5%, a client stays about 20 months on average.",
-                        "Share of clients cancelling a month, " + offeringLabel,
-                        "e.g. 5",
-                        demand.cancel,
-                        (next) => updateDemand(offeringId, { cancel: next }),
-                        NUMBER_LIMITS.cancelPercent
-                    )}
-                </div>
+                {buying}
 
-                {demand.sources.length > 0 && (
-                    <div
-                        className="business-demand-result"
-                        role="status"
-                        aria-label={"Expected sales for " + offeringLabel}
-                    >
-                        {result.expected === null
-                            ? (
-                                <p className="business-demand-result-empty">
-                                    {result.joining !== null
-                                        ? "About " + result.joining + " new clients a month. Enter the share cancelling a month to see the active clients."
-                                        : "Complete a source above to see the expected sales."}
-                                </p>
-                            )
-                            : (
-                                <>
-                                    <p className="business-demand-result-main">
-                                        {result.recurring
-                                            ? (
-                                                <>
-                                                    <InfoText text={"Expected Sales: about " + result.expected + " active clients"}>
-                                                        <InfoNote label="Active clients" points={DEMAND_ACTIVE_CLIENTS_HELP} />
-                                                    </InfoText>
-                                                    {result.monthsToNormal !== null && (
-                                                        <InfoText
-                                                            text={", reached in about " + result.monthsToNormal +
-                                                                (result.monthsToNormal === 1 ? " month" : " months")}
-                                                        >
-                                                            <InfoNote label="Months to level" points={DEMAND_MONTHS_TO_NORMAL_HELP} />
-                                                        </InfoText>
-                                                    )}
-                                                </>
-                                            )
-                                            : "Expected Sales: about " + result.expected + " a month"}
-                                    </p>
-                                    <ul className="business-demand-working">
-                                        {result.sources.filter(part => part.expected !== null).map(part => (
-                                            <li key={part.id}>{part.label}: {part.working}.</li>
-                                        ))}
-                                        {result.recurring && result.joining !== null && (
-                                            <li>
-                                                {result.sources.filter(part => part.expected !== null).length > 1 ? "Together about " : "About "}{result.joining} new clients a month; with {demand.cancel}% cancelling a month, they level off at about {result.expected} active clients.
-                                            </li>
-                                        )}
-                                    </ul>
-                                </>
-                            )}
-                    </div>
-                )}
+                {resultBlock}
 
-                <OptionalNote
-                    label="Assumptions"
-                    info={["Anything else the figures rest on, beyond each source's basis."]}
-                    ariaLabel={"Demand assumptions for " + offeringLabel}
-                    placeholder={DEMAND_ASSUMPTIONS_PLACEHOLDER}
-                    disabled={disabled}
-                    value={demand.assumptions}
-                    onChange={(next) => updateDemand(offeringId, {
-                        assumptions: next
-                    })}
-                />
+                {assumptions}
 
                 <div className="business-demand-channels">
                     <FieldLabel className="business-foundation-label">
                         Channels That Bring Them
                     </FieldLabel>
-                    {channelOptions.length === 0
-                        ? (
-                            <BusinessEmpty>
-                                No channel recorded for this Segment yet.
-                            </BusinessEmpty>
-                        )
-                        : (
-                            <div className="business-demand-ticks">
-                                <BusinessTicks
-                                    name={"Channels that bring customers for " + offeringLabel}
-                                    options={channelOptions}
-                                    /* Only ids still on the page: a channel
-                                       removed above is no longer offered. */
-                                    chosen={demand.channelIds.filter(id =>
-                                        channelOptions.some(option => option.id === id)
-                                    )}
-                                    disabled={disabled}
-                                    onChange={(next) => updateDemand(offeringId, {
-                                        channelIds: next
-                                    })}
-                                />
-                            </div>
-                        )}
+                    {channelTicks}
                 </div>
 
                 </>)}

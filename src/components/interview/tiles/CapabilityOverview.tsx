@@ -1,5 +1,5 @@
 import { NUMBER_LIMITS, limitedNumberText } from "../fields/numberInput.ts";
-import { useContext, useMemo, useState } from "react";
+import { ReactNode, useContext, useMemo, useState } from "react";
 import TextLink from "../fields/TextLink.tsx";
 import InfoNote from "../fields/InfoNote.tsx";
 import RemoveButton from "../../controls/RemoveButton.tsx";
@@ -38,6 +38,9 @@ import {
     placeOf
 } from "./capabilityFloor.ts";
 import "../../../styles/capability-overview.css";
+import { Chips, Values } from "../editors/ChannelResourceTable.tsx";
+import { markTint } from "../../../framework/engine/ActionOrder.ts";
+import type { ActionLit } from "../editors/ActionMarkers.tsx";
 
 /*
     ALL THE TILES IN ONE GRID (Page 3, the "Inventory" tile beside Completed). Its dialog lists every Resource, Activity, Partner, Provider, the
@@ -113,9 +116,15 @@ export function tableRows(row: FloorRow, format: (amount: number) => string = St
     };
     // (The currency is written once, in the column's header; a cost in another currency than the organisation's says its own code.)
     const own = row.currency && row.currency !== organisationCurrency ? row.currency + " " : "";
-    const lines = [{ ...base, cost: row.amount !== null ? own + format(row.amount) : "", frequency: row.frequencyLabel, nature: row.nature ?? "", behaviour: row.behaviour ?? "" }];
+    // (A channel expense's Offerings, journey stages and actions: the columns of the Channel expenses set-up.)
+    const channel = {
+        offering: (row.channel?.offerings ?? []).join(", "),
+        journey: (row.channel?.stages ?? []).join(", "),
+        actions: (row.channel?.actions ?? []).map(action => "#" + action.order).join(", ")
+    };
+    const lines = [{ ...base, ...channel, cost: row.amount !== null ? own + format(row.amount) : "", frequency: row.frequencyLabel, nature: row.nature ?? "", behaviour: row.behaviour ?? "" }];
     if (row.deposit) {
-        const deposit = { ...base, cost: own + format(row.deposit) + " Deposit", frequency: "One-time", nature: row.nature ?? "", behaviour: row.behaviour ?? "" };
+        const deposit = { ...base, ...channel, cost: own + format(row.deposit) + " Deposit", frequency: "One-time", nature: row.nature ?? "", behaviour: row.behaviour ?? "" };
         if (row.amount === null) {
             lines[0] = deposit;
         } else {
@@ -136,8 +145,25 @@ export const TABLE_COLUMNS = [
     { id: "nature", label: "Cost Nature" },
     { id: "behaviour", label: "Behaviour" },
     { id: "status", label: "Status" },
+    // (A channel expense's Offerings, journey stages and actions: off until ticked, or set by the Channel expenses set-up; owner, 2026-11-12 18:41.)
+    { id: "offering", label: "Offering" },
+    { id: "journey", label: "Journey" },
+    { id: "actions", label: "Actions" },
     { id: "linked", label: "Linked" }
 ] as const;
+
+/** The columns off at first: the channel expenses' own. */
+const HIDDEN_AT_FIRST = ["offering", "journey", "actions"];
+
+/**
+ * THE CHANNEL EXPENSES SET-UP (owner, 2026-11-12 18:41: "an option for Channel expenses, that would set the table automatically with the proper set up"): only
+ * the cards a Customer Channel holds, the highest cost first, and the columns a channel expense is read by -- its Type (Channel under its own), its Group (the
+ * channel over the subchannel), its cost, frequency and behaviour, its Offerings, journey stages and actions.
+ */
+const CHANNEL_SETUP = {
+    filter: { channelsOnly: true, sort: "cost-desc" },
+    hidden: ["section", "category", "nature", "status", "linked"]
+} as const;
 
 /** The text sizes of the table: three steps of the type scale (14, 18 and 24px), with the row padding that goes with each. */
 export const TABLE_SIZES = [
@@ -149,14 +175,35 @@ export const TABLE_SIZES = [
 /** A number for the table's Cost column: no currency sign (the header says it), at most two decimals. */
 const plainAmount = (amount: number) => amount.toLocaleString(undefined, { maximumFractionDigits: 2 });
 
-export default function CapabilityOverview({ rows, format = String, currency = "", onOpenLegal }: { rows: readonly FloorRow[]; format?: (amount: number) => string; currency?: string; /** Opens a legal expense's card (it floats here, over this page): without it a legal tile is shown, not opened. */ onOpenLegal?: (id: string) => void }) {
+export default function CapabilityOverview({ rows, format = String, currency = "", onOpenLegal, channelSetup = false, onOpenRow, onOpenAction, onLit }: {
+    rows: readonly FloorRow[];
+    format?: (amount: number) => string;
+    currency?: string;
+    /** Opens a legal expense's card (it floats here, over this page): without it a legal tile is shown, not opened. */
+    onOpenLegal?: (id: string) => void;
+    /** Opened in the Channel expenses set-up, as a table (Customer Engagement's Channel Costs). */
+    channelSetup?: boolean;
+    /** Opens a row's card where the Inventory stands on another page than the cards (Customer Engagement: on Infrastructure & Capability). */
+    onOpenRow?: (row: FloorRow) => void;
+    /** An action's number pressed: that action, on the Customer Engagement page. */
+    onOpenAction?: (actionId: string, segmentId: string) => void;
+    /** A channel expense pointed at: its actions lit on the channels' tables. */
+    onLit?: (lit: ActionLit) => void;
+}) {
 
     const openCard = useContext(OpenCardContext);
-    const [filter, setFilter] = useState<FloorFilter>(DEFAULT_FLOOR_FILTER);
+    const [filter, setFilter] = useState<FloorFilter>(channelSetup ? { ...DEFAULT_FLOOR_FILTER, ...CHANNEL_SETUP.filter } : DEFAULT_FLOOR_FILTER);
     // Which blocks of the funnel are folded (Include, Sort, Belongs to): all folded at first, and as the user left them while the overview stays.
     const [folded, setFolded] = useState<ReadonlySet<string>>(new Set(["include", "sort", "belongs", "columns"]));
     // The table: the columns hidden and the text size (the middle step, the body size), kept while the overview stays open.
-    const [hiddenColumns, setHiddenColumns] = useState<ReadonlySet<string>>(new Set());
+    const [hiddenColumns, setHiddenColumns] = useState<ReadonlySet<string>>(new Set(channelSetup ? CHANNEL_SETUP.hidden : HIDDEN_AT_FIRST));
+    /** The Channel expenses set-up switched on or off: on, its filter, order and columns; off, the Inventory as it opens. */
+    const setChannelSetup = (on: boolean) => {
+        setFilter(on ? { ...DEFAULT_FLOOR_FILTER, ...CHANNEL_SETUP.filter } : DEFAULT_FLOOR_FILTER);
+        setHiddenColumns(new Set(on ? CHANNEL_SETUP.hidden : HIDDEN_AT_FIRST));
+        setConnection("");
+        setFocus(null);
+    };
     const toggleFold = (block: string) => setFolded(current => {
         const next = new Set(current);
         if (!next.delete(block)) {
@@ -196,7 +243,9 @@ export default function CapabilityOverview({ rows, format = String, currency = "
     const patch = (next: Partial<FloorFilter>) => setFilter(current => ({ ...current, ...next }));
 
     const open = (row: FloorRow, pointer: boolean) => {
-        if (row.kind === "legal") {
+        if (onOpenRow) {
+            onOpenRow(row);
+        } else if (row.kind === "legal") {
             onOpenLegal?.(row.id);
         } else {
             // (The box name above the card is the card's own section -- Founders, Resources, Activities, Partners & Suppliers -- not "Inventory".)
@@ -206,6 +255,17 @@ export default function CapabilityOverview({ rows, format = String, currency = "
 
     const menu = (
         <div className="capability-overview-menu" role="group" aria-label="Filters">
+            {/* THE SET-UPS, first: Channel expenses sets the filter, the order and the columns at once (shown where there are channel expenses). */}
+            {rows.some(row => row.channel) && (
+                <div className="capability-overview-menu-group">
+                    <BusinessTicks
+                        name="Set-up"
+                        options={[{ id: "channels", label: "Channel expenses" }]}
+                        chosen={filter.channelsOnly ? ["channels"] : []}
+                        onChange={(next) => setChannelSetup(next.length > 0)}
+                    />
+                </div>
+            )}
             <div className="capability-overview-menu-group">
                 <MenuHead title="Include" open={!folded.has("include")} onToggle={() => toggleFold("include")} controls="funnel-include" />
                 {/* Founders above Resources (the Workspace is within Resources), Partners & Suppliers one option. */}
@@ -397,10 +457,61 @@ export default function CapabilityOverview({ rows, format = String, currency = "
         </div>
     );
 
+    /**
+     * A CHANNEL EXPENSE'S OWN CELLS: its Type with "Channel" under it (a card of another type that is a channel's too); its Group, the channel over its
+     * subchannel (as the channels' table draws them); its Offerings and journey stages one under another; its actions, each a number that opens it.
+     */
+    const channelCell = (row: FloorRow, column: string): ReactNode | undefined => {
+        const facts = row.channel;
+        if (!facts) {
+            return undefined;
+        }
+        const under = (top: ReactNode, below: readonly ReactNode[], key: string) => (
+            <div className="channel-resource-place" key={key}>
+                <span className="channel-resource-place-channel">{top}</span>
+                <span className="channel-resource-place-rule" aria-hidden="true" />
+                {below.length > 1
+                    ? <ul className="channel-resource-bullets channel-resource-subs">{below.map((sub, at) => <li key={at}>{sub}</li>)}</ul>
+                    : <span className="channel-resource-place-sub">{below[0]}</span>}
+            </div>
+        );
+        if (column === "type") {
+            return kindName(row) === "Channel" ? kindName(row) : under(kindName(row), ["Channel"], "type");
+        }
+        if (column === "group" && facts.places.length > 0) {
+            return [...new Set(facts.places.map(place => place.channel))].map(channel => under(channel, facts.places.filter(place => place.channel === channel).map(place => place.sub), channel));
+        }
+        if (column === "offering") {
+            return <Values items={facts.offerings.map(name => ({ key: name, node: name }))} />;
+        }
+        if (column === "journey") {
+            return <Values items={facts.stages.map(name => ({ key: name, node: name }))} />;
+        }
+        if (column === "actions") {
+            return <Chips items={facts.actions.map(action => ({
+                key: action.id,
+                node: (
+                    <button
+                        type="button"
+                        className="channel-resource-action"
+                        title={"#" + action.order + (action.text ? " " + action.text : "")}
+                        aria-label={"Go to action #" + action.order + (action.text ? ": " + action.text : "")}
+                        disabled={!onOpenAction}
+                        onClick={() => onOpenAction?.(action.id, action.segmentId)}
+                    >
+                        {"#" + action.order}
+                    </button>
+                )
+            }))} />;
+        }
+        return undefined;
+    };
+
     return (
         <ReportFrame
             count={shown.length + " of " + rows.length}
             label="all tiles"
+            defaultView={channelSetup ? "table" : "tiles"}
             menu={menu}
             extra={<>
                 {rows.some(row => row.missing) && (
@@ -484,11 +595,17 @@ export default function CapabilityOverview({ rows, format = String, currency = "
                     </thead>
                     <tbody>
                         {shown.flatMap(row => tableRows(row, plainAmount, currency).map((line, at) => (
-                            <tr key={row.kind + row.id + ":" + at} className={at > 0 ? "capability-overview-table-extra" : undefined}>
+                            <tr
+                                key={row.kind + row.id + ":" + at}
+                                // (A channel expense in the Channel expenses set-up: its colour of the channels' palette, its dot before its name, its actions lit while pointed at.)
+                                className={[at > 0 ? "capability-overview-table-extra" : "", filter.channelsOnly && row.channel ? markTint("resource", row.channel.colour) : ""].filter(Boolean).join(" ") || undefined}
+                                onMouseEnter={onLit && row.channel ? () => onLit({ kind: "resources", ids: [...row.channel!.linkIds] }) : undefined}
+                                onMouseLeave={onLit && row.channel ? () => onLit(null) : undefined}
+                            >
                                 <th scope="row" data-col="name">
-                                    {at > 0 || row.kind === "legal"
+                                    {at > 0 || (row.kind === "legal" && !onOpenRow)
                                         ? row.name
-                                        : <TextLink className="capability-overview-name" onClick={(event) => open(row, event.detail > 0)}>{row.name}</TextLink>}
+                                        : <TextLink className="capability-overview-name" onClick={(event) => open(row, event.detail > 0)}>{filter.channelsOnly && row.channel && <span className="channel-resource-dot" aria-hidden="true" />}{row.name}</TextLink>}
                                 </th>
                                 {TABLE_COLUMNS.filter(column => !hiddenColumns.has(column.id)).map(column => column.id === "linked"
                                     ? (
@@ -507,7 +624,7 @@ export default function CapabilityOverview({ rows, format = String, currency = "
                                             )}
                                         </td>
                                     )
-                                    : <td key={column.id} data-col={column.id} className={column.id === "cost" ? "capability-overview-number" : undefined}>{line[column.id]}</td>)}
+                                    : <td key={column.id} data-col={column.id} className={column.id === "cost" ? "capability-overview-number" : undefined}>{channelCell(row, column.id) ?? line[column.id]}</td>)}
                             </tr>
                         )))}
                     </tbody>

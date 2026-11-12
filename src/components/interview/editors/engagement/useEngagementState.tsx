@@ -677,6 +677,6 @@ export function useEngagementState(props: BusinessEngagementEditorProps) {
 
     }
 
-    return { asTiles, cards, channelActions, noPhysical, channelCategoryFoldKey, channelCategoryFoldKeys, channelResources, channelTileId, clearIsolation, collapsed, columnsDivider, currency, disabled, engagement, folds, interactionOf, isolated, isolatingSegment, isolationNames, offeringRelationshipsOf, offeringsOfMadeCards, onChange, onOpenCapability, onOpenFoundation, openAction, relatedStages, segmentOf, segments, setLit, toggle, typeOf, updateChannel, updateInteraction, updateOfferingRelationships, updateSegment, updateType, value };
+    return { asTiles, capabilityValue, cards, channelActions, noPhysical, channelCategoryFoldKey, channelCategoryFoldKeys, channelResources, channelTileId, clearIsolation, collapsed, columnsDivider, currency, disabled, engagement, folds, interactionOf, isolated, isolatingSegment, isolationNames, offeringRelationshipsOf, offeringsOfMadeCards, onChange, onOpenCapability, onOpenFoundation, openAction, relatedStages, segmentOf, segments, setLit, toggle, typeOf, updateChannel, updateInteraction, updateOfferingRelationships, updateSegment, updateType, value };
 
 }

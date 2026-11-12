@@ -1216,7 +1216,7 @@ drawn only in a dialog that its tile opens.
 
 ---
 
-- **A report shares the Inventory's frame** (owner, 2026-11-12 17:53: "Channel costs should have the same size as the inventory, and similar User interface"): Customer Engagement's Channel Costs is a report (`report` on its tile): its dialog is the Inventory's page-wide frame (from the top of the page's cards to 12px above the window's foot, `dialogFrame`), and its bar, view switch, text sizes and funnel are the Inventory's, one component (`ReportFrame`). Its funnel's blocks (Channel, Behaviour, Journey stage) start folded. Its tiles lead to their card on Infrastructure & Capability, the page that owns it; the layout probe measures no floating card from them.
+- **A report shares the Inventory's frame** (owner, 2026-11-12 17:53: "Channel costs should have the same size as the inventory, and similar User interface"): Customer Engagement's Channel Costs is a report (`report` on its tile): its dialog is the Inventory's page-wide frame (from the top of the page's cards to 12px above the window's foot, `dialogFrame`). Since 18:41 it IS the Inventory (`CapabilityOverview`, in its Channel expenses set-up; owner: "the Channel costs could fit well in the inventory"); its names lead to their card on Infrastructure & Capability, the page that owns it; the layout probe measures no floating card from them.
 
 ## 13. Identity, Brand and Strategy: column pages, Legal Entity, Brand Style, Founders Profile, Strategic Period
 
