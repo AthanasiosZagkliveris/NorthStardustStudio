@@ -288,6 +288,30 @@
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
  },
  {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|Activity: Set up bookkeeping, show only what QuickBooks Online is connected to|Inventory",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|Activity: Launch the website with booking, show only what Domain is connected to|Inventory",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|Activity: Investigate password vault, show only what Password vault is connected|Inventory",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|Activity: Set up monitoring, show only what AI model and API usage (Retainer) is|Inventory",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
   "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|Supplier: Brooklyn coworking, show only what Electricity is connected to|Inventory > Resource: Electricity, 01/01/2027, Infrastructure, Utilities, Premises Utilities, Partners & Suppliers",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Infrastructure",
@@ -306,6 +330,18 @@
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
  },
  {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|Activity: Set up bookkeeping, show only what QuickBooks Online is connected to|Inventory > Resource: Electricity, 01/01/2027, Infrastructure, Utilities, Premises Utilities, Partners & Suppliers",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|Activity: Launch the website with booking, show only what Domain is connected to|Inventory > Resource: Electricity, 01/01/2027, Infrastructure, Utilities, Premises Utilities, Partners & Suppliers",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
   "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|Supplier: Brooklyn coworking, show only what Electricity is connected to|Inventory > Resource: High-speed Wi-Fi, 01/01/2027, Infrastructure, Utilities, Premises Utilities, Partners & Suppliers",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Infrastructure",
@@ -319,6 +355,18 @@
  },
  {
   "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|Supplier: Brooklyn coworking, show only what Air conditioning is connected to|Inventory > Resource: High-speed Wi-Fi, 01/01/2027, Infrastructure, Utilities, Premises Utilities, Partners & Suppliers",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|Activity: Set up bookkeeping, show only what QuickBooks Online is connected to|Inventory > Resource: High-speed Wi-Fi, 01/01/2027, Infrastructure, Utilities, Premises Utilities, Partners & Suppliers",
+  "example": "quillfield-automation-llc.json",
+  "page": "Business System › Infrastructure",
+  "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
+ },
+ {
+  "key": "quillfield-automation-llc.json|Business System › Infrastructure|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|Activity: Launch the website with booking, show only what Domain is connected to|Inventory > Resource: High-speed Wi-Fi, 01/01/2027, Infrastructure, Utilities, Premises Utilities, Partners & Suppliers",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Infrastructure",
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
