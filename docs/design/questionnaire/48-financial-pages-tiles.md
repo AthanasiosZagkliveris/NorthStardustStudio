@@ -135,3 +135,58 @@ New prefixes **RV** (revenue) and **FN** (funding). RV1 and FN1 enter the regist
 
 - U.S. Small Business Administration (no date) *Write your business plan*. Available at: https://www.sba.gov/business-guide/plan-your-business/write-your-business-plan (Accessed: 12 November 2026). Opened in part (FN1: the funding request says whether debt or equity).
 - A source on pricing methods for RV1 is still to find and open; RV1's "i" cites nothing until then.
+
+## 11. The order of the Financial pages
+
+Recorded 2026-11-12 (owner, 15:37; doc 49, section 8, phase 7). Pages 4 and 5 change places in content: **Revenue & Pricing first, then Costs, Funding & Position**, so each page reads only the pages before it. Today Funding Need (page 4) reads revenue from Sustainability (page 5); in this order it reads it from the page before.
+
+| Page | Holds | Reads |
+|---|---|---|
+| **4. Revenue & Pricing** | the Revenue Streams with the price and RV1; the Offering Economics card (section 3); the pricing questions' ranges (section 12) | pages 1 to 3: value and competitors, Expected Sales, the cost of each sale (`offeringCosts`) |
+| **5. Costs, Funding & Position** | Costs (section 1), Funding Need (net of revenue), Capital & Funding with FN1, Financial Position; **Break-even and the Stress Test beside Financial Position** | pages 1 to 4 |
+
+- The saved keys stay as they are, as with the Purpose chapter (doc 45): only where the sections stand changes.
+- The Offering Economics card stands on the Revenue & Pricing page.
+- Break-even stands beside Financial Position: it needs the margin per unit (page 4) and the fixed costs (page 5).
+- Status: proposal; built in phase 7.
+
+## 12. Pricing inputs
+
+Status: **proposal**, written 2026-11-12; the wording is for the owner's approval. A price reflects three things: its cost, its customer and its competition (MIT OpenCourseWare 15.818 *Pricing*; Penn State Extension, *Choosing a pricing method*).
+
+### 12.1 What the app holds today
+
+| The three Cs | What the app has | Where |
+|---|---|---|
+| **Cost** | the cost of each sale and each Offering's monthly costs, by its shares | `offeringCosts` (`src/framework/engine/financial/offeringCosts.ts`), from the page 3 cards and the Legal Entity's expenses; available before page 4 is opened |
+| **Customer** | how price-sensitive customers are: *Lower price* rated (B1), "It costs too much" (E2), "The price or their budget" (E3), *Save time / money* (E1); the household income (Box 1, 8, `income`); the organisation's size (Box 3, 2, `size`); who holds the budget (Box 4, 9, `authorise`); how they decide (Box 4, 6, `path`); how they pay (Box 4, 8, `pay`); the Offering's terms and timing (O3, O3b) | Segment and Profile (page 1), Offering (page 1) |
+| **Competition** | a rating on Affordability where a Profile chose *Lower price* (K8); the opening "Offer lower prices" (K10); the Differentiation *Cost-driven* or *Status & Premium* (K14) | Competitor card (page 1) |
+
+The app knows how much price matters and how customers pay; it holds no amount: no competitor's price and no price customers expect.
+
+### 12.2 Two proposed questions
+
+#### K15 (Competitor card, doc 41)
+
+- **Label:** What do they charge for a similar offer?
+- **Control:** an amount range (From, To) in the organisation's currency, "per" taken from the Offering's O3 terms; and a tick "Not known yet".
+- **"i":**
+  - The price range customers see today. It helps you place your own price.
+  - Based on: MIT OpenCourseWare 15.818 *Pricing*; Penn State Extension, *Choosing a pricing method*.
+- **Judged on the competitor's own facts** (the start-up rule): never compared with the founder's own price.
+
+#### O19 (Offering card, doc 43)
+
+- **Label:** What would your customers expect to pay?
+- **Control:** an amount range (From, To) in the organisation's currency; and a tick "Not known yet".
+- **"i":**
+  - Your best estimate of what customers would pay for it. Asking a few of them gives the surest answer.
+  - Based on: MIT OpenCourseWare 15.810, lecture 10, *Principles of Pricing* (Hauser, 2015); Penn State Extension, *Product pricing: what do I charge?*.
+
+**RV1** stays as specified (section 4).
+
+**Read by:** the Offering Economics card (the price against both ranges); the Business Plan's Products and Services; the Review: "[Offering]: price above what customers expect", shown only when the price and O19's range both exist.
+
+**Codes:** K15 and O19 are the next free codes of their cards (K11 to K13 are retired, never reused; doc 44). They enter the register when built.
+
+**Sources** (each read in excerpt; opened in full before an "i" cites it): MIT OpenCourseWare 15.818 *Pricing* (Spring 2010), lecture 1; MIT OpenCourseWare 15.810 *Marketing Management*, lecture 10, *Principles of Pricing* (Hauser, Fall 2015); Penn State Extension, *Product pricing: what do I charge?* and *Choosing a pricing method*.
