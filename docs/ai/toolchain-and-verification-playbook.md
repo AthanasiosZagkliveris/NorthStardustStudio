@@ -16,6 +16,13 @@ One tree, edited in place. There is no separate build tree and no sync step.
 
 ## Verify a change, in order
 
+**How much to run (owner, 2026-11-12: "if a change is on a specific page, you do not need to check all the pages"):**
+
+- **While working:** `npm run test:changed` runs only the tests that reach the files changed since the last commit (Vitest's `--changed`), seconds instead of the whole set.
+- **Layout, one page:** `npm run check:layout -- --pages=Infrastructure` (several: `--pages=Infrastructure,"Brand System"`) checks only the page a change is on. A change to a shared component or a shared stylesheet reaches every page, so it gets the whole layout check.
+- **Before a commit that will be pushed:** the full `npx vitest run` and, after any style change, the full `npm run check:layout`.
+
+
 1. **Typecheck:** `npx tsc --noEmit`. Clean before going on.
 2. **Unit tests:** `npx vitest run` (the 40-second timeout is set in `vitest.config.ts`; `npm run verify` runs this and the other checks in order). About 1,500 tests; all must pass. A confirmed, not-yet-fixed bug is written as `it.fails`, never left as a red test (see below). An `it.fails` that starts to pass is itself reported as a failure: root-cause it, it means the tracked behaviour changed.
 3. **The checks that read the code against the rules** (all must be clean):

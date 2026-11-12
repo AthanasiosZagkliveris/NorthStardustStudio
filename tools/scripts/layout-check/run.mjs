@@ -522,6 +522,11 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
         process.env.CHECK_THEMES ??= "light";
         process.env.CHECK_EXAMPLES ??= "quillfield,proxy-tutoring";
     }
+    // --pages=Infrastructure,"Brand System": only those pages (the same as CHECK_PAGES), for a change made on one page.
+    const pagesArg = process.argv.find(arg => arg.startsWith("--pages="));
+    if (pagesArg) {
+        process.env.CHECK_PAGES = pagesArg.slice("--pages=".length).replace(/"/g, "");
+    }
     const only = (name) => process.env[name]?.split(",").map(entry => entry.trim()).filter(Boolean);
     const pageFilter = only("CHECK_PAGES");
     const pages = pageFilter ? PAGES.map(([system, names]) => [system, names.filter(name => pageFilter.some(entry => name.includes(entry)))]).filter(([, names]) => names.length > 0) : PAGES;
