@@ -37,6 +37,8 @@ export interface ChannelResourceTableProps {
     onOpenAction?: (actionId: string) => void;
     /** Pointing at a row lights its actions in the Customer Channel table. */
     onLit?: (lit: ActionLit) => void;
+    /** Its summary line under it (left out where the rows are filtered: it adds up every row). */
+    summary?: boolean;
 }
 
 /** Two or more values as a bullet list, one under the other, all alike; one value
@@ -68,7 +70,7 @@ function Chips({ items }: { items: { key: string; node: ReactNode }[] }) {
     );
 }
 
-export default function ChannelResourceTable({ table, segmentName, onOpenCard, onOpenAction, onLit }: ChannelResourceTableProps) {
+export default function ChannelResourceTable({ table, segmentName, onOpenCard, onOpenAction, onLit, summary: showSummary = true }: ChannelResourceTableProps) {
 
     const { rows, summaryText, summary } = table;
 
@@ -182,11 +184,11 @@ export default function ChannelResourceTable({ table, segmentName, onOpenCard, o
 
             </div>
 
-            <p className="channel-resource-summary">
+            {showSummary && <p className="channel-resource-summary">
                 <span className="channel-resource-summary-label">{"Summary of the rows above (not a forecast): "}</span>
                 {summaryText || "no cost counted yet"}
                 {summary.notSummed > 0 && " · " + summary.notSummed + (summary.notSummed === 1 ? " resource" : " resources") + " not added up (another currency or frequency)"}
-            </p>
+            </p>}
 
         </div>
     );

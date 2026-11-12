@@ -98,7 +98,7 @@ export function FloatingCards({
             if (!dialog) {
                 under = anchorRef.current;
                 area = under;
-            } else if (dialog.dataset.tile === "overview" || dialog.dataset.tile === "completed") {
+            } else if (dialog.dataset.tile === "overview" || dialog.dataset.tile === "completed" || dialog.dataset.report !== undefined) {
                 under = dialog;
                 area = dialog.querySelector<HTMLElement>(".card-tile-grid, .card-boxes, .section-tiles");
             }
@@ -359,9 +359,9 @@ export function TileDialog({
     // whenever the window changes size.
     // (Measured when first drawn, not after: the text boxes inside size themselves to the
     // width they are first laid out at.)
-    const [square, setSquare] = useState<{ width: number; height: number; top: number; left?: number } | null>(() => dialogFrame(opener));
+    const [square, setSquare] = useState<{ width: number; height: number; top: number; left?: number } | null>(() => dialogFrame(tile.report ? null : opener));
     useLayoutEffect(() => {
-        const onResize = () => setSquare(dialogFrame(opener));
+        const onResize = () => setSquare(dialogFrame(tile.report ? null : opener));
         window.addEventListener("resize", onResize);
         return () => window.removeEventListener("resize", onResize);
     }, []);
@@ -501,6 +501,7 @@ export function TileDialog({
                 className={"section-tile-dialog business-foundation-input business-foundation-card" + (tile.channel ? " section-tile-dialog-channel" : "") + (tile.completed ? " section-tile-dialog-completed" : "")}
                 role="dialog"
                 data-tile={tile.id}
+                data-report={tile.report ? "" : undefined}
                 aria-modal="true"
                 aria-labelledby={nameId}
                 tabIndex={-1}

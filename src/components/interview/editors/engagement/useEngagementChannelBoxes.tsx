@@ -13,6 +13,7 @@ import { railId } from "../../rails/railItems.ts";
 import SuggestedInput from "../../fields/SuggestedInput.tsx";
 import { journeyStageLabels } from "../../../../framework/engine/ChannelTableColumns.ts";
 import ChannelResourceTable from "../ChannelResourceTable.tsx";
+import ChannelCostsReport from "../ChannelCostsReport.tsx";
 import { buildChannelResourceTable } from "../../../../framework/engine/ChannelResourceTable.ts";
 import FoldArrow from "../../fields/FoldArrow.tsx";
 import TextLink from "../../fields/TextLink.tsx";
@@ -242,7 +243,7 @@ export function useEngagementChannelBoxes(earlier: Earlier) {
      * what the Customer Channel table isolates leaves it as it is: it
      * lists every resource, whatever the rows above show.
      */
-    /** `bare`: the table alone, with no fold of its own (the Channel Costs tile's dialog, which carries the title). */
+    /** `bare`: as the Channel Costs report (ChannelCostsReport), with no fold of its own (the Channel Costs tile's dialog, which carries the title). */
     function channelResourceTable(segment: BusinessCustomerSegmentValue, bare = false) {
 
         const answers = segmentOf(segment.id);
@@ -268,7 +269,15 @@ export function useEngagementChannelBoxes(earlier: Earlier) {
             />
         );
         if (bare) {
-            return tableOf;
+            return (
+                <ChannelCostsReport
+                    table={table}
+                    segmentName={segment.name.trim() || "this Segment"}
+                    onOpenCard={onOpenCapability ? (row) => onOpenCapability(row.anchors) : undefined}
+                    onOpenAction={(actionId) => openAction(answers.segmentId, actionId)}
+                    onLit={setLit}
+                />
+            );
         }
 
         const key = segment.id + "-channel-resources";

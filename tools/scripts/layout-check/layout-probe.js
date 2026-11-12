@@ -3077,7 +3077,7 @@
                 let height = window.innerHeight * 0.88;
                 let top = (window.innerHeight - height) / 2;
                 // A dialog covers the area of the card of its section (its left and right edges, top and height); a page-level dialog keeps the page frame.
-                const sectionCard = tile.closest(".section-tiles-completed") ? null : tile.closest(".business-foundation-input");
+                const sectionCard = tile.closest(".section-tiles-completed") || tile.hasAttribute("data-report") ? null : tile.closest(".business-foundation-input");
                 const cardBox = sectionCard ? sectionCard.getBoundingClientRect() : null;
                 // (A card taller than the window -- the Customer Channels' -- cannot be covered by its dialog: the dialog then fills the window under the header, and only its width is the card's.)
                 const tallCard = !!cardBox && cardBox.height > window.innerHeight;
@@ -3165,7 +3165,8 @@
             };
             const walk = async (path, route) => {
                 const level = labelsOf();
-                const count = grid().querySelectorAll("[data-opens]").length;
+                // (A report's boxes -- Customer Engagement's Channel Costs -- lead to their card on the page that owns it, Infrastructure & Capability: no card floats here to measure.)
+                const count = grid().closest(".section-tile-dialog")?.hasAttribute("data-report") ? 0 : grid().querySelectorAll("[data-opens]").length;
                 const limit = grid().querySelector(".section-tiles-boxes") ? 12 : route.length > 0 ? 3 : 2;
                 for (let position = 0; position < Math.min(count, limit); position++) {
                     // (The grid is drawn again after Back: the box is found again each time.)
@@ -3453,7 +3454,7 @@
                 const left = only.left + only.width / 2 < window.innerWidth / 2 ? only.right + 12 : only.left - 12 - only.width;
                 return left >= 0 && left + only.width <= window.innerWidth;
             })();
-            if (dialog && (sideBySide || lone) && dialog.dataset.tile !== "overview" && dialog.dataset.tile !== "completed") {
+            if (dialog && (sideBySide || lone) && dialog.dataset.tile !== "overview" && dialog.dataset.tile !== "completed" && dialog.dataset.report === undefined) {
                 const covered = [...dialog.querySelectorAll(".section-tile, .card-tile")].map(tile => tile.getBoundingClientRect())
                     .filter(tile => tile.width > 0 && tile.left < mine.right - 1 && tile.right > mine.left + 1 && tile.top < mine.bottom - 1 && tile.bottom > mine.top + 1);
                 if (covered.length > 0) {

@@ -179,6 +179,10 @@ export function costCardAmountText(card: CostCard, currency: string): string {
     if (amount === null) {
         return "";
     }
+    // (A share of revenue is a percentage, never an amount: "4% of revenue".)
+    if (card.cost.frequency === "percent-revenue") {
+        return amount + "% of revenue";
+    }
     return [moneyFormatter(card.cost.currency || currency)(amount), costPeriodWords(card.cost)].filter(Boolean).join(" ");
 }
 

@@ -1,19 +1,18 @@
 import { NUMBER_LIMITS, limitedNumberText } from "../fields/numberInput.ts";
-import { CSSProperties, useContext, useMemo, useState } from "react";
+import { useContext, useMemo, useState } from "react";
 import TextLink from "../fields/TextLink.tsx";
 import InfoNote from "../fields/InfoNote.tsx";
 import RemoveButton from "../../controls/RemoveButton.tsx";
 import NumberCell from "../../controls/NumberCell.tsx";
 import MenuOption from "../../controls/MenuOption.tsx";
-import RadioChoice from "../../controls/RadioChoice.tsx";
 import FoldArrow from "../fields/FoldArrow.tsx";
 import MenuHead from "./MenuHead.tsx";
 import TileGrid from "./TileGrid.tsx";
+import ReportFrame from "./ReportFrame.tsx";
 import { BUSINESS_COST_FREQUENCIES, BUSINESS_RESOURCE_STATUSES } from "../../../framework/engine/AnswerUtils.ts";
 import { OpenCardContext, plainTitle, tileName } from "./SectionTiles.tsx";
 import CardTile, { Dots, SYMBOLS, inwardOrigin } from "./CardTile.tsx";
 import "../../../styles/title-arrow.css";
-import BoxActions from "../fields/ReorderControls.tsx";
 import { BusinessTicks } from "../cards/BusinessCardFields.tsx";
 import OptionPicker from "../fields/OptionPicker.tsx";
 import {
@@ -153,13 +152,11 @@ const plainAmount = (amount: number) => amount.toLocaleString(undefined, { maxim
 export default function CapabilityOverview({ rows, format = String, currency = "", onOpenLegal }: { rows: readonly FloorRow[]; format?: (amount: number) => string; currency?: string; /** Opens a legal expense's card (it floats here, over this page): without it a legal tile is shown, not opened. */ onOpenLegal?: (id: string) => void }) {
 
     const openCard = useContext(OpenCardContext);
-    const [view, setView] = useState<"tiles" | "table">("tiles");
     const [filter, setFilter] = useState<FloorFilter>(DEFAULT_FLOOR_FILTER);
     // Which blocks of the funnel are folded (Include, Sort, Belongs to): all folded at first, and as the user left them while the overview stays.
     const [folded, setFolded] = useState<ReadonlySet<string>>(new Set(["include", "sort", "belongs", "columns"]));
     // The table: the columns hidden and the text size (the middle step, the body size), kept while the overview stays open.
     const [hiddenColumns, setHiddenColumns] = useState<ReadonlySet<string>>(new Set());
-    const [tableSize, setTableSize] = useState(() => typeof window !== "undefined" && window.innerWidth < 1900 ? 0 : 1);
     const toggleFold = (block: string) => setFolded(current => {
         const next = new Set(current);
         if (!next.delete(block)) {
@@ -401,10 +398,11 @@ export default function CapabilityOverview({ rows, format = String, currency = "
     );
 
     return (
-        <div className={"capability-overview" + (view === "table" ? " capability-overview-table-mode" : "")}>
-
-            <div className="capability-overview-bar">
-                <span className="capability-overview-count">{shown.length} of {rows.length}</span>
+        <ReportFrame
+            count={shown.length + " of " + rows.length}
+            label="all tiles"
+            menu={menu}
+            extra={<>
                 {rows.some(row => row.missing) && (
                     <span className="capability-overview-incomplete">
                         {rows.filter(row => row.missing).length} incomplete
@@ -432,32 +430,9 @@ export default function CapabilityOverview({ rows, format = String, currency = "
                         <RemoveButton aria-label="Show all tiles again" onClick={() => setFocus(null)} />
                     </span>
                 )}
-                <RadioChoice
-                    className="capability-overview-views"
-                    label="View"
-                    group="capability-overview-view"
-                    options={[{ id: "tiles", label: "Tiles" }, { id: "table", label: "Table" }]}
-                    value={view}
-                    onChange={setView}
-                />
-                {view === "table" && (
-                    <RadioChoice
-                        className="capability-overview-sizes"
-                        label="Table text size"
-                        group="capability-overview-size"
-                        options={TABLE_SIZES.map((size, at) => ({ id: size.id, label: <span className="capability-overview-size-aa" data-size={size.id}>Aa</span>, name: ["Smaller text", "Standard text", "Larger text"][at] }))}
-                        value={TABLE_SIZES[tableSize].id}
-                        onChange={(next) => { const at = TABLE_SIZES.findIndex(size => size.id === next); if (at >= 0) { setTableSize(at); } }}
-                    />
-                )}
-                <BoxActions
-                    label="all tiles"
-                    menuContent={menu}
-                    keepOpen
-                />
-            </div>
-
-            <div className="capability-overview-scroll">
+            </>}
+        >
+            {(view, table) => (<>
 
             {shown.length === 0 && <p className="capability-overview-empty">Nothing matches.</p>}
 
@@ -495,8 +470,7 @@ export default function CapabilityOverview({ rows, format = String, currency = "
             {view === "table" && shown.length > 0 && (
                 <table
                     className="capability-overview-table"
-                    data-size={TABLE_SIZES[tableSize].id}
-                    style={{ "--table-font": TABLE_SIZES[tableSize].font, "--table-pad": TABLE_SIZES[tableSize].pad } as CSSProperties}
+                    {...table}
                 >
                     <thead>
                         <tr>
@@ -540,9 +514,8 @@ export default function CapabilityOverview({ rows, format = String, currency = "
                 </table>
             )}
 
-            </div>
-
-        </div>
+            </>)}
+        </ReportFrame>
     );
 
 }

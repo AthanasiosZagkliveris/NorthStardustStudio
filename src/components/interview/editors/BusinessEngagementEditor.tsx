@@ -128,6 +128,8 @@ export default function BusinessEngagementEditor(props: BusinessEngagementEditor
                 },
                 {
                     id: segment.id + ":channel-costs",
+                    // (A report: its dialog is the Inventory's size, page-wide, to the window's foot.)
+                    report: true,
                     title: "Channel Costs",
                     anchor: "engagement-section-" + segment.id + "-channel-resources",
                     // What the channels cost: a month, and what moves with sales.
