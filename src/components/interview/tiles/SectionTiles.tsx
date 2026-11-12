@@ -585,7 +585,6 @@ function TileSlot({
             picture={tile.picture ? <span className="section-tile-picture" aria-hidden="true">{tile.picture}</span> : undefined}
             className={"section-tile" + (tile.diagram ? " section-tile-diagram" : "") + (tile.inactive ? " section-tile-inactive" : "") + (tile.channel ? " section-tile-channel" : "") + (tile.completed ? " section-tile-completed" : "")}
                 data-tile={tile.id}
-                data-report={tile.report ? "" : undefined}
                 data-anchor={tile.anchor}
                 data-rail={tile.rail}
                 data-holds={tile.holds && tile.holds.length > 0 ? tile.holds.join(" ") : undefined}

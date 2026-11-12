@@ -33,20 +33,17 @@ export function channelCards(engagement: BusinessEngagementValue, capability: Bu
 /**
  * THE CHANNEL EXPENSES' FACTS FOR THE INVENTORY (owner, 2026-11-12 18:41: "the Channel costs could fit well in the inventory"): for each card a Customer Channel
  * holds, what the channels' table records of it (ChannelResourceTable.ts, the one owner): the channels and subchannels it is in, the Offerings it holds, the
- * journey stages and actions that use it, its colour. A card several Segments use gathers them all. `segmentIds` narrows it to those Segments (Customer
- * Engagement's Channel Costs tile: its own Segment).
+ * journey stages and actions that use it, its colour. A card several Segments use gathers them all.
  */
 export function channelFacts(
     engagement: BusinessEngagementValue,
     cards: readonly CostCard[],
     currency: string,
-    offerings: readonly { id: string; name: string }[],
-    segmentIds?: readonly string[]
+    offerings: readonly { id: string; name: string }[]
 ): Map<string, FloorChannel> {
     const facts = new Map<string, FloorChannel>();
     const unique = <T,>(list: readonly T[], key: (entry: T) => string) => list.filter((entry, at) => list.findIndex(other => key(other) === key(entry)) === at);
     engagement.segments
-        .filter(segment => !segmentIds || segmentIds.includes(segment.segmentId))
         .forEach(segment => buildChannelResourceTable(engagement, segment, cards, currency, offerings).rows.forEach(row => {
             const had = facts.get(row.resourceId);
             facts.set(row.resourceId, {

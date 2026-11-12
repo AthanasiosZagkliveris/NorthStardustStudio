@@ -34,9 +34,6 @@ export interface SectionTile {
     /** A card opened from this tile's own dialog carries no box name above it: the dialog's heading says it (Customer Engagement; owner, 2026-11-12 17:33: "Remove the section Tab, there is no need"). */
     bareCards?: boolean;
 
-    /** A REPORT (the Inventory's kind; Customer Engagement's Channel Costs): its dialog takes the page-wide frame the Inventory's has, from the top of the page's cards to 12px above the window's foot (dialogFrame), whatever chapter its tile stands in. */
-    report?: boolean;
-
     /** The section's content, drawn only while its dialog is open. */
     content: () => ReactNode;
 

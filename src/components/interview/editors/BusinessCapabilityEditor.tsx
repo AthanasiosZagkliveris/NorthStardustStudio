@@ -48,7 +48,7 @@ export default function BusinessCapabilityEditor(props: BusinessCapabilityEditor
     const part3 = { ...part1, ...part2, ...useCapabilityPeopleCards({ ...part1, ...part2 }) };
     const part4 = { ...part1, ...part2, ...part3, ...useCapabilityActivityAndDelivery({ ...part1, ...part2, ...part3 }) };
     const part5 = { ...part1, ...part2, ...part3, ...part4, ...useCapabilitySections({ ...part1, ...part2, ...part3, ...part4 }) };
-    const { activityBox, activityCardFor, capability, cardLinks, cards, channelToneIds, childCard, columnsDivider, completedCaption, completedActivities, disabled, discard, financialFoundation, floor, foldingGroup, founderCard, founders, foundersProfile, globalSettings, helpOpen, legalEntity, legalEntityFounders, legalEntityPrefill, legalExpenses, legalUnder, missingById, namesOf, onChangeLegalEntity, openLegalExpense, openingDate, organisationCurrency, pair, parentCard, pending, setCategoryActivities, setHelpOpen, setLegalUnder, setPair, setPending, showInstructions, update, write } = part5;
+    const { activityBox, activityCardFor, capability, foundationOfferings, openEngagementAction, cardLinks, cards, channelToneIds, childCard, columnsDivider, completedCaption, completedActivities, disabled, discard, financialFoundation, floor, foldingGroup, founderCard, founders, foundersProfile, globalSettings, helpOpen, legalEntity, legalEntityFounders, legalEntityPrefill, legalExpenses, legalUnder, missingById, namesOf, onChangeLegalEntity, openLegalExpense, openingDate, organisationCurrency, pair, parentCard, pending, setCategoryActivities, setHelpOpen, setLegalUnder, setPair, setPending, showInstructions, update, write } = part5;
 
     // THE INVENTORY AND COMPLETED ROW stands IN THE FOOTER'S BAND (level with the Back link), centred under the two cards, so the cards keep all the room above it; the row takes no room
     // of its own in the page. Where the cards are stacked (a narrow window) it follows them and is squeezed into the room the window leaves (never under SQUEEZED_ROW_MIN, never over 215px).
@@ -194,7 +194,7 @@ export default function BusinessCapabilityEditor(props: BusinessCapabilityEditor
                 const classes = inventoryClassification(
                     capability, legalEntityFounders, legalExpenses, asFinancialFoundationValue(financialFoundation), organisationCurrency, openingDate, globalSettings
                 );
-                return <CapabilityOverview rows={rows.map(row => ({ ...row, ...(classes.get(row.id) ?? classes.get("salary-" + row.id) ?? classes.get("legal-" + row.id)) }))} format={moneyFormatter(organisationCurrency)} currency={organisationCurrency} onOpenLegal={legalEntity !== undefined && onChangeLegalEntity ? (id: string) => openLegalExpense(id) : undefined} />;
+                return <CapabilityOverview rows={rows.map(row => ({ ...row, ...(classes.get(row.id) ?? classes.get("salary-" + row.id) ?? classes.get("legal-" + row.id)) }))} format={moneyFormatter(organisationCurrency)} currency={organisationCurrency} offerings={foundationOfferings} onOpenAction={openEngagementAction} onOpenLegal={legalEntity !== undefined && onChangeLegalEntity ? (id: string) => openLegalExpense(id) : undefined} />;
             }
         };
     }

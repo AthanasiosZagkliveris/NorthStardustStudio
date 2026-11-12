@@ -89,6 +89,8 @@ const DRAWN_AS_TILES: ReadonlySet<AnswerType> = new Set([
     AnswerType.BrandInventory,
     AnswerType.StrategyFoundation,
     AnswerType.BusinessFoundation,
+    // (Customer Engagement, drawn as its Segments' tiles since 2026-11-12: layout rules 13, "No Sections rail on a page drawn as tiles".)
+    AnswerType.BusinessEngagement,
     AnswerType.BusinessCapability,
     AnswerType.StrategicRoadmap
 ]);
@@ -203,7 +205,7 @@ export function pageFields(
 
 }
 
-/** Whether a page is drawn as tiles, with no Sections rail: a four-column page, the Legal Entity, the Founders Profile, the Style page, the Strategy Foundation. */
+/** Whether a page is drawn as tiles, with no Sections rail: a four-column page, the Legal Entity, the Founders Profile, the Style page, the Strategy Foundation, the Business System's Foundation, Customer Engagement and Infrastructure & Capability. */
 export function drawnAsTiles(answer: AnswerDefinition | undefined): boolean {
     return !!answer && (DRAWN_AS_TILES.has(answer.type) || (answer.type === AnswerType.MultiPart && !!answer.columns && !answer.tabbed && answer.parts?.length === 4));
 }

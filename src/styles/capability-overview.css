@@ -530,7 +530,7 @@
 
 }
 
-.capability-overview-table :is(th, td)[data-col]:not([data-col="category"], [data-col="group"]) {
+.capability-overview-table tbody :is(th, td)[data-col]:not([data-col="category"], [data-col="group"]) {
 
     white-space: nowrap;
 
@@ -622,6 +622,12 @@
     border-collapse: separate;
     border-spacing: 0;
 
+    /* THE TABLE'S LINES (owner, 2026-11-12 19:54: "The Layout on the inventory should look like" the channels' table): a hairline between every two cells,
+       the cells drawing their right and bottom edges, the table its top and left, round at its corners. */
+    border-top: 1px solid var(--table-line);
+    border-left: 1px solid var(--table-line);
+    border-radius: var(--radius-lg);
+
     font-size: var(--table-font, var(--font-body));
     line-height: 1.35;
 
@@ -634,6 +640,7 @@
 
     padding: var(--table-pad, 7px) 10px;
 
+    border-right: 1px solid var(--table-line);
     border-bottom: 1px solid var(--table-line);
 
     color: var(--table-ink);
@@ -642,20 +649,47 @@
 
 }
 
+/* The heading: a band of the card's own hue, its words wrapping where a column is narrow. */
 .capability-overview-table thead th {
 
     position: sticky;
     top: 0;
     z-index: 2;
 
-    background: var(--table-ground);
+    background: color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-hover)) var(--theme-ground-weight), var(--table-ground));
 
     border-bottom: 2px solid var(--table-line);
+
+    white-space: normal;
+    vertical-align: bottom;
 
     font-weight: 700;
     letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
 
     text-align: left;
+
+}
+
+/* EACH ROW'S COLOUR, a 4px bar down its left edge: a channel expense's of the channels' palette (its tint, as its actions' marks), any other card's its
+   place's hue (as its tile). */
+.capability-overview-table tbody th[data-col="name"]::before {
+
+    content: "";
+
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+
+    width: 4px;
+
+    background-image: var(--tint-fill, linear-gradient(hsl(var(--strategy-theme-hue, 0) var(--theme-mark-ink)), hsl(var(--strategy-theme-hue, 0) var(--theme-mark-ink))));
+
+}
+
+.capability-overview-table tbody th[data-col="name"] {
+
+    padding-left: calc(10px + 4px);
 
 }
 

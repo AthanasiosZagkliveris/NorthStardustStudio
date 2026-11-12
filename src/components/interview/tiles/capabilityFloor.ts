@@ -87,6 +87,8 @@ export interface FloorRow {
     /** AS A CHANNEL EXPENSE (ChannelResourceTable.ts; the Inventory's Channel expenses): the channels and subchannels it is in, the Offerings it holds, the
      * journey stages and the actions that use it, its colour in the channels' palette and the links that make it one. */
     channel?: FloorChannel;
+    /** The Offerings an Offering's Capability card serves (their ids, as the card links them): the Inventory's Offerings filter. */
+    offeringIds?: readonly string[];
 }
 
 /** A channel expense's facts, as the Customer Engagement page records them. */
@@ -344,11 +346,15 @@ export function floorRows(
     }));
 
     const lacking = incompleteCards(capability);
+    // (The Offerings each Offering's Capability card serves.)
+    const served = new Map<string, readonly string[]>([...capability.offering.resources, ...capability.offering.activities, ...capability.offering.professionals, ...capability.offering.providers]
+        .map(card => [card.id, card.offeringIds ?? []] as const));
     return rows.map(row => ({
         ...row,
         ...(lacking.has(row.id) && !freshCards.has(row.id) ? { missing: lacking.get(row.id) } : {}),
         ...(channelNames.has(row.id) ? { channels: [...channelNames.get(row.id)!] } : {}),
         ...(channelFacts.has(row.id) ? { channel: channelFacts.get(row.id), behaviour: channelFacts.get(row.id)!.behaviour } : {}),
+        ...((served.get(row.id) ?? []).length > 0 ? { offeringIds: served.get(row.id) } : {}),
         tone: row.kind === "legal"
             ? "legal" as const
             : channelIds.has(row.id) ? "channel" as const : row.path[0] === OFFERING ? "offering" as const : "infrastructure" as const
@@ -436,11 +442,13 @@ export interface FloorFilter {
     costsOnly: boolean;
     /** ONLY THE CHANNEL EXPENSES: the cards a Customer Channel holds (the Channel expenses set-up). */
     channelsOnly: boolean;
+    /** Under Offering (Belongs to): the Offerings ticked (ids); a card is shown when it serves one of them. None ticked: every Offering. */
+    offerings: readonly string[];
 }
 
 export const DEFAULT_FLOOR_FILTER: FloorFilter = {
     kinds: new Set<FloorKind>(["resource", "activity", "partner", "provider", "founder", "legal"]),
-    place: "", groups: [], categories: [], subgroups: [], placeKinds: [], sort: "page", status: "", frequency: "", min: "", max: "", connectedOnly: false, costsOnly: false, channelsOnly: false
+    place: "", groups: [], categories: [], subgroups: [], placeKinds: [], sort: "page", status: "", frequency: "", min: "", max: "", connectedOnly: false, costsOnly: false, channelsOnly: false, offerings: []
 };
 
 /** The top-level places, in the order Belongs to offers them. */
@@ -537,6 +545,9 @@ export function filterFloor(rows: readonly FloorRow[], filter: FloorFilter): Flo
             return false;
         }
         if (filter.channelsOnly && !row.channel) {
+            return false;
+        }
+        if (filter.offerings.length > 0 && !(row.offeringIds ?? []).some(id => filter.offerings.includes(id))) {
             return false;
         }
         if (filter.place !== "" && placeOf(row) !== filter.place) {

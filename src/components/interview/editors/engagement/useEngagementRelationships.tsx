@@ -2,14 +2,17 @@
  * THE CHANNEL TILES and the relationships of each Offering.
  * One part of BusinessEngagementEditor (see BusinessEngagementEditor.tsx): what it needs of the parts before it comes in as `earlier`; what the parts after it need goes out.
  */
-import { CSSProperties, Fragment, useState } from "react";
+import { CSSProperties, useState } from "react";
 import CardShell from "../../cards/CardShell.tsx";
 import RadioChoice from "../../../controls/RadioChoice.tsx";
+import TextLink from "../../fields/TextLink.tsx";
+import { Values } from "../ChannelResourceTable.tsx";
+import { TABLE_SIZES } from "../../tiles/CapabilityOverview.tsx";
 import { BUSINESS_CHANNEL_ALL_OFFERINGS, BUSINESS_CHANNEL_CATEGORIES, BUSINESS_CHANNEL_OTHER, BUSINESS_RELATIONSHIP_TYPES, BusinessChannelValue, BusinessCustomerSegmentValue, channelCategoryHelp, channelCategoryHidden, businessProfileOfferings, businessRelationshipInteractions, createBusinessChannel, segmentHue } from "../../../../framework/engine/AnswerUtils.ts";
-import { BusinessAddButton, BusinessEmpty, BusinessField, BusinessNote, BusinessRemove, BusinessStep, BusinessTicks } from "../../cards/BusinessCardFields.tsx";
+import { BusinessAddButton, BusinessEmpty, BusinessNote, BusinessRemove, BusinessStep, BusinessTicks } from "../../cards/BusinessCardFields.tsx";
 import FieldRow from "../../fields/FieldRow.tsx";
 import { SingleColumn } from "../foundation/shared.tsx";
-import { EngagementBox, EngagementBoxes, EngagementCard, EngagementSection, TickRow, useSectionFolds } from "./EngagementCard.tsx";
+import { EngagementBox, EngagementBoxes, EngagementCard, EngagementSection, ScopeChoice, TickRow, useSectionFolds, type OptionScope } from "./EngagementCard.tsx";
 import { journeySuggestions, suggestedRelationshipType, suggestionMet, type ChannelSuggestion } from "../../../../framework/engine/JourneySuggestions.ts";
 import { BUSINESS_JOURNEY_STAGES } from "../../../../framework/engine/AnswerUtils.ts";
 import { summaryText } from "../../cards/cardSummary.ts";
@@ -26,7 +29,7 @@ import type { useEngagementChannelBoxes } from "./useEngagementChannelBoxes.tsx"
 
 type Earlier = ReturnType<typeof useEngagementState> & ReturnType<typeof useEngagementChannelBoxes>;
 
-/** The line over the stages a channel is suggested for: they are stages, centred under it, never drawn as if they were subchannels. */
+/** The line over the stages a channel is suggested for: they are stages, with no bullet, never drawn as if they were subchannels. */
 const SUGGESTED_FOR = "Suggested for";
 
 export function useEngagementRelationships(earlier: Earlier) {
@@ -35,7 +38,14 @@ export function useEngagementRelationships(earlier: Earlier) {
     const sectionFold = useSectionFolds();
     // (How each Segment's Channels and Journey dialog places its tiles: by channel, or by journey stage; by channel until changed, kept while the page is open.)
     const [channelViews, setChannelViews] = useState<Readonly<Record<string, "channels" | "stages">>>({});
-    const { channelCategoryFoldKey, channelTileId, channelsFor, disabled, folds, noPhysical, foundationLink, openFoundationAt, interactionOf, offeringRelationshipsOf, segmentOf, typeOf, updateInteraction, updateOfferingRelationships, updateSegment, updateType } = earlier;
+    // (A stage's dialog in the Journey Stages view: its subchannels as a table, until Tiles is chosen; owner, 2026-11-12 19:54: "The default should be a table".)
+    const [stageViews, setStageViews] = useState<Readonly<Record<string, "tiles" | "table">>>({});
+    // (What each Segment's dialogs offer, From your answers until All is chosen: ScopeChoice.)
+    const [scopes, setScopes] = useState<Readonly<Record<string, OptionScope>>>({});
+    const showsAll = (segmentId: string) => scopes[segmentId] === "all";
+    /** The From your answers / All choice at the head of a Segment's three dialogs: one choice, shared by the three. */
+    const scopeChoice = (segmentId: string) => <ScopeChoice group={"option-scope-" + segmentId} value={scopes[segmentId] ?? "answers"} onChange={(next) => setScopes(current => ({ ...current, [segmentId]: next }))} />;
+    const { channelCategoryFoldKey, channelTileId, channelsFor, disabled, folds, noPhysical, foundationLink, interactionOf, offeringRelationshipsOf, segmentOf, typeOf, updateInteraction, updateOfferingRelationships, updateSegment, updateType } = earlier;
 
     /**
      * 1. CUSTOMER CHANNEL AS TILES: a tile for each channel (the group of subchannels under one category), listing its subchannels; pressing it opens that channel's
@@ -77,7 +87,7 @@ export function useEngagementRelationships(earlier: Earlier) {
             folds.expand(channelCategoryFoldKey(segment.id, channel.id));
             return channel;
         };
-        // (A channel not used yet lists its suggested subchannels, bulleted; then, where it is suggested alone, "Suggested for" and its stages, centred.)
+        // (A channel not used yet lists its suggested subchannels, bulleted; then, where it is suggested alone, "Suggested for" and its stages, with no bullet.)
         const inactiveNames = (category: string) => [...new Set(suggestedIn(category).filter(suggestion => suggestion.name).map(suggestion => suggestion.name))];
         const inactiveStages = (category: string) => [...new Set(suggestedIn(category).filter(suggestion => !suggestion.name).map(suggestion => stageLabel(suggestion.stage)))];
         const inactiveLines = (category: string) => [...inactiveNames(category), ...(inactiveStages(category).length > 0 ? [SUGGESTED_FOR, ...inactiveStages(category)] : [])];
@@ -105,11 +115,11 @@ export function useEngagementRelationships(earlier: Earlier) {
                         return at >= 0 ? { box: spareId(at) } : undefined;
                     })
                 ],
-                // (The "+" adds a subchannel to this channel and opens its card.)
-                plus: () => {
+                // (The "+" adds a subchannel to this channel and opens its card: with All, where the adds are.)
+                plus: showsAll(segment.id) ? () => {
                     const made = addSub(group.label);
                     window.setTimeout(() => document.dispatchEvent(new CustomEvent<OpenRequest>(OPEN_EVENT, { detail: { tile: channelTileId(segment.id, group.key), card: made.id, fresh: true } })), 80);
-                },
+                } : undefined,
                 holds: group.channels.map(channel => channel.id),
                 note: [...channelCategoryHelp(group.label), ...suggestionNote(group.label)],
                 cardFor: (id: string) => answers.channels.some(channel => channel.id === id)
@@ -178,7 +188,9 @@ export function useEngagementRelationships(earlier: Earlier) {
                             },
                             content: () => null
                             };
-                        });
+                        })
+                        // (From your answers: only the subchannels the Foundation suggests; All: every one the category offers.)
+                        .filter(entry => showsAll(segment.id) || entry.lines !== undefined);
                     return (
                         <div className="column-tile-content">
                             <div className="business-engagement-section-head"><DialogHeading title={group.label.trim() || "New channel"} info={channelCategoryHelp(group.label)} /></div>
@@ -187,7 +199,7 @@ export function useEngagementRelationships(earlier: Earlier) {
                                 what="Subchannel"
                                 autoStart={false}
                                 items={[...group.channels.map(tileOf).filter((entry): entry is CardBox => entry !== null), ...spare]}
-                                add={{
+                                add={showsAll(segment.id) ? {
                                     label: "subchannel",
                                     disabled,
                                     onAdd: () => addSub(group.label).id,
@@ -196,7 +208,7 @@ export function useEngagementRelationships(earlier: Earlier) {
                                         return !found || found.name.trim() === "";
                                     },
                                     onRemove: (ids: string[]) => updateSegment(segment.id, { channels: segmentOf(segment.id).channels.filter(entry => !ids.includes(entry.id)) })
-                                }}
+                                } : undefined}
                             />
                         </div>
                     );
@@ -208,24 +220,26 @@ export function useEngagementRelationships(earlier: Earlier) {
             .filter(category => category.label !== BUSINESS_CHANNEL_OTHER && !groups.some(group => group.label === category.label))
             // (Physical Delivery and Retail & Wholesale are not offered while no Offering has a physical item: doc 28, 11.7.)
             .filter(category => !channelCategoryHidden(category.label, noPhysical, groups.map(group => group.label)))
+            // (From your answers: only the channels the Foundation suggests; All: every channel the page offers.)
+            .filter(category => showsAll(segment.id) || suggestedIn(category.label).length > 0)
             .map(category => ({
                 id: channelTileId(segment.id, "inactive-" + category.id),
                 title: category.label,
                 inactive: true,
                 // (A channel the Foundation suggests lists what it suggests: its subchannels, bulleted; where it suggests the channel alone, the stage, said as a
-                // suggestion and centred, never as if it were a subchannel: owner, 2026-11-12 18:41.)
+                // suggestion with no bullet, never as if it were a subchannel: owner, 2026-11-12 18:41.)
                 items: inactiveLines(category.label),
-                itemMarks: inactiveLines(category.label).map((_line, at) => at < inactiveNames(category.label).length ? { bullet: true } : { centre: true }),
+                itemMarks: inactiveLines(category.label).map((_line, at) => at < inactiveNames(category.label).length ? { bullet: true } : { plain: true }),
                 note: suggestionNote(category.label),
                 press: () => {
                     const channel = addChannel(category.label);
                     window.setTimeout(() => document.dispatchEvent(new CustomEvent<OpenRequest>(OPEN_EVENT, { detail: { tile: channelTileId(segment.id, channel.id), card: channel.id, fresh: true } })), 80);
                 },
-                // (The "+" of a channel the Segment does not use yet does what pressing the tile does: makes it, and opens its card -- as the "+" of every other tile.)
-                plus: () => {
+                // (The "+" of a channel the Segment does not use yet does what pressing the tile does: makes it, and opens its card -- as the "+" of every other tile; with All.)
+                plus: showsAll(segment.id) ? () => {
                     const channel = addChannel(category.label);
                     window.setTimeout(() => document.dispatchEvent(new CustomEvent<OpenRequest>(OPEN_EVENT, { detail: { tile: channelTileId(segment.id, channel.id), card: channel.id, fresh: true } })), 80);
-                },
+                } : undefined,
                 content: () => null
             }));
         return (
@@ -243,15 +257,17 @@ export function useEngagementRelationships(earlier: Earlier) {
                         onRemove: (ids: string[]) => updateSegment(segment.id, { channels: segmentOf(segment.id).channels.filter(entry => !ids.includes(entry.id)) })
                     }}
                 />
-                <BusinessAddButton
-                    label="Channel"
-                    disabled={disabled}
-                    onAdd={() => {
-                        const channel = createBusinessChannel();
-                        updateSegment(segment.id, { channels: [...answers.channels, channel] });
-                        folds.expand(channelCategoryFoldKey(segment.id, channel.id));
-                    }}
-                />
+                {showsAll(segment.id) && (
+                    <BusinessAddButton
+                        label="Channel"
+                        disabled={disabled}
+                        onAdd={() => {
+                            const channel = createBusinessChannel();
+                            updateSegment(segment.id, { channels: [...answers.channels, channel] });
+                            folds.expand(channelCategoryFoldKey(segment.id, channel.id));
+                        }}
+                    />
+                )}
             </>
         );
     }
@@ -283,21 +299,67 @@ export function useEngagementRelationships(earlier: Earlier) {
                         ? <div className="column-tile-content" style={hue}><CardShell engagement={false} className="business-subchannel-card">{channelsFor(segment, groupKey(channel), id)}</CardShell></div>
                         : null;
                 },
-                content: () => (
-                    <div className="column-tile-content">
-                        <div className="business-engagement-section-head"><DialogHeading title={stage.label} /></div>
-                        {used.length === 0
-                            ? <BusinessEmpty>Tick this stage on a subchannel's card to list it here.</BusinessEmpty>
-                            : (
-                                <CardBoxes
-                                    label={"Subchannels at " + stage.label}
-                                    what="Subchannel"
-                                    autoStart={false}
-                                    items={used.map((channel, at) => ({ id: channel.id, number: at + 1, plain: true, name: channel.name, unnamed: "Unnamed subchannel", lines: [channel.category.trim() || "New channel"], own: true, content: () => null }))}
+                content: () => {
+                    const tileId = channelTileId(segment.id, "stage-" + stage.id);
+                    const openCard = (channelId: string) => document.dispatchEvent(new CustomEvent<OpenRequest>(OPEN_EVENT, { detail: { tile: tileId, card: channelId } }));
+                    const offeringsOf = (channel: BusinessChannelValue) => channel.offerings.includes(BUSINESS_CHANNEL_ALL_OFFERINGS)
+                        ? ["All Offerings"]
+                        : channel.offerings.map(id => segment.offerings.find(offering => offering.id === id)?.name.trim() || "Unnamed Offering");
+                    const actionsOf = (channel: BusinessChannelValue) => (channel.actionIds[stage.id] ?? [])
+                        .map(id => answers.actions.find(action => action.id === id)?.text.trim() ?? "").filter(text => text !== "");
+                    // (The stage's subchannels as a table -- the Inventory's table, its look -- or as tiles: Table first; owner, 2026-11-12 19:54.)
+                    const view = stageViews[segment.id] ?? "table";
+                    return (
+                        <div className="column-tile-content">
+                            <div className="business-engagement-section-head">
+                                <DialogHeading title={stage.label} />
+                            </div>
+                            <div className="capability-overview-bar">
+                                <RadioChoice
+                                    className="capability-overview-views"
+                                    label="View"
+                                    group={"stage-view-" + segment.id}
+                                    options={[{ id: "table", label: "Table" }, { id: "tiles", label: "Tiles" }]}
+                                    value={view}
+                                    onChange={(next) => setStageViews(current => ({ ...current, [segment.id]: next as "tiles" | "table" }))}
                                 />
-                            )}
-                    </div>
-                )
+                            </div>
+                            {used.length === 0
+                                ? <BusinessEmpty>Tick this stage on a subchannel's card to list it here.</BusinessEmpty>
+                                : view === "tiles"
+                                    ? (
+                                        <CardBoxes
+                                            label={"Subchannels at " + stage.label}
+                                            what="Subchannel"
+                                            autoStart={false}
+                                            items={used.map((channel, at) => ({ id: channel.id, number: at + 1, plain: true, name: channel.name, unnamed: "Unnamed subchannel", lines: [channel.category.trim() || "New channel"], own: true, content: () => null }))}
+                                        />
+                                    )
+                                    : (
+                                        <table className="capability-overview-table" aria-label={"Subchannels at " + stage.label} data-size={TABLE_SIZES[0].id} style={{ "--table-font": TABLE_SIZES[0].font, "--table-pad": TABLE_SIZES[0].pad } as CSSProperties}>
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col" data-col="name">Subchannel</th>
+                                                    <th scope="col" data-col="group">Channel</th>
+                                                    <th scope="col" data-col="offering">Offerings</th>
+                                                    <th scope="col" data-col="category">{"Actions at " + stage.label}</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {used.map(channel => (
+                                                    <tr key={channel.id}>
+                                                        <th scope="row" data-col="name"><TextLink className="capability-overview-name" onClick={() => openCard(channel.id)}>{nameOf(channel)}</TextLink></th>
+                                                        <td data-col="group">{channel.category.trim() || "New channel"}</td>
+                                                        <td data-col="offering"><Values items={offeringsOf(channel).map(name => ({ key: name, node: name }))} /></td>
+                                                        <td data-col="category"><Values items={actionsOf(channel).map((text, at) => ({ key: String(at), node: text }))} /></td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                    )}
+                        </div>
+                    );
+                }
             };
         });
         return <SectionTiles label={"Journey stages of " + (segment.name.trim() || "this Segment")} hue={segmentHue(segment)} tiles={tiles} />;
@@ -314,6 +376,19 @@ export function useEngagementRelationships(earlier: Earlier) {
                 onChange={(next) => setChannelViews(current => ({ ...current, [segment.id]: next as "channels" | "stages" }))}
             />
         );
+    }
+    /** The Profiles an Offering serves (those that tick it among their needs on Page 1): its tile names them, under the Offering. */
+    function profilesOf(segment: BusinessCustomerSegmentValue, offeringId: string) {
+        return segment.profiles.filter(profile => businessProfileOfferings(profile, segment.offerings).some(offering => offering.id === offeringId));
+    }
+    /** The "+" on an Offering's tile in Customer's Relationship (with All): the next relationship type it has not, added; false when it has them all. */
+    function addRelationshipType(segment: BusinessCustomerSegmentValue, offeringId: string): boolean {
+        const kept = offeringRelationshipsOf(segment.id, offeringId);
+        const free = BUSINESS_RELATIONSHIP_TYPES.find(type => !kept.types.includes(type.id));
+        if (free) {
+            updateOfferingRelationships(segment.id, offeringId, { types: [...kept.types.filter(type => type !== ""), free.id] });
+        }
+        return !!free;
     }
     /* ---------- 2. Customer Relationship ---------- */
 
@@ -407,11 +482,7 @@ export function useEngagementRelationships(earlier: Earlier) {
          * relationships with it -- so who buys it is reference, the
          * way the channels that carry it are.
          */
-        const profilesFor = (offeringId: string) =>
-            segment.profiles.filter(profile =>
-                businessProfileOfferings(profile, segment.offerings)
-                    .some(offering => offering.id === offeringId)
-            );
+        const profilesFor = (offeringId: string) => profilesOf(segment, offeringId);
 
         /**
          * Every interaction the Channels table records for this
@@ -468,15 +539,15 @@ export function useEngagementRelationships(earlier: Earlier) {
 
         /*
             ONE OFFERING'S RELATIONSHIP AS A FLOATING CARD, IN THE DEFAULT LAYOUT (owner, 2026-11-12 17:53: "Offering relationship should be a floated card"; 18:41: "does not
-            follow the default floated card's lay out ... Place the Goals (get, keep, grow) in a row"): the Offering card's head (its number and name, the name a link to the
-            Foundation), the Profiles it serves under the name; a section for each relationship type, its x at the end of its title band: a box for its Purpose, then a box
-            for each stage with its Goals in one row and its Approach; then the suggested type and "+ Add Relationship Type". The same fields and saved answers as the table.
+            follow the default floated card's lay out ... Place the Goals (get, keep, grow) in a row"; 19:54: "the Offering and the Profile do not need to be in the Relationship
+            floated Card"): no head -- its tile names the Offering and its Profiles --; a section for each relationship type, its x at the end of its title band: a box for
+            its Purpose, then a box for each stage with its Goals in one row and its Approach; then the type the Foundation suggests. A type is added by the "+" on the
+            Offering's tile (with All). The same fields and saved answers as the table.
         */
         if (asCard && only) {
             const offeringId = only;
             const offeringRows = rowsOf(offeringId);
             const kept = offeringRelationshipsOf(segment.id, offeringId);
-            const served = profilesFor(offeringId);
             const suggested = suggestedRelationshipType(segment, offeringId);
             const number = segment.offerings.findIndex(offering => offering.id === offeringId) + 1;
             const whose = (segment.name.trim() || "Segment") + ", Offering " + number;
@@ -486,16 +557,7 @@ export function useEngagementRelationships(earlier: Earlier) {
                     number={number}
                     name={offeringName(offeringId)}
                     anchor={"relationship-offering-" + offeringId}
-                    onOpenName={openFoundationAt ? () => openFoundationAt(offeringId) : undefined}
-                    headRow={(
-                        <div className="business-field-run business-field-run-compact">
-                            <BusinessField label="Profiles" inline>
-                                {served.length === 0
-                                    ? <BusinessEmpty>Tick this Offering under a Profile's Functional Needs on the Foundation page.</BusinessEmpty>
-                                    : <span className="business-relationship-profile-list">{served.map((profile, index) => <Fragment key={profile.id}>{index > 0 && ", "}{foundationLink(profile.name.trim() || "Profile " + (index + 1), "Profile", profile.id)}</Fragment>)}</span>}
-                            </BusinessField>
-                        </div>
-                    )}
+                    headless
                 >
                     {kept.types.map(typeId => {
                         const type = typeOf(segment.id, offeringId, typeId);
@@ -557,9 +619,8 @@ export function useEngagementRelationships(earlier: Earlier) {
                             </EngagementSection>
                         );
                     })}
-                    {kept.types.length < BUSINESS_RELATIONSHIP_TYPES.length && (
+                    {suggested && !kept.types.includes(suggested) && (
                         <SingleColumn>
-                            {suggested && !kept.types.includes(suggested) && (
                                 <div className="legal-entity-org-section">
                                     <BusinessEmpty>Suggested from your Foundation: {TYPE_LABELS[suggested]}, from the help your customers want before and after they buy.</BusinessEmpty>
                                     <BusinessStep
@@ -570,21 +631,6 @@ export function useEngagementRelationships(earlier: Earlier) {
                                         onClick={() => updateOfferingRelationships(segment.id, offeringId, { types: [...kept.types.filter(candidate => candidate !== ""), suggested] })}
                                     />
                                 </div>
-                            )}
-                            <div className="legal-entity-org-section">
-                                <BusinessStep
-                                    kind="add"
-                                    what={"Relationship Type for " + offeringName(offeringId)}
-                                    label="Relationship Type"
-                                    disabled={disabled}
-                                    onClick={() => {
-                                        const free = BUSINESS_RELATIONSHIP_TYPES.find(entryType => !kept.types.includes(entryType.id));
-                                        if (free) {
-                                            updateOfferingRelationships(segment.id, offeringId, { types: [...kept.types, free.id] });
-                                        }
-                                    }}
-                                />
-                            </div>
                         </SingleColumn>
                     )}
                 </EngagementCard>
@@ -1104,6 +1150,6 @@ export function useEngagementRelationships(earlier: Earlier) {
 
     }
 
-    return { channelTiles, channelViewChoice, engagedOfferingIds, relationshipsFor };
+    return { addRelationshipType, channelTiles, channelViewChoice, engagedOfferingIds, relationshipsFor, profilesOf, scopeChoice, showsAll };
 
 }

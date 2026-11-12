@@ -2,9 +2,7 @@ import { CSSProperties, ReactNode } from "react";
 import CardShell from "../cards/CardShell.tsx";
 import { BUSINESS_JOURNEY_STAGES, BUSINESS_RELATIONSHIP_TYPES, segmentHue } from "../../../framework/engine/AnswerUtils.ts";
 import { demandResult } from "../../../framework/engine/DemandCapacity.ts";
-import { buildChannelResourceTable, variableCostText } from "../../../framework/engine/ChannelResourceTable.ts";
-import { moneyFormatter } from "../../../framework/engine/FinancialModel.ts";
-import SectionTiles, { DialogHeading, type SectionTile } from "../tiles/SectionTiles.tsx";
+import SectionTiles, { DialogHeading, OPEN_EVENT, type ItemMark, type OpenRequest, type SectionTile } from "../tiles/SectionTiles.tsx";
 import { DEMAND_BLOCK_HELP } from "./engagement/shared.tsx";
 import CardBoxes, { type CardBox } from "../cards/CardBoxes.tsx";
 import { BusinessEmpty } from "../cards/BusinessCardFields.tsx";
@@ -27,18 +25,17 @@ export default function BusinessEngagementEditor(props: BusinessEngagementEditor
     const part2 = { ...part1, ...useEngagementChannelBoxes({ ...part1 }) };
     const part3 = { ...part1, ...part2, ...useEngagementRelationships({ ...part1, ...part2 }) };
     const part4 = { ...part1, ...part2, ...part3, ...useEngagementDemand({ ...part1, ...part2, ...part3 }) };
-    const { asTiles, cards, channelCategoryFoldKeys, channelResourceTable, channelTiles, channelViewChoice, channelsFor, clearIsolation, collapsed, columnsDivider, currency, demandFor, engagement, engagedOfferingIds, foldingSection, folds, heads, isolated, isolationNames, offeringRelationshipsOf, referenceColumn, relationshipsFor, segmentOf, segments, toggle } = part4;
+    const { addCustomerSource, addRelationshipType, profilesOf, scopeChoice, showsAll, asTiles, channelCategoryFoldKeys, channelResourceTable, channelTiles, channelViewChoice, channelsFor, clearIsolation, collapsed, columnsDivider, demandFor, engagement, engagedOfferingIds, foldingSection, folds, heads, isolated, isolationNames, offeringRelationshipsOf, referenceColumn, relationshipsFor, segmentOf, segments, toggle } = part4;
 
     /*
-        THE PAGE AS TILES (doc 47, section 3, step one): one chapter per Segment, in the Segment's colour, as Page 1's, holding four Master Tiles -- Channels,
-        Relationships, Demand & Conversion, Channel Costs. Each opens its section, as it was, in a dialog; the section's help is the "i" beside the dialog's heading.
-        No question, field or saved key changes.
+        THE PAGE AS TILES (doc 47, section 3, step one): one chapter per Segment, in the Segment's colour, as Page 1's, holding three Master Tiles -- Channels and
+        Journey, Customer's Relationship, Demand & Conversion (the channel expenses are the Inventory's: owner, 2026-11-12 19:54). Each opens its section in a dialog;
+        the section's help is the "i" beside the dialog's heading; each dialog's head says what it offers, From your answers or All (ScopeChoice). No saved key changes.
     */
     if (asTiles && segments.length > 0) {
 
         /* A face's line of two columns: a name and its figure, the figure in bold (as the Financial Foundation's). */
         const pair = (name: string, figure: string) => name + "\u0001" + (figure ? "**" + figure + "**" : "");
-        const format = moneyFormatter(currency, { wholeOnly: false });
         const offeringName = (segment: (typeof segments)[number], offeringId: string) =>
             segment.offerings.find(offering => offering.id === offeringId)?.name.trim() || "Offering";
 
@@ -50,8 +47,9 @@ export default function BusinessEngagementEditor(props: BusinessEngagementEditor
                 <div className="column-tile-content" style={{ "--strategy-theme-hue": hue } as CSSProperties}>
                     <div className="business-engagement-section-head">
                         <DialogHeading title={title} info={info ? [...info] : undefined} />
-                        {extra}
                     </div>
+                    {/* (Its choices under the heading, in a row: the Inventory's bar, its radios.) */}
+                    {extra && <div className="capability-overview-bar">{extra}</div>}
                     {body}
                 </div>
             );
@@ -63,26 +61,40 @@ export default function BusinessEngagementEditor(props: BusinessEngagementEditor
                 const result = demandResult(engagement.demand[offeringId]);
                 return result.expected === null ? "" : result.recurring ? result.expected + " active" : result.expected + " a month";
             };
-            const offeringBoxes = (prefix: string, lines: (offeringId: string) => string[]): CardBox[] => offeringIds.map((offeringId, at) => ({
+            // (An Offering's tile: its lines, their marks, and -- with All -- its "+", which adds to it and opens its card.)
+            const offeringBoxes = (prefix: string, lines: (offeringId: string) => string[], marks?: (offeringId: string) => ItemMark[], plus?: { what: string; add: (offeringId: string) => boolean | void }): CardBox[] => offeringIds.map((offeringId, at) => ({
                 id: prefix + offeringId,
                 number: at + 1,
                 name: offeringName(segment, offeringId),
                 unnamed: "Offering",
                 lines: lines(offeringId),
+                marks: marks?.(offeringId),
                 own: true,
+                plus: plus && showsAll(segment.id) ? {
+                    what: plus.what,
+                    disabled: false,
+                    onAdd: () => {
+                        if (plus.add(offeringId) !== false) {
+                            window.setTimeout(() => document.dispatchEvent(new CustomEvent<OpenRequest>(OPEN_EVENT, { detail: { tile: segment.id + (prefix === "rel:" ? ":relationships" : ":demand"), card: prefix + offeringId } })), 80);
+                        }
+                    }
+                } : undefined,
                 content: () => null
             }));
+            // (Under the Offering's name on its relationship tile, the Profiles it serves, then its relationship types: owner, 2026-11-12 19:54.)
+            const relLines = (offeringId: string) => [...profilesOf(segment, offeringId).map((profile, at) => profile.name.trim() || "Profile " + (at + 1)), ...relTypes(offeringId)];
+            const relMarks = (offeringId: string): ItemMark[] => [...profilesOf(segment, offeringId).map(() => ({ plain: true })), ...relTypes(offeringId).map(() => ({ bullet: true }))];
             const offeringOf = (id: string) => id.slice(4);
             // (The card is its own shell, BusinessCard, straight in the content: the floating card styles of the Foundation's cards reach it.)
             const floatingOf = (body: ReactNode) => <div className="column-tile-content" style={{ "--strategy-theme-hue": hue } as CSSProperties}>{body}</div>;
-
-            const table = buildChannelResourceTable(engagement, answers, cards, currency, segments.flatMap(entry => entry.offerings));
 
             return [
                 {
                     id: segment.id + ":channels",
                     // (Its title on two lines, as a Master Tile's long title is: layout rules 9, "A title with a forced break"; owner, 18:41.)
                     title: "Channels and\nJourney",
+                    // (The chapter's three Master Tiles keep the size of a 2 x 2 chapter's, two to a row, as Page 1's: layout rules 9, "Large tiles".)
+                    large: true,
                     anchor: "engagement-section-" + segment.id + "-channels",
                     // The five stages, each with the number of channels used at it.
                     items: BUSINESS_JOURNEY_STAGES.map(stage => pair(stage.label, String(answers.channels.filter(channel => channel.stages.includes(stage.id)).length))),
@@ -90,6 +102,7 @@ export default function BusinessEngagementEditor(props: BusinessEngagementEditor
                         // (The choice of how the tiles are placed, then the isolation note while one stands.)
                         <>
                             {channelViewChoice(segment)}
+                            {scopeChoice(segment.id)}
                             {isolated && isolated.segmentId === segment.id && <IsolationNote kind={isolated.kind === "action" ? "shared" : "linked"} names={isolationNames()} onClear={clearIsolation} />}
                         </>
                     ))
@@ -97,6 +110,7 @@ export default function BusinessEngagementEditor(props: BusinessEngagementEditor
                 {
                     id: segment.id + ":relationships",
                     title: "Customer's\nRelationship",
+                    large: true,
                     anchor: "engagement-section-" + segment.id + "-relationships",
                     // Each Offering with its relationship types.
                     items: offeringIds.map(offeringId => pair(offeringName(segment, offeringId), offeringRelationshipsOf(segment.id, offeringId).types
@@ -106,12 +120,13 @@ export default function BusinessEngagementEditor(props: BusinessEngagementEditor
                     holds: offeringIds.map(offeringId => "rel:" + offeringId),
                     cardFor: (id: string) => offeringIds.includes(offeringOf(id)) ? floatingOf(relationshipsFor(segment, offeringOf(id), true)) : null,
                     content: () => dialog("Customer's Relationship", SECTIONS.relationships.instructions.slice(0, 3), offeringIds.length > 0
-                        ? <CardBoxes items={offeringBoxes("rel:", relTypes)} label={"Customer's Relationship of " + (segment.name.trim() || "this Segment")} what="Offering" autoStart={false} />
-                        : relationshipsFor(segment))
+                        ? <CardBoxes items={offeringBoxes("rel:", relLines, relMarks, { what: "Relationship Type", add: (offeringId) => addRelationshipType(segment, offeringId) })} label={"Customer's Relationship of " + (segment.name.trim() || "this Segment")} what="Offering" autoStart={false} />
+                        : relationshipsFor(segment), scopeChoice(segment.id))
                 },
                 {
                     id: segment.id + ":demand",
                     title: "Demand &\nConversion",
+                    large: true,
                     anchor: "engagement-section-" + segment.id + "-demand",
                     // Each Offering with its expected sales a month (active clients for a recurring one).
                     items: offeringIds.map(offeringId => {
@@ -123,24 +138,10 @@ export default function BusinessEngagementEditor(props: BusinessEngagementEditor
                     holds: offeringIds.map(offeringId => "dem:" + offeringId),
                     cardFor: (id: string) => offeringIds.includes(offeringOf(id)) ? floatingOf(demandFor(segment, offeringOf(id), offeringName(segment, offeringOf(id)), true)) : null,
                     content: () => dialog("Demand & Conversion", [SECTIONS.relationships.instructions[3], ...DEMAND_BLOCK_HELP.map(point => typeof point === "string" ? point : "")].filter(Boolean) as string[], (
-                        <CardBoxes items={offeringBoxes("dem:", offeringId => expected(offeringId) ? [expected(offeringId)] : [])} label={"Demand & Conversion of " + (segment.name.trim() || "this Segment")} what="Offering" autoStart={false} />
-                    ))
-                },
-                {
-                    id: segment.id + ":channel-costs",
-                    // (A report: its dialog is the Inventory's size, page-wide, to the window's foot.)
-                    report: true,
-                    title: "Channel Costs",
-                    anchor: "engagement-section-" + segment.id + "-channel-resources",
-                    // What the channels cost: a month, and what moves with sales.
-                    items: [
-                        ...(table.summary.fixedPerMonth !== null ? [pair("A month", format(table.summary.fixedPerMonth))] : []),
-                        // (A share of revenue is a percentage, the rest an amount.)
-                        ...table.summary.variable.map(entry => pair("Variable", variableCostText(entry, format))),
-                        ...(table.summary.oneTime !== null ? [pair("One-time", format(table.summary.oneTime))] : [])
-                    ],
-                    content: () => dialog("Channel Costs", undefined, channelResourceTable(segment, true) ?? <BusinessEmpty>A channel's expenses appear here once its card has one.</BusinessEmpty>)
+                        <CardBoxes items={offeringBoxes("dem:", offeringId => expected(offeringId) ? [expected(offeringId)] : [], undefined, { what: "Customer Source", add: addCustomerSource })} label={"Demand & Conversion of " + (segment.name.trim() || "this Segment")} what="Offering" autoStart={false} />
+                    ), scopeChoice(segment.id))
                 }
+            // (Channel Costs is no tile of its own: the channel expenses are the Inventory's, its Channel expenses set-up; owner, 2026-11-12 19:54.)
             ];
         };
 
@@ -161,7 +162,7 @@ export default function BusinessEngagementEditor(props: BusinessEngagementEditor
                                     <div className="business-capability-section business-capability-tiles-section">
                                         {/* The Segment's chapter, named as on Page 1 (its name is edited there). */}
                                         <div className="business-engagement-section-head tiles-frame-head"><span className="field-group-title business-foundation-subhead">{name}</span></div>
-                                        <SectionTiles label={name + ": Channels, Customer's Relationship, Demand & Conversion, Channel Costs"} hue={segmentHue(segment)} tiles={tilesOf(segment)} />
+                                        <SectionTiles label={name + ": Channels and Journey, Customer's Relationship, Demand & Conversion"} hue={segmentHue(segment)} tiles={tilesOf(segment)} />
                                     </div>
                                 </div>
                             </CardShell>

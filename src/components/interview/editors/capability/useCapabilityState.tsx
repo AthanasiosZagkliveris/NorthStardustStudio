@@ -198,8 +198,19 @@ export function useCapabilityState(props: BusinessCapabilityEditorProps) {
      * Engagement's Inventory).
      */
     const { cardIds: channelCardIds, toneIds: channelToneIds, names: channelNamesById } = channelCards(engagementValue, capability);
+    /** The Organisation's Offerings (Page 1), in its order: the Inventory's Offerings list and its channel expenses' Offerings. */
+    const foundationOfferings = businessFoundationSegments(foundation).flatMap(segment => segment.offerings);
     /** Each channel expense's facts for the Inventory (its Channel expenses set-up): read from the channels' table, their one owner (channelInventory.ts). */
-    const channelFactsById = channelFacts(engagementValue, capabilityCards(capability), organisationCurrency ?? "", businessFoundationSegments(foundation).flatMap(segment => segment.offerings));
+    const channelFactsById = channelFacts(engagementValue, capabilityCards(capability), organisationCurrency ?? "", foundationOfferings);
+    /** An action's number pressed in the Inventory: its channel, opened on Customer Engagement. */
+    function openEngagementAction(actionId: string, segmentId: string) {
+        const segment = engagementValue.segments.find(entry => entry.segmentId === segmentId);
+        const channel = segment?.channels.find(candidate => Object.values(candidate.actionIds).some(ids => ids.includes(actionId)));
+        if (segment && channel) {
+            const first = segment.channels.find(entry => entry.category === channel.category);
+            onOpenEngagement?.(["channel-" + channel.id, "channel-category-" + (first?.id ?? channel.id), "engagement-segment-" + segmentId]);
+        }
+    }
     const formatMoney = moneyFormatter(organisationCurrency ?? "");
     /** A card a Customer Channel MADE (in Offering's Capability; a card of Infrastructure only linked from a channel is the user's own). */
     const channelMade = (scope: Scope, id: string) => scope === "offering" && channelCardIds.has(id);
@@ -982,6 +993,6 @@ export function useCapabilityState(props: BusinessCapabilityEditorProps) {
         return billingOf(place, groupId, optionId) === "percentage" && cost.price.trim() === "" && rate !== "" ? { ...cost, price: rate } : cost;
     }
 
-    return { activityRows, capability, partnerGroupHidden, resourceCategoryHidden, cardDates, categoryRow, channelCardIds, channelCategoryText, channelFactsById, channelMade, channelNamesById, channelTitle, channelToneIds, collapsed, columnsDivider, completedOpen, costOptionRows, dateNotice, defaultRateOf, disabled, discard, engagementValue, financialFoundation, folds, formatMoney, foundation, founders, foundersProfile, globalSettings, helpOpen, latestPaymentOf, legalEntity, legalEntityFounders, legalEntityPrefill, legalExpenses, legalUnder, linksOpen, live, offeringCategoryCells, onChange, onChangeLegalEntity, onOpenFoundation, onOpenLegalEntity, openPair, openingDate, organisationCurrency, pair, partnersOf, patchPartner, pending, rentRow, resourceCategoryCells, responsibilityFolds, responsibilityOff, setCollapsed, setCompletedOpen, setDateNotice, setHelpOpen, setLegalUnder, setLinksOpen, setPair, setPending, setResponsibilityFolds, setResponsibilityOff, showInstructions, stored, supplierRows, value, withDefaultRate, withPartners, write };
+    return { activityRows, capability, partnerGroupHidden, resourceCategoryHidden, cardDates, categoryRow, channelCardIds, channelCategoryText, channelFactsById, foundationOfferings, openEngagementAction, channelMade, channelNamesById, channelTitle, channelToneIds, collapsed, columnsDivider, completedOpen, costOptionRows, dateNotice, defaultRateOf, disabled, discard, engagementValue, financialFoundation, folds, formatMoney, foundation, founders, foundersProfile, globalSettings, helpOpen, latestPaymentOf, legalEntity, legalEntityFounders, legalEntityPrefill, legalExpenses, legalUnder, linksOpen, live, offeringCategoryCells, onChange, onChangeLegalEntity, onOpenFoundation, onOpenLegalEntity, openPair, openingDate, organisationCurrency, pair, partnersOf, patchPartner, pending, rentRow, resourceCategoryCells, responsibilityFolds, responsibilityOff, setCollapsed, setCompletedOpen, setDateNotice, setHelpOpen, setLegalUnder, setLinksOpen, setPair, setPending, setResponsibilityFolds, setResponsibilityOff, showInstructions, stored, supplierRows, value, withDefaultRate, withPartners, write };
 
 }

@@ -56,6 +56,8 @@ export interface CardBox {
 
     /** Not used yet: half transparent, as a tile with no card in it. */
     faded?: boolean;
+    /** A "+" box on the tile (CardTile.plus): adds to this card (a relationship type to an Offering). */
+    plus?: { what: string; onAdd: () => void; disabled?: boolean };
 
     /** What pressing it does instead of opening its card (an inactive tile that makes the card). */
     press?: () => void;
@@ -203,6 +205,7 @@ export default function CardBoxes({
                             own={item.own}
                             inactive={item.inactive}
                             faded={item.faded}
+                            plus={item.plus}
                             missing={freshCards.has(item.id) ? undefined : item.missing}
                             label={what + " " + item.number + ": " + name}
                             origin={inwardOrigin(index, items.length, across)}

@@ -466,8 +466,9 @@ describe("BusinessEngagementEditor without a physical item (doc 28, 11.7)", () =
             segments: [{ ...createBusinessSegmentEngagement(segment.id), channels: channels.map(category => ({ ...createBusinessChannel(), category, name: "Shop" })) }]
         };
         render(<BusinessEngagementEditor value={engagement} onChange={() => undefined} foundation={foundation} asTiles />);
-        // (The channels are the tiles of the Channels dialog: it opens first.)
+        // (The channels are the tiles of the Channels dialog: it opens first; All shows every channel the page offers.)
         openTile("Channels and Journey");
+        fireEvent.click(screen.getAllByRole("radio", { name: "All" })[0]);
         const titles = [...document.querySelectorAll(".section-tile .section-tile-title")].map(title => (title.textContent ?? "").replace(/\s+/g, " "));
         cleanup();
         return titles;
@@ -506,6 +507,7 @@ describe("Customer Engagement follows the Foundation (doc 47, section 3)", () =>
         let saved: ReturnType<typeof asBusinessEngagementValue> | null = null;
         render(<BusinessEngagementEditor value={asBusinessEngagementValue(undefined)} onChange={(next) => { saved = next as ReturnType<typeof asBusinessEngagementValue>; }} foundation={foundation} asTiles />);
         openTile("Channels and Journey");
+        fireEvent.click(screen.getAllByRole("radio", { name: "All" })[0]);
         // (One grid: the channel the Segment does not use yet is a faded tile listing the subchannel suggested for it.)
         const tile = [...document.querySelectorAll<HTMLElement>(".section-tile")].find(candidate => (candidate.textContent ?? "").startsWith("Website")) as HTMLElement;
         expect(tile).toBeTruthy();

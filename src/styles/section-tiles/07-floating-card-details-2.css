@@ -114,12 +114,13 @@
 
 }
 
-/* TWO COLUMNS ON A TILE (a founder and the share): the list stands in the centre, the dashes in one column. */
+/* TWO COLUMNS ON A TILE (a founder and the share): the list stands in the centre, the dashes in one column. On a narrow tile (three in a chapter's row) the two
+   columns share its width and their words wrap, the list never reaching past the tile's left edge. */
 .section-tile-list.section-tile-list-pairs {
 
     display: grid;
-    grid-template-columns: auto auto;
-    justify-content: center;
+    grid-template-columns: minmax(min-content, max-content) minmax(min-content, max-content);
+    justify-content: safe center;
     align-content: start;
 
     column-gap: 0.4em;

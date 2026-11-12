@@ -1,5 +1,5 @@
 import { NUMBER_LIMITS, limitedNumberText } from "../fields/numberInput.ts";
-import { ReactNode, useContext, useMemo, useState } from "react";
+import { CSSProperties, ReactNode, useContext, useMemo, useState } from "react";
 import TextLink from "../fields/TextLink.tsx";
 import InfoNote from "../fields/InfoNote.tsx";
 import RemoveButton from "../../controls/RemoveButton.tsx";
@@ -11,7 +11,7 @@ import TileGrid from "./TileGrid.tsx";
 import ReportFrame from "./ReportFrame.tsx";
 import { BUSINESS_COST_FREQUENCIES, BUSINESS_RESOURCE_STATUSES } from "../../../framework/engine/AnswerUtils.ts";
 import { OpenCardContext, plainTitle, tileName } from "./SectionTiles.tsx";
-import CardTile, { Dots, SYMBOLS, inwardOrigin } from "./CardTile.tsx";
+import CardTile, { Dots, SYMBOLS, inwardOrigin, toneHue } from "./CardTile.tsx";
 import "../../../styles/title-arrow.css";
 import { BusinessTicks } from "../cards/BusinessCardFields.tsx";
 import OptionPicker from "../fields/OptionPicker.tsx";
@@ -40,7 +40,6 @@ import {
 import "../../../styles/capability-overview.css";
 import { Chips, Values } from "../editors/ChannelResourceTable.tsx";
 import { markTint } from "../../../framework/engine/ActionOrder.ts";
-import type { ActionLit } from "../editors/ActionMarkers.tsx";
 
 /*
     ALL THE TILES IN ONE GRID (Page 3, the "Inventory" tile beside Completed). Its dialog lists every Resource, Activity, Partner, Provider, the
@@ -175,28 +174,24 @@ export const TABLE_SIZES = [
 /** A number for the table's Cost column: no currency sign (the header says it), at most two decimals. */
 const plainAmount = (amount: number) => amount.toLocaleString(undefined, { maximumFractionDigits: 2 });
 
-export default function CapabilityOverview({ rows, format = String, currency = "", onOpenLegal, channelSetup = false, onOpenRow, onOpenAction, onLit }: {
+export default function CapabilityOverview({ rows, format = String, currency = "", onOpenLegal, onOpenAction, offerings = [] }: {
     rows: readonly FloorRow[];
     format?: (amount: number) => string;
     currency?: string;
     /** Opens a legal expense's card (it floats here, over this page): without it a legal tile is shown, not opened. */
     onOpenLegal?: (id: string) => void;
-    /** Opened in the Channel expenses set-up, as a table (Customer Engagement's Channel Costs). */
-    channelSetup?: boolean;
-    /** Opens a row's card where the Inventory stands on another page than the cards (Customer Engagement: on Infrastructure & Capability). */
-    onOpenRow?: (row: FloorRow) => void;
     /** An action's number pressed: that action, on the Customer Engagement page. */
     onOpenAction?: (actionId: string, segmentId: string) => void;
-    /** A channel expense pointed at: its actions lit on the channels' tables. */
-    onLit?: (lit: ActionLit) => void;
+    /** The Organisation's Offerings (Page 1), for the Offerings list under Offering in Belongs to. */
+    offerings?: readonly { id: string; name: string }[];
 }) {
 
     const openCard = useContext(OpenCardContext);
-    const [filter, setFilter] = useState<FloorFilter>(channelSetup ? { ...DEFAULT_FLOOR_FILTER, ...CHANNEL_SETUP.filter } : DEFAULT_FLOOR_FILTER);
+    const [filter, setFilter] = useState<FloorFilter>(DEFAULT_FLOOR_FILTER);
     // Which blocks of the funnel are folded (Include, Sort, Belongs to): all folded at first, and as the user left them while the overview stays.
     const [folded, setFolded] = useState<ReadonlySet<string>>(new Set(["include", "sort", "belongs", "columns"]));
     // The table: the columns hidden and the text size (the middle step, the body size), kept while the overview stays open.
-    const [hiddenColumns, setHiddenColumns] = useState<ReadonlySet<string>>(new Set(channelSetup ? CHANNEL_SETUP.hidden : HIDDEN_AT_FIRST));
+    const [hiddenColumns, setHiddenColumns] = useState<ReadonlySet<string>>(new Set(HIDDEN_AT_FIRST));
     /** The Channel expenses set-up switched on or off: on, its filter, order and columns; off, the Inventory as it opens. */
     const setChannelSetup = (on: boolean) => {
         setFilter(on ? { ...DEFAULT_FLOOR_FILTER, ...CHANNEL_SETUP.filter } : DEFAULT_FLOOR_FILTER);
@@ -241,11 +236,11 @@ export default function CapabilityOverview({ rows, format = String, currency = "
     }, [rows, filter, connection, focus]);
 
     const patch = (next: Partial<FloorFilter>) => setFilter(current => ({ ...current, ...next }));
+    // (The Offerings a card of the Offering place serves, in Page 1's order.)
+    const servedOfferings = offerings.filter(offering => rows.some(row => placeOf(row) === "offering" && (row.offeringIds ?? []).includes(offering.id)));
 
     const open = (row: FloorRow, pointer: boolean) => {
-        if (onOpenRow) {
-            onOpenRow(row);
-        } else if (row.kind === "legal") {
+        if (row.kind === "legal") {
             onOpenLegal?.(row.id);
         } else {
             // (The box name above the card is the card's own section -- Founders, Resources, Activities, Partners & Suppliers -- not "Inventory".)
@@ -305,9 +300,22 @@ export default function CapabilityOverview({ rows, format = String, currency = "
                     chosen={filter.place === "" ? [] : [filter.place]}
                     onChange={(next) => {
                         const now = next.filter(id => id !== filter.place)[0] ?? "";
-                        patch({ place: now as FloorFilter["place"], groups: [], categories: [], subgroups: [], placeKinds: [] });
+                        patch({ place: now as FloorFilter["place"], groups: [], categories: [], subgroups: [], placeKinds: [], offerings: [] });
                     }}
                 />
+                {/* UNDER OFFERING, ITS OFFERINGS (owner, 2026-11-12 19:54: "Add Offerings list with the offering"): the Organisation's Offerings that a card here
+                    serves, by name; ticked, only the cards that serve one of them. */}
+                {filter.place === "offering" && servedOfferings.length > 0 && (
+                    <div className="capability-overview-menu-sub capability-overview-menu-titles">
+                        <strong>Offerings</strong>
+                        <BusinessTicks
+                            name="Offerings"
+                            options={servedOfferings.map(offering => ({ id: offering.id, label: offering.name.trim() || "Unnamed Offering" }))}
+                            chosen={filter.offerings}
+                            onChange={(next) => patch({ offerings: next })}
+                        />
+                    </div>
+                )}
                 {/* Step 2: the kinds that place has (several can be ticked). */}
                 {filter.place !== "" && placeKinds.length > 0 && (
                     <div className="capability-overview-menu-sub">
@@ -511,7 +519,6 @@ export default function CapabilityOverview({ rows, format = String, currency = "
         <ReportFrame
             count={shown.length + " of " + rows.length}
             label="all tiles"
-            defaultView={channelSetup ? "table" : "tiles"}
             menu={menu}
             extra={<>
                 {rows.some(row => row.missing) && (
@@ -597,15 +604,14 @@ export default function CapabilityOverview({ rows, format = String, currency = "
                         {shown.flatMap(row => tableRows(row, plainAmount, currency).map((line, at) => (
                             <tr
                                 key={row.kind + row.id + ":" + at}
-                                // (A channel expense in the Channel expenses set-up: its colour of the channels' palette, its dot before its name, its actions lit while pointed at.)
-                                className={[at > 0 ? "capability-overview-table-extra" : "", filter.channelsOnly && row.channel ? markTint("resource", row.channel.colour) : ""].filter(Boolean).join(" ") || undefined}
-                                onMouseEnter={onLit && row.channel ? () => onLit({ kind: "resources", ids: [...row.channel!.linkIds] }) : undefined}
-                                onMouseLeave={onLit && row.channel ? () => onLit(null) : undefined}
+                                // (Its colour, the bar down its left edge: a channel expense's of the channels' palette, as its actions' marks; any other card's, its place's hue, as its tile.)
+                                className={[at > 0 ? "capability-overview-table-extra" : "", row.channel ? markTint("resource", row.channel.colour) : ""].filter(Boolean).join(" ") || undefined}
+                                style={row.channel ? undefined : { "--strategy-theme-hue": toneHue(row.tone) } as CSSProperties}
                             >
                                 <th scope="row" data-col="name">
-                                    {at > 0 || (row.kind === "legal" && !onOpenRow)
+                                    {at > 0 || row.kind === "legal"
                                         ? row.name
-                                        : <TextLink className="capability-overview-name" onClick={(event) => open(row, event.detail > 0)}>{filter.channelsOnly && row.channel && <span className="channel-resource-dot" aria-hidden="true" />}{row.name}</TextLink>}
+                                        : <TextLink className="capability-overview-name" onClick={(event) => open(row, event.detail > 0)}>{row.name}</TextLink>}
                                 </th>
                                 {TABLE_COLUMNS.filter(column => !hiddenColumns.has(column.id)).map(column => column.id === "linked"
                                     ? (

@@ -473,7 +473,7 @@ export function useEngagementDemand(earlier: Earlier) {
         /*
             ONE OFFERING'S DEMAND & CONVERSION AS A FLOATING CARD, IN THE DEFAULT LAYOUT (owner, 2026-11-12 18:41: "does not follow the default floated card's lay out ...
             Compare it with a Profile, Competitor or offering floated card"): the Offering card's head (its number and name, the name a link to the Foundation), how its
-            customers buy under the name, as the Offering's Type; then three sections: Customer Sources (a box per source, the suggestions and "+ Add Customer Source"),
+            customers buy under the name, as the Offering's Type; then three sections: Customer Sources (a box per source, then the suggestions; a source is added by the "+" on the Offering's tile, with All),
             Expected Sales (the result, the assumptions) and Channels That Bring Them. The same fields and saved answers as the page's block.
         */
         if (asCard) {
@@ -492,7 +492,6 @@ export function useEngagementDemand(earlier: Earlier) {
                     <EngagementSection title="Customer Sources" info={DEMAND_BLOCK_HELP} fold={sectionFold(offeringId + " sources", whose + " → Customer Sources")}>
                         <EngagementBoxes>{demand.sources.map((source, index) => sourceCard(source, index, true))}</EngagementBoxes>
                         {suggestions && <div className="legal-entity-org-section">{suggestions}</div>}
-                        <div className="legal-entity-org-section">{addSource}</div>
                     </EngagementSection>
                     <EngagementSection title="Expected Sales" fold={sectionFold(offeringId + " expected", whose + " → Expected Sales")}>
                         {/* (Its bands, the tints alternating: the share cancelling a month where it applies, the result, then the Assumptions, the note band.) */}
@@ -598,6 +597,11 @@ export function useEngagementDemand(earlier: Earlier) {
         }
     ];
 
-    return { demandFor, heads };
+    /** The "+" on an Offering's tile in Demand & Conversion (with All): a new Customer Source, its card then opened. */
+    function addCustomerSource(offeringId: string) {
+        updateDemand(offeringId, { sources: [...demandOf(offeringId).sources, createDemandSource()] });
+    }
+
+    return { addCustomerSource, demandFor, heads };
 
 }

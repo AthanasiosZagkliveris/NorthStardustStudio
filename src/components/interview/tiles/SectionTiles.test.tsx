@@ -1545,13 +1545,13 @@ describe("the table mode: surface, columns, sizes", () => {
         expect(size()).toBe("small");
     });
 
-    it("draws the table on an opaque calm surface per theme with a sticky heading", () => {
+    it("draws the table on an opaque calm surface per theme with a sticky heading, a band of the card's hue", () => {
         const css = stylesheet("capability-overview.css");
         for (const theme of ["dark", "sepia"]) {
             expect(css.includes(":root[data-theme=\"" + theme + "\"] { --table-ground:")).toBe(true);
         }
         expect(css.includes(".capability-overview-table-mode .capability-overview-scroll { padding: 0 0 12px; border-radius: var(--radius-lg); background: var(--table-ground); color: var(--table-ink); }")).toBe(true);
-        expect(css.includes(".capability-overview-table thead th { position: sticky; top: 0; z-index: 2; background: var(--table-ground);")).toBe(true);
+        expect(css.includes(".capability-overview-table thead th { position: sticky; top: 0; z-index: 2; background: color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-hover)) var(--theme-ground-weight), var(--table-ground));")).toBe(true);
         expect(css.includes(".capability-overview-table tbody tr:nth-child(even) > * { background: var(--table-tint); }")).toBe(true);
     });
 

@@ -13,10 +13,6 @@ import { railId } from "../../rails/railItems.ts";
 import SuggestedInput from "../../fields/SuggestedInput.tsx";
 import { journeyStageLabels } from "../../../../framework/engine/ChannelTableColumns.ts";
 import ChannelResourceTable from "../ChannelResourceTable.tsx";
-import CapabilityOverview from "../../tiles/CapabilityOverview.tsx";
-import { floorRows } from "../../tiles/capabilityFloor.ts";
-import { channelCards, channelFacts } from "../../tiles/channelInventory.ts";
-import { moneyFormatter } from "../../../../framework/engine/FinancialModel.ts";
 import { buildChannelResourceTable } from "../../../../framework/engine/ChannelResourceTable.ts";
 import FoldArrow from "../../fields/FoldArrow.tsx";
 import TextLink from "../../fields/TextLink.tsx";
@@ -28,7 +24,7 @@ type Earlier = ReturnType<typeof useEngagementState>;
 
 export function useEngagementChannelBoxes(earlier: Earlier) {
 
-    const { capabilityValue, cards, channelActions, channelCategoryFoldKey, channelResources, collapsed, currency, disabled, engagement, folds, isolatingSegment, noPhysical, offeringsOfMadeCards, onOpenCapability, onOpenFoundation, openAction, relatedStages, segmentOf, segments, setLit, toggle, updateChannel, updateSegment } = earlier;
+    const { cards, channelActions, channelCategoryFoldKey, channelResources, collapsed, currency, disabled, engagement, folds, isolatingSegment, noPhysical, offeringsOfMadeCards, onOpenCapability, onOpenFoundation, openAction, relatedStages, segmentOf, segments, setLit, toggle, updateChannel, updateSegment } = earlier;
 
     /** The card on Page 1 with this id, and the Segment it is in. */
     function foundationPath(id: string): string[] {
@@ -246,8 +242,7 @@ export function useEngagementChannelBoxes(earlier: Earlier) {
      * what the Customer Channel table isolates leaves it as it is: it
      * lists every resource, whatever the rows above show.
      */
-    /** `bare`: as the Inventory in its Channel expenses set-up (the Channel Costs tile's dialog, which carries the title). */
-    function channelResourceTable(segment: BusinessCustomerSegmentValue, bare = false) {
+    function channelResourceTable(segment: BusinessCustomerSegmentValue) {
 
         const answers = segmentOf(segment.id);
         const table = buildChannelResourceTable(
@@ -271,26 +266,6 @@ export function useEngagementChannelBoxes(earlier: Earlier) {
                 onLit={setLit}
             />
         );
-        /*
-            CHANNEL COSTS IS THE INVENTORY (owner, 2026-11-12 18:41: "the Channel costs could fit well in the inventory"): the Inventory itself, its frame and size,
-            opened in its Channel expenses set-up -- this Segment's channel expenses, the highest cost first, with their channels, Offerings, journey stages and
-            actions. A name opens its card on Infrastructure & Capability; an action's number opens it here; a row pointed at lights its actions.
-        */
-        if (bare) {
-            const { toneIds, names } = channelCards(engagement, capabilityValue);
-            const rows = floorRows(capabilityValue, [], toneIds, names, channelFacts(engagement, cards, currency, segments.flatMap(entry => entry.offerings), [answers.segmentId]));
-            return (
-                <CapabilityOverview
-                    rows={rows}
-                    channelSetup
-                    format={moneyFormatter(currency)}
-                    currency={currency}
-                    onOpenRow={onOpenCapability ? (row) => onOpenCapability(cards.find(card => card.id === row.id)?.anchors ?? [row.id]) : undefined}
-                    onOpenAction={(actionId, segmentId) => openAction(segmentId, actionId)}
-                    onLit={setLit}
-                />
-            );
-        }
 
         const key = segment.id + "-channel-resources";
         const open = !collapsed.has(key);
