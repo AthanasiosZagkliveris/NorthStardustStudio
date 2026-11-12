@@ -1,6 +1,6 @@
 # 46. The Ambassador: every question and option, as proposed
 
-Status: **proposal**, written 2026-11-12. The owner approved it on 2026-11-12 (decisions D3, D4, D5 below); it is built in phase 5 (the order of work: doc 49, section 8). Nothing here is built yet.
+Status: **proposal**, written 2026-11-12. The owner approved it on 2026-11-12 (decisions D3, D4, D5 below); it is built in phase 4 (the order of work: doc 49, section 8; numbered 5 until the financials moved last, 2026-11-12). Nothing here is built yet.
 
 Related: doc 40 (the form of a tile document), doc 39 (what an "i" says), doc 28 (8.3, the Brand System and its evidence), doc 45 (the Values this card reads), doc 47 (the relationship type, J3), doc 44 (the register and the code rule), doc 2 (the sources).
 
@@ -204,7 +204,7 @@ From BA1, through doc 28, 8.3's table: suggested colour families on the Colours 
 - Review: "Your Ambassador's character: not chosen yet" once any Ambassador text is written.
 - Business Plan, Brand & Voice: the opening line given in section 3, above the four texts.
 
-**The build (phase 5):**
+**The build (phase 4):**
 1. **The Values gain ids first.** The Values list (`values`, a numbered list of strings) becomes `{ id, text }[]`, ids created on first read, the text kept exactly, the pattern of the functional items' migration of 2026-11-07; a test loads old saves unchanged. BA9 waits for it.
 2. BA1 to BA4 and BA6 to BA9, with the drafts and the Review item.
 3. The Style suggestions (section 4).
@@ -225,7 +225,7 @@ New prefix **BA** (Brand Ambassador), unused in doc 44. BA1 to BA4 and BA6 to BA
 | # | Decision | Approved (owner, 2026-11-12 14:10) |
 |---|---|---|
 | D3 | Ambassador questions | BA1 to BA4 and BA6 to BA9; BA5 withdrawn; BA4 with two rows; BA9 after the Values migration |
-| D4 | Lift the Brand park | Now for the Ambassador; Style suggestions with phase 5 |
+| D4 | Lift the Brand park | Now for the Ambassador; Style suggestions with the Ambassador phase (phase 4) |
 | D5 | Where BA1 sits | First in Aesthetics; no tile moves |
 
 Still to decide: nothing. The starting values of BA4 and BA6 are the author's mapping of Aaker's facets, with weak evidence (doc 28, 8.3); they may change once tested with founders.

@@ -1,6 +1,6 @@
 # 49. Strategy: SWOT, Compass, Themes and Metrics, as proposed
 
-Status: **proposal**, written 2026-11-12. The owner approved it on 2026-11-12 (D7 to D10, D16 to D22). Built in phases 2 (Strategy reads the Business), 3 (Direction) and 7 (Initiatives and Activities). Nothing here is built yet.
+Status: **proposal**, written 2026-11-12, updated 2026-11-12. The owner approved it on 2026-11-12 (D7 to D10, D16 to D22). Built in phases 2 (Strategy reads the Business), 3 (Direction) and 6 (Initiatives and Activities). Nothing here is built yet.
 
 Related: doc 40 (the form), doc 45 (PB7 and PB8, which this page reads), doc 46 (BA1), doc 47 and doc 48 (the figures read), doc 28 (9.3 and 9.4, the skill areas), doc 5 (5.5.7), `src/framework/engine/AnswerStrategy.ts`, doc 2 (the sources).
 
@@ -174,7 +174,7 @@ The nested cards stay as built. A new Goal card offers suggestions for its Theme
 | Partnerships & Expansion | "Reach [PB8]" | "Sign [n] partners by [month]" | each Partner card Planned |
 
 - **The Review:** "[Theme] has Goals and no Initiative yet" (Rumelt: goals are not a strategy).
-- **Later (phase 7):** an Initiative can link to a Page 3 Activity by id, so its dates, owner and cost are the Activity's and flow into the Financial Foundation.
+- **Later (phase 6):** an Initiative can link to a Page 3 Activity by id, so its dates, owner and cost are the Activity's and flow into the Financial Foundation.
 
 ### 2.7 Metrics linked to the plan's own figures
 
@@ -237,7 +237,7 @@ New prefixes **SW** (SWOT) and **SC** (Strategic Compass): SW1, SC1, SC2, SC3. T
 |---|---|---|
 | D7 | A Metric linked to a month | A fourth unit, "Month", stored as `StrategyMonthValue` |
 | D8 | A "one Offering brings n% of revenue" Weakness | Left out until a source gives the threshold |
-| D9 | Initiatives linked to Activities | Phase 7 |
+| D9 | Initiatives linked to Activities | Phase 6 (numbered 7 until the financials moved last, 2026-11-12 15:18) |
 | D10 | Order of work | As section 8 |
 | D16 | The SWOT's six-month reminder | Yes |
 | D17 | Build the skill areas (doc 28, 9.3) with phase 3 | Yes |
@@ -267,10 +267,12 @@ Each phase is one branch and one pull request from a fresh `main`, in the owner'
 
 | Phase | Content | New questions | Size | Depends on |
 |---|---|---|---|---|
-| **1. Finish the Tile System** | Financial Foundation (one chapter, four tiles); Sustainability (two chapters); Customer Engagement (one chapter per Segment, four tiles opening today's sections); IN2, IN3, IN4; the folded-funnel documentation fix (done 2026-11-12, PR #32) | none | L | nothing |
-| **2. Strategy reads the Business** | SW1; the SWOT suggestions, priority, reminder; the Current Situation's new lines; Theme order and the balance check; Metric "Linked figure"; Roadmap markers | SW1 | L | phase 1 (one folder, one branch at a time) |
+| **1. Customer Engagement as tiles** | one chapter per Segment, four tiles opening today's sections; layout only (doc 47, section 3, step one); the folded-funnel documentation fix (done 2026-11-12, PR #32) | none | L | nothing |
+| **2. Strategy reads the Business** | SW1; the SWOT suggestions, priority, reminder; the Current Situation's new lines; Theme order and the balance check; Metric "Linked figure"; Roadmap markers. It reads today's financial calculations as they stand | SW1 | L | phase 1 (one folder, one branch at a time) |
 | **3. Direction** | PB7, PB8; SC1 to SC3 and the Compass draft; Goal, Objective, Initiative suggestions; the skill areas (doc 28, 9.3) | PB7, PB8, SC1 to SC3 (+ C1, W1 to W3, C4) | L | phase 2 |
-| **4. Offering Economics and price** | the card and its signals; IN1; RV1; FN1 | RV1, FN1 | M | phase 1 |
-| **5. Ambassador** | the Values migration to `{ id, text }` first (with its test); BA1 to BA4, BA6 to BA9 with the drafts; Style suggestions | BA1 to BA4, BA6 to BA9 | M | D4 |
-| **6. Journey rebuild** | the stage-first Journey, suggested channels, J1, J2, relationship type suggestion, Demand rows from channels, cost per customer | J1, J2 | L | the stage card prototype; phase 1 |
-| **7. Initiatives and Activities** | an Initiative linked to a Page 3 Activity; IN5 | none | L | phase 3 |
+| **4. Ambassador** | the Values migration to `{ id, text }` first (with its test); BA1 to BA4, BA6 to BA9 with the drafts; Style suggestions | BA1 to BA4, BA6 to BA9 | M | D4 |
+| **5. Journey rebuild** | the stage-first Journey, suggested channels, J1, J2, relationship type suggestion, Demand rows from channels, cost per customer | J1, J2 | L | the stage card prototype; phase 1 |
+| **6. Initiatives and Activities** | an Initiative linked to a Page 3 Activity; IN5 | none | L | phase 3 |
+| **7. Financials** | Financial Foundation as tiles (the parked branch `feat/financial-foundation-tiles`, commit 49851b38, to be rebased); the review in the Library proposal "2026-11-12-financial-pages-one-owner-per-fact" (decisions D1 to D6 open); Sustainability as tiles (two chapters); the Inventory's IN1 to IN4 and IN6 (IN6 in that proposal); Offering Economics and price: the card and its signals, RV1, FN1 | RV1, FN1 | L | phase 1 |
+
+The financials come last (owner, Thanos, 2026-11-12 15:18: "I think it is better to rearrange the working sequence, and place the financials for later").

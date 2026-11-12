@@ -1,6 +1,6 @@
 # 47. Customer Engagement: the chapter, its tiles and the Offering's four faces, as proposed
 
-Status: **proposal**, written 2026-11-12. The owner approved it on 2026-11-12 (D6). Step one (the layout) is built in phase 1; step two (the journey rebuild) in phase 6 (the order of work: doc 49, section 8). Nothing here is built yet.
+Status: **proposal**, written 2026-11-12, updated 2026-11-12. The owner approved it on 2026-11-12 (D6). Step one (the layout) is built in phase 1; step two (the journey rebuild) in phase 5 (the order of work: doc 49, section 8). Nothing here is built yet.
 
 Related: doc 28 (section 7, the journey and its questions J1, J2, J3, J7), doc 40 (the form), the page 2 specification (`specifications/business-system/page-2-section-1-channels.md`), `ai/customer-engagement-layout.md`, `ai/tile-and-card-pattern.md`, doc 5 (5.3, C4, C7, C8), doc 48 (the Offering Economics card), doc 46 (BA3 and the Body Language draft read this page).
 

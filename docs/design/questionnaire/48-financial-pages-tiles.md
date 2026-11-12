@@ -1,6 +1,6 @@
 # 48. The Financial pages and the Inventory: tiles and two questions, as proposed
 
-Status: **proposal**, written 2026-11-12. The owner approved it on 2026-11-12 (D12, D13, D14, D15). The tiles are built in phase 1; RV1, FN1, IN1 and the Offering Economics card in phase 4 (the order of work: doc 49, section 8). Nothing here is built yet.
+Status: **proposal**, written 2026-11-12, updated 2026-11-12. The owner approved it on 2026-11-12 (D12, D13, D14, D15). The build waits for phase 7, the financials, the last phase of the order of work (doc 49, section 8; owner, 2026-11-12 15:18): the tiles, RV1, FN1, IN1 to IN4 and the Offering Economics card are built there; IN5 with phase 6 (Initiatives and Activities). Nothing here is built yet.
 
 Related: doc 40 (the form), the page 4 and page 5 specifications (`specifications/business-system/`), doc 5 (5.3, I7, I9, K1), `ai/layout-rules.md` (section 12, the Inventory), doc 47 (the Offering's four faces), doc 49 (Strategy reads these figures).
 
@@ -105,11 +105,11 @@ A page-wide help tile on Page 3 (footer band; layout rules, section 12; page 3 s
 
 | # | Change | Why | With |
 |---|---|---|---|
-| IN1 | An **Offering** column (the Offerings with their shares) and an **Offering** block in the funnel | the Offering Economics card and the Metric "margin per unit" need each Offering's costs together; doc 5, I7 | phase 4 |
-| IN2 | **Each currency's total** shown apart | a cost in another currency is listed and left out of every total; doc 5, I9 | phase 1 |
-| IN3 | An optional column **"A month"** (the monthly equivalent Page 4 already works out), off by default in Columns | a monthly, a yearly and a per-project cost compare at a glance | phase 1 |
-| IN4 | **The Financial Costs tile opens this table** filtered to its heading | one register of costs, two ways in: one owner, one component | phase 1 |
-| IN5 | The Linked column gains an **Objective** circle | once an Initiative links to an Activity (phase 7), the Inventory shows which work serves a Strategy Objective | phase 7 |
+| IN1 | An **Offering** column (the Offerings with their shares) and an **Offering** block in the funnel | the Offering Economics card and the Metric "margin per unit" need each Offering's costs together; doc 5, I7 | phase 7 |
+| IN2 | **Each currency's total** shown apart | a cost in another currency is listed and left out of every total; doc 5, I9 | phase 7 |
+| IN3 | An optional column **"A month"** (the monthly equivalent Page 4 already works out), off by default in Columns | a monthly, a yearly and a per-project cost compare at a glance | phase 7 |
+| IN4 | **The Financial Costs tile opens this table** filtered to its heading | one register of costs, two ways in: one owner, one component | phase 7 |
+| IN5 | The Linked column gains an **Objective** circle | once an Initiative links to an Activity (phase 6), the Inventory shows which work serves a Strategy Objective | phase 6 |
 
 ## 7. Codes
 
