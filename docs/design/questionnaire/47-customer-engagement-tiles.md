@@ -1,6 +1,6 @@
 # 47. Customer Engagement: the chapter, its tiles and the Offering's four faces, as proposed
 
-Status: **proposal**, written 2026-11-12, updated 2026-11-12. The owner approved it on 2026-11-12 (D6). Step one (the layout) is built in phase 1; step two (the journey rebuild) in phase 5 (the order of work: doc 49, section 8). Nothing here is built yet.
+Status: **proposal**, written 2026-11-12, updated 2026-11-12. The owner approved it on 2026-11-12 (D6). Step one (the layout) and the delivery check on page 3 (section 2) are built in phase 1; step two (the journey rebuild) in phase 5 (the order of work: doc 49, section 8). Nothing here is built yet.
 
 Related: doc 28 (section 7, the journey and its questions J1, J2, J3, J7), doc 40 (the form), the page 2 specification (`specifications/business-system/page-2-section-1-channels.md`), `ai/customer-engagement-layout.md`, `ai/tile-and-card-pattern.md`, doc 5 (5.3, C4, C7, C8), doc 48 (the Offering Economics card), doc 46 (BA3 and the Body Language draft read this page).
 
@@ -16,9 +16,11 @@ One card per Segment, in its colour, with the references (Segment, Profiles, Off
 | **Delivery and capacity** | Page 3, Offering's Capability → Delivery card | Delivered, Hours Given, hours per unit or client, Calendar Time, Constraints; capacity = founders' delivery hours | O3, O15, O10 |
 | **Cost** | Page 3 cards linked to the Offering → Page 4 | Resources, Activities, Partners, Suppliers with shares; cost per unit | none |
 | **Price and revenue** | Page 5, Revenue stream card | Charged, Unit, Price, Volume, Development, Payment Timing, variable cost per unit | O3, O3b |
-| **Can it be delivered?** | Page 5, read from 2 and 3 | expected sales × hours against delivery hours | read |
+| **Can it be delivered?** | Page 3, the Delivery card, read from pages 2 and 3 (phase 1) | expected sales × hours per unit against the founders' delivery hours | read |
 
 The Offering is the hub of pages 2 to 5 and each page holds one face; the founder never sees the four together.
+
+**The delivery check moves to page 3** (owner, 2026-11-12 15:37; doc 49, section 8, phase 1). It reads Expected Sales (page 2), the hours per unit or client (the Delivery card) and the founders' delivery hours (page 3), and involves no money, so it stands where the hours are written. Page 5's block "Can the Expected Sales Be Delivered?" becomes a link to it: one owner.
 
 ## 3. One chapter per Segment
 
