@@ -134,7 +134,7 @@ export function EngagementBox({ title, info, extra, bands, anchor }: {
 /**
  * WHAT A DIALOG OFFERS (owner, 2026-11-12 19:54: "an option to present all the options or only what it is come from the previous selections"): From your answers,
  * the channels, subchannels and relationship types the founder uses and those the earlier answers suggest; All, every option the page has, with its adds.
- * One choice for the Segment's three dialogs (Channels and Journey, Customer's Relationship, Demand & Conversion), at the head of each, From your answers first.
+ * One choice for the Segment's three dialogs (Channels & Journey, Customer's Relationship, Demand & Conversion), at the head of each, From your answers first.
  */
 export type OptionScope = "answers" | "all";
 export function ScopeChoice({ value, onChange, group }: { value: OptionScope; onChange: (next: OptionScope) => void; group: string }) {

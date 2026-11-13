@@ -178,7 +178,7 @@ export const DEMAND_BY_CALCULATION = "Calculate";
 
 /** A Customer Source's channel: what it is for (owner, 2026-11-12: "Fill it from the sources"). */
 export const DEMAND_SOURCE_CHANNEL_HELP: InfoPoint[] = [
-    "The channel this source's customers come through, one of the Segment's channels in Channels and Journey.",
+    "The channel this source's customers come through, one of the Segment's channels in Channels & Journey.",
     "The Offering's Channels That Bring Them list the channels its sources name."
 ];
 

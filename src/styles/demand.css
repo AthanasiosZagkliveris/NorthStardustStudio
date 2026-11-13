@@ -230,6 +230,7 @@
    Basis stays under them at the card's width. */
 .business-demand-source > .business-demand-fields,
 .business-segment-box .business-demand-fields,
+.legal-entity-field > .legal-entity-org-section > .business-demand-fields,
 .business-demand-buying{
 
     display:flex;
@@ -242,6 +243,7 @@
 
 .business-demand-source > .business-demand-fields > .business-foundation-field,
 .business-segment-box .business-demand-fields > .business-foundation-field,
+.legal-entity-field > .legal-entity-org-section > .business-demand-fields > .business-foundation-field,
 .business-demand-buying > .business-foundation-field{
 
     flex:none;
@@ -256,9 +258,9 @@
 
 /* ON THE DEMAND & CONVERSION CARD'S BANDS (owner, 2026-11-13 00:27: "their cells are by far too wide"): every input as wide as its content, short fields side by
    side, a field that does not fit beside the one before it on the next line (a picker always shows its whole text). */
-.floating-card-body .business-foundation-card .business-segment-box .business-demand-fields .business-demand-number[data-size="xs"]{ width:var(--control-xs); }
-.floating-card-body .business-foundation-card .business-segment-box .business-demand-fields .business-demand-number[data-size="code"]{ width:var(--control-code); }
-.floating-card-body .business-foundation-card .business-segment-box .business-demand-fields .business-demand-number[data-size="s"]{ width:var(--control-s); }
+.floating-card-body .business-foundation-card :is(.business-segment-box, .legal-entity-field > .legal-entity-org-section) .business-demand-fields .business-demand-number[data-size="xs"]{ width:var(--control-xs); }
+.floating-card-body .business-foundation-card :is(.business-segment-box, .legal-entity-field > .legal-entity-org-section) .business-demand-fields .business-demand-number[data-size="code"]{ width:var(--control-code); }
+.floating-card-body .business-foundation-card :is(.business-segment-box, .legal-entity-field > .legal-entity-org-section) .business-demand-fields .business-demand-number[data-size="s"]{ width:var(--control-s); }
 
 .business-demand-source-note{
 

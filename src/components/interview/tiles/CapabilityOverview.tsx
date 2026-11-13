@@ -178,6 +178,9 @@ export const TABLE_SIZES = [
 /** A number for the table's Cost column: no currency sign (the header says it), two decimals where it has any (amountText). */
 const plainAmount = amountText;
 
+/** The Offerings list's first tick: every Offering (no Offering chosen). */
+const ALL_OFFERINGS = "*";
+
 export default function CapabilityOverview({ rows, format = String, currency = "", onOpenLegal, onOpenAction, offerings = [] }: {
     rows: readonly FloorRow[];
     format?: (amount: number) => string;
@@ -301,11 +304,13 @@ export default function CapabilityOverview({ rows, format = String, currency = "
                 {filter.place === "offering" && servedOfferings.length > 0 && (
                     <div className="capability-overview-menu-sub capability-overview-menu-titles">
                         <strong>Offerings</strong>
+                        {/* ALL FIRST, TICKED UNTIL AN OFFERING IS (owner, 2026-11-13 16:12: "add an ALL option as default. So when clicking an offering the all
+                            deactivates"): ticking an Offering leaves All, ticking All -- or unticking every Offering -- comes back to it. */}
                         <BusinessTicks
                             name="Offerings"
-                            options={servedOfferings.map(offering => ({ id: offering.id, label: offering.name.trim() || "Unnamed Offering" }))}
-                            chosen={filter.offerings}
-                            onChange={(next) => patch({ offerings: next })}
+                            options={[{ id: ALL_OFFERINGS, label: "All" }, ...servedOfferings.map(offering => ({ id: offering.id, label: offering.name.trim() || "Unnamed Offering" }))]}
+                            chosen={filter.offerings.length > 0 ? filter.offerings : [ALL_OFFERINGS]}
+                            onChange={(next) => patch({ offerings: next.includes(ALL_OFFERINGS) && !filter.offerings.includes(ALL_OFFERINGS) && filter.offerings.length > 0 ? [] : next.filter(id => id !== ALL_OFFERINGS) })}
                         />
                     </div>
                 )}

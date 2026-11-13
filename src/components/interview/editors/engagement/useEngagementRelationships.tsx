@@ -35,7 +35,7 @@ const SUGGESTED_FOR = "Suggested for";
 
 export function useEngagementRelationships(earlier: Earlier) {
 
-    // (How each Segment's Channels and Journey dialog places its tiles: by channel, or by journey stage; by channel until changed, kept while the page is open.)
+    // (How each Segment's Channels & Journey dialog places its tiles: by channel, or by journey stage; by channel until changed, kept while the page is open.)
     const [channelViews, setChannelViews] = useState<Readonly<Record<string, "channels" | "stages">>>({});
     // (A stage's dialog in the Journey Stages view: its subchannels as a table, until Tiles is chosen; owner, 2026-11-12 19:54: "The default should be a table".)
     const [stageViews, setStageViews] = useState<Readonly<Record<string, "tiles" | "table">>>({});
@@ -359,7 +359,7 @@ export function useEngagementRelationships(earlier: Earlier) {
                                                             {at === 0 && <td data-col="channel" rowSpan={rows.length}><span>{category.trim() || "New channel"}</span></td>}
                                                             <th scope="row" data-col="subchannel"><TextLink className="capability-overview-name" onClick={() => openCard(channel.id)}>{nameOf(channel)}</TextLink></th>
                                                             <td data-col="offerings"><Values items={offeringsOf(channel).map(name => ({ key: name, node: name }))} /></td>
-                                                            <td data-col="actions"><Values items={actionsOf(channel).map((text, at) => ({ key: String(at), node: text }))} /></td>
+                                                            <td data-col="actions"><Values numbered items={actionsOf(channel).map((text, at) => ({ key: String(at), node: text }))} /></td>
                                                         </tr>
                                                     ));
                                                 })}
@@ -373,7 +373,7 @@ export function useEngagementRelationships(earlier: Earlier) {
         });
         return <SectionTiles label={"Journey stages of " + (segment.name.trim() || "this Segment")} hue={segmentHue(segment)} tiles={tiles} />;
     }
-    /** The choice at the head of the Channels and Journey dialog: its tiles by channel or by journey stage (the radio of the reports' Tiles or Table). */
+    /** The choice at the head of the Channels & Journey dialog: its tiles by channel or by journey stage (the radio of the reports' Tiles or Table). */
     function channelViewChoice(segment: BusinessCustomerSegmentValue) {
         return (
             <RadioChoice

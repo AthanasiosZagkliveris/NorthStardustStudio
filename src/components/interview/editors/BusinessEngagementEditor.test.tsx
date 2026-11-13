@@ -469,7 +469,7 @@ describe("BusinessEngagementEditor without a physical item (doc 28, 11.7)", () =
         };
         render(<BusinessEngagementEditor value={engagement} onChange={() => undefined} foundation={foundation} asTiles />);
         // (The channels are the tiles of the Channels dialog: it opens first; All shows every channel the page offers.)
-        openTile("Channels and Journey");
+        openTile("Channels & Journey");
         fireEvent.click(screen.getAllByRole("radio", { name: "All" })[0]);
         const titles = [...document.querySelectorAll(".section-tile .section-tile-title")].map(title => (title.textContent ?? "").replace(/\s+/g, " "));
         cleanup();
@@ -508,7 +508,7 @@ describe("Customer Engagement follows the Foundation (doc 47, section 3)", () =>
         const foundation = { ...asBusinessFoundationValue(undefined), segments: [segment] };
         let saved: ReturnType<typeof asBusinessEngagementValue> | null = null;
         render(<BusinessEngagementEditor value={asBusinessEngagementValue(undefined)} onChange={(next) => { saved = next as ReturnType<typeof asBusinessEngagementValue>; }} foundation={foundation} asTiles />);
-        openTile("Channels and Journey");
+        openTile("Channels & Journey");
         fireEvent.click(screen.getAllByRole("radio", { name: "All" })[0]);
         // (One grid: the channel the Segment does not use yet is a faded tile listing the subchannel suggested for it.)
         const tile = [...document.querySelectorAll<HTMLElement>(".section-tile")].find(candidate => (candidate.textContent ?? "").startsWith("Website")) as HTMLElement;
@@ -529,12 +529,14 @@ describe("Customer Engagement follows the Foundation (doc 47, section 3)", () =>
         };
         render(<BusinessEngagementEditor value={engagement} onChange={() => undefined} foundation={foundation} asTiles />);
         openTile("Demand & Conversion");
-        const tileText = () => document.querySelector(".section-tile-overlay")?.textContent ?? "";
-        // (From your answers: the Offering's own sources only.)
-        expect(tileText()).not.toContain("Suggested: Main Website");
-        // (All: the Discover channel no source names yet, ready to add.)
+        // (An Offering's tile opens its dialog of cards: its sources, then, with All, the suggested ones faded; owner, 2026-11-13 16:12.)
         fireEvent.click(screen.getAllByRole("radio", { name: "All" })[0]);
-        expect(tileText()).toContain("Suggested: Main Website");
+        openTile("1. Audit");
+        const faded = () => [...document.querySelectorAll<HTMLElement>(".section-tile-overlay .card-tile")].map(tile => tile.textContent ?? "").filter(text => text.includes("Suggested from your Foundation"));
+        expect(faded().some(text => text.includes("Main Website"))).toBe(true);
+        // (From your answers: the Offering's own sources only.)
+        fireEvent.click(screen.getAllByRole("radio", { name: "From your answers" })[0]);
+        expect(faded()).toEqual([]);
     });
 
 });
@@ -587,6 +589,9 @@ describe("a Customer Source's choices narrowed by the earlier answers (owner, 20
         }
         render(<Harness />);
         openTile("Demand & Conversion");
+        // (The Audit's dialog: its Expected Sales section, then its source's tile; owner, 2026-11-13 16:35.)
+        openTile("1. Audit");
+        expect(document.body.textContent).toContain("Expected Sales");
         fireEvent.click([...document.querySelectorAll<HTMLElement>(".section-tile-overlay button.card-tile")][0]);
         const optionsOf = (label: string) => {
             fireEvent.click(screen.getByRole("button", { name: new RegExp("^" + label) }));

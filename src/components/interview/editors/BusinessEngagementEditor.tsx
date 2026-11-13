@@ -1,11 +1,11 @@
 import { CSSProperties, ReactNode } from "react";
 import CardShell from "../cards/CardShell.tsx";
 import { BUSINESS_JOURNEY_STAGES, BUSINESS_RELATIONSHIP_TYPES, segmentHue } from "../../../framework/engine/AnswerUtils.ts";
-import { demandResult } from "../../../framework/engine/DemandCapacity.ts";
+import { DEMAND_SOURCES, demandResult } from "../../../framework/engine/DemandCapacity.ts";
 import SectionTiles, { DialogHeading, OPEN_EVENT, TILE_DIVIDER, type ItemMark, type OpenRequest, type SectionTile } from "../tiles/SectionTiles.tsx";
 import type { TileAdd } from "../tiles/SectionTileTypes.ts";
 import { DEMAND_BLOCK_HELP } from "./engagement/shared.tsx";
-import CardBoxes, { type CardBox } from "../cards/CardBoxes.tsx";
+import CardBoxes from "../cards/CardBoxes.tsx";
 import { BusinessEmpty } from "../cards/BusinessCardFields.tsx";
 import FoldAllToggle from "../fields/FoldAllToggle.tsx";
 import { ActionPicker } from "./ChannelResources.tsx";
@@ -29,7 +29,7 @@ export default function BusinessEngagementEditor(props: BusinessEngagementEditor
     const { addCustomerSource, addSuggestedSource, suggestedSources, addRelationshipType, typeOf, profilesOf, scopeChoice, showsAll, asTiles, channelCategoryFoldKeys, channelResourceTable, channelTiles, channelViewChoice, channelsFor, clearIsolation, collapsed, columnsDivider, demandFor, engagement, engagedOfferingIds, foldingSection, folds, heads, isolated, isolationNames, offeringRelationshipsOf, referenceColumn, relationshipsFor, segmentOf, segments, toggle } = part4;
 
     /*
-        THE PAGE AS TILES (doc 47, section 3, step one): one chapter per Segment, in the Segment's colour, as Page 1's, holding three Master Tiles -- Channels and
+        THE PAGE AS TILES (doc 47, section 3, step one): one chapter per Segment, in the Segment's colour, as Page 1's, holding three Master Tiles -- Channels &
         Journey, Customer's Relationship, Demand & Conversion (the channel expenses are the Inventory's: owner, 2026-11-12 19:54). Each opens its section in a dialog;
         the section's help is the "i" beside the dialog's heading; each dialog's head says what it offers, From your answers or All (ScopeChoice). No saved key changes.
     */
@@ -66,53 +66,88 @@ export default function BusinessEngagementEditor(props: BusinessEngagementEditor
                 const result = demandResult(engagement.demand[offeringId]);
                 return result.expected === null ? "" : result.recurring ? result.expected + " active" : result.expected + " a month";
             };
-            // (An Offering's tile: its lines, their marks, and -- with All -- its "+", which adds to it and opens its card.)
-            const offeringBoxes = (prefix: string, lines: (offeringId: string) => string[], marks?: (offeringId: string) => ItemMark[], plus?: { what: string; add: (offeringId: string) => boolean | void }): CardBox[] => offeringIds.map((offeringId, at) => ({
-                id: prefix + offeringId,
-                number: at + 1,
-                name: offeringName(segment, offeringId),
-                unnamed: "Offering",
-                lines: lines(offeringId),
-                marks: marks?.(offeringId),
-                own: true,
-                plus: plus && showsAll(segment.id) ? {
-                    what: plus.what,
-                    disabled: false,
-                    onAdd: () => {
-                        if (plus.add(offeringId) !== false) {
-                            window.setTimeout(() => document.dispatchEvent(new CustomEvent<OpenRequest>(OPEN_EVENT, { detail: { tile: segment.id + (prefix === "rel:" ? ":relationships" : ":demand"), card: prefix + offeringId } })), 80);
-                        }
-                    }
-                } : undefined,
-                content: () => null
-            }));
             // (Under the Offering's name on its relationship tile, the Profiles it serves, then its relationship types: owner, 2026-11-12 19:54.)
             // (The Offering's types: those its answers create and those the founder added -- relationshipTypesOf; no suggestion is left to show; owner, 2026-11-13 00:31.)
             const relLines = (offeringId: string) => [...profilesOf(segment, offeringId).map((profile, at) => profile.name.trim() || "Profile " + (at + 1)), ...relTypes(offeringId)];
             const relMarks = (offeringId: string): ItemMark[] => [...profilesOf(segment, offeringId).map(() => ({ plain: true })), ...relTypes(offeringId).map(() => ({ bullet: true }))];
-            // (An Offering's tile in Demand & Conversion: its expected sales, then, faded, the sources the Foundation suggests; pressing one adds it, with its channel,
-            // and opens the card -- the add on the tile; owner, 2026-11-12 23:16. Shown with All only, beside the tile's "+": From your answers shows the Offering's own
-            // sources; owner, 2026-11-13 11:44.)
+            /*
+                AN OFFERING'S DEMAND AS A DIALOG OF CARDS (owner, 2026-11-13 16:12: "Make the offering tiles, as a dialogue card, with each Source as an individual Nested
+                Tile"): each Offering is a tile -- its expected sales, then its sources --, opening a dialog of card tiles: Expected Sales (how its customers buy, the
+                result, the Channels That Bring Them), then a tile per Customer Source, each opening that source's card; with All, the sources the Foundation suggests
+                stand faded after them (pressing one adds it, with its channel, and opens its card) and the Add Card tile adds a blank one.
+            */
             const shownSources = (offeringId: string) => showsAll(segment.id) ? suggestedSources(segment, offeringId) : [];
-            const demLines = (offeringId: string) => [...(expected(offeringId) ? [expected(offeringId)] : []), ...shownSources(offeringId).map(row => "Suggested: " + row.words)];
-            const demMarks = (offeringId: string): ItemMark[] => [...(expected(offeringId) ? [{ bullet: true }] : []), ...shownSources(offeringId).map(() => ({ bullet: true, empty: true }))];
-            const demBoxes = (): CardBox[] => offeringBoxes("dem:", demLines, demMarks, { what: "Customer Source", add: addCustomerSource }).map(box => {
-                const offeringId = box.id.slice(4);
-                const rows = shownSources(offeringId);
-                if (rows.length === 0) {
-                    return box;
-                }
-                const first = demLines(offeringId).length - rows.length;
+            const demCardId = (offeringId: string, part: string) => "dems:" + offeringId + "|" + part;
+            const openDem = (offeringId: string, part: string) => window.setTimeout(() => document.dispatchEvent(new CustomEvent<OpenRequest>(OPEN_EVENT, { detail: { tile: segment.id + ":dem:" + offeringId, card: demCardId(offeringId, part) } })), 80);
+            const sourceLabel = (type: string) => DEMAND_SOURCES.find(entry => entry.id === type)?.label ?? "";
+            const channelLabel = (channelId: string) => segmentOf(segment.id).channels.find(channel => channel.id === channelId)?.name.trim() ?? "";
+            const sourceLine = (offeringId: string, sourceId: string) => {
+                const part = demandResult(engagement.demand[offeringId]).sources.find(entry => entry.id === sourceId);
+                return part && part.expected !== null ? "About " + part.expected + (engagement.demand[offeringId]?.recurring ? " new a month" : " a month") : "";
+            };
+            const demTiles = (): SectionTile[] => offeringIds.map((offeringId, at) => {
+                const name = offeringName(segment, offeringId);
+                const sources = engagement.demand[offeringId]?.sources ?? [];
+                const add: TileAdd | undefined = showsAll(segment.id) ? {
+                    label: "Customer Source",
+                    disabled: false,
+                    onAdd: () => demCardId(offeringId, addCustomerSource(offeringId)),
+                    isBlank: () => false,
+                    onRemove: () => undefined
+                } : undefined;
+                const names = sources.map((source, index) => sourceLabel(source.type) || "Source " + (index + 1));
                 return {
-                    ...box,
-                    linkedLines: demLines(offeringId).map((_line, at) => at >= first),
-                    onLine: (at: number) => {
-                        const row = rows[at - first];
-                        if (row) {
-                            addSuggestedSource(offeringId, row);
-                            window.setTimeout(() => document.dispatchEvent(new CustomEvent<OpenRequest>(OPEN_EVENT, { detail: { tile: segment.id + ":demand", card: box.id } })), 80);
-                        }
-                    }
+                    id: segment.id + ":dem:" + offeringId,
+                    title: (at + 1) + ". " + name,
+                    view: true,
+                    bareCards: true,
+                    // (Its expected sales, then each source by its kind.)
+                    items: [...(expected(offeringId) ? [expected(offeringId)] : []), ...names],
+                    itemMarks: [...(expected(offeringId) ? [{ bullet: true }] : []), ...names.map(() => ({ bullet: true }))],
+                    links: [...(expected(offeringId) ? [undefined] : []), ...sources.map(source => ({ card: demCardId(offeringId, source.id) }))],
+                    holds: sources.map(source => demCardId(offeringId, source.id)),
+                    add,
+                    cardFor: (id: string) => {
+                        const part = id.startsWith("dems:" + offeringId + "|") ? id.slice(("dems:" + offeringId + "|").length) : "";
+                        return part ? floatingOf(demandFor(segment, offeringId, name, true, part)) : null;
+                    },
+                    // (Expected Sales a section of the dialog itself -- how its customers buy, the result, the Channels That Bring Them --, the sources its tiles under it:
+                    // owner, 2026-11-13 16:35.)
+                    content: () => dialog(name, [SECTIONS.relationships.instructions[3], ...DEMAND_BLOCK_HELP.map(point => typeof point === "string" ? point : "")].filter(Boolean) as string[], (
+                        <>
+                        {demandFor(segment, offeringId, name, true, "expected")}
+                        <CardBoxes
+                            label={"Demand & Conversion of " + name}
+                            what="Customer Source"
+                            autoStart={false}
+                            add={add}
+                            items={[
+                                ...sources.map((source, index) => ({
+                                    id: demCardId(offeringId, source.id),
+                                    number: index + 1,
+                                    name: sourceLabel(source.type),
+                                    unnamed: "Source " + (index + 1),
+                                    // (Its channel, then what it gives.)
+                                    lines: [channelLabel(source.channelId), sourceLine(offeringId, source.id)].filter(Boolean),
+                                    own: true,
+                                    content: () => null
+                                })),
+                                ...shownSources(offeringId).map((row, index) => ({
+                                    id: demCardId(offeringId, "suggested-" + index),
+                                    number: sources.length + index + 1,
+                                    plain: true,
+                                    name: sourceLabel(row.type) || row.words,
+                                    unnamed: row.words,
+                                    lines: [row.words, "Suggested from your Foundation"],
+                                    own: true,
+                                    faded: true,
+                                    press: () => openDem(offeringId, addSuggestedSource(offeringId, row)),
+                                    content: () => null
+                                }))
+                            ]}
+                        />
+                        </>
+                    ))
                 };
             });
             /*
@@ -170,7 +205,6 @@ export default function BusinessEngagementEditor(props: BusinessEngagementEditor
                     ))
                 };
             });
-            const offeringOf = (id: string) => id.slice(4);
             // (The card is its own shell, BusinessCard, straight in the content: the floating card styles of the Foundation's cards reach it.)
             const floatingOf = (body: ReactNode) => <div className="column-tile-content" style={{ "--strategy-theme-hue": hue } as CSSProperties}>{body}</div>;
 
@@ -178,13 +212,13 @@ export default function BusinessEngagementEditor(props: BusinessEngagementEditor
                 {
                     id: segment.id + ":channels",
                     // (Its title on two lines, as a Master Tile's long title is: layout rules 9, "A title with a forced break"; owner, 18:41.)
-                    title: "Channels and\nJourney",
+                    title: "Channels &\nJourney",
                     // (The chapter's three Master Tiles keep the size of a 2 x 2 chapter's, two to a row, as Page 1's: layout rules 9, "Large tiles".)
                     large: true,
                     anchor: "engagement-section-" + segment.id + "-channels",
                     // The five stages, each with the number of channels used at it.
                     items: (BUSINESS_JOURNEY_STAGES.map(stage => pair(stage.label, String(answers.channels.filter(channel => channel.stages.includes(stage.id)).length)))),
-                    content: () => dialog("Channels and Journey", [...SECTIONS.channels.instructions, "Faded channels and subchannels stand ready to add: those your Foundation answers suggest list what they suggest, and pressing any of them adds it.", "Place the tiles by Channels, or by Journey Stages to see the subchannels used at each stage."], channelTiles(segment), (
+                    content: () => dialog("Channels & Journey", [...SECTIONS.channels.instructions, "Faded channels and subchannels stand ready to add: those your Foundation answers suggest list what they suggest, and pressing any of them adds it.", "Place the tiles by Channels, or by Journey Stages to see the subchannels used at each stage."], channelTiles(segment), (
                         // (The choice of how the tiles are placed, then the isolation note while one stands.)
                         <>
                             {channelViewChoice(segment)}
@@ -217,12 +251,9 @@ export default function BusinessEngagementEditor(props: BusinessEngagementEditor
                         return pair(offeringName(segment, offeringId), result.expected === null ? "" : result.recurring ? result.expected + " active" : result.expected + " a month");
                     })),
                     group: "Demand & Conversion",
-                    bareCards: true,
-                    holds: offeringIds.map(offeringId => "dem:" + offeringId),
-                    cardFor: (id: string) => offeringIds.includes(offeringOf(id)) ? floatingOf(demandFor(segment, offeringOf(id), offeringName(segment, offeringOf(id)), true)) : null,
-                    content: () => dialog("Demand & Conversion", [SECTIONS.relationships.instructions[3], ...DEMAND_BLOCK_HELP.map(point => typeof point === "string" ? point : "")].filter(Boolean) as string[], (
-                        <CardBoxes items={demBoxes()} label={"Demand & Conversion of " + (segment.name.trim() || "this Segment")} what="Offering" autoStart={false} />
-                    ), scopeChoice(segment.id))
+                    content: () => dialog("Demand & Conversion", [SECTIONS.relationships.instructions[3], ...DEMAND_BLOCK_HELP.map(point => typeof point === "string" ? point : "")].filter(Boolean) as string[], offeringIds.length > 0
+                        ? <SectionTiles label={"Demand & Conversion of " + (segment.name.trim() || "this Segment")} hue={segmentHue(segment)} tiles={demTiles()} />
+                        : null, scopeChoice(segment.id))
                 }
             // (Channel Costs is no tile of its own: the channel expenses are the Inventory's, its Channel Costs set-up; owner, 2026-11-12 19:54.)
             ];
@@ -245,7 +276,7 @@ export default function BusinessEngagementEditor(props: BusinessEngagementEditor
                                     <div className="business-capability-section business-capability-tiles-section">
                                         {/* The Segment's chapter, named as on Page 1 (its name is edited there). */}
                                         <div className="business-engagement-section-head tiles-frame-head"><span className="field-group-title business-foundation-subhead">{name}</span></div>
-                                        <SectionTiles label={name + ": Channels and Journey, Customer's Relationship, Demand & Conversion"} hue={segmentHue(segment)} tiles={tilesOf(segment)} />
+                                        <SectionTiles label={name + ": Channels & Journey, Customer's Relationship, Demand & Conversion"} hue={segmentHue(segment)} tiles={tilesOf(segment)} />
                                     </div>
                                 </div>
                             </CardShell>

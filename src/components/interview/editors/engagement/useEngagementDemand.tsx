@@ -20,6 +20,7 @@ import { demandSourceOf, demandSuggestions } from "../../../../framework/engine/
 import { BusinessStep } from "../../cards/BusinessCardFields.tsx";
 import { DEMAND_BLOCK_HELP } from "./shared.tsx";
 import { EngagementBox, EngagementBoxes, EngagementCard, EngagementSection, useSectionFolds } from "./EngagementCard.tsx";
+import { SingleColumn } from "../foundation/shared.tsx";
 import type { useEngagementState } from "./useEngagementState.tsx";
 import type { useEngagementChannelBoxes } from "./useEngagementChannelBoxes.tsx";
 import type { useEngagementRelationships } from "./useEngagementRelationships.tsx";
@@ -70,7 +71,12 @@ export function useEngagementDemand(earlier: Earlier) {
         offeringId: string,
         offeringLabel: string,
         /** As a floating card (opened from its tile in the Demand & Conversion dialog): always open, its title with no fold arrow. */
-        asCard = false
+        asCard = false,
+        /**
+         * THE OFFERING'S DIALOG OF CARDS (owner, 2026-11-13 16:12: "Make the offering tiles, as a dialogue card, with each Source as an individual Nested Tile"):
+         * "expected", the Offering's own card -- how its customers buy, its Expected Sales, the Channels That Bring Them --; a source's id, that source's card.
+         */
+        part?: string
     ) {
 
         const demand = demandOf(offeringId);
@@ -163,7 +169,7 @@ export function useEngagementDemand(earlier: Earlier) {
             );
         }
 
-        function sourceCard(source: DemandSource, index: number, asBox = false) {
+        function sourceCard(source: DemandSource, index: number, asBox = false, own = false) {
 
             const type = DEMAND_SOURCES.find(entry => entry.id === source.type);
             const what = "customer source " + (index + 1) + " for " + offeringLabel;
@@ -304,6 +310,32 @@ export function useEngagementDemand(earlier: Earlier) {
             );
 
             // ON THE FLOATING CARD: a box, "Source 1" its title band with its figure and its x at the end; a band for the source, how it is estimated, each figure, the basis.
+            // (A SOURCE'S OWN CARD: the default card head -- its number, its kind, its figure under the name, its x -- then its bands.)
+            if (own) {
+                return (
+                    <EngagementCard
+                        key={source.id}
+                        kind="Customer Source"
+                        number={index + 1}
+                        name={type?.label ?? ""}
+                        emptyName={"Source " + (index + 1)}
+                        anchor={"demand-source-" + source.id}
+                        headRow={figure || undefined}
+                        actions={remove}
+                    >
+                        <SingleColumn>
+                            <EngagementBox
+                                bands={[
+                                    <div key="source" className="business-demand-fields">{sourcePicker}{channelPicker}</div>,
+                                    (estimatedPicker || figures) && <div key="figures" className="business-demand-fields">{estimatedPicker}{figures}</div>,
+                                    noteLine,
+                                    basis
+                                ]}
+                            />
+                        </SingleColumn>
+                    </EngagementCard>
+                );
+            }
             if (asBox) {
                 return (
                     <EngagementBox
@@ -515,6 +547,23 @@ export function useEngagementDemand(earlier: Earlier) {
             customers buy under the name, as the Offering's Type; then three sections: Customer Sources (a box per source; a source is added from the Offering's tile -- a suggested one from its faded line, any other by its "+" with All),
             Expected Sales (the result, the assumptions) and Channels That Bring Them. The same fields and saved answers as the page's block.
         */
+        if (asCard && part && part !== "expected") {
+            const at = demand.sources.findIndex(source => source.id === part);
+            return at < 0 ? null : sourceCard(demand.sources[at], at, true, true);
+        }
+        // EXPECTED SALES AS A SECTION OF THE OFFERING'S DIALOG (owner, 2026-11-13 16:35): a box of the dialog's own bands, as a Foundation dialog's -- its title band,
+        // then how its customers buy, the share cancelling a month, the result and the Assumptions --, and the Channels That Bring Them; the sources' tiles under it.
+        if (asCard && part === "expected") {
+            const bands = [<BusinessField key="buy" label="Customers Buy" info={DEMAND_BUYING_HELP} inline>{buyPicker}</BusinessField>, cancelField, resultBlock, assumptions].filter(Boolean);
+            return (
+                <SingleColumn>
+                    <EngagementBoxes>{[
+                        <EngagementBox key="expected" title="Expected Sales" anchor={"demand-" + offeringId} bands={bands} />,
+                        <EngagementBox key="channels" title="Channels That Bring Them" bands={[channelsBringing]} />
+                    ]}</EngagementBoxes>
+                </SingleColumn>
+            );
+        }
         if (asCard) {
             const number = segment.offerings.findIndex(offering => offering.id === offeringId) + 1;
             const whose = (segment.name.trim() || "Segment") + ", Offering " + number;
@@ -635,13 +684,13 @@ export function useEngagementDemand(earlier: Earlier) {
         }
     ];
 
-    /** A channel named in Channels That Bring Them, opened: its card, in its channel's dialog of Channels and Journey. */
+    /** A channel named in Channels That Bring Them, opened: its card, in its channel's dialog of Channels & Journey. */
     function openChannel(segment: BusinessCustomerSegmentValue, channelId: string) {
         const channels = segmentOf(segment.id).channels;
         const channel = channels.find(entry => entry.id === channelId);
         if (channel) {
             const first = channels.find(entry => entry.category === channel.category) ?? channel;
-            // (Its channel's tile stands in the Channels and Journey dialog: that opens first, then the card.)
+            // (Its channel's tile stands in the Channels & Journey dialog: that opens first, then the card.)
             document.dispatchEvent(new CustomEvent<OpenRequest>(OPEN_EVENT, { detail: { tile: segment.id + ":channels", box: "open" } }));
             window.setTimeout(() => document.dispatchEvent(new CustomEvent<OpenRequest>(OPEN_EVENT, { detail: { tile: channelTileId(segment.id, first.id), card: channel.id } })), 300);
         }
@@ -655,12 +704,16 @@ export function useEngagementDemand(earlier: Earlier) {
         });
     }
     /** A suggested source added from its faded line: the source, with its channel. */
-    function addSuggestedSource(offeringId: string, row: { type: string; channelId: string }) {
-        updateDemand(offeringId, { sources: [...demandOf(offeringId).sources, createDemandSource(row.type, row.channelId)] });
+    function addSuggestedSource(offeringId: string, row: { type: string; channelId: string }): string {
+        const made = createDemandSource(row.type, row.channelId);
+        updateDemand(offeringId, { sources: [...demandOf(offeringId).sources, made] });
+        return made.id;
     }
     /** The "+" on an Offering's tile in Demand & Conversion (with All): a new Customer Source, its card then opened. */
-    function addCustomerSource(offeringId: string) {
-        updateDemand(offeringId, { sources: [...demandOf(offeringId).sources, createDemandSource()] });
+    function addCustomerSource(offeringId: string): string {
+        const made = createDemandSource();
+        updateDemand(offeringId, { sources: [...demandOf(offeringId).sources, made] });
+        return made.id;
     }
 
     return { addCustomerSource, addSuggestedSource, demandFor, heads, suggestedSources };

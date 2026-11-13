@@ -117,3 +117,28 @@ describe("the tooltip of a circle", () => {
     });
 
 });
+
+describe("the Offerings list of Belongs to (owner, 2026-11-13 16:12)", () => {
+    it("starts at All; an Offering ticked leaves All and shows its rows alone; All, or no Offering ticked, shows every row again", () => {
+        const row = (id: string, offeringIds: string[]): FloorRow => ({ id, tone: "offering", kind: "resource", name: id, path: ["Offering's Capability", "Equipment", "Devices & Tools"], status: "", statusLabel: "", frequency: "", frequencyLabel: "", amount: null, links: [], offeringIds } as unknown as FloorRow);
+        const rows = [row("Loom", ["o1"]), row("Kit", ["o2"]), row("Shared", ["o1", "o2"])];
+        render(<CapabilityOverview rows={rows} offerings={[{ id: "o1", name: "Collection" }, { id: "o2", name: "Workshops" }]} />);
+        fireEvent.click(screen.getByRole("radio", { name: "Table" }));
+        fireEvent.click(screen.getByRole("button", { name: /Sort all tiles/i }));
+        fireEvent.click(screen.getByRole("button", { name: "Unfold Belongs to" }));
+        fireEvent.click(screen.getByLabelText("Belongs to: Offering"));
+        const names = () => [...document.querySelectorAll(".capability-overview-table tbody th")].map(cell => cell.textContent);
+        const tick = (label: string) => screen.getByLabelText("Offerings: " + label) as HTMLInputElement;
+        expect(tick("All").checked).toBe(true);
+        expect(names()).toEqual(["Loom", "Kit", "Shared"]);
+        fireEvent.click(tick("Workshops"));
+        expect(tick("All").checked).toBe(false);
+        expect(names()).toEqual(["Kit", "Shared"]);
+        fireEvent.click(tick("All"));
+        expect(tick("Workshops").checked).toBe(false);
+        expect(names()).toEqual(["Loom", "Kit", "Shared"]);
+        fireEvent.click(tick("Collection"));
+        fireEvent.click(tick("Collection"));
+        expect(tick("All").checked).toBe(true);
+    });
+});
