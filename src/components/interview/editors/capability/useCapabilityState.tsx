@@ -200,7 +200,7 @@ export function useCapabilityState(props: BusinessCapabilityEditorProps) {
     const { cardIds: channelCardIds, toneIds: channelToneIds, names: channelNamesById } = channelCards(engagementValue, capability);
     /** The Organisation's Offerings (Page 1), in its order: the Inventory's Offerings list and its channel expenses' Offerings. */
     const foundationOfferings = businessFoundationSegments(foundation).flatMap(segment => segment.offerings);
-    /** Each channel expense's facts for the Inventory (its Channel expenses set-up): read from the channels' table, their one owner (channelInventory.ts). */
+    /** Each channel expense's facts for the Inventory (its Channel Costs set-up): read from the channels' table, their one owner (channelInventory.ts). */
     const channelFactsById = channelFacts(engagementValue, capabilityCards(capability), organisationCurrency ?? "", foundationOfferings);
     /** An action's number pressed in the Inventory: its channel, opened on Customer Engagement. */
     function openEngagementAction(actionId: string, segmentId: string) {

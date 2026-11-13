@@ -84,7 +84,7 @@ export interface FloorRow {
     warranty?: string;
     /** The Customer Channels it is under ("Social Media › Instagram"), when a channel made it or it is connected to a card one made. */
     channels?: string[];
-    /** AS A CHANNEL EXPENSE (ChannelResourceTable.ts; the Inventory's Channel expenses): the channels and subchannels it is in, the Offerings it holds, the
+    /** AS A CHANNEL EXPENSE (ChannelResourceTable.ts; the Inventory's Channel Costs set-up): the channels and subchannels it is in, the Offerings it holds, the
      * journey stages and the actions that use it, its colour in the channels' palette and the links that make it one. */
     channel?: FloorChannel;
     /** The Offerings an Offering's Capability card serves (their ids, as the card links them): the Inventory's Offerings filter. */
@@ -440,7 +440,7 @@ export interface FloorFilter {
     connectedOnly: boolean;
     /** ISOLATES THE COSTS: only the tiles that have an expense (a price, or a Workspace's deposit); the cost order and range then apply to them. */
     costsOnly: boolean;
-    /** ONLY THE CHANNEL EXPENSES: the cards a Customer Channel holds (the Channel expenses set-up). */
+    /** ONLY THE CHANNEL EXPENSES: the cards a Customer Channel holds (the Channel Costs set-up). */
     channelsOnly: boolean;
     /** Under Offering (Belongs to): the Offerings ticked (ids); a card is shown when it serves one of them. None ticked: every Offering. */
     offerings: readonly string[];

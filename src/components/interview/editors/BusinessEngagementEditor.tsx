@@ -197,7 +197,7 @@ export default function BusinessEngagementEditor(props: BusinessEngagementEditor
                         <CardBoxes items={demBoxes()} label={"Demand & Conversion of " + (segment.name.trim() || "this Segment")} what="Offering" autoStart={false} />
                     ), scopeChoice(segment.id))
                 }
-            // (Channel Costs is no tile of its own: the channel expenses are the Inventory's, its Channel expenses set-up; owner, 2026-11-12 19:54.)
+            // (Channel Costs is no tile of its own: the channel expenses are the Inventory's, its Channel Costs set-up; owner, 2026-11-12 19:54.)
             ];
         };
 

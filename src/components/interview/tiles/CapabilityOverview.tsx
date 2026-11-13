@@ -116,7 +116,7 @@ export function tableRows(row: FloorRow, format: (amount: number) => string = St
     };
     // (The currency is written once, in the column's header; a cost in another currency than the organisation's says its own code.)
     const own = row.currency && row.currency !== organisationCurrency ? row.currency + " " : "";
-    // (A channel expense's Offerings, journey stages and actions: the columns of the Channel expenses set-up.)
+    // (A channel expense's Offerings, journey stages and actions: the columns of the Channel Costs set-up.)
     const channel = {
         offering: (row.channel?.offerings ?? []).join(", "),
         journey: (row.channel?.stages ?? []).join(", "),
@@ -145,7 +145,7 @@ export const TABLE_COLUMNS = [
     { id: "nature", label: "Cost Nature" },
     { id: "behaviour", label: "Behaviour" },
     { id: "status", label: "Status" },
-    // (A channel expense's Offerings, journey stages and actions: off until ticked, or set by the Channel expenses set-up; owner, 2026-11-12 18:41.)
+    // (A channel expense's Offerings, journey stages and actions: off until ticked, or set by the Channel Costs set-up; owner, 2026-11-12 18:41.)
     { id: "offering", label: "Offering" },
     { id: "journey", label: "Journey" },
     { id: "actions", label: "Actions" },
@@ -156,7 +156,7 @@ export const TABLE_COLUMNS = [
 const HIDDEN_AT_FIRST = ["offering", "journey", "actions"];
 
 /**
- * THE CHANNEL EXPENSES SET-UP (owner, 2026-11-12 18:41: "an option for Channel expenses, that would set the table automatically with the proper set up"): only
+ * THE CHANNEL COSTS SET-UP (owner, 2026-11-12 18:41: "an option for Channel expenses, that would set the table automatically with the proper set up"; 23:54: named Channel Costs, under the Costs): only
  * the cards a Customer Channel holds, the highest cost first, and the columns a channel expense is read by -- its Type (Channel under its own), its Group (the
  * channel over the subchannel), its cost, frequency and behaviour, its Offerings, journey stages and actions.
  */
@@ -193,7 +193,7 @@ export default function CapabilityOverview({ rows, format = String, currency = "
     const [folded, setFolded] = useState<ReadonlySet<string>>(new Set(["include", "sort", "belongs", "columns"]));
     // The table: the columns hidden and the text size (the middle step, the body size), kept while the overview stays open.
     const [hiddenColumns, setHiddenColumns] = useState<ReadonlySet<string>>(new Set(HIDDEN_AT_FIRST));
-    /** The Channel expenses set-up switched on or off: on, its filter, order and columns; off, the Inventory as it opens. */
+    /** The Channel Costs set-up switched on or off: on, its filter, order and columns; off, the Inventory as it opens. */
     const setChannelSetup = (on: boolean) => {
         setFilter(on ? { ...DEFAULT_FLOOR_FILTER, ...CHANNEL_SETUP.filter } : DEFAULT_FLOOR_FILTER);
         setHiddenColumns(new Set(on ? CHANNEL_SETUP.hidden : HIDDEN_AT_FIRST));
@@ -251,17 +251,6 @@ export default function CapabilityOverview({ rows, format = String, currency = "
 
     const menu = (
         <div className="capability-overview-menu" role="group" aria-label="Filters">
-            {/* THE SET-UPS, first: Channel expenses sets the filter, the order and the columns at once (shown where there are channel expenses). */}
-            {rows.some(row => row.channel) && (
-                <div className="capability-overview-menu-group">
-                    <BusinessTicks
-                        name="Set-up"
-                        options={[{ id: "channels", label: "Channel expenses" }]}
-                        chosen={filter.channelsOnly ? ["channels"] : []}
-                        onChange={(next) => setChannelSetup(next.length > 0)}
-                    />
-                </div>
-            )}
             <div className="capability-overview-menu-group">
                 <MenuHead title="Include" open={!folded.has("include")} onToggle={() => toggleFold("include")} controls="funnel-include" />
                 {/* Founders above Resources (the Workspace is within Resources), Partners & Suppliers one option. */}
@@ -462,6 +451,16 @@ export default function CapabilityOverview({ rows, format = String, currency = "
                         <NumberCell value={filter.max} onChange={(event) => patch({ max: limitedNumberText(event.target.value, filter.max, NUMBER_LIMITS.money) })} />
                     </label>
                 </div>
+                {/* CHANNEL COSTS, under the costs (owner, 2026-11-12 23:54): the Channel Costs set-up -- only the channel expenses, the highest cost first, the Offering,
+                    Journey and Actions columns on; shown where there are channel expenses. */}
+                {rows.some(row => row.channel) && (
+                    <BusinessTicks
+                        name="Channel Costs"
+                        options={[{ id: "channels", label: "Channel Costs" }]}
+                        chosen={filter.channelsOnly ? ["channels"] : []}
+                        onChange={(next) => setChannelSetup(next.length > 0)}
+                    />
+                )}
             </div>
         </div>
     );

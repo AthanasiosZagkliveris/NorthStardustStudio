@@ -4,7 +4,7 @@ import BoxActions from "../fields/ReorderControls.tsx";
 import { TABLE_SIZES } from "./CapabilityOverview.tsx";
 
 /**
- * A REPORT'S FRAME, one for every report the app draws (the Inventory, its Channel expenses set-up among them): the bar -- how many lines are shown of how many,
+ * A REPORT'S FRAME, one for every report the app draws (the Inventory, its Channel Costs set-up among them): the bar -- how many lines are shown of how many,
  * what the report adds (a legend, a chip), Tiles or Table,
  * the table's three text sizes, and the funnel's window -- over the report's own body, which scrolls. The body is given the view and, for a table, the style of
  * its text size (`--table-font`, `--table-pad`, `data-size`).

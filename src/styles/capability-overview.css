@@ -564,11 +564,7 @@
 
 }
 
-.capability-overview-table tbody tr:nth-child(even) > th[data-col="name"] {
 
-    background: color-mix(in srgb, var(--table-ink) 5%, var(--table-ground));
-
-}
 
 /* ==========================================================
    THE TABLE MODE: an opaque, calm reading surface (the tiles keep their see-through look). Four tokens per theme: ground, ink (soft, never pure white or
@@ -710,6 +706,34 @@
 .capability-overview-table tbody tr:hover > * {
 
     background: var(--table-hover);
+
+}
+
+/* THE FIXED NAME COLUMN STAYS ON TOP, opaque (owner, 2026-11-12 23:54: the cells scrolled to the right went over the names): its cells lay the row's tint, zebra or
+   hover, over the table's ground, so nothing that passes under them shows through; its heading is fixed to the top and the left, above the names and the other
+   headings. The row's colour bar (::before) stays on its left edge. */
+.capability-overview-table tbody tr > th[data-col="name"] {
+
+    background: var(--table-ground);
+
+}
+
+.capability-overview-table tbody tr:nth-child(even) > th[data-col="name"] {
+
+    background: linear-gradient(var(--table-tint), var(--table-tint)), var(--table-ground);
+
+}
+
+.capability-overview-table tbody tr:hover > th[data-col="name"] {
+
+    background: linear-gradient(var(--table-hover), var(--table-hover)), var(--table-ground);
+
+}
+
+.capability-overview-table thead th[data-col="name"] {
+
+    left: 0;
+    z-index: 3;
 
 }
 

@@ -1555,6 +1555,16 @@ describe("the table mode: surface, columns, sizes", () => {
         expect(css.includes(".capability-overview-table tbody tr:nth-child(even) > * { background: var(--table-tint); }")).toBe(true);
     });
 
+    it("keeps the fixed Name column on top and opaque in every row state, its heading fixed to the left too (owner, 2026-11-12 23:54)", () => {
+        const css = stylesheet("capability-overview.css");
+        expect(css.includes(".capability-overview-table tbody tr > th[data-col=\"name\"] { background: var(--table-ground); }")).toBe(true);
+        expect(css.includes(".capability-overview-table tbody tr:nth-child(even) > th[data-col=\"name\"] { background: linear-gradient(var(--table-tint), var(--table-tint)), var(--table-ground); }")).toBe(true);
+        expect(css.includes(".capability-overview-table tbody tr:hover > th[data-col=\"name\"] { background: linear-gradient(var(--table-hover), var(--table-hover)), var(--table-ground); }")).toBe(true);
+        expect(css.includes(".capability-overview-table thead th[data-col=\"name\"] { left: 0; z-index: 3; }")).toBe(true);
+        // (The hover rule comes before the Name column's own, so the Name column's wins.)
+        expect(css.indexOf(".capability-overview-table tbody tr:hover > * {")).toBeLessThan(css.indexOf(".capability-overview-table tbody tr:hover > th[data-col=\"name\"]"));
+    });
+
 });
 
 describe("the app header over the page's layers", () => {
