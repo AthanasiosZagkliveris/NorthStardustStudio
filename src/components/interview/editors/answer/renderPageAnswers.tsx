@@ -43,11 +43,12 @@ export function renderBusinessFoundation(scope: AnswerScope) {
 
 export function renderBusinessEngagement(scope: AnswerScope) {
 
-    const { value, onChange, disabled, businessFoundation, onOpenBusinessFoundation, organisationCurrency, businessCapability, onOpenBusinessCapability, onChangeBusinessCapability, columnsDivider, showInstructions } = scope;
+    const { value, onChange, disabled, businessFoundation, onOpenBusinessFoundation, organisationCurrency, businessCapability, onOpenBusinessCapability, onChangeBusinessCapability, columnsDivider, showInstructions, legalEntity, businessStage } = scope;
 
     return (
 
         <BusinessEngagementEditor
+            identity={segmentIdentityOf(asLegalEntityValue(legalEntity).organisation, businessStage)}
             value={value}
             showInstructions={showInstructions}
             columnsDivider={columnsDivider}

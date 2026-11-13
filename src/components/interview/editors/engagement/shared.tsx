@@ -2,11 +2,15 @@ import { ReactNode } from "react";
 import { BusinessEngagementValue } from "../../../../framework/engine/AnswerUtils.ts";
 import { InfoPoint } from "../../fields/InfoNote.tsx";
 import type { OpenPage } from "../../tiles/jumpTo.ts";
+import type { SegmentIdentity } from "../../../../framework/engine/SegmentContext.ts";
 
 export interface BusinessEngagementEditorProps {
 
     /** The Customer Channel section as a tile for each channel (each opening its table in a dialog), as the other pages are drawn. */
     asTiles?: boolean;
+
+    /** What Identity says of who the Segments sell to (segmentIdentityOf): read where the answers create relationship types (autoRelationshipTypes). */
+    identity?: SegmentIdentity;
 
     value: unknown;
 

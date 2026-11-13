@@ -2122,7 +2122,10 @@
                           }
                         }
                       }
-                    }
+                    },
+                    "dismissed": [
+                      "community"
+                    ]
                   },
                   {
                     "offeringId": "offering-8e935f0e",
@@ -2166,7 +2169,11 @@
                           }
                         }
                       }
-                    }
+                    },
+                    "dismissed": [
+                      "self-service",
+                      "personal-assistance"
+                    ]
                   }
                 ],
                 "profiles": []
@@ -2536,7 +2543,10 @@
                           }
                         }
                       }
-                    }
+                    },
+                    "dismissed": [
+                      "personal-assistance"
+                    ]
                   },
                   {
                     "offeringId": "offering-kfyakcw5",
@@ -2581,7 +2591,10 @@
                           }
                         }
                       }
-                    }
+                    },
+                    "dismissed": [
+                      "dedicated-support"
+                    ]
                   }
                 ],
                 "profiles": []

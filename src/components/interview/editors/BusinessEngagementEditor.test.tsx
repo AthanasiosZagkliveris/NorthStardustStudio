@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it } from "vitest";
 import { useState } from "react";
-import { cleanup, fireEvent, render as renderBase, screen } from "@testing-library/react";
+import { act, cleanup, fireEvent, render as renderBase, screen } from "@testing-library/react";
 import { openFolds } from "../../../test/openFolds.ts";
 import { openTile } from "../../../test/interviewTestUtils.ts";
 
@@ -415,7 +415,8 @@ describe("BusinessEngagementEditor Engagement Strategy (2. Customer Relationship
         expect(rows[0].querySelector(".business-engagement-goal-ticks")).toBeTruthy();
         expect(container.querySelector(".business-relationship-strategy-title")?.textContent).toContain("Approach");
         expect(rows[1].querySelector("textarea[aria-label^=\"Approach\"]")).toBeTruthy();
-        expect(screen.getByRole("button", { name: /Discover: the channels/ })).toBeTruthy();
+        // (The Retainer, with no type saved, has Personal Assistance too -- every Offering has one --, so its stage carries the same "i".)
+        expect(screen.getAllByRole("button", { name: /Discover: the channels/ }).length).toBeGreaterThan(0);
     });
 
 });
@@ -516,6 +517,32 @@ describe("Customer Engagement follows the Foundation (doc 47, section 3)", () =>
         const channels = saved!.segments.find(entry => entry.segmentId === segment.id)!.channels;
         // (A new Segment starts with one blank channel; the suggestion is added beside it.)
         expect(channels.filter(channel => channel.category !== "").map(channel => [channel.category, channel.name, channel.stages])).toEqual([["Website", "Main Website", ["discovery"]]]);
+    });
+
+});
+
+describe("every Offering has at least one relationship type (owner, 2026-11-13 00:29)", () => {
+
+    function TilesHarness() {
+        const [{ foundation, engagement }] = useState(engagementScenario);
+        const [value, setValue] = useState<unknown>(engagement);
+        return <BusinessEngagementEditor value={value} onChange={setValue} foundation={foundation} asTiles />;
+    }
+    const removes = () => [...document.querySelectorAll(".floating-card-host .card-remove, .floating-card-host .strategy-box-remove")];
+
+    it("gives an Offering with no answers Personal Assistance, with no x while it is the only type; a second type brings an x to each", async () => {
+        render(<TilesHarness />);
+        openTile("Customer's Relationship");
+        fireEvent.click(document.querySelector<HTMLElement>(".section-tile-overlay button.card-tile")!);
+        const card = document.querySelector(".floating-card-host")!;
+        expect(card.textContent).toContain("Personal Assistance");
+        expect(removes()).toHaveLength(0);
+        // (With All, the tile's "+" adds the next type; the Offering then has two, each with its x.)
+        fireEvent.click(screen.getAllByRole("radio", { name: "All" })[0]);
+        fireEvent.click(screen.getAllByRole("button", { name: /^Add Relationship Type to/ })[0]);
+        await act(() => new Promise(resolve => setTimeout(resolve, 200)));
+        expect(document.querySelector(".floating-card-host")?.textContent).toContain("Self-Service");
+        expect(removes()).toHaveLength(2);
     });
 
 });

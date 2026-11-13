@@ -523,14 +523,14 @@
 
 }
 
-/* Short columns never break a word (Type, Section, Cost, Frequency, Cost Nature, Behaviour, Status, Linked); Name, Category and Group take the rest and wrap between words. */
+/* Short columns never break a word (Type, Section, Cost, Frequency, Cost Nature, Behaviour, Status, Linked, a stage table's Channel and Subchannel); Name, Category, Group and Actions take the rest and wrap between words. */
 .capability-overview-table :is(th, td) {
 
     overflow-wrap: normal;
 
 }
 
-.capability-overview-table tbody :is(th, td)[data-col]:not([data-col="category"], [data-col="group"]) {
+.capability-overview-table tbody :is(th, td)[data-col]:not([data-col="category"], [data-col="group"], [data-col="actions"]) {
 
     white-space: nowrap;
 

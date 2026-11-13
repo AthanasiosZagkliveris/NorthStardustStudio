@@ -441,6 +441,16 @@ export default function CapabilityOverview({ rows, format = String, currency = "
                         ))}
                     </div>
                 </div>
+                {/* CHANNEL COSTS, directly under the Costs tick, above its range (owner, 2026-11-12 23:54; 2026-11-13 00:27: "I said under the costs!"): the Channel Costs set-up -- only the channel expenses, the highest cost first, the Offering,
+                    Journey and Actions columns on; shown where there are channel expenses. */}
+                {rows.some(row => row.channel) && (
+                    <BusinessTicks
+                        name="Channel Costs"
+                        options={[{ id: "channels", label: "Channel Costs" }]}
+                        chosen={filter.channelsOnly ? ["channels"] : []}
+                        onChange={(next) => setChannelSetup(next.length > 0)}
+                    />
+                )}
                 <div className="capability-overview-costs-range">
                     <label>
                         From
@@ -451,16 +461,6 @@ export default function CapabilityOverview({ rows, format = String, currency = "
                         <NumberCell value={filter.max} onChange={(event) => patch({ max: limitedNumberText(event.target.value, filter.max, NUMBER_LIMITS.money) })} />
                     </label>
                 </div>
-                {/* CHANNEL COSTS, under the costs (owner, 2026-11-12 23:54): the Channel Costs set-up -- only the channel expenses, the highest cost first, the Offering,
-                    Journey and Actions columns on; shown where there are channel expenses. */}
-                {rows.some(row => row.channel) && (
-                    <BusinessTicks
-                        name="Channel Costs"
-                        options={[{ id: "channels", label: "Channel Costs" }]}
-                        chosen={filter.channelsOnly ? ["channels"] : []}
-                        onChange={(next) => setChannelSetup(next.length > 0)}
-                    />
-                )}
             </div>
         </div>
     );

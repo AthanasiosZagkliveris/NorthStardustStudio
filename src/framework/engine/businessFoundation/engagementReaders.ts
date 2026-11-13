@@ -223,6 +223,8 @@ export interface BusinessOfferingRelationshipsValue {
     types: string[];
     /** Kept by type id, so unticking a type loses nothing. */
     typeDetail: Record<string, BusinessRelationshipTypeValue>;
+    /** The types the answers create (autoRelationshipTypes) that the founder removed: they stay removed until added again (owner, 2026-11-13 00:31). */
+    dismissed?: string[];
 }
 
 /**
@@ -703,7 +705,8 @@ export function asBusinessEngagementValue(value: unknown): BusinessEngagementVal
                 merged.push({
                     offeringId,
                     types: businessIdList(entry.types, BUSINESS_RELATIONSHIP_TYPE_IDS),
-                    typeDetail
+                    typeDetail,
+                    ...(Array.isArray(entry.dismissed) ? { dismissed: businessIdList(entry.dismissed, BUSINESS_RELATIONSHIP_TYPE_IDS) } : {})
                 });
 
             }

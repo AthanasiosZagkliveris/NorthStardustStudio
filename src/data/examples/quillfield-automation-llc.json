@@ -1595,7 +1595,11 @@
                           }
                         }
                       }
-                    }
+                    },
+                    "dismissed": [
+                      "self-service",
+                      "community"
+                    ]
                   },
                   {
                     "offeringId": "offering-b7w3m5qx",
@@ -1639,7 +1643,12 @@
                           }
                         }
                       }
-                    }
+                    },
+                    "dismissed": [
+                      "personal-assistance",
+                      "self-service",
+                      "community"
+                    ]
                   },
                   {
                     "offeringId": "offering-c2p8j6nv",
@@ -1684,7 +1693,12 @@
                           }
                         }
                       }
-                    }
+                    },
+                    "dismissed": [
+                      "personal-assistance",
+                      "self-service",
+                      "community"
+                    ]
                   }
                 ],
                 "profiles": []

@@ -137,8 +137,3 @@ export function ScopeChoice({ value, onChange, group }: { value: OptionScope; on
         />
     );
 }
-
-/** A row of short ticks (the Goals: Get, Keep, Grow), in the row the Foundation's short choices stand in. */
-export function TickRow({ label, children }: { label: string; children: ReactNode }) {
-    return <div className="radio-choice business-segment-row" role="group" aria-label={label}>{children}</div>;
-}

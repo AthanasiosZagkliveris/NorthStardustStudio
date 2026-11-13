@@ -5,6 +5,7 @@
 import { CSSProperties, useState } from "react";
 import CardShell from "../../cards/CardShell.tsx";
 import RadioChoice from "../../../controls/RadioChoice.tsx";
+import FieldLabel from "../../../controls/FieldLabel.tsx";
 import TextLink from "../../fields/TextLink.tsx";
 import { Values } from "../ChannelResourceTable.tsx";
 import { TABLE_SIZES } from "../../tiles/CapabilityOverview.tsx";
@@ -12,8 +13,8 @@ import { BUSINESS_CHANNEL_ALL_OFFERINGS, BUSINESS_CHANNEL_CATEGORIES, BUSINESS_C
 import { BusinessAddButton, BusinessEmpty, BusinessNote, BusinessRemove, BusinessStep, BusinessTicks } from "../../cards/BusinessCardFields.tsx";
 import FieldRow from "../../fields/FieldRow.tsx";
 import { SingleColumn } from "../foundation/shared.tsx";
-import { EngagementBox, EngagementBoxes, EngagementCard, ScopeChoice, TickRow, type OptionScope } from "./EngagementCard.tsx";
-import { journeySuggestions, suggestedRelationshipType, suggestionMet, type ChannelSuggestion } from "../../../../framework/engine/JourneySuggestions.ts";
+import { EngagementBox, EngagementBoxes, EngagementCard, ScopeChoice, type OptionScope } from "./EngagementCard.tsx";
+import { autoRelationshipTypes, journeySuggestions, suggestedRelationshipType, suggestionMet, type ChannelSuggestion } from "../../../../framework/engine/JourneySuggestions.ts";
 import { BUSINESS_JOURNEY_STAGES } from "../../../../framework/engine/AnswerUtils.ts";
 import { summaryText } from "../../cards/cardSummary.ts";
 import InfoNote, { InfoText } from "../../fields/InfoNote.tsx";
@@ -43,7 +44,7 @@ export function useEngagementRelationships(earlier: Earlier) {
     const showsAll = (segmentId: string) => scopes[segmentId] === "all";
     /** The From your answers / All choice at the head of a Segment's three dialogs: one choice, shared by the three. */
     const scopeChoice = (segmentId: string) => <ScopeChoice group={"option-scope-" + segmentId} value={scopes[segmentId] ?? "answers"} onChange={(next) => setScopes(current => ({ ...current, [segmentId]: next }))} />;
-    const { channelCategoryFoldKey, channelTileId, channelsFor, disabled, folds, noPhysical, foundationLink, interactionOf, offeringRelationshipsOf, segmentOf, typeOf, updateInteraction, updateOfferingRelationships, updateSegment, updateType } = earlier;
+    const { channelCategoryFoldKey, channelTileId, channelsFor, disabled, folds, noPhysical, foundationLink, identity, storedOfferingRelationshipsOf, interactionOf, offeringRelationshipsOf, segmentOf, typeOf, updateInteraction, updateOfferingRelationships, updateSegment, updateType } = earlier;
 
     /**
      * 1. CUSTOMER CHANNEL AS TILES: a tile for each channel (the group of subchannels under one category), listing its subchannels; pressing it opens that channel's
@@ -337,19 +338,21 @@ export function useEngagementRelationships(earlier: Earlier) {
                                         <table className="capability-overview-table" aria-label={"Subchannels at " + stage.label} data-size={TABLE_SIZES[0].id} style={{ "--table-font": TABLE_SIZES[0].font, "--table-pad": TABLE_SIZES[0].pad } as CSSProperties}>
                                             <thead>
                                                 <tr>
-                                                    <th scope="col" data-col="name">Subchannel</th>
-                                                    <th scope="col" data-col="group">Channel</th>
+                                                    {/* (Channel, Subchannel, Offerings, Actions, owner, 2026-11-13 00:27: the names and the Offerings on one line each, the
+                                                        actions taking the rest of the width and wrapping.) */}
+                                                    <th scope="col" data-col="channel">Channel</th>
+                                                    <th scope="col" data-col="subchannel">Subchannel</th>
                                                     <th scope="col" data-col="offering">Offerings</th>
-                                                    <th scope="col" data-col="category">{"Actions at " + stage.label}</th>
+                                                    <th scope="col" data-col="actions">{"Actions at " + stage.label}</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 {used.map(channel => (
                                                     <tr key={channel.id}>
-                                                        <th scope="row" data-col="name"><TextLink className="capability-overview-name" onClick={() => openCard(channel.id)}>{nameOf(channel)}</TextLink></th>
-                                                        <td data-col="group">{channel.category.trim() || "New channel"}</td>
+                                                        <td data-col="channel">{channel.category.trim() || "New channel"}</td>
+                                                        <th scope="row" data-col="subchannel"><TextLink className="capability-overview-name" onClick={() => openCard(channel.id)}>{nameOf(channel)}</TextLink></th>
                                                         <td data-col="offering"><Values items={offeringsOf(channel).map(name => ({ key: name, node: name }))} /></td>
-                                                        <td data-col="category"><Values items={actionsOf(channel).map((text, at) => ({ key: String(at), node: text }))} /></td>
+                                                        <td data-col="actions"><Values items={actionsOf(channel).map((text, at) => ({ key: String(at), node: text }))} /></td>
                                                     </tr>
                                                 ))}
                                             </tbody>
@@ -381,19 +384,25 @@ export function useEngagementRelationships(earlier: Earlier) {
     }
     /** The "+" on an Offering's tile in Customer's Relationship (with All): the next relationship type it has not, added; false when it has them all. */
     function addRelationshipType(segment: BusinessCustomerSegmentValue, offeringId: string): boolean {
-        const kept = offeringRelationshipsOf(segment.id, offeringId);
-        const free = BUSINESS_RELATIONSHIP_TYPES.find(type => !kept.types.includes(type.id));
+        const shown = offeringRelationshipsOf(segment.id, offeringId);
+        const stored = storedOfferingRelationshipsOf(segment.id, offeringId);
+        const free = BUSINESS_RELATIONSHIP_TYPES.find(type => !shown.types.includes(type.id));
         if (free) {
-            updateOfferingRelationships(segment.id, offeringId, { types: [...kept.types.filter(type => type !== ""), free.id] });
+            // (Added by the founder: saved among the added types, and no longer among the removed; every type shown that the answers do not create -- Personal
+            // Assistance standing in for none -- is saved with it, so it stays beside it.)
+            const created = autoRelationshipTypes(segment, offeringId, identity).map(entry => entry.type);
+            const keep = [...new Set([...stored.types.filter(type => type !== ""), ...shown.types.filter(type => !created.includes(type)), free.id])];
+            updateOfferingRelationships(segment.id, offeringId, { types: keep, dismissed: (stored.dismissed ?? []).filter(type => type !== free.id) });
         }
         return !!free;
     }
-    /** The type the Foundation suggests, added from its faded line on the Offering's tile. */
-    function addSuggestedRelationshipType(segment: BusinessCustomerSegmentValue, offeringId: string, typeId: string) {
-        const kept = offeringRelationshipsOf(segment.id, offeringId);
-        if (!kept.types.includes(typeId)) {
-            updateOfferingRelationships(segment.id, offeringId, { types: [...kept.types.filter(type => type !== ""), typeId] });
-        }
+    /**
+     * A type removed from an Offering's card (its x, shown while it has two or more: owner, 2026-11-13 00:29): taken from the added types and recorded as removed,
+     * so a type the answers create stays removed; the tile's "+" (with All) adds it back.
+     */
+    function removeRelationshipType(segment: BusinessCustomerSegmentValue, offeringId: string, typeId: string) {
+        const stored = storedOfferingRelationshipsOf(segment.id, offeringId);
+        updateOfferingRelationships(segment.id, offeringId, { types: stored.types.filter(type => type !== typeId), dismissed: [...new Set([...(stored.dismissed ?? []), typeId])] });
     }
     /* ---------- 2. Customer Relationship ---------- */
 
@@ -574,7 +583,8 @@ export function useEngagementRelationships(earlier: Earlier) {
                                     key={typeId}
                                     title={label}
                                     info={SECTIONS.relationships.types}
-                                    extra={<BusinessRemove what={label + " Relationship Type for " + offeringName(offeringId)} disabled={disabled} onRemove={() => updateOfferingRelationships(segment.id, offeringId, { types: kept.types.filter(candidate => candidate !== typeId) })} />}
+                                    // (Its x while the Offering has another type: an Offering keeps at least one; owner, 2026-11-13 00:29.)
+                                    extra={kept.types.length > 1 ? <BusinessRemove what={label + " Relationship Type for " + offeringName(offeringId)} disabled={disabled} onRemove={() => removeRelationshipType(segment, offeringId, typeId)} /> : undefined}
                                     bands={[
                                         <FieldRow key="purpose" pair label="Purpose" info={SECTIONS.relationships.purpose}>
                                             <StrategyTextArea
@@ -585,19 +595,33 @@ export function useEngagementRelationships(earlier: Earlier) {
                                                 onChange={(next) => updateType(segment.id, offeringId, typeId, { purpose: next })}
                                             />
                                         </FieldRow>,
+                                        // THE STAGES IN THREE COLUMNS (owner, 2026-11-13 00:27): a heading row -- Journey Stage, Goals, Approach, each with its "i" --, then a row
+                                        // per stage: its name (its channels in its "i"), its Goals one under another, its Approach.
+                                        <div key="heads" className="business-relationship-stage-row" role="row">
+                                            <span className="business-foundation-label-info legal-entity-label-info" role="columnheader"><FieldLabel className="business-foundation-label"><InfoText text="Journey Stage"><InfoNote label="Journey Stage" points={SECTIONS.relationships.stages} fullList /></InfoText></FieldLabel></span>
+                                            <span className="business-foundation-label-info legal-entity-label-info" role="columnheader"><FieldLabel className="business-foundation-label"><InfoText text="Goals"><InfoNote label="Goals" points={SECTIONS.relationships.goals} fullList /></InfoText></FieldLabel></span>
+                                            <span className="business-foundation-label-info legal-entity-label-info" role="columnheader"><FieldLabel className="business-foundation-label"><InfoText text="Approach"><InfoNote label="Approach" points={SECTIONS.relationships.approach} fullList /></InfoText></FieldLabel></span>
+                                        </div>,
                                         ...offeringRows.map(interaction => {
                                             const answersFor = interactionOf(segment.id, offeringId, typeId, interaction.key, interaction.legacyKeys);
                                             const stage = STAGE_LABELS[interaction.stageId] ?? "";
                                             const about = stage + ", " + offeringName(offeringId) + ", " + label;
                                             return (
-                                                <FieldRow
-                                                    key={interaction.key}
-                                                    pair
-                                                    fullList
-                                                    label={stage}
-                                                    info={interaction.groups.length > 0 ? interaction.groups.map(group => ({ title: group.category.trim().length ? group.category : "No category", text: group.channelIds.map(id => channelName(id)).join(", ") })) : undefined}
-                                                >
-                                                    <TickRow label={"Goals for " + about}>
+                                                <div key={interaction.key} className="business-relationship-stage-row" role="row">
+                                                    <span className="business-foundation-label-info legal-entity-label-info" role="rowheader">
+                                                        <FieldLabel className="business-foundation-label">
+                                                        <InfoText text={stage}>
+                                                            {interaction.groups.length > 0 && (
+                                                                <InfoNote
+                                                                    label={stage + ": the channels"}
+                                                                    points={interaction.groups.map(group => ({ title: group.category.trim().length ? group.category : "No category", text: group.channelIds.map(id => channelName(id)).join(", ") }))}
+                                                                    fullList
+                                                                />
+                                                            )}
+                                                        </InfoText>
+                                                        </FieldLabel>
+                                                    </span>
+                                                    <div className="radio-choice legal-entity-radio-stack" role="group" aria-label={"Goals for " + about}>
                                                         <BusinessTicks
                                                             name={"Goals for " + about}
                                                             options={GOAL_OPTIONS}
@@ -605,16 +629,15 @@ export function useEngagementRelationships(earlier: Earlier) {
                                                             disabled={disabled}
                                                             onChange={(next) => updateInteraction(segment.id, offeringId, typeId, interaction.key, interaction.legacyKeys, { goals: next })}
                                                         />
-                                                    </TickRow>
+                                                    </div>
                                                     <StrategyTextArea
                                                         className="interview-input business-foundation-note"
                                                         ariaLabel={"Approach for " + about}
-                                                        placeholder="Approach"
                                                         disabled={disabled}
                                                         value={answersFor.approach}
                                                         onChange={(next) => updateInteraction(segment.id, offeringId, typeId, interaction.key, interaction.legacyKeys, { approach: next })}
                                                     />
-                                                </FieldRow>
+                                                </div>
                                             );
                                         })
                                     ]}
@@ -1139,6 +1162,6 @@ export function useEngagementRelationships(earlier: Earlier) {
 
     }
 
-    return { addRelationshipType, addSuggestedRelationshipType, channelTiles, channelViewChoice, engagedOfferingIds, relationshipsFor, profilesOf, scopeChoice, showsAll };
+    return { addRelationshipType, channelTiles, channelViewChoice, engagedOfferingIds, relationshipsFor, profilesOf, scopeChoice, showsAll };
 
 }

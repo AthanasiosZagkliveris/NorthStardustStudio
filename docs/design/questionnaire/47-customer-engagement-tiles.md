@@ -54,6 +54,28 @@ The Foundation page's shape (one chapter per Segment, four Master Tiles, 2 × 2)
 - **Channels That Bring Them, filled from the sources** (owner, 2026-11-12, after 19:54: "Fill it from the sources"): each Customer Source names its channel (a Channel band under Customer Source, the Segment's channels; a suggested row's Add sets it); the section is read only, each source's channel once, a link that opens it in Channels and Journey (`demandChannelIds`). Where a source names none, a line asks for its channel. The ticks saved before (`demand.channelIds`) stay readable and are no longer shown or counted. The Demand suggestions read the derived list (a channel a source names is not proposed again).
 
 **The owner's points of 23:16 (2026-11-12).**
+
+**The owner's points of 00:27 to 00:31 (2026-11-13).**
+- **The relationship types are made from the answers** ("The relationships, ideally, should be auto generated from the foundation or identity answers"; "Every Offering should have at least 1 relationship!"). Each type an answer points to is on the Offering's tile, with no "Suggested" line (`autoRelationshipTypes`, `relationshipTypesOf`). The types are those of Osterwalder and Pigneur, *Business Model Generation* (2010), "Customer Relationships": personal assistance, dedicated personal assistance, self-service, automated services and communities (their sixth, co-creation, is not one of the app's types). The mappings:
+
+| Answer | Type | Why |
+|---|---|---|
+| O7, help after buying: dedicated | Dedicated Support | one named person for the customer |
+| O7: personal | Personal Assistance | a person helps when asked |
+| O7: automatic | Automated Service | the help runs without a person |
+| O7: the rest (self-help) | Self-Service | the customer helps themself |
+| D2, help wanted before buying (the Profiles the Offering serves): formal | Dedicated Support | a formal buyer expects one contact |
+| D2: a person, a little | Personal Assistance | a person answers when asked |
+| D2: on their own | Self-Service | they decide alone |
+| C3, the Profiles' communities (Facebook group, Discord, Reddit, Slack, Meetup) | Community | customers who help one another |
+| The Segment's buyer decides by formal tender | Dedicated Support | a formal account with one named contact |
+| Identity, Seller and Buyer Relationship: B2G | Dedicated Support | public buyers keep one named contact |
+
+  An Offering has at least one type: where no answer points to one, Personal Assistance (the type an early-stage founder starts with), saved with any type added beside it. A type removed from its card stays removed (`dismissed`); its x shows only while the Offering has two or more types; the tile's "+" (with All) adds any other type, a removed one too. The examples record as removed the types their answers create that they do not describe.
+- **The relationship card**: under its Purpose, the stages in three columns -- Journey Stage, Goals (Get, Keep, Grow, one under another) and Approach, each heading with its "i" (the texts of doc 28's Relationship section) --, a row per stage.
+- **The Demand & Conversion card**: short fields side by side, each as wide as its content (Customer Source and Channel; Estimated; the figures), the Basis at the card's width.
+- **The Journey Stages table**: Channel, Subchannel, Offerings, Actions; the names and Offerings on one line, the actions the widest, wrapping.
+- **The Inventory's Channel Costs** stands directly under the Costs tick, above its range.
 - **The relationship card's tints**: each relationship type is a box, its light title band carrying its name, its "i" and its x (readable there; the dark band hid it); its Purpose and each stage are its bands, a stage's Goals in one row and its Approach under them.
 - **No add on a card**: the suggested relationship type is a faded line on the Offering's tile ("Suggested: ..."), and the suggested Customer Sources faded lines on its Demand & Conversion tile (the channel each comes through); pressing a line adds it (a source with its channel) and opens the card. The cards carry no add in either choice.
 - **The Inventory**: the Cost heading carries the currency's symbol ("Cost (£)", as the Legal Entity's expenses); a channel expense's Type and Group names keep one line each, so their lines stand level.

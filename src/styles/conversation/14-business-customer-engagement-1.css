@@ -909,6 +909,20 @@
 
 }
 
+/* A RELATIONSHIP TYPE'S STAGES IN THREE COLUMNS (its card; owner, 2026-11-13 00:27): the stage, its Goals one under another, its Approach -- the same widths in
+   every row, so the heading row's Journey Stage, Goals and Approach stand over their columns. */
+.business-relationship-stage-row{
+
+    display:grid;
+
+    grid-template-columns:8.75rem 5.5rem minmax(0, 1fr);
+
+    gap:var(--gap-12);
+
+    align-items:start;
+
+}
+
 .business-relationship-profile-list{
 
     display:inline-flex;

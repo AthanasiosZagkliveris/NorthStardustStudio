@@ -293,12 +293,12 @@ export function useEngagementDemand(earlier: Earlier) {
                         anchor={"demand-source-" + source.id}
                         title={"Source " + (index + 1)}
                         extra={<>{figure}{remove}</>}
+                        // (Short fields side by side, each as narrow as its content -- the source and its channel; how it is estimated and its figures --, as the
+                        // page's source rows; the Basis at the card's width: owner, 2026-11-13 00:27, "their cells are by far too wide".)
                         bands={[
-                            sourcePicker,
-                            channelPicker,
-                            estimatedPicker,
-                            // (One band per figure, as the Offering card asks one question per band.)
-                            ...(Array.isArray(figures) ? figures : [figures]),
+                            <div key="source" className="business-demand-fields">{sourcePicker}{channelPicker}</div>,
+                            estimatedPicker && <div key="estimated" className="business-demand-fields">{estimatedPicker}</div>,
+                            figures && <div key="figures" className="business-demand-fields">{figures}</div>,
                             noteLine,
                             basis
                         ]}

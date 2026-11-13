@@ -1,6 +1,6 @@
 import { describe, expect, test } from "vitest";
 import { asBusinessEngagementValue, asBusinessFoundationValue, createBusinessChannel } from "./AnswerUtils.ts";
-import { demandSuggestions, journeySuggestions, suggestedRelationshipType, suggestionMet } from "./JourneySuggestions.ts";
+import { DEFAULT_RELATIONSHIP_TYPE, autoRelationshipTypes, demandSuggestions, journeySuggestions, relationshipTypesOf, suggestedRelationshipType, suggestionMet } from "./JourneySuggestions.ts";
 import lumenText from "../../data/examples/lumen-and-loom-studio.json?raw";
 import quillText from "../../data/examples/quillfield-automation-llc.json?raw";
 
@@ -101,6 +101,40 @@ describe("the Demand rows the Foundation proposes", () => {
         const empty = { sources: [] };
         expect(demandSuggestions(segment, "x", [], empty).map(row => row.type)).toEqual(["contracts"]);
         expect(demandSuggestions(segment, "x", [], { sources: [{ type: "contracts", channelId: "" }] })).toEqual([]);
+    });
+
+});
+
+describe("the relationship types the answers create (owner, 2026-11-13 00:29 and 00:31)", () => {
+
+    test("every type the answers point to, each once, with its source: the help after buying, the help wanted before, the Profiles' communities", () => {
+        const segment = quill.foundation.segments[0];
+        const retainer = segment.offerings[2];
+        expect(autoRelationshipTypes(segment, retainer.id)).toEqual([
+            { type: "dedicated-support", source: "your help after they buy" },
+            { type: "personal-assistance", source: "the help they want before buying" },
+            { type: "self-service", source: "the help they want before buying" },
+            { type: "community", source: "the communities your Profiles belong to" }
+        ]);
+    });
+
+    test("a buyer who decides by formal tender, or a government buyer, creates Dedicated Support", () => {
+        const base = quill.foundation.segments[0];
+        const tender = { ...base, questions: { ...base.questions, authorise: ["procurement"] } };
+        expect(autoRelationshipTypes(tender, "missing").map(entry => entry.type)).toContain("dedicated-support");
+        const plain = { ...base, profiles: [] };
+        expect(autoRelationshipTypes(plain, "missing", { relationships: ["b2g"], marketType: "", audience: [] }).map(entry => entry.type)).toEqual(["dedicated-support"]);
+    });
+
+    test("an Offering's types: the answers' less those removed, then those added; never none", () => {
+        const segment = quill.foundation.segments[0];
+        const audit = segment.offerings[0];
+        expect(relationshipTypesOf([], [], segment, audit.id)).toEqual(["personal-assistance", "self-service", "community"]);
+        // (A removed type stays removed; an added one is kept.)
+        expect(relationshipTypesOf(["automated-service"], ["self-service", "community"], segment, audit.id)).toEqual(["personal-assistance", "automated-service"]);
+        // (With every type removed, or no answers at all, Personal Assistance.)
+        expect(relationshipTypesOf([], ["personal-assistance", "self-service", "community"], segment, audit.id)).toEqual([DEFAULT_RELATIONSHIP_TYPE]);
+        expect(relationshipTypesOf([], [], undefined, "x")).toEqual(["personal-assistance"]);
     });
 
 });

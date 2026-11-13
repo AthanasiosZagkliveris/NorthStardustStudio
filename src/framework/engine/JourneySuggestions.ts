@@ -2,6 +2,7 @@ import type { BusinessCustomerSegmentValue } from "./AnswerBusinessFoundation.ts
 import { BUSINESS_CHANNEL_ALL_OFFERINGS, type BusinessChannelValue } from "./businessFoundation/engagementReaders.ts";
 import { effectiveOfferingAnswers, effectiveProfileAnswers, effectiveSegmentAnswers, offeringIsPhysical } from "./EffectiveAnswers.ts";
 import { demandChannelIds } from "./DemandCapacity.ts";
+import { businessProfileOfferings } from "./businessFoundation/engagementPage.ts";
 import type { SegmentIdentity } from "./SegmentContext.ts";
 
 /*
@@ -178,6 +179,62 @@ export function suggestedRelationshipType(segment: BusinessCustomerSegmentValue,
         return null;
     }
     return types.reduce((best, type) => PERSONAL_ORDER.indexOf(type as typeof PERSONAL_ORDER[number]) > PERSONAL_ORDER.indexOf(best as typeof PERSONAL_ORDER[number]) ? type : best);
+}
+
+/** The relationship type an Offering has when its answers point to none: a person helping the customer, the type an early-stage founder starts with. */
+export const DEFAULT_RELATIONSHIP_TYPE = "personal-assistance";
+
+/** A relationship type the answers create for an Offering, and the answer it comes from. */
+export interface AutoRelationship {
+    type: string;
+    source: string;
+}
+
+/**
+ * THE RELATIONSHIP TYPES THE ANSWERS CREATE FOR AN OFFERING (owner, 2026-11-13 00:31: "The relationships, ideally, should be auto generated from the foundation or
+ * identity answers"), each once, with its source -- read by the types of Osterwalder and Pigneur, Business Model Generation (2010), "Customer Relationships":
+ * - its help after buying (O7): dedicated -> Dedicated Support, personal -> Personal Assistance, automatic -> Automated Service, the rest -> Self-Service;
+ * - the help the Profiles it serves want before buying (D2): formal -> Dedicated Support, a person or a little -> Personal Assistance, the rest -> Self-Service;
+ * - communities the Profiles belong to (C3) -> Community: customers who help one another;
+ * - a buyer who decides by formal tender (the Segment's authorise) or a government buyer (Identity, B2G) -> Dedicated Support: one named contact for a formal
+ *   account.
+ */
+export function autoRelationshipTypes(segment: BusinessCustomerSegmentValue, offeringId: string, identity?: SegmentIdentity): AutoRelationship[] {
+    const out: AutoRelationship[] = [];
+    const add = (type: string, source: string) => {
+        if (!out.some(entry => entry.type === type)) {
+            out.push({ type, source });
+        }
+    };
+    const offering = segment.offerings.find(entry => entry.id === offeringId);
+    (offering ? effectiveOfferingAnswers(offering, segment, identity).o7 ?? [] : []).forEach(id =>
+        add(id === "dedicated" ? "dedicated-support" : id === "personal" ? "personal-assistance" : id === "auto" ? "automated-service" : "self-service", "your help after they buy"));
+    // (The Profiles this Offering serves -- those that tick it among their needs --, else the Segment's every Profile.)
+    const serving = segment.profiles.filter(profile => businessProfileOfferings(profile, segment.offerings).some(entry => entry.id === offeringId));
+    const profiles = (serving.length > 0 ? serving : segment.profiles).map(profile => effectiveProfileAnswers(profile, segment, identity));
+    [...new Set(profiles.flatMap(profile => profile.d2 ?? []))].forEach(id =>
+        add(id === "formal" ? "dedicated-support" : id === "person" || id === "little" ? "personal-assistance" : "self-service", "the help they want before buying"));
+    if (profiles.some(profile => (profile.c3 ?? []).some(id => COMMUNITIES[id]))) {
+        add("community", "the communities your Profiles belong to");
+    }
+    if ((effectiveSegmentAnswers(segment, identity).authorise ?? []).includes("procurement")) {
+        add("dedicated-support", "a buyer who decides by formal tender");
+    }
+    if ((identity?.relationships ?? []).includes("b2g")) {
+        add("dedicated-support", "your government buyers");
+    }
+    return out;
+}
+
+/**
+ * AN OFFERING'S RELATIONSHIP TYPES (owner, 2026-11-13 00:29 and 00:31: "Every Offering should have at least 1 relationship!"): the ones its answers create
+ * (autoRelationshipTypes) less those the founder removed, then those the founder added; never none -- with nothing else, Personal Assistance (which a type added
+ * beside it then saves: addRelationshipType).
+ */
+export function relationshipTypesOf(kept: readonly string[], dismissed: readonly string[], segment: BusinessCustomerSegmentValue | undefined, offeringId: string, identity?: SegmentIdentity): string[] {
+    const auto = segment ? autoRelationshipTypes(segment, offeringId, identity).map(entry => entry.type).filter(type => !dismissed.includes(type)) : [];
+    const types = [...new Set([...auto, ...kept.filter(type => type !== "")])];
+    return types.length > 0 ? types : [DEFAULT_RELATIONSHIP_TYPE];
 }
 
 /** One Demand row the Foundation proposes for an Offering: a Customer Source and, for a channel's row, the channel that brings its customers. */

@@ -20,6 +20,7 @@ import { asBusinessCapabilityValue, equalOfferingShares } from "../../../../fram
 import { useItemFolds } from "../../fields/useItemFolds.ts";
 import { toggledIn } from "../../fields/toggledIn.ts";
 import { BusinessEngagementEditorProps, CONTENT_OF_THE_TABLE } from "./shared.tsx";
+import { relationshipTypesOf } from "../../../../framework/engine/JourneySuggestions.ts";
 
 export function useEngagementState(props: BusinessEngagementEditorProps) {
 
@@ -45,7 +46,9 @@ export function useEngagementState(props: BusinessEngagementEditorProps) {
 
     currency = "",
 
-    asTiles = false
+    asTiles = false,
+
+    identity
 
 } = props;
 
@@ -541,9 +544,15 @@ export function useEngagementState(props: BusinessEngagementEditorProps) {
         segmentId: string,
         offeringId: string
     ): BusinessOfferingRelationshipsValue {
-        return segmentOf(segmentId).offerings.find(
+        const stored = segmentOf(segmentId).offerings.find(
             entry => entry.offeringId === offeringId
-        ) ?? createBusinessOfferingRelationships();
+        ) ?? { ...createBusinessOfferingRelationships(), offeringId };
+        // (The types its answers create, less those removed, then those added; never none -- relationshipTypesOf.)
+        return { ...stored, types: relationshipTypesOf(stored.types, stored.dismissed ?? [], segments.find(segment => segment.id === segmentId), offeringId, identity) };
+    }
+    /** An Offering's relationships as saved: the types the founder added (`types`) and those removed (`dismissed`), before the answers' types are laid in. */
+    function storedOfferingRelationshipsOf(segmentId: string, offeringId: string): BusinessOfferingRelationshipsValue {
+        return segmentOf(segmentId).offerings.find(entry => entry.offeringId === offeringId) ?? createBusinessOfferingRelationships();
     }
     function updateOfferingRelationships(
         segmentId: string,
@@ -677,6 +686,6 @@ export function useEngagementState(props: BusinessEngagementEditorProps) {
 
     }
 
-    return { asTiles, cards, channelActions, noPhysical, channelCategoryFoldKey, channelCategoryFoldKeys, channelResources, channelTileId, clearIsolation, collapsed, columnsDivider, currency, disabled, engagement, folds, interactionOf, isolated, isolatingSegment, isolationNames, offeringRelationshipsOf, offeringsOfMadeCards, onChange, onOpenCapability, onOpenFoundation, openAction, relatedStages, segmentOf, segments, setLit, toggle, typeOf, updateChannel, updateInteraction, updateOfferingRelationships, updateSegment, updateType, value };
+    return { identity, storedOfferingRelationshipsOf, asTiles, cards, channelActions, noPhysical, channelCategoryFoldKey, channelCategoryFoldKeys, channelResources, channelTileId, clearIsolation, collapsed, columnsDivider, currency, disabled, engagement, folds, interactionOf, isolated, isolatingSegment, isolationNames, offeringRelationshipsOf, offeringsOfMadeCards, onChange, onOpenCapability, onOpenFoundation, openAction, relatedStages, segmentOf, segments, setLit, toggle, typeOf, updateChannel, updateInteraction, updateOfferingRelationships, updateSegment, updateType, value };
 
 }

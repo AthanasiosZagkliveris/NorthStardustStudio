@@ -151,7 +151,7 @@ exports[`Lumen & Loom Studio > Business System › 2. Customer Engagement > tile
 `;
 
 exports[`Lumen & Loom Studio > Business System › 2. Customer Engagement > tile segment-8lu427u5:relationships 1`] = `
-"Customer's RelationshipCustomer's RelationshipiFrom your answersAll1. Homeware CollectionThe Considered NesterPersonal Assistance2. Weaving WorkshopsThe Hands-On Hobby LearnerCommunitySuggested: Personal AssistanceBack‹›Channels and JourneyCustomer's RelationshipDemand & ConversionBack
+"Customer's RelationshipCustomer's RelationshipiFrom your answersAll1. Homeware CollectionThe Considered NesterPersonal Assistance2. Weaving WorkshopsThe Hands-On Hobby LearnerCommunityBack‹›Channels and JourneyCustomer's RelationshipDemand & ConversionBack
 [fields] "
 `;
 
@@ -171,7 +171,7 @@ exports[`Lumen & Loom Studio > Business System › 2. Customer Engagement > tile
 `;
 
 exports[`Lumen & Loom Studio > Business System › 2. Customer Engagement > tile segment-majxtl1u:relationships 1`] = `
-"Customer's RelationshipCustomer's RelationshipiFrom your answersAll1. Bespoke CommissionsThe Eco Interior DesignerDedicated Support2. Trade CollectionThe Eco Interior DesignerPersonal AssistanceSuggested: Dedicated SupportBack‹›Channels and JourneyCustomer's RelationshipDemand & ConversionBack
+"Customer's RelationshipCustomer's RelationshipiFrom your answersAll1. Bespoke CommissionsThe Eco Interior DesignerDedicated Support2. Trade CollectionThe Eco Interior DesignerPersonal AssistanceBack‹›Channels and JourneyCustomer's RelationshipDemand & ConversionBack
 [fields] "
 `;
 
@@ -585,7 +585,7 @@ exports[`Quillfield Automation > Business System › 2. Customer Engagement > ti
 `;
 
 exports[`Quillfield Automation > Business System › 2. Customer Engagement > tile segment-qf3n8d2w:relationships 1`] = `
-"Customer's RelationshipCustomer's RelationshipiFrom your answersAll1. AI Workflow AuditThe Busy Ops ManagerThe Agency FounderPersonal Assistance2. Automation BuildThe Busy Ops ManagerThe Agency FounderDedicated SupportSuggested: Personal Assistance3. Automation Care RetainerThe Busy Ops ManagerThe Agency FounderDedicated SupportBack‹›Channels and JourneyCustomer's RelationshipDemand & ConversionBack
+"Customer's RelationshipCustomer's RelationshipiFrom your answersAll1. AI Workflow AuditThe Busy Ops ManagerThe Agency FounderPersonal Assistance2. Automation BuildThe Busy Ops ManagerThe Agency FounderDedicated Support3. Automation Care RetainerThe Busy Ops ManagerThe Agency FounderDedicated SupportBack‹›Channels and JourneyCustomer's RelationshipDemand & ConversionBack
 [fields] "
 `;
 
