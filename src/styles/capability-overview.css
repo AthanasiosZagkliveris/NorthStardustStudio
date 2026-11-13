@@ -693,6 +693,16 @@
 
 }
 
+/* A lettered row of a group (a., b.): the letter a hanging marker, the name wrapping under itself, as a list item's. */
+.capability-overview-lettered {
+
+    display: grid;
+    grid-template-columns: max-content minmax(0, 1fr);
+    column-gap: 0.35em;
+    align-items: baseline;
+
+}
+
 .capability-overview-table[data-wrap] tbody :is(th, td)[data-col] {
 
     white-space: normal;

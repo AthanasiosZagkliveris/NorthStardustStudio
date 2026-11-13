@@ -355,7 +355,10 @@ export function useEngagementRelationships(earlier: Earlier) {
                                                     return rows.map((channel, at) => (
                                                         <tr key={channel.id} data-band={group % 2 === 1 ? "even" : "odd"}>
                                                             {at === 0 && <td data-col="channel" rowSpan={rows.length}>{category.trim() || "New channel"}</td>}
-                                                            <th scope="row" data-col="subchannel">{rows.length > 1 && String.fromCharCode(97 + at) + ". "}<TextLink className="capability-overview-name" onClick={() => openCard(channel.id)}>{nameOf(channel)}</TextLink></th>
+                                                            <th scope="row" data-col="subchannel">{rows.length > 1
+                                                                // (Its letter a hanging marker: the name wraps under itself, never leaving the letter alone.)
+                                                                ? <span className="capability-overview-lettered"><span>{String.fromCharCode(97 + at) + "."}</span><TextLink className="capability-overview-name" onClick={() => openCard(channel.id)}>{nameOf(channel)}</TextLink></span>
+                                                                : <TextLink className="capability-overview-name" onClick={() => openCard(channel.id)}>{nameOf(channel)}</TextLink>}</th>
                                                             <td data-col="offerings"><Values items={offeringsOf(channel).map(name => ({ key: name, node: name }))} /></td>
                                                             <td data-col="actions"><Values items={actionsOf(channel).map((text, at) => ({ key: String(at), node: text }))} /></td>
                                                         </tr>
