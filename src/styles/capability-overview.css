@@ -693,19 +693,67 @@
 
 }
 
-/* A lettered row of a group (a., b.): the letter a hanging marker, the name wrapping under itself, as a list item's. */
-.capability-overview-lettered {
-
-    display: grid;
-    grid-template-columns: max-content minmax(0, 1fr);
-    column-gap: 0.35em;
-    align-items: baseline;
-
-}
-
 .capability-overview-table[data-wrap] tbody :is(th, td)[data-col] {
 
     white-space: normal;
+
+}
+
+/* Every column as wide as its words (owner, 2026-11-13 11:44: "tie them enough so their texts could fit properly"): a text of up to 8em on one row, a longer
+   one wrapping at 8em; the actions take the rest. */
+.capability-overview-table[data-wrap] :is(th, td)[data-col]:not([data-col="actions"]) {
+
+    width: 1%;
+
+}
+
+.capability-overview-table[data-wrap] tbody :is(th, td)[data-col]:not([data-col="actions"]) > * {
+
+    display: inline-block;
+    width: max-content;
+    max-width: 8em;
+
+    vertical-align: top;
+
+}
+
+/* A TABLE WITH NO FRAME (data-bare; owner, 2026-11-13 11:44: "there is no reason to have the table in a frame"): the lines between its cells only -- each cell
+   draws its left and top edges, the outer ones none --, square at its corners, set straight on its dialog. */
+.capability-overview-table[data-bare] {
+
+    border: 0;
+    border-radius: 0;
+
+}
+
+.capability-overview-table[data-bare] :is(th, td) {
+
+    border-right: 0;
+    border-bottom: 0;
+    border-left: 1px solid var(--table-line);
+    border-top: 1px solid var(--table-line);
+
+}
+
+.capability-overview-table[data-bare] thead th {
+
+    border-top: 0;
+    border-bottom: 2px solid var(--table-line);
+
+}
+
+.capability-overview-table[data-bare] tbody tr:first-child > * {
+
+    border-top: 0;
+
+}
+
+/* (The first column's cells: in a grouped table, the merged cells -- each row's first cell after the first is a subchannel, with a cell to its left.) */
+.capability-overview-table[data-bare] thead th:first-child,
+.capability-overview-table[data-bare]:not([data-grouped]) tbody tr > :first-child,
+.capability-overview-table[data-bare][data-grouped] tbody td[rowspan] {
+
+    border-left: 0;
 
 }
 

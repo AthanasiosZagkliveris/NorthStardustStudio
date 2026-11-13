@@ -519,6 +519,23 @@ describe("Customer Engagement follows the Foundation (doc 47, section 3)", () =>
         expect(channels.filter(channel => channel.category !== "").map(channel => [channel.category, channel.name, channel.stages])).toEqual([["Website", "Main Website", ["discovery"]]]);
     });
 
+    it("shows the Customer Sources the Foundation suggests on an Offering's Demand tile with All only (owner, 2026-11-13 11:44)", () => {
+        const segment = { ...createBusinessCustomerSegment([]), name: "Firms", offerings: [{ ...createBusinessOffering(), name: "Audit" }, { ...createBusinessOffering(), name: "Payroll" }] };
+        const foundation = { ...asBusinessFoundationValue(undefined), segments: [segment] };
+        const engagement = {
+            ...asBusinessEngagementValue(undefined),
+            segments: [{ ...createBusinessSegmentEngagement(segment.id), channels: [{ ...createBusinessChannel(), category: "Website", name: "Main Website", stages: ["discovery"] }] }]
+        };
+        render(<BusinessEngagementEditor value={engagement} onChange={() => undefined} foundation={foundation} asTiles />);
+        openTile("Demand & Conversion");
+        const tileText = () => document.querySelector(".section-tile-overlay")?.textContent ?? "";
+        // (From your answers: the Offering's own sources only.)
+        expect(tileText()).not.toContain("Suggested: Main Website");
+        // (All: the Discover channel no source names yet, ready to add.)
+        fireEvent.click(screen.getAllByRole("radio", { name: "All" })[0]);
+        expect(tileText()).toContain("Suggested: Main Website");
+    });
+
 });
 
 describe("every Offering has at least one relationship type (owner, 2026-11-13 00:29)", () => {

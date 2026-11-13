@@ -915,7 +915,11 @@
 
     display:grid;
 
-    grid-template-columns:8.75rem 5.5rem minmax(0, 1fr);
+    /* Journey Stage and Goals as wide as their words ("Evaluation" and its "i"; "Grow" and its tick), the Approach the rest (owner, 2026-11-13 11:44). */
+    --stage-col:7.5rem;
+    --goals-col:5rem;
+
+    grid-template-columns:var(--stage-col) var(--goals-col) minmax(0, 1fr);
 
     gap:var(--gap-12);
 
@@ -928,7 +932,15 @@
     background-image:linear-gradient(var(--stage-divider), var(--stage-divider)), linear-gradient(var(--stage-divider), var(--stage-divider));
     background-size:1px 100%;
     background-repeat:no-repeat;
-    background-position:calc(8.75rem + var(--gap-12) / 2) 0, calc(8.75rem + 5.5rem + var(--gap-12) * 1.5) 0;
+    background-position:calc(var(--stage-col) + var(--gap-12) / 2) 0, calc(var(--stage-col) + var(--goals-col) + var(--gap-12) * 1.5) 0;
+
+}
+
+/* The Approach fills its column. */
+.business-relationship-stage-row > .interview-input{
+
+    width:100%;
+    max-width:none;
 
 }
 

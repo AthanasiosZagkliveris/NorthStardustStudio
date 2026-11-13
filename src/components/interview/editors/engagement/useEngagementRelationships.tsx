@@ -310,10 +310,9 @@ export function useEngagementRelationships(earlier: Earlier) {
                     const view = stageViews[segment.id] ?? "table";
                     return (
                         <div className="column-tile-content">
+                            {/* (The view's choice on the title's row; owner, 2026-11-13 11:44: "Place the buttons to the top row".) */}
                             <div className="business-engagement-section-head">
                                 <DialogHeading title={stage.label} />
-                            </div>
-                            <div className="capability-overview-bar">
                                 <RadioChoice
                                     className="capability-overview-views"
                                     label="View"
@@ -335,30 +334,27 @@ export function useEngagementRelationships(earlier: Earlier) {
                                         />
                                     )
                                     : (
-                                        <table className="capability-overview-table" data-grouped="" data-wrap="" aria-label={"Subchannels at " + stage.label} data-size={TABLE_SIZES[0].id} style={{ "--table-font": TABLE_SIZES[0].font, "--table-pad": TABLE_SIZES[0].pad } as CSSProperties}>
+                                        <table className="capability-overview-table" data-grouped="" data-wrap="" data-bare="" aria-label={"Subchannels at " + stage.label} data-size={TABLE_SIZES[0].id} style={{ "--table-font": TABLE_SIZES[0].font, "--table-pad": TABLE_SIZES[0].pad } as CSSProperties}>
                                             <thead>
                                                 <tr>
-                                                    {/* (Channel, Subchannel, Offerings, Actions, owner, 2026-11-13 00:27: the names and the Offerings on one line each, the
-                                                        actions taking the rest of the width and wrapping.) */}
+                                                    {/* (Channel, Subchannel, Offerings, Actions, owner, 2026-11-13 00:27; the stage named once, by the dialog's title, 11:44.
+                                                        Each column as wide as its words, the Actions the rest; every text wraps.) */}
                                                     <th scope="col" data-col="channel">Channel</th>
                                                     <th scope="col" data-col="subchannel">Subchannel</th>
                                                     <th scope="col" data-col="offerings">Offerings</th>
-                                                    <th scope="col" data-col="actions">{"Actions at " + stage.label}</th>
+                                                    <th scope="col" data-col="actions">Actions</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 {/* ONE CELL A CHANNEL (owner, 2026-11-13 05:23: "Channels with more than 1 subchannel would be in a merged Cell"): the rows grouped
-                                                    by channel, in the page's order; a channel of several subchannels one cell over them, its subchannels lettered (a., b.); each
-                                                    group one band of the striping (data-band). */}
+                                                    by channel, in the page's order; a channel of several subchannels one cell over them; each group one band of the striping
+                                                    (data-band). */}
                                                 {[...new Set(used.map(channel => channel.category))].flatMap((category, group) => {
                                                     const rows = used.filter(channel => channel.category === category);
                                                     return rows.map((channel, at) => (
                                                         <tr key={channel.id} data-band={group % 2 === 1 ? "even" : "odd"}>
-                                                            {at === 0 && <td data-col="channel" rowSpan={rows.length}>{category.trim() || "New channel"}</td>}
-                                                            <th scope="row" data-col="subchannel">{rows.length > 1
-                                                                // (Its letter a hanging marker: the name wraps under itself, never leaving the letter alone.)
-                                                                ? <span className="capability-overview-lettered"><span>{String.fromCharCode(97 + at) + "."}</span><TextLink className="capability-overview-name" onClick={() => openCard(channel.id)}>{nameOf(channel)}</TextLink></span>
-                                                                : <TextLink className="capability-overview-name" onClick={() => openCard(channel.id)}>{nameOf(channel)}</TextLink>}</th>
+                                                            {at === 0 && <td data-col="channel" rowSpan={rows.length}><span>{category.trim() || "New channel"}</span></td>}
+                                                            <th scope="row" data-col="subchannel"><TextLink className="capability-overview-name" onClick={() => openCard(channel.id)}>{nameOf(channel)}</TextLink></th>
                                                             <td data-col="offerings"><Values items={offeringsOf(channel).map(name => ({ key: name, node: name }))} /></td>
                                                             <td data-col="actions"><Values items={actionsOf(channel).map((text, at) => ({ key: String(at), node: text }))} /></td>
                                                         </tr>

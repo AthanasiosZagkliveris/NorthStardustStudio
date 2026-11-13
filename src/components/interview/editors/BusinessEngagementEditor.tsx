@@ -87,12 +87,14 @@ export default function BusinessEngagementEditor(props: BusinessEngagementEditor
             const relLines = (offeringId: string) => [...profilesOf(segment, offeringId).map((profile, at) => profile.name.trim() || "Profile " + (at + 1)), ...relTypes(offeringId)];
             const relMarks = (offeringId: string): ItemMark[] => [...profilesOf(segment, offeringId).map(() => ({ plain: true })), ...relTypes(offeringId).map(() => ({ bullet: true }))];
             // (An Offering's tile in Demand & Conversion: its expected sales, then, faded, the sources the Foundation suggests; pressing one adds it, with its channel,
-            // and opens the card -- the add on the tile; owner, 2026-11-12 23:16.)
-            const demLines = (offeringId: string) => [...(expected(offeringId) ? [expected(offeringId)] : []), ...suggestedSources(segment, offeringId).map(row => "Suggested: " + row.words)];
-            const demMarks = (offeringId: string): ItemMark[] => [...(expected(offeringId) ? [{ bullet: true }] : []), ...suggestedSources(segment, offeringId).map(() => ({ bullet: true, empty: true }))];
+            // and opens the card -- the add on the tile; owner, 2026-11-12 23:16. Shown with All only, beside the tile's "+": From your answers shows the Offering's own
+            // sources; owner, 2026-11-13 11:44.)
+            const shownSources = (offeringId: string) => showsAll(segment.id) ? suggestedSources(segment, offeringId) : [];
+            const demLines = (offeringId: string) => [...(expected(offeringId) ? [expected(offeringId)] : []), ...shownSources(offeringId).map(row => "Suggested: " + row.words)];
+            const demMarks = (offeringId: string): ItemMark[] => [...(expected(offeringId) ? [{ bullet: true }] : []), ...shownSources(offeringId).map(() => ({ bullet: true, empty: true }))];
             const demBoxes = (): CardBox[] => offeringBoxes("dem:", demLines, demMarks, { what: "Customer Source", add: addCustomerSource }).map(box => {
                 const offeringId = box.id.slice(4);
-                const rows = suggestedSources(segment, offeringId);
+                const rows = shownSources(offeringId);
                 if (rows.length === 0) {
                     return box;
                 }
