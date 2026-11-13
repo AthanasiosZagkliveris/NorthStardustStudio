@@ -335,26 +335,32 @@ export function useEngagementRelationships(earlier: Earlier) {
                                         />
                                     )
                                     : (
-                                        <table className="capability-overview-table" aria-label={"Subchannels at " + stage.label} data-size={TABLE_SIZES[0].id} style={{ "--table-font": TABLE_SIZES[0].font, "--table-pad": TABLE_SIZES[0].pad } as CSSProperties}>
+                                        <table className="capability-overview-table" data-grouped="" data-wrap="" aria-label={"Subchannels at " + stage.label} data-size={TABLE_SIZES[0].id} style={{ "--table-font": TABLE_SIZES[0].font, "--table-pad": TABLE_SIZES[0].pad } as CSSProperties}>
                                             <thead>
                                                 <tr>
                                                     {/* (Channel, Subchannel, Offerings, Actions, owner, 2026-11-13 00:27: the names and the Offerings on one line each, the
                                                         actions taking the rest of the width and wrapping.) */}
                                                     <th scope="col" data-col="channel">Channel</th>
                                                     <th scope="col" data-col="subchannel">Subchannel</th>
-                                                    <th scope="col" data-col="offering">Offerings</th>
+                                                    <th scope="col" data-col="offerings">Offerings</th>
                                                     <th scope="col" data-col="actions">{"Actions at " + stage.label}</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {used.map(channel => (
-                                                    <tr key={channel.id}>
-                                                        <td data-col="channel">{channel.category.trim() || "New channel"}</td>
-                                                        <th scope="row" data-col="subchannel"><TextLink className="capability-overview-name" onClick={() => openCard(channel.id)}>{nameOf(channel)}</TextLink></th>
-                                                        <td data-col="offering"><Values items={offeringsOf(channel).map(name => ({ key: name, node: name }))} /></td>
-                                                        <td data-col="actions"><Values items={actionsOf(channel).map((text, at) => ({ key: String(at), node: text }))} /></td>
-                                                    </tr>
-                                                ))}
+                                                {/* ONE CELL A CHANNEL (owner, 2026-11-13 05:23: "Channels with more than 1 subchannel would be in a merged Cell"): the rows grouped
+                                                    by channel, in the page's order; a channel of several subchannels one cell over them, its subchannels lettered (a., b.); each
+                                                    group one band of the striping (data-band). */}
+                                                {[...new Set(used.map(channel => channel.category))].flatMap((category, group) => {
+                                                    const rows = used.filter(channel => channel.category === category);
+                                                    return rows.map((channel, at) => (
+                                                        <tr key={channel.id} data-band={group % 2 === 1 ? "even" : "odd"}>
+                                                            {at === 0 && <td data-col="channel" rowSpan={rows.length}>{category.trim() || "New channel"}</td>}
+                                                            <th scope="row" data-col="subchannel">{rows.length > 1 && String.fromCharCode(97 + at) + ". "}<TextLink className="capability-overview-name" onClick={() => openCard(channel.id)}>{nameOf(channel)}</TextLink></th>
+                                                            <td data-col="offerings"><Values items={offeringsOf(channel).map(name => ({ key: name, node: name }))} /></td>
+                                                            <td data-col="actions"><Values items={actionsOf(channel).map((text, at) => ({ key: String(at), node: text }))} /></td>
+                                                        </tr>
+                                                    ));
+                                                })}
                                             </tbody>
                                         </table>
                                     )}

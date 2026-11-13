@@ -48,6 +48,8 @@ Status: **specification**, written 2026-09-27, updated 2026-11-02. The requireme
 
 **As built, 04:58 (2026-11-13; doc 47, section 3).** Customer's Relationship shows a tile per Offering, each opening a dialog of its relationship types (a card tile each); a type's tile opens its card, whose stage columns are parted by vertical lines.
 
+**As built, 05:23 (2026-11-13).** A stage's table groups its rows by channel: a channel of several subchannels is one merged cell over them (a., b.), striped by group, and every cell wraps so the actions take most of the width (layout rules 12).
+
 Section 1 is "1. Customer Channel" in each Segment's card on Page 2 (the page, its editor and the sections that follow are in `page-2-section-2-customer-relationships.md`, "As built"; the layout is `ai/customer-engagement-layout.md`). The reference header of section 4 is the card's three reference columns (Segment, Profiles, Offerings), always shown. The channels are a four-column table (Channel, Offerings, Journey Stage, Action) with each channel's Links under its name (an optional field: the "Links" tick opens a numbered list of links, placeholder "Link"). Channels are grouped under their category, drawn once, in the fixed category order; each category carries a fold arrow and its channels sit a step in from it, and channels keep their numbers when a category is folded. Actions are stored by Journey Stage (`Record<stageId, string[]>`), so unticking a stage hides its Actions without deleting them.
 
 ## 1. Purpose

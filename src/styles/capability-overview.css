@@ -666,6 +666,39 @@
 
 }
 
+/* A TABLE OF GROUPED ROWS (data-grouped: a channel's cell merged over its subchannels' rows; owner, 2026-11-13 05:23): striped by group -- each row carries its
+   group's band (data-band) --, so a merged cell and its rows read as one. A table whose every cell wraps (data-wrap): the names and lists take the width their
+   words need, the widest column (the actions) the rest. */
+.capability-overview-table[data-grouped] tbody tr:nth-child(even) > * {
+
+    background: none;
+
+}
+
+.capability-overview-table[data-grouped] tbody tr[data-band="even"] > * {
+
+    background: var(--table-tint);
+
+}
+
+.capability-overview-table[data-grouped] tbody tr:hover > * {
+
+    background: var(--table-hover);
+
+}
+
+.capability-overview-table[data-grouped] tbody td[rowspan] {
+
+    vertical-align: top;
+
+}
+
+.capability-overview-table[data-wrap] tbody :is(th, td)[data-col] {
+
+    white-space: normal;
+
+}
+
 /* EACH ROW'S COLOUR, a 4px bar down its left edge: a channel expense's of the channels' palette (its tint, as its actions' marks), any other card's its
    place's hue (as its tile). */
 .capability-overview-table tbody th[data-col="name"]::before {
