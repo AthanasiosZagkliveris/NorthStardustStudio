@@ -530,19 +530,20 @@ describe("every Offering has at least one relationship type (owner, 2026-11-13 0
     }
     const removes = () => [...document.querySelectorAll(".floating-card-host .card-remove, .floating-card-host .strategy-box-remove")];
 
-    it("gives an Offering with no answers Personal Assistance, with no x while it is the only type; a second type brings an x to each", async () => {
+    it("gives an Offering with no answers Personal Assistance, its card with no x while it is the only type; a second type is a card of its own, with its x", async () => {
         render(<TilesHarness />);
         openTile("Customer's Relationship");
-        fireEvent.click(document.querySelector<HTMLElement>(".section-tile-overlay button.card-tile")!);
-        const card = document.querySelector(".floating-card-host")!;
-        expect(card.textContent).toContain("Personal Assistance");
+        // (An Offering holds several cards: its tile opens a dialog of them, a tile per type; owner, 2026-11-13 04:58.)
+        openTile("1. Audit");
+        fireEvent.click([...document.querySelectorAll<HTMLElement>(".section-tile-overlay button.card-tile")].pop()!);
+        expect(document.querySelector(".floating-card-host")?.textContent).toContain("Personal Assistance");
         expect(removes()).toHaveLength(0);
-        // (With All, the tile's "+" adds the next type; the Offering then has two, each with its x.)
+        // (With All, the dialog's Add Card adds the next type and opens its card; the Offering then has two, each card with its x.)
         fireEvent.click(screen.getAllByRole("radio", { name: "All" })[0]);
-        fireEvent.click(screen.getAllByRole("button", { name: /^Add Relationship Type to/ })[0]);
+        fireEvent.click(screen.getAllByRole("button", { name: "Add Card" }).pop()!);
         await act(() => new Promise(resolve => setTimeout(resolve, 200)));
         expect(document.querySelector(".floating-card-host")?.textContent).toContain("Self-Service");
-        expect(removes()).toHaveLength(2);
+        expect(removes()).toHaveLength(1);
     });
 
 });

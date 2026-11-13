@@ -383,7 +383,8 @@ export function useEngagementRelationships(earlier: Earlier) {
         return segment.profiles.filter(profile => businessProfileOfferings(profile, segment.offerings).some(offering => offering.id === offeringId));
     }
     /** The "+" on an Offering's tile in Customer's Relationship (with All): the next relationship type it has not, added; false when it has them all. */
-    function addRelationshipType(segment: BusinessCustomerSegmentValue, offeringId: string): boolean {
+    /** Adds the next type an Offering has not (the "+" of its dialog, with All): the type added, or "" where it has them all. */
+    function addRelationshipType(segment: BusinessCustomerSegmentValue, offeringId: string): string {
         const shown = offeringRelationshipsOf(segment.id, offeringId);
         const stored = storedOfferingRelationshipsOf(segment.id, offeringId);
         const free = BUSINESS_RELATIONSHIP_TYPES.find(type => !shown.types.includes(type.id));
@@ -394,7 +395,7 @@ export function useEngagementRelationships(earlier: Earlier) {
             const keep = [...new Set([...stored.types.filter(type => type !== ""), ...shown.types.filter(type => !created.includes(type)), free.id])];
             updateOfferingRelationships(segment.id, offeringId, { types: keep, dismissed: (stored.dismissed ?? []).filter(type => type !== free.id) });
         }
-        return !!free;
+        return free?.id ?? "";
     }
     /**
      * A type removed from an Offering's card (its x, shown while it has two or more: owner, 2026-11-13 00:29): taken from the added types and recorded as removed,
@@ -463,7 +464,8 @@ export function useEngagementRelationships(earlier: Earlier) {
      * optional.
      */
     /** `only`: that one Offering alone; with `asCard`, as its floating card (opened from its tile in the Customer's Relationship dialog). */
-    function relationshipsFor(segment: BusinessCustomerSegmentValue, only?: string, asCard = false) {
+    /** `typeOnly`: with `asCard`, that one relationship type's card (opened from its tile in the Offering's dialog; owner, 2026-11-13 04:58). */
+    function relationshipsFor(segment: BusinessCustomerSegmentValue, only?: string, asCard = false, typeOnly?: string) {
 
         const answers = segmentOf(segment.id);
 
@@ -575,7 +577,7 @@ export function useEngagementRelationships(earlier: Earlier) {
                         x on the box's title band, as a Customer Source's on the Demand card; then a band for its Purpose and a band for each stage, its Goals in one row
                         and its Approach under them, the tints alternating. The double rule stands between one type and the next. */}
                     <SingleColumn>
-                        <EngagementBoxes>{kept.types.map(typeId => {
+                        <EngagementBoxes>{kept.types.filter(typeId => !typeOnly || typeId === typeOnly).map(typeId => {
                             const type = typeOf(segment.id, offeringId, typeId);
                             const label = TYPE_LABELS[typeId] ?? "Relationship Type";
                             return (
@@ -598,9 +600,9 @@ export function useEngagementRelationships(earlier: Earlier) {
                                         // THE STAGES IN THREE COLUMNS (owner, 2026-11-13 00:27): a heading row -- Journey Stage, Goals, Approach, each with its "i" --, then a row
                                         // per stage: its name (its channels in its "i"), its Goals one under another, its Approach.
                                         <div key="heads" className="business-relationship-stage-row" role="row">
-                                            <span className="business-foundation-label-info legal-entity-label-info" role="columnheader"><FieldLabel className="business-foundation-label"><InfoText text="Journey Stage"><InfoNote label="Journey Stage" points={SECTIONS.relationships.stages} fullList /></InfoText></FieldLabel></span>
-                                            <span className="business-foundation-label-info legal-entity-label-info" role="columnheader"><FieldLabel className="business-foundation-label"><InfoText text="Goals"><InfoNote label="Goals" points={SECTIONS.relationships.goals} fullList /></InfoText></FieldLabel></span>
-                                            <span className="business-foundation-label-info legal-entity-label-info" role="columnheader"><FieldLabel className="business-foundation-label"><InfoText text="Approach"><InfoNote label="Approach" points={SECTIONS.relationships.approach} fullList /></InfoText></FieldLabel></span>
+                                            <span className="business-foundation-label-info" role="columnheader"><FieldLabel className="business-foundation-label"><InfoText text="Journey Stage"><InfoNote label="Journey Stage" points={SECTIONS.relationships.stages} fullList /></InfoText></FieldLabel></span>
+                                            <span className="business-foundation-label-info" role="columnheader"><FieldLabel className="business-foundation-label"><InfoText text="Goals"><InfoNote label="Goals" points={SECTIONS.relationships.goals} fullList /></InfoText></FieldLabel></span>
+                                            <span className="business-foundation-label-info" role="columnheader"><FieldLabel className="business-foundation-label"><InfoText text="Approach"><InfoNote label="Approach" points={SECTIONS.relationships.approach} fullList /></InfoText></FieldLabel></span>
                                         </div>,
                                         ...offeringRows.map(interaction => {
                                             const answersFor = interactionOf(segment.id, offeringId, typeId, interaction.key, interaction.legacyKeys);
@@ -608,7 +610,7 @@ export function useEngagementRelationships(earlier: Earlier) {
                                             const about = stage + ", " + offeringName(offeringId) + ", " + label;
                                             return (
                                                 <div key={interaction.key} className="business-relationship-stage-row" role="row">
-                                                    <span className="business-foundation-label-info legal-entity-label-info" role="rowheader">
+                                                    <span className="business-foundation-label-info" role="rowheader">
                                                         <FieldLabel className="business-foundation-label">
                                                         <InfoText text={stage}>
                                                             {interaction.groups.length > 0 && (

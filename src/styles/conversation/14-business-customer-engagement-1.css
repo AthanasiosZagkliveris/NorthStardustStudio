@@ -921,6 +921,15 @@
 
     align-items:start;
 
+    /* The columns parted by two vertical lines in the card's divider colour, down the whole row, in the middle of each gap (owner, 2026-11-13 04:58: "instead
+       of underlines add vertical divider lines"). */
+    --stage-divider:hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
+
+    background-image:linear-gradient(var(--stage-divider), var(--stage-divider)), linear-gradient(var(--stage-divider), var(--stage-divider));
+    background-size:1px 100%;
+    background-repeat:no-repeat;
+    background-position:calc(8.75rem + var(--gap-12) / 2) 0, calc(8.75rem + 5.5rem + var(--gap-12) * 1.5) 0;
+
 }
 
 .business-relationship-profile-list{

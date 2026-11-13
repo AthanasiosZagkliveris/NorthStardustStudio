@@ -3,6 +3,7 @@ import CardShell from "../cards/CardShell.tsx";
 import { BUSINESS_JOURNEY_STAGES, BUSINESS_RELATIONSHIP_TYPES, segmentHue } from "../../../framework/engine/AnswerUtils.ts";
 import { demandResult } from "../../../framework/engine/DemandCapacity.ts";
 import SectionTiles, { DialogHeading, OPEN_EVENT, type ItemMark, type OpenRequest, type SectionTile } from "../tiles/SectionTiles.tsx";
+import type { TileAdd } from "../tiles/SectionTileTypes.ts";
 import { DEMAND_BLOCK_HELP } from "./engagement/shared.tsx";
 import CardBoxes, { type CardBox } from "../cards/CardBoxes.tsx";
 import { BusinessEmpty } from "../cards/BusinessCardFields.tsx";
@@ -25,7 +26,7 @@ export default function BusinessEngagementEditor(props: BusinessEngagementEditor
     const part2 = { ...part1, ...useEngagementChannelBoxes({ ...part1 }) };
     const part3 = { ...part1, ...part2, ...useEngagementRelationships({ ...part1, ...part2 }) };
     const part4 = { ...part1, ...part2, ...part3, ...useEngagementDemand({ ...part1, ...part2, ...part3 }) };
-    const { addCustomerSource, addSuggestedSource, suggestedSources, addRelationshipType, profilesOf, scopeChoice, showsAll, asTiles, channelCategoryFoldKeys, channelResourceTable, channelTiles, channelViewChoice, channelsFor, clearIsolation, collapsed, columnsDivider, demandFor, engagement, engagedOfferingIds, foldingSection, folds, heads, isolated, isolationNames, offeringRelationshipsOf, referenceColumn, relationshipsFor, segmentOf, segments, toggle } = part4;
+    const { addCustomerSource, addSuggestedSource, suggestedSources, addRelationshipType, typeOf, profilesOf, scopeChoice, showsAll, asTiles, channelCategoryFoldKeys, channelResourceTable, channelTiles, channelViewChoice, channelsFor, clearIsolation, collapsed, columnsDivider, demandFor, engagement, engagedOfferingIds, foldingSection, folds, heads, isolated, isolationNames, offeringRelationshipsOf, referenceColumn, relationshipsFor, segmentOf, segments, toggle } = part4;
 
     /*
         THE PAGE AS TILES (doc 47, section 3, step one): one chapter per Segment, in the Segment's colour, as Page 1's, holding three Master Tiles -- Channels and
@@ -108,7 +109,61 @@ export default function BusinessEngagementEditor(props: BusinessEngagementEditor
                     }
                 };
             });
-            const relBoxes = (): CardBox[] => offeringBoxes("rel:", relLines, relMarks, { what: "Relationship Type", add: (offeringId) => addRelationshipType(segment, offeringId) });
+            /*
+                A TILE THAT HOLDS SEVERAL CARDS OPENS A DIALOG OF THEM (owner, 2026-11-13 04:58: "Tiles that could contain more than one floated card, should also open to
+                dialogue cards"): each Offering is a tile -- its Profiles under its name, then its relationship types --, opening a dialog of a card tile per type (and,
+                with All, the Add Card tile); each type's tile opens that type's card. As a channel's tile opens its subchannels.
+            */
+            const typeCardId = (offeringId: string, typeId: string) => "relt:" + offeringId + "|" + typeId;
+            const typeLabel = (typeId: string) => BUSINESS_RELATIONSHIP_TYPES.find(entry => entry.id === typeId)?.label ?? "Relationship Type";
+            const relTiles = (): SectionTile[] => offeringIds.map((offeringId, at) => {
+                const types = offeringRelationshipsOf(segment.id, offeringId).types;
+                const profiles = profilesOf(segment, offeringId);
+                const name = offeringName(segment, offeringId);
+                const add: TileAdd | undefined = showsAll(segment.id) && types.length < BUSINESS_RELATIONSHIP_TYPES.length ? {
+                    label: "Relationship Type",
+                    disabled: false,
+                    onAdd: () => typeCardId(offeringId, addRelationshipType(segment, offeringId)),
+                    // (A type added is never blank: it has its stages and its fields at once.)
+                    isBlank: () => false,
+                    onRemove: () => undefined
+                } : undefined;
+                return {
+                    id: segment.id + ":rel:" + offeringId,
+                    // (Numbered as the Offering's tile in Demand & Conversion.)
+                    title: (at + 1) + ". " + name,
+                    view: true,
+                    // (A type's card, opened from the Offering's dialog, carries no box name: the dialog's heading says it.)
+                    bareCards: true,
+                    items: relLines(offeringId),
+                    itemMarks: relMarks(offeringId),
+                    links: [...profiles.map(() => undefined), ...types.map(typeId => ({ card: typeCardId(offeringId, typeId) }))],
+                    holds: types.map(typeId => typeCardId(offeringId, typeId)),
+                    add,
+                    cardFor: (id: string) => {
+                        const typeId = id.startsWith("relt:" + offeringId + "|") ? id.slice(("relt:" + offeringId + "|").length) : "";
+                        return types.includes(typeId) ? floatingOf(relationshipsFor(segment, offeringId, true, typeId)) : null;
+                    },
+                    content: () => dialog(name, SECTIONS.relationships.instructions.slice(0, 3), (
+                        <CardBoxes
+                            label={"Relationship types of " + name}
+                            what="Relationship Type"
+                            autoStart={false}
+                            add={add}
+                            items={types.map((typeId, at) => ({
+                                id: typeCardId(offeringId, typeId),
+                                number: at + 1,
+                                name: typeLabel(typeId),
+                                unnamed: "Relationship Type",
+                                // (Its Purpose, the line that says what it is for.)
+                                lines: typeOf(segment.id, offeringId, typeId).purpose.trim() ? [typeOf(segment.id, offeringId, typeId).purpose.trim()] : [],
+                                own: true,
+                                content: () => null
+                            }))}
+                        />
+                    ))
+                };
+            });
             const offeringOf = (id: string) => id.slice(4);
             // (The card is its own shell, BusinessCard, straight in the content: the floating card styles of the Foundation's cards reach it.)
             const floatingOf = (body: ReactNode) => <div className="column-tile-content" style={{ "--strategy-theme-hue": hue } as CSSProperties}>{body}</div>;
@@ -141,11 +196,8 @@ export default function BusinessEngagementEditor(props: BusinessEngagementEditor
                     items: offeringIds.map(offeringId => pair(offeringName(segment, offeringId), offeringRelationshipsOf(segment.id, offeringId).types
                         .map(type => BUSINESS_RELATIONSHIP_TYPES.find(entry => entry.id === type)?.label ?? "").filter(label => label !== "").join(", "))),
                     group: "Customer's Relationship",
-                    bareCards: true,
-                    holds: offeringIds.map(offeringId => "rel:" + offeringId),
-                    cardFor: (id: string) => offeringIds.includes(offeringOf(id)) ? floatingOf(relationshipsFor(segment, offeringOf(id), true)) : null,
                     content: () => dialog("Customer's Relationship", SECTIONS.relationships.instructions.slice(0, 3), offeringIds.length > 0
-                        ? <CardBoxes items={relBoxes()} label={"Customer's Relationship of " + (segment.name.trim() || "this Segment")} what="Offering" autoStart={false} />
+                        ? <SectionTiles label={"Customer's Relationship of " + (segment.name.trim() || "this Segment")} hue={segmentHue(segment)} tiles={relTiles()} />
                         : relationshipsFor(segment), scopeChoice(segment.id))
                 },
                 {
