@@ -1,6 +1,6 @@
 import { describe, expect, test } from "vitest";
 import { asBusinessEngagementValue, asBusinessFoundationValue, createBusinessChannel } from "./AnswerUtils.ts";
-import { DEFAULT_RELATIONSHIP_TYPE, autoRelationshipTypes, demandSuggestions, journeySuggestions, relationshipTypesOf, suggestedRelationshipType, suggestionMet } from "./JourneySuggestions.ts";
+import { DEFAULT_RELATIONSHIP_TYPE, autoRelationshipTypes, offeringRelationshipsFor, demandSuggestions, journeySuggestions, relationshipTypesOf, suggestedRelationshipType, suggestionMet } from "./JourneySuggestions.ts";
 import lumenText from "../../data/examples/lumen-and-loom-studio.json?raw";
 import quillText from "../../data/examples/quillfield-automation-llc.json?raw";
 
@@ -135,6 +135,22 @@ describe("the relationship types the answers create (owner, 2026-11-13 00:29 and
         // (With every type removed, or no answers at all, Personal Assistance.)
         expect(relationshipTypesOf([], ["personal-assistance", "self-service", "community"], segment, audit.id)).toEqual([DEFAULT_RELATIONSHIP_TYPE]);
         expect(relationshipTypesOf([], [], undefined, "x")).toEqual(["personal-assistance"]);
+    });
+
+});
+
+describe("every Offering's relationships, the one list the page and the documents read (owner, 2026-11-13)", () => {
+
+    test("each Offering of the Segment, in its order, with the types the page shows and their saved details; an Offering with nothing saved has its types too", () => {
+        const segment = quill.foundation.segments[0];
+        const saved = quill.engagement.segments.find(entry => entry.segmentId === segment.id)!;
+        const list = offeringRelationshipsFor(saved, segment);
+        expect(list.map(entry => entry.offeringId)).toEqual(segment.offerings.map(offering => offering.id));
+        // (The examples keep the types they describe: the answers' others are recorded as removed.)
+        expect(list.map(entry => entry.types)).toEqual([["personal-assistance"], ["dedicated-support"], ["dedicated-support"]]);
+        expect(list[0].typeDetail["personal-assistance"]?.purpose).toBeTruthy();
+        // (Nothing saved: the answers' types, the same the page shows.)
+        expect(offeringRelationshipsFor(undefined, segment)[0].types).toEqual(autoRelationshipTypes(segment, segment.offerings[0].id).map(entry => entry.type));
     });
 
 });

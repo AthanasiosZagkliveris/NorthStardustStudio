@@ -72,6 +72,7 @@ The Foundation page's shape (one chapter per Segment, four Master Tiles, 2 × 2)
 | Identity, Seller and Buyer Relationship: B2G | Dedicated Support | public buyers keep one named contact |
 
   An Offering has at least one type: where no answer points to one, Personal Assistance (the type an early-stage founder starts with), saved with any type added beside it. A type removed from its card stays removed (`dismissed`); its x shows only while the Offering has two or more types; the tile's "+" (with All) adds any other type, a removed one too. The examples record as removed the types their answers create that they do not describe.
+  **One list everywhere**: the page, the Business Plan, the Canvas and the export read the same list (`offeringRelationshipsFor`: each Page 1 Offering with its types and their saved Purpose, Goals and Approach).
 - **The relationship card**: under its Purpose, the stages in three columns -- Journey Stage, Goals (Get, Keep, Grow, one under another) and Approach, each heading with its "i" (the texts of doc 28's Relationship section) --, a row per stage.
 - **The Demand & Conversion card**: short fields side by side, each as wide as its content (Customer Source and Channel; Estimated; the figures), the Basis at the card's width.
 - **The Journey Stages table**: Channel, Subchannel, Offerings, Actions; the names and Offerings on one line, the actions the widest, wrapping.

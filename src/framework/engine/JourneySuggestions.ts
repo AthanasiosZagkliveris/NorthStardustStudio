@@ -1,5 +1,5 @@
 import type { BusinessCustomerSegmentValue } from "./AnswerBusinessFoundation.ts";
-import { BUSINESS_CHANNEL_ALL_OFFERINGS, type BusinessChannelValue } from "./businessFoundation/engagementReaders.ts";
+import { BUSINESS_CHANNEL_ALL_OFFERINGS, type BusinessChannelValue, type BusinessOfferingRelationshipEntryValue, type BusinessRelationshipTypeValue } from "./businessFoundation/engagementReaders.ts";
 import { effectiveOfferingAnswers, effectiveProfileAnswers, effectiveSegmentAnswers, offeringIsPhysical } from "./EffectiveAnswers.ts";
 import { demandChannelIds } from "./DemandCapacity.ts";
 import { businessProfileOfferings } from "./businessFoundation/engagementPage.ts";
@@ -235,6 +235,29 @@ export function relationshipTypesOf(kept: readonly string[], dismissed: readonly
     const auto = segment ? autoRelationshipTypes(segment, offeringId, identity).map(entry => entry.type).filter(type => !dismissed.includes(type)) : [];
     const types = [...new Set([...auto, ...kept.filter(type => type !== "")])];
     return types.length > 0 ? types : [DEFAULT_RELATIONSHIP_TYPE];
+}
+
+/** One Offering's relationships as the page and every document show them: its types (relationshipTypesOf) and what is recorded for each. */
+export interface OfferingRelationships {
+    offeringId: string;
+    types: string[];
+    typeDetail: Record<string, BusinessRelationshipTypeValue>;
+}
+
+/**
+ * EVERY OFFERING'S RELATIONSHIPS, THE ONE LIST (owner, 2026-11-13): for each of a Page 1 Segment's Offerings, in its order, the types the page shows -- those the
+ * answers create less those removed, then those added, never none (relationshipTypesOf) -- with the Purpose, Goals and Approach saved for them. Customer
+ * Engagement, the Business Plan, the Canvas and the export all read this.
+ */
+export function offeringRelationshipsFor(saved: { offerings: readonly BusinessOfferingRelationshipEntryValue[] } | undefined, segment: BusinessCustomerSegmentValue, identity?: SegmentIdentity): OfferingRelationships[] {
+    return segment.offerings.map(offering => {
+        const stored = saved?.offerings.find(entry => entry.offeringId === offering.id);
+        return {
+            offeringId: offering.id,
+            types: relationshipTypesOf(stored?.types ?? [], stored?.dismissed ?? [], segment, offering.id, identity),
+            typeDetail: stored?.typeDetail ?? {}
+        };
+    });
 }
 
 /** One Demand row the Foundation proposes for an Offering: a Customer Source and, for a channel's row, the channel that brings its customers. */

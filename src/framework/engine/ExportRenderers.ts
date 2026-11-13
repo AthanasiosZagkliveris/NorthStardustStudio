@@ -2,6 +2,7 @@ import { segmentAnswerLines } from "./SegmentQuestions.ts";
 import { profileAnswerLines, profileUserAnswerLines } from "./ProfileQuestions.ts";
 import { offeringAnswerLines } from "./OfferingQuestions.ts";
 import { segmentContextFor, segmentIdentityOf, segmentIsBusiness, settledSegmentAnswers } from "./SegmentContext.ts";
+import { offeringRelationshipsFor } from "./JourneySuggestions.ts";
 import { effectiveOfferingAnswers, effectiveProfileAnswers, effectiveProfileUserAnswers, offeringContextOf } from "./EffectiveAnswers.ts";
 import { workspacesOf, WORKSPACE_GROUP_ID, businessOfferingNeedTexts } from "./AnswerUtils.ts";
 import { AUDIENCE_WORDS, BUYER_CATEGORY_WORDS, END_USER_WORDS, CUSTOMER_TYPE_WORDS, MARKET_TYPE_WORDS, PURPOSE_WORDS, activitiesLine } from "./ActivityClassification.ts";
@@ -620,7 +621,8 @@ function businessEngagementBlocks(value: unknown, context: ExportContext): Expor
             })(),
 
             heading("2. Customer Relationship", 2),
-            ...entry.offerings.flatMap(relationship => {
+            // (The list the page shows: offeringRelationshipsFor.)
+            ...(segment ? offeringRelationshipsFor(entry, segment, segmentIdentityOf(asLegalEntityValue(context.responseOf?.(AnswerType.LegalEntity) ?? context.legalEntity).organisation, context.businessStage)) : []).flatMap(relationship => {
                 const name = offering(relationship.offeringId);
                 if (!name || relationship.types.length === 0) {
                     return [];
