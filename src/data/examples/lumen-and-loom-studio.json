@@ -2852,10 +2852,10 @@
                     "calculate": true,
                     "estimate": "",
                     "inputs": {
-                      "visitors": "2000",
+                      "visitors": "500",
                       "buy": "1.2"
                     },
-                    "basis": "About 2,000 visits a month to the online store, most from Instagram and Pinterest; 1.2% buy, the rate the shop reached in its first three months.",
+                    "basis": "About 500 visits a month to the online store, most from Instagram and Pinterest; 1.2% buy, the rate the shop reached in its first three months.",
                     "channelId": "channel-xrenzwzk"
                   },
                   {
@@ -2864,17 +2864,17 @@
                     "calculate": true,
                     "estimate": "",
                     "inputs": {
-                      "visitors": "400",
+                      "visitors": "100",
                       "buy": "4"
                     },
-                    "basis": "About 400 people stop at the stall over four market days a month; one in 25 buys a piece.",
+                    "basis": "About 100 people stop at the stall over the market days of a month; one in 25 buys a piece.",
                     "channelId": "channel-kuy4u7hj"
                   }
                 ],
                 "recurring": false,
                 "cancel": "",
                 "channelIds": [],
-                "assumptions": "Reached over the first year, as Sustainability's gradual start plans: about 10 pieces a month at the opening."
+                "assumptions": "Reached over the first year, as Sustainability's gradual start plans: about 3 pieces a month at the opening. What one weaver makes beside the commissions: about 3.5 hours of weaving and warping a piece, and 1.75 hours of finishing."
               },
               "offering-8e935f0e": {
                 "sources": [
@@ -2917,11 +2917,11 @@
                     "calculate": true,
                     "estimate": "",
                     "inputs": {
-                      "bids": "18",
+                      "bids": "36",
                       "win": "50",
                       "units": "1"
                     },
-                    "basis": "About 18 quotes a year to designers met at trade fairs; half are won, one commission each.",
+                    "basis": "About 36 quotes a year to designers met at trade fairs; half are won, one commission each.",
                     "channelId": "channel-imbnizvs"
                   },
                   {
@@ -2930,10 +2930,10 @@
                     "calculate": true,
                     "estimate": "",
                     "inputs": {
-                      "referrals": "2.5",
+                      "referrals": "5",
                       "buy": "30"
                     },
-                    "basis": "Designers recommend us to other studios: about 2.5 introductions a month, three in ten commission.",
+                    "basis": "Designers recommend us to other studios: about 5 introductions a month, three in ten commission.",
                     "channelId": ""
                   }
                 ],
@@ -2950,11 +2950,11 @@
                     "calculate": true,
                     "estimate": "",
                     "inputs": {
-                      "prospects": "60",
+                      "prospects": "6",
                       "qualified": "50",
                       "buy": "50"
                     },
-                    "basis": "About 60 stockists and designers contacted a month through LinkedIn and Instagram; half ask for the trade price list, half of those order.",
+                    "basis": "About 6 stockists and designers contacted a month through LinkedIn and Instagram; half ask for the trade price list, half of those order.",
                     "channelId": "segment-majxtl1u-channel"
                   },
                   {
@@ -2963,17 +2963,17 @@
                     "calculate": true,
                     "estimate": "",
                     "inputs": {
-                      "visitors": "150",
+                      "visitors": "15",
                       "buy": "10"
                     },
-                    "basis": "About 150 trade visitors a month at fairs and the studio; one in ten orders.",
+                    "basis": "About 15 trade visitors a month at the studio and the fairs; one in ten orders.",
                     "channelId": "channel-imbnizvs"
                   }
                 ],
                 "recurring": false,
                 "cancel": "",
                 "channelIds": [],
-                "assumptions": "Pieces a month on trade terms, reached over the first year from about 10 at the opening."
+                "assumptions": "Pieces a month on trade terms, reached over the first year from about 1 at the opening."
               }
             },
             "channelResources": [
@@ -3108,7 +3108,7 @@
                 "salary": "1800",
                 "period": "",
                 "hours": "160",
-                "deliveryHours": "112",
+                "deliveryHours": "128",
                 "deliveryShare": "",
                 "startDate": "2026-10-01",
                 "extras": {}
@@ -5722,10 +5722,11 @@
             "delivery": {
               "offering-nvfuu2km": {
                 "hours": {
-                  "founder-3aux8uyh": "6"
+                  "founder-3aux8uyh": "3.5",
+                  "founder-3fhkh0cm": "1.75"
                 },
                 "duration": "2",
-                "constraints": "Three floor looms; one weaver can keep about two looms busy. Finishing and photography add time per piece.",
+                "constraints": "Three floor looms; one weaver keeps about two busy on long warps. A cushion is about 3 hours, a runner 4 and a throw 10, finishing included (hand fringing alone is about 1.5 hours an end).",
                 "effort": "",
                 "deliverers": [],
                 "mode": "",
@@ -5745,7 +5746,7 @@
               },
               "offering-vhtapa3v": {
                 "hours": {
-                  "founder-3aux8uyh": "32",
+                  "founder-3aux8uyh": "24",
                   "founder-z2jgpf8v": "8"
                 },
                 "duration": "6",
@@ -5757,7 +5758,9 @@
               },
               "offering-kfyakcw5": {
                 "hours": {
-                  "founder-3aux8uyh": "5"
+                  "founder-3aux8uyh": "2.5",
+                  "founder-3fhkh0cm": "1",
+                  "founder-z2jgpf8v": "0.5"
                 },
                 "duration": "2",
                 "constraints": "Core range only: fewer colour changes than the retail collection.",
@@ -6047,17 +6050,17 @@
                 "offeringId": "offering-nvfuu2km",
                 "model": "Product Sale",
                 "modelOther": "",
-                "price": "95",
+                "price": "160",
                 "unit": "Product",
                 "unitOther": "",
                 "frequency": "per-sale",
-                "volume": "40",
+                "volume": "10",
                 "start": {
                   "month": "10",
                   "year": "2026"
                 },
                 "development": "gradual",
-                "initialVolume": "10",
+                "initialVolume": "3",
                 "rampMonths": "8",
                 "detailed": [],
                 "variableCost": "",
@@ -6066,7 +6069,7 @@
                 "paymentTiming": "",
                 "paymentDelay": "",
                 "firstPercent": "",
-                "description": "Average across cushions (£75), runners (£65) and throws (£180), online and at markets."
+                "description": "Average across cushions (£95), table runners (£85) and throws (£230 small, £350 single), online and at markets: about a third of the pieces throws."
               },
               {
                 "id": "stream-2bibg9vb",
@@ -6103,7 +6106,7 @@
                 "unit": "Project",
                 "unitOther": "",
                 "frequency": "per-project",
-                "volume": "1.5",
+                "volume": "3",
                 "start": {
                   "month": "01",
                   "year": "2027"
@@ -6125,17 +6128,17 @@
                 "offeringId": "offering-kfyakcw5",
                 "model": "Product Sale",
                 "modelOther": "",
-                "price": "57",
+                "price": "48",
                 "unit": "Product",
                 "unitOther": "",
                 "frequency": "per-sale",
-                "volume": "30",
+                "volume": "3",
                 "start": {
                   "month": "06",
                   "year": "2027"
                 },
                 "development": "gradual",
-                "initialVolume": "10",
+                "initialVolume": "1",
                 "rampMonths": "6",
                 "detailed": [],
                 "variableCost": "",
@@ -6144,7 +6147,7 @@
                 "paymentTiming": "completion",
                 "paymentDelay": "1",
                 "firstPercent": "",
-                "description": "Trade price (RRP less 40%); 30-day payment terms."
+                "description": "Trade price, half the retail price (the usual wholesale share); cushions and runners of the core range only; 30-day payment terms."
               }
             ]
           }

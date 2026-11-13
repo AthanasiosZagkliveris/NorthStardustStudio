@@ -54,7 +54,7 @@ describe("business documents", () => {
         // Sustainability numbers on from Financial Foundation's three headings (its costs are in the Appendix).
         expect(md).toContain("### 4. Revenue");
         expect(md).toContain("Lumen & Loom Studio Ltd, a private company limited by shares, based in London, United Kingdom, was founded by");
-        expect(md).toContain("is seeking £26,000 of additional funding towards a funding gap of £21,150");
+        expect(md).toContain("is seeking £26,000 of additional funding towards a funding gap of £25,848");
     });
 
     test("the financial forecast adds up, month by month and by year", () => {
