@@ -2,7 +2,7 @@ import { CSSProperties, ReactNode } from "react";
 import CardShell from "../cards/CardShell.tsx";
 import { BUSINESS_JOURNEY_STAGES, BUSINESS_RELATIONSHIP_TYPES, segmentHue } from "../../../framework/engine/AnswerUtils.ts";
 import { demandResult } from "../../../framework/engine/DemandCapacity.ts";
-import SectionTiles, { DialogHeading, OPEN_EVENT, type ItemMark, type OpenRequest, type SectionTile } from "../tiles/SectionTiles.tsx";
+import SectionTiles, { DialogHeading, OPEN_EVENT, TILE_DIVIDER, type ItemMark, type OpenRequest, type SectionTile } from "../tiles/SectionTiles.tsx";
 import type { TileAdd } from "../tiles/SectionTileTypes.ts";
 import { DEMAND_BLOCK_HELP } from "./engagement/shared.tsx";
 import CardBoxes, { type CardBox } from "../cards/CardBoxes.tsx";
@@ -36,7 +36,11 @@ export default function BusinessEngagementEditor(props: BusinessEngagementEditor
     if (asTiles && segments.length > 0) {
 
         /* A face's line of two columns: a name and its figure, the figure in bold (as the Financial Foundation's). */
-        const pair = (name: string, figure: string) => name + "\u0001" + (figure ? "**" + figure + "**" : "");
+        // (Its unit kept whole -- "40 a month" breaks, where it must, only after the number: owner, 2026-11-13 13:56, "Fix the structure of the master Tiles, use
+        // divide lines"; the lines are the pairs list's own.)
+        const pair = (name: string, figure: string) => name + "\u0001" + (figure ? "**" + figure.replace(/^(\S+) (.+)$/, (_all, number: string, unit: string) => number + " " + unit.replace(/ /g, "\u00a0")) + "**" : "");
+        // (A name with a longer answer under it -- an Offering and its relationship types --, a line between one and the next: the tile list's own divider.)
+        const stacked = (rows: { name: string; under: string }[]) => rows.flatMap((row, at) => [...(at > 0 ? [TILE_DIVIDER] : []), row.name + (row.under ? "\n**" + row.under + "**" : "")]);
         const offeringName = (segment: (typeof segments)[number], offeringId: string) =>
             segment.offerings.find(offering => offering.id === offeringId)?.name.trim() || "Offering";
 
@@ -179,7 +183,7 @@ export default function BusinessEngagementEditor(props: BusinessEngagementEditor
                     large: true,
                     anchor: "engagement-section-" + segment.id + "-channels",
                     // The five stages, each with the number of channels used at it.
-                    items: BUSINESS_JOURNEY_STAGES.map(stage => pair(stage.label, String(answers.channels.filter(channel => channel.stages.includes(stage.id)).length))),
+                    items: (BUSINESS_JOURNEY_STAGES.map(stage => pair(stage.label, String(answers.channels.filter(channel => channel.stages.includes(stage.id)).length)))),
                     content: () => dialog("Channels and Journey", [...SECTIONS.channels.instructions, "Faded channels and subchannels stand ready to add: those your Foundation answers suggest list what they suggest, and pressing any of them adds it.", "Place the tiles by Channels, or by Journey Stages to see the subchannels used at each stage."], channelTiles(segment), (
                         // (The choice of how the tiles are placed, then the isolation note while one stands.)
                         <>
@@ -195,8 +199,8 @@ export default function BusinessEngagementEditor(props: BusinessEngagementEditor
                     large: true,
                     anchor: "engagement-section-" + segment.id + "-relationships",
                     // Each Offering with its relationship types.
-                    items: offeringIds.map(offeringId => pair(offeringName(segment, offeringId), offeringRelationshipsOf(segment.id, offeringId).types
-                        .map(type => BUSINESS_RELATIONSHIP_TYPES.find(entry => entry.id === type)?.label ?? "").filter(label => label !== "").join(", "))),
+                    items: stacked(offeringIds.map(offeringId => ({ name: offeringName(segment, offeringId), under: offeringRelationshipsOf(segment.id, offeringId).types
+                        .map(type => BUSINESS_RELATIONSHIP_TYPES.find(entry => entry.id === type)?.label ?? "").filter(label => label !== "").join(", ") }))),
                     group: "Customer's Relationship",
                     content: () => dialog("Customer's Relationship", SECTIONS.relationships.instructions.slice(0, 3), offeringIds.length > 0
                         ? <SectionTiles label={"Customer's Relationship of " + (segment.name.trim() || "this Segment")} hue={segmentHue(segment)} tiles={relTiles()} />
@@ -208,10 +212,10 @@ export default function BusinessEngagementEditor(props: BusinessEngagementEditor
                     large: true,
                     anchor: "engagement-section-" + segment.id + "-demand",
                     // Each Offering with its expected sales a month (active clients for a recurring one).
-                    items: offeringIds.map(offeringId => {
+                    items: (offeringIds.map(offeringId => {
                         const result = demandResult(engagement.demand[offeringId]);
                         return pair(offeringName(segment, offeringId), result.expected === null ? "" : result.recurring ? result.expected + " active" : result.expected + " a month");
-                    }),
+                    })),
                     group: "Demand & Conversion",
                     bareCards: true,
                     holds: offeringIds.map(offeringId => "dem:" + offeringId),

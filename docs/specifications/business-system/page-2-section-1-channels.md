@@ -54,6 +54,8 @@ Status: **specification**, written 2026-09-27, updated 2026-11-02. The requireme
 
 **As built, 12:32 (2026-11-13; doc 47, section 3).** The stage's table has no lines, edge to edge of its dialog. A Customer Source's x is in the card's x column; a relationship type's card opens with its number, name and x.
 
+**As built, 13:56 (2026-11-13; doc 47, section 3).** The subchannels the Foundation's answers name are made as the Segment's own (a removed one stays removed; All offers it again). The stage table has unbroken column lines, lines between a channel's subchannels, cells at the top, and ends with its last row. A Customer Source's choices are narrowed by the earlier answers.
+
 Section 1 is "1. Customer Channel" in each Segment's card on Page 2 (the page, its editor and the sections that follow are in `page-2-section-2-customer-relationships.md`, "As built"; the layout is `ai/customer-engagement-layout.md`). The reference header of section 4 is the card's three reference columns (Segment, Profiles, Offerings), always shown. The channels are a four-column table (Channel, Offerings, Journey Stage, Action) with each channel's Links under its name (an optional field: the "Links" tick opens a numbered list of links, placeholder "Link"). Channels are grouped under their category, drawn once, in the fixed category order; each category carries a fold arrow and its channels sit a step in from it, and channels keep their numbers when a category is folded. Actions are stored by Journey Stage (`Record<stageId, string[]>`), so unticking a stage hides its Actions without deleting them.
 
 ## 1. Purpose

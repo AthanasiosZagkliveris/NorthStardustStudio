@@ -472,6 +472,12 @@ export default function CapabilityOverview({ rows, format = String, currency = "
      * A CHANNEL EXPENSE'S OWN CELLS: its Type with "Channel" under it (a card of another type that is a channel's too); its Group, the channel over its
      * subchannel (as the channels' table draws them); its Offerings and journey stages one under another; its actions, each a number that opens it.
      */
+    // (THE OFFERINGS AN OFFERING'S CAPABILITY CARD SERVES, as its card links them -- the Offering column of every row, not a channel expense's alone; owner,
+    // 2026-11-13 13:56: "in the offering column some cells are empty".)
+    const servedCell = (row: FloorRow, column: string): ReactNode | undefined => {
+        const names = (row.offeringIds ?? []).map(id => offerings.find(offering => offering.id === id)?.name.trim() || "").filter(Boolean);
+        return column === "offering" && names.length > 0 ? <Values items={names.map(name => ({ key: name, node: name }))} /> : undefined;
+    };
     const channelCell = (row: FloorRow, column: string): ReactNode | undefined => {
         const facts = row.channel;
         if (!facts) {
@@ -633,7 +639,7 @@ export default function CapabilityOverview({ rows, format = String, currency = "
                                             )}
                                         </td>
                                     )
-                                    : <td key={column.id} data-col={column.id} className={column.id === "cost" ? "capability-overview-number" : undefined}>{channelCell(row, column.id) ?? line[column.id]}</td>)}
+                                    : <td key={column.id} data-col={column.id} className={column.id === "cost" ? "capability-overview-number" : undefined}>{channelCell(row, column.id) ?? servedCell(row, column.id) ?? line[column.id]}</td>)}
                             </tr>
                         )))}
                     </tbody>

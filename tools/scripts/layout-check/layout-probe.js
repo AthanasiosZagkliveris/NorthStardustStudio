@@ -1541,7 +1541,9 @@
                             if (!item.closest(".column-tiles-page") && (rect(item).height > Math.max(1, broken) * 1.6 * small * 1.45 || (!scrolls && rect(item).bottom > listBox.bottom + tolerance))) {
                                 fail("a tile's list items are one line each (two where a forced break is) and inside the list", item, { height: rect(item).height, bottom: rect(item).bottom, list: listBox.bottom });
                             }
-                            if (broken > 1 && !/^(Cooling & Air|Online Presence)/.test(item.textContent.trim())) {
+                            // (A Master Tile of a page of column tiles may set an answer under its name -- an Offering and its relationship types: layout rules 12,
+                            // the owner's points of 2026-11-13 13:56.)
+                            if (broken > 1 && !item.closest(".column-tiles-page") && !/^(Cooling & Air|Online Presence)/.test(item.textContent.trim())) {
                                 fail("only the named subcategory items break onto a second line", item, { text: item.textContent });
                             }
                         }

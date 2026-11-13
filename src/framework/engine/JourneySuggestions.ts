@@ -20,6 +20,8 @@ export interface ChannelSuggestion {
     name: string;
     /** The Page 1 answer it comes from, in a few words: "how they discover you". */
     source: string;
+    /** A platform or event the Profiles name (their social media, communities, events): that very subchannel, never another of its channel. */
+    named?: boolean;
 }
 
 type Pick = readonly [category: string, name: string];
@@ -111,9 +113,9 @@ export function journeySuggestions(segment: BusinessCustomerSegmentValue, identi
     const ids = (list: readonly (Record<string, string[] | undefined>)[], key: string) => [...new Set(list.flatMap(entry => entry[key] ?? []))];
 
     const out: ChannelSuggestion[] = [];
-    const add = (stage: string, [category, name]: Pick, source: string) => {
+    const add = (stage: string, [category, name]: Pick, source: string, named = false) => {
         if (!out.some(entry => entry.stage === stage && entry.category === category && entry.name === name)) {
-            out.push({ stage, category, name, source });
+            out.push({ stage, category, name, source, ...(named ? { named: true } : {}) });
         }
     };
 
@@ -121,9 +123,9 @@ export function journeySuggestions(segment: BusinessCustomerSegmentValue, identi
     const discover: ChannelSuggestion[] = [];
     const before = out.length;
     (answers.discover ?? []).forEach(id => DISCOVER[id] && add("discovery", DISCOVER[id], "how they discover you"));
-    ids(profiles, "c2").forEach(id => SOCIAL[id] && add("discovery", ["Social Media", SOCIAL[id]], "your Profiles' social media"));
-    ids(profiles, "c3").forEach(id => COMMUNITIES[id] && add("discovery", ["Community", COMMUNITIES[id]], "your Profiles' communities"));
-    ids(profiles, "c4").forEach(id => EVENTS[id] && add("discovery", ["In Person", EVENTS[id]], "your Profiles' events"));
+    ids(profiles, "c2").forEach(id => SOCIAL[id] && add("discovery", ["Social Media", SOCIAL[id]], "your Profiles' social media", true));
+    ids(profiles, "c3").forEach(id => COMMUNITIES[id] && add("discovery", ["Community", COMMUNITIES[id]], "your Profiles' communities", true));
+    ids(profiles, "c4").forEach(id => EVENTS[id] && add("discovery", ["In Person", EVENTS[id]], "your Profiles' events", true));
     discover.push(...out.splice(before));
     // A Segment in one city or town meets its customers in person first (doc 28, 7.4).
     const local = (answers.reach ?? []).includes("city");
@@ -159,6 +161,64 @@ export function journeySuggestions(segment: BusinessCustomerSegmentValue, identi
 export function suggestionMet(suggestion: ChannelSuggestion, channels: readonly BusinessChannelValue[]): boolean {
     const name = suggestion.name.trim().toLocaleLowerCase();
     return channels.some(channel => channel.category === suggestion.category && (name === "" || channel.name.trim().toLocaleLowerCase() === name));
+}
+
+/** A subchannel's key, the same however it is written: its category and name. */
+export const channelKey = (category: string, name: string) => category.trim().toLocaleLowerCase() + "|" + name.trim().toLocaleLowerCase();
+
+/**
+ * THE SUBCHANNELS THE ANSWERS MAKE (owner, 2026-11-13 13:56: "on the profile there are selected social media, but on the channels/subchannels are empty!"; 00:31:
+ * the answers create things themselves): each named subchannel the Foundation suggests (journeySuggestions) is a real channel of the Segment, at every stage
+ * its answers give it, serving every Offering -- unless the Segment has it already or the founder removed it (dismissed). A channel the answers made that is
+ * still untouched (no action, no link) goes when its answer does. A suggestion of a category alone ("Online / Live") waits for the founder to name it.
+ * Returns the same list when nothing changes.
+ */
+export function withAnswerChannels(channels: readonly BusinessChannelValue[], dismissed: readonly string[], segment: BusinessCustomerSegmentValue, identity?: SegmentIdentity): BusinessChannelValue[] {
+    const wanted = new Map<string, { category: string; name: string; stages: string[] }>();
+    // (A platform the Profiles name is made as named; any other suggestion only where the Segment has no channel of its category at its stage yet -- a website
+    // the founder named "Online Store" is the website the search answer means.)
+    const covered = (suggestion: ChannelSuggestion) => suggestionCovered(suggestion, channels.filter(channel => !channel.fromAnswers));
+    journeySuggestions(segment, identity).filter(suggestion => suggestion.name !== "" && !covered(suggestion)).forEach(suggestion => {
+        const key = channelKey(suggestion.category, suggestion.name);
+        const entry = wanted.get(key) ?? { category: suggestion.category, name: suggestion.name, stages: [] };
+        if (!entry.stages.includes(suggestion.stage)) {
+            entry.stages.push(suggestion.stage);
+        }
+        wanted.set(key, entry);
+    });
+    const untouched = (channel: BusinessChannelValue) => Object.values(channel.actionIds ?? {}).every(ids => ids.length === 0) && channel.links.every(link => link.trim() === "");
+    const kept = channels.filter(channel => !(channel.fromAnswers && untouched(channel) && !wanted.has(channelKey(channel.category, channel.name))));
+    const have = new Set(kept.map(channel => channelKey(channel.category, channel.name)));
+    const made: BusinessChannelValue[] = [...wanted.entries()]
+        .filter(([key]) => !have.has(key) && !dismissed.includes(key))
+        .map(([key, entry]) => ({
+            id: "channel-" + segment.id + "-" + key.replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""),
+            category: entry.category,
+            name: entry.name,
+            links: [""],
+            offerings: [BUSINESS_CHANNEL_ALL_OFFERINGS],
+            stages: entry.stages,
+            actionIds: {},
+            actions: {},
+            fromAnswers: true
+        }));
+    return made.length === 0 && kept.length === channels.length ? channels as BusinessChannelValue[] : [...kept, ...made];
+}
+
+/**
+ * The dismissed subchannels after a change of the Segment's channels: a subchannel removed, or renamed away from its name, is dismissed; one added (again)
+ * is no longer.
+ */
+export function dismissedAfter(before: readonly BusinessChannelValue[], after: readonly BusinessChannelValue[], dismissed: readonly string[]): string[] {
+    const keyOf = (channel: BusinessChannelValue) => channel.name.trim() ? channelKey(channel.category, channel.name) : "";
+    const now = new Set(after.map(keyOf).filter(Boolean));
+    const gone = before.map(keyOf).filter(key => key && !now.has(key));
+    return [...new Set([...dismissed.filter(key => !now.has(key)), ...gone])];
+}
+
+/** A suggestion answered by the Segment's channels: the very subchannel, or -- for one not named by the Profiles -- any channel of its category at its stage. */
+export function suggestionCovered(suggestion: ChannelSuggestion, channels: readonly BusinessChannelValue[]): boolean {
+    return suggestionMet(suggestion, channels) || (!suggestion.named && channels.some(channel => channel.category === suggestion.category && channel.stages.includes(suggestion.stage)));
 }
 
 /** The relationship types, from the least to the most personal. */
@@ -277,6 +337,9 @@ const SOURCE_OF: Readonly<Record<string, string>> = {
     Marketplace: "marketplace", "In Person": "marketplace", "Retail & Wholesale": "marketplace",
     Website: "funnel", "Social Media": "funnel", Email: "funnel", Community: "funnel", "Online / Live": "funnel"
 };
+
+/** The Customer Source a channel's customers come by, from its category (as the Demand suggestions read it): "other" where the category says none. */
+export const demandSourceOf = (category: string) => SOURCE_OF[category] ?? "other";
 
 /**
  * The Demand rows the Foundation proposes for one Offering (doc 28, 7.5): one for each Discover channel that serves it and is not yet among the channels that

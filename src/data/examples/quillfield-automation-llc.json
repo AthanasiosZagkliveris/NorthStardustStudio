@@ -1432,6 +1432,56 @@
                         "Answer automation questions in two NYC ops-leader Slack communities each week"
                       ]
                     }
+                  },
+                  {
+                    "id": "channel-segment-qf3n8d2w-referral-affiliates-customer-referral",
+                    "category": "Referral & Affiliates",
+                    "name": "Customer Referral",
+                    "links": [
+                      ""
+                    ],
+                    "offerings": [
+                      "*"
+                    ],
+                    "stages": [
+                      "discovery"
+                    ],
+                    "actionIds": {
+                      "discovery": [
+                        "action-channel-segment-qf3n8d2w-referral-affiliates-customer-referral-discovery-1"
+                      ]
+                    },
+                    "actions": {
+                      "discovery": [
+                        "Ask every audit client for one introduction to a peer firm at the 30-day call"
+                      ]
+                    },
+                    "fromAnswers": true
+                  },
+                  {
+                    "id": "channel-segment-qf3n8d2w-social-media-x-twitter",
+                    "category": "Social Media",
+                    "name": "X (Twitter)",
+                    "links": [
+                      ""
+                    ],
+                    "offerings": [
+                      "*"
+                    ],
+                    "stages": [
+                      "discovery"
+                    ],
+                    "actionIds": {
+                      "discovery": [
+                        "action-channel-segment-qf3n8d2w-social-media-x-twitter-discovery-1"
+                      ]
+                    },
+                    "actions": {
+                      "discovery": [
+                        "Post one short AI workflow tip for small firms each weekday"
+                      ]
+                    },
+                    "fromAnswers": true
                   }
                 ],
                 "actions": [
@@ -1550,6 +1600,14 @@
                   {
                     "id": "action-qf-slack-1",
                     "text": "Answer automation questions in two NYC ops-leader Slack communities each week"
+                  },
+                  {
+                    "id": "action-channel-segment-qf3n8d2w-referral-affiliates-customer-referral-discovery-1",
+                    "text": "Ask every audit client for one introduction to a peer firm at the 30-day call"
+                  },
+                  {
+                    "id": "action-channel-segment-qf3n8d2w-social-media-x-twitter-discovery-1",
+                    "text": "Post one short AI workflow tip for small firms each weekday"
                   }
                 ],
                 "offerings": [

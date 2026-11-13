@@ -14,7 +14,7 @@ import { BusinessAddButton, BusinessEmpty, BusinessNote, BusinessRemove, Busines
 import FieldRow from "../../fields/FieldRow.tsx";
 import { SingleColumn } from "../foundation/shared.tsx";
 import { EngagementBox, EngagementBoxes, EngagementCard, ScopeChoice, type OptionScope } from "./EngagementCard.tsx";
-import { autoRelationshipTypes, journeySuggestions, suggestedRelationshipType, suggestionMet, type ChannelSuggestion } from "../../../../framework/engine/JourneySuggestions.ts";
+import { autoRelationshipTypes, channelKey, journeySuggestions, suggestionCovered, suggestedRelationshipType, type ChannelSuggestion } from "../../../../framework/engine/JourneySuggestions.ts";
 import { BUSINESS_JOURNEY_STAGES } from "../../../../framework/engine/AnswerUtils.ts";
 import { summaryText } from "../../cards/cardSummary.ts";
 import InfoNote, { InfoText } from "../../fields/InfoNote.tsx";
@@ -67,7 +67,10 @@ export function useEngagementRelationships(earlier: Earlier) {
         /* WHAT THE FOUNDATION SUGGESTS (JourneySuggestions.ts), shown in this one grid: on a channel's tile, its suggested subchannels as faded lines; on a
            channel not used yet, the faded tile lists them; in a channel's dialog, a suggested subchannel's faded tile says its stage and where it comes from.
            Each is added only when pressed, at its stage. */
-        const open = journeySuggestions(segment).filter(suggestion => !suggestionMet(suggestion, answers.channels));
+        // (A subchannel the answers made is the Segment's own; one the founder removed is offered again with All only.)
+        const dismissed = answers.dismissedChannels ?? [];
+        const open = journeySuggestions(segment, identity).filter(suggestion => !suggestionCovered(suggestion, answers.channels)
+            && (showsAll(segment.id) || !dismissed.includes(channelKey(suggestion.category, suggestion.name))));
         const suggestedIn = (category: string) => open.filter(suggestion => suggestion.category === category);
         const stageLabel = (stage: string) => BUSINESS_JOURNEY_STAGES.find(entry => entry.id === stage)?.label ?? stage;
         const said = (suggestion: ChannelSuggestion) => (suggestion.name || suggestion.category) + ": " + stageLabel(suggestion.stage) + ", from " + suggestion.source + ".";
@@ -352,7 +355,7 @@ export function useEngagementRelationships(earlier: Earlier) {
                                                 {[...new Set(used.map(channel => channel.category))].flatMap((category, group) => {
                                                     const rows = used.filter(channel => channel.category === category);
                                                     return rows.map((channel, at) => (
-                                                        <tr key={channel.id} data-band={group % 2 === 1 ? "even" : "odd"}>
+                                                        <tr key={channel.id} data-band={group % 2 === 1 ? "even" : "odd"} data-follows={at > 0 ? "" : undefined}>
                                                             {at === 0 && <td data-col="channel" rowSpan={rows.length}><span>{category.trim() || "New channel"}</span></td>}
                                                             <th scope="row" data-col="subchannel"><TextLink className="capability-overview-name" onClick={() => openCard(channel.id)}>{nameOf(channel)}</TextLink></th>
                                                             <td data-col="offerings"><Values items={offeringsOf(channel).map(name => ({ key: name, node: name }))} /></td>
@@ -614,7 +617,7 @@ export function useEngagementRelationships(earlier: Earlier) {
                                         </FieldRow>,
                                         // THE STAGES IN THREE COLUMNS (owner, 2026-11-13 00:27): a heading row -- Journey Stage, Goals, Approach, each with its "i" --, then a row
                                         // per stage: its name (its channels in its "i"), its Goals one under another, its Approach.
-                                        <div key="heads" className="business-relationship-stage-row" role="row">
+                                        <div key="heads" className="business-relationship-stage-row" data-head="" role="row">
                                             <span className="business-foundation-label-info" role="columnheader"><FieldLabel className="business-foundation-label"><InfoText text="Journey Stage"><InfoNote label="Journey Stage" points={SECTIONS.relationships.stages} fullList /></InfoText></FieldLabel></span>
                                             <span className="business-foundation-label-info" role="columnheader"><FieldLabel className="business-foundation-label"><InfoText text="Goals"><InfoNote label="Goals" points={SECTIONS.relationships.goals} fullList /></InfoText></FieldLabel></span>
                                             <span className="business-foundation-label-info" role="columnheader"><FieldLabel className="business-foundation-label"><InfoText text="Approach"><InfoNote label="Approach" points={SECTIONS.relationships.approach} fullList /></InfoText></FieldLabel></span>

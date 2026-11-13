@@ -3,6 +3,7 @@ import { useState } from "react";
 import { act, cleanup, fireEvent, render as renderBase, screen } from "@testing-library/react";
 import { openFolds } from "../../../test/openFolds.ts";
 import { openTile } from "../../../test/interviewTestUtils.ts";
+import { createDemand, createDemandSource } from "../../../framework/engine/DemandCapacity.ts";
 
 /** The page as it opens, its structural sections opened (every fold arrow starts closed: see openFolds). */
 function render(ui: Parameters<typeof renderBase>[0], options?: Parameters<typeof renderBase>[1]) {
@@ -561,6 +562,48 @@ describe("every Offering has at least one relationship type (owner, 2026-11-13 0
         await act(() => new Promise(resolve => setTimeout(resolve, 200)));
         expect(document.querySelector(".floating-card-host")?.textContent).toContain("Self-Service");
         expect(removes()).toHaveLength(1);
+    });
+
+});
+
+describe("a Customer Source's choices narrowed by the earlier answers (owner, 2026-11-13 13:56)", () => {
+
+    it("lists the channels serving the Offering and the source kind its channel's customers come by; All lists every one; a chosen channel fills an empty kind", () => {
+        const audit = { ...createBusinessOffering(), name: "Audit" };
+        const build = { ...createBusinessOffering(), name: "Build" };
+        const segment = { ...createBusinessCustomerSegment([]), name: "Firms", offerings: [audit, build] };
+        const foundation = { ...asBusinessFoundationValue(undefined), segments: [segment] };
+        const site = { ...createBusinessChannel(), category: "Website", name: "Main Website", stages: ["discovery"] };
+        const fair = { ...createBusinessChannel(), category: "In Person", name: "Trade Fair", stages: ["discovery"], offerings: [build.id] };
+        const start = {
+            ...asBusinessEngagementValue(undefined),
+            segments: [{ ...createBusinessSegmentEngagement(segment.id), channels: [site, fair] }],
+            demand: { [audit.id]: { ...createDemand(), sources: [{ ...createDemandSource(), id: "s1" }] }, [build.id]: { ...createDemand(), sources: [{ ...createDemandSource(), id: "s2" }] } }
+        };
+        let saved: ReturnType<typeof asBusinessEngagementValue> = asBusinessEngagementValue(start);
+        function Harness() {
+            const [value, setValue] = useState<unknown>(start);
+            return <BusinessEngagementEditor value={value} onChange={(next) => { saved = asBusinessEngagementValue(next); setValue(next); }} foundation={foundation} asTiles />;
+        }
+        render(<Harness />);
+        openTile("Demand & Conversion");
+        fireEvent.click([...document.querySelectorAll<HTMLElement>(".section-tile-overlay button.card-tile")][0]);
+        const optionsOf = (label: string) => {
+            fireEvent.click(screen.getByRole("button", { name: new RegExp("^" + label) }));
+            const names = [...document.querySelectorAll("[role=option]")].map(option => option.textContent ?? "");
+            fireEvent.keyDown(document.activeElement ?? document.body, { key: "Escape" });
+            return names;
+        };
+        // (The Audit is served by the website alone: the fair serves the Build.)
+        expect(optionsOf("Channel, ")).toEqual(["Main Website"]);
+        fireEvent.click(screen.getByRole("button", { name: /^Channel, / }));
+        fireEvent.click(screen.getByRole("option", { name: "Main Website" }));
+        expect(saved.demand[audit.id].sources[0]).toMatchObject({ channelId: site.id, type: "funnel" });
+        // (Its kind narrowed to the one its channel's customers come by.)
+        expect(optionsOf("Customer source")).toEqual(["Sales funnel"]);
+        // (All: every channel and every kind.)
+        fireEvent.click(screen.getAllByRole("radio", { name: "All" })[0]);
+        expect(optionsOf("Channel, ")).toEqual(["Main Website", "Trade Fair"]);
     });
 
 });

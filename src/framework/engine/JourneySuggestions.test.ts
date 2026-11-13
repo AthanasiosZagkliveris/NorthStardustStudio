@@ -1,6 +1,6 @@
 import { describe, expect, test } from "vitest";
 import { asBusinessEngagementValue, asBusinessFoundationValue, createBusinessChannel } from "./AnswerUtils.ts";
-import { DEFAULT_RELATIONSHIP_TYPE, autoRelationshipTypes, offeringRelationshipsFor, demandSuggestions, journeySuggestions, relationshipTypesOf, suggestedRelationshipType, suggestionMet } from "./JourneySuggestions.ts";
+import { DEFAULT_RELATIONSHIP_TYPE, autoRelationshipTypes, offeringRelationshipsFor, demandSuggestions, journeySuggestions, relationshipTypesOf, suggestedRelationshipType, suggestionMet, withAnswerChannels, dismissedAfter, channelKey } from "./JourneySuggestions.ts";
 import lumenText from "../../data/examples/lumen-and-loom-studio.json?raw";
 import quillText from "../../data/examples/quillfield-automation-llc.json?raw";
 
@@ -90,10 +90,10 @@ describe("the Demand rows the Foundation proposes", () => {
         const channels = quill.engagement.segments[0].channels;
         const build = segment.offerings[1];
         const rows = demandSuggestions(segment, build.id, channels, quill.engagement.demand[build.id]);
-        expect(rows.map(row => row.type + " " + row.label)).toEqual(["funnel LinkedIn", "funnel Main Website", "other Referral partners"]);
+        expect(rows.map(row => row.type + " " + row.label)).toEqual(["funnel LinkedIn", "funnel Main Website", "other Referral partners", "referrals Customer Referral", "funnel X (Twitter)"]);
         // (The Audit's sources name LinkedIn and Referral partners, so those already bring its customers: only its other Discover channels are proposed.)
         const audit = segment.offerings[0];
-        expect(demandSuggestions(segment, audit.id, channels, quill.engagement.demand[audit.id]).map(row => row.label)).toEqual(["Main Website", "Event / Talk", "Slack"]);
+        expect(demandSuggestions(segment, audit.id, channels, quill.engagement.demand[audit.id]).map(row => row.label)).toEqual(["Main Website", "Event / Talk", "Slack", "Customer Referral", "X (Twitter)"]);
     });
 
     test("Contracts or tenders where the buyer decides by a formal tender, once", () => {
@@ -153,4 +153,30 @@ describe("every Offering's relationships, the one list the page and the document
         expect(offeringRelationshipsFor(undefined, segment)[0].types).toEqual(autoRelationshipTypes(segment, segment.offerings[0].id).map(entry => entry.type));
     });
 
+});
+
+describe("the subchannels the answers make (owner, 2026-11-13 13:56)", () => {
+    const segment = { ...asBusinessFoundationValue(undefined).segments[0], id: "s1", questions: { discover: ["search"] }, profiles: [{ ...asBusinessFoundationValue(undefined).segments[0].profiles[0], questions: { c2: ["youtube", "tiktok"] } }] } as never;
+    const website = { ...createBusinessChannel(), category: "Website", name: "Online Store", stages: ["discovery"] };
+
+    test("a platform the Profiles name is made, at its stage, serving every Offering; a generic suggestion only where the category has no channel at that stage", () => {
+        const made = withAnswerChannels([website], [], segment);
+        expect(made.filter(channel => channel.fromAnswers).map(channel => channel.category + " › " + channel.name + " " + channel.stages.join(","))).toEqual(["Social Media › YouTube discovery", "Social Media › TikTok discovery"]);
+        expect(made.find(channel => channel.name === "YouTube")?.offerings).toEqual(["*"]);
+        // (The search answer means a website at Discover: the founder's Online Store is it.)
+        expect(made.some(channel => channel.name === "Main Website")).toBe(false);
+        // (Nothing more to make: the same list.)
+        expect(withAnswerChannels(made, [], segment)).toBe(made);
+    });
+
+    test("a removed one stays removed; added again it is back; an untouched one goes with its answer", () => {
+        const made = withAnswerChannels([website], [], segment);
+        const without = made.filter(channel => channel.name !== "TikTok");
+        const dismissed = dismissedAfter(made, without, []);
+        expect(dismissed).toEqual([channelKey("Social Media", "TikTok")]);
+        expect(withAnswerChannels(without, dismissed, segment)).toBe(without);
+        expect(dismissedAfter(without, made, dismissed)).toEqual([]);
+        const noAnswers = { ...segment as object, profiles: [] } as never;
+        expect(withAnswerChannels(made, [], noAnswers).map(channel => channel.name)).toEqual(["Online Store"]);
+    });
 });

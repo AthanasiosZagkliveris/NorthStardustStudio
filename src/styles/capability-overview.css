@@ -268,7 +268,8 @@
 }
 
 /* (Its foot -- the Back, which stands in the tab here -- takes no row: the gap before it is given back.) */
-.section-tile-dialog:has(> .section-tile-dialog-body > .capability-overview) > .section-tile-dialog-foot {
+.section-tile-dialog:has(> .section-tile-dialog-body > .capability-overview) > .section-tile-dialog-foot,
+.section-tile-dialog:has(.capability-overview-table[data-bare]) > .section-tile-dialog-foot {
 
     margin-top: calc(-1 * var(--gap-12));
 
@@ -750,6 +751,59 @@
 .capability-overview-table[data-bare] thead th {
 
     border: 0;
+
+}
+
+/* ITS LINES (owner, 2026-11-13 13:56: "add vertical lines (cohesive/continuous) add Horizontal divide lines between different subchannels (that belongs to the
+   same channel)"): one unbroken line between every two columns, heading and rows alike, in the card's divider colour; a line between two rows of one group
+   (data-follows), the merged cell running on undivided; every cell's text at its top. */
+.capability-overview-table[data-bare] {
+
+    --table-line: hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
+
+}
+
+.capability-overview-table[data-bare] :is(th, td),
+.capability-overview-table[data-bare] thead th {
+
+    border-left: 1px solid var(--table-line);
+
+}
+
+.capability-overview-table[data-bare] thead th:first-child,
+.capability-overview-table[data-bare]:not([data-grouped]) tbody tr > :first-child,
+.capability-overview-table[data-bare][data-grouped] tbody td[rowspan] {
+
+    border-left: 0;
+
+}
+
+.capability-overview-table[data-bare] tbody tr[data-follows] > :not([rowspan]) {
+
+    border-top: 1px solid var(--table-line);
+
+}
+
+.capability-overview-table[data-grouped] tbody :is(th, td) {
+
+    vertical-align: top;
+
+}
+
+/* THE DIALOG ENDS WITH ITS LAST ROW (owner, 2026-11-13 13:56: "fix the end of the dialogue card's colour"): no strip of the dialog's ground under a table that
+   runs edge to edge -- the dialog and its scroller keep no room below it. */
+.section-tile-overlay .section-tile-dialog:has(.capability-overview-table[data-bare]) {
+
+    padding-bottom: 0 !important;
+
+}
+
+
+
+.section-tile-dialog:has(.capability-overview-table[data-bare]) .section-tile-dialog-body {
+
+    margin-bottom: 0;
+    padding-bottom: 0;
 
 }
 

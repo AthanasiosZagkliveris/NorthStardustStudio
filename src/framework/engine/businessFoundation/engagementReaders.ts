@@ -142,6 +142,8 @@ export interface BusinessChannelValue {
      * everything that only reads them -- documents, exports, search.
      */
     actions: Record<string, string[]>;
+    /** Made by the Foundation's answers (autoChannels): while untouched, it goes when its answer does. */
+    fromAnswers?: boolean;
 }
 
 /**
@@ -288,6 +290,8 @@ export interface BusinessSegmentEngagementValue {
      * it.
      */
     offerings: BusinessOfferingRelationshipEntryValue[];
+    /** The subchannels the answers make that the founder removed ("category|name", channelKey): never made again; All brings one back. */
+    dismissedChannels?: string[];
     /**
      * The same answers as they were kept before, by Profile. Never
      * written to; read once so nothing recorded then is lost (see
@@ -411,7 +415,8 @@ export function asBusinessChannel(entry: unknown): BusinessChannelValue {
         actionIds: channel.actionIds !== undefined && (Object.keys(actionIds).length > 0 || Object.keys(actions).length === 0)
             ? actionIds
             : (null as unknown as Record<string, string[]>),
-        actions
+        actions,
+        ...(channel.fromAnswers === true ? { fromAnswers: true } : {})
     };
 
 }
@@ -772,6 +777,7 @@ export function asBusinessEngagementValue(value: unknown): BusinessEngagementVal
                 channels,
                 actions,
                 offerings: merged,
+                ...(Array.isArray(segment.dismissedChannels) ? { dismissedChannels: segment.dismissedChannels.map(asText).filter(Boolean) } : {}),
                 profiles
             };
 

@@ -934,6 +934,27 @@
     background-repeat:no-repeat;
     background-position:calc(var(--stage-col) + var(--gap-12) / 2) 0, calc(var(--stage-col) + var(--goals-col) + var(--gap-12) * 1.5) 0;
 
+    /* The lines run on through the band's own room above and below the row, so they are one unbroken line down the card (owner, 2026-11-13 13:56: "make the
+       vertical lines continuous"). */
+    margin-block:calc(-1 * var(--space-cell));
+    padding-block:var(--space-cell);
+
+}
+
+/* THE HEADING ROW (owner, 2026-11-13 13:56: "give to the headers a proper style"): a band of the card's hue, its headings bold, as the shared table's heading. */
+.legal-entity-org-section:has(> .business-relationship-stage-row[data-head]){
+
+    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-hover)) var(--theme-ground-weight), var(--theme-ground-paper));
+
+}
+
+.business-relationship-stage-row[data-head] .business-foundation-label{
+
+    font-weight:700;
+    letter-spacing:calc(var(--rest-tracking, 0em) + var(--bold-tracking));
+
+    color:var(--text-default);
+
 }
 
 /* The Approach fills its column. */

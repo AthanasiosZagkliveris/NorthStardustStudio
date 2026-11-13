@@ -1954,6 +1954,131 @@
                         "Run a 30-minute taster loom at makers' fairs and workshops; sign up those who enjoy it"
                       ]
                     }
+                  },
+                  {
+                    "id": "channel-segment-8lu427u5-referral-affiliates-influencer-ambassador",
+                    "category": "Referral & Affiliates",
+                    "name": "Influencer / Ambassador",
+                    "links": [
+                      ""
+                    ],
+                    "offerings": [
+                      "*"
+                    ],
+                    "stages": [
+                      "discovery"
+                    ],
+                    "actionIds": {
+                      "discovery": [
+                        "action-channel-segment-8lu427u5-referral-affiliates-influencer-ambassador-discovery-1"
+                      ]
+                    },
+                    "actions": {
+                      "discovery": [
+                        "Gift a cushion to two London interiors creators each quarter and share their room posts"
+                      ]
+                    },
+                    "fromAnswers": true
+                  },
+                  {
+                    "id": "channel-segment-8lu427u5-social-media-tiktok",
+                    "category": "Social Media",
+                    "name": "TikTok",
+                    "links": [
+                      ""
+                    ],
+                    "offerings": [
+                      "*"
+                    ],
+                    "stages": [
+                      "discovery"
+                    ],
+                    "actionIds": {
+                      "discovery": [
+                        "action-channel-segment-8lu427u5-social-media-tiktok-discovery-1"
+                      ]
+                    },
+                    "actions": {
+                      "discovery": [
+                        "Post short loom-to-sofa clips of each new piece"
+                      ]
+                    },
+                    "fromAnswers": true
+                  },
+                  {
+                    "id": "channel-segment-8lu427u5-social-media-youtube",
+                    "category": "Social Media",
+                    "name": "YouTube",
+                    "links": [
+                      ""
+                    ],
+                    "offerings": [
+                      "*"
+                    ],
+                    "stages": [
+                      "discovery"
+                    ],
+                    "actionIds": {
+                      "discovery": [
+                        "action-channel-segment-8lu427u5-social-media-youtube-discovery-1"
+                      ]
+                    },
+                    "actions": {
+                      "discovery": [
+                        "Publish a monthly studio film showing how a throw is woven"
+                      ]
+                    },
+                    "fromAnswers": true
+                  },
+                  {
+                    "id": "channel-segment-8lu427u5-community-meetup",
+                    "category": "Community",
+                    "name": "Meetup",
+                    "links": [
+                      ""
+                    ],
+                    "offerings": [
+                      "*"
+                    ],
+                    "stages": [
+                      "discovery"
+                    ],
+                    "actionIds": {
+                      "discovery": [
+                        "action-channel-segment-8lu427u5-community-meetup-discovery-1"
+                      ]
+                    },
+                    "actions": {
+                      "discovery": [
+                        "Host a quarterly makers' evening through a Hackney craft Meetup group"
+                      ]
+                    },
+                    "fromAnswers": true
+                  },
+                  {
+                    "id": "channel-segment-8lu427u5-referral-affiliates-customer-referral",
+                    "category": "Referral & Affiliates",
+                    "name": "Customer Referral",
+                    "links": [
+                      ""
+                    ],
+                    "offerings": [
+                      "*"
+                    ],
+                    "stages": [
+                      "evaluation"
+                    ],
+                    "actionIds": {
+                      "evaluation": [
+                        "action-channel-segment-8lu427u5-referral-affiliates-customer-referral-evaluation-1"
+                      ]
+                    },
+                    "actions": {
+                      "evaluation": [
+                        "Share photos and words from past buyers when a new customer asks about quality"
+                      ]
+                    },
+                    "fromAnswers": true
                   }
                 ],
                 "actions": [
@@ -2076,6 +2201,26 @@
                   {
                     "id": "action-lumen-taster-1",
                     "text": "Run a 30-minute taster loom at makers' fairs and workshops; sign up those who enjoy it"
+                  },
+                  {
+                    "id": "action-channel-segment-8lu427u5-referral-affiliates-influencer-ambassador-discovery-1",
+                    "text": "Gift a cushion to two London interiors creators each quarter and share their room posts"
+                  },
+                  {
+                    "id": "action-channel-segment-8lu427u5-social-media-tiktok-discovery-1",
+                    "text": "Post short loom-to-sofa clips of each new piece"
+                  },
+                  {
+                    "id": "action-channel-segment-8lu427u5-social-media-youtube-discovery-1",
+                    "text": "Publish a monthly studio film showing how a throw is woven"
+                  },
+                  {
+                    "id": "action-channel-segment-8lu427u5-community-meetup-discovery-1",
+                    "text": "Host a quarterly makers' evening through a Hackney craft Meetup group"
+                  },
+                  {
+                    "id": "action-channel-segment-8lu427u5-referral-affiliates-customer-referral-evaluation-1",
+                    "text": "Share photos and words from past buyers when a new customer asks about quality"
                   }
                 ],
                 "offerings": [
@@ -2432,6 +2577,63 @@
                         "Post sample boxes and re-orders by Royal Mail Tracked 48"
                       ]
                     }
+                  },
+                  {
+                    "id": "channel-segment-majxtl1u-referral-affiliates-customer-referral",
+                    "category": "Referral & Affiliates",
+                    "name": "Customer Referral",
+                    "links": [
+                      ""
+                    ],
+                    "offerings": [
+                      "*"
+                    ],
+                    "stages": [
+                      "discovery",
+                      "evaluation"
+                    ],
+                    "actionIds": {
+                      "discovery": [
+                        "action-channel-segment-majxtl1u-referral-affiliates-customer-referral-discovery-1"
+                      ],
+                      "evaluation": [
+                        "action-channel-segment-majxtl1u-referral-affiliates-customer-referral-evaluation-1"
+                      ]
+                    },
+                    "actions": {
+                      "discovery": [
+                        "Ask each finished hotel project for an introduction to one designer they work with"
+                      ],
+                      "evaluation": [
+                        "Send two references from past hotel projects with every proposal"
+                      ]
+                    },
+                    "fromAnswers": true
+                  },
+                  {
+                    "id": "channel-segment-majxtl1u-social-media-pinterest",
+                    "category": "Social Media",
+                    "name": "Pinterest",
+                    "links": [
+                      ""
+                    ],
+                    "offerings": [
+                      "*"
+                    ],
+                    "stages": [
+                      "discovery"
+                    ],
+                    "actionIds": {
+                      "discovery": [
+                        "action-channel-segment-majxtl1u-social-media-pinterest-discovery-1"
+                      ]
+                    },
+                    "actions": {
+                      "discovery": [
+                        "Pin each commission in its finished room, tagged by style and colourway"
+                      ]
+                    },
+                    "fromAnswers": true
                   }
                 ],
                 "actions": [
@@ -2498,6 +2700,18 @@
                   {
                     "id": "action-channel-lntpost1-delivery-1",
                     "text": "Post sample boxes and re-orders by Royal Mail Tracked 48"
+                  },
+                  {
+                    "id": "action-channel-segment-majxtl1u-referral-affiliates-customer-referral-discovery-1",
+                    "text": "Ask each finished hotel project for an introduction to one designer they work with"
+                  },
+                  {
+                    "id": "action-channel-segment-majxtl1u-referral-affiliates-customer-referral-evaluation-1",
+                    "text": "Send two references from past hotel projects with every proposal"
+                  },
+                  {
+                    "id": "action-channel-segment-majxtl1u-social-media-pinterest-discovery-1",
+                    "text": "Pin each commission in its finished room, tagged by style and colourway"
                   }
                 ],
                 "offerings": [

@@ -20,7 +20,7 @@ import { asBusinessCapabilityValue, equalOfferingShares } from "../../../../fram
 import { useItemFolds } from "../../fields/useItemFolds.ts";
 import { toggledIn } from "../../fields/toggledIn.ts";
 import { BusinessEngagementEditorProps, CONTENT_OF_THE_TABLE } from "./shared.tsx";
-import { relationshipTypesOf } from "../../../../framework/engine/JourneySuggestions.ts";
+import { dismissedAfter, relationshipTypesOf, withAnswerChannels } from "../../../../framework/engine/JourneySuggestions.ts";
 
 export function useEngagementState(props: BusinessEngagementEditorProps) {
 
@@ -216,6 +216,29 @@ export function useEngagementState(props: BusinessEngagementEditorProps) {
     }
     /** Page 1's Segments, read for reference only. */
     const segments = businessFoundationSegments(foundation);
+    /* THE SUBCHANNELS THE ANSWERS MAKE are kept as the Segment's own (withAnswerChannels): made when the page opens or an answer changes, so every document
+       reads them too. */
+    useEffect(() => {
+        if (disabled || segments.length === 0) {
+            return;
+        }
+        let changed = false;
+        const next = segments.map(segment => {
+            const entry = engagement.segments.find(candidate => candidate.segmentId === segment.id);
+            const channels = withAnswerChannels(entry?.channels ?? [], entry?.dismissedChannels ?? [], segment, identity);
+            if (channels !== (entry?.channels ?? []) && (entry || channels.length > 0)) {
+                changed = true;
+                return { ...(entry ?? { ...createBusinessSegmentEngagement(segment.id), channels: [] }), channels };
+            }
+            return entry;
+        }).filter((entry): entry is BusinessSegmentEngagementValue => entry !== undefined);
+        if (changed) {
+            const others = engagement.segments.filter(entry => !segments.some(segment => segment.id === entry.segmentId));
+            onChange({ ...engagement, segments: [...next, ...others] });
+        }
+    // (Read again whenever the answer or the Foundation changes.)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [value, foundation, identity, disabled]);
     /** NO PHYSICAL ITEM (doc 28, 11.7): while no Offering on Page 1 has one, the Physical Delivery and Retail & Wholesale channels are hidden where a Segment has none (channelCategoryHidden), as Page 3 hides its physical categories. */
     const noPhysical = noPhysicalOffering(segments);
     /** The cards folded away, by key. Not stored with the answer:
@@ -317,12 +340,16 @@ export function useEngagementState(props: BusinessEngagementEditorProps) {
         const known = engagement.segments.some(
             entry => entry.segmentId === segmentId
         );
+        // (A subchannel the answers made and the founder removed stays removed; added again, it is back: dismissedAfter.)
+        const withDismissed = (entry: BusinessSegmentEngagementValue): Partial<BusinessSegmentEngagementValue> => patch.channels
+            ? { ...patch, dismissedChannels: dismissedAfter(entry.channels, patch.channels, entry.dismissedChannels ?? []) }
+            : patch;
 
         onChange({
             ...engagement,
             segments: known
                 ? engagement.segments.map(entry => entry.segmentId === segmentId
-                    ? { ...entry, ...patch }
+                    ? { ...entry, ...withDismissed(entry) }
                     : entry)
                 : [
                     ...engagement.segments,
