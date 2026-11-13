@@ -717,43 +717,39 @@
 
 }
 
-/* A TABLE WITH NO FRAME (data-bare; owner, 2026-11-13 11:44: "there is no reason to have the table in a frame"): the lines between its cells only -- each cell
-   draws its left and top edges, the outer ones none --, square at its corners, set straight on its dialog. */
+/* A TABLE WITH NO FRAME (data-bare; owner, 2026-11-13 11:44: "there is no reason to have the table in a frame"; 12:32: "the dialogue card still has borders!"):
+   a dialog card's own make -- its heading a band of the card's hue, its rows bands (the striping), no line round it or between its cells --, set straight on
+   its dialog. */
 .capability-overview-table[data-bare] {
+
+    /* Edge to edge of its dialog, as a band is (the shared band: --space-cell each side); its first and last texts stand where the dialog's title does. */
+    width: calc(100% + 2 * var(--space-cell));
+    min-width: calc(100% + 2 * var(--space-cell));
+    margin: 0 calc(-1 * var(--space-cell));
 
     border: 0;
     border-radius: 0;
 
 }
 
-.capability-overview-table[data-bare] :is(th, td) {
-
-    border-right: 0;
-    border-bottom: 0;
-    border-left: 1px solid var(--table-line);
-    border-top: 1px solid var(--table-line);
-
-}
-
-.capability-overview-table[data-bare] thead th {
-
-    border-top: 0;
-    border-bottom: 2px solid var(--table-line);
-
-}
-
-.capability-overview-table[data-bare] tbody tr:first-child > * {
-
-    border-top: 0;
-
-}
-
-/* (The first column's cells: in a grouped table, the merged cells -- each row's first cell after the first is a subchannel, with a cell to its left.) */
 .capability-overview-table[data-bare] thead th:first-child,
 .capability-overview-table[data-bare]:not([data-grouped]) tbody tr > :first-child,
 .capability-overview-table[data-bare][data-grouped] tbody td[rowspan] {
 
-    border-left: 0;
+    padding-left: var(--space-cell);
+
+}
+
+.capability-overview-table[data-bare] :is(th, td):last-child {
+
+    padding-right: var(--space-cell);
+
+}
+
+.capability-overview-table[data-bare] :is(th, td),
+.capability-overview-table[data-bare] thead th {
+
+    border: 0;
 
 }
 

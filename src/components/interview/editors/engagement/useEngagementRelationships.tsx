@@ -570,13 +570,23 @@ export function useEngagementRelationships(earlier: Earlier) {
             const offeringRows = rowsOf(offeringId);
             const kept = offeringRelationshipsOf(segment.id, offeringId);
             const number = segment.offerings.findIndex(offering => offering.id === offeringId) + 1;
+            // A TYPE'S OWN CARD (opened from its tile in the Offering's dialog) has the default card head: the type's number in the dialog, its name (the type is the
+            // card's title; owner, 2026-11-13 00:27), and its x in the card's x column while the Offering has another type (owner, 2026-11-13 12:32: the cards
+            // "follow the rules (colour bands, x buttons)").
+            const typeLabelOf = (typeId: string) => TYPE_LABELS[typeId] ?? "Relationship Type";
+            const removeType = (typeId: string) => kept.types.length > 1
+                ? <BusinessRemove what={typeLabelOf(typeId) + " Relationship Type for " + offeringName(offeringId)} disabled={disabled} onRemove={() => removeRelationshipType(segment, offeringId, typeId)} />
+                : undefined;
+            const ownCard = typeOnly !== undefined && kept.types.includes(typeOnly);
             return (
                 <EngagementCard
-                    kind="Offering"
-                    number={number}
-                    name={offeringName(offeringId)}
-                    anchor={"relationship-offering-" + offeringId}
-                    headless
+                    kind={ownCard ? "Relationship Type" : "Offering"}
+                    number={ownCard ? kept.types.indexOf(typeOnly) + 1 : number}
+                    name={ownCard ? typeLabelOf(typeOnly) : offeringName(offeringId)}
+                    emptyName={ownCard ? "Relationship Type" : undefined}
+                    anchor={"relationship-offering-" + offeringId + (ownCard ? "-" + typeOnly : "")}
+                    actions={ownCard ? removeType(typeOnly) : undefined}
+                    headless={!ownCard}
                 >
                     {/* EACH RELATIONSHIP TYPE A BOX (owner, 2026-11-12 23:16: "Rearrange the colour tints ... to see the x button is not possible"): its name, its "i" and its
                         x on the box's title band, as a Customer Source's on the Demand card; then a band for its Purpose and a band for each stage, its Goals in one row
@@ -588,10 +598,10 @@ export function useEngagementRelationships(earlier: Earlier) {
                             return (
                                 <EngagementBox
                                     key={typeId}
-                                    title={label}
+                                    title={ownCard ? undefined : label}
                                     info={SECTIONS.relationships.types}
-                                    // (Its x while the Offering has another type: an Offering keeps at least one; owner, 2026-11-13 00:29.)
-                                    extra={kept.types.length > 1 ? <BusinessRemove what={label + " Relationship Type for " + offeringName(offeringId)} disabled={disabled} onRemove={() => removeRelationshipType(segment, offeringId, typeId)} /> : undefined}
+                                    // (Its x while the Offering has another type: an Offering keeps at least one; owner, 2026-11-13 00:29. On its own card, the head's.)
+                                    extra={ownCard ? undefined : removeType(typeId)}
                                     bands={[
                                         <FieldRow key="purpose" pair label="Purpose" info={SECTIONS.relationships.purpose}>
                                             <StrategyTextArea

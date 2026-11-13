@@ -12,7 +12,10 @@ import { SingleColumn } from "../foundation/shared.tsx";
 import RadioChoice from "../../../controls/RadioChoice.tsx";
 
 /** The card: the Offering's number and name (its name a link to the Foundation's Offering, where it is named), always open. */
-export function EngagementCard({ kind, number, name, anchor, ariaPrefix, onOpenName, headRow, children, headless = false }: {
+export function EngagementCard({ kind, number, name, anchor, ariaPrefix, onOpenName, headRow, actions, emptyName = "Unnamed Offering", children, headless = false }: {
+    /** What stands at the end of the head: the card's x (a relationship type's, while its Offering has another). */
+    actions?: ReactNode;
+    emptyName?: string;
     /** No head at all: the tile it opens from names the Offering and its Profiles (the relationship card; owner, 2026-11-12 19:54). */
     headless?: boolean;
     kind: string;
@@ -34,7 +37,8 @@ export function EngagementCard({ kind, number, name, anchor, ariaPrefix, onOpenN
             open
             headRow={headRow}
             head={headless ? <></> : undefined}
-            emptyName="Unnamed Offering"
+            emptyName={emptyName}
+            actions={actions}
             nameLink={onOpenName ? { title: name.trim() || "Offering", onClick: onOpenName, ariaLabel: "Open the Foundation page, where the Offering " + (name.trim() || "") + " is defined" } : undefined}
         >
             {children}
@@ -90,7 +94,8 @@ export function EngagementBoxes({ children }: { children: ReactNode[] }) {
 
 /** One box: its title band (with its "i" and what stands at its end), then a band per question, the tints alternating. */
 export function EngagementBox({ title, info, extra, bands, anchor }: {
-    title: ReactNode;
+    /** Absent where the card's head names the box (a relationship type's own card): its bands only. */
+    title?: ReactNode;
     info?: InfoPoint[];
     extra?: ReactNode;
     bands: ReactNode[];
@@ -104,14 +109,21 @@ export function EngagementBox({ title, info, extra, bands, anchor }: {
                     ? <InfoText text={title}><InfoNote label={title} points={info} fullList /></InfoText>
                     : title}
             </FieldLabel>
+            {/* (What stands at the end of the title band -- a source's figure, then its x in the card's x column -- shares the band's own row and line: owner,
+                2026-11-13 12:32, the cards "follow the rules (colour bands, x buttons)".) */}
+            {extra}
         </span>
     );
+    const bandsOf = shown.map((band, at) => (
+        <div className={"legal-entity-org-section" + (at % 2 === (title === undefined ? 0 : 1) ? " legal-entity-org-band" : "")} key={at}>{band}</div>
+    ));
+    // (With no title, its bands stand straight in the card under its head, the first tinted, so it parts from the head as a title band would.)
+    if (title === undefined) {
+        return <>{bandsOf}</>;
+    }
     return (
         <div className="business-segment-box" data-anchor={anchor}>
-            {/* (What stands at the end of the title's row -- a source's figure and its x -- shares the row as a group's controls do: .fold-group-head.) */}
-            <div className="legal-entity-org-section">
-                {extra ? <div className="fold-group-head">{label}{extra}</div> : label}
-            </div>
+            <div className="legal-entity-org-section">{label}</div>
             {shown.map((band, at) => (
                 <div className={"legal-entity-org-section" + (at % 2 === 1 ? " legal-entity-org-band" : "")} key={at}>{band}</div>
             ))}
