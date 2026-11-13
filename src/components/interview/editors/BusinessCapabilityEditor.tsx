@@ -194,7 +194,11 @@ export default function BusinessCapabilityEditor(props: BusinessCapabilityEditor
                 const classes = inventoryClassification(
                     capability, legalEntityFounders, legalExpenses, asFinancialFoundationValue(financialFoundation), organisationCurrency, openingDate, globalSettings
                 );
-                return <CapabilityOverview rows={rows.map(row => ({ ...row, ...(classes.get(row.id) ?? classes.get("salary-" + row.id) ?? classes.get("legal-" + row.id)) }))} format={moneyFormatter(organisationCurrency)} currency={organisationCurrency} offerings={foundationOfferings} onOpenAction={openEngagementAction} onOpenLegal={legalEntity !== undefined && onChangeLegalEntity ? (id: string) => openLegalExpense(id) : undefined} />;
+                return <CapabilityOverview rows={rows.map(row => {
+                    // (The Financial Foundation's nature and behaviour; where it gives no behaviour, the row keeps its own -- a channel expense's, as the channels' table reads it.)
+                    const found = classes.get(row.id) ?? classes.get("salary-" + row.id) ?? classes.get("legal-" + row.id);
+                    return { ...row, ...found, behaviour: found?.behaviour || row.behaviour };
+                })} format={moneyFormatter(organisationCurrency)} currency={organisationCurrency} offerings={foundationOfferings} onOpenAction={openEngagementAction} onOpenLegal={legalEntity !== undefined && onChangeLegalEntity ? (id: string) => openLegalExpense(id) : undefined} />;
             }
         };
     }

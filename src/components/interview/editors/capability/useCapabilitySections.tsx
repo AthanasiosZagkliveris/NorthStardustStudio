@@ -37,7 +37,7 @@ export function useCapabilitySections(earlier: Earlier) {
     const floorById = new Map(floor.map(row => [row.id, row]));
     const tileData = (id: string) => {
         const row = floorById.get(id);
-        return row ? { lines: tileLines(row, formatMoney), marks: tileMarks(row, tileLines(row, formatMoney)), links: row.links, tone: row.tone, missing: row.missing } : {};
+        return row ? { lines: tileLines(row, formatMoney, organisationCurrency ?? ""), marks: tileMarks(row, tileLines(row, formatMoney, organisationCurrency ?? "")), links: row.links, tone: row.tone, missing: row.missing } : {};
     };
     /** A resource card's box: its number and name, the status and the cost on one line. */
     function resourceBox(

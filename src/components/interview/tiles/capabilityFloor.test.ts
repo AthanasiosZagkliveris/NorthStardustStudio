@@ -1,6 +1,6 @@
 import { describe, expect, test } from "vitest";
 import { asBusinessCapabilityValue } from "../../../framework/engine/AnswerUtils.ts";
-import { DEFAULT_FLOOR_FILTER, FLOOR_PLACES, FloorFilter, FloorRow, filterFloor, floorCategories, floorRows, floorSubgroups, kindClass, placeOf, subgroupKey, sortFloor, tileLines, typeClass } from "./capabilityFloor.ts";
+import { DEFAULT_FLOOR_FILTER, FLOOR_PLACES, FloorFilter, FloorRow, filterFloor, floorCategories, floorRows, floorSubgroups, kindClass, placeOf, subgroupKey, sortFloor, tileLines, typeClass, amountText } from "./capabilityFloor.ts";
 
 const slot = (fields: Record<string, unknown>) => ({
     id: "s", name: "", quantity: "", description: "", status: "", providerId: "", offeringIds: [],
@@ -181,4 +181,41 @@ describe("the floor", () => {
         expect(tileLines(list.find(row => row.id === "workspace")!, amount => "£" + amount)).toEqual(["Infrastructure", "Workspace", "Premises", "Buy", "**£1250** monthly", "£3750 deposit"]);
     });
 
+});
+
+describe("the Inventory's figures (owner, 2026-11-13 12:32: \"it doesn't present accurate information\")", () => {
+    const base: FloorRow = { id: "", tone: "infrastructure", kind: "resource", name: "", path: ["Infrastructure", "Equipment"], status: "", statusLabel: "", frequency: "monthly", frequencyLabel: "Monthly", amount: null, links: [], colour: 0, linkIds: [], behaviour: "" } as unknown as FloorRow;
+    const row = (patch: Partial<FloorRow>): FloorRow => ({ ...base, ...patch });
+    const money = (amount: number) => "£" + amountText(amount);
+
+    test("a share of revenue is a percentage: no currency on its tile, last in a cost sort, in no range of money", () => {
+        const fee = row({ id: "fee", name: "Payments", frequency: "percent-revenue", frequencyLabel: "% of Rev", amount: 2 });
+        const rent = row({ id: "rent", name: "Rent", amount: 1250 });
+        const cheap = row({ id: "cheap", name: "Cheap", amount: 1 });
+        expect(tileLines(fee, money).pop()).toBe("**2** % of rev");
+        expect(sortFloor([fee, rent, cheap], "cost-asc").map(entry => entry.id)).toEqual(["cheap", "rent", "fee"]);
+        expect(sortFloor([fee, rent, cheap], "cost-desc").map(entry => entry.id)).toEqual(["rent", "cheap", "fee"]);
+        expect(filterFloor([fee, rent, cheap], { ...DEFAULT_FLOOR_FILTER, min: "0", max: "5" }).map(entry => entry.id)).toEqual(["cheap"]);
+    });
+
+    test("a cost in another currency says its code on its tile; a figure with pence keeps two decimals", () => {
+        expect(tileLines(row({ amount: 99.5, currency: "USD" }), money, "GBP").pop()).toBe("**USD 99.50** monthly");
+        expect(tileLines(row({ amount: 9.4, currency: "GBP" }), money, "GBP").pop()).toBe("**£9.40** monthly");
+        expect(amountText(1250)).toBe((1250).toLocaleString());
+    });
+
+    test("the Status sort puts the rows with no status after those with one", () => {
+        const list = [row({ id: "none", name: "A" }), row({ id: "buy", name: "B", statusLabel: "Buy" }), row({ id: "costs", name: "C", statusLabel: "Costs" })];
+        expect(sortFloor(list, "status").map(entry => entry.id)).toEqual(["buy", "costs", "none"]);
+    });
+
+    test("a bought asset priced Per unit is one-time, as the Financial Foundation counts it", () => {
+        const capability = asBusinessCapabilityValue({
+            formatVersion: 3,
+            resources: { equipment: [{ id: "production-machinery", name: "", slots: [{ id: "loom", name: "Loom", status: "buy", quantity: "3", cost: { price: "2400", frequency: "per-unit", frequencyOther: "", currency: "" } }] }] }
+        });
+        const loom = floorRows(capability).find(entry => entry.id === "loom");
+        expect(loom?.frequency).toBe("one-time");
+        expect(loom?.amount).toBe(7200);
+    });
 });

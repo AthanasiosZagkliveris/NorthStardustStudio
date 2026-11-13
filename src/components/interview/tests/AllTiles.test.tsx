@@ -79,7 +79,7 @@ describe("the table", () => {
         // (The currency's symbol beside the label, as every amount's label: labelWithCurrency.)
         expect(costHead.textContent).toBe("Cost (€)");
         expect(costHead.classList.contains("capability-overview-number")).toBe(true);
-        const cell = [...document.querySelectorAll("tbody td")].find(td => td.textContent === "1,250.5")!;
+        const cell = [...document.querySelectorAll("tbody td")].find(td => td.textContent === (1250.5).toLocaleString(undefined, { minimumFractionDigits: 2 }))!;
         expect(cell.classList.contains("capability-overview-number")).toBe(true);
     });
 

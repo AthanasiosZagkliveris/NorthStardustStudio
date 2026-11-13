@@ -29,6 +29,8 @@ import {
     kindClass,
     FLOOR_PLACES,
     floorGroups,
+    isPercentRow,
+    amountText,
     floorPlaceKinds,
     floorCategories,
     floorSubgroups,
@@ -122,7 +124,8 @@ export function tableRows(row: FloorRow, format: (amount: number) => string = St
         journey: (row.channel?.stages ?? []).join(", "),
         actions: (row.channel?.actions ?? []).map(action => "#" + action.order).join(", ")
     };
-    const lines = [{ ...base, ...channel, cost: row.amount !== null ? own + format(row.amount) : "", frequency: row.frequencyLabel, nature: row.nature ?? "", behaviour: row.behaviour ?? "" }];
+    // (A share of revenue is a percentage: "2%", never in the currency's column as money.)
+    const lines = [{ ...base, ...channel, cost: row.amount !== null ? (isPercentRow(row) ? amountText(row.amount) + "%" : own + format(row.amount)) : "", frequency: row.frequencyLabel, nature: row.nature ?? "", behaviour: row.behaviour ?? "" }];
     if (row.deposit) {
         const deposit = { ...base, ...channel, cost: own + format(row.deposit) + " Deposit", frequency: "One-time", nature: row.nature ?? "", behaviour: row.behaviour ?? "" };
         if (row.amount === null) {
@@ -172,8 +175,8 @@ export const TABLE_SIZES = [
     { id: "large", font: "var(--font-h3)", pad: "10px" }
 ] as const;
 
-/** A number for the table's Cost column: no currency sign (the header says it), at most two decimals. */
-const plainAmount = (amount: number) => amount.toLocaleString(undefined, { maximumFractionDigits: 2 });
+/** A number for the table's Cost column: no currency sign (the header says it), two decimals where it has any (amountText). */
+const plainAmount = amountText;
 
 export default function CapabilityOverview({ rows, format = String, currency = "", onOpenLegal, onOpenAction, offerings = [] }: {
     rows: readonly FloorRow[];
@@ -567,13 +570,13 @@ export default function CapabilityOverview({ rows, format = String, currency = "
                                 key={row.kind + row.id}
                                 id={row.id}
                                 name={row.name}
-                                lines={tileLines(row, format)}
-                                marks={tileMarks(row, tileLines(row, format))}
+                                lines={tileLines(row, format, currency)}
+                                marks={tileMarks(row, tileLines(row, format, currency))}
                                 links={row.links}
                                 tone={row.tone}
                                 missing={row.missing}
                                 inactive={row.status === "completed"}
-                                label={kindName(row) + ": " + tileName(plainTitle(row.name), tileLines(row, format))}
+                                label={kindName(row) + ": " + tileName(plainTitle(row.name), tileLines(row, format, currency))}
                                 title={row.kind === "legal" && !onOpenLegal ? "Recorded under 1. Identity System, Legal Entity" : undefined}
                                 origin={inwardOrigin(index, shown.length, across)}
                                 onOpen={row.kind === "legal" && !onOpenLegal ? undefined : (pointer) => open(row, pointer)}

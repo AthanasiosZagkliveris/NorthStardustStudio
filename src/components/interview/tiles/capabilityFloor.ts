@@ -116,13 +116,16 @@ const OFFERING = "Offering's Capability";
  * A cost as the Financial Foundation counts it: the price, times the quantity where the resource has one (three looms at 2,400 are 7,200),
  * so that a tile and the Costs section always show the same amount.
  */
-function cost(value: BusinessCostValue, quantity = "", purchase = false): { frequency: string; frequencyLabel: string; amount: number | null; currency: string } {
+/** `purchase`: an asset bought (paid once, for its quantity); `multiply`: a partner's Per unit price times its Qty, still per unit. */
+function cost(value: BusinessCostValue, quantity = "", purchase = false, multiply = false): { frequency: string; frequencyLabel: string; amount: number | null; currency: string } {
     const unit = value.price.trim() ? parseAmount(value.price) : null;
-    const count = resourceUnitCount(quantity, value.frequency, purchase);
+    const count = resourceUnitCount(quantity, value.frequency, purchase || multiply);
     const amount = unit !== null && count !== null ? Math.round(unit * count * 100) / 100 : unit;
-    const known = BUSINESS_COST_FREQUENCIES.find(entry => entry.id === value.frequency)?.label ?? "";
+    // (A purchase priced Per unit is paid once, for its quantity: One-time, as the Financial Foundation counts it -- fromCapabilityFrequency.)
+    const frequency = purchase && value.frequency === "per-unit" ? "one-time" : value.frequency;
+    const known = BUSINESS_COST_FREQUENCIES.find(entry => entry.id === frequency)?.label ?? "";
     return {
-        frequency: value.frequency,
+        frequency,
         frequencyLabel: value.frequency === "other" && value.frequencyOther.trim() ? value.frequencyOther.trim() : known,
         amount: amount !== null && Number.isFinite(amount) ? amount : null,
         currency: value.currency
@@ -304,7 +307,7 @@ export function floorRows(
                     ? [BUSINESS_PARTNER_GROUPS[section === OFFERING ? "offering" : "infrastructure"][partner.category].find(entry => entry.id === partner.group)?.label ?? "No group"]
                     : [])
             ],
-            status: "", statusLabel: "", ...cost(partner.cost, partner.cost.frequency === "per-unit" ? partner.quantity : "", partner.cost.frequency === "per-unit"), links: supplied.get(partner.id) ?? []
+            status: "", statusLabel: "", ...cost(partner.cost, partner.cost.frequency === "per-unit" ? partner.quantity : "", false, partner.cost.frequency === "per-unit"), links: supplied.get(partner.id) ?? []
         });
     }));
 
@@ -371,9 +374,12 @@ export function belongsLines(row: FloorRow): string[] {
 }
 
 /** The lines a tile of the overlay lists under its name: where it belongs, then its status and its cost, the information alone. */
-export function tileLines(row: FloorRow, format: (amount: number) => string = String): string[] {
-    // (The price in bold; where there is one, "Costs" is said by it and not written.)
-    const cost = row.amount === null ? "" : ["**" + format(row.amount) + "**", row.frequencyLabel.toLowerCase()].filter(Boolean).join(" ");
+export function tileLines(row: FloorRow, format: (amount: number) => string = String, organisationCurrency = ""): string[] {
+    // (The price in bold; where there is one, "Costs" is said by it and not written. A share of revenue is a percentage, never money; a cost in another currency
+    // says its own code, as the table does.)
+    const own = row.currency && organisationCurrency && row.currency !== organisationCurrency ? row.currency + " " + amountText(row.amount ?? 0) : "";
+    const figure = row.amount === null ? "" : isPercentRow(row) ? amountText(row.amount) : own || format(row.amount);
+    const cost = row.amount === null ? "" : ["**" + figure + "**", row.frequencyLabel.toLowerCase()].filter(Boolean).join(" ");
     return [
         ...(row.dates ? [row.dates] : []),
         ...belongsLines(row),
@@ -401,18 +407,28 @@ export const FLOOR_SORTS: readonly { id: string; label: string }[] = [
     { id: "kind", label: "Type" }
 ];
 
+/** A cost that is a share of revenue (% of Rev): its amount is a percentage, never money. */
+export const isPercentRow = (row: FloorRow) => row.frequency === "percent-revenue";
+
+/** A figure with no currency sign: at most two decimals, and two where it has any (9.40, never 9.4). */
+export const amountText = (amount: number) => amount.toLocaleString(undefined, Number.isInteger(amount) ? { maximumFractionDigits: 0 } : { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
 export function sortFloor(rows: readonly FloorRow[], sort: string): FloorRow[] {
     const list = [...rows];
     const byName = (a: FloorRow, b: FloorRow) => a.name.localeCompare(b.name, undefined, { sensitivity: "base" });
-    // (Rows without a cost go last either way.)
-    const byCost = (direction: 1 | -1) => (a: FloorRow, b: FloorRow) =>
-        a.amount === null && b.amount === null ? 0 : a.amount === null ? 1 : b.amount === null ? -1 : direction * (a.amount - b.amount);
+    // (Rows without a cost go last either way, and so does a share of revenue: a percentage is not compared with money.)
+    const money = (row: FloorRow) => row.amount === null || isPercentRow(row) ? null : row.amount;
+    const byCost = (direction: 1 | -1) => (a: FloorRow, b: FloorRow) => {
+        const [x, y] = [money(a), money(b)];
+        return x === null && y === null ? 0 : x === null ? 1 : y === null ? -1 : direction * (x - y);
+    };
     switch (sort) {
         case "name-asc": return list.sort(byName);
         case "name-desc": return list.sort((a, b) => byName(b, a));
         case "cost-desc": return list.sort(byCost(-1));
         case "cost-asc": return list.sort(byCost(1));
-        case "status": return list.sort((a, b) => (a.statusLabel || "~").localeCompare(b.statusLabel || "~") || byName(a, b));
+        // (Rows with no status -- suppliers, founders, legal expenses -- after those with one.)
+        case "status": return list.sort((a, b) => Number(!a.statusLabel) - Number(!b.statusLabel) || a.statusLabel.localeCompare(b.statusLabel) || byName(a, b));
         case "kind": return list.sort((a, b) => FLOOR_KINDS.findIndex(k => k.id === kindClass(a)) - FLOOR_KINDS.findIndex(k => k.id === kindClass(b)));
         default: return list;
     }
@@ -580,7 +596,8 @@ export function filterFloor(rows: readonly FloorRow[], filter: FloorFilter): Flo
             return false;
         }
         if (min !== null || max !== null) {
-            if (row.amount === null || (min !== null && row.amount < min) || (max !== null && row.amount > max)) {
+            // (A share of revenue is a percentage: it is in no range of money.)
+            if (row.amount === null || isPercentRow(row) || (min !== null && row.amount < min) || (max !== null && row.amount > max)) {
                 return false;
             }
         }
