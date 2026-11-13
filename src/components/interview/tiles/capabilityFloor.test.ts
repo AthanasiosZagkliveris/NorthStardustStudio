@@ -113,7 +113,7 @@ describe("the floor", () => {
 
     test("a tile lists where it belongs, then its status and cost, as plain lines (no labels, no arrows)", () => {
         const lines = tileLines(rows.find(row => row.id === "r1")!, amount => "£" + amount);
-        expect(lines).toEqual(["Infrastructure", "Utilities", "Premises Utilities", "**£80** monthly"]);
+        expect(lines).toEqual(["Infrastructure", "Utilities", "Premises Utilities", "**£80** Monthly"]);
         expect(lines.join("")).not.toMatch(/[>›→:]/);
     });
 
@@ -151,13 +151,13 @@ describe("the floor", () => {
         expect(list.find(row => row.id === "a1")!.links.map(link => link.type).sort()).toEqual(["partner", "resource"]);
     });
 
-    test("the Costs option isolates the tiles that have an expense (a price, or a Workspace deposit); the cost order and range then apply to them", () => {
+    test("the Costs option isolates the tiles that have an expense; the cost order and range then apply to them", () => {
         const base = rows.find(row => row.id === "r1")!;
-        const make = (id: string, patch: Partial<FloorRow> = {}): FloorRow => ({ ...base, id, amount: null, frequency: "", deposit: null, missing: undefined, links: [], ...patch });
-        const list = [make("a", { amount: 100, frequency: "one-time" }), make("w", { deposit: 300 }), make("n"), make("m", { amount: 20, frequency: "monthly" })];
+        const make = (id: string, patch: Partial<FloorRow> = {}): FloorRow => ({ ...base, id, amount: null, frequency: "", missing: undefined, links: [], ...patch });
+        const list = [make("a", { amount: 100, frequency: "one-time" }), make("n"), make("m", { amount: 20, frequency: "monthly" })];
         const ids = (patch: Partial<FloorFilter>) => filterFloor(list, { ...DEFAULT_FLOOR_FILTER, ...patch }).map(row => row.id);
-        expect(ids({})).toEqual(["a", "w", "n", "m"]);
-        expect(ids({ costsOnly: true })).toEqual(["a", "w", "m"]);
+        expect(ids({})).toEqual(["a", "n", "m"]);
+        expect(ids({ costsOnly: true })).toEqual(["a", "m"]);
         expect(ids({ costsOnly: true, min: "50" })).toEqual(["a"]);
         expect(sortFloor(filterFloor(list, { ...DEFAULT_FLOOR_FILTER, costsOnly: true }), "cost-desc")[0].id).toBe("a");
     });
@@ -177,8 +177,10 @@ describe("the floor", () => {
         const list = floorRows(many);
         expect(list.find(row => row.id === "q1")!.amount).toBe(7200);
         expect(list.find(row => row.id === "f1")).toMatchObject({ amount: 1800, frequency: "monthly" });
-        expect(list.find(row => row.id === "workspace")).toMatchObject({ amount: 1250, deposit: 3750 });
-        expect(tileLines(list.find(row => row.id === "workspace")!, amount => "£" + amount)).toEqual(["Infrastructure", "Workspace", "Premises", "Buy", "**£1250** monthly", "£3750 deposit"]);
+        expect(list.find(row => row.id === "workspace")).toMatchObject({ amount: 1250 });
+        expect(tileLines(list.find(row => row.id === "workspace")!, amount => "£" + amount)).toEqual(["Infrastructure", "Workspace", "Premises", "Buy", "**£1250** Monthly"]);
+        // (Its deposit a line of its own, one-time, with the Financial Foundation's id: owner, 2026-11-13 16:50.)
+        expect(list.find(row => row.id === "workspace-deposit")).toMatchObject({ amount: 3750, frequency: "one-time", partOf: "workspace" });
     });
 
 });
@@ -192,15 +194,15 @@ describe("the Inventory's figures (owner, 2026-11-13 12:32: \"it doesn't present
         const fee = row({ id: "fee", name: "Payments", frequency: "percent-revenue", frequencyLabel: "% of Rev", amount: 2 });
         const rent = row({ id: "rent", name: "Rent", amount: 1250 });
         const cheap = row({ id: "cheap", name: "Cheap", amount: 1 });
-        expect(tileLines(fee, money).pop()).toBe("**2** % of rev");
+        expect(tileLines(fee, money).pop()).toBe("**2** % of Rev");
         expect(sortFloor([fee, rent, cheap], "cost-asc").map(entry => entry.id)).toEqual(["cheap", "rent", "fee"]);
         expect(sortFloor([fee, rent, cheap], "cost-desc").map(entry => entry.id)).toEqual(["rent", "cheap", "fee"]);
         expect(filterFloor([fee, rent, cheap], { ...DEFAULT_FLOOR_FILTER, min: "0", max: "5" }).map(entry => entry.id)).toEqual(["cheap"]);
     });
 
     test("a cost in another currency says its code on its tile; a figure with pence keeps two decimals", () => {
-        expect(tileLines(row({ amount: 99.5, currency: "USD" }), money, "GBP").pop()).toBe("**USD 99.50** monthly");
-        expect(tileLines(row({ amount: 9.4, currency: "GBP" }), money, "GBP").pop()).toBe("**£9.40** monthly");
+        expect(tileLines(row({ amount: 99.5, currency: "USD" }), money, "GBP").pop()).toBe("**USD 99.50** Monthly");
+        expect(tileLines(row({ amount: 9.4, currency: "GBP" }), money, "GBP").pop()).toBe("**£9.40** Monthly");
         expect(amountText(1250)).toBe((1250).toLocaleString());
     });
 
@@ -217,5 +219,20 @@ describe("the Inventory's figures (owner, 2026-11-13 12:32: \"it doesn't present
         const loom = floorRows(capability).find(entry => entry.id === "loom");
         expect(loom?.frequency).toBe("one-time");
         expect(loom?.amount).toBe(7200);
+    });
+});
+
+describe("the Inventory's remaining calls (owner, 2026-11-13 16:50)", () => {
+    const row = (id: string, frequency: string, amount: number | null): FloorRow => ({ id, tone: "infrastructure", kind: "resource", name: id, path: ["Infrastructure", "Equipment"], status: "", statusLabel: "", frequency, frequencyLabel: frequency, amount, links: [] } as unknown as FloorRow);
+
+    test("sorts the costs by frequency first -- one-time, yearly, monthly, per unit, a share of revenue --, then the amount, rows without a cost last", () => {
+        const list = [row("rent", "monthly", 1250), row("loom", "one-time", 7200), row("fee", "percent-revenue", 2), row("yarn", "per-unit", 17), row("bench", "one-time", 300), row("none", "", null), row("domain", "annually", 14)];
+        expect(sortFloor(list, "cost-desc").map(entry => entry.id)).toEqual(["loom", "bench", "domain", "rent", "yarn", "fee", "none"]);
+        expect(sortFloor(list, "cost-asc").map(entry => entry.id)).toEqual(["bench", "loom", "domain", "rent", "yarn", "fee", "none"]);
+    });
+
+    test("Resources holds the channel's resources", () => {
+        const channel = { ...row("kit", "one-time", 340), tone: "channel" } as FloorRow;
+        expect(filterFloor([channel], { ...DEFAULT_FLOOR_FILTER, placeKinds: ["resource"] }).map(entry => entry.id)).toEqual(["kit"]);
     });
 });

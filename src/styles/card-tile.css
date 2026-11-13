@@ -62,7 +62,9 @@
 .card-tile-symbols {
 
     display: inline-flex;
-    gap: var(--gap-4);
+    /* (12px apart: each circle that is a button takes the click across a 24px square round it, clear of the next -- WCAG 2.2, 2.5.8 Target Size (Minimum);
+       owner, 2026-11-13 16:50.) */
+    gap: var(--gap-12);
 
 }
 
@@ -80,7 +82,19 @@
 
 button.card-tile-symbol {
 
+    position: relative;
+
     cursor: pointer;
+
+}
+
+/* Its click area: 24px square, centred on the 12px circle, drawn by nothing. */
+button.card-tile-symbol::before {
+
+    content: "";
+
+    position: absolute;
+    inset: -6px;
 
 }
 

@@ -1,6 +1,6 @@
 import { describe, expect, test } from "vitest";
 import { asBusinessEngagementValue, asBusinessFoundationValue, createBusinessChannel } from "./AnswerUtils.ts";
-import { DEFAULT_RELATIONSHIP_TYPE, autoRelationshipTypes, offeringRelationshipsFor, demandSuggestions, journeySuggestions, relationshipTypesOf, suggestedRelationshipType, suggestionMet, withAnswerChannels, dismissedAfter, channelKey } from "./JourneySuggestions.ts";
+import { DEFAULT_RELATIONSHIP_TYPE, autoRelationshipTypes, offeringRelationshipsFor, demandSuggestions, journeySuggestions, relationshipTypesOf, suggestionMet, withAnswerChannels, dismissedAfter, channelKey } from "./JourneySuggestions.ts";
 import lumenText from "../../data/examples/lumen-and-loom-studio.json?raw";
 import quillText from "../../data/examples/quillfield-automation-llc.json?raw";
 
@@ -31,8 +31,8 @@ describe("the channels the Foundation suggests, stage by stage", () => {
         expect(named(list, "purchase")).toEqual(["Website › Online Store", "Direct Payment › Invoice"]);
         // Delivery: sent by you online, ongoing online access (O6).
         expect(named(list, "delivery")).toEqual(["File Delivery", "Website"]);
-        // Support: personal and dedicated help after they buy (O7), working it out alone before (D2).
-        expect(named(list, "support")).toEqual(["Email › Direct Email", "Online / Live", "Website"]);
+        // Support: personal and dedicated help after they buy (O7); the help wanted before buying (D2) makes relationship types only (owner, 2026-11-13 16:50).
+        expect(named(list, "support")).toEqual(["Email › Direct Email", "Online / Live"]);
         list.forEach(entry => expect(entry.source.length).toBeGreaterThan(0));
     });
 
@@ -51,10 +51,10 @@ describe("the channels the Foundation suggests, stage by stage", () => {
         expect(named(journeySuggestions(local), "discovery")[0]).toBe("In Person › Event / Talk");
     });
 
-    test("Buy Now, Pay Later and media or reviews suggest nothing: no channel of their own", () => {
+    test("Buy Now, Pay Later at the payment link, media and reviews at the website, a marketplace shopper at the Marketplace (owner, 2026-11-13 16:50)", () => {
         const segment = quill.foundation.segments[0];
-        const bare = { ...segment, profiles: [], offerings: [], questions: { ...segment.questions, pay: ["bnpl"], discover: ["media"], setting: [], authorise: [] } };
-        expect(journeySuggestions(bare)).toEqual([]);
+        const bare = { ...segment, profiles: [], offerings: [], questions: { ...segment.questions, pay: ["bnpl"], discover: ["media"], setting: ["marketplace"], authorise: [] } };
+        expect(journeySuggestions(bare).map(entry => entry.stage + " " + entry.category + " › " + entry.name)).toEqual(["discovery Website › Main Website", "purchase Marketplace › ", "purchase Direct Payment › Payment Link"]);
     });
 
     test("a suggestion is met once the channel exists: the same subchannel, or any channel of a category suggested alone", () => {
@@ -62,23 +62,6 @@ describe("the channels the Foundation suggests, stage by stage", () => {
         expect(suggestionMet({ stage: "discovery", category: "Social Media", name: "LinkedIn", source: "" }, [linkedIn])).toBe(true);
         expect(suggestionMet({ stage: "discovery", category: "Social Media", name: "Instagram", source: "" }, [linkedIn])).toBe(false);
         expect(suggestionMet({ stage: "support", category: "Social Media", name: "", source: "" }, [linkedIn])).toBe(true);
-    });
-
-});
-
-describe("the relationship type the Foundation suggests", () => {
-
-    test("the most personal of the help after buying (O7) and the help wanted before (D2)", () => {
-        const [audit, build, retainer] = quill.foundation.segments[0].offerings;
-        expect(suggestedRelationshipType(quill.foundation.segments[0], audit.id)).toBe("personal-assistance");
-        expect(suggestedRelationshipType(quill.foundation.segments[0], build.id)).toBe("personal-assistance");
-        expect(suggestedRelationshipType(quill.foundation.segments[0], retainer.id)).toBe("dedicated-support");
-        expect(suggestedRelationshipType(lumen.foundation.segments[1], lumen.foundation.segments[1].offerings[0].id)).toBe("dedicated-support");
-    });
-
-    test("none where neither is answered", () => {
-        const segment = { ...quill.foundation.segments[0], profiles: [], offerings: [] };
-        expect(suggestedRelationshipType(segment, "missing")).toBeNull();
     });
 
 });

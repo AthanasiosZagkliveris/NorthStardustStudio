@@ -14,7 +14,7 @@ import { BusinessAddButton, BusinessEmpty, BusinessNote, BusinessRemove, Busines
 import FieldRow from "../../fields/FieldRow.tsx";
 import { SingleColumn } from "../foundation/shared.tsx";
 import { EngagementBox, EngagementBoxes, EngagementCard, ScopeChoice, type OptionScope } from "./EngagementCard.tsx";
-import { autoRelationshipTypes, channelKey, journeySuggestions, suggestionCovered, suggestedRelationshipType, type ChannelSuggestion } from "../../../../framework/engine/JourneySuggestions.ts";
+import { autoRelationshipTypes, channelKey, journeySuggestions, suggestionCovered, type ChannelSuggestion } from "../../../../framework/engine/JourneySuggestions.ts";
 import { BUSINESS_JOURNEY_STAGES } from "../../../../framework/engine/AnswerUtils.ts";
 import { summaryText } from "../../cards/cardSummary.ts";
 import InfoNote, { InfoText } from "../../fields/InfoNote.tsx";
@@ -1130,25 +1130,6 @@ export function useEngagementRelationships(earlier: Earlier) {
                                                         );
 
                                                     })}
-
-                                                    {/* THE TYPE THE FOUNDATION SUGGESTS (doc 28, 7.4): from the help after buying (O7) and the help wanted before (D2); the founder adds it, or leaves it. */}
-                                                    {(() => {
-                                                        const suggested = suggestedRelationshipType(segment, offeringId);
-                                                        return suggested && !kept.types.includes(suggested) && (
-                                                            <div className="business-relationship-add">
-                                                                <BusinessEmpty>Suggested from your Foundation: {TYPE_LABELS[suggested]}, from the help your customers want before and after they buy.</BusinessEmpty>
-                                                                <BusinessStep
-                                                                    kind="add"
-                                                                    what={TYPE_LABELS[suggested] + " for " + offeringName(offeringId)}
-                                                                    label={TYPE_LABELS[suggested]}
-                                                                    disabled={disabled}
-                                                                    onClick={() => updateOfferingRelationships(segment.id, offeringId, {
-                                                                        types: [...kept.types.filter(candidate => candidate !== ""), suggested]
-                                                                    })}
-                                                                />
-                                                            </div>
-                                                        );
-                                                    })()}
 
                                                     {kept.types.length < BUSINESS_RELATIONSHIP_TYPES.length && (
                                                         <div className="business-relationship-add">

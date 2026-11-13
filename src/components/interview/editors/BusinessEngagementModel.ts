@@ -169,7 +169,8 @@ export const DEMAND_BUYING_HELP: InfoPoint[] = [
     {
         title: DEMAND_BUY_MONTHLY,
         text: "A subscription, membership or retainer. The sources give the new clients joining each month; the share cancelling gives the active clients at the normal level."
-    }
+    },
+    "It follows the Offering's terms on the Foundation (On what terms do they pay for it?), and is asked here only where those terms leave it open."
 ];
 
 /* How one source's sales are estimated. */

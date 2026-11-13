@@ -108,8 +108,9 @@ const kindName = (row: FloorRow) => FLOOR_KINDS.find(kind => kind.id === kindCla
 export function tableRows(row: FloorRow, format: (amount: number) => string = String, organisationCurrency = "") {
     const legal = row.kind === "legal";
     const base = {
-        type: legal ? "Expense" : kindName(row),
-        section: legal ? "Legal Entity" : row.path[0] === "Infrastructure" ? "Infrastructure" : "Offering",
+        type: legal ? "Legal expense" : kindName(row),
+        // (The funnel's names: Legal, Infrastructure, Offering -- placeOf, as Belongs to files the row.)
+        section: FLOOR_PLACES.find(place => place.id === placeOf(row))?.label ?? "",
         // (An activity's category is the third line of its path; a Customer Channel's card has the group "Channel".)
         category: legal ? "" : row.kind === "activity" ? row.path[2] ?? "" : row.path[1] ?? "",
         // (A card a channel holds has the group "Channel": the channel's own name follows it, in the Group column.)
@@ -126,14 +127,6 @@ export function tableRows(row: FloorRow, format: (amount: number) => string = St
     };
     // (A share of revenue is a percentage: "2%", never in the currency's column as money.)
     const lines = [{ ...base, ...channel, cost: row.amount !== null ? (isPercentRow(row) ? amountText(row.amount) + "%" : own + format(row.amount)) : "", frequency: row.frequencyLabel, nature: row.nature ?? "", behaviour: row.behaviour ?? "" }];
-    if (row.deposit) {
-        const deposit = { ...base, ...channel, cost: own + format(row.deposit) + " Deposit", frequency: "One-time", nature: row.nature ?? "", behaviour: row.behaviour ?? "" };
-        if (row.amount === null) {
-            lines[0] = deposit;
-        } else {
-            lines.push(deposit);
-        }
-    }
     return lines;
 }
 
@@ -200,9 +193,18 @@ export default function CapabilityOverview({ rows, format = String, currency = "
     // The table: the columns hidden and the text size (the middle step, the body size), kept while the overview stays open.
     const [hiddenColumns, setHiddenColumns] = useState<ReadonlySet<string>>(new Set(HIDDEN_AT_FIRST));
     /** The Channel Costs set-up switched on or off: on, its filter, order and columns; off, the Inventory as it opens. */
+    // (Switched on, the set-up's filter, order and columns join the founder's own choices; off, those come back as they were: owner, 2026-11-13 16:50.)
+    const [costsHid, setCostsHid] = useState<readonly string[]>([]);
+    const [beforeSetup, setBeforeSetup] = useState<{ sort: string; hidden: ReadonlySet<string> } | null>(null);
     const setChannelSetup = (on: boolean) => {
-        setFilter(on ? { ...DEFAULT_FLOOR_FILTER, ...CHANNEL_SETUP.filter } : DEFAULT_FLOOR_FILTER);
-        setHiddenColumns(new Set(on ? CHANNEL_SETUP.hidden : HIDDEN_AT_FIRST));
+        if (on) {
+            setBeforeSetup({ sort: filter.sort, hidden: hiddenColumns });
+            setFilter(current => ({ ...current, ...CHANNEL_SETUP.filter }));
+            setHiddenColumns(new Set([...hiddenColumns, ...CHANNEL_SETUP.hidden].filter(column => !HIDDEN_AT_FIRST.includes(column) || CHANNEL_SETUP.hidden.includes(column as never))));
+        } else {
+            setFilter(current => ({ ...current, channelsOnly: false, sort: beforeSetup?.sort ?? DEFAULT_FLOOR_FILTER.sort }));
+            setHiddenColumns(new Set(beforeSetup?.hidden ?? HIDDEN_AT_FIRST));
+        }
         setConnection("");
         setFocus(null);
     };
@@ -251,7 +253,7 @@ export default function CapabilityOverview({ rows, format = String, currency = "
             onOpenLegal?.(row.id);
         } else {
             // (The box name above the card is the card's own section -- Founders, Resources, Activities, Partners & Suppliers -- not "Inventory".)
-            openCard?.(row.id, SECTION_OF_KIND[kindClass(row)], undefined, pointer, false);
+            openCard?.(row.partOf ?? row.id, SECTION_OF_KIND[kindClass(row)], undefined, pointer, false);
         }
     };
 
@@ -292,7 +294,7 @@ export default function CapabilityOverview({ rows, format = String, currency = "
                 {/* Step 1: ONE place (the ticked one; ticking another moves the tick, ticking it again clears: all). Changing it clears step 2. */}
                 <BusinessTicks
                     name="Belongs to"
-                    options={FLOOR_PLACES.filter(place => rows.some(row => placeOf(row) === place.id)).map(place => ({ id: place.id, label: place.label }))}
+                    options={FLOOR_PLACES.filter(place => rows.some(row => placeOf(row) === place.id && filter.kinds.has(kindClass(row)))).map(place => ({ id: place.id, label: place.label }))}
                     chosen={filter.place === "" ? [] : [filter.place]}
                     onChange={(next) => {
                         const now = next.filter(id => id !== filter.place)[0] ?? "";
@@ -364,7 +366,7 @@ export default function CapabilityOverview({ rows, format = String, currency = "
                     </div>
                 )}
                 {/* A place's other groups (a legal expense's), whatever is ticked. */}
-                {filter.place !== "" && groups.length > 0 && (
+                {filter.place !== "" && groups.length > 1 && (
                     <div className="capability-overview-menu-sub">
                         <strong>Group</strong>
                         <BusinessTicks
@@ -405,7 +407,7 @@ export default function CapabilityOverview({ rows, format = String, currency = "
                     Frequency
                     <FunnelPicker
                         label="Frequency"
-                        options={BUSINESS_COST_FREQUENCIES.map(entry => ({ id: entry.id as string, label: entry.label as string })).filter(option => option.id === filter.frequency || rows.some(row => row.frequency === option.id))}
+                        options={[...BUSINESS_COST_FREQUENCIES.map(entry => ({ id: entry.id as string, label: entry.label as string })), { id: "other", label: "Other" }].filter(option => option.id === filter.frequency || rows.some(row => row.frequency === option.id))}
                         value={filter.frequency}
                         onChange={(frequency) => patch({ frequency })}
                     />
@@ -426,10 +428,17 @@ export default function CapabilityOverview({ rows, format = String, currency = "
                         chosen={filter.costsOnly ? ["costs"] : []}
                         onChange={(next) => {
                             patch({ costsOnly: next.length > 0 });
-                            // (Isolating the costs hides Status and Linked from the table, the user can tick them back; turning it off shows them again.)
+                            // (Isolating the costs hides Status and Linked from the table, the user can tick them back; turning it off shows again only what it hid.)
                             setHiddenColumns(current => {
                                 const kept = new Set(current);
-                                ["status", "linked"].forEach(column => next.length > 0 ? kept.add(column) : kept.delete(column));
+                                if (next.length > 0) {
+                                    const hid = ["status", "linked"].filter(column => !kept.has(column));
+                                    hid.forEach(column => kept.add(column));
+                                    setCostsHid(hid);
+                                } else {
+                                    costsHid.forEach(column => kept.delete(column));
+                                    setCostsHid([]);
+                                }
                                 return kept;
                             });
                         }}
@@ -448,6 +457,7 @@ export default function CapabilityOverview({ rows, format = String, currency = "
                             />
                         ))}
                     </div>
+                    <InfoNote label="Cost order" points={["The costs are ordered by how often they are paid -- one-time, yearly, quarterly, monthly, per unit, per project, a share of revenue --, then by their amount.", "From and To compare the amounts as entered."]} />
                 </div>
                 {/* CHANNEL COSTS, directly under the Costs tick, above its range (owner, 2026-11-12 23:54; 2026-11-13 00:27: "I said under the costs!"): the Channel Costs set-up -- only the channel expenses, the highest cost first, the Offering,
                     Journey and Actions columns on; shown where there are channel expenses. */}
@@ -623,7 +633,7 @@ export default function CapabilityOverview({ rows, format = String, currency = "
                                 style={row.channel ? undefined : { "--strategy-theme-hue": toneHue(row.tone) } as CSSProperties}
                             >
                                 <th scope="row" data-col="name">
-                                    {at > 0 || row.kind === "legal"
+                                    {at > 0 || (row.kind === "legal" && !onOpenLegal)
                                         ? row.name
                                         : <TextLink className="capability-overview-name" onClick={(event) => open(row, event.detail > 0)}>{row.name}</TextLink>}
                                 </th>

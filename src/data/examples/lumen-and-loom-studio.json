@@ -2634,6 +2634,31 @@
                       ]
                     },
                     "fromAnswers": true
+                  },
+                  {
+                    "id": "channel-segment-majxtl1u-website-main-website",
+                    "category": "Website",
+                    "name": "Main Website",
+                    "links": [
+                      ""
+                    ],
+                    "offerings": [
+                      "*"
+                    ],
+                    "stages": [
+                      "discovery"
+                    ],
+                    "actionIds": {
+                      "discovery": [
+                        "action-channel-segment-majxtl1u-website-main-website-discovery-1"
+                      ]
+                    },
+                    "actions": {
+                      "discovery": [
+                        "Publish a case study of each finished hotel project and share it with interiors magazines and design review sites"
+                      ]
+                    },
+                    "fromAnswers": true
                   }
                 ],
                 "actions": [
@@ -2712,6 +2737,10 @@
                   {
                     "id": "action-channel-segment-majxtl1u-social-media-pinterest-discovery-1",
                     "text": "Pin each commission in its finished room, tagged by style and colourway"
+                  },
+                  {
+                    "id": "action-channel-segment-majxtl1u-website-main-website-discovery-1",
+                    "text": "Publish a case study of each finished hotel project and share it with interiors magazines and design review sites"
                   }
                 ],
                 "offerings": [

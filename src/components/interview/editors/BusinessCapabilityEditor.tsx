@@ -161,18 +161,22 @@ export default function BusinessCapabilityEditor(props: BusinessCapabilityEditor
     function overviewTile(): SectionTile {
         const rows = floor;
         // (A card that lacks a required answer is counted nowhere.)
-        const counts = (kinds: string[]) => rows.filter(row => kinds.includes(row.kind) && !row.missing).length;
+        // (The cards themselves: a Workspace's extra or deposit is a line of its card.)
+        const said = (count: number, one: string, many: string) => count + " " + (count === 1 ? one : many);
+        const counts = (kinds: string[]) => rows.filter(row => kinds.includes(row.kind) && !row.missing && !row.partOf).length;
         return {
             id: "overview",
             title: "Inventory",
             anchor: "section-overview",
+            // (The Founders counted as Include names them, apart from the resources: owner, 2026-11-13 16:50.)
             items: [
-                counts(["resource", "workspace", "founder"]) + " resources",
-                counts(["activity"]) + " activities",
-                counts(["partner", "provider"]) + " partners & suppliers"
+                said(counts(["founder"]), "founder", "founders"),
+                said(counts(["resource", "workspace"]), "resource", "resources"),
+                said(counts(["activity"]), "activity", "activities"),
+                said(counts(["partner", "provider"]), "partner or supplier", "partners & suppliers")
             ],
             // (A line is red, and the tile glows, while a card of its kind lacks an answer.)
-            itemAlerts: [["resource", "workspace", "founder"], ["activity"], ["partner", "provider"]]
+            itemAlerts: [["founder"], ["resource", "workspace"], ["activity"], ["partner", "provider"]]
                 .map(kinds => floor.filter(row => kinds.includes(row.kind) && row.missing).flatMap(row => row.missing!))
                 .map(lacking => lacking.length > 0 ? lacking : undefined),
             isChannelCard: (cardId: string) => channelToneIds.has(cardId),

@@ -300,7 +300,7 @@ body:has([data-pair]) .section-tile-overlay.floating-overlay.business-foundation
    the column of the other lines. */
 .section-tile-list > li.section-tile-list-channel::before {
 
-    top: calc((var(--section-tile-line-height) * 1em - var(--bullet-size) * 2 - 2px) / 2);
+    top: calc((var(--tile-row) - var(--bullet-size) * 2 - 2px) / 2);
 
 }
 
@@ -310,7 +310,7 @@ body:has([data-pair]) .section-tile-overlay.floating-overlay.business-foundation
 
     position: absolute;
     left: 0;
-    top: calc((var(--section-tile-line-height) * 1em - var(--bullet-size) * 2 - 2px) / 2 + var(--bullet-size) + 2px);
+    top: calc((var(--tile-row) - var(--bullet-size) * 2 - 2px) / 2 + var(--bullet-size) + 2px);
 
     width: var(--bullet-size);
     height: var(--bullet-size);
@@ -1048,7 +1048,7 @@ body:has([data-pair]) .section-tile-overlay.floating-overlay.business-foundation
     /* (One line of the list in all: the text under it still ends at a whole line.) */
     height: 1px;
 
-    margin: calc(var(--section-tile-line-height) * 0.5em - 0.5px) 0;
+    margin: calc(var(--tile-row) * 0.5 - 0.5px) 0;
     padding: 0;
 
 }

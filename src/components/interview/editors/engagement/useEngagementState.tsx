@@ -12,7 +12,7 @@ import { jumpTo } from "../../tiles/jumpTo.ts";
 import { rowActions, withChosenAction, withRowLines } from "../../../../framework/engine/ChannelActions.ts";
 import { actionAtOrder, actionPlacements, actionRows, channelNamesOf, connectionPaint, markTint, orderAt, orderIn, parseOrderReference, resourceColours, sharedColours } from "../../../../framework/engine/ActionOrder.ts";
 import { useChannelColumns } from "../useChannelColumns.ts";
-import { noPhysicalOffering } from "../../../../framework/engine/EffectiveAnswers.ts";
+import { noPhysicalOffering, offeringStartsById } from "../../../../framework/engine/EffectiveAnswers.ts";
 import { type CostCard, actionResourceLinks, capabilityCards, costCardName } from "../../../../framework/engine/ChannelResources.ts";
 import { type ActionIsolation, type ActionLit, ResourceSymbol, SharedSymbol } from "../ActionMarkers.tsx";
 import { OPEN_EVENT, type OpenRequest } from "../../tiles/SectionTiles.tsx";
@@ -232,9 +232,19 @@ export function useEngagementState(props: BusinessEngagementEditorProps) {
             }
             return entry;
         }).filter((entry): entry is BusinessSegmentEngagementValue => entry !== undefined);
+        // (How an Offering's customers buy, kept as its terms say -- O3, offeringStarts --, so every document reads it as the page shows it.)
+        const demand = { ...engagement.demand };
+        segments.forEach(segment => segment.offerings.forEach(offering => {
+            const recurring = offeringStartsById(segments, offering.id, identity).recurring;
+            const saved = demand[offering.id];
+            if (saved && recurring !== undefined && saved.recurring !== recurring) {
+                demand[offering.id] = { ...saved, recurring };
+                changed = true;
+            }
+        }));
         if (changed) {
             const others = engagement.segments.filter(entry => !segments.some(segment => segment.id === entry.segmentId));
-            onChange({ ...engagement, segments: [...next, ...others] });
+            onChange({ ...engagement, segments: [...next, ...others], demand });
         }
     // (Read again whenever the answer or the Foundation changes.)
     // eslint-disable-next-line react-hooks/exhaustive-deps

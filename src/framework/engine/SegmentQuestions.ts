@@ -420,9 +420,10 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
             { id: "mobile", label: "Online, on a phone" },
             { id: "desktop", label: "Online, on a computer" },
             { id: "store", label: "In a shop" },
-            { id: "multi", label: "Both online and in shops" }
+            { id: "multi", label: "Both online and in shops" },
+            { id: "marketplace", label: "On a marketplace, such as Etsy or Amazon" }
         ],
-        info: ["Where most of their purchases start and finish. Choose Both online and in shops when they mix the two about equally."]
+        info: ["Where most of their purchases start and finish. Choose Both online and in shops when they mix the two about equally.", "A marketplace is a site that sells many sellers' goods, such as Etsy, Amazon or eBay."]
     },
     {
         id: "pay", box: "purchasing", label: "How do your customers pay?", many: true,

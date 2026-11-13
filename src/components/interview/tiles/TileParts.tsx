@@ -209,7 +209,8 @@ export function TileList({
             for (const child of Array.from(node.children) as HTMLElement[]) {
                 // (Its bottom within the LIST: the list is not the child's offset parent, so the list's own place in the layer is taken away -- else every line looked that much lower and the list was cut a line short.)
                 const bottom = child.offsetTop - (child.offsetParent === node ? 0 : node.offsetTop) + child.offsetHeight;
-                if (bottom <= room + 0.5) {
+                // (With the 4px kept under the last line for its underline, inside the room: a list of 24px rows never reaches the tile's + box.)
+                if (bottom + 4 <= room + 0.5) {
                     fit = bottom;
                 } else {
                     break;

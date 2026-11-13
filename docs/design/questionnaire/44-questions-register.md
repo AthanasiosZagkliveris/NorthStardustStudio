@@ -391,7 +391,7 @@ None.
 | 28 | Box 4, 3 | `discover` | Where do your customers discover new products? | BusinessTicks | 3 | always (Sales calls or tenders for a business only) | – | built | doc 35, Box 4 |
 | 29 | Box 4, 6 | `path` | How do your customers usually decide to buy? | RadioChoice | – | the buyer is people; ordered by Box 4, 5 (boredom or a friend or creator: On impulse first; a need: When they urgently need it and After comparing options first) | – | built | doc 35, Box 4 |
 | 30 | Box 4, 9 | `authorise` | Who decides to buy? | BusinessTicks | – | the buyer is a business; answered (not shown) for a self-employed customer | where not answered, a Public body (Box 3, 1) or Large (Box 3, 2) sets Formal procurement, Micro or Self-employed One person decides | built | doc 35, Box 4 |
-| 31 | Box 4, 7 | `setting` | Where do your customers usually shop? | FittingRadioChoice | – | always | – | built | doc 35, Box 4 |
+| 31 | Box 4, 7 | `setting` | Where do your customers usually shop? | RadioChoice | – | always | – | built | doc 35, Box 4 |
 | 32 | Box 4, 8 | `pay` | How do your customers pay? | BusinessTicks | – | always | Digital wallets where they shop on a phone and no way of paying is chosen | built | doc 35, Box 4 |
 | 33 | Box 4, 4 | `share` | How do your customers share what they like? | BusinessTicks | – | the buyer is people; held back while Planning (owner, 2026-11-08), its saved answer kept | – | built | doc 35, Box 4 |
 
@@ -437,9 +437,10 @@ None.
     - Several departments check: IT or security, legal and finance.
     - Formal procurement: A tender or a request for proposals (RFP), with strict compliance.
 - **Box 4, 7. Where do your customers usually shop?**
-  - Options: Online, on a phone; Online, on a computer; In a shop; Both online and in shops.
+  - Options: Online, on a phone; Online, on a computer; In a shop; Both online and in shops; On a marketplace, such as Etsy or Amazon.
   - "i":
     - Where most of their purchases start and finish. Choose Both online and in shops when they mix the two about equally.
+    - A marketplace is a site that sells many sellers' goods, such as Etsy, Amazon or eBay.
 - **Box 4, 8. How do your customers pay?**
   - Options: Credit / debit card; Digital wallets; Cash; Buy Now, Pay Later or financing; Invoice, bank transfer or purchase order.
   - "i":

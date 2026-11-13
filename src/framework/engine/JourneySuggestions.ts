@@ -26,9 +26,11 @@ export interface ChannelSuggestion {
 
 type Pick = readonly [category: string, name: string];
 
-/** Where customers discover new products (the Segment's `discover`) → a Discover channel. Media and reviews have no channel of their own. */
+/** Where customers discover new products (the Segment's `discover`) → a Discover channel. Media, reviews and comparison sites lead to the website, as the
+ *  Profiles' online reviews do (COMPARE). */
 const DISCOVER: Readonly<Record<string, Pick>> = {
     peers: ["Referral & Affiliates", "Customer Referral"],
+    media: ["Website", "Main Website"],
     communities: ["Community", ""],
     creators: ["Referral & Affiliates", "Influencer / Ambassador"],
     algorithmic: ["Social Media", ""],
@@ -69,12 +71,14 @@ const SETTING: Readonly<Record<string, readonly Pick[]>> = {
     mobile: [["Website", "Online Store"]],
     desktop: [["Website", "Online Store"]],
     store: [["In Person", "Studio / Shop"]],
-    multi: [["Website", "Online Store"], ["In Person", "Studio / Shop"]]
+    multi: [["Website", "Online Store"], ["In Person", "Studio / Shop"]],
+    // (A marketplace the founder names: Etsy, Amazon and the rest are the Marketplace channel's subchannels.)
+    marketplace: [["Marketplace", ""]]
 };
 
-/** How the Segment pays (`pay`) → Direct Payment and its way. Buy Now, Pay Later has no subchannel of its own. */
+/** How the Segment pays (`pay`) → Direct Payment and its way. Buy Now, Pay Later is offered at the checkout a payment link opens (Klarna, Afterpay). */
 const PAY: Readonly<Record<string, string>> = {
-    card: "Card", wallet: "Payment Link", cash: "Cash", invoice: "Invoice"
+    card: "Card", wallet: "Payment Link", cash: "Cash", invoice: "Invoice", bnpl: "Payment Link"
 };
 
 /** How customers receive an Offering (O6) → a Delivery channel. */
@@ -96,13 +100,6 @@ const HELP_AFTER: Readonly<Record<string, readonly Pick[]>> = {
     dedicated: [["Online / Live", ""]]
 };
 
-/** The help wanted before buying (D2) → a Support & Follow Up channel. */
-const HELP_BEFORE: Readonly<Record<string, Pick>> = {
-    alone: ["Website", ""],
-    little: ["Email", "Direct Email"],
-    person: ["Online / Live", ""],
-    formal: ["Online / Live", ""]
-};
 
 /** The channels one Segment's Foundation suggests, stage by stage, each once (the first source that gives it names it). A local Segment's In Person and Community come first. */
 export function journeySuggestions(segment: BusinessCustomerSegmentValue, identity?: SegmentIdentity): ChannelSuggestion[] {
@@ -150,9 +147,8 @@ export function journeySuggestions(segment: BusinessCustomerSegmentValue, identi
     // DELIVERY: how they receive each Offering.
     ids(offerings, "o6").forEach(id => RECEIVE[id] && add("delivery", RECEIVE[id], "how they receive it"));
 
-    // SUPPORT & FOLLOW UP: the help after they buy, then the help they want before buying.
+    // SUPPORT & FOLLOW UP: the help after they buy. (The help they want before buying, D2, makes the relationship types: autoRelationshipTypes.)
     ids(offerings, "o7").forEach(id => (HELP_AFTER[id] ?? []).forEach(pick => add("support", pick, "your help after they buy")));
-    ids(profiles, "d2").forEach(id => HELP_BEFORE[id] && add("support", HELP_BEFORE[id], "the help they want"));
 
     return out;
 }
@@ -221,25 +217,6 @@ export function suggestionCovered(suggestion: ChannelSuggestion, channels: reado
     return suggestionMet(suggestion, channels) || (!suggestion.named && channels.some(channel => channel.category === suggestion.category && channel.stages.includes(suggestion.stage)));
 }
 
-/** The relationship types, from the least to the most personal. */
-const PERSONAL_ORDER = ["self-service", "automated-service", "personal-assistance", "dedicated-support"] as const;
-
-/**
- * The relationship type the Foundation suggests for one Offering (doc 28, 7.4): from the help after buying (its O7) and the help the Segment's Profiles want
- * before buying (D2), the most personal of them. None where neither is answered.
- */
-export function suggestedRelationshipType(segment: BusinessCustomerSegmentValue, offeringId: string, identity?: SegmentIdentity): string | null {
-    const offering = segment.offerings.find(entry => entry.id === offeringId);
-    const after = offering ? effectiveOfferingAnswers(offering, segment, identity).o7 ?? [] : [];
-    const before = [...new Set(segment.profiles.flatMap(profile => effectiveProfileAnswers(profile, segment, identity).d2 ?? []))];
-    const types: string[] = [];
-    after.forEach(id => types.push(id === "dedicated" ? "dedicated-support" : id === "personal" ? "personal-assistance" : id === "auto" ? "automated-service" : "self-service"));
-    before.forEach(id => types.push(id === "formal" ? "dedicated-support" : id === "person" || id === "little" ? "personal-assistance" : "self-service"));
-    if (types.length === 0) {
-        return null;
-    }
-    return types.reduce((best, type) => PERSONAL_ORDER.indexOf(type as typeof PERSONAL_ORDER[number]) > PERSONAL_ORDER.indexOf(best as typeof PERSONAL_ORDER[number]) ? type : best);
-}
 
 /** The relationship type an Offering has when its answers point to none: a person helping the customer, the type an early-stage founder starts with. */
 export const DEFAULT_RELATIONSHIP_TYPE = "personal-assistance";
@@ -267,7 +244,8 @@ export function autoRelationshipTypes(segment: BusinessCustomerSegmentValue, off
         }
     };
     const offering = segment.offerings.find(entry => entry.id === offeringId);
-    (offering ? effectiveOfferingAnswers(offering, segment, identity).o7 ?? [] : []).forEach(id =>
+    // (None gives no help, so it makes no type: the Offering's other answers, or Personal Assistance, stand.)
+    (offering ? effectiveOfferingAnswers(offering, segment, identity).o7 ?? [] : []).filter(id => id !== "none").forEach(id =>
         add(id === "dedicated" ? "dedicated-support" : id === "personal" ? "personal-assistance" : id === "auto" ? "automated-service" : "self-service", "your help after they buy"));
     // (The Profiles this Offering serves -- those that tick it among their needs --, else the Segment's every Profile.)
     const serving = segment.profiles.filter(profile => businessProfileOfferings(profile, segment.offerings).some(entry => entry.id === offeringId));
@@ -360,6 +338,14 @@ export function demandSuggestions(segment: BusinessCustomerSegmentValue, offerin
         }));
     if ((effectiveSegmentAnswers(segment, identity).authorise ?? []).includes("procurement") && !demand.sources.some(source => source.type === "contracts")) {
         out.push({ type: "contracts", channelId: "", label: "Contracts or tenders", source: "how they decide to buy" });
+    }
+    // REPEAT CUSTOMERS, where the answers say they come back (doc 28, 7.5): customers who buy out of habit (the Segment's `path`), or an Offering kept up after the
+    // sale -- repairs and maintenance, replacements and refills (O17). A subscription keeps its clients and is never offered it (DEMAND_SOURCES, oneOffOnly).
+    const offering = segment.offerings.find(entry => entry.id === offeringId);
+    const after = offering ? effectiveOfferingAnswers(offering, segment, identity).o17 ?? [] : [];
+    const habit = (effectiveSegmentAnswers(segment, identity).path ?? []).includes("habit");
+    if ((habit || after.includes("repairs") || after.includes("replacements")) && !(demand as { recurring?: boolean }).recurring && !demand.sources.some(source => source.type === "repeat")) {
+        out.push({ type: "repeat", channelId: "", label: "Repeat customers", source: habit ? "they buy out of habit" : "what comes after the sale" });
     }
     return out;
 }

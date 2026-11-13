@@ -439,19 +439,29 @@ describe("BusinessEngagementEditor starts from Page 1 (phase 5f, 2026-11-09)", (
         return <BusinessEngagementEditor value={value} onChange={setValue} foundation={foundation} />;
     }
 
-    it("starts Customers Buy from the Offering's O3 where the demand is not saved yet", () => {
-        render(<StartHarness />);
+    it("reads Customers Buy from the Offering's O3, shown as the terms say it (owner, 2026-11-13 16:50)", () => {
+        const { container } = render(<StartHarness />);
         expandAll("Expand all offerings");
-        expect(screen.getByRole("button", { name: "How customers buy Retainer: Every month, until they cancel" })).toBeTruthy();
-        expect(screen.getByRole("button", { name: "How customers buy Audit: One sale at a time" })).toBeTruthy();
+        const shown = [...container.querySelectorAll(".strategy-name-static")].map(node => node.textContent);
+        expect(shown).toEqual(expect.arrayContaining(["Every month, until they cancel", "One sale at a time"]));
+        expect(screen.queryByRole("button", { name: /^How customers buy/ })).toBeNull();
     });
 
-    it("keeps the page's own answer over the start", () => {
-        render(<StartHarness saved />);
-        expandAll("Expand all offerings");
-        expect(screen.getByRole("button", { name: "How customers buy Retainer: One sale at a time" })).toBeTruthy();
+    it("keeps the terms over an answer saved before: a retainer is bought every month", () => {
+        let saved: ReturnType<typeof asBusinessEngagementValue> | null = null;
+        function Saved() {
+            const [{ foundation, engagement }] = useState(() => {
+                const scenario = engagementScenario();
+                const [audit, retainer] = scenario.foundation.segments[0].offerings;
+                const offerings = [{ ...audit, category: "Service", questions: { o3: ["project"] } }, { ...retainer, category: "Service", questions: { o3: ["retainer"] } }];
+                return { foundation: { ...scenario.foundation, segments: [{ ...scenario.foundation.segments[0], offerings }] }, engagement: { ...scenario.engagement, demand: { [retainer.id]: { sources: [], recurring: false } } }, retainer };
+            });
+            const [value, setValue] = useState<unknown>(engagement);
+            return <BusinessEngagementEditor value={value} onChange={(next) => { saved = asBusinessEngagementValue(next); setValue(next); }} foundation={foundation} />;
+        }
+        render(<Saved />);
+        expect(Object.values(saved!.demand).some(entry => entry.recurring === true)).toBe(true);
     });
-
 });
 
 describe("BusinessEngagementEditor without a physical item (doc 28, 11.7)", () => {

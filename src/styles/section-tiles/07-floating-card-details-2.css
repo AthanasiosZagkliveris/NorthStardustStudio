@@ -288,7 +288,7 @@
 
 .column-tiles-page .section-tile-list > li + li.section-tile-divider {
 
-    margin-top: calc(var(--section-tile-line-height) * 0.5em - 0.5px);
+    margin-top: calc(var(--tile-row) * 0.5 - 0.5px);
 
 }
 

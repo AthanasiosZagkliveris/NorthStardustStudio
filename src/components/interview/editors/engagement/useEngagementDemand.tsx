@@ -29,7 +29,7 @@ type Earlier = ReturnType<typeof useEngagementState> & ReturnType<typeof useEnga
 
 export function useEngagementDemand(earlier: Earlier) {
 
-    const { channelTileId, disabled, engagement, folds, onChange, openFoundationAt, segmentOf, segments, showsAll } = earlier;
+    const { channelTileId, disabled, engagement, folds, identity, onChange, openFoundationAt, segmentOf, segments, showsAll } = earlier;
     // (The folds of the floating card's sections: open until folded.)
     const sectionFold = useSectionFolds();
 
@@ -43,8 +43,10 @@ export function useEngagementDemand(earlier: Earlier) {
      * with the first thing written here; what is recorded wins.
      */
     function demandOf(offeringId: string): DemandValue {
-        const recurring = offeringStartsById(segments, offeringId).recurring;
-        return engagement.demand[offeringId] ?? { ...createDemand(), ...(recurring !== undefined ? { recurring } : {}) };
+        // HOW ITS CUSTOMERS BUY IS THE OFFERING'S TERMS (O3; owner, 2026-11-13 16:50): a subscription, licence, pay as they go or monthly retainer is bought every
+        // month until they cancel, any other term one sale at a time (offeringStarts); asked here only where the terms say neither.
+        const recurring = offeringStartsById(segments, offeringId, identity).recurring;
+        return { ...(engagement.demand[offeringId] ?? createDemand()), ...(recurring !== undefined ? { recurring } : {}) };
     }
     /* The whole engagement is spread, so the Segments' channels and
        relationships are carried through every demand edit. */
@@ -421,8 +423,12 @@ export function useEngagementDemand(earlier: Earlier) {
                     })}
                 />
         );
-        // HOW IT IS BOUGHT: Customers Buy and, for an Offering kept until cancelled, the share cancelling a month -- one row, labels above.
-        const buyPicker = (
+        // HOW IT IS BOUGHT: Customers Buy -- the Offering's terms where they say it (read only, as the Foundation answered it), else asked -- and, for an Offering
+        // kept until cancelled, the share cancelling a month.
+        const fromTerms = offeringStartsById(segments, offeringId, identity).recurring !== undefined;
+        const buyPicker = fromTerms ? (
+            <span className="strategy-name-static">{demand.recurring ? DEMAND_BUY_MONTHLY : DEMAND_BUY_ONCE}</span>
+        ) : (
             <OptionPicker
                 label={"How customers buy " + offeringLabel}
                 placeholder={DEMAND_BUY_ONCE}
