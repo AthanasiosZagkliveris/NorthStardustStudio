@@ -374,20 +374,20 @@
                     "peers",
                     "communities"
                   ],
+                  "authorise": [
+                    "executive"
+                  ],
                   "setting": [
                     "desktop"
                   ],
                   "pay": [
                     "invoice"
                   ],
-                  "authorise": [
-                    "executive"
+                  "tam": [
+                    "boutique"
                   ],
                   "trajectory": [
                     "4"
-                  ],
-                  "tam": [
-                    "boutique"
                   ],
                   "trends": [
                     "technology",
@@ -1408,6 +1408,80 @@
                         "Record the handover call and share the Loom walkthrough"
                       ]
                     }
+                  },
+                  {
+                    "id": "channel-qf-slack",
+                    "category": "Community",
+                    "name": "Slack",
+                    "links": [
+                      ""
+                    ],
+                    "offerings": [
+                      "offering-a4k9r2td"
+                    ],
+                    "stages": [
+                      "discovery"
+                    ],
+                    "actionIds": {
+                      "discovery": [
+                        "action-qf-slack-1"
+                      ]
+                    },
+                    "actions": {
+                      "discovery": [
+                        "Answer automation questions in two NYC ops-leader Slack communities each week"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "channel-segment-qf3n8d2w-referral-affiliates-customer-referral",
+                    "category": "Referral & Affiliates",
+                    "name": "Customer Referral",
+                    "links": [
+                      ""
+                    ],
+                    "offerings": [
+                      "*"
+                    ],
+                    "stages": [
+                      "discovery"
+                    ],
+                    "actionIds": {
+                      "discovery": [
+                        "action-channel-segment-qf3n8d2w-referral-affiliates-customer-referral-discovery-1"
+                      ]
+                    },
+                    "actions": {
+                      "discovery": [
+                        "Ask every audit client for one introduction to a peer firm at the 30-day call"
+                      ]
+                    },
+                    "fromAnswers": true
+                  },
+                  {
+                    "id": "channel-segment-qf3n8d2w-social-media-x-twitter",
+                    "category": "Social Media",
+                    "name": "X (Twitter)",
+                    "links": [
+                      ""
+                    ],
+                    "offerings": [
+                      "*"
+                    ],
+                    "stages": [
+                      "discovery"
+                    ],
+                    "actionIds": {
+                      "discovery": [
+                        "action-channel-segment-qf3n8d2w-social-media-x-twitter-discovery-1"
+                      ]
+                    },
+                    "actions": {
+                      "discovery": [
+                        "Post one short AI workflow tip for small firms each weekday"
+                      ]
+                    },
+                    "fromAnswers": true
                   }
                 ],
                 "actions": [
@@ -1522,6 +1596,18 @@
                   {
                     "id": "action-channel-qfemail01-support-1",
                     "text": "Send retainer clients a monthly usage report of what ran, what failed and what was fixed, so they can see what the retainer delivers"
+                  },
+                  {
+                    "id": "action-qf-slack-1",
+                    "text": "Answer automation questions in two NYC ops-leader Slack communities each week"
+                  },
+                  {
+                    "id": "action-channel-segment-qf3n8d2w-referral-affiliates-customer-referral-discovery-1",
+                    "text": "Ask every audit client for one introduction to a peer firm at the 30-day call"
+                  },
+                  {
+                    "id": "action-channel-segment-qf3n8d2w-social-media-x-twitter-discovery-1",
+                    "text": "Post one short AI workflow tip for small firms each weekday"
                   }
                 ],
                 "offerings": [
@@ -1567,7 +1653,11 @@
                           }
                         }
                       }
-                    }
+                    },
+                    "dismissed": [
+                      "self-service",
+                      "community"
+                    ]
                   },
                   {
                     "offeringId": "offering-b7w3m5qx",
@@ -1611,7 +1701,12 @@
                           }
                         }
                       }
-                    }
+                    },
+                    "dismissed": [
+                      "personal-assistance",
+                      "self-service",
+                      "community"
+                    ]
                   },
                   {
                     "offeringId": "offering-c2p8j6nv",
@@ -1656,7 +1751,12 @@
                           }
                         }
                       }
-                    }
+                    },
+                    "dismissed": [
+                      "personal-assistance",
+                      "self-service",
+                      "community"
+                    ]
                   }
                 ],
                 "profiles": []
@@ -1675,7 +1775,8 @@
                       "qualified": "15",
                       "buy": "25"
                     },
-                    "basis": "About 24 new firms reached a month through LinkedIn messages, posts and meetups. A pre-launch test of 20 messages brought 3 calls (15%); one call in four is expected to book an audit."
+                    "basis": "About 24 new firms reached a month through LinkedIn messages, posts and meetups. A pre-launch test of 20 messages brought 3 calls (15%); one call in four is expected to book an audit.",
+                    "channelId": "segment-qf3n8d2w-channel"
                   },
                   {
                     "id": "source-r7d3n9wb",
@@ -1686,17 +1787,13 @@
                       "referrals": "1.5",
                       "buy": "40"
                     },
-                    "basis": "Introductions from the coworking community and two partner agencies; they arrive warm, so about 2 in 5 book."
+                    "basis": "Introductions from the coworking community and two partner agencies; they arrive warm, so about 2 in 5 book.",
+                    "channelId": "channel-r4f7p1xk"
                   }
                 ],
                 "recurring": false,
                 "cancel": "",
-                "channelIds": [
-                  "segment-qf3n8d2w-channel",
-                  "channel-w8e2b5sq",
-                  "channel-m2u5e8gv",
-                  "channel-r4f7p1xk"
-                ],
+                "channelIds": [],
                 "assumptions": "Slower in the first months while the first case studies are written."
               },
               "offering-b7w3m5qx": {
@@ -1707,16 +1804,14 @@
                     "calculate": false,
                     "estimate": "0.6",
                     "inputs": {},
-                    "basis": "Builds come from audits: about 40% of audited firms go on to a build (1.5 audits a month x 40%)."
+                    "basis": "Builds come from audits: about 40% of audited firms go on to a build (1.5 audits a month x 40%).",
+                    "channelId": "channel-qfzoom01"
                   }
                 ],
                 "recurring": false,
                 "cancel": "",
-                "channelIds": [
-                  "channel-qfemail01",
-                  "channel-qfzoom01"
-                ],
-                "assumptions": ""
+                "channelIds": [],
+                "assumptions": "Builds follow the audits: about 2 in 5 audited firms go on to a build, so the first builds arrive a month or two after the first audits."
               },
               "offering-c2p8j6nv": {
                 "sources": [
@@ -1726,7 +1821,8 @@
                     "calculate": false,
                     "estimate": "0.3",
                     "inputs": {},
-                    "basis": "About half of finished builds move onto the retainer (0.6 builds a month x 50%)."
+                    "basis": "About half of finished builds move onto the retainer (0.6 builds a month x 50%).",
+                    "channelId": "channel-qfportal1"
                   },
                   {
                     "id": "source-m9t4k7jr",
@@ -1737,15 +1833,13 @@
                       "referrals": "0.5",
                       "buy": "40"
                     },
-                    "basis": "Firms introduced by retainer clients who want ongoing support without a build first."
+                    "basis": "Firms introduced by retainer clients who want ongoing support without a build first.",
+                    "channelId": "channel-segment-qf3n8d2w-referral-affiliates-customer-referral"
                   }
                 ],
                 "recurring": true,
                 "cancel": "10",
-                "channelIds": [
-                  "channel-qfzoom01",
-                  "channel-qfemail01"
-                ],
+                "channelIds": [],
                 "assumptions": "About 10% of retainer clients cancel each month, so a client stays about 10 months on average."
               }
             },
@@ -4301,12 +4395,44 @@
     "onCostRate": "",
     "channelFees": [
       {
+        "id": "fee-uk0qu",
+        "channel": "Stripe Terminal",
+        "commission": "1.4",
+        "fixedFee": "0.10",
+        "chargeback": "0.5",
+        "note": "In person, UK cards; checked 14/11/2026 on Stripe's UK pricing page"
+      },
+      {
         "id": "fee-gd4hjzah",
         "channel": "Stripe",
+        "commission": "1.5",
+        "fixedFee": "0.20",
+        "chargeback": "0.5",
+        "note": "UK standard cards online (premium cards 1.9% + 20p, EEA cards 2.5% + 20p); checked 14/11/2026 on Stripe's UK pricing page"
+      },
+      {
+        "id": "fee-uk2qu",
+        "channel": "SumUp",
+        "commission": "1.69",
+        "fixedFee": "0",
+        "chargeback": "0.5",
+        "note": "In person (payment links and invoices 2.5%); checked 14/11/2026 on SumUp's UK pricing page"
+      },
+      {
+        "id": "fee-uk3qu",
+        "channel": "Shopify Payments",
         "commission": "2",
         "fixedFee": "0.25",
         "chargeback": "0.5",
-        "note": "The default rate for bad debts"
+        "note": "Basic plan, online (in person 1.7%); checked 14/11/2026 on Shopify's UK pricing page"
+      },
+      {
+        "id": "fee-uk4qu",
+        "channel": "Etsy",
+        "commission": "10.5",
+        "fixedFee": "0.20",
+        "chargeback": "0",
+        "note": "6.5% transaction fee + 4% + 20p payment processing, and about 16p a listing; checked 14/11/2026 on Etsy's fee pages"
       },
       {
         "id": "fee-a6og6ty9",
@@ -4314,7 +4440,7 @@
         "commission": "3.5",
         "fixedFee": "0.35",
         "chargeback": "1",
-        "note": "Higher risk"
+        "note": "Not checked yet: read PayPal's UK merchant fees page before relying on it"
       },
       {
         "id": "fee-co8eywpt",

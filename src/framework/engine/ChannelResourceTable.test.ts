@@ -6,7 +6,7 @@ import {
     createBusinessResourceSlot,
     type BusinessResourceSlotValue
 } from "./AnswerUtils.ts";
-import { buildChannelResourceTable } from "./ChannelResourceTable.ts";
+import { buildChannelResourceTable, variableCostText } from "./ChannelResourceTable.ts";
 import { capabilityCards } from "./ChannelResources.ts";
 import lumenText from "../../data/examples/lumen-and-loom-studio.json?raw";
 
@@ -143,6 +143,17 @@ describe("the channel resources table, derived", () => {
         // 25 + 120 / 12 + 100 = 135 a month.
         expect(table.summary).toEqual({ fixedPerMonth: 135, oneTime: 400, variable: [{ words: "per order", amount: 1.4 }], notSummed: 0 });
         expect(table.summaryText).toBe("Fixed per month: £135 · Variable: £1.40 per order · One-time: £400");
+    });
+
+    test("a share of revenue reads as a percentage, every other variable cost as an amount", () => {
+        const money = (amount: number) => "$" + amount.toFixed(2);
+        expect(variableCostText({ words: "of revenue", amount: 4.7 }, money)).toBe("4.7% of revenue");
+        expect(variableCostText({ words: "per project", amount: 1200 }, money)).toBe("$1200.00 per project");
+        // (A card priced as a share of revenue: the summary says the share, never an amount.)
+        const cap = asBusinessCapabilityValue(undefined);
+        const fee = capabilityCards({ ...cap, offering: { ...cap.offering, resources: [slot("card-fee", "Card fees", { price: "1.5", frequency: "percent-revenue", offeringIds: ["off-a"] })] } } as typeof cap);
+        const engaged = { ...engagement, channelResources: [{ id: "l-fee", segmentId: "seg-1", channelId: "mail", resourceId: "card-fee", actionIds: [] }] };
+        expect(buildChannelResourceTable(engaged, segment, fee, "GBP", offerings).summaryText).toBe("Variable: 1.5% of revenue");
     });
 
     test("with no channels there are no rows and no summary", () => {

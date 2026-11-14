@@ -52,6 +52,9 @@
 
 .channel-resource-table > caption{
 
+    /* (Read by a screen reader only; on the type scale all the same.) */
+    font-size:var(--font-small);
+
     position:absolute;
 
     width:1px;
@@ -65,6 +68,7 @@
 
 }
 
+/* (Its text the size a report chooses -- the Channel Costs report, as the Inventory's table --, else the small size.) */
 .channel-resource-table th,
 .channel-resource-table td{
 
@@ -77,7 +81,7 @@
     text-align:left;
     vertical-align:top;
 
-    font-size:var(--font-small);
+    font-size:var(--table-font, var(--font-small));
     font-weight:400;
     line-height:1.4;
 
@@ -230,6 +234,51 @@
 
     border-radius:50%;
     background:currentColor;
+
+}
+
+/* NUMBERED VALUES (a stage's actions, owner, 2026-11-13 16:12: "place divide lines between the actions ... and place numbers"): 1, 2, 3 in the bullets' place,
+   a line between one and the next across the whole cell, in the table's line colour. */
+.channel-resource-numbered{
+
+    counter-reset:value;
+
+}
+
+.channel-resource-numbered > li{
+
+    position:relative;
+
+    padding-left:calc(var(--bullet-size) + var(--bullet-gap));
+
+    counter-increment:value;
+
+}
+
+.channel-resource-numbered > li::before{
+
+    content:counter(value) ".";
+
+    position:absolute;
+    left:0;
+
+    font-variant-numeric:tabular-nums;
+
+}
+
+.channel-resource-numbered > li + li{
+
+    margin-top:var(--space-label);
+    margin-inline:-10px;
+    padding:var(--space-label) 10px 0 calc(10px + var(--bullet-size) + var(--bullet-gap));
+
+    border-top:1px solid var(--table-line);
+
+}
+
+.channel-resource-numbered > li + li::before{
+
+    left:10px;
 
 }
 

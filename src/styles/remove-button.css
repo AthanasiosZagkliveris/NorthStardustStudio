@@ -41,6 +41,8 @@
 
 }
 
+/* (The in-cell x, .cell-remove, below, draws the same two bars: one rule for both.) */
+
 /* Positioned, for its drawn X (the older removes above are positioned in their own corners). */
 .strategy-box-remove{
 
@@ -49,7 +51,9 @@
 }
 
 .strategy-box-remove::before,
-.strategy-box-remove::after{
+.strategy-box-remove::after,
+.cell-remove::before,
+.cell-remove::after{
 
     content:"";
 
@@ -69,13 +73,15 @@
 
 }
 
-.strategy-box-remove::before{
+.strategy-box-remove::before,
+.cell-remove::before{
 
     transform:rotate(45deg);
 
 }
 
-.strategy-box-remove::after{
+.strategy-box-remove::after,
+.cell-remove::after{
 
     transform:rotate(-45deg);
 
@@ -185,5 +191,76 @@
     border:1px solid var(--line-card);
 
     background:var(--bg-surface);
+
+}
+
+/* ==========================================================
+   THE IN-CELL x (CellRemoveButton; library BTN.XCL.001.003; owner, 2026-11-14 12:29 and 12:33): the x that stands INSIDE a cell, at its right end (a
+   channel expense's linked action). No frame, no outline, no fill: the X alone, two 2px bars in the danger red (--x-red), on a 24px target
+   (--size-cell-x, WCAG 2.2 SC 2.5.8). Under the pointer or the keyboard focus the X grows by a fifth (--hover-lift) and takes ONE soft haze of its red
+   (the shadow rule: a blurred, single glow, no outline); the focus adds the focus ring. With reduced motion it does not grow and keeps the glow.
+========================================================== */
+.cell-remove{
+
+    position:relative;
+
+    width:var(--size-cell-x);
+    height:var(--size-cell-x);
+
+    flex:none;
+
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+
+    padding:0;
+
+    color:var(--x-red);
+
+    border:0;
+    border-radius:var(--radius-sm);
+
+    background:none;
+
+    font:inherit;
+    font-size:0;
+    line-height:1;
+
+    cursor:pointer;
+
+    transition:transform .15s ease, filter .15s ease;
+
+}
+
+.cell-remove:is(:hover, :focus-visible):not(:disabled){
+
+    transform:scale(var(--hover-lift));
+
+    filter:drop-shadow(0 0 3px color-mix(in srgb, var(--x-red) 55%, transparent));
+
+}
+
+.cell-remove:focus-visible:not(:disabled){
+
+    outline:2px solid var(--focus-ring-ink, var(--line-primary));
+    outline-offset:2px;
+
+}
+
+.cell-remove:disabled{
+
+    color:var(--text-faint);
+
+    cursor:not-allowed;
+
+}
+
+@media (prefers-reduced-motion: reduce){
+
+    .cell-remove:is(:hover, :focus-visible):not(:disabled){
+
+        transform:none;
+
+    }
 
 }

@@ -54,7 +54,7 @@ describe("business documents", () => {
         // Sustainability numbers on from Financial Foundation's three headings (its costs are in the Appendix).
         expect(md).toContain("### 4. Revenue");
         expect(md).toContain("Lumen & Loom Studio Ltd, a private company limited by shares, based in London, United Kingdom, was founded by");
-        expect(md).toContain("is seeking £26,000 of additional funding towards a funding gap of £21,150");
+        expect(md).toContain("is seeking £26,000 of additional funding towards a funding gap of £25,848");
     });
 
     test("the financial forecast adds up, month by month and by year", () => {
@@ -456,7 +456,7 @@ describe("Quillfield: the documents tie together", () => {
         everything.forEach(entry => expect(entry, entry).not.toContain(") ("));
         expect(blocks.partners).toContain("Freelance developer (for Automation Build)");
         expect(blocks.activities).toEqual(["Deliver AI Workflow Audit", "Deliver Automation Build", "Deliver Automation Care Retainer",
-            "Marketing and sales through social media, website, email, in person, online / live and file delivery"]);
+            "Marketing and sales through social media, website, email, in person, online / live, file delivery, community and referral & affiliates"]);
         // The relationships are their own block, not repeated as activities.
         expect(blocks.activities.join(" ")).not.toMatch(/Support|Assistance|^Run /);
         expect(blocks.activities.join(" ")).not.toContain("Set up bookkeeping");

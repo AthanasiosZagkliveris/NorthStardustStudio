@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { DemandSource, DemandValue, asDemandValue, createDemand, createDemandSource, demandResult, capacityCheck, createDelivery, deliveryAllocation, deliveryEffort, founderDeliveryHours, WEEKS_PER_MONTH, founderWorkingHours } from "./DemandCapacity.ts";
+import { DemandSource, DemandValue, asDemandValue, createDemand, createDemandSource, demandChannelIds, demandResult, capacityCheck, createDelivery, deliveryAllocation, deliveryEffort, founderDeliveryHours, WEEKS_PER_MONTH, founderWorkingHours } from "./DemandCapacity.ts";
 
 /** Saved before several sources: one model and its inputs, read as it is on loading. */
 function demand(model: string, inputs: Record<string, string>): DemandValue {
@@ -249,6 +249,22 @@ describe("guards for figures saved before the limits", () => {
 
     it("never gives more delivery hours than working hours", () => {
         expect(founderDeliveryHours({ name: "F", hours: "100", deliveryHours: "150", deliveryShare: "" })).toBe(100);
+    });
+
+});
+
+describe("the channels that bring an Offering's customers, from its sources (owner, 2026-11-12: \"Fill it from the sources\")", () => {
+
+    it("are each source's channel, once, in the sources' order; a source with no channel adds none", () => {
+        const sources = [createDemandSource("funnel", "linkedin"), createDemandSource("referrals"), createDemandSource("marketplace", "store"), createDemandSource("other", "linkedin")];
+        expect(demandChannelIds({ sources })).toEqual(["linkedin", "store"]);
+    });
+
+    it("read each source's channel as saved, and keep the ticks saved before readable but not counted", () => {
+        const value = asDemandValue({ sources: [{ id: "a", type: "funnel", channelId: "linkedin" }, { id: "b", type: "referrals" }], channelIds: ["slack"] });
+        expect(value.sources.map(source => source.channelId)).toEqual(["linkedin", ""]);
+        expect(value.channelIds).toEqual(["slack"]);
+        expect(demandChannelIds(value)).toEqual(["linkedin"]);
     });
 
 });

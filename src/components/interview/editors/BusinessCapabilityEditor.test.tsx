@@ -890,7 +890,7 @@ describe("BusinessCapabilityEditor Offering's Capability resources as boxes", ()
         openOfferingResources();
         const box = document.querySelector(".card-tile") as HTMLElement;
         expect(box.getAttribute("title")?.startsWith(slot.name)).toBe(true);
-        expect([...box.querySelectorAll(".section-tile-list > li")].map(item => item.textContent).slice(1)).toEqual(["Offering's Capability", "Equipment", "Production Machinery", "Costs"]);
+        expect([...box.querySelectorAll(".section-tile-list > li")].map(item => item.textContent).slice(1)).toEqual(["Offering", "Equipment", "Production Machinery", "Costs"]);
         // The list's lines are the page tiles' own (one line each, cut by an ellipsis).
         expect(stylesheet("section-tiles.css")).toMatch(/\.section-tile-list > li \{[^}]*text-overflow: ellipsis;[^}]*white-space: nowrap;/);
     });

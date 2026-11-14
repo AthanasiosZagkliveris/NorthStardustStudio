@@ -185,9 +185,9 @@
         return { column: rect(number), text: { left: first.left, right: text.right } };
     }
 
-    /** A card head's name: its box, or its text. */
+    /** A card's name cell: its box, or its name drawn as a link where the name belongs to another page (a Customer Engagement card's Offering, a child card's parent). */
     function nameBox(head) {
-        const name = head.querySelector(":scope > .card-name-input, :scope > .strategy-name-input, :scope > .strategy-name-static, :scope > .strategy-theme-name, :scope > textarea");
+        const name = head.querySelector(":scope > .card-name-input, :scope > .strategy-name-input, :scope > .strategy-name-static, :scope > .strategy-theme-name, :scope > .business-capability-child-name, :scope > textarea");
         return name && visible(name) ? rect(name) : null;
     }
 
@@ -335,6 +335,18 @@
         // A card whose body scrolls on its own (page 3) is measured at the top of its body, as a person first sees it.
         document.querySelectorAll(".card-scroll").forEach(body => { body.scrollTop = 0; });
         const fail = (rule, element, detail) => failures.push({ rule, where: place(element), detail });
+
+        // 0b. A DIALOG'S BANDS RUN SIDE TO SIDE (owner, 2026-11-14 12:41: "Fix the coloured bands to be side to side"): a band of a dialog's body that meets its left edge
+        //     meets its right edge too (a field alone in its grid keeps no gap for a second column).
+        for (const band of [...document.querySelectorAll(".section-tile-dialog-body .legal-entity-org-section")].filter(visible)) {
+            const body = band.closest(".section-tile-dialog-body");
+            const outer = body.getBoundingClientRect();
+            const inner = { left: outer.left + body.clientLeft, right: outer.left + body.clientLeft + body.clientWidth };
+            const box = band.getBoundingClientRect();
+            if (Math.abs(box.left - inner.left) <= 1 && band.closest(".legal-entity-field")?.matches(":only-child") && Math.abs(box.right - inner.right) > 1) {
+                fail("a dialog's band meets both of its edges", band, { left: box.left - inner.left, right: inner.right - box.right });
+            }
+        }
 
         // 1-2. A card head: the number where the body starts; the name one fixed step after it.
         //      (A Metric box's head too: a grip, no fold arrow.)
@@ -1520,7 +1532,8 @@
                         if (!rules.near(listBox.top - titleBox.bottom, spec.fieldGap, 1.25)) {
                             fail("a tile's list starts 12px under the title's underline", tile, { gap: listBox.top - titleBox.bottom });
                         }
-                        const items = [...list.children].filter(visible);
+                        // (A line of two columns -- a name and its figure -- is drawn by its two parts: the line itself has no box, display: contents.)
+                        const items = [...list.children].filter(item => visible(item) || (getComputedStyle(item).display === "contents" && [...item.children].some(visible)));
                         // A list holds EVERY item and scrolls inside its bounds when they do not fit (thin themed scrollbar, no "+N more").
                         const scrolls = list.scrollHeight > list.clientHeight + 1;
                         if (scrolls && (getComputedStyle(list).overflowY !== "auto" || !list.hasAttribute("data-scrolls"))) {
@@ -1540,7 +1553,9 @@
                             if (!item.closest(".column-tiles-page") && (rect(item).height > Math.max(1, broken) * 1.6 * small * 1.45 || (!scrolls && rect(item).bottom > listBox.bottom + tolerance))) {
                                 fail("a tile's list items are one line each (two where a forced break is) and inside the list", item, { height: rect(item).height, bottom: rect(item).bottom, list: listBox.bottom });
                             }
-                            if (broken > 1 && !/^(Cooling & Air|Online Presence)/.test(item.textContent.trim())) {
+                            // (A Master Tile of a page of column tiles may set an answer under its name -- an Offering and its relationship types: layout rules 12,
+                            // the owner's points of 2026-11-13 13:56.)
+                            if (broken > 1 && !item.closest(".column-tiles-page") && !/^(Cooling & Air|Online Presence)/.test(item.textContent.trim())) {
                                 fail("only the named subcategory items break onto a second line", item, { text: item.textContent });
                             }
                         }
@@ -3419,6 +3434,12 @@
         for (const item of host.querySelectorAll(".floating-card-item")) {
             const caption = item.querySelector(":scope > .floating-card-caption");
             const body = item.querySelector(":scope > .floating-card-body");
+            // (A card opened from its own tile's dialog has none: the dialog's heading says it -- owner, 2026-11-12 17:33.)
+            const dialogsOpen = [...document.querySelectorAll(".section-tile-overlay:not(.floating-overlay) > .section-tile-dialog")];
+            const fromItsDialog = dialogsOpen.some(dialog => dialog.dataset.tile === host.closest("[data-floating]")?.dataset.floating || dialog.dataset.tile === item.closest("[data-floating]")?.dataset.floating);
+            if (!caption && body && fromItsDialog) {
+                continue;
+            }
             if (!caption || !body || caption.textContent.trim() === "") {
                 fail("every floating card has its box name above it", { caption: caption && caption.textContent });
                 continue;
@@ -3432,6 +3453,27 @@
         // (A card taller than the window is wholly in it as far as the window goes: it extends down and scrolls in its host.)
         if (mine.left < 7.5 || mine.top < 7.5 || mine.right > window.innerWidth - 7.5 || (mine.bottom > window.innerHeight - 7.5 && mine.height <= window.innerHeight - 15 && mine.top > 140)) {
             fail("a floating card is wholly in the window", { card: [mine.left, mine.top, mine.right, mine.bottom] });
+        }
+        // A CARD OPENED FROM A DIALOG STANDS ON THE OTHER HALF OF THE PAGE, clear of the dialog's tiles (layout rules, "A floating card opens on the half of the page its tile
+        // is NOT in"; acrossFrom): wherever the page has chapters side by side, and on a page of one chapter, in the empty half beside it (emptyHalfCentre).
+        {
+            const dialogs = [...document.querySelectorAll(".section-tile-overlay:not(.floating-overlay) > .section-tile-dialog")];
+            const dialog = dialogs[dialogs.length - 1];
+            const chapters = [...document.querySelectorAll(".business-foundation-input[data-anchor]")].filter(frame => !frame.closest(".section-tile-overlay") && frame.getBoundingClientRect().width > 0);
+            const sideBySide = chapters.length >= 2 && chapters.some(frame => Math.abs(frame.getBoundingClientRect().top - chapters[0].getBoundingClientRect().top) < 2 && frame !== chapters[0]);
+            // (A page of one chapter has the empty half beside it, where the window has room for a second chapter.)
+            const lone = chapters.length === 1 && (() => {
+                const only = chapters[0].getBoundingClientRect();
+                const left = only.left + only.width / 2 < window.innerWidth / 2 ? only.right + 12 : only.left - 12 - only.width;
+                return left >= 0 && left + only.width <= window.innerWidth;
+            })();
+            if (dialog && (sideBySide || lone) && dialog.dataset.tile !== "overview" && dialog.dataset.tile !== "completed") {
+                const covered = [...dialog.querySelectorAll(".section-tile, .card-tile")].map(tile => tile.getBoundingClientRect())
+                    .filter(tile => tile.width > 0 && tile.left < mine.right - 1 && tile.right > mine.left + 1 && tile.top < mine.bottom - 1 && tile.bottom > mine.top + 1);
+                if (covered.length > 0) {
+                    fail("a floating card opened from a dialog stands on the other half of the page, clear of the dialog's tiles", { dialog: dialog.dataset.tile, covered: covered.length });
+                }
+            }
         }
         const wanted = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--open-card-width")) || 480;
         // (A card wide by nature -- the Roadmap, a Goal with its Objectives -- is as wide as that needs.)
@@ -3455,6 +3497,17 @@
         if (anchor) {
             const a = box(anchor);
             centreX = a.left + a.width / 2;
+            // (A card opened from a dialog of a page's one chapter stands in the empty half beside it, where the window has room: emptyHalfCentre.)
+            {
+                const lone = [...document.querySelectorAll(".business-foundation-input[data-anchor]")].filter(frame => !frame.closest(".section-tile-overlay") && frame.getBoundingClientRect().width > 0);
+                const fromDialog = !!document.querySelector(".section-tile-overlay:not(.floating-overlay) > .section-tile-dialog");
+                if (fromDialog && lone.length === 1 && lone[0] === anchor) {
+                    const left = a.left + a.width / 2 < window.innerWidth / 2 ? a.right + 12 : a.left - 12 - a.width;
+                    if (left >= 0 && left + a.width <= window.innerWidth) {
+                        centreX = left + a.width / 2;
+                    }
+                }
+            }
             if (!bandOnly) {
                 const top = Math.max(a.top, bandTop);
                 const bottom = Math.min(a.bottom, bandBottom);
@@ -3467,7 +3520,12 @@
         const hostBox = box(host);
         const clampedX = hostBox.left <= 8.5 || hostBox.right >= window.innerWidth - 8.5;
         // (A card opened from a tile inside a dialog stands over the frame on the other half from that tile: either column's centre is right.)
-        const overEitherColumn = columns.length === 2 && columns.some(column => Math.abs(x - (box(column).left + box(column).width / 2)) <= 2);
+        // (The same with chapters side by side: a card opened from a dialog stands over the chapter on the other half, acrossFrom.)
+        const sideChapters = document.querySelector(".section-tile-overlay:not(.floating-overlay) > .section-tile-dialog")
+            ? [...document.querySelectorAll(".business-foundation-input[data-anchor]")].filter(frame => !frame.closest(".section-tile-overlay") && frame.getBoundingClientRect().width > 0)
+            : [];
+        const overEitherColumn = (columns.length === 2 && columns.some(column => Math.abs(x - (box(column).left + box(column).width / 2)) <= 2)) ||
+            (sideChapters.length >= 2 && sideChapters.some(frame => Math.abs(x - (box(frame).left + box(frame).width / 2)) <= 2));
         if (!clampedX && !overEitherColumn && Math.abs(x - centreX) > 2) {
             fail("a floating card is centred horizontally over its anchor", { card: x, anchor: centreX });
         }

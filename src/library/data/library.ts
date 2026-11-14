@@ -561,6 +561,27 @@ export const library: Library = {
      },
      "kind": "Button that changes a view (cards to tiles)",
      "belongs": "Nested card heads (Goals, Objectives, Metrics)"
+    },
+    {
+     "code": "BTN.XCL.001.003",
+     "name": "In-cell x",
+     "description": "The x that stands inside a cell, at its right end (owner, 2026-11-14 12:29 and 12:33): no frame, no outline, no fill, only the X in the danger red. Under the pointer or the keyboard focus the X grows by a fifth and takes a soft red glow; the focus adds the focus ring; with reduced motion it does not grow and keeps the glow. Its target is 24px (WCAG 2.2 SC 2.5.8).",
+     "edits": "No box: the X alone, 24px; grows 20% with a soft glow under the pointer and the focus.",
+     "values": {},
+     "look": {
+      "height": 24,
+      "width": 24,
+      "fontSize": 0,
+      "fontWeight": "400",
+      "corners": "0px",
+      "paddingLeft": 0,
+      "paddingTop": 0,
+      "border": 0,
+      "scale": "symbol, no text",
+      "found": 0
+     },
+     "kind": "Button that removes, inside a cell",
+     "belongs": "The action lines of a channel's journey stages and the linked actions of a channel's expense (the chips #12, #14 ...), at each one's right end"
     }
    ],
    "requires": [],

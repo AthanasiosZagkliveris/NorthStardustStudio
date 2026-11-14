@@ -19,7 +19,7 @@
     --rest-tracking: 0em;
     letter-spacing: 0;
     /* (The option list's own line: `font: inherit` took the button's.) */
-    line-height: 1.5;
+    line-height: var(--field-line);
     text-align: left;
 
     white-space: nowrap;

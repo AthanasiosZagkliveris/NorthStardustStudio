@@ -130,6 +130,12 @@ body {
   /* The line height of running text read as prose (a System's opening
      screen: its introduction and its facts alike). */
   --body-line: 1.6;
+
+  /* The line height of the text typed or listed in a control: a field, a list's line, a chip (one owner; owner, 2026-11-14 12:32). */
+  --field-line: 1.5;
+
+  /* The height of a chip that stands as a row of its own: a channel expense's linked action (owner, 2026-11-14 12:33). */
+  --chip-height: 32px;
 }
 
 /* 2. SPACING ------------------------------------------------------ */
@@ -1342,7 +1348,7 @@ input[type="checkbox"]:disabled {
    (a smaller list filter keeps its own size). */
 :where(label:has(> input[type="checkbox"])) {
   font-size: var(--font-body);
-  line-height: 1.5;
+  line-height: var(--field-line);
 }
 
 label:has(> input[type="checkbox"]) {

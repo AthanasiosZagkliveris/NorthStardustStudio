@@ -48,7 +48,7 @@ export default function BusinessCapabilityEditor(props: BusinessCapabilityEditor
     const part3 = { ...part1, ...part2, ...useCapabilityPeopleCards({ ...part1, ...part2 }) };
     const part4 = { ...part1, ...part2, ...part3, ...useCapabilityActivityAndDelivery({ ...part1, ...part2, ...part3 }) };
     const part5 = { ...part1, ...part2, ...part3, ...part4, ...useCapabilitySections({ ...part1, ...part2, ...part3, ...part4 }) };
-    const { activityBox, activityCardFor, capability, cardLinks, cards, channelToneIds, childCard, columnsDivider, completedCaption, completedActivities, disabled, discard, financialFoundation, floor, foldingGroup, founderCard, founders, foundersProfile, globalSettings, helpOpen, legalEntity, legalEntityFounders, legalEntityPrefill, legalExpenses, legalUnder, missingById, namesOf, onChangeLegalEntity, openLegalExpense, openingDate, organisationCurrency, pair, parentCard, pending, setCategoryActivities, setHelpOpen, setLegalUnder, setPair, setPending, showInstructions, update, write } = part5;
+    const { activityBox, activityCardFor, capability, foundationOfferings, openEngagementAction, cardLinks, cards, channelToneIds, childCard, columnsDivider, completedCaption, completedActivities, disabled, discard, financialFoundation, floor, foldingGroup, founderCard, founders, foundersProfile, globalSettings, helpOpen, legalEntity, legalEntityFounders, legalEntityPrefill, legalExpenses, legalUnder, missingById, namesOf, onChangeLegalEntity, openLegalExpense, openingDate, organisationCurrency, pair, parentCard, pending, setCategoryActivities, setHelpOpen, setLegalUnder, setPair, setPending, showInstructions, update, write } = part5;
 
     // THE INVENTORY AND COMPLETED ROW stands IN THE FOOTER'S BAND (level with the Back link), centred under the two cards, so the cards keep all the room above it; the row takes no room
     // of its own in the page. Where the cards are stacked (a narrow window) it follows them and is squeezed into the room the window leaves (never under SQUEEZED_ROW_MIN, never over 215px).
@@ -161,18 +161,22 @@ export default function BusinessCapabilityEditor(props: BusinessCapabilityEditor
     function overviewTile(): SectionTile {
         const rows = floor;
         // (A card that lacks a required answer is counted nowhere.)
-        const counts = (kinds: string[]) => rows.filter(row => kinds.includes(row.kind) && !row.missing).length;
+        // (The cards themselves: a Workspace's extra or deposit is a line of its card.)
+        const said = (count: number, one: string, many: string) => count + " " + (count === 1 ? one : many);
+        const counts = (kinds: string[]) => rows.filter(row => kinds.includes(row.kind) && !row.missing && !row.partOf).length;
         return {
             id: "overview",
             title: "Inventory",
             anchor: "section-overview",
+            // (The Founders counted as Include names them, apart from the resources: owner, 2026-11-13 16:50.)
             items: [
-                counts(["resource", "workspace", "founder"]) + " resources",
-                counts(["activity"]) + " activities",
-                counts(["partner", "provider"]) + " partners & suppliers"
+                said(counts(["founder"]), "founder", "founders"),
+                said(counts(["resource", "workspace"]), "resource", "resources"),
+                said(counts(["activity"]), "activity", "activities"),
+                said(counts(["partner", "provider"]), "partner or supplier", "partners & suppliers")
             ],
             // (A line is red, and the tile glows, while a card of its kind lacks an answer.)
-            itemAlerts: [["resource", "workspace", "founder"], ["activity"], ["partner", "provider"]]
+            itemAlerts: [["founder"], ["resource", "workspace"], ["activity"], ["partner", "provider"]]
                 .map(kinds => floor.filter(row => kinds.includes(row.kind) && row.missing).flatMap(row => row.missing!))
                 .map(lacking => lacking.length > 0 ? lacking : undefined),
             isChannelCard: (cardId: string) => channelToneIds.has(cardId),
@@ -194,7 +198,11 @@ export default function BusinessCapabilityEditor(props: BusinessCapabilityEditor
                 const classes = inventoryClassification(
                     capability, legalEntityFounders, legalExpenses, asFinancialFoundationValue(financialFoundation), organisationCurrency, openingDate, globalSettings
                 );
-                return <CapabilityOverview rows={rows.map(row => ({ ...row, ...(classes.get(row.id) ?? classes.get("salary-" + row.id) ?? classes.get("legal-" + row.id)) }))} format={moneyFormatter(organisationCurrency)} currency={organisationCurrency} onOpenLegal={legalEntity !== undefined && onChangeLegalEntity ? (id: string) => openLegalExpense(id) : undefined} />;
+                return <CapabilityOverview rows={rows.map(row => {
+                    // (The Financial Foundation's nature and behaviour; where it gives no behaviour, the row keeps its own -- a channel expense's, as the channels' table reads it.)
+                    const found = classes.get(row.id) ?? classes.get("salary-" + row.id) ?? classes.get("legal-" + row.id);
+                    return { ...row, ...found, behaviour: found?.behaviour || row.behaviour };
+                })} format={moneyFormatter(organisationCurrency)} currency={organisationCurrency} offerings={foundationOfferings} onOpenAction={openEngagementAction} onOpenLegal={legalEntity !== undefined && onChangeLegalEntity ? (id: string) => openLegalExpense(id) : undefined} />;
             }
         };
     }

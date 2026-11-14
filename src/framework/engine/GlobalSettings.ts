@@ -103,11 +103,19 @@ export const DEFAULT_USEFUL_LIFE: Record<string, string> = {
     "delivery-vehicles": "7"
 };
 
-/** The Channel Fee Table of the cost model (examples: the user edits them once here). */
+/**
+ * THE CHANNEL FEE TABLE TO START FROM: the main UK platforms with their rates, each with the date it was checked and where (owner, 2026-11-14 12:00: the
+ * proposals of doc 50, section 1.4, built). A card or subchannel named after one takes its row (channelFeeRowFor: the more particular name first, Stripe
+ * Terminal before Stripe). A row not checked yet says so in its note.
+ */
 function exampleChannelFees(): ChannelFeeRow[] {
     return [
-        { id: randomId("fee"), channel: "Stripe", commission: "2", fixedFee: "0.25", chargeback: "0.5", note: "The default rate for bad debts" },
-        { id: randomId("fee"), channel: "PayPal", commission: "3.5", fixedFee: "0.35", chargeback: "1", note: "Higher risk" },
+        { id: randomId("fee"), channel: "Stripe Terminal", commission: "1.4", fixedFee: "0.10", chargeback: "0.5", note: "In person, UK cards; checked 14/11/2026 on Stripe's UK pricing page" },
+        { id: randomId("fee"), channel: "Stripe", commission: "1.5", fixedFee: "0.20", chargeback: "0.5", note: "UK standard cards online (premium cards 1.9% + 20p, EEA cards 2.5% + 20p); checked 14/11/2026 on Stripe's UK pricing page" },
+        { id: randomId("fee"), channel: "SumUp", commission: "1.69", fixedFee: "0", chargeback: "0.5", note: "In person (payment links and invoices 2.5%); checked 14/11/2026 on SumUp's UK pricing page" },
+        { id: randomId("fee"), channel: "Shopify Payments", commission: "2", fixedFee: "0.25", chargeback: "0.5", note: "Basic plan, online (in person 1.7%); checked 14/11/2026 on Shopify's UK pricing page" },
+        { id: randomId("fee"), channel: "Etsy", commission: "10.5", fixedFee: "0.20", chargeback: "0", note: "6.5% transaction fee + 4% + 20p payment processing, and about 16p a listing; checked 14/11/2026 on Etsy's fee pages" },
+        { id: randomId("fee"), channel: "PayPal", commission: "3.5", fixedFee: "0.35", chargeback: "1", note: "Not checked yet: read PayPal's UK merchant fees page before relying on it" },
         { id: randomId("fee"), channel: "Wolt, Amazon", commission: "25", fixedFee: "0", chargeback: "0", note: "The platform carries the risk" }
     ];
 }

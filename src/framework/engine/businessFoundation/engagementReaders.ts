@@ -142,6 +142,8 @@ export interface BusinessChannelValue {
      * everything that only reads them -- documents, exports, search.
      */
     actions: Record<string, string[]>;
+    /** Made by the Foundation's answers (autoChannels): while untouched, it goes when its answer does. */
+    fromAnswers?: boolean;
 }
 
 /**
@@ -223,6 +225,8 @@ export interface BusinessOfferingRelationshipsValue {
     types: string[];
     /** Kept by type id, so unticking a type loses nothing. */
     typeDetail: Record<string, BusinessRelationshipTypeValue>;
+    /** The types the answers create (autoRelationshipTypes) that the founder removed: they stay removed until added again (owner, 2026-11-13 00:31). */
+    dismissed?: string[];
 }
 
 /**
@@ -286,6 +290,8 @@ export interface BusinessSegmentEngagementValue {
      * it.
      */
     offerings: BusinessOfferingRelationshipEntryValue[];
+    /** The subchannels the answers make that the founder removed ("category|name", channelKey): never made again; All brings one back. */
+    dismissedChannels?: string[];
     /**
      * The same answers as they were kept before, by Profile. Never
      * written to; read once so nothing recorded then is lost (see
@@ -409,7 +415,8 @@ export function asBusinessChannel(entry: unknown): BusinessChannelValue {
         actionIds: channel.actionIds !== undefined && (Object.keys(actionIds).length > 0 || Object.keys(actions).length === 0)
             ? actionIds
             : (null as unknown as Record<string, string[]>),
-        actions
+        actions,
+        ...(channel.fromAnswers === true ? { fromAnswers: true } : {})
     };
 
 }
@@ -703,7 +710,8 @@ export function asBusinessEngagementValue(value: unknown): BusinessEngagementVal
                 merged.push({
                     offeringId,
                     types: businessIdList(entry.types, BUSINESS_RELATIONSHIP_TYPE_IDS),
-                    typeDetail
+                    typeDetail,
+                    ...(Array.isArray(entry.dismissed) ? { dismissed: businessIdList(entry.dismissed, BUSINESS_RELATIONSHIP_TYPE_IDS) } : {})
                 });
 
             }
@@ -769,6 +777,7 @@ export function asBusinessEngagementValue(value: unknown): BusinessEngagementVal
                 channels,
                 actions,
                 offerings: merged,
+                ...(Array.isArray(segment.dismissedChannels) ? { dismissedChannels: segment.dismissedChannels.map(asText).filter(Boolean) } : {}),
                 profiles
             };
 

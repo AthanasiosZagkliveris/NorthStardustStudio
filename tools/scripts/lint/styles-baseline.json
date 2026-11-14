@@ -4,8 +4,8 @@
       "max-width: 1699px": 1
     },
     "section-tiles.css": {
-      "min-height: 640px": 1,
-      "max-width: 443.98px": 1
+      "max-width: 443.98px": 1,
+      "min-height: 640px": 1
     }
   },
   "colour": {
@@ -133,7 +133,6 @@
     },
     "demand.css": {
       "10px": 1,
-      "16px": 1,
       "20px": 1
     },
     "global-settings.css": {
@@ -150,7 +149,7 @@
       "14px": 2
     },
     "section-tiles.css": {
-      "0.4em": 2,
+      "0.4em": 1,
       "14px": 1,
       "24px": 1,
       "32px": 2

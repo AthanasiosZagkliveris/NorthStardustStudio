@@ -192,7 +192,9 @@ export default function SectionTiles({
         // The column of the page the tile stands in (Infrastructure's card or Offering's Capability's), or -- the Workspace -- its tile group.
         const anchor = centre === "group"
             ? from.closest<HTMLElement>(".section-tiles-box")
-            : otherColumn(sectionAnchor(from));
+            // (A tile inside a dialog -- a channel of the Channels dialog, a category of a section -- opens its card on the half of the page it is NOT in, as a box's
+            // card does (acrossFrom); a tile on the page, over the other column.)
+            : acrossFrom(from) ?? otherColumn(sectionAnchor(from));
         setFloating({ tileId: tile.id, id, opener: from, anchor, fresh, linked, alone, under });
     };
 
@@ -498,7 +500,9 @@ export default function SectionTiles({
                     cards={(() => {
                         // (A requirement and the expense it made are drawn together only where a LINK was pressed -- the tile's link, a card's link symbol; opened by its own tile or box, a card is alone.)
                         const pair = floating.linked ? floatingTile.pairOf?.(floating.id) : null;
-                        const one = (id: string, caption: string, node: ReactNode) => ({ key: id, caption, kind: floatingTile.kindFor?.(id) ?? floatingTile.cardKind ?? "card" as const, node, note: floatingTile.noteFor?.(id) ?? floatingTile.note });
+                        // (A tile marked `bareCards`: a card opened from its own dialog carries no box name above it -- the dialog's heading already says it, with its "i"; owner, 2026-11-12 17:33.)
+                        const repeats = (caption: string) => !!floatingTile.bareCards && openId === floatingTile.id && caption === (floatingTile.groupFor?.(floating.id) ?? floatingTile.group ?? floatingTile.title);
+                        const one = (id: string, caption: string, node: ReactNode) => ({ key: id, caption: repeats(caption) ? "" : caption, kind: floatingTile.kindFor?.(id) ?? floatingTile.cardKind ?? "card" as const, node, note: floatingTile.noteFor?.(id) ?? floatingTile.note });
                         if (floating.under && stackUnder) {
                             return [stackUnder.item, one(floating.id, floatingTile.captionFor?.(floating.id) ?? floating.caption ?? floatingTile.groupFor?.(floating.id) ?? floatingTile.group ?? floatingTile.title, floatingCard)];
                         }

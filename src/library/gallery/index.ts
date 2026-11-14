@@ -4,6 +4,7 @@ import LabelArrowSamples from "./LabelArrowSamples";
 import PlusBoxSamples from "./PlusBoxSamples";
 import InfoNoteSamples from "./InfoNoteSamples";
 import RemoveXSamples from "./RemoveXSamples";
+import CellRemoveXSamples from "./CellRemoveXSamples";
 import RailsSamples from "./RailsSamples";
 import BackButtonSamples from "./BackButtonSamples";
 import FoldArrowSamples from "./FoldArrowSamples";
@@ -16,6 +17,7 @@ export const galleries: Record<string, ComponentType<{ asset: AssetContract }>> 
     "Plus box": PlusBoxSamples,
     "Info note": InfoNoteSamples,
     "Remove x": RemoveXSamples,
+    "Cell remove x": CellRemoveXSamples,
     "Rails": RailsSamples,
     "Back button": BackButtonSamples,
     "Fold arrow": FoldArrowSamples,

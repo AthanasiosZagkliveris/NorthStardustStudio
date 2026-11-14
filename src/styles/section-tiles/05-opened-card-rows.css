@@ -89,7 +89,7 @@
     font-size: var(--font-body);
     font-weight: 600;
     letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
-    line-height: 1.5;
+    line-height: var(--field-line);
     text-align: left;
     text-decoration: underline transparent;
     overflow-wrap: anywhere;

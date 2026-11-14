@@ -2,6 +2,7 @@ import { act, cleanup, fireEvent, render, screen } from "@testing-library/react"
 import { afterEach, describe, expect, it } from "vitest";
 
 import TitleTooltips from "./TitleTooltips";
+import { useAboveTip } from "./Tooltip";
 
 describe("TitleTooltips", () => {
 
@@ -39,6 +40,18 @@ describe("TitleTooltips", () => {
         render(<><TitleTooltips /><button type="button" aria-label="Frequency: what this means" data-testid="i">i</button></>);
         act(() => { fireEvent.pointerOver(screen.getByTestId("i"), { clientX: 5, clientY: 5 }); });
         expect(screen.getByRole("tooltip").textContent).toBe("Click to learn about Frequency");
+    });
+
+    it("gives no second tip to a control that draws its own, and shows one tip at a time (owner, 2026-11-14 12:40)", () => {
+        function Own() {
+            const tip = useAboveTip<HTMLButtonElement>("Linked to 2 resources");
+            return <><button type="button" {...tip.props} aria-label="Linked to 2 resources" data-testid="tag">t</button>{tip.node}</>;
+        }
+        render(<><TitleTooltips /><Own /><button type="button" aria-label="Remove action 1" data-testid="x">x</button></>);
+        act(() => { fireEvent.mouseEnter(screen.getByTestId("tag")); fireEvent.pointerOver(screen.getByTestId("tag"), { clientX: 5, clientY: 5 }); });
+        expect(screen.getAllByRole("tooltip").map(tip => tip.textContent)).toEqual(["Linked to 2 resources"]);
+        act(() => { fireEvent.pointerOver(screen.getByTestId("x"), { clientX: 5, clientY: 5 }); });
+        expect(screen.getAllByRole("tooltip").map(tip => tip.textContent)).toEqual(["Click to remove action 1"]);
     });
 
     it("has no tip for a control whose pop-up window is open, and takes the tip away when the window opens", async () => {

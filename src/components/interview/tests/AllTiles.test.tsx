@@ -76,9 +76,10 @@ describe("the table", () => {
         fireEvent.click(screen.getByRole("radio", { name: "Table" }));
         const heads = [...document.querySelectorAll("th[scope=col]")];
         const costHead = heads.find(head => head.textContent?.startsWith("Cost"))!;
-        expect(costHead.textContent).toBe("Cost (EUR)");
+        // (The currency's symbol beside the label, as every amount's label: labelWithCurrency.)
+        expect(costHead.textContent).toBe("Cost (€)");
         expect(costHead.classList.contains("capability-overview-number")).toBe(true);
-        const cell = [...document.querySelectorAll("tbody td")].find(td => td.textContent === "1,250.5")!;
+        const cell = [...document.querySelectorAll("tbody td")].find(td => td.textContent === (1250.5).toLocaleString(undefined, { minimumFractionDigits: 2 }))!;
         expect(cell.classList.contains("capability-overview-number")).toBe(true);
     });
 
@@ -115,4 +116,67 @@ describe("the tooltip of a circle", () => {
         expect(screen.queryByRole("tooltip")).toBeNull();
     });
 
+});
+
+describe("the Offerings list of Belongs to (owner, 2026-11-13 16:12)", () => {
+    it("starts at All; an Offering ticked leaves All and shows its rows alone; All, or no Offering ticked, shows every row again", () => {
+        const row = (id: string, offeringIds: string[]): FloorRow => ({ id, tone: "offering", kind: "resource", name: id, path: ["Offering's Capability", "Equipment", "Devices & Tools"], status: "", statusLabel: "", frequency: "", frequencyLabel: "", amount: null, links: [], offeringIds } as unknown as FloorRow);
+        const rows = [row("Loom", ["o1"]), row("Kit", ["o2"]), row("Shared", ["o1", "o2"])];
+        render(<CapabilityOverview rows={rows} offerings={[{ id: "o1", name: "Collection" }, { id: "o2", name: "Workshops" }]} />);
+        fireEvent.click(screen.getByRole("radio", { name: "Table" }));
+        fireEvent.click(screen.getByRole("button", { name: /Sort all tiles/i }));
+        fireEvent.click(screen.getByRole("button", { name: "Unfold Belongs to" }));
+        fireEvent.click(screen.getByLabelText("Belongs to: Offering"));
+        const names = () => [...document.querySelectorAll(".capability-overview-table tbody th")].map(cell => cell.textContent);
+        const tick = (label: string) => screen.getByLabelText("Offerings: " + label) as HTMLInputElement;
+        expect(tick("All").checked).toBe(true);
+        expect(names()).toEqual(["Loom", "Kit", "Shared"]);
+        fireEvent.click(tick("Workshops"));
+        expect(tick("All").checked).toBe(false);
+        expect(names()).toEqual(["Kit", "Shared"]);
+        fireEvent.click(tick("All"));
+        expect(tick("Workshops").checked).toBe(false);
+        expect(names()).toEqual(["Loom", "Kit", "Shared"]);
+        fireEvent.click(tick("Collection"));
+        fireEvent.click(tick("Collection"));
+        expect(tick("All").checked).toBe(true);
+    });
+});
+
+describe("the % column of the Inventory (owner, 2026-11-14 09:31)", () => {
+    it("is a choice under Offering, shown with it, and gives each Offering's share of the cost as the card shares it", () => {
+        const row = (id: string, offeringIds: string[], offeringShares?: Record<string, number>): FloorRow => ({ id, tone: "offering", kind: "resource", name: id, path: ["Offering's Capability", "Equipment"], status: "", statusLabel: "", frequency: "", frequencyLabel: "", amount: null, links: [], offeringIds, offeringShares } as unknown as FloorRow);
+        const rows = [row("Loom", ["o1", "o2"], { o1: 0.6, o2: 0.4 }), row("Kit", ["o2"], { o2: 1 })];
+        render(<CapabilityOverview rows={rows} offerings={[{ id: "o1", name: "Collection" }, { id: "o2", name: "Workshops" }]} />);
+        fireEvent.click(screen.getByRole("radio", { name: "Table" }));
+        fireEvent.click(screen.getByRole("button", { name: /Sort all tiles/i }));
+        fireEvent.click(screen.getByRole("button", { name: "Unfold Columns" }));
+        // (Offering off: no % to choose.)
+        expect(screen.queryByLabelText("Column: %")).toBeNull();
+        fireEvent.click(screen.getByLabelText("Column: Offering"));
+        fireEvent.click(screen.getByLabelText("Column: %"));
+        const shares = [...document.querySelectorAll(".capability-overview-table tbody td[data-col=share]")].map(cell => cell.textContent);
+        expect(shares).toEqual(["60%40%", "100%"]);
+        // (Offering off again takes the % with it.)
+        fireEvent.click(screen.getByLabelText("Column: Offering"));
+        expect(document.querySelector(".capability-overview-table thead th[data-col=share]")).toBeNull();
+    });
+});
+
+describe("an Offering chosen under Belongs to (owner, 2026-11-14 11:15)", () => {
+    it("lists only the chosen Offering, with its share, in the Offering and % columns", () => {
+        const row = (id: string, offeringIds: string[], offeringShares: Record<string, number>): FloorRow => ({ id, tone: "offering", kind: "resource", name: id, path: ["Offering's Capability", "Equipment"], status: "", statusLabel: "", frequency: "", frequencyLabel: "", amount: null, links: [], offeringIds, offeringShares } as unknown as FloorRow);
+        render(<CapabilityOverview rows={[row("Loom", ["o1", "o2"], { o1: 0.7, o2: 0.3 })]} offerings={[{ id: "o1", name: "Collection" }, { id: "o2", name: "Workshops" }]} />);
+        fireEvent.click(screen.getByRole("radio", { name: "Table" }));
+        fireEvent.click(screen.getByRole("button", { name: /Sort all tiles/i }));
+        fireEvent.click(screen.getByRole("button", { name: "Unfold Columns" }));
+        fireEvent.click(screen.getByLabelText("Column: Offering"));
+        fireEvent.click(screen.getByLabelText("Column: %"));
+        fireEvent.click(screen.getByRole("button", { name: "Unfold Belongs to" }));
+        fireEvent.click(screen.getByLabelText("Belongs to: Offering"));
+        const cells = () => [...document.querySelectorAll(".capability-overview-table tbody td[data-col=offering], .capability-overview-table tbody td[data-col=share]")].map(cell => cell.textContent);
+        expect(cells()).toEqual(["CollectionWorkshops", "70%30%"]);
+        fireEvent.click(screen.getByLabelText("Offerings: Collection"));
+        expect(cells()).toEqual(["Collection", "70%"]);
+    });
 });

@@ -209,7 +209,8 @@ export function TileList({
             for (const child of Array.from(node.children) as HTMLElement[]) {
                 // (Its bottom within the LIST: the list is not the child's offset parent, so the list's own place in the layer is taken away -- else every line looked that much lower and the list was cut a line short.)
                 const bottom = child.offsetTop - (child.offsetParent === node ? 0 : node.offsetTop) + child.offsetHeight;
-                if (bottom <= room + 0.5) {
+                // (With the 4px kept under the last line for its underline, inside the room: a list of 24px rows never reaches the tile's + box.)
+                if (bottom + 4 <= room + 0.5) {
                     fit = bottom;
                 } else {
                     break;
@@ -250,7 +251,10 @@ export function TileList({
                     const [left, right] = item.split("\u0001");
                     return (
                         <li key={position} title={plainTitle(item)}>
-                            <span className="section-tile-pair-left">{boldWords(left)}</span>
+                            {/* (A line of two columns that names a card or a box is a link by its name, as every other line of a tile's list: owner, 2026-11-14 11:15.) */}
+                            <span className="section-tile-pair-left">{link && onLink
+                                ? <button type="button" className="section-tile-link" data-link={"card" in link ? link.card : link.box} onClick={(event) => onLink(link, event.currentTarget, event.detail > 0)}>{boldWords(left)}</button>
+                                : boldWords(left)}</span>
                             <span className="section-tile-pair-right">{boldWords(right)}</span>
                         </li>
                     );

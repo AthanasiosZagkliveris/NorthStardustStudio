@@ -1,6 +1,6 @@
 import { useEffect, useId, useLayoutEffect, useRef, useState } from "react";
 
-import { aboveTipPosition, hueOf, TooltipBox } from "./Tooltip.tsx";
+import { aboveTipPosition, closeOwnTip, hueOf, OWN_TIP_EVENT, tipPlace, TooltipBox } from "./Tooltip.tsx";
 
 /**
  * THE APP'S TOOLTIP (the rules are in docs/design/current/24-tooltips.md). The browser draws a `title` as a plain white rectangle with a black frame and letters, in whatever
@@ -85,7 +85,8 @@ export function tipWords(text: string): string {
 
 /** What the tooltip of an element says, or null where it has none (the five rules above). */
 export function tipOf(element: HTMLElement): string | null {
-    if (!element.matches(PRESSED) || element.matches("input, select, textarea")) {
+    // (A control that draws its own tip -- useAboveTip: the action symbols, the chips -- has no second one: owner, 2026-11-14 12:40.)
+    if (!element.matches(PRESSED) || element.matches("input, select, textarea") || element.hasAttribute("data-own-tip")) {
         return null;
     }
     // 6. A control whose pop-up window is open has none: the window is its answer (the calendar, the "i" card, a menu).
@@ -159,16 +160,18 @@ export default function TitleTooltips() {
             }
             return element;
         };
-        const over = (event: PointerEvent) => {
-            const element = reach(event.target);
+        // (One tip at a time: a title tip opening closes a tip of its own, and one of those opening closes the title tip.)
+        const show = (element: HTMLElement | null) => {
             const text = element ? tipOf(element) : null;
+            if (element && text) {
+                closeOwnTip();
+            }
             setTip(element && text ? { text, element } : null);
         };
-        const focus = (event: FocusEvent) => {
-            const element = reach(event.target);
-            const text = element ? tipOf(element) : null;
-            setTip(element && text ? { text, element } : null);
-        };
+        const over = (event: PointerEvent) => show(reach(event.target));
+        const focus = (event: FocusEvent) => show(reach(event.target));
+        const ownOpened = () => setTip(null);
+        document.addEventListener(OWN_TIP_EVENT, ownOpened);
         const away = () => setTip(null);
         const key = (event: KeyboardEvent) => {
             if (event.key === "Escape") {
@@ -188,6 +191,7 @@ export default function TitleTooltips() {
             document.removeEventListener("focusin", focus, true);
             document.removeEventListener("focusout", away, true);
             document.removeEventListener("keydown", key, true);
+            document.removeEventListener(OWN_TIP_EVENT, ownOpened);
         };
     }, []);
 
@@ -225,7 +229,7 @@ export default function TitleTooltips() {
             }, 170);
             return () => window.clearTimeout(timer);
         }
-        setPosition(aboveTipPosition(tip.element.getBoundingClientRect(), box.current.getBoundingClientRect()));
+        setPosition(tipPlace(tip.element.getBoundingClientRect(), box.current.getBoundingClientRect(), tip.element));
     }, [tip]);
 
     return tip ? <TooltipBox id={id} boxRef={box} position={position} hue={hueOf(tip.element)}>{tip.text}</TooltipBox> : null;

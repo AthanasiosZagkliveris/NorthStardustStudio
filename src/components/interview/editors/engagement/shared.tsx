@@ -2,11 +2,15 @@ import { ReactNode } from "react";
 import { BusinessEngagementValue } from "../../../../framework/engine/AnswerUtils.ts";
 import { InfoPoint } from "../../fields/InfoNote.tsx";
 import type { OpenPage } from "../../tiles/jumpTo.ts";
+import type { SegmentIdentity } from "../../../../framework/engine/SegmentContext.ts";
 
 export interface BusinessEngagementEditorProps {
 
     /** The Customer Channel section as a tile for each channel (each opening its table in a dialog), as the other pages are drawn. */
     asTiles?: boolean;
+
+    /** What Identity says of who the Segments sell to (segmentIdentityOf): read where the answers create relationship types (autoRelationshipTypes). */
+    identity?: SegmentIdentity;
 
     value: unknown;
 
@@ -51,6 +55,12 @@ export interface BusinessEngagementEditorProps {
 
     /** The organisation's currency, for what a channel's resources cost. */
     currency?: string;
+
+    /** The Global Settings: their Channel Fee Table, read (never written) by the Fees line of a paying subchannel's card (doc 50, section 1.4). */
+    globalSettings?: unknown;
+
+    /** Page 4's revenue streams: an Offering's price, for the fee on one sale. */
+    financialSustainability?: unknown;
 
 }
 

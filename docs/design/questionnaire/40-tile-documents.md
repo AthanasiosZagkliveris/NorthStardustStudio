@@ -38,7 +38,7 @@ A tile document is **one document for one tile or card**, in this order:
 | Business 1: Competitors | 41 | built (specification) |
 | Business 1: Value Proposition | 42 | built in part (specification) |
 | Business 1: Offerings | 43 | built in part (specification) |
-| Business 2: Customer Engagement | 47 | proposal |
+| Business 2: Customer Engagement | 47 | built in part (specification) |
 | Business 3: Business Capability | none (doc 28, section 9) | not yet |
 | Business 4 and 5: Financial Foundation, Sustainability, and the Inventory | 48 | proposal |
 | Strategy: Situation & Direction (Current Situation Analysis, SWOT Analysis, Strategic Compass, Strategic Period) | 49 | proposal |

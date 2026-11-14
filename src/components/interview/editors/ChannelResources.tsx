@@ -5,6 +5,7 @@ import TextBox from "../../controls/TextBox.tsx";
 import AddButton from "../../controls/AddButton.tsx";
 import { KeyboardEvent, ReactNode, useEffect, useRef, useState, useSyncExternalStore } from "react";
 import RemoveButton from "../../controls/RemoveButton.tsx";
+import CellRemoveButton from "../../controls/CellRemoveButton.tsx";
 import { useAboveTip } from "../../controls/Tooltip.tsx";
 
 import {
@@ -609,20 +610,25 @@ function ChannelResourceCard({
             {linkedActions.length > 0 && (
                 <ul className="notepad-chips business-channel-resource-actions" aria-label={"Actions of " + label}>
                     {linkedActions.map(actionId => (
-                        <li key={actionId} className={"notepad-chip" + (fromAction === actionId ? " is-picked" : "")}>
-                            <ChipOpen
-                                aria-label={"#" + (actionOrder(actionId, channelId) ?? "") + " " + text(actionId)}
-                                onClick={() => onOpenAction?.(actionId)}
-                                tag={<span className="notepad-chip-number">{"#" + (actionOrder(actionId, channelId) ?? "")}</span>}
-                                description={text(actionId)}
-                            />
-                            <RemoveButton
-                                aria-label={"Unlink action " + text(actionId) + " from " + label}
-                                disabled={disabled}
-                                onClick={() => {
-                                    onWrite({ engagement: withResourceAction(engagement, link.id, actionId, false) });
-                                    UndoService.offer("Action unlinked.", () => onWrite({ engagement: withResourceAction(latestEngagement.current, link.id, actionId, true) }));
-                                }} />
+                        <li key={actionId} className="business-channel-resource-action">
+                            {/* (The chip, 32px tall (--chip-height), its whole action in a tooltip, its x INSIDE it at its right end: the in-cell x, frameless;
+                                owner, 2026-11-14 12:00, 12:20 and 12:33.) */}
+                            <span className={"notepad-chip" + (fromAction === actionId ? " is-picked" : "")}>
+                                <ChipOpen
+                                    aria-label={"#" + (actionOrder(actionId, channelId) ?? "") + " " + text(actionId)}
+                                    tip={"#" + (actionOrder(actionId, channelId) ?? "") + " " + text(actionId)}
+                                    onClick={() => onOpenAction?.(actionId)}
+                                    tag={<span className="notepad-chip-number">{"#" + (actionOrder(actionId, channelId) ?? "")}</span>}
+                                    description={text(actionId)}
+                                />
+                                <CellRemoveButton
+                                    aria-label={"Unlink action " + text(actionId) + " from " + label}
+                                    disabled={disabled}
+                                    onClick={() => {
+                                        onWrite({ engagement: withResourceAction(engagement, link.id, actionId, false) });
+                                        UndoService.offer("Action unlinked.", () => onWrite({ engagement: withResourceAction(latestEngagement.current, link.id, actionId, true) }));
+                                    }} />
+                            </span>
                         </li>
                     ))}
                 </ul>

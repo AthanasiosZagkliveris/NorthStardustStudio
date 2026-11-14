@@ -946,7 +946,7 @@
     font:inherit;
     /* Text tier, like every other input scope in the app. */
     font-size:var(--font-body);
-    line-height:1.5;
+    line-height:var(--field-line);
 
     border:1px solid var(--line-box);
     border-radius:var(--radius-md);

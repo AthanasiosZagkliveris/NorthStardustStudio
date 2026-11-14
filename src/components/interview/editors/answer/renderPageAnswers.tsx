@@ -43,11 +43,12 @@ export function renderBusinessFoundation(scope: AnswerScope) {
 
 export function renderBusinessEngagement(scope: AnswerScope) {
 
-    const { value, onChange, disabled, businessFoundation, onOpenBusinessFoundation, organisationCurrency, businessCapability, onOpenBusinessCapability, onChangeBusinessCapability, columnsDivider, showInstructions } = scope;
+    const { value, onChange, disabled, businessFoundation, onOpenBusinessFoundation, organisationCurrency, businessCapability, onOpenBusinessCapability, onChangeBusinessCapability, columnsDivider, showInstructions, legalEntity, businessStage, globalSettings, financialSustainability } = scope;
 
     return (
 
         <BusinessEngagementEditor
+            identity={segmentIdentityOf(asLegalEntityValue(legalEntity).organisation, businessStage)}
             value={value}
             showInstructions={showInstructions}
             columnsDivider={columnsDivider}
@@ -57,6 +58,8 @@ export function renderBusinessEngagement(scope: AnswerScope) {
             onChangeCapability={onChangeBusinessCapability}
             onOpenCapability={onOpenBusinessCapability}
             currency={organisationCurrency}
+            globalSettings={globalSettings}
+            financialSustainability={financialSustainability}
             asTiles
             onChange={onChange}
             disabled={disabled}

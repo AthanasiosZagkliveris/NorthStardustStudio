@@ -1089,7 +1089,7 @@ describe("a list of cards as closed square boxes", () => {
         expect(box.getAttribute("title")).toMatch(/^Card 1. Missing: Price, Payment Frequency/);
         expect(box.classList.contains("section-tile")).toBe(true);
         // Its lines: the dates, where it belongs, then the status (Costs, no price yet).
-        expect([...box.querySelectorAll(".section-tile-list > li")].map(item => item.textContent).slice(1)).toEqual(["Offering's Capability", "No category", "No group", "Costs"]);
+        expect([...box.querySelectorAll(".section-tile-list > li")].map(item => item.textContent).slice(1)).toEqual(["Offering", "No category", "No group", "Costs"]);
         openCard("Card 2");
         expect(document.querySelector(".floating-card-host")).not.toBeNull();
         expect((screen.getByRole("textbox", { name: "Resource 2 name" }) as HTMLTextAreaElement).value).toBe("Card 2");
@@ -1275,7 +1275,7 @@ describe("the marks on the lines of a tile's list", () => {
         // (Teal text and bullet; the second bullet right under the first in the one bullet column, taking no room: no padding rule for it.)
         expect(css.includes(".section-tile-list > li.section-tile-list-teal .section-tile-link { color: var(--channel-marker);")).toBe(true);
         expect(css.includes("li.section-tile-list-channel::after { content: \"\"; position: absolute; left: 0;")).toBe(true);
-        expect(css.includes("li.section-tile-list-channel::before { top: calc((var(--section-tile-line-height) * 1em - var(--bullet-size) * 2 - 2px) / 2);")).toBe(true);
+        expect(css.includes("li.section-tile-list-channel::before { top: calc((var(--tile-row) - var(--bullet-size) * 2 - 2px) / 2);")).toBe(true);
         expect(css).not.toMatch(/data-markers/);
     });
 
@@ -1410,21 +1410,17 @@ describe("the Inventory table", () => {
     }) as never;
 
     it("maps a card to Section, Category, Group, Cost and Frequency, one line for one cost", () => {
-        expect(tableRows(row({}))).toEqual([{ type: "Resource", section: "Infrastructure", category: "Equipment", group: "Specialised", status: "Costs", cost: "7200", frequency: "One-time", nature: "", behaviour: "" }]);
-        expect(tableRows(row({ path: ["Offering's Capability", "Resources"] }))[0]).toMatchObject({ section: "Offering", category: "Resources", group: "" });
+        expect(tableRows(row({}))).toEqual([{ type: "Resource", section: "Infrastructure", category: "Equipment", group: "Specialised", status: "Costs", cost: "7200", frequency: "One-time", nature: "", behaviour: "", offering: "", journey: "", actions: "", share: "" }]);
+        expect(tableRows(row({ tone: "offering", path: ["Offering", "Resources"] }))[0]).toMatchObject({ section: "Offering", category: "Resources", group: "" });
     });
 
-    it("gives a card with a second cost (a Workspace deposit) a second line: the deposit, \"Deposit\" after its amount, one-time", () => {
-        const lines = tableRows(row({ deposit: 3750 }));
-        expect(lines).toHaveLength(2);
-        expect(lines[1]).toMatchObject({ cost: "3750 Deposit", frequency: "One-time", category: "Equipment" });
-        // (A deposit with no price is the card's only line.)
-        expect(tableRows(row({ amount: null, deposit: 3750 }))).toHaveLength(1);
+    it("gives every card one line: a Workspace's deposit and extras are rows of their own (owner, 2026-11-13 16:50)", () => {
+        expect(tableRows(row({}))).toHaveLength(1);
     });
 
-    it("fills a Legal Entity expense with Section Legal Entity, Type Expense, name, cost and frequency only", () => {
-        const [line] = tableRows(row({ kind: "legal", path: ["Identity System", "Legal Entity", "Expenses"], status: "", statusLabel: "", amount: 120, frequency: "annually", frequencyLabel: "Annually" }));
-        expect(line).toEqual({ type: "Expense", section: "Legal Entity", category: "", group: "", status: "", cost: "120", frequency: "Annually", nature: "", behaviour: "" });
+    it("fills a Legal Entity expense with the funnel's names -- Section Legal, Type Legal expense --, name, cost and frequency only", () => {
+        const [line] = tableRows(row({ kind: "legal", tone: "legal", path: ["Identity System", "Legal Entity", "Expenses"], status: "", statusLabel: "", amount: 120, frequency: "annually", frequencyLabel: "Annually" }));
+        expect(line).toEqual({ type: "Legal expense", section: "Legal", category: "", group: "", status: "", cost: "120", frequency: "Annually", nature: "", behaviour: "", offering: "", journey: "", actions: "", share: "" });
     });
 
     it("shows the eleven columns in order, the second cost's line dimmed with the name repeated, the links as bullets only (their text a tooltip)", () => {
@@ -1475,7 +1471,7 @@ describe("the lines of channel-made cards", () => {
 describe("the Channel group", () => {
 
     const base = {
-        id: "r", kind: "provider", name: "DPD", path: ["Offering's Capability", "Providers"], status: "", statusLabel: "", frequency: "", frequencyLabel: "", amount: 5, links: []
+        id: "r", kind: "provider", name: "DPD", path: ["Offering", "Providers"], status: "", statusLabel: "", frequency: "", frequencyLabel: "", amount: 5, links: []
     };
     const channel = { ...base, tone: "channel" } as never;
     const own = { ...base, id: "q", name: "Flame", tone: "offering" } as never;
@@ -1483,10 +1479,10 @@ describe("the Channel group", () => {
     it("reads Channel in the Group column and as the last line of a tile for a card of the Customer Channel (Section, Type and Category keep their values)", () => {
         expect(tableRows(channel)[0]).toMatchObject({ type: "Supplier", section: "Offering", category: "Providers", group: "Channel" });
         expect(tableRows(own)[0]).toMatchObject({ category: "Providers", group: "" });
-        expect(belongsLines(channel)).toEqual(["Offering's Capability", "Providers", "Channel"]);
-        expect(belongsLines(own)).toEqual(["Offering's Capability", "Providers"]);
+        expect(belongsLines(channel)).toEqual(["Offering", "Providers", "Channel"]);
+        expect(belongsLines(own)).toEqual(["Offering", "Providers"]);
         // (An activity's third line is its category: Channel follows it.)
-        expect(belongsLines({ ...base, kind: "activity", path: ["Offering's Capability", "Activities", "Production"], tone: "channel" } as never)).toEqual(["Offering's Capability", "Activities", "Production", "Channel"]);
+        expect(belongsLines({ ...base, kind: "activity", path: ["Offering", "Activities", "Production"], tone: "channel" } as never)).toEqual(["Offering", "Activities", "Production", "Channel"]);
     });
 
     it("offers Channel as a Group under the category of the channel's cards, and narrows to them when ticked", () => {
@@ -1545,14 +1541,24 @@ describe("the table mode: surface, columns, sizes", () => {
         expect(size()).toBe("small");
     });
 
-    it("draws the table on an opaque calm surface per theme with a sticky heading", () => {
+    it("draws the table on an opaque calm surface per theme with a sticky heading, a band of the card's hue", () => {
         const css = stylesheet("capability-overview.css");
         for (const theme of ["dark", "sepia"]) {
             expect(css.includes(":root[data-theme=\"" + theme + "\"] { --table-ground:")).toBe(true);
         }
         expect(css.includes(".capability-overview-table-mode .capability-overview-scroll { padding: 0 0 12px; border-radius: var(--radius-lg); background: var(--table-ground); color: var(--table-ink); }")).toBe(true);
-        expect(css.includes(".capability-overview-table thead th { position: sticky; top: 0; z-index: 2; background: var(--table-ground);")).toBe(true);
+        expect(css.includes(".capability-overview-table thead th { position: sticky; top: 0; z-index: 2; background: color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-hover)) var(--theme-ground-weight), var(--table-ground));")).toBe(true);
         expect(css.includes(".capability-overview-table tbody tr:nth-child(even) > * { background: var(--table-tint); }")).toBe(true);
+    });
+
+    it("keeps the fixed Name column on top and opaque in every row state, its heading fixed to the left too (owner, 2026-11-12 23:54)", () => {
+        const css = stylesheet("capability-overview.css");
+        expect(css.includes(".capability-overview-table tbody tr > th[data-col=\"name\"] { background: var(--table-ground); }")).toBe(true);
+        expect(css.includes(".capability-overview-table tbody tr:nth-child(even) > th[data-col=\"name\"] { background: linear-gradient(var(--table-tint), var(--table-tint)), var(--table-ground); }")).toBe(true);
+        expect(css.includes(".capability-overview-table tbody tr:hover > th[data-col=\"name\"] { background: linear-gradient(var(--table-hover), var(--table-hover)), var(--table-ground); }")).toBe(true);
+        expect(css.includes(".capability-overview-table thead th[data-col=\"name\"] { left: 0; z-index: 3; }")).toBe(true);
+        // (The hover rule comes before the Name column's own, so the Name column's wins.)
+        expect(css.indexOf(".capability-overview-table tbody tr:hover > * {")).toBeLessThan(css.indexOf(".capability-overview-table tbody tr:hover > th[data-col=\"name\"]"));
     });
 
 });

@@ -221,7 +221,9 @@ export function consolidateCosts(
             behaviour: !forOffering
                 ? "fixed"
                 : override.behaviour ||
-                    (effectiveFrequency === "per-unit" || effectiveFrequency === "per-project" ? "variable" : "fixed"),
+                    // (A cost that grows with the sales -- each unit, project or order, or a share of revenue -- is variable, as Page 3 says of it:
+                    // AnswerBusinessCapability's behaviour; owner, 2026-11-13 12:32, the Inventory's "accurate information".)
+                    (effectiveFrequency === "per-unit" || effectiveFrequency === "per-project" || effectiveFrequency === "per-order" || effectiveFrequency === "usage-based" ? "variable" : "fixed"),
             offeringIds: forOffering ? offeringIds : [],
             offeringId: forOffering ? offeringIds[0] ?? "" : "",
             amountText: quantity !== null && total !== null ? numberAsText(total) : amountText,

@@ -1,6 +1,6 @@
 # Index of the documents
 
-Status: **index**, updated 2026-11-12, written by `npm run docs:index` (the subjects are in `tools/scripts/docs/write-index.mjs`; do not edit by hand). An alphabetical list of subjects and where each is described. The contents by chapter are in [README.md](README.md); the places in the app are in [app/index.md](app/index.md); the terms are in [app/glossary.md](app/glossary.md).
+Status: **index**, updated 2026-11-14, written by `npm run docs:index` (the subjects are in `tools/scripts/docs/write-index.mjs`; do not edit by hand). An alphabetical list of subjects and where each is described. The contents by chapter are in [README.md](README.md); the places in the app are in [app/index.md](app/index.md); the terms are in [app/glossary.md](app/glossary.md).
 
 ## A
 
@@ -34,7 +34,7 @@ Status: **index**, updated 2026-11-12, written by `npm run docs:index` (the subj
 - **Components, shared**: [21](design/current/21-shared-components.md)
 - **Cost model**: [1 Part D](design/core/01-current-design.md)
 - **Countries of the first version**: [33 section 3](design/questionnaire/33-specs-and-limitations.md)
-- **Customer Engagement**: [47 (proposal)](design/questionnaire/47-customer-engagement-tiles.md); [specifications page 2](specifications/business-system/page-2-section-1-channels.md); [28 section 7](design/questionnaire/28-questionnaire-specification.md)
+- **Customer Engagement**: [47 (built in part)](design/questionnaire/47-customer-engagement-tiles.md); [specifications page 2](specifications/business-system/page-2-section-1-channels.md); [28 section 7](design/questionnaire/28-questionnaire-specification.md)
 ## D
 
 - **Differentiation and Outcome**: [28 section 8.2](design/questionnaire/28-questionnaire-specification.md)

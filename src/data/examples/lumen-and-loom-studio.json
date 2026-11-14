@@ -512,20 +512,16 @@
                   "comfort": [
                     "5"
                   ],
+                  "social": [
+                    "mixed"
+                  ],
+                  "trigger": [
+                    "seasonal"
+                  ],
                   "discover": [
                     "communities",
                     "creators",
                     "media"
-                  ],
-                  "social": [
-                    "mixed"
-                  ],
-                  "share": [
-                    "public",
-                    "private"
-                  ],
-                  "trigger": [
-                    "seasonal"
                   ],
                   "path": [
                     "researcher"
@@ -537,11 +533,15 @@
                     "card",
                     "wallet"
                   ],
-                  "trajectory": [
-                    "3"
+                  "share": [
+                    "public",
+                    "private"
                   ],
                   "tam": [
                     "mid"
+                  ],
+                  "trajectory": [
+                    "3"
                   ],
                   "trends": [
                     "economy",
@@ -1183,6 +1183,9 @@
                     "peers",
                     "media"
                   ],
+                  "authorise": [
+                    "solo"
+                  ],
                   "setting": [
                     "multi"
                   ],
@@ -1190,14 +1193,11 @@
                     "card",
                     "invoice"
                   ],
-                  "authorise": [
-                    "solo"
+                  "tam": [
+                    "boutique"
                   ],
                   "trajectory": [
                     "4"
-                  ],
-                  "tam": [
-                    "boutique"
                   ],
                   "trends": [
                     "regulation",
@@ -1930,6 +1930,155 @@
                         "Send the tracking link and dispatch email"
                       ]
                     }
+                  },
+                  {
+                    "id": "channel-lumen-taster",
+                    "category": "In Person",
+                    "name": "Workshop / Class",
+                    "links": [
+                      ""
+                    ],
+                    "offerings": [
+                      "offering-8e935f0e"
+                    ],
+                    "stages": [
+                      "discovery"
+                    ],
+                    "actionIds": {
+                      "discovery": [
+                        "action-lumen-taster-1"
+                      ]
+                    },
+                    "actions": {
+                      "discovery": [
+                        "Run a 30-minute taster loom at makers' fairs and workshops; sign up those who enjoy it"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "channel-segment-8lu427u5-referral-affiliates-influencer-ambassador",
+                    "category": "Referral & Affiliates",
+                    "name": "Influencer / Ambassador",
+                    "links": [
+                      ""
+                    ],
+                    "offerings": [
+                      "*"
+                    ],
+                    "stages": [
+                      "discovery"
+                    ],
+                    "actionIds": {
+                      "discovery": [
+                        "action-channel-segment-8lu427u5-referral-affiliates-influencer-ambassador-discovery-1"
+                      ]
+                    },
+                    "actions": {
+                      "discovery": [
+                        "Gift a cushion to two London interiors creators each quarter and share their room posts"
+                      ]
+                    },
+                    "fromAnswers": true
+                  },
+                  {
+                    "id": "channel-segment-8lu427u5-social-media-tiktok",
+                    "category": "Social Media",
+                    "name": "TikTok",
+                    "links": [
+                      ""
+                    ],
+                    "offerings": [
+                      "*"
+                    ],
+                    "stages": [
+                      "discovery"
+                    ],
+                    "actionIds": {
+                      "discovery": [
+                        "action-channel-segment-8lu427u5-social-media-tiktok-discovery-1"
+                      ]
+                    },
+                    "actions": {
+                      "discovery": [
+                        "Post short loom-to-sofa clips of each new piece"
+                      ]
+                    },
+                    "fromAnswers": true
+                  },
+                  {
+                    "id": "channel-segment-8lu427u5-social-media-youtube",
+                    "category": "Social Media",
+                    "name": "YouTube",
+                    "links": [
+                      ""
+                    ],
+                    "offerings": [
+                      "*"
+                    ],
+                    "stages": [
+                      "discovery"
+                    ],
+                    "actionIds": {
+                      "discovery": [
+                        "action-channel-segment-8lu427u5-social-media-youtube-discovery-1"
+                      ]
+                    },
+                    "actions": {
+                      "discovery": [
+                        "Publish a monthly studio film showing how a throw is woven"
+                      ]
+                    },
+                    "fromAnswers": true
+                  },
+                  {
+                    "id": "channel-segment-8lu427u5-community-meetup",
+                    "category": "Community",
+                    "name": "Meetup",
+                    "links": [
+                      ""
+                    ],
+                    "offerings": [
+                      "*"
+                    ],
+                    "stages": [
+                      "discovery"
+                    ],
+                    "actionIds": {
+                      "discovery": [
+                        "action-channel-segment-8lu427u5-community-meetup-discovery-1"
+                      ]
+                    },
+                    "actions": {
+                      "discovery": [
+                        "Host a quarterly makers' evening through a Hackney craft Meetup group"
+                      ]
+                    },
+                    "fromAnswers": true
+                  },
+                  {
+                    "id": "channel-segment-8lu427u5-referral-affiliates-customer-referral",
+                    "category": "Referral & Affiliates",
+                    "name": "Customer Referral",
+                    "links": [
+                      ""
+                    ],
+                    "offerings": [
+                      "*"
+                    ],
+                    "stages": [
+                      "evaluation"
+                    ],
+                    "actionIds": {
+                      "evaluation": [
+                        "action-channel-segment-8lu427u5-referral-affiliates-customer-referral-evaluation-1"
+                      ]
+                    },
+                    "actions": {
+                      "evaluation": [
+                        "Share photos and words from past buyers when a new customer asks about quality"
+                      ]
+                    },
+                    "fromAnswers": true
                   }
                 ],
                 "actions": [
@@ -2048,6 +2197,30 @@
                   {
                     "id": "action-channel-lncour01-delivery-2",
                     "text": "Send the tracking link and dispatch email"
+                  },
+                  {
+                    "id": "action-lumen-taster-1",
+                    "text": "Run a 30-minute taster loom at makers' fairs and workshops; sign up those who enjoy it"
+                  },
+                  {
+                    "id": "action-channel-segment-8lu427u5-referral-affiliates-influencer-ambassador-discovery-1",
+                    "text": "Gift a cushion to two London interiors creators each quarter and share their room posts"
+                  },
+                  {
+                    "id": "action-channel-segment-8lu427u5-social-media-tiktok-discovery-1",
+                    "text": "Post short loom-to-sofa clips of each new piece"
+                  },
+                  {
+                    "id": "action-channel-segment-8lu427u5-social-media-youtube-discovery-1",
+                    "text": "Publish a monthly studio film showing how a throw is woven"
+                  },
+                  {
+                    "id": "action-channel-segment-8lu427u5-community-meetup-discovery-1",
+                    "text": "Host a quarterly makers' evening through a Hackney craft Meetup group"
+                  },
+                  {
+                    "id": "action-channel-segment-8lu427u5-referral-affiliates-customer-referral-evaluation-1",
+                    "text": "Share photos and words from past buyers when a new customer asks about quality"
                   }
                 ],
                 "offerings": [
@@ -2094,7 +2267,10 @@
                           }
                         }
                       }
-                    }
+                    },
+                    "dismissed": [
+                      "community"
+                    ]
                   },
                   {
                     "offeringId": "offering-8e935f0e",
@@ -2138,7 +2314,11 @@
                           }
                         }
                       }
-                    }
+                    },
+                    "dismissed": [
+                      "self-service",
+                      "personal-assistance"
+                    ]
                   }
                 ],
                 "profiles": []
@@ -2397,6 +2577,88 @@
                         "Post sample boxes and re-orders by Royal Mail Tracked 48"
                       ]
                     }
+                  },
+                  {
+                    "id": "channel-segment-majxtl1u-referral-affiliates-customer-referral",
+                    "category": "Referral & Affiliates",
+                    "name": "Customer Referral",
+                    "links": [
+                      ""
+                    ],
+                    "offerings": [
+                      "*"
+                    ],
+                    "stages": [
+                      "discovery",
+                      "evaluation"
+                    ],
+                    "actionIds": {
+                      "discovery": [
+                        "action-channel-segment-majxtl1u-referral-affiliates-customer-referral-discovery-1"
+                      ],
+                      "evaluation": [
+                        "action-channel-segment-majxtl1u-referral-affiliates-customer-referral-evaluation-1"
+                      ]
+                    },
+                    "actions": {
+                      "discovery": [
+                        "Ask each finished hotel project for an introduction to one designer they work with"
+                      ],
+                      "evaluation": [
+                        "Send two references from past hotel projects with every proposal"
+                      ]
+                    },
+                    "fromAnswers": true
+                  },
+                  {
+                    "id": "channel-segment-majxtl1u-social-media-pinterest",
+                    "category": "Social Media",
+                    "name": "Pinterest",
+                    "links": [
+                      ""
+                    ],
+                    "offerings": [
+                      "*"
+                    ],
+                    "stages": [
+                      "discovery"
+                    ],
+                    "actionIds": {
+                      "discovery": [
+                        "action-channel-segment-majxtl1u-social-media-pinterest-discovery-1"
+                      ]
+                    },
+                    "actions": {
+                      "discovery": [
+                        "Pin each commission in its finished room, tagged by style and colourway"
+                      ]
+                    },
+                    "fromAnswers": true
+                  },
+                  {
+                    "id": "channel-segment-majxtl1u-website-main-website",
+                    "category": "Website",
+                    "name": "Main Website",
+                    "links": [
+                      ""
+                    ],
+                    "offerings": [
+                      "*"
+                    ],
+                    "stages": [
+                      "discovery"
+                    ],
+                    "actionIds": {
+                      "discovery": [
+                        "action-channel-segment-majxtl1u-website-main-website-discovery-1"
+                      ]
+                    },
+                    "actions": {
+                      "discovery": [
+                        "Publish a case study of each finished hotel project and share it with interiors magazines and design review sites"
+                      ]
+                    },
+                    "fromAnswers": true
                   }
                 ],
                 "actions": [
@@ -2463,6 +2725,22 @@
                   {
                     "id": "action-channel-lntpost1-delivery-1",
                     "text": "Post sample boxes and re-orders by Royal Mail Tracked 48"
+                  },
+                  {
+                    "id": "action-channel-segment-majxtl1u-referral-affiliates-customer-referral-discovery-1",
+                    "text": "Ask each finished hotel project for an introduction to one designer they work with"
+                  },
+                  {
+                    "id": "action-channel-segment-majxtl1u-referral-affiliates-customer-referral-evaluation-1",
+                    "text": "Send two references from past hotel projects with every proposal"
+                  },
+                  {
+                    "id": "action-channel-segment-majxtl1u-social-media-pinterest-discovery-1",
+                    "text": "Pin each commission in its finished room, tagged by style and colourway"
+                  },
+                  {
+                    "id": "action-channel-segment-majxtl1u-website-main-website-discovery-1",
+                    "text": "Publish a case study of each finished hotel project and share it with interiors magazines and design review sites"
                   }
                 ],
                 "offerings": [
@@ -2508,7 +2786,10 @@
                           }
                         }
                       }
-                    }
+                    },
+                    "dismissed": [
+                      "personal-assistance"
+                    ]
                   },
                   {
                     "offeringId": "offering-kfyakcw5",
@@ -2553,13 +2834,148 @@
                           }
                         }
                       }
-                    }
+                    },
+                    "dismissed": [
+                      "dedicated-support"
+                    ]
                   }
                 ],
                 "profiles": []
               }
             ],
-            "demand": {},
+            "demand": {
+              "offering-nvfuu2km": {
+                "sources": [
+                  {
+                    "id": "source-lumen-store",
+                    "type": "marketplace",
+                    "calculate": true,
+                    "estimate": "",
+                    "inputs": {
+                      "visitors": "500",
+                      "buy": "1.2"
+                    },
+                    "basis": "About 500 visits a month to the online store, most from Instagram and Pinterest; 1.2% buy, the rate the shop reached in its first three months.",
+                    "channelId": "channel-xrenzwzk"
+                  },
+                  {
+                    "id": "source-lumen-market",
+                    "type": "marketplace",
+                    "calculate": true,
+                    "estimate": "",
+                    "inputs": {
+                      "visitors": "100",
+                      "buy": "4"
+                    },
+                    "basis": "About 100 people stop at the stall over the market days of a month; one in 25 buys a piece.",
+                    "channelId": "channel-kuy4u7hj"
+                  }
+                ],
+                "recurring": false,
+                "cancel": "",
+                "channelIds": [],
+                "assumptions": "Reached over the first year, as Sustainability's gradual start plans: about 3 pieces a month at the opening. What one weaver makes beside the commissions: about 3.5 hours of weaving and warping a piece, and 1.75 hours of finishing."
+              },
+              "offering-8e935f0e": {
+                "sources": [
+                  {
+                    "id": "source-lumen-ws-funnel",
+                    "type": "funnel",
+                    "calculate": true,
+                    "estimate": "",
+                    "inputs": {
+                      "prospects": "160",
+                      "qualified": "25",
+                      "buy": "50"
+                    },
+                    "basis": "About 160 people a month ask about workshops through Instagram and the Facebook group; one in four asks for dates, and half of those book.",
+                    "channelId": "segment-8lu427u5-channel"
+                  },
+                  {
+                    "id": "source-lumen-ws-referrals",
+                    "type": "referrals",
+                    "calculate": true,
+                    "estimate": "",
+                    "inputs": {
+                      "referrals": "20",
+                      "buy": "60"
+                    },
+                    "basis": "Past participants bring friends: about 20 introductions a month, three in five book.",
+                    "channelId": "channel-segment-8lu427u5-referral-affiliates-customer-referral"
+                  }
+                ],
+                "recurring": false,
+                "cancel": "",
+                "channelIds": [],
+                "assumptions": "Places a month in groups of at most eight, reached over the first year from about 12 at the opening."
+              },
+              "offering-vhtapa3v": {
+                "sources": [
+                  {
+                    "id": "source-lumen-bespoke-fairs",
+                    "type": "contracts",
+                    "calculate": true,
+                    "estimate": "",
+                    "inputs": {
+                      "bids": "36",
+                      "win": "50",
+                      "units": "1"
+                    },
+                    "basis": "About 36 quotes a year to designers met at trade fairs; half are won, one commission each.",
+                    "channelId": "channel-imbnizvs"
+                  },
+                  {
+                    "id": "source-lumen-bespoke-referrals",
+                    "type": "referrals",
+                    "calculate": true,
+                    "estimate": "",
+                    "inputs": {
+                      "referrals": "5",
+                      "buy": "30"
+                    },
+                    "basis": "Designers recommend us to other studios: about 5 introductions a month, three in ten commission.",
+                    "channelId": "channel-segment-majxtl1u-referral-affiliates-customer-referral"
+                  }
+                ],
+                "recurring": false,
+                "cancel": "",
+                "channelIds": [],
+                "assumptions": "Commissions a month, reached over the first year from about one every two months."
+              },
+              "offering-kfyakcw5": {
+                "sources": [
+                  {
+                    "id": "source-lumen-trade-funnel",
+                    "type": "funnel",
+                    "calculate": true,
+                    "estimate": "",
+                    "inputs": {
+                      "prospects": "6",
+                      "qualified": "50",
+                      "buy": "50"
+                    },
+                    "basis": "About 6 stockists and designers contacted a month through LinkedIn and Instagram; half ask for the trade price list, half of those order.",
+                    "channelId": "segment-majxtl1u-channel"
+                  },
+                  {
+                    "id": "source-lumen-trade-fairs",
+                    "type": "marketplace",
+                    "calculate": true,
+                    "estimate": "",
+                    "inputs": {
+                      "visitors": "15",
+                      "buy": "10"
+                    },
+                    "basis": "About 15 trade visitors a month at the studio and the fairs; one in ten orders.",
+                    "channelId": "channel-imbnizvs"
+                  }
+                ],
+                "recurring": false,
+                "cancel": "",
+                "channelIds": [],
+                "assumptions": "Pieces a month on trade terms, reached over the first year from about 1 at the opening."
+              }
+            },
             "channelResources": [
               {
                 "id": "channel-resource-resource-mszvpqno",
@@ -2692,7 +3108,7 @@
                 "salary": "1800",
                 "period": "",
                 "hours": "160",
-                "deliveryHours": "112",
+                "deliveryHours": "128",
                 "deliveryShare": "",
                 "startDate": "2026-10-01",
                 "extras": {}
@@ -5306,10 +5722,11 @@
             "delivery": {
               "offering-nvfuu2km": {
                 "hours": {
-                  "founder-3aux8uyh": "6"
+                  "founder-3aux8uyh": "3.5",
+                  "founder-3fhkh0cm": "1.75"
                 },
                 "duration": "2",
-                "constraints": "Three floor looms; one weaver can keep about two looms busy. Finishing and photography add time per piece.",
+                "constraints": "Three floor looms; one weaver keeps about two busy on long warps. A cushion is about 3 hours, a runner 4 and a throw 10, finishing included (hand fringing alone is about 1.5 hours an end).",
                 "effort": "",
                 "deliverers": [],
                 "mode": "",
@@ -5329,7 +5746,7 @@
               },
               "offering-vhtapa3v": {
                 "hours": {
-                  "founder-3aux8uyh": "32",
+                  "founder-3aux8uyh": "24",
                   "founder-z2jgpf8v": "8"
                 },
                 "duration": "6",
@@ -5341,7 +5758,9 @@
               },
               "offering-kfyakcw5": {
                 "hours": {
-                  "founder-3aux8uyh": "5"
+                  "founder-3aux8uyh": "2.5",
+                  "founder-3fhkh0cm": "1",
+                  "founder-z2jgpf8v": "0.5"
                 },
                 "duration": "2",
                 "constraints": "Core range only: fewer colour changes than the retail collection.",
@@ -5631,17 +6050,17 @@
                 "offeringId": "offering-nvfuu2km",
                 "model": "Product Sale",
                 "modelOther": "",
-                "price": "95",
+                "price": "160",
                 "unit": "Product",
                 "unitOther": "",
                 "frequency": "per-sale",
-                "volume": "40",
+                "volume": "10",
                 "start": {
                   "month": "10",
                   "year": "2026"
                 },
                 "development": "gradual",
-                "initialVolume": "10",
+                "initialVolume": "3",
                 "rampMonths": "8",
                 "detailed": [],
                 "variableCost": "",
@@ -5650,7 +6069,7 @@
                 "paymentTiming": "",
                 "paymentDelay": "",
                 "firstPercent": "",
-                "description": "Average across cushions (£75), runners (£65) and throws (£180), online and at markets."
+                "description": "Average across cushions (£95), table runners (£85) and throws (£230 small, £350 single), online and at markets: about a third of the pieces throws."
               },
               {
                 "id": "stream-2bibg9vb",
@@ -5687,7 +6106,7 @@
                 "unit": "Project",
                 "unitOther": "",
                 "frequency": "per-project",
-                "volume": "1.5",
+                "volume": "3",
                 "start": {
                   "month": "01",
                   "year": "2027"
@@ -5709,17 +6128,17 @@
                 "offeringId": "offering-kfyakcw5",
                 "model": "Product Sale",
                 "modelOther": "",
-                "price": "57",
+                "price": "48",
                 "unit": "Product",
                 "unitOther": "",
                 "frequency": "per-sale",
-                "volume": "30",
+                "volume": "3",
                 "start": {
                   "month": "06",
                   "year": "2027"
                 },
                 "development": "gradual",
-                "initialVolume": "10",
+                "initialVolume": "1",
                 "rampMonths": "6",
                 "detailed": [],
                 "variableCost": "",
@@ -5728,7 +6147,7 @@
                 "paymentTiming": "completion",
                 "paymentDelay": "1",
                 "firstPercent": "",
-                "description": "Trade price (RRP less 40%); 30-day payment terms."
+                "description": "Trade price, half the retail price (the usual wholesale share); cushions and runners of the core range only; 30-day payment terms."
               }
             ]
           }
@@ -6168,12 +6587,44 @@
     "onCostRate": "",
     "channelFees": [
       {
+        "id": "fee-uk0lu",
+        "channel": "Stripe Terminal",
+        "commission": "1.4",
+        "fixedFee": "0.10",
+        "chargeback": "0.5",
+        "note": "In person, UK cards; checked 14/11/2026 on Stripe's UK pricing page"
+      },
+      {
         "id": "fee-kkmhuxy3",
         "channel": "Stripe",
+        "commission": "1.5",
+        "fixedFee": "0.20",
+        "chargeback": "0.5",
+        "note": "UK standard cards online (premium cards 1.9% + 20p, EEA cards 2.5% + 20p); checked 14/11/2026 on Stripe's UK pricing page"
+      },
+      {
+        "id": "fee-uk2lu",
+        "channel": "SumUp",
+        "commission": "1.69",
+        "fixedFee": "0",
+        "chargeback": "0.5",
+        "note": "In person (payment links and invoices 2.5%); checked 14/11/2026 on SumUp's UK pricing page"
+      },
+      {
+        "id": "fee-uk3lu",
+        "channel": "Shopify Payments",
         "commission": "2",
         "fixedFee": "0.25",
         "chargeback": "0.5",
-        "note": "The default rate for bad debts"
+        "note": "Basic plan, online (in person 1.7%); checked 14/11/2026 on Shopify's UK pricing page"
+      },
+      {
+        "id": "fee-uk4lu",
+        "channel": "Etsy",
+        "commission": "10.5",
+        "fixedFee": "0.20",
+        "chargeback": "0",
+        "note": "6.5% transaction fee + 4% + 20p payment processing, and about 16p a listing; checked 14/11/2026 on Etsy's fee pages"
       },
       {
         "id": "fee-2ulpet4k",
@@ -6181,7 +6632,7 @@
         "commission": "3.5",
         "fixedFee": "0.35",
         "chargeback": "1",
-        "note": "Higher risk"
+        "note": "Not checked yet: read PayPal's UK merchant fees page before relying on it"
       },
       {
         "id": "fee-d5crvyja",

@@ -6,7 +6,7 @@ import TickField from "../../../controls/TickField.tsx";
 import TextBox from "../../../controls/TextBox.tsx";
 import { connectedOfferings } from "../../../../framework/engine/GeneratedCards.ts";
 import { ReactNode } from "react";
-import { activityGroupsOf, activityCategoryLabel, BUSINESS_RESOURCE_GROUPS, BUSINESS_OFFERING_RESOURCE_GROUPS, soleGroupOf, BUSINESS_PARTNER_GROUPS, groupHelpPoints, FOUNDERS_OWNERS_HELP, BUSINESS_RESOURCE_STATUSES, usesSupplier, activityPeriod, activityDateIssues, BusinessActivityValue, PARTNER_CATEGORIES, partnerCategoryLabel, partnerNoun, BusinessCapabilityValue, BusinessPartnerValue, BusinessResourceSlotValue, businessAutoResponsibleId, responsibleIsOff, createBusinessActivity, UNASSIGNED_CATEGORY, createBusinessResourceSlot, stableCardHue } from "../../../../framework/engine/AnswerUtils.ts";
+import { activityGroupsOf, activityCategoryLabel, BUSINESS_RESOURCE_GROUPS, BUSINESS_OFFERING_RESOURCE_GROUPS, soleGroupOf, BUSINESS_PARTNER_GROUPS, groupHelpPoints, FOUNDERS_OWNERS_HELP, BUSINESS_RESOURCE_STATUSES, activityPeriod, activityDateIssues, BusinessActivityValue, PARTNER_CATEGORIES, partnerCategoryLabel, partnerNoun, BusinessCapabilityValue, BusinessPartnerValue, BusinessResourceSlotValue, businessAutoResponsibleId, responsibleIsOff, createBusinessActivity, UNASSIGNED_CATEGORY, createBusinessResourceSlot, stableCardHue } from "../../../../framework/engine/AnswerUtils.ts";
 import { costText } from "../../../../framework/engine/ExportRenderers.ts";
 import { MissingScope, OptionalNote, BusinessRemove } from "../../cards/BusinessCardFields.tsx";
 import { PreferencesService } from "../../../../services/PreferencesService.ts";
@@ -30,28 +30,14 @@ type Earlier = ReturnType<typeof useCapabilityState> & ReturnType<typeof useCapa
 
 export function useCapabilitySections(earlier: Earlier) {
 
-    const { activityAdd, activityCategoryCell, partnerGroupHidden, resourceCategoryHidden, activityResources, capability, cardDates, cardRule, categoryActivityList, categoryInfo, channelCardIds, channelNamesById, channelTileIds, completedActivities, deliveryCard, deliverySection, disabled, discard, formatMoney, founderCard, founderChoices, founderIds, founderItems, founders, groupSlots, legalExpenses, linksSection, offeringAdd, offeringChoices, offeringNumberOf, offeringSlotsIn, offeringsField, onChange, openPair, openingDate, organisationCurrency, partnerAddIn, partnerCard, partnerCardFor, partnersOf, performerChoices, performerCosts, performerFields, planStartDay, resourceCard, responsibilityField, setCategoryActivities, setResponsibilityFolds, subAdd, tileSection, update } = earlier;
+    const { activityAdd, activityCategoryCell, partnerGroupHidden, resourceCategoryHidden, activityResources, capability, cardDates, cardRule, categoryActivityList, categoryInfo, channelFactsById, channelNamesById, channelTileIds, channelToneIds, completedActivities, deliveryCard, deliverySection, disabled, discard, formatMoney, founderCard, founderChoices, founderIds, founderItems, founders, groupSlots, legalExpenses, linksSection, offeringAdd, offeringChoices, offeringNumberOf, offeringSlotsIn, offeringsField, onChange, openPair, openingDate, organisationCurrency, partnerAddIn, partnerCard, partnerCardFor, partnersOf, performerChoices, performerCosts, performerFields, planStartDay, resourceCard, responsibilityField, setCategoryActivities, setResponsibilityFolds, subAdd, tileSection, update } = earlier;
 
-    /**
-     * THE CARDS IN THE CHANNEL'S COLOUR: the cards a channel holds, the activity one of them generated (Needs Activity / Investigation) and the Partner or
-     * Provider it is connected to (Partners & Suppliers) -- in tiles and floating cards alike. (The Partner keeps its own Category.)
-     */
-    const channelToneIds: ReadonlySet<string> = (() => {
-        const ids = new Set<string>(channelCardIds);
-        const cards = [...Object.values(capability.resources).flat().flatMap(entry => entry.slots), ...capability.offering.resources].filter(slot => channelCardIds.has(slot.id));
-        cards.forEach(slot => {
-            if (usesSupplier(slot.status) && slot.providerId) {
-                ids.add(slot.providerId);
-            }
-        });
-        return ids;
-    })();
-    const floor = floorRows(capability, legalExpenses, channelToneIds, channelNamesById);
+    const floor = floorRows(capability, legalExpenses, channelToneIds, channelNamesById, channelFactsById);
     const missingById = new Map(floor.filter(row => row.missing).map(row => [row.id, row.missing!] as const));
     const floorById = new Map(floor.map(row => [row.id, row]));
     const tileData = (id: string) => {
         const row = floorById.get(id);
-        return row ? { lines: tileLines(row, formatMoney), marks: tileMarks(row, tileLines(row, formatMoney)), links: row.links, tone: row.tone, missing: row.missing } : {};
+        return row ? { lines: tileLines(row, formatMoney, organisationCurrency ?? ""), marks: tileMarks(row, tileLines(row, formatMoney, organisationCurrency ?? "")), links: row.links, tone: row.tone, missing: row.missing } : {};
     };
     /** A resource card's box: its number and name, the status and the cost on one line. */
     function resourceBox(

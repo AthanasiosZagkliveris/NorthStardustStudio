@@ -71,6 +71,14 @@
     clip-path: inset(0 0 0 38px);
 }
 
+/* A LINK IN A TABLE WHOSE EVERY CELL WRAPS (data-wrap; owner, 2026-11-13 11:44: "The texts in the table, should be wrapped, not cut using dots") wraps as its cell
+   does, read whole at rest. */
+.capability-overview-table[data-wrap] :is(.text-link, .business-engagement-link, .channel-resource-open, .notepad-text-button, .legal-entity-name-link, .business-capability-link, .business-capability-child-name, .business-capability-responsibility-link):is(button, a, span) {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+}
+
 /* A link that has the keyboard's focus without the pointer (a card's name link as the card opens) is bold and underlined but does not slide: its text starts where it stands. */
 :is(.text-link, .business-engagement-link, .channel-resource-open, .notepad-text-button, .legal-entity-name-link, .business-capability-link, .business-capability-child-name, .business-capability-responsibility-link):is(button, a, span):focus-visible:not(:hover) {
     text-overflow: ellipsis !important;

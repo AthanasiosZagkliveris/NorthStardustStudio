@@ -24,6 +24,7 @@ The measured controls of this app are 44 to 45px high (text inputs), 32px (x and
 | BTN.001 box button | (asset) | 32 | 0 | symbol, no text | 6px | 0/0 | 2 | 237 in 11 places | meets 24 |
 | BTN.001 box button | BTN.ADD.001.001 Add | 32 | 0 | symbol, no text | 6px | 0/0 | 2 | 107 in 1 places | meets 24 |
 | BTN.001 box button | BTN.SHR.001.002 Shrink | 32 high, 32 wide | 0 | symbol, no text | 6px | 0/0 | 2 | 3 | meets 24 |
+| BTN.001 box button | BTN.XCL.001.003 In-cell x | 24 high, 24 wide | 0 | symbol, no text | 0px | 0/0 | 0 | 0 | meets 24 |
 | BTN.002 info button | (asset) | 24 high, 24 wide | 14 | small 14 | 50% | 0/0 | 1 | 567 in 9 places | meets 24 |
 | BTN.003 back button | (asset) | 22 high, 83 wide | 18 | body 18 | 0px | 0/0 | 0 | 8 | under 24 |
 | BTN.003 back button | BTN.SEC.003.001 Section back | 25 high, 76 wide | 18 | body 18 | 0px | 0/0 | 0 | 6 | meets 24 |

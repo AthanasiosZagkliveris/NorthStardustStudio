@@ -909,6 +909,62 @@
 
 }
 
+/* A RELATIONSHIP TYPE'S STAGES IN THREE COLUMNS (its card; owner, 2026-11-13 00:27): the stage, its Goals one under another, its Approach -- the same widths in
+   every row, so the heading row's Journey Stage, Goals and Approach stand over their columns. */
+.business-relationship-stage-row{
+
+    display:grid;
+
+    /* Journey Stage and Goals as wide as their words ("Evaluation" and its "i"; "Grow" and its tick), the Approach the rest (owner, 2026-11-13 11:44). */
+    --stage-col:7.5rem;
+    --goals-col:5rem;
+
+    grid-template-columns:var(--stage-col) var(--goals-col) minmax(0, 1fr);
+
+    gap:var(--gap-12);
+
+    align-items:start;
+
+    /* The columns parted by two vertical lines in the card's divider colour, down the whole row, in the middle of each gap (owner, 2026-11-13 04:58: "instead
+       of underlines add vertical divider lines"). */
+    --stage-divider:hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
+
+    background-image:linear-gradient(var(--stage-divider), var(--stage-divider)), linear-gradient(var(--stage-divider), var(--stage-divider));
+    background-size:1px 100%;
+    background-repeat:no-repeat;
+    background-position:calc(var(--stage-col) + var(--gap-12) / 2) 0, calc(var(--stage-col) + var(--goals-col) + var(--gap-12) * 1.5) 0;
+
+    /* The lines run on through the band's own room above and below the row, so they are one unbroken line down the card (owner, 2026-11-13 13:56: "make the
+       vertical lines continuous"). */
+    margin-block:calc(-1 * var(--space-cell));
+    padding-block:var(--space-cell);
+
+}
+
+/* THE HEADING ROW (owner, 2026-11-13 13:56: "give to the headers a proper style"): a band of the card's hue, its headings bold, as the shared table's heading. */
+.legal-entity-org-section:has(> .business-relationship-stage-row[data-head]){
+
+    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-hover)) var(--theme-ground-weight), var(--theme-ground-paper));
+
+}
+
+.business-relationship-stage-row[data-head] .business-foundation-label{
+
+    font-weight:700;
+    letter-spacing:calc(var(--rest-tracking, 0em) + var(--bold-tracking));
+
+    color:var(--text-default);
+
+}
+
+/* The Approach fills its column. */
+.business-relationship-stage-row > .interview-input{
+
+    width:100%;
+    max-width:none;
+
+}
+
 .business-relationship-profile-list{
 
     display:inline-flex;

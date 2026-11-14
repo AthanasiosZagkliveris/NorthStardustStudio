@@ -200,7 +200,11 @@
     font-size: var(--font-small);
     font-weight: 400;
     letter-spacing: 0;
-    line-height: var(--section-tile-line-height);
+    /* ONE ROW OF A TILE'S LIST IS AT LEAST 24PX (WCAG 2.2, 2.5.8 Target Size (Minimum), Level AA: a row that is a link is a target 24px high, clear of the
+       next; owner, 2026-11-13 16:50, "find the best solutions"): the list's line height, or 24px where the text is smaller. Its bullets, dividers and the room
+       under it follow the same row (--tile-row). */
+    --tile-row: max(calc(var(--section-tile-line-height) * 1em), 24px);
+    line-height: var(--tile-row);
 
     text-align: left;
 
@@ -240,7 +244,7 @@
 
     position: absolute;
     left: 0;
-    top: calc((var(--section-tile-line-height) * 1em - var(--bullet-size)) / 2);
+    top: calc((var(--tile-row) - var(--bullet-size)) / 2);
 
     width: var(--bullet-size);
     height: var(--bullet-size);

@@ -84,7 +84,7 @@
 
 }
 
-.floating-card-body .column-tile-content > .business-foundation-card > .strategy-box-head > :is(.strategy-name-input, .strategy-name-static, .card-name-input),
+.floating-card-body .column-tile-content > .business-foundation-card > .strategy-box-head > :is(.strategy-name-input, .strategy-name-static, .card-name-input, .business-capability-child-name),
 .floating-card-body .brand-style-card > .strategy-box-head > :is(.strategy-name-input, .strategy-name-static, .card-name-input) {
 
     grid-column: 2;

@@ -1,7 +1,9 @@
 import { afterEach, describe, expect, it } from "vitest";
 import { useState } from "react";
-import { cleanup, fireEvent, render as renderBase, screen } from "@testing-library/react";
+import { act, cleanup, fireEvent, render as renderBase, screen } from "@testing-library/react";
 import { openFolds } from "../../../test/openFolds.ts";
+import { openTile } from "../../../test/interviewTestUtils.ts";
+import { createDemand, createDemandSource } from "../../../framework/engine/DemandCapacity.ts";
 
 /** The page as it opens, its structural sections opened (every fold arrow starts closed: see openFolds). */
 function render(ui: Parameters<typeof renderBase>[0], options?: Parameters<typeof renderBase>[1]) {
@@ -414,7 +416,8 @@ describe("BusinessEngagementEditor Engagement Strategy (2. Customer Relationship
         expect(rows[0].querySelector(".business-engagement-goal-ticks")).toBeTruthy();
         expect(container.querySelector(".business-relationship-strategy-title")?.textContent).toContain("Approach");
         expect(rows[1].querySelector("textarea[aria-label^=\"Approach\"]")).toBeTruthy();
-        expect(screen.getByRole("button", { name: /Discover: the channels/ })).toBeTruthy();
+        // (The Retainer, with no type saved, has Personal Assistance too -- every Offering has one --, so its stage carries the same "i".)
+        expect(screen.getAllByRole("button", { name: /Discover: the channels/ }).length).toBeGreaterThan(0);
     });
 
 });
@@ -436,19 +439,29 @@ describe("BusinessEngagementEditor starts from Page 1 (phase 5f, 2026-11-09)", (
         return <BusinessEngagementEditor value={value} onChange={setValue} foundation={foundation} />;
     }
 
-    it("starts Customers Buy from the Offering's O3 where the demand is not saved yet", () => {
-        render(<StartHarness />);
+    it("reads Customers Buy from the Offering's O3, shown as the terms say it (owner, 2026-11-13 16:50)", () => {
+        const { container } = render(<StartHarness />);
         expandAll("Expand all offerings");
-        expect(screen.getByRole("button", { name: "How customers buy Retainer: Every month, until they cancel" })).toBeTruthy();
-        expect(screen.getByRole("button", { name: "How customers buy Audit: One sale at a time" })).toBeTruthy();
+        const shown = [...container.querySelectorAll(".strategy-name-static")].map(node => node.textContent);
+        expect(shown).toEqual(expect.arrayContaining(["Every month, until they cancel", "One sale at a time"]));
+        expect(screen.queryByRole("button", { name: /^How customers buy/ })).toBeNull();
     });
 
-    it("keeps the page's own answer over the start", () => {
-        render(<StartHarness saved />);
-        expandAll("Expand all offerings");
-        expect(screen.getByRole("button", { name: "How customers buy Retainer: One sale at a time" })).toBeTruthy();
+    it("keeps the terms over an answer saved before: a retainer is bought every month", () => {
+        let saved: ReturnType<typeof asBusinessEngagementValue> | null = null;
+        function Saved() {
+            const [{ foundation, engagement }] = useState(() => {
+                const scenario = engagementScenario();
+                const [audit, retainer] = scenario.foundation.segments[0].offerings;
+                const offerings = [{ ...audit, category: "Service", questions: { o3: ["project"] } }, { ...retainer, category: "Service", questions: { o3: ["retainer"] } }];
+                return { foundation: { ...scenario.foundation, segments: [{ ...scenario.foundation.segments[0], offerings }] }, engagement: { ...scenario.engagement, demand: { [retainer.id]: { sources: [], recurring: false } } }, retainer };
+            });
+            const [value, setValue] = useState<unknown>(engagement);
+            return <BusinessEngagementEditor value={value} onChange={(next) => { saved = asBusinessEngagementValue(next); setValue(next); }} foundation={foundation} />;
+        }
+        render(<Saved />);
+        expect(Object.values(saved!.demand).some(entry => entry.recurring === true)).toBe(true);
     });
-
 });
 
 describe("BusinessEngagementEditor without a physical item (doc 28, 11.7)", () => {
@@ -465,6 +478,9 @@ describe("BusinessEngagementEditor without a physical item (doc 28, 11.7)", () =
             segments: [{ ...createBusinessSegmentEngagement(segment.id), channels: channels.map(category => ({ ...createBusinessChannel(), category, name: "Shop" })) }]
         };
         render(<BusinessEngagementEditor value={engagement} onChange={() => undefined} foundation={foundation} asTiles />);
+        // (The channels are the tiles of the Channels dialog: it opens first; All shows every channel the page offers.)
+        openTile("Channels & Journey");
+        fireEvent.click(screen.getAllByRole("radio", { name: "All" })[0]);
         const titles = [...document.querySelectorAll(".section-tile .section-tile-title")].map(title => (title.textContent ?? "").replace(/\s+/g, " "));
         cleanup();
         return titles;
@@ -491,6 +507,154 @@ describe("BusinessEngagementEditor without a physical item (doc 28, 11.7)", () =
         expect(channelCategoryHidden("Retail & Wholesale", true, ["Retail & Wholesale"])).toBe(false);
         expect(channelCategoryHidden("Physical Delivery", false, [])).toBe(false);
         expect(channelCategoryHidden("Website", true, [])).toBe(false);
+    });
+
+});
+
+describe("Customer Engagement follows the Foundation (doc 47, section 3)", () => {
+
+    it("suggests a channel from how the customers discover you, in the one grid of channels, and pressing it adds that channel at its stage", () => {
+        const segment = { ...createBusinessCustomerSegment([]), name: "Firms", questions: { discover: ["search"] } };
+        const foundation = { ...asBusinessFoundationValue(undefined), segments: [segment] };
+        let saved: ReturnType<typeof asBusinessEngagementValue> | null = null;
+        render(<BusinessEngagementEditor value={asBusinessEngagementValue(undefined)} onChange={(next) => { saved = next as ReturnType<typeof asBusinessEngagementValue>; }} foundation={foundation} asTiles />);
+        openTile("Channels & Journey");
+        fireEvent.click(screen.getAllByRole("radio", { name: "All" })[0]);
+        // (One grid: the channel the Segment does not use yet is a faded tile listing the subchannel suggested for it.)
+        const tile = [...document.querySelectorAll<HTMLElement>(".section-tile")].find(candidate => (candidate.textContent ?? "").startsWith("Website")) as HTMLElement;
+        expect(tile).toBeTruthy();
+        expect(tile.closest(".section-tile-slot")?.textContent).toContain("Main Website");
+        fireEvent.click(tile);
+        const channels = saved!.segments.find(entry => entry.segmentId === segment.id)!.channels;
+        // (A new Segment starts with one blank channel; the suggestion is added beside it.)
+        expect(channels.filter(channel => channel.category !== "").map(channel => [channel.category, channel.name, channel.stages])).toEqual([["Website", "Main Website", ["discovery"]]]);
+    });
+
+    it("shows the Customer Sources the Foundation suggests on an Offering's Demand tile with All only (owner, 2026-11-13 11:44)", () => {
+        const segment = { ...createBusinessCustomerSegment([]), name: "Firms", offerings: [{ ...createBusinessOffering(), name: "Audit" }, { ...createBusinessOffering(), name: "Payroll" }] };
+        const foundation = { ...asBusinessFoundationValue(undefined), segments: [segment] };
+        const engagement = {
+            ...asBusinessEngagementValue(undefined),
+            segments: [{ ...createBusinessSegmentEngagement(segment.id), channels: [{ ...createBusinessChannel(), category: "Website", name: "Main Website", stages: ["discovery"] }] }]
+        };
+        render(<BusinessEngagementEditor value={engagement} onChange={() => undefined} foundation={foundation} asTiles />);
+        openTile("Demand & Conversion");
+        // (An Offering's tile opens its dialog of cards: its sources, then, with All, the suggested ones faded; owner, 2026-11-13 16:12.)
+        fireEvent.click(screen.getAllByRole("radio", { name: "All" })[0]);
+        openTile("1. Audit");
+        const faded = () => [...document.querySelectorAll<HTMLElement>(".section-tile-overlay .card-tile")].map(tile => tile.textContent ?? "").filter(text => text.includes("Suggested from your Foundation"));
+        expect(faded().some(text => text.includes("Main Website"))).toBe(true);
+        // (From your answers: the Offering's own sources only.)
+        fireEvent.click(screen.getAllByRole("radio", { name: "From your answers" })[0]);
+        expect(faded()).toEqual([]);
+    });
+
+});
+
+describe("every Offering has at least one relationship type (owner, 2026-11-13 00:29)", () => {
+
+    function TilesHarness() {
+        const [{ foundation, engagement }] = useState(engagementScenario);
+        const [value, setValue] = useState<unknown>(engagement);
+        return <BusinessEngagementEditor value={value} onChange={setValue} foundation={foundation} asTiles />;
+    }
+    const removes = () => [...document.querySelectorAll(".floating-card-host .card-remove, .floating-card-host .strategy-box-remove")];
+
+    it("gives an Offering with no answers Personal Assistance, its card with no x while it is the only type; a second type is a card of its own, with its x", async () => {
+        render(<TilesHarness />);
+        openTile("Customer's Relationship");
+        // (An Offering holds several cards: its tile opens a dialog of them, a tile per type; owner, 2026-11-13 04:58.)
+        openTile("1. Audit");
+        fireEvent.click([...document.querySelectorAll<HTMLElement>(".section-tile-overlay button.card-tile")].pop()!);
+        expect(document.querySelector(".floating-card-host")?.textContent).toContain("Personal Assistance");
+        expect(removes()).toHaveLength(0);
+        // (With All, the dialog's Add Card adds the next type and opens its card; the Offering then has two, each card with its x.)
+        fireEvent.click(screen.getAllByRole("radio", { name: "All" })[0]);
+        fireEvent.click(screen.getAllByRole("button", { name: "Add Card" }).pop()!);
+        await act(() => new Promise(resolve => setTimeout(resolve, 200)));
+        expect(document.querySelector(".floating-card-host")?.textContent).toContain("Self-Service");
+        expect(removes()).toHaveLength(1);
+    });
+
+});
+
+describe("a Customer Source's choices narrowed by the earlier answers (owner, 2026-11-13 13:56)", () => {
+
+    it("lists the channels serving the Offering and the source kind its channel's customers come by; All lists every one; a chosen channel fills an empty kind", () => {
+        const audit = { ...createBusinessOffering(), name: "Audit" };
+        const build = { ...createBusinessOffering(), name: "Build" };
+        const segment = { ...createBusinessCustomerSegment([]), name: "Firms", offerings: [audit, build] };
+        const foundation = { ...asBusinessFoundationValue(undefined), segments: [segment] };
+        const site = { ...createBusinessChannel(), category: "Website", name: "Main Website", stages: ["discovery"] };
+        const fair = { ...createBusinessChannel(), category: "In Person", name: "Trade Fair", stages: ["discovery"], offerings: [build.id] };
+        const start = {
+            ...asBusinessEngagementValue(undefined),
+            segments: [{ ...createBusinessSegmentEngagement(segment.id), channels: [site, fair] }],
+            demand: { [audit.id]: { ...createDemand(), sources: [{ ...createDemandSource(), id: "s1" }] }, [build.id]: { ...createDemand(), sources: [{ ...createDemandSource(), id: "s2" }] } }
+        };
+        let saved: ReturnType<typeof asBusinessEngagementValue> = asBusinessEngagementValue(start);
+        function Harness() {
+            const [value, setValue] = useState<unknown>(start);
+            return <BusinessEngagementEditor value={value} onChange={(next) => { saved = asBusinessEngagementValue(next); setValue(next); }} foundation={foundation} asTiles />;
+        }
+        render(<Harness />);
+        openTile("Demand & Conversion");
+        // (The Audit's dialog: its Expected Sales section, then its source's tile; owner, 2026-11-13 16:35.)
+        openTile("1. Audit");
+        expect(document.body.textContent).toContain("Expected Sales");
+        fireEvent.click([...document.querySelectorAll<HTMLElement>(".section-tile-overlay button.card-tile")][0]);
+        const optionsOf = (label: string) => {
+            fireEvent.click(screen.getByRole("button", { name: new RegExp("^" + label) }));
+            const names = [...document.querySelectorAll("[role=option]")].map(option => option.textContent ?? "");
+            fireEvent.keyDown(document.activeElement ?? document.body, { key: "Escape" });
+            return names;
+        };
+        // (The Audit is served by the website alone: the fair serves the Build.)
+        expect(optionsOf("Channel, ")).toEqual(["Main Website"]);
+        fireEvent.click(screen.getByRole("button", { name: /^Channel, / }));
+        fireEvent.click(screen.getByRole("option", { name: "Main Website" }));
+        expect(saved.demand[audit.id].sources[0]).toMatchObject({ channelId: site.id, type: "funnel" });
+        // (Its kind narrowed to the one its channel's customers come by.)
+        expect(optionsOf("Customer source")).toEqual(["Sales funnel"]);
+        // (All: every channel and every kind.)
+        fireEvent.click(screen.getAllByRole("radio", { name: "All" })[0]);
+        expect(optionsOf("Channel, ")).toEqual(["Main Website", "Trade Fair"]);
+    });
+
+});
+
+describe("a Customer Source's kind narrows its channels (owner, 2026-11-14 11:15)", () => {
+
+    it("lists the channels whose customers come by the source's kind; All lists every one", () => {
+        const audit = { ...createBusinessOffering(), name: "Audit" };
+        const build = { ...createBusinessOffering(), name: "Build" };
+        const segment = { ...createBusinessCustomerSegment([]), name: "Firms", offerings: [audit, build] };
+        const foundation = { ...asBusinessFoundationValue(undefined), segments: [segment] };
+        const site = { ...createBusinessChannel(), category: "Website", name: "Main Website", stages: ["discovery"] };
+        const studio = { ...createBusinessChannel(), category: "In Person", name: "Studio", stages: ["discovery"] };
+        const start = {
+            ...asBusinessEngagementValue(undefined),
+            segments: [{ ...createBusinessSegmentEngagement(segment.id), channels: [site, studio] }],
+            demand: { [audit.id]: { ...createDemand(), sources: [{ ...createDemandSource("marketplace"), id: "s1" }] }, [build.id]: { ...createDemand(), sources: [] } }
+        };
+        function Harness() {
+            const [value, setValue] = useState<unknown>(start);
+            return <BusinessEngagementEditor value={value} onChange={setValue} foundation={foundation} asTiles />;
+        }
+        render(<Harness />);
+        openTile("Demand & Conversion");
+        openTile("1. Audit");
+        fireEvent.click([...document.querySelectorAll<HTMLElement>(".section-tile-overlay button.card-tile")][0]);
+        const channels = () => {
+            fireEvent.click(screen.getByRole("button", { name: /^Channel, / }));
+            const names = [...document.querySelectorAll("[role=option]")].map(option => option.textContent ?? "");
+            fireEvent.keyDown(document.activeElement ?? document.body, { key: "Escape" });
+            return names;
+        };
+        // (A walk-in source: the places, not the website.)
+        expect(channels()).toEqual(["Studio"]);
+        fireEvent.click(screen.getAllByRole("radio", { name: "All" })[0]);
+        expect(channels()).toEqual(["Main Website", "Studio"]);
     });
 
 });

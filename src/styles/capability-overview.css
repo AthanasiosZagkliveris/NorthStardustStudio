@@ -268,7 +268,8 @@
 }
 
 /* (Its foot -- the Back, which stands in the tab here -- takes no row: the gap before it is given back.) */
-.section-tile-dialog:has(> .section-tile-dialog-body > .capability-overview) > .section-tile-dialog-foot {
+.section-tile-dialog:has(> .section-tile-dialog-body > .capability-overview) > .section-tile-dialog-foot,
+.section-tile-dialog:has(.capability-overview-table[data-bare]) > .section-tile-dialog-foot {
 
     margin-top: calc(-1 * var(--gap-12));
 
@@ -523,14 +524,14 @@
 
 }
 
-/* Short columns never break a word (Type, Section, Cost, Frequency, Cost Nature, Behaviour, Status, Linked); Name, Category and Group take the rest and wrap between words. */
+/* Short columns never break a word (Type, Section, Cost, Frequency, Cost Nature, Behaviour, Status, Linked, a stage table's Channel and Subchannel); Name, Category, Group and Actions take the rest and wrap between words. */
 .capability-overview-table :is(th, td) {
 
     overflow-wrap: normal;
 
 }
 
-.capability-overview-table :is(th, td)[data-col]:not([data-col="category"], [data-col="group"]) {
+.capability-overview-table tbody :is(th, td)[data-col]:not([data-col="category"], [data-col="group"], [data-col="actions"]) {
 
     white-space: nowrap;
 
@@ -564,11 +565,7 @@
 
 }
 
-.capability-overview-table tbody tr:nth-child(even) > th[data-col="name"] {
 
-    background: color-mix(in srgb, var(--table-ink) 5%, var(--table-ground));
-
-}
 
 /* ==========================================================
    THE TABLE MODE: an opaque, calm reading surface (the tiles keep their see-through look). Four tokens per theme: ground, ink (soft, never pure white or
@@ -622,6 +619,12 @@
     border-collapse: separate;
     border-spacing: 0;
 
+    /* THE TABLE'S LINES (owner, 2026-11-12 19:54: "The Layout on the inventory should look like" the channels' table): a hairline between every two cells,
+       the cells drawing their right and bottom edges, the table its top and left, round at its corners. */
+    border-top: 1px solid var(--table-line);
+    border-left: 1px solid var(--table-line);
+    border-radius: var(--radius-lg);
+
     font-size: var(--table-font, var(--font-body));
     line-height: 1.35;
 
@@ -634,6 +637,7 @@
 
     padding: var(--table-pad, 7px) 10px;
 
+    border-right: 1px solid var(--table-line);
     border-bottom: 1px solid var(--table-line);
 
     color: var(--table-ink);
@@ -642,20 +646,219 @@
 
 }
 
+/* The heading: a band of the card's own hue, its words wrapping where a column is narrow. */
 .capability-overview-table thead th {
 
     position: sticky;
     top: 0;
     z-index: 2;
 
-    background: var(--table-ground);
+    background: color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-hover)) var(--theme-ground-weight), var(--table-ground));
 
     border-bottom: 2px solid var(--table-line);
+
+    white-space: normal;
+    vertical-align: bottom;
 
     font-weight: 700;
     letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
 
     text-align: left;
+
+}
+
+/* A TABLE OF GROUPED ROWS (data-grouped: a channel's cell merged over its subchannels' rows; owner, 2026-11-13 05:23): striped by group -- each row carries its
+   group's band (data-band) --, so a merged cell and its rows read as one. A table whose every cell wraps (data-wrap): the names and lists take the width their
+   words need, the widest column (the actions) the rest. */
+.capability-overview-table[data-grouped] tbody tr:nth-child(even) > * {
+
+    background: none;
+
+}
+
+.capability-overview-table[data-grouped] tbody tr[data-band="even"] > * {
+
+    background: var(--table-tint);
+
+}
+
+.capability-overview-table[data-grouped] tbody tr:hover > * {
+
+    background: var(--table-hover);
+
+}
+
+.capability-overview-table[data-grouped] tbody td[rowspan] {
+
+    vertical-align: top;
+
+}
+
+.capability-overview-table[data-wrap] tbody :is(th, td)[data-col] {
+
+    white-space: normal;
+
+}
+
+/* Every column as wide as its words (owner, 2026-11-13 11:44: "tie them enough so their texts could fit properly"): a text of up to 8em on one row, a longer
+   one wrapping at 8em; the actions take the rest. */
+.capability-overview-table[data-wrap] :is(th, td)[data-col]:not([data-col="actions"]) {
+
+    width: 1%;
+
+}
+
+.capability-overview-table[data-wrap] tbody :is(th, td)[data-col]:not([data-col="actions"]) > * {
+
+    display: inline-block;
+    width: max-content;
+    max-width: 8em;
+
+    vertical-align: top;
+
+}
+
+/* A TABLE WITH NO FRAME (data-bare; owner, 2026-11-13 11:44: "there is no reason to have the table in a frame"; 12:32: "the dialogue card still has borders!"):
+   a dialog card's own make -- its heading a band of the card's hue, its rows bands (the striping), no line round it or between its cells --, set straight on
+   its dialog. */
+.capability-overview-table[data-bare] {
+
+    /* Edge to edge of its dialog, as a band is (the shared band: --space-cell each side); its first and last texts stand where the dialog's title does. */
+    width: calc(100% + 2 * var(--space-cell));
+    min-width: calc(100% + 2 * var(--space-cell));
+    margin: 0 calc(-1 * var(--space-cell));
+
+    border: 0;
+    border-radius: 0;
+
+}
+
+.capability-overview-table[data-bare] thead th:first-child,
+.capability-overview-table[data-bare]:not([data-grouped]) tbody tr > :first-child,
+.capability-overview-table[data-bare][data-grouped] tbody td[rowspan] {
+
+    padding-left: var(--space-cell);
+
+}
+
+.capability-overview-table[data-bare] :is(th, td):last-child {
+
+    padding-right: var(--space-cell);
+
+}
+
+.capability-overview-table[data-bare] :is(th, td),
+.capability-overview-table[data-bare] thead th {
+
+    border: 0;
+
+}
+
+/* ITS LINES (owner, 2026-11-13 13:56: "add vertical lines (cohesive/continuous) add Horizontal divide lines between different subchannels (that belongs to the
+   same channel)"): one unbroken line between every two columns, heading and rows alike, in the card's divider colour; a line between two rows of one group
+   (data-follows), the merged cell running on undivided; every cell's text at its top. */
+.capability-overview-table[data-bare] {
+
+    --table-line: hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
+
+}
+
+.capability-overview-table[data-bare] :is(th, td),
+.capability-overview-table[data-bare] thead th {
+
+    border-left: 1px solid var(--table-line);
+
+}
+
+.capability-overview-table[data-bare] thead th:first-child,
+.capability-overview-table[data-bare]:not([data-grouped]) tbody tr > :first-child,
+.capability-overview-table[data-bare][data-grouped] tbody td[rowspan] {
+
+    border-left: 0;
+
+}
+
+/* (Owner, 2026-11-14 09:31: "Make the divide lines between the subchannels bold, and the lines between channels double (regular)": within a group the line is the
+   heavier rule, 2px; one group from the next a double line of two regular rules.) */
+.capability-overview-table[data-bare] tbody tr[data-follows] > :not([rowspan]) {
+
+    border-top: 2px solid var(--table-line);
+
+}
+
+.capability-overview-table[data-bare][data-grouped] tbody tr:not(:first-child):not([data-follows]) > * {
+
+    border-top: 3px double var(--table-line);
+
+}
+
+.capability-overview-table[data-grouped] tbody :is(th, td) {
+
+    vertical-align: top;
+
+}
+
+/* THE MERGED COLUMN STANDS APART (owner, 2026-11-14 11:15: "Make the vertical line between the Channel and Subchannel bold, and narrow the Channel column so the text
+   fits"): the line after it is the heavier rule, 2px, heading and rows; its words wrap at 6.5em ("Referral & / Affiliates"), the room going to the widest column. */
+.capability-overview-table[data-bare][data-grouped] thead th:nth-child(2),
+.capability-overview-table[data-bare][data-grouped] tbody td[rowspan] + :is(th, td),
+.capability-overview-table[data-bare][data-grouped] tbody tr:not(:has(> td[rowspan])) > :first-child {
+
+    border-left-width: 2px;
+
+}
+
+.capability-overview-table[data-wrap][data-grouped] tbody td[rowspan] > * {
+
+    max-width: 6.5em;
+
+}
+
+/* THE DIALOG ENDS WITH ITS LAST ROW (owner, 2026-11-13 13:56: "fix the end of the dialogue card's colour"): no strip of the dialog's ground under a table that
+   runs edge to edge -- the dialog and its scroller keep no room below it. */
+.section-tile-overlay .section-tile-dialog:has(.capability-overview-table[data-bare]) {
+
+    padding-bottom: 0 !important;
+
+}
+
+
+
+.section-tile-dialog:has(.capability-overview-table[data-bare]) .section-tile-dialog-body {
+
+    margin-bottom: 0;
+    padding-bottom: 0;
+
+}
+
+/* EACH ROW'S COLOUR, a 4px bar down its left edge: a channel expense's of the channels' palette (its tint, as its actions' marks), any other card's its
+   place's hue (as its tile). */
+.capability-overview-table tbody th[data-col="name"]::before {
+
+    content: "";
+
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+
+    width: 4px;
+
+    background-image: var(--tint-fill, linear-gradient(hsl(var(--strategy-theme-hue, 0) var(--theme-mark-ink)), hsl(var(--strategy-theme-hue, 0) var(--theme-mark-ink))));
+
+}
+
+.capability-overview-table tbody th[data-col="name"] {
+
+    padding-left: calc(10px + 4px);
+
+}
+
+/* A NAME OVER A NAME (a channel expense's Type and Group: Resource over Channel, the channel over its subchannel) keeps each on one line, so the lines of the two
+   cells stand level (owner, 2026-11-12 23:16). */
+.capability-overview-table :is(.channel-resource-place-channel, .channel-resource-place-sub) {
+
+    white-space: nowrap;
 
 }
 
@@ -668,6 +871,34 @@
 .capability-overview-table tbody tr:hover > * {
 
     background: var(--table-hover);
+
+}
+
+/* THE FIXED NAME COLUMN STAYS ON TOP, opaque (owner, 2026-11-12 23:54: the cells scrolled to the right went over the names): its cells lay the row's tint, zebra or
+   hover, over the table's ground, so nothing that passes under them shows through; its heading is fixed to the top and the left, above the names and the other
+   headings. The row's colour bar (::before) stays on its left edge. */
+.capability-overview-table tbody tr > th[data-col="name"] {
+
+    background: var(--table-ground);
+
+}
+
+.capability-overview-table tbody tr:nth-child(even) > th[data-col="name"] {
+
+    background: linear-gradient(var(--table-tint), var(--table-tint)), var(--table-ground);
+
+}
+
+.capability-overview-table tbody tr:hover > th[data-col="name"] {
+
+    background: linear-gradient(var(--table-hover), var(--table-hover)), var(--table-ground);
+
+}
+
+.capability-overview-table thead th[data-col="name"] {
+
+    left: 0;
+    z-index: 3;
 
 }
 

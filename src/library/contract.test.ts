@@ -82,6 +82,24 @@ describe("the asset contracts", () => {
     });
 
 
+    it("gives the in-cell x its 24px target, no frame, the X in red, the growth of a fifth with a soft glow, the ring and the reduced motion (owner, 2026-11-14 12:29)", () => {
+        const x = assets.find(asset => asset.name === "Cell remove x")!;
+        const g = x.geometry;
+        const css = stylesheet("remove-button.css");
+        expect(stylesheet("components.generated.css")).toContain("--size-cell-x: " + g.size + "px;");
+        expect(g.size).toBeGreaterThanOrEqual(24);
+        expect(css).toContain(".cell-remove{ position:relative; width:var(--size-cell-x); height:var(--size-cell-x);");
+        expect(css).toContain("color:var(--x-red); border:0; border-radius:var(--radius-sm); background:none;");
+        expect(css).toContain("width:" + g.barLength + "px; height:" + g.barThickness + "px;");
+        expect(css).toContain(".cell-remove:is(:hover, :focus-visible):not(:disabled){ transform:scale(var(--hover-lift)); filter:drop-shadow(");
+        expect(stylesheet("global.css")).toContain("--hover-lift: " + g.growth + ";");
+        expect(css).toContain(".cell-remove:focus-visible:not(:disabled){ outline:" + g.outlineWidth + "px solid var(--focus-ring-ink, var(--line-primary)); outline-offset:" + g.outlineOffset + "px;");
+        expect(css).toContain("@media (prefers-reduced-motion: reduce){ .cell-remove:is(:hover, :focus-visible):not(:disabled){ transform:none; }");
+        expect(stylesheet("chip.css")).toContain("min-height: var(--chip-height);");
+        expect(stylesheet("global.css")).toContain("--chip-height: 32px;");
+    });
+
+
     it("gives the rails the gaps, the growth, the rings and the wide breakpoint their stylesheet draws", () => {
         const rails = assets.find(asset => asset.name === "Rails")!;
         const g = rails.geometry;

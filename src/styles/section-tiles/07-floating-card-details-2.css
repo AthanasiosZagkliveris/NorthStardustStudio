@@ -114,15 +114,13 @@
 
 }
 
-/* TWO COLUMNS ON A TILE (a founder and the share): the list stands in the centre, the dashes in one column. */
+/* TWO COLUMNS ON A TILE (a founder and the share): the list stands in the centre, the dashes in one column. On a narrow tile (three in a chapter's row) the two
+   columns share its width and their words wrap, the list never reaching past the tile's left edge. */
 .section-tile-list.section-tile-list-pairs {
 
     display: grid;
-    grid-template-columns: auto auto;
-    justify-content: center;
+    justify-content: safe center;
     align-content: start;
-
-    column-gap: 0.4em;
 
     width: 100%;
 
@@ -139,6 +137,44 @@
 .section-tile-list-pairs > li::before {
 
     content: none;
+
+}
+
+/* A LIST OF NAMES AND FIGURES IN ROWS (owner, 2026-11-13 13:56: "Fix the structure of the master Tiles, use divide lines"): a hairline over every row after the
+   first, across both columns, in the tile's line colour (as its title's rule); the names wrap in the first column, the figure takes the width it needs. */
+.section-tile-list.section-tile-list-pairs {
+
+    grid-template-columns: minmax(min-content, 1fr) minmax(min-content, max-content);
+
+    /* (No gap between the columns, so a row's line runs unbroken: the figure keeps its distance by its own padding.) */
+    column-gap: 0;
+
+}
+
+/* (Bold words in a line that is a link keep the bold's own spacing, as in a plain line: the link's spacing is not added to it.) */
+.section-tile-list .section-tile-link :is(strong, b) {
+
+    --rest-tracking: 0em;
+
+}
+
+/* (A name that is a link wraps as a plain name does, so its figure keeps its line.) */
+.section-tile-list-pairs .section-tile-pair-left > .section-tile-link {
+
+    white-space: normal;
+
+}
+
+.section-tile-list-pairs .section-tile-pair-right {
+
+    padding-left: 0.6em;
+
+}
+
+/* (Drawn at the top of the row's own line, taking no room: the list keeps its whole lines, every row of a full tile still shown.) */
+.section-tile-list-pairs > li + li > span {
+
+    background: linear-gradient(color-mix(in srgb, var(--title-ink) 40%, transparent), color-mix(in srgb, var(--title-ink) 40%, transparent)) top / 100% 1px no-repeat;
 
 }
 
@@ -266,7 +302,7 @@
 
 .column-tiles-page .section-tile-list > li + li.section-tile-divider {
 
-    margin-top: calc(var(--section-tile-line-height) * 0.5em - 0.5px);
+    margin-top: calc(var(--tile-row) * 0.5 - 0.5px);
 
 }
 

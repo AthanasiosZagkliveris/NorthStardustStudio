@@ -2,8 +2,18 @@
  * THE EDITOR'S STATE: the isolation of one channel, the folds, the reads of the other pages and what is worked out from them.
  * One part of BusinessEngagementEditor (see BusinessEngagementEditor.tsx): what it needs of the parts before it comes in as `earlier`; what the parts after it need goes out.
  */
-import { CSSProperties, FocusEvent, useEffect, useMemo, useRef, useState } from "react";
-import RemoveButton from "../../../controls/RemoveButton.tsx";
+import { CSSProperties, FocusEvent, ReactNode, useEffect, useMemo, useRef, useState } from "react";
+import GlobalSettingsLink from "../../fields/GlobalSettingsLink.tsx";
+import FieldLabel from "../../../controls/FieldLabel.tsx";
+import { asGlobalSettings, channelFeeOf } from "../../../../framework/engine/GlobalSettings.ts";
+import { asFinancialSustainabilityValue } from "../../../../framework/engine/financial/revenueStored.ts";
+import { channelFeeFor } from "../../../../framework/engine/CalculatedLines.ts";
+import { moneyText } from "../../../../framework/engine/ExportRenderers.ts";
+
+/** The channel categories that take a fee on a sale: a fee line on their subchannels' cards (doc 50, section 1.3). */
+const FEE_CATEGORIES: readonly string[] = ["Direct Payment", "Website", "Marketplace"];
+import { ScopeChoice, type OptionScope } from "./EngagementCard.tsx";
+import CellRemoveButton from "../../../controls/CellRemoveButton.tsx";
 import { BUSINESS_CHANNEL_ALL_OFFERINGS, BusinessChannelValue, BusinessOfferingRelationshipsValue, BusinessRelationshipInteractionValue, BusinessRelationshipTypeValue, BusinessSegmentEngagementValue, asBusinessEngagementValue, businessFoundationSegments, createBusinessOfferingRelationships, createBusinessRelationshipInteraction, createBusinessRelationshipType, createBusinessSegmentEngagement } from "../../../../framework/engine/AnswerUtils.ts";
 import { consumeKey } from "../../fields/consumeKey.ts";
 import NumberedListInput from "../../fields/NumberedListInput.tsx";
@@ -12,7 +22,7 @@ import { jumpTo } from "../../tiles/jumpTo.ts";
 import { rowActions, withChosenAction, withRowLines } from "../../../../framework/engine/ChannelActions.ts";
 import { actionAtOrder, actionPlacements, actionRows, channelNamesOf, connectionPaint, markTint, orderAt, orderIn, parseOrderReference, resourceColours, sharedColours } from "../../../../framework/engine/ActionOrder.ts";
 import { useChannelColumns } from "../useChannelColumns.ts";
-import { noPhysicalOffering } from "../../../../framework/engine/EffectiveAnswers.ts";
+import { noPhysicalOffering, offeringStartsById } from "../../../../framework/engine/EffectiveAnswers.ts";
 import { type CostCard, actionResourceLinks, capabilityCards, costCardName } from "../../../../framework/engine/ChannelResources.ts";
 import { type ActionIsolation, type ActionLit, ResourceSymbol, SharedSymbol } from "../ActionMarkers.tsx";
 import { OPEN_EVENT, type OpenRequest } from "../../tiles/SectionTiles.tsx";
@@ -20,6 +30,7 @@ import { asBusinessCapabilityValue, equalOfferingShares } from "../../../../fram
 import { useItemFolds } from "../../fields/useItemFolds.ts";
 import { toggledIn } from "../../fields/toggledIn.ts";
 import { BusinessEngagementEditorProps, CONTENT_OF_THE_TABLE } from "./shared.tsx";
+import { dismissedAfter, relationshipTypesOf, withAnswerChannels } from "../../../../framework/engine/JourneySuggestions.ts";
 
 export function useEngagementState(props: BusinessEngagementEditorProps) {
 
@@ -45,11 +56,23 @@ export function useEngagementState(props: BusinessEngagementEditorProps) {
 
     currency = "",
 
-    asTiles = false
+    globalSettings,
+
+    financialSustainability,
+
+    asTiles = false,
+
+    identity
 
 } = props;
 
     const engagement = asBusinessEngagementValue(value);
+    // (What each Segment's dialogs offer, From your answers until All is chosen: ScopeChoice. Kept here, so every card of the page reads it -- its adds and its
+    // removes show with All only; owner, 2026-11-14 11:51: "When the option From your answers is selected, then the delete button, should be hidden".)
+    const [scopes, setScopes] = useState<Readonly<Record<string, OptionScope>>>({});
+    const showsAll = (segmentId: string) => scopes[segmentId] === "all";
+    /** The From your answers / All choice at the head of a Segment's three dialogs: one choice, shared by the three. */
+    const scopeChoice = (segmentId: string) => <ScopeChoice group={"option-scope-" + segmentId} value={scopes[segmentId] ?? "answers"} onChange={(next) => setScopes(current => ({ ...current, [segmentId]: next }))} />;
     /* THE RESOURCE CARDS of 3. Infrastructure & Capability a channel's
        resources are, read by id (ChannelResources.ts). */
     const capabilityValue = useMemo(() => asBusinessCapabilityValue(capability), [capability]);
@@ -213,6 +236,39 @@ export function useEngagementState(props: BusinessEngagementEditorProps) {
     }
     /** Page 1's Segments, read for reference only. */
     const segments = businessFoundationSegments(foundation);
+    /* THE SUBCHANNELS THE ANSWERS MAKE are kept as the Segment's own (withAnswerChannels): made when the page opens or an answer changes, so every document
+       reads them too. */
+    useEffect(() => {
+        if (disabled || segments.length === 0) {
+            return;
+        }
+        let changed = false;
+        const next = segments.map(segment => {
+            const entry = engagement.segments.find(candidate => candidate.segmentId === segment.id);
+            const channels = withAnswerChannels(entry?.channels ?? [], entry?.dismissedChannels ?? [], segment, identity);
+            if (channels !== (entry?.channels ?? []) && (entry || channels.length > 0)) {
+                changed = true;
+                return { ...(entry ?? { ...createBusinessSegmentEngagement(segment.id), channels: [] }), channels };
+            }
+            return entry;
+        }).filter((entry): entry is BusinessSegmentEngagementValue => entry !== undefined);
+        // (How an Offering's customers buy, kept as its terms say -- O3, offeringStarts --, so every document reads it as the page shows it.)
+        const demand = { ...engagement.demand };
+        segments.forEach(segment => segment.offerings.forEach(offering => {
+            const recurring = offeringStartsById(segments, offering.id, identity).recurring;
+            const saved = demand[offering.id];
+            if (saved && recurring !== undefined && saved.recurring !== recurring) {
+                demand[offering.id] = { ...saved, recurring };
+                changed = true;
+            }
+        }));
+        if (changed) {
+            const others = engagement.segments.filter(entry => !segments.some(segment => segment.id === entry.segmentId));
+            onChange({ ...engagement, segments: [...next, ...others], demand });
+        }
+    // (Read again whenever the answer or the Foundation changes.)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [value, foundation, identity, disabled]);
     /** NO PHYSICAL ITEM (doc 28, 11.7): while no Offering on Page 1 has one, the Physical Delivery and Retail & Wholesale channels are hidden where a Segment has none (channelCategoryHidden), as Page 3 hides its physical categories. */
     const noPhysical = noPhysicalOffering(segments);
     /** The cards folded away, by key. Not stored with the answer:
@@ -314,12 +370,16 @@ export function useEngagementState(props: BusinessEngagementEditorProps) {
         const known = engagement.segments.some(
             entry => entry.segmentId === segmentId
         );
+        // (A subchannel the answers made and the founder removed stays removed; added again, it is back: dismissedAfter.)
+        const withDismissed = (entry: BusinessSegmentEngagementValue): Partial<BusinessSegmentEngagementValue> => patch.channels
+            ? { ...patch, dismissedChannels: dismissedAfter(entry.channels, patch.channels, entry.dismissedChannels ?? []) }
+            : patch;
 
         onChange({
             ...engagement,
             segments: known
                 ? engagement.segments.map(entry => entry.segmentId === segmentId
-                    ? { ...entry, ...patch }
+                    ? { ...entry, ...withDismissed(entry) }
                     : entry)
                 : [
                     ...engagement.segments,
@@ -495,7 +555,8 @@ export function useEngagementState(props: BusinessEngagementEditorProps) {
                                     )}
                                 </span>
                             )}
-                            <RemoveButton className="numbered-list-remove"
+                            {/* (The in-cell x, frameless, inside the line at its right end: owner, 2026-11-14 12:38.) */}
+                            <CellRemoveButton
                                 aria-label={"Remove action " + (line + 1) + " from " + label}
                                 disabled={disabled}
                                 onClick={() => write(withRowLines(
@@ -541,9 +602,15 @@ export function useEngagementState(props: BusinessEngagementEditorProps) {
         segmentId: string,
         offeringId: string
     ): BusinessOfferingRelationshipsValue {
-        return segmentOf(segmentId).offerings.find(
+        const stored = segmentOf(segmentId).offerings.find(
             entry => entry.offeringId === offeringId
-        ) ?? createBusinessOfferingRelationships();
+        ) ?? { ...createBusinessOfferingRelationships(), offeringId };
+        // (The types its answers create, less those removed, then those added; never none -- relationshipTypesOf.)
+        return { ...stored, types: relationshipTypesOf(stored.types, stored.dismissed ?? [], segments.find(segment => segment.id === segmentId), offeringId, identity) };
+    }
+    /** An Offering's relationships as saved: the types the founder added (`types`) and those removed (`dismissed`), before the answers' types are laid in. */
+    function storedOfferingRelationshipsOf(segmentId: string, offeringId: string): BusinessOfferingRelationshipsValue {
+        return segmentOf(segmentId).offerings.find(entry => entry.offeringId === offeringId) ?? createBusinessOfferingRelationships();
     }
     function updateOfferingRelationships(
         segmentId: string,
@@ -625,7 +692,9 @@ export function useEngagementState(props: BusinessEngagementEditorProps) {
         offeringId: string,
         typeId: string,
         key: string,
-        fallbacks: readonly string[] = []
+        fallbacks: readonly string[] = [],
+        /** The Goals a row not answered yet starts with (startGoals). */
+        start: readonly string[] = []
     ): BusinessRelationshipInteractionValue {
 
         const kept = typeOf(segmentId, offeringId, typeId).interactions;
@@ -644,7 +713,7 @@ export function useEngagementState(props: BusinessEngagementEditorProps) {
 
         }
 
-        return createBusinessRelationshipInteraction();
+        return { ...createBusinessRelationshipInteraction(), goals: [...start] };
 
     }
     function updateInteraction(
@@ -658,7 +727,8 @@ export function useEngagementState(props: BusinessEngagementEditorProps) {
            they came from an older key, and a write that began from
            an empty answer would not carry them over. */
         fallbacks: readonly string[],
-        patch: Partial<BusinessRelationshipInteractionValue>
+        patch: Partial<BusinessRelationshipInteractionValue>,
+        start: readonly string[] = []
     ) {
 
         const type = typeOf(segmentId, offeringId, typeId);
@@ -668,7 +738,7 @@ export function useEngagementState(props: BusinessEngagementEditorProps) {
                 ...type.interactions,
                 [key]: {
                     ...interactionOf(
-                        segmentId, offeringId, typeId, key, fallbacks
+                        segmentId, offeringId, typeId, key, fallbacks, start
                     ),
                     ...patch
                 }
@@ -677,6 +747,56 @@ export function useEngagementState(props: BusinessEngagementEditorProps) {
 
     }
 
-    return { asTiles, cards, channelActions, noPhysical, channelCategoryFoldKey, channelCategoryFoldKeys, channelResources, channelTileId, clearIsolation, collapsed, columnsDivider, currency, disabled, engagement, folds, interactionOf, isolated, isolatingSegment, isolationNames, offeringRelationshipsOf, offeringsOfMadeCards, onChange, onOpenCapability, onOpenFoundation, openAction, relatedStages, segmentOf, segments, setLit, toggle, typeOf, updateChannel, updateInteraction, updateOfferingRelationships, updateSegment, updateType, value };
+    /*
+        THE FEES A SUBCHANNEL PAYS (doc 50, section 1.4; owner, 2026-11-14 12:00: "For the proposed changes (Fees, Demand recheck) check the best solution and apply
+        them"): on a Direct Payment, Website or Marketplace subchannel's card, read only, the row of the Global Settings' Channel Fee Table its name -- or one of its
+        expense cards' names -- takes, the date it was checked, and what it takes from one sale of each Offering it serves; the Global Settings stay the one place
+        to change it.
+    */
+    const feeTable = useMemo(() => asGlobalSettings(globalSettings).channelFees, [globalSettings]);
+    const streams = useMemo(() => asFinancialSustainabilityValue(financialSustainability).streams, [financialSustainability]);
+    function feeBand(channel: BusinessChannelValue, offerings: readonly { id: string; name: string }[]): ReactNode {
+        if (!FEE_CATEGORIES.includes(channel.category.trim())) {
+            return null;
+        }
+        const cardNames = engagement.channelResources
+            .filter(link => link.channelId === channel.id)
+            .map(link => cards.find(card => card.id === link.resourceId))
+            .filter((card): card is CostCard => card !== undefined)
+            .map(card => costCardName(card));
+        const found = channelFeeFor([channel.name, ...cardNames], feeTable);
+        const money = (amount: number) => moneyText(String(Math.round(amount * 100) / 100), currency);
+        const served = channel.offerings.includes(BUSINESS_CHANNEL_ALL_OFFERINGS) ? offerings : offerings.filter(offering => channel.offerings.includes(offering.id));
+        const sales = found ? served.flatMap(offering => {
+            const stream = streams.find(entry => entry.offeringId === offering.id);
+            const price = Number.parseFloat(stream?.price ?? "");
+            const items = Number.parseFloat(stream?.itemsPerOrder ?? "") || 1;
+            return Number.isFinite(price) && price > 0 ? [{ name: offering.name.trim() || "Offering", sale: price * items }] : [];
+        }) : [];
+        const rate = found ? [
+            (found.row.commission || "0") + "%",
+            ...(Number.parseFloat(found.row.fixedFee) > 0 ? [money(Number.parseFloat(found.row.fixedFee)) + " an order"] : []),
+            ...(Number.parseFloat(found.row.chargeback) > 0 ? [found.row.chargeback + "% for chargebacks"] : [])
+        ].join(" + ") : "";
+        return (
+            <div className="business-channel-resources business-channel-resources-sectioned business-channel-fees">
+                    <div className="business-channel-resources-head">
+                        <FieldLabel className="business-channel-field-label">Fees</FieldLabel>
+                    </div>
+                    {found ? (
+                        <>
+                            <p className="business-channel-cost-summary">{rate + " (" + found.row.channel + ")"}</p>
+                            {found.row.note.trim() && <p className="business-channel-cost-summary">{found.row.note.trim()}</p>}
+                            {sales.map(sale => <p key={sale.name} className="business-channel-cost-summary">{"On a " + money(sale.sale) + " " + sale.name + " sale: about " + money(channelFeeOf(found.row, sale.sale, 1))}</p>)}
+                        </>
+                    ) : (
+                        <p className="business-channel-cost-summary">{"No fee is set for " + (channel.name.trim() || "this subchannel") + " yet: add its row to the Channel Fee Table."}</p>
+                    )}
+                    <GlobalSettingsLink className="business-channel-fee-link">Change in Global Settings</GlobalSettingsLink>
+            </div>
+        );
+    }
+
+    return { feeBand, scopeChoice, showsAll, identity, storedOfferingRelationshipsOf, asTiles, cards, channelActions, noPhysical, channelCategoryFoldKey, channelCategoryFoldKeys, channelResources, channelTileId, clearIsolation, collapsed, columnsDivider, currency, disabled, engagement, folds, interactionOf, isolated, isolatingSegment, isolationNames, offeringRelationshipsOf, offeringsOfMadeCards, onChange, onOpenCapability, onOpenFoundation, openAction, relatedStages, segmentOf, segments, setLit, toggle, typeOf, updateChannel, updateInteraction, updateOfferingRelationships, updateSegment, updateType, value };
 
 }

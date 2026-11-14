@@ -2,6 +2,7 @@
 
 import { OFFERING_QUESTIONS, offeringAnswerLines } from "../OfferingQuestions.ts";
 import { workspacesOf, WORKSPACE_GROUP_ID } from "../AnswerUtils.ts";
+import { offeringRelationshipsFor } from "../JourneySuggestions.ts";
 import { activitiesLine, positioningDocumentTitle } from "../ActivityClassification.ts";
 import { segmentAnswerLines, segmentBoxAnswered } from "../SegmentQuestions.ts";
 import { segmentContextFor, segmentIdentityOf, segmentIsBusiness, settledSegmentAnswers } from "../SegmentContext.ts";
@@ -239,7 +240,8 @@ function marketingBlocks(f: Foundation): ExportBlock[] {
                 // The stages by their names ("Discover", "Support & Follow Up"), as the page says them.
                 channel.stages.map(stage => BUSINESS_JOURNEY_STAGES.find(candidate => candidate.id === stage)?.label ?? stage).join(", ")
             ])),
-            ...list(entry.offerings.flatMap(relationship => relationship.types.map(typeId => {
+            // (The list the page shows: offeringRelationshipsFor.)
+            ...list((segment ? offeringRelationshipsFor(entry, segment, segmentIdentityOf(f.legalEntity.organisation)) : []).flatMap(relationship => relationship.types.map(typeId => {
                 const type = BUSINESS_RELATIONSHIP_TYPES.find(candidate => candidate.id === typeId)?.label ?? typeId;
                 const purpose = text(relationship.typeDetail[typeId]?.purpose);
                 return purpose

@@ -1,4 +1,4 @@
-import { workspacesOf, WORKSPACE_GROUP_ID } from "../../../framework/engine/AnswerUtils.ts";
+import { BUSINESS_EXTRAS, offeringFractions, slotExtraKeys, workspacesOf, WORKSPACE_GROUP_ID } from "../../../framework/engine/AnswerUtils.ts";
 import {
     BUSINESS_COST_FREQUENCIES,
     BUSINESS_OFFERING_RESOURCE_GROUPS,
@@ -84,6 +84,27 @@ export interface FloorRow {
     warranty?: string;
     /** The Customer Channels it is under ("Social Media › Instagram"), when a channel made it or it is connected to a card one made. */
     channels?: string[];
+    /** AS A CHANNEL EXPENSE (ChannelResourceTable.ts; the Inventory's Channel Costs set-up): the channels and subchannels it is in, the Offerings it holds, the
+     * journey stages and the actions that use it, its colour in the channels' palette and the links that make it one. */
+    channel?: FloorChannel;
+    /** The Offerings an Offering's Capability card serves (their ids, as the card links them): the Inventory's Offerings filter. */
+    offeringIds?: readonly string[];
+    /** A line of another card's -- a Workspace's extra or deposit --: that card's id, which it opens, and no card of its own in the counts. */
+    partOf?: string;
+    /** The fraction of the cost each Offering it serves carries (offeringFractions: its typed shares when they total 100%, else equal), as the Financial pages share it. */
+    offeringShares?: Readonly<Record<string, number>>;
+}
+
+/** A channel expense's facts, as the Customer Engagement page records them. */
+export interface FloorChannel {
+    places: readonly { channel: string; sub: string }[];
+    offerings: readonly string[];
+    stages: readonly string[];
+    actions: readonly { id: string; order: number; text: string; segmentId: string }[];
+    colour: number;
+    linkIds: readonly string[];
+    /** Fixed or Variable, as the channels' table reads its cost: the row's Behaviour where the Financial Foundation gives none (Customer Engagement's Inventory). */
+    behaviour: string;
 }
 
 /** An ISO day in the form the date boxes show (the reader's own). */
@@ -99,13 +120,16 @@ const OFFERING = "Offering's Capability";
  * A cost as the Financial Foundation counts it: the price, times the quantity where the resource has one (three looms at 2,400 are 7,200),
  * so that a tile and the Costs section always show the same amount.
  */
-function cost(value: BusinessCostValue, quantity = "", purchase = false): { frequency: string; frequencyLabel: string; amount: number | null; currency: string } {
+/** `purchase`: an asset bought (paid once, for its quantity); `multiply`: a partner's Per unit price times its Qty, still per unit. */
+function cost(value: BusinessCostValue, quantity = "", purchase = false, multiply = false): { frequency: string; frequencyLabel: string; amount: number | null; currency: string } {
     const unit = value.price.trim() ? parseAmount(value.price) : null;
-    const count = resourceUnitCount(quantity, value.frequency, purchase);
+    const count = resourceUnitCount(quantity, value.frequency, purchase || multiply);
     const amount = unit !== null && count !== null ? Math.round(unit * count * 100) / 100 : unit;
-    const known = BUSINESS_COST_FREQUENCIES.find(entry => entry.id === value.frequency)?.label ?? "";
+    // (A purchase priced Per unit is paid once, for its quantity: One-time, as the Financial Foundation counts it -- fromCapabilityFrequency.)
+    const frequency = purchase && value.frequency === "per-unit" ? "one-time" : value.frequency;
+    const known = BUSINESS_COST_FREQUENCIES.find(entry => entry.id === frequency)?.label ?? "";
     return {
-        frequency: value.frequency,
+        frequency,
         frequencyLabel: value.frequency === "other" && value.frequencyOther.trim() ? value.frequencyOther.trim() : known,
         amount: amount !== null && Number.isFinite(amount) ? amount : null,
         currency: value.currency
@@ -118,7 +142,8 @@ export function floorRows(
     capability: BusinessCapabilityValue,
     legalExpenses: readonly LegalEntityExpenseValue[] = [],
     channelIds: ReadonlySet<string> = new Set(),
-    channelNames: ReadonlyMap<string, readonly string[]> = new Map()
+    channelNames: ReadonlyMap<string, readonly string[]> = new Map(),
+    channelFacts: ReadonlyMap<string, FloorChannel> = new Map()
 ): FloorRow[] {
 
     const rows: Omit<FloorRow, "tone">[] = [];
@@ -286,26 +311,44 @@ export function floorRows(
                     ? [BUSINESS_PARTNER_GROUPS[section === OFFERING ? "offering" : "infrastructure"][partner.category].find(entry => entry.id === partner.group)?.label ?? "No group"]
                     : [])
             ],
-            status: "", statusLabel: "", ...cost(partner.cost, partner.cost.frequency === "per-unit" ? partner.quantity : "", partner.cost.frequency === "per-unit"), links: supplied.get(partner.id) ?? []
+            status: "", statusLabel: "", ...cost(partner.cost, partner.cost.frequency === "per-unit" ? partner.quantity : "", false, partner.cost.frequency === "per-unit"), links: supplied.get(partner.id) ?? []
         });
     }));
 
-    workspacesOf(capability).forEach(workspace => rows.push({
+    workspacesOf(capability).forEach(workspace => {
+    rows.push({
         // (A Workspace is a resource card of the Workspace category: a resource tile like the others.)
         id: workspace.id, kind: "resource",
         name: workspace.name.trim() || "Unnamed Resource",
         path: [INFRASTRUCTURE, "Workspace", "Premises"],
         status: workspace.status, statusLabel: statusLabel(workspace.status),
         ...(isCostingStatus(workspace.status) ? cost(workspace.cost) : { frequency: "", frequencyLabel: "", amount: null }),
-        // (Its deposit is a one-time cost of the Financial Foundation, kept apart from the price.)
-        deposit: workspace.deposit.trim() && parseAmount(workspace.deposit) !== null ? parseAmount(workspace.deposit) : null,
         links: [
             ...spaces.filter(slot => slot.id === workspace.id).flatMap(chosenBy).map(made => ({ id: made.id, name: made.name.trim() || "Unnamed Activity", type: "activity" as const })),
             ...(workspace.status === "rent" && workspace.providerId && partners.has(workspace.providerId)
                 ? [{ id: workspace.providerId, name: partners.get(workspace.providerId)!.partner.name.trim() || "Unnamed", type: partners.get(workspace.providerId)!.kind }]
                 : [])
         ]
-    }));
+    });
+    /* ITS EXTRAS AND ITS DEPOSIT, EACH ITS OWN LINE (owner, 2026-11-13 16:50; the Financial Foundation counts each apart -- costs.ts, extraLines and the Workspace
+       deposit): a money extra (a service charge, a property tax) at its own frequency, the deposit one-time, each under the Workspace's status and only while it
+       costs; their ids are the Financial Foundation's, so each takes its own Cost Nature (a deposit an asset returned later). */
+    if (isCostingStatus(workspace.status)) {
+        const owner = workspace.name.trim() || "Unnamed Resource";
+        const card = (capability.resources[WORKSPACE_GROUP_ID] ?? []).flatMap(subsection => subsection.slots).find(slot => slot.id === workspace.id);
+        const line = (id: string, label: string, price: string, frequency: string) => rows.push({
+            id, kind: "resource", name: owner + ": " + label, path: [INFRASTRUCTURE, "Workspace", "Premises"], partOf: workspace.id,
+            status: workspace.status, statusLabel: statusLabel(workspace.status),
+            ...cost({ ...workspace.cost, price, frequency, frequencyOther: "" }),
+            links: [{ id: workspace.id, name: owner, type: "resource" as const }]
+        } as unknown as FloorRow);
+        slotExtraKeys("premises", workspace.status).filter(key => key !== "deposit" && BUSINESS_EXTRAS[key].kind === "money" && (card?.extras[key] ?? "").trim() !== "")
+            .forEach(key => line(workspace.id + ":" + key, BUSINESS_EXTRAS[key].label.toLocaleLowerCase(), card!.extras[key]!, BUSINESS_EXTRAS[key].frequency));
+        if (workspace.deposit.trim() && parseAmount(workspace.deposit) !== null) {
+            line(workspace.id + "-deposit", "deposit", workspace.deposit, "one-time");
+        }
+    }
+    });
 
     capability.founders.forEach(founder => rows.push({
         id: founder.id, kind: "founder", name: founder.name.trim() || "Unnamed Founder", path: [INFRASTRUCTURE, "Founders"],
@@ -328,10 +371,17 @@ export function floorRows(
     }));
 
     const lacking = incompleteCards(capability);
+    // (The Offerings each Offering's Capability card serves.)
+    const cardsServing = [...capability.offering.resources, ...capability.offering.activities, ...capability.offering.professionals, ...capability.offering.providers];
+    const served = new Map<string, readonly string[]>(cardsServing.map(card => [card.id, card.offeringIds ?? []] as const));
+    // (Each Offering's share of a card's cost, as the Financial Foundation splits it: offeringFractions.)
+    const shares = new Map<string, Record<string, number>>(cardsServing.map(card => [card.id, offeringFractions(card.offeringIds ?? [], (card as { offeringShares?: Record<string, string> }).offeringShares ?? {})] as const));
     return rows.map(row => ({
         ...row,
         ...(lacking.has(row.id) && !freshCards.has(row.id) ? { missing: lacking.get(row.id) } : {}),
         ...(channelNames.has(row.id) ? { channels: [...channelNames.get(row.id)!] } : {}),
+        ...(channelFacts.has(row.id) ? { channel: channelFacts.get(row.id), behaviour: channelFacts.get(row.id)!.behaviour } : {}),
+        ...((served.get(row.id) ?? []).length > 0 ? { offeringIds: served.get(row.id), offeringShares: shares.get(row.id) } : {}),
         tone: row.kind === "legal"
             ? "legal" as const
             : channelIds.has(row.id) ? "channel" as const : row.path[0] === OFFERING ? "offering" as const : "infrastructure" as const
@@ -344,20 +394,28 @@ export function floorRows(
  */
 export function belongsLines(row: FloorRow): string[] {
     // A card of the Customer Channel (made by one, connected to one, generated by one) has the group "Channel": after its category (an activity's is its third line).
-    return row.tone === "channel" ? [...row.path.slice(0, row.kind === "activity" ? 3 : 2), "Channel"] : row.path.slice(0, 3);
+    // (Its place by the funnel's name -- Legal, Infrastructure, Offering --, then its group: one label set for the funnel, the tiles and the table.)
+    const place = FLOOR_PLACES.find(entry => entry.id === placeOf(row))?.label ?? "";
+    if (row.kind === "legal") {
+        return [place, groupOf(row)].filter(Boolean);
+    }
+    const lines = row.tone === "channel" ? [...row.path.slice(0, row.kind === "activity" ? 3 : 2), "Channel"] : row.path.slice(0, 3);
+    return [place, ...lines.slice(1)];
 }
 
 /** The lines a tile of the overlay lists under its name: where it belongs, then its status and its cost, the information alone. */
-export function tileLines(row: FloorRow, format: (amount: number) => string = String): string[] {
-    // (The price in bold; where there is one, "Costs" is said by it and not written.)
-    const cost = row.amount === null ? "" : ["**" + format(row.amount) + "**", row.frequencyLabel.toLowerCase()].filter(Boolean).join(" ");
+export function tileLines(row: FloorRow, format: (amount: number) => string = String, organisationCurrency = ""): string[] {
+    // (The price in bold; where there is one, "Costs" is said by it and not written. A share of revenue is a percentage, never money; a cost in another currency
+    // says its own code, as the table does.)
+    const own = row.currency && organisationCurrency && row.currency !== organisationCurrency ? row.currency + " " + amountText(row.amount ?? 0) : "";
+    const figure = row.amount === null ? "" : isPercentRow(row) ? amountText(row.amount) : own || format(row.amount);
+    const cost = row.amount === null ? "" : ["**" + figure + "**", row.frequencyLabel].filter(Boolean).join(" ");
     return [
         ...(row.dates ? [row.dates] : []),
         ...belongsLines(row),
         ...(row.statusLabel && !(cost && /^costs?$/i.test(row.statusLabel.trim())) ? [row.statusLabel] : []),
         ...(row.warranty ? [row.warranty] : []),
-        ...(cost ? [cost] : []),
-        ...(row.deposit ? [format(row.deposit) + " deposit"] : [])
+        ...(cost ? [cost] : [])
     ];
 }
 
@@ -378,19 +436,33 @@ export const FLOOR_SORTS: readonly { id: string; label: string }[] = [
     { id: "kind", label: "Type" }
 ];
 
+/** A cost that is a share of revenue (% of Rev): its amount is a percentage, never money. */
+export const isPercentRow = (row: FloorRow) => row.frequency === "percent-revenue";
+
+/** A figure with no currency sign: at most two decimals, and two where it has any (9.40, never 9.4). */
+export const amountText = (amount: number) => amount.toLocaleString(undefined, Number.isInteger(amount) ? { maximumFractionDigits: 0 } : { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+/** The cost order's frequencies, from the one-time to the share of revenue. */
+const COST_ORDER = ["one-time", "annually", "quarterly", "monthly", "per-unit", "per-project", "percent-revenue"];
+/** The kinds in the order Include lists them. */
+const INCLUDE_ORDER: FloorKind[] = ["founder", "resource", "activity", "partner", "provider", "legal"];
+
 export function sortFloor(rows: readonly FloorRow[], sort: string): FloorRow[] {
     const list = [...rows];
     const byName = (a: FloorRow, b: FloorRow) => a.name.localeCompare(b.name, undefined, { sensitivity: "base" });
-    // (Rows without a cost go last either way.)
+    // (BY FREQUENCY FIRST, THEN THE AMOUNT AS ENTERED -- one-time, yearly, quarterly, monthly, per unit, per project, a share of revenue --, so a figure is only
+    // ranked against figures of its own kind (owner, 2026-11-13 16:50); rows without a cost go last.)
+    const group = (row: FloorRow) => row.amount === null ? COST_ORDER.length + 1 : COST_ORDER.indexOf(row.frequency) < 0 ? COST_ORDER.length : COST_ORDER.indexOf(row.frequency);
     const byCost = (direction: 1 | -1) => (a: FloorRow, b: FloorRow) =>
-        a.amount === null && b.amount === null ? 0 : a.amount === null ? 1 : b.amount === null ? -1 : direction * (a.amount - b.amount);
+        group(a) - group(b) || (a.amount !== null && b.amount !== null ? direction * (a.amount - b.amount) : 0) || byName(a, b);
     switch (sort) {
         case "name-asc": return list.sort(byName);
         case "name-desc": return list.sort((a, b) => byName(b, a));
         case "cost-desc": return list.sort(byCost(-1));
         case "cost-asc": return list.sort(byCost(1));
-        case "status": return list.sort((a, b) => (a.statusLabel || "~").localeCompare(b.statusLabel || "~") || byName(a, b));
-        case "kind": return list.sort((a, b) => FLOOR_KINDS.findIndex(k => k.id === kindClass(a)) - FLOOR_KINDS.findIndex(k => k.id === kindClass(b)));
+        // (Rows with no status -- suppliers, founders, legal expenses -- after those with one.)
+        case "status": return list.sort((a, b) => Number(!a.statusLabel) - Number(!b.statusLabel) || a.statusLabel.localeCompare(b.statusLabel) || byName(a, b));
+        case "kind": return list.sort((a, b) => INCLUDE_ORDER.indexOf(kindClass(a)) - INCLUDE_ORDER.indexOf(kindClass(b)) || byName(a, b));
         default: return list;
     }
 }
@@ -417,11 +489,18 @@ export interface FloorFilter {
     connectedOnly: boolean;
     /** ISOLATES THE COSTS: only the tiles that have an expense (a price, or a Workspace's deposit); the cost order and range then apply to them. */
     costsOnly: boolean;
+    /** ONLY THE CHANNEL EXPENSES: the cards a Customer Channel holds (the Channel Costs set-up). */
+    channelsOnly: boolean;
+    /** Under Offering (Belongs to): the Offerings ticked (ids); a card is shown when it serves one of them. None ticked: every Offering. */
+    offerings: readonly string[];
+    /** Under Offering (Belongs to): the journey stages ticked (their names: Discover, Evaluation ...); a card is shown when a channel uses it at one of them. None
+     *  ticked: every stage (owner, 2026-11-14 11:51: "add Journey Stages (and the ALL as the default), make it to work like the Offering"). */
+    stages: readonly string[];
 }
 
 export const DEFAULT_FLOOR_FILTER: FloorFilter = {
     kinds: new Set<FloorKind>(["resource", "activity", "partner", "provider", "founder", "legal"]),
-    place: "", groups: [], categories: [], subgroups: [], placeKinds: [], sort: "page", status: "", frequency: "", min: "", max: "", connectedOnly: false, costsOnly: false
+    place: "", groups: [], categories: [], subgroups: [], placeKinds: [], sort: "page", status: "", frequency: "", min: "", max: "", connectedOnly: false, costsOnly: false, channelsOnly: false, offerings: [], stages: []
 };
 
 /** The top-level places, in the order Belongs to offers them. */
@@ -517,10 +596,20 @@ export function filterFloor(rows: readonly FloorRow[], filter: FloorFilter): Flo
         if (!filter.kinds.has(kindClass(row))) {
             return false;
         }
+        if (filter.channelsOnly && !row.channel) {
+            return false;
+        }
+        if (filter.offerings.length > 0 && !(row.offeringIds ?? []).some(id => filter.offerings.includes(id))) {
+            return false;
+        }
+        if (filter.stages.length > 0 && !(row.channel?.stages ?? []).some(stage => filter.stages.includes(stage))) {
+            return false;
+        }
         if (filter.place !== "" && placeOf(row) !== filter.place) {
             return false;
         }
-        if (filter.placeKinds.length > 0 && !filter.placeKinds.includes(typeClass(row))) {
+        // (A channel's card is of its own kind too: Resources holds the channel's resources, as Include does.)
+        if (filter.placeKinds.length > 0 && !filter.placeKinds.includes(typeClass(row)) && !filter.placeKinds.includes(row.kind as FloorType)) {
             return false;
         }
         if (filter.categories.length > 0 && !filter.categories.includes(categoryOf(row))) {
@@ -543,11 +632,12 @@ export function filterFloor(rows: readonly FloorRow[], filter: FloorFilter): Flo
         if (filter.frequency && row.frequency !== filter.frequency) {
             return false;
         }
-        if (filter.costsOnly && row.amount === null && !row.deposit) {
+        if (filter.costsOnly && row.amount === null) {
             return false;
         }
         if (min !== null || max !== null) {
-            if (row.amount === null || (min !== null && row.amount < min) || (max !== null && row.amount > max)) {
+            // (A share of revenue is a percentage: it is in no range of money.)
+            if (row.amount === null || isPercentRow(row) || (min !== null && row.amount < min) || (max !== null && row.amount > max)) {
                 return false;
             }
         }

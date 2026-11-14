@@ -5,6 +5,7 @@ import type { ActionLit } from "./ActionMarkers.tsx";
 
 import "../../../styles/channel-resource-table.css";
 import TextLink from "../fields/TextLink.tsx";
+import { labelWithCurrency } from "../../../framework/engine/Currencies.ts";
 
 /*
     THE CHANNEL RESOURCES TABLE (ChannelResourceTable.ts): a Segment's
@@ -37,14 +38,23 @@ export interface ChannelResourceTableProps {
     onOpenAction?: (actionId: string) => void;
     /** Pointing at a row lights its actions in the Customer Channel table. */
     onLit?: (lit: ActionLit) => void;
+    /** Its summary line under it (left out where the rows are filtered: it adds up every row). */
+    summary?: boolean;
 }
 
 /** Two or more values as a bullet list, one under the other, all alike; one value
  *  as plain text indented to where the bullets' text starts, so the text of a
  *  column begins at one x. */
-function Values({ items }: { items: { key: string; node: ReactNode }[] }) {
+export function Values({ items, numbered = false }: { items: { key: string; node: ReactNode }[]; /** Numbered from 1, a line between one and the next (a stage's actions). */ numbered?: boolean }) {
     if (items.length === 0) {
         return <>{DASH}</>;
+    }
+    if (numbered) {
+        return (
+            <ol className="channel-resource-list channel-resource-numbered">
+                {items.map(item => <li key={item.key}>{item.node}</li>)}
+            </ol>
+        );
     }
     if (items.length === 1) {
         return <span className="channel-resource-single">{items[0].node}</span>;
@@ -57,7 +67,7 @@ function Values({ items }: { items: { key: string; node: ReactNode }[] }) {
 }
 
 /** The action buttons: no bullets, side by side and wrapping, each one line. */
-function Chips({ items }: { items: { key: string; node: ReactNode }[] }) {
+export function Chips({ items }: { items: { key: string; node: ReactNode }[] }) {
     if (items.length === 0) {
         return <>{DASH}</>;
     }
@@ -68,7 +78,7 @@ function Chips({ items }: { items: { key: string; node: ReactNode }[] }) {
     );
 }
 
-export default function ChannelResourceTable({ table, segmentName, onOpenCard, onOpenAction, onLit }: ChannelResourceTableProps) {
+export default function ChannelResourceTable({ table, segmentName, onOpenCard, onOpenAction, onLit, summary: showSummary = true }: ChannelResourceTableProps) {
 
     const { rows, summaryText, summary } = table;
 
@@ -80,13 +90,13 @@ export default function ChannelResourceTable({ table, segmentName, onOpenCard, o
                 <table className="channel-resource-table">
 
                     <caption>
-                        {"Channel expenses of " + segmentName + ": each resource, what it costs and the actions it serves. Generated from the channels above."}
+                        {"Channel expenses of " + segmentName + ": each resource, what it costs and the actions it serves. Generated from the Channels."}
                     </caption>
 
                     <thead>
                         <tr>
                             <th scope="col" className="channel-resource-col-resource">Channel Expense</th>
-                            <th scope="col" className="channel-resource-col-cost">{table.currency ? "Cost (" + table.currency + ")" : "Cost"}</th>
+                            <th scope="col" className="channel-resource-col-cost">{labelWithCurrency("Cost", table.currency)}</th>
                             <th scope="col" className="channel-resource-col-frequency">Frequency</th>
                             <th scope="col" className="channel-resource-col-behaviour">Behaviour</th>
                             <th scope="col" className="channel-resource-col-channel">
@@ -182,11 +192,11 @@ export default function ChannelResourceTable({ table, segmentName, onOpenCard, o
 
             </div>
 
-            <p className="channel-resource-summary">
+            {showSummary && <p className="channel-resource-summary">
                 <span className="channel-resource-summary-label">{"Summary of the rows above (not a forecast): "}</span>
                 {summaryText || "no cost counted yet"}
                 {summary.notSummed > 0 && " · " + summary.notSummed + (summary.notSummed === 1 ? " resource" : " resources") + " not added up (another currency or frequency)"}
-            </p>
+            </p>}
 
         </div>
     );

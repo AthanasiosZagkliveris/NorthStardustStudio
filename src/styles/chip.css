@@ -41,7 +41,7 @@
 
     font: inherit;
     font-size: var(--font-small);
-    line-height: 1.5;
+    line-height: var(--field-line);
     text-align: start;
     overflow-wrap: anywhere;
 
@@ -101,3 +101,36 @@
 
 }
 
+
+/* AN ACTION OF A CHANNEL'S EXPENSE (owner, 2026-11-14 12:00, 12:20 and 12:33): the chip a row of its own, 32px tall (--chip-height), its whole action in a
+   tooltip, and its x INSIDE it at its right end: the in-cell x (CellRemoveButton, remove-button.css), 4px from the chip's edge. */
+.business-channel-resource-actions > .business-channel-resource-action {
+
+    display: flex;
+
+    flex: 1 1 100%;
+    min-width: 0;
+
+}
+
+.business-channel-resource-action > .notepad-chip {
+
+    flex: 1 1 auto;
+    min-width: 0;
+
+    min-height: var(--chip-height);
+
+    align-items: center;
+
+    padding-right: 4px;
+
+}
+
+.business-channel-resource-action > .notepad-chip > .notepad-chip-open {
+
+    flex: 1 1 auto;
+    min-width: 0;
+
+    align-self: stretch;
+
+}

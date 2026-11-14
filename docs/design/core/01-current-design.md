@@ -45,13 +45,13 @@ A page of a System can be a **compound page**: several sections drawn as chapter
 | 1. Identity | 2. Legal Entity | Capability (Gaps and Cover); Registrations (a dialog of sub tiles: Registration Numbers, Additional Legal Requirements); Expenses (the Legal Entity's expenses). |
 | 2. Brand | Brand System (one page) | Chapter 1 Ambassador: Aesthetics, Body Language, Communication & Voice, Imprint. Chapter 2 Style: Colours, Typography, Text Hierarchy, Icon & Logo, Brand Images (the brand inventory is part of this page). |
 | 3. Business | 1. Foundation | One chapter per Segment: Segment Description (the Segment's questions and its Profiles), Competitors, Value Proposition, Offerings. A Profile, a Competitor and an Offering are cards that open floating. |
-| 3. Business | 2. Customer Engagement | Customer Channel (tiles per Segment); Customer Relationship; Demand & Conversion (these two still folding sections, see document 5). |
+| 3. Business | 2. Customer Engagement | One chapter per Segment, in its colour: Channels (the channels as tiles), Relationships, Demand & Conversion, Channel Costs, each opening its section in a dialog (doc 47, section 3; built 2026-11-12). |
 | 3. Business | 3. Infrastructure & Capability | Chapter Infrastructure: Founders, Resources, Activities, Partners & Suppliers. Chapter Offering's Capability: Resources, Activities, Partners & Suppliers, Delivery. Chapter Inventory: the Inventory help tile and the Completed help tile. |
 | 3. Business | 4. Financial Foundation | Costs, Funding Need, Capital & Funding, Financial Position (folding cards, not tiles yet; see document 5). |
 | 3. Business | 5. Sustainability | Revenue, Break Even (folding cards, not tiles yet). |
 | 4. Strategy | Strategy System: Situation & Direction (one page) | Current Situation Analysis, SWOT Analysis, Strategic Compass, Strategic Period (with the Roadmap and the Theme, Goal, Objective, Metric cards inside it). Sections 2 (Goals & Objectives) and 3 (Roadmap) are hidden pages; their saved data is kept. |
 
-Eleven of the thirteen chapters of the Foundation are drawn as Master Tiles. The two Financial pages and the lower sections of Customer Engagement are not yet (document 5).
+Every chapter of the Foundation is drawn as Master Tiles but the two Financial pages (document 5; doc 49, section 8, phase 7).
 
 ### B.2 Reading modes, screens and accessibility
 

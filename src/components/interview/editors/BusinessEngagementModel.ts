@@ -169,12 +169,19 @@ export const DEMAND_BUYING_HELP: InfoPoint[] = [
     {
         title: DEMAND_BUY_MONTHLY,
         text: "A subscription, membership or retainer. The sources give the new clients joining each month; the share cancelling gives the active clients at the normal level."
-    }
+    },
+    "It follows the Offering's terms on the Foundation (On what terms do they pay for it?), and is asked here only where those terms leave it open."
 ];
 
 /* How one source's sales are estimated. */
 export const DEMAND_BY_FIGURE = "Enter a figure";
 export const DEMAND_BY_CALCULATION = "Calculate";
+
+/** A Customer Source's channel: what it is for (owner, 2026-11-12: "Fill it from the sources"). */
+export const DEMAND_SOURCE_CHANNEL_HELP: InfoPoint[] = [
+    "The channel this source's customers come through, one of the Segment's channels in Channels & Journey.",
+    "The Offering's Channels That Bring Them list the channels its sources name."
+];
 
 export const DEMAND_CALCULATION_HELP: InfoPoint[] = [
     { title: DEMAND_BY_FIGURE, text: "The sales (for an Offering bought every month, the new clients) you expect from this source in a normal month, with its basis." },

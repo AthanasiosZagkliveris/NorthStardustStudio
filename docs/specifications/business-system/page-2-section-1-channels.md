@@ -34,6 +34,32 @@ Status: **specification**, written 2026-09-27, updated 2026-11-02. The requireme
 
 ## As built
 
+**The page as tiles (2026-11-12, doc 47, section 3, step one).** Each Segment is one chapter, in its colour, named with the Segment, of four Master Tiles: Channels (this section: the channels as tiles, each opening its subchannels), Relationships, Demand & Conversion and Channel Costs (the channel resources table). Each opens its section, as described below, in a dialog; the section's help is the "i" beside the dialog's heading. The three reference columns are no longer on the page (Page 1 holds them). Customer's Relationship and Demand & Conversion open one card tile per Offering, each opening the Offering's block as a floating card; Channel Costs is a report at the Inventory's size, with the Inventory's frame (doc 47, section 3). The page follows the Foundation: the Channels dialog's one grid of channels shows, faded, the channels and subchannels suggested stage by stage, Relationships a type, Demand & Conversion its rows, each with an Add and the Page 1 answer it comes from (doc 47, section 3, "Built"; `JourneySuggestions.ts`). No question, field or saved key changed.
+
+**As built, 18:41 (2026-11-12; doc 47, section 3, "The owner's points of 18:41").** The first tile is **Channels & Journey**; its dialog places its tiles by Channels or by Journey Stages, and every subchannel a tile lists is a link to its card. The Master Tiles' long titles stand on two lines (layout rules 9). The relationship and demand cards are the Offering card's own make. **Channel Costs** opens the Inventory in its Channel Costs set-up (page 3's specification, section 8).
+
+**As built, 19:54 (2026-11-12; doc 47, section 3, "The owner's points of 19:54").** Each chapter holds three large Master Tiles (Channels & Journey, Customer's Relationship, Demand & Conversion); the Channel Costs tile is gone (the channel expenses are the Inventory's, page 3). The page has no Sections rail. Each dialog's head offers From your answers or All; with All the adds are on the tiles. A stage's dialog is a table first.
+
+**As built, Channels That Bring Them (2026-11-12; doc 47, section 3).** Each Customer Source names its channel (the Segment's channels); an Offering's Channels That Bring Them are its sources' channels, shown read only, each a link to its channel. The ticks saved before are read but no longer shown.
+
+**As built, 23:16 (2026-11-12; doc 47, section 3).** A relationship type is a box of the card with its x on its light title band. What the Foundation suggests -- a relationship type, a Customer Source -- is a faded line on the Offering's tile that adds it and opens the card; the cards carry no add.
+
+**As built, 00:27 to 00:31 (2026-11-13; doc 47, section 3).** An Offering's relationship types are made from the Foundation and Identity answers (doc 47's table of mappings), never none (Personal Assistance where none points); a removed one stays removed, and its x shows while the Offering has two or more. The relationship card puts the stages in three columns (Journey Stage, Goals, Approach); the Demand card puts short fields side by side; the Journey Stages table reads Channel, Subchannel, Offerings, Actions.
+
+**As built, 04:58 (2026-11-13; doc 47, section 3).** Customer's Relationship shows a tile per Offering, each opening a dialog of its relationship types (a card tile each); a type's tile opens its card, whose stage columns are parted by vertical lines.
+
+**As built, 05:23 (2026-11-13).** A stage's table groups its rows by channel: a channel of several subchannels is one merged cell over them (a., b.), striped by group, and every cell wraps so the actions take most of the width (layout rules 12).
+
+**As built, 11:44 (2026-11-13; doc 47, section 3).** The stage's table has no frame, its Table / Tiles choice on the title's row, its last column "Actions", no letters; every text wraps, the short columns as wide as their words. The relationship card's Journey Stage and Goals columns are tight, the Approach takes the rest. The suggested Customer Sources on a Demand & Conversion tile show with All only.
+
+**As built, 12:32 (2026-11-13; doc 47, section 3).** The stage's table has no lines, edge to edge of its dialog. A Customer Source's x is in the card's x column; a relationship type's card opens with its number, name and x.
+
+**As built, 13:56 (2026-11-13; doc 47, section 3).** The subchannels the Foundation's answers name are made as the Segment's own (a removed one stays removed; All offers it again). The stage table has unbroken column lines, lines between a channel's subchannels, cells at the top, and ends with its last row. A Customer Source's choices are narrowed by the earlier answers.
+
+**As built, 16:12 and 16:35 (2026-11-13; doc 47, section 3).** Channels & Journey; a stage's actions numbered in each row with lines between them; each Offering in Demand & Conversion a tile opening its dialog, Expected Sales a section of it and each Customer Source a nested tile.
+
+**As built, 16:50 (2026-11-13; doc 47, section 3).** The suggestion rules of doc 47 (media and reviews, Buy Now, Pay Later, the marketplace, D2, O7 None, Repeat customers); Customers Buy read from the Offering's terms (O3), asked only where they leave it open.
+
 Section 1 is "1. Customer Channel" in each Segment's card on Page 2 (the page, its editor and the sections that follow are in `page-2-section-2-customer-relationships.md`, "As built"; the layout is `ai/customer-engagement-layout.md`). The reference header of section 4 is the card's three reference columns (Segment, Profiles, Offerings), always shown. The channels are a four-column table (Channel, Offerings, Journey Stage, Action) with each channel's Links under its name (an optional field: the "Links" tick opens a numbered list of links, placeholder "Link"). Channels are grouped under their category, drawn once, in the fixed category order; each category carries a fold arrow and its channels sit a step in from it, and channels keep their numbers when a category is folded. Actions are stored by Journey Stage (`Record<stageId, string[]>`), so unticking a stage hides its Actions without deleting them.
 
 ## 1. Purpose
@@ -653,3 +679,5 @@ Each channel cell has one button, **+ Add expense**, that opens a list of the wa
 Removing a channel removes the template cards it made that nothing else uses, and keeps any card the user linked as existing.
 
 The cost of a channel is read by Page 4 from its cards: payment-processor and marketplace fees are calculated lines (Channel Fee Table by card name, rates from Global Settings), and royalties, affiliate and agent commissions are Percentage billing lines whose rate is the card's override, then its price, then the Global Settings default.
+
+- **2026-11-14 (owner, 11:51 to 12:41).** A floating channel card's own x shows with All only; its inner x (a stage's, an action's, an expense's, a linked action's) in both. The action lines' and the linked-action chips' x is the in-cell x (`CellRemoveButton`), inside the cell at its right end; a chip is 32px tall (`--chip-height`). A Direct Payment, Website or Marketplace subchannel's card shows its Fees under its Expenses, read from the Global Settings' Channel Fee Table (doc 50, 1.4).
