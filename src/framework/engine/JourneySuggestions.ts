@@ -372,3 +372,37 @@ export function demandSuggestions(segment: BusinessCustomerSegmentValue, offerin
     }
     return out;
 }
+
+
+/**
+ * THE FUNNEL'S MIDDLE STEP IS A TRIAL (doc 50, section 2.5; owner, 2026-11-14 12:00): where a Profile of the Segment compares options by "A demo, trial or
+ * sample" (D1), the Sales funnel's Qualified step is the people who tried it -- its label "Tried it (%)". No new kind of source.
+ */
+export function funnelIsTrial(segment: BusinessCustomerSegmentValue, identity?: SegmentIdentity): boolean {
+    return segment.profiles.some(profile => (effectiveProfileAnswers(profile, segment, identity).d1 ?? []).includes("a-demo-trial-or-sample"));
+}
+
+/**
+ * THE TIME TO BUY, from the answers (doc 50, section 2.5): how long a sale takes from first contact, by who decides ("Who decides to buy?") and how they
+ * decide ("How do your customers usually decide to buy?"). On impulse or out of habit: none. Formal procurement: three to six months; a manager signing off
+ * or several departments checking: two to three; one person deciding or the team agreeing: about one. The longest the answers name. Read only: it is shown on
+ * the Sales funnel and Contracts sources, and the forecast does not shift the sales by it (the ramp of Sustainability already starts them slowly).
+ */
+export function monthsToClose(segment: BusinessCustomerSegmentValue, identity?: SegmentIdentity): { low: number; high: number } | null {
+    const answers = effectiveSegmentAnswers(segment, identity);
+    const path = (answers.path ?? [])[0] ?? "";
+    if (path === "impulse" || path === "habit") {
+        return null;
+    }
+    const decides = answers.authorise ?? [];
+    if (decides.includes("procurement")) {
+        return { low: 3, high: 6 };
+    }
+    if (decides.includes("executive") || decides.includes("multi")) {
+        return { low: 2, high: 3 };
+    }
+    if (decides.includes("solo") || decides.includes("champions")) {
+        return { low: 1, high: 1 };
+    }
+    return null;
+}

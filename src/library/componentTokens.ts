@@ -57,6 +57,7 @@ export function componentTokens(): ComponentToken[] {
         { token: "--control-square", value: px(lookWidth("TXT.SQR.001.005")), code: "TXT.SQR.001.005", what: "a box as wide as a cell is tall: a number with its unit beside it" },
         { token: "--box-radius", value: lookOf("TXT.001").corners, code: "TXT.001", what: "the corners of a cell" },
         { token: "--size-box-button", value: px(lookHeight("BTN.001")), code: "BTN.001", what: "the box buttons: the x, the plus, the calendar" },
+        { token: "--size-cell-x", value: px(lookHeight("BTN.XCL.001.003")), code: "BTN.XCL.001.003", what: "the x inside a cell (CellRemoveButton): its target, the X alone, no box" },
         { token: "--size-mark", value: px(lookHeight("BTN.002")), code: "BTN.002", what: "the marks: the i, the tick box, the link symbol" },
         { token: "--add-button-height", value: px(lookHeight("BTN.004")), code: "BTN.004", what: "the wide add button" },
         { token: "--tool-button-height", value: px(lookHeight("BTN.006")), code: "BTN.006", what: "a tool button of the header" },

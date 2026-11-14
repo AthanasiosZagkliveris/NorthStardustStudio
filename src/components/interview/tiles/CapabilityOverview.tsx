@@ -1,4 +1,5 @@
 import { NUMBER_LIMITS, limitedNumberText } from "../fields/numberInput.ts";
+import { BUSINESS_JOURNEY_STAGES } from "../../../framework/engine/businessFoundation/engagementPage.ts";
 import { labelWithCurrency } from "../../../framework/engine/Currencies.ts";
 import { CSSProperties, Fragment, ReactNode, useContext, useMemo, useState } from "react";
 import TextLink from "../fields/TextLink.tsx";
@@ -262,6 +263,8 @@ export default function CapabilityOverview({ rows, format = String, currency = "
     const patch = (next: Partial<FloorFilter>) => setFilter(current => ({ ...current, ...next }));
     // (The Offerings a card of the Offering place serves, in Page 1's order.)
     const servedOfferings = offerings.filter(offering => rows.some(row => placeOf(row) === "offering" && (row.offeringIds ?? []).includes(offering.id)));
+    // (The journey stages a channel uses a card of the Offering place at, in the journey's order.)
+    const usedStages = BUSINESS_JOURNEY_STAGES.map(stage => stage.label as string).filter(label => rows.some(row => placeOf(row) === "offering" && (row.channel?.stages ?? []).includes(label)));
 
     const open = (row: FloorRow, pointer: boolean) => {
         if (row.kind === "legal") {
@@ -313,7 +316,7 @@ export default function CapabilityOverview({ rows, format = String, currency = "
                     chosen={filter.place === "" ? [] : [filter.place]}
                     onChange={(next) => {
                         const now = next.filter(id => id !== filter.place)[0] ?? "";
-                        patch({ place: now as FloorFilter["place"], groups: [], categories: [], subgroups: [], placeKinds: [], offerings: [] });
+                        patch({ place: now as FloorFilter["place"], groups: [], categories: [], subgroups: [], placeKinds: [], offerings: [], stages: [] });
                     }}
                 />
                 {/* UNDER OFFERING, ITS OFFERINGS (owner, 2026-11-12 19:54: "Add Offerings list with the offering"): the Organisation's Offerings that a card here
@@ -328,6 +331,19 @@ export default function CapabilityOverview({ rows, format = String, currency = "
                             options={[{ id: ALL_OFFERINGS, label: "All" }, ...servedOfferings.map(offering => ({ id: offering.id, label: offering.name.trim() || "Unnamed Offering" }))]}
                             chosen={filter.offerings.length > 0 ? filter.offerings : [ALL_OFFERINGS]}
                             onChange={(next) => patch({ offerings: next.includes(ALL_OFFERINGS) && !filter.offerings.includes(ALL_OFFERINGS) && filter.offerings.length > 0 ? [] : next.filter(id => id !== ALL_OFFERINGS) })}
+                        />
+                    </div>
+                )}
+                {/* UNDER OFFERING, ITS JOURNEY STAGES, as its Offerings (owner, 2026-11-14 11:51: "add Journey Stages (and the ALL as the default), make it to work
+                    like the Offering"): the stages a channel uses a card here at; ticked, only those cards, and the Journey column names only the ticked stages. */}
+                {filter.place === "offering" && usedStages.length > 0 && (
+                    <div className="capability-overview-menu-sub capability-overview-menu-titles">
+                        <strong>Journey Stages</strong>
+                        <BusinessTicks
+                            name="Journey Stages"
+                            options={[{ id: ALL_OFFERINGS, label: "All" }, ...usedStages.map(stage => ({ id: stage, label: stage }))]}
+                            chosen={filter.stages.length > 0 ? filter.stages : [ALL_OFFERINGS]}
+                            onChange={(next) => patch({ stages: next.includes(ALL_OFFERINGS) && !filter.stages.includes(ALL_OFFERINGS) && filter.stages.length > 0 ? [] : next.filter(id => id !== ALL_OFFERINGS) })}
                         />
                     </div>
                 )}
@@ -570,7 +586,7 @@ export default function CapabilityOverview({ rows, format = String, currency = "
             return <Values items={facts.offerings.filter(chosen).map(name => ({ key: name, node: name }))} />;
         }
         if (column === "journey") {
-            return <Values items={facts.stages.map(name => ({ key: name, node: name }))} />;
+            return <Values items={facts.stages.filter(name => filter.stages.length === 0 || filter.stages.includes(name)).map(name => ({ key: name, node: name }))} />;
         }
         if (column === "actions") {
             return <Chips items={facts.actions.map(action => ({

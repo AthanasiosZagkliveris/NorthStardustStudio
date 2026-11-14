@@ -56,6 +56,12 @@ export interface BusinessEngagementEditorProps {
     /** The organisation's currency, for what a channel's resources cost. */
     currency?: string;
 
+    /** The Global Settings: their Channel Fee Table, read (never written) by the Fees line of a paying subchannel's card (doc 50, section 1.4). */
+    globalSettings?: unknown;
+
+    /** Page 4's revenue streams: an Offering's price, for the fee on one sale. */
+    financialSustainability?: unknown;
+
 }
 
 /**

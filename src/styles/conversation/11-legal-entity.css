@@ -120,7 +120,9 @@
 
 }
 
-.legal-entity-grid-organization.legal-entity-audience > .legal-entity-field:first-child{
+/* (The gap before the second column's divider: a field ALONE in its grid -- a dialog's single column, as Demand & Conversion's Expected Sales -- has none, so its bands
+   run to the card's right edge as to its left; owner, 2026-11-14 12:41: "Fix the coloured bands to be side to side".) */
+.legal-entity-grid-organization.legal-entity-audience > .legal-entity-field:first-child:not(:only-child){
 
     padding-right:var(--space-cell);
 

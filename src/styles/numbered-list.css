@@ -39,7 +39,7 @@
 .numbered-list .numbered-list-number{
 
     font-size:var(--font-body);
-    line-height:1.5;
+    line-height:var(--field-line);
 
     color:var(--text-color);
 
@@ -90,7 +90,7 @@
     counter-reset:numbered-list-static;
 
     font-size:var(--font-body);
-    line-height:1.5;
+    line-height:var(--field-line);
 
     color:var(--text-color);
 
@@ -150,7 +150,7 @@
     list-style:none;
 
     font-size:var(--font-body);
-    line-height:1.5;
+    line-height:var(--field-line);
 
     color:var(--text-color);
 
@@ -245,7 +245,7 @@
     margin-top:auto;
 
     font-size:var(--font-small);
-    line-height:1.5;
+    line-height:var(--field-line);
     font-variant-numeric:tabular-nums;
 
     color:var(--text-subtle);
@@ -277,9 +277,10 @@
     display:flex;
 
     /* One symbol, or the default before the list has measured: under the
-       x, centred on it ((32 - 24) / 2 = 4px in from its right edge). */
+       in-cell x, on its centre line (both 24px: the x's own 6px from the
+       line's end; owner, 2026-11-14 12:40). */
     top:38px;
-    right:10px;
+    right:6px;
 
     z-index:1;
 
@@ -287,7 +288,7 @@
 
 .is-action-line[data-marks="pair"] .action-marks{
 
-    right:6px;
+    right:2px;
 
 }
 
@@ -299,7 +300,7 @@
 
 .is-action-line[data-marks="beside"] .action-marks{
 
-    top:10px;
+    top:calc((43px - var(--size-cell-x)) / 2);
     right:38px;
 
 }
@@ -568,3 +569,16 @@
 .numbered-list-remove{
     margin-top:calc((43px - var(--size-box-button)) / 2);
 }
+
+/* A CHANNEL'S ACTIONS (owner, 2026-11-14 12:00 and 12:38): each line's x stands INSIDE its cell, at the line's right end -- the in-cell x (CellRemoveButton,
+   remove-button.css), centred on the line's first line (8px + 27px + 8px) --, and the coloured lines are rounded with the cell at its first and last line. */
+.numbered-list-row.is-action-line .cell-remove{
+
+    margin-top:calc((43px - var(--size-cell-x)) / 2);
+
+}
+
+.numbered-list-row.is-action-line:first-child::before{ border-top-left-radius:var(--radius-md); }
+.numbered-list-row.is-action-line:last-child::before{ border-bottom-left-radius:var(--radius-md); }
+.numbered-list-row.is-action-line:first-child::after{ border-top-right-radius:var(--radius-md); }
+.numbered-list-row.is-action-line:last-child::after{ border-bottom-right-radius:var(--radius-md); }

@@ -530,7 +530,7 @@
 
     font:inherit;
     font-size:var(--font-body);
-    line-height:1.5;
+    line-height:var(--field-line);
 
     color:var(--text-default);
 

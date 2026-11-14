@@ -534,7 +534,7 @@
 
     font-size: var(--font-body);
     font-weight: 400;
-    line-height: 1.5;
+    line-height: var(--field-line);
 
     color: var(--text-default);
 
@@ -550,7 +550,7 @@
 
     font-size: var(--font-body);
     font-weight: 400;
-    line-height: 1.5;
+    line-height: var(--field-line);
 
     color: var(--text-muted);
 

@@ -15,6 +15,9 @@
     /* the box buttons: the x, the plus, the calendar (BTN.001) */
     --size-box-button: 32px;
 
+    /* the x inside a cell (CellRemoveButton): its target, the X alone, no box (BTN.XCL.001.003) */
+    --size-cell-x: 24px;
+
     /* the marks: the i, the tick box, the link symbol (BTN.002) */
     --size-mark: 24px;
 

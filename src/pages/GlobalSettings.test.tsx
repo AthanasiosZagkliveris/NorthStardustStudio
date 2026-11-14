@@ -65,7 +65,7 @@ describe("the Global Settings screen", () => {
         expect((screen.getByLabelText("Target operating reserve") as HTMLInputElement).value).toBe("3");
         // (Only a group that holds an asset is listed: this organization has none.)
         expect(screen.queryByLabelText("Production Machinery")).toBeNull();
-        expect((screen.getByLabelText("Channel 1") as HTMLInputElement).value).toBe("Stripe");
+        expect((screen.getByLabelText("Channel 1") as HTMLInputElement).value).toBe("Stripe Terminal");
     });
 
     it("saves a figure at once, kept to what a number box takes", () => {
@@ -94,14 +94,14 @@ describe("the Global Settings screen", () => {
     it("adds, edits and removes a channel of the Channel Fee Table", () => {
         open();
         fireEvent.click(screen.getByRole("button", { name: "+ Add channel" }));
-        expect(saved().channelFees).toHaveLength(4);
-        fireEvent.change(screen.getByLabelText("Channel 4"), { target: { value: "Etsy" } });
-        fireEvent.change(screen.getByLabelText("Channel 4 commission"), { target: { value: "6.5" } });
-        fireEvent.change(screen.getByLabelText("Channel 4 fixed fee"), { target: { value: "0.2" } });
-        expect(saved().channelFees[3]).toMatchObject({ channel: "Etsy", commission: "6.5", fixedFee: "0.2" });
+        expect(saved().channelFees).toHaveLength(8);
+        fireEvent.change(screen.getByLabelText("Channel 8"), { target: { value: "Not On The High Street" } });
+        fireEvent.change(screen.getByLabelText("Channel 8 commission"), { target: { value: "25" } });
+        fireEvent.change(screen.getByLabelText("Channel 8 fixed fee"), { target: { value: "0.2" } });
+        expect(saved().channelFees[7]).toMatchObject({ channel: "Not On The High Street", commission: "25", fixedFee: "0.2" });
         fireEvent.click(screen.getByRole("button", { name: "Remove channel 1" }));
-        expect(saved().channelFees.map(row => row.channel)).toEqual(["PayPal", "Wolt, Amazon", "Etsy"]);
-        expect(within(screen.getByRole("table", { name: "Channel Fee Table" })).getAllByRole("row")).toHaveLength(4);
+        expect(saved().channelFees.map(row => row.channel)).toEqual(["Stripe", "SumUp", "Shopify Payments", "Etsy", "PayPal", "Wolt, Amazon", "Not On The High Street"]);
+        expect(within(screen.getByRole("table", { name: "Channel Fee Table" })).getAllByRole("row")).toHaveLength(8);
     });
 
     it("is kept for the Organisation it belongs to", () => {

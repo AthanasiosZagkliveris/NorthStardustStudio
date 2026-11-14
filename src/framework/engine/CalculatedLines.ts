@@ -131,6 +131,20 @@ export function channelFeeRowFor(name: string, table: readonly ChannelFeeRow[]):
     });
 }
 
+/**
+ * THE ROW OF THE CHANNEL FEE TABLE A SUBCHANNEL PAYS (doc 50, section 1.4: "Match by the name, as the cost lines already do"): the row its own name takes
+ * ("Etsy"), else the row the first of its expense cards takes ("SumUp card reader", "Shopify Payments"); with the name it was matched by.
+ */
+export function channelFeeFor(names: readonly string[], table: readonly ChannelFeeRow[]): { row: ChannelFeeRow; by: string } | undefined {
+    for (const name of names) {
+        const row = channelFeeRowFor(name, table);
+        if (row) {
+            return { row, by: name.trim() };
+        }
+    }
+    return undefined;
+}
+
 export interface CalculationInput {
     foundation: FinancialFoundationValue;
     revenuePage: FinancialSustainabilityValue;

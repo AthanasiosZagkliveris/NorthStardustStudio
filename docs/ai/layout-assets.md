@@ -139,6 +139,35 @@ A 32px square with a drawn X that removes a card or a row. Red stroke and X at r
 - the red stroke and X against the ground behind the box (card): at least 3:1.
 - under the pointer: the X (the ground colour) against the red fill (fill): at least 3:1.
 
+### Cell remove x
+
+A frameless X inside a cell, at its right end, that removes what the cell holds (an action line of a stage, a linked action of an expense). It grows 20% with a soft red glow under the pointer and the focus.
+
+- **Kind:** remove button. **Code:** `src/components/controls/CellRemoveButton.tsx`. **Stylesheet:** `src/styles/remove-button.css` (also `src/styles/global.css`, `src/styles/components.generated.css`).
+- **Parts:** button (the 24px target, no frame); two bars (::before, ::after) turned +45 and -45 degrees, drawn from the middle.
+- **States:** rest, hover, focus, disabled.
+- **Used in:** the action lines of a channel's journey stages and the linked actions (#12, #14 ...) of a channel's expense, on a subchannel's card (owner, 2026-11-14 12:38); never a card's or a row's own x: that is the framed Remove x.
+- **Custom properties it reads:** `--size-cell-x`, `--x-red`, `--hover-lift`, `--chip-height`, `--text-faint`, `--focus-ring-ink`, `--line-primary`.
+
+| Variant | Where | Note |
+|---|---|---|
+| action | row | inside an action line of a channel's journey stage, at its right end, centred on the line's first line |
+| chip | row | inside a channel expense's linked-action chip (32px tall, --chip-height), at its right end |
+
+| Number | Value |
+|---|---|
+| size | 24 |
+| barLength | 14 |
+| barThickness | 2 |
+| strokeWidth | 0 |
+| growth | 1.2 |
+| outlineWidth | 2 |
+| outlineOffset | 2 |
+| tolerancePx | 0.5 |
+
+**Accessibility.** Keyboard focus is shown by a ring or outline. Name: Unlink <what> from <where> (aria-label). Contrast it must hold:
+- the red X against the chip's ground (card): at least 3:1.
+
 ### Rails
 
 The Pages and Sections rails: a column of items, each a bullet and a label in one button. Rest, lit and hover looks; bullets only below 1700px with the name as a tooltip, labels inline from 1700px.

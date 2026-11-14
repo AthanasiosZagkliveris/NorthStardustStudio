@@ -115,3 +115,4 @@ The channel card's questions are worded in doc 28, section 7.3, with their optio
 | # | Decision | Approved (owner, 2026-11-12 14:10) |
 |---|---|---|
 | D6 | Customer Engagement shape | One chapter per Segment, four tiles |
+- **The owner's points of 2026-11-14 11:51 to 12:41.** From your answers hides only each floating card's own x; All shows it. The in-cell x (`CellRemoveButton`) inside the action lines and the linked-action chips (32px); the framed x beside a cell (the stage's, an expense's). A paying subchannel's card (Direct Payment, Website, Marketplace) reads its fees from the Global Settings' Channel Fee Table, under its Expenses (doc 50, 1.4). The Sales funnel's Qualified step is "Tried it (%)" where a Profile compares options by a demo, trial or sample; the Sales funnel and Contracts sources show the time to buy, read only (doc 50, 2.5). Every Customer Source of the examples has its channel.

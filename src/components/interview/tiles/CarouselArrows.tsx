@@ -193,10 +193,14 @@ export function CarouselArrows({ target, step, hue, back, side: fixedSide }: { t
 
     // Only the topmost layer shows its arrows and rail: the one under it stands at the same place, and its bullets would overlap the top one's.
     const [topmost, setTopmost] = useState(true);
+    // A DIALOG UNDER A FLOATING CARD keeps its rail (where the card stands among the dialog's tiles) but not its arrows (the card is the layer opened last; 07-floating-
+    // card-details-2.css): the rail then runs on with no gap for them (owner, 2026-11-14 12:00: "Fix its rail to fit properly the carousel arrow"; "Fix the rail sequence").
+    const [covered, setCovered] = useState(false);
     useEffect(() => {
         const check = () => {
             const layers = document.querySelectorAll("[data-carousel]");
             setTopmost(layers.length === 0 || !!layers[layers.length - 1]?.contains(target.current));
+            setCovered(!!document.querySelector(".floating-overlay") && !target.current?.closest(".floating-overlay"));
         };
         check();
         const observer = typeof MutationObserver === "undefined" ? null : new MutationObserver(check);
@@ -249,7 +253,7 @@ export function CarouselArrows({ target, step, hue, back, side: fixedSide }: { t
 
     useLayoutEffect(() => {
         const rail = railRef.current;
-        if (!rail || !at?.tab) {
+        if (!rail || !at?.tab || covered) {
             setSlot(null);
             return;
         }

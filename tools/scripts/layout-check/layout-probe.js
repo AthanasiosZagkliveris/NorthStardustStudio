@@ -336,6 +336,18 @@
         document.querySelectorAll(".card-scroll").forEach(body => { body.scrollTop = 0; });
         const fail = (rule, element, detail) => failures.push({ rule, where: place(element), detail });
 
+        // 0b. A DIALOG'S BANDS RUN SIDE TO SIDE (owner, 2026-11-14 12:41: "Fix the coloured bands to be side to side"): a band of a dialog's body that meets its left edge
+        //     meets its right edge too (a field alone in its grid keeps no gap for a second column).
+        for (const band of [...document.querySelectorAll(".section-tile-dialog-body .legal-entity-org-section")].filter(visible)) {
+            const body = band.closest(".section-tile-dialog-body");
+            const outer = body.getBoundingClientRect();
+            const inner = { left: outer.left + body.clientLeft, right: outer.left + body.clientLeft + body.clientWidth };
+            const box = band.getBoundingClientRect();
+            if (Math.abs(box.left - inner.left) <= 1 && band.closest(".legal-entity-field")?.matches(":only-child") && Math.abs(box.right - inner.right) > 1) {
+                fail("a dialog's band meets both of its edges", band, { left: box.left - inner.left, right: inner.right - box.right });
+            }
+        }
+
         // 1-2. A card head: the number where the body starts; the name one fixed step after it.
         //      (A Metric box's head too: a grip, no fold arrow.)
         for (const head of [...document.querySelectorAll(".fold-card-head, .strategy-metric-box:not(.strategy-initiatives-box) > .strategy-box-head")].filter(visible)) {

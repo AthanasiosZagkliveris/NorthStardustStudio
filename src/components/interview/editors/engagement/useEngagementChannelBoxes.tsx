@@ -24,7 +24,7 @@ type Earlier = ReturnType<typeof useEngagementState>;
 
 export function useEngagementChannelBoxes(earlier: Earlier) {
 
-    const { cards, channelActions, channelCategoryFoldKey, channelResources, collapsed, currency, disabled, engagement, folds, isolatingSegment, noPhysical, offeringsOfMadeCards, onOpenCapability, onOpenFoundation, openAction, relatedStages, segmentOf, segments, setLit, toggle, updateChannel, updateSegment } = earlier;
+    const { feeBand, showsAll, cards, channelActions, channelCategoryFoldKey, channelResources, collapsed, currency, disabled, engagement, folds, isolatingSegment, noPhysical, offeringsOfMadeCards, onOpenCapability, onOpenFoundation, openAction, relatedStages, segmentOf, segments, setLit, toggle, updateChannel, updateSegment } = earlier;
 
     /** The card on Page 1 with this id, and the Segment it is in. */
     function foundationPath(id: string): string[] {
@@ -410,12 +410,14 @@ export function useEngagementChannelBoxes(earlier: Earlier) {
                             />
                         );
                     })()}
-                    {/* The x, in the head, as every card's. */}
-                    <BusinessRemove
-                        what="Subchannel"
-                        disabled={disabled}
-                        onRemove={() => updateSegment(segment.id, { channels: answers.channels.filter(candidate => candidate.id !== channel.id) })}
-                    />
+                    {/* The x, in the head, as every card's. (Its x with All only, as the adds: owner, 2026-11-14 11:51.) */}
+                    {showsAll(segment.id) && (
+                        <BusinessRemove
+                            what="Subchannel"
+                            disabled={disabled}
+                            onRemove={() => updateSegment(segment.id, { channels: answers.channels.filter(candidate => candidate.id !== channel.id) })}
+                        />
+                    )}
                 </div>
             );
         };
@@ -687,7 +689,8 @@ export function useEngagementChannelBoxes(earlier: Earlier) {
                                                 size="wide"
                                             />
 
-                                            <BusinessRemove
+                                            {/* (With All only, as every x: owner, 2026-11-14 11:51.) */}
+                                            {showsAll(segment.id) && <BusinessRemove
                                                 what={
                                                     "Channel " +
                                                     (group.label.trim() ||
@@ -711,7 +714,7 @@ export function useEngagementChannelBoxes(earlier: Earlier) {
                                                             )
                                                     }
                                                 )}
-                                            />
+                                            />}
 
                                         </div>
 
@@ -944,7 +947,13 @@ export function useEngagementChannelBoxes(earlier: Earlier) {
                                                         3. Offering's Capability. */}
                                                     {/* (In a channel's card the section has its own heading, "Expenses", with its "+", and a regular x beside each expense.) */}
                                                     {sub !== undefined
-                                                        ? <div className="business-channel-expenses">{channelResources(answers, channel.id, "Subchannel " + number, "Expenses")}</div>
+                                                        ? (
+                                                            <div className="business-channel-expenses">
+                                                                {channelResources(answers, channel.id, "Subchannel " + number, "Expenses")}
+                                                                {/* (Its fees, read from the Global Settings, under its expenses: a paying subchannel's card only; doc 50, section 1.4.) */}
+                                                                {feeBand(channel, segment.offerings.map(offering => ({ id: offering.id, name: offering.name })))}
+                                                            </div>
+                                                        )
                                                         : channelResources(answers, channel.id, "Subchannel " + number)}
 
                                                 </div>

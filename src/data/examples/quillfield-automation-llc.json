@@ -1805,13 +1805,13 @@
                     "estimate": "0.6",
                     "inputs": {},
                     "basis": "Builds come from audits: about 40% of audited firms go on to a build (1.5 audits a month x 40%).",
-                    "channelId": ""
+                    "channelId": "channel-qfzoom01"
                   }
                 ],
                 "recurring": false,
                 "cancel": "",
                 "channelIds": [],
-                "assumptions": ""
+                "assumptions": "Builds follow the audits: about 2 in 5 audited firms go on to a build, so the first builds arrive a month or two after the first audits."
               },
               "offering-c2p8j6nv": {
                 "sources": [
@@ -1822,7 +1822,7 @@
                     "estimate": "0.3",
                     "inputs": {},
                     "basis": "About half of finished builds move onto the retainer (0.6 builds a month x 50%).",
-                    "channelId": ""
+                    "channelId": "channel-qfportal1"
                   },
                   {
                     "id": "source-m9t4k7jr",
@@ -1834,7 +1834,7 @@
                       "buy": "40"
                     },
                     "basis": "Firms introduced by retainer clients who want ongoing support without a build first.",
-                    "channelId": ""
+                    "channelId": "channel-segment-qf3n8d2w-referral-affiliates-customer-referral"
                   }
                 ],
                 "recurring": true,
@@ -4395,12 +4395,44 @@
     "onCostRate": "",
     "channelFees": [
       {
+        "id": "fee-uk0qu",
+        "channel": "Stripe Terminal",
+        "commission": "1.4",
+        "fixedFee": "0.10",
+        "chargeback": "0.5",
+        "note": "In person, UK cards; checked 14/11/2026 on Stripe's UK pricing page"
+      },
+      {
         "id": "fee-gd4hjzah",
         "channel": "Stripe",
+        "commission": "1.5",
+        "fixedFee": "0.20",
+        "chargeback": "0.5",
+        "note": "UK standard cards online (premium cards 1.9% + 20p, EEA cards 2.5% + 20p); checked 14/11/2026 on Stripe's UK pricing page"
+      },
+      {
+        "id": "fee-uk2qu",
+        "channel": "SumUp",
+        "commission": "1.69",
+        "fixedFee": "0",
+        "chargeback": "0.5",
+        "note": "In person (payment links and invoices 2.5%); checked 14/11/2026 on SumUp's UK pricing page"
+      },
+      {
+        "id": "fee-uk3qu",
+        "channel": "Shopify Payments",
         "commission": "2",
         "fixedFee": "0.25",
         "chargeback": "0.5",
-        "note": "The default rate for bad debts"
+        "note": "Basic plan, online (in person 1.7%); checked 14/11/2026 on Shopify's UK pricing page"
+      },
+      {
+        "id": "fee-uk4qu",
+        "channel": "Etsy",
+        "commission": "10.5",
+        "fixedFee": "0.20",
+        "chargeback": "0",
+        "note": "6.5% transaction fee + 4% + 20p payment processing, and about 16p a listing; checked 14/11/2026 on Etsy's fee pages"
       },
       {
         "id": "fee-a6og6ty9",
@@ -4408,7 +4440,7 @@
         "commission": "3.5",
         "fixedFee": "0.35",
         "chargeback": "1",
-        "note": "Higher risk"
+        "note": "Not checked yet: read PayPal's UK merchant fees page before relying on it"
       },
       {
         "id": "fee-co8eywpt",

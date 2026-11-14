@@ -1,6 +1,6 @@
 # 50. Channel fees on Customer Engagement, and what Demand & Conversion could add
 
-Status: **proposal**, written 2026-11-14, for the owner's decision (owner, 2026-11-14 09:31: "Check the global settings, channel fees section, where it could be placed on the engagement page, and how"; "Make an online research, regarding Demand & Conversion, and check if there are any missing information as options"). Nothing here is built.
+Status: **specification**, built 2026-11-14 (owner, 12:00: "For the proposed changes (Fees, Demand recheck) check the best solution and apply them"): 1.4 and 2.5 as recommended -- the UK rows (PayPal marked not checked), the match by name (`channelFeeFor`), the Fees line on a paying subchannel's card with the fee on each Offering's sale and the link to Global Settings; "Tried it (%)" (`funnelIsTrial`) and the read-only time to buy (`monthsToClose`), not fed into the forecast (Sustainability's ramp already starts sales slowly; a shift would need the forecast to hold the contacts month by month). Written as a proposal 2026-11-14, for the owner's decision (owner, 2026-11-14 09:31: "Check the global settings, channel fees section, where it could be placed on the engagement page, and how"; "Make an online research, regarding Demand & Conversion, and check if there are any missing information as options"). 
 
 Related: doc 47 (Customer Engagement), doc 48 (the Financial pages), `src/framework/engine/GlobalSettings.ts` (the Channel Fee Table), `src/framework/engine/CalculatedLines.ts` (`channelFeeRowFor`), `src/framework/engine/DemandCapacity.ts` (`DEMAND_SOURCES`).
 
@@ -34,7 +34,8 @@ Option A, read only. A subchannel the founder sells through is where the fee is 
   | SumUp | 1.69% in person; 2.5% online (payment links, invoices) | SumUp UK pricing |
   | Shopify Payments | 2.0% + 25p in person on Basic (to 1.5% + 25p on Advanced) | Shopify UK pricing, as quoted by SumUp |
   | Etsy | 6.5% transaction + 4% + 20p payment processing; about 16p a listing | Etsy's fee pages, as quoted by A2X and Elver Accountants |
-  | PayPal | its UK rates, to be read from PayPal's merchant fees page | (not checked yet) |
+  | Stripe Terminal | 1.4% + 10p in person (UK cards) | Stripe's UK pricing page |
+  | PayPal | its UK rates, to be read from PayPal's merchant fees page | (not checked yet: its row says so) |
 
   Each rate is to be read again from the platform's own page before it is shipped (the search returned third-party copies of them).
 - **Match by the name, as the cost lines already do.** A subchannel named after a platform (Etsy, Shopify, SumUp) and a supplier card named after one take its row (`channelFeeRowFor`); no step for the founder.

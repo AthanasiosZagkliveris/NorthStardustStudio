@@ -556,7 +556,7 @@
 
     font:inherit;
     font-size:var(--font-small);
-    line-height:1.5;
+    line-height:var(--field-line);
 
     border:1px solid var(--box-border);
     border-radius:var(--radius-md);
@@ -603,7 +603,7 @@
 
     font:inherit;
     font-size:var(--font-small);
-    line-height:1.5;
+    line-height:var(--field-line);
 
     border:1px solid var(--box-border);
     border-radius:var(--radius-md);

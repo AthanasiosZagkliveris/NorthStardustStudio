@@ -493,11 +493,14 @@ export interface FloorFilter {
     channelsOnly: boolean;
     /** Under Offering (Belongs to): the Offerings ticked (ids); a card is shown when it serves one of them. None ticked: every Offering. */
     offerings: readonly string[];
+    /** Under Offering (Belongs to): the journey stages ticked (their names: Discover, Evaluation ...); a card is shown when a channel uses it at one of them. None
+     *  ticked: every stage (owner, 2026-11-14 11:51: "add Journey Stages (and the ALL as the default), make it to work like the Offering"). */
+    stages: readonly string[];
 }
 
 export const DEFAULT_FLOOR_FILTER: FloorFilter = {
     kinds: new Set<FloorKind>(["resource", "activity", "partner", "provider", "founder", "legal"]),
-    place: "", groups: [], categories: [], subgroups: [], placeKinds: [], sort: "page", status: "", frequency: "", min: "", max: "", connectedOnly: false, costsOnly: false, channelsOnly: false, offerings: []
+    place: "", groups: [], categories: [], subgroups: [], placeKinds: [], sort: "page", status: "", frequency: "", min: "", max: "", connectedOnly: false, costsOnly: false, channelsOnly: false, offerings: [], stages: []
 };
 
 /** The top-level places, in the order Belongs to offers them. */
@@ -597,6 +600,9 @@ export function filterFloor(rows: readonly FloorRow[], filter: FloorFilter): Flo
             return false;
         }
         if (filter.offerings.length > 0 && !(row.offeringIds ?? []).some(id => filter.offerings.includes(id))) {
+            return false;
+        }
+        if (filter.stages.length > 0 && !(row.channel?.stages ?? []).some(stage => filter.stages.includes(stage))) {
             return false;
         }
         if (filter.place !== "" && placeOf(row) !== filter.place) {

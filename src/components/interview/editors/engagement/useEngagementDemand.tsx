@@ -16,7 +16,7 @@ import StrategyTextArea from "../../fields/StrategyTextArea.tsx";
 import FoldArrow from "../../fields/FoldArrow.tsx";
 import { DEMAND_COUNT_LIMITS, SECTIONS, DEMAND_BUY_ONCE, DEMAND_BUY_MONTHLY, DEMAND_BUYING_HELP, DEMAND_BY_FIGURE, DEMAND_BY_CALCULATION, DEMAND_CALCULATION_HELP, DEMAND_SOURCE_CHANNEL_HELP, DEMAND_ASSUMPTIONS_PLACEHOLDER, DEMAND_SOURCE_FORMULA_HELP, DEMAND_ACTIVE_CLIENTS_HELP, DEMAND_MONTHS_TO_NORMAL_HELP, capitalized, channelChoices, numberStep } from "../BusinessEngagementModel.ts";
 import { offeringStartsById } from "../../../../framework/engine/EffectiveAnswers.ts";
-import { demandSourceOf, demandSuggestions } from "../../../../framework/engine/JourneySuggestions.ts";
+import { demandSourceOf, demandSuggestions, funnelIsTrial, monthsToClose } from "../../../../framework/engine/JourneySuggestions.ts";
 import { BusinessStep } from "../../cards/BusinessCardFields.tsx";
 import { DEMAND_BLOCK_HELP } from "./shared.tsx";
 import { EngagementBox, EngagementBoxes, EngagementCard, EngagementSection, useSectionFolds } from "./EngagementCard.tsx";
@@ -207,7 +207,8 @@ export function useEngagementDemand(earlier: Earlier) {
                     )}
                 </span>
             );
-            const remove = (
+            // (With All only, as the adds: owner, 2026-11-14 11:51.)
+            const remove = showsAll(segment.id) && (
                 <BusinessRemove
                     what={capitalized(what)}
                     disabled={disabled}
@@ -271,9 +272,14 @@ export function useEngagementDemand(earlier: Earlier) {
                     />
                 </BusinessField>
             );
+            // (THE FUNNEL'S MIDDLE STEP, a trial where a Profile compares options by a demo, trial or sample (D1): "Tried it (%)"; doc 50, section 2.5.)
+            const trial = type?.id === "funnel" && funnelIsTrial(segment, identity);
+            const shown = (field: (typeof DEMAND_SOURCES)[number]["fields"][number]) => trial && field.key === "qualified"
+                ? { ...field, label: "Tried it (%)", help: "The share of the prospects that take the demo, trial or sample (your Profiles compare options that way)." }
+                : field;
             const figures = type && !excluded && (
                 calculated
-                    ? type.fields.map(field => numberField(
+                    ? type.fields.map(shown).map(field => numberField(
                         field.label,
                         field.help,
                         field.label + ", " + what,
@@ -298,7 +304,17 @@ export function useEngagementDemand(earlier: Earlier) {
                         NUMBER_LIMITS.volume
                     )
             );
-            const noteLine = note && <p className="business-demand-source-note">{note}</p>;
+            // (THE TIME TO BUY, read only, on the Sales funnel and Contracts sources: from "Who decides to buy?" and how they decide; doc 50, section 2.5.)
+            const close = type && !excluded && (type.id === "funnel" || type.id === "contracts") ? monthsToClose(segment, identity) : null;
+            const closeText = close
+                ? "Sales arrive about " + (close.low === close.high ? close.low + (close.low === 1 ? " month" : " months") : close.low + " to " + close.high + " months") + " after first contact, as your buyers decide (Who decides to buy?)."
+                : "";
+            const noteLine = (note || closeText) && (
+                <>
+                    {note && <p className="business-demand-source-note">{note}</p>}
+                    {closeText && <p className="business-demand-source-note business-demand-close">{closeText}</p>}
+                </>
+            );
             const basis = type && !excluded && (
                 <BusinessField
                     label="Basis"

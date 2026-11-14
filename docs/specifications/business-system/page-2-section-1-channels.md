@@ -679,3 +679,5 @@ Each channel cell has one button, **+ Add expense**, that opens a list of the wa
 Removing a channel removes the template cards it made that nothing else uses, and keeps any card the user linked as existing.
 
 The cost of a channel is read by Page 4 from its cards: payment-processor and marketplace fees are calculated lines (Channel Fee Table by card name, rates from Global Settings), and royalties, affiliate and agent commissions are Percentage billing lines whose rate is the card's override, then its price, then the Global Settings default.
+
+- **2026-11-14 (owner, 11:51 to 12:41).** A floating channel card's own x shows with All only; its inner x (a stage's, an action's, an expense's, a linked action's) in both. The action lines' and the linked-action chips' x is the in-cell x (`CellRemoveButton`), inside the cell at its right end; a chip is 32px tall (`--chip-height`). A Direct Payment, Website or Marketplace subchannel's card shows its Fees under its Expenses, read from the Global Settings' Channel Fee Table (doc 50, 1.4).

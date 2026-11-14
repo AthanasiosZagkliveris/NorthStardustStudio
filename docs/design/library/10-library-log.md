@@ -6,6 +6,7 @@ Every change to an asset of the library: added, edited, placed (and where), move
 
 | Id | Date | Asset | Change | What | Where | Note |
 |---|---|---|---|---|---|---|
+| L0687 | 2026-11-14 | BTN.001 | edited | box button: variants |  | owner, 2026-11-14 12:29 to 12:38: the in-cell x (CellRemoveButton), a variant of the box button, 24px, frameless, inside the action lines and the expense chips |
 | L0686 | 2026-10-30 | TIL.001 | moved | TIL.001 moved | from Identity System / 2. Organization / 2. Founders & Capability / Capability to Identity System / 2. Legal Entity / 2. Founders & Capability / Capability |  |
 | L0685 | 2026-10-30 | TIL.001 | moved | TIL.001 moved | from Identity System / 2. Organization / 2. Founders & Capability / Jordan Ellis to Identity System / 2. Legal Entity / 2. Founders & Capability / Jordan Ellis |  |
 | L0684 | 2026-10-30 | TIL.001 | moved | TIL.001 moved | from Identity System / 2. Organization / 1. Legal Entity / Expenses to Identity System / 2. Legal Entity / 1. Legal Entity / Expenses |  |

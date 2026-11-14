@@ -121,3 +121,5 @@ A card needs an answer in every field that is not behind an optional tick box (`
 | How tiles, frames, cards, rails and dialogs are built | `ai/tile-and-card-pattern.md` |
 | The kinds of card and their code | `ai/card-kinds.md` |
 | What is still open for this page | Document 5, section 5.5.4.2 |
+
+- **2026-11-14 (owner, 11:51).** The Inventory's Belongs to: under Offering, Journey Stages (All first, then the stages a channel uses a card of the place at), working as the Offerings list: ticked, only the channel expenses used at one of them, and the Journey column names only the ticked stages.

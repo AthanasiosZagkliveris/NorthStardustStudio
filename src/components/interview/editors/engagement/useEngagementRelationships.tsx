@@ -26,7 +26,7 @@ import { BUSINESS_CHANNEL_ALL_OFFERINGS, BUSINESS_CHANNEL_CATEGORIES, BUSINESS_C
 import { BusinessAddButton, BusinessEmpty, BusinessNote, BusinessRemove, BusinessStep, BusinessTicks } from "../../cards/BusinessCardFields.tsx";
 import FieldRow from "../../fields/FieldRow.tsx";
 import { SingleColumn } from "../foundation/shared.tsx";
-import { EngagementBox, EngagementBoxes, EngagementCard, ScopeChoice, type OptionScope } from "./EngagementCard.tsx";
+import { EngagementBox, EngagementBoxes, EngagementCard } from "./EngagementCard.tsx";
 import { autoRelationshipTypes, channelKey, journeySuggestions, startGoals, suggestionCovered, type ChannelSuggestion } from "../../../../framework/engine/JourneySuggestions.ts";
 import { BUSINESS_JOURNEY_STAGES } from "../../../../framework/engine/AnswerUtils.ts";
 import { summaryText } from "../../cards/cardSummary.ts";
@@ -52,12 +52,7 @@ export function useEngagementRelationships(earlier: Earlier) {
     const [channelViews, setChannelViews] = useState<Readonly<Record<string, "channels" | "stages">>>({});
     // (A stage's dialog in the Journey Stages view: its subchannels as a table, until Tiles is chosen; owner, 2026-11-12 19:54: "The default should be a table".)
     const [stageViews, setStageViews] = useState<Readonly<Record<string, "tiles" | "table">>>({});
-    // (What each Segment's dialogs offer, From your answers until All is chosen: ScopeChoice.)
-    const [scopes, setScopes] = useState<Readonly<Record<string, OptionScope>>>({});
-    const showsAll = (segmentId: string) => scopes[segmentId] === "all";
-    /** The From your answers / All choice at the head of a Segment's three dialogs: one choice, shared by the three. */
-    const scopeChoice = (segmentId: string) => <ScopeChoice group={"option-scope-" + segmentId} value={scopes[segmentId] ?? "answers"} onChange={(next) => setScopes(current => ({ ...current, [segmentId]: next }))} />;
-    const { channelCategoryFoldKey, channelTileId, channelsFor, disabled, folds, noPhysical, foundationLink, identity, storedOfferingRelationshipsOf, interactionOf, offeringRelationshipsOf, segmentOf, typeOf, updateInteraction, updateOfferingRelationships, updateSegment, updateType } = earlier;
+    const { scopeChoice, showsAll, channelCategoryFoldKey, channelTileId, channelsFor, disabled, folds, noPhysical, foundationLink, identity, storedOfferingRelationshipsOf, interactionOf, offeringRelationshipsOf, segmentOf, typeOf, updateInteraction, updateOfferingRelationships, updateSegment, updateType } = earlier;
 
     /**
      * 1. CUSTOMER CHANNEL AS TILES: a tile for each channel (the group of subchannels under one category), listing its subchannels; pressing it opens that channel's
@@ -593,7 +588,8 @@ export function useEngagementRelationships(earlier: Earlier) {
             // card's title; owner, 2026-11-13 00:27), and its x in the card's x column while the Offering has another type (owner, 2026-11-13 12:32: the cards
             // "follow the rules (colour bands, x buttons)").
             const typeLabelOf = (typeId: string) => TYPE_LABELS[typeId] ?? "Relationship Type";
-            const removeType = (typeId: string) => kept.types.length > 1
+            // (With All only, as the adds: owner, 2026-11-14 11:51.)
+            const removeType = (typeId: string) => kept.types.length > 1 && showsAll(segment.id)
                 ? <BusinessRemove what={typeLabelOf(typeId) + " Relationship Type for " + offeringName(offeringId)} disabled={disabled} onRemove={() => removeRelationshipType(segment, offeringId, typeId)} />
                 : undefined;
             const ownCard = typeOnly !== undefined && kept.types.includes(typeOnly);

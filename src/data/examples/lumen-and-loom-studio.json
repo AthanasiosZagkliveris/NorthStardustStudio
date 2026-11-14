@@ -2901,7 +2901,7 @@
                       "buy": "60"
                     },
                     "basis": "Past participants bring friends: about 20 introductions a month, three in five book.",
-                    "channelId": ""
+                    "channelId": "channel-segment-8lu427u5-referral-affiliates-customer-referral"
                   }
                 ],
                 "recurring": false,
@@ -2934,7 +2934,7 @@
                       "buy": "30"
                     },
                     "basis": "Designers recommend us to other studios: about 5 introductions a month, three in ten commission.",
-                    "channelId": ""
+                    "channelId": "channel-segment-majxtl1u-referral-affiliates-customer-referral"
                   }
                 ],
                 "recurring": false,
@@ -6587,12 +6587,44 @@
     "onCostRate": "",
     "channelFees": [
       {
+        "id": "fee-uk0lu",
+        "channel": "Stripe Terminal",
+        "commission": "1.4",
+        "fixedFee": "0.10",
+        "chargeback": "0.5",
+        "note": "In person, UK cards; checked 14/11/2026 on Stripe's UK pricing page"
+      },
+      {
         "id": "fee-kkmhuxy3",
         "channel": "Stripe",
+        "commission": "1.5",
+        "fixedFee": "0.20",
+        "chargeback": "0.5",
+        "note": "UK standard cards online (premium cards 1.9% + 20p, EEA cards 2.5% + 20p); checked 14/11/2026 on Stripe's UK pricing page"
+      },
+      {
+        "id": "fee-uk2lu",
+        "channel": "SumUp",
+        "commission": "1.69",
+        "fixedFee": "0",
+        "chargeback": "0.5",
+        "note": "In person (payment links and invoices 2.5%); checked 14/11/2026 on SumUp's UK pricing page"
+      },
+      {
+        "id": "fee-uk3lu",
+        "channel": "Shopify Payments",
         "commission": "2",
         "fixedFee": "0.25",
         "chargeback": "0.5",
-        "note": "The default rate for bad debts"
+        "note": "Basic plan, online (in person 1.7%); checked 14/11/2026 on Shopify's UK pricing page"
+      },
+      {
+        "id": "fee-uk4lu",
+        "channel": "Etsy",
+        "commission": "10.5",
+        "fixedFee": "0.20",
+        "chargeback": "0",
+        "note": "6.5% transaction fee + 4% + 20p payment processing, and about 16p a listing; checked 14/11/2026 on Etsy's fee pages"
       },
       {
         "id": "fee-2ulpet4k",
@@ -6600,7 +6632,7 @@
         "commission": "3.5",
         "fixedFee": "0.35",
         "chargeback": "1",
-        "note": "Higher risk"
+        "note": "Not checked yet: read PayPal's UK merchant fees page before relying on it"
       },
       {
         "id": "fee-d5crvyja",

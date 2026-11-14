@@ -14,6 +14,18 @@ export function aboveTipPosition(at: DOMRect, size: DOMRect, alignRight = false)
     };
 }
 
+/** Whether a tooltip placed there would cover a control the person may want next (a button, a field, a select): sampled at its corners and its middle. */
+function coversControl(left: number, top: number, size: DOMRect, own: HTMLElement): boolean {
+    const points = [[left + 2, top + 2], [left + size.width - 2, top + 2], [left + 2, top + size.height - 2], [left + size.width - 2, top + size.height - 2], [left + size.width / 2, top + size.height / 2]];
+    return points.some(([x, y]) => {
+        const hit = document.elementFromPoint(x, y)?.closest("button, select, input, textarea, a[href], [role=combobox], [contenteditable=true]");
+        return !!hit && !own.contains(hit) && !hit.contains(own);
+    });
+}
+
+/** ONE TOOLTIP AT A TIME, app-wide (owner, 2026-11-14 12:40: two "Linked to 2 resources" tips showed at once): the one opened last closes the one before. */
+let closeOpenTip: (() => void) | null = null;
+
 /**
  * THE APP'S TOOLTIP ABOVE ITS ICON, by default (the card structure's display rules): pointing at an icon or focusing it shows the dark label above it,
  * centred on it and kept inside the window; below it only where there is no room above. Escape closes it. Nothing but the label's text is the icon's
@@ -41,7 +53,19 @@ export function useAboveTip<T extends HTMLElement>(text: string, options: {
     node: ReactNode;
 } {
 
-    const [open, setOpen] = useState(false);
+    const [open, setOpenState] = useState(false);
+    const close = useRef(() => setOpenState(false));
+    const setOpen = (next: boolean) => {
+        if (next) {
+            if (closeOpenTip && closeOpenTip !== close.current) {
+                closeOpenTip();
+            }
+            closeOpenTip = close.current;
+        } else if (closeOpenTip === close.current) {
+            closeOpenTip = null;
+        }
+        setOpenState(next);
+    };
     const anchor = useRef<T | null>(null);
     const tip = useRef<HTMLDivElement | null>(null);
     const [position, setPosition] = useState<{ left: number; top: number } | null>(null);
@@ -55,7 +79,13 @@ export function useAboveTip<T extends HTMLElement>(text: string, options: {
             return;
         }
         const place = () => {
-            setPosition(aboveTipPosition((options.box ? options.box(icon) : icon).getBoundingClientRect(), panel.getBoundingClientRect(), options.alignRight));
+            // (Above its box; under it where above would cover a control and under does not -- a tip never hides the select or the button beside it.)
+            const box = (options.box ? options.box(icon) : icon).getBoundingClientRect();
+            const size = panel.getBoundingClientRect();
+            const above = aboveTipPosition(box, size, options.alignRight);
+            const below = { left: above.left, top: box.bottom + 6 };
+            const fits = below.top + size.height <= window.innerHeight - 8;
+            setPosition(above.top < box.top && coversControl(above.left, above.top, size, icon) && fits && !coversControl(below.left, below.top, size, icon) ? below : above);
         };
         place();
         window.addEventListener("scroll", place, true);

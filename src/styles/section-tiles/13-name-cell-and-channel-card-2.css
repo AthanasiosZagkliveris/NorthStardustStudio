@@ -702,3 +702,23 @@ label:has(> input[type="checkbox"]) > :not(input) {
     left: 0.2em;
 
 }
+
+/* A PAYING SUBCHANNEL'S FEES (doc 50, section 1.4), under its expenses in the same section, 12px under them; their lines one under another, the link to the
+   Global Settings last. */
+.business-subchannel-card .business-channel-expenses > .business-channel-fees {
+
+    margin-top: var(--gap-12);
+
+}
+
+.business-subchannel-card .business-channel-fees > .business-channel-cost-summary {
+
+    white-space: normal;
+
+}
+
+.business-subchannel-card .business-channel-fees > .business-channel-fee-link {
+
+    align-self: flex-start;
+
+}

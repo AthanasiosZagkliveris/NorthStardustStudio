@@ -236,3 +236,21 @@ describe("the Inventory's remaining calls (owner, 2026-11-13 16:50)", () => {
         expect(filterFloor([channel], { ...DEFAULT_FLOOR_FILTER, placeKinds: ["resource"] }).map(entry => entry.id)).toEqual(["kit"]);
     });
 });
+
+describe("the Inventory's Journey Stages under Belongs to (owner, 2026-11-14 11:51)", () => {
+    const row = (id: string, stages: readonly string[] | null): FloorRow => ({
+        id, tone: stages ? "channel" : "offering", kind: "resource", name: id, path: ["Offering", "Resources"], status: "", statusLabel: "", frequency: "", frequencyLabel: "", amount: null, links: [],
+        ...(stages ? { channel: { places: [], offerings: [], stages, actions: [], colour: 0, linkIds: [], behaviour: "" } } : {})
+    } as unknown as FloorRow);
+    const rows = [row("shop", ["Evaluation", "Purchase"]), row("reader", ["Purchase"]), row("van", ["Delivery"]), row("yarn", null)];
+    const ids = (stages: readonly string[]) => filterFloor(rows, { ...DEFAULT_FLOOR_FILTER, place: "offering", stages }).map(found => found.id);
+
+    test("All (no stage ticked) keeps every card of the place", () => {
+        expect(ids([])).toEqual(["shop", "reader", "van", "yarn"]);
+    });
+
+    test("a stage ticked keeps the channel cards used at it; two ticked keep either", () => {
+        expect(ids(["Purchase"])).toEqual(["shop", "reader"]);
+        expect(ids(["Evaluation", "Delivery"])).toEqual(["shop", "van"]);
+    });
+});

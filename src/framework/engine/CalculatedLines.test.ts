@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, test } from "vitest";
 
 import {
     asBusinessCapabilityValue,
@@ -6,7 +6,7 @@ import {
     createBusinessPartner,
     createBusinessResourceSlot
 } from "./AnswerUtils";
-import { calculatedLines, channelFeeRowFor, effectiveIncomeTaxRate, monthIndexOf } from "./CalculatedLines";
+import { calculatedLines, channelFeeFor, channelFeeRowFor, effectiveIncomeTaxRate, monthIndexOf } from "./CalculatedLines";
 import { financialForecast, type ForecastTable } from "./FinancialForecast";
 import {
     asFinancialFoundationValue,
@@ -14,7 +14,7 @@ import {
     consolidateCosts,
     createRevenueStream
 } from "./FinancialModel";
-import { createGlobalSettings, type GlobalSettingsValue } from "./GlobalSettings";
+import { channelFeeOf, createGlobalSettings, type GlobalSettingsValue } from "./GlobalSettings";
 
 /* I5: the calculated lines (on-costs, fees, royalties, commissions, depreciation, amortisation, inventory, the accumulated start-up row, income tax). */
 
@@ -97,10 +97,10 @@ describe("channel fees, royalties and partner commissions (X4, X5)", () => {
         offering: { providers: [supplier(name, "platforms-payments", { costOption: "payment-gateway", startDate: "2027-01-01", cost: cost(price, "percent-revenue") })] }
     });
 
-    it("the Channel Fee Table, by the card's name: Stripe on 100,000 of revenue and 4,000 orders is 3,500", () => {
+    it("the Channel Fee Table, by the card's name: Stripe on 100,000 of revenue and 4,000 orders is 2,800", () => {
         const { result } = scenario(gateway("Stripe", "9"), {}, { price: "25", volume: "4000" });
-        // (April: revenue 100,000, 4,000 orders: 2,000 + 500 + 1,000.)
-        expect(result.percentageLines[0].values[3]).toBe(3500);
+        // (April: revenue 100,000, 4,000 orders: 1,500 + 500 + 800, at the UK rate checked 14/11/2026.)
+        expect(result.percentageLines[0].values[3]).toBe(2800);
         expect(result.percentageLines[0].kind).toBe("channel-fee");
     });
 
@@ -305,4 +305,26 @@ describe("the forecast with the calculated lines", () => {
         expect(labels).not.toContain("Accumulated Start-up & Pre-Operating Expenses");
     });
 
+});
+
+describe("the fees a subchannel pays (doc 50, section 1.4; owner, 2026-11-14 12:00)", () => {
+    const table = createGlobalSettings().channelFees;
+
+    test("the defaults start from the checked UK rates, Stripe Terminal before Stripe, PayPal marked not checked", () => {
+        expect(channelFeeRowFor("Stripe Terminal reader", table)?.commission).toBe("1.4");
+        expect(channelFeeRowFor("Stripe", table)).toMatchObject({ commission: "1.5", fixedFee: "0.20" });
+        expect(channelFeeRowFor("PayPal", table)?.note).toMatch(/^Not checked yet/);
+        expect(table.filter(row => row.channel !== "PayPal" && row.channel !== "Wolt, Amazon").every(row => /checked 14\/11\/2026/.test(row.note))).toBe(true);
+    });
+
+    test("a subchannel is matched by its own name, else by its expense cards' names", () => {
+        expect(channelFeeFor(["Etsy", "Etsy listing fees"], table)?.by).toBe("Etsy");
+        expect(channelFeeFor(["Card", "Card reader", "SumUp card reader"], table)).toMatchObject({ by: "SumUp card reader", row: { channel: "SumUp" } });
+        expect(channelFeeFor(["Online Store", "Shopify Basic"], table)).toBeUndefined();
+    });
+
+    test("the fee on a sale: the sale x (commission + chargeback) + the fixed fee (Etsy on a £95 sale: about £10.18)", () => {
+        const etsy = channelFeeRowFor("Etsy", table)!;
+        expect(channelFeeOf(etsy, 95, 1)).toBeCloseTo(10.18, 1);
+    });
 });
