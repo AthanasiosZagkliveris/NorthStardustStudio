@@ -211,31 +211,7 @@
 
 }
 
-/* Two or more values in a cell: one under the other, each with a drawn bullet
-   (--bullet-size, --bullet-gap, as the shown lists), all styled alike. */
-.channel-resource-bullets > li{
-
-    position:relative;
-
-    padding-left:calc(var(--bullet-size) + var(--bullet-gap));
-
-}
-
-.channel-resource-bullets > li::before{
-
-    content:"";
-
-    position:absolute;
-    left:0;
-    top:calc(0.7em - var(--bullet-size) / 2);
-
-    width:var(--bullet-size);
-    height:var(--bullet-size);
-
-    border-radius:50%;
-    background:currentColor;
-
-}
+/* (Two or more values in a cell stand one under another with a line between them, no bullets: .channel-resource-lined, below; owner, 2026-11-14 19:08.) */
 
 /* NUMBERED VALUES (a stage's actions, owner, 2026-11-13 16:12: "place divide lines between the actions ... and place numbers"): 1, 2, 3 in the bullets' place,
    a line between one and the next across the whole cell, in the table's line colour. */
@@ -283,11 +259,10 @@
 }
 
 /* A single value: plain text, indented to where a bullet list's text starts. */
+/* (A single value stands where a list's words start, at the cell's padding: the lists have no bullets now; owner, 2026-11-14 19:08.) */
 .channel-resource-single{
 
     display:block;
-
-    padding-left:calc(var(--bullet-size) + var(--bullet-gap));
 
 }
 
@@ -421,8 +396,28 @@
    bullet points, place dividing lines"): the numbered list's line (1px, the table's line colour) and gaps, its words where the cell's start. */
 .channel-resource-lined > li + li{
 
-    padding-top:var(--space-label);
+    margin-top:var(--space-label);
+
+    /* EDGE TO EDGE (owner, 2026-11-14 19:09: "Make the dividing lines extend from edge to edge"): the line runs across the whole cell, its padding (10px a side)
+       taken back by the item and given to its words, as the numbered list's lines do. */
+    margin-inline:-10px;
+    padding:var(--space-label) 10px 0;
 
     border-top:1px solid var(--table-line);
+
+}
+
+/* EDGE TO EDGE (owner, 2026-11-14 19:09: "Make the dividing lines extend from edge to edge"): the rule between a channel and its subchannel -- or a Type and
+   "Channel" -- runs across the whole cell, its padding (10px a side) taken back. */
+td .channel-resource-place,
+td .channel-resource-place-rule{
+
+    display:block;
+
+}
+
+td .channel-resource-place-rule{
+
+    margin-inline:-10px;
 
 }

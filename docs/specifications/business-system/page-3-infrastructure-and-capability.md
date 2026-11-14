@@ -131,3 +131,5 @@ A card needs an answer in every field that is not behind an optional tick box (`
 - **2026-11-14 (owner, 17:44).** The Inventory's Belongs to: the place, then Type (every place's), Category and Group, then the Offering's own Offerings and Journey Stages; Journey Stages only while channel expenses are in view (no Type ticked, or Channel). Delivery and capacity: doc 51 (a proposal: a planning ceiling at 85%, the sales the busiest founder can deliver, when to add capacity, an equipment limit, customers in one session).
 
 - **2026-11-14 (owner, 18:17).** The Inventory's side panel in three groups: Show (Include, Belongs to, Status, Frequency, Linked, Costs, Channel Costs), Order (Sort, with the cost order's arrows and its "i"), Table (Columns, in the Table view only); From and To only while Costs is ticked.
+
+- **2026-11-14 (owner, 19:08 and 19:09).** The Inventory's table: lines between a cell's values, no bullets, each line across the whole cell; Offering and Cost per Offering line for line.

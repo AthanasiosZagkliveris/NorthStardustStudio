@@ -627,7 +627,7 @@ export default function CapabilityOverview({ rows, format = String, currency = "
                 <span className="channel-resource-place-channel">{top}</span>
                 <span className="channel-resource-place-rule" aria-hidden="true" />
                 {below.length > 1
-                    ? <ul className="channel-resource-bullets channel-resource-subs">{below.map((sub, at) => <li key={at}>{sub}</li>)}</ul>
+                    ? <ul className="channel-resource-list channel-resource-lined channel-resource-subs">{below.map((sub, at) => <li key={at}>{sub}</li>)}</ul>
                     : <span className="channel-resource-place-sub">{below[0]}</span>}
             </div>
         );

@@ -1548,6 +1548,15 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow, .notepad-close) {
 
 }
 
+/* EDGE TO EDGE in a relationship type's stage column (owner, 2026-11-14 19:09): the line between two channels runs from the card's side to the column's line,
+   the room on each side (the cell's 12px) taken back and given to the words. */
+.business-relationship-stage-head .fold-list-group + .fold-list-group {
+
+    margin-inline: calc(-1 * var(--space-cell));
+    padding-inline: var(--space-cell);
+
+}
+
 .business-capability-card-link.fold-list-line-bullet {
 
     position: relative;
