@@ -48,7 +48,7 @@ Option A, read only. A subchannel the founder sells through is where the fee is 
 
 ### 2.1 What the app asks today
 
-- **Customer Source, by kind:** Referrals (introductions a month, Buy %); Sales funnel (prospects a month, Qualified %, Buy %); Repeat customers (Buy Again %, Times Each); Contracts or tenders (bids a year, Won %, units a contract); Marketplace or walk-in (visitors a month, Buy %); Other (a figure). Each with its Channel, Estimated (Calculate or a figure) and a Basis.
+- **Customer Source, by kind:** Referrals (introductions a month, Buy %); Sales funnel (prospects a month, Qualified %, Buy %); Repeat customers (Buy Again %, Times Each); Contracts or tenders (bids a year, Won %, units a contract); Visitors, formerly "Marketplace or walk-in" (visitors a month, Buy %; renamed 2026-11-14, its id `marketplace` kept); Other (a figure). Each with its Channel, Estimated (Calculate or a figure) and a Basis.
 - **Customers Buy:** one sale at a time, or every month until they cancel, read from the Offering's terms (O3); Cancel / Month (%) for the second.
 - **Expected Sales** and **Assumptions**; the ramp, price, items per order and delivery charge are on Sustainability.
 
