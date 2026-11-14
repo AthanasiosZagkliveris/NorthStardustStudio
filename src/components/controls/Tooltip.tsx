@@ -16,6 +16,10 @@ export function aboveTipPosition(at: DOMRect, size: DOMRect, alignRight = false)
 
 /** Whether a tooltip placed there would cover a control the person may want next (a button, a field, a select): sampled at its corners and its middle. */
 function coversControl(left: number, top: number, size: DOMRect, own: HTMLElement): boolean {
+    // (Where the page cannot be hit-tested -- a page drawn without a layout -- nothing is covered.)
+    if (typeof document.elementFromPoint !== "function") {
+        return false;
+    }
     const points = [[left + 2, top + 2], [left + size.width - 2, top + 2], [left + 2, top + size.height - 2], [left + size.width - 2, top + size.height - 2], [left + size.width / 2, top + size.height / 2]];
     return points.some(([x, y]) => {
         const hit = document.elementFromPoint(x, y)?.closest("button, select, input, textarea, a[href], [role=combobox], [contenteditable=true]");
@@ -23,8 +27,38 @@ function coversControl(left: number, top: number, size: DOMRect, own: HTMLElemen
     });
 }
 
+/**
+ * WHERE A TIP STANDS SO IT COVERS NO CONTROL (owner, 2026-11-14 12:40: a tip over the Purchase select): above its box (aboveTipPosition); where that covers a
+ * control (a select, a button, a field), the first place that covers none -- under the box, then beside the control, after its right edge or before its left, on its
+ * middle; above where every place covers one. Every tooltip of the app stands by it (the icons', the action symbols', the titles').
+ */
+export function tipPlace(box: DOMRect, size: DOMRect, own: HTMLElement, alignRight = false): { left: number; top: number } {
+    const above = aboveTipPosition(box, size, alignRight);
+    // (Beside the control itself, not its box: next to the icon the person points at.)
+    const icon = own.getBoundingClientRect();
+    const middle = Math.max(8, Math.min(icon.top + icon.height / 2 - size.height / 2, window.innerHeight - 8 - size.height));
+    const places = [
+        above,
+        { left: above.left, top: box.bottom + 6 },
+        { left: icon.right + 6, top: middle },
+        // (After it, at the window's edge where the window is narrow, so long as it stays clear of the control.)
+        { left: Math.max(icon.right + 1, window.innerWidth - 8 - size.width), top: middle },
+        { left: icon.left - 6 - size.width, top: middle }
+    ].filter(place => place.left >= 8 && place.left + size.width <= window.innerWidth - 8 && place.top >= 8 && place.top + size.height <= window.innerHeight - 8);
+    return places.find(place => !coversControl(place.left, place.top, size, own)) ?? above;
+}
+
 /** ONE TOOLTIP AT A TIME, app-wide (owner, 2026-11-14 12:40: two "Linked to 2 resources" tips showed at once): the one opened last closes the one before. */
 let closeOpenTip: (() => void) | null = null;
+
+/** The event a tip of its own sends as it opens: the title tips (TitleTooltips) close theirs. */
+export const OWN_TIP_EVENT = "app-tooltip:own-open";
+
+/** Closes the tip of its own that is open (a title tip opening). */
+export function closeOwnTip() {
+    closeOpenTip?.();
+    closeOpenTip = null;
+}
 
 /**
  * THE APP'S TOOLTIP ABOVE ITS ICON, by default (the card structure's display rules): pointing at an icon or focusing it shows the dark label above it,
@@ -44,6 +78,8 @@ export function useAboveTip<T extends HTMLElement>(text: string, options: {
     props: {
         ref: RefObject<T | null>;
         "aria-describedby": string | undefined;
+        /** It draws its own tip: the title tips leave it alone. */
+        "data-own-tip": string;
         onMouseEnter: () => void;
         onMouseLeave: () => void;
         onFocus: () => void;
@@ -61,6 +97,7 @@ export function useAboveTip<T extends HTMLElement>(text: string, options: {
                 closeOpenTip();
             }
             closeOpenTip = close.current;
+            document.dispatchEvent(new CustomEvent(OWN_TIP_EVENT));
         } else if (closeOpenTip === close.current) {
             closeOpenTip = null;
         }
@@ -79,13 +116,7 @@ export function useAboveTip<T extends HTMLElement>(text: string, options: {
             return;
         }
         const place = () => {
-            // (Above its box; under it where above would cover a control and under does not -- a tip never hides the select or the button beside it.)
-            const box = (options.box ? options.box(icon) : icon).getBoundingClientRect();
-            const size = panel.getBoundingClientRect();
-            const above = aboveTipPosition(box, size, options.alignRight);
-            const below = { left: above.left, top: box.bottom + 6 };
-            const fits = below.top + size.height <= window.innerHeight - 8;
-            setPosition(above.top < box.top && coversControl(above.left, above.top, size, icon) && fits && !coversControl(below.left, below.top, size, icon) ? below : above);
+            setPosition(tipPlace((options.box ? options.box(icon) : icon).getBoundingClientRect(), panel.getBoundingClientRect(), icon, options.alignRight));
         };
         place();
         window.addEventListener("scroll", place, true);
@@ -100,6 +131,7 @@ export function useAboveTip<T extends HTMLElement>(text: string, options: {
         props: {
             ref: anchor,
             "aria-describedby": open ? id : undefined,
+            "data-own-tip": "",
             onMouseEnter: () => setOpen(true),
             onMouseLeave: () => setOpen(false),
             onFocus: () => setOpen(true),
