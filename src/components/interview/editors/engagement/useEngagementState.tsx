@@ -4,6 +4,7 @@
  */
 import { CSSProperties, FocusEvent, ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import GlobalSettingsLink from "../../fields/GlobalSettingsLink.tsx";
+import FoldArrow from "../../fields/FoldArrow.tsx";
 import { asGlobalSettings, channelFeeOf } from "../../../../framework/engine/GlobalSettings.ts";
 import { asFinancialSustainabilityValue } from "../../../../framework/engine/financial/revenueStored.ts";
 import { channelFeeFor } from "../../../../framework/engine/CalculatedLines.ts";
@@ -777,13 +778,20 @@ export function useEngagementState(props: BusinessEngagementEditorProps) {
             ...(Number.parseFloat(found.row.fixedFee) > 0 ? [money(Number.parseFloat(found.row.fixedFee)) + " an order"] : []),
             ...(Number.parseFloat(found.row.chargeback) > 0 ? [found.row.chargeback + "% for chargebacks"] : [])
         ].join(" + ") : "";
+        // (FOLDED AT FIRST, under a fold arrow as a card's Links are (owner, 2026-11-14 17:44: "In the Channels & Journey, fee's section, add a folded arrow"): the
+        // page's folds start open, so this one's key is held the other way round.)
+        const feeFold = "fees:" + channel.id;
+        const feesOpen = !folds.isOpen(feeFold);
         return (
             <div className="business-channel-resources business-channel-resources-sectioned business-channel-fees">
                     {/* (The heading is the link: to the Global Settings' Channel Fee Table, landing on the row it reads; owner, 2026-11-14 13:54: "Make the Fees a link".) */}
                     <div className="business-channel-resources-head">
-                        <GlobalSettingsLink className="business-channel-field-label business-channel-fee-link" land={found ? "channel-fee-" + found.row.id : "channel-fees"}>Fees</GlobalSettingsLink>
+                        <span className="business-capability-responsibilities-head business-channel-fees-head">
+                            <FoldArrow variant="label" open={feesOpen} name={(feesOpen ? "Minimise " : "Maximise ") + "Fees of " + (channel.name.trim() || "this subchannel")} onToggle={() => folds.toggle(feeFold)} />
+                            <GlobalSettingsLink className="business-channel-field-label business-channel-fee-link" land={found ? "channel-fee-" + found.row.id : "channel-fees"}>Fees</GlobalSettingsLink>
+                        </span>
                     </div>
-                    {found ? (
+                    {!feesOpen ? null : found ? (
                         <>
                             <p className="business-channel-cost-summary">{rate + " (" + found.row.channel + ")"}</p>
                             {found.row.note.trim() && <p className="business-channel-cost-summary">{found.row.note.trim()}</p>}

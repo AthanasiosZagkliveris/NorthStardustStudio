@@ -44,3 +44,13 @@ describe("each Offering's revenue a month (owner, 2026-11-14 14:17)", () => {
         expect(offeringMonthlyRevenue(demand, [{ offeringId: "a", price: "20", itemsPerOrder: "2" }, { offeringId: "b", price: "", itemsPerOrder: "" }])).toEqual({ a: 400 });
     });
 });
+
+describe("the Customer Source a subchannel's customers come by (owner, 2026-11-14 17:44)", () => {
+    test("a shop on the website brings visitors; a main website, a landing page or social media a sales funnel", async () => {
+        const { demandSourceOf } = await import("./JourneySuggestions.ts");
+        expect(demandSourceOf("Website", "Online Store")).toBe("marketplace");
+        expect(demandSourceOf("Website", "Main Website")).toBe("funnel");
+        expect(demandSourceOf("Social Media", "Instagram")).toBe("funnel");
+        expect(demandSourceOf("In Person", "Market / Pop-up")).toBe("marketplace");
+    });
+});

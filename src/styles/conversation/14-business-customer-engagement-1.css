@@ -1203,3 +1203,40 @@
     top:calc((var(--font-small) * var(--field-line) - var(--bullet-size)) / 2);
 
 }
+
+/* THE HEADING ROW'S LINES (owner, 2026-11-14 17:44: "place a horizontal dividing line above and below the Labels"): bold, as the stage columns' own (2px, the
+   card's divider colour), above and below the band of Journey Stage, Goals and Approach. */
+.legal-entity-org-section:has(> .business-relationship-stage-row[data-head]){
+
+    border-top:2px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge)) !important;
+    border-bottom:2px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge)) !important;
+
+}
+
+/* ONE LINE ACROSS A STAGE'S ROW (owner, 2026-11-14 17:44: "Fix the gaps, and alignment properly"): the stage's name, its first Goal and the first line of
+   its Approach stand on one line -- the middle of a 44px cell, as the Approach box's first line. */
+.business-relationship-stage-row:not([data-head]) .business-relationship-stage-name{
+
+    min-height:var(--card-cell-height);
+
+    align-items:center;
+
+}
+
+.business-relationship-stage-row:not([data-head]) > .legal-entity-radio-stack{
+
+    padding-top:calc((var(--card-cell-height) - var(--font-body) * var(--field-line)) / 2);
+
+}
+
+/* A STAGE'S TABLE AS A RECORD (owner, 2026-11-14 17:44): an action's symbols after its words, at the words' size, a small gap before each. */
+.stage-record-mark{
+
+    display:inline-flex;
+    vertical-align:middle;
+
+    margin-left:var(--gap-4);
+
+    color:var(--text-muted);
+
+}

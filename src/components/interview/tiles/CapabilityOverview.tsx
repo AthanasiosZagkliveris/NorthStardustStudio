@@ -350,35 +350,8 @@ export default function CapabilityOverview({ rows, format = String, currency = "
                         patch({ place: now as FloorFilter["place"], groups: [], categories: [], subgroups: [], placeKinds: [], offerings: [], stages: [] });
                     }}
                 />
-                {/* UNDER OFFERING, ITS OFFERINGS (owner, 2026-11-12 19:54: "Add Offerings list with the offering"): the Organisation's Offerings that a card here
-                    serves, by name; ticked, only the cards that serve one of them. */}
-                {filter.place === "offering" && servedOfferings.length > 0 && (
-                    <div className="capability-overview-menu-sub capability-overview-menu-titles">
-                        <strong>Offerings</strong>
-                        {/* ALL FIRST, TICKED UNTIL AN OFFERING IS (owner, 2026-11-13 16:12: "add an ALL option as default. So when clicking an offering the all
-                            deactivates"): ticking an Offering leaves All, ticking All -- or unticking every Offering -- comes back to it. */}
-                        <BusinessTicks
-                            name="Offerings"
-                            options={[{ id: ALL_OFFERINGS, label: "All" }, ...servedOfferings.map(offering => ({ id: offering.id, label: offering.name.trim() || "Unnamed Offering" }))]}
-                            chosen={filter.offerings.length > 0 ? filter.offerings : [ALL_OFFERINGS]}
-                            onChange={(next) => patch({ offerings: next.includes(ALL_OFFERINGS) && !filter.offerings.includes(ALL_OFFERINGS) && filter.offerings.length > 0 ? [] : next.filter(id => id !== ALL_OFFERINGS) })}
-                        />
-                    </div>
-                )}
-                {/* UNDER OFFERING, ITS JOURNEY STAGES, as its Offerings (owner, 2026-11-14 11:51: "add Journey Stages (and the ALL as the default), make it to work
-                    like the Offering"): the stages a channel uses a card here at; ticked, only those cards, and the Journey column names only the ticked stages. */}
-                {filter.place === "offering" && usedStages.length > 0 && (
-                    <div className="capability-overview-menu-sub capability-overview-menu-titles">
-                        <strong>Journey Stages</strong>
-                        <BusinessTicks
-                            name="Journey Stages"
-                            options={[{ id: ALL_OFFERINGS, label: "All" }, ...usedStages.map(stage => ({ id: stage, label: stage }))]}
-                            chosen={filter.stages.length > 0 ? filter.stages : [ALL_OFFERINGS]}
-                            onChange={(next) => patch({ stages: next.includes(ALL_OFFERINGS) && !filter.stages.includes(ALL_OFFERINGS) && filter.stages.length > 0 ? [] : next.filter(id => id !== ALL_OFFERINGS) })}
-                        />
-                    </div>
-                )}
-                {/* Step 2: the kinds that place has (several can be ticked). */}
+                {/* Step 2: the kinds that place has (several can be ticked) -- right after the place, as it applies to every place; the Offering's own lists follow it
+                    (owner, 2026-11-14 17:44: "optimise the user interface side panel structure"). */}
                 {filter.place !== "" && placeKinds.length > 0 && (
                     <div className="capability-overview-menu-sub">
                         <strong>Type</strong>
@@ -424,6 +397,34 @@ export default function CapabilityOverview({ rows, format = String, currency = "
                             options={subgroups.map(entry => ({ id: entry.key, label: entry.label }))}
                             chosen={filter.subgroups}
                             onChange={(next) => patch({ subgroups: next })}
+                        />
+                    </div>
+                )}
+                {/* UNDER OFFERING, ITS OFFERINGS (owner, 2026-11-12 19:54: "Add Offerings list with the offering"): the Organisation's Offerings that a card here
+                    serves, by name; ticked, only the cards that serve one of them. */}
+                {filter.place === "offering" && servedOfferings.length > 0 && (
+                    <div className="capability-overview-menu-sub capability-overview-menu-titles">
+                        <strong>Offerings</strong>
+                        {/* ALL FIRST, TICKED UNTIL AN OFFERING IS (owner, 2026-11-13 16:12: "add an ALL option as default. So when clicking an offering the all
+                            deactivates"): ticking an Offering leaves All, ticking All -- or unticking every Offering -- comes back to it. */}
+                        <BusinessTicks
+                            name="Offerings"
+                            options={[{ id: ALL_OFFERINGS, label: "All" }, ...servedOfferings.map(offering => ({ id: offering.id, label: offering.name.trim() || "Unnamed Offering" }))]}
+                            chosen={filter.offerings.length > 0 ? filter.offerings : [ALL_OFFERINGS]}
+                            onChange={(next) => patch({ offerings: next.includes(ALL_OFFERINGS) && !filter.offerings.includes(ALL_OFFERINGS) && filter.offerings.length > 0 ? [] : next.filter(id => id !== ALL_OFFERINGS) })}
+                        />
+                    </div>
+                )}
+                {/* UNDER OFFERING, ITS JOURNEY STAGES, as its Offerings (owner, 2026-11-14 11:51: "add Journey Stages (and the ALL as the default), make it to work
+                    like the Offering"): the stages a channel uses a card here at; ticked, only those cards, and the Journey column names only the ticked stages. */}
+                {filter.place === "offering" && usedStages.length > 0 && (filter.placeKinds.length === 0 || filter.placeKinds.includes("channel")) && (
+                    <div className="capability-overview-menu-sub capability-overview-menu-titles">
+                        <strong>Journey Stages</strong>
+                        <BusinessTicks
+                            name="Journey Stages"
+                            options={[{ id: ALL_OFFERINGS, label: "All" }, ...usedStages.map(stage => ({ id: stage, label: stage }))]}
+                            chosen={filter.stages.length > 0 ? filter.stages : [ALL_OFFERINGS]}
+                            onChange={(next) => patch({ stages: next.includes(ALL_OFFERINGS) && !filter.stages.includes(ALL_OFFERINGS) && filter.stages.length > 0 ? [] : next.filter(id => id !== ALL_OFFERINGS) })}
                         />
                     </div>
                 )}

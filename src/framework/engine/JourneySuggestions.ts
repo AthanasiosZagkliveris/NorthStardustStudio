@@ -339,8 +339,16 @@ const SOURCE_OF: Readonly<Record<string, string>> = {
     Website: "funnel", "Social Media": "funnel", Email: "funnel", Community: "funnel", "Online / Live": "funnel"
 };
 
-/** The Customer Source a channel's customers come by, from its category (as the Demand suggestions read it): "other" where the category says none. */
-export const demandSourceOf = (category: string) => SOURCE_OF[category] ?? "other";
+/**
+ * The subchannels whose customers come as VISITORS though their channel's come by a sales funnel: a shop on the website is visited and bought from there and
+ * then (visitors x the share who buy), where a main website or a landing page brings enquiries (owner, 2026-11-14 17:44: why does From your answers offer two
+ * Customer Sources for the Online Store?).
+ */
+const VISITED: Readonly<Record<string, readonly string[]>> = { Website: ["Online Store"] };
+
+/** The Customer Source a channel's customers come by, from its category and its subchannel (as the Demand suggestions read it): "other" where they say none. */
+export const demandSourceOf = (category: string, name = "") =>
+    (VISITED[category] ?? []).includes(name.trim()) ? "marketplace" : SOURCE_OF[category] ?? "other";
 
 /**
  * The Demand rows the Foundation proposes for one Offering (doc 28, 7.5): one for each Discover channel that serves it and is not yet among the channels that
@@ -354,7 +362,7 @@ export function demandSuggestions(segment: BusinessCustomerSegmentValue, offerin
         .filter(channel => channel.stages.includes("discovery") && (channel.offerings.includes(BUSINESS_CHANNEL_ALL_OFFERINGS) || channel.offerings.includes(offeringId)))
         .filter(channel => !used.includes(channel.id))
         .forEach(channel => out.push({
-            type: SOURCE_OF[channel.category] ?? "other",
+            type: demandSourceOf(channel.category, channel.name),
             channelId: channel.id,
             label: channel.name.trim() || channel.category,
             source: "a Discover channel that serves it"
