@@ -915,8 +915,9 @@
 
     display:grid;
 
-    /* Journey Stage and Goals as wide as their words ("Evaluation" and its "i"; "Grow" and its tick), the Approach the rest (owner, 2026-11-13 11:44). */
-    --stage-col:7.5rem;
+    /* Journey Stage and Goals as wide as their words ("Evaluation" and its "i"; "Grow" and its tick; a subchannel such as "Ambassador" after its bullet, whole:
+       owner, 2026-11-14 19:04), the Approach the rest (owner, 2026-11-13 11:44). */
+    --stage-col:8.5rem;
     --goals-col:5rem;
 
     grid-template-columns:var(--stage-col) var(--goals-col) minmax(0, 1fr);
@@ -1167,39 +1168,137 @@
 
 }
 
-.business-relationship-stage-name{
+/* THE HEADING ROW'S LINES (owner, 2026-11-14 17:44: "place a horizontal dividing line above and below the Labels"): bold, as the stage columns' own (2px, the
+   card's divider colour), above and below the band of Journey Stage, Goals and Approach. */
+.legal-entity-org-section:has(> .business-relationship-stage-row[data-head]){
 
-    display:flex;
-    align-items:flex-start;
+    border-top:2px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge)) !important;
+    border-bottom:2px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge)) !important;
 
 }
 
-.business-relationship-stage-channels .business-engagement-channel-list{
+/* ONE LINE ACROSS A STAGE'S ROW (owner, 2026-11-14 17:44: "Fix the gaps, and alignment properly"): the stage's name, its first Goal and the first line of
+   its Approach stand on one line -- the middle of a 44px cell, as the Approach box's first line. */
+.business-relationship-stage-row:not([data-head]) > .legal-entity-radio-stack{
+
+    padding-top:calc((var(--card-cell-height) - var(--font-body) * var(--field-line)) / 2);
+
+}
+
+/* A STAGE'S TABLE AS A RECORD (owner, 2026-11-14 17:44): an action's symbols at the words' size, muted. */
+.stage-record-mark{
+
+    display:inline-flex;
 
     color:var(--text-muted);
 
 }
 
-/* (In the stage's narrow column, at the small size, as a tile's lists; a long name wraps inside the column, never over its line.) */
-.business-relationship-stage-channels,
-.business-relationship-stage-channels .business-engagement-channel-list{
+/* A STAGE'S TABLE, AN ACTION'S CELL AS THE SUBCHANNEL CARD'S (owner, 2026-11-14 18:12: "The numbering at top and bottom cell parts"; 18:14: "The symbols, at
+   the cell's right side, vertically"): its order (the list's 1.) at the top left, its number in the page (#14) at the bottom left, small and muted, its words
+   beside them, its symbols in a column at the right, the link above the tag. */
+table[data-record] td[data-col="actions"] .channel-resource-numbered > li{
+
+    min-height:calc(2 * var(--table-font, var(--font-small)) * var(--field-line));
+
+    padding-left:2.5em;
+
+}
+
+table[data-record] td[data-col="actions"] .channel-resource-numbered > li + li{
+
+    padding-left:calc(10px + 2.5em);
+
+}
+
+.stage-record-action{
+
+    display:grid;
+    grid-template-columns:minmax(0, 1fr) auto;
+    column-gap:var(--gap-8);
+
+}
+
+.stage-record-marks{
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:var(--gap-4);
+
+}
+
+.stage-record-order{
+
+    position:absolute;
+    left:0;
+    bottom:0;
+
+    color:var(--text-muted);
+
+}
+
+table[data-record] td[data-col="actions"] .channel-resource-numbered > li + li .stage-record-order{
+
+    left:10px;
+
+}
+
+.stage-record-expenses{
+
+    margin-top:var(--gap-4);
 
     font-size:var(--font-small);
+    font-weight:400;
+    letter-spacing:normal;
     line-height:var(--field-line);
 
-    overflow-wrap:anywhere;
+    color:var(--text-muted);
 
 }
 
-.business-relationship-stage-channels{
+/* A STAGE'S FOLD (the shared FoldList, as a card's Links; owner, 2026-11-14 18:10): its first line on the row's line -- the middle of a 44px cell, as its Goals'
+   first tick and its Approach's first line --, and its channels kept inside the column, a long name cut by an ellipsis (its whole name the tooltip). */
+.business-relationship-stage-row:not([data-head]) > .business-relationship-stage-head{
 
-    color:var(--text-default);
+    padding-top:calc((var(--card-cell-height) - var(--font-body) * var(--field-line)) / 2);
 
 }
 
-.business-relationship-stage-channels > li::before,
-.business-relationship-stage-channels .business-engagement-channel-list > li::before{
+.business-relationship-stage-head > .business-capability-links,
+.business-relationship-stage-head .business-capability-card-link{
 
-    top:calc((var(--font-small) * var(--field-line) - var(--bullet-size)) / 2);
+    min-width:0;
+    max-width:100%;
+
+}
+
+/* A JOURNEY STAGE'S TABLE (owner, 2026-11-14 20:08): its heading row between two bold lines (2px, the table's line colour), as a relationship type's heading;
+   a bold line under a subchannel's name where its expenses follow, edge to edge; each expense its name, then its cost on a line of its own. */
+.capability-overview-table[data-bare][data-record] thead th{
+
+    border-top:2px solid var(--table-line);
+    border-bottom:2px solid var(--table-line);
+
+}
+
+.capability-overview-table[data-wrap][data-record] tbody th[data-col] > .stage-record-expenses{
+
+    display:block;
+
+    margin-inline:-10px;
+    width:calc(100% + 20px);
+    max-width:none;
+    box-sizing:border-box;
+    padding:var(--space-label) 10px 0;
+
+    border-top:2px solid var(--table-line);
+
+}
+
+.stage-record-expense-name,
+.stage-record-expense-cost{
+
+    display:block;
 
 }

@@ -158,7 +158,8 @@ describe("the Channel resources table (Customer Engagement, 1. Customer Channel)
         // Cost, Frequency, Behaviour, Channel (a place), Offerings, Journey stages, Actions
         expect(lists.slice(3)).toEqual([[], ["Mugs", "Plates"], ["Discover", "Evaluate"], ["#1", "#2"]]);
         for (const cell of cells.slice(4, 6)) {
-            expect(cell.querySelector("ul")?.className).toContain("channel-resource-bullets");
+            // (Lines between them, no bullets: owner, 2026-11-14 19:08.)
+            expect(cell.querySelector("ul")?.className).toContain("channel-resource-lined");
         }
         // Actions: side by side, no bullets.
         expect(cells[6].querySelector("ul")?.className).toContain("channel-resource-chips");

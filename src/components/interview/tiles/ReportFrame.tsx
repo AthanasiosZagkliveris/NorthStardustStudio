@@ -16,8 +16,8 @@ export default function ReportFrame({ count, extra, label, menu, children }: {
     extra?: ReactNode;
     /** What the funnel's window is for, for assistive technology ("all tiles"). */
     label: string;
-    /** The funnel's window: the report's own blocks. */
-    menu: ReactNode;
+    /** The funnel's window: the report's own blocks, or blocks that follow the view (a table's Columns only in the Table view). */
+    menu: ReactNode | ((view: "tiles" | "table") => ReactNode);
     children: (view: "tiles" | "table", table: { "data-size": string; style: CSSProperties }) => ReactNode;
 }) {
     const [view, setView] = useState<"tiles" | "table">("tiles");
@@ -46,7 +46,7 @@ export default function ReportFrame({ count, extra, label, menu, children }: {
                         onChange={(next) => { const at = TABLE_SIZES.findIndex(size => size.id === next); if (at >= 0) { setTableSize(at); } }}
                     />
                 )}
-                <BoxActions label={label} menuContent={menu} keepOpen />
+                <BoxActions label={label} menuContent={typeof menu === "function" ? menu(view) : menu} keepOpen />
             </div>
             <div className="capability-overview-scroll">
                 {children(view, { "data-size": TABLE_SIZES[tableSize].id, style: { "--table-font": TABLE_SIZES[tableSize].font, "--table-pad": TABLE_SIZES[tableSize].pad } as CSSProperties })}

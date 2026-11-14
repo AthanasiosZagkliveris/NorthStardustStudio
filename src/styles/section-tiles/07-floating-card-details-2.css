@@ -1514,3 +1514,76 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow, .notepad-close) {
     color: var(--tab-edge);
 
 }
+
+/* A FOLDED LIST'S LINES (FoldList): a line that keeps its whole words (a fee's note) wraps; a nested line (a subchannel under its channel) stands in by the kind's
+   column, 1.5em, so its words start where its channel's do after the letter. */
+.business-capability-card-link.fold-list-line-wrap {
+
+    white-space: normal;
+
+}
+
+.business-capability-card-link.fold-list-line-nested {
+
+    padding-left: 1.5em;
+
+}
+
+/* A FOLDED LIST'S GROUPS (FoldListGroup: a channel and its subchannels): their lines the list's gap apart, a thin line between one group and the next with the
+   list's gap above and below it; a bulleted line (a subchannel) with the shown lists' drawn bullet (--bullet-size, --bullet-gap); a long word wraps inside
+   its column (owner, 2026-11-14 19:04). */
+.fold-list-group {
+
+    display: flex;
+    flex-direction: column;
+    row-gap: var(--space-row);
+
+}
+
+.fold-list-group + .fold-list-group {
+
+    padding-top: var(--space-row);
+
+    border-top: 1px solid var(--line-divider);
+
+}
+
+/* EDGE TO EDGE in a relationship type's stage column (owner, 2026-11-14 19:09): the line between two channels runs from the card's side to the column's line,
+   the room on each side (the cell's 12px) taken back and given to the words. */
+.business-relationship-stage-head .fold-list-group + .fold-list-group {
+
+    margin-inline: calc(-1 * var(--space-cell));
+    padding-inline: var(--space-cell);
+
+}
+
+.business-capability-card-link.fold-list-line-bullet {
+
+    position: relative;
+
+    padding-left: calc(var(--bullet-size) + var(--bullet-gap));
+
+}
+
+.business-capability-card-link.fold-list-line-bullet::before {
+
+    content: "";
+
+    position: absolute;
+    left: 0;
+    top: calc((var(--font-body) * var(--field-line) - var(--bullet-size)) / 2);
+
+    width: var(--bullet-size);
+    height: var(--bullet-size);
+
+    border-radius: 50%;
+
+    background: currentColor;
+
+}
+
+.business-capability-card-link.fold-list-line-wrap {
+
+    overflow-wrap: anywhere;
+
+}

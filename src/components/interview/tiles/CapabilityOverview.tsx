@@ -157,7 +157,13 @@ export const TABLE_COLUMNS = [
 const HIDDEN_AT_FIRST = ["offering", "share", "journey", "actions"];
 
 /** The share of a row's cost each Offering carries, in the Offering column's order: the card's own shares, or -- a channel expense's -- equal shares of its Offerings. */
-export function shareLines(row: FloorRow, offerings: readonly { id: string; name: string }[], revenue: Readonly<Record<string, number>> = {}): { name: string; percent: string; fraction: number; cost: number | null }[] {
+export function shareLines(row: FloorRow, offerings: readonly { id: string; name: string }[], wholeRevenue: Readonly<Record<string, number>> = {}, channelRevenue: Readonly<Record<string, Readonly<Record<string, number>>>> = {}): { name: string; percent: string; fraction: number; cost: number | null }[] {
+    // (A CHANNEL'S share of revenue -- a payment provider's, a marketplace's -- is split by what each Offering sells THROUGH the subchannels the expense belongs
+    // to (owner, 2026-11-14 20:25); an Offering that sells nothing through them has no share. Where no Customer Source names them, by its whole revenue.)
+    const places = (row.channel?.places ?? []).map(place => place.channel.trim() + "\u0001" + place.sub.trim());
+    const through = Object.fromEntries(Object.entries(channelRevenue).map(([id, byPlace]) => [id, places.reduce((sum, key) => sum + (byPlace[key] ?? 0), 0)]).filter(([, amount]) => (amount as number) > 0)) as Record<string, number>;
+    const byChannel = places.length > 0 && Object.keys(through).length > 0;
+    const revenue = byChannel ? through : wholeRevenue;
     const named = (id: string) => offerings.find(offering => offering.id === id)?.name.trim() || "";
     const percent = (fraction: number) => (Math.round(fraction * 1000) / 10).toLocaleString(undefined, { maximumFractionDigits: 1 }) + "%";
     const own = !(row.offeringIds && row.offeringIds.length > 0);
@@ -169,6 +175,10 @@ export function shareLines(row: FloorRow, offerings: readonly { id: string; name
     // A SHARE OF REVENUE is split as the revenue is (owner, 2026-11-14 14:17): each Offering's share of the revenue of the Offerings it serves, and its cost the
     // rate x that Offering's revenue a month; where one of them has no revenue yet, the shares stay the card's (or equal) and the cost waits for the sales.
     if (isPercentRow(row) && row.amount !== null) {
+        if (byChannel) {
+            const total = ids.reduce((sum, id) => sum + (revenue[id] ?? 0), 0);
+            return ids.filter(id => (revenue[id] ?? 0) > 0).map(id => ({ name: nameOf(id), percent: percent(revenue[id] / total), fraction: revenue[id] / total, cost: row.amount! / 100 * revenue[id] })).filter(line => line.name !== "");
+        }
         const known = ids.length > 0 && ids.every(id => (revenue[id] ?? 0) > 0);
         const total = ids.reduce((sum, id) => sum + (revenue[id] ?? 0), 0);
         return ids.map(id => {
@@ -216,7 +226,7 @@ const plainAmount = amountText;
 /** The Offerings list's first tick: every Offering (no Offering chosen). */
 const ALL_OFFERINGS = "*";
 
-export default function CapabilityOverview({ rows, format = String, currency = "", onOpenLegal, onOpenAction, offerings = [], offeringRevenue = {} }: {
+export default function CapabilityOverview({ rows, format = String, currency = "", onOpenLegal, onOpenAction, offerings = [], offeringRevenue = {}, offeringChannelRevenue = {} }: {
     rows: readonly FloorRow[];
     format?: (amount: number) => string;
     currency?: string;
@@ -228,6 +238,8 @@ export default function CapabilityOverview({ rows, format = String, currency = "
     offerings?: readonly { id: string; name: string }[];
     /** Each Offering's revenue a month (offeringMonthlyRevenue): a share of revenue's split and cost per Offering. */
     offeringRevenue?: Readonly<Record<string, number>>;
+    /** Each Offering's revenue a month through each subchannel (offeringChannelRevenue): a channel's share of revenue's split. */
+    offeringChannelRevenue?: Readonly<Record<string, Readonly<Record<string, number>>>>;
 }) {
 
     const openCard = useContext(OpenCardContext);
@@ -296,6 +308,9 @@ export default function CapabilityOverview({ rows, format = String, currency = "
     const servedOfferings = offerings.filter(offering => rows.some(row => placeOf(row) === "offering" && (row.offeringIds ?? []).includes(offering.id)));
     // (The journey stages a channel uses a card of the Offering place at, in the journey's order.)
     const usedStages = BUSINESS_JOURNEY_STAGES.map(stage => stage.label as string).filter(label => rows.some(row => placeOf(row) === "offering" && (row.channel?.stages ?? []).includes(label)));
+    // SMART OPTIONS (owner, 2026-11-14 20:08: "make the options smart ... The Delivery option should have been hidden"): an option stands only where choosing it,
+    // with every other choice as it is, still lists a card -- the faceted search's way; a ticked one stays (shown, so it can be unticked) even where it lists none.
+    const reaches = (next: Partial<FloorFilter>) => filterFloor(rows, { ...filter, ...next }).length > 0;
 
     const open = (row: FloorRow, pointer: boolean) => {
         if (row.kind === "legal") {
@@ -306,273 +321,297 @@ export default function CapabilityOverview({ rows, format = String, currency = "
         }
     };
 
-    const menu = (
+    const menuFor = (view: "tiles" | "table") => (
         <div className="capability-overview-menu" role="group" aria-label="Filters">
-            <div className="capability-overview-menu-group">
-                <MenuHead title="Include" open={!folded.has("include")} onToggle={() => toggleFold("include")} controls="funnel-include" />
-                {/* Founders above Resources (the Workspace is within Resources), Partners & Suppliers one option. */}
-                {!folded.has("include") && <div className="capability-overview-menu-body" id="funnel-include"><BusinessTicks
-                    name="Include"
-                    options={[
-                        { id: "founder", label: "Founders" },
-                        { id: "resource", label: "Resources" },
-                        { id: "activity", label: "Activities" },
-                        { id: UNITED, label: "Partners & Suppliers" },
-                        { id: "legal", label: "Legal expenses" }
-                    ].filter(option => rows.some(row => option.id === UNITED ? row.kind === "partner" || row.kind === "provider" : row.kind === option.id))}
-                    chosen={toOptionIds(filter.kinds)}
-                    onChange={(next) => patch({ kinds: new Set(fromOptionIds(next) as FloorKind[]) })}
-                /></div>}
-            </div>
-            {/* SORT, the second block: the orders (the cost orders are the arrows beside Costs). */}
-            <div className="capability-overview-menu-group">
-                <MenuHead title="Sort" open={!folded.has("sort")} onToggle={() => toggleFold("sort")} controls="funnel-sort" />
-                {!folded.has("sort") && (
-                    <div className="capability-overview-menu-body capability-overview-menu-orders" id="funnel-sort" role="group" aria-label="Sort">
-                        {FLOOR_SORTS.filter(sort => !sort.id.startsWith("cost") && (sort.id !== "status" || !emptyColumns.has("status")) && (sort.id !== "kind" || new Set(rows.map(kindClass)).size > 1)).map(sort => (
-                            <MenuOption key={sort.id} marked chosen={filter.sort === sort.id} onClick={() => patch({ sort: sort.id })}>
-                                {sort.label}
-                            </MenuOption>
-                        ))}
-                    </div>
-                )}
-            </div>
-            <div className="capability-overview-menu-group">
-                <MenuHead title="Belongs to" open={!folded.has("belongs")} onToggle={() => toggleFold("belongs")} controls="funnel-belongs" />
-                {!folded.has("belongs") && <div className="capability-overview-menu-body" id="funnel-belongs">
-                {/* Step 1: ONE place (the ticked one; ticking another moves the tick, ticking it again clears: all). Changing it clears step 2. */}
-                <BusinessTicks
-                    name="Belongs to"
-                    options={FLOOR_PLACES.filter(place => rows.some(row => placeOf(row) === place.id && filter.kinds.has(kindClass(row)))).map(place => ({ id: place.id, label: place.label }))}
-                    chosen={filter.place === "" ? [] : [filter.place]}
-                    onChange={(next) => {
-                        const now = next.filter(id => id !== filter.place)[0] ?? "";
-                        patch({ place: now as FloorFilter["place"], groups: [], categories: [], subgroups: [], placeKinds: [], offerings: [], stages: [] });
-                    }}
-                />
-                {/* UNDER OFFERING, ITS OFFERINGS (owner, 2026-11-12 19:54: "Add Offerings list with the offering"): the Organisation's Offerings that a card here
-                    serves, by name; ticked, only the cards that serve one of them. */}
-                {filter.place === "offering" && servedOfferings.length > 0 && (
-                    <div className="capability-overview-menu-sub capability-overview-menu-titles">
-                        <strong>Offerings</strong>
-                        {/* ALL FIRST, TICKED UNTIL AN OFFERING IS (owner, 2026-11-13 16:12: "add an ALL option as default. So when clicking an offering the all
-                            deactivates"): ticking an Offering leaves All, ticking All -- or unticking every Offering -- comes back to it. */}
-                        <BusinessTicks
-                            name="Offerings"
-                            options={[{ id: ALL_OFFERINGS, label: "All" }, ...servedOfferings.map(offering => ({ id: offering.id, label: offering.name.trim() || "Unnamed Offering" }))]}
-                            chosen={filter.offerings.length > 0 ? filter.offerings : [ALL_OFFERINGS]}
-                            onChange={(next) => patch({ offerings: next.includes(ALL_OFFERINGS) && !filter.offerings.includes(ALL_OFFERINGS) && filter.offerings.length > 0 ? [] : next.filter(id => id !== ALL_OFFERINGS) })}
+            {/* SHOW (owner, 2026-11-14 18:17: the side panel in three groups -- Show, Order, Table). */}
+            <div className="capability-overview-menu-section" role="group" aria-label="Show">
+                <p className="capability-overview-menu-section-title">Show</p>
+                <div className="capability-overview-menu-group">
+                    <MenuHead title="Include" open={!folded.has("include")} onToggle={() => toggleFold("include")} controls="funnel-include" />
+                    {/* Founders above Resources (the Workspace is within Resources), Partners & Suppliers one option. */}
+                    {!folded.has("include") && <div className="capability-overview-menu-body" id="funnel-include"><BusinessTicks
+                        name="Include"
+                        options={[
+                            { id: "founder", label: "Founders" },
+                            { id: "resource", label: "Resources" },
+                            { id: "activity", label: "Activities" },
+                            { id: UNITED, label: "Partners & Suppliers" },
+                            { id: "legal", label: "Legal expenses" }
+                        ].filter(option => rows.some(row => option.id === UNITED ? row.kind === "partner" || row.kind === "provider" : row.kind === option.id))}
+                        chosen={toOptionIds(filter.kinds)}
+                        onChange={(next) => patch({ kinds: new Set(fromOptionIds(next) as FloorKind[]) })}
+                    /></div>}
+                </div>
+                <div className="capability-overview-menu-group">
+                    <MenuHead title="Belongs to" open={!folded.has("belongs")} onToggle={() => toggleFold("belongs")} controls="funnel-belongs" />
+                    {!folded.has("belongs") && <div className="capability-overview-menu-body" id="funnel-belongs">
+                    {/* Step 1: ONE place (the ticked one; ticking another moves the tick, ticking it again clears: all). Changing it clears step 2. */}
+                    <BusinessTicks
+                        name="Belongs to"
+                        options={FLOOR_PLACES.filter(place => rows.some(row => placeOf(row) === place.id && filter.kinds.has(kindClass(row)))).map(place => ({ id: place.id, label: place.label }))}
+                        chosen={filter.place === "" ? [] : [filter.place]}
+                        onChange={(next) => {
+                            const now = next.filter(id => id !== filter.place)[0] ?? "";
+                            patch({ place: now as FloorFilter["place"], groups: [], categories: [], subgroups: [], placeKinds: [], offerings: [], stages: [] });
+                        }}
+                    />
+                    {/* Step 2: the kinds that place has (several can be ticked) -- right after the place, as it applies to every place; the Offering's own lists follow it
+                        (owner, 2026-11-14 17:44: "optimise the user interface side panel structure"). */}
+                    {filter.place !== "" && placeKinds.length > 0 && (
+                        <div className="capability-overview-menu-sub">
+                            <strong>Type</strong>
+                            <BusinessTicks
+                                name="Type"
+                                options={placeKindOptions(placeKinds.filter(kind => filter.placeKinds.includes(kind) || reaches({ placeKinds: [kind], categories: [], subgroups: [] })))}
+                                chosen={toOptionIds(filter.placeKinds)}
+                                onChange={(ids) => {
+                                    const next = fromOptionIds(ids) as FloorType[];
+                                    patch({
+                                        placeKinds: next,
+                                        // A category of a type no longer ticked goes, and its groups with it.
+                                        categories: filter.categories.filter(category => floorCategories(rows, filter.place, next).includes(category)),
+                                        subgroups: next.length === 0 || next.includes("resource") ? filter.subgroups : []
+                                    });
+                                }}
+                            />
+                        </div>
+                    )}
+                    {/* Step 3: the categories of the kinds ticked in that place. */}
+                    {/* (The Category list appears once a Type is ticked.) */}
+                    {filter.place !== "" && filter.placeKinds.length > 0 && categories.length > 0 && (
+                        <div className="capability-overview-menu-sub capability-overview-menu-titles">
+                            <strong>Category</strong>
+                            <BusinessTicks
+                                name="Category"
+                                options={categories.filter(category => filter.categories.includes(category) || reaches({ categories: [category], subgroups: [] })).map(category => ({ id: category, label: category }))}
+                                chosen={filter.categories}
+                                onChange={(next) => patch({
+                                    categories: next,
+                                    // Unticking a category clears its groups.
+                                    subgroups: filter.subgroups.filter(key => next.some(category => key.startsWith(category + "\u0001")))
+                                })}
+                            />
+                        </div>
+                    )}
+                    {/* Step 4: only while a ticked category has groups, those of the ticked categories. */}
+                    {filter.place !== "" && subgroups.length > 0 && (
+                        <div className="capability-overview-menu-sub capability-overview-menu-titles">
+                            <strong>Group</strong>
+                            <BusinessTicks
+                                name="Group"
+                                options={subgroups.filter(entry => filter.subgroups.includes(entry.key) || reaches({ subgroups: [entry.key] })).map(entry => ({ id: entry.key, label: entry.label }))}
+                                chosen={filter.subgroups}
+                                onChange={(next) => patch({ subgroups: next })}
+                            />
+                        </div>
+                    )}
+                    {/* UNDER OFFERING, ITS OFFERINGS (owner, 2026-11-12 19:54: "Add Offerings list with the offering"): the Organisation's Offerings that a card here
+                        serves, by name; ticked, only the cards that serve one of them. */}
+                    {filter.place === "offering" && servedOfferings.length > 0 && (
+                        <div className="capability-overview-menu-sub capability-overview-menu-titles">
+                            <strong>Offerings</strong>
+                            {/* ALL FIRST, TICKED UNTIL AN OFFERING IS (owner, 2026-11-13 16:12: "add an ALL option as default. So when clicking an offering the all
+                                deactivates"): ticking an Offering leaves All, ticking All -- or unticking every Offering -- comes back to it. */}
+                            <BusinessTicks
+                                name="Offerings"
+                                options={[{ id: ALL_OFFERINGS, label: "All" }, ...servedOfferings.filter(offering => filter.offerings.includes(offering.id) || reaches({ offerings: [offering.id] })).map(offering => ({ id: offering.id, label: offering.name.trim() || "Unnamed Offering" }))]}
+                                chosen={filter.offerings.length > 0 ? filter.offerings : [ALL_OFFERINGS]}
+                                onChange={(next) => patch({ offerings: next.includes(ALL_OFFERINGS) && !filter.offerings.includes(ALL_OFFERINGS) && filter.offerings.length > 0 ? [] : next.filter(id => id !== ALL_OFFERINGS) })}
+                            />
+                        </div>
+                    )}
+                    {/* UNDER OFFERING, ITS JOURNEY STAGES, as its Offerings (owner, 2026-11-14 11:51: "add Journey Stages (and the ALL as the default), make it to work
+                        like the Offering"): the stages a channel uses a card here at; ticked, only those cards, and the Journey column names only the ticked stages. */}
+                    {filter.place === "offering" && usedStages.length > 0 && (filter.placeKinds.length === 0 || filter.placeKinds.includes("channel")) && (
+                        <div className="capability-overview-menu-sub capability-overview-menu-titles">
+                            <strong>Journey Stages</strong>
+                            <BusinessTicks
+                                name="Journey Stages"
+                                options={[{ id: ALL_OFFERINGS, label: "All" }, ...usedStages.filter(stage => filter.stages.includes(stage) || reaches({ stages: [stage] })).map(stage => ({ id: stage, label: stage }))]}
+                                chosen={filter.stages.length > 0 ? filter.stages : [ALL_OFFERINGS]}
+                                onChange={(next) => patch({ stages: next.includes(ALL_OFFERINGS) && !filter.stages.includes(ALL_OFFERINGS) && filter.stages.length > 0 ? [] : next.filter(id => id !== ALL_OFFERINGS) })}
+                            />
+                        </div>
+                    )}
+                    {/* A place's other groups (a legal expense's), whatever is ticked. */}
+                    {filter.place !== "" && groups.length > 1 && (
+                        <div className="capability-overview-menu-sub">
+                            <strong>Group</strong>
+                            <BusinessTicks
+                                name="Group"
+                                options={groups.map(group => ({ id: group, label: group }))}
+                                chosen={filter.groups}
+                                onChange={(next) => patch({ groups: next })}
+                            />
+                        </div>
+                    )}
+                    </div>}
+                </div>
+                <div className="capability-overview-menu-group capability-overview-menu-fields">
+                    <label>
+                        Status
+                        <FunnelPicker
+                            label="Status"
+                            options={[...BUSINESS_RESOURCE_STATUSES.map(status => ({ id: status.id as string, label: status.label as string })), { id: "completed", label: "Completed" }].filter(option => option.id === filter.status || reaches({ status: option.id }))}
+                            value={filter.status}
+                            onChange={(status) => patch({ status })}
                         />
-                    </div>
-                )}
-                {/* UNDER OFFERING, ITS JOURNEY STAGES, as its Offerings (owner, 2026-11-14 11:51: "add Journey Stages (and the ALL as the default), make it to work
-                    like the Offering"): the stages a channel uses a card here at; ticked, only those cards, and the Journey column names only the ticked stages. */}
-                {filter.place === "offering" && usedStages.length > 0 && (
-                    <div className="capability-overview-menu-sub capability-overview-menu-titles">
-                        <strong>Journey Stages</strong>
-                        <BusinessTicks
-                            name="Journey Stages"
-                            options={[{ id: ALL_OFFERINGS, label: "All" }, ...usedStages.map(stage => ({ id: stage, label: stage }))]}
-                            chosen={filter.stages.length > 0 ? filter.stages : [ALL_OFFERINGS]}
-                            onChange={(next) => patch({ stages: next.includes(ALL_OFFERINGS) && !filter.stages.includes(ALL_OFFERINGS) && filter.stages.length > 0 ? [] : next.filter(id => id !== ALL_OFFERINGS) })}
+                    </label>
+                    <label>
+                        Frequency
+                        <FunnelPicker
+                            label="Frequency"
+                            options={[...BUSINESS_COST_FREQUENCIES.map(entry => ({ id: entry.id as string, label: entry.label as string })), { id: "other", label: "Other" }].filter(option => option.id === filter.frequency || reaches({ frequency: option.id }))}
+                            value={filter.frequency}
+                            onChange={(frequency) => patch({ frequency })}
                         />
-                    </div>
-                )}
-                {/* Step 2: the kinds that place has (several can be ticked). */}
-                {filter.place !== "" && placeKinds.length > 0 && (
-                    <div className="capability-overview-menu-sub">
-                        <strong>Type</strong>
+                    </label>
+                    {emptyColumns.has("linked") ? null : <BusinessTicks
+                        name="Connected"
+                        options={[{ id: "connected", label: "Linked" }]}
+                        chosen={filter.connectedOnly ? ["connected"] : []}
+                        onChange={(next) => patch({ connectedOnly: next.length > 0 })}
+                    />}
+                </div>
+                {/* THE COSTS ISOLATED: switched on, only the tiles that have an expense are shown; under it the cost order and the cost range apply to them. */}
+                <div className="capability-overview-menu-group capability-overview-costs" role="group" aria-label="Costs">
+                    <div className="capability-overview-costs-head">
                         <BusinessTicks
-                            name="Type"
-                            options={placeKindOptions(placeKinds)}
-                            chosen={toOptionIds(filter.placeKinds)}
-                            onChange={(ids) => {
-                                const next = fromOptionIds(ids) as FloorType[];
-                                patch({
-                                    placeKinds: next,
-                                    // A category of a type no longer ticked goes, and its groups with it.
-                                    categories: filter.categories.filter(category => floorCategories(rows, filter.place, next).includes(category)),
-                                    subgroups: next.length === 0 || next.includes("resource") ? filter.subgroups : []
+                            name="Costs"
+                            options={[{ id: "costs", label: "Costs" }]}
+                            chosen={filter.costsOnly ? ["costs"] : []}
+                            onChange={(next) => {
+                                patch({ costsOnly: next.length > 0 });
+                                // (Isolating the costs hides Status and Linked from the table, the user can tick them back; turning it off shows again only what it hid.)
+                                setHiddenColumns(current => {
+                                    const kept = new Set(current);
+                                    if (next.length > 0) {
+                                        const hid = ["status", "linked"].filter(column => !kept.has(column));
+                                        hid.forEach(column => kept.add(column));
+                                        setCostsHid(hid);
+                                    } else {
+                                        costsHid.forEach(column => kept.delete(column));
+                                        setCostsHid([]);
+                                    }
+                                    return kept;
                                 });
                             }}
                         />
                     </div>
-                )}
-                {/* Step 3: the categories of the kinds ticked in that place. */}
-                {/* (The Category list appears once a Type is ticked.) */}
-                {filter.place !== "" && filter.placeKinds.length > 0 && categories.length > 0 && (
-                    <div className="capability-overview-menu-sub capability-overview-menu-titles">
-                        <strong>Category</strong>
+                    {/* CHANNEL COSTS, directly under the Costs tick, above its range (owner, 2026-11-12 23:54; 2026-11-13 00:27: "I said under the costs!"): the Channel Costs set-up -- only the channel expenses, the highest cost first, the Offering,
+                        Journey and Actions columns on; shown where there are channel expenses. */}
+                    {rows.some(row => row.channel) && (
                         <BusinessTicks
-                            name="Category"
-                            options={categories.map(category => ({ id: category, label: category }))}
-                            chosen={filter.categories}
-                            onChange={(next) => patch({
-                                categories: next,
-                                // Unticking a category clears its groups.
-                                subgroups: filter.subgroups.filter(key => next.some(category => key.startsWith(category + "\u0001")))
-                            })}
+                            name="Channel Costs"
+                            options={[{ id: "channels", label: "Channel Costs" }]}
+                            chosen={filter.channelsOnly ? ["channels"] : []}
+                            onChange={(next) => setChannelSetup(next.length > 0)}
                         />
-                    </div>
-                )}
-                {/* Step 4: only while a ticked category has groups, those of the ticked categories. */}
-                {filter.place !== "" && subgroups.length > 0 && (
-                    <div className="capability-overview-menu-sub capability-overview-menu-titles">
-                        <strong>Group</strong>
-                        <BusinessTicks
-                            name="Group"
-                            options={subgroups.map(entry => ({ id: entry.key, label: entry.label }))}
-                            chosen={filter.subgroups}
-                            onChange={(next) => patch({ subgroups: next })}
-                        />
-                    </div>
-                )}
-                {/* A place's other groups (a legal expense's), whatever is ticked. */}
-                {filter.place !== "" && groups.length > 1 && (
-                    <div className="capability-overview-menu-sub">
-                        <strong>Group</strong>
-                        <BusinessTicks
-                            name="Group"
-                            options={groups.map(group => ({ id: group, label: group }))}
-                            chosen={filter.groups}
-                            onChange={(next) => patch({ groups: next })}
-                        />
-                    </div>
-                )}
-                </div>}
+                    )}
+                    {/* (From and To only while the costs are isolated: they compare the costs; owner, 2026-11-14 18:17, option c.) */}
+                    {filter.costsOnly && (
+                        <div className="capability-overview-costs-range">
+                            <label>
+                                From
+                                <NumberCell value={filter.min} onChange={(event) => patch({ min: limitedNumberText(event.target.value, filter.min, NUMBER_LIMITS.money) })} />
+                            </label>
+                            <label>
+                                To
+                                <NumberCell value={filter.max} onChange={(event) => patch({ max: limitedNumberText(event.target.value, filter.max, NUMBER_LIMITS.money) })} />
+                            </label>
+                        </div>
+                    )}
+                </div>
             </div>
-            {/* COLUMNS: which columns of the table are shown (Name always is). */}
-            <div className="capability-overview-menu-group">
-                <MenuHead title="Columns" open={!folded.has("columns")} onToggle={() => toggleFold("columns")} controls="funnel-columns" />
-                {!folded.has("columns") && (
-                    <div className="capability-overview-menu-body" id="funnel-columns">
-                        {/* (The % column is a choice under Offering, shown while Offering is: owner, 2026-11-14 09:31.) */}
-                        {[TABLE_COLUMNS.slice(0, TABLE_COLUMNS.findIndex(column => column.id === "share")), TABLE_COLUMNS.slice(TABLE_COLUMNS.findIndex(column => column.id === "share") + 1)].map((part, at) => (
-                            <Fragment key={at}>
-                                <BusinessTicks
-                                    name="Column"
-                                    options={part.filter(column => !emptyColumns.has(column.id)).map(column => ({ id: column.id, label: column.label }))}
-                                    chosen={part.filter(column => !offColumn(column.id)).map(column => column.id)}
-                                    onChange={(next) => setHiddenColumns(current => {
-                                        const hidden = new Set([...current].filter(id => !part.some(column => column.id === id)));
-                                        part.filter(column => !next.includes(column.id)).forEach(column => hidden.add(column.id));
-                                        // (Offering off takes its % off with it.)
-                                        if (hidden.has("offering")) {
-                                            hidden.add("share");
-                                        }
-                                        return hidden;
-                                    })}
-                                />
-                                {at === 0 && !offColumn("offering") && (
-                                    <div className="capability-overview-menu-sub">
+            {/* ORDER (owner, 2026-11-14 18:17: the side panel in three groups -- Show, Order, Table). */}
+            <div className="capability-overview-menu-section" role="group" aria-label="Order">
+                <p className="capability-overview-menu-section-title">Order</p>
+                {/* SORT, the second block: the orders (the cost orders are the arrows beside Costs). */}
+                <div className="capability-overview-menu-group">
+                    <MenuHead title="Sort" open={!folded.has("sort")} onToggle={() => toggleFold("sort")} controls="funnel-sort" />
+                    {!folded.has("sort") && (
+                        <div className="capability-overview-menu-body capability-overview-menu-orders" id="funnel-sort" role="group" aria-label="Sort">
+                            {FLOOR_SORTS.filter(sort => !sort.id.startsWith("cost") && (sort.id !== "status" || !emptyColumns.has("status")) && (sort.id !== "kind" || new Set(rows.map(kindClass)).size > 1)).map(sort => (
+                                <MenuOption key={sort.id} marked chosen={filter.sort === sort.id} onClick={() => patch({ sort: sort.id })}>
+                                    {sort.label}
+                                </MenuOption>
+                            ))}
+                        </div>
+                    )}
+                    {/* (The cost order, with the other orders: owner, 2026-11-14 18:17, option a.) */}
+                    {!folded.has("sort") && !emptyColumns.has("cost") && (
+                        <div className="capability-overview-costs-head capability-overview-sort-cost">
+                            <span>Cost</span>
+                                {/* The cost order: two small arrow buttons beside the label -- up is low to high, down is high to low (the active one is pressed). */}
+                                <div className="capability-overview-costs-order" role="group" aria-label="Cost order">
+                                    {([["cost-asc", "up", "Low to high"], ["cost-desc", "down", "High to low"]] as const).map(([id, direction, name]) => (
+                                        <FoldArrow
+                                            key={id}
+                                            variant="label"
+                                            open={false}
+                                            direction={direction}
+                                            pressed={filter.sort === id}
+                                            name={name}
+                                            onToggle={() => patch({ sort: filter.sort === id ? "page" : id })}
+                                        />
+                                    ))}
+                                </div>
+                                <InfoNote label="Cost order" points={["The costs are ordered by how often they are paid -- one-time, yearly, quarterly, monthly, per unit, per project, a share of revenue --, then by their amount.", "From and To compare the amounts as entered."]} />
+                                </div>
+                    )}
+                </div>
+                </div>
+            {/* (Columns only in the Table view: owner, 2026-11-14 18:17, option b.) */}
+            {view === "table" && (
+                <div className="capability-overview-menu-section" role="group" aria-label="Table">
+                    <p className="capability-overview-menu-section-title">Table</p>
+                    {/* COLUMNS: which columns of the table are shown (Name always is). */}
+                    <div className="capability-overview-menu-group">
+                        <MenuHead title="Columns" open={!folded.has("columns")} onToggle={() => toggleFold("columns")} controls="funnel-columns" />
+                        {!folded.has("columns") && (
+                            <div className="capability-overview-menu-body" id="funnel-columns">
+                                {/* (The % column is a choice under Offering, shown while Offering is: owner, 2026-11-14 09:31.) */}
+                                {[TABLE_COLUMNS.slice(0, TABLE_COLUMNS.findIndex(column => column.id === "share")), TABLE_COLUMNS.slice(TABLE_COLUMNS.findIndex(column => column.id === "share") + 1)].map((part, at) => (
+                                    <Fragment key={at}>
                                         <BusinessTicks
                                             name="Column"
-                                            options={[{ id: "share", label: "Cost per Offering" }]}
-                                            chosen={hiddenColumns.has("share") ? [] : ["share"]}
+                                            options={part.filter(column => !emptyColumns.has(column.id)).map(column => ({ id: column.id, label: column.label }))}
+                                            chosen={part.filter(column => !offColumn(column.id)).map(column => column.id)}
                                             onChange={(next) => setHiddenColumns(current => {
-                                                const hidden = new Set(current);
-                                                if (next.includes("share")) {
-                                                    hidden.delete("share");
-                                                } else {
+                                                const hidden = new Set([...current].filter(id => !part.some(column => column.id === id)));
+                                                part.filter(column => !next.includes(column.id)).forEach(column => hidden.add(column.id));
+                                                // (Offering off takes its % off with it.)
+                                                if (hidden.has("offering")) {
                                                     hidden.add("share");
                                                 }
                                                 return hidden;
                                             })}
                                         />
-                                    </div>
-                                )}
-                            </Fragment>
-                        ))}
+                                        {at === 0 && !offColumn("offering") && (
+                                            <div className="capability-overview-menu-sub">
+                                                <BusinessTicks
+                                                    name="Column"
+                                                    options={[{ id: "share", label: "Cost per Offering" }]}
+                                                    chosen={hiddenColumns.has("share") ? [] : ["share"]}
+                                                    onChange={(next) => setHiddenColumns(current => {
+                                                        const hidden = new Set(current);
+                                                        if (next.includes("share")) {
+                                                            hidden.delete("share");
+                                                        } else {
+                                                            hidden.add("share");
+                                                        }
+                                                        return hidden;
+                                                    })}
+                                                />
+                                            </div>
+                                        )}
+                                    </Fragment>
+                                ))}
+                            </div>
+                        )}
+                    </div>
                     </div>
                 )}
-            </div>
-            <div className="capability-overview-menu-group capability-overview-menu-fields">
-                <label>
-                    Status
-                    <FunnelPicker
-                        label="Status"
-                        options={[...BUSINESS_RESOURCE_STATUSES.map(status => ({ id: status.id as string, label: status.label as string })), { id: "completed", label: "Completed" }].filter(option => option.id === filter.status || rows.some(row => row.status === option.id))}
-                        value={filter.status}
-                        onChange={(status) => patch({ status })}
-                    />
-                </label>
-                <label>
-                    Frequency
-                    <FunnelPicker
-                        label="Frequency"
-                        options={[...BUSINESS_COST_FREQUENCIES.map(entry => ({ id: entry.id as string, label: entry.label as string })), { id: "other", label: "Other" }].filter(option => option.id === filter.frequency || rows.some(row => row.frequency === option.id))}
-                        value={filter.frequency}
-                        onChange={(frequency) => patch({ frequency })}
-                    />
-                </label>
-                {emptyColumns.has("linked") ? null : <BusinessTicks
-                    name="Connected"
-                    options={[{ id: "connected", label: "Linked" }]}
-                    chosen={filter.connectedOnly ? ["connected"] : []}
-                    onChange={(next) => patch({ connectedOnly: next.length > 0 })}
-                />}
-            </div>
-            {/* THE COSTS ISOLATED: switched on, only the tiles that have an expense are shown; under it the cost order and the cost range apply to them. */}
-            <div className="capability-overview-menu-group capability-overview-costs" role="group" aria-label="Costs">
-                <div className="capability-overview-costs-head">
-                    <BusinessTicks
-                        name="Costs"
-                        options={[{ id: "costs", label: "Costs" }]}
-                        chosen={filter.costsOnly ? ["costs"] : []}
-                        onChange={(next) => {
-                            patch({ costsOnly: next.length > 0 });
-                            // (Isolating the costs hides Status and Linked from the table, the user can tick them back; turning it off shows again only what it hid.)
-                            setHiddenColumns(current => {
-                                const kept = new Set(current);
-                                if (next.length > 0) {
-                                    const hid = ["status", "linked"].filter(column => !kept.has(column));
-                                    hid.forEach(column => kept.add(column));
-                                    setCostsHid(hid);
-                                } else {
-                                    costsHid.forEach(column => kept.delete(column));
-                                    setCostsHid([]);
-                                }
-                                return kept;
-                            });
-                        }}
-                    />
-                    {/* The cost order: two small arrow buttons beside the label -- up is low to high, down is high to low (the active one is pressed). */}
-                    <div className="capability-overview-costs-order" role="group" aria-label="Cost order">
-                        {([["cost-asc", "up", "Low to high"], ["cost-desc", "down", "High to low"]] as const).map(([id, direction, name]) => (
-                            <FoldArrow
-                                key={id}
-                                variant="label"
-                                open={false}
-                                direction={direction}
-                                pressed={filter.sort === id}
-                                name={name}
-                                onToggle={() => patch({ sort: filter.sort === id ? "page" : id })}
-                            />
-                        ))}
-                    </div>
-                    <InfoNote label="Cost order" points={["The costs are ordered by how often they are paid -- one-time, yearly, quarterly, monthly, per unit, per project, a share of revenue --, then by their amount.", "From and To compare the amounts as entered."]} />
-                </div>
-                {/* CHANNEL COSTS, directly under the Costs tick, above its range (owner, 2026-11-12 23:54; 2026-11-13 00:27: "I said under the costs!"): the Channel Costs set-up -- only the channel expenses, the highest cost first, the Offering,
-                    Journey and Actions columns on; shown where there are channel expenses. */}
-                {rows.some(row => row.channel) && (
-                    <BusinessTicks
-                        name="Channel Costs"
-                        options={[{ id: "channels", label: "Channel Costs" }]}
-                        chosen={filter.channelsOnly ? ["channels"] : []}
-                        onChange={(next) => setChannelSetup(next.length > 0)}
-                    />
-                )}
-                <div className="capability-overview-costs-range">
-                    <label>
-                        From
-                        <NumberCell value={filter.min} onChange={(event) => patch({ min: limitedNumberText(event.target.value, filter.min, NUMBER_LIMITS.money) })} />
-                    </label>
-                    <label>
-                        To
-                        <NumberCell value={filter.max} onChange={(event) => patch({ max: limitedNumberText(event.target.value, filter.max, NUMBER_LIMITS.money) })} />
-                    </label>
-                </div>
-            </div>
         </div>
     );
 
@@ -587,7 +626,7 @@ export default function CapabilityOverview({ rows, format = String, currency = "
     const chosen = (name: string) => chosenNames.length === 0 || chosenNames.includes(name);
     const servedCell = (row: FloorRow, column: string): ReactNode | undefined => {
         if (column === "share") {
-            const lines = shareLines(row, offerings, offeringRevenue).filter(line => chosen(line.name));
+            const lines = shareLines(row, offerings, offeringRevenue, offeringChannelRevenue).filter(line => chosen(line.name));
             return lines.length > 0 ? <Values items={lines.map(line => ({ key: line.name, node: costPerOfferingText(row, line) }))} /> : undefined;
         }
         const names = (row.offeringIds ?? []).map(id => offerings.find(offering => offering.id === id)?.name.trim() || "").filter(Boolean).filter(chosen);
@@ -603,7 +642,7 @@ export default function CapabilityOverview({ rows, format = String, currency = "
                 <span className="channel-resource-place-channel">{top}</span>
                 <span className="channel-resource-place-rule" aria-hidden="true" />
                 {below.length > 1
-                    ? <ul className="channel-resource-bullets channel-resource-subs">{below.map((sub, at) => <li key={at}>{sub}</li>)}</ul>
+                    ? <ul className="channel-resource-list channel-resource-lined channel-resource-subs">{below.map((sub, at) => <li key={at}>{sub}</li>)}</ul>
                     : <span className="channel-resource-place-sub">{below[0]}</span>}
             </div>
         );
@@ -643,7 +682,7 @@ export default function CapabilityOverview({ rows, format = String, currency = "
         <ReportFrame
             count={shown.length + " of " + rows.length}
             label="all tiles"
-            menu={menu}
+            menu={menuFor}
             extra={<>
                 {rows.some(row => row.missing) && (
                     <span className="capability-overview-incomplete">
@@ -720,7 +759,7 @@ export default function CapabilityOverview({ rows, format = String, currency = "
                             {TABLE_COLUMNS.filter(column => !offColumn(column.id)).map(column => (
                                 <th scope="col" key={column.id} data-col={column.id} className={column.id === "cost" ? "capability-overview-number" : undefined}>
                                     {column.id === "cost" ? labelWithCurrency(column.label, currency) : column.id === "share"
-                                        ? <InfoText text={labelWithCurrency(column.label, currency)}><InfoNote label="Cost per Offering" points={["Each Offering's share of the cost, and the cost it comes to: the shares typed on the card, as the Financial Foundation splits it; with none typed, or shares that do not total 100%, equal shares.", "A channel expense is shared equally between the Offerings its channel serves.", "A cost that is a share of revenue is split as the revenue is: each Offering's share of the revenue a month (Demand & Conversion's expected sales x the price on Sustainability), and its cost that rate of its revenue. Until those are set, its shares are the card's and its cost waits for the sales."]} /></InfoText>
+                                        ? <InfoText text={labelWithCurrency(column.label, currency)}><InfoNote label="Cost per Offering" points={["Each Offering's share of the cost, and the cost it comes to: the shares typed on the card, as the Financial Foundation splits it; with none typed, or shares that do not total 100%, equal shares.", "A channel expense is shared equally between the Offerings its channel serves.", "A cost that is a share of revenue is split as the revenue is: each Offering's share of what it sells a month through the subchannels the expense belongs to (Demand & Conversion's Customer Sources on those channels x the price on Sustainability), and its cost that rate of it; an Offering that sells nothing through them has no share. Where no Customer Source names those subchannels, its whole revenue a month. Until the sales are set, its shares are the card's and its cost waits for them."]} /></InfoText>
                                         : column.label}
                                 </th>
                             ))}

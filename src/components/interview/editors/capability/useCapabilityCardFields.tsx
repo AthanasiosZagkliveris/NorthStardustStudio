@@ -6,7 +6,7 @@ import CurrencyPicker from "../../fields/CurrencyPicker.tsx";
 import RadioChoice from "../../../controls/RadioChoice.tsx";
 import TextBox from "../../../controls/TextBox.tsx";
 import AddButton from "../../../controls/AddButton.tsx";
-import FieldLabel from "../../../controls/FieldLabel.tsx";
+import FoldList from "../../fields/FoldList.tsx";
 import NumberCell from "../../../controls/NumberCell.tsx";
 import { Fragment, ReactNode, useState } from "react";
 import { BUSINESS_COST_FREQUENCIES, BUSINESS_EXTRA_STATUS_IDS, PREMISES_GROUP_ID, BUSINESS_RESOURCE_STATUSES, resourceStatusIds, isSpaceOnlyGroup, buyCostOf, equalOfferingShares, offeringSharesTotal, offeringSharesInUnits, offeringSharesIncomplete, unitOfferingShares, BUSINESS_PAYMENT_PLANS, type BusinessPaymentPlan, type BusinessPaymentLine, instalmentLines, paymentPlanLines, paymentPlanTotal, BUSINESS_EXTRAS, type BusinessExtraKey, type BusinessExtrasValue, servicesOfAsset, billingOf, costWithOption, optionFrequenciesOf, noteHint, slotExtraKeys, frequencyIdsOf, unitsOf, normalCostOf, isPurchaseGroup, isCostingStatus, businessQuantityText, isPartnered, BusinessCapabilityValue, BusinessStatusRow, BusinessCostValue, BusinessResourceSlotValue, businessFoundationSegments, todayIsoDate, resourceUnitCount } from "../../../../framework/engine/AnswerUtils.ts";
@@ -17,7 +17,6 @@ import { randomId } from "../../../../framework/engine/Readers.ts";
 import DateCellInput from "../../fields/DateCellInput.tsx";
 import { NUMBER_LIMITS, limitedNumberText } from "../../fields/numberInput.ts";
 import OptionPicker from "../../fields/OptionPicker.tsx";
-import FoldArrow from "../../fields/FoldArrow.tsx";
 import { toggledIn } from "../../fields/toggledIn.ts";
 import TextLink from "../../fields/TextLink.tsx";
 import { Scope, WARRANTY_GROUPS } from "../BusinessCapabilityModel.ts";
@@ -848,17 +847,10 @@ export function useCapabilityCardFields(earlier: Earlier) {
         return (
             <>
             {cardRule()}
-            <div className="business-foundation-field business-capability-links">
-                {/* The same row as a founder's Responsibilities: the fold arrow, the label, how many. */}
-                <span className="business-foundation-label-info business-capability-responsibilities-head business-capability-links-head">
-                    <FieldLabel className="business-foundation-label">
-                        <FoldArrow variant="label" open={open} name={(open ? "Minimise " : "Maximise ") + "Links of this card"} onToggle={() => setLinksOpen(current => toggledIn(current, id))} />
-                        Links
-                    </FieldLabel>
-                    <FieldLabel className="field-label-muted business-capability-responsibilities-count">{links.length}</FieldLabel>
-                </span>
-                {open && <div className="business-capability-links-list">{links.map(link => cardLink(link.key, link.noun, link.name, link.onOpen))}</div>}
-            </div>
+            {/* The same row as a founder's Responsibilities: the fold arrow, the label, how many (the shared FoldList). */}
+            <FoldList label="Links" name="Links of this card" count={links.length} open={open} onToggle={() => setLinksOpen(current => toggledIn(current, id))}>
+                {links.map(link => cardLink(link.key, link.noun, link.name, link.onOpen))}
+            </FoldList>
             </>
         );
     }

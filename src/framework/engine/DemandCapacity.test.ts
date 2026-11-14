@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { DemandSource, DemandValue, asDemandValue, createDemand, createDemandSource, demandChannelIds, demandResult, capacityCheck, createDelivery, deliveryAllocation, deliveryEffort, founderDeliveryHours, WEEKS_PER_MONTH, founderWorkingHours } from "./DemandCapacity.ts";
+import { DemandSource, DemandValue, asDemandValue, createDemand, createDemandSource, demandChannelIds, demandResult, capacityCheck, createDelivery, deliveryAllocation, deliveryEffort, founderDeliveryHours, WEEKS_PER_MONTH, founderWorkingHours, offeringChannelRevenue } from "./DemandCapacity.ts";
 
 /** Saved before several sources: one model and its inputs, read as it is on loading. */
 function demand(model: string, inputs: Record<string, string>): DemandValue {
@@ -267,4 +267,13 @@ describe("the channels that bring an Offering's customers, from its sources (own
         expect(demandChannelIds(value)).toEqual(["linkedin"]);
     });
 
+});
+
+describe("offeringChannelRevenue (owner, 2026-11-14 20:25)", () => {
+    it("files each Customer Source's expected sales x price x items under the subchannel it names", () => {
+        const value = { ...createDemand(), sources: [source("other", { channelId: "c1", estimate: "6" })] };
+        const out = offeringChannelRevenue({ o1: value }, [{ offeringId: "o1", price: "224", itemsPerOrder: "" }], [{ id: "c1", category: " Online Store ", name: "Own website" }]);
+        expect(out).toEqual({ o1: { ["Online Store\u0001Own website"]: 1344 } });
+        expect(offeringChannelRevenue({ o1: value }, [{ offeringId: "o1", price: "", itemsPerOrder: "" }], [{ id: "c1", category: "Online Store", name: "Own website" }])).toEqual({});
+    });
 });

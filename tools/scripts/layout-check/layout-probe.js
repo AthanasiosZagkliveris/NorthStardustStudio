@@ -336,6 +336,18 @@
         document.querySelectorAll(".card-scroll").forEach(body => { body.scrollTop = 0; });
         const fail = (rule, element, detail) => failures.push({ rule, where: place(element), detail });
 
+        // 0c. A DIVIDING LINE RUNS EDGE TO EDGE (owner, 2026-11-14 19:09: "Make the dividing lines extend from edge to edge"): the line between two values of a
+        //     table cell (a lined or numbered list) meets both sides of its cell; the line between two channels in a stage's fold meets the card's side and the
+        //     column's line (its column's padding taken back).
+        for (const item of [...document.querySelectorAll("td .channel-resource-lined > li + li, td .channel-resource-numbered > li + li")].filter(visible)) {
+            const cell = item.closest("td, th").getBoundingClientRect();
+            const box = item.getBoundingClientRect();
+            const style = getComputedStyle(item.closest("td, th"));
+            const inner = { left: cell.left + parseFloat(style.borderLeftWidth), right: cell.right - parseFloat(style.borderRightWidth) };
+            if (Math.abs(box.left - inner.left) > 1 || Math.abs(box.right - inner.right) > 1) {
+                fail("a dividing line meets both edges of its cell", item, { left: box.left - inner.left, right: inner.right - box.right });
+            }
+        }
         // 0b. A DIALOG'S BANDS RUN SIDE TO SIDE (owner, 2026-11-14 12:41: "Fix the coloured bands to be side to side"): a band of a dialog's body that meets its left edge
         //     meets its right edge too (a field alone in its grid keeps no gap for a second column).
         for (const band of [...document.querySelectorAll(".section-tile-dialog-body .legal-entity-org-section")].filter(visible)) {

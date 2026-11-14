@@ -190,3 +190,29 @@ describe("a share of revenue's Cost per Offering (owner, 2026-11-14 14:17)", () 
         expect(shareLines(row, offerings, { o1: 2240 }).map(line => costPerOfferingText(row, line))).toEqual(["70% · when sales are set", "30% · when sales are set"]);
     });
 });
+
+describe("a channel's share of revenue (owner, 2026-11-14 20:25)", () => {
+    it("is split by what each Offering sells through the expense's subchannels; one that sells nothing there has no share; with no source there, by the whole revenue", async () => {
+        const { shareLines, costPerOfferingText } = await import("../tiles/CapabilityOverview.tsx");
+        const row = { id: "fees", tone: "channel", kind: "provider", name: "Shopify Payments", path: [], status: "", statusLabel: "", frequency: "percent-revenue", frequencyLabel: "% of Rev", amount: 2, links: [], offeringIds: ["o1", "o2"], offeringShares: { o1: 0.5, o2: 0.5 }, channel: { places: [{ channel: "Online Store", sub: "Own website" }], offerings: [], stages: [], actions: [], colour: 0, linkIds: [], behaviour: "" } } as unknown as FloorRow;
+        const offerings = [{ id: "o1", name: "Homeware" }, { id: "o2", name: "Weaving" }];
+        const whole = { o1: 2240, o2: 2720 };
+        expect(shareLines(row, offerings, whole, { o1: { "Online Store\u0001Own website": 1344 }, o2: { "Social Media\u0001Instagram": 2720 } }).map(line => line.name + " " + costPerOfferingText(row, line))).toEqual(["Homeware 100% · 26.88"]);
+        expect(shareLines(row, offerings, whole, { o1: { "Online Store\u0001Own website": 1000 }, o2: { "Online Store\u0001Own website": 3000 } }).map(line => costPerOfferingText(row, line))).toEqual(["25% · 20", "75% · 60"]);
+        expect(shareLines(row, offerings, whole, { o2: { "Social Media\u0001Instagram": 2720 } }).map(line => costPerOfferingText(row, line))).toEqual(["45.2% · 44.80", "54.8% · 54.40"]);
+    });
+});
+
+describe("the Inventory's smart options (owner, 2026-11-14 20:08)", () => {
+    it("offers a journey stage only where, with the Offering chosen, a card is used at it; a ticked one stays", () => {
+        const row = (id: string, offeringIds: string[], stages: string[]): FloorRow => ({ id, tone: "channel", kind: "resource", name: id, path: ["Offering's Capability", "Resources"], status: "", statusLabel: "", frequency: "", frequencyLabel: "", amount: null, links: [], offeringIds, channel: { places: [], offerings: [], stages, actions: [], colour: 0, linkIds: [], behaviour: "" } } as unknown as FloorRow);
+        render(<CapabilityOverview rows={[row("Stall kit", ["o1"], ["Discover", "Delivery"]), row("Booking app", ["o2"], ["Purchase"])]} offerings={[{ id: "o1", name: "Collection" }, { id: "o2", name: "Workshops" }]} />);
+        fireEvent.click(screen.getByRole("button", { name: /Sort all tiles/i }));
+        fireEvent.click(screen.getByRole("button", { name: "Unfold Belongs to" }));
+        fireEvent.click(screen.getByLabelText("Belongs to: Offering"));
+        const stages = () => [...document.querySelectorAll("input[aria-label^='Journey Stages: ']")].map(input => input.getAttribute("aria-label")!.replace("Journey Stages: ", ""));
+        expect(stages()).toEqual(["All", "Discover", "Purchase", "Delivery"]);
+        fireEvent.click(screen.getByLabelText("Offerings: Workshops"));
+        expect(stages()).toEqual(["All", "Purchase"]);
+    });
+});

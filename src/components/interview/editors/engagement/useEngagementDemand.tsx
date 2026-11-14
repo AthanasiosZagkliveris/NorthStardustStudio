@@ -102,7 +102,7 @@ export function useEngagementDemand(earlier: Earlier) {
         const NARROWED_KINDS = ["funnel", "marketplace", "referrals"];
         const channelOptionsFor = (held: string, kind = ""): BusinessTickOption[] => channelChoices(
             segmentOf(segment.id).channels.filter(channel => channel.id === held || (servingChannels.includes(channel)
-                && (all || !NARROWED_KINDS.includes(kind) || demandSourceOf(channel.category) === kind)))
+                && (all || !NARROWED_KINDS.includes(kind) || demandSourceOf(channel.category, channel.name) === kind)))
         );
 
         /* A client on a subscription stays rather than buys again:
@@ -115,7 +115,7 @@ export function useEngagementDemand(earlier: Earlier) {
         const channelOf = (channelId: string) => segmentOf(segment.id).channels.find(channel => channel.id === channelId);
         const availableFor = (source: DemandSource) => {
             const channel = channelOf(source.channelId);
-            return all || !channel ? available : available.filter(type => type.id === source.type || type.id === demandSourceOf(channel.category));
+            return all || !channel ? available : available.filter(type => type.id === source.type || type.id === demandSourceOf(channel.category, channel.name));
         };
 
         const perMonth = demand.recurring ? " new a month" : " a month";
@@ -251,7 +251,7 @@ export function useEngagementDemand(earlier: Earlier) {
                         // (A source with no kind yet takes the one its channel's customers come by.)
                         onChange={(next) => {
                             const channelId = channelOptionsFor(source.channelId, source.type).find(option => option.label === next)?.id ?? "";
-                            const kind = channelOf(channelId) ? demandSourceOf(channelOf(channelId)!.category) : "";
+                            const kind = channelOf(channelId) ? demandSourceOf(channelOf(channelId)!.category, channelOf(channelId)!.name) : "";
                             changeSource(source.id, { channelId, ...(source.type === "" && available.some(entry => entry.id === kind) ? { type: kind } : {}) });
                         }}
                     />

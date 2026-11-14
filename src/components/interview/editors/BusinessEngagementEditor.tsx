@@ -251,12 +251,14 @@ export default function BusinessEngagementEditor(props: BusinessEngagementEditor
                     title: "Demand &\nConversion",
                     large: true,
                     anchor: "engagement-section-" + segment.id + "-demand",
-                    // Each Offering with its expected sales a month (active clients for a recurring one).
-                    items: (offeringIds.map(offeringId => {
+                    // Each Offering with its expected sales a month (active clients for a recurring one), laid out as Customer's Relationship's: the Offering, its
+                    // figure in bold under it, a line between one and the next (owner, 2026-11-14 20:08: "consistent ... like the Customer's Relationship Master Tile").
+                    items: stacked(offeringIds.map(offeringId => {
                         const result = demandResult(engagement.demand[offeringId]);
-                        return pair(offeringName(segment, offeringId), result.expected === null ? "" : result.recurring ? result.expected + " active" : result.expected + " a month");
+                        return { name: offeringName(segment, offeringId), under: result.expected === null ? "" : result.recurring ? result.expected + " active" : result.expected + " a month" };
                     })),
-                    links: offeringIds.map(offeringId => ({ box: segment.id + ":dem:" + offeringId })),
+                    // (Each Offering a link to its tile in the dialog; the lines between them none.)
+                    links: offeringIds.flatMap((offeringId, at) => [...(at > 0 ? [undefined] : []), { box: segment.id + ":dem:" + offeringId }]),
                     group: "Demand & Conversion",
                     content: () => dialog("Demand & Conversion", [SECTIONS.relationships.instructions[3], ...DEMAND_BLOCK_HELP.map(point => typeof point === "string" ? point : "")].filter(Boolean) as string[], offeringIds.length > 0
                         ? <SectionTiles label={"Demand & Conversion of " + (segment.name.trim() || "this Segment")} hue={segmentHue(segment)} tiles={demTiles()} />

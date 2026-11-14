@@ -1045,3 +1045,44 @@
     color: var(--caps-title-color, var(--text-muted));
 
 }
+
+/* THE SIDE PANEL IN THREE GROUPS (owner, 2026-11-14 18:17: options a, b and c): Show (what is listed), Order (in what order), Table (its columns, in the Table
+   view only); each group's name above its blocks, a line under it, the groups a field gap apart; the blocks keep their own look. */
+.capability-overview-menu-section {
+
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-field);
+
+}
+
+.capability-overview-menu-section + .capability-overview-menu-section {
+
+    margin-top: var(--space-field);
+
+}
+
+.capability-overview-menu-section-title {
+
+    margin: 0;
+    padding-bottom: var(--space-label);
+
+    border-bottom: 1px solid var(--line-divider);
+
+    font-size: var(--font-small);
+    font-weight: 700;
+    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
+    text-transform: uppercase;
+
+    color: var(--text-muted);
+
+}
+
+/* The cost order among the orders: "Cost", its two arrows and its "i" on one row. */
+.capability-overview-sort-cost {
+
+    display: flex;
+    align-items: center;
+    gap: var(--space-cell);
+
+}

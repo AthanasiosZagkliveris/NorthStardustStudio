@@ -1,6 +1,6 @@
 import { toneHue } from "../tiles/CardTile.tsx";
 import { asBusinessEngagementValue } from "../../../framework/engine/AnswerUtils.ts";
-import { offeringMonthlyRevenue } from "../../../framework/engine/DemandCapacity.ts";
+import { offeringChannelRevenue, offeringMonthlyRevenue } from "../../../framework/engine/DemandCapacity.ts";
 import { asFinancialSustainabilityValue } from "../../../framework/engine/financial/revenueStored.ts";
 import CardShell from "../cards/CardShell.tsx";
 import AddButton from "../../controls/AddButton.tsx";
@@ -207,7 +207,9 @@ export default function BusinessCapabilityEditor(props: BusinessCapabilityEditor
                     return { ...row, ...found, behaviour: found?.behaviour || row.behaviour };
                 })} format={moneyFormatter(organisationCurrency)} currency={organisationCurrency} offerings={foundationOfferings}
                     // (Each Offering's revenue a month: what a cost that is a share of revenue is split by, and comes to.)
-                    offeringRevenue={offeringMonthlyRevenue(asBusinessEngagementValue(props.engagement).demand, asFinancialSustainabilityValue(props.financialSustainability).streams)} onOpenAction={openEngagementAction} onOpenLegal={legalEntity !== undefined && onChangeLegalEntity ? (id: string) => openLegalExpense(id) : undefined} />;
+                    offeringRevenue={offeringMonthlyRevenue(asBusinessEngagementValue(props.engagement).demand, asFinancialSustainabilityValue(props.financialSustainability).streams)}
+                    // (And through each subchannel: what a share of a channel's revenue is split by.)
+                    offeringChannelRevenue={offeringChannelRevenue(asBusinessEngagementValue(props.engagement).demand, asFinancialSustainabilityValue(props.financialSustainability).streams, asBusinessEngagementValue(props.engagement).segments.flatMap(segment => segment.channels))} onOpenAction={openEngagementAction} onOpenLegal={legalEntity !== undefined && onChangeLegalEntity ? (id: string) => openLegalExpense(id) : undefined} />;
             }
         };
     }
