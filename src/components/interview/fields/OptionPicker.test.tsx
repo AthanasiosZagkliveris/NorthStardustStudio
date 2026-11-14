@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { cleanup, render } from "@testing-library/react";
+import { cleanup, render, screen } from "@testing-library/react";
 
 import OptionPicker, { controlStep } from "./OptionPicker";
 import { stylesheet } from "../../../test/stylesheet";
@@ -51,6 +51,29 @@ describe("one control-sizing rule for pickers", () => {
         expect(css).toContain("--control-s: 220px; --control-m: 300px; --control-l: 420px;");
         expect(css).toContain(":where(.option-picker[data-size=\"m\"]) { width: min(100%, var(--control-m)); }");
         expect(stylesheet("conversation.css")).toContain("width:min(100%, var(--control-s));");
+    });
+
+});
+
+describe("one option is a record, not a dropdown (owner, 2026-11-14 14:21 and 14:26)", () => {
+
+    it("shows the one option read only and saves it; a second option makes a dropdown again", () => {
+        const onChange = vi.fn();
+        const { rerender } = render(<OptionPicker label="Group" options={["Devices & Tools"]} value="" onChange={onChange} />);
+        const record = screen.getByRole("textbox", { name: "Group: Devices & Tools" });
+        expect(record.getAttribute("aria-readonly")).toBe("true");
+        expect(screen.queryByRole("button")).toBeNull();
+        expect(onChange).toHaveBeenCalledWith("Devices & Tools");
+        rerender(<OptionPicker label="Group" options={["Devices & Tools", "Production Machinery"]} value="Devices & Tools" onChange={onChange} />);
+        expect(screen.getByRole("button", { name: /^Group: / })).toBeTruthy();
+    });
+
+    it("keeps a dropdown where none is an answer too (an optional link), and for an option that does something", () => {
+        const onChange = vi.fn();
+        render(<><OptionPicker label="Resource" options={["Kiln"]} value="" keepChoice onChange={onChange} /><OptionPicker label="Add" options={["+ Add"]} value="" onChange={onChange} /></>);
+        expect(screen.getByRole("button", { name: /^Resource: / })).toBeTruthy();
+        expect(screen.getByRole("button", { name: /^Add: / })).toBeTruthy();
+        expect(onChange).not.toHaveBeenCalled();
     });
 
 });

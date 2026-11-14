@@ -402,7 +402,8 @@ describe("LegalEntityEditor where it is", () => {
         expect(screen.queryByText("Industry")).toBeNull();
         // (Every level's entry is printed as the official document prints it, the code first: 54, 541, 5415, 54151, 541512.)
         for (const [level, code] of [["Sector", "54"], ["Subsector", "541"], ["Industry group", "5415"], ["NAICS industry", "54151"], ["National industry", "541512"]]) {
-            expect((await screen.findAllByRole("button", { name: new RegExp("^" + level + " of the primary activity") }, { timeout: 8000 }))[0].textContent).toMatch(new RegExp("^" + code + " "));
+            // (A level with one entry is a record, not a dropdown: owner, 2026-11-14 14:21.)
+            expect((await screen.findAllByLabelText(new RegExp("^" + level + " of the primary activity"), undefined, { timeout: 8000 }))[0].textContent).toMatch(new RegExp("^" + code + " "));
         }
 
     });

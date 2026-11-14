@@ -151,6 +151,12 @@ interface OptionPickerProps {
      */
     sizeFor?: readonly string[];
 
+    /**
+     * Keeps a dropdown even with one option where "nothing chosen" is itself an answer the founder may leave -- an optional link (an Activity's Resource,
+     * a legal expense's linked registration): none or the one are two choices. Everywhere a value is required, one option is a record (owner, 2026-11-14 14:26).
+     */
+    keepChoice?: boolean;
+
     onChange: (value: string) => void;
 
 }
@@ -182,6 +188,9 @@ interface OptionPickerProps {
  * the trigger. `role="listbox"`/`role="option"` and aria-selected
  * are what make that legible to a screen reader.
  */
+/** An option that does something rather than names a value ("+ Add", "Other…", "New card"): one alone keeps its dropdown. */
+const ACTION_OPTION = /^\s*(\+|other\b|new\b|add\b)|…\s*$/i;
+
 export default function OptionPicker({
 
     label,
@@ -209,11 +218,26 @@ export default function OptionPicker({
 
     sizeFor = [],
 
+    keepChoice = false,
+
     onChange
 
 }: OptionPickerProps) {
 
     const [open, setOpen] = useState(false);
+
+    // ONE OPTION IS A RECORD, NOT A CHOICE (owner, 2026-11-14 14:21: "When a drop-down field has only one option, it does not need to be presented as a
+    // drop-down, but simply as a record ... Make it a rule"): the option is shown as the field's value, read only, and is the saved answer; a second option
+    // makes it a dropdown again.
+    // (An option that does something rather than names a value -- "+ Add", "Other…", "New …" -- is never taken by itself: the dropdown stays.)
+    const sole = !keepChoice && options.length === 1 && !ACTION_OPTION.test(options[0]) ? options[0] : null;
+    const soleChange = useRef(onChange);
+    soleChange.current = onChange;
+    useEffect(() => {
+        if (sole !== null && value !== sole && !disabled) {
+            soleChange.current(sole);
+        }
+    }, [sole, value, disabled]);
 
     // What has been typed into the filter box. Cleared every time
     // the list opens, so it never reopens showing yesterday's search.
@@ -503,6 +527,14 @@ export default function OptionPicker({
      * would be a choice nobody means to make.
      */
     const rows = matches.map(option => ({ value: option, text: option }));
+
+    if (sole !== null) {
+        return (
+            <div className="option-picker option-picker-record" data-size={currency ? "currency" : fill === "fit" ? "fit" : fill ? "fill" : hug ? "hug" : step} ref={containerRef}>
+                <span className="option-picker-record-value" role="textbox" aria-readonly="true" aria-label={label + ": " + sole} title={sole}>{sole}</span>
+            </div>
+        );
+    }
 
     return (
 

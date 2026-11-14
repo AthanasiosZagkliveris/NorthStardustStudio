@@ -613,15 +613,19 @@ describe("a Customer Source's choices narrowed by the earlier answers (owner, 20
         expect(document.body.textContent).toContain("Expected Sales");
         fireEvent.click([...document.querySelectorAll<HTMLElement>(".section-tile-overlay button.card-tile")][0]);
         const optionsOf = (label: string) => {
+            // (One option is a record, not a dropdown: its value, read only; owner, 2026-11-14 14:21.)
+            const record = screen.queryByRole("textbox", { name: new RegExp("^" + label) });
+            if (record) {
+                return [record.textContent ?? ""];
+            }
             fireEvent.click(screen.getByRole("button", { name: new RegExp("^" + label) }));
             const names = [...document.querySelectorAll("[role=option]")].map(option => option.textContent ?? "");
             fireEvent.keyDown(document.activeElement ?? document.body, { key: "Escape" });
             return names;
         };
         // (The Audit is served by the website alone: the fair serves the Build.)
+        // (One channel: a record, and the source's channel at once.)
         expect(optionsOf("Channel, ")).toEqual(["Main Website"]);
-        fireEvent.click(screen.getByRole("button", { name: /^Channel, / }));
-        fireEvent.click(screen.getByRole("option", { name: "Main Website" }));
         expect(saved.demand[audit.id].sources[0]).toMatchObject({ channelId: site.id, type: "funnel" });
         // (Its kind narrowed to the one its channel's customers come by.)
         expect(optionsOf("Customer source")).toEqual(["Sales funnel"]);
@@ -655,6 +659,11 @@ describe("a Customer Source's kind narrows its channels (owner, 2026-11-14 11:15
         openTile("1. Audit");
         fireEvent.click([...document.querySelectorAll<HTMLElement>(".section-tile-overlay button.card-tile")][0]);
         const channels = () => {
+            // (One option is a record, not a dropdown: its value, read only; owner, 2026-11-14 14:21.)
+            const record = screen.queryByRole("textbox", { name: /^Channel, / });
+            if (record) {
+                return [record.textContent ?? ""];
+            }
             fireEvent.click(screen.getByRole("button", { name: /^Channel, / }));
             const names = [...document.querySelectorAll("[role=option]")].map(option => option.textContent ?? "");
             fireEvent.keyDown(document.activeElement ?? document.body, { key: "Escape" });

@@ -250,6 +250,8 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
                                     <div className="business-capability-performer business-capability-resource-row" key={position}>
                                         <OptionPicker
                                             label={what + " resource " + (position + 1)}
+                                            // (An optional link: none is an answer too, so one resource stays a choice; owner, 2026-11-14 14:26.)
+                                            keepChoice
                                             placeholder="Select"
                                             fill="fit"
                                             options={candidates

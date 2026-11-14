@@ -567,6 +567,8 @@ export function useLegalCardsAndSections(earlier: Earlier) {
                                 "Linked registration",
                                 <OptionPicker
                                     label={"Expense " + (index + 1) + " linked registration"}
+                                    // (An optional link: none is an answer too, so one registration stays a choice; owner, 2026-11-14 14:26.)
+                                    keepChoice
                                     placeholder="Select"
                                     options={linkTargets.filter(target => !entity.requirements.some(requirement => requirement.id === target.id && requirement.offerInExpenses)).map(target => target.label)}
                                     disabled={disabled}

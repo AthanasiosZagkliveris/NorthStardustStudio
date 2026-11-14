@@ -59,6 +59,7 @@ export const dropdown: AssetContract = {
     },
     uses: [
         "every choice of one value on the Foundation pages and in the cards",
-        "frequencies, statuses, types, currencies, countries (searchable)"
+        "frequencies, statuses, types, currencies, countries (searchable)",
+        "ONE OPTION IS A RECORD (owner, 2026-11-14 14:21): with a single option it shows that option read only (.option-picker-record, the read-only value's look, the field's height) and saves it; a second option makes it a dropdown again. An optional link keeps its dropdown (keepChoice), as does an option that does something (+ Add, Other...)"
     ]
 };
