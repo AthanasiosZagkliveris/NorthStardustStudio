@@ -1354,7 +1354,8 @@ describe("the Inventory funnel menu", () => {
         expect(order.map(button => button.getAttribute("aria-pressed"))).toEqual(["false", "true"]);
         expect(menu.querySelector(".capability-overview-costs-head")!.textContent).toContain("Costs");
         expect([...menu.querySelectorAll(".capability-overview-costs-range label")].map(label => label.firstChild!.textContent!.trim())).toEqual(["From", "To"]);
-        expect(within(menu).getByLabelText("Connected: Linked")).toBeTruthy();
+        // (The tick Linked stands only where a card is linked: these cards are not; owner, 2026-11-14 13:54.)
+        expect(within(menu).queryByLabelText("Connected: Linked")).toBeNull();
     });
 
     it("orders its blocks Include, Sort, Belongs to, then Status / Linked / Costs, all three labelled blocks folded at first, each arrow right after its label", () => {
@@ -1430,7 +1431,8 @@ describe("the Inventory table", () => {
         fireEvent.click(tileButton(/^Inventory/));
         fireEvent.click(screen.getByRole("radio", { name: "Table" }));
         const table = document.querySelector(".capability-overview-table")!;
-        expect([...table.querySelectorAll("th[scope=col]")].map(head => head.textContent)).toEqual(["Name", "Type", "Section", "Category", "Group", "Cost", "Frequency", "Cost Nature", "Behaviour", "Status", "Linked"]);
+        // (A column no row fills is not drawn: the Loom has no cost of its own, so no Cost, Frequency, Cost Nature or Behaviour; owner, 2026-11-14 13:54.)
+        expect([...table.querySelectorAll("th[scope=col]")].map(head => head.textContent)).toEqual(["Name", "Type", "Section", "Category", "Group", "Status", "Linked"]);
         const linked = table.querySelector("tbody tr td:last-child")!;
         expect(linked.textContent).toBe("");
         const bullets = [...linked.querySelectorAll<HTMLElement>(".card-tile-symbol")];
@@ -1509,11 +1511,13 @@ describe("the table mode: surface, columns, sizes", () => {
         const priced = { ...createBusinessResourceSlot(), name: "Loom", status: "costs", cost: { price: "10", frequency: "monthly", frequencyOther: "", currency: "" } };
         render(<Harness initial={{ ...base, resources: { equipment: [{ id: "devices-tools", name: "", slots: [priced] }] } }} />);
         const table = openTable();
-        expect(heads(table)).toEqual(["Name", "Type", "Section", "Category", "Group", "Cost", "Frequency", "Cost Nature", "Behaviour", "Status", "Linked"]);
+        // (No card is linked: no Linked column, and none to choose; owner, 2026-11-14 13:54.)
+        expect(heads(table)).toEqual(["Name", "Type", "Section", "Category", "Group", "Cost", "Frequency", "Cost Nature", "Behaviour", "Status"]);
         fireEvent.click(screen.getByRole("button", { name: /Sort all tiles/i }));
         const menu = document.querySelector<HTMLElement>(".strategy-sort-menu-wide")!;
         fireEvent.click(within(menu).getByRole("button", { name: "Unfold Columns" }));
         expect(within(menu).queryByLabelText("Column: Name")).toBeNull();
+        expect(within(menu).queryByLabelText("Column: Linked")).toBeNull();
         fireEvent.click(within(menu).getByLabelText("Column: Group"));
         expect(heads(document.querySelector<HTMLElement>(".capability-overview-table")!)).not.toContain("Group");
         fireEvent.click(within(menu).getByLabelText("Costs: Costs"));

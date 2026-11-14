@@ -561,7 +561,9 @@ main.conversation-content[data-reserve],
 
     width: auto;
 
-    padding: 12px;
+    /* 12px round the bullets, counted from the lit bullet's grown edge (--rail-dot-overhang, bullet-rail.css): the grown bullet and its bloom keep 12px
+       from every edge of the tab (owner, 2026-11-14 13:54). */
+    padding: calc(var(--gap-12) + var(--rail-dot-overhang));
 
     /* (Edged on all four sides: the side against the layer stands over the layer's own edge, so the edge runs on unbroken where the tab joins it; owner, 2026-11-11.) */
     border: 1px solid var(--tab-edge);

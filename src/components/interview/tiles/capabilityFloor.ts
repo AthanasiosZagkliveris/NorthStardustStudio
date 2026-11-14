@@ -426,6 +426,26 @@ export function tileMarks(row: FloorRow, lines: readonly string[]): ({ plain: tr
     return lines.map((_line, at) => at < plain ? { plain: true } : { bullet: true });
 }
 
+/**
+ * WHETHER A COLUMN OF THE INVENTORY'S TABLE HAS ANYTHING TO SHOW in these rows (owner, 2026-11-14 13:54: "Optimise the options, keep presented or hide options
+ * according to existed options"): a column, and its choice under Columns, stands only where a row fills it.
+ */
+export function floorColumnHasData(column: string, rows: readonly FloorRow[]): boolean {
+    switch (column) {
+        case "cost": return rows.some(row => row.amount !== null || !!row.deposit);
+        case "frequency": return rows.some(row => !!row.frequencyLabel);
+        case "nature": return rows.some(row => !!row.nature);
+        case "behaviour": return rows.some(row => !!row.behaviour || !!row.channel?.behaviour);
+        case "status": return rows.some(row => !!row.statusLabel);
+        case "offering":
+        case "share": return rows.some(row => (row.offeringIds?.length ?? 0) > 0 || (row.channel?.offerings.length ?? 0) > 0);
+        case "journey": return rows.some(row => (row.channel?.stages.length ?? 0) > 0);
+        case "actions": return rows.some(row => (row.channel?.actions.length ?? 0) > 0);
+        case "linked": return rows.some(row => row.links.length > 0);
+        default: return true;
+    }
+}
+
 export const FLOOR_SORTS: readonly { id: string; label: string }[] = [
     { id: "page", label: "Page order" },
     { id: "name-asc", label: "Name, A to Z" },

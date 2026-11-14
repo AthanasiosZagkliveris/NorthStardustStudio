@@ -136,12 +136,12 @@ exports[`Lumen & Loom Studio > Business System › 1. Foundation 1`] = `
 `;
 
 exports[`Lumen & Loom Studio > Business System › 2. Customer Engagement > tile segment-8lu427u5:channels 1`] = `
-"Channels & JourneyChannels & JourneyiChannelsJourney StagesFrom your answersAllSocial MediaInstagramPinterestTikTokYouTubeWebsiteOnline StoreEmailNewsletterCommunityFacebook GroupMeetupIn PersonStudio / ShopMarket / Pop-upWorkshop / ClassDirect PaymentCardPhysical DeliveryCourierReferral & AffiliatesInfluencer / AmbassadorCustomer ReferralOnline / LiveSuggested forSupport & Follow UpBack‹›Channels & JourneyCustomer's RelationshipDemand & ConversionBack
+"Channels & JourneyChannels & JourneyiChannelsJourney StagesFrom your answersAllSocial MediaInstagramPinterestTikTokYouTubeWebsiteOnline StoreEmailNewsletterCommunityFacebook GroupMeetupIn PersonStudio / ShopMarket / Pop-upWorkshop / ClassDirect PaymentCardPhysical DeliveryCourierReferral & AffiliatesInfluencer / AmbassadorCustomer ReferralOnline / LiveZoomBack‹›Channels & JourneyCustomer's RelationshipDemand & ConversionBack
 [fields] "
 `;
 
 exports[`Lumen & Loom Studio > Business System › 2. Customer Engagement > tile segment-8lu427u5:demand 1`] = `
-"Demand & ConversionDemand & ConversioniFrom your answersAll1. Homeware Collection10 a monthMarketplace or walk-inMarketplace or walk-in2. Weaving Workshops32 a monthSales funnelReferralsBack‹›Channels & JourneyCustomer's RelationshipDemand & ConversionBack
+"Demand & ConversionDemand & ConversioniFrom your answersAll1. Homeware Collection10 a monthVisitorsVisitors2. Weaving Workshops32 a monthSales funnelReferralsBack‹›Channels & JourneyCustomer's RelationshipDemand & ConversionBack
 [fields] "
 `;
 
@@ -151,12 +151,12 @@ exports[`Lumen & Loom Studio > Business System › 2. Customer Engagement > tile
 `;
 
 exports[`Lumen & Loom Studio > Business System › 2. Customer Engagement > tile segment-majxtl1u:channels 1`] = `
-"Channels & JourneyChannels & JourneyiChannelsJourney StagesFrom your answersAllSocial MediaLinkedInInstagramPinterestWebsiteLanding PageMain WebsiteEmailDirect EmailIn PersonTrade Fair / ExhibitionStudio / ShopCustomer LocationDirect PaymentInvoicePhysical DeliveryPostal ServiceReferral & AffiliatesCustomer ReferralOnline / LiveSuggested forSupport & Follow UpBack‹›Channels & JourneyCustomer's RelationshipDemand & ConversionBack
+"Channels & JourneyChannels & JourneyiChannelsJourney StagesFrom your answersAllSocial MediaLinkedInInstagramPinterestWebsiteLanding PageMain WebsiteEmailDirect EmailIn PersonTrade Fair / ExhibitionStudio / ShopCustomer LocationDirect PaymentInvoicePhysical DeliveryPostal ServiceReferral & AffiliatesCustomer ReferralOnline / LiveZoomBack‹›Channels & JourneyCustomer's RelationshipDemand & ConversionBack
 [fields] "
 `;
 
 exports[`Lumen & Loom Studio > Business System › 2. Customer Engagement > tile segment-majxtl1u:demand 1`] = `
-"Demand & ConversionDemand & ConversioniFrom your answersAll1. Bespoke Commissions3 a monthContracts or tendersReferrals2. Trade Collection3 a monthSales funnelMarketplace or walk-inBack‹›Channels & JourneyCustomer's RelationshipDemand & ConversionBack
+"Demand & ConversionDemand & ConversioniFrom your answersAll1. Bespoke Commissions3 a monthContracts or tendersReferrals2. Trade Collection3 a monthSales funnelVisitorsBack‹›Channels & JourneyCustomer's RelationshipDemand & ConversionBack
 [fields] "
 `;
 
@@ -166,7 +166,7 @@ exports[`Lumen & Loom Studio > Business System › 2. Customer Engagement > tile
 `;
 
 exports[`Lumen & Loom Studio > Business System › 2. Customer Engagement 1`] = `
-"…Saving…AutoFocusSearchWorkbookNotesSettingsLumen & Loom Studio3. Business System — 2. Customer Engagement1. London HomemakersChannels &JourneyDiscover11Evaluation6Purchase3Delivery4Support & Follow Up4Customer'sRelationshipHomeware Collection Personal AssistanceWeaving Workshops CommunityDemand &ConversionHomeware Collection10 a monthWeaving Workshops32 a month2. Designers & Boutique HotelsChannels &JourneyDiscover6Evaluation5Purchase2Delivery3Support & Follow Up1Customer'sRelationshipBespoke Commissions Dedicated SupportTrade Collection Personal AssistanceDemand &ConversionBespoke Commissions3 a monthTrade Collection3 a month‹PagesIntroduction1. Foundation: defined2. Customer Engagement: defined3. Infrastructure & Capability: defined4. Financial Foundation: defined5. Sustainability: defined›Back
+"…Saving…AutoFocusSearchWorkbookNotesSettingsLumen & Loom Studio3. Business System — 2. Customer Engagement1. London HomemakersChannels &JourneyDiscover11Evaluation6Purchase3Delivery4Support & Follow Up5Customer'sRelationshipHomeware Collection Personal AssistanceWeaving Workshops CommunityDemand &ConversionHomeware Collection10 a monthWeaving Workshops32 a month2. Designers & Boutique HotelsChannels &JourneyDiscover6Evaluation5Purchase2Delivery3Support & Follow Up2Customer'sRelationshipBespoke Commissions Dedicated SupportTrade Collection Personal AssistanceDemand &ConversionBespoke Commissions3 a monthTrade Collection3 a month‹PagesIntroduction1. Foundation: defined2. Customer Engagement: defined3. Infrastructure & Capability: defined4. Financial Foundation: defined5. Sustainability: defined›Back
 [fields] "
 `;
 

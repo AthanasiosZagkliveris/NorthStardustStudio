@@ -202,7 +202,7 @@ export const DEMAND_SOURCE_FORMULA_HELP: Record<string, InfoPoint[]> = {
         "Not every prospect is a real buyer. Multiply prospects by the share who qualify, then by the share of those you close.",
     ],
     referrals: [
-        { title: "Formula", text: "Referrals × Buy%" },
+        { title: "Formula", text: "Introductions × Buy%" },
         "Of the people referred to you, only some buy. Referred customers tend to stay longer and be worth more than customers from other sources.",
         { title: "Based on", source: SOURCES.referrals }
     ],

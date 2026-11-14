@@ -58,3 +58,27 @@ describe.each([["Lumen & Loom Studio", lumen], ["Quillfield Automation LLC", qui
     });
 
 });
+
+/**
+ * EVERY SUBCHANNEL OF AN EXAMPLE IS NAMED AND EVERY SUGGESTION IS MET (owner, 2026-11-14 14:03: two "Unnamed subchannel" cards under Online / Live -- the
+ * Relationship Types' after-sale help suggested the channel, and no subchannel answered it): no channel without a name, and no channel the answers suggest left
+ * standing as a suggestion only.
+ */
+describe.each([["Lumen & Loom Studio", lumen], ["Quillfield Automation LLC", quillfield]])("the example %s's channels", (_name, example) => {
+
+    it("names every subchannel and answers every channel its answers suggest", async () => {
+        const { asBusinessEngagementValue, businessFoundationSegments } = await import("../framework/engine/AnswerUtils.ts");
+        const { journeySuggestions, suggestionCovered } = await import("../framework/engine/JourneySuggestions.ts");
+        const responses = (example as unknown as { systems: Record<string, { responses: { sectionNumber: number; value: unknown }[] }> }).systems["3"].responses;
+        const segments = businessFoundationSegments(responses.find(response => response.sectionNumber === 1)!.value);
+        const engagement = asBusinessEngagementValue(responses.find(response => response.sectionNumber === 2)!.value);
+        const unnamed = engagement.segments.flatMap(segment => segment.channels.filter(channel => !channel.name.trim()).map(channel => segment.segmentId + " " + channel.category));
+        const unmet = segments.flatMap(segment => {
+            const channels = engagement.segments.find(entry => entry.segmentId === segment.id)?.channels ?? [];
+            return journeySuggestions(segment).filter(suggestion => !suggestionCovered(suggestion, channels)).map(suggestion => segment.id + " " + suggestion.stage + " " + suggestion.category + " " + suggestion.name);
+        });
+        expect(unnamed).toEqual([]);
+        expect(unmet).toEqual([]);
+    });
+
+});

@@ -82,7 +82,7 @@ export const DEMAND_SOURCES: DemandSourceType[] = [
         label: "Referrals",
         explanation: "Customers introduced by clients, partners or a network.",
         fields: [
-            { key: "referrals", label: "Referrals / Month", kind: "number", placeholder: "e.g. 3", help: "Introductions expected each month." },
+            { key: "referrals", label: "Introductions / Month", kind: "number", placeholder: "e.g. 3", help: "Introductions expected each month." },
             { key: "buy", label: "Buy (%)", kind: "percent", placeholder: "e.g. 40", help: "The share of introductions that become a sale." }
         ]
     },
@@ -103,7 +103,7 @@ export const DEMAND_SOURCES: DemandSourceType[] = [
         oneOffOnly: true,
         fields: [
             { key: "again", label: "Buy Again (%)", kind: "percent", placeholder: "e.g. 30", help: "The share of the customers won through the other sources who buy again." },
-            { key: "times", label: "Times Each", kind: "number", placeholder: "1", help: "How many more times each of them buys: 1 if once more." }
+            { key: "times", label: "Repeat Purchases Each", kind: "number", placeholder: "1", help: "How many more times each of them buys: 1 if once more." }
         ]
     },
     {
@@ -118,8 +118,9 @@ export const DEMAND_SOURCES: DemandSourceType[] = [
     },
     {
         id: "marketplace",
-        label: "Marketplace or walk-in",
-        explanation: "Customers who find you: a shop, a stall, a marketplace listing, a website.",
+        // (Its id kept: "marketplace". Its name says what it counts, the visitors, wherever they come: owner, 2026-11-14 13:54, "Check the wording for each Customer Source".)
+        label: "Visitors",
+        explanation: "People who come to you and buy: a shop, a stall, a website, a marketplace listing.",
         fields: [
             { key: "visitors", label: "Visitors / Month", kind: "number", placeholder: "e.g. 800", help: "People who visit the shop, stall, listing or site in a month." },
             { key: "buy", label: "Buy (%)", kind: "percent", placeholder: "e.g. 2", help: "The share of visitors who buy." }

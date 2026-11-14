@@ -133,6 +133,8 @@ export function useEngagementRelationships(earlier: Earlier) {
                     window.setTimeout(() => document.dispatchEvent(new CustomEvent<OpenRequest>(OPEN_EVENT, { detail: { tile: channelTileId(segment.id, group.key), card: made.id, fresh: true } })), 80);
                 } : undefined,
                 holds: group.channels.map(channel => channel.id),
+                // (Its dialog shows its subchannels alone where nothing is suggested and All is not chosen: one subchannel then opens at once.)
+                lone: extra.length === 0 && !showsAll(segment.id),
                 note: [...channelCategoryHelp(group.label), ...suggestionNote(group.label)],
                 cardFor: (id: string) => answers.channels.some(channel => channel.id === id)
                     ? <div className="column-tile-content" style={{ "--strategy-theme-hue": segmentHue(segment) } as CSSProperties}><CardShell engagement={false} className="business-subchannel-card">{channelsFor(segment, group.key, id)}</CardShell></div>
@@ -640,20 +642,30 @@ export function useEngagementRelationships(earlier: Earlier) {
                                             const answersFor = interactionOf(segment.id, offeringId, typeId, interaction.key, interaction.legacyKeys, start);
                                             const stage = STAGE_LABELS[interaction.stageId] ?? "";
                                             const about = stage + ", " + offeringName(offeringId) + ", " + label;
+                                            // (ITS CHANNELS UNDER A FOLD ARROW, folded at first: the channels as a list, each with its subchannels as a list under it; owner,
+                                            // 2026-11-14 13:54: "change the i to a folded arrow, placing it as a list (channels) and nested lists (subchannels)". The page's folds
+                                            // start open, so this one's key is held the other way round.)
+                                            const stageFold = "relstage:" + segment.id + ":" + offeringId + ":" + typeId + ":" + interaction.key;
+                                            const stageOpen = !folds.isOpen(stageFold);
                                             return (
                                                 <div key={interaction.key} className="business-relationship-stage-row" role="row">
-                                                    <span className="business-foundation-label-info" role="rowheader">
-                                                        <FieldLabel className="business-foundation-label">
-                                                        <InfoText text={stage}>
-                                                            {interaction.groups.length > 0 && (
-                                                                <InfoNote
-                                                                    label={stage + ": the channels"}
-                                                                    points={interaction.groups.map(group => ({ title: group.category.trim().length ? group.category : "No category", text: group.channelIds.map(id => channelName(id)).join(", ") }))}
-                                                                    fullList
-                                                                />
-                                                            )}
-                                                        </InfoText>
-                                                        </FieldLabel>
+                                                    <span className="business-foundation-label-info business-relationship-stage-head" role="rowheader">
+                                                        <span className="business-relationship-stage-name">
+                                                            {interaction.groups.length > 0 && <FoldArrow open={stageOpen} label={stage + " channels"} onToggle={() => folds.toggle(stageFold)} />}
+                                                            <FieldLabel className="business-foundation-label">{stage}</FieldLabel>
+                                                        </span>
+                                                        {stageOpen && interaction.groups.length > 0 && (
+                                                            <ul className="business-engagement-channel-list business-relationship-stage-channels" aria-label={stage + " channels"}>
+                                                                {interaction.groups.map(group => (
+                                                                    <li key={group.category}>
+                                                                        {group.category.trim() || "No channel"}
+                                                                        <ul className="business-engagement-channel-list">
+                                                                            {group.channelIds.map(id => <li key={id}>{channelName(id)}</li>)}
+                                                                        </ul>
+                                                                    </li>
+                                                                ))}
+                                                            </ul>
+                                                        )}
                                                     </span>
                                                     <div className="radio-choice legal-entity-radio-stack" role="group" aria-label={"Goals for " + about}>
                                                         <BusinessTicks

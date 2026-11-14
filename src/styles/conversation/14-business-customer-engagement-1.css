@@ -921,18 +921,22 @@
 
     grid-template-columns:var(--stage-col) var(--goals-col) minmax(0, 1fr);
 
-    gap:var(--gap-12);
+    /* 12px on each side of a line (owner, 2026-11-14 13:54: "Fix the gaps (sides, in between)"): the gap is twice the 12px, its line in the middle. */
+    --stage-gap:calc(2 * var(--gap-12));
+
+    gap:var(--stage-gap);
 
     align-items:start;
 
     /* The columns parted by two vertical lines in the card's divider colour, down the whole row, in the middle of each gap (owner, 2026-11-13 04:58: "instead
-       of underlines add vertical divider lines"). */
+       of underlines add vertical divider lines"), BOLD as the journey stage tables' lines (2px; owner, 2026-11-14 13:54: "make their dividing lines bold"). */
     --stage-divider:hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
+    --stage-line:2px;
 
     background-image:linear-gradient(var(--stage-divider), var(--stage-divider)), linear-gradient(var(--stage-divider), var(--stage-divider));
-    background-size:1px 100%;
+    background-size:var(--stage-line) 100%;
     background-repeat:no-repeat;
-    background-position:calc(var(--stage-col) + var(--gap-12) / 2) 0, calc(var(--stage-col) + var(--goals-col) + var(--gap-12) * 1.5) 0;
+    background-position:calc(var(--stage-col) + (var(--stage-gap) - var(--stage-line)) / 2) 0, calc(var(--stage-col) + var(--goals-col) + var(--stage-gap) + (var(--stage-gap) - var(--stage-line)) / 2) 0;
 
     /* The lines run on through the band's own room above and below the row, so they are one unbroken line down the card (owner, 2026-11-13 13:56: "make the
        vertical lines continuous"). */
@@ -1150,3 +1154,52 @@
 
 }
 
+
+/* A STAGE'S NAME WITH ITS FOLD ARROW, and under it, unfolded, its channels as a list and each one's subchannels as a list under it (owner, 2026-11-14 13:54). */
+.business-relationship-stage-head{
+
+    display:flex;
+    flex-direction:column;
+
+    gap:var(--gap-8);
+
+    min-width:0;
+
+}
+
+.business-relationship-stage-name{
+
+    display:flex;
+    align-items:flex-start;
+
+}
+
+.business-relationship-stage-channels .business-engagement-channel-list{
+
+    color:var(--text-muted);
+
+}
+
+/* (In the stage's narrow column, at the small size, as a tile's lists; a long name wraps inside the column, never over its line.) */
+.business-relationship-stage-channels,
+.business-relationship-stage-channels .business-engagement-channel-list{
+
+    font-size:var(--font-small);
+    line-height:var(--field-line);
+
+    overflow-wrap:anywhere;
+
+}
+
+.business-relationship-stage-channels{
+
+    color:var(--text-default);
+
+}
+
+.business-relationship-stage-channels > li::before,
+.business-relationship-stage-channels .business-engagement-channel-list > li::before{
+
+    top:calc((var(--font-small) * var(--field-line) - var(--bullet-size)) / 2);
+
+}

@@ -404,7 +404,7 @@ Rows are no longer typed from a source list: **one row is proposed for each Disc
 |---|---|---|---|
 | Customers Buy | Dropdown | keep, **derived** from O3 | One sale at a time; Every month, until they cancel |
 | Cancel / Month (%) | Number | keep, recurring only | |
-| Row: channel or source | Dropdown | keep, **proposed** | Referrals; Sales funnel; Repeat customers; Contracts or tenders; Marketplace or walk-in; Other |
+| Row: channel or source | Dropdown | keep, **proposed** | Referrals; Sales funnel; Repeat customers; Contracts or tenders; Visitors (formerly "Marketplace or walk-in", its id `marketplace` kept; 2026-11-14); Other |
 | Row: Estimated | Dropdown | keep | Enter a figure; Calculate |
 | Row: numbers (visitors, prospects, qualified %, buy %, bids, won %, units, sales) | Number | keep | |
 | **D1** What is this estimate based on? | Dropdown, per row | new, Core | L16 without "My costs plus a margin" |

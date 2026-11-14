@@ -2079,6 +2079,30 @@
                       ]
                     },
                     "fromAnswers": true
+                  },
+                  {
+                    "id": "channel-lnzoom01",
+                    "category": "Online / Live",
+                    "name": "Zoom",
+                    "links": [
+                      ""
+                    ],
+                    "offerings": [
+                      "*"
+                    ],
+                    "stages": [
+                      "support"
+                    ],
+                    "actionIds": {
+                      "support": [
+                        "action-channel-lnzoom01-support-1"
+                      ]
+                    },
+                    "actions": {
+                      "support": [
+                        "Offer a video call on request for a repair, a care question or a loom question after a workshop"
+                      ]
+                    }
                   }
                 ],
                 "actions": [
@@ -2221,6 +2245,10 @@
                   {
                     "id": "action-channel-segment-8lu427u5-referral-affiliates-customer-referral-evaluation-1",
                     "text": "Share photos and words from past buyers when a new customer asks about quality"
+                  },
+                  {
+                    "id": "action-channel-lnzoom01-support-1",
+                    "text": "Offer a video call on request for a repair, a care question or a loom question after a workshop"
                   }
                 ],
                 "offerings": [
@@ -2659,6 +2687,30 @@
                       ]
                     },
                     "fromAnswers": true
+                  },
+                  {
+                    "id": "channel-lnzoom02",
+                    "category": "Online / Live",
+                    "name": "Zoom",
+                    "links": [
+                      ""
+                    ],
+                    "offerings": [
+                      "*"
+                    ],
+                    "stages": [
+                      "support"
+                    ],
+                    "actionIds": {
+                      "support": [
+                        "action-channel-lnzoom02-support-1"
+                      ]
+                    },
+                    "actions": {
+                      "support": [
+                        "Hold a video check-in after each installation to see the pieces in place and plan the next order"
+                      ]
+                    }
                   }
                 ],
                 "actions": [
@@ -2741,6 +2793,10 @@
                   {
                     "id": "action-channel-segment-majxtl1u-website-main-website-discovery-1",
                     "text": "Publish a case study of each finished hotel project and share it with interiors magazines and design review sites"
+                  },
+                  {
+                    "id": "action-channel-lnzoom02-support-1",
+                    "text": "Hold a video check-in after each installation to see the pieces in place and plan the next order"
                   }
                 ],
                 "offerings": [

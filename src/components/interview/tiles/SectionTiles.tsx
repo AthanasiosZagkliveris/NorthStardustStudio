@@ -206,8 +206,8 @@ export default function SectionTiles({
         }
         if (tile.direct && tile.cardFor) {
             openFloating(tile, tile.direct, from, "group", false, pointer);
-        } else if (cardsFloatOnly(tile) && !tile.view && tile.holds && tile.holds.length === 1) {
-            // A tile connected with exactly ONE card opens that card, floating.
+        } else if (cardsFloatOnly(tile) && (!tile.view || tile.lone) && tile.holds && tile.holds.length === 1) {
+            // A tile connected with exactly ONE card opens that card, floating (a view's too, where it would show that card alone: `lone`).
             openFloating(tile, tile.holds[0], from, "column", false, pointer);
         } else if (cardsFloatOnly(tile) && !tile.view && tile.holds && tile.holds.length === 0 && tile.add) {
             // A tile with none: one blank card is made and opened (taken away again if left blank).

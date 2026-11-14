@@ -237,11 +237,22 @@
 .bullet-rail-item.active { color: var(--text-strong); text-shadow: var(--hover-bold); 
  letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));}
 
+/* THE LIT BULLET'S GROWTH, one owner: it grows by --rail-dot-grow with a bloom of --rail-bloom-width (scaled with it), so it reaches
+   --rail-dot-overhang past its 12px box -- what a tab keeps round its bullets, and the arrow's gap, so a grown bullet never touches an edge
+   (owner, 2026-11-14 13:54: "Fix its rail to fit properly, with the proper gaps (counting the scaling over hovering)"). */
+:root {
+
+    --rail-dot-grow: 1.45;
+    --rail-bloom-width: 4px;
+    --rail-dot-overhang: calc(12px * (var(--rail-dot-grow) - 1) / 2 + var(--rail-bloom-width) * var(--rail-dot-grow));
+
+}
+
 .bullet-rail-item.active .bullet-rail-dot {
 
     --status-ink: var(--rail-dot-active);
-    box-shadow: 0 0 0 4px var(--rail-bloom);
-    transform: scale(1.45);
+    box-shadow: 0 0 0 var(--rail-bloom-width) var(--rail-bloom);
+    transform: scale(var(--rail-dot-grow));
 
 }
 

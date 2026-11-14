@@ -563,13 +563,22 @@ describe("every Offering has at least one relationship type (owner, 2026-11-13 0
     it("gives an Offering with no answers Personal Assistance, its card with no x while it is the only type; a second type is a card of its own, with its x", async () => {
         render(<TilesHarness />);
         openTile("Customer's Relationship");
-        // (An Offering holds several cards: its tile opens a dialog of them, a tile per type; owner, 2026-11-13 04:58.)
+        // (ONE TYPE AND NO "+": the Offering's tile opens its card at once, with no dialog for a single card; owner, 2026-11-14 13:54.)
+        openTile("1. Audit");
+        await act(() => new Promise(resolve => setTimeout(resolve, 100)));
+        expect(document.querySelector(".floating-card-host")?.textContent).toContain("Personal Assistance");
+        expect(document.querySelectorAll(".section-tile-dialog").length).toBe(1);
+        expect(removes()).toHaveLength(0);
+        fireEvent.keyDown(document, { key: "Escape" });
+        await act(() => new Promise(resolve => setTimeout(resolve, 100)));
+        // (With All, the Offering's dialog has its Add Card: it opens, a tile per type; the Add Card adds the next type and opens its card; the Offering then
+        // has two, each card with its x.)
+        openTile("Customer's Relationship");
+        fireEvent.click(screen.getAllByRole("radio", { name: "All" })[0]);
         openTile("1. Audit");
         fireEvent.click([...document.querySelectorAll<HTMLElement>(".section-tile-overlay button.card-tile")].pop()!);
         expect(document.querySelector(".floating-card-host")?.textContent).toContain("Personal Assistance");
         expect(removes()).toHaveLength(0);
-        // (With All, the dialog's Add Card adds the next type and opens its card; the Offering then has two, each card with its x.)
-        fireEvent.click(screen.getAllByRole("radio", { name: "All" })[0]);
         fireEvent.click(screen.getAllByRole("button", { name: "Add Card" }).pop()!);
         await act(() => new Promise(resolve => setTimeout(resolve, 200)));
         expect(document.querySelector(".floating-card-host")?.textContent).toContain("Self-Service");

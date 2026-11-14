@@ -1,6 +1,6 @@
 import { describe, expect, test } from "vitest";
 import { asBusinessCapabilityValue } from "../../../framework/engine/AnswerUtils.ts";
-import { DEFAULT_FLOOR_FILTER, FLOOR_PLACES, FloorFilter, FloorRow, filterFloor, floorCategories, floorRows, floorSubgroups, kindClass, placeOf, subgroupKey, sortFloor, tileLines, typeClass, amountText } from "./capabilityFloor.ts";
+import { DEFAULT_FLOOR_FILTER, FLOOR_PLACES, FloorFilter, FloorRow, filterFloor, floorColumnHasData, floorCategories, floorRows, floorSubgroups, kindClass, placeOf, subgroupKey, sortFloor, tileLines, typeClass, amountText } from "./capabilityFloor.ts";
 
 const slot = (fields: Record<string, unknown>) => ({
     id: "s", name: "", quantity: "", description: "", status: "", providerId: "", offeringIds: [],
@@ -252,5 +252,17 @@ describe("the Inventory's Journey Stages under Belongs to (owner, 2026-11-14 11:
     test("a stage ticked keeps the channel cards used at it; two ticked keep either", () => {
         expect(ids(["Purchase"])).toEqual(["shop", "reader"]);
         expect(ids(["Evaluation", "Delivery"])).toEqual(["shop", "van"]);
+    });
+});
+
+describe("the Inventory's columns stand where a row fills them (owner, 2026-11-14 13:54)", () => {
+    const row = (patch: Partial<FloorRow>): FloorRow => ({ id: "r", tone: "infrastructure", kind: "resource", name: "r", path: ["Infrastructure", "Equipment"], status: "", statusLabel: "", frequency: "", frequencyLabel: "", amount: null, links: [], ...patch } as unknown as FloorRow);
+
+    test("a column with nothing to show is not offered; one row filling it is enough", () => {
+        const bare = [row({})];
+        expect(["cost", "frequency", "status", "offering", "share", "journey", "actions", "linked"].filter(column => floorColumnHasData(column, bare))).toEqual([]);
+        expect(floorColumnHasData("name", bare)).toBe(true);
+        expect(floorColumnHasData("cost", [row({}), row({ amount: 12, frequencyLabel: "Monthly" })])).toBe(true);
+        expect(floorColumnHasData("share", [row({ offeringIds: ["o1"] })])).toBe(true);
     });
 });

@@ -4,7 +4,6 @@
  */
 import { CSSProperties, FocusEvent, ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import GlobalSettingsLink from "../../fields/GlobalSettingsLink.tsx";
-import FieldLabel from "../../../controls/FieldLabel.tsx";
 import { asGlobalSettings, channelFeeOf } from "../../../../framework/engine/GlobalSettings.ts";
 import { asFinancialSustainabilityValue } from "../../../../framework/engine/financial/revenueStored.ts";
 import { channelFeeFor } from "../../../../framework/engine/CalculatedLines.ts";
@@ -780,8 +779,9 @@ export function useEngagementState(props: BusinessEngagementEditorProps) {
         ].join(" + ") : "";
         return (
             <div className="business-channel-resources business-channel-resources-sectioned business-channel-fees">
+                    {/* (The heading is the link: to the Global Settings' Channel Fee Table, landing on the row it reads; owner, 2026-11-14 13:54: "Make the Fees a link".) */}
                     <div className="business-channel-resources-head">
-                        <FieldLabel className="business-channel-field-label">Fees</FieldLabel>
+                        <GlobalSettingsLink className="business-channel-field-label business-channel-fee-link" land={found ? "channel-fee-" + found.row.id : "channel-fees"}>Fees</GlobalSettingsLink>
                     </div>
                     {found ? (
                         <>
@@ -792,7 +792,6 @@ export function useEngagementState(props: BusinessEngagementEditorProps) {
                     ) : (
                         <p className="business-channel-cost-summary">{"No fee is set for " + (channel.name.trim() || "this subchannel") + " yet: add its row to the Channel Fee Table."}</p>
                     )}
-                    <GlobalSettingsLink className="business-channel-fee-link">Change in Global Settings</GlobalSettingsLink>
             </div>
         );
     }

@@ -1,5 +1,6 @@
 import { Fragment, useEffect, useMemo, useState } from "react";
 import TextLink from "../components/interview/fields/TextLink.tsx";
+import { land } from "../components/interview/tiles/jumpTo.ts";
 import AddButton from "../components/controls/AddButton.tsx";
 import RemoveButton from "../components/controls/RemoveButton.tsx";
 import NumberCell from "../components/controls/NumberCell.tsx";
@@ -96,6 +97,20 @@ export default function GlobalSettings() {
     );
 
     const from = (location.state as { from?: { pathname: string; state?: unknown } } | null)?.from;
+    // (A LINK THAT NAMES A PART of the screen -- a subchannel's Fees, a row of the Channel Fee Table -- lands on it: scrolled to and framed, as every link's target is.)
+    const landOn = (location.state as { land?: string } | null)?.land;
+    useEffect(() => {
+        if (!landOn) {
+            return;
+        }
+        const timer = window.setTimeout(() => {
+            const target = document.querySelector<HTMLElement>('[data-anchor="' + CSS.escape(landOn) + '"]');
+            if (target) {
+                land(target);
+            }
+        }, 120);
+        return () => window.clearTimeout(timer);
+    }, [landOn]);
     const back = useMemo(() => () => {
         if (from && from.pathname !== "/settings") {
             navigate(from.pathname, { state: from.state });
@@ -554,7 +569,7 @@ export default function GlobalSettings() {
                     {figureField("Target operating reserve", "Months of OpEx the Operational Contingency Fund builds up to. 3 by default; an investor may ask for 6.", settings.targetReserveMonths, (next) => change({ targetReserveMonths: next }), NUMBER_LIMITS.months, "months")}
                 </section>
 
-                <section className="settings-section" aria-label="Channel Fee Table">
+                <section className="settings-section" aria-label="Channel Fee Table" data-anchor="channel-fees">
                     {sectionTitle("Channel Fee Table", "What each channel takes of its sales: revenue x (commission + chargeback allowance) + the fixed fee x orders. The rates are examples; edit them once here.")}
                     <div className="settings-table-wrap">
                         <table className="settings-table settings-fee-table" aria-label="Channel Fee Table">
@@ -578,7 +593,7 @@ export default function GlobalSettings() {
                             </thead>
                             <tbody>
                                 {settings.channelFees.map((row, index) => (
-                                    <tr key={row.id}>
+                                    <tr key={row.id} data-anchor={"channel-fee-" + row.id}>
                                         <td>
                                             <TextBox
                                                 className="interview-input"
