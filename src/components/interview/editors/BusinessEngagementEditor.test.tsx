@@ -622,3 +622,39 @@ describe("a Customer Source's choices narrowed by the earlier answers (owner, 20
     });
 
 });
+
+describe("a Customer Source's kind narrows its channels (owner, 2026-11-14 11:15)", () => {
+
+    it("lists the channels whose customers come by the source's kind; All lists every one", () => {
+        const audit = { ...createBusinessOffering(), name: "Audit" };
+        const build = { ...createBusinessOffering(), name: "Build" };
+        const segment = { ...createBusinessCustomerSegment([]), name: "Firms", offerings: [audit, build] };
+        const foundation = { ...asBusinessFoundationValue(undefined), segments: [segment] };
+        const site = { ...createBusinessChannel(), category: "Website", name: "Main Website", stages: ["discovery"] };
+        const studio = { ...createBusinessChannel(), category: "In Person", name: "Studio", stages: ["discovery"] };
+        const start = {
+            ...asBusinessEngagementValue(undefined),
+            segments: [{ ...createBusinessSegmentEngagement(segment.id), channels: [site, studio] }],
+            demand: { [audit.id]: { ...createDemand(), sources: [{ ...createDemandSource("marketplace"), id: "s1" }] }, [build.id]: { ...createDemand(), sources: [] } }
+        };
+        function Harness() {
+            const [value, setValue] = useState<unknown>(start);
+            return <BusinessEngagementEditor value={value} onChange={setValue} foundation={foundation} asTiles />;
+        }
+        render(<Harness />);
+        openTile("Demand & Conversion");
+        openTile("1. Audit");
+        fireEvent.click([...document.querySelectorAll<HTMLElement>(".section-tile-overlay button.card-tile")][0]);
+        const channels = () => {
+            fireEvent.click(screen.getByRole("button", { name: /^Channel, / }));
+            const names = [...document.querySelectorAll("[role=option]")].map(option => option.textContent ?? "");
+            fireEvent.keyDown(document.activeElement ?? document.body, { key: "Escape" });
+            return names;
+        };
+        // (A walk-in source: the places, not the website.)
+        expect(channels()).toEqual(["Studio"]);
+        fireEvent.click(screen.getAllByRole("radio", { name: "All" })[0]);
+        expect(channels()).toEqual(["Main Website", "Studio"]);
+    });
+
+});

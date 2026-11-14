@@ -218,6 +218,29 @@ export function suggestionCovered(suggestion: ChannelSuggestion, channels: reado
 }
 
 
+/**
+ * THE GOALS A STAGE STARTS WITH (owner, 2026-11-14 11:15: "could the options in the Goals column be automatically selected based on previous options?"), read by
+ * the Get, Keep and Grow of Osterwalder and Pigneur's Customer Relationships (Business Model Generation, 2010) and the customer lifecycle: the stages before
+ * the sale get the customer (Discover, Evaluation, Purchase), Delivery keeps them, and Support & Follow Up keeps them and -- where the Offering has more to
+ * sell after the sale (O17: updates, training, replacements or refills, repairs or maintenance) or its customers buy out of habit -- grows them too. A start
+ * only: shown ticked until the founder changes the row, whose answer is then the founder's.
+ */
+export function startGoals(stageId: string, segment: BusinessCustomerSegmentValue, offeringId: string, identity?: SegmentIdentity): string[] {
+    if (stageId === "discovery" || stageId === "evaluation" || stageId === "purchase") {
+        return ["get"];
+    }
+    if (stageId === "delivery") {
+        return ["keep"];
+    }
+    if (stageId !== "support") {
+        return [];
+    }
+    const offering = segment.offerings.find(entry => entry.id === offeringId);
+    const after = offering ? effectiveOfferingAnswers(offering, segment, identity).o17 ?? [] : [];
+    const habit = (effectiveSegmentAnswers(segment, identity).path ?? []).includes("habit");
+    return habit || after.some(id => id === "updates" || id === "training" || id === "replacements" || id === "repairs") ? ["keep", "grow"] : ["keep"];
+}
+
 /** The relationship type an Offering has when its answers point to none: a person helping the customer, the type an early-stage founder starts with. */
 export const DEFAULT_RELATIONSHIP_TYPE = "personal-assistance";
 

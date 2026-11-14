@@ -97,8 +97,12 @@ export function useEngagementDemand(earlier: Earlier) {
            referral channel referrals); All lists every one. What a source holds is always listed. */
         const all = showsAll(segment.id);
         const servingChannels = segmentOf(segment.id).channels.filter(channel => all || channel.offerings.includes(BUSINESS_CHANNEL_ALL_OFFERINGS) || channel.offerings.includes(offeringId));
-        const channelOptionsFor = (held: string): BusinessTickOption[] => channelChoices(
-            segmentOf(segment.id).channels.filter(channel => channel.id === held || servingChannels.includes(channel))
+        // (Both ways: a source's kind narrows its channels to those whose customers come so -- a sales funnel the online channels, a walk-in the places, referrals the
+        // referral channels; repeat customers, contracts and other kinds any channel --, as its channel narrows its kind; owner, 2026-11-14 11:15.)
+        const NARROWED_KINDS = ["funnel", "marketplace", "referrals"];
+        const channelOptionsFor = (held: string, kind = ""): BusinessTickOption[] => channelChoices(
+            segmentOf(segment.id).channels.filter(channel => channel.id === held || (servingChannels.includes(channel)
+                && (all || !NARROWED_KINDS.includes(kind) || demandSourceOf(channel.category) === kind)))
         );
 
         /* A client on a subscription stays rather than buys again:
@@ -240,12 +244,12 @@ export function useEngagementDemand(earlier: Earlier) {
                         label={"Channel, " + what}
                         placeholder="Select"
                         hug
-                        options={channelOptionsFor(source.channelId).map(option => option.label)}
+                        options={channelOptionsFor(source.channelId, source.type).map(option => option.label)}
                         disabled={disabled}
                         value={channelOptions.find(option => option.id === source.channelId)?.label ?? ""}
                         // (A source with no kind yet takes the one its channel's customers come by.)
                         onChange={(next) => {
-                            const channelId = channelOptionsFor(source.channelId).find(option => option.label === next)?.id ?? "";
+                            const channelId = channelOptionsFor(source.channelId, source.type).find(option => option.label === next)?.id ?? "";
                             const kind = channelOf(channelId) ? demandSourceOf(channelOf(channelId)!.category) : "";
                             changeSource(source.id, { channelId, ...(source.type === "" && available.some(entry => entry.id === kind) ? { type: kind } : {}) });
                         }}

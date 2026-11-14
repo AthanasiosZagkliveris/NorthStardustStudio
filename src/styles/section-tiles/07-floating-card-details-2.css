@@ -151,6 +151,20 @@
 
 }
 
+/* (Bold words in a line that is a link keep the bold's own spacing, as in a plain line: the link's spacing is not added to it.) */
+.section-tile-list .section-tile-link :is(strong, b) {
+
+    --rest-tracking: 0em;
+
+}
+
+/* (A name that is a link wraps as a plain name does, so its figure keeps its line.) */
+.section-tile-list-pairs .section-tile-pair-left > .section-tile-link {
+
+    white-space: normal;
+
+}
+
 .section-tile-list-pairs .section-tile-pair-right {
 
     padding-left: 0.6em;

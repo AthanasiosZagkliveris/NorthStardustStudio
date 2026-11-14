@@ -26,7 +26,7 @@ export default function BusinessEngagementEditor(props: BusinessEngagementEditor
     const part2 = { ...part1, ...useEngagementChannelBoxes({ ...part1 }) };
     const part3 = { ...part1, ...part2, ...useEngagementRelationships({ ...part1, ...part2 }) };
     const part4 = { ...part1, ...part2, ...part3, ...useEngagementDemand({ ...part1, ...part2, ...part3 }) };
-    const { addCustomerSource, addSuggestedSource, suggestedSources, addRelationshipType, typeOf, profilesOf, scopeChoice, showsAll, asTiles, channelCategoryFoldKeys, channelResourceTable, channelTiles, channelViewChoice, channelsFor, clearIsolation, collapsed, columnsDivider, demandFor, engagement, engagedOfferingIds, foldingSection, folds, heads, isolated, isolationNames, offeringRelationshipsOf, referenceColumn, relationshipsFor, segmentOf, segments, toggle } = part4;
+    const { channelTileId, addCustomerSource, addSuggestedSource, suggestedSources, addRelationshipType, typeOf, profilesOf, scopeChoice, showsAll, asTiles, channelCategoryFoldKeys, channelResourceTable, channelTiles, channelViewChoice, channelsFor, clearIsolation, collapsed, columnsDivider, demandFor, engagement, engagedOfferingIds, foldingSection, folds, heads, isolated, isolationNames, offeringRelationshipsOf, referenceColumn, relationshipsFor, segmentOf, segments, toggle } = part4;
 
     /*
         THE PAGE AS TILES (doc 47, section 3, step one): one chapter per Segment, in the Segment's colour, as Page 1's, holding three Master Tiles -- Channels &
@@ -218,6 +218,8 @@ export default function BusinessEngagementEditor(props: BusinessEngagementEditor
                     anchor: "engagement-section-" + segment.id + "-channels",
                     // The five stages, each with the number of channels used at it.
                     items: (BUSINESS_JOURNEY_STAGES.map(stage => pair(stage.label, String(answers.channels.filter(channel => channel.stages.includes(stage.id)).length)))),
+                    // (Each item a link to what it names, as the other Master Tiles' items: a stage opens its tile in the dialog; owner, 2026-11-14 11:15.)
+                    links: BUSINESS_JOURNEY_STAGES.map(stage => ({ box: channelTileId(segment.id, "stage-" + stage.id) })),
                     content: () => dialog("Channels & Journey", [...SECTIONS.channels.instructions, "Faded channels and subchannels stand ready to add: those your Foundation answers suggest list what they suggest, and pressing any of them adds it.", "Place the tiles by Channels, or by Journey Stages to see the subchannels used at each stage."], channelTiles(segment), (
                         // (The choice of how the tiles are placed, then the isolation note while one stands.)
                         <>
@@ -235,6 +237,8 @@ export default function BusinessEngagementEditor(props: BusinessEngagementEditor
                     // Each Offering with its relationship types.
                     items: stacked(offeringIds.map(offeringId => ({ name: offeringName(segment, offeringId), under: offeringRelationshipsOf(segment.id, offeringId).types
                         .map(type => BUSINESS_RELATIONSHIP_TYPES.find(entry => entry.id === type)?.label ?? "").filter(label => label !== "").join(", ") }))),
+                    // (Each Offering a link to its tile in the dialog; the lines between them none.)
+                    links: offeringIds.flatMap((offeringId, at) => [...(at > 0 ? [undefined] : []), { box: segment.id + ":rel:" + offeringId }]),
                     group: "Customer's Relationship",
                     content: () => dialog("Customer's Relationship", SECTIONS.relationships.instructions.slice(0, 3), offeringIds.length > 0
                         ? <SectionTiles label={"Customer's Relationship of " + (segment.name.trim() || "this Segment")} hue={segmentHue(segment)} tiles={relTiles()} />
@@ -250,6 +254,7 @@ export default function BusinessEngagementEditor(props: BusinessEngagementEditor
                         const result = demandResult(engagement.demand[offeringId]);
                         return pair(offeringName(segment, offeringId), result.expected === null ? "" : result.recurring ? result.expected + " active" : result.expected + " a month");
                     })),
+                    links: offeringIds.map(offeringId => ({ box: segment.id + ":dem:" + offeringId })),
                     group: "Demand & Conversion",
                     content: () => dialog("Demand & Conversion", [SECTIONS.relationships.instructions[3], ...DEMAND_BLOCK_HELP.map(point => typeof point === "string" ? point : "")].filter(Boolean) as string[], offeringIds.length > 0
                         ? <SectionTiles label={"Demand & Conversion of " + (segment.name.trim() || "this Segment")} hue={segmentHue(segment)} tiles={demTiles()} />

@@ -251,7 +251,10 @@ export function TileList({
                     const [left, right] = item.split("\u0001");
                     return (
                         <li key={position} title={plainTitle(item)}>
-                            <span className="section-tile-pair-left">{boldWords(left)}</span>
+                            {/* (A line of two columns that names a card or a box is a link by its name, as every other line of a tile's list: owner, 2026-11-14 11:15.) */}
+                            <span className="section-tile-pair-left">{link && onLink
+                                ? <button type="button" className="section-tile-link" data-link={"card" in link ? link.card : link.box} onClick={(event) => onLink(link, event.currentTarget, event.detail > 0)}>{boldWords(left)}</button>
+                                : boldWords(left)}</span>
                             <span className="section-tile-pair-right">{boldWords(right)}</span>
                         </li>
                     );

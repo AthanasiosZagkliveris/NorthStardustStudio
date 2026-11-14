@@ -535,12 +535,15 @@ export default function CapabilityOverview({ rows, format = String, currency = "
      */
     // (THE OFFERINGS AN OFFERING'S CAPABILITY CARD SERVES, as its card links them -- the Offering column of every row, not a channel expense's alone; owner,
     // 2026-11-13 13:56: "in the offering column some cells are empty".)
+    // (THE OFFERINGS CHOSEN under Belongs to: a row lists only those, with their shares; with All, every one -- owner, 2026-11-14 11:15.)
+    const chosenNames = filter.offerings.map(id => offerings.find(offering => offering.id === id)?.name.trim() || "").filter(Boolean);
+    const chosen = (name: string) => chosenNames.length === 0 || chosenNames.includes(name);
     const servedCell = (row: FloorRow, column: string): ReactNode | undefined => {
         if (column === "share") {
-            const lines = shareLines(row, offerings);
+            const lines = shareLines(row, offerings).filter(line => chosen(line.name));
             return lines.length > 0 ? <Values items={lines.map(line => ({ key: line.name, node: line.percent }))} /> : undefined;
         }
-        const names = (row.offeringIds ?? []).map(id => offerings.find(offering => offering.id === id)?.name.trim() || "").filter(Boolean);
+        const names = (row.offeringIds ?? []).map(id => offerings.find(offering => offering.id === id)?.name.trim() || "").filter(Boolean).filter(chosen);
         return column === "offering" && names.length > 0 ? <Values items={names.map(name => ({ key: name, node: name }))} /> : undefined;
     };
     const channelCell = (row: FloorRow, column: string): ReactNode | undefined => {
@@ -564,7 +567,7 @@ export default function CapabilityOverview({ rows, format = String, currency = "
             return [...new Set(facts.places.map(place => place.channel))].map(channel => under(channel, facts.places.filter(place => place.channel === channel).map(place => place.sub), channel));
         }
         if (column === "offering") {
-            return <Values items={facts.offerings.map(name => ({ key: name, node: name }))} />;
+            return <Values items={facts.offerings.filter(chosen).map(name => ({ key: name, node: name }))} />;
         }
         if (column === "journey") {
             return <Values items={facts.stages.map(name => ({ key: name, node: name }))} />;

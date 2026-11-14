@@ -671,7 +671,9 @@ export function useEngagementState(props: BusinessEngagementEditorProps) {
         offeringId: string,
         typeId: string,
         key: string,
-        fallbacks: readonly string[] = []
+        fallbacks: readonly string[] = [],
+        /** The Goals a row not answered yet starts with (startGoals). */
+        start: readonly string[] = []
     ): BusinessRelationshipInteractionValue {
 
         const kept = typeOf(segmentId, offeringId, typeId).interactions;
@@ -690,7 +692,7 @@ export function useEngagementState(props: BusinessEngagementEditorProps) {
 
         }
 
-        return createBusinessRelationshipInteraction();
+        return { ...createBusinessRelationshipInteraction(), goals: [...start] };
 
     }
     function updateInteraction(
@@ -704,7 +706,8 @@ export function useEngagementState(props: BusinessEngagementEditorProps) {
            they came from an older key, and a write that began from
            an empty answer would not carry them over. */
         fallbacks: readonly string[],
-        patch: Partial<BusinessRelationshipInteractionValue>
+        patch: Partial<BusinessRelationshipInteractionValue>,
+        start: readonly string[] = []
     ) {
 
         const type = typeOf(segmentId, offeringId, typeId);
@@ -714,7 +717,7 @@ export function useEngagementState(props: BusinessEngagementEditorProps) {
                 ...type.interactions,
                 [key]: {
                     ...interactionOf(
-                        segmentId, offeringId, typeId, key, fallbacks
+                        segmentId, offeringId, typeId, key, fallbacks, start
                     ),
                     ...patch
                 }

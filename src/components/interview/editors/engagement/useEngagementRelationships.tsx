@@ -2,7 +2,20 @@
  * THE CHANNEL TILES and the relationships of each Offering.
  * One part of BusinessEngagementEditor (see BusinessEngagementEditor.tsx): what it needs of the parts before it comes in as `earlier`; what the parts after it need goes out.
  */
-import { CSSProperties, useState } from "react";
+import { CSSProperties, useContext, useEffect, useState } from "react";
+import { InitialBoxContext } from "../../tiles/DialogLevels.tsx";
+
+/** A link on the Channels & Journey master tile that names a stage's tile: the dialog it opens shows the tiles by Journey Stages, so that tile is there to open. */
+function StageViewFromLink({ prefix, onStages }: { prefix: string; onStages: () => void }) {
+    const box = useContext(InitialBoxContext);
+    useEffect(() => {
+        if (box?.startsWith(prefix)) {
+            onStages();
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [box]);
+    return null;
+}
 import CardShell from "../../cards/CardShell.tsx";
 import RadioChoice from "../../../controls/RadioChoice.tsx";
 import FieldLabel from "../../../controls/FieldLabel.tsx";
@@ -14,7 +27,7 @@ import { BusinessAddButton, BusinessEmpty, BusinessNote, BusinessRemove, Busines
 import FieldRow from "../../fields/FieldRow.tsx";
 import { SingleColumn } from "../foundation/shared.tsx";
 import { EngagementBox, EngagementBoxes, EngagementCard, ScopeChoice, type OptionScope } from "./EngagementCard.tsx";
-import { autoRelationshipTypes, channelKey, journeySuggestions, suggestionCovered, type ChannelSuggestion } from "../../../../framework/engine/JourneySuggestions.ts";
+import { autoRelationshipTypes, channelKey, journeySuggestions, startGoals, suggestionCovered, type ChannelSuggestion } from "../../../../framework/engine/JourneySuggestions.ts";
 import { BUSINESS_JOURNEY_STAGES } from "../../../../framework/engine/AnswerUtils.ts";
 import { summaryText } from "../../cards/cardSummary.ts";
 import InfoNote, { InfoText } from "../../fields/InfoNote.tsx";
@@ -51,8 +64,10 @@ export function useEngagementRelationships(earlier: Earlier) {
      * table in a dialog. A new channel is added under the tiles.
      */
     function channelTiles(segment: BusinessCustomerSegmentValue) {
+        // (A stage named by the master tile's link: the stages' view; owner, 2026-11-14 11:15, the items of the master tiles are links.)
+        const fromLink = <StageViewFromLink key="stage-link" prefix={channelTileId(segment.id, "stage-")} onStages={() => setChannelViews(current => ({ ...current, [segment.id]: "stages" }))} />;
         if (channelViews[segment.id] === "stages") {
-            return stageTiles(segment);
+            return <>{fromLink}{stageTiles(segment)}</>;
         }
         const answers = segmentOf(segment.id);
         const groups: { key: string; label: string; channels: BusinessChannelValue[] }[] = [];
@@ -246,6 +261,7 @@ export function useEngagementRelationships(earlier: Earlier) {
             }));
         return (
             <>
+                {fromLink}
                 <SectionTiles
                     label={"Channels of " + (segment.name.trim() || "this Segment")}
                     hue={segmentHue(segment)}
@@ -623,7 +639,9 @@ export function useEngagementRelationships(earlier: Earlier) {
                                             <span className="business-foundation-label-info" role="columnheader"><FieldLabel className="business-foundation-label"><InfoText text="Approach"><InfoNote label="Approach" points={SECTIONS.relationships.approach} fullList /></InfoText></FieldLabel></span>
                                         </div>,
                                         ...offeringRows.map(interaction => {
-                                            const answersFor = interactionOf(segment.id, offeringId, typeId, interaction.key, interaction.legacyKeys);
+                                            // (A row not answered yet starts with its stage's Goals: startGoals.)
+                                            const start = startGoals(interaction.stageId, segment, offeringId, identity);
+                                            const answersFor = interactionOf(segment.id, offeringId, typeId, interaction.key, interaction.legacyKeys, start);
                                             const stage = STAGE_LABELS[interaction.stageId] ?? "";
                                             const about = stage + ", " + offeringName(offeringId) + ", " + label;
                                             return (
@@ -647,7 +665,7 @@ export function useEngagementRelationships(earlier: Earlier) {
                                                             options={GOAL_OPTIONS}
                                                             chosen={answersFor.goals}
                                                             disabled={disabled}
-                                                            onChange={(next) => updateInteraction(segment.id, offeringId, typeId, interaction.key, interaction.legacyKeys, { goals: next })}
+                                                            onChange={(next) => updateInteraction(segment.id, offeringId, typeId, interaction.key, interaction.legacyKeys, { goals: next }, start)}
                                                         />
                                                     </div>
                                                     <StrategyTextArea
@@ -655,7 +673,7 @@ export function useEngagementRelationships(earlier: Earlier) {
                                                         ariaLabel={"Approach for " + about}
                                                         disabled={disabled}
                                                         value={answersFor.approach}
-                                                        onChange={(next) => updateInteraction(segment.id, offeringId, typeId, interaction.key, interaction.legacyKeys, { approach: next })}
+                                                        onChange={(next) => updateInteraction(segment.id, offeringId, typeId, interaction.key, interaction.legacyKeys, { approach: next }, start)}
                                                     />
                                                 </div>
                                             );

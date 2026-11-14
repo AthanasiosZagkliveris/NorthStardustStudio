@@ -1,6 +1,6 @@
 import { describe, expect, test } from "vitest";
 import { asBusinessEngagementValue, asBusinessFoundationValue, createBusinessChannel } from "./AnswerUtils.ts";
-import { DEFAULT_RELATIONSHIP_TYPE, autoRelationshipTypes, offeringRelationshipsFor, demandSuggestions, journeySuggestions, relationshipTypesOf, suggestionMet, withAnswerChannels, dismissedAfter, channelKey } from "./JourneySuggestions.ts";
+import { DEFAULT_RELATIONSHIP_TYPE, autoRelationshipTypes, offeringRelationshipsFor, demandSuggestions, journeySuggestions, relationshipTypesOf, suggestionMet, withAnswerChannels, dismissedAfter, channelKey, startGoals } from "./JourneySuggestions.ts";
 import lumenText from "../../data/examples/lumen-and-loom-studio.json?raw";
 import quillText from "../../data/examples/quillfield-automation-llc.json?raw";
 
@@ -161,5 +161,15 @@ describe("the subchannels the answers make (owner, 2026-11-13 13:56)", () => {
         expect(dismissedAfter(without, made, dismissed)).toEqual([]);
         const noAnswers = { ...segment as object, profiles: [] } as never;
         expect(withAnswerChannels(made, [], noAnswers).map(channel => channel.name)).toEqual(["Online Store"]);
+    });
+});
+
+describe("the Goals a stage starts with (owner, 2026-11-14 11:15)", () => {
+    test("Get before the sale, Keep at Delivery, Keep and Grow at Support where the Offering sells more after the sale", () => {
+        const segment = { ...asBusinessFoundationValue(undefined).segments[0], id: "s1", offerings: [{ ...asBusinessFoundationValue(undefined).segments[0].offerings[0], id: "o1", questions: { o17: ["training"] } }] } as never;
+        expect(["discovery", "evaluation", "purchase", "delivery"].map(stage => startGoals(stage, segment, "o1").join("+"))).toEqual(["get", "get", "get", "keep"]);
+        expect(startGoals("support", segment, "o1")).toEqual(["keep", "grow"]);
+        const plain = { ...(segment as object), offerings: [{ ...asBusinessFoundationValue(undefined).segments[0].offerings[0], id: "o1", questions: {} }] } as never;
+        expect(startGoals("support", plain, "o1")).toEqual(["keep"]);
     });
 });

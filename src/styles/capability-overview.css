@@ -798,6 +798,22 @@
 
 }
 
+/* THE MERGED COLUMN STANDS APART (owner, 2026-11-14 11:15: "Make the vertical line between the Channel and Subchannel bold, and narrow the Channel column so the text
+   fits"): the line after it is the heavier rule, 2px, heading and rows; its words wrap at 6.5em ("Referral & / Affiliates"), the room going to the widest column. */
+.capability-overview-table[data-bare][data-grouped] thead th:nth-child(2),
+.capability-overview-table[data-bare][data-grouped] tbody td[rowspan] + :is(th, td),
+.capability-overview-table[data-bare][data-grouped] tbody tr:not(:has(> td[rowspan])) > :first-child {
+
+    border-left-width: 2px;
+
+}
+
+.capability-overview-table[data-wrap][data-grouped] tbody td[rowspan] > * {
+
+    max-width: 6.5em;
+
+}
+
 /* THE DIALOG ENDS WITH ITS LAST ROW (owner, 2026-11-13 13:56: "fix the end of the dialogue card's colour"): no strip of the dialog's ground under a table that
    runs edge to edge -- the dialog and its scroller keep no room below it. */
 .section-tile-overlay .section-tile-dialog:has(.capability-overview-table[data-bare]) {
