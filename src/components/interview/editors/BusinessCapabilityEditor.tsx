@@ -1,4 +1,7 @@
 import { toneHue } from "../tiles/CardTile.tsx";
+import { asBusinessEngagementValue } from "../../../framework/engine/AnswerUtils.ts";
+import { offeringMonthlyRevenue } from "../../../framework/engine/DemandCapacity.ts";
+import { asFinancialSustainabilityValue } from "../../../framework/engine/financial/revenueStored.ts";
 import CardShell from "../cards/CardShell.tsx";
 import AddButton from "../../controls/AddButton.tsx";
 import { StackUnderContext } from "../tiles/DialogLevels.tsx";
@@ -202,7 +205,9 @@ export default function BusinessCapabilityEditor(props: BusinessCapabilityEditor
                     // (The Financial Foundation's nature and behaviour; where it gives no behaviour, the row keeps its own -- a channel expense's, as the channels' table reads it.)
                     const found = classes.get(row.id) ?? classes.get("salary-" + row.id) ?? classes.get("legal-" + row.id);
                     return { ...row, ...found, behaviour: found?.behaviour || row.behaviour };
-                })} format={moneyFormatter(organisationCurrency)} currency={organisationCurrency} offerings={foundationOfferings} onOpenAction={openEngagementAction} onOpenLegal={legalEntity !== undefined && onChangeLegalEntity ? (id: string) => openLegalExpense(id) : undefined} />;
+                })} format={moneyFormatter(organisationCurrency)} currency={organisationCurrency} offerings={foundationOfferings}
+                    // (Each Offering's revenue a month: what a cost that is a share of revenue is split by, and comes to.)
+                    offeringRevenue={offeringMonthlyRevenue(asBusinessEngagementValue(props.engagement).demand, asFinancialSustainabilityValue(props.financialSustainability).streams)} onOpenAction={openEngagementAction} onOpenLegal={legalEntity !== undefined && onChangeLegalEntity ? (id: string) => openLegalExpense(id) : undefined} />;
             }
         };
     }

@@ -800,3 +800,26 @@ export function capacityCheck(
     };
 
 }
+
+
+/**
+ * EACH OFFERING'S REVENUE A MONTH, as the page's figures give it: Demand & Conversion's expected sales (active clients for an Offering bought every month)
+ * x the Offering's price on Sustainability x its items per order -- the figures a subchannel's Fees line works the fee on a sale from. An Offering with no
+ * expected sales or no price is left out (owner, 2026-11-14 14:17: the Inventory's Cost per Offering of a cost that is a share of revenue).
+ */
+export function offeringMonthlyRevenue(
+    demand: Readonly<Record<string, DemandValue | undefined>>,
+    streams: readonly { offeringId: string; price: string; itemsPerOrder: string }[]
+): Record<string, number> {
+    const out: Record<string, number> = {};
+    for (const [offeringId, value] of Object.entries(demand)) {
+        const expected = demandResult(value).expected;
+        const stream = streams.find(entry => entry.offeringId === offeringId);
+        const price = parseDecimal(stream?.price ?? "");
+        const items = parseDecimal(stream?.itemsPerOrder ?? "") || 1;
+        if (expected !== null && expected > 0 && price !== null && price > 0) {
+            out[offeringId] = expected * price * items;
+        }
+    }
+    return out;
+}

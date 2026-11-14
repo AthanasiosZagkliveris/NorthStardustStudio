@@ -180,3 +180,13 @@ describe("an Offering chosen under Belongs to (owner, 2026-11-14 11:15)", () => 
         expect(cells()).toEqual(["Collection", "70%"]);
     });
 });
+
+describe("a share of revenue's Cost per Offering (owner, 2026-11-14 14:17)", () => {
+    it("is split as each Offering's revenue is and comes to the rate of it; with a revenue still to come, its share and 'when sales are set'", async () => {
+        const { shareLines, costPerOfferingText } = await import("../tiles/CapabilityOverview.tsx");
+        const row = { id: "fees", tone: "offering", kind: "provider", name: "Shopify Payments", path: [], status: "", statusLabel: "", frequency: "percent-revenue", frequencyLabel: "% of Rev", amount: 2, links: [], offeringIds: ["o1", "o2"], offeringShares: { o1: 0.7, o2: 0.3 } } as unknown as FloorRow;
+        const offerings = [{ id: "o1", name: "Collection" }, { id: "o2", name: "Workshops" }];
+        expect(shareLines(row, offerings, { o1: 2240, o2: 2720 }).map(line => costPerOfferingText(row, line))).toEqual(["45.2% · 44.80", "54.8% · 54.40"]);
+        expect(shareLines(row, offerings, { o1: 2240 }).map(line => costPerOfferingText(row, line))).toEqual(["70% · when sales are set", "30% · when sales are set"]);
+    });
+});

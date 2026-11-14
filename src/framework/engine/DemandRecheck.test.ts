@@ -33,3 +33,14 @@ describe("the Demand recheck (doc 50, section 2.5; owner, 2026-11-14 12:00)", ()
         expect(funnelIsTrial(none)).toBe(false);
     });
 });
+
+describe("each Offering's revenue a month (owner, 2026-11-14 14:17)", () => {
+    test("is the expected sales x the price x the items per order; an Offering with no price is left out", async () => {
+        const { offeringMonthlyRevenue, createDemand, createDemandSource } = await import("./DemandCapacity.ts");
+        const demand = {
+            a: { ...createDemand(), sources: [{ ...createDemandSource("other"), calculate: false, estimate: "10" }] },
+            b: { ...createDemand(), sources: [{ ...createDemandSource("other"), calculate: false, estimate: "4" }] }
+        };
+        expect(offeringMonthlyRevenue(demand, [{ offeringId: "a", price: "20", itemsPerOrder: "2" }, { offeringId: "b", price: "", itemsPerOrder: "" }])).toEqual({ a: 400 });
+    });
+});

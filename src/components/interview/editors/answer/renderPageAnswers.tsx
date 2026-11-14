@@ -71,7 +71,7 @@ export function renderBusinessEngagement(scope: AnswerScope) {
 
 export function renderBusinessCapability(scope: AnswerScope) {
 
-    const { value, onChange, disabled, legalEntityPrefill, businessFoundation, onOpenBusinessFoundation, organisationCurrency, legalEntityFounders, foundersProfile, legalEntity, onChangeLegalEntity, financialFoundation, openingDate, globalSettings, businessEngagement, onOpenBusinessEngagement, onOpenLegalEntity, columnsDivider, showInstructions } = scope;
+    const { value, onChange, disabled, legalEntityPrefill, businessFoundation, onOpenBusinessFoundation, organisationCurrency, legalEntityFounders, foundersProfile, legalEntity, onChangeLegalEntity, financialFoundation, openingDate, globalSettings, businessEngagement, onOpenBusinessEngagement, onOpenLegalEntity, columnsDivider, showInstructions, financialSustainability } = scope;
 
     return (
 
@@ -93,6 +93,7 @@ export function renderBusinessCapability(scope: AnswerScope) {
             financialFoundation={financialFoundation}
             openingDate={openingDate}
             globalSettings={globalSettings}
+            financialSustainability={financialSustainability}
             onOpenEngagement={onOpenBusinessEngagement}
             onChange={onChange}
             disabled={disabled}

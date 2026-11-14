@@ -60,6 +60,9 @@ export interface BusinessCapabilityEditorProps {
     openingDate?: string;
     /** The Global Settings: the default rates a Percentage card shows beside its Rate override. */
     globalSettings?: GlobalSettingsValue;
+
+    /** Page 4's revenue streams: each Offering's price, for the Inventory's Cost per Offering of a cost that is a share of revenue. */
+    financialSustainability?: unknown;
     /** Opens Customer Engagement: back to a channel after picking its cost here. */
     onOpenEngagement?: OpenPage;
 

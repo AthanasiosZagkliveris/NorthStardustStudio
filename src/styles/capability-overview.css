@@ -945,7 +945,9 @@
 }
 
 /* Numbers align to the right in a table, in figures of one width; the currency is written once, in the column's header. */
-.capability-overview-table .capability-overview-number {
+/* (Cost per Offering is figures too, as the Cost column: right-aligned, every digit one width; owner, 2026-11-14 14:17.) */
+.capability-overview-table .capability-overview-number,
+.capability-overview-table td[data-col="share"] {
 
     text-align: right;
 

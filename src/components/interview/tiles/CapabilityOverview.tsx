@@ -157,22 +157,40 @@ export const TABLE_COLUMNS = [
 const HIDDEN_AT_FIRST = ["offering", "share", "journey", "actions"];
 
 /** The share of a row's cost each Offering carries, in the Offering column's order: the card's own shares, or -- a channel expense's -- equal shares of its Offerings. */
-export function shareLines(row: FloorRow, offerings: readonly { id: string; name: string }[]): { name: string; percent: string; fraction: number }[] {
+export function shareLines(row: FloorRow, offerings: readonly { id: string; name: string }[], revenue: Readonly<Record<string, number>> = {}): { name: string; percent: string; fraction: number; cost: number | null }[] {
     const named = (id: string) => offerings.find(offering => offering.id === id)?.name.trim() || "";
     const percent = (fraction: number) => (Math.round(fraction * 1000) / 10).toLocaleString(undefined, { maximumFractionDigits: 1 }) + "%";
-    if (row.offeringIds && row.offeringIds.length > 0) {
-        return row.offeringIds.map(id => {
-            const fraction = row.offeringShares?.[id] ?? 1 / row.offeringIds!.length;
-            return { name: named(id), percent: percent(fraction), fraction };
+    const own = !(row.offeringIds && row.offeringIds.length > 0);
+    // (A channel expense names its Offerings: their ids, where the names are the Organisation's.)
+    const ids = own
+        ? (row.channel?.offerings ?? []).map(name => offerings.find(offering => offering.name.trim() === name)?.id ?? name)
+        : [...row.offeringIds!];
+    const nameOf = (id: string) => named(id) || (own ? id : "");
+    // A SHARE OF REVENUE is split as the revenue is (owner, 2026-11-14 14:17): each Offering's share of the revenue of the Offerings it serves, and its cost the
+    // rate x that Offering's revenue a month; where one of them has no revenue yet, the shares stay the card's (or equal) and the cost waits for the sales.
+    if (isPercentRow(row) && row.amount !== null) {
+        const known = ids.length > 0 && ids.every(id => (revenue[id] ?? 0) > 0);
+        const total = ids.reduce((sum, id) => sum + (revenue[id] ?? 0), 0);
+        return ids.map(id => {
+            const fraction = known && total > 0 ? revenue[id] / total : own ? 1 / ids.length : row.offeringShares?.[id] ?? 1 / ids.length;
+            return { name: nameOf(id), percent: percent(fraction), fraction, cost: known ? row.amount! / 100 * revenue[id] : null };
         }).filter(line => line.name !== "");
     }
-    const own = row.channel?.offerings ?? [];
-    return own.map(name => ({ name, percent: percent(1 / own.length), fraction: 1 / own.length }));
+    return ids.map(id => {
+        const fraction = own ? 1 / ids.length : row.offeringShares?.[id] ?? 1 / ids.length;
+        return { name: nameOf(id), percent: percent(fraction), fraction, cost: row.amount === null ? null : row.amount * fraction };
+    }).filter(line => line.name !== "");
 }
 
-/** COST PER OFFERING (owner, 2026-11-14 13:54): an Offering's share and the cost it comes to -- "50% · 12.50", in the cost's own currency; a share of revenue keeps its share alone. */
-export function costPerOfferingText(row: FloorRow, line: { percent: string; fraction: number }): string {
-    return row.amount === null || isPercentRow(row) ? line.percent : line.percent + " · " + amountText(Math.round(row.amount * line.fraction * 100) / 100);
+/**
+ * COST PER OFFERING (owner, 2026-11-14 13:54 and 14:17): an Offering's share and the cost it comes to -- "50% · 12.50", with the Cost column's decimals; a
+ * share of revenue the same, from that Offering's revenue a month, or its share and "when sales are set" while its sales or price are still to come.
+ */
+export function costPerOfferingText(row: FloorRow, line: { percent: string; cost: number | null }): string {
+    if (line.cost !== null) {
+        return line.percent + " · " + amountText(Math.round(line.cost * 100) / 100);
+    }
+    return isPercentRow(row) && row.amount !== null ? line.percent + " · when sales are set" : line.percent;
 }
 
 /**
@@ -198,7 +216,7 @@ const plainAmount = amountText;
 /** The Offerings list's first tick: every Offering (no Offering chosen). */
 const ALL_OFFERINGS = "*";
 
-export default function CapabilityOverview({ rows, format = String, currency = "", onOpenLegal, onOpenAction, offerings = [] }: {
+export default function CapabilityOverview({ rows, format = String, currency = "", onOpenLegal, onOpenAction, offerings = [], offeringRevenue = {} }: {
     rows: readonly FloorRow[];
     format?: (amount: number) => string;
     currency?: string;
@@ -208,6 +226,8 @@ export default function CapabilityOverview({ rows, format = String, currency = "
     onOpenAction?: (actionId: string, segmentId: string) => void;
     /** The Organisation's Offerings (Page 1), for the Offerings list under Offering in Belongs to. */
     offerings?: readonly { id: string; name: string }[];
+    /** Each Offering's revenue a month (offeringMonthlyRevenue): a share of revenue's split and cost per Offering. */
+    offeringRevenue?: Readonly<Record<string, number>>;
 }) {
 
     const openCard = useContext(OpenCardContext);
@@ -567,7 +587,7 @@ export default function CapabilityOverview({ rows, format = String, currency = "
     const chosen = (name: string) => chosenNames.length === 0 || chosenNames.includes(name);
     const servedCell = (row: FloorRow, column: string): ReactNode | undefined => {
         if (column === "share") {
-            const lines = shareLines(row, offerings).filter(line => chosen(line.name));
+            const lines = shareLines(row, offerings, offeringRevenue).filter(line => chosen(line.name));
             return lines.length > 0 ? <Values items={lines.map(line => ({ key: line.name, node: costPerOfferingText(row, line) }))} /> : undefined;
         }
         const names = (row.offeringIds ?? []).map(id => offerings.find(offering => offering.id === id)?.name.trim() || "").filter(Boolean).filter(chosen);
@@ -700,7 +720,7 @@ export default function CapabilityOverview({ rows, format = String, currency = "
                             {TABLE_COLUMNS.filter(column => !offColumn(column.id)).map(column => (
                                 <th scope="col" key={column.id} data-col={column.id} className={column.id === "cost" ? "capability-overview-number" : undefined}>
                                     {column.id === "cost" ? labelWithCurrency(column.label, currency) : column.id === "share"
-                                        ? <InfoText text={labelWithCurrency(column.label, currency)}><InfoNote label="Cost per Offering" points={["Each Offering's share of the cost, and the cost it comes to: the shares typed on the card, as the Financial Foundation splits it; with none typed, or shares that do not total 100%, equal shares.", "A channel expense is shared equally between the Offerings its channel serves.", "A cost that is a share of revenue shows the share alone."]} /></InfoText>
+                                        ? <InfoText text={labelWithCurrency(column.label, currency)}><InfoNote label="Cost per Offering" points={["Each Offering's share of the cost, and the cost it comes to: the shares typed on the card, as the Financial Foundation splits it; with none typed, or shares that do not total 100%, equal shares.", "A channel expense is shared equally between the Offerings its channel serves.", "A cost that is a share of revenue is split as the revenue is: each Offering's share of the revenue a month (Demand & Conversion's expected sales x the price on Sustainability), and its cost that rate of its revenue. Until those are set, its shares are the card's and its cost waits for the sales."]} /></InfoText>
                                         : column.label}
                                 </th>
                             ))}
