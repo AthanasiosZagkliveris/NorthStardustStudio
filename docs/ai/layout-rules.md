@@ -1373,6 +1373,7 @@ New fields follow the rules above and reuse their neighbours' shapes; nothing he
 (`src/data/examples`), every card unfolded, runs the probe and the hover check, and
 lists the failures. **A finding that is not in `tools/scripts/layout-check/baseline.json`
 fails it; the baseline is empty, so any finding fails.**
+Among its rules (2026-11-14): **a dialog's band meets both of its edges** -- a band of a dialog's body that starts at its left edge reaches its right edge too.
 The runs:
 
 - `npm run check:layout`: the quick run, the one setting the baseline is made at (the Quillfield example and the Foundation page of the proxy-tutoring fixture, 1920 wide, the light page).
