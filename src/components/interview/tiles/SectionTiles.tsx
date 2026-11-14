@@ -112,7 +112,10 @@ export default function SectionTiles({
             return;
         }
         const fit = () => {
-            const top = box.getBoundingClientRect().top + window.scrollY;
+            // (Measured at the page's FIRST chapter: where the chapters stand one under another (768px), a lower chapter has its tiles the first's size, not the
+            // 150px minimum the window leaves under it -- every master tile of a page has one side; layout check, 2026-11-14.)
+            const first = box.closest(".conversation-card")?.querySelector<HTMLElement>(".section-tiles-quad") ?? box;
+            const top = first.getBoundingClientRect().top + window.scrollY;
             const footer = document.querySelector<HTMLElement>(".workspace-footer")?.offsetHeight ?? 64;
             // (the footer and its 12px, the card's 12px padding, the gap between the two rows)
             // (The Inventory and Completed row stands in the footer's band and takes no room above it, so the chapters and their tiles are the same size on every page of a window.)

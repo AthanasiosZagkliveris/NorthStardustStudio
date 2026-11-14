@@ -157,7 +157,13 @@ export const TABLE_COLUMNS = [
 const HIDDEN_AT_FIRST = ["offering", "share", "journey", "actions"];
 
 /** The share of a row's cost each Offering carries, in the Offering column's order: the card's own shares, or -- a channel expense's -- equal shares of its Offerings. */
-export function shareLines(row: FloorRow, offerings: readonly { id: string; name: string }[], revenue: Readonly<Record<string, number>> = {}): { name: string; percent: string; fraction: number; cost: number | null }[] {
+export function shareLines(row: FloorRow, offerings: readonly { id: string; name: string }[], wholeRevenue: Readonly<Record<string, number>> = {}, channelRevenue: Readonly<Record<string, Readonly<Record<string, number>>>> = {}): { name: string; percent: string; fraction: number; cost: number | null }[] {
+    // (A CHANNEL'S share of revenue -- a payment provider's, a marketplace's -- is split by what each Offering sells THROUGH the subchannels the expense belongs
+    // to (owner, 2026-11-14 20:25); an Offering that sells nothing through them has no share. Where no Customer Source names them, by its whole revenue.)
+    const places = (row.channel?.places ?? []).map(place => place.channel.trim() + "\u0001" + place.sub.trim());
+    const through = Object.fromEntries(Object.entries(channelRevenue).map(([id, byPlace]) => [id, places.reduce((sum, key) => sum + (byPlace[key] ?? 0), 0)]).filter(([, amount]) => (amount as number) > 0)) as Record<string, number>;
+    const byChannel = places.length > 0 && Object.keys(through).length > 0;
+    const revenue = byChannel ? through : wholeRevenue;
     const named = (id: string) => offerings.find(offering => offering.id === id)?.name.trim() || "";
     const percent = (fraction: number) => (Math.round(fraction * 1000) / 10).toLocaleString(undefined, { maximumFractionDigits: 1 }) + "%";
     const own = !(row.offeringIds && row.offeringIds.length > 0);
@@ -169,6 +175,10 @@ export function shareLines(row: FloorRow, offerings: readonly { id: string; name
     // A SHARE OF REVENUE is split as the revenue is (owner, 2026-11-14 14:17): each Offering's share of the revenue of the Offerings it serves, and its cost the
     // rate x that Offering's revenue a month; where one of them has no revenue yet, the shares stay the card's (or equal) and the cost waits for the sales.
     if (isPercentRow(row) && row.amount !== null) {
+        if (byChannel) {
+            const total = ids.reduce((sum, id) => sum + (revenue[id] ?? 0), 0);
+            return ids.filter(id => (revenue[id] ?? 0) > 0).map(id => ({ name: nameOf(id), percent: percent(revenue[id] / total), fraction: revenue[id] / total, cost: row.amount! / 100 * revenue[id] })).filter(line => line.name !== "");
+        }
         const known = ids.length > 0 && ids.every(id => (revenue[id] ?? 0) > 0);
         const total = ids.reduce((sum, id) => sum + (revenue[id] ?? 0), 0);
         return ids.map(id => {
@@ -216,7 +226,7 @@ const plainAmount = amountText;
 /** The Offerings list's first tick: every Offering (no Offering chosen). */
 const ALL_OFFERINGS = "*";
 
-export default function CapabilityOverview({ rows, format = String, currency = "", onOpenLegal, onOpenAction, offerings = [], offeringRevenue = {} }: {
+export default function CapabilityOverview({ rows, format = String, currency = "", onOpenLegal, onOpenAction, offerings = [], offeringRevenue = {}, offeringChannelRevenue = {} }: {
     rows: readonly FloorRow[];
     format?: (amount: number) => string;
     currency?: string;
@@ -228,6 +238,8 @@ export default function CapabilityOverview({ rows, format = String, currency = "
     offerings?: readonly { id: string; name: string }[];
     /** Each Offering's revenue a month (offeringMonthlyRevenue): a share of revenue's split and cost per Offering. */
     offeringRevenue?: Readonly<Record<string, number>>;
+    /** Each Offering's revenue a month through each subchannel (offeringChannelRevenue): a channel's share of revenue's split. */
+    offeringChannelRevenue?: Readonly<Record<string, Readonly<Record<string, number>>>>;
 }) {
 
     const openCard = useContext(OpenCardContext);
@@ -614,7 +626,7 @@ export default function CapabilityOverview({ rows, format = String, currency = "
     const chosen = (name: string) => chosenNames.length === 0 || chosenNames.includes(name);
     const servedCell = (row: FloorRow, column: string): ReactNode | undefined => {
         if (column === "share") {
-            const lines = shareLines(row, offerings, offeringRevenue).filter(line => chosen(line.name));
+            const lines = shareLines(row, offerings, offeringRevenue, offeringChannelRevenue).filter(line => chosen(line.name));
             return lines.length > 0 ? <Values items={lines.map(line => ({ key: line.name, node: costPerOfferingText(row, line) }))} /> : undefined;
         }
         const names = (row.offeringIds ?? []).map(id => offerings.find(offering => offering.id === id)?.name.trim() || "").filter(Boolean).filter(chosen);
@@ -747,7 +759,7 @@ export default function CapabilityOverview({ rows, format = String, currency = "
                             {TABLE_COLUMNS.filter(column => !offColumn(column.id)).map(column => (
                                 <th scope="col" key={column.id} data-col={column.id} className={column.id === "cost" ? "capability-overview-number" : undefined}>
                                     {column.id === "cost" ? labelWithCurrency(column.label, currency) : column.id === "share"
-                                        ? <InfoText text={labelWithCurrency(column.label, currency)}><InfoNote label="Cost per Offering" points={["Each Offering's share of the cost, and the cost it comes to: the shares typed on the card, as the Financial Foundation splits it; with none typed, or shares that do not total 100%, equal shares.", "A channel expense is shared equally between the Offerings its channel serves.", "A cost that is a share of revenue is split as the revenue is: each Offering's share of the revenue a month (Demand & Conversion's expected sales x the price on Sustainability), and its cost that rate of its revenue. Until those are set, its shares are the card's and its cost waits for the sales."]} /></InfoText>
+                                        ? <InfoText text={labelWithCurrency(column.label, currency)}><InfoNote label="Cost per Offering" points={["Each Offering's share of the cost, and the cost it comes to: the shares typed on the card, as the Financial Foundation splits it; with none typed, or shares that do not total 100%, equal shares.", "A channel expense is shared equally between the Offerings its channel serves.", "A cost that is a share of revenue is split as the revenue is: each Offering's share of what it sells a month through the subchannels the expense belongs to (Demand & Conversion's Customer Sources on those channels x the price on Sustainability), and its cost that rate of it; an Offering that sells nothing through them has no share. Where no Customer Source names those subchannels, its whole revenue a month. Until the sales are set, its shares are the card's and its cost waits for them."]} /></InfoText>
                                         : column.label}
                                 </th>
                             ))}

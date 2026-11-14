@@ -823,3 +823,36 @@ export function offeringMonthlyRevenue(
     }
     return out;
 }
+
+/**
+ * EACH OFFERING'S REVENUE A MONTH THROUGH EACH SUBCHANNEL (owner, 2026-11-14 20:25: "check the %, some seems wrong"): a Customer Source's expected sales x the
+ * Offering's price x its items per order, filed under the subchannel the source names (its channel's category and name, joined by "\u0001"). What a cost
+ * that is a share of a channel's revenue is split by: Shopify Payments by what each Offering sells through the Online Store, a card reader's fees by what it
+ * sells at the markets.
+ */
+export function offeringChannelRevenue(
+    demand: Readonly<Record<string, DemandValue | undefined>>,
+    streams: readonly { offeringId: string; price: string; itemsPerOrder: string }[],
+    channels: readonly { id: string; category: string; name: string }[]
+): Record<string, Record<string, number>> {
+    const out: Record<string, Record<string, number>> = {};
+    for (const [offeringId, value] of Object.entries(demand)) {
+        const stream = streams.find(entry => entry.offeringId === offeringId);
+        const price = parseDecimal(stream?.price ?? "");
+        const items = parseDecimal(stream?.itemsPerOrder ?? "") || 1;
+        if (!value || price === null || price <= 0) {
+            continue;
+        }
+        const parts = demandResult(value).sources;
+        for (const source of value.sources) {
+            const channel = channels.find(entry => entry.id === source.channelId);
+            const expected = parts.find(part => part.id === source.id)?.expected ?? null;
+            if (!channel || expected === null || expected <= 0) {
+                continue;
+            }
+            const key = channel.category.trim() + "\u0001" + channel.name.trim();
+            out[offeringId] = { ...(out[offeringId] ?? {}), [key]: (out[offeringId]?.[key] ?? 0) + expected * price * items };
+        }
+    }
+    return out;
+}
