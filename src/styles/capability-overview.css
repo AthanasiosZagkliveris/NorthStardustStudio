@@ -778,9 +778,17 @@
 
 }
 
+/* (Owner, 2026-11-14 09:31: "Make the divide lines between the subchannels bold, and the lines between channels double (regular)": within a group the line is the
+   heavier rule, 2px; one group from the next a double line of two regular rules.) */
 .capability-overview-table[data-bare] tbody tr[data-follows] > :not([rowspan]) {
 
-    border-top: 1px solid var(--table-line);
+    border-top: 2px solid var(--table-line);
+
+}
+
+.capability-overview-table[data-bare][data-grouped] tbody tr:not(:first-child):not([data-follows]) > * {
+
+    border-top: 3px double var(--table-line);
 
 }
 

@@ -1410,7 +1410,7 @@ describe("the Inventory table", () => {
     }) as never;
 
     it("maps a card to Section, Category, Group, Cost and Frequency, one line for one cost", () => {
-        expect(tableRows(row({}))).toEqual([{ type: "Resource", section: "Infrastructure", category: "Equipment", group: "Specialised", status: "Costs", cost: "7200", frequency: "One-time", nature: "", behaviour: "", offering: "", journey: "", actions: "" }]);
+        expect(tableRows(row({}))).toEqual([{ type: "Resource", section: "Infrastructure", category: "Equipment", group: "Specialised", status: "Costs", cost: "7200", frequency: "One-time", nature: "", behaviour: "", offering: "", journey: "", actions: "", share: "" }]);
         expect(tableRows(row({ tone: "offering", path: ["Offering", "Resources"] }))[0]).toMatchObject({ section: "Offering", category: "Resources", group: "" });
     });
 
@@ -1420,7 +1420,7 @@ describe("the Inventory table", () => {
 
     it("fills a Legal Entity expense with the funnel's names -- Section Legal, Type Legal expense --, name, cost and frequency only", () => {
         const [line] = tableRows(row({ kind: "legal", tone: "legal", path: ["Identity System", "Legal Entity", "Expenses"], status: "", statusLabel: "", amount: 120, frequency: "annually", frequencyLabel: "Annually" }));
-        expect(line).toEqual({ type: "Legal expense", section: "Legal", category: "", group: "", status: "", cost: "120", frequency: "Annually", nature: "", behaviour: "", offering: "", journey: "", actions: "" });
+        expect(line).toEqual({ type: "Legal expense", section: "Legal", category: "", group: "", status: "", cost: "120", frequency: "Annually", nature: "", behaviour: "", offering: "", journey: "", actions: "", share: "" });
     });
 
     it("shows the eleven columns in order, the second cost's line dimmed with the name repeated, the links as bullets only (their text a tooltip)", () => {

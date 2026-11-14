@@ -1,4 +1,4 @@
-import { BUSINESS_EXTRAS, slotExtraKeys, workspacesOf, WORKSPACE_GROUP_ID } from "../../../framework/engine/AnswerUtils.ts";
+import { BUSINESS_EXTRAS, offeringFractions, slotExtraKeys, workspacesOf, WORKSPACE_GROUP_ID } from "../../../framework/engine/AnswerUtils.ts";
 import {
     BUSINESS_COST_FREQUENCIES,
     BUSINESS_OFFERING_RESOURCE_GROUPS,
@@ -91,6 +91,8 @@ export interface FloorRow {
     offeringIds?: readonly string[];
     /** A line of another card's -- a Workspace's extra or deposit --: that card's id, which it opens, and no card of its own in the counts. */
     partOf?: string;
+    /** The fraction of the cost each Offering it serves carries (offeringFractions: its typed shares when they total 100%, else equal), as the Financial pages share it. */
+    offeringShares?: Readonly<Record<string, number>>;
 }
 
 /** A channel expense's facts, as the Customer Engagement page records them. */
@@ -370,14 +372,16 @@ export function floorRows(
 
     const lacking = incompleteCards(capability);
     // (The Offerings each Offering's Capability card serves.)
-    const served = new Map<string, readonly string[]>([...capability.offering.resources, ...capability.offering.activities, ...capability.offering.professionals, ...capability.offering.providers]
-        .map(card => [card.id, card.offeringIds ?? []] as const));
+    const cardsServing = [...capability.offering.resources, ...capability.offering.activities, ...capability.offering.professionals, ...capability.offering.providers];
+    const served = new Map<string, readonly string[]>(cardsServing.map(card => [card.id, card.offeringIds ?? []] as const));
+    // (Each Offering's share of a card's cost, as the Financial Foundation splits it: offeringFractions.)
+    const shares = new Map<string, Record<string, number>>(cardsServing.map(card => [card.id, offeringFractions(card.offeringIds ?? [], (card as { offeringShares?: Record<string, string> }).offeringShares ?? {})] as const));
     return rows.map(row => ({
         ...row,
         ...(lacking.has(row.id) && !freshCards.has(row.id) ? { missing: lacking.get(row.id) } : {}),
         ...(channelNames.has(row.id) ? { channels: [...channelNames.get(row.id)!] } : {}),
         ...(channelFacts.has(row.id) ? { channel: channelFacts.get(row.id), behaviour: channelFacts.get(row.id)!.behaviour } : {}),
-        ...((served.get(row.id) ?? []).length > 0 ? { offeringIds: served.get(row.id) } : {}),
+        ...((served.get(row.id) ?? []).length > 0 ? { offeringIds: served.get(row.id), offeringShares: shares.get(row.id) } : {}),
         tone: row.kind === "legal"
             ? "legal" as const
             : channelIds.has(row.id) ? "channel" as const : row.path[0] === OFFERING ? "offering" as const : "infrastructure" as const

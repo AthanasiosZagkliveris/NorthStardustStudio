@@ -1,6 +1,6 @@
 # The documents of NorthStardustStudio
 
-Status: **index**, updated 2026-11-13. One line per document: where it is, what kind it is, what it holds, when it last changed (the date of its last commit).
+Status: **index**, updated 2026-11-14. One line per document: where it is, what kind it is, what it holds, when it last changed (the date of its last commit).
 
 ## How the documents are kept
 
@@ -114,7 +114,7 @@ What the first published version contains and what it leaves for later (33, whic
 | [design/questionnaire/41-competitor-questions.md](design/questionnaire/41-competitor-questions.md) | specification | The Competitor card: every question and option, as built (K1 to K10, in the card's order, by the competitor's type). | 2026-11-12 |
 | [design/questionnaire/42-value-proposition-questions.md](design/questionnaire/42-value-proposition-questions.md) | proposal | The Value Proposition tile: the draft sentence and the open items, as proposed. | 2026-11-09 |
 | [design/questionnaire/43-offering-questions.md](design/questionnaire/43-offering-questions.md) | specification | The Offering card: every question and option (O1 to O18), built in part. | 2026-11-09 |
-| [design/questionnaire/44-questions-register.md](design/questionnaire/44-questions-register.md) | generated | The questions register: every question of the Foundation's cards by card and position, with its permanent code, saved id, control, limit, when it is asked, its start, options and "i", and the retired codes; generated from the code. | 2026-11-12 |
+| [design/questionnaire/44-questions-register.md](design/questionnaire/44-questions-register.md) | generated | The questions register: every question of the Foundation's cards by card and position, with its permanent code, saved id, control, limit, when it is asked, its start, options and "i", and the retired codes; generated from the code. | 2026-11-13 |
 | [design/questionnaire/45-purpose-and-beliefs-questions.md](design/questionnaire/45-purpose-and-beliefs-questions.md) | specification | Purpose & Beliefs: the Identity System's Mission, Vision, Values, Principles, Philosophy and Manifesto as three pair tiles, each text with its guiding questions, control, length, "i" and connections (codes PB1 to PB6); built 2026-11-09 with the owner's decisions (section 6). | 2026-11-12 |
 | [design/questionnaire/46-ambassador-questions.md](design/questionnaire/46-ambassador-questions.md) | proposal | The Ambassador: the Brand System's four tiles with their choices BA1 to BA4 and BA6 to BA9, the drafts, the Style suggestions; approved 2026-11-12, not built. | 2026-11-12 |
 | [design/questionnaire/47-customer-engagement-tiles.md](design/questionnaire/47-customer-engagement-tiles.md) | specification | Customer Engagement as one chapter per Segment with four Master Tiles, the Offering's four faces and the journey rebuild; approved 2026-11-12; step one (the tiles) built 2026-11-12, the journey rebuild not built. | 2026-11-13 |
@@ -129,7 +129,7 @@ Standing rules, references and playbooks for an AI assistant working on the proj
 |---|---|---|---|
 | [ai/README.md](ai/README.md) | index | The map of this folder: what to read first, what to read for a task. | 2026-11-03 |
 | [ai/ai-collaboration-rules.md](ai/ai-collaboration-rules.md) | rules | Standing rules for an AI assistant: commit but do not push, no unrequested changes, when to ask, what done requires, how work flows. | 2026-11-03 |
-| [ai/toolchain-and-verification-playbook.md](ai/toolchain-and-verification-playbook.md) | playbook | What to run after a change (typecheck, tests, the lints and document checks, build, layout check) and the list of expected test failures. | 2026-11-12 |
+| [ai/toolchain-and-verification-playbook.md](ai/toolchain-and-verification-playbook.md) | playbook | What to run after a change (typecheck, tests, the lints and document checks, build, layout check) and the list of expected test failures. | 2026-11-13 |
 | [ai/framework-dsl-grammar.md](ai/framework-dsl-grammar.md) | reference | Grammar of the Markdown that defines a System's content. | 2026-11-03 |
 | [ai/framework-conventions-and-patterns.md](ai/framework-conventions-and-patterns.md) | reference | The architectural patterns and the data model of the framework. | 2026-11-11 |
 | [ai/review-criteria.md](ai/review-criteria.md) | rules | The standard a screen is judged by: criteria by kind (type, spacing, controls, colour, tiles, cards, tables, windows, pages, data), how each is measured, the report. | 2026-11-02 |

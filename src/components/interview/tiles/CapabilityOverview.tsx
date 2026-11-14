@@ -1,8 +1,8 @@
 import { NUMBER_LIMITS, limitedNumberText } from "../fields/numberInput.ts";
 import { labelWithCurrency } from "../../../framework/engine/Currencies.ts";
-import { CSSProperties, ReactNode, useContext, useMemo, useState } from "react";
+import { CSSProperties, Fragment, ReactNode, useContext, useMemo, useState } from "react";
 import TextLink from "../fields/TextLink.tsx";
-import InfoNote from "../fields/InfoNote.tsx";
+import InfoNote, { InfoText } from "../fields/InfoNote.tsx";
 import RemoveButton from "../../controls/RemoveButton.tsx";
 import NumberCell from "../../controls/NumberCell.tsx";
 import MenuOption from "../../controls/MenuOption.tsx";
@@ -123,7 +123,9 @@ export function tableRows(row: FloorRow, format: (amount: number) => string = St
     const channel = {
         offering: (row.channel?.offerings ?? []).join(", "),
         journey: (row.channel?.stages ?? []).join(", "),
-        actions: (row.channel?.actions ?? []).map(action => "#" + action.order).join(", ")
+        actions: (row.channel?.actions ?? []).map(action => "#" + action.order).join(", "),
+        // (Each Offering's share, in the Offering column's order: shareLines; drawn by its cell.)
+        share: ""
     };
     // (A share of revenue is a percentage: "2%", never in the currency's column as money.)
     const lines = [{ ...base, ...channel, cost: row.amount !== null ? (isPercentRow(row) ? amountText(row.amount) + "%" : own + format(row.amount)) : "", frequency: row.frequencyLabel, nature: row.nature ?? "", behaviour: row.behaviour ?? "" }];
@@ -143,13 +145,26 @@ export const TABLE_COLUMNS = [
     { id: "status", label: "Status" },
     // (A channel expense's Offerings, journey stages and actions: off until ticked, or set by the Channel Costs set-up; owner, 2026-11-12 18:41.)
     { id: "offering", label: "Offering" },
+    // (Each Offering's share of the cost, beside the Offering column and shown only with it: owner, 2026-11-14 09:31.)
+    { id: "share", label: "%" },
     { id: "journey", label: "Journey" },
     { id: "actions", label: "Actions" },
     { id: "linked", label: "Linked" }
 ] as const;
 
 /** The columns off at first: the channel expenses' own. */
-const HIDDEN_AT_FIRST = ["offering", "journey", "actions"];
+const HIDDEN_AT_FIRST = ["offering", "share", "journey", "actions"];
+
+/** The share of a row's cost each Offering carries, in the Offering column's order: the card's own shares, or -- a channel expense's -- equal shares of its Offerings. */
+export function shareLines(row: FloorRow, offerings: readonly { id: string; name: string }[]): { name: string; percent: string }[] {
+    const named = (id: string) => offerings.find(offering => offering.id === id)?.name.trim() || "";
+    const percent = (fraction: number) => (Math.round(fraction * 1000) / 10).toLocaleString(undefined, { maximumFractionDigits: 1 }) + "%";
+    if (row.offeringIds && row.offeringIds.length > 0) {
+        return row.offeringIds.map(id => ({ name: named(id), percent: percent(row.offeringShares?.[id] ?? 1 / row.offeringIds!.length) })).filter(line => line.name !== "");
+    }
+    const own = row.channel?.offerings ?? [];
+    return own.map(name => ({ name, percent: percent(1 / own.length) }));
+}
 
 /**
  * THE CHANNEL COSTS SET-UP (owner, 2026-11-12 18:41: "an option for Channel expenses, that would set the table automatically with the proper set up"; 23:54: named Channel Costs, under the Costs): only
@@ -384,12 +399,43 @@ export default function CapabilityOverview({ rows, format = String, currency = "
                 <MenuHead title="Columns" open={!folded.has("columns")} onToggle={() => toggleFold("columns")} controls="funnel-columns" />
                 {!folded.has("columns") && (
                     <div className="capability-overview-menu-body" id="funnel-columns">
-                        <BusinessTicks
-                            name="Column"
-                            options={TABLE_COLUMNS.map(column => ({ id: column.id, label: column.label }))}
-                            chosen={TABLE_COLUMNS.filter(column => !hiddenColumns.has(column.id)).map(column => column.id)}
-                            onChange={(next) => setHiddenColumns(new Set(TABLE_COLUMNS.map(column => column.id).filter(id => !next.includes(id))))}
-                        />
+                        {/* (The % column is a choice under Offering, shown while Offering is: owner, 2026-11-14 09:31.) */}
+                        {[TABLE_COLUMNS.slice(0, TABLE_COLUMNS.findIndex(column => column.id === "share")), TABLE_COLUMNS.slice(TABLE_COLUMNS.findIndex(column => column.id === "share") + 1)].map((part, at) => (
+                            <Fragment key={at}>
+                                <BusinessTicks
+                                    name="Column"
+                                    options={part.map(column => ({ id: column.id, label: column.label }))}
+                                    chosen={part.filter(column => !hiddenColumns.has(column.id)).map(column => column.id)}
+                                    onChange={(next) => setHiddenColumns(current => {
+                                        const hidden = new Set([...current].filter(id => !part.some(column => column.id === id)));
+                                        part.filter(column => !next.includes(column.id)).forEach(column => hidden.add(column.id));
+                                        // (Offering off takes its % off with it.)
+                                        if (hidden.has("offering")) {
+                                            hidden.add("share");
+                                        }
+                                        return hidden;
+                                    })}
+                                />
+                                {at === 0 && !hiddenColumns.has("offering") && (
+                                    <div className="capability-overview-menu-sub">
+                                        <BusinessTicks
+                                            name="Column"
+                                            options={[{ id: "share", label: "%" }]}
+                                            chosen={hiddenColumns.has("share") ? [] : ["share"]}
+                                            onChange={(next) => setHiddenColumns(current => {
+                                                const hidden = new Set(current);
+                                                if (next.includes("share")) {
+                                                    hidden.delete("share");
+                                                } else {
+                                                    hidden.add("share");
+                                                }
+                                                return hidden;
+                                            })}
+                                        />
+                                    </div>
+                                )}
+                            </Fragment>
+                        ))}
                     </div>
                 )}
             </div>
@@ -490,6 +536,10 @@ export default function CapabilityOverview({ rows, format = String, currency = "
     // (THE OFFERINGS AN OFFERING'S CAPABILITY CARD SERVES, as its card links them -- the Offering column of every row, not a channel expense's alone; owner,
     // 2026-11-13 13:56: "in the offering column some cells are empty".)
     const servedCell = (row: FloorRow, column: string): ReactNode | undefined => {
+        if (column === "share") {
+            const lines = shareLines(row, offerings);
+            return lines.length > 0 ? <Values items={lines.map(line => ({ key: line.name, node: line.percent }))} /> : undefined;
+        }
         const names = (row.offeringIds ?? []).map(id => offerings.find(offering => offering.id === id)?.name.trim() || "").filter(Boolean);
         return column === "offering" && names.length > 0 ? <Values items={names.map(name => ({ key: name, node: name }))} /> : undefined;
     };
@@ -619,7 +669,9 @@ export default function CapabilityOverview({ rows, format = String, currency = "
                             <th scope="col" data-col="name">Name</th>
                             {TABLE_COLUMNS.filter(column => !hiddenColumns.has(column.id)).map(column => (
                                 <th scope="col" key={column.id} data-col={column.id} className={column.id === "cost" ? "capability-overview-number" : undefined}>
-                                    {column.id === "cost" ? labelWithCurrency(column.label, currency) : column.label}
+                                    {column.id === "cost" ? labelWithCurrency(column.label, currency) : column.id === "share"
+                                        ? <InfoText text="%"><InfoNote label="Share of the cost" points={["Each Offering's share of the cost: the shares typed on the card, as the Financial Foundation splits it; with none typed, or shares that do not total 100%, equal shares.", "A channel expense is shared equally between the Offerings its channel serves."]} /></InfoText>
+                                        : column.label}
                                 </th>
                             ))}
                         </tr>
