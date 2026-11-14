@@ -98,9 +98,9 @@ describe("a dropdown with one option is shown as text", () => {
         openTile("Equipment");
         openCard("Laptop");
         // (The one group stays a cell, as the Category's is: set, and not to be pressed.)
-        const group = screen.getByLabelText(/Resource Laptop group: /) as HTMLButtonElement;
+        const group = screen.getByLabelText(/Resource Laptop group: /);
         expect(group.getAttribute("aria-label")).toMatch(/Devices & Tools$/);
-        expect(group.disabled).toBe(true);
+        expect(group.getAttribute("aria-readonly")).toBe("true");
         expect(screen.getByLabelText(/Resource Laptop category: /)).toBeTruthy();
     });
 

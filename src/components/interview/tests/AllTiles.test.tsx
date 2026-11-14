@@ -143,20 +143,20 @@ describe("the Offerings list of Belongs to (owner, 2026-11-13 16:12)", () => {
     });
 });
 
-describe("the % column of the Inventory (owner, 2026-11-14 09:31)", () => {
-    it("is a choice under Offering, shown with it, and gives each Offering's share of the cost as the card shares it", () => {
-        const row = (id: string, offeringIds: string[], offeringShares?: Record<string, number>): FloorRow => ({ id, tone: "offering", kind: "resource", name: id, path: ["Offering's Capability", "Equipment"], status: "", statusLabel: "", frequency: "", frequencyLabel: "", amount: null, links: [], offeringIds, offeringShares } as unknown as FloorRow);
-        const rows = [row("Loom", ["o1", "o2"], { o1: 0.6, o2: 0.4 }), row("Kit", ["o2"], { o2: 1 })];
+describe("the Cost per Offering column of the Inventory (owner, 2026-11-14 09:31 and 13:54)", () => {
+    it("is a choice under Offering, shown with it, and gives each Offering's share of the cost as the card shares it, with the cost it comes to", () => {
+        const row = (id: string, offeringIds: string[], offeringShares?: Record<string, number>, amount: number | null = null): FloorRow => ({ id, tone: "offering", kind: "resource", name: id, path: ["Offering's Capability", "Equipment"], status: "", statusLabel: "", frequency: amount === null ? "" : "monthly", frequencyLabel: amount === null ? "" : "Monthly", amount, links: [], offeringIds, offeringShares } as unknown as FloorRow);
+        const rows = [row("Loom", ["o1", "o2"], { o1: 0.6, o2: 0.4 }, 50), row("Kit", ["o2"], { o2: 1 })];
         render(<CapabilityOverview rows={rows} offerings={[{ id: "o1", name: "Collection" }, { id: "o2", name: "Workshops" }]} />);
         fireEvent.click(screen.getByRole("radio", { name: "Table" }));
         fireEvent.click(screen.getByRole("button", { name: /Sort all tiles/i }));
         fireEvent.click(screen.getByRole("button", { name: "Unfold Columns" }));
         // (Offering off: no % to choose.)
-        expect(screen.queryByLabelText("Column: %")).toBeNull();
+        expect(screen.queryByLabelText("Column: Cost per Offering")).toBeNull();
         fireEvent.click(screen.getByLabelText("Column: Offering"));
-        fireEvent.click(screen.getByLabelText("Column: %"));
+        fireEvent.click(screen.getByLabelText("Column: Cost per Offering"));
         const shares = [...document.querySelectorAll(".capability-overview-table tbody td[data-col=share]")].map(cell => cell.textContent);
-        expect(shares).toEqual(["60%40%", "100%"]);
+        expect(shares).toEqual(["60% · 3040% · 20", "100%"]);
         // (Offering off again takes the % with it.)
         fireEvent.click(screen.getByLabelText("Column: Offering"));
         expect(document.querySelector(".capability-overview-table thead th[data-col=share]")).toBeNull();
@@ -171,12 +171,22 @@ describe("an Offering chosen under Belongs to (owner, 2026-11-14 11:15)", () => 
         fireEvent.click(screen.getByRole("button", { name: /Sort all tiles/i }));
         fireEvent.click(screen.getByRole("button", { name: "Unfold Columns" }));
         fireEvent.click(screen.getByLabelText("Column: Offering"));
-        fireEvent.click(screen.getByLabelText("Column: %"));
+        fireEvent.click(screen.getByLabelText("Column: Cost per Offering"));
         fireEvent.click(screen.getByRole("button", { name: "Unfold Belongs to" }));
         fireEvent.click(screen.getByLabelText("Belongs to: Offering"));
         const cells = () => [...document.querySelectorAll(".capability-overview-table tbody td[data-col=offering], .capability-overview-table tbody td[data-col=share]")].map(cell => cell.textContent);
         expect(cells()).toEqual(["CollectionWorkshops", "70%30%"]);
         fireEvent.click(screen.getByLabelText("Offerings: Collection"));
         expect(cells()).toEqual(["Collection", "70%"]);
+    });
+});
+
+describe("a share of revenue's Cost per Offering (owner, 2026-11-14 14:17)", () => {
+    it("is split as each Offering's revenue is and comes to the rate of it; with a revenue still to come, its share and 'when sales are set'", async () => {
+        const { shareLines, costPerOfferingText } = await import("../tiles/CapabilityOverview.tsx");
+        const row = { id: "fees", tone: "offering", kind: "provider", name: "Shopify Payments", path: [], status: "", statusLabel: "", frequency: "percent-revenue", frequencyLabel: "% of Rev", amount: 2, links: [], offeringIds: ["o1", "o2"], offeringShares: { o1: 0.7, o2: 0.3 } } as unknown as FloorRow;
+        const offerings = [{ id: "o1", name: "Collection" }, { id: "o2", name: "Workshops" }];
+        expect(shareLines(row, offerings, { o1: 2240, o2: 2720 }).map(line => costPerOfferingText(row, line))).toEqual(["45.2% · 44.80", "54.8% · 54.40"]);
+        expect(shareLines(row, offerings, { o1: 2240 }).map(line => costPerOfferingText(row, line))).toEqual(["70% · when sales are set", "30% · when sales are set"]);
     });
 });

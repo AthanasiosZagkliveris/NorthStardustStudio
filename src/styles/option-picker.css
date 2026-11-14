@@ -286,3 +286,30 @@
     margin: 4px 0 0;
 
 }
+
+/* ONE OPTION IS A RECORD (owner, 2026-11-14 14:21): a picker with a single option shows it as the field's value, read only, in the read-only value's look
+   (the one Group or Status of a card, .business-capability-static-value): no box, the text where a picker's letters start, on the row's line as that value. */
+.option-picker.option-picker-record {
+
+    display: flex;
+    align-items: center;
+
+}
+
+.option-picker-record-value {
+
+    min-width: 0;
+
+    padding-left: 8.67px;
+
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
+    font-size: var(--font-body);
+    font-weight: 400;
+    line-height: var(--field-line);
+
+    color: var(--text-default);
+
+}

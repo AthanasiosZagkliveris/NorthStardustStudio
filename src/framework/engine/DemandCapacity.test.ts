@@ -243,7 +243,7 @@ describe("guards for figures saved before the limits", () => {
         expect(demandResult(demand("marketplace", { visitors: "5000000", buy: "1" })).expected).toBe(10000);
     });
 
-    it("counts Times Each and Units per Contract of 0 as not entered: 1", () => {
+    it("counts Repeat Purchases Each and Units per Contract of 0 as not entered: 1", () => {
         expect(demandResult(demand("contracts", { bids: "12", win: "50", units: "0" })).expected).toBe(0.5);
     });
 

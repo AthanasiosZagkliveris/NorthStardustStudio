@@ -474,3 +474,10 @@
 
 /* The Business stages' first column ends where the label column above it does, less the cell's padding, so the Start dates and the Opening Date start on one line. */
 .settings-page .settings-stages-table col.settings-col-asset{ width:348px; }
+
+/* A FEE'S PERCENT has a point and two decimals ("1.69", "10.5"): a square and 12px more, the Quantity box's 56px, so no rate is cut (2026-11-14). */
+.settings-page .settings-fee-table .settings-number.settings-percent{
+
+    width:calc(var(--card-cell-height, 44px) + var(--gap-12));
+
+}

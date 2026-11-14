@@ -180,6 +180,8 @@ export default function BusinessEngagementEditor(props: BusinessEngagementEditor
                     itemMarks: relMarks(offeringId),
                     links: [...profiles.map(() => undefined), ...types.map(typeId => ({ card: typeCardId(offeringId, typeId) }))],
                     holds: types.map(typeId => typeCardId(offeringId, typeId)),
+                    // (Its dialog shows its types alone where no "+" stands: one type then opens at once.)
+                    lone: !add,
                     add,
                     cardFor: (id: string) => {
                         const typeId = id.startsWith("relt:" + offeringId + "|") ? id.slice(("relt:" + offeringId + "|").length) : "";

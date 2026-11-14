@@ -278,7 +278,13 @@ export function CarouselArrows({ target, step, hue, back, side: fixedSide }: { t
             return;
         }
         const pitch = lines[1].top - lines[0].top;
-        const gap = Math.max(4, lines[0].bottom - lines[0].top > 0 ? pitch - (lines[0].bottom - lines[0].top) : 8);
+        const listGap = Math.max(4, lines[0].bottom - lines[0].top > 0 ? pitch - (lines[0].bottom - lines[0].top) : 8);
+        // (The arrow keeps the list's gap from a bullet's GROWN edge -- the lit bullet and its bloom, --rail-dot-overhang in bullet-rail.css -- so a grown bullet
+        // never touches it; owner, 2026-11-14 13:54: "with the proper gaps (counting the scaling over hovering)".)
+        const rootStyle = getComputedStyle(document.documentElement);
+        const grow = parseFloat(rootStyle.getPropertyValue("--rail-dot-grow")) || 1;
+        const bloom = parseFloat(rootStyle.getPropertyValue("--rail-bloom-width")) || 0;
+        const gap = listGap + 12 * (grow - 1) / 2 + bloom * grow;
         // The first line that would reach the arrow (with the list's own gap before it): it and those after it go after the arrow.
         const index = lines.findIndex(line => line.bottom + gap > arrowTop);
         if (index < 0) {

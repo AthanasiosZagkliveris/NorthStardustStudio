@@ -132,6 +132,12 @@ export interface SectionTile {
      */
     direct?: string;
 
+    /**
+     * Its dialog would show nothing but its cards (no suggestion, no "+", no other part): with ONE card, pressing the tile opens that card floating, with
+     * no dialog for a single card (owner, 2026-11-14 13:54: "If there is only a single floated card, there is no reason to create a dialogue card").
+     */
+    lone?: boolean;
+
     /** A tile that is not in use yet (a channel not chosen): faded; pressing it does `press` instead of opening a dialog. */
     inactive?: boolean;
     /** Its dialog covers the page (the Roadmap's), as wide as the widest dialogs are, not the width of the card the tile stands in. */

@@ -510,7 +510,7 @@ describe("a resource's links to the cards it is connected with", () => {
         fireEvent.click(screen.getByRole("option", { name: "Equipment" }));
         expect(screen.getByLabelText(/Resource Power category: /).getAttribute("aria-label")).toMatch(/Equipment$/);
         // (Equipment has the one group: a dropdown with one option is text, and the card is filed in it.)
-        expect((screen.getByLabelText(/Resource Power group: /) as HTMLButtonElement).disabled).toBe(true);
+        expect(screen.getByLabelText(/Resource Power group: /).getAttribute("aria-readonly")).toBe("true");
         expect(group().getAttribute("aria-label")).toMatch(/Devices & Tools$/);
     });
 
