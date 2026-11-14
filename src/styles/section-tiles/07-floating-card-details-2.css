@@ -1528,3 +1528,53 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow, .notepad-close) {
     padding-left: 1.5em;
 
 }
+
+/* A FOLDED LIST'S GROUPS (FoldListGroup: a channel and its subchannels): their lines the list's gap apart, a thin line between one group and the next with the
+   list's gap above and below it; a bulleted line (a subchannel) with the shown lists' drawn bullet (--bullet-size, --bullet-gap); a long word wraps inside
+   its column (owner, 2026-11-14 19:04). */
+.fold-list-group {
+
+    display: flex;
+    flex-direction: column;
+    row-gap: var(--space-row);
+
+}
+
+.fold-list-group + .fold-list-group {
+
+    padding-top: var(--space-row);
+
+    border-top: 1px solid var(--line-divider);
+
+}
+
+.business-capability-card-link.fold-list-line-bullet {
+
+    position: relative;
+
+    padding-left: calc(var(--bullet-size) + var(--bullet-gap));
+
+}
+
+.business-capability-card-link.fold-list-line-bullet::before {
+
+    content: "";
+
+    position: absolute;
+    left: 0;
+    top: calc((var(--font-body) * var(--field-line) - var(--bullet-size)) / 2);
+
+    width: var(--bullet-size);
+    height: var(--bullet-size);
+
+    border-radius: 50%;
+
+    background: currentColor;
+
+}
+
+.business-capability-card-link.fold-list-line-wrap {
+
+    overflow-wrap: anywhere;
+
+}

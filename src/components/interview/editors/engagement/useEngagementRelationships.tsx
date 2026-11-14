@@ -39,7 +39,7 @@ import StrategyTextArea from "../../fields/StrategyTextArea.tsx";
 import SectionTiles, { DialogHeading, OPEN_EVENT, type OpenRequest, type SectionTile } from "../../tiles/SectionTiles.tsx";
 import CardBoxes, { type CardBox } from "../../cards/CardBoxes.tsx";
 import FoldArrow from "../../fields/FoldArrow.tsx";
-import FoldList, { FoldListLine } from "../../fields/FoldList.tsx";
+import FoldList, { FoldListGroup, FoldListLine } from "../../fields/FoldList.tsx";
 import { SECTIONS, GOAL_OPTIONS, STAGE_LABELS, TYPE_LABELS, relativeInformationFor, channelChoices } from "../BusinessEngagementModel.ts";
 
 import type { useEngagementState } from "./useEngagementState.tsx";
@@ -704,10 +704,13 @@ export function useEngagementRelationships(earlier: Earlier) {
                                                                 // (The shared fold of a card's Links and Responsibilities: the arrow, the stage, its channels under it, each subchannel set
                                                                 // in under its channel; owner, 2026-11-14 18:10.)
                                                                 <FoldList label={stage} name={stage + " channels"} open={stageOpen} onToggle={() => folds.toggle(stageFold)}>
-                                                                    {interaction.groups.flatMap(group => [
-                                                                        <FoldListLine key={group.category} wrap>{group.category.trim() || "No channel"}</FoldListLine>,
-                                                                        ...group.channelIds.map(id => <FoldListLine key={group.category + ":" + id} nested wrap>{channelName(id)}</FoldListLine>)
-                                                                    ])}
+                                                                    {/* (A line between one channel and the next, a bullet before each subchannel; owner, 2026-11-14 19:04.) */}
+                                                                    {interaction.groups.map(group => (
+                                                                        <FoldListGroup key={group.category}>
+                                                                            <FoldListLine wrap>{group.category.trim() || "No channel"}</FoldListLine>
+                                                                            {group.channelIds.map(id => <FoldListLine key={id} bullet wrap>{channelName(id)}</FoldListLine>)}
+                                                                        </FoldListGroup>
+                                                                    ))}
                                                                 </FoldList>
                                                             )
                                                             : <span className="business-foundation-label-info"><FieldLabel className="business-foundation-label">{stage}</FieldLabel></span>}

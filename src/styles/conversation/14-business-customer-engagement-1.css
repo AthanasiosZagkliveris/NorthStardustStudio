@@ -915,8 +915,9 @@
 
     display:grid;
 
-    /* Journey Stage and Goals as wide as their words ("Evaluation" and its "i"; "Grow" and its tick), the Approach the rest (owner, 2026-11-13 11:44). */
-    --stage-col:7.5rem;
+    /* Journey Stage and Goals as wide as their words ("Evaluation" and its "i"; "Grow" and its tick; a subchannel such as "Ambassador" after its bullet, whole:
+       owner, 2026-11-14 19:04), the Approach the rest (owner, 2026-11-13 11:44). */
+    --stage-col:8.5rem;
     --goals-col:5rem;
 
     grid-template-columns:var(--stage-col) var(--goals-col) minmax(0, 1fr);

@@ -35,12 +35,20 @@ export default function FoldList({ label, name, count, open, onToggle, className
 }
 
 /**
+ * A GROUP OF A FoldList's LINES (a channel and its subchannels): the groups parted by a thin line, the list's gap above and below it (owner, 2026-11-14 19:04:
+ * "Place dividing lines per channel, and bullets on subchannels").
+ */
+export function FoldListGroup({ children }: { children: ReactNode }) {
+    return <div className="fold-list-group">{children}</div>;
+}
+
+/**
  * One line of a FoldList: its kind as a letter or a mark before it where it has one (R. Resource), then its words or its link -- one line cut by an ellipsis,
  * or, with `wrap`, its whole words over as many lines as they need; `nested` sets it in by the kind's column (a subchannel under its channel).
  */
-export function FoldListLine({ kind, title, wrap = false, nested = false, children }: { kind?: string; title?: string; wrap?: boolean; nested?: boolean; children: ReactNode }) {
+export function FoldListLine({ kind, title, wrap = false, nested = false, bullet = false, children }: { kind?: string; title?: string; wrap?: boolean; nested?: boolean; /** A drawn bullet before it (a subchannel under its channel). */ bullet?: boolean; children: ReactNode }) {
     return (
-        <p className={"business-capability-activity-line business-capability-card-link" + (wrap ? " fold-list-line-wrap" : "") + (nested ? " fold-list-line-nested" : "")} title={title}>
+        <p className={"business-capability-activity-line business-capability-card-link" + (wrap ? " fold-list-line-wrap" : "") + (nested ? " fold-list-line-nested" : "") + (bullet ? " fold-list-line-bullet" : "")} title={title}>
             {kind !== undefined && <span className="business-capability-card-link-kind" aria-hidden="true">{kind}</span>}
             {children}
         </p>
