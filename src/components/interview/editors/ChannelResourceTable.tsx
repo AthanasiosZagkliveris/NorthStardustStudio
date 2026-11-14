@@ -45,7 +45,7 @@ export interface ChannelResourceTableProps {
 /** Two or more values as a bullet list, one under the other, all alike; one value
  *  as plain text indented to where the bullets' text starts, so the text of a
  *  column begins at one x. */
-export function Values({ items, numbered = false }: { items: { key: string; node: ReactNode }[]; /** Numbered from 1, a line between one and the next (a stage's actions). */ numbered?: boolean }) {
+export function Values({ items, numbered = false, lined = false }: { items: { key: string; node: ReactNode }[]; /** Numbered from 1, a line between one and the next (a stage's actions). */ numbered?: boolean; /** No bullets: a thin line between one and the next (a journey stage's table; owner, 2026-11-14 18:19). */ lined?: boolean }) {
     if (items.length === 0) {
         return <>{DASH}</>;
     }
@@ -60,7 +60,7 @@ export function Values({ items, numbered = false }: { items: { key: string; node
         return <span className="channel-resource-single">{items[0].node}</span>;
     }
     return (
-        <ul className="channel-resource-list channel-resource-bullets">
+        <ul className={"channel-resource-list " + (lined ? "channel-resource-lined" : "channel-resource-bullets")}>
             {items.map(item => <li key={item.key}>{item.node}</li>)}
         </ul>
     );

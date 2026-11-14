@@ -416,3 +416,13 @@
     max-width:0;
 
 }
+
+/* TWO OR MORE VALUES WITH LINES BETWEEN, NO BULLETS (a journey stage's table: its Offerings, a subchannel's expenses; owner, 2026-11-14 18:19: "instead of
+   bullet points, place dividing lines"): the numbered list's line (1px, the table's line colour) and gaps, its words where the cell's start. */
+.channel-resource-lined > li + li{
+
+    padding-top:var(--space-label);
+
+    border-top:1px solid var(--table-line);
+
+}
