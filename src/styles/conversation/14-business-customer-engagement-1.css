@@ -1272,3 +1272,33 @@ table[data-record] td[data-col="actions"] .channel-resource-numbered > li + li .
     max-width:100%;
 
 }
+
+/* A JOURNEY STAGE'S TABLE (owner, 2026-11-14 20:08): its heading row between two bold lines (2px, the table's line colour), as a relationship type's heading;
+   a bold line under a subchannel's name where its expenses follow, edge to edge; each expense its name, then its cost on a line of its own. */
+.capability-overview-table[data-bare][data-record] thead th{
+
+    border-top:2px solid var(--table-line);
+    border-bottom:2px solid var(--table-line);
+
+}
+
+.capability-overview-table[data-wrap][data-record] tbody th[data-col] > .stage-record-expenses{
+
+    display:block;
+
+    margin-inline:-10px;
+    width:calc(100% + 20px);
+    max-width:none;
+    box-sizing:border-box;
+    padding:var(--space-label) 10px 0;
+
+    border-top:2px solid var(--table-line);
+
+}
+
+.stage-record-expense-name,
+.stage-record-expense-cost{
+
+    display:block;
+
+}

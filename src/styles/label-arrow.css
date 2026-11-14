@@ -114,7 +114,16 @@
 
     display: inline-flex;
 
-    align-items: center;
+    /* ON THE FIRST LINE (owner, 2026-11-14 20:08: "The folded arrow should align to the 1st row"): a label that wraps ("Support & / Follow Up") keeps its arrow
+       on its first line, centred on it -- the arrow's box set down by half of what a label's line (--label-line) is taller than it. */
+    align-items: flex-start;
+
+}
+
+.field-label > .label-arrow,
+.strategy-box-number > .label-arrow {
+
+    margin-top: calc((var(--label-line) - var(--label-arrow-hit)) / 2);
 
 }
 

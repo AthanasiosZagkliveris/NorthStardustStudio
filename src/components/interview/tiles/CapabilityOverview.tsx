@@ -296,6 +296,9 @@ export default function CapabilityOverview({ rows, format = String, currency = "
     const servedOfferings = offerings.filter(offering => rows.some(row => placeOf(row) === "offering" && (row.offeringIds ?? []).includes(offering.id)));
     // (The journey stages a channel uses a card of the Offering place at, in the journey's order.)
     const usedStages = BUSINESS_JOURNEY_STAGES.map(stage => stage.label as string).filter(label => rows.some(row => placeOf(row) === "offering" && (row.channel?.stages ?? []).includes(label)));
+    // SMART OPTIONS (owner, 2026-11-14 20:08: "make the options smart ... The Delivery option should have been hidden"): an option stands only where choosing it,
+    // with every other choice as it is, still lists a card -- the faceted search's way; a ticked one stays (shown, so it can be unticked) even where it lists none.
+    const reaches = (next: Partial<FloorFilter>) => filterFloor(rows, { ...filter, ...next }).length > 0;
 
     const open = (row: FloorRow, pointer: boolean) => {
         if (row.kind === "legal") {
@@ -347,7 +350,7 @@ export default function CapabilityOverview({ rows, format = String, currency = "
                             <strong>Type</strong>
                             <BusinessTicks
                                 name="Type"
-                                options={placeKindOptions(placeKinds)}
+                                options={placeKindOptions(placeKinds.filter(kind => filter.placeKinds.includes(kind) || reaches({ placeKinds: [kind], categories: [], subgroups: [] })))}
                                 chosen={toOptionIds(filter.placeKinds)}
                                 onChange={(ids) => {
                                     const next = fromOptionIds(ids) as FloorType[];
@@ -368,7 +371,7 @@ export default function CapabilityOverview({ rows, format = String, currency = "
                             <strong>Category</strong>
                             <BusinessTicks
                                 name="Category"
-                                options={categories.map(category => ({ id: category, label: category }))}
+                                options={categories.filter(category => filter.categories.includes(category) || reaches({ categories: [category], subgroups: [] })).map(category => ({ id: category, label: category }))}
                                 chosen={filter.categories}
                                 onChange={(next) => patch({
                                     categories: next,
@@ -384,7 +387,7 @@ export default function CapabilityOverview({ rows, format = String, currency = "
                             <strong>Group</strong>
                             <BusinessTicks
                                 name="Group"
-                                options={subgroups.map(entry => ({ id: entry.key, label: entry.label }))}
+                                options={subgroups.filter(entry => filter.subgroups.includes(entry.key) || reaches({ subgroups: [entry.key] })).map(entry => ({ id: entry.key, label: entry.label }))}
                                 chosen={filter.subgroups}
                                 onChange={(next) => patch({ subgroups: next })}
                             />
@@ -399,7 +402,7 @@ export default function CapabilityOverview({ rows, format = String, currency = "
                                 deactivates"): ticking an Offering leaves All, ticking All -- or unticking every Offering -- comes back to it. */}
                             <BusinessTicks
                                 name="Offerings"
-                                options={[{ id: ALL_OFFERINGS, label: "All" }, ...servedOfferings.map(offering => ({ id: offering.id, label: offering.name.trim() || "Unnamed Offering" }))]}
+                                options={[{ id: ALL_OFFERINGS, label: "All" }, ...servedOfferings.filter(offering => filter.offerings.includes(offering.id) || reaches({ offerings: [offering.id] })).map(offering => ({ id: offering.id, label: offering.name.trim() || "Unnamed Offering" }))]}
                                 chosen={filter.offerings.length > 0 ? filter.offerings : [ALL_OFFERINGS]}
                                 onChange={(next) => patch({ offerings: next.includes(ALL_OFFERINGS) && !filter.offerings.includes(ALL_OFFERINGS) && filter.offerings.length > 0 ? [] : next.filter(id => id !== ALL_OFFERINGS) })}
                             />
@@ -412,7 +415,7 @@ export default function CapabilityOverview({ rows, format = String, currency = "
                             <strong>Journey Stages</strong>
                             <BusinessTicks
                                 name="Journey Stages"
-                                options={[{ id: ALL_OFFERINGS, label: "All" }, ...usedStages.map(stage => ({ id: stage, label: stage }))]}
+                                options={[{ id: ALL_OFFERINGS, label: "All" }, ...usedStages.filter(stage => filter.stages.includes(stage) || reaches({ stages: [stage] })).map(stage => ({ id: stage, label: stage }))]}
                                 chosen={filter.stages.length > 0 ? filter.stages : [ALL_OFFERINGS]}
                                 onChange={(next) => patch({ stages: next.includes(ALL_OFFERINGS) && !filter.stages.includes(ALL_OFFERINGS) && filter.stages.length > 0 ? [] : next.filter(id => id !== ALL_OFFERINGS) })}
                             />
@@ -437,7 +440,7 @@ export default function CapabilityOverview({ rows, format = String, currency = "
                         Status
                         <FunnelPicker
                             label="Status"
-                            options={[...BUSINESS_RESOURCE_STATUSES.map(status => ({ id: status.id as string, label: status.label as string })), { id: "completed", label: "Completed" }].filter(option => option.id === filter.status || rows.some(row => row.status === option.id))}
+                            options={[...BUSINESS_RESOURCE_STATUSES.map(status => ({ id: status.id as string, label: status.label as string })), { id: "completed", label: "Completed" }].filter(option => option.id === filter.status || reaches({ status: option.id }))}
                             value={filter.status}
                             onChange={(status) => patch({ status })}
                         />
@@ -446,7 +449,7 @@ export default function CapabilityOverview({ rows, format = String, currency = "
                         Frequency
                         <FunnelPicker
                             label="Frequency"
-                            options={[...BUSINESS_COST_FREQUENCIES.map(entry => ({ id: entry.id as string, label: entry.label as string })), { id: "other", label: "Other" }].filter(option => option.id === filter.frequency || rows.some(row => row.frequency === option.id))}
+                            options={[...BUSINESS_COST_FREQUENCIES.map(entry => ({ id: entry.id as string, label: entry.label as string })), { id: "other", label: "Other" }].filter(option => option.id === filter.frequency || reaches({ frequency: option.id }))}
                             value={filter.frequency}
                             onChange={(frequency) => patch({ frequency })}
                         />

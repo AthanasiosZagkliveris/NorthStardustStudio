@@ -190,3 +190,17 @@ describe("a share of revenue's Cost per Offering (owner, 2026-11-14 14:17)", () 
         expect(shareLines(row, offerings, { o1: 2240 }).map(line => costPerOfferingText(row, line))).toEqual(["70% · when sales are set", "30% · when sales are set"]);
     });
 });
+
+describe("the Inventory's smart options (owner, 2026-11-14 20:08)", () => {
+    it("offers a journey stage only where, with the Offering chosen, a card is used at it; a ticked one stays", () => {
+        const row = (id: string, offeringIds: string[], stages: string[]): FloorRow => ({ id, tone: "channel", kind: "resource", name: id, path: ["Offering's Capability", "Resources"], status: "", statusLabel: "", frequency: "", frequencyLabel: "", amount: null, links: [], offeringIds, channel: { places: [], offerings: [], stages, actions: [], colour: 0, linkIds: [], behaviour: "" } } as unknown as FloorRow);
+        render(<CapabilityOverview rows={[row("Stall kit", ["o1"], ["Discover", "Delivery"]), row("Booking app", ["o2"], ["Purchase"])]} offerings={[{ id: "o1", name: "Collection" }, { id: "o2", name: "Workshops" }]} />);
+        fireEvent.click(screen.getByRole("button", { name: /Sort all tiles/i }));
+        fireEvent.click(screen.getByRole("button", { name: "Unfold Belongs to" }));
+        fireEvent.click(screen.getByLabelText("Belongs to: Offering"));
+        const stages = () => [...document.querySelectorAll("input[aria-label^='Journey Stages: ']")].map(input => input.getAttribute("aria-label")!.replace("Journey Stages: ", ""));
+        expect(stages()).toEqual(["All", "Discover", "Purchase", "Delivery"]);
+        fireEvent.click(screen.getByLabelText("Offerings: Workshops"));
+        expect(stages()).toEqual(["All", "Purchase"]);
+    });
+});

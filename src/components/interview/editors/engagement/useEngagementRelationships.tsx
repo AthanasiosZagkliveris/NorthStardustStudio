@@ -397,7 +397,7 @@ export function useEngagementRelationships(earlier: Earlier) {
                                                                     <TextLink className="capability-overview-name" onClick={() => openCard(channel.id)}>{nameOf(channel)}</TextLink>
                                                                     {expenses.length > 0 && (
                                                                         <div className="stage-record-expenses" aria-label={"Expenses of " + nameOf(channel)}>
-                                                                            <Values lined items={expenses.map(entry => ({ key: entry.id, node: entry.name + (entry.cost ? " · " + entry.cost : "") }))} />
+                                                                            <Values lined items={expenses.map(entry => ({ key: entry.id, node: <><span className="stage-record-expense-name">{entry.name}</span>{entry.cost && <span className="stage-record-expense-cost">{entry.cost}</span>}</> }))} />
                                                                         </div>
                                                                     )}
                                                                 </th>

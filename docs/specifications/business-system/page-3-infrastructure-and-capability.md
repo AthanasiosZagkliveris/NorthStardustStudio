@@ -133,3 +133,5 @@ A card needs an answer in every field that is not behind an optional tick box (`
 - **2026-11-14 (owner, 18:17).** The Inventory's side panel in three groups: Show (Include, Belongs to, Status, Frequency, Linked, Costs, Channel Costs), Order (Sort, with the cost order's arrows and its "i"), Table (Columns, in the Table view only); From and To only while Costs is ticked.
 
 - **2026-11-14 (owner, 19:08 and 19:09).** The Inventory's table: lines between a cell's values, no bullets, each line across the whole cell; Offering and Cost per Offering line for line.
+
+- **2026-11-14 (owner, 20:08).** The Inventory's options are smart: an option of Type, Category, Group, Offerings, Journey Stages, Status or Frequency stands only where choosing it, with the other choices, still lists a card (a ticked one stays).
