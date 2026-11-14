@@ -684,4 +684,4 @@ The cost of a channel is read by Page 4 from its cards: payment-processor and ma
 
 - **2026-11-14 (owner, 13:54).** A channel tile with one subchannel and nothing else in its dialog opens the subchannel's card at once. The Fees heading on a paying subchannel's card links to the Global Settings' Channel Fee Table, landing on its row (no separate link). The card's rail tab keeps 12px from the lit bullet's grown edge.
 
-- **2026-11-14 (owner, 17:44).** A journey stage's table: Channel | Subchannel | Offerings | # | Actions | Expenses, a row for each action, its symbols after its words, its expenses with their costs. A subchannel's Fees fold (folded at first). An Online Store's Customer Source is Visitors (`demandSourceOf`).
+- **2026-11-14 (owner, 17:44).** A journey stage's table: Channel | Subchannel | Offerings | Actions, a row for each subchannel; its expenses under its name with their costs; its actions numbered 1., 2. and #14, their symbols after their words (18:06). A subchannel's Fees fold (folded at first). An Online Store's Customer Source is Visitors (`demandSourceOf`).

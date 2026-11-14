@@ -4,7 +4,7 @@
  */
 import { CSSProperties, FocusEvent, ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import GlobalSettingsLink from "../../fields/GlobalSettingsLink.tsx";
-import FoldArrow from "../../fields/FoldArrow.tsx";
+import FoldList, { FoldListLine } from "../../fields/FoldList.tsx";
 import { asGlobalSettings, channelFeeOf } from "../../../../framework/engine/GlobalSettings.ts";
 import { asFinancialSustainabilityValue } from "../../../../framework/engine/financial/revenueStored.ts";
 import { channelFeeFor } from "../../../../framework/engine/CalculatedLines.ts";
@@ -782,25 +782,21 @@ export function useEngagementState(props: BusinessEngagementEditorProps) {
         // page's folds start open, so this one's key is held the other way round.)
         const feeFold = "fees:" + channel.id;
         const feesOpen = !folds.isOpen(feeFold);
+        // (THE SHARED FOLD of a card's Links and Responsibilities: the arrow, the label -- Fees, the link to the Global Settings' Channel Fee Table, landing on the
+        // row it reads (owner, 2026-11-14 13:54) --, the lines under it at the Links' gaps, each whole; owner, 2026-11-14 18:11: "The Fees too".)
+        const lines = found
+            ? [rate + " (" + found.row.channel + ")", ...(found.row.note.trim() ? [found.row.note.trim()] : []), ...sales.map(sale => "On a " + money(sale.sale) + " " + sale.name + " sale: about " + money(channelFeeOf(found.row, sale.sale, 1)))]
+            : ["No fee is set for " + (channel.name.trim() || "this subchannel") + " yet: add its row to the Channel Fee Table."];
         return (
-            <div className="business-channel-resources business-channel-resources-sectioned business-channel-fees">
-                    {/* (The heading is the link: to the Global Settings' Channel Fee Table, landing on the row it reads; owner, 2026-11-14 13:54: "Make the Fees a link".) */}
-                    <div className="business-channel-resources-head">
-                        <span className="business-capability-responsibilities-head business-channel-fees-head">
-                            <FoldArrow variant="label" open={feesOpen} name={(feesOpen ? "Minimise " : "Maximise ") + "Fees of " + (channel.name.trim() || "this subchannel")} onToggle={() => folds.toggle(feeFold)} />
-                            <GlobalSettingsLink className="business-channel-field-label business-channel-fee-link" land={found ? "channel-fee-" + found.row.id : "channel-fees"}>Fees</GlobalSettingsLink>
-                        </span>
-                    </div>
-                    {!feesOpen ? null : found ? (
-                        <>
-                            <p className="business-channel-cost-summary">{rate + " (" + found.row.channel + ")"}</p>
-                            {found.row.note.trim() && <p className="business-channel-cost-summary">{found.row.note.trim()}</p>}
-                            {sales.map(sale => <p key={sale.name} className="business-channel-cost-summary">{"On a " + money(sale.sale) + " " + sale.name + " sale: about " + money(channelFeeOf(found.row, sale.sale, 1))}</p>)}
-                        </>
-                    ) : (
-                        <p className="business-channel-cost-summary">{"No fee is set for " + (channel.name.trim() || "this subchannel") + " yet: add its row to the Channel Fee Table."}</p>
-                    )}
-            </div>
+            <FoldList
+                className="business-channel-fees"
+                label={<GlobalSettingsLink className="business-channel-fee-link" land={found ? "channel-fee-" + found.row.id : "channel-fees"}>Fees</GlobalSettingsLink>}
+                name={"Fees of " + (channel.name.trim() || "this subchannel")}
+                open={feesOpen}
+                onToggle={() => folds.toggle(feeFold)}
+            >
+                {lines.map((line, at) => <FoldListLine key={at} wrap>{line}</FoldListLine>)}
+            </FoldList>
         );
     }
 

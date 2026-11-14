@@ -1514,3 +1514,17 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow, .notepad-close) {
     color: var(--tab-edge);
 
 }
+
+/* A FOLDED LIST'S LINES (FoldList): a line that keeps its whole words (a fee's note) wraps; a nested line (a subchannel under its channel) stands in by the kind's
+   column, 1.5em, so its words start where its channel's do after the letter. */
+.business-capability-card-link.fold-list-line-wrap {
+
+    white-space: normal;
+
+}
+
+.business-capability-card-link.fold-list-line-nested {
+
+    padding-left: 1.5em;
+
+}

@@ -39,6 +39,7 @@ import StrategyTextArea from "../../fields/StrategyTextArea.tsx";
 import SectionTiles, { DialogHeading, OPEN_EVENT, type OpenRequest, type SectionTile } from "../../tiles/SectionTiles.tsx";
 import CardBoxes, { type CardBox } from "../../cards/CardBoxes.tsx";
 import FoldArrow from "../../fields/FoldArrow.tsx";
+import FoldList, { FoldListLine } from "../../fields/FoldList.tsx";
 import { SECTIONS, GOAL_OPTIONS, STAGE_LABELS, TYPE_LABELS, relativeInformationFor, channelChoices } from "../BusinessEngagementModel.ts";
 
 import type { useEngagementState } from "./useEngagementState.tsx";
@@ -366,7 +367,7 @@ export function useEngagementRelationships(earlier: Earlier) {
                                         />
                                     )
                                     : (
-                                        <table className="capability-overview-table" data-grouped="" data-wrap="" data-bare="" aria-label={"Subchannels at " + stage.label} data-size={TABLE_SIZES[0].id} style={{ "--table-font": TABLE_SIZES[0].font, "--table-pad": TABLE_SIZES[0].pad } as CSSProperties}>
+                                        <table className="capability-overview-table" data-grouped="" data-wrap="" data-bare="" data-record="" aria-label={"Subchannels at " + stage.label} data-size={TABLE_SIZES[0].id} style={{ "--table-font": TABLE_SIZES[0].font, "--table-pad": TABLE_SIZES[0].pad } as CSSProperties}>
                                             <thead>
                                                 <tr>
                                                     {/* (Channel, Subchannel, Offerings, Actions, owner, 2026-11-13 00:27; the stage named once, by the dialog's title, 11:44.
@@ -374,12 +375,9 @@ export function useEngagementRelationships(earlier: Earlier) {
                                                     <th scope="col" data-col="channel">Channel</th>
                                                     <th scope="col" data-col="subchannel">Subchannel</th>
                                                     <th scope="col" data-col="offerings">Offerings</th>
-                                                    {/* (AS A RECORD, the Inventory's table: each action a row of its own -- its number, its words with its symbols, the expenses
-                                                        linked to it with their costs; owner, 2026-11-14 17:44: "the table should work as a record ... #number, symbols/links,
-                                                        expenses".) */}
-                                                    <th scope="col" data-col="number" className="capability-overview-number">#</th>
+                                                    {/* (AS A RECORD: a row for each subchannel, its expenses under its name with their costs; its actions numbered twice -- 1., 2. in
+                                                        the subchannel and #14 in the page -- with their symbols; owner, 2026-11-14 17:44 and 18:06.) */}
                                                     <th scope="col" data-col="actions">Actions</th>
-                                                    <th scope="col" data-col="expenses">Expenses</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -388,28 +386,43 @@ export function useEngagementRelationships(earlier: Earlier) {
                                                     (data-band). */}
                                                 {[...new Set(used.map(channel => channel.category))].flatMap((category, group) => {
                                                     const subchannels = used.filter(channel => channel.category === category);
-                                                    const lines = (channel: BusinessChannelValue) => Math.max(1, recordsOf(channel).length);
-                                                    const span = subchannels.reduce((sum, channel) => sum + lines(channel), 0);
-                                                    return subchannels.flatMap((channel, at) => {
+                                                    return subchannels.map((channel, at) => {
                                                         const records = recordsOf(channel);
-                                                        return (records.length > 0 ? records : [null]).map((record, line) => (
-                                                            <tr key={channel.id + ":" + line} data-band={group % 2 === 1 ? "even" : "odd"} data-follows={at > 0 || line > 0 ? "" : undefined}>
-                                                                {at === 0 && line === 0 && <td data-col="channel" rowSpan={span}><span>{category.trim() || "New channel"}</span></td>}
-                                                                {line === 0 && <th scope="row" data-col="subchannel" rowSpan={lines(channel)}><TextLink className="capability-overview-name" onClick={() => openCard(channel.id)}>{nameOf(channel)}</TextLink></th>}
-                                                                {line === 0 && <td data-col="offerings" rowSpan={lines(channel)}><Values items={offeringsOf(channel).map(name => ({ key: name, node: name }))} /></td>}
-                                                                <td data-col="number" className="capability-overview-number">{record ? "#" + (record.order ?? "") : ""}</td>
+                                                        // (The subchannel's expenses the stage's actions use, each once.)
+                                                        const expenses = [...new Map(records.flatMap(record => record.expenses).map(entry => [entry.id, entry])).values()];
+                                                        return (
+                                                            <tr key={channel.id} data-band={group % 2 === 1 ? "even" : "odd"} data-follows={at > 0 ? "" : undefined}>
+                                                                {at === 0 && <td data-col="channel" rowSpan={subchannels.length}><span>{category.trim() || "New channel"}</span></td>}
+                                                                <th scope="row" data-col="subchannel">
+                                                                    <TextLink className="capability-overview-name" onClick={() => openCard(channel.id)}>{nameOf(channel)}</TextLink>
+                                                                    {expenses.length > 0 && (
+                                                                        <div className="stage-record-expenses" aria-label={"Expenses of " + nameOf(channel)}>
+                                                                            <Values items={expenses.map(entry => ({ key: entry.id, node: entry.name + (entry.cost ? " · " + entry.cost : "") }))} />
+                                                                        </div>
+                                                                    )}
+                                                                </th>
+                                                                <td data-col="offerings"><Values items={offeringsOf(channel).map(name => ({ key: name, node: name }))} /></td>
                                                                 <td data-col="actions">
-                                                                    {record ? (
-                                                                        <span className="stage-record-action">
-                                                                            {record.text}
-                                                                            {record.shared > 0 && <span className="stage-record-mark" title={"In " + record.shared + " places"} aria-label={"In " + record.shared + " places"}><MarkIcon kind="link" /></span>}
-                                                                            {record.expenses.length > 0 && <span className="stage-record-mark" title={"Linked to " + record.expenses.map(entry => entry.name).join(", ")} aria-label={"Linked to " + record.expenses.map(entry => entry.name).join(", ")}><MarkIcon kind="tag" /></span>}
-                                                                        </span>
-                                                                    ) : <Values items={[]} />}
+                                                                    <Values numbered items={records.map(record => ({
+                                                                        key: record.id,
+                                                                        node: (
+                                                                            // (As the subchannel card's action cell: its order at the top left (the list's 1.), its number in the page at the bottom left,
+                                                                            // its words beside them, its symbols in a column at the right, the link above the tag; owner, 2026-11-14 18:12 and 18:14.)
+                                                                            <span className="stage-record-action">
+                                                                                <span className="stage-record-words">{record.text}</span>
+                                                                                {(record.shared > 0 || record.expenses.length > 0) && (
+                                                                                    <span className="stage-record-marks">
+                                                                                        {record.shared > 0 && <span className="stage-record-mark" title={"In " + record.shared + " places"} aria-label={"In " + record.shared + " places"}><MarkIcon kind="link" /></span>}
+                                                                                        {record.expenses.length > 0 && <span className="stage-record-mark" title={"Linked to " + record.expenses.map(entry => entry.name).join(", ")} aria-label={"Linked to " + record.expenses.map(entry => entry.name).join(", ")}><MarkIcon kind="tag" /></span>}
+                                                                                    </span>
+                                                                                )}
+                                                                                {record.order !== undefined && <span className="notepad-chip-number stage-record-order">{"#" + record.order}</span>}
+                                                                            </span>
+                                                                        )
+                                                                    }))} />
                                                                 </td>
-                                                                <td data-col="expenses">{record && record.expenses.length > 0 ? <Values items={record.expenses.map(entry => ({ key: entry.id, node: entry.name + (entry.cost ? " · " + entry.cost : "") }))} /> : <Values items={[]} />}</td>
                                                             </tr>
-                                                        ));
+                                                        );
                                                     });
                                                 })}
                                             </tbody>
@@ -685,23 +698,19 @@ export function useEngagementRelationships(earlier: Earlier) {
                                             const stageOpen = !folds.isOpen(stageFold);
                                             return (
                                                 <div key={interaction.key} className="business-relationship-stage-row" role="row">
-                                                    <span className="business-foundation-label-info business-relationship-stage-head" role="rowheader">
-                                                        <span className="business-relationship-stage-name">
-                                                            {interaction.groups.length > 0 && <FoldArrow open={stageOpen} label={stage + " channels"} onToggle={() => folds.toggle(stageFold)} />}
-                                                            <FieldLabel className="business-foundation-label">{stage}</FieldLabel>
-                                                        </span>
-                                                        {stageOpen && interaction.groups.length > 0 && (
-                                                            <ul className="business-engagement-channel-list business-relationship-stage-channels" aria-label={stage + " channels"}>
-                                                                {interaction.groups.map(group => (
-                                                                    <li key={group.category}>
-                                                                        {group.category.trim() || "No channel"}
-                                                                        <ul className="business-engagement-channel-list">
-                                                                            {group.channelIds.map(id => <li key={id}>{channelName(id)}</li>)}
-                                                                        </ul>
-                                                                    </li>
-                                                                ))}
-                                                            </ul>
-                                                        )}
+                                                    <span className="business-relationship-stage-head" role="rowheader">
+                                                        {interaction.groups.length > 0
+                                                            ? (
+                                                                // (The shared fold of a card's Links and Responsibilities: the arrow, the stage, its channels under it, each subchannel set
+                                                                // in under its channel; owner, 2026-11-14 18:10.)
+                                                                <FoldList label={stage} name={stage + " channels"} open={stageOpen} onToggle={() => folds.toggle(stageFold)}>
+                                                                    {interaction.groups.flatMap(group => [
+                                                                        <FoldListLine key={group.category} wrap>{group.category.trim() || "No channel"}</FoldListLine>,
+                                                                        ...group.channelIds.map(id => <FoldListLine key={group.category + ":" + id} nested wrap>{channelName(id)}</FoldListLine>)
+                                                                    ])}
+                                                                </FoldList>
+                                                            )
+                                                            : <span className="business-foundation-label-info"><FieldLabel className="business-foundation-label">{stage}</FieldLabel></span>}
                                                     </span>
                                                     <div className="radio-choice legal-entity-radio-stack" role="group" aria-label={"Goals for " + about}>
                                                         <BusinessTicks
