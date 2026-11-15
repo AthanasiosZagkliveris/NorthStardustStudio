@@ -25,6 +25,8 @@ import {
     usefulLifeOf,
     amortisationOfCostOption
 } from "./GlobalSettings.ts";
+import { offeringChannelRevenue, offeringMonthlyRevenue } from "./DemandCapacity.ts";
+import type { BusinessEngagementValue } from "./businessFoundation/engagementReaders.ts";
 
 /*
     THE CALCULATED LINES of the Financial Foundation (cost model, section 7; automatic rules X1 to X5, X11, X12): lines nobody types, worked out from the
@@ -175,6 +177,37 @@ export interface CalculationInput {
     drawings: boolean;
     /** The Legal Entity's country (ISO code): the Channel Fee Table's rows are read for it. */
     country?: string;
+    /** Customer Engagement: which subchannels hold an expense, and each Offering's Customer Sources through them (a channel's share of revenue). */
+    engagement?: BusinessEngagementValue;
+}
+
+/**
+ * THE PART OF EACH OFFERING'S REVENUE A SHARE OF REVENUE IS CHARGED ON (owner, 2026-11-14 23:30: "A SHARE OF REVENUE IS A RATE, NOT A SPLIT"; 20:25: a
+ * channel's by what each Offering sells through the expense's own subchannels; 2026-11-15 15:32, the forecast as the Inventory): 1 -- the whole of its own
+ * revenue, at the full rate, whatever shares the card holds --, or, for an expense a subchannel holds, the part of the Offering's expected sales that its
+ * Customer Sources make through those subchannels (0 where it sells nothing there). Where no Customer Source names them, the whole revenue.
+ */
+export function revenueFractions(lineId: string, offeringIds: readonly string[], engagement: BusinessEngagementValue | undefined, revenuePage: FinancialSustainabilityValue): Record<string, number> {
+    const whole = Object.fromEntries(offeringIds.map(id => [id, 1]));
+    if (!engagement) {
+        return whole;
+    }
+    const channels = engagement.segments.flatMap(segment => segment.channels);
+    const keys = [...new Set(engagement.channelResources
+        .filter(link => link.resourceId === lineId)
+        .map(link => channels.find(channel => channel.id === link.channelId))
+        .filter((channel): channel is NonNullable<typeof channel> => channel !== undefined)
+        .map(channel => channel.category.trim() + "\u0001" + channel.name.trim()))];
+    if (keys.length === 0) {
+        return whole;
+    }
+    const byChannel = offeringChannelRevenue(engagement.demand, revenuePage.streams, channels);
+    const total = offeringMonthlyRevenue(engagement.demand, revenuePage.streams);
+    const through = Object.fromEntries(offeringIds.map(id => [id, keys.reduce((sum, key) => sum + (byChannel[id]?.[key] ?? 0), 0)]));
+    if (!offeringIds.some(id => through[id] > 0)) {
+        return whole;
+    }
+    return Object.fromEntries(offeringIds.map(id => [id, (total[id] ?? 0) > 0 ? Math.min(1, through[id] / total[id]) : 0]));
 }
 
 /** An offering's revenue, units and orders, month by month, from its revenue streams. */
@@ -248,7 +281,8 @@ export function calculatedLines(input: CalculationInput, fromFoundationRate: num
     const percentageLines: CalculatedResult["percentageLines"] = [];
     counted.filter(line => line.billing === "percentage" || line.frequency === "usage-based").forEach(line => {
         const ids = line.offeringIds.length > 0 && !line.offeringIds.includes("*") ? line.offeringIds : [...flows.keys()];
-        const shares = line.offeringShares ?? Object.fromEntries(ids.map(id => [id, 1 / ids.length]));
+        // (A rate of each Offering's own revenue: never shared out between them, owner, 2026-11-15 15:32.)
+        const shares = revenueFractions(line.id, ids, input.engagement, input.revenuePage);
         const active = activeMonths(line, start);
         const table = channelFeeRowFor(line.name, settings.channelFees, input.country ?? "");
         const percent = table ? (settingNumber(table.commission) ?? 0) + (settingNumber(table.chargeback) ?? 0) : rateOf(line, settings);

@@ -2,11 +2,13 @@ import { describe, expect, it, test } from "vitest";
 
 import {
     asBusinessCapabilityValue,
+    asBusinessEngagementValue,
     asLegalEntityValue,
     createBusinessPartner,
     createBusinessResourceSlot
 } from "./AnswerUtils";
-import { calculatedLines, channelFeeFor, channelFeeRowFor, effectiveIncomeTaxRate, monthIndexOf } from "./CalculatedLines";
+import { calculatedLines, channelFeeFor, channelFeeRowFor, effectiveIncomeTaxRate, monthIndexOf, revenueFractions } from "./CalculatedLines";
+import { createDemand, createDemandSource } from "./DemandCapacity";
 import { financialForecast, type ForecastTable } from "./FinancialForecast";
 import {
     asFinancialFoundationValue,
@@ -338,4 +340,46 @@ describe("the fees a subchannel pays (doc 50, section 1.4; owner, 2026-11-14 12:
         const etsy = channelFeeRowFor("Etsy", table)!;
         expect(channelFeeOf(etsy, 95, 1)).toBeCloseTo(10.18, 1);
     });
+});
+
+/* A SHARE OF REVENUE IS A RATE, NOT A SPLIT, in the forecast as in the Inventory (owner, 2026-11-14 23:30 and 20:25; 2026-11-15 15:32). */
+describe("a share of revenue charged on each Offering's own revenue", () => {
+
+    function twoOfferings(shares: Record<string, string>) {
+        const base = asBusinessCapabilityValue(undefined);
+        const agent = { ...createBusinessPartner("Agent", "partners"), id: "agent", name: "Agent", group: "revenue-partners", costOption: "sales-agents", offeringIds: ["o1", "o2"], offeringShares: shares, startDate: "2027-01-01", cost: cost("2", "percent-revenue") };
+        const value = asBusinessCapabilityValue({ ...base, offering: { ...base.offering, professionals: [agent] } });
+        const foundation = { ...asFinancialFoundationValue({}), planStart: PLAN, planYears: "1" };
+        const stream = (offeringId: string, price: string) => ({ ...createRevenueStream(), offeringId, price, volume: "100", start: { month: "04", year: "2027" }, frequency: "one-time" as const, itemsPerOrder: "1" });
+        const revenuePage = asFinancialSustainabilityValue({ streams: [stream("o1", "60"), stream("o2", "40")] });
+        const lines = consolidateCosts(foundation, { legalEntity: asLegalEntityValue({}), capability: value, resourceGroupLabels: {}, subsectionLabels: {}, currency: "EUR", foundersLinked: false });
+        return { lines, revenuePage, result: calculatedLines({ foundation, revenuePage, lines, capability: value, settings: createGlobalSettings(), openingDate: OPENING, drawings: false }) };
+    }
+
+    it("2% of A's 6,000 and B's 4,000 is 120 and 80, whatever the 70/30 shares say", () => {
+        const { lines, revenuePage, result } = twoOfferings({ o1: "70", o2: "30" });
+        const line = lines.find(entry => entry.id === "agent")!;
+        expect(line.offeringShares).toEqual({ o1: 0.7, o2: 0.3 });
+        expect(revenueFractions(line.id, ["o1", "o2"], undefined, revenuePage)).toEqual({ o1: 1, o2: 1 });
+        expect(result.percentageLines[0].values[3]).toBe(200);
+    });
+
+    it("with no shares saved, both carry the full rate", () => {
+        expect(twoOfferings({}).result.percentageLines[0].values[3]).toBe(200);
+    });
+
+    it("a channel's share of revenue: only what each Offering sells through the expense's own subchannels", () => {
+        const revenuePage = asFinancialSustainabilityValue({ streams: [{ ...createRevenueStream(), offeringId: "o1", price: "10" }, { ...createRevenueStream(), offeringId: "o2", price: "10" }] });
+        const sources = (online: string, market: string) => ({ ...createDemand(), sources: [{ ...createDemandSource("other"), id: "s1", channelId: "web", estimate: online }, { ...createDemandSource("other"), id: "s2", channelId: "market", estimate: market }] });
+        const engagement = asBusinessEngagementValue({
+            segments: [{ segmentId: "seg", channels: [{ id: "web", category: "Website", name: "Online Store", offerings: ["*"], stages: [] }, { id: "market", category: "In Person", name: "Market / Pop-up", offerings: ["*"], stages: [] }] }],
+            channelResources: [{ id: "link", segmentId: "seg", channelId: "web", resourceId: "shopify" }],
+            demand: { o1: sources("30", "10"), o2: sources("0", "20") }
+        });
+        // (o1 sells 30 of its 40 through the Online Store, o2 none of its 20: the Online Store's payment fees fall on 75% of o1's revenue and none of o2's.)
+        expect(revenueFractions("shopify", ["o1", "o2"], engagement, revenuePage)).toEqual({ o1: 0.75, o2: 0 });
+        // (An expense no subchannel holds: each Offering's whole revenue.)
+        expect(revenueFractions("other", ["o1", "o2"], engagement, revenuePage)).toEqual({ o1: 1, o2: 1 });
+    });
+
 });
