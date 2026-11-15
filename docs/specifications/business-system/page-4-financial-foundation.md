@@ -820,7 +820,7 @@ to:
 ## 30.1 Opening Date and Global Settings
 
 - **Opening Date** is a field of the Identity System's Organisation tile (it moved from this page on 2026-10-24); the Global Settings show it. **Plan Start is never typed**: it is the earlier of the Opening Date's month and the earliest cost, a costed card's or a legal expense's. Until the Opening Date is given, the funds block asks for it; with it, costs are split into what falls before and from the opening.
-- **Global Settings** are kept per organisation on `/settings` (the header's Settings button), never on this page: the business stages' durations, channel fee table (Stripe 2% + 0.25 + 0.5, PayPal 3.5% + 0.35 + 1, Wolt/Amazon 25%), royalty 10%, affiliate 15%, agent 10%, capitalisation limit, useful life by six asset groups, target reserve months (3), Startup Contingency rate (10%), Operational Contingency rate (4%), insurance per employee, income tax rate.
+- **Global Settings** are kept per organisation on `/settings` (the header's Settings button), never on this page: the business stages' durations, channel fee table (the app's fee data for the six countries, `ChannelFeeData.ts`: one row a provider and a country, checked, not checked or not available; the screen shows the Legal Entity country's rows the answers name), royalty 10%, affiliate 15%, agent 10%, capitalisation limit, useful life by six asset groups, target reserve months (3), Startup Contingency rate (10%), Operational Contingency rate (4%), insurance per employee, income tax rate.
 
 ## 30.2 Cost nature (rules C1 to C16)
 

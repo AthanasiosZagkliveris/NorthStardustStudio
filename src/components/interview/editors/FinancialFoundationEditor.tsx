@@ -137,7 +137,7 @@ export default function FinancialFoundationEditor({
     const natureContext = { openingDate, capitalisationLimit: capitalisationLimitOf(settings), assetUnitCosts: assetUnitCostsOf(countedCards) };
     const chosenNatures = Object.fromEntries(Object.entries(page.classified).map(([id, entry]) => [id, entry.nature || undefined]));
     const calculated = calculatedLines(
-        { foundation: page, revenuePage, lines, capability: countedCards, settings, openingDate, drawings: ownersTakeDrawings(legalEntity.organisation.legalForm) },
+        { foundation: page, revenuePage, lines, capability: countedCards, settings, openingDate, drawings: ownersTakeDrawings(legalEntity.organisation.legalForm), country: legalEntity.organisation.country },
         incomeTaxRate(page)
     );
     const funds = contingencyFunds(lines, natureContext, settings, chosenNatures, calculated);

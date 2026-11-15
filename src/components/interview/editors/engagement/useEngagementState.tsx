@@ -764,7 +764,7 @@ export function useEngagementState(props: BusinessEngagementEditorProps) {
             .map(link => cards.find(card => card.id === link.resourceId))
             .filter((card): card is CostCard => card !== undefined)
             .map(card => costCardName(card));
-        const found = channelFeeFor([channel.name, ...cardNames], feeTable);
+        const found = channelFeeFor([channel.name, ...cardNames], feeTable, identity?.country ?? "");
         const money = (amount: number) => moneyText(String(Math.round(amount * 100) / 100), currency);
         const served = channel.offerings.includes(BUSINESS_CHANNEL_ALL_OFFERINGS) ? offerings : offerings.filter(offering => channel.offerings.includes(offering.id));
         const sales = found ? served.flatMap(offering => {
@@ -775,7 +775,8 @@ export function useEngagementState(props: BusinessEngagementEditorProps) {
         }) : [];
         const rate = found ? [
             (found.row.commission || "0") + "%",
-            ...(Number.parseFloat(found.row.fixedFee) > 0 ? [money(Number.parseFloat(found.row.fixedFee)) + " an order"] : []),
+            // (The fixed fee in the row's own currency: Gumroad's is in US dollars wherever it sells.)
+            ...(Number.parseFloat(found.row.fixedFee) > 0 ? [moneyText(found.row.fixedFee, found.row.currency || currency) + " an order"] : []),
             ...(Number.parseFloat(found.row.chargeback) > 0 ? [found.row.chargeback + "% for chargebacks"] : [])
         ].join(" + ") : "";
         // (FOLDED AT FIRST, under a fold arrow as a card's Links are (owner, 2026-11-14 17:44: "In the Channels & Journey, fee's section, add a folded arrow"): the

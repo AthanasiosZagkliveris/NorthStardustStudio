@@ -26,6 +26,9 @@ import {
 import { countryCurrency } from "../framework/engine/LegalEntityJurisdictions";
 import { costText } from "../framework/engine/ExportRenderers";
 import { assetUnitCost, isCostingStatus, isPurchaseGroup, type BusinessCapabilityValue, type BusinessResourceSlotValue } from "../framework/engine/AnswerUtils";
+import { shownChannelFees } from "../framework/engine/CalculatedLines";
+import { capabilityCards, costCardName } from "../framework/engine/ChannelResources";
+import { asBusinessEngagementValue } from "../framework/engine/businessFoundation/engagementReaders";
 import { OrganizationService } from "../services/OrganizationService";
 import { systems } from "../data/systems";
 import { StorageService } from "../services/StorageService";
@@ -229,6 +232,22 @@ export default function GlobalSettings() {
     }
 
     const orgCurrency = countryCurrency(legalEntity.organisation.country);
+
+    /*
+        THE CHANNEL FEE TABLE SHOWS WHAT THE ANSWERS USE (owner, 2026-11-15 15:10: "only information that is related to the answers should be presented. That
+        covers the fees"): the rows of the Legal Entity's country (the UK's while none is chosen), and of those from the app's fee data only the ones a
+        subchannel's or an expense card's name takes; a row the user made always shows. The other rows stay in the table, kept for when an answer names them.
+    */
+    const feeCountry = legalEntity.organisation.country.trim() || "GB";
+    const engagementSection = business?.getFramework().sections.find(section => section.answer?.type === AnswerType.BusinessEngagement);
+    const usedNames = useMemo(() => {
+        const engagement = asBusinessEngagementValue(business && engagementSection ? business.getResponse(engagementSection.number) : undefined);
+        return [
+            ...engagement.segments.flatMap(segment => segment.channels.map(channel => channel.name)),
+            ...capabilityCards(capabilityValue).map(card => costCardName(card))
+        ].filter(name => name.trim() !== "");
+    }, [business, engagementSection, capabilityValue]);
+    const shownFees = shownChannelFees(settings.channelFees, feeCountry, usedNames);
 
     // The business stage today, and what each stage lasts (the Opening Date is where they start).
     const stageDurations = stageDurationsOf(settings);
@@ -570,7 +589,7 @@ export default function GlobalSettings() {
                 </section>
 
                 <section className="settings-section" aria-label="Channel Fee Table" data-anchor="channel-fees">
-                    {sectionTitle("Channel Fee Table", "What each channel takes of its sales: revenue x (commission + chargeback allowance) + the fixed fee x orders. The rates are examples; edit them once here.")}
+                    {sectionTitle("Channel Fee Table", "What each channel takes of its sales: revenue x (commission + chargeback allowance) + the fixed fee x orders. The rows shown are your Legal Entity country's, for the providers and marketplaces your subchannels and expense cards name, and the rows you add. Edit a rate once here.")}
                     <div className="settings-table-wrap">
                         <table className="settings-table settings-fee-table" aria-label="Channel Fee Table">
                             <colgroup>
@@ -592,7 +611,7 @@ export default function GlobalSettings() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {settings.channelFees.map((row, index) => (
+                                {shownFees.map((row, index) => (
                                     <tr key={row.id} data-anchor={"channel-fee-" + row.id}>
                                         <td>
                                             <TextBox
@@ -624,7 +643,7 @@ export default function GlobalSettings() {
                         </table>
                     </div>
                     <AddButton
-                        onClick={() => change({ channelFees: [...settings.channelFees, createChannelFeeRow()] })}>
+                        onClick={() => change({ channelFees: [...settings.channelFees, createChannelFeeRow(feeCountry)] })}>
                         + Add channel
                     </AddButton>
                 </section>

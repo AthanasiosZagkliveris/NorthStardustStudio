@@ -130,7 +130,8 @@ describe("channel fees, royalties and partner commissions (X4, X5)", () => {
     it("finds the row of the table by the channel's name", () => {
         const table = createGlobalSettings().channelFees;
         expect(channelFeeRowFor("Stripe payments", table)?.channel).toBe("Stripe");
-        expect(channelFeeRowFor("Amazon", table)?.channel).toBe("Wolt, Amazon");
+        expect(channelFeeRowFor("Amazon", table)?.channel).toBe("Amazon");
+        expect(channelFeeRowFor("Amazon Handmade shop", table)?.channel).toBe("Amazon Handmade");
         expect(channelFeeRowFor("My own shop", table)).toBeUndefined();
     });
 
@@ -310,11 +311,21 @@ describe("the forecast with the calculated lines", () => {
 describe("the fees a subchannel pays (doc 50, section 1.4; owner, 2026-11-14 12:00)", () => {
     const table = createGlobalSettings().channelFees;
 
-    test("the defaults start from the checked UK rates, Stripe Terminal before Stripe, PayPal marked not checked", () => {
+    test("the defaults start from the checked rates, Stripe Terminal before Stripe, each country its own row (owner, 2026-11-15 15:10)", () => {
         expect(channelFeeRowFor("Stripe Terminal reader", table)?.commission).toBe("1.4");
-        expect(channelFeeRowFor("Stripe", table)).toMatchObject({ commission: "1.5", fixedFee: "0.20" });
-        expect(channelFeeRowFor("PayPal", table)?.note).toMatch(/^Not checked yet/);
-        expect(table.filter(row => row.channel !== "PayPal" && row.channel !== "Wolt, Amazon").every(row => /checked 14\/11\/2026/.test(row.note))).toBe(true);
+        expect(channelFeeRowFor("Stripe", table)).toMatchObject({ commission: "1.5", fixedFee: "0.20", country: "GB" });
+        expect(channelFeeRowFor("PayPal", table)).toMatchObject({ commission: "2.9", fixedFee: "0.30" });
+        expect(channelFeeRowFor("PayPal", table)?.note).toContain("checked 15/11/2026");
+        expect(channelFeeRowFor("Stripe", table, "US")).toMatchObject({ commission: "2.9", fixedFee: "0.30", currency: "USD" });
+        expect(channelFeeRowFor("PayPal", table, "NZ")).toMatchObject({ commission: "3.4", fixedFee: "0.45", currency: "NZD" });
+        expect(table.filter(row => row.status === "checked").every(row => row.note.includes("checked 15/11/2026"))).toBe(true);
+    });
+
+    test("a row with no rate, or not available in the country, is never charged", () => {
+        expect(channelFeeRowFor("TikTok Shop", table, "GB")).toBeUndefined();
+        expect(channelFeeRowFor("Amazon", table, "NZ")).toBeUndefined();
+        expect(channelFeeRowFor("Wolt", table, "US")).toBeUndefined();
+        expect(channelFeeRowFor("Amazon", table, "AU")?.commission).toBe("13");
     });
 
     test("a subchannel is matched by its own name, else by its expense cards' names", () => {

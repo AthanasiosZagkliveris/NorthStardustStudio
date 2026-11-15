@@ -1,6 +1,7 @@
 import { parseAmount } from "./Amounts.ts";
 import { randomId } from "./Readers.ts";
 import { DEFAULT_STAGE_DURATIONS, type StageDurations } from "./BusinessStage.ts";
+import { CHANNEL_FEE_DATA, FEE_COUNTRIES, type ChannelFeeStatus } from "./ChannelFeeData.ts";
 
 /*
     GLOBAL SETTINGS (the cost model, section 6): the rates and limits the calculated lines read, held in ONE place so that when a rate changes
@@ -26,6 +27,12 @@ export interface ChannelFeeRow {
     /** The chargeback or risk allowance, a percentage of the channel's revenue. */
     chargeback: string;
     note: string;
+    /** The country it applies in (ISO code): the Organization's Legal Entity country reads its own rows (owner, 2026-11-15 15:10). */
+    country: string;
+    /** The currency of its fixed fee. */
+    currency: string;
+    /** From the app's fee data: checked, not checked, or not available there; "" for a row the user made. */
+    status: ChannelFeeStatus | "";
 }
 
 export interface GlobalSettingsValue {
@@ -36,6 +43,8 @@ export interface GlobalSettingsValue {
     /** Employer on-costs: one percentage of the gross salaries, for the country. */
     onCostRate: string;
     channelFees: ChannelFeeRow[];
+    /** The version of the app's fee data the table holds (CHANNEL_FEE_DATA_VERSION); an older table is given the rows it lacks once. */
+    channelFeeDataVersion: number;
     /** The default rate (%) of a royalty on sales. */
     royaltyRate: string;
     /** The default rate (%) of an affiliate network or influencer commission. */
@@ -103,21 +112,29 @@ export const DEFAULT_USEFUL_LIFE: Record<string, string> = {
     "delivery-vehicles": "7"
 };
 
+/** The version of the app's fee data (ChannelFeeData.ts): raised when rows are added, so a saved table is given them once. */
+export const CHANNEL_FEE_DATA_VERSION = 1;
+
+/** A row's id from the app's fee data: the provider and the country, so the same row keeps its id. */
+const dataRowId = (provider: string, country: string): string => "fee-" + provider.toLowerCase().replace(/[^a-z0-9]+/g, "-") + "-" + country.toLowerCase();
+
 /**
- * THE CHANNEL FEE TABLE TO START FROM: the main UK platforms with their rates, each with the date it was checked and where (owner, 2026-11-14 12:00: the
- * proposals of doc 50, section 1.4, built). A card or subchannel named after one takes its row (channelFeeRowFor: the more particular name first, Stripe
- * Terminal before Stripe). A row not checked yet says so in its note.
+ * THE CHANNEL FEE TABLE TO START FROM: every row of the app's fee data (ChannelFeeData.ts), each provider in each of the six countries -- checked, not checked
+ * (no rate) or not available (owner, 2026-11-15 15:11). A card or subchannel named after one takes its country's row (channelFeeRowFor: the more particular
+ * name first, Stripe Terminal before Stripe).
  */
 function exampleChannelFees(): ChannelFeeRow[] {
-    return [
-        { id: randomId("fee"), channel: "Stripe Terminal", commission: "1.4", fixedFee: "0.10", chargeback: "0.5", note: "In person, UK cards; checked 14/11/2026 on Stripe's UK pricing page" },
-        { id: randomId("fee"), channel: "Stripe", commission: "1.5", fixedFee: "0.20", chargeback: "0.5", note: "UK standard cards online (premium cards 1.9% + 20p, EEA cards 2.5% + 20p); checked 14/11/2026 on Stripe's UK pricing page" },
-        { id: randomId("fee"), channel: "SumUp", commission: "1.69", fixedFee: "0", chargeback: "0.5", note: "In person (payment links and invoices 2.5%); checked 14/11/2026 on SumUp's UK pricing page" },
-        { id: randomId("fee"), channel: "Shopify Payments", commission: "2", fixedFee: "0.25", chargeback: "0.5", note: "Basic plan, online (in person 1.7%); checked 14/11/2026 on Shopify's UK pricing page" },
-        { id: randomId("fee"), channel: "Etsy", commission: "10.5", fixedFee: "0.20", chargeback: "0", note: "6.5% transaction fee + 4% + 20p payment processing, and about 16p a listing; checked 14/11/2026 on Etsy's fee pages" },
-        { id: randomId("fee"), channel: "PayPal", commission: "3.5", fixedFee: "0.35", chargeback: "1", note: "Not checked yet: read PayPal's UK merchant fees page before relying on it" },
-        { id: randomId("fee"), channel: "Wolt, Amazon", commission: "25", fixedFee: "0", chargeback: "0", note: "The platform carries the risk" }
-    ];
+    return CHANNEL_FEE_DATA.map(datum => ({
+        id: dataRowId(datum.provider, datum.country),
+        channel: datum.provider,
+        commission: datum.commission,
+        fixedFee: datum.fixedFee,
+        chargeback: datum.chargeback,
+        note: datum.note,
+        country: datum.country,
+        currency: datum.currency,
+        status: datum.status
+    }));
 }
 
 /** The stages' default durations as text, as the settings hold them. */
@@ -137,6 +154,7 @@ export function createGlobalSettings(): GlobalSettingsValue {
         stageDurations: defaultStageDurationTexts(),
         onCostRate: "",
         channelFees: exampleChannelFees(),
+        channelFeeDataVersion: CHANNEL_FEE_DATA_VERSION,
         royaltyRate: "10",
         affiliateRate: "15",
         agentRate: "10",
@@ -151,8 +169,41 @@ export function createGlobalSettings(): GlobalSettingsValue {
     };
 }
 
-export function createChannelFeeRow(): ChannelFeeRow {
-    return { id: randomId("fee"), channel: "", commission: "", fixedFee: "", chargeback: "", note: "" };
+/** A row the user adds, for the Organization's country. */
+export function createChannelFeeRow(country = ""): ChannelFeeRow {
+    return { id: randomId("fee"), channel: "", commission: "", fixedFee: "", chargeback: "", note: "", country, currency: FEE_COUNTRIES.find(entry => entry.code === country)?.currency ?? "", status: "" };
+}
+
+const FEE_STATUSES: readonly string[] = ["checked", "not-checked", "not-available"];
+
+/**
+ * THE SAVED CHANNEL FEE TABLE: each row as saved, a row from before the countries the UK's (owner, 2026-11-15 15:10: "existing rows become GB"); a table from
+ * before this version of the app's fee data is given, once, every row of it that it does not hold (the same provider in the same country).
+ */
+function savedChannelFees(entries: readonly unknown[], version: unknown): ChannelFeeRow[] {
+    const rows: ChannelFeeRow[] = entries.map(entry => {
+        const row = asObject(entry);
+        const country = asText(row.country) || "GB";
+        return {
+            id: asText(row.id) || randomId("fee"),
+            channel: asText(row.channel),
+            commission: figure(row.commission),
+            fixedFee: figure(row.fixedFee),
+            chargeback: figure(row.chargeback),
+            note: asText(row.note),
+            country,
+            currency: asText(row.currency) || (FEE_COUNTRIES.find(item => item.code === country)?.currency ?? ""),
+            // (A row from before the statuses that the app's fee data holds for its country takes that row's status: it came from it.)
+            status: FEE_STATUSES.includes(asText(row.status))
+                ? asText(row.status) as ChannelFeeStatus
+                : CHANNEL_FEE_DATA.find(datum => datum.country === country && datum.provider.toLowerCase() === asText(row.channel).trim().toLowerCase())?.status ?? ""
+        };
+    });
+    if (typeof version === "number" && version >= CHANNEL_FEE_DATA_VERSION) {
+        return rows;
+    }
+    const held = new Set(rows.map(row => row.channel.trim().toLowerCase() + "|" + row.country));
+    return [...rows, ...exampleChannelFees().filter(row => !held.has(row.channel.trim().toLowerCase() + "|" + row.country))];
 }
 
 /** A figure as typed: digits and at most one point; anything else is dropped. */
@@ -191,19 +242,8 @@ export function asGlobalSettings(value: unknown): GlobalSettingsValue {
             };
         })(),
         onCostRate: figure(source.onCostRate),
-        channelFees: Array.isArray(source.channelFees)
-            ? source.channelFees.map(entry => {
-                const row = asObject(entry);
-                return {
-                    id: asText(row.id) || randomId("fee"),
-                    channel: asText(row.channel),
-                    commission: figure(row.commission),
-                    fixedFee: figure(row.fixedFee),
-                    chargeback: figure(row.chargeback),
-                    note: asText(row.note)
-                };
-            })
-            : exampleChannelFees(),
+        channelFees: Array.isArray(source.channelFees) ? savedChannelFees(source.channelFees, source.channelFeeDataVersion) : exampleChannelFees(),
+        channelFeeDataVersion: CHANNEL_FEE_DATA_VERSION,
         royaltyRate: figure(source.royaltyRate),
         affiliateRate: figure(source.affiliateRate),
         agentRate: figure(source.agentRate),

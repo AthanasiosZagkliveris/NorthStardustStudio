@@ -122,22 +122,40 @@ function rateOf(line: CostLine, settings: GlobalSettingsValue): number | null {
     }
 }
 
-/** The row of the Channel Fee Table a card is for: the one whose channel the card's name contains (or is contained by). */
-export function channelFeeRowFor(name: string, table: readonly ChannelFeeRow[]): ChannelFeeRow | undefined {
+/**
+ * The row of the Channel Fee Table a card is for: the one whose channel the card's name contains (or is contained by), in the Legal Entity's country (owner,
+ * 2026-11-15 15:10; while no country is chosen, the UK's, the table's first). A row with no rate -- not checked yet, or not available there -- is never charged.
+ */
+export function channelFeeRowFor(name: string, table: readonly ChannelFeeRow[], country = ""): ChannelFeeRow | undefined {
     const wanted = name.trim().toLowerCase();
+    const where = country.trim() || "GB";
     return wanted === "" ? undefined : table.find(row => {
+        if ((row.country || "GB") !== where || row.status === "not-available" || (row.commission.trim() === "" && row.fixedFee.trim() === "")) {
+            return false;
+        }
         const channel = row.channel.trim().toLowerCase();
         return channel !== "" && (wanted.includes(channel) || channel.split(/[,/]\s*/).some(part => part !== "" && wanted.includes(part)));
     });
 }
 
 /**
+ * THE ROWS THE GLOBAL SETTINGS SHOW (owner, 2026-11-15 15:10: "only information that is related to the answers should be presented"): the country's rows
+ * (the UK's while none is chosen); of those from the app's fee data, the ones a used name takes -- whatever their status, so a provider not checked yet or not
+ * available there says so --; and every row the user made.
+ */
+export function shownChannelFees(table: readonly ChannelFeeRow[], country: string, usedNames: readonly string[]): ChannelFeeRow[] {
+    const where = country.trim() || "GB";
+    return table.filter(row => (row.country || "GB") === where &&
+        (row.status === "" || usedNames.some(name => channelFeeRowFor(name, [{ ...row, status: "checked", commission: row.commission || "0" }], where) !== undefined)));
+}
+
+/**
  * THE ROW OF THE CHANNEL FEE TABLE A SUBCHANNEL PAYS (doc 50, section 1.4: "Match by the name, as the cost lines already do"): the row its own name takes
  * ("Etsy"), else the row the first of its expense cards takes ("SumUp card reader", "Shopify Payments"); with the name it was matched by.
  */
-export function channelFeeFor(names: readonly string[], table: readonly ChannelFeeRow[]): { row: ChannelFeeRow; by: string } | undefined {
+export function channelFeeFor(names: readonly string[], table: readonly ChannelFeeRow[], country = ""): { row: ChannelFeeRow; by: string } | undefined {
     for (const name of names) {
-        const row = channelFeeRowFor(name, table);
+        const row = channelFeeRowFor(name, table, country);
         if (row) {
             return { row, by: name.trim() };
         }
@@ -155,6 +173,8 @@ export interface CalculationInput {
     openingDate: string;
     /** Whether the owners take drawings rather than a salary (no on-costs then). */
     drawings: boolean;
+    /** The Legal Entity's country (ISO code): the Channel Fee Table's rows are read for it. */
+    country?: string;
 }
 
 /** An offering's revenue, units and orders, month by month, from its revenue streams. */
@@ -230,7 +250,7 @@ export function calculatedLines(input: CalculationInput, fromFoundationRate: num
         const ids = line.offeringIds.length > 0 && !line.offeringIds.includes("*") ? line.offeringIds : [...flows.keys()];
         const shares = line.offeringShares ?? Object.fromEntries(ids.map(id => [id, 1 / ids.length]));
         const active = activeMonths(line, start);
-        const table = channelFeeRowFor(line.name, settings.channelFees);
+        const table = channelFeeRowFor(line.name, settings.channelFees, input.country ?? "");
         const percent = table ? (settingNumber(table.commission) ?? 0) + (settingNumber(table.chargeback) ?? 0) : rateOf(line, settings);
         const fixed = table ? settingNumber(table.fixedFee) ?? 0 : 0;
         if (percent === null) {
