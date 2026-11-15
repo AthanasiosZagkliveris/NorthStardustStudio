@@ -420,6 +420,16 @@ table.business-relationship-table {
 
     box-shadow: none;
 
+    /* The stage's words and its x share one centre line (layout rules, "One centre line"; owner, 2026-11-15 15:01): the words are a record line, not
+       a 44px dropdown, so the x is centred on them instead of on a cell. */
+    align-items: center;
+
+}
+
+.business-subchannel-card .business-channel-pick-stage > .business-channel-steps {
+
+    margin-top: 0;
+
 }
 
 .business-subchannel-card .business-channel-td-name .optional-field-inline > .optional-field-body {
