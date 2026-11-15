@@ -11,7 +11,7 @@ import { channelFeeFor } from "../../../../framework/engine/CalculatedLines.ts";
 import { moneyText } from "../../../../framework/engine/ExportRenderers.ts";
 
 /** The channel categories that take a fee on a sale: a fee line on their subchannels' cards (doc 50, section 1.3). */
-const FEE_CATEGORIES: readonly string[] = ["Direct Payment", "Website", "Marketplace"];
+import { FEE_CHANNEL_CATEGORIES as FEE_CATEGORIES } from "../../../../framework/engine/ChannelFeeData.ts";
 import { ScopeChoice, type OptionScope } from "./EngagementCard.tsx";
 import CellRemoveButton from "../../../controls/CellRemoveButton.tsx";
 import { BUSINESS_CHANNEL_ALL_OFFERINGS, BusinessChannelValue, BusinessOfferingRelationshipsValue, BusinessRelationshipInteractionValue, BusinessRelationshipTypeValue, BusinessSegmentEngagementValue, asBusinessEngagementValue, businessFoundationSegments, createBusinessOfferingRelationships, createBusinessRelationshipInteraction, createBusinessRelationshipType, createBusinessSegmentEngagement } from "../../../../framework/engine/AnswerUtils.ts";

@@ -589,14 +589,14 @@
                         "other"
                       ],
                       "c2-other": [
-                        "Substack newsletters on home and craft"
+                        "Substack"
                       ],
                       "c3": [
                         "facebook-group",
                         "other"
                       ],
                       "c3-other": [
-                        "Local neighbourhood WhatsApp groups"
+                        "WhatsApp groups"
                       ],
                       "c4": [
                         "market",
@@ -2103,6 +2103,54 @@
                         "Offer a video call on request for a repair, a care question or a loom question after a workshop"
                       ]
                     }
+                  },
+                  {
+                    "id": "channel-substack1",
+                    "category": "Social Media",
+                    "name": "Substack",
+                    "links": [
+                      ""
+                    ],
+                    "offerings": [
+                      "*"
+                    ],
+                    "stages": [
+                      "discovery"
+                    ],
+                    "actionIds": {
+                      "discovery": [
+                        "action-channel-substack1-discovery-1"
+                      ]
+                    },
+                    "actions": {
+                      "discovery": [
+                        "Send a monthly letter from the studio: new pieces, the loom and the yarns"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "channel-whatsapp1",
+                    "category": "Community",
+                    "name": "WhatsApp groups",
+                    "links": [
+                      ""
+                    ],
+                    "offerings": [
+                      "*"
+                    ],
+                    "stages": [
+                      "discovery"
+                    ],
+                    "actionIds": {
+                      "discovery": [
+                        "action-channel-whatsapp1-discovery-1"
+                      ]
+                    },
+                    "actions": {
+                      "discovery": [
+                        "Share open-studio days and market dates in the neighbourhood groups"
+                      ]
+                    }
                   }
                 ],
                 "actions": [
@@ -2249,6 +2297,14 @@
                   {
                     "id": "action-channel-lnzoom01-support-1",
                     "text": "Offer a video call on request for a repair, a care question or a loom question after a workshop"
+                  },
+                  {
+                    "id": "action-channel-substack1-discovery-1",
+                    "text": "Send a monthly letter from the studio: new pieces, the loom and the yarns"
+                  },
+                  {
+                    "id": "action-channel-whatsapp1-discovery-1",
+                    "text": "Share open-studio days and market dates in the neighbourhood groups"
                   }
                 ],
                 "offerings": [

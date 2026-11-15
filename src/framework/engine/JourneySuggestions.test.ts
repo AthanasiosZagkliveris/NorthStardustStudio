@@ -24,7 +24,7 @@ describe("the channels the Foundation suggests, stage by stage", () => {
     test("Quillfield's NYC Service Firms: every stage from its Page 1 answers", () => {
         const list = journeySuggestions(quill.foundation.segments[0]);
         // Discover: peers and online communities (how they discover you), LinkedIn and X (C2), Slack (C3).
-        expect(named(list, "discovery")).toEqual(["Referral & Affiliates › Customer Referral", "Community", "Social Media › LinkedIn", "Social Media › X (Twitter)", "Community › Slack"]);
+        expect(named(list, "discovery")).toEqual(["Referral & Affiliates › Customer Referral", "Community", "Social Media › LinkedIn", "Social Media › X (Twitter)", "Community › Slack", "Community › Agency founder communities"]);
         // Evaluation: a meeting or call, their website, a quote or proposal (D1).
         expect(named(list, "evaluation")).toEqual(["Online / Live", "Website › Main Website", "Email › Direct Email"]);
         // Purchase: they shop online on a computer; they pay by invoice.
@@ -73,10 +73,10 @@ describe("the Demand rows the Foundation proposes", () => {
         const channels = quill.engagement.segments[0].channels;
         const build = segment.offerings[1];
         const rows = demandSuggestions(segment, build.id, channels, quill.engagement.demand[build.id]);
-        expect(rows.map(row => row.type + " " + row.label)).toEqual(["funnel LinkedIn", "funnel Main Website", "other Referral partners", "referrals Customer Referral", "funnel X (Twitter)"]);
+        expect(rows.map(row => row.type + " " + row.label)).toEqual(["funnel LinkedIn", "funnel Main Website", "other Referral partners", "referrals Customer Referral", "funnel X (Twitter)", "funnel Agency founder communities"]);
         // (The Audit's sources name LinkedIn and Referral partners, so those already bring its customers: only its other Discover channels are proposed.)
         const audit = segment.offerings[0];
-        expect(demandSuggestions(segment, audit.id, channels, quill.engagement.demand[audit.id]).map(row => row.label)).toEqual(["Main Website", "Event / Talk", "Slack", "Customer Referral", "X (Twitter)"]);
+        expect(demandSuggestions(segment, audit.id, channels, quill.engagement.demand[audit.id]).map(row => row.label)).toEqual(["Main Website", "Event / Talk", "Slack", "Customer Referral", "X (Twitter)", "Agency founder communities"]);
     });
 
     test("Contracts or tenders where the buyer decides by a formal tender, once", () => {
@@ -150,6 +150,19 @@ describe("the subchannels the answers make (owner, 2026-11-13 13:56)", () => {
         expect(made.some(channel => channel.name === "Main Website")).toBe(false);
         // (Nothing more to make: the same list.)
         expect(withAnswerChannels(made, [], segment)).toBe(made);
+    });
+
+    test("a platform, community or event written in under Other is made too, by its name (owner, 2026-11-15 16:08)", () => {
+        const base = asBusinessFoundationValue(undefined).segments[0];
+        // (C3 is asked where the Segment discovers through communities; C4, where it meets in person, takes the same path.)
+        const written = { ...base, id: "s2", questions: { discover: ["communities"] }, profiles: [
+            { ...base.profiles[0], questions: { c2: ["instagram", "other"], "c2-other": ["Bluesky, Threads"], c3: ["other"], "c3-other": ["Nextdoor"], c4: ["other"], "c4-other": ["Open studios"] } },
+            { ...base.profiles[0], id: "p2", questions: { c2: ["other"], "c2-other": ["bluesky"] } },
+            // (Written in but Other not ticked: not read.)
+            { ...base.profiles[0], id: "p3", questions: { c3: ["discord"], "c3-other": ["Old group"] } }
+        ] } as never;
+        const made = withAnswerChannels([], [], written).filter(channel => channel.fromAnswers).map(channel => channel.category + " › " + channel.name);
+        expect(made).toEqual(["Social Media › Instagram", "Social Media › Bluesky", "Social Media › Threads", "Community › Discord", "Community › Nextdoor"]);
     });
 
     test("a removed one stays removed; added again it is back; an untouched one goes with its answer", () => {

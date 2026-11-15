@@ -1482,6 +1482,30 @@
                       ]
                     },
                     "fromAnswers": true
+                  },
+                  {
+                    "id": "channel-agencyfc1",
+                    "category": "Community",
+                    "name": "Agency founder communities",
+                    "links": [
+                      ""
+                    ],
+                    "offerings": [
+                      "*"
+                    ],
+                    "stages": [
+                      "discovery"
+                    ],
+                    "actionIds": {
+                      "discovery": [
+                        "action-channel-agencyfc1-discovery-1"
+                      ]
+                    },
+                    "actions": {
+                      "discovery": [
+                        "Answer automation questions in the agency founders' groups each week"
+                      ]
+                    }
                   }
                 ],
                 "actions": [
@@ -1608,6 +1632,10 @@
                   {
                     "id": "action-channel-segment-qf3n8d2w-social-media-x-twitter-discovery-1",
                     "text": "Post one short AI workflow tip for small firms each weekday"
+                  },
+                  {
+                    "id": "action-channel-agencyfc1-discovery-1",
+                    "text": "Answer automation questions in the agency founders' groups each week"
                   }
                 ],
                 "offerings": [

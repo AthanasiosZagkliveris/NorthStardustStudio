@@ -14,6 +14,7 @@ import {
     asGlobalSettings,
     capitalisationLimitOf,
     createChannelFeeRow,
+    createGlobalSettings,
     defaultStageDurationTexts,
     stageDurationsOf,
     AMORTISATION_GROUPS,
@@ -26,7 +27,7 @@ import {
 import { countryCurrency } from "../framework/engine/LegalEntityJurisdictions";
 import { costText } from "../framework/engine/ExportRenderers";
 import { assetUnitCost, isCostingStatus, isPurchaseGroup, type BusinessCapabilityValue, type BusinessResourceSlotValue } from "../framework/engine/AnswerUtils";
-import { shownChannelFees } from "../framework/engine/CalculatedLines";
+import { channelFeeRowFor, ownFeeChannelNames, resetChannelFees, shownChannelFees } from "../framework/engine/CalculatedLines";
 import { capabilityCards, costCardName } from "../framework/engine/ChannelResources";
 import { asBusinessEngagementValue } from "../framework/engine/businessFoundation/engagementReaders";
 import { OrganizationService } from "../services/OrganizationService";
@@ -70,6 +71,7 @@ import "../styles/option-picker.css";
 import "../styles/workspace.css";
 import "../styles/review.css";
 import "../styles/global-settings.css";
+import "../styles/system-confirmation.css";
 
 /**
  * GLOBAL SETTINGS: the rates and limits the calculated lines read (GlobalSettings.ts), on a screen of their own, reached from the header. Every figure is
@@ -240,14 +242,25 @@ export default function GlobalSettings() {
     */
     const feeCountry = legalEntity.organisation.country.trim() || "GB";
     const engagementSection = business?.getFramework().sections.find(section => section.answer?.type === AnswerType.BusinessEngagement);
-    const usedNames = useMemo(() => {
-        const engagement = asBusinessEngagementValue(business && engagementSection ? business.getResponse(engagementSection.number) : undefined);
-        return [
-            ...engagement.segments.flatMap(segment => segment.channels.map(channel => channel.name)),
-            ...capabilityCards(capabilityValue).map(card => costCardName(card))
-        ].filter(name => name.trim() !== "");
-    }, [business, engagementSection, capabilityValue]);
-    const shownFees = shownChannelFees(settings.channelFees, feeCountry, usedNames);
+    const engagementValue = useMemo(() => asBusinessEngagementValue(business && engagementSection ? business.getResponse(engagementSection.number) : undefined), [business, engagementSection]);
+    const usedNames = useMemo(() => [
+        ...engagementValue.segments.flatMap(segment => segment.channels.map(channel => channel.name)),
+        ...capabilityCards(capabilityValue).map(card => costCardName(card))
+    ].filter(name => name.trim() !== ""), [engagementValue, capabilityValue]);
+    // (A SUBCHANNEL THE USER NAMED where a fee is taken (ownFeeChannelNames) and no row of the country takes: a row of its own, ready to fill, "Entered by you";
+    // it is kept once anything in it is typed. Owner, 2026-11-15 15:54.)
+    const ownRows = ownFeeChannelNames(engagementValue)
+        .filter(name => !settings.channelFees.some(row => (row.country || "GB") === feeCountry && channelFeeRowFor(name, [{ ...row, status: "checked", commission: row.commission || "0" }], feeCountry) !== undefined))
+        .map(name => ({ ...createChannelFeeRow(feeCountry), id: "fee-own-" + name.toLowerCase().replace(/[^a-z0-9]+/g, "-") + "-" + feeCountry.toLowerCase(), channel: name, note: "Entered by you" }));
+    const shownFees = [...shownChannelFees(settings.channelFees, feeCountry, usedNames), ...ownRows];
+    /** A change to a shown row: a row of the table changed in place; a subchannel's own row made a row of the table by the first thing typed in it. */
+    const changeFee = (rowId: string, patch: Partial<GlobalSettingsValue["channelFees"][number]>) => change({
+        channelFees: settings.channelFees.some(row => row.id === rowId)
+            ? settings.channelFees.map(row => row.id === rowId ? { ...row, ...patch } : row)
+            : [...settings.channelFees, ...ownRows.filter(row => row.id === rowId).map(row => ({ ...row, ...patch }))]
+    });
+    // (THE RESET of the Channel Fee Table asks first, in the app's confirmation dialog.)
+    const [confirmFeeReset, setConfirmFeeReset] = useState(false);
 
     // The business stage today, and what each stage lasts (the Opening Date is where they start).
     const stageDurations = stageDurationsOf(settings);
@@ -259,9 +272,7 @@ export default function GlobalSettings() {
             className={"settings-number" + (limits === NUMBER_LIMITS.percent ? " settings-percent" : "")}
             aria-label={label}
             value={value}
-            onChange={(event) => change({
-                channelFees: settings.channelFees.map(row => row.id === rowId ? { ...row, [field]: limitedNumberText(event.target.value, value, limits) } : row)
-            })}
+            onChange={(event) => changeFee(rowId, { [field]: limitedNumberText(event.target.value, value, limits) })}
         />
     );
 
@@ -618,7 +629,7 @@ export default function GlobalSettings() {
                                                 className="interview-input"
                                                 aria-label={"Channel " + (index + 1)}
                                                 value={row.channel}
-                                                onChange={(event) => change({ channelFees: settings.channelFees.map(entry => entry.id === row.id ? { ...entry, channel: event.target.value } : entry) })}
+                                                onChange={(event) => changeFee(row.id, { channel: event.target.value })}
                                             />
                                         </td>
                                         <td className="settings-number-column">{feeCell(row.id, "commission", "Channel " + (index + 1) + " commission", NUMBER_LIMITS.percent, row.commission)}</td>
@@ -629,13 +640,16 @@ export default function GlobalSettings() {
                                                 className="interview-input"
                                                 aria-label={"Channel " + (index + 1) + " note"}
                                                 value={row.note}
-                                                onChange={(event) => change({ channelFees: settings.channelFees.map(entry => entry.id === row.id ? { ...entry, note: event.target.value } : entry) })}
+                                                onChange={(event) => changeFee(row.id, { note: event.target.value })}
                                             />
                                         </td>
                                         <td>
-                                            <RemoveButton
-                                                aria-label={"Remove channel " + (index + 1)}
-                                                onClick={() => change({ channelFees: settings.channelFees.filter(entry => entry.id !== row.id) })} />
+                                            {/* (A subchannel's own row not filled yet has nothing to remove: it goes with its subchannel.) */}
+                                            {settings.channelFees.some(entry => entry.id === row.id) && (
+                                                <RemoveButton
+                                                    aria-label={"Remove channel " + (index + 1)}
+                                                    onClick={() => change({ channelFees: settings.channelFees.filter(entry => entry.id !== row.id) })} />
+                                            )}
                                         </td>
                                     </tr>
                                 ))}
@@ -646,6 +660,30 @@ export default function GlobalSettings() {
                         onClick={() => change({ channelFees: [...settings.channelFees, createChannelFeeRow(feeCountry)] })}>
                         + Add channel
                     </AddButton>
+                    <AddButton title="Reset the Channel Fee Table to the app's rates for your country"
+                        onClick={() => setConfirmFeeReset(true)}>
+                        Reset
+                    </AddButton>
+                    {confirmFeeReset && (
+                        <div className="confirmation-overlay" onClick={() => setConfirmFeeReset(false)}>
+                            <div className="confirmation-dialog" role="dialog" aria-modal="true" aria-label="Reset the Channel Fee Table" onClick={(event) => event.stopPropagation()}>
+                                <h2 className="confirmation-title">Reset the Channel Fee Table?</h2>
+                                <p className="confirmation-message">Your country's rows return to the app's rates. The rows you added stay as they are.</p>
+                                <div className="confirmation-actions">
+                                    <AddButton look="confirmation-button secondary" onClick={() => setConfirmFeeReset(false)}>
+                                        Cancel
+                                    </AddButton>
+                                    <AddButton look="confirmation-button primary" className="confirmation-button-danger"
+                                        onClick={() => {
+                                            change({ channelFees: resetChannelFees(settings.channelFees, feeCountry, createGlobalSettings().channelFees) });
+                                            setConfirmFeeReset(false);
+                                        }}>
+                                        Reset
+                                    </AddButton>
+                                </div>
+                            </div>
+                        </div>
+                    )}
                 </section>
 
             </main>

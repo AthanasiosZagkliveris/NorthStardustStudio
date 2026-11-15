@@ -11,7 +11,8 @@ import {
     usefulLifeOf
 } from "./GlobalSettings";
 import { CHANNEL_FEE_DATA, CHANNEL_FEE_PROVIDERS, FEE_COUNTRIES } from "./ChannelFeeData";
-import { shownChannelFees } from "./CalculatedLines";
+import { ownFeeChannelNames, resetChannelFees, shownChannelFees } from "./CalculatedLines";
+import { asBusinessEngagementValue } from "./businessFoundation/engagementReaders";
 import { BUSINESS_CHANNEL_CATEGORIES } from "./businessFoundation/channelCategories";
 
 /* I1: Global Settings, the one store of the rates and limits the calculated lines read. */
@@ -128,6 +129,40 @@ describe("the channel fee data", () => {
         expect(shownChannelFees(table, "GB", ["Etsy", "Shopify Payments", "TikTok Shop"]).map(row => row.channel)).toEqual(["Shopify Payments", "Etsy", "TikTok Shop", "Not On The High Street"]);
         expect(shownChannelFees(table, "NZ", ["Amazon"]).map(row => [row.channel, row.status])).toEqual([["Amazon", "not-available"]]);
         expect(shownChannelFees(table, "US", [])).toEqual([]);
+    });
+
+});
+
+/* THE USER'S OWN SUBCHANNELS AND THE RESET (owner, 2026-11-15 15:54). */
+describe("a subchannel named by the user, and the reset of the Channel Fee Table", () => {
+
+    it("lists each subchannel of a paying category named by the user, once; a listed one, a blank one or one not yet named is not", () => {
+        const engagement = asBusinessEngagementValue({
+            segments: [
+                { segmentId: "a", channels: [
+                    { id: "1", category: "Marketplace", name: "Not On The High Street", offerings: ["*"], stages: [] },
+                    { id: "2", category: "Marketplace", name: "Etsy", offerings: ["*"], stages: [] },
+                    { id: "3", category: "Direct Payment", name: "Other", offerings: ["*"], stages: [] },
+                    { id: "4", category: "Social Media", name: "Bluesky", offerings: ["*"], stages: [] }
+                ] },
+                { segmentId: "b", channels: [{ id: "5", category: "Marketplace", name: "not on the high street", offerings: ["*"], stages: [] }] }
+            ]
+        });
+        expect(ownFeeChannelNames(engagement)).toEqual(["Not On The High Street"]);
+    });
+
+    it("the reset gives back the country's rows from the app's data and keeps the rows the user made and other countries' rows", () => {
+        const data = createGlobalSettings().channelFees;
+        const own = { ...createChannelFeeRow("GB"), channel: "Not On The High Street", commission: "25" };
+        const edited = data.map(row => row.channel === "Stripe" && row.country === "GB" ? { ...row, commission: "9" } : row)
+            .filter(row => !(row.channel === "PayPal" && row.country === "GB"))
+            .map(row => row.channel === "Stripe" && row.country === "US" ? { ...row, commission: "7" } : row);
+        const reset = resetChannelFees([...edited, own], "GB", data);
+        expect(reset.find(row => row.channel === "Stripe" && row.country === "GB")?.commission).toBe("1.5");
+        expect(reset.some(row => row.channel === "PayPal" && row.country === "GB")).toBe(true);
+        expect(reset.find(row => row.channel === "Stripe" && row.country === "US")?.commission).toBe("7");
+        expect(reset.find(row => row.channel === "Not On The High Street")?.commission).toBe("25");
+        expect(reset).toHaveLength(data.length + 1);
     });
 
 });

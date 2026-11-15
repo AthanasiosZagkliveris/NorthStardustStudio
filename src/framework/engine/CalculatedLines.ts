@@ -27,6 +27,8 @@ import {
 } from "./GlobalSettings.ts";
 import { offeringChannelRevenue, offeringMonthlyRevenue } from "./DemandCapacity.ts";
 import type { BusinessEngagementValue } from "./businessFoundation/engagementReaders.ts";
+import { BUSINESS_CHANNEL_CATEGORIES, BUSINESS_CHANNEL_OTHER } from "./businessFoundation/channelCategories.ts";
+import { FEE_CHANNEL_CATEGORIES } from "./ChannelFeeData.ts";
 
 /*
     THE CALCULATED LINES of the Financial Foundation (cost model, section 7; automatic rules X1 to X5, X11, X12): lines nobody types, worked out from the
@@ -138,6 +140,32 @@ export function channelFeeRowFor(name: string, table: readonly ChannelFeeRow[], 
         const channel = row.channel.trim().toLowerCase();
         return channel !== "" && (wanted.includes(channel) || channel.split(/[,/]\s*/).some(part => part !== "" && wanted.includes(part)));
     });
+}
+
+/**
+ * THE SUBCHANNELS THE USER NAMED WHERE A FEE IS TAKEN (owner, 2026-11-15 15:54: "According to the channel/question, it should create also an input for fees, in the
+ * global settings"): a subchannel of a paying category (FEE_CHANNEL_CATEGORIES) whose name is none its category lists -- one chosen as "Other" and typed --, each
+ * name once. The Global Settings give each a row of its own to fill, where none of the country's rows takes its name.
+ */
+export function ownFeeChannelNames(engagement: BusinessEngagementValue): string[] {
+    const names = engagement.segments.flatMap(segment => segment.channels)
+        .filter(channel => FEE_CHANNEL_CATEGORIES.includes(channel.category.trim()))
+        .filter(channel => {
+            const name = channel.name.trim();
+            const listed = BUSINESS_CHANNEL_CATEGORIES.find(category => category.label === channel.category.trim())?.channels.map(entry => entry.label.toLocaleLowerCase()) ?? [];
+            return name !== "" && name !== BUSINESS_CHANNEL_OTHER && !listed.includes(name.toLocaleLowerCase());
+        })
+        .map(channel => channel.name.trim());
+    return names.filter((name, at) => names.findIndex(other => other.toLocaleLowerCase() === name.toLocaleLowerCase()) === at);
+}
+
+/**
+ * THE CHANNEL FEE TABLE RESET (owner, 2026-11-15 15:54: "Create a reset button on the channel fees"): the country's rows from the app's fee data back as the data
+ * gives them (a rate changed is restored, a row removed is back); every row the user made, and every other country's row, kept as it is.
+ */
+export function resetChannelFees(table: readonly ChannelFeeRow[], country: string, data: readonly ChannelFeeRow[]): ChannelFeeRow[] {
+    const where = country.trim() || "GB";
+    return [...table.filter(row => (row.country || "GB") !== where || row.status === ""), ...data.filter(row => row.country === where)];
 }
 
 /**

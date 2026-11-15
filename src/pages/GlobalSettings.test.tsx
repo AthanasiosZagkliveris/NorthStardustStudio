@@ -108,6 +108,22 @@ describe("the Global Settings screen", () => {
         expect(within(screen.getByRole("table", { name: "Channel Fee Table" })).getAllByRole("row")).toHaveLength(1);
     });
 
+    it("resets the Channel Fee Table after asking, keeping the rows the user made (owner, 2026-11-15 15:54)", () => {
+        open();
+        const data = createGlobalSettings().channelFees.length;
+        fireEvent.click(screen.getByRole("button", { name: "+ Add channel" }));
+        fireEvent.change(screen.getByLabelText("Channel 1"), { target: { value: "Not On The High Street" } });
+        const reset = screen.getByTitle("Reset the Channel Fee Table to the app's rates for your country");
+        fireEvent.click(reset);
+        const dialog = screen.getByRole("dialog", { name: "Reset the Channel Fee Table" });
+        fireEvent.click(within(dialog).getByRole("button", { name: "Cancel" }));
+        expect(screen.queryByRole("dialog", { name: "Reset the Channel Fee Table" })).toBeNull();
+        fireEvent.click(reset);
+        fireEvent.click(within(screen.getByRole("dialog", { name: "Reset the Channel Fee Table" })).getByRole("button", { name: "Reset" }));
+        expect(saved().channelFees).toHaveLength(data + 1);
+        expect(saved().channelFees.some(row => row.channel === "Not On The High Street")).toBe(true);
+    });
+
     it("is kept for the Organisation it belongs to", () => {
         const other = OrganizationService.create("Quillfield").id;
         OrganizationService.setSelected(organizationId);

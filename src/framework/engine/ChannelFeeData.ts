@@ -9,6 +9,10 @@
     A row with no rate is never charged (channelFeeRowFor). The figures here are the one owner; docs 50 and the specifications point here.
 */
 
+/** The channel categories whose subchannels take a fee of each sale (a payment, a website's checkout, a marketplace): their cards show the Fees, and a
+ *  subchannel named by the user there has its own row in the Global Settings. */
+export const FEE_CHANNEL_CATEGORIES: readonly string[] = ["Direct Payment", "Website", "Marketplace"];
+
 export type ChannelFeeStatus = "checked" | "not-checked" | "not-available";
 
 export interface ChannelFeeDatum {

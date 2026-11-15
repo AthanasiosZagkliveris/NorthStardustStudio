@@ -101,6 +101,19 @@ const HELP_AFTER: Readonly<Record<string, readonly Pick[]>> = {
 };
 
 
+/**
+ * The names the Profiles write in under a question's Other, where Other is ticked: each name once (the first spelling kept), several in one box parted by commas
+ * or semicolons. A name the list already offers is left to its own option.
+ */
+function writtenIn(profiles: readonly Record<string, string[] | undefined>[], key: string): string[] {
+    const names = profiles
+        .filter(answers => (answers[key] ?? []).includes("other"))
+        .flatMap(answers => (answers[key + "-other"] ?? []).flatMap(text => text.split(/[,;]/)))
+        .map(name => name.trim())
+        .filter(name => name !== "");
+    return names.filter((name, at) => names.findIndex(other => other.toLocaleLowerCase() === name.toLocaleLowerCase()) === at);
+}
+
 /** The channels one Segment's Foundation suggests, stage by stage, each once (the first source that gives it names it). A local Segment's In Person and Community come first. */
 export function journeySuggestions(segment: BusinessCustomerSegmentValue, identity?: SegmentIdentity): ChannelSuggestion[] {
     const answers = effectiveSegmentAnswers(segment, identity);
@@ -120,9 +133,14 @@ export function journeySuggestions(segment: BusinessCustomerSegmentValue, identi
     const discover: ChannelSuggestion[] = [];
     const before = out.length;
     (answers.discover ?? []).forEach(id => DISCOVER[id] && add("discovery", DISCOVER[id], "how they discover you"));
+    // (A platform, community or event the Profiles write in under Other (C2, C3, C4: `<id>-other`) is that very subchannel too, by the name written -- several
+    // parted by commas --, after the ones they tick, so the earlier answers shape the channels and nothing is added by hand; owner, 2026-11-15 16:08.)
     ids(profiles, "c2").forEach(id => SOCIAL[id] && add("discovery", ["Social Media", SOCIAL[id]], "your Profiles' social media", true));
+    writtenIn(profiles, "c2").forEach(name => add("discovery", ["Social Media", name], "your Profiles' social media", true));
     ids(profiles, "c3").forEach(id => COMMUNITIES[id] && add("discovery", ["Community", COMMUNITIES[id]], "your Profiles' communities", true));
+    writtenIn(profiles, "c3").forEach(name => add("discovery", ["Community", name], "your Profiles' communities", true));
     ids(profiles, "c4").forEach(id => EVENTS[id] && add("discovery", ["In Person", EVENTS[id]], "your Profiles' events", true));
+    writtenIn(profiles, "c4").forEach(name => add("discovery", ["In Person", name], "your Profiles' events", true));
     discover.push(...out.splice(before));
     // A Segment in one city or town meets its customers in person first (doc 28, 7.4).
     const local = (answers.reach ?? []).includes("city");
