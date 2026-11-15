@@ -1352,8 +1352,9 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow, .notepad-close) {
     /* (Fixed to the window and measured again as the page scrolls: it stays on the chapter, whatever the card does.) */
     position: fixed;
 
-    /* (Two layers of the shadow tone: about a third black in light and sepia, more in dark.) */
-    background: linear-gradient(var(--shadow-18), var(--shadow-18)), linear-gradient(var(--shadow-18), var(--shadow-18));
+    /* (Two layers of the shadow tone over the page's own ground: the chapter under the card is COVERED, never read through -- its letters, figures and stamps
+       confused the card (owner, 2026-11-15 16:42); about a third black in light and sepia, more in dark.) */
+    background: linear-gradient(var(--shadow-18), var(--shadow-18)), linear-gradient(var(--shadow-18), var(--shadow-18)), var(--bg-page);
 
     pointer-events: auto;
 

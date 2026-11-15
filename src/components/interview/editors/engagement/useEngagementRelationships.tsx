@@ -118,8 +118,9 @@ export function useEngagementRelationships(earlier: Earlier) {
                 id: channelTileId(segment.id, group.key),
                 title: group.label.trim() || "New channel",
                 view: true,
-                // (Its subchannel's card, opened from this channel's dialog, carries no box name: the dialog's heading says it.)
-                bareCards: true,
+                // (ITS SUBCHANNEL'S CARD CARRIES THE CHANNEL AS ITS BOX NAME, as every floating card does -- "Social Media" over "Pinterest" --: the card stands on the other
+                // half, away from the dialog's heading, and its own head may be a name box still to fill; owner, 2026-11-15 16:42.)
+                bareCards: false,
                 items: [...names, ...extra],
                 itemMarks: [...names.map(() => ({ bullet: true })), ...extra.map(() => ({ bullet: true, empty: true }))],
                 // EVERY LISTED SUBCHANNEL IS A LINK (layout rules 9, "A tile's content may be linkable"; owner, 2026-11-12 18:41: "the listed items are not linked"): a
@@ -161,26 +162,24 @@ export function useEngagementRelationships(earlier: Earlier) {
                         }
                         const cards = key === "" ? [channel] : group.channels.filter(candidate => candidate.name.trim().toLocaleLowerCase() === key);
                         const cardFor = (offeringId: string) => cards.findIndex(card => served(card).includes(offeringId));
+                        const servedHere = every.map((id, position) => ({ id, position })).filter(entry => cardFor(entry.id) >= 0).map(entry => entry.position);
                         return {
                             id: channel.id,
                             number: at + 1,
                             plain: true,
                             name: channel.name,
                             unnamed: "Unnamed subchannel",
-                            lines: key === "" ? undefined : every.map((id, position) => {
-                                const owner = cardFor(id);
-                                return (cards.length > 1 && owner >= 0 ? (owner + 1) + ". " : "") + offeringLabel(position);
+                            // ONLY THE OFFERINGS IT SERVES (owner, 2026-11-15 16:42, the rule "only information related to the answers"): each a link to its card; an
+                            // Offering it does not serve is not listed (it is ticked on the card's Offerings).
+                            lines: key === "" ? undefined : servedHere.map(position => {
+                                const owner = cardFor(every[position]);
+                                return (cards.length > 1 ? (owner + 1) + ". " : "") + offeringLabel(position);
                             }),
-                            marks: key === "" ? undefined : every.map(id => cardFor(id) >= 0 ? undefined : { empty: true }),
-                            linkedLines: key === "" ? undefined : every.map(() => true),
+                            linkedLines: key === "" ? undefined : servedHere.map(() => true),
                             onLine: (index: number) => {
-                                const owner = cardFor(every[index]);
+                                const owner = cardFor(every[servedHere[index]]);
                                 if (owner >= 0) {
                                     openCardOf(cards[owner].id);
-                                } else {
-                                    const made = { ...createBusinessChannel(), category: group.label, name: channel.name, offerings: [every[index]] };
-                                    updateSegment(segment.id, { channels: [...answers.channels, made] });
-                                    openCardOf(made.id);
                                 }
                             },
                             own: true,
@@ -214,6 +213,7 @@ export function useEngagementRelationships(earlier: Earlier) {
                             <div className="business-engagement-section-head"><DialogHeading title={group.label.trim() || "New channel"} info={channelCategoryHelp(group.label)} /></div>
                             <CardBoxes
                                 label={"Subchannels of " + (group.label.trim() || "this channel")}
+                                className="subchannel-tiles"
                                 what="Subchannel"
                                 autoStart={false}
                                 items={[...group.channels.map(tileOf).filter((entry): entry is CardBox => entry !== null), ...spare]}
