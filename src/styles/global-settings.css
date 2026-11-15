@@ -112,19 +112,6 @@
 
 }
 
-.settings-visually-hidden{
-
-    position:absolute;
-
-    width:1px;
-    height:1px;
-
-    overflow:hidden;
-
-    clip:rect(0 0 0 0);
-
-}
-
 @media (max-width:760px){
 
     .settings-field{
@@ -392,7 +379,6 @@
 .settings-page .settings-fee-table col.settings-col-channel{ width:200px; }
 .settings-page .settings-fee-table col.settings-col-figure{ width:150px; }
 .settings-page .settings-fee-table col.settings-col-note{ width:240px; }
-.settings-page .settings-fee-table col.settings-col-remove{ width:56px; }
 
 .settings-page .settings-fee-table th.settings-number-column,
 .settings-page .settings-fee-table td.settings-number-column{

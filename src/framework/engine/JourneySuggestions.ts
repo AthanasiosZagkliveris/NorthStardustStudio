@@ -2,6 +2,7 @@ import type { BusinessCustomerSegmentValue } from "./AnswerBusinessFoundation.ts
 import { BUSINESS_CHANNEL_ALL_OFFERINGS, type BusinessChannelValue, type BusinessOfferingRelationshipEntryValue, type BusinessRelationshipTypeValue } from "./businessFoundation/engagementReaders.ts";
 import { effectiveOfferingAnswers, effectiveProfileAnswers, effectiveSegmentAnswers, offeringIsPhysical } from "./EffectiveAnswers.ts";
 import { demandChannelIds } from "./DemandCapacity.ts";
+import { writtenInNames } from "./SegmentQuestions.ts";
 import { businessProfileOfferings } from "./businessFoundation/engagementPage.ts";
 import type { SegmentIdentity } from "./SegmentContext.ts";
 
@@ -76,9 +77,22 @@ const SETTING: Readonly<Record<string, readonly Pick[]>> = {
     marketplace: [["Marketplace", ""]]
 };
 
+/** The marketplaces the Segment shops on (Box 4, 7a, `marketplaces`) → that Marketplace subchannel; Other by the name written in. */
+const MARKETPLACES: Readonly<Record<string, string>> = {
+    etsy: "Etsy", amazon: "Amazon", ebay: "eBay", noths: "Not On The High Street", folksy: "Folksy", gumroad: "Gumroad", fiverr: "Fiverr", upwork: "Upwork"
+};
+
+/** The shops the Segment buys from (Box 4, 7b, `shops`) → its own shop, or Retail & Wholesale's stockist, concession or distributor. */
+const SHOPS: Readonly<Record<string, Pick>> = {
+    own: ["In Person", "Studio / Shop"],
+    stockists: ["Retail & Wholesale", "Retail Stockist"],
+    concession: ["Retail & Wholesale", "Concession / Shop-in-shop"],
+    distributors: ["Retail & Wholesale", "Distributor"]
+};
+
 /** How the Segment pays (`pay`) → Direct Payment and its way. Buy Now, Pay Later is offered at the checkout a payment link opens (Klarna, Afterpay). */
 const PAY: Readonly<Record<string, string>> = {
-    card: "Card", wallet: "Payment Link", cash: "Cash", invoice: "Invoice", bnpl: "Payment Link"
+    card: "Card", wallet: "Payment Link", cash: "Cash", invoicepo: "Invoice", transfer: "Bank Transfer", bnpl: "Payment Link"
 };
 
 /** How customers receive an Offering (O6) → a Delivery channel. */
@@ -92,6 +106,15 @@ const RECEIVE: Readonly<Record<string, Pick>> = {
     access: ["Website", ""]
 };
 
+/** How each order travels (O20), how the files go (O21) and the tool of a live session (O22) → that very delivery subchannel; Other by the name written in. A
+ *  download link names no one service (WeTransfer, Google Drive, Dropbox or OneDrive): it suggests File Delivery, its service chosen there. */
+const SENT: Readonly<Record<string, Readonly<Record<string, Pick>>>> = {
+    o20: { courier: ["Physical Delivery", "Courier"], postal: ["Physical Delivery", "Postal Service"], local: ["Physical Delivery", "Local Delivery"], fulfilment: ["Physical Delivery", "Third-party Fulfilment"] },
+    o21: { attachment: ["File Delivery", "Email Attachment"], link: ["File Delivery", ""], portal: ["File Delivery", "Client Portal"] },
+    o22: { zoom: ["Online / Live", "Zoom"], meet: ["Online / Live", "Google Meet"], teams: ["Online / Live", "Microsoft Teams"], stream: ["Online / Live", "Live Stream"] }
+};
+const SENT_OTHER: Readonly<Record<string, string>> = { o20: "Physical Delivery", o21: "File Delivery", o22: "Online / Live" };
+
 /** The help after buying (O7) → a Support & Follow Up channel. "None" has none. */
 const HELP_AFTER: Readonly<Record<string, readonly Pick[]>> = {
     guides: [["Website", ""]],
@@ -101,6 +124,11 @@ const HELP_AFTER: Readonly<Record<string, readonly Pick[]>> = {
 };
 
 
+/** The names a Segment writes in under a question's Other (Box 4, 7a), where Other is ticked: each once, several parted by commas or semicolons. */
+function segmentWrittenIn(answers: Readonly<Record<string, string[] | undefined>>, key: string): string[] {
+    return writtenIn([answers], key);
+}
+
 /**
  * The names the Profiles write in under a question's Other, where Other is ticked: each name once (the first spelling kept), several in one box parted by commas
  * or semicolons. A name the list already offers is left to its own option.
@@ -108,9 +136,7 @@ const HELP_AFTER: Readonly<Record<string, readonly Pick[]>> = {
 function writtenIn(profiles: readonly Record<string, string[] | undefined>[], key: string): string[] {
     const names = profiles
         .filter(answers => (answers[key] ?? []).includes("other"))
-        .flatMap(answers => (answers[key + "-other"] ?? []).flatMap(text => text.split(/[,;]/)))
-        .map(name => name.trim())
-        .filter(name => name !== "");
+        .flatMap(answers => writtenInNames(answers[key + "-other"]));
     return names.filter((name, at) => names.findIndex(other => other.toLocaleLowerCase() === name.toLocaleLowerCase()) === at);
 }
 
@@ -157,6 +183,10 @@ export function journeySuggestions(segment: BusinessCustomerSegmentValue, identi
 
     // PURCHASE: where they shop and how they pay.
     (answers.setting ?? []).forEach(id => (SETTING[id] ?? []).forEach(pick => add("purchase", pick, "where they shop")));
+    // (The marketplaces and shops they name: each that very subchannel, made as a platform the Profiles name is; owner, 2026-11-15 16:08.)
+    (answers.marketplaces ?? []).forEach(id => MARKETPLACES[id] && add("purchase", ["Marketplace", MARKETPLACES[id]], "the marketplaces they shop on", true));
+    segmentWrittenIn(answers, "marketplaces").forEach(name => add("purchase", ["Marketplace", name], "the marketplaces they shop on", true));
+    (answers.shops ?? []).forEach(id => SHOPS[id] && add("purchase", SHOPS[id], "the shops they buy from", true));
     (answers.pay ?? []).forEach(id => PAY[id] && add("purchase", ["Direct Payment", PAY[id]], "how they pay"));
     if ((answers.authorise ?? []).includes("procurement")) {
         add("purchase", ["Direct Payment", "Invoice"], "how they decide to buy");
@@ -164,6 +194,20 @@ export function journeySuggestions(segment: BusinessCustomerSegmentValue, identi
 
     // DELIVERY: how they receive each Offering.
     ids(offerings, "o6").forEach(id => RECEIVE[id] && add("delivery", RECEIVE[id], "how they receive it"));
+    // (Named by O20 to O22: each that very subchannel, made as a platform the Profiles name is; owner, 2026-11-15 16:26.)
+    (["o20", "o21", "o22"] as const).forEach(key => {
+        ids(offerings, key).forEach(id => {
+            const pick = SENT[key][id];
+            if (pick) {
+                add("delivery", pick, "how you deliver it", pick[1] !== "");
+            }
+        });
+        writtenIn(offerings, key).forEach(name => add("delivery", [SENT_OTHER[key], name], "how you deliver it", true));
+    });
+    // (A session, live online or in person, is booked: the website's booking page at Purchase.)
+    if (ids(offerings, "o1").some(id => id === "live" || id === "inperson")) {
+        add("purchase", ["Website", "Booking / Registration Page"], "your sessions");
+    }
 
     // SUPPORT & FOLLOW UP: the help after they buy. (The help they want before buying, D2, makes the relationship types: autoRelationshipTypes.)
     ids(offerings, "o7").forEach(id => (HELP_AFTER[id] ?? []).forEach(pick => add("support", pick, "your help after they buy")));

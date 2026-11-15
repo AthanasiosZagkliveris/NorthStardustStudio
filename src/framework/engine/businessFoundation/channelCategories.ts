@@ -125,6 +125,9 @@ export const BUSINESS_CHANNEL_CATEGORIES = [
         channels: [
             { label: "Etsy", description: "A marketplace for creative, handmade, personalised and physical products." },
             { label: "Amazon", description: "A large marketplace for physical and digital products." },
+            { label: "eBay", description: "A marketplace for new and second-hand goods, sold at a fixed price or by auction." },
+            { label: "Not On The High Street", description: "A UK marketplace for independent makers' gifts and homeware." },
+            { label: "Folksy", description: "A UK marketplace for handmade goods and craft supplies." },
             { label: "Gumroad", description: "A platform for digital products, memberships and creator offerings." },
             { label: "Fiverr", description: "A marketplace for freelance and creative services." },
             { label: "Upwork", description: "A freelance marketplace for professional services." }

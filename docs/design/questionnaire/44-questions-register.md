@@ -392,8 +392,11 @@ None.
 | 29 | Box 4, 6 | `path` | How do your customers usually decide to buy? | RadioChoice | – | the buyer is people; ordered by Box 4, 5 (boredom or a friend or creator: On impulse first; a need: When they urgently need it and After comparing options first) | – | built | doc 35, Box 4 |
 | 30 | Box 4, 9 | `authorise` | Who decides to buy? | BusinessTicks | – | the buyer is a business; answered (not shown) for a self-employed customer | where not answered, a Public body (Box 3, 1) or Large (Box 3, 2) sets Formal procurement, Micro or Self-employed One person decides | built | doc 35, Box 4 |
 | 31 | Box 4, 7 | `setting` | Where do your customers usually shop? | RadioChoice | – | always | – | built | doc 35, Box 4 |
-| 32 | Box 4, 8 | `pay` | How do your customers pay? | BusinessTicks | – | always | Digital wallets where they shop on a phone and no way of paying is chosen | built | doc 35, Box 4 |
-| 33 | Box 4, 4 | `share` | How do your customers share what they like? | BusinessTicks | – | the buyer is people; held back while Planning (owner, 2026-11-08), its saved answer kept | – | built | doc 35, Box 4 |
+| 32 | Box 4, 7a | `marketplaces` | Which marketplaces do your customers shop on? | BusinessTicks (ends in Other, written in) | – | Box 4, 7 is On a marketplace (owner, 2026-11-15 16:26); ends in Other, written in as a numbered list | – | built | doc 35, Box 4 |
+| 33 | Box 4, 7b | `shops` | Which shops do they buy from? | BusinessTicks | – | Box 4, 7 is In a shop or Both online and in shops (owner, 2026-11-15 16:26) | – | built | doc 35, Box 4 |
+| 34 | Box 4, 8 | `pay` | How do your customers pay? | BusinessTicks | – | always | Digital wallets where they shop on a phone and no way of paying is chosen | built | doc 35, Box 4 |
+| 35 | Box 4, 8a | `providers` | Which payment services do you take payments with? | BusinessTicks (ends in Other, written in) | – | Box 4, 8 has Credit / debit card or Digital wallets (owner, 2026-11-15 16:26); ends in Other, written in as a numbered list | – | built | doc 35, Box 4 |
+| 36 | Box 4, 4 | `share` | How do your customers share what they like? | BusinessTicks | – | the buyer is people; held back while Planning (owner, 2026-11-08), its saved answer kept | – | built | doc 35, Box 4 |
 
 - **Box 4, 1. How comfortable are your customers online?**
   - Options: the points 1 to 5 (Uneasy to Confident).
@@ -441,14 +444,29 @@ None.
   - "i":
     - Where most of their purchases start and finish. Choose Both online and in shops when they mix the two about equally.
     - A marketplace is a site that sells many sellers' goods, such as Etsy, Amazon or eBay.
+- **Box 4, 7a. Which marketplaces do your customers shop on?**
+  - Options: Etsy; Amazon; eBay; Not On The High Street; Folksy; Gumroad; Fiverr; Upwork; Other.
+  - "i":
+    - The marketplaces where they find and buy what you sell: each becomes a channel on Customer Engagement, with its fees.
+    - Tick Other to write another.
+- **Box 4, 7b. Which shops do they buy from?**
+  - Options: Your own shop or studio; Shops that stock your products; A space inside another shop; Distributors or wholesalers.
+  - "i":
+    - The shops where they buy what you sell: each becomes a channel on Customer Engagement.
+    - A space inside another shop is a concession or shop-in-shop.
 - **Box 4, 8. How do your customers pay?**
-  - Options: Credit / debit card; Digital wallets; Cash; Buy Now, Pay Later or financing; Invoice, bank transfer or purchase order.
+  - Options: Credit / debit card; Digital wallets; Cash; Buy Now, Pay Later or financing; Invoice or purchase order; Bank transfer.
   - "i":
     - Digital wallets are for example Apple Pay, Google Pay and PayPal. Buy Now, Pay Later is for example Klarna and Afterpay.
     - Cash is still about one payment in ten in the UK (UK Finance, 2024).
-    - Invoice is offered for business customers only. Credit and Buy Now, Pay Later are for adults.
+    - Invoice or purchase order is offered for business customers only. Credit and Buy Now, Pay Later are for adults.
     - Choosing a phone as where they buy starts Digital wallets here; change it freely.
     - Select all that apply.
+- **Box 4, 8a. Which payment services do you take payments with?**
+  - Options: Stripe; SumUp; Square; Zettle; PayPal; Shopify Payments; Other.
+  - "i":
+    - The services that take the card and wallet payments: each one's fees come from the Global Settings' Channel Fee Table for your country.
+    - Tick Other to write another.
 - **Box 4, 4. How do your customers share what they like?**
   - Options: They post it publicly on social media; They send it to friends in private chats; They tell people in person; They rarely share what they buy.
   - "i":
@@ -458,10 +476,10 @@ None.
 
 | Pos | Code | Saved id | Label | Control | Max | Asked when | Starts | Status | Owner |
 |---|---|---|---|---|---|---|---|---|---|
-| 34 | Box 5, 1 | `tam` | How many potential customers are there? | RadioChoice | – | always; "potential buyers" where the buyer is Proxy or Dual-Intent | – | built | doc 35, Box 5 |
-| 35 | Box 5, 2 | `trajectory` | Is your market growing or shrinking? | RatingScale | – | always | – | built | doc 35, Box 5 |
-| 36 | Box 5, 3 | `trends` | What is changing most for your customers? | BusinessTicks | 2 | always | – | built | doc 35, Box 5 |
-| 37 | Box 5, 4 | `competition` | How crowded is your market? | RatingScale | – | always | – | built | doc 35, Box 5 |
+| 37 | Box 5, 1 | `tam` | How many potential customers are there? | RadioChoice | – | always; "potential buyers" where the buyer is Proxy or Dual-Intent | – | built | doc 35, Box 5 |
+| 38 | Box 5, 2 | `trajectory` | Is your market growing or shrinking? | RatingScale | – | always | – | built | doc 35, Box 5 |
+| 39 | Box 5, 3 | `trends` | What is changing most for your customers? | BusinessTicks | 2 | always | – | built | doc 35, Box 5 |
+| 40 | Box 5, 4 | `competition` | How crowded is your market? | RatingScale | – | always | – | built | doc 35, Box 5 |
 
 - **Box 5, 1. How many potential customers are there?**
   - Options: Very small niche, under 1,000; Specialist, 1,000–49,999; Mid-market, 50,000–499,999; Mass market, 500,000 or more.
@@ -962,6 +980,9 @@ No questions: the tile shows a draft sentence and the open items, read from the 
 | 7 | O3b | `o3t` | When do they pay? | RadioChoice | – | always (its own band, straight after O3) | from O3: a subscription or retainer, monthly; a project, a deposit then the rest; one purchase, before they get it | built | doc 43, O3b |
 | 8 | O15 | `o15` | How long until they have it? | FittingRadioChoice | – | always | from O1: a digital file, an app / online tool or online access, Straight away | built | doc 43, O15 |
 | 9 | O6 | `o6` | How do your customers receive it? | BusinessTicks | – | always | from O1, the clearest way only (a physical item: Posted / shipped; a digital file: Sent automatically online; project work: Sent by you online; and so on) | built | doc 43, O6 |
+| 10 | O20 | `o20` | How do you send it? | BusinessTicks (ends in Other, written in) | – | O6 has Posted / shipped to them (owner, 2026-11-15 16:26); ends in Other, written in as a numbered list | – | built | doc 43, O20 |
+| 11 | O21 | `o21` | How do you send the files? | BusinessTicks (ends in Other, written in) | – | O6 has Sent automatically online or Sent by you online; ends in Other, written in as a numbered list | – | built | doc 43, O21 |
+| 12 | O22 | `o22` | Which tool do you meet them on? | BusinessTicks (ends in Other, written in) | – | O6 has In a live online session; ends in Other, written in as a numbered list | – | built | doc 43, O22 |
 
 - **O2. Can your customers buy it today?**
   - Options: Yes, now; Almost ready; In a trial / beta; Still being built; Just an idea.
@@ -988,14 +1009,29 @@ No questions: the tile shows a draft sentence and the open items, read from the 
   - "i":
     - How it reaches them once bought: tick each way, as one Offering is often delivered in several.
     - Sent automatically online: a download or an email sent by the shop. Sent by you online: a file you send when it is ready.
+- **O20. How do you send it?**
+  - Options: Courier; Postal service; Local delivery; A fulfilment service; Other.
+  - "i":
+    - The way each order travels to them: each becomes a delivery channel on Customer Engagement.
+    - Tick Other to write another.
+- **O21. How do you send the files?**
+  - Options: Email attachment; A download link (WeTransfer, Google Drive, Dropbox or OneDrive); Client portal; Other.
+  - "i":
+    - The way they receive the files: each becomes a delivery channel on Customer Engagement.
+    - Tick Other to write another.
+- **O22. Which tool do you meet them on?**
+  - Options: Zoom; Google Meet; Microsoft Teams; Live stream; Other.
+  - "i":
+    - The tool each live session runs on: each becomes a channel on Customer Engagement.
+    - Tick Other to write another.
 
 ### 7.5 Support & Communication
 
 | Pos | Code | Saved id | Label | Control | Max | Asked when | Starts | Status | Owner |
 |---|---|---|---|---|---|---|---|---|---|
-| 10 | O7 | `o7` | What help do you give after they buy? | BusinessTicks | – | always | – | built | doc 43, O7 |
-| 11 | O17 | `o17` | What comes after the sale? | BusinessTicks | – | always from Launching; held back while Planning (owner, 2026-11-08), its saved answer kept | None where O7 is None | built | doc 43, O17 |
-| 12 | O16 | `o16` | How fast do you reply? | FittingRadioChoice | – | always from Launching; held back while Planning (owner, 2026-11-08), its saved answer kept | – | built | doc 43, O16 |
+| 13 | O7 | `o7` | What help do you give after they buy? | BusinessTicks | – | always | – | built | doc 43, O7 |
+| 14 | O17 | `o17` | What comes after the sale? | BusinessTicks | – | always from Launching; held back while Planning (owner, 2026-11-08), its saved answer kept | None where O7 is None | built | doc 43, O17 |
+| 15 | O16 | `o16` | How fast do you reply? | FittingRadioChoice | – | always from Launching; held back while Planning (owner, 2026-11-08), its saved answer kept | – | built | doc 43, O16 |
 
 - **O7. What help do you give after they buy?**
   - Options: None; Guides and how-tos; Automatic help, such as chat or emails; Personal help when needed; A dedicated person or team (None stands alone; It depends on the plan no longer offered since 2026-11-09, a saved one shown until unticked).
@@ -1016,8 +1052,8 @@ No questions: the tile shows a draft sentence and the open items, read from the 
 
 | Pos | Code | Saved id | Label | Control | Max | Asked when | Starts | Status | Owner |
 |---|---|---|---|---|---|---|---|---|---|
-| 13 | O10 | `o10` | What do your customers need to give you? | BusinessTicks | – | the Type is Service or Hybrid; ordered by O1 (an in-person service: Access to their home or site first; a live online session: Their time or attendance first) | – | built | doc 43, O10 |
-| 14 | O18 | `o18` | Which conditions of sale apply? | BusinessTicks | – | always | – | built | doc 43, O18 |
+| 16 | O10 | `o10` | What do your customers need to give you? | BusinessTicks | – | the Type is Service or Hybrid; ordered by O1 (an in-person service: Access to their home or site first; a live online session: Their time or attendance first) | – | built | doc 43, O10 |
+| 17 | O18 | `o18` | Which conditions of sale apply? | BusinessTicks | – | always | – | built | doc 43, O18 |
 | – | O12 | – | Is a minimum age to buy it set by law? | none | – | no longer a question: a derived Review item from the activities and the country (proposed, owner 2026-11-06) | – | not built | doc 43, O12 |
 
 - **O10. What do your customers need to give you?**
@@ -1049,9 +1085,9 @@ No questions: the tile shows a draft sentence and the open items, read from the 
 |---|---|---|---|
 | Organisation | 11 | 0 | 0 |
 | Positioning | 8 | 0 | 3 |
-| Segment | 37 | 0 | 1 |
+| Segment | 40 | 0 | 1 |
 | Profile | 26 | 6 | 6 |
 | Competitor | 11 | 0 | 3 |
 | Value Proposition | 0 | 0 | 0 |
-| Offering | 14 | 1 | 4 |
-| **All** | **107** | **7** | **17** |
+| Offering | 17 | 1 | 4 |
+| **All** | **113** | **7** | **17** |

@@ -498,3 +498,74 @@ export function actionResourceLinks(
             return card ? [{ link, card }] : [];
         });
 }
+
+/**
+ * THE EXPENSE CARDS THE ANSWERS MAKE (owner, 2026-11-15 16:26 and 16:35: "skip the + add"): each payment service a Segment names (Which payment services do you take
+ * payments with?, segmentPaymentServices) has its "Payment processing fees" card, named after the service, on the Segment's Direct Payment channel (its Card, else
+ * its first), so its fees come from the Channel Fee Table. The rule of the subchannels the answers make: a card made from an answer appears once; one the founder
+ * removes stays removed (`answerCards` keeps its name; adding it by hand brings it back); an untouched one -- no price entered -- goes when its answer goes; one
+ * edited stays. The engagement and the capability are returned as they were where nothing changes.
+ */
+export function withAnswerServiceCards(
+    engagement: BusinessEngagementValue,
+    capability: BusinessCapabilityValue,
+    servicesBySegment: Readonly<Record<string, readonly string[]>>
+): { engagement: BusinessEngagementValue; capability: BusinessCapabilityValue } {
+    const template = CHANNEL_COST_TEMPLATES.find(entry => entry.id === "T2")!;
+    let nextEngagement = engagement;
+    let nextCapability = capability;
+    const cardName = (id: string) => capabilityCards(nextCapability).find(card => card.id === id)?.name.trim().toLocaleLowerCase() ?? "";
+    for (const [segmentId, services] of Object.entries(servicesBySegment)) {
+        const entry = nextEngagement.segments.find(candidate => candidate.segmentId === segmentId);
+        if (!entry) {
+            continue;
+        }
+        const payment = entry.channels.find(channel => channel.category.trim() === "Direct Payment" && channel.name.trim() === "Card")
+            ?? entry.channels.find(channel => channel.category.trim() === "Direct Payment");
+        const wanted = services.map(name => name.trim()).filter(name => name !== "");
+        const wantedKeys = wanted.map(name => name.toLocaleLowerCase());
+        const made = entry.answerCards ?? [];
+        const linkedNames = () => nextEngagement.channelResources.filter(link => link.segmentId === segmentId).map(link => cardName(link.resourceId));
+        let madeNext = [...made];
+        // An answer gone: its untouched card goes (no price entered), an edited one stays; either way it may be made again if the answer comes back.
+        for (const key of made.filter(name => !wantedKeys.includes(name))) {
+            const link = nextEngagement.channelResources.find(candidate => candidate.segmentId === segmentId && cardName(candidate.resourceId) === key);
+            const card = link ? nextCapability.offering.providers.find(candidate => candidate.id === link.resourceId) : undefined;
+            if (link && card && card.cost.price.trim() === "") {
+                nextEngagement = { ...nextEngagement, channelResources: nextEngagement.channelResources.filter(candidate => candidate.id !== link.id) };
+                // (The card itself goes only where no other Segment's channel holds it: one card a service, for the Organisation.)
+                if (!nextEngagement.channelResources.some(candidate => candidate.resourceId === card.id)) {
+                    nextCapability = { ...nextCapability, offering: { ...nextCapability.offering, providers: nextCapability.offering.providers.filter(candidate => candidate.id !== card.id) } };
+                }
+            }
+            madeNext = madeNext.filter(name => name !== key);
+        }
+        // An answer that names a service: its card made once, on the payment channel; one made before and removed by the founder is not made again.
+        if (payment) {
+            wanted.forEach((name, at) => {
+                const key = wantedKeys[at];
+                // (A card the Segment's channels already hold under the service's name -- "SumUp card reader" for SumUp -- is that service's card.)
+                if (made.includes(key) || linkedNames().some(held => held.includes(key))) {
+                    return;
+                }
+                // ONE CARD A SERVICE FOR THE ORGANISATION (owner, 2026-11-15 16:43): a card the company already has under its name -- made by another Segment's answer
+                // or by hand -- is linked to this Segment's payment channel; none is made twice. Its fees follow each Segment's sales through its own subchannels.
+                const existing = capabilityCards(nextCapability).find(card => card.name.trim().toLocaleLowerCase().includes(key));
+                if (existing) {
+                    nextEngagement = withLinkedExistingCard(nextEngagement, segmentId, payment.id, existing.id);
+                    madeNext = [...madeNext, key];
+                    return;
+                }
+                const result = withNewTemplateCost(nextEngagement, nextCapability, segmentId, payment.id, template);
+                const id = result.link.resourceId;
+                nextEngagement = result.engagement;
+                nextCapability = { ...result.capability, offering: { ...result.capability.offering, providers: result.capability.offering.providers.map(card => card.id === id ? { ...card, name } : card) } };
+                madeNext = [...madeNext, key];
+            });
+        }
+        if (JSON.stringify(madeNext) !== JSON.stringify(made)) {
+            nextEngagement = { ...nextEngagement, segments: nextEngagement.segments.map(candidate => candidate.segmentId === segmentId ? { ...candidate, answerCards: madeNext } : candidate) };
+        }
+    }
+    return { engagement: nextEngagement, capability: nextCapability };
+}

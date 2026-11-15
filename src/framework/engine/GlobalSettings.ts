@@ -113,7 +113,7 @@ export const DEFAULT_USEFUL_LIFE: Record<string, string> = {
 };
 
 /** The version of the app's fee data (ChannelFeeData.ts): raised when rows are added, so a saved table is given them once. */
-export const CHANNEL_FEE_DATA_VERSION = 1;
+export const CHANNEL_FEE_DATA_VERSION = 2;
 
 /** A row's id from the app's fee data: the provider and the country, so the same row keeps its id. */
 const dataRowId = (provider: string, country: string): string => "fee-" + provider.toLowerCase().replace(/[^a-z0-9]+/g, "-") + "-" + country.toLowerCase();
@@ -181,7 +181,8 @@ const FEE_STATUSES: readonly string[] = ["checked", "not-checked", "not-availabl
  * before this version of the app's fee data is given, once, every row of it that it does not hold (the same provider in the same country).
  */
 function savedChannelFees(entries: readonly unknown[], version: unknown): ChannelFeeRow[] {
-    const rows: ChannelFeeRow[] = entries.map(entry => {
+    // (THE OLD COMBINED ROW "Wolt, Amazon" (the first table's) is gone: each provider has its own row in each country now; owner, 2026-11-15 16:37.)
+    const rows: ChannelFeeRow[] = entries.filter(entry => asText(asObject(entry).channel).trim().toLowerCase() !== "wolt, amazon").map(entry => {
         const row = asObject(entry);
         const country = asText(row.country) || "GB";
         return {

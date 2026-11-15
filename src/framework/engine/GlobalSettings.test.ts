@@ -53,7 +53,7 @@ describe("the starting values", () => {
 describe("reading what was saved", () => {
 
     it("keeps exactly what was saved: a cleared figure stays cleared, a removed channel stays removed", () => {
-        const settings = asGlobalSettings({ targetReserveMonths: "", channelFees: [], channelFeeDataVersion: 1, usefulLife: {} });
+        const settings = asGlobalSettings({ targetReserveMonths: "", channelFees: [], channelFeeDataVersion: 2, usefulLife: {} });
         expect(settings.targetReserveMonths).toBe("");
         expect(settings.channelFees).toEqual([]);
         expect(settings.usefulLife).toEqual({});
@@ -116,7 +116,9 @@ describe("the channel fee data", () => {
     it("migrates a saved table: its rows become the UK's, and the rows it lacks are added once", () => {
         const saved = asGlobalSettings({ channelFees: [{ id: "fee-1", channel: "Stripe", commission: "1.5", fixedFee: "0.20", chargeback: "0.5", note: "" }, { id: "fee-2", channel: "Wolt, Amazon", commission: "25", fixedFee: "0", chargeback: "0", note: "" }] });
         expect(saved.channelFees[0]).toMatchObject({ id: "fee-1", country: "GB", currency: "GBP", status: "checked" });
-        expect(saved.channelFees[1]).toMatchObject({ id: "fee-2", country: "GB", status: "" });
+        // (The old combined "Wolt, Amazon" row is gone: Wolt and Amazon have rows of their own.)
+        expect(saved.channelFees.some(row => row.channel === "Wolt, Amazon")).toBe(false);
+        expect(saved.channelFees.filter(row => row.country === "GB" && (row.channel === "Wolt" || row.channel === "Amazon"))).toHaveLength(2);
         expect(saved.channelFees.filter(row => row.channel === "Stripe" && row.country === "GB")).toHaveLength(1);
         expect(saved.channelFees.some(row => row.channel === "Stripe" && row.country === "NZ")).toBe(true);
         // (Saved again, a row the user removed stays removed.)
@@ -124,9 +126,10 @@ describe("the channel fee data", () => {
         expect(again.channelFees.some(row => row.channel === "PayPal" && row.country === "GB")).toBe(false);
     });
 
-    it("shows only the country's rows that the answers name, and every row the user made", () => {
-        const table = [...createGlobalSettings().channelFees, { ...createChannelFeeRow("GB"), channel: "Not On The High Street" }];
-        expect(shownChannelFees(table, "GB", ["Etsy", "Shopify Payments", "TikTok Shop"]).map(row => row.channel)).toEqual(["Shopify Payments", "Etsy", "TikTok Shop", "Not On The High Street"]);
+    it("shows only the country's rows that the answers name; a row made by hand that no channel names leaves (owner, 2026-11-15 16:37)", () => {
+        const table = [...createGlobalSettings().channelFees, { ...createChannelFeeRow("GB"), channel: "Vinted" }];
+        expect(shownChannelFees(table, "GB", ["Etsy", "Shopify Payments", "TikTok Shop"]).map(row => row.channel)).toEqual(["Shopify Payments", "Etsy", "TikTok Shop"]);
+        expect(shownChannelFees(table, "GB", ["Vinted"]).map(row => row.channel)).toEqual(["Vinted"]);
         expect(shownChannelFees(table, "NZ", ["Amazon"]).map(row => [row.channel, row.status])).toEqual([["Amazon", "not-available"]]);
         expect(shownChannelFees(table, "US", [])).toEqual([]);
     });
@@ -140,20 +143,20 @@ describe("a subchannel named by the user, and the reset of the Channel Fee Table
         const engagement = asBusinessEngagementValue({
             segments: [
                 { segmentId: "a", channels: [
-                    { id: "1", category: "Marketplace", name: "Not On The High Street", offerings: ["*"], stages: [] },
+                    { id: "1", category: "Marketplace", name: "Vinted", offerings: ["*"], stages: [] },
                     { id: "2", category: "Marketplace", name: "Etsy", offerings: ["*"], stages: [] },
                     { id: "3", category: "Direct Payment", name: "Other", offerings: ["*"], stages: [] },
                     { id: "4", category: "Social Media", name: "Bluesky", offerings: ["*"], stages: [] }
                 ] },
-                { segmentId: "b", channels: [{ id: "5", category: "Marketplace", name: "not on the high street", offerings: ["*"], stages: [] }] }
+                { segmentId: "b", channels: [{ id: "5", category: "Marketplace", name: "vinted", offerings: ["*"], stages: [] }] }
             ]
         });
-        expect(ownFeeChannelNames(engagement)).toEqual(["Not On The High Street"]);
+        expect(ownFeeChannelNames(engagement)).toEqual(["Vinted"]);
     });
 
     it("the reset gives back the country's rows from the app's data and keeps the rows the user made and other countries' rows", () => {
         const data = createGlobalSettings().channelFees;
-        const own = { ...createChannelFeeRow("GB"), channel: "Not On The High Street", commission: "25" };
+        const own = { ...createChannelFeeRow("GB"), channel: "Vinted", commission: "25" };
         const edited = data.map(row => row.channel === "Stripe" && row.country === "GB" ? { ...row, commission: "9" } : row)
             .filter(row => !(row.channel === "PayPal" && row.country === "GB"))
             .map(row => row.channel === "Stripe" && row.country === "US" ? { ...row, commission: "7" } : row);
@@ -161,7 +164,7 @@ describe("a subchannel named by the user, and the reset of the Channel Fee Table
         expect(reset.find(row => row.channel === "Stripe" && row.country === "GB")?.commission).toBe("1.5");
         expect(reset.some(row => row.channel === "PayPal" && row.country === "GB")).toBe(true);
         expect(reset.find(row => row.channel === "Stripe" && row.country === "US")?.commission).toBe("7");
-        expect(reset.find(row => row.channel === "Not On The High Street")?.commission).toBe("25");
+        expect(reset.find(row => row.channel === "Vinted")?.commission).toBe("25");
         expect(reset).toHaveLength(data.length + 1);
     });
 

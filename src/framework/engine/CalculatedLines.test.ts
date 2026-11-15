@@ -106,6 +106,17 @@ describe("channel fees, royalties and partner commissions (X4, X5)", () => {
         expect(result.percentageLines[0].kind).toBe("channel-fee");
     });
 
+    it("a payment service's card with no price is charged from its fee row; with a price, still once (owner, 2026-11-15 16:37)", () => {
+        const priceless = scenario(gateway("Stripe", ""), {}, { price: "25", volume: "4000" }).result.percentageLines;
+        expect(priceless).toHaveLength(1);
+        expect(priceless[0].values[3]).toBe(2800);
+        const priced = scenario(gateway("Stripe", "9"), {}, { price: "25", volume: "4000" }).result.percentageLines;
+        expect(priced).toHaveLength(1);
+        expect(priced[0].values[3]).toBe(2800);
+        // (No price and no row of its name: nothing is charged, as before.)
+        expect(scenario(gateway("Local gateway", ""), {}, { price: "25", volume: "4000" }).result.percentageLines).toEqual([]);
+    });
+
     it("a card of no channel in the table uses its own rate, on the revenue of its Offerings", () => {
         const { result } = scenario(gateway("Local gateway", "2.5"), {}, { price: "100", volume: "100" });
         expect(result.percentageLines[0].values[3]).toBe(250);

@@ -12,6 +12,8 @@ import { OFFERING_BOX_QUESTIONS, OFFERING_QUESTIONS, offeringChoose, type Offeri
 import { type SegmentQuestion, segmentRowChoice } from "../../../../framework/engine/SegmentQuestions.ts";
 import { summaryText } from "../../cards/cardSummary.ts";
 import OptionPicker from "../../fields/OptionPicker.tsx";
+import NumberedListInput from "../../fields/NumberedListInput.tsx";
+import { writtenInNames } from "../../../../framework/engine/SegmentQuestions.ts";
 import { CATEGORY_OTHER, SUBSECTIONS } from "./shared.tsx";
 import type { FoundationCardScope } from "./useFoundationSubsections.tsx";
 
@@ -131,9 +133,20 @@ export function offeringCard(scope: FoundationCardScope, offering: BusinessOffer
                             labelNote={question.max !== undefined ? <span className="business-foundation-tick-note">{question.max + " max"}</span> : undefined}>
                             {question.many
                                 ? (
-                                    <div className="radio-choice legal-entity-radio-stack" role="group" aria-label={label}>
-                                        <BusinessTicks name={whose + " " + label} disabled={disabled} options={options} chosen={chosen} max={question.max} onChange={(next) => write(id, next)} />
-                                    </div>
+                                    <>
+                                        <div className="radio-choice legal-entity-radio-stack" role="group" aria-label={label}>
+                                            <BusinessTicks name={whose + " " + label} disabled={disabled} options={options} chosen={chosen} max={question.max} onChange={(next) => write(id, next)} />
+                                        </div>
+                                        {/* (Other written in, as a Profile's: O20 to O22, one name a row of the numbered list; owner, 2026-11-15 16:43.) */}
+                                        {question.other && chosen.includes("other") && (
+                                            <NumberedListInput
+                                                label={label + " Other"}
+                                                items={writtenInNames(shown[id + "-other"])}
+                                                disabled={disabled}
+                                                onChange={(items) => change({ questions: { ...(offering.questions ?? {}), [id + "-other"]: items } as OfferingAnswers })}
+                                            />
+                                        )}
+                                    </>
                                 )
                                 // A radio of short options stands in one row, as on the Segment and the Profile.
                                 : segmentRowChoice({ ...question, box: "demographics" } as unknown as SegmentQuestion, options)
@@ -145,7 +158,7 @@ export function offeringCard(scope: FoundationCardScope, offering: BusinessOffer
                 // The boxes of one section, each asking its questions (one question per band), then its Notes, the box's saved text.
                 const parts = (list: typeof SUBSECTIONS.offerings.description) => list.map(part => {
                     // (One question per band: each asked question is one entry of the box's bands.)
-                    const asked = (OFFERING_BOX_QUESTIONS[part.id] ?? []).filter(id => offeringAsks(id, context));
+                    const asked = (OFFERING_BOX_QUESTIONS[part.id] ?? []).filter(id => offeringAsks(id, context, shown));
                     return {
                         ...part,
                         questions: [...(part.id === "benefit" ? [<Fragment key="needs">{needsBand}</Fragment>] : []), ...asked.map(ask)],

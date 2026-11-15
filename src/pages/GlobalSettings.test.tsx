@@ -92,27 +92,16 @@ describe("the Global Settings screen", () => {
         expect(screen.queryByLabelText("Furniture & Fittings")).toBeNull();
     });
 
-    it("adds, edits and removes a channel of the Channel Fee Table", () => {
+    it("draws the Channel Fee Table's rows from the channels alone: no row while no channel names one, no add and no x (owner, 2026-11-15 16:37)", () => {
         open();
-        const data = createGlobalSettings().channelFees.length;
-        fireEvent.click(screen.getByRole("button", { name: "+ Add channel" }));
-        expect(saved().channelFees).toHaveLength(data + 1);
-        // (A row the user adds is the Organisation's country's, the UK's while none is chosen, and always shows.)
-        fireEvent.change(screen.getByLabelText("Channel 1"), { target: { value: "Not On The High Street" } });
-        fireEvent.change(screen.getByLabelText("Channel 1 commission"), { target: { value: "25" } });
-        fireEvent.change(screen.getByLabelText("Channel 1 fixed fee"), { target: { value: "0.2" } });
-        expect(saved().channelFees[data]).toMatchObject({ channel: "Not On The High Street", commission: "25", fixedFee: "0.2", country: "GB", status: "" });
-        expect(within(screen.getByRole("table", { name: "Channel Fee Table" })).getAllByRole("row")).toHaveLength(2);
-        fireEvent.click(screen.getByRole("button", { name: "Remove channel 1" }));
-        expect(saved().channelFees).toHaveLength(data);
+        expect(screen.queryByRole("button", { name: "+ Add channel" })).toBeNull();
+        expect(screen.queryByRole("button", { name: /^Remove channel/ })).toBeNull();
         expect(within(screen.getByRole("table", { name: "Channel Fee Table" })).getAllByRole("row")).toHaveLength(1);
     });
 
-    it("resets the Channel Fee Table after asking, keeping the rows the user made (owner, 2026-11-15 15:54)", () => {
+    it("resets the Channel Fee Table after asking (owner, 2026-11-15 15:54)", () => {
         open();
         const data = createGlobalSettings().channelFees.length;
-        fireEvent.click(screen.getByRole("button", { name: "+ Add channel" }));
-        fireEvent.change(screen.getByLabelText("Channel 1"), { target: { value: "Not On The High Street" } });
         const reset = screen.getByTitle("Reset the Channel Fee Table to the app's rates for your country");
         fireEvent.click(reset);
         const dialog = screen.getByRole("dialog", { name: "Reset the Channel Fee Table" });
@@ -120,8 +109,7 @@ describe("the Global Settings screen", () => {
         expect(screen.queryByRole("dialog", { name: "Reset the Channel Fee Table" })).toBeNull();
         fireEvent.click(reset);
         fireEvent.click(within(screen.getByRole("dialog", { name: "Reset the Channel Fee Table" })).getByRole("button", { name: "Reset" }));
-        expect(saved().channelFees).toHaveLength(data + 1);
-        expect(saved().channelFees.some(row => row.channel === "Not On The High Street")).toBe(true);
+        expect(saved().channelFees).toHaveLength(data);
     });
 
     it("is kept for the Organisation it belongs to", () => {

@@ -61,8 +61,8 @@ function notAvailable(provider: string, country: string, note = ""): ChannelFeeD
 
 /** The providers, in the order a name is matched (the more particular first). Every one has a row for each of the six countries (a data check). */
 export const CHANNEL_FEE_PROVIDERS = [
-    "Stripe Terminal", "Stripe", "SumUp", "Zettle", "Shopify Payments", "PayPal",
-    "Etsy", "Amazon Handmade", "Amazon", "Gumroad", "Fiverr", "Upwork", "TikTok Shop", "Meta checkout", "Wolt"
+    "Stripe Terminal", "Stripe", "SumUp", "Square", "Zettle", "Shopify Payments", "PayPal",
+    "Etsy", "Amazon Handmade", "Amazon", "eBay", "Not On The High Street", "Folksy", "Gumroad", "Fiverr", "Upwork", "TikTok Shop", "Meta checkout", "Wolt"
 ] as const;
 
 export const CHANNEL_FEE_DATA: readonly ChannelFeeDatum[] = [
@@ -86,6 +86,9 @@ export const CHANNEL_FEE_DATA: readonly ChannelFeeDatum[] = [
     checked("SumUp", "CA", "2.5", "0", "0.5", "In person, credit cards (debit 0.9%); " + CHECKED + " on SumUp's Canada pricing page"),
     checked("SumUp", "AU", "1.4", "0", "0.5", "In person (payment links 2.1%); " + CHECKED + " on SumUp's Australia pricing page"),
     notChecked("SumUp", "NZ"),
+
+    // (Square, eBay, Not On The High Street and Folksy, named by the answers' follow-ups (owner, 2026-11-15 16:26): rows not checked yet in each country.)
+    ...["GB", "IE", "US", "CA", "AU", "NZ"].map(country => notChecked("Square", country)),
 
     checked("Zettle", "GB", "1.75", "0", "0.5", "In person; " + CHECKED + " on Zettle's UK pricing page"),
     notChecked("Zettle", "IE"),
@@ -128,6 +131,10 @@ export const CHANNEL_FEE_DATA: readonly ChannelFeeDatum[] = [
     checked("Amazon", "CA", "15", "0", "0", "Home referral fee; " + CHECKED + " on Amazon's Canada selling fees page"),
     checked("Amazon", "AU", "13", "0", "0", "Home referral fee; " + CHECKED + " on Amazon's Australia selling fees page"),
     notAvailable("Amazon", "NZ", "No Amazon marketplace in New Zealand"),
+
+    ...["GB", "IE", "US", "CA", "AU", "NZ"].map(country => notChecked("eBay", country)),
+    ...["GB", "IE", "US", "CA", "AU", "NZ"].map(country => notChecked("Not On The High Street", country)),
+    ...["GB", "IE", "US", "CA", "AU", "NZ"].map(country => notChecked("Folksy", country)),
 
     ...["GB", "IE", "US", "CA", "AU", "NZ"].map(country => checked("Gumroad", country, "10", "0.50", "0", "10% + $0.50 a sale, in every country; " + CHECKED + " on Gumroad's pricing page", "USD")),
 

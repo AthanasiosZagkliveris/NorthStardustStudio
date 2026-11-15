@@ -549,6 +549,10 @@
                   ],
                   "competition": [
                     "3"
+                  ],
+                  "providers": [
+                    "shopify",
+                    "sumup"
                   ]
                 },
                 "profiles": [
@@ -1082,6 +1086,10 @@
                       ],
                       "o18": [
                         "nonrefundable"
+                      ],
+                      "o20": [
+                        "courier",
+                        "postal"
                       ]
                     }
                   },
@@ -1191,7 +1199,8 @@
                   ],
                   "pay": [
                     "card",
-                    "invoice"
+                    "invoicepo",
+                    "transfer"
                   ],
                   "tam": [
                     "boutique"
@@ -1205,6 +1214,13 @@
                   ],
                   "competition": [
                     "3"
+                  ],
+                  "shops": [
+                    "own",
+                    "stockists"
+                  ],
+                  "providers": [
+                    "shopify"
                   ]
                 },
                 "profiles": [
@@ -1585,6 +1601,9 @@
                       "o18": [
                         "minimum",
                         "trade"
+                      ],
+                      "o20": [
+                        "courier"
                       ]
                     }
                   }
@@ -2151,6 +2170,30 @@
                         "Share open-studio days and market dates in the neighbourhood groups"
                       ]
                     }
+                  },
+                  {
+                    "id": "channel-postal01",
+                    "category": "Physical Delivery",
+                    "name": "Postal Service",
+                    "links": [
+                      ""
+                    ],
+                    "offerings": [
+                      "*"
+                    ],
+                    "stages": [
+                      "delivery"
+                    ],
+                    "actionIds": {
+                      "delivery": [
+                        "action-channel-postal01-delivery-1"
+                      ]
+                    },
+                    "actions": {
+                      "delivery": [
+                        "Send cushions and runners by tracked post, wrapped in tissue"
+                      ]
+                    }
                   }
                 ],
                 "actions": [
@@ -2305,6 +2348,10 @@
                   {
                     "id": "action-channel-whatsapp1-discovery-1",
                     "text": "Share open-studio days and market dates in the neighbourhood groups"
+                  },
+                  {
+                    "id": "action-channel-postal01-delivery-1",
+                    "text": "Send cushions and runners by tracked post, wrapped in tissue"
                   }
                 ],
                 "offerings": [
@@ -2767,6 +2814,54 @@
                         "Hold a video check-in after each installation to see the pieces in place and plan the next order"
                       ]
                     }
+                  },
+                  {
+                    "id": "channel-stockist1",
+                    "category": "Retail & Wholesale",
+                    "name": "Retail Stockist",
+                    "links": [
+                      ""
+                    ],
+                    "offerings": [
+                      "*"
+                    ],
+                    "stages": [
+                      "purchase"
+                    ],
+                    "actionIds": {
+                      "purchase": [
+                        "action-channel-stockist1-purchase-1"
+                      ]
+                    },
+                    "actions": {
+                      "purchase": [
+                        "Send stockists the trade price list and a swatch book"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "channel-courier02",
+                    "category": "Physical Delivery",
+                    "name": "Courier",
+                    "links": [
+                      ""
+                    ],
+                    "offerings": [
+                      "*"
+                    ],
+                    "stages": [
+                      "delivery"
+                    ],
+                    "actionIds": {
+                      "delivery": [
+                        "action-channel-courier02-delivery-1"
+                      ]
+                    },
+                    "actions": {
+                      "delivery": [
+                        "Ship trade orders by courier in labelled cartons"
+                      ]
+                    }
                   }
                 ],
                 "actions": [
@@ -2853,6 +2948,14 @@
                   {
                     "id": "action-channel-lnzoom02-support-1",
                     "text": "Hold a video check-in after each installation to see the pieces in place and plan the next order"
+                  },
+                  {
+                    "id": "action-channel-stockist1-purchase-1",
+                    "text": "Send stockists the trade price list and a swatch book"
+                  },
+                  {
+                    "id": "action-channel-courier02-delivery-1",
+                    "text": "Ship trade orders by courier in labelled cartons"
                   }
                 ],
                 "offerings": [
@@ -2952,7 +3055,10 @@
                     ]
                   }
                 ],
-                "profiles": []
+                "profiles": [],
+                "answerCards": [
+                  "shopify payments"
+                ]
               }
             ],
             "demand": {
@@ -3201,6 +3307,16 @@
                 "actionIds": [
                   "action-channel-lntpost1-delivery-1"
                 ]
+              },
+              {
+                "id": "channel-resource-z5f628qb",
+                "segmentId": "segment-majxtl1u",
+                "channelId": "channel-87i4o7mf",
+                "resourceId": "partner-lm-stripe",
+                "actionIds": [
+                  "action-channel-87i4o7mf-purchase-1"
+                ],
+                "existing": true
               }
             ]
           }
@@ -7687,9 +7803,273 @@
         "country": "NZ",
         "currency": "NZD",
         "status": "not-available"
+      },
+      {
+        "id": "fee-square-gb",
+        "channel": "Square",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in UK",
+        "country": "GB",
+        "currency": "GBP",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-square-ie",
+        "channel": "Square",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in Ireland",
+        "country": "IE",
+        "currency": "EUR",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-square-us",
+        "channel": "Square",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in the US",
+        "country": "US",
+        "currency": "USD",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-square-ca",
+        "channel": "Square",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in Canada",
+        "country": "CA",
+        "currency": "CAD",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-square-au",
+        "channel": "Square",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in Australia",
+        "country": "AU",
+        "currency": "AUD",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-square-nz",
+        "channel": "Square",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in New Zealand",
+        "country": "NZ",
+        "currency": "NZD",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-ebay-gb",
+        "channel": "eBay",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in UK",
+        "country": "GB",
+        "currency": "GBP",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-ebay-ie",
+        "channel": "eBay",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in Ireland",
+        "country": "IE",
+        "currency": "EUR",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-ebay-us",
+        "channel": "eBay",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in the US",
+        "country": "US",
+        "currency": "USD",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-ebay-ca",
+        "channel": "eBay",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in Canada",
+        "country": "CA",
+        "currency": "CAD",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-ebay-au",
+        "channel": "eBay",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in Australia",
+        "country": "AU",
+        "currency": "AUD",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-ebay-nz",
+        "channel": "eBay",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in New Zealand",
+        "country": "NZ",
+        "currency": "NZD",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-not-on-the-high-street-gb",
+        "channel": "Not On The High Street",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in UK",
+        "country": "GB",
+        "currency": "GBP",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-not-on-the-high-street-ie",
+        "channel": "Not On The High Street",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in Ireland",
+        "country": "IE",
+        "currency": "EUR",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-not-on-the-high-street-us",
+        "channel": "Not On The High Street",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in the US",
+        "country": "US",
+        "currency": "USD",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-not-on-the-high-street-ca",
+        "channel": "Not On The High Street",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in Canada",
+        "country": "CA",
+        "currency": "CAD",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-not-on-the-high-street-au",
+        "channel": "Not On The High Street",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in Australia",
+        "country": "AU",
+        "currency": "AUD",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-not-on-the-high-street-nz",
+        "channel": "Not On The High Street",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in New Zealand",
+        "country": "NZ",
+        "currency": "NZD",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-folksy-gb",
+        "channel": "Folksy",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in UK",
+        "country": "GB",
+        "currency": "GBP",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-folksy-ie",
+        "channel": "Folksy",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in Ireland",
+        "country": "IE",
+        "currency": "EUR",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-folksy-us",
+        "channel": "Folksy",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in the US",
+        "country": "US",
+        "currency": "USD",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-folksy-ca",
+        "channel": "Folksy",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in Canada",
+        "country": "CA",
+        "currency": "CAD",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-folksy-au",
+        "channel": "Folksy",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in Australia",
+        "country": "AU",
+        "currency": "AUD",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-folksy-nz",
+        "channel": "Folksy",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in New Zealand",
+        "country": "NZ",
+        "currency": "NZD",
+        "status": "not-checked"
       }
     ],
-    "channelFeeDataVersion": 1,
+    "channelFeeDataVersion": 2,
     "royaltyRate": "10",
     "affiliateRate": "15",
     "agentRate": "10",

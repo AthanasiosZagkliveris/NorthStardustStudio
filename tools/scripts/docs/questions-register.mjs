@@ -97,7 +97,10 @@ const SEGMENT_CODES = {
     trigger: ["Box 4, 5", "the buyer is people"],
     path: ["Box 4, 6", "the buyer is people; ordered by Box 4, 5 (boredom or a friend or creator: On impulse first; a need: When they urgently need it and After comparing options first)"],
     setting: ["Box 4, 7", "always"],
+    marketplaces: ["Box 4, 7a", "Box 4, 7 is On a marketplace (owner, 2026-11-15 16:26); ends in Other, written in as a numbered list"],
+    shops: ["Box 4, 7b", "Box 4, 7 is In a shop or Both online and in shops (owner, 2026-11-15 16:26)"],
     pay: ["Box 4, 8", "always", "Digital wallets where they shop on a phone and no way of paying is chosen"],
+    providers: ["Box 4, 8a", "Box 4, 8 has Credit / debit card or Digital wallets (owner, 2026-11-15 16:26); ends in Other, written in as a numbered list"],
     authorise: ["Box 4, 9", "the buyer is a business; answered (not shown) for a self-employed customer", "where not answered, a Public body (Box 3, 1) or Large (Box 3, 2) sets Formal procurement, Micro or Self-employed One person decides"],
     tam: ["Box 5, 1", "always; \"potential buyers\" where the buyer is Proxy or Dual-Intent"],
     trajectory: ["Box 5, 2", "always"],
@@ -205,7 +208,10 @@ const OFFERING_CODES = {
     o15: ["O15", "always", "from O1: a digital file, an app / online tool or online access, Straight away"],
     o16: ["O16", "always from Launching; held back while Planning (owner, 2026-11-08), its saved answer kept"],
     o17: ["O17", "always from Launching; held back while Planning (owner, 2026-11-08), its saved answer kept", "None where O7 is None"],
-    o18: ["O18", "always"]
+    o18: ["O18", "always"],
+    o20: ["O20", "O6 has Posted / shipped to them (owner, 2026-11-15 16:26); ends in Other, written in as a numbered list"],
+    o21: ["O21", "O6 has Sent automatically online or Sent by you online; ends in Other, written in as a numbered list"],
+    o22: ["O22", "O6 has In a live online session; ends in Other, written in as a numbered list"]
 };
 const OFFERING_NOT_BUILT = [
     ["O12", "Is a minimum age to buy it set by law?", "no longer a question: a derived Review item from the activities and the country (proposed, owner 2026-11-06)"]

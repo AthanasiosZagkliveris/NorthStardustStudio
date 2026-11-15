@@ -381,7 +381,8 @@
                     "desktop"
                   ],
                   "pay": [
-                    "invoice"
+                    "invoicepo",
+                    "transfer"
                   ],
                   "tam": [
                     "boutique"
@@ -922,6 +923,9 @@
                       ],
                       "o17": [
                         "updates"
+                      ],
+                      "o21": [
+                        "attachment"
                       ]
                     }
                   },
@@ -987,6 +991,9 @@
                       "o17": [
                         "guarantee",
                         "training"
+                      ],
+                      "o21": [
+                        "portal"
                       ]
                     }
                   },
@@ -1506,6 +1513,30 @@
                         "Answer automation questions in the agency founders' groups each week"
                       ]
                     }
+                  },
+                  {
+                    "id": "channel-attach01",
+                    "category": "File Delivery",
+                    "name": "Email Attachment",
+                    "links": [
+                      ""
+                    ],
+                    "offerings": [
+                      "*"
+                    ],
+                    "stages": [
+                      "delivery"
+                    ],
+                    "actionIds": {
+                      "delivery": [
+                        "action-channel-attach01-delivery-1"
+                      ]
+                    },
+                    "actions": {
+                      "delivery": [
+                        "Send the audit report as a PDF with a short walkthrough"
+                      ]
+                    }
                   }
                 ],
                 "actions": [
@@ -1636,6 +1667,10 @@
                   {
                     "id": "action-channel-agencyfc1-discovery-1",
                     "text": "Answer automation questions in the agency founders' groups each week"
+                  },
+                  {
+                    "id": "action-channel-attach01-delivery-1",
+                    "text": "Send the audit report as a PDF with a short walkthrough"
                   }
                 ],
                 "offerings": [
@@ -5411,9 +5446,273 @@
         "country": "NZ",
         "currency": "NZD",
         "status": "not-available"
+      },
+      {
+        "id": "fee-square-gb",
+        "channel": "Square",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in UK",
+        "country": "GB",
+        "currency": "GBP",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-square-ie",
+        "channel": "Square",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in Ireland",
+        "country": "IE",
+        "currency": "EUR",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-square-us",
+        "channel": "Square",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in the US",
+        "country": "US",
+        "currency": "USD",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-square-ca",
+        "channel": "Square",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in Canada",
+        "country": "CA",
+        "currency": "CAD",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-square-au",
+        "channel": "Square",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in Australia",
+        "country": "AU",
+        "currency": "AUD",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-square-nz",
+        "channel": "Square",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in New Zealand",
+        "country": "NZ",
+        "currency": "NZD",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-ebay-gb",
+        "channel": "eBay",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in UK",
+        "country": "GB",
+        "currency": "GBP",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-ebay-ie",
+        "channel": "eBay",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in Ireland",
+        "country": "IE",
+        "currency": "EUR",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-ebay-us",
+        "channel": "eBay",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in the US",
+        "country": "US",
+        "currency": "USD",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-ebay-ca",
+        "channel": "eBay",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in Canada",
+        "country": "CA",
+        "currency": "CAD",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-ebay-au",
+        "channel": "eBay",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in Australia",
+        "country": "AU",
+        "currency": "AUD",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-ebay-nz",
+        "channel": "eBay",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in New Zealand",
+        "country": "NZ",
+        "currency": "NZD",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-not-on-the-high-street-gb",
+        "channel": "Not On The High Street",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in UK",
+        "country": "GB",
+        "currency": "GBP",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-not-on-the-high-street-ie",
+        "channel": "Not On The High Street",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in Ireland",
+        "country": "IE",
+        "currency": "EUR",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-not-on-the-high-street-us",
+        "channel": "Not On The High Street",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in the US",
+        "country": "US",
+        "currency": "USD",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-not-on-the-high-street-ca",
+        "channel": "Not On The High Street",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in Canada",
+        "country": "CA",
+        "currency": "CAD",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-not-on-the-high-street-au",
+        "channel": "Not On The High Street",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in Australia",
+        "country": "AU",
+        "currency": "AUD",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-not-on-the-high-street-nz",
+        "channel": "Not On The High Street",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in New Zealand",
+        "country": "NZ",
+        "currency": "NZD",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-folksy-gb",
+        "channel": "Folksy",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in UK",
+        "country": "GB",
+        "currency": "GBP",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-folksy-ie",
+        "channel": "Folksy",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in Ireland",
+        "country": "IE",
+        "currency": "EUR",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-folksy-us",
+        "channel": "Folksy",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in the US",
+        "country": "US",
+        "currency": "USD",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-folksy-ca",
+        "channel": "Folksy",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in Canada",
+        "country": "CA",
+        "currency": "CAD",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-folksy-au",
+        "channel": "Folksy",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in Australia",
+        "country": "AU",
+        "currency": "AUD",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-folksy-nz",
+        "channel": "Folksy",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in New Zealand",
+        "country": "NZ",
+        "currency": "NZD",
+        "status": "not-checked"
       }
     ],
-    "channelFeeDataVersion": 1,
+    "channelFeeDataVersion": 2,
     "royaltyRate": "10",
     "affiliateRate": "15",
     "agentRate": "10",

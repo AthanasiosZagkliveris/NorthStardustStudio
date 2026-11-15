@@ -175,8 +175,9 @@ export function resetChannelFees(table: readonly ChannelFeeRow[], country: strin
  */
 export function shownChannelFees(table: readonly ChannelFeeRow[], country: string, usedNames: readonly string[]): ChannelFeeRow[] {
     const where = country.trim() || "GB";
+    // (Owner, 2026-11-15 16:37: the rows appear by themselves, from the user's own channels; a row whose channel goes, leaves -- a row made by hand too.)
     return table.filter(row => (row.country || "GB") === where &&
-        (row.status === "" || usedNames.some(name => channelFeeRowFor(name, [{ ...row, status: "checked", commission: row.commission || "0" }], where) !== undefined)));
+        usedNames.some(name => channelFeeRowFor(name, [{ ...row, status: "checked", commission: row.commission || "0" }], where) !== undefined));
 }
 
 /**
@@ -336,6 +337,37 @@ export function calculatedLines(input: CalculationInput, fromFoundationRate: num
                 : "channel-fee";
         percentageLines.push({ id: line.id, label: line.name, kind, values: values.map(round) });
     });
+
+    /* A PAYMENT SERVICE'S OR A MARKETPLACE'S CARD WITH NO PRICE (owner, 2026-11-15 16:37: "a payment service's fee should reach the forecast through its fee row"): a
+       "% of revenue" partner or supplier card whose name takes the country's row of the Channel Fee Table is charged from that row -- the cards the answers make
+       carry no price --, on its Offerings' revenue through its subchannels, from its Start to its End. A card with a price is a line of its own above, so it is never
+       charged twice. */
+    const priced = new Set(percentageLines.map(line => line.id));
+    [...capability.offering.providers, ...capability.providers, ...capability.offering.professionals, ...capability.professionals]
+        .filter(card => card.cost.frequency === "percent-revenue" && parseAmount(card.cost.price) === null && !priced.has(card.id) && !counted.some(line => line.id === card.id))
+        .forEach(card => {
+            const row = channelFeeRowFor(card.name, settings.channelFees, input.country ?? "");
+            if (!row) {
+                return;
+            }
+            const ids = card.offeringIds.length > 0 && !card.offeringIds.includes("*") ? card.offeringIds : [...flows.keys()];
+            const shares = revenueFractions(card.id, ids, input.engagement, input.revenuePage);
+            const active = activeMonths({ startDate: card.startDate, endDate: card.endDate } as CostLine, start);
+            const percent = (settingNumber(row.commission) ?? 0) + (settingNumber(row.chargeback) ?? 0);
+            const fixed = settingNumber(row.fixedFee) ?? 0;
+            const values = zeros();
+            ids.forEach(id => {
+                const flow = flows.get(id);
+                if (flow) {
+                    for (let index = 0; index < MODEL_MONTHS; index++) {
+                        if (active[index]) {
+                            values[index] += (flow.revenue[index] * percent / 100 + flow.orders[index] * fixed) * (shares[id] ?? 0);
+                        }
+                    }
+                }
+            });
+            percentageLines.push({ id: card.id, label: card.name, kind: "channel-fee", values: values.map(round) });
+        });
 
     /* Assets (X1, X2): what the rules capitalise, with the services bundled into it. */
     const assets: CapitalisedAsset[] = [];

@@ -2,7 +2,6 @@ import { Fragment, useEffect, useMemo, useState } from "react";
 import TextLink from "../components/interview/fields/TextLink.tsx";
 import { land } from "../components/interview/tiles/jumpTo.ts";
 import AddButton from "../components/controls/AddButton.tsx";
-import RemoveButton from "../components/controls/RemoveButton.tsx";
 import NumberCell from "../components/controls/NumberCell.tsx";
 import TextBox from "../components/controls/TextBox.tsx";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -30,6 +29,8 @@ import { assetUnitCost, isCostingStatus, isPurchaseGroup, type BusinessCapabilit
 import { channelFeeRowFor, ownFeeChannelNames, resetChannelFees, shownChannelFees } from "../framework/engine/CalculatedLines";
 import { capabilityCards, costCardName } from "../framework/engine/ChannelResources";
 import { asBusinessEngagementValue } from "../framework/engine/businessFoundation/engagementReaders";
+import { businessFoundationSegments } from "../framework/engine/AnswerUtils";
+import { segmentPaymentServices } from "../framework/engine/SegmentQuestions";
 import { OrganizationService } from "../services/OrganizationService";
 import { systems } from "../data/systems";
 import { StorageService } from "../services/StorageService";
@@ -243,13 +244,18 @@ export default function GlobalSettings() {
     const feeCountry = legalEntity.organisation.country.trim() || "GB";
     const engagementSection = business?.getFramework().sections.find(section => section.answer?.type === AnswerType.BusinessEngagement);
     const engagementValue = useMemo(() => asBusinessEngagementValue(business && engagementSection ? business.getResponse(engagementSection.number) : undefined), [business, engagementSection]);
+    // (The payment services the Segments name, Which payment services do you take payments with?: their rows show, and one written in has its own.)
+    const foundationSection = business?.getFramework().sections.find(section => section.answer?.type === AnswerType.BusinessFoundation);
+    const paymentServices = useMemo(() => businessFoundationSegments(business && foundationSection ? business.getResponse(foundationSection.number) : undefined)
+        .flatMap(segment => segmentPaymentServices(segment.questions)), [business, foundationSection]);
     const usedNames = useMemo(() => [
         ...engagementValue.segments.flatMap(segment => segment.channels.map(channel => channel.name)),
-        ...capabilityCards(capabilityValue).map(card => costCardName(card))
-    ].filter(name => name.trim() !== ""), [engagementValue, capabilityValue]);
+        ...capabilityCards(capabilityValue).map(card => costCardName(card)),
+        ...paymentServices
+    ].filter(name => name.trim() !== ""), [engagementValue, capabilityValue, paymentServices]);
     // (A SUBCHANNEL THE USER NAMED where a fee is taken (ownFeeChannelNames) and no row of the country takes: a row of its own, ready to fill, "Entered by you";
     // it is kept once anything in it is typed. Owner, 2026-11-15 15:54.)
-    const ownRows = ownFeeChannelNames(engagementValue)
+    const ownRows = [...new Set([...ownFeeChannelNames(engagementValue), ...paymentServices])]
         .filter(name => !settings.channelFees.some(row => (row.country || "GB") === feeCountry && channelFeeRowFor(name, [{ ...row, status: "checked", commission: row.commission || "0" }], feeCountry) !== undefined))
         .map(name => ({ ...createChannelFeeRow(feeCountry), id: "fee-own-" + name.toLowerCase().replace(/[^a-z0-9]+/g, "-") + "-" + feeCountry.toLowerCase(), channel: name, note: "Entered by you" }));
     const shownFees = [...shownChannelFees(settings.channelFees, feeCountry, usedNames), ...ownRows];
@@ -609,7 +615,6 @@ export default function GlobalSettings() {
                                 <col className="settings-col-figure" />
                                 <col className="settings-col-figure" />
                                 <col className="settings-col-note" />
-                                <col className="settings-col-remove" />
                             </colgroup>
                             <thead>
                                 <tr>
@@ -618,7 +623,6 @@ export default function GlobalSettings() {
                                     <th scope="col" className="settings-number-column">Fixed fee (per order)</th>
                                     <th scope="col" className="settings-number-column">Chargeback or risk allowance (%)</th>
                                     <th scope="col">Note</th>
-                                    <th scope="col"><span className="settings-visually-hidden">Remove</span></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -643,23 +647,12 @@ export default function GlobalSettings() {
                                                 onChange={(event) => changeFee(row.id, { note: event.target.value })}
                                             />
                                         </td>
-                                        <td>
-                                            {/* (A subchannel's own row not filled yet has nothing to remove: it goes with its subchannel.) */}
-                                            {settings.channelFees.some(entry => entry.id === row.id) && (
-                                                <RemoveButton
-                                                    aria-label={"Remove channel " + (index + 1)}
-                                                    onClick={() => change({ channelFees: settings.channelFees.filter(entry => entry.id !== row.id) })} />
-                                            )}
-                                        </td>
+                                        {/* (No x: a row goes with its channel; owner, 2026-11-15 16:37.) */}
                                     </tr>
                                 ))}
                             </tbody>
                         </table>
                     </div>
-                    <AddButton
-                        onClick={() => change({ channelFees: [...settings.channelFees, createChannelFeeRow(feeCountry)] })}>
-                        + Add channel
-                    </AddButton>
                     <AddButton title="Reset the Channel Fee Table to the app's rates for your country"
                         onClick={() => setConfirmFeeReset(true)}>
                         Reset

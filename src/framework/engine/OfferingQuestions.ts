@@ -11,7 +11,7 @@ import { businessSegmentFunctionalItems } from "./AnswerBusinessFoundation.ts";
 import { onlyPlanning } from "./BusinessStage.ts";
 
 export type OfferingAnswers = Record<string, string[]>;
-export type OfferingQuestionId = "o1" | "o2" | "o3" | "o3t" | "o4" | "o6" | "o7" | "o8" | "o10" | "o14" | "o15" | "o16" | "o17" | "o18";
+export type OfferingQuestionId = "o1" | "o2" | "o3" | "o3t" | "o4" | "o6" | "o7" | "o8" | "o10" | "o14" | "o15" | "o16" | "o17" | "o18" | "o20" | "o21" | "o22";
 
 export interface OfferingQuestion {
     id: OfferingQuestionId;
@@ -20,6 +20,8 @@ export interface OfferingQuestion {
     many: boolean;
     max?: number;
     info: readonly string[];
+    /** The list ends with an Other that the user writes in (as a Profile's): its words are kept as the answer `<id>-other`, while Other is ticked. */
+    other?: boolean;
 }
 
 /** What the Offering's card needs from the rest of the page to ask and start its questions. */
@@ -66,6 +68,20 @@ const OFFERING_MERGED: Readonly<Record<string, Readonly<Record<string, string>>>
 const RECEIVE: readonly SegmentOption[] = [
     { id: "auto", label: "Sent automatically online" }, { id: "byyou", label: "Sent by you online" }, { id: "live", label: "In a live online session" }, { id: "inperson", label: "In person" },
     { id: "shipped", label: "Posted / shipped to them" }, { id: "collect", label: "They collect it" }, { id: "access", label: "Ongoing online access" }
+];
+/* HOW IT REACHES THEM, NAMED (owner, 2026-11-15 16:08 and 16:26: the channels shaped by the earlier answers): O6's follow-ups, each tick a delivery subchannel on
+   Customer Engagement (JourneySuggestions.ts), each ending in Other, written in. O18 and O19 are taken: these are O20 to O22. */
+const SEND: readonly SegmentOption[] = [
+    { id: "courier", label: "Courier" }, { id: "postal", label: "Postal service" }, { id: "local", label: "Local delivery" }, { id: "fulfilment", label: "A fulfilment service" },
+    { id: "other", label: "Other" }
+];
+const FILES: readonly SegmentOption[] = [
+    { id: "attachment", label: "Email attachment" }, { id: "link", label: "A download link (WeTransfer, Google Drive, Dropbox or OneDrive)" }, { id: "portal", label: "Client portal" },
+    { id: "other", label: "Other" }
+];
+const MEET: readonly SegmentOption[] = [
+    { id: "zoom", label: "Zoom" }, { id: "meet", label: "Google Meet" }, { id: "teams", label: "Microsoft Teams" }, { id: "stream", label: "Live stream" },
+    { id: "other", label: "Other" }
 ];
 const HELP: readonly SegmentOption[] = [
     { id: "none", label: "None" }, { id: "guides", label: "Guides and how-tos" }, { id: "auto", label: "Automatic help, such as chat or emails" },
@@ -125,6 +141,9 @@ export const OFFERING_QUESTIONS: readonly OfferingQuestion[] = [
     { id: "o3t", label: "When do they pay?", many: false, info: ["When the money comes in."] },
     { id: "o4", label: "Which of what matters most to your customers does it do best?", many: true, max: 3, info: ["The first you tick is the main benefit. The same list as \"What matters most\" on your Profiles and Competitors, so they can be compared.", "The Segment's Differentiation (under its Competitors) starts the ticks; change them freely."] },
     { id: "o6", label: "How do your customers receive it?", many: true, info: ["How it reaches them once bought: tick each way, as one Offering is often delivered in several.", "Sent automatically online: a download or an email sent by the shop. Sent by you online: a file you send when it is ready."] },
+    { id: "o20", label: "How do you send it?", many: true, other: true, info: ["The way each order travels to them: each becomes a delivery channel on Customer Engagement.", "Tick Other to write another."] },
+    { id: "o21", label: "How do you send the files?", many: true, other: true, info: ["The way they receive the files: each becomes a delivery channel on Customer Engagement.", "Tick Other to write another."] },
+    { id: "o22", label: "Which tool do you meet them on?", many: true, other: true, info: ["The tool each live session runs on: each becomes a channel on Customer Engagement.", "Tick Other to write another."] },
     { id: "o7", label: "What help do you give after they buy?", many: true, info: ["The help that comes with it after the sale: tick each kind you give.", "None stands alone: ticking it clears the others."] },
     { id: "o8", label: "Which of their worries does it answer?", many: true, info: ["The doubts that stop your customers buying from you, as your Profiles say. A worry left unanswered shows as an open item on the Value Proposition.", "Support is answered by the help after they buy, in Support & Communication."] },
     { id: "o10", label: "What do your customers need to give you?", many: true, info: ["What you need from them before or during the work. The details go in the Notes.",
@@ -192,7 +211,7 @@ export const OFFERING_BOX_QUESTIONS: Readonly<Record<string, readonly OfferingQu
     function: ["o1"],
     benefit: ["o8", "o4"],
     scope: ["o14"],
-    delivery: ["o2", "o3", "o3t", "o15", "o6"],
+    delivery: ["o2", "o3", "o3t", "o15", "o6", "o20", "o21", "o22"],
     support: ["o7", "o17", "o16"],
     requirements: ["o10", "o18"]
 };
@@ -222,7 +241,14 @@ export const OFFERING_HELD_WHILE_PLANNING: readonly OfferingQuestionId[] = ["o16
  * Whether a question is asked of this Offering (doc 43, "Asked when"). A question held back while Planning (an empty stage is Planning) is not asked then, but its saved answer stays
  * on the Offering (only the question answered is ever written), so it shows again from Launching.
  */
-export function offeringAsks(id: OfferingQuestionId, context: OfferingContext): boolean {
+/** O6's follow-ups and the ways of receiving each follows: posted or shipped (O20), sent online (O21), a live online session (O22). */
+const RECEIVE_FOLLOW_UPS: Readonly<Partial<Record<OfferingQuestionId, readonly string[]>>> = { o20: ["shipped"], o21: ["auto", "byyou"], o22: ["live"] };
+
+export function offeringAsks(id: OfferingQuestionId, context: OfferingContext, answers: OfferingAnswers = {}): boolean {
+    const follows = RECEIVE_FOLLOW_UPS[id];
+    if (follows) {
+        return (answers.o6 ?? []).some(option => follows.includes(option));
+    }
     if (OFFERING_HELD_WHILE_PLANNING.includes(id) && onlyPlanning(context.stage)) {
         return false;
     }
@@ -239,7 +265,7 @@ export function offeringOptions(id: OfferingQuestionId, context: OfferingContext
     switch (id) {
         case "o1": return context.type === "Product" ? PRODUCT_FORMS : context.type === "Service" ? SERVICE_FORMS : context.type === "Hybrid" ? [...PRODUCT_FORMS, ...SERVICE_FORMS] : [];
         case "o2": return READINESS;
-        case "o3": return (context.pay ?? []).includes("invoice") ? [...PAYMENT.filter(option => option.id === "project"), ...PAYMENT.filter(option => option.id !== "project")] : PAYMENT;
+        case "o3": return (context.pay ?? []).includes("invoicepo") ? [...PAYMENT.filter(option => option.id === "project"), ...PAYMENT.filter(option => option.id !== "project")] : PAYMENT;
         case "o4": return COMPETITOR_VALUES;
         case "o6": return RECEIVE;
         case "o7": return HELP;
@@ -251,6 +277,9 @@ export function offeringOptions(id: OfferingQuestionId, context: OfferingContext
         case "o16": return REPLY;
         case "o17": return AFTER_SALE;
         case "o18": return CONDITIONS;
+        case "o20": return SEND;
+        case "o21": return FILES;
+        case "o22": return MEET;
     }
 }
 
@@ -362,6 +391,20 @@ export function offeringShown(saved: OfferingAnswers, context: OfferingContext):
     }
     if (!saved.o3t && shown.o3 && PAY_WHEN_START[shown.o3[0]]) {
         shown.o3t = [PAY_WHEN_START[shown.o3[0]]];
+    }
+    // O6's follow-ups, asked by the ways of receiving shown: the saved ticks, and the words written in under Other while Other is ticked.
+    for (const id of Object.keys(RECEIVE_FOLLOW_UPS) as OfferingQuestionId[]) {
+        delete shown[id];
+        if (offeringAsks(id, context, shown)) {
+            const offered = offeringOptions(id, context).map(option => option.id);
+            const kept = (saved[id] ?? []).filter(option => offered.includes(option));
+            if (kept.length > 0) {
+                shown[id] = kept;
+                if (kept.includes("other") && saved[id + "-other"]) {
+                    shown[id + "-other"] = saved[id + "-other"];
+                }
+            }
+        }
     }
     // None of help after the sale (O7) starts None of what comes after it (O17).
     if (!saved.o17 && shown.o7?.length === 1 && shown.o7[0] === "none") {

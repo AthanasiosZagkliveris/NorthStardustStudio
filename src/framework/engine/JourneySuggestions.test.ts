@@ -28,9 +28,9 @@ describe("the channels the Foundation suggests, stage by stage", () => {
         // Evaluation: a meeting or call, their website, a quote or proposal (D1).
         expect(named(list, "evaluation")).toEqual(["Online / Live", "Website › Main Website", "Email › Direct Email"]);
         // Purchase: they shop online on a computer; they pay by invoice.
-        expect(named(list, "purchase")).toEqual(["Website › Online Store", "Direct Payment › Invoice"]);
+        expect(named(list, "purchase")).toEqual(["Website › Online Store", "Direct Payment › Invoice", "Direct Payment › Bank Transfer"]);
         // Delivery: sent by you online, ongoing online access (O6).
-        expect(named(list, "delivery")).toEqual(["File Delivery", "Website"]);
+        expect(named(list, "delivery")).toEqual(["File Delivery", "Website", "File Delivery › Email Attachment", "File Delivery › Client Portal"]);
         // Support: personal and dedicated help after they buy (O7); the help wanted before buying (D2) makes relationship types only (owner, 2026-11-13 16:50).
         expect(named(list, "support")).toEqual(["Email › Direct Email", "Online / Live"]);
         list.forEach(entry => expect(entry.source.length).toBeGreaterThan(0));
@@ -39,7 +39,7 @@ describe("the channels the Foundation suggests, stage by stage", () => {
     test("Lumen & Loom's London Homemakers: social media, communities and events from the Profiles; card and wallet from how they pay", () => {
         const list = journeySuggestions(lumen.foundation.segments[0]);
         expect(named(list, "discovery")).toEqual(expect.arrayContaining(["Social Media › Instagram", "Social Media › Pinterest", "Community › Facebook Group", "In Person › Market / Pop-up", "In Person › Workshop / Class"]));
-        expect(named(list, "purchase")).toEqual(["Website › Online Store", "Direct Payment › Card", "Direct Payment › Payment Link"]);
+        expect(named(list, "purchase")).toEqual(["Website › Online Store", "Direct Payment › Card", "Direct Payment › Payment Link", "Website › Booking / Registration Page"]);
         // A physical item: shipped (Physical Delivery); a demo or sample in person (Studio / Shop).
         expect(named(list, "delivery")).toContain("Physical Delivery");
         expect(named(list, "evaluation")).toContain("In Person › Studio / Shop");
@@ -184,5 +184,39 @@ describe("the Goals a stage starts with (owner, 2026-11-14 11:15)", () => {
         expect(startGoals("support", segment, "o1")).toEqual(["keep", "grow"]);
         const plain = { ...(segment as object), offerings: [{ ...asBusinessFoundationValue(undefined).segments[0].offerings[0], id: "o1", questions: {} }] } as never;
         expect(startGoals("support", plain, "o1")).toEqual(["keep"]);
+    });
+});
+
+describe("the marketplaces and shops a Segment names (owner, 2026-11-15 16:26)", () => {
+    test("each becomes its subchannel at Purchase: a marketplace by name, Other by the name written, a shop as its own or Retail & Wholesale", () => {
+        const base = asBusinessFoundationValue(undefined).segments[0];
+        const market = { ...base, id: "m", profiles: [], offerings: [], questions: { setting: ["marketplace"], marketplaces: ["etsy", "noths", "other"], "marketplaces-other": ["Vinted"] } } as never;
+        expect(named(journeySuggestions(market), "purchase")).toEqual(["Marketplace", "Marketplace › Etsy", "Marketplace › Not On The High Street", "Marketplace › Vinted"]);
+        const shops = { ...base, id: "s", profiles: [], offerings: [], questions: { setting: ["multi"], shops: ["own", "stockists", "concession", "distributors"] } } as never;
+        expect(named(journeySuggestions(shops), "purchase")).toEqual(["Website › Online Store", "In Person › Studio / Shop", "Retail & Wholesale › Retail Stockist", "Retail & Wholesale › Concession / Shop-in-shop", "Retail & Wholesale › Distributor"]);
+    });
+});
+
+describe("the delivery channels the Offering names (O20 to O22; owner, 2026-11-15 16:26)", () => {
+    test("each tick its delivery subchannel, Other by the name written; a session suggests the booking page", () => {
+        const base = asBusinessFoundationValue(undefined).segments[0];
+        const offering = (questions: Record<string, string[]>) => ({ ...base.offerings[0], id: "o-" + Object.keys(questions).join(""), category: "Product", questions });
+        const segment = { ...base, id: "d", profiles: [], questions: {}, offerings: [
+            offering({ o1: ["physical"], o20: ["courier", "fulfilment", "other"], "o20-other": ["Cargo bike"] }),
+            offering({ o1: ["digital"], o6: ["byyou"], o21: ["link", "portal"] })
+        ] } as never;
+        expect(named(journeySuggestions(segment), "delivery")).toEqual(["Physical Delivery", "File Delivery", "Physical Delivery › Courier", "Physical Delivery › Third-party Fulfilment", "Physical Delivery › Cargo bike", "File Delivery › Client Portal"]);
+    });
+});
+
+describe("Other as a list (owner, 2026-11-15 16:43: \"Other could be more than 1 channel!\")", () => {
+    test("two names give two channels; a row removed takes its untouched channel away; an old text is read once by its commas", () => {
+        const base = asBusinessFoundationValue(undefined).segments[0];
+        const segment = (rows: string[]) => ({ ...base, id: "w", questions: {}, offerings: [], profiles: [{ ...base.profiles[0], questions: { c2: ["other"], "c2-other": rows } }] }) as never;
+        const two = withAnswerChannels([], [], segment(["Bluesky", "Threads"]));
+        expect(two.filter(channel => channel.fromAnswers).map(channel => channel.name)).toEqual(["Bluesky", "Threads"]);
+        const one = withAnswerChannels(two, [], segment(["Bluesky"]));
+        expect(one.filter(channel => channel.fromAnswers).map(channel => channel.name)).toEqual(["Bluesky"]);
+        expect(named(journeySuggestions(segment(["Bluesky; Threads, bluesky"])), "discovery")).toEqual(["Social Media › Bluesky", "Social Media › Threads"]);
     });
 });
