@@ -17,7 +17,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
   - **Function:** O1. Notes: what it is, by name (the Business Plan reads it).
   - **Customer Benefit:** the Functional Needs Addressed, then O8, then O4 (owner, 2026-11-08, P6: what it answers before what it does best). Notes: the benefit in the customers' words (the Business Plan reads it).
   - **Content & Scope:** O14. Notes: counts, inclusions and limits.
-  - **Purchase & Delivery:** O2 (owner, 2026-11-08, P7: whether it can be bought today opens the purchase); O3; O3b, "When do they pay?", a band of its own straight after O3's (owner, 2026-11-09: one question per band); O15; O6 (how long until they have it, then how it reaches them). Notes: packaging and the steps.
+  - **Purchase & Delivery:** O2 (owner, 2026-11-08, P7: whether it can be bought today opens the purchase); O3; O3b, "When do they pay?", a band of its own straight after O3's (owner, 2026-11-09: one question per band); O15; O6, then its follow-ups O20 to O22 where asked (owner, 2026-11-15 16:26) (how long until they have it, then how it reaches them). Notes: packaging and the steps.
   - **Support & Communication:** O7, O17, O16. Notes: names and how often.
   - **Requirements & Conditions:** O10, O18. Notes: care instructions and standards.
   - Saved text of the boxes is kept: it is the Notes. A question no longer asked, or an option no longer offered, loses its answer; a starting value (O2, O4, O6) shows until that field is changed (another answer does not fix it), and the Business Plan, the export and the Value Proposition read it too (built 2026-11-08).
@@ -226,7 +226,28 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
   - Sent automatically online: a download or an email sent by the shop. Sent by you online: a file you send when it is ready.
 - **Connections:**
   - *Comes from:* O1, the starting value, the clearest way only (ticks since 2026-11-09: the others are ticked by hand, such as In person or They collect it for a physical item sold in a shop or café): a physical item → Posted / shipped to them; a digital file → Sent automatically online; a live online session → In a live online session; an app / online tool → Ongoing online access; online access → Ongoing online access; an in-person service → In person; project work → Sent by you online (2026-11-09); an ongoing service → none.
-  - *Read by (not built yet):* the Delivery stage's proposed channels (doc 28, 7.4); the Review (the Segment's "Rural / remote", doc 35 Box 2 question 2, with In person or Posted / shipped: a delivery-cost check, rule 17). Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
+  - *Read by (built):* the Delivery stage's channels on Customer Engagement (doc 47). *Read by (not built yet):* the Review (the Segment's "Rural / remote", doc 35 Box 2 question 2, with In person or Posted / shipped: a delivery-cost check, rule 17). Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
+
+### O20. How do you send it?
+
+- **Control:** ticks, as many as apply, ending in Other, written in as a numbered list. **Asked when:** O6 has Posted / shipped to them. (O18 is this card's, and the next code is proposed for pricing in doc 48: the follow-ups are O20 to O22.)
+- **Options:** Courier · Postal service · Local delivery · A fulfilment service · Other.
+- **The "i" says:** The way each order travels to them: each becomes a delivery channel on Customer Engagement. · Tick Other to write another.
+- **Connections:** *Read by (built):* Physical Delivery › Courier, Postal Service, Local Delivery, Third-party Fulfilment, or the name written in (doc 47).
+
+### O21. How do you send the files?
+
+- **Control:** as O20. **Asked when:** O6 has Sent automatically online or Sent by you online.
+- **Options:** Email attachment · A download link (WeTransfer, Google Drive, Dropbox or OneDrive) · Client portal · Other.
+- **The "i" says:** The way they receive the files: each becomes a delivery channel on Customer Engagement. · Tick Other to write another.
+- **Connections:** *Read by (built):* File Delivery › Email Attachment or Client Portal; a download link suggests File Delivery, its service chosen there (doc 47).
+
+### O22. Which tool do you meet them on?
+
+- **Control:** as O20. **Asked when:** O6 has In a live online session.
+- **Options:** Zoom · Google Meet · Microsoft Teams · Live stream · Other.
+- **The "i" says:** The tool each live session runs on: each becomes a channel on Customer Engagement. · Tick Other to write another.
+- **Connections:** *Read by (built):* Online / Live › Zoom, Google Meet, Microsoft Teams, Live Stream (doc 47).
 
 ## Box. Support & Communication
 

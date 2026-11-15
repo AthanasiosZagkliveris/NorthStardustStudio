@@ -334,6 +334,7 @@ What the Segment cannot say: which social media, which communities, which events
 - **The "i" says:**
   - The platforms they actually use, if any.
   - Tick Other to write another.
+- **Other, written in:** a numbered list, one name a row (owner, 2026-11-15 16:43; the same for C3 and C4); each name is its own subchannel on Customer Engagement (doc 47).
 - **Connections:**
   - *Comes from:* the Segment's discovery ways and online comfort.
   - *Read by (not built yet):* the order of the Discover channels (page 2); the Profile's hubs. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).

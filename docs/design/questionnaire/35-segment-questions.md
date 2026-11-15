@@ -474,34 +474,63 @@ The buyer is a business, or the Segment is of businesses where both relationship
   - Online, on a computer
   - In a shop
   - Both online and in shops
+  - On a marketplace, such as Etsy or Amazon
 - **The "i" says:**
   - Where most of their purchases start and finish. Choose Both online and in shops when they mix the two about equally.
 - **Connections:**
   - *Comes from:* Nothing.
   - *Read by (built):* The Market document and the export; the Profile's C1 (devices) starts from this answer (doc 36).
-  - *Read by (not built yet):* The order of the channels where customers buy; the customer journey. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
+  - *Read by (built):* Customer Engagement's Purchase channels (Website › Online Store, In Person › Studio / Shop, the Marketplace channel; doc 47).
+  - *Read by (not built yet):* the customer journey. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
+
+### 7a. Which marketplaces do your customers shop on?
+
+- **Control:** ticks, as many as apply, ending in Other, written in as a numbered list (one name a row).
+- **Asked when:** question 7 is On a marketplace (owner, 2026-11-15 16:26).
+- **Options:** Etsy · Amazon · eBay · Not On The High Street · Folksy · Gumroad · Fiverr · Upwork · Other.
+- **The "i" says:** The marketplaces where they find and buy what you sell: each becomes a channel on Customer Engagement, with its fees. · Tick Other to write another.
+- **Connections:** *Read by (built):* each tick, and each name written in, is the Marketplace subchannel of that name at Purchase (doc 47); its fees are the Channel Fee Table's row for the Legal Entity's country ([Global Settings](../../specifications/global-settings.md)).
+
+### 7b. Which shops do they buy from?
+
+- **Control:** ticks, as many as apply (no Other: the kinds are closed).
+- **Asked when:** question 7 is In a shop, or Both online and in shops.
+- **Options:** Your own shop or studio · Shops that stock your products · A space inside another shop · Distributors or wholesalers.
+- **The "i" says:** The shops where they buy what you sell: each becomes a channel on Customer Engagement. · A space inside another shop is a concession or shop-in-shop.
+- **Connections:** *Read by (built):* In Person › Studio / Shop; Retail & Wholesale › Retail Stockist, Concession / Shop-in-shop, Distributor, at Purchase (doc 47).
 
 ### 8. How do your customers pay?
 
 - **Control:** ticks, as many as apply.
-- **Asked when:** Always. "Buy Now, Pay Later or financing" is not offered to Minors; "Invoice, bank transfer or purchase order" is not offered when the buyer is people only.
+- **Asked when:** Always. "Buy Now, Pay Later or financing" is not offered to Minors; "Invoice or purchase order" is not offered when the buyer is people only.
 - **Options:**
   - Credit / debit card
   - Digital wallets
   - Cash
   - Buy Now, Pay Later or financing
-  - Invoice, bank transfer or purchase order
+  - Invoice or purchase order
+  - Bank transfer
+  - (Owner, 2026-11-15 16:26: "Invoice, bank transfer or purchase order" split in two, so a bank transfer is a channel of its own; a saved answer of the old option reads as both.)
 - **The "i" says:**
   - Digital wallets are for example Apple Pay, Google Pay and PayPal. Buy Now, Pay Later is for example Klarna and Afterpay.
   - Cash is still about one payment in ten in the UK (UK Finance, 2024) [PAY-06].
-  - Invoice is offered for business customers only. Credit and Buy Now, Pay Later are for adults.
+  - Invoice or purchase order is offered for business customers only. Credit and Buy Now, Pay Later are for adults.
   - Choosing a phone as where they buy starts Digital wallets here; change it freely.
   - Select all that apply.
 - **Connections:**
   - *Comes from:* This Segment's age (credit and Buy Now, Pay Later not for Minors) and Early Positioning's relationship (invoicing for business).
-  - *Read by (built):* The Market document and the export; the Offering's O3, whose options it orders (Invoice, bank transfer or purchase order puts A project or contract first; the settled answer is read, 2026-11-08; doc 43, O3).
-  - *Read by (not built yet):* The Offering's payment plan (instalments, invoicing) and the Direct Payment channels. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
+  - *Read by (built):* The Market document and the export; the Offering's O3, whose options it orders (Invoice or purchase order puts A project or contract first; the settled answer is read, 2026-11-08; doc 43, O3).
+  - *Read by (built):* Customer Engagement's Direct Payment channels (Card, Payment Link, Cash, Invoice, Bank Transfer; doc 47).
+  - *Read by (not built yet):* The Offering's payment plan (instalments, invoicing). Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
 
+
+### 8a. Which payment services do you take payments with?
+
+- **Control:** ticks, as many as apply, ending in Other, written in as a numbered list (one name a row).
+- **Asked when:** question 8 has Credit / debit card or Digital wallets (owner, 2026-11-15 16:26).
+- **Options:** Stripe · SumUp · Square · Zettle · PayPal · Shopify Payments · Other.
+- **The "i" says:** The services that take the card and wallet payments: each one's fees come from the Global Settings' Channel Fee Table for your country. · Tick Other to write another.
+- **Connections:** *Read by (built):* each service is a "Payment processing fees" card on the Segment's Direct Payment channel, one card a service for the Organisation, made and kept by the rule of the subchannels the answers make (doc 47); its fees are the country's row ([Global Settings](../../specifications/global-settings.md)), charged in the forecast with or without a price on the card ([page 4, 30.4](../../specifications/business-system/page-4-financial-foundation.md#304-calculated-lines)).
 ### 4. How do your customers share what they like?
 
 - **Control:** ticks, as many as apply.
