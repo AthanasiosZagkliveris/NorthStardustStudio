@@ -3573,8 +3573,20 @@
             const rowTop = box(firstSlot).top + scrolled;
             // (Where that row is out of view -- the cards stacked, the page scrolled -- the stack stands at the top of the band: under the heading's underline.)
             const offset = box(firstBody).top - box(host).top;
+            // (Where the box name standing there would cover the words of its column's chapter title, the card stands lower: the name 12px under that
+            // title (owner, 2026-11-14 23:25: "1. Homeware Collection" over "2. Designers & Boutique Hotels").)
+            // (A card that stands lower is right only where its box name, at that level, would cover the words of a chapter title it stands over: then the name
+            // stands 12px under that title.)
             const wanted = Math.min(Math.max(rowTop - offset, bandTop + 8), Math.max(bandTop + 8, bandBottom - 200)) + offset;
-            if (rowTop < window.innerHeight && Math.abs(box(firstBody).top - wanted) > 3) {
+            const name = host.querySelector(".floating-card-caption");
+            const clearOfTitle = !!name && [...document.querySelectorAll(".tiles-frame-head .field-group-title")].some(title => {
+                const t = box(title);
+                const n = box(name);
+                const nameAbove = box(firstBody).top - n.top;
+                return t.width > 0 && t.height > 0 && !title.closest(".section-tile-overlay") && n.left < t.right && n.right > t.left &&
+                    wanted - nameAbove < t.bottom + 12 && wanted - nameAbove + n.height > t.top && Math.abs(n.top - (t.bottom + 12)) <= 3;
+            });
+            if (rowTop < window.innerHeight && Math.abs(box(firstBody).top - wanted) > 3 && !clearOfTitle) {
                 fail("a floating card's top stands on the top of the first row of tiles of its column", { card: box(firstBody).top, row: rowTop, wanted });
             }
             // A stack taller than the room under that top scrolls in itself.

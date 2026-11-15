@@ -163,12 +163,20 @@ export function FloatingCards({
                 const rowTop = row ? row.getBoundingClientRect().top : null;
                 top = (rowTop !== null && rowTop - frameTop >= 0 && rowTop - frameTop <= 120 ? rowTop : frameTop + CARD_LEVEL) - bodyOffset;
                 // (ITS BOX NAME NEVER COVERS THE TITLE OF THE CHAPTER IT STANDS OVER (owner, 2026-11-14 23:25: "1. Homeware Collection" over "2. Designers &
-                // Boutique Hotels"): where it would, the stack moves down until the name stands 12px under that title.)
-                const head = where.querySelector<HTMLElement>(".tiles-frame-head")?.getBoundingClientRect();
+                // Boutique Hotels"): where it would, the stack moves down until the name stands 12px under that title. Only where the name would cover the title's
+                // words -- across and down, measured -- does it move; everywhere else the card's top stays on the first row of tiles.)
+                const title = where.querySelector<HTMLElement>(".tiles-frame-head .field-group-title")?.getBoundingClientRect();
                 const caption = node.querySelector<HTMLElement>(".floating-card-caption");
-                if (head && head.height > 0 && caption) {
-                    const captionOffset = caption.getBoundingClientRect().top - node.getBoundingClientRect().top + node.scrollTop;
-                    top = Math.max(top, head.bottom + 12 - captionOffset);
+                if (title && title.height > 0 && title.width > 0 && caption) {
+                    const nodeBox = node.getBoundingClientRect();
+                    const captionBox = caption.getBoundingClientRect();
+                    const captionOffset = captionBox.top - nodeBox.top + node.scrollTop;
+                    const captionLeft = Math.max(8, Math.min(centreX - width / 2, window.innerWidth - 8 - width)) + captionBox.left - nodeBox.left;
+                    const across = captionLeft < title.right && captionLeft + captionBox.width > title.left;
+                    const down = top + captionOffset < title.bottom + 12 && top + captionOffset + captionBox.height > title.top;
+                    if (across && down) {
+                        top = title.bottom + 12 - captionOffset;
+                    }
                 }
             } else {
                 top = bandTop + (bandBottom - bandTop - Math.min(node.scrollHeight, bandBottom - bandTop)) / 2;
