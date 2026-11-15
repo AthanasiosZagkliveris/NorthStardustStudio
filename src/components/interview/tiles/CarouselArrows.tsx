@@ -130,7 +130,12 @@ export function CarouselArrows({ target, step, hue, back, side: fixedSide }: { t
         const tab = tabCache.current.value;
         // (The tab is level with the top of the layer as it stands unscrolled, and always in view; scrolling the layer does not move it.)
         const headerBottom = Math.max(0, document.querySelector(".app-header")?.getBoundingClientRect().bottom ?? 0);
-        const titleTop = Math.max(headerBottom + 12, Math.min(titleTopOf(node, restSample), window.innerHeight - 160));
+        // (Never so low that the tab's own bullets and Back do not fit above the window's foot -- a lower chapter's dialog at 768px squeezed its Back under its
+        // last bullet; layout check, 2026-11-14: its whole height, 12px clear, kept in the window where the window has it.)
+        // (Its natural height: the bullets' list may be squeezed by the height it was given, so its own full height is counted.)
+        const railList = railRef.current?.querySelector<HTMLElement>(".bullet-rail-list");
+        const railHeight = railRef.current ? railRef.current.scrollHeight + (railList ? Math.max(0, railList.scrollHeight - railList.clientHeight) : 0) : 0;
+        const titleTop = Math.max(headerBottom + 12, Math.min(titleTopOf(node, restSample), window.innerHeight - Math.max(160, railHeight + 12)));
         // (The tab stands on the side of the layer that is nearer its end of the page: a layer in the left half has it at its left, one in the right half at its right.)
         const side: "left" | "right" = fixedSide ?? (box.left + box.width / 2 < window.innerWidth / 2 ? "left" : "right");
         setAt(previous => previous && Math.abs(previous.left - left) < 0.5 && Math.abs(previous.right - right) < 0.5 && Math.abs(previous.top - top) < 0.5 && Math.abs(previous.titleTop - titleTop) < 0.5 && previous.side === side && Math.abs(previous.leftEdge - box.left) < 0.5 && previous.tab?.bg === tab?.bg && previous.tab?.edge === tab?.edge && previous.tab?.ink === tab?.ink ? previous : { left, right, top, edge: box.right, leftEdge: box.left, side, titleTop, tab });

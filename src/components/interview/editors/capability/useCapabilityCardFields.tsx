@@ -748,14 +748,18 @@ export function useCapabilityCardFields(earlier: Earlier) {
         /** A card a Customer Channel made carries that channel's Offerings: they change on the channel, not here. */
         locked = false,
         /** A generated card keeps the Offerings its connected cards serve (adding is free, removing these is not). */
-        kept: readonly string[] = []
+        kept: readonly string[] = [],
+        /** A cost that is a share of revenue (% of Rev): a rate on each Offering's own sales, so no split -- the ticks alone (owner, 2026-11-14 23:30: "70% of
+            2%, what % gives?"); the shares saved stay as they are for another frequency. */
+        rate = false
     ) {
         const total = offeringSharesTotal(current, shares);
         const inUnits = offeringSharesInUnits(shares);
+        const split = !rate && offeringChoices.length > 0 && current.length > 1;
         return (
             <BusinessField label="Offerings" className="business-offering-field">
                 {/* With several Offerings: what the shares count in -- Units (each starts at 1) or 100% (each starts equal). */}
-                {offeringChoices.length > 0 && current.length > 1 && (
+                {split && (
                     <RadioChoice
                         className="business-offering-mode"
                         label={name + " shares count in"}
@@ -767,7 +771,7 @@ export function useCapabilityCardFields(earlier: Earlier) {
                     />
                 )}
                 {/* With several Offerings, the percent of the card each carries; said first, above the numbers. */}
-                {offeringChoices.length > 0 && current.length > 1 && (
+                {split && (
                     <>
                         {inUnits
                             ? (offeringSharesIncomplete(current, shares) ? <p className="business-capability-total business-capability-alarm">Every Offering needs at least one unit.</p> : null)
@@ -795,7 +799,7 @@ export function useCapabilityCardFields(earlier: Earlier) {
                                 onNext({ offeringIds: next, offeringShares: inUnits && next.length > 1 ? unitOfferingShares(next) : equalOfferingShares(next) });
                             }}
                             // With several Offerings, the percent of the card each carries stands at the end of its own row, in the x's column (a whole number, two digits at most).
-                            trailing={current.length > 1 ? Object.fromEntries(current.map(id => [id, (
+                            trailing={split ? Object.fromEntries(current.map(id => [id, (
                                 <NumberCell kind="int"
                                     className="business-capability-share"
                                     aria-label={name + " share of " + (offeringChoices.find(choice => choice.id === id)?.label ?? "Offering")}
@@ -1018,7 +1022,9 @@ export function useCapabilityCardFields(earlier: Earlier) {
                         .
                     </>,
                     slot.offeringShares,
-                    channelMade(scope, slot.id)
+                    channelMade(scope, slot.id),
+                    [],
+                    slot.cost.frequency === "percent-revenue"
                 )}
 
                 {/* THE CARDS THIS ONE LEADS TO OR IS USED BY (the resource it insures, the activities that list it): at the end of the card. */}

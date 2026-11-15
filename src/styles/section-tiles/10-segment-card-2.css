@@ -63,8 +63,10 @@
 }
 
 /* The last part (the links, the expenses, "+ Add Expense") starts at the frame's edge: the nesting indent of the table is not drawn. */
+/* (A label arrow keeps its own overhang -- its glyph on the content edge, as on every card; owner, 2026-11-14 23:25, the Fees arrow 12px in. :where keeps the
+   rule's weight.) */
 .business-subchannel-card .business-channel-td-name,
-.business-subchannel-card .business-channel-td-name * {
+.business-subchannel-card .business-channel-td-name *:where(:not(.label-arrow, .label-arrow *)) {
 
     margin-left: 0;
 

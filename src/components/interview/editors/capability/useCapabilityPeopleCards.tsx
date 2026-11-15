@@ -891,7 +891,8 @@ export function useCapabilityPeopleCards(earlier: Earlier) {
                     "Define an Offering on the Foundation page first.",
                     partner.offeringShares,
                     channelMade(scope, partner.id),
-                    partner.madeBy !== "" ? connectedOfferings(capability, partner).ids : []
+                    partner.madeBy !== "" ? connectedOfferings(capability, partner).ids : [],
+                    partner.cost.frequency === "percent-revenue"
                 )}
 
                 {/* THE CARDS THAT USE IT (the resources that name it, the activities it performs): at the end of the card, a link each (above this one when opened). */}

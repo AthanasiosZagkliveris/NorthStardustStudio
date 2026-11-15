@@ -162,6 +162,14 @@ export function FloatingCards({
                 const frameTop = where.getBoundingClientRect().top;
                 const rowTop = row ? row.getBoundingClientRect().top : null;
                 top = (rowTop !== null && rowTop - frameTop >= 0 && rowTop - frameTop <= 120 ? rowTop : frameTop + CARD_LEVEL) - bodyOffset;
+                // (ITS BOX NAME NEVER COVERS THE TITLE OF THE CHAPTER IT STANDS OVER (owner, 2026-11-14 23:25: "1. Homeware Collection" over "2. Designers &
+                // Boutique Hotels"): where it would, the stack moves down until the name stands 12px under that title.)
+                const head = where.querySelector<HTMLElement>(".tiles-frame-head")?.getBoundingClientRect();
+                const caption = node.querySelector<HTMLElement>(".floating-card-caption");
+                if (head && head.height > 0 && caption) {
+                    const captionOffset = caption.getBoundingClientRect().top - node.getBoundingClientRect().top + node.scrollTop;
+                    top = Math.max(top, head.bottom + 12 - captionOffset);
+                }
             } else {
                 top = bandTop + (bandBottom - bandTop - Math.min(node.scrollHeight, bandBottom - bandTop)) / 2;
             }
@@ -500,7 +508,7 @@ export function TileDialog({
                 ref={panel}
                 className={"section-tile-dialog business-foundation-input business-foundation-card" + (tile.channel ? " section-tile-dialog-channel" : "") + (tile.completed ? " section-tile-dialog-completed" : "")}
                 role="dialog"
-                data-tile={tile.id}
+                data-tile={tile.id}
                 aria-modal="true"
                 aria-labelledby={nameId}
                 tabIndex={-1}

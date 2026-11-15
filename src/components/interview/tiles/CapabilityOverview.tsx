@@ -172,18 +172,16 @@ export function shareLines(row: FloorRow, offerings: readonly { id: string; name
         ? (row.channel?.offerings ?? []).map(name => offerings.find(offering => offering.name.trim() === name)?.id ?? name)
         : [...row.offeringIds!];
     const nameOf = (id: string) => named(id) || (own ? id : "");
-    // A SHARE OF REVENUE is split as the revenue is (owner, 2026-11-14 14:17): each Offering's share of the revenue of the Offerings it serves, and its cost the
-    // rate x that Offering's revenue a month; where one of them has no revenue yet, the shares stay the card's (or equal) and the cost waits for the sales.
+    // A SHARE OF REVENUE IS A RATE, NOT A SPLIT (owner, 2026-11-14 23:30: "70% of 2%, what % gives?"): every Offering it serves has a line of the rate and the
+    // pounds it comes to -- "2% · 26.88", the rate x what that Offering sells a month through the expense's own subchannels; one that sells nothing there
+    // "2% · 0". Where no Customer Source names those subchannels, the rate x its whole revenue a month; while that is still to come, "when sales are set".
     if (isPercentRow(row) && row.amount !== null) {
-        if (byChannel) {
-            const total = ids.reduce((sum, id) => sum + (revenue[id] ?? 0), 0);
-            return ids.filter(id => (revenue[id] ?? 0) > 0).map(id => ({ name: nameOf(id), percent: percent(revenue[id] / total), fraction: revenue[id] / total, cost: row.amount! / 100 * revenue[id] })).filter(line => line.name !== "");
-        }
-        const known = ids.length > 0 && ids.every(id => (revenue[id] ?? 0) > 0);
+        const rate = row.amount.toLocaleString(undefined, { maximumFractionDigits: 2 }) + "%";
         const total = ids.reduce((sum, id) => sum + (revenue[id] ?? 0), 0);
         return ids.map(id => {
-            const fraction = known && total > 0 ? revenue[id] / total : own ? 1 / ids.length : row.offeringShares?.[id] ?? 1 / ids.length;
-            return { name: nameOf(id), percent: percent(fraction), fraction, cost: known ? row.amount! / 100 * revenue[id] : null };
+            const amount = revenue[id] ?? 0;
+            const cost = byChannel ? row.amount! / 100 * amount : amount > 0 ? row.amount! / 100 * amount : null;
+            return { name: nameOf(id), percent: rate, fraction: total > 0 ? amount / total : 0, cost };
         }).filter(line => line.name !== "");
     }
     return ids.map(id => {
@@ -759,7 +757,7 @@ export default function CapabilityOverview({ rows, format = String, currency = "
                             {TABLE_COLUMNS.filter(column => !offColumn(column.id)).map(column => (
                                 <th scope="col" key={column.id} data-col={column.id} className={column.id === "cost" ? "capability-overview-number" : undefined}>
                                     {column.id === "cost" ? labelWithCurrency(column.label, currency) : column.id === "share"
-                                        ? <InfoText text={labelWithCurrency(column.label, currency)}><InfoNote label="Cost per Offering" points={["Each Offering's share of the cost, and the cost it comes to: the shares typed on the card, as the Financial Foundation splits it; with none typed, or shares that do not total 100%, equal shares.", "A channel expense is shared equally between the Offerings its channel serves.", "A cost that is a share of revenue is split as the revenue is: each Offering's share of what it sells a month through the subchannels the expense belongs to (Demand & Conversion's Customer Sources on those channels x the price on Sustainability), and its cost that rate of it; an Offering that sells nothing through them has no share. Where no Customer Source names those subchannels, its whole revenue a month. Until the sales are set, its shares are the card's and its cost waits for them."]} /></InfoText>
+                                        ? <InfoText text={labelWithCurrency(column.label, currency)}><InfoNote label="Cost per Offering" points={["Each Offering's share of the cost, and the cost it comes to: the shares typed on the card, as the Financial Foundation splits it; with none typed, or shares that do not total 100%, equal shares.", "A channel expense is shared equally between the Offerings its channel serves.", "A cost that is a share of revenue shows its rate and what it comes to for each Offering: the rate of what that Offering sells a month through the subchannels the expense belongs to (Demand & Conversion's Customer Sources on those channels x the price on Sustainability x the items per order), so an Offering that sells nothing through them comes to 0. Where no Customer Source names those subchannels, the rate of its whole revenue a month; until its sales and price are set, it waits for them."]} /></InfoText>
                                         : column.label}
                                 </th>
                             ))}

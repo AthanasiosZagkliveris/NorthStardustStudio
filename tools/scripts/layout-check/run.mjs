@@ -458,6 +458,31 @@ export async function runLayoutCheck(page, { base = "http://localhost:1420", pro
                     failures.push(...(await checkRealMouse(page, system + " › " + name + " (" + width + " x " + height + ")")));
                 }
             }
+            // THE DOCUMENTS' PAPER in every reading mode (owner, 2026-11-14 23:37): from Financial Foundation, the Workbook's three documents, each read for the
+            // paper's contrast alone (rule 0e) in each theme.
+            if (/Financial Foundation/.test(name)) {
+                await page.setViewportSize({ width: 1920, height: 1000 });
+                const workbook = page.getByRole("button", { name: /Workbook/i }).first();
+                if (await workbook.count()) {
+                    await workbook.click();
+                    await page.waitForTimeout(800);
+                    for (const tab of ["Business Plan", "Business Model Canvas", "Financial Forecast"]) {
+                        const button = page.getByRole("tab", { name: tab }).first();
+                        if (!(await button.count())) {
+                            continue;
+                        }
+                        await button.click();
+                        await page.waitForTimeout(500);
+                        for (const theme of themes) {
+                            await page.evaluate(value => document.documentElement.setAttribute("data-theme", value), theme);
+                            await page.waitForTimeout(200);
+                            const found = await page.evaluate(spec => window.__layoutProbe.check(spec), SPEC);
+                            failures.push(...found.filter(failure => /documents' paper/.test(failure.rule)).map(failure => ({ page: "Workbook › " + tab, theme, width: 1920, ...failure })));
+                        }
+                    }
+                    await page.evaluate(value => document.documentElement.setAttribute("data-theme", value), "light");
+                }
+            }
         }
     }
     return failures;
