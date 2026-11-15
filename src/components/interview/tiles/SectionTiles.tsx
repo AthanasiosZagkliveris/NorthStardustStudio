@@ -4,7 +4,7 @@ import { freshCards } from "../cards/freshCards.ts";
 import { cardNameOf } from "../cards/cardNames.ts";
 import "../../../styles/section-tiles.css";
 import { type SectionTile, type TileLink, type TileAdd, type OpenRequest, type FloatingCentre, type FloatingOpen } from "./SectionTileTypes.ts";
-import { cardsFloatOnly, sectionAnchor, otherColumn, acrossFrom, gridColumns, tailPlacement, tileName, plainTitle, CHANNEL_TILE_HUE } from "./SectionTileGeometry.tsx";
+import { cardsFloatOnly, revealSection, sectionAnchor, otherColumn, acrossFrom, gridColumns, tailPlacement, tileName, plainTitle, CHANNEL_TILE_HUE } from "./SectionTileGeometry.tsx";
 import { restoreFocus, trackPointer, OpenCardContext, InitialBoxContext, StackUnderContext } from "./DialogLevels.tsx";
 import { TileFace, TileLinks, TilePlus, useTileAim } from "./TileParts.tsx";
 import { OPEN_EVENT, FloatingCards, TileDialog } from "./FloatingCards.tsx";
@@ -181,6 +181,11 @@ export default function SectionTiles({
 
     const openDialog = (tile: SectionTile, from: HTMLElement | null, box: string | null = null, pointer = false) => {
         tile.opening?.();
+        // (Its card wholly in view first, where the window can show it whole: a lower chapter half under the window's foot (768px, the chapters one under
+        // another) is scrolled up, so the dialog covers the whole card -- dialogFrame covers only what the window shows; layout check, 2026-11-14.)
+        if (from) {
+            revealSection(from);
+        }
         opener.current = from;
         openedByPointer.current = pointer;
         setOpenBox(box);

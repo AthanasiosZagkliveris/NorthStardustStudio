@@ -22,6 +22,29 @@ export function sectionAnchor(from: HTMLElement): HTMLElement | null {
 
 
 /**
+ * THE CARD OF A TILE'S SECTION, WHOLLY IN VIEW where the window has room for it (between the header with the page title under it and the footer): a card cut by
+ * the window's foot is scrolled up, one cut by the top scrolled down; a card taller than that room is left where it is (its dialog then covers what shows).
+ */
+export function revealSection(from: HTMLElement): void {
+    const section = from.closest(".section-tiles-completed") ? null : sectionAnchor(from);
+    if (!section) {
+        return;
+    }
+    const box = section.getBoundingClientRect();
+    const header = Math.max(document.querySelector<HTMLElement>(".app-header")?.getBoundingClientRect().bottom ?? 0, document.querySelector<HTMLElement>(".interview-divider")?.getBoundingClientRect().bottom ?? 0);
+    const footer = document.querySelector<HTMLElement>(".workspace-footer")?.getBoundingClientRect().top;
+    const bottom = footer !== undefined ? footer - 12 : window.innerHeight;
+    if (box.height > bottom - header) {
+        return;
+    }
+    const by = box.bottom > bottom ? box.bottom - bottom : box.top < header ? box.top - header : 0;
+    if (by !== 0) {
+        window.scrollBy({ top: by, behavior: "instant" as ScrollBehavior });
+    }
+}
+
+
+/**
  * WHERE A FLOATING CARD STANDS: over the OTHER section's column -- a card of Infrastructure pops up centred over Offering's Capability's card, one of Offering's
  * over Infrastructure's -- at the level of the first row of that column's tiles, so it never covers the tiles it was opened from.
  */

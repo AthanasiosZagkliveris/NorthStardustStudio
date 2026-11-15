@@ -28,8 +28,9 @@ import * as rails from "./assets/rails.mjs";
 import * as backButton from "./assets/backButton.mjs";
 import * as foldArrow from "./assets/foldArrow.mjs";
 import * as dropdown from "./assets/dropdown.mjs";
+import * as cellRemoveX from "./assets/cellRemoveX.mjs";
 
-const modules = [labelArrow, plusBox, infoNote, removeX, rails, backButton, foldArrow, dropdown];
+const modules = [labelArrow, plusBox, infoNote, removeX, rails, backButton, foldArrow, dropdown, cellRemoveX];
 
 const base = process.argv.includes("--base") ? process.argv[process.argv.indexOf("--base") + 1] : "http://localhost:1420";
 const only = process.argv.includes("--asset") ? process.argv[process.argv.indexOf("--asset") + 1] : null;

@@ -421,3 +421,11 @@ td .channel-resource-place-rule{
     margin-inline:-10px;
 
 }
+
+/* ONE LINE IN A TABLE (owner, 2026-11-14 23:25: "Fix the lines weight"): inside a table's cell every dividing line -- a channel's rule, a Type's, a lined
+   list's -- is the table's own line, 1px of --table-line, as the lines between its rows; the card's darker edge colour stays for the rules outside tables. */
+td :is(.channel-resource-place-rule, .channel-resource-head-rule){
+
+    border-top-color:var(--table-line);
+
+}

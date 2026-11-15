@@ -301,7 +301,10 @@ export function useEngagementRelationships(earlier: Earlier) {
         const nameOf = (channel: BusinessChannelValue) => channel.name.trim() || "Unnamed subchannel";
         const hue = { "--strategy-theme-hue": segmentHue(segment) } as CSSProperties;
         const tiles: SectionTile[] = BUSINESS_JOURNEY_STAGES.map(stage => {
-            const used = answers.channels.filter(channel => channel.stages.includes(stage.id));
+            // ONE ORDER (owner, 2026-11-14 23:25, "TikTok" circled): the stage's subchannels grouped by channel, in the page's order of channels -- as the table
+            // draws them -- for the tile's list, its rail and its Tiles view alike, so the rail's dot stands where the card stands in the table.
+            const stageUsed = answers.channels.filter(channel => channel.stages.includes(stage.id));
+            const used = [...new Set(stageUsed.map(channel => channel.category))].flatMap(category => stageUsed.filter(channel => channel.category === category));
             return {
                 id: channelTileId(segment.id, "stage-" + stage.id),
                 title: stage.label,

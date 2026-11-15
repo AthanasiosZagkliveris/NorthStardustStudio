@@ -348,6 +348,28 @@
                 fail("a dividing line meets both edges of its cell", item, { left: box.left - inner.left, right: inner.right - box.right });
             }
         }
+        // 0d. ONE LINE IN A TABLE (owner, 2026-11-14 23:25: "Fix the lines weight"): a dividing line inside a table's cell -- a lined or numbered list's, a
+        //     channel's or a Type's rule -- is the table's own line: the width and colour of the line under its cell (a stage table's bold heading lines and
+        //     the bold line before a subchannel's expenses are their own, 2px).
+        for (const line of [...document.querySelectorAll("td .channel-resource-lined > li + li, td .channel-resource-numbered > li + li, td .channel-resource-place-rule, td .channel-resource-head-rule")].filter(visible)) {
+            const cell = getComputedStyle(line.closest("td, th"));
+            const own = getComputedStyle(line);
+            if (cell.borderBottomWidth !== "0px" && (own.borderTopWidth !== cell.borderBottomWidth || own.borderTopColor !== cell.borderBottomColor)) {
+                fail("a line inside a table's cell is the table's own line", line, { line: own.borderTopWidth + " " + own.borderTopColor, row: cell.borderBottomWidth + " " + cell.borderBottomColor });
+            }
+        }
+        // 0e. THE DOCUMENTS' PAPER READS IN EVERY MODE (owner, 2026-11-14 23:37: the Forecast's pickers unreadable in dark): a label, a picker or a cell's text on
+        //     the Business Documents' page holds 4.5:1 on the ground it stands on, whatever the reading mode around the paper.
+        for (const part of [...document.querySelectorAll(".business-documents-page :is(.business-documents-option, .option-picker-trigger, label, th, td)")].filter(visible)) {
+            if (!part.textContent.trim()) {
+                continue;
+            }
+            const ink = rules.parseColor(getComputedStyle(part).color);
+            const ground = rules.effectiveGround(part);
+            if (ink && ground && rules.contrast(ink, ground) < 4.5) {
+                fail("the documents' paper holds 4.5:1 in every reading mode", part, { contrast: rules.contrast(ink, ground), text: part.textContent.trim().slice(0, 40) });
+            }
+        }
         // 0b. A DIALOG'S BANDS RUN SIDE TO SIDE (owner, 2026-11-14 12:41: "Fix the coloured bands to be side to side"): a band of a dialog's body that meets its left edge
         //     meets its right edge too (a field alone in its grid keeps no gap for a second column).
         for (const band of [...document.querySelectorAll(".section-tile-dialog-body .legal-entity-org-section")].filter(visible)) {
@@ -3551,8 +3573,20 @@
             const rowTop = box(firstSlot).top + scrolled;
             // (Where that row is out of view -- the cards stacked, the page scrolled -- the stack stands at the top of the band: under the heading's underline.)
             const offset = box(firstBody).top - box(host).top;
+            // (Where the box name standing there would cover the words of its column's chapter title, the card stands lower: the name 12px under that
+            // title (owner, 2026-11-14 23:25: "1. Homeware Collection" over "2. Designers & Boutique Hotels").)
+            // (A card that stands lower is right only where its box name, at that level, would cover the words of a chapter title it stands over: then the name
+            // stands 12px under that title.)
             const wanted = Math.min(Math.max(rowTop - offset, bandTop + 8), Math.max(bandTop + 8, bandBottom - 200)) + offset;
-            if (rowTop < window.innerHeight && Math.abs(box(firstBody).top - wanted) > 3) {
+            const name = host.querySelector(".floating-card-caption");
+            const clearOfTitle = !!name && [...document.querySelectorAll(".tiles-frame-head .field-group-title")].some(title => {
+                const t = box(title);
+                const n = box(name);
+                const nameAbove = box(firstBody).top - n.top;
+                return t.width > 0 && t.height > 0 && !title.closest(".section-tile-overlay") && n.left < t.right && n.right > t.left &&
+                    wanted - nameAbove < t.bottom + 12 && wanted - nameAbove + n.height > t.top && Math.abs(n.top - (t.bottom + 12)) <= 3;
+            });
+            if (rowTop < window.innerHeight && Math.abs(box(firstBody).top - wanted) > 3 && !clearOfTitle) {
                 fail("a floating card's top stands on the top of the first row of tiles of its column", { card: box(firstBody).top, row: rowTop, wanted });
             }
             // A stack taller than the room under that top scrolls in itself.
