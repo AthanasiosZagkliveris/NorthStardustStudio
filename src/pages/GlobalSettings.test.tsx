@@ -4,7 +4,7 @@ import { MemoryRouter, Route, Routes, useLocation } from "react-router-dom";
 
 import GlobalSettings from "./GlobalSettings";
 import SettingsButton from "../components/SettingsButton";
-import { asGlobalSettings } from "../framework/engine/GlobalSettings";
+import { asGlobalSettings, createGlobalSettings } from "../framework/engine/GlobalSettings";
 import { OrganizationService } from "../services/OrganizationService";
 
 function Where({ name }: { name: string }) {
@@ -65,7 +65,8 @@ describe("the Global Settings screen", () => {
         expect((screen.getByLabelText("Target operating reserve") as HTMLInputElement).value).toBe("3");
         // (Only a group that holds an asset is listed: this organization has none.)
         expect(screen.queryByLabelText("Production Machinery")).toBeNull();
-        expect((screen.getByLabelText("Channel 1") as HTMLInputElement).value).toBe("Stripe Terminal");
+        // (No answer names a provider yet: the Channel Fee Table shows no row; the rows wait in the settings for an answer that names them.)
+        expect(screen.queryByLabelText("Channel 1")).toBeNull();
     });
 
     it("saves a figure at once, kept to what a number box takes", () => {
@@ -91,17 +92,24 @@ describe("the Global Settings screen", () => {
         expect(screen.queryByLabelText("Furniture & Fittings")).toBeNull();
     });
 
-    it("adds, edits and removes a channel of the Channel Fee Table", () => {
+    it("draws the Channel Fee Table's rows from the channels alone: no row while no channel names one, no add and no x (owner, 2026-11-15 16:37)", () => {
         open();
-        fireEvent.click(screen.getByRole("button", { name: "+ Add channel" }));
-        expect(saved().channelFees).toHaveLength(8);
-        fireEvent.change(screen.getByLabelText("Channel 8"), { target: { value: "Not On The High Street" } });
-        fireEvent.change(screen.getByLabelText("Channel 8 commission"), { target: { value: "25" } });
-        fireEvent.change(screen.getByLabelText("Channel 8 fixed fee"), { target: { value: "0.2" } });
-        expect(saved().channelFees[7]).toMatchObject({ channel: "Not On The High Street", commission: "25", fixedFee: "0.2" });
-        fireEvent.click(screen.getByRole("button", { name: "Remove channel 1" }));
-        expect(saved().channelFees.map(row => row.channel)).toEqual(["Stripe", "SumUp", "Shopify Payments", "Etsy", "PayPal", "Wolt, Amazon", "Not On The High Street"]);
-        expect(within(screen.getByRole("table", { name: "Channel Fee Table" })).getAllByRole("row")).toHaveLength(8);
+        expect(screen.queryByRole("button", { name: "+ Add channel" })).toBeNull();
+        expect(screen.queryByRole("button", { name: /^Remove channel/ })).toBeNull();
+        expect(within(screen.getByRole("table", { name: "Channel Fee Table" })).getAllByRole("row")).toHaveLength(1);
+    });
+
+    it("resets the Channel Fee Table after asking (owner, 2026-11-15 15:54)", () => {
+        open();
+        const data = createGlobalSettings().channelFees.length;
+        const reset = screen.getByTitle("Reset the Channel Fee Table to the app's rates for your country");
+        fireEvent.click(reset);
+        const dialog = screen.getByRole("dialog", { name: "Reset the Channel Fee Table" });
+        fireEvent.click(within(dialog).getByRole("button", { name: "Cancel" }));
+        expect(screen.queryByRole("dialog", { name: "Reset the Channel Fee Table" })).toBeNull();
+        fireEvent.click(reset);
+        fireEvent.click(within(screen.getByRole("dialog", { name: "Reset the Channel Fee Table" })).getByRole("button", { name: "Reset" }));
+        expect(saved().channelFees).toHaveLength(data);
     });
 
     it("is kept for the Organisation it belongs to", () => {

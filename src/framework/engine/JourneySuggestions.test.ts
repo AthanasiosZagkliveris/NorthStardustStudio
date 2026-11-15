@@ -24,13 +24,13 @@ describe("the channels the Foundation suggests, stage by stage", () => {
     test("Quillfield's NYC Service Firms: every stage from its Page 1 answers", () => {
         const list = journeySuggestions(quill.foundation.segments[0]);
         // Discover: peers and online communities (how they discover you), LinkedIn and X (C2), Slack (C3).
-        expect(named(list, "discovery")).toEqual(["Referral & Affiliates › Customer Referral", "Community", "Social Media › LinkedIn", "Social Media › X (Twitter)", "Community › Slack"]);
+        expect(named(list, "discovery")).toEqual(["Referral & Affiliates › Customer Referral", "Community", "Social Media › LinkedIn", "Social Media › X (Twitter)", "Community › Slack", "Community › Agency founder communities"]);
         // Evaluation: a meeting or call, their website, a quote or proposal (D1).
         expect(named(list, "evaluation")).toEqual(["Online / Live", "Website › Main Website", "Email › Direct Email"]);
         // Purchase: they shop online on a computer; they pay by invoice.
-        expect(named(list, "purchase")).toEqual(["Website › Online Store", "Direct Payment › Invoice"]);
+        expect(named(list, "purchase")).toEqual(["Website › Online Store", "Direct Payment › Invoice", "Direct Payment › Bank Transfer"]);
         // Delivery: sent by you online, ongoing online access (O6).
-        expect(named(list, "delivery")).toEqual(["File Delivery", "Website"]);
+        expect(named(list, "delivery")).toEqual(["File Delivery", "Website", "File Delivery › Email Attachment", "File Delivery › Client Portal"]);
         // Support: personal and dedicated help after they buy (O7); the help wanted before buying (D2) makes relationship types only (owner, 2026-11-13 16:50).
         expect(named(list, "support")).toEqual(["Email › Direct Email", "Online / Live"]);
         list.forEach(entry => expect(entry.source.length).toBeGreaterThan(0));
@@ -39,7 +39,7 @@ describe("the channels the Foundation suggests, stage by stage", () => {
     test("Lumen & Loom's London Homemakers: social media, communities and events from the Profiles; card and wallet from how they pay", () => {
         const list = journeySuggestions(lumen.foundation.segments[0]);
         expect(named(list, "discovery")).toEqual(expect.arrayContaining(["Social Media › Instagram", "Social Media › Pinterest", "Community › Facebook Group", "In Person › Market / Pop-up", "In Person › Workshop / Class"]));
-        expect(named(list, "purchase")).toEqual(["Website › Online Store", "Direct Payment › Card", "Direct Payment › Payment Link"]);
+        expect(named(list, "purchase")).toEqual(["Website › Online Store", "Direct Payment › Card", "Direct Payment › Payment Link", "Website › Booking / Registration Page"]);
         // A physical item: shipped (Physical Delivery); a demo or sample in person (Studio / Shop).
         expect(named(list, "delivery")).toContain("Physical Delivery");
         expect(named(list, "evaluation")).toContain("In Person › Studio / Shop");
@@ -73,10 +73,10 @@ describe("the Demand rows the Foundation proposes", () => {
         const channels = quill.engagement.segments[0].channels;
         const build = segment.offerings[1];
         const rows = demandSuggestions(segment, build.id, channels, quill.engagement.demand[build.id]);
-        expect(rows.map(row => row.type + " " + row.label)).toEqual(["funnel LinkedIn", "funnel Main Website", "other Referral partners", "referrals Customer Referral", "funnel X (Twitter)"]);
+        expect(rows.map(row => row.type + " " + row.label)).toEqual(["funnel LinkedIn", "funnel Main Website", "other Referral partners", "referrals Customer Referral", "funnel X (Twitter)", "funnel Agency founder communities"]);
         // (The Audit's sources name LinkedIn and Referral partners, so those already bring its customers: only its other Discover channels are proposed.)
         const audit = segment.offerings[0];
-        expect(demandSuggestions(segment, audit.id, channels, quill.engagement.demand[audit.id]).map(row => row.label)).toEqual(["Main Website", "Event / Talk", "Slack", "Customer Referral", "X (Twitter)"]);
+        expect(demandSuggestions(segment, audit.id, channels, quill.engagement.demand[audit.id]).map(row => row.label)).toEqual(["Main Website", "Event / Talk", "Slack", "Customer Referral", "X (Twitter)", "Agency founder communities"]);
     });
 
     test("Contracts or tenders where the buyer decides by a formal tender, once", () => {
@@ -152,6 +152,19 @@ describe("the subchannels the answers make (owner, 2026-11-13 13:56)", () => {
         expect(withAnswerChannels(made, [], segment)).toBe(made);
     });
 
+    test("a platform, community or event written in under Other is made too, by its name (owner, 2026-11-15 16:08)", () => {
+        const base = asBusinessFoundationValue(undefined).segments[0];
+        // (C3 is asked where the Segment discovers through communities; C4, where it meets in person, takes the same path.)
+        const written = { ...base, id: "s2", questions: { discover: ["communities"] }, profiles: [
+            { ...base.profiles[0], questions: { c2: ["instagram", "other"], "c2-other": ["Bluesky, Threads"], c3: ["other"], "c3-other": ["Nextdoor"], c4: ["other"], "c4-other": ["Open studios"] } },
+            { ...base.profiles[0], id: "p2", questions: { c2: ["other"], "c2-other": ["bluesky"] } },
+            // (Written in but Other not ticked: not read.)
+            { ...base.profiles[0], id: "p3", questions: { c3: ["discord"], "c3-other": ["Old group"] } }
+        ] } as never;
+        const made = withAnswerChannels([], [], written).filter(channel => channel.fromAnswers).map(channel => channel.category + " › " + channel.name);
+        expect(made).toEqual(["Social Media › Instagram", "Social Media › Bluesky", "Social Media › Threads", "Community › Discord", "Community › Nextdoor"]);
+    });
+
     test("a removed one stays removed; added again it is back; an untouched one goes with its answer", () => {
         const made = withAnswerChannels([website], [], segment);
         const without = made.filter(channel => channel.name !== "TikTok");
@@ -171,5 +184,39 @@ describe("the Goals a stage starts with (owner, 2026-11-14 11:15)", () => {
         expect(startGoals("support", segment, "o1")).toEqual(["keep", "grow"]);
         const plain = { ...(segment as object), offerings: [{ ...asBusinessFoundationValue(undefined).segments[0].offerings[0], id: "o1", questions: {} }] } as never;
         expect(startGoals("support", plain, "o1")).toEqual(["keep"]);
+    });
+});
+
+describe("the marketplaces and shops a Segment names (owner, 2026-11-15 16:26)", () => {
+    test("each becomes its subchannel at Purchase: a marketplace by name, Other by the name written, a shop as its own or Retail & Wholesale", () => {
+        const base = asBusinessFoundationValue(undefined).segments[0];
+        const market = { ...base, id: "m", profiles: [], offerings: [], questions: { setting: ["marketplace"], marketplaces: ["etsy", "noths", "other"], "marketplaces-other": ["Vinted"] } } as never;
+        expect(named(journeySuggestions(market), "purchase")).toEqual(["Marketplace", "Marketplace › Etsy", "Marketplace › Not On The High Street", "Marketplace › Vinted"]);
+        const shops = { ...base, id: "s", profiles: [], offerings: [], questions: { setting: ["multi"], shops: ["own", "stockists", "concession", "distributors"] } } as never;
+        expect(named(journeySuggestions(shops), "purchase")).toEqual(["Website › Online Store", "In Person › Studio / Shop", "Retail & Wholesale › Retail Stockist", "Retail & Wholesale › Concession / Shop-in-shop", "Retail & Wholesale › Distributor"]);
+    });
+});
+
+describe("the delivery channels the Offering names (O20 to O22; owner, 2026-11-15 16:26)", () => {
+    test("each tick its delivery subchannel, Other by the name written; a session suggests the booking page", () => {
+        const base = asBusinessFoundationValue(undefined).segments[0];
+        const offering = (questions: Record<string, string[]>) => ({ ...base.offerings[0], id: "o-" + Object.keys(questions).join(""), category: "Product", questions });
+        const segment = { ...base, id: "d", profiles: [], questions: {}, offerings: [
+            offering({ o1: ["physical"], o20: ["courier", "fulfilment", "other"], "o20-other": ["Cargo bike"] }),
+            offering({ o1: ["digital"], o6: ["byyou"], o21: ["link", "portal"] })
+        ] } as never;
+        expect(named(journeySuggestions(segment), "delivery")).toEqual(["Physical Delivery", "File Delivery", "Physical Delivery › Courier", "Physical Delivery › Third-party Fulfilment", "Physical Delivery › Cargo bike", "File Delivery › Client Portal"]);
+    });
+});
+
+describe("Other as a list (owner, 2026-11-15 16:43: \"Other could be more than 1 channel!\")", () => {
+    test("two names give two channels; a row removed takes its untouched channel away; an old text is read once by its commas", () => {
+        const base = asBusinessFoundationValue(undefined).segments[0];
+        const segment = (rows: string[]) => ({ ...base, id: "w", questions: {}, offerings: [], profiles: [{ ...base.profiles[0], questions: { c2: ["other"], "c2-other": rows } }] }) as never;
+        const two = withAnswerChannels([], [], segment(["Bluesky", "Threads"]));
+        expect(two.filter(channel => channel.fromAnswers).map(channel => channel.name)).toEqual(["Bluesky", "Threads"]);
+        const one = withAnswerChannels(two, [], segment(["Bluesky"]));
+        expect(one.filter(channel => channel.fromAnswers).map(channel => channel.name)).toEqual(["Bluesky"]);
+        expect(named(journeySuggestions(segment(["Bluesky; Threads, bluesky"])), "discovery")).toEqual(["Social Media › Bluesky", "Social Media › Threads"]);
     });
 });

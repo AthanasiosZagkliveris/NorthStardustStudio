@@ -101,6 +101,14 @@ export function FloatingCards({
             } else if (dialog.dataset.tile === "overview" || dialog.dataset.tile === "completed") {
                 under = dialog;
                 area = dialog.querySelector<HTMLElement>(".card-tile-grid, .card-boxes, .section-tiles");
+            } else if (node) {
+                // (A CARD OPENED FROM A DIALOG stands on the other half, over a chapter of the page: that chapter is covered whole, so its words do not read through
+                // round the card; owner, 2026-11-15 16:42.)
+                const card = node.getBoundingClientRect();
+                const middle = card.left + card.width / 2;
+                under = [...document.querySelectorAll<HTMLElement>(".business-foundation-input[data-anchor]")]
+                    .find(frame => !frame.closest(".section-tile-overlay") && frame.getBoundingClientRect().left <= middle && frame.getBoundingClientRect().right >= middle) ?? null;
+                area = under;
             }
             let frame = under?.getBoundingClientRect();
             let box = area?.getBoundingClientRect();

@@ -3597,6 +3597,17 @@
                 }
             }
         }
+        // A CHANNEL'S CARD: each Journey Stage's words and its x on one centre line (owner, 2026-11-15 15:01).
+        for (const pick of host.querySelectorAll(".business-subchannel-card .business-channel-pick-stage")) {
+            const words = pick.querySelector(".option-picker-record-value");
+            const x = pick.querySelector(".business-channel-steps > button");
+            if (words && x && box(words).height > 0 && box(x).height > 0) {
+                const middle = b => (b.top + b.bottom) / 2;
+                if (Math.abs(middle(box(words)) - middle(box(x))) > 1) {
+                    fail("a channel card's Journey Stage and its x are on one centre line", { stage: words.textContent.trim(), words: middle(box(words)), x: middle(box(x)) });
+                }
+            }
+        }
         return failures;
     }
 

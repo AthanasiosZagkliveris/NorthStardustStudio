@@ -22,7 +22,7 @@ describe("the Offering's questions (doc 43; owner, 2026-11-07)", () => {
         expect(offeringAsks("o1", { type: "Other" })).toBe(false);
         expect(offeringAsks("o10", { type: "Product" })).toBe(false);
         expect(offeringAsks("o8", { type: "Service", worries: [] })).toBe(false);
-        expect(offeringOptions("o3", { type: "Service", pay: ["invoice"] })[0].id).toBe("project");
+        expect(offeringOptions("o3", { type: "Service", pay: ["invoicepo"] })[0].id).toBe("project");
     });
     it("starts O2 from the stage, O4 from the differentiation, O6 from O1, never over an answer", () => {
         const shown = offeringShown({ o1: ["physical"] }, { type: "Product", stage: "plan", differentiation: ["cost", "premium"] });
@@ -116,8 +116,8 @@ describe("O2, O3, O10 and O18 from the research (2026-11-08)", () => {
         const ids = offeringOptions("o3", { type: "Service" }).map(option => option.id);
         expect(ids).toEqual(["once", "subscription", "licence", "payg", "session", "rent", "project", "retainer", "commission", "free"]);
         expect(offeringOptions("o3", { type: "Service" }).find(option => option.id === "subscription")?.label).toBe("A subscription / membership");
-        expect(offeringOptions("o3", { type: "Service", pay: ["invoice"] })[0].id).toBe("project");
-        expect(offeringOptions("o3", { type: "Service", pay: ["invoice"] })).toHaveLength(10);
+        expect(offeringOptions("o3", { type: "Service", pay: ["invoicepo"] })[0].id).toBe("project");
+        expect(offeringOptions("o3", { type: "Service", pay: ["invoicepo"] })).toHaveLength(10);
     });
 
     it("says only the Organisation country's cancellation rule in O18's \"i\"", () => {
@@ -171,7 +171,7 @@ describe("the Offering's boxes", () => {
         expect(OFFERING_BOX_QUESTIONS.function).toEqual(["o1"]);
         expect(OFFERING_BOX_QUESTIONS.benefit).toEqual(["o8", "o4"]);
         // (Owner, 2026-11-09: O3b is a band of its own, straight after O3's.)
-        expect(OFFERING_BOX_QUESTIONS.delivery).toEqual(["o2", "o3", "o3t", "o15", "o6"]);
+        expect(OFFERING_BOX_QUESTIONS.delivery).toEqual(["o2", "o3", "o3t", "o15", "o6", "o20", "o21", "o22"]);
     });
     it("points O8's and O15's \"i\" where the other question stands now", () => {
         expect(offeringInfo("o8", { type: "Service" }).join(" ")).toContain("in Support & Communication");
@@ -209,7 +209,8 @@ describe("O18 between businesses and O3's order from the settled pay", () => {
         const segment = foundation.segments[0];
         const people = { relationships: ["b2c"], marketType: "single", audience: ["adult"], buyerCategory: ["b2c:direct"], endUser: [], stage: "launch" };
         const context = offeringContextOf(segment.offerings[0], segment, people);
-        expect(context.pay).toEqual(["card"]);
+        // (A saved "invoice" is read as both of its parts since 2026-11-15; a people Segment keeps the bank transfer.)
+        expect(context.pay).toEqual(["card", "transfer"]);
         expect(context.frame).toBe("people");
         expect(offeringOptions("o3", context)[0].id).not.toBe("project");
     });
@@ -248,5 +249,25 @@ describe("O6 and O7 are ticks (2026-11-09: one Offering is often delivered sever
         expect(open(["plan"])).toBe(0);
         // (O8 never offers Support: O7 answers it.)
         expect(offeringAsks("o8", { type: "Service", worries: ["support-after-they-buy"] })).toBe(false);
+    });
+});
+
+/* HOW IT REACHES THEM, NAMED (owner, 2026-11-15 16:26): O6's follow-ups O20 to O22 (O18 and O19 are taken). */
+describe("O6's follow-ups", () => {
+    const context = { type: "Product" };
+    it("asks O20 when it is posted, O21 when it is sent online, O22 for a live session, and keeps Other's words while Other is ticked", () => {
+        expect(offeringAsks("o20", context, { o6: ["shipped"] })).toBe(true);
+        expect(offeringAsks("o20", context, { o6: ["collect"] })).toBe(false);
+        expect(offeringAsks("o21", context, { o6: ["byyou"] })).toBe(true);
+        expect(offeringAsks("o22", context, { o6: ["live"] })).toBe(true);
+        expect(OFFERING_BOX_QUESTIONS.delivery.slice(-3)).toEqual(["o20", "o21", "o22"]);
+        const shown = offeringShown({ o1: ["physical"], o20: ["courier", "other"], "o20-other": ["Bike courier"] }, context);
+        expect(shown.o6).toEqual(["shipped"]);
+        expect(shown.o20).toEqual(["courier", "other"]);
+        expect(shown["o20-other"]).toEqual(["Bike courier"]);
+        // (Received another way: the follow-up goes with its words.)
+        const collected = offeringShown({ o1: ["physical"], o6: ["collect"], o20: ["courier"] }, context);
+        expect(collected.o20).toBeUndefined();
+        expect(offeringOptions("o22", context).map(option => option.id)).toEqual(["zoom", "meet", "teams", "stream", "other"]);
     });
 });

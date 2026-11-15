@@ -64,8 +64,10 @@ describe("the Segment's questions", () => {
     });
 
     it("keeps invoicing for business customers", () => {
-        expect(ids(segmentOptions(question("pay"), {}, { ...OPEN, frame: "people" }))).toEqual(["card", "wallet", "cash", "bnpl"]);
-        expect(ids(segmentOptions(question("pay"), {}, OPEN))).toContain("invoice");
+        expect(ids(segmentOptions(question("pay"), {}, { ...OPEN, frame: "people" }))).toEqual(["card", "wallet", "cash", "bnpl", "transfer"]);
+        expect(ids(segmentOptions(question("pay"), {}, OPEN))).toContain("invoicepo");
+        // (Saved before the split: "Invoice, bank transfer or purchase order" is both of its parts.)
+        expect(asSegmentAnswers({ pay: ["card", "invoice"] }).pay).toEqual(["card", "invoicepo", "transfer"]);
     });
 
     it("makes 'They don't typically share' exclude the other ways, and holds the limits", () => {
@@ -308,4 +310,28 @@ describe("the questions held back while Planning", () => {
         // (A question not asked for another reason still loses its answer: no longer working.)
         expect(segmentSettle({ ...saved, work: ["notworking"] }, at("plan")).workenv).toBeUndefined();
     });
+});
+
+/* WHERE THEY SHOP, NAMED (owner, 2026-11-15 16:08 and 16:26): the marketplaces and the shops follow Where do your customers usually shop?. */
+describe("the follow-ups of Where do your customers usually shop?", () => {
+
+    it("asks Which marketplaces on a marketplace, Which shops in a shop or both, and neither online", () => {
+        const asked = (setting: string) => ids(segmentQuestionsOf("purchasing", { setting: [setting] }, OPEN));
+        expect(asked("marketplace")).toContain("marketplaces");
+        expect(asked("marketplace")).not.toContain("shops");
+        expect(asked("store")).toContain("shops");
+        expect(asked("multi")).toContain("shops");
+        expect(asked("mobile")).not.toEqual(expect.arrayContaining(["marketplaces"]));
+        expect(asked("mobile")).not.toContain("shops");
+    });
+
+    it("keeps the marketplace written in under Other while Other is ticked, and reads it back as saved", () => {
+        const answers: SegmentAnswers = { setting: ["marketplace"], marketplaces: ["etsy", "other"], "marketplaces-other": ["Vinted"] };
+        expect(segmentSettle(answers, OPEN)["marketplaces-other"]).toEqual(["Vinted"]);
+        expect(asSegmentAnswers(answers)["marketplaces-other"]).toEqual(["Vinted"]);
+        expect(segmentSettle({ ...answers, marketplaces: ["etsy"] }, OPEN)["marketplaces-other"]).toBeUndefined();
+        // (Another place to shop: the follow-up goes, with its words.)
+        expect(segmentSettle({ ...answers, setting: ["mobile"] }, OPEN).marketplaces).toBeUndefined();
+    });
+
 });

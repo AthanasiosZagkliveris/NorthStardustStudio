@@ -20,7 +20,7 @@ import { type OfferingContext, draftOffered, valuePropositionDraft, valueProposi
 import { effectiveOfferingAnswers, effectiveProfileAnswers, effectiveProfileUserAnswers, offeringContextOf, withFieldSet } from "../../../../framework/engine/EffectiveAnswers.ts";
 import NumberCell from "../../../controls/NumberCell.tsx";
 import { type ProfileBox, type ProfilePart, type ProfileQuestion, DUAL_USER, OWN_TASKS_INFO, PROFILE_NOTE_HINTS, profileAgeRange, profileChoose, profileOutcomeLimit, profileRate, profileRatings, profileWho, profileQuestionsOf, profileSettle, profileUserAgeRange, profileUserQuestionsOf, profileUserSettle, profileUserWho, profileUserName, profileOptionsShown, proposedBusinessProfiles, segmentNeedTicks } from "../../../../framework/engine/ProfileQuestions.ts";
-import { type SegmentBox, type SegmentQuestion, SEGMENT_QUESTIONS, segmentChoose, segmentOptions, segmentQuestionsOf, segmentRowChoice, segmentSettle, segmentSettledNotes } from "../../../../framework/engine/SegmentQuestions.ts";
+import { type SegmentBox, type SegmentQuestion, SEGMENT_QUESTIONS, writtenInNames, segmentChoose, segmentOptions, segmentQuestionsOf, segmentRowChoice, segmentSettle, segmentSettledNotes } from "../../../../framework/engine/SegmentQuestions.ts";
 import { DIFFERENTIATIONS, INFO as POSITIONING_INFO, choiceLimit, differentiationOptionsFor, stageLimitLine, userOutcomeOptionsFor, withStageLine } from "../legal/shared.tsx";
 import InfoNote, { InfoPoint, InfoText } from "../../fields/InfoNote.tsx";
 import { OPEN_EVENT, type OpenRequest } from "../../tiles/SectionTiles.tsx";
@@ -329,9 +329,20 @@ export function useFoundationSubsections(earlier: Earlier) {
                         )
                         : question.many && !radio
                         ? (
-                            <div className="radio-choice legal-entity-radio-stack" role="group" aria-label={label}>
-                                <BusinessTicks name={label} disabled={disabled} options={options} chosen={chosen} max={max} onChange={choose} />
-                            </div>
+                            <>
+                                <div className="radio-choice legal-entity-radio-stack" role="group" aria-label={label}>
+                                    <BusinessTicks name={label} disabled={disabled} options={options} chosen={chosen} max={max} onChange={choose} />
+                                </div>
+                                {/* (Other written in, as a Profile's: one name a row of the numbered list; owner, 2026-11-15 16:43.) */}
+                                {question.other && chosen.includes("other") && (
+                                    <NumberedListInput
+                                        label={label + " Other"}
+                                        items={writtenInNames(segment.questions[question.id + "-other"])}
+                                        disabled={disabled}
+                                        onChange={(items) => updateSegment(segmentIndex, { questions: { ...segment.questions, [question.id + "-other"]: items } })}
+                                    />
+                                )}
+                            </>
                         )
                         : (
                             segmentRowChoice(question, options)
@@ -544,13 +555,13 @@ export function useFoundationSubsections(earlier: Earlier) {
                                     <div className="radio-choice legal-entity-radio-stack" role="group" aria-label={label}>
                                         <BusinessTicks name={label} disabled={disabled} options={options} chosen={chosen} max={question.max} onChange={choose} />
                                     </div>
+                                    {/* (Other, written in: one name a row of the numbered list, each its own channel; owner, 2026-11-15 16:43.) */}
                                     {question.other && chosen.includes("other") && (
-                                        <StrategyTextArea
-                                            className="interview-input business-foundation-note"
-                                            ariaLabel={label + " Other"}
+                                        <NumberedListInput
+                                            label={label + " Other"}
+                                            items={writtenInNames(shown[question.id + "-other"])}
                                             disabled={disabled}
-                                            value={shown[question.id + "-other"]?.[0] ?? ""}
-                                            onChange={(next) => write({ ...shown, [question.id + "-other"]: [next] })}
+                                            onChange={(items) => write({ ...shown, [question.id + "-other"]: items })}
                                         />
                                     )}
                                 </>

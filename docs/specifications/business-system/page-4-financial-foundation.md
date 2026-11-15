@@ -820,7 +820,7 @@ to:
 ## 30.1 Opening Date and Global Settings
 
 - **Opening Date** is a field of the Identity System's Organisation tile (it moved from this page on 2026-10-24); the Global Settings show it. **Plan Start is never typed**: it is the earlier of the Opening Date's month and the earliest cost, a costed card's or a legal expense's. Until the Opening Date is given, the funds block asks for it; with it, costs are split into what falls before and from the opening.
-- **Global Settings** are kept per organisation on `/settings` (the header's Settings button), never on this page: the business stages' durations, channel fee table (Stripe 2% + 0.25 + 0.5, PayPal 3.5% + 0.35 + 1, Wolt/Amazon 25%), royalty 10%, affiliate 15%, agent 10%, capitalisation limit, useful life by six asset groups, target reserve months (3), Startup Contingency rate (10%), Operational Contingency rate (4%), insurance per employee, income tax rate.
+- **Global Settings** ([its specification](../global-settings.md)) are kept per organisation on `/settings` (the header's Settings button), never on this page: the business stages' durations, channel fee table ([Global Settings](../global-settings.md)), royalty 10%, affiliate 15%, agent 10%, capitalisation limit, useful life by six asset groups, target reserve months (3), Startup Contingency rate (10%), Operational Contingency rate (4%), insurance per employee, income tax rate.
 
 ## 30.2 Cost nature (rules C1 to C16)
 
@@ -839,6 +839,8 @@ Under Funding Need, with an Opening Date:
 ## 30.4 Calculated lines
 
 Lines the page computes and the forecast uses, with no record behind them: employer on-costs, key-person insurance per employee, channel fees, royalties and commissions, depreciation (cost plus services over useful life; COGS for Offering, OpEx for Infrastructure), amortisation (franchise fee), opening inventory released to COGS, an accumulated Start-up and Pre-Operating row, and income tax. The balance sheet gains Inventory, Intangible assets, Pre-launch costs to be written off and **Payments due under payment plans**.
+
+**Channel fees (2026-11-15).** A "% of revenue" card is a rate of each Offering's own revenue, never shared out by its Offering shares; an expense a subchannel holds is charged only on what each Offering sells through that subchannel (its Customer Sources there), the whole revenue where no source names it (`revenueFractions`, as the Inventory). A card whose name takes the Legal Entity country's row of the Channel Fee Table is charged from that row; a payment service's card with no price is charged from its row too; a card is never charged twice. The table and its rows: [Global Settings](../global-settings.md).
 
 ## 30.5 Scheduling a per-project card
 

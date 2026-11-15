@@ -25,6 +25,8 @@ export interface SegmentQuestion {
     /** The most ticks allowed. */
     max?: number;
     options: readonly SegmentOption[];
+    /** The list ends with an Other that the user writes in (as a Profile's): its words are kept as the answer `<id>-other`, while Other is ticked. */
+    other?: boolean;
     /** What its "i" says. */
     info: readonly string[];
     /** A short name for the notes that say what Positioning or the answers above set ("Size: Medium-sized business"). */
@@ -425,6 +427,34 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
         ],
         info: ["Where most of their purchases start and finish. Choose Both online and in shops when they mix the two about equally.", "A marketplace is a site that sells many sellers' goods, such as Etsy, Amazon or eBay."]
     },
+    // WHICH MARKETPLACES AND WHICH SHOPS (owner, 2026-11-15 16:08: "skip the + add, by shaping the channels to previous sections"): the follow-ups of Where do your
+    // customers usually shop?, each tick the subchannel of that name on Customer Engagement (JourneySuggestions.ts).
+    {
+        id: "marketplaces", box: "purchasing", label: "Which marketplaces do your customers shop on?", many: true,
+        options: [
+            { id: "etsy", label: "Etsy" },
+            { id: "amazon", label: "Amazon" },
+            { id: "ebay", label: "eBay" },
+            { id: "noths", label: "Not On The High Street" },
+            { id: "folksy", label: "Folksy" },
+            { id: "gumroad", label: "Gumroad" },
+            { id: "fiverr", label: "Fiverr" },
+            { id: "upwork", label: "Upwork" },
+            { id: "other", label: "Other" }
+        ],
+        other: true,
+        info: ["The marketplaces where they find and buy what you sell: each becomes a channel on Customer Engagement, with its fees.", "Tick Other to write another."]
+    },
+    {
+        id: "shops", box: "purchasing", label: "Which shops do they buy from?", many: true,
+        options: [
+            { id: "own", label: "Your own shop or studio" },
+            { id: "stockists", label: "Shops that stock your products" },
+            { id: "concession", label: "A space inside another shop" },
+            { id: "distributors", label: "Distributors or wholesalers" }
+        ],
+        info: ["The shops where they buy what you sell: each becomes a channel on Customer Engagement.", "A space inside another shop is a concession or shop-in-shop."]
+    },
     {
         id: "pay", box: "purchasing", label: "How do your customers pay?", many: true,
         options: [
@@ -432,15 +462,33 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
             { id: "wallet", label: "Digital wallets" },
             { id: "cash", label: "Cash" },
             { id: "bnpl", label: "Buy Now, Pay Later or financing" },
-            { id: "invoice", label: "Invoice, bank transfer or purchase order" }
+            // (Owner, 2026-11-15 16:26: "Invoice, bank transfer or purchase order" split in two, so a bank transfer is its own channel; a saved "invoice" reads as both, asSegmentAnswers.)
+            { id: "invoicepo", label: "Invoice or purchase order" },
+            { id: "transfer", label: "Bank transfer" }
         ],
         info: [
             "Digital wallets are for example Apple Pay, Google Pay and PayPal. Buy Now, Pay Later is for example Klarna and Afterpay.",
             "Cash is still about one payment in ten in the UK (UK Finance, 2024).",
-            "Invoice is offered for business customers only. Credit and Buy Now, Pay Later are for adults.",
+            "Invoice or purchase order is offered for business customers only. Credit and Buy Now, Pay Later are for adults.",
             "Choosing a phone as where they buy starts Digital wallets here; change it freely.",
             "Select all that apply."
         ]
+    },
+    // WHICH PAYMENT SERVICES (owner, 2026-11-15 16:26): asked where they pay by card or a digital wallet; each service names the fees its payments take (the Channel
+    // Fee Table's row for the Legal Entity's country), a service written in under Other its own row, "Entered by you".
+    {
+        id: "providers", box: "purchasing", label: "Which payment services do you take payments with?", many: true,
+        options: [
+            { id: "stripe", label: "Stripe" },
+            { id: "sumup", label: "SumUp" },
+            { id: "square", label: "Square" },
+            { id: "zettle", label: "Zettle" },
+            { id: "paypal", label: "PayPal" },
+            { id: "shopify", label: "Shopify Payments" },
+            { id: "other", label: "Other" }
+        ],
+        other: true,
+        info: ["The services that take the card and wallet payments: each one's fees come from the Global Settings' Channel Fee Table for your country.", "Tick Other to write another."]
     },
     {
         id: "share", box: "purchasing", label: "How do your customers share what they like?", many: true,
@@ -678,6 +726,12 @@ export function segmentQuestionAsked(question: SegmentQuestion, answers: Segment
             return people;
         case "authorise":
             return business;
+        case "marketplaces":
+            return has(answers, "setting", "marketplace");
+        case "shops":
+            return has(answers, "setting", "store") || has(answers, "setting", "multi");
+        case "providers":
+            return has(answers, "pay", "card") || has(answers, "pay", "wallet");
         case "u-age": case "u-outcome":
             return context.endsUser;
         case "u-comfort":
@@ -757,7 +811,7 @@ export function segmentOptions(question: SegmentQuestion, answers: SegmentAnswer
         case "pay":
             return question.options.filter(option => keep(option,
                 !(option.id === "bnpl" && has(answers, "age", "minor"))
-                && !(option.id === "invoice" && context.frame === "people")));
+                && !(option.id === "invoicepo" && context.frame === "people")));
         case "u-school":
             // A baby is in the early years, a child in the early years or primary school, a teenager at secondary school.
             return question.options.filter(option => keep(option,
@@ -927,6 +981,10 @@ export function segmentSettle(answers: SegmentAnswers, context: SegmentContext):
 
             if (kept.length > 0) {
                 next[question.id] = kept;
+                // (The words written in under Other stay while Other is ticked.)
+                if (question.other && kept.includes("other") && current[question.id + "-other"]) {
+                    next[question.id + "-other"] = current[question.id + "-other"];
+                }
             }
 
         }
@@ -966,6 +1024,11 @@ export function asSegmentAnswers(source: unknown): SegmentAnswers {
         }
     }
 
+    // How they pay, saved before the split (owner, 2026-11-15 16:26): "Invoice, bank transfer or purchase order" is both of its parts now.
+    if (Array.isArray(migrated.pay) && (migrated.pay as unknown[]).includes("invoice")) {
+        migrated.pay = [...new Set((migrated.pay as unknown[]).flatMap(id => id === "invoice" ? ["invoicepo", "transfer"] : [id]))];
+    }
+
     // A degree saved before it became a rating (doc 35, 2026-11-04): the old answer is the point it now is.
     for (const [id, points] of Object.entries(RATED_BEFORE)) {
         const old = Array.isArray(migrated[id]) ? (migrated[id] as unknown[])[0] : undefined;
@@ -985,10 +1048,39 @@ export function asSegmentAnswers(source: unknown): SegmentAnswers {
             answers[question.id] = question.many ? known : known.slice(0, 1);
         }
 
+        // (Its words written in under Other, as saved.)
+        const written = migrated[question.id + "-other"];
+        if (question.other && known.includes("other") && Array.isArray(written)) {
+            answers[question.id + "-other"] = written.filter((text): text is string => typeof text === "string");
+        }
+
     }
 
     return answers;
 
+}
+
+/**
+ * THE NAMES WRITTEN IN UNDER AN OTHER (owner, 2026-11-15 16:43: "Other could be more than 1 channel!"): one name a row of its numbered list, each trimmed, the empty ones
+ * and the repeats (whatever their case) left out. A text saved before the list -- one box -- is read once as its names, parted by commas, semicolons or new lines.
+ */
+export function writtenInNames(saved: readonly string[] | undefined): string[] {
+    const list = saved ?? [];
+    const names = (list.length === 1 ? list[0].split(/[,;\n]/) : list).map(name => name.trim()).filter(name => name !== "");
+    return names.filter((name, at) => names.findIndex(other => other.toLocaleLowerCase() === name.toLocaleLowerCase()) === at);
+}
+
+/**
+ * THE PAYMENT SERVICES A SEGMENT'S PAYMENTS GO THROUGH (Which payment services do you take payments with?): the names ticked, then those written in under Other (each
+ * once, several parted by commas). The fees of its Direct Payment channels are read by these names (the Channel Fee Table), a name written in its own row.
+ */
+export function segmentPaymentServices(answers: SegmentAnswers): string[] {
+    const question = QUESTIONS.find(entry => entry.id === "providers")!;
+    const chosen = answers.providers ?? [];
+    const ticked = question.options.filter(option => option.id !== "other" && chosen.includes(option.id)).map(option => option.label);
+    const written = chosen.includes("other") ? writtenInNames(answers["providers-other"]) : [];
+    const names = [...ticked, ...written];
+    return names.filter((name, at) => names.findIndex(other => other.toLocaleLowerCase() === name.toLocaleLowerCase()) === at);
 }
 
 /** Whether any question of a box has an answer. */

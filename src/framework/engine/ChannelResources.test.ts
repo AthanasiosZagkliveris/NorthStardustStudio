@@ -325,3 +325,55 @@ describe("the examples' channel resources", () => {
     });
 
 });
+
+/* THE EXPENSE CARDS THE ANSWERS MAKE (owner, 2026-11-15 16:35): the payment services named, each its card on the Direct Payment channel, by the subchannels' rule. */
+describe("the payment services' cards, made from the answers", async () => {
+    const { withAnswerServiceCards } = await import("./ChannelResources.ts");
+    const { asBusinessCapabilityValue, asBusinessEngagementValue } = await import("./AnswerUtils.ts");
+    const engagement = asBusinessEngagementValue({ segments: [{ segmentId: "s", channels: [{ id: "card", category: "Direct Payment", name: "Card", offerings: ["*"], stages: ["purchase"] }] }] });
+    const capability = asBusinessCapabilityValue(undefined);
+    const names = (result: { engagement: ReturnType<typeof asBusinessEngagementValue>; capability: ReturnType<typeof asBusinessCapabilityValue> }) =>
+        result.engagement.channelResources.map(link => result.capability.offering.providers.find(card => card.id === link.resourceId)?.name + " on " + link.channelId);
+
+    test("appears once: each service its card on the Card channel, named after it, and a second pass makes nothing more", () => {
+        const made = withAnswerServiceCards(engagement, capability, { s: ["Stripe", "Square"] });
+        expect(names(made)).toEqual(["Stripe on card", "Square on card"]);
+        expect(made.engagement.segments[0].answerCards).toEqual(["stripe", "square"]);
+        const again = withAnswerServiceCards(made.engagement, made.capability, { s: ["Stripe", "Square"] });
+        expect(again.engagement).toBe(made.engagement);
+        expect(again.capability).toBe(made.capability);
+    });
+
+    test("a card the founder removes stays removed while the answer stays", () => {
+        const made = withAnswerServiceCards(engagement, capability, { s: ["Stripe"] });
+        const removed = { ...made.engagement, channelResources: [] };
+        const after = withAnswerServiceCards(removed, made.capability, { s: ["Stripe"] });
+        expect(after.engagement.channelResources).toEqual([]);
+    });
+
+    test("an answer gone takes its untouched card away; an edited one stays", () => {
+        const made = withAnswerServiceCards(engagement, capability, { s: ["Stripe", "PayPal"] });
+        const paypal = made.capability.offering.providers.find(card => card.name === "PayPal")!;
+        const edited = { ...made.capability, offering: { ...made.capability.offering, providers: made.capability.offering.providers.map(card => card.id === paypal.id ? { ...card, cost: { ...card.cost, price: "2.9" } } : card) } };
+        const gone = withAnswerServiceCards(made.engagement, edited, { s: [] });
+        expect(names(gone)).toEqual(["PayPal on card"]);
+        expect(gone.engagement.segments[0].answerCards).toEqual([]);
+    });
+});
+
+describe("one card a payment service for the Organisation (owner, 2026-11-15 16:43)", async () => {
+    const { withAnswerServiceCards } = await import("./ChannelResources.ts");
+    const { asBusinessCapabilityValue, asBusinessEngagementValue } = await import("./AnswerUtils.ts");
+    test("a second Segment naming the same service has that card linked to its payment channel; an answer gone takes only its link", () => {
+        const engagement = asBusinessEngagementValue({ segments: [
+            { segmentId: "a", channels: [{ id: "card-a", category: "Direct Payment", name: "Card", offerings: ["*"], stages: ["purchase"] }] },
+            { segmentId: "b", channels: [{ id: "card-b", category: "Direct Payment", name: "Card", offerings: ["*"], stages: ["purchase"] }] }
+        ] });
+        const made = withAnswerServiceCards(engagement, asBusinessCapabilityValue(undefined), { a: ["Stripe"], b: ["stripe"] });
+        expect(made.capability.offering.providers.map(card => card.name)).toEqual(["Stripe"]);
+        expect(made.engagement.channelResources.map(link => link.channelId)).toEqual(["card-a", "card-b"]);
+        const gone = withAnswerServiceCards(made.engagement, made.capability, { a: ["Stripe"], b: [] });
+        expect(gone.capability.offering.providers.map(card => card.name)).toEqual(["Stripe"]);
+        expect(gone.engagement.channelResources.map(link => link.channelId)).toEqual(["card-a"]);
+    });
+});

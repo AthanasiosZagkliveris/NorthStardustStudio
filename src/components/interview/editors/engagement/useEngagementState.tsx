@@ -11,7 +11,10 @@ import { channelFeeFor } from "../../../../framework/engine/CalculatedLines.ts";
 import { moneyText } from "../../../../framework/engine/ExportRenderers.ts";
 
 /** The channel categories that take a fee on a sale: a fee line on their subchannels' cards (doc 50, section 1.3). */
-const FEE_CATEGORIES: readonly string[] = ["Direct Payment", "Website", "Marketplace"];
+import { FEE_CHANNEL_CATEGORIES as FEE_CATEGORIES } from "../../../../framework/engine/ChannelFeeData.ts";
+import { segmentPaymentServices } from "../../../../framework/engine/SegmentQuestions.ts";
+import { withAnswerServiceCards } from "../../../../framework/engine/ChannelResources.ts";
+import { effectiveSegmentAnswers } from "../../../../framework/engine/EffectiveAnswers.ts";
 import { ScopeChoice, type OptionScope } from "./EngagementCard.tsx";
 import CellRemoveButton from "../../../controls/CellRemoveButton.tsx";
 import { BUSINESS_CHANNEL_ALL_OFFERINGS, BusinessChannelValue, BusinessOfferingRelationshipsValue, BusinessRelationshipInteractionValue, BusinessRelationshipTypeValue, BusinessSegmentEngagementValue, asBusinessEngagementValue, businessFoundationSegments, createBusinessOfferingRelationships, createBusinessRelationshipInteraction, createBusinessRelationshipType, createBusinessSegmentEngagement } from "../../../../framework/engine/AnswerUtils.ts";
@@ -262,9 +265,23 @@ export function useEngagementState(props: BusinessEngagementEditorProps) {
                 changed = true;
             }
         }));
+        const others = engagement.segments.filter(entry => !segments.some(segment => segment.id === entry.segmentId));
+        let nextEngagement: typeof engagement = changed ? { ...engagement, segments: [...next, ...others], demand } : engagement;
+        // (THE EXPENSE CARDS THE ANSWERS MAKE: each payment service a Segment names, its card on the Segment's Direct Payment channel -- withAnswerServiceCards, the
+        // subchannels' rule; owner, 2026-11-15 16:35. Written only where the page can write Infrastructure & Capability too.)
+        if (onChangeCapability) {
+            const services = Object.fromEntries(segments.map(segment => [segment.id, segmentPaymentServices(effectiveSegmentAnswers(segment, identity))]));
+            const made = withAnswerServiceCards(nextEngagement, capabilityValue, services);
+            if (made.capability !== capabilityValue) {
+                onChangeCapability(made.capability);
+            }
+            if (made.engagement !== nextEngagement) {
+                nextEngagement = made.engagement;
+                changed = true;
+            }
+        }
         if (changed) {
-            const others = engagement.segments.filter(entry => !segments.some(segment => segment.id === entry.segmentId));
-            onChange({ ...engagement, segments: [...next, ...others], demand });
+            onChange(nextEngagement);
         }
     // (Read again whenever the answer or the Foundation changes.)
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -764,7 +781,11 @@ export function useEngagementState(props: BusinessEngagementEditorProps) {
             .map(link => cards.find(card => card.id === link.resourceId))
             .filter((card): card is CostCard => card !== undefined)
             .map(card => costCardName(card));
-        const found = channelFeeFor([channel.name, ...cardNames], feeTable);
+        // (A Direct Payment channel takes its fees from the payment services the Segment names too (Which payment services do you take payments with?): after its own
+        // name and its expense cards'; owner, 2026-11-15 16:26.)
+        const segment = segments.find(entry => engagement.segments.some(answers => answers.segmentId === entry.id && answers.channels.some(candidate => candidate.id === channel.id)));
+        const services = segment && channel.category.trim() === "Direct Payment" ? segmentPaymentServices(effectiveSegmentAnswers(segment, identity)) : [];
+        const found = channelFeeFor([channel.name, ...cardNames, ...services], feeTable, identity?.country ?? "");
         const money = (amount: number) => moneyText(String(Math.round(amount * 100) / 100), currency);
         const served = channel.offerings.includes(BUSINESS_CHANNEL_ALL_OFFERINGS) ? offerings : offerings.filter(offering => channel.offerings.includes(offering.id));
         const sales = found ? served.flatMap(offering => {
@@ -775,7 +796,8 @@ export function useEngagementState(props: BusinessEngagementEditorProps) {
         }) : [];
         const rate = found ? [
             (found.row.commission || "0") + "%",
-            ...(Number.parseFloat(found.row.fixedFee) > 0 ? [money(Number.parseFloat(found.row.fixedFee)) + " an order"] : []),
+            // (The fixed fee in the row's own currency: Gumroad's is in US dollars wherever it sells.)
+            ...(Number.parseFloat(found.row.fixedFee) > 0 ? [moneyText(found.row.fixedFee, found.row.currency || currency) + " an order"] : []),
             ...(Number.parseFloat(found.row.chargeback) > 0 ? [found.row.chargeback + "% for chargebacks"] : [])
         ].join(" + ") : "";
         // (FOLDED AT FIRST, under a fold arrow as a card's Links are (owner, 2026-11-14 17:44: "In the Channels & Journey, fee's section, add a folded arrow"): the

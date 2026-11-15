@@ -549,6 +549,10 @@
                   ],
                   "competition": [
                     "3"
+                  ],
+                  "providers": [
+                    "shopify",
+                    "sumup"
                   ]
                 },
                 "profiles": [
@@ -589,14 +593,14 @@
                         "other"
                       ],
                       "c2-other": [
-                        "Substack newsletters on home and craft"
+                        "Substack"
                       ],
                       "c3": [
                         "facebook-group",
                         "other"
                       ],
                       "c3-other": [
-                        "Local neighbourhood WhatsApp groups"
+                        "WhatsApp groups"
                       ],
                       "c4": [
                         "market",
@@ -1082,6 +1086,10 @@
                       ],
                       "o18": [
                         "nonrefundable"
+                      ],
+                      "o20": [
+                        "courier",
+                        "postal"
                       ]
                     }
                   },
@@ -1191,7 +1199,8 @@
                   ],
                   "pay": [
                     "card",
-                    "invoice"
+                    "invoicepo",
+                    "transfer"
                   ],
                   "tam": [
                     "boutique"
@@ -1205,6 +1214,13 @@
                   ],
                   "competition": [
                     "3"
+                  ],
+                  "shops": [
+                    "own",
+                    "stockists"
+                  ],
+                  "providers": [
+                    "shopify"
                   ]
                 },
                 "profiles": [
@@ -1585,6 +1601,9 @@
                       "o18": [
                         "minimum",
                         "trade"
+                      ],
+                      "o20": [
+                        "courier"
                       ]
                     }
                   }
@@ -2103,6 +2122,78 @@
                         "Offer a video call on request for a repair, a care question or a loom question after a workshop"
                       ]
                     }
+                  },
+                  {
+                    "id": "channel-substack1",
+                    "category": "Social Media",
+                    "name": "Substack",
+                    "links": [
+                      ""
+                    ],
+                    "offerings": [
+                      "*"
+                    ],
+                    "stages": [
+                      "discovery"
+                    ],
+                    "actionIds": {
+                      "discovery": [
+                        "action-channel-substack1-discovery-1"
+                      ]
+                    },
+                    "actions": {
+                      "discovery": [
+                        "Send a monthly letter from the studio: new pieces, the loom and the yarns"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "channel-whatsapp1",
+                    "category": "Community",
+                    "name": "WhatsApp groups",
+                    "links": [
+                      ""
+                    ],
+                    "offerings": [
+                      "*"
+                    ],
+                    "stages": [
+                      "discovery"
+                    ],
+                    "actionIds": {
+                      "discovery": [
+                        "action-channel-whatsapp1-discovery-1"
+                      ]
+                    },
+                    "actions": {
+                      "discovery": [
+                        "Share open-studio days and market dates in the neighbourhood groups"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "channel-postal01",
+                    "category": "Physical Delivery",
+                    "name": "Postal Service",
+                    "links": [
+                      ""
+                    ],
+                    "offerings": [
+                      "*"
+                    ],
+                    "stages": [
+                      "delivery"
+                    ],
+                    "actionIds": {
+                      "delivery": [
+                        "action-channel-postal01-delivery-1"
+                      ]
+                    },
+                    "actions": {
+                      "delivery": [
+                        "Send cushions and runners by tracked post, wrapped in tissue"
+                      ]
+                    }
                   }
                 ],
                 "actions": [
@@ -2249,6 +2340,18 @@
                   {
                     "id": "action-channel-lnzoom01-support-1",
                     "text": "Offer a video call on request for a repair, a care question or a loom question after a workshop"
+                  },
+                  {
+                    "id": "action-channel-substack1-discovery-1",
+                    "text": "Send a monthly letter from the studio: new pieces, the loom and the yarns"
+                  },
+                  {
+                    "id": "action-channel-whatsapp1-discovery-1",
+                    "text": "Share open-studio days and market dates in the neighbourhood groups"
+                  },
+                  {
+                    "id": "action-channel-postal01-delivery-1",
+                    "text": "Send cushions and runners by tracked post, wrapped in tissue"
                   }
                 ],
                 "offerings": [
@@ -2711,6 +2814,54 @@
                         "Hold a video check-in after each installation to see the pieces in place and plan the next order"
                       ]
                     }
+                  },
+                  {
+                    "id": "channel-stockist1",
+                    "category": "Retail & Wholesale",
+                    "name": "Retail Stockist",
+                    "links": [
+                      ""
+                    ],
+                    "offerings": [
+                      "*"
+                    ],
+                    "stages": [
+                      "purchase"
+                    ],
+                    "actionIds": {
+                      "purchase": [
+                        "action-channel-stockist1-purchase-1"
+                      ]
+                    },
+                    "actions": {
+                      "purchase": [
+                        "Send stockists the trade price list and a swatch book"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "channel-courier02",
+                    "category": "Physical Delivery",
+                    "name": "Courier",
+                    "links": [
+                      ""
+                    ],
+                    "offerings": [
+                      "*"
+                    ],
+                    "stages": [
+                      "delivery"
+                    ],
+                    "actionIds": {
+                      "delivery": [
+                        "action-channel-courier02-delivery-1"
+                      ]
+                    },
+                    "actions": {
+                      "delivery": [
+                        "Ship trade orders by courier in labelled cartons"
+                      ]
+                    }
                   }
                 ],
                 "actions": [
@@ -2797,6 +2948,14 @@
                   {
                     "id": "action-channel-lnzoom02-support-1",
                     "text": "Hold a video check-in after each installation to see the pieces in place and plan the next order"
+                  },
+                  {
+                    "id": "action-channel-stockist1-purchase-1",
+                    "text": "Send stockists the trade price list and a swatch book"
+                  },
+                  {
+                    "id": "action-channel-courier02-delivery-1",
+                    "text": "Ship trade orders by courier in labelled cartons"
                   }
                 ],
                 "offerings": [
@@ -2896,7 +3055,10 @@
                     ]
                   }
                 ],
-                "profiles": []
+                "profiles": [],
+                "answerCards": [
+                  "shopify payments"
+                ]
               }
             ],
             "demand": {
@@ -3145,6 +3307,16 @@
                 "actionIds": [
                   "action-channel-lntpost1-delivery-1"
                 ]
+              },
+              {
+                "id": "channel-resource-z5f628qb",
+                "segmentId": "segment-majxtl1u",
+                "channelId": "channel-87i4o7mf",
+                "resourceId": "partner-lm-stripe",
+                "actionIds": [
+                  "action-channel-87i4o7mf-purchase-1"
+                ],
+                "existing": true
               }
             ]
           }
@@ -6643,62 +6815,1261 @@
     "onCostRate": "",
     "channelFees": [
       {
-        "id": "fee-uk0lu",
+        "id": "fee-stripe-terminal-gb",
         "channel": "Stripe Terminal",
         "commission": "1.4",
         "fixedFee": "0.10",
         "chargeback": "0.5",
-        "note": "In person, UK cards; checked 14/11/2026 on Stripe's UK pricing page"
+        "note": "In person, UK cards; checked 15/11/2026 on Stripe's UK pricing page",
+        "country": "GB",
+        "currency": "GBP",
+        "status": "checked"
       },
       {
-        "id": "fee-kkmhuxy3",
+        "id": "fee-stripe-terminal-ie",
+        "channel": "Stripe Terminal",
+        "commission": "1.4",
+        "fixedFee": "0.10",
+        "chargeback": "0.5",
+        "note": "In person, EEA cards; checked 15/11/2026 on Stripe's Ireland pricing page",
+        "country": "IE",
+        "currency": "EUR",
+        "status": "checked"
+      },
+      {
+        "id": "fee-stripe-terminal-us",
+        "channel": "Stripe Terminal",
+        "commission": "2.7",
+        "fixedFee": "0.05",
+        "chargeback": "0.5",
+        "note": "In person; checked 15/11/2026 on Stripe's US pricing page",
+        "country": "US",
+        "currency": "USD",
+        "status": "checked"
+      },
+      {
+        "id": "fee-stripe-terminal-ca",
+        "channel": "Stripe Terminal",
+        "commission": "2.7",
+        "fixedFee": "0.05",
+        "chargeback": "0.5",
+        "note": "In person; checked 15/11/2026 on Stripe's Canada pricing page",
+        "country": "CA",
+        "currency": "CAD",
+        "status": "checked"
+      },
+      {
+        "id": "fee-stripe-terminal-au",
+        "channel": "Stripe Terminal",
+        "commission": "1.65",
+        "fixedFee": "0.10",
+        "chargeback": "0.5",
+        "note": "In person; checked 15/11/2026 on Stripe's Australia pricing page",
+        "country": "AU",
+        "currency": "AUD",
+        "status": "checked"
+      },
+      {
+        "id": "fee-stripe-terminal-nz",
+        "channel": "Stripe Terminal",
+        "commission": "2.6",
+        "fixedFee": "0.05",
+        "chargeback": "0.5",
+        "note": "In person; checked 15/11/2026 on Stripe's New Zealand pricing page",
+        "country": "NZ",
+        "currency": "NZD",
+        "status": "checked"
+      },
+      {
+        "id": "fee-stripe-gb",
         "channel": "Stripe",
         "commission": "1.5",
         "fixedFee": "0.20",
         "chargeback": "0.5",
-        "note": "UK standard cards online (premium cards 1.9% + 20p, EEA cards 2.5% + 20p); checked 14/11/2026 on Stripe's UK pricing page"
+        "note": "UK standard cards online (premium UK cards 2.8% + 20p, EEA cards 2.5% + 20p, international cards 3.15% + 20p); checked 15/11/2026 on Stripe's UK pricing page",
+        "country": "GB",
+        "currency": "GBP",
+        "status": "checked"
       },
       {
-        "id": "fee-uk2lu",
+        "id": "fee-stripe-ie",
+        "channel": "Stripe",
+        "commission": "1.5",
+        "fixedFee": "0.25",
+        "chargeback": "0.5",
+        "note": "Standard EEA cards online; checked 15/11/2026 on Stripe's Ireland pricing page",
+        "country": "IE",
+        "currency": "EUR",
+        "status": "checked"
+      },
+      {
+        "id": "fee-stripe-us",
+        "channel": "Stripe",
+        "commission": "2.9",
+        "fixedFee": "0.30",
+        "chargeback": "0.5",
+        "note": "Domestic cards online; checked 15/11/2026 on Stripe's US pricing page",
+        "country": "US",
+        "currency": "USD",
+        "status": "checked"
+      },
+      {
+        "id": "fee-stripe-ca",
+        "channel": "Stripe",
+        "commission": "2.9",
+        "fixedFee": "0.30",
+        "chargeback": "0.5",
+        "note": "Domestic cards online; checked 15/11/2026 on Stripe's Canada pricing page",
+        "country": "CA",
+        "currency": "CAD",
+        "status": "checked"
+      },
+      {
+        "id": "fee-stripe-au",
+        "channel": "Stripe",
+        "commission": "1.65",
+        "fixedFee": "0.30",
+        "chargeback": "0.5",
+        "note": "Standard domestic cards online; checked 15/11/2026 on Stripe's Australia pricing page",
+        "country": "AU",
+        "currency": "AUD",
+        "status": "checked"
+      },
+      {
+        "id": "fee-stripe-nz",
+        "channel": "Stripe",
+        "commission": "2.65",
+        "fixedFee": "0.30",
+        "chargeback": "0.5",
+        "note": "Domestic cards online; checked 15/11/2026 on Stripe's New Zealand pricing page",
+        "country": "NZ",
+        "currency": "NZD",
+        "status": "checked"
+      },
+      {
+        "id": "fee-sumup-gb",
         "channel": "SumUp",
         "commission": "1.69",
         "fixedFee": "0",
         "chargeback": "0.5",
-        "note": "In person (payment links and invoices 2.5%); checked 14/11/2026 on SumUp's UK pricing page"
+        "note": "In person, the rate for AmEx, premium, credit and non-EU cards (payment links and invoices 2.5%); checked 15/11/2026 on SumUp's UK pricing page",
+        "country": "GB",
+        "currency": "GBP",
+        "status": "checked"
       },
       {
-        "id": "fee-uk3lu",
+        "id": "fee-sumup-ie",
+        "channel": "SumUp",
+        "commission": "1.69",
+        "fixedFee": "0",
+        "chargeback": "0.5",
+        "note": "In person; checked 15/11/2026 on SumUp's Ireland pricing page",
+        "country": "IE",
+        "currency": "EUR",
+        "status": "checked"
+      },
+      {
+        "id": "fee-sumup-us",
+        "channel": "SumUp",
+        "commission": "2.6",
+        "fixedFee": "0.10",
+        "chargeback": "0.5",
+        "note": "In person (online 3.5% + $0.15); checked 15/11/2026 on SumUp's US pricing page",
+        "country": "US",
+        "currency": "USD",
+        "status": "checked"
+      },
+      {
+        "id": "fee-sumup-ca",
+        "channel": "SumUp",
+        "commission": "2.5",
+        "fixedFee": "0",
+        "chargeback": "0.5",
+        "note": "In person, credit cards (debit 0.9%); checked 15/11/2026 on SumUp's Canada pricing page",
+        "country": "CA",
+        "currency": "CAD",
+        "status": "checked"
+      },
+      {
+        "id": "fee-sumup-au",
+        "channel": "SumUp",
+        "commission": "1.4",
+        "fixedFee": "0",
+        "chargeback": "0.5",
+        "note": "In person (payment links 2.1%); checked 15/11/2026 on SumUp's Australia pricing page",
+        "country": "AU",
+        "currency": "AUD",
+        "status": "checked"
+      },
+      {
+        "id": "fee-sumup-nz",
+        "channel": "SumUp",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in New Zealand",
+        "country": "NZ",
+        "currency": "NZD",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-zettle-gb",
+        "channel": "Zettle",
+        "commission": "1.75",
+        "fixedFee": "0",
+        "chargeback": "0.5",
+        "note": "In person; checked 15/11/2026 on Zettle's UK pricing page",
+        "country": "GB",
+        "currency": "GBP",
+        "status": "checked"
+      },
+      {
+        "id": "fee-zettle-ie",
+        "channel": "Zettle",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in Ireland",
+        "country": "IE",
+        "currency": "EUR",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-zettle-us",
+        "channel": "Zettle",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in the US",
+        "country": "US",
+        "currency": "USD",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-zettle-ca",
+        "channel": "Zettle",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in Canada",
+        "country": "CA",
+        "currency": "CAD",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-zettle-au",
+        "channel": "Zettle",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in Australia",
+        "country": "AU",
+        "currency": "AUD",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-zettle-nz",
+        "channel": "Zettle",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in New Zealand",
+        "country": "NZ",
+        "currency": "NZD",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-shopify-payments-gb",
         "channel": "Shopify Payments",
         "commission": "2",
         "fixedFee": "0.25",
         "chargeback": "0.5",
-        "note": "Basic plan, online (in person 1.7%); checked 14/11/2026 on Shopify's UK pricing page"
+        "note": "Basic plan, online (in person 1.7%); checked 15/11/2026 on Shopify's UK pricing page",
+        "country": "GB",
+        "currency": "GBP",
+        "status": "checked"
       },
       {
-        "id": "fee-uk4lu",
+        "id": "fee-shopify-payments-ie",
+        "channel": "Shopify Payments",
+        "commission": "2",
+        "fixedFee": "0.25",
+        "chargeback": "0.5",
+        "note": "Basic plan, online (in person 1.7%); checked 15/11/2026 on Shopify's Ireland pricing page",
+        "country": "IE",
+        "currency": "EUR",
+        "status": "checked"
+      },
+      {
+        "id": "fee-shopify-payments-us",
+        "channel": "Shopify Payments",
+        "commission": "2.9",
+        "fixedFee": "0.30",
+        "chargeback": "0.5",
+        "note": "Basic plan, online (in person 2.6% + $0.10); checked 15/11/2026 on Shopify's US pricing page",
+        "country": "US",
+        "currency": "USD",
+        "status": "checked"
+      },
+      {
+        "id": "fee-shopify-payments-ca",
+        "channel": "Shopify Payments",
+        "commission": "2.8",
+        "fixedFee": "0.30",
+        "chargeback": "0.5",
+        "note": "Basic plan, online (in person 2.6%); checked 15/11/2026 on Shopify's Canada pricing page",
+        "country": "CA",
+        "currency": "CAD",
+        "status": "checked"
+      },
+      {
+        "id": "fee-shopify-payments-au",
+        "channel": "Shopify Payments",
+        "commission": "1.7",
+        "fixedFee": "0.30",
+        "chargeback": "0.5",
+        "note": "Basic plan, online (in person 1.85%); checked 15/11/2026 on Shopify's Australia pricing page",
+        "country": "AU",
+        "currency": "AUD",
+        "status": "checked"
+      },
+      {
+        "id": "fee-shopify-payments-nz",
+        "channel": "Shopify Payments",
+        "commission": "2.65",
+        "fixedFee": "0.30",
+        "chargeback": "0.5",
+        "note": "Basic plan, online (in person 1.8%); checked 15/11/2026 on Shopify's New Zealand pricing page",
+        "country": "NZ",
+        "currency": "NZD",
+        "status": "checked"
+      },
+      {
+        "id": "fee-paypal-gb",
+        "channel": "PayPal",
+        "commission": "2.9",
+        "fixedFee": "0.30",
+        "chargeback": "1",
+        "note": "UK commercial transactions; checked 15/11/2026 (paypal.com/uk/business/paypal-business-fees)",
+        "country": "GB",
+        "currency": "GBP",
+        "status": "checked"
+      },
+      {
+        "id": "fee-paypal-ie",
+        "channel": "PayPal",
+        "commission": "3.4",
+        "fixedFee": "0.35",
+        "chargeback": "1",
+        "note": "Commercial transactions; checked 15/11/2026 on PayPal's Ireland fees page",
+        "country": "IE",
+        "currency": "EUR",
+        "status": "checked"
+      },
+      {
+        "id": "fee-paypal-us",
+        "channel": "PayPal",
+        "commission": "3.49",
+        "fixedFee": "0.49",
+        "chargeback": "1",
+        "note": "PayPal Checkout; checked 15/11/2026 on PayPal's US fees page",
+        "country": "US",
+        "currency": "USD",
+        "status": "checked"
+      },
+      {
+        "id": "fee-paypal-ca",
+        "channel": "PayPal",
+        "commission": "2.9",
+        "fixedFee": "0.30",
+        "chargeback": "1",
+        "note": "Commercial transactions; checked 15/11/2026 on PayPal's Canada fees page",
+        "country": "CA",
+        "currency": "CAD",
+        "status": "checked"
+      },
+      {
+        "id": "fee-paypal-au",
+        "channel": "PayPal",
+        "commission": "2.9",
+        "fixedFee": "0.30",
+        "chargeback": "1",
+        "note": "Commercial transactions; checked 15/11/2026 on PayPal's Australia fees page",
+        "country": "AU",
+        "currency": "AUD",
+        "status": "checked"
+      },
+      {
+        "id": "fee-paypal-nz",
+        "channel": "PayPal",
+        "commission": "3.4",
+        "fixedFee": "0.45",
+        "chargeback": "1",
+        "note": "Commercial transactions; checked 15/11/2026 on PayPal's New Zealand fees page",
+        "country": "NZ",
+        "currency": "NZD",
+        "status": "checked"
+      },
+      {
+        "id": "fee-etsy-gb",
         "channel": "Etsy",
         "commission": "10.5",
         "fixedFee": "0.20",
         "chargeback": "0",
-        "note": "6.5% transaction fee + 4% + 20p payment processing, and about 16p a listing; checked 14/11/2026 on Etsy's fee pages"
+        "note": "6.5% transaction fee + 4% + 20p payment processing, and $0.20 a listing; checked 15/11/2026 on Etsy's fee pages",
+        "country": "GB",
+        "currency": "GBP",
+        "status": "checked"
       },
       {
-        "id": "fee-2ulpet4k",
-        "channel": "PayPal",
-        "commission": "3.5",
-        "fixedFee": "0.35",
-        "chargeback": "1",
-        "note": "Not checked yet: read PayPal's UK merchant fees page before relying on it"
+        "id": "fee-etsy-ie",
+        "channel": "Etsy",
+        "commission": "10.5",
+        "fixedFee": "0.30",
+        "chargeback": "0",
+        "note": "6.5% transaction fee + 4% + €0.30 payment processing, and $0.20 a listing; checked 15/11/2026 on Etsy's fee pages",
+        "country": "IE",
+        "currency": "EUR",
+        "status": "checked"
       },
       {
-        "id": "fee-d5crvyja",
-        "channel": "Wolt, Amazon",
-        "commission": "25",
+        "id": "fee-etsy-us",
+        "channel": "Etsy",
+        "commission": "9.5",
+        "fixedFee": "0.25",
+        "chargeback": "0",
+        "note": "6.5% transaction fee + 3% + $0.25 payment processing, and $0.20 a listing; checked 15/11/2026 on Etsy's fee pages",
+        "country": "US",
+        "currency": "USD",
+        "status": "checked"
+      },
+      {
+        "id": "fee-etsy-ca",
+        "channel": "Etsy",
+        "commission": "9.5",
+        "fixedFee": "0.25",
+        "chargeback": "0",
+        "note": "6.5% transaction fee + 3% + $0.25 payment processing, and $0.20 a listing; checked 15/11/2026 on Etsy's fee pages",
+        "country": "CA",
+        "currency": "CAD",
+        "status": "checked"
+      },
+      {
+        "id": "fee-etsy-au",
+        "channel": "Etsy",
+        "commission": "9.5",
+        "fixedFee": "0.25",
+        "chargeback": "0",
+        "note": "6.5% transaction fee + 3% + $0.25 payment processing, and $0.20 a listing; checked 15/11/2026 on Etsy's fee pages",
+        "country": "AU",
+        "currency": "AUD",
+        "status": "checked"
+      },
+      {
+        "id": "fee-etsy-nz",
+        "channel": "Etsy",
+        "commission": "9.5",
+        "fixedFee": "0.30",
+        "chargeback": "0",
+        "note": "6.5% transaction fee + 3% + $0.30 payment processing, and $0.20 a listing; checked 15/11/2026 on Etsy's fee pages",
+        "country": "NZ",
+        "currency": "NZD",
+        "status": "checked"
+      },
+      {
+        "id": "fee-amazon-handmade-gb",
+        "channel": "Amazon Handmade",
+        "commission": "12",
         "fixedFee": "0",
         "chargeback": "0",
-        "note": "The platform carries the risk"
+        "note": "Referral fee; checked 15/11/2026 on Amazon's UK Handmade page",
+        "country": "GB",
+        "currency": "GBP",
+        "status": "checked"
+      },
+      {
+        "id": "fee-amazon-handmade-ie",
+        "channel": "Amazon Handmade",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in Ireland",
+        "country": "IE",
+        "currency": "EUR",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-amazon-handmade-us",
+        "channel": "Amazon Handmade",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in the US",
+        "country": "US",
+        "currency": "USD",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-amazon-handmade-ca",
+        "channel": "Amazon Handmade",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in Canada",
+        "country": "CA",
+        "currency": "CAD",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-amazon-handmade-au",
+        "channel": "Amazon Handmade",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in Australia",
+        "country": "AU",
+        "currency": "AUD",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-amazon-handmade-nz",
+        "channel": "Amazon Handmade",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in New Zealand",
+        "country": "NZ",
+        "currency": "NZD",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-amazon-gb",
+        "channel": "Amazon",
+        "commission": "15",
+        "fixedFee": "0",
+        "chargeback": "0",
+        "note": "Home referral fee: 8% on an item up to £20, 15% above; checked 15/11/2026 on Amazon's UK selling fees page",
+        "country": "GB",
+        "currency": "GBP",
+        "status": "checked"
+      },
+      {
+        "id": "fee-amazon-ie",
+        "channel": "Amazon",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in Ireland",
+        "country": "IE",
+        "currency": "EUR",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-amazon-us",
+        "channel": "Amazon",
+        "commission": "15",
+        "fixedFee": "0",
+        "chargeback": "0",
+        "note": "Home referral fee; checked 15/11/2026 on Amazon's US selling fees page",
+        "country": "US",
+        "currency": "USD",
+        "status": "checked"
+      },
+      {
+        "id": "fee-amazon-ca",
+        "channel": "Amazon",
+        "commission": "15",
+        "fixedFee": "0",
+        "chargeback": "0",
+        "note": "Home referral fee; checked 15/11/2026 on Amazon's Canada selling fees page",
+        "country": "CA",
+        "currency": "CAD",
+        "status": "checked"
+      },
+      {
+        "id": "fee-amazon-au",
+        "channel": "Amazon",
+        "commission": "13",
+        "fixedFee": "0",
+        "chargeback": "0",
+        "note": "Home referral fee; checked 15/11/2026 on Amazon's Australia selling fees page",
+        "country": "AU",
+        "currency": "AUD",
+        "status": "checked"
+      },
+      {
+        "id": "fee-amazon-nz",
+        "channel": "Amazon",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "No Amazon marketplace in New Zealand",
+        "country": "NZ",
+        "currency": "NZD",
+        "status": "not-available"
+      },
+      {
+        "id": "fee-gumroad-gb",
+        "channel": "Gumroad",
+        "commission": "10",
+        "fixedFee": "0.50",
+        "chargeback": "0",
+        "note": "10% + $0.50 a sale, in every country; checked 15/11/2026 on Gumroad's pricing page",
+        "country": "GB",
+        "currency": "USD",
+        "status": "checked"
+      },
+      {
+        "id": "fee-gumroad-ie",
+        "channel": "Gumroad",
+        "commission": "10",
+        "fixedFee": "0.50",
+        "chargeback": "0",
+        "note": "10% + $0.50 a sale, in every country; checked 15/11/2026 on Gumroad's pricing page",
+        "country": "IE",
+        "currency": "USD",
+        "status": "checked"
+      },
+      {
+        "id": "fee-gumroad-us",
+        "channel": "Gumroad",
+        "commission": "10",
+        "fixedFee": "0.50",
+        "chargeback": "0",
+        "note": "10% + $0.50 a sale, in every country; checked 15/11/2026 on Gumroad's pricing page",
+        "country": "US",
+        "currency": "USD",
+        "status": "checked"
+      },
+      {
+        "id": "fee-gumroad-ca",
+        "channel": "Gumroad",
+        "commission": "10",
+        "fixedFee": "0.50",
+        "chargeback": "0",
+        "note": "10% + $0.50 a sale, in every country; checked 15/11/2026 on Gumroad's pricing page",
+        "country": "CA",
+        "currency": "USD",
+        "status": "checked"
+      },
+      {
+        "id": "fee-gumroad-au",
+        "channel": "Gumroad",
+        "commission": "10",
+        "fixedFee": "0.50",
+        "chargeback": "0",
+        "note": "10% + $0.50 a sale, in every country; checked 15/11/2026 on Gumroad's pricing page",
+        "country": "AU",
+        "currency": "USD",
+        "status": "checked"
+      },
+      {
+        "id": "fee-gumroad-nz",
+        "channel": "Gumroad",
+        "commission": "10",
+        "fixedFee": "0.50",
+        "chargeback": "0",
+        "note": "10% + $0.50 a sale, in every country; checked 15/11/2026 on Gumroad's pricing page",
+        "country": "NZ",
+        "currency": "USD",
+        "status": "checked"
+      },
+      {
+        "id": "fee-fiverr-gb",
+        "channel": "Fiverr",
+        "commission": "20",
+        "fixedFee": "0",
+        "chargeback": "",
+        "note": "20% of the order, in every country, from a secondary source (citing the Fiverr Help Centre); not checked against Fiverr's own page",
+        "country": "GB",
+        "currency": "GBP",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-fiverr-ie",
+        "channel": "Fiverr",
+        "commission": "20",
+        "fixedFee": "0",
+        "chargeback": "",
+        "note": "20% of the order, in every country, from a secondary source (citing the Fiverr Help Centre); not checked against Fiverr's own page",
+        "country": "IE",
+        "currency": "EUR",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-fiverr-us",
+        "channel": "Fiverr",
+        "commission": "20",
+        "fixedFee": "0",
+        "chargeback": "",
+        "note": "20% of the order, in every country, from a secondary source (citing the Fiverr Help Centre); not checked against Fiverr's own page",
+        "country": "US",
+        "currency": "USD",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-fiverr-ca",
+        "channel": "Fiverr",
+        "commission": "20",
+        "fixedFee": "0",
+        "chargeback": "",
+        "note": "20% of the order, in every country, from a secondary source (citing the Fiverr Help Centre); not checked against Fiverr's own page",
+        "country": "CA",
+        "currency": "CAD",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-fiverr-au",
+        "channel": "Fiverr",
+        "commission": "20",
+        "fixedFee": "0",
+        "chargeback": "",
+        "note": "20% of the order, in every country, from a secondary source (citing the Fiverr Help Centre); not checked against Fiverr's own page",
+        "country": "AU",
+        "currency": "AUD",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-fiverr-nz",
+        "channel": "Fiverr",
+        "commission": "20",
+        "fixedFee": "0",
+        "chargeback": "",
+        "note": "20% of the order, in every country, from a secondary source (citing the Fiverr Help Centre); not checked against Fiverr's own page",
+        "country": "NZ",
+        "currency": "NZD",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-upwork-gb",
+        "channel": "Upwork",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "0 to 15% of the work (upwork.com/i/pricing); the rate to use not checked yet",
+        "country": "GB",
+        "currency": "GBP",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-upwork-ie",
+        "channel": "Upwork",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "0 to 15% of the work (upwork.com/i/pricing); the rate to use not checked yet",
+        "country": "IE",
+        "currency": "EUR",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-upwork-us",
+        "channel": "Upwork",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "0 to 15% of the work (upwork.com/i/pricing); the rate to use not checked yet",
+        "country": "US",
+        "currency": "USD",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-upwork-ca",
+        "channel": "Upwork",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "0 to 15% of the work (upwork.com/i/pricing); the rate to use not checked yet",
+        "country": "CA",
+        "currency": "CAD",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-upwork-au",
+        "channel": "Upwork",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "0 to 15% of the work (upwork.com/i/pricing); the rate to use not checked yet",
+        "country": "AU",
+        "currency": "AUD",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-upwork-nz",
+        "channel": "Upwork",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "0 to 15% of the work (upwork.com/i/pricing); the rate to use not checked yet",
+        "country": "NZ",
+        "currency": "NZD",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-tiktok-shop-gb",
+        "channel": "TikTok Shop",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in UK",
+        "country": "GB",
+        "currency": "GBP",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-tiktok-shop-ie",
+        "channel": "TikTok Shop",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in Ireland",
+        "country": "IE",
+        "currency": "EUR",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-tiktok-shop-us",
+        "channel": "TikTok Shop",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in the US",
+        "country": "US",
+        "currency": "USD",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-tiktok-shop-ca",
+        "channel": "TikTok Shop",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in Canada",
+        "country": "CA",
+        "currency": "CAD",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-tiktok-shop-au",
+        "channel": "TikTok Shop",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in Australia",
+        "country": "AU",
+        "currency": "AUD",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-tiktok-shop-nz",
+        "channel": "TikTok Shop",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in New Zealand",
+        "country": "NZ",
+        "currency": "NZD",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-meta-checkout-gb",
+        "channel": "Meta checkout",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Instagram and Facebook Shops send buyers to the seller's own store: Meta charges no selling fee",
+        "country": "GB",
+        "currency": "GBP",
+        "status": "not-available"
+      },
+      {
+        "id": "fee-meta-checkout-ie",
+        "channel": "Meta checkout",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not available in Ireland",
+        "country": "IE",
+        "currency": "EUR",
+        "status": "not-available"
+      },
+      {
+        "id": "fee-meta-checkout-us",
+        "channel": "Meta checkout",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Instagram and Facebook checkout: the selling fee not checked yet",
+        "country": "US",
+        "currency": "USD",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-meta-checkout-ca",
+        "channel": "Meta checkout",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Instagram and Facebook Shops send buyers to the seller's own store: Meta charges no selling fee",
+        "country": "CA",
+        "currency": "CAD",
+        "status": "not-available"
+      },
+      {
+        "id": "fee-meta-checkout-au",
+        "channel": "Meta checkout",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Instagram and Facebook Shops send buyers to the seller's own store: Meta charges no selling fee",
+        "country": "AU",
+        "currency": "AUD",
+        "status": "not-available"
+      },
+      {
+        "id": "fee-meta-checkout-nz",
+        "channel": "Meta checkout",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not available in New Zealand",
+        "country": "NZ",
+        "currency": "NZD",
+        "status": "not-available"
+      },
+      {
+        "id": "fee-wolt-gb",
+        "channel": "Wolt",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "In the UK (careers.wolt.com/locations); its commission not checked yet",
+        "country": "GB",
+        "currency": "GBP",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-wolt-ie",
+        "channel": "Wolt",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not available in Ireland",
+        "country": "IE",
+        "currency": "EUR",
+        "status": "not-available"
+      },
+      {
+        "id": "fee-wolt-us",
+        "channel": "Wolt",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not available in the US",
+        "country": "US",
+        "currency": "USD",
+        "status": "not-available"
+      },
+      {
+        "id": "fee-wolt-ca",
+        "channel": "Wolt",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not available in Canada",
+        "country": "CA",
+        "currency": "CAD",
+        "status": "not-available"
+      },
+      {
+        "id": "fee-wolt-au",
+        "channel": "Wolt",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not available in Australia",
+        "country": "AU",
+        "currency": "AUD",
+        "status": "not-available"
+      },
+      {
+        "id": "fee-wolt-nz",
+        "channel": "Wolt",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not available in New Zealand",
+        "country": "NZ",
+        "currency": "NZD",
+        "status": "not-available"
+      },
+      {
+        "id": "fee-square-gb",
+        "channel": "Square",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in UK",
+        "country": "GB",
+        "currency": "GBP",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-square-ie",
+        "channel": "Square",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in Ireland",
+        "country": "IE",
+        "currency": "EUR",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-square-us",
+        "channel": "Square",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in the US",
+        "country": "US",
+        "currency": "USD",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-square-ca",
+        "channel": "Square",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in Canada",
+        "country": "CA",
+        "currency": "CAD",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-square-au",
+        "channel": "Square",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in Australia",
+        "country": "AU",
+        "currency": "AUD",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-square-nz",
+        "channel": "Square",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in New Zealand",
+        "country": "NZ",
+        "currency": "NZD",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-ebay-gb",
+        "channel": "eBay",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in UK",
+        "country": "GB",
+        "currency": "GBP",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-ebay-ie",
+        "channel": "eBay",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in Ireland",
+        "country": "IE",
+        "currency": "EUR",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-ebay-us",
+        "channel": "eBay",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in the US",
+        "country": "US",
+        "currency": "USD",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-ebay-ca",
+        "channel": "eBay",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in Canada",
+        "country": "CA",
+        "currency": "CAD",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-ebay-au",
+        "channel": "eBay",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in Australia",
+        "country": "AU",
+        "currency": "AUD",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-ebay-nz",
+        "channel": "eBay",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in New Zealand",
+        "country": "NZ",
+        "currency": "NZD",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-not-on-the-high-street-gb",
+        "channel": "Not On The High Street",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in UK",
+        "country": "GB",
+        "currency": "GBP",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-not-on-the-high-street-ie",
+        "channel": "Not On The High Street",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in Ireland",
+        "country": "IE",
+        "currency": "EUR",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-not-on-the-high-street-us",
+        "channel": "Not On The High Street",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in the US",
+        "country": "US",
+        "currency": "USD",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-not-on-the-high-street-ca",
+        "channel": "Not On The High Street",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in Canada",
+        "country": "CA",
+        "currency": "CAD",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-not-on-the-high-street-au",
+        "channel": "Not On The High Street",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in Australia",
+        "country": "AU",
+        "currency": "AUD",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-not-on-the-high-street-nz",
+        "channel": "Not On The High Street",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in New Zealand",
+        "country": "NZ",
+        "currency": "NZD",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-folksy-gb",
+        "channel": "Folksy",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in UK",
+        "country": "GB",
+        "currency": "GBP",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-folksy-ie",
+        "channel": "Folksy",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in Ireland",
+        "country": "IE",
+        "currency": "EUR",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-folksy-us",
+        "channel": "Folksy",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in the US",
+        "country": "US",
+        "currency": "USD",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-folksy-ca",
+        "channel": "Folksy",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in Canada",
+        "country": "CA",
+        "currency": "CAD",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-folksy-au",
+        "channel": "Folksy",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in Australia",
+        "country": "AU",
+        "currency": "AUD",
+        "status": "not-checked"
+      },
+      {
+        "id": "fee-folksy-nz",
+        "channel": "Folksy",
+        "commission": "",
+        "fixedFee": "",
+        "chargeback": "",
+        "note": "Not checked yet in New Zealand",
+        "country": "NZ",
+        "currency": "NZD",
+        "status": "not-checked"
       }
     ],
+    "channelFeeDataVersion": 2,
     "royaltyRate": "10",
     "affiliateRate": "15",
     "agentRate": "10",

@@ -168,7 +168,7 @@ export function readFoundation(sessions: FoundationSessions, options?: { wholeOn
     const drawings = ownersTakeDrawings(legalEntity.organisation.legalForm);
 
     const calculated = settings
-        ? calculatedLines({ foundation: financial, revenuePage, lines, capability, settings, openingDate: settings.openingDate, drawings }, incomeTaxRate(financial))
+        ? calculatedLines({ foundation: financial, revenuePage, lines, capability, settings, openingDate: settings.openingDate, drawings, country: legalEntity.organisation.country, engagement }, incomeTaxRate(financial))
         : undefined;
     // The cash to raise before the opening, which the Establishment need is (ContingencyFunds.ts).
     const launched = settings

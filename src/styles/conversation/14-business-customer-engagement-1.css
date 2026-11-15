@@ -1177,6 +1177,23 @@
 
 }
 
+/* A STAGE UNFOLDED (owner, 2026-11-15 15:01: "add a bold dividing line under the Journey Stages when they are unfolded"): the bold line of the heading row
+   (2px, the card's divider colour) under its row, edge to edge; folded, the row keeps the thin line. */
+.legal-entity-org-section:has(> .business-relationship-stage-row .business-relationship-stage-head .business-capability-links-list){
+
+    border-bottom:2px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge)) !important;
+
+}
+
+/* A STAGE'S CHANNELS, unfolded: each channel's name semi-bold (600, with the bold tracking), its subchannels in the body weight under it (owner,
+   2026-11-15 15:01). */
+.business-relationship-stage-head .fold-list-group > .business-capability-card-link:not(.fold-list-line-bullet){
+
+    font-weight:600;
+    letter-spacing:calc(var(--rest-tracking, 0em) + var(--bold-tracking));
+
+}
+
 /* ONE LINE ACROSS A STAGE'S ROW (owner, 2026-11-14 17:44: "Fix the gaps, and alignment properly"): the stage's name, its first Goal and the first line of
    its Approach stand on one line -- the middle of a 44px cell, as the Approach box's first line. */
 .business-relationship-stage-row:not([data-head]) > .legal-entity-radio-stack{

@@ -49,7 +49,7 @@ const SPEC: [string, string[], string[]][] = [
     ["Social Media", ["Instagram", "Facebook", "LinkedIn", "YouTube", "TikTok", "Pinterest", "X (Twitter)"], ["Discover", "Evaluation", "Support & Follow Up"]],
     ["Community", ["Facebook Group", "Discord", "Reddit", "Slack", "Meetup"], ["Discover", "Evaluation", "Support & Follow Up"]],
     ["Website", ["Main Website", "Online Store", "Landing Page", "Booking / Registration Page", "Contact Page"], ["Discover", "Evaluation", "Purchase", "Delivery", "Support & Follow Up"]],
-    ["Marketplace", ["Etsy", "Amazon", "Gumroad", "Fiverr", "Upwork"], ["Discover", "Evaluation", "Purchase", "Delivery"]],
+    ["Marketplace", ["Etsy", "Amazon", "eBay", "Not On The High Street", "Folksy", "Gumroad", "Fiverr", "Upwork"], ["Discover", "Evaluation", "Purchase", "Delivery"]],
     ["In Person", ["Studio / Shop", "Market / Pop-up", "Trade Fair / Exhibition", "Workshop / Class", "Event / Talk", "Sales Visit", "Customer Location", "Pickup / Collection"], ["Discover", "Evaluation", "Delivery", "Support & Follow Up"]],
     ["Email", ["Direct Email", "Newsletter", "Email Campaign", "Automated Email"], ["Evaluation", "Delivery", "Support & Follow Up"]],
     ["Online / Live", ["Zoom", "Google Meet", "Microsoft Teams", "Live Stream"], ["Evaluation", "Delivery", "Support & Follow Up"]],

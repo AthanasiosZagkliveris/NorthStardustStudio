@@ -25,6 +25,10 @@ import {
     usefulLifeOf,
     amortisationOfCostOption
 } from "./GlobalSettings.ts";
+import { offeringChannelRevenue, offeringMonthlyRevenue } from "./DemandCapacity.ts";
+import type { BusinessEngagementValue } from "./businessFoundation/engagementReaders.ts";
+import { BUSINESS_CHANNEL_CATEGORIES, BUSINESS_CHANNEL_OTHER } from "./businessFoundation/channelCategories.ts";
+import { FEE_CHANNEL_CATEGORIES } from "./ChannelFeeData.ts";
 
 /*
     THE CALCULATED LINES of the Financial Foundation (cost model, section 7; automatic rules X1 to X5, X11, X12): lines nobody types, worked out from the
@@ -122,22 +126,67 @@ function rateOf(line: CostLine, settings: GlobalSettingsValue): number | null {
     }
 }
 
-/** The row of the Channel Fee Table a card is for: the one whose channel the card's name contains (or is contained by). */
-export function channelFeeRowFor(name: string, table: readonly ChannelFeeRow[]): ChannelFeeRow | undefined {
+/**
+ * The row of the Channel Fee Table a card is for: the one whose channel the card's name contains (or is contained by), in the Legal Entity's country (owner,
+ * 2026-11-15 15:10; while no country is chosen, the UK's, the table's first). A row with no rate -- not checked yet, or not available there -- is never charged.
+ */
+export function channelFeeRowFor(name: string, table: readonly ChannelFeeRow[], country = ""): ChannelFeeRow | undefined {
     const wanted = name.trim().toLowerCase();
+    const where = country.trim() || "GB";
     return wanted === "" ? undefined : table.find(row => {
+        if ((row.country || "GB") !== where || row.status === "not-available" || (row.commission.trim() === "" && row.fixedFee.trim() === "")) {
+            return false;
+        }
         const channel = row.channel.trim().toLowerCase();
         return channel !== "" && (wanted.includes(channel) || channel.split(/[,/]\s*/).some(part => part !== "" && wanted.includes(part)));
     });
 }
 
 /**
+ * THE SUBCHANNELS THE USER NAMED WHERE A FEE IS TAKEN (owner, 2026-11-15 15:54: "According to the channel/question, it should create also an input for fees, in the
+ * global settings"): a subchannel of a paying category (FEE_CHANNEL_CATEGORIES) whose name is none its category lists -- one chosen as "Other" and typed --, each
+ * name once. The Global Settings give each a row of its own to fill, where none of the country's rows takes its name.
+ */
+export function ownFeeChannelNames(engagement: BusinessEngagementValue): string[] {
+    const names = engagement.segments.flatMap(segment => segment.channels)
+        .filter(channel => FEE_CHANNEL_CATEGORIES.includes(channel.category.trim()))
+        .filter(channel => {
+            const name = channel.name.trim();
+            const listed = BUSINESS_CHANNEL_CATEGORIES.find(category => category.label === channel.category.trim())?.channels.map(entry => entry.label.toLocaleLowerCase()) ?? [];
+            return name !== "" && name !== BUSINESS_CHANNEL_OTHER && !listed.includes(name.toLocaleLowerCase());
+        })
+        .map(channel => channel.name.trim());
+    return names.filter((name, at) => names.findIndex(other => other.toLocaleLowerCase() === name.toLocaleLowerCase()) === at);
+}
+
+/**
+ * THE CHANNEL FEE TABLE RESET (owner, 2026-11-15 15:54: "Create a reset button on the channel fees"): the country's rows from the app's fee data back as the data
+ * gives them (a rate changed is restored, a row removed is back); every row the user made, and every other country's row, kept as it is.
+ */
+export function resetChannelFees(table: readonly ChannelFeeRow[], country: string, data: readonly ChannelFeeRow[]): ChannelFeeRow[] {
+    const where = country.trim() || "GB";
+    return [...table.filter(row => (row.country || "GB") !== where || row.status === ""), ...data.filter(row => row.country === where)];
+}
+
+/**
+ * THE ROWS THE GLOBAL SETTINGS SHOW (owner, 2026-11-15 15:10: "only information that is related to the answers should be presented"): the country's rows
+ * (the UK's while none is chosen); of those from the app's fee data, the ones a used name takes -- whatever their status, so a provider not checked yet or not
+ * available there says so --; and every row the user made.
+ */
+export function shownChannelFees(table: readonly ChannelFeeRow[], country: string, usedNames: readonly string[]): ChannelFeeRow[] {
+    const where = country.trim() || "GB";
+    // (Owner, 2026-11-15 16:37: the rows appear by themselves, from the user's own channels; a row whose channel goes, leaves -- a row made by hand too.)
+    return table.filter(row => (row.country || "GB") === where &&
+        usedNames.some(name => channelFeeRowFor(name, [{ ...row, status: "checked", commission: row.commission || "0" }], where) !== undefined));
+}
+
+/**
  * THE ROW OF THE CHANNEL FEE TABLE A SUBCHANNEL PAYS (doc 50, section 1.4: "Match by the name, as the cost lines already do"): the row its own name takes
  * ("Etsy"), else the row the first of its expense cards takes ("SumUp card reader", "Shopify Payments"); with the name it was matched by.
  */
-export function channelFeeFor(names: readonly string[], table: readonly ChannelFeeRow[]): { row: ChannelFeeRow; by: string } | undefined {
+export function channelFeeFor(names: readonly string[], table: readonly ChannelFeeRow[], country = ""): { row: ChannelFeeRow; by: string } | undefined {
     for (const name of names) {
-        const row = channelFeeRowFor(name, table);
+        const row = channelFeeRowFor(name, table, country);
         if (row) {
             return { row, by: name.trim() };
         }
@@ -155,6 +204,39 @@ export interface CalculationInput {
     openingDate: string;
     /** Whether the owners take drawings rather than a salary (no on-costs then). */
     drawings: boolean;
+    /** The Legal Entity's country (ISO code): the Channel Fee Table's rows are read for it. */
+    country?: string;
+    /** Customer Engagement: which subchannels hold an expense, and each Offering's Customer Sources through them (a channel's share of revenue). */
+    engagement?: BusinessEngagementValue;
+}
+
+/**
+ * THE PART OF EACH OFFERING'S REVENUE A SHARE OF REVENUE IS CHARGED ON (owner, 2026-11-14 23:30: "A SHARE OF REVENUE IS A RATE, NOT A SPLIT"; 20:25: a
+ * channel's by what each Offering sells through the expense's own subchannels; 2026-11-15 15:32, the forecast as the Inventory): 1 -- the whole of its own
+ * revenue, at the full rate, whatever shares the card holds --, or, for an expense a subchannel holds, the part of the Offering's expected sales that its
+ * Customer Sources make through those subchannels (0 where it sells nothing there). Where no Customer Source names them, the whole revenue.
+ */
+export function revenueFractions(lineId: string, offeringIds: readonly string[], engagement: BusinessEngagementValue | undefined, revenuePage: FinancialSustainabilityValue): Record<string, number> {
+    const whole = Object.fromEntries(offeringIds.map(id => [id, 1]));
+    if (!engagement) {
+        return whole;
+    }
+    const channels = engagement.segments.flatMap(segment => segment.channels);
+    const keys = [...new Set(engagement.channelResources
+        .filter(link => link.resourceId === lineId)
+        .map(link => channels.find(channel => channel.id === link.channelId))
+        .filter((channel): channel is NonNullable<typeof channel> => channel !== undefined)
+        .map(channel => channel.category.trim() + "\u0001" + channel.name.trim()))];
+    if (keys.length === 0) {
+        return whole;
+    }
+    const byChannel = offeringChannelRevenue(engagement.demand, revenuePage.streams, channels);
+    const total = offeringMonthlyRevenue(engagement.demand, revenuePage.streams);
+    const through = Object.fromEntries(offeringIds.map(id => [id, keys.reduce((sum, key) => sum + (byChannel[id]?.[key] ?? 0), 0)]));
+    if (!offeringIds.some(id => through[id] > 0)) {
+        return whole;
+    }
+    return Object.fromEntries(offeringIds.map(id => [id, (total[id] ?? 0) > 0 ? Math.min(1, through[id] / total[id]) : 0]));
 }
 
 /** An offering's revenue, units and orders, month by month, from its revenue streams. */
@@ -228,9 +310,10 @@ export function calculatedLines(input: CalculationInput, fromFoundationRate: num
     const percentageLines: CalculatedResult["percentageLines"] = [];
     counted.filter(line => line.billing === "percentage" || line.frequency === "usage-based").forEach(line => {
         const ids = line.offeringIds.length > 0 && !line.offeringIds.includes("*") ? line.offeringIds : [...flows.keys()];
-        const shares = line.offeringShares ?? Object.fromEntries(ids.map(id => [id, 1 / ids.length]));
+        // (A rate of each Offering's own revenue: never shared out between them, owner, 2026-11-15 15:32.)
+        const shares = revenueFractions(line.id, ids, input.engagement, input.revenuePage);
         const active = activeMonths(line, start);
-        const table = channelFeeRowFor(line.name, settings.channelFees);
+        const table = channelFeeRowFor(line.name, settings.channelFees, input.country ?? "");
         const percent = table ? (settingNumber(table.commission) ?? 0) + (settingNumber(table.chargeback) ?? 0) : rateOf(line, settings);
         const fixed = table ? settingNumber(table.fixedFee) ?? 0 : 0;
         if (percent === null) {
@@ -254,6 +337,37 @@ export function calculatedLines(input: CalculationInput, fromFoundationRate: num
                 : "channel-fee";
         percentageLines.push({ id: line.id, label: line.name, kind, values: values.map(round) });
     });
+
+    /* A PAYMENT SERVICE'S OR A MARKETPLACE'S CARD WITH NO PRICE (owner, 2026-11-15 16:37: "a payment service's fee should reach the forecast through its fee row"): a
+       "% of revenue" partner or supplier card whose name takes the country's row of the Channel Fee Table is charged from that row -- the cards the answers make
+       carry no price --, on its Offerings' revenue through its subchannels, from its Start to its End. A card with a price is a line of its own above, so it is never
+       charged twice. */
+    const priced = new Set(percentageLines.map(line => line.id));
+    [...capability.offering.providers, ...capability.providers, ...capability.offering.professionals, ...capability.professionals]
+        .filter(card => card.cost.frequency === "percent-revenue" && parseAmount(card.cost.price) === null && !priced.has(card.id) && !counted.some(line => line.id === card.id))
+        .forEach(card => {
+            const row = channelFeeRowFor(card.name, settings.channelFees, input.country ?? "");
+            if (!row) {
+                return;
+            }
+            const ids = card.offeringIds.length > 0 && !card.offeringIds.includes("*") ? card.offeringIds : [...flows.keys()];
+            const shares = revenueFractions(card.id, ids, input.engagement, input.revenuePage);
+            const active = activeMonths({ startDate: card.startDate, endDate: card.endDate } as CostLine, start);
+            const percent = (settingNumber(row.commission) ?? 0) + (settingNumber(row.chargeback) ?? 0);
+            const fixed = settingNumber(row.fixedFee) ?? 0;
+            const values = zeros();
+            ids.forEach(id => {
+                const flow = flows.get(id);
+                if (flow) {
+                    for (let index = 0; index < MODEL_MONTHS; index++) {
+                        if (active[index]) {
+                            values[index] += (flow.revenue[index] * percent / 100 + flow.orders[index] * fixed) * (shares[id] ?? 0);
+                        }
+                    }
+                }
+            });
+            percentageLines.push({ id: card.id, label: card.name, kind: "channel-fee", values: values.map(round) });
+        });
 
     /* Assets (X1, X2): what the rules capitalise, with the services bundled into it. */
     const assets: CapitalisedAsset[] = [];
