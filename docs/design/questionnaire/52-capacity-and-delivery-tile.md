@@ -1,0 +1,135 @@
+# 52. Capacity & Delivery: the tile, as proposed
+
+Status: **proposal**, written 2026-11-15, for the owner's decision. Nothing here is built. It renames the Delivery tile of Business Capability (Offering's Capability) "Capacity & Delivery" and places doc 51's seven additions (doc 51, section 4) on it, on the Delivery card, in the Delivery dialog and in Sustainability's check, with existing components only. Section 7 adds one proposal for the Lumen & Loom Studio example.
+
+Related: doc 51 (the research and the seven additions), doc 50 (Demand & Conversion, seasons from D3), doc 43 (the Offering card: O1, O3, O10, O15), doc 47 (Customer Engagement: the subchannels and the journey stage Delivery), doc 48 (the Financial pages), doc 40 (the form of a tile document), doc 44 (the register); `src/components/interview/editors/capability/useCapabilitySections.tsx` (the tile), `src/components/interview/editors/capability/useCapabilityActivityAndDelivery.tsx` (the dialog and the cards), `src/components/interview/editors/BusinessCapabilityModel.ts` (`DELIVERY_HELP`), `src/framework/engine/DemandCapacity.ts` (`founderDeliveryHours`, `capacityCheck`), `src/components/interview/editors/FinancialSustainabilityEditor.tsx` (`capacityBlock`).
+
+## 1. The rename
+
+- **Today:** the tile is titled "Delivery" (`useCapabilitySections.tsx`, the tile with id `delivery`); its dialog opens under "Delivery", and each Offering's card floats under the caption "Delivery".
+- **Proposed:** the tile and its dialog are titled **Capacity & Delivery**. The dialog's first part is the founders' capacity (and, with this proposal, the planning ceiling, the deliverable sales and when to add help); the cards below hold each Offering's delivery. The new name says both.
+- **The floating card keeps "Delivery"** as its caption: it holds one Offering's delivery only **[decision 1]**.
+- **It also separates the tile from the journey stage.** "Delivery" is also a stage of the customer journey on Customer Engagement (doc 47). "Capacity & Delivery" on Business Capability reads as its own place.
+- **What changes with it:** the tile's `title`, the dialog's heading, `DELIVERY_HELP.section`'s first line ("How much the founders can deliver, and how each Offering is delivered: …"), the tests that open the tile by name (`BusinessCapabilityEditor.test.tsx`, `openTile("Delivery")`), the examples' golden files, doc 22 (help texts) and the page 3 specification. The tile's id (`delivery`), its anchor (`section-offering-delivery`) and the saved data (`capability.delivery`) stay as they are, so saved work opens unchanged.
+
+## 2. What the tile is
+
+- **Where:** Business System › page 3, Business Capability › Offering's Capability, beside Activities and Partners & Suppliers.
+- **The tile (closed):** its title and a link for each Offering; a link opens that Offering's Delivery card alone, floating; the rest of the tile opens the dialog. Unchanged.
+- **The dialog, in order:**
+  1. **Capacity** (the `delivery-capacity` band): the founders' delivery capacity line, the per-founder list, and each founder's month at the expected sales (the `delivery-budget-table` and its bar). Sections 4.1 to 4.4 add to it.
+  2. **The Delivery cards** (`CardBoxes`, one `BusinessCard` for each Offering). Section 3 adds to them.
+- **Components used:** only the ones the dialog and card already use: `BusinessCard`, `BusinessField` (side rows), `OptionPicker`, `NumberCell`, `OptionalNote`, `InfoText` with `InfoNote`, the `delivery-budget-table`, the `delivery-budget-bar`, `delivery-muted` lines and `CardBoxes`. The one addition to a look is a mark on the bar at the planning ceiling (section 4.1), made in the bar's own shared style **[decision 2]**.
+
+## 3. The Delivery card, one for each Offering
+
+The card's questions in the card's order, with proposed codes. The card has no codes yet (doc 44 lists none for it); **DV** is free and would be added to `tools/scripts/docs/questions-register.mjs`. DV1 to DV5 are built; DV6 to DV11 are proposed.
+
+### DV1. Delivered
+
+- **Control:** one choice (`OptionPicker`, side row): Per unit, Every month. **Asked:** always. **Started from:** O3. Built.
+
+### DV2. Hours Given
+
+- **Control:** one choice: Per month, Per week. **Asked:** when DV1 is Every month. Built.
+
+### DV3. Working Hours per Unit, by person
+
+- **Control:** a `NumberCell` for each founder and each External Professional linked to the Offering. **Asked:** always. Built.
+- **With DV6 (proposed):** on a session card the label reads "Working Hours per Session, by person", and the total line adds "about N h a customer" (hours ÷ DV6).
+
+### DV6. Customers in one session (proposed; doc 51, addition 5)
+
+- **Control:** a number (`NumberCell`, side row), starts at 1. **Asked:** when DV1 is Per unit and the Offering is delivered as a session, class, workshop or event **[decision 3: which O1 or O3 answers count]**.
+- **What it changes:** the hours a sale takes are DV3 ÷ DV6; the budgets and Sustainability's check read the hours for the sessions needed (expected sales ÷ DV6, rounded up). With DV6 at 1 every saved card reads as today.
+- **The "i" says:** "The most customers one session serves: a class of 8 in a 3-hour session takes about 23 minutes a customer. Expected sales count customers; the hours count sessions."
+- **Lumen:** Weaving Workshops (up to eight a workshop) gets DV6 = 8 and DV3 per session (Maya Chen 3.2 h, the linked External Professional 0.8 h): the same 0.4 h and 0.1 h a participant as today, now read as about 4 sessions a month for the 32 places.
+
+### DV4. Calendar Time (weeks)
+
+- **Control:** a number. **Asked:** when DV1 is Per unit. **Started from:** O15. Built.
+
+### DV7 and DV8. Limited by, and Holds at once (proposed; doc 51, addition 4)
+
+- **Control:** one optional side row: DV7 a one-choice `OptionPicker` of this Offering's Resource cards (equipment, workspace), DV8 a `NumberCell` beside it. **Asked:** when DV1 is Per unit and the Offering has at least one Resource card.
+- **What it checks:** the card's "about N running at once" line adds "· the 3 floor looms hold 3", and where the running work is more than DV8: "About 4 running at once: the 3 floor looms hold 3. Plan for a longer Calendar Time or one more loom."
+- **The "i" says:** "The equipment or room each unit needs while it runs, and how many units it holds at once. A loom, a kiln or a treatment room often sets the pace while the founders still have hours."
+
+### DV9 and DV10. Set-up for a batch, and Units in a batch (proposed; doc 51, addition 7)
+
+- **Control:** two optional numbers on one side row. **Asked:** when DV1 is Per unit and the Offering's category is a Product or Hybrid (doc 43).
+- **What it changes:** the hours a unit takes add DV9 ÷ DV10; the total line shows "set-up adds 0.5 h a unit".
+- **The "i" says:** "The time one batch takes to set up (warping a loom, firing a kiln, preparing a kitchen) and the units it makes. Bigger batches spread the set-up over more units."
+
+### DV5. Constraints
+
+- **Control:** `OptionalNote`, free text. **Started from:** O10. Built. With DV7 and DV8, it keeps what a figure cannot hold (lead times, availability).
+
+### DV11. Hours a month they can give (proposed; doc 51, addition 7)
+
+- **Where:** on the External Professional's card (Partners & Suppliers), one optional `NumberCell`; its one owner is that card. Listed here because the Delivery card and the dialog read it.
+- **What it checks:** the dialog and Sustainability report a professional's hours above it: "Ana: 30 h needed a month, 20 h available."
+
+## 4. The Delivery dialog: the Capacity band
+
+Doc 51's additions 1, 2, 3 and 6 add lines to the band. None asks a new question: each is read from answers already given. The quoted figures show the wording; they are illustrations, not Lumen's results (Lumen's 99% for Maya Chen is what the dialog shows today).
+
+### 4.1 The planning ceiling at 85% (addition 1)
+
+- **The bar:** a mark at 85% (section 2, decision 2). The line under the bar: "99% of Maya Chen's delivery hours at the expected sales. A plan holds best at 85% or less: that leaves room for a busy week or a day off." At 85% or less: "72% of Maya Chen's delivery hours at the expected sales: room for a busy week or a day off."
+- **The "i" (`CAPACITY_UTILISATION_HELP`) adds:** "Above about 85%, waiting and late work grow fast (Choo, 2016, after Kingman)."
+- **The ceiling is a constant** (`PLANNING_CEILING = 0.85` in `DemandCapacity.ts`) **[decision 4: fixed, or a figure in Global Settings]**.
+
+### 4.2 The sales the capacity can deliver (addition 2)
+
+- **One `delivery-muted` line per founder above the ceiling:** "At 85% of Maya Chen's hours, about 14 Bespoke commissions a month fit; the expected 18 leave about 4 a month, about £380, for more hours or help."
+- **Which Offering gives way:** the last one in the budget (recurring work stays first, as today) **[decision 5]**.
+- **Read by:** the Business Plan's risks and operations text (not built yet). The forecast stays as the founder set it.
+
+### 4.3 When to start adding capacity (addition 3)
+
+- **One line, from Sustainability's ramp:** "Maya Chen passes 85% in March 2027. To have help by then, start looking by January: hiring takes about 5 weeks in the UK, then notice and training (Totaljobs, 2025)."
+- **The lead time:** 8 weeks in all (5 to hire, 3 for notice and training) **[decision 6]**. A first employee also needs PAYE registration and Employers' Liability insurance (GOV.UK): the line links to Legal Entity › Registrations.
+
+### 4.4 The busiest times (addition 6)
+
+- **Now:** where a Segment's D3 is Evenings or Weekends and the Offering is delivered live (In Person, Online / Live subchannels), one line: "Your customers buy in the evenings and at weekends: plan the delivery hours for those times."
+- **With doc 50's seasons:** the busiest month, "December needs 118% of Maya Chen's hours", in the band and in Sustainability's check.
+
+## 5. Sustainability: "Can the Expected Sales Be Delivered?"
+
+- **Today** (`capacityBlock`): the founders' hours needed against their hours month by month, the first month short, and the busiest month.
+- **Proposed, in the same `FigureTable` and verdict line:**
+  - a column or row mark for the months above 85%, and the verdict names "the first month above 85%" beside "the first month short" (4.1);
+  - the sales and revenue beyond the ceiling in the first such month (4.2);
+  - the month to start adding capacity (4.3);
+  - External Professionals' hours above their DV11, by name.
+- **Reads:** `capacityCheck` gains the ceiling and returns `firstAboveCeiling`; nothing else on the page changes.
+
+## 6. Order of building
+
+1. The rename (section 1): words, tests, examples, docs.
+2. 4.1, 4.2 and 4.3 with section 5: no new question, the largest gain for the plan.
+3. DV6 (Customers in one session), then DV7 and DV8, then DV9 and DV10, then DV11.
+4. 4.4 now for D3; the busiest month with doc 50's seasons.
+
+Each step: tests, the examples (`src/data/examples/`), the golden files, doc 44 (`npm run docs:index`), doc 22, the page 3 specification and the log.
+
+## 7. The Lumen example: Weaving Workshops sold through the Online Store
+
+- **Today:** Weaving Workshops' two Customer Sources are a Sales funnel through Instagram (about 160 enquiries a month, 25% ask for dates, 50% book: 20 places) and Referrals (20 introductions, 60%: 12 places); 32 places a month. Its Purchase approach on Customer Engagement is "Simple online booking", and the Online Store (Website) serves every Offering. With the 20:25 rule (a channel's share of revenue split by what each Offering sells through the expense's own subchannels), Shopify Basic and Shopify Payments, shared 70/30 with the Workshops, fall wholly on the Collection: the Workshops sell nothing through the Online Store.
+- **Proposed (A, recommended):** the funnel's subchannel becomes the Online Store, with its Basis: "About 160 people a month ask about workshops through Instagram and the Facebook group; one in four opens the dates in the online store, and half of those book there." The places stay at 32 a month; the Online Store's costs are then shared by what each Offering sells there.
+- **B:** a third Customer Source, Online Store visitors who book without asking first (for example 200 visits, 2%: 4 places). It adds sales, so the forecast and every figure after it move.
+- **[decision 7]** A or B; and whether the bookings go through the Shopify store or the Workshop booking app (£23 a month), in which case the subchannel is Website › Booking / Registration Page and the booking app is its expense.
+- **Then:** the example JSON, its golden files and the Inventory's shares are rewritten and checked on the page.
+
+## 8. Decisions for Thanos
+
+1. The floating card keeps the caption "Delivery" (recommended), or takes "Capacity & Delivery" too.
+2. A mark on the capacity bar at 85% (one addition to the bar's shared style), or the line under the bar only.
+3. Which Offerings ask DV6: those whose O1 or O3 answer is a session, class, workshop or event (recommended), or every Per unit Service.
+4. The ceiling fixed at 85% (recommended), or a figure in Global Settings.
+5. Which Offering's sales give way above the ceiling: the last in the budget (recommended), or each in proportion.
+6. The lead time to add help: 8 weeks (recommended), or asked once on the Founder cards.
+7. The Lumen example: A (recommended) or B, and the Shopify store or the booking app.
+8. The code prefix DV for the Delivery card's questions.
