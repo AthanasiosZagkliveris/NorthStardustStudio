@@ -403,7 +403,7 @@ C1 opens the box (owner, 2026-11-08, P8): the devices they find and buy on are a
 - **Options:**
   - Your website
   - Online reviews / ratings
-  - A demo / trial / sample
+  - A free sample · A free trial · A demo · A taster session or free class · A catalogue or brochure (owner, 2026-11-16 17:38, in place of "A demo / trial / sample"): each shown where one of the Segment's Offerings fits it, by its Type and form (O1): a physical item a sample and a catalogue (and a demo for a business Segment), an app or online access a trial, an app or project work a demo, a live or in-person session a taster (`segmentTrials`); a saved tick stays shown. A saved "A demo / trial / sample" reads as the ways that fit, A demo where none does.
   - A quote / proposal
   - Word of mouth / referrals
   - Comparison sites
@@ -413,7 +413,7 @@ C1 opens the box (owner, 2026-11-08, P8): the devices they find and buy on are a
   - How they pay and where they buy are the Segment's questions.
 - **Connections:**
   - *Comes from:* the Segment's path to purchase.
-  - *Read by (not built yet):* the Evaluate channels (page 2). Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
+  - *Read by (built):* the Evaluation channels (doc 47): the ways to try it first their Samples & Trials subchannel, the catalogue Print & Mail › Catalogue / Brochure, each named; a sample, trial, demo or taster makes the funnel's middle step "Tried it (%)" (doc 50); A demo or A quote starts D2's formal help. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
 
 ### D2. How much help does this person want before buying?
 

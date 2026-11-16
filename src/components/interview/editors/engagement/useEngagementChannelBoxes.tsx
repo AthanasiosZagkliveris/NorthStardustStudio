@@ -4,7 +4,7 @@
  */
 import { Fragment, ReactNode } from "react";
 import AddButton from "../../../controls/AddButton.tsx";
-import { BUSINESS_CHANNEL_ALL_OFFERINGS, BUSINESS_CHANNEL_CATEGORIES, BUSINESS_CHANNEL_OTHER, BUSINESS_ENGAGEMENT_SECTIONS, BUSINESS_JOURNEY_STAGES, BusinessChannelValue, BusinessCustomerSegmentValue, businessChannelNamePlaceholder, channelCategoryHelp, channelCategoryHidden, channelOptionHelp, createBusinessChannel } from "../../../../framework/engine/AnswerUtils.ts";
+import { BUSINESS_CHANNEL_ALL_OFFERINGS, BUSINESS_CHANNEL_CATEGORIES, BUSINESS_CHANNEL_OTHER, BUSINESS_ENGAGEMENT_SECTIONS, BUSINESS_JOURNEY_STAGES, BusinessChannelValue, BusinessCustomerSegmentValue, businessChannelNamePlaceholder, channelCategoryHelp, channelCategoryHidden, channelOptionHelp, createBusinessChannel, subchannelHidden } from "../../../../framework/engine/AnswerUtils.ts";
 import { BusinessAddButton, BusinessEmpty, OptionalField, BusinessRemove, BusinessStep, BusinessTicks, uniqueChoices } from "../../cards/BusinessCardFields.tsx";
 import InfoNote, { InfoText } from "../../fields/InfoNote.tsx";
 import NumberedListInput from "../../fields/NumberedListInput.tsx";
@@ -403,6 +403,7 @@ export function useEngagementChannelBoxes(earlier: Earlier) {
                                 placeholder="Select a subchannel"
                                 // (A subchannel that is already used -- it has a card -- is not offered again: its Offerings are added on its own card.)
                                 options={channelNameOptions(channel.category, answers.channels.filter(candidate => candidate.id !== channel.id))
+                                    .filter(option => option === channel.name || !subchannelHidden(channel.category, option, noPhysical))
                                     .filter(option => option === BUSINESS_CHANNEL_OTHER || !answers.channels.some(other => other.id !== channel.id && other.category === channel.category && other.name.trim().toLocaleLowerCase() === option.toLocaleLowerCase()))}
                                 disabled={disabled}
                                 value={channel.name}

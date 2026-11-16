@@ -737,7 +737,8 @@
                       ],
                       "d1": [
                         "reviews-and-recommendations-online",
-                        "a-demo-trial-or-sample"
+                        "a-free-sample",
+                        "a-taster-session-or-free-class"
                       ],
                       "d2": [
                         "little"
@@ -2231,6 +2232,54 @@
                         "Answer questions about sizes, care and delivery from the contact form"
                       ]
                     }
+                  },
+                  {
+                    "id": "channel-sample01",
+                    "category": "Samples & Trials",
+                    "name": "Free Sample",
+                    "links": [
+                      ""
+                    ],
+                    "offerings": [
+                      "*"
+                    ],
+                    "stages": [
+                      "evaluation"
+                    ],
+                    "actionIds": {
+                      "evaluation": [
+                        "action-channel-sample01-evaluation-1"
+                      ]
+                    },
+                    "actions": {
+                      "evaluation": [
+                        "Post a woven swatch with each fabric enquiry"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "channel-taster01",
+                    "category": "Samples & Trials",
+                    "name": "Taster Session / Free Class",
+                    "links": [
+                      ""
+                    ],
+                    "offerings": [
+                      "*"
+                    ],
+                    "stages": [
+                      "evaluation"
+                    ],
+                    "actionIds": {
+                      "evaluation": [
+                        "action-channel-taster01-evaluation-1"
+                      ]
+                    },
+                    "actions": {
+                      "evaluation": [
+                        "Run a free half-hour weaving taster before each workshop"
+                      ]
+                    }
                   }
                 ],
                 "actions": [
@@ -2393,6 +2442,14 @@
                   {
                     "id": "action-channel-contact01-evaluation-1",
                     "text": "Answer questions about sizes, care and delivery from the contact form"
+                  },
+                  {
+                    "id": "action-channel-sample01-evaluation-1",
+                    "text": "Post a woven swatch with each fabric enquiry"
+                  },
+                  {
+                    "id": "action-channel-taster01-evaluation-1",
+                    "text": "Run a free half-hour weaving taster before each workshop"
                   }
                 ],
                 "offerings": [

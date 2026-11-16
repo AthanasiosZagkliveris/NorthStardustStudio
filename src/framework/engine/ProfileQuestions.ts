@@ -82,7 +82,7 @@ const WORDS: Record<string, string> = {
     "as-caring-for-others-or-the-planet": "Altruistic", "as-leaving-something-for-their-family": "Impactful",
     "as-someone-others-trust": "Trusted", "as-well-connected": "Influential", "as-more-valued-in-their-field": "Respected", "as-a-responsible-business": "Responsible",
     // Other questions' words.
-    "your-website": "Your website", "a-demo-trial-or-sample": "A demo / trial / sample", "a-quote-or-proposal": "A quote / proposal", "a-meeting-or-call": "A meeting / call"
+    "your-website": "Your website", "a-quote-or-proposal": "A quote / proposal", "a-meeting-or-call": "A meeting / call"
 };
 const WORRIES = ["The price or their budget", "Whether they can trust you", "How long it takes to start", "How hard it is to use", "Risk or security", "Whether it fits their needs", "Support after they buy", "The effort of switching from what they use now", "What others will think"];
 
@@ -165,7 +165,8 @@ const QUESTIONS: readonly ProfileQuestion[] = [
     {
         id: "d1", box: "habits", label: "How does {s} compare options?", many: true,
         // The ids stay those of the first wording (they are saved answers and the Segment reads them): only the words changed, so a review online and a recommendation by people are told apart.
-        options: list(["Your website", "Reviews and recommendations online", "A demo, trial or sample", "A quote or proposal", "What other people recommend", "Comparison sites", "A meeting or call"]).map(option => option.id === "reviews-and-recommendations-online" ? { ...option, label: "Online reviews / ratings" } : option.id === "what-other-people-recommend" ? { ...option, label: "Word of mouth / referrals" } : option),
+        // (Owner, 2026-11-16 17:38: "A demo, trial or sample" is five ways to try it first, each shown where one of the Segment's Offerings fits it: TRIAL_OPTIONS.)
+        options: list(["Your website", "Reviews and recommendations online", "A free sample", "A free trial", "A demo", "A taster session or free class", "A catalogue or brochure", "A quote or proposal", "What other people recommend", "Comparison sites", "A meeting or call"]).map(option => option.id === "reviews-and-recommendations-online" ? { ...option, label: "Online reviews / ratings" } : option.id === "what-other-people-recommend" ? { ...option, label: "Word of mouth / referrals" } : option),
         info: ["How they weigh options before choosing.", "How they pay and where they buy are the Segment's questions."]
     },
     {
@@ -527,7 +528,9 @@ export function profileOptionsShown(question: ProfileQuestion, segment: SegmentA
     const minor = profileMinorUser(segment, context);
     const unfit = question.id === "social" ? question.options.map(option => option.id).filter(id => minor === "teen" ? NOT_SEEN_BY_A_TEEN.includes(id) : !SEEN_BY_A_CHILD.includes(id)) : [];
     const hidden = minor ? [...(NOT_FOR_MINORS[question.id] ?? []), ...unfit] : [];
-    const options = question.options.filter(option => !hidden.includes(option.id) || chosen.includes(option.id));
+    // (D1's ways to try it first: those the Segment's Offerings fit, where they are known; owner, 2026-11-16 17:38.)
+    const untried = question.id === "d1" && context.trials ? Object.keys(TRIAL_OPTIONS).filter(id => !context.trials!.includes(TRIAL_OPTIONS[id])) : [];
+    const options = question.options.filter(option => (!hidden.includes(option.id) && !untried.includes(option.id)) || chosen.includes(option.id));
     let first: string[] = [];
     if (question.id === "a7") {
         first = [...new Set(context.relations.flatMap(id => HOUSEHOLD_FIRST[id] ?? []))];
@@ -538,6 +541,25 @@ export function profileOptionsShown(question: ProfileQuestion, segment: SegmentA
     }
     const rank = (id: string) => first.includes(id) ? first.indexOf(id) : first.length;
     return first.length > 0 ? [...options].sort((a, b) => rank(a.id) - rank(b.id)) : options;
+}
+
+/** D1's ways to try it first (owner, 2026-11-16 17:38), each by the way the Segment's Offerings can be tried (segmentTrials). */
+export const TRIAL_OPTIONS: Readonly<Record<string, string>> = {
+    "a-free-sample": "sample", "a-free-trial": "trial", "a-demo": "demo", "a-taster-session-or-free-class": "taster", "a-catalogue-or-brochure": "catalogue"
+};
+/** D1's options where they tried it: the sales funnel's middle step is a trial (funnelIsTrial). */
+export const TRIED_OPTIONS: readonly string[] = ["a-free-sample", "a-free-trial", "a-demo", "a-taster-session-or-free-class"];
+/** D1's single option before 2026-11-16, read as the ways that fit. */
+const OLD_DEMO = "a-demo-trial-or-sample";
+
+/** D1 saved before 2026-11-16: "A demo, trial or sample" becomes the ways to try it the Segment's Offerings fit (a catalogue aside), A demo where none fits. */
+function d1Migrated(chosen: readonly string[], context: SegmentContext): string[] {
+    if (!chosen.includes(OLD_DEMO)) {
+        return [...chosen];
+    }
+    const fitting = TRIED_OPTIONS.filter(id => (context.trials ?? []).includes(TRIAL_OPTIONS[id]));
+    const ways = fitting.length > 0 ? fitting : ["a-demo"];
+    return [...new Set(chosen.flatMap(id => id === OLD_DEMO ? ways : [id]))];
 }
 
 /** What the Segment sets for a question that is not shown, or starts for one that is (the user can change a start). */
@@ -578,7 +600,7 @@ function startOf(question: ProfileQuestion, segment: SegmentAnswers, context: Se
             }
             // With no other start, how they compare options (D1; 2026-11-09): a demo, trial or sample, or a quote or proposal, needs a formal one; a meeting or call, a person.
             const compare = answers.d1 ?? [];
-            return compare.includes("a-demo-trial-or-sample") || compare.includes("a-quote-or-proposal") ? ["formal"] : compare.includes("a-meeting-or-call") ? ["person"] : undefined;
+            return compare.includes("a-demo") || compare.includes(OLD_DEMO) || compare.includes("a-quote-or-proposal") ? ["formal"] : compare.includes("a-meeting-or-call") ? ["person"] : undefined;
         }
         case "e3":
             // The household income, a rating: 1 (low) starts the worry about price.
@@ -654,6 +676,9 @@ export function profileSettle(saved: SegmentAnswers, segment: SegmentAnswers, co
     }
     if (business && (segment.orgtype ?? []).includes("self")) {
         settled.a3b = ["owner"];
+    }
+    if (answers.d1) {
+        answers.d1 = d1Migrated(answers.d1, context);
     }
     for (const question of QUESTIONS) {
         const chosen = answers[question.id];

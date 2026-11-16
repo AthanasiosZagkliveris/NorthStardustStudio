@@ -3,6 +3,7 @@ import { BUSINESS_CHANNEL_ALL_OFFERINGS, type BusinessChannelValue, type Busines
 import { effectiveOfferingAnswers, effectiveProfileAnswers, effectiveSegmentAnswers, offeringIsPhysical } from "./EffectiveAnswers.ts";
 import { demandChannelIds } from "./DemandCapacity.ts";
 import { writtenInNames } from "./SegmentQuestions.ts";
+import { TRIED_OPTIONS } from "./ProfileQuestions.ts";
 import { businessProfileOfferings } from "./businessFoundation/engagementPage.ts";
 import { type SegmentIdentity, segmentIsBusiness } from "./SegmentContext.ts";
 
@@ -40,8 +41,18 @@ const DISCOVER: Readonly<Record<string, Pick>> = {
     events: ["In Person", "Event / Talk"],
     sales: ["In Person", "Sales Visit"],
     partners: ["Referral & Affiliates", "Referral Partner"],
-    affiliates: ["Referral & Affiliates", "Affiliate"]
+    affiliates: ["Referral & Affiliates", "Affiliate"],
+    flyers: ["Print & Mail", "Flyers / Posters"],
+    post: ["Print & Mail", "Direct Mail"]
 };
+
+/** Where they see adverts (Box 4, 3a) → its Advertising subchannel at Discover. */
+const ADVERTS: Readonly<Record<string, string>> = { press: "Newspaper / Magazine", radio: "Radio", tv: "TV", outdoor: "Billboard / Outdoor" };
+
+/** The way to try it first each Offering's form gives, where they discover by free samples, tasters or trials (owner, 2026-11-16 17:38). */
+function trialOf(physical: boolean, form: string | undefined): string {
+    return physical ? "Free Sample" : form === "app" || form === "access" ? "Free Trial" : form === "live" || form === "inperson" ? "Taster Session / Free Class" : "Demo";
+}
 
 /** The Profiles' social media (C2) → Social Media and its platform. */
 const SOCIAL: Readonly<Record<string, string>> = {
@@ -58,12 +69,16 @@ const EVENTS: Readonly<Record<string, string>> = {
     market: "Market / Pop-up", fair: "Trade Fair / Exhibition", workshop: "Workshop / Class", talk: "Event / Talk"
 };
 
-/** How the Profiles compare options (D1) → an Evaluation channel. A demo, trial or sample is In Person for a physical item, else Online / Live. */
-const COMPARE: Readonly<Record<string, Pick | "demo">> = {
+/** How the Profiles compare options (D1) → an Evaluation channel; the ways to try it first their Samples & Trials subchannel, a catalogue Print & Mail's (owner, 2026-11-16 17:38). */
+const COMPARE: Readonly<Record<string, Pick>> = {
     "your-website": ["Website", "Main Website"],
     "reviews-and-recommendations-online": ["Website", "Main Website"],
     "comparison-sites": ["Website", "Main Website"],
-    "a-demo-trial-or-sample": "demo",
+    "a-free-sample": ["Samples & Trials", "Free Sample"],
+    "a-free-trial": ["Samples & Trials", "Free Trial"],
+    "a-demo": ["Samples & Trials", "Demo"],
+    "a-taster-session-or-free-class": ["Samples & Trials", "Taster Session / Free Class"],
+    "a-catalogue-or-brochure": ["Print & Mail", "Catalogue / Brochure"],
     "a-quote-or-proposal": ["Email", "Direct Email"],
     "what-other-people-recommend": ["Referral & Affiliates", "Customer Referral"],
     "a-meeting-or-call": ["Online / Live", ""]
@@ -148,7 +163,6 @@ export function journeySuggestions(segment: BusinessCustomerSegmentValue, identi
     const answers = effectiveSegmentAnswers(segment, identity);
     const profiles = segment.profiles.map(profile => effectiveProfileAnswers(profile, segment, identity));
     const offerings = segment.offerings.map(offering => effectiveOfferingAnswers(offering, segment, identity));
-    const physical = segment.offerings.some(offering => offeringIsPhysical(offering, segment, identity));
     const ids = (list: readonly (Record<string, string[] | undefined>)[], key: string) => [...new Set(list.flatMap(entry => entry[key] ?? []))];
 
     const out: ChannelSuggestion[] = [];
@@ -161,7 +175,15 @@ export function journeySuggestions(segment: BusinessCustomerSegmentValue, identi
     // DISCOVER: how they discover you, then the social media, communities and events of the Profiles.
     const discover: ChannelSuggestion[] = [];
     const before = out.length;
-    (answers.discover ?? []).forEach(id => DISCOVER[id] && add("discovery", DISCOVER[id], "how they discover you", id === "partners" || id === "affiliates"));
+    (answers.discover ?? []).forEach(id => DISCOVER[id] && add("discovery", DISCOVER[id], "how they discover you", ["partners", "affiliates", "flyers", "post"].includes(id)));
+    // (Adverts: each place they see them, named (Box 4, 3a); free samples, tasters or trials: the way each Offering can be tried, a Demo with no Offering yet.)
+    if ((answers.discover ?? []).includes("adverts")) {
+        (answers.advertising ?? []).forEach(id => ADVERTS[id] && add("discovery", ["Advertising", ADVERTS[id]], "where they see adverts", true));
+    }
+    if ((answers.discover ?? []).includes("samples")) {
+        const ways = segment.offerings.length > 0 ? segment.offerings.map((offering, at) => trialOf(offeringIsPhysical(offering, segment, identity), offerings[at].o1?.[0])) : ["Demo"];
+        [...new Set(ways)].forEach(name => add("discovery", ["Samples & Trials", name], "how they discover you", true));
+    }
     // (A way of discovering written in under Other: a channel of the Other category, by its name, at Discover; owner, 2026-11-16 16:31.)
     segmentWrittenIn(answers, "discover").forEach(name => add("discovery", ["Other", name], "how they discover you", true));
     // (A platform, community or event the Profiles write in under Other (C2, C3, C4: `<id>-other`) is that very subchannel too, by the name written -- several
@@ -182,7 +204,7 @@ export function journeySuggestions(segment: BusinessCustomerSegmentValue, identi
     ids(profiles, "d1").forEach(id => {
         const rule = COMPARE[id];
         if (rule) {
-            add("evaluation", rule === "demo" ? (physical ? ["In Person", "Studio / Shop"] : ["Online / Live", ""]) : rule, "how they compare options");
+            add("evaluation", rule, "how they compare options", rule[0] === "Samples & Trials" || rule[0] === "Print & Mail");
         }
     });
 
@@ -477,7 +499,7 @@ export function demandSuggestions(segment: BusinessCustomerSegmentValue, offerin
  * sample" (D1), the Sales funnel's Qualified step is the people who tried it -- its label "Tried it (%)". No new kind of source.
  */
 export function funnelIsTrial(segment: BusinessCustomerSegmentValue, identity?: SegmentIdentity): boolean {
-    return segment.profiles.some(profile => (effectiveProfileAnswers(profile, segment, identity).d1 ?? []).includes("a-demo-trial-or-sample"));
+    return segment.profiles.some(profile => (effectiveProfileAnswers(profile, segment, identity).d1 ?? []).some(id => TRIED_OPTIONS.includes(id)));
 }
 
 /**

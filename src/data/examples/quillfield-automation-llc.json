@@ -436,7 +436,7 @@
                         "slack"
                       ],
                       "d1": [
-                        "a-demo-trial-or-sample",
+                        "a-demo",
                         "reviews-and-recommendations-online",
                         "a-meeting-or-call",
                         "a-quote-or-proposal"
@@ -556,7 +556,7 @@
                       "d1": [
                         "reviews-and-recommendations-online",
                         "comparison-sites",
-                        "a-demo-trial-or-sample"
+                        "a-demo"
                       ],
                       "d2": [
                         "alone"
@@ -1596,6 +1596,30 @@
                         "Book a 20-minute call from the contact page"
                       ]
                     }
+                  },
+                  {
+                    "id": "channel-demo01",
+                    "category": "Samples & Trials",
+                    "name": "Demo",
+                    "links": [
+                      ""
+                    ],
+                    "offerings": [
+                      "*"
+                    ],
+                    "stages": [
+                      "evaluation"
+                    ],
+                    "actionIds": {
+                      "evaluation": [
+                        "action-channel-demo01-evaluation-1"
+                      ]
+                    },
+                    "actions": {
+                      "evaluation": [
+                        "Show a recorded walkthrough of a finished automation on the first call"
+                      ]
+                    }
                   }
                 ],
                 "actions": [
@@ -1738,6 +1762,10 @@
                   {
                     "id": "action-channel-contact03-evaluation-1",
                     "text": "Book a 20-minute call from the contact page"
+                  },
+                  {
+                    "id": "action-channel-demo01-evaluation-1",
+                    "text": "Show a recorded walkthrough of a finished automation on the first call"
                   }
                 ],
                 "offerings": [

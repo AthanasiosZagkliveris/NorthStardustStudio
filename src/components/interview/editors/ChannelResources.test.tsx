@@ -266,26 +266,26 @@ describe("Typical costs for this channel (H4)", () => {
         }
     };
 
-    it("one press makes every template (T1 to T10 and T12, no T11) in its group, the price blank, linked to the channel", () => {
+    it("one press makes every template (T1 to T10, T12 and T13, no T11) in its group, the price blank, linked to the channel", () => {
         render(<Harness category="Other" />);
         press();
         const { offering } = saved.capability;
         expect(offering.resources.map(slot => slot.name)).toEqual([
             "Platform or tool subscription", "Stall, pitch, stand or event fee", "Display kit or hardware", "Travel and van hire", "Packaging and samples", "Event or transit insurance"
         ]);
-        expect(offering.providers.map(partner => partner.name)).toEqual(["Payment processing fees", "Marketplace fees and commission", "Ads and influencers", "Courier, postal, fulfilment"]);
+        expect(offering.providers.map(partner => partner.name)).toEqual(["Payment processing fees", "Marketplace fees and commission", "Ads and influencers", "Courier, postal, fulfilment", "Printing and postage"]);
         expect(offering.professionals.map(partner => partner.name)).toEqual(["Referral or reseller commission"]);
         expect(offering.resources[0]).toMatchObject({ status: "costs", category: "digital", group: "sales-delivery-tools" });
         expect(offering.resources.every(slot => slot.cost.price === "")).toBe(true);
         expect(offering.providers[2]).toMatchObject({ category: "suppliers", group: "agencies-influencers" });
-        expect(saved.engagement.channelResources).toHaveLength(11);
+        expect(saved.engagement.channelResources).toHaveLength(12);
     });
 
     it("pressing again makes nothing twice", () => {
         render(<Harness category="Other" />);
         press();
         press();
-        expect(saved.engagement.channelResources).toHaveLength(11);
+        expect(saved.engagement.channelResources).toHaveLength(12);
     });
 
     it("an item the company already has is not made but offered as Link existing; linking makes nothing, and taking it off keeps the card", () => {
@@ -294,7 +294,7 @@ describe("Typical costs for this channel (H4)", () => {
         // (Channel 1 made them all: Channel 2 is offered each one to link, and makes none.)
         openMenu("Channel 2");
         expect(saved.capability.offering.resources).toHaveLength(6);
-        expect(screen.getAllByRole("button", { name: /^Link existing .* to Channel 2$/ })).toHaveLength(11);
+        expect(screen.getAllByRole("button", { name: /^Link existing .* to Channel 2$/ })).toHaveLength(12);
         fireEvent.click(screen.getByRole("button", { name: "Link existing Platform or tool subscription to Channel 2" }));
         const second = saved.engagement.channelResources.find(link => link.channelId === "pin")!;
         expect(second.existing).toBe(true);
@@ -317,8 +317,8 @@ describe("Typical costs for this channel (H4)", () => {
         press();
         const before = saved.capability.offering.providers.length;
         fireEvent.click(screen.getAllByRole("button", { name: /Take Resource [0-9]+ of Channel 1 off the channel/ })[6]);
-        expect(saved.capability.offering.providers.length + saved.capability.offering.resources.length + saved.capability.offering.professionals.length).toBe(10);
-        expect(before).toBe(4);
+        expect(saved.capability.offering.providers.length + saved.capability.offering.resources.length + saved.capability.offering.professionals.length).toBe(11);
+        expect(before).toBe(5);
     });
 
 });

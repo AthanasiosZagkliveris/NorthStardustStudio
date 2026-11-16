@@ -408,16 +408,29 @@ The buyer is a business, or the Segment is of businesses where both relationship
   - Seeing it in person / passing by
   - Events / trade shows
   - Sales calls or tenders (business customers only: `segmentOptions`; a saved tick of it on a people Segment is removed)
+  - Adverts in newspapers, magazines, radio or TV (opens Box 4, 3a) · Flyers or posters · Letters or catalogues in the post · Free samples, tasters or trials (owner, 2026-11-16 17:38)
   - (The last four added 2026-11-08, the options-and-wording research. Checked for overlap first: none repeats an option here, and the Profile's D1 asks how they compare options, not where they first hear of one, so nothing was merged. Profile C4 asks which events a typical person attends; this asks whether events are where the Segment discovers products.)
 - **The "i" says:**
   - Examples: communities such as Reddit, Discord and Facebook Groups; creators on TikTok, Instagram, YouTube and LinkedIn.
   - Seeing it in person / passing by: a shop window, a stall, a sign or a vehicle.
+  - Flyers or posters: handed out, through the door or on a noticeboard.
+  - Free samples, tasters or trials: a sample, a free class or a trial period that lets them try it first.
   - Choose up to three.
+- **Order (owner, 2026-11-16 17:38; never hidden):** online comfort (Box 4, 1) of 1 or 2 puts Seeing it in person, Flyers or posters, Letters or catalogues in the post, Adverts and Events first; a Segment in one city (Box 2, 1) Seeing it in person, Flyers or posters and Events; anywhere online the online ways (communities, creators, media, feeds, search, affiliate sites); Other stays last.
 - **Connections:**
   - *Comes from:* Nothing.
   - *Read by (built):* The Market document and the export; "Online communities / forums" makes the Profile ask C3 (doc 36).
   - *Read by (not built yet):* The Profile's related platforms first; the order of the channels where customers discover you. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
 - **Added 2026-11-16 (owner, 16:31):** Partner businesses → Referral & Affiliates › Referral Partner; Affiliate sites / blogs → Affiliate; Other, written in as a numbered list → a channel of the Other category at Discover per name. The "i" adds: Partner businesses: a shop, venue or firm that sends its customers to you. The most ticks stay three.
+
+- **Added 2026-11-16 (owner, 17:38):** Adverts in newspapers, magazines, radio or TV → Box 4, 3a; Flyers or posters → Print & Mail › Flyers / Posters; Letters or catalogues in the post → Print & Mail › Direct Mail; Free samples, tasters or trials → Samples & Trials, one subchannel per Offering's form (a physical item Free Sample, an app or online access Free Trial, a live or in-person session Taster Session / Free Class, otherwise Demo); each named at Discover (doc 47).
+
+### 3a. Where do they see adverts?
+
+- **Control:** ticks, as many as apply. **Asked when:** Box 4, 3 is Adverts in newspapers, magazines, radio or TV (owner, 2026-11-16 17:38); its answer goes when that tick goes.
+- **Options:** Newspapers / magazines · Radio · TV · Billboards / outdoor.
+- **The "i" says:** The adverts that reach them: each becomes a channel on Customer Engagement.
+- **Connections:** *Read by (built):* each tick its Advertising subchannel (Newspaper / Magazine, Radio, TV, Billboard / Outdoor), named, at Discover (doc 47).
 
 ### 6. How do your customers usually decide to buy?
 

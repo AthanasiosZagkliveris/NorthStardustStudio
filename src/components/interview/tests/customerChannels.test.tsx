@@ -58,6 +58,10 @@ const SPEC: [string, string[], string[]][] = [
     ["Physical Delivery", ["Courier", "Postal Service", "Local Delivery", "Third-party Fulfilment"], ["Delivery"]],
     ["Retail & Wholesale", ["Retail Stockist", "Distributor", "Wholesale Account", "Reseller", "Concession / Shop-in-shop"], ["Discover", "Evaluation", "Purchase", "Delivery"]],
     ["Referral & Affiliates", ["Referral Partner", "Affiliate", "Influencer / Ambassador", "Customer Referral"], ["Discover", "Evaluation", "Purchase"]],
+    // (Owner, 2026-11-16 17:38: the traditional ways of being found, and trying it first.)
+    ["Advertising", ["Newspaper / Magazine", "Radio", "TV", "Billboard / Outdoor"], ["Discover", "Evaluation"]],
+    ["Print & Mail", ["Flyers / Posters", "Direct Mail", "Catalogue / Brochure"], ["Discover", "Evaluation", "Support & Follow Up"]],
+    ["Samples & Trials", ["Free Sample", "Free Trial", "Demo", "Taster Session / Free Class"], ["Discover", "Evaluation"]],
     ["Other", [], ["Discover", "Evaluation", "Purchase", "Delivery", "Support & Follow Up"]]
 ];
 

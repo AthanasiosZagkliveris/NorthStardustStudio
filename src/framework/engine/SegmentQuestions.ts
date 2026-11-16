@@ -65,6 +65,8 @@ export interface SegmentContext {
     relations: readonly string[];
     /** The scales of a business buyer chosen in Positioning (solo, smb, mid, enterprise). */
     scales: readonly string[];
+    /** The ways the Segment's Offerings can be tried first (segmentTrials: sample, trial, demo, taster, catalogue); not given, every way is offered. */
+    trials?: readonly string[];
 }
 
 /** One saved answer: question id to the ids chosen. */
@@ -390,6 +392,11 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
             // (Owner, 2026-11-16 16:31: the referral and affiliate channels, and an Other written in, each a Discover channel.)
             { id: "partners", label: "Partner businesses" },
             { id: "affiliates", label: "Affiliate sites / blogs" },
+            // (Owner, 2026-11-16 17:38: the traditional ways, and trying it first; each a channel of Advertising, Print & Mail or Samples & Trials.)
+            { id: "adverts", label: "Adverts in newspapers, magazines, radio or TV" },
+            { id: "flyers", label: "Flyers or posters" },
+            { id: "post", label: "Letters or catalogues in the post" },
+            { id: "samples", label: "Free samples, tasters or trials" },
             { id: "other", label: "Other" }
         ],
         other: true,
@@ -397,8 +404,21 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
             "Examples: communities such as Reddit, Discord and Facebook Groups; creators on TikTok, Instagram, YouTube and LinkedIn.",
             "Partner businesses: a shop, venue or firm that sends its customers to you.",
             "Seeing it in person / passing by: a shop window, a stall, a sign or a vehicle.",
+            "Flyers or posters: handed out, through the door or on a noticeboard.",
+            "Free samples, tasters or trials: a sample, a free class or a trial period that lets them try it first.",
             "Choose up to three."
         ]
+    },
+    {
+        // (Box 4, 3a; owner, 2026-11-16 17:38: asked where adverts are where they discover; each tick its Advertising subchannel at Discover.)
+        id: "advertising", box: "purchasing", group: "Finding & Choosing", label: "Where do they see adverts?", many: true,
+        options: [
+            { id: "press", label: "Newspapers / magazines" },
+            { id: "radio", label: "Radio" },
+            { id: "tv", label: "TV" },
+            { id: "outdoor", label: "Billboards / outdoor" }
+        ],
+        info: ["The adverts that reach them: each becomes a channel on Customer Engagement."]
     },
     {
         id: "share", box: "purchasing", group: "Finding & Choosing", label: "How do your customers share what they like?", many: true,
@@ -737,6 +757,8 @@ export function segmentQuestionAsked(question: SegmentQuestion, answers: Segment
             return business;
         case "marketplaces":
             return has(answers, "setting", "marketplace");
+        case "advertising":
+            return has(answers, "discover", "adverts");
         case "shops":
             return has(answers, "setting", "store") || has(answers, "setting", "multi");
         case "providers":
@@ -814,9 +836,21 @@ export function segmentOptions(question: SegmentQuestion, answers: SegmentAnswer
         case "industry":
             return SEGMENT_INDUSTRIES.filter(option => keep(option, (answers.sector ?? []).includes(option.sector)))
                 .map(({ id, label }) => ({ id, label }));
-        case "discover":
+        case "discover": {
             // Sales calls or tenders: how a business finds a supplier, not a person (2026-11-08).
-            return question.options.filter(option => keep(option, option.id !== "sales" || context.frame === "business"));
+            const offered = question.options.filter(option => keep(option, option.id !== "sales" || context.frame === "business"));
+            // ORDERED, never hidden (owner, 2026-11-16 17:38): customers not at ease online (1 or 2) meet the printed and in-person ways first; a city's Segment passing by,
+            // flyers and events; a Segment anywhere online the online ways.
+            const comfort = Number((answers.comfort ?? [])[0] ?? 0);
+            const reach = answers.reach ?? [];
+            const first = comfort >= 1 && comfort <= 2 ? ["passing", "flyers", "post", "adverts", "events"]
+                : reach.includes("city") ? ["passing", "flyers", "events"]
+                    : reach.includes("online") ? ["communities", "creators", "media", "algorithmic", "search", "affiliates"]
+                        : [];
+            const rank = (id: string) => first.includes(id) ? first.indexOf(id) : first.length;
+            // (Other stays last.)
+            return [...offered].sort((a, b) => (a.id === "other" ? 1 : 0) - (b.id === "other" ? 1 : 0) || rank(a.id) - rank(b.id));
+        }
         case "pay":
             return question.options.filter(option => keep(option,
                 !(option.id === "bnpl" && has(answers, "age", "minor"))

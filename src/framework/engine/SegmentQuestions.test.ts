@@ -271,7 +271,7 @@ describe("what is changing, the path to purchase and where they discover (2026-1
 
     it("offers Sales calls or tenders to business customers only", () => {
         const discover = (context: SegmentContext) => ids(segmentOptions(question("discover"), {}, context, false));
-        expect(discover(BUSINESS)).toEqual(["peers", "communities", "creators", "media", "algorithmic", "search", "passing", "events", "sales", "partners", "affiliates", "other"]);
+        expect(discover(BUSINESS)).toEqual(["peers", "communities", "creators", "media", "algorithmic", "search", "passing", "events", "sales", "partners", "affiliates", "adverts", "flyers", "post", "samples", "other"]);
         expect(discover(PEOPLE)).not.toContain("sales");
         expect(discover(OPEN)).not.toContain("sales");
         expect(segmentSettle({ discover: ["sales", "search"] }, PEOPLE).discover).toEqual(["search"]);
@@ -346,5 +346,25 @@ describe("an Other's list (owner, 2026-11-16 14:24)", () => {
         expect(writtenInRows(["Vinted, Depop"])).toEqual(["Vinted", "Depop"]);
         // (The channels read the names alone: trimmed, no empty row, no repeat.)
         expect(writtenInNames(["Vinted ", "", "vinted", "Depop"])).toEqual(["Vinted", "Depop"]);
+    });
+});
+
+/* Owner, 2026-11-16 17:38: where they discover, ordered by their online comfort and reach; adverts ask where they are seen (Box 4, 3a). */
+describe("where they discover: the traditional ways", () => {
+    const people = { ...OPEN, frame: "people" as const };
+    const order = (answers: Record<string, string[]>) => ids(segmentOptions(question("discover"), answers, people, false));
+    it("puts the printed and in-person ways first for customers not at ease online, passing by for a city, the online ways for anywhere online; Other last", () => {
+        expect(order({ comfort: ["2"] }).slice(0, 5)).toEqual(["passing", "flyers", "post", "adverts", "events"]);
+        expect(order({ reach: ["city"] }).slice(0, 3)).toEqual(["passing", "flyers", "events"]);
+        expect(order({ reach: ["online"] }).slice(0, 6)).toEqual(["communities", "creators", "media", "algorithmic", "search", "affiliates"]);
+        expect(order({ reach: ["online"] }).slice(-1)).toEqual(["other"]);
+        // (Nothing hidden: the same options in every order.)
+        expect([...order({ comfort: ["1"] })].sort()).toEqual([...order({})].sort());
+    });
+    it("asks where they see adverts only where adverts are ticked; the answer goes with the tick", () => {
+        expect(ids(segmentQuestionsOf("purchasing", { discover: ["adverts"] }, people))).toEqual(["comfort", "social", "trigger", "discover", "advertising", "share", "path", "setting", "pay"]);
+        expect(ids(segmentQuestionsOf("purchasing", { discover: ["flyers"] }, people))).not.toContain("advertising");
+        expect(segmentSettle({ discover: ["flyers"], advertising: ["radio"] }, people).advertising).toBeUndefined();
+        expect(segmentSettle({ discover: ["adverts"], advertising: ["radio"] }, people).advertising).toEqual(["radio"]);
     });
 });
