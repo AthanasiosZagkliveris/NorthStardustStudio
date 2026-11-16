@@ -2,7 +2,7 @@ import { afterEach, describe, expect, it } from "vitest";
 import { useState } from "react";
 import { act, cleanup, fireEvent, render as renderBase, screen } from "@testing-library/react";
 import { openFolds } from "../../../test/openFolds.ts";
-import { openTile } from "../../../test/interviewTestUtils.ts";
+import { closeAllTiles, openTile } from "../../../test/interviewTestUtils.ts";
 import { createDemand, createDemandSource } from "../../../framework/engine/DemandCapacity.ts";
 
 /** The page as it opens, its structural sections opened (every fold arrow starts closed: see openFolds). */
@@ -721,6 +721,59 @@ describe("a Customer Source's kind narrows its channels (owner, 2026-11-14 11:15
         };
         // (A walk-in source: the places, not the website.)
         expect(channels()).toEqual(["Studio"]);
+    });
+
+});
+
+/* Owner, 2026-11-16 19:18: a relationship type or a Customer Source the answers make and the founder removed comes back from the dialog's folded "Removed" list. */
+describe("the Removed lists of Customer's Relationship and Demand & Conversion", () => {
+
+    it("opens a lone type's card at once from its Offering's tile while nothing is removed (owner, 2026-11-14 13:54; kept 2026-11-16 19:18)", async () => {
+        const offering = { ...createBusinessOffering(), name: "Audit", questions: { o7: ["personal"] } };
+        const segment = { ...createBusinessCustomerSegment([]), name: "Firms", offerings: [offering] };
+        const foundation = { ...asBusinessFoundationValue(undefined), segments: [segment] };
+        const site = { ...createBusinessChannel(), id: "site", category: "Website", name: "Main Website", stages: ["discovery"] };
+        const engagement = { ...asBusinessEngagementValue(undefined), segments: [{ ...createBusinessSegmentEngagement(segment.id), channels: [site] }] };
+        render(<BusinessEngagementEditor value={engagement} onChange={() => undefined} foundation={foundation} asTiles />);
+        openTile("Customer's Relationship");
+        openTile("1. Audit");
+        await act(() => new Promise(resolve => setTimeout(resolve, 100)));
+        expect(document.querySelector(".floating-card-host")?.textContent).toContain("Personal Assistance");
+    });
+
+    it("lists a removed type and a removed source, and Restore brings each back", () => {
+        const offering = { ...createBusinessOffering(), name: "Audit", questions: { o7: ["personal", "dedicated"] } };
+        const segment = { ...createBusinessCustomerSegment([]), name: "Firms", offerings: [offering] };
+        const foundation = { ...asBusinessFoundationValue(undefined), segments: [segment] };
+        const site = { ...createBusinessChannel(), id: "site", category: "Website", name: "Main Website", stages: ["discovery"] };
+        const start = {
+            ...asBusinessEngagementValue(undefined),
+            segments: [{ ...createBusinessSegmentEngagement(segment.id), channels: [site], offerings: [{ offeringId: offering.id, types: [], typeDetail: {}, dismissed: ["dedicated-support"] }] }],
+            demand: { [offering.id]: { ...createDemand(), dismissed: ["funnel|site"] } }
+        };
+        let latest: unknown = start;
+        function Harness() {
+            const [value, setValue] = useState<unknown>(start);
+            return <BusinessEngagementEditor value={value} onChange={(next) => { latest = next; setValue(next); }} foundation={foundation} asTiles />;
+        }
+        render(<Harness />);
+        const saved = () => asBusinessEngagementValue(latest);
+        // The type: one left, so the tile opens its dialog, where the Removed list stands.
+        openTile("Customer's Relationship");
+        openTile("1. Audit");
+        fireEvent.click(screen.getByRole("button", { name: "Maximise Removed relationship types" }));
+        expect(screen.getByText("Dedicated Support")).toBeTruthy();
+        fireEvent.click(screen.getByRole("button", { name: "Restore" }));
+        expect(saved().segments[0].offerings[0].dismissed ?? []).toEqual([]);
+        closeAllTiles();
+        // The source: not made while removed; Restore makes it again.
+        expect(saved().demand[offering.id]?.sources.some(source => source.channelId === "site") ?? false).toBe(false);
+        openTile("Demand & Conversion");
+        openTile("1. Audit");
+        fireEvent.click(screen.getByRole("button", { name: "Maximise Removed customer sources" }));
+        fireEvent.click(screen.getByRole("button", { name: "Restore" }));
+        expect(saved().demand[offering.id]?.dismissed ?? []).toEqual([]);
+        expect(saved().demand[offering.id]?.sources.some(source => source.channelId === "site" && source.type === "funnel")).toBe(true);
     });
 
 });
