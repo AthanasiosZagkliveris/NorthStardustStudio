@@ -35,13 +35,13 @@ The one owner of this map: each row is one input a later page needs, where Page 
 |---|---|---|---|
 | 2. Channels | The Segments and Offerings (ids, names) | Segment, Offering cards (names) | Read |
 | 2. Channels | Segment, Profile, Offering reference columns | The boxes' Notes | Read (Notes only); the choice answers (doc 35 `reach`, `setting`, `pay`, `discover`; doc 36 A to D; doc 43 O6, O7, O14 to O17): asked, not read |
-| 2. Channels | Journey-stage proposals (doc 28, 7.4) | doc 35 `discover`, `setting`, `pay`; doc 36 D1; doc 43 O6, O7 | Asked, not read |
-| 2. Channels | Channel order (comfort, reach, industry) | doc 35 Box 4 Q1, Box 2 Q1, Box 3 Q4 | Asked, not read |
+| 2. Channels | Journey-stage proposals (doc 28, 7.4) | doc 35 `discover` (and Box 4, 3a), `setting`, `marketplaces`, `shops`, `pay`, `authorise`; doc 36 C2 to C4, D1; doc 43 O1, O6, O7, O20 to O23 | Read: each makes its channel (`journeySuggestions`, `withAnswerChannels`; doc 47) |
+| 2. Channels | Channel order (comfort, reach, industry) | doc 35 Box 4 Q1, Box 2 Q1, Box 3 Q4 | Read in part: a Segment in one city puts In Person and Community first; comfort and reach order Box 4, 3's options (2026-11-16); the industry is not read |
 | 2. Channels | Physical Delivery and Retail & Wholesale hidden without a physical item (doc 28, 11.7) | Offering Type; doc 43 O1 | Read (below) |
 | 2. Relationships | Which Profiles each Offering serves | doc 43 Functional Needs Addressed (by need id) | Read |
-| 2. Relationships | Relationship type suggestion | doc 36 D2; doc 43 O7 | Asked, not read |
-| 2. Demand & Conversion | Customers Buy, one sale at a time or every month (doc 28, 7.5) | doc 43 O3 | Starts from |
-| 2. Demand & Conversion | The tender row | doc 35 Box 4 Q9 (`authorise`), Box 3 Q1 | Asked, not read |
+| 2. Relationships | Relationship type suggestion | doc 36 D2, C3; doc 43 O7; doc 35 `authorise` | Read (`autoRelationshipTypes`) |
+| 2. Demand & Conversion | Customers Buy, one sale at a time or every month (doc 28, 7.5) | doc 43 O3 | Read: set by O3 and shown read-only where O3 says one-off or recurring; asked where it does not |
+| 2. Demand & Conversion | The tender row, the repeat row, the time to buy | doc 35 Box 4 Q9 (`authorise`), Box 4 Q6 (`path`); doc 43 O17 | Read (`demandSuggestions`, `monthsToClose`) |
 | 2. Demand & Conversion | Expected customers against the market size | doc 35 Box 5 Q1 | Asked, not read |
 | 3. Delivery | The Offerings | Offering card | Read |
 | 3. Delivery | Delivered, per unit or every month (doc 28, 10.1) | doc 43 O3 | Starts from |
@@ -75,6 +75,23 @@ The one owner of this map: each row is one input a later page needs, where Page 
 **Without a physical item** (doc 28, 11.7; `noPhysicalOffering`): when Page 1 has Offerings and none has a physical item (each one's Type is Service, or its form, O1, is A digital file, An app / online tool, Online access, A live online session, Project work or An ongoing service), Page 3 hides, in the Offering's Capability, the Vehicles category (Delivery Vehicles, Delivery Running Costs) and the Materials & Inventory category (Materials & Stock) from the Resources and from a card's Category list, and Logistics & Fulfilment from the Partners & Suppliers' groups and their "i"; Page 2 hides the Physical Delivery and Retail & Wholesale channels, as tiles and in the Channel list, where the Segment has no channel under them (`channelCategoryHidden`, 2026-11-09). Each is hidden only while it holds no card, so no cost is ever hidden; nothing is deleted, and each shows again when an Offering's Type or form changes. An Offering with no Type or form yet counts as possibly physical.
 
 **Required today** (`OpenItems.ts`): one named Segment with a named Profile, one named Competitor and one named Offering (in any Segment), and the Value Proposition text of each named Segment. Once those are there, each named Segment with no named Offering and no named competitor of its own is an open item, and so is each Offering with no Type ("Type: not chosen yet") or no O3 answer ("the terms they pay on: not chosen yet"), as the later pages read them. No question on a Page 1 card is otherwise required, and no card marks a field as required. The required answers of doc 28, 6.9 are undecided. Gap left for the owner: the Functional Needs Addressed are read later but not required.
+
+### Known gaps (the whole-app check, 2026-11-16; open, each waits for the owner's decision)
+
+Each is one place where two answers can disagree, or an answer goes unread; the fix is the owner's choice of which answer owns the fact.
+
+- **Strategy, the Canvas and Page 5 read without Global Settings.** The Strategy System's Current Situation and plan range and the Canvas export ignore the Opening Date and the calculated lines; Page 5's break-even leaves out channel fees, on-costs and tax that Page 4 counts.
+- **Foreign fixed fees unconverted.** A fee row's fixed amount in another currency (Gumroad's $0.50) is added to totals in the Organisation's currency as it stands.
+- **Global Settings reads the Segment's raw answers.** Its fee rows read `providers` unsettled, where Customer Engagement reads the effective answers.
+- **The income tax rate is asked twice**, in Global Settings and in Page 4's Plan Settings; the Global one wins.
+- **A8 and End user, 8 (`u-comfort`) ask the same thing**: the Segment's answer only starts the end user's A8.
+- **O15 and Delivery's Calendar Time (DV4)** can disagree: O15 only starts DV4, and a saved Delivery card no longer follows it.
+- **O6 and "physical".** Whether an Offering is physical reads its Type and O1, never O6 or O20: shipped or collected with a digital form still hides Physical Delivery.
+- **Reach and O6.** Nothing checks a Segment in several countries or online against delivery in person or collection, nor a city's Segment against shipping.
+- **O3b and Page 5's Payment Timing** have no check between them once Payment Timing is saved.
+- **Identity's government buyers** add Dedicated Support to every Offering, a people Segment's included.
+- **I11 (Market Structure)** is mapped but read by nothing beyond the export.
+- **K1 to K3** are read by nothing, and K1 to K10 appear in no document.
 
 ## Section numbers past 5 are retired
 

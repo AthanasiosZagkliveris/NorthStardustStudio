@@ -36,7 +36,7 @@ Each question is asked inside the band of its box, above the box's text, and the
 - An answer to a question no longer asked, or to an option no longer offered, is removed on the next choice.
 - A slash joins similar things and "or" joins different things. Spelling is UK English.
 
-**Controls.** K4 and K6 to K9 use the Rating Scale (K6 with a tick per row, ending in Other), a shared control (`RatingScale` and `RatingScaleGroup` in `src/components/controls/`, doc 21): five radio rounds in a row from 1 to 5, the numbers said once over the rounds and what 1 and 5 mean first in the question's "i", the chosen round pressed again to clear it. K5 is a tick per channel; once a channel that has sub-channels is ticked, a dropdown (`OptionPicker`) of them, one per row, with a "+" to add a row and an × to remove one.
+**Controls.** K4 and K6 to K9 use the Rating Scale (K6 with a tick per row, ending in Other), a shared control (`RatingScale` and `RatingScaleGroup` in `src/components/controls/`, doc 21): five radio rounds in a row from 1 to 5, the numbers said once over the rounds and what 1 and 5 mean in the question's "i", after what the options mean and before the reference (2026-11-16), the chosen round pressed again to clear it. K5 is a tick per channel; once a channel that has sub-channels is ticked, a dropdown (`OptionPicker`) of them, one per row, with a "+" to add a row and an × to remove one.
 
 **What the type asks.** The questions are written for a rival business, and three of the five types are not one. The wording follows the type as `COMPETITOR_TYPE_QUESTIONS` does for the text boxes; the stored answer and the options stay the same.
 
@@ -113,12 +113,12 @@ This follows the type rules already built for the text boxes: a substitute has n
 
 ### K4. Is their business growing?
 
-- **Control:** a rating, 1 to 5 (`RatingScale`), inside the Market band, after K3: 1 = Declining, 5 = Growing, said first in its "i" (the degree rule, owner 2026-11-04).
+- **Control:** a rating, 1 to 5 (`RatingScale`), inside the Market band, after K3: 1 = Declining, 5 = Growing, said in its "i" (the degree rule, owner 2026-11-04).
 - **Asked when:** the type is Direct competitor, Indirect competitor or Substitute.
 - **Wording by type:** Direct competitor, Indirect competitor: "Is their business growing?" Substitute: "Is this alternative growing?"
 - **The "i" says:**
-  - 1 = Declining, 5 = Growing.
   - From what you can see: more branches, staff, products or reviews, or fewer.
+  - 1 = Declining, 5 = Growing.
 - **Connections:**
   - *Comes from:* nothing. The U.S. Small Business Administration's competitive analysis asks whether a competitor's business is "growing, steady, or declining" [FUN-50].
   - *Read by (not built yet):* the Review.
@@ -161,10 +161,10 @@ This follows the type rules already built for the text boxes: a substitute has n
 - **Wording by type:** Direct competitor, Indirect competitor: "Where are they reviewed, and how are they rated?" Substitute: "Where is this alternative reviewed, and how is it rated?"
 - **Rows:** the review platforms, list L18 (doc 34, 5.2b), in this order: Google and Facebook first; then the platforms of the App User's industry (the first activity's industry, `organisation.activities[0]`, through the crosswalk L7, doc 34, 5.3; Hospitality split by the activity code, owner, 2026-11-09: food and drink, division 56, puts OpenTable, Food delivery app and Tripadvisor first, accommodation, division 55, Booking.com, Airbnb and Tripadvisor, doc 34, 5.2b); then those of the App User's country (`organisation.country`); the list ends in Other (below). A platform ticked earlier stays shown.
 - **The "i" says:**
-  - 1 = Poor, 5 = Excellent.
   - Tick each place they are reviewed and give their average there, to the nearest star. Most people only use a business with 4 stars or more.
   - For another place, tick Other and write it. Google is where most people read reviews of local businesses (71% in 2026).
   - Then the examples behind the catch-all platforms (`REVIEW_PLATFORM_EXAMPLES`): "Marketplace: where they sell, such as Etsy, Amazon or eBay." "App store: Apple's App Store or Google Play." "Trade directory: Checkatrade or TrustATrader in the UK, Angi or HomeAdvisor in the US, HomeStars in Canada." "Food delivery app: Just Eat or Deliveroo in the UK, Grubhub in the US, SkipTheDishes in Canada, Menulog in Australia."
+  - 1 = Poor, 5 = Excellent.
 - **Connections:**
   - *Comes from:* the Organisation's country and first activity (Legal Entity, `AnswerLegal.ts`), which order the rows. The order by industry and country rests on directory and vendor lists [FUN-64, FUN-65], not on a survey of how many people use each site; the use of Google and Apple Maps and the 4-star threshold rest on BrightLocal's survey of US consumers [FUN-62], Trustpilot in the UK on Littlechild [FUN-63]. The SBA asks what customers and prospects say about competitors [FUN-50].
   - *Read by (built):* K10 ("Win over their unhappy customers", for a platform rated below 4).
@@ -182,9 +182,9 @@ This follows the type rules already built for the text boxes: a substitute has n
   - Delivery
   - Support & Follow Up
 - **The "i" says:**
-  - 1 = Hard, 5 = Easy.
   - Where their customers are let down along the way, and where it goes smoothly. The values below say what falls short; this says where.
   - To find out, look at their website and social media, sign up to their newsletter or buy from them once.
+  - 1 = Hard, 5 = Easy.
 - **Connections:**
   - *Comes from:* the owner's decisions (2026-11-04): the loyalty question overlapped the journey's last stage, then its ticks repeated K5's channels, so they went. Lemon and Verhoef describe the customer's journey in three stages, before, during and after the purchase, the "loyalty loop" after it [FUN-59]; page 2's five Journey Stages divide the same journey. Invest Northern Ireland lists a competitor's "customer loyalty devices" [FUN-51]; how many customers come back cannot be seen from outside, what a competitor does to bring them back can.
   - *Read by (built):* K10 ("Make buying easier" and the like, for a stage rated 1 or 2).
@@ -217,9 +217,9 @@ For Internal solution and Status quo the box stays text only: it asks about the 
   - Safety / security
   - Values
 - **The "i" says:**
-  - 1 = Weak, 5 = Strong.
   - Rate each from what their customers say and what you have seen.
   - Once a row has a band: "The darker the band, the more of your Profiles chose it."
+  - 1 = Weak, 5 = Strong.
 - **Connections:**
   - *Words:* where the Segment's buyer is Proxy or Dual-Intent, "How do they do on what matters most to your buyers?": B1 is the buyer's (2026-11-09).
   - *Comes from:* the Profiles' B1 (doc 36), its ticks (the rows) and its ratings (their order; K10's weights). The owner's decision (2026-11-04): Strengths and Weaknesses used the same options, so one rating replaces the two tick lists and a value rated 2 to 4 also counts in the App User's decisions. The Competitive Profile Matrix rates each success factor from major weakness to major strength [FUN-57]; Kotler's customer value analysis rates competing offers on the attributes customers rank as most important [FUN-55]; a five-point rating as Likert's [FUN-61]. The Profiles' B1 sets the order of the rows; no row starts rated.
@@ -246,8 +246,8 @@ For Internal solution and Status quo the box stays text only: it asks about the 
   - Supply and delivery
   - Environment and climate (added 2026-11-08 with the Segment's option)
 - **The "i" says:**
-  - 1 = Threat, 5 = Opportunity.
   - How each change could help or hurt them. The changes and their examples are your Segment's.
+  - 1 = Threat, 5 = Opportunity.
 - **Connections:**
   - *Comes from:* the owner's decision (2026-11-04): one rating replaces the two tick lists of changes that help and changes that hurt. The Segment's ticks set the order of the rows; no row starts rated. SWOT's external factors, favourable or unfavourable [FUN-53].
   - *Read by (built):* K10's options.

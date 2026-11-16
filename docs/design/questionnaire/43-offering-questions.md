@@ -54,7 +54,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
   - *Comes from:* the Type.
   - *Read by (built, 2026-11-07):* O6's starting value; the Value Proposition draft (doc 42).
   - *Read by (built, 2026-11-09, with the Type):* Pages 2 and 3 (doc 28, 11.7): while no Offering has a physical item (a Service, or a form with none: A digital file, An app / online tool, Online access, A live online session, Project work, An ongoing service), Page 2 hides the Physical Delivery and Retail & Wholesale channels where the Segment has none (their tiles and the Channel list; `channelCategoryHidden`), and Page 3 the Offering's Vehicles and Materials & Inventory categories and the Logistics & Fulfilment group where they hold no card; hidden, not deleted (`noPhysicalOffering`, EffectiveAnswers.ts). Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
-  - *Read by (not built yet):* Page 2's Physical Delivery and Retail & Wholesale channels (doc 28, 11.7). Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
+  - *Read by (built):* the Booking / Registration Page at Purchase for a live online or in-person session; the ways the Offering can be tried first, Box 4, 3 and D1 (`segmentTrials`, doc 47). Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
 
 ## Box. Customer Benefit
 
@@ -266,7 +266,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
   - The help that comes with it after the sale: tick each kind you give.
   - None stands alone: ticking it clears the others.
 - **Connections:**
-  - *Read by (built):* O8 and the Value Proposition's open item "Worry left open": any tick but None answers the Profiles' worry Support (after they buy), so O8 does not offer it. *Read by (not built yet):* the relationship type's starting value and the Support & Follow Up channels on page 2 (doc 28, 7.4); the Review against the Profiles' D2 (doc 36): "wants to talk to a person" while the help is None or Guides and how-tos (rule 10). Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
+  - *Read by (built):* O8 and the Value Proposition's open item "Worry left open": any tick but None answers the Profiles' worry Support (after they buy), so O8 does not offer it. *Read by (built):* the relationship types (`autoRelationshipTypes`) and the Support & Follow Up channels on page 2 (doc 47). *Not built yet:* the Review against the Profiles' D2 (doc 36): "wants to talk to a person" while the help is None or Guides and how-tos (rule 10). Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
 
 ### O17. What comes after the sale?
 
@@ -278,7 +278,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
 - **The "i" says:**
   - What else comes with it after the sale; the help you give is the question above.
   - None stands alone: ticking it clears the others.
-- **Connections:** *Read by:* the export.
+- **Connections:** *Read by (built):* the Keep and Grow goals (`startGoals`) and, for repairs or replacements, the Repeat customers row of Demand & Conversion (`demandSuggestions`, doc 47); the export.
 
 ### O23. How do you keep in touch after the sale?
 
