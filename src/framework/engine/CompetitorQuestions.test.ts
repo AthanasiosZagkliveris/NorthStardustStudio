@@ -3,10 +3,10 @@ import { asBusinessCompetitor } from "./AnswerBusinessFoundation";
 
 import {
     competitorAsks,
-    competitorOtherAdd,
-    competitorOtherName,
+    competitorOtherList,
     competitorOtherRemove,
     competitorOtherSettle,
+    competitorOtherSettleAll,
     competitorOtherTick,
     competitorOthers,
     otherMatch,
@@ -187,18 +187,43 @@ describe("Customer Acquisition and Other (owner, 2026-11-04)", () => {
     it("keeps an Other row while Other is ticked; a name that means a listed item becomes it, its rating kept", () => {
         let answers = competitorOtherTick({}, "k6", true);
         expect(competitorOthers(answers, "k6")).toEqual([""]);
-        answers = competitorRate(competitorOtherName(answers, "k6", 0, "  Etsy "), "k6", "other-0", 3);
+        answers = competitorRate(competitorOtherList(answers, "k6", ["  Etsy "], [0]), "k6", "other-0", 3);
         answers = competitorOtherSettle(answers, "k6", 0);
         expect(answers.k6).toEqual(["marketplace"]);
         expect(competitorRatings(answers, "k6")).toEqual({ marketplace: 3 });
         expect(competitorOthers(answers, "k6")).toEqual([]);
         // A name that is no listed item stays an Other row, rated, and is a platform as the others are.
-        answers = competitorRate(competitorOtherName(competitorOtherTick({}, "k6", true), "k6", 0, "Houzz UK forum"), "k6", "other-0", 2);
+        answers = competitorRate(competitorOtherList(competitorOtherTick({}, "k6", true), "k6", ["Houzz UK forum"], [0]), "k6", "other-0", 2);
         expect(competitorOtherSettle(answers, "k6", 0)).toBe(answers);
         expect(competitorSettle(answers, "direct")).toEqual({ "k6-other": ["Houzz UK forum"], "k6-rating": ["other-0:2"] });
         expect(competitorOpenings(answers, "direct", none).map(opening => opening.id)).toEqual(["unhappy"]);
         // Unticked: the rows and their ratings go.
         expect(competitorSettle(competitorOtherTick(answers, "k6", false), "direct")).toEqual({});
+    });
+
+    it("keeps K6's Other as a numbered list: a rating moves with its line, an emptied or removed line loses it, a finished line that means a platform becomes it", () => {
+        let answers = competitorOtherTick({}, "k6", true);
+        answers = competitorOtherList(answers, "k6", ["Forum", ""], [0, -1]);
+        answers = competitorRate(answers, "k6", "other-0", 2);
+        answers = competitorOtherList(answers, "k6", ["Forum", "Blog"], [0, 1]);
+        answers = competitorRate(answers, "k6", "other-1", 5);
+        // A line opened above: both ratings move down with their lines.
+        answers = competitorOtherList(answers, "k6", ["", "Forum", "Blog"], [-1, 0, 1]);
+        expect(competitorRatings(answers, "k6")).toEqual({ "other-1": 2, "other-2": 5 });
+        // A line emptied loses its rating; a line removed takes its rating with it.
+        expect(competitorRatings(competitorOtherList(answers, "k6", ["", "", "Blog"], [0, 1, 2]), "k6")).toEqual({ "other-2": 5 });
+        expect(competitorRatings(competitorOtherList(answers, "k6", ["", "Blog"], [0, 2]), "k6")).toEqual({ "other-1": 5 });
+        // A line not being typed into that means a platform becomes it, its rating kept; the line being typed into waits for the list to be left.
+        let typed = competitorRate(competitorOtherList(competitorOtherTick({}, "k6", true), "k6", ["Trustpilot"], [0]), "k6", "other-0", 4);
+        expect(typed.k6).toBeUndefined();
+        typed = competitorOtherList(typed, "k6", ["Trustpilot", ""], [0, -1]);
+        expect(typed.k6).toEqual(["trustpilot"]);
+        expect(competitorRatings(typed, "k6")).toEqual({ trustpilot: 4 });
+        expect(competitorOthers(typed, "k6")).toEqual([""]);
+        // Left: every line settled, one row kept while Other is ticked.
+        const left = competitorOtherSettleAll(competitorOtherList(competitorOtherTick({}, "k6", true), "k6", ["Google Maps"], [0]), "k6");
+        expect(left.k6).toEqual(["google"]);
+        expect(competitorOthers(left, "k6")).toEqual([""]);
     });
 
     it("keeps K8 to the listed values: a value once written under Other is dropped", () => {
@@ -208,8 +233,8 @@ describe("Customer Acquisition and Other (owner, 2026-11-04)", () => {
         expect(hardToBeat("Them", { "k8-rating": ["other-0:5"] })).toEqual([]);
         expect(otherMatch("k6", "Google Maps")).toBe("google");
         // Removing a platform row moves the later rows' ratings up.
-        const one = competitorRate(competitorOtherName(competitorOtherTick({}, "k6", true), "k6", 0, "Forum"), "k6", "other-0", 2);
-        const two = competitorRate(competitorOtherAdd(one, "k6"), "k6", "other-1", 4);
+        const one = competitorRate(competitorOtherList(competitorOtherTick({}, "k6", true), "k6", ["Forum"], [0]), "k6", "other-0", 2);
+        const two = competitorRate(competitorOtherList(one, "k6", ["Forum", "Blog"], [0, -1]), "k6", "other-1", 4);
         expect(competitorRatings(competitorOtherRemove(two, "k6", 0), "k6")).toEqual({ "other-0": 4 });
     });
 

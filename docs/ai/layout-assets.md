@@ -391,7 +391,7 @@ A rating from 1 to 5: five radio rounds from low to high, the numbers 1 to 5 ove
 |---|---|---|
 | vertical (14px label) | a single question: the rounds under it, across the whole width (the Segment's online comfort, market growth and crowding; the Competitor's K4) | RatingScale with its numbers: the track fills its place |
 | horizontal (18px label) | a group: the words in the left half, the rounds in the right half (the Competitor's K7 to K9, the Profile's B1) | RatingScaleGroup: the numbers once, over the rounds' half |
-| selectable (18px label) | a group whose rows are ticked first; the rounds show once a row is ticked (the Competitor's K6, the Profile's B1, E1 to E3 and the Needs) | RatingScaleGroup selectable: unticking a row clears its rating |
+| selectable (18px label) | a group whose rows are ticked first; the rounds show once a row is ticked (the Competitor's K6, the Profile's B1, E1 to E3 and the Needs) | RatingScaleGroup selectable: unticking a row clears its rating; a `foot` closes the group on its two columns (K6: the Other tick, then the numbered list in the words' column, each named row's rounds on its row) |
 | chosen and disabled (18px label) | the chosen round, and a group that cannot be changed | the chosen round is the app's blue with a white bullet; a disabled group is drawn faint |
 
 | Number | Value |

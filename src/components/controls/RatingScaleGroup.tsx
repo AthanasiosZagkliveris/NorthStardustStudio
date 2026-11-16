@@ -14,9 +14,10 @@ import "../../styles/rating-scale.css";
  * `selectable`: each row starts with a tick (the shared TickField), and its rounds show only once it is ticked (where they are reviewed, then how they are
  * rated); unticking a row clears its rating. `below`: what a row carries under it, across the group (the loyalty ticks under Support & Follow Up). `fixed`: a row
  * with no tick of its own, its rounds always shown, in a selectable group too (a row written under Other, whose words are a text cell). `tone`: a band across the
- * row, light (1) to dark (4): how many Profiles chose it (the Competitor's K8).
+ * row, light (1) to dark (4): how many Profiles chose it (the Competitor's K8). `foot`: what closes the group, across both columns (the Competitor's K6 Other: its
+ * tick, then its numbered list in the words' column, each named line's rounds beside it in the rounds' column).
  */
-export default function RatingScaleGroup({ label, name, rows, values, onChange, lowLabel, highLabel, selectable = false, selected = [], onSelect, disabled, className }: {
+export default function RatingScaleGroup({ label, name, rows, values, onChange, lowLabel, highLabel, selectable = false, selected = [], onSelect, disabled, className, foot }: {
     /** What the group rates, for a screen reader. */
     label: string;
     /** The group's name: each row's rounds are named from it and the row's id. */
@@ -37,6 +38,8 @@ export default function RatingScaleGroup({ label, name, rows, values, onChange, 
     disabled?: boolean;
     /** Where it stands. */
     className?: string;
+    /** What closes the group, under its rows, across its columns. */
+    foot?: ReactNode;
 }) {
     return (
         <div className={"rating-scale-group" + (className ? " " + className : "")} role="group" aria-label={label}>
@@ -82,6 +85,7 @@ export default function RatingScaleGroup({ label, name, rows, values, onChange, 
                     </Fragment>
                 );
             })}
+            {foot && <div className="rating-scale-group-foot">{foot}</div>}
         </div>
     );
 }

@@ -148,3 +148,45 @@
     padding-inline-end: calc(var(--card-x-column) + var(--space-field));
 
 }
+
+/* What closes a group (`foot`; the Competitor's K6 Other, owner 2026-11-16 17:21): the group's two columns again (subgrid), so its tick stands under the ticks
+   and its rounds under the rounds. Its numbered list (the Foundation's Other, the shared list in the field look) fills the words' column; each named line's
+   rounds stand in the rounds' column on that line's own row (the list's rows are the grid's rows, subgrid), a line still unnamed keeps its place empty. */
+.rating-scale-group-foot {
+
+    grid-column: 1 / -1;
+
+    display: grid;
+    grid-template-columns: subgrid;
+    align-items: center;
+
+    row-gap: var(--space-row);
+
+}
+
+.rating-scale-group-list {
+
+    grid-column: 1 / -1;
+
+    display: grid;
+    grid-template-columns: subgrid;
+    align-items: center;
+
+    row-gap: 0;
+
+}
+
+.rating-scale-group-list > .numbered-list {
+
+    grid-column: 1;
+    grid-row: 1 / -1;
+
+    grid-template-rows: subgrid;
+
+}
+
+.rating-scale-group-list-point {
+
+    grid-column: 2;
+
+}

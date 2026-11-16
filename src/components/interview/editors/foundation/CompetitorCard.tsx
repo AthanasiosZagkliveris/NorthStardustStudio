@@ -12,11 +12,10 @@ import RadioChoice from "../../../controls/RadioChoice.tsx";
 import RatingScale, { type Rating } from "../../../controls/RatingScale.tsx";
 import { ratingScaleMeaning } from "../../../controls/RatingScaleEnds.tsx";
 import RatingScaleGroup from "../../../controls/RatingScaleGroup.tsx";
-import TextLink from "../../fields/TextLink.tsx";
-import TextBox from "../../../controls/TextBox.tsx";
-import { type OtherQuestion, competitorOtherAdd, competitorOtherName, competitorOtherRemove, competitorOtherSettle, competitorOtherTick, competitorOthers, COMPETITOR_CHANNEL_OPTIONS, COMPETITOR_EXPERIENCE_HOW, COMPETITOR_INFO, COMPETITOR_OFFER_OPTIONS, COMPETITOR_RATINGS, COMPETITOR_REACH_OPTIONS, COMPETITOR_SIZE_OPTIONS, COMPETITOR_STAGES, type CompetitorAnswers, type CompetitorQuestionId, REVIEW_PLATFORM_EXAMPLES, competitorAsks, competitorOpenings, competitorRate, competitorRatings, competitorSettle, competitorWording, competitorValueRows, shownOpenings, COMPETITOR_SUBCHANNELS, COMPETITOR_BAND_LINE, bandTone, COMPETITOR_CHANGES, valueProfiles, hardToBeat, reviewPlatformOrder } from "../../../../framework/engine/CompetitorQuestions.ts";
+import { type OtherQuestion, competitorOtherList, competitorOtherSettleAll, competitorOtherTick, competitorOthers, COMPETITOR_CHANNEL_OPTIONS, COMPETITOR_EXPERIENCE_HOW, COMPETITOR_INFO, COMPETITOR_OFFER_OPTIONS, COMPETITOR_RATINGS, COMPETITOR_REACH_OPTIONS, COMPETITOR_SIZE_OPTIONS, COMPETITOR_STAGES, type CompetitorAnswers, type CompetitorQuestionId, REVIEW_PLATFORM_EXAMPLES, competitorAsks, competitorOpenings, competitorRate, competitorRatings, competitorSettle, competitorWording, competitorValueRows, shownOpenings, COMPETITOR_SUBCHANNELS, COMPETITOR_BAND_LINE, bandTone, COMPETITOR_CHANGES, valueProfiles, hardToBeat, reviewPlatformOrder } from "../../../../framework/engine/CompetitorQuestions.ts";
 import FittingRadioChoice from "./FittingRadioChoice.tsx";
-import { type SegmentQuestion, segmentRowChoice } from "../../../../framework/engine/SegmentQuestions.ts";
+import { type SegmentQuestion, segmentRowChoice, writtenInRows } from "../../../../framework/engine/SegmentQuestions.ts";
+import NumberedListInput from "../../fields/NumberedListInput.tsx";
 import { summaryText } from "../../cards/cardSummary.ts";
 import OptionPicker from "../../fields/OptionPicker.tsx";
 import { COMPETITOR_TYPE_QUESTIONS, SUBSECTIONS, SingleColumn, competitorParts } from "./shared.tsx";
@@ -71,40 +70,55 @@ export function competitorCard(scope: FoundationCardScope, competitor: BusinessC
         {...extra}
     />
     );
-    // Other (K6; owner 2026-11-04): ticked, a row to write in, rated as the listed ones; a name that means a listed item becomes it.
-    const otherRows = (id: OtherQuestion) => competitorOthers(answers, id).map((name, at) => ({
-    id: "other-" + at,
-    name: name.trim() || "Other " + (at + 1),
-    fixed: true,
-    label: (
-        <TextBox
-            className="interview-input business-competitor-other"
-            aria-label={words(id) + ", other " + (at + 1)}
-            placeholder="Where else are they reviewed?"
-            disabled={disabled}
-            value={name}
-            onChange={(event) => write(competitorOtherName(answers, id, at, event.target.value))}
-            onBlur={() => {
-                const done = competitorOtherSettle(answers, id, at);
-                if (done !== answers) {
-                    write(done);
-                } else if (!name.trim() && competitorOthers(answers, id).length > 1) {
-                    write(competitorOtherRemove(answers, id, at));
-                }
-            }}
-        />
-    )
-    }));
-    const otherTick = (id: OtherQuestion) => (
-    <div className="business-competitor-other-row">
-        <TickField className="business-foundation-tick business-foundation-tick-inline" disabled={disabled} checked={competitorOthers(answers, id).length > 0} onChange={(event) => write(competitorOtherTick(answers, id, event.currentTarget.checked))}>
-            Other
-        </TickField>
-        {competitorOthers(answers, id).length > 0 && (
-            <TextLink className="business-competitor-add-other" disabled={disabled} onClick={() => write(competitorOtherAdd(answers, id))}>Add another</TextLink>
-        )}
-    </div>
-    );
+    // Other (K6; owner 2026-11-16 17:21): ticked, the Foundation's Other -- a numbered list, one name a row, Enter opens the next -- in the group's words
+    // column, each named row's rounds beside it in the rounds' column, rated as the listed ones; a name that means a listed platform becomes it.
+    const otherFoot = (id: OtherQuestion) => {
+        const names = competitorOthers(answers, id);
+        const rows = writtenInRows(names);
+        const values = competitorRatings(answers, id);
+        return (
+            <>
+                <TickField className="rating-scale-group-label" disabled={disabled} checked={names.length > 0} onChange={(event) => write(competitorOtherTick(answers, id, event.currentTarget.checked))}>
+                    Other
+                </TickField>
+                {names.length > 0 && (
+                    <div
+                        className="rating-scale-group-list"
+                        style={{ gridTemplateRows: "repeat(" + rows.length + ", auto)" }}
+                        onBlur={(event) => {
+                            if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
+                                const done = competitorOtherSettleAll(answers, id);
+                                if (done !== answers) {
+                                    write(done);
+                                }
+                            }
+                        }}
+                    >
+                        <NumberedListInput
+                            label={words(id) + " Other"}
+                            items={rows}
+                            autoFocusFirst={rows.every(row => !row.trim())}
+                            disabled={disabled}
+                            onChange={(items, origins) => write(competitorOtherList(answers, id, items, origins))}
+                        />
+                        {rows.map((row, at) => row.trim()
+                            ? (
+                                <div key={"other-" + at} className="rating-scale-group-list-point" style={{ gridRow: at + 1 }}>
+                                    <RatingScale
+                                        label={row.trim()}
+                                        name={competitor.id + "-" + id + "-other-" + at}
+                                        value={values["other-" + at]}
+                                        onChange={(next) => write(competitorRate(answers, id, "other-" + at, next))}
+                                        disabled={disabled}
+                                    />
+                                </div>
+                            )
+                            : <span key={"other-" + at} className="rating-scale-group-list-point" style={{ gridRow: at + 1 }} aria-hidden="true" />)}
+                    </div>
+                )}
+            </>
+        );
+    };
     // K6: the platforms in the order of the App User's industry and country (L18); a platform ticked before stays shown.
     const platforms = reviewPlatformOrder(identity?.country ?? "", identity?.activityCode ?? "");
     const platformRows = [...platforms.first, ...platforms.rest.filter(platform => (answers.k6 ?? []).includes(platform.id))];
@@ -205,12 +219,12 @@ export function competitorCard(scope: FoundationCardScope, competitor: BusinessC
     },
     k6: () => (
         <>
-            {rated("k6", [...platformRows, ...otherRows("k6")], {
+            {rated("k6", platformRows, {
                 selectable: true,
                 selected: answers.k6 ?? [],
-                onSelect: (row, on) => write({ ...answers, k6: on ? [...(answers.k6 ?? []), row] : (answers.k6 ?? []).filter(entry => entry !== row) })
+                onSelect: (row, on) => write({ ...answers, k6: on ? [...(answers.k6 ?? []), row] : (answers.k6 ?? []).filter(entry => entry !== row) }),
+                foot: otherFoot("k6")
             })}
-            {otherTick("k6")}
         </>
     ),
     k7: () => rated("k7", COMPETITOR_STAGES),
