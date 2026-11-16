@@ -344,19 +344,25 @@ export default function SectionTiles({
         // (The line is marked where no box holds the card, or where the line stands inside the box: a tile shared by several cards.)
         const link = box ? (line && cardBoxOf(line) === box ? line : null) : line ?? openerEl;
         link?.setAttribute("data-opener", "");
-        // THE ROWS OF A TABLE THAT HOLD THE CARD (data-card-row: a Journey Stage's subchannel; owner, 2026-11-16 23:58): marked as the link is, and followed by the dialog.
+        // THE ROWS OF A TABLE THAT HOLD THE CARD (data-card-row: a Journey Stage's subchannel; owner, 2026-11-16 23:58 and 2026-11-17 00:16, "the whole row should be
+        // highlighted"): the row framed whole, edge to edge, in the links' blue -- every cell of it but one that spans other cards' rows too (a channel of several
+        // subchannels) --, and followed by the dialog.
         const rows = keys.flatMap(key => [...document.querySelectorAll<HTMLElement>(`[data-card-row="${key}"]`)]);
-        rows.forEach(row => row.setAttribute("data-opener", ""));
+        const cells = rows.flatMap(row => {
+            const own = [...row.children].filter((cell): cell is HTMLElement => cell instanceof HTMLElement && !((cell as HTMLTableCellElement).rowSpan > 1));
+            own.forEach((cell, at) => cell.setAttribute("data-opener-cell", [at === 0 ? "first" : "", at === own.length - 1 ? "last" : ""].filter(Boolean).join(" ") || "middle"));
+            return own;
+        });
         // THE DIALOG FOLLOWS THE ARROWS (owner, 2026-11-16 19:18): the marked tile scrolls into view behind the card, smoothly, the least it can; at once where motion is reduced.
         const reduced = typeof window.matchMedia === "function" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-        (rows[0] ?? tile ?? block ?? line)?.scrollIntoView?.({ block: "nearest", inline: "nearest", behavior: reduced ? "auto" : "smooth" });
+        (cells[0] ?? tile ?? block ?? line)?.scrollIntoView?.({ block: "nearest", inline: "nearest", behavior: reduced ? "auto" : "smooth" });
         return () => {
             marked.forEach(element => {
                 element.removeAttribute("data-opener-tile");
                 element.style.removeProperty("--opener-hue");
             });
             link?.removeAttribute("data-opener");
-            rows.forEach(row => row.removeAttribute("data-opener"));
+            cells.forEach(cell => cell.removeAttribute("data-opener-cell"));
         };
     }, [openerEl, openerHue, floatingId]);
 

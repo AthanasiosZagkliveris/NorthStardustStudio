@@ -1661,10 +1661,10 @@ describe("THE CAROUSEL ARROWS beside the card or the section opened last", () =>
 
 describe("THE ROWS OF A TABLE THAT HOLD THE OPEN CARD (a Journey Stage's subchannels; owner, 2026-11-16 23:58)", () => {
 
-    it("marks the row of the card now open, follows the carousel arrows to the next row, and scrolls the dialog to it", () => {
+    it("frames the whole row of the card now open -- every cell but a channel cell spanning other rows --, follows the carousel arrows, and scrolls the dialog to it", () => {
         const scrolled: string[] = [];
         const original = Element.prototype.scrollIntoView;
-        Element.prototype.scrollIntoView = function (this: Element) { scrolled.push(this.getAttribute("data-card-row") ?? this.tagName); } as typeof Element.prototype.scrollIntoView;
+        Element.prototype.scrollIntoView = function (this: Element) { scrolled.push(this.closest("[data-card-row]")?.getAttribute("data-card-row") ?? this.tagName); } as typeof Element.prototype.scrollIntoView;
         const open = (card: string) => document.dispatchEvent(new CustomEvent(OPEN_EVENT, { detail: { tile: "stage", card } }));
         render(<SectionTiles label="Stages" hue={200} tiles={[{
             id: "stage",
@@ -1677,9 +1677,12 @@ describe("THE ROWS OF A TABLE THAT HOLD THE OPEN CARD (a Journey Stage's subchan
             content: () => (
                 <table>
                     <tbody>
-                        {["s1", "s2"].map(id => (
+                        {["s1", "s2"].map((id, at) => (
                             <tr key={id} data-card-row={id}>
+                                {at === 0 && <td data-col="channel" rowSpan={2}>Social Media</td>}
                                 <th scope="row"><button type="button" className="capability-overview-name" onClick={() => open(id)}>{id}</button></th>
+                                <td data-col="offerings">Rugs</td>
+                                <td data-col="actions">Post weekly</td>
                             </tr>
                         ))}
                     </tbody>
@@ -1689,21 +1692,27 @@ describe("THE ROWS OF A TABLE THAT HOLD THE OPEN CARD (a Journey Stage's subchan
         try {
             fireEvent.click(tileButton("Discover"));
             fireEvent.click(screen.getByRole("button", { name: "s1" }));
-            const marked = () => [...document.querySelectorAll("[data-card-row][data-opener]")].map(row => row.getAttribute("data-card-row"));
+            // (The cells framed: their row, their column and which edge of the frame each draws.)
+            const framed = () => [...document.querySelectorAll<HTMLElement>("[data-opener-cell]")].map(cell => cell.closest("[data-card-row]")!.getAttribute("data-card-row") + ":" + (cell.getAttribute("data-col") ?? "subchannel") + ":" + cell.getAttribute("data-opener-cell"));
             expect(screen.getByTestId("card").textContent).toBe("s1");
-            expect(marked()).toEqual(["s1"]);
+            // (The channel cell spans both subchannels' rows: it stays out of the frame.)
+            expect(framed()).toEqual(["s1:subchannel:first", "s1:offerings:middle", "s1:actions:last"]);
             expect(scrolled).toContain("s1");
             fireEvent.click(screen.getByRole("button", { name: "Next card" }));
             expect(screen.getByTestId("card").textContent).toBe("s2");
-            expect(marked()).toEqual(["s2"]);
+            expect(framed()).toEqual(["s2:subchannel:first", "s2:offerings:middle", "s2:actions:last"]);
             expect(scrolled[scrolled.length - 1]).toBe("s2");
         } finally {
             Element.prototype.scrollIntoView = original;
         }
     });
 
-    it("draws the mark in the shared opener style: the row's name and its expenses as the opening link", () => {
-        expect(stylesheet("card-tile.css")).toMatch(/\[data-card-row\]\[data-opener\] :is\(\.capability-overview-name, \.stage-record-expense-name\) \{[^}]*text-decoration: underline;/);
+    it("draws one frame round the row in the links' blue, the colour a link frames its target in; the name keeps its own weight", () => {
+        const css = stylesheet("card-tile.css");
+        expect(css).toMatch(/\[data-opener-cell\] \{[^}]*--row-frame: var\(--text-primary\);[^}]*box-shadow: inset 0 4px 0 var\(--row-frame\), inset 0 -4px 0 var\(--row-frame\);/);
+        expect(css).toMatch(/\[data-opener-cell~="first"\] \{[^}]*inset 4px 0 0 var\(--row-frame\)/);
+        expect(css).toMatch(/\[data-opener-cell~="last"\] \{[^}]*inset -4px 0 0 var\(--row-frame\)/);
+        expect(css).not.toMatch(/stage-record-expense-name\) \{/);
     });
 
 });
