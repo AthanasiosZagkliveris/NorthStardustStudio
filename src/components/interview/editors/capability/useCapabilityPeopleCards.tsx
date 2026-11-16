@@ -223,7 +223,7 @@ export function useCapabilityPeopleCards(earlier: Earlier) {
                     period of all three -- a salary and hours a week, a
                     month or a year -- and every calculation turns them
                     into a month. The delivery hours are what 4.
-                    Delivery under Offering's Capability adds up as the
+                    Capacity & Delivery under Offering's Capability adds up as the
                     capacity. A salary is paid in the organization's own
                     currency, so it is named in the label, not asked. */}
                 <div className="business-founder-fields">

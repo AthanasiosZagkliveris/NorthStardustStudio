@@ -1045,7 +1045,10 @@ export function useCapabilitySections(earlier: Earlier) {
 
             {
                 id: "delivery",
-                title: "Delivery",
+                // (Capacity and Capability unified: owner, 2026-11-16 20:25, the design of 20:39 -- the capacity, the skills still needed, the Delivery cards.)
+                title: "Capacity & Delivery",
+                // (An Offering's card floats under "Delivery": it holds that Offering's delivery only; doc 52, decision 1.)
+                group: "Delivery",
                 anchor: "section-offering-delivery",
                 holds: offeringChoices.map(choice => "delivery-" + choice.id),
                 // (Its dialog lists a tile for each Offering's Delivery card; a link in its list opens one floating.)
@@ -1058,7 +1061,7 @@ export function useCapabilitySections(earlier: Earlier) {
                     const at = offeringChoices.findIndex(choice => "delivery-" + choice.id === cardId);
                     return at >= 0 ? deliveryCard(offeringChoices[at], at) : null;
                 },
-                content: () => tileSection("offering", "Delivery", DELIVERY_HELP.section, deliverySection)
+                content: () => tileSection("offering", "Capacity & Delivery", DELIVERY_HELP.section, deliverySection)
             },
 
         ];

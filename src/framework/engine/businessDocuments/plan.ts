@@ -16,6 +16,7 @@ import { demandBasis, details, financialFoundationBlocks, financialSustainabilit
 import { COST_FREQUENCIES, COST_GROUPS, FUNDING_STATUSES, planLength, revenueModelLabel, planYears, salesCapacity, allFunding, asFinancialFoundationValue, fundingStanding, fundingType, isLoan, isNonCash, loanSchedule, isScheduled, monthlyEquivalent, parseAmount, moneyFormatter, planMonthLabel, spentBeforePlan, type CostLine, costAmountShown } from "../FinancialModel.ts";
 import { COUNTRIES, jurisdictionProfile } from "../LegalEntityJurisdictions.ts";
 import { brandGuidePictures, brandPictures, costName, coverLines, listItems, monthName, payWord, priceText, readFoundation, section, shortMonth, text, type Foundation, type FoundationSessions } from "./reading.ts";
+import { neededSkillLine, neededSkills, skillsOf } from "../capability/skills.ts";
 
 /* ==========================================================
    The Business Plan
@@ -340,10 +341,10 @@ function operationsBlocks(f: Foundation): ExportBlock[] {
 function teamBlocks(f: Foundation): ExportBlock[] {
     const organisation = f.legalEntity.organisation;
     const profiled = founderProfiles(f.legalEntity.founders, f.foundersProfile).filter(founderProfileHasText);
-    const capability = asFoundersProfileValue(f.foundersProfile);
-    const teamGaps = capability.teamCover.trim()
-        ? [capability.teamGaps.trim() ? "Gaps: " + capability.teamGaps.trim() : "", "Cover: " + capability.teamCover.trim()].filter(Boolean).join("\n\n")
-        : capability.teamGaps;
+    // (Skills and Cover, from Capacity & Delivery: each skill the business still needs with who covers it; owner, 2026-11-16 20:25.)
+    const legacy = asFoundersProfileValue(f.foundersProfile);
+    const skills = neededSkills(f.capability, legacy, Object.fromEntries(f.legalEntity.founders.map(founder => [founder.id, founder.name.trim()])));
+    const skillNotes = skillsOf(f.capability, legacy).notes.trim();
     return [
         ...titled("Legal Structure", details([
             ["Legal name", organisation.name],
@@ -372,9 +373,9 @@ function teamBlocks(f: Foundation): ExportBlock[] {
                 ...labelledList("Skills, expertise and qualifications", founderSkillLines(founder.skills))
             ]))
             : notCovered("Experience and CVs")),
-        ...(text(teamGaps)
-            ? titled("Capability Gaps and Cover", paragraph(teamGaps))
-            : notCovered("Capability Gaps and Cover"))
+        ...(skills.length > 0 || skillNotes
+            ? titled("Skills and Cover", [...list(skills.map(neededSkillLine)), ...paragraph(skillNotes)])
+            : notCovered("Skills and Cover"))
     ];
 }
 

@@ -96,7 +96,7 @@ describe("FoundersProfileEditor founders", () => {
         render(<Harness founders={[ann]} />);
         open(/Founder 1$/);
 
-        for (const label of ["Roles", "Relevant Industry Experience", "Management Experience", "Key Achievements", "Skills, Expertise & Qualifications", "Capability Gaps & Cover"]) {
+        for (const label of ["Roles", "Relevant Industry Experience", "Management Experience", "Key Achievements", "Skills, Expertise & Qualifications"]) {
             expect(screen.getByRole("button", { name: label + ": what this means" })).toBeTruthy();
         }
         // No group heading: the Roles alone in one column, then Industry |
@@ -113,9 +113,9 @@ describe("FoundersProfileEditor founders", () => {
         expect(screen.queryByLabelText(/years in the industry/)).toBeNull();
         expect(screen.queryByText(/years in the industry/)).toBeNull();
         expect(screen.getByLabelText("Founder 1 management experience").tagName).toBe("TEXTAREA");
-        expect(screen.getByLabelText("Capability Gaps & Cover").tagName).toBe("TEXTAREA");
-        // The subsection, and so its rail item, follows the new name.
-        expect(document.querySelector("[data-rail='capability-gaps-cover'] h3")?.textContent).toMatch(/Capability Gaps & Cover/);
+        // Gaps and Cover are asked on Capacity & Delivery (3. Infrastructure & Capability): no box or subsection of their own here.
+        expect(screen.queryByLabelText("Capability Gaps & Cover")).toBeNull();
+        expect(document.querySelector("[data-rail='capability-gaps-cover']")).toBeNull();
 
     });
 

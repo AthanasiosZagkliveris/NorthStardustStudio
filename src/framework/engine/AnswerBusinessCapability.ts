@@ -1342,7 +1342,12 @@ export function asBusinessCapabilityValue(value: unknown): BusinessCapabilityVal
             providers: asBusinessPartnerList(offering.providers, "providers", partnerContext("offering"))
         },
 
-        delivery: asDeliveryMap(source.delivery)
+        delivery: asDeliveryMap(source.delivery),
+
+        // (LC1: kept only once saved, so the Legal Entity's Gaps and Cover are read in until then: skillsOf.)
+        ...(Array.isArray(source.skillsNeeded) ? { skillsNeeded: [...new Set(source.skillsNeeded.map(asText).filter(Boolean))] } : {}),
+        ...(Array.isArray(source.skillsOther) ? { skillsOther: source.skillsOther.map(asText) } : {}),
+        ...(typeof source.skillsNotes === "string" ? { skillsNotes: source.skillsNotes } : {})
 
     });
 

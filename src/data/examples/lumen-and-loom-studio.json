@@ -313,8 +313,8 @@
                 ]
               }
             ],
-            "teamGaps": "No one on the team has run e-commerce and digital marketing at scale, or managed textile production beyond our own looms.",
-            "teamCover": "A freelance e-commerce specialist covers the online shop and digital marketing for the first year while Oliver completes a digital marketing course. A retired mill production manager mentors us on sourcing and small-batch production. Hale & Co Accountants and our lawyer cover year-end accounts and legal work, and we plan to hire and train an apprentice weaver to add studio production capacity."
+            "teamGaps": "",
+            "teamCover": ""
           }
         }
       ],
@@ -6167,7 +6167,14 @@
                 "mode": "",
                 "period": ""
               }
-            }
+            },
+            "skillsNeeded": [
+              "marketing",
+              "website",
+              "making"
+            ],
+            "skillsOther": [],
+            "skillsNotes": "A freelance e-commerce specialist covers the online shop and digital marketing for the first year while Oliver completes a digital marketing course. A retired mill production manager mentors us on sourcing and small-batch production. Hale & Co Accountants and our lawyer cover year-end accounts and legal work, and we plan to hire and train an apprentice weaver to add studio production capacity."
           }
         },
         {

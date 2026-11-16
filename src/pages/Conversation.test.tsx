@@ -257,15 +257,18 @@ describe("Conversation records the last place worked", () => {
         fireEvent.keyDown(document.body, { key: "ArrowRight" });
         expect(current()).toMatch(/^2. /);
 
-        // Not while typing (page 2 holds the Legal Entity, tiles: open the Capability, which holds boxes).
-        fireEvent.click(screen.getByRole("button", { name: /^Capability/ }));
-        const box = document.querySelector<HTMLElement>("textarea, input")!;
-        fireEvent.keyDown(box, { key: "ArrowLeft" });
-        expect(current()).toMatch(/^2. /);
-
-        // From the second page, back to the first, then to the Introduction.
+        // From the second page, back to the first.
         fireEvent.click(screen.getByRole("button", { name: "Previous page" }));
         expect(current()).toMatch(/^1. /);
+
+        // Not while typing (page 1's Organisation tile holds boxes; page 2's Legal Entity holds none until a country is chosen).
+        fireEvent.click(screen.getByRole("button", { name: /^Organisation/ }));
+        const box = document.querySelector<HTMLElement>("[role='dialog'] textarea, [role='dialog'] input, .section-tile-dialog textarea, .section-tile-dialog input")!;
+        fireEvent.keyDown(box, { key: "ArrowLeft" });
+        expect(current()).toMatch(/^1. /);
+        fireEvent.keyDown(document.body, { key: "Escape" });
+
+        // Then to the Introduction.
         fireEvent.click(screen.getByRole("button", { name: "Previous page" }));
         expect(screen.getByRole("button", { name: "Start Interview" })).toBeTruthy();
 

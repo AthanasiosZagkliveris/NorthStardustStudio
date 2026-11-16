@@ -4,7 +4,14 @@
  */
 import AddButton from "../../../controls/AddButton.tsx";
 import NumberCell from "../../../controls/NumberCell.tsx";
-import { Fragment, ReactNode } from "react";
+import { Fragment, ReactNode, useEffect } from "react";
+import TickField from "../../../controls/TickField.tsx";
+import TextLink from "../../fields/TextLink.tsx";
+import NumberedListInput from "../../fields/NumberedListInput.tsx";
+import NotesField from "../../fields/NotesField.tsx";
+import { writtenInNames, writtenInRows } from "../../../../framework/engine/SegmentQuestions.ts";
+import { SKILLS, SKILLS_HELP, skillCover, skillGroups, skillsOf, teamNames } from "../../../../framework/engine/capability/skills.ts";
+import { OPEN_EVENT, type OpenRequest } from "../../tiles/SectionTiles.tsx";
 import { BUSINESS_ACTIVITY_CATEGORIES, businessFoundationSegments, equalOfferingShares, soleGroupOf, BUSINESS_PARTNER_GROUPS, resourcesStartingTooLate, cappedUnits, unitsCap, BusinessActivityValue, partnerNoun, BusinessPartnerValue, BusinessResourceSlotValue, createBusinessActivity, createBusinessPartner, createBusinessResourceSlot, resourceUnitCount } from "../../../../framework/engine/AnswerUtils.ts";
 import { BusinessCard, LinkSymbol, BusinessEmpty, BusinessField, OptionalField, OptionalNote, BusinessRemove, uniqueChoices } from "../../cards/BusinessCardFields.tsx";
 import { DeliveryValue, createDelivery, deliveryAllocation, deliveryHours, WEEKS_PER_MONTH, demandResult, founderDeliveryHours } from "../../../../framework/engine/DemandCapacity.ts";
@@ -28,7 +35,73 @@ type Earlier = ReturnType<typeof useCapabilityState> & ReturnType<typeof useCapa
 
 export function useCapabilityActivityAndDelivery(earlier: Earlier) {
 
-    const { capability, collapsed, disabled, engagementValue, financialFoundation, foundation, founderChoices, founders, live, offeringChoices, onChange, openPair, organisationCurrency, partnersOf, setCollapsed, setPartners, staffOf, update } = earlier;
+    const { capability, collapsed, disabled, engagementValue, financialFoundation, foundation, founderChoices, founders, foundersProfile, live, offeringChoices, onChange, openPair, organisationCurrency, partnersOf, setCollapsed, setPartners, staffOf, update } = earlier;
+
+    /* LC1, THE SKILLS THE BUSINESS STILL NEEDS (owner, 2026-11-16 20:39), as every reader sees them; the Legal Entity's Gaps and Cover are read into the answer
+       once, the first time the page can write (skillsOf: Gaps as Other rows, one a sentence; Cover as the Notes). */
+    const legacyGaps = foundersProfile as { teamGaps?: string; teamCover?: string } | undefined;
+    const skills = skillsOf(capability, legacyGaps);
+    useEffect(() => {
+        // (Only where there is old text to read in: a page opened fresh is left as it is.)
+        const hasLegacy = !!(legacyGaps?.teamGaps?.trim() || legacyGaps?.teamCover?.trim());
+        if (!disabled && hasLegacy && live.current.skillsNeeded === undefined) {
+            onChange({ ...live.current, skillsNeeded: skills.ticked, skillsOther: skills.other, skillsNotes: skills.notes });
+        }
+    // (Once, when the answer has no skills yet and the Legal Entity's Gaps or Cover hold text.)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [capability.skillsNeeded === undefined, disabled]);
+    const saveSkills = (patch: Partial<{ skillsNeeded: string[]; skillsOther: string[]; skillsNotes: string }>) => {
+        const now = skillsOf(live.current, legacyGaps);
+        onChange({ ...live.current, skillsNeeded: now.ticked, skillsOther: now.other, skillsNotes: now.notes, ...patch });
+    };
+    /** Who covers a skill, each a link to its card; with none, "Not covered yet", a link to the Activities its cover comes from. */
+    const coverLine = (skillId: string) => {
+        const names = teamNames(capability, Object.fromEntries(founderChoices.map(choice => [choice.id, choice.label])));
+        const cover = skillCover(capability, skillId, names);
+        const offeringSide = skillGroups(skillId).some(group => ["production", "marketing", "sales"].includes(group));
+        return (
+            <p className="delivery-muted delivery-skill-cover">
+                {cover.length > 0
+                    ? <>Covered by: {cover.map((entry, at) => <Fragment key={entry.id}>{at > 0 ? ", " : ""}<TextLink onClick={() => openPair(entry.id, entry.id, true)}>{entry.name}</TextLink></Fragment>)}</>
+                    : <TextLink onClick={() => document.dispatchEvent(new CustomEvent<OpenRequest>(OPEN_EVENT, { detail: { anchor: offeringSide ? "section-offering-activities" : "section-infrastructure-activities" } }))}>Not covered yet</TextLink>}
+            </p>
+        );
+    };
+    /** THE SKILLS BAND of Capacity & Delivery: LC1's ticks, each ticked one's cover beside it; Other as a numbered list; one shared Notes. */
+    const skillsBand = () => (
+        <div className="delivery-capacity delivery-skills">
+            <BusinessField label="Which skills does the business still need?" info={SKILLS_HELP}>
+                <div className="radio-choice legal-entity-radio-stack" role="group" aria-label="Which skills does the business still need?">
+                    {SKILLS.map(skill => {
+                        const on = skills.ticked.includes(skill.id);
+                        return (
+                            <Fragment key={skill.id}>
+                                <TickField className="business-foundation-tick" disabled={disabled} checked={on} onChange={(event) => saveSkills({ skillsNeeded: event.currentTarget.checked ? [...skills.ticked, skill.id] : skills.ticked.filter(id => id !== skill.id), ...(skill.id === "other" && !event.currentTarget.checked ? { skillsOther: [] } : {}) })}>
+                                    {skill.label}
+                                </TickField>
+                                {on && skill.id !== "other" && coverLine(skill.id)}
+                            </Fragment>
+                        );
+                    })}
+                </div>
+                {skills.ticked.includes("other") && (
+                    <>
+                        <NumberedListInput
+                            label="Which skills does the business still need? Other"
+                            items={writtenInRows(skills.other)}
+                            autoFocusFirst={writtenInNames(skills.other).length === 0}
+                            disabled={disabled}
+                            onChange={(items) => saveSkills({ skillsOther: items })}
+                        />
+                        {writtenInNames(skills.other).length > 0 && coverLine("other")}
+                    </>
+                )}
+            </BusinessField>
+            <BusinessField label="Notes">
+                <NotesField ariaLabel="Skills notes" disabled={disabled} value={skills.notes} onChange={(next) => saveSkills({ skillsNotes: next })} />
+            </BusinessField>
+        </div>
+    );
 
     /**
      * A NEW CARD FROM AN ACTIVITY'S TEAM (owner, 2026-11-16 20:22: "+ New Card"): a blank Staff (the place's Human Resources group), Partner or Supplier card,
@@ -1061,6 +1134,8 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
                         );
                     })()}
                 </div>
+
+                {skillsBand()}
 
                 {offeringChoices.length === 0
                     ? (

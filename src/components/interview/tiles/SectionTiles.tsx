@@ -256,7 +256,9 @@ export default function SectionTiles({
     useEffect(() => {
         const answer = (event: Event) => {
             const request = (event as CustomEvent<OpenRequest>).detail;
-            const found = latest.current.find(tile => tile.id === request.tile) ?? latest.current.find(tile => !!request.card && tile.holds?.includes(request.card));
+            const found = request.anchor
+                ? latest.current.find(tile => (tile.anchor ?? "").split(" ").includes(request.anchor!))
+                : latest.current.find(tile => tile.id === request.tile) ?? latest.current.find(tile => !!request.card && tile.holds?.includes(request.card));
             if (!found) {
                 return;
             }
@@ -265,7 +267,7 @@ export default function SectionTiles({
             if (request.card && found.cardFor) {
                 // (Over the other column of the tile that holds it, where it stands on the page: at the one level of every card.)
                 openFloating(found, request.card, document.querySelector<HTMLElement>(`.section-tile[data-tile="${CSS.escape(found.id)}"]`) ?? from, "column", request.fresh === true, false, request.alone !== true && request.under !== true, request.alone === true, request.under === true);
-            } else if (request.box) {
+            } else if (request.box || request.anchor) {
                 setFloating(null);
                 // (From its own tile where it stands on screen: the dialog takes its place and size from it, not from the page.)
                 openDialog(found, document.querySelector<HTMLElement>(`.section-tile[data-tile="${CSS.escape(found.id)}"]`) ?? from, request.box);

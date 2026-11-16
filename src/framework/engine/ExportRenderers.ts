@@ -111,6 +111,7 @@ import {
 } from "./FinancialModel.ts";
 import { jurisdictionProfile, COUNTRIES, LEGAL_REQUIREMENT_TYPES } from "./LegalEntityJurisdictions.ts";
 import { capabilityCards, channelResourceLinks, costCardAmountText, costCardName } from "./ChannelResources.ts";
+import { neededSkillLine, neededSkills, skillsOf } from "./capability/skills.ts";
 
 /* ==========================================================
    Building blocks
@@ -305,7 +306,6 @@ function foundersProfileBlocks(value: unknown, context: ExportContext): ExportBl
 
     // The founders are the Legal Entity's, on this System's own page.
     const entity = asLegalEntityValue(context.responseOf?.(AnswerType.LegalEntity) ?? context.legalEntity);
-    const profile = asFoundersProfileValue(value);
 
     return [
         ...titled("Founders", founderProfiles(entity.founders, value).flatMap(founder => {
@@ -317,11 +317,8 @@ function foundersProfileBlocks(value: unknown, context: ExportContext): ExportBl
                 ...labelledList("Skills, Expertise & Qualifications", founderSkillLines(founder.skills))
             ];
             return said.length === 0 ? [] : [heading(founder.name, 2), ...said];
-        })),
-        ...titled("Capability Gaps & Cover", [
-            ...paragraph(profile.teamGaps, profile.teamCover.trim() ? "Gaps" : undefined),
-            ...paragraph(profile.teamCover, profile.teamGaps.trim() ? "Cover" : undefined)
-        ])
+        }))
+        // (Gaps and Cover are asked on Capacity & Delivery now, and printed there as Skills and Cover: owner, 2026-11-16 20:25.)
     ];
 
 }
@@ -835,9 +832,21 @@ function businessCapabilityBlocks(value: unknown, context: ExportContext): Expor
                     entry.duration,
                     entry.constraints
                 ];
-            }))
+            })),
+
+        // (Skills and Cover, LC1 of Capacity & Delivery: each skill the business still needs with who covers it; the Legal Entity's Gaps and Cover until the page is answered.)
+        ...skillsBlocks(capability, context)
     ];
 
+}
+
+/** "Skills and Cover": each skill the business still needs, with who covers it or "not covered yet", then the Notes. */
+function skillsBlocks(capability: ReturnType<typeof capabilityOf>, context: ExportContext): ExportBlock[] {
+    const legacy = asFoundersProfileValue(context.responseOf?.(AnswerType.FoundersProfile));
+    const founderNames = Object.fromEntries(capability.founders.map(founder => [founder.id, founder.name.trim()]));
+    const lines = neededSkills(capability, legacy, founderNames).map(neededSkillLine);
+    const notes = skillsOf(capability, legacy).notes;
+    return lines.length === 0 && !text(notes) ? [] : [heading("Skills and Cover", 2), ...list(lines), ...paragraph(notes)];
 }
 
 /* ==========================================================

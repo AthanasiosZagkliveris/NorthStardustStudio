@@ -38,8 +38,8 @@ describe("the Founders Profile page", () => {
         expect(numberedUnitCount(answer)).toBe(1);
         expect(isAnswerEmpty(answer, undefined)).toBe(false);
         expect(sectionRailItems(answer)).toEqual([
-            { id: "founders", label: "1. Founders" },
-            { id: "capability-gaps-cover", label: "2. Capability Gaps & Cover" }
+            // (One subsection: Capability Gaps & Cover is asked on Capacity & Delivery, as the skills the business still needs.)
+            { id: "founders", label: "1. Founders" }
         ]);
     });
 

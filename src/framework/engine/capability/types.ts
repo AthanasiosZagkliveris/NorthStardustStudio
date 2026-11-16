@@ -408,6 +408,16 @@ export interface BusinessCapabilityValue {
      */
     delivery: Record<string, DeliveryValue>;
 
+    /**
+     * LC1, "Which skills does the business still need?" (Capacity & Delivery; owner, 2026-11-16 20:39): the SKILLS ids ticked (capability/skills.ts); absent
+     * until first saved, when the Legal Entity's Gaps and Cover are read into it (skillsOf).
+     */
+    skillsNeeded?: string[];
+    /** The skills written under Other, one a row. */
+    skillsOther?: string[];
+    /** The Skills band's Notes (the Legal Entity's Cover text, read once). */
+    skillsNotes?: string;
+
 }
 
 /**

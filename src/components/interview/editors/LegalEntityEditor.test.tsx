@@ -868,6 +868,14 @@ describe("LegalEntityEditor as tiles", () => {
         ]);
     });
 
+    it("has no Capability tile, with the Founders Profile given too: the skills the business still needs are asked on Capacity & Delivery (owner, 2026-11-16 20:25)", () => {
+        render(<LegalEntityEditor value={asLegalEntityValue({})} onChange={() => undefined} asTiles foundersProfile={{ founders: [], teamGaps: "No one sells." }} onChangeFoundersProfile={() => undefined} />);
+        expect([...document.querySelectorAll(".section-tile")].map(tile => tile.getAttribute("data-tile"))).toEqual([
+            "legal-entity-registrations", "legal-entity-expenses"
+        ]);
+        expect(screen.queryByRole("button", { name: /^Capability/ })).toBeNull();
+    });
+
     it("opens a one-owner form's founder card straight: the name a cell, the capital an optional tick beside it that takes only a figure, no number, no ownership table", () => {
 
         function Sole() {

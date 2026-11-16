@@ -186,8 +186,8 @@
                 ]
               }
             ],
-            "teamGaps": "As a one-person business, Quillfield has no one with a sales and marketing background, no in-house bookkeeping or legal expertise, and no cover for holidays or illness.",
-            "teamCover": "Bookkeeping and taxes are covered by our Brooklyn CPA practice and contracts by a small-business attorney. A freelance automation specialist, trained on our templates, will cover urgent Care Retainer work when Jordan is away, and Jordan meets a SCORE mentor monthly on sales and marketing."
+            "teamGaps": "",
+            "teamCover": ""
           }
         }
       ],
@@ -3975,7 +3975,18 @@
                 "mode": "monthly",
                 "period": ""
               }
-            }
+            },
+            "skillsNeeded": [
+              "bookkeeping",
+              "legal",
+              "marketing",
+              "selling",
+              "other"
+            ],
+            "skillsOther": [
+              "Cover for holidays or illness"
+            ],
+            "skillsNotes": "Bookkeeping and taxes are covered by our Brooklyn CPA practice and contracts by a small-business attorney. A freelance automation specialist, trained on our templates, will cover urgent Care Retainer work when Jordan is away, and Jordan meets a SCORE mentor monthly on sales and marketing."
           }
         },
         {

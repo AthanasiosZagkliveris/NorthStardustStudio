@@ -290,4 +290,4 @@ export interface FloatingItem {
     note?: InfoPoint[];
 }
 
-export interface OpenRequest { card?: string; tile?: string; box?: string; /** A card just made: left blank, it is taken away when it is closed. */ fresh?: boolean; /** Opened from the Inventory or the Completed tile: the card alone, with no arrows and no rail, as every card opened from them. */ alone?: boolean; /** Opened from a card that stays open: stacked below it (StackUnderContext). */ under?: boolean }
+export interface OpenRequest { card?: string; tile?: string; box?: string; /** The tile by its anchor, where two sections share a tile id (Page 3's two Activities tiles): its dialog opens. */ anchor?: string; /** A card just made: left blank, it is taken away when it is closed. */ fresh?: boolean; /** Opened from the Inventory or the Completed tile: the card alone, with no arrows and no rail, as every card opened from them. */ alone?: boolean; /** Opened from a card that stays open: stacked below it (StackUnderContext). */ under?: boolean }

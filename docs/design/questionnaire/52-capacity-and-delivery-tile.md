@@ -1,14 +1,13 @@
 # 52. Capacity & Delivery: the tile, as proposed
 
-Status: **proposal**, written 2026-11-15, for the owner's decision. Nothing here is built. It renames the Delivery tile of Business Capability (Offering's Capability) "Capacity & Delivery" and places doc 51's seven additions (doc 51, section 4) on it, on the Delivery card, in the Delivery dialog and in Sustainability's check, with existing components only. Section 7 adds one proposal for the Lumen & Loom Studio example.
+Status: **proposal**, written 2026-11-15, for the owner's decision. **Built 2026-11-16:** the rename (section 1, with decision 1 as recommended) and the Skills band (section 9, Capacity and Capability unified: owner, 2026-11-16 20:25). The rest is not built. It renames the Delivery tile of Business Capability (Offering's Capability) "Capacity & Delivery" and places doc 51's seven additions (doc 51, section 4) on it, on the Delivery card, in the Delivery dialog and in Sustainability's check, with existing components only. Section 7 adds one proposal for the Lumen & Loom Studio example.
 
 Related: doc 51 (the research and the seven additions), doc 50 (Demand & Conversion, seasons from D3), doc 43 (the Offering card: O1, O3, O10, O15), doc 47 (Customer Engagement: the subchannels and the journey stage Delivery), doc 48 (the Financial pages), doc 40 (the form of a tile document), doc 44 (the register); `src/components/interview/editors/capability/useCapabilitySections.tsx` (the tile), `src/components/interview/editors/capability/useCapabilityActivityAndDelivery.tsx` (the dialog and the cards), `src/components/interview/editors/BusinessCapabilityModel.ts` (`DELIVERY_HELP`), `src/framework/engine/DemandCapacity.ts` (`founderDeliveryHours`, `capacityCheck`), `src/components/interview/editors/FinancialSustainabilityEditor.tsx` (`capacityBlock`).
 
 ## 1. The rename
 
-- **Today:** the tile is titled "Delivery" (`useCapabilitySections.tsx`, the tile with id `delivery`); its dialog opens under "Delivery", and each Offering's card floats under the caption "Delivery".
-- **Proposed:** the tile and its dialog are titled **Capacity & Delivery**. The dialog's first part is the founders' capacity (and, with this proposal, the planning ceiling, the deliverable sales and when to add help); the cards below hold each Offering's delivery. The new name says both.
-- **The floating card keeps "Delivery"** as its caption: it holds one Offering's delivery only **[decision 1]**.
+- **Built:** the tile (`useCapabilitySections.tsx`, the tile with id `delivery`) and its dialog are titled **Capacity & Delivery**. The dialog's first part is the founders' capacity (and, with this proposal, the planning ceiling, the deliverable sales and when to add help); the cards below hold each Offering's delivery. The new name says both.
+- **The floating card keeps "Delivery"** as its caption (the tile's `group`): it holds one Offering's delivery only **[decision 1, built as recommended]**.
 - **It also separates the tile from the journey stage.** "Delivery" is also a stage of the customer journey on Customer Engagement (doc 47). "Capacity & Delivery" on Business Capability reads as its own place.
 - **What changes with it:** the tile's `title`, the dialog's heading, `DELIVERY_HELP.section`'s first line ("How much the founders can deliver, and how each Offering is delivered: …"), the tests that open the tile by name (`BusinessCapabilityEditor.test.tsx`, `openTile("Delivery")`), the examples' golden files, doc 22 (help texts) and the page 3 specification. The tile's id (`delivery`), its anchor (`section-offering-delivery`) and the saved data (`capability.delivery`) stay as they are, so saved work opens unchanged.
 
@@ -125,7 +124,7 @@ Each step: tests, the examples (`src/data/examples/`), the golden files, doc 44 
 
 ## 8. Decisions for Thanos
 
-1. The floating card keeps the caption "Delivery" (recommended), or takes "Capacity & Delivery" too.
+1. The floating card keeps the caption "Delivery" (recommended; built so on 2026-11-16), or takes "Capacity & Delivery" too.
 2. A mark on the capacity bar at 85% (one addition to the bar's shared style), or the line under the bar only.
 3. Which Offerings ask DV6: those whose O1 or O3 answer is a session, class, workshop or event (recommended), or every Per unit Service.
 4. The ceiling fixed at 85% (recommended), or a figure in Global Settings.
@@ -133,3 +132,16 @@ Each step: tests, the examples (`src/data/examples/`), the golden files, doc 44 
 6. The lead time to add help: 8 weeks (recommended), or asked once on the Founder cards.
 7. The Lumen example: A (recommended) or B, and the Shopify store or the booking app.
 8. The code prefix DV for the Delivery card's questions.
+
+## 9. The Skills band (LC1), built 2026-11-16
+
+The owner, 2026-11-16 20:25: "capacity and capability should be unified, and the capability section to be removed." The Legal Entity's Capability tile (its two texts, Gaps and Cover) is gone; what it asked is asked here, between the Capacity and the Delivery cards.
+
+- **The dialog, in order:** 1. Capacity, as before; 2. **Skills**; 3. the Delivery cards, three a row.
+- **LC1, "Which skills does the business still need?"** Ticks, one a line: Bookkeeping and tax; Legal and contracts; Marketing and social media; Selling; Design; Website and technology; Making or producing; Customer service; Delivery and logistics; Other (a numbered list, one skill a row). Its "i": "Skills the plan needs that the team lacks today. Each one's cover comes from the Team of its activities."
+- **The cover, read, never typed.** Beside each ticked skill, "Covered by:" and the names on the Team of the activities in its group, each a link to that card: Marketing and social media from Marketing; Selling and Customer service from Sales & Customer; Making or producing and Delivery and logistics from Production; the rest, and every Other row, from Infrastructure's Pre-Operational and Operational. With no one there, "Not covered yet", a link to the Activities tile.
+- **Notes:** one shared Notes field (`NotesField`), with no placeholder.
+- **Saved as** `skillsNeeded` (the ticked ids), `skillsOther` (the rows) and `skillsNotes` on the Business Capability answer (`src/framework/engine/capability/skills.ts`).
+- **Read once from the old answer.** While `skillsNeeded` has never been saved, every reader takes the Founders Profile's `teamGaps` as Other rows, one a sentence, and `teamCover` as the Notes; the page saves that the first time it can write, where that text is there (a page opened fresh is left as it is). `teamGaps` and `teamCover` are kept as legacy keys, read only.
+- **Readers:** the Business Plan's "Skills and Cover" (each skill with its cover or "not covered yet", then the Notes; "Not covered by the Foundation answers." when there is nothing); the Business System's export (Offering's Capability, after Delivery); the Review (one item per skill not covered yet, linked to Capacity & Delivery). The Founders Profile's export holds the founders alone.
+- **The code LC1** is this document's. Doc 44 registers the Foundation's cards only (page 1 of the Business System, the Organisation and the Positioning), so LC1 is not in it.

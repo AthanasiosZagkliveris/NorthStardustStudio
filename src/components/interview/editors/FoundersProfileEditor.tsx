@@ -17,7 +17,7 @@ import {
 } from "../../../framework/engine/AnswerUtils.ts";
 
 import { railId } from "../rails/railItems.ts";
-import SectionTiles, { DialogHeading, TILE_DIVIDER, type SectionTile } from "../tiles/SectionTiles.tsx";
+import SectionTiles, { TILE_DIVIDER, type SectionTile } from "../tiles/SectionTiles.tsx";
 import { workHue } from "../../../framework/engine/WorkColours.ts";
 import SubTiles, { type SubTile } from "../tiles/SubTiles.tsx";
 import NumberCell from "../../controls/NumberCell.tsx";
@@ -70,12 +70,6 @@ const INFO = {
         "Add one entry for each, and choose its type.",
         "Name what the plan relies on them for: sales, finance, operations, technical.",
         "Lenders and investors check that every capability the plan needs is covered by someone."
-    ],
-
-    teamGaps: [
-        "The capabilities the plan needs that the team lacks today.",
-        "For each gap, say who covers it and from when.",
-        "A gap that is named and covered reads as a strength; one left unnamed reads as a risk."
     ]
 
 };
@@ -133,8 +127,6 @@ interface FoundersProfileEditorProps {
         placeholder: string;
     };
 
-    /** Only the Capability dialog (the gaps the team has and how each is covered): the Capability tile of the Legal Entity page opens it. */
-    capabilityOnly?: boolean;
 
     /**
      * The founders answered under 3. Legal Entity, 2. Founders &
@@ -179,7 +171,6 @@ export default function FoundersProfileEditor({
 
     soleFounder,
 
-    capabilityOnly = false,
 
     legalEntityFounders = [],
 
@@ -485,39 +476,7 @@ export default function FoundersProfileEditor({
         const skills = lines(founder.skills.map(entry => entry.text));
         return [...lines(founder.roles), ...(skills.length > 0 ? [TILE_DIVIDER, ...skills] : [])];
     };
-    /** The Capability dialog's body: the gaps and how each is covered. (No "i" on its title: it only repeated the Gaps' and the Cover's, doc 39; owner, 2026-11-09.) */
-    const capabilityDialog = (
-        <div className="column-tile-content legal-entity legal-entity-unframed founders-profile" data-rail={railId(FOUNDERS_PROFILE_SECTIONS[1])}>
-            <div className="business-engagement-section-head"><DialogHeading title="Capability" /></div>
-            <div className="legal-entity-body">
-                {field("Gaps", [INFO.teamGaps[0]], (
-                    <StrategyTextArea
-                        className="interview-input business-foundation-note"
-                        ariaLabel="Capability gaps"
-                        placeholder="The capabilities the team lacks"
-                        disabled={disabled}
-                        value={profile.teamGaps}
-                        onChange={(next) => update({ teamGaps: next })}
-                    />
-                ), true)}
-                {field("Cover", [INFO.teamGaps[1], INFO.teamGaps[2]], (
-                    <StrategyTextArea
-                        className="interview-input business-foundation-note"
-                        ariaLabel="Capability cover"
-                        placeholder="How each will be covered: planned hires, advisors, mentors, partners, contractors, training"
-                        disabled={disabled}
-                        value={profile.teamCover}
-                        onChange={(next) => update({ teamCover: next })}
-                    />
-                ), true)}
-            </div>
-        </div>
-    );
-
-    /* THE CAPABILITY TILE OF THE LEGAL ENTITY PAGE: its dialog alone. */
-    if (capabilityOnly) {
-        return capabilityDialog;
-    }
+    /* (No Capability dialog: the skills the business still needs are asked on Capacity & Delivery, 3. Infrastructure & Capability; owner, 2026-11-16 20:25.) */
 
     /* A ONE-OWNER FORM: the founder's card alone, with the name and the capital in its head. */
     if (soleFounder && founders.length > 0) {
@@ -541,7 +500,7 @@ export default function FoundersProfileEditor({
         return <SubTiles label="Founders & Ownership" tiles={tiles} header={subTilesWith} tilesTitle="Profiles" />;
     }
 
-    /* THE PAGE AS TILES: each founder is a tile (the name, the roles), and the capability gaps another. A tile opens its card in its dialog. */
+    /* THE PAGE AS TILES: each founder is a tile (the name, the roles). A tile opens its card in its dialog. */
     if (asTiles) {
         const tiles: SectionTile[] = [
             ...founders.map((founder, index): SectionTile => {
@@ -558,42 +517,7 @@ export default function FoundersProfileEditor({
                 itemMarks: listed.map(item => item === TILE_DIVIDER ? undefined : { bullet: true }),
                 content: () => <div className="column-tile-content legal-entity legal-entity-unframed founders-profile" data-rail={railId(FOUNDERS_PROFILE_SECTIONS[0])}><div className="legal-entity-body">{founderCard(founder, index, true)}</div></div>
                 };
-            }),
-            {
-                id: "founders-gaps",
-                large: true,
-                // (Named for what it holds, with no order number: a gaps text and a cover text.)
-                title: "Capability",
-                rail: railId(FOUNDERS_PROFILE_SECTIONS[1]),
-                items: lines([...profile.teamGaps.split("\n"), ...profile.teamCover.split("\n")]),
-                content: () => (
-                    <div className="column-tile-content legal-entity legal-entity-unframed founders-profile" data-rail={railId(FOUNDERS_PROFILE_SECTIONS[1])}>
-                        <div className="business-engagement-section-head"><DialogHeading title="Capability" /></div>
-                        <div className="legal-entity-body">
-                            {field("Gaps", [INFO.teamGaps[0]], (
-                                <StrategyTextArea
-                                    className="interview-input business-foundation-note"
-                                    ariaLabel="Capability gaps"
-                                    placeholder="The capabilities the team lacks"
-                                    disabled={disabled}
-                                    value={profile.teamGaps}
-                                    onChange={(next) => update({ teamGaps: next })}
-                                />
-                            ), true)}
-                            {field("Cover", [INFO.teamGaps[1], INFO.teamGaps[2]], (
-                                <StrategyTextArea
-                                    className="interview-input business-foundation-note"
-                                    ariaLabel="Capability cover"
-                                    placeholder="How each will be covered: planned hires, advisors, mentors, partners, contractors, training"
-                                    disabled={disabled}
-                                    value={profile.teamCover}
-                                    onChange={(next) => update({ teamCover: next })}
-                                />
-                            ), true)}
-                        </div>
-                    </div>
-                )
-            }
+            })
         ];
         return (
             <div className="answer-columns business-foundation business-engagement business-capability column-tiles-page" style={{ "--answer-column-count": 1 } as CSSProperties}>
@@ -636,8 +560,8 @@ export default function FoundersProfileEditor({
                             & Ownership. Add or rename them there.
                         </span>
                         <span className="answer-question-line answer-question-line-bullet">
-                            • Every question is optional. Answer what applies, and name the
-                            capabilities the team still lacks.
+                            • Every question is optional. Answer what applies; the skills the
+                            business still needs are asked on Capacity & Delivery.
                         </span>
                     </div>
                 )}
@@ -679,19 +603,6 @@ export default function FoundersProfileEditor({
                         label="founders"
                     />
                 ))}
-
-                {/* ---------- 2. Capability Gaps & Cover ---------- */}
-
-                {subsection(1, (
-                    <StrategyTextArea
-                        className="interview-input business-foundation-note"
-                        ariaLabel="Capability Gaps & Cover"
-                        placeholder="The capabilities the team lacks, and how each will be covered: planned hires, advisors, mentors, partners, contractors, training"
-                        disabled={disabled}
-                        value={profile.teamGaps}
-                        onChange={(next) => update({ teamGaps: next })}
-                    />
-                ), undefined, INFO.teamGaps)}
 
             </div>
 

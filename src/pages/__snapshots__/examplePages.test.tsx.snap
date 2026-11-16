@@ -186,8 +186,8 @@ exports[`Lumen & Loom Studio > Business System › 3. Infrastructure & Capabilit
 `;
 
 exports[`Lumen & Loom Studio > Business System › 3. Infrastructure & Capability > tile delivery 1`] = `
-"DeliveryDeliveryiFounders' delivery capacity: about 216 hours a month.iMaya Chen: about 128 hours a monthOliver Grant: about 48 hours a monthPriya Shah: about 40 hours a monthMaya Chen's month at the expected salesDelivery hours128 h a monthHomeware Collection (10 a month)−35 h a monthWeaving Workshops (32 a month)−12.8 h a monthBespoke Commissions (3 a month)−72 h a monthTrade Collection (3 a month)−7.5 h a monthLeft0.7 h a month99% of Maya Chen's delivery hours, at the normal level of sales.iOliver Grant's month at the expected salesDelivery hours48 h a monthBespoke Commissions (3 a month)−24 h a monthTrade Collection (3 a month)−1.5 h a monthLeft22.5 h a month53% of Oliver Grant's delivery hours, at the normal level of sales.iPriya Shah's month at the expected salesDelivery hours40 h a monthHomeware Collection (10 a month)−17.5 h a monthTrade Collection (3 a month)−3 h a monthLeft19.5 h a month51% of Priya Shah's delivery hours, at the normal level of sales.i1. Homeware Collection2. Weaving Workshops3. Bespoke Commissions4. Trade CollectionBack‹›ResourcesActivitiesPartners & SuppliersDeliveryBack
-[fields] "
+"Capacity & DeliveryCapacity & DeliveryiFounders' delivery capacity: about 216 hours a month.iMaya Chen: about 128 hours a monthOliver Grant: about 48 hours a monthPriya Shah: about 40 hours a monthMaya Chen's month at the expected salesDelivery hours128 h a monthHomeware Collection (10 a month)−35 h a monthWeaving Workshops (32 a month)−12.8 h a monthBespoke Commissions (3 a month)−72 h a monthTrade Collection (3 a month)−7.5 h a monthLeft0.7 h a month99% of Maya Chen's delivery hours, at the normal level of sales.iOliver Grant's month at the expected salesDelivery hours48 h a monthBespoke Commissions (3 a month)−24 h a monthTrade Collection (3 a month)−1.5 h a monthLeft22.5 h a month53% of Oliver Grant's delivery hours, at the normal level of sales.iPriya Shah's month at the expected salesDelivery hours40 h a monthHomeware Collection (10 a month)−17.5 h a monthTrade Collection (3 a month)−3 h a monthLeft19.5 h a month51% of Priya Shah's delivery hours, at the normal level of sales.iWhich skills does the business still need?iBookkeeping and taxLegal and contractsMarketing and social mediaCovered by: Oliver Grant, Maya ChenSellingDesignWebsite and technologyCovered by: Priya Shah, Lawyer, Accountant, Maya Chen, Oliver GrantMaking or producingCovered by: Maya Chen, Priya Shah, FlameGuard FinishingCustomer serviceDelivery and logisticsOtherNotesA freelance e-commerce specialist covers the online shop and digital marketing for the first year while Oliver completes a digital marketing course. A retired mill production manager mentors us on sourcing and small-batch production. Hale & Co Accountants and our lawyer cover year-end accounts and legal work, and we plan to hire and train an apprentice weaver to add studio production capacity.1. Homeware Collection2. Weaving Workshops3. Bespoke Commissions4. Trade CollectionBack‹›ResourcesActivitiesPartners & SuppliersCapacity & DeliveryBack
+[fields] A freelance e-commerce specialist covers the online shop and digital marketing for the first year while Oliver completes a digital marketing course. A retired mill production manager mentors us on sourcing and small-batch production. Hale & Co Accountants and our lawyer cover year-end accounts and legal work, and we plan to hire and train an apprentice weaver to add studio production capacity."
 `;
 
 exports[`Lumen & Loom Studio > Business System › 3. Infrastructure & Capability > tile founders 1`] = `
@@ -221,7 +221,7 @@ exports[`Lumen & Loom Studio > Business System › 3. Infrastructure & Capabilit
 `;
 
 exports[`Lumen & Loom Studio > Business System › 3. Infrastructure & Capability 1`] = `
-"…Saving…AutoFocusSearchWorkbookNotesSettingsLumen & Loom Studio3. Business System — 3. Infrastructure & Capability1.InfrastructureFoundersMaya ChenOliver GrantPriya ShahResourcesWorkspaceUtilitiesWorkstationEquipmentVehiclesDigital InfrastructureMaterials & InventoryDocuments & RightsHuman ResourcesActivitiesPre-OperationalOperationalPartners & SuppliersPartnersSuppliers2.Offering's CapabilityResourcesWorkspaceUtilitiesWorkstationEquipmentVehiclesDigital InfrastructureMaterials & InventoryDocuments & RightsHuman ResourcesActivitiesProductionMarketingSales & CustomerPartners & SuppliersPartnersSuppliersDeliveryHomeware CollectionWeaving WorkshopsBespoke CommissionsTrade CollectionInventory3 founders39 resources15 activities10 partners & suppliersCompletedRegister trade mark and ICOLaunch website and journal‹PagesIntroduction1. Foundation: defined2. Customer Engagement: defined3. Infrastructure & Capability: defined4. Financial Foundation: defined5. Sustainability: defined›Back
+"…Saving…AutoFocusSearchWorkbookNotesSettingsLumen & Loom Studio3. Business System — 3. Infrastructure & Capability1.InfrastructureFoundersMaya ChenOliver GrantPriya ShahResourcesWorkspaceUtilitiesWorkstationEquipmentVehiclesDigital InfrastructureMaterials & InventoryDocuments & RightsHuman ResourcesActivitiesPre-OperationalOperationalPartners & SuppliersPartnersSuppliers2.Offering's CapabilityResourcesWorkspaceUtilitiesWorkstationEquipmentVehiclesDigital InfrastructureMaterials & InventoryDocuments & RightsHuman ResourcesActivitiesProductionMarketingSales & CustomerPartners & SuppliersPartnersSuppliersCapacity & DeliveryHomeware CollectionWeaving WorkshopsBespoke CommissionsTrade CollectionInventory3 founders39 resources15 activities10 partners & suppliersCompletedRegister trade mark and ICOLaunch website and journal‹PagesIntroduction1. Foundation: defined2. Customer Engagement: defined3. Infrastructure & Capability: defined4. Financial Foundation: defined5. Sustainability: defined›Back
 [fields] "
 `;
 
@@ -309,43 +309,33 @@ exports[`Lumen & Loom Studio > Identity System › 2. Purpose 1`] = `
 [fields] "
 `;
 
-exports[`Lumen & Loom Studio > Identity System › 3. Legal Entity > tile founders-gaps 1`] = `
-"CapabilityCapabilityGapsiNo one on the team has run e-commerce and digital marketing at scale, or managed textile production beyond our own looms.CoveriA freelance e-commerce specialist covers the online shop and digital marketing for the first year while Oliver completes a digital marketing course. A retired mill production manager mentors us on sourcing and small-batch production. Hale & Co Accountants and our lawyer cover year-end accounts and legal work, and we plan to hire and train an apprentice weaver to add studio production capacity.Back‹›CapabilityRegistrationsExpensesBack
-[fields] No one on the team has run e-commerce and digital marketing at scale, or managed textile production beyond our own looms. | A freelance e-commerce specialist covers the online shop and digital marketing for the first year while Oliver completes a digital marketing course. A retired mill production manager mentors us on sourcing and small-batch production. Hale & Co Accountants and our lawyer cover year-end accounts and legal work, and we plan to hire and train an apprentice weaver to add studio production capacity."
-`;
-
 exports[`Lumen & Loom Studio > Identity System › 3. Legal Entity > tile legal-entity-expenses 1`] = `
-"ExpensesExpensesiIncorporation03/02/2026Companies House16234587£50 One timeTrade mark10/05/2026UK Trade Mark (LUMEN & LOOM)UK00004012345£220 One timeICO registration10/05/2026ICO registration£52 AnnuallyConfirmation statement03/02/2027Companies House16234587£34 Annually+Add CardBack‹›CapabilityRegistrationsExpensesBack
+"ExpensesExpensesiIncorporation03/02/2026Companies House16234587£50 One timeTrade mark10/05/2026UK Trade Mark (LUMEN & LOOM)UK00004012345£220 One timeICO registration10/05/2026ICO registration£52 AnnuallyConfirmation statement03/02/2027Companies House16234587£34 Annually+Add CardBack‹›RegistrationsExpensesBack
 [fields] "
 `;
 
 exports[`Lumen & Loom Studio > Identity System › 3. Legal Entity > tile legal-entity-registrations 1`] = `
-"RegistrationsRegistrationsRegistration NumbersCompanies House: 16234587UK Trade Mark (LUMEN & LOOM): UK00004012345Tax Identification Number (UTR): 3456789012VAT: GB 412 3456 78PAYE Employer Reference: 120/AB45678Additional Legal RequirementsPSC registerCompany SecretaryICO registrationBack‹›CapabilityRegistrationsExpensesBack
+"RegistrationsRegistrationsRegistration NumbersCompanies House: 16234587UK Trade Mark (LUMEN & LOOM): UK00004012345Tax Identification Number (UTR): 3456789012VAT: GB 412 3456 78PAYE Employer Reference: 120/AB45678Additional Legal RequirementsPSC registerCompany SecretaryICO registrationBack‹›RegistrationsExpensesBack
 [fields] "
 `;
 
 exports[`Lumen & Loom Studio > Identity System › 3. Legal Entity 1`] = `
-"…Saving…AutoFocusSearchWorkbookNotesSettingsLumen & Loom Studio1. Identity System — 2. Legal EntityLegal EntityCapabilityNo one on the team has run e-commerce and digital marketing at scale, or managed textile production beyond our own looms.A freelance e-commerce specialist covers the online shop and digital marketing for the first year while Oliver completes a digital marketing course. A retired mill production manager mentors us on sourcing and small-batch production. Hale & Co Accountants and our lawyer cover year-end accounts and legal work, and we plan to hire and train an apprentice weaver to add studio production capacity.RegistrationsRegistration NumbersAdditional Legal RequirementsExpensesIncorporationTrade markICO registrationConfirmation statement‹PagesIntroduction1. Definition and Purpose: defined2. Legal Entity: definedBack
+"…Saving…AutoFocusSearchWorkbookNotesSettingsLumen & Loom Studio1. Identity System — 2. Legal EntityLegal EntityRegistrationsRegistration NumbersAdditional Legal RequirementsExpensesIncorporationTrade markICO registrationConfirmation statement‹PagesIntroduction1. Definition and Purpose: defined2. Legal Entity: definedBack
 [fields] "
 `;
 
-exports[`Lumen & Loom Studio > Identity System › 4. Founders Profile > tile founders-gaps 1`] = `
-"CapabilityCapabilityGapsiNo one on the team has run e-commerce and digital marketing at scale, or managed textile production beyond our own looms.CoveriA freelance e-commerce specialist covers the online shop and digital marketing for the first year while Oliver completes a digital marketing course. A retired mill production manager mentors us on sourcing and small-batch production. Hale & Co Accountants and our lawyer cover year-end accounts and legal work, and we plan to hire and train an apprentice weaver to add studio production capacity.Back‹›CapabilityRegistrationsExpensesBack
-[fields] No one on the team has run e-commerce and digital marketing at scale, or managed textile production beyond our own looms. | A freelance e-commerce specialist covers the online shop and digital marketing for the first year while Oliver completes a digital marketing course. A retired mill production manager mentors us on sourcing and small-batch production. Hale & Co Accountants and our lawyer cover year-end accounts and legal work, and we plan to hire and train an apprentice weaver to add studio production capacity."
-`;
-
 exports[`Lumen & Loom Studio > Identity System › 4. Founders Profile > tile legal-entity-expenses 1`] = `
-"ExpensesExpensesiIncorporation03/02/2026Companies House16234587£50 One timeTrade mark10/05/2026UK Trade Mark (LUMEN & LOOM)UK00004012345£220 One timeICO registration10/05/2026ICO registration£52 AnnuallyConfirmation statement03/02/2027Companies House16234587£34 Annually+Add CardBack‹›CapabilityRegistrationsExpensesBack
+"ExpensesExpensesiIncorporation03/02/2026Companies House16234587£50 One timeTrade mark10/05/2026UK Trade Mark (LUMEN & LOOM)UK00004012345£220 One timeICO registration10/05/2026ICO registration£52 AnnuallyConfirmation statement03/02/2027Companies House16234587£34 Annually+Add CardBack‹›RegistrationsExpensesBack
 [fields] "
 `;
 
 exports[`Lumen & Loom Studio > Identity System › 4. Founders Profile > tile legal-entity-registrations 1`] = `
-"RegistrationsRegistrationsRegistration NumbersCompanies House: 16234587UK Trade Mark (LUMEN & LOOM): UK00004012345Tax Identification Number (UTR): 3456789012VAT: GB 412 3456 78PAYE Employer Reference: 120/AB45678Additional Legal RequirementsPSC registerCompany SecretaryICO registrationBack‹›CapabilityRegistrationsExpensesBack
+"RegistrationsRegistrationsRegistration NumbersCompanies House: 16234587UK Trade Mark (LUMEN & LOOM): UK00004012345Tax Identification Number (UTR): 3456789012VAT: GB 412 3456 78PAYE Employer Reference: 120/AB45678Additional Legal RequirementsPSC registerCompany SecretaryICO registrationBack‹›RegistrationsExpensesBack
 [fields] "
 `;
 
 exports[`Lumen & Loom Studio > Identity System › 4. Founders Profile 1`] = `
-"…Saving…AutoFocusSearchWorkbookNotesSettingsLumen & Loom Studio1. Identity System — 2. Legal EntityLegal EntityCapabilityNo one on the team has run e-commerce and digital marketing at scale, or managed textile production beyond our own looms.A freelance e-commerce specialist covers the online shop and digital marketing for the first year while Oliver completes a digital marketing course. A retired mill production manager mentors us on sourcing and small-batch production. Hale & Co Accountants and our lawyer cover year-end accounts and legal work, and we plan to hire and train an apprentice weaver to add studio production capacity.RegistrationsRegistration NumbersAdditional Legal RequirementsExpensesIncorporationTrade markICO registrationConfirmation statement‹PagesIntroduction1. Definition and Purpose: defined2. Legal Entity: definedBack
+"…Saving…AutoFocusSearchWorkbookNotesSettingsLumen & Loom Studio1. Identity System — 2. Legal EntityLegal EntityRegistrationsRegistration NumbersAdditional Legal RequirementsExpensesIncorporationTrade markICO registrationConfirmation statement‹PagesIntroduction1. Definition and Purpose: defined2. Legal Entity: definedBack
 [fields] "
 `;
 
@@ -595,8 +585,8 @@ exports[`Quillfield Automation > Business System › 3. Infrastructure & Capabil
 `;
 
 exports[`Quillfield Automation > Business System › 3. Infrastructure & Capability > tile delivery 1`] = `
-"DeliveryDeliveryiFounders' delivery capacity: about 96 hours a month.iJordan Ellis's month at the expected salesDelivery hours96 h a monthAutomation Care Retainer (5 clients)−30 h a monthAI Workflow Audit (1.5 a month)−22.5 h a monthAutomation Build (0.6 a month)−24 h a monthLeft19.5 h a month80% of Jordan Ellis's delivery hours, at the normal level of sales.i1. AI Workflow Audit2. Automation Build3. Automation Care RetainerBack‹›ResourcesActivitiesPartners & SuppliersDeliveryBack
-[fields] "
+"Capacity & DeliveryCapacity & DeliveryiFounders' delivery capacity: about 96 hours a month.iJordan Ellis's month at the expected salesDelivery hours96 h a monthAutomation Care Retainer (5 clients)−30 h a monthAI Workflow Audit (1.5 a month)−22.5 h a monthAutomation Build (0.6 a month)−24 h a monthLeft19.5 h a month80% of Jordan Ellis's delivery hours, at the normal level of sales.iWhich skills does the business still need?iBookkeeping and taxCovered by: Jordan Ellis, Lawyer, Launch web design, Accountant (CPA)Legal and contractsCovered by: Jordan Ellis, Lawyer, Launch web design, Accountant (CPA)Marketing and social mediaCovered by: Jordan EllisSellingCovered by: Jordan EllisDesignWebsite and technologyMaking or producingCustomer serviceDelivery and logisticsOther1.Cover for holidays or illnessCovered by: Jordan Ellis, Lawyer, Launch web design, Accountant (CPA)NotesBookkeeping and taxes are covered by our Brooklyn CPA practice and contracts by a small-business attorney. A freelance automation specialist, trained on our templates, will cover urgent Care Retainer work when Jordan is away, and Jordan meets a SCORE mentor monthly on sales and marketing.1. AI Workflow Audit2. Automation Build3. Automation Care RetainerBack‹›ResourcesActivitiesPartners & SuppliersCapacity & DeliveryBack
+[fields] Cover for holidays or illness | Bookkeeping and taxes are covered by our Brooklyn CPA practice and contracts by a small-business attorney. A freelance automation specialist, trained on our templates, will cover urgent Care Retainer work when Jordan is away, and Jordan meets a SCORE mentor monthly on sales and marketing."
 `;
 
 exports[`Quillfield Automation > Business System › 3. Infrastructure & Capability > tile founders 1`] = `
@@ -630,7 +620,7 @@ exports[`Quillfield Automation > Business System › 3. Infrastructure & Capabil
 `;
 
 exports[`Quillfield Automation > Business System › 3. Infrastructure & Capability 1`] = `
-"…Saving…AutoFocusSearchWorkbookNotesSettingsQuillfield Automation3. Business System — 3. Infrastructure & Capability1.InfrastructureFoundersJordan EllisResourcesWorkspaceUtilitiesWorkstationEquipmentVehiclesDigital InfrastructureMaterials & InventoryDocuments & RightsHuman ResourcesActivitiesPre-OperationalOperationalPartners & SuppliersPartnersSuppliers2.Offering's CapabilityResourcesWorkspaceUtilitiesWorkstationEquipmentDigital InfrastructureDocuments & RightsHuman ResourcesActivitiesProductionMarketingSales & CustomerPartners & SuppliersPartnersSuppliersDeliveryAI Workflow AuditAutomation BuildAutomation Care RetainerInventory1 founder26 resources16 activities7 partners & suppliersCompletedRegister business nameOpen a business bank account‹PagesIntroduction1. Foundation: defined2. Customer Engagement: defined3. Infrastructure & Capability: defined4. Financial Foundation: defined5. Sustainability: defined›Back
+"…Saving…AutoFocusSearchWorkbookNotesSettingsQuillfield Automation3. Business System — 3. Infrastructure & Capability1.InfrastructureFoundersJordan EllisResourcesWorkspaceUtilitiesWorkstationEquipmentVehiclesDigital InfrastructureMaterials & InventoryDocuments & RightsHuman ResourcesActivitiesPre-OperationalOperationalPartners & SuppliersPartnersSuppliers2.Offering's CapabilityResourcesWorkspaceUtilitiesWorkstationEquipmentDigital InfrastructureDocuments & RightsHuman ResourcesActivitiesProductionMarketingSales & CustomerPartners & SuppliersPartnersSuppliersCapacity & DeliveryAI Workflow AuditAutomation BuildAutomation Care RetainerInventory1 founder26 resources16 activities7 partners & suppliersCompletedRegister business nameOpen a business bank account‹PagesIntroduction1. Foundation: defined2. Customer Engagement: defined3. Infrastructure & Capability: defined4. Financial Foundation: defined5. Sustainability: defined›Back
 [fields] "
 `;
 
@@ -718,43 +708,33 @@ exports[`Quillfield Automation > Identity System › 2. Purpose 1`] = `
 [fields] "
 `;
 
-exports[`Quillfield Automation > Identity System › 3. Legal Entity > tile founders-gaps 1`] = `
-"CapabilityCapabilityGapsiAs a one-person business, Quillfield has no one with a sales and marketing background, no in-house bookkeeping or legal expertise, and no cover for holidays or illness.CoveriBookkeeping and taxes are covered by our Brooklyn CPA practice and contracts by a small-business attorney. A freelance automation specialist, trained on our templates, will cover urgent Care Retainer work when Jordan is away, and Jordan meets a SCORE mentor monthly on sales and marketing.Back‹›CapabilityRegistrationsExpensesBack
-[fields] As a one-person business, Quillfield has no one with a sales and marketing background, no in-house bookkeeping or legal expertise, and no cover for holidays or illness. | Bookkeeping and taxes are covered by our Brooklyn CPA practice and contracts by a small-business attorney. A freelance automation specialist, trained on our templates, will cover urgent Care Retainer work when Jordan is away, and Jordan meets a SCORE mentor monthly on sales and marketing."
-`;
-
 exports[`Quillfield Automation > Identity System › 3. Legal Entity > tile legal-entity-expenses 1`] = `
-"ExpensesExpensesiAssumed Name filing08/17/2026New York Department of StateKC-2026-0817$25 One time+Add CardBack‹›CapabilityRegistrationsExpensesBack
+"ExpensesExpensesiAssumed Name filing08/17/2026New York Department of StateKC-2026-0817$25 One time+Add CardBack‹›RegistrationsExpensesBack
 [fields] "
 `;
 
 exports[`Quillfield Automation > Identity System › 3. Legal Entity > tile legal-entity-registrations 1`] = `
-"RegistrationsRegistrationsRegistration NumbersNew York Department of State: KC-2026-0817Tax Identification Number (EIN): 93-4567812Additional Legal RequirementsAssumed NameSelf-employment taxNew York State sales taxNYC Business TaxBack‹›CapabilityRegistrationsExpensesBack
+"RegistrationsRegistrationsRegistration NumbersNew York Department of State: KC-2026-0817Tax Identification Number (EIN): 93-4567812Additional Legal RequirementsAssumed NameSelf-employment taxNew York State sales taxNYC Business TaxBack‹›RegistrationsExpensesBack
 [fields] "
 `;
 
 exports[`Quillfield Automation > Identity System › 3. Legal Entity 1`] = `
-"…Saving…AutoFocusSearchWorkbookNotesSettingsQuillfield Automation1. Identity System — 2. Legal EntityLegal EntityCapabilityAs a one-person business, Quillfield has no one with a sales and marketing background, no in-house bookkeeping or legal expertise, and no cover for holidays or illness.Bookkeeping and taxes are covered by our Brooklyn CPA practice and contracts by a small-business attorney. A freelance automation specialist, trained on our templates, will cover urgent Care Retainer work when Jordan is away, and Jordan meets a SCORE mentor monthly on sales and marketing.RegistrationsRegistration NumbersAdditional Legal RequirementsExpensesAssumed Name filing‹PagesIntroduction1. Definition and Purpose: defined2. Legal Entity: definedBack
+"…Saving…AutoFocusSearchWorkbookNotesSettingsQuillfield Automation1. Identity System — 2. Legal EntityLegal EntityRegistrationsRegistration NumbersAdditional Legal RequirementsExpensesAssumed Name filing‹PagesIntroduction1. Definition and Purpose: defined2. Legal Entity: definedBack
 [fields] "
 `;
 
-exports[`Quillfield Automation > Identity System › 4. Founders Profile > tile founders-gaps 1`] = `
-"CapabilityCapabilityGapsiAs a one-person business, Quillfield has no one with a sales and marketing background, no in-house bookkeeping or legal expertise, and no cover for holidays or illness.CoveriBookkeeping and taxes are covered by our Brooklyn CPA practice and contracts by a small-business attorney. A freelance automation specialist, trained on our templates, will cover urgent Care Retainer work when Jordan is away, and Jordan meets a SCORE mentor monthly on sales and marketing.Back‹›CapabilityRegistrationsExpensesBack
-[fields] As a one-person business, Quillfield has no one with a sales and marketing background, no in-house bookkeeping or legal expertise, and no cover for holidays or illness. | Bookkeeping and taxes are covered by our Brooklyn CPA practice and contracts by a small-business attorney. A freelance automation specialist, trained on our templates, will cover urgent Care Retainer work when Jordan is away, and Jordan meets a SCORE mentor monthly on sales and marketing."
-`;
-
 exports[`Quillfield Automation > Identity System › 4. Founders Profile > tile legal-entity-expenses 1`] = `
-"ExpensesExpensesiAssumed Name filing08/17/2026New York Department of StateKC-2026-0817$25 One time+Add CardBack‹›CapabilityRegistrationsExpensesBack
+"ExpensesExpensesiAssumed Name filing08/17/2026New York Department of StateKC-2026-0817$25 One time+Add CardBack‹›RegistrationsExpensesBack
 [fields] "
 `;
 
 exports[`Quillfield Automation > Identity System › 4. Founders Profile > tile legal-entity-registrations 1`] = `
-"RegistrationsRegistrationsRegistration NumbersNew York Department of State: KC-2026-0817Tax Identification Number (EIN): 93-4567812Additional Legal RequirementsAssumed NameSelf-employment taxNew York State sales taxNYC Business TaxBack‹›CapabilityRegistrationsExpensesBack
+"RegistrationsRegistrationsRegistration NumbersNew York Department of State: KC-2026-0817Tax Identification Number (EIN): 93-4567812Additional Legal RequirementsAssumed NameSelf-employment taxNew York State sales taxNYC Business TaxBack‹›RegistrationsExpensesBack
 [fields] "
 `;
 
 exports[`Quillfield Automation > Identity System › 4. Founders Profile 1`] = `
-"…Saving…AutoFocusSearchWorkbookNotesSettingsQuillfield Automation1. Identity System — 2. Legal EntityLegal EntityCapabilityAs a one-person business, Quillfield has no one with a sales and marketing background, no in-house bookkeeping or legal expertise, and no cover for holidays or illness.Bookkeeping and taxes are covered by our Brooklyn CPA practice and contracts by a small-business attorney. A freelance automation specialist, trained on our templates, will cover urgent Care Retainer work when Jordan is away, and Jordan meets a SCORE mentor monthly on sales and marketing.RegistrationsRegistration NumbersAdditional Legal RequirementsExpensesAssumed Name filing‹PagesIntroduction1. Definition and Purpose: defined2. Legal Entity: definedBack
+"…Saving…AutoFocusSearchWorkbookNotesSettingsQuillfield Automation1. Identity System — 2. Legal EntityLegal EntityRegistrationsRegistration NumbersAdditional Legal RequirementsExpensesAssumed Name filing‹PagesIntroduction1. Definition and Purpose: defined2. Legal Entity: definedBack
 [fields] "
 `;
 

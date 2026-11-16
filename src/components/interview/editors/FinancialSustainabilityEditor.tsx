@@ -797,7 +797,7 @@ export default function FinancialSustainabilityEditor({
                 className="business-engagement-link financial-cost-link"
                 onClick={() => onOpenCapability(["section-offering-delivery", "capability-offering-capability"])}
             >
-                Delivery on Infrastructure & Capability
+                Capacity & Delivery on Infrastructure & Capability
             </TextLink>
         );
 
@@ -814,7 +814,7 @@ export default function FinancialSustainabilityEditor({
                 <FinancialBlock title="Can the Expected Sales Be Delivered?" info={info}>
                     <p className="financial-muted">
                         To check, add each founder's delivery hours on the Founder cards, and the hours one unit of each
-                        Offering takes, by person, under {toDelivery ?? "Delivery on Infrastructure & Capability"}.
+                        Offering takes, by person, under {toDelivery ?? "Capacity & Delivery on Infrastructure & Capability"}.
                     </p>
                 </FinancialBlock>
             );

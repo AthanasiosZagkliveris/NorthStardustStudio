@@ -95,13 +95,13 @@ describe("the section tiles of 3. Infrastructure & Capability", () => {
     it("gives Offering's Capability four tiles, two by two, and, outside both sections (under Offering's Capability's card), the Inventory tile and ONE grey Completed tile once an activity is completed", () => {
         const base = asBusinessCapabilityValue(undefined);
         render(<Harness />);
-        expect(tilesOf("Offering's Capability sections")).toEqual(["Resources", "Activities", "Partners & Suppliers", "Delivery"]);
+        expect(tilesOf("Offering's Capability sections")).toEqual(["Resources", "Activities", "Partners & Suppliers", "Capacity & Delivery"]);
         // Only "Inventory" until an activity is completed.
         expect(within(document.querySelector(".section-tiles-completed") as HTMLElement).getAllByRole("button").map(button => button.getAttribute("aria-label")?.split(",")[0])).toEqual(["Inventory"]);
         cleanup();
         render(<Harness initial={{ ...base, offering: { ...base.offering, activities: [{ ...createBusinessActivity(), name: "Finished", completed: true }] } }} />);
         // Still four tiles in the section; the Completed tile is not in either section's group.
-        expect(tilesOf("Offering's Capability sections")).toEqual(["Resources", "Activities", "Partners & Suppliers", "Delivery"]);
+        expect(tilesOf("Offering's Capability sections")).toEqual(["Resources", "Activities", "Partners & Suppliers", "Capacity & Delivery"]);
         const wrapper = document.querySelector(".section-tiles-completed") as HTMLElement;
         expect(wrapper).toBeTruthy();
         // It stands after both cards, as the page grid's last child; there is exactly one Completed tile on the page.
@@ -164,7 +164,7 @@ describe("ONE SHAPE for every set of tiles, boxes and card boxes", () => {
             engagement={engagement}
         />);
         // Resources, Activities, Partners & Suppliers, Delivery: the channel-made cards stand inside the views, not as tiles of their own.
-        expect(tilesOf("Offering's Capability sections")).toEqual(["Resources", "Activities", "Partners & Suppliers", "Delivery"]);
+        expect(tilesOf("Offering's Capability sections")).toEqual(["Resources", "Activities", "Partners & Suppliers", "Capacity & Delivery"]);
         expect(across("Offering's Capability sections")).toBe("2");
     });
 
@@ -215,7 +215,7 @@ describe("tile anatomy: the title at a third of the height, underlined, a list o
         expect([...listOf("Resources")].every(item => item.querySelector("button.section-tile-link") !== null)).toBe(true);
         expect(tile.parentElement!.querySelector(".section-tile-list")!.getAttribute("aria-hidden")).toBeNull();
         // Delivery's list is decoration, as it was: no link, hidden from assistive technology.
-        const delivery = tileButton("Delivery");
+        const delivery = tileButton("Capacity & Delivery");
         expect(delivery.parentElement!.querySelector(".section-tile-list")?.getAttribute("aria-hidden") ?? "true").toBe("true");
         // The Founders tile: each name.
         expect(tileButton("Founders").getAttribute("aria-label")).toBe("Founders, Ann, Bo");
@@ -266,7 +266,7 @@ describe("an empty section shows a small + under its title", () => {
         expect(slotOf("Resources").querySelector(".section-tile-list")).toBeTruthy();
         expect(slotOf("Resources").querySelector(".plus-box")).toBeTruthy();
         // Founders and Delivery are not lists of cards: no glyph, no box.
-        for (const [none, card] of [["Founders", infrastructureCard()], ["Delivery", offeringCard()]] as const) {
+        for (const [none, card] of [["Founders", infrastructureCard()], ["Capacity & Delivery", offeringCard()]] as const) {
             expect(tileButton(none, card).querySelector(".section-tile-empty")).toBeNull();
             expect(tileButton(none, card).parentElement!.querySelector(".plus-box")).toBeNull();
         }
@@ -544,7 +544,7 @@ describe("cards made from a Customer Channel", () => {
     it("stand among the section's cards as tiles of a hue of their own: the Resources and Partners & Suppliers views, not tiles on the page", () => {
         render(<Harness initial={value} engagement={engagement} />);
         // (Offering keeps its four tiles; the channel's cards stand in a 'Channel' category inside the views.)
-        expect(tilesOf("Offering's Capability sections")).toEqual(["Resources", "Activities", "Partners & Suppliers", "Delivery"]);
+        expect(tilesOf("Offering's Capability sections")).toEqual(["Resources", "Activities", "Partners & Suppliers", "Capacity & Delivery"]);
         expect(across("Offering's Capability sections")).toBe("2");
         // The page tile lists the categories (cut after the first few: "and more"); the channel's own is in the view.
         expect(tileButton("Resources").getAttribute("aria-label")).toBe("Resources, Workspace, Utilities, Workstation, Equipment, Vehicles, Digital Infrastructure, and more");
@@ -617,7 +617,7 @@ describe("cards made from a Customer Channel", () => {
             initial={{ ...base, resources: { utilities: [{ id: "premises-utilities", name: "", slots: [infra] }] } }}
             engagement={{ ...engagement, channelResources: [{ id: "l3", segmentId: "s1", channelId: "c1", resourceId: infra.id, actionIds: [] }] }}
         />);
-        expect(tilesOf("Offering's Capability sections")).toEqual(["Resources", "Activities", "Partners & Suppliers", "Delivery"]);
+        expect(tilesOf("Offering's Capability sections")).toEqual(["Resources", "Activities", "Partners & Suppliers", "Capacity & Delivery"]);
         expect(tilesOf("Infrastructure sections")).toEqual(["Founders", "Resources", "Activities", "Partners & Suppliers"]);
         // (Infrastructure's Resources view holds the one card in the Utilities category where it was made: the category's one group has its tile, which lists it.)
         openTile("Resources", "Utilities", undefined, infrastructureCard());

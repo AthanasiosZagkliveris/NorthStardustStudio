@@ -75,7 +75,7 @@ export const NEW_TEAM_CARD: Readonly<Record<TeamKind, string>> = { staff: "+ New
 
 export const DELIVERY_HELP = {
     section: [
-        "How each Offering is delivered: the hours one unit takes, how long it takes, and who delivers it.",
+        "The capacity the founders have, the skills the business still needs, and how each Offering is delivered: the hours one unit takes, how long it takes, and who delivers it.",
         "Every Offering has its card here. Leave a card empty if it does not apply."
     ],
     hours: ["Working hours available: about 40 a week (about 173 a month) full-time, fewer while employed elsewhere."],
