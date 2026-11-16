@@ -27,6 +27,8 @@ export interface SegmentQuestion {
     options: readonly SegmentOption[];
     /** The list ends with an Other that the user writes in (as a Profile's): its words are kept as the answer `<id>-other`, while Other is ticked. */
     other?: boolean;
+    /** The section of its box it opens or stands in (Box 4: Finding & Choosing, Buying & Paying; owner, 2026-11-16 16:31): a heading where the section changes. */
+    group?: string;
     /** What its "i" says. */
     info: readonly string[];
     /** A short name for the notes that say what Positioning or the answers above set ("Size: Medium-sized business"). */
@@ -348,12 +350,12 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
        who decides), where they shop, how they pay, then how they share it. The codes stay Box 4, 1 to 9 (doc 44: codes are ids, not positions). */
 
     {
-        id: "comfort", box: "purchasing", label: "How comfortable are your customers online?", many: false,
+        id: "comfort", box: "purchasing", group: "Finding & Choosing", label: "How comfortable are your customers online?", many: false,
         rating: COMFORT_RATING, options: ratingOptions(COMFORT_RATING),
         info: ["How easily they use websites, apps and online payment."]
     },
     {
-        id: "social", box: "purchasing", label: "How do your customers like to socialise?", many: false,
+        id: "social", box: "purchasing", group: "Finding & Choosing", label: "How do your customers like to socialise?", many: false,
         options: [
             { id: "digital", label: "Mostly online (gaming, community servers, chat apps)" },
             { id: "mixed", label: "Online and in person" },
@@ -363,7 +365,7 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
         info: ["Where they spend their free time. It decides how they meet brands and products."]
     },
     {
-        id: "trigger", box: "purchasing", label: "What makes your customers go shopping?", many: true, max: 2,
+        id: "trigger", box: "purchasing", group: "Finding & Choosing", label: "What makes your customers go shopping?", many: true, max: 2,
         options: [
             { id: "boredom", label: "Boredom or entertainment (browsing feeds, window shopping)" },
             { id: "proof", label: "Seeing a friend or creator use it" },
@@ -373,7 +375,7 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
         info: ["Choose up to two."]
     },
     {
-        id: "discover", box: "purchasing", label: "Where do your customers discover new products?", many: true, max: 3,
+        id: "discover", box: "purchasing", group: "Finding & Choosing", label: "Where do your customers discover new products?", many: true, max: 3,
         options: [
             { id: "peers", label: "Friends, family and colleagues" },
             { id: "communities", label: "Online communities / forums" },
@@ -384,16 +386,32 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
             { id: "search", label: "Search engines / maps" },
             { id: "passing", label: "Seeing it in person / passing by" },
             { id: "events", label: "Events / trade shows" },
-            { id: "sales", label: "Sales calls or tenders" }
+            { id: "sales", label: "Sales calls or tenders" },
+            // (Owner, 2026-11-16 16:31: the referral and affiliate channels, and an Other written in, each a Discover channel.)
+            { id: "partners", label: "Partner businesses" },
+            { id: "affiliates", label: "Affiliate sites / blogs" },
+            { id: "other", label: "Other" }
         ],
+        other: true,
         info: [
             "Examples: communities such as Reddit, Discord and Facebook Groups; creators on TikTok, Instagram, YouTube and LinkedIn.",
+            "Partner businesses: a shop, venue or firm that sends its customers to you.",
             "Seeing it in person / passing by: a shop window, a stall, a sign or a vehicle.",
             "Choose up to three."
         ]
     },
     {
-        id: "path", box: "purchasing", label: "How do your customers usually decide to buy?", many: false,
+        id: "share", box: "purchasing", group: "Finding & Choosing", label: "How do your customers share what they like?", many: true,
+        options: [
+            { id: "public", label: "They post it publicly on social media" },
+            { id: "private", label: "They send it to friends in private chats" },
+            { id: "verbal", label: "They tell people in person" },
+            { id: "none", label: "They rarely share what they buy" }
+        ],
+        info: ["Private chat apps are for example WhatsApp and iMessage. \"They rarely share what they buy\" excludes the other three."]
+    },
+    {
+        id: "path", box: "purchasing", group: "Finding & Choosing", label: "How do your customers usually decide to buy?", many: false,
         options: [
             // (2026-11-08, the research: "Straight away" reworded as an impulse, its id kept; habit and urgent need added.)
             { id: "impulse", label: "On impulse: They see it, like it and buy it there and then" },
@@ -406,7 +424,7 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
             "On impulse or when they urgently need it, their Profiles skip the question of how they compare options."]
     },
     {
-        id: "authorise", name: "Decision", box: "purchasing", label: "Who decides to buy?", many: true,
+        id: "authorise", name: "Decision", box: "purchasing", group: "Finding & Choosing", label: "Who decides to buy?", many: true,
         options: [
             { id: "solo", label: "One person decides: The person who uses it has the budget and the final say." },
             { id: "champions", label: "The team agrees: The people who use it try it and push it upward." },
@@ -417,7 +435,7 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
         info: ["Select all that apply."]
     },
     {
-        id: "setting", box: "purchasing", label: "Where do your customers usually shop?", many: false,
+        id: "setting", box: "purchasing", group: "Buying & Paying", label: "Where do your customers usually shop?", many: false,
         options: [
             { id: "mobile", label: "Online, on a phone" },
             { id: "desktop", label: "Online, on a computer" },
@@ -430,7 +448,7 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
     // WHICH MARKETPLACES AND WHICH SHOPS (owner, 2026-11-15 16:08: "skip the + add, by shaping the channels to previous sections"): the follow-ups of Where do your
     // customers usually shop?, each tick the subchannel of that name on Customer Engagement (JourneySuggestions.ts).
     {
-        id: "marketplaces", box: "purchasing", label: "Which marketplaces do your customers shop on?", many: true,
+        id: "marketplaces", box: "purchasing", group: "Buying & Paying", label: "Which marketplaces do your customers shop on?", many: true,
         options: [
             { id: "etsy", label: "Etsy" },
             { id: "amazon", label: "Amazon" },
@@ -446,17 +464,18 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
         info: ["The marketplaces where they find and buy what you sell: each becomes a channel on Customer Engagement, with its fees.", "Tick Other to write another."]
     },
     {
-        id: "shops", box: "purchasing", label: "Which shops do they buy from?", many: true,
+        id: "shops", box: "purchasing", group: "Buying & Paying", label: "Which shops or sellers do they buy from?", many: true,
         options: [
             { id: "own", label: "Your own shop or studio" },
             { id: "stockists", label: "Shops that stock your products" },
             { id: "concession", label: "A space inside another shop" },
-            { id: "distributors", label: "Distributors or wholesalers" }
+            { id: "distributors", label: "Distributors or wholesalers" },
+            { id: "resellers", label: "Resellers, online or in shops" }
         ],
         info: ["The shops where they buy what you sell: each becomes a channel on Customer Engagement.", "A space inside another shop is a concession or shop-in-shop."]
     },
     {
-        id: "pay", box: "purchasing", label: "How do your customers pay?", many: true,
+        id: "pay", box: "purchasing", group: "Buying & Paying", label: "How do your customers pay?", many: true,
         options: [
             { id: "card", label: "Credit / debit card" },
             { id: "wallet", label: "Digital wallets" },
@@ -477,7 +496,7 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
     // WHICH PAYMENT SERVICES (owner, 2026-11-15 16:26): asked where they pay by card or a digital wallet; each service names the fees its payments take (the Channel
     // Fee Table's row for the Legal Entity's country), a service written in under Other its own row, "Entered by you".
     {
-        id: "providers", box: "purchasing", label: "Which payment services do you take payments with?", many: true,
+        id: "providers", box: "purchasing", group: "Buying & Paying", label: "Which payment services do you take payments with?", many: true,
         options: [
             { id: "stripe", label: "Stripe" },
             { id: "sumup", label: "SumUp" },
@@ -489,16 +508,6 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
         ],
         other: true,
         info: ["The services that take the card and wallet payments: each one's fees come from the Global Settings' Channel Fee Table for your country.", "Tick Other to write another."]
-    },
-    {
-        id: "share", box: "purchasing", label: "How do your customers share what they like?", many: true,
-        options: [
-            { id: "public", label: "They post it publicly on social media" },
-            { id: "private", label: "They send it to friends in private chats" },
-            { id: "verbal", label: "They tell people in person" },
-            { id: "none", label: "They rarely share what they buy" }
-        ],
-        info: ["Private chat apps are for example WhatsApp and iMessage. \"They rarely share what they buy\" excludes the other three."]
     },
 
     /* ---- Box 5, Market Size & Industry Outlook ---- */

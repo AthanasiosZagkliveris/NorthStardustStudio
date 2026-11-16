@@ -11,7 +11,7 @@ import { businessSegmentFunctionalItems } from "./AnswerBusinessFoundation.ts";
 import { onlyPlanning } from "./BusinessStage.ts";
 
 export type OfferingAnswers = Record<string, string[]>;
-export type OfferingQuestionId = "o1" | "o2" | "o3" | "o3t" | "o4" | "o6" | "o7" | "o8" | "o10" | "o14" | "o15" | "o16" | "o17" | "o18" | "o20" | "o21" | "o22";
+export type OfferingQuestionId = "o1" | "o2" | "o3" | "o3t" | "o4" | "o6" | "o7" | "o8" | "o10" | "o14" | "o15" | "o16" | "o17" | "o18" | "o20" | "o21" | "o22" | "o23";
 
 export interface OfferingQuestion {
     id: OfferingQuestionId;
@@ -76,7 +76,9 @@ const SEND: readonly SegmentOption[] = [
     { id: "other", label: "Other" }
 ];
 const FILES: readonly SegmentOption[] = [
-    { id: "attachment", label: "Email attachment" }, { id: "link", label: "A download link (WeTransfer, Google Drive, Dropbox or OneDrive)" }, { id: "portal", label: "Client portal" },
+    // (Owner, 2026-11-16 16:31: each file service by name, each its own File Delivery channel; a saved "A download link" shows until unticked, OFFERING_RETIRED.)
+    { id: "attachment", label: "Email attachment" }, { id: "wetransfer", label: "WeTransfer" }, { id: "googledrive", label: "Google Drive" }, { id: "dropbox", label: "Dropbox" },
+    { id: "onedrive", label: "OneDrive" }, { id: "portal", label: "Client portal" },
     { id: "other", label: "Other" }
 ];
 const MEET: readonly SegmentOption[] = [
@@ -91,7 +93,7 @@ const HELP: readonly SegmentOption[] = [
  * Options no longer offered whose saved answer still shows (and prints) until it is unticked: O7's "It depends on the plan" (2026-11-09: O7 became ticks, so the plans' different help
  * is ticked as each kind given, and the plans themselves are O14's packages).
  */
-const OFFERING_RETIRED: Readonly<Partial<Record<OfferingQuestionId, readonly SegmentOption[]>>> = { o7: [{ id: "plan", label: "It depends on the plan" }] };
+const OFFERING_RETIRED: Readonly<Partial<Record<OfferingQuestionId, readonly SegmentOption[]>>> = { o7: [{ id: "plan", label: "It depends on the plan" }], o21: [{ id: "link", label: "A download link" }] };
 /** L11 as doc 43 lists it for O10. */
 const PROVIDE: readonly SegmentOption[] = [
     { id: "access", label: "Access to their systems or information" }, { id: "brief", label: "A clear brief" }, { id: "approval", label: "Approval within an agreed time" },
@@ -115,6 +117,12 @@ const PAY_WHEN: readonly SegmentOption[] = [
 ];
 const REPLY: readonly SegmentOption[] = [
     { id: "sameday", label: "The same day" }, { id: "oneday", label: "Within one working day" }, { id: "fewdays", label: "Within a few days" }, { id: "none", label: "No set time" }
+];
+/* HOW THEY HEAR FROM YOU AFTER THE SALE (owner, 2026-11-16 16:31): O23, each tick its Support & Follow Up channel (JourneySuggestions.ts); "Only when they get in touch"
+   stands alone, as O7's None. */
+const KEEP_IN_TOUCH: readonly SegmentOption[] = [
+    { id: "newsletter", label: "A newsletter" }, { id: "offers", label: "Offers and launches by email" }, { id: "social", label: "Posts on social media" },
+    { id: "personal", label: "Personal messages" }, { id: "none", label: "Only when they get in touch" }, { id: "other", label: "Other" }
 ];
 const AFTER_SALE: readonly SegmentOption[] = [
     { id: "guarantee", label: "Guarantee / warranty" }, { id: "repairs", label: "Repairs / maintenance" }, { id: "updates", label: "Updates" }, { id: "training", label: "Training" },
@@ -151,6 +159,7 @@ export const OFFERING_QUESTIONS: readonly OfferingQuestion[] = [
         "Their time or attendance: they must take part or be there, such as at a session or a fitting."] },
     { id: "o14", label: "How is it offered?", many: true, max: 3, info: ["How it is put together for sale: one range, made to each order, packages, limited runs or extras. Counts and what is included go in the Notes.", "Based on: the product mix (Kotler and Keller)."] },
     { id: "o15", label: "How long until they have it?", many: false, info: ["The time from order to having it. How it reaches them is the question below."] },
+    { id: "o23", label: "How do you keep in touch after the sale?", many: true, other: true, info: ["How customers hear from you once they've bought: a newsletter, offers by email, posts or a personal note.", "Only when they get in touch stands alone: ticking it clears the others.", "Tick Other to write another."] },
     { id: "o16", label: "How fast do you reply?", many: false, info: ["How soon your customers hear back. The channels are on the Customer Engagement page."] },
     { id: "o17", label: "What comes after the sale?", many: true, info: ["What else comes with it after the sale; the help you give is the question above.", "None stands alone: ticking it clears the others."] },
     // O18's "i" says the cancellation rule of the Organisation's country only (offeringInfo); this is what it says with no country, or another one.
@@ -212,7 +221,7 @@ export const OFFERING_BOX_QUESTIONS: Readonly<Record<string, readonly OfferingQu
     benefit: ["o8", "o4"],
     scope: ["o14"],
     delivery: ["o2", "o3", "o3t", "o15", "o6", "o20", "o21", "o22"],
-    support: ["o7", "o17", "o16"],
+    support: ["o7", "o17", "o23", "o16"],
     requirements: ["o10", "o18"]
 };
 
@@ -224,7 +233,7 @@ export function offeringChoose(id: OfferingQuestionId, chosen: readonly string[]
     if (id === "o4") {
         return [...chosen.filter(entry => next.includes(entry)), ...next.filter(entry => !chosen.includes(entry))];
     }
-    if (id !== "o17" && id !== "o7") {
+    if (id !== "o17" && id !== "o7" && id !== "o23") {
         return [...next];
     }
     const added = next.filter(entry => !chosen.includes(entry));
@@ -235,7 +244,7 @@ export function offeringChoose(id: OfferingQuestionId, chosen: readonly string[]
 }
 
 /** The questions held back while the business is only Planning (owner, 2026-11-08, P5): how fast you reply (O16) and what comes after the sale (O17); shown from Launching. */
-export const OFFERING_HELD_WHILE_PLANNING: readonly OfferingQuestionId[] = ["o16", "o17"];
+export const OFFERING_HELD_WHILE_PLANNING: readonly OfferingQuestionId[] = ["o16", "o17", "o23"];
 
 /**
  * Whether a question is asked of this Offering (doc 43, "Asked when"). A question held back while Planning (an empty stage is Planning) is not asked then, but its saved answer stays
@@ -280,6 +289,7 @@ export function offeringOptions(id: OfferingQuestionId, context: OfferingContext
         case "o20": return SEND;
         case "o21": return FILES;
         case "o22": return MEET;
+        case "o23": return KEEP_IN_TOUCH;
     }
 }
 
@@ -396,7 +406,7 @@ export function offeringShown(saved: OfferingAnswers, context: OfferingContext):
     for (const id of Object.keys(RECEIVE_FOLLOW_UPS) as OfferingQuestionId[]) {
         delete shown[id];
         if (offeringAsks(id, context, shown)) {
-            const offered = offeringOptions(id, context).map(option => option.id);
+            const offered = [...offeringOptions(id, context), ...(OFFERING_RETIRED[id] ?? [])].map(option => option.id);
             const kept = (saved[id] ?? []).filter(option => offered.includes(option));
             if (kept.length > 0) {
                 shown[id] = kept;
@@ -405,6 +415,10 @@ export function offeringShown(saved: OfferingAnswers, context: OfferingContext):
                 }
             }
         }
+    }
+    // (O23's words written in under Other stay while Other is ticked.)
+    if ((shown.o23 ?? []).includes("other") && saved["o23-other"]) {
+        shown["o23-other"] = saved["o23-other"];
     }
     // None of help after the sale (O7) starts None of what comes after it (O17).
     if (!saved.o17 && shown.o7?.length === 1 && shown.o7[0] === "none") {

@@ -18,7 +18,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
   - **Customer Benefit:** the Functional Needs Addressed, then O8, then O4 (owner, 2026-11-08, P6: what it answers before what it does best). Notes: the benefit in the customers' words (the Business Plan reads it).
   - **Content & Scope:** O14. Notes: counts, inclusions and limits.
   - **Purchase & Delivery:** O2 (owner, 2026-11-08, P7: whether it can be bought today opens the purchase); O3; O3b, "When do they pay?", a band of its own straight after O3's (owner, 2026-11-09: one question per band); O15; O6, then its follow-ups O20 to O22 where asked (owner, 2026-11-15 16:26) (how long until they have it, then how it reaches them). Notes: packaging and the steps.
-  - **Support & Communication:** O7, O17, O16. Notes: names and how often.
+  - **Support & Communication:** O7, O17, O23, O16. Notes: names and how often.
   - **Requirements & Conditions:** O10, O18. Notes: care instructions and standards.
   - Saved text of the boxes is kept: it is the Notes. A question no longer asked, or an option no longer offered, loses its answer; a starting value (O2, O4, O6) shows until that field is changed (another answer does not fix it), and the Business Plan, the export and the Value Proposition read it too (built 2026-11-08).
   - The Business Plan's Offerings table reads "What it does" from the Function Notes, else the form (O1), and "Customer benefit" from the Customer Benefit Notes, else what it does best (O4); the export prints every answer with its question.
@@ -238,9 +238,9 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
 ### O21. How do you send the files?
 
 - **Control:** as O20. **Asked when:** O6 has Sent automatically online or Sent by you online.
-- **Options:** Email attachment · A download link (WeTransfer, Google Drive, Dropbox or OneDrive) · Client portal · Other.
+- **Options:** Email attachment · WeTransfer · Google Drive · Dropbox · OneDrive · Client portal · Other (owner, 2026-11-16 16:31: each service by name; a saved "A download link" shows until it is unticked and suggests File Delivery until a service is ticked).
 - **The "i" says:** The way they receive the files: each becomes a delivery channel on Customer Engagement. · Tick Other to write another.
-- **Connections:** *Read by (built):* File Delivery › Email Attachment or Client Portal; a download link suggests File Delivery, its service chosen there (doc 47).
+- **Connections:** *Read by (built):* File Delivery › Email Attachment, WeTransfer, Google Drive, Dropbox, OneDrive or Client Portal (doc 47).
 
 ### O22. Which tool do you meet them on?
 
@@ -279,6 +279,13 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
   - What else comes with it after the sale; the help you give is the question above.
   - None stands alone: ticking it clears the others.
 - **Connections:** *Read by:* the export.
+
+### O23. How do you keep in touch after the sale?
+
+- **Control:** ticks, as many as apply; "Only when they get in touch" stands alone; ends in Other, written in as a numbered list. **Asked when:** from Launching, held back while Planning (its saved answer kept), as O17. (O18 is this card's and the next code is proposed in doc 48: the new one is O23, owner, 2026-11-16 16:31.)
+- **Options:** A newsletter · Offers and launches by email · Posts on social media · Personal messages · Only when they get in touch · Other.
+- **The "i" says:** How customers hear from you once they've bought: a newsletter, offers by email, posts or a personal note. · Only when they get in touch stands alone: ticking it clears the others. · Tick Other to write another.
+- **Connections:** *Read by (built):* at Support & Follow Up on Customer Engagement, Email › Newsletter, Email Campaign or Direct Email; posts on social media give the Segment's social platforms (C2) that stage too; Other a channel of the Other category per name (doc 47).
 
 ### O16. How fast do you reply?
 

@@ -95,7 +95,8 @@ export function useEngagementDemand(earlier: Earlier) {
            answers? Or could be narrowed down from the total list?"): From your answers, a source's Channel lists the Segment's channels that serve this Offering, and
            its Customer Source the kind its channel's customers come by (demandSourceOf: a website or social media a sales funnel, a shop or market walk-in, a
            referral channel referrals); All lists every one. What a source holds is always listed. */
-        const all = showsAll(segment.id);
+        // (Always narrowed to the answers since the choice went (owner, 2026-11-16 16:38): the relevance rule, only what the answers relate to.)
+        const all = false;
         const servingChannels = segmentOf(segment.id).channels.filter(channel => all || channel.offerings.includes(BUSINESS_CHANNEL_ALL_OFFERINGS) || channel.offerings.includes(offeringId));
         // (Both ways: a source's kind narrows its channels to those whose customers come so -- a sales funnel the online channels, a walk-in the places, referrals the
         // referral channels; repeat customers, contracts and other kinds any channel --, as its channel narrows its kind; owner, 2026-11-14 11:15.)

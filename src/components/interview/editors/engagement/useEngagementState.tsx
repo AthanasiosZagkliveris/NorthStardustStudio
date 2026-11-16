@@ -15,7 +15,6 @@ import { FEE_CHANNEL_CATEGORIES as FEE_CATEGORIES } from "../../../../framework/
 import { segmentPaymentServices } from "../../../../framework/engine/SegmentQuestions.ts";
 import { withAnswerServiceCards } from "../../../../framework/engine/ChannelResources.ts";
 import { effectiveSegmentAnswers } from "../../../../framework/engine/EffectiveAnswers.ts";
-import { ScopeChoice, type OptionScope } from "./EngagementCard.tsx";
 import CellRemoveButton from "../../../controls/CellRemoveButton.tsx";
 import { BUSINESS_CHANNEL_ALL_OFFERINGS, BusinessChannelValue, BusinessOfferingRelationshipsValue, BusinessRelationshipInteractionValue, BusinessRelationshipTypeValue, BusinessSegmentEngagementValue, asBusinessEngagementValue, businessFoundationSegments, createBusinessOfferingRelationships, createBusinessRelationshipInteraction, createBusinessRelationshipType, createBusinessSegmentEngagement } from "../../../../framework/engine/AnswerUtils.ts";
 import { consumeKey } from "../../fields/consumeKey.ts";
@@ -72,10 +71,11 @@ export function useEngagementState(props: BusinessEngagementEditorProps) {
     const engagement = asBusinessEngagementValue(value);
     // (What each Segment's dialogs offer, From your answers until All is chosen: ScopeChoice. Kept here, so every card of the page reads it -- its adds and its
     // removes show with All only; owner, 2026-11-14 11:51: "When the option From your answers is selected, then the delete button, should be hidden".)
-    const [scopes, setScopes] = useState<Readonly<Record<string, OptionScope>>>({});
-    const showsAll = (segmentId: string) => scopes[segmentId] === "all";
+    // (THE CHOICE IS GONE (owner, 2026-11-16 16:31): every channel and subchannel comes from the Foundation's answers, so the dialogs need no "From your answers"
+    // and no "All". Every remove shows, and the relationship types' and the Customer Sources' adds; the channels have no add of their own.)
+    const showsAll = (_segmentId: string) => true;
     /** The From your answers / All choice at the head of a Segment's three dialogs: one choice, shared by the three. */
-    const scopeChoice = (segmentId: string) => <ScopeChoice group={"option-scope-" + segmentId} value={scopes[segmentId] ?? "answers"} onChange={(next) => setScopes(current => ({ ...current, [segmentId]: next }))} />;
+    const scopeChoice = (_segmentId: string) => null;
     /* THE RESOURCE CARDS of 3. Infrastructure & Capability a channel's
        resources are, read by id (ChannelResources.ts). */
     const capabilityValue = useMemo(() => asBusinessCapabilityValue(capability), [capability]);

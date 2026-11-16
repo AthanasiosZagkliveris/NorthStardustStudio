@@ -179,10 +179,10 @@ describe("the Segment's questions", () => {
         const lines = segmentAnswerLines({ comfort: ["5"], competition: ["4"] });
         expect(lines).toContainEqual({ label: "How comfortable are your customers online?", value: "5 of 5 (Confident)" });
         expect(lines).toContainEqual({ label: "How crowded is your market?", value: "4 of 5" });
-        // (In the card's order: how they share is the last of Box 4 since 2026-11-08.)
+        // (In the card's order: how they share stands in Finding & Choosing, before how they pay, since 2026-11-16.)
         expect(segmentAnswerLines({ share: ["public", "verbal"], pay: ["card"] })).toEqual([
-            { label: "How do your customers pay?", value: "Credit / debit card" },
-            { label: "How do your customers share what they like?", value: "They post it publicly on social media; They tell people in person" }
+            { label: "How do your customers share what they like?", value: "They post it publicly on social media; They tell people in person" },
+            { label: "How do your customers pay?", value: "Credit / debit card" }
         ]);
     });
 
@@ -271,7 +271,7 @@ describe("what is changing, the path to purchase and where they discover (2026-1
 
     it("offers Sales calls or tenders to business customers only", () => {
         const discover = (context: SegmentContext) => ids(segmentOptions(question("discover"), {}, context, false));
-        expect(discover(BUSINESS)).toEqual(["peers", "communities", "creators", "media", "algorithmic", "search", "passing", "events", "sales"]);
+        expect(discover(BUSINESS)).toEqual(["peers", "communities", "creators", "media", "algorithmic", "search", "passing", "events", "sales", "partners", "affiliates", "other"]);
         expect(discover(PEOPLE)).not.toContain("sales");
         expect(discover(OPEN)).not.toContain("sales");
         expect(segmentSettle({ discover: ["sales", "search"] }, PEOPLE).discover).toEqual(["search"]);
@@ -281,12 +281,13 @@ describe("what is changing, the path to purchase and where they discover (2026-1
 
 });
 
-/* Phase 5, P3 (owner, 2026-11-08): Box 4 in the order of a purchase; the codes stay. */
+/* Phase 5, P3 (owner, 2026-11-08): Box 4 in the order of a purchase; the codes stay. In two sections since 2026-11-16 16:31: Finding & Choosing, Buying & Paying. */
 describe("Box 4's order", () => {
-    it("asks comfort and socialising, then what makes them shop, where they discover, how they decide, where they shop, how they pay and how they share", () => {
+    it("asks Finding & Choosing (comfort, socialising, what makes them shop, where they discover, how they share, how they decide), then Buying & Paying", () => {
         const people = { ...OPEN, frame: "people" as const };
         const business = { ...OPEN, frame: "business" as const };
-        expect(ids(segmentQuestionsOf("purchasing", {}, people))).toEqual(["comfort", "social", "trigger", "discover", "path", "setting", "pay", "share"]);
+        expect(ids(segmentQuestionsOf("purchasing", {}, people))).toEqual(["comfort", "social", "trigger", "discover", "share", "path", "setting", "pay"]);
+        expect(segmentQuestionsOf("purchasing", {}, people).map(entry => entry.group)).toEqual([...Array(6).fill("Finding & Choosing"), "Buying & Paying", "Buying & Paying"]);
         expect(ids(segmentQuestionsOf("purchasing", {}, business))).toEqual(["comfort", "discover", "authorise", "setting", "pay"]);
     });
 });

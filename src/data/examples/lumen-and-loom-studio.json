@@ -1090,6 +1090,9 @@
                       "o20": [
                         "courier",
                         "postal"
+                      ],
+                      "o23": [
+                        "newsletter"
                       ]
                     }
                   },
@@ -1153,6 +1156,10 @@
                       ],
                       "o18": [
                         "notice"
+                      ],
+                      "o23": [
+                        "newsletter",
+                        "social"
                       ]
                     }
                   }
@@ -1541,6 +1548,9 @@
                       ],
                       "o18": [
                         "minimum"
+                      ],
+                      "o23": [
+                        "personal"
                       ]
                     }
                   },
@@ -1604,6 +1614,9 @@
                       ],
                       "o20": [
                         "courier"
+                      ],
+                      "o23": [
+                        "offers"
                       ]
                     }
                   }
@@ -2194,6 +2207,30 @@
                         "Send cushions and runners by tracked post, wrapped in tissue"
                       ]
                     }
+                  },
+                  {
+                    "id": "channel-contact01",
+                    "category": "Website",
+                    "name": "Contact Page",
+                    "links": [
+                      ""
+                    ],
+                    "offerings": [
+                      "*"
+                    ],
+                    "stages": [
+                      "evaluation"
+                    ],
+                    "actionIds": {
+                      "evaluation": [
+                        "action-channel-contact01-evaluation-1"
+                      ]
+                    },
+                    "actions": {
+                      "evaluation": [
+                        "Answer questions about sizes, care and delivery from the contact form"
+                      ]
+                    }
                   }
                 ],
                 "actions": [
@@ -2352,6 +2389,10 @@
                   {
                     "id": "action-channel-postal01-delivery-1",
                     "text": "Send cushions and runners by tracked post, wrapped in tissue"
+                  },
+                  {
+                    "id": "action-channel-contact01-evaluation-1",
+                    "text": "Answer questions about sizes, care and delivery from the contact form"
                   }
                 ],
                 "offerings": [
@@ -2862,6 +2903,78 @@
                         "Ship trade orders by courier in labelled cartons"
                       ]
                     }
+                  },
+                  {
+                    "id": "channel-wholesale1",
+                    "category": "Retail & Wholesale",
+                    "name": "Wholesale Account",
+                    "links": [
+                      ""
+                    ],
+                    "offerings": [
+                      "*"
+                    ],
+                    "stages": [
+                      "purchase"
+                    ],
+                    "actionIds": {
+                      "purchase": [
+                        "action-channel-wholesale1-purchase-1"
+                      ]
+                    },
+                    "actions": {
+                      "purchase": [
+                        "Open trade accounts with the trade price list and order minimums"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "channel-contact02",
+                    "category": "Website",
+                    "name": "Contact Page",
+                    "links": [
+                      ""
+                    ],
+                    "offerings": [
+                      "*"
+                    ],
+                    "stages": [
+                      "evaluation"
+                    ],
+                    "actionIds": {
+                      "evaluation": [
+                        "action-channel-contact02-evaluation-1"
+                      ]
+                    },
+                    "actions": {
+                      "evaluation": [
+                        "Take sample and swatch requests from the trade contact form"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "channel-campaign1",
+                    "category": "Email",
+                    "name": "Email Campaign",
+                    "links": [
+                      ""
+                    ],
+                    "offerings": [
+                      "*"
+                    ],
+                    "stages": [
+                      "support"
+                    ],
+                    "actionIds": {
+                      "support": [
+                        "action-channel-campaign1-support-1"
+                      ]
+                    },
+                    "actions": {
+                      "support": [
+                        "Email trade clients each new collection and its launch date"
+                      ]
+                    }
                   }
                 ],
                 "actions": [
@@ -2956,6 +3069,18 @@
                   {
                     "id": "action-channel-courier02-delivery-1",
                     "text": "Ship trade orders by courier in labelled cartons"
+                  },
+                  {
+                    "id": "action-channel-wholesale1-purchase-1",
+                    "text": "Open trade accounts with the trade price list and order minimums"
+                  },
+                  {
+                    "id": "action-channel-contact02-evaluation-1",
+                    "text": "Take sample and swatch requests from the trade contact form"
+                  },
+                  {
+                    "id": "action-channel-campaign1-support-1",
+                    "text": "Email trade clients each new collection and its launch date"
                   }
                 ],
                 "offerings": [

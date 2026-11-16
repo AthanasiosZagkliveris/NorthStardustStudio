@@ -375,7 +375,11 @@ export function useFoundationSubsections(earlier: Earlier) {
         const settledNotes = (box: SegmentBox) => segmentSettledNotes(box, segment.questions, asked);
         const questionsOf = (box: SegmentBox) => {
             const notes = settledNotes(box);
-            const list = segmentQuestionsOf(box, segment.questions, asked).map(questionOf);
+            // (A box in sections -- Box 4's Finding & Choosing, then Buying & Paying; owner, 2026-11-16 16:31 --: the group's title, as a group of fields in a card is named, where the section changes.)
+            const asks = segmentQuestionsOf(box, segment.questions, asked);
+            const list = asks.flatMap((question, at) => question.group && question.group !== asks[at - 1]?.group
+                ? [<span key={"group-" + question.group} className="field-group-title">{question.group}</span>, questionOf(question)]
+                : [questionOf(question)]);
             // (What Positioning or the answers above have set is said in one line, in the small note style the cards already use, so a hidden answer is never a silent one.)
             return notes.length > 0
                 ? [<span key="settled" className="business-foundation-tick-note business-segment-settled">{"Set for you from Positioning and your answers above: " + notes.join("; ") + "."}</span>, ...list]

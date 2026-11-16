@@ -392,6 +392,8 @@ The buyer is a business, or the Segment is of businesses where both relationship
   - *Read by (built):* The Market document and the export.
   - *Read by (not built yet):* The customer journey. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
 
+**Box 4 in two sections (owner, 2026-11-16 16:31).** Finding & Choosing: questions 1, 2, 5, 3, 4 (how they share, moved up) and 6, then 9 for a business. Buying & Paying: 7, 7a, 7b, 8, 8a. The codes stay; each section is headed as a group of fields.
+
 ### 3. Where do your customers discover new products?
 
 - **Control:** ticks, up to 3.
@@ -415,6 +417,7 @@ The buyer is a business, or the Segment is of businesses where both relationship
   - *Comes from:* Nothing.
   - *Read by (built):* The Market document and the export; "Online communities / forums" makes the Profile ask C3 (doc 36).
   - *Read by (not built yet):* The Profile's related platforms first; the order of the channels where customers discover you. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
+- **Added 2026-11-16 (owner, 16:31):** Partner businesses → Referral & Affiliates › Referral Partner; Affiliate sites / blogs → Affiliate; Other, written in as a numbered list → a channel of the Other category at Discover per name. The "i" adds: Partner businesses: a shop, venue or firm that sends its customers to you. The most ticks stay three.
 
 ### 6. How do your customers usually decide to buy?
 
@@ -491,13 +494,13 @@ The buyer is a business, or the Segment is of businesses where both relationship
 - **The "i" says:** The marketplaces where they find and buy what you sell: each becomes a channel on Customer Engagement, with its fees. · Tick Other to write another.
 - **Connections:** *Read by (built):* each tick, and each name written in, is the Marketplace subchannel of that name at Purchase (doc 47); its fees are the Channel Fee Table's row for the Legal Entity's country ([Global Settings](../../specifications/global-settings.md)).
 
-### 7b. Which shops do they buy from?
+### 7b. Which shops or sellers do they buy from?
 
 - **Control:** ticks, as many as apply (no Other: the kinds are closed).
 - **Asked when:** question 7 is In a shop, or Both online and in shops.
-- **Options:** Your own shop or studio · Shops that stock your products · A space inside another shop · Distributors or wholesalers.
+- **Options:** Your own shop or studio · Shops that stock your products · A space inside another shop · Distributors or wholesalers · Resellers, online or in shops (added 2026-11-16).
 - **The "i" says:** The shops where they buy what you sell: each becomes a channel on Customer Engagement. · A space inside another shop is a concession or shop-in-shop.
-- **Connections:** *Read by (built):* In Person › Studio / Shop; Retail & Wholesale › Retail Stockist, Concession / Shop-in-shop, Distributor, at Purchase (doc 47).
+- **Connections:** *Read by (built):* In Person › Studio / Shop; Retail & Wholesale › Retail Stockist (a people Segment) or Wholesale Account (a business Segment), Concession / Shop-in-shop, Distributor, Reseller, at Purchase (doc 47).
 
 ### 8. How do your customers pay?
 

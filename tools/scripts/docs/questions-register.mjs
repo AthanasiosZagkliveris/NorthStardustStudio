@@ -211,7 +211,8 @@ const OFFERING_CODES = {
     o18: ["O18", "always"],
     o20: ["O20", "O6 has Posted / shipped to them (owner, 2026-11-15 16:26); ends in Other, written in as a numbered list"],
     o21: ["O21", "O6 has Sent automatically online or Sent by you online; ends in Other, written in as a numbered list"],
-    o22: ["O22", "O6 has In a live online session; ends in Other, written in as a numbered list"]
+    o22: ["O22", "O6 has In a live online session; ends in Other, written in as a numbered list"],
+    o23: ["O23", "always from Launching; held back while Planning, its saved answer kept (owner, 2026-11-16 16:31); Only when they get in touch stands alone; ends in Other, written in as a numbered list"]
 };
 const OFFERING_NOT_BUILT = [
     ["O12", "Is a minimum age to buy it set by law?", "no longer a question: a derived Review item from the activities and the country (proposed, owner 2026-11-06)"]

@@ -24,15 +24,16 @@ describe("the channels the Foundation suggests, stage by stage", () => {
     test("Quillfield's NYC Service Firms: every stage from its Page 1 answers", () => {
         const list = journeySuggestions(quill.foundation.segments[0]);
         // Discover: peers and online communities (how they discover you), LinkedIn and X (C2), Slack (C3).
-        expect(named(list, "discovery")).toEqual(["Referral & Affiliates › Customer Referral", "Community", "Social Media › LinkedIn", "Social Media › X (Twitter)", "Community › Slack", "Community › Agency founder communities"]);
+        expect(named(list, "discovery")).toEqual(["Referral & Affiliates › Customer Referral", "Community", "Referral & Affiliates › Referral Partner", "Social Media › LinkedIn", "Social Media › X (Twitter)", "Community › Slack", "Community › Agency founder communities"]);
         // Evaluation: a meeting or call, their website, a quote or proposal (D1).
-        expect(named(list, "evaluation")).toEqual(["Online / Live", "Website › Main Website", "Email › Direct Email"]);
+        expect(named(list, "evaluation")).toEqual(["Online / Live", "Website › Main Website", "Email › Direct Email", "Website › Contact Page"]);
         // Purchase: they shop online on a computer; they pay by invoice.
         expect(named(list, "purchase")).toEqual(["Website › Online Store", "Direct Payment › Invoice", "Direct Payment › Bank Transfer"]);
         // Delivery: sent by you online, ongoing online access (O6).
         expect(named(list, "delivery")).toEqual(["File Delivery", "Website", "File Delivery › Email Attachment", "File Delivery › Client Portal"]);
         // Support: personal and dedicated help after they buy (O7); the help wanted before buying (D2) makes relationship types only (owner, 2026-11-13 16:50).
-        expect(named(list, "support")).toEqual(["Email › Direct Email", "Online / Live"]);
+        // (And how they keep in touch after the sale, O23: personal messages, the Retainer's newsletter.)
+        expect(named(list, "support")).toEqual(["Email › Direct Email", "Email › Newsletter", "Online / Live"]);
         list.forEach(entry => expect(entry.source.length).toBeGreaterThan(0));
     });
 
@@ -54,7 +55,7 @@ describe("the channels the Foundation suggests, stage by stage", () => {
     test("Buy Now, Pay Later at the payment link, media and reviews at the website, a marketplace shopper at the Marketplace (owner, 2026-11-13 16:50)", () => {
         const segment = quill.foundation.segments[0];
         const bare = { ...segment, profiles: [], offerings: [], questions: { ...segment.questions, pay: ["bnpl"], discover: ["media"], setting: ["marketplace"], authorise: [] } };
-        expect(journeySuggestions(bare).map(entry => entry.stage + " " + entry.category + " › " + entry.name)).toEqual(["discovery Website › Main Website", "purchase Marketplace › ", "purchase Direct Payment › Payment Link"]);
+        expect(journeySuggestions(bare).map(entry => entry.stage + " " + entry.category + " › " + entry.name)).toEqual(["discovery Website › Main Website", "purchase Marketplace › ", "purchase Direct Payment › Payment Link", "evaluation Website › Contact Page"]);
     });
 
     test("a suggestion is met once the channel exists: the same subchannel, or any channel of a category suggested alone", () => {
@@ -73,10 +74,10 @@ describe("the Demand rows the Foundation proposes", () => {
         const channels = quill.engagement.segments[0].channels;
         const build = segment.offerings[1];
         const rows = demandSuggestions(segment, build.id, channels, quill.engagement.demand[build.id]);
-        expect(rows.map(row => row.type + " " + row.label)).toEqual(["funnel LinkedIn", "funnel Main Website", "other Referral partners", "referrals Customer Referral", "funnel X (Twitter)", "funnel Agency founder communities"]);
+        expect(rows.map(row => row.type + " " + row.label)).toEqual(["funnel LinkedIn", "funnel Main Website", "other Referral partners", "referrals Customer Referral", "funnel X (Twitter)", "funnel Agency founder communities", "referrals Referral Partner"]);
         // (The Audit's sources name LinkedIn and Referral partners, so those already bring its customers: only its other Discover channels are proposed.)
         const audit = segment.offerings[0];
-        expect(demandSuggestions(segment, audit.id, channels, quill.engagement.demand[audit.id]).map(row => row.label)).toEqual(["Main Website", "Event / Talk", "Slack", "Customer Referral", "X (Twitter)", "Agency founder communities"]);
+        expect(demandSuggestions(segment, audit.id, channels, quill.engagement.demand[audit.id]).map(row => row.label)).toEqual(["Main Website", "Event / Talk", "Slack", "Customer Referral", "X (Twitter)", "Agency founder communities", "Referral Partner"]);
     });
 
     test("Contracts or tenders where the buyer decides by a formal tender, once", () => {
@@ -144,7 +145,7 @@ describe("the subchannels the answers make (owner, 2026-11-13 13:56)", () => {
 
     test("a platform the Profiles name is made, at its stage, serving every Offering; a generic suggestion only where the category has no channel at that stage", () => {
         const made = withAnswerChannels([website], [], segment);
-        expect(made.filter(channel => channel.fromAnswers).map(channel => channel.category + " › " + channel.name + " " + channel.stages.join(","))).toEqual(["Social Media › YouTube discovery", "Social Media › TikTok discovery"]);
+        expect(made.filter(channel => channel.fromAnswers).map(channel => channel.category + " › " + channel.name + " " + channel.stages.join(","))).toEqual(["Social Media › YouTube discovery", "Social Media › TikTok discovery", "Website › Contact Page evaluation"]);
         expect(made.find(channel => channel.name === "YouTube")?.offerings).toEqual(["*"]);
         // (The search answer means a website at Discover: the founder's Online Store is it.)
         expect(made.some(channel => channel.name === "Main Website")).toBe(false);
@@ -173,7 +174,8 @@ describe("the subchannels the answers make (owner, 2026-11-13 13:56)", () => {
         expect(withAnswerChannels(without, dismissed, segment)).toBe(without);
         expect(dismissedAfter(without, made, dismissed)).toEqual([]);
         const noAnswers = { ...segment as object, profiles: [] } as never;
-        expect(withAnswerChannels(made, [], noAnswers).map(channel => channel.name)).toEqual(["Online Store"]);
+        // (Where they discover still names the website: its Contact Page stays.)
+        expect(withAnswerChannels(made, [], noAnswers).map(channel => channel.name)).toEqual(["Online Store", "Contact Page"]);
     });
 });
 

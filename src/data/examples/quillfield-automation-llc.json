@@ -372,7 +372,8 @@
                   ],
                   "discover": [
                     "peers",
-                    "communities"
+                    "communities",
+                    "partners"
                   ],
                   "authorise": [
                     "executive"
@@ -926,6 +927,9 @@
                       ],
                       "o21": [
                         "attachment"
+                      ],
+                      "o23": [
+                        "personal"
                       ]
                     }
                   },
@@ -994,6 +998,9 @@
                       ],
                       "o21": [
                         "portal"
+                      ],
+                      "o23": [
+                        "personal"
                       ]
                     }
                   },
@@ -1059,6 +1066,10 @@
                       ],
                       "o18": [
                         "notice"
+                      ],
+                      "o23": [
+                        "newsletter",
+                        "personal"
                       ]
                     }
                   }
@@ -1537,6 +1548,54 @@
                         "Send the audit report as a PDF with a short walkthrough"
                       ]
                     }
+                  },
+                  {
+                    "id": "channel-partner01",
+                    "category": "Referral & Affiliates",
+                    "name": "Referral Partner",
+                    "links": [
+                      ""
+                    ],
+                    "offerings": [
+                      "*"
+                    ],
+                    "stages": [
+                      "discovery"
+                    ],
+                    "actionIds": {
+                      "discovery": [
+                        "action-channel-partner01-discovery-1"
+                      ]
+                    },
+                    "actions": {
+                      "discovery": [
+                        "Agree a referral fee with two partner agencies for audits they send"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "channel-contact03",
+                    "category": "Website",
+                    "name": "Contact Page",
+                    "links": [
+                      ""
+                    ],
+                    "offerings": [
+                      "*"
+                    ],
+                    "stages": [
+                      "evaluation"
+                    ],
+                    "actionIds": {
+                      "evaluation": [
+                        "action-channel-contact03-evaluation-1"
+                      ]
+                    },
+                    "actions": {
+                      "evaluation": [
+                        "Book a 20-minute call from the contact page"
+                      ]
+                    }
                   }
                 ],
                 "actions": [
@@ -1671,6 +1730,14 @@
                   {
                     "id": "action-channel-attach01-delivery-1",
                     "text": "Send the audit report as a PDF with a short walkthrough"
+                  },
+                  {
+                    "id": "action-channel-partner01-discovery-1",
+                    "text": "Agree a referral fee with two partner agencies for audits they send"
+                  },
+                  {
+                    "id": "action-channel-contact03-evaluation-1",
+                    "text": "Book a 20-minute call from the contact page"
                   }
                 ],
                 "offerings": [

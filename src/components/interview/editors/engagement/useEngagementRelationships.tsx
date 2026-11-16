@@ -26,7 +26,7 @@ import { actionPlacements, orderIn } from "../../../../framework/engine/ActionOr
 import { actionResourceLinks, costCardAmountText, costCardName } from "../../../../framework/engine/ChannelResources.ts";
 import { TABLE_SIZES } from "../../tiles/CapabilityOverview.tsx";
 import { BUSINESS_CHANNEL_ALL_OFFERINGS, BUSINESS_CHANNEL_CATEGORIES, BUSINESS_CHANNEL_OTHER, BUSINESS_RELATIONSHIP_TYPES, BusinessChannelValue, BusinessCustomerSegmentValue, channelCategoryHelp, channelCategoryHidden, businessProfileOfferings, businessRelationshipInteractions, createBusinessChannel, segmentHue } from "../../../../framework/engine/AnswerUtils.ts";
-import { BusinessAddButton, BusinessEmpty, BusinessNote, BusinessRemove, BusinessStep, BusinessTicks } from "../../cards/BusinessCardFields.tsx";
+import { BusinessEmpty, BusinessNote, BusinessRemove, BusinessStep, BusinessTicks } from "../../cards/BusinessCardFields.tsx";
 import FieldRow from "../../fields/FieldRow.tsx";
 import { SingleColumn } from "../foundation/shared.tsx";
 import { EngagementBox, EngagementBoxes, EngagementCard } from "./EngagementCard.tsx";
@@ -83,8 +83,33 @@ export function useEngagementRelationships(earlier: Earlier) {
            Each is added only when pressed, at its stage. */
         // (A subchannel the answers made is the Segment's own; one the founder removed is offered again with All only.)
         const dismissed = answers.dismissedChannels ?? [];
+        /*
+            THE WAY BACK (owner, 2026-11-16 16:36): with no "All", a channel the answers made and the founder removed comes back here -- at the foot of the dialog, the
+            shared FoldList (folded at first) "Removed", each removed channel or subchannel with Restore, which takes it off the removed list so the answer makes it
+            again. Only what the answers still make is listed; nothing shows while nothing is removed.
+        */
+        const removedOf = (category?: string) => journeySuggestions(segment, identity)
+            .filter(suggestion => dismissed.includes(channelKey(suggestion.category, suggestion.name)) && (category === undefined || suggestion.category === category))
+            .filter((suggestion, at, list) => list.findIndex(other => channelKey(other.category, other.name) === channelKey(suggestion.category, suggestion.name)) === at);
+        const removedList = (category?: string) => {
+            const removed = removedOf(category);
+            if (removed.length === 0) {
+                return null;
+            }
+            const foldKey = "removed:" + segment.id + ":" + (category ?? "all");
+            return (
+                <FoldList label="Removed" name={"Removed channels" + (category ? " of " + category : "")} count={removed.length} open={!folds.isOpen(foldKey)} onToggle={() => folds.toggle(foldKey)}>
+                    {removed.map(suggestion => (
+                        <FoldListLine key={channelKey(suggestion.category, suggestion.name)} wrap>
+                            {(category ? "" : suggestion.category + (suggestion.name ? " › " : "")) + suggestion.name}{" "}
+                            <TextLink type="button" disabled={disabled} onClick={() => updateSegment(segment.id, { dismissedChannels: dismissed.filter(key => key !== channelKey(suggestion.category, suggestion.name)) })}>Restore</TextLink>
+                        </FoldListLine>
+                    ))}
+                </FoldList>
+            );
+        };
         const open = journeySuggestions(segment, identity).filter(suggestion => !suggestionCovered(suggestion, answers.channels)
-            && (showsAll(segment.id) || !dismissed.includes(channelKey(suggestion.category, suggestion.name))));
+            && !dismissed.includes(channelKey(suggestion.category, suggestion.name)));
         const suggestedIn = (category: string) => open.filter(suggestion => suggestion.category === category);
         const stageLabel = (stage: string) => BUSINESS_JOURNEY_STAGES.find(entry => entry.id === stage)?.label ?? stage;
         const said = (suggestion: ChannelSuggestion) => (suggestion.name || suggestion.category) + ": " + stageLabel(suggestion.stage) + ", from " + suggestion.source + ".";
@@ -133,13 +158,10 @@ export function useEngagementRelationships(earlier: Earlier) {
                     })
                 ],
                 // (The "+" adds a subchannel to this channel and opens its card: with All, where the adds are.)
-                plus: showsAll(segment.id) ? () => {
-                    const made = addSub(group.label);
-                    window.setTimeout(() => document.dispatchEvent(new CustomEvent<OpenRequest>(OPEN_EVENT, { detail: { tile: channelTileId(segment.id, group.key), card: made.id, fresh: true } })), 80);
-                } : undefined,
+                // (No "+": a channel comes from an answer; owner, 2026-11-16 16:31.)
                 holds: group.channels.map(channel => channel.id),
                 // (Its dialog shows its subchannels alone where nothing is suggested and All is not chosen: one subchannel then opens at once.)
-                lone: extra.length === 0 && !showsAll(segment.id),
+                lone: extra.length === 0,
                 note: [...channelCategoryHelp(group.label), ...suggestionNote(group.label)],
                 cardFor: (id: string) => answers.channels.some(channel => channel.id === id)
                     ? <div className="column-tile-content" style={{ "--strategy-theme-hue": segmentHue(segment) } as CSSProperties}><CardShell engagement={false} className="business-subchannel-card">{channelsFor(segment, group.key, id)}</CardShell></div>
@@ -209,7 +231,8 @@ export function useEngagementRelationships(earlier: Earlier) {
                             };
                         })
                         // (From your answers: only the subchannels the Foundation suggests; All: every one the category offers.)
-                        .filter(entry => showsAll(segment.id) || entry.lines !== undefined);
+                        // (Only the subchannels the Foundation suggests: every subchannel comes from an answer; owner, 2026-11-16 16:31.)
+                        .filter(entry => entry.lines !== undefined);
                     return (
                         <div className="column-tile-content">
                             <div className="business-engagement-section-head"><DialogHeading title={group.label.trim() || "New channel"} info={channelCategoryHelp(group.label)} /></div>
@@ -219,17 +242,8 @@ export function useEngagementRelationships(earlier: Earlier) {
                                 what="Subchannel"
                                 autoStart={false}
                                 items={[...group.channels.map(tileOf).filter((entry): entry is CardBox => entry !== null), ...spare]}
-                                add={showsAll(segment.id) ? {
-                                    label: "subchannel",
-                                    disabled,
-                                    onAdd: () => addSub(group.label).id,
-                                    isBlank: (id: string) => {
-                                        const found = segmentOf(segment.id).channels.find(entry => entry.id === id);
-                                        return !found || found.name.trim() === "";
-                                    },
-                                    onRemove: (ids: string[]) => updateSegment(segment.id, { channels: segmentOf(segment.id).channels.filter(entry => !ids.includes(entry.id)) })
-                                } : undefined}
                             />
+                            {removedList(group.label)}
                         </div>
                     );
                 }
@@ -241,7 +255,7 @@ export function useEngagementRelationships(earlier: Earlier) {
             // (Physical Delivery and Retail & Wholesale are not offered while no Offering has a physical item: doc 28, 11.7.)
             .filter(category => !channelCategoryHidden(category.label, noPhysical, groups.map(group => group.label)))
             // (From your answers: only the channels the Foundation suggests; All: every channel the page offers.)
-            .filter(category => showsAll(segment.id) || suggestedIn(category.label).length > 0)
+            .filter(category => suggestedIn(category.label).length > 0)
             .map(category => ({
                 id: channelTileId(segment.id, "inactive-" + category.id),
                 title: category.label,
@@ -256,10 +270,7 @@ export function useEngagementRelationships(earlier: Earlier) {
                     window.setTimeout(() => document.dispatchEvent(new CustomEvent<OpenRequest>(OPEN_EVENT, { detail: { tile: channelTileId(segment.id, channel.id), card: channel.id, fresh: true } })), 80);
                 },
                 // (The "+" of a channel the Segment does not use yet does what pressing the tile does: makes it, and opens its card -- as the "+" of every other tile; with All.)
-                plus: showsAll(segment.id) ? () => {
-                    const channel = addChannel(category.label);
-                    window.setTimeout(() => document.dispatchEvent(new CustomEvent<OpenRequest>(OPEN_EVENT, { detail: { tile: channelTileId(segment.id, channel.id), card: channel.id, fresh: true } })), 80);
-                } : undefined,
+                // (No "+": a channel comes from an answer; owner, 2026-11-16 16:31.)
                 content: () => null
             }));
         return (
@@ -278,17 +289,7 @@ export function useEngagementRelationships(earlier: Earlier) {
                         onRemove: (ids: string[]) => updateSegment(segment.id, { channels: segmentOf(segment.id).channels.filter(entry => !ids.includes(entry.id)) })
                     }}
                 />
-                {showsAll(segment.id) && (
-                    <BusinessAddButton
-                        label="Channel"
-                        disabled={disabled}
-                        onAdd={() => {
-                            const channel = createBusinessChannel();
-                            updateSegment(segment.id, { channels: [...answers.channels, channel] });
-                            folds.expand(channelCategoryFoldKey(segment.id, channel.id));
-                        }}
-                    />
-                )}
+                {removedList()}
             </>
         );
     }
