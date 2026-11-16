@@ -200,6 +200,8 @@ export function useEngagementRelationships(earlier: Earlier) {
                             // (LINKS ONLY WHERE THE OFFERINGS HAVE CARDS OF THEIR OWN -- a different approach for each --; one card serving them all lists them as plain
                             // words, the tile itself opening that card; owner, 2026-11-16 14:24.)
                             linkedLines: key === "" || cards.length < 2 ? undefined : servedHere.map(() => true),
+                            // (Each line named by the card it opens, so stepping through the cards lands on its line: SectionTiles' opener.)
+                            lineCards: key === "" || cards.length < 2 ? undefined : servedHere.map(position => cards[cardFor(every[position])]?.id),
                             onLine: (index: number) => {
                                 const owner = cardFor(every[servedHere[index]]);
                                 if (owner >= 0) {

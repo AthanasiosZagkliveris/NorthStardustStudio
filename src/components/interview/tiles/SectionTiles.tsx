@@ -327,16 +327,24 @@ export default function SectionTiles({
         const box = find(key => `[data-card-box="${key}"]`);
         const block = find(key => `.section-tile [data-card="${key}"]`);
         // The line of a tile's list that opens this card: the underline moves with the card as the arrows step.
-        const line = find(key => `.section-tile-link[data-link="${key}"]`);
+        // (A line inside a card tile first -- a tile shared by several cards --, then a line of a master tile's list.)
+        const lines = keys.flatMap(key => [...document.querySelectorAll<HTMLElement>(`.section-tile-link[data-link="${key}"]`)]);
+        const cardBoxOf = (element: HTMLElement) => element.closest(".section-tile-slot")?.querySelector<HTMLElement>("[data-card-box]") ?? null;
+        const line = lines.find(element => !!cardBoxOf(element)) ?? lines[0] ?? null;
         const own = openerEl.closest<HTMLElement>(".section-tile") ?? openerEl.closest(".section-tile-slot")?.querySelector<HTMLElement>(".section-tile") ?? null;
-        const tile = box ?? line?.closest(".section-tile-slot")?.querySelector<HTMLElement>(".section-tile") ?? own;
+        // (A card that shares its tile with others -- one subchannel, several Offerings' cards -- is found by its line: the tile holding the line is haloed.)
+        const tile = box ?? (line ? cardBoxOf(line) : null) ?? line?.closest(".section-tile-slot")?.querySelector<HTMLElement>(".section-tile") ?? own;
         const marked = [tile, block].filter((element): element is HTMLElement => !!element);
         marked.forEach(element => {
             element.setAttribute("data-opener-tile", "");
             element.style.setProperty("--opener-hue", String(openerHue));
         });
-        const link = box ? null : line ?? openerEl;
+        // (The line is marked where no box holds the card, or where the line stands inside the box: a tile shared by several cards.)
+        const link = box ? (line && cardBoxOf(line) === box ? line : null) : line ?? openerEl;
         link?.setAttribute("data-opener", "");
+        // THE DIALOG FOLLOWS THE ARROWS (owner, 2026-11-16 19:18): the marked tile scrolls into view behind the card, smoothly, the least it can; at once where motion is reduced.
+        const reduced = typeof window.matchMedia === "function" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        (tile ?? block ?? line)?.scrollIntoView?.({ block: "nearest", inline: "nearest", behavior: reduced ? "auto" : "smooth" });
         return () => {
             marked.forEach(element => {
                 element.removeAttribute("data-opener-tile");
