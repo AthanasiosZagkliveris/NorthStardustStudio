@@ -153,6 +153,12 @@ export interface DemandSource {
     name?: string;
     /** Made by the answers (withAnswerSources), as a channel is. A source saved before is kept as it is. */
     fromAnswers?: boolean;
+    /**
+     * A SOURCE OF A CHANNEL GROUP (owner, 2026-11-16 20:11): a Sales funnel or Referrals source for every Discover channel of one category -- "Social Media" for
+     * Instagram, Pinterest and TikTok --, its figures entered once; `channelId` is then "" and its channels are `channelIds`.
+     */
+    group?: string;
+    channelIds?: string[];
 }
 
 export interface DemandValue {
@@ -210,7 +216,9 @@ function asDemandSource(value: unknown, position: number): DemandSource {
         basis: asText(source.basis),
         channelId: asText(source.channelId),
         ...(asText(source.name) ? { name: asText(source.name) } : {}),
-        ...(source.fromAnswers === true ? { fromAnswers: true } : {})
+        ...(source.fromAnswers === true ? { fromAnswers: true } : {}),
+        ...(asText(source.group) ? { group: asText(source.group) } : {}),
+        ...(Array.isArray(source.channelIds) && source.channelIds.length > 0 ? { channelIds: [...new Set(source.channelIds.map(asText).filter(Boolean))] } : {})
     };
 }
 
@@ -218,8 +226,8 @@ function asDemandSource(value: unknown, position: number): DemandSource {
  * THE CHANNELS THAT BRING AN OFFERING'S CUSTOMERS: each of its Customer Sources' channels, once, in the sources' order (owner, 2026-11-12: "Fill it from the
  * sources"). The ticks saved before (`channelIds`) are not read: this list wins. It feeds the cost per customer per channel (doc 47, step two).
  */
-export function demandChannelIds(demand: { sources: readonly { channelId: string }[] }): string[] {
-    return [...new Set(demand.sources.map(source => source.channelId).filter(id => id !== ""))];
+export function demandChannelIds(demand: { sources: readonly { channelId: string; channelIds?: readonly string[] }[] }): string[] {
+    return [...new Set(demand.sources.flatMap(source => [source.channelId, ...((source as { channelIds?: readonly string[] }).channelIds ?? [])]).filter(id => id !== ""))];
 }
 
 /**
@@ -854,13 +862,17 @@ export function offeringChannelRevenue(
         }
         const parts = demandResult(value).sources;
         for (const source of value.sources) {
-            const channel = channels.find(entry => entry.id === source.channelId);
+            // (A group's sales shared evenly among its channels: owner, 2026-11-16 20:11.)
+            const own = (source.channelIds ?? []).length > 0 ? source.channelIds! : [source.channelId];
+            const found = own.map(id => channels.find(entry => entry.id === id)).filter((entry): entry is { id: string; category: string; name: string } => !!entry);
             const expected = parts.find(part => part.id === source.id)?.expected ?? null;
-            if (!channel || expected === null || expected <= 0) {
+            if (found.length === 0 || expected === null || expected <= 0) {
                 continue;
             }
-            const key = channel.category.trim() + "\u0001" + channel.name.trim();
-            out[offeringId] = { ...(out[offeringId] ?? {}), [key]: (out[offeringId]?.[key] ?? 0) + expected * price * items };
+            for (const channel of found) {
+                const key = channel.category.trim() + "\u0001" + channel.name.trim();
+                out[offeringId] = { ...(out[offeringId] ?? {}), [key]: (out[offeringId]?.[key] ?? 0) + expected * price * items / found.length };
+            }
         }
     }
     return out;

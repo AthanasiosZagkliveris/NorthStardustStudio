@@ -449,10 +449,16 @@ export interface DemandSuggestion {
     source: string;
     /** An Other source's own name. */
     name?: string;
+    /** A channel group's row: its category, and its channels (`channelId` is then ""). */
+    group?: string;
+    channelIds?: string[];
 }
 
 /** A Demand row's key, so a source the founder removed is not made again: its kind and its channel. */
-export const demandSourceKey = (row: { type: string; channelId: string }) => row.type + "|" + row.channelId;
+export const demandSourceKey = (row: { type: string; channelId: string; group?: string }) => row.type + "|" + (row.group ? "group:" + row.group : row.channelId);
+
+/** The kinds of source a channel GROUP brings (owner, 2026-11-16 20:11): a Sales funnel and Referrals, one per channel category; Visitors, an Other and the rest one per channel. */
+const GROUPED_KINDS: readonly string[] = ["funnel", "referrals"];
 
 /**
  * THE CUSTOMER SOURCES THE ANSWERS MAKE (owner, 2026-11-16 19:18: "the same as channels"): each Demand row the Foundation proposes for an Offering
@@ -466,7 +472,17 @@ export function withAnswerSources(demand: DemandValue | undefined, segment: Busi
     if (rows.length === 0) {
         return demand;
     }
-    return { ...base, sources: [...base.sources, ...rows.map(row => ({ ...createDemandSource(row.type, row.channelId), ...(row.name ? { name: row.name } : {}), fromAnswers: true }))] };
+    // (A group's new channel joins the group the answers made before, never a second source of it.)
+    let sources = [...base.sources];
+    for (const row of rows) {
+        const into = row.group ? sources.findIndex(source => source.fromAnswers && source.type === row.type && source.group === row.group) : -1;
+        if (into >= 0) {
+            sources[into] = { ...sources[into], channelIds: [...new Set([...(sources[into].channelIds ?? []), ...(row.channelIds ?? [])])] };
+        } else {
+            sources = [...sources, { ...createDemandSource(row.type, row.channelId), ...(row.name ? { name: row.name } : {}), ...(row.group ? { group: row.group, channelIds: row.channelIds ?? [] } : {}), fromAnswers: true }];
+        }
+    }
+    return { ...base, sources };
 }
 
 /** A Discover channel's category → the Customer Source its customers come by (doc 28, 7.5). */
@@ -497,9 +513,24 @@ export function demandSuggestions(segment: BusinessCustomerSegmentValue, offerin
     const out: DemandSuggestion[] = [];
     // (The channels that already bring its customers: those its sources name, demandChannelIds.)
     const used = demandChannelIds(demand);
-    channels
+    const open = channels
         .filter(channel => channel.stages.includes("discovery") && (channel.offerings.includes(BUSINESS_CHANNEL_ALL_OFFERINGS) || channel.offerings.includes(offeringId)))
-        .filter(channel => !used.includes(channel.id))
+        .filter(channel => !used.includes(channel.id));
+    // (ONE ROW PER CHANNEL GROUP for a Sales funnel and Referrals -- the category's channels listed --, one per channel for the rest: owner, 2026-11-16 20:11.)
+    const groups = new Map<string, DemandSuggestion>();
+    open.filter(channel => GROUPED_KINDS.includes(demandSourceOf(channel.category, channel.name))).forEach(channel => {
+        const type = demandSourceOf(channel.category, channel.name);
+        const key = type + "|" + channel.category;
+        const row = groups.get(key);
+        if (row) {
+            row.channelIds!.push(channel.id);
+        } else {
+            const made: DemandSuggestion = { type, channelId: "", label: channel.category, source: "the Discover channels that serve it", group: channel.category, channelIds: [channel.id] };
+            groups.set(key, made);
+            out.push(made);
+        }
+    });
+    open.filter(channel => !GROUPED_KINDS.includes(demandSourceOf(channel.category, channel.name)))
         .forEach(channel => out.push({
             type: demandSourceOf(channel.category, channel.name),
             channelId: channel.id,

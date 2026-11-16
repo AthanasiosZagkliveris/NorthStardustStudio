@@ -241,7 +241,13 @@ export function useEngagementDemand(earlier: Earlier) {
             );
             // ITS CHANNEL (owner, 2026-11-12: "Fill it from the sources"): the Segment's channel its customers come through; the Offering's Channels That Bring Them are
             // read from these.
-            const channelPicker = (
+            // (A group's source lists its channels, the category's Discover channels that serve the Offering: owner, 2026-11-16 20:11.)
+            const groupChannels = (source.channelIds ?? []).map(id => channelOf(id)?.name.trim() ?? "").filter(Boolean);
+            const channelPicker = source.group ? (
+                <BusinessField key="channel" label="Channels" info={DEMAND_SOURCE_CHANNEL_HELP}>
+                    <p className="business-demand-source-note">{groupChannels.join(", ")}</p>
+                </BusinessField>
+            ) : (
                 <BusinessField key="channel" label="Channel" info={DEMAND_SOURCE_CHANNEL_HELP}>
                     <OptionPicker
                         label={"Channel, " + what}
@@ -276,7 +282,7 @@ export function useEngagementDemand(earlier: Earlier) {
             );
             // (THE FUNNEL'S MIDDLE STEP, a trial where a Profile compares options by a demo, trial or sample (D1): "Tried it (%)"; doc 50, section 2.5.)
             // (Or the source comes through a Samples & Trials channel: owner, 2026-11-16 19:18.)
-            const trial = type?.id === "funnel" && funnelIsTrial(segment, identity, segmentOf(segment.id).channels.find(channel => channel.id === source.channelId));
+            const trial = type?.id === "funnel" && funnelIsTrial(segment, identity, source.group ? { category: source.group } : segmentOf(segment.id).channels.find(channel => channel.id === source.channelId));
             const shown = (field: (typeof DEMAND_SOURCES)[number]["fields"][number]) => trial && field.key === "qualified"
                 ? { ...field, label: "Tried it (%)", help: "The share of the prospects that take the demo, trial or sample (your Profiles compare options that way)." }
                 : field;
@@ -548,7 +554,7 @@ export function useEngagementDemand(earlier: Earlier) {
             read, never ticked (demandChannelIds). Where a source names no channel, a line says how it joins the list.
         */
         const broughtBy = demandChannelIds(demand).filter(id => channelOptions.some(option => option.id === id));
-        const unchannelled = demand.sources.filter(source => source.type !== "" && !channelOptions.some(option => option.id === source.channelId)).length;
+        const unchannelled = demand.sources.filter(source => source.type !== "" && !channelOptions.some(option => option.id === source.channelId) && (source.channelIds ?? []).length === 0).length;
         const channelsBringing = (
             <>
                 {broughtBy.length > 0 && (

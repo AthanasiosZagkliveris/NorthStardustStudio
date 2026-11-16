@@ -588,7 +588,7 @@ describe("Customer Engagement follows the Foundation (doc 47, section 3)", () =>
         openTile("1. Audit");
         const tiles = () => [...document.querySelectorAll<HTMLElement>(".section-tile-overlay .card-tile")].map(tile => tile.textContent ?? "");
         // (A sales funnel through the website, and an Other source by its channel's name.)
-        expect(tiles().some(text => text.includes("Sales funnel") && text.includes("Main Website"))).toBe(true);
+        expect(tiles().some(text => text.includes("Website") && text.includes("Sales funnel") && text.includes("Main Website"))).toBe(true);
         expect(tiles().some(text => text.includes("Church noticeboard"))).toBe(true);
         expect(tiles().some(text => text.includes("Suggested from your Foundation"))).toBe(false);
         expect(screen.queryAllByRole("button", { name: /Add Card/ })).toHaveLength(0);
@@ -749,7 +749,7 @@ describe("the Removed lists of Customer's Relationship and Demand & Conversion",
         const start = {
             ...asBusinessEngagementValue(undefined),
             segments: [{ ...createBusinessSegmentEngagement(segment.id), channels: [site], offerings: [{ offeringId: offering.id, types: [], typeDetail: {}, dismissed: ["dedicated-support"] }] }],
-            demand: { [offering.id]: { ...createDemand(), dismissed: ["funnel|site"] } }
+            demand: { [offering.id]: { ...createDemand(), dismissed: ["funnel|group:Website"] } }
         };
         let latest: unknown = start;
         function Harness() {
@@ -767,13 +767,13 @@ describe("the Removed lists of Customer's Relationship and Demand & Conversion",
         expect(saved().segments[0].offerings[0].dismissed ?? []).toEqual([]);
         closeAllTiles();
         // The source: not made while removed; Restore makes it again.
-        expect(saved().demand[offering.id]?.sources.some(source => source.channelId === "site") ?? false).toBe(false);
+        expect(saved().demand[offering.id]?.sources.some(source => (source.channelIds ?? []).includes("site")) ?? false).toBe(false);
         openTile("Demand & Conversion");
         openTile("1. Audit");
         fireEvent.click(screen.getByRole("button", { name: "Maximise Removed customer sources" }));
         fireEvent.click(screen.getByRole("button", { name: "Restore" }));
         expect(saved().demand[offering.id]?.dismissed ?? []).toEqual([]);
-        expect(saved().demand[offering.id]?.sources.some(source => source.channelId === "site" && source.type === "funnel")).toBe(true);
+        expect(saved().demand[offering.id]?.sources.some(source => source.group === "Website" && (source.channelIds ?? []).includes("site") && source.type === "funnel")).toBe(true);
     });
 
 });
