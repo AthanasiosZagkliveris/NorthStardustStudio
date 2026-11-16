@@ -1265,8 +1265,8 @@
                   },
                   {
                     "id": "channel-r4f7p1xk",
-                    "category": "Other",
-                    "name": "Referral partners",
+                    "category": "Referral & Affiliates",
+                    "name": "Referral Partner",
                     "links": [
                       ""
                     ],
@@ -1281,7 +1281,8 @@
                     "actionIds": {
                       "discovery": [
                         "action-channel-r4f7p1xk-discovery-1",
-                        "action-channel-r4f7p1xk-discovery-2"
+                        "action-channel-r4f7p1xk-discovery-2",
+                        "action-channel-partner01-discovery-1"
                       ],
                       "evaluation": [
                         "action-channel-r4f7p1xk-evaluation-1",
@@ -1291,7 +1292,8 @@
                     "actions": {
                       "discovery": [
                         "Recruit three bookkeeping firms and two managed IT providers who serve small firms",
-                        "Give partners a one-page introduction and a 10% referral fee on audits"
+                        "Give partners a one-page introduction and a 10% referral fee on audits",
+                        "Agree a referral fee with two partner agencies for audits they send"
                       ],
                       "evaluation": [
                         "Joint introduction call with the partner present",
@@ -1546,30 +1548,6 @@
                     "actions": {
                       "delivery": [
                         "Send the audit report as a PDF with a short walkthrough"
-                      ]
-                    }
-                  },
-                  {
-                    "id": "channel-partner01",
-                    "category": "Referral & Affiliates",
-                    "name": "Referral Partner",
-                    "links": [
-                      ""
-                    ],
-                    "offerings": [
-                      "*"
-                    ],
-                    "stages": [
-                      "discovery"
-                    ],
-                    "actionIds": {
-                      "discovery": [
-                        "action-channel-partner01-discovery-1"
-                      ]
-                    },
-                    "actions": {
-                      "discovery": [
-                        "Agree a referral fee with two partner agencies for audits they send"
                       ]
                     }
                   },

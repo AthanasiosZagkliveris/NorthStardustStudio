@@ -1,7 +1,7 @@
 import type { BusinessCustomerSegmentValue } from "./AnswerBusinessFoundation.ts";
 import { BUSINESS_CHANNEL_ALL_OFFERINGS, OTHER_RELATIONSHIP_PREFIX, type BusinessChannelValue, type BusinessOfferingRelationshipEntryValue, type BusinessRelationshipTypeValue } from "./businessFoundation/engagementReaders.ts";
 import { effectiveOfferingAnswers, effectiveProfileAnswers, effectiveSegmentAnswers, offeringIsPhysical } from "./EffectiveAnswers.ts";
-import { type DemandValue, createDemand, createDemandSource, demandChannelIds } from "./DemandCapacity.ts";
+import { DEMAND_SOURCES, type DemandValue, createDemand, createDemandSource, demandChannelIds } from "./DemandCapacity.ts";
 import { writtenInNames } from "./SegmentQuestions.ts";
 import { TRIED_OPTIONS } from "./ProfileQuestions.ts";
 import { businessProfileOfferings } from "./businessFoundation/engagementPage.ts";
@@ -457,8 +457,8 @@ export interface DemandSuggestion {
 /** A Demand row's key, so a source the founder removed is not made again: its kind and its channel. */
 export const demandSourceKey = (row: { type: string; channelId: string; group?: string }) => row.type + "|" + (row.group ? "group:" + row.group : row.channelId);
 
-/** The kinds of source a channel GROUP brings (owner, 2026-11-16 20:11): a Sales funnel and Referrals, one per channel category; Visitors, an Other and the rest one per channel. */
-const GROUPED_KINDS: readonly string[] = ["funnel", "referrals"];
+/** The kinds of source made ONE PER KIND (owner, 2026-11-16 20:22: "it should be per source"): a Sales funnel, Referrals and Visitors, each listing all its channels; an Other one per name. */
+const GROUPED_KINDS: readonly string[] = ["funnel", "referrals", "marketplace"];
 
 /**
  * THE CUSTOMER SOURCES THE ANSWERS MAKE (owner, 2026-11-16 19:18: "the same as channels"): each Demand row the Foundation proposes for an Offering
@@ -516,16 +516,17 @@ export function demandSuggestions(segment: BusinessCustomerSegmentValue, offerin
     const open = channels
         .filter(channel => channel.stages.includes("discovery") && (channel.offerings.includes(BUSINESS_CHANNEL_ALL_OFFERINGS) || channel.offerings.includes(offeringId)))
         .filter(channel => !used.includes(channel.id));
-    // (ONE ROW PER CHANNEL GROUP for a Sales funnel and Referrals -- the category's channels listed --, one per channel for the rest: owner, 2026-11-16 20:11.)
+    // (ONE ROW PER KIND -- a Sales funnel, Referrals, Visitors --, all its channels listed, so a customer is counted once; an Other one per channel: owner, 2026-11-16 20:22.)
     const groups = new Map<string, DemandSuggestion>();
     open.filter(channel => GROUPED_KINDS.includes(demandSourceOf(channel.category, channel.name))).forEach(channel => {
         const type = demandSourceOf(channel.category, channel.name);
-        const key = type + "|" + channel.category;
+        const key = type;
         const row = groups.get(key);
         if (row) {
             row.channelIds!.push(channel.id);
         } else {
-            const made: DemandSuggestion = { type, channelId: "", label: channel.category, source: "the Discover channels that serve it", group: channel.category, channelIds: [channel.id] };
+            const kind = DEMAND_SOURCES.find(entry => entry.id === type)?.label ?? type;
+            const made: DemandSuggestion = { type, channelId: "", label: kind, source: "the Discover channels that serve it", group: kind, channelIds: [channel.id] };
             groups.set(key, made);
             out.push(made);
         }

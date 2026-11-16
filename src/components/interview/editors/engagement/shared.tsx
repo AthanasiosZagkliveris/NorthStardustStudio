@@ -98,5 +98,7 @@ export const CONTENT_OF_THE_TABLE = [
 /** What the Demand & Conversion block is for, and where its result goes: its title's "i". */
 export const DEMAND_BLOCK_HELP: InfoPoint[] = [
     "Where this Offering\u2019s customers come from, and so how many sales to expect. One source with a figure is enough; add more, or calculate them, as the business develops.",
-    "The Expected Sales are used for Delivery on Infrastructure & Capability and for this Offering\u2019s revenue on Sustainability."
+    "The Expected Sales are used for Delivery on Infrastructure & Capability and for this Offering\u2019s revenue on Sustainability.",
+    // (Owner, 2026-11-16 20:22: "What if there is overlap?")
+    "Count each new customer once, under the source that brought the sale. Repeat customers are worked out from the others, so they are never counted twice."
 ];

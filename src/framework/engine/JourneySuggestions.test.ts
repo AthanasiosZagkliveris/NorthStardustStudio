@@ -79,14 +79,14 @@ describe("the Demand rows the Foundation proposes", () => {
         const channels = quill.engagement.segments[0].channels;
         const build = segment.offerings[1];
         const rows = demandSuggestions(segment, build.id, channels, quill.engagement.demand[build.id]);
-        // (A Sales funnel and Referrals one row per channel group, its channels listed; an Other channel its own row: owner, 2026-11-16 20:11.)
-        expect(rows.map(row => row.type + " " + row.label)).toEqual(["funnel Social Media", "funnel Website", "referrals Referral & Affiliates", "funnel Community", "other Referral partners"]);
+        // (One row per kind, all its channels listed, so a customer is counted once; an Other channel its own row; Referral partners is the built-in Referral Partner since 2026-11-16 20:24: owner, 2026-11-16 20:22.)
+        expect(rows.map(row => row.type + " " + row.label)).toEqual(["funnel Sales funnel", "referrals Referrals"]);
         const named = (id: string) => channels.find(channel => channel.id === id)?.name;
-        expect(rows[0].channelIds?.map(named)).toEqual(["LinkedIn", "X (Twitter)"]);
-        expect(rows[2].channelIds?.map(named)).toEqual(["Customer Referral", "Referral Partner"]);
+        expect(rows[0].channelIds?.map(named)).toEqual(["LinkedIn", "Main Website", "X (Twitter)", "Agency founder communities"]);
+        expect(rows[1].channelIds?.map(named)).toEqual(["Referral Partner", "Customer Referral"]);
         // (The Audit's sources name LinkedIn and Referral partners, so those already bring its customers: only its other Discover channels are proposed.)
         const audit = segment.offerings[0];
-        expect(demandSuggestions(segment, audit.id, channels, quill.engagement.demand[audit.id]).map(row => row.label)).toEqual(["Website", "Community", "Referral & Affiliates", "Social Media", "Event / Talk"]);
+        expect(demandSuggestions(segment, audit.id, channels, quill.engagement.demand[audit.id]).map(row => row.label)).toEqual(["Sales funnel", "Visitors", "Referrals"]);
     });
 
     test("Contracts or tenders where the buyer decides by a formal tender, once", () => {
@@ -305,13 +305,13 @@ describe("relationship types and Customer Sources from the answers", () => {
         const board = { ...createBusinessChannel(), id: "board", category: "Other", name: "Church noticeboard", stages: ["discovery"] };
         const segment = { ...base, questions: { ...base.questions, path: ["researcher"], authorise: [] }, offerings: [{ ...offering, questions: { ...(offering.questions ?? {}), o17: [] } }] };
         const made = withAnswerSources(undefined, segment, offering.id, [site, board], false)!;
-        expect(made.sources.map(source => [source.type, source.group ?? source.channelId, source.name ?? "", source.fromAnswers])).toEqual([["funnel", "Website", "", true], ["other", "board", "Church noticeboard", true]]);
+        expect(made.sources.map(source => [source.type, source.group ?? source.channelId, source.name ?? "", source.fromAnswers])).toEqual([["funnel", "Sales funnel", "", true], ["other", "board", "Church noticeboard", true]]);
         // (A new channel of a group joins its source; a group removed stays removed.)
         const landing = { ...createBusinessChannel(), id: "landing", category: "Website", name: "Landing Page", stages: ["discovery"] };
         const grown = withAnswerSources(made, segment, offering.id, [site, board, landing], false)!;
         expect(grown.sources.length).toBe(2);
         expect(grown.sources[0].channelIds).toEqual(["site", "landing"]);
-        expect(demandSourceKey(grown.sources[0])).toBe("funnel|group:Website");
+        expect(demandSourceKey(grown.sources[0])).toBe("funnel|group:Sales funnel");
         // (Nothing new: the same value.)
         expect(withAnswerSources(made, segment, offering.id, [site, board], false)).toBe(made);
         // (Removed: not made again until restored.)
@@ -321,7 +321,7 @@ describe("relationship types and Customer Sources from the answers", () => {
         const hand = { ...createDemand(), sources: [{ ...createDemandSource("funnel", "site"), id: "mine", estimate: "4" }] };
         const kept = withAnswerSources(hand, segment, offering.id, [site, board, landing], false)!;
         expect(kept.sources[0]).toEqual(hand.sources[0]);
-        expect(kept.sources.map(source => source.group ?? source.channelId)).toEqual(["site", "Website", "board"]);
+        expect(kept.sources.map(source => source.group ?? source.channelId)).toEqual(["site", "Sales funnel", "board"]);
         expect(kept.sources[1].channelIds).toEqual(["landing"]);
         // (A source through a Samples & Trials channel: "Tried it".)
         expect(funnelIsTrial({ ...segment, profiles: [] }, undefined, { category: "Samples & Trials" })).toBe(true);

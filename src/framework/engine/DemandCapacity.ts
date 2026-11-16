@@ -120,7 +120,7 @@ export const DEMAND_SOURCES: DemandSourceType[] = [
         id: "marketplace",
         // (Its id kept: "marketplace". Its name says what it counts, the visitors, wherever they come: owner, 2026-11-14 13:54, "Check the wording for each Customer Source".)
         label: "Visitors",
-        explanation: "People who come to you and buy: a shop, a stall, a website, a marketplace listing.",
+        explanation: "People who come to you and buy: a shop, a stall, a website, a marketplace listing. Use a rate that blends your channels: for example, a shop converts far more visitors than a website.",
         fields: [
             { key: "visitors", label: "Visitors / Month", kind: "number", placeholder: "e.g. 800", help: "People who visit the shop, stall, listing or site in a month." },
             { key: "buy", label: "Buy (%)", kind: "percent", placeholder: "e.g. 2", help: "The share of visitors who buy." }

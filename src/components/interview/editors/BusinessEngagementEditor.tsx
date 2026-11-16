@@ -79,7 +79,7 @@ export default function BusinessEngagementEditor(props: BusinessEngagementEditor
             const demCardId = (offeringId: string, part: string) => "dems:" + offeringId + "|" + part;
             const sourceLabel = (type: string) => DEMAND_SOURCES.find(entry => entry.id === type)?.label ?? "";
             // (An Other source made from an Other channel is called by that channel's name: owner, 2026-11-16 19:18.)
-            // (A group's source is called by its group, "Social Media", its channels listed under it: owner, 2026-11-16 20:11.)
+            // (A source made by the answers is one per kind, "Sales funnel", its channels listed under it: owner, 2026-11-16 20:22.)
             const sourceName = (source: { type: string; name?: string; group?: string }) => (source.type === "other" && source.name) || source.group || sourceLabel(source.type);
             const sourceChannels = (source: { channelId: string; channelIds?: readonly string[] }) => ((source.channelIds ?? []).length > 0 ? source.channelIds! : [source.channelId]).map(channelLabel).filter(Boolean).join(", ");
             const channelLabel = (channelId: string) => segmentOf(segment.id).channels.find(channel => channel.id === channelId)?.name.trim() ?? "";
@@ -125,7 +125,7 @@ export default function BusinessEngagementEditor(props: BusinessEngagementEditor
                                     name: sourceName(source),
                                     unnamed: "Source " + (index + 1),
                                     // (Its channel, then what it gives.)
-                                    lines: [...(source.group ? [sourceLabel(source.type)] : []), sourceChannels(source), sourceLine(offeringId, source.id)].filter(Boolean),
+                                    lines: [sourceChannels(source), sourceLine(offeringId, source.id)].filter(Boolean),
                                     own: true,
                                     content: () => null
                                 }))

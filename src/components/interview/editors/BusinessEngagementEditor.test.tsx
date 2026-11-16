@@ -588,7 +588,7 @@ describe("Customer Engagement follows the Foundation (doc 47, section 3)", () =>
         openTile("1. Audit");
         const tiles = () => [...document.querySelectorAll<HTMLElement>(".section-tile-overlay .card-tile")].map(tile => tile.textContent ?? "");
         // (A sales funnel through the website, and an Other source by its channel's name.)
-        expect(tiles().some(text => text.includes("Website") && text.includes("Sales funnel") && text.includes("Main Website"))).toBe(true);
+        expect(tiles().some(text => text.includes("Sales funnel") && text.includes("Main Website"))).toBe(true);
         expect(tiles().some(text => text.includes("Church noticeboard"))).toBe(true);
         expect(tiles().some(text => text.includes("Suggested from your Foundation"))).toBe(false);
         expect(screen.queryAllByRole("button", { name: /Add Card/ })).toHaveLength(0);
@@ -749,7 +749,7 @@ describe("the Removed lists of Customer's Relationship and Demand & Conversion",
         const start = {
             ...asBusinessEngagementValue(undefined),
             segments: [{ ...createBusinessSegmentEngagement(segment.id), channels: [site], offerings: [{ offeringId: offering.id, types: [], typeDetail: {}, dismissed: ["dedicated-support"] }] }],
-            demand: { [offering.id]: { ...createDemand(), dismissed: ["funnel|group:Website"] } }
+            demand: { [offering.id]: { ...createDemand(), dismissed: ["funnel|group:Sales funnel"] } }
         };
         let latest: unknown = start;
         function Harness() {
@@ -773,7 +773,7 @@ describe("the Removed lists of Customer's Relationship and Demand & Conversion",
         fireEvent.click(screen.getByRole("button", { name: "Maximise Removed customer sources" }));
         fireEvent.click(screen.getByRole("button", { name: "Restore" }));
         expect(saved().demand[offering.id]?.dismissed ?? []).toEqual([]);
-        expect(saved().demand[offering.id]?.sources.some(source => source.group === "Website" && (source.channelIds ?? []).includes("site") && source.type === "funnel")).toBe(true);
+        expect(saved().demand[offering.id]?.sources.some(source => source.group === "Sales funnel" && (source.channelIds ?? []).includes("site") && source.type === "funnel")).toBe(true);
     });
 
 });
