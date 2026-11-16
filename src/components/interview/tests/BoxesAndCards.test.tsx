@@ -360,7 +360,7 @@ describe("the Activity card's rows", () => {
         return topDialog().querySelector(".business-capability-activity") as HTMLElement;
     }
 
-    it("sets the Performer label beside its dropdown, which runs on to the + box in the x's own column; Completed is the last tick on the left", () => {
+    it("sets the Team label beside its dropdown, which runs on to the + box in the x's own column; Completed is the last tick on the left", () => {
         const card = open();
         const row = card.querySelector(".business-capability-performer")!;
         expect([...row.children].map(child => child.className.split(" ")[0])).toEqual(["option-picker", "business-link-symbol", "plus-box"]);
@@ -368,7 +368,7 @@ describe("the Activity card's rows", () => {
         expect(row.querySelector(".option-picker")!.getAttribute("data-size")).toBe("fit");
         const plus = row.querySelector(".plus-box") as HTMLElement;
         expect(plus.classList.contains("plus-box-small")).toBe(true);
-        expect(plus.getAttribute("aria-label")).toBe("Add Performer to Activity 1");
+        expect(plus.getAttribute("aria-label")).toBe("Add to Team of Activity 1");
         // No old "+ Add Performer" rectangle.
         expect(within(card).queryByRole("button", { name: "+ Add Performer" })).toBeNull();
         expect(css).toMatch(/\.card-box-open \.business-capability-performer > :is\(\.plus-box, \.strategy-box-remove, \.business-capability-performer-slot\) \{[^}]*width: 32px;[^}]*height: 32px;/);
@@ -380,13 +380,13 @@ describe("the Activity card's rows", () => {
 
     it("adds a performer's row with the +, repeating the dropdown and the x's column with an x; the + stays on the first row", () => {
         const card = open();
-        fireEvent.click(within(card).getByRole("button", { name: "Add Performer to Activity 1" }));
+        fireEvent.click(within(card).getByRole("button", { name: "Add to Team of Activity 1" }));
         const rows = [...card.querySelectorAll(".business-capability-performer")];
         expect(rows).toHaveLength(2);
         expect(rows[0].querySelector(".plus-box")).toBeNull();
         // (Both founders are chosen now: nothing more to add, so the first row's place is empty and the second row has its x.)
         expect(rows[0].querySelector(".business-capability-performer-slot")).toBeTruthy();
-        fireEvent.click(within(rows[1] as HTMLElement).getByRole("button", { name: "Remove Activity 1 performer 2" }));
+        fireEvent.click(within(rows[1] as HTMLElement).getByRole("button", { name: "Remove Activity 1 team 2" }));
         expect(card.querySelectorAll(".business-capability-performer")).toHaveLength(1);
         expect(card.querySelector(".business-capability-performer .plus-box")).toBeTruthy();
     });

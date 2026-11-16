@@ -5,7 +5,7 @@
 import AddButton from "../../../controls/AddButton.tsx";
 import NumberCell from "../../../controls/NumberCell.tsx";
 import { Fragment, ReactNode } from "react";
-import { BUSINESS_ACTIVITY_CATEGORIES, businessFoundationSegments, soleGroupOf, BUSINESS_PARTNER_GROUPS, resourcesStartingTooLate, cappedUnits, unitsCap, BusinessActivityValue, partnerNoun, BusinessPartnerValue, BusinessResourceSlotValue, createBusinessActivity, createBusinessPartner, createBusinessResourceSlot, resourceUnitCount } from "../../../../framework/engine/AnswerUtils.ts";
+import { BUSINESS_ACTIVITY_CATEGORIES, businessFoundationSegments, equalOfferingShares, soleGroupOf, BUSINESS_PARTNER_GROUPS, resourcesStartingTooLate, cappedUnits, unitsCap, BusinessActivityValue, partnerNoun, BusinessPartnerValue, BusinessResourceSlotValue, createBusinessActivity, createBusinessPartner, createBusinessResourceSlot, resourceUnitCount } from "../../../../framework/engine/AnswerUtils.ts";
 import { BusinessCard, LinkSymbol, BusinessEmpty, BusinessField, OptionalField, OptionalNote, BusinessRemove, uniqueChoices } from "../../cards/BusinessCardFields.tsx";
 import { DeliveryValue, createDelivery, deliveryAllocation, deliveryHours, WEEKS_PER_MONTH, demandResult, founderDeliveryHours } from "../../../../framework/engine/DemandCapacity.ts";
 import { asFinancialFoundationValue, moneyFormatter } from "../../../../framework/engine/FinancialModel.ts";
@@ -18,7 +18,7 @@ import OptionPicker from "../../fields/OptionPicker.tsx";
 import FoldArrow from "../../fields/FoldArrow.tsx";
 import { CAPACITY_UTILISATION_HELP } from "../FinancialParts.tsx";
 import { toggledIn } from "../../fields/toggledIn.ts";
-import { DELIVERY_HELP, formatHours, readHours, deliveryIsEmpty, FIXED_ACTIVITY_IDS, ACTIVITY_CATEGORY_ORDER, Scope, blankSlot, blankActivity, blankPartner } from "../BusinessCapabilityModel.ts";
+import { DELIVERY_HELP, NEW_TEAM_CARD, TEAM_HELP, type TeamKind, formatHours, readHours, deliveryIsEmpty, FIXED_ACTIVITY_IDS, ACTIVITY_CATEGORY_ORDER, Scope, blankSlot, blankActivity, blankPartner } from "../BusinessCapabilityModel.ts";
 import { offeringStartsById } from "../../../../framework/engine/EffectiveAnswers.ts";
 import type { useCapabilityState } from "./useCapabilityState.tsx";
 import type { useCapabilityCardFields } from "./useCapabilityCardFields.tsx";
@@ -28,7 +28,42 @@ type Earlier = ReturnType<typeof useCapabilityState> & ReturnType<typeof useCapa
 
 export function useCapabilityActivityAndDelivery(earlier: Earlier) {
 
-    const { capability, collapsed, disabled, engagementValue, financialFoundation, foundation, founderChoices, founders, live, offeringChoices, onChange, openPair, organisationCurrency, partnersOf, setCollapsed, setPartners, update } = earlier;
+    const { capability, collapsed, disabled, engagementValue, financialFoundation, foundation, founderChoices, founders, live, offeringChoices, onChange, openPair, organisationCurrency, partnersOf, setCollapsed, setPartners, staffOf, update } = earlier;
+
+    /**
+     * A NEW CARD FROM AN ACTIVITY'S TEAM (owner, 2026-11-16 20:22: "+ New Card"): a blank Staff (the place's Human Resources group), Partner or Supplier card,
+     * linked to the activity's Offerings, put in the Team row at once -- one write, the card and the row together -- and opened beside the activity; a card left
+     * blank is taken away by its list as any new card is, and the row then names nobody.
+     */
+    function newTeamCard(scope: Scope, activityId: string, offeringIds: readonly string[], kind: TeamKind, rows: string[], position: number) {
+        const base = live.current;
+        const linked = scope === "offering" ? { offeringIds: [...offeringIds], offeringShares: equalOfferingShares([...offeringIds]) } : {};
+        let id = "";
+        let next: typeof base;
+        if (kind === "staff") {
+            const slot = { ...createBusinessResourceSlot(), ...(scope === "offering" ? { category: "hr", group: "delivery-team" } : {}), ...linked };
+            id = slot.id;
+            if (scope === "offering") {
+                next = { ...base, offering: { ...base.offering, resources: [...base.offering.resources, slot] } };
+            } else {
+                const entries = base.resources.hr ?? [];
+                const known = entries.some(entry => entry.id === "admin-team");
+                next = { ...base, resources: { ...base.resources, hr: known ? entries.map(entry => entry.id === "admin-team" ? { ...entry, slots: [...entry.slots, slot] } : entry) : [...entries, { id: "admin-team", name: "", slots: [slot] }] } };
+            }
+        } else {
+            const category = kind === "partner" ? "partners" : "suppliers";
+            const list = kind === "partner" ? "professionals" : "providers";
+            const partner = { ...createBusinessPartner("", category), group: soleGroupOf(BUSINESS_PARTNER_GROUPS[scope][category]), ...linked };
+            id = partner.id;
+            next = scope === "offering"
+                ? { ...base, offering: { ...base.offering, [list]: [...base.offering[list], partner] } }
+                : { ...base, [list]: [...base[list], partner] };
+        }
+        const team = rows.map((entry, at) => at === position ? id : entry);
+        const patch = (activity: BusinessActivityValue) => activity.id === activityId ? { ...activity, performerIds: team } : activity;
+        onChange({ ...next, activities: next.activities.map(category => ({ ...category, activities: category.activities.map(patch) })), offering: { ...next.offering, activities: next.offering.activities.map(patch) } });
+        window.setTimeout(() => openPair(activityId, id), 0);
+    }
 
     /** The first day of the plan (Plan Start is a month on 4. Finances); "" until it is given. */
     const planStartDay = (() => {
@@ -45,7 +80,7 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
     const unitsCapOf = unitsCap;
     function performerFields(
         what: string,
-        who: readonly { id: string; label: string }[],
+        who: readonly { id: string; label: string; group?: string }[],
         performerIds: string[],
         onNext: (next: string[]) => void,
         /** How many people each performer is ("" is one), by performer id. */
@@ -54,24 +89,42 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
         /** How many people a performer's card holds (its Qty); a number box shows only for a card that holds several. */
         holds: Record<string, string> = {},
         /** A partner or supplier performer's card, by its id: the link symbol beside it opens that card (a founder has none). */
-        links: Record<string, { noun: string; open: () => void }> = {}
+        links: Record<string, { noun: string; open: () => void }> = {},
+        /** "+ New … card" at the end of the Staff, Partners and Suppliers groups: the card made, put in this row, and opened (newTeamCard). */
+        onNew?: (kind: TeamKind, rows: string[], position: number) => void
     ) {
 
         // Always one picker, even before anybody is chosen.
         const rows = performerIds.length > 0 ? performerIds : [""];
 
         const canAdd = rows.every(id => id.length > 0) && rows.length < who.length;
+        // (The groups in their order, each headed; a "+ New … card" ends Staff, Partners and Suppliers: owner, 2026-11-16 20:42. A group with no card shows its heading
+        // and its "+ New" line all the same.)
+        const groups: readonly { name: string; kind?: TeamKind }[] = [{ name: "Founders" }, { name: "Staff", kind: "staff" }, { name: "Partners", kind: "partner" }, { name: "Suppliers", kind: "supplier" }];
+        const teamOptions = (id: string) => {
+            const options: string[] = [];
+            const headings: Record<string, string> = {};
+            for (const group of groups) {
+                const members = who.filter(choice => (choice.group ?? "Founders") === group.name && (choice.id === id || !rows.includes(choice.id))).map(choice => choice.label);
+                const lines = [...members, ...(group.kind && onNew ? [NEW_TEAM_CARD[group.kind]] : [])];
+                if (lines.length > 0) {
+                    headings[lines[0]] = group.name;
+                    options.push(...lines);
+                }
+            }
+            return { options, headings };
+        };
 
         /* THE LABEL, THEN THE PICKER, on one line; the picker runs to the right edge of the name cell above (it is not limited to its
            longest option here), and at the x's own place, the x's size, stands the "+" that adds a performer (first row) or the x that takes
            this one away (every row after the first). A further performer's row repeats the picker and that place. */
         return (
             <>
-            <BusinessField label="Performer" inline className="business-capability-performer-field">
-                {who.length === 0
+            <BusinessField label="Team" info={TEAM_HELP} inline className="business-capability-performer-field">
+                {who.length === 0 && !onNew
                     ? (
                         <BusinessEmpty>
-                            Add a founder, or a partner under 3. Partners & Suppliers.
+                            Add a founder, staff, or a partner or supplier under 3. Partners & Suppliers.
                         </BusinessEmpty>
                     )
                     : (
@@ -84,27 +137,32 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
                                 >
 
                                     <OptionPicker
-                                        label={what + " performer " + (position + 1)}
+                                        label={what + " team " + (position + 1)}
                                         placeholder="Select"
                                         fill="fit"
-                                        options={who
-                                            .filter(choice =>
-                                                choice.id === id || !rows.includes(choice.id))
-                                            .map(choice => choice.label)}
+                                        options={teamOptions(id).options}
+                                        headings={teamOptions(id).headings}
                                         disabled={disabled}
                                         value={who.find(choice => choice.id === id)?.label ?? ""}
-                                        onChange={(next) => onNext(rows.map(
-                                            (entry, at) => at === position
-                                                ? who.find(choice => choice.label === next)?.id ?? ""
-                                                : entry
-                                        ))}
+                                        onChange={(next) => {
+                                            const made = (Object.keys(NEW_TEAM_CARD) as TeamKind[]).find(kind => NEW_TEAM_CARD[kind] === next);
+                                            if (made && onNew) {
+                                                onNew(made, rows, position);
+                                                return;
+                                            }
+                                            onNext(rows.map(
+                                                (entry, at) => at === position
+                                                    ? who.find(choice => choice.label === next)?.id ?? ""
+                                                    : entry
+                                            ));
+                                        }}
                                     />
 
                                     {/* A performer that stands for several people (a team): how many. */}
                                     {onPeople && id !== "" && (unitsCapOf(holds[id] ?? "") ?? 1) > 1 && (
                                         <NumberCell kind="int"
                                             className="business-capability-people"
-                                            aria-label={what + " performer " + (position + 1) + " people"}
+                                            aria-label={what + " team " + (position + 1) + " people"}
                                             placeholder="1"
                                             title="People"
                                             disabled={disabled}
@@ -125,7 +183,7 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
                                         ? (
                                             <BusinessRemove
                                                 cell
-                                                what={what + " performer " + (position + 1)}
+                                                what={what + " team " + (position + 1)}
                                                 disabled={disabled}
                                                 onRemove={() => onNext(rows.filter(
                                                     (_, at) => at !== position
@@ -135,8 +193,8 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
                                         : canAdd
                                             ? (
                                                 <AddButton shape="box" small
-                                                    aria-label={"Add Performer to " + what}
-                                                    title="Add Performer"
+                                                    aria-label={"Add to Team of " + what}
+                                                    title="Add to Team"
                                                     disabled={disabled}
                                                     onClick={() => onNext([...rows, ""])}
                                                 />
@@ -154,7 +212,7 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
 
     }
     /** What a partner or supplier card costs (its price times its units); null while it has no price. */
-    function partnerAmount(partner: BusinessPartnerValue): { amount: number; currency: string } | null {
+    function partnerAmount(partner: { quantity: string; cost: BusinessPartnerValue["cost"] }): { amount: number; currency: string } | null {
         const price = parseAmount(partner.cost.price);
         if (price === null) {
             return null;
@@ -162,10 +220,10 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
         const factor = resourceUnitCount(partner.quantity, partner.cost.frequency) ?? 1;
         return { amount: Math.round(price * factor * 100) / 100, currency: partner.cost.currency || organisationCurrency };
     }
-    /** The costs of the partners and suppliers an activity names as Performers, one line each, after the last performer. */
+    /** The costs of the Staff, partners and suppliers on an activity's Team, one line each, after the last of it (a Staff card's as a partner's: owner, 2026-11-16 20:22). */
     function performerCosts(scope: Scope, activity: BusinessActivityValue) {
-        const all = [...partnersOf(scope, "professionals"), ...partnersOf(scope, "providers")];
-        const named = activity.performerIds.map(id => all.find(partner => partner.id === id)).filter((partner): partner is BusinessPartnerValue => partner !== undefined);
+        const all: { id: string; name: string; quantity: string; cost: BusinessPartnerValue["cost"] }[] = [...staffOf(scope), ...partnersOf(scope, "professionals"), ...partnersOf(scope, "providers")];
+        const named = activity.performerIds.map(id => all.find(partner => partner.id === id)).filter((partner): partner is (typeof all)[number] => partner !== undefined);
         if (named.length === 0) {
             return null;
         }
@@ -175,7 +233,7 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
                     const own = partnerAmount(partner);
                     return (
                         <p className="business-capability-total business-capability-cost-line" key={partner.id}>
-                            <span className="business-capability-cost-name" title={partner.name.trim() || "Unnamed partner"}>{partner.name.trim() || "Unnamed partner"}</span>
+                            <span className="business-capability-cost-name" title={partner.name.trim() || "Unnamed card"}>{partner.name.trim() || "Unnamed card"}</span>
                             <span className="business-capability-cost-amount">{own ? moneyFormatter(own.currency)(own.amount) : "no price yet"}</span>
                         </p>
                     );
@@ -665,21 +723,18 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
 
         const cardKey = "delivery-" + offering.id;
 
-        /* WHO WORKS ON IT: every founder, and the External
-           Professionals linked to this Offering under Offering's
-           own 3. Partners & Suppliers. Providers supply things
-           rather than hours, and Infrastructure's professionals serve
-           the organization, not one Offering. */
-        const linkedProfessionals = uniqueChoices(
-            capability.offering.professionals.filter(
-                professional => professional.offeringIds.includes(offering.id)
+        /* WHO WORKS ON IT (owner, 2026-11-16 20:22: the Team's list): every founder, and the Offering's Staff, Partners and Suppliers linked to this Offering.
+           Their hours are shown, and kept out of the founders' capacity (as a partner's always were) until capacity asks them. */
+        const linkedTeam = uniqueChoices(
+            [...staffOf("offering"), ...capability.offering.professionals, ...capability.offering.providers].filter(
+                card => card.offeringIds.includes(offering.id)
             ),
-            "Unnamed professional"
+            "Unnamed card"
         );
 
         const rows = [
             ...founderChoices.map(choice => ({ ...choice, external: false })),
-            ...linkedProfessionals.map(choice => ({ ...choice, external: true }))
+            ...linkedTeam.map(choice => ({ ...choice, external: true }))
         ];
 
         /* SAVED BEFORE EFFORT WAS SPLIT: one total and who delivered
@@ -1030,6 +1085,6 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
 
     }
 
-    return { activityAdd, activityResources, categoryActivityList, categoryInfo, completedActivities, deliveryCard, deliverySection, foldingGroup, founderItems, groupSlots, offeringAdd, partnerAddIn, performerCosts, performerFields, planStartDay, tileSection };
+    return { newTeamCard, activityAdd, activityResources, categoryActivityList, categoryInfo, completedActivities, deliveryCard, deliverySection, foldingGroup, founderItems, groupSlots, offeringAdd, partnerAddIn, performerCosts, performerFields, planStartDay, tileSection };
 
 }

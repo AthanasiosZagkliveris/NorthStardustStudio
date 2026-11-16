@@ -866,7 +866,8 @@ export function useCapabilityCardFields(earlier: Earlier) {
         return [
             ...(insured ? [{ key: slot.id + ":insures", noun: "Resource", name: insured.name.trim() || "Unnamed Resource", onOpen: () => openPair(slot.id, insured.id) }] : []),
             ...[...capability.activities.flatMap(category => category.activities), ...capability.offering.activities]
-                .filter(activity => activity.resources.some(entry => entry.id === slot.id))
+                // (Used as a Resource, or on its Team -- a Staff card: owner, 2026-11-16 20:22.)
+                .filter(activity => activity.resources.some(entry => entry.id === slot.id) || activity.performerIds.includes(slot.id))
                 .map(activity => ({ key: activity.id, noun: "Activity", name: activity.name.trim() || "Unnamed Activity", onOpen: () => openPair(activity.id, slot.id) }))
         ];
     }

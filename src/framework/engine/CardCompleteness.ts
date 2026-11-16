@@ -87,7 +87,7 @@ export function activityMissing(activity: BusinessActivityValue, capability: Bus
         ...(activity.category === UNASSIGNED_CATEGORY ? ["Category"] : []),
         ...(filled(activity.name) ? [] : ["Name"]),
         ...(filled(activity.startDate) ? [] : ["Start date"]),
-        ...(activity.performerIds.some(filled) ? [] : ["Performer"]),
+        ...(activity.performerIds.some(filled) ? [] : ["Team"]),
         ...(founderIds.length > 0 && !filled(responsible) ? ["Responsible"] : [])
     ];
 }

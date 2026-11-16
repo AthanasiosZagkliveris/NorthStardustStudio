@@ -201,6 +201,19 @@
 
 }
 
+/* A GROUP'S HEADING in the list (`headings`; the Activity's Team): the muted label words, over its options, never an option itself. */
+.option-picker-heading{
+
+    padding:8px 10px 2px;
+
+    font-size:var(--font-small);
+
+    color:var(--text-muted);
+
+    cursor:default;
+
+}
+
 .option-picker-empty{
 
     margin:0;

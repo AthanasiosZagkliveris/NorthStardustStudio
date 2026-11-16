@@ -3648,9 +3648,9 @@ export const library: Library = {
   },
   {
    "code": "FLD.043",
-   "name": "Performer",
+   "name": "Team",
    "category": "field",
-   "summary": "The Performer field: a label and dropdown.",
+   "summary": "The Team field (an activity's; once Performer): a label and dropdown, its choices headed Founders, Staff, Partners, Suppliers.",
    "variables": [
     "VAR005",
     "VAR006",

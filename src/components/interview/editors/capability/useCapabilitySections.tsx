@@ -30,7 +30,7 @@ type Earlier = ReturnType<typeof useCapabilityState> & ReturnType<typeof useCapa
 
 export function useCapabilitySections(earlier: Earlier) {
 
-    const { activityAdd, activityCategoryCell, partnerGroupHidden, resourceCategoryHidden, activityResources, capability, cardDates, cardRule, categoryActivityList, categoryInfo, channelFactsById, channelNamesById, channelTileIds, channelToneIds, completedActivities, deliveryCard, deliverySection, disabled, discard, formatMoney, founderCard, founderChoices, founderIds, founderItems, founders, groupSlots, legalExpenses, linksSection, offeringAdd, offeringChoices, offeringNumberOf, offeringSlotsIn, offeringsField, onChange, openPair, openingDate, organisationCurrency, partnerAddIn, partnerCard, partnerCardFor, partnersOf, performerChoices, performerCosts, performerFields, planStartDay, resourceCard, responsibilityField, setCategoryActivities, setResponsibilityFolds, subAdd, tileSection, update } = earlier;
+    const { newTeamCard, staffOf, activityAdd, activityCategoryCell, partnerGroupHidden, resourceCategoryHidden, activityResources, capability, cardDates, cardRule, categoryActivityList, categoryInfo, channelFactsById, channelNamesById, channelTileIds, channelToneIds, completedActivities, deliveryCard, deliverySection, disabled, discard, formatMoney, founderCard, founderChoices, founderIds, founderItems, founders, groupSlots, legalExpenses, linksSection, offeringAdd, offeringChoices, offeringNumberOf, offeringSlotsIn, offeringsField, onChange, openPair, openingDate, organisationCurrency, partnerAddIn, partnerCard, partnerCardFor, partnersOf, performerChoices, performerCosts, performerFields, planStartDay, resourceCard, responsibilityField, setCategoryActivities, setResponsibilityFolds, subAdd, tileSection, update } = earlier;
 
     const floor = floorRows(capability, legalExpenses, channelToneIds, channelNamesById, channelFactsById);
     const missingById = new Map(floor.filter(row => row.missing).map(row => [row.id, row.missing!] as const));
@@ -487,11 +487,14 @@ export function useCapabilitySections(earlier: Earlier) {
                         (next) => onActivity({ performerIds: next }),
                         activity.performerPeople,
                         (next) => onActivity({ performerPeople: next }),
-                        Object.fromEntries([...partnersOf(scope, "professionals"), ...partnersOf(scope, "providers")].map(partner => [partner.id, partner.quantity])),
+                        // (Staff as partners: their Qty, their link; owner, 2026-11-16 20:22.)
+                        Object.fromEntries([...staffOf(scope), ...partnersOf(scope, "professionals"), ...partnersOf(scope, "providers")].map(card => [card.id, card.quantity])),
                         Object.fromEntries([
                             ...founders.map(founder => [founder.id, { noun: "Founder", open: () => openPair(activity.id, founder.id) }] as const),
+                            ...staffOf(scope).map(slot => [slot.id, { noun: "Staff", open: () => openPair(activity.id, slot.id) }] as const),
                             ...[...partnersOf(scope, "professionals"), ...partnersOf(scope, "providers")].map(partner => [partner.id, { noun: partnerNoun(partner.category), open: () => openPair(activity.id, partner.id) }] as const)
-                        ])
+                        ]),
+                        frozen ? undefined : (kind, rows, position) => newTeamCard(scope, activity.id, activity.offeringIds, kind, rows, position)
                     )}
 
                 </div>

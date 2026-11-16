@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState, Fragment } from "react";
 
 import AddButton from "../../controls/AddButton.tsx";
 import TickField from "../../controls/TickField.tsx";
@@ -156,6 +156,11 @@ interface OptionPickerProps {
      * a legal expense's linked registration): none or the one are two choices. Everywhere a value is required, one option is a record (owner, 2026-11-14 14:26).
      */
     keepChoice?: boolean;
+    /**
+     * THE LIST IN GROUPS (owner, 2026-11-16 20:22, an Activity's Team: Founders, Staff, Partners, Suppliers): a heading before the option it is keyed by, read
+     * as the group's label and never taken -- the keyboard moves over the options alone.
+     */
+    headings?: Readonly<Record<string, string>>;
 
     onChange: (value: string) => void;
 
@@ -219,6 +224,8 @@ export default function OptionPicker({
     sizeFor = [],
 
     keepChoice = false,
+
+    headings,
 
     onChange
 
@@ -635,10 +642,14 @@ export default function OptionPicker({
                         // the list IS the position the keyboard uses.
                         const position = index;
 
+                        const heading = headings?.[row.value];
+
                         return (
 
+                            <Fragment key={row.value || "__placeholder__"}>
+                            {heading && <div className="option-picker-heading" role="presentation" aria-label={heading}>{heading}</div>}
                             <div
-                                key={row.value || "__placeholder__"}
+                                aria-description={heading}
                                 className={
                                     "option-picker-option" +
                                     (row.value === value ? " option-picker-option-chosen" : "") +
@@ -652,6 +663,7 @@ export default function OptionPicker({
                             >
                                 {row.text}
                             </div>
+                            </Fragment>
 
                         );
 

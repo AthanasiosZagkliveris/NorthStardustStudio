@@ -40,7 +40,7 @@ describe("incomplete cards", () => {
         const missing = incompleteCards(value);
         expect(missing.get("p1")).toEqual(["Price", "Payment Frequency"]);
         expect(missing.has("p2")).toBe(false);
-        expect(missing.get("a1")).toEqual(["Performer"]);
+        expect(missing.get("a1")).toEqual(["Team"]);
         expect(missing.has("a2")).toBe(false);
     });
 

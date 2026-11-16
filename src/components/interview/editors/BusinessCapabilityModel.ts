@@ -66,6 +66,13 @@ export const SECTIONS = {
  * What the capacity fields say behind their "i": the founders' hours
  * on each Founder card, and 4. Delivery under Offering's Capability.
  */
+/** The Team of an activity (owner, 2026-11-16 20:22: "Team" for "Performer"), its "i". */
+export const TEAM_HELP = ["Who does this work: founders, staff, partners or suppliers."];
+
+/** What an activity's Team can make, and its line at the end of its group in the picker. */
+export type TeamKind = "staff" | "partner" | "supplier";
+export const NEW_TEAM_CARD: Readonly<Record<TeamKind, string>> = { staff: "+ New staff card", partner: "+ New partner card", supplier: "+ New supplier card" };
+
 export const DELIVERY_HELP = {
     section: [
         "How each Offering is delivered: the hours one unit takes, how long it takes, and who delivers it.",
@@ -83,8 +90,8 @@ export const DELIVERY_HELP = {
     share: ["The share of working hours spent delivering Offerings, as recorded before delivery hours were asked for. Enter Delivery Hours instead to replace it."],
     effort: [
         "The working hours one unit of this Offering takes, by each person who works on it.",
-        "Founders' hours count against their capacity. External hours are delivered, and paid for, outside it: their cost is recorded with the professional.",
-        "To share the work with a partner, add one under 3. Partners & Suppliers and link it to this Offering."
+        "Founders' hours count against their capacity. The hours of staff, partners and suppliers are delivered, and paid for, outside it: their cost is recorded on their own card.",
+        "To share the work, add a Staff card under Resources › Human Resources, or a partner or supplier under 3. Partners & Suppliers, and link it to this Offering."
     ],
     capacity: [
         "The budgets below compare this with the hours each Offering's expected sales need.",

@@ -693,7 +693,7 @@ export const referenceTables: readonly TableData[] = [
    },
    {
     "id": "F052",
-    "name": "Performer",
+    "name": "Team",
     "component": "dropdown",
     "component_id": "CO02",
     "functions": "FN05",

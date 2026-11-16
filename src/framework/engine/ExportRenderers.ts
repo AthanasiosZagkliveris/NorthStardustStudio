@@ -795,7 +795,7 @@ function businessCapabilityBlocks(value: unknown, context: ExportContext): Expor
         ...table(["Where", "Resource", "Quantity", "Status", "Cost / Provider"], resourceRows),
 
         heading("Activities", 2),
-        ...table(["Category", "Activity", "Performers", "Responsible", "State"], capability.activities.flatMap(category =>
+        ...table(["Category", "Activity", "Team", "Responsible", "State"], capability.activities.flatMap(category =>
             activityRows(category.activities,
                 BUSINESS_ACTIVITY_CATEGORIES.find(entry => entry.id === category.id)?.label ?? (category.name.trim() || "Other"),
                 people, founderIds, foundation, false))),
@@ -812,7 +812,7 @@ function businessCapabilityBlocks(value: unknown, context: ExportContext): Expor
                 const row = slotRow(slot, "", people, currency);
                 return [offeringNames(foundation, slot.offeringIds), ...row.slice(1)];
             })),
-        ...table(["Category", "Activity", "Performers", "Responsible", "Offering", "State"],
+        ...table(["Category", "Activity", "Team", "Responsible", "Offering", "State"],
             activityRows(capability.offering.activities, "Offering", people, founderIds, foundation, true)),
         ...table(["Kind", "Name", "Responsible", "Cost", "Offering", "Description"], [
             ...partnerRows(capability.offering.professionals, "Professional / Partner", people, currency, foundation, true, founderIds),

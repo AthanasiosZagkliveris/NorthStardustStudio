@@ -25,7 +25,8 @@ export const dropdown: AssetContract = {
         { id: "step-m", context: "step m", note: "a typical choice (\"No tax at business level\"): --control-m wide" },
         { id: "step-l", context: "step l", note: "a long choice (\"Private Company Limited by Shares\"): --control-l wide" },
         { id: "hug", context: "hug", note: "as wide as its widest option exactly, no wider (a side-label picker's allowed exception)" },
-        { id: "disabled", context: "disabled", note: "a disabled trigger: faint text, the card-line edge, not-allowed cursor" }
+        { id: "disabled", context: "disabled", note: "a disabled trigger: faint text, the card-line edge, not-allowed cursor" },
+        { id: "with-headings", context: "grouped list", note: "`headings`: a muted heading line (.option-picker-heading, role presentation) over each group's options, skipped by the keyboard; the Activity's Team (Founders, Staff, Partners, Suppliers)" }
     ],
     tokens: ["--control-s", "--control-m", "--control-l", "--control-square", "--select-padding-left", "--select-padding-right", "--select-chevron", "--select-chevron-inset", "--bg-surface", "--text-default", "--text-faint", "--line-card", "--glow-color", "--box-inset"],
     geometry: {

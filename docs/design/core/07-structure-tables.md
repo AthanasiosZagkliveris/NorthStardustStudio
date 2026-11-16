@@ -457,7 +457,7 @@ Each field once, with the component it uses (CO) and the functions it carries (F
 | F049 | Delivery Hrs | number box | CO07 | FN22 | 1 |
 | F050 | Responsibilities | read-only | - | FN24 | 1 |
 | F051 | Type | dropdown | CO02 | FN05 | 2 |
-| F052 | Performer | dropdown | CO02 | FN05 | 5 |
+| F052 | Team | dropdown | CO02 | FN05 | 5 |
 | F053 | Resources | tick box | CO11 | FN17 | 5 |
 | F054 | Resource | dropdown | CO02 | FN05 | 5 |
 | F055 | Units | number box | CO07 | FN20 | 5 |

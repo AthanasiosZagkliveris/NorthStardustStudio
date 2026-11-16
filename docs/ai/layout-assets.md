@@ -287,6 +287,7 @@ A drawn dropdown: a 44px trigger in one of the standard widths (or hugging its w
 | step-l | step l | a long choice ("Private Company Limited by Shares"): --control-l wide |
 | hug | hug | as wide as its widest option exactly, no wider (a side-label picker's allowed exception) |
 | disabled | disabled | a disabled trigger: faint text, the card-line edge, not-allowed cursor |
+| with-headings | grouped list | `headings`: a muted heading line (.option-picker-heading, role presentation) over each group's options, skipped by the keyboard; the Activity's Team (Founders, Staff, Partners, Suppliers) |
 
 | Number | Value |
 |---|---|
