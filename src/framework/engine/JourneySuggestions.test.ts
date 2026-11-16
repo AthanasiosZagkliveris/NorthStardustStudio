@@ -1,6 +1,8 @@
 import { describe, expect, test } from "vitest";
 import { asBusinessEngagementValue, asBusinessFoundationValue, createBusinessChannel } from "./AnswerUtils.ts";
-import { DEFAULT_RELATIONSHIP_TYPE, autoRelationshipTypes, offeringRelationshipsFor, demandSuggestions, journeySuggestions, relationshipTypesOf, suggestionMet, withAnswerChannels, dismissedAfter, channelKey, startGoals, funnelIsTrial } from "./JourneySuggestions.ts";
+import { DEFAULT_RELATIONSHIP_TYPE, autoRelationshipTypes, offeringRelationshipsFor, demandSuggestions, journeySuggestions, relationshipTypesOf, suggestionMet, withAnswerChannels, dismissedAfter, channelKey, startGoals, funnelIsTrial, demandSourceOf, demandSourceKey, withAnswerSources } from "./JourneySuggestions.ts";
+import { createDemand, createDemandSource } from "./DemandCapacity.ts";
+import { relationshipTypeLabel } from "./businessFoundation/engagementReaders.ts";
 import { effectiveProfileAnswers, segmentTrials } from "./EffectiveAnswers.ts";
 import { PROFILE_QUESTIONS, TRIAL_OPTIONS, profileOptionsShown } from "./ProfileQuestions.ts";
 import { subchannelHidden } from "./businessFoundation/channelCategories.ts";
@@ -271,5 +273,46 @@ describe("discovery and trial options", () => {
         expect(subchannelHidden("Samples & Trials", "Free Sample", true)).toBe(true);
         expect(subchannelHidden("Samples & Trials", "Free Sample", false)).toBe(false);
         expect(subchannelHidden("Samples & Trials", "Demo", true)).toBe(false);
+    });
+});
+
+/* Owner, 2026-11-16 19:18: relationship types and Customer Sources come from the answers, as the channels do, with Other written in. */
+describe("relationship types and Customer Sources from the answers", () => {
+    const base = lumen.foundation.segments[0];
+    const offering = base.offerings[0];
+
+    test("an Other written under O7 is a named relationship type; its label is its name", () => {
+        const segment = { ...base, offerings: [{ ...offering, questions: { ...(offering.questions ?? {}), o7: ["personal", "other"], "o7-other": ["Monthly clinic", "Repair café"] } }, ...base.offerings.slice(1)] };
+        const types = autoRelationshipTypes(segment, offering.id).map(entry => entry.type);
+        expect(types).toEqual(expect.arrayContaining(["personal-assistance", "other:Monthly clinic", "other:Repair café"]));
+        expect(relationshipTypeLabel("other:Monthly clinic")).toBe("Monthly clinic");
+        expect(relationshipTypeLabel("community")).toBe("Community");
+        // (Kept with the answer, its details too.)
+        const saved = asBusinessEngagementValue({ segments: [{ segmentId: segment.id, offerings: [{ offeringId: offering.id, types: ["other:Monthly clinic", "bogus"], typeDetail: { "other:Monthly clinic": { purpose: "Drop-in help" } }, dismissed: ["other:Repair café"] }] }] });
+        const entry = saved.segments[0].offerings[0];
+        expect(entry?.types).toEqual(["other:Monthly clinic"]);
+        expect(entry?.dismissed).toEqual(["other:Repair café"]);
+        expect(entry?.typeDetail["other:Monthly clinic"]?.purpose).toBe("Drop-in help");
+    });
+
+    test("the new categories bring prospects; an Other channel's source carries its name; a removed source stays removed; a saved one stays", () => {
+        expect(["Advertising", "Print & Mail", "Samples & Trials"].map(category => demandSourceOf(category))).toEqual(["funnel", "funnel", "funnel"]);
+        const site = { ...createBusinessChannel(), id: "site", category: "Website", name: "Main Website", stages: ["discovery"] };
+        const board = { ...createBusinessChannel(), id: "board", category: "Other", name: "Church noticeboard", stages: ["discovery"] };
+        const segment = { ...base, questions: { ...base.questions, path: ["researcher"], authorise: [] }, offerings: [{ ...offering, questions: { ...(offering.questions ?? {}), o17: [] } }] };
+        const made = withAnswerSources(undefined, segment, offering.id, [site, board], false)!;
+        expect(made.sources.map(source => [source.type, source.channelId, source.name ?? "", source.fromAnswers])).toEqual([["funnel", "site", "", true], ["other", "board", "Church noticeboard", true]]);
+        // (Nothing new: the same value.)
+        expect(withAnswerSources(made, segment, offering.id, [site, board], false)).toBe(made);
+        // (Removed: not made again until restored.)
+        const removed = { ...made, sources: made.sources.slice(1), dismissed: [demandSourceKey(made.sources[0])] };
+        expect(withAnswerSources(removed, segment, offering.id, [site, board], false)).toBe(removed);
+        // (A source saved by hand before stays as it is; only what is missing is made.)
+        const hand = { ...createDemand(), sources: [{ ...createDemandSource("funnel", "site"), id: "mine", estimate: "4" }] };
+        const kept = withAnswerSources(hand, segment, offering.id, [site, board], false)!;
+        expect(kept.sources[0]).toEqual(hand.sources[0]);
+        expect(kept.sources.map(source => source.channelId)).toEqual(["site", "board"]);
+        // (A source through a Samples & Trials channel: "Tried it".)
+        expect(funnelIsTrial({ ...segment, profiles: [] }, undefined, { category: "Samples & Trials" })).toBe(true);
     });
 });

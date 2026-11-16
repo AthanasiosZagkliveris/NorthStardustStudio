@@ -1080,16 +1080,17 @@ No questions: the tile shows a draft sentence and the open items, read from the 
 
 | Pos | Code | Saved id | Label | Control | Max | Asked when | Starts | Status | Owner |
 |---|---|---|---|---|---|---|---|---|---|
-| 13 | O7 | `o7` | What help do you give after they buy? | BusinessTicks | – | always | – | built | doc 43, O7 |
+| 13 | O7 | `o7` | What help do you give after they buy? | BusinessTicks (ends in Other, written in) | – | always | – | built | doc 43, O7 |
 | 14 | O17 | `o17` | What comes after the sale? | BusinessTicks | – | always from Launching; held back while Planning (owner, 2026-11-08), its saved answer kept | None where O7 is None | built | doc 43, O17 |
 | 15 | O23 | `o23` | How do you keep in touch after the sale? | BusinessTicks (ends in Other, written in) | – | always from Launching; held back while Planning, its saved answer kept (owner, 2026-11-16 16:31); Only when they get in touch stands alone; ends in Other, written in as a numbered list | – | built | doc 43, O23 |
 | 16 | O16 | `o16` | How fast do you reply? | FittingRadioChoice | – | always from Launching; held back while Planning (owner, 2026-11-08), its saved answer kept | – | built | doc 43, O16 |
 
 - **O7. What help do you give after they buy?**
-  - Options: None; Guides and how-tos; Automatic help, such as chat or emails; Personal help when needed; A dedicated person or team (None stands alone; It depends on the plan no longer offered since 2026-11-09, a saved one shown until unticked).
+  - Options: None; Guides and how-tos; Automatic help, such as chat or emails; Personal help when needed; A dedicated person or team; Other (None stands alone; It depends on the plan no longer offered since 2026-11-09, a saved one shown until unticked).
   - "i":
     - The help that comes with it after the sale: tick each kind you give.
     - None stands alone: ticking it clears the others.
+    - Tick Other to write another: each becomes a relationship type on Customer Engagement.
 - **O17. What comes after the sale?**
   - Options: Guarantee / warranty; Repairs / maintenance; Updates; Training; Replacements / refills; None.
   - "i":

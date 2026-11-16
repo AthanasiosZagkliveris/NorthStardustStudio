@@ -573,19 +573,25 @@ describe("Customer Engagement follows the Foundation (doc 47, section 3)", () =>
         expect(saved.segments[0].channels.map(channel => channel.name)).toEqual(expect.arrayContaining(["Facebook", "Instagram"]));
     });
 
-    it("shows the Customer Sources the Foundation suggests on an Offering's Demand tile (owner, 2026-11-13 11:44; the choice gone, 2026-11-16 16:31)", () => {
+    it("makes the Customer Sources the Foundation proposes, as the channels are, with no add of its own; a removed one comes back from Removed (owner, 2026-11-16 19:18)", () => {
         const segment = { ...createBusinessCustomerSegment([]), name: "Firms", offerings: [{ ...createBusinessOffering(), name: "Audit" }, { ...createBusinessOffering(), name: "Payroll" }] };
         const foundation = { ...asBusinessFoundationValue(undefined), segments: [segment] };
-        const engagement = {
-            ...asBusinessEngagementValue(undefined),
-            segments: [{ ...createBusinessSegmentEngagement(segment.id), channels: [{ ...createBusinessChannel(), category: "Website", name: "Main Website", stages: ["discovery"] }] }]
-        };
-        render(<BusinessEngagementEditor value={engagement} onChange={() => undefined} foundation={foundation} asTiles />);
+        const site = { ...createBusinessChannel(), category: "Website", name: "Main Website", stages: ["discovery"] };
+        const flyers = { ...createBusinessChannel(), category: "Other", name: "Church noticeboard", stages: ["discovery"] };
+        const engagement = { ...asBusinessEngagementValue(undefined), segments: [{ ...createBusinessSegmentEngagement(segment.id), channels: [site, flyers] }] };
+        function Harness() {
+            const [value, setValue] = useState<unknown>(engagement);
+            return <BusinessEngagementEditor value={value} onChange={setValue} foundation={foundation} asTiles />;
+        }
+        render(<Harness />);
         openTile("Demand & Conversion");
-        // (An Offering's tile opens its dialog of cards: its sources, then the suggested ones faded; owner, 2026-11-13 16:12.)
         openTile("1. Audit");
-        const faded = () => [...document.querySelectorAll<HTMLElement>(".section-tile-overlay .card-tile")].map(tile => tile.textContent ?? "").filter(text => text.includes("Suggested from your Foundation"));
-        expect(faded().some(text => text.includes("Main Website"))).toBe(true);
+        const tiles = () => [...document.querySelectorAll<HTMLElement>(".section-tile-overlay .card-tile")].map(tile => tile.textContent ?? "");
+        // (A sales funnel through the website, and an Other source by its channel's name.)
+        expect(tiles().some(text => text.includes("Sales funnel") && text.includes("Main Website"))).toBe(true);
+        expect(tiles().some(text => text.includes("Church noticeboard"))).toBe(true);
+        expect(tiles().some(text => text.includes("Suggested from your Foundation"))).toBe(false);
+        expect(screen.queryAllByRole("button", { name: /Add Card/ })).toHaveLength(0);
     });
 
 });
@@ -610,17 +616,26 @@ describe("every Offering has at least one relationship type (owner, 2026-11-13 0
         expect(removes()).toHaveLength(0);
         fireEvent.keyDown(document, { key: "Escape" });
         await act(() => new Promise(resolve => setTimeout(resolve, 100)));
-        // (The rest of the tile opens the dialog with its Add Card: a tile per type; the Add Card adds the next type and opens its card; the Offering then has
-        // two, each card with its x.)
+        // (No "+" and no Add Card: every type comes from the answers; owner, 2026-11-16 19:18.)
+        expect(screen.queryAllByRole("button", { name: /Add Card|Add Relationship Type/ })).toHaveLength(0);
+    });
+
+    it("makes a type of each help written under O7's Other, named, as the five are (owner, 2026-11-16 19:18)", async () => {
+        const offering = { ...createBusinessOffering(), name: "Audit", questions: { o7: ["personal", "other"], "o7-other": ["Monthly clinic"] } };
+        const segment = { ...createBusinessCustomerSegment([]), name: "Firms", offerings: [offering] };
+        const foundation = { ...asBusinessFoundationValue(undefined), segments: [segment] };
+        const site = { ...createBusinessChannel(), category: "Website", name: "Main Website", stages: ["discovery"] };
+        const engagement = { ...asBusinessEngagementValue(undefined), segments: [{ ...createBusinessSegmentEngagement(segment.id), channels: [site] }] };
+        function Harness() {
+            const [value, setValue] = useState<unknown>(engagement);
+            return <BusinessEngagementEditor value={value} onChange={setValue} foundation={foundation} asTiles />;
+        }
+        render(<Harness />);
         openTile("Customer's Relationship");
         openTile("1. Audit");
-        fireEvent.click([...document.querySelectorAll<HTMLElement>(".section-tile-overlay button.card-tile")].pop()!);
-        expect(document.querySelector(".floating-card-host")?.textContent).toContain("Personal Assistance");
-        expect(removes()).toHaveLength(0);
-        fireEvent.click(screen.getAllByRole("button", { name: "Add Card" }).pop()!);
-        await act(() => new Promise(resolve => setTimeout(resolve, 200)));
-        expect(document.querySelector(".floating-card-host")?.textContent).toContain("Self-Service");
-        expect(removes()).toHaveLength(1);
+        const names = [...document.querySelectorAll<HTMLElement>(".section-tile-overlay .card-tile")].map(tile => tile.textContent ?? "");
+        expect(names.some(text => text.includes("Personal Assistance"))).toBe(true);
+        expect(names.some(text => text.includes("Monthly clinic"))).toBe(true);
     });
 
 });

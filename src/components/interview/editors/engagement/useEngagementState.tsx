@@ -32,7 +32,8 @@ import { asBusinessCapabilityValue, equalOfferingShares } from "../../../../fram
 import { useItemFolds } from "../../fields/useItemFolds.ts";
 import { toggledIn } from "../../fields/toggledIn.ts";
 import { BusinessEngagementEditorProps, CONTENT_OF_THE_TABLE } from "./shared.tsx";
-import { dismissedAfter, relationshipTypesOf, withAnswerChannels } from "../../../../framework/engine/JourneySuggestions.ts";
+import { dismissedAfter, relationshipTypesOf, withAnswerChannels, withAnswerSources } from "../../../../framework/engine/JourneySuggestions.ts";
+import { businessRelationshipInteractions } from "../../../../framework/engine/businessFoundation/engagementPage.ts";
 
 export function useEngagementState(props: BusinessEngagementEditorProps) {
 
@@ -260,6 +261,20 @@ export function useEngagementState(props: BusinessEngagementEditorProps) {
                 changed = true;
             }
         }));
+        // (THE CUSTOMER SOURCES THE ANSWERS MAKE, as the channels are (owner, 2026-11-16 19:18): for each Offering with a Demand tile -- one a channel of the Segment
+        // serves --, each row the Foundation proposes, blank, unless the founder removed it: withAnswerSources.)
+        segments.forEach(segment => {
+            const channels = next.find(entry => entry.segmentId === segment.id)?.channels ?? [];
+            const served = new Set(businessRelationshipInteractions(channels, segment.offerings, segment.offerings).map(interaction => interaction.offeringId));
+            segment.offerings.filter(offering => served.has(offering.id)).forEach(offering => {
+                const recurring = offeringStartsById(segments, offering.id, identity).recurring ?? demand[offering.id]?.recurring ?? false;
+                const made = withAnswerSources(demand[offering.id], segment, offering.id, channels, recurring, identity);
+                if (made && made !== demand[offering.id]) {
+                    demand[offering.id] = made;
+                    changed = true;
+                }
+            });
+        });
         const others = engagement.segments.filter(entry => !segments.some(segment => segment.id === entry.segmentId));
         let nextEngagement: typeof engagement = changed ? { ...engagement, segments: [...next, ...others], demand } : engagement;
         // (THE EXPENSE CARDS THE ANSWERS MAKE: each payment service a Segment names, its card on the Segment's Direct Payment channel -- withAnswerServiceCards, the

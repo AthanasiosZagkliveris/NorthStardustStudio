@@ -3,7 +3,7 @@
 import { workspacesOf, WORKSPACE_GROUP_ID } from "../AnswerUtils.ts";
 import { offeringRelationshipsFor } from "../JourneySuggestions.ts";
 import { segmentIdentityOf } from "../SegmentContext.ts";
-import { BUSINESS_RELATIONSHIP_TYPES, BUSINESS_RESOURCE_GROUPS, BUSINESS_WORKSPACE_KINDS, isPurchaseGroup } from "../AnswerUtils.ts";
+import { relationshipTypeLabel, BUSINESS_RESOURCE_GROUPS, BUSINESS_WORKSPACE_KINDS, isPurchaseGroup } from "../AnswerUtils.ts";
 import { type ExportContent } from "../ExportContentBuilder.ts";
 import { list, offeringName, offeringNames, paragraph } from "../ExportRenderers.ts";
 import { allFunding, fundingType, isNonCash, isScheduled, paidBeforePlan, scheduledAmount, statusStanding, monthlyEquivalent, parseAmount, moneyFormatter } from "../FinancialModel.ts";
@@ -155,7 +155,7 @@ export function businessModelCanvasData(sessions: FoundationSessions): {
         // (The list the page shows: offeringRelationshipsFor.)
         return (segment ? offeringRelationshipsFor(entry, segment, segmentIdentityOf(f.legalEntity.organisation)) : []).flatMap(relationship => relationship.types.map(typeId => {
             const offering = segment?.offerings.find(candidate => candidate.id === relationship.offeringId)?.name.trim() ?? "";
-            const type = BUSINESS_RELATIONSHIP_TYPES.find(candidate => candidate.id === typeId)?.label ?? typeId;
+            const type = relationshipTypeLabel(typeId) || typeId;
             return offering ? withBrackets(offering, f.segments.length > 1 ? segment?.name.trim() ?? "" : "") + ": " + type : "";
         })).filter(Boolean);
     });

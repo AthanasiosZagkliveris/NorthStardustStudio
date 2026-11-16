@@ -1,7 +1,7 @@
 import type { BusinessCustomerSegmentValue } from "./AnswerBusinessFoundation.ts";
-import { BUSINESS_CHANNEL_ALL_OFFERINGS, type BusinessChannelValue, type BusinessOfferingRelationshipEntryValue, type BusinessRelationshipTypeValue } from "./businessFoundation/engagementReaders.ts";
+import { BUSINESS_CHANNEL_ALL_OFFERINGS, OTHER_RELATIONSHIP_PREFIX, type BusinessChannelValue, type BusinessOfferingRelationshipEntryValue, type BusinessRelationshipTypeValue } from "./businessFoundation/engagementReaders.ts";
 import { effectiveOfferingAnswers, effectiveProfileAnswers, effectiveSegmentAnswers, offeringIsPhysical } from "./EffectiveAnswers.ts";
-import { demandChannelIds } from "./DemandCapacity.ts";
+import { type DemandValue, createDemand, createDemandSource, demandChannelIds } from "./DemandCapacity.ts";
 import { writtenInNames } from "./SegmentQuestions.ts";
 import { TRIED_OPTIONS } from "./ProfileQuestions.ts";
 import { businessProfileOfferings } from "./businessFoundation/engagementPage.ts";
@@ -380,8 +380,13 @@ export function autoRelationshipTypes(segment: BusinessCustomerSegmentValue, off
     };
     const offering = segment.offerings.find(entry => entry.id === offeringId);
     // (None gives no help, so it makes no type: the Offering's other answers, or Personal Assistance, stand.)
-    (offering ? effectiveOfferingAnswers(offering, segment, identity).o7 ?? [] : []).filter(id => id !== "none").forEach(id =>
+    const help = offering ? effectiveOfferingAnswers(offering, segment, identity) : {};
+    (help.o7 ?? []).filter(id => id !== "none" && id !== "other").forEach(id =>
         add(id === "dedicated" ? "dedicated-support" : id === "personal" ? "personal-assistance" : id === "auto" ? "automated-service" : "self-service", "your help after they buy"));
+    // (Help of another kind, written under Other: each name its own type, made as the five are; owner, 2026-11-16 19:18.)
+    if ((help.o7 ?? []).includes("other")) {
+        writtenInNames(help["o7-other"]).forEach(name => add(OTHER_RELATIONSHIP_PREFIX + name, "your help after they buy"));
+    }
     // (The Profiles this Offering serves -- those that tick it among their needs --, else the Segment's every Profile.)
     const serving = segment.profiles.filter(profile => businessProfileOfferings(profile, segment.offerings).some(entry => entry.id === offeringId));
     const profiles = (serving.length > 0 ? serving : segment.profiles).map(profile => effectiveProfileAnswers(profile, segment, identity));
@@ -442,13 +447,35 @@ export interface DemandSuggestion {
     /** What the row is called: the channel's name, or the source's. */
     label: string;
     source: string;
+    /** An Other source's own name. */
+    name?: string;
+}
+
+/** A Demand row's key, so a source the founder removed is not made again: its kind and its channel. */
+export const demandSourceKey = (row: { type: string; channelId: string }) => row.type + "|" + row.channelId;
+
+/**
+ * THE CUSTOMER SOURCES THE ANSWERS MAKE (owner, 2026-11-16 19:18: "the same as channels"): each Demand row the Foundation proposes for an Offering
+ * (demandSuggestions) becomes a source of its own, blank, marked as made by the answers -- an Other channel's carrying its name --, unless the founder removed it
+ * (`dismissed`, restored from the dialog's Removed list). A source saved before stays as it is. The same value when nothing is new.
+ */
+export function withAnswerSources(demand: DemandValue | undefined, segment: BusinessCustomerSegmentValue, offeringId: string, channels: readonly BusinessChannelValue[], recurring: boolean, identity?: SegmentIdentity): DemandValue | undefined {
+    const base = demand ?? { ...createDemand(), recurring };
+    const dismissed = base.dismissed ?? [];
+    const rows = demandSuggestions(segment, offeringId, channels, base, identity).filter(row => !dismissed.includes(demandSourceKey(row)));
+    if (rows.length === 0) {
+        return demand;
+    }
+    return { ...base, sources: [...base.sources, ...rows.map(row => ({ ...createDemandSource(row.type, row.channelId), ...(row.name ? { name: row.name } : {}), fromAnswers: true }))] };
 }
 
 /** A Discover channel's category → the Customer Source its customers come by (doc 28, 7.5). */
 const SOURCE_OF: Readonly<Record<string, string>> = {
     "Referral & Affiliates": "referrals",
     Marketplace: "marketplace", "In Person": "marketplace", "Retail & Wholesale": "marketplace",
-    Website: "funnel", "Social Media": "funnel", Email: "funnel", Community: "funnel", "Online / Live": "funnel"
+    Website: "funnel", "Social Media": "funnel", Email: "funnel", Community: "funnel", "Online / Live": "funnel",
+    // (Owner, 2026-11-16 19:18: adverts and printed pieces bring prospects; a sample, trial, demo or taster is the funnel's middle step, "Tried it".)
+    Advertising: "funnel", "Print & Mail": "funnel", "Samples & Trials": "funnel"
 };
 
 /**
@@ -477,7 +504,9 @@ export function demandSuggestions(segment: BusinessCustomerSegmentValue, offerin
             type: demandSourceOf(channel.category, channel.name),
             channelId: channel.id,
             label: channel.name.trim() || channel.category,
-            source: "a Discover channel that serves it"
+            source: "a Discover channel that serves it",
+            // (An Other channel's source carries its name: owner, 2026-11-16 19:18.)
+            ...(demandSourceOf(channel.category, channel.name) === "other" && channel.name.trim() ? { name: channel.name.trim() } : {})
         }));
     if ((effectiveSegmentAnswers(segment, identity).authorise ?? []).includes("procurement") && !demand.sources.some(source => source.type === "contracts")) {
         out.push({ type: "contracts", channelId: "", label: "Contracts or tenders", source: "how they decide to buy" });
@@ -498,7 +527,11 @@ export function demandSuggestions(segment: BusinessCustomerSegmentValue, offerin
  * THE FUNNEL'S MIDDLE STEP IS A TRIAL (doc 50, section 2.5; owner, 2026-11-14 12:00): where a Profile of the Segment compares options by "A demo, trial or
  * sample" (D1), the Sales funnel's Qualified step is the people who tried it -- its label "Tried it (%)". No new kind of source.
  */
-export function funnelIsTrial(segment: BusinessCustomerSegmentValue, identity?: SegmentIdentity): boolean {
+export function funnelIsTrial(segment: BusinessCustomerSegmentValue, identity?: SegmentIdentity, channel?: { category: string }): boolean {
+    // (A source through a Samples & Trials channel: its customers try it first; owner, 2026-11-16 19:18.)
+    if (channel?.category === "Samples & Trials") {
+        return true;
+    }
     return segment.profiles.some(profile => (effectiveProfileAnswers(profile, segment, identity).d1 ?? []).some(id => TRIED_OPTIONS.includes(id)));
 }
 

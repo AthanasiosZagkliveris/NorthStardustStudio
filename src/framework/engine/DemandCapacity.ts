@@ -149,6 +149,10 @@ export interface DemandSource {
     basis: string;
     /** The Page 2 channel (subchannel) this source's customers come through; "" while none is chosen. The Offering's Channels That Bring Them are read from these. */
     channelId: string;
+    /** An Other source's own name: the Other channel it comes from (owner, 2026-11-16 19:18). */
+    name?: string;
+    /** Made by the answers (withAnswerSources), as a channel is. A source saved before is kept as it is. */
+    fromAnswers?: boolean;
 }
 
 export interface DemandValue {
@@ -164,6 +168,8 @@ export interface DemandValue {
     channelIds: string[];
     /** What the figures rest on, overall. */
     assumptions: string;
+    /** The sources the answers make that the founder removed (demandSourceKey): not made again until restored. */
+    dismissed?: string[];
 }
 
 export function createDemand(): DemandValue {
@@ -202,7 +208,9 @@ function asDemandSource(value: unknown, position: number): DemandSource {
         estimate: asText(source.estimate),
         inputs: asInputs(source.inputs),
         basis: asText(source.basis),
-        channelId: asText(source.channelId)
+        channelId: asText(source.channelId),
+        ...(asText(source.name) ? { name: asText(source.name) } : {}),
+        ...(source.fromAnswers === true ? { fromAnswers: true } : {})
     };
 }
 
@@ -265,7 +273,8 @@ export function asDemandValue(value: unknown): DemandValue {
         channelIds: Array.isArray(source.channelIds)
             ? [...new Set(source.channelIds.map(asText).filter(Boolean))]
             : [],
-        assumptions: asText(source.assumptions)
+        assumptions: asText(source.assumptions),
+        ...(Array.isArray(source.dismissed) && source.dismissed.length > 0 ? { dismissed: [...new Set(source.dismissed.map(asText).filter(Boolean))] } : {})
     };
 }
 

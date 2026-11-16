@@ -261,10 +261,12 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
   - Automatic help, such as chat or emails
   - Personal help when needed
   - A dedicated person or team
+  - Other, written in as a numbered list (owner, 2026-11-16 19:18): each name a relationship type of its own on Customer Engagement (doc 47)
   - ("It depends on the plan" is no longer offered, 2026-11-09: with ticks, each kind of help given is ticked, and the plans are O14's Packages / tiers. A saved one stays shown, and printed, until it is unticked: `OFFERING_RETIRED`, `offeringOptionsWith`; it still answers the Support worry.)
 - **The "i" says:**
   - The help that comes with it after the sale: tick each kind you give.
   - None stands alone: ticking it clears the others.
+  - Tick Other to write another: each becomes a relationship type on Customer Engagement.
 - **Connections:**
   - *Read by (built):* O8 and the Value Proposition's open item "Worry left open": any tick but None answers the Profiles' worry Support (after they buy), so O8 does not offer it. *Read by (built):* the relationship types (`autoRelationshipTypes`) and the Support & Follow Up channels on page 2 (doc 47). *Not built yet:* the Review against the Profiles' D2 (doc 36): "wants to talk to a person" while the help is None or Guides and how-tos (rule 10). Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
 

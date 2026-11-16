@@ -9,7 +9,7 @@ import { segmentContextFor, segmentIdentityOf, segmentIsBusiness, settledSegment
 import { effectiveOfferingAnswers, offeringContextOf } from "../EffectiveAnswers.ts";
 import { AnswerType } from "../../enums/AnswerType.ts";
 import { WEEKS_PER_MONTH, demandResult, founderMonthlySalary, founderWorkingHours, hasDemand } from "../DemandCapacity.ts";
-import { addressCity, BUSINESS_ACTIVITY_CATEGORIES, BUSINESS_CHANNEL_ALL_OFFERINGS, BUSINESS_JOURNEY_STAGES, BUSINESS_COMPETITOR_TYPES, BUSINESS_RELATIONSHIP_TYPES, BUSINESS_RESOURCE_GROUPS, BUSINESS_RESOURCE_STATUSES, BUSINESS_WORKSPACE_KINDS, isCostingStatus, type BusinessPartnerValue, type ExportBlock, type LegalEntityValue, type StrategyMonthValue, asFoundersProfileValue, type StrategyMetricValue, founderProfileHasText, founderProfileOf, founderProfiles, founderSkillLines, strategyObjectiveOwnerId, workspaceCardName } from "../AnswerUtils.ts";
+import { addressCity, BUSINESS_ACTIVITY_CATEGORIES, BUSINESS_CHANNEL_ALL_OFFERINGS, BUSINESS_JOURNEY_STAGES, BUSINESS_COMPETITOR_TYPES, relationshipTypeLabel, BUSINESS_RESOURCE_GROUPS, BUSINESS_RESOURCE_STATUSES, BUSINESS_WORKSPACE_KINDS, isCostingStatus, type BusinessPartnerValue, type ExportBlock, type LegalEntityValue, type StrategyMonthValue, asFoundersProfileValue, type StrategyMetricValue, founderProfileHasText, founderProfileOf, founderProfiles, founderSkillLines, strategyObjectiveOwnerId, workspaceCardName } from "../AnswerUtils.ts";
 import { type ExportContent } from "../ExportContentBuilder.ts";
 import { financialForecast, forecastView, type ForecastViewTable } from "../FinancialForecast.ts";
 import { demandBasis, details, financialFoundationBlocks, financialSustainabilityBlocks, heading, labelled, labelledList, list, offeringName, offeringNames, capacityBlocks, brandStyleBlocks, paragraph, table, titled } from "../ExportRenderers.ts";
@@ -242,7 +242,7 @@ function marketingBlocks(f: Foundation): ExportBlock[] {
             ])),
             // (The list the page shows: offeringRelationshipsFor.)
             ...list((segment ? offeringRelationshipsFor(entry, segment, segmentIdentityOf(f.legalEntity.organisation)) : []).flatMap(relationship => relationship.types.map(typeId => {
-                const type = BUSINESS_RELATIONSHIP_TYPES.find(candidate => candidate.id === typeId)?.label ?? typeId;
+                const type = relationshipTypeLabel(typeId) || typeId;
                 const purpose = text(relationship.typeDetail[typeId]?.purpose);
                 return purpose
                     ? offering(relationship.offeringId) + " (" + type + "): " + purpose

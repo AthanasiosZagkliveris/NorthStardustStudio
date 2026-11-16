@@ -2,6 +2,7 @@
  * THE DEMAND AND CONVERSION of each Offering.
  * One part of BusinessEngagementEditor (see BusinessEngagementEditor.tsx): what it needs of the parts before it comes in as `earlier`; what the parts after it need goes out.
  */
+import type { ReactNode } from "react";
 import NumberCell from "../../../controls/NumberCell.tsx";
 import FieldLabel from "../../../controls/FieldLabel.tsx";
 import { BUSINESS_CHANNEL_ALL_OFFERINGS, BusinessCustomerSegmentValue } from "../../../../framework/engine/AnswerUtils.ts";
@@ -16,7 +17,8 @@ import StrategyTextArea from "../../fields/StrategyTextArea.tsx";
 import FoldArrow from "../../fields/FoldArrow.tsx";
 import { DEMAND_COUNT_LIMITS, SECTIONS, DEMAND_BUY_ONCE, DEMAND_BUY_MONTHLY, DEMAND_BUYING_HELP, DEMAND_BY_FIGURE, DEMAND_BY_CALCULATION, DEMAND_CALCULATION_HELP, DEMAND_SOURCE_CHANNEL_HELP, DEMAND_ASSUMPTIONS_PLACEHOLDER, DEMAND_SOURCE_FORMULA_HELP, DEMAND_ACTIVE_CLIENTS_HELP, DEMAND_MONTHS_TO_NORMAL_HELP, capitalized, channelChoices, numberStep } from "../BusinessEngagementModel.ts";
 import { offeringStartsById } from "../../../../framework/engine/EffectiveAnswers.ts";
-import { demandSourceOf, demandSuggestions, funnelIsTrial, monthsToClose } from "../../../../framework/engine/JourneySuggestions.ts";
+import { demandSourceKey, demandSourceOf, demandSuggestions, funnelIsTrial, monthsToClose } from "../../../../framework/engine/JourneySuggestions.ts";
+import FoldList, { FoldListLine } from "../../fields/FoldList.tsx";
 import { BusinessStep } from "../../cards/BusinessCardFields.tsx";
 import { DEMAND_BLOCK_HELP } from "./shared.tsx";
 import { EngagementBox, EngagementBoxes, EngagementCard, EngagementSection, useSectionFolds } from "./EngagementCard.tsx";
@@ -210,8 +212,10 @@ export function useEngagementDemand(earlier: Earlier) {
                 <BusinessRemove
                     what={capitalized(what)}
                     disabled={disabled}
+                    // (Removed, a source the answers make stays removed until restored: owner, 2026-11-16 19:18.)
                     onRemove={() => updateDemand(offeringId, {
-                        sources: demand.sources.filter(other => other.id !== source.id)
+                        sources: demand.sources.filter(other => other.id !== source.id),
+                        dismissed: [...new Set([...(demand.dismissed ?? []), demandSourceKey(source)])]
                     })}
                 />
             );
@@ -271,7 +275,8 @@ export function useEngagementDemand(earlier: Earlier) {
                 </BusinessField>
             );
             // (THE FUNNEL'S MIDDLE STEP, a trial where a Profile compares options by a demo, trial or sample (D1): "Tried it (%)"; doc 50, section 2.5.)
-            const trial = type?.id === "funnel" && funnelIsTrial(segment, identity);
+            // (Or the source comes through a Samples & Trials channel: owner, 2026-11-16 19:18.)
+            const trial = type?.id === "funnel" && funnelIsTrial(segment, identity, segmentOf(segment.id).channels.find(channel => channel.id === source.channelId));
             const shown = (field: (typeof DEMAND_SOURCES)[number]["fields"][number]) => trial && field.key === "qualified"
                 ? { ...field, label: "Tried it (%)", help: "The share of the prospects that take the demo, trial or sample (your Profiles compare options that way)." }
                 : field;
@@ -740,6 +745,34 @@ export function useEngagementDemand(earlier: Earlier) {
         return made.id;
     }
 
-    return { addCustomerSource, addSuggestedSource, demandFor, heads, suggestedSources };
+    /**
+     * THE WAY BACK FOR A SOURCE (owner, 2026-11-16 19:18, as for the channels): a source the answers make and the founder removed, at the foot of its Offering's
+     * Demand dialog in the shared FoldList "Removed", each with Restore, which takes it off the removed list so the answers make it again.
+     */
+    function removedSources(segment: BusinessCustomerSegmentValue, offeringId: string): ReactNode {
+        const demand = engagement.demand[offeringId];
+        const dismissed = demand?.dismissed ?? [];
+        if (dismissed.length === 0) {
+            return null;
+        }
+        const channels = segmentOf(segment.id).channels;
+        const rows = demandSuggestions(segment, offeringId, channels, { sources: [], recurring: demand?.recurring ?? false } as never, identity)
+            .filter(row => dismissed.includes(demandSourceKey(row)));
+        if (rows.length === 0) {
+            return null;
+        }
+        const foldKey = "removed-sources:" + segment.id + ":" + offeringId;
+        return (
+            <FoldList label="Removed" name="Removed customer sources" count={rows.length} open={!folds.isOpen(foldKey)} onToggle={() => folds.toggle(foldKey)}>
+                {rows.map(row => (
+                    <FoldListLine key={demandSourceKey(row)} wrap>
+                        {(DEMAND_SOURCES.find(type => type.id === row.type)?.label ?? "") + (row.channelId ? ", " + row.label : "")}{" "}
+                        <TextLink type="button" disabled={disabled} onClick={() => updateDemand(offeringId, { dismissed: dismissed.filter(key => key !== demandSourceKey(row)) })}>Restore</TextLink>
+                    </FoldListLine>
+                ))}
+            </FoldList>
+        );
+    }
+    return { addCustomerSource, addSuggestedSource, demandFor, heads, removedSources, suggestedSources };
 
 }

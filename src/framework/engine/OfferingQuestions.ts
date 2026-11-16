@@ -87,7 +87,9 @@ const MEET: readonly SegmentOption[] = [
 ];
 const HELP: readonly SegmentOption[] = [
     { id: "none", label: "None" }, { id: "guides", label: "Guides and how-tos" }, { id: "auto", label: "Automatic help, such as chat or emails" },
-    { id: "personal", label: "Personal help when needed" }, { id: "dedicated", label: "A dedicated person or team" }
+    { id: "personal", label: "Personal help when needed" }, { id: "dedicated", label: "A dedicated person or team" },
+    // (Owner, 2026-11-16 19:18: help of another kind, written in; each name its own relationship type on Customer Engagement.)
+    { id: "other", label: "Other" }
 ];
 /**
  * Options no longer offered whose saved answer still shows (and prints) until it is unticked: O7's "It depends on the plan" (2026-11-09: O7 became ticks, so the plans' different help
@@ -152,7 +154,7 @@ export const OFFERING_QUESTIONS: readonly OfferingQuestion[] = [
     { id: "o20", label: "How do you send it?", many: true, other: true, info: ["The way each order travels to them: each becomes a delivery channel on Customer Engagement.", "Tick Other to write another."] },
     { id: "o21", label: "How do you send the files?", many: true, other: true, info: ["The way they receive the files: each becomes a delivery channel on Customer Engagement.", "Tick Other to write another."] },
     { id: "o22", label: "Which tool do you meet them on?", many: true, other: true, info: ["The tool each live session runs on: each becomes a channel on Customer Engagement.", "Tick Other to write another."] },
-    { id: "o7", label: "What help do you give after they buy?", many: true, info: ["The help that comes with it after the sale: tick each kind you give.", "None stands alone: ticking it clears the others."] },
+    { id: "o7", label: "What help do you give after they buy?", many: true, other: true, info: ["The help that comes with it after the sale: tick each kind you give.", "None stands alone: ticking it clears the others.", "Tick Other to write another: each becomes a relationship type on Customer Engagement."] },
     { id: "o8", label: "Which of their worries does it answer?", many: true, info: ["The doubts that stop your customers buying from you, as your Profiles say. A worry left unanswered shows as an open item on the Value Proposition.", "Support is answered by the help after they buy, in Support & Communication."] },
     { id: "o10", label: "What do your customers need to give you?", many: true, info: ["What you need from them before or during the work. The details go in the Notes.",
         "A place to work: a desk or a room for you to use. Access to their home or site: the work is done there, such as a repair or a fitting.",
@@ -416,9 +418,11 @@ export function offeringShown(saved: OfferingAnswers, context: OfferingContext):
             }
         }
     }
-    // (O23's words written in under Other stay while Other is ticked.)
-    if ((shown.o23 ?? []).includes("other") && saved["o23-other"]) {
-        shown["o23-other"] = saved["o23-other"];
+    // (O7's and O23's words written in under Other stay while Other is ticked.)
+    for (const id of ["o7", "o23"] as const) {
+        if ((shown[id] ?? []).includes("other") && saved[id + "-other"]) {
+            shown[id + "-other"] = saved[id + "-other"];
+        }
     }
     // None of help after the sale (O7) starts None of what comes after it (O17).
     if (!saved.o17 && shown.o7?.length === 1 && shown.o7[0] === "none") {
