@@ -548,7 +548,19 @@ export interface DeliveryValue {
     hours: Record<string, string>;
     /** How long one unit takes from start to finish, in weeks: elapsed time. */
     duration: string;
+    /** LEGACY, read only (DV5, retired 2026-11-17, replaced by DV12): the Constraints text, moved once into holdUpsOther (one row a sentence) where it holds text. */
     constraints: string;
+    /** DV6: how many customers one session serves (a class, a workshop, an event); "" is one. The hours typed are then a session's. */
+    perSession: string;
+    /** DV9 and DV10: the hours one batch takes to set up, and the units it makes; set-up adds DV9 / DV10 to each unit. */
+    batchSetup: string;
+    batchUnits: string;
+    /** DV12, what can hold up delivery: "equipment" (DV7 equipmentId, DV8 holdsAtOnce), "materials" (DV13 supplierId), "other" (holdUpsOther, one a row). */
+    holdUps: string[];
+    equipmentId: string;
+    holdsAtOnce: string;
+    supplierId: string;
+    holdUpsOther: string[];
     /** Before effort was split by person: one total, and who delivered it. */
     effort: string;
     deliverers: string[];
@@ -564,7 +576,7 @@ export interface DeliveryValue {
 }
 
 export function createDelivery(): DeliveryValue {
-    return { hours: {}, duration: "", constraints: "", effort: "", deliverers: [], mode: "", period: "" };
+    return { hours: {}, duration: "", constraints: "", perSession: "", batchSetup: "", batchUnits: "", holdUps: [], equipmentId: "", holdsAtOnce: "", supplierId: "", holdUpsOther: [], effort: "", deliverers: [], mode: "", period: "" };
 }
 
 export function asDeliveryMap(value: unknown): Record<string, DeliveryValue> {
@@ -585,6 +597,14 @@ export function asDeliveryMap(value: unknown): Record<string, DeliveryValue> {
             hours,
             duration: asText(source.duration),
             constraints: asText(source.constraints),
+            perSession: asText(source.perSession),
+            batchSetup: asText(source.batchSetup),
+            batchUnits: asText(source.batchUnits),
+            holdUps: Array.isArray(source.holdUps) ? [...new Set(source.holdUps.map(asText).filter(id => HOLD_UP_IDS.includes(id)))] : [],
+            equipmentId: asText(source.equipmentId),
+            holdsAtOnce: asText(source.holdsAtOnce),
+            supplierId: asText(source.supplierId),
+            holdUpsOther: Array.isArray(source.holdUpsOther) ? source.holdUpsOther.map(asText) : [],
             effort: asText(source.effort),
             deliverers: Array.isArray(source.deliverers)
                 ? [...new Set(source.deliverers.map(asText).filter(Boolean))]
@@ -596,27 +616,87 @@ export function asDeliveryMap(value: unknown): Record<string, DeliveryValue> {
     return result;
 }
 
+/** DV12's options, in order (owner, 2026-11-17): partners' time, seasons, skills, licences and money are read elsewhere (the bars, Busy times, Skills, Registrations, Financial Position). */
+export const HOLD_UPS = [
+    { id: "equipment", label: "Equipment or a workspace" },
+    { id: "materials", label: "Materials or stock from a supplier" },
+    { id: "other", label: "Other" }
+] as const;
+const HOLD_UP_IDS: readonly string[] = HOLD_UPS.map(entry => entry.id);
+
+/**
+ * A COUNT OF AN OFFERING'S SALES, in words (doc 52, 4.2): a name said in the plural counts itself ("1 Bespoke Commission", "3 Bespoke Commissions"); any other
+ * name counts orders of it ("1 Trade Collection order", "3 Trade Collection orders").
+ */
+export function offeringCount(count: number, name: string): string {
+    const figure = count.toLocaleString("en-GB", { maximumFractionDigits: 1 });
+    const one = count === 1;
+    const plural = /[^s]s$/i.test(name.trim());
+    return figure + " " + (plural ? (one ? name.trim().replace(/s$/i, "") : name.trim()) : name.trim() + (one ? " order" : " orders"));
+}
+
+/** What can hold up an Offering's delivery, in words (DV12): the equipment and what it holds, the supplier, and the rows written under Other. */
+export function holdUpsText(delivery: DeliveryValue, nameOf: (id: string) => string): string {
+    return [
+        ...(delivery.holdUps.includes("equipment") ? [(nameOf(delivery.equipmentId) || "Equipment or a workspace") + (delivery.holdsAtOnce.trim() ? ", holds " + delivery.holdsAtOnce.trim() + " at once" : "")] : []),
+        ...(delivery.holdUps.includes("materials") ? [(nameOf(delivery.supplierId) || "Materials or stock from a supplier")] : []),
+        ...(delivery.holdUps.includes("other") ? delivery.holdUpsOther.map(row => row.trim()).filter(Boolean) : []),
+        // (A card not opened since DV5 retired: its Constraints text, as saved.)
+        ...(delivery.constraints.trim() ? [delivery.constraints.trim()] : [])
+    ].join("; ");
+}
+
+/** The planning ceiling (doc 52, 4.1): a plan holds best with each person's delivery hours at 85% or less (Choo, 2016, after Kingman). */
+export const PLANNING_CEILING = 0.85;
+
+/** DV6 as a number: the customers one session serves (one where it is not said). */
+export function customersPerSession(delivery: DeliveryValue | undefined): number {
+    const typed = readNumber(delivery?.perSession ?? "");
+    return delivery && delivery.mode !== "monthly" && typed !== null && typed > 1 ? typed : 1;
+}
+
+/** DV9 / DV10: the set-up hours each unit carries ("" where either is not said). */
+export function setupPerUnit(delivery: DeliveryValue | undefined): number {
+    const setup = readNumber(delivery?.batchSetup ?? "");
+    const units = readNumber(delivery?.batchUnits ?? "");
+    return delivery && delivery.mode !== "monthly" && setup !== null && setup > 0 && units !== null && units > 0 ? setup / units : 0;
+}
+
 /**
  * One unit's hours by person, as numbers. An entry saved before effort
  * was split keeps its total on the first person who delivered it, or
- * unassigned ("") if nobody was named.
+ * unassigned ("") if nobody was named. A session's hours are shared by the
+ * customers it serves (DV6); a batch's set-up is spread over its units (DV9,
+ * DV10), each person carrying it in proportion to their own hours.
  */
 export function deliveryAllocation(delivery: DeliveryValue | undefined): Record<string, number> {
     const result: Record<string, number> = {};
     if (!delivery) {
         return result;
     }
+    const per = customersPerSession(delivery);
     for (const [personId, text] of Object.entries(delivery.hours)) {
         const hours = readNumber(text);
         if (hours !== null && hours > 0) {
             // Monthly work given a week is converted; a unit's hours stand as they are.
-            result[personId] = monthlyHours(hours, delivery.mode === "monthly" ? delivery.period : "");
+            result[personId] = monthlyHours(hours, delivery.mode === "monthly" ? delivery.period : "") / per;
         }
     }
     if (Object.keys(result).length === 0) {
         const total = readNumber(delivery.effort);
         if (total !== null && total > 0) {
             result[delivery.deliverers[0] ?? ""] = total;
+        }
+    }
+    const setup = setupPerUnit(delivery);
+    if (setup > 0) {
+        const total = Object.values(result).reduce((sum, hours) => sum + hours, 0);
+        if (total > 0) {
+            for (const personId of Object.keys(result)) {
+                result[personId] += setup * result[personId] / total;
+            }
+        } else {
+            result[""] = setup;
         }
     }
     return result;
@@ -680,6 +760,8 @@ interface FounderLoad {
     other: number[];
     /** The first month the founder's work exceeds the hours; null if never. */
     firstShortfall: number | null;
+    /** The first month the founder's work passes the planning ceiling (85% of the hours); null if never. */
+    firstAboveCeiling: number | null;
     peak: number;
     peakIndex: number;
 }
@@ -690,6 +772,8 @@ interface ExternalLoad {
     /** Hours a month the expected sales need from this professional. */
     hours: number[];
     peak: number;
+    /** The hours a month they can give (their card's "Hours a month they can give"); null where it is not said. */
+    available: number | null;
 }
 
 export interface CapacityCheck {
@@ -725,7 +809,9 @@ export function capacityCheck(
     delivery: Record<string, DeliveryValue>,
     length: number,
     recurringOfferings: ReadonlySet<string> = new Set(),
-    names: Record<string, string> = {}
+    names: Record<string, string> = {},
+    /** The hours a month a Staff, Partner or Supplier card can give, by its id. */
+    externalAvailable: Readonly<Record<string, number>> = {}
 ): CapacityCheck | null {
 
     const withHours = founders
@@ -789,6 +875,7 @@ export function capacityCheck(
             recurring: load.recurring,
             other: load.other,
             firstShortfall: shortfallOf(total, founder.available),
+            firstAboveCeiling: shortfallOf(total, founder.available * PLANNING_CEILING),
             ...peakOf(total)
         };
     });
@@ -811,7 +898,7 @@ export function capacityCheck(
         founders: founderLoads,
         unassigned,
         external: [...external.entries()].map(([id, hours]) => ({
-            id, name: names[id] ?? "External professional", hours, peak: Math.max(0, ...hours)
+            id, name: names[id] ?? "External professional", hours, peak: Math.max(0, ...hours), available: externalAvailable[id] ?? null
         })),
         unmeasured
     };

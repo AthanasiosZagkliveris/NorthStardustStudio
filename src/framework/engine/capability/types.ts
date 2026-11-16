@@ -142,6 +142,8 @@ export interface BusinessResourceSlotValue {
     id: string;
     name: string;
     quantity: string;
+    /** A Staff (Human Resources) card's hours a month they can give (doc 52, 14): their own row and bar in Capacity & Delivery; "" where not said. */
+    hoursAvailable: string;
     description: string;
     /** One of BUSINESS_RESOURCE_STATUSES' ids, or "". */
     status: string;
@@ -310,6 +312,10 @@ export interface BusinessPartnerValue {
     costOption: string;
     /** A supplier connected to a rented vehicle: how many vehicles its price is for ("" is one). */
     quantity: string;
+    /** A Partner's or Supplier's hours a month they can give (doc 52, 14): their own row and bar in Capacity & Delivery; "" where not said. */
+    hoursAvailable: string;
+    /** A Supplier's lead time in weeks (DV13): added to the Calendar Time of an Offering it can hold up; "" where not said. */
+    leadWeeks: string;
     /** The optional extras of the card (partnerExtraKeys). */
     extras: BusinessExtrasValue;
     /** The payment plan of a Per project price. */

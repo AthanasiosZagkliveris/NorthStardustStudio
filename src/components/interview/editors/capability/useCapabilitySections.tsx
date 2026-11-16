@@ -20,11 +20,13 @@ import { floorRows, tileLines, tileMarks } from "../../tiles/capabilityFloor.ts"
 import CardNameInput from "../../cards/CardNameInput.tsx";
 import CardNumber from "../../cards/CardNumber.tsx";
 import TextLink from "../../fields/TextLink.tsx";
-import { SECTIONS, DELIVERY_HELP, Scope, patchSlot, removeSlot, NO_CATEGORY, NO_GROUP, FIXED_KIND_IDS, blankSlot, blankActivity, withBreak } from "../BusinessCapabilityModel.ts";
+import { formatHours, SECTIONS, DELIVERY_HELP, Scope, patchSlot, removeSlot, NO_CATEGORY, NO_GROUP, FIXED_KIND_IDS, blankSlot, blankActivity, withBreak } from "../BusinessCapabilityModel.ts";
 import type { useCapabilityState } from "./useCapabilityState.tsx";
 import type { useCapabilityCardFields } from "./useCapabilityCardFields.tsx";
 import type { useCapabilityPeopleCards } from "./useCapabilityPeopleCards.tsx";
 import type { useCapabilityActivityAndDelivery } from "./useCapabilityActivityAndDelivery.tsx";
+import { deliveryEffort } from "../../../../framework/engine/DemandCapacity.ts";
+import { OPEN_EVENT, type OpenRequest } from "../../tiles/SectionTiles.tsx";
 
 type Earlier = ReturnType<typeof useCapabilityState> & ReturnType<typeof useCapabilityCardFields> & ReturnType<typeof useCapabilityPeopleCards> & ReturnType<typeof useCapabilityActivityAndDelivery>;
 
@@ -537,6 +539,18 @@ export function useCapabilitySections(earlier: Earlier) {
                 />
 
                 {/* The links last, under the Description. */}
+                {/* (A PRODUCTION ACTIVITY'S DELIVERY HOURS, as a record: each linked Offering's Delivery card, its hours a unit, a link that opens it; owner, 2026-11-17.) */}
+                {scope === "offering" && activity.category === "production" && activity.offeringIds.map(offeringId => {
+                    const effort = deliveryEffort(capability.delivery[offeringId]);
+                    const name = offeringChoices.find(choice => choice.id === offeringId)?.label;
+                    return effort && name ? (
+                        <p className="delivery-muted" key={"delivery-" + offeringId}>
+                            <TextLink onClick={() => document.dispatchEvent(new CustomEvent<OpenRequest>(OPEN_EVENT, { detail: { tile: "delivery", card: "delivery-" + offeringId } }))}>
+                                {name + " delivery: " + formatHours(Math.round(effort * 100) / 100) + (capability.delivery[offeringId]?.mode === "monthly" ? " h a client a month" : " h a unit")}
+                            </TextLink>
+                        </p>
+                    ) : null;
+                })}
                 {scope === "offering" && offeringsField(
                     activity.offeringIds,
                     (next) => onActivity(next),

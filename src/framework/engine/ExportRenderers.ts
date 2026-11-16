@@ -124,6 +124,7 @@ import { ownersTakeDrawings } from "./FinancialForecast.ts";
 import { offeringShareWeights } from "./DemandCapacity.ts";
 import { costIsShared, offeringFractions } from "./capability/offeringShares.ts";
 import { isPurchaseGroup } from "./AnswerBusinessCapability.ts";
+import { holdUpsText } from "./DemandCapacity.ts";
 
 /* ==========================================================
    Building blocks
@@ -851,7 +852,7 @@ function businessCapabilityBlocks(value: unknown, context: ExportContext): Expor
         ...paragraph(deliveryHours(capability.founders) === null
             ? "No founder delivery hours recorded."
             : "Founders' delivery capacity: about " + Math.round(deliveryHours(capability.founders) ?? 0) + " hours a month."),
-        ...table(["Offering", "Effort per Unit, by Person", "Total", "Duration (weeks)", "Constraints"],
+        ...table(["Offering", "Effort per Unit, by Person", "Total", "Duration (weeks)", "What Can Hold Up Delivery"],
             Object.entries(capability.delivery).map(([offeringId, entry]) => {
                 const allocation = deliveryAllocation(entry);
                 const founderIds = new Set(capability.founders.map(founder => founder.id));
@@ -861,7 +862,7 @@ function businessCapabilityBlocks(value: unknown, context: ExportContext): Expor
                         (people(personId) || "Unassigned") + (founderIds.has(personId) || personId === "" ? "" : " (external)") + ": " + hours + " h").join("; "),
                     (deliveryEffort(entry) ?? 0) + " h",
                     entry.duration,
-                    entry.constraints
+                    holdUpsText(entry, id => [...capability.offering.resources, ...capability.offering.providers].find(card => card.id === id)?.name.trim() ?? "")
                 ];
             })),
 

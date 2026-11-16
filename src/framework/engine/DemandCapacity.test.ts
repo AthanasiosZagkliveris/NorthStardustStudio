@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { DemandSource, DemandValue, asDemandValue, createDemand, createDemandSource, demandChannelIds, demandResult, capacityCheck, createDelivery, deliveryAllocation, deliveryEffort, founderDeliveryHours, WEEKS_PER_MONTH, founderWorkingHours, offeringChannelRevenue } from "./DemandCapacity.ts";
+import { DemandSource, DemandValue, asDemandValue, createDemand, createDemandSource, demandChannelIds, demandResult, capacityCheck, createDelivery, deliveryAllocation, deliveryEffort, founderDeliveryHours, WEEKS_PER_MONTH, founderWorkingHours, offeringChannelRevenue, PLANNING_CEILING, asDeliveryMap, holdUpsText, offeringCount } from "./DemandCapacity.ts";
 
 /** Saved before several sources: one model and its inputs, read as it is on loading. */
 function demand(model: string, inputs: Record<string, string>): DemandValue {
@@ -176,7 +176,7 @@ describe("capacity: the founders' hours", () => {
         expect(check.founders[0].other[0]).toBe(36);
         expect(check.needed[0]).toBe(69);
         // The developer's 12 h a build is beside the capacity, not in it.
-        expect(check.external).toEqual([{ id: "dev", name: "Developer", hours: [24, 36], peak: 36 }]);
+        expect(check.external).toEqual([{ id: "dev", name: "Developer", hours: [24, 36], peak: 36, available: null }]);
         expect(check.available).toBe(96);
         expect(check.firstShortfall).toBeNull();
     });
@@ -276,4 +276,47 @@ describe("offeringChannelRevenue (owner, 2026-11-14 20:25)", () => {
         expect(out).toEqual({ o1: { ["Online Store\u0001Own website"]: 1344 } });
         expect(offeringChannelRevenue({ o1: value }, [{ offeringId: "o1", price: "", itemsPerOrder: "" }], [{ id: "c1", category: "Online Store", name: "Own website" }])).toEqual({});
     });
+});
+
+describe("Capacity & Delivery, doc 52 (owner, 2026-11-17)", () => {
+
+    it("a session's hours are shared by its customers (DV6); a batch's set-up is spread over its units, each person in proportion (DV9, DV10)", () => {
+        const session = { ...createDelivery(), hours: { maya: "3.2", tutor: "0.8" }, perSession: "8" };
+        expect(deliveryAllocation(session)).toEqual({ maya: 0.4, tutor: 0.1 });
+        const batch = { ...createDelivery(), hours: { maya: "3", priya: "1" }, batchSetup: "4", batchUnits: "8" };
+        // (0.5 h of set-up a unit: 0.375 to Maya, 0.125 to Priya.)
+        expect(deliveryAllocation(batch)).toEqual({ maya: 3.375, priya: 1.125 });
+        // (Monthly work has neither sessions nor batches.)
+        expect(deliveryAllocation({ ...session, mode: "monthly" })).toEqual({ maya: 3.2, tutor: 0.8 });
+    });
+
+    it("each founder's first month above the 85% ceiling, and the hours a person beside the founders can give", () => {
+        expect(PLANNING_CEILING).toBe(0.85);
+        const check = capacityCheck(
+            [{ id: "f1", name: "Ann", hours: "100", deliveryHours: "100", deliveryShare: "" }],
+            { o1: [80, 90] },
+            { o1: { ...createDelivery(), hours: { f1: "1", ana: "0.25" } } },
+            2, new Set(), { ana: "Ana Ruiz" }, { ana: 20 }
+        )!;
+        expect(check.founders[0].firstAboveCeiling).toBe(1);
+        expect(check.founders[0].firstShortfall).toBeNull();
+        expect(check.external).toEqual([{ id: "ana", name: "Ana Ruiz", hours: [20, 22.5], peak: 22.5, available: 20 }]);
+    });
+
+    it("what can hold up delivery is read and said (DV12); a saved Constraints text is kept as saved until the card moves it", () => {
+        const saved = asDeliveryMap({ o1: { holdUps: ["equipment", "materials", "nonsense"], equipmentId: "loom", holdsAtOnce: "3", supplierId: "yarn", holdUpsOther: ["Hand fringing"] } }).o1;
+        expect(saved.holdUps).toEqual(["equipment", "materials"]);
+        const names: Record<string, string> = { loom: "Floor looms", yarn: "Linen yarn" };
+        expect(holdUpsText(saved, id => names[id] ?? "")).toBe("Floor looms, holds 3 at once; Linen yarn");
+        expect(holdUpsText({ ...saved, holdUps: ["other"] }, () => "")).toBe("Hand fringing");
+        expect(holdUpsText({ ...createDelivery(), constraints: "Three floor looms." }, () => "")).toBe("Three floor looms.");
+    });
+
+    it("counts an Offering's sales in words: a plural name counts itself, any other name counts orders", () => {
+        expect(offeringCount(1, "Bespoke Commissions")).toBe("1 Bespoke Commission");
+        expect(offeringCount(3, "Bespoke Commissions")).toBe("3 Bespoke Commissions");
+        expect(offeringCount(3, "Trade Collection")).toBe("3 Trade Collection orders");
+        expect(offeringCount(1, "Trade Collection")).toBe("1 Trade Collection order");
+    });
+
 });

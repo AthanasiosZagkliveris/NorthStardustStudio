@@ -71,9 +71,17 @@ export function salesCapacity(
         ...revenuePage.streams.filter(stream => isRecurringRevenue(stream.frequency)).map(stream => stream.offeringId),
         ...Object.entries(capability.delivery).filter(([, entry]) => entry.mode === "monthly").map(([offeringId]) => offeringId)
     ]);
-    const names: Record<string, string> = Object.fromEntries([
+    // (The people beside the founders: Partners, Suppliers and Staff cards, with the hours a month each can give where said.)
+    const people = [
         ...capability.professionals, ...capability.providers,
-        ...capability.offering.professionals, ...capability.offering.providers
-    ].map(person => [person.id, person.name.trim() || "Unnamed professional"]));
-    return capacityCheck(capability.founders, volumesByOffering, capability.delivery, planLength(foundation), recurring, names);
+        ...capability.offering.professionals, ...capability.offering.providers,
+        ...capability.offering.resources.filter(slot => slot.category === "hr"),
+        ...(capability.resources["hr"] ?? []).flatMap(subsection => subsection.slots)
+    ];
+    const names: Record<string, string> = Object.fromEntries(people.map(person => [person.id, person.name.trim() || "Unnamed professional"]));
+    const available: Record<string, number> = Object.fromEntries(people.flatMap(person => {
+        const hours = Number.parseFloat(person.hoursAvailable);
+        return Number.isFinite(hours) && hours > 0 ? [[person.id, hours]] : [];
+    }));
+    return capacityCheck(capability.founders, volumesByOffering, capability.delivery, planLength(foundation), recurring, names, available);
 }

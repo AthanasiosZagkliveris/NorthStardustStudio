@@ -1187,6 +1187,8 @@ Leased (status Partners & Suppliers): the cost sits on the supplier's card. Boug
 
 #### Category: Human Resources
 
+**Every Delivery Team card also has** (owner, 2026-11-17; doc 52, 14): **Hours a month they can give** -- a side number box, optional; its "i": "The hours a month this person or firm can give to the work. Capacity & Delivery sets them against the hours the expected sales need." Read by Capacity & Delivery: the card's own row and bar there.
+
 ##### Offering > Resources > Human Resources > Delivery Team
 
 | Frequencies offered | Extras or options | Links and generated cards |
@@ -1283,6 +1285,8 @@ The activity card carries no cost and no cost nature, and no card takes its cost
 The activity card carries no cost and no cost nature, and no card takes its cost nature from it. The group is only a filing and a date rule. For reference, the nature usually met in that group: COGS.
 
 #### Partners
+
+**Every Partner and Supplier card of the Offering also has** (owner, 2026-11-17; doc 52, 14 and 16): **Hours a month they can give** -- a side number box, optional, read by Capacity & Delivery (the card's own row and bar); and, on a Supplier, **Lead time (weeks)** -- a side number box, optional, its "i": "The weeks an order takes to arrive. Capacity & Delivery adds them to the Calendar Time of the Offerings this supplier can hold up."
 
 ##### Offering > Partners > Revenue Partners > Revenue Partners
 

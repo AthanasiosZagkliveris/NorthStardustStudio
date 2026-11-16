@@ -2094,6 +2094,7 @@
                       "id": "workspace",
                       "name": "Coworking Space",
                       "quantity": "1",
+                      "hoursAvailable": "",
                       "description": "A hot desk in Downtown Brooklyn, with electricity, Wi-Fi and air conditioning included.",
                       "status": "rent",
                       "cost": {
@@ -2143,6 +2144,7 @@
                       "id": "resource-k3e8l2cw",
                       "name": "Electricity",
                       "quantity": "1",
+                      "hoursAvailable": "",
                       "description": "Included in the coworking membership.",
                       "status": "partners-suppliers",
                       "cost": {
@@ -2184,6 +2186,7 @@
                       "id": "resource-v7i4n9tb",
                       "name": "High-speed Wi-Fi",
                       "quantity": "1",
+                      "hoursAvailable": "",
                       "description": "Included in the coworking membership; phone hotspot as backup.",
                       "status": "partners-suppliers",
                       "cost": {
@@ -2225,6 +2228,7 @@
                       "id": "resource-j2c6a8rm",
                       "name": "Air conditioning",
                       "quantity": "1",
+                      "hoursAvailable": "",
                       "description": "Included in the coworking membership.",
                       "status": "partners-suppliers",
                       "cost": {
@@ -2274,6 +2278,7 @@
                       "id": "resource-h9s3u5fz",
                       "name": "Laptop stand",
                       "quantity": "1",
+                      "hoursAvailable": "",
                       "description": "Already owned.\nWith a keyboard and mouse.",
                       "status": "exists",
                       "cost": {
@@ -2323,6 +2328,7 @@
                       "id": "resource-l5p1t7yq",
                       "name": "Laptop",
                       "quantity": "1",
+                      "hoursAvailable": "",
                       "description": "Jordan's own laptop, bought in 2025.\n14-inch, 32 GB memory.",
                       "status": "exists",
                       "cost": {
@@ -2364,6 +2370,7 @@
                       "id": "resource-o8m4n2ge",
                       "name": "27-inch monitor",
                       "quantity": "1",
+                      "hoursAvailable": "",
                       "description": "Already owned; used at the hot desk.",
                       "status": "exists",
                       "cost": {
@@ -2405,6 +2412,7 @@
                       "id": "resource-qfheadset",
                       "name": "Webcam and headset",
                       "quantity": "1",
+                      "hoursAvailable": "",
                       "description": "A spare webcam and a noise-cancelling headset for calls from the coworking space. The main camera, microphone and light are the video-conferencing kit below.",
                       "status": "costs",
                       "cost": {
@@ -2446,6 +2454,7 @@
                       "id": "resource-qf-videokit",
                       "name": "Video kit",
                       "quantity": "1",
+                      "hoursAvailable": "",
                       "description": "For remote workshops and handover calls with clients. Bought once the loan arrives; used for about three years.\nCamera, microphone and light.",
                       "status": "costs",
                       "cost": {
@@ -2495,6 +2504,7 @@
                       "id": "resource-g1w5s8ha",
                       "name": "Google Workspace",
                       "quantity": "1",
+                      "hoursAvailable": "",
                       "description": "Email, calendar, shared folders and documents for one user. Approximate price.\nBusiness Standard plan.",
                       "status": "costs",
                       "cost": {
@@ -2536,6 +2546,7 @@
                       "id": "resource-m6k2e9jd",
                       "name": "Make.com Core plan",
                       "quantity": "1",
+                      "hoursAvailable": "",
                       "description": "Internal automations and prototyping. Approximate price.",
                       "status": "costs",
                       "cost": {
@@ -2577,6 +2588,7 @@
                       "id": "resource-z4p7r3nc",
                       "name": "Zapier Professional",
                       "quantity": "1",
+                      "hoursAvailable": "",
                       "description": "Testing client builds and internal workflows. Approximate price.",
                       "status": "costs",
                       "cost": {
@@ -2618,6 +2630,7 @@
                       "id": "resource-n2t8o5vw",
                       "name": "Notion Plus",
                       "quantity": "1",
+                      "hoursAvailable": "",
                       "description": "Project notes, documentation and client wikis. Approximate price.",
                       "status": "costs",
                       "cost": {
@@ -2659,6 +2672,7 @@
                       "id": "resource-q9b3k6lu",
                       "name": "QuickBooks Online",
                       "quantity": "1",
+                      "hoursAvailable": "",
                       "description": "Bookkeeping, invoices and recurring billing, shared with the accountant. Approximate price.\nSimple Start plan.",
                       "status": "costs",
                       "cost": {
@@ -2700,6 +2714,7 @@
                       "id": "resource-e4m8l1ow",
                       "name": "Miro and Loom",
                       "quantity": "1",
+                      "hoursAvailable": "",
                       "description": "Whiteboards for mapping client workflows and recorded walkthroughs of audits and builds: tools for the delivery work itself. Approximate combined price.",
                       "status": "costs",
                       "cost": {
@@ -2741,6 +2756,7 @@
                       "id": "resource-d8o2m6nh",
                       "name": "Domain",
                       "quantity": "1",
+                      "hoursAvailable": "",
                       "description": "Annual renewal. Approximate price.\nquillfieldautomation.com",
                       "status": "costs",
                       "cost": {
@@ -2788,6 +2804,7 @@
                       "id": "resource-x3v8a2ip",
                       "name": "Password vault",
                       "quantity": "1",
+                      "hoursAvailable": "",
                       "description": "Earlier status: Needs Investigation. Compare business password managers with shared vaults for client access.\nFor client logins.",
                       "status": "activity",
                       "cost": {
@@ -3000,6 +3017,8 @@
                 "rateOverride": "",
                 "costOption": "",
                 "quantity": "",
+                "hoursAvailable": "",
+                "leadWeeks": "",
                 "extras": {},
                 "paymentPlan": {
                   "on": false,
@@ -3030,6 +3049,8 @@
                 "rateOverride": "",
                 "costOption": "",
                 "quantity": "",
+                "hoursAvailable": "",
+                "leadWeeks": "",
                 "extras": {},
                 "paymentPlan": {
                   "on": false,
@@ -3060,6 +3081,8 @@
                 "rateOverride": "",
                 "costOption": "",
                 "quantity": "",
+                "hoursAvailable": "",
+                "leadWeeks": "",
                 "extras": {},
                 "paymentPlan": {
                   "on": false,
@@ -3090,6 +3113,8 @@
                 "rateOverride": "",
                 "costOption": "",
                 "quantity": "",
+                "hoursAvailable": "",
+                "leadWeeks": "",
                 "extras": {},
                 "paymentPlan": {
                   "on": false,
@@ -3121,6 +3146,7 @@
                   "id": "resource-u3a9p6ib",
                   "name": "AI model and API usage (Build)",
                   "quantity": "1",
+                  "hoursAvailable": "",
                   "description": "AI model API calls and premium connector usage while building and testing, about $120 per project. Approximate.",
                   "status": "costs",
                   "cost": {
@@ -3164,6 +3190,7 @@
                   "id": "resource-y7r2c5mt",
                   "name": "AI model and API usage (Retainer)",
                   "quantity": "1",
+                  "hoursAvailable": "",
                   "description": "Running and monitoring costs per retainer client per month: AI model calls, operations and a monitoring tool seat. About $45 per client a month. Approximate.",
                   "status": "costs",
                   "cost": {
@@ -3207,6 +3234,7 @@
                   "id": "resource-audit-tools",
                   "name": "AI model and API usage (Audit)",
                   "quantity": "1",
+                  "hoursAvailable": "",
                   "description": "Transcription and analysis of recorded process walkthroughs; approximate.",
                   "status": "costs",
                   "cost": {
@@ -3250,6 +3278,7 @@
                   "id": "resource-s5q9w1fm",
                   "name": "Squarespace Core",
                   "quantity": "1",
+                  "hoursAvailable": "",
                   "description": "Hosts the website, the service pages with their fixed prices and the hours-saved calculator. Approximate price, billed monthly.",
                   "status": "costs",
                   "cost": {
@@ -3300,6 +3329,7 @@
                   "id": "resource-c7a1l4ey",
                   "name": "Calendly Standard",
                   "quantity": "1",
+                  "hoursAvailable": "",
                   "description": "Lets a firm book the free 30-minute call that starts every audit or build, with reminders and no email back and forth. Approximate price.",
                   "status": "costs",
                   "cost": {
@@ -3347,6 +3377,7 @@
                   "id": "resource-qfmailchimp",
                   "name": "Mailchimp Standard",
                   "quantity": "1",
+                  "hoursAvailable": "",
                   "description": "Sends The Quill each month and the invitations to past clients; about 500 contacts. Approximate price.",
                   "status": "costs",
                   "cost": {
@@ -3397,6 +3428,7 @@
                   "id": "resource-qfzoom",
                   "name": "Zoom Workplace Pro",
                   "quantity": "1",
+                  "hoursAvailable": "",
                   "description": "One licence on the monthly plan, for the discovery call, audit sessions, handover calls and retainer check-ins: clients’ teams join without installing anything. Approximate price.",
                   "status": "costs",
                   "cost": {
@@ -3447,6 +3479,7 @@
                   "id": "resource-qflinkedin",
                   "name": "LinkedIn Premium Business",
                   "quantity": "1",
+                  "hoursAvailable": "",
                   "description": "Profile insights and InMail to reach firm owners and operations managers directly. Approximate price.",
                   "status": "costs",
                   "cost": {
@@ -3497,6 +3530,7 @@
                   "id": "resource-qfevents",
                   "name": "Meetup and event costs",
                   "quantity": "24",
+                  "hoursAvailable": "",
                   "description": "Tickets and a table fee for about two meetups or chamber of commerce events a month, where the talk is given and firms are met. Estimate.",
                   "status": "costs",
                   "cost": {
@@ -3847,6 +3881,8 @@
                   "rateOverride": "",
                   "costOption": "affiliate-commission",
                   "quantity": "",
+                  "hoursAvailable": "",
+                  "leadWeeks": "",
                   "extras": {},
                   "paymentPlan": {
                     "on": false,
@@ -3881,6 +3917,8 @@
                   "rateOverride": "",
                   "costOption": "",
                   "quantity": "",
+                  "hoursAvailable": "",
+                  "leadWeeks": "",
                   "extras": {},
                   "paymentPlan": {
                     "on": false,
@@ -3913,6 +3951,8 @@
                   "rateOverride": "",
                   "costOption": "payment-gateway",
                   "quantity": "",
+                  "hoursAvailable": "",
+                  "leadWeeks": "",
                   "extras": {},
                   "paymentPlan": {
                     "on": false,
@@ -3953,7 +3993,19 @@
                   "founder-q7m2x4ke": "15"
                 },
                 "duration": "3",
-                "constraints": "Needs two workshop sessions with the client team; booked around their calendar.",
+                "constraints": "",
+                "perSession": "",
+                "batchSetup": "",
+                "batchUnits": "",
+                "holdUps": [
+                  "other"
+                ],
+                "equipmentId": "",
+                "holdsAtOnce": "",
+                "supplierId": "",
+                "holdUpsOther": [
+                  "Needs two workshop sessions with the client team; booked around their calendar."
+                ],
                 "effort": "",
                 "deliverers": [],
                 "mode": "unit",
@@ -3965,7 +4017,19 @@
                   "partner-d8f3v6ls": "20"
                 },
                 "duration": "6",
-                "constraints": "The external developer takes the custom-code part (about 20 hours); Jordan designs, configures and hands over (about 40 hours).",
+                "constraints": "",
+                "perSession": "",
+                "batchSetup": "",
+                "batchUnits": "",
+                "holdUps": [
+                  "other"
+                ],
+                "equipmentId": "",
+                "holdsAtOnce": "",
+                "supplierId": "",
+                "holdUpsOther": [
+                  "The external developer takes the custom-code part (about 20 hours); Jordan designs, configures and hands over (about 40 hours)."
+                ],
                 "effort": "",
                 "deliverers": [],
                 "mode": "unit",
@@ -3976,7 +4040,19 @@
                   "founder-q7m2x4ke": "6"
                 },
                 "duration": "",
-                "constraints": "Monitoring and fixes each month per client; response within one working day.",
+                "constraints": "",
+                "perSession": "",
+                "batchSetup": "",
+                "batchUnits": "",
+                "holdUps": [
+                  "other"
+                ],
+                "equipmentId": "",
+                "holdsAtOnce": "",
+                "supplierId": "",
+                "holdUpsOther": [
+                  "Monitoring and fixes each month per client; response within one working day."
+                ],
                 "effort": "",
                 "deliverers": [],
                 "mode": "monthly",

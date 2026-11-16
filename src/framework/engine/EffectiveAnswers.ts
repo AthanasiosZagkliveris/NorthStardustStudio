@@ -114,6 +114,10 @@ export interface OfferingStarts {
     paymentTiming?: "upfront" | "completion" | "split" | "milestone";
     /** Whether O3t is answered: Page 5's Payment Timing is then its record (paymentTiming, or When earned where it gives none). */
     paymentTimingAnswered?: boolean;
+    /** Delivered in sessions (a live online session, an in-person service, or charged per session: O1, O3): the Delivery card asks DV6, customers in one session. */
+    sessions?: boolean;
+    /** Made in batches (a Product or Hybrid, not made to order: Type, O14): the Delivery card asks DV9 and DV10. */
+    batches?: boolean;
 }
 
 /**
@@ -150,6 +154,13 @@ export function offeringStarts(offering: BusinessOfferingValue, segment: Busines
     }
     if (when !== "") {
         starts.paymentTimingAnswered = true;
+    }
+    // (Doc 52, DV6 and DV9/DV10; owner, 2026-11-17.)
+    if ((answers.o1 ?? []).some(form => form === "live" || form === "inperson") || terms === "session") {
+        starts.sessions = true;
+    }
+    if ((offering.category === "Product" || offering.category === "Hybrid") && !(answers.o14 ?? []).includes("custom")) {
+        starts.batches = true;
     }
     return starts;
 }

@@ -13,7 +13,7 @@ import { writtenInNames, writtenInRows } from "../../../../framework/engine/Segm
 import { SKILLS, SKILLS_HELP, skillCover, skillGroups, skillsOf, teamNames } from "../../../../framework/engine/capability/skills.ts";
 import { OPEN_EVENT, type OpenRequest } from "../../tiles/SectionTiles.tsx";
 import { BUSINESS_ACTIVITY_CATEGORIES, businessFoundationSegments, equalOfferingShares, soleGroupOf, BUSINESS_PARTNER_GROUPS, resourcesStartingTooLate, cappedUnits, unitsCap, BusinessActivityValue, partnerNoun, BusinessPartnerValue, BusinessResourceSlotValue, createBusinessActivity, createBusinessPartner, createBusinessResourceSlot, resourceUnitCount } from "../../../../framework/engine/AnswerUtils.ts";
-import { BusinessCard, LinkSymbol, BusinessEmpty, BusinessField, OptionalField, OptionalNote, BusinessRemove, uniqueChoices } from "../../cards/BusinessCardFields.tsx";
+import { BusinessCard, LinkSymbol, BusinessEmpty, BusinessField, OptionalField, BusinessRemove, uniqueChoices } from "../../cards/BusinessCardFields.tsx";
 import { DeliveryValue, createDelivery, deliveryAllocation, deliveryHours, WEEKS_PER_MONTH, demandResult, founderDeliveryHours } from "../../../../framework/engine/DemandCapacity.ts";
 import { asFinancialFoundationValue, moneyFormatter } from "../../../../framework/engine/FinancialModel.ts";
 import { parseAmount, parseDecimal } from "../../../../framework/engine/Amounts.ts";
@@ -30,12 +30,16 @@ import { offeringStartsById } from "../../../../framework/engine/EffectiveAnswer
 import type { useCapabilityState } from "./useCapabilityState.tsx";
 import type { useCapabilityCardFields } from "./useCapabilityCardFields.tsx";
 import type { useCapabilityPeopleCards } from "./useCapabilityPeopleCards.tsx";
+import { HOLD_UPS, customersPerSession, setupPerUnit } from "../../../../framework/engine/DemandCapacity.ts";
+import { PLANNING_CEILING, offeringCount } from "../../../../framework/engine/DemandCapacity.ts";
+import { planMonthLabel } from "../../../../framework/engine/FinancialModel.ts";
+import { effectiveProfileAnswers } from "../../../../framework/engine/EffectiveAnswers.ts";
 
 type Earlier = ReturnType<typeof useCapabilityState> & ReturnType<typeof useCapabilityCardFields> & ReturnType<typeof useCapabilityPeopleCards>;
 
 export function useCapabilityActivityAndDelivery(earlier: Earlier) {
 
-    const { capability, collapsed, disabled, engagementValue, financialFoundation, foundation, founderChoices, founders, foundersProfile, live, offeringChoices, onChange, openPair, organisationCurrency, partnersOf, setCollapsed, setPartners, staffOf, update } = earlier;
+    const { capacityRamp, rampPlan, shareWeights, formatMoney, capability, collapsed, disabled, engagementValue, financialFoundation, foundation, founderChoices, founders, foundersProfile, live, offeringChoices, onChange, openPair, organisationCurrency, partnersOf, setCollapsed, setPartners, staffOf, update } = earlier;
 
     /* LC1, THE SKILLS THE BUSINESS STILL NEEDS (owner, 2026-11-16 20:39), as every reader sees them; the Legal Entity's Gaps and Cover are read into the answer
        once, the first time the page can write (skillsOf: Gaps as Other rows, one a sentence; Cover as the Notes). */
@@ -686,10 +690,41 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
         return {
             ...createDelivery(),
             ...(starts.deliveryMode ? { mode: starts.deliveryMode } : {}),
-            ...(starts.duration ? { duration: starts.duration } : {}),
-            ...(starts.constraints ? { constraints: starts.constraints } : {})
+            ...(starts.duration ? { duration: starts.duration } : {})
         };
     }
+    /*
+        ONCE, WHERE IT HOLDS TEXT (owner, 2026-11-17; doc 52, DV12): a Delivery card's saved Constraints (DV5, retired) move into "What can hold up delivery?" as Other,
+        one row a sentence. And DV1 is O3's record: a saved card whose Delivered differs from what O3 says takes O3's.
+    */
+    useEffect(() => {
+        if (disabled) {
+            return;
+        }
+        const segments = businessFoundationSegments(foundation);
+        let changed = false;
+        const delivery = { ...live.current.delivery };
+        for (const [offeringId, entry] of Object.entries(delivery)) {
+            let next = entry;
+            if (entry.constraints.trim() !== "" && entry.holdUps.length === 0 && entry.holdUpsOther.length === 0) {
+                const rows = entry.constraints.split(/(?<=[.!?])\s+|\n+/).map(text => text.trim()).filter(Boolean);
+                next = { ...next, constraints: "", holdUps: ["other"], holdUpsOther: rows };
+            }
+            const mode = offeringStartsById(segments, offeringId).deliveryMode;
+            if (mode && next.mode !== mode && !(mode === "unit" && next.mode === "")) {
+                next = { ...next, mode, ...(mode === "monthly" ? { duration: "" } : {}) };
+            }
+            if (next !== entry) {
+                delivery[offeringId] = next;
+                changed = true;
+            }
+        }
+        if (changed) {
+            onChange({ ...live.current, delivery });
+        }
+    // (When the saved cards or the Offerings' answers change.)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [JSON.stringify(capability.delivery), JSON.stringify(businessFoundationSegments(foundation).flatMap(segment => segment.offerings.map(offering => offering.id + ":" + JSON.stringify(offering.questions ?? {})))), disabled]);
     function changeDelivery(offeringId: string, patch: Partial<DeliveryValue>) {
         const started = startedDelivery(offeringId);
         const shown = capability.delivery[offeringId] ?? started;
@@ -730,8 +765,7 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
         offeringId: string,
         rows: { id: string; label: string; external: boolean }[],
         hours: Record<string, string>,
-        recurring: boolean,
-        weekly: boolean
+        recurring: boolean
     ) {
 
         const perPerson = rows
@@ -742,13 +776,23 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
         }
 
         const delivery = capability.delivery[offeringId];
-        const weeks = readHours(delivery?.duration) ?? 0;
         const expected = expectedFor(offeringId);
+        // (A supplier who can hold up delivery adds their lead time to the calendar time: DV13.)
+        // (A sole card is the answer, as a one-option picker's record is.)
+        const soleOr = <T extends { id: string; offeringIds: string[] }>(cards: T[], id: string) => cards.find(card => card.id === id) ?? (() => { const linked = cards.filter(card => card.offeringIds.includes(offeringId)); return linked.length === 1 ? linked[0] : undefined; })();
+        const supplier = delivery && delivery.holdUps.includes("materials") ? soleOr(capability.offering.providers, delivery.supplierId) : undefined;
+        const lead = readHours(supplier?.leadWeeks) ?? 0;
+        const weeks = (readHours(delivery?.duration) ?? 0) + lead;
+        const perSession = customersPerSession(delivery);
 
-        // Hours a month for one unit or client, as the capacity counts them.
-        const monthlyOf = (value: number) => recurring && weekly ? value * WEEKS_PER_MONTH : value;
-        const founders = perPerson.filter(row => !row.external).reduce((sum, row) => sum + monthlyOf(row.hours), 0);
-        const external = perPerson.filter(row => row.external).reduce((sum, row) => sum + monthlyOf(row.hours), 0);
+        // Hours a month for one unit or client, as the capacity counts them (deliveryAllocation: a session's hours shared, a batch's set-up spread).
+        const allocation = deliveryAllocation(delivery ? { ...delivery, hours } : undefined);
+        const founders = perPerson.filter(row => !row.external).reduce((sum, row) => sum + (allocation[row.id] ?? 0), 0);
+        const external = perPerson.filter(row => row.external).reduce((sum, row) => sum + (allocation[row.id] ?? 0), 0);
+        // (Units running at once, Little's Law: what starts a month x the weeks each takes; a session serves several customers.)
+        const running = expected ? Math.max(0.1, Math.round(expected.volume / perSession * weeks / WEEKS_PER_MONTH * 10) / 10) : 0;
+        const equipment = delivery && delivery.holdUps.includes("equipment") ? soleOr(capability.offering.resources, delivery.equipmentId) : undefined;
+        const holds = readHours(delivery?.holdsAtOnce) ?? 0;
 
         /* Compact labelled lines, one fact each: the pace while one runs, the
            load at the expected sales. */
@@ -774,9 +818,8 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
                             {[
                                 founders > 0 ? "founders " + inFounderUnit(founders * expected.volume) : "no founders' time",
                                 ...(external > 0 ? ["external " + formatHours(external * expected.volume) + " h a month"] : []),
-                                ...(!recurring && weeks > 0
-                                    ? ["about " + formatHours(Math.max(0.1, Math.round(expected.volume * weeks / WEEKS_PER_MONTH * 10) / 10)) + " running at once"]
-                                    : [])
+                                ...(!recurring && weeks > 0 ? ["about " + formatHours(running) + " running at once"] : []),
+                                ...(!recurring && weeks > 0 && equipment && holds > 0 ? [(equipment.name.trim() || "the equipment") + " holds " + formatHours(holds)] : [])
                             ].join(" · ")}
                         </p>
                     )
@@ -785,6 +828,20 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
                             Add this Offering's expected sales under Demand & Conversion on Customer Engagement to see the hours it takes a month.
                         </p>
                     )}
+
+                {/* (DV7 and DV8: more running at once than the equipment holds; owner, 2026-11-17.) */}
+                {expected && !recurring && weeks > 0 && equipment && holds > 0 && running > holds && (
+                    <p className="delivery-muted" role="note">
+                        {"About " + formatHours(running) + " running at once: " + (equipment.name.trim() || "the equipment") + " holds " + formatHours(holds) + ". Plan for a longer Calendar Time, or add to " + (equipment.name.trim() || "the equipment") + "."}
+                    </p>
+                )}
+
+                {/* (DV13: the supplier's lead time, added to the calendar time.) */}
+                {supplier && lead > 0 && (
+                    <p className="delivery-muted">
+                        {(supplier.name.trim() || "The supplier's order") + " takes " + formatHours(lead) + (lead === 1 ? " week" : " weeks") + " to arrive: order " + formatHours(lead) + (lead === 1 ? " week" : " weeks") + " ahead of the busy months."}
+                    </p>
+                )}
 
             </div>
         );
@@ -852,13 +909,19 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
         /* THE FOUNDER CHOOSES how it is delivered: once per unit, over
            some weeks; or every month, for each active client (a
            retainer, a subscription), with no duration. */
-        const recurring = delivery.mode === "monthly";
+        // (DV1 IS O3'S RECORD where O3 is answered: how customers are charged says how it is delivered; owner, 2026-11-17.)
+        const starts = offeringStartsById(businessFoundationSegments(foundation), offering.id);
+        const recurring = starts.deliveryMode ? starts.deliveryMode === "monthly" : delivery.mode === "monthly";
+        const sessions = !recurring && !!starts.sessions;
+        const batches = !recurring && !!starts.batches;
+        const perSession = sessions ? customersPerSession(delivery) : 1;
+        const setup = batches ? setupPerUnit(delivery) : 0;
 
         // How customers buy it, said on Customer Engagement.
         const bought = demandByOffering[offering.id];
         const disagrees = (bought?.sources.length ?? 0) > 0 && bought.recurring !== recurring;
         const weekly = recurring && delivery.period === "week";
-        const perUnit = recurring ? (weekly ? " per client a week" : " per client a month") : " per unit";
+        const perUnit = recurring ? (weekly ? " per client a week" : " per client a month") : sessions ? " per session" : " per unit";
 
         return (
             <BusinessCard
@@ -880,7 +943,7 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
                         label={offering.label + " delivered per unit or every month"}
                         placeholder="Per unit"
                         hug
-                        options={["Per unit", "Every month"]}
+                        options={starts.deliveryMode ? [recurring ? "Every month" : "Per unit"] : ["Per unit", "Every month"]}
                         disabled={disabled}
                         value={recurring ? "Every month" : "Per unit"}
                         onChange={(next) => changeDelivery(offering.id, next === "Every month"
@@ -911,8 +974,48 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
                     </BusinessField>
                 )}
 
+                {/* DV6, customers in one session: a class, a workshop, an event (doc 52; owner, 2026-11-17). */}
+                {sessions && (
+                    <BusinessField label="Customers in one session" info={DELIVERY_HELP.perSession} side>
+                        <NumberCell kind="int"
+                            className="delivery-number"
+                            aria-label={offering.label + " customers in one session"}
+                            placeholder="1"
+                            disabled={disabled}
+                            value={delivery.perSession}
+                            onChange={(event) => changeDelivery(offering.id, { perSession: limitedNumberText(event.target.value, delivery.perSession, NUMBER_LIMITS.quantity) })}
+                        />
+                    </BusinessField>
+                )}
+
+                {/* DV9 and DV10, a batch's set-up and its units: a Product or Hybrid, not made to order. */}
+                {batches && (
+                    <>
+                        <BusinessField label="Set-up for a batch (hours)" info={DELIVERY_HELP.batch} side>
+                            <NumberCell
+                                className="delivery-number"
+                                aria-label={offering.label + " set-up hours for a batch"}
+                                placeholder="0"
+                                disabled={disabled}
+                                value={delivery.batchSetup}
+                                onChange={(event) => changeDelivery(offering.id, { batchSetup: limitedNumberText(event.target.value, delivery.batchSetup, NUMBER_LIMITS.unitHours) })}
+                            />
+                        </BusinessField>
+                        <BusinessField label="Units in a batch" side>
+                            <NumberCell kind="int"
+                                className="delivery-number"
+                                aria-label={offering.label + " units in a batch"}
+                                placeholder="1"
+                                disabled={disabled}
+                                value={delivery.batchUnits}
+                                onChange={(event) => changeDelivery(offering.id, { batchUnits: limitedNumberText(event.target.value, delivery.batchUnits, NUMBER_LIMITS.quantity) })}
+                            />
+                        </BusinessField>
+                    </>
+                )}
+
                 <BusinessField
-                    label={recurring ? "Working Hours per Client (" + (weekly ? "a week" : "a month") + "), by person" : "Working Hours per Unit, by person"}
+                    label={recurring ? "Working Hours per Client (" + (weekly ? "a week" : "a month") + "), by person" : sessions ? "Working Hours per Session, by person" : "Working Hours per Unit, by person"}
                     info={DELIVERY_HELP.effort}
                 >
                     {rows.length === 0
@@ -965,7 +1068,9 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
                                             ? " · founders " + formatHours(foundersTotal) +
                                                 " h · external " + formatHours(externalTotal) + " h"
                                             : "") +
-                                        (weekly ? " (about " + formatHours(total * WEEKS_PER_MONTH) + " h a month)" : "")}
+                                        (weekly ? " (about " + formatHours(total * WEEKS_PER_MONTH) + " h a month)" : "") +
+                                        (perSession > 1 ? " · about " + formatHours(Math.round(total / perSession * 100) / 100) + " h a customer" : "") +
+                                        (setup > 0 ? " · set-up adds " + formatHours(Math.round(setup * 100) / 100) + " h a unit" : "")}
                                 >
                                     <InfoNote label={offering.label + " unit"} points={DELIVERY_HELP.unit} fullList />
                                 </InfoText>
@@ -973,7 +1078,7 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
                         </p>
                     )}
 
-                    {deliveryPace(offering.id, rows, shownHours, recurring, weekly)}
+                    {deliveryPace(offering.id, rows, shownHours, recurring)}
 
                             </div>
                         )}
@@ -994,14 +1099,80 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
                     </BusinessField>
                 )}
 
-                <OptionalNote
-                    label="Constraints"
-                    info={DELIVERY_HELP.constraints}
-                    ariaLabel={offering.label + " delivery constraints"}
-                    disabled={disabled}
-                    value={delivery.constraints}
-                    onChange={(next) => changeDelivery(offering.id, { constraints: next })}
-                />
+                {/* DV12, WHAT CAN HOLD UP DELIVERY (replaces DV5, Constraints; owner, 2026-11-17): equipment or a workspace (DV7, DV8), materials from a supplier
+                    (DV13), Other. Partners' time, seasons, skills, licences and money are read elsewhere: the bars, Busy times, Skills, Registrations, Financial Position. */}
+                <BusinessField label="What can hold up delivery?" info={DELIVERY_HELP.holdUps}>
+                    <div className="radio-choice legal-entity-radio-stack" role="group" aria-label={offering.label + " what can hold up delivery"}>
+                        {HOLD_UPS.map(option => (
+                            <TickField key={option.id} className="business-foundation-tick" disabled={disabled} checked={delivery.holdUps.includes(option.id)}
+                                onChange={(event) => changeDelivery(offering.id, {
+                                    holdUps: event.currentTarget.checked ? [...delivery.holdUps, option.id] : delivery.holdUps.filter(id => id !== option.id),
+                                    ...(event.currentTarget.checked ? {} : option.id === "equipment" ? { equipmentId: "", holdsAtOnce: "" } : option.id === "materials" ? { supplierId: "" } : { holdUpsOther: [] })
+                                })}>
+                                {option.label}
+                            </TickField>
+                        ))}
+                    </div>
+                </BusinessField>
+                {delivery.holdUps.includes("equipment") && (() => {
+                    const owned = uniqueChoices(capability.offering.resources.filter(card => card.offeringIds.includes(offering.id)), "Unnamed resource");
+                    return (
+                        <>
+                            <BusinessField label="Which one?" info={DELIVERY_HELP.equipment} side>
+                                {owned.length === 0
+                                    ? <span className="delivery-muted">Add this Offering's equipment or workspace under Resources.</span>
+                                    : (
+                                        <OptionPicker
+                                            label={offering.label + " equipment that holds up delivery"}
+                                            placeholder="Select"
+                                            options={owned.map(choice => choice.label)}
+                                            disabled={disabled}
+                                            value={owned.find(choice => choice.id === delivery.equipmentId)?.label ?? ""}
+                                            onChange={(next) => changeDelivery(offering.id, { equipmentId: owned.find(choice => choice.label === next)?.id ?? "" })}
+                                        />
+                                    )}
+                            </BusinessField>
+                            <BusinessField label="How many units can it hold at once?" side>
+                                <NumberCell kind="int"
+                                    className="delivery-number"
+                                    aria-label={offering.label + " units the equipment holds at once"}
+                                    placeholder="1"
+                                    disabled={disabled}
+                                    value={delivery.holdsAtOnce}
+                                    onChange={(event) => changeDelivery(offering.id, { holdsAtOnce: limitedNumberText(event.target.value, delivery.holdsAtOnce, NUMBER_LIMITS.quantity) })}
+                                />
+                            </BusinessField>
+                        </>
+                    );
+                })()}
+                {delivery.holdUps.includes("materials") && (() => {
+                    const suppliers = uniqueChoices(capability.offering.providers.filter(card => card.offeringIds.includes(offering.id)), "Unnamed supplier");
+                    return (
+                        <BusinessField label="Which supplier?" side>
+                            {suppliers.length === 0
+                                ? <span className="delivery-muted">Add this Offering's supplier under Partners &amp; Suppliers.</span>
+                                : (
+                                    <OptionPicker
+                                        label={offering.label + " supplier that holds up delivery"}
+                                        placeholder="Select"
+                                        options={suppliers.map(choice => choice.label)}
+                                        disabled={disabled}
+                                        value={suppliers.find(choice => choice.id === delivery.supplierId)?.label ?? ""}
+                                        onChange={(next) => changeDelivery(offering.id, { supplierId: suppliers.find(choice => choice.label === next)?.id ?? "" })}
+                                    />
+                                )}
+                        </BusinessField>
+                    );
+                })()}
+                {delivery.holdUps.includes("other") && (
+                    <NumberedListInput
+                        label={offering.label + " what can hold up delivery, other"}
+                        items={writtenInRows(delivery.holdUpsOther)}
+                        autoFocusFirst={writtenInNames(delivery.holdUpsOther).length === 0}
+                        disabled={disabled}
+                        onChange={(items) => changeDelivery(offering.id, { holdUpsOther: items })}
+                    />
+                )}
 
             </BusinessCard>
         );
@@ -1027,6 +1198,55 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
         // Ongoing work first: it is served every month.
         items.sort((a, b) => Number(b.monthly) - Number(a.monthly));
         return items;
+    }
+    const FULL_MONTHS: Record<string, string> = { Jan: "January", Feb: "February", Mar: "March", Apr: "April", May: "May", Jun: "June", Jul: "July", Aug: "August", Sep: "September", Oct: "October", Nov: "November", Dec: "December" };
+    /* (The planning ceiling's and the hiring lead time's "i" lines, with their sources last.) */
+    const CEILING_HELP = "Above about 85%, waiting and late work grow fast. Based on: Choo, Project Production Institute (2016), after Kingman (1961).";
+    const HELP_LEAD_HELP = [
+        "Hiring takes about 5 weeks in the UK, then notice and training: about 8 weeks in all. A first employee also needs PAYE registration and Employers' Liability insurance.",
+        "Based on: Totaljobs, Hiring Trends Index, Q4 2024 (2025); GOV.UK."
+    ];
+    /** A person's month as a bar: the hours used of the hours they have, with the planning ceiling marked at 85% (doc 52, 4.1). */
+    function budgetBar(label: string, used: number, available: number) {
+        return (
+            <div
+                className="delivery-budget-bar"
+                role="img"
+                aria-label={label + ": " + formatHours(used) + " of " + formatHours(available) + " delivery hours a month used"}
+            >
+                <span
+                    className={"delivery-budget-fill" + (used > available ? " delivery-budget-fill-short" : "")}
+                    style={{ width: Math.min(100, Math.round(used / Math.max(1, available) * 100)) + "%" }}
+                />
+                <span className="delivery-budget-ceiling" aria-hidden="true" style={{ left: PLANNING_CEILING * 100 + "%" }} />
+            </div>
+        );
+    }
+    /** The line under a founder's bar: above the ceiling, what a plan holds best at; at or below it, the room it leaves. */
+    function useLine(label: string, used: number, available: number): string {
+        const percent = Math.round(used / Math.max(1, available) * 100);
+        return percent > PLANNING_CEILING * 100
+            ? percent + "% of " + label + "'s delivery hours at the expected sales. A plan holds best at 85% or less: that leaves room for a busy week or a day off."
+            : percent + "% of " + label + "'s hours: room for a busy week or a day off.";
+    }
+    /** "Your customers buy in the evenings and at weekends: plan the delivery hours for those times." -- from the Profiles' D3, for an Offering delivered live. */
+    function busyLine() {
+        const segments = businessFoundationSegments(foundation);
+        const times = new Set<string>();
+        for (const segment of segments) {
+            const live = segment.offerings.some(entry => offeringStartsById(segments, entry.id).sessions);
+            if (!live) {
+                continue;
+            }
+            for (const profile of segment.profiles) {
+                (effectiveProfileAnswers(profile, segment, undefined).d3 ?? []).forEach(id => { if (id === "evenings" || id === "weekends") { times.add(id); } });
+            }
+        }
+        if (times.size === 0) {
+            return null;
+        }
+        const words = times.size === 2 ? "in the evenings and at weekends" : times.has("evenings") ? "in the evenings" : "at weekends";
+        return <p className="delivery-muted">{"Your customers buy " + words + ": plan the delivery hours for those times."}</p>;
     }
     function deliverySection() {
 
@@ -1095,28 +1315,92 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
                                         </tr>
                                     </tbody>
                                 </table>
-                                <div
-                                    className="delivery-budget-bar"
-                                    role="img"
-                                    aria-label={label + ": " + formatHours(used) + " of " + formatHours(available) + " delivery hours a month used"}
-                                >
-                                    <span
-                                        className={"delivery-budget-fill" + (left < 0 ? " delivery-budget-fill-short" : "")}
-                                        style={{ width: Math.min(100, Math.round(used / Math.max(1, available) * 100)) + "%" }}
-                                    />
-                                </div>
+                                {budgetBar(label, used, available)}
                                 <p className="delivery-muted">
-                                    <InfoText
-                                        text={Math.round(used / Math.max(1, available) * 100) + "% of " + label +
-                                            "'s delivery hours, at the normal level of sales."}
-                                    >
-                                        <InfoNote label="Capacity used" points={CAPACITY_UTILISATION_HELP} />
+                                    <InfoText text={useLine(label, used, available)}>
+                                        <InfoNote label="Capacity used" points={[...CAPACITY_UTILISATION_HELP, CEILING_HELP]} />
                                     </InfoText>
-                                    {left < 0 ? " More delivery capacity may be needed: more hours, an external professional for part of the work, or a hire." : ""}
                                 </p>
+                                {/* WHAT FITS (doc 52, 4.2): above the ceiling, the last Offering in the budget gives way; the sales beyond it stay out of the forecast. */}
+                                {(() => {
+                                    // (The last Offering in the budget gives way first; where it cannot take all of the excess, the one before it gives way too.)
+                                    let excess = used - available * PLANNING_CEILING;
+                                    if (excess <= 0.05) {
+                                        return null;
+                                    }
+                                    const giving: { name: string; fit: number; lost: number; revenue: number }[] = [];
+                                    for (const item of [...items].reverse()) {
+                                        const expected = expectedFor(item.id);
+                                        if (excess <= 0.05 || !expected || item.hours <= 0) {
+                                            continue;
+                                        }
+                                        const perUnit = item.hours / expected.volume;
+                                        const lost = Math.min(expected.volume, Math.ceil(excess / perUnit - 0.001));
+                                        excess -= lost * perUnit;
+                                        giving.unshift({
+                                            name: offeringChoices.find(choice => choice.id === item.id)?.label ?? "this Offering",
+                                            fit: Math.max(0, Math.round((expected.volume - lost) * 10) / 10),
+                                            lost,
+                                            revenue: (shareWeights.revenue[item.id] ?? 0) / expected.volume * lost
+                                        });
+                                    }
+                                    if (giving.length === 0) {
+                                        return null;
+                                    }
+                                    const and = (parts: string[]) => parts.length < 2 ? parts.join("") : parts.slice(0, -1).join(", ") + " and " + parts[parts.length - 1];
+                                    const revenue = giving.reduce((sum, entry) => sum + entry.revenue, 0);
+                                    const money = revenue > 0 ? ", about " + formatMoney(Math.round(revenue)) : "";
+                                    // (One Offering giving way: what fits and what is left; several: only what needs help, the last in the budget first; coordinator's wording.)
+                                    const text = giving.length === 1
+                                        ? "At 85% of " + label + "'s hours, about " + offeringCount(giving[0].fit, giving[0].name) + " a month fit. The other " + formatHours(giving[0].lost) + " a month" + money + ", need more hours or help."
+                                        : "At 85% of " + label + "'s hours, " + and([...giving].reverse().map(entry => offeringCount(entry.lost, entry.name))) + " a month" + money + ", need more hours or help.";
+                                    return <p className="delivery-muted">{text}</p>;
+                                })()}
+                                {/* WHEN TO ADD HELP (doc 52, 4.3): the month the plan passes 85%, and 8 weeks before it to start looking (5 to hire, 3 for notice and training). */}
+                                {(() => {
+                                    const load = capacityRamp?.founders.find(entry => entry.id === founder.id);
+                                    if (!load || load.firstAboveCeiling === null) {
+                                        return null;
+                                    }
+                                    // (Months in full: "March 2027".)
+                                    const full = (label: string) => label.replace(/^[A-Z][a-z]{2}/, short => FULL_MONTHS[short] ?? short);
+                                    const passes = full(planMonthLabel(rampPlan.planStart, load.firstAboveCeiling + 1));
+                                    const looking = load.firstAboveCeiling - 2;
+                                    const lookBy = looking >= 0 ? full(planMonthLabel(rampPlan.planStart, looking + 1)) : "";
+                                    const sameYear = lookBy.slice(-4) === passes.slice(-4);
+                                    return (
+                                        <p className="delivery-muted">
+                                            <InfoText text={label + " passes 85% in " + passes + ". " + (lookBy ? "To have help by then, start looking by " + (sameYear ? lookBy.replace(/ \d{4}$/, "") : lookBy) + "." : "To have help by then, start looking now.")}>
+                                                <InfoNote label="When to add help" points={HELP_LEAD_HELP} />
+                                            </InfoText>
+                                        </p>
+                                    );
+                                })()}
                             </div>
                         );
                     })}
+
+                    {/* PEOPLE WHO SAY THE HOURS THEY CAN GIVE (doc 52, 14): Staff, Partners and Suppliers on a Delivery card, each a row and bar of their own. */}
+                    {[...staffOf("offering"), ...capability.offering.professionals, ...capability.offering.providers].map(card => {
+                        const given = readHours(card.hoursAvailable) ?? 0;
+                        const needed = offeringChoices.reduce((sum, choice) => {
+                            const expected = expectedFor(choice.id);
+                            return sum + (expected ? (deliveryAllocation(capability.delivery[choice.id])[card.id] ?? 0) * expected.volume : 0);
+                        }, 0);
+                        if (given <= 0 || needed <= 0) {
+                            return null;
+                        }
+                        const name = card.name.trim() || "Unnamed card";
+                        return (
+                            <div className="delivery-budget" key={card.id}>
+                                {budgetBar(name, needed, given)}
+                                <p className="delivery-muted">{name + ": " + formatHours(Math.round(needed * 10) / 10) + " h needed a month, " + formatHours(given) + " h available."}</p>
+                            </div>
+                        );
+                    })}
+
+                    {/* BUSY TIMES (doc 52, 4.4): customers who buy in the evenings or at weekends, of an Offering delivered live. */}
+                    {busyLine()}
 
                     {/* An Offering whose hours are recorded but whose
                         sales are not yet expected is not in the budgets:

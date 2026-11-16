@@ -6,6 +6,7 @@ Every change of the tables, that is, of the structure of the app: a placement pl
 
 | Id | Date | Change | Where | Asset | Not in the library | What | Note |
 |---|---|---|---|---|---|---|---|
+| A0321 | 2026-11-16 | edited | FN FN26 |  |  | row changed: function | Capacity & Delivery (doc 52, section 10): the bar's 85% mark, the band's lines, the people's own bars; the Delivery card's DV6, DV9/DV10 and DV12 (in place of Constraints); Hours a month they can give and a Supplier's lead time (owner, 2026-11-17) |
 | A0320 | 2026-11-16 | edited | F F052 |  |  | row changed: name | Owner 2026-11-16 20:22: the app's field F052 renamed Team (the structure tables regenerated from doc 26) |
 | A0319 | 2026-11-09 | edited | F F131 |  |  | row changed: name |  |
 | A0318 | 2026-10-30 | removed | F F202 |  |  | row removed |  |

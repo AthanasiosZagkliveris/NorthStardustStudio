@@ -752,6 +752,7 @@ export function createBusinessResourceSlot(): BusinessResourceSlotValue {
         id: randomId("resource"),
         name: "",
         quantity: "1",
+        hoursAvailable: "",
         description: "",
         status: "",
         cost: createBusinessCost(),
@@ -809,6 +810,8 @@ export function createBusinessPartner(name = "", category = ""): BusinessPartner
         rateOverride: "",
         costOption: "",
         quantity: "",
+        hoursAvailable: "",
+        leadWeeks: "",
         extras: {},
         paymentPlan: emptyPaymentPlan(),
         offeringShares: {},
@@ -943,6 +946,7 @@ export function asBusinessResourceSlot(
         id: asText(slot.id) || randomId("resource"),
         name: asText(slot.name),
         quantity: moved ? "" : quantity,
+        hoursAvailable: businessDecimalText(asText(slot.hoursAvailable)),
         description: withEarlier(withEarlier(moved
             ? ("Quantity: " + quantity.replace(/\.$/, "") + ". " + description).trim()
             : description, "frequency", earlierFrequency), "status", earlierStatus),
@@ -1089,6 +1093,8 @@ export function asBusinessPartner(
         rateOverride: businessDecimalText(asText(partner.rateOverride)),
         costOption: validCostOption(scope, group, asText(partner.costOption)),
         quantity: businessDecimalText(asText(partner.quantity)),
+        hoursAvailable: businessDecimalText(asText(partner.hoursAvailable)),
+        leadWeeks: businessDecimalText(asText(partner.leadWeeks)),
         extras: asBusinessExtras(partner.extras),
         paymentPlan: asPaymentPlan(partner.paymentPlan),
         offeringShares: asOfferingShares(partner.offeringShares, offeringIdsOf(partner)),

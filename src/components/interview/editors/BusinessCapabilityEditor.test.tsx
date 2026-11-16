@@ -728,8 +728,8 @@ describe("BusinessCapabilityEditor Frequency and Responsibility side labels", ()
     function expectLabelThenHuggingDropdown() {
         for (const field of document.querySelectorAll(".business-field-side")) {
             expect(field.children[0].classList.contains("field-label") || field.children[0].classList.contains("business-foundation-label-info")).toBe(true);
-            // (The Start and End dates are Calendars, not dropdowns; a one-option dropdown is text.)
-            if (/^(Start|End) date|^Useful life|^Rate override/.test(field.querySelector(".field-label")?.textContent ?? "") || field.querySelector(".business-capability-static-value")) {
+            // (The Start and End dates are Calendars, not dropdowns; a one-option dropdown is text; the hours they can give and a lead time are number cells.)
+            if (/^(Start|End) date|^Useful life|^Rate override|^Hours a month they can give|^Lead time/.test(field.querySelector(".field-label")?.textContent ?? "") || field.querySelector(".business-capability-static-value")) {
                 continue;
             }
             // (A sole founder has no Responsible field at all: see "a Partnership / Provider's Responsible".)
@@ -748,7 +748,8 @@ describe("BusinessCapabilityEditor Frequency and Responsibility side labels", ()
         expectLabelThenHuggingDropdown();
         closeTile();
         openCards("Partners & Suppliers", "Partner 1", "Partners");
-        expect(sideLabels()).toEqual(["Start date", "End date", "Group", "Responsible"]);
+        // (And the hours a month they can give: doc 52, 14.)
+        expect(sideLabels()).toEqual(["Start date", "End date", "Group", "Responsible", "Hours a month they can give"]);
         // The partner's Frequency keeps its label above the dropdown, on the Price's row (the dropdown hugs its longest option too).
         const partnerFrequency = [...document.querySelectorAll('.floating-card-host .business-foundation-field')]
             .find(field => field.querySelector(":scope > .field-label")?.textContent?.startsWith("Frequency"))!;
@@ -1205,13 +1206,15 @@ describe("BusinessCapabilityEditor starts from Page 1 (phase 5f, 2026-11-09)", (
         return <BusinessCapabilityEditor value={value} onChange={(next) => { setValue(next); onValue?.(next); }} legalEntityFounders={founders} foundation={foundation} />;
     }
 
-    it("starts Delivered from O3, Calendar Time from O15 and Constraints from O10 on a Delivery not saved yet", () => {
+    it("shows Delivered as O3's record, starts Calendar Time from O15, and asks what can hold up delivery (DV12) in place of Constraints", () => {
         render(<StartHarness initial={asBusinessCapabilityValue(undefined)} />);
         openTile("Capacity & Delivery");
         openCard("Build");
-        expect(screen.getByRole("button", { name: "Build delivered per unit or every month: Per unit" })).toBeTruthy();
+        // (DV1 IS O3'S RECORD: one option, read only; owner, 2026-11-17.)
+        expect(screen.getByRole("textbox", { name: "Build delivered per unit or every month: Per unit" }).getAttribute("aria-readonly")).toBe("true");
         expect((screen.getByLabelText("Build calendar time, weeks") as HTMLInputElement).value).toBe("4");
-        expect((screen.getByLabelText("Build delivery constraints") as HTMLTextAreaElement).value).toBe("Access to their systems or information; A clear brief.");
+        expect(screen.queryByLabelText("Build delivery constraints")).toBeNull();
+        expect(screen.getByRole("group", { name: "Build what can hold up delivery" })).toBeTruthy();
     });
 
     it("starts Every month for a retainer, and saves the start with the first thing written", () => {
@@ -1219,7 +1222,7 @@ describe("BusinessCapabilityEditor starts from Page 1 (phase 5f, 2026-11-09)", (
         render(<StartHarness initial={asBusinessCapabilityValue(undefined)} onValue={(next) => { saved = next; }} />);
         openTile("Capacity & Delivery");
         openCard("Care");
-        expect(screen.getByRole("button", { name: "Care delivered per unit or every month: Every month" })).toBeTruthy();
+        expect(screen.getByRole("textbox", { name: "Care delivered per unit or every month: Every month" }).getAttribute("aria-readonly")).toBe("true");
         fireEvent.change(screen.getByLabelText(/^Ann hours per client a month of Care/), { target: { value: "6" } });
         expect(asBusinessCapabilityValue(saved).delivery["offering-2"]).toMatchObject({ mode: "monthly", hours: { f1: "6" } });
     });
@@ -1260,6 +1263,51 @@ describe("BusinessCapabilityEditor without a physical item (doc 28, 11.7; phase 
         openTile("Resources");
         expect(categoryTiles()).toContain("Materials & Inventory");
         expect(categoryTiles()).not.toContain("Vehicles");
+    });
+
+});
+
+describe("Capacity & Delivery, doc 52 (owner, 2026-11-17)", () => {
+
+    const founders = [{ id: "f1", name: "Ann", ownership: "100", capital: "", roles: [""], experience: "" }];
+    const foundation = { segments: [{ id: "s", name: "Makers", offerings: [
+        { id: "o-class", name: "Classes", category: "Service", questions: { o1: ["inperson"], o3: ["once"] } },
+        { id: "o-rug", name: "Rugs", category: "Product", questions: { o1: ["physical"], o3: ["once"] } }
+    ] }] };
+    function Harness({ initial, onValue }: { initial: unknown; onValue?: (next: unknown) => void }) {
+        const [value, setValue] = useState<unknown>(initial);
+        return <BusinessCapabilityEditor value={value} onChange={(next) => { setValue(next); onValue?.(next); }} legalEntityFounders={founders} foundation={foundation} />;
+    }
+
+    it("asks DV6 for sessions (the hours then a session's), DV9 and DV10 for a product, and DV12 in place of Constraints, each tick opening its own question", () => {
+        let saved: unknown;
+        render(<Harness initial={{ ...asBusinessCapabilityValue(undefined), offering: { ...asBusinessCapabilityValue(undefined).offering, resources: [{ ...createBusinessResourceSlot(), id: "loom", name: "Floor loom", offeringIds: ["o-rug"] }] } }} onValue={(next) => { saved = next; }} />);
+        openTile("Capacity & Delivery");
+        openCard("Classes");
+        expect(screen.getByLabelText("Classes customers in one session")).toBeTruthy();
+        expect(document.querySelector(".floating-card-host")!.textContent).toContain("Working Hours per Session, by person");
+        expect(screen.queryByLabelText("Classes set-up hours for a batch")).toBeNull();
+        closeTile();
+        openCard("Rugs");
+        expect(screen.queryByLabelText("Rugs customers in one session")).toBeNull();
+        expect(screen.getByLabelText("Rugs set-up hours for a batch")).toBeTruthy();
+        fireEvent.click(within(screen.getByRole("group", { name: "Rugs what can hold up delivery" })).getByLabelText("Equipment or a workspace"));
+        expect(asBusinessCapabilityValue(saved).delivery["o-rug"].holdUps).toEqual(["equipment"]);
+        // (One resource: the picker is its record.)
+        expect(screen.getByRole("textbox", { name: "Rugs equipment that holds up delivery: Floor loom" }).getAttribute("aria-readonly")).toBe("true");
+        expect(screen.getByLabelText("Rugs units the equipment holds at once")).toBeTruthy();
+    });
+
+    it("moves a saved Constraints text once into Other, one row a sentence", () => {
+        let saved: unknown;
+        const initial = { ...asBusinessCapabilityValue(undefined), delivery: { "o-rug": { ...asBusinessCapabilityValue({ delivery: { "o-rug": {} } }).delivery["o-rug"], hours: { f1: "2" }, constraints: "Three looms. Yarn takes a week." } } };
+        render(<Harness initial={initial} onValue={(next) => { saved = next; }} />);
+        const moved = asBusinessCapabilityValue(saved).delivery["o-rug"];
+        expect([moved.constraints, moved.holdUps, moved.holdUpsOther]).toEqual(["", ["other"], ["Three looms.", "Yarn takes a week."]]);
+    });
+
+    it("draws the 85% mark on every bar", () => {
+        expect(stylesheet("delivery.css")).toMatch(/\.delivery-budget-ceiling\{[^}]*position:absolute;/);
     });
 
 });
