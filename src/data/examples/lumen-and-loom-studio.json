@@ -3252,23 +3252,11 @@
                     "calculate": true,
                     "estimate": "",
                     "inputs": {
-                      "visitors": "500",
-                      "buy": "1.2"
+                      "visitors": "625",
+                      "buy": "1.6"
                     },
-                    "basis": "About 500 visits a month to the online store, most from Instagram and Pinterest; 1.2% buy, the rate the shop reached in its first three months.",
+                    "basis": "About 625 visitors a month: some 525 to the online store, most from Instagram and Pinterest, of whom about 1.1% buy (the shop's rate in its first three months), and about 100 at the stall on market days, of whom one in 25 buys a piece. That is about 10 sales, a blended 1.6%.",
                     "channelId": "channel-xrenzwzk"
-                  },
-                  {
-                    "id": "source-lumen-market",
-                    "type": "marketplace",
-                    "calculate": true,
-                    "estimate": "",
-                    "inputs": {
-                      "visitors": "100",
-                      "buy": "4"
-                    },
-                    "basis": "About 100 people stop at the stall over the market days of a month; one in 25 buys a piece.",
-                    "channelId": "channel-kuy4u7hj"
                   }
                 ],
                 "recurring": false,

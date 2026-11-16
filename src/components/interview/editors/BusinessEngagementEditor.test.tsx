@@ -719,8 +719,11 @@ describe("a Customer Source's kind narrows its channels (owner, 2026-11-14 11:15
             fireEvent.keyDown(document.activeElement ?? document.body, { key: "Escape" });
             return names;
         };
-        // (A walk-in source: the places, not the website.)
-        expect(channels()).toEqual(["Studio"]);
+        // (A walk-in source: the places, not the website. Saved, the one Visitors source takes the kind's channels, listed: owner, 2026-11-16 20:29.)
+        expect(channels).toBeTypeOf("function");
+        const card = document.querySelector(".floating-card-host")?.textContent ?? "";
+        expect(card).toContain("Studio");
+        expect(card).not.toContain("Main Website");
     });
 
 });

@@ -472,17 +472,26 @@ export function withAnswerSources(demand: DemandValue | undefined, segment: Busi
     if (rows.length === 0) {
         return demand;
     }
-    // (A group's new channel joins the group the answers made before, never a second source of it.)
+    // (A KIND NEVER TWICE (owner, 2026-11-16 20:29): where the Offering has one source of the kind -- saved by the founder or made before --, that source takes the
+    // kind's channels, its own figures kept; where it has two or more (older answers), they stay apart and none is made. Only a kind it has none of is made.)
     let sources = [...base.sources];
+    let changed = false;
     for (const row of rows) {
-        const into = row.group ? sources.findIndex(source => source.fromAnswers && source.type === row.type && source.group === row.group) : -1;
-        if (into >= 0) {
-            sources[into] = { ...sources[into], channelIds: [...new Set([...(sources[into].channelIds ?? []), ...(row.channelIds ?? [])])] };
+        const same = row.group ? sources.map((source, at) => ({ source, at })).filter(entry => entry.source.type === row.type) : [];
+        if (same.length > 1) {
+            continue;
+        }
+        if (same.length === 1) {
+            const { source, at } = same[0];
+            const own = source.channelId ? [source.channelId] : [];
+            changed = true;
+            sources[at] = { ...source, channelId: "", group: row.group, channelIds: [...new Set([...own, ...(source.channelIds ?? []), ...(row.channelIds ?? [])])] };
         } else {
+            changed = true;
             sources = [...sources, { ...createDemandSource(row.type, row.channelId), ...(row.name ? { name: row.name } : {}), ...(row.group ? { group: row.group, channelIds: row.channelIds ?? [] } : {}), fromAnswers: true }];
         }
     }
-    return { ...base, sources };
+    return changed ? { ...base, sources } : demand;
 }
 
 /** A Discover channel's category → the Customer Source its customers come by (doc 28, 7.5). */

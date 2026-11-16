@@ -299,7 +299,7 @@ describe("relationship types and Customer Sources from the answers", () => {
         expect(entry?.typeDetail["other:Monthly clinic"]?.purpose).toBe("Drop-in help");
     });
 
-    test("the new categories bring prospects; an Other channel's source carries its name; a removed source stays removed; a saved one stays", () => {
+    test("the new categories bring prospects; an Other channel's source carries its name; a removed source stays removed; a saved one takes its kind's channels", () => {
         expect(["Advertising", "Print & Mail", "Samples & Trials"].map(category => demandSourceOf(category))).toEqual(["funnel", "funnel", "funnel"]);
         const site = { ...createBusinessChannel(), id: "site", category: "Website", name: "Main Website", stages: ["discovery"] };
         const board = { ...createBusinessChannel(), id: "board", category: "Other", name: "Church noticeboard", stages: ["discovery"] };
@@ -317,13 +317,30 @@ describe("relationship types and Customer Sources from the answers", () => {
         // (Removed: not made again until restored.)
         const removed = { ...made, sources: made.sources.slice(1), dismissed: [demandSourceKey(made.sources[0])] };
         expect(withAnswerSources(removed, segment, offering.id, [site, board], false)).toBe(removed);
-        // (A source saved by hand before stays as it is, its own figures, never merged; only what is missing is made.)
+        // (A source saved by hand keeps its figures and takes its kind's channels: a kind never twice; owner, 2026-11-16 20:29.)
         const hand = { ...createDemand(), sources: [{ ...createDemandSource("funnel", "site"), id: "mine", estimate: "4" }] };
         const kept = withAnswerSources(hand, segment, offering.id, [site, board, landing], false)!;
-        expect(kept.sources[0]).toEqual(hand.sources[0]);
-        expect(kept.sources.map(source => source.group ?? source.channelId)).toEqual(["site", "Sales funnel", "board"]);
-        expect(kept.sources[1].channelIds).toEqual(["landing"]);
+        expect(kept.sources[0]).toMatchObject({ id: "mine", estimate: "4", group: "Sales funnel", channelIds: ["site", "landing"] });
+        expect(kept.sources.map(source => source.group ?? source.channelId)).toEqual(["Sales funnel", "board"]);
         // (A source through a Samples & Trials channel: "Tried it".)
         expect(funnelIsTrial({ ...segment, profiles: [] }, undefined, { category: "Samples & Trials" })).toBe(true);
+    });
+});
+
+/* Owner, 2026-11-16 20:29: a kind never twice. */
+describe("one source of a kind", () => {
+    test("a saved source of a kind takes the kind's channels, its figures kept; two saved of a kind stay apart and none is made", () => {
+        const base = lumen.foundation.segments[0];
+        const offering = base.offerings[0];
+        const segment = { ...base, questions: { ...base.questions, path: ["researcher"], authorise: [] }, offerings: [{ ...offering, questions: { ...(offering.questions ?? {}), o17: [] } }] };
+        const insta = { ...createBusinessChannel(), id: "insta", category: "Social Media", name: "Instagram", stages: ["discovery"] };
+        const site = { ...createBusinessChannel(), id: "site", category: "Website", name: "Main Website", stages: ["discovery"] };
+        const saved = { ...createDemandSource("funnel", "insta"), id: "mine", calculate: true, inputs: { prospects: "40", qualified: "15", buy: "25" } };
+        const one = withAnswerSources({ ...createDemand(), sources: [saved] }, segment, offering.id, [insta, site], false)!;
+        expect(one.sources).toHaveLength(1);
+        expect(one.sources[0]).toMatchObject({ id: "mine", type: "funnel", channelId: "", group: "Sales funnel", channelIds: ["insta", "site"], inputs: { prospects: "40", qualified: "15", buy: "25" } });
+        expect(withAnswerSources(one, segment, offering.id, [insta, site], false)).toBe(one);
+        const two = { ...createDemand(), sources: [saved, { ...createDemandSource("funnel", ""), id: "also" }] };
+        expect(withAnswerSources(two, segment, offering.id, [insta, site], false)).toBe(two);
     });
 });

@@ -141,7 +141,7 @@ exports[`Lumen & Loom Studio > Business System › 2. Customer Engagement > tile
 `;
 
 exports[`Lumen & Loom Studio > Business System › 2. Customer Engagement > tile segment-8lu427u5:demand 1`] = `
-"Demand & ConversionDemand & Conversioni1. Homeware Collection10 a monthVisitorsVisitorsSales funnelVisitorsReferralsRepeat customers2. Weaving Workshops32 a monthSales funnelReferralsVisitorsSales funnelReferralsBack‹›Channels & JourneyCustomer's RelationshipDemand & ConversionBack
+"Demand & ConversionDemand & Conversioni1. Homeware Collection10 a monthVisitorsSales funnelReferralsRepeat customers2. Weaving Workshops32 a monthSales funnelReferralsVisitorsBack‹›Channels & JourneyCustomer's RelationshipDemand & ConversionBack
 [fields] "
 `;
 
@@ -156,7 +156,7 @@ exports[`Lumen & Loom Studio > Business System › 2. Customer Engagement > tile
 `;
 
 exports[`Lumen & Loom Studio > Business System › 2. Customer Engagement > tile segment-majxtl1u:demand 1`] = `
-"Demand & ConversionDemand & Conversioni1. Bespoke Commissions3 a monthContracts or tendersReferralsSales funnelRepeat customers2. Trade Collection3 a monthSales funnelVisitorsSales funnelReferralsBack‹›Channels & JourneyCustomer's RelationshipDemand & ConversionBack
+"Demand & ConversionDemand & Conversioni1. Bespoke Commissions3 a monthContracts or tendersReferralsSales funnelRepeat customers2. Trade Collection3 a monthSales funnelVisitorsReferralsBack‹›Channels & JourneyCustomer's RelationshipDemand & ConversionBack
 [fields] "
 `;
 
@@ -565,7 +565,7 @@ exports[`Quillfield Automation > Business System › 2. Customer Engagement > ti
 `;
 
 exports[`Quillfield Automation > Business System › 2. Customer Engagement > tile segment-qf3n8d2w:demand 1`] = `
-"Demand & ConversionDemand & Conversioni1. AI Workflow Audit1.5 a monthSales funnelReferralsSales funnelVisitorsReferrals2. Automation Build0.6 a monthOtherSales funnelReferrals3. Automation Care Retainer5 activeOtherReferralsSales funnelBack‹›Channels & JourneyCustomer's RelationshipDemand & ConversionBack
+"Demand & ConversionDemand & Conversioni1. AI Workflow Audit1.5 a monthSales funnelReferralsVisitors2. Automation Build0.6 a monthOtherSales funnelReferrals3. Automation Care Retainer5 activeOtherReferralsSales funnelBack‹›Channels & JourneyCustomer's RelationshipDemand & ConversionBack
 [fields] "
 `;
 
