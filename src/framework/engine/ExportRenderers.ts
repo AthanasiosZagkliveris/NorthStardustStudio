@@ -107,11 +107,20 @@ import {
     vatBases,
     type CostLine,
     type CostSources,
-    type FinancialFoundationValue
+    type FinancialFoundationValue,
+    type FinancialSustainabilityValue,
+    assetUnitCostsOf,
+    costStartDates,
+    derivedPlanStart,
+    legalExpenseDates
 } from "./FinancialModel.ts";
 import { jurisdictionProfile, COUNTRIES, LEGAL_REQUIREMENT_TYPES } from "./LegalEntityJurisdictions.ts";
 import { capabilityCards, channelResourceLinks, costCardAmountText, costCardName } from "./ChannelResources.ts";
 import { neededSkillLine, neededSkills, skillsOf } from "./capability/skills.ts";
+import { calculatedLines } from "./CalculatedLines.ts";
+import { launchNeedOf } from "./ContingencyFunds.ts";
+import { capitalisationLimitOf } from "./GlobalSettings.ts";
+import { ownersTakeDrawings } from "./FinancialForecast.ts";
 
 /* ==========================================================
    Building blocks
@@ -487,7 +496,7 @@ function segmentBlocks(segment: BusinessCustomerSegmentValue, index: number, org
     const identity = segmentIdentityOf(organisation, stage);
     return [
         heading("Segment " + (index + 1) + ": " + (segment.name.trim() || "Unnamed segment")),
-        ...details(segmentAnswerLines(settledSegmentAnswers(segment, organisation)).map((line): [string, string] => [line.label, line.value])),
+        ...details(segmentAnswerLines(settledSegmentAnswers(segment, organisation), segmentContextFor(identity, segmentIsBusiness(segment))).map((line): [string, string] => [line.label, line.value])),
 
         ...segment.profiles.flatMap((profile, position) => {
             const head = heading("Profile " + (index + 1) + "." + (position + 1) + ": " + (profile.name.trim() || "Unnamed profile"), 2);
@@ -873,17 +882,58 @@ function incomeTaxText(page: FinancialFoundationValue): string {
         : page.incomeTax === "pass-through" ? " No income tax at business level (pass-through)." : "";
 }
 
+/**
+ * THE PLAN AS PAGE 4 READS IT, in an export: with the Global Settings in the context, its first month worked out as the page works it out -- the earlier of the Opening
+ * Date's month and the earliest cost --; without them, as saved.
+ */
+function exportPlan(value: unknown, context: ExportContext): FinancialFoundationValue {
+    const stored = asFinancialFoundationValue(value);
+    const settings = context.globalSettings;
+    if (!settings) {
+        return withPlanStart(stored);
+    }
+    const legalEntity = context.legalEntity ?? asLegalEntityValue(undefined);
+    const capability = capabilityOf(context.responseOf?.(AnswerType.BusinessCapability), context);
+    return withPlanStart(stored, undefined, derivedPlanStart(settings.openingDate, [...costStartDates(capability), ...legalExpenseDates(legalEntity)], withPlanStart(stored).planStart));
+}
+
+/**
+ * THE CALCULATED LINES OF AN EXPORT (owner, 2026-11-16): with the Global Settings in the context, the same lines Page 4 builds -- fees, on-costs, insurance, the income tax
+ * rate -- and the cash to raise before the opening, so the financial pages' exports read as the pages and the forecast do. None without the settings.
+ */
+function exportCalculated(context: ExportContext, page: FinancialFoundationValue, lines: CostLine[], revenuePage: FinancialSustainabilityValue) {
+    const settings = context.globalSettings;
+    if (!settings) {
+        return { calculated: undefined, launched: undefined };
+    }
+    const legalEntity = context.legalEntity ?? asLegalEntityValue(undefined);
+    const capability = capabilityOf(context.responseOf?.(AnswerType.BusinessCapability), context);
+    const calculated = calculatedLines({
+        foundation: page, revenuePage, lines, capability, settings, openingDate: settings.openingDate,
+        drawings: ownersTakeDrawings(legalEntity.organisation.legalForm), country: legalEntity.organisation.country,
+        engagement: asBusinessEngagementValue(context.responseOf?.(AnswerType.BusinessEngagement))
+    }, incomeTaxRate(page));
+    const launched = launchNeedOf(
+        lines,
+        { openingDate: settings.openingDate, capitalisationLimit: capitalisationLimitOf(settings), assetUnitCosts: assetUnitCostsOf(capability) },
+        settings,
+        Object.fromEntries(Object.entries(page.classified).map(([id, entry]) => [id, entry.nature || undefined])),
+        calculated
+    );
+    return { calculated, launched };
+}
+
 export function financialFoundationBlocks(value: unknown, context: ExportContext, document?: FinancialDocumentOptions): ExportBlock[] {
 
-    const page = withPlanStart(asFinancialFoundationValue(value));
+    const page = exportPlan(value, context);
     const start = page.planStart;
     const currency = context.currency ?? "";
     const format = moneyFormatter(currency, document ? { wholeOnly: true } : undefined);
     const legalEntity = context.legalEntity ?? asLegalEntityValue(undefined);
     const foundation = context.responseOf?.(AnswerType.BusinessFoundation);
     const lines = costLines(page, context);
-    const position = financialPosition(page, lines, legalEntity, currency, format,
-        withDemand(asFinancialSustainabilityValue(context.responseOf?.(AnswerType.FinancialSustainability)), demandOf(context)));
+    const revenuePage = withDemand(asFinancialSustainabilityValue(context.responseOf?.(AnswerType.FinancialSustainability)), demandOf(context), context.responseOf?.(AnswerType.BusinessFoundation));
+    const position = financialPosition(page, lines, legalEntity, currency, format, revenuePage, exportCalculated(context, page, lines, revenuePage).launched?.launch);
     const funding = allFunding(page, legalEntity);
 
     const frequencyOf = (line: CostLine) => line.frequency === "other"
@@ -986,13 +1036,14 @@ export function financialFoundationBlocks(value: unknown, context: ExportContext
 
 export function financialSustainabilityBlocks(value: unknown, context: ExportContext, document?: FinancialDocumentOptions): ExportBlock[] {
 
-    const foundationPage = withPlanStart(asFinancialFoundationValue(context.responseOf?.(AnswerType.FinancialFoundation)));
+    const foundationPage = exportPlan(context.responseOf?.(AnswerType.FinancialFoundation), context);
     const currency = context.currency ?? "";
     const format = moneyFormatter(currency, document ? { wholeOnly: true } : undefined);
     const legalEntity = context.legalEntity ?? asLegalEntityValue(undefined);
     const foundation = context.responseOf?.(AnswerType.BusinessFoundation);
     const lines = costLines(foundationPage, context);
-    const result = sustainability(withDemand(asFinancialSustainabilityValue(value), demandOf(context)), foundationPage, lines, legalEntity, format);
+    const revenuePage = withDemand(asFinancialSustainabilityValue(value), demandOf(context), context.responseOf?.(AnswerType.BusinessFoundation));
+    const result = sustainability(revenuePage, foundationPage, lines, legalEntity, format, exportCalculated(context, foundationPage, lines, revenuePage).calculated);
     const start = foundationPage.planStart;
 
     const monthText = (index: number | null) => index === null ? "Not reached" : planMonthLabel(start, index) + " (Month " + index + ")";
@@ -1037,7 +1088,7 @@ export function financialSustainabilityBlocks(value: unknown, context: ExportCon
         // The plan gathers the signals under its Risks, and the capacity under its Operations.
         ...(document ? [] : list(result.signals.map(signal => signal.title + ": " + signal.text))),
         ...(document ? [] : capacityBlocks(
-            salesCapacity(withDemand(asFinancialSustainabilityValue(value), demandOf(context)), foundationPage,
+            salesCapacity(withDemand(asFinancialSustainabilityValue(value), demandOf(context), context.responseOf?.(AnswerType.BusinessFoundation)), foundationPage,
                 capabilityOf(context.responseOf?.(AnswerType.BusinessCapability), context)),
             foundationPage.planStart
         ))

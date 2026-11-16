@@ -911,7 +911,7 @@ export function segmentQuestionsOf(box: SegmentBox, answers: SegmentAnswers, con
 
 /**
  * Who the questions are about: "your customers" for a direct buyer; for a Proxy or Dual-Intent buyer the buyer is told from the user, so the boxes of the buyer say "your buyers" and the box of the
- * end user says "your end users". The questions are written for customers; the documents and the answers' lines keep that word.
+ * end user says "your end users". The questions are written for customers; the documents word them the same way (segmentAnswerLines with the Segment's context).
  */
 export function segmentWho(label: string, box: SegmentBox, context: SegmentContext): string {
     // ("How many potential customers are there?": the buyers too, as the rest of the buyer's boxes, 2026-11-09.)
@@ -1141,8 +1141,11 @@ export function segmentBoxAnswered(answers: SegmentAnswers, box: SegmentBox): bo
     return QUESTIONS.some(question => question.box === box && (answers[question.id] ?? []).length > 0);
 }
 
-/** Each answered question as its label and the words chosen, for the documents. */
-export function segmentAnswerLines(answers: SegmentAnswers): { label: string; value: string }[] {
+/**
+ * Each answered question as its label and the words chosen, for the documents. With the Segment's context, a Proxy or Dual-Intent Segment's questions are worded as its card
+ * words them (segmentWho): the end user's "your end users", the buyer's "your buyers" (owner, 2026-11-16).
+ */
+export function segmentAnswerLines(answers: SegmentAnswers, context?: SegmentContext): { label: string; value: string }[] {
 
     // (A question moved on to the Profile is printed there: doc 36, E4.)
     return QUESTIONS.filter(question => !question.startsProfile).flatMap(question => {
@@ -1153,7 +1156,7 @@ export function segmentAnswerLines(answers: SegmentAnswers): { label: string; va
             : question.options.filter(option => chosen.includes(option.id)).map(option => option.label);
 
         return words.length > 0
-            ? [{ label: question.label.replace(/ \(Select all that apply\)$/, ""), value: words.join("; ") }]
+            ? [{ label: (context ? segmentWho(question.label, question.box, context) : question.label).replace(/ \(Select all that apply\)$/, ""), value: words.join("; ") }]
             : [];
 
     });

@@ -192,14 +192,35 @@ describe("a share of revenue's Cost per Offering (owner, 2026-11-14 14:17 and 23
 });
 
 describe("a channel's share of revenue (owner, 2026-11-14 20:25)", () => {
-    it("is split by what each Offering sells through the expense's subchannels; one that sells nothing there has no share; with no source there, by the whole revenue", async () => {
+    it("is split by what each Offering sells through the expense's subchannels; one that sells nothing there has no line; with no source there, by the whole revenue", async () => {
         const { shareLines, costPerOfferingText } = await import("../tiles/CapabilityOverview.tsx");
         const row = { id: "fees", tone: "channel", kind: "provider", name: "Shopify Payments", path: [], status: "", statusLabel: "", frequency: "percent-revenue", frequencyLabel: "% of Rev", amount: 2, links: [], offeringIds: ["o1", "o2"], offeringShares: { o1: 0.5, o2: 0.5 }, channel: { places: [{ channel: "Online Store", sub: "Own website" }], offerings: [], stages: [], actions: [], colour: 0, linkIds: [], behaviour: "" } } as unknown as FloorRow;
         const offerings = [{ id: "o1", name: "Homeware" }, { id: "o2", name: "Weaving" }];
         const whole = { o1: 2240, o2: 2720 };
-        expect(shareLines(row, offerings, whole, { o1: { "Online Store\u0001Own website": 1344 }, o2: { "Social Media\u0001Instagram": 2720 } }).map(line => line.name + " " + costPerOfferingText(row, line))).toEqual(["Homeware 2% · 26.88", "Weaving 2% · 0"]);
+        expect(shareLines(row, offerings, whole, { o1: { "Online Store\u0001Own website": 1344 }, o2: { "Social Media\u0001Instagram": 2720 } }).map(line => line.name + " " + costPerOfferingText(row, line))).toEqual(["Homeware 2% · 26.88"]);
         expect(shareLines(row, offerings, whole, { o1: { "Online Store\u0001Own website": 1000 }, o2: { "Online Store\u0001Own website": 3000 } }).map(line => costPerOfferingText(row, line))).toEqual(["2% · 20", "2% · 60"]);
         expect(shareLines(row, offerings, whole, { o2: { "Social Media\u0001Instagram": 2720 } }).map(line => costPerOfferingText(row, line))).toEqual(["2% · 44.80", "2% · 54.40"]);
+    });
+});
+
+describe("a share of revenue's whole fee, as the forecast charges it (owner, 2026-11-16)", () => {
+    it("is the fee row's rate and its fixed fee on each order; a fixed fee in another currency is shown in it, left out, and said so", async () => {
+        const { shareLines, costPerOfferingText, tableRows } = await import("../tiles/CapabilityOverview.tsx");
+        const { chargedFeeFor } = await import("../../../framework/engine/CalculatedLines.ts");
+        const { createGlobalSettings } = await import("../../../framework/engine/GlobalSettings.ts");
+        const row = { id: "fees", tone: "offering", kind: "provider", name: "Stripe", path: [], status: "", statusLabel: "", frequency: "percent-revenue", frequencyLabel: "% of Rev", amount: 2, links: [], offeringIds: ["o1"] } as unknown as FloorRow;
+        const offerings = [{ id: "o1", name: "Collection" }];
+        const own = { ...createGlobalSettings(), channelFees: [{ id: "f1", country: "GB", channel: "Stripe", commission: "1.5", fixedFee: "0.20", chargeback: "0", currency: "GBP", status: "checked", checked: "", note: "" }] };
+        const fee = chargedFeeFor("Stripe", own as never, "GB", "GBP")!;
+        // (1,000 a month in orders of 50: 1.5% is 15, and 20 orders at 0.20 is 4.)
+        expect(fee).toMatchObject({ percent: 1.5, perOrder: 0.2, text: "1.5% + 0.20 an order", note: null });
+        expect(shareLines(row, offerings, { o1: 1000 }, {}, fee, { o1: 50 }).map(line => costPerOfferingText(row, line))).toEqual(["1.5% + 0.20 an order · 19"]);
+        expect(tableRows(row, String, "GBP", fee)[0].cost).toBe("1.5% + 0.20 an order");
+
+        const dollars = { ...own, channelFees: [{ ...own.channelFees[0], channel: "Gumroad", commission: "10", fixedFee: "0.50", currency: "USD" }] };
+        const foreign = chargedFeeFor("Gumroad", dollars as never, "GB", "GBP")!;
+        expect(foreign).toMatchObject({ perOrder: 0, text: "10% + USD 0.50 an order", note: "The US$0.50 per order is in US dollars, so the totals leave it out." });
+        expect(shareLines({ ...row, name: "Gumroad" } as FloorRow, offerings, { o1: 1000 }, {}, foreign, { o1: 50 }).map(line => costPerOfferingText(row, line))).toEqual(["10% + USD 0.50 an order · 100"]);
     });
 });
 

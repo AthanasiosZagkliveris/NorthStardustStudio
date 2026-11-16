@@ -114,7 +114,8 @@ export default function FinancialFoundationEditor({
     const months = planLength(page);
     const revenuePage = withDemand(
         asFinancialSustainabilityValue(sustainabilityValue),
-        asBusinessEngagementValue(engagementValue).demand
+        asBusinessEngagementValue(engagementValue).demand,
+        foundation
     );
 
     // (Kept in the answer too, so that the documents and the Sustainability page read the same month.)

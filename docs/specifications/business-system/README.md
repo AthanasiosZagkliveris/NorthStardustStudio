@@ -80,16 +80,9 @@ The one owner of this map: each row is one input a later page needs, where Page 
 
 Each is one place where two answers can disagree, or an answer goes unread; the fix is the owner's choice of which answer owns the fact.
 
-- **Strategy, the Canvas and Page 5 read without Global Settings.** The Strategy System's Current Situation and plan range and the Canvas export ignore the Opening Date and the calculated lines; Page 5's break-even leaves out channel fees, on-costs and tax that Page 4 counts.
-- **Foreign fixed fees unconverted.** A fee row's fixed amount in another currency (Gumroad's $0.50) is added to totals in the Organisation's currency as it stands.
-- **Global Settings reads the Segment's raw answers.** Its fee rows read `providers` unsettled, where Customer Engagement reads the effective answers.
-- **The income tax rate is asked twice**, in Global Settings and in Page 4's Plan Settings; the Global one wins.
 - **A8 and End user, 8 (`u-comfort`) ask the same thing**: the Segment's answer only starts the end user's A8.
 - **O15 and Delivery's Calendar Time (DV4)** can disagree: O15 only starts DV4, and a saved Delivery card no longer follows it.
-- **O6 and "physical".** Whether an Offering is physical reads its Type and O1, never O6 or O20: shipped or collected with a digital form still hides Physical Delivery.
 - **Reach and O6.** Nothing checks a Segment in several countries or online against delivery in person or collection, nor a city's Segment against shipping.
-- **O3b and Page 5's Payment Timing** have no check between them once Payment Timing is saved.
-- **Identity's government buyers** add Dedicated Support to every Offering, a people Segment's included.
 - **I11 (Market Structure)** is mapped but read by nothing beyond the export.
 - **K1 to K3** are read by nothing, and K1 to K10 appear in no document.
 

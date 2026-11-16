@@ -7,6 +7,8 @@ import { numberAsText } from "./breakEven.ts";
 import { type FinancialFoundationValue } from "./stored.ts";
 import { streamVolumes } from "./revenue.ts";
 import { planLength } from "./period.ts";
+import { businessFoundationSegments } from "../AnswerBusinessFoundation.ts";
+import { offeringStartsById } from "../EffectiveAnswers.ts";
 
 /* ==========================================================
    Expected sales from Demand & Conversion
@@ -24,15 +26,23 @@ import { planLength } from "./period.ts";
  */
 export function withDemand(
     page: FinancialSustainabilityValue,
-    demand: Record<string, DemandValue> | undefined
+    demand: Record<string, DemandValue> | undefined,
+    foundation?: unknown
 ): FinancialSustainabilityValue {
-    if (!demand) {
+    // WHEN THEY PAY HAS ONE OWNER, the Offering's O3t (owner, 2026-11-16): where it is answered, each stream's Payment Timing is its record.
+    const segments = foundation === undefined ? [] : businessFoundationSegments(foundation);
+    const timed = (stream: FinancialSustainabilityValue["streams"][number]) => {
+        const starts = segments.length > 0 ? offeringStartsById(segments, stream.offeringId) : {};
+        return starts.paymentTimingAnswered ? { ...stream, paymentTiming: starts.paymentTiming ?? ("" as const) } : stream;
+    };
+    if (!demand && segments.length === 0) {
         return page;
     }
     return {
         ...page,
-        streams: page.streams.map(stream => {
-            const expected = demandResult(demand[stream.offeringId]).expected;
+        streams: page.streams.map(entry => {
+            const stream = timed(entry);
+            const expected = demand ? demandResult(demand[stream.offeringId]).expected : null;
             return expected === null ? stream : { ...stream, volume: numberAsText(expected) };
         })
     };

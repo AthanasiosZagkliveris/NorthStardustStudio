@@ -112,6 +112,8 @@ export interface OfferingStarts {
     charged?: "per-sale" | "per-project" | "monthly" | "annually";
     /** Page 5, the revenue stream's Payment Timing (PAYMENT_TIMINGS' ids; When earned, "", is the default and starts nothing). */
     paymentTiming?: "upfront" | "completion" | "split" | "milestone";
+    /** Whether O3t is answered: Page 5's Payment Timing is then its record (paymentTiming, or When earned where it gives none). */
+    paymentTimingAnswered?: boolean;
 }
 
 /**
@@ -146,6 +148,9 @@ export function offeringStarts(offering: BusinessOfferingValue, segment: Busines
     if (timing) {
         starts.paymentTiming = timing;
     }
+    if (when !== "") {
+        starts.paymentTimingAnswered = true;
+    }
     return starts;
 }
 
@@ -159,15 +164,23 @@ export function offeringStartsById(segments: readonly BusinessCustomerSegmentVal
 /** O1's forms with no physical item (doc 43, O1): a digital file, an app, online access, a live online session, project work, an ongoing service. */
 const NOT_PHYSICAL_FORMS: readonly string[] = ["digital", "app", "access", "live", "project", "ongoing"];
 
+/** O6's ways a customer receives a physical item: posted or shipped, or collected. */
+const PHYSICAL_RECEIVE: readonly string[] = ["shipped", "collect"];
+
 /**
- * Whether an Offering has a physical item (doc 28, 11.7): not where its Type is Service, or its form (O1) is one of NOT_PHYSICAL_FORMS. An Offering with no Type or form yet
- * (or Other) may have one, so it counts as having one.
+ * Whether an Offering has a physical item (doc 28, 11.7): an Offering posted, shipped or collected (O6), or sent a way O20 names, has one, whatever its Type and form;
+ * otherwise not where its Type is Service, or its form (O1) is one of NOT_PHYSICAL_FORMS. An Offering with no Type or form yet (or Other) may have one, so it counts as
+ * having one.
  */
 export function offeringIsPhysical(offering: BusinessOfferingValue, segment: BusinessCustomerSegmentValue, identity?: SegmentIdentity): boolean {
+    const answers = effectiveOfferingAnswers(offering, segment, identity);
+    if ((answers.o6 ?? []).some(way => PHYSICAL_RECEIVE.includes(way)) || (answers.o20 ?? []).length > 0) {
+        return true;
+    }
     if (offering.category === "Service") {
         return false;
     }
-    const form = effectiveOfferingAnswers(offering, segment, identity).o1?.[0];
+    const form = answers.o1?.[0];
     return !(form && NOT_PHYSICAL_FORMS.includes(form));
 }
 

@@ -43,6 +43,7 @@ Option A, read only. A subchannel the founder sells through is where the fee is 
 - **Match by the name, as the cost lines already do.** A subchannel named after a platform (Etsy, Shopify, SumUp) and a supplier card named after one take its row (`channelFeeRowFor`); no step for the founder.
 - **Show it where it is paid** (option A above): the subchannel's card reads "Fees: 6.5% + 4% + 20p a sale (Etsy, checked 14 Nov 2026)", and what that comes to on the Offering's price ("on a £95 sale: about £10.18"), with the link to Global Settings.
 - **One place to change it:** Global Settings, as now; the card's line says "Change in Global Settings".
+- **As the totals charge it (2026-11-16):** the "on a sale" line is the fee as the forecast charges it, for each Offering that sells through the subchannel (an Offering with no sales there has no line, where a Customer Source names the subchannel); a fixed fee in another currency is shown in it and left out, with the line "The US$0.50 per order is in US dollars, so the totals leave it out." (FinancialModel.ts's rule for every cost in another currency; no exchange rates).
 
 **Recommendation:** all four, in that order: the UK rows with their dates and sources, the match by name, the line on the card with the amount on a sale, Global Settings the one owner.
 

@@ -135,7 +135,7 @@ export function renderFinancialFoundation(scope: AnswerScope) {
 
 export function renderFinancialSustainability(scope: AnswerScope) {
 
-    const { value, onChange, disabled, businessFoundation, onOpenBusinessFoundation, organisationCurrency, legalEntity, businessCapability, financialFoundation, businessEngagement, onOpenBusinessEngagement, onOpenBusinessCapability, onOpenFinancialFoundation, columnsDivider, showInstructions } = scope;
+    const { value, onChange, disabled, businessFoundation, onOpenBusinessFoundation, organisationCurrency, legalEntity, businessCapability, financialFoundation, businessEngagement, onOpenBusinessEngagement, onOpenBusinessCapability, onOpenFinancialFoundation, columnsDivider, showInstructions, globalSettings, openingDate } = scope;
 
     return (
 
@@ -153,6 +153,8 @@ export function renderFinancialSustainability(scope: AnswerScope) {
             onOpenFinancialFoundation={onOpenFinancialFoundation}
             onOpenEngagement={onOpenBusinessEngagement}
             onOpenCapability={onOpenBusinessCapability}
+            globalSettings={globalSettings}
+            openingDate={openingDate}
             onChange={onChange}
             disabled={disabled}
         />

@@ -65,8 +65,7 @@ export interface GlobalSettingsValue {
     operationalContingencyRate: string;
     /** An amount a month, for key-person and health cover. */
     insurancePerEmployee: string;
-    /** The corporate income tax rate, a percentage of net profit. */
-    incomeTaxRate: string;
+    // (No income tax rate: Page 4's Plan Settings own it, doc 5, section 5.5.6. A rate saved here before is moved there once: moveGlobalIncomeTax.)
 }
 
 /** The asset groups whose cards have a useful life, in the order the screen lists them. */
@@ -164,8 +163,7 @@ export function createGlobalSettings(): GlobalSettingsValue {
         targetReserveMonths: "3",
         startupContingencyRate: "10",
         operationalContingencyRate: "4",
-        insurancePerEmployee: "",
-        incomeTaxRate: ""
+        insurancePerEmployee: ""
     };
 }
 
@@ -257,8 +255,7 @@ export function asGlobalSettings(value: unknown): GlobalSettingsValue {
         targetReserveMonths: figure(source.targetReserveMonths),
         startupContingencyRate: figure(source.startupContingencyRate),
         operationalContingencyRate: figure(source.operationalContingencyRate),
-        insurancePerEmployee: figure(source.insurancePerEmployee),
-        incomeTaxRate: figure(source.incomeTaxRate)
+        insurancePerEmployee: figure(source.insurancePerEmployee)
     };
 }
 
@@ -301,6 +298,51 @@ export const targetReserveMonthsOf = (settings: GlobalSettingsValue): number => 
 export function channelFeeOf(row: ChannelFeeRow, revenue: number, orders: number): number {
     const percent = (settingNumber(row.commission) ?? 0) + (settingNumber(row.chargeback) ?? 0);
     return Math.round((revenue * percent / 100 + (settingNumber(row.fixedFee) ?? 0) * orders) * 100) / 100;
+}
+
+/**
+ * A FIXED FEE IN ANOTHER CURRENCY (owner, 2026-11-16, as FinancialModel.ts's rule for every cost in another currency): a fee row's fixed amount in a currency other than
+ * the organisation's is left out of every total -- there are no exchange rates to convert it with --, and said so where the fee is shown (foreignFeeNote).
+ */
+export function foreignFixedFee(row: ChannelFeeRow, organisationCurrency: string): boolean {
+    const code = row.currency.trim().toUpperCase();
+    return (settingNumber(row.fixedFee) ?? 0) > 0 && code !== "" && organisationCurrency.trim() !== "" && code !== organisationCurrency.trim().toUpperCase();
+}
+
+/** What a channel takes of its sales as the totals count it: channelFeeOf, with a fixed fee in another currency left out (foreignFixedFee). */
+export function chargedFeeOf(row: ChannelFeeRow, revenue: number, orders: number, organisationCurrency: string): number {
+    return channelFeeOf(foreignFixedFee(row, organisationCurrency) ? { ...row, fixedFee: "" } : row, revenue, orders);
+}
+
+/** A currency's name in the plural, for a sentence: "US dollars", "euros". */
+function currencyWords(code: string): string {
+    let name = code;
+    try {
+        name = new Intl.DisplayNames(["en-GB"], { type: "currency" }).of(code) ?? code;
+    } catch {
+        return code;
+    }
+    const words = name.split(" ");
+    const last = words.pop() ?? "";
+    const lower = last.toLowerCase();
+    const plural = /s$/.test(lower) || ["yen", "won", "yuan", "baht", "renminbi"].includes(lower) ? lower : lower + "s";
+    return [...words, plural].join(" ");
+}
+
+/** The note beside a fee whose fixed amount is in another currency: "The $0.50 per order is in US dollars, so the totals leave it out." Null for any other fee. */
+export function foreignFeeNote(row: ChannelFeeRow, organisationCurrency: string): string | null {
+    if (!foreignFixedFee(row, organisationCurrency)) {
+        return null;
+    }
+    const code = row.currency.trim().toUpperCase();
+    const amount = settingNumber(row.fixedFee) ?? 0;
+    let shown = code + " " + amount.toFixed(2);
+    try {
+        shown = new Intl.NumberFormat("en-GB", { style: "currency", currency: code }).format(amount);
+    } catch {
+        // (An unknown code: the code and the figure.)
+    }
+    return "The " + shown + " per order is in " + currencyWords(code) + ", so the totals leave it out.";
 }
 
 /** Employer on-costs on gross salaries (X3): 6,000 at 25% is 1,500. Zero while the coefficient is not set. */

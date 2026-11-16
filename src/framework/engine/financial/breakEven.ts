@@ -10,6 +10,7 @@ import { fundingStanding, loanSchedule } from "./funding.ts";
 import { type FinancialSustainabilityValue, type RevenueStreamValue } from "./revenueStored.ts";
 import { allFunding, cashTimeline, isNonCash, runwayOf, type CashMonth, type Signal } from "./position.ts";
 import { monthlyPrice, normalVolume, streamRevenue, streamVariableCost, streamVolumes } from "./revenue.ts";
+import type { CalculatedResult } from "../CalculatedLines.ts";
 
 /* ==========================================================
    Page 5 -- break even
@@ -54,7 +55,8 @@ export function numberAsText(value: number): string {
 export function breakEvenInputs(
     foundation: FinancialFoundationValue,
     lines: CostLine[],
-    funding: FundingSourceValue[]
+    funding: FundingSourceValue[],
+    percentCounted = false
 ): BreakEvenInputs {
 
     let fixedCosts = 0;
@@ -126,9 +128,11 @@ export function breakEvenInputs(
             return;
         }
 
-        // Usage-based or "Other": neither a month nor a unit to count it against.
+        // Usage-based or "Other": neither a month nor a unit to count it against. (A % of revenue cost is counted as the forecast counts it, where the calculated lines are given.)
         if (!isScheduled(line)) {
-            unmodelled++;
+            if (!(percentCounted && (line.billing === "percentage" || line.frequency === "usage-based"))) {
+                unmodelled++;
+            }
             return;
         }
 
@@ -242,17 +246,45 @@ export function sustainability(
     foundation: FinancialFoundationValue,
     lines: CostLine[],
     legalEntity: LegalEntityValue,
-    format: (amount: number) => string
+    format: (amount: number) => string,
+    calculated?: CalculatedResult
 ): SustainabilityResult {
 
     const start = foundation.planStart;
     const funding = allFunding(foundation, legalEntity);
-    const inputs = breakEvenInputs(foundation, lines, funding);
+    const base = breakEvenInputs(foundation, lines, funding, !!calculated);
+
+    /* THE SAME COSTS AS PAGE 4 AND THE FORECAST (owner, 2026-11-16): with the calculated lines, the channel fees, royalties and commissions (a share of the revenue),
+       the employer on-costs and the insurance per employee (a month's fixed cost, as each month has it), and the income tax on a month's profit. */
+    const planMonths = planLength(foundation);
+    const extraFixed = new Array<number>(MODEL_MONTHS).fill(0);
+    const fees = new Array<number>(MODEL_MONTHS).fill(0);
+    if (calculated) {
+        for (let index = 0; index < MODEL_MONTHS; index++) {
+            extraFixed[index] = (calculated.onCosts.values[index] ?? 0) + (calculated.employeeInsurance.values[index] ?? 0);
+            fees[index] = calculated.percentageLines.reduce((sum, line) => sum + (line.values[index] ?? 0), 0);
+        }
+    }
+    const paying = extraFixed.slice(0, planMonths).filter(amount => amount > 0);
+    const staffMonthly = paying.length > 0 ? paying.reduce((sum, amount) => sum + amount, 0) / paying.length : 0;
+    const inputs: BreakEvenInputs = staffMonthly > 0.005
+        ? {
+            ...base,
+            fixed: base.fixed + staffMonthly,
+            parts: [...base.parts, { label: "Employer on-costs and insurance", amount: staffMonthly }],
+            timeline: [...base.timeline, ...extraFixed.slice(0, planMonths).map((amount, index) => ({ from: index + 1, to: index + 1, amount })).filter(entry => entry.amount > 0)]
+        }
+        : base;
+    const taxRate = calculated?.incomeTaxRate ?? 0;
+
+    // (The fees as a share of each sale: what the plan's fees come to against its revenue, so the contribution of a sale is net of them.)
+    const planRevenue = page.streams.reduce((sum, stream) => sum + streamRevenue(stream, start).earned.slice(0, planMonths).reduce((total, amount) => total + amount, 0), 0);
+    const feeShare = planRevenue > 0 ? fees.slice(0, planMonths).reduce((sum, amount) => sum + amount, 0) / planRevenue : 0;
 
     const streams: StreamAnalysis[] = page.streams.map(stream => {
 
         const price = monthlyPrice(stream);
-        const variable = streamVariableCost(stream, inputs);
+        const variable = streamVariableCost(stream, inputs) + (price ?? 0) * feeShare;
         const contribution = price === null ? null : price - variable;
         const volume = normalVolume(stream);
 
@@ -291,13 +323,17 @@ export function sustainability(
         const volumes = streamVolumes(entry.stream, start);
         revenue.earned.forEach((amount, index) => { earned[index] += amount; });
         revenue.received.forEach((amount, index) => { received[index] += amount; });
-        volumes.forEach((units, index) => { variableOut[index] += units * entry.variable; });
+        // (Each unit's own variable cost; the fees are the calculated lines' own, month by month, below.)
+        volumes.forEach((units, index) => { variableOut[index] += units * (entry.variable - (entry.price ?? 0) * feeShare); });
     });
+    fees.forEach((amount, index) => { variableOut[index] += amount; });
 
     // (A fixed cost counts from the month its own Start date falls in, not from the plan's first month: the plan may start earlier, with a registration.)
     const fixedIn = (month: number) => inputs.timeline.reduce((sum, entry) => sum + (month >= entry.from && (entry.to === null || month <= entry.to) ? entry.amount : 0), 0);
     const months = earned.slice(0, planLength(foundation)).map((revenue, index) => {
-        const costs = fixedIn(index + 1) + variableOut[index];
+        const beforeTax = fixedIn(index + 1) + variableOut[index];
+        // (The income tax on the month's profit, as the forecast charges it: none in a month at a loss.)
+        const costs = beforeTax + Math.max(0, revenue - beforeTax) * taxRate;
         const difference = revenue - costs;
         return {
             month: index + 1,
@@ -320,7 +356,8 @@ export function sustainability(
 
     const adjusted = cashTimeline(foundation, lines, funding, {
         inflow: received,
-        outflow: variableOut
+        // (With the calculated lines: the on-costs and insurance too, which the cash timeline of Page 4's own lines does not hold.)
+        outflow: variableOut.map((amount, index) => amount + extraFixed[index])
     });
     const exhaustionIndex = runwayOf(adjusted.timeline);
     const exhaustionMonth = exhaustionIndex === null ? null : exhaustionIndex + 1;

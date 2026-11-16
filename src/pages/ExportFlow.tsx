@@ -14,6 +14,7 @@ import { processDisplayId, ProcessRecordValue, sopDisplayId, TableAnswerRow, asL
 import { buildExportContent, buildMultiProductExportContent, buildSingleProductExportContent } from "../framework/engine/ExportContentBuilder.ts";
 import { countryCurrency } from "../framework/engine/LegalEntityJurisdictions.ts";
 import { OrganizationService } from "../services/OrganizationService";
+import { asGlobalSettings } from "../framework/engine/GlobalSettings";
 import { StorageService } from "../services/StorageService";
 import { toggledIn } from "../components/interview/fields/toggledIn";
 import { IDENTITY_SYSTEM_NUMBER, reviewManager, ExportStep, CapabilityChoice, ExportScope, OperationsExportScope, OPERATIONS_PROCESS_LIBRARY_SECTION, OPERATIONS_OPERATIONAL_LOG_SECTION, OPERATIONS_ROLES_SECTION, PRODUCT_DEVELOPMENT_PER_PRODUCT_SECTIONS, extractProductNames, groupValidationIssues } from "./conversationHelpers";
@@ -119,7 +120,9 @@ export default function ExportFlow({ step, onStep, onContinue, openCount, valida
                 ? businessModelCanvas({
                       identity: organizationId ? StorageService.loadInterview(organizationId, IDENTITY_SYSTEM_NUMBER) : null,
                       business: session,
-                      organisationName: organizationName
+                      organisationName: organizationName,
+                      // (With the Global Settings, as Page 4 and the other documents read the Foundation.)
+                      globalSettings: organizationId ? OrganizationService.getGlobalSettings(organizationId) : undefined
                   }, capabilityLabel)
             : system?.id === "product-development" && organizationId
                 ? (() => {
@@ -291,7 +294,9 @@ export default function ExportFlow({ step, onStep, onContinue, openCount, valida
                 : buildExportContent(session, capabilityLabel, undefined, undefined, {
                       legalEntity,
                       foundersProfile,
-                      currency: organisationCurrency
+                      currency: organisationCurrency,
+                      // (With the Global Settings: the financial pages' exports carry the calculated lines, as the pages do.)
+                      globalSettings: organizationId ? asGlobalSettings(OrganizationService.getGlobalSettings(organizationId)) : undefined
                   });
 
         if (includeMd) {

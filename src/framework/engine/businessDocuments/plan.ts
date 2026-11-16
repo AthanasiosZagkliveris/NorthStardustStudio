@@ -180,7 +180,7 @@ function marketBlocks(f: Foundation): ExportBlock[] {
         ...labelled(positioningDocumentTitle(f.stage), text(f.definition.positioning)),
         ...f.segments.flatMap((segment, index) => [
             heading("Segment " + (index + 1) + ": " + (segment.name.trim() || "Unnamed segment")),
-            ...titled2("What we know of them", details(segmentAnswerLines(settledSegmentAnswers(segment, f.legalEntity.organisation)).map(line => [line.label, line.value]))),
+            ...titled2("What we know of them", details(segmentAnswerLines(settledSegmentAnswers(segment, f.legalEntity.organisation), segmentContextFor(segmentIdentityOf(f.legalEntity.organisation, f.stage), segmentIsBusiness(segment))).map(line => [line.label, line.value]))),
             // A Segment with an end user (Proxy or Dual-Intent): the goals, challenges and needs are the end user's (doc 36, 2.1).
             ...titled2("Customer Profiles", table(segmentContextFor(segmentIdentityOf(f.legalEntity.organisation), segmentIsBusiness(segment)).endsUser ? ["Profile", "End user's goals", "End user's challenges", "End user's needs"] : ["Profile", "Goals", "Challenges", "Needs"], segment.profiles.map(profile => [
                 profile.name,

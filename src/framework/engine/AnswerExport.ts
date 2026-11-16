@@ -7,6 +7,7 @@ import { AnswerType } from "../enums/AnswerType.ts";
 import { LegalEntityValue } from "./AnswerLegal.ts";
 import { OperationalLogRowValue, ProcessRecordValue, ProcessStepValue, processDisplayId, resolveProcessLogLabel, sopDisplayId, sortOperationalLogRows } from "./AnswerProcess.ts";
 import { CardListAnswerValue, ChecklistItemValue, FixedVariantAnswerValue, ProfileCardsAnswerValue, RolesResponsibilitiesAnswerValue, TableAnswerRow, groupRolesResponsibilities, isCellFilled, visibleTableColumns } from "./AnswerUtils.ts";
+import type { GlobalSettingsValue } from "./GlobalSettings.ts";
 
 /**
  * A structured, format-agnostic piece of exportable
@@ -73,6 +74,8 @@ export interface ExportContext {
     currency?: string;
     /** The business stage (plan, launch, manage, grow), which starts the Offering's O2 as the card shows it (EffectiveAnswers.ts). */
     businessStage?: string;
+    /** The Global Settings (GlobalSettings.ts, parsed): with them the financial pages' exports carry the calculated lines, as the pages and the forecast do. */
+    globalSettings?: GlobalSettingsValue;
 }
 
 export interface BuildAnswerBlocksOptions {

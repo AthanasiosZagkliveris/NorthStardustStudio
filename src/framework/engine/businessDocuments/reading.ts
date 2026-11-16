@@ -144,8 +144,8 @@ export function readFoundation(sessions: FoundationSessions, options?: { wholeOn
     const stage = stageOf(settings?.openingDate ?? "", new Date(), settings ? stageDurationsOf(settings) : undefined);
 
     const business: ExportContext = sessions.business
-        ? sessionExportContext(sessions.business, { legalEntity, foundersProfile, currency, businessStage: stage })
-        : { legalEntity, foundersProfile, currency, businessStage: stage };
+        ? sessionExportContext(sessions.business, { legalEntity, foundersProfile, currency, businessStage: stage, globalSettings: settings })
+        : { legalEntity, foundersProfile, currency, businessStage: stage, globalSettings: settings };
 
     const strategy: ExportContext = sessions.strategy
         ? sessionExportContext(sessions.strategy, { legalEntity, foundersProfile, currency })
@@ -161,7 +161,8 @@ export function readFoundation(sessions: FoundationSessions, options?: { wholeOn
     const lines = costLines(financial, business);
     const revenuePage = withDemand(
         asFinancialSustainabilityValue(business.responseOf?.(AnswerType.FinancialSustainability)),
-        asBusinessEngagementValue(business.responseOf?.(AnswerType.BusinessEngagement)).demand
+        asBusinessEngagementValue(business.responseOf?.(AnswerType.BusinessEngagement)).demand,
+        business.responseOf?.(AnswerType.BusinessFoundation)
     );
     // Where the owners take drawings rather than a salary, as the
     // forecast counts them (see FinancialForecast.ts).
@@ -182,7 +183,7 @@ export function readFoundation(sessions: FoundationSessions, options?: { wholeOn
         : undefined;
 
     const position = financialPosition(financial, lines, legalEntity, currency, format, revenuePage, launched?.launch);
-    const outlook = sustainability(revenuePage, financial, lines, legalEntity, format);
+    const outlook = sustainability(revenuePage, financial, lines, legalEntity, format, calculated);
 
     const name = text(legalEntity.organisation.name) || text(sessions.organisationName) || "The organisation";
 

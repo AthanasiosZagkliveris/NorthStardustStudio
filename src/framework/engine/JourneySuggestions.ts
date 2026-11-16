@@ -398,7 +398,8 @@ export function autoRelationshipTypes(segment: BusinessCustomerSegmentValue, off
     if ((effectiveSegmentAnswers(segment, identity).authorise ?? []).includes("procurement")) {
         add("dedicated-support", "a buyer who decides by formal tender");
     }
-    if ((identity?.relationships ?? []).includes("b2g")) {
+    // (Government buyers want a named contact: where the Segment's buyer is a business or the public sector, never a Segment of people; owner, 2026-11-16.)
+    if ((identity?.relationships ?? []).includes("b2g") && segmentIsBusiness(segment)) {
         add("dedicated-support", "your government buyers");
     }
     return out;

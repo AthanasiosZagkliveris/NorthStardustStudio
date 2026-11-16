@@ -965,7 +965,7 @@ Demographics connect to **competitors** only through rules 21 and 22: what custo
 | Answer | Effect |
 |---|---|
 | O3 | Demand "Customers Buy", Delivery "Delivered", Revenue "Charged" options. Recurring shows Cancel / Month and Hours Given; one-off shows Calendar Time. |
-| O1 and the Offering Type | If no Product or Hybrid offering exists, Physical Delivery and Retail & Wholesale (channels), Delivery Vehicles, Delivery Running Costs and Materials & Stock (resources) and the Logistics & Fulfilment partner type are hidden. Hidden, not deleted. |
+| O1 and the Offering Type | If no Product or Hybrid offering exists, Physical Delivery and Retail & Wholesale (channels), Delivery Vehicles, Delivery Running Costs and Materials & Stock (resources) and the Logistics & Fulfilment partner type are hidden. Hidden, not deleted. An Offering posted, shipped or collected (O6), or sent a way O20 names, has a physical item whatever its Type and form (2026-11-16). |
 | I1, I2 | The industry pack's suggestions (doc 34, 5.6); industry overlap checks; the country's section or code, suggested on the Organisation tile and printed on the documents. |
 | I8 | Hides "sales I have made" and "website or social-media data" in D1 until the stage is earning; labels figures actual or forecast. |
 | I9 | A suggestion for Capital & Funding and for the hire answer of C4 (later). |

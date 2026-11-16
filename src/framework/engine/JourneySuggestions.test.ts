@@ -111,12 +111,16 @@ describe("the relationship types the answers create (owner, 2026-11-13 00:29 and
         ]);
     });
 
-    test("a buyer who decides by formal tender, or a government buyer, creates Dedicated Support", () => {
+    test("a buyer who decides by formal tender, or a government buyer of a business Segment, creates Dedicated Support", () => {
         const base = quill.foundation.segments[0];
         const tender = { ...base, questions: { ...base.questions, authorise: ["procurement"] } };
         expect(autoRelationshipTypes(tender, "missing").map(entry => entry.type)).toContain("dedicated-support");
-        const plain = { ...base, profiles: [] };
-        expect(autoRelationshipTypes(plain, "missing", { relationships: ["b2g"], marketType: "", audience: [] }).map(entry => entry.type)).toEqual(["dedicated-support"]);
+        const government = { relationships: ["b2g"], marketType: "", audience: [] };
+        // (Government buyers want a named contact where the Segment's buyer is a business or the public sector; a Segment of people is left as it is: owner, 2026-11-16.)
+        const people = { ...base, profiles: [], description: Object.fromEntries(Object.entries(base.description).filter(([key]) => key !== "business-data")) } as typeof base;
+        expect(autoRelationshipTypes(people, "missing", government).map(entry => entry.type)).toEqual([]);
+        const business = { ...people, description: { ...people.description, "business-data": {} } } as unknown as typeof base;
+        expect(autoRelationshipTypes(business, "missing", government).map(entry => entry.type)).toEqual(["dedicated-support"]);
     });
 
     test("an Offering's types: the answers' less those removed, then those added; never none", () => {

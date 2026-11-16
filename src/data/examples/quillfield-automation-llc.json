@@ -5813,7 +5813,6 @@
     "startupContingencyRate": "10",
     "operationalContingencyRate": "4",
     "insurancePerEmployee": "",
-    "incomeTaxRate": "",
     "amortisation": {
       "software-licences": "3",
       "website-domain": "3",

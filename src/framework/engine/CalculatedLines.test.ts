@@ -7,7 +7,7 @@ import {
     createBusinessPartner,
     createBusinessResourceSlot
 } from "./AnswerUtils";
-import { calculatedLines, channelFeeFor, channelFeeRowFor, effectiveIncomeTaxRate, monthIndexOf, revenueFractions } from "./CalculatedLines";
+import { calculatedLines, channelFeeFor, channelFeeRowFor, monthIndexOf, revenueFractions } from "./CalculatedLines";
 import { createDemand, createDemandSource } from "./DemandCapacity";
 import { financialForecast, type ForecastTable } from "./FinancialForecast";
 import {
@@ -29,17 +29,17 @@ const supplier = (id: string, group: string, fields: Record<string, unknown> = {
 const PLAN = { month: "01", year: "2027" };
 const OPENING = "2027-04-01";
 
-function scenario(capability: object, settings: Partial<GlobalSettingsValue> = {}, options: { price?: string; volume?: string; drawings?: boolean } = {}) {
+function scenario(capability: object, settings: Partial<GlobalSettingsValue> = {}, options: { price?: string; volume?: string; drawings?: boolean; taxRate?: string } = {}) {
     const base = asBusinessCapabilityValue(undefined);
     const value = asBusinessCapabilityValue({ ...base, ...capability, offering: { ...base.offering, ...(capability as { offering?: object }).offering } });
-    const foundation = { ...asFinancialFoundationValue({}), planStart: PLAN, planYears: "1" };
+    const foundation = { ...asFinancialFoundationValue(options.taxRate ? { incomeTax: "rate", incomeTaxRate: options.taxRate } : {}), planStart: PLAN, planYears: "1" };
     const stream = { ...createRevenueStream(), offeringId: "o1", price: options.price ?? "100", volume: options.volume ?? "100", start: { month: "04", year: "2027" }, frequency: "one-time" as const, itemsPerOrder: "1" };
     const revenuePage = asFinancialSustainabilityValue({ streams: [stream] });
     const lines = consolidateCosts(foundation, {
         legalEntity: asLegalEntityValue({}), capability: value, resourceGroupLabels: {}, subsectionLabels: {}, currency: "EUR", foundersLinked: false
     });
     const merged = { ...createGlobalSettings(), ...settings };
-    const result = calculatedLines({ foundation, revenuePage, lines, capability: value, settings: merged, openingDate: OPENING, drawings: options.drawings ?? false });
+    const result = calculatedLines({ foundation, revenuePage, lines, capability: value, settings: merged, openingDate: OPENING, drawings: options.drawings ?? false }, options.taxRate ? Number(options.taxRate) / 100 : null);
     return { value, foundation, revenuePage, lines, result, settings: merged };
 }
 
@@ -243,13 +243,13 @@ describe("which lines are written off at the opening (X12)", () => {
 
 });
 
-describe("income tax from the Global Settings", () => {
+describe("income tax: Page 4's Plan Settings own the rate (doc 5, section 5.5.6)", () => {
 
-    it("the setting wins; the Financial Foundation's rate stands while the setting is empty", () => {
-        expect(effectiveIncomeTaxRate({ ...createGlobalSettings(), incomeTaxRate: "21" }, 0.25)).toBe(0.21);
-        expect(effectiveIncomeTaxRate(createGlobalSettings(), 0.25)).toBe(0.25);
-        expect(effectiveIncomeTaxRate(createGlobalSettings(), null)).toBeNull();
-        expect(effectiveIncomeTaxRate({ ...createGlobalSettings(), incomeTaxRate: "150" }, null)).toBe(1);
+    it("is the Financial Foundation's rate, whatever the Global Settings hold", () => {
+        const ready = scenario({});
+        const input = { foundation: ready.foundation, revenuePage: ready.revenuePage, lines: ready.lines, capability: ready.value, settings: { ...ready.settings, incomeTaxRate: "21" } as typeof ready.settings, openingDate: OPENING, drawings: false };
+        expect(calculatedLines(input, 0.25).incomeTaxRate).toBe(0.25);
+        expect(calculatedLines(input, null).incomeTaxRate).toBeNull();
     });
 
 });
@@ -273,7 +273,7 @@ describe("the forecast with the calculated lines", () => {
     };
 
     function run(withCalculated: boolean) {
-        const ready = scenario(capability, { onCostRate: "25", capitalisationLimit: "500", incomeTaxRate: "20" });
+        const ready = scenario(capability, { onCostRate: "25", capitalisationLimit: "500" }, { taxRate: "20" });
         const forecast = financialForecast(ready.foundation, ready.revenuePage, ready.lines, asLegalEntityValue({}), String, withCalculated ? ready.result : undefined);
         return { forecast, ready };
     }
@@ -306,7 +306,7 @@ describe("the forecast with the calculated lines", () => {
         expect(rent.slice(0, 3).every(amount => amount < 0)).toBe(true);
     });
 
-    it("income tax uses the rate of the Global Settings", () => {
+    it("income tax uses the rate of Page 4's Plan Settings", () => {
         const { forecast } = run(true);
         expect(forecast.profitAndLoss.rows.map(entry => entry.label)).toContain("Income tax");
         expect(forecast.notes.join(" ")).toMatch(/20%/);
