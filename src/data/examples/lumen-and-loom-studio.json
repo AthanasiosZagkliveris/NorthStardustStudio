@@ -4873,7 +4873,8 @@
                   },
                   "offeringShares": {
                     "offering-nvfuu2km": "60",
-                    "offering-vhtapa3v": "40"
+                    "offering-vhtapa3v": "40",
+                    "~basis": "own"
                   },
                   "extraStatuses": [],
                   "insuranceId": "",
@@ -5049,7 +5050,8 @@
                   },
                   "offeringShares": {
                     "offering-nvfuu2km": "70",
-                    "offering-8e935f0e": "30"
+                    "offering-8e935f0e": "30",
+                    "~basis": "own"
                   },
                   "extraStatuses": [],
                   "insuranceId": "",
@@ -5096,7 +5098,8 @@
                   },
                   "offeringShares": {
                     "offering-nvfuu2km": "70",
-                    "offering-8e935f0e": "30"
+                    "offering-8e935f0e": "30",
+                    "~basis": "own"
                   },
                   "extraStatuses": [],
                   "insuranceId": "",
@@ -5143,7 +5146,8 @@
                   },
                   "offeringShares": {
                     "offering-nvfuu2km": "70",
-                    "offering-8e935f0e": "30"
+                    "offering-8e935f0e": "30",
+                    "~basis": "own"
                   },
                   "extraStatuses": [],
                   "insuranceId": "",
@@ -5233,7 +5237,8 @@
                   },
                   "offeringShares": {
                     "offering-nvfuu2km": "60",
-                    "offering-8e935f0e": "40"
+                    "offering-8e935f0e": "40",
+                    "~basis": "own"
                   },
                   "extraStatuses": [],
                   "insuranceId": "",
@@ -5353,7 +5358,8 @@
                   },
                   "offeringShares": {
                     "offering-nvfuu2km": "70",
-                    "offering-8e935f0e": "30"
+                    "offering-8e935f0e": "30",
+                    "~basis": "own"
                   },
                   "extraStatuses": [],
                   "insuranceId": "",
@@ -5767,7 +5773,8 @@
                   "endDate": "2026-09-30",
                   "offeringShares": {
                     "offering-nvfuu2km": "70",
-                    "offering-8e935f0e": "30"
+                    "offering-8e935f0e": "30",
+                    "~basis": "own"
                   },
                   "resources": [],
                   "performerPeople": {}
@@ -5823,7 +5830,8 @@
                   "endDate": "",
                   "offeringShares": {
                     "offering-nvfuu2km": "60",
-                    "offering-8e935f0e": "40"
+                    "offering-8e935f0e": "40",
+                    "~basis": "own"
                   },
                   "resources": [],
                   "performerPeople": {}
@@ -6059,7 +6067,8 @@
                   },
                   "offeringShares": {
                     "offering-nvfuu2km": "70",
-                    "offering-8e935f0e": "30"
+                    "offering-8e935f0e": "30",
+                    "~basis": "own"
                   },
                   "madeBy": "",
                   "startDate": "2026-10-01",
@@ -6095,7 +6104,8 @@
                   },
                   "offeringShares": {
                     "offering-nvfuu2km": "70",
-                    "offering-8e935f0e": "30"
+                    "offering-8e935f0e": "30",
+                    "~basis": "own"
                   },
                   "madeBy": "",
                   "startDate": "2026-10-01",

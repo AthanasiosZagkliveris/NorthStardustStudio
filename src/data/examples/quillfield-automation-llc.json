@@ -3289,7 +3289,8 @@
                   "offeringShares": {
                     "offering-a4k9r2td": "34",
                     "offering-b7w3m5qx": "33",
-                    "offering-c2p8j6nv": "33"
+                    "offering-c2p8j6nv": "33",
+                    "~basis": "own"
                   },
                   "extraStatuses": [],
                   "insuranceId": "",
@@ -3385,7 +3386,8 @@
                   "offeringShares": {
                     "offering-a4k9r2td": "34",
                     "offering-b7w3m5qx": "33",
-                    "offering-c2p8j6nv": "33"
+                    "offering-c2p8j6nv": "33",
+                    "~basis": "own"
                   },
                   "extraStatuses": [],
                   "insuranceId": "",
@@ -3434,7 +3436,8 @@
                   "offeringShares": {
                     "offering-a4k9r2td": "34",
                     "offering-b7w3m5qx": "33",
-                    "offering-c2p8j6nv": "33"
+                    "offering-c2p8j6nv": "33",
+                    "~basis": "own"
                   },
                   "extraStatuses": [],
                   "insuranceId": "",
@@ -3483,7 +3486,8 @@
                   "offeringShares": {
                     "offering-a4k9r2td": "34",
                     "offering-b7w3m5qx": "33",
-                    "offering-c2p8j6nv": "33"
+                    "offering-c2p8j6nv": "33",
+                    "~basis": "own"
                   },
                   "extraStatuses": [],
                   "insuranceId": "",
@@ -3723,7 +3727,8 @@
                   "offeringShares": {
                     "offering-a4k9r2td": "34",
                     "offering-b7w3m5qx": "33",
-                    "offering-c2p8j6nv": "33"
+                    "offering-c2p8j6nv": "33",
+                    "~basis": "own"
                   },
                   "resources": [
                     {
@@ -3755,7 +3760,8 @@
                   "offeringShares": {
                     "offering-a4k9r2td": "34",
                     "offering-b7w3m5qx": "33",
-                    "offering-c2p8j6nv": "33"
+                    "offering-c2p8j6nv": "33",
+                    "~basis": "own"
                   },
                   "resources": [
                     {
@@ -3917,7 +3923,8 @@
                   "offeringShares": {
                     "offering-a4k9r2td": "34",
                     "offering-b7w3m5qx": "33",
-                    "offering-c2p8j6nv": "33"
+                    "offering-c2p8j6nv": "33",
+                    "~basis": "own"
                   },
                   "madeBy": "",
                   "startDate": "2027-01-01",

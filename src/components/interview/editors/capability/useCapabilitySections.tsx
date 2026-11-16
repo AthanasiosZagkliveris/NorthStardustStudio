@@ -30,9 +30,9 @@ type Earlier = ReturnType<typeof useCapabilityState> & ReturnType<typeof useCapa
 
 export function useCapabilitySections(earlier: Earlier) {
 
-    const { newTeamCard, staffOf, activityAdd, activityCategoryCell, partnerGroupHidden, resourceCategoryHidden, activityResources, capability, cardDates, cardRule, categoryActivityList, categoryInfo, channelFactsById, channelNamesById, channelTileIds, channelToneIds, completedActivities, deliveryCard, deliverySection, disabled, discard, formatMoney, founderCard, founderChoices, founderIds, founderItems, founders, groupSlots, legalExpenses, linksSection, offeringAdd, offeringChoices, offeringNumberOf, offeringSlotsIn, offeringsField, onChange, openPair, openingDate, organisationCurrency, partnerAddIn, partnerCard, partnerCardFor, partnersOf, performerChoices, performerCosts, performerFields, planStartDay, resourceCard, responsibilityField, setCategoryActivities, setResponsibilityFolds, subAdd, tileSection, update } = earlier;
+    const { shareWeights, newTeamCard, staffOf, activityAdd, activityCategoryCell, partnerGroupHidden, resourceCategoryHidden, activityResources, capability, cardDates, cardRule, categoryActivityList, categoryInfo, channelFactsById, channelNamesById, channelTileIds, channelToneIds, completedActivities, deliveryCard, deliverySection, disabled, discard, formatMoney, founderCard, founderChoices, founderIds, founderItems, founders, groupSlots, legalExpenses, linksSection, offeringAdd, offeringChoices, offeringNumberOf, offeringSlotsIn, offeringsField, onChange, openPair, openingDate, organisationCurrency, partnerAddIn, partnerCard, partnerCardFor, partnersOf, performerChoices, performerCosts, performerFields, planStartDay, resourceCard, responsibilityField, setCategoryActivities, setResponsibilityFolds, subAdd, tileSection, update } = earlier;
 
-    const floor = floorRows(capability, legalExpenses, channelToneIds, channelNamesById, channelFactsById);
+    const floor = floorRows(capability, legalExpenses, channelToneIds, channelNamesById, channelFactsById, shareWeights);
     const missingById = new Map(floor.filter(row => row.missing).map(row => [row.id, row.missing!] as const));
     const floorById = new Map(floor.map(row => [row.id, row]));
     const tileData = (id: string) => {
@@ -544,7 +544,9 @@ export function useCapabilitySections(earlier: Earlier) {
                     "Define an Offering on the Foundation page first.",
                     activity.offeringShares,
                     false,
-                    activity.madeBy !== "" ? connectedOfferings(capability, activity).ids : []
+                    activity.madeBy !== "" ? connectedOfferings(capability, activity).ids : [],
+                    // (An activity carries no cost: nothing to share, the ticks alone.)
+                    true
                 )}
 
                 </fieldset>

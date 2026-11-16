@@ -121,6 +121,9 @@ import { calculatedLines } from "./CalculatedLines.ts";
 import { launchNeedOf } from "./ContingencyFunds.ts";
 import { capitalisationLimitOf } from "./GlobalSettings.ts";
 import { ownersTakeDrawings } from "./FinancialForecast.ts";
+import { offeringShareWeights } from "./DemandCapacity.ts";
+import { costIsShared, offeringFractions } from "./capability/offeringShares.ts";
+import { isPurchaseGroup } from "./AnswerBusinessCapability.ts";
 
 /* ==========================================================
    Building blocks
@@ -231,6 +234,17 @@ export function offeringNames(foundation: unknown, ids: readonly string[]): stri
     return ids.map(id => offeringName(foundation, id)).filter(Boolean).join(", ");
 }
 
+/** A SHARED COST'S SPLIT, as the documents print it (owner, 2026-11-16): "Rugs 60%, Workshops 40%"; the names alone where the cost is not shared. */
+export function offeringSplitText(foundation: unknown, ids: readonly string[], fractions?: Readonly<Record<string, number>>): string {
+    if (!fractions || ids.length < 2) {
+        return offeringNames(foundation, ids);
+    }
+    return ids.map(id => {
+        const name = offeringName(foundation, id);
+        return name ? name + " " + Math.round((fractions[id] ?? 0) * 100) + "%" : "";
+    }).filter(Boolean).join(", ");
+}
+
 /** Page 3's value with the Legal Entity's founders, and their Founders Profile roles, laid over it, as Page 3 shows it. */
 export function capabilityOf(value: unknown, context: ExportContext): BusinessCapabilityValue {
     const capability = asBusinessCapabilityValue(value);
@@ -279,12 +293,15 @@ const SUBSECTION_LABELS: Record<string, string> = Object.fromEntries(
 export function costSourcesFor(
     legalEntity: LegalEntityValue,
     capability: BusinessCapabilityValue,
-    currency: string
+    currency: string,
+    /** What each Offering uses a month, for a shared cost's split by hours or by revenue (offeringShareWeights). */
+    shareWeights?: CostSources["shareWeights"]
 ): CostSources {
     return {
         legalEntity,
         capability,
         currency,
+        shareWeights,
         foundersLinked: legalEntity.founders.some(founder => founder.name.trim().length > 0),
         resourceGroupLabels: RESOURCE_GROUP_LABELS,
         subsectionLabels: SUBSECTION_LABELS
@@ -294,11 +311,10 @@ export function costSourcesFor(
 /** Page 4's costs, consolidated exactly as Page 4 shows them. */
 export function costLines(page: FinancialFoundationValue, context: ExportContext): CostLine[] {
     const legalEntity = context.legalEntity ?? asLegalEntityValue(undefined);
-    return consolidateCosts(page, costSourcesFor(
-        legalEntity,
-        capabilityOf(context.responseOf?.(AnswerType.BusinessCapability), context),
-        context.currency ?? ""
-    ));
+    const capability = capabilityOf(context.responseOf?.(AnswerType.BusinessCapability), context);
+    // (A shared cost split by hours or by revenue: what each Offering uses a month.)
+    const weights = offeringShareWeights(capability.delivery, demandOf(context) ?? {}, asFinancialSustainabilityValue(context.responseOf?.(AnswerType.FinancialSustainability)).streams);
+    return consolidateCosts(page, costSourcesFor(legalEntity, capability, context.currency ?? "", weights));
 }
 
 /* ==========================================================
@@ -696,7 +712,9 @@ export function partnerRows(
     currency: string,
     foundation: unknown,
     withOffering: boolean,
-    founderIds: readonly string[]
+    founderIds: readonly string[],
+    /** A shared cost's split (offeringFractions); none where the cost is not shared. */
+    splitOf?: (card: BusinessPartnerValue) => Readonly<Record<string, number>> | undefined
 ): string[][] {
     return partners.map(partner => [
         kind,
@@ -704,7 +722,7 @@ export function partnerRows(
         // The one founder of a one-founder organisation is responsible without being chosen.
         founderName(businessPartnerResponsibleId(partner, founderIds)),
         costText(partner.cost, currency),
-        ...(withOffering ? [offeringNames(foundation, partner.offeringIds)] : []),
+        ...(withOffering ? [offeringSplitText(foundation, partner.offeringIds, splitOf?.(partner))] : []),
         partner.description
     ]);
 }
@@ -751,6 +769,10 @@ function businessCapabilityBlocks(value: unknown, context: ExportContext): Expor
     const capability = capabilityOf(value, context);
     const foundation = context.responseOf?.(AnswerType.BusinessFoundation);
     const currency = context.currency ?? "";
+    // (Each shared cost's split, by its basis: the documents print it beside the Offerings.)
+    const weights = offeringShareWeights(capability.delivery, demandOf(context) ?? {}, asFinancialSustainabilityValue(context.responseOf?.(AnswerType.FinancialSustainability)).streams);
+    const splitOf = (card: { offeringIds: string[]; offeringShares: Record<string, string>; cost: { frequency: string }; group?: string }) =>
+        costIsShared(card.cost.frequency, isPurchaseGroup(card.group ?? "")) && card.offeringIds.length > 1 ? offeringFractions(card.offeringIds, card.offeringShares, weights) : undefined;
 
     const everyone = [
         ...capability.founders,
@@ -816,13 +838,13 @@ function businessCapabilityBlocks(value: unknown, context: ExportContext): Expor
         ...table(["Offering", "Resource", "Quantity", "Status", "Cost / Provider"],
             capability.offering.resources.map(slot => {
                 const row = slotRow(slot, "", people, currency);
-                return [offeringNames(foundation, slot.offeringIds), ...row.slice(1)];
+                return [offeringSplitText(foundation, slot.offeringIds, splitOf(slot)), ...row.slice(1)];
             })),
         ...table(["Category", "Activity", "Team", "Responsible", "Offering", "State"],
             activityRows(capability.offering.activities, "Offering", people, founderIds, foundation, true)),
         ...table(["Kind", "Name", "Responsible", "Cost", "Offering", "Description"], [
-            ...partnerRows(capability.offering.professionals, "Professional / Partner", people, currency, foundation, true, founderIds),
-            ...partnerRows(capability.offering.providers, "Provider", people, currency, foundation, true, founderIds)
+            ...partnerRows(capability.offering.professionals, "Professional / Partner", people, currency, foundation, true, founderIds, splitOf),
+            ...partnerRows(capability.offering.providers, "Provider", people, currency, foundation, true, founderIds, splitOf)
         ]),
 
         heading("Delivery", 2),
@@ -959,7 +981,7 @@ export function financialFoundationBlocks(value: unknown, context: ExportContext
             line.amount === null ? line.amountText : (line.counted ? format(line.amount) : line.amountText + " " + line.currency + " (not counted)"),
             frequencyOf(line),
             labelOf(COST_BEHAVIOURS, line.behaviour),
-            offeringNames(foundation, line.offeringIds)
+            offeringSplitText(foundation, line.offeringIds, line.offeringShares)
         ]))
         ]),
 

@@ -842,6 +842,26 @@ export function offeringMonthlyRevenue(
 }
 
 /**
+ * WHAT EACH OFFERING USES A MONTH, for a shared cost's split by hours or by revenue (owner, 2026-11-16): its delivery hours -- its Delivery card's hours for each sale
+ * (or each active client) x its expected sales -- and its revenue a month (offeringMonthlyRevenue).
+ */
+export function offeringShareWeights(
+    delivery: Readonly<Record<string, DeliveryValue | undefined>>,
+    demand: Readonly<Record<string, DemandValue | undefined>>,
+    streams: readonly { offeringId: string; price: string; itemsPerOrder: string }[]
+): { hours: Record<string, number>; revenue: Record<string, number> } {
+    const hours: Record<string, number> = {};
+    for (const [offeringId, entry] of Object.entries(delivery)) {
+        const effort = deliveryEffort(entry);
+        const expected = demandResult(demand[offeringId]).expected;
+        if (effort !== null && expected !== null && expected > 0) {
+            hours[offeringId] = effort * expected;
+        }
+    }
+    return { hours, revenue: offeringMonthlyRevenue(demand, streams) };
+}
+
+/**
  * EACH OFFERING'S REVENUE A MONTH THROUGH EACH SUBCHANNEL (owner, 2026-11-14 20:25: "check the %, some seems wrong"): a Customer Source's expected sales x the
  * Offering's price x its items per order, filed under the subchannel the source names (its channel's category and name, joined by "\u0001"). What a cost
  * that is a share of a channel's revenue is split by: Shopify Payments by what each Offering sells through the Online Store, a card reader's fees by what it

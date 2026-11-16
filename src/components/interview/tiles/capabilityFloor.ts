@@ -27,6 +27,7 @@ import { isoToDisplay } from "../fields/DateCellInput.tsx";
 import { incompleteCards } from "../../../framework/engine/CardCompleteness.ts";
 import { freshCards } from "../cards/freshCards.ts";
 import { founderMonthlySalary } from "../../../framework/engine/DemandCapacity.ts";
+import { costIsShared, type ShareWeights } from "../../../framework/engine/capability/offeringShares.ts";
 
 /*
     THE FLOOR: every tile kind of Page 3 -- Resources, Activities, Partners & Suppliers, and (to include or leave out) the Workspace and
@@ -143,7 +144,9 @@ export function floorRows(
     legalExpenses: readonly LegalEntityExpenseValue[] = [],
     channelIds: ReadonlySet<string> = new Set(),
     channelNames: ReadonlyMap<string, readonly string[]> = new Map(),
-    channelFacts: ReadonlyMap<string, FloorChannel> = new Map()
+    channelFacts: ReadonlyMap<string, FloorChannel> = new Map(),
+    /** What each Offering uses a month: a shared cost's split by hours or by revenue (offeringShareWeights). */
+    shareWeights?: ShareWeights
 ): FloorRow[] {
 
     const rows: Omit<FloorRow, "tone">[] = [];
@@ -374,8 +377,13 @@ export function floorRows(
     // (The Offerings each Offering's Capability card serves.)
     const cardsServing = [...capability.offering.resources, ...capability.offering.activities, ...capability.offering.professionals, ...capability.offering.providers];
     const served = new Map<string, readonly string[]>(cardsServing.map(card => [card.id, card.offeringIds ?? []] as const));
-    // (Each Offering's share of a card's cost, as the Financial Foundation splits it: offeringFractions.)
-    const shares = new Map<string, Record<string, number>>(cardsServing.map(card => [card.id, offeringFractions(card.offeringIds ?? [], (card as { offeringShares?: Record<string, string> }).offeringShares ?? {})] as const));
+    // (Each Offering's share of a card's cost, as the Financial Foundation splits it: offeringFractions, by the card's basis. A cost paid per unit or as a share of
+    // revenue is each Offering's in full: every one carries all of it.)
+    const costOf = (card: object) => (card as { cost?: { frequency?: string } }).cost?.frequency ?? "";
+    const bought = (card: object) => isPurchaseGroup((card as { group?: string }).group ?? "");
+    const shares = new Map<string, Record<string, number>>(cardsServing.map(card => [card.id, costIsShared(costOf(card), bought(card))
+        ? offeringFractions(card.offeringIds ?? [], (card as { offeringShares?: Record<string, string> }).offeringShares ?? {}, shareWeights)
+        : Object.fromEntries((card.offeringIds ?? []).map(id => [id, 1]))] as const));
     return rows.map(row => ({
         ...row,
         ...(lacking.has(row.id) && !freshCards.has(row.id) ? { missing: lacking.get(row.id) } : {}),

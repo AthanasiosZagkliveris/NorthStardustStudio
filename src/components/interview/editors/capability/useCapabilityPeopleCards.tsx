@@ -2,6 +2,7 @@
  * THE FOUNDER AND PARTNER CARDS, and the choosers and category cells they hold.
  * One part of the Infrastructure & Capability editor (see BusinessCapabilityEditor.tsx): what it needs of the parts before it comes in as `scope`; what the parts after it need goes out.
  */
+import { costIsShared } from "../../../../framework/engine/AnswerUtils.ts";
 import ListStatic from "../../fields/ListStatic.tsx";
 import FieldLabel from "../../../controls/FieldLabel.tsx";
 import NumberCell from "../../../controls/NumberCell.tsx";
@@ -897,7 +898,7 @@ export function useCapabilityPeopleCards(earlier: Earlier) {
                     partner.offeringShares,
                     channelMade(scope, partner.id),
                     partner.madeBy !== "" ? connectedOfferings(capability, partner).ids : [],
-                    partner.cost.frequency === "percent-revenue"
+                    !costIsShared(partner.cost.frequency)
                 )}
 
                 {/* THE CARDS THAT USE IT (the resources that name it, the activities it performs): at the end of the card, a link each (above this one when opened). */}

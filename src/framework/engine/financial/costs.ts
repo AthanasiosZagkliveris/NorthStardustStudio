@@ -3,7 +3,7 @@
 import { workspacesOf, WORKSPACE_GROUP_ID } from "../AnswerUtils.ts";
 import { parseAmount, parseDecimal } from "../Amounts.ts";
 import { type BillingType, type BusinessPaymentPlan, type BusinessCapabilityValue, type BusinessCostValue, type BusinessPartnerValue, type BusinessResourceSlotValue, type LegalEntityValue, type StrategyMonthValue } from "../AnswerUtils.ts";
-import { BUSINESS_EXTRAS, billingOf, isSpaceOnlyGroup, paymentPlanIncomplete, paymentPlanLines, type BusinessExtraKey, type BusinessExtrasValue, isCostingStatus, offeringFractions, isPurchaseGroup, partnerExtraKeys, PEOPLE_EXTRA_KEYS, partnerKindOf, resourceUnitCount, slotExtraKeys, supplierConnections, serviceAssetLinks, partnerHasQuantity, workspaceCardName } from "../AnswerUtils.ts";
+import { BUSINESS_EXTRAS, billingOf, isSpaceOnlyGroup, paymentPlanIncomplete, paymentPlanLines, type BusinessExtraKey, type BusinessExtrasValue, isCostingStatus, offeringFractions, isPurchaseGroup, partnerExtraKeys, PEOPLE_EXTRA_KEYS, partnerKindOf, resourceUnitCount, slotExtraKeys, supplierConnections, serviceAssetLinks, partnerHasQuantity, workspaceCardName , costIsShared, type ShareWeights } from "../AnswerUtils.ts";
 import { founderMonthlySalary } from "../DemandCapacity.ts";
 import { PER_UNIT_FREQUENCIES, SCHEDULED_FREQUENCIES, type CostBehaviour, type CostFrequency, type CostGroup } from "./lists.ts";
 import { EMPTY_MONTH, type CostAsset, type FinancialFoundationValue, type OwnCostValue } from "./stored.ts";
@@ -139,6 +139,8 @@ export interface CostSources {
      * founders whose salaries are real. See withLegalEntityFounders.
      */
     foundersLinked: boolean;
+    /** What each Offering uses a month (offeringShareWeights): a shared fixed or one-time cost's split by hours or by revenue. Absent: equal parts there. */
+    shareWeights?: ShareWeights;
 }
 
 /**
@@ -270,8 +272,9 @@ export function consolidateCosts(
             defaultGroup, offeringIds, resourceUnitCount(quantity, multiplyPerUnit && cost.frequency === "per-unit" ? "monthly" : cost.frequency, purchase),
             null, sourcePath
         );
-        if (lines.length > before && offeringIds.length > 1) {
-            lines[lines.length - 1].offeringShares = offeringFractions(offeringIds, shares);
+        // (A cost paid once or each period is shared by the card's basis; one paid per unit or as a share of revenue is each Offering's in full: no shares.)
+        if (lines.length > before && offeringIds.length > 1 && costIsShared(cost.frequency, purchase)) {
+            lines[lines.length - 1].offeringShares = offeringFractions(offeringIds, shares, sources.shareWeights);
         }
     };
 

@@ -3956,7 +3956,7 @@ export const library: Library = {
    "code": "FLD.054",
    "name": "Linked Offerings",
    "category": "field",
-   "summary": "The Offerings field of a card (its label says Offerings): a label and tick list (+ number); with several Offerings the shares count in Units or in %.",
+   "summary": "The Offerings field of a card (its label says Offerings): a label and tick list (+ number); with several Offerings on a cost paid once or each period, \"How is it shared?\" (by hours, by revenue, in equal parts, or My own split in %).",
    "variables": [
     "VAR005",
     "VAR006",

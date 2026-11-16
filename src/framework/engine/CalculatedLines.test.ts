@@ -370,7 +370,8 @@ describe("a share of revenue charged on each Offering's own revenue", () => {
     it("2% of A's 6,000 and B's 4,000 is 120 and 80, whatever the 70/30 shares say", () => {
         const { lines, revenuePage, result } = twoOfferings({ o1: "70", o2: "30" });
         const line = lines.find(entry => entry.id === "agent")!;
-        expect(line.offeringShares).toEqual({ o1: 0.7, o2: 0.3 });
+        // (A share of revenue carries no shares at all: each Offering pays the rate on its own revenue; owner, 2026-11-16.)
+        expect(line.offeringShares).toBeUndefined();
         expect(revenueFractions(line.id, ["o1", "o2"], undefined, revenuePage)).toEqual({ o1: 1, o2: 1 });
         expect(result.percentageLines[0].values[3]).toBe(200);
     });

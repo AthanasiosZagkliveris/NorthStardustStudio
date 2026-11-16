@@ -6,6 +6,7 @@ Every change to an asset of the library: added, edited, placed (and where), move
 
 | Id | Date | Asset | Change | What | Where | Note |
 |---|---|---|---|---|---|---|
+| L0689 | 2026-11-16 | FLD.054 | edited | Linked Offerings: summary |  | Offerings field: "How is it shared?" (by hours, by revenue, in equal parts, My own split) replaces Units / % on a shared cost (owner, 2026-11-17) |
 | L0688 | 2026-11-16 | FLD.043 | edited | Team: name, summary |  | Owner 2026-11-16 20:22: the Activity's Performer field renamed Team, its choices headed (Founders, Staff, Partners, Suppliers); the Dropdown's with-headings variant |
 | L0687 | 2026-11-14 | BTN.001 | edited | box button: variants |  | owner, 2026-11-14 12:29 to 12:38: the in-cell x (CellRemoveButton), a variant of the box button, 24px, frameless, inside the action lines and the expense chips |
 | L0686 | 2026-10-30 | TIL.001 | moved | TIL.001 moved | from Identity System / 2. Organization / 2. Founders & Capability / Capability to Identity System / 2. Legal Entity / 2. Founders & Capability / Capability |  |

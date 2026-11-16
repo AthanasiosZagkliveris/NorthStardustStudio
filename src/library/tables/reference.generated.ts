@@ -1940,7 +1940,7 @@ export const referenceTables: readonly TableData[] = [
    },
    {
     "id": "FN26",
-    "function": "Checkboxes, with a number box (%) beside each when more than one is ticked"
+    "function": "Checkboxes; with more than one ticked on a cost paid once or each period (a purchase priced per unit included), \"How is it shared?\" (dropdown: By the hours each one uses, By the revenue each one brings, In equal parts, My own split) and each Offering's percent beside it, a number box under My own split"
    },
    {
     "id": "FN27",

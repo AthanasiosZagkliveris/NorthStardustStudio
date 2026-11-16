@@ -1,3 +1,4 @@
+import { offeringShareWeights } from "../../../framework/engine/DemandCapacity.ts";
 import { countedCapability } from "../../../framework/engine/CardCompleteness.ts";
 import TextBox from "../../controls/TextBox.tsx";
 import NumberCell from "../../controls/NumberCell.tsx";
@@ -110,7 +111,8 @@ export default function FinancialSustainabilityEditor({
     const start = financial.planStart;
     const months = planLength(financial);
 
-    const lines = consolidateCosts(financial, costSourcesFor(legalEntity, countedCapability(capability), currency));
+    // (A shared cost split by hours or by revenue: what each Offering uses a month.)
+    const lines = consolidateCosts(financial, costSourcesFor(legalEntity, countedCapability(capability), currency, offeringShareWeights(capability.delivery, asBusinessEngagementValue(engagement).demand, page.streams)));
 
     // Whole units everywhere on this read-only page: an amount
     // someone can edit shows the string they typed, never this

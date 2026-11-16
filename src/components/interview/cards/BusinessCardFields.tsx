@@ -82,7 +82,7 @@ const MISSING_LABELS: Record<string, readonly string[]> = {
     "Team": ["performer"],
     "Responsible": ["responsible"],
     "Linked Offerings": ["linked to", "offerings"],
-    "Offering shares": ["linked to"],
+    "Offering shares": ["linked to", "offerings"],
     "Salary": ["salary"],
     "Working Hours": ["working hrs"],
     "Delivery Hours": ["delivery hrs"]

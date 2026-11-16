@@ -325,7 +325,7 @@ The updated list proposed Partners (Strategic Alliances & Joint Ventures; Resell
 - Rename Providers to Suppliers, with the Partners and Suppliers categories above?
 - Frequency list down to the 8 options, with a unit name on Per unit?
 - An optional Payment plan on cards (shares plus date or trigger)?
-- Shared-cost allocation: five bases, default "do not allocate"?
+- Shared-cost allocation: **decided and built 2026-11-17** (owner, the open decisions and gaps): four bases -- by hours, by revenue, in equal parts, the user's own split --, by hours by default where the Offerings have Delivery cards, else by revenue; by units retired (Page 3 spec, section 7).
 - Merged groups as listed; activities stay with categories only and no additions?
 - Add Retail & Wholesale and Referral & Affiliates channel categories?
 

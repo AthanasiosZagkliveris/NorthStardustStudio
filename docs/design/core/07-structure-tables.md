@@ -629,7 +629,7 @@ Each field once, with the component it uses (CO) and the functions it carries (F
 | FN23 | Read-only bullet list |
 | FN24 | Read-only list with a Completed fold |
 | FN25 | Checkbox, then a dropdown of founders |
-| FN26 | Checkboxes, with a number box (%) beside each when more than one is ticked |
+| FN26 | Checkboxes; with more than one ticked on a cost paid once or each period (a purchase priced per unit included), "How is it shared?" (dropdown: By the hours each one uses, By the revenue each one brings, In equal parts, My own split) and each Offering's percent beside it, a number box under My own split |
 | FN27 | Checkboxes, one per offering |
 | FN28 | Dropdown of founders |
 

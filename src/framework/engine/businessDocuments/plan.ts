@@ -12,7 +12,7 @@ import { WEEKS_PER_MONTH, demandResult, founderMonthlySalary, founderWorkingHour
 import { addressCity, BUSINESS_ACTIVITY_CATEGORIES, BUSINESS_CHANNEL_ALL_OFFERINGS, BUSINESS_JOURNEY_STAGES, BUSINESS_COMPETITOR_TYPES, relationshipTypeLabel, BUSINESS_RESOURCE_GROUPS, BUSINESS_RESOURCE_STATUSES, BUSINESS_WORKSPACE_KINDS, isCostingStatus, type BusinessPartnerValue, type ExportBlock, type LegalEntityValue, type StrategyMonthValue, asFoundersProfileValue, type StrategyMetricValue, founderProfileHasText, founderProfileOf, founderProfiles, founderSkillLines, strategyObjectiveOwnerId, workspaceCardName } from "../AnswerUtils.ts";
 import { type ExportContent } from "../ExportContentBuilder.ts";
 import { financialForecast, forecastView, type ForecastViewTable } from "../FinancialForecast.ts";
-import { demandBasis, details, financialFoundationBlocks, financialSustainabilityBlocks, heading, labelled, labelledList, list, offeringName, offeringNames, capacityBlocks, brandStyleBlocks, paragraph, table, titled } from "../ExportRenderers.ts";
+import { demandBasis, details, financialFoundationBlocks, financialSustainabilityBlocks, heading, labelled, labelledList, list, offeringName, offeringNames, capacityBlocks, brandStyleBlocks, paragraph, table, titled , offeringSplitText } from "../ExportRenderers.ts";
 import { COST_FREQUENCIES, COST_GROUPS, FUNDING_STATUSES, planLength, revenueModelLabel, planYears, salesCapacity, allFunding, asFinancialFoundationValue, fundingStanding, fundingType, isLoan, isNonCash, loanSchedule, isScheduled, monthlyEquivalent, parseAmount, moneyFormatter, planMonthLabel, spentBeforePlan, type CostLine, costAmountShown } from "../FinancialModel.ts";
 import { COUNTRIES, jurisdictionProfile } from "../LegalEntityJurisdictions.ts";
 import { brandGuidePictures, brandPictures, costName, coverLines, listItems, monthName, payWord, priceText, readFoundation, section, shortMonth, text, type Foundation, type FoundationSessions } from "./reading.ts";
@@ -737,7 +737,7 @@ function appendixBlocks(f: Foundation): ExportBlock[] {
                             costName(f, line),
                             line.amount === null ? line.amountText : line.counted ? costAmountShown(line, f.format) : line.amountText + " " + line.currency + " (not counted)",
                             frequencyOf(line),
-                            offeringNames(f.foundationValue, line.offeringIds)
+                            offeringSplitText(f.foundationValue, line.offeringIds, line.offeringShares)
                         ]),
                         ["Subtotal", sumText(f, sums), "", ""]
                     ])

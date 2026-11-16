@@ -205,6 +205,7 @@ export function shareLines(row: FloorRow, offerings: readonly { id: string; name
         }).filter(line => line.name !== "");
     }
     return ids.map(id => {
+        // (A cost paid per unit is each Offering's in full, as the forecast charges it: its fraction 1; owner, 2026-11-16.)
         const fraction = own ? 1 / ids.length : row.offeringShares?.[id] ?? 1 / ids.length;
         return { name: nameOf(id), percent: percent(fraction), fraction, cost: row.amount === null ? null : row.amount * fraction };
     }).filter(line => line.name !== "");
