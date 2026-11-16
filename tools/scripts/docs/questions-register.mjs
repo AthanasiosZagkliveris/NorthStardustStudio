@@ -92,7 +92,8 @@ const SEGMENT_CODES = {
     industry: ["Box 3, 4", "a sector is chosen (that sector's industries)"],
     comfort: ["Box 4, 1", "always"],
     social: ["Box 4, 2", "the buyer is people"],
-    discover: ["Box 4, 3", "always (Sales calls or tenders for a business only)"],
+    discover: ["Box 4, 3", "always (Sales calls or tenders for a business only); ordered by Box 4, 1 (1 or 2: the printed and in-person ways first) and Box 2, 1 (a city: passing by, flyers and events first; anywhere online: the online ways first)"],
+    advertising: ["Box 4, 3a", "Box 4, 3 is Adverts in newspapers, magazines, radio or TV (owner, 2026-11-16 17:38)"],
     share: ["Box 4, 4", "the buyer is people; held back while Planning (owner, 2026-11-08), its saved answer kept"],
     trigger: ["Box 4, 5", "the buyer is people"],
     path: ["Box 4, 6", "the buyer is people; ordered by Box 4, 5 (boredom or a friend or creator: On impulse first; a need: When they urgently need it and After comparing options first)"],
@@ -211,7 +212,8 @@ const OFFERING_CODES = {
     o18: ["O18", "always"],
     o20: ["O20", "O6 has Posted / shipped to them (owner, 2026-11-15 16:26); ends in Other, written in as a numbered list"],
     o21: ["O21", "O6 has Sent automatically online or Sent by you online; ends in Other, written in as a numbered list"],
-    o22: ["O22", "O6 has In a live online session; ends in Other, written in as a numbered list"]
+    o22: ["O22", "O6 has In a live online session; ends in Other, written in as a numbered list"],
+    o23: ["O23", "always from Launching; held back while Planning, its saved answer kept (owner, 2026-11-16 16:31); Only when they get in touch stands alone; ends in Other, written in as a numbered list"]
 };
 const OFFERING_NOT_BUILT = [
     ["O12", "Is a minimum age to buy it set by law?", "no longer a question: a derived Review item from the activities and the country (proposed, owner 2026-11-06)"]
@@ -240,7 +242,7 @@ async function loadCode() {
         "export * as offering from './src/framework/engine/OfferingQuestions.ts';",
         "export * as legal from './src/components/interview/editors/legal/shared.tsx';",
         "export * as foundation from './src/components/interview/editors/foundation/shared.tsx';",
-        "export { ratingScaleMeaning } from './src/components/controls/RatingScaleEnds.tsx';",
+        "export { ratingScaleMeaning, withRatingMeaning } from './src/components/controls/RatingScaleEnds.tsx';",
         "export { FIRST_VERSION_COUNTRIES } from './src/framework/engine/LegalEntityJurisdictions.ts';"
     ].join("\n");
     const out = await build({
@@ -259,14 +261,14 @@ const point = entry => typeof entry === "string" ? entry
 const STAGES = [["plan", "Planning"], ["launch", "Launching"], ["manage", "Managing"], ["grow", "Growing"]];
 
 function rows(code) {
-    const { segment: S, profile: P, competitor: C, offering: O, legal: L, foundation: F, ratingScaleMeaning, FIRST_VERSION_COUNTRIES } = code;
+    const { segment: S, profile: P, competitor: C, offering: O, legal: L, foundation: F, ratingScaleMeaning, withRatingMeaning, FIRST_VERSION_COUNTRIES } = code;
     const cards = [];
     const control = (question, options) => question.number ? "NumberCell"
         : question.rating && question.many ? "RatingScaleGroup (selectable)"
             : question.rating ? "RatingScale"
                 : question.many ? "BusinessTicks" + (question.other ? " (ends in Other, written in)" : "")
                     : S.segmentRowChoice({ ...question, box: "demographics", many: false }, options) ? "FittingRadioChoice" : "RadioChoice";
-    const ratingInfo = question => question.rating ? [ratingScaleMeaning(question.rating), ...question.info] : [...question.info];
+    const ratingInfo = question => question.rating ? withRatingMeaning(question.info, question.rating) : [...question.info];
     const ratingOptions = question => question.many
         ? "ticked, then each rated 1 to 5: " + list(question.options)
         : "the points 1 to 5 (" + question.rating.low + " to " + question.rating.high + ")";

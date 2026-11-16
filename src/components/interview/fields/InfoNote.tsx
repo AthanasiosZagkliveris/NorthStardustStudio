@@ -31,6 +31,9 @@ export type InfoPoint =
 
 interface InfoNoteProps {
 
+    /** The first point is the note's lead (what the question asks): plain text over the list, not a bullet. */
+    lead?: boolean;
+
     /**
      * What the note is about, as the field beside it is labelled.
      * Read out as part of the button's own name, so a screen reader
@@ -206,7 +209,7 @@ function ReferencesLinkInRouter({ id, cite }: { id: SourceId; cite: boolean }) {
 }
 
 export default function InfoNote({
-    label, points, fullList, asReference, size = "standard"
+    label, points, fullList, asReference, lead = false, size = "standard"
 }: InfoNoteProps) {
 
     const [open, setOpen] = useState(false);
@@ -221,6 +224,9 @@ export default function InfoNote({
     const isReference = (point: InfoPoint) => typeof point === "string" ? point.startsWith("Based on:") : "source" in point;
     const picked = fullList ? points : points.slice(0, 3);
     const shown = [...picked.filter(point => !isReference(point)), ...picked.filter(isReference)];
+    // (The lead: the first point, a sentence, drawn as plain text over the list; owner, 2026-11-16 17:38.)
+    const leadText = lead && shown.length > 1 && typeof shown[0] === "string" && !isReference(shown[0]) ? shown[0] : undefined;
+    const listed = leadText === undefined ? shown : shown.slice(1);
 
     function close() {
         setOpen(false);
@@ -243,14 +249,16 @@ export default function InfoNote({
             </button>
 
             <PopupPanel open={open} onClose={(reason) => reason === "escape" ? close() : setOpen(false)} anchorRef={buttonRef} insideRefs={[containerRef]} className={"info-note-panel" + (size === "wide" ? " info-note-panel-wide" : size === "double" ? " info-note-panel-double" : "")} ariaLabel={label} focusOnOpen>
+                    {/* The lead: what the question asks, plain text over the list (`lead`). */}
+                    {leadText !== undefined && <p className="info-note-single info-note-lead">{leadText}</p>}
                     {/* One point is a sentence, not a list. */}
-                    {shown.length === 1 && typeof shown[0] === "string"
+                    {listed.length === 1 && typeof listed[0] === "string"
                         ? (
                             <p
                                 className={"info-note-single" +
                                     (asReference ? " info-note-pre-line" : "")}
                             >
-                                {shown[0]}
+                                {listed[0]}
                             </p>
                         )
                         : (
@@ -260,7 +268,7 @@ export default function InfoNote({
                                         ? " info-note-points-reference"
                                         : "")}
                             >
-                                {shown.map(point => (
+                                {listed.map(point => (
                                     typeof point === "string"
                                         ? (
                                             <li key={point}>

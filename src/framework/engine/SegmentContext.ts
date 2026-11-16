@@ -1,5 +1,5 @@
 /**
- * WHAT THE SEGMENT CARD READS OF THE IDENTITY ANSWERS (design document 28, 6.3 and 8.2, "What the Segment will read"): the Seller and Buyer Relationship (I3), the Market Structure (I11) and the audience (I7b).
+ * WHAT THE SEGMENT CARD READS OF THE IDENTITY ANSWERS (design document 28, 6.3 and 8.2, "What the Segment will read"): the Seller and Buyer Relationship (I3) and the audience (I7b). The Market Structure (I11) is carried in `marketType` but read by no question yet (a known gap, specifications/business-system/README.md).
  * Pure functions, so the card, the documents and the tests read the same rules (in the engine, since the documents settle a Segment's answers against Identity too).
  */
 import { AUDIENCE_WORDS } from "./ActivityClassification.ts";

@@ -19,7 +19,7 @@ export const ratingScale: AssetContract = {
     variants: [
         { id: "vertical", context: "a single question: the rounds under it, across the whole width (the Segment's online comfort, market growth and crowding; the Competitor's K4)", fontSizePx: 14, note: "RatingScale with its numbers: the track fills its place" },
         { id: "horizontal", context: "a group: the words in the left half, the rounds in the right half (the Competitor's K7 to K9, the Profile's B1)", fontSizePx: 18, note: "RatingScaleGroup: the numbers once, over the rounds' half" },
-        { id: "selectable", context: "a group whose rows are ticked first; the rounds show once a row is ticked (the Competitor's K6, the Profile's B1, E1 to E3 and the Needs)", fontSizePx: 18, note: "RatingScaleGroup selectable: unticking a row clears its rating" },
+        { id: "selectable", context: "a group whose rows are ticked first; the rounds show once a row is ticked (the Competitor's K6, the Profile's B1, E1 to E3 and the Needs)", fontSizePx: 18, note: "RatingScaleGroup selectable: unticking a row clears its rating; a `foot` closes the group on its two columns (K6: the Other tick, then the numbered list in the words' column, each named row's rounds on its row)" },
         { id: "chosen and disabled", context: "the chosen round, and a group that cannot be changed", fontSizePx: 18, note: "the chosen round is the app's blue with a white bullet; a disabled group is drawn faint" }
     ],
     tokens: ["--space-label", "--space-cell", "--space-row", "--font-small", "--font-body", "--gap-8"],

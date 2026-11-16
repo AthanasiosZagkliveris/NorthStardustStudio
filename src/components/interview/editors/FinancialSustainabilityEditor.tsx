@@ -1068,7 +1068,7 @@ export default function FinancialSustainabilityEditor({
                 info={[
                     "The plan as it stands, and the same plan when things go worse than hoped: sales 20% lower, revenue 3 months later, costs 10% higher (founders' pay aside), customers paying a month later than planned, and all four together.",
                     "The funding being sought is counted as if it arrives as planned, its repayments included: the question a lender asks is whether the plan holds with the money requested.",
-                    "Holds: cash stays at zero or above throughout the plan. Short: how much more money would keep it there."
+                    "Holds: cash stays at zero or above throughout the plan.", "Short: how much more money would keep it there."
                 ]}
             >
                 <p className={"financial-stress-verdict financial-stress-" + verdict.tone}>{verdict.text}</p>

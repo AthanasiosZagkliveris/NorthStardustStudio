@@ -17,9 +17,39 @@ import { profileShown, profileUserShown } from "./ProfileQuestions.ts";
 import { type SegmentIdentity, segmentContextFor, segmentIsBusiness, segmentPositioningShown } from "./SegmentContext.ts";
 import { type SegmentAnswers, segmentSettle } from "./SegmentQuestions.ts";
 
+/**
+ * THE WAYS THE SEGMENT'S OFFERINGS CAN BE TRIED FIRST (owner, 2026-11-16 17:38), by each Offering's Type and form (O1, as saved: it has no start): a physical item a
+ * free sample and a catalogue (and a demo for a business Segment); an app or online access a free trial; an app or project work a demo; a live online or in-person
+ * session a taster. Read from the saved form, not the effective answers, so a Profile's answers can read it (the Offering's read the Profiles').
+ */
+export function segmentTrials(segment: BusinessCustomerSegmentValue): string[] {
+    const kinds = new Set<string>();
+    for (const offering of segment.offerings) {
+        const form = offering.questions?.o1?.[0];
+        const physical = offering.category !== "Service" && !(form && NOT_PHYSICAL_FORMS.includes(form));
+        if (physical) {
+            kinds.add("sample");
+            kinds.add("catalogue");
+            if (segmentIsBusiness(segment)) {
+                kinds.add("demo");
+            }
+        }
+        if (form === "app" || form === "access") {
+            kinds.add("trial");
+        }
+        if (form === "app" || form === "project") {
+            kinds.add("demo");
+        }
+        if (form === "live" || form === "inperson") {
+            kinds.add("taster");
+        }
+    }
+    return ["sample", "trial", "demo", "taster", "catalogue"].filter(kind => kinds.has(kind));
+}
+
 /** A Profile's answers as its card shows them: its own, with each start for a question it never answered. */
 export function effectiveProfileAnswers(profile: BusinessCustomerProfileValue, segment: BusinessCustomerSegmentValue, identity: SegmentIdentity | undefined): SegmentAnswers {
-    return profileShown(profile.questions ?? {}, segment.questions, segmentContextFor(identity, segmentIsBusiness(segment)));
+    return profileShown(profile.questions ?? {}, segment.questions, { ...segmentContextFor(identity, segmentIsBusiness(segment)), trials: segmentTrials(segment) });
 }
 
 /**

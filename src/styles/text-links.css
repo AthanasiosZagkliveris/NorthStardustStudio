@@ -110,3 +110,13 @@
 .legal-entity-org-band :is(.text-link, .business-engagement-link, .channel-resource-open, .notepad-text-button, .legal-entity-name-link, .business-capability-link, .business-capability-child-name, .business-capability-responsibility-link):is(button, a, span) {
     color: var(--text-primary-deep) !important;
 }
+
+/* A LINK IN AN "i" (the References link of a "Based on:" line; owner, 2026-11-16 17:38) is part of a sentence: it wraps with the note's text, read whole, and keeps the
+   note's letter spacing at rest and under the pointer (its bold is the drawn --hover-bold, which needs no extra spacing). */
+.info-note-panel :is(.text-link, .business-engagement-link, .channel-resource-open, .notepad-text-button, .legal-entity-name-link, .business-capability-link, .business-capability-child-name, .business-capability-responsibility-link):is(button, a, span) {
+    display: inline;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+    letter-spacing: normal !important;
+}

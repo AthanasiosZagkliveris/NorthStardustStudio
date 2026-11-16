@@ -230,6 +230,15 @@
 
 }
 
+/* AN ACTION'S CARD HOLDS TWO LINES, whatever its text (owner, 2026-11-16 14:24: the one-line card's #5 and link mark stood on its bottom edge): the top line
+   holds "1.", the first line of text and the x; the bottom line, the order number (#5) and the marks (top 38px, 24px tall), 8px clear of the card's foot -- so
+   a one-line card is as tall as a two-line one and nothing touches its edge. */
+.numbered-list-row.is-action-line{
+
+    min-height:calc(38px + var(--size-cell-x) + 8px);
+
+}
+
 .numbered-list-row.is-action-line > .numbered-list-number{
 
     flex-direction:column;
@@ -429,6 +438,10 @@
 
     left:0;
 
+    /* (The box's own left corners: the line keeps inside the rounded card, its edge the card's; owner, 2026-11-16 14:24.) */
+    border-top-left-radius:inherit;
+    border-bottom-left-radius:inherit;
+
     background-image:var(--line-left);
     background-size:var(--line-left-size);
     background-position:var(--line-left-position);
@@ -439,6 +452,10 @@
 .numbered-list-row.has-line-right::after{
 
     right:0;
+
+    /* (The box's own right corners: the line keeps inside the rounded card, its edge the card's, so every card of a stage shows one right edge; owner, 2026-11-16 14:24.) */
+    border-top-right-radius:inherit;
+    border-bottom-right-radius:inherit;
 
     background-image:var(--line-right);
     background-size:var(--line-right-size);
@@ -571,14 +588,10 @@
 }
 
 /* A CHANNEL'S ACTIONS (owner, 2026-11-14 12:00 and 12:38): each line's x stands INSIDE its cell, at the line's right end -- the in-cell x (CellRemoveButton,
-   remove-button.css), centred on the line's first line (8px + 27px + 8px) --, and the coloured lines are rounded with the cell at its first and last line. */
+   remove-button.css), centred on the line's first line (8px + 27px + 8px) --, and the coloured lines take each card's own corners (the connection lines' rule above). */
 .numbered-list-row.is-action-line .cell-remove{
 
     margin-top:calc((43px - var(--size-cell-x)) / 2);
 
 }
 
-.numbered-list-row.is-action-line:first-child::before{ border-top-left-radius:var(--radius-md); }
-.numbered-list-row.is-action-line:last-child::before{ border-bottom-left-radius:var(--radius-md); }
-.numbered-list-row.is-action-line:first-child::after{ border-top-right-radius:var(--radius-md); }
-.numbered-list-row.is-action-line:last-child::after{ border-bottom-right-radius:var(--radius-md); }

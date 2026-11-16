@@ -11,7 +11,7 @@ The rules that hold for all of them: a radio is one choice, ticks are several (w
 
 **Connections.** Under each question: *Comes from* is what it takes from Identity or from the Segment's own earlier answers (built); *Read by* is what reads it. Built: the Market document and the export list every answer as it stands once settled against Identity as it is now (an answer to a question Identity no longer asks, or to an option it no longer offers, is left out of them at once, and is removed from the Segment on its next choice), the Business Plan's Market Analysis counts as covered when a market question is answered, and the Segment's own questions follow one another as stated. *Not built yet* is what the design plans to read it (doc 28, 6.3a and 6.5; doc 33, section 15): until it is built, nothing else reads the answer.
 
-**Built (2026-11-04; owner, 2026-11-04): degree and comfort questions use the 1 to 5 rating unless named ranges exist.** A question that asks how comfortable people are with something, or a level or degree (how high, how fast, how crowded), becomes a rating from 1 to 5 (`RatingScale`, doc 21): the numbers 1 to 5 over its five rounds, and what 1 and 5 mean as the first line of its "i" ("1 = Uneasy, 5 = Confident."; owner, 2026-11-04: an end word could stand over two rounds). A question whose options name ranges or kinds keeps its options. Each changed question says how answers saved before it was a rating are read (`asSegmentAnswers`, `SegmentQuestions.ts`); the documents print a rating as "1 of 5 (Uneasy)" or "3 of 5", the word only at 1 and 5 (`ratingWords`).
+**Built (2026-11-04; owner, 2026-11-04): degree and comfort questions use the 1 to 5 rating unless named ranges exist.** A question that asks how comfortable people are with something, or a level or degree (how high, how fast, how crowded), becomes a rating from 1 to 5 (`RatingScale`, doc 21): the numbers 1 to 5 over its five rounds, and what 1 and 5 mean in its "i" ("1 = Uneasy, 5 = Confident."; owner, 2026-11-04: an end word could stand over two rounds), after what the options mean and before the reference (owner, 2026-11-16). A question whose options name ranges or kinds keeps its options. Each changed question says how answers saved before it was a rating are read (`asSegmentAnswers`, `SegmentQuestions.ts`); the documents print a rating as "1 of 5 (Uneasy)" or "3 of 5", the word only at 1 and 5 (`ratingWords`).
 
 | Question | Becomes | Kept as is, and why |
 |---|---|---|
@@ -183,9 +183,9 @@ The people who pay (the buyer is people: B2C alone, or the first of the two Segm
 - **Asked when:** The buyer is people, and the age is not Minors.
 - **Options:** the points 1 to 5.
 - **The "i" says:**
-  - 1 = Low, 5 = High.
   - Compare with the typical household income in their country: 3 is around the median.
   - Household income is what everyone in the home earns together.
+  - 1 = Low, 5 = High.
 - **Connections:**
   - *Comes from:* This Segment's age (not asked of Minors).
   - *Read by (built):* The Market document and the export.
@@ -198,9 +198,9 @@ The people who pay (the buyer is people: B2C alone, or the first of the two Segm
 - **Asked when:** The buyer is people.
 - **Options:** the points 1 to 5.
 - **The "i" says:**
-  - 1 = Mostly men, 5 = Mostly women.
   - 1 is 80% or more men, 2 is 60 to 80%, 3 a balanced mix (40 to 60%), 4 is 60 to 80% women, 5 is 80% or more.
   - Choose 3 when what you sell suits everyone alike.
+  - 1 = Mostly men, 5 = Mostly women.
 - **Connections:**
   - *Comes from:* Nothing; the seller and buyer relationship (people).
   - *Read by (built):* The Market document and the export.
@@ -228,7 +228,7 @@ Both.
   - *Comes from:* Nothing.
   - *Read by (built, 2026-11-04):* the Competitor's K2 takes this list as its options, this Segment's answer first (doc 41).
   - *Read by (built):* The Market document and the export.
-  - *Read by (not built yet):* Channel suggestions by country; the Review (distant customers and delivery). Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
+  - *Read by (built):* a Segment in one city or town puts the In Person and Community Discover channels first, and Box 4, 3's in-person and printed ways first (doc 47); anywhere online puts Box 4, 3's online ways first. *Not built yet:* channel suggestions by country; the Review (distant customers and delivery). Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
 
 ### 2. Where do your customers live or work?
 
@@ -236,8 +236,8 @@ Both.
 - **Asked when:** Managing and Growing only (held back while Planning and Launching), and only when the answer above is the city or town, the state or region, or the country.
 - **Options:** the points 1 to 5.
 - **The "i" says:**
-  - 1 = Rural, 5 = Urban.
   - 1 is countryside or remote places, 3 the suburbs and towns around a city, 5 a city centre.
+  - 1 = Rural, 5 = Urban.
 - **Connections:**
   - *Comes from:* This Segment's reach, and the business stage (Organisation: the Opening Date).
   - *Read by (built):* The Market document and the export.
@@ -349,8 +349,8 @@ The buyer is a business, or the Segment is of businesses where both relationship
 - **Asked when:** Always.
 - **Options:** the points 1 to 5.
 - **The "i" says:**
-  - 1 = Uneasy, 5 = Confident.
   - How easily they use websites, apps and online payment.
+  - 1 = Uneasy, 5 = Confident.
 - **Connections:**
   - *Comes from:* Nothing.
   - *Read by (built, 2026-11-04):* the Profile's C2, not asked when this is rated 1, and D2's start: 4 or 5 starts "Works it out alone", 1 or 2 "Wants to talk to a person" (doc 36).
@@ -392,6 +392,8 @@ The buyer is a business, or the Segment is of businesses where both relationship
   - *Read by (built):* The Market document and the export.
   - *Read by (not built yet):* The customer journey. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
 
+**Box 4 in two sections (owner, 2026-11-16 16:31).** Finding & Choosing: questions 1, 2, 5, 3, 4 (how they share, moved up) and 6, then 9 for a business. Buying & Paying: 7, 7a, 7b, 8, 8a. The codes stay; each section is headed as a group of fields.
+
 ### 3. Where do your customers discover new products?
 
 - **Control:** ticks, up to 3.
@@ -406,15 +408,29 @@ The buyer is a business, or the Segment is of businesses where both relationship
   - Seeing it in person / passing by
   - Events / trade shows
   - Sales calls or tenders (business customers only: `segmentOptions`; a saved tick of it on a people Segment is removed)
+  - Adverts in newspapers, magazines, radio or TV (opens Box 4, 3a) · Flyers or posters · Letters or catalogues in the post · Free samples, tasters or trials (owner, 2026-11-16 17:38)
   - (The last four added 2026-11-08, the options-and-wording research. Checked for overlap first: none repeats an option here, and the Profile's D1 asks how they compare options, not where they first hear of one, so nothing was merged. Profile C4 asks which events a typical person attends; this asks whether events are where the Segment discovers products.)
 - **The "i" says:**
   - Examples: communities such as Reddit, Discord and Facebook Groups; creators on TikTok, Instagram, YouTube and LinkedIn.
   - Seeing it in person / passing by: a shop window, a stall, a sign or a vehicle.
+  - Flyers or posters: handed out, through the door or on a noticeboard.
+  - Free samples, tasters or trials: a sample, a free class or a trial period that lets them try it first.
   - Choose up to three.
+- **Order (owner, 2026-11-16 17:38; never hidden):** online comfort (Box 4, 1) of 1 or 2 puts Seeing it in person, Flyers or posters, Letters or catalogues in the post, Adverts and Events first; a Segment in one city (Box 2, 1) Seeing it in person, Flyers or posters and Events; anywhere online the online ways (communities, creators, media, feeds, search, affiliate sites); Other stays last.
 - **Connections:**
   - *Comes from:* Nothing.
   - *Read by (built):* The Market document and the export; "Online communities / forums" makes the Profile ask C3 (doc 36).
-  - *Read by (not built yet):* The Profile's related platforms first; the order of the channels where customers discover you. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
+  - *Read by (built):* each option its Discover channel (doc 47); the order of its options (comfort and reach, 2026-11-16). *Not built yet:* the Profile's related platforms first. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
+- **Added 2026-11-16 (owner, 16:31):** Partner businesses → Referral & Affiliates › Referral Partner; Affiliate sites / blogs → Affiliate; Other, written in as a numbered list → a channel of the Other category at Discover per name. The "i" adds: Partner businesses: a shop, venue or firm that sends its customers to you. The most ticks stay three.
+
+- **Added 2026-11-16 (owner, 17:38):** Adverts in newspapers, magazines, radio or TV → Box 4, 3a; Flyers or posters → Print & Mail › Flyers / Posters; Letters or catalogues in the post → Print & Mail › Direct Mail; Free samples, tasters or trials → Samples & Trials, one subchannel per Offering's form (a physical item Free Sample, an app or online access Free Trial, a live or in-person session Taster Session / Free Class, otherwise Demo); each named at Discover (doc 47).
+
+### 3a. Where do they see adverts?
+
+- **Control:** ticks, as many as apply. **Asked when:** Box 4, 3 is Adverts in newspapers, magazines, radio or TV (owner, 2026-11-16 17:38); its answer goes when that tick goes.
+- **Options:** Newspapers / magazines · Radio · TV · Billboards / outdoor.
+- **The "i" says:** The adverts that reach them: each becomes a channel on Customer Engagement.
+- **Connections:** *Read by (built):* each tick its Advertising subchannel (Newspaper / Magazine, Radio, TV, Billboard / Outdoor), named, at Discover (doc 47).
 
 ### 6. How do your customers usually decide to buy?
 
@@ -440,7 +456,7 @@ The buyer is a business, or the Segment is of businesses where both relationship
   - *Comes from:* Early Positioning: the relationship (people).
   - *Comes from (an order, 2026-11-09):* What makes them go shopping (Box 4, 5): Boredom or entertainment, or Seeing a friend or creator use it, puts On impulse first; A need / problem to solve puts When they urgently need it and After comparing options first. Never a lock.
   - *Read by (built):* The Market document and the export; the Profile's D1 is not asked on "On impulse" or "When they urgently need it" (neither compares first), is asked with no start on "Out of habit", and otherwise starts from this answer (doc 36).
-  - *Read by (not built yet):* The customer journey (consideration). Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
+  - *Read by (built):* the Profiles' D1 (asked unless on impulse or urgently; its starts) and the Repeat customers row of Demand & Conversion (out of habit); the time to buy shown on a funnel or contracts source (`monthsToClose`); the Keep and Grow goals (`startGoals`). Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
 
 ### 9. Who decides to buy?
 
@@ -462,7 +478,7 @@ The buyer is a business, or the Segment is of businesses where both relationship
 - **Connections:**
   - *Comes from:* Early Positioning: the relationship (business). **Starts (2026-11-09):** where it is not answered yet, choosing a Public body (Box 3, 1) or Large (Box 3, 2) sets Formal procurement, and Micro or Self-employed sets One person decides; change it freely (a saved answer wins).
   - *Read by (built):* The Market document and the export; the Profile's role in buying (A5 starts with every role where one person decides) and the proposed B2B Profiles by buying role (doc 36, 2); Formal procurement starts the Profile's D2 at "formal" (doc 36).
-  - *Read by (not built yet):* the tender row (a formal procurement loop). Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
+  - *Read by (built):* the Contracts or tenders row of Demand & Conversion and Direct Payment › Invoice at Purchase (formal procurement); the time to buy (`monthsToClose`); the relationship types (`autoRelationshipTypes`); the Profiles' A5 and D2 starts (doc 47). Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
 
 
 ### 7. Where do your customers usually shop?
@@ -491,13 +507,13 @@ The buyer is a business, or the Segment is of businesses where both relationship
 - **The "i" says:** The marketplaces where they find and buy what you sell: each becomes a channel on Customer Engagement, with its fees. · Tick Other to write another.
 - **Connections:** *Read by (built):* each tick, and each name written in, is the Marketplace subchannel of that name at Purchase (doc 47); its fees are the Channel Fee Table's row for the Legal Entity's country ([Global Settings](../../specifications/global-settings.md)).
 
-### 7b. Which shops do they buy from?
+### 7b. Which shops or sellers do they buy from?
 
 - **Control:** ticks, as many as apply (no Other: the kinds are closed).
 - **Asked when:** question 7 is In a shop, or Both online and in shops.
-- **Options:** Your own shop or studio · Shops that stock your products · A space inside another shop · Distributors or wholesalers.
+- **Options:** Your own shop or studio · Shops that stock your products · A space inside another shop · Distributors or wholesalers · Resellers, online or in shops (added 2026-11-16).
 - **The "i" says:** The shops where they buy what you sell: each becomes a channel on Customer Engagement. · A space inside another shop is a concession or shop-in-shop.
-- **Connections:** *Read by (built):* In Person › Studio / Shop; Retail & Wholesale › Retail Stockist, Concession / Shop-in-shop, Distributor, at Purchase (doc 47).
+- **Connections:** *Read by (built):* In Person › Studio / Shop; Retail & Wholesale › Retail Stockist (a people Segment) or Wholesale Account (a business Segment), Concession / Shop-in-shop, Distributor, Reseller, at Purchase (doc 47).
 
 ### 8. How do your customers pay?
 
@@ -579,9 +595,9 @@ Both.
 - **Asked when:** Always.
 - **Options:** the points 1 to 5.
 - **The "i" says:**
-  - 1 = Shrinking, 5 = Booming.
   - Where the market is heading, apart from its size: a market can be large and declining, or small and expanding fast.
   - 1: falling demand, or deep structural change. 3: flat, a saturated market. 5: an emerging market, growing fast every year.
+  - 1 = Shrinking, 5 = Booming.
 - **What it is for.** A growing market leaves room for a new business without taking customers from anyone; a shrinking one means winning them from the competitors already there. **As built, it is read only by the Market document and the export** (the Business Plan's Market Analysis). **Proposed (2026-11-04), not built:** the Competitor's K10 (doc 41) offers "Win new customers the market brings" when this is rated 4 or 5, and "Win customers from [competitor]" for a rival rated Strong on few values when it is rated 1 or 2; Strategy's Situation analysis reads it beside the crowding (Box 5, question 4).
 - **Connections:**
   - *Comes from:* Nothing.
@@ -620,9 +636,9 @@ Both.
 - **Asked when:** Always.
 - **Options:** the points 1 to 5.
 - **The "i" says:**
-  - 1 = Open, 5 = Crowded.
   - Red Ocean and Blue Ocean are the strategy terms of Kim and Mauborgne: a crowded market against an uncontested one.
   - 1: very few direct competitors; the niche is new. 3: many small players, none in control. 5: big established players and price wars.
+  - 1 = Open, 5 = Crowded.
 - **Connections:**
   - *Comes from:* Nothing.
   - *Read by (built):* The Market document and the export; the Business Plan's Market Analysis is covered once a market question is answered.
@@ -770,11 +786,11 @@ Asked when the Segment's own buyer relationship has a Proxy or Dual-Intent buyer
 - **Asked when:** As the end user's life stage. Not asked of a Baby.
 - **Options:** the points 1 to 5.
 - **The "i" says:**
-  - 1 = Uneasy, 5 = Confident.
   - How easily they use websites, apps and online payment.
+  - 1 = Uneasy, 5 = Confident.
 - **Connections:**
   - *Comes from:* Early Positioning: the buyer's category.
-  - *Read by (built):* The Market document and the export.
+  - *Read by (built):* the end user's A8, as its starting value (doc 36); the Market document and the export.
   - *Read by (not built yet):* Channel order for the end user's side. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
 
 ### 9. Outcome for the end user (moved from Positioning, then to the Profile, owner, 2026-11-08; retired here)

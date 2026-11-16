@@ -302,12 +302,12 @@ A typical person of the Segment, asked specifically.
   - Safety / security
   - Values
 - **The "i" says:**
-  - 1 = Optional, 5 = Essential.
   - What they weigh when choosing between offers. Tick up to five, then rate how much each matters.
   - For example, a busy parent may weigh Speed and Convenience; a collector, Quality.
   - Affordability: a price they can pay. Convenience: easy to find, buy and use. Reputation: a name they trust. Expertise: deep knowledge.
   - Personalisation: made just for them. Safety / security: low risk, nothing goes wrong. Values: it stands for what they believe in.
   - Write their interests, lifestyle and hopes in the note.
+  - 1 = Optional, 5 = Essential.
 - **Connections:**
   - *Read by (built, 2026-11-05):* the Competitor's K8 shows every value of L1, those ticked here first, the highest rated first, each banded by how many Profiles ticked it, and its K10 weighs each value by its rating here (doc 41).
   - *Comes from:* nothing.
@@ -337,7 +337,7 @@ What the Segment cannot say: which social media, which communities, which events
 - **Other, written in:** a numbered list, one name a row (owner, 2026-11-15 16:43; the same for C3 and C4); each name is its own subchannel on Customer Engagement (doc 47).
 - **Connections:**
   - *Comes from:* the Segment's discovery ways and online comfort.
-  - *Read by (not built yet):* the order of the Discover channels (page 2); the Profile's hubs. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
+  - *Read by (built):* each platform its Social Media subchannel at Discover, a name written under Other its own (doc 47); posts on social media after the sale (O23) at Support & Follow Up; the Competitors' reach openings (K10, doc 41). *Not built yet:* the Profile's hubs. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
 
 ### C3. Which communities does this person belong to?
 
@@ -355,7 +355,7 @@ What the Segment cannot say: which social media, which communities, which events
   - Write the names of the groups in the note.
 - **Connections:**
   - *Comes from:* the Segment's discovery ways.
-  - *Read by (not built yet):* the Discover channels; the Profile's hubs. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
+  - *Read by (built):* each community its Community subchannel at Discover, a name written under Other its own (doc 47); the relationship types (`autoRelationshipTypes`); the Competitors' reach openings (K10, doc 41). *Not built yet:* the Profile's hubs. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
 
 ### C4. Which events does this person attend?
 
@@ -372,7 +372,7 @@ What the Segment cannot say: which social media, which communities, which events
   - Write the names of the events in the note.
 - **Connections:**
   - *Comes from:* the Segment's social environment.
-  - *Read by (not built yet):* the In Person channels on page 2; the Profile's hubs. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
+  - *Read by (built):* each event its In Person subchannel at Discover, a name written under Other its own (doc 47); the Competitors' reach openings (K10, doc 41). *Not built yet:* the Profile's hubs. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
 
 ## 6. Box D. Information & Shopping Habits
 
@@ -403,7 +403,7 @@ C1 opens the box (owner, 2026-11-08, P8): the devices they find and buy on are a
 - **Options:**
   - Your website
   - Online reviews / ratings
-  - A demo / trial / sample
+  - A free sample · A free trial · A demo · A taster session or free class · A catalogue or brochure (owner, 2026-11-16 17:38, in place of "A demo / trial / sample"): each shown where one of the Segment's Offerings fits it, by its Type and form (O1): a physical item a sample and a catalogue (and a demo for a business Segment), an app or online access a trial, an app or project work a demo, a live or in-person session a taster (`segmentTrials`); a saved tick stays shown. A saved "A demo / trial / sample" reads as the ways that fit, A demo where none does.
   - A quote / proposal
   - Word of mouth / referrals
   - Comparison sites
@@ -413,7 +413,7 @@ C1 opens the box (owner, 2026-11-08, P8): the devices they find and buy on are a
   - How they pay and where they buy are the Segment's questions.
 - **Connections:**
   - *Comes from:* the Segment's path to purchase.
-  - *Read by (not built yet):* the Evaluate channels (page 2). Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
+  - *Read by (built):* the Evaluation channels (doc 47): the ways to try it first their Samples & Trials subchannel, the catalogue Print & Mail › Catalogue / Brochure, each named; a sample, trial, demo or taster makes the funnel's middle step "Tried it (%)" (doc 50); A demo or A quote starts D2's formal help. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
 
 ### D2. How much help does this person want before buying?
 
@@ -428,7 +428,7 @@ C1 opens the box (owner, 2026-11-08, P8): the devices they find and buy on are a
   - The help a typical person wants before buying; it can differ from how comfortable the Segment is online.
 - **Connections:**
   - *Comes from:* the Segment's online comfort. **Starts:** Formal procurement (Segment, Box 4, 9) starts Needs a formal demonstration or proposal; else the online comfort (4 or 5, Works it out alone; 1 or 2, Wants to talk to a person); else, with no other start, D1 (2026-11-09): A demo / trial / sample or A quote / proposal starts Needs a formal demonstration or proposal, A meeting / call Wants to talk to a person. A saved answer wins.
-  - *Read by (not built yet):* the relationship type suggested on page 2; the Review (against the help the Offering gives). Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
+  - *Read by (built):* the relationship types suggested on page 2 (`autoRelationshipTypes`, doc 47). *Not built yet:* the Review (against the help the Offering gives). Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
 
 ### D3. When does this person usually buy?
 
@@ -459,12 +459,12 @@ C1 opens the box (owner, 2026-11-08, P8): the devices they find and buy on are a
   - Resolution
   - Enjoyment (people only)
 - **The "i" says:**
-  - 1 = Minor, 5 = Main.
   - The results they are after; what they weigh when choosing goes in "What matters most". Choose up to three, then rate each.
   - For example, to learn a new craft, or to win more clients.
   - Accessibility: getting something hard to reach. Development: learning something new. Expression: showing who they are. Revenue: winning customers or income.
   - Compliance: meeting a requirement or staying within the rules, at work or by law. Efficiency: saving time or money.
   - Resolution: getting a specific problem fixed. Enjoyment: having fun or a good time.
+  - 1 = Minor, 5 = Main.
   - Based on: gains (Value Proposition Canvas) [FUN-46].
 - **Asked when:** always. *Read by (built, 2026-11-07):* the Value Proposition draft (the gains: the goal rated highest across the Segment's Profiles, in its draft phrase; doc 42, 1). *Comes from:* nothing.
 
@@ -481,11 +481,11 @@ C1 opens the box (owner, 2026-11-08, P8): the devices they find and buy on are a
   - Capacity
   - (Renamed 2026-11-08, the options-and-wording research; Complexity was also E3's word for how hard it is to use. Only the words changed: the ids `it-is-too-complicated` and `they-lack-the-know-how` are kept, so saved ticks, ratings and the draft phrases stand.)
 - **The "i" says:**
-  - 1 = Mild, 5 = Severe.
   - What goes wrong with the way they do it now, before they buy from you. Choose up to three, then rate how much each bothers them.
   - For example, the cheap version breaks too soon, or nobody explains how to start.
   - Cost: too costly, or unclear prices. Delays: it takes too long. Inconsistency: results vary. Trust: hard to find someone reliable.
   - Skills gap: not knowing how, or fearing a mistake. Capacity: no time or staff. Hassle: too complicated, or poor support.
+  - 1 = Mild, 5 = Severe.
   - Based on: pains (Value Proposition Canvas) [FUN-46].
 - **Asked when:** always. *Read by (built, 2026-11-07):* the Value Proposition draft (the pains: the frustration rated highest across the Segment's Profiles, in its draft phrase; doc 42, 1). *Read by (not built yet):* the Review. *Comes from:* nothing.
 
@@ -515,12 +515,12 @@ C1 opens the box (owner, 2026-11-08, P8): the devices they find and buy on are a
   - Migration
   - Image ("What others will think", `what-others-will-think`: the social risk of buying; added 2026-11-08, the options-and-wording research)
 - **The "i" says:**
-  - 1 = Minor, 5 = Blocking.
   - Their doubts about buying from you; today's frustrations have their own question. Choose up to three, then rate each.
   - For example, whether a beginner can keep up, or whether you will still be there after the sale.
   - Credibility: whether you can be trusted. Onboarding: the time to get started. Complexity: how hard it is to use. Fit: whether it suits their need.
   - Support: help after buying. Migration: the work of leaving what they use now. Risk: risk or security. Image: what others will think of them.
   - Starts with the price where the Segment's household income is rated 1; change it freely.
+  - 1 = Minor, 5 = Blocking.
 - **Order (2026-11-09; an order, never a lock):** the worries B1's ticks point to come first, the highest rated value first: Affordability, Price; Reputation, Credibility; Safety / security, Risk; Support, Support (`profileOptionsShown`).
 - **Asked when:** always. *Read by (built, 2026-11-07):* the Offering's O8 offers the worries ticked here, so it ticks those it answers (doc 43); the Value Proposition's open item "Worry left open" (doc 42, 2). *Read by (not built yet):* the Evaluation actions suggested on page 2. *Comes from:* the Segment's household income (the starting value). Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
 

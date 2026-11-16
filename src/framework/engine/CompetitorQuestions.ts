@@ -366,18 +366,6 @@ export function competitorOtherTick(answers: CompetitorAnswers, id: OtherQuestio
     return next;
 }
 
-/** One more Other row ("Add another"). */
-export function competitorOtherAdd(answers: CompetitorAnswers, id: OtherQuestion): CompetitorAnswers {
-    return { ...answers, [id + "-other"]: [...competitorOthers(answers, id), ""] };
-}
-
-/** An Other row's name as it is typed. */
-export function competitorOtherName(answers: CompetitorAnswers, id: OtherQuestion, at: number, name: string): CompetitorAnswers {
-    const names = [...competitorOthers(answers, id)];
-    names[at] = name;
-    return { ...answers, [id + "-other"]: names };
-}
-
 /**
  * An Other row done with (its name left): a name that means a listed item becomes that item, its rating kept (a platform is ticked); the row goes. The rows after
  * it move up, their ratings with them.
@@ -394,6 +382,42 @@ export function competitorOtherSettle(answers: CompetitorAnswers, id: OtherQuest
         next = { ...next, k6: [...(next.k6 ?? []), match] };
     }
     return point !== undefined && competitorRatings(next, id)[match] === undefined ? competitorRate(next, id, match, point) : next;
+}
+
+/**
+ * THE OTHER'S LIST AS TYPED (owner, 2026-11-16 17:21: K6's Other as the Foundation's, a numbered list, one name a row, each named row rated in the group's
+ * column). `origins` is where each line was before (NumberedListInput): a rating moves with its line, a line taken away or left empty loses its rating. A line
+ * not being typed into (its words unchanged) that means a listed platform becomes it (competitorOtherSettle), as it does when the list is left; one row at
+ * least stays while Other is ticked.
+ */
+export function competitorOtherList(answers: CompetitorAnswers, id: OtherQuestion, items: readonly string[], origins: readonly number[]): CompetitorAnswers {
+    const before = competitorOthers(answers, id);
+    const was = competitorRatings(answers, id);
+    const kept = (answers[id + "-rating"] ?? []).filter(entry => !entry.startsWith("other-"));
+    const moved = items.flatMap((name, at) => {
+        const point = origins[at] >= 0 ? was["other-" + origins[at]] : undefined;
+        return point !== undefined && name.trim() ? ["other-" + at + ":" + point] : [];
+    });
+    let next: CompetitorAnswers = { ...answers, [id + "-other"]: items.length > 0 ? [...items] : [""], [id + "-rating"]: [...kept, ...moved] };
+    if (next[id + "-rating"].length === 0) {
+        delete next[id + "-rating"];
+    }
+    // The settled lines, last first, so the earlier lines keep their places.
+    for (let at = items.length - 1; at >= 0; at -= 1) {
+        if (origins[at] >= 0 && before[origins[at]] === items[at] && competitorOthers(next, id).length > 1) {
+            next = competitorOtherSettle(next, id, at);
+        }
+    }
+    return next;
+}
+
+/** The list left (focus gone from it): every line that means a listed platform becomes it; one row at least stays. */
+export function competitorOtherSettleAll(answers: CompetitorAnswers, id: OtherQuestion): CompetitorAnswers {
+    let next = answers;
+    for (let at = competitorOthers(answers, id).length - 1; at >= 0; at -= 1) {
+        next = competitorOtherSettle(next, id, at);
+    }
+    return competitorOthers(next, id).length === 0 && competitorOthers(answers, id).length > 0 ? { ...next, [id + "-other"]: [""] } : next;
 }
 
 /** An Other row taken away. */

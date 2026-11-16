@@ -3,8 +3,9 @@ import { BUSINESS_CHANNEL_ALL_OFFERINGS, type BusinessChannelValue, type Busines
 import { effectiveOfferingAnswers, effectiveProfileAnswers, effectiveSegmentAnswers, offeringIsPhysical } from "./EffectiveAnswers.ts";
 import { demandChannelIds } from "./DemandCapacity.ts";
 import { writtenInNames } from "./SegmentQuestions.ts";
+import { TRIED_OPTIONS } from "./ProfileQuestions.ts";
 import { businessProfileOfferings } from "./businessFoundation/engagementPage.ts";
-import type { SegmentIdentity } from "./SegmentContext.ts";
+import { type SegmentIdentity, segmentIsBusiness } from "./SegmentContext.ts";
 
 /*
     CUSTOMER ENGAGEMENT FOLLOWS THE FOUNDATION (doc 47, section 3; doc 28, section 7.4): what Page 1 already says about a Segment proposes its channels, stage by
@@ -38,8 +39,20 @@ const DISCOVER: Readonly<Record<string, Pick>> = {
     search: ["Website", "Main Website"],
     passing: ["In Person", "Studio / Shop"],
     events: ["In Person", "Event / Talk"],
-    sales: ["In Person", "Sales Visit"]
+    sales: ["In Person", "Sales Visit"],
+    partners: ["Referral & Affiliates", "Referral Partner"],
+    affiliates: ["Referral & Affiliates", "Affiliate"],
+    flyers: ["Print & Mail", "Flyers / Posters"],
+    post: ["Print & Mail", "Direct Mail"]
 };
+
+/** Where they see adverts (Box 4, 3a) → its Advertising subchannel at Discover. */
+const ADVERTS: Readonly<Record<string, string>> = { press: "Newspaper / Magazine", radio: "Radio", tv: "TV", outdoor: "Billboard / Outdoor" };
+
+/** The way to try it first each Offering's form gives, where they discover by free samples, tasters or trials (owner, 2026-11-16 17:38). */
+function trialOf(physical: boolean, form: string | undefined): string {
+    return physical ? "Free Sample" : form === "app" || form === "access" ? "Free Trial" : form === "live" || form === "inperson" ? "Taster Session / Free Class" : "Demo";
+}
 
 /** The Profiles' social media (C2) → Social Media and its platform. */
 const SOCIAL: Readonly<Record<string, string>> = {
@@ -56,12 +69,16 @@ const EVENTS: Readonly<Record<string, string>> = {
     market: "Market / Pop-up", fair: "Trade Fair / Exhibition", workshop: "Workshop / Class", talk: "Event / Talk"
 };
 
-/** How the Profiles compare options (D1) → an Evaluation channel. A demo, trial or sample is In Person for a physical item, else Online / Live. */
-const COMPARE: Readonly<Record<string, Pick | "demo">> = {
+/** How the Profiles compare options (D1) → an Evaluation channel; the ways to try it first their Samples & Trials subchannel, a catalogue Print & Mail's (owner, 2026-11-16 17:38). */
+const COMPARE: Readonly<Record<string, Pick>> = {
     "your-website": ["Website", "Main Website"],
     "reviews-and-recommendations-online": ["Website", "Main Website"],
     "comparison-sites": ["Website", "Main Website"],
-    "a-demo-trial-or-sample": "demo",
+    "a-free-sample": ["Samples & Trials", "Free Sample"],
+    "a-free-trial": ["Samples & Trials", "Free Trial"],
+    "a-demo": ["Samples & Trials", "Demo"],
+    "a-taster-session-or-free-class": ["Samples & Trials", "Taster Session / Free Class"],
+    "a-catalogue-or-brochure": ["Print & Mail", "Catalogue / Brochure"],
     "a-quote-or-proposal": ["Email", "Direct Email"],
     "what-other-people-recommend": ["Referral & Affiliates", "Customer Referral"],
     "a-meeting-or-call": ["Online / Live", ""]
@@ -87,7 +104,8 @@ const SHOPS: Readonly<Record<string, Pick>> = {
     own: ["In Person", "Studio / Shop"],
     stockists: ["Retail & Wholesale", "Retail Stockist"],
     concession: ["Retail & Wholesale", "Concession / Shop-in-shop"],
-    distributors: ["Retail & Wholesale", "Distributor"]
+    distributors: ["Retail & Wholesale", "Distributor"],
+    resellers: ["Retail & Wholesale", "Reseller"]
 };
 
 /** How the Segment pays (`pay`) → Direct Payment and its way. Buy Now, Pay Later is offered at the checkout a payment link opens (Klarna, Afterpay). */
@@ -110,7 +128,7 @@ const RECEIVE: Readonly<Record<string, Pick>> = {
  *  download link names no one service (WeTransfer, Google Drive, Dropbox or OneDrive): it suggests File Delivery, its service chosen there. */
 const SENT: Readonly<Record<string, Readonly<Record<string, Pick>>>> = {
     o20: { courier: ["Physical Delivery", "Courier"], postal: ["Physical Delivery", "Postal Service"], local: ["Physical Delivery", "Local Delivery"], fulfilment: ["Physical Delivery", "Third-party Fulfilment"] },
-    o21: { attachment: ["File Delivery", "Email Attachment"], link: ["File Delivery", ""], portal: ["File Delivery", "Client Portal"] },
+    o21: { attachment: ["File Delivery", "Email Attachment"], wetransfer: ["File Delivery", "WeTransfer"], googledrive: ["File Delivery", "Google Drive"], dropbox: ["File Delivery", "Dropbox"], onedrive: ["File Delivery", "OneDrive"], portal: ["File Delivery", "Client Portal"], link: ["File Delivery", ""] },
     o22: { zoom: ["Online / Live", "Zoom"], meet: ["Online / Live", "Google Meet"], teams: ["Online / Live", "Microsoft Teams"], stream: ["Online / Live", "Live Stream"] }
 };
 const SENT_OTHER: Readonly<Record<string, string>> = { o20: "Physical Delivery", o21: "File Delivery", o22: "Online / Live" };
@@ -145,7 +163,6 @@ export function journeySuggestions(segment: BusinessCustomerSegmentValue, identi
     const answers = effectiveSegmentAnswers(segment, identity);
     const profiles = segment.profiles.map(profile => effectiveProfileAnswers(profile, segment, identity));
     const offerings = segment.offerings.map(offering => effectiveOfferingAnswers(offering, segment, identity));
-    const physical = segment.offerings.some(offering => offeringIsPhysical(offering, segment, identity));
     const ids = (list: readonly (Record<string, string[] | undefined>)[], key: string) => [...new Set(list.flatMap(entry => entry[key] ?? []))];
 
     const out: ChannelSuggestion[] = [];
@@ -158,7 +175,17 @@ export function journeySuggestions(segment: BusinessCustomerSegmentValue, identi
     // DISCOVER: how they discover you, then the social media, communities and events of the Profiles.
     const discover: ChannelSuggestion[] = [];
     const before = out.length;
-    (answers.discover ?? []).forEach(id => DISCOVER[id] && add("discovery", DISCOVER[id], "how they discover you"));
+    (answers.discover ?? []).forEach(id => DISCOVER[id] && add("discovery", DISCOVER[id], "how they discover you", ["partners", "affiliates", "flyers", "post"].includes(id)));
+    // (Adverts: each place they see them, named (Box 4, 3a); free samples, tasters or trials: the way each Offering can be tried, a Demo with no Offering yet.)
+    if ((answers.discover ?? []).includes("adverts")) {
+        (answers.advertising ?? []).forEach(id => ADVERTS[id] && add("discovery", ["Advertising", ADVERTS[id]], "where they see adverts", true));
+    }
+    if ((answers.discover ?? []).includes("samples")) {
+        const ways = segment.offerings.length > 0 ? segment.offerings.map((offering, at) => trialOf(offeringIsPhysical(offering, segment, identity), offerings[at].o1?.[0])) : ["Demo"];
+        [...new Set(ways)].forEach(name => add("discovery", ["Samples & Trials", name], "how they discover you", true));
+    }
+    // (A way of discovering written in under Other: a channel of the Other category, by its name, at Discover; owner, 2026-11-16 16:31.)
+    segmentWrittenIn(answers, "discover").forEach(name => add("discovery", ["Other", name], "how they discover you", true));
     // (A platform, community or event the Profiles write in under Other (C2, C3, C4: `<id>-other`) is that very subchannel too, by the name written -- several
     // parted by commas --, after the ones they tick, so the earlier answers shape the channels and nothing is added by hand; owner, 2026-11-15 16:08.)
     ids(profiles, "c2").forEach(id => SOCIAL[id] && add("discovery", ["Social Media", SOCIAL[id]], "your Profiles' social media", true));
@@ -177,7 +204,7 @@ export function journeySuggestions(segment: BusinessCustomerSegmentValue, identi
     ids(profiles, "d1").forEach(id => {
         const rule = COMPARE[id];
         if (rule) {
-            add("evaluation", rule === "demo" ? (physical ? ["In Person", "Studio / Shop"] : ["Online / Live", ""]) : rule, "how they compare options");
+            add("evaluation", rule, "how they compare options", rule[0] === "Samples & Trials" || rule[0] === "Print & Mail");
         }
     });
 
@@ -186,7 +213,8 @@ export function journeySuggestions(segment: BusinessCustomerSegmentValue, identi
     // (The marketplaces and shops they name: each that very subchannel, made as a platform the Profiles name is; owner, 2026-11-15 16:08.)
     (answers.marketplaces ?? []).forEach(id => MARKETPLACES[id] && add("purchase", ["Marketplace", MARKETPLACES[id]], "the marketplaces they shop on", true));
     segmentWrittenIn(answers, "marketplaces").forEach(name => add("purchase", ["Marketplace", name], "the marketplaces they shop on", true));
-    (answers.shops ?? []).forEach(id => SHOPS[id] && add("purchase", SHOPS[id], "the shops they buy from", true));
+    // (Shops that stock the products: a stockist for a people Segment, a wholesale account for a business one; owner, 2026-11-16 16:31.)
+    (answers.shops ?? []).forEach(id => SHOPS[id] && add("purchase", id === "stockists" && segmentIsBusiness(segment) ? ["Retail & Wholesale", "Wholesale Account"] : SHOPS[id], "the shops they buy from", true));
     (answers.pay ?? []).forEach(id => PAY[id] && add("purchase", ["Direct Payment", PAY[id]], "how they pay"));
     if ((answers.authorise ?? []).includes("procurement")) {
         add("purchase", ["Direct Payment", "Invoice"], "how they decide to buy");
@@ -196,7 +224,9 @@ export function journeySuggestions(segment: BusinessCustomerSegmentValue, identi
     ids(offerings, "o6").forEach(id => RECEIVE[id] && add("delivery", RECEIVE[id], "how they receive it"));
     // (Named by O20 to O22: each that very subchannel, made as a platform the Profiles name is; owner, 2026-11-15 16:26.)
     (["o20", "o21", "o22"] as const).forEach(key => {
-        ids(offerings, key).forEach(id => {
+        // (A saved "A download link" suggests File Delivery only until a file service is ticked.)
+        const services = ids(offerings, key).filter(id => id !== "link" && SENT[key][id]);
+        ids(offerings, key).filter(id => !(id === "link" && services.length > 0)).forEach(id => {
             const pick = SENT[key][id];
             if (pick) {
                 add("delivery", pick, "how you deliver it", pick[1] !== "");
@@ -208,6 +238,26 @@ export function journeySuggestions(segment: BusinessCustomerSegmentValue, identi
     if (ids(offerings, "o1").some(id => id === "live" || id === "inperson")) {
         add("purchase", ["Website", "Booking / Registration Page"], "your sessions");
     }
+
+    // THE WEBSITE'S OWN PAGES (owner, 2026-11-16 16:31): a Contact Page wherever the Main Website is suggested, for the questions before buying; a Landing Page where they
+    // discover through feeds, ads and marketplace suggestions, the page an advert opens.
+    if (out.some(entry => entry.category === "Website" && entry.name === "Main Website")) {
+        add("evaluation", ["Website", "Contact Page"], "your main website", true);
+    }
+    if ((answers.discover ?? []).includes("algorithmic")) {
+        add("discovery", ["Website", "Landing Page"], "how they discover you", true);
+    }
+
+    // SUPPORT & FOLLOW UP: how they keep in touch after the sale (O23; owner, 2026-11-16 16:31): a newsletter, offers by email and personal messages their Email
+    // subchannels; posts on social media the Segment's social platforms at this stage too; Other by the name written, a channel of the Other category.
+    const keep = ids(offerings, "o23");
+    const KEEP: Readonly<Record<string, Pick>> = { newsletter: ["Email", "Newsletter"], offers: ["Email", "Email Campaign"], personal: ["Email", "Direct Email"] };
+    keep.forEach(id => KEEP[id] && add("support", KEEP[id], "how you keep in touch", true));
+    if (keep.includes("social")) {
+        ids(profiles, "c2").forEach(id => SOCIAL[id] && add("support", ["Social Media", SOCIAL[id]], "how you keep in touch", true));
+        writtenIn(profiles, "c2").forEach(name => add("support", ["Social Media", name], "how you keep in touch", true));
+    }
+    writtenIn(offerings, "o23").forEach(name => add("support", ["Other", name], "how you keep in touch", true));
 
     // SUPPORT & FOLLOW UP: the help after they buy. (The help they want before buying, D2, makes the relationship types: autoRelationshipTypes.)
     ids(offerings, "o7").forEach(id => (HELP_AFTER[id] ?? []).forEach(pick => add("support", pick, "your help after they buy")));
@@ -449,7 +499,7 @@ export function demandSuggestions(segment: BusinessCustomerSegmentValue, offerin
  * sample" (D1), the Sales funnel's Qualified step is the people who tried it -- its label "Tried it (%)". No new kind of source.
  */
 export function funnelIsTrial(segment: BusinessCustomerSegmentValue, identity?: SegmentIdentity): boolean {
-    return segment.profiles.some(profile => (effectiveProfileAnswers(profile, segment, identity).d1 ?? []).includes("a-demo-trial-or-sample"));
+    return segment.profiles.some(profile => (effectiveProfileAnswers(profile, segment, identity).d1 ?? []).some(id => TRIED_OPTIONS.includes(id)));
 }
 
 /**

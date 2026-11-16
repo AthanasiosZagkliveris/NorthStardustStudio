@@ -248,6 +248,45 @@ export const BUSINESS_CHANNEL_CATEGORIES = [
         ],
         otherDescription: "Another referral or affiliate route."
     },
+    // (Owner, 2026-11-16 17:38: the traditional ways of being found, and letting them try it first; each from an answer of Box 4, 3 or the Profiles' D1.)
+    {
+        id: "advertising",
+        label: "Advertising",
+        description: "Paid adverts in the press, on the radio or TV, and outdoors.",
+        stages: ["discovery", "evaluation"],
+        channels: [
+            { label: "Newspaper / Magazine", description: "An advert in a newspaper or magazine, in print or in its online edition." },
+            { label: "Radio", description: "An advert or sponsorship on a radio station or podcast." },
+            { label: "TV", description: "An advert or sponsorship on television or streaming TV." },
+            { label: "Billboard / Outdoor", description: "A billboard, a poster site, a bus or a sign where people pass." }
+        ],
+        otherDescription: "Another place to advertise."
+    },
+    {
+        id: "print-mail",
+        label: "Print & Mail",
+        description: "Printed pieces handed out, put up or posted to customers.",
+        stages: ["discovery", "evaluation", "support"],
+        channels: [
+            { label: "Flyers / Posters", description: "Flyers handed out or through the door, posters on a noticeboard or in a window." },
+            { label: "Direct Mail", description: "Letters, postcards or offers posted to customers." },
+            { label: "Catalogue / Brochure", description: "A printed or downloadable list of what you offer, with pictures and prices." }
+        ],
+        otherDescription: "Another printed piece."
+    },
+    {
+        id: "samples-trials",
+        label: "Samples & Trials",
+        description: "Ways for customers to try it before they buy.",
+        stages: ["discovery", "evaluation"],
+        channels: [
+            { label: "Free Sample", description: "A small amount or a piece of the product to try." },
+            { label: "Free Trial", description: "A period of using the app or service for free." },
+            { label: "Demo", description: "Showing how it works, live or recorded." },
+            { label: "Taster Session / Free Class", description: "A short free session or class to try it." }
+        ],
+        otherDescription: "Another way to try it."
+    },
     {
         id: "other",
         label: "Other",
@@ -269,6 +308,11 @@ export const PHYSICAL_CHANNEL_CATEGORY_IDS: readonly string[] = ["physical-deliv
 export function channelCategoryHidden(label: string, noPhysical: boolean, usedLabels: readonly string[]): boolean {
     const category = BUSINESS_CHANNEL_CATEGORIES.find(entry => entry.label === label);
     return noPhysical && category !== undefined && PHYSICAL_CHANNEL_CATEGORY_IDS.includes(category.id) && !usedLabels.includes(label);
+}
+
+/** Whether a subchannel is hidden from its picker: a Free Sample while no Offering has a physical item (owner, 2026-11-16 17:38); a saved one stays shown. */
+export function subchannelHidden(category: string, name: string, noPhysical: boolean): boolean {
+    return noPhysical && category === "Samples & Trials" && name === "Free Sample";
 }
 
 /** A point of help: a name and what it means. */

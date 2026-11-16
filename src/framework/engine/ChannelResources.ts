@@ -365,7 +365,7 @@ export function withoutChannelResource(
 }
 
 /**
- * TYPICAL COSTS FOR THIS CHANNEL (the card structure's templates T1 to T10 and T12; T11 is removed). Each is created in its own group in the Offering
+ * TYPICAL COSTS FOR THIS CHANNEL (the card structure's templates T1 to T10, T12 and T13; T11 is removed). Each is created in its own group in the Offering
  * place, its price blank so that it is incomplete until priced, and linked to the channel. An item the company already has is offered as Link existing.
  */
 export interface ChannelCostTemplate {
@@ -385,14 +385,16 @@ export const CHANNEL_COST_TEMPLATES: readonly ChannelCostTemplate[] = [
     { id: "T1", categories: ["website","email","online-live","community","marketplace","file-delivery","social-media"], label: "Platform or tool subscription", kind: "resource", category: "digital", group: "sales-delivery-tools", frequency: "monthly" },
     { id: "T2", categories: ["website","direct-payment","in-person","online-live"], label: "Payment processing fees", kind: "supplier", category: "suppliers", group: "platforms-payments", frequency: "percent-revenue" },
     { id: "T3", categories: ["marketplace","retail-wholesale"], label: "Marketplace fees and commission", kind: "supplier", category: "suppliers", group: "platforms-payments", frequency: "percent-revenue" },
-    { id: "T4", categories: ["social-media","website","community","marketplace","referral-affiliates"], label: "Ads and influencers", kind: "supplier", category: "suppliers", group: "agencies-influencers", frequency: "per-project" },
+    { id: "T4", categories: ["social-media","website","community","marketplace","referral-affiliates","advertising"], label: "Ads and influencers", kind: "supplier", category: "suppliers", group: "agencies-influencers", frequency: "per-project" },
     { id: "T5", categories: ["in-person","retail-wholesale"], label: "Stall, pitch, stand or event fee", kind: "resource", category: "workspace", group: "site-hire", frequency: "per-project" },
     { id: "T6", categories: ["in-person","direct-payment","online-live"], label: "Display kit or hardware", kind: "resource", category: "equipment", group: "devices-tools", frequency: "per-unit", unit: "item" },
     { id: "T7", categories: ["in-person","physical-delivery"], label: "Travel and van hire", kind: "resource", category: "documents", group: "tickets-trips", frequency: "per-project" },
-    { id: "T8", categories: ["physical-delivery","retail-wholesale","marketplace","website","in-person"], label: "Packaging and samples", kind: "resource", category: "materials", group: "materials-stock", frequency: "per-unit" },
+    { id: "T8", categories: ["physical-delivery","retail-wholesale","marketplace","website","in-person","samples-trials"], label: "Packaging and samples", kind: "resource", category: "materials", group: "materials-stock", frequency: "per-unit" },
     { id: "T9", categories: ["physical-delivery","marketplace","website","retail-wholesale"], label: "Courier, postal, fulfilment", kind: "supplier", category: "suppliers", group: "logistics-fulfilment", frequency: "per-unit", unit: "parcel" },
     { id: "T10", categories: ["referral-affiliates","retail-wholesale"], label: "Referral or reseller commission", kind: "partner", category: "partners", group: "revenue-partners", frequency: "percent-revenue" },
-    { id: "T12", categories: ["in-person","physical-delivery","retail-wholesale"], label: "Event or transit insurance", kind: "resource", category: "documents", group: "insurances", frequency: "per-project" }
+    { id: "T12", categories: ["in-person","physical-delivery","retail-wholesale"], label: "Event or transit insurance", kind: "resource", category: "documents", group: "insurances", frequency: "per-project" },
+    // (Owner, 2026-11-16 17:38: flyers, posters, letters and catalogues are printed and posted.)
+    { id: "T13", categories: ["print-mail"], label: "Printing and postage", kind: "supplier", category: "suppliers", group: "agencies-influencers", frequency: "per-project" }
 ];
 
 /** The templates that fit a channel of this category (by its label); a category of the founder's own, or none, fits them all. */

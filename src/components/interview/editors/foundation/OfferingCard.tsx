@@ -13,7 +13,7 @@ import { type SegmentQuestion, segmentRowChoice } from "../../../../framework/en
 import { summaryText } from "../../cards/cardSummary.ts";
 import OptionPicker from "../../fields/OptionPicker.tsx";
 import NumberedListInput from "../../fields/NumberedListInput.tsx";
-import { writtenInNames } from "../../../../framework/engine/SegmentQuestions.ts";
+import { writtenInNames, writtenInRows } from "../../../../framework/engine/SegmentQuestions.ts";
 import { CATEGORY_OTHER, SUBSECTIONS } from "./shared.tsx";
 import type { FoundationCardScope } from "./useFoundationSubsections.tsx";
 
@@ -141,7 +141,8 @@ export function offeringCard(scope: FoundationCardScope, offering: BusinessOffer
                                         {question.other && chosen.includes("other") && (
                                             <NumberedListInput
                                                 label={label + " Other"}
-                                                items={writtenInNames(shown[id + "-other"])}
+                                                items={writtenInRows(shown[id + "-other"])}
+                                                autoFocusFirst={writtenInNames(shown[id + "-other"]).length === 0}
                                                 disabled={disabled}
                                                 onChange={(items) => change({ questions: { ...(offering.questions ?? {}), [id + "-other"]: items } as OfferingAnswers })}
                                             />

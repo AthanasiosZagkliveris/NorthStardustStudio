@@ -82,7 +82,7 @@ const WORDS: Record<string, string> = {
     "as-caring-for-others-or-the-planet": "Altruistic", "as-leaving-something-for-their-family": "Impactful",
     "as-someone-others-trust": "Trusted", "as-well-connected": "Influential", "as-more-valued-in-their-field": "Respected", "as-a-responsible-business": "Responsible",
     // Other questions' words.
-    "your-website": "Your website", "a-demo-trial-or-sample": "A demo / trial / sample", "a-quote-or-proposal": "A quote / proposal", "a-meeting-or-call": "A meeting / call"
+    "your-website": "Your website", "a-quote-or-proposal": "A quote / proposal", "a-meeting-or-call": "A meeting / call"
 };
 const WORRIES = ["The price or their budget", "Whether they can trust you", "How long it takes to start", "How hard it is to use", "Risk or security", "Whether it fits their needs", "Support after they buy", "The effort of switching from what they use now", "What others will think"];
 
@@ -123,7 +123,7 @@ const QUESTIONS: readonly ProfileQuestion[] = [
         id: "a3b", box: "personal", label: "What is {p} job level?", many: false, options: SENIORITY,
         info: [
             "Based on: the seniority levels B2B platforms use (LinkedIn), merged into five.",
-            "Senior executive: the chief executive, a C-level or a vice president. Trainees and interns: Specialist / team member.",
+            "Senior executive: the chief executive, a C-level or a vice president.", "Trainees and interns: Specialist / team member.",
             "It starts the role in buying: an owner or senior executive makes the final decision; a specialist uses it."
         ]
     },
@@ -138,8 +138,8 @@ const QUESTIONS: readonly ProfileQuestion[] = [
     {
         id: "b1", box: "psychographics", label: "What matters most to {o}?", many: true, max: 5, options: list(CARES), rating: { low: "Optional", high: "Essential" },
         info: ["What they weigh when choosing between offers. Tick up to five, then rate how much each matters.", "For example, a busy parent may weigh Speed and Convenience; a collector, Quality.",
-            "Affordability: a price they can pay. Convenience: easy to find, buy and use. Reputation: a name they trust. Expertise: deep knowledge.",
-            "Personalisation: made just for them. Safety / security: low risk, nothing goes wrong. Values: it stands for what they believe in.", "Write their interests, lifestyle and hopes in the note."]
+            "Affordability: a price they can pay.", "Convenience: easy to find, buy and use.", "Reputation: a name they trust.", "Expertise: deep knowledge.",
+            "Personalisation: made just for them.", "Safety / security: low risk, nothing goes wrong.", "Values: it stands for what they believe in.", "Write their interests, lifestyle and hopes in the note."]
     },
     {
         id: "c2", box: "hubs", label: "Which social media does {s} use?", many: true,
@@ -165,7 +165,8 @@ const QUESTIONS: readonly ProfileQuestion[] = [
     {
         id: "d1", box: "habits", label: "How does {s} compare options?", many: true,
         // The ids stay those of the first wording (they are saved answers and the Segment reads them): only the words changed, so a review online and a recommendation by people are told apart.
-        options: list(["Your website", "Reviews and recommendations online", "A demo, trial or sample", "A quote or proposal", "What other people recommend", "Comparison sites", "A meeting or call"]).map(option => option.id === "reviews-and-recommendations-online" ? { ...option, label: "Online reviews / ratings" } : option.id === "what-other-people-recommend" ? { ...option, label: "Word of mouth / referrals" } : option),
+        // (Owner, 2026-11-16 17:38: "A demo, trial or sample" is five ways to try it first, each shown where one of the Segment's Offerings fits it: TRIAL_OPTIONS.)
+        options: list(["Your website", "Reviews and recommendations online", "A free sample", "A free trial", "A demo", "A taster session or free class", "A catalogue or brochure", "A quote or proposal", "What other people recommend", "Comparison sites", "A meeting or call"]).map(option => option.id === "reviews-and-recommendations-online" ? { ...option, label: "Online reviews / ratings" } : option.id === "what-other-people-recommend" ? { ...option, label: "Word of mouth / referrals" } : option),
         info: ["How they weigh options before choosing.", "How they pay and where they buy are the Segment's questions."]
     },
     {
@@ -174,15 +175,15 @@ const QUESTIONS: readonly ProfileQuestion[] = [
         info: ["The help a typical person wants before buying; it can differ from how comfortable the Segment is online."]
     },
     { id: "d3", box: "habits", label: "When does {s} usually buy?", many: true, options: list(BUY_TIMES), info: ["When they actually buy; the Segment's work schedule says when they work."] },
-    { id: "e1", box: "goals", label: "What does {s} want to achieve?", many: true, max: 3, options: list(GOALS), rating: { low: "Minor", high: "Main" }, info: ["The results they are after; what they weigh when choosing goes in \"What matters most\". Choose up to three, then rate each.", "For example, to learn a new craft, or to win more clients.", "Accessibility: getting something hard to reach. Development: learning something new. Expression: showing who they are. Revenue: winning customers or income.", "Compliance: meeting a requirement or staying within the rules, at work or by law. Efficiency: saving time or money.", "Resolution: getting a specific problem fixed. Enjoyment: having fun or a good time.", "Based on: gains (Value Proposition Canvas)."] },
-    { id: "e2", box: "challenges", label: "What frustrates {o} today?", many: true, max: 3, options: list(FRUSTRATIONS), rating: { low: "Mild", high: "Severe" }, info: ["What goes wrong with the way they do it now, before they buy from you. Choose up to three, then rate how much each bothers them.", "For example, the cheap version breaks too soon, or nobody explains how to start.", "Cost: too costly, or unclear prices. Delays: it takes too long. Inconsistency: results vary. Trust: hard to find someone reliable.", "Skills gap: not knowing how, or fearing a mistake. Capacity: no time or staff. Hassle: too complicated, or poor support.", "Based on: pains (Value Proposition Canvas)."] },
+    { id: "e1", box: "goals", label: "What does {s} want to achieve?", many: true, max: 3, options: list(GOALS), rating: { low: "Minor", high: "Main" }, info: ["The results they are after; what they weigh when choosing goes in \"What matters most\". Choose up to three, then rate each.", "For example, to learn a new craft, or to win more clients.", "Accessibility: getting something hard to reach.", "Development: learning something new.", "Expression: showing who they are.", "Revenue: winning customers or income.", "Compliance: meeting a requirement or staying within the rules, at work or by law.", "Efficiency: saving time or money.", "Resolution: getting a specific problem fixed.", "Enjoyment: having fun or a good time.", "Based on: gains (Value Proposition Canvas)."] },
+    { id: "e2", box: "challenges", label: "What frustrates {o} today?", many: true, max: 3, options: list(FRUSTRATIONS), rating: { low: "Mild", high: "Severe" }, info: ["What goes wrong with the way they do it now, before they buy from you. Choose up to three, then rate how much each bothers them.", "For example, the cheap version breaks too soon, or nobody explains how to start.", "Cost: too costly, or unclear prices.", "Delays: it takes too long.", "Inconsistency: results vary.", "Trust: hard to find someone reliable.", "Skills gap: not knowing how, or fearing a mistake.", "Capacity: no time or staff.", "Hassle: too complicated, or poor support.", "Based on: pains (Value Proposition Canvas)."] },
     // The Needs (doc 36, section 10): Emotional and Social ticked and rated, by the Segment's kind; Functional stays the numbered list. Each kind's list stays as its note.
-    { id: "functional", box: "needs", label: "What kind of job does {s} need done?", many: true, max: 3, options: list(FUNCTIONAL), rating: { low: "Mild", high: "Strong" }, info: ["The main jobs they need done. Choose up to three, then rate each; write their own tasks in the list below.", "Organisation: keeps tasks, records or belongings in order. Integration: works with the tools or routines they already use.", "Connection: helps them reach or work with other people. Variety: gives more options than they had.", "Information: gives answers or facts they need now (learning is the goal Development).", "Based on: Bain's Elements of Value (HBR, 2016)."] },
-    { id: "emotional", box: "needs", label: "How does {s} want to feel?", many: true, max: 3, options: list(EMOTIONAL_PEOPLE), rating: { low: "Mild", high: "Strong" }, info: [...NEEDS_INFO("feelings", "For example, calm when a delivery arrives on time, or delighted by how a room looks."), "Rewarded: treated to something special. Nurtured: looked after. Delighted: by how it looks. Nostalgic: reminded of good times. Fulfilled: growing as a person.", "Proud: a sense of self-worth or achievement in what they own or made (Desmet's 25 product emotions, 2012)."] },
-    { id: "emotional-b2b", box: "needs", label: "How does {s} want to feel?", many: true, max: 3, options: list(EMOTIONAL_BUSINESS), rating: { low: "Mild", high: "Strong" }, info: [...NEEDS_INFO("feelings", "For example, sure they chose the right supplier, or glad to work with you again."), "Confident: sure they made the right choice. Prosperous: growing in their work. Optimistic: hopeful about their business."] },
-    { id: "social", box: "needs", label: "How does {s} want to be seen?", many: true, max: 3, options: list(SOCIAL_PEOPLE), rating: { low: "Mild", high: "Strong" }, info: [...NEEDS_INFO("ways of being seen by others", "For example, as stylish when friends visit, or as caring for the planet."), "Included: part of a group they value. Exclusive: one of the few with access. Altruistic: caring for others or the planet. Impactful: leaving a legacy."] },
-    { id: "social-b2b", box: "needs", label: "How does {s} want to be seen?", many: true, max: 3, options: list(SOCIAL_BUSINESS), rating: { low: "Mild", high: "Strong" }, info: [...NEEDS_INFO("ways of being seen by others", "For example, as someone colleagues trust, or as a responsible business."), "Influential: well connected. Respected: valued in their field."] },
-    { id: "e3", box: "objections", label: "What might hold {o} back?", many: true, max: 3, options: list(WORRIES), rating: { low: "Minor", high: "Blocking" }, info: ["Their doubts about buying from you; today's frustrations have their own question. Choose up to three, then rate each.", "For example, whether a beginner can keep up, or whether you will still be there after the sale.", "Credibility: whether you can be trusted. Onboarding: the time to get started. Complexity: how hard it is to use. Fit: whether it suits their need.", "Support: help after buying. Migration: the work of leaving what they use now. Risk: risk or security. Image: what others will think of them.", "Starts with the price where the Segment's household income is rated 1; change it freely."] }
+    { id: "functional", box: "needs", label: "What kind of job does {s} need done?", many: true, max: 3, options: list(FUNCTIONAL), rating: { low: "Mild", high: "Strong" }, info: ["The main jobs they need done. Choose up to three and rate each, then add their own tasks in the list below.", "Organisation: keeps tasks, records or belongings in order.", "Integration: works with the tools or routines they already use.", "Connection: helps them reach or work with other people.", "Variety: gives more options than they had.", "Information: gives the answers or facts they need right now.", "Based on: Bain's Elements of Value (HBR, 2016)."] },
+    { id: "emotional", box: "needs", label: "How does {s} want to feel?", many: true, max: 3, options: list(EMOTIONAL_PEOPLE), rating: { low: "Mild", high: "Strong" }, info: [...NEEDS_INFO("feelings", "For example, calm when a delivery arrives on time, or delighted by how a room looks."), "Rewarded: treated to something special.", "Nurtured: looked after.", "Delighted: by how it looks.", "Nostalgic: reminded of good times.", "Fulfilled: growing as a person.", "Proud: a sense of self-worth or achievement in what they own or made (Desmet's 25 product emotions, 2012)."] },
+    { id: "emotional-b2b", box: "needs", label: "How does {s} want to feel?", many: true, max: 3, options: list(EMOTIONAL_BUSINESS), rating: { low: "Mild", high: "Strong" }, info: [...NEEDS_INFO("feelings", "For example, sure they chose the right supplier, or glad to work with you again."), "Confident: sure they made the right choice.", "Prosperous: growing in their work.", "Optimistic: hopeful about their business."] },
+    { id: "social", box: "needs", label: "How does {s} want to be seen?", many: true, max: 3, options: list(SOCIAL_PEOPLE), rating: { low: "Mild", high: "Strong" }, info: [...NEEDS_INFO("ways of being seen by others", "For example, as stylish when friends visit, or as caring for the planet."), "Included: part of a group they value.", "Exclusive: one of the few with access.", "Altruistic: caring for others or the planet.", "Impactful: leaving a legacy."] },
+    { id: "social-b2b", box: "needs", label: "How does {s} want to be seen?", many: true, max: 3, options: list(SOCIAL_BUSINESS), rating: { low: "Mild", high: "Strong" }, info: [...NEEDS_INFO("ways of being seen by others", "For example, as someone colleagues trust, or as a responsible business."), "Influential: well connected.", "Respected: valued in their field."] },
+    { id: "e3", box: "objections", label: "What might hold {o} back?", many: true, max: 3, options: list(WORRIES), rating: { low: "Minor", high: "Blocking" }, info: ["Their doubts about buying from you; today's frustrations have their own question. Choose up to three, then rate each.", "For example, whether a beginner can keep up, or whether you will still be there after the sale.", "Credibility: whether you can be trusted.", "Onboarding: the time to get started.", "Complexity: how hard it is to use.", "Fit: whether it suits their need.", "Support: help after buying.", "Migration: the work of leaving what they use now.", "Risk: risk or security.", "Image: what others will think of them.", "Starts with the price where the Segment's household income is rated 1; change it freely."] }
 ];
 
 export const PROFILE_QUESTIONS = QUESTIONS;
@@ -527,7 +528,9 @@ export function profileOptionsShown(question: ProfileQuestion, segment: SegmentA
     const minor = profileMinorUser(segment, context);
     const unfit = question.id === "social" ? question.options.map(option => option.id).filter(id => minor === "teen" ? NOT_SEEN_BY_A_TEEN.includes(id) : !SEEN_BY_A_CHILD.includes(id)) : [];
     const hidden = minor ? [...(NOT_FOR_MINORS[question.id] ?? []), ...unfit] : [];
-    const options = question.options.filter(option => !hidden.includes(option.id) || chosen.includes(option.id));
+    // (D1's ways to try it first: those the Segment's Offerings fit, where they are known; owner, 2026-11-16 17:38.)
+    const untried = question.id === "d1" && context.trials ? Object.keys(TRIAL_OPTIONS).filter(id => !context.trials!.includes(TRIAL_OPTIONS[id])) : [];
+    const options = question.options.filter(option => (!hidden.includes(option.id) && !untried.includes(option.id)) || chosen.includes(option.id));
     let first: string[] = [];
     if (question.id === "a7") {
         first = [...new Set(context.relations.flatMap(id => HOUSEHOLD_FIRST[id] ?? []))];
@@ -538,6 +541,25 @@ export function profileOptionsShown(question: ProfileQuestion, segment: SegmentA
     }
     const rank = (id: string) => first.includes(id) ? first.indexOf(id) : first.length;
     return first.length > 0 ? [...options].sort((a, b) => rank(a.id) - rank(b.id)) : options;
+}
+
+/** D1's ways to try it first (owner, 2026-11-16 17:38), each by the way the Segment's Offerings can be tried (segmentTrials). */
+export const TRIAL_OPTIONS: Readonly<Record<string, string>> = {
+    "a-free-sample": "sample", "a-free-trial": "trial", "a-demo": "demo", "a-taster-session-or-free-class": "taster", "a-catalogue-or-brochure": "catalogue"
+};
+/** D1's options where they tried it: the sales funnel's middle step is a trial (funnelIsTrial). */
+export const TRIED_OPTIONS: readonly string[] = ["a-free-sample", "a-free-trial", "a-demo", "a-taster-session-or-free-class"];
+/** D1's single option before 2026-11-16, read as the ways that fit. */
+const OLD_DEMO = "a-demo-trial-or-sample";
+
+/** D1 saved before 2026-11-16: "A demo, trial or sample" becomes the ways to try it the Segment's Offerings fit (a catalogue aside), A demo where none fits. */
+function d1Migrated(chosen: readonly string[], context: SegmentContext): string[] {
+    if (!chosen.includes(OLD_DEMO)) {
+        return [...chosen];
+    }
+    const fitting = TRIED_OPTIONS.filter(id => (context.trials ?? []).includes(TRIAL_OPTIONS[id]));
+    const ways = fitting.length > 0 ? fitting : ["a-demo"];
+    return [...new Set(chosen.flatMap(id => id === OLD_DEMO ? ways : [id]))];
 }
 
 /** What the Segment sets for a question that is not shown, or starts for one that is (the user can change a start). */
@@ -578,7 +600,7 @@ function startOf(question: ProfileQuestion, segment: SegmentAnswers, context: Se
             }
             // With no other start, how they compare options (D1; 2026-11-09): a demo, trial or sample, or a quote or proposal, needs a formal one; a meeting or call, a person.
             const compare = answers.d1 ?? [];
-            return compare.includes("a-demo-trial-or-sample") || compare.includes("a-quote-or-proposal") ? ["formal"] : compare.includes("a-meeting-or-call") ? ["person"] : undefined;
+            return compare.includes("a-demo") || compare.includes(OLD_DEMO) || compare.includes("a-quote-or-proposal") ? ["formal"] : compare.includes("a-meeting-or-call") ? ["person"] : undefined;
         }
         case "e3":
             // The household income, a rating: 1 (low) starts the worry about price.
@@ -654,6 +676,9 @@ export function profileSettle(saved: SegmentAnswers, segment: SegmentAnswers, co
     }
     if (business && (segment.orgtype ?? []).includes("self")) {
         settled.a3b = ["owner"];
+    }
+    if (answers.d1) {
+        answers.d1 = d1Migrated(answers.d1, context);
     }
     for (const question of QUESTIONS) {
         const chosen = answers[question.id];
