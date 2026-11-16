@@ -355,7 +355,8 @@ button.card-tile-symbol[aria-pressed="true"] {
 }
 
 [data-opener].section-tile-link,
-.section-tile-link[data-opener] {
+.section-tile-link[data-opener],
+[data-card-row][data-opener] :is(.capability-overview-name, .stage-record-expense-name) {
 
     text-shadow: var(--hover-bold);
     letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));

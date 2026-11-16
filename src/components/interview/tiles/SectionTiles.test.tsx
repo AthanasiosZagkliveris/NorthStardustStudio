@@ -10,6 +10,7 @@ import { stylesheet } from "../../../test/stylesheet";
 import { tableRows } from "./CapabilityOverview";
 import { belongsLines, floorSubgroups, filterFloor, DEFAULT_FLOOR_FILTER, subgroupKey } from "./capabilityFloor";
 import SectionTiles, { dialogFrame, drawnTitle, gridColumns, tailPlacement, tileName } from "./SectionTiles";
+import { OPEN_EVENT } from "./FloatingCards";
 
 afterEach(cleanup);
 
@@ -1654,6 +1655,55 @@ describe("THE CAROUSEL ARROWS beside the card or the section opened last", () =>
         expect(title()).toBe("Activities");
         fireEvent.click(screen.getByRole("button", { name: "Previous section" }));
         expect(title()).toBe("Resources");
+    });
+
+});
+
+describe("THE ROWS OF A TABLE THAT HOLD THE OPEN CARD (a Journey Stage's subchannels; owner, 2026-11-16 23:58)", () => {
+
+    it("marks the row of the card now open, follows the carousel arrows to the next row, and scrolls the dialog to it", () => {
+        const scrolled: string[] = [];
+        const original = Element.prototype.scrollIntoView;
+        Element.prototype.scrollIntoView = function (this: Element) { scrolled.push(this.getAttribute("data-card-row") ?? this.tagName); } as typeof Element.prototype.scrollIntoView;
+        const open = (card: string) => document.dispatchEvent(new CustomEvent(OPEN_EVENT, { detail: { tile: "stage", card } }));
+        render(<SectionTiles label="Stages" hue={200} tiles={[{
+            id: "stage",
+            title: "Discover",
+            view: true,
+            items: ["Instagram", "Etsy"],
+            holds: ["s1", "s2"],
+            links: [{ card: "s1" }, { card: "s2" }],
+            cardFor: (id: string) => <div data-testid="card">{id}</div>,
+            content: () => (
+                <table>
+                    <tbody>
+                        {["s1", "s2"].map(id => (
+                            <tr key={id} data-card-row={id}>
+                                <th scope="row"><button type="button" className="capability-overview-name" onClick={() => open(id)}>{id}</button></th>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            )
+        }]} />);
+        try {
+            fireEvent.click(tileButton("Discover"));
+            fireEvent.click(screen.getByRole("button", { name: "s1" }));
+            const marked = () => [...document.querySelectorAll("[data-card-row][data-opener]")].map(row => row.getAttribute("data-card-row"));
+            expect(screen.getByTestId("card").textContent).toBe("s1");
+            expect(marked()).toEqual(["s1"]);
+            expect(scrolled).toContain("s1");
+            fireEvent.click(screen.getByRole("button", { name: "Next card" }));
+            expect(screen.getByTestId("card").textContent).toBe("s2");
+            expect(marked()).toEqual(["s2"]);
+            expect(scrolled[scrolled.length - 1]).toBe("s2");
+        } finally {
+            Element.prototype.scrollIntoView = original;
+        }
+    });
+
+    it("draws the mark in the shared opener style: the row's name and its expenses as the opening link", () => {
+        expect(stylesheet("card-tile.css")).toMatch(/\[data-card-row\]\[data-opener\] :is\(\.capability-overview-name, \.stage-record-expense-name\) \{[^}]*text-decoration: underline;/);
     });
 
 });

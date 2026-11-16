@@ -398,7 +398,7 @@ export function useEngagementRelationships(earlier: Earlier) {
                                                         // (The subchannel's expenses the stage's actions use, each once.)
                                                         const expenses = [...new Map(records.flatMap(record => record.expenses).map(entry => [entry.id, entry])).values()];
                                                         return (
-                                                            <tr key={channel.id} data-band={group % 2 === 1 ? "even" : "odd"} data-follows={at > 0 ? "" : undefined}>
+                                                            <tr key={channel.id} data-card-row={channel.id} data-band={group % 2 === 1 ? "even" : "odd"} data-follows={at > 0 ? "" : undefined}>
                                                                 {at === 0 && <td data-col="channel" rowSpan={subchannels.length}><span>{category.trim() || "New channel"}</span></td>}
                                                                 <th scope="row" data-col="subchannel">
                                                                     <TextLink className="capability-overview-name" onClick={() => openCard(channel.id)}>{nameOf(channel)}</TextLink>
