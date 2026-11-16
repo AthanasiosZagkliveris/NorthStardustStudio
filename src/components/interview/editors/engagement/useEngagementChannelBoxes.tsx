@@ -24,7 +24,7 @@ type Earlier = ReturnType<typeof useEngagementState>;
 
 export function useEngagementChannelBoxes(earlier: Earlier) {
 
-    const { feeBand, showsAll, cards, channelActions, channelCategoryFoldKey, channelResources, collapsed, currency, disabled, engagement, folds, isolatingSegment, noPhysical, offeringsOfMadeCards, onOpenCapability, onOpenFoundation, openAction, relatedStages, segmentOf, segments, setLit, toggle, updateChannel, updateSegment } = earlier;
+    const { feeBand, cards, channelActions, channelCategoryFoldKey, channelResources, collapsed, currency, disabled, engagement, folds, isolatingSegment, noPhysical, offeringsOfMadeCards, onOpenCapability, onOpenFoundation, openAction, relatedStages, segmentOf, segments, setLit, toggle, updateChannel, updateSegment } = earlier;
 
     /** The card on Page 1 with this id, and the Segment it is in. */
     function foundationPath(id: string): string[] {
@@ -411,8 +411,8 @@ export function useEngagementChannelBoxes(earlier: Earlier) {
                             />
                         );
                     })()}
-                    {/* The x, in the head, as every card's. (Its x with All only, as the adds: owner, 2026-11-14 11:51.) */}
-                    {showsAll(segment.id) && (
+                    {/* The x, in the head, as every card's. */}
+                    {(
                         <BusinessRemove
                             what="Subchannel"
                             disabled={disabled}
@@ -690,8 +690,7 @@ export function useEngagementChannelBoxes(earlier: Earlier) {
                                                 size="wide"
                                             />
 
-                                            {/* (With All only, as every x: owner, 2026-11-14 11:51.) */}
-                                            {showsAll(segment.id) && <BusinessRemove
+                                            {<BusinessRemove
                                                 what={
                                                     "Channel " +
                                                     (group.label.trim() ||

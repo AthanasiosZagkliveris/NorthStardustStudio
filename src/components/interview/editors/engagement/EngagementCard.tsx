@@ -9,7 +9,6 @@ import { BusinessCard, BusinessGroup } from "../../cards/BusinessCardFields.tsx"
 import FieldLabel from "../../../controls/FieldLabel.tsx";
 import InfoNote, { InfoPoint, InfoText } from "../../fields/InfoNote.tsx";
 import { SingleColumn } from "../foundation/shared.tsx";
-import RadioChoice from "../../../controls/RadioChoice.tsx";
 
 /** The card: the Offering's number and name (its name a link to the Foundation's Offering, where it is named), always open. */
 export function EngagementCard({ kind, number, name, anchor, ariaPrefix, onOpenName, headRow, actions, emptyName = "Unnamed Offering", children, headless = false }: {
@@ -128,24 +127,5 @@ export function EngagementBox({ title, info, extra, bands, anchor }: {
                 <div className={"legal-entity-org-section" + (at % 2 === 1 ? " legal-entity-org-band" : "")} key={at}>{band}</div>
             ))}
         </div>
-    );
-}
-
-/**
- * WHAT A DIALOG OFFERS (owner, 2026-11-12 19:54: "an option to present all the options or only what it is come from the previous selections"): From your answers,
- * the channels, subchannels and relationship types the founder uses and those the earlier answers suggest; All, every option the page has, with its adds.
- * One choice for the Segment's three dialogs (Channels & Journey, Customer's Relationship, Demand & Conversion), at the head of each, From your answers first.
- */
-export type OptionScope = "answers" | "all";
-export function ScopeChoice({ value, onChange, group }: { value: OptionScope; onChange: (next: OptionScope) => void; group: string }) {
-    return (
-        <RadioChoice
-            className="capability-overview-views"
-            label="Show"
-            group={group}
-            options={[{ id: "answers", label: "From your answers" }, { id: "all", label: "All" }]}
-            value={value}
-            onChange={(next) => onChange(next as OptionScope)}
-        />
     );
 }
