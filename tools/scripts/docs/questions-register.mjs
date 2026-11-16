@@ -241,7 +241,7 @@ async function loadCode() {
         "export * as offering from './src/framework/engine/OfferingQuestions.ts';",
         "export * as legal from './src/components/interview/editors/legal/shared.tsx';",
         "export * as foundation from './src/components/interview/editors/foundation/shared.tsx';",
-        "export { ratingScaleMeaning } from './src/components/controls/RatingScaleEnds.tsx';",
+        "export { ratingScaleMeaning, withRatingMeaning } from './src/components/controls/RatingScaleEnds.tsx';",
         "export { FIRST_VERSION_COUNTRIES } from './src/framework/engine/LegalEntityJurisdictions.ts';"
     ].join("\n");
     const out = await build({
@@ -260,14 +260,14 @@ const point = entry => typeof entry === "string" ? entry
 const STAGES = [["plan", "Planning"], ["launch", "Launching"], ["manage", "Managing"], ["grow", "Growing"]];
 
 function rows(code) {
-    const { segment: S, profile: P, competitor: C, offering: O, legal: L, foundation: F, ratingScaleMeaning, FIRST_VERSION_COUNTRIES } = code;
+    const { segment: S, profile: P, competitor: C, offering: O, legal: L, foundation: F, ratingScaleMeaning, withRatingMeaning, FIRST_VERSION_COUNTRIES } = code;
     const cards = [];
     const control = (question, options) => question.number ? "NumberCell"
         : question.rating && question.many ? "RatingScaleGroup (selectable)"
             : question.rating ? "RatingScale"
                 : question.many ? "BusinessTicks" + (question.other ? " (ends in Other, written in)" : "")
                     : S.segmentRowChoice({ ...question, box: "demographics", many: false }, options) ? "FittingRadioChoice" : "RadioChoice";
-    const ratingInfo = question => question.rating ? [ratingScaleMeaning(question.rating), ...question.info] : [...question.info];
+    const ratingInfo = question => question.rating ? withRatingMeaning(question.info, question.rating) : [...question.info];
     const ratingOptions = question => question.many
         ? "ticked, then each rated 1 to 5: " + list(question.options)
         : "the points 1 to 5 (" + question.rating.low + " to " + question.rating.high + ")";

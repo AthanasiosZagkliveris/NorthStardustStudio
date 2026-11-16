@@ -7,10 +7,12 @@ import { FieldMark, FieldStatus } from "./fieldMarks.tsx";
 /**
  * THE HEAD OF A FIELD: its label (the field label) with its "i" 6px after the last word (`info`), its mark and its status line (inside the label, or after it inside the "i"'s holder: `statusAfter`), and what a place adds after its words (`extra`, a link symbol). The Business fields and the Legal Entity page's fields draw their label here; each passes its own classes.
  */
-export function FieldHead({ label, info, fullList = false, keyLabel, labelClass, infoClass, statusAfter = false, extra, note }: {
+export function FieldHead({ label, info, fullList = false, infoLead = false, keyLabel, labelClass, infoClass, statusAfter = false, extra, note }: {
     label: string;
     info?: readonly InfoPoint[];
     fullList?: boolean;
+    /** The first point of the "i" is its lead, plain text over the list (InfoNote `lead`). */
+    infoLead?: boolean;
     keyLabel?: string;
     /** The label's class beside `field-label`. */
     labelClass: string;
@@ -27,7 +29,7 @@ export function FieldHead({ label, info, fullList = false, keyLabel, labelClass,
             <span className={infoClass}>
                 <FieldLabel className={labelClass}>
                     <InfoText text={label}>
-                        <InfoNote label={label} points={[...info]} fullList={fullList} />
+                        <InfoNote label={label} points={[...info]} fullList={fullList} lead={infoLead} />
                     </InfoText>
                     {note ? <> {note}</> : null}
                     <FieldMark label={label} keyLabel={keyLabel} />
@@ -52,11 +54,13 @@ export function FieldHead({ label, info, fullList = false, keyLabel, labelClass,
 /**
  * THE FIELD ROW OF THE LEGAL ENTITY PAGE: a label and its control as one cell of the page's grid. The label is the field label, with its "i" 6px after its last word (`info`), the field's mark and status line, a link symbol after its words (`labelExtra`) and a × at its line's end for an optional field the user opened (`remove`). `side` puts the label beside its control, `wide` makes the cell as wide as the grid. `pair` is a field of several stacked in one column (its own holder; `nested` adds the space that tells one pair from the next). Written once here: the page's two row helpers were two copies of it.
  */
-export default function FieldRow({ label, info, fullList = false, keyLabel, labelExtra, labelNote, wide = false, side = false, pair = false, nested = false, remove, children }: {
+export default function FieldRow({ label, info, fullList = false, infoLead = false, keyLabel, labelExtra, labelNote, wide = false, side = false, pair = false, nested = false, remove, children }: {
     label: string;
     info?: InfoPoint[];
     /** The "i" lists all its points (an optional field's), not the first three. */
     fullList?: boolean;
+    /** The first point of the "i" is its lead, plain text over the list. */
+    infoLead?: boolean;
     /** The field's key where its label was renamed (FieldKeys.ts). */
     keyLabel?: string;
     labelExtra?: ReactNode;
@@ -82,7 +86,7 @@ export default function FieldRow({ label, info, fullList = false, keyLabel, labe
     );
     const noted = (full: boolean) => (
         <InfoText text={label}>
-            <InfoNote label={label} points={info ?? []} fullList={full} />
+            <InfoNote label={label} points={info ?? []} fullList={full} lead={infoLead} />
         </InfoText>
     );
     let head: ReactNode;
@@ -101,7 +105,7 @@ export default function FieldRow({ label, info, fullList = false, keyLabel, labe
         );
     } else {
         // (A pair names its mark and status by the label, the others by the field's key where it was renamed.)
-        head = <FieldHead label={label} info={info} fullList={fullList} keyLabel={pair ? undefined : keyLabel} labelClass={"legal-entity-label" + (info ? "" : nest)} infoClass={"legal-entity-label-info" + nest} extra={labelExtra} note={labelNote} />;
+        head = <FieldHead label={label} info={info} fullList={fullList} infoLead={infoLead} keyLabel={pair ? undefined : keyLabel} labelClass={"legal-entity-label" + (info ? "" : nest)} infoClass={"legal-entity-label-info" + nest} extra={labelExtra} note={labelNote} />;
     }
     return (
         <div className={pair ? "legal-entity-pair" : "legal-entity-field" + (wide ? " legal-entity-field-wide" : "") + (side ? " legal-entity-field-side" : "")}>

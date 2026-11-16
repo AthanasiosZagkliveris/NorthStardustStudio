@@ -210,7 +210,7 @@ export const JOB_RENAMED: Record<string, string> = { owner: "manager" };
 /** What the kinds of work say in the "i" (one owner for the Segment's and the Profile's question). */
 export const JOB_INFO = [
     "Based on: the ISCO-08 major groups (ILO).",
-    "Professional: for example a teacher, nurse, engineer or lawyer. Skilled trade: for example an electrician, plumber or chef.",
+    "Professional: for example a teacher, nurse, engineer or lawyer.", "Skilled trade: for example an electrician, plumber or chef.",
     "Someone who owns and runs a business: Manager / director. Armed forces: choose the group that fits the role."
 ] as const;
 

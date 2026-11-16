@@ -19,7 +19,16 @@ export default function RatingScaleEnds(_ends: {
     );
 }
 
-/** What 1 and 5 mean, the first line of a rated question's "i": "1 = Weak, 5 = Strong." */
+/** What 1 and 5 mean, a rated question's "i" line: "1 = Weak, 5 = Strong." */
 export function ratingScaleMeaning(ends: { low: string; high: string }): string {
     return "1 = " + ends.low + ", 5 = " + ends.high + ".";
+}
+
+/**
+ * A RATED QUESTION'S "i" IN ITS ORDER (owner, 2026-11-16 17:38): what the question asks (its lead), what each option means, one a line, then what 1 and 5 mean,
+ * then the reference last ("Based on:", or a citation).
+ */
+export function withRatingMeaning<T>(info: readonly T[], ends: { low: string; high: string }): (T | string)[] {
+    const reference = (point: T) => typeof point === "string" ? point.startsWith("Based on:") : typeof point === "object" && point !== null && "source" in point;
+    return [...info.filter(point => !reference(point)), ratingScaleMeaning(ends), ...info.filter(reference)];
 }

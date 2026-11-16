@@ -11,7 +11,7 @@ import FieldRow from "../../fields/FieldRow.tsx";
 import { BusinessAddButton, BusinessCard, BusinessEmpty, BusinessRemove, BusinessTicks, OptionalNote } from "../../cards/BusinessCardFields.tsx";
 import RadioChoice from "../../../controls/RadioChoice.tsx";
 import RatingScale, { type Rating } from "../../../controls/RatingScale.tsx";
-import { ratingScaleMeaning } from "../../../controls/RatingScaleEnds.tsx";
+import { withRatingMeaning } from "../../../controls/RatingScaleEnds.tsx";
 import RatingScaleGroup from "../../../controls/RatingScaleGroup.tsx";
 import TextLink from "../../fields/TextLink.tsx";
 import { draftToAdd, differentiationSourceCards, namesInSentence } from "../../../../framework/engine/CompetitorQuestions.ts";
@@ -302,7 +302,7 @@ export function useFoundationSubsections(earlier: Earlier) {
             // (A question from Positioning: one choice is a radio, several are ticks that lock at the stage's limit, as on Positioning.)
             const max = question.fromPositioning ? stageLimit ?? undefined : question.max;
             const radio = question.fromPositioning && stageLimit === 1 && chosen.length <= 1;
-            const info: InfoPoint[] = question.rating ? [ratingScaleMeaning(question.rating), ...question.info]
+            const info: InfoPoint[] = question.rating ? withRatingMeaning(question.info, question.rating)
                 : question.fromPositioning ? withStageLine(question.id === "differentiation" ? [DIFFERENTIATION_SHARED[0], DIFFERENTIATION_FROM_OPENINGS, ...DIFFERENTIATION_SHARED.slice(1)] : question.info, stageLimitLine(asked.stage, stageLimit))
                     : [...question.info];
             return (
@@ -310,6 +310,7 @@ export function useFoundationSubsections(earlier: Earlier) {
                     key={question.id}
                     pair
                     fullList
+                    infoLead={!!question.rating}
                     label={label}
                     info={info}
                     labelNote={max !== undefined && !radio ? <span className="business-foundation-tick-note">{max + " max"}</span> : undefined}
@@ -488,7 +489,7 @@ export function useFoundationSubsections(earlier: Earlier) {
             const radio = outcome && stageMax === 1 && chosen.length <= 1;
             // (Tailored and ordered by the answers, never locked: a minor end user's goals and frustrations, the household by the relationship, the worries by B1; profileOptionsShown.)
             const options = (outcome ? userOutcomeOptionsFor(positioningOrder) : own ? question.options : profileOptionsShown(question, segment.questions, asked, shown)).map(option => ({ ...option }));
-            const info: InfoPoint[] = question.rating ? [ratingScaleMeaning(question.rating), ...question.info]
+            const info: InfoPoint[] = question.rating ? withRatingMeaning(question.info, question.rating)
                 : outcome ? withStageLine(question.info, stageLimitLine(asked.stage, stageMax ?? null))
                     : [...question.info];
             return (
@@ -496,6 +497,7 @@ export function useFoundationSubsections(earlier: Earlier) {
                     key={question.id}
                     pair
                     fullList
+                    infoLead={!!question.rating}
                     label={label}
                     info={info}
                     labelNote={max !== undefined && !radio ? <span className="business-foundation-tick-note">{max + " max"}</span> : question.number && ageRange ? <span className="business-foundation-tick-note">{ageRange[1] >= 130 ? ageRange[0] + " or older" : ageRange[0] + "–" + (ageRange[1] - 1)}</span> : undefined}

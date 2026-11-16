@@ -608,3 +608,10 @@
     overflow-wrap:anywhere;
 
 }
+
+/* THE LEAD (InfoNote `lead`; owner, 2026-11-16 17:38): what the question asks, plain text over the list, the list's gap under it. */
+.info-note-lead{
+
+    margin-bottom:8px;
+
+}

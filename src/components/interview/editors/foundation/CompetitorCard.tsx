@@ -10,7 +10,7 @@ import FieldRow from "../../fields/FieldRow.tsx";
 import { BusinessStep, BusinessTicks, OptionalNote } from "../../cards/BusinessCardFields.tsx";
 import RadioChoice from "../../../controls/RadioChoice.tsx";
 import RatingScale, { type Rating } from "../../../controls/RatingScale.tsx";
-import { ratingScaleMeaning } from "../../../controls/RatingScaleEnds.tsx";
+import { withRatingMeaning } from "../../../controls/RatingScaleEnds.tsx";
 import RatingScaleGroup from "../../../controls/RatingScaleGroup.tsx";
 import { type OtherQuestion, competitorOtherList, competitorOtherSettleAll, competitorOtherTick, competitorOthers, COMPETITOR_CHANNEL_OPTIONS, COMPETITOR_EXPERIENCE_HOW, COMPETITOR_INFO, COMPETITOR_OFFER_OPTIONS, COMPETITOR_RATINGS, COMPETITOR_REACH_OPTIONS, COMPETITOR_SIZE_OPTIONS, COMPETITOR_STAGES, type CompetitorAnswers, type CompetitorQuestionId, REVIEW_PLATFORM_EXAMPLES, competitorAsks, competitorOpenings, competitorRate, competitorRatings, competitorSettle, competitorWording, competitorValueRows, shownOpenings, COMPETITOR_SUBCHANNELS, COMPETITOR_BAND_LINE, bandTone, COMPETITOR_CHANGES, valueProfiles, hardToBeat, reviewPlatformOrder } from "../../../../framework/engine/CompetitorQuestions.ts";
 import FittingRadioChoice from "./FittingRadioChoice.tsx";
@@ -248,7 +248,8 @@ export function competitorCard(scope: FoundationCardScope, competitor: BusinessC
         pair
         fullList
         label={words(id)}
-        info={[...(id in COMPETITOR_RATINGS ? [ratingScaleMeaning(COMPETITOR_RATINGS[id as keyof typeof COMPETITOR_RATINGS])] : []), ...(INFO[id] ?? COMPETITOR_INFO[id])]}
+        info={id in COMPETITOR_RATINGS ? withRatingMeaning(INFO[id] ?? COMPETITOR_INFO[id], COMPETITOR_RATINGS[id as keyof typeof COMPETITOR_RATINGS]) : [...(INFO[id] ?? COMPETITOR_INFO[id])]}
+        infoLead={id in COMPETITOR_RATINGS}
         labelNote={id === "k10" ? <span className="business-foundation-tick-note">3 max</span> : undefined}
     >
         {controls[id]()}
