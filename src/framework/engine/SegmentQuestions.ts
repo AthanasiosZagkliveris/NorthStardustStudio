@@ -1071,6 +1071,16 @@ export function writtenInNames(saved: readonly string[] | undefined): string[] {
 }
 
 /**
+ * THE ROWS OF AN OTHER'S LIST AS THE SCREEN SHOWS THEM (owner, 2026-11-16 14:24: the name box was a bare line): as typed, an empty row kept so Enter opens the
+ * next one, one empty row at least, ready to type in; a text saved before the list, in one box, read once as its names. The channels read writtenInNames.
+ */
+export function writtenInRows(saved: readonly string[] | undefined): string[] {
+    const list = saved ?? [];
+    const rows = list.length === 1 && /[,;\n]/.test(list[0]) ? writtenInNames(list) : [...list];
+    return rows.length > 0 ? rows : [""];
+}
+
+/**
  * THE PAYMENT SERVICES A SEGMENT'S PAYMENTS GO THROUGH (Which payment services do you take payments with?): the names ticked, then those written in under Other (each
  * once, several parted by commas). The fees of its Direct Payment channels are read by these names (the Channel Fee Table), a name written in its own row.
  */

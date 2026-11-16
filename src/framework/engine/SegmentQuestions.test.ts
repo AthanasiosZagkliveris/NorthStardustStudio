@@ -11,7 +11,9 @@ import {
     segmentOptions,
     segmentQuestionsOf,
     segmentSettle,
-    segmentWho
+    segmentWho,
+    writtenInNames,
+    writtenInRows
 } from "./SegmentQuestions.ts";
 
 const OPEN: SegmentContext = { frame: "open", stage: "manage", lifeStages: [], endsUser: false, userStages: [], relations: [], scales: [] };
@@ -334,4 +336,14 @@ describe("the follow-ups of Where do your customers usually shop?", () => {
         expect(segmentSettle({ ...answers, setting: ["mobile"] }, OPEN).marketplaces).toBeUndefined();
     });
 
+});
+
+describe("an Other's list (owner, 2026-11-16 14:24)", () => {
+    it("shows one empty row to type in, keeps the rows as typed, and reads an old text once by its commas", () => {
+        expect(writtenInRows(undefined)).toEqual([""]);
+        expect(writtenInRows(["Vinted", ""])).toEqual(["Vinted", ""]);
+        expect(writtenInRows(["Vinted, Depop"])).toEqual(["Vinted", "Depop"]);
+        // (The channels read the names alone: trimmed, no empty row, no repeat.)
+        expect(writtenInNames(["Vinted ", "", "vinted", "Depop"])).toEqual(["Vinted", "Depop"]);
+    });
 });

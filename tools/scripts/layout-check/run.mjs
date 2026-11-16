@@ -458,6 +458,42 @@ export async function runLayoutCheck(page, { base = "http://localhost:1420", pro
                     failures.push(...(await checkRealMouse(page, system + " › " + name + " (" + width + " x " + height + ")")));
                 }
             }
+            // A SUBCHANNEL'S CARD WITH ITS ACTIONS (owner, 2026-11-16 14:24: "Ensure the cards align properly within each row"): from Customer Engagement, the
+            // first chapter's Channels & Journey, its first channel, its first subchannel's card, read for the lists' edges and the action cards' lines in each theme.
+            if (/Customer Engagement/.test(name)) {
+                await page.setViewportSize({ width: 1920, height: 1000 });
+                await page.evaluate(value => document.documentElement.setAttribute("data-theme", value), "light");
+                const master = page.locator(".section-tile", { hasText: "Channels &" }).first();
+                if (await master.count()) {
+                    await master.click({ position: { x: 150, y: 280 } });
+                    await page.waitForTimeout(800);
+                    // (The dialog by channel, whichever view the tiles' walk left it in.)
+                    const byChannel = page.getByRole("radio", { name: "Channels", exact: true }).first();
+                    if (await byChannel.count()) {
+                        await byChannel.check();
+                        await page.waitForTimeout(400);
+                    }
+                    const channel = page.locator(".section-tile-dialog .section-tile").first();
+                    if (await channel.count()) {
+                        await channel.click({ position: { x: 100, y: 30 } });
+                        await page.waitForTimeout(900);
+                        const sub = page.locator(".section-tile-overlay .card-tile").first();
+                        if (await sub.count() && !(await page.locator(".floating-card-host").count())) {
+                            await sub.click({ position: { x: 100, y: 20 } });
+                            await page.waitForTimeout(900);
+                        }
+                        for (const theme of themes) {
+                            await page.evaluate(value => document.documentElement.setAttribute("data-theme", value), theme);
+                            await page.waitForTimeout(200);
+                            const found = await page.evaluate(spec => window.__layoutProbe.check(spec), SPEC);
+                            failures.push(...found.filter(failure => /cards of a list|link line keeps|action card's/.test(failure.rule)).map(failure => ({ page: system + " › " + name + " › a subchannel's card", theme, width: 1920, ...failure })));
+                        }
+                    }
+                    await page.keyboard.press("Escape");
+                    await page.keyboard.press("Escape");
+                    await page.evaluate(value => document.documentElement.setAttribute("data-theme", value), "light");
+                }
+            }
             // THE DOCUMENTS' PAPER in every reading mode (owner, 2026-11-14 23:37): from Financial Foundation, the Workbook's three documents, each read for the
             // paper's contrast alone (rule 0e) in each theme.
             if (/Financial Foundation/.test(name)) {

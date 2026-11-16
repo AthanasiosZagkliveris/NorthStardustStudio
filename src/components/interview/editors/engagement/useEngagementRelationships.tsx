@@ -169,13 +169,15 @@ export function useEngagementRelationships(earlier: Earlier) {
                             plain: true,
                             name: channel.name,
                             unnamed: "Unnamed subchannel",
-                            // ONLY THE OFFERINGS IT SERVES (owner, 2026-11-15 16:42, the rule "only information related to the answers"): each a link to its card; an
+                            // ONLY THE OFFERINGS IT SERVES (owner, 2026-11-15 16:42, the rule "only information related to the answers"); an
                             // Offering it does not serve is not listed (it is ticked on the card's Offerings).
                             lines: key === "" ? undefined : servedHere.map(position => {
                                 const owner = cardFor(every[position]);
                                 return (cards.length > 1 ? (owner + 1) + ". " : "") + offeringLabel(position);
                             }),
-                            linkedLines: key === "" ? undefined : servedHere.map(() => true),
+                            // (LINKS ONLY WHERE THE OFFERINGS HAVE CARDS OF THEIR OWN -- a different approach for each --; one card serving them all lists them as plain
+                            // words, the tile itself opening that card; owner, 2026-11-16 14:24.)
+                            linkedLines: key === "" || cards.length < 2 ? undefined : servedHere.map(() => true),
                             onLine: (index: number) => {
                                 const owner = cardFor(every[servedHere[index]]);
                                 if (owner >= 0) {

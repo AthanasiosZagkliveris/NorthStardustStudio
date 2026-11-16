@@ -530,6 +530,29 @@ describe("Customer Engagement follows the Foundation (doc 47, section 3)", () =>
         expect(channels.filter(channel => channel.category !== "").map(channel => [channel.category, channel.name, channel.stages])).toEqual([["Website", "Main Website", ["discovery"]]]);
     });
 
+    it("links a subchannel tile's Offerings only where they have cards of their own (owner, 2026-11-16 14:24)", () => {
+        const segment = { ...createBusinessCustomerSegment([]), name: "Makers", offerings: [{ ...createBusinessOffering(), name: "Throws" }, { ...createBusinessOffering(), name: "Classes" }] };
+        const foundation = { ...asBusinessFoundationValue(undefined), segments: [segment] };
+        const [throws, classes] = segment.offerings.map(offering => offering.id);
+        const engagement = {
+            ...asBusinessEngagementValue(undefined),
+            segments: [{ ...createBusinessSegmentEngagement(segment.id), channels: [
+                { ...createBusinessChannel(), category: "Social Media", name: "Instagram", offerings: ["*"], stages: ["discovery"] },
+                { ...createBusinessChannel(), category: "Social Media", name: "Pinterest", offerings: [throws], stages: ["discovery"] },
+                { ...createBusinessChannel(), category: "Social Media", name: "Pinterest", offerings: [classes], stages: ["discovery"] }
+            ] }]
+        };
+        render(<BusinessEngagementEditor value={engagement} onChange={() => undefined} foundation={foundation} asTiles />);
+        openTile("Channels & Journey");
+        fireEvent.click([...document.querySelectorAll<HTMLElement>(".section-tile")].find(tile => (tile.textContent ?? "").startsWith("Social Media"))!);
+        const slot = (name: string) => [...document.querySelectorAll<HTMLElement>(".section-tile-overlay .card-tile-slot")].find(entry => (entry.textContent ?? "").includes(name))!;
+        // (One card serves both: its Offerings are words, the tile opens the card.)
+        expect(slot("Instagram").querySelectorAll(".section-tile-link")).toHaveLength(0);
+        expect(slot("Instagram").textContent).toContain("Throws");
+        // (A card for each Offering: each Offering a link to its own card.)
+        expect(slot("Pinterest").querySelectorAll(".section-tile-link")).toHaveLength(2);
+    });
+
     it("shows the Customer Sources the Foundation suggests on an Offering's Demand tile with All only (owner, 2026-11-13 11:44)", () => {
         const segment = { ...createBusinessCustomerSegment([]), name: "Firms", offerings: [{ ...createBusinessOffering(), name: "Audit" }, { ...createBusinessOffering(), name: "Payroll" }] };
         const foundation = { ...asBusinessFoundationValue(undefined), segments: [segment] };

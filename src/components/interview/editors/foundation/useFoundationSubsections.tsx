@@ -20,7 +20,7 @@ import { type OfferingContext, draftOffered, valuePropositionDraft, valueProposi
 import { effectiveOfferingAnswers, effectiveProfileAnswers, effectiveProfileUserAnswers, offeringContextOf, withFieldSet } from "../../../../framework/engine/EffectiveAnswers.ts";
 import NumberCell from "../../../controls/NumberCell.tsx";
 import { type ProfileBox, type ProfilePart, type ProfileQuestion, DUAL_USER, OWN_TASKS_INFO, PROFILE_NOTE_HINTS, profileAgeRange, profileChoose, profileOutcomeLimit, profileRate, profileRatings, profileWho, profileQuestionsOf, profileSettle, profileUserAgeRange, profileUserQuestionsOf, profileUserSettle, profileUserWho, profileUserName, profileOptionsShown, proposedBusinessProfiles, segmentNeedTicks } from "../../../../framework/engine/ProfileQuestions.ts";
-import { type SegmentBox, type SegmentQuestion, SEGMENT_QUESTIONS, writtenInNames, segmentChoose, segmentOptions, segmentQuestionsOf, segmentRowChoice, segmentSettle, segmentSettledNotes } from "../../../../framework/engine/SegmentQuestions.ts";
+import { type SegmentBox, type SegmentQuestion, SEGMENT_QUESTIONS, writtenInNames, writtenInRows, segmentChoose, segmentOptions, segmentQuestionsOf, segmentRowChoice, segmentSettle, segmentSettledNotes } from "../../../../framework/engine/SegmentQuestions.ts";
 import { DIFFERENTIATIONS, INFO as POSITIONING_INFO, choiceLimit, differentiationOptionsFor, stageLimitLine, userOutcomeOptionsFor, withStageLine } from "../legal/shared.tsx";
 import InfoNote, { InfoPoint, InfoText } from "../../fields/InfoNote.tsx";
 import { OPEN_EVENT, type OpenRequest } from "../../tiles/SectionTiles.tsx";
@@ -337,7 +337,8 @@ export function useFoundationSubsections(earlier: Earlier) {
                                 {question.other && chosen.includes("other") && (
                                     <NumberedListInput
                                         label={label + " Other"}
-                                        items={writtenInNames(segment.questions[question.id + "-other"])}
+                                        items={writtenInRows(segment.questions[question.id + "-other"])}
+                                        autoFocusFirst={writtenInNames(segment.questions[question.id + "-other"]).length === 0}
                                         disabled={disabled}
                                         onChange={(items) => updateSegment(segmentIndex, { questions: { ...segment.questions, [question.id + "-other"]: items } })}
                                     />
@@ -559,7 +560,8 @@ export function useFoundationSubsections(earlier: Earlier) {
                                     {question.other && chosen.includes("other") && (
                                         <NumberedListInput
                                             label={label + " Other"}
-                                            items={writtenInNames(shown[question.id + "-other"])}
+                                            items={writtenInRows(shown[question.id + "-other"])}
+                                            autoFocusFirst={writtenInNames(shown[question.id + "-other"]).length === 0}
                                             disabled={disabled}
                                             onChange={(items) => write({ ...shown, [question.id + "-other"]: items })}
                                         />

@@ -236,6 +236,11 @@ interface NumberedListInputProps {
      */
     maxItems?: number;
 
+    /**
+     * Its first line takes the caret when the list appears (an Other just ticked: the name box ready to type in; owner, 2026-11-16 14:24).
+     */
+    autoFocusFirst?: boolean;
+
 }
 
 /**
@@ -280,7 +285,9 @@ export default function NumberedListInput({
 
     lineIds,
 
-    maxItems
+    maxItems,
+
+    autoFocusFirst = false
 
 }: NumberedListInputProps) {
 
@@ -436,7 +443,7 @@ export default function NumberedListInput({
     // Which line to put the caret in after the next render -- Enter
     // opens the line below and moves to it, which only works once
     // the new field exists.
-    const pendingFocus = useRef<number>(-1);
+    const pendingFocus = useRef<number>(autoFocusFirst ? 0 : -1);
 
     /* AN EMPTY LINE LEFT BEHIND GOES (dropEmptyOnBlur). Checked a moment
        after focus leaves it -- not at once, so that a click on a control

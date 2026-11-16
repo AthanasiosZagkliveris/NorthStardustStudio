@@ -336,6 +336,43 @@
         document.querySelectorAll(".card-scroll").forEach(body => { body.scrollTop = 0; });
         const fail = (rule, element, detail) => failures.push({ rule, where: place(element), detail });
 
+        // 0b. THE CARDS OF A LIST SHARE ONE LEFT AND ONE RIGHT EDGE (owner, 2026-11-16 14:24: "Ensure the cards align properly within each row"): every line of a
+        //     numbered list (a stage's actions, a channel's links) stands between the same two edges, and a link line drawn on one keeps inside its rounded corners.
+        for (const list of [...document.querySelectorAll(".numbered-list")].filter(visible)) {
+            const lines = [...list.querySelectorAll(":scope > .numbered-list-row, :scope > * > .numbered-list-row")].filter(visible);
+            if (lines.length < 2) {
+                continue;
+            }
+            const first = lines[0].getBoundingClientRect();
+            for (const line of lines.slice(1)) {
+                const box = line.getBoundingClientRect();
+                if (Math.abs(box.left - first.left) > tolerance || Math.abs(box.right - first.right) > tolerance) {
+                    fail("the cards of a list share one left and one right edge", line, { left: [first.left, box.left], right: [first.right, box.right] });
+                }
+            }
+            // (An action's card: "1.", its text and its x on the top line; its order number and its marks on one bottom line, clear of the card's foot.)
+            for (const line of lines.filter(row => row.classList.contains("is-action-line"))) {
+                const box = line.getBoundingClientRect();
+                const order = line.querySelector(".numbered-list-order");
+                const marks = line.querySelector(".action-marks");
+                for (const part of [order, marks].filter(Boolean)) {
+                    if (part.getBoundingClientRect().bottom > box.bottom - 4) {
+                        fail("an action card's order number and marks stand clear of its foot", line, { part: part.className, bottom: part.getBoundingClientRect().bottom, card: box.bottom });
+                    }
+                }
+                if (order && marks && marks.getBoundingClientRect().height > 0 && Math.abs(order.getBoundingClientRect().bottom - marks.getBoundingClientRect().bottom) > 4) {
+                    fail("an action card's order number and marks share one bottom line", line, { order: order.getBoundingClientRect().bottom, marks: marks.getBoundingClientRect().bottom });
+                }
+            }
+            for (const line of lines.filter(row => row.classList.contains("has-line-right") || row.classList.contains("has-line-left"))) {
+                const radius = getComputedStyle(line).borderTopRightRadius;
+                const mark = getComputedStyle(line, line.classList.contains("has-line-right") ? "::after" : "::before");
+                const corner = line.classList.contains("has-line-right") ? mark.borderTopRightRadius : mark.borderTopLeftRadius;
+                if (radius !== "0px" && corner !== radius) {
+                    fail("a card's link line keeps inside its rounded corners", line, { card: radius, line: corner });
+                }
+            }
+        }
         // 0c. A DIVIDING LINE RUNS EDGE TO EDGE (owner, 2026-11-14 19:09: "Make the dividing lines extend from edge to edge"): the line between two values of a
         //     table cell (a lined or numbered list) meets both sides of its cell; the line between two channels in a stage's fold meets the card's side and the
         //     column's line (its column's padding taken back).
