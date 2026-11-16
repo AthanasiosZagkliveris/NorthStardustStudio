@@ -1,7 +1,7 @@
 import { inwardOrigin } from "./CardTile";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { useState } from "react";
-import { cleanup, fireEvent, render, screen, within } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 
 import BusinessCapabilityEditor from "../editors/BusinessCapabilityEditor";
 import { cardBoxes, closeAllTiles, closeTile, descendSole, floatingCardHost, infrastructureCard, offeringCard, openBox, openCard, openTile, tileButton, toggles, topDialog } from "../../../test/interviewTestUtils";
@@ -1713,6 +1713,35 @@ describe("THE ROWS OF A TABLE THAT HOLD THE OPEN CARD (a Journey Stage's subchan
         expect(css).toMatch(/\[data-opener-cell~="first"\] \{[^}]*inset 4px 0 0 var\(--row-frame\)/);
         expect(css).toMatch(/\[data-opener-cell~="last"\] \{[^}]*inset -4px 0 0 var\(--row-frame\)/);
         expect(css).not.toMatch(/stage-record-expense-name\) \{/);
+    });
+
+});
+
+describe("A DIALOG UNDER A FLOATING CARD (owner, 2026-11-17 00:22: \"Hide it\")", () => {
+
+    it("hides its rail and arrows while the card is open, whether or not the card has cards beside it, and shows them again when it closes", async () => {
+        const tile = (id: string, title: string, cards: string[]) => ({
+            id, title, view: true, items: cards, holds: cards, links: cards.map(card => ({ card })),
+            cardFor: (card: string) => <div data-testid="card">{card}</div>,
+            content: () => <div>{cards.map(card => <button type="button" key={card} onClick={() => document.dispatchEvent(new CustomEvent(OPEN_EVENT, { detail: { tile: id, card } }))}>{"open " + card}</button>)}</div>
+        });
+        render(<SectionTiles label="Stages" hue={200} tiles={[tile("discover", "Discover", ["s1"]), tile("evaluation", "Evaluation", ["s2", "s3"])]} />);
+        const rails = () => document.querySelectorAll(".carousel-rail").length;
+        fireEvent.click(tileButton("Discover"));
+        // (The dialog steps through the stages: its rail.)
+        expect(rails()).toBe(1);
+        expect(screen.getByRole("button", { name: "Next section" })).toBeTruthy();
+        // A card with no cards beside it: the dialog's rail and arrows are hidden all the same.
+        fireEvent.click(screen.getByRole("button", { name: "open s1" }));
+        expect(screen.getByTestId("card").textContent).toBe("s1");
+        // (The cover is read when the page changes: a moment after the card opens.)
+        await waitFor(() => expect(rails()).toBe(0));
+        expect(screen.queryByRole("button", { name: "Next section" })).toBeNull();
+        // Closed, the dialog's come back.
+        closeTile();
+        expect(screen.queryByTestId("card")).toBeNull();
+        await waitFor(() => expect(rails()).toBe(1));
+        expect(screen.getByRole("button", { name: "Next section" })).toBeTruthy();
     });
 
 });
