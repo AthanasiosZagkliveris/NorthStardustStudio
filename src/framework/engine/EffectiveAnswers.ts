@@ -12,7 +12,7 @@
  * The Segment's answers (effectiveSegmentAnswers) are read here only, by offeringContextOf.
  */
 import type { BusinessCustomerProfileValue, BusinessCustomerSegmentValue, BusinessOfferingValue } from "./AnswerBusinessFoundation.ts";
-import { type OfferingAnswers, type OfferingContext, offeringShown } from "./OfferingQuestions.ts";
+import { type OfferingAnswers, type OfferingContext, offeringShown, SENDING_WEEKS } from "./OfferingQuestions.ts";
 import { profileShown, profileUserShown } from "./ProfileQuestions.ts";
 import { type SegmentIdentity, segmentContextFor, segmentIsBusiness, segmentPositioningShown } from "./SegmentContext.ts";
 import { type SegmentAnswers, segmentSettle } from "./SegmentQuestions.ts";
@@ -27,7 +27,11 @@ export function segmentForms(segment: BusinessCustomerSegmentValue): string[] {
     return [...new Set(segment.offerings.flatMap(offering => offering.questions?.o1 ?? (offering.category === "Product" ? ["physical"] : [])))];
 }
 
-export function segmentTrials(segment: BusinessCustomerSegmentValue): string[] {
+export function segmentTrials(segment: BusinessCustomerSegmentValue): string[] | undefined {
+    // (WHILE NO OFFERING SAYS WHAT IT IS (B2; owner, 2026-11-17 08:38): no Type and no form yet, so every way to try it first is offered.)
+    if (!segment.offerings.some(offering => offering.category.trim() !== "" || (offering.questions?.o1 ?? []).length > 0)) {
+        return undefined;
+    }
     const kinds = new Set<string>();
     for (const offering of segment.offerings) {
         const form = offering.questions?.o1?.[0];
@@ -54,7 +58,9 @@ export function segmentTrials(segment: BusinessCustomerSegmentValue): string[] {
 
 /** A Profile's answers as its card shows them: its own, with each start for a question it never answered. */
 export function effectiveProfileAnswers(profile: BusinessCustomerProfileValue, segment: BusinessCustomerSegmentValue, identity: SegmentIdentity | undefined): SegmentAnswers {
-    return profileShown(profile.questions ?? {}, segment.questions, { ...segmentContextFor(identity, segmentIsBusiness(segment)), trials: segmentTrials(segment) });
+    // (The Segment's answers as its card shows them, its starts included: B4, owner, 2026-11-17 08:38.)
+    const context = { ...segmentContextFor(identity, segmentIsBusiness(segment)), trials: segmentTrials(segment) };
+    return profileShown(profile.questions ?? {}, segmentPositioningShown(segment.questions, identity, context, segment.competitors), context);
 }
 
 /**
@@ -81,7 +87,8 @@ export function offeringContextOf(offering: BusinessOfferingValue, segment: Busi
     const differentiation = effectiveSegmentAnswers(segment, identity).differentiation ?? [];
     const context = segmentContextFor(identity, segmentIsBusiness(segment));
     // The pay O3's order reads is the Segment's settled answer (a stale invoice on a people Segment is not counted; phase 5, 2026-11-08); the frame tells O18's "i" a business Segment.
-    const settled = segmentSettle(segment.questions, context);
+    // (The answers as the card shows them, its starts included -- How they pay from where they shop, B4 --, settled.)
+    const settled = segmentSettle(segmentPositioningShown(segment.questions, identity, context, segment.competitors), context);
     const pay = settled.pay ?? [];
     return { reach: settled.reach ?? [], area: settled.area?.[0] ?? "", workenv: settled.workenv?.[0] ?? "", type: offering.category, stage: identity?.stage, differentiation, outcome: identity?.outcome ?? [], pay, worries, country: identity?.country, frame: context.frame, ...(context.endsUser ? { endsUser: true } : {}), ...(context.dual ? { dual: true } : {}) };
 }
@@ -141,7 +148,10 @@ export function offeringStarts(offering: BusinessOfferingValue, segment: Busines
     }
     const weeks = O15_WEEKS[answers.o15?.[0] ?? ""];
     if (weeks && recurring !== true) {
-        starts.duration = weeks;
+        // (LESS THE SENDING (B1; owner, 2026-11-17 08:38): O15 is the time until the customer has it, so the making takes what the sending (O20) leaves -- at least a
+        // week -- and an untouched card never says it takes longer than customers expect.)
+        const sending = Math.max(0, ...(answers.o20 ?? []).map(way => SENDING_WEEKS[way] ?? 0));
+        starts.duration = String(Math.max(1, Number(weeks) - sending));
     }
     if (O3_CHARGED[terms]) {
         starts.charged = O3_CHARGED[terms];
@@ -160,7 +170,8 @@ export function offeringStarts(offering: BusinessOfferingValue, segment: Busines
     if ((answers.o1 ?? []).some(form => form === "live" || form === "inperson") || terms === "session") {
         starts.sessions = true;
     }
-    if ((offering.category === "Product" || offering.category === "Hybrid") && !(answers.o14 ?? []).includes("custom")) {
+    // (A physical item only: a digital file, an app or online access has no batch to set up; 2.8, owner, 2026-11-17 08:38.)
+    if ((offering.category === "Product" || offering.category === "Hybrid") && !(answers.o14 ?? []).includes("custom") && offeringIsPhysical(offering, segment, identity)) {
         starts.batches = true;
     }
     // (Not ready to sell: O2's Just an idea or Still being built; owner, 2026-11-17.)

@@ -97,6 +97,8 @@ export interface OrganizationDocument {
     globalIncomeTaxMoved?: boolean;
     /** Set once the two Financial pages have changed places: Revenue & Pricing Section 4, Costs, Funding & Position Section 5 (storageMigrations.swapFinancialPages). */
     financialPagesSwapped?: boolean;
+    /** Set once the Segment's starts copied into its saved answers have been taken out, so they follow their source again (storageMigrations.followSegmentStarts). */
+    segmentStartsFollow?: boolean;
     /**
      * What was answered on those nine pages, set aside rather than
      * deleted: out of the Business System's own responses, so a page

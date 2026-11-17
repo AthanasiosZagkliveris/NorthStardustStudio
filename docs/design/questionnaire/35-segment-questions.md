@@ -97,6 +97,7 @@ The people who pay (the buyer is people: B2C alone, or the first of the two Segm
 - **Connections:**
   - *Comes from:* This Segment's age: choosing the age term starts it. **Starts:** Established, Peak and Mature adults start Yes; Minors start No, with Student; Active Retirees and Dependent seniors No, with Retired. Young adults 18–24 start nothing (owner, 2026-11-09: most of them work; BLS, *Employment status of the civilian noninstitutional population by age*, 67.5% of 20 to 24 year-olds employed). A saved answer wins.
   - *Read by (built):* The Market document and the export; the Profile asks A3 (job) when this is Yes (doc 36).
+- **Starts follow their source** (owner, 2026-11-17 08:38: "Bugs plus the first batch" of the review): the start from the age term (Established, Peak, Mature working; Minors, Active retirees, the Dependent not, with Student or Retired) is worked out each time and saved only when answered (`segmentAnswerStarts`); a copy the choice saved before 2026-11-17, unchanged, was taken out once (`storageMigrations.followSegmentStarts`). The questions it makes asked (Where they work, the schedule, how they are paid) keep their answers (`segmentSettleSaved`).
 
 ### 4. Why are your customers not working?
 
@@ -480,7 +481,7 @@ The buyer is a business, or the Segment is of businesses where both relationship
   - *Comes from:* Early Positioning: the relationship (business). **Starts (2026-11-09):** where it is not answered yet, choosing a Public body (Box 3, 1) or Large (Box 3, 2) sets Formal procurement, and Micro or Self-employed sets One person decides; change it freely (a saved answer wins).
   - *Read by (built):* The Market document and the export; the Profile's role in buying (A5 starts with every role where one person decides) and the proposed B2B Profiles by buying role (doc 36, 2); Formal procurement starts the Profile's D2 at "formal" (doc 36).
   - *Read by (built):* the Contracts or tenders row of Demand & Conversion and Direct Payment › Invoice at Purchase (formal procurement); the time to buy (`monthsToClose`); the relationship types (`autoRelationshipTypes`); the Profiles' A5 and D2 starts (doc 47). Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
-
+- **Its start follows its source** (owner, 2026-11-17 08:38: "Bugs plus the first batch" of the review): Formal procurement for a public body or a large organisation, One person decides for a micro or self-employed one, worked out each time from Box 3, 1 and 2 until answered (Micro then Large: Formal procurement); a saved copy unchanged since was taken out once.
 
 ### 7. Where do your customers usually shop?
 
@@ -540,7 +541,7 @@ The buyer is a business, or the Segment is of businesses where both relationship
   - *Read by (built):* The Market document and the export; the Offering's O3, whose options it orders (Invoice or purchase order puts A project or contract first; the settled answer is read, 2026-11-08; doc 43, O3).
   - *Read by (built):* Customer Engagement's Direct Payment channels (Card, Payment Link, Cash, Invoice, Bank Transfer; doc 47).
   - *Read by (not built yet):* The Offering's payment plan (instalments, invoicing). Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
-
+- **Its start follows its source** (owner, 2026-11-17 08:38: "Bugs plus the first batch" of the review): Digital wallets while they buy on a phone, until answered; a saved copy unchanged since was taken out once.
 
 ### 8a. Which payment services do you take payments with?
 

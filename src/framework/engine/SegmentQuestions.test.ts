@@ -13,8 +13,7 @@ import {
     segmentSettle,
     segmentWho,
     writtenInNames,
-    writtenInRows
-} from "./SegmentQuestions.ts";
+    writtenInRows, segmentAnswerStarts, withoutCopiedStarts } from "./SegmentQuestions.ts";
 
 const OPEN: SegmentContext = { frame: "open", stage: "manage", lifeStages: [], endsUser: false, userStages: [], relations: [], scales: [] };
 const question = (id: string) => SEGMENT_QUESTIONS.find(entry => entry.id === id)!;
@@ -117,8 +116,10 @@ describe("the Segment's questions", () => {
     });
 
     it("starts the work situation from the age term, and leaves a chosen one alone", () => {
-        const work = (age: string, before: SegmentAnswers = {}) => segmentChoose(question("age"), before, [age]).work;
-        const started = (age: string, before: SegmentAnswers = {}) => segmentChoose(question("age"), before, [age]);
+        // (B4, owner, 2026-11-17 08:38: a start worked out each time, never saved by the choice.)
+        const started = (age: string, before: SegmentAnswers = {}) => { const saved = segmentChoose(question("age"), before, [age]); return { ...saved, ...segmentAnswerStarts(saved, saved) }; };
+        const work = (age: string, before: SegmentAnswers = {}) => started(age, before).work;
+        expect(segmentChoose(question("age"), {}, ["peak"])).toEqual({ age: ["peak"] });
         expect(started("minor").work).toEqual(["notworking"]);
         expect(started("minor").work2).toEqual(["student"]);
         // Young adults 18–24 start nothing (owner, 2026-11-09; BLS: 67.5% of 20 to 24 year-olds employed).
@@ -145,9 +146,15 @@ describe("the Segment's questions", () => {
     });
 
     it("starts the way of paying from where they buy: Digital wallets on a phone, and leaves a chosen way alone", () => {
-        expect(segmentChoose(question("setting"), {}, ["mobile"]).pay).toEqual(["wallet"]);
-        expect(segmentChoose(question("setting"), {}, ["desktop"]).pay).toBeUndefined();
-        expect(segmentChoose(question("setting"), { pay: ["card"] }, ["mobile"]).pay).toEqual(["card"]);
+        const pay = (saved: SegmentAnswers) => ({ ...saved, ...segmentAnswerStarts(saved, saved) }).pay;
+        expect(pay({ setting: ["mobile"] })).toEqual(["wallet"]);
+        expect(pay({ setting: ["desktop"] })).toBeUndefined();
+        expect(pay({ setting: ["mobile"], pay: ["card"] })).toEqual(["card"]);
+        // (It follows where they shop until answered: on a phone, then in a shop, no wallet.)
+        expect(pay({ setting: ["store"] })).toBeUndefined();
+        // (A wallet copied by the old choice is taken out once, so it follows again; one changed is kept.)
+        expect(withoutCopiedStarts({ setting: ["mobile"], pay: ["wallet"], age: ["minor"], work: ["notworking"], work2: ["student"] })).toEqual({ setting: ["mobile"], age: ["minor"] });
+        expect(withoutCopiedStarts({ setting: ["mobile"], pay: ["card"], age: ["peak"], work: ["notworking"] })).toEqual({ setting: ["mobile"], pay: ["card"], age: ["peak"], work: ["notworking"] });
     });
 
     it("reads an older saved work situation as working or not, and the situation", () => {

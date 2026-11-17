@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { segmentContextFor } from "./SegmentContext";
 import type { SegmentIdentity } from "./SegmentContext";
-import { SEGMENT_QUESTIONS, segmentChoose, segmentOptions, segmentQuestionsOf } from "./SegmentQuestions";
+import { SEGMENT_QUESTIONS, segmentChoose, segmentOptions, segmentQuestionsOf, segmentAnswerStarts } from "./SegmentQuestions";
 import { PROFILE_QUESTIONS, PROFILE_USER_QUESTIONS, profileOptionsShown, profileShown, profileUserName, profileUserWho } from "./ProfileQuestions";
 import { OFFERING_QUESTIONS, offeringOptionsWith, offeringShown, offeringWho } from "./OfferingQuestions";
 
@@ -135,7 +135,9 @@ describe("starts from earlier answers (a saved answer wins)", () => {
         for (const form of ["digital", "app", "access"]) {
             expect(offeringShown({ o1: [form] }, { type: "Product" }).o15).toEqual(["now"]);
         }
-        expect(offeringShown({ o1: ["physical"] }, { type: "Product" }).o15).toBeUndefined();
+        // (A physical item is shipped by its start (O6), and shipped is within a week: 3.7, owner, 2026-11-17 08:38.)
+        expect(offeringShown({ o1: ["physical"] }, { type: "Product" }).o15).toEqual(["week"]);
+        expect(offeringShown({ o1: ["physical"], o6: ["collect"] }, { type: "Product" }).o15).toBeUndefined();
         expect(offeringShown({ o1: ["digital"], o15: ["week"] }, { type: "Product" }).o15).toEqual(["week"]);
     });
 
@@ -146,7 +148,10 @@ describe("starts from earlier answers (a saved answer wins)", () => {
         expect(shown("ongoing")).toMatchObject({ o3: ["retainer"], o3t: ["monthly"] });
         expect(shown("live").o3).toEqual(["session"]);
         expect(shown("inperson").o3).toEqual(["session"]);
-        expect(shown("physical").o3).toBeUndefined();
+        // (A physical item or a digital file as one purchase, an app by subscription: 3.4, owner, 2026-11-17 08:38.)
+        expect(shown("physical").o3).toEqual(["once"]);
+        expect(shown("digital").o3).toEqual(["once"]);
+        expect(shown("app").o3).toEqual(["subscription"]);
         expect(shown("physical", { o3: ["once"] }).o3t).toEqual(["before"]);
         expect(shown("access", { o3: ["once"], o3t: ["after"] })).toMatchObject({ o3: ["once"], o3t: ["after"] });
     });
@@ -169,10 +174,14 @@ describe("starts from earlier answers (a saved answer wins)", () => {
     it("starts who decides to buy from the kind and size of organisation (Box 3, 1 and 2 → Box 4, 9)", () => {
         const orgtype = SEGMENT_QUESTIONS.find(entry => entry.id === "orgtype")!;
         const size = SEGMENT_QUESTIONS.find(entry => entry.id === "size")!;
-        expect(segmentChoose(orgtype, {}, ["public"]).authorise).toEqual(["procurement"]);
-        expect(segmentChoose(size, { orgtype: ["private"] }, ["large"]).authorise).toEqual(["procurement"]);
-        expect(segmentChoose(size, { orgtype: ["private"] }, ["micro"]).authorise).toEqual(["solo"]);
-        expect(segmentChoose(orgtype, {}, ["self"]).authorise).toEqual(["solo"]);
+        // (A start worked out each time, following its source until answered: B4, owner, 2026-11-17 08:38.)
+        const decides = (saved: Record<string, string[]>) => ({ ...saved, ...segmentAnswerStarts(saved, saved) }).authorise;
+        expect(decides(segmentChoose(orgtype, {}, ["public"]))).toEqual(["procurement"]);
+        expect(decides(segmentChoose(size, { orgtype: ["private"] }, ["large"]))).toEqual(["procurement"]);
+        expect(decides(segmentChoose(size, { orgtype: ["private"] }, ["micro"]))).toEqual(["solo"]);
+        expect(decides(segmentChoose(orgtype, {}, ["self"]))).toEqual(["solo"]);
+        // (Micro, then Large: Formal procurement now, where the old saved copy kept One person decides.)
+        expect(decides({ orgtype: ["private"], size: ["large"] })).toEqual(["procurement"]);
         expect(segmentChoose(size, { orgtype: ["private"] }, ["medium"]).authorise).toBeUndefined();
         expect(segmentChoose(size, { orgtype: ["private"], authorise: ["champions"] }, ["large"]).authorise).toEqual(["champions"]);
         expect(business.frame).toBe("business");

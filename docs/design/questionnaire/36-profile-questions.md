@@ -420,6 +420,7 @@ C1 opens the box (owner, 2026-11-08, P8): the devices they find and buy on are a
 - **Connections:**
   - *Comes from:* the Segment's path to purchase.
   - *Read by (built):* the Evaluation channels (doc 47): the ways to try it first their Samples & Trials subchannel, the catalogue Print & Mail › Catalogue / Brochure, each named; a sample, trial, demo or taster makes the funnel's middle step "Tried it (%)" (doc 50); A demo or A quote starts D2's formal help. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
+- **Every way to try it first while no Offering says what it is** (owner, 2026-11-17 08:38: "Bugs plus the first batch" of the review): until an Offering of the Segment has a Type or a form (O1), all five ways are offered (`segmentTrials` gives none); then the ways its Offerings fit.
 
 ### D2. How much help does this person want before buying?
 

@@ -928,6 +928,69 @@ export function segmentWho(label: string, box: SegmentBox, context: SegmentConte
 }
 
 /** The answers after one question's choice changed: "They don't typically share" and the other ways exclude each other; ticks stay within their limit. */
+/**
+ * THE SEGMENT'S OWN STARTS (B4; owner, 2026-11-17 08:38; they were written into the saved answers when the source was chosen, so they stopped following it):
+ * where a question was never answered (no key saved), its start from the answers it follows, worked out each time --
+ * - Who decides to buy (Box 4, 9) from the kind and size of organisation (Box 3, 1 and 2): a public body or a large organisation, Formal procurement; a
+ *   micro or self-employed one, One person decides (2026-11-09);
+ * - How they pay: Digital wallets where they buy on a phone (owner, 2026-11-01);
+ * - Are your customers working? from the age term: Established, Peak and Mature working; Minors, Active retirees and the Dependent not, with Why not
+ *   working? Student for minors and Retired for the others. Young adults start nothing (owner, 2026-11-09: most of them work, BLS 67.5% of 20 to 24
+ *   year-olds employed).
+ * `saved` holds the keys answered; `shown` the answers as the card shows them (a source may itself be a start).
+ */
+export function segmentAnswerStarts(saved: SegmentAnswers, shown: SegmentAnswers): SegmentAnswers {
+    const starts: SegmentAnswers = {};
+    if (!("authorise" in saved)) {
+        const formal = has(shown, "orgtype", "public") || has(shown, "size", "large");
+        const alone = has(shown, "orgtype", "self") || has(shown, "size", "micro");
+        if (formal || alone) {
+            starts.authorise = [formal ? "procurement" : "solo"];
+        }
+    }
+    if (!("pay" in saved) && has(shown, "setting", "mobile")) {
+        starts.pay = ["wallet"];
+    }
+    const age = (shown.age ?? [])[0];
+    if (!("work" in saved) && age) {
+        if (age === "established" || age === "peak" || age === "mature") {
+            starts.work = ["working"];
+        } else if (age === "minor" || age === "active" || age === "dependent") {
+            starts.work = ["notworking"];
+        }
+    }
+    const work = starts.work ?? shown.work ?? [];
+    if (!("work2" in saved) && work.includes("notworking") && (age === "minor" || age === "active" || age === "dependent")) {
+        starts.work2 = [age === "minor" ? "student" : "retired"];
+    }
+    return starts;
+}
+
+/**
+ * THE STARTS A SAVED ANSWER ONCE COPIED (B4's migration, storageMigrations.followSegmentStarts): each saved answer equal to the start its source gives it now --
+ * written there by the choice before 2026-11-17, never changed -- is taken out, so it follows its source again; an answer the founder changed is kept.
+ */
+export function withoutCopiedStarts(saved: SegmentAnswers): SegmentAnswers {
+    const without: SegmentAnswers = { ...saved };
+    const bare = Object.fromEntries(Object.entries(saved).filter(([key]) => !["authorise", "pay", "work", "work2"].includes(key)));
+    const starts = segmentAnswerStarts(bare, saved);
+    for (const key of ["authorise", "pay", "work", "work2"] as const) {
+        if (starts[key] && saved[key] && JSON.stringify([...saved[key]!].sort()) === JSON.stringify([...starts[key]!].sort())) {
+            delete without[key];
+        }
+    }
+    return without;
+}
+
+/**
+ * THE SAVED ANSWERS SETTLED AGAINST WHAT THE CARD SHOWS (B4; owner, 2026-11-17 08:38): a question its start makes asked (Where do they work?, under a started
+ * Working) keeps its answer; the starts themselves stay unsaved. What every write of a Segment's answers settles with.
+ */
+export function segmentSettleSaved(saved: SegmentAnswers, context: SegmentContext): SegmentAnswers {
+    const settled = segmentSettle({ ...saved, ...segmentAnswerStarts(saved, saved) }, context);
+    return Object.fromEntries(Object.entries(settled).filter(([key]) => key in saved));
+}
+
 export function segmentChoose(question: SegmentQuestion, answers: SegmentAnswers, next: string[]): SegmentAnswers {
 
     let chosen = next;
@@ -952,32 +1015,8 @@ export function segmentChoose(question: SegmentQuestion, answers: SegmentAnswers
         delete settled[question.id];
     }
 
-    // A starting value the user can change (2026-11-09): Who decides to buy (Box 4, 9) from the kind and size of organisation (Box 3, 1 and 2), where it is not answered yet: a public
-    // body or a large organisation buys by Formal procurement; a micro or self-employed one, One person decides.
-    if ((question.id === "orgtype" || question.id === "size") && !settled.authorise) {
-        const formal = has(settled, "orgtype", "public") || has(settled, "size", "large");
-        const alone = has(settled, "orgtype", "self") || has(settled, "size", "micro");
-        if (formal || alone) {
-            settled.authorise = [formal ? "procurement" : "solo"];
-        }
-    }
-
-    // A starting value the user can change (owner, 2026-11-01): Digital wallets, where they buy on a phone and no way of paying is chosen yet.
-    if (question.id === "setting" && chosen.includes("mobile") && !settled.pay) {
-        settled.pay = ["wallet"];
-    }
-
-    // A starting value the user confirms: the work situation that goes with the age term, where none is chosen yet.
-    // Young adults 18–24 start nothing (owner, 2026-11-09): most of them work (BLS: 67.5% of 20 to 24 year-olds employed), so "No / Student" was a wrong start.
-    if (question.id === "age" && chosen.length > 0 && !settled.work) {
-        const age = chosen[0];
-        if (age === "established" || age === "peak" || age === "mature") {
-            settled.work = ["working"];
-        } else if (age === "minor" || age === "active" || age === "dependent") {
-            settled.work = ["notworking"];
-            settled.work2 = [age === "minor" ? "student" : "retired"];
-        }
-    }
+    // (The starts this choice gives -- Who decides to buy, How they pay, the work situation -- are no longer written here: they follow their source until
+    // answered, segmentAnswerStarts; B4, owner, 2026-11-17 08:38.)
 
     return settled;
 

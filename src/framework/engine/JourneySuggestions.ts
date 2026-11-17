@@ -24,6 +24,11 @@ export interface ChannelSuggestion {
     source: string;
     /** A platform or event the Profiles name (their social media, communities, events): that very subchannel, never another of its channel. */
     named?: boolean;
+    /**
+     * THE OFFERINGS WHOSE ANSWERS MADE IT (B3; owner, 2026-11-17 08:38): an Offering's own answers (how it is received, sent, kept in touch about, helped after,
+     * booked, tried) make a channel that serves that Offering; absent, the Segment's or its Profiles' answers made it, and it serves every Offering.
+     */
+    offeringIds?: string[];
 }
 
 type Pick = readonly [category: string, name: string];
@@ -166,11 +171,20 @@ export function journeySuggestions(segment: BusinessCustomerSegmentValue, identi
     const ids = (list: readonly (Record<string, string[] | undefined>)[], key: string) => [...new Set(list.flatMap(entry => entry[key] ?? []))];
 
     const out: ChannelSuggestion[] = [];
-    const add = (stage: string, [category, name]: Pick, source: string, named = false) => {
-        if (!out.some(entry => entry.stage === stage && entry.category === category && entry.name === name)) {
-            out.push({ stage, category, name, source, ...(named ? { named: true } : {}) });
+    const add = (stage: string, [category, name]: Pick, source: string, named = false, offeringId?: string) => {
+        const found = out.find(entry => entry.stage === stage && entry.category === category && entry.name === name);
+        if (!found) {
+            out.push({ stage, category, name, source, ...(named ? { named: true } : {}), ...(offeringId ? { offeringIds: [offeringId] } : {}) });
+        } else if (found.offeringIds) {
+            // (One more Offering's answer makes it too; the Segment's own makes it every Offering's.)
+            if (!offeringId) {
+                delete found.offeringIds;
+            } else if (!found.offeringIds.includes(offeringId)) {
+                found.offeringIds.push(offeringId);
+            }
         }
     };
+    const idAt = (at: number) => segment.offerings[at]?.id;
 
     // DISCOVER: how they discover you, then the social media, communities and events of the Profiles.
     const discover: ChannelSuggestion[] = [];
@@ -181,8 +195,12 @@ export function journeySuggestions(segment: BusinessCustomerSegmentValue, identi
         (answers.advertising ?? []).forEach(id => ADVERTS[id] && add("discovery", ["Advertising", ADVERTS[id]], "where they see adverts", true));
     }
     if ((answers.discover ?? []).includes("samples")) {
-        const ways = segment.offerings.length > 0 ? segment.offerings.map((offering, at) => trialOf(offeringIsPhysical(offering, segment, identity), offerings[at].o1?.[0])) : ["Demo"];
-        [...new Set(ways)].forEach(name => add("discovery", ["Samples & Trials", name], "how they discover you", true));
+        // (Each Offering's own way to try it, serving that Offering; a Demo with no Offering yet.)
+        if (segment.offerings.length > 0) {
+            segment.offerings.forEach((offering, at) => add("discovery", ["Samples & Trials", trialOf(offeringIsPhysical(offering, segment, identity), offerings[at].o1?.[0])], "how they discover you", true, offering.id));
+        } else {
+            add("discovery", ["Samples & Trials", "Demo"], "how they discover you", true);
+        }
     }
     // (HOW THEY SHARE WHAT THEY BUY (owner, 2026-11-17): posting it publicly, or telling friends and family, makes Customer Referral a way they discover you -- and,
     // through it, the Referrals Customer Source -- and a channel at Support & Follow Up, where the action that asks for it stands; keeping it to themselves, none.)
@@ -226,24 +244,28 @@ export function journeySuggestions(segment: BusinessCustomerSegmentValue, identi
         add("purchase", ["Direct Payment", "Invoice"], "how they decide to buy");
     }
 
-    // DELIVERY: how they receive each Offering.
-    ids(offerings, "o6").forEach(id => RECEIVE[id] && add("delivery", RECEIVE[id], "how they receive it"));
+    // DELIVERY: how they receive each Offering -- each channel serving the Offerings that are received that way (B3).
+    offerings.forEach((entry, at) => (entry.o6 ?? []).forEach(id => RECEIVE[id] && add("delivery", RECEIVE[id], "how they receive it", false, idAt(at))));
     // (Named by O20 to O22: each that very subchannel, made as a platform the Profiles name is; owner, 2026-11-15 16:26.)
     (["o20", "o21", "o22"] as const).forEach(key => {
         // (A saved "A download link" suggests File Delivery only until a file service is ticked.)
-        const services = ids(offerings, key).filter(id => id !== "link" && SENT[key][id]);
-        ids(offerings, key).filter(id => !(id === "link" && services.length > 0)).forEach(id => {
-            const pick = SENT[key][id];
-            if (pick) {
-                add("delivery", pick, "how you deliver it", pick[1] !== "");
-            }
+        offerings.forEach((entry, at) => {
+            const services = (entry[key] ?? []).filter(id => id !== "link" && SENT[key][id]);
+            (entry[key] ?? []).filter(id => !(id === "link" && services.length > 0)).forEach(id => {
+                const pick = SENT[key][id];
+                if (pick) {
+                    add("delivery", pick, "how you deliver it", pick[1] !== "", idAt(at));
+                }
+            });
+            writtenIn([entry], key).forEach(name => add("delivery", [SENT_OTHER[key], name], "how you deliver it", true, idAt(at)));
         });
-        writtenIn(offerings, key).forEach(name => add("delivery", [SENT_OTHER[key], name], "how you deliver it", true));
     });
-    // (A session, live online or in person, is booked: the website's booking page at Purchase.)
-    if (ids(offerings, "o1").some(id => id === "live" || id === "inperson")) {
-        add("purchase", ["Website", "Booking / Registration Page"], "your sessions");
-    }
+    // (A session, live online or in person, is booked: the website's booking page at Purchase, for those Offerings.)
+    offerings.forEach((entry, at) => {
+        if ((entry.o1 ?? []).some(id => id === "live" || id === "inperson")) {
+            add("purchase", ["Website", "Booking / Registration Page"], "your sessions", false, idAt(at));
+        }
+    });
 
     // THE WEBSITE'S OWN PAGES (owner, 2026-11-16 16:31): a Contact Page wherever the Main Website is suggested, for the questions before buying; a Landing Page where they
     // discover through feeds, ads and marketplace suggestions, the page an advert opens.
@@ -256,17 +278,19 @@ export function journeySuggestions(segment: BusinessCustomerSegmentValue, identi
 
     // SUPPORT & FOLLOW UP: how they keep in touch after the sale (O23; owner, 2026-11-16 16:31): a newsletter, offers by email and personal messages their Email
     // subchannels; posts on social media the Segment's social platforms at this stage too; Other by the name written, a channel of the Other category.
-    const keep = ids(offerings, "o23");
     const KEEP: Readonly<Record<string, Pick>> = { newsletter: ["Email", "Newsletter"], offers: ["Email", "Email Campaign"], personal: ["Email", "Direct Email"] };
-    keep.forEach(id => KEEP[id] && add("support", KEEP[id], "how you keep in touch", true));
-    if (keep.includes("social")) {
-        ids(profiles, "c2").forEach(id => SOCIAL[id] && add("support", ["Social Media", SOCIAL[id]], "how you keep in touch", true));
-        writtenIn(profiles, "c2").forEach(name => add("support", ["Social Media", name], "how you keep in touch", true));
-    }
-    writtenIn(offerings, "o23").forEach(name => add("support", ["Other", name], "how you keep in touch", true));
+    offerings.forEach((entry, at) => {
+        const keep = entry.o23 ?? [];
+        keep.forEach(id => KEEP[id] && add("support", KEEP[id], "how you keep in touch", true, idAt(at)));
+        if (keep.includes("social")) {
+            ids(profiles, "c2").forEach(id => SOCIAL[id] && add("support", ["Social Media", SOCIAL[id]], "how you keep in touch", true, idAt(at)));
+            writtenIn(profiles, "c2").forEach(name => add("support", ["Social Media", name], "how you keep in touch", true, idAt(at)));
+        }
+        writtenIn([entry], "o23").forEach(name => add("support", ["Other", name], "how you keep in touch", true, idAt(at)));
+    });
 
-    // SUPPORT & FOLLOW UP: the help after they buy. (The help they want before buying, D2, makes the relationship types: autoRelationshipTypes.)
-    ids(offerings, "o7").forEach(id => (HELP_AFTER[id] ?? []).forEach(pick => add("support", pick, "your help after they buy")));
+    // SUPPORT & FOLLOW UP: the help after they buy, each Offering's own. (The help they want before buying, D2, makes the relationship types: autoRelationshipTypes.)
+    offerings.forEach((entry, at) => (entry.o7 ?? []).forEach(id => (HELP_AFTER[id] ?? []).forEach(pick => add("support", pick, "your help after they buy", false, idAt(at)))));
 
     return out;
 }
@@ -314,7 +338,7 @@ export const channelKey = (category: string, name: string) => category.trim().to
  * Returns the same list when nothing changes.
  */
 export function withAnswerChannels(channels: readonly BusinessChannelValue[], dismissed: readonly string[], segment: BusinessCustomerSegmentValue, identity?: SegmentIdentity): BusinessChannelValue[] {
-    const wanted = new Map<string, { category: string; name: string; stages: string[] }>();
+    const wanted = new Map<string, { category: string; name: string; stages: string[]; offeringIds?: string[]; all?: boolean }>();
     // (A platform the Profiles name is made as named; any other suggestion only where the Segment has no channel of its category at its stage yet -- a website
     // the founder named "Online Store" is the website the search answer means.)
     const covered = (suggestion: ChannelSuggestion) => suggestionCovered(suggestion, channels.filter(channel => !channel.fromAnswers));
@@ -324,10 +348,28 @@ export function withAnswerChannels(channels: readonly BusinessChannelValue[], di
         if (!entry.stages.includes(suggestion.stage)) {
             entry.stages.push(suggestion.stage);
         }
+        // (The Offerings it serves: those whose answers made it; any suggestion of the Segment's own makes it every Offering's.)
+        if (!suggestion.offeringIds) {
+            entry.all = true;
+        } else {
+            entry.offeringIds = [...new Set([...(entry.offeringIds ?? []), ...suggestion.offeringIds])];
+        }
         wanted.set(key, entry);
     });
     const untouched = (channel: BusinessChannelValue) => Object.values(channel.actionIds ?? {}).every(ids => ids.length === 0) && channel.links.every(link => link.trim() === "");
-    const kept = channels.filter(channel => !(channel.fromAnswers && untouched(channel) && !wanted.has(channelKey(channel.category, channel.name))));
+    const serves = (entry: { offeringIds?: string[]; all?: boolean }) => entry.all || !entry.offeringIds ? [BUSINESS_CHANNEL_ALL_OFFERINGS] : entry.offeringIds;
+    // (A channel the answers made keeps the Offerings the answers give it, a record: B3, owner, 2026-11-17 08:38.)
+    let changed = false;
+    const kept = channels.filter(channel => !(channel.fromAnswers && untouched(channel) && !wanted.has(channelKey(channel.category, channel.name))))
+        .map(channel => {
+            const entry = channel.fromAnswers ? wanted.get(channelKey(channel.category, channel.name)) : undefined;
+            const offerings = entry ? serves(entry) : channel.offerings;
+            if (entry && JSON.stringify(offerings) !== JSON.stringify(channel.offerings)) {
+                changed = true;
+                return { ...channel, offerings: [...offerings] };
+            }
+            return channel;
+        });
     const have = new Set(kept.map(channel => channelKey(channel.category, channel.name)));
     const made: BusinessChannelValue[] = [...wanted.entries()]
         .filter(([key]) => !have.has(key) && !dismissed.includes(key))
@@ -336,13 +378,13 @@ export function withAnswerChannels(channels: readonly BusinessChannelValue[], di
             category: entry.category,
             name: entry.name,
             links: [""],
-            offerings: [BUSINESS_CHANNEL_ALL_OFFERINGS],
+            offerings: [...serves(entry)],
             stages: entry.stages,
             actionIds: {},
             actions: {},
             fromAnswers: true
         }));
-    return made.length === 0 && kept.length === channels.length ? channels as BusinessChannelValue[] : [...kept, ...made];
+    return made.length === 0 && kept.length === channels.length && !changed ? channels as BusinessChannelValue[] : [...kept, ...made];
 }
 
 /**
@@ -555,8 +597,11 @@ export function demandSuggestions(segment: BusinessCustomerSegmentValue, offerin
     const out: DemandSuggestion[] = [];
     // (The channels that already bring its customers: those its sources name, demandChannelIds.)
     const used = demandChannelIds(demand);
+    // (And WHERE THEY BUY, at Purchase: a marketplace, an online store, a shop or studio, a stockist bring Visitors -- the people who come to you and buy (3.2; owner,
+    // 2026-11-17 08:38).)
+    const visited = (channel: BusinessChannelValue) => channel.stages.includes("purchase") && demandSourceOf(channel.category, channel.name) === "marketplace";
     const open = channels
-        .filter(channel => channel.stages.includes("discovery") && (channel.offerings.includes(BUSINESS_CHANNEL_ALL_OFFERINGS) || channel.offerings.includes(offeringId)))
+        .filter(channel => (channel.stages.includes("discovery") || visited(channel)) && (channel.offerings.includes(BUSINESS_CHANNEL_ALL_OFFERINGS) || channel.offerings.includes(offeringId)))
         .filter(channel => !used.includes(channel.id));
     // (ONE ROW PER KIND -- a Sales funnel, Referrals, Visitors --, all its channels listed, so a customer is counted once; an Other one per channel: owner, 2026-11-16 20:22.)
     const groups = new Map<string, DemandSuggestion>();

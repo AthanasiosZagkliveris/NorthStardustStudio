@@ -3,7 +3,7 @@
  * Pure functions, so the card, the documents and the tests read the same rules (in the engine, since the documents settle a Segment's answers against Identity too).
  */
 import { AUDIENCE_WORDS } from "./ActivityClassification.ts";
-import { type SegmentAnswers, type SegmentContext, SEGMENT_QUESTIONS, segmentQuestionAsked, segmentSettle } from "./SegmentQuestions.ts";
+import { type SegmentAnswers, type SegmentContext, SEGMENT_QUESTIONS, segmentAnswerStarts, segmentQuestionAsked, segmentSettle } from "./SegmentQuestions.ts";
 import { choiceLimit } from "./PositioningIds.ts";
 import { withOnlyUserStage } from "./RelationshipFit.ts";
 import { differentiationFromOpenings } from "./CompetitorQuestions.ts";
@@ -95,7 +95,8 @@ export function segmentPositioningShown(answers: SegmentAnswers, identity: Pick<
             shown[id] = limit === null ? start : start.slice(0, limit);
         }
     }
-    return shown;
+    // (THE SEGMENT'S OWN STARTS, which follow their source until answered: Who decides to buy, How they pay, the work situation; B4, owner, 2026-11-17.)
+    return { ...shown, ...segmentAnswerStarts(answers, shown) };
 }
 
 /** Whether a Segment is of businesses: the presence of its Business Data key. */
@@ -222,6 +223,7 @@ export function settledSegmentAnswers(
     }, segment.description["business-data"] !== undefined);
 
     // (With the Positioning answers saved before 2026-11-08 as the starts of the Differentiation and the end user's outcome: segmentPositioningShown.)
-    return segmentPositioningShown(segmentSettle(segment.questions, context), organisation, context, segment.competitors);
+    // (The starts first, then the settling, so a question its start makes asked keeps its answer: B4, owner, 2026-11-17 08:38.)
+    return segmentSettle(segmentPositioningShown(segment.questions, organisation, context, segment.competitors), context);
 
 }

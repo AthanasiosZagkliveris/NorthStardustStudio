@@ -1094,7 +1094,8 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
                     const supplier = delivery.holdUps.includes("materials") ? capability.offering.providers.find(card => card.id === delivery.supplierId) : undefined;
                     const sending = Math.max(0, ...(answers.o20 ?? []).map(way => SENDING_WEEKS[way] ?? 0));
                     const takes = (readHours(delivery.duration) ?? 0) + (readHours(supplier?.leadWeeks) ?? 0) + sending;
-                    if (!band || takes <= band.weeks || takes <= 0) {
+                    // (Said once the card is the founder's own -- saved -- never on its starts alone: B1, owner, 2026-11-17 08:38.)
+                    if (!band || takes <= band.weeks || takes <= 0 || !capability.delivery[offering.id]) {
                         return null;
                     }
                     return (

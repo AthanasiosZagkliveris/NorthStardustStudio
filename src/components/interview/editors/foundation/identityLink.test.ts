@@ -32,13 +32,14 @@ describe("the buyer the Segment card follows", () => {
         const stale = { questions: { age: ["peak"], "u-age": ["child"], "u-school": ["primary"], orgtype: ["private"], size: ["small"], comfort: ["5"], discover: ["peers"] }, description: {} };
         // A consumer buyer of Direct Buyers: the business questions and the user's questions are not asked.
         expect(settledSegmentAnswers(stale, { customerType: ["b2c"], marketType: "single", audience: ["adult"], buyerCategory: ["b2c:direct"], endUser: [] }))
-            .toEqual({ age: ["peak"], comfort: ["5"], discover: ["peers"] });
+            // (Peak's work situation, a start shown and printed: B4.)
+            .toEqual({ age: ["peak"], comfort: ["5"], discover: ["peers"], work: ["working"] });
         // The buyer became a business: the people's age is no longer asked.
         expect(settledSegmentAnswers(stale, { customerType: ["b2b"], marketType: "single", audience: ["smb"], buyerCategory: ["b2b:direct"], endUser: [] }))
             .toEqual({ orgtype: ["private"], size: ["small"], comfort: ["5"], discover: ["peers"] });
         // A Proxy buyer of a child: the user's questions stand.
         expect(settledSegmentAnswers(stale, { customerType: ["b2c"], marketType: "single", audience: ["adult"], buyerCategory: ["b2c:proxy"], endUser: ["rel:parent", "age:minor"] }))
-            .toEqual({ age: ["peak"], "u-age": ["child"], "u-school": ["primary"], comfort: ["5"], discover: ["peers"] });
+            .toEqual({ age: ["peak"], "u-age": ["child"], "u-school": ["primary"], comfort: ["5"], discover: ["peers"], work: ["working"] });
     });
 
 

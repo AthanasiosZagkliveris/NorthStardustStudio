@@ -423,8 +423,15 @@ const STAGE_START: Record<string, string> = { plan: "building", launch: "now", m
 const RECEIVE_START: Record<string, string> = { physical: "shipped", digital: "auto", app: "access", access: "access", live: "live", inperson: "inperson", project: "byyou" };
 /** O1 → O15 (2026-11-09): a digital file, an app or online access is theirs straight away. */
 const LEAD_TIME_START: Record<string, string> = { digital: "now", app: "now", access: "now" };
-/** O1 → O3 (2026-11-09): online access by subscription; project work as a project or contract; an ongoing service on a retainer; a session, live or in person, per session. */
-const TERMS_START: Record<string, string> = { access: "subscription", project: "project", ongoing: "retainer", live: "session", inperson: "session" };
+/**
+ * O1 → O3 (2026-11-09): online access by subscription; project work as a project or contract; an ongoing service on a retainer; a session, live or in person, per
+ * session. And (3.4; owner, 2026-11-17 08:38) a physical item or a digital file as one purchase, an app by subscription.
+ */
+const TERMS_START: Record<string, string> = { access: "subscription", project: "project", ongoing: "retainer", live: "session", inperson: "session", physical: "once", digital: "once", app: "subscription" };
+/** O6 → O15 (3.7; owner, 2026-11-17 08:38): posted or shipped, within a week; sent automatically or ongoing online access, straight away. */
+const LEAD_TIME_OF_RECEIVING: readonly [string, string][] = [["shipped", "week"], ["auto", "now"], ["access", "now"]];
+/** The Segment's reach → O20's one start (3.9; owner, 2026-11-17 08:38): a city, Local delivery; a country, Postal service; several countries, Courier. */
+const SENDING_START: Readonly<Record<string, string>> = { city: "local", country: "postal", countries: "courier" };
 /** O3 → O3b (2026-11-09): a subscription or retainer monthly; a project a deposit, then the rest; one purchase before they get it. */
 const PAY_WHEN_START: Record<string, string> = { subscription: "monthly", retainer: "monthly", project: "deposit", once: "before" };
 
@@ -462,8 +469,12 @@ export function offeringShown(saved: OfferingAnswers, context: OfferingContext):
     }
     // The starts of 2026-11-09 (doc 43): never over a saved answer, each from the answer shown above it.
     // (Customers in several countries: One to four weeks, whatever the form; owner, 2026-11-17.)
+    // (Then how they receive it (O6; 3.7, owner, 2026-11-17 08:38), then the form.)
+    const received = LEAD_TIME_OF_RECEIVING.find(([way]) => (shown.o6 ?? []).includes(way));
     if (!saved.o15 && (context.reach ?? []).includes("countries")) {
         shown.o15 = ["weeks"];
+    } else if (!saved.o15 && received) {
+        shown.o15 = [received[1]];
     } else if (!saved.o15 && shown.o1 && LEAD_TIME_START[shown.o1[0]]) {
         shown.o15 = [LEAD_TIME_START[shown.o1[0]]];
     }
@@ -486,6 +497,11 @@ export function offeringShown(saved: OfferingAnswers, context: OfferingContext):
                 }
             }
         }
+    }
+    // (O20'S ONE START FROM THE SEGMENT'S REACH (3.9; owner, 2026-11-17 08:38): where it is asked and never answered.)
+    const sending = (context.reach ?? []).map(reach => SENDING_START[reach]).find(Boolean);
+    if (!("o20" in saved) && sending && offeringAsks("o20", context, shown) && offeringOptions("o20", context).some(option => option.id === sending)) {
+        shown.o20 = [sending];
     }
     // (O7's and O23's words written in under Other stay while Other is ticked.)
     for (const id of ["o7", "o23"] as const) {

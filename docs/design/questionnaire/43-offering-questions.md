@@ -200,6 +200,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
 - **Starts from O3 (2026-11-09):** A subscription / membership or A monthly retainer, In instalments / monthly; A project or contract, A deposit, then the rest; One purchase, Before they get it. A saved answer wins.
 - **The "i" says:** When the money comes in.
 - **Connections:** *Read by (built, 2026-11-09, as a start):* the Revenue stream's "Customer Pays" (its payment timing, Page 5; doc 28, 10.2), on a stream not saved yet. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
+- **Starts (built (owner, 2026-11-17 08:38: "Bugs plus the first batch" of the review)):** a physical item or a digital file (O1), One purchase; an app, A subscription; beside the starts of 2026-11-09 (online access, project work, an ongoing service, a session).
 
 ### O15. How long until they have it?
 
@@ -212,6 +213,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
   - The time from order to having it. How it reaches them is the question below (O6 follows O15 since 2026-11-08).
 - **Starts (owner, 2026-11-17):** at One to four weeks where the Segment's customers are in several countries, whatever the form. **Read by:** the Delivery card (Capacity & Delivery), which says so where making and sending take longer: "Customers expect it within a week, and making and sending it takes about 3 weeks. Keep some ready-made stock, or tell customers 1 to 4 weeks." (the Calendar Time, the supplier's lead time, and about a week to send by post, courier or a fulfilment service).
 - **Connections:** *Read by:* the export; *(built, 2026-11-09, as a start)* the Delivery card's Calendar Time (Page 3, weeks), for an Offering delivered per unit, on a Delivery not saved yet: the band's upper end (1, 4 or 13 weeks; Straight away and Longer start nothing). Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
+- **Starts from how they receive it (built (owner, 2026-11-17 08:38: "Bugs plus the first batch" of the review)):** after several countries (One to four weeks): Posted / shipped, Within a week; Sent automatically or Ongoing online access, Straight away; then the form, as before.
 
 ### O6. How do your customers receive it?
 
@@ -241,6 +243,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
 - **Ordered (owner, 2026-11-17):** by the Segment's reach: a city, Local delivery first; a country, Postal service and Courier first; several countries, Courier and A fulfilment service first; a rural area (rated 1 or 2), Postal service and Courier first; never locked.
 - **Ordered (built (owner, 2026-11-17; the open decisions and gaps, Group 4c)):** customers working at home (the Segment's Where do your customers mainly work?) put Local delivery first, after the reach's and the rural area's orders.
 - **Connections:** *Read by (built):* Physical Delivery › Courier, Postal Service, Local Delivery, Third-party Fulfilment, or the name written in (doc 47).
+- **Starts with one way (built (owner, 2026-11-17 08:38: "Bugs plus the first batch" of the review)):** from the Segment's reach, where O20 is asked and never answered: a city, Local delivery; a country, Postal service; several countries, Courier. The order above still holds.
 
 ### O21. How do you send the files?
 

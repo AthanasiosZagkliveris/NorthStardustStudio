@@ -211,7 +211,8 @@ describe("BusinessFoundationEditor asks its questions", () => {
         const ages = screen.getByRole("radiogroup", { name: "How old are your customers?" });
         expect(Array.from(ages.querySelectorAll("label")).map(label => label.textContent)).toEqual(["Established 25–39", "Peak 40–54", "Mature 55–64"]);
         fireEvent.click(screen.getByRole("radio", { name: "Peak 40–54" }));
-        expect(asBusinessFoundationValue(saved).segments[0].questions).toEqual({ age: ["peak"], work: ["working"] });
+        // (The work situation is a start now, shown from the age and never saved by the choice: B4, owner, 2026-11-17 08:38.)
+        expect(asBusinessFoundationValue(saved).segments[0].questions).toEqual({ age: ["peak"] });
     });
 
     it("has no free-text box in a box of the Segment's Description", () => {

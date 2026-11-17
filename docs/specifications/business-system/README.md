@@ -67,7 +67,7 @@ The one owner of this map: each row is one input a later page needs, where Page 
 | A licence | Every month, until they cancel | Every month | Annually |
 | Free to them, or no answer | no start | no start | no start |
 
-- **Calendar Time** (Page 3, weeks, for an Offering delivered per unit) from O15, the band's upper end: Within a week → 1; One to four weeks → 4; One to three months → 13; Straight away and Longer start nothing.
+- **Calendar Time** (Page 3, weeks, for an Offering delivered per unit) from O15, the band's upper end less the sending (O20, about a week by post, courier or a fulfilment service; a week at least; (owner, 2026-11-17 08:38: "Bugs plus the first batch" of the review)): Within a week → 1; One to four weeks → 4 (3 by courier); One to three months → 13; Straight away and Longer start nothing.
 - **Payment Timing** (Page 4) from O3b: Before they get it → Upfront; A deposit, then the rest → Split; When it is done / delivered → On completion; On invoice terms → On completion (the months after are the user's); In instalments / monthly → Milestones where the charge is paid once, and When earned (the default, so no start) where it is monthly or annual.
 - Doc 28, 10.2 proposed Per sale for Pay as they go; it is Monthly here, as Page 2's start makes it a monthly purchase, so the two pages agree.
 

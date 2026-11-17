@@ -47,6 +47,7 @@ The card's questions in the card's order, with proposed codes. The card has no c
 ### DV4. Calendar Time (weeks)
 
 - **Control:** a number. **Asked:** when DV1 is Per unit. **Started from:** O15. Built.
+- **Its start, less the sending** (owner, 2026-11-17 08:38: "Bugs plus the first batch" of the review): O15's upper end less the weeks the sending takes (O20: about a week by post, courier or a fulfilment service), a week at least -- "One to four weeks" by courier starts 3. The lead-time note (section 10) is said once the card is the founder's own (saved), never on its starts alone.
 
 ### DV7 and DV8. Limited by, and Holds at once (proposed; doc 51, addition 4)
 
@@ -59,6 +60,7 @@ The card's questions in the card's order, with proposed codes. The card has no c
 - **Control:** two optional numbers on one side row. **Asked:** when DV1 is Per unit and the Offering's category is a Product or Hybrid (doc 43).
 - **What it changes:** the hours a unit takes add DV9 ÷ DV10; the total line shows "set-up adds 0.5 h a unit".
 - **The "i" says:** "The time one batch takes to set up (warping a loom, firing a kiln, preparing a kitchen) and the units it makes. Bigger batches spread the set-up over more units."
+- **A physical item only** (owner, 2026-11-17 08:38: "Bugs plus the first batch" of the review): asked of a Product or Hybrid not made to order that is physical (`offeringIsPhysical`); a digital file, an app or online access has no batch.
 
 ### DV5. Constraints
 
