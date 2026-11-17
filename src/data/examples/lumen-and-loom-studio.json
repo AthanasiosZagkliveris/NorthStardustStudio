@@ -1183,9 +1183,6 @@
                   "size": [
                     "small"
                   ],
-                  "sector": [
-                    "tech"
-                  ],
                   "industry": [
                     "professional"
                   ],
@@ -1527,7 +1524,8 @@
                       ],
                       "o10": [
                         "brief",
-                        "approval"
+                        "approval",
+                        "home"
                       ],
                       "o14": [
                         "custom"
@@ -3269,6 +3267,7 @@
                     "inputs": {},
                     "basis": "",
                     "channelId": "",
+                    "fromAnswers": true,
                     "group": "Sales funnel",
                     "channelIds": [
                       "segment-8lu427u5-channel",
@@ -3278,8 +3277,7 @@
                       "channel-segment-8lu427u5-community-meetup",
                       "channel-substack1",
                       "channel-whatsapp1"
-                    ],
-                    "fromAnswers": true
+                    ]
                   },
                   {
                     "id": "source-77w0vdn2",
@@ -3289,11 +3287,11 @@
                     "inputs": {},
                     "basis": "",
                     "channelId": "",
+                    "fromAnswers": true,
                     "group": "Referrals",
                     "channelIds": [
                       "channel-segment-8lu427u5-referral-affiliates-influencer-ambassador"
-                    ],
-                    "fromAnswers": true
+                    ]
                   },
                   {
                     "id": "source-th434sq4",
@@ -3362,13 +3360,13 @@
                     "inputs": {},
                     "basis": "",
                     "channelId": "",
+                    "fromAnswers": true,
                     "group": "Visitors",
                     "channelIds": [
                       "channel-lnstudio1",
                       "channel-kuy4u7hj",
                       "channel-lumen-taster"
-                    ],
-                    "fromAnswers": true
+                    ]
                   }
                 ],
                 "recurring": false,
@@ -3411,14 +3409,14 @@
                     "inputs": {},
                     "basis": "",
                     "channelId": "",
+                    "fromAnswers": true,
                     "group": "Sales funnel",
                     "channelIds": [
                       "segment-majxtl1u-channel",
                       "channel-eo91172u",
                       "channel-segment-majxtl1u-social-media-pinterest",
                       "channel-segment-majxtl1u-website-main-website"
-                    ],
-                    "fromAnswers": true
+                    ]
                   },
                   {
                     "id": "source-urzggh19",
@@ -3428,12 +3426,12 @@
                     "inputs": {},
                     "basis": "",
                     "channelId": "",
+                    "fromAnswers": true,
                     "group": "Visitors",
                     "channelIds": [
                       "channel-stockist1",
                       "channel-wholesale1"
-                    ],
-                    "fromAnswers": true
+                    ]
                   },
                   {
                     "id": "source-88bclcmh",
@@ -3499,11 +3497,11 @@
                     "inputs": {},
                     "basis": "",
                     "channelId": "",
+                    "fromAnswers": true,
                     "group": "Referrals",
                     "channelIds": [
                       "channel-segment-majxtl1u-referral-affiliates-customer-referral"
-                    ],
-                    "fromAnswers": true
+                    ]
                   }
                 ],
                 "recurring": false,

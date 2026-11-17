@@ -361,9 +361,6 @@
                   "size": [
                     "small"
                   ],
-                  "sector": [
-                    "tech"
-                  ],
                   "industry": [
                     "professional"
                   ],
@@ -397,6 +394,9 @@
                   ],
                   "competition": [
                     "3"
+                  ],
+                  "area": [
+                    "5"
                   ]
                 },
                 "profiles": [
@@ -1947,11 +1947,11 @@
                     "inputs": {},
                     "basis": "",
                     "channelId": "",
+                    "fromAnswers": true,
                     "group": "Visitors",
                     "channelIds": [
                       "channel-m2u5e8gv"
-                    ],
-                    "fromAnswers": true
+                    ]
                   }
                 ],
                 "recurring": false,
@@ -1978,14 +1978,14 @@
                     "inputs": {},
                     "basis": "",
                     "channelId": "",
+                    "fromAnswers": true,
                     "group": "Sales funnel",
                     "channelIds": [
                       "segment-qf3n8d2w-channel",
                       "channel-w8e2b5sq",
                       "channel-segment-qf3n8d2w-social-media-x-twitter",
                       "channel-agencyfc1"
-                    ],
-                    "fromAnswers": true
+                    ]
                   },
                   {
                     "id": "source-53h6k4qs",
@@ -1995,12 +1995,12 @@
                     "inputs": {},
                     "basis": "",
                     "channelId": "",
+                    "fromAnswers": true,
                     "group": "Referrals",
                     "channelIds": [
                       "channel-r4f7p1xk",
                       "channel-segment-qf3n8d2w-referral-affiliates-customer-referral"
-                    ],
-                    "fromAnswers": true
+                    ]
                   }
                 ],
                 "recurring": false,
@@ -2039,14 +2039,14 @@
                     "inputs": {},
                     "basis": "",
                     "channelId": "",
+                    "fromAnswers": true,
                     "group": "Sales funnel",
                     "channelIds": [
                       "segment-qf3n8d2w-channel",
                       "channel-w8e2b5sq",
                       "channel-segment-qf3n8d2w-social-media-x-twitter",
                       "channel-agencyfc1"
-                    ],
-                    "fromAnswers": true
+                    ]
                   }
                 ],
                 "recurring": true,
