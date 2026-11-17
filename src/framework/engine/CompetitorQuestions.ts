@@ -143,8 +143,26 @@ export const COMPETITOR_SIZE_OPTIONS = segmentOptions("size");
 export const COMPETITOR_CHANNEL_OPTIONS: readonly SegmentOption[] = [
     { id: "social-media", label: "Social media" }, { id: "community", label: "Community" }, { id: "website", label: "Website" },
     { id: "marketplace", label: "Marketplace" }, { id: "in-person", label: "In person" }, { id: "email", label: "Email" },
-    { id: "online-live", label: "Online / live" }, { id: "retail-wholesale", label: "Shops or wholesalers" }, { id: "referral-affiliates", label: "Referrals or affiliates" }
+    { id: "online-live", label: "Online / live" }, { id: "retail-wholesale", label: "Shops or wholesalers" }, { id: "referral-affiliates", label: "Referrals or affiliates" },
+    // (The categories added to page 2 on 2026-11-16; owner, 2026-11-17.)
+    { id: "advertising", label: "Advertising" }, { id: "print-mail", label: "Print & mail" }, { id: "samples-trials", label: "Samples & trials" }
 ];
+
+/**
+ * K5'S OPTIONS FOR A SEGMENT (owner, 2026-11-17): the channel groups the Segment's own answers use first, headed "Your customers' channels", then the others,
+ * headed "Others"; with none known, the list as it stands.
+ */
+export function competitorChannelOptions(segmentCategoryIds: readonly string[]): SegmentOption[] {
+    const own = COMPETITOR_CHANNEL_OPTIONS.filter(option => segmentCategoryIds.includes(option.id));
+    const others = COMPETITOR_CHANNEL_OPTIONS.filter(option => !segmentCategoryIds.includes(option.id));
+    if (own.length === 0) {
+        return [...COMPETITOR_CHANNEL_OPTIONS];
+    }
+    return [
+        ...own.map((option, at) => at === 0 ? { ...option, heading: "Your customers' channels" } : option),
+        ...others.map((option, at) => at === 0 ? { ...option, heading: "Others" } : option)
+    ];
+}
 
 /** The Profile's own lists, without their Other (doc 36, C2 to C4). */
 const profileList = (id: string): readonly SegmentOption[] => (PROFILE_QUESTIONS.find(question => question.id === id)?.options ?? []).filter(option => option.id !== "other");
@@ -548,6 +566,19 @@ export interface OpeningContext {
     profiles: readonly CompetitorAnswers[];
     /** The Segment's other competitors' answers, for ties (how many rate a value low). */
     others: readonly CompetitorAnswers[];
+    /** The Segment's "Where are your customers?" (`reach`): a competitor selling in a narrower area (K2) gets the opening "Serve the customers beyond their reach" (owner, 2026-11-17). */
+    reach?: string;
+}
+
+/** The areas of `reach` (and K2), narrowest first; Anywhere online is the widest. */
+const REACH_RANK: Readonly<Record<string, number>> = { city: 1, region: 2, country: 3, countries: 4, online: 5 };
+
+/** K10's "i" line where the Segment's market is crowded (How crowded is your market? 4 or 5; owner, 2026-11-17). */
+export const CROWDED_LINE = "Your market is crowded: one opening, made clearly yours, stands out more than several.";
+
+/** K10's "i" for the Segment: its lines, and the crowded market's where the Segment rates it 4 or 5. */
+export function competitorK10Info(competition: string | undefined): readonly string[] {
+    return Number(competition ?? 0) >= 4 ? [...COMPETITOR_INFO.k10, CROWDED_LINE] : COMPETITOR_INFO.k10;
 }
 
 export interface Opening extends SegmentOption {
@@ -692,6 +723,12 @@ export function competitorOpenings(answers: CompetitorAnswers, type: string, con
     if (growth >= 1 && growth <= 2) {
         openings.push({ id: "losing", label: "Win the customers they are losing" });
     }
+    // (K2 NARROWER THAN THE SEGMENT'S REACH (owner, 2026-11-17): the customers beyond the area they sell in.)
+    const theirs = REACH_RANK[answers.k2?.[0] ?? ""];
+    const ours = REACH_RANK[context.reach ?? ""];
+    if (theirs && ours && ours > theirs) {
+        openings.push({ id: "wider", label: "Serve the customers beyond their reach" });
+    }
     for (const change of COMPETITOR_CHANGES) {
         const point = changes[change.id];
         if (point !== undefined && point >= 4) {
@@ -703,6 +740,48 @@ export function competitorOpenings(answers: CompetitorAnswers, type: string, con
     // A value every Competitor of the Segment is weak on and a Profile rates Essential comes first (owner, 2026-11-06).
     const clear = clearOpenings(context.profiles, [answers, ...context.others]);
     return [...openings.filter(opening => opening.value !== undefined && clear.includes(opening.value)), ...openings.filter(opening => opening.value === undefined || !clear.includes(opening.value))];
+}
+
+/**
+ * THE BUSINESS PLAN'S COMPETITOR TABLE (owner, 2026-11-17): one row per question answered by at least one competitor of the Segment, one column per competitor
+ * (named in the head): what they offer (K1), where they sell (K2), how big they are (K3), whether they are growing (K4), how they reach customers (K5), where
+ * they are reviewed (K6, with the stars), the stages they make hard (K7 rated 1 or 2), what they are strong and weak on (K8 rated 4 or 5, and 1 or 2), the
+ * changes that help and hurt them (K9 rated 4 or 5, and 1 or 2), and the openings chosen (K10). Each answer as the card settles it for the competitor's type.
+ */
+export function competitorTable(
+    competitors: readonly { name: string; type: string; questions?: CompetitorAnswers }[],
+    context: Pick<OpeningContext, "profiles" | "reach">
+): { head: string[]; rows: string[][] } {
+    const label = (list: readonly SegmentOption[], id: string) => list.find(option => option.id === id)?.label ?? "";
+    const rated = (answers: CompetitorAnswers, id: CompetitorQuestionId, list: readonly SegmentOption[], keep: (point: number) => boolean) =>
+        Object.entries(competitorRatings(answers, id)).filter(([, point]) => point !== undefined && keep(point)).map(([option]) => label(list, option)).filter(Boolean).join("; ");
+    const cells = competitors.map((competitor, at) => {
+        const answers = competitorSettle(competitor.questions ?? {}, competitor.type);
+        const others = competitors.filter((_, other) => other !== at).map(other => other.questions ?? {});
+        const openings = competitorOpenings(answers, competitor.type, { profiles: context.profiles, others, reach: context.reach });
+        const growth = answers.k4?.[0];
+        return [
+            label(COMPETITOR_OFFER_OPTIONS, answers.k1?.[0] ?? ""),
+            label(COMPETITOR_REACH_OPTIONS, answers.k2?.[0] ?? ""),
+            label(COMPETITOR_SIZE_OPTIONS, answers.k3?.[0] ?? ""),
+            growth ? growth + " of 5 (" + COMPETITOR_RATINGS.k4.low + " to " + COMPETITOR_RATINGS.k4.high + ")" : "",
+            (answers.k5 ?? []).map(id => label(COMPETITOR_CHANNEL_OPTIONS, id)).filter(Boolean).join("; "),
+            Object.entries(competitorRatings(answers, "k6")).filter(([, point]) => point !== undefined)
+                .map(([id, point]) => (label(REVIEW_PLATFORMS, id) || competitorOthers(answers, "k6")[Number(id.replace(/^other-/, ""))]?.trim() || "Another platform") + ", " + point + " of 5").join("; "),
+            rated(answers, "k7", COMPETITOR_STAGES, point => point <= 2),
+            rated(answers, "k8", COMPETITOR_VALUES, point => point >= 4),
+            rated(answers, "k8", COMPETITOR_VALUES, point => point <= 2),
+            rated(answers, "k9", COMPETITOR_CHANGES, point => point >= 4),
+            rated(answers, "k9", COMPETITOR_CHANGES, point => point <= 2),
+            (answers.k10 ?? []).map(id => openings.find(opening => opening.id === id)?.label ?? "").filter(Boolean).join("; ")
+        ];
+    });
+    const names = ["What they offer", "Where they sell", "How big they are", "Growing", "How they reach customers", "Where they are reviewed", "Stages they make hard",
+        "Strong on", "Weak on", "Changes that help them", "Changes that hurt them", "Your openings"];
+    return {
+        head: ["", ...competitors.map(competitor => competitor.name.trim() || "Unnamed competitor")],
+        rows: names.map((name, row) => [name, ...cells.map(cell => cell[row])]).filter(row => row.slice(1).some(Boolean))
+    };
 }
 
 /** A value of L1 inside a sentence ("quality and results"). */

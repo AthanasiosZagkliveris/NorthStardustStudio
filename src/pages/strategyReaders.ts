@@ -8,8 +8,9 @@
 import type { InterviewSession } from "../framework/interview";
 import { AnswerType } from "../framework/enums/AnswerType";
 import { asStrategicPeriodValue, formatRangeShort, isRangeSet, monthIndex, numberedUnitCount, strategyGoalsForTheme, strategyThemeHasContent, type StrategyFoundationValue, type StrategyRangeValue, type StrategyThemeValue } from "../framework/engine/AnswerUtils.ts";
-import { currentSituationDraft, financialPlanRange } from "../framework/engine/BusinessDocuments.ts";
+import { currentSituationDraft, financialPlanRange, strategySwotStarts } from "../framework/engine/BusinessDocuments.ts";
 import { StorageService } from "../services/StorageService";
+import { OrganizationService } from "../services/OrganizationService";
 import { IDENTITY_SYSTEM_NUMBER, BUSINESS_SYSTEM_NUMBER } from "./conversationHelpers";
 
 /** A held-back Strategy change and what it would cost: the page shows it in its own dialog, and `apply` runs it. */
@@ -167,10 +168,14 @@ export function readStrategy({ session, system, organizationId, organizationName
         ? {
             identity: StorageService.loadInterview(organizationId, IDENTITY_SYSTEM_NUMBER),
             business: StorageService.loadInterview(organizationId, BUSINESS_SYSTEM_NUMBER),
-            organisationName: organizationName
+            organisationName: organizationName,
+            // (With the Global Settings, as Page 4 and the documents read the Foundation: the Opening Date, the plan start and the calculated lines.)
+            globalSettings: OrganizationService.getGlobalSettings(organizationId)
         }
         : null;
     const situationDraft = businessSessions ? currentSituationDraft(businessSessions) : "";
+    // (The SWOT's starts from the market answers: swotStartsOf; owner, 2026-11-17.)
+    const swotStarts = businessSessions ? strategySwotStarts(businessSessions) : undefined;
 
     /* The financial plan's dates, for the Strategic Period to be compared with. */
     const financialPlan = businessSessions ? financialPlanRange(businessSessions) : null;
@@ -192,6 +197,7 @@ export function readStrategy({ session, system, organizationId, organizationName
         guardThemeRemoval,
         guardPeriodChange,
         situationDraft,
+        swotStarts,
         financialPlan,
         guardSituationRefresh
     };

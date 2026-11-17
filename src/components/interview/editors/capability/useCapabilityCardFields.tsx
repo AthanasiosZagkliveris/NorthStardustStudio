@@ -2,14 +2,14 @@
  * THE FIELDS OF A CARD: cost, payment plan, deposit, warranty, rate, links and the resource card.
  * One part of the Infrastructure & Capability editor (see BusinessCapabilityEditor.tsx): what it needs of the parts before it comes in as `scope`; what the parts after it need goes out.
  */
+import { costIsShared } from "../../../../framework/engine/AnswerUtils.ts";
 import CurrencyPicker from "../../fields/CurrencyPicker.tsx";
-import RadioChoice from "../../../controls/RadioChoice.tsx";
 import TextBox from "../../../controls/TextBox.tsx";
 import AddButton from "../../../controls/AddButton.tsx";
 import FoldList from "../../fields/FoldList.tsx";
 import NumberCell from "../../../controls/NumberCell.tsx";
 import { Fragment, ReactNode, useState } from "react";
-import { BUSINESS_COST_FREQUENCIES, BUSINESS_EXTRA_STATUS_IDS, PREMISES_GROUP_ID, BUSINESS_RESOURCE_STATUSES, resourceStatusIds, isSpaceOnlyGroup, buyCostOf, equalOfferingShares, offeringSharesTotal, offeringSharesInUnits, offeringSharesIncomplete, unitOfferingShares, BUSINESS_PAYMENT_PLANS, type BusinessPaymentPlan, type BusinessPaymentLine, instalmentLines, paymentPlanLines, paymentPlanTotal, BUSINESS_EXTRAS, type BusinessExtraKey, type BusinessExtrasValue, servicesOfAsset, billingOf, costWithOption, optionFrequenciesOf, noteHint, slotExtraKeys, frequencyIdsOf, unitsOf, normalCostOf, isPurchaseGroup, isCostingStatus, businessQuantityText, isPartnered, BusinessCapabilityValue, BusinessStatusRow, BusinessCostValue, BusinessResourceSlotValue, businessFoundationSegments, todayIsoDate, resourceUnitCount } from "../../../../framework/engine/AnswerUtils.ts";
+import { BUSINESS_COST_FREQUENCIES, BUSINESS_EXTRA_STATUS_IDS, PREMISES_GROUP_ID, BUSINESS_RESOURCE_STATUSES, resourceStatusIds, isSpaceOnlyGroup, buyCostOf, offeringSharesTotal, BUSINESS_PAYMENT_PLANS, type BusinessPaymentPlan, type BusinessPaymentLine, instalmentLines, paymentPlanLines, paymentPlanTotal, BUSINESS_EXTRAS, type BusinessExtraKey, type BusinessExtrasValue, servicesOfAsset, billingOf, costWithOption, optionFrequenciesOf, noteHint, slotExtraKeys, frequencyIdsOf, unitsOf, normalCostOf, isPurchaseGroup, isCostingStatus, businessQuantityText, isPartnered, BusinessCapabilityValue, BusinessStatusRow, BusinessCostValue, BusinessResourceSlotValue, businessFoundationSegments, todayIsoDate, resourceUnitCount , OFFERING_BASIS_KEY, SHARE_BASES, SHARE_BASIS_HELP, offeringFractions, offeringSharesFor, shareBasisOf } from "../../../../framework/engine/AnswerUtils.ts";
 import { BusinessCard, BusinessEmpty, BusinessField, OptionalField, OptionalNote, BusinessRemove, BusinessText, BusinessTicks, uniqueChoices } from "../../cards/BusinessCardFields.tsx";
 import { moneyFormatter } from "../../../../framework/engine/FinancialModel.ts";
 import { parseAmount, parseDecimal } from "../../../../framework/engine/Amounts.ts";
@@ -26,7 +26,7 @@ type Earlier = ReturnType<typeof useCapabilityState>;
 
 export function useCapabilityCardFields(earlier: Earlier) {
 
-    const { activityRows, capability, cardDates, channelCategoryText, channelMade, channelTitle, costOptionRows, dateNotice, defaultRateOf, disabled, foundation, latestPaymentOf, linksOpen, offeringCategoryCells, onChange, onOpenFoundation, openPair, organisationCurrency, rentRow, resourceCategoryCells, setDateNotice, setLinksOpen, supplierRows, withDefaultRate } = earlier;
+    const { shareWeights, activityRows, capability, cardDates, channelCategoryText, channelMade, channelTitle, costOptionRows, dateNotice, defaultRateOf, disabled, foundation, latestPaymentOf, linksOpen, offeringCategoryCells, onChange, onOpenFoundation, openPair, organisationCurrency, rentRow, resourceCategoryCells, setDateNotice, setLinksOpen, supplierRows, withDefaultRate } = earlier;
 
     /**
      * A price, the currency it is in, and how often it is paid.
@@ -495,7 +495,7 @@ export function useCapabilityCardFields(earlier: Earlier) {
             <>
 
                 <BusinessField label="Status" info={options.map(status => ({ title: status.label, text: status.explanation }))} inline={false} side>
-                    {/* The picker, and beside it the "+" that adds another status row (the Performer's place for its "+"). */}
+                    {/* The picker, and beside it the "+" that adds another status row (the Team's place for its "+"). */}
                     <div className="business-capability-performers">
                         <div className="business-capability-performer">
                             {statusPicker}
@@ -749,38 +749,26 @@ export function useCapabilityCardFields(earlier: Earlier) {
         locked = false,
         /** A generated card keeps the Offerings its connected cards serve (adding is free, removing these is not). */
         kept: readonly string[] = [],
-        /** A cost that is a share of revenue (% of Rev): a rate on each Offering's own sales, so no split -- the ticks alone (owner, 2026-11-14 23:30: "70% of
-            2%, what % gives?"); the shares saved stay as they are for another frequency. */
-        rate = false
+        /** A cost that needs no share: one paid per unit or as a share of revenue -- each Offering pays it in full on what it sells --, or no cost at all (an activity).
+            The ticks alone (owner, 2026-11-14 23:30: "70% of 2%, what % gives?"; 2026-11-16); the shares saved stay as they are for another frequency. */
+        whole = false
     ) {
         const total = offeringSharesTotal(current, shares);
-        const inUnits = offeringSharesInUnits(shares);
-        const split = !rate && offeringChoices.length > 0 && current.length > 1;
+        const split = !whole && offeringChoices.length > 0 && current.length > 1;
+        // HOW IS IT SHARED (owner, 2026-11-16; doc 3, R3): by the hours each Offering uses, by the revenue each brings, in equal parts, or the user's own split.
+        const basis = shareBasisOf(current, shares, shareWeights);
+        const own = basis === "own";
+        const fractions = offeringFractions(current, shares, shareWeights);
+        const percentOf = (id: string) => Math.round((fractions[id] ?? 0) * 100);
+        const left = 100 - total;
         return (
+            <>
             <BusinessField label="Offerings" className="business-offering-field">
-                {/* With several Offerings: what the shares count in -- Units (each starts at 1) or 100% (each starts equal). */}
-                {split && (
-                    <RadioChoice
-                        className="business-offering-mode"
-                        label={name + " shares count in"}
-                        group={name + ":mode"}
-                        disabled={disabled}
-                        options={[{ id: "units", label: "Units", name: name + " shares in units" }, { id: "percent", label: "%", name: name + " shares in percent" }]}
-                        value={inUnits ? "units" : "percent"}
-                        onChange={(next) => onNext({ offeringIds: current, offeringShares: next === "units" ? unitOfferingShares(current) : equalOfferingShares(current) })}
-                    />
-                )}
-                {/* With several Offerings, the percent of the card each carries; said first, above the numbers. */}
-                {split && (
-                    <>
-                        {inUnits
-                            ? (offeringSharesIncomplete(current, shares) ? <p className="business-capability-total business-capability-alarm">Every Offering needs at least one unit.</p> : null)
-                            : (
-                                <p className={"business-capability-total" + (total === 100 ? "" : " business-capability-alarm")}>
-                                    {total === 100 ? "Total 100%" : "Total " + total + "%: the shares must total 100%"}
-                                </p>
-                            )}
-                    </>
+                {/* The user's own split: the percent each carries, totalled first, above the numbers; what is left to share said while it is short. */}
+                {split && own && (
+                    <p className={"business-capability-total" + (total === 100 ? "" : " business-capability-alarm")}>
+                        {total === 100 ? "Total 100%" : left > 0 ? "Total " + total + "%: " + left + "% left to share" : "Total " + total + "%: " + (-left) + "% more than the whole"}
+                    </p>
                 )}
                 {kept.length > 0 && (
                     <p className="business-capability-total">{"Kept while a card connected to it serves them: " + kept.map(id => offeringChoices.find(choice => choice.id === id)?.label ?? "").filter(Boolean).join(", ") + "."}</p>
@@ -793,26 +781,53 @@ export function useCapabilityCardFields(earlier: Earlier) {
                             options={offeringChoices.map(choice => ({ id: choice.id, label: choice.label }))}
                             chosen={current}
                             disabled={disabled || locked}
-                            // (Ticking starts the shares equal.)
+                            // (The typed shares are kept: an Offering ticked starts at 0, one unticked takes its share with it.)
                             onChange={(requested) => {
                                 const next = [...new Set([...requested, ...kept])];
-                                onNext({ offeringIds: next, offeringShares: inUnits && next.length > 1 ? unitOfferingShares(next) : equalOfferingShares(next) });
+                                onNext({ offeringIds: next, offeringShares: offeringSharesFor(next, shares) });
                             }}
-                            // With several Offerings, the percent of the card each carries stands at the end of its own row, in the x's column (a whole number, two digits at most).
-                            trailing={split ? Object.fromEntries(current.map(id => [id, (
+                            // With several Offerings, the percent of the card each carries stands at the end of its own row, in the x's column: the user's own, typed
+                            // (a whole number, two digits at most); by any other basis, the percent it comes to, as a record.
+                            trailing={split ? Object.fromEntries(current.map(id => [id, own ? (
                                 <NumberCell kind="int"
                                     className="business-capability-share"
                                     aria-label={name + " share of " + (offeringChoices.find(choice => choice.id === id)?.label ?? "Offering")}
-                                    placeholder={inUnits ? "1" : "%"}
-                                    title={inUnits ? "Units of this Offering" : "Percent of this card"}
+                                    placeholder="%"
+                                    title="Percent of this card"
                                     disabled={disabled || locked}
                                     value={shares[id] ?? ""}
-                                    onChange={(event) => onNext({ offeringIds: current, offeringShares: { ...shares, [id]: event.target.value.replace(/\D/g, "").slice(0, inUnits ? 3 : 2) } })}
+                                    onChange={(event) => onNext({ offeringIds: current, offeringShares: { ...shares, [id]: event.target.value.replace(/\D/g, "").slice(0, 2) } })}
                                 />
+                            ) : (
+                                <span className="business-capability-static-value" aria-label={name + " share of " + (offeringChoices.find(choice => choice.id === id)?.label ?? "Offering")}>{percentOf(id) + "%"}</span>
                             )])) : undefined}
                         />
                     )}
             </BusinessField>
+            {split && (
+                <BusinessField label="How is it shared?" info={SHARE_BASIS_HELP}>
+                    <OptionPicker
+                        label={name + " how it is shared"}
+                        placeholder="Select"
+                        options={SHARE_BASES.map(entry => entry.label)}
+                        disabled={disabled || locked}
+                        value={SHARE_BASES.find(entry => entry.id === basis)?.label ?? ""}
+                        onChange={(next) => {
+                            const chosen = SHARE_BASES.find(entry => entry.label === next)?.id ?? basis;
+                            // (My own split starts from the split shown, in whole percents that total 100.)
+                            const start = chosen === "own" && !own
+                                ? (() => {
+                                    const whole = current.map(id => percentOf(id));
+                                    whole[whole.length - 1] = 100 - whole.slice(0, -1).reduce((sum, amount) => sum + amount, 0);
+                                    return Object.fromEntries(current.map((id, at) => [id, String(whole[at])]));
+                                })()
+                                : Object.fromEntries(current.map(id => [id, shares[id] ?? "0"]));
+                            onNext({ offeringIds: current, offeringShares: { ...start, [OFFERING_BASIS_KEY]: chosen } });
+                        }}
+                    />
+                </BusinessField>
+            )}
+            </>
         );
     }
     /** A dividing line across the card: above its Completed row and above the links at its foot. */
@@ -866,7 +881,8 @@ export function useCapabilityCardFields(earlier: Earlier) {
         return [
             ...(insured ? [{ key: slot.id + ":insures", noun: "Resource", name: insured.name.trim() || "Unnamed Resource", onOpen: () => openPair(slot.id, insured.id) }] : []),
             ...[...capability.activities.flatMap(category => category.activities), ...capability.offering.activities]
-                .filter(activity => activity.resources.some(entry => entry.id === slot.id))
+                // (Used as a Resource, or on its Team -- a Staff card: owner, 2026-11-16 20:22.)
+                .filter(activity => activity.resources.some(entry => entry.id === slot.id) || activity.performerIds.includes(slot.id))
                 .map(activity => ({ key: activity.id, noun: "Activity", name: activity.name.trim() || "Unnamed Activity", onOpen: () => openPair(activity.id, slot.id) }))
         ];
     }
@@ -1001,6 +1017,18 @@ export function useCapabilityCardFields(earlier: Earlier) {
                 />
 
                 {/* The links last, under the Description (the one card order). */}
+                {/* (A Staff card's hours a month they can give: their own row and bar in Capacity & Delivery; doc 52, 14; owner, 2026-11-17.) */}
+                {scope === "offering" && slot.category === "hr" && (
+                    <BusinessField label="Hours a month they can give">
+                        <NumberCell kind="decimal"
+                            aria-label={"Resource " + number + " hours a month they can give"}
+                            placeholder="h"
+                            disabled={disabled}
+                            value={slot.hoursAvailable}
+                            onChange={(event) => onSlot({ hoursAvailable: limitedNumberText(event.target.value, slot.hoursAvailable, NUMBER_LIMITS.hoursMonth) })}
+                        />
+                    </BusinessField>
+                )}
                 {scope === "offering" && offeringsField(
                     slot.offeringIds,
                     (next) => onSlot(next),
@@ -1024,7 +1052,7 @@ export function useCapabilityCardFields(earlier: Earlier) {
                     slot.offeringShares,
                     channelMade(scope, slot.id),
                     [],
-                    slot.cost.frequency === "percent-revenue"
+                    !costIsShared(slot.cost.frequency, isPurchaseGroup(slot.group))
                 )}
 
                 {/* THE CARDS THIS ONE LEADS TO OR IS USED BY (the resource it insures, the activities that list it): at the end of the card. */}

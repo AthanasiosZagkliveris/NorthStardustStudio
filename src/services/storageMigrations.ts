@@ -443,6 +443,49 @@ export function retireLegacyBusinessPages(organizationId: string): void {
 
     }
 
+/** The Business System's Section of 4. Financial Foundation (makeRoomForFinancialFoundationPage put it there). */
+const FINANCIAL_FOUNDATION_SECTION = 4;
+
+/**
+ * THE INCOME TAX RATE HAS ONE OWNER, Page 4's Plan Settings (doc 5, section 5.5.6): a rate saved in the Global Settings before is moved there once -- as the
+ * plan's rate where the plan has no basis yet -- and taken out of the Global Settings. A plan with a basis of its own keeps it. A flag: it runs once.
+ */
+export function moveGlobalIncomeTax(organizationId: string): void {
+
+        const document = OrganizationService.loadDocument(organizationId);
+
+        if (!document || document.globalIncomeTaxMoved) {
+            return;
+        }
+
+        const settings = document.globalSettings;
+        const saved = settings && typeof settings === "object" && !Array.isArray(settings) ? (settings as Record<string, unknown>).incomeTaxRate : undefined;
+        const rate = typeof saved === "number" ? String(saved) : typeof saved === "string" ? saved.trim() : "";
+
+        if (rate !== "") {
+            const stored = document.systems[String(BUSINESS_SYSTEM_NUMBER)];
+            const state = stored && typeof stored === "object" && !Array.isArray(stored) ? stored as Record<string, unknown> : null;
+            if (state && Array.isArray(state.responses)) {
+                const at = state.responses.findIndex(entry => !!entry && typeof entry === "object" && (entry as Record<string, unknown>).sectionNumber === FINANCIAL_FOUNDATION_SECTION);
+                const entry = at >= 0 ? state.responses[at] as Record<string, unknown> : null;
+                const value = entry && entry.value && typeof entry.value === "object" && !Array.isArray(entry.value) ? entry.value as Record<string, unknown> : null;
+                if (value && !value.incomeTax) {
+                    state.responses[at] = { ...entry, value: { ...value, incomeTax: "rate", incomeTaxRate: rate } };
+                } else if (!entry) {
+                    state.responses.push({ sectionNumber: FINANCIAL_FOUNDATION_SECTION, value: { incomeTax: "rate", incomeTaxRate: rate } });
+                }
+            }
+        }
+
+        if (settings && typeof settings === "object" && !Array.isArray(settings)) {
+            delete (settings as Record<string, unknown>).incomeTaxRate;
+        }
+        document.globalIncomeTaxMoved = true;
+
+        OrganizationService.saveDocument(document);
+
+    }
+
 /**
  * The Brand System's third page, Inventory (the Icon & Logo and the Brand Images), is part of the second, Style: what was saved
  * as the third page's answer moves into the second's `inventory`, and the third page goes. A no-op once moved.

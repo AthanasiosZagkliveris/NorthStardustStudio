@@ -53,6 +53,8 @@ export interface CardBox {
     /** Which of its lines are links, and what a press on one does (see CardTileProps). */
     linkedLines?: readonly boolean[];
     onLine?: (index: number, pointer: boolean) => void;
+    /** The card each linked line opens (CardTile `lineCards`). */
+    lineCards?: readonly (string | undefined)[];
 
     /** Not used yet: half transparent, as a tile with no card in it. */
     faded?: boolean;
@@ -118,9 +120,14 @@ export default function CardBoxes({
 
     addNext = false,
 
-    threeAcross = false
+    threeAcross = false,
+
+    cardList = false
 
 }: {
+
+    /** A list of cards with no add box of its own (each Offering's Delivery card): three across, as every card list with an add box (`CARD_LIST_COLUMNS`; owner, 2026-11-16 19:18). */
+    cardList?: boolean;
 
     /** The tiles are sized to the card they stand in: three across, however wide the card is (the Strategy cards' Goals, Objectives and Metrics). */
     threeAcross?: boolean;
@@ -183,7 +190,7 @@ export default function CardBoxes({
     return (
         // (A list of cards one adds to -- it has an Add Card -- is three in a row, the Add Card in the next free place (owner, 2026-11-09: "each row should fit 3 tiles");
         // a fixed set of cards with no Add takes the one shape of every grid: 1 to 3 in a row, 4 as a 2 x 2 square, 5 or more in two rows.)
-        <TileGrid label={label} className={className} threeAcross={threeAcross} columns={threeAcross ? undefined : add ? CARD_LIST_COLUMNS : gridColumns(items.length)}>
+        <TileGrid label={label} className={className} threeAcross={threeAcross} columns={threeAcross ? undefined : add || cardList ? CARD_LIST_COLUMNS : gridColumns(items.length)}>
             {({ across }) => (
             <>
                 {items.map((item, index) => {
@@ -197,6 +204,7 @@ export default function CardBoxes({
                             number={item.plain ? undefined : item.number}
                             linkedLines={item.linkedLines}
                             onLine={item.onLine}
+                            lineCards={item.lineCards}
                             centred={item.plain || item.centred}
                             lines={item.lines ?? (item.summary && item.summary.trim().length > 0 ? [item.summary] : [])}
                             marks={item.marks}

@@ -120,7 +120,7 @@ export const DEMAND_SOURCES: DemandSourceType[] = [
         id: "marketplace",
         // (Its id kept: "marketplace". Its name says what it counts, the visitors, wherever they come: owner, 2026-11-14 13:54, "Check the wording for each Customer Source".)
         label: "Visitors",
-        explanation: "People who come to you and buy: a shop, a stall, a website, a marketplace listing.",
+        explanation: "People who come to you and buy: a shop, a stall, a website, a marketplace listing. Use a rate that blends your channels: for example, a shop converts far more visitors than a website.",
         fields: [
             { key: "visitors", label: "Visitors / Month", kind: "number", placeholder: "e.g. 800", help: "People who visit the shop, stall, listing or site in a month." },
             { key: "buy", label: "Buy (%)", kind: "percent", placeholder: "e.g. 2", help: "The share of visitors who buy." }
@@ -133,6 +133,74 @@ export const DEMAND_SOURCES: DemandSourceType[] = [
         fields: []
     }
 ];
+
+/**
+ * TYPICAL RANGES IN A RATE'S "i" (doc 28, rule 6; owner, 2026-11-17 00:10): only where a checked source supports them, each with its reference last, and the
+ * placeholder the typical figure; no figure is ever filled in. Online shop visitors (a Visitors source through a Website channel), landing page enquiries (a
+ * Sales funnel's prospects through a Landing Page), the funnel's buy rate and the tenders won. None for cancellations, shop footfall, marketplaces, trials or
+ * buying again.
+ */
+const TYPICAL: readonly { type: string; key: string; channel?: (channel: { category: string; name: string }) => boolean; text: string; source: string; placeholder?: string }[] = [
+    {
+        type: "marketplace", key: "buy", channel: channel => channel.category === "Website" && channel.name.trim() !== "Landing Page",
+        text: "Most online shops turn about 1.3% of visits into a sale; one in five is below 0.5% and one in five above 2.8%.",
+        source: "Based on: Littledata (2026), conversion rates of 450 Shopify stores; McDowell, Wilson and Kile (2016), Journal of Business Research 69(11).",
+        placeholder: "e.g. 1.3"
+    },
+    {
+        type: "funnel", key: "prospects", channel: channel => channel.category === "Website" && channel.name.trim() === "Landing Page",
+        text: "A typical landing page turns about 6.6% of visits into an enquiry.",
+        source: "Based on: Unbounce (2024), Conversion Benchmark Report, 41,000 landing pages."
+    },
+    {
+        type: "funnel", key: "buy",
+        text: "Sellers win about 1 in 5 of their qualified opportunities.",
+        source: "Based on: HubSpot (2024), Sales Trends Report, 1,400 sales professionals.",
+        placeholder: "e.g. 20"
+    },
+    {
+        type: "contracts", key: "win",
+        text: "Small firms win about 1 tender in 4.",
+        source: "Based on: Flynn and Davis (2016), Journal of Small Business and Enterprise Development 23(3).",
+        placeholder: "e.g. 25"
+    }
+];
+
+/**
+ * A source's field as its card shows it: its "i" (its help, then the typical range and its reference where one applies) and its placeholder (the typical
+ * figure there). `channels` are the channels the source comes through; a range tied to a channel applies where every one of them fits it.
+ */
+export function demandFieldShown(type: string, field: { key: string; help: string; placeholder: string }, channels: readonly { category: string; name: string }[]): { help: string[]; placeholder: string } {
+    const typical = TYPICAL.find(entry => entry.type === type && entry.key === field.key && (!entry.channel || (channels.length > 0 && channels.every(entry.channel))));
+    return typical
+        ? { help: [field.help, typical.text, typical.source], placeholder: typical.placeholder ?? field.placeholder }
+        : { help: [field.help], placeholder: field.placeholder };
+}
+
+/** O2's answers of an Offering not ready to sell (owner, 2026-11-17), and the note each gives on its Demand card. */
+export const NOT_READY_NOTES: Readonly<Record<string, string>> = {
+    idea: "This Offering is still an idea. Its sales start once it is ready.",
+    building: "This Offering is still being built. Its sales start once it is ready."
+};
+
+/** The upper end of each band of "How many potential customers are there?" (`tam`); the mass market's lower end, its only figure. */
+const MARKET_SIZE: Readonly<Record<string, number>> = { micro: 1000, boutique: 50000, mid: 500000, mass: 500000 };
+
+/**
+ * THE MARKET-SIZE CHECK (doc 50, 2.3; owner, 2026-11-17): the customers a year the Expected Sales give (a one-off Offering's sales a month, a recurring one's
+ * new clients a month, times 12) as a share of the Segment's market (`tam`, at its band's upper end, so a large share is a real warning). A check, never a
+ * cap: nothing is changed by it. Null where either is unknown.
+ */
+export function marketShareLine(result: Pick<DemandResult, "expected" | "joining" | "recurring">, tam: string | undefined): string | null {
+    const market = MARKET_SIZE[tam ?? ""];
+    const monthly = result.recurring ? result.joining : result.expected;
+    if (!market || monthly === null || monthly <= 0) {
+        return null;
+    }
+    const share = monthly * 12 / market * 100;
+    const words = share < 1 ? "under 1%" : Math.round(share) + "%";
+    return "Your expected customers are " + words + " of the market you described.";
+}
 
 /** One source of an Offering's customers, and how its sales are estimated. */
 export interface DemandSource {
@@ -149,6 +217,16 @@ export interface DemandSource {
     basis: string;
     /** The Page 2 channel (subchannel) this source's customers come through; "" while none is chosen. The Offering's Channels That Bring Them are read from these. */
     channelId: string;
+    /** An Other source's own name: the Other channel it comes from (owner, 2026-11-16 19:18). */
+    name?: string;
+    /** Made by the answers (withAnswerSources), as a channel is. A source saved before is kept as it is. */
+    fromAnswers?: boolean;
+    /**
+     * A SOURCE OF A CHANNEL GROUP (owner, 2026-11-16 20:11): a Sales funnel or Referrals source for every Discover channel of one category -- "Social Media" for
+     * Instagram, Pinterest and TikTok --, its figures entered once; `channelId` is then "" and its channels are `channelIds`.
+     */
+    group?: string;
+    channelIds?: string[];
 }
 
 export interface DemandValue {
@@ -164,6 +242,13 @@ export interface DemandValue {
     channelIds: string[];
     /** What the figures rest on, overall. */
     assumptions: string;
+    /** The sources the answers make that the founder removed (demandSourceKey): not made again until restored. */
+    dismissed?: string[];
+    /**
+     * READY FROM (owner, 2026-11-17): for an Offering that is still an idea or still being built (O2), the month it is ready; its sales start then (withDemand
+     * moves Sustainability's Begins to it where Begins is earlier). Read only while O2 says so.
+     */
+    readyFrom?: { month: string; year: string };
 }
 
 export function createDemand(): DemandValue {
@@ -202,7 +287,11 @@ function asDemandSource(value: unknown, position: number): DemandSource {
         estimate: asText(source.estimate),
         inputs: asInputs(source.inputs),
         basis: asText(source.basis),
-        channelId: asText(source.channelId)
+        channelId: asText(source.channelId),
+        ...(asText(source.name) ? { name: asText(source.name) } : {}),
+        ...(source.fromAnswers === true ? { fromAnswers: true } : {}),
+        ...(asText(source.group) ? { group: asText(source.group) } : {}),
+        ...(Array.isArray(source.channelIds) && source.channelIds.length > 0 ? { channelIds: [...new Set(source.channelIds.map(asText).filter(Boolean))] } : {})
     };
 }
 
@@ -210,8 +299,8 @@ function asDemandSource(value: unknown, position: number): DemandSource {
  * THE CHANNELS THAT BRING AN OFFERING'S CUSTOMERS: each of its Customer Sources' channels, once, in the sources' order (owner, 2026-11-12: "Fill it from the
  * sources"). The ticks saved before (`channelIds`) are not read: this list wins. It feeds the cost per customer per channel (doc 47, step two).
  */
-export function demandChannelIds(demand: { sources: readonly { channelId: string }[] }): string[] {
-    return [...new Set(demand.sources.map(source => source.channelId).filter(id => id !== ""))];
+export function demandChannelIds(demand: { sources: readonly { channelId: string; channelIds?: readonly string[] }[] }): string[] {
+    return [...new Set(demand.sources.flatMap(source => [source.channelId, ...((source as { channelIds?: readonly string[] }).channelIds ?? [])]).filter(id => id !== ""))];
 }
 
 /**
@@ -265,7 +354,9 @@ export function asDemandValue(value: unknown): DemandValue {
         channelIds: Array.isArray(source.channelIds)
             ? [...new Set(source.channelIds.map(asText).filter(Boolean))]
             : [],
-        assumptions: asText(source.assumptions)
+        assumptions: asText(source.assumptions),
+        ...(Array.isArray(source.dismissed) && source.dismissed.length > 0 ? { dismissed: [...new Set(source.dismissed.map(asText).filter(Boolean))] } : {}),
+        ...(asObject(source.readyFrom).month && asObject(source.readyFrom).year ? { readyFrom: { month: asText(asObject(source.readyFrom).month), year: asText(asObject(source.readyFrom).year) } } : {})
     };
 }
 
@@ -531,7 +622,19 @@ export interface DeliveryValue {
     hours: Record<string, string>;
     /** How long one unit takes from start to finish, in weeks: elapsed time. */
     duration: string;
+    /** LEGACY, read only (DV5, retired 2026-11-17, replaced by DV12): the Constraints text, moved once into holdUpsOther (one row a sentence) where it holds text. */
     constraints: string;
+    /** DV6: how many customers one session serves (a class, a workshop, an event); "" is one. The hours typed are then a session's. */
+    perSession: string;
+    /** DV9 and DV10: the hours one batch takes to set up, and the units it makes; set-up adds DV9 / DV10 to each unit. */
+    batchSetup: string;
+    batchUnits: string;
+    /** DV12, what can hold up delivery: "equipment" (DV7 equipmentId, DV8 holdsAtOnce), "materials" (DV13 supplierId), "other" (holdUpsOther, one a row). */
+    holdUps: string[];
+    equipmentId: string;
+    holdsAtOnce: string;
+    supplierId: string;
+    holdUpsOther: string[];
     /** Before effort was split by person: one total, and who delivered it. */
     effort: string;
     deliverers: string[];
@@ -547,7 +650,7 @@ export interface DeliveryValue {
 }
 
 export function createDelivery(): DeliveryValue {
-    return { hours: {}, duration: "", constraints: "", effort: "", deliverers: [], mode: "", period: "" };
+    return { hours: {}, duration: "", constraints: "", perSession: "", batchSetup: "", batchUnits: "", holdUps: [], equipmentId: "", holdsAtOnce: "", supplierId: "", holdUpsOther: [], effort: "", deliverers: [], mode: "", period: "" };
 }
 
 export function asDeliveryMap(value: unknown): Record<string, DeliveryValue> {
@@ -568,6 +671,14 @@ export function asDeliveryMap(value: unknown): Record<string, DeliveryValue> {
             hours,
             duration: asText(source.duration),
             constraints: asText(source.constraints),
+            perSession: asText(source.perSession),
+            batchSetup: asText(source.batchSetup),
+            batchUnits: asText(source.batchUnits),
+            holdUps: Array.isArray(source.holdUps) ? [...new Set(source.holdUps.map(asText).filter(id => HOLD_UP_IDS.includes(id)))] : [],
+            equipmentId: asText(source.equipmentId),
+            holdsAtOnce: asText(source.holdsAtOnce),
+            supplierId: asText(source.supplierId),
+            holdUpsOther: Array.isArray(source.holdUpsOther) ? source.holdUpsOther.map(asText) : [],
             effort: asText(source.effort),
             deliverers: Array.isArray(source.deliverers)
                 ? [...new Set(source.deliverers.map(asText).filter(Boolean))]
@@ -579,27 +690,87 @@ export function asDeliveryMap(value: unknown): Record<string, DeliveryValue> {
     return result;
 }
 
+/** DV12's options, in order (owner, 2026-11-17): partners' time, seasons, skills, licences and money are read elsewhere (the bars, Busy times, Skills, Registrations, Financial Position). */
+export const HOLD_UPS = [
+    { id: "equipment", label: "Equipment or a workspace" },
+    { id: "materials", label: "Materials or stock from a supplier" },
+    { id: "other", label: "Other" }
+] as const;
+const HOLD_UP_IDS: readonly string[] = HOLD_UPS.map(entry => entry.id);
+
+/**
+ * A COUNT OF AN OFFERING'S SALES, in words (doc 52, 4.2): a name said in the plural counts itself ("1 Bespoke Commission", "3 Bespoke Commissions"); any other
+ * name counts orders of it ("1 Trade Collection order", "3 Trade Collection orders").
+ */
+export function offeringCount(count: number, name: string): string {
+    const figure = count.toLocaleString("en-GB", { maximumFractionDigits: 1 });
+    const one = count === 1;
+    const plural = /[^s]s$/i.test(name.trim());
+    return figure + " " + (plural ? (one ? name.trim().replace(/s$/i, "") : name.trim()) : name.trim() + (one ? " order" : " orders"));
+}
+
+/** What can hold up an Offering's delivery, in words (DV12): the equipment and what it holds, the supplier, and the rows written under Other. */
+export function holdUpsText(delivery: DeliveryValue, nameOf: (id: string) => string): string {
+    return [
+        ...(delivery.holdUps.includes("equipment") ? [(nameOf(delivery.equipmentId) || "Equipment or a workspace") + (delivery.holdsAtOnce.trim() ? ", holds " + delivery.holdsAtOnce.trim() + " at once" : "")] : []),
+        ...(delivery.holdUps.includes("materials") ? [(nameOf(delivery.supplierId) || "Materials or stock from a supplier")] : []),
+        ...(delivery.holdUps.includes("other") ? delivery.holdUpsOther.map(row => row.trim()).filter(Boolean) : []),
+        // (A card not opened since DV5 retired: its Constraints text, as saved.)
+        ...(delivery.constraints.trim() ? [delivery.constraints.trim()] : [])
+    ].join("; ");
+}
+
+/** The planning ceiling (doc 52, 4.1): a plan holds best with each person's delivery hours at 85% or less (Choo, 2016, after Kingman). */
+export const PLANNING_CEILING = 0.85;
+
+/** DV6 as a number: the customers one session serves (one where it is not said). */
+export function customersPerSession(delivery: DeliveryValue | undefined): number {
+    const typed = readNumber(delivery?.perSession ?? "");
+    return delivery && delivery.mode !== "monthly" && typed !== null && typed > 1 ? typed : 1;
+}
+
+/** DV9 / DV10: the set-up hours each unit carries ("" where either is not said). */
+export function setupPerUnit(delivery: DeliveryValue | undefined): number {
+    const setup = readNumber(delivery?.batchSetup ?? "");
+    const units = readNumber(delivery?.batchUnits ?? "");
+    return delivery && delivery.mode !== "monthly" && setup !== null && setup > 0 && units !== null && units > 0 ? setup / units : 0;
+}
+
 /**
  * One unit's hours by person, as numbers. An entry saved before effort
  * was split keeps its total on the first person who delivered it, or
- * unassigned ("") if nobody was named.
+ * unassigned ("") if nobody was named. A session's hours are shared by the
+ * customers it serves (DV6); a batch's set-up is spread over its units (DV9,
+ * DV10), each person carrying it in proportion to their own hours.
  */
 export function deliveryAllocation(delivery: DeliveryValue | undefined): Record<string, number> {
     const result: Record<string, number> = {};
     if (!delivery) {
         return result;
     }
+    const per = customersPerSession(delivery);
     for (const [personId, text] of Object.entries(delivery.hours)) {
         const hours = readNumber(text);
         if (hours !== null && hours > 0) {
             // Monthly work given a week is converted; a unit's hours stand as they are.
-            result[personId] = monthlyHours(hours, delivery.mode === "monthly" ? delivery.period : "");
+            result[personId] = monthlyHours(hours, delivery.mode === "monthly" ? delivery.period : "") / per;
         }
     }
     if (Object.keys(result).length === 0) {
         const total = readNumber(delivery.effort);
         if (total !== null && total > 0) {
             result[delivery.deliverers[0] ?? ""] = total;
+        }
+    }
+    const setup = setupPerUnit(delivery);
+    if (setup > 0) {
+        const total = Object.values(result).reduce((sum, hours) => sum + hours, 0);
+        if (total > 0) {
+            for (const personId of Object.keys(result)) {
+                result[personId] += setup * result[personId] / total;
+            }
+        } else {
+            result[""] = setup;
         }
     }
     return result;
@@ -663,6 +834,8 @@ interface FounderLoad {
     other: number[];
     /** The first month the founder's work exceeds the hours; null if never. */
     firstShortfall: number | null;
+    /** The first month the founder's work passes the planning ceiling (85% of the hours); null if never. */
+    firstAboveCeiling: number | null;
     peak: number;
     peakIndex: number;
 }
@@ -673,6 +846,8 @@ interface ExternalLoad {
     /** Hours a month the expected sales need from this professional. */
     hours: number[];
     peak: number;
+    /** The hours a month they can give (their card's "Hours a month they can give"); null where it is not said. */
+    available: number | null;
 }
 
 export interface CapacityCheck {
@@ -708,7 +883,9 @@ export function capacityCheck(
     delivery: Record<string, DeliveryValue>,
     length: number,
     recurringOfferings: ReadonlySet<string> = new Set(),
-    names: Record<string, string> = {}
+    names: Record<string, string> = {},
+    /** The hours a month a Staff, Partner or Supplier card can give, by its id. */
+    externalAvailable: Readonly<Record<string, number>> = {}
 ): CapacityCheck | null {
 
     const withHours = founders
@@ -772,6 +949,7 @@ export function capacityCheck(
             recurring: load.recurring,
             other: load.other,
             firstShortfall: shortfallOf(total, founder.available),
+            firstAboveCeiling: shortfallOf(total, founder.available * PLANNING_CEILING),
             ...peakOf(total)
         };
     });
@@ -794,7 +972,7 @@ export function capacityCheck(
         founders: founderLoads,
         unassigned,
         external: [...external.entries()].map(([id, hours]) => ({
-            id, name: names[id] ?? "External professional", hours, peak: Math.max(0, ...hours)
+            id, name: names[id] ?? "External professional", hours, peak: Math.max(0, ...hours), available: externalAvailable[id] ?? null
         })),
         unmeasured
     };
@@ -825,6 +1003,26 @@ export function offeringMonthlyRevenue(
 }
 
 /**
+ * WHAT EACH OFFERING USES A MONTH, for a shared cost's split by hours or by revenue (owner, 2026-11-16): its delivery hours -- its Delivery card's hours for each sale
+ * (or each active client) x its expected sales -- and its revenue a month (offeringMonthlyRevenue).
+ */
+export function offeringShareWeights(
+    delivery: Readonly<Record<string, DeliveryValue | undefined>>,
+    demand: Readonly<Record<string, DemandValue | undefined>>,
+    streams: readonly { offeringId: string; price: string; itemsPerOrder: string }[]
+): { hours: Record<string, number>; revenue: Record<string, number> } {
+    const hours: Record<string, number> = {};
+    for (const [offeringId, entry] of Object.entries(delivery)) {
+        const effort = deliveryEffort(entry);
+        const expected = demandResult(demand[offeringId]).expected;
+        if (effort !== null && expected !== null && expected > 0) {
+            hours[offeringId] = effort * expected;
+        }
+    }
+    return { hours, revenue: offeringMonthlyRevenue(demand, streams) };
+}
+
+/**
  * EACH OFFERING'S REVENUE A MONTH THROUGH EACH SUBCHANNEL (owner, 2026-11-14 20:25: "check the %, some seems wrong"): a Customer Source's expected sales x the
  * Offering's price x its items per order, filed under the subchannel the source names (its channel's category and name, joined by "\u0001"). What a cost
  * that is a share of a channel's revenue is split by: Shopify Payments by what each Offering sells through the Online Store, a card reader's fees by what it
@@ -845,13 +1043,17 @@ export function offeringChannelRevenue(
         }
         const parts = demandResult(value).sources;
         for (const source of value.sources) {
-            const channel = channels.find(entry => entry.id === source.channelId);
+            // (A group's sales shared evenly among its channels: owner, 2026-11-16 20:11.)
+            const own = (source.channelIds ?? []).length > 0 ? source.channelIds! : [source.channelId];
+            const found = own.map(id => channels.find(entry => entry.id === id)).filter((entry): entry is { id: string; category: string; name: string } => !!entry);
             const expected = parts.find(part => part.id === source.id)?.expected ?? null;
-            if (!channel || expected === null || expected <= 0) {
+            if (found.length === 0 || expected === null || expected <= 0) {
                 continue;
             }
-            const key = channel.category.trim() + "\u0001" + channel.name.trim();
-            out[offeringId] = { ...(out[offeringId] ?? {}), [key]: (out[offeringId]?.[key] ?? 0) + expected * price * items };
+            for (const channel of found) {
+                const key = channel.category.trim() + "\u0001" + channel.name.trim();
+                out[offeringId] = { ...(out[offeringId] ?? {}), [key]: (out[offeringId]?.[key] ?? 0) + expected * price * items / found.length };
+            }
         }
     }
     return out;

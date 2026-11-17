@@ -8,7 +8,7 @@ import FieldRow from "../../fields/FieldRow.tsx";
 import { BusinessEmpty, BusinessTicks } from "../../cards/BusinessCardFields.tsx";
 import RadioChoice from "../../../controls/RadioChoice.tsx";
 import FittingRadioChoice from "./FittingRadioChoice.tsx";
-import { OFFERING_BOX_QUESTIONS, OFFERING_QUESTIONS, offeringChoose, type OfferingAnswers, type OfferingContext, type OfferingQuestionId, offeringAsks, offeringInfo, offeringOptionsWith, offeringWho } from "../../../../framework/engine/OfferingQuestions.ts";
+import { OFFERING_BOX_QUESTIONS, OFFERING_QUESTIONS, offeringChoose, type OfferingAnswers, type OfferingContext, type OfferingQuestionId, offeringAsks, offeringInfo, offeringOptionsWith, offeringReachNote, offeringWho } from "../../../../framework/engine/OfferingQuestions.ts";
 import { type SegmentQuestion, segmentRowChoice } from "../../../../framework/engine/SegmentQuestions.ts";
 import { summaryText } from "../../cards/cardSummary.ts";
 import OptionPicker from "../../fields/OptionPicker.tsx";
@@ -162,7 +162,11 @@ export function offeringCard(scope: FoundationCardScope, offering: BusinessOffer
                     const asked = (OFFERING_BOX_QUESTIONS[part.id] ?? []).filter(id => offeringAsks(id, context, shown));
                     return {
                         ...part,
-                        questions: [...(part.id === "benefit" ? [<Fragment key="needs">{needsBand}</Fragment>] : []), ...asked.map(ask)],
+                        questions: [...(part.id === "benefit" ? [<Fragment key="needs">{needsBand}</Fragment>] : []), ...asked.map(id => {
+                            // (Under O6: where the customers are and how they receive it do not fit; owner, 2026-11-17.)
+                            const reach = id === "o6" ? offeringReachNote(shown, context) : null;
+                            return reach ? <Fragment key={id}>{ask(id)}<p className="business-foundation-tick-note business-segment-settled" role="note">{reach}</p></Fragment> : ask(id);
+                        })],
                         note: true,
                         level: 4,
                         weight: 2 + (asked.length + (part.id === "benefit" ? 1 : 0)) * 4

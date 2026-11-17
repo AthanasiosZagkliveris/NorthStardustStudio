@@ -42,11 +42,11 @@ The one owner of this map: each row is one input a later page needs, where Page 
 | 2. Relationships | Relationship type suggestion | doc 36 D2, C3; doc 43 O7; doc 35 `authorise` | Read (`autoRelationshipTypes`) |
 | 2. Demand & Conversion | Customers Buy, one sale at a time or every month (doc 28, 7.5) | doc 43 O3 | Read: set by O3 and shown read-only where O3 says one-off or recurring; asked where it does not |
 | 2. Demand & Conversion | The tender row, the repeat row, the time to buy | doc 35 Box 4 Q9 (`authorise`), Box 4 Q6 (`path`); doc 43 O17 | Read (`demandSuggestions`, `monthsToClose`) |
-| 2. Demand & Conversion | Expected customers against the market size | doc 35 Box 5 Q1 | Asked, not read |
+| 2. Demand & Conversion | Expected customers against the market size | doc 35 Box 5 Q1 | Read: the market-size check under Expected Sales, a check, never a cap (2026-11-17; doc 50, 2.6) |
 | 3. Delivery | The Offerings | Offering card | Read |
 | 3. Delivery | Delivered, per unit or every month (doc 28, 10.1) | doc 43 O3 | Starts from |
 | 3. Delivery | Calendar Time (weeks) | doc 43 O15 | Starts from |
-| 3. Delivery | Constraints (what the customer provides) | doc 43 O10 | Starts from (the text; W3's ticks, doc 28, 10.1, are not built) |
+| 3. Delivery | Constraints (what the customer provides) | doc 43 O10 | Asked, not read: the Constraints box (DV5) retired on 2026-11-17 for What can hold up delivery? (DV12), which O10 does not start (W3's ticks, doc 28, 10.1, are not built) |
 | 3. Capacity and resources | Every card linked to an Offering | Offering card (ids) | Read |
 | 3. Capacity and resources | Delivery vehicles, stock and logistics hidden without a physical item (doc 28, 11.7) | Offering Type; doc 43 O1 | Read (below) |
 | 4. Financial Foundation | Each Offering's costs | Offering card (ids) | Read |
@@ -54,7 +54,7 @@ The one owner of this map: each row is one input a later page needs, where Page 
 | 5. Revenue streams | One stream per Offering | Offering card (ids) | Read |
 | 5. Pricing | Charged (the revenue model is read from it, doc 28, 10.2) | doc 43 O3 | Starts from |
 | 5. Pricing | Payment Timing | doc 43 O3, second row (O3b) | Starts from |
-| 5. Pricing | Packages or tiers | doc 43 O14 | Asked, not read |
+| 5. Pricing | Packages or tiers | doc 43 O14 | Asked, not read: waits for Revenue & Pricing, step 7 (doc 48, section 11); Made to order already skips DV9 |
 | 5. Pricing | The price; the pricing basis; whether the price includes tax | none | Missing on Page 1 by design (doc 28, 10.2): Page 5 asks the price; the basis and tax are asked nowhere |
 
 **The starts** (`offeringStarts`, `src/framework/engine/EffectiveAnswers.ts`, which reads the Offering's answers as its card shows them). A later page shows them on an Offering's card it has not saved yet, and saves them with the first thing written on that card; from then on the later page's own answer wins and a change on Page 1 no longer moves it. A card not saved holds no figures, so a start never changes a calculation by itself. The starts narrow nothing: every option of the later field stays.
@@ -68,7 +68,6 @@ The one owner of this map: each row is one input a later page needs, where Page 
 | Free to them, or no answer | no start | no start | no start |
 
 - **Calendar Time** (Page 3, weeks, for an Offering delivered per unit) from O15, the band's upper end: Within a week → 1; One to four weeks → 4; One to three months → 13; Straight away and Longer start nothing.
-- **Constraints** (Page 3) from O10: the options ticked, in their words, joined by semicolons ("Access to their systems or information; A clear brief.").
 - **Payment Timing** (Page 5) from O3b: Before they get it → Upfront; A deposit, then the rest → Split; When it is done / delivered → On completion; On invoice terms → On completion (the months after are the user's); In instalments / monthly → Milestones where the charge is paid once, and When earned (the default, so no start) where it is monthly or annual.
 - Doc 28, 10.2 proposed Per sale for Pay as they go; it is Monthly here, as Page 2's start makes it a monthly purchase, so the two pages agree.
 
@@ -80,18 +79,16 @@ The one owner of this map: each row is one input a later page needs, where Page 
 
 Each is one place where two answers can disagree, or an answer goes unread; the fix is the owner's choice of which answer owns the fact.
 
-- **Strategy, the Canvas and Page 5 read without Global Settings.** The Strategy System's Current Situation and plan range and the Canvas export ignore the Opening Date and the calculated lines; Page 5's break-even leaves out channel fees, on-costs and tax that Page 4 counts.
-- **Foreign fixed fees unconverted.** A fee row's fixed amount in another currency (Gumroad's $0.50) is added to totals in the Organisation's currency as it stands.
-- **Global Settings reads the Segment's raw answers.** Its fee rows read `providers` unsettled, where Customer Engagement reads the effective answers.
-- **The income tax rate is asked twice**, in Global Settings and in Page 4's Plan Settings; the Global one wins.
 - **A8 and End user, 8 (`u-comfort`) ask the same thing**: the Segment's answer only starts the end user's A8.
-- **O15 and Delivery's Calendar Time (DV4)** can disagree: O15 only starts DV4, and a saved Delivery card no longer follows it.
-- **O6 and "physical".** Whether an Offering is physical reads its Type and O1, never O6 or O20: shipped or collected with a digital form still hides Physical Delivery.
-- **Reach and O6.** Nothing checks a Segment in several countries or online against delivery in person or collection, nor a city's Segment against shipping.
-- **O3b and Page 5's Payment Timing** have no check between them once Payment Timing is saved.
-- **Identity's government buyers** add Dedicated Support to every Offering, a people Segment's included.
-- **I11 (Market Structure)** is mapped but read by nothing beyond the export.
-- **K1 to K3** are read by nothing, and K1 to K10 appear in no document.
+- **O15 and Delivery's Calendar Time (DV4)** can disagree: O15 only starts DV4, and a saved Delivery card no longer follows it. Since 2026-11-17 the Delivery card says so where making and sending take longer than O15 allows (doc 52, 10).
+- **I11 (Market Structure)** is mapped but read by nothing beyond the export: single-sided in the first version, so no question needs it yet (doc 28, I11).
+
+**Closed 2026-11-17 (the open decisions and gaps, Groups 4b and 4c):** reach and O6 (the note under O6, doc 43); K1 to K10 (the Business Plan's competitor table, and K2's opening, doc 41).
+
+### Known gaps in the checks (2026-11-17; older than the branch feat/owner-points-2026-11-16b, reported, the baseline unchanged)
+
+- **The full layout check** (`tools/scripts/layout-check/run.mjs` without `--quick`, light and dark, the floating cards opened) finds 150 on Infrastructure (the Activity's Responsible 4.6px off the 12px gap, 68; the floating cards at 768px, 29 on their tile row, 10 out of the window, 8 not opening; the founder card's Start date margin and cells, 29; an activity resource's x 8px from its cell, 3; the + box focus at 768px, 3), 36 on Legal Entity (a floating card over its dialog's tiles at 768px, 16; the + box stroke, 10; the Sales Tax row's tick and "i", 6; a list over its + box, 4) and 91 on Foundation (a floating card off its anchor's centre at 1920px, 48; K5's sub-picker cut, 18; the + box stroke, 15; the cards at 768px, 10). Customer Engagement and Sustainability: none.
+- **The library runner** (`tools/scripts/library/run.mjs`): the Dropdown's hug sample (482px against 113, 126), the Fold arrow (its triangle measured 0 x 0, 792) and the Back button (its rail sample under another's pointer area: the run stops). The page could not be measured from 2026-11-16 20:22 until 2026-11-17 (a variant with no sample).
 
 ## Section numbers past 5 are retired
 

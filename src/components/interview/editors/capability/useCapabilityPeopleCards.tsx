@@ -2,6 +2,7 @@
  * THE FOUNDER AND PARTNER CARDS, and the choosers and category cells they hold.
  * One part of the Infrastructure & Capability editor (see BusinessCapabilityEditor.tsx): what it needs of the parts before it comes in as `scope`; what the parts after it need goes out.
  */
+import { costIsShared } from "../../../../framework/engine/AnswerUtils.ts";
 import ListStatic from "../../fields/ListStatic.tsx";
 import FieldLabel from "../../../controls/FieldLabel.tsx";
 import NumberCell from "../../../controls/NumberCell.tsx";
@@ -223,7 +224,7 @@ export function useCapabilityPeopleCards(earlier: Earlier) {
                     period of all three -- a salary and hours a week, a
                     month or a year -- and every calculation turns them
                     into a month. The delivery hours are what 4.
-                    Delivery under Offering's Capability adds up as the
+                    Capacity & Delivery under Offering's Capability adds up as the
                     capacity. A salary is paid in the organization's own
                     currency, so it is named in the label, not asked. */}
                 <div className="business-founder-fields">
@@ -441,6 +442,11 @@ export function useCapabilityPeopleCards(earlier: Earlier) {
                         })()}
 
                 </div>
+
+                {/* (The activities it works on, as each card's Team names them: one link each; owner, 2026-11-16 20:22.) */}
+                {linksSection(founder.id, [...capability.activities.flatMap(category => category.activities), ...capability.offering.activities]
+                    .filter(activity => activity.performerIds.includes(founder.id))
+                    .map(activity => ({ key: activity.id, noun: "Activity", name: activity.name.trim() || "Unnamed Activity", onOpen: () => openPair(activity.id, founder.id) })))}
 
             </BusinessCard>
         );
@@ -773,7 +779,7 @@ export function useCapabilityPeopleCards(earlier: Earlier) {
             users.push({ id: workspace.id, name: BUSINESS_WORKSPACE_KINDS.find(entry => entry.id === workspace.kind)?.label ?? "Workspace", noun: "Workspace" });
         });
 
-        // ... and the activities it performs (the Performer rows of an activity's card name it): one link each.
+        // ... and the activities it works on (the Team rows of an activity's card name it): one link each.
         [...capability.activities.flatMap(category => category.activities), ...capability.offering.activities]
             .filter(activity => activity.performerIds.includes(partner.id))
             .forEach(activity => users.push({ id: activity.id, name: activity.name.trim() || "Unnamed Activity", noun: "Activity" }));
@@ -884,6 +890,30 @@ export function useCapabilityPeopleCards(earlier: Earlier) {
                 />
 
                 {/* The links last, under the Description. */}
+                {/* (THE HOURS THEY CAN GIVE, and a Supplier's lead time: read by Capacity & Delivery -- their own row and bar, and the Calendar Time of an Offering they can
+                    hold up; doc 52, 14 and 16; owner, 2026-11-17.) */}
+                {scope === "offering" && (
+                    <BusinessField label="Hours a month they can give">
+                        <NumberCell kind="decimal"
+                            aria-label={(partner.name.trim() || "Entry " + number) + " hours a month they can give"}
+                            placeholder="h"
+                            disabled={disabled}
+                            value={partner.hoursAvailable}
+                            onChange={(event) => change({ hoursAvailable: limitedNumberText(event.target.value, partner.hoursAvailable, NUMBER_LIMITS.hoursMonth) })}
+                        />
+                    </BusinessField>
+                )}
+                {scope === "offering" && partner.category === "suppliers" && (
+                    <BusinessField label="Lead time (weeks)" side>
+                        <NumberCell kind="decimal"
+                            aria-label={(partner.name.trim() || "Entry " + number) + " lead time in weeks"}
+                            placeholder="e.g. 3"
+                            disabled={disabled}
+                            value={partner.leadWeeks}
+                            onChange={(event) => change({ leadWeeks: limitedNumberText(event.target.value, partner.leadWeeks, NUMBER_LIMITS.weeks) })}
+                        />
+                    </BusinessField>
+                )}
                 {scope === "offering" && offeringsField(
                     partner.offeringIds,
                     (next) => change(next),
@@ -892,7 +922,7 @@ export function useCapabilityPeopleCards(earlier: Earlier) {
                     partner.offeringShares,
                     channelMade(scope, partner.id),
                     partner.madeBy !== "" ? connectedOfferings(capability, partner).ids : [],
-                    partner.cost.frequency === "percent-revenue"
+                    !costIsShared(partner.cost.frequency)
                 )}
 
                 {/* THE CARDS THAT USE IT (the resources that name it, the activities it performs): at the end of the card, a link each (above this one when opened). */}
@@ -924,13 +954,24 @@ export function useCapabilityPeopleCards(earlier: Earlier) {
      * in that order, because an early-stage organisation does most
      * things itself and buys the rest.
      */
-    function performerChoices(scope: Scope) {
+    /** The Staff of a place: its Human Resources cards (Admin Team on Infrastructure, Delivery Team on Offering's Capability). */
+    function staffOf(scope: Scope): BusinessResourceSlotValue[] {
+        return scope === "offering"
+            ? capability.offering.resources.filter(slot => slot.category === "hr")
+            : (capability.resources.hr ?? []).flatMap(entry => entry.slots);
+    }
+    /**
+     * WHO CAN BE ON AN ACTIVITY'S TEAM (owner, 2026-11-16 20:22: "Team", from the existing cards): the founders, the place's Staff, its Partners and its
+     * Suppliers, each with its group (the picker's headings).
+     */
+    function performerChoices(scope: Scope): { id: string; label: string; group: "Founders" | "Staff" | "Partners" | "Suppliers" }[] {
+        const staff = staffOf(scope);
+        const partners = partnersOf(scope, "professionals");
+        const named = uniqueChoices([...staff, ...partners, ...partnersOf(scope, "providers")], "Unnamed card");
+        const groupOf = (id: string) => staff.some(slot => slot.id === id) ? "Staff" as const : partners.some(partner => partner.id === id) ? "Partners" as const : "Suppliers" as const;
         return [
-            ...founderChoices,
-            ...uniqueChoices(
-                [...partnersOf(scope, "professionals"), ...partnersOf(scope, "providers")],
-                "Unnamed partner"
-            )
+            ...founderChoices.map(choice => ({ ...choice, group: "Founders" as const })),
+            ...named.map(choice => ({ ...choice, group: groupOf(choice.id) }))
         ];
     }
     /**
@@ -984,6 +1025,6 @@ export function useCapabilityPeopleCards(earlier: Earlier) {
         });
     }
 
-    return { activityCategoryCell, channelTileIds, founderCard, founderChoices, founderIds, offeringNumberOf, offeringSlotsIn, openLegalExpense, partnerCard, partnerCardFor, performerChoices, responsibilityField, setCategoryActivities, setPartners, subAdd, update };
+    return { activityCategoryCell, channelTileIds, founderCard, founderChoices, founderIds, offeringNumberOf, offeringSlotsIn, openLegalExpense, partnerCard, partnerCardFor, performerChoices, staffOf, responsibilityField, setCategoryActivities, setPartners, subAdd, update };
 
 }

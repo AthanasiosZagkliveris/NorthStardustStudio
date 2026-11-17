@@ -295,11 +295,10 @@ Still open (the requirement ids are those of 5.5):
 1. What exactly the Delivery Team connection does to the numbers (I2). Proposed reading: each linked Delivery Team card appears on the offering's Delivery card as a person row, like a linked partner, with hours that count as external hours beside the founders' capacity; the card keeps its cost.
 2. Does the Offering type drive anything (F8)?
 3. T7 "Travel and van hire": move to Vehicles, or split into trips and van hire (C13)?
-4. Remove the duplicate global income tax rate first (5.5.6)?
-5. Which relationship-type definition (the six fields, C4) is accepted, and who writes it?
-6. Is a rough cost per customer by channel wanted at this stage (C14)?
-7. The 768 px floor against WCAG 1.4.10 Reflow: accept as a declared exception (5.6)?
-8. Is the new app still a web app with accounts (as in the Foundation App Plan), and does it keep the Examples (5.7, X2)?
+4. Which relationship-type definition (the six fields, C4) is accepted, and who writes it?
+5. Is a rough cost per customer by channel wanted at this stage (C14)?
+6. The 768 px floor against WCAG 1.4.10 Reflow: accept as a declared exception (5.6)?
+7. Is the new app still a web app with accounts (as in the Foundation App Plan), and does it keep the Examples (5.7, X2)?
 
 ## 5.9 Known open findings
 

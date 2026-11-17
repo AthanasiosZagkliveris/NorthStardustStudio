@@ -363,6 +363,35 @@ button.card-tile-symbol[aria-pressed="true"] {
 
 }
 
+/* A TABLE'S ROW THAT HOLDS THE CARD NOW OPEN (SectionTiles.tsx sets data-opener-cell on each of its cells: a Journey Stage's subchannel; owner, 2026-11-17 00:16):
+   one frame round the whole row, edge to edge, in the links' blue -- the colour a link frames the part it lands on in (.jump-highlight), set by each reading mode --,
+   drawn just inside the cells so no scrolling box cuts it and nothing moves. */
+[data-opener-cell] {
+
+    --row-frame: var(--text-primary);
+
+    box-shadow: inset 0 4px 0 var(--row-frame), inset 0 -4px 0 var(--row-frame);
+
+}
+
+[data-opener-cell~="first"] {
+
+    box-shadow: inset 0 4px 0 var(--row-frame), inset 0 -4px 0 var(--row-frame), inset 4px 0 0 var(--row-frame);
+
+}
+
+[data-opener-cell~="last"] {
+
+    box-shadow: inset 0 4px 0 var(--row-frame), inset 0 -4px 0 var(--row-frame), inset -4px 0 0 var(--row-frame);
+
+}
+
+[data-opener-cell~="first"][data-opener-cell~="last"] {
+
+    box-shadow: inset 0 4px 0 var(--row-frame), inset 0 -4px 0 var(--row-frame), inset 4px 0 0 var(--row-frame), inset -4px 0 0 var(--row-frame);
+
+}
+
 /* A block of a master tile (a colour, a typeface, an image) that opened the card now open: the same halo, on the block. */
 .section-tile [data-card][data-opener-tile] {
 

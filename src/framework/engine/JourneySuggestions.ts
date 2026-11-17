@@ -1,7 +1,7 @@
 import type { BusinessCustomerSegmentValue } from "./AnswerBusinessFoundation.ts";
-import { BUSINESS_CHANNEL_ALL_OFFERINGS, type BusinessChannelValue, type BusinessOfferingRelationshipEntryValue, type BusinessRelationshipTypeValue } from "./businessFoundation/engagementReaders.ts";
+import { BUSINESS_CHANNEL_ALL_OFFERINGS, OTHER_RELATIONSHIP_PREFIX, type BusinessChannelValue, type BusinessOfferingRelationshipEntryValue, type BusinessRelationshipTypeValue } from "./businessFoundation/engagementReaders.ts";
 import { effectiveOfferingAnswers, effectiveProfileAnswers, effectiveSegmentAnswers, offeringIsPhysical } from "./EffectiveAnswers.ts";
-import { demandChannelIds } from "./DemandCapacity.ts";
+import { DEMAND_SOURCES, type DemandValue, createDemand, createDemandSource, demandChannelIds } from "./DemandCapacity.ts";
 import { writtenInNames } from "./SegmentQuestions.ts";
 import { TRIED_OPTIONS } from "./ProfileQuestions.ts";
 import { businessProfileOfferings } from "./businessFoundation/engagementPage.ts";
@@ -47,7 +47,7 @@ const DISCOVER: Readonly<Record<string, Pick>> = {
 };
 
 /** Where they see adverts (Box 4, 3a) → its Advertising subchannel at Discover. */
-const ADVERTS: Readonly<Record<string, string>> = { press: "Newspaper / Magazine", radio: "Radio", tv: "TV", outdoor: "Billboard / Outdoor" };
+const ADVERTS: Readonly<Record<string, string>> = { press: "Newspaper / Magazine", radio: "Radio", tv: "TV", outdoor: "Billboard / Outdoor", journals: "Newspaper / Magazine" };
 
 /** The way to try it first each Offering's form gives, where they discover by free samples, tasters or trials (owner, 2026-11-16 17:38). */
 function trialOf(physical: boolean, form: string | undefined): string {
@@ -184,6 +184,12 @@ export function journeySuggestions(segment: BusinessCustomerSegmentValue, identi
         const ways = segment.offerings.length > 0 ? segment.offerings.map((offering, at) => trialOf(offeringIsPhysical(offering, segment, identity), offerings[at].o1?.[0])) : ["Demo"];
         [...new Set(ways)].forEach(name => add("discovery", ["Samples & Trials", name], "how they discover you", true));
     }
+    // (HOW THEY SHARE WHAT THEY BUY (owner, 2026-11-17): posting it publicly, or telling friends and family, makes Customer Referral a way they discover you -- and,
+    // through it, the Referrals Customer Source -- and a channel at Support & Follow Up, where the action that asks for it stands; keeping it to themselves, none.)
+    if ((answers.share ?? []).some(id => id === "public" || id === "friends")) {
+        add("discovery", ["Referral & Affiliates", "Customer Referral"], "how they share what they buy", true);
+        add("support", ["Referral & Affiliates", "Customer Referral"], "how they share what they buy", true);
+    }
     // (A way of discovering written in under Other: a channel of the Other category, by its name, at Discover; owner, 2026-11-16 16:31.)
     segmentWrittenIn(answers, "discover").forEach(name => add("discovery", ["Other", name], "how they discover you", true));
     // (A platform, community or event the Profiles write in under Other (C2, C3, C4: `<id>-other`) is that very subchannel too, by the name written -- several
@@ -269,6 +275,32 @@ export function journeySuggestions(segment: BusinessCustomerSegmentValue, identi
 export function suggestionMet(suggestion: ChannelSuggestion, channels: readonly BusinessChannelValue[]): boolean {
     const name = suggestion.name.trim().toLocaleLowerCase();
     return channels.some(channel => channel.category === suggestion.category && (name === "" || channel.name.trim().toLocaleLowerCase() === name));
+}
+
+/** The actions the sharing answers make (owner, 2026-11-17): on Customer Referral at Support & Follow Up, one a way they share. */
+const SHARE_ACTIONS: Readonly<Record<string, string>> = { public: "Ask for a photo or review after each sale", friends: "Invite them to refer a friend" };
+
+/**
+ * THE ACTIONS THE ANSWERS MAKE (owner, 2026-11-17): each a sharing answer gives (SHARE_ACTIONS) on the Segment's Customer Referral channel at Support & Follow
+ * Up, made once (answerActions) -- so an action the founder removes, or edits, stays as they left it. Returns the same entry when nothing changes.
+ */
+export function withAnswerActions<T extends { segmentId: string; channels: BusinessChannelValue[]; actions: { id: string; text: string }[]; answerActions?: string[] }>(entry: T, segment: BusinessCustomerSegmentValue, identity?: SegmentIdentity): T {
+    const answers = effectiveSegmentAnswers(segment, identity);
+    const channel = entry.channels.find(candidate => candidate.category.trim() === "Referral & Affiliates" && candidate.name.trim() === "Customer Referral" && candidate.stages.includes("support"));
+    if (!channel) {
+        return entry;
+    }
+    const made = entry.answerActions ?? [];
+    const due = (answers.share ?? []).filter(id => SHARE_ACTIONS[id] && !made.includes("share:" + id));
+    if (due.length === 0) {
+        return entry;
+    }
+    const actions = due.map(id => ({ id: "action-" + entry.segmentId + "-share-" + id, text: SHARE_ACTIONS[id] }));
+    const channels = entry.channels.map(candidate => candidate.id !== channel.id ? candidate : {
+        ...candidate,
+        actionIds: { ...candidate.actionIds, support: [...(candidate.actionIds.support ?? []), ...actions.map(action => action.id)] }
+    });
+    return { ...entry, channels, actions: [...entry.actions, ...actions.filter(action => !entry.actions.some(existing => existing.id === action.id))], answerActions: [...made, ...due.map(id => "share:" + id)] };
 }
 
 /** A subchannel's key, the same however it is written: its category and name. */
@@ -380,8 +412,13 @@ export function autoRelationshipTypes(segment: BusinessCustomerSegmentValue, off
     };
     const offering = segment.offerings.find(entry => entry.id === offeringId);
     // (None gives no help, so it makes no type: the Offering's other answers, or Personal Assistance, stand.)
-    (offering ? effectiveOfferingAnswers(offering, segment, identity).o7 ?? [] : []).filter(id => id !== "none").forEach(id =>
+    const help = offering ? effectiveOfferingAnswers(offering, segment, identity) : {};
+    (help.o7 ?? []).filter(id => id !== "none" && id !== "other").forEach(id =>
         add(id === "dedicated" ? "dedicated-support" : id === "personal" ? "personal-assistance" : id === "auto" ? "automated-service" : "self-service", "your help after they buy"));
+    // (Help of another kind, written under Other: each name its own type, made as the five are; owner, 2026-11-16 19:18.)
+    if ((help.o7 ?? []).includes("other")) {
+        writtenInNames(help["o7-other"]).forEach(name => add(OTHER_RELATIONSHIP_PREFIX + name, "your help after they buy"));
+    }
     // (The Profiles this Offering serves -- those that tick it among their needs --, else the Segment's every Profile.)
     const serving = segment.profiles.filter(profile => businessProfileOfferings(profile, segment.offerings).some(entry => entry.id === offeringId));
     const profiles = (serving.length > 0 ? serving : segment.profiles).map(profile => effectiveProfileAnswers(profile, segment, identity));
@@ -393,7 +430,8 @@ export function autoRelationshipTypes(segment: BusinessCustomerSegmentValue, off
     if ((effectiveSegmentAnswers(segment, identity).authorise ?? []).includes("procurement")) {
         add("dedicated-support", "a buyer who decides by formal tender");
     }
-    if ((identity?.relationships ?? []).includes("b2g")) {
+    // (Government buyers want a named contact: where the Segment's buyer is a business or the public sector, never a Segment of people; owner, 2026-11-16.)
+    if ((identity?.relationships ?? []).includes("b2g") && segmentIsBusiness(segment)) {
         add("dedicated-support", "your government buyers");
     }
     return out;
@@ -442,13 +480,60 @@ export interface DemandSuggestion {
     /** What the row is called: the channel's name, or the source's. */
     label: string;
     source: string;
+    /** An Other source's own name. */
+    name?: string;
+    /** A channel group's row: its category, and its channels (`channelId` is then ""). */
+    group?: string;
+    channelIds?: string[];
+}
+
+/** A Demand row's key, so a source the founder removed is not made again: its kind and its channel. */
+export const demandSourceKey = (row: { type: string; channelId: string; group?: string }) => row.type + "|" + (row.group ? "group:" + row.group : row.channelId);
+
+/** The kinds of source made ONE PER KIND (owner, 2026-11-16 20:22: "it should be per source"): a Sales funnel, Referrals and Visitors, each listing all its channels; an Other one per name. */
+const GROUPED_KINDS: readonly string[] = ["funnel", "referrals", "marketplace"];
+
+/**
+ * THE CUSTOMER SOURCES THE ANSWERS MAKE (owner, 2026-11-16 19:18: "the same as channels"): each Demand row the Foundation proposes for an Offering
+ * (demandSuggestions) becomes a source of its own, blank, marked as made by the answers -- an Other channel's carrying its name --, unless the founder removed it
+ * (`dismissed`, restored from the dialog's Removed list). A source saved before stays as it is. The same value when nothing is new.
+ */
+export function withAnswerSources(demand: DemandValue | undefined, segment: BusinessCustomerSegmentValue, offeringId: string, channels: readonly BusinessChannelValue[], recurring: boolean, identity?: SegmentIdentity): DemandValue | undefined {
+    const base = demand ?? { ...createDemand(), recurring };
+    const dismissed = base.dismissed ?? [];
+    const rows = demandSuggestions(segment, offeringId, channels, base, identity).filter(row => !dismissed.includes(demandSourceKey(row)));
+    if (rows.length === 0) {
+        return demand;
+    }
+    // (A KIND NEVER TWICE (owner, 2026-11-16 20:29): where the Offering has one source of the kind -- saved by the founder or made before --, that source takes the
+    // kind's channels, its own figures kept; where it has two or more (older answers), they stay apart and none is made. Only a kind it has none of is made.)
+    let sources = [...base.sources];
+    let changed = false;
+    for (const row of rows) {
+        const same = row.group ? sources.map((source, at) => ({ source, at })).filter(entry => entry.source.type === row.type) : [];
+        if (same.length > 1) {
+            continue;
+        }
+        if (same.length === 1) {
+            const { source, at } = same[0];
+            const own = source.channelId ? [source.channelId] : [];
+            changed = true;
+            sources[at] = { ...source, channelId: "", group: row.group, channelIds: [...new Set([...own, ...(source.channelIds ?? []), ...(row.channelIds ?? [])])] };
+        } else {
+            changed = true;
+            sources = [...sources, { ...createDemandSource(row.type, row.channelId), ...(row.name ? { name: row.name } : {}), ...(row.group ? { group: row.group, channelIds: row.channelIds ?? [] } : {}), fromAnswers: true }];
+        }
+    }
+    return changed ? { ...base, sources } : demand;
 }
 
 /** A Discover channel's category → the Customer Source its customers come by (doc 28, 7.5). */
 const SOURCE_OF: Readonly<Record<string, string>> = {
     "Referral & Affiliates": "referrals",
     Marketplace: "marketplace", "In Person": "marketplace", "Retail & Wholesale": "marketplace",
-    Website: "funnel", "Social Media": "funnel", Email: "funnel", Community: "funnel", "Online / Live": "funnel"
+    Website: "funnel", "Social Media": "funnel", Email: "funnel", Community: "funnel", "Online / Live": "funnel",
+    // (Owner, 2026-11-16 19:18: adverts and printed pieces bring prospects; a sample, trial, demo or taster is the funnel's middle step, "Tried it".)
+    Advertising: "funnel", "Print & Mail": "funnel", "Samples & Trials": "funnel"
 };
 
 /**
@@ -470,17 +555,37 @@ export function demandSuggestions(segment: BusinessCustomerSegmentValue, offerin
     const out: DemandSuggestion[] = [];
     // (The channels that already bring its customers: those its sources name, demandChannelIds.)
     const used = demandChannelIds(demand);
-    channels
+    const open = channels
         .filter(channel => channel.stages.includes("discovery") && (channel.offerings.includes(BUSINESS_CHANNEL_ALL_OFFERINGS) || channel.offerings.includes(offeringId)))
-        .filter(channel => !used.includes(channel.id))
+        .filter(channel => !used.includes(channel.id));
+    // (ONE ROW PER KIND -- a Sales funnel, Referrals, Visitors --, all its channels listed, so a customer is counted once; an Other one per channel: owner, 2026-11-16 20:22.)
+    const groups = new Map<string, DemandSuggestion>();
+    open.filter(channel => GROUPED_KINDS.includes(demandSourceOf(channel.category, channel.name))).forEach(channel => {
+        const type = demandSourceOf(channel.category, channel.name);
+        const key = type;
+        const row = groups.get(key);
+        if (row) {
+            row.channelIds!.push(channel.id);
+        } else {
+            const kind = DEMAND_SOURCES.find(entry => entry.id === type)?.label ?? type;
+            const made: DemandSuggestion = { type, channelId: "", label: kind, source: "the Discover channels that serve it", group: kind, channelIds: [channel.id] };
+            groups.set(key, made);
+            out.push(made);
+        }
+    });
+    open.filter(channel => !GROUPED_KINDS.includes(demandSourceOf(channel.category, channel.name)))
         .forEach(channel => out.push({
             type: demandSourceOf(channel.category, channel.name),
             channelId: channel.id,
             label: channel.name.trim() || channel.category,
-            source: "a Discover channel that serves it"
+            source: "a Discover channel that serves it",
+            // (An Other channel's source carries its name: owner, 2026-11-16 19:18.)
+            ...(demandSourceOf(channel.category, channel.name) === "other" && channel.name.trim() ? { name: channel.name.trim() } : {})
         }));
-    if ((effectiveSegmentAnswers(segment, identity).authorise ?? []).includes("procurement") && !demand.sources.some(source => source.type === "contracts")) {
-        out.push({ type: "contracts", channelId: "", label: "Contracts or tenders", source: "how they decide to buy" });
+    // (THE IDENTITY ANSWERS TOO (owner, 2026-11-17): selling to government (I3, B2G) is won by tender, as a buyer deciding by formal procurement is.)
+    const government = (identity?.relationships ?? []).includes("b2g");
+    if (((effectiveSegmentAnswers(segment, identity).authorise ?? []).includes("procurement") || government) && !demand.sources.some(source => source.type === "contracts")) {
+        out.push({ type: "contracts", channelId: "", label: "Contracts or tenders", source: government ? "you sell to government" : "how they decide to buy" });
     }
     // REPEAT CUSTOMERS, where the answers say they come back (doc 28, 7.5): customers who buy out of habit (the Segment's `path`), or an Offering kept up after the
     // sale -- repairs and maintenance, replacements and refills (O17). A subscription keeps its clients and is never offered it (DEMAND_SOURCES, oneOffOnly).
@@ -498,7 +603,11 @@ export function demandSuggestions(segment: BusinessCustomerSegmentValue, offerin
  * THE FUNNEL'S MIDDLE STEP IS A TRIAL (doc 50, section 2.5; owner, 2026-11-14 12:00): where a Profile of the Segment compares options by "A demo, trial or
  * sample" (D1), the Sales funnel's Qualified step is the people who tried it -- its label "Tried it (%)". No new kind of source.
  */
-export function funnelIsTrial(segment: BusinessCustomerSegmentValue, identity?: SegmentIdentity): boolean {
+export function funnelIsTrial(segment: BusinessCustomerSegmentValue, identity?: SegmentIdentity, channel?: { category: string }): boolean {
+    // (A source through a Samples & Trials channel: its customers try it first; owner, 2026-11-16 19:18.)
+    if (channel?.category === "Samples & Trials") {
+        return true;
+    }
     return segment.profiles.some(profile => (effectiveProfileAnswers(profile, segment, identity).d1 ?? []).some(id => TRIED_OPTIONS.includes(id)));
 }
 

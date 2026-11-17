@@ -1,21 +1,25 @@
 /* Part of BusinessDocuments.ts (split by its sections, 2026-11-10: the same code, in files of one topic each; BusinessDocuments.ts re-exports every part). */
 
-import { OFFERING_QUESTIONS, offeringAnswerLines } from "../OfferingQuestions.ts";
+import { OFFERING_QUESTIONS, offeringAnswerLines, offeringOptions } from "../OfferingQuestions.ts";
 import { workspacesOf, WORKSPACE_GROUP_ID } from "../AnswerUtils.ts";
 import { offeringRelationshipsFor } from "../JourneySuggestions.ts";
 import { activitiesLine, positioningDocumentTitle } from "../ActivityClassification.ts";
 import { segmentAnswerLines, segmentBoxAnswered } from "../SegmentQuestions.ts";
 import { segmentContextFor, segmentIdentityOf, segmentIsBusiness, settledSegmentAnswers } from "../SegmentContext.ts";
-import { effectiveOfferingAnswers, offeringContextOf } from "../EffectiveAnswers.ts";
+import { effectiveOfferingAnswers, effectiveProfileAnswers, offeringContextOf } from "../EffectiveAnswers.ts";
+import { profilePersona } from "../ProfileQuestions.ts";
 import { AnswerType } from "../../enums/AnswerType.ts";
 import { WEEKS_PER_MONTH, demandResult, founderMonthlySalary, founderWorkingHours, hasDemand } from "../DemandCapacity.ts";
-import { addressCity, BUSINESS_ACTIVITY_CATEGORIES, BUSINESS_CHANNEL_ALL_OFFERINGS, BUSINESS_JOURNEY_STAGES, BUSINESS_COMPETITOR_TYPES, BUSINESS_RELATIONSHIP_TYPES, BUSINESS_RESOURCE_GROUPS, BUSINESS_RESOURCE_STATUSES, BUSINESS_WORKSPACE_KINDS, isCostingStatus, type BusinessPartnerValue, type ExportBlock, type LegalEntityValue, type StrategyMonthValue, asFoundersProfileValue, type StrategyMetricValue, founderProfileHasText, founderProfileOf, founderProfiles, founderSkillLines, strategyObjectiveOwnerId, workspaceCardName } from "../AnswerUtils.ts";
+import { addressCity, BUSINESS_ACTIVITY_CATEGORIES, BUSINESS_CHANNEL_ALL_OFFERINGS, BUSINESS_JOURNEY_STAGES, BUSINESS_COMPETITOR_TYPES, relationshipTypeLabel, BUSINESS_RESOURCE_GROUPS, BUSINESS_RESOURCE_STATUSES, BUSINESS_WORKSPACE_KINDS, isCostingStatus, type BusinessPartnerValue, type ExportBlock, type LegalEntityValue, type StrategyMonthValue, asFoundersProfileValue, type StrategyMetricValue, founderProfileHasText, founderProfileOf, founderProfiles, founderSkillLines, strategyObjectiveOwnerId, workspaceCardName } from "../AnswerUtils.ts";
 import { type ExportContent } from "../ExportContentBuilder.ts";
 import { financialForecast, forecastView, type ForecastViewTable } from "../FinancialForecast.ts";
-import { demandBasis, details, financialFoundationBlocks, financialSustainabilityBlocks, heading, labelled, labelledList, list, offeringName, offeringNames, capacityBlocks, brandStyleBlocks, paragraph, table, titled } from "../ExportRenderers.ts";
+import { demandBasis, details, financialFoundationBlocks, financialSustainabilityBlocks, heading, labelled, labelledList, list, offeringName, offeringNames, capacityBlocks, brandStyleBlocks, paragraph, table, titled , offeringSplitText } from "../ExportRenderers.ts";
 import { COST_FREQUENCIES, COST_GROUPS, FUNDING_STATUSES, planLength, revenueModelLabel, planYears, salesCapacity, allFunding, asFinancialFoundationValue, fundingStanding, fundingType, isLoan, isNonCash, loanSchedule, isScheduled, monthlyEquivalent, parseAmount, moneyFormatter, planMonthLabel, spentBeforePlan, type CostLine, costAmountShown } from "../FinancialModel.ts";
 import { COUNTRIES, jurisdictionProfile } from "../LegalEntityJurisdictions.ts";
-import { brandGuidePictures, brandPictures, costName, coverLines, listItems, monthName, payWord, priceText, readFoundation, section, shortMonth, text, type Foundation, type FoundationSessions } from "./reading.ts";
+import { brandGuidePictures, brandPictures, costName, coverLines, listItems, monthName, payWord, priceText, readFoundation, section, shortMonth, swotStartsOf, text, type Foundation, type FoundationSessions } from "./reading.ts";
+import { neededSkillLine, neededSkills, skillsOf } from "../capability/skills.ts";
+import { strategySwotShown } from "../AnswerStrategy.ts";
+import { competitorTable } from "../CompetitorQuestions.ts";
 
 /* ==========================================================
    The Business Plan
@@ -179,21 +183,29 @@ function marketBlocks(f: Foundation): ExportBlock[] {
         ...labelled(positioningDocumentTitle(f.stage), text(f.definition.positioning)),
         ...f.segments.flatMap((segment, index) => [
             heading("Segment " + (index + 1) + ": " + (segment.name.trim() || "Unnamed segment")),
-            ...titled2("What we know of them", details(segmentAnswerLines(settledSegmentAnswers(segment, f.legalEntity.organisation)).map(line => [line.label, line.value]))),
+            ...titled2("What we know of them", details(segmentAnswerLines(settledSegmentAnswers(segment, f.legalEntity.organisation), segmentContextFor(segmentIdentityOf(f.legalEntity.organisation, f.stage), segmentIsBusiness(segment))).map(line => [line.label, line.value]))),
             // A Segment with an end user (Proxy or Dual-Intent): the goals, challenges and needs are the end user's (doc 36, 2.1).
-            ...titled2("Customer Profiles", table(segmentContextFor(segmentIdentityOf(f.legalEntity.organisation), segmentIsBusiness(segment)).endsUser ? ["Profile", "End user's goals", "End user's challenges", "End user's needs"] : ["Profile", "Goals", "Challenges", "Needs"], segment.profiles.map(profile => [
+            // (Each Profile in a sentence first, its persona: profilePersona; owner, 2026-11-17.)
+            ...titled2("Customer Profiles", [...list(segment.profiles.map(profile => profilePersona(profile.name, effectiveProfileAnswers(profile, segment, segmentIdentityOf(f.legalEntity.organisation, f.stage)))).filter(Boolean)), ...table(segmentContextFor(segmentIdentityOf(f.legalEntity.organisation), segmentIsBusiness(segment)).endsUser ? ["Profile", "End user's goals", "End user's challenges", "End user's needs"] : ["Profile", "Goals", "Challenges", "Needs"], segment.profiles.map(profile => [
                 profile.name,
                 profile.goals,
                 profile.challenges,
                 bulletCell(profile.needs.functional)
-            ]))),
-            ...titled2("Competitors", table(["Competitor", "Type", "Strengths and weaknesses", "Insights"], segment.competitors.map(competitor => [
-                competitor.name,
-                BUSINESS_COMPETITOR_TYPES.find(type => type.id === competitor.type)?.label ?? "",
-                // One note since 2026-11-05 (owner): what no rating says about them.
-                competitor.strengths,
-                competitor.insights
-            ])))
+            ]))]),
+            ...titled2("Competitors", [
+                ...table(["Competitor", "Type", "Strengths and weaknesses", "Insights"], segment.competitors.map(competitor => [
+                    competitor.name,
+                    BUSINESS_COMPETITOR_TYPES.find(type => type.id === competitor.type)?.label ?? "",
+                    // One note since 2026-11-05 (owner): what no rating says about them.
+                    competitor.strengths,
+                    competitor.insights
+                ])),
+                // (K1 to K10 side by side, a column per competitor, the openings chosen last: competitorTable; owner, 2026-11-17.)
+                ...(() => {
+                    const compared = competitorTable(segment.competitors, { profiles: segment.profiles.map(profile => profile.questions ?? {}), reach: segment.questions.reach?.[0] });
+                    return compared.rows.length > 0 ? table(compared.head, compared.rows) : [];
+                })()
+            ])
         ]),
         // Each segment's market size and outlook is under it; said to
         // be missing only when no segment has one.
@@ -220,7 +232,15 @@ function offeringBlocks(f: Foundation): ExportBlock[] {
                     (offering.description.benefit ?? "").trim() || lines.find(line => line.label === OFFERING_QUESTIONS.find(question => question.id === "o4")?.label)?.value || "",
                     priceText(stream, f.format), stream ? revenueModelLabel(stream) : ""
                 ];
-            }))
+            })),
+            // (THE CONDITIONS OF SALE (O18), each Offering's, as its card shows them; owner, 2026-11-17.)
+            ...titled2("Conditions of sale", list(segment.offerings.flatMap(offering => {
+                const identity = segmentIdentityOf(f.legalEntity.organisation, f.stage);
+                const context = offeringContextOf(offering, segment, identity);
+                const conditions = (effectiveOfferingAnswers(offering, segment, identity).o18 ?? [])
+                    .map(id => offeringOptions("o18", context).find(option => option.id === id)?.label ?? "").filter(Boolean);
+                return conditions.length > 0 ? [(offering.name.trim() || "An Offering") + ": " + conditions.join("; ")] : [];
+            })))
         ]),
         // Intellectual property and where each Offering is in its life: not asked for.
         ...notCovered("Intellectual Property and Product Lifecycle")
@@ -242,7 +262,7 @@ function marketingBlocks(f: Foundation): ExportBlock[] {
             ])),
             // (The list the page shows: offeringRelationshipsFor.)
             ...list((segment ? offeringRelationshipsFor(entry, segment, segmentIdentityOf(f.legalEntity.organisation)) : []).flatMap(relationship => relationship.types.map(typeId => {
-                const type = BUSINESS_RELATIONSHIP_TYPES.find(candidate => candidate.id === typeId)?.label ?? typeId;
+                const type = relationshipTypeLabel(typeId) || typeId;
                 const purpose = text(relationship.typeDetail[typeId]?.purpose);
                 return purpose
                     ? offering(relationship.offeringId) + " (" + type + "): " + purpose
@@ -340,10 +360,10 @@ function operationsBlocks(f: Foundation): ExportBlock[] {
 function teamBlocks(f: Foundation): ExportBlock[] {
     const organisation = f.legalEntity.organisation;
     const profiled = founderProfiles(f.legalEntity.founders, f.foundersProfile).filter(founderProfileHasText);
-    const capability = asFoundersProfileValue(f.foundersProfile);
-    const teamGaps = capability.teamCover.trim()
-        ? [capability.teamGaps.trim() ? "Gaps: " + capability.teamGaps.trim() : "", "Cover: " + capability.teamCover.trim()].filter(Boolean).join("\n\n")
-        : capability.teamGaps;
+    // (Skills and Cover, from Capacity & Delivery: each skill the business still needs with who covers it; owner, 2026-11-16 20:25.)
+    const legacy = asFoundersProfileValue(f.foundersProfile);
+    const skills = neededSkills(f.capability, legacy, Object.fromEntries(f.legalEntity.founders.map(founder => [founder.id, founder.name.trim()])));
+    const skillNotes = skillsOf(f.capability, legacy).notes.trim();
     return [
         ...titled("Legal Structure", details([
             ["Legal name", organisation.name],
@@ -372,9 +392,9 @@ function teamBlocks(f: Foundation): ExportBlock[] {
                 ...labelledList("Skills, expertise and qualifications", founderSkillLines(founder.skills))
             ]))
             : notCovered("Experience and CVs")),
-        ...(text(teamGaps)
-            ? titled("Capability Gaps and Cover", paragraph(teamGaps))
-            : notCovered("Capability Gaps and Cover"))
+        ...(skills.length > 0 || skillNotes
+            ? titled("Skills and Cover", [...list(skills.map(neededSkillLine)), ...paragraph(skillNotes)])
+            : notCovered("Skills and Cover"))
     ];
 }
 
@@ -446,6 +466,9 @@ function strategyBlocks(f: Foundation): ExportBlock[] {
     const range = (value: { start: StrategyMonthValue; end: StrategyMonthValue }) =>
         [monthName(value.start), monthName(value.end)].filter(Boolean).join(" – ");
     const bullets = bulletCell;
+    // (Opportunities and Threats as the Strategy page shows them: the market's starts while a quadrant was never edited; swotStartsOf.)
+    const shown = strategySwotShown(foundation, swotStartsOf(f));
+    const swot = (id: "strengths" | "weaknesses" | "opportunities" | "threats") => shown[id];
 
     /* Every Objective, numbered as the Strategy System numbers them. */
     const objectives = foundation.themes.flatMap((theme, themeIndex) =>
@@ -459,8 +482,8 @@ function strategyBlocks(f: Foundation): ExportBlock[] {
         ...labelled("Strategic period", range(period)),
         ...labelled("Strategic compass", foundation.compass),
         ...titled("SWOT Analysis", table(["", "Helpful", "Harmful"], [
-            ["Internal", bullets(foundation.swot.strengths), bullets(foundation.swot.weaknesses)],
-            ["External", bullets(foundation.swot.opportunities), bullets(foundation.swot.threats)]
+            ["Internal", bullets(swot("strengths")), bullets(swot("weaknesses"))],
+            ["External", bullets(swot("opportunities")), bullets(swot("threats"))]
         ].filter(row => row[1] || row[2]))),
         ...titled("Strategic Themes", table(["Theme", "Description"], foundation.themes.map((theme, index) => [
             (index + 1) + ". " + theme.name, theme.description
@@ -736,7 +759,7 @@ function appendixBlocks(f: Foundation): ExportBlock[] {
                             costName(f, line),
                             line.amount === null ? line.amountText : line.counted ? costAmountShown(line, f.format) : line.amountText + " " + line.currency + " (not counted)",
                             frequencyOf(line),
-                            offeringNames(f.foundationValue, line.offeringIds)
+                            offeringSplitText(f.foundationValue, line.offeringIds, line.offeringShares)
                         ]),
                         ["Subtotal", sumText(f, sums), "", ""]
                     ])

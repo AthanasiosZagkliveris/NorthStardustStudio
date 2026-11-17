@@ -17,7 +17,7 @@ import TextLink from "../../fields/TextLink.tsx";
 import { draftToAdd, differentiationSourceCards, namesInSentence } from "../../../../framework/engine/CompetitorQuestions.ts";
 import FittingRadioChoice from "./FittingRadioChoice.tsx";
 import { type OfferingContext, draftOffered, valuePropositionDraft, valuePropositionOpenItems } from "../../../../framework/engine/OfferingQuestions.ts";
-import { effectiveOfferingAnswers, effectiveProfileAnswers, effectiveProfileUserAnswers, offeringContextOf, segmentTrials, withFieldSet } from "../../../../framework/engine/EffectiveAnswers.ts";
+import { effectiveOfferingAnswers, effectiveProfileAnswers, effectiveProfileUserAnswers, offeringContextOf, segmentTrials, withFieldSet , segmentForms } from "../../../../framework/engine/EffectiveAnswers.ts";
 import NumberCell from "../../../controls/NumberCell.tsx";
 import { type ProfileBox, type ProfilePart, type ProfileQuestion, DUAL_USER, OWN_TASKS_INFO, PROFILE_NOTE_HINTS, profileAgeRange, profileChoose, profileOutcomeLimit, profileRate, profileRatings, profileWho, profileQuestionsOf, profileSettle, profileUserAgeRange, profileUserQuestionsOf, profileUserSettle, profileUserWho, profileUserName, profileOptionsShown, proposedBusinessProfiles, segmentNeedTicks } from "../../../../framework/engine/ProfileQuestions.ts";
 import { type SegmentBox, type SegmentQuestion, SEGMENT_QUESTIONS, writtenInNames, writtenInRows, segmentChoose, segmentOptions, segmentQuestionsOf, segmentRowChoice, segmentSettle, segmentSettledNotes } from "../../../../framework/engine/SegmentQuestions.ts";
@@ -268,7 +268,7 @@ export function useFoundationSubsections(earlier: Earlier) {
         // asks it without the tick; otherwise (nothing chosen, or several) every box stands, as before. The audience chosen in Identity is added to the "i" of the box it belongs to.
         const frame = segmentFrame(identity);
         // (The ways its Offerings can be tried first narrow the Profiles' D1: segmentTrials.)
-        const asked = { ...segmentContextFor(identity, segment.description[OPTIONAL_DESCRIPTION_PART] !== undefined), trials: segmentTrials(segment) };
+        const asked = { ...segmentContextFor(identity, segment.description[OPTIONAL_DESCRIPTION_PART] !== undefined), trials: segmentTrials(segment), forms: segmentForms(segment) };
         // (The Competitor cards name their type's own `asked`: the Segment's end user is read through this.)
         const segmentEndsUser = asked.endsUser;
 
@@ -920,10 +920,12 @@ export function useFoundationSubsections(earlier: Earlier) {
         const offeringContext = (offering: BusinessOfferingValue): OfferingContext => offeringContextOf(offering, segment, identity);
         const offeringAnswers = segment.offerings.map(offering => effectiveOfferingAnswers(offering, segment, identity));
         const profileAnswers = segment.profiles.map(profile => effectiveProfileAnswers(profile, segment, identity));
+        // (The end users' own answers, for the draft's E4 line: effectiveProfileUserAnswers; empty where the Segment has no end user.)
+        const userAnswers = segment.profiles.map(profile => effectiveProfileUserAnswers(profile, segment, identity));
 
         /* The draft (doc 42, 1): one link for each Offering with a Type (the doc's proposal for several Offerings), adding its sentence at the end of the text. */
         const drafts = draftOffered(segment)
-            ? segment.offerings.map((offering, at) => ({ offering, draft: offering.category.trim() ? valuePropositionDraft(segment, offering, offeringAnswers[at], offeringContext(offering), profileAnswers) : "" })).filter(entry => entry.draft && draftToAdd(segment.valueProposition, entry.draft))
+            ? segment.offerings.map((offering, at) => ({ offering, draft: offering.category.trim() ? valuePropositionDraft(segment, offering, offeringAnswers[at], offeringContext(offering), profileAnswers, userAnswers) : "" })).filter(entry => entry.draft && draftToAdd(segment.valueProposition, entry.draft))
             : [];
         const openItems = valuePropositionOpenItems(segment, offeringAnswers, profileAnswers);
 

@@ -79,10 +79,10 @@ const MISSING_LABELS: Record<string, readonly string[]> = {
     "Payment Plan": ["payment plan"],
     "Category": ["category", "group"],
     "Group": ["group"],
-    "Performer": ["performer"],
+    "Team": ["performer"],
     "Responsible": ["responsible"],
     "Linked Offerings": ["linked to", "offerings"],
-    "Offering shares": ["linked to"],
+    "Offering shares": ["linked to", "offerings"],
     "Salary": ["salary"],
     "Working Hours": ["working hrs"],
     "Delivery Hours": ["delivery hrs"]
@@ -563,6 +563,8 @@ export interface BusinessTickOption {
     note?: ReactNode;
     /** Its own "i", beside its name: what the option means (owner, 2026-11-10: K14, "place the related i next to each option"). */
     info?: InfoPoint[];
+    /** The heading of the group this option opens ("Online", "In person and in print"; owner, 2026-11-17): drawn above it, never ticked. */
+    heading?: string;
 }
 
 /**
@@ -619,7 +621,9 @@ export function BusinessTicks({
 
     return (
         <>
-            {options.map(option => row(option, (
+            {options.map(option => [
+                ...(option.heading ? [<span className="field-group-title business-tick-heading" key={"heading-" + option.id} role="presentation">{option.heading}</span>] : []),
+                row(option, (
 
                 <TickField className={"business-foundation-tick" + (option.indent ? " business-foundation-tick-indented" : "") + (option.blocked || locked(option) || (option.locked && !chosen.includes(option.id)) ? " business-foundation-tick-blocked" : "")} key={option.id} aria-label={
                             name + ": " + option.label +
@@ -658,7 +662,7 @@ export function BusinessTicks({
 
                 </TickField>
 
-            )))}
+            ))])}
         </>
     );
 

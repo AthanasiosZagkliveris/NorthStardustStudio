@@ -20,19 +20,21 @@ import { floorRows, tileLines, tileMarks } from "../../tiles/capabilityFloor.ts"
 import CardNameInput from "../../cards/CardNameInput.tsx";
 import CardNumber from "../../cards/CardNumber.tsx";
 import TextLink from "../../fields/TextLink.tsx";
-import { SECTIONS, DELIVERY_HELP, Scope, patchSlot, removeSlot, NO_CATEGORY, NO_GROUP, FIXED_KIND_IDS, blankSlot, blankActivity, withBreak } from "../BusinessCapabilityModel.ts";
+import { formatHours, SECTIONS, DELIVERY_HELP, Scope, patchSlot, removeSlot, NO_CATEGORY, NO_GROUP, FIXED_KIND_IDS, blankSlot, blankActivity, withBreak } from "../BusinessCapabilityModel.ts";
 import type { useCapabilityState } from "./useCapabilityState.tsx";
 import type { useCapabilityCardFields } from "./useCapabilityCardFields.tsx";
 import type { useCapabilityPeopleCards } from "./useCapabilityPeopleCards.tsx";
 import type { useCapabilityActivityAndDelivery } from "./useCapabilityActivityAndDelivery.tsx";
+import { deliveryEffort } from "../../../../framework/engine/DemandCapacity.ts";
+import { OPEN_EVENT, type OpenRequest } from "../../tiles/SectionTiles.tsx";
 
 type Earlier = ReturnType<typeof useCapabilityState> & ReturnType<typeof useCapabilityCardFields> & ReturnType<typeof useCapabilityPeopleCards> & ReturnType<typeof useCapabilityActivityAndDelivery>;
 
 export function useCapabilitySections(earlier: Earlier) {
 
-    const { activityAdd, activityCategoryCell, partnerGroupHidden, resourceCategoryHidden, activityResources, capability, cardDates, cardRule, categoryActivityList, categoryInfo, channelFactsById, channelNamesById, channelTileIds, channelToneIds, completedActivities, deliveryCard, deliverySection, disabled, discard, formatMoney, founderCard, founderChoices, founderIds, founderItems, founders, groupSlots, legalExpenses, linksSection, offeringAdd, offeringChoices, offeringNumberOf, offeringSlotsIn, offeringsField, onChange, openPair, openingDate, organisationCurrency, partnerAddIn, partnerCard, partnerCardFor, partnersOf, performerChoices, performerCosts, performerFields, planStartDay, resourceCard, responsibilityField, setCategoryActivities, setResponsibilityFolds, subAdd, tileSection, update } = earlier;
+    const { shareWeights, newTeamCard, staffOf, activityAdd, activityCategoryCell, partnerGroupHidden, resourceCategoryHidden, activityResources, capability, cardDates, cardRule, categoryActivityList, categoryInfo, channelFactsById, channelNamesById, channelTileIds, channelToneIds, completedActivities, deliveryCard, deliverySection, disabled, discard, formatMoney, founderCard, founderChoices, founderIds, founderItems, founders, groupSlots, legalExpenses, linksSection, offeringAdd, offeringChoices, offeringNumberOf, offeringSlotsIn, offeringsField, onChange, openPair, openingDate, organisationCurrency, partnerAddIn, partnerCard, partnerCardFor, partnersOf, performerChoices, performerCosts, performerFields, planStartDay, resourceCard, responsibilityField, setCategoryActivities, setResponsibilityFolds, subAdd, tileSection, update } = earlier;
 
-    const floor = floorRows(capability, legalExpenses, channelToneIds, channelNamesById, channelFactsById);
+    const floor = floorRows(capability, legalExpenses, channelToneIds, channelNamesById, channelFactsById, shareWeights);
     const missingById = new Map(floor.filter(row => row.missing).map(row => [row.id, row.missing!] as const));
     const floorById = new Map(floor.map(row => [row.id, row]));
     const tileData = (id: string) => {
@@ -476,7 +478,7 @@ export function useCapabilitySections(earlier: Earlier) {
 
                 {categoryCell}
 
-                {/* Performer and Responsibility, one under the other, their dropdowns at one x
+                {/* Team and Responsibility, one under the other, their dropdowns at one x
                     (business-capability-activity-fields). */}
                 <div className="business-capability-stack business-capability-activity-fields">
 
@@ -487,11 +489,14 @@ export function useCapabilitySections(earlier: Earlier) {
                         (next) => onActivity({ performerIds: next }),
                         activity.performerPeople,
                         (next) => onActivity({ performerPeople: next }),
-                        Object.fromEntries([...partnersOf(scope, "professionals"), ...partnersOf(scope, "providers")].map(partner => [partner.id, partner.quantity])),
+                        // (Staff as partners: their Qty, their link; owner, 2026-11-16 20:22.)
+                        Object.fromEntries([...staffOf(scope), ...partnersOf(scope, "professionals"), ...partnersOf(scope, "providers")].map(card => [card.id, card.quantity])),
                         Object.fromEntries([
                             ...founders.map(founder => [founder.id, { noun: "Founder", open: () => openPair(activity.id, founder.id) }] as const),
+                            ...staffOf(scope).map(slot => [slot.id, { noun: "Staff", open: () => openPair(activity.id, slot.id) }] as const),
                             ...[...partnersOf(scope, "professionals"), ...partnersOf(scope, "providers")].map(partner => [partner.id, { noun: partnerNoun(partner.category), open: () => openPair(activity.id, partner.id) }] as const)
-                        ])
+                        ]),
+                        frozen ? undefined : (kind, rows, position) => newTeamCard(scope, activity.id, activity.offeringIds, kind, rows, position)
                     )}
 
                 </div>
@@ -504,7 +509,7 @@ export function useCapabilitySections(earlier: Earlier) {
 
                 </div>
 
-                {/* Responsible after the Resources and their Cost, its dropdown at the Performer's x. */}
+                {/* Responsible after the Resources and their Cost, its dropdown at the Team's x. */}
                 <div className="business-capability-stack business-capability-activity-fields">
 
                     {responsibilityField(
@@ -534,6 +539,18 @@ export function useCapabilitySections(earlier: Earlier) {
                 />
 
                 {/* The links last, under the Description. */}
+                {/* (A PRODUCTION ACTIVITY'S DELIVERY HOURS, as a record: each linked Offering's Delivery card, its hours a unit, a link that opens it; owner, 2026-11-17.) */}
+                {scope === "offering" && activity.category === "production" && activity.offeringIds.map(offeringId => {
+                    const effort = deliveryEffort(capability.delivery[offeringId]);
+                    const name = offeringChoices.find(choice => choice.id === offeringId)?.label;
+                    return effort && name ? (
+                        <p className="delivery-muted" key={"delivery-" + offeringId}>
+                            <TextLink onClick={() => document.dispatchEvent(new CustomEvent<OpenRequest>(OPEN_EVENT, { detail: { tile: "delivery", card: "delivery-" + offeringId } }))}>
+                                {name + " delivery: " + formatHours(Math.round(effort * 100) / 100) + (capability.delivery[offeringId]?.mode === "monthly" ? " h a client a month" : " h a unit")}
+                            </TextLink>
+                        </p>
+                    ) : null;
+                })}
                 {scope === "offering" && offeringsField(
                     activity.offeringIds,
                     (next) => onActivity(next),
@@ -541,7 +558,9 @@ export function useCapabilitySections(earlier: Earlier) {
                     "Define an Offering on the Foundation page first.",
                     activity.offeringShares,
                     false,
-                    activity.madeBy !== "" ? connectedOfferings(capability, activity).ids : []
+                    activity.madeBy !== "" ? connectedOfferings(capability, activity).ids : [],
+                    // (An activity carries no cost: nothing to share, the ticks alone.)
+                    true
                 )}
 
                 </fieldset>
@@ -1042,7 +1061,10 @@ export function useCapabilitySections(earlier: Earlier) {
 
             {
                 id: "delivery",
-                title: "Delivery",
+                // (Capacity and Capability unified: owner, 2026-11-16 20:25, the design of 20:39 -- the capacity, the skills still needed, the Delivery cards.)
+                title: "Capacity & Delivery",
+                // (An Offering's card floats under "Delivery": it holds that Offering's delivery only; doc 52, decision 1.)
+                group: "Delivery",
                 anchor: "section-offering-delivery",
                 holds: offeringChoices.map(choice => "delivery-" + choice.id),
                 // (Its dialog lists a tile for each Offering's Delivery card; a link in its list opens one floating.)
@@ -1055,7 +1077,7 @@ export function useCapabilitySections(earlier: Earlier) {
                     const at = offeringChoices.findIndex(choice => "delivery-" + choice.id === cardId);
                     return at >= 0 ? deliveryCard(offeringChoices[at], at) : null;
                 },
-                content: () => tileSection("offering", "Delivery", DELIVERY_HELP.section, deliverySection)
+                content: () => tileSection("offering", "Capacity & Delivery", DELIVERY_HELP.section, deliverySection)
             },
 
         ];

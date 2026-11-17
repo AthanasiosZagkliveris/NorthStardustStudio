@@ -2,11 +2,12 @@
  * THE EDITOR'S STATE: the writes, the folds, the reads of the other pages and the numbers worked out from them.
  * One part of the Infrastructure & Capability editor (see BusinessCapabilityEditor.tsx): what it needs of the parts before it comes in as `scope`; what the parts after it need goes out.
  */
-import { orphanedCards, withInheritedOfferings, type GeneratedCard } from "../../../../framework/engine/GeneratedCards.ts";
+import { asLegalEntityValue } from "../../../../framework/engine/AnswerUtils.ts";
+import { orphanedCards, withInheritedOfferings, type GeneratedCard , withoutGoneOfferings } from "../../../../framework/engine/GeneratedCards.ts";
 import { useEffect, useRef, useState } from "react";
 import { BUSINESS_COST_FREQUENCIES, BUSINESS_RESOURCE_GROUPS, BUSINESS_OFFERING_RESOURCE_GROUPS, PHYSICAL_PARTNER_GROUP_IDS, PHYSICAL_RESOURCE_CATEGORY_IDS, businessFoundationSegments, offeringGroupsOf, soleGroupOf, BUSINESS_PARTNER_GROUPS, partnerGroupHelp, statusInGroup, RENT_SUPPLIER_GROUP, type BusinessPaymentPlan, BILLING_TYPES, billingOf, costOptionsOf, withNewInsurances, BUSINESS_WORKSPACE_KINDS, BusinessCategoryValue, partnerNoun, BusinessCapabilityValue, BusinessCostValue, BusinessPartnerValue, BusinessResourceSlotValue, asBusinessCapabilityValue, asBusinessEngagementValue, createBusinessPartner, orderedByDate, todayIsoDate, workspacesOf, withLegalEntityFounders } from "../../../../framework/engine/AnswerUtils.ts";
 import { LinkSymbol, BusinessField, BusinessText, uniqueChoices } from "../../cards/BusinessCardFields.tsx";
-import { moneyFormatter } from "../../../../framework/engine/FinancialModel.ts";
+import { moneyFormatter, asFinancialFoundationValue, costStartDates, derivedPlanStart, legalExpenseDates, salesCapacity, withDemand, withPlanStart } from "../../../../framework/engine/FinancialModel.ts";
 import { PreferencesService } from "../../../../services/PreferencesService.ts";
 import { parseAmount } from "../../../../framework/engine/Amounts.ts";
 import { randomId } from "../../../../framework/engine/Readers.ts";
@@ -18,6 +19,8 @@ import { useItemFolds } from "../../fields/useItemFolds.ts";
 import { ADD_ACTIVITY, Scope, newActivityFor, costInGroup, startOfCard, withActivity, withActivityPatched, OTHER_PARTNER, WORKSPACE_PROVIDER, NO_CATEGORY, NO_GROUP, blankSlot, blankActivity, blankPartner } from "../BusinessCapabilityModel.ts";
 import { noPhysicalOffering } from "../../../../framework/engine/EffectiveAnswers.ts";
 import type { BusinessCapabilityEditorProps } from "./types.ts";
+import { offeringShareWeights } from "../../../../framework/engine/DemandCapacity.ts";
+import { asFinancialSustainabilityValue } from "../../../../framework/engine/financial/revenueStored.ts";
 
 export function useCapabilityState(props: BusinessCapabilityEditorProps) {
 
@@ -180,6 +183,12 @@ export function useCapabilityState(props: BusinessCapabilityEditorProps) {
         Never from a later page.
     */
     const engagementValue = asBusinessEngagementValue(engagement);
+    // (What each Offering uses a month -- its delivery hours and its revenue --: a shared cost's split by hours or by revenue; owner, 2026-11-16.)
+    const shareWeights = offeringShareWeights(capability.delivery, engagementValue.demand, asFinancialSustainabilityValue(props.financialSustainability).streams);
+    // (THE PLAN'S MONTHS AT THE EXPECTED SALES, as Sustainability reads them: when each founder passes the planning ceiling; doc 52, 4.3; owner, 2026-11-17.)
+    const rampPlan = withPlanStart(asFinancialFoundationValue(financialFoundation), undefined,
+        derivedPlanStart(openingDate, [...costStartDates(capability), ...legalExpenseDates(asLegalEntityValue(legalEntity))], withPlanStart(asFinancialFoundationValue(financialFoundation)).planStart));
+    const capacityRamp = salesCapacity(withDemand(asFinancialSustainabilityValue(props.financialSustainability), engagementValue.demand, foundation), rampPlan, capability);
     /*
         NO PHYSICAL ITEM (doc 28, 11.7): while no Offering on Page 1 has one (each is a Service, or its form, O1, is digital, online or project work), the Offering's
         Vehicles and Materials & Inventory categories and the Logistics & Fulfilment group are hidden where they hold no card: never deleted, back when a Type or form changes.
@@ -200,6 +209,16 @@ export function useCapabilityState(props: BusinessCapabilityEditorProps) {
     const { cardIds: channelCardIds, toneIds: channelToneIds, names: channelNamesById } = channelCards(engagementValue, capability);
     /** The Organisation's Offerings (Page 1), in its order: the Inventory's Offerings list and its channel expenses' Offerings. */
     const foundationOfferings = businessFoundationSegments(foundation).flatMap(segment => segment.offerings);
+    // (A DELETED OFFERING TAKES ITS SHARE WITH IT: the cards keep the Offerings Page 1 still has; written once, when one is gone.)
+    const offeringIdsKey = foundationOfferings.map(offering => offering.id).join(" ");
+    useEffect(() => {
+        const pruned = withoutGoneOfferings(stored, offeringIdsKey === "" ? [] : offeringIdsKey.split(" "));
+        if (!disabled && pruned !== stored) {
+            write(pruned);
+        }
+    // (When the Offerings change, or a card names one that is gone.)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [offeringIdsKey, JSON.stringify(stored.offering.resources.map(card => card.offeringIds)), JSON.stringify([...stored.offering.activities, ...stored.offering.professionals, ...stored.offering.providers].map(card => card.offeringIds)), disabled]);
     /** Each channel expense's facts for the Inventory (its Channel Costs set-up): read from the channels' table, their one owner (channelInventory.ts). */
     const channelFactsById = channelFacts(engagementValue, capabilityCards(capability), organisationCurrency ?? "", foundationOfferings);
     /** An action's number pressed in the Inventory: its channel, opened on Customer Engagement. */
@@ -993,6 +1012,6 @@ export function useCapabilityState(props: BusinessCapabilityEditorProps) {
         return billingOf(place, groupId, optionId) === "percentage" && cost.price.trim() === "" && rate !== "" ? { ...cost, price: rate } : cost;
     }
 
-    return { activityRows, capability, partnerGroupHidden, resourceCategoryHidden, cardDates, categoryRow, channelCardIds, channelCategoryText, channelFactsById, foundationOfferings, openEngagementAction, channelMade, channelNamesById, channelTitle, channelToneIds, collapsed, columnsDivider, completedOpen, costOptionRows, dateNotice, defaultRateOf, disabled, discard, engagementValue, financialFoundation, folds, formatMoney, foundation, founders, foundersProfile, globalSettings, helpOpen, latestPaymentOf, legalEntity, legalEntityFounders, legalEntityPrefill, legalExpenses, legalUnder, linksOpen, live, offeringCategoryCells, onChange, onChangeLegalEntity, onOpenFoundation, onOpenLegalEntity, openPair, openingDate, organisationCurrency, pair, partnersOf, patchPartner, pending, rentRow, resourceCategoryCells, responsibilityFolds, responsibilityOff, setCollapsed, setCompletedOpen, setDateNotice, setHelpOpen, setLegalUnder, setLinksOpen, setPair, setPending, setResponsibilityFolds, setResponsibilityOff, showInstructions, stored, supplierRows, value, withDefaultRate, withPartners, write };
+    return { shareWeights, capacityRamp, rampPlan, activityRows, capability, partnerGroupHidden, resourceCategoryHidden, cardDates, categoryRow, channelCardIds, channelCategoryText, channelFactsById, foundationOfferings, openEngagementAction, channelMade, channelNamesById, channelTitle, channelToneIds, collapsed, columnsDivider, completedOpen, costOptionRows, dateNotice, defaultRateOf, disabled, discard, engagementValue, financialFoundation, folds, formatMoney, foundation, founders, foundersProfile, globalSettings, helpOpen, latestPaymentOf, legalEntity, legalEntityFounders, legalEntityPrefill, legalExpenses, legalUnder, linksOpen, live, offeringCategoryCells, onChange, onChangeLegalEntity, onOpenFoundation, onOpenLegalEntity, openPair, openingDate, organisationCurrency, pair, partnersOf, patchPartner, pending, rentRow, resourceCategoryCells, responsibilityFolds, responsibilityOff, setCollapsed, setCompletedOpen, setDateNotice, setHelpOpen, setLegalUnder, setLinksOpen, setPair, setPending, setResponsibilityFolds, setResponsibilityOff, showInstructions, stored, supplierRows, value, withDefaultRate, withPartners, write };
 
 }

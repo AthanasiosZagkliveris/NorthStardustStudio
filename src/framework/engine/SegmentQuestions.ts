@@ -14,7 +14,21 @@ export type SegmentBox = "demographics" | "geographics" | "business-data" | "pur
 export interface SegmentOption {
     id: string;
     label: string;
+    /** The heading of the group this option opens, where a long list is grouped (owner, 2026-11-17). */
+    heading?: string;
+    /** Said under it, small: a saved answer kept outside the options the answers above give (owner, 2026-11-17). */
+    note?: string;
 }
+
+/** The marketplaces each Offering form sells on (owner, 2026-11-17): a physical item, a digital file, a service. */
+const MARKETPLACES_OF_FORM: Readonly<Record<string, readonly string[]>> = {
+    physical: ["etsy", "folksy", "noths", "amazon", "ebay"],
+    digital: ["gumroad", "etsy"],
+    live: ["fiverr", "upwork"], inperson: ["fiverr", "upwork"], project: ["fiverr", "upwork"], ongoing: ["fiverr", "upwork"]
+};
+
+/** Discover's two groups (owner, 2026-11-17): the online ways, then those in person, in print and on air; Other after them. */
+const DISCOVER_ONLINE: readonly string[] = ["communities", "creators", "media", "algorithmic", "search", "affiliates"];
 
 export interface SegmentQuestion {
     id: string;
@@ -67,6 +81,8 @@ export interface SegmentContext {
     scales: readonly string[];
     /** The ways the Segment's Offerings can be tried first (segmentTrials: sample, trial, demo, taster, catalogue); not given, every way is offered. */
     trials?: readonly string[];
+    /** The forms of the Segment's Offerings (O1; segmentForms): the marketplaces offered follow them (owner, 2026-11-17); not given, every one. */
+    forms?: readonly string[];
 }
 
 /** One saved answer: question id to the ids chosen. */
@@ -235,12 +251,10 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
     {
         id: "education", box: "demographics", label: "What is their highest level of education?", many: false,
         options: [
-            { id: "school", label: "Did not finish secondary school" },
-            { id: "highschool", label: "Secondary school" },
-            { id: "vocational", label: "Vocational / technical diploma" },
-            { id: "bachelor", label: "Bachelor's degree" },
-            { id: "master", label: "Master's degree" },
-            { id: "doctorate", label: "Doctorate" }
+            { id: "school", label: "School" },
+            { id: "college", label: "College or vocational" },
+            { id: "degree", label: "University degree" },
+            { id: "postgraduate", label: "Postgraduate degree (master's or doctorate)" }
         ],
         info: [
             "Each level includes the ones below it: someone with a Master has a Bachelor.",
@@ -416,7 +430,7 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
             { id: "press", label: "Newspapers / magazines" },
             { id: "radio", label: "Radio" },
             { id: "tv", label: "TV" },
-            { id: "outdoor", label: "Billboards / outdoor" }
+            { id: "outdoor", label: "Billboards / outdoor" }, { id: "journals", label: "Journals / trade magazines" }
         ],
         info: ["The adverts that reach them: each becomes a channel on Customer Engagement."]
     },
@@ -424,9 +438,8 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
         id: "share", box: "purchasing", group: "Finding & Choosing", label: "How do your customers share what they like?", many: true,
         options: [
             { id: "public", label: "They post it publicly on social media" },
-            { id: "private", label: "They send it to friends in private chats" },
-            { id: "verbal", label: "They tell people in person" },
-            { id: "none", label: "They rarely share what they buy" }
+            { id: "friends", label: "They tell friends and family" },
+            { id: "none", label: "They keep what they buy to themselves" }
         ],
         info: ["Private chat apps are for example WhatsApp and iMessage. \"They rarely share what they buy\" excludes the other three."]
     },
@@ -594,31 +607,6 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
         info: ["Asked when the buyer buys for a child: a parent or guardian, a caregiver, a family member, or an institution such as a school.", "Secondary school is offered for a Teenager."]
     },
     {
-        id: "u-work", box: "user", label: "Are your customers working?", many: false,
-        options: WORKING,
-        info: ["The same question as for the buyer, asked of the end user: an adult the buyer is related to, sponsors or serves.", ...WORKING_INFO]
-    },
-    {
-        id: "u-work2", box: "user", label: "Why are your customers not working?", many: false,
-        options: NOT_WORKING,
-        info: NOT_WORKING_INFO
-    },
-    {
-        id: "u-job", box: "user", label: "What kind of work do your customers do?", many: false,
-        options: JOB_LEVELS,
-        info: JOB_INFO
-    },
-    {
-        id: "u-orgtype", box: "user", label: "What kind of organisation are their clients?", many: false,
-        options: ORG_TYPES,
-        info: ["Asked of a business serving clients and of a professional intermediary."]
-    },
-    {
-        id: "u-size", box: "user", label: "How big are their clients' organisations?", many: false,
-        options: ORG_SIZES,
-        info: ["Skipped for self-employed clients."]
-    },
-    {
         id: "u-comfort", box: "user", label: "How comfortable are your customers online?", many: false,
         rating: COMFORT_RATING, options: ratingOptions(COMFORT_RATING),
         info: ["How easily they use websites, apps and online payment."]
@@ -695,14 +683,11 @@ const ADULT_USER_AGES = ["young", "established", "peak", "mature", "active", "de
 
 /** The relationships whose end user may be at school: a parent, a caregiver, a family member (a grandparent buying for a child) and an institution (a school for its pupils; 2026-11-09). */
 const PERSONAL = ["rel:parent", "rel:caregiver", "rel:family", "rel:institution"];
-const ADULT_PERSONAL = ["rel:family", "rel:partner", "rel:friend", "rel:otherpersonal", "rel:commercial", "rel:sponsor", "rel:institution"];
 
 /** Whether the end users are the people an institution or membership body serves: of any age, a business buyer's though they are (owner, 2026-11-09). */
 export function segmentServesPeople(context: Pick<SegmentContext, "relations">): boolean {
     return context.relations.includes("rel:institution");
 }
-const JOB = ["rel:employer", "rel:copartner", "rel:otherbusiness"];
-const CLIENTS = ["rel:serving", "rel:intermediary"];
 
 /** Whether the business stage is still planning or launching: the checks are held back. */
 export function segmentEarly(stage: string): boolean {
@@ -771,17 +756,6 @@ export function segmentQuestionAsked(question: SegmentQuestion, answers: Segment
         case "u-school":
             // No school stage for a user of 18 or more.
             return context.endsUser && context.relations.some(id => PERSONAL.includes(id)) && !ADULT_USER_AGES.some(id => has(answers, "u-age", id));
-        case "u-work":
-            // No work status for a baby or a child.
-            return context.endsUser && context.relations.some(id => ADULT_PERSONAL.includes(id)) && !has(answers, "u-age", "baby") && !has(answers, "u-age", "child");
-        case "u-work2":
-            return context.endsUser && context.relations.some(id => ADULT_PERSONAL.includes(id)) && has(answers, "u-work", "notworking");
-        case "u-job":
-            return context.endsUser && context.relations.some(id => JOB.includes(id));
-        case "u-orgtype":
-            return context.endsUser && context.relations.some(id => CLIENTS.includes(id));
-        case "u-size":
-            return context.endsUser && context.relations.some(id => CLIENTS.includes(id)) && !has(answers, "u-orgtype", "self");
         default:
             return true;
     }
@@ -831,8 +805,6 @@ export function segmentOptions(question: SegmentQuestion, answers: SegmentAnswer
         case "authorise":
             // A self-employed customer, or one who is only a freelancer, decides alone.
             return question.options.filter(option => keep(option, !(has(answers, "orgtype", "self") || onlySolo(context)) || option.id === "solo"));
-        case "u-work2":
-            return question.options.filter(option => keep(option, !(option.id === "retired" && (has(answers, "u-age", "baby") || has(answers, "u-age", "child") || has(answers, "u-age", "teen")))));
         case "industry":
             return SEGMENT_INDUSTRIES.filter(option => keep(option, (answers.sector ?? []).includes(option.sector)))
                 .map(({ id, label }) => ({ id, label }));
@@ -843,14 +815,38 @@ export function segmentOptions(question: SegmentQuestion, answers: SegmentAnswer
             // flyers and events; a Segment anywhere online the online ways.
             const comfort = Number((answers.comfort ?? [])[0] ?? 0);
             const reach = answers.reach ?? [];
-            const first = comfort >= 1 && comfort <= 2 ? ["passing", "flyers", "post", "adverts", "events"]
+            // (Customers who keep what they buy to themselves: search, reviews and adverts first; owner, 2026-11-17.)
+            const first = has(answers, "share", "none") ? ["search", "media", "adverts"]
+                : comfort >= 1 && comfort <= 2 ? ["passing", "flyers", "post", "adverts", "events"]
                 : reach.includes("city") ? ["passing", "flyers", "events"]
                     : reach.includes("online") ? ["communities", "creators", "media", "algorithmic", "search", "affiliates"]
                         : [];
             const rank = (id: string) => first.includes(id) ? first.indexOf(id) : first.length;
-            // (Other stays last.)
-            return [...offered].sort((a, b) => (a.id === "other" ? 1 : 0) - (b.id === "other" ? 1 : 0) || rank(a.id) - rank(b.id));
+            // (TWO HEADED GROUPS, Online and In person, in print and on air, each in that order; the group holding the first-ranked way first; Other last. Owner, 2026-11-17.)
+            const sorted = [...offered].filter(option => option.id !== "other").sort((a, b) => rank(a.id) - rank(b.id));
+            const online = sorted.filter(option => DISCOVER_ONLINE.includes(option.id));
+            const inPerson = sorted.filter(option => !DISCOVER_ONLINE.includes(option.id));
+            const headed = (list: SegmentOption[], heading: string) => list.map((option, at) => at === 0 ? { ...option, heading } : option);
+            const groups = sorted.length > 0 && !DISCOVER_ONLINE.includes(sorted[0].id) && rank(sorted[0].id) < first.length
+                ? [...headed(inPerson, "In person, in print and on air"), ...headed(online, "Online")]
+                : [...headed(online, "Online"), ...headed(inPerson, "In person, in print and on air")];
+            return [...groups, ...offered.filter(option => option.id === "other")];
         }
+        case "marketplaces": {
+            // (FILTERED BY THE OFFERINGS' FORMS (O1; owner, 2026-11-17): a maker's marketplaces, a digital file's, a service's; Other always; every one while no form is known.)
+            const fit = [...new Set((context.forms ?? []).flatMap(form => MARKETPLACES_OF_FORM[form] ?? []))];
+            return question.options.filter(option => keep(option, fit.length === 0 || option.id === "other" || fit.includes(option.id)));
+        }
+        case "providers": {
+            // (ORDERED BY WHERE THEY SHOP (owner, 2026-11-17): in a shop, the card readers first; online, the online payment services first; never locked.)
+            const setting = answers.setting ?? [];
+            const first = setting.includes("store") ? ["sumup", "square", "zettle"] : setting.some(id => ["mobile", "desktop", "marketplace", "multi"].includes(id)) ? ["stripe", "paypal", "shopify"] : [];
+            const rank = (id: string) => id === "other" ? first.length + 1 : first.includes(id) ? first.indexOf(id) : first.length;
+            return [...question.options].sort((a, b) => rank(a.id) - rank(b.id));
+        }
+        case "advertising":
+            // (Journals and trade magazines: for customers with a postgraduate degree, and for a business Segment whose industry is chosen; owner, 2026-11-17.)
+            return question.options.filter(option => keep(option, option.id !== "journals" || has(answers, "education", "postgraduate") || (context.frame === "business" && (answers.industry ?? []).length > 0)));
         case "pay":
             return question.options.filter(option => keep(option,
                 !(option.id === "bnpl" && has(answers, "age", "minor"))
@@ -911,7 +907,7 @@ export function segmentQuestionsOf(box: SegmentBox, answers: SegmentAnswers, con
 
 /**
  * Who the questions are about: "your customers" for a direct buyer; for a Proxy or Dual-Intent buyer the buyer is told from the user, so the boxes of the buyer say "your buyers" and the box of the
- * end user says "your end users". The questions are written for customers; the documents and the answers' lines keep that word.
+ * end user says "your end users". The questions are written for customers; the documents word them the same way (segmentAnswerLines with the Segment's context).
  */
 export function segmentWho(label: string, box: SegmentBox, context: SegmentContext): string {
     // ("How many potential customers are there?": the buyers too, as the rest of the buyer's boxes, 2026-11-09.)
@@ -1045,6 +1041,12 @@ export function segmentSettle(answers: SegmentAnswers, context: SegmentContext):
 }
 
 /** The saved answers as read from an older or hand-edited answer: only known questions, only their options, as lists of ids. */
+/** Options merged into one (owner, 2026-11-17): the old id to the one it is now. */
+const SEGMENT_MERGED: Readonly<Record<string, Readonly<Record<string, string>>>> = {
+    education: { highschool: "school", vocational: "college", bachelor: "degree", master: "postgraduate", doctorate: "postgraduate" },
+    share: { private: "friends", verbal: "friends" }
+};
+
 export function asSegmentAnswers(source: unknown): SegmentAnswers {
 
     const answers: SegmentAnswers = {};
@@ -1070,6 +1072,13 @@ export function asSegmentAnswers(source: unknown): SegmentAnswers {
     // How they pay, saved before the split (owner, 2026-11-15 16:26): "Invoice, bank transfer or purchase order" is both of its parts now.
     if (Array.isArray(migrated.pay) && (migrated.pay as unknown[]).includes("invoice")) {
         migrated.pay = [...new Set((migrated.pay as unknown[]).flatMap(id => id === "invoice" ? ["invoicepo", "transfer"] : [id]))];
+    }
+
+    // OPTIONS MERGED (owner, 2026-11-17): the education levels, and the ways of sharing, saved before.
+    for (const [id, merged] of Object.entries(SEGMENT_MERGED)) {
+        if (Array.isArray(migrated[id])) {
+            migrated[id] = [...new Set((migrated[id] as unknown[]).map(old => typeof old === "string" ? merged[old] ?? old : old))];
+        }
     }
 
     // A degree saved before it became a rating (doc 35, 2026-11-04): the old answer is the point it now is.
@@ -1141,8 +1150,11 @@ export function segmentBoxAnswered(answers: SegmentAnswers, box: SegmentBox): bo
     return QUESTIONS.some(question => question.box === box && (answers[question.id] ?? []).length > 0);
 }
 
-/** Each answered question as its label and the words chosen, for the documents. */
-export function segmentAnswerLines(answers: SegmentAnswers): { label: string; value: string }[] {
+/**
+ * Each answered question as its label and the words chosen, for the documents. With the Segment's context, a Proxy or Dual-Intent Segment's questions are worded as its card
+ * words them (segmentWho): the end user's "your end users", the buyer's "your buyers" (owner, 2026-11-16).
+ */
+export function segmentAnswerLines(answers: SegmentAnswers, context?: SegmentContext): { label: string; value: string }[] {
 
     // (A question moved on to the Profile is printed there: doc 36, E4.)
     return QUESTIONS.filter(question => !question.startsProfile).flatMap(question => {
@@ -1153,7 +1165,7 @@ export function segmentAnswerLines(answers: SegmentAnswers): { label: string; va
             : question.options.filter(option => chosen.includes(option.id)).map(option => option.label);
 
         return words.length > 0
-            ? [{ label: question.label.replace(/ \(Select all that apply\)$/, ""), value: words.join("; ") }]
+            ? [{ label: (context ? segmentWho(question.label, question.box, context) : question.label).replace(/ \(Select all that apply\)$/, ""), value: words.join("; ") }]
             : [];
 
     });

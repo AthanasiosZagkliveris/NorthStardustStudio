@@ -94,6 +94,11 @@ export interface StrategyFoundationValue {
      */
     situationSource: "" | "auto" | "edited";
     swot: Record<string, string[]>;
+    /**
+     * The SWOT quadrants the founder has edited (owner, 2026-11-17): a quadrant not edited shows the starts the Business System's market answers give
+     * (strategySwotShown); one edited keeps the founder's lines, even emptied. A quadrant saved before 2026-11-17 with a line written counts as edited.
+     */
+    swotEdited: string[];
     compass: string;
     period: StrategyRangeValue;
     themes: StrategyThemeValue[];
@@ -300,11 +305,22 @@ export function asStrategyFoundationValue(value: unknown): StrategyFoundationVal
             ? source.situationSource
             : "",
         swot,
+        swotEdited: STRATEGY_SWOT_QUADRANTS.map(quadrant => quadrant.id).filter(id =>
+            (Array.isArray(source.swotEdited) && source.swotEdited.includes(id)) || swot[id].some(entry => entry.trim().length > 0)),
         compass: asText(source.compass),
         period: strategyRange(source.period),
         themes
     };
 
+}
+
+/** The SWOT as the page and the Business Plan show it (owner, 2026-11-17): each quadrant never edited shows its starts, where it has any (swotStartsOf). */
+export function strategySwotShown(foundation: Pick<StrategyFoundationValue, "swot" | "swotEdited">, starts: Partial<Record<string, readonly string[]>>): Record<string, string[]> {
+    return Object.fromEntries(STRATEGY_SWOT_QUADRANTS.map(quadrant => {
+        const own = foundation.swot[quadrant.id] ?? [""];
+        const start = starts[quadrant.id] ?? [];
+        return [quadrant.id, !foundation.swotEdited.includes(quadrant.id) && start.length > 0 ? [...start] : own];
+    }));
 }
 
 export function strategyMetric(value: unknown): StrategyMetricValue {

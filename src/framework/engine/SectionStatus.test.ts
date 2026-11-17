@@ -69,9 +69,10 @@ describe("section status", () => {
         const profile = page("identity", AnswerType.FoundersProfile);
         const ids = idsOf(profile.answer);
 
-        expect(sectionStatuses(profile.answer, undefined, { railIds: ids, pageDefined: false }).get(ids[1])).toBe("not-started");
-        expect(sectionStatuses(profile.answer, undefined, { railIds: ids, pageDefined: true }).get(ids[1])).toBe("defined");
-        expect(sectionStatuses(profile.answer, { teamGaps: "An accountant, by contract." }, { railIds: ids }).get(ids[1])).toBe("defined");
+        // (The Founders Profile's one section, Founders.)
+        expect(ids).toHaveLength(1);
+        expect(sectionStatuses(profile.answer, undefined, { railIds: ids, pageDefined: false }).get(ids[0])).toBe("not-started");
+        expect(sectionStatuses(profile.answer, undefined, { railIds: ids, pageDefined: true }).get(ids[0])).toBe("defined");
 
         const legal = page("identity", AnswerType.LegalEntity);
         const legalIds = idsOf(legal.answer);

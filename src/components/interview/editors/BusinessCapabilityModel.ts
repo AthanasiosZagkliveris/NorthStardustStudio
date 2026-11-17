@@ -66,9 +66,16 @@ export const SECTIONS = {
  * What the capacity fields say behind their "i": the founders' hours
  * on each Founder card, and 4. Delivery under Offering's Capability.
  */
+/** The Team of an activity (owner, 2026-11-16 20:22: "Team" for "Performer"), its "i". */
+export const TEAM_HELP = ["Who does this work: founders, staff, partners or suppliers."];
+
+/** What an activity's Team can make, and its line at the end of its group in the picker. */
+export type TeamKind = "staff" | "partner" | "supplier";
+export const NEW_TEAM_CARD: Readonly<Record<TeamKind, string>> = { staff: "+ New staff card", partner: "+ New partner card", supplier: "+ New supplier card" };
+
 export const DELIVERY_HELP = {
     section: [
-        "How each Offering is delivered: the hours one unit takes, how long it takes, and who delivers it.",
+        "The capacity the founders have, the skills the business still needs, and how each Offering is delivered: the hours one unit takes, how long it takes, and who delivers it.",
         "Every Offering has its card here. Leave a card empty if it does not apply."
     ],
     hours: ["Working hours available: about 40 a week (about 173 a month) full-time, fewer while employed elsewhere."],
@@ -83,8 +90,8 @@ export const DELIVERY_HELP = {
     share: ["The share of working hours spent delivering Offerings, as recorded before delivery hours were asked for. Enter Delivery Hours instead to replace it."],
     effort: [
         "The working hours one unit of this Offering takes, by each person who works on it.",
-        "Founders' hours count against their capacity. External hours are delivered, and paid for, outside it: their cost is recorded with the professional.",
-        "To share the work with a partner, add one under 3. Partners & Suppliers and link it to this Offering."
+        "Founders' hours count against their capacity. The hours of staff, partners and suppliers are delivered, and paid for, outside it: their cost is recorded on their own card.",
+        "To share the work, add a Staff card under Resources › Human Resources, or a partner or supplier under 3. Partners & Suppliers, and link it to this Offering."
     ],
     capacity: [
         "The budgets below compare this with the hours each Offering's expected sales need.",
@@ -96,7 +103,21 @@ export const DELIVERY_HELP = {
         "For a recurring Offering (a subscription or retainer), one unit is each client, each month: the hours one active client takes a month."
     ],
     duration: ["From start to finish, including waiting for the client: approvals, access, feedback. Not working time: it is not added to the hours, and only sets the pace (hours a week) and how many run at once."],
-    constraints: ["Limits such as equipment, availability or lead times."]
+    /** DV12, What can hold up delivery? */
+    holdUps: ["Think about what slows you down when orders pick up: a machine or room, or materials arriving. Tick each one that applies."],
+    /** DV6. */
+    perSession: [
+        "The most customers one session serves: a class of 8 in a 3-hour session takes about 23 minutes a customer. Expected sales count customers; the hours count sessions."
+    ],
+    /** DV9 and DV10. */
+    batch: [
+        "The time one batch takes to set up (warping a loom, firing a kiln, preparing a kitchen) and the units it makes. Bigger batches spread the set-up over more units."
+    ],
+    /** DV7 and DV8. */
+    equipment: [
+        "The equipment or room each unit needs while it runs, and how many units it holds at once. A loom, a kiln or a treatment room often sets the pace while the founders still have hours.",
+        "Based on: Little, Operations Research 59(3), 2011; Choo, Project Production Institute, 2016."
+    ]
 };
 
 /** A founder's Frequency: the period of the salary and the hours. */
@@ -133,7 +154,9 @@ export function deliveryIsEmpty(delivery: DeliveryValue): boolean {
     return Object.keys(delivery.hours).length === 0 &&
         delivery.effort.trim() === "" &&
         delivery.duration.trim() === "" &&
-        delivery.constraints.trim() === "";
+        delivery.constraints.trim() === "" &&
+        [delivery.perSession, delivery.batchSetup, delivery.batchUnits, delivery.equipmentId, delivery.holdsAtOnce, delivery.supplierId].every(text => text.trim() === "") &&
+        delivery.holdUps.length === 0 && delivery.holdUpsOther.every(row => row.trim() === "");
 }
 
 
@@ -155,7 +178,7 @@ export type Scope = "infrastructure" | "offering";
 
 /**
  * A NEW ACTIVITY, made with "Other…" under a card's Activity status: filed in its place's first category (Operational in Infrastructure, Production in the
- * Offering), starting when the card does, for the card's Offerings -- and, with exactly one named founder, theirs (its Performer and Responsible). With
+ * Offering), starting when the card does, for the card's Offerings -- and, with exactly one named founder, theirs (its Team and Responsible). With
  * several founders it is left to be assigned (the Review page lists it until then).
  */
 export function newActivityFor(scope: Scope, startDate: string, offeringIds: readonly string[], founderIds: readonly string[] = [], madeBy = ""): BusinessActivityValue {

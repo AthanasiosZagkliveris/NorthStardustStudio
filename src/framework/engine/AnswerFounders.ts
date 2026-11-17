@@ -16,10 +16,9 @@ import { LegalEntityFounderValue } from "./AnswerLegal.ts";
    holds an entry of its own for that founder.
 ========================================================== */
 
-/** The two subsections, in the order the page asks them. */
+/** The page's one subsection. (Capability Gaps & Cover is asked as the skills the business still needs, on Capacity & Delivery: owner, 2026-11-16 20:25.) */
 export const FOUNDERS_PROFILE_SECTIONS = [
-    "Founders",
-    "Capability Gaps & Cover"
+    "Founders"
 ] as const;
 
 /**
@@ -59,9 +58,9 @@ export interface FounderProfileValue {
 
 export interface FoundersProfileValue {
     founders: FounderProfileValue[];
-    /** Which capabilities the team lacks. */
+    /** LEGACY, read only: which capabilities the team lacked, as saved before 2026-11-16. Read once into Capacity & Delivery's LC1 (skillsOf: Other rows, one a sentence) and never written. */
     teamGaps: string;
-    /** How they are covered: planned hires, advisors, mentors, partners, contractors, training. */
+    /** LEGACY, read only: how they were covered, as saved before 2026-11-16. Read once into LC1's Notes (skillsOf) and never written. */
     teamCover: string;
 }
 

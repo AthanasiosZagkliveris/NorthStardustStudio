@@ -15,7 +15,7 @@ import { offeringGroupsOf, BUSINESS_OFFERING_RESOURCE_GROUPS, normalCostOf, vali
 import { BUSINESS_ACTIVITY_CATEGORIES, BUSINESS_ACTIVITY_GROUPS, UNASSIGNED_CATEGORY, DERIVED_ACTIVITY_CATEGORY, activityGroupsOf, BUSINESS_PREOPERATIONAL_TYPES } from "./capability/activityGroups.ts";
 import { PARTNER_CATEGORIES, LEGACY_PARTNER_GROUP, BUSINESS_PARTNER_GROUPS } from "./capability/partnerGroups.ts";
 import { asOfferingShares } from "./capability/offeringShares.ts";
-export { asOfferingShares, OFFERING_UNITS_KEY, equalOfferingShares, offeringFractions, offeringSharesInUnits, offeringSharesIncomplete, offeringSharesTotal, unitOfferingShares } from "./capability/offeringShares.ts";
+export { asOfferingShares, OFFERING_UNITS_KEY, OFFERING_BASIS_KEY, SHARE_BASES, SHARE_BASIS_HELP, type ShareBasis, type ShareWeights, costIsShared, equalOfferingShares, offeringFractions, offeringSharesFor, offeringSharesIncomplete, offeringSharesTotal, savedShareBasis, shareBasisOf } from "./capability/offeringShares.ts";
 export { businessResponsibleId, businessAutoResponsibleId, responsibleIsOff, strategyObjectiveOwnerId, businessPartnerResponsibleId, businessResponsibilitiesTally, RESPONSIBILITIES_OPEN_UP_TO, businessFounderResponsibilities, businessAllActivities } from "./capability/responsibilities.ts";
 export { partnerKindOf, partnerNoun, partnerCategoryLabel, PARTNER_CATEGORIES, LEGACY_PARTNER_GROUP, partnerGroupHelp, BUSINESS_PARTNER_GROUPS, groupHelpPoints, groupHelpLines, FOUNDERS_OWNERS_HELP } from "./capability/partnerGroups.ts";
 export { activityCategoryLabel, BUSINESS_ACTIVITY_CATEGORIES, BUSINESS_ACTIVITY_GROUPS, UNASSIGNED_CATEGORY, DERIVED_ACTIVITY_CATEGORY, BUSINESS_DERIVED_ACTIVITY_CATEGORY, activityGroupsOf, BUSINESS_PREOPERATIONAL_TYPES } from "./capability/activityGroups.ts";
@@ -752,6 +752,7 @@ export function createBusinessResourceSlot(): BusinessResourceSlotValue {
         id: randomId("resource"),
         name: "",
         quantity: "1",
+        hoursAvailable: "",
         description: "",
         status: "",
         cost: createBusinessCost(),
@@ -809,6 +810,8 @@ export function createBusinessPartner(name = "", category = ""): BusinessPartner
         rateOverride: "",
         costOption: "",
         quantity: "",
+        hoursAvailable: "",
+        leadWeeks: "",
         extras: {},
         paymentPlan: emptyPaymentPlan(),
         offeringShares: {},
@@ -943,6 +946,7 @@ export function asBusinessResourceSlot(
         id: asText(slot.id) || randomId("resource"),
         name: asText(slot.name),
         quantity: moved ? "" : quantity,
+        hoursAvailable: businessDecimalText(asText(slot.hoursAvailable)),
         description: withEarlier(withEarlier(moved
             ? ("Quantity: " + quantity.replace(/\.$/, "") + ". " + description).trim()
             : description, "frequency", earlierFrequency), "status", earlierStatus),
@@ -1089,6 +1093,8 @@ export function asBusinessPartner(
         rateOverride: businessDecimalText(asText(partner.rateOverride)),
         costOption: validCostOption(scope, group, asText(partner.costOption)),
         quantity: businessDecimalText(asText(partner.quantity)),
+        hoursAvailable: businessDecimalText(asText(partner.hoursAvailable)),
+        leadWeeks: businessDecimalText(asText(partner.leadWeeks)),
         extras: asBusinessExtras(partner.extras),
         paymentPlan: asPaymentPlan(partner.paymentPlan),
         offeringShares: asOfferingShares(partner.offeringShares, offeringIdsOf(partner)),
@@ -1342,7 +1348,12 @@ export function asBusinessCapabilityValue(value: unknown): BusinessCapabilityVal
             providers: asBusinessPartnerList(offering.providers, "providers", partnerContext("offering"))
         },
 
-        delivery: asDeliveryMap(source.delivery)
+        delivery: asDeliveryMap(source.delivery),
+
+        // (LC1: kept only once saved, so the Legal Entity's Gaps and Cover are read in until then: skillsOf.)
+        ...(Array.isArray(source.skillsNeeded) ? { skillsNeeded: [...new Set(source.skillsNeeded.map(asText).filter(Boolean))] } : {}),
+        ...(Array.isArray(source.skillsOther) ? { skillsOther: source.skillsOther.map(asText) } : {}),
+        ...(typeof source.skillsNotes === "string" ? { skillsNotes: source.skillsNotes } : {})
 
     });
 

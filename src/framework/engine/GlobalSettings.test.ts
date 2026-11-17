@@ -39,7 +39,9 @@ describe("the starting values", () => {
         expect(settings.channelFees.filter(row => row.status === "not-checked" && row.commission !== "").every(row => row.note.includes("secondary source"))).toBe(true);
         expect(settings.targetReserveMonths).toBe("3");
         expect(settings.usefulLife).toEqual({ "furniture-fittings": "10", "devices-tools": "6", "company-vehicles": "5", "fixtures-displays": "10", "production-machinery": "15", "delivery-vehicles": "7" });
-        expect([settings.onCostRate, settings.capitalisationLimit, settings.insurancePerEmployee, settings.incomeTaxRate]).toEqual(["", "", "", ""]);
+        expect([settings.onCostRate, settings.capitalisationLimit, settings.insurancePerEmployee]).toEqual(["", "", ""]);
+        // (No income tax rate: Page 4's Plan Settings own it.)
+        expect("incomeTaxRate" in settings).toBe(false);
         expect(capitalisationLimitOf(settings)).toBeNull();
     });
 
@@ -61,7 +63,8 @@ describe("reading what was saved", () => {
 
     it("cleans a figure to digits and one point", () => {
         const settings = asGlobalSettings({ onCostRate: "2,5%", capitalisationLimit: "5.0.0", insurancePerEmployee: 40, incomeTaxRate: "-9" });
-        expect([settings.onCostRate, settings.capitalisationLimit, settings.insurancePerEmployee, settings.incomeTaxRate]).toEqual(["25", "5.00", "40", "9"]);
+        expect([settings.onCostRate, settings.capitalisationLimit, settings.insurancePerEmployee]).toEqual(["25", "5.00", "40"]);
+        expect("incomeTaxRate" in settings).toBe(false);
     });
 
     it("is idempotent", () => {

@@ -1,6 +1,8 @@
 import { describe, expect, test } from "vitest";
 import { asBusinessEngagementValue, asBusinessFoundationValue, createBusinessChannel } from "./AnswerUtils.ts";
-import { DEFAULT_RELATIONSHIP_TYPE, autoRelationshipTypes, offeringRelationshipsFor, demandSuggestions, journeySuggestions, relationshipTypesOf, suggestionMet, withAnswerChannels, dismissedAfter, channelKey, startGoals, funnelIsTrial } from "./JourneySuggestions.ts";
+import { DEFAULT_RELATIONSHIP_TYPE, autoRelationshipTypes, offeringRelationshipsFor, demandSuggestions, journeySuggestions, relationshipTypesOf, suggestionMet, withAnswerChannels, dismissedAfter, channelKey, startGoals, funnelIsTrial, demandSourceOf, demandSourceKey, withAnswerSources } from "./JourneySuggestions.ts";
+import { createDemand, createDemandSource } from "./DemandCapacity.ts";
+import { relationshipTypeLabel } from "./businessFoundation/engagementReaders.ts";
 import { effectiveProfileAnswers, segmentTrials } from "./EffectiveAnswers.ts";
 import { PROFILE_QUESTIONS, TRIAL_OPTIONS, profileOptionsShown } from "./ProfileQuestions.ts";
 import { subchannelHidden } from "./businessFoundation/channelCategories.ts";
@@ -77,10 +79,14 @@ describe("the Demand rows the Foundation proposes", () => {
         const channels = quill.engagement.segments[0].channels;
         const build = segment.offerings[1];
         const rows = demandSuggestions(segment, build.id, channels, quill.engagement.demand[build.id]);
-        expect(rows.map(row => row.type + " " + row.label)).toEqual(["funnel LinkedIn", "funnel Main Website", "other Referral partners", "referrals Customer Referral", "funnel X (Twitter)", "funnel Agency founder communities", "referrals Referral Partner"]);
+        // (One row per kind, all its channels listed, so a customer is counted once; an Other channel its own row; Referral partners is the built-in Referral Partner since 2026-11-16 20:24: owner, 2026-11-16 20:22.)
+        expect(rows.map(row => row.type + " " + row.label)).toEqual(["funnel Sales funnel", "referrals Referrals"]);
+        const named = (id: string) => channels.find(channel => channel.id === id)?.name;
+        expect(rows[0].channelIds?.map(named)).toEqual(["LinkedIn", "Main Website", "X (Twitter)", "Agency founder communities"]);
+        expect(rows[1].channelIds?.map(named)).toEqual(["Referral Partner", "Customer Referral"]);
         // (The Audit's sources name LinkedIn and Referral partners, so those already bring its customers: only its other Discover channels are proposed.)
         const audit = segment.offerings[0];
-        expect(demandSuggestions(segment, audit.id, channels, quill.engagement.demand[audit.id]).map(row => row.label)).toEqual(["Main Website", "Event / Talk", "Slack", "Customer Referral", "X (Twitter)", "Agency founder communities", "Referral Partner"]);
+        expect(demandSuggestions(segment, audit.id, channels, quill.engagement.demand[audit.id]).map(row => row.label)).toEqual(["Sales funnel", "Visitors", "Referrals"]);
     });
 
     test("Contracts or tenders where the buyer decides by a formal tender, once", () => {
@@ -105,12 +111,16 @@ describe("the relationship types the answers create (owner, 2026-11-13 00:29 and
         ]);
     });
 
-    test("a buyer who decides by formal tender, or a government buyer, creates Dedicated Support", () => {
+    test("a buyer who decides by formal tender, or a government buyer of a business Segment, creates Dedicated Support", () => {
         const base = quill.foundation.segments[0];
         const tender = { ...base, questions: { ...base.questions, authorise: ["procurement"] } };
         expect(autoRelationshipTypes(tender, "missing").map(entry => entry.type)).toContain("dedicated-support");
-        const plain = { ...base, profiles: [] };
-        expect(autoRelationshipTypes(plain, "missing", { relationships: ["b2g"], marketType: "", audience: [] }).map(entry => entry.type)).toEqual(["dedicated-support"]);
+        const government = { relationships: ["b2g"], marketType: "", audience: [] };
+        // (Government buyers want a named contact where the Segment's buyer is a business or the public sector; a Segment of people is left as it is: owner, 2026-11-16.)
+        const people = { ...base, profiles: [], description: Object.fromEntries(Object.entries(base.description).filter(([key]) => key !== "business-data")) } as typeof base;
+        expect(autoRelationshipTypes(people, "missing", government).map(entry => entry.type)).toEqual([]);
+        const business = { ...people, description: { ...people.description, "business-data": {} } } as unknown as typeof base;
+        expect(autoRelationshipTypes(business, "missing", government).map(entry => entry.type)).toEqual(["dedicated-support"]);
     });
 
     test("an Offering's types: the answers' less those removed, then those added; never none", () => {
@@ -271,5 +281,70 @@ describe("discovery and trial options", () => {
         expect(subchannelHidden("Samples & Trials", "Free Sample", true)).toBe(true);
         expect(subchannelHidden("Samples & Trials", "Free Sample", false)).toBe(false);
         expect(subchannelHidden("Samples & Trials", "Demo", true)).toBe(false);
+    });
+});
+
+/* Owner, 2026-11-16 19:18: relationship types and Customer Sources come from the answers, as the channels do, with Other written in. */
+describe("relationship types and Customer Sources from the answers", () => {
+    const base = lumen.foundation.segments[0];
+    const offering = base.offerings[0];
+
+    test("an Other written under O7 is a named relationship type; its label is its name", () => {
+        const segment = { ...base, offerings: [{ ...offering, questions: { ...(offering.questions ?? {}), o7: ["personal", "other"], "o7-other": ["Monthly clinic", "Repair café"] } }, ...base.offerings.slice(1)] };
+        const types = autoRelationshipTypes(segment, offering.id).map(entry => entry.type);
+        expect(types).toEqual(expect.arrayContaining(["personal-assistance", "other:Monthly clinic", "other:Repair café"]));
+        expect(relationshipTypeLabel("other:Monthly clinic")).toBe("Monthly clinic");
+        expect(relationshipTypeLabel("community")).toBe("Community");
+        // (Kept with the answer, its details too.)
+        const saved = asBusinessEngagementValue({ segments: [{ segmentId: segment.id, offerings: [{ offeringId: offering.id, types: ["other:Monthly clinic", "bogus"], typeDetail: { "other:Monthly clinic": { purpose: "Drop-in help" } }, dismissed: ["other:Repair café"] }] }] });
+        const entry = saved.segments[0].offerings[0];
+        expect(entry?.types).toEqual(["other:Monthly clinic"]);
+        expect(entry?.dismissed).toEqual(["other:Repair café"]);
+        expect(entry?.typeDetail["other:Monthly clinic"]?.purpose).toBe("Drop-in help");
+    });
+
+    test("the new categories bring prospects; an Other channel's source carries its name; a removed source stays removed; a saved one takes its kind's channels", () => {
+        expect(["Advertising", "Print & Mail", "Samples & Trials"].map(category => demandSourceOf(category))).toEqual(["funnel", "funnel", "funnel"]);
+        const site = { ...createBusinessChannel(), id: "site", category: "Website", name: "Main Website", stages: ["discovery"] };
+        const board = { ...createBusinessChannel(), id: "board", category: "Other", name: "Church noticeboard", stages: ["discovery"] };
+        const segment = { ...base, questions: { ...base.questions, path: ["researcher"], authorise: [] }, offerings: [{ ...offering, questions: { ...(offering.questions ?? {}), o17: [] } }] };
+        const made = withAnswerSources(undefined, segment, offering.id, [site, board], false)!;
+        expect(made.sources.map(source => [source.type, source.group ?? source.channelId, source.name ?? "", source.fromAnswers])).toEqual([["funnel", "Sales funnel", "", true], ["other", "board", "Church noticeboard", true]]);
+        // (A new channel of a group joins its source; a group removed stays removed.)
+        const landing = { ...createBusinessChannel(), id: "landing", category: "Website", name: "Landing Page", stages: ["discovery"] };
+        const grown = withAnswerSources(made, segment, offering.id, [site, board, landing], false)!;
+        expect(grown.sources.length).toBe(2);
+        expect(grown.sources[0].channelIds).toEqual(["site", "landing"]);
+        expect(demandSourceKey(grown.sources[0])).toBe("funnel|group:Sales funnel");
+        // (Nothing new: the same value.)
+        expect(withAnswerSources(made, segment, offering.id, [site, board], false)).toBe(made);
+        // (Removed: not made again until restored.)
+        const removed = { ...made, sources: made.sources.slice(1), dismissed: [demandSourceKey(made.sources[0])] };
+        expect(withAnswerSources(removed, segment, offering.id, [site, board], false)).toBe(removed);
+        // (A source saved by hand keeps its figures and takes its kind's channels: a kind never twice; owner, 2026-11-16 20:29.)
+        const hand = { ...createDemand(), sources: [{ ...createDemandSource("funnel", "site"), id: "mine", estimate: "4" }] };
+        const kept = withAnswerSources(hand, segment, offering.id, [site, board, landing], false)!;
+        expect(kept.sources[0]).toMatchObject({ id: "mine", estimate: "4", group: "Sales funnel", channelIds: ["site", "landing"] });
+        expect(kept.sources.map(source => source.group ?? source.channelId)).toEqual(["Sales funnel", "board"]);
+        // (A source through a Samples & Trials channel: "Tried it".)
+        expect(funnelIsTrial({ ...segment, profiles: [] }, undefined, { category: "Samples & Trials" })).toBe(true);
+    });
+});
+
+/* Owner, 2026-11-16 20:29: a kind never twice. */
+describe("one source of a kind", () => {
+    test("a saved source of a kind takes the kind's channels, its figures kept; two saved of a kind stay apart and none is made", () => {
+        const base = lumen.foundation.segments[0];
+        const offering = base.offerings[0];
+        const segment = { ...base, questions: { ...base.questions, path: ["researcher"], authorise: [] }, offerings: [{ ...offering, questions: { ...(offering.questions ?? {}), o17: [] } }] };
+        const insta = { ...createBusinessChannel(), id: "insta", category: "Social Media", name: "Instagram", stages: ["discovery"] };
+        const site = { ...createBusinessChannel(), id: "site", category: "Website", name: "Main Website", stages: ["discovery"] };
+        const saved = { ...createDemandSource("funnel", "insta"), id: "mine", calculate: true, inputs: { prospects: "40", qualified: "15", buy: "25" } };
+        const one = withAnswerSources({ ...createDemand(), sources: [saved] }, segment, offering.id, [insta, site], false)!;
+        expect(one.sources).toHaveLength(1);
+        expect(one.sources[0]).toMatchObject({ id: "mine", type: "funnel", channelId: "", group: "Sales funnel", channelIds: ["insta", "site"], inputs: { prospects: "40", qualified: "15", buy: "25" } });
+        expect(withAnswerSources(one, segment, offering.id, [insta, site], false)).toBe(one);
+        const two = { ...createDemand(), sources: [saved, { ...createDemandSource("funnel", ""), id: "also" }] };
+        expect(withAnswerSources(two, segment, offering.id, [insta, site], false)).toBe(two);
     });
 });

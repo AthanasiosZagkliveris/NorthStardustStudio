@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { asProfileAnswers, profileAnswerLines, profileChoose, profilePartOf, profileQuestionAsked, profileQuestionsOf, profileRate, profileRatings, profileSettle, profileShown, profileUserAgeRange, profileUserAnswerLines, profileUserQuestionAsked, profileUserQuestionsOf, profileUserSettle, profileWho, proposedBusinessProfiles, PROFILE_QUESTIONS, segmentNeedTicks, type ProfilePart } from "./ProfileQuestions";
+import { asProfileAnswers, profileOptionsShown, profileAnswerLines, profileChoose, profilePartOf, profileQuestionAsked, profileQuestionsOf, profileRate, profileRatings, profileSettle, profileShown, profileUserAgeRange, profileUserAnswerLines, profileUserQuestionAsked, profileUserQuestionsOf, profileUserSettle, profileWho, proposedBusinessProfiles, PROFILE_QUESTIONS, segmentNeedTicks, type ProfilePart } from "./ProfileQuestions";
 import { segmentAnswerLines, segmentOptions, segmentQuestionsOf, segmentSettle, type SegmentContext } from "./SegmentQuestions";
 import { segmentContextFor, type SegmentIdentity } from "./SegmentContext";
 import { effectiveOfferingAnswers, effectiveProfileAnswers, effectiveProfileUserAnswers, offeringContextOf } from "./EffectiveAnswers";
@@ -23,16 +23,24 @@ describe("the Profile's questions follow the Segment", () => {
         expect(ids({ orgtype: ["private"] }, business)).toContain("a3b");
         expect(ids({ orgtype: ["private"] }, business)).not.toContain("a3");
         expect(question("a3").options).toHaveLength(9);
-        expect(question("a3b").options.map(option => option.label)).toEqual(["Owner / partner", "Senior executive", "Director / head of department", "Manager / team lead", "Specialist / team member"]);
+        // (Three job levels, a director a senior leader: owner, 2026-11-17.)
+        expect(question("a3b").options.map(option => option.label)).toEqual(["Owner or senior leader", "Manager", "Specialist / team member"]);
     });
 
-    it("sets a self-employed customer's job level to Owner / partner without asking it", () => {
+    it("reads the options merged on 2026-11-17: the job levels and the genders", () => {
+        expect(asProfileAnswers({ a3b: ["executive"] })).toEqual({ a3b: ["owner"] });
+        expect(asProfileAnswers({ a3b: ["director"] })).toEqual({ a3b: ["owner"] });
+        expect(asProfileAnswers({ a2: ["non-binary"] })).toEqual({ a2: ["other"] });
+        expect(question("a2").options.map(option => option.label)).toEqual(["Woman", "Man", "Another gender"]);
+    });
+
+    it("sets a self-employed customer's job level to Owner or senior leader without asking it", () => {
         expect(profileQuestionsOf("personal", { orgtype: ["self"] }, business).map(q => q.id)).not.toContain("a3b");
         expect(profileSettle({}, { orgtype: ["self"] }, business).a3b).toEqual(["owner"]);
     });
 
     it("starts the role in buying from the job level, and keeps a role the user chose", () => {
-        expect(profileShown({ a3b: ["executive"] }, { orgtype: ["private"] }, business).a5).toEqual(["decide"]);
+        expect(profileShown({ a3b: ["owner"] }, { orgtype: ["private"] }, business).a5).toEqual(["decide"]);
         expect(profileShown({ a3b: ["specialist"] }, { orgtype: ["private"] }, business).a5).toEqual(["use"]);
         expect(profileShown({ a3b: ["owner"], a5: ["influence"] }, { orgtype: ["private"] }, business).a5).toEqual(["influence"]);
     });
@@ -308,15 +316,15 @@ describe("a Proxy or Dual-Intent Segment's Profile holds the buyer and the end u
             const segment = { age: ["peak"], work: ["working"], gender: ["4"], discover: ["communities"], social: ["mixed"], "u-age": ["child"] };
             expect(partIds(segment, context, "buyer")).toEqual(["a2", "a1", "a7", "a3", "a5", "b1", "c2", "c3", "c4", "c1", "d1", "d2", "d3", "e3"]);
             expect(partIds(segment, context, "user")).toEqual(["e1", "e2", "functional", "emotional", "social"]);
-            // The end user's own questions: the age (within the end-user stage), the online comfort, the outcome; no household for a child.
-            expect(boxes.flatMap(box => ids(profileUserQuestionsOf(box, segment, context)))).toEqual(["a1", "comfort", "outcome"]);
+            // The end user's own questions: the age (within the end-user stage) and the outcome; no household for a child. (The online comfort, A8, is the Segment's: End user, 8; owner, 2026-11-17.)
+            expect(boxes.flatMap(box => ids(profileUserQuestionsOf(box, segment, context)))).toEqual(["a1", "outcome"]);
             expect(profilePartOf(question("b1"), context)).toBe("buyer");
             expect(profilePartOf(question("e3"), context)).toBe("buyer");
             expect(profilePartOf(question("e1"), context)).toBe("user");
         }
         // A business Segment's end user (its staff): the age and the online comfort, never a household; the buyer keeps the job level and the role in buying.
         const staff = segmentContextFor(employer, true);
-        expect(boxes.flatMap(box => ids(profileUserQuestionsOf(box, { orgtype: ["private"], "u-age": ["young"] }, staff)))).toEqual(["a1", "comfort", "outcome"]);
+        expect(boxes.flatMap(box => ids(profileUserQuestionsOf(box, { orgtype: ["private"], "u-age": ["young"] }, staff)))).toEqual(["a1", "outcome"]);
         expect(partIds({ orgtype: ["private"] }, staff, "buyer")).toEqual(expect.arrayContaining(["a3b", "a5", "b1", "e3"]));
         expect(partIds({ orgtype: ["private"] }, staff, "user")).toEqual(["e1", "e2", "functional", "emotional-b2b", "social-b2b"]);
     });
@@ -336,8 +344,6 @@ describe("a Proxy or Dual-Intent Segment's Profile holds the buyer and the end u
         const asked = (id: string, age: string) => profileUserQuestionAsked({ id }, { "u-age": [age] }, context);
         expect(asked("a7", "dependent")).toBe(true);
         expect(["baby", "child", "teen"].map(age => asked("a7", age))).toEqual([false, false, false]);
-        expect(asked("comfort", "baby")).toBe(false);
-        expect(asked("comfort", "teen")).toBe(true);
         // The end user's age is held to the end-user stage, not the buyer's age group.
         expect(profileUserAgeRange({ "u-age": ["child"], age: ["peak"] })).toEqual([3, 11]);
         // A business buyer's staff are of working age; the people an institution serves keep their stage's ages (2026-11-09).
@@ -360,16 +366,16 @@ describe("a Proxy or Dual-Intent Segment's Profile holds the buyer and the end u
         expect(segmentOf({}).profiles[0].user).toBeUndefined();
     });
 
-    it("starts the end user's part from the Segment's end-user answers: the online comfort, and the outcome moved from the Segment (itself started from Positioning); a saved answer wins", () => {
-        // From the Segment's End user, 8 and 9.
+    it("starts the end user's part from the Segment's end-user answers: the outcome moved from the Segment (itself started from Positioning); a saved answer wins", () => {
+        // From the Segment's End user, 9. (End user, 8, the online comfort, is the Segment's own: A8 is retired.)
         const fromSegment = segmentOf({ "u-age": ["child"], "u-comfort": ["4"], "u-outcome": ["enjoy"] });
-        expect(effectiveProfileUserAnswers(fromSegment.profiles[0], fromSegment, parent)).toEqual({ comfort: ["4"], outcome: ["enjoy"] });
+        expect(effectiveProfileUserAnswers(fromSegment.profiles[0], fromSegment, parent)).toEqual({ outcome: ["enjoy"] });
         // From Positioning's answer saved before 2026-11-08, where the Segment never answered.
         const fromPositioning = segmentOf({ "u-age": ["child"] });
         expect(effectiveProfileUserAnswers(fromPositioning.profiles[0], fromPositioning, parent).outcome).toEqual(["learning"]);
         // A value saved in the Profile wins, even one cleared.
         const own = segmentOf({ "u-outcome": ["enjoy"] }, { user: { questions: { outcome: ["safety"], comfort: ["2"] } } });
-        expect(effectiveProfileUserAnswers(own.profiles[0], own, parent)).toMatchObject({ outcome: ["safety"], comfort: ["2"] });
+        expect(effectiveProfileUserAnswers(own.profiles[0], own, parent)).toMatchObject({ outcome: ["safety"] });
         const cleared = segmentOf({ "u-outcome": ["enjoy"] }, { user: { questions: { outcome: [] } } });
         expect(effectiveProfileUserAnswers(cleared.profiles[0], cleared, parent).outcome).toEqual([]);
         // The stage's limit holds (Launching: two); over it, back to empty.
@@ -389,7 +395,6 @@ describe("a Proxy or Dual-Intent Segment's Profile holds the buyer and the end u
         expect(profileAnswerLines({ b1: ["speed"], e1: ["learn-something-new"] }, "user")).toEqual([{ label: "What does the end user want to achieve?", value: "Development" }]);
         expect(profileUserAnswerLines({ a1: ["9"], comfort: ["5"], outcome: ["learning"] })).toEqual([
             { label: "How old is the end user?", value: "9 years" },
-            { label: "How comfortable is the end user online?", value: "5 of 5 (Confident)" },
             { label: "Outcome for the end user", value: "Learning & growth" }
         ]);
         const segment = segmentOf({ age: ["peak"], "u-age": ["child"] }, { questions: { b1: ["speed"], e1: ["learn-something-new"], e2: ["it-takes-too-long"] }, user: { questions: { a1: ["9"] }, note: "Mia" } });
@@ -434,5 +439,18 @@ describe("a business Segment's end user", () => {
         expect(profileUserAgeRange({ "u-age": ["active"] }, staff)).toEqual([18, 65]);
         expect(profileUserSettle({ a1: ["70"] }, {}, staff).a1).toBeUndefined();
         expect(profileUserSettle({ a1: ["35"] }, {}, staff).a1).toEqual(["35"]);
+    });
+});
+
+describe("the Profile's answers the Segment's education and end user shape (owner, 2026-11-17)", () => {
+    it("starts B1 at Safety for an end user in the early years; orders C4, C2 and A3 by education", () => {
+        const people = segmentContextFor(undefined, false);
+        const b1 = PROFILE_QUESTIONS.find(question => question.id === "b1")!;
+        expect(profileShown({}, { "u-school": ["early"] }, people).b1 ?? []).toEqual(profileQuestionAsked(b1, { "u-school": ["early"] }, people) ? ["safety-and-low-risk"] : []);
+        const order = (id: string, education: string) => profileOptionsShown(PROFILE_QUESTIONS.find(question => question.id === id)!, { education: [education] }, people, {}).map(option => option.id);
+        expect(order("c4", "postgraduate")[0]).toBe("talk");
+        expect(order("c2", "postgraduate")[0]).toBe("linkedin");
+        expect(order("c2", "school").slice(0, 2)).toEqual(["instagram", "tiktok"]);
+        expect(order("a3", "postgraduate").slice(0, 2)).toEqual(["professional", "manager"]);
     });
 });

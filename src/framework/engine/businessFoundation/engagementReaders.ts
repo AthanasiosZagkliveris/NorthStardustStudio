@@ -37,6 +37,9 @@ export const BUSINESS_JOURNEY_STAGES = [
  * competitor types are on Page 1 -- choosing is then reading five
  * words rather than five sentences.
  */
+/** A relationship type written under O7's Other: "other:" and its name (owner, 2026-11-16 19:18). */
+export const OTHER_RELATIONSHIP_PREFIX = "other:";
+
 export const BUSINESS_RELATIONSHIP_TYPES = [
     {
         id: "self-service",
@@ -64,6 +67,11 @@ export const BUSINESS_RELATIONSHIP_TYPES = [
         explanation: "Technology provides information, guidance or assistance without direct involvement from a person."
     }
 ] as const;
+
+/** A relationship type's name: one of the five's, or the name written under O7's Other ("other:" and its name); "" for an unknown id. */
+export function relationshipTypeLabel(typeId: string): string {
+    return typeId.startsWith(OTHER_RELATIONSHIP_PREFIX) ? typeId.slice(OTHER_RELATIONSHIP_PREFIX.length) : BUSINESS_RELATIONSHIP_TYPES.find(type => type.id === typeId)?.label ?? "";
+}
 
 /**
  * Get, Keep and Grow, each with what it MEANS.
@@ -292,6 +300,8 @@ export interface BusinessSegmentEngagementValue {
     offerings: BusinessOfferingRelationshipEntryValue[];
     /** The subchannels the answers make that the founder removed ("category|name", channelKey): never made again; All brings one back. */
     dismissedChannels?: string[];
+    /** The actions the answers made (withAnswerActions' keys): each made once, so one the founder removes is not made again. */
+    answerActions?: string[];
     /**
      * The payment services whose expense card the answers made (Which payment services do you take payments with?), lower case (withAnswerServiceCards): one held
      * here with no card left was removed by the founder, and is not made again while the answer stays.
@@ -371,6 +381,9 @@ export const BUSINESS_JOURNEY_STAGE_IDS: ReadonlySet<string> =
 
 export const BUSINESS_RELATIONSHIP_TYPE_IDS: ReadonlySet<string> =
     new Set(BUSINESS_RELATIONSHIP_TYPES.map(type => type.id));
+
+/** A relationship type kept with the answer: one of the five, or one written under O7's Other ("other:" and its name). */
+const isRelationshipTypeId = (id: string) => BUSINESS_RELATIONSHIP_TYPE_IDS.has(id) || (id.startsWith(OTHER_RELATIONSHIP_PREFIX) && id.length > OTHER_RELATIONSHIP_PREFIX.length);
 
 export const BUSINESS_RELATIONSHIP_GOAL_IDS: ReadonlySet<string> =
     new Set(BUSINESS_RELATIONSHIP_GOALS.map(goal => goal.id));
@@ -707,16 +720,16 @@ export function asBusinessEngagementValue(value: unknown): BusinessEngagementVal
                 for (const [type, typeValue] of Object.entries(
                     asObject(entry.typeDetail)
                 )) {
-                    if (BUSINESS_RELATIONSHIP_TYPE_IDS.has(type)) {
+                    if (isRelationshipTypeId(type)) {
                         typeDetail[type] = asBusinessRelationshipType(typeValue);
                     }
                 }
 
                 merged.push({
                     offeringId,
-                    types: businessIdList(entry.types, BUSINESS_RELATIONSHIP_TYPE_IDS),
+                    types: businessIdList(entry.types).filter(isRelationshipTypeId),
                     typeDetail,
-                    ...(Array.isArray(entry.dismissed) ? { dismissed: businessIdList(entry.dismissed, BUSINESS_RELATIONSHIP_TYPE_IDS) } : {})
+                    ...(Array.isArray(entry.dismissed) ? { dismissed: businessIdList(entry.dismissed).filter(isRelationshipTypeId) } : {})
                 });
 
             }
@@ -784,6 +797,7 @@ export function asBusinessEngagementValue(value: unknown): BusinessEngagementVal
                 offerings: merged,
                 ...(Array.isArray(segment.dismissedChannels) ? { dismissedChannels: segment.dismissedChannels.map(asText).filter(Boolean) } : {}),
                 ...(Array.isArray(segment.answerCards) ? { answerCards: segment.answerCards.map(asText).filter(Boolean) } : {}),
+                ...(Array.isArray(segment.answerActions) ? { answerActions: segment.answerActions.map(asText).filter(Boolean) } : {}),
                 profiles
             };
 

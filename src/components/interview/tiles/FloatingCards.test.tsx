@@ -245,8 +245,8 @@ describe("the lists on the page tiles are real controls", () => {
 
     it("leaves Delivery's list as plain text, as it was", () => {
         render(<Harness />);
-        expect(offeringSlotOf("Delivery").querySelector(".section-tile-link")).toBeNull();
-        expect(offeringSlotOf("Delivery").querySelector(".section-tile-plus")).toBeNull();
+        expect(offeringSlotOf("Capacity & Delivery").querySelector(".section-tile-link")).toBeNull();
+        expect(offeringSlotOf("Capacity & Delivery").querySelector(".section-tile-plus")).toBeNull();
     });
 
 });
@@ -304,7 +304,7 @@ describe("the + box of a tile that takes new cards", () => {
         }
         expect(document.querySelectorAll(".section-tile-plus")).toHaveLength(withPlus.length * 2);
         expect(slotOf("Founders").querySelector(".section-tile-plus")).toBeNull();
-        expect(offeringSlotOf("Delivery").querySelector(".section-tile-plus")).toBeNull();
+        expect(offeringSlotOf("Capacity & Delivery").querySelector(".section-tile-plus")).toBeNull();
     });
 
     it("adds a card of no category yet (Select) and opens it floating, its name focused; it waits in the No category tile till a Category is chosen", () => {

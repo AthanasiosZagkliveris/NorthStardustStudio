@@ -1,14 +1,13 @@
 # 52. Capacity & Delivery: the tile, as proposed
 
-Status: **proposal**, written 2026-11-15, for the owner's decision. Nothing here is built. It renames the Delivery tile of Business Capability (Offering's Capability) "Capacity & Delivery" and places doc 51's seven additions (doc 51, section 4) on it, on the Delivery card, in the Delivery dialog and in Sustainability's check, with existing components only. Section 7 adds one proposal for the Lumen & Loom Studio example.
+Status: **proposal**, written 2026-11-15, for the owner's decision. **Built 2026-11-16:** the rename (section 1, with decision 1 as recommended) and the Skills band (section 9, Capacity and Capability unified: owner, 2026-11-16 20:25). **Built 2026-11-17** (the open decisions and gaps, Group 3; decisions 2 to 8 as recommended): the band's ceiling, its lines and the people's own bars (section 4, section 10), DV6, DV9 and DV10, DV11 (as the hours a Staff, Partner or Supplier card can give), DV12 and DV13 in place of DV5 (section 10), DV1 as O3's record, and the Lumen example's option A (section 7); the lead-time note on the Delivery card (section 10, Group 4b); DV6 under its label, and the Lumen example's looms (DV7, DV8) and finishing supplier (DV13, a week) (2026-11-17). Section 5 (Sustainability) is not built. It renames the Delivery tile of Business Capability (Offering's Capability) "Capacity & Delivery" and places doc 51's seven additions (doc 51, section 4) on it, on the Delivery card, in the Delivery dialog and in Sustainability's check, with existing components only. Section 7 adds one proposal for the Lumen & Loom Studio example.
 
 Related: doc 51 (the research and the seven additions), doc 50 (Demand & Conversion, seasons from D3), doc 43 (the Offering card: O1, O3, O10, O15), doc 47 (Customer Engagement: the subchannels and the journey stage Delivery), doc 48 (the Financial pages), doc 40 (the form of a tile document), doc 44 (the register); `src/components/interview/editors/capability/useCapabilitySections.tsx` (the tile), `src/components/interview/editors/capability/useCapabilityActivityAndDelivery.tsx` (the dialog and the cards), `src/components/interview/editors/BusinessCapabilityModel.ts` (`DELIVERY_HELP`), `src/framework/engine/DemandCapacity.ts` (`founderDeliveryHours`, `capacityCheck`), `src/components/interview/editors/FinancialSustainabilityEditor.tsx` (`capacityBlock`).
 
 ## 1. The rename
 
-- **Today:** the tile is titled "Delivery" (`useCapabilitySections.tsx`, the tile with id `delivery`); its dialog opens under "Delivery", and each Offering's card floats under the caption "Delivery".
-- **Proposed:** the tile and its dialog are titled **Capacity & Delivery**. The dialog's first part is the founders' capacity (and, with this proposal, the planning ceiling, the deliverable sales and when to add help); the cards below hold each Offering's delivery. The new name says both.
-- **The floating card keeps "Delivery"** as its caption: it holds one Offering's delivery only **[decision 1]**.
+- **Built:** the tile (`useCapabilitySections.tsx`, the tile with id `delivery`) and its dialog are titled **Capacity & Delivery**. The dialog's first part is the founders' capacity (and, with this proposal, the planning ceiling, the deliverable sales and when to add help); the cards below hold each Offering's delivery. The new name says both.
+- **The floating card keeps "Delivery"** as its caption (the tile's `group`): it holds one Offering's delivery only **[decision 1, built as recommended]**.
 - **It also separates the tile from the journey stage.** "Delivery" is also a stage of the customer journey on Customer Engagement (doc 47). "Capacity & Delivery" on Business Capability reads as its own place.
 - **What changes with it:** the tile's `title`, the dialog's heading, `DELIVERY_HELP.section`'s first line ("How much the founders can deliver, and how each Offering is delivered: …"), the tests that open the tile by name (`BusinessCapabilityEditor.test.tsx`, `openTile("Delivery")`), the examples' golden files, doc 22 (help texts) and the page 3 specification. The tile's id (`delivery`), its anchor (`section-offering-delivery`) and the saved data (`capability.delivery`) stay as they are, so saved work opens unchanged.
 
@@ -40,7 +39,7 @@ The card's questions in the card's order, with proposed codes. The card has no c
 
 ### DV6. Customers in one session (proposed; doc 51, addition 5)
 
-- **Control:** a number (`NumberCell`, side row), starts at 1. **Asked:** when DV1 is Per unit and the Offering is delivered as a session, class, workshop or event **[decision 3: which O1 or O3 answers count]**.
+- **Control:** a number (`NumberCell`) under its label (the label is long for the side column; 2026-11-17, the layout check), starts at 1. **Asked:** when DV1 is Per unit and the Offering is delivered as a session, class, workshop or event **[decision 3: which O1 or O3 answers count]**.
 - **What it changes:** the hours a sale takes are DV3 ÷ DV6; the budgets and Sustainability's check read the hours for the sessions needed (expected sales ÷ DV6, rounded up). With DV6 at 1 every saved card reads as today.
 - **The "i" says:** "The most customers one session serves: a class of 8 in a 3-hour session takes about 23 minutes a customer. Expected sales count customers; the hours count sessions."
 - **Lumen:** Weaving Workshops (up to eight a workshop) gets DV6 = 8 and DV3 per session (Maya Chen 3.2 h, the linked External Professional 0.8 h): the same 0.4 h and 0.1 h a participant as today, now read as about 4 sessions a month for the 32 places.
@@ -125,7 +124,7 @@ Each step: tests, the examples (`src/data/examples/`), the golden files, doc 44 
 
 ## 8. Decisions for Thanos
 
-1. The floating card keeps the caption "Delivery" (recommended), or takes "Capacity & Delivery" too.
+1. The floating card keeps the caption "Delivery" (recommended; built so on 2026-11-16), or takes "Capacity & Delivery" too.
 2. A mark on the capacity bar at 85% (one addition to the bar's shared style), or the line under the bar only.
 3. Which Offerings ask DV6: those whose O1 or O3 answer is a session, class, workshop or event (recommended), or every Per unit Service.
 4. The ceiling fixed at 85% (recommended), or a figure in Global Settings.
@@ -133,3 +132,37 @@ Each step: tests, the examples (`src/data/examples/`), the golden files, doc 44 
 6. The lead time to add help: 8 weeks (recommended), or asked once on the Founder cards.
 7. The Lumen example: A (recommended) or B, and the Shopify store or the booking app.
 8. The code prefix DV for the Delivery card's questions.
+
+**Answered 2026-11-17:** each as recommended (decision 1 built 2026-11-16).
+
+## 9. The Skills band (LC1), built 2026-11-16
+
+The owner, 2026-11-16 20:25: "capacity and capability should be unified, and the capability section to be removed." The Legal Entity's Capability tile (its two texts, Gaps and Cover) is gone; what it asked is asked here, between the Capacity and the Delivery cards.
+
+- **The dialog, in order:** 1. Capacity, as before; 2. **Skills**; 3. the Delivery cards, three a row.
+- **LC1, "Which skills does the business still need?"** Ticks, one a line: Bookkeeping and tax; Legal and contracts; Marketing and social media; Selling; Design; Website and technology; Making or producing; Customer service; Delivery and logistics; Other (a numbered list, one skill a row). Its "i": "Skills the plan needs that the team lacks today. Each one's cover comes from the Team of its activities."
+- **The cover, read, never typed.** Beside each ticked skill, "Covered by:" and the names on the Team of the activities in its group, each a link to that card: Marketing and social media from Marketing; Selling and Customer service from Sales & Customer; Making or producing and Delivery and logistics from Production; the rest, and every Other row, from Infrastructure's Pre-Operational and Operational. With no one there, "Not covered yet", a link to the Activities tile.
+- **Notes:** one shared Notes field (`NotesField`), with no placeholder.
+- **Saved as** `skillsNeeded` (the ticked ids), `skillsOther` (the rows) and `skillsNotes` on the Business Capability answer (`src/framework/engine/capability/skills.ts`).
+- **Read once from the old answer.** While `skillsNeeded` has never been saved, every reader takes the Founders Profile's `teamGaps` as Other rows, one a sentence, and `teamCover` as the Notes; the page saves that the first time it can write, where that text is there (a page opened fresh is left as it is). `teamGaps` and `teamCover` are kept as legacy keys, read only.
+- **Readers:** the Business Plan's "Skills and Cover" (each skill with its cover or "not covered yet", then the Notes; "Not covered by the Foundation answers." when there is nothing); the Business System's export (Offering's Capability, after Delivery); the Review (one item per skill not covered yet, linked to Capacity & Delivery). The Founders Profile's export holds the founders alone.
+- **The code LC1** is this document's. Doc 44 registers the Foundation's cards only (page 1 of the Business System, the Organisation and the Positioning), so LC1 is not in it.
+
+## 10. Built 2026-11-17: the band, the card, and what can hold up delivery
+
+The open decisions and gaps, Group 3 (owner, 2026-11-16 21:51; the coordinator's brief). Codes are permanent; DV5 is retired.
+
+- **The bar** (`delivery-budget-bar`, one for founders and the people beside them): a fixed mark at 85% (`PLANNING_CEILING`, `DemandCapacity.ts`).
+- **The line under a founder's bar:** above 85%, "99% of Maya Chen's delivery hours at the expected sales. A plan holds best at 85% or less: that leaves room for a busy week or a day off."; at or below, "72% of Maya Chen's hours: room for a busy week or a day off." Its "i" adds the ceiling, after Choo (2016) and Kingman (1961).
+- **What fits** (4.2): the last Offering in the budget gives way first, the one before it where the last cannot take all the excess. One Offering: "At 85% of Maya Chen's hours, about 14 Bespoke Commissions a month fit. The other 4 a month, about £380, need more hours or help." Several: "At 85% of Maya Chen's hours, 3 Trade Collection orders and 1 Bespoke Commission a month, about £2,832, need more hours or help." (`offeringCount`: a name said in the plural counts itself, any other counts orders.) The sales beyond stay in the forecast as the founder set them.
+- **When to add help** (4.3): "Maya Chen passes 85% in June 2027. To have help by then, start looking by April." -- the plan's months at the expected sales (`salesCapacity`, `firstAboveCeiling`), 8 weeks ahead; its "i" cites Totaljobs (2025) and GOV.UK (PAYE, Employers' Liability insurance).
+- **Busy times** (4.4): where a Profile answers D3 with Evenings or Weekends and an Offering of its Segment is delivered in sessions: "Your customers buy in the evenings and at weekends: plan the delivery hours for those times."
+- **The people beside the founders:** a Staff, Partner or Supplier card with "Hours a month they can give" gets its own bar and line: "Ana Ruiz: 30 h needed a month, 20 h available."
+- **DV1** is O3's record where O3 is answered (a saved card follows O3).
+- **DV6, Customers in one session:** asked where the Offering is delivered in sessions (O1 A live online session or An in-person service, or O3 Per session) and DV1 is Per unit; DV3 then reads "Working Hours per Session, by person", the hours a customer are DV3 ÷ DV6, and the total line adds "about N h a customer". Its "i" as section 3.
+- **DV9 and DV10, Set-up for a batch (hours) and Units in a batch:** asked for a Product or Hybrid, DV1 Per unit, unless O14 is Made to order; each unit carries DV9 ÷ DV10, each person in proportion to their own hours; the total line adds "set-up adds N h a unit".
+- **DV12, What can hold up delivery?** (replaces DV5, Constraints): ticks -- Equipment or a workspace (DV7 "Which one?", this Offering's Resource cards; DV8 "How many units can it hold at once?", checked against the units running at once, Little's Law: "About 4 running at once: the floor looms hold 3. Plan for a longer Calendar Time, or add to the floor looms."); Materials or stock from a supplier (DV13 "Which supplier?", this Offering's Supplier cards; the Supplier card's Lead time is added to the Calendar Time, with "Linen yarn takes 3 weeks to arrive: order 3 weeks ahead of the busy months."); Other (a numbered list). Its "i": "Think about what slows you down when orders pick up: a machine or room, or materials arriving. Tick each one that applies." Partners' time, seasons, skills, licences and money are left out on purpose: the bars, Busy times, Skills, Registrations and Financial Position cover them. A saved Constraints text moves once into Other, one row a sentence; DV5 is retired, replaced by DV12, and its start from O10 with it.
+- **Production activities** linked to an Offering show its Delivery hours as a record: "Homeware Collection delivery: 3 h a unit", a link that opens the Delivery card.
+- **The export:** the Delivery table's last column is "What Can Hold Up Delivery".
+- **Lumen:** Weaving Workshops hold 3.2 h (Maya Chen) and 0.8 h (the tutor) a session for 8 customers, the same 0.4 h and 0.1 h a participant; option A is in the example (section 7).
+- **When customers expect it sooner** (Group 4b, 2026-11-17): the card says "Customers expect it within a week, and making and sending it takes about 3 weeks. Keep some ready-made stock, or tell customers 1 to 4 weeks." where the Calendar Time, a supplier's lead time and the sending (O20) take longer than O15 allows.

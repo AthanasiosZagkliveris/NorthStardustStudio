@@ -12,7 +12,7 @@
  * The Segment's answers (effectiveSegmentAnswers) are read here only, by offeringContextOf.
  */
 import type { BusinessCustomerProfileValue, BusinessCustomerSegmentValue, BusinessOfferingValue } from "./AnswerBusinessFoundation.ts";
-import { type OfferingAnswers, type OfferingContext, offeringOptions, offeringShown } from "./OfferingQuestions.ts";
+import { type OfferingAnswers, type OfferingContext, offeringShown } from "./OfferingQuestions.ts";
 import { profileShown, profileUserShown } from "./ProfileQuestions.ts";
 import { type SegmentIdentity, segmentContextFor, segmentIsBusiness, segmentPositioningShown } from "./SegmentContext.ts";
 import { type SegmentAnswers, segmentSettle } from "./SegmentQuestions.ts";
@@ -22,6 +22,11 @@ import { type SegmentAnswers, segmentSettle } from "./SegmentQuestions.ts";
  * free sample and a catalogue (and a demo for a business Segment); an app or online access a free trial; an app or project work a demo; a live online or in-person
  * session a taster. Read from the saved form, not the effective answers, so a Profile's answers can read it (the Offering's read the Profiles').
  */
+/** The forms of the Segment's Offerings, as each card shows them (O1): the marketplaces the Segment is offered follow them (owner, 2026-11-17). */
+export function segmentForms(segment: BusinessCustomerSegmentValue): string[] {
+    return [...new Set(segment.offerings.flatMap(offering => offering.questions?.o1 ?? (offering.category === "Product" ? ["physical"] : [])))];
+}
+
 export function segmentTrials(segment: BusinessCustomerSegmentValue): string[] {
     const kinds = new Set<string>();
     for (const offering of segment.offerings) {
@@ -76,8 +81,9 @@ export function offeringContextOf(offering: BusinessOfferingValue, segment: Busi
     const differentiation = effectiveSegmentAnswers(segment, identity).differentiation ?? [];
     const context = segmentContextFor(identity, segmentIsBusiness(segment));
     // The pay O3's order reads is the Segment's settled answer (a stale invoice on a people Segment is not counted; phase 5, 2026-11-08); the frame tells O18's "i" a business Segment.
-    const pay = segmentSettle(segment.questions, context).pay ?? [];
-    return { type: offering.category, stage: identity?.stage, differentiation, outcome: identity?.outcome ?? [], pay, worries, country: identity?.country, frame: context.frame, ...(context.endsUser ? { endsUser: true } : {}), ...(context.dual ? { dual: true } : {}) };
+    const settled = segmentSettle(segment.questions, context);
+    const pay = settled.pay ?? [];
+    return { reach: settled.reach ?? [], area: settled.area?.[0] ?? "", workenv: settled.workenv?.[0] ?? "", type: offering.category, stage: identity?.stage, differentiation, outcome: identity?.outcome ?? [], pay, worries, country: identity?.country, frame: context.frame, ...(context.endsUser ? { endsUser: true } : {}), ...(context.dual ? { dual: true } : {}) };
 }
 
 /** An Offering's answers as its card shows them: its own, with each start for a question it never answered. */
@@ -106,16 +112,22 @@ export interface OfferingStarts {
     deliveryMode?: "unit" | "monthly";
     /** Page 3, Delivery, Calendar Time (weeks), for an Offering delivered per unit. */
     duration?: string;
-    /** Page 3, Delivery, Constraints: O10's options, as their words. */
-    constraints?: string;
     /** Page 5, the revenue stream's Charged. */
     charged?: "per-sale" | "per-project" | "monthly" | "annually";
     /** Page 5, the revenue stream's Payment Timing (PAYMENT_TIMINGS' ids; When earned, "", is the default and starts nothing). */
     paymentTiming?: "upfront" | "completion" | "split" | "milestone";
+    /** Whether O3t is answered: Page 5's Payment Timing is then its record (paymentTiming, or When earned where it gives none). */
+    paymentTimingAnswered?: boolean;
+    /** Delivered in sessions (a live online session, an in-person service, or charged per session: O1, O3): the Delivery card asks DV6, customers in one session. */
+    sessions?: boolean;
+    /** Made in batches (a Product or Hybrid, not made to order: Type, O14): the Delivery card asks DV9 and DV10. */
+    batches?: boolean;
+    /** Not ready to sell (O2: Just an idea, Still being built): Demand & Conversion asks Ready from, and its sales start then (owner, 2026-11-17). */
+    notReady?: "idea" | "building";
 }
 
 /**
- * The starts an Offering gives its cards on Pages 2, 3 and 5, from its answers as its card shows them (O3, its second row O3t, O10, O15). A later page shows them on a card it has
+ * The starts an Offering gives its cards on Pages 2, 3 and 5, from its answers as its card shows them (O3, its second row O3t, O15, O2). A later page shows them on a card it has
  * not saved yet and saves them with the first thing written there; what that page saved wins.
  */
 export function offeringStarts(offering: BusinessOfferingValue, segment: BusinessCustomerSegmentValue, identity: SegmentIdentity | undefined): OfferingStarts {
@@ -131,11 +143,6 @@ export function offeringStarts(offering: BusinessOfferingValue, segment: Busines
     if (weeks && recurring !== true) {
         starts.duration = weeks;
     }
-    const context = offeringContextOf(offering, segment, identity);
-    const provided = (answers.o10 ?? []).map(id => offeringOptions("o10", context).find(option => option.id === id)?.label).filter((label): label is string => !!label);
-    if (provided.length > 0) {
-        starts.constraints = provided.join("; ") + ".";
-    }
     if (O3_CHARGED[terms]) {
         starts.charged = O3_CHARGED[terms];
     }
@@ -146,7 +153,38 @@ export function offeringStarts(offering: BusinessOfferingValue, segment: Busines
     if (timing) {
         starts.paymentTiming = timing;
     }
+    if (when !== "") {
+        starts.paymentTimingAnswered = true;
+    }
+    // (Doc 52, DV6 and DV9/DV10; owner, 2026-11-17.)
+    if ((answers.o1 ?? []).some(form => form === "live" || form === "inperson") || terms === "session") {
+        starts.sessions = true;
+    }
+    if ((offering.category === "Product" || offering.category === "Hybrid") && !(answers.o14 ?? []).includes("custom")) {
+        starts.batches = true;
+    }
+    // (Not ready to sell: O2's Just an idea or Still being built; owner, 2026-11-17.)
+    const ready = answers.o2?.[0];
+    if (ready === "idea" || ready === "building") {
+        starts.notReady = ready;
+    }
     return starts;
+}
+
+/**
+ * DESIGN FOR PHONES FIRST (owner, 2026-11-17): every Profile of the Segment (at least one) finds and buys on a smartphone only (C1, as each card shows it); the
+ * Main Website's card on Customer Engagement says so.
+ */
+export function segmentPhonesOnly(segment: BusinessCustomerSegmentValue, identity?: SegmentIdentity): boolean {
+    const devices = segment.profiles.map(profile => effectiveProfileAnswers(profile, segment, identity).c1 ?? []);
+    return devices.length > 0 && devices.every(list => list.length === 1 && list[0] === "phone");
+}
+
+/** The answers of the Offering with this id as its card shows them, wherever it is on Page 1; none where there is no such Offering. */
+export function offeringAnswersById(segments: readonly BusinessCustomerSegmentValue[], offeringId: string, identity?: SegmentIdentity): OfferingAnswers {
+    const segment = segments.find(entry => entry.offerings.some(offering => offering.id === offeringId));
+    const offering = segment?.offerings.find(entry => entry.id === offeringId);
+    return segment && offering ? effectiveOfferingAnswers(offering, segment, identity) : {};
 }
 
 /** The starts of the Offering with this id, wherever it is on Page 1; none where there is no such Offering. */
@@ -159,15 +197,23 @@ export function offeringStartsById(segments: readonly BusinessCustomerSegmentVal
 /** O1's forms with no physical item (doc 43, O1): a digital file, an app, online access, a live online session, project work, an ongoing service. */
 const NOT_PHYSICAL_FORMS: readonly string[] = ["digital", "app", "access", "live", "project", "ongoing"];
 
+/** O6's ways a customer receives a physical item: posted or shipped, or collected. */
+const PHYSICAL_RECEIVE: readonly string[] = ["shipped", "collect"];
+
 /**
- * Whether an Offering has a physical item (doc 28, 11.7): not where its Type is Service, or its form (O1) is one of NOT_PHYSICAL_FORMS. An Offering with no Type or form yet
- * (or Other) may have one, so it counts as having one.
+ * Whether an Offering has a physical item (doc 28, 11.7): an Offering posted, shipped or collected (O6), or sent a way O20 names, has one, whatever its Type and form;
+ * otherwise not where its Type is Service, or its form (O1) is one of NOT_PHYSICAL_FORMS. An Offering with no Type or form yet (or Other) may have one, so it counts as
+ * having one.
  */
 export function offeringIsPhysical(offering: BusinessOfferingValue, segment: BusinessCustomerSegmentValue, identity?: SegmentIdentity): boolean {
+    const answers = effectiveOfferingAnswers(offering, segment, identity);
+    if ((answers.o6 ?? []).some(way => PHYSICAL_RECEIVE.includes(way)) || (answers.o20 ?? []).length > 0) {
+        return true;
+    }
     if (offering.category === "Service") {
         return false;
     }
-    const form = effectiveOfferingAnswers(offering, segment, identity).o1?.[0];
+    const form = answers.o1?.[0];
     return !(form && NOT_PHYSICAL_FORMS.includes(form));
 }
 

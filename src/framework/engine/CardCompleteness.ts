@@ -13,6 +13,8 @@ import {
     costOptionsOf,
     usesSupplier,
     offeringSharesIncomplete,
+    costIsShared,
+    isPurchaseGroup,
     paymentPlanIncomplete,
     isCostingStatus,
     responsibleIsOff
@@ -28,8 +30,8 @@ import {
 
     - Resource: Name; Status; at "Partners & Suppliers" the partner or supplier, at a space's or vehicle's "Rent" the supplier; at "Costs" or "Buy" the Price and the
       Payment Frequency.
-    - Activity: Name; at least one Performer; the Responsible, unless the tick is off or the rule names him (a one-founder organization; one founder among
-      the Performers) or there is no founder to name.
+    - Activity: Name; at least one Team member; the Responsible, unless the tick is off or the rule names him (a one-founder organization; one founder among
+      the Team) or there is no founder to name.
     - Partner / Provider: Name; Price and Payment Frequency; the Responsible, as for an Activity.
     - Workspace: a Resource like the others (the Workspace form is the common card).
     - Founder: Salary, Working Hours, and Delivery Hours (or the percent of working hours).
@@ -45,11 +47,14 @@ const priceMissing = (cost: BusinessCostValue): string[] => [
 /** The ids of everyone a Responsible could name. */
 const founderIdsOf = (capability: BusinessCapabilityValue) => capability.founders.filter(founder => filled(founder.name)).map(founder => founder.id);
 
-/** A card of the Offering is linked to at least one Offering, and when to several their shares total 100%. */
-export function offeringLinksMissing(card: { offeringIds: string[]; offeringShares: Record<string, string> }): string[] {
+/**
+ * A card of the Offering is linked to at least one Offering, and -- a cost shared between several (one paid once or each period) by the user's own split -- its
+ * shares total 100%. A cost paid per unit or as a share of revenue, and an activity, share nothing (owner, 2026-11-16).
+ */
+export function offeringLinksMissing(card: { offeringIds: string[]; offeringShares: Record<string, string> }, shared = true): string[] {
     return card.offeringIds.length === 0
         ? ["Linked Offerings"]
-        : offeringSharesIncomplete(card.offeringIds, card.offeringShares) ? ["Offering shares"] : [];
+        : shared && offeringSharesIncomplete(card.offeringIds, card.offeringShares) ? ["Offering shares"] : [];
 }
 
 /** Where a resource card is filed: its place and its group (an Infrastructure card's group is its subsection). */
@@ -87,7 +92,7 @@ export function activityMissing(activity: BusinessActivityValue, capability: Bus
         ...(activity.category === UNASSIGNED_CATEGORY ? ["Category"] : []),
         ...(filled(activity.name) ? [] : ["Name"]),
         ...(filled(activity.startDate) ? [] : ["Start date"]),
-        ...(activity.performerIds.some(filled) ? [] : ["Performer"]),
+        ...(activity.performerIds.some(filled) ? [] : ["Team"]),
         ...(founderIds.length > 0 && !filled(responsible) ? ["Responsible"] : [])
     ];
 }
@@ -132,13 +137,13 @@ export function incompleteCards(capability: BusinessCapabilityValue): Map<string
         ...(group === "unassigned" ? ["Category"] : subsection.id === "unassigned" ? ["Group"] : []),
         ...resourceMissing(slot, capability)
     ]))));
-    capability.offering.resources.forEach(slot => add(slot.id, [...resourceMissing(slot, capability), ...offeringLinksMissing(slot)]));
+    capability.offering.resources.forEach(slot => add(slot.id, [...resourceMissing(slot, capability), ...offeringLinksMissing(slot, costIsShared(slot.cost.frequency, isPurchaseGroup(slot.group)))]));
     capability.activities.flatMap(category => category.activities).forEach(activity => add(activity.id, activityMissing(activity, capability)));
-    capability.offering.activities.forEach(activity => add(activity.id, [...activityMissing(activity, capability), ...offeringLinksMissing(activity)]));
+    capability.offering.activities.forEach(activity => add(activity.id, [...activityMissing(activity, capability), ...offeringLinksMissing(activity, false)]));
     [...capability.professionals, ...capability.providers]
         .forEach(partner => add(partner.id, partnerMissing(partner, capability)));
     [...capability.offering.professionals, ...capability.offering.providers]
-        .forEach(partner => add(partner.id, [...partnerMissing(partner, capability), ...offeringLinksMissing(partner)]));
+        .forEach(partner => add(partner.id, [...partnerMissing(partner, capability), ...offeringLinksMissing(partner, costIsShared(partner.cost.frequency))]));
     capability.founders
         .filter(founder => filled(founder.name) && [founder.salary, founder.hours, founder.deliveryHours, founder.deliveryShare].some(filled))
         .forEach(founder => add(founder.id, founderMissing(founder)));

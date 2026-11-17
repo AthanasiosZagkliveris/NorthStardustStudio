@@ -420,14 +420,6 @@ body:has([data-pair]) .section-tile-overlay.floating-overlay.business-foundation
 
 }
 
-.business-offering-mode {
-
-    position: absolute;
-    top: 0;
-    right: 0;
-
-}
-
 /* A COLUMN PAGE DRAWN AS TILES (Identity's Definition and Ethics, Brand's Ambassador, Strategy's Situation & Direction): ONE card of four tiles, 2 x 2, the card as wide as one of
    Page 3's cards, at the left (a page of one chapter stands at the left, as the Strategy's does); the tiles, their hover and their dialogs are the page 3 system's. A dialog holds the column's questions and its editor. */
 .answer-columns.business-foundation.business-engagement.business-capability.column-tiles-page > .business-foundation-card {

@@ -149,6 +149,7 @@ Recorded 2026-11-12 (owner, 15:37; doc 49, section 8, phase 7). Pages 4 and 5 ch
 - The Offering Economics card stands on the Revenue & Pricing page.
 - Break-even stands beside Financial Position: it needs the margin per unit (page 4) and the fixed costs (page 5).
 - Status: proposal; built in phase 7.
+- **Waiting for Revenue & Pricing** (owner, 2026-11-17; the open decisions and gaps, Group 4d): O14's job there (doc 43): Packages / tiers, a price row per tier on the Offering's revenue stream; Add-ons / extras, an add-on stream beside it (Made to order already skips DV9, the batch's set-up, doc 52). And the seasons: the Profiles' D3 (Around seasons / holidays) and the Segment's "Sales, seasons or planned gifts" shape the monthly pattern of the expected sales (doc 50, 2.3), on the page that holds the months.
 
 ## 12. Pricing inputs
 

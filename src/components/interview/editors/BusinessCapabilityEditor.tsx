@@ -18,6 +18,9 @@ import CardBoxes, { CardBox } from "../cards/CardBoxes.tsx";
 import SectionTiles, { SQUEEZED_ROW_MIN, CHANNEL_TILE_HUE, otherColumn, FloatingCards, SectionTile } from "../tiles/SectionTiles.tsx";
 import CardTitleHelp from "../cards/CardTitleHelp.tsx";
 import CapabilityOverview from "../tiles/CapabilityOverview.tsx";
+import { chargedFeeFor } from "../../../framework/engine/CalculatedLines.ts";
+import { createGlobalSettings } from "../../../framework/engine/GlobalSettings.ts";
+import { asLegalEntityValue } from "../../../framework/engine/AnswerUtils.ts";
 import { SECTIONS } from "./BusinessCapabilityModel.ts";
 import "../../../styles/system-confirmation.css";
 import "../../../styles/delivery.css";
@@ -209,7 +212,11 @@ export default function BusinessCapabilityEditor(props: BusinessCapabilityEditor
                     // (Each Offering's revenue a month: what a cost that is a share of revenue is split by, and comes to.)
                     offeringRevenue={offeringMonthlyRevenue(asBusinessEngagementValue(props.engagement).demand, asFinancialSustainabilityValue(props.financialSustainability).streams)}
                     // (And through each subchannel: what a share of a channel's revenue is split by.)
-                    offeringChannelRevenue={offeringChannelRevenue(asBusinessEngagementValue(props.engagement).demand, asFinancialSustainabilityValue(props.financialSustainability).streams, asBusinessEngagementValue(props.engagement).segments.flatMap(segment => segment.channels))} onOpenAction={openEngagementAction} onOpenLegal={legalEntity !== undefined && onChangeLegalEntity ? (id: string) => openLegalExpense(id) : undefined} />;
+                    offeringChannelRevenue={offeringChannelRevenue(asBusinessEngagementValue(props.engagement).demand, asFinancialSustainabilityValue(props.financialSustainability).streams, asBusinessEngagementValue(props.engagement).segments.flatMap(segment => segment.channels))}
+                    // (A share of revenue's whole fee, as the forecast charges it, and one order's value for its fixed fee per order: owner, 2026-11-16.)
+                    feeOf={(row) => chargedFeeFor(row.name, globalSettings ?? createGlobalSettings(), asLegalEntityValue(legalEntity).organisation.country, organisationCurrency)}
+                    orderValue={Object.fromEntries(asFinancialSustainabilityValue(props.financialSustainability).streams.map(stream => [stream.offeringId, (Number.parseFloat(stream.price) || 0) * (Number.parseFloat(stream.itemsPerOrder) || 1)]))}
+                    onOpenAction={openEngagementAction} onOpenLegal={legalEntity !== undefined && onChangeLegalEntity ? (id: string) => openLegalExpense(id) : undefined} />;
             }
         };
     }
@@ -292,7 +299,7 @@ export default function BusinessCapabilityEditor(props: BusinessCapabilityEditor
         capability.offering.providers.some(entry => entry.id === id) || capability.offering.resources.some(entry => entry.id === id);
     const pairHue = (id: string) => channelToneIds.has(id) ? CHANNEL_TILE_HUE : stableCardHue(offeringOwns(id) ? "offering-capability" : "infrastructure");
     const pairParent = pair ? parentCard(pair.parentId) : null;
-    // (The card below may be any card: an activity or a partner, and also a founder or a resource -- what a Performer, a Responsible or a Resource row of an activity leads to.)
+    // (The card below may be any card: an activity or a partner, and also a founder or a resource -- what a Team, a Responsible or a Resource row of an activity leads to.)
     const pairChild = pair ? childCard(pair.childId) ?? parentCard(pair.childId) : null;
     const legalParent = legalUnder ? parentCard(legalUnder) : null;
     const stackUnder = legalUnder && legalParent ? { item: { key: legalUnder, caption: legalParent.caption, kind: legalParent.kind, node: legalParent.node, hue: pairHue(legalUnder) }, clear: () => setLegalUnder(null) } : null;

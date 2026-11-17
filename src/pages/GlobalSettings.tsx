@@ -31,6 +31,8 @@ import { capabilityCards, costCardName } from "../framework/engine/ChannelResour
 import { asBusinessEngagementValue } from "../framework/engine/businessFoundation/engagementReaders";
 import { businessFoundationSegments } from "../framework/engine/AnswerUtils";
 import { segmentPaymentServices } from "../framework/engine/SegmentQuestions";
+import { segmentIdentityOf } from "../framework/engine/SegmentContext";
+import { effectiveSegmentAnswers } from "../framework/engine/EffectiveAnswers";
 import { OrganizationService } from "../services/OrganizationService";
 import { systems } from "../data/systems";
 import { StorageService } from "../services/StorageService";
@@ -246,8 +248,13 @@ export default function GlobalSettings() {
     const engagementValue = useMemo(() => asBusinessEngagementValue(business && engagementSection ? business.getResponse(engagementSection.number) : undefined), [business, engagementSection]);
     // (The payment services the Segments name, Which payment services do you take payments with?: their rows show, and one written in has its own.)
     const foundationSection = business?.getFramework().sections.find(section => section.answer?.type === AnswerType.BusinessFoundation);
+    // (The SETTLED answers, as Customer Engagement reads them: a payment service left behind by a changed answer makes no row.)
+    const segmentIdentity = segmentIdentityOf(legalEntity.organisation, stageOf(settings.openingDate, new Date(), stageDurationsOf(settings)));
     const paymentServices = useMemo(() => businessFoundationSegments(business && foundationSection ? business.getResponse(foundationSection.number) : undefined)
-        .flatMap(segment => segmentPaymentServices(segment.questions)), [business, foundationSection]);
+        .flatMap(segment => segmentPaymentServices(effectiveSegmentAnswers(segment, segmentIdentity))),
+    // (The identity is rebuilt each render from the same answers: its parts are the dependencies.)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [business, foundationSection, JSON.stringify(segmentIdentity)]);
     const usedNames = useMemo(() => [
         ...engagementValue.segments.flatMap(segment => segment.channels.map(channel => channel.name)),
         ...capabilityCards(capabilityValue).map(card => costCardName(card)),
@@ -405,7 +412,6 @@ export default function GlobalSettings() {
                     {sectionTitle("Pay and tax")}
                     {figureField("Employer on-cost coefficient", "Added to the gross salaries, for the country. It differs by country.", settings.onCostRate, (next) => change({ onCostRate: next }), NUMBER_LIMITS.percent, "%")}
                     {figureField("Insurance per employee", "An amount a month, for key-person and health cover.", settings.insurancePerEmployee, (next) => change({ insurancePerEmployee: next }), NUMBER_LIMITS.money)}
-                    {figureField("Corporate income tax rate", "A rate on net profit.", settings.incomeTaxRate, (next) => change({ incomeTaxRate: next }), NUMBER_LIMITS.percent, "%")}
                 </section>
 
                 <section className="settings-section" aria-label="Assets">

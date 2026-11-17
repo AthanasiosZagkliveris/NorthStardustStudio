@@ -109,17 +109,17 @@ const SEGMENT_CODES = {
     competition: ["Box 5, 4", "always"],
     "u-age": ["End user, 1", "the Segment's own buyer is Proxy or Dual-Intent; working-age terms only for a business Segment (Young adult to Mature, 2026-11-08), every term for an Institution or membership body (2026-11-09); not shown when one term is left"],
     "u-school": ["End user, 2", "the end user is under 18 and the relationship is Parent or guardian, Caregiver, Family member or Institution or membership body (2026-11-09)"],
-    "u-work": ["End user, 3", "a personal relationship (not a parent or caregiver), Sponsor or funder, or Institution or membership body; not a Baby or a Child"],
-    "u-work2": ["End user, 4", "End user, 3 is No"],
-    "u-job": ["End user, 5", "the relationship is Employer, Business partner or Other (business)"],
-    "u-orgtype": ["End user, 6", "the relationship is Business serving clients or Professional intermediary"],
-    "u-size": ["End user, 7", "as End user, 6, and the clients are not self-employed"],
     "u-comfort": ["End user, 8", "an end user who is not a Baby"]
 };
 /** The Segment's question asked once in its Competitors column (box `competitors`): listed under the Competitor card, as K14. */
 const SEGMENT_ON_COMPETITOR = { differentiation: ["K14", "once per Segment, in its own section Differentiation after its Competitor cards (moved from Positioning 8, 2026-11-08); the options K10's ticks argue for first (the crosswalk, doc 41), then Positioning's order as built", "Positioning's answer saved before 2026-11-08 (`organisation.differentiation`), else the K10 ticks across the Segment's competitors through the crosswalk (doc 41; 2026-11-09), within the stage's limit; a saved answer wins"] };
 /** The Segment's questions that moved on (owner, 2026-11-08): the saved key stays readable and settled, as the start of its new place. */
 const SEGMENT_RETIRED = [
+    { code: "End user, 3", was: "Are your customers working? (`u-work`)", by: "nothing reads it: retired (owner, 2026-11-17)", owner: "doc 35, The end user" },
+    { code: "End user, 4", was: "Why are your customers not working? (`u-work2`)", by: "nothing reads it: retired (owner, 2026-11-17)", owner: "doc 35, The end user" },
+    { code: "End user, 5", was: "What kind of work do your customers do? (`u-job`)", by: "nothing reads it: retired (owner, 2026-11-17)", owner: "doc 35, The end user" },
+    { code: "End user, 6", was: "What kind of organisation are their clients? (`u-orgtype`)", by: "nothing reads it: retired (owner, 2026-11-17)", owner: "doc 35, The end user" },
+    { code: "End user, 7", was: "How big are their clients' organisations? (`u-size`)", by: "nothing reads it: retired (owner, 2026-11-17)", owner: "doc 35, The end user" },
     { code: "End user, 9", was: "Outcome for the end user (`u-outcome`; Positioning 10 until 2026-11-08)", by: "each Profile's end-user part: E4 (doc 36, 2.1; 2026-11-08); the Segment's saved answer is its start", owner: "doc 35, The end user" }
 ];
 
@@ -155,7 +155,6 @@ const PROFILE_CODES = {
 const PROFILE_USER_CODES = {
     a1: ["A1 (end user)", "the Segment has an end user (held to its end-user stage, End user, 1)"],
     a7: ["A7 (end user)", "a people Segment with an end user of 18 or more (End user, 1)"],
-    comfort: ["A8", "the Segment has an end user who is not a Baby", "the Segment's End user, 8"],
     outcome: ["E4", "the Segment has an end user (moved from the Segment's End user, 9, 2026-11-08); ordered by Positioning's purposes and life stages", "the Segment's End user, 9 saved before, else Positioning's answer saved before 2026-11-08 (`organisation.outcomeUser`), within the stage's limit; a saved answer wins"]
 };
 /** Profile questions in the doc that are not built: [code, box, label, control, asked when, after (the saved id they stand after)]. */
@@ -174,7 +173,8 @@ const PROFILE_RETIRED = [
     ["P14", "How do they like to pay", "the Segment asks it (Box 4, 8)"],
     ["P15", "Devices", "C1"],
     ["P16", "How comfortable are they online", "the Segment asks it (Box 4, 1)"],
-    ["P22", "How is the decision made", "the Segment's Box 4, 9 and A5"]
+    ["P22", "How is the decision made", "the Segment's Box 4, 9 and A5"],
+    ["A8", "How comfortable is the end user online", "the Segment's End user, 8 (owner, 2026-11-17)"]
 ];
 const PROFILE_BOX_TITLES = { goals: "Goals & Desires", challenges: "Challenges & Problems", objections: "Objections", needs: "Needs" };
 const PROFILE_SECTION = { personal: "3", psychographics: "4", hubs: "5", habits: "6", goals: "7", challenges: "7", objections: "7", needs: "10" };

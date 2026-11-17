@@ -105,7 +105,7 @@ The card is built and its layout is in section 1 ("The Profile card's layout"): 
 | C1 to C4 devices, social media, communities, events | buyer | where they find and buy (C1's "i": the devices they use to find and buy): who the channels must reach |
 | D1 to D3 comparing, help, when they buy | buyer | the purchase, run by the buyer (as doc 36 decided in 2026-11-01: the end user's Box D is not asked) |
 | E3 worries | buyer | the doubts about **buying** (the price among them), so the Offering's O8 reads the buyer's |
-| **A8** online comfort | end user | new, the end user's own: how easily the end user uses websites and apps; starts from the Segment's End user, 8; not asked of a Baby |
+| **A8** online comfort | end user | **retired 2026-11-17** (owner): the Segment's End user, 8 owns the end user's online comfort |
 | E1 goals | end user | what they want from it |
 | **E4** outcome for the end user | end user | moved here from the Segment's End user, 9 (and Positioning's 10 before it); stands first in the end user's Goals & Desires |
 | E2 frustrations | end user | what goes wrong for the person who uses it |
@@ -138,10 +138,9 @@ A typical person of the Segment, asked specifically.
 
 - **Control:** one choice (a radio).
 - **Asked when:** the Segment is of people and its gender mix is answered and is not Balanced mix.
-- **Options:**
+- **Options** (three, owner, 2026-11-17; Non-binary saved before is read as Another gender):
   - Woman
   - Man
-  - Non-binary
   - Another gender
 - **The "i" says:**
   - Asked when the Segment's gender mix leans one way (any point but 3); it starts from the mix. Change it freely.
@@ -157,6 +156,7 @@ A typical person of the Segment, asked specifically.
 - **The "i" says:**
   - One age within the Segment's age group: a typical person, as you picture them.
   - If the Segment's age group changes and this age falls outside it, the age is cleared.
+- **Read by (built (owner, 2026-11-17; the open decisions and gaps, Group 4c)):** the Business Plan's persona line, one a Profile before the Customer Profiles table (`profilePersona`): its name, A1, A3 (or A3b) and A7, with A2's pronoun: "Sara, 34, a professional, lives with her partner and children."; only the parts answered.
 - **Connections:**
   - *Comes from:* the Segment's age group (the number is held to it).
   - *Read by (built):* the number is cleared when it leaves the group (2.2; `profileSettle`).
@@ -204,6 +204,7 @@ A typical person of the Segment, asked specifically.
   - Professional: for example a teacher, nurse, engineer or lawyer. Skilled trade: for example an electrician, plumber or chef.
   - Someone who owns and runs a business: Manager / director. Armed forces: choose the group that fits the role.
 - **Saved answers:** the ids of the six groups before are kept where the meaning is closest (manager, professional, technician, service, operator); "owner", an employment status rather than an occupation, reads as Manager / director (`JOB_RENAMED`).
+- **Ordered (2026-11-17):** for a Postgraduate Segment (doc 35, Box 1, 2), Professional and Manager work first; never locked.
 - **Connections:**
   - *Comes from:* the Segment's work status.
   - *Read by (built):* the documents and the exports. *Not built yet:* C2's order (LinkedIn first for Manager / director and Professional); the Review.
@@ -213,17 +214,16 @@ A typical person of the Segment, asked specifically.
 *Added (owner, 2026-11-03), built.* A B2B Profile's job question, in A3's place.
 
 - **Control:** one choice (a radio).
-- **Asked when:** the Segment's buyer is a business, except where its customers are self-employed: then it is set to Owner / partner and not shown (section 9).
-- **Options** (LinkedIn's ten seniority values merged into five) [MSP-05]:
-  - Owner / partner (Owner, Partner)
-  - Senior executive (CXO, VP)
-  - Director / head of department (Director)
-  - Manager / team lead (Manager)
+- **Asked when:** the Segment's buyer is a business, except where its customers are self-employed: then it is set to Owner or senior leader and not shown (section 9).
+- **Options** (LinkedIn's ten seniority values merged into three: who decides, who manages, who does the work; owner, 2026-11-17) [MSP-05]:
+  - Owner or senior leader (Owner, Partner, CXO, VP, Director)
+  - Manager (Manager)
   - Specialist / team member (Senior, Entry, Training, Unpaid)
 - **The "i" says:**
-  - Based on: the seniority levels B2B platforms use (LinkedIn), merged into five.
-  - Senior executive: the chief executive, a C-level or a vice president. Trainees and interns: Specialist / team member.
-  - It starts the role in buying: an owner or senior executive makes the final decision; a specialist uses it.
+  - Based on: the seniority levels B2B platforms use (LinkedIn), merged into three.
+  - Trainees and interns: Specialist / team member.
+  - It starts the role in buying: an owner or senior leader makes the final decision; a specialist uses it.
+- **Saved answers (2026-11-17):** Senior executive and Director / head of department saved before read as Owner or senior leader; Manager / team lead as Manager.
 - **Saved answers:** a B2B Profile's kind of work saved before reads as a level: Owner to Owner / partner, Manager to Manager / team lead, the others to Specialist / team member.
 - **Connections:**
   - *Read by (built):* A5's starting value (Owner / partner or Senior executive: Makes the final decision; Specialist / team member: Uses it); the documents and the exports.
@@ -252,6 +252,7 @@ A typical person of the Segment, asked specifically.
 - **The "i" says:**
   - The five buying-centre roles credited to Webster and Wind (1972) [CHN-02].
   - "Uses it" is the person who uses the offering day to day; the one who pays and the one who decides can be other people.
+- **Read by (built (owner, 2026-11-17; the open decisions and gaps, Group 4c)):** D1's order: Uses it puts A free trial and A demo first; Makes the final decision puts A quote or proposal first; never locked.
 - **Connections:**
   - *Comes from:* the Segment's decision authorisation and end-user part. **Starts:** every role where one person decides; on a Proxy Segment, Places the order and Makes the final decision; on a Dual-Intent Segment also Uses it (2026-11-09).
   - *Read by (not built yet):* the Review (nobody makes the final decision); context on the Customer Engagement page. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
@@ -308,6 +309,7 @@ A typical person of the Segment, asked specifically.
   - Personalisation: made just for them. Safety / security: low risk, nothing goes wrong. Values: it stands for what they believe in.
   - Write their interests, lifestyle and hopes in the note.
   - 1 = Optional, 5 = Essential.
+- **Starts (2026-11-17):** at Safety / security where the Segment's end user is in the early years (End user, 2).
 - **Connections:**
   - *Read by (built, 2026-11-05):* the Competitor's K8 shows every value of L1, those ticked here first, the highest rated first, each banded by how many Profiles ticked it, and its K10 weighs each value by its rating here (doc 41).
   - *Comes from:* nothing.
@@ -335,6 +337,7 @@ What the Segment cannot say: which social media, which communities, which events
   - The platforms they actually use, if any.
   - Tick Other to write another.
 - **Other, written in:** a numbered list, one name a row (owner, 2026-11-15 16:43; the same for C3 and C4); each name is its own subchannel on Customer Engagement (doc 47).
+- **Ordered (2026-11-17):** for a business Segment or a Postgraduate one, LinkedIn first; for customers under 25 (Minors or Young adults), TikTok and Instagram first; for School or College or vocational, Instagram and TikTok first; never locked.
 - **Connections:**
   - *Comes from:* the Segment's discovery ways and online comfort.
   - *Read by (built):* each platform its Social Media subchannel at Discover, a name written under Other its own (doc 47); posts on social media after the sale (O23) at Support & Follow Up; the Competitors' reach openings (K10, doc 41). *Not built yet:* the Profile's hubs. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
@@ -370,6 +373,7 @@ What the Segment cannot say: which social media, which communities, which events
 - **The "i" says:**
   - The kinds of events a typical person of the Segment goes to.
   - Write the names of the events in the note.
+- **Ordered (2026-11-17):** for a Postgraduate Segment, Talk / conference first; never locked.
 - **Connections:**
   - *Comes from:* the Segment's social environment.
   - *Read by (built):* each event its In Person subchannel at Discover, a name written under Other its own (doc 47); the Competitors' reach openings (K10, doc 41). *Not built yet:* the Profile's hubs. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
@@ -391,6 +395,7 @@ C1 opens the box (owner, 2026-11-08, P8): the devices they find and buy on are a
 - **The "i" says:**
   - The devices they use to find and buy.
   - The Segment's choice of where they buy starts this; change it freely.
+- **Starts and read by (built (owner, 2026-11-17; the open decisions and gaps, Group 4c)):** where the shopping setting starts nothing, the Segment's On the road (Where do your customers mainly work?) starts Smartphone. Where every Profile of the Segment uses a smartphone only, the Main Website's subchannel card on Customer Engagement says "Design for phones first: your customers find and buy on a smartphone." (`segmentPhonesOnly`).
 - **Connections:**
   - *Comes from:* the Segment's where they buy: the setting starts it (Online, on a phone: Smartphone; Online, on a computer: Laptop / desktop; In a shop: none; Both online and in shops: Smartphone and Laptop / desktop), as a starting value the App User can change.
   - *Read by (not built yet):* the Review (make the order and the forms work on a phone; a note where the devices ticked leave out the one the Segment buys on).
@@ -411,6 +416,7 @@ C1 opens the box (owner, 2026-11-08, P8): the devices they find and buy on are a
 - **The "i" says:**
   - How they weigh options before choosing.
   - How they pay and where they buy are the Segment's questions.
+- **Ordered (built (owner, 2026-11-17; the open decisions and gaps, Group 4c)):** by A5 (see A5).
 - **Connections:**
   - *Comes from:* the Segment's path to purchase.
   - *Read by (built):* the Evaluation channels (doc 47): the ways to try it first their Samples & Trials subchannel, the catalogue Print & Mail › Catalogue / Brochure, each named; a sample, trial, demo or taster makes the funnel's middle step "Tried it (%)" (doc 50); A demo or A quote starts D2's formal help. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
@@ -438,6 +444,7 @@ C1 opens the box (owner, 2026-11-08, P8): the devices they find and buy on are a
 - **Options** (L25, doc 34): Weekday daytime; Evenings; Weekends; Around seasons / holidays.
 - **The "i" says:**
   - When they actually buy; the Segment's work schedule says when they work.
+- **Starts (built (owner, 2026-11-17; the open decisions and gaps, Group 4c)):** from the Segment's work schedule while the customers are working: Standard daytime hours, Evenings and Weekends; Shifts / varying hours, Weekday daytime and Weekends; Flexible / their own hours, Weekday daytime. Retired customers start at Weekday daytime. Change it freely.
 - **Connections:** *Read by:* the documents and the export. The habits Notes keep how they buy, in their words.
 
 ## 7. Box E. Motivations
@@ -542,6 +549,7 @@ C1 opens the box (owner, 2026-11-08, P8): the devices they find and buy on are a
 - E3's "i": its start "where the Segment's household income is rated 1".
 - Every rated question's "i" now starts with what 1 and 5 mean ("1 = Optional, 5 = Essential."), the numbers standing over the rounds (doc 21, Rating Scale).
 
+- **Starts (built (owner, 2026-11-17; the open decisions and gaps, Group 4c)):** a Segment of students (Why are your customers not working? Student) starts The price or their budget, as the lowest household income does.
 ## 8. Dropped, merged or left to the note
 
 | Earlier question (doc 28, 6.4) | Now |

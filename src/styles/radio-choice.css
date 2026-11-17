@@ -33,6 +33,13 @@
 
 }
 
+/* A GROUP'S HEADING among the options (owner, 2026-11-17: Discover's and O3's groups): the field group title's look, on a line of its own, above the group's first option. */
+.radio-choice > :is(.radio-choice-heading, .business-tick-heading) {
+
+    flex-basis: 100%;
+
+}
+
 /* An option not open yet (a stage's lock): grey, as a blocked tick is. */
 .radio-choice-option-locked {
 

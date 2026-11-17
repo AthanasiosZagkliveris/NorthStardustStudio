@@ -13,6 +13,9 @@ import { asGlobalSettings, stageDurationsOf } from "./GlobalSettings.ts";
 import { clearOpenings, valueInSentence } from "./CompetitorQuestions.ts";
 import { BUSINESS_FOUNDATION_SUBSECTIONS } from "./AnswerBusinessFoundation.ts";
 import { sectionSegment } from "./FieldKeys.ts";
+import { BUSINESS_CAPABILITY_SECTIONS } from "./AnswerBusinessCapability.ts";
+import { asFoundersProfileValue } from "./AnswerFounders.ts";
+import { neededSkills } from "./capability/skills.ts";
 
 /** A page as the rail names it: "4. Financial Foundation". */
 function pageName(section: { number: number; title: string }): string {
@@ -223,8 +226,32 @@ function keyDateItems(input: ReviewInput): ReviewItem[] {
 const MISSING_PLACES: Record<string, { systemNumber: number; type: AnswerType; section?: string }> = {
     "Market Size and Industry Outlook": { systemNumber: 3, type: AnswerType.BusinessFoundation, section: "customer-segment-and-profile" },
     "Experience and CVs": { systemNumber: 1, type: AnswerType.FoundersProfile, section: "founders" },
-    "Capability Gaps and Cover": { systemNumber: 1, type: AnswerType.FoundersProfile, section: "capability-gaps-cover" }
+    // (Asked on Capacity & Delivery, 3. Infrastructure & Capability: owner, 2026-11-16 20:25.)
+    "Skills and Cover": { systemNumber: 3, type: AnswerType.BusinessCapability, section: sectionSegment(BUSINESS_CAPABILITY_SECTIONS[1]) }
 };
+
+/** Each skill the business still needs that no one covers yet (LC1): an item linking to Capacity & Delivery, where its cover is found. */
+function uncoveredSkills(input: ReviewInput): ReviewItem[] {
+    const page = pageOf(input.sessions[3], AnswerType.BusinessCapability);
+    if (!page) {
+        return [];
+    }
+    const f = readFoundation(foundationSessions(input));
+    const founderNames = Object.fromEntries(f.legalEntity.founders.map(founder => [founder.id, founder.name.trim()]));
+    return neededSkills(f.capability, asFoundersProfileValue(f.foundersProfile), founderNames)
+        .filter(skill => skill.cover.length === 0)
+        .map(skill => ({
+            group: "missing" as const,
+            capability: "foundation",
+            text: skill.label + " is not covered yet: " + input.titles[3] + " → " + pageName(page) + " → Capacity & Delivery.",
+            place: {
+                systemNumber: 3,
+                sectionNumber: page.number,
+                key: fieldKey({ systemNumber: 3, sectionNumber: page.number, path: [sectionSegment(BUSINESS_CAPABILITY_SECTIONS[1])] }),
+                anchors: ["section-offering-delivery"]
+            }
+        }));
+}
 
 function missing(input: ReviewInput): ReviewItem[] {
 
@@ -261,7 +288,7 @@ function missing(input: ReviewInput): ReviewItem[] {
 
 /** Everything left to look at, in the Review page's order. */
 export function reviewItems(input: ReviewInput): ReviewItem[] {
-    return [...stillOpen(input), ...secondLook(input), ...timing(input), ...keyDateItems(input), ...missing(input)];
+    return [...stillOpen(input), ...secondLook(input), ...timing(input), ...keyDateItems(input), ...missing(input), ...uncoveredSkills(input)];
 }
 
 /** Whether nothing is left to answer: nothing still open or missing from the documents. */

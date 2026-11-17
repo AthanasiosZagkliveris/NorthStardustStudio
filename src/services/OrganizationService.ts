@@ -93,6 +93,8 @@ export interface OrganizationDocument {
      * StorageService.retireLegacyBusinessPages.
      */
     legacyBusinessPagesRetired?: boolean;
+    /** Set once a Global Settings income tax rate has been moved into Page 4's Plan Settings (storageMigrations.moveGlobalIncomeTax). */
+    globalIncomeTaxMoved?: boolean;
     /**
      * What was answered on those nine pages, set aside rather than
      * deleted: out of the Business System's own responses, so a page

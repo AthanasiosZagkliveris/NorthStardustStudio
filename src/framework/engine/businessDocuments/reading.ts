@@ -14,6 +14,7 @@ import { launchNeedOf } from "../ContingencyFunds.ts";
 import { asGlobalSettings, capitalisationLimitOf, stageDurationsOf } from "../GlobalSettings.ts";
 import { countryCurrency } from "../LegalEntityJurisdictions.ts";
 import { joinNames, preparedMonth, websiteOf } from "./plan.ts";
+import { settledSegmentAnswers } from "../SegmentContext.ts";
 
 /** The four Foundation Systems as saved -- any may be missing. */
 export interface FoundationSessions {
@@ -112,6 +113,39 @@ export function currentSituationDraft(sessions: FoundationSessions): string {
 
 }
 
+/**
+ * THE SWOT'S STARTS FROM THE MARKET (owner, 2026-11-17): each Segment's market growth (trajectory) and how crowded it is (competition), both ratings, as an
+ * Opportunity or a Threat line. A growing market (4 or 5) and an open one (1 or 2) are Opportunities; a shrinking market (1 or 2) and a crowded one (4 or 5) are
+ * Threats. A quadrant shows them while it was never edited; once edited, the founder's own lines stand (as the Current Situation's draft does).
+ */
+export function swotStartsOf(f: Foundation): { opportunities: string[]; threats: string[] } {
+    const opportunities: string[] = [];
+    const threats: string[] = [];
+    for (const segment of f.segments) {
+        const answers = settledSegmentAnswers(segment, f.legalEntity.organisation);
+        const name = segment.name.trim();
+        const market = name ? "The market for " + name : "Your customers' market";
+        const growth = Number(answers.trajectory?.[0] ?? 0);
+        const crowded = Number(answers.competition?.[0] ?? 0);
+        if (growth >= 4) {
+            opportunities.push(market + " is growing.");
+        } else if (growth >= 1 && growth <= 2) {
+            threats.push(market + " is shrinking.");
+        }
+        if (crowded >= 4) {
+            threats.push(market + " is crowded, with established players.");
+        } else if (crowded >= 1 && crowded <= 2) {
+            opportunities.push(market + " has few competitors yet.");
+        }
+    }
+    return { opportunities, threats };
+}
+
+/** The SWOT's starts from what the Business System records (swotStartsOf), for the Strategy page. */
+export function strategySwotStarts(sessions: FoundationSessions): { opportunities: string[]; threats: string[] } {
+    return swotStartsOf(readFoundation(sessions));
+}
+
 /** The financial plan's first and last month, for the Strategic Period to be compared with. */
 export function financialPlanRange(sessions: FoundationSessions): { start: StrategyMonthValue; end: StrategyMonthValue } | null {
     const f = readFoundation(sessions);
@@ -144,8 +178,8 @@ export function readFoundation(sessions: FoundationSessions, options?: { wholeOn
     const stage = stageOf(settings?.openingDate ?? "", new Date(), settings ? stageDurationsOf(settings) : undefined);
 
     const business: ExportContext = sessions.business
-        ? sessionExportContext(sessions.business, { legalEntity, foundersProfile, currency, businessStage: stage })
-        : { legalEntity, foundersProfile, currency, businessStage: stage };
+        ? sessionExportContext(sessions.business, { legalEntity, foundersProfile, currency, businessStage: stage, globalSettings: settings })
+        : { legalEntity, foundersProfile, currency, businessStage: stage, globalSettings: settings };
 
     const strategy: ExportContext = sessions.strategy
         ? sessionExportContext(sessions.strategy, { legalEntity, foundersProfile, currency })
@@ -161,7 +195,8 @@ export function readFoundation(sessions: FoundationSessions, options?: { wholeOn
     const lines = costLines(financial, business);
     const revenuePage = withDemand(
         asFinancialSustainabilityValue(business.responseOf?.(AnswerType.FinancialSustainability)),
-        asBusinessEngagementValue(business.responseOf?.(AnswerType.BusinessEngagement)).demand
+        asBusinessEngagementValue(business.responseOf?.(AnswerType.BusinessEngagement)).demand,
+        business.responseOf?.(AnswerType.BusinessFoundation)
     );
     // Where the owners take drawings rather than a salary, as the
     // forecast counts them (see FinancialForecast.ts).
@@ -182,7 +217,7 @@ export function readFoundation(sessions: FoundationSessions, options?: { wholeOn
         : undefined;
 
     const position = financialPosition(financial, lines, legalEntity, currency, format, revenuePage, launched?.launch);
-    const outlook = sustainability(revenuePage, financial, lines, legalEntity, format);
+    const outlook = sustainability(revenuePage, financial, lines, legalEntity, format, calculated);
 
     const name = text(legalEntity.organisation.name) || text(sessions.organisationName) || "The organisation";
 

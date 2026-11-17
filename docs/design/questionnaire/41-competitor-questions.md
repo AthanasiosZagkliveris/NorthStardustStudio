@@ -68,6 +68,7 @@ This follows the type rules already built for the text boxes: a substitute has n
   - Hybrid
 - **The "i" says:**
   - The kinds the app uses for Offerings. A product and a service sold together is a Hybrid.
+- **Read by (built (owner, 2026-11-17; the open decisions and gaps, Group 4c)):** the Business Plan's competitor table, its "What they offer" row (see K10). K1 filters nothing in K8: a product can be personalised too (bespoke work), so no value of L1 clearly fails for a kind of Offering, and a filter would hide a real answer (decided 2026-11-17).
 - **Connections:**
   - *Comes from:* nothing.
   - *Read by (later, once an Offering exists):* the Review, beside the Offerings' Type.
@@ -91,6 +92,7 @@ This follows the type rules already built for the text boxes: a substitute has n
   - Anywhere online
 - **The "i" says:**
   - The widest area they sell in. Write the places by name in the note. (It said "Write the industries they serve" until 2026-11-08: the card asks no industry.)
+- **Read by (built (owner, 2026-11-17; the open decisions and gaps, Group 4c)):** K10's opening "Serve the customers beyond their reach", where the Segment's own reach (Box 2, 1) is wider than K2's (city, region, country, several countries, anywhere online, in that order); the Business Plan's competitor table. (The brief's wording "Serve customers they don't reach" is written affirmatively here.)
 - **Connections:**
   - *Comes from:* the Segment's list of options, in its fixed order.
   - *Read by (not built yet):* the Review (a competitor selling wider than your Segment reaches).
@@ -145,6 +147,7 @@ This follows the type rules already built for the text boxes: a substitute has n
   - Write their account and shop names in the note. The list holds the channels that reach new customers.
 - **Kept as:** the channels under `k5`; the sub-channels under `k5-sub`, each "channel:sub" (`social-media:instagram`), kept while their channel is ticked. A channel's rating saved before 2026-11-04 (`k5-rating`) is dropped on the next answer and read by nothing.
 - **Not yet:** the sub-channels in the order of the App User's industry and country, as K6's platforms are: no source by industry was found for social media, communities or events; they stay in the Profile's order.
+- **Options (owner, 2026-11-17):** Advertising, Print & mail and Samples & trials join the list; the channel groups the customers' own answers use come first, headed "Your customers' channels", then the rest, headed "Others" (`competitorChannelOptions`).
 - **Connections:**
   - *Comes from:* the channel categories of page 2 by id (`BUSINESS_CHANNEL_CATEGORIES`); the sub-channel lists from the Profile's C2, C3 and C4 (doc 36).
   - *Read by (built, 2026-11-04):* K10: once K5 is answered, each social medium, community or kind of event a Profile of the Segment ticks (C2 to C4) that this competitor's sub-channels do not hold is an opening: "Reach customers on TikTok", "Reach customers in Facebook groups", "Meet customers at workshops and classes". It compares with the customers, never with the App User's own channels (The purpose).
@@ -283,6 +286,7 @@ A section of its own after the SWOT, as built: a title band that folds, as the D
   - Openings drawn from what you answered above. Tick the ones you will act on, then write how in the text.
   - Your ticks here start the Segment's Differentiation, under your Competitors: an opening on price, ease, safety, quality, expertise or service starts its match. (2026-11-09)
   - For each value rated 5: "[name] is hard to beat on [value], so compete elsewhere."
+- **Built (owner, 2026-11-17; the open decisions and gaps, Group 4c):** the opening from K2 (above), after the growth's; at the Segment's crowded market (How crowded is your market? 4 or 5) the "i" adds "Your market is crowded: one opening, made clearly yours, stands out more than several." (`competitorK10Info`). **The Business Plan's competitor table** (`competitorTable`): under each Segment's Competitors, after the notes table, one column per competitor and one row per question answered by at least one: What they offer (K1), Where they sell (K2), How big they are (K3), Growing (K4), How they reach customers (K5), Where they are reviewed (K6, each platform's stars), Stages they make hard (K7 at 1 or 2), Strong on and Weak on (K8 at 4 or 5, and 1 or 2), Changes that help them and Changes that hurt them (K9 at 4 or 5, and 1 or 2), Your openings (K10's ticks).
 - **Connections:**
   - *Comes from:* K4, K5, K6, K7, K8 and K9, and the Profiles' B1 (doc 36).
   - *Read by (built):* the draft at the end of the text: "Customers want [value], and [name] falls short there." for a B1 value rated 1 or 2, then "You could [opening]." for each tick ("You could offer better quality."); "Add to text" adds only the lines not already in the text, and is not shown when none is left.

@@ -316,12 +316,14 @@ describe("FinancialSustainabilityEditor starts from Page 1 (phase 5f, 2026-11-09
         }]
     };
 
-    it("starts Charged from O3 and Customer Pays from O3's second row on a stream not saved yet", () => {
+    it("starts Charged from O3, and shows Customer Pays as the record of O3's second row (When do they pay?)", () => {
         render(<FinancialSustainabilityEditor value={asFinancialSustainabilityValue(undefined)} foundation={foundation} onChange={() => {}} />);
         expect(screen.getByRole("button", { name: "Revenue Stream 1 charged: Per project" })).toBeTruthy();
-        expect(screen.getByRole("button", { name: "Revenue Stream 1 payment timing: Split" })).toBeTruthy();
+        // (WHEN THEY PAY HAS ONE OWNER, the Offering's O3t: one option, a record, read only; owner, 2026-11-16.)
+        const timing = (stream: number, words: string) => screen.getByRole("textbox", { name: "Revenue Stream " + stream + " payment timing: " + words });
+        expect(timing(1, "Split").getAttribute("aria-readonly")).toBe("true");
         expect(screen.getByRole("button", { name: "Revenue Stream 2 charged: Annually" })).toBeTruthy();
-        expect(screen.getByRole("button", { name: "Revenue Stream 2 payment timing: Upfront" })).toBeTruthy();
+        expect(timing(2, "Upfront").getAttribute("aria-readonly")).toBe("true");
     });
 
     it("keeps the page's own stream over the starts, and saves the starts with the first thing written", () => {
@@ -329,7 +331,8 @@ describe("FinancialSustainabilityEditor starts from Page 1 (phase 5f, 2026-11-09
         const value = asFinancialSustainabilityValue({ streams: [{ id: "stream-offering-1", offeringId: "offering-1", frequency: "per-sale", paymentTiming: "" }] });
         render(<FinancialSustainabilityEditor value={value} foundation={foundation} onChange={(next) => { saved = next; }} />);
         expect(screen.getByRole("button", { name: "Revenue Stream 1 charged: Per sale" })).toBeTruthy();
-        expect(screen.getByRole("button", { name: "Revenue Stream 1 payment timing: When earned" })).toBeTruthy();
+        // (The page's own timing gives way to O3t's record: the Offering is paid by a deposit, so Split.)
+        expect(screen.getByRole("textbox", { name: "Revenue Stream 1 payment timing: Split" }).getAttribute("aria-readonly")).toBe("true");
         fireEvent.change(screen.getByLabelText("Revenue Stream 2 price"), { target: { value: "90" } });
         expect(asFinancialSustainabilityValue(saved).streams.find(stream => stream.offeringId === "offering-2")).toMatchObject({ frequency: "annually", paymentTiming: "upfront", price: "90" });
     });

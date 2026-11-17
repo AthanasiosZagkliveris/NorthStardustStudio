@@ -1,4 +1,5 @@
 import type { BusinessActivityValue, BusinessCapabilityValue, BusinessPartnerValue, BusinessResourceSlotValue } from "./AnswerUtils.ts";
+import { offeringSharesFor } from "./capability/offeringShares.ts";
 
 /**
  * GENERATED CARDS: a Partner, Supplier or Activity that a card's Status made with "Other…" (its `madeBy` is that card's id) was made for that card. When the card
@@ -97,10 +98,40 @@ export function connectedOfferings(value: BusinessCapabilityValue, card: { id: s
 }
 
 /**
- * A generated card (made by a card's Status) SERVES THE OFFERINGS OF THE CARDS CONNECTED TO IT, and more: whatever a connected card serves is added to it (with the
- * share it carries there), and the user may add others; ADDING, NEVER REMOVING -- nothing a connected card serves is taken off it, and what it gains from one card never
+ * A generated card (made by a card's Status) SERVES THE OFFERINGS OF THE CARDS CONNECTED TO IT, and more: whatever a connected card serves is added to it (at a
+ * share of 0, so its own split stays whole), and the user may add others; ADDING, NEVER REMOVING -- nothing a connected card serves is taken off it, and what it gains from one card never
  * changes that card. (Only in Offering's Capability: Infrastructure's cards serve no Offering.)
  */
+/**
+ * A DELETED OFFERING TAKES ITS SHARE WITH IT (owner, 2026-11-16): every card of Offering's Capability keeps only the Offerings Page 1 still has, and their shares
+ * (the basis kept). The same value where nothing changes; nothing is done while Page 1 names no Offering at all (still to be read).
+ */
+export function withoutGoneOfferings(value: BusinessCapabilityValue, offeringIds: readonly string[]): BusinessCapabilityValue {
+    if (offeringIds.length === 0) {
+        return value;
+    }
+    let changed = false;
+    const keep = <T extends { offeringIds: string[]; offeringShares: Record<string, string> }>(card: T): T => {
+        const ids = card.offeringIds.filter(id => id === "*" || offeringIds.includes(id));
+        if (ids.length === card.offeringIds.length) {
+            return card;
+        }
+        changed = true;
+        return { ...card, offeringIds: ids, offeringShares: offeringSharesFor(ids, card.offeringShares) };
+    };
+    const next: BusinessCapabilityValue = {
+        ...value,
+        offering: {
+            ...value.offering,
+            resources: value.offering.resources.map(keep),
+            activities: value.offering.activities.map(keep),
+            professionals: value.offering.professionals.map(keep),
+            providers: value.offering.providers.map(keep)
+        }
+    };
+    return changed ? next : value;
+}
+
 export function withInheritedOfferings(value: BusinessCapabilityValue): BusinessCapabilityValue {
     let changed = false;
     const follow = <T extends { id: string; madeBy: string; offeringIds: string[]; offeringShares: Record<string, string> }>(card: T): T => {
@@ -113,9 +144,9 @@ export function withInheritedOfferings(value: BusinessCapabilityValue): Business
             return card;
         }
         changed = true;
-        const shares = { ...card.offeringShares };
-        missing.forEach(id => { if (connected.shares[id] !== undefined) { shares[id] = connected.shares[id]; } });
-        return { ...card, offeringIds: [...card.offeringIds, ...missing], offeringShares: shares };
+        // (Its own shares kept, an Offering it gains at 0: never over 100% -- the connected card's shares are its own split, not this card's; owner, 2026-11-16.)
+        const ids = [...card.offeringIds, ...missing];
+        return { ...card, offeringIds: ids, offeringShares: offeringSharesFor(ids, card.offeringShares) };
     };
     const next: BusinessCapabilityValue = {
         ...value,

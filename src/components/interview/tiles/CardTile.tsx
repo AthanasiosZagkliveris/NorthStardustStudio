@@ -134,6 +134,8 @@ export interface CardTileProps {
     /** Which of its lines are LINKS (each opens what it names), and what a press on one does. */
     linkedLines?: readonly boolean[];
     onLine?: (index: number, pointer: boolean) => void;
+    /** The card each linked line opens, by line: the line is then named by that card's id (`data-link`), so the card's carousel finds it (owner, 2026-11-16 19:18). */
+    lineCards?: readonly (string | undefined)[];
     /** What the tile lists under its name. */
     lines: readonly string[];
     /** The mark of each line (a plain line has no bullet). */
@@ -176,7 +178,7 @@ export interface CardTileProps {
     };
 }
 
-export default function CardTile({ id, name, unnamed = "", number, linkedLines, onLine, lines, marks, links = [], tone, own, centred, inactive, faded, missing, label, onOpen, origin, focusId, onFocus, title, drag, plus }: CardTileProps) {
+export default function CardTile({ id, name, unnamed = "", number, linkedLines, onLine, lineCards, lines, marks, links = [], tone, own, centred, inactive, faded, missing, label, onOpen, origin, focusId, onFocus, title, drag, plus }: CardTileProps) {
     const onCircle = useRef(false);
     const shown = name.trim() || unnamed;
     rememberCardName(id, shown);
@@ -220,9 +222,13 @@ export default function CardTile({ id, name, unnamed = "", number, linkedLines, 
                 <TileLinks
                         items={lines}
                         marks={marks}
-                        links={lines.map((_, at) => linkedLines?.[at] ? { card: String(at) } : undefined)}
+                        links={lines.map((_, at) => linkedLines?.[at] ? { card: lineCards?.[at] ?? String(at) } : undefined)}
                         title={shown}
-                        onLink={(link, _from, pointer) => onLine?.(Number((link as { card: string }).card), pointer)}
+                        onLink={(link, _from, pointer) => {
+                            const card = (link as { card: string }).card;
+                            const at = lineCards ? lineCards.indexOf(card) : -1;
+                            onLine?.(at >= 0 ? at : Number(card), pointer);
+                        }}
                         onPlain={(event) => { (event.currentTarget as HTMLElement).closest(".section-tile-slot")?.querySelector<HTMLElement>(":scope > .section-tile")?.click(); }}
                     />
             )}

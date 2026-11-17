@@ -283,11 +283,11 @@ export function financialForecast(
     // THE MINIMUM ORDER (X6): each month the demand is first met from the stock carried over; if a purchase is still needed and it is below the minimum, the
     // month buys the minimum (its cost of sales and cash use it), and the excess is carried over as stock that reduces the next month's demand.
     lines.filter(line => line.counted && line.amount !== null && line.minimumOrder !== undefined && isPerUnitFrequency(line.frequency)).forEach(line => {
+        // (A cost paid per unit is each linked Offering's in full, on all it sells: owner, 2026-11-16, as the forecast's own per-unit cost.)
         const only = line.offeringIds.length > 0 && !line.offeringIds.includes("*") ? line.offeringIds : null;
-        const shares: Record<string, number> = line.offeringShares ?? (only ? Object.fromEntries(only.map(id => [id, 1 / only.length])) : {});
         const demand = zeros();
         outlook.streams.forEach(entry => {
-            const share = only ? shares[entry.stream.offeringId] ?? 0 : 1;
+            const share = only ? (only.includes(entry.stream.offeringId) ? 1 : 0) : 1;
             if (share > 0) {
                 streamVolumes(entry.stream, start).forEach((units, index) => { demand[index] += units * share; });
             }

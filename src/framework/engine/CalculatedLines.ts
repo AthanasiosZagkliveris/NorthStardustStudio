@@ -29,6 +29,8 @@ import { offeringChannelRevenue, offeringMonthlyRevenue } from "./DemandCapacity
 import type { BusinessEngagementValue } from "./businessFoundation/engagementReaders.ts";
 import { BUSINESS_CHANNEL_CATEGORIES, BUSINESS_CHANNEL_OTHER } from "./businessFoundation/channelCategories.ts";
 import { FEE_CHANNEL_CATEGORIES } from "./ChannelFeeData.ts";
+import { foreignFeeNote, foreignFixedFee } from "./GlobalSettings.ts";
+import { countryCurrency } from "./LegalEntityJurisdictions.ts";
 
 /*
     THE CALCULATED LINES of the Financial Foundation (cost model, section 7; automatic rules X1 to X5, X11, X12): lines nobody types, worked out from the
@@ -130,6 +132,23 @@ function rateOf(line: CostLine, settings: GlobalSettingsValue): number | null {
  * The row of the Channel Fee Table a card is for: the one whose channel the card's name contains (or is contained by), in the Legal Entity's country (owner,
  * 2026-11-15 15:10; while no country is chosen, the UK's, the table's first). A row with no rate -- not checked yet, or not available there -- is never charged.
  */
+/**
+ * A SHARE OF REVENUE AS THE FORECAST CHARGES IT, for the places that show it (the Inventory, the Channel Costs): the fee row a card's name takes -- commission and
+ * chargebacks, and the fixed fee per order (left out where it is in another currency, with its note) --; null where no row takes the name.
+ */
+export function chargedFeeFor(name: string, settings: GlobalSettingsValue, country: string, organisationCurrency: string): { percent: number; perOrder: number; text: string; note: string | null } | null {
+    const row = channelFeeRowFor(name, settings.channelFees, country);
+    if (!row) {
+        return null;
+    }
+    const percent = (settingNumber(row.commission) ?? 0) + (settingNumber(row.chargeback) ?? 0);
+    const fixed = settingNumber(row.fixedFee) ?? 0;
+    const foreign = foreignFixedFee(row, organisationCurrency);
+    const figure = (amount: number) => amount.toLocaleString(undefined, Number.isInteger(amount) ? { maximumFractionDigits: 2 } : { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    const text = percent.toLocaleString(undefined, { maximumFractionDigits: 2 }) + "%" + (fixed > 0 ? " + " + (foreign ? row.currency.trim().toUpperCase() + " " : "") + figure(fixed) + " an order" : "");
+    return { percent, perOrder: foreign ? 0 : fixed, text, note: foreignFeeNote(row, organisationCurrency) };
+}
+
 export function channelFeeRowFor(name: string, table: readonly ChannelFeeRow[], country = ""): ChannelFeeRow | undefined {
     const wanted = name.trim().toLowerCase();
     const where = country.trim() || "GB";
@@ -257,12 +276,6 @@ function offeringFlows(page: FinancialSustainabilityValue, start: StrategyMonthV
     return flows;
 }
 
-/** The income tax rate: the Global Settings' when given, else the one typed on the Financial Foundation. */
-export function effectiveIncomeTaxRate(settings: GlobalSettingsValue | undefined, fromFoundation: number | null): number | null {
-    const set = settings ? settingNumber(settings.incomeTaxRate) : null;
-    return set !== null ? Math.min(100, Math.max(0, set)) / 100 : fromFoundation;
-}
-
 export function calculatedLines(input: CalculationInput, fromFoundationRate: number | null = null): CalculatedResult {
 
     const { foundation, lines, capability, settings, openingDate } = input;
@@ -307,6 +320,7 @@ export function calculatedLines(input: CalculationInput, fromFoundationRate: num
     };
 
     /* Channel fees, royalties and partner commissions (X4, X5): a Percentage cost is a rate of the revenue it follows, a calculated COGS line. */
+    const organisationCurrency = countryCurrency(input.country ?? "");
     const percentageLines: CalculatedResult["percentageLines"] = [];
     counted.filter(line => line.billing === "percentage" || line.frequency === "usage-based").forEach(line => {
         const ids = line.offeringIds.length > 0 && !line.offeringIds.includes("*") ? line.offeringIds : [...flows.keys()];
@@ -315,7 +329,12 @@ export function calculatedLines(input: CalculationInput, fromFoundationRate: num
         const active = activeMonths(line, start);
         const table = channelFeeRowFor(line.name, settings.channelFees, input.country ?? "");
         const percent = table ? (settingNumber(table.commission) ?? 0) + (settingNumber(table.chargeback) ?? 0) : rateOf(line, settings);
-        const fixed = table ? settingNumber(table.fixedFee) ?? 0 : 0;
+        // (A fixed fee in another currency is left out of the totals, and said so: foreignFixedFee.)
+        const fixed = table && !foreignFixedFee(table, organisationCurrency) ? settingNumber(table.fixedFee) ?? 0 : 0;
+        const foreign = table ? foreignFeeNote(table, organisationCurrency) : null;
+        if (foreign && !notes.includes(line.name + ": " + foreign)) {
+            notes.push(line.name + ": " + foreign);
+        }
         if (percent === null) {
             notes.push(line.name + ": no rate is given, and the Global Settings have none for its option.");
             return;
@@ -354,7 +373,11 @@ export function calculatedLines(input: CalculationInput, fromFoundationRate: num
             const shares = revenueFractions(card.id, ids, input.engagement, input.revenuePage);
             const active = activeMonths({ startDate: card.startDate, endDate: card.endDate } as CostLine, start);
             const percent = (settingNumber(row.commission) ?? 0) + (settingNumber(row.chargeback) ?? 0);
-            const fixed = settingNumber(row.fixedFee) ?? 0;
+            const fixed = foreignFixedFee(row, organisationCurrency) ? 0 : settingNumber(row.fixedFee) ?? 0;
+            const foreign = foreignFeeNote(row, organisationCurrency);
+            if (foreign && !notes.includes(card.name + ": " + foreign)) {
+                notes.push(card.name + ": " + foreign);
+            }
             const values = zeros();
             ids.forEach(id => {
                 const flow = flows.get(id);
@@ -459,7 +482,8 @@ export function calculatedLines(input: CalculationInput, fromFoundationRate: num
         startupLineIds,
         inventoryLineIds,
         replaced,
-        incomeTaxRate: effectiveIncomeTaxRate(settings, fromFoundationRate),
+        // (Page 4's Plan Settings own the rate: doc 5, section 5.5.6.)
+        incomeTaxRate: fromFoundationRate,
         notes
     };
 

@@ -456,7 +456,7 @@ describe("Quillfield: the documents tie together", () => {
         everything.forEach(entry => expect(entry, entry).not.toContain(") ("));
         expect(blocks.partners).toContain("Freelance developer (for Automation Build)");
         expect(blocks.activities).toEqual(["Deliver AI Workflow Audit", "Deliver Automation Build", "Deliver Automation Care Retainer",
-            "Marketing and sales through social media, website, email, in person, online / live, file delivery, community, referral & affiliates and samples & trials"]);
+            "Marketing and sales through social media, website, email, referral & affiliates, in person, online / live, file delivery, community and samples & trials"]);
         // The relationships are their own block, not repeated as activities.
         expect(blocks.activities.join(" ")).not.toMatch(/Support|Assistance|^Run /);
         expect(blocks.activities.join(" ")).not.toContain("Set up bookkeeping");
@@ -838,7 +838,7 @@ describe("the optional answers in the documents", () => {
         return md.slice(from, next < 0 ? undefined : from + 1 + next);
     };
 
-    const withoutProfile = () => withAnswer(1, "identity", AnswerType.FoundersProfile, () => ({ founders: [], teamGaps: "" }));
+    const withoutProfile = () => withAnswer(1, "identity", AnswerType.FoundersProfile, () => ({ founders: [] }));
 
     /* A Legal Entity saved before the Founders Profile existed: its
        row carries the roles and a bio, and there is no page 4 answer. */
@@ -859,7 +859,7 @@ describe("the optional answers in the documents", () => {
     test("the founders' profiles replace the \"not covered\" lines under Management", () => {
         const plain = partOf(planOf({ ...base(), identity: withoutProfile() }), "## 7. Management and Organisation");
         expect(plain).toContain("### Experience and CVs\n\nNot covered by the Foundation answers.");
-        expect(plain).toContain("### Capability Gaps and Cover\n\nNot covered by the Foundation answers.");
+        expect(plain).not.toContain("Capability Gaps");
         expect(plain).not.toContain("### Founder Profiles");
 
         const given = partOf(planOf(base()), "## 7. Management and Organisation");
@@ -879,9 +879,25 @@ describe("the optional answers in the documents", () => {
             "- Professional / Technical Expertise: Data security and access control for client records\n" +
             "- Degree / Qualification: BS in Information Systems\n" +
             "- Certification: Certified in Microsoft Power Platform and Zapier\n");
-        expect(given).toContain("### Capability Gaps and Cover");
-        expect(given).toContain("As a one-person business");
+        // Skills and Cover: Capacity & Delivery's LC1, each skill with who covers it (the Team of its activities), then the Notes.
+        expect(given).not.toContain("Capability Gaps");
+        expect(given).toContain("### Skills and Cover\n\n- Bookkeeping and tax: covered by ");
+        expect(given).toContain("- Selling: covered by Jordan Ellis\n");
+        expect(given).toContain("- Marketing and social media: covered by Jordan Ellis\n");
+        expect(given).toContain("- Cover for holidays or illness: covered by ");
         expect(given).toContain("Brooklyn CPA practice");
+    });
+
+    test("Skills and Cover: a skill whose activities have no one on their Team is not covered yet; none at all is not covered", () => {
+        const noMarketing = withAnswer(3, "business", AnswerType.BusinessCapability, value => ({
+            ...value,
+            skillsNeeded: ["marketing"],
+            offering: { ...(value.offering as Record<string, unknown>), activities: ((value.offering as { activities: { category: string }[] }).activities).filter(activity => activity.category !== "marketing") }
+        }));
+        expect(partOf(planOf({ ...base(), business: noMarketing }), "## 7. Management and Organisation")).toContain("- Marketing and social media: not covered yet\n");
+
+        const none = withAnswer(3, "business", AnswerType.BusinessCapability, value => ({ ...value, skillsNeeded: [], skillsOther: [], skillsNotes: "" }));
+        expect(partOf(planOf({ ...base(), business: none }), "## 7. Management and Organisation")).toContain("### Skills and Cover\n\nNot covered by the Foundation answers.");
     });
 
     test("every achievement reaches the plan, and untyped skills come last, as written", () => {
@@ -926,9 +942,13 @@ describe("the optional answers in the documents", () => {
         expect(profile).toContain("**Key Achievements:** \n\n- Designed an invoice-intake automation");
         expect(profile).toContain("**Skills, Expertise & Qualifications:** \n\n- Skill: Python and API integration\n");
         expect(profile).toContain("- Certification: Certified in Microsoft Power Platform and Zapier");
-        expect(profile).toContain("### Capability Gaps & Cover");
-        expect(profile).toContain("As a one-person business");
-        expect(profile).toContain("Brooklyn CPA practice");
+        // (Gaps and Cover are asked on Capacity & Delivery, and exported with the Business System.)
+        expect(profile).not.toContain("Capability Gaps");
+        const business = loadQuill(3, "business");
+        const capability = new MarkdownExporter().toMarkdown(business, "Foundation", buildExportContent(business, "Foundation"));
+        expect(capability).toContain("Skills and Cover\n\n- Bookkeeping and tax: covered by ");
+        expect(capability).toContain("- Cover for holidays or illness: covered by ");
+        expect(capability).toContain("Brooklyn CPA practice");
 
         const legacy = legacyIdentity();
         expect(new MarkdownExporter().toMarkdown(legacy, "Foundation", buildExportContent(legacy, "Foundation")))

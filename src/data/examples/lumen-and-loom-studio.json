@@ -313,8 +313,8 @@
                 ]
               }
             ],
-            "teamGaps": "No one on the team has run e-commerce and digital marketing at scale, or managed textile production beyond our own looms.",
-            "teamCover": "A freelance e-commerce specialist covers the online shop and digital marketing for the first year while Oliver completes a digital marketing course. A retired mill production manager mentors us on sourcing and small-batch production. Hale & Co Accountants and our lawyer cover year-end accounts and legal work, and we plan to hire and train an apprentice weaver to add studio production capacity."
+            "teamGaps": "",
+            "teamCover": ""
           }
         }
       ],
@@ -483,7 +483,7 @@
                     "established"
                   ],
                   "education": [
-                    "bachelor"
+                    "degree"
                   ],
                   "work": [
                     "working"
@@ -535,7 +535,7 @@
                   ],
                   "share": [
                     "public",
-                    "private"
+                    "friends"
                   ],
                   "tam": [
                     "mid"
@@ -3252,23 +3252,11 @@
                     "calculate": true,
                     "estimate": "",
                     "inputs": {
-                      "visitors": "500",
-                      "buy": "1.2"
+                      "visitors": "625",
+                      "buy": "1.6"
                     },
-                    "basis": "About 500 visits a month to the online store, most from Instagram and Pinterest; 1.2% buy, the rate the shop reached in its first three months.",
+                    "basis": "About 625 visitors a month: some 525 to the online store, most from Instagram and Pinterest, of whom about 1.1% buy (the shop's rate in its first three months), and about 100 at the stall on market days, of whom one in 25 buys a piece. That is about 10 sales, a blended 1.6%.",
                     "channelId": "channel-xrenzwzk"
-                  },
-                  {
-                    "id": "source-lumen-market",
-                    "type": "marketplace",
-                    "calculate": true,
-                    "estimate": "",
-                    "inputs": {
-                      "visitors": "100",
-                      "buy": "4"
-                    },
-                    "basis": "About 100 people stop at the stall over the market days of a month; one in 25 buys a piece.",
-                    "channelId": "channel-kuy4u7hj"
                   }
                 ],
                 "recurring": false,
@@ -3288,8 +3276,8 @@
                       "qualified": "25",
                       "buy": "50"
                     },
-                    "basis": "About 160 people a month ask about workshops through Instagram and the Facebook group; one in four asks for dates, and half of those book.",
-                    "channelId": "segment-8lu427u5-channel"
+                    "basis": "About 160 people a month ask about workshops through Instagram and the Facebook group; one in four opens the dates in the online store, and half of those book there.",
+                    "channelId": "channel-xrenzwzk"
                   },
                   {
                     "id": "source-lumen-ws-referrals",
@@ -3564,6 +3552,7 @@
                       "id": "workspace",
                       "name": "Dedicated Workspace",
                       "quantity": "1",
+                      "hoursAvailable": "",
                       "description": "A ground-floor unit in Hackney Wick: weaving studio, stock room and a shop front for open days. The rent, the service charge and the deposit are on the landlord’s card.",
                       "status": "rent",
                       "cost": {
@@ -3613,6 +3602,7 @@
                       "id": "resource-y49c98bx",
                       "name": "Studio electricity",
                       "quantity": "1",
+                      "hoursAvailable": "",
                       "description": "Included in the unit rent up to a fair-use limit.",
                       "status": "partners-suppliers",
                       "cost": {
@@ -3654,6 +3644,7 @@
                       "id": "resource-2atkopq9",
                       "name": "Studio heating",
                       "quantity": "1",
+                      "hoursAvailable": "",
                       "description": "Central heating included in the service charge.",
                       "status": "partners-suppliers",
                       "cost": {
@@ -3695,6 +3686,7 @@
                       "id": "resource-gtkeuq4i",
                       "name": "Water & kitchenette",
                       "quantity": "1",
+                      "hoursAvailable": "",
                       "description": "",
                       "status": "partners-suppliers",
                       "cost": {
@@ -3736,6 +3728,7 @@
                       "id": "resource-wj180jar",
                       "name": "Fibre broadband (500 Mb)",
                       "quantity": "1",
+                      "hoursAvailable": "",
                       "description": "Business line with static IP for the card reader and bookings.",
                       "status": "costs",
                       "cost": {
@@ -3785,6 +3778,7 @@
                       "id": "resource-esl6ij6a",
                       "name": "Worktables & open shelving",
                       "quantity": "1",
+                      "hoursAvailable": "",
                       "description": "3 second-hand trestle tables and 6 industrial shelving units for yarn.",
                       "status": "costs",
                       "cost": {
@@ -3826,6 +3820,7 @@
                       "id": "resource-v9zfws7n",
                       "name": "Task lighting",
                       "quantity": "6",
+                      "hoursAvailable": "",
                       "description": "With extension leads.",
                       "status": "costs",
                       "cost": {
@@ -3867,6 +3862,7 @@
                       "id": "resource-vxijfh3l",
                       "name": "Finishing station",
                       "quantity": "1",
+                      "hoursAvailable": "",
                       "description": "Brought from Maya’s previous studio.\nIroning and finishing.",
                       "status": "exists",
                       "cost": {
@@ -3908,6 +3904,7 @@
                       "id": "resource-lm-fitout",
                       "name": "Studio fit-out and signage",
                       "quantity": "1",
+                      "hoursAvailable": "",
                       "description": "Shelving, a hanging system and the shop-front signage for the Hackney Wick unit.",
                       "status": "costs",
                       "cost": {
@@ -3956,6 +3953,7 @@
                       "id": "resource-2r0hhmqo",
                       "name": "Yarn storage racking",
                       "quantity": "1",
+                      "hoursAvailable": "",
                       "description": "",
                       "status": "costs",
                       "cost": {
@@ -4005,6 +4003,7 @@
                       "id": "resource-yx5ko8rh",
                       "name": "Laptops",
                       "quantity": "3",
+                      "hoursAvailable": "",
                       "description": "Founders’ own laptops.",
                       "status": "exists",
                       "cost": {
@@ -4046,6 +4045,7 @@
                       "id": "resource-kgzjhy7g",
                       "name": "Label printer",
                       "quantity": "1",
+                      "hoursAvailable": "",
                       "description": "A thermal label printer and a second-hand mirrorless camera for product photos.\nWith a product camera.",
                       "status": "costs",
                       "cost": {
@@ -4087,6 +4087,7 @@
                       "id": "resource-044hvqz1",
                       "name": "Product photography set",
                       "quantity": "1",
+                      "hoursAvailable": "",
                       "description": "Shoot in-house in north light.",
                       "status": "activity",
                       "cost": {
@@ -4128,6 +4129,7 @@
                       "id": "resource-v92etal6",
                       "name": "Photo lighting",
                       "quantity": "1",
+                      "hoursAvailable": "",
                       "description": "Studio lights and a backdrop for product photos.",
                       "status": "costs",
                       "cost": {
@@ -4177,6 +4179,7 @@
                       "id": "resource-777znonz",
                       "name": "Xero accounting",
                       "quantity": "1",
+                      "hoursAvailable": "",
                       "description": "Bookkeeping, invoicing and bank reconciliation on the Grow plan, shared with the accountant. A tool the studio needs whatever it sells through.",
                       "status": "costs",
                       "cost": {
@@ -4218,6 +4221,7 @@
                       "id": "resource-16z4g5pn",
                       "name": "Adobe Creative Cloud",
                       "quantity": "1",
+                      "hoursAvailable": "",
                       "description": "Premiere Pro and Photoshop for editing the reels, Story highlights and product graphics: a tool for the studio's own work, whichever channels it uses.",
                       "status": "costs",
                       "cost": {
@@ -4259,6 +4263,7 @@
                       "id": "resource-08t1klbz",
                       "name": "Domain lumenandloom.co.uk",
                       "quantity": "1",
+                      "hoursAvailable": "",
                       "description": "",
                       "status": "costs",
                       "cost": {
@@ -4300,6 +4305,7 @@
                       "id": "resource-s8k4965l",
                       "name": "Design software",
                       "quantity": "1",
+                      "hoursAvailable": "",
                       "description": "Design and pattern software licences.",
                       "status": "costs",
                       "cost": {
@@ -4347,6 +4353,7 @@
                       "id": "resource-29wbimw4",
                       "name": "Cloud backup",
                       "quantity": "1",
+                      "hoursAvailable": "",
                       "description": "With a password vault.",
                       "status": "costs",
                       "cost": {
@@ -4501,6 +4508,8 @@
                 "rateOverride": "",
                 "costOption": "",
                 "quantity": "",
+                "hoursAvailable": "",
+                "leadWeeks": "",
                 "extras": {},
                 "paymentPlan": {
                   "on": false,
@@ -4531,6 +4540,8 @@
                 "rateOverride": "",
                 "costOption": "",
                 "quantity": "",
+                "hoursAvailable": "",
+                "leadWeeks": "",
                 "extras": {},
                 "paymentPlan": {
                   "on": false,
@@ -4561,6 +4572,8 @@
                 "rateOverride": "",
                 "costOption": "",
                 "quantity": "",
+                "hoursAvailable": "",
+                "leadWeeks": "",
                 "extras": {
                   "service-charge": "180",
                   "deposit": "3750"
@@ -4594,6 +4607,8 @@
                 "rateOverride": "",
                 "costOption": "",
                 "quantity": "",
+                "hoursAvailable": "",
+                "leadWeeks": "",
                 "extras": {},
                 "paymentPlan": {
                   "on": false,
@@ -4625,6 +4640,7 @@
                   "id": "resource-c1ehnp3b",
                   "name": "Yarn",
                   "quantity": "1",
+                  "hoursAvailable": "",
                   "description": "About 0.45 kg of yarn per piece on average (a cushion about 0.35 kg, a throw about 1.1 kg) at about £35 per kg, with loom waste. Bought in cones as needed.\nBritish wool and organic cotton.",
                   "status": "costs",
                   "cost": {
@@ -4672,6 +4688,7 @@
                   "id": "resource-zgn2xy6e",
                   "name": "Workshop materials kits",
                   "quantity": "1",
+                  "hoursAvailable": "",
                   "description": "Frame loom warp, yarn bundle and needle, one per participant.",
                   "status": "costs",
                   "cost": {
@@ -4715,6 +4732,7 @@
                   "id": "resource-packaging",
                   "name": "Packaging & care card",
                   "quantity": "1",
+                  "hoursAvailable": "",
                   "description": "Recycled tissue, a kraft box and a printed care card with the maker's name.",
                   "status": "costs",
                   "cost": {
@@ -4762,6 +4780,7 @@
                   "id": "resource-commission-materials",
                   "name": "Commission materials",
                   "quantity": "1",
+                  "hoursAvailable": "",
                   "description": "Yarn, backing cloth, fittings and hired weaving time for an average commission.\nMaterials and making time for each commission.",
                   "status": "costs",
                   "cost": {
@@ -4805,6 +4824,7 @@
                   "id": "resource-etzbztap",
                   "name": "Fire-retardant treatment",
                   "quantity": "1",
+                  "hoursAvailable": "",
                   "description": "Applied by a specialist finisher for hospitality orders.\nWith its certificate, for hotel orders.",
                   "status": "partners-suppliers",
                   "cost": {
@@ -4848,6 +4868,7 @@
                   "id": "resource-m3zilp7e",
                   "name": "8-shaft floor looms",
                   "quantity": "3",
+                  "hoursAvailable": "",
                   "description": "Refurbished Louët looms, £2,400 each.",
                   "status": "costs",
                   "cost": {
@@ -4885,7 +4906,8 @@
                   },
                   "offeringShares": {
                     "offering-nvfuu2km": "60",
-                    "offering-vhtapa3v": "40"
+                    "offering-vhtapa3v": "40",
+                    "~basis": "own"
                   },
                   "extraStatuses": [],
                   "insuranceId": "",
@@ -4895,6 +4917,7 @@
                   "id": "resource-ucn9iima",
                   "name": "Frame looms for workshops",
                   "quantity": "8",
+                  "hoursAvailable": "",
                   "description": "",
                   "status": "costs",
                   "cost": {
@@ -4938,6 +4961,7 @@
                   "id": "resource-ae4r3mq8",
                   "name": "Sample swatch boxes",
                   "quantity": "25",
+                  "hoursAvailable": "",
                   "description": "25 boxes at £15 for designers and retailers.",
                   "status": "costs",
                   "cost": {
@@ -4981,6 +5005,7 @@
                   "id": "resource-25sgrc67",
                   "name": "Warping mill",
                   "quantity": "1",
+                  "hoursAvailable": "",
                   "description": "Earlier status: Needs Investigation. Compare buying new vs sharing with another studio.",
                   "status": "activity",
                   "cost": {
@@ -5024,6 +5049,7 @@
                   "id": "resource-lnstallkit",
                   "name": "Stall display kit",
                   "quantity": "1",
+                  "hoursAvailable": "",
                   "description": "Folding display rails, crates, a cloth-covered table, a printed banner and a small frame loom for demonstrations.",
                   "status": "costs",
                   "cost": {
@@ -5061,7 +5087,8 @@
                   },
                   "offeringShares": {
                     "offering-nvfuu2km": "70",
-                    "offering-8e935f0e": "30"
+                    "offering-8e935f0e": "30",
+                    "~basis": "own"
                   },
                   "extraStatuses": [],
                   "insuranceId": "",
@@ -5071,6 +5098,7 @@
                   "id": "resource-lnreader",
                   "name": "SumUp card reader",
                   "quantity": "1",
+                  "hoursAvailable": "",
                   "description": "A card reader for the market stall and the studio open days; the fees are on the next card.",
                   "status": "costs",
                   "cost": {
@@ -5108,7 +5136,8 @@
                   },
                   "offeringShares": {
                     "offering-nvfuu2km": "70",
-                    "offering-8e935f0e": "30"
+                    "offering-8e935f0e": "30",
+                    "~basis": "own"
                   },
                   "extraStatuses": [],
                   "insuranceId": "",
@@ -5118,6 +5147,7 @@
                   "id": "resource-mszvpqno",
                   "name": "Shopify Basic",
                   "quantity": "1",
+                  "hoursAvailable": "",
                   "description": "Hosts the shop, the product pages, the checkout, the workshop pages and the gift vouchers. Basic plan, billed monthly.",
                   "status": "costs",
                   "cost": {
@@ -5155,7 +5185,8 @@
                   },
                   "offeringShares": {
                     "offering-nvfuu2km": "70",
-                    "offering-8e935f0e": "30"
+                    "offering-8e935f0e": "30",
+                    "~basis": "own"
                   },
                   "extraStatuses": [],
                   "insuranceId": "",
@@ -5165,6 +5196,7 @@
                   "id": "resource-lnbooking",
                   "name": "Workshop booking app",
                   "quantity": "1",
+                  "hoursAvailable": "",
                   "description": "Takes the workshop bookings and deposits, holds each class to eight places and sends the joining details and reminders. Approximate price, billed monthly.",
                   "status": "costs",
                   "cost": {
@@ -5208,6 +5240,7 @@
                   "id": "resource-oksyeqw4",
                   "name": "Klaviyo email marketing",
                   "quantity": "1",
+                  "hoursAvailable": "",
                   "description": "Sends the monthly newsletter, the welcome series and the review requests. Paid monthly; the free plan runs out at 250 contacts.",
                   "status": "costs",
                   "cost": {
@@ -5245,7 +5278,8 @@
                   },
                   "offeringShares": {
                     "offering-nvfuu2km": "60",
-                    "offering-8e935f0e": "40"
+                    "offering-8e935f0e": "40",
+                    "~basis": "own"
                   },
                   "extraStatuses": [],
                   "insuranceId": "",
@@ -5255,6 +5289,7 @@
                   "id": "resource-lnpitch",
                   "name": "Market pitch fees",
                   "quantity": "24",
+                  "hoursAvailable": "",
                   "description": "About two pitches a month at roughly £60 a day: Broadway Market on Saturdays and Columbia Road on Sundays. Paid monthly through the first year.",
                   "status": "costs",
                   "cost": {
@@ -5365,7 +5400,8 @@
                   },
                   "offeringShares": {
                     "offering-nvfuu2km": "70",
-                    "offering-8e935f0e": "30"
+                    "offering-8e935f0e": "30",
+                    "~basis": "own"
                   },
                   "extraStatuses": [],
                   "insuranceId": "",
@@ -5375,6 +5411,7 @@
                   "id": "resource-lnfair",
                   "name": "Trade fair stands",
                   "quantity": "2",
+                  "hoursAvailable": "",
                   "description": "A shared stand with a loom for live weaving at Clerkenwell Design Week in May and Decorex in the autumn, about £3,000 across the year in all. Estimate.\nClerkenwell Design Week and Decorex.",
                   "status": "costs",
                   "cost": {
@@ -5435,6 +5472,7 @@
                   "id": "resource-lnvan",
                   "name": "Installation travel",
                   "quantity": "1",
+                  "hoursAvailable": "",
                   "description": "A day’s van hire, parking and the congestion charge to hang wall textiles on site in London.\nWith van hire.",
                   "status": "costs",
                   "cost": {
@@ -5478,6 +5516,7 @@
                   "id": "resource-lpb1dmch",
                   "name": "Market trading licence",
                   "quantity": "1",
+                  "hoursAvailable": "",
                   "description": "From Hackney Council.",
                   "status": "costs",
                   "cost": {
@@ -5529,6 +5568,7 @@
                   "id": "resource-6xvlligs",
                   "name": "Motif licence",
                   "quantity": "1",
+                  "hoursAvailable": "",
                   "description": "A heritage motif collaboration licence.",
                   "status": "costs",
                   "cost": {
@@ -5580,6 +5620,7 @@
                   "id": "resource-ytcwjiel",
                   "name": "Liability insurance",
                   "quantity": "1",
+                  "hoursAvailable": "",
                   "description": "Product and public liability.",
                   "status": "costs",
                   "cost": {
@@ -5779,7 +5820,8 @@
                   "endDate": "2026-09-30",
                   "offeringShares": {
                     "offering-nvfuu2km": "70",
-                    "offering-8e935f0e": "30"
+                    "offering-8e935f0e": "30",
+                    "~basis": "own"
                   },
                   "resources": [],
                   "performerPeople": {}
@@ -5835,7 +5877,8 @@
                   "endDate": "",
                   "offeringShares": {
                     "offering-nvfuu2km": "60",
-                    "offering-8e935f0e": "40"
+                    "offering-8e935f0e": "40",
+                    "~basis": "own"
                   },
                   "resources": [],
                   "performerPeople": {}
@@ -5934,6 +5977,8 @@
                   "rateOverride": "",
                   "costOption": "",
                   "quantity": "0.4",
+                  "hoursAvailable": "",
+                  "leadWeeks": "",
                   "extras": {},
                   "paymentPlan": {
                     "on": false,
@@ -5966,6 +6011,8 @@
                   "rateOverride": "",
                   "costOption": "",
                   "quantity": "12",
+                  "hoursAvailable": "",
+                  "leadWeeks": "1",
                   "extras": {},
                   "paymentPlan": {
                     "on": false,
@@ -5998,6 +6045,8 @@
                   "rateOverride": "",
                   "costOption": "flat-per-parcel",
                   "quantity": "",
+                  "hoursAvailable": "",
+                  "leadWeeks": "",
                   "extras": {},
                   "paymentPlan": {
                     "on": false,
@@ -6030,6 +6079,8 @@
                   "rateOverride": "",
                   "costOption": "flat-per-parcel",
                   "quantity": "",
+                  "hoursAvailable": "",
+                  "leadWeeks": "",
                   "extras": {},
                   "paymentPlan": {
                     "on": false,
@@ -6062,6 +6113,8 @@
                   "rateOverride": "",
                   "costOption": "payment-gateway",
                   "quantity": "",
+                  "hoursAvailable": "",
+                  "leadWeeks": "",
                   "extras": {},
                   "paymentPlan": {
                     "on": false,
@@ -6071,7 +6124,8 @@
                   },
                   "offeringShares": {
                     "offering-nvfuu2km": "70",
-                    "offering-8e935f0e": "30"
+                    "offering-8e935f0e": "30",
+                    "~basis": "own"
                   },
                   "madeBy": "",
                   "startDate": "2026-10-01",
@@ -6098,6 +6152,8 @@
                   "rateOverride": "",
                   "costOption": "payment-gateway",
                   "quantity": "",
+                  "hoursAvailable": "",
+                  "leadWeeks": "",
                   "extras": {},
                   "paymentPlan": {
                     "on": false,
@@ -6107,7 +6163,8 @@
                   },
                   "offeringShares": {
                     "offering-nvfuu2km": "70",
-                    "offering-8e935f0e": "30"
+                    "offering-8e935f0e": "30",
+                    "~basis": "own"
                   },
                   "madeBy": "",
                   "startDate": "2026-10-01",
@@ -6136,7 +6193,21 @@
                   "founder-3fhkh0cm": "1.75"
                 },
                 "duration": "2",
-                "constraints": "Three floor looms; one weaver keeps about two busy on long warps. A cushion is about 3 hours, a runner 4 and a throw 10, finishing included (hand fringing alone is about 1.5 hours an end).",
+                "constraints": "",
+                "perSession": "",
+                "batchSetup": "",
+                "batchUnits": "",
+                "holdUps": [
+                  "equipment",
+                  "other"
+                ],
+                "equipmentId": "resource-m3zilp7e",
+                "holdsAtOnce": "3",
+                "supplierId": "",
+                "holdUpsOther": [
+                  "One weaver keeps about two of the three looms busy on long warps.",
+                  "A cushion is about 3 hours, a runner 4 and a throw 10, finishing included (hand fringing alone is about 1.5 hours an end)."
+                ],
                 "effort": "",
                 "deliverers": [],
                 "mode": "",
@@ -6144,11 +6215,23 @@
               },
               "offering-8e935f0e": {
                 "hours": {
-                  "founder-3aux8uyh": "0.4",
-                  "partner-agzed3mh": "0.1"
+                  "founder-3aux8uyh": "3.2",
+                  "partner-agzed3mh": "0.8"
                 },
                 "duration": "1",
-                "constraints": "A three-hour workshop for up to eight participants, plus preparation: about half an hour per participant.",
+                "constraints": "",
+                "perSession": "8",
+                "batchSetup": "",
+                "batchUnits": "",
+                "holdUps": [
+                  "other"
+                ],
+                "equipmentId": "",
+                "holdsAtOnce": "",
+                "supplierId": "",
+                "holdUpsOther": [
+                  "A three-hour workshop for up to eight participants, plus preparation: about half an hour per participant."
+                ],
                 "effort": "",
                 "deliverers": [],
                 "mode": "",
@@ -6160,7 +6243,20 @@
                   "founder-z2jgpf8v": "8"
                 },
                 "duration": "6",
-                "constraints": "Sampling within a week, then weaving to the designer's lead time; flame-retardant finishing adds about a week.",
+                "constraints": "",
+                "perSession": "",
+                "batchSetup": "",
+                "batchUnits": "",
+                "holdUps": [
+                  "materials",
+                  "other"
+                ],
+                "equipmentId": "",
+                "holdsAtOnce": "",
+                "supplierId": "partner-3w37yf3a",
+                "holdUpsOther": [
+                  "Sampling within a week, then weaving to the designer's lead time."
+                ],
                 "effort": "",
                 "deliverers": [],
                 "mode": "",
@@ -6173,13 +6269,32 @@
                   "founder-z2jgpf8v": "0.5"
                 },
                 "duration": "2",
-                "constraints": "Core range only: fewer colour changes than the retail collection.",
+                "constraints": "",
+                "perSession": "",
+                "batchSetup": "",
+                "batchUnits": "",
+                "holdUps": [
+                  "other"
+                ],
+                "equipmentId": "",
+                "holdsAtOnce": "",
+                "supplierId": "",
+                "holdUpsOther": [
+                  "Core range only: fewer colour changes than the retail collection."
+                ],
                 "effort": "",
                 "deliverers": [],
                 "mode": "",
                 "period": ""
               }
-            }
+            },
+            "skillsNeeded": [
+              "marketing",
+              "website",
+              "making"
+            ],
+            "skillsOther": [],
+            "skillsNotes": "A freelance e-commerce specialist covers the online shop and digital marketing for the first year while Oliver completes a digital marketing course. A retired mill production manager mentors us on sourcing and small-batch production. Hale & Co Accountants and our lawyer cover year-end accounts and legal work, and we plan to hire and train an apprentice weaver to add studio production capacity."
           }
         },
         {
@@ -6576,6 +6691,7 @@
           "value": {
             "situation": "Lumen & Loom Studio Ltd was incorporated in March 2026 by Maya Chen, Oliver Grant and Priya Shah and opens its Hackney Wick studio in October 2026. We sell a handwoven homeware collection online and at London markets, run beginner weaving workshops, and are starting bespoke commissions and a trade collection for interior designers and boutique hotels. Customers find us through Instagram, markets, word of mouth and design fairs. We are funded by £13,000 of founders’ capital, a £15,000 Start Up Loan and an £8,000 Hackney grant (half received). Monthly fixed costs are about £7,500, mostly three modest director salaries and rent; revenue starts small and is expected to cover costs from around August 2027. An angel round of £20,000 is in preparation to close a funding gap before then.",
             "situationSource": "",
+            "swotEdited": ["strengths", "weaknesses", "opportunities", "threats"],
             "swot": {
               "strengths": [
                 "Three complementary founders: craft, sales and operations",
@@ -8268,7 +8384,6 @@
     "startupContingencyRate": "10",
     "operationalContingencyRate": "4",
     "insurancePerEmployee": "",
-    "incomeTaxRate": "19",
     "amortisation": {
       "software-licences": "3",
       "website-domain": "3",

@@ -132,6 +132,16 @@ type Example = { systems: Record<string, Parameters<typeof InterviewSession.from
     2026-11-03, later: the plan and export digests (and the weekly fixture's words) were written again when the Profile's questions
     were reworded (frustrations "about the way it is done now", objections "buying from you", "Your website"), the goals that repeated
     "What matters most" were dropped from the examples, and "Unable to work" lost its brackets. No figure changed.
+
+    2026-11-17 (Group 4c): the plan digests (and the weekly fixture's plan words) were written again when the Business Plan gained a persona line per
+    Profile (its ages are the only new numbers), the competitor table (K1 to K10) and each Segment's conditions of sale. No amount changed.
+
+    2026-11-17 (Group 5): two digests added for each example, the forecast and the plan read with its own Global Settings (forecastSettings,
+    planSettings), as the app and every document read them since Group 1; the digests before are as they were.
+
+    2026-11-17, later: Lumen's export digest (and the weekly fixture's export words) written again when its Homeware Collection named its
+    floor looms as what can hold it up ("8-shaft floor looms, holds 3 at once": the only new numbers) and its Bespoke Commissions FlameGuard's
+    finishing (a week's lead time). No amount changed: the forecast and the plan are as they were.
 */
 const ENGAGEMENT = JSON.parse(engagementText) as Record<string, unknown>;
 
@@ -200,6 +210,16 @@ function outputs(example: Example) {
     const exported = new MarkdownExporter().toMarkdown(sessions.business, "Foundation",
         buildExportContent(sessions.business, "Foundation", undefined, undefined, { legalEntity, currency: "GBP" }));
     const plan = new MarkdownExporter().toMarkdown(sessions.business, "Foundation", businessPlan(sessions));
+    // (WITH THE GLOBAL SETTINGS (Group 5, 2026-11-17): the forecast and the plan as the app reads them, the Opening Date and the calculated lines included;
+    // Group 1 made every document read them. The example's own settings; none saved, none given.)
+    const settings = (example as unknown as { globalSettings?: unknown }).globalSettings;
+    const withSettings = { ...sessions, ...(settings === undefined ? {} : { globalSettings: settings }) };
+    const settled = businessForecast(withSettings).forecast;
+    const settledTables = Object.fromEntries(Object.entries(settled)
+        .filter(([, table]) => table && typeof table === "object" && Array.isArray((table as { rows?: unknown }).rows))
+        .map(([name, table]) => [name, (table as { rows: { label: string; values: number[] }[] }).rows
+            .map(row => row.label + ": " + row.values.map(cents).join(" "))]));
+    const settledPlan = new MarkdownExporter().toMarkdown(sessions.business, "Foundation", businessPlan(withSettings));
     return {
         // For the weekly fixture's comparison within the rounding.
         texts: { forecast: JSON.stringify(tables), plan, exported },
@@ -210,7 +230,9 @@ function outputs(example: Example) {
         // cent, and both documents, word for word.
         forecast: digest(JSON.stringify(tables)),
         plan: digest(plan),
-        exported: digest(exported)
+        exported: digest(exported),
+        forecastSettings: digest(JSON.stringify(settledTables)),
+        planSettings: digest(settledPlan)
     };
 }
 
@@ -233,6 +255,11 @@ describe("a founder's Frequency, migrated", () => {
         expect(now[name].exported).toBe(before[name].exported);
     });
 
+    test.each(["lumen", "quillfield"])("%s calculates what it did before with its Global Settings, to the cent", (name) => {
+        expect(now[name].forecastSettings).toBe(before[name].forecastSettings);
+        expect(now[name].planSettings).toBe(before[name].planSettings);
+    });
+
     /**
      * REWRITING THE DOCUMENTS' WORDS: `WRITE_GOLDEN=1 npx vitest run src/framework/engine/FounderPeriod.test.ts` writes the Business Plan's and the export's digests (and the weekly
      * fixture's shapes and numbers) again from the examples as they are now. Done deliberately, when the examples' or the documents' words change and no figure does: the
@@ -245,6 +272,11 @@ describe("a founder's Frequency, migrated", () => {
         for (const name of ["lumen", "quillfield"]) {
             next[name].plan = now[name].plan;
             next[name].exported = now[name].exported;
+            next[name].planSettings = now[name].planSettings;
+            // (The forecast with the Global Settings: written once, when the golden file first holds it, then only with WRITE_GOLDEN=all.)
+            if (next[name].forecastSettings === undefined) {
+                next[name].forecastSettings = now[name].forecastSettings;
+            }
             // (WRITE_GOLDEN=all: an example's FIGURES changed on purpose -- its founders' table and its forecast are written again too.)
             if ((globalThis as unknown as { process?: { env: Record<string, string | undefined> } }).process?.env.WRITE_GOLDEN === "all") {
                 next[name].founders = now[name].founders;

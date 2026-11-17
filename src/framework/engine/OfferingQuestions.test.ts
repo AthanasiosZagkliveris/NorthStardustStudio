@@ -114,7 +114,9 @@ describe("O2, O3, O10 and O18 from the research (2026-11-08)", () => {
         expect(asOfferingAnswers({ o3: ["membership"] }).o3).toEqual(["subscription"]);
         expect(offeringShown({ o3: ["membership"] }, { type: "Service" }).o3).toEqual(["subscription"]);
         const ids = offeringOptions("o3", { type: "Service" }).map(option => option.id);
-        expect(ids).toEqual(["once", "subscription", "licence", "payg", "session", "rent", "project", "retainer", "commission", "free"]);
+        // (Two headed groups, One purchase and Ongoing: owner, 2026-11-17.)
+        expect(ids).toEqual(["once", "session", "rent", "project", "commission", "free", "subscription", "licence", "payg", "retainer"]);
+        expect(offeringOptions("o3", { type: "Service" }).filter(option => (option as { heading?: string }).heading).map(option => [option.id, (option as { heading?: string }).heading])).toEqual([["once", "One purchase"], ["subscription", "Ongoing"]]);
         expect(offeringOptions("o3", { type: "Service" }).find(option => option.id === "subscription")?.label).toBe("A subscription / membership");
         expect(offeringOptions("o3", { type: "Service", pay: ["invoicepo"] })[0].id).toBe("project");
         expect(offeringOptions("o3", { type: "Service", pay: ["invoicepo"] })).toHaveLength(10);

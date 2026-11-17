@@ -5,7 +5,7 @@
 import { CSSProperties, FocusEvent, ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import GlobalSettingsLink from "../../fields/GlobalSettingsLink.tsx";
 import FoldList, { FoldListLine } from "../../fields/FoldList.tsx";
-import { asGlobalSettings, channelFeeOf } from "../../../../framework/engine/GlobalSettings.ts";
+import { asGlobalSettings } from "../../../../framework/engine/GlobalSettings.ts";
 import { asFinancialSustainabilityValue } from "../../../../framework/engine/financial/revenueStored.ts";
 import { channelFeeFor } from "../../../../framework/engine/CalculatedLines.ts";
 import { moneyText } from "../../../../framework/engine/ExportRenderers.ts";
@@ -32,7 +32,10 @@ import { asBusinessCapabilityValue, equalOfferingShares } from "../../../../fram
 import { useItemFolds } from "../../fields/useItemFolds.ts";
 import { toggledIn } from "../../fields/toggledIn.ts";
 import { BusinessEngagementEditorProps, CONTENT_OF_THE_TABLE } from "./shared.tsx";
-import { dismissedAfter, relationshipTypesOf, withAnswerChannels } from "../../../../framework/engine/JourneySuggestions.ts";
+import { dismissedAfter, relationshipTypesOf, withAnswerChannels, withAnswerSources , withAnswerActions } from "../../../../framework/engine/JourneySuggestions.ts";
+import { businessRelationshipInteractions } from "../../../../framework/engine/businessFoundation/engagementPage.ts";
+import { chargedFeeOf, foreignFeeNote } from "../../../../framework/engine/GlobalSettings.ts";
+import { offeringChannelRevenue } from "../../../../framework/engine/DemandCapacity.ts";
 
 export function useEngagementState(props: BusinessEngagementEditorProps) {
 
@@ -244,11 +247,15 @@ export function useEngagementState(props: BusinessEngagementEditorProps) {
         const next = segments.map(segment => {
             const entry = engagement.segments.find(candidate => candidate.segmentId === segment.id);
             const channels = withAnswerChannels(entry?.channels ?? [], entry?.dismissedChannels ?? [], segment, identity);
-            if (channels !== (entry?.channels ?? []) && (entry || channels.length > 0)) {
+            const withChannels = channels !== (entry?.channels ?? []) && (entry || channels.length > 0)
+                ? { ...(entry ?? { ...createBusinessSegmentEngagement(segment.id), channels: [] }), channels }
+                : entry;
+            // (The actions the answers make, on the channels just kept: withAnswerActions.)
+            const withActions = withChannels ? withAnswerActions(withChannels, segment, identity) : withChannels;
+            if (withActions !== entry) {
                 changed = true;
-                return { ...(entry ?? { ...createBusinessSegmentEngagement(segment.id), channels: [] }), channels };
             }
-            return entry;
+            return withActions;
         }).filter((entry): entry is BusinessSegmentEngagementValue => entry !== undefined);
         // (How an Offering's customers buy, kept as its terms say -- O3, offeringStarts --, so every document reads it as the page shows it.)
         const demand = { ...engagement.demand };
@@ -260,6 +267,20 @@ export function useEngagementState(props: BusinessEngagementEditorProps) {
                 changed = true;
             }
         }));
+        // (THE CUSTOMER SOURCES THE ANSWERS MAKE, as the channels are (owner, 2026-11-16 19:18): for each Offering with a Demand tile -- one a channel of the Segment
+        // serves --, each row the Foundation proposes, blank, unless the founder removed it: withAnswerSources.)
+        segments.forEach(segment => {
+            const channels = next.find(entry => entry.segmentId === segment.id)?.channels ?? [];
+            const served = new Set(businessRelationshipInteractions(channels, segment.offerings, segment.offerings).map(interaction => interaction.offeringId));
+            segment.offerings.filter(offering => served.has(offering.id)).forEach(offering => {
+                const recurring = offeringStartsById(segments, offering.id, identity).recurring ?? demand[offering.id]?.recurring ?? false;
+                const made = withAnswerSources(demand[offering.id], segment, offering.id, channels, recurring, identity);
+                if (made && made !== demand[offering.id]) {
+                    demand[offering.id] = made;
+                    changed = true;
+                }
+            });
+        });
         const others = engagement.segments.filter(entry => !segments.some(segment => segment.id === entry.segmentId));
         let nextEngagement: typeof engagement = changed ? { ...engagement, segments: [...next, ...others], demand } : engagement;
         // (THE EXPENSE CARDS THE ANSWERS MAKE: each payment service a Segment names, its card on the Segment's Direct Payment channel -- withAnswerServiceCards, the
@@ -767,6 +788,8 @@ export function useEngagementState(props: BusinessEngagementEditorProps) {
     */
     const feeTable = useMemo(() => asGlobalSettings(globalSettings).channelFees, [globalSettings]);
     const streams = useMemo(() => asFinancialSustainabilityValue(financialSustainability).streams, [financialSustainability]);
+    // (Each Offering's revenue a month through each subchannel: which Offerings a subchannel's Fees line speaks of.)
+    const channelRevenue = useMemo(() => offeringChannelRevenue(engagement.demand, streams, engagement.segments.flatMap(segment => segment.channels)), [engagement, streams]);
     function feeBand(channel: BusinessChannelValue, offerings: readonly { id: string; name: string }[]): ReactNode {
         if (!FEE_CATEGORIES.includes(channel.category.trim())) {
             return null;
@@ -783,7 +806,11 @@ export function useEngagementState(props: BusinessEngagementEditorProps) {
         const found = channelFeeFor([channel.name, ...cardNames, ...services], feeTable, identity?.country ?? "");
         const money = (amount: number) => moneyText(String(Math.round(amount * 100) / 100), currency);
         const served = channel.offerings.includes(BUSINESS_CHANNEL_ALL_OFFERINGS) ? offerings : offerings.filter(offering => channel.offerings.includes(offering.id));
-        const sales = found ? served.flatMap(offering => {
+        // (An Offering that sells nothing through this subchannel has no line, where a Customer Source names the subchannel: owner, 2026-11-16.)
+        const placeKey = channel.category.trim() + "\u0001" + channel.name.trim();
+        const named = Object.values(channelRevenue).some(byPlace => (byPlace[placeKey] ?? 0) > 0);
+        const selling = named ? served.filter(offering => (channelRevenue[offering.id]?.[placeKey] ?? 0) > 0) : served;
+        const sales = found ? selling.flatMap(offering => {
             const stream = streams.find(entry => entry.offeringId === offering.id);
             const price = Number.parseFloat(stream?.price ?? "");
             const items = Number.parseFloat(stream?.itemsPerOrder ?? "") || 1;
@@ -801,8 +828,10 @@ export function useEngagementState(props: BusinessEngagementEditorProps) {
         const feesOpen = !folds.isOpen(feeFold);
         // (THE SHARED FOLD of a card's Links and Responsibilities: the arrow, the label -- Fees, the link to the Global Settings' Channel Fee Table, landing on the
         // row it reads (owner, 2026-11-14 13:54) --, the lines under it at the Links' gaps, each whole; owner, 2026-11-14 18:11: "The Fees too".)
+        // (The fee as the totals charge it: commission and chargebacks on the sale, the fixed fee per order; a fixed fee in another currency left out, and said so.)
+        const foreign = found ? foreignFeeNote(found.row, currency) : null;
         const lines = found
-            ? [rate + " (" + found.row.channel + ")", ...(found.row.note.trim() ? [found.row.note.trim()] : []), ...sales.map(sale => "On a " + money(sale.sale) + " " + sale.name + " sale: about " + money(channelFeeOf(found.row, sale.sale, 1)))]
+            ? [rate + " (" + found.row.channel + ")", ...(found.row.note.trim() ? [found.row.note.trim()] : []), ...(foreign ? [foreign] : []), ...sales.map(sale => "On a " + money(sale.sale) + " " + sale.name + " sale: about " + money(chargedFeeOf(found.row, sale.sale, 1, currency)))]
             : ["No fee is set for " + (channel.name.trim() || "this subchannel") + " yet: add its row to the Channel Fee Table."];
         return (
             <FoldList

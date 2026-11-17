@@ -2,7 +2,7 @@
  * THE CHANNEL TILES and the relationships of each Offering.
  * One part of BusinessEngagementEditor (see BusinessEngagementEditor.tsx): what it needs of the parts before it comes in as `earlier`; what the parts after it need goes out.
  */
-import { CSSProperties, useContext, useEffect, useState } from "react";
+import { CSSProperties, ReactNode, useContext, useEffect, useState } from "react";
 import { InitialBoxContext } from "../../tiles/DialogLevels.tsx";
 
 /** A link on the Channels & Journey master tile that names a stage's tile: the dialog it opens shows the tiles by Journey Stages, so that tile is there to open. */
@@ -25,7 +25,7 @@ import { MarkIcon } from "../ActionMarkers.tsx";
 import { actionPlacements, orderIn } from "../../../../framework/engine/ActionOrder.ts";
 import { actionResourceLinks, costCardAmountText, costCardName } from "../../../../framework/engine/ChannelResources.ts";
 import { TABLE_SIZES } from "../../tiles/CapabilityOverview.tsx";
-import { BUSINESS_CHANNEL_ALL_OFFERINGS, BUSINESS_CHANNEL_CATEGORIES, BUSINESS_CHANNEL_OTHER, BUSINESS_RELATIONSHIP_TYPES, BusinessChannelValue, BusinessCustomerSegmentValue, channelCategoryHelp, channelCategoryHidden, businessProfileOfferings, businessRelationshipInteractions, createBusinessChannel, segmentHue } from "../../../../framework/engine/AnswerUtils.ts";
+import { BUSINESS_CHANNEL_ALL_OFFERINGS, BUSINESS_CHANNEL_CATEGORIES, BUSINESS_CHANNEL_OTHER, BUSINESS_RELATIONSHIP_TYPES, relationshipTypeLabel, BusinessChannelValue, BusinessCustomerSegmentValue, channelCategoryHelp, channelCategoryHidden, businessProfileOfferings, businessRelationshipInteractions, createBusinessChannel, segmentHue } from "../../../../framework/engine/AnswerUtils.ts";
 import { BusinessEmpty, BusinessNote, BusinessRemove, BusinessStep, BusinessTicks } from "../../cards/BusinessCardFields.tsx";
 import FieldRow from "../../fields/FieldRow.tsx";
 import { SingleColumn } from "../foundation/shared.tsx";
@@ -34,16 +34,17 @@ import { autoRelationshipTypes, channelKey, journeySuggestions, startGoals, sugg
 import { BUSINESS_JOURNEY_STAGES } from "../../../../framework/engine/AnswerUtils.ts";
 import { summaryText } from "../../cards/cardSummary.ts";
 import InfoNote, { InfoText } from "../../fields/InfoNote.tsx";
-import OptionPicker from "../../fields/OptionPicker.tsx";
 import StrategyTextArea from "../../fields/StrategyTextArea.tsx";
 import SectionTiles, { DialogHeading, OPEN_EVENT, type OpenRequest, type SectionTile } from "../../tiles/SectionTiles.tsx";
 import CardBoxes, { type CardBox } from "../../cards/CardBoxes.tsx";
 import FoldArrow from "../../fields/FoldArrow.tsx";
 import FoldList, { FoldListGroup, FoldListLine } from "../../fields/FoldList.tsx";
-import { SECTIONS, GOAL_OPTIONS, STAGE_LABELS, TYPE_LABELS, relativeInformationFor, channelChoices } from "../BusinessEngagementModel.ts";
+import { SECTIONS, GOAL_OPTIONS, STAGE_LABELS, relativeInformationFor, channelChoices } from "../BusinessEngagementModel.ts";
 
 import type { useEngagementState } from "./useEngagementState.tsx";
 import type { useEngagementChannelBoxes } from "./useEngagementChannelBoxes.tsx";
+import { offeringAnswersById } from "../../../../framework/engine/EffectiveAnswers.ts";
+import { supportPromise } from "../../../../framework/engine/OfferingQuestions.ts";
 
 type Earlier = ReturnType<typeof useEngagementState> & ReturnType<typeof useEngagementChannelBoxes>;
 
@@ -200,6 +201,8 @@ export function useEngagementRelationships(earlier: Earlier) {
                             // (LINKS ONLY WHERE THE OFFERINGS HAVE CARDS OF THEIR OWN -- a different approach for each --; one card serving them all lists them as plain
                             // words, the tile itself opening that card; owner, 2026-11-16 14:24.)
                             linkedLines: key === "" || cards.length < 2 ? undefined : servedHere.map(() => true),
+                            // (Each line named by the card it opens, so stepping through the cards lands on its line: SectionTiles' opener.)
+                            lineCards: key === "" || cards.length < 2 ? undefined : servedHere.map(position => cards[cardFor(every[position])]?.id),
                             onLine: (index: number) => {
                                 const owner = cardFor(every[servedHere[index]]);
                                 if (owner >= 0) {
@@ -397,7 +400,7 @@ export function useEngagementRelationships(earlier: Earlier) {
                                                         // (The subchannel's expenses the stage's actions use, each once.)
                                                         const expenses = [...new Map(records.flatMap(record => record.expenses).map(entry => [entry.id, entry])).values()];
                                                         return (
-                                                            <tr key={channel.id} data-band={group % 2 === 1 ? "even" : "odd"} data-follows={at > 0 ? "" : undefined}>
+                                                            <tr key={channel.id} data-card-row={channel.id} data-band={group % 2 === 1 ? "even" : "odd"} data-follows={at > 0 ? "" : undefined}>
                                                                 {at === 0 && <td data-col="channel" rowSpan={subchannels.length}><span>{category.trim() || "New channel"}</span></td>}
                                                                 <th scope="row" data-col="subchannel">
                                                                     <TextLink className="capability-overview-name" onClick={() => openCard(channel.id)}>{nameOf(channel)}</TextLink>
@@ -480,6 +483,32 @@ export function useEngagementRelationships(earlier: Earlier) {
     function removeRelationshipType(segment: BusinessCustomerSegmentValue, offeringId: string, typeId: string) {
         const stored = storedOfferingRelationshipsOf(segment.id, offeringId);
         updateOfferingRelationships(segment.id, offeringId, { types: stored.types.filter(type => type !== typeId), dismissed: [...new Set([...(stored.dismissed ?? []), typeId])] });
+    }
+    /**
+     * THE WAY BACK FOR A TYPE (owner, 2026-11-16 19:18, as for the channels): a type the answers make and the founder removed, listed at the foot of its Offering's
+     * dialog in the shared FoldList "Removed", each with Restore, which takes it off the removed list so the answers make it again.
+     */
+    function removedTypesOf(segment: BusinessCustomerSegmentValue, offeringId: string): string[] {
+        const dismissed = storedOfferingRelationshipsOf(segment.id, offeringId).dismissed ?? [];
+        return autoRelationshipTypes(segment, offeringId, identity).map(entry => entry.type).filter(type => dismissed.includes(type));
+    }
+    function removedTypes(segment: BusinessCustomerSegmentValue, offeringId: string): ReactNode {
+        const removed = removedTypesOf(segment, offeringId);
+        if (removed.length === 0) {
+            return null;
+        }
+        const stored = storedOfferingRelationshipsOf(segment.id, offeringId);
+        const foldKey = "removed-types:" + segment.id + ":" + offeringId;
+        return (
+            <FoldList label="Removed" name="Removed relationship types" count={removed.length} open={!folds.isOpen(foldKey)} onToggle={() => folds.toggle(foldKey)}>
+                {removed.map(typeId => (
+                    <FoldListLine key={typeId} wrap>
+                        {relationshipTypeLabel(typeId)}{" "}
+                        <TextLink type="button" disabled={disabled} onClick={() => updateOfferingRelationships(segment.id, offeringId, { dismissed: (stored.dismissed ?? []).filter(type => type !== typeId) })}>Restore</TextLink>
+                    </FoldListLine>
+                ))}
+            </FoldList>
+        );
     }
     /* ---------- 2. Customer Relationship ---------- */
 
@@ -644,7 +673,7 @@ export function useEngagementRelationships(earlier: Earlier) {
             // A TYPE'S OWN CARD (opened from its tile in the Offering's dialog) has the default card head: the type's number in the dialog, its name (the type is the
             // card's title; owner, 2026-11-13 00:27), and its x in the card's x column while the Offering has another type (owner, 2026-11-13 12:32: the cards
             // "follow the rules (colour bands, x buttons)").
-            const typeLabelOf = (typeId: string) => TYPE_LABELS[typeId] ?? "Relationship Type";
+            const typeLabelOf = (typeId: string) => relationshipTypeLabel(typeId) ?? "Relationship Type";
             const removeType = (typeId: string) => kept.types.length > 1
                 ? <BusinessRemove what={typeLabelOf(typeId) + " Relationship Type for " + offeringName(offeringId)} disabled={disabled} onRemove={() => removeRelationshipType(segment, offeringId, typeId)} />
                 : undefined;
@@ -665,7 +694,7 @@ export function useEngagementRelationships(earlier: Earlier) {
                     <SingleColumn>
                         <EngagementBoxes>{kept.types.filter(typeId => !typeOnly || typeId === typeOnly).map(typeId => {
                             const type = typeOf(segment.id, offeringId, typeId);
-                            const label = TYPE_LABELS[typeId] ?? "Relationship Type";
+                            const label = relationshipTypeLabel(typeId) ?? "Relationship Type";
                             return (
                                 <EngagementBox
                                     key={typeId}
@@ -1028,7 +1057,7 @@ export function useEngagementRelationships(earlier: Earlier) {
                                                                 <ul className="business-engagement-channel-list">
                                                                     {kept.types.map(typeId => (
                                                                         <li key={typeId}>
-                                                                            {TYPE_LABELS[typeId] ?? typeId}
+                                                                            {relationshipTypeLabel(typeId) ?? typeId}
                                                                         </li>
                                                                     ))}
                                                                 </ul>
@@ -1052,6 +1081,12 @@ export function useEngagementRelationships(earlier: Earlier) {
                                             <tr>
                                                 <td colSpan={3} className="business-channel-cell business-relationship-blocks-cell">
 
+                                                    {/* (THE SUPPORT PROMISE, from How fast do you reply? (O16) on the Offering: supportPromise; owner, 2026-11-17.) */}
+                                                    {(() => {
+                                                        const promise = supportPromise(offeringAnswersById([segment], offeringId, identity));
+                                                        return promise ? <p className="business-foundation-tick-note business-segment-settled" role="note">{promise}</p> : null;
+                                                    })()}
+
                                                     {typeRows.map(typeId => {
 
                                                         const type = typeOf(segment.id, offeringId, typeId);
@@ -1064,7 +1099,7 @@ export function useEngagementRelationships(earlier: Earlier) {
                                                                     <span className="business-relationship-block-remove">
                                                                         <BusinessStep
                                                                             kind="remove"
-                                                                            what={(typeId.length > 0 ? TYPE_LABELS[typeId] + " " : "") + "Relationship Type for " + offeringName(offeringId)}
+                                                                            what={(typeId.length > 0 ? relationshipTypeLabel(typeId) + " " : "") + "Relationship Type for " + offeringName(offeringId)}
                                                                             disabled={disabled}
                                                                             onClick={() => updateOfferingRelationships(segment.id, offeringId, {
                                                                                 types: kept.types.filter(candidate => candidate !== typeId)
@@ -1083,24 +1118,8 @@ export function useEngagementRelationships(earlier: Earlier) {
                                                                             </InfoText>
                                                                         </span>
                                                                         <div className="business-relationship-type-pick">
-                                                                            <OptionPicker
-                                                                                label={"Relationship Type for " + offeringName(offeringId)}
-                                                                                placeholder="Select a type"
-                                                                                hug
-                                                                                options={BUSINESS_RELATIONSHIP_TYPES
-                                                                                    .filter(entryType => entryType.id === typeId || !kept.types.includes(entryType.id))
-                                                                                    .map(entryType => entryType.label)}
-                                                                                disabled={disabled}
-                                                                                value={TYPE_LABELS[typeId] ?? ""}
-                                                                                onChange={(next) => {
-                                                                                    const picked = BUSINESS_RELATIONSHIP_TYPES.find(entryType => entryType.label === next)?.id ?? "";
-                                                                                    updateOfferingRelationships(segment.id, offeringId, {
-                                                                                        types: kept.types.length === 0
-                                                                                            ? [picked]
-                                                                                            : kept.types.map(candidate => candidate === typeId ? picked : candidate)
-                                                                                    });
-                                                                                }}
-                                                                            />
+                                                                            {/* (Its name: every type comes from the answers, no picker; owner, 2026-11-16 19:18.) */}
+                                                                            <span>{relationshipTypeLabel(typeId)}</span>
                                                                         </div>
                                                                     </div>
 
@@ -1108,7 +1127,7 @@ export function useEngagementRelationships(earlier: Earlier) {
                                                                         <div className="business-relationship-purpose">
                                                                             <BusinessNote
                                                                                 label="Purpose"
-                                                                                ariaLabel={"Purpose of " + TYPE_LABELS[typeId] + " for " + offeringName(offeringId)}
+                                                                                ariaLabel={"Purpose of " + relationshipTypeLabel(typeId) + " for " + offeringName(offeringId)}
                                                                                 info={SECTIONS.relationships.purpose}
                                                                                 disabled={disabled}
                                                                                 value={type.purpose}
@@ -1159,7 +1178,7 @@ export function useEngagementRelationships(earlier: Earlier) {
                                                                                 <tr>
                                                                                 {offeringRows.map(interaction => {
                                                                                         const answersFor = interactionOf(segment.id, offeringId, typeId, interaction.key, interaction.legacyKeys);
-                                                                                        const about = (STAGE_LABELS[interaction.stageId] ?? "") + ", " + offeringName(offeringId) + ", " + TYPE_LABELS[typeId];
+                                                                                        const about = (STAGE_LABELS[interaction.stageId] ?? "") + ", " + offeringName(offeringId) + ", " + relationshipTypeLabel(typeId);
                                                                                         return (
                                                                                             <td key={interaction.key + "-" + typeId}>
                                                                                                 <div className="business-engagement-goal-ticks">
@@ -1182,7 +1201,7 @@ export function useEngagementRelationships(earlier: Earlier) {
                                                                                 <tr>
                                                                                 {offeringRows.map(interaction => {
                                                                                         const answersFor = interactionOf(segment.id, offeringId, typeId, interaction.key, interaction.legacyKeys);
-                                                                                        const about = (STAGE_LABELS[interaction.stageId] ?? "") + ", " + offeringName(offeringId) + ", " + TYPE_LABELS[typeId];
+                                                                                        const about = (STAGE_LABELS[interaction.stageId] ?? "") + ", " + offeringName(offeringId) + ", " + relationshipTypeLabel(typeId);
                                                                                         return (
                                                                                             <td key={interaction.key + "-" + typeId}>
                                                                                                 <StrategyTextArea
@@ -1210,22 +1229,6 @@ export function useEngagementRelationships(earlier: Earlier) {
 
                                                     })}
 
-                                                    {kept.types.length < BUSINESS_RELATIONSHIP_TYPES.length && (
-                                                        <div className="business-relationship-add">
-                                                            <BusinessStep
-                                                                kind="add"
-                                                                what={"Relationship Type for " + offeringName(offeringId)}
-                                                                label="Relationship Type"
-                                                                disabled={disabled}
-                                                                onClick={() => {
-                                                                    const free = BUSINESS_RELATIONSHIP_TYPES.find(entryType => !kept.types.includes(entryType.id));
-                                                                    if (free) {
-                                                                        updateOfferingRelationships(segment.id, offeringId, { types: [...kept.types, free.id] });
-                                                                    }
-                                                                }}
-                                                            />
-                                                        </div>
-                                                    )}
 
                                                 </td>
                                             </tr>
@@ -1242,6 +1245,6 @@ export function useEngagementRelationships(earlier: Earlier) {
 
     }
 
-    return { addRelationshipType, channelTiles, channelViewChoice, engagedOfferingIds, relationshipsFor, profilesOf };
+    return { addRelationshipType, channelTiles, channelViewChoice, engagedOfferingIds, relationshipsFor, profilesOf, removedTypes, removedTypesOf };
 
 }

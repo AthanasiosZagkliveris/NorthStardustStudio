@@ -230,7 +230,7 @@ export type FieldKind = "answer" | "none";
  *   optional-tick   an optional text opened by its own tick box;
  *   status          where a thing stands (Status, Completed);
  *   has-own-option  a choice that holds its own "not yet" answer;
- *   link            a link to another item (Performer, Owner);
+ *   link            a link to another item (Team, Owner);
  *   display         how figures are shown (Currency, Unit);
  *   name            a card's name: the card stands for it.
  */

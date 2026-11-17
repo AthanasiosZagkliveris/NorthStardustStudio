@@ -101,11 +101,26 @@ const SECTION_OF_KIND: Record<FloorKind, string> = {
 const kindName = (row: FloorRow) => FLOOR_KINDS.find(kind => kind.id === kindClass(row))?.one ?? "";
 
 /**
+ * A SHARE OF REVENUE AS THE FORECAST CHARGES IT (owner, 2026-11-16): the Channel Fee Table's row a card's name takes -- commission and chargebacks, and the fixed fee per
+ * order -- or, with none, the card's own rate. A fixed fee in another currency is shown in its own currency and left out of the totals (note).
+ */
+export interface ChargedFee {
+    /** The percentage of the revenue (commission + chargeback, or the card's own rate). */
+    percent: number;
+    /** The fixed fee per order, in the organisation's currency; 0 where there is none, or it is in another currency. */
+    perOrder: number;
+    /** The fee as the Cost column says it: "2.9% + 0.20 an order". */
+    text: string;
+    /** "The $0.50 per order is in US dollars, so the totals leave it out."; null for a fee in the organisation's currency. */
+    note: string | null;
+}
+
+/**
  * The lines of the table for one tile: its cost (the amount and its frequency), and -- for a tile with a second cost, a Workspace's deposit -- a second line
  * for that one, its cost followed by "Deposit" (one-time), the name repeated beside it. A Legal Entity expense is only a Section ("Legal Entity"), a Type
  * ("Expense"), its name, cost and frequency.
  */
-export function tableRows(row: FloorRow, format: (amount: number) => string = String, organisationCurrency = "") {
+export function tableRows(row: FloorRow, format: (amount: number) => string = String, organisationCurrency = "", fee?: ChargedFee | null) {
     const legal = row.kind === "legal";
     const base = {
         type: legal ? "Legal expense" : kindName(row),
@@ -128,7 +143,8 @@ export function tableRows(row: FloorRow, format: (amount: number) => string = St
         share: ""
     };
     // (A share of revenue is a percentage: "2%", never in the currency's column as money.)
-    const lines = [{ ...base, ...channel, cost: row.amount !== null ? (isPercentRow(row) ? amountText(row.amount) + "%" : own + format(row.amount)) : "", frequency: row.frequencyLabel, nature: row.nature ?? "", behaviour: row.behaviour ?? "" }];
+    // (With the Channel Fee Table's row, the whole fee as the forecast charges it: "2.9% + 0.20 an order".)
+    const lines = [{ ...base, ...channel, cost: isPercentRow(row) && fee ? fee.text : row.amount !== null ? (isPercentRow(row) ? amountText(row.amount) + "%" : own + format(row.amount)) : "", frequency: row.frequencyLabel, nature: row.nature ?? "", behaviour: row.behaviour ?? "" }];
     return lines;
 }
 
@@ -157,7 +173,7 @@ export const TABLE_COLUMNS = [
 const HIDDEN_AT_FIRST = ["offering", "share", "journey", "actions"];
 
 /** The share of a row's cost each Offering carries, in the Offering column's order: the card's own shares, or -- a channel expense's -- equal shares of its Offerings. */
-export function shareLines(row: FloorRow, offerings: readonly { id: string; name: string }[], wholeRevenue: Readonly<Record<string, number>> = {}, channelRevenue: Readonly<Record<string, Readonly<Record<string, number>>>> = {}): { name: string; percent: string; fraction: number; cost: number | null }[] {
+export function shareLines(row: FloorRow, offerings: readonly { id: string; name: string }[], wholeRevenue: Readonly<Record<string, number>> = {}, channelRevenue: Readonly<Record<string, Readonly<Record<string, number>>>> = {}, fee: ChargedFee | null = null, orderValue: Readonly<Record<string, number>> = {}): { name: string; percent: string; fraction: number; cost: number | null }[] {
     // (A CHANNEL'S share of revenue -- a payment provider's, a marketplace's -- is split by what each Offering sells THROUGH the subchannels the expense belongs
     // to (owner, 2026-11-14 20:25); an Offering that sells nothing through them has no share. Where no Customer Source names them, by its whole revenue.)
     const places = (row.channel?.places ?? []).map(place => place.channel.trim() + "\u0001" + place.sub.trim());
@@ -175,16 +191,21 @@ export function shareLines(row: FloorRow, offerings: readonly { id: string; name
     // A SHARE OF REVENUE IS A RATE, NOT A SPLIT (owner, 2026-11-14 23:30: "70% of 2%, what % gives?"): every Offering it serves has a line of the rate and the
     // pounds it comes to -- "2% · 26.88", the rate x what that Offering sells a month through the expense's own subchannels; one that sells nothing there
     // "2% · 0". Where no Customer Source names those subchannels, the rate x its whole revenue a month; while that is still to come, "when sales are set".
-    if (isPercentRow(row) && row.amount !== null) {
-        const rate = row.amount.toLocaleString(undefined, { maximumFractionDigits: 2 }) + "%";
+    // THE WHOLE FEE (owner, 2026-11-16): the fee row's commission and chargebacks on the revenue and its fixed fee on each order (revenue / one order's value), as the
+    // forecast charges it; an Offering that sells nothing through the expense's subchannels has no line.
+    if (isPercentRow(row) && (row.amount !== null || fee)) {
+        const percentOf = fee ? fee.percent : row.amount!;
+        const rate = fee ? fee.text : percentOf.toLocaleString(undefined, { maximumFractionDigits: 2 }) + "%";
+        const charged = (id: string, amount: number) => amount * percentOf / 100 + (fee && (orderValue[id] ?? 0) > 0 ? amount / orderValue[id] * fee.perOrder : 0);
         const total = ids.reduce((sum, id) => sum + (revenue[id] ?? 0), 0);
-        return ids.map(id => {
+        return ids.filter(id => !byChannel || (revenue[id] ?? 0) > 0).map(id => {
             const amount = revenue[id] ?? 0;
-            const cost = byChannel ? row.amount! / 100 * amount : amount > 0 ? row.amount! / 100 * amount : null;
+            const cost = amount > 0 ? charged(id, amount) : null;
             return { name: nameOf(id), percent: rate, fraction: total > 0 ? amount / total : 0, cost };
         }).filter(line => line.name !== "");
     }
     return ids.map(id => {
+        // (A cost paid per unit is each Offering's in full, as the forecast charges it: its fraction 1; owner, 2026-11-16.)
         const fraction = own ? 1 / ids.length : row.offeringShares?.[id] ?? 1 / ids.length;
         return { name: nameOf(id), percent: percent(fraction), fraction, cost: row.amount === null ? null : row.amount * fraction };
     }).filter(line => line.name !== "");
@@ -198,7 +219,7 @@ export function costPerOfferingText(row: FloorRow, line: { percent: string; cost
     if (line.cost !== null) {
         return line.percent + " · " + amountText(Math.round(line.cost * 100) / 100);
     }
-    return isPercentRow(row) && row.amount !== null ? line.percent + " · when sales are set" : line.percent;
+    return isPercentRow(row) ? line.percent + " · when sales are set" : line.percent;
 }
 
 /**
@@ -224,7 +245,7 @@ const plainAmount = amountText;
 /** The Offerings list's first tick: every Offering (no Offering chosen). */
 const ALL_OFFERINGS = "*";
 
-export default function CapabilityOverview({ rows, format = String, currency = "", onOpenLegal, onOpenAction, offerings = [], offeringRevenue = {}, offeringChannelRevenue = {} }: {
+export default function CapabilityOverview({ rows, format = String, currency = "", onOpenLegal, onOpenAction, offerings = [], offeringRevenue = {}, offeringChannelRevenue = {}, feeOf, orderValue = {} }: {
     rows: readonly FloorRow[];
     format?: (amount: number) => string;
     currency?: string;
@@ -238,6 +259,10 @@ export default function CapabilityOverview({ rows, format = String, currency = "
     offeringRevenue?: Readonly<Record<string, number>>;
     /** Each Offering's revenue a month through each subchannel (offeringChannelRevenue): a channel's share of revenue's split. */
     offeringChannelRevenue?: Readonly<Record<string, Readonly<Record<string, number>>>>;
+    /** A share of revenue's fee as the forecast charges it, from the Channel Fee Table (ChargedFee); null where no row takes the card's name. */
+    feeOf?: (row: FloorRow) => ChargedFee | null;
+    /** One order's value for each Offering (its price x items per order): the orders a fixed fee per order is charged on. */
+    orderValue?: Readonly<Record<string, number>>;
 }) {
 
     const openCard = useContext(OpenCardContext);
@@ -624,8 +649,11 @@ export default function CapabilityOverview({ rows, format = String, currency = "
     const chosen = (name: string) => chosenNames.length === 0 || chosenNames.includes(name);
     const servedCell = (row: FloorRow, column: string): ReactNode | undefined => {
         if (column === "share") {
-            const lines = shareLines(row, offerings, offeringRevenue, offeringChannelRevenue).filter(line => chosen(line.name));
-            return lines.length > 0 ? <Values items={lines.map(line => ({ key: line.name, node: costPerOfferingText(row, line) }))} /> : undefined;
+            const fee = isPercentRow(row) ? feeOf?.(row) ?? null : null;
+            const lines = shareLines(row, offerings, offeringRevenue, offeringChannelRevenue, fee, orderValue).filter(line => chosen(line.name));
+            // (A fixed fee in another currency: its note under the lines, as the Fees line says it.)
+            const items = [...lines.map(line => ({ key: line.name, node: costPerOfferingText(row, line) as ReactNode })), ...(fee?.note ? [{ key: "note", node: fee.note as ReactNode }] : [])];
+            return items.length > 0 ? <Values items={items} /> : undefined;
         }
         const names = (row.offeringIds ?? []).map(id => offerings.find(offering => offering.id === id)?.name.trim() || "").filter(Boolean).filter(chosen);
         return column === "offering" && names.length > 0 ? <Values items={names.map(name => ({ key: name, node: name }))} /> : undefined;
@@ -764,7 +792,7 @@ export default function CapabilityOverview({ rows, format = String, currency = "
                         </tr>
                     </thead>
                     <tbody>
-                        {shown.flatMap(row => tableRows(row, plainAmount, currency).map((line, at) => (
+                        {shown.flatMap(row => tableRows(row, plainAmount, currency, isPercentRow(row) ? feeOf?.(row) ?? null : null).map((line, at) => (
                             <tr
                                 key={row.kind + row.id + ":" + at}
                                 // (Its colour, the bar down its left edge: a channel expense's of the channels' palette, as its actions' marks; any other card's, its place's hue, as its tile.)

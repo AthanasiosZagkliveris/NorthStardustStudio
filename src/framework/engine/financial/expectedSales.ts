@@ -7,6 +7,9 @@ import { numberAsText } from "./breakEven.ts";
 import { type FinancialFoundationValue } from "./stored.ts";
 import { streamVolumes } from "./revenue.ts";
 import { planLength } from "./period.ts";
+import { businessFoundationSegments } from "../AnswerBusinessFoundation.ts";
+import { offeringStartsById } from "../EffectiveAnswers.ts";
+import { monthOrdinal } from "./period.ts";
 
 /* ==========================================================
    Expected sales from Demand & Conversion
@@ -24,15 +27,28 @@ import { planLength } from "./period.ts";
  */
 export function withDemand(
     page: FinancialSustainabilityValue,
-    demand: Record<string, DemandValue> | undefined
+    demand: Record<string, DemandValue> | undefined,
+    foundation?: unknown
 ): FinancialSustainabilityValue {
-    if (!demand) {
+    // WHEN THEY PAY HAS ONE OWNER, the Offering's O3t (owner, 2026-11-16): where it is answered, each stream's Payment Timing is its record.
+    const segments = foundation === undefined ? [] : businessFoundationSegments(foundation);
+    const timed = (stream: FinancialSustainabilityValue["streams"][number]) => {
+        const starts = segments.length > 0 ? offeringStartsById(segments, stream.offeringId) : {};
+        const paid = starts.paymentTimingAnswered ? { ...stream, paymentTiming: starts.paymentTiming ?? ("" as const) } : stream;
+        // (READY FROM (owner, 2026-11-17): an Offering still an idea or being built sells from the month it is ready, where Begins is earlier.)
+        const ready = starts.notReady ? demand?.[stream.offeringId]?.readyFrom : undefined;
+        const readyAt = ready ? monthOrdinal(ready) : null;
+        const begins = monthOrdinal(paid.start);
+        return readyAt !== null && (begins === null || readyAt > begins) ? { ...paid, start: { month: ready!.month, year: ready!.year } } : paid;
+    };
+    if (!demand && segments.length === 0) {
         return page;
     }
     return {
         ...page,
-        streams: page.streams.map(stream => {
-            const expected = demandResult(demand[stream.offeringId]).expected;
+        streams: page.streams.map(entry => {
+            const stream = timed(entry);
+            const expected = demand ? demandResult(demand[stream.offeringId]).expected : null;
             return expected === null ? stream : { ...stream, volume: numberAsText(expected) };
         })
     };
@@ -61,9 +77,17 @@ export function salesCapacity(
         ...revenuePage.streams.filter(stream => isRecurringRevenue(stream.frequency)).map(stream => stream.offeringId),
         ...Object.entries(capability.delivery).filter(([, entry]) => entry.mode === "monthly").map(([offeringId]) => offeringId)
     ]);
-    const names: Record<string, string> = Object.fromEntries([
+    // (The people beside the founders: Partners, Suppliers and Staff cards, with the hours a month each can give where said.)
+    const people = [
         ...capability.professionals, ...capability.providers,
-        ...capability.offering.professionals, ...capability.offering.providers
-    ].map(person => [person.id, person.name.trim() || "Unnamed professional"]));
-    return capacityCheck(capability.founders, volumesByOffering, capability.delivery, planLength(foundation), recurring, names);
+        ...capability.offering.professionals, ...capability.offering.providers,
+        ...capability.offering.resources.filter(slot => slot.category === "hr"),
+        ...(capability.resources["hr"] ?? []).flatMap(subsection => subsection.slots)
+    ];
+    const names: Record<string, string> = Object.fromEntries(people.map(person => [person.id, person.name.trim() || "Unnamed professional"]));
+    const available: Record<string, number> = Object.fromEntries(people.flatMap(person => {
+        const hours = Number.parseFloat(person.hoursAvailable);
+        return Number.isFinite(hours) && hours > 0 ? [[person.id, hours]] : [];
+    }));
+    return capacityCheck(capability.founders, volumesByOffering, capability.delivery, planLength(foundation), recurring, names, available);
 }

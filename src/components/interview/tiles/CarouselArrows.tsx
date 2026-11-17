@@ -198,8 +198,8 @@ export function CarouselArrows({ target, step, hue, back, side: fixedSide }: { t
 
     // Only the topmost layer shows its arrows and rail: the one under it stands at the same place, and its bullets would overlap the top one's.
     const [topmost, setTopmost] = useState(true);
-    // A DIALOG UNDER A FLOATING CARD keeps its rail (where the card stands among the dialog's tiles) but not its arrows (the card is the layer opened last; 07-floating-
-    // card-details-2.css): the rail then runs on with no gap for them (owner, 2026-11-14 12:00: "Fix its rail to fit properly the carousel arrow"; "Fix the rail sequence").
+    // A DIALOG UNDER A FLOATING CARD SHOWS NEITHER ITS ARROWS NOR ITS RAIL (owner, 2026-11-17 00:22, "Hide it"): only the layer opened last has them, whether or not the
+    // card has cards beside it; the dialog's rail and arrows come back when the card closes.
     const [covered, setCovered] = useState(false);
     useEffect(() => {
         const check = () => {
@@ -302,7 +302,7 @@ export function CarouselArrows({ target, step, hue, back, side: fixedSide }: { t
         setSlot(previous => previous && previous.index === next.index && Math.abs(previous.shift - next.shift) < 0.5 && Math.abs(previous.extra - next.extra) < 0.5 ? previous : next);
     });
 
-    if (!at || !topmost) {
+    if (!at || !topmost || covered) {
         return null;
     }
     return (

@@ -404,7 +404,7 @@ describe("BusinessCapabilityEditor legacy numbers", () => {
             },
             { segments: [{ offerings: [{ id: "offering-1", name: "Offering One" }] }] }
         );
-        openTile("Delivery");
+        openTile("Capacity & Delivery");
         openCard("Offering One");
 
         const line = document.body.querySelector(".delivery-total")?.textContent ?? "";
@@ -728,8 +728,8 @@ describe("BusinessCapabilityEditor Frequency and Responsibility side labels", ()
     function expectLabelThenHuggingDropdown() {
         for (const field of document.querySelectorAll(".business-field-side")) {
             expect(field.children[0].classList.contains("field-label") || field.children[0].classList.contains("business-foundation-label-info")).toBe(true);
-            // (The Start and End dates are Calendars, not dropdowns; a one-option dropdown is text.)
-            if (/^(Start|End) date|^Useful life|^Rate override/.test(field.querySelector(".field-label")?.textContent ?? "") || field.querySelector(".business-capability-static-value")) {
+            // (The Start and End dates are Calendars, not dropdowns; a one-option dropdown is text; the hours they can give and a lead time are number cells.)
+            if (/^(Start|End) date|^Useful life|^Rate override|^Hours a month they can give|^Lead time/.test(field.querySelector(".field-label")?.textContent ?? "") || field.querySelector(".business-capability-static-value")) {
                 continue;
             }
             // (A sole founder has no Responsible field at all: see "a Partnership / Provider's Responsible".)
@@ -913,7 +913,7 @@ describe("BusinessCapabilityEditor Delivery", () => {
             );
         }
         render(<DeliveryHarness />);
-        openTile("Delivery");
+        openTile("Capacity & Delivery");
         expect(document.querySelector(".delivery-person-unit")).toBeNull();
         for (const person of document.querySelectorAll(".delivery-person")) {
             expect(person.textContent).not.toMatch(/\bh$/);
@@ -930,7 +930,7 @@ describe("BusinessCapabilityEditor Delivery", () => {
                 foundation={{ segments: [{ offerings: [{ id: "offering-1", name: "Offering One" }] }] }}
             />
         );
-        openTile("Delivery");
+        openTile("Capacity & Delivery");
         openCard("Offering One");
         const person = document.querySelector(".delivery-card .delivery-person")!;
         expect(person.textContent).not.toMatch(/\((founder|external)\)/);
@@ -949,15 +949,50 @@ describe("BusinessCapabilityEditor Delivery", () => {
                 foundation={{ segments: [{ offerings: [{ id: "offering-1", name: "Offering One" }, { id: "offering-2", name: "Offering Two" }] }] }}
             />
         );
-        const tile = tileButton("Delivery");
+        const tile = tileButton("Capacity & Delivery");
         const links = [...tile.parentElement!.querySelectorAll<HTMLElement>("button.section-tile-link")];
         expect(links.map(link => link.textContent)).toEqual(["Offering One", "Offering Two"]);
         fireEvent.click(links[1]);
-        const card = screen.getByRole("dialog", { name: "Delivery" });
+        const card = screen.getByRole("dialog", { name: "Capacity & Delivery" });
         expect(card.classList.contains("floating-card-host")).toBe(true);
         expect(card.querySelector(".floating-card-caption")!.textContent).toContain("Delivery");
         expect(card.querySelectorAll(".delivery-card")).toHaveLength(1);
         expect(card.querySelector(".strategy-name-static")!.textContent).toBe("Offering Two");
+    });
+
+    it("asks LC1 on Capacity & Delivery: the Legal Entity's Gaps and Cover read in once, each ticked skill with its cover, or a link to the Activities", () => {
+        const saved: unknown[] = [];
+        function Harness() {
+            const [value, setValue] = useState<unknown>(asBusinessCapabilityValue({
+                offering: { activities: [{ ...createBusinessActivity(), id: "sell-1", name: "Call buyers", category: "sales", offeringIds: ["offering-1"], performerIds: ["f1"] }] }
+            }));
+            return <BusinessCapabilityEditor
+                value={value}
+                onChange={(next) => { saved.push(next); setValue(next); }}
+                legalEntityFounders={[{ id: "f1", name: "Ann", ownership: "100", capital: "", roles: [""], experience: "" }]}
+                foundersProfile={{ founders: [], teamGaps: "No one sells. No bookkeeping.", teamCover: "A mentor helps." }}
+                foundation={{ segments: [{ offerings: [{ id: "offering-1", name: "Offering One" }] }] }}
+            />;
+        }
+        render(<Harness />);
+        // The migration: once, Gaps as Other rows, one a sentence; Cover as the Notes.
+        const migrated = asBusinessCapabilityValue(saved.find(next => asBusinessCapabilityValue(next).skillsNeeded !== undefined));
+        expect([migrated.skillsNeeded, migrated.skillsOther, migrated.skillsNotes]).toEqual([["other"], ["No one sells.", "No bookkeeping."], "A mentor helps."]);
+
+        openTile("Capacity & Delivery");
+        const dialog = topDialog();
+        expect(within(dialog).getByRole("group", { name: "Which skills does the business still need?" })).toBeTruthy();
+        expect((within(dialog).getByRole("textbox", { name: "Skills notes" }) as HTMLTextAreaElement).value).toBe("A mentor helps.");
+        // Selling's cover is the Team of the Sales activities: Ann, a link to her card.
+        fireEvent.click(within(dialog).getByRole("checkbox", { name: "Selling" }));
+        expect(asBusinessCapabilityValue(saved[saved.length - 1]).skillsNeeded).toEqual(["other", "selling"]);
+        const covered = [...dialog.querySelectorAll(".delivery-skill-cover")].map(line => line.textContent);
+        expect(covered).toContain("Covered by: Ann");
+        // Marketing has no activity with a Team: "Not covered yet", a link to the Activities.
+        // (The Other rows' cover is Infrastructure's activities, with none here: one "Not covered yet" already.)
+        const before = within(dialog).getAllByRole("button", { name: "Not covered yet" }).length;
+        fireEvent.click(within(dialog).getByRole("checkbox", { name: "Marketing and social media" }));
+        expect(within(dialog).getAllByRole("button", { name: "Not covered yet" })).toHaveLength(before + 1);
     });
 
     it("sets a Delivery card's order number at the card's padding edge: no box of its own to the left of it", () => {
@@ -976,7 +1011,7 @@ describe("BusinessCapabilityEditor Delivery", () => {
                 foundation={{ segments: [{ offerings: [{ id: "offering-1", name: "Offering One" }] }] }}
             />
         );
-        openTile("Delivery");
+        openTile("Capacity & Delivery");
         openCard("Offering One");
         const card = document.querySelector(".delivery-card")!;
         expect(card.textContent).not.toMatch(/count against their capacity/);
@@ -1170,21 +1205,23 @@ describe("BusinessCapabilityEditor starts from Page 1 (phase 5f, 2026-11-09)", (
         return <BusinessCapabilityEditor value={value} onChange={(next) => { setValue(next); onValue?.(next); }} legalEntityFounders={founders} foundation={foundation} />;
     }
 
-    it("starts Delivered from O3, Calendar Time from O15 and Constraints from O10 on a Delivery not saved yet", () => {
+    it("shows Delivered as O3's record, starts Calendar Time from O15, and asks what can hold up delivery (DV12) in place of Constraints", () => {
         render(<StartHarness initial={asBusinessCapabilityValue(undefined)} />);
-        openTile("Delivery");
+        openTile("Capacity & Delivery");
         openCard("Build");
-        expect(screen.getByRole("button", { name: "Build delivered per unit or every month: Per unit" })).toBeTruthy();
+        // (DV1 IS O3'S RECORD: one option, read only; owner, 2026-11-17.)
+        expect(screen.getByRole("textbox", { name: "Build delivered per unit or every month: Per unit" }).getAttribute("aria-readonly")).toBe("true");
         expect((screen.getByLabelText("Build calendar time, weeks") as HTMLInputElement).value).toBe("4");
-        expect((screen.getByLabelText("Build delivery constraints") as HTMLTextAreaElement).value).toBe("Access to their systems or information; A clear brief.");
+        expect(screen.queryByLabelText("Build delivery constraints")).toBeNull();
+        expect(screen.getByRole("group", { name: "Build what can hold up delivery" })).toBeTruthy();
     });
 
     it("starts Every month for a retainer, and saves the start with the first thing written", () => {
         let saved: unknown;
         render(<StartHarness initial={asBusinessCapabilityValue(undefined)} onValue={(next) => { saved = next; }} />);
-        openTile("Delivery");
+        openTile("Capacity & Delivery");
         openCard("Care");
-        expect(screen.getByRole("button", { name: "Care delivered per unit or every month: Every month" })).toBeTruthy();
+        expect(screen.getByRole("textbox", { name: "Care delivered per unit or every month: Every month" }).getAttribute("aria-readonly")).toBe("true");
         fireEvent.change(screen.getByLabelText(/^Ann hours per client a month of Care/), { target: { value: "6" } });
         expect(asBusinessCapabilityValue(saved).delivery["offering-2"]).toMatchObject({ mode: "monthly", hours: { f1: "6" } });
     });
@@ -1192,7 +1229,7 @@ describe("BusinessCapabilityEditor starts from Page 1 (phase 5f, 2026-11-09)", (
     it("keeps the page's own Delivery over the starts", () => {
         const initial = { ...asBusinessCapabilityValue(undefined), delivery: { "offering-1": { hours: { f1: "40" }, duration: "6", constraints: "", effort: "", deliverers: [], mode: "unit", period: "" } } };
         render(<StartHarness initial={initial} />);
-        openTile("Delivery");
+        openTile("Capacity & Delivery");
         openCard("Build");
         expect((screen.getByLabelText("Build calendar time, weeks") as HTMLInputElement).value).toBe("6");
         expect(screen.queryByLabelText("Build delivery constraints")).toBeNull();
@@ -1225,6 +1262,51 @@ describe("BusinessCapabilityEditor without a physical item (doc 28, 11.7; phase 
         openTile("Resources");
         expect(categoryTiles()).toContain("Materials & Inventory");
         expect(categoryTiles()).not.toContain("Vehicles");
+    });
+
+});
+
+describe("Capacity & Delivery, doc 52 (owner, 2026-11-17)", () => {
+
+    const founders = [{ id: "f1", name: "Ann", ownership: "100", capital: "", roles: [""], experience: "" }];
+    const foundation = { segments: [{ id: "s", name: "Makers", offerings: [
+        { id: "o-class", name: "Classes", category: "Service", questions: { o1: ["inperson"], o3: ["once"] } },
+        { id: "o-rug", name: "Rugs", category: "Product", questions: { o1: ["physical"], o3: ["once"] } }
+    ] }] };
+    function Harness({ initial, onValue }: { initial: unknown; onValue?: (next: unknown) => void }) {
+        const [value, setValue] = useState<unknown>(initial);
+        return <BusinessCapabilityEditor value={value} onChange={(next) => { setValue(next); onValue?.(next); }} legalEntityFounders={founders} foundation={foundation} />;
+    }
+
+    it("asks DV6 for sessions (the hours then a session's), DV9 and DV10 for a product, and DV12 in place of Constraints, each tick opening its own question", () => {
+        let saved: unknown;
+        render(<Harness initial={{ ...asBusinessCapabilityValue(undefined), offering: { ...asBusinessCapabilityValue(undefined).offering, resources: [{ ...createBusinessResourceSlot(), id: "loom", name: "Floor loom", offeringIds: ["o-rug"] }] } }} onValue={(next) => { saved = next; }} />);
+        openTile("Capacity & Delivery");
+        openCard("Classes");
+        expect(screen.getByLabelText("Classes customers in one session")).toBeTruthy();
+        expect(document.querySelector(".floating-card-host")!.textContent).toContain("Working Hours per Session, by person");
+        expect(screen.queryByLabelText("Classes set-up hours for a batch")).toBeNull();
+        closeTile();
+        openCard("Rugs");
+        expect(screen.queryByLabelText("Rugs customers in one session")).toBeNull();
+        expect(screen.getByLabelText("Rugs set-up hours for a batch")).toBeTruthy();
+        fireEvent.click(within(screen.getByRole("group", { name: "Rugs what can hold up delivery" })).getByLabelText("Equipment or a workspace"));
+        expect(asBusinessCapabilityValue(saved).delivery["o-rug"].holdUps).toEqual(["equipment"]);
+        // (One resource: the picker is its record.)
+        expect(screen.getByRole("textbox", { name: "Rugs equipment that holds up delivery: Floor loom" }).getAttribute("aria-readonly")).toBe("true");
+        expect(screen.getByLabelText("Rugs units the equipment holds at once")).toBeTruthy();
+    });
+
+    it("moves a saved Constraints text once into Other, one row a sentence", () => {
+        let saved: unknown;
+        const initial = { ...asBusinessCapabilityValue(undefined), delivery: { "o-rug": { ...asBusinessCapabilityValue({ delivery: { "o-rug": {} } }).delivery["o-rug"], hours: { f1: "2" }, constraints: "Three looms. Yarn takes a week." } } };
+        render(<Harness initial={initial} onValue={(next) => { saved = next; }} />);
+        const moved = asBusinessCapabilityValue(saved).delivery["o-rug"];
+        expect([moved.constraints, moved.holdUps, moved.holdUpsOther]).toEqual(["", ["other"], ["Three looms.", "Yarn takes a week."]]);
+    });
+
+    it("draws the 85% mark on every bar", () => {
+        expect(stylesheet("delivery.css")).toMatch(/\.delivery-budget-ceiling\{[^}]*position:absolute;/);
     });
 
 });

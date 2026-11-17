@@ -711,7 +711,8 @@
 
 }
 
-/* Only the layer opened last has arrows: a dialog under a floating card keeps its own out of sight. */
+/* Only the layer opened last has arrows and a rail: a dialog under a floating card keeps both out of sight (CarouselArrows draws neither while it is covered; owner,
+   2026-11-17 00:22). */
 body:has(.floating-overlay) .section-tile-overlay:not(.floating-overlay) > .carousel-arrow {
 
     display: none;

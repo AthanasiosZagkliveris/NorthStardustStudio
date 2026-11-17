@@ -57,12 +57,14 @@ describe("the Global Settings screen", () => {
     it("shows the starting values and lists the figures of the cost model", () => {
         open();
         for (const name of [
-            "Employer on-cost coefficient", "Insurance per employee", "Corporate income tax rate", "Capitalisation limit",
+            "Employer on-cost coefficient", "Insurance per employee", "Capitalisation limit",
             "Royalty on sales", "Affiliate network or influencer commission", "Sales agent or B2B broker commission", "Target operating reserve"
         ]) {
             expect(screen.getByLabelText(name)).toBeTruthy();
         }
         expect((screen.getByLabelText("Target operating reserve") as HTMLInputElement).value).toBe("3");
+        // (No income tax rate of its own: Page 4's Plan Settings own it, doc 5, section 5.5.6.)
+        expect(screen.queryByLabelText("Corporate income tax rate")).toBeNull();
         // (Only a group that holds an asset is listed: this organization has none.)
         expect(screen.queryByLabelText("Production Machinery")).toBeNull();
         // (No answer names a provider yet: the Channel Fee Table shows no row; the rows wait in the settings for an answer that names them.)

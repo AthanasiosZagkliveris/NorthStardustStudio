@@ -7,7 +7,7 @@ import CardBoxes, { type CardBox, type CardBoxAdd } from "../cards/CardBoxes.tsx
 import SubTiles from "../tiles/SubTiles.tsx";
 import FoundersProfileEditor from "./FoundersProfileEditor.tsx";
 import { workHue } from "../../../framework/engine/WorkColours.ts";
-import { FOUNDERS_PROFILE_SECTIONS, LEGAL_ENTITY_SECTIONS, LegalEntityValue, asFoundersProfileValue, asLegalEntityValue, createLegalEntityExpense, createLegalEntityRequirement } from "../../../framework/engine/AnswerUtils.ts";
+import { LEGAL_ENTITY_SECTIONS, LegalEntityValue, asLegalEntityValue, createLegalEntityExpense, createLegalEntityRequirement } from "../../../framework/engine/AnswerUtils.ts";
 import { LEGAL_REQUIREMENT_TYPES, legalFormOptions, registrationAuthorityFor } from "../../../framework/engine/LegalEntityJurisdictions.ts";
 import { moneyText } from "../../../framework/engine/ExportRenderers.ts";
 import { railId } from "../rails/railItems.ts";
@@ -97,8 +97,6 @@ export default function LegalEntityEditor(props: LegalEntityEditorProps) {
         );
     }
     if (asTiles) {
-        // (A tile lists every line, no display cap: its list scrolls where they do not all fit, as every tile's list does; layout rules, "Lists on the tiles".)
-        const lines = (list: readonly string[]) => list.map(text => text.trim()).filter(text => text.length > 0);
         const rail = (section: number) => railId(LEGAL_ENTITY_SECTIONS[section]);
         // (Every dialog of the page opens with the one heading the Business System's do: the title, then its "i".)
         const SECTION_INFO: Record<number, InfoPoint[]> = {
@@ -196,9 +194,8 @@ export default function LegalEntityEditor(props: LegalEntityEditorProps) {
             const expense = entity.expenses.findIndex(candidate => candidate.id === id);
             return expense >= 0 ? floating(expenseCard(entity.expenses[expense], expense, true)) : null;
         };
-        /** The page holds the founders' tiles and the Capability tile (a page of the Identity System that is given the Founders Profile's saver). */
+        /** The page holds the founders' tiles (a page of the Identity System that is given the Founders Profile's saver). */
         const holdsFounders = onChangeFoundersProfile !== undefined;
-        const capability = asFoundersProfileValue(foundersProfile);
         const expenseEntries = entity.expenses.filter(expense => expense.name.trim().length > 0);
         // The lines of the Formation's and the Tax's tiles. (They name no card, so they are no links: what a registration is linked to is a circle on the tile.)
         // (Every line, no cap: the tile's list scrolls where they do not all fit, as every tile's list does.)
@@ -257,19 +254,7 @@ export default function LegalEntityEditor(props: LegalEntityEditorProps) {
             return <>{foundersTile.content()}</>;
         }
         const tiles: SectionTile[] = [
-            ...(holdsFounders && onChangeFoundersProfile ? [{
-                id: "founders-gaps", title: "Capability", large: true, rail: railId(FOUNDERS_PROFILE_SECTIONS[1]),
-                items: lines([...capability.teamGaps.split("\n"), ...capability.teamCover.split("\n")]),
-                content: () => (
-                    <FoundersProfileEditor
-                        value={foundersProfile}
-                        onChange={onChangeFoundersProfile}
-                        legalEntityFounders={entity.founders}
-                        disabled={disabled}
-                        capabilityOnly
-                    />
-                )
-            } as SectionTile] : []),
+            // (No Capability tile: the skills the business still needs are asked on Capacity & Delivery, 3. Infrastructure & Capability; owner, 2026-11-16 20:25.)
             {
                 id: "legal-entity-registrations", title: "Registrations", large: true, rail: rail(2), view: true,
                 // What its dialog holds, in the dialog's words: its two sub tiles, each line a link to its own.

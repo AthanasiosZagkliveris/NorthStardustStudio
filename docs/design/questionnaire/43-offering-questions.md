@@ -141,6 +141,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
 - **The "i" says:**
   - How it is put together for sale: one range, made to each order, packages, limited runs or extras. Counts and what is included go in the Notes.
   - Based on: the product mix (Kotler and Keller).
+- **Waiting ((owner, 2026-11-17; the open decisions and gaps, Group 4d)):** Packages / tiers and Add-ons / extras are read on Revenue & Pricing (doc 48, section 11); Made to order already skips DV9 (doc 52).
 - **Connections:** *Read by:* the export. Source [FUN-73].
 
 ## Box. Purchase & Delivery
@@ -158,6 +159,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
 - **Starts from the business stage** (owner 2026-11-06; `BusinessStage.ts`, from the Opening Date): Planning → "Still being built"; Launching → "Yes, now" (was "Almost ready" until 2026-11-08, the options-and-wording research: a business that is launching sells); Managing or Growing → "Yes, now". Only a starting value: an answer chosen is never overwritten, and every option stays (a growing business can still plan a new Offering, "Just an idea").
 - **The "i" says:**
   - It starts from your business stage; change it for this Offering.
+- **Read by (built (owner, 2026-11-17; the open decisions and gaps, Group 4d)):** Demand & Conversion's Ready From, asked where it is Just an idea or Still being built, with its note; the revenue on Sustainability begins no earlier (doc 50, 2.6).
 - **Connections:**
   - *Comes from:* the business stage (Organisation: the Opening Date and the Global Settings' durations).
   - *Read by (not built yet):* the Review (a Demand estimate for an Offering that is not ready; a mismatch with the stage: Planning with an Offering "Yes, now", sales before the opening, or Managing with every Offering "Just an idea"); the Business Plan's product section. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
@@ -186,13 +188,14 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
   - Per session / per hour: a price for each session or hour. Rent / hire: they pay to use it for a time, then give it back.
   - Commission on each sale: a share of each sale you make for them. Free to them: someone else pays, such as an advertiser or a funder.
   - A minimum term: write it in the Notes.
+- **Grouped (owner, 2026-11-17):** two headed groups, **One purchase** (one purchase, per session, rent, a project, commission, free) and **Ongoing** (a subscription, a licence, pay as they go, a retainer); A project or contract first in its group where the Segment pays by invoice or purchase order.
 - **Connections:**
   - **Starts from O1 (2026-11-09):** Online access, A subscription / membership; Project work, A project or contract; An ongoing service, A monthly retainer; A live online session or An in-person service, Per session / per hour; the others start nothing. A saved answer wins.
   - *Comes from:* the Segment's "How do your customers pay?" (doc 35, Box 4, question 8). Invoice, bank transfer or purchase order puts A project or contract first, as an order only (found by its id, so the options added do not move it). It reads the Segment's **settled** answer (`segmentSettle`, in `offeringContextOf`; 2026-11-08): an invoice saved on a people Segment, where invoicing is not offered, no longer puts it first.
   - *Read by (built, 2026-11-09, as starts):* Demand's "Customers Buy" (Page 2), Delivery's "Delivered" (Page 3) and the Revenue stream's "Charged" (Page 5) start from it on a card those pages have not saved yet (`offeringStarts`, EffectiveAnswers.ts); a one-off term (One purchase, Per session / per hour, Rent / hire, Commission on each sale, A project or contract) is one sale at a time and per unit, a recurring one (A subscription / membership, A monthly retainer, Pay as they go, A licence) every month; Free to them starts nothing. The mapping, with Charged's, is the map's. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
   - *Read by (built, 2026-11-09):* the Review: an Offering with no answer here is an open item ("[Offering]: the terms they pay on: not chosen yet.", `OpenItems.ts`). *Not built yet:* the Review's rule 14 (doc 28, 11.5).
 
-**O3b. "When do they pay?"** (owner, 2026-11-07: "Approve Decisions 2, 3, and 4 as proposed, and for Decision 1, approve Q1–Q6 with two targeted adjustments": one commercial decision, terms and timing; built as O3's second row in O3's band, a band of its own since 2026-11-09, as every question: one question per band, the tints alternating). One choice (a radio), straight after the terms; saved as `o3t`; the code stays.
+**O3b. "When do they pay?"** (owner, 2026-11-07: "Approve Decisions 2, 3, and 4 as proposed, and for Decision 1, approve Q1–Q6 with two targeted adjustments": one commercial decision, terms and timing; built as O3's second row in O3's band, a band of its own since 2026-11-09, as every question: one question per band, the tints alternating). One choice (a radio), straight after the terms; saved as `o3t`; the code stays. **Read by (built 2026-11-16):** Page 5's Customer Pays, as its record wherever O3b is answered (one owner; every reader of the revenue page takes it through `withDemand`).
 - **Options:** Before they get it; A deposit, then the rest; When it is done / delivered; In instalments / monthly; On invoice terms (for example 30 days).
 - **Starts from O3 (2026-11-09):** A subscription / membership or A monthly retainer, In instalments / monthly; A project or contract, A deposit, then the rest; One purchase, Before they get it. A saved answer wins.
 - **The "i" says:** When the money comes in.
@@ -207,6 +210,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
 - **Starts from O1 (2026-11-09):** A digital file, An app / online tool or Online access, Straight away. A saved answer wins.
 - **The "i" says:**
   - The time from order to having it. How it reaches them is the question below (O6 follows O15 since 2026-11-08).
+- **Starts (owner, 2026-11-17):** at One to four weeks where the Segment's customers are in several countries, whatever the form. **Read by:** the Delivery card (Capacity & Delivery), which says so where making and sending take longer: "Customers expect it within a week, and making and sending it takes about 3 weeks. Keep some ready-made stock, or tell customers 1 to 4 weeks." (the Calendar Time, the supplier's lead time, and about a week to send by post, courier or a fulfilment service).
 - **Connections:** *Read by:* the export; *(built, 2026-11-09, as a start)* the Delivery card's Calendar Time (Page 3, weeks), for an Offering delivered per unit, on a Delivery not saved yet: the band's upper end (1, 4 or 13 weeks; Straight away and Longer start nothing). Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
 
 ### O6. How do your customers receive it?
@@ -224,6 +228,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
 - **The "i" says:**
   - How it reaches them once bought: tick each way, as one Offering is often delivered in several.
   - Sent automatically online: a download or an email sent by the shop. Sent by you online: a file you send when it is ready.
+- **Filtered and ordered (owner, 2026-11-17):** by the form (O1): a physical item, Posted / shipped, They collect it, In person; a digital file, Sent automatically or by you online; an app or access, Ongoing online access; a session, In a live online session or In person; project work or an ongoing service, every way. A saved way outside it stays, with "Kept from your earlier answer. It sits outside the usual ways to receive this kind of Offering." Ordered by the Segment's reach: a city, In person and They collect it first; a country or several countries, Posted / shipped first; anywhere online, the online ways first. Under it, where the customers are in several countries or anywhere online and the Offering is only given in person or collected: "Your customers live in several countries, and this Offering is given in person. Add a live online session or shipping, or narrow where your customers are."
 - **Connections:**
   - *Comes from:* O1, the starting value, the clearest way only (ticks since 2026-11-09: the others are ticked by hand, such as In person or They collect it for a physical item sold in a shop or café): a physical item → Posted / shipped to them; a digital file → Sent automatically online; a live online session → In a live online session; an app / online tool → Ongoing online access; online access → Ongoing online access; an in-person service → In person; project work → Sent by you online (2026-11-09); an ongoing service → none.
   - *Read by (built):* the Delivery stage's channels on Customer Engagement (doc 47). *Read by (not built yet):* the Review (the Segment's "Rural / remote", doc 35 Box 2 question 2, with In person or Posted / shipped: a delivery-cost check, rule 17). Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
@@ -233,6 +238,8 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
 - **Control:** ticks, as many as apply, ending in Other, written in as a numbered list. **Asked when:** O6 has Posted / shipped to them. (O18 is this card's, and the next code is proposed for pricing in doc 48: the follow-ups are O20 to O22.)
 - **Options:** Courier · Postal service · Local delivery · A fulfilment service · Other.
 - **The "i" says:** The way each order travels to them: each becomes a delivery channel on Customer Engagement. · Tick Other to write another.
+- **Ordered (owner, 2026-11-17):** by the Segment's reach: a city, Local delivery first; a country, Postal service and Courier first; several countries, Courier and A fulfilment service first; a rural area (rated 1 or 2), Postal service and Courier first; never locked.
+- **Ordered (built (owner, 2026-11-17; the open decisions and gaps, Group 4c)):** customers working at home (the Segment's Where do your customers mainly work?) put Local delivery first, after the reach's and the rural area's orders.
 - **Connections:** *Read by (built):* Physical Delivery › Courier, Postal Service, Local Delivery, Third-party Fulfilment, or the name written in (doc 47).
 
 ### O21. How do you send the files?
@@ -261,10 +268,12 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
   - Automatic help, such as chat or emails
   - Personal help when needed
   - A dedicated person or team
+  - Other, written in as a numbered list (owner, 2026-11-16 19:18): each name a relationship type of its own on Customer Engagement (doc 47)
   - ("It depends on the plan" is no longer offered, 2026-11-09: with ticks, each kind of help given is ticked, and the plans are O14's Packages / tiers. A saved one stays shown, and printed, until it is unticked: `OFFERING_RETIRED`, `offeringOptionsWith`; it still answers the Support worry.)
 - **The "i" says:**
   - The help that comes with it after the sale: tick each kind you give.
   - None stands alone: ticking it clears the others.
+  - Tick Other to write another: each becomes a relationship type on Customer Engagement.
 - **Connections:**
   - *Read by (built):* O8 and the Value Proposition's open item "Worry left open": any tick but None answers the Profiles' worry Support (after they buy), so O8 does not offer it. *Read by (built):* the relationship types (`autoRelationshipTypes`) and the Support & Follow Up channels on page 2 (doc 47). *Not built yet:* the Review against the Profiles' D2 (doc 36): "wants to talk to a person" while the help is None or Guides and how-tos (rule 10). Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
 
@@ -295,6 +304,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
 - **Options** (L22): The same day; Within one working day; Within a few days; No set time.
 - **The "i" says:**
   - How soon your customers hear back. The channels are on the Customer Engagement page.
+- **Read by (built (owner, 2026-11-17; the open decisions and gaps, Group 4c)):** the Offering's relationship block on Customer Engagement, under its band: "Support promise: you reply within one working day." (`supportPromise`); none with No set time.
 - **Connections:** *Read by:* the export.
 
 ## Box. Requirements & Conditions
@@ -342,6 +352,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
   - For an age limit, write it in the Notes.
   - The source, last: GB "Based on: the Consumer Contracts Regulations 2013, regulation 28 (UK)." [FUN-74]; IE "Based on: the Consumer Rights Directive 2011/83/EU, Article 16 (EU)." [FUN-75]; US "Based on: the FTC Cooling-Off Rule (US)." [FUN-76]; CA "Based on: Ontario's Consumer Protection Act (CA)." [FUN-77]; AU "Based on: the Australian Consumer Law (ACCC)." [FUN-78]; NZ "Based on: the Fair Trading Act 1986, section 36M (NZ)." [FUN-79].
   - (Each point is within 160 characters, tested.)
+- **Read by (built (owner, 2026-11-17; the open decisions and gaps, Group 4c)):** the Business Plan, each Segment's "Conditions of sale" after its Offerings table, one line an Offering with its ticks.
 - **Connections:** *Comes from:* the Organisation's country (the "i" only). *Read by:* the export. Sources [FUN-74] to [FUN-79].
 
 ### O12. Is a minimum age to buy it set by law? (no longer a question; proposed, owner 2026-11-06)

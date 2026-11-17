@@ -256,7 +256,9 @@ export default function SectionTiles({
     useEffect(() => {
         const answer = (event: Event) => {
             const request = (event as CustomEvent<OpenRequest>).detail;
-            const found = latest.current.find(tile => tile.id === request.tile) ?? latest.current.find(tile => !!request.card && tile.holds?.includes(request.card));
+            const found = request.anchor
+                ? latest.current.find(tile => (tile.anchor ?? "").split(" ").includes(request.anchor!))
+                : latest.current.find(tile => tile.id === request.tile) ?? latest.current.find(tile => !!request.card && tile.holds?.includes(request.card));
             if (!found) {
                 return;
             }
@@ -265,7 +267,7 @@ export default function SectionTiles({
             if (request.card && found.cardFor) {
                 // (Over the other column of the tile that holds it, where it stands on the page: at the one level of every card.)
                 openFloating(found, request.card, document.querySelector<HTMLElement>(`.section-tile[data-tile="${CSS.escape(found.id)}"]`) ?? from, "column", request.fresh === true, false, request.alone !== true && request.under !== true, request.alone === true, request.under === true);
-            } else if (request.box) {
+            } else if (request.box || request.anchor) {
                 setFloating(null);
                 // (From its own tile where it stands on screen: the dialog takes its place and size from it, not from the page.)
                 openDialog(found, document.querySelector<HTMLElement>(`.section-tile[data-tile="${CSS.escape(found.id)}"]`) ?? from, request.box);
@@ -327,22 +329,40 @@ export default function SectionTiles({
         const box = find(key => `[data-card-box="${key}"]`);
         const block = find(key => `.section-tile [data-card="${key}"]`);
         // The line of a tile's list that opens this card: the underline moves with the card as the arrows step.
-        const line = find(key => `.section-tile-link[data-link="${key}"]`);
+        // (A line inside a card tile first -- a tile shared by several cards --, then a line of a master tile's list.)
+        const lines = keys.flatMap(key => [...document.querySelectorAll<HTMLElement>(`.section-tile-link[data-link="${key}"]`)]);
+        const cardBoxOf = (element: HTMLElement) => element.closest(".section-tile-slot")?.querySelector<HTMLElement>("[data-card-box]") ?? null;
+        const line = lines.find(element => !!cardBoxOf(element)) ?? lines[0] ?? null;
         const own = openerEl.closest<HTMLElement>(".section-tile") ?? openerEl.closest(".section-tile-slot")?.querySelector<HTMLElement>(".section-tile") ?? null;
-        const tile = box ?? line?.closest(".section-tile-slot")?.querySelector<HTMLElement>(".section-tile") ?? own;
+        // (A card that shares its tile with others -- one subchannel, several Offerings' cards -- is found by its line: the tile holding the line is haloed.)
+        const tile = box ?? (line ? cardBoxOf(line) : null) ?? line?.closest(".section-tile-slot")?.querySelector<HTMLElement>(".section-tile") ?? own;
         const marked = [tile, block].filter((element): element is HTMLElement => !!element);
         marked.forEach(element => {
             element.setAttribute("data-opener-tile", "");
             element.style.setProperty("--opener-hue", String(openerHue));
         });
-        const link = box ? null : line ?? openerEl;
+        // (The line is marked where no box holds the card, or where the line stands inside the box: a tile shared by several cards.)
+        const link = box ? (line && cardBoxOf(line) === box ? line : null) : line ?? openerEl;
         link?.setAttribute("data-opener", "");
+        // THE ROWS OF A TABLE THAT HOLD THE CARD (data-card-row: a Journey Stage's subchannel; owner, 2026-11-16 23:58 and 2026-11-17 00:16, "the whole row should be
+        // highlighted"): the row framed whole, edge to edge, in the links' blue -- every cell of it but one that spans other cards' rows too (a channel of several
+        // subchannels) --, and followed by the dialog.
+        const rows = keys.flatMap(key => [...document.querySelectorAll<HTMLElement>(`[data-card-row="${key}"]`)]);
+        const cells = rows.flatMap(row => {
+            const own = [...row.children].filter((cell): cell is HTMLElement => cell instanceof HTMLElement && !((cell as HTMLTableCellElement).rowSpan > 1));
+            own.forEach((cell, at) => cell.setAttribute("data-opener-cell", [at === 0 ? "first" : "", at === own.length - 1 ? "last" : ""].filter(Boolean).join(" ") || "middle"));
+            return own;
+        });
+        // THE DIALOG FOLLOWS THE ARROWS (owner, 2026-11-16 19:18): the marked tile scrolls into view behind the card, smoothly, the least it can; at once where motion is reduced.
+        const reduced = typeof window.matchMedia === "function" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        (cells[0] ?? tile ?? block ?? line)?.scrollIntoView?.({ block: "nearest", inline: "nearest", behavior: reduced ? "auto" : "smooth" });
         return () => {
             marked.forEach(element => {
                 element.removeAttribute("data-opener-tile");
                 element.style.removeProperty("--opener-hue");
             });
             link?.removeAttribute("data-opener");
+            cells.forEach(cell => cell.removeAttribute("data-opener-cell"));
         };
     }, [openerEl, openerHue, floatingId]);
 

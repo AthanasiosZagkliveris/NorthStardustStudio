@@ -1,7 +1,7 @@
 import { inwardOrigin } from "./CardTile";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { useState } from "react";
-import { cleanup, fireEvent, render, screen, within } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 
 import BusinessCapabilityEditor from "../editors/BusinessCapabilityEditor";
 import { cardBoxes, closeAllTiles, closeTile, descendSole, floatingCardHost, infrastructureCard, offeringCard, openBox, openCard, openTile, tileButton, toggles, topDialog } from "../../../test/interviewTestUtils";
@@ -10,6 +10,7 @@ import { stylesheet } from "../../../test/stylesheet";
 import { tableRows } from "./CapabilityOverview";
 import { belongsLines, floorSubgroups, filterFloor, DEFAULT_FLOOR_FILTER, subgroupKey } from "./capabilityFloor";
 import SectionTiles, { dialogFrame, drawnTitle, gridColumns, tailPlacement, tileName } from "./SectionTiles";
+import { OPEN_EVENT } from "./FloatingCards";
 
 afterEach(cleanup);
 
@@ -95,13 +96,13 @@ describe("the section tiles of 3. Infrastructure & Capability", () => {
     it("gives Offering's Capability four tiles, two by two, and, outside both sections (under Offering's Capability's card), the Inventory tile and ONE grey Completed tile once an activity is completed", () => {
         const base = asBusinessCapabilityValue(undefined);
         render(<Harness />);
-        expect(tilesOf("Offering's Capability sections")).toEqual(["Resources", "Activities", "Partners & Suppliers", "Delivery"]);
+        expect(tilesOf("Offering's Capability sections")).toEqual(["Resources", "Activities", "Partners & Suppliers", "Capacity & Delivery"]);
         // Only "Inventory" until an activity is completed.
         expect(within(document.querySelector(".section-tiles-completed") as HTMLElement).getAllByRole("button").map(button => button.getAttribute("aria-label")?.split(",")[0])).toEqual(["Inventory"]);
         cleanup();
         render(<Harness initial={{ ...base, offering: { ...base.offering, activities: [{ ...createBusinessActivity(), name: "Finished", completed: true }] } }} />);
         // Still four tiles in the section; the Completed tile is not in either section's group.
-        expect(tilesOf("Offering's Capability sections")).toEqual(["Resources", "Activities", "Partners & Suppliers", "Delivery"]);
+        expect(tilesOf("Offering's Capability sections")).toEqual(["Resources", "Activities", "Partners & Suppliers", "Capacity & Delivery"]);
         const wrapper = document.querySelector(".section-tiles-completed") as HTMLElement;
         expect(wrapper).toBeTruthy();
         // It stands after both cards, as the page grid's last child; there is exactly one Completed tile on the page.
@@ -164,7 +165,7 @@ describe("ONE SHAPE for every set of tiles, boxes and card boxes", () => {
             engagement={engagement}
         />);
         // Resources, Activities, Partners & Suppliers, Delivery: the channel-made cards stand inside the views, not as tiles of their own.
-        expect(tilesOf("Offering's Capability sections")).toEqual(["Resources", "Activities", "Partners & Suppliers", "Delivery"]);
+        expect(tilesOf("Offering's Capability sections")).toEqual(["Resources", "Activities", "Partners & Suppliers", "Capacity & Delivery"]);
         expect(across("Offering's Capability sections")).toBe("2");
     });
 
@@ -215,7 +216,7 @@ describe("tile anatomy: the title at a third of the height, underlined, a list o
         expect([...listOf("Resources")].every(item => item.querySelector("button.section-tile-link") !== null)).toBe(true);
         expect(tile.parentElement!.querySelector(".section-tile-list")!.getAttribute("aria-hidden")).toBeNull();
         // Delivery's list is decoration, as it was: no link, hidden from assistive technology.
-        const delivery = tileButton("Delivery");
+        const delivery = tileButton("Capacity & Delivery");
         expect(delivery.parentElement!.querySelector(".section-tile-list")?.getAttribute("aria-hidden") ?? "true").toBe("true");
         // The Founders tile: each name.
         expect(tileButton("Founders").getAttribute("aria-label")).toBe("Founders, Ann, Bo");
@@ -266,7 +267,7 @@ describe("an empty section shows a small + under its title", () => {
         expect(slotOf("Resources").querySelector(".section-tile-list")).toBeTruthy();
         expect(slotOf("Resources").querySelector(".plus-box")).toBeTruthy();
         // Founders and Delivery are not lists of cards: no glyph, no box.
-        for (const [none, card] of [["Founders", infrastructureCard()], ["Delivery", offeringCard()]] as const) {
+        for (const [none, card] of [["Founders", infrastructureCard()], ["Capacity & Delivery", offeringCard()]] as const) {
             expect(tileButton(none, card).querySelector(".section-tile-empty")).toBeNull();
             expect(tileButton(none, card).parentElement!.querySelector(".plus-box")).toBeNull();
         }
@@ -544,7 +545,7 @@ describe("cards made from a Customer Channel", () => {
     it("stand among the section's cards as tiles of a hue of their own: the Resources and Partners & Suppliers views, not tiles on the page", () => {
         render(<Harness initial={value} engagement={engagement} />);
         // (Offering keeps its four tiles; the channel's cards stand in a 'Channel' category inside the views.)
-        expect(tilesOf("Offering's Capability sections")).toEqual(["Resources", "Activities", "Partners & Suppliers", "Delivery"]);
+        expect(tilesOf("Offering's Capability sections")).toEqual(["Resources", "Activities", "Partners & Suppliers", "Capacity & Delivery"]);
         expect(across("Offering's Capability sections")).toBe("2");
         // The page tile lists the categories (cut after the first few: "and more"); the channel's own is in the view.
         expect(tileButton("Resources").getAttribute("aria-label")).toBe("Resources, Workspace, Utilities, Workstation, Equipment, Vehicles, Digital Infrastructure, and more");
@@ -617,7 +618,7 @@ describe("cards made from a Customer Channel", () => {
             initial={{ ...base, resources: { utilities: [{ id: "premises-utilities", name: "", slots: [infra] }] } }}
             engagement={{ ...engagement, channelResources: [{ id: "l3", segmentId: "s1", channelId: "c1", resourceId: infra.id, actionIds: [] }] }}
         />);
-        expect(tilesOf("Offering's Capability sections")).toEqual(["Resources", "Activities", "Partners & Suppliers", "Delivery"]);
+        expect(tilesOf("Offering's Capability sections")).toEqual(["Resources", "Activities", "Partners & Suppliers", "Capacity & Delivery"]);
         expect(tilesOf("Infrastructure sections")).toEqual(["Founders", "Resources", "Activities", "Partners & Suppliers"]);
         // (Infrastructure's Resources view holds the one card in the Utilities category where it was made: the category's one group has its tile, which lists it.)
         openTile("Resources", "Utilities", undefined, infrastructureCard());
@@ -1654,6 +1655,93 @@ describe("THE CAROUSEL ARROWS beside the card or the section opened last", () =>
         expect(title()).toBe("Activities");
         fireEvent.click(screen.getByRole("button", { name: "Previous section" }));
         expect(title()).toBe("Resources");
+    });
+
+});
+
+describe("THE ROWS OF A TABLE THAT HOLD THE OPEN CARD (a Journey Stage's subchannels; owner, 2026-11-16 23:58)", () => {
+
+    it("frames the whole row of the card now open -- every cell but a channel cell spanning other rows --, follows the carousel arrows, and scrolls the dialog to it", () => {
+        const scrolled: string[] = [];
+        const original = Element.prototype.scrollIntoView;
+        Element.prototype.scrollIntoView = function (this: Element) { scrolled.push(this.closest("[data-card-row]")?.getAttribute("data-card-row") ?? this.tagName); } as typeof Element.prototype.scrollIntoView;
+        const open = (card: string) => document.dispatchEvent(new CustomEvent(OPEN_EVENT, { detail: { tile: "stage", card } }));
+        render(<SectionTiles label="Stages" hue={200} tiles={[{
+            id: "stage",
+            title: "Discover",
+            view: true,
+            items: ["Instagram", "Etsy"],
+            holds: ["s1", "s2"],
+            links: [{ card: "s1" }, { card: "s2" }],
+            cardFor: (id: string) => <div data-testid="card">{id}</div>,
+            content: () => (
+                <table>
+                    <tbody>
+                        {["s1", "s2"].map((id, at) => (
+                            <tr key={id} data-card-row={id}>
+                                {at === 0 && <td data-col="channel" rowSpan={2}>Social Media</td>}
+                                <th scope="row"><button type="button" className="capability-overview-name" onClick={() => open(id)}>{id}</button></th>
+                                <td data-col="offerings">Rugs</td>
+                                <td data-col="actions">Post weekly</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            )
+        }]} />);
+        try {
+            fireEvent.click(tileButton("Discover"));
+            fireEvent.click(screen.getByRole("button", { name: "s1" }));
+            // (The cells framed: their row, their column and which edge of the frame each draws.)
+            const framed = () => [...document.querySelectorAll<HTMLElement>("[data-opener-cell]")].map(cell => cell.closest("[data-card-row]")!.getAttribute("data-card-row") + ":" + (cell.getAttribute("data-col") ?? "subchannel") + ":" + cell.getAttribute("data-opener-cell"));
+            expect(screen.getByTestId("card").textContent).toBe("s1");
+            // (The channel cell spans both subchannels' rows: it stays out of the frame.)
+            expect(framed()).toEqual(["s1:subchannel:first", "s1:offerings:middle", "s1:actions:last"]);
+            expect(scrolled).toContain("s1");
+            fireEvent.click(screen.getByRole("button", { name: "Next card" }));
+            expect(screen.getByTestId("card").textContent).toBe("s2");
+            expect(framed()).toEqual(["s2:subchannel:first", "s2:offerings:middle", "s2:actions:last"]);
+            expect(scrolled[scrolled.length - 1]).toBe("s2");
+        } finally {
+            Element.prototype.scrollIntoView = original;
+        }
+    });
+
+    it("draws one frame round the row in the links' blue, the colour a link frames its target in; the name keeps its own weight", () => {
+        const css = stylesheet("card-tile.css");
+        expect(css).toMatch(/\[data-opener-cell\] \{[^}]*--row-frame: var\(--text-primary\);[^}]*box-shadow: inset 0 4px 0 var\(--row-frame\), inset 0 -4px 0 var\(--row-frame\);/);
+        expect(css).toMatch(/\[data-opener-cell~="first"\] \{[^}]*inset 4px 0 0 var\(--row-frame\)/);
+        expect(css).toMatch(/\[data-opener-cell~="last"\] \{[^}]*inset -4px 0 0 var\(--row-frame\)/);
+        expect(css).not.toMatch(/stage-record-expense-name\) \{/);
+    });
+
+});
+
+describe("A DIALOG UNDER A FLOATING CARD (owner, 2026-11-17 00:22: \"Hide it\")", () => {
+
+    it("hides its rail and arrows while the card is open, whether or not the card has cards beside it, and shows them again when it closes", async () => {
+        const tile = (id: string, title: string, cards: string[]) => ({
+            id, title, view: true, items: cards, holds: cards, links: cards.map(card => ({ card })),
+            cardFor: (card: string) => <div data-testid="card">{card}</div>,
+            content: () => <div>{cards.map(card => <button type="button" key={card} onClick={() => document.dispatchEvent(new CustomEvent(OPEN_EVENT, { detail: { tile: id, card } }))}>{"open " + card}</button>)}</div>
+        });
+        render(<SectionTiles label="Stages" hue={200} tiles={[tile("discover", "Discover", ["s1"]), tile("evaluation", "Evaluation", ["s2", "s3"])]} />);
+        const rails = () => document.querySelectorAll(".carousel-rail").length;
+        fireEvent.click(tileButton("Discover"));
+        // (The dialog steps through the stages: its rail.)
+        expect(rails()).toBe(1);
+        expect(screen.getByRole("button", { name: "Next section" })).toBeTruthy();
+        // A card with no cards beside it: the dialog's rail and arrows are hidden all the same.
+        fireEvent.click(screen.getByRole("button", { name: "open s1" }));
+        expect(screen.getByTestId("card").textContent).toBe("s1");
+        // (The cover is read when the page changes: a moment after the card opens.)
+        await waitFor(() => expect(rails()).toBe(0));
+        expect(screen.queryByRole("button", { name: "Next section" })).toBeNull();
+        // Closed, the dialog's come back.
+        closeTile();
+        expect(screen.queryByTestId("card")).toBeNull();
+        await waitFor(() => expect(rails()).toBe(1));
+        expect(screen.getByRole("button", { name: "Next section" })).toBeTruthy();
     });
 
 });

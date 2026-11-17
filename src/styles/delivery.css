@@ -263,8 +263,10 @@
 .delivery-budget-left th, .delivery-budget-left td{ font-weight:600; border-top:1px solid var(--line-divider); padding-top:5px; 
  letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));}
 .delivery-budget-short th, .delivery-budget-short td{ color:var(--text-danger-deep); }
-.delivery-budget-bar{ height:8px; margin-top:6px; background:var(--bg-hairline); border-radius:var(--radius-sm); overflow:hidden; }
+.delivery-budget-bar{ position:relative; height:8px; margin-top:6px; background:var(--bg-hairline); border-radius:var(--radius-sm); overflow:hidden; }
 .delivery-budget-fill{ display:block; height:100%; background:var(--bg-budget); border-radius:var(--radius-sm); }
 .delivery-budget-fill-short{ background:var(--bg-danger-deep); }
+/* THE PLANNING CEILING (doc 52, 4.1; owner, 2026-11-17): a fixed mark at 85% of the bar, a hairline in the text colour, across its height. */
+.delivery-budget-ceiling{ position:absolute; top:0; bottom:0; width:2px; margin-left:-1px; background:var(--text-primary); }
 
 /* THE DELIVERY CARDS in their dialog: each card is 360px wide (as an opened card is), side by side as many as fit, wrapping, 12px apart. */

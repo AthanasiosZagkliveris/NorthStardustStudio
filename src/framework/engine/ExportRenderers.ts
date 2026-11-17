@@ -107,10 +107,24 @@ import {
     vatBases,
     type CostLine,
     type CostSources,
-    type FinancialFoundationValue
+    type FinancialFoundationValue,
+    type FinancialSustainabilityValue,
+    assetUnitCostsOf,
+    costStartDates,
+    derivedPlanStart,
+    legalExpenseDates
 } from "./FinancialModel.ts";
 import { jurisdictionProfile, COUNTRIES, LEGAL_REQUIREMENT_TYPES } from "./LegalEntityJurisdictions.ts";
 import { capabilityCards, channelResourceLinks, costCardAmountText, costCardName } from "./ChannelResources.ts";
+import { neededSkillLine, neededSkills, skillsOf } from "./capability/skills.ts";
+import { calculatedLines } from "./CalculatedLines.ts";
+import { launchNeedOf } from "./ContingencyFunds.ts";
+import { capitalisationLimitOf } from "./GlobalSettings.ts";
+import { ownersTakeDrawings } from "./FinancialForecast.ts";
+import { offeringShareWeights } from "./DemandCapacity.ts";
+import { costIsShared, offeringFractions } from "./capability/offeringShares.ts";
+import { isPurchaseGroup } from "./AnswerBusinessCapability.ts";
+import { holdUpsText } from "./DemandCapacity.ts";
 
 /* ==========================================================
    Building blocks
@@ -221,6 +235,17 @@ export function offeringNames(foundation: unknown, ids: readonly string[]): stri
     return ids.map(id => offeringName(foundation, id)).filter(Boolean).join(", ");
 }
 
+/** A SHARED COST'S SPLIT, as the documents print it (owner, 2026-11-16): "Rugs 60%, Workshops 40%"; the names alone where the cost is not shared. */
+export function offeringSplitText(foundation: unknown, ids: readonly string[], fractions?: Readonly<Record<string, number>>): string {
+    if (!fractions || ids.length < 2) {
+        return offeringNames(foundation, ids);
+    }
+    return ids.map(id => {
+        const name = offeringName(foundation, id);
+        return name ? name + " " + Math.round((fractions[id] ?? 0) * 100) + "%" : "";
+    }).filter(Boolean).join(", ");
+}
+
 /** Page 3's value with the Legal Entity's founders, and their Founders Profile roles, laid over it, as Page 3 shows it. */
 export function capabilityOf(value: unknown, context: ExportContext): BusinessCapabilityValue {
     const capability = asBusinessCapabilityValue(value);
@@ -269,12 +294,15 @@ const SUBSECTION_LABELS: Record<string, string> = Object.fromEntries(
 export function costSourcesFor(
     legalEntity: LegalEntityValue,
     capability: BusinessCapabilityValue,
-    currency: string
+    currency: string,
+    /** What each Offering uses a month, for a shared cost's split by hours or by revenue (offeringShareWeights). */
+    shareWeights?: CostSources["shareWeights"]
 ): CostSources {
     return {
         legalEntity,
         capability,
         currency,
+        shareWeights,
         foundersLinked: legalEntity.founders.some(founder => founder.name.trim().length > 0),
         resourceGroupLabels: RESOURCE_GROUP_LABELS,
         subsectionLabels: SUBSECTION_LABELS
@@ -284,11 +312,10 @@ export function costSourcesFor(
 /** Page 4's costs, consolidated exactly as Page 4 shows them. */
 export function costLines(page: FinancialFoundationValue, context: ExportContext): CostLine[] {
     const legalEntity = context.legalEntity ?? asLegalEntityValue(undefined);
-    return consolidateCosts(page, costSourcesFor(
-        legalEntity,
-        capabilityOf(context.responseOf?.(AnswerType.BusinessCapability), context),
-        context.currency ?? ""
-    ));
+    const capability = capabilityOf(context.responseOf?.(AnswerType.BusinessCapability), context);
+    // (A shared cost split by hours or by revenue: what each Offering uses a month.)
+    const weights = offeringShareWeights(capability.delivery, demandOf(context) ?? {}, asFinancialSustainabilityValue(context.responseOf?.(AnswerType.FinancialSustainability)).streams);
+    return consolidateCosts(page, costSourcesFor(legalEntity, capability, context.currency ?? "", weights));
 }
 
 /* ==========================================================
@@ -305,7 +332,6 @@ function foundersProfileBlocks(value: unknown, context: ExportContext): ExportBl
 
     // The founders are the Legal Entity's, on this System's own page.
     const entity = asLegalEntityValue(context.responseOf?.(AnswerType.LegalEntity) ?? context.legalEntity);
-    const profile = asFoundersProfileValue(value);
 
     return [
         ...titled("Founders", founderProfiles(entity.founders, value).flatMap(founder => {
@@ -317,11 +343,8 @@ function foundersProfileBlocks(value: unknown, context: ExportContext): ExportBl
                 ...labelledList("Skills, Expertise & Qualifications", founderSkillLines(founder.skills))
             ];
             return said.length === 0 ? [] : [heading(founder.name, 2), ...said];
-        })),
-        ...titled("Capability Gaps & Cover", [
-            ...paragraph(profile.teamGaps, profile.teamCover.trim() ? "Gaps" : undefined),
-            ...paragraph(profile.teamCover, profile.teamGaps.trim() ? "Cover" : undefined)
-        ])
+        }))
+        // (Gaps and Cover are asked on Capacity & Delivery now, and printed there as Skills and Cover: owner, 2026-11-16 20:25.)
     ];
 
 }
@@ -490,7 +513,7 @@ function segmentBlocks(segment: BusinessCustomerSegmentValue, index: number, org
     const identity = segmentIdentityOf(organisation, stage);
     return [
         heading("Segment " + (index + 1) + ": " + (segment.name.trim() || "Unnamed segment")),
-        ...details(segmentAnswerLines(settledSegmentAnswers(segment, organisation)).map((line): [string, string] => [line.label, line.value])),
+        ...details(segmentAnswerLines(settledSegmentAnswers(segment, organisation), segmentContextFor(identity, segmentIsBusiness(segment))).map((line): [string, string] => [line.label, line.value])),
 
         ...segment.profiles.flatMap((profile, position) => {
             const head = heading("Profile " + (index + 1) + "." + (position + 1) + ": " + (profile.name.trim() || "Unnamed profile"), 2);
@@ -690,7 +713,9 @@ export function partnerRows(
     currency: string,
     foundation: unknown,
     withOffering: boolean,
-    founderIds: readonly string[]
+    founderIds: readonly string[],
+    /** A shared cost's split (offeringFractions); none where the cost is not shared. */
+    splitOf?: (card: BusinessPartnerValue) => Readonly<Record<string, number>> | undefined
 ): string[][] {
     return partners.map(partner => [
         kind,
@@ -698,7 +723,7 @@ export function partnerRows(
         // The one founder of a one-founder organisation is responsible without being chosen.
         founderName(businessPartnerResponsibleId(partner, founderIds)),
         costText(partner.cost, currency),
-        ...(withOffering ? [offeringNames(foundation, partner.offeringIds)] : []),
+        ...(withOffering ? [offeringSplitText(foundation, partner.offeringIds, splitOf?.(partner))] : []),
         partner.description
     ]);
 }
@@ -745,6 +770,10 @@ function businessCapabilityBlocks(value: unknown, context: ExportContext): Expor
     const capability = capabilityOf(value, context);
     const foundation = context.responseOf?.(AnswerType.BusinessFoundation);
     const currency = context.currency ?? "";
+    // (Each shared cost's split, by its basis: the documents print it beside the Offerings.)
+    const weights = offeringShareWeights(capability.delivery, demandOf(context) ?? {}, asFinancialSustainabilityValue(context.responseOf?.(AnswerType.FinancialSustainability)).streams);
+    const splitOf = (card: { offeringIds: string[]; offeringShares: Record<string, string>; cost: { frequency: string }; group?: string }) =>
+        costIsShared(card.cost.frequency, isPurchaseGroup(card.group ?? "")) && card.offeringIds.length > 1 ? offeringFractions(card.offeringIds, card.offeringShares, weights) : undefined;
 
     const everyone = [
         ...capability.founders,
@@ -795,7 +824,7 @@ function businessCapabilityBlocks(value: unknown, context: ExportContext): Expor
         ...table(["Where", "Resource", "Quantity", "Status", "Cost / Provider"], resourceRows),
 
         heading("Activities", 2),
-        ...table(["Category", "Activity", "Performers", "Responsible", "State"], capability.activities.flatMap(category =>
+        ...table(["Category", "Activity", "Team", "Responsible", "State"], capability.activities.flatMap(category =>
             activityRows(category.activities,
                 BUSINESS_ACTIVITY_CATEGORIES.find(entry => entry.id === category.id)?.label ?? (category.name.trim() || "Other"),
                 people, founderIds, foundation, false))),
@@ -810,20 +839,20 @@ function businessCapabilityBlocks(value: unknown, context: ExportContext): Expor
         ...table(["Offering", "Resource", "Quantity", "Status", "Cost / Provider"],
             capability.offering.resources.map(slot => {
                 const row = slotRow(slot, "", people, currency);
-                return [offeringNames(foundation, slot.offeringIds), ...row.slice(1)];
+                return [offeringSplitText(foundation, slot.offeringIds, splitOf(slot)), ...row.slice(1)];
             })),
-        ...table(["Category", "Activity", "Performers", "Responsible", "Offering", "State"],
+        ...table(["Category", "Activity", "Team", "Responsible", "Offering", "State"],
             activityRows(capability.offering.activities, "Offering", people, founderIds, foundation, true)),
         ...table(["Kind", "Name", "Responsible", "Cost", "Offering", "Description"], [
-            ...partnerRows(capability.offering.professionals, "Professional / Partner", people, currency, foundation, true, founderIds),
-            ...partnerRows(capability.offering.providers, "Provider", people, currency, foundation, true, founderIds)
+            ...partnerRows(capability.offering.professionals, "Professional / Partner", people, currency, foundation, true, founderIds, splitOf),
+            ...partnerRows(capability.offering.providers, "Provider", people, currency, foundation, true, founderIds, splitOf)
         ]),
 
         heading("Delivery", 2),
         ...paragraph(deliveryHours(capability.founders) === null
             ? "No founder delivery hours recorded."
             : "Founders' delivery capacity: about " + Math.round(deliveryHours(capability.founders) ?? 0) + " hours a month."),
-        ...table(["Offering", "Effort per Unit, by Person", "Total", "Duration (weeks)", "Constraints"],
+        ...table(["Offering", "Effort per Unit, by Person", "Total", "Duration (weeks)", "What Can Hold Up Delivery"],
             Object.entries(capability.delivery).map(([offeringId, entry]) => {
                 const allocation = deliveryAllocation(entry);
                 const founderIds = new Set(capability.founders.map(founder => founder.id));
@@ -833,11 +862,23 @@ function businessCapabilityBlocks(value: unknown, context: ExportContext): Expor
                         (people(personId) || "Unassigned") + (founderIds.has(personId) || personId === "" ? "" : " (external)") + ": " + hours + " h").join("; "),
                     (deliveryEffort(entry) ?? 0) + " h",
                     entry.duration,
-                    entry.constraints
+                    holdUpsText(entry, id => [...capability.offering.resources, ...capability.offering.providers].find(card => card.id === id)?.name.trim() ?? "")
                 ];
-            }))
+            })),
+
+        // (Skills and Cover, LC1 of Capacity & Delivery: each skill the business still needs with who covers it; the Legal Entity's Gaps and Cover until the page is answered.)
+        ...skillsBlocks(capability, context)
     ];
 
+}
+
+/** "Skills and Cover": each skill the business still needs, with who covers it or "not covered yet", then the Notes. */
+function skillsBlocks(capability: ReturnType<typeof capabilityOf>, context: ExportContext): ExportBlock[] {
+    const legacy = asFoundersProfileValue(context.responseOf?.(AnswerType.FoundersProfile));
+    const founderNames = Object.fromEntries(capability.founders.map(founder => [founder.id, founder.name.trim()]));
+    const lines = neededSkills(capability, legacy, founderNames).map(neededSkillLine);
+    const notes = skillsOf(capability, legacy).notes;
+    return lines.length === 0 && !text(notes) ? [] : [heading("Skills and Cover", 2), ...list(lines), ...paragraph(notes)];
 }
 
 /* ==========================================================
@@ -864,17 +905,58 @@ function incomeTaxText(page: FinancialFoundationValue): string {
         : page.incomeTax === "pass-through" ? " No income tax at business level (pass-through)." : "";
 }
 
+/**
+ * THE PLAN AS PAGE 4 READS IT, in an export: with the Global Settings in the context, its first month worked out as the page works it out -- the earlier of the Opening
+ * Date's month and the earliest cost --; without them, as saved.
+ */
+function exportPlan(value: unknown, context: ExportContext): FinancialFoundationValue {
+    const stored = asFinancialFoundationValue(value);
+    const settings = context.globalSettings;
+    if (!settings) {
+        return withPlanStart(stored);
+    }
+    const legalEntity = context.legalEntity ?? asLegalEntityValue(undefined);
+    const capability = capabilityOf(context.responseOf?.(AnswerType.BusinessCapability), context);
+    return withPlanStart(stored, undefined, derivedPlanStart(settings.openingDate, [...costStartDates(capability), ...legalExpenseDates(legalEntity)], withPlanStart(stored).planStart));
+}
+
+/**
+ * THE CALCULATED LINES OF AN EXPORT (owner, 2026-11-16): with the Global Settings in the context, the same lines Page 4 builds -- fees, on-costs, insurance, the income tax
+ * rate -- and the cash to raise before the opening, so the financial pages' exports read as the pages and the forecast do. None without the settings.
+ */
+function exportCalculated(context: ExportContext, page: FinancialFoundationValue, lines: CostLine[], revenuePage: FinancialSustainabilityValue) {
+    const settings = context.globalSettings;
+    if (!settings) {
+        return { calculated: undefined, launched: undefined };
+    }
+    const legalEntity = context.legalEntity ?? asLegalEntityValue(undefined);
+    const capability = capabilityOf(context.responseOf?.(AnswerType.BusinessCapability), context);
+    const calculated = calculatedLines({
+        foundation: page, revenuePage, lines, capability, settings, openingDate: settings.openingDate,
+        drawings: ownersTakeDrawings(legalEntity.organisation.legalForm), country: legalEntity.organisation.country,
+        engagement: asBusinessEngagementValue(context.responseOf?.(AnswerType.BusinessEngagement))
+    }, incomeTaxRate(page));
+    const launched = launchNeedOf(
+        lines,
+        { openingDate: settings.openingDate, capitalisationLimit: capitalisationLimitOf(settings), assetUnitCosts: assetUnitCostsOf(capability) },
+        settings,
+        Object.fromEntries(Object.entries(page.classified).map(([id, entry]) => [id, entry.nature || undefined])),
+        calculated
+    );
+    return { calculated, launched };
+}
+
 export function financialFoundationBlocks(value: unknown, context: ExportContext, document?: FinancialDocumentOptions): ExportBlock[] {
 
-    const page = withPlanStart(asFinancialFoundationValue(value));
+    const page = exportPlan(value, context);
     const start = page.planStart;
     const currency = context.currency ?? "";
     const format = moneyFormatter(currency, document ? { wholeOnly: true } : undefined);
     const legalEntity = context.legalEntity ?? asLegalEntityValue(undefined);
     const foundation = context.responseOf?.(AnswerType.BusinessFoundation);
     const lines = costLines(page, context);
-    const position = financialPosition(page, lines, legalEntity, currency, format,
-        withDemand(asFinancialSustainabilityValue(context.responseOf?.(AnswerType.FinancialSustainability)), demandOf(context)));
+    const revenuePage = withDemand(asFinancialSustainabilityValue(context.responseOf?.(AnswerType.FinancialSustainability)), demandOf(context), context.responseOf?.(AnswerType.BusinessFoundation));
+    const position = financialPosition(page, lines, legalEntity, currency, format, revenuePage, exportCalculated(context, page, lines, revenuePage).launched?.launch);
     const funding = allFunding(page, legalEntity);
 
     const frequencyOf = (line: CostLine) => line.frequency === "other"
@@ -900,7 +982,7 @@ export function financialFoundationBlocks(value: unknown, context: ExportContext
             line.amount === null ? line.amountText : (line.counted ? format(line.amount) : line.amountText + " " + line.currency + " (not counted)"),
             frequencyOf(line),
             labelOf(COST_BEHAVIOURS, line.behaviour),
-            offeringNames(foundation, line.offeringIds)
+            offeringSplitText(foundation, line.offeringIds, line.offeringShares)
         ]))
         ]),
 
@@ -977,13 +1059,14 @@ export function financialFoundationBlocks(value: unknown, context: ExportContext
 
 export function financialSustainabilityBlocks(value: unknown, context: ExportContext, document?: FinancialDocumentOptions): ExportBlock[] {
 
-    const foundationPage = withPlanStart(asFinancialFoundationValue(context.responseOf?.(AnswerType.FinancialFoundation)));
+    const foundationPage = exportPlan(context.responseOf?.(AnswerType.FinancialFoundation), context);
     const currency = context.currency ?? "";
     const format = moneyFormatter(currency, document ? { wholeOnly: true } : undefined);
     const legalEntity = context.legalEntity ?? asLegalEntityValue(undefined);
     const foundation = context.responseOf?.(AnswerType.BusinessFoundation);
     const lines = costLines(foundationPage, context);
-    const result = sustainability(withDemand(asFinancialSustainabilityValue(value), demandOf(context)), foundationPage, lines, legalEntity, format);
+    const revenuePage = withDemand(asFinancialSustainabilityValue(value), demandOf(context), context.responseOf?.(AnswerType.BusinessFoundation));
+    const result = sustainability(revenuePage, foundationPage, lines, legalEntity, format, exportCalculated(context, foundationPage, lines, revenuePage).calculated);
     const start = foundationPage.planStart;
 
     const monthText = (index: number | null) => index === null ? "Not reached" : planMonthLabel(start, index) + " (Month " + index + ")";
@@ -1028,7 +1111,7 @@ export function financialSustainabilityBlocks(value: unknown, context: ExportCon
         // The plan gathers the signals under its Risks, and the capacity under its Operations.
         ...(document ? [] : list(result.signals.map(signal => signal.title + ": " + signal.text))),
         ...(document ? [] : capacityBlocks(
-            salesCapacity(withDemand(asFinancialSustainabilityValue(value), demandOf(context)), foundationPage,
+            salesCapacity(withDemand(asFinancialSustainabilityValue(value), demandOf(context), context.responseOf?.(AnswerType.BusinessFoundation)), foundationPage,
                 capabilityOf(context.responseOf?.(AnswerType.BusinessCapability), context)),
             foundationPage.planStart
         ))

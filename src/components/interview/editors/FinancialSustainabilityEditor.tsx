@@ -1,10 +1,14 @@
+import { offeringShareWeights } from "../../../framework/engine/DemandCapacity.ts";
 import { countedCapability } from "../../../framework/engine/CardCompleteness.ts";
 import TextBox from "../../controls/TextBox.tsx";
 import NumberCell from "../../controls/NumberCell.tsx";
 import { type ReactNode, useState } from "react";
 import { type LegalEntityValue, asBusinessCapabilityValue, asBusinessEngagementValue, asLegalEntityValue, businessFoundationSegments, withLegalEntityFounders } from "../../../framework/engine/AnswerUtils.ts";
 import { offeringStartsById } from "../../../framework/engine/EffectiveAnswers.ts";
-import { FINANCIAL_SUSTAINABILITY_SECTIONS, PAYMENT_TIMINGS, planLength, REVENUE_DEVELOPMENTS, REVENUE_FREQUENCIES, REVENUE_CHARGES, REVENUE_UNITS, asFinancialFoundationValue, asFinancialSustainabilityValue, consolidateCosts, createDetailedVolume, createRevenueStream, formatUnits, isRecurringRevenue, moneyFormatter, offeringCosts, parseAmount, planMonthLabel, sustainability, withPlanStart, salesCapacity, withDemand, stressTest, whatItWouldTake, type FinancialSustainabilityValue, type RevenueStreamValue, type StreamAnalysis, allFunding, hasLoans } from "../../../framework/engine/FinancialModel.ts";
+import { calculatedLines } from "../../../framework/engine/CalculatedLines.ts";
+import { ownersTakeDrawings } from "../../../framework/engine/FinancialForecast.ts";
+import { type GlobalSettingsValue } from "../../../framework/engine/GlobalSettings.ts";
+import { FINANCIAL_SUSTAINABILITY_SECTIONS, costStartDates, derivedPlanStart, incomeTaxRate, legalExpenseDates, PAYMENT_TIMINGS, planLength, REVENUE_DEVELOPMENTS, REVENUE_FREQUENCIES, REVENUE_CHARGES, REVENUE_UNITS, asFinancialFoundationValue, asFinancialSustainabilityValue, consolidateCosts, createDetailedVolume, createRevenueStream, formatUnits, isRecurringRevenue, moneyFormatter, offeringCosts, parseAmount, planMonthLabel, sustainability, withPlanStart, salesCapacity, withDemand, stressTest, whatItWouldTake, type FinancialSustainabilityValue, type RevenueStreamValue, type StreamAnalysis, allFunding, hasLoans } from "../../../framework/engine/FinancialModel.ts";
 import { costSourcesFor } from "../../../framework/engine/ExportRenderers.ts";
 import { deliveryAllocation, demandResult } from "../../../framework/engine/DemandCapacity.ts";
 import { BusinessAddButton, BusinessCard, BusinessEmpty, BusinessField, OptionalNote, BusinessRemove, uniqueChoices } from "../cards/BusinessCardFields.tsx";
@@ -43,6 +47,9 @@ interface FinancialSustainabilityEditorProps {
     engagement?: unknown;
     onOpenEngagement?: OpenPage;
     onOpenCapability?: OpenPage;
+    /** The Global Settings and the Opening Date: the calculated lines (fees, on-costs, tax) the break-even counts, as Page 4 and the forecast do. */
+    globalSettings?: GlobalSettingsValue;
+    openingDate?: string;
 }
 
 /**
@@ -84,22 +91,28 @@ export default function FinancialSustainabilityEditor({
 
     onOpenEngagement,
 
-    onOpenCapability
+    onOpenCapability,
+
+    globalSettings,
+
+    openingDate = ""
 
 }: FinancialSustainabilityEditorProps) {
 
     const page = asFinancialSustainabilityValue(value);
 
-    /* Page 4, exactly as Page 4 calculates it. */
-    const financial = withPlanStart(asFinancialFoundationValue(financialFoundation));
-    const start = financial.planStart;
-    const months = planLength(financial);
-
     const legalEntity = legalEntityValue ?? asLegalEntityValue(undefined);
 
     const capability = withLegalEntityFounders(asBusinessCapabilityValue(capabilityValue), legalEntity.founders);
 
-    const lines = consolidateCosts(financial, costSourcesFor(legalEntity, countedCapability(capability), currency));
+    /* Page 4, exactly as Page 4 calculates it: its first month worked out the same way, the earlier of the Opening Date's month and the earliest cost. */
+    const stored = asFinancialFoundationValue(financialFoundation);
+    const financial = withPlanStart(stored, undefined, derivedPlanStart(openingDate, [...costStartDates(capability), ...legalExpenseDates(legalEntity)], withPlanStart(stored).planStart));
+    const start = financial.planStart;
+    const months = planLength(financial);
+
+    // (A shared cost split by hours or by revenue: what each Offering uses a month.)
+    const lines = consolidateCosts(financial, costSourcesFor(legalEntity, countedCapability(capability), currency, offeringShareWeights(capability.delivery, asBusinessEngagementValue(engagement).demand, page.streams)));
 
     // Whole units everywhere on this read-only page: an amount
     // someone can edit shows the string they typed, never this
@@ -110,9 +123,13 @@ export default function FinancialSustainabilityEditor({
        every figure uses them (withDemand); the page shows them, and
        keeps asking only where there is none. */
     const demand = asBusinessEngagementValue(engagement).demand;
-    const effective = withDemand(page, demand);
+    const effective = withDemand(page, demand, foundation);
 
-    const result = sustainability(effective, financial, lines, legalEntity, format);
+    // (THE SAME COSTS AS PAGE 4: the calculated lines, where the Global Settings are given.)
+    const calculated = globalSettings
+        ? calculatedLines({ foundation: financial, revenuePage: effective, lines, capability: countedCapability(capability), settings: globalSettings, openingDate, drawings: ownersTakeDrawings(legalEntity.organisation.legalForm), country: legalEntity.organisation.country, engagement: asBusinessEngagementValue(engagement) }, incomeTaxRate(financial))
+        : undefined;
+    const result = sustainability(effective, financial, lines, legalEntity, format, calculated);
 
     /* Capacity: the founders' delivery hours, and each Offering's effort. */
     const capacity = salesCapacity(effective, financial, capability);
@@ -484,8 +501,12 @@ export default function FinancialSustainabilityEditor({
         const unit = unitName(stream);
         const perOrder = result.inputs.perOrderByOffering[stream.offeringId] ?? 0;
         const recurring = isRecurringRevenue(stream.frequency);
-        const splitPayment = stream.paymentTiming === "split" || stream.paymentTiming === "milestone";
-        const delayedPayment = splitPayment || stream.paymentTiming === "completion";
+        // (The timing the figures use: the Offering's O3t where it is answered, else the stream's own.)
+        const starts = offeringStartsById(businessFoundationSegments(foundation), stream.offeringId);
+        const timingAnswered = !!starts.paymentTimingAnswered;
+        const timing = timingAnswered ? (starts.paymentTiming ?? "") : stream.paymentTiming;
+        const splitPayment = timing === "split" || timing === "milestone";
+        const delayedPayment = splitPayment || timing === "completion";
 
         return (
             <BusinessCard
@@ -694,15 +715,19 @@ export default function FinancialSustainabilityEditor({
                         inline
                     />
 
+                    {/* (WHEN THEY PAY HAS ONE OWNER, the Offering's O3t: where it is answered this is its record, one option, read only; owner, 2026-11-16.) */}
                     {listPicker("Customer Pays", what + " payment timing",
-                        PAYMENT_TIMINGS.map(item => item.label),
-                        PAYMENT_TIMINGS.find(item => item.id === stream.paymentTiming)?.label ?? "",
+                        timingAnswered
+                            ? [PAYMENT_TIMINGS.find(item => item.id === timing)?.label ?? "When earned"]
+                            : PAYMENT_TIMINGS.map(item => item.label),
+                        PAYMENT_TIMINGS.find(item => item.id === timing)?.label ?? (timingAnswered ? "When earned" : ""),
                         (next) => changeStream(stream.id, {
                             paymentTiming: PAYMENT_TIMINGS.find(item => item.label === next)?.id ?? ""
                         }),
                         "When earned",
                         [
                             "When the money is actually received, if not when the sale is made.",
+                            ...(timingAnswered ? ["It follows the Offering's When do they pay? on the Foundation page."] : []),
                             { title: "Upfront", text: "Paid in full when the sale is made." },
                             { title: "On completion", text: "Paid in full the months given after the sale." },
                             { title: "Split", text: "A share when the sale is made, the rest the months given after." },
@@ -716,7 +741,7 @@ export default function FinancialSustainabilityEditor({
                         ["The share of the price paid when the sale is made; the rest arrives the months after given beside it."],
                         true, NUMBER_LIMITS.percent)}
                     {delayedPayment && textInput(
-                        stream.paymentTiming === "completion" ? "Paid After" : "Rest After",
+                        timing === "completion" ? "Paid After" : "Rest After",
                         what + " payment delay", stream.paymentDelay,
                         (next) => changeStream(stream.id, { paymentDelay: next }), "months",
                         ["Months after the sale."], true, NUMBER_LIMITS.months)}
@@ -797,7 +822,7 @@ export default function FinancialSustainabilityEditor({
                 className="business-engagement-link financial-cost-link"
                 onClick={() => onOpenCapability(["section-offering-delivery", "capability-offering-capability"])}
             >
-                Delivery on Infrastructure & Capability
+                Capacity & Delivery on Infrastructure & Capability
             </TextLink>
         );
 
@@ -814,7 +839,7 @@ export default function FinancialSustainabilityEditor({
                 <FinancialBlock title="Can the Expected Sales Be Delivered?" info={info}>
                     <p className="financial-muted">
                         To check, add each founder's delivery hours on the Founder cards, and the hours one unit of each
-                        Offering takes, by person, under {toDelivery ?? "Delivery on Infrastructure & Capability"}.
+                        Offering takes, by person, under {toDelivery ?? "Capacity & Delivery on Infrastructure & Capability"}.
                     </p>
                 </FinancialBlock>
             );

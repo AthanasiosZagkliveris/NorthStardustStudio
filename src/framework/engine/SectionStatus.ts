@@ -75,10 +75,10 @@ const BESPOKE: Partial<Record<AnswerType, BespokeSections>> = {
     [AnswerType.FoundersProfile]: {
         slices: raw => {
             const v = asFoundersProfileValue(raw);
-            return [v.founders, [v.teamGaps, v.teamCover]];
+            return [v.founders];
         },
-        empty: () => [false, false],
-        optional: [0, 1]
+        empty: () => [false],
+        optional: [0]
     },
 
     [AnswerType.BrandStyle]: {

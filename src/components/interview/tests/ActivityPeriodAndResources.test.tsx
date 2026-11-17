@@ -104,13 +104,13 @@ describe("the Activity card", () => {
             onValue={(next) => { latest = next; }}
         />);
         openTile("Operational", undefined, "Weave");
-        fireEvent.change(screen.getByLabelText("Activity 1 performer 1 people"), { target: { value: "9x" } });
+        fireEvent.change(screen.getByLabelText("Activity 1 team 1 people"), { target: { value: "9x" } });
         expect(latest!.activities[0].activities[0].performerPeople).toEqual({ crew: "4" });
     });
 
     it("a founder is one person: no number box", () => {
         open();
-        expect(screen.queryByLabelText("Activity 1 performer 1 people")).toBeNull();
+        expect(screen.queryByLabelText("Activity 1 team 1 people")).toBeNull();
     });
 
     it("the Resources tick opens a dropdown row per resource, with its link symbol and a + for another", () => {
@@ -145,4 +145,51 @@ describe("the Activity card", () => {
         expect(screen.queryByLabelText(/Activity 1 type: /)).toBeNull();
     });
 
+});
+
+/* Owner, 2026-11-16 20:22: an activity's Team, its choices headed, a new card from it, the links both ways and Staff costs. */
+describe("an activity's Team", () => {
+
+    const staffSlot = { ...createBusinessResourceSlot(), id: "s1", name: "Maria", quantity: "2", cost: { ...createBusinessResourceSlot().cost, price: "1500", frequency: "monthly" } };
+    const start = () => ({
+        ...base(),
+        resources: { ...base().resources, hr: [{ id: "admin-team", name: "", slots: [staffSlot] }] },
+        professionals: [{ ...createBusinessPartner("Studio Co", "partners"), id: "p1", name: "Studio Co" }],
+        providers: [{ ...createBusinessPartner("Courier Ltd", "suppliers"), id: "v1", name: "Courier Ltd" }],
+        activities: [{ id: "operational", name: "", activities: [activity({ performerIds: ["f1", "s1"] })] }]
+    });
+
+    it("heads its choices Founders, Staff, Partners and Suppliers, the last three ending in a new card", () => {
+        render(<Harness initial={start()} />);
+        openTile("Operational", undefined, "Weave");
+        expect(screen.getAllByText("Team").length).toBeGreaterThan(0);
+        fireEvent.click(screen.getByRole("button", { name: /^Activity 1 team 1/ }));
+        const list = document.querySelector(".option-picker-list")!;
+        expect([...list.querySelectorAll(".option-picker-heading")].map(heading => heading.textContent)).toEqual(["Founders", "Staff", "Partners", "Suppliers"]);
+        expect([...list.querySelectorAll("[role=option]")].map(option => option.textContent)).toEqual(["Ann", "+ New staff card", "Studio Co", "+ New partner card", "Courier Ltd", "+ New supplier card"]);
+    });
+
+    it("makes a new card from the picker and puts it in the row; a Staff card's cost stands under the Team; each card lists the activity it works on", () => {
+        let latest: Value | undefined;
+        render(<Harness initial={start()} onValue={(next) => { latest = next; }} />);
+        openTile("Operational", undefined, "Weave");
+        // (Staff cost: 1,500 x 2 people.)
+        expect(document.querySelector(".business-capability-resource-costs")?.textContent).toContain("Maria");
+        expect(document.querySelector(".business-capability-resource-costs")?.textContent).toMatch(/3,000/);
+        fireEvent.click(screen.getByRole("button", { name: /^Activity 1 team 1/ }));
+        fireEvent.click(screen.getByRole("option", { name: "+ New supplier card" }));
+        const made = latest!.providers.find(partner => partner.id !== "v1")!;
+        expect(made).toBeTruthy();
+        expect(latest!.activities[0].activities[0].performerIds).toEqual([made.id, "s1"]);
+    });
+
+});
+
+describe("the cards on a Team link back", () => {
+    it("a founder's card lists the activities it works on", () => {
+        render(<Harness initial={{ ...base(), activities: [{ id: "operational", name: "", activities: [activity({ performerIds: ["f1"] })] }] }} />);
+        openTile("Founders");
+        const card = document.querySelector(".floating-card-host") ?? topDialog();
+        expect(card?.textContent ?? "").toContain("Weave");
+    });
 });
