@@ -134,6 +134,74 @@ export const DEMAND_SOURCES: DemandSourceType[] = [
     }
 ];
 
+/**
+ * TYPICAL RANGES IN A RATE'S "i" (doc 28, rule 6; owner, 2026-11-17 00:10): only where a checked source supports them, each with its reference last, and the
+ * placeholder the typical figure; no figure is ever filled in. Online shop visitors (a Visitors source through a Website channel), landing page enquiries (a
+ * Sales funnel's prospects through a Landing Page), the funnel's buy rate and the tenders won. None for cancellations, shop footfall, marketplaces, trials or
+ * buying again.
+ */
+const TYPICAL: readonly { type: string; key: string; channel?: (channel: { category: string; name: string }) => boolean; text: string; source: string; placeholder?: string }[] = [
+    {
+        type: "marketplace", key: "buy", channel: channel => channel.category === "Website" && channel.name.trim() !== "Landing Page",
+        text: "Most online shops turn about 1.3% of visits into a sale; one in five is below 0.5% and one in five above 2.8%.",
+        source: "Based on: Littledata (2026), conversion rates of 450 Shopify stores; McDowell, Wilson and Kile (2016), Journal of Business Research 69(11).",
+        placeholder: "e.g. 1.3"
+    },
+    {
+        type: "funnel", key: "prospects", channel: channel => channel.category === "Website" && channel.name.trim() === "Landing Page",
+        text: "A typical landing page turns about 6.6% of visits into an enquiry.",
+        source: "Based on: Unbounce (2024), Conversion Benchmark Report, 41,000 landing pages."
+    },
+    {
+        type: "funnel", key: "buy",
+        text: "Sellers win about 1 in 5 of their qualified opportunities.",
+        source: "Based on: HubSpot (2024), Sales Trends Report, 1,400 sales professionals.",
+        placeholder: "e.g. 20"
+    },
+    {
+        type: "contracts", key: "win",
+        text: "Small firms win about 1 tender in 4.",
+        source: "Based on: Flynn and Davis (2016), Journal of Small Business and Enterprise Development 23(3).",
+        placeholder: "e.g. 25"
+    }
+];
+
+/**
+ * A source's field as its card shows it: its "i" (its help, then the typical range and its reference where one applies) and its placeholder (the typical
+ * figure there). `channels` are the channels the source comes through; a range tied to a channel applies where every one of them fits it.
+ */
+export function demandFieldShown(type: string, field: { key: string; help: string; placeholder: string }, channels: readonly { category: string; name: string }[]): { help: string[]; placeholder: string } {
+    const typical = TYPICAL.find(entry => entry.type === type && entry.key === field.key && (!entry.channel || (channels.length > 0 && channels.every(entry.channel))));
+    return typical
+        ? { help: [field.help, typical.text, typical.source], placeholder: typical.placeholder ?? field.placeholder }
+        : { help: [field.help], placeholder: field.placeholder };
+}
+
+/** O2's answers of an Offering not ready to sell (owner, 2026-11-17), and the note each gives on its Demand card. */
+export const NOT_READY_NOTES: Readonly<Record<string, string>> = {
+    idea: "This Offering is still an idea. Its sales start once it is ready.",
+    building: "This Offering is still being built. Its sales start once it is ready."
+};
+
+/** The upper end of each band of "How many potential customers are there?" (`tam`); the mass market's lower end, its only figure. */
+const MARKET_SIZE: Readonly<Record<string, number>> = { micro: 1000, boutique: 50000, mid: 500000, mass: 500000 };
+
+/**
+ * THE MARKET-SIZE CHECK (doc 50, 2.3; owner, 2026-11-17): the customers a year the Expected Sales give (a one-off Offering's sales a month, a recurring one's
+ * new clients a month, times 12) as a share of the Segment's market (`tam`, at its band's upper end, so a large share is a real warning). A check, never a
+ * cap: nothing is changed by it. Null where either is unknown.
+ */
+export function marketShareLine(result: Pick<DemandResult, "expected" | "joining" | "recurring">, tam: string | undefined): string | null {
+    const market = MARKET_SIZE[tam ?? ""];
+    const monthly = result.recurring ? result.joining : result.expected;
+    if (!market || monthly === null || monthly <= 0) {
+        return null;
+    }
+    const share = monthly * 12 / market * 100;
+    const words = share < 1 ? "under 1%" : Math.round(share) + "%";
+    return "Your expected customers are " + words + " of the market you described.";
+}
+
 /** One source of an Offering's customers, and how its sales are estimated. */
 export interface DemandSource {
     id: string;
@@ -176,6 +244,11 @@ export interface DemandValue {
     assumptions: string;
     /** The sources the answers make that the founder removed (demandSourceKey): not made again until restored. */
     dismissed?: string[];
+    /**
+     * READY FROM (owner, 2026-11-17): for an Offering that is still an idea or still being built (O2), the month it is ready; its sales start then (withDemand
+     * moves Sustainability's Begins to it where Begins is earlier). Read only while O2 says so.
+     */
+    readyFrom?: { month: string; year: string };
 }
 
 export function createDemand(): DemandValue {
@@ -282,7 +355,8 @@ export function asDemandValue(value: unknown): DemandValue {
             ? [...new Set(source.channelIds.map(asText).filter(Boolean))]
             : [],
         assumptions: asText(source.assumptions),
-        ...(Array.isArray(source.dismissed) && source.dismissed.length > 0 ? { dismissed: [...new Set(source.dismissed.map(asText).filter(Boolean))] } : {})
+        ...(Array.isArray(source.dismissed) && source.dismissed.length > 0 ? { dismissed: [...new Set(source.dismissed.map(asText).filter(Boolean))] } : {}),
+        ...(asObject(source.readyFrom).month && asObject(source.readyFrom).year ? { readyFrom: { month: asText(asObject(source.readyFrom).month), year: asText(asObject(source.readyFrom).year) } } : {})
     };
 }
 

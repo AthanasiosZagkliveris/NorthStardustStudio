@@ -582,8 +582,10 @@ export function demandSuggestions(segment: BusinessCustomerSegmentValue, offerin
             // (An Other channel's source carries its name: owner, 2026-11-16 19:18.)
             ...(demandSourceOf(channel.category, channel.name) === "other" && channel.name.trim() ? { name: channel.name.trim() } : {})
         }));
-    if ((effectiveSegmentAnswers(segment, identity).authorise ?? []).includes("procurement") && !demand.sources.some(source => source.type === "contracts")) {
-        out.push({ type: "contracts", channelId: "", label: "Contracts or tenders", source: "how they decide to buy" });
+    // (THE IDENTITY ANSWERS TOO (owner, 2026-11-17): selling to government (I3, B2G) is won by tender, as a buyer deciding by formal procurement is.)
+    const government = (identity?.relationships ?? []).includes("b2g");
+    if (((effectiveSegmentAnswers(segment, identity).authorise ?? []).includes("procurement") || government) && !demand.sources.some(source => source.type === "contracts")) {
+        out.push({ type: "contracts", channelId: "", label: "Contracts or tenders", source: government ? "you sell to government" : "how they decide to buy" });
     }
     // REPEAT CUSTOMERS, where the answers say they come back (doc 28, 7.5): customers who buy out of habit (the Segment's `path`), or an Offering kept up after the
     // sale -- repairs and maintenance, replacements and refills (O17). A subscription keeps its clients and is never offered it (DEMAND_SOURCES, oneOffOnly).

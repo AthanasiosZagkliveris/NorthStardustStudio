@@ -124,6 +124,8 @@ export interface OfferingStarts {
     sessions?: boolean;
     /** Made in batches (a Product or Hybrid, not made to order: Type, O14): the Delivery card asks DV9 and DV10. */
     batches?: boolean;
+    /** Not ready to sell (O2: Just an idea, Still being built): Demand & Conversion asks Ready from, and its sales start then (owner, 2026-11-17). */
+    notReady?: "idea" | "building";
 }
 
 /**
@@ -167,6 +169,11 @@ export function offeringStarts(offering: BusinessOfferingValue, segment: Busines
     }
     if ((offering.category === "Product" || offering.category === "Hybrid") && !(answers.o14 ?? []).includes("custom")) {
         starts.batches = true;
+    }
+    // (Not ready to sell: O2's Just an idea or Still being built; owner, 2026-11-17.)
+    const ready = answers.o2?.[0];
+    if (ready === "idea" || ready === "building") {
+        starts.notReady = ready;
     }
     return starts;
 }

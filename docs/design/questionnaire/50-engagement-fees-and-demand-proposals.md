@@ -84,6 +84,19 @@ Add the two that change a figure the app writes and that nothing else asks: **Ac
 
 **Recommendation (simplified):** no new source kind and no new question. Word the funnel's Qualified step from D1, and work the time to buy out from `authorise` and `path`; seasons from D3 and cost per customer from the channel costs, as in 2.4.
 
+### 2.6 Built (owner, 2026-11-17; the open decisions and gaps, Group 4d)
+
+- **Typical ranges in a rate's "i"** (doc 28, rule 6; `demandFieldShown`), each with its reference last, the placeholder the typical figure, nothing filled in:
+  - Visitors, Buy (%), through a Website channel (not a Landing Page): "Most online shops turn about 1.3% of visits into a sale; one in five is below 0.5% and one in five above 2.8%." Based on: Littledata (2026), conversion rates of 450 Shopify stores; McDowell, Wilson and Kile (2016), Journal of Business Research 69(11). Placeholder e.g. 1.3.
+  - Sales funnel, Prospects / Month, through a Landing Page: "A typical landing page turns about 6.6% of visits into an enquiry." Based on: Unbounce (2024), Conversion Benchmark Report, 41,000 landing pages. (Its placeholder stays: it is a count.)
+  - Sales funnel, Buy (%): "Sellers win about 1 in 5 of their qualified opportunities." Based on: HubSpot (2024), Sales Trends Report, 1,400 sales professionals. Placeholder e.g. 20.
+  - Contracts or tenders, Won (%): "Small firms win about 1 tender in 4." Based on: Flynn and Davis (2016), Journal of Small Business and Enterprise Development 23(3). Placeholder e.g. 25.
+  - None for cancellations, shop footfall, marketplaces, trials or buying again.
+- **The market-size check** (2.3, "A ceiling from the market"; `marketShareLine`): under Expected Sales, "Your expected customers are 4% of the market you described.": the customers a year (a one-off Offering's sales a month, a recurring one's new clients a month, times 12) against the Segment's "How many potential customers are there?" at its band's upper end (1,000; 50,000; 500,000; the mass market 500,000), so a large share is a real warning. A check, never a cap. No new question: the Segment's band is the figure.
+- **Ready From** (doc 43, O2): an Offering that is "Just an idea" or "Still being built" asks, under Customers Buy, the month it is ready, with "This Offering is still an idea. Its sales start once it is ready." ("still being built" for the second). Its revenue on Sustainability begins no earlier (`withDemand` moves Begins to it, as a record, while O2 says so).
+- **The Identity answers** reach the source suggestions as they reach the channels (every call now passes them), and selling to government (I3, B2G) proposes Contracts or tenders, as a buyer deciding by formal procurement does.
+- **Held:** seasons (2.3). The monthly pattern exists only on Sustainability (`streamVolumes`), which waits for step 7 (doc 49, section 8, phase 7a); D3's reading is recorded in doc 48's Revenue & Pricing list.
+
 **Sources for the funnel's stages** (read in excerpt): Singapore Management University Academy, *Marketing funnel*; University of Newcastle Business School, Marketing Technology Lab, *The Marketing Funnel*; Santa Clara University, *Digital marketing and marketing funnel*; Elias St. Elmo Lewis's AIDA (as cited by MasterClass, *AIDA Model*).
 
 **Sources** (each read in excerpt through a search; opened in full before an "i" cites it): LaunchRock, *Bottoms Up Forecast* and *Revenue Forecast*; Forecastr, *How to build a great forecast: key startup metrics and techniques*; ProductPlan, *AARRR framework*; Dave McClure, *Startup Metrics for Pirates* (2007); NI Business Info, *Financial forecasts for your business plan*; Start Up Loans, *What is a cash flow forecast?*; South Tyneside Council, *Prepare a business plan*. University sources for the funnel's stages are in 2.5.

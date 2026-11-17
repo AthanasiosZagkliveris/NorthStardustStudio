@@ -9,6 +9,7 @@ import { streamVolumes } from "./revenue.ts";
 import { planLength } from "./period.ts";
 import { businessFoundationSegments } from "../AnswerBusinessFoundation.ts";
 import { offeringStartsById } from "../EffectiveAnswers.ts";
+import { monthOrdinal } from "./period.ts";
 
 /* ==========================================================
    Expected sales from Demand & Conversion
@@ -33,7 +34,12 @@ export function withDemand(
     const segments = foundation === undefined ? [] : businessFoundationSegments(foundation);
     const timed = (stream: FinancialSustainabilityValue["streams"][number]) => {
         const starts = segments.length > 0 ? offeringStartsById(segments, stream.offeringId) : {};
-        return starts.paymentTimingAnswered ? { ...stream, paymentTiming: starts.paymentTiming ?? ("" as const) } : stream;
+        const paid = starts.paymentTimingAnswered ? { ...stream, paymentTiming: starts.paymentTiming ?? ("" as const) } : stream;
+        // (READY FROM (owner, 2026-11-17): an Offering still an idea or being built sells from the month it is ready, where Begins is earlier.)
+        const ready = starts.notReady ? demand?.[stream.offeringId]?.readyFrom : undefined;
+        const readyAt = ready ? monthOrdinal(ready) : null;
+        const begins = monthOrdinal(paid.start);
+        return readyAt !== null && (begins === null || readyAt > begins) ? { ...paid, start: { month: ready!.month, year: ready!.year } } : paid;
     };
     if (!demand && segments.length === 0) {
         return page;

@@ -141,6 +141,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
 - **The "i" says:**
   - How it is put together for sale: one range, made to each order, packages, limited runs or extras. Counts and what is included go in the Notes.
   - Based on: the product mix (Kotler and Keller).
+- **Waiting ((owner, 2026-11-17; the open decisions and gaps, Group 4d)):** Packages / tiers and Add-ons / extras are read on Revenue & Pricing (doc 48, section 11); Made to order already skips DV9 (doc 52).
 - **Connections:** *Read by:* the export. Source [FUN-73].
 
 ## Box. Purchase & Delivery
@@ -158,6 +159,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
 - **Starts from the business stage** (owner 2026-11-06; `BusinessStage.ts`, from the Opening Date): Planning → "Still being built"; Launching → "Yes, now" (was "Almost ready" until 2026-11-08, the options-and-wording research: a business that is launching sells); Managing or Growing → "Yes, now". Only a starting value: an answer chosen is never overwritten, and every option stays (a growing business can still plan a new Offering, "Just an idea").
 - **The "i" says:**
   - It starts from your business stage; change it for this Offering.
+- **Read by (built (owner, 2026-11-17; the open decisions and gaps, Group 4d)):** Demand & Conversion's Ready From, asked where it is Just an idea or Still being built, with its note; the revenue on Sustainability begins no earlier (doc 50, 2.6).
 - **Connections:**
   - *Comes from:* the business stage (Organisation: the Opening Date and the Global Settings' durations).
   - *Read by (not built yet):* the Review (a Demand estimate for an Offering that is not ready; a mismatch with the stage: Planning with an Offering "Yes, now", sales before the opening, or Managing with every Offering "Just an idea"); the Business Plan's product section. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).

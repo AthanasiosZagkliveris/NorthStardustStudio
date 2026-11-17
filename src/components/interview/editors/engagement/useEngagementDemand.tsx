@@ -26,6 +26,9 @@ import { SingleColumn } from "../foundation/shared.tsx";
 import type { useEngagementState } from "./useEngagementState.tsx";
 import type { useEngagementChannelBoxes } from "./useEngagementChannelBoxes.tsx";
 import type { useEngagementRelationships } from "./useEngagementRelationships.tsx";
+import { demandFieldShown, marketShareLine, NOT_READY_NOTES } from "../../../../framework/engine/DemandCapacity.ts";
+import MonthYearPicker from "../../fields/MonthYearPicker.tsx";
+import { effectiveSegmentAnswers } from "../../../../framework/engine/EffectiveAnswers.ts";
 
 type Earlier = ReturnType<typeof useEngagementState> & ReturnType<typeof useEngagementChannelBoxes> & ReturnType<typeof useEngagementRelationships>;
 
@@ -153,7 +156,7 @@ export function useEngagementDemand(earlier: Earlier) {
 
         function numberField(
             label: string,
-            help: string,
+            help: string | readonly string[],
             ariaLabel: string,
             placeholder: string,
             value: string,
@@ -161,7 +164,7 @@ export function useEngagementDemand(earlier: Earlier) {
             limits: NumberLimit
         ) {
             return (
-                <BusinessField key={label} label={label} info={[help]}>
+                <BusinessField key={label} label={label} info={typeof help === "string" ? [help] : [...help]}>
                     <NumberCell
                         inputMode={numberInputMode(limits)}
                         className="business-demand-number"
@@ -283,16 +286,18 @@ export function useEngagementDemand(earlier: Earlier) {
             // (THE FUNNEL'S MIDDLE STEP, a trial where a Profile compares options by a demo, trial or sample (D1): "Tried it (%)"; doc 50, section 2.5.)
             // (Or the source comes through a Samples & Trials channel: owner, 2026-11-16 19:18.)
             const trial = type?.id === "funnel" && funnelIsTrial(segment, identity, source.group ? { category: source.group } : segmentOf(segment.id).channels.find(channel => channel.id === source.channelId));
+            // (The channels it comes through, for a rate's typical range: demandFieldShown; owner, 2026-11-17.)
+            const sourceChannels = (source.group ? source.channelIds ?? [] : [source.channelId]).map(id => channelOf(id)).filter((channel): channel is NonNullable<typeof channel> => !!channel);
             const shown = (field: (typeof DEMAND_SOURCES)[number]["fields"][number]) => trial && field.key === "qualified"
                 ? { ...field, label: "Tried it (%)", help: "The share of the prospects that take the demo, trial or sample (your Profiles compare options that way)." }
                 : field;
             const figures = type && !excluded && (
                 calculated
-                    ? type.fields.map(shown).map(field => numberField(
+                    ? type.fields.map(shown).map(field => ({ field, typical: demandFieldShown(type.id, field, sourceChannels) })).map(({ field, typical }) => numberField(
                         field.label,
-                        field.help,
+                        typical.help,
                         field.label + ", " + what,
-                        field.placeholder,
+                        typical.placeholder,
                         source.inputs[field.key] ?? "",
                         (next) => changeSource(source.id, {
                             inputs: { ...source.inputs, [field.key]: next }
@@ -420,7 +425,8 @@ export function useEngagementDemand(earlier: Earlier) {
         // THE ROWS THE FOUNDATION PROPOSES (doc 28, 7.5): one for each Discover channel that serves this Offering, and Contracts or tenders where the buyer decides by a
         // formal tender; each added by its own Add, never written by itself. A channel's row also records the channel.
         const suggestions = (() => {
-                    const proposed = demandSuggestions(segment, offeringId, segmentOf(segment.id).channels, demand);
+                    // (With the Identity answers, as the channels are made: owner, 2026-11-17.)
+                    const proposed = demandSuggestions(segment, offeringId, segmentOf(segment.id).channels, demand, identity);
                     return proposed.length > 0 && (
                         <>
                             <BusinessEmpty>Suggested from your Foundation: the Discover channels that serve it{proposed.some(row => row.type === "contracts") ? ", and contracts or tenders for a buyer who decides by tender" : ""}.</BusinessEmpty>
@@ -479,12 +485,28 @@ export function useEngagementDemand(earlier: Earlier) {
             (next) => updateDemand(offeringId, { cancel: next }),
             NUMBER_LIMITS.cancelPercent
         );
+        // (READY FROM, where the Offering is still an idea or being built (O2): its note and the month it is ready; owner, 2026-11-17.)
+        const notReady = offeringStartsById(segments, offeringId, identity).notReady;
         const buying = (
             <div className="business-demand-fields business-demand-buying">
                 <BusinessField label="Customers Buy" info={DEMAND_BUYING_HELP}>
                     {buyPicker}
                 </BusinessField>
                 {cancelField}
+                {notReady && (
+                    <BusinessField label="Ready From" info={["The month it is ready to sell. Its revenue on Sustainability begins no earlier."]}>
+                        <MonthYearPicker
+                            hideLabel
+                            label={"Ready from, " + offeringLabel}
+                            value={demand.readyFrom ?? { month: "", year: "" }}
+                            disabled={disabled}
+                            firstYear={new Date().getFullYear()}
+                            isAllowed={() => true}
+                            onChange={(next) => updateDemand(offeringId, { readyFrom: next })}
+                        />
+                    </BusinessField>
+                )}
+                {notReady && <p className="business-demand-source-note">{NOT_READY_NOTES[notReady]}</p>}
             </div>
         );
         const resultBlock = demand.sources.length > 0 && (
@@ -532,6 +554,11 @@ export function useEngagementDemand(earlier: Earlier) {
                                         </li>
                                     )}
                                 </ul>
+                                {/* (THE MARKET-SIZE CHECK, against How many potential customers are there? -- a check, never a cap: marketShareLine; owner, 2026-11-17.) */}
+                                {(() => {
+                                    const line = marketShareLine(result, effectiveSegmentAnswers(segment, identity).tam?.[0]);
+                                    return line ? <p className="business-demand-source-note">{line}</p> : null;
+                                })()}
                             </>
                         )}
                 </div>
@@ -732,7 +759,7 @@ export function useEngagementDemand(earlier: Earlier) {
     }
     /** The sources the Foundation suggests for an Offering, each with its words (the faded lines of its tile in Demand & Conversion). */
     function suggestedSources(segment: BusinessCustomerSegmentValue, offeringId: string) {
-        return demandSuggestions(segment, offeringId, segmentOf(segment.id).channels, demandOf(offeringId)).map(row => {
+        return demandSuggestions(segment, offeringId, segmentOf(segment.id).channels, demandOf(offeringId), identity).map(row => {
             const sourceLabel = DEMAND_SOURCES.find(type => type.id === row.type)?.label ?? "Other";
             // (Its words on a tile: the channel it comes through, or -- with none -- the kind of source, "Contracts or tenders".)
             return { ...row, words: row.channelId ? row.label : sourceLabel };

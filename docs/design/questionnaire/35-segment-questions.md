@@ -585,6 +585,7 @@ Both.
 - **The "i" says:**
   - Everyone in the area you serve who could buy it, if every one of them chose you (the total addressable market).
   - For a Segment of businesses, count each organisation once.
+- **Read by (built (owner, 2026-11-17; the open decisions and gaps, Group 4d)):** the market-size check under each of the Segment's Offerings' Expected Sales (doc 50, 2.6): "Your expected customers are 4% of the market you described.", at the band's upper end; a check, never a cap.
 - **Connections:**
   - *Comes from:* Nothing.
   - *Read by (built):* The Market document and the export; the Business Plan's Market Analysis is covered once a market question is answered.
