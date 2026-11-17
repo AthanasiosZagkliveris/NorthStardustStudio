@@ -549,7 +549,7 @@ The buyer is a business, or the Segment is of businesses where both relationship
 - **Options:** Stripe · SumUp · Square · Zettle · PayPal · Shopify Payments · Other.
 - **The "i" says:** The services that take the card and wallet payments: each one's fees come from the Global Settings' Channel Fee Table for your country. · Tick Other to write another.
 - **Ordered (owner, 2026-11-17):** by where they shop (question 7): in a shop, SumUp, Square and Zettle first; online, Stripe, PayPal and Shopify Payments first; never locked.
-- **Connections:** *Read by (built):* each service is a "Payment processing fees" card on the Segment's Direct Payment channel, one card a service for the Organisation, made and kept by the rule of the subchannels the answers make (doc 47); its fees are the country's row ([Global Settings](../../specifications/global-settings.md)), charged in the forecast with or without a price on the card ([page 4, 30.4](../../specifications/business-system/page-4-financial-foundation.md#304-calculated-lines)).
+- **Connections:** *Read by (built):* each service is a "Payment processing fees" card on the Segment's Direct Payment channel, one card a service for the Organisation, made and kept by the rule of the subchannels the answers make (doc 47); its fees are the country's row ([Global Settings](../../specifications/global-settings.md)), charged in the forecast with or without a price on the card ([page 4, 30.4](../../specifications/business-system/page-5-costs-funding-and-position.md#304-calculated-lines)).
 ### 4. How do your customers share what they like?
 
 - **Control:** ticks, as many as apply.

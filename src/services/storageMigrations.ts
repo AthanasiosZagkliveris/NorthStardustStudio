@@ -443,8 +443,55 @@ export function retireLegacyBusinessPages(organizationId: string): void {
 
     }
 
-/** The Business System's Section of 4. Financial Foundation (makeRoomForFinancialFoundationPage put it there). */
+/** The Business System's Section of Financial Foundation as makeRoomForFinancialFoundationPage put it, before swapFinancialPages (which runs after this). */
 const FINANCIAL_FOUNDATION_SECTION = 4;
+
+/**
+ * THE TWO FINANCIAL PAGES CHANGE PLACES (doc 48, section 11; owner, 2026-11-17 07:36): Revenue & Pricing (the Financial Sustainability answer) becomes
+ * Section 4 and Costs, Funding & Position (the Financial Foundation answer) Section 5, so each page reads only the pages before it. Each answer moves whole
+ * to the other's Section -- not a field changes --, a page answered alone moves alone, and a reader left on one of them stays on the same page. A flag: run
+ * twice, it would swap them back. A new Organization runs it before anything is saved, on its first load, and so starts in the new order.
+ */
+export function swapFinancialPages(organizationId: string): void {
+
+        const document = OrganizationService.loadDocument(organizationId);
+
+        if (!document || document.financialPagesSwapped) {
+            return;
+        }
+
+        const stored = document.systems[String(BUSINESS_SYSTEM_NUMBER)];
+
+        if (stored && typeof stored === "object" && !Array.isArray(stored)) {
+
+            const state = stored as Record<string, unknown>;
+
+            if (Array.isArray(state.responses)) {
+                state.responses = state.responses.map(entry => {
+                    if (!entry || typeof entry !== "object" || Array.isArray(entry)) {
+                        return entry;
+                    }
+                    const response = entry as Record<string, unknown>;
+                    return response.sectionNumber === 4 ? { ...response, sectionNumber: 5 }
+                        : response.sectionNumber === 5 ? { ...response, sectionNumber: 4 }
+                            : response;
+                });
+            }
+
+            // (The page index is the Section's number less one: 3 is page 4, 4 is page 5.)
+            if (state.currentSectionIndex === 3) {
+                state.currentSectionIndex = 4;
+            } else if (state.currentSectionIndex === 4) {
+                state.currentSectionIndex = 3;
+            }
+
+        }
+
+        document.financialPagesSwapped = true;
+
+        OrganizationService.saveDocument(document);
+
+    }
 
 /**
  * THE INCOME TAX RATE HAS ONE OWNER, Page 4's Plan Settings (doc 5, section 5.5.6): a rate saved in the Global Settings before is moved there once -- as the

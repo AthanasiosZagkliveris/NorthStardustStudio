@@ -6298,7 +6298,7 @@
           }
         },
         {
-          "sectionNumber": 4,
+          "sectionNumber": 5,
           "value": {
             "planStart": {
               "month": "10",
@@ -6567,7 +6567,7 @@
           }
         },
         {
-          "sectionNumber": 5,
+          "sectionNumber": 4,
           "value": {
             "streams": [
               {
@@ -6679,7 +6679,7 @@
         }
       ],
       "questionResponses": [],
-      "currentSectionIndex": 4,
+      "currentSectionIndex": 3,
       "capability": "",
       "interviewStarted": true
     },
@@ -6691,7 +6691,12 @@
           "value": {
             "situation": "Lumen & Loom Studio Ltd was incorporated in March 2026 by Maya Chen, Oliver Grant and Priya Shah and opens its Hackney Wick studio in October 2026. We sell a handwoven homeware collection online and at London markets, run beginner weaving workshops, and are starting bespoke commissions and a trade collection for interior designers and boutique hotels. Customers find us through Instagram, markets, word of mouth and design fairs. We are funded by £13,000 of founders’ capital, a £15,000 Start Up Loan and an £8,000 Hackney grant (half received). Monthly fixed costs are about £7,500, mostly three modest director salaries and rent; revenue starts small and is expected to cover costs from around August 2027. An angel round of £20,000 is in preparation to close a funding gap before then.",
             "situationSource": "",
-            "swotEdited": ["strengths", "weaknesses", "opportunities", "threats"],
+            "swotEdited": [
+              "strengths",
+              "weaknesses",
+              "opportunities",
+              "threats"
+            ],
             "swot": {
               "strengths": [
                 "Three complementary founders: craft, sales and operations",
@@ -7108,6 +7113,7 @@
   "financialFoundationPageInserted": true,
   "financialSustainabilityPageInserted": true,
   "legacyBusinessPagesRetired": true,
+  "financialPagesSwapped": true,
   "globalSettings": {
     "openingDate": "2025-04-01",
     "onCostRate": "",

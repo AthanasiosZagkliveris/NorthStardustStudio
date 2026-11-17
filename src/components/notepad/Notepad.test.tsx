@@ -77,8 +77,8 @@ describe("the notepad", () => {
     });
 
     it("names places by \"#\": Systems, pages and sections", () => {
-        const labels = findPlaces("org-1", "Financial").map(entry => entry.label);
-        expect(labels).toContain("4. Financial Foundation");
+        const labels = findPlaces("org-1", "Costs").map(entry => entry.label);
+        expect(labels).toContain("5. Costs, Funding & Position");
         expect(findPlaces("org-1", "Business System")[0]).toMatchObject({ kind: "system", systemNumber: 3 });
     });
 

@@ -92,6 +92,9 @@ const DRAWN_AS_TILES: ReadonlySet<AnswerType> = new Set([
     // (Customer Engagement, drawn as its Segments' tiles since 2026-11-12: layout rules 13, "No Sections rail on a page drawn as tiles".)
     AnswerType.BusinessEngagement,
     AnswerType.BusinessCapability,
+    // (Revenue & Pricing and Costs, Funding & Position, drawn as their chapters' tiles since 2026-11-17: doc 48, sections 1, 2 and 11.)
+    AnswerType.FinancialFoundation,
+    AnswerType.FinancialSustainability,
     AnswerType.StrategicRoadmap
 ]);
 

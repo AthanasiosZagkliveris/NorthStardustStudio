@@ -79,6 +79,7 @@ describe("FinancialSustainabilityEditor folding", () => {
                 onChange={() => {}}
             />
         );
+        openTile("Revenue Streams");
 
         const streams = toggles(/Revenue Stream \d+$/);
         expect(streams.length).toBe(2);
@@ -101,6 +102,7 @@ describe("FinancialSustainabilityEditor folding", () => {
                 onChange={() => {}}
             />
         );
+        openTile("Revenue Streams");
 
         toggles(/Revenue Stream \d+$/).forEach(t => fireEvent.click(t));
         expect(screen.getByText(/1\D?200 \/ Client · Monthly/)).toBeTruthy();
@@ -125,6 +127,7 @@ describe("FinancialSustainabilityEditor folding", () => {
                 onChange={() => {}}
             />
         );
+        openTile("Revenue Streams");
 
         toggles(/Revenue Stream \d+$/).forEach(t => fireEvent.click(t));
         expect(screen.getByText("£1,200 / Client · Monthly")).toBeTruthy();
@@ -187,6 +190,7 @@ describe("FinancialSustainabilityEditor number limits", () => {
         }
 
         render(<StreamHarness />);
+        openTile("Revenue Streams");
 
         openFold(toggles(/Revenue Stream 1$/)[0]);
 
@@ -272,7 +276,7 @@ describe("a revenue stream's Begins and Payment and Orders & Delivery", () => {
     const foundation = { segments: [{ offerings: [{ id: "offering-1", name: "Offering One" }] }] };
 
     function band(paymentTiming: string, withOrders = true) {
-        const { container } = render(
+        render(
             <FinancialSustainabilityEditor
                 value={asFinancialSustainabilityValue({ streams: [{ offeringId: "offering-1", paymentTiming }] })}
                 foundation={foundation}
@@ -280,8 +284,10 @@ describe("a revenue stream's Begins and Payment and Orders & Delivery", () => {
                 onChange={() => {}}
             />
         );
+        // (The stream cards are in the Revenue Streams tile's dialog.)
+        openTile("Revenue Streams");
         openFold(toggles(/Revenue Stream 1$/)[0]);
-        return container.querySelector(".financial-stream-band")!;
+        return document.querySelector(".financial-stream-band")!;
     }
 
     it("sit side by side on one band while payment takes two fields", () => {
@@ -322,6 +328,7 @@ describe("FinancialSustainabilityEditor starts from Page 1 (phase 5f, 2026-11-09
 
     it("starts Charged from O3, and shows Customer Pays as the record of O3's second row (When do they pay?)", () => {
         render(<FinancialSustainabilityEditor value={asFinancialSustainabilityValue(undefined)} foundation={foundation} onChange={() => {}} />);
+        openTile("Revenue Streams");
         expect(screen.getByRole("button", { name: "Revenue Stream 1 charged: Per project" })).toBeTruthy();
         // (WHEN THEY PAY HAS ONE OWNER, the Offering's O3t: one option, a record, read only; owner, 2026-11-16.)
         const timing = (stream: number, words: string) => screen.getByRole("textbox", { name: "Revenue Stream " + stream + " payment timing: " + words });
@@ -334,11 +341,43 @@ describe("FinancialSustainabilityEditor starts from Page 1 (phase 5f, 2026-11-09
         let saved: unknown;
         const value = asFinancialSustainabilityValue({ streams: [{ id: "stream-offering-1", offeringId: "offering-1", frequency: "per-sale", paymentTiming: "" }] });
         render(<FinancialSustainabilityEditor value={value} foundation={foundation} onChange={(next) => { saved = next; }} />);
+        openTile("Revenue Streams");
         expect(screen.getByRole("button", { name: "Revenue Stream 1 charged: Per sale" })).toBeTruthy();
         // (The page's own timing gives way to O3t's record: the Offering is paid by a deposit, so Split.)
         expect(screen.getByRole("textbox", { name: "Revenue Stream 1 payment timing: Split" }).getAttribute("aria-readonly")).toBe("true");
         fireEvent.change(screen.getByLabelText("Revenue Stream 2 price"), { target: { value: "90" } });
         expect(asFinancialSustainabilityValue(saved).streams.find(stream => stream.offeringId === "offering-2")).toMatchObject({ frequency: "annually", paymentTiming: "upfront", price: "90" });
+    });
+
+});
+
+/* THE FINANCIAL PAGES' CHAPTERS (doc 48, sections 1, 2 and 11; owner, 2026-11-17 07:36): Revenue & Pricing holds the Revenue chapter; Costs, Funding & Position
+   holds Financial Foundation and, beside it, Break Even. */
+describe("the Financial pages' chapters", () => {
+
+    it("draws Revenue & Pricing as the Revenue chapter alone", () => {
+        render(<FinancialSustainabilityEditor value={asFinancialSustainabilityValue(undefined)} onChange={() => {}} />);
+        const tiles = screen.getAllByRole("button").map(button => button.textContent ?? "");
+        expect(tiles.some(text => text.startsWith("Revenue Streams"))).toBe(true);
+        expect(tiles.some(text => text.startsWith("Revenue Summary"))).toBe(true);
+        expect(tiles.some(text => text.startsWith("Break-Even Point"))).toBe(false);
+    });
+
+    it("draws Costs, Funding & Position with Break Even beside Financial Foundation, writing nothing to the revenue", () => {
+        let wrote = false;
+        render(
+            <FinancialFoundationEditor
+                value={asFinancialFoundationValue(undefined)}
+                onChange={() => {}}
+                beside={<FinancialSustainabilityEditor part="break-even" value={asFinancialSustainabilityValue(undefined)} onChange={() => { wrote = true; }} disabled />}
+            />
+        );
+        const tiles = screen.getAllByRole("button").map(button => button.textContent ?? "");
+        for (const title of ["Costs", "Financial Position", "Break-Even Point", "Break-Even Time", "Sustainability", "Stress Test"]) {
+            expect(tiles.some(text => text.startsWith(title))).toBe(true);
+        }
+        openTile("Break-Even Point");
+        expect(wrote).toBe(false);
     });
 
 });

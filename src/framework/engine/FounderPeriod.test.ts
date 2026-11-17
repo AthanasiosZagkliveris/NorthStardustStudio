@@ -142,6 +142,10 @@ type Example = { systems: Record<string, Parameters<typeof InterviewSession.from
     2026-11-17, later: Lumen's export digest (and the weekly fixture's export words) written again when its Homeware Collection named its
     floor looms as what can hold it up ("8-shaft floor looms, holds 3 at once": the only new numbers) and its Bespoke Commissions FlameGuard's
     finishing (a week's lead time). No amount changed: the forecast and the plan are as they were.
+
+    2026-11-17, the Financial pages' order (doc 48, section 11): the export digests (and the weekly fixture's export words) written again when
+    Revenue & Pricing became page 4 and Costs, Funding & Position page 5: the two titles, and the pages printed in their new order (the weekly
+    fixture's 613 numbers the same, in that order). The forecast, the plan and both Global Settings digests are as they were.
 */
 const ENGAGEMENT = JSON.parse(engagementText) as Record<string, unknown>;
 

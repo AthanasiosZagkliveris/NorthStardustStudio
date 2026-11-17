@@ -1,8 +1,10 @@
-# Business System — Page 5: Financial Sustainability
+# Business System — Page 4: Revenue & Pricing
+
+**Moved, 2026-11-17 (doc 48, section 11; owner, 2026-11-17 07:36):** this page was Page 5, "Sustainability". It is Page 4 now, Revenue & Pricing. Its answer moved once to Section 4 (`storageMigrations.swapFinancialPages`), every key inside it as it was. It is drawn as one chapter, **Revenue** (Revenue Streams, Delivery Check, Revenue Summary; doc 48, section 2); its Break Even section stands on Page 5, beside Financial Position. Not built yet, the rest of phase 7a: RV1, O19, K15 as a record, C1, the Offering Economics card (doc 48, sections 3, 4 and 12). Where this specification says "Page 5" for itself, read Page 4.
 
 Status: **specification**, written 2026-09-27, updated 2026-11-02. The requirement as written (sections 1 to 23) is preceded by "As built", which wins where they differ.
 
-> **3. Business System — Page 5 of 5.**
+> **3. Business System — Page 4 of 5** (Page 5 until 2026-11-17).
 > The second of the two Financial pages; it follows **Page 4 — Financial Foundation**.
 
 ## Contents
@@ -35,7 +37,7 @@ Status: **specification**, written 2026-09-27, updated 2026-11-02. The requireme
 
 ## As built
 
-Page 5 is a Structure of its own, `Financial Sustainability` (editor `FinancialSustainabilityEditor`), two folding cards numbered 5.1 and 5.2; they are not tiles yet (document 5, section 5.3). It shares its model, its month field, its time and its currency with Page 4 (`page-4-financial-foundation.md`, "As built"). The revenue stream card is also described in document 28, 10.2.
+Page 5 is a Structure of its own, `Financial Sustainability` (editor `FinancialSustainabilityEditor`), two folding cards numbered 5.1 and 5.2; they are not tiles yet (document 5, section 5.3). It shares its model, its month field, its time and its currency with Page 4 (`page-5-costs-funding-and-position.md`, "As built"). The revenue stream card is also described in document 28, 10.2.
 
 | Section | How it is built |
 |---|---|

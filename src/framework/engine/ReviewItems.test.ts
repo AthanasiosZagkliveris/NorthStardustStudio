@@ -78,7 +78,7 @@ describe("the Review page's items", () => {
         }]);
     });
 
-    test("income tax, asked above the Financial Foundation's sections, is said as itself", () => {
+    test("income tax, asked on Costs, Funding & Position, is said as itself", () => {
         const sessions = load();
         const business = sessions[3]!;
         const financial = pageOf(business, AnswerType.FinancialFoundation);
@@ -86,7 +86,7 @@ describe("the Review page's items", () => {
         expect(reviewItems({ sessions, titles, organisationName: "Lumen" }).filter(item => item.group === "open")).toEqual([{
             group: "open",
             capability: "foundation",
-            text: "3. Business System → " + financial.number + ". Financial Foundation: Income Tax: not chosen yet.",
+            text: "3. Business System → " + financial.number + ". Costs, Funding & Position: Income Tax: not chosen yet.",
             place: { systemNumber: 3, sectionNumber: financial.number, key: "3." + financial.number + ":income-tax" }
         }]);
     });

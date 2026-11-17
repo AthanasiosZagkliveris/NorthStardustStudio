@@ -75,7 +75,7 @@ export const PAGES = [
     // so "Foundation" does not also find "Financial Foundation".
     ["Identity System", ["^1\\. Definition", "^2\\. Legal Entity"]],
     ["Brand System", ["Brand System"]],
-    ["Business System", ["^1\\. Foundation", "Customer Engagement", "Infrastructure", "Financial Foundation", "Sustainability"]],
+    ["Business System", ["^1\\. Foundation", "Customer Engagement", "Infrastructure", "Revenue & Pricing", "Costs, Funding & Position"]],
     ["Strategy System", ["Strategy System"]]
 ];
 

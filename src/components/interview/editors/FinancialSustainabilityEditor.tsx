@@ -2,17 +2,19 @@ import { offeringShareWeights } from "../../../framework/engine/DemandCapacity.t
 import { countedCapability } from "../../../framework/engine/CardCompleteness.ts";
 import TextBox from "../../controls/TextBox.tsx";
 import NumberCell from "../../controls/NumberCell.tsx";
-import { type ReactNode, useState } from "react";
+import { type CSSProperties, type ReactNode } from "react";
+import CardShell from "../cards/CardShell.tsx";
+import SectionTiles, { DialogHeading, type SectionTile } from "../tiles/SectionTiles.tsx";
 import { type LegalEntityValue, asBusinessCapabilityValue, asBusinessEngagementValue, asLegalEntityValue, businessFoundationSegments, withLegalEntityFounders } from "../../../framework/engine/AnswerUtils.ts";
 import { offeringStartsById } from "../../../framework/engine/EffectiveAnswers.ts";
 import { calculatedLines } from "../../../framework/engine/CalculatedLines.ts";
 import { ownersTakeDrawings } from "../../../framework/engine/FinancialForecast.ts";
 import { type GlobalSettingsValue } from "../../../framework/engine/GlobalSettings.ts";
-import { FINANCIAL_SUSTAINABILITY_SECTIONS, costStartDates, derivedPlanStart, incomeTaxRate, legalExpenseDates, PAYMENT_TIMINGS, planLength, REVENUE_DEVELOPMENTS, REVENUE_FREQUENCIES, REVENUE_CHARGES, REVENUE_UNITS, asFinancialFoundationValue, asFinancialSustainabilityValue, consolidateCosts, createDetailedVolume, createRevenueStream, formatUnits, isRecurringRevenue, moneyFormatter, offeringCosts, parseAmount, planMonthLabel, sustainability, withPlanStart, salesCapacity, withDemand, stressTest, whatItWouldTake, type FinancialSustainabilityValue, type RevenueStreamValue, type StreamAnalysis, allFunding, hasLoans } from "../../../framework/engine/FinancialModel.ts";
+import { costStartDates, derivedPlanStart, incomeTaxRate, legalExpenseDates, PAYMENT_TIMINGS, planLength, REVENUE_DEVELOPMENTS, REVENUE_FREQUENCIES, REVENUE_CHARGES, REVENUE_UNITS, asFinancialFoundationValue, asFinancialSustainabilityValue, consolidateCosts, createDetailedVolume, createRevenueStream, formatUnits, isRecurringRevenue, moneyFormatter, offeringCosts, parseAmount, planMonthLabel, sustainability, withPlanStart, salesCapacity, withDemand, stressTest, whatItWouldTake, type FinancialSustainabilityValue, type RevenueStreamValue, type StreamAnalysis, allFunding, hasLoans } from "../../../framework/engine/FinancialModel.ts";
 import { costSourcesFor } from "../../../framework/engine/ExportRenderers.ts";
 import { deliveryAllocation, demandResult } from "../../../framework/engine/DemandCapacity.ts";
 import { BusinessAddButton, BusinessCard, BusinessEmpty, BusinessField, OptionalNote, BusinessRemove, uniqueChoices } from "../cards/BusinessCardFields.tsx";
-import { CAPACITY_UTILISATION_HELP, CashTimelineChart, FigureTable, FigureTiles, FinancialBlock, FinancialPageHead, FinancialSectionCard, type FinancialSection, PlanMonthField, SignalList, type TimelineMarker } from "./FinancialParts.tsx";
+import { CAPACITY_UTILISATION_HELP, CashTimelineChart, FigureTable, FigureTiles, FinancialBlock, type FinancialSection, PlanMonthField, SignalList, type TimelineMarker } from "./FinancialParts.tsx";
 import { summaryText } from "../cards/cardSummary.ts";
 import FoldAllToggle from "../fields/FoldAllToggle.tsx";
 import InfoNote, { type InfoPoint, InfoText } from "../fields/InfoNote.tsx";
@@ -22,10 +24,25 @@ import OptionPicker from "../fields/OptionPicker.tsx";
 import { type OpenPage } from "../tiles/jumpTo.ts";
 import { railId } from "../rails/railItems.ts";
 import { useItemFolds } from "../fields/useItemFolds.ts";
-import { toggledIn } from "../fields/toggledIn.ts";
 import { labelWithCurrency, nameWithCurrency } from "../../../framework/engine/Currencies.ts";
 import TextLink from "../fields/TextLink.tsx";
 import { BREAK_EVEN_REVENUE_FORMULA, BREAK_EVEN_REVENUE_SECOND_SOURCE, BREAK_EVEN_SOURCE, BREAK_EVEN_UNITS_FORMULA, CONTRIBUTION_HELP, EXPECTED_BREAK_EVEN_HELP, EXPECTED_REVENUE_HELP, ORDERS_HELP, SECTIONS, SECTION_HUES, STATUS_TITLES, STREAM_HELP, TAKE_INFO } from "./financialSustainabilityTexts.ts";
+
+/* The "i" of the blocks that are a Break Even or Revenue tile's whole subject: the tile's dialog heading carries it (doc 48, section 2). */
+const REVENUE_SUMMARY_INFO: InfoPoint[] = ["Expected revenue at the normal operating level, a month."];
+const BREAK_EVEN_POINT_INFO: InfoPoint[] = [
+    "Contribution per unit = price − variable cost per unit.",
+    "Offering break even: the units this Offering alone would need to sell to cover all fixed costs.",
+    "Organisation break even: the expected revenue mix, scaled as a whole until its contribution covers the fixed costs.",
+    BREAK_EVEN_UNITS_FORMULA,
+    BREAK_EVEN_SOURCE
+];
+const BREAK_EVEN_TIME_INFO: InfoPoint[] = ["The first month in which expected revenue covers that month's costs: the fixed costs, and the variable costs of that month's volume."];
+const STRESS_TEST_INFO: InfoPoint[] = [
+    "The plan as it stands, and the same plan when things go worse than hoped: sales 20% lower, revenue 3 months later, costs 10% higher (founders' pay aside), customers paying a month later than planned, and all four together.",
+    "The funding being sought is counted as if it arrives as planned, its repayments included: the question a lender asks is whether the plan holds with the money requested.",
+    "Holds: cash stays at zero or above throughout the plan.", "Short: how much more money would keep it there."
+];
 
 interface FinancialSustainabilityEditorProps {
     value: unknown;
@@ -33,6 +50,11 @@ interface FinancialSustainabilityEditorProps {
     disabled?: boolean;
     showInstructions?: boolean;
     columnsDivider?: ReactNode;
+    /**
+     * WHICH PART THE PAGE DRAWS (doc 48, sections 2 and 11; owner, 2026-11-17 07:36): "revenue", the Revenue chapter of Revenue & Pricing (the default);
+     * "break-even", the Break Even chapter alone, which Costs, Funding & Position draws beside Financial Position (read only: it writes nothing).
+     */
+    part?: "revenue" | "break-even";
     /** Page 1, for its Offerings. */
     foundation?: unknown;
     /** Page 3, for the costs Page 4 consolidates. */
@@ -69,9 +91,7 @@ export default function FinancialSustainabilityEditor({
 
     disabled = false,
 
-    showInstructions = true,
-
-    columnsDivider,
+    part = "revenue",
 
     foundation,
 
@@ -139,18 +159,8 @@ export default function FinancialSustainabilityEditor({
         "Unnamed offering"
     );
 
-    const [collapsed, setCollapsed] = useState<ReadonlySet<string>>(new Set());
-
-    /**
-     * Which Revenue Stream cards are open. Revenue streams start
-     * CLOSED -- see useItemFolds -- unlike the structural sections
-     * around them, which stay on `collapsed` and start OPEN (the page's work is in them).
-     */
+    /** Which Revenue Stream cards are open (see useItemFolds). */
     const folds = useItemFolds(true);
-
-    function toggle(key: string) {
-        setCollapsed(current => toggledIn(current, key));
-    }
 
     /*
         ONE STREAM PER OFFERING, WITHOUT ASKING. Every Offering on the
@@ -443,31 +453,6 @@ export default function FinancialSustainabilityEditor({
         return offerings.find(offering => offering.id === stream.offeringId)?.label ?? "Unlinked stream";
     }
 
-    /* ---------- The two sections ---------- */
-
-    function sectionCard(
-        id: string,
-        section: FinancialSection,
-        body: () => ReactNode,
-        sectionIndex: number,
-        titleExtra?: ReactNode
-    ) {
-        return (
-            <FinancialSectionCard
-                key={id}
-                rail={railId(FINANCIAL_SUSTAINABILITY_SECTIONS[sectionIndex])}
-                number={sectionIndex + 1}
-                section={section}
-                hue={SECTION_HUES[id] ?? 0}
-                open={!collapsed.has(id)}
-                onToggle={() => toggle(id)}
-                body={body}
-                // The section's own "Expand all", at the far end of its title row.
-                headClass="fold-group-head"
-                titleExtra={titleExtra}
-            />
-        );
-    }
 
     /* ---------- 1. Revenue ---------- */
 
@@ -925,13 +910,13 @@ export default function FinancialSustainabilityEditor({
 
     }
 
-    function revenueSection() {
+    /** REVENUE IN THREE PARTS (doc 48, section 2): the Revenue chapter's tiles on Revenue & Pricing -- Revenue Streams, Delivery Check, Revenue Summary. */
+    function revenueParts() {
 
         const total = result.expectedRevenue;
 
-        return (
-            <div className="financial-section-body">
-
+        const streams = (
+            <>
                 {offerings.length === 0
                     ? (
                         <BusinessEmpty>
@@ -955,8 +940,12 @@ export default function FinancialSustainabilityEditor({
                             {shownStreams.map(streamCard)}
                         </div>
                     </>)}
+            </>
+        );
 
-                <FinancialBlock title="Revenue Summary" info={["Expected revenue at the normal operating level, a month."]}>
+        const summary = (
+            <>
+                <FinancialBlock title="Revenue Summary" bare>
                     {result.streams.length === 0
                         ? <BusinessEmpty>No revenue streams yet. Expected revenue is {format(0)}, which is a valid starting point.</BusinessEmpty>
                         : (
@@ -997,11 +986,15 @@ export default function FinancialSustainabilityEditor({
                             </div>
                         )}
                 </FinancialBlock>
-
-                {capacityBlock()}
-
-            </div>
+            </>
         );
+
+        const pair = (name: string, figure: string) => name + "\u0001" + (figure ? "**" + figure + "**" : "");
+        return {
+            streams: { body: streams, face: shownStreams.map(entry => pair(offeringName(entry.stream), summaryPrice(entry.stream))) },
+            delivery: { body: capacityBlock(), face: [] as string[] },
+            summary: { body: summary, face: [pair("Expected revenue a month", format(total))] }
+        };
 
     }
 
@@ -1053,7 +1046,7 @@ export default function FinancialSustainabilityEditor({
         // With no revenue, there is no plan to put under stress.
         if (!hasRevenue) {
             return (
-                <FinancialBlock title="Stress Test">
+                <FinancialBlock title="Stress Test" bare>
                     <BusinessEmpty>
                         Add the price and expected sales of each revenue stream above: the Stress Test runs on them.
                     </BusinessEmpty>
@@ -1088,14 +1081,7 @@ export default function FinancialSustainabilityEditor({
                 };
 
         return (
-            <FinancialBlock
-                title="Stress Test"
-                info={[
-                    "The plan as it stands, and the same plan when things go worse than hoped: sales 20% lower, revenue 3 months later, costs 10% higher (founders' pay aside), customers paying a month later than planned, and all four together.",
-                    "The funding being sought is counted as if it arrives as planned, its repayments included: the question a lender asks is whether the plan holds with the money requested.",
-                    "Holds: cash stays at zero or above throughout the plan.", "Short: how much more money would keep it there."
-                ]}
-            >
+            <FinancialBlock title="Stress Test" bare>
                 <p className={"financial-stress-verdict financial-stress-" + verdict.tone}>{verdict.text}</p>
                 <p className="financial-muted">
                     {test.sought > 0.5
@@ -1204,7 +1190,12 @@ export default function FinancialSustainabilityEditor({
 
     }
 
-    function breakEvenSection() {
+    /**
+     * BREAK EVEN IN FOUR PARTS (doc 48, section 2; owner, 2026-11-17 07:36): the Break Even chapter's tiles on Costs, Funding & Position -- Break-Even Point
+     * (the costs used, the point, the costs of each Offering), Break-Even Time (the months and the revenue-adjusted position), Sustainability (the headline,
+     * the figures, the summary and its signals) and Stress Test (the four worse cases and What It Would Take); the same blocks as before, nothing stored.
+     */
+    function breakEvenParts() {
 
         const inputs = result.inputs;
 
@@ -1253,9 +1244,8 @@ export default function FinancialSustainabilityEditor({
         const reachedIndex = result.breakEvenMonth ?? 0;
         const tableMonths = result.months.slice(0, Math.min(months, Math.max(6, reachedIndex + 2)));
 
-        return (
-            <div className="financial-section-body">
-
+        const lead = (
+            <>
                 <div className={"financial-headline financial-headline-" + statusTone}>
                     <strong>{statusTitle}</strong>
                     <span>{result.signals[0]?.text}</span>
@@ -1305,41 +1295,13 @@ export default function FinancialSustainabilityEditor({
                         info: ["Financial Exhaustion minus Break-Even Time: how much time exists between becoming sustainable and running out of resources."]
                     }
                 ]} />
+            </>
+        );
 
-                <FinancialBlock
-                    title="Costs Used"
-                    info={[
-                        "Read from Financial Foundation, by behaviour.",
-                        "Fixed: the monthly equivalent of every recurring cost, plus loan interest. Loan principal is repayment of borrowed money, kept outside the costs; one-time costs are what the funding is for.",
-                        "Variable: per-unit and per-project costs linked to each Offering."
-                    ]}
-                >
-                    <ul className="financial-cost-inputs">
-                        {inputs.parts.length === 0
-                            ? <li>No recurring costs recorded on Financial Foundation yet.</li>
-                            : inputs.parts.map(part => (
-                                <li key={part.label}><span>{part.label}</span><span>{format(part.amount)} / month</span></li>
-                            ))}
-                        <li className="financial-cost-inputs-total">
-                            <span>Fixed costs</span><span>{format(inputs.fixed)} / month</span>
-                        </li>
-                    </ul>
-                    {inputs.caveats.map(caveat => <p className="financial-muted" key={caveat}>Estimate: {caveat}</p>)}
-                    {onOpenFinancialFoundation && (
-                        <TextLink type="button" className="business-engagement-link" onClick={() => onOpenFinancialFoundation(["financial-costs"])}>
-                            Review the costs on Financial Foundation
-                        </TextLink>
-                    )}
-                </FinancialBlock>
-
+        const point = (
+            <>
                 {result.streams.length > 0 && (
-                    <FinancialBlock title="Break-Even Point" info={[
-                        "Contribution per unit = price − variable cost per unit.",
-                        "Offering break even: the units this Offering alone would need to sell to cover all fixed costs.",
-                        "Organisation break even: the expected revenue mix, scaled as a whole until its contribution covers the fixed costs.",
-                        BREAK_EVEN_UNITS_FORMULA,
-                        BREAK_EVEN_SOURCE
-                    ]}>
+                    <FinancialBlock title="Break-Even Point" bare>
                         <div className="financial-table-scroll">
                             <FigureTable>
                                 <thead>
@@ -1384,9 +1346,39 @@ export default function FinancialSustainabilityEditor({
                     </FinancialBlock>
                 )}
 
-                {result.streams.length > 0 && offeringCostsBlock()}
+                <FinancialBlock
+                    title="Costs Used"
+                    info={[
+                        "Read from Financial Foundation, by behaviour.",
+                        "Fixed: the monthly equivalent of every recurring cost, plus loan interest. Loan principal is repayment of borrowed money, kept outside the costs; one-time costs are what the funding is for.",
+                        "Variable: per-unit and per-project costs linked to each Offering."
+                    ]}
+                >
+                    <ul className="financial-cost-inputs">
+                        {inputs.parts.length === 0
+                            ? <li>No recurring costs recorded on Financial Foundation yet.</li>
+                            : inputs.parts.map(part => (
+                                <li key={part.label}><span>{part.label}</span><span>{format(part.amount)} / month</span></li>
+                            ))}
+                        <li className="financial-cost-inputs-total">
+                            <span>Fixed costs</span><span>{format(inputs.fixed)} / month</span>
+                        </li>
+                    </ul>
+                    {inputs.caveats.map(caveat => <p className="financial-muted" key={caveat}>Estimate: {caveat}</p>)}
+                    {onOpenFinancialFoundation && (
+                        <TextLink type="button" className="business-engagement-link" onClick={() => onOpenFinancialFoundation(["financial-costs"])}>
+                            Review the costs on Financial Foundation
+                        </TextLink>
+                    )}
+                </FinancialBlock>
 
-                <FinancialBlock title="Break-Even Time" info={["The first month in which expected revenue covers that month's costs: the fixed costs, and the variable costs of that month's volume."]}>
+                {result.streams.length > 0 && offeringCostsBlock()}
+            </>
+        );
+
+        const time = (
+            <>
+                <FinancialBlock title="Break-Even Time" bare>
                     {result.expectedRevenue <= 0
                         ? <BusinessEmpty>With no expected revenue, break even cannot be reached from revenue.</BusinessEmpty>
                         : (
@@ -1441,11 +1433,19 @@ export default function FinancialSustainabilityEditor({
                         : <BusinessEmpty>Nothing is scheduled to come in or go out yet.</BusinessEmpty>}
                 </FinancialBlock>
 
+            </>
+        );
+
+        const stress = (
+            <>
                 {stressBlock()}
+                {takeBlock()}
+            </>
+        );
 
-{takeBlock()}
-
-                <FinancialBlock title="Sustainability">
+        const summary = (
+            <>
+                <FinancialBlock title="Sustainability" bare>
                     <div className="financial-table-scroll">
                         <FigureTable className="financial-summary">
                             <tbody>
@@ -1469,39 +1469,81 @@ export default function FinancialSustainabilityEditor({
                         Based on the current assumptions only. These are estimates, not guarantees or financial advice.
                     </p>
                 </FinancialBlock>
-
-            </div>
+            </>
         );
+
+        // (Each tile's face: the figure it is about.)
+        const pair = (name: string, figure: string) => name + "\u0001" + (figure ? "**" + figure + "**" : "");
+        return {
+            point: { body: point, face: result.breakEvenRevenue === null ? [] : [pair("Break-even revenue", format(result.breakEvenRevenue) + " a month")] },
+            time: { body: time, face: [pair("Expected Break Even", breakEven)] },
+            sustainability: { body: <>{lead}{summary}</>, face: [pair(statusTitle, "")] },
+            stress: { body: stress, face: [] as string[] }
+        };
 
     }
 
+    /* ---------- The chapters (doc 48, sections 2 and 11; owner, 2026-11-17 07:36) ---------- */
+
+    /** A chapter's tiles, each opening its blocks in a dialog with the chapter's heading and "i", as Financial Foundation's are. */
+    function chapterTiles(prefix: string, section: FinancialSection, entries: readonly { id: string; title: string; body: ReactNode; face: readonly string[]; extra?: ReactNode; info?: InfoPoint[] }[]): SectionTile[] {
+        return entries.map(entry => ({
+            id: prefix + "-" + entry.id,
+            title: entry.title,
+            anchor: prefix + "-" + entry.id,
+            rail: railId(entry.title),
+            items: entry.face,
+            content: () => (
+                <div className="column-tile-content" data-anchor={prefix + "-" + entry.id} data-rail={railId(entry.title)} role="group" aria-label={entry.title}>
+                    <div className="business-engagement-section-head">
+                        <DialogHeading title={entry.title} info={entry.info ?? [...section.instructions, ...section.info]} />
+                        {entry.extra}
+                    </div>
+                    {/* (The page's chart colours, which the Financial pages define, hold in the dialog too.) */}
+                    <div className="financial-page"><div className="financial-section-body">{entry.body}</div></div>
+                </div>
+            )
+        }));
+    }
+
+    /** One chapter: its title band and its tiles, in the page's chapter frame. */
+    function chapter(title: string, hue: number, tiles: SectionTile[]) {
+        return (
+            <CardShell data-anchor={"column-tiles-" + title.toLowerCase().replace(/[^a-z]+/g, "-")} style={{ "--strategy-theme-hue": hue } as CSSProperties}>
+                <div className="card-scroll">
+                    <div className="business-capability-section business-capability-tiles-section">
+                        <div className="business-engagement-section-head tiles-frame-head"><span className="field-group-title business-foundation-subhead">{title}</span></div>
+                        <SectionTiles label={tiles.map(tile => tile.title).join(", ")} hue={hue} tiles={tiles} />
+                    </div>
+                </div>
+            </CardShell>
+        );
+    }
+
+    // (BREAK EVEN, beside Financial Position on Costs, Funding & Position: the chapter alone, drawn by that page's editor.)
+    if (part === "break-even") {
+        const parts = breakEvenParts();
+        return chapter(SECTIONS.breakEven.title, SECTION_HUES["sustainability-break-even"] ?? 0, chapterTiles("sustainability-break-even", SECTIONS.breakEven, [
+            { id: "point", title: "Break-Even Point", ...parts.point, info: BREAK_EVEN_POINT_INFO },
+            { id: "time", title: "Break-Even Time", ...parts.time, info: BREAK_EVEN_TIME_INFO },
+            { id: "sustainability", title: "Sustainability", ...parts.sustainability },
+            { id: "stress", title: "Stress Test", ...parts.stress, info: STRESS_TEST_INFO }
+        ]));
+    }
+
+    // (REVENUE, the chapter of Revenue & Pricing: its streams, the Delivery Check and the summary. No settings box: the plan's months are in the page title,
+    // and the currency beside every amount asked for.)
+    const revenue = revenueParts();
     return (
-        <div className="financial-page business-foundation business-engagement business-capability">
-
-            <FinancialPageHead
-                sections={[SECTIONS.revenue, SECTIONS.breakEven]}
-                showInstructions={showInstructions}
-                columnsDivider={columnsDivider}
-            />
-
-            {/* No settings box: the plan's months are in the page
-                title, and the currency beside every amount asked for. */}
-
-            {sectionCard(
-                "sustainability-revenue", SECTIONS.revenue, revenueSection, 0,
-                offerings.length > 0 && (
-                    <FoldAllToggle
-                        ids={shownStreams.map(entry => entry.stream.id)}
-                        folds={folds}
-                        label="revenue streams"
-                    />
-                )
-            )}
-
-            <span className="financial-flow-arrow" aria-hidden="true">↓</span>
-
-            {sectionCard("sustainability-break-even", SECTIONS.breakEven, breakEvenSection, 1)}
-
+        <div className="answer-columns business-foundation business-engagement business-capability column-tiles-page strategy-single-frame" style={{ "--answer-column-count": 1 } as CSSProperties}>
+            {chapter(SECTIONS.revenue.title, SECTION_HUES["sustainability-revenue"] ?? 0, chapterTiles("sustainability-revenue", SECTIONS.revenue, [
+                {
+                    id: "streams", title: "Revenue Streams", ...revenue.streams,
+                    extra: offerings.length > 0 && <FoldAllToggle ids={shownStreams.map(entry => entry.stream.id)} folds={folds} label="revenue streams" />
+                },
+                { id: "delivery", title: "Delivery Check", ...revenue.delivery },
+                { id: "summary", title: "Revenue Summary", ...revenue.summary, info: REVENUE_SUMMARY_INFO }
+            ]))}
         </div>
     );
 
