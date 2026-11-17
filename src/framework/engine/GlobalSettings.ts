@@ -112,7 +112,19 @@ export const DEFAULT_USEFUL_LIFE: Record<string, string> = {
 };
 
 /** The version of the app's fee data (ChannelFeeData.ts): raised when rows are added, so a saved table is given them once. */
-export const CHANNEL_FEE_DATA_VERSION = 2;
+export const CHANNEL_FEE_DATA_VERSION = 3;
+
+/** The providers version 3 of the fee data adds (owner, 2026-11-17 07:16): their rows are given to a table saved at version 2. */
+const NEW_IN_VERSION_3: readonly string[] = ["PayPal Point of Sale", "eBay (private seller)"];
+
+/**
+ * A row of the app's fee data as version 2 left it and nobody changed since (owner, 2026-11-17 07:16): not checked, with the figures version 2 gave it (none, or
+ * Fiverr's 20% from a secondary source). Such a row takes version 3's values; a row the founder checked, filled in or changed keeps what it holds.
+ */
+function untouchedVersion2(row: ChannelFeeRow): boolean {
+    const fiverr = row.channel.trim() === "Fiverr" && row.commission === "20" && row.fixedFee === "0";
+    return row.status === "not-checked" && (fiverr || (row.commission === "" && row.fixedFee === "" && row.chargeback === ""));
+}
 
 /** A row's id from the app's fee data: the provider and the country, so the same row keeps its id. */
 const dataRowId = (provider: string, country: string): string => "fee-" + provider.toLowerCase().replace(/[^a-z0-9]+/g, "-") + "-" + country.toLowerCase();
@@ -200,6 +212,19 @@ function savedChannelFees(entries: readonly unknown[], version: unknown): Channe
     });
     if (typeof version === "number" && version >= CHANNEL_FEE_DATA_VERSION) {
         return rows;
+    }
+    // (FROM VERSION 2 (owner, 2026-11-17 07:16): the app's rows in the data's order -- each the founder left untouched takes version 3's values, each new provider's
+    // added, a row the founder removed stays removed --, then the founder's own rows.)
+    if (version === 2) {
+        const data = exampleChannelFees();
+        const appRows = data.flatMap(datum => {
+            const saved = rows.find(row => row.id === datum.id);
+            if (saved) {
+                return [untouchedVersion2(saved) ? datum : saved];
+            }
+            return NEW_IN_VERSION_3.includes(datum.channel) ? [datum] : [];
+        });
+        return [...appRows, ...rows.filter(row => !data.some(datum => datum.id === row.id))];
     }
     const held = new Set(rows.map(row => row.channel.trim().toLowerCase() + "|" + row.country));
     return [...rows, ...exampleChannelFees().filter(row => !held.has(row.channel.trim().toLowerCase() + "|" + row.country))];

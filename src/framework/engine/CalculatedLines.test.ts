@@ -331,11 +331,15 @@ describe("the fees a subchannel pays (doc 50, section 1.4; owner, 2026-11-14 12:
         expect(channelFeeRowFor("PayPal", table)?.note).toContain("checked 15/11/2026");
         expect(channelFeeRowFor("Stripe", table, "US")).toMatchObject({ commission: "2.9", fixedFee: "0.30", currency: "USD" });
         expect(channelFeeRowFor("PayPal", table, "NZ")).toMatchObject({ commission: "3.4", fixedFee: "0.45", currency: "NZD" });
-        expect(table.filter(row => row.status === "checked").every(row => row.note.includes("checked 15/11/2026"))).toBe(true);
+        expect(table.filter(row => row.status === "checked").every(row => row.note.includes("checked 15/11/2026") || row.note.includes("checked 17/11/2026"))).toBe(true);
+        // (PayPal Point of Sale, Zettle's US name, takes its own row before PayPal's; owner, 2026-11-17 07:16.)
+        expect(channelFeeRowFor("PayPal Point of Sale", table, "US")).toMatchObject({ commission: "2.29", fixedFee: "0.09" });
     });
 
     test("a row with no rate, or not available in the country, is never charged", () => {
-        expect(channelFeeRowFor("TikTok Shop", table, "GB")).toBeUndefined();
+        expect(channelFeeRowFor("TikTok Shop", table, "IE")).toBeUndefined();
+        expect(channelFeeRowFor("Square", table, "NZ")).toBeUndefined();
+        expect(channelFeeRowFor("Wolt", table, "GB")).toBeUndefined();
         expect(channelFeeRowFor("Amazon", table, "NZ")).toBeUndefined();
         expect(channelFeeRowFor("Wolt", table, "US")).toBeUndefined();
         expect(channelFeeRowFor("Amazon", table, "AU")?.commission).toBe("13");

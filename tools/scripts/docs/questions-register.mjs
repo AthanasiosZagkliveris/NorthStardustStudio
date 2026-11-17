@@ -228,7 +228,8 @@ const OFFERING_RETIRED = [
 /** False positives of the citation check: a token in a questionnaire document that looks like a question code and is not one. [doc number, token, why]. */
 const CITATION_ALLOW = [
     ["28", "C5", "doc 28's own earlier ids (the withdrawn list of 2026-10-26), not a Profile code"],
-    ["29", "C5", "doc 29's earlier founder question (\"Do you plan to hire?\", merged into its C4), not a Profile code"]
+    ["29", "C5", "doc 29's earlier founder question (\"Do you plan to hire?\", merged into its C4), not a Profile code"],
+    ["43", "O19", "a proposed code, placed in Revenue & Pricing (doc 48, 12.2; owner, 2026-11-17 07:16): it enters the register when built"]
 ];
 
 /* --------------------------------------------------------------------------------------------------------------------------------------------- */

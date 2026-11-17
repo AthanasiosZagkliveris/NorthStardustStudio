@@ -149,6 +149,7 @@ Recorded 2026-11-12 (owner, 15:37; doc 49, section 8, phase 7). Pages 4 and 5 ch
 - The Offering Economics card stands on the Revenue & Pricing page.
 - Break-even stands beside Financial Position: it needs the margin per unit (page 4) and the fixed costs (page 5).
 - Status: proposal; built in phase 7.
+- **Waiting for Revenue & Pricing, C1** (owner, 2026-11-17 07:16: "Yes to all"): the channel fees on a price that includes VAT (the fee is taken of the whole price the customer pays, VAT included), read where the price is set.
 - **Waiting for Revenue & Pricing** (owner, 2026-11-17; the open decisions and gaps, Group 4d): O14's job there (doc 43): Packages / tiers, a price row per tier on the Offering's revenue stream; Add-ons / extras, an add-on stream beside it (Made to order already skips DV9, the batch's set-up, doc 52). And the seasons: the Profiles' D3 (Around seasons / holidays) and the Segment's "Sales, seasons or planned gifts" shape the monthly pattern of the expected sales (doc 50, 2.3), on the page that holds the months.
 
 ## 12. Pricing inputs
@@ -169,6 +170,8 @@ The app knows how much price matters and how customers pay; it holds no amount: 
 
 #### K15 (Competitor card, doc 41)
 
+- **Placed (owner, 2026-11-17 07:16: "Yes to all"):** asked on the Competitor card, since it describes the competitor; the Revenue & Pricing section shows it beside the price as a record.
+
 - **Label:** What do they charge for a similar offer?
 - **Control:** an amount range (From, To) in the organisation's currency, "per" taken from the Offering's O3 terms; and a tick "Not known yet".
 - **"i":**
@@ -176,7 +179,9 @@ The app knows how much price matters and how customers pay; it holds no amount: 
   - Based on: MIT OpenCourseWare 15.818 *Pricing*; Penn State Extension, *Choosing a pricing method*.
 - **Judged on the competitor's own facts** (the start-up rule): never compared with the founder's own price.
 
-#### O19 (Offering card, doc 43)
+#### O19 (Revenue & Pricing, beside the price; doc 43)
+
+- **Placed (owner, 2026-11-17 07:16: "Yes to all"):** asked in the Revenue & Pricing section beside the price, no longer on the Offering card; its code O19 is kept.
 
 - **Label:** What would your customers expect to pay?
 - **Control:** an amount range (From, To) in the organisation's currency; and a tick "Not known yet".
@@ -184,7 +189,7 @@ The app knows how much price matters and how customers pay; it holds no amount: 
   - Your best estimate of what customers would pay for it. Asking a few of them gives the surest answer.
   - Based on: MIT OpenCourseWare 15.810, lecture 10, *Principles of Pricing* (Hauser, 2015); Penn State Extension, *Product pricing: what do I charge?*.
 
-**RV1** stays as specified (section 4).
+**RV1** stays as specified (section 4), asked in the Revenue & Pricing section beside the price (owner, 2026-11-17 07:16: "Yes to all").
 
 **Read by:** the Offering Economics card (the price against both ranges); the Business Plan's Products and Services; the Review: "[Offering]: price above what customers expect", shown only when the price and O19's range both exist.
 

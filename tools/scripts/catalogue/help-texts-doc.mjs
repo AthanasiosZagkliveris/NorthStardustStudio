@@ -63,7 +63,7 @@ const md = [
     "",
     "A help text is what the round \"i\" button opens. **" + list.length + "** were found. \"Rows\" is the number of lines the panel fills at the width it opens in (a tile dialog's panel 480px, a floating card's 360px, as found); \"Points\" is the number of lines or sentences in it; \"Characters\" counts the whole text.",
     "",
-    "What was covered: every page of the four systems, every master tile opened, the first two cards of each view, Global Settings. A help text that appears only in a later card, or after a tick, is not here.",
+    "What was covered: every page of the four systems, every master tile opened, every nested tile of each tile's dialog (up to 16), Global Settings. A help text that appears only in a card further in, or after a tick, is not here.",
     "",
     "## By category",
     "",

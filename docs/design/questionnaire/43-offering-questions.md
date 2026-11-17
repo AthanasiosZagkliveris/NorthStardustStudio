@@ -355,6 +355,10 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
 - **Read by (built (owner, 2026-11-17; the open decisions and gaps, Group 4c)):** the Business Plan, each Segment's "Conditions of sale" after its Offerings table, one line an Offering with its ticks.
 - **Connections:** *Comes from:* the Organisation's country (the "i" only). *Read by:* the export. Sources [FUN-74] to [FUN-79].
 
+
+### O19. What would your customers expect to pay? (proposed; asked in Revenue & Pricing)
+
+- **Placed (owner, 2026-11-17 07:16: "Yes to all"):** O19 is asked in the Revenue & Pricing section beside the price, not on this card (doc 48, 12.2); its code is kept. Not built yet: it waits for step 7 (doc 49, section 8, phase 7a).
 ### O12. Is a minimum age to buy it set by law? (no longer a question; proposed, owner 2026-11-06)
 
 The answer is already in the app: the Organisation's business activities (doc 28, 6.1, I1; their codes, doc 34, 5.4), the Segment's age group and end user's age (doc 35, Box 1, question 1; the end user's 1), the Profiles' ages (doc 36, A1) and the Organisation's country (the ages, doc 28, 10.3). So nothing is asked: the app derives it.
