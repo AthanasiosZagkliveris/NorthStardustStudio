@@ -12,7 +12,7 @@
  * The Segment's answers (effectiveSegmentAnswers) are read here only, by offeringContextOf.
  */
 import type { BusinessCustomerProfileValue, BusinessCustomerSegmentValue, BusinessOfferingValue } from "./AnswerBusinessFoundation.ts";
-import { type OfferingAnswers, type OfferingContext, offeringOptions, offeringShown } from "./OfferingQuestions.ts";
+import { type OfferingAnswers, type OfferingContext, offeringShown } from "./OfferingQuestions.ts";
 import { profileShown, profileUserShown } from "./ProfileQuestions.ts";
 import { type SegmentIdentity, segmentContextFor, segmentIsBusiness, segmentPositioningShown } from "./SegmentContext.ts";
 import { type SegmentAnswers, segmentSettle } from "./SegmentQuestions.ts";
@@ -112,8 +112,6 @@ export interface OfferingStarts {
     deliveryMode?: "unit" | "monthly";
     /** Page 3, Delivery, Calendar Time (weeks), for an Offering delivered per unit. */
     duration?: string;
-    /** Page 3, Delivery, Constraints: O10's options, as their words. */
-    constraints?: string;
     /** Page 5, the revenue stream's Charged. */
     charged?: "per-sale" | "per-project" | "monthly" | "annually";
     /** Page 5, the revenue stream's Payment Timing (PAYMENT_TIMINGS' ids; When earned, "", is the default and starts nothing). */
@@ -129,7 +127,7 @@ export interface OfferingStarts {
 }
 
 /**
- * The starts an Offering gives its cards on Pages 2, 3 and 5, from its answers as its card shows them (O3, its second row O3t, O10, O15). A later page shows them on a card it has
+ * The starts an Offering gives its cards on Pages 2, 3 and 5, from its answers as its card shows them (O3, its second row O3t, O15, O2). A later page shows them on a card it has
  * not saved yet and saves them with the first thing written there; what that page saved wins.
  */
 export function offeringStarts(offering: BusinessOfferingValue, segment: BusinessCustomerSegmentValue, identity: SegmentIdentity | undefined): OfferingStarts {
@@ -144,11 +142,6 @@ export function offeringStarts(offering: BusinessOfferingValue, segment: Busines
     const weeks = O15_WEEKS[answers.o15?.[0] ?? ""];
     if (weeks && recurring !== true) {
         starts.duration = weeks;
-    }
-    const context = offeringContextOf(offering, segment, identity);
-    const provided = (answers.o10 ?? []).map(id => offeringOptions("o10", context).find(option => option.id === id)?.label).filter((label): label is string => !!label);
-    if (provided.length > 0) {
-        starts.constraints = provided.join("; ") + ".";
     }
     if (O3_CHARGED[terms]) {
         starts.charged = O3_CHARGED[terms];

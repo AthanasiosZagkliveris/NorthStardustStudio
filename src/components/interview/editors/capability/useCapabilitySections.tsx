@@ -478,7 +478,7 @@ export function useCapabilitySections(earlier: Earlier) {
 
                 {categoryCell}
 
-                {/* Performer and Responsibility, one under the other, their dropdowns at one x
+                {/* Team and Responsibility, one under the other, their dropdowns at one x
                     (business-capability-activity-fields). */}
                 <div className="business-capability-stack business-capability-activity-fields">
 
@@ -509,7 +509,7 @@ export function useCapabilitySections(earlier: Earlier) {
 
                 </div>
 
-                {/* Responsible after the Resources and their Cost, its dropdown at the Performer's x. */}
+                {/* Responsible after the Resources and their Cost, its dropdown at the Team's x. */}
                 <div className="business-capability-stack business-capability-activity-fields">
 
                     {responsibilityField(

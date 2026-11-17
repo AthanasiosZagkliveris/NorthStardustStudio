@@ -138,6 +138,10 @@ type Example = { systems: Record<string, Parameters<typeof InterviewSession.from
 
     2026-11-17 (Group 5): two digests added for each example, the forecast and the plan read with its own Global Settings (forecastSettings,
     planSettings), as the app and every document read them since Group 1; the digests before are as they were.
+
+    2026-11-17, later: Lumen's export digest (and the weekly fixture's export words) written again when its Homeware Collection named its
+    floor looms as what can hold it up ("8-shaft floor looms, holds 3 at once": the only new numbers) and its Bespoke Commissions FlameGuard's
+    finishing (a week's lead time). No amount changed: the forecast and the plan are as they were.
 */
 const ENGAGEMENT = JSON.parse(engagementText) as Record<string, unknown>;
 

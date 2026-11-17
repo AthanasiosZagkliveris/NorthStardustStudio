@@ -6012,7 +6012,7 @@
                   "costOption": "",
                   "quantity": "12",
                   "hoursAvailable": "",
-                  "leadWeeks": "",
+                  "leadWeeks": "1",
                   "extras": {},
                   "paymentPlan": {
                     "on": false,
@@ -6198,13 +6198,14 @@
                 "batchSetup": "",
                 "batchUnits": "",
                 "holdUps": [
+                  "equipment",
                   "other"
                 ],
-                "equipmentId": "",
-                "holdsAtOnce": "",
+                "equipmentId": "resource-m3zilp7e",
+                "holdsAtOnce": "3",
                 "supplierId": "",
                 "holdUpsOther": [
-                  "Three floor looms; one weaver keeps about two busy on long warps.",
+                  "One weaver keeps about two of the three looms busy on long warps.",
                   "A cushion is about 3 hours, a runner 4 and a throw 10, finishing included (hand fringing alone is about 1.5 hours an end)."
                 ],
                 "effort": "",
@@ -6247,13 +6248,14 @@
                 "batchSetup": "",
                 "batchUnits": "",
                 "holdUps": [
+                  "materials",
                   "other"
                 ],
                 "equipmentId": "",
                 "holdsAtOnce": "",
-                "supplierId": "",
+                "supplierId": "partner-3w37yf3a",
                 "holdUpsOther": [
-                  "Sampling within a week, then weaving to the designer's lead time; flame-retardant finishing adds about a week."
+                  "Sampling within a week, then weaving to the designer's lead time."
                 ],
                 "effort": "",
                 "deliverers": [],

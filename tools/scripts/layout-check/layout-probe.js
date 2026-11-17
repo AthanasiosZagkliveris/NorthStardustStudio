@@ -2807,11 +2807,11 @@
         //      the 480px card: it ends in an ellipsis there, the whole text is in its list, option tooltip and the field's accessible name.
         //      The other exception is the supplier / partner cascade's Group and Name pickers (aria-label "... supplier group: ..." / "... supplier: ..."): a group
         //      name ("Property, Vehicles & Facilities", 284px) and a name the user gave ("Hackney Wick Maker Yard (landlord)") can be wider than the 212px beside
-        //      the label, so they end in an ellipsis there, the whole text in the list, the tooltip and the accessible name. An activity's Performer pickers
-        //      (aria-label "... performer 1: ...") are the same, and a Group picker of a Resource, Partner or Provider card (aria-label "... group: ...", a fixed list whose longest name,
+        //      the label, so they end in an ellipsis there, the whole text in the list, the tooltip and the accessible name. An activity's Team pickers
+        //      (aria-label "... team 1: ...") are the same, and a Group picker of a Resource, Partner or Provider card (aria-label "... group: ...", a fixed list whose longest name,
         //      "Landlords, Leasing & Warehouses", is 322px with its padding): a person's name and role, or a partner's, can be wider than the 290px left beside the label.
-        // (The Performer became the Team on 2026-11-16 20:22: its pickers are named "... team N: ..."; the old name stays for answers read before.)
-        const cascadeText = trigger => /(supplier|partner)( group)?:|performer [0-9]+:|team [0-9]+:| group:| category:| cost option:| resource [0-9]+:| rent:| linked registration:/.test(trigger.getAttribute("aria-label") || "");
+        // (An activity's Team pickers are named "... team N: ..." since 2026-11-16 20:22.)
+        const cascadeText = trigger => /(supplier|partner)( group)?:|team [0-9]+:| group:| category:| cost option:| resource [0-9]+:| rent:| linked registration:/.test(trigger.getAttribute("aria-label") || "");
         for (const trigger of [...document.querySelectorAll(".card-box-open .option-picker-trigger")].filter(visible)) {
             const value = trigger.querySelector(".option-picker-value");
             if (value && value.scrollWidth > value.clientWidth + 1 && !trigger.closest(".business-field-side")?.textContent.startsWith("Status") && !cascadeText(trigger)) {

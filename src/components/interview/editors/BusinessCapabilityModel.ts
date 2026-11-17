@@ -103,7 +103,6 @@ export const DELIVERY_HELP = {
         "For a recurring Offering (a subscription or retainer), one unit is each client, each month: the hours one active client takes a month."
     ],
     duration: ["From start to finish, including waiting for the client: approvals, access, feedback. Not working time: it is not added to the hours, and only sets the pace (hours a week) and how many run at once."],
-    constraints: ["Limits such as equipment, availability or lead times."],
     /** DV12, What can hold up delivery? */
     holdUps: ["Think about what slows you down when orders pick up: a machine or room, or materials arriving. Tick each one that applies."],
     /** DV6. */
@@ -179,7 +178,7 @@ export type Scope = "infrastructure" | "offering";
 
 /**
  * A NEW ACTIVITY, made with "Other…" under a card's Activity status: filed in its place's first category (Operational in Infrastructure, Production in the
- * Offering), starting when the card does, for the card's Offerings -- and, with exactly one named founder, theirs (its Performer and Responsible). With
+ * Offering), starting when the card does, for the card's Offerings -- and, with exactly one named founder, theirs (its Team and Responsible). With
  * several founders it is left to be assigned (the Review page lists it until then).
  */
 export function newActivityFor(scope: Scope, startDate: string, offeringIds: readonly string[], founderIds: readonly string[] = [], madeBy = ""): BusinessActivityValue {

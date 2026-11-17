@@ -299,7 +299,7 @@ export default function BusinessCapabilityEditor(props: BusinessCapabilityEditor
         capability.offering.providers.some(entry => entry.id === id) || capability.offering.resources.some(entry => entry.id === id);
     const pairHue = (id: string) => channelToneIds.has(id) ? CHANNEL_TILE_HUE : stableCardHue(offeringOwns(id) ? "offering-capability" : "infrastructure");
     const pairParent = pair ? parentCard(pair.parentId) : null;
-    // (The card below may be any card: an activity or a partner, and also a founder or a resource -- what a Performer, a Responsible or a Resource row of an activity leads to.)
+    // (The card below may be any card: an activity or a partner, and also a founder or a resource -- what a Team, a Responsible or a Resource row of an activity leads to.)
     const pairChild = pair ? childCard(pair.childId) ?? parentCard(pair.childId) : null;
     const legalParent = legalUnder ? parentCard(legalUnder) : null;
     const stackUnder = legalUnder && legalParent ? { item: { key: legalUnder, caption: legalParent.caption, kind: legalParent.kind, node: legalParent.node, hue: pairHue(legalUnder) }, clear: () => setLegalUnder(null) } : null;

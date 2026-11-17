@@ -30,8 +30,8 @@ import {
 
     - Resource: Name; Status; at "Partners & Suppliers" the partner or supplier, at a space's or vehicle's "Rent" the supplier; at "Costs" or "Buy" the Price and the
       Payment Frequency.
-    - Activity: Name; at least one Performer; the Responsible, unless the tick is off or the rule names him (a one-founder organization; one founder among
-      the Performers) or there is no founder to name.
+    - Activity: Name; at least one Team member; the Responsible, unless the tick is off or the rule names him (a one-founder organization; one founder among
+      the Team) or there is no founder to name.
     - Partner / Provider: Name; Price and Payment Frequency; the Responsible, as for an Activity.
     - Workspace: a Resource like the others (the Workspace form is the common card).
     - Founder: Salary, Working Hours, and Delivery Hours (or the percent of working hours).

@@ -170,9 +170,6 @@ describe("the later pages' starts follow the Offering's O3, O3b, O10 and O15", (
         expect(offeringWith({ o3: ["project"], o15: ["now"] }).duration).toBeUndefined();
         expect(offeringWith({ o3: ["project"], o15: ["longer"] }).duration).toBeUndefined();
         expect(offeringWith({ o3: ["retainer"], o15: ["weeks"] }).duration).toBeUndefined();
-        expect(offeringWith({ o10: ["access", "brief"] }).constraints).toBe("Access to their systems or information; A clear brief.");
-        // O10 is not asked of a Product, so a Product's saved O10 starts nothing.
-        expect(offeringWith({ o10: ["access"] }, "Product").constraints).toBeUndefined();
     });
 
     it("finds an Offering by its id in any Segment, and gives nothing for an id not on Page 1", () => {

@@ -82,7 +82,7 @@ export function teamNames(capability: BusinessCapabilityValue, founderNames: Rea
 }
 
 /** The label of a ticked skill, or the written name of an Other row. */
-export function skillLabel(skillId: string): string {
+function skillLabel(skillId: string): string {
     return SKILLS.find(skill => skill.id === skillId)?.label ?? skillId;
 }
 

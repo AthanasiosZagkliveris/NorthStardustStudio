@@ -321,7 +321,7 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
         );
     }
     /**
-     * THE RESOURCES an activity uses: a tick after the Performer opens the resources of its place, each with the units of it the activity takes when it has
+     * THE RESOURCES an activity uses: a tick after the Team opens the resources of its place, each with the units of it the activity takes when it has
      * units (a Per unit price: 3 hours, 40 km). A linked card that begins after the activity ends is said so. After the last, the cost they come to: Cost,
      * or Total when more than two linked cards carry a value.
      */
@@ -684,8 +684,8 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
      * time something is written in it, and dropped again when it is
      * emptied (or back to its starts), so an untouched card leaves nothing behind.
      * Not stored yet, it starts from the Offering's answers on Page 1
-     * (offeringStarts: Delivered from O3, Calendar Time from O15,
-     * Constraints from O10), saved with the first thing written.
+     * (offeringStarts: Delivered from O3, Calendar Time from O15),
+     * saved with the first thing written.
      */
     function startedDelivery(offeringId: string): DeliveryValue {
         const starts = offeringStartsById(businessFoundationSegments(foundation), offeringId);

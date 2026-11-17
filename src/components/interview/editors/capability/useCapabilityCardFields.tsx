@@ -495,7 +495,7 @@ export function useCapabilityCardFields(earlier: Earlier) {
             <>
 
                 <BusinessField label="Status" info={options.map(status => ({ title: status.label, text: status.explanation }))} inline={false} side>
-                    {/* The picker, and beside it the "+" that adds another status row (the Performer's place for its "+"). */}
+                    {/* The picker, and beside it the "+" that adds another status row (the Team's place for its "+"). */}
                     <div className="business-capability-performers">
                         <div className="business-capability-performer">
                             {statusPicker}
