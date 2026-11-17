@@ -25,7 +25,8 @@ Page 2 has three parts in the app, and only two are specified here: **1. Custome
 3. **Page 3's cards link to one another by id** (a resource to the activity it needs and to its partner or supplier; an activity to its performers and resources). **Page 3's costs are read by Page 4**, and the channel expenses of Page 2 create cards on Page 3.
 4. **Page 5 reads Page 4** (since 2026-11-17, doc 48, section 11): Costs, Funding & Position (Page 5) reads Revenue & Pricing (Page 4) for the revenue its Funding Need and Break Even count; Page 4 reads Page 1 for the Offerings, Page 2 for the Expected Sales and Page 3 for the capacity and the cost of each sale. Each page reads only the pages before it.
 5. **The Legal Entity feeds Page 5's costs** (its expenses and its founders), and **its country sets the currency** of Page 3's prices and of every total: the two cross-System reads. The currency is resolved in `src/pages/Conversation.tsx` (`organisationCurrency`) and handed down.
-6. **The Opening Date** (Identity, Organisation tile) and the **Global Settings** (`/settings`) feed Pages 3 to 5; the plan's start month is worked out, never typed (Page 4, "As built").
+6. **Page 5's fees read Page 2's Purchase channels** (owner, 2026-11-17 09:09 UTC+2, option (a): "Fees follow where they pay"): a fee is charged where the customers pay, each Offering's revenue (Page 4) shared equally among the Purchase-stage subchannels that serve it, the founder's own sales through the Segment's payment services; a commission, on the Customer Sources that name it (doc 47, section 5).
+7. **The Opening Date** (Identity, Organisation tile) and the **Global Settings** (`/settings`) feed Pages 3 to 5; the plan's start month is worked out, never typed (Page 4, "As built").
 
 ### What each later page reads from Page 1 (owner, 2026-11-08)
 

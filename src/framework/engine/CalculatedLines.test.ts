@@ -8,7 +8,7 @@ import {
     createBusinessResourceSlot
 } from "./AnswerUtils";
 import { calculatedLines, channelFeeFor, channelFeeRowFor, monthIndexOf, revenueFractions } from "./CalculatedLines";
-import { createDemand, createDemandSource } from "./DemandCapacity";
+import { createDemand, createDemandSource, offeringPayingRevenue, referralOnly } from "./DemandCapacity";
 import { financialForecast, type ForecastTable } from "./FinancialForecast";
 import {
     asFinancialFoundationValue,
@@ -396,6 +396,49 @@ describe("a share of revenue charged on each Offering's own revenue", () => {
         expect(revenueFractions("shopify", ["o1", "o2"], engagement, revenuePage)).toEqual({ o1: 0.75, o2: 0 });
         // (An expense no subchannel holds: each Offering's whole revenue.)
         expect(revenueFractions("other", ["o1", "o2"], engagement, revenuePage)).toEqual({ o1: 1, o2: 1 });
+    });
+
+    describe("fees follow where they pay (owner, 2026-11-17 09:09, option (a))", () => {
+        const revenuePage = asFinancialSustainabilityValue({ streams: [{ ...createRevenueStream(), offeringId: "o1", price: "10" }] });
+        // (A Workshop found on Instagram and through a referral partner, bought at the Online Store, on Etsy and at a market, paid by card at the market.)
+        const channel = (id: string, category: string, name: string, stages: string[]) => ({ id, category, name, offerings: ["*"], stages });
+        const engagement = asBusinessEngagementValue({
+            segments: [{ segmentId: "seg", offerings: [{ offeringId: "o1" }], channels: [
+                channel("insta", "Social Media", "Instagram", ["discovery"]), channel("partner", "Referral & Affiliates", "Referral Partner", ["discovery"]),
+                channel("web", "Website", "Online Store", ["evaluation", "purchase"]), channel("etsy", "Marketplace", "Etsy", ["purchase"]),
+                channel("market", "In Person", "Market / Pop-up", ["purchase"]), channel("card", "Direct Payment", "Card", ["purchase"])
+            ] }],
+            channelResources: [
+                { id: "l1", segmentId: "seg", channelId: "web", resourceId: "shopify" }, { id: "l2", segmentId: "seg", channelId: "etsy", resourceId: "etsy-fees" },
+                { id: "l3", segmentId: "seg", channelId: "card", resourceId: "sumup" }, { id: "l4", segmentId: "seg", channelId: "partner", resourceId: "referral" }
+            ],
+            demand: { o1: { ...createDemand(), sources: [
+                { ...createDemandSource("other"), id: "s1", channelId: "insta", estimate: "30" }, { ...createDemandSource("other"), id: "s2", channelId: "partner", estimate: "10" }
+            ] } }
+        });
+        const paying = new Set(["web", "etsy", "card"]);
+
+        it("shares the revenue equally among the Purchase subchannels, none to Discover, and the uncovered own part to the payment services", () => {
+            // (400 a month: a third at each of the three places; the market's third paid by card -- the Online Store holds its own fee, Etsy takes the money.)
+            const split = offeringPayingRevenue(engagement.demand, revenuePage.streams, engagement.segments, paying).o1;
+            expect(Object.keys(split).sort()).toEqual(["Direct Payment\u0001Card", "In Person\u0001Market / Pop-up", "Marketplace\u0001Etsy", "Website\u0001Online Store"].sort());
+            expect(split["Website\u0001Online Store"]).toBeCloseTo(400 / 3);
+            expect(split["Direct Payment\u0001Card"]).toBeCloseTo(400 / 3);
+            expect(split["Social Media\u0001Instagram"]).toBeUndefined();
+        });
+
+        it("charges a fee on what is paid at its subchannel, a payment service never on a marketplace sale, a commission on its source", () => {
+            expect(revenueFractions("shopify", ["o1"], engagement, revenuePage, paying).o1).toBeCloseTo(1 / 3);
+            expect(revenueFractions("etsy-fees", ["o1"], engagement, revenuePage, paying).o1).toBeCloseTo(1 / 3);
+            expect(revenueFractions("sumup", ["o1"], engagement, revenuePage, paying).o1).toBeCloseTo(1 / 3);
+            // (The referral partner's commission: the 10 of 40 sales its Customer Source brings.)
+            expect(referralOnly(["Referral & Affiliates"])).toBe(true);
+            expect(revenueFractions("referral", ["o1"], engagement, revenuePage).o1).toBe(0.25);
+        });
+
+        it("with no fee at the Online Store, the payment service takes the Online Store's part too", () => {
+            expect(revenueFractions("sumup", ["o1"], engagement, revenuePage, new Set(["etsy", "card"])).o1).toBeCloseTo(2 / 3);
+        });
     });
 
 });

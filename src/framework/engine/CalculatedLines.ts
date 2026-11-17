@@ -25,7 +25,7 @@ import {
     usefulLifeOf,
     amortisationOfCostOption
 } from "./GlobalSettings.ts";
-import { offeringChannelRevenue, offeringMonthlyRevenue } from "./DemandCapacity.ts";
+import { offeringChannelRevenue, referralOnly, offeringMonthlyRevenue, offeringPayingRevenue } from "./DemandCapacity.ts";
 import type { BusinessEngagementValue } from "./businessFoundation/engagementReaders.ts";
 import { BUSINESS_CHANNEL_CATEGORIES, BUSINESS_CHANNEL_OTHER } from "./businessFoundation/channelCategories.ts";
 import { FEE_CHANNEL_CATEGORIES } from "./ChannelFeeData.ts";
@@ -234,8 +234,10 @@ export interface CalculationInput {
  * channel's by what each Offering sells through the expense's own subchannels; 2026-11-15 15:32, the forecast as the Inventory): 1 -- the whole of its own
  * revenue, at the full rate, whatever shares the card holds --, or, for an expense a subchannel holds, the part of the Offering's expected sales that its
  * Customer Sources make through those subchannels (0 where it sells nothing there). Where no Customer Source names them, the whole revenue.
+ * A FEE FOLLOWS WHERE THEY PAY (owner, 2026-11-17 09:09, option (a)): given the subchannels a fee of their own covers (`paying`), the part is what the Offering's
+ * customers pay at those subchannels (offeringPayingRevenue) -- a commission keeps the part its Customer Sources make there.
  */
-export function revenueFractions(lineId: string, offeringIds: readonly string[], engagement: BusinessEngagementValue | undefined, revenuePage: FinancialSustainabilityValue): Record<string, number> {
+export function revenueFractions(lineId: string, offeringIds: readonly string[], engagement: BusinessEngagementValue | undefined, revenuePage: FinancialSustainabilityValue, paying?: ReadonlySet<string>): Record<string, number> {
     const whole = Object.fromEntries(offeringIds.map(id => [id, 1]));
     if (!engagement) {
         return whole;
@@ -249,7 +251,7 @@ export function revenueFractions(lineId: string, offeringIds: readonly string[],
     if (keys.length === 0) {
         return whole;
     }
-    const byChannel = offeringChannelRevenue(engagement.demand, revenuePage.streams, channels);
+    const byChannel = paying ? offeringPayingRevenue(engagement.demand, revenuePage.streams, engagement.segments, paying) : offeringChannelRevenue(engagement.demand, revenuePage.streams, channels);
     const total = offeringMonthlyRevenue(engagement.demand, revenuePage.streams);
     const through = Object.fromEntries(offeringIds.map(id => [id, keys.reduce((sum, key) => sum + (byChannel[id]?.[key] ?? 0), 0)]));
     if (!offeringIds.some(id => through[id] > 0)) {
@@ -322,10 +324,24 @@ export function calculatedLines(input: CalculationInput, fromFoundationRate: num
     /* Channel fees, royalties and partner commissions (X4, X5): a Percentage cost is a rate of the revenue it follows, a calculated COGS line. */
     const organisationCurrency = countryCurrency(input.country ?? "");
     const percentageLines: CalculatedResult["percentageLines"] = [];
-    counted.filter(line => line.billing === "percentage" || line.frequency === "usage-based").forEach(line => {
+    const kindOf = (line: CostLine) => line.costOption === "royalty-on-sales" ? "royalty"
+        : line.costOption === "affiliate-commission" || line.costOption === "sales-agents" ? "commission"
+            : "channel-fee";
+    // (A FEE FOLLOWS WHERE THEY PAY, A COMMISSION ITS SOURCE (owner, 2026-11-17 09:09, option (a)): a fee -- a marketplace's, a payment service's -- is charged on
+    // what is paid at its subchannels; a commission, a royalty, or a cost held by referral and affiliate subchannels only, on what the Customer Sources naming them make.)
+    const links = input.engagement?.channelResources ?? [];
+    const allChannels = (input.engagement?.segments ?? []).flatMap(segment => segment.channels);
+    const heldByReferrals = (id: string) => referralOnly(links.filter(link => link.resourceId === id).map(link => allChannels.find(channel => channel.id === link.channelId)?.category ?? "").filter(Boolean));
+    const percentCounted = counted.filter(line => line.billing === "percentage" || line.frequency === "usage-based");
+    const noPriceFees = [...capability.offering.providers, ...capability.providers, ...capability.offering.professionals, ...capability.professionals]
+        .filter(card => card.cost.frequency === "percent-revenue" && parseAmount(card.cost.price) === null && !counted.some(line => line.id === card.id))
+        .filter(card => channelFeeRowFor(card.name, settings.channelFees, input.country ?? "") !== undefined);
+    const feeIds = new Set([...percentCounted.filter(line => kindOf(line) === "channel-fee").map(line => line.id), ...noPriceFees.map(card => card.id)].filter(id => !heldByReferrals(id)));
+    const paying = new Set(links.filter(link => feeIds.has(link.resourceId)).map(link => link.channelId));
+    percentCounted.forEach(line => {
         const ids = line.offeringIds.length > 0 && !line.offeringIds.includes("*") ? line.offeringIds : [...flows.keys()];
         // (A rate of each Offering's own revenue: never shared out between them, owner, 2026-11-15 15:32.)
-        const shares = revenueFractions(line.id, ids, input.engagement, input.revenuePage);
+        const shares = revenueFractions(line.id, ids, input.engagement, input.revenuePage, feeIds.has(line.id) ? paying : undefined);
         const active = activeMonths(line, start);
         const table = channelFeeRowFor(line.name, settings.channelFees, input.country ?? "");
         const percent = table ? (settingNumber(table.commission) ?? 0) + (settingNumber(table.chargeback) ?? 0) : rateOf(line, settings);
@@ -351,26 +367,18 @@ export function calculatedLines(input: CalculationInput, fromFoundationRate: num
                 }
             }
         });
-        const kind = line.costOption === "royalty-on-sales" ? "royalty"
-            : line.costOption === "affiliate-commission" || line.costOption === "sales-agents" ? "commission"
-                : "channel-fee";
-        percentageLines.push({ id: line.id, label: line.name, kind, values: values.map(round) });
+        percentageLines.push({ id: line.id, label: line.name, kind: kindOf(line), values: values.map(round) });
     });
 
     /* A PAYMENT SERVICE'S OR A MARKETPLACE'S CARD WITH NO PRICE (owner, 2026-11-15 16:37: "a payment service's fee should reach the forecast through its fee row"): a
        "% of revenue" partner or supplier card whose name takes the country's row of the Channel Fee Table is charged from that row -- the cards the answers make
        carry no price --, on its Offerings' revenue through its subchannels, from its Start to its End. A card with a price is a line of its own above, so it is never
        charged twice. */
-    const priced = new Set(percentageLines.map(line => line.id));
-    [...capability.offering.providers, ...capability.providers, ...capability.offering.professionals, ...capability.professionals]
-        .filter(card => card.cost.frequency === "percent-revenue" && parseAmount(card.cost.price) === null && !priced.has(card.id) && !counted.some(line => line.id === card.id))
+    noPriceFees
         .forEach(card => {
-            const row = channelFeeRowFor(card.name, settings.channelFees, input.country ?? "");
-            if (!row) {
-                return;
-            }
+            const row = channelFeeRowFor(card.name, settings.channelFees, input.country ?? "")!;
             const ids = card.offeringIds.length > 0 && !card.offeringIds.includes("*") ? card.offeringIds : [...flows.keys()];
-            const shares = revenueFractions(card.id, ids, input.engagement, input.revenuePage);
+            const shares = revenueFractions(card.id, ids, input.engagement, input.revenuePage, feeIds.has(card.id) ? paying : undefined);
             const active = activeMonths({ startDate: card.startDate, endDate: card.endDate } as CostLine, start);
             const percent = (settingNumber(row.commission) ?? 0) + (settingNumber(row.chargeback) ?? 0);
             const fixed = foreignFixedFee(row, organisationCurrency) ? 0 : settingNumber(row.fixedFee) ?? 0;

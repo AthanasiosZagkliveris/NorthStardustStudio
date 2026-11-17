@@ -1,6 +1,7 @@
 import { NUMBER_LIMITS, limitedNumberText } from "../fields/numberInput.ts";
 import { BUSINESS_JOURNEY_STAGES } from "../../../framework/engine/businessFoundation/engagementPage.ts";
 import { labelWithCurrency } from "../../../framework/engine/Currencies.ts";
+import { referralOnly } from "../../../framework/engine/DemandCapacity.ts";
 import { CSSProperties, Fragment, ReactNode, useContext, useMemo, useState } from "react";
 import TextLink from "../fields/TextLink.tsx";
 import InfoNote, { InfoText } from "../fields/InfoNote.tsx";
@@ -173,7 +174,10 @@ export const TABLE_COLUMNS = [
 const HIDDEN_AT_FIRST = ["offering", "share", "journey", "actions"];
 
 /** The share of a row's cost each Offering carries, in the Offering column's order: the card's own shares, or -- a channel expense's -- equal shares of its Offerings. */
-export function shareLines(row: FloorRow, offerings: readonly { id: string; name: string }[], wholeRevenue: Readonly<Record<string, number>> = {}, channelRevenue: Readonly<Record<string, Readonly<Record<string, number>>>> = {}, fee: ChargedFee | null = null, orderValue: Readonly<Record<string, number>> = {}): { name: string; percent: string; fraction: number; cost: number | null }[] {
+export function shareLines(row: FloorRow, offerings: readonly { id: string; name: string }[], wholeRevenue: Readonly<Record<string, number>> = {}, sourceRevenue: Readonly<Record<string, Readonly<Record<string, number>>>> = {}, fee: ChargedFee | null = null, orderValue: Readonly<Record<string, number>> = {}, payingRevenue?: Readonly<Record<string, Readonly<Record<string, number>>>>): { name: string; percent: string; fraction: number; cost: number | null }[] {
+    // (A FEE FOLLOWS WHERE THEY PAY, A COMMISSION ITS SOURCE (owner, 2026-11-17 09:09, option (a)): a share of revenue on referral and affiliate subchannels only
+    // by what their Customer Sources make; any other by what is paid at its subchannels (offeringPayingRevenue), as the forecast charges it.)
+    const channelRevenue = payingRevenue && !referralOnly((row.channel?.places ?? []).map(place => place.channel)) ? payingRevenue : sourceRevenue;
     // (A CHANNEL'S share of revenue -- a payment provider's, a marketplace's -- is split by what each Offering sells THROUGH the subchannels the expense belongs
     // to (owner, 2026-11-14 20:25); an Offering that sells nothing through them has no share. Where no Customer Source names them, by its whole revenue.)
     const places = (row.channel?.places ?? []).map(place => place.channel.trim() + "\u0001" + place.sub.trim());
@@ -245,7 +249,7 @@ const plainAmount = amountText;
 /** The Offerings list's first tick: every Offering (no Offering chosen). */
 const ALL_OFFERINGS = "*";
 
-export default function CapabilityOverview({ rows, format = String, currency = "", onOpenLegal, onOpenAction, offerings = [], offeringRevenue = {}, offeringChannelRevenue = {}, feeOf, orderValue = {} }: {
+export default function CapabilityOverview({ rows, format = String, currency = "", onOpenLegal, onOpenAction, offerings = [], offeringRevenue = {}, offeringChannelRevenue = {}, offeringPayingRevenue, feeOf, orderValue = {} }: {
     rows: readonly FloorRow[];
     format?: (amount: number) => string;
     currency?: string;
@@ -259,6 +263,8 @@ export default function CapabilityOverview({ rows, format = String, currency = "
     offeringRevenue?: Readonly<Record<string, number>>;
     /** Each Offering's revenue a month through each subchannel (offeringChannelRevenue): a channel's share of revenue's split. */
     offeringChannelRevenue?: Readonly<Record<string, Readonly<Record<string, number>>>>;
+    /** Each Offering's revenue a month paid at each subchannel (offeringPayingRevenue): a fee's split, where the customers pay. */
+    offeringPayingRevenue?: Readonly<Record<string, Readonly<Record<string, number>>>>;
     /** A share of revenue's fee as the forecast charges it, from the Channel Fee Table (ChargedFee); null where no row takes the card's name. */
     feeOf?: (row: FloorRow) => ChargedFee | null;
     /** One order's value for each Offering (its price x items per order): the orders a fixed fee per order is charged on. */
@@ -650,7 +656,7 @@ export default function CapabilityOverview({ rows, format = String, currency = "
     const servedCell = (row: FloorRow, column: string): ReactNode | undefined => {
         if (column === "share") {
             const fee = isPercentRow(row) ? feeOf?.(row) ?? null : null;
-            const lines = shareLines(row, offerings, offeringRevenue, offeringChannelRevenue, fee, orderValue).filter(line => chosen(line.name));
+            const lines = shareLines(row, offerings, offeringRevenue, offeringChannelRevenue, fee, orderValue, offeringPayingRevenue).filter(line => chosen(line.name));
             // (A fixed fee in another currency: its note under the lines, as the Fees line says it.)
             const items = [...lines.map(line => ({ key: line.name, node: costPerOfferingText(row, line) as ReactNode })), ...(fee?.note ? [{ key: "note", node: fee.note as ReactNode }] : [])];
             return items.length > 0 ? <Values items={items} /> : undefined;
@@ -785,7 +791,7 @@ export default function CapabilityOverview({ rows, format = String, currency = "
                             {TABLE_COLUMNS.filter(column => !offColumn(column.id)).map(column => (
                                 <th scope="col" key={column.id} data-col={column.id} className={column.id === "cost" ? "capability-overview-number" : undefined}>
                                     {column.id === "cost" ? labelWithCurrency(column.label, currency) : column.id === "share"
-                                        ? <InfoText text={labelWithCurrency(column.label, currency)}><InfoNote label="Cost per Offering" points={["Each Offering's share of the cost, and the cost it comes to: the shares typed on the card, as the Financial Foundation splits it; with none typed, or shares that do not total 100%, equal shares.", "A channel expense is shared equally between the Offerings its channel serves.", "A cost that is a share of revenue shows its rate and what it comes to for each Offering: the rate of what that Offering sells a month through the subchannels the expense belongs to (Demand & Conversion's Customer Sources on those channels x the price on Sustainability x the items per order), so an Offering that sells nothing through them comes to 0. Where no Customer Source names those subchannels, the rate of its whole revenue a month; until its sales and price are set, it waits for them."]} /></InfoText>
+                                        ? <InfoText text={labelWithCurrency(column.label, currency)}><InfoNote label="Cost per Offering" points={["Each Offering's share of the cost, and the cost it comes to: the shares typed on the card, as the Financial Foundation splits it; with none typed, or shares that do not total 100%, equal shares.", "A channel expense is shared equally between the Offerings its channel serves.", "A cost that is a share of revenue shows its rate and what it comes to for each Offering. A fee is charged where the customers pay: each Offering's revenue a month (Demand & Conversion's expected sales x the price on Sustainability x the items per order) is shared equally among the Purchase subchannels that serve it, and the Discover subchannels take none. A marketplace takes its own fee; the rest of what is paid on the founder's own subchannels goes through the Segment's payment services, equally, unless a fee of its own is held there.", "A commission held by referral and affiliate subchannels is charged on what their Customer Sources bring. Where no subchannel holds the cost, the rate of the Offering's whole revenue a month; until its sales and price are set, it waits for them."]} /></InfoText>
                                         : column.label}
                                 </th>
                             ))}

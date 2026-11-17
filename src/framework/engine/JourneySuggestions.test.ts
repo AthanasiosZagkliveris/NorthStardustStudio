@@ -89,7 +89,8 @@ describe("the Demand rows the Foundation proposes", () => {
         // (The Audit's sources name LinkedIn and Referral partners, so those already bring its customers: only its other Discover channels are proposed.)
         const audit = segment.offerings[0];
         const auditDemand = quill.engagement.demand[audit.id];
-        expect(demandSuggestions(segment, audit.id, channels, { ...auditDemand, sources: auditDemand.sources.filter(source => !source.group) }).map(row => row.label)).toEqual(["Sales funnel", "Visitors", "Referrals"]);
+        expect(demandSuggestions(segment, audit.id, channels, { ...auditDemand, sources: auditDemand.sources.filter(source => !source.group) }).map(row => row.label)).toEqual(["Sales funnel", "Referrals", "Visitors"]);
+        // (In the order of the first open channel of each kind, as the example replayed on 2026-11-17 holds its channels.)
     });
 
     test("Contracts or tenders where the buyer decides by a formal tender, once", () => {
