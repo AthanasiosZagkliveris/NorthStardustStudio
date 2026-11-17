@@ -1019,20 +1019,6 @@
    ]
   },
   {
-   "label": "How long until they have it?",
-   "place": "floating card",
-   "text": "The time from order to having it. How it reaches them is the question below.",
-   "lines": 3,
-   "points": 1,
-   "w": 360,
-   "chars": 76,
-   "scenes": [
-    "Business System / 1. Foundation / tile Offerings / card 1",
-    "Business System / 1. Foundation / tile Offerings / card 2",
-    "Business System / 1. Foundation / tile Offerings / card 3"
-   ]
-  },
-  {
    "label": "How do your customers receive it?",
    "place": "floating card",
    "text": "How it reaches them once bought: tick each way, as one Offering is often delivered in several.\nSent automatically online: a download or an email sent by the shop.\nSent by you online: a file you send when it is ready.",
@@ -1057,6 +1043,20 @@
    "scenes": [
     "Business System / 1. Foundation / tile Offerings / card 1",
     "Business System / 1. Foundation / tile Offerings / card 2"
+   ]
+  },
+  {
+   "label": "How long until they have it?",
+   "place": "floating card",
+   "text": "The time from order to having it. How it reaches them is the question above.",
+   "lines": 3,
+   "points": 1,
+   "w": 360,
+   "chars": 76,
+   "scenes": [
+    "Business System / 1. Foundation / tile Offerings / card 1",
+    "Business System / 1. Foundation / tile Offerings / card 2",
+    "Business System / 1. Foundation / tile Offerings / card 3"
    ]
   },
   {
@@ -1186,27 +1186,13 @@
    ]
   },
   {
-   "label": "Which sector are your customers in?",
-   "place": "tile dialog",
-   "text": "Six classes over the industries below. If they work in more than one industry, make another Segment.",
-   "lines": 5,
-   "points": 1,
-   "w": 360,
-   "chars": 100,
-   "scenes": [
-    "Business System / 1. Foundation / tile Segment Description",
-    "Business System / 1. Foundation / tile Segment Description / card 1",
-    "Business System / 1. Foundation / tile Segment Description / card 2"
-   ]
-  },
-  {
    "label": "Which industry are your customers in?",
    "place": "tile dialog",
-   "text": "The industries of the sector chosen, as the official schemes (SIC and NACE, NAICS, ANZSIC) name their sections.\nGovernment and public administration includes embassies and international bodies.\nOther services includes households that employ staff, such as cleaners and nannies.",
-   "lines": 13,
+   "text": "Each industry under its sector, as the official schemes (SIC and NACE, NAICS, ANZSIC) name their sections. The sector follows from the industry. If they work in more than one industry, make another Segment.\nGovernment and public administration includes embassies and international bodies.\nOther services includes households that employ staff, such as cleaners and nannies.",
+   "lines": 17,
    "points": 3,
    "w": 360,
-   "chars": 277,
+   "chars": 372,
    "scenes": [
     "Business System / 1. Foundation / tile Segment Description",
     "Business System / 1. Foundation / tile Segment Description / card 1",
@@ -1305,6 +1291,20 @@
    "points": 1,
    "w": 360,
    "chars": 124,
+   "scenes": [
+    "Business System / 1. Foundation / tile Segment Description",
+    "Business System / 1. Foundation / tile Segment Description / card 1",
+    "Business System / 1. Foundation / tile Segment Description / card 2"
+   ]
+  },
+  {
+   "label": "Where do your customers live or work?",
+   "place": "tile dialog",
+   "text": "1 is countryside or remote places, 3 the suburbs and towns around a city, 5 a city centre.\n\n1 = Rural, 5 = Urban.",
+   "lines": 6,
+   "points": 2,
+   "w": 360,
+   "chars": 113,
    "scenes": [
     "Business System / 1. Foundation / tile Segment Description",
     "Business System / 1. Foundation / tile Segment Description / card 1",

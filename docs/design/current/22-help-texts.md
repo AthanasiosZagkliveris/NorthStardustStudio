@@ -36,7 +36,7 @@ Listed, never failed (doc 39, 3.6). The budget is 160 characters a point; the av
 
 | Kind | Count |
 |---|---|
-| a point over 160 characters | 71 |
+| a point over 160 characters | 72 |
 | an internal word (tile, card, locked, frozen, driver) | 27 |
 | the same text under several labels | 53 |
 | a jargon acronym | 2 |
@@ -81,6 +81,7 @@ Listed, never failed (doc 39, 3.6). The budget is 160 characters a point; the av
 | a point over 160 characters (165) | How does this person want to feel? | Business System / 1. Foundation / Segment Description | Based on: Bain's Elements of Value (HBR, 2016 and 2018). In the References (Almquist, Seni |
 | the same text under 2 labels | Profile | Business System / 1. Foundation / Segment Description | Profile, Segment Description |
 | the same text under 2 labels | Segment Description | Business System / 1. Foundation / Segment Description | Profile, Segment Description |
+| a point over 160 characters (206) | Which industry are your customers in? | Business System / 1. Foundation / Segment Description | Each industry under its sector, as the official schemes (SIC and NACE, NAICS, ANZSIC) name |
 | a jargon acronym | Which industry are your customers in? | Business System / 1. Foundation / Segment Description | SIC |
 | a point over 160 characters (171) | Value Proposition | Business System / 1. Foundation / Value Proposition | Based on: Moore's positioning template, and the pains and gains of the Value Proposition C |
 | an internal word (tile, card, locked, frozen, driver) | Channel | Business System / Customer Engagement / Channels &Journey | card |
@@ -322,7 +323,7 @@ Listed, never failed (doc 39, 3.6). The budget is 160 characters a point; the av
 | How do you send the files? | floating card | 6 | 2 | 116 | The way they receive the files: each becomes a delivery channel on Customer Engagement. Tick Other to write another. |
 | How do your customers receive it? | floating card | 11 | 3 | 216 | How it reaches them once bought: tick each way, as one Offering is often delivered in several. Sent automatically online: a download or an email sent by the sho... |
 | How is it offered? | floating card | 12 | 2 | 242 | How it is put together for sale: one range, made to each order, packages, limited runs or extras. Counts and what is included go in the Notes. Based on: the pro... |
-| How long until they have it? | floating card | 3 | 1 | 76 | The time from order to having it. How it reaches them is the question below. |
+| How long until they have it? | floating card | 3 | 1 | 76 | The time from order to having it. How it reaches them is the question above. |
 | Offering | floating card | 11 | 3 | 217 | Turn customer problems and functional needs into practical product features and solutions. Make sure each one answers your Profiles' needs. Some questions wait ... |
 | Offerings | tile dialog | 11 | 3 | 217 | Turn customer problems and functional needs into practical product features and solutions. Make sure each one answers your Profiles' needs. Some questions wait ... |
 | On what terms do they pay for it? | floating card | 23 | 8 | 494 | How often they pay, and on what terms. How they pay (card, invoice) is the Segment's question. Subscription / membership: regular payments until they cancel. Pa... |
@@ -378,12 +379,12 @@ Listed, never failed (doc 39, 3.6). The budget is 160 characters a point; the av
 | What might hold this person back? | floating card | 31 | 12 | 616 | Their doubts about buying from you; today's frustrations have their own question. Choose up to three, then rate each. For example, whether a beginner can keep u... |
 | Where are your customers? | tile dialog | 6 | 1 | 124 | The widest area most of your customers are spread over, now or as you plan it. If it is more than one, make another Segment. |
 | Where do your customers discover new products? | tile dialog | 23 | 6 | 465 | Examples: communities such as Reddit, Discord and Facebook Groups; creators on TikTok, Instagram, YouTube and LinkedIn. Partner businesses: a shop, venue or fir... |
+| Where do your customers live or work? | tile dialog | 6 | 2 | 113 | 1 is countryside or remote places, 3 the suburbs and towns around a city, 5 a city centre. 1 = Rural, 5 = Urban. |
 | Where do your customers usually shop? | tile dialog | 10 | 2 | 202 | Where most of their purchases start and finish. Choose Both online and in shops when they mix the two about equally. A marketplace is a site that sells many sel... |
 | Which communities does this person belong to? | floating card | 6 | 2 | 78 | Where they ask, read and recommend. Write the names of the groups in the note. |
 | Which devices does this person use? | floating card | 6 | 2 | 107 | The devices they use to find and buy. The Segment's choice of where they buy starts this; change it freely. |
 | Which events does this person attend? | floating card | 6 | 2 | 103 | The kinds of events a typical person of the Segment goes to. Write the names of the events in the note. |
-| Which industry are your customers in? | tile dialog | 13 | 3 | 277 | The industries of the sector chosen, as the official schemes (SIC and NACE, NAICS, ANZSIC) name their sections. Government and public administration includes em... |
-| Which sector are your customers in? | tile dialog | 5 | 1 | 100 | Six classes over the industries below. If they work in more than one industry, make another Segment. |
+| Which industry are your customers in? | tile dialog | 17 | 3 | 372 | Each industry under its sector, as the official schemes (SIC and NACE, NAICS, ANZSIC) name their sections. The sector follows from the industry. If they work in... |
 | Which social media does this person use? | floating card | 5 | 2 | 69 | The platforms they actually use, if any. Tick Other to write another. |
 | Who decides to buy? | tile dialog | 19 | 6 | 386 | Select all that apply. One person decides: The person who uses it has the budget and the final say. The team agrees: The people who use it try it and push it up... |
 
