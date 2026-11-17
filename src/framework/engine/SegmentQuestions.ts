@@ -1007,6 +1007,9 @@ export function segmentSettleSaved(saved: SegmentAnswers, context: SegmentContex
     return Object.fromEntries(Object.entries(settled).filter(([key]) => key in saved));
 }
 
+/** The ticks the answers start (segmentAnswerStarts): unticked to none, the empty answer is saved and kept, so the start does not come back (a start unticked is the founder's answer: owner, 2026-11-18). */
+export const SEGMENT_TICK_STARTS: readonly string[] = ["authorise", "pay"];
+
 export function segmentChoose(question: SegmentQuestion, answers: SegmentAnswers, next: string[]): SegmentAnswers {
 
     let chosen = next;
@@ -1025,7 +1028,7 @@ export function segmentChoose(question: SegmentQuestion, answers: SegmentAnswers
     const settled = { ...answers };
 
     // (A question moved from Positioning keeps an empty answer: cleared, it does not fall back to the Positioning answer saved before.)
-    if (chosen.length > 0 || question.fromPositioning) {
+    if (chosen.length > 0 || question.fromPositioning || SEGMENT_TICK_STARTS.includes(question.id)) {
         settled[question.id] = chosen;
     } else {
         delete settled[question.id];
@@ -1081,6 +1084,10 @@ export function segmentSettle(answers: SegmentAnswers, context: SegmentContext):
             }
 
             if (chosen.length === 0) {
+                // (A start unticked to none stays none: SEGMENT_TICK_STARTS.)
+                if (SEGMENT_TICK_STARTS.includes(question.id)) {
+                    next[question.id] = [];
+                }
                 continue;
             }
 
@@ -1171,8 +1178,8 @@ export function asSegmentAnswers(source: unknown): SegmentAnswers {
         const ids = (Array.isArray(entry) ? entry : []).filter((id): id is string => typeof id === "string");
         const known = ids.filter((id, at) => ids.indexOf(id) === at && question.options.some(option => option.id === id));
 
-        // (A question moved from Positioning keeps an answer cleared: an empty list saved.)
-        if (known.length > 0 || (question.fromPositioning && Array.isArray(entry))) {
+        // (A question moved from Positioning keeps an answer cleared: an empty list saved. So does a start unticked to none: SEGMENT_TICK_STARTS.)
+        if (known.length > 0 || ((question.fromPositioning || SEGMENT_TICK_STARTS.includes(question.id)) && Array.isArray(entry))) {
             answers[question.id] = question.many ? known : known.slice(0, 1);
         }
 

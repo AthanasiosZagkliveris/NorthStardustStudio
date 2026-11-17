@@ -173,6 +173,7 @@ This follows the type rules already built for the text boxes: a substitute has n
   - *Read by (built):* K10 ("Win over their unhappy customers", for a platform rated below 4).
   - *Read by (not built yet):* the Review.
 - **Starts from K5** (built; owner, 2026-11-18 00:46, the review's second batch, 2.15): a Marketplace channel ticks the Marketplace row, a Facebook subchannel the Facebook row, ticked but never rated, while K6 was never answered (`competitorReviewStarts`). Only rated rows are printed, so a start prints nothing.
+- **Its starts unticked to none stay none** (owner, 2026-11-18: a start follows its source until edited, and unticking every tick is an edit): the empty K6 is kept by the settle step.
 
 ### K7. How easy do they make each stage for customers?
 

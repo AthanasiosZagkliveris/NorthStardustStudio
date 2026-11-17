@@ -546,6 +546,7 @@ The buyer is a business, or the Segment is of businesses where both relationship
   - *Read by (not built yet):* The Offering's payment plan (instalments, invoicing). Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
 - **Its start follows its source** (owner, 2026-11-17 08:38: "Bugs plus the first batch" of the review): Digital wallets while they buy on a phone, until answered; a saved copy unchanged since was taken out once.
 - **Invoice or purchase order starts** (built; owner, 2026-11-18 00:46, the review's second batch, 2.8) where a manager signs off or a formal procurement decides (Who decides to buy, itself possibly a start), beside Digital wallets on a phone; a start, following its source until answered (`segmentAnswerStarts`).
+- **A start unticked to none stays none** (owner, 2026-11-18: a start follows its source until edited, and unticking every tick is an edit): the empty answer is saved and read back (`SEGMENT_TICK_STARTS`: How they pay, Who decides to buy), so neither start comes back when its source changes.
 
 ### 8a. Which payment services do you take payments with?
 

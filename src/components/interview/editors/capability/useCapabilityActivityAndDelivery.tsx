@@ -759,7 +759,9 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
         const shown = capability.delivery[offeringId] ?? started;
         const next = { ...shown, ...patch };
         const delivery = { ...capability.delivery };
-        if (deliveryIsEmpty(next) || JSON.stringify(next) === JSON.stringify(started)) {
+        // (DV12's starts unticked to none: kept as the founder's answer, so they do not come back; a start unticked is the founder's answer: owner, 2026-11-18.)
+        const holdUpsCleared = started.holdUps.length > 0 && next.holdUps.length === 0;
+        if ((deliveryIsEmpty(next) && !holdUpsCleared) || JSON.stringify(next) === JSON.stringify(started)) {
             delete delivery[offeringId];
         } else {
             delivery[offeringId] = next;

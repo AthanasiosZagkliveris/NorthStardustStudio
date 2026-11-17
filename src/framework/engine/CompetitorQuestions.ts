@@ -539,6 +539,9 @@ export function competitorSettle(answers: CompetitorAnswers, type: string): Comp
             }
         } else if (chosen.length > 0) {
             settled[id] = SINGLE.includes(id) ? chosen.slice(0, 1) : chosen;
+        } else if (id === "k6" && "k6" in answers) {
+            // (K6's starts unticked to none stay none: competitorReviewStarts; a start unticked is the founder's answer: owner, 2026-11-18.)
+            settled.k6 = [];
         }
         // K5's sub-channels: kept while their channel is ticked.
         if (id === "k5") {

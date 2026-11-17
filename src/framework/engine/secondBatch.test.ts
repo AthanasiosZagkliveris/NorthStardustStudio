@@ -92,3 +92,39 @@ describe("2.14: a relationship type's drafts", () => {
         expect(relationshipApproachDraft("community", [])).toBe("");
     });
 });
+
+describe("a start unticked to none stays none (owner, 2026-11-18: starts follow their source until edited)", () => {
+    const reload = <T,>(value: T): T => JSON.parse(JSON.stringify(value)) as T;
+    it("keeps the Segment's How they pay and Who decides empty, through a reload and a change of their source", async () => {
+        const { segmentChoose, segmentSettleSaved } = await import("./SegmentQuestions");
+        const context = { frame: "business" as const, lifeStages: [], scales: [], relations: [], userStages: [], stage: "manage", endsUser: false };
+        let saved = segmentSettleSaved(segmentChoose(question("pay"), { orgtype: ["public"] }, []), context as never);
+        expect(saved.pay).toEqual([]);
+        saved = asBusinessFoundationValue(reload({ segments: [{ id: "s", name: "S", questions: saved, profiles: [], offerings: [] }] })).segments[0].questions;
+        expect(saved.pay).toEqual([]);
+        // (The source changes -- a manager signs off --: still none.)
+        saved = segmentSettleSaved(segmentChoose(question("authorise"), saved, []), context as never);
+        expect(segmentAnswerStarts(saved, { ...saved, size: ["large"] }).pay).toBeUndefined();
+        expect(segmentAnswerStarts(saved, { ...saved, size: ["large"] }).authorise).toBeUndefined();
+    });
+    it("keeps a Profile's D1 and D3, and an Offering's O20, empty through a reload and a change of their source", () => {
+        const segment = segmentOf([{ id: "rug", category: "Product", questions: { o1: ["physical"], o6: ["shipped"], o20: [] } }], { discover: ["samples", "media"], trigger: ["seasonal"], reach: ["country"] }, { d1: [], d3: [] });
+        const again = asBusinessFoundationValue(reload({ segments: [segment] })).segments[0];
+        const shown = effectiveProfileAnswers(again.profiles[0], again, people);
+        expect(shown.d1).toEqual([]);
+        expect(shown.d3).toEqual([]);
+        expect(again.offerings[0].questions?.o20).toEqual([]);
+        expect(offeringShown(again.offerings[0].questions ?? {}, { type: "Product", reach: ["countries"] }).o20 ?? []).toEqual([]);
+    });
+    it("keeps K6 empty once its starts are unticked, through the settle and a change of K5", async () => {
+        const { competitorSettle } = await import("./CompetitorQuestions");
+        const settled = competitorSettle(reload({ k5: ["marketplace"], k6: [] }), "direct");
+        expect(settled.k6).toEqual([]);
+        expect(competitorReviewStarts({ ...settled, "k5-sub": ["social-media:facebook"] })).toEqual([]);
+    });
+    it("keeps DV12 unticked to none on the saved card", async () => {
+        const { asBusinessCapabilityValue } = await import("./AnswerUtils");
+        const capability = asBusinessCapabilityValue(reload({ delivery: { rug: { holdUps: [], duration: "", effort: "" } } }));
+        expect(capability.delivery.rug.holdUps).toEqual([]);
+    });
+});

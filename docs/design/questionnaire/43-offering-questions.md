@@ -239,6 +239,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
 - **Connections:**
   - *Comes from:* O1, the starting value, the clearest way only (ticks since 2026-11-09: the others are ticked by hand, such as In person or They collect it for a physical item sold in a shop or café): a physical item → Posted / shipped to them; a digital file → Sent automatically online; a live online session → In a live online session; an app / online tool → Ongoing online access; online access → Ongoing online access; an in-person service → In person; project work → Sent by you online (2026-11-09); an ongoing service → none.
   - *Read by (built):* the Delivery stage's channels on Customer Engagement (doc 47). *Read by (not built yet):* the Review (the Segment's "Rural / remote", doc 35 Box 2 question 2, with In person or Posted / shipped: a delivery-cost check, rule 17). Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
+- **O20's start unticked to none stays none** (owner, 2026-11-18: a start follows its source until edited, and unticking every tick is an edit): the empty answer is saved and read back (`OFFERING_TICK_STARTS`).
 
 ### O20. How do you send it?
 

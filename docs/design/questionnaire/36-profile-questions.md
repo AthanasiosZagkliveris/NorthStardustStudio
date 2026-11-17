@@ -451,6 +451,7 @@ C1 opens the box (owner, 2026-11-08, P8): the devices they find and buy on are a
 - **Starts (built (owner, 2026-11-17; the open decisions and gaps, Group 4c)):** from the Segment's work schedule while the customers are working: Standard daytime hours, Evenings and Weekends; Shifts / varying hours, Weekday daytime and Weekends; Flexible / their own hours, Weekday daytime. Retired customers start at Weekday daytime. Change it freely.
 - **Connections:** *Read by:* the documents and the export. The habits Notes keep how they buy, in their words.
 - **Around seasons / holidays starts** (built; owner, 2026-11-18 00:46, the review's second batch, 2.12) where sales, seasons or planned gifts make them shop (Box 4, 5), beside the start from the work schedule.
+- **A start unticked to none stays none** (owner, 2026-11-18: a start follows its source until edited, and unticking every tick is an edit): D1's and D3's empty answers are saved and read back as answers (as every Profile question's).
 
 ## 7. Box E. Motivations
 
