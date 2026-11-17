@@ -132,6 +132,9 @@ type Example = { systems: Record<string, Parameters<typeof InterviewSession.from
     2026-11-03, later: the plan and export digests (and the weekly fixture's words) were written again when the Profile's questions
     were reworded (frustrations "about the way it is done now", objections "buying from you", "Your website"), the goals that repeated
     "What matters most" were dropped from the examples, and "Unable to work" lost its brackets. No figure changed.
+
+    2026-11-17 (Group 4c): the plan digests (and the weekly fixture's plan words) were written again when the Business Plan gained a persona line per
+    Profile (its ages are the only new numbers), the competitor table (K1 to K10) and each Segment's conditions of sale. No amount changed.
 */
 const ENGAGEMENT = JSON.parse(engagementText) as Record<string, unknown>;
 

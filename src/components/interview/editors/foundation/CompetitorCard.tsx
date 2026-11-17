@@ -12,7 +12,7 @@ import RadioChoice from "../../../controls/RadioChoice.tsx";
 import RatingScale, { type Rating } from "../../../controls/RatingScale.tsx";
 import { withRatingMeaning } from "../../../controls/RatingScaleEnds.tsx";
 import RatingScaleGroup from "../../../controls/RatingScaleGroup.tsx";
-import { type OtherQuestion, competitorOtherList, competitorOtherSettleAll, competitorOtherTick, competitorOthers, COMPETITOR_CHANNEL_OPTIONS, COMPETITOR_EXPERIENCE_HOW, COMPETITOR_INFO, COMPETITOR_OFFER_OPTIONS, COMPETITOR_RATINGS, COMPETITOR_REACH_OPTIONS, COMPETITOR_SIZE_OPTIONS, COMPETITOR_STAGES, type CompetitorAnswers, type CompetitorQuestionId, REVIEW_PLATFORM_EXAMPLES, competitorAsks, competitorOpenings, competitorRate, competitorRatings, competitorSettle, competitorWording, competitorValueRows, shownOpenings, COMPETITOR_SUBCHANNELS, COMPETITOR_BAND_LINE, bandTone, COMPETITOR_CHANGES, valueProfiles, hardToBeat, reviewPlatformOrder } from "../../../../framework/engine/CompetitorQuestions.ts";
+import { type OtherQuestion, competitorOtherList, competitorOtherSettleAll, competitorOtherTick, competitorOthers, COMPETITOR_CHANNEL_OPTIONS, COMPETITOR_EXPERIENCE_HOW, COMPETITOR_INFO, COMPETITOR_OFFER_OPTIONS, COMPETITOR_RATINGS, COMPETITOR_REACH_OPTIONS, COMPETITOR_SIZE_OPTIONS, COMPETITOR_STAGES, type CompetitorAnswers, type CompetitorQuestionId, REVIEW_PLATFORM_EXAMPLES, competitorAsks, competitorOpenings, competitorRate, competitorRatings, competitorSettle, competitorWording, competitorValueRows, shownOpenings, COMPETITOR_SUBCHANNELS, COMPETITOR_BAND_LINE, bandTone, COMPETITOR_CHANGES, valueProfiles, hardToBeat, reviewPlatformOrder, competitorK10Info } from "../../../../framework/engine/CompetitorQuestions.ts";
 import FittingRadioChoice from "./FittingRadioChoice.tsx";
 import { type SegmentQuestion, segmentRowChoice, writtenInRows } from "../../../../framework/engine/SegmentQuestions.ts";
 import NumberedListInput from "../../fields/NumberedListInput.tsx";
@@ -125,7 +125,7 @@ export function competitorCard(scope: FoundationCardScope, competitor: BusinessC
     // K6: the platforms in the order of the App User's industry and country (L18); a platform ticked before stays shown.
     const platforms = reviewPlatformOrder(identity?.country ?? "", identity?.activityCode ?? "");
     const platformRows = [...platforms.first, ...platforms.rest.filter(platform => (answers.k6 ?? []).includes(platform.id))];
-    const context = { profiles: segment.profiles.map(profile => profile.questions ?? {}), others: segment.competitors.filter(other => other.id !== competitor.id).map(other => other.questions ?? {}) };
+    const context = { profiles: segment.profiles.map(profile => profile.questions ?? {}), others: segment.competitors.filter(other => other.id !== competitor.id).map(other => other.questions ?? {}), reach: segment.questions.reach?.[0] };
     // K8 (doc 41; owner, 2026-11-04): every value, the Profiles' highest rated first, each chosen value with a band of one colour, darker the more
     // Profiles chose it (bandTone: the count only).
     const valueRows = competitorValueRows(context).map(value => ({ ...value, tone: bandTone(valueProfiles(value.id, context)) }));
@@ -246,7 +246,8 @@ export function competitorCard(scope: FoundationCardScope, competitor: BusinessC
     const INFO: Partial<Record<CompetitorQuestionId, readonly string[]>> = {
     k6: [...COMPETITOR_INFO.k6, ...REVIEW_PLATFORM_EXAMPLES],
     k8: valuesBanded ? [...COMPETITOR_INFO.k8, COMPETITOR_BAND_LINE] : COMPETITOR_INFO.k8,
-    k10: [...COMPETITOR_INFO.k10, ...hardToBeat(competitor.name, answers, context)]
+    // (A crowded market, How crowded is your market? 4 or 5: its line; competitorK10Info.)
+    k10: [...competitorK10Info(segment.questions.competition?.[0]), ...hardToBeat(competitor.name, answers, context)]
     };
     /** One question: its words (by type) with its "i" (and its limit) over its control. */
     const question = (id: CompetitorQuestionId) => (

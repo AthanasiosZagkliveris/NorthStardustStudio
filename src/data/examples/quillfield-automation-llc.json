@@ -4283,6 +4283,7 @@
           "value": {
             "situation": "We sell AI Workflow Audit ($2,500 a project), Automation Build ($7,500 a project) and Automation Care Retainer ($1,200 a month) to Small professional-services firms in New York City.\nCustomers find and reach us through LinkedIn, Main Website, Booking / Registration Page, Newsletter, Direct Email, Referral partners (bookkeepers and IT providers), Event / Talk, Invoice and Zoom.\nWe start with $10,650 in hand and are seeking $15,000 (SBA Microloan). At the normal level we expect $14,250 a month in revenue, breaking even in Jul 2027. The plan still has a funding gap of $16,198.",
             "situationSource": "auto",
+            "swotEdited": ["strengths", "weaknesses", "opportunities", "threats"],
             "swot": {
               "strengths": [
                 "Founder with hands-on automation and solutions architecture experience",

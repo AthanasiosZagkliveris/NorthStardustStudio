@@ -49,6 +49,8 @@ export interface OfferingContext {
     /** The Segment's reach (Box 2, 1) and its area, a rating (1 rural to 5 urban): O6, O20 and O15 follow them (owner, 2026-11-17). */
     reach?: readonly string[];
     area?: string;
+    /** Where the Segment's customers mainly work (workenv): working at home puts Local delivery first in O20 (owner, 2026-11-17). */
+    workenv?: string;
 }
 
 /** O6's ways for each form (O1; owner, 2026-11-17): a project or ongoing service, every way. */
@@ -362,7 +364,8 @@ export function offeringOptionsWith(id: OfferingQuestionId, context: OfferingCon
     // (THE SEGMENT'S REACH ORDERS O6 AND O20, and a rural area puts the post and couriers first in O20; never locked.)
     const reachFirst = (context.reach ?? []).flatMap(reach => id === "o6" ? REACH_FIRST[reach]?.o6 ?? [] : id === "o20" ? REACH_FIRST[reach]?.o20 ?? [] : []);
     const rural = id === "o20" && (context.area === "1" || context.area === "2") ? ["postal", "courier"] : [];
-    const ranked = [...new Set([...reachFirst, ...rural])];
+    const home = id === "o20" && context.workenv === "remote" ? ["local"] : [];
+    const ranked = [...new Set([...reachFirst, ...rural, ...home])];
     if (ranked.length > 0) {
         const rank = (option: string) => ranked.includes(option) ? ranked.indexOf(option) : ranked.length;
         listed = [...listed].sort((a, b) => (a.id === "other" ? 1 : 0) - (b.id === "other" ? 1 : 0) || rank(a.id) - rank(b.id));
@@ -541,7 +544,7 @@ const FRUSTRATION_PHRASES: Record<string, string> = {
 };
 
 /** The highest-rated option of a Profile question across the Segment's Profiles; ties, and ticks unrated, in the list's order. */
-export function highestRated(profiles: readonly Record<string, string[]>[], id: "e1" | "e2"): string | undefined {
+export function highestRated(profiles: readonly Record<string, string[]>[], id: "e1" | "e2" | "functional"): string | undefined {
     const question = PROFILE_QUESTIONS.find(entry => entry.id === id);
     if (!question) {
         return undefined;
@@ -559,6 +562,23 @@ export function highestRated(profiles: readonly Record<string, string[]>[], id: 
     });
     return best?.option;
 }
+
+/** THE SUPPORT PROMISE (O16; owner, 2026-11-17), on the Offering's relationship card (Customer Engagement): how soon customers hear back; null with No set time or no answer. */
+export function supportPromise(answers: OfferingAnswers): string | null {
+    const words: Record<string, string> = { sameday: "the same day", oneday: "within one working day", fewdays: "within a few days" };
+    const reply = words[answers.o16?.[0] ?? ""];
+    return reply ? "Support promise: you reply " + reply + "." : null;
+}
+
+/** The functional jobs (the Profile's Needs) in the draft, after "that" (doc 42, 1; owner, 2026-11-17). */
+const JOB_PHRASES: Readonly<Record<string, string>> = {
+    organisation: "keeps things in order", integration: "works with the tools they already use", connection: "helps them reach other people",
+    information: "gives them the answers they need", variety: "gives them more options"
+};
+/** The end user's outcome (E4) in the draft's closing sentence: "Their end users get comfort and ease." */
+const OUTCOME_PHRASES: Readonly<Record<string, string>> = {
+    enjoy: "enjoyment and fun", comfort: "comfort and ease", safety: "safety and care", learning: "learning and growth", belong: "looks and belonging", practical: "practical use"
+};
 
 /** "a product", "an app / online tool": the Offering's form (O1), else its Type, as it reads after "is". */
 function formWords(offering: BusinessOfferingValue, answers: OfferingAnswers, context: OfferingContext): string {
@@ -586,18 +606,22 @@ export function draftOffered(segment: BusinessCustomerSegmentValue): boolean {
  * [frustration] and want to [goal]": E1 and E2 are the end user's there (doc 36, 2.1).
  */
 export function valuePropositionDraft(segment: BusinessCustomerSegmentValue, offering: BusinessOfferingValue, answers: OfferingAnswers, context: OfferingContext,
-    profileAnswers: readonly Record<string, string[]>[] = segment.profiles.map(profile => profile.questions ?? {})): string {
+    profileAnswers: readonly Record<string, string[]>[] = segment.profiles.map(profile => profile.questions ?? {}), userAnswers: readonly Record<string, string[]>[] = []): string {
     const profiles = [...profileAnswers];
     const goal = highestRated(profiles, "e1");
     const frustration = highestRated(profiles, "e2");
+    // (THE JOB IT DOES (the Needs' functional ticks, the highest rated) and, with an end user, THE END USER'S OUTCOME (E4), the first ticked; owner, 2026-11-17.)
+    const job = highestRated(profiles, "functional");
+    const outcome = userAnswers.flatMap(entry => entry.outcome ?? []).find(id => OUTCOME_PHRASES[id]);
     const benefit = answers.o4?.[0];
     const name = offering.name.trim() || "[the Offering's name]";
     // A Segment with an end user (Proxy or Dual-Intent): the goal and the frustration are the end user's (doc 36, 2.1), so the sentence says whose ("whose end users").
     const sentence = "For " + segment.name.trim() + (context.endsUser ? " whose end users " : " who ") + (frustration ? FRUSTRATION_PHRASES[frustration] ?? "[a frustration]" : "[a frustration]")
         + " and want to " + (goal ? GOAL_PHRASES[goal] ?? "[a goal]" : "[a goal]") + ", " + name + " is " + formWords(offering, answers, context)
-        + " that offers " + (benefit ? valueInSentence(benefit) : "[its main benefit]");
+        + " that " + (job && JOB_PHRASES[job] ? JOB_PHRASES[job] + " and " : "") + "offers " + (benefit ? valueInSentence(benefit) : "[its main benefit]");
     const clear = clearOpenings(profiles, segment.competitors.map(competitor => competitor.questions ?? {}));
-    return sentence + (clear.length > 0 ? ", and it stands out for " + valueInSentence(clear[0]) : "") + ".";
+    return sentence + (clear.length > 0 ? ", and it stands out for " + valueInSentence(clear[0]) : "") + "."
+        + (context.endsUser && outcome ? " Their end users get " + OUTCOME_PHRASES[outcome] + "." : "");
 }
 
 /* ---- The Value Proposition's open items (doc 42, 2) ---- */

@@ -920,10 +920,12 @@ export function useFoundationSubsections(earlier: Earlier) {
         const offeringContext = (offering: BusinessOfferingValue): OfferingContext => offeringContextOf(offering, segment, identity);
         const offeringAnswers = segment.offerings.map(offering => effectiveOfferingAnswers(offering, segment, identity));
         const profileAnswers = segment.profiles.map(profile => effectiveProfileAnswers(profile, segment, identity));
+        // (The end users' own answers, for the draft's E4 line: effectiveProfileUserAnswers; empty where the Segment has no end user.)
+        const userAnswers = segment.profiles.map(profile => effectiveProfileUserAnswers(profile, segment, identity));
 
         /* The draft (doc 42, 1): one link for each Offering with a Type (the doc's proposal for several Offerings), adding its sentence at the end of the text. */
         const drafts = draftOffered(segment)
-            ? segment.offerings.map((offering, at) => ({ offering, draft: offering.category.trim() ? valuePropositionDraft(segment, offering, offeringAnswers[at], offeringContext(offering), profileAnswers) : "" })).filter(entry => entry.draft && draftToAdd(segment.valueProposition, entry.draft))
+            ? segment.offerings.map((offering, at) => ({ offering, draft: offering.category.trim() ? valuePropositionDraft(segment, offering, offeringAnswers[at], offeringContext(offering), profileAnswers, userAnswers) : "" })).filter(entry => entry.draft && draftToAdd(segment.valueProposition, entry.draft))
             : [];
         const openItems = valuePropositionOpenItems(segment, offeringAnswers, profileAnswers);
 

@@ -29,6 +29,8 @@ One page, one chapter "Situation & Direction", four Master Tiles: **Current Situ
 
 The SWOT is the founder's own, distinct from the Competitor SWOT (Thanos, 2026-11-04). The four lists stay; the dialog gains one question, sourced suggestions, a priority order and a reminder.
 
+**Built (owner, 2026-11-17; the open decisions and gaps, Group 4c): the market's starts.** Each Segment's market growth and how crowded it is (doc 35, Market size, 2 and 4) start the Opportunities and Threats (`swotStartsOf`): a growing market (4 or 5), "The market for [the Segment] is growing."; an open one (1 or 2), "… has few competitors yet."; a shrinking one (1 or 2), "… is shrinking."; a crowded one (4 or 5), "… is crowded, with established players.". A quadrant shows its starts until the founder edits it (`swotEdited`; one saved with a written line counts as edited), as the Current Situation follows its draft until edited; the Business Plan prints the SWOT as the page shows it.
+
 #### SW1 (SWOT dialog, the Opportunities and Threats band, above the two lists)
 
 - **Label:** How could these changes affect you?

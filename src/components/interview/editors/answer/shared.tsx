@@ -357,6 +357,9 @@ export interface AnswerRendererProps {
         /** The Current Situation drafted from the Business System; "" when it records nothing yet. */
         situationDraft?: string;
 
+        /** The SWOT's starts from the Business System's market answers (swotStartsOf): shown in a quadrant never edited. */
+        swotStarts?: { opportunities: string[]; threats: string[] };
+
         /** Asks before a Refresh replaces the founder's own words. */
         guardSituationRefresh?: (apply: () => void) => void;
 

@@ -156,6 +156,7 @@ A typical person of the Segment, asked specifically.
 - **The "i" says:**
   - One age within the Segment's age group: a typical person, as you picture them.
   - If the Segment's age group changes and this age falls outside it, the age is cleared.
+- **Read by (built (owner, 2026-11-17; the open decisions and gaps, Group 4c)):** the Business Plan's persona line, one a Profile before the Customer Profiles table (`profilePersona`): its name, A1, A3 (or A3b) and A7, with A2's pronoun: "Sara, 34, a professional, lives with her partner and children."; only the parts answered.
 - **Connections:**
   - *Comes from:* the Segment's age group (the number is held to it).
   - *Read by (built):* the number is cleared when it leaves the group (2.2; `profileSettle`).
@@ -251,6 +252,7 @@ A typical person of the Segment, asked specifically.
 - **The "i" says:**
   - The five buying-centre roles credited to Webster and Wind (1972) [CHN-02].
   - "Uses it" is the person who uses the offering day to day; the one who pays and the one who decides can be other people.
+- **Read by (built (owner, 2026-11-17; the open decisions and gaps, Group 4c)):** D1's order: Uses it puts A free trial and A demo first; Makes the final decision puts A quote or proposal first; never locked.
 - **Connections:**
   - *Comes from:* the Segment's decision authorisation and end-user part. **Starts:** every role where one person decides; on a Proxy Segment, Places the order and Makes the final decision; on a Dual-Intent Segment also Uses it (2026-11-09).
   - *Read by (not built yet):* the Review (nobody makes the final decision); context on the Customer Engagement page. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
@@ -393,6 +395,7 @@ C1 opens the box (owner, 2026-11-08, P8): the devices they find and buy on are a
 - **The "i" says:**
   - The devices they use to find and buy.
   - The Segment's choice of where they buy starts this; change it freely.
+- **Starts and read by (built (owner, 2026-11-17; the open decisions and gaps, Group 4c)):** where the shopping setting starts nothing, the Segment's On the road (Where do your customers mainly work?) starts Smartphone. Where every Profile of the Segment uses a smartphone only, the Main Website's subchannel card on Customer Engagement says "Design for phones first: your customers find and buy on a smartphone." (`segmentPhonesOnly`).
 - **Connections:**
   - *Comes from:* the Segment's where they buy: the setting starts it (Online, on a phone: Smartphone; Online, on a computer: Laptop / desktop; In a shop: none; Both online and in shops: Smartphone and Laptop / desktop), as a starting value the App User can change.
   - *Read by (not built yet):* the Review (make the order and the forms work on a phone; a note where the devices ticked leave out the one the Segment buys on).
@@ -413,6 +416,7 @@ C1 opens the box (owner, 2026-11-08, P8): the devices they find and buy on are a
 - **The "i" says:**
   - How they weigh options before choosing.
   - How they pay and where they buy are the Segment's questions.
+- **Ordered (built (owner, 2026-11-17; the open decisions and gaps, Group 4c)):** by A5 (see A5).
 - **Connections:**
   - *Comes from:* the Segment's path to purchase.
   - *Read by (built):* the Evaluation channels (doc 47): the ways to try it first their Samples & Trials subchannel, the catalogue Print & Mail › Catalogue / Brochure, each named; a sample, trial, demo or taster makes the funnel's middle step "Tried it (%)" (doc 50); A demo or A quote starts D2's formal help. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
@@ -440,6 +444,7 @@ C1 opens the box (owner, 2026-11-08, P8): the devices they find and buy on are a
 - **Options** (L25, doc 34): Weekday daytime; Evenings; Weekends; Around seasons / holidays.
 - **The "i" says:**
   - When they actually buy; the Segment's work schedule says when they work.
+- **Starts (built (owner, 2026-11-17; the open decisions and gaps, Group 4c)):** from the Segment's work schedule while the customers are working: Standard daytime hours, Evenings and Weekends; Shifts / varying hours, Weekday daytime and Weekends; Flexible / their own hours, Weekday daytime. Retired customers start at Weekday daytime. Change it freely.
 - **Connections:** *Read by:* the documents and the export. The habits Notes keep how they buy, in their words.
 
 ## 7. Box E. Motivations
@@ -544,6 +549,7 @@ C1 opens the box (owner, 2026-11-08, P8): the devices they find and buy on are a
 - E3's "i": its start "where the Segment's household income is rated 1".
 - Every rated question's "i" now starts with what 1 and 5 mean ("1 = Optional, 5 = Essential."), the numbers standing over the rounds (doc 21, Rating Scale).
 
+- **Starts (built (owner, 2026-11-17; the open decisions and gaps, Group 4c)):** a Segment of students (Why are your customers not working? Student) starts The price or their budget, as the lowest household income does.
 ## 8. Dropped, merged or left to the note
 
 | Earlier question (doc 28, 6.4) | Now |

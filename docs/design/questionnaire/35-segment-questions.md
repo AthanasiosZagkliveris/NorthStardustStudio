@@ -111,6 +111,7 @@ The people who pay (the buyer is people: B2C alone, or the first of the two Segm
 - **The "i" says:**
   - Choose the main reason.
   - Unable to work: sidelined from the workforce by a chronic medical condition, long-term illness or disability. They typically live on fixed support incomes.
+- **Read by (built (owner, 2026-11-17; the open decisions and gaps, Group 4c)):** the Profiles' starts: Student starts E3 at The price or their budget; Retired starts D3 at Weekday daytime (doc 36). A saved answer counts only while the customers are not working.
 - **Connections:**
   - *Comes from:* This Segment's work status and age ("Retired" not for Minors).
   - *Read by (built):* The Market document and the export.
@@ -131,6 +132,7 @@ The people who pay (the buyer is people: B2C alone, or the first of the two Segm
   - At home: Desk-based, remote
   - On site: Retail, hospitality, healthcare, construction
   - On the road: Logistics, sales, field engineering
+- **Read by (built (owner, 2026-11-17; the open decisions and gaps, Group 4c)):** On the road starts the Profiles' C1 at Smartphone where where they shop starts nothing (doc 36); At home puts Local delivery first in the Offerings' O20 (doc 43; Local delivery is O20's option, not O6's).
 - **Connections:**
   - *Comes from:* This Segment's work status.
   - *Read by (built):* The Market document and the export.
@@ -149,6 +151,7 @@ The people who pay (the buyer is people: B2C alone, or the first of the two Segm
   - Standard daytime hours: Traditional 9-to-5, fixed weekdays
   - Shifts / varying hours: Nights, weekends, rotating rosters
   - Flexible / their own hours: Freelancers, business owners, autonomous professionals
+- **Read by (built (owner, 2026-11-17; the open decisions and gaps, Group 4c)):** the Profiles' D3 start (doc 36): Standard daytime hours, Evenings and Weekends; Shifts / varying hours, Weekday daytime and Weekends; Flexible / their own hours, Weekday daytime.
 - **Connections:**
   - *Comes from:* This Segment's work status.
   - *Read by (built):* The Market document and the export.
@@ -597,6 +600,7 @@ Both.
   - 1: falling demand, or deep structural change. 3: flat, a saturated market. 5: an emerging market, growing fast every year.
   - 1 = Shrinking, 5 = Booming.
 - **What it is for.** A growing market leaves room for a new business without taking customers from anyone; a shrinking one means winning them from the competitors already there. **As built, it is read only by the Market document and the export** (the Business Plan's Market Analysis). **Proposed (2026-11-04), not built:** the Competitor's K10 (doc 41) offers "Win new customers the market brings" when this is rated 4 or 5, and "Win customers from [competitor]" for a rival rated Strong on few values when it is rated 1 or 2; Strategy's Situation analysis reads it beside the crowding (Box 5, question 4).
+- **Read by (built (owner, 2026-11-17; the open decisions and gaps, Group 4c)):** the Strategy SWOT's starts (doc 49, 2.3; `swotStartsOf`): 4 or 5, the Opportunity "The market for [the Segment] is growing."; 1 or 2, the Threat "The market for [the Segment] is shrinking.". Shown in a quadrant the founder has not edited, and printed so in the Business Plan.
 - **Connections:**
   - *Comes from:* Nothing.
   - *Read by (built):* The Market document and the export; the Business Plan's Market Analysis is covered once a market question is answered.
@@ -637,6 +641,7 @@ Both.
   - Red Ocean and Blue Ocean are the strategy terms of Kim and Mauborgne: a crowded market against an uncontested one.
   - 1: very few direct competitors; the niche is new. 3: many small players, none in control. 5: big established players and price wars.
   - 1 = Open, 5 = Crowded.
+- **Read by (built (owner, 2026-11-17; the open decisions and gaps, Group 4c)):** the Strategy SWOT's starts (doc 49, 2.3): 4 or 5, the Threat "The market for [the Segment] is crowded, with established players."; 1 or 2, the Opportunity "The market for [the Segment] has few competitors yet.". At 4 or 5, K10's "i" on each of the Segment's Competitors adds "Your market is crowded: one opening, made clearly yours, stands out more than several." (doc 41, K10).
 - **Connections:**
   - *Comes from:* Nothing.
   - *Read by (built):* The Market document and the export; the Business Plan's Market Analysis is covered once a market question is answered.

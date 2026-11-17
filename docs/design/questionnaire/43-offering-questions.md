@@ -237,6 +237,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
 - **Options:** Courier · Postal service · Local delivery · A fulfilment service · Other.
 - **The "i" says:** The way each order travels to them: each becomes a delivery channel on Customer Engagement. · Tick Other to write another.
 - **Ordered (owner, 2026-11-17):** by the Segment's reach: a city, Local delivery first; a country, Postal service and Courier first; several countries, Courier and A fulfilment service first; a rural area (rated 1 or 2), Postal service and Courier first; never locked.
+- **Ordered (built (owner, 2026-11-17; the open decisions and gaps, Group 4c)):** customers working at home (the Segment's Where do your customers mainly work?) put Local delivery first, after the reach's and the rural area's orders.
 - **Connections:** *Read by (built):* Physical Delivery › Courier, Postal Service, Local Delivery, Third-party Fulfilment, or the name written in (doc 47).
 
 ### O21. How do you send the files?
@@ -301,6 +302,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
 - **Options** (L22): The same day; Within one working day; Within a few days; No set time.
 - **The "i" says:**
   - How soon your customers hear back. The channels are on the Customer Engagement page.
+- **Read by (built (owner, 2026-11-17; the open decisions and gaps, Group 4c)):** the Offering's relationship block on Customer Engagement, under its band: "Support promise: you reply within one working day." (`supportPromise`); none with No set time.
 - **Connections:** *Read by:* the export.
 
 ## Box. Requirements & Conditions
@@ -348,6 +350,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
   - For an age limit, write it in the Notes.
   - The source, last: GB "Based on: the Consumer Contracts Regulations 2013, regulation 28 (UK)." [FUN-74]; IE "Based on: the Consumer Rights Directive 2011/83/EU, Article 16 (EU)." [FUN-75]; US "Based on: the FTC Cooling-Off Rule (US)." [FUN-76]; CA "Based on: Ontario's Consumer Protection Act (CA)." [FUN-77]; AU "Based on: the Australian Consumer Law (ACCC)." [FUN-78]; NZ "Based on: the Fair Trading Act 1986, section 36M (NZ)." [FUN-79].
   - (Each point is within 160 characters, tested.)
+- **Read by (built (owner, 2026-11-17; the open decisions and gaps, Group 4c)):** the Business Plan, each Segment's "Conditions of sale" after its Offerings table, one line an Offering with its ticks.
 - **Connections:** *Comes from:* the Organisation's country (the "i" only). *Read by:* the export. Sources [FUN-74] to [FUN-79].
 
 ### O12. Is a minimum age to buy it set by law? (no longer a question; proposed, owner 2026-11-06)

@@ -393,6 +393,35 @@ export function segmentNeedTicks(profiles: readonly SegmentAnswers[], kind: "emo
     return ranked.sort((a, b) => b.point - a.point || a.order - b.order).map(entry => entry.label);
 }
 
+/** The kind of work (A3) and the job level (A3b) in a sentence ("a professional", "in office work"). */
+const WORK_PHRASE: Readonly<Record<string, string>> = {
+    manager: "a manager or director", professional: "a professional", technician: "a technician", office: "in office work", service: "in service, care or sales work",
+    farming: "in farming, forestry or fishing", trade: "in a skilled trade", operator: "a machine operator or driver", routine: "in routine or manual work",
+    owner: "an owner or senior leader", specialist: "a specialist"
+};
+/** Who they live with (A7) in a sentence, {p} the possessive ("lives with her partner and children"). */
+const HOME_PHRASE: Readonly<Record<string, string>> = {
+    alone: "lives alone", partner: "lives with {p} partner", family: "lives with {p} partner and children", "single-parent": "lives with {p} children",
+    relatives: "lives with {p} parents or relatives", sharing: "lives with friends or housemates"
+};
+
+/**
+ * THE PERSONA LINE (owner, 2026-11-17): a Profile in one sentence for the Business Plan, from its name, age (A1), work (A3, or the job level A3b) and household
+ * (A7): "Sara, 34, a professional, lives with her partner and children." Only the answered parts; "" where none of them is answered.
+ */
+export function profilePersona(name: string, answers: SegmentAnswers): string {
+    const age = answers.a1?.[0] ?? "";
+    const work = WORK_PHRASE[answers.a3?.[0] ?? ""] ?? WORK_PHRASE[answers.a3b?.[0] ?? ""] ?? "";
+    const gender = answers.a2?.[0];
+    const own = gender === "woman" ? "her" : gender === "man" ? "his" : "their";
+    const home = (HOME_PHRASE[answers.a7?.[0] ?? ""] ?? "").replace("{p}", own);
+    if (!age && !work && !home) {
+        return "";
+    }
+    const lead = [name.trim() || "This customer", age, work].filter(Boolean).join(", ");
+    return lead + (home ? ", " + home : "") + ".";
+}
+
 export function profileWho(label: string, gender?: string): string {
     const woman = gender === "woman", man = gender === "man";
     return label
@@ -535,6 +564,10 @@ export function profileOptionsShown(question: ProfileQuestion, segment: SegmentA
         const education = segment.education ?? [];
         const young = (segment.age ?? []).some(id => id === "minor" || id === "young");
         first = context.frame === "business" || education.includes("postgraduate") ? ["linkedin"] : young ? ["tiktok", "instagram"] : education.includes("school") || education.includes("college") ? ["instagram", "tiktok"] : [];
+    } else if (question.id === "d1") {
+        // (THE BUYING ROLE (A5; owner, 2026-11-17): the person who uses it tries it first, a free trial or a demo; the one who makes the final decision asks for a quote.)
+        const roles = answers.a5 ?? [];
+        first = [...(roles.includes("use") ? ["a-free-trial", "a-demo"] : []), ...(roles.includes("decide") ? ["a-quote-or-proposal"] : [])];
     } else if (question.id === "a3" && (segment.education ?? []).includes("postgraduate")) {
         // (Postgraduates: professional and manager work first; owner, 2026-11-17.)
         first = ["professional", "manager"];
@@ -566,6 +599,11 @@ function d1Migrated(chosen: readonly string[], context: SegmentContext): string[
     return [...new Set(chosen.flatMap(id => id === OLD_DEMO ? ways : [id]))];
 }
 
+/** Whether the Segment's customers are working (Are your customers working? Yes): its work questions count only then, and Why are they not working? only otherwise. */
+function working(segment: SegmentAnswers): boolean {
+    return (segment.work ?? []).includes("working");
+}
+
 /** What the Segment sets for a question that is not shown, or starts for one that is (the user can change a start). */
 function startOf(question: ProfileQuestion, segment: SegmentAnswers, context: SegmentContext, answers: SegmentAnswers = {}): string[] | undefined {
     const first = (ids: readonly string[] | undefined) => ids?.[0];
@@ -587,7 +625,20 @@ function startOf(question: ProfileQuestion, segment: SegmentAnswers, context: Se
         }
         case "c1": {
             const setting = first(segment.setting);
-            return setting === "mobile" ? ["phone"] : setting === "desktop" ? ["computer"] : setting === "multi" ? ["phone", "computer"] : undefined;
+            if (setting === "mobile" || setting === "desktop" || setting === "multi") {
+                return setting === "mobile" ? ["phone"] : setting === "desktop" ? ["computer"] : ["phone", "computer"];
+            }
+            // (Working on the road: a smartphone; owner, 2026-11-17.)
+            return working(segment) && first(segment.workenv) === "field" ? ["phone"] : undefined;
+        }
+        case "d3": {
+            // (WHEN THEY BUY, FROM WHEN THEY WORK (owner, 2026-11-17): standard daytime hours, the evenings and weekends; shifts, weekday daytime and weekends; their own
+            // hours, weekday daytime; retired, weekday daytime.)
+            const schedule = working(segment) ? first(segment.workschedule) : undefined;
+            if (schedule) {
+                return schedule === "standard" ? ["evenings", "weekends"] : schedule === "shift" ? ["weekday-daytime", "weekends"] : schedule === "flexible" ? ["weekday-daytime"] : undefined;
+            }
+            return !working(segment) && (segment.work2 ?? []).includes("retired") ? ["weekday-daytime"] : undefined;
         }
         case "d1": {
             const path = first(segment.path);
@@ -610,8 +661,8 @@ function startOf(question: ProfileQuestion, segment: SegmentAnswers, context: Se
             // (An end user in the early years: the buyer cares first for safety; owner, 2026-11-17.)
             return (segment["u-school"] ?? []).includes("early") ? ["safety-and-low-risk"] : undefined;
         case "e3":
-            // The household income, a rating: 1 (low) starts the worry about price.
-            return (segment.income ?? []).includes("1") ? ["the-price-or-their-budget"] : undefined;
+            // The household income, a rating: 1 (low) starts the worry about price; so does being a student (owner, 2026-11-17).
+            return (segment.income ?? []).includes("1") || (!working(segment) && (segment.work2 ?? []).includes("student")) ? ["the-price-or-their-budget"] : undefined;
         default:
             return undefined;
     }

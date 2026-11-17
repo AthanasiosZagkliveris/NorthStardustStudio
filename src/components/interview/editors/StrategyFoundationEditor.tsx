@@ -7,6 +7,7 @@ import FieldLabel from "../../controls/FieldLabel.tsx";
 import {
     STRATEGY_FOUNDATION_SECTIONS,
     STRATEGY_SWOT_QUADRANTS,
+    strategySwotShown,
     StrategyFoundationValue,
     StrategyRangeValue,
     StrategyThemeValue,
@@ -42,6 +43,9 @@ interface StrategyFoundationEditorProps {
 
     /** The Current Situation drafted from the Business System ("" when it records nothing). */
     situationDraft?: string;
+
+    /** The SWOT's starts from the Business System's market answers (swotStartsOf), shown in a quadrant never edited (strategySwotShown). */
+    swotStarts?: { opportunities: string[]; threats: string[] };
 
     /** Asks before a Refresh replaces the founder's own words. */
     guardSituationRefresh?: (apply: () => void) => void;
@@ -134,6 +138,8 @@ export default function StrategyFoundationEditor({
     vision = "",
 
     situationDraft = "",
+
+    swotStarts,
 
     guardSituationRefresh,
 
@@ -337,10 +343,12 @@ export default function StrategyFoundationEditor({
 
                         <NumberedListInput
                             label={quadrant.label}
-                            items={foundation.swot[quadrant.id] ?? [""]}
+                            items={strategySwotShown(foundation, swotStarts ?? {})[quadrant.id]}
                             disabled={disabled}
                             onChange={(items) => update({
-                                swot: { ...foundation.swot, [quadrant.id]: items }
+                                swot: { ...foundation.swot, [quadrant.id]: items },
+                                // (Edited: the founder's own lines from now on, even emptied.)
+                                swotEdited: [...new Set([...foundation.swotEdited, quadrant.id])]
                             })}
                         />
 

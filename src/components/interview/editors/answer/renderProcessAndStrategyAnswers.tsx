@@ -96,6 +96,7 @@ export function renderStrategyFoundation(scope: AnswerScope) {
             ) : undefined}
             vision={identityVision}
             situationDraft={strategy?.situationDraft ?? ""}
+            swotStarts={strategy?.swotStarts}
             guardSituationRefresh={strategy?.guardSituationRefresh}
             openBusinessPage={strategy?.openBusinessPage}
             financialPlan={strategy?.financialPlan ?? null}

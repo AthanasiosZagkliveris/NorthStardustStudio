@@ -83,7 +83,7 @@ export function offeringContextOf(offering: BusinessOfferingValue, segment: Busi
     // The pay O3's order reads is the Segment's settled answer (a stale invoice on a people Segment is not counted; phase 5, 2026-11-08); the frame tells O18's "i" a business Segment.
     const settled = segmentSettle(segment.questions, context);
     const pay = settled.pay ?? [];
-    return { reach: settled.reach ?? [], area: settled.area?.[0] ?? "", type: offering.category, stage: identity?.stage, differentiation, outcome: identity?.outcome ?? [], pay, worries, country: identity?.country, frame: context.frame, ...(context.endsUser ? { endsUser: true } : {}), ...(context.dual ? { dual: true } : {}) };
+    return { reach: settled.reach ?? [], area: settled.area?.[0] ?? "", workenv: settled.workenv?.[0] ?? "", type: offering.category, stage: identity?.stage, differentiation, outcome: identity?.outcome ?? [], pay, worries, country: identity?.country, frame: context.frame, ...(context.endsUser ? { endsUser: true } : {}), ...(context.dual ? { dual: true } : {}) };
 }
 
 /** An Offering's answers as its card shows them: its own, with each start for a question it never answered. */
@@ -169,6 +169,15 @@ export function offeringStarts(offering: BusinessOfferingValue, segment: Busines
         starts.batches = true;
     }
     return starts;
+}
+
+/**
+ * DESIGN FOR PHONES FIRST (owner, 2026-11-17): every Profile of the Segment (at least one) finds and buys on a smartphone only (C1, as each card shows it); the
+ * Main Website's card on Customer Engagement says so.
+ */
+export function segmentPhonesOnly(segment: BusinessCustomerSegmentValue, identity?: SegmentIdentity): boolean {
+    const devices = segment.profiles.map(profile => effectiveProfileAnswers(profile, segment, identity).c1 ?? []);
+    return devices.length > 0 && devices.every(list => list.length === 1 && list[0] === "phone");
 }
 
 /** The answers of the Offering with this id as its card shows them, wherever it is on Page 1; none where there is no such Offering. */

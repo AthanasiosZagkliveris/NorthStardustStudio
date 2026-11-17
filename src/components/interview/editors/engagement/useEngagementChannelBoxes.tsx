@@ -19,12 +19,13 @@ import TextLink from "../../fields/TextLink.tsx";
 import { SECTIONS, ALL_OFFERINGS_LABEL, STAGE_LABELS, NOTHING_RECORDED, RelativeQuestion, relativeInformation, relativeInformationFor, channelNameOptions, stageOptionsFor, stageIsUsual } from "../BusinessEngagementModel.ts";
 
 import type { useEngagementState } from "./useEngagementState.tsx";
+import { segmentPhonesOnly } from "../../../../framework/engine/EffectiveAnswers.ts";
 
 type Earlier = ReturnType<typeof useEngagementState>;
 
 export function useEngagementChannelBoxes(earlier: Earlier) {
 
-    const { feeBand, cards, channelActions, channelCategoryFoldKey, channelResources, collapsed, currency, disabled, engagement, folds, isolatingSegment, noPhysical, offeringsOfMadeCards, onOpenCapability, onOpenFoundation, openAction, relatedStages, segmentOf, segments, setLit, toggle, updateChannel, updateSegment } = earlier;
+    const { identity, feeBand, cards, channelActions, channelCategoryFoldKey, channelResources, collapsed, currency, disabled, engagement, folds, isolatingSegment, noPhysical, offeringsOfMadeCards, onOpenCapability, onOpenFoundation, openAction, relatedStages, segmentOf, segments, setLit, toggle, updateChannel, updateSegment } = earlier;
 
     /** The card on Page 1 with this id, and the Segment it is in. */
     function foundationPath(id: string): string[] {
@@ -449,6 +450,13 @@ export function useEngagementChannelBoxes(earlier: Earlier) {
                     columns, and the rest of the page has no reason
                     to move with them. */}
                 {sub !== undefined && subchannelHead()}
+                {/* (THE MAIN WEBSITE, WHERE EVERY PROFILE USES ONLY A SMARTPHONE (C1): segmentPhonesOnly; owner, 2026-11-17.) */}
+                {sub !== undefined && (() => {
+                    const channel = answers.channels.find(entry => entry.id === sub);
+                    return channel && channel.category === "Website" && channel.name.trim() === "Main Website" && segmentPhonesOnly(segment, identity)
+                        ? <p className="business-foundation-tick-note business-segment-settled" role="note">Design for phones first: your customers find and buy on a smartphone.</p>
+                        : null;
+                })()}
                 <div className="business-channel-table-wrap">
 
                     <table className={"business-channel-table" + (isolatingSegment(segment.id) ? " is-isolating" : "")}>

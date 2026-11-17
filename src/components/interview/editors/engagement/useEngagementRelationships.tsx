@@ -43,6 +43,8 @@ import { SECTIONS, GOAL_OPTIONS, STAGE_LABELS, relativeInformationFor, channelCh
 
 import type { useEngagementState } from "./useEngagementState.tsx";
 import type { useEngagementChannelBoxes } from "./useEngagementChannelBoxes.tsx";
+import { offeringAnswersById } from "../../../../framework/engine/EffectiveAnswers.ts";
+import { supportPromise } from "../../../../framework/engine/OfferingQuestions.ts";
 
 type Earlier = ReturnType<typeof useEngagementState> & ReturnType<typeof useEngagementChannelBoxes>;
 
@@ -1078,6 +1080,12 @@ export function useEngagementRelationships(earlier: Earlier) {
                                                 and, after the last, the one "+ Add Relationship Type". Nothing folds. */}
                                             <tr>
                                                 <td colSpan={3} className="business-channel-cell business-relationship-blocks-cell">
+
+                                                    {/* (THE SUPPORT PROMISE, from How fast do you reply? (O16) on the Offering: supportPromise; owner, 2026-11-17.) */}
+                                                    {(() => {
+                                                        const promise = supportPromise(offeringAnswersById([segment], offeringId, identity));
+                                                        return promise ? <p className="business-foundation-tick-note business-segment-settled" role="note">{promise}</p> : null;
+                                                    })()}
 
                                                     {typeRows.map(typeId => {
 

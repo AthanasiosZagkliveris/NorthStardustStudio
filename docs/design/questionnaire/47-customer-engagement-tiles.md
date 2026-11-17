@@ -102,6 +102,8 @@ The Foundation page's shape (one chapter per Segment, four Master Tiles, 2 × 2)
 - **The goals read Demand's figures** (the J7 targets are withdrawn, section 4): Get reads the Demand rows of the channel (`demand.channelIds`), Keep reads Cancel / Month, Grow reads the Repeat customers row. Strategy's Metrics link to them (doc 49, 2.7).
 - **Prototype first:** a card is 492px wide and the journey reverses today's order; the stage card is prototyped and passes the layout check before anything is built on it (doc 28, 7.2).
 
+**Two lines from the Foundation (owner, 2026-11-17; the open decisions and gaps, Group 4c).** The Main Website's subchannel card says "Design for phones first: your customers find and buy on a smartphone." where every Profile of the Segment uses a smartphone only (doc 36, C1). Each Offering's relationship block says its Support promise from O16 (doc 43): "Support promise: you reply within one working day.". Both in the settled note's look (`business-segment-settled`).
+
 ## 4. The questions
 
 The channel card's questions are worded in doc 28, section 7.3, with their options, and are unchanged: **J1** Are you using this channel yet?; **J2** What do you do here?; **J3** How do you keep the relationship?; **J7** What should this achieve?. This card adds none.

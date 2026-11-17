@@ -1026,6 +1026,7 @@ export default function Conversation() {
         guardThemeRemoval,
         guardPeriodChange,
         situationDraft,
+        swotStarts,
         financialPlan,
         guardSituationRefresh
     } = readStrategy({ session, system, organizationId, organizationName, strategyFoundationValue, setStrategyPrompt });
@@ -1064,6 +1065,7 @@ export default function Conversation() {
                     }
                 },
                 situationDraft,
+                swotStarts,
                 guardSituationRefresh,
                 openBusinessPage,
                 financialPlan
