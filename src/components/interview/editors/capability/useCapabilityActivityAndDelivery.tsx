@@ -1138,7 +1138,9 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
                     const owned = uniqueChoices(capability.offering.resources.filter(card => card.offeringIds.includes(offering.id)), "Unnamed resource");
                     return (
                         <>
-                            <BusinessField label="Which one?" info={DELIVERY_HELP.equipment} side>
+                            {/* (Label above, as every field whose label or control is wider than the side column (--side-label-short) allows: a resource's own name
+                                ("8-shaft floor looms") needs the card's width, and the question its own line; layout check, 2026-11-17.) */}
+                            <BusinessField label="Which one?" info={DELIVERY_HELP.equipment}>
                                 {owned.length === 0
                                     ? <span className="delivery-muted">Add this Offering's equipment or workspace under Resources.</span>
                                     : (
@@ -1152,7 +1154,7 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
                                         />
                                     )}
                             </BusinessField>
-                            <BusinessField label="How many units can it hold at once?" side>
+                            <BusinessField label="How many units can it hold at once?">
                                 <NumberCell kind="int"
                                     className="delivery-number"
                                     aria-label={offering.label + " units the equipment holds at once"}
