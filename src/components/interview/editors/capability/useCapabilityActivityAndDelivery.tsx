@@ -1457,7 +1457,6 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
                             label="Delivery"
                             what="Delivery"
                             autoStart={false}
-                            cardList
                         />
                     )}
 

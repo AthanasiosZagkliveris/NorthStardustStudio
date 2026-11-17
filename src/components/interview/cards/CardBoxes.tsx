@@ -1,7 +1,7 @@
 import { ReactNode, useContext, useEffect, useRef, useState, useSyncExternalStore } from "react";
 
 import { freshCards } from "./freshCards.ts";
-import { CARD_LIST_COLUMNS, OpenCardContext, gridColumns, type ItemMark } from "../tiles/SectionTiles.tsx";
+import { CARD_LIST_COLUMNS, OpenCardContext, type ItemMark } from "../tiles/SectionTiles.tsx";
 import CardTile, { inwardOrigin } from "../tiles/CardTile.tsx";
 import TileGrid from "../tiles/TileGrid.tsx";
 import { AddTile } from "../tiles/SectionView.tsx";
@@ -120,14 +120,9 @@ export default function CardBoxes({
 
     addNext = false,
 
-    threeAcross = false,
-
-    cardList = false
+    threeAcross = false
 
 }: {
-
-    /** A list of cards with no add box of its own (each Offering's Delivery card): three across, as every card list with an add box (`CARD_LIST_COLUMNS`; owner, 2026-11-16 19:18). */
-    cardList?: boolean;
 
     /** The tiles are sized to the card they stand in: three across, however wide the card is (the Strategy cards' Goals, Objectives and Metrics). */
     threeAcross?: boolean;
@@ -188,9 +183,10 @@ export default function CardBoxes({
     }, []);
 
     return (
-        // (A list of cards one adds to -- it has an Add Card -- is three in a row, the Add Card in the next free place (owner, 2026-11-09: "each row should fit 3 tiles");
-        // a fixed set of cards with no Add takes the one shape of every grid: 1 to 3 in a row, 4 as a 2 x 2 square, 5 or more in two rows.)
-        <TileGrid label={label} className={className} threeAcross={threeAcross} columns={threeAcross ? undefined : add || cardList ? CARD_LIST_COLUMNS : gridColumns(items.length)}>
+        // (A DIALOG'S LIST OF CARDS IS THREE IN A ROW, with its Add Card or without (owner, 2026-11-09: "each row should fit 3 tiles"; 2026-11-18 00:46: "Place 3
+        // tiles per row, like the other dialogue cards" -- a Demand's Customer Sources, a type's relationship cards): the Add Card in the next free place. The
+        // page's own groups of tiles keep the one shape of gridColumns.)
+        <TileGrid label={label} className={"card-list" + (className ? " " + className : "")} threeAcross={threeAcross} columns={threeAcross ? undefined : CARD_LIST_COLUMNS}>
             {({ across }) => (
             <>
                 {items.map((item, index) => {
