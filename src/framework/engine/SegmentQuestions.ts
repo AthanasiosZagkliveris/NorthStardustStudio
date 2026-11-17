@@ -7,6 +7,7 @@
 import { DIFFERENTIATION_WORDS, OUTCOME_USER_WORDS } from "./ActivityClassification.ts";
 import { choiceLimit } from "./PositioningIds.ts";
 import { onlyPlanning } from "./BusinessStage.ts";
+import { paymentServiceName, providerOffered } from "./ChannelFeeData.ts";
 
 /** The boxes of the Segment's Description, its user block, and "competitors": a question of the Segment asked once in its Competitors column, after the Competitor cards (doc 41, K14). */
 export type SegmentBox = "demographics" | "geographics" | "business-data" | "purchasing" | "market-size" | "user" | "competitors";
@@ -19,6 +20,11 @@ export interface SegmentOption {
     /** Said under it, small: a saved answer kept outside the options the answers above give (owner, 2026-11-17). */
     note?: string;
 }
+
+/** Each marketplace option's provider in the Channel Fee data (providerOffered). */
+const MARKETPLACE_PROVIDER: Readonly<Record<string, string>> = {
+    etsy: "Etsy", amazon: "Amazon", ebay: "eBay", noths: "Not On The High Street", folksy: "Folksy", gumroad: "Gumroad", fiverr: "Fiverr", upwork: "Upwork"
+};
 
 /** The marketplaces each Offering form sells on (owner, 2026-11-17): a physical item, a digital file, a service. */
 const MARKETPLACES_OF_FORM: Readonly<Record<string, readonly string[]>> = {
@@ -63,6 +69,8 @@ export interface SegmentQuestion {
 
 /** What a Segment's questions follow: Identity's answers and the business stage. */
 export interface SegmentContext {
+    /** The Organisation's country (ISO code): the marketplaces and payment services offered are those that sell there (providerOffered; owner, 2026-11-17). */
+    country?: string;
     /** Who the buyer is: people (Box 1), businesses (Box 3), or not known / both. */
     frame: "people" | "business" | "open";
     /** "plan", "launch", "manage" or "grow" (empty: not known, as planning). */
@@ -835,14 +843,19 @@ export function segmentOptions(question: SegmentQuestion, answers: SegmentAnswer
         case "marketplaces": {
             // (FILTERED BY THE OFFERINGS' FORMS (O1; owner, 2026-11-17): a maker's marketplaces, a digital file's, a service's; Other always; every one while no form is known.)
             const fit = [...new Set((context.forms ?? []).flatMap(form => MARKETPLACES_OF_FORM[form] ?? []))];
-            return question.options.filter(option => keep(option, fit.length === 0 || option.id === "other" || fit.includes(option.id)));
+            // (And those that sell in the Organisation's country: providerOffered; owner, 2026-11-17 07:16.)
+            return question.options.filter(option => keep(option, (fit.length === 0 || option.id === "other" || fit.includes(option.id)) && providerOffered(MARKETPLACE_PROVIDER[option.id] ?? "", context.country)));
         }
         case "providers": {
             // (ORDERED BY WHERE THEY SHOP (owner, 2026-11-17): in a shop, the card readers first; online, the online payment services first; never locked.)
             const setting = answers.setting ?? [];
             const first = setting.includes("store") ? ["sumup", "square", "zettle"] : setting.some(id => ["mobile", "desktop", "marketplace", "multi"].includes(id)) ? ["stripe", "paypal", "shopify"] : [];
             const rank = (id: string) => id === "other" ? first.length + 1 : first.includes(id) ? first.indexOf(id) : first.length;
-            return [...question.options].sort((a, b) => rank(a.id) - rank(b.id));
+            // (Those that sell in the Organisation's country, each by its name there -- Zettle is PayPal Point of Sale in the US; owner, 2026-11-17 07:16.)
+            return question.options
+                .filter(option => keep(option, option.id === "other" || providerOffered(option.label, context.country)))
+                .map(option => ({ ...option, label: paymentServiceName(option.label, context.country) }))
+                .sort((a, b) => rank(a.id) - rank(b.id));
         }
         case "advertising":
             // (Journals and trade magazines: for customers with a postgraduate degree, and for a business Segment whose industry is chosen; owner, 2026-11-17.)
@@ -1136,10 +1149,11 @@ export function writtenInRows(saved: readonly string[] | undefined): string[] {
  * THE PAYMENT SERVICES A SEGMENT'S PAYMENTS GO THROUGH (Which payment services do you take payments with?): the names ticked, then those written in under Other (each
  * once, several parted by commas). The fees of its Direct Payment channels are read by these names (the Channel Fee Table), a name written in its own row.
  */
-export function segmentPaymentServices(answers: SegmentAnswers): string[] {
+export function segmentPaymentServices(answers: SegmentAnswers, country?: string): string[] {
     const question = QUESTIONS.find(entry => entry.id === "providers")!;
     const chosen = answers.providers ?? [];
-    const ticked = question.options.filter(option => option.id !== "other" && chosen.includes(option.id)).map(option => option.label);
+    // (Each by its name in the Organisation's country: Zettle is PayPal Point of Sale in the US; owner, 2026-11-17 07:16.)
+    const ticked = question.options.filter(option => option.id !== "other" && chosen.includes(option.id)).map(option => paymentServiceName(option.label, country));
     const written = chosen.includes("other") ? writtenInNames(answers["providers-other"]) : [];
     const names = [...ticked, ...written];
     return names.filter((name, at) => names.findIndex(other => other.toLocaleLowerCase() === name.toLocaleLowerCase()) === at);

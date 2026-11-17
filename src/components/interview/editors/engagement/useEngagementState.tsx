@@ -286,7 +286,7 @@ export function useEngagementState(props: BusinessEngagementEditorProps) {
         // (THE EXPENSE CARDS THE ANSWERS MAKE: each payment service a Segment names, its card on the Segment's Direct Payment channel -- withAnswerServiceCards, the
         // subchannels' rule; owner, 2026-11-15 16:35. Written only where the page can write Infrastructure & Capability too.)
         if (onChangeCapability) {
-            const services = Object.fromEntries(segments.map(segment => [segment.id, segmentPaymentServices(effectiveSegmentAnswers(segment, identity))]));
+            const services = Object.fromEntries(segments.map(segment => [segment.id, segmentPaymentServices(effectiveSegmentAnswers(segment, identity), identity?.country)]));
             const made = withAnswerServiceCards(nextEngagement, capabilityValue, services);
             if (made.capability !== capabilityValue) {
                 onChangeCapability(made.capability);
@@ -802,7 +802,7 @@ export function useEngagementState(props: BusinessEngagementEditorProps) {
         // (A Direct Payment channel takes its fees from the payment services the Segment names too (Which payment services do you take payments with?): after its own
         // name and its expense cards'; owner, 2026-11-15 16:26.)
         const segment = segments.find(entry => engagement.segments.some(answers => answers.segmentId === entry.id && answers.channels.some(candidate => candidate.id === channel.id)));
-        const services = segment && channel.category.trim() === "Direct Payment" ? segmentPaymentServices(effectiveSegmentAnswers(segment, identity)) : [];
+        const services = segment && channel.category.trim() === "Direct Payment" ? segmentPaymentServices(effectiveSegmentAnswers(segment, identity), identity?.country) : [];
         const found = channelFeeFor([channel.name, ...cardNames, ...services], feeTable, identity?.country ?? "");
         const money = (amount: number) => moneyText(String(Math.round(amount * 100) / 100), currency);
         const served = channel.offerings.includes(BUSINESS_CHANNEL_ALL_OFFERINGS) ? offerings : offerings.filter(offering => channel.offerings.includes(offering.id));

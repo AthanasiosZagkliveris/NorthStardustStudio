@@ -1,9 +1,11 @@
 /**
  * Help texts: every "i" note (the small round button whose panel says what a label means) in the four Foundation systems and Global Settings,
  * as the running app draws them with the example organization: where it stands, its label, the lines its panel fills at 1920px and its characters.
- * Walks as text-holders.mjs does (every page, every master tile, the first two nested tiles of each view).
+ * Walks every page, every master tile and every nested tile of each tile's dialog (up to 16; the first two until 2026-11-17).
  *
- *   PW_CHANNEL=msedge node tools/scripts/catalogue/help-texts.mjs [--out FILE]
+ *   PW_CHANNEL=msedge node tools/scripts/catalogue/help-texts.mjs [--out FILE] [--base URL] [--only "Customer Engagement"]
+ *
+ * It says each scene as it goes, with the help texts found there, so a step that stalls or finds nothing is seen at once.
  */
 import { chromium } from "playwright";
 import { readFileSync, writeFileSync } from "node:fs";
@@ -11,6 +13,7 @@ import { readFileSync, writeFileSync } from "node:fs";
 const arg = (name, fallback) => (process.argv.includes("--" + name) ? process.argv[process.argv.indexOf("--" + name) + 1] : fallback);
 const base = arg("base", "http://localhost:1420");
 const out = arg("out", "tools/catalogue/measures/help-texts.json");
+const only = arg("only", "");
 const org = JSON.parse(readFileSync(new URL("../../../src/data/examples/quillfield-automation-llc.json", import.meta.url), "utf8"));
 const browser = await chromium.launch(process.env.PW_CHANNEL ? { channel: process.env.PW_CHANNEL } : {});
 // A page that crashes (the renderer runs out of memory on a long walk) is replaced, and the step is tried once more on the new one.
@@ -66,7 +69,9 @@ async function collectHelp() {
 }
 async function record(where) {
     try {
-        for (const row of await collectHelp()) {
+        const rows = await collectHelp();
+        console.log(new Date().toISOString().slice(11, 19) + "  " + where + ": " + rows.length);
+        for (const row of rows) {
             const key = [row.label, row.place, row.text.slice(0, 60)].join("|");
             if (!found.has(key)) found.set(key, { ...row, scenes: [where] });
             else found.get(key).scenes.push(where);
@@ -87,10 +92,12 @@ const PAGES = { "Identity System": ["1. Definition", "2. Legal Entity"], "Brand 
 for (const [system, pages] of Object.entries(PAGES)) {
     for (const name of pages) {
         const where = system + " / " + (name ?? "main");
+        if (only && !where.includes(only)) continue;
         await attempt(where, async () => {
             await open(system, name);
             await record(where + " / page");
             const count = await page.locator(".section-tile-slot button.section-tile").count();
+            console.log("  " + where + ": " + count + " tiles");
             for (let i = 0; i < count; i++) {
                 await attempt(where + " tile " + i, async () => {
                     await open(system, name);
@@ -100,7 +107,9 @@ for (const [system, pages] of Object.entries(PAGES)) {
                     await wait(900);
                     await record(where + " / tile " + title);
                     const nested = page.locator(".section-tile-overlay:not(.floating-overlay) button.section-tile");
-                    const nn = Math.min(await nested.count(), 2);
+                    // (EVERY NESTED TILE of a dialog, up to 16 (2026-11-17): Customer Engagement opens as three tiles a Segment, its channel categories one level down,
+                    // where the first two alone left most of the page unseen.)
+                    const nn = Math.min(await nested.count(), 16);
                     for (let j = 0; j < nn; j++) {
                         await attempt(where + " nested " + j, async () => {
                             if (j > 0) { await open(system, name); await page.locator(".section-tile-slot button.section-tile").nth(i).evaluate(n => n.click()); await wait(900); }

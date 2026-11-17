@@ -182,6 +182,8 @@ export function segmentContextFor(identity: SegmentIdentity | undefined, busines
 
     return {
         ...context,
+        // (The Organisation's country: the marketplaces and payment services offered sell there; owner, 2026-11-17 07:16.)
+        ...(identity?.country ? { country: identity.country } : {}),
         frame,
         endsUser,
         ...(dual ? { dual } : {}),

@@ -10,7 +10,7 @@ import {
     targetReserveMonthsOf,
     usefulLifeOf
 } from "./GlobalSettings";
-import { CHANNEL_FEE_DATA, CHANNEL_FEE_PROVIDERS, FEE_COUNTRIES } from "./ChannelFeeData";
+import { CHANNEL_FEE_DATA, CHANNEL_FEE_PROVIDERS, FEE_COUNTRIES, paymentServiceName, providerOffered } from "./ChannelFeeData";
 import { ownFeeChannelNames, resetChannelFees, shownChannelFees } from "./CalculatedLines";
 import { asBusinessEngagementValue } from "./businessFoundation/engagementReaders";
 import { BUSINESS_CHANNEL_CATEGORIES } from "./businessFoundation/channelCategories";
@@ -25,13 +25,22 @@ describe("the starting values", () => {
             ["Stripe Terminal", "1.4", "0.10", "0.5"],
             ["Stripe", "1.5", "0.20", "0.5"],
             ["SumUp", "1.69", "0", "0.5"],
+            ["Square", "1.75", "0", "0.5"],
             ["Zettle", "1.75", "0", "0.5"],
             ["Shopify Payments", "2", "0.25", "0.5"],
             ["PayPal", "2.9", "0.30", "1"],
             ["Etsy", "10.5", "0.20", "0"],
             ["Amazon Handmade", "12", "0", "0"],
             ["Amazon", "15", "0", "0"],
-            ["Gumroad", "10", "0.50", "0"]
+            // (Checked 2026-11-17, the owner's yes of 07:16: eBay's two UK rows, Not On The High Street, Folksy, Fiverr, Upwork, TikTok Shop.)
+            ["eBay (private seller)", "0", "0", "0"],
+            ["eBay", "12.9", "0.30", "0.35"],
+            ["Not On The High Street", "25", "0", "0"],
+            ["Folksy", "6", "0", "0"],
+            ["Gumroad", "10", "0.50", "0"],
+            ["Fiverr", "20", "0", "0"],
+            ["Upwork", "15", "0", "0"],
+            ["TikTok Shop", "9", "0", "0"]
         ]);
         expect(settings.channelFees).toHaveLength(CHANNEL_FEE_DATA.length);
         // (A row not checked yet holds no rate unless its note names a secondary source; a row not available holds none.)
@@ -55,7 +64,7 @@ describe("the starting values", () => {
 describe("reading what was saved", () => {
 
     it("keeps exactly what was saved: a cleared figure stays cleared, a removed channel stays removed", () => {
-        const settings = asGlobalSettings({ targetReserveMonths: "", channelFees: [], channelFeeDataVersion: 2, usefulLife: {} });
+        const settings = asGlobalSettings({ targetReserveMonths: "", channelFees: [], channelFeeDataVersion: 3, usefulLife: {} });
         expect(settings.targetReserveMonths).toBe("");
         expect(settings.channelFees).toEqual([]);
         expect(settings.usefulLife).toEqual({});
@@ -105,6 +114,32 @@ describe("the readers", () => {
 
 /* THE CHANNEL FEE DATA (owner, 2026-11-15 15:10 and 15:11): every listed provider in each of the six countries; the screen shows what the answers use. */
 describe("the channel fee data", () => {
+
+    it("gives a table saved at version 2 the rows checked on 2026-11-17, keeps a row the founder changed, and adds the new providers in the data's order", () => {
+        const v2 = createGlobalSettings().channelFees.map(row => row.channel === "Square" || (row.channel === "eBay" && row.country !== "NZ") || row.channel === "Wolt" && row.country === "GB"
+            ? { ...row, status: "not-checked" as const, commission: "", fixedFee: "", chargeback: "", note: "Not checked yet" }
+            : row).filter(row => row.channel !== "PayPal Point of Sale" && row.channel !== "eBay (private seller)");
+        // (The founder filled in Square's US rate by hand: it stays theirs.)
+        const own = v2.map(row => row.channel === "Square" && row.country === "US" ? { ...row, commission: "2.7" } : row);
+        const read = asGlobalSettings({ channelFees: [...own, { ...createChannelFeeRow("GB"), channel: "Vinted", commission: "5" }], channelFeeDataVersion: 2 }).channelFees;
+        expect(read.find(row => row.channel === "Square" && row.country === "GB")).toMatchObject({ status: "checked", commission: "1.75" });
+        expect(read.find(row => row.channel === "Square" && row.country === "US")).toMatchObject({ status: "not-checked", commission: "2.7" });
+        expect(read.find(row => row.channel === "Wolt" && row.country === "GB")?.status).toBe("not-available");
+        // (PayPal Point of Sale before PayPal, so a card named after it takes its own row.)
+        const at = (channel: string) => read.findIndex(row => row.channel === channel && row.country === "US");
+        expect(at("PayPal Point of Sale")).toBeGreaterThan(-1);
+        expect(at("PayPal Point of Sale")).toBeLessThan(at("PayPal"));
+        expect(read[read.length - 1].channel).toBe("Vinted");
+    });
+
+    it("never offers a provider where it does not sell, and names Zettle PayPal Point of Sale in the US", () => {
+        expect(providerOffered("Square", "NZ")).toBe(false);
+        expect(providerOffered("Square", "GB")).toBe(true);
+        expect(providerOffered("Folksy", "US")).toBe(false);
+        expect(providerOffered("Folksy", undefined)).toBe(true);
+        expect(paymentServiceName("Zettle", "US")).toBe("PayPal Point of Sale");
+        expect(paymentServiceName("Zettle", "GB")).toBe("Zettle");
+    });
 
     it("holds a row for every listed provider and marketplace in each of the six countries", () => {
         const marketplaces = BUSINESS_CHANNEL_CATEGORIES.find(category => category.label === "Marketplace")!.channels.map(channel => channel.label);

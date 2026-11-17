@@ -251,7 +251,7 @@ export default function GlobalSettings() {
     // (The SETTLED answers, as Customer Engagement reads them: a payment service left behind by a changed answer makes no row.)
     const segmentIdentity = segmentIdentityOf(legalEntity.organisation, stageOf(settings.openingDate, new Date(), stageDurationsOf(settings)));
     const paymentServices = useMemo(() => businessFoundationSegments(business && foundationSection ? business.getResponse(foundationSection.number) : undefined)
-        .flatMap(segment => segmentPaymentServices(effectiveSegmentAnswers(segment, segmentIdentity))),
+        .flatMap(segment => segmentPaymentServices(effectiveSegmentAnswers(segment, segmentIdentity), segmentIdentity.country)),
     // (The identity is rebuilt each render from the same answers: its parts are the dependencies.)
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [business, foundationSection, JSON.stringify(segmentIdentity)]);
