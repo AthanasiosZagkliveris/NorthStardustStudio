@@ -6,12 +6,14 @@ import type { AssetContract } from "../contract";
 import Sample, { GROUNDS } from "./Sample";
 
 /** What each variant draws: its options and how the picker is asked to size itself. */
-const SPECS: Record<string, { options: string[]; hug?: boolean; disabled?: boolean }> = {
+const SPECS: Record<string, { options: string[]; hug?: boolean; disabled?: boolean; headings?: Record<string, string> }> = {
     "step-s": { options: ["Yes", "No", "Not sure"] },
     "step-m": { options: ["No tax at business level", "Corporate tax", "Pass-through"] },
     "step-l": { options: ["Private Company Limited by Shares", "Limited Liability Partnership"] },
     "hug": { options: ["Annually", "Monthly", "Quarterly"], hug: true },
-    "disabled": { options: ["Yes", "No"], disabled: true }
+    "disabled": { options: ["Yes", "No"], disabled: true },
+    // (The Activity's Team: a heading over each group's first option; the contract's variant of 2026-11-16, its sample added 2026-11-17.)
+    "with-headings": { options: ["Maya", "Studio assistant", "Loom technician"], headings: { "Maya": "Founders", "Studio assistant": "Staff", "Loom technician": "Partners" } }
 };
 
 function Picker({ variant }: { variant: string }) {
@@ -22,7 +24,7 @@ function Picker({ variant }: { variant: string }) {
         <div className="business-foundation answer-columns business-capability library-page-3">
             <div className="business-foundation-card">
                 <div className="business-foundation-field">
-                    <OptionPicker label={"Choice (" + variant + ")"} options={spec.options} value={value} onChange={setValue} hug={spec.hug} disabled={spec.disabled} />
+                    <OptionPicker label={"Choice (" + variant + ")"} options={spec.options} value={value} onChange={setValue} hug={spec.hug} disabled={spec.disabled} headings={spec.headings} />
                 </div>
             </div>
         </div>

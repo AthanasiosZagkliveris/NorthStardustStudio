@@ -39,7 +39,7 @@ The card's questions in the card's order, with proposed codes. The card has no c
 
 ### DV6. Customers in one session (proposed; doc 51, addition 5)
 
-- **Control:** a number (`NumberCell`, side row), starts at 1. **Asked:** when DV1 is Per unit and the Offering is delivered as a session, class, workshop or event **[decision 3: which O1 or O3 answers count]**.
+- **Control:** a number (`NumberCell`) under its label (the label is long for the side column; 2026-11-17, the layout check), starts at 1. **Asked:** when DV1 is Per unit and the Offering is delivered as a session, class, workshop or event **[decision 3: which O1 or O3 answers count]**.
 - **What it changes:** the hours a sale takes are DV3 ÷ DV6; the budgets and Sustainability's check read the hours for the sessions needed (expected sales ÷ DV6, rounded up). With DV6 at 1 every saved card reads as today.
 - **The "i" says:** "The most customers one session serves: a class of 8 in a 3-hour session takes about 23 minutes a customer. Expected sales count customers; the hours count sessions."
 - **Lumen:** Weaving Workshops (up to eight a workshop) gets DV6 = 8 and DV3 per session (Maya Chen 3.2 h, the linked External Professional 0.8 h): the same 0.4 h and 0.1 h a participant as today, now read as about 4 sessions a month for the 32 places.

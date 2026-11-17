@@ -14,7 +14,7 @@ import { focusByKeyboard, firstHue, settle } from "../helpers.mjs";
  */
 export const name = "Dropdown";
 
-const WIDTHS = { "step-s": "stepS", "step-m": "stepM", "step-l": "stepL", disabled: "stepS" };
+const WIDTHS = { "step-s": "stepS", "step-m": "stepM", "step-l": "stepL", disabled: "stepS", "with-headings": "stepS" };
 
 function measureInPage() {
     const { rgb, ratio, same, transparent, colour } = window.__lib;

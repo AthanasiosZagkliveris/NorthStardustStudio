@@ -2810,7 +2810,8 @@
         //      the label, so they end in an ellipsis there, the whole text in the list, the tooltip and the accessible name. An activity's Performer pickers
         //      (aria-label "... performer 1: ...") are the same, and a Group picker of a Resource, Partner or Provider card (aria-label "... group: ...", a fixed list whose longest name,
         //      "Landlords, Leasing & Warehouses", is 322px with its padding): a person's name and role, or a partner's, can be wider than the 290px left beside the label.
-        const cascadeText = trigger => /(supplier|partner)( group)?:|performer [0-9]+:| group:| category:| cost option:| resource [0-9]+:| rent:| linked registration:/.test(trigger.getAttribute("aria-label") || "");
+        // (The Performer became the Team on 2026-11-16 20:22: its pickers are named "... team N: ..."; the old name stays for answers read before.)
+        const cascadeText = trigger => /(supplier|partner)( group)?:|performer [0-9]+:|team [0-9]+:| group:| category:| cost option:| resource [0-9]+:| rent:| linked registration:/.test(trigger.getAttribute("aria-label") || "");
         for (const trigger of [...document.querySelectorAll(".card-box-open .option-picker-trigger")].filter(visible)) {
             const value = trigger.querySelector(".option-picker-value");
             if (value && value.scrollWidth > value.clientWidth + 1 && !trigger.closest(".business-field-side")?.textContent.startsWith("Status") && !cascadeText(trigger)) {

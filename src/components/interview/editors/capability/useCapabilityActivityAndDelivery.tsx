@@ -977,8 +977,9 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
                 )}
 
                 {/* DV6, customers in one session: a class, a workshop, an event (doc 52; owner, 2026-11-17). */}
+                {/* (Under its label: the label is long for the side column, where it sat off the box's centre line; layout check, 2026-11-17.) */}
                 {sessions && (
-                    <BusinessField label="Customers in one session" info={DELIVERY_HELP.perSession} side>
+                    <BusinessField label="Customers in one session" info={DELIVERY_HELP.perSession}>
                         <NumberCell kind="int"
                             className="delivery-number"
                             aria-label={offering.label + " customers in one session"}
