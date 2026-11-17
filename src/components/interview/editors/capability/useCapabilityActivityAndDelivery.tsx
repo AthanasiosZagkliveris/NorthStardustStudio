@@ -1139,7 +1139,7 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
                     return (
                         <>
                             {/* (Label above, as every field whose label or control is wider than the side column (--side-label-short) allows: a resource's own name
-                                ("8-shaft floor looms") needs the card's width, and the question its own line; layout check, 2026-11-17.) */}
+                                ("8-shaft floor looms") needs the card's width, and the question its own line; layout check, 2026-11-17. "Which supplier?" below the same.) */}
                             <BusinessField label="Which one?" info={DELIVERY_HELP.equipment}>
                                 {owned.length === 0
                                     ? <span className="delivery-muted">Add this Offering's equipment or workspace under Resources.</span>
@@ -1170,7 +1170,7 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
                 {delivery.holdUps.includes("materials") && (() => {
                     const suppliers = uniqueChoices(capability.offering.providers.filter(card => card.offeringIds.includes(offering.id)), "Unnamed supplier");
                     return (
-                        <BusinessField label="Which supplier?" side>
+                        <BusinessField label="Which supplier?">
                             {suppliers.length === 0
                                 ? <span className="delivery-muted">Add this Offering's supplier under Partners &amp; Suppliers.</span>
                                 : (
