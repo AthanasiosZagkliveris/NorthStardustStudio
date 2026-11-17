@@ -53,7 +53,7 @@ describe("the buyer the Segment card follows", () => {
         expect(questions(people)).not.toContain("u-age");
         expect(questions(people)).not.toContain("u-job");
         expect(questions(people)).not.toContain("u-comfort");
-        expect(questions(business)).toEqual(expect.arrayContaining(["u-age", "u-job", "u-comfort"]));
+        expect(questions(business)).toEqual(expect.arrayContaining(["u-age", "u-comfort"]));
         expect(profileQuestionAsked(PROFILE_QUESTIONS.find(question => question.id === "a5")!, {}, people)).toBe(false);
     });
 

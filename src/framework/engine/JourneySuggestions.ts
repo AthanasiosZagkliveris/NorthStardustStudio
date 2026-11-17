@@ -47,7 +47,7 @@ const DISCOVER: Readonly<Record<string, Pick>> = {
 };
 
 /** Where they see adverts (Box 4, 3a) → its Advertising subchannel at Discover. */
-const ADVERTS: Readonly<Record<string, string>> = { press: "Newspaper / Magazine", radio: "Radio", tv: "TV", outdoor: "Billboard / Outdoor" };
+const ADVERTS: Readonly<Record<string, string>> = { press: "Newspaper / Magazine", radio: "Radio", tv: "TV", outdoor: "Billboard / Outdoor", journals: "Newspaper / Magazine" };
 
 /** The way to try it first each Offering's form gives, where they discover by free samples, tasters or trials (owner, 2026-11-16 17:38). */
 function trialOf(physical: boolean, form: string | undefined): string {
@@ -184,6 +184,12 @@ export function journeySuggestions(segment: BusinessCustomerSegmentValue, identi
         const ways = segment.offerings.length > 0 ? segment.offerings.map((offering, at) => trialOf(offeringIsPhysical(offering, segment, identity), offerings[at].o1?.[0])) : ["Demo"];
         [...new Set(ways)].forEach(name => add("discovery", ["Samples & Trials", name], "how they discover you", true));
     }
+    // (HOW THEY SHARE WHAT THEY BUY (owner, 2026-11-17): posting it publicly, or telling friends and family, makes Customer Referral a way they discover you -- and,
+    // through it, the Referrals Customer Source -- and a channel at Support & Follow Up, where the action that asks for it stands; keeping it to themselves, none.)
+    if ((answers.share ?? []).some(id => id === "public" || id === "friends")) {
+        add("discovery", ["Referral & Affiliates", "Customer Referral"], "how they share what they buy", true);
+        add("support", ["Referral & Affiliates", "Customer Referral"], "how they share what they buy", true);
+    }
     // (A way of discovering written in under Other: a channel of the Other category, by its name, at Discover; owner, 2026-11-16 16:31.)
     segmentWrittenIn(answers, "discover").forEach(name => add("discovery", ["Other", name], "how they discover you", true));
     // (A platform, community or event the Profiles write in under Other (C2, C3, C4: `<id>-other`) is that very subchannel too, by the name written -- several
@@ -269,6 +275,32 @@ export function journeySuggestions(segment: BusinessCustomerSegmentValue, identi
 export function suggestionMet(suggestion: ChannelSuggestion, channels: readonly BusinessChannelValue[]): boolean {
     const name = suggestion.name.trim().toLocaleLowerCase();
     return channels.some(channel => channel.category === suggestion.category && (name === "" || channel.name.trim().toLocaleLowerCase() === name));
+}
+
+/** The actions the sharing answers make (owner, 2026-11-17): on Customer Referral at Support & Follow Up, one a way they share. */
+const SHARE_ACTIONS: Readonly<Record<string, string>> = { public: "Ask for a photo or review after each sale", friends: "Invite them to refer a friend" };
+
+/**
+ * THE ACTIONS THE ANSWERS MAKE (owner, 2026-11-17): each a sharing answer gives (SHARE_ACTIONS) on the Segment's Customer Referral channel at Support & Follow
+ * Up, made once (answerActions) -- so an action the founder removes, or edits, stays as they left it. Returns the same entry when nothing changes.
+ */
+export function withAnswerActions<T extends { segmentId: string; channels: BusinessChannelValue[]; actions: { id: string; text: string }[]; answerActions?: string[] }>(entry: T, segment: BusinessCustomerSegmentValue, identity?: SegmentIdentity): T {
+    const answers = effectiveSegmentAnswers(segment, identity);
+    const channel = entry.channels.find(candidate => candidate.category.trim() === "Referral & Affiliates" && candidate.name.trim() === "Customer Referral" && candidate.stages.includes("support"));
+    if (!channel) {
+        return entry;
+    }
+    const made = entry.answerActions ?? [];
+    const due = (answers.share ?? []).filter(id => SHARE_ACTIONS[id] && !made.includes("share:" + id));
+    if (due.length === 0) {
+        return entry;
+    }
+    const actions = due.map(id => ({ id: "action-" + entry.segmentId + "-share-" + id, text: SHARE_ACTIONS[id] }));
+    const channels = entry.channels.map(candidate => candidate.id !== channel.id ? candidate : {
+        ...candidate,
+        actionIds: { ...candidate.actionIds, support: [...(candidate.actionIds.support ?? []), ...actions.map(action => action.id)] }
+    });
+    return { ...entry, channels, actions: [...entry.actions, ...actions.filter(action => !entry.actions.some(existing => existing.id === action.id))], answerActions: [...made, ...due.map(id => "share:" + id)] };
 }
 
 /** A subchannel's key, the same however it is written: its category and name. */

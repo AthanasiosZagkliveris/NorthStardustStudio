@@ -71,21 +71,17 @@ The people who pay (the buyer is people: B2C alone, or the first of the two Segm
 
 - **Control:** one choice (a radio).
 - **Asked when:** The buyer is people, and the age is not Minors.
-- **Options:**
-  - Did not finish secondary school
-  - Secondary school
-  - Vocational / technical diploma
-  - Bachelor's degree
-  - Master's degree
-  - Doctorate
+- **Options** (four levels, owner, 2026-11-17; saved answers read as their level: secondary school as School, vocational as College or vocational, bachelor's as University degree, master's and doctorate as Postgraduate degree):
+  - School
+  - College or vocational
+  - University degree
+  - Postgraduate degree (master's or doctorate)
 - **The "i" says:**
-  - Each level includes the ones below it: someone with a Master has a Bachelor.
-  - Secondary school: A-levels or the Leaving Certificate (UK, Ireland), a diploma (USA, Canada), Year 12 (Australia, New Zealand).
-  - Vocational or technical diploma: a post-school qualification such as a BTEC, a trade certificate or an associate degree.
+  - Each level includes the ones below it.
+  - Postgraduate degree: master's or doctorate.
 - **Connections:**
   - *Comes from:* This Segment's age (not asked of Minors).
-  - *Read by (built):* The Market document and the export.
-  - *Read by (not built yet):* The order of the Profile's job levels.
+  - *Read by (built):* The Market document and the export. **Postgraduate** puts Talk / conference first in the Profiles' C4, LinkedIn first in C2, Professional and Manager work first in A3, and offers Journals / trade magazines in the adverts follow-up (Box 4, 3a); **School** or **College or vocational** put Instagram and TikTok first in C2 (owner, 2026-11-17).
 
 ### 3. Are your customers working?
 
@@ -429,6 +425,7 @@ The buyer is a business, or the Segment is of businesses where both relationship
 
 - **Control:** ticks, as many as apply. **Asked when:** Box 4, 3 is Adverts in newspapers, magazines, radio or TV (owner, 2026-11-16 17:38); its answer goes when that tick goes.
 - **Options:** Newspapers / magazines · Radio · TV · Billboards / outdoor.
+  - Journals / trade magazines (for a Postgraduate Segment, and a business Segment whose industry is chosen; owner, 2026-11-17)
 - **The "i" says:** The adverts that reach them: each becomes a channel on Customer Engagement.
 - **Connections:** *Read by (built):* each tick its Advertising subchannel (Newspaper / Magazine, Radio, TV, Billboard / Outdoor), named, at Discover (doc 47).
 
@@ -551,18 +548,16 @@ The buyer is a business, or the Segment is of businesses where both relationship
 
 - **Control:** ticks, as many as apply.
 - **Asked when:** The buyer is people. **Held back while Planning (owner, 2026-11-08, P5):** not asked while the business stage is Planning (the stage from the Opening Date; no date is Planning), asked from Launching; a saved answer is kept, not removed (the settling keeps an answer held back only by the stage), and the documents still print it.
-- **Exclusion:** choosing "They rarely share what they buy" clears every other choice, and choosing any other way clears it.
-- **Options:**
+- **Exclusion:** choosing "They keep what they buy to themselves" clears every other choice, and choosing any other way clears it.
+- **Options** (three, owner, 2026-11-17; private chats and telling people in person saved before are read as telling friends and family):
   - They post it publicly on social media
-  - They send it to friends in private chats
-  - They tell people in person
-  - They rarely share what they buy
+  - They tell friends and family
+  - They keep what they buy to themselves
 - **The "i" says:**
-  - Private chat apps are for example WhatsApp and iMessage. "They rarely share what they buy" excludes the other three.
+  - Telling friends and family includes private chats, such as WhatsApp. "They keep what they buy to themselves" excludes the other two.
 - **Connections:**
   - *Comes from:* Early Positioning: the relationship (people).
-  - *Read by (built):* The Market document and the export.
-  - *Read by (not built yet):* The Profile's habits.
+  - *Read by (built):* The Market document and the export. **Posting publicly** and **telling friends and family** make Customer Referral a channel at Discover (so a Referrals Customer Source, the introductions) and at Support & Follow Up, where the answers make one action each, once: "Ask for a photo or review after each sale", "Invite them to refer a friend" (`withAnswerActions`). **Keeping it to themselves** makes no referral channel, and Discover (Box 4, 3) puts search, reviews and adverts first.
 
 ## Box 5. Market Size & Industry Outlook
 
@@ -686,8 +681,9 @@ Asked when the Segment's own buyer relationship has a Proxy or Dual-Intent buyer
   - Secondary school is offered for a Teenager.
 - **Connections:**
   - *Comes from:* Early Positioning: the buyer and end user relationship; this part's life stage.
-  - *Read by (built):* The Market document and the export.
-  - *Read by (not built yet):* The Profile for the end user.
+  - *Read by (built):* The Market document and the export. **Early years** starts the Profiles' B1 at Safety / security (owner, 2026-11-17).
+
+**Questions 3 to 7 are retired** (owner, 2026-11-17: nothing read them): the end user's work (3, 4), job (5), and their clients' organisation and size (6, 7). Their codes stay retired in doc 44; saved answers are not read. Their text below is kept for the record.
 
 ### 3. Are your customers working?
 

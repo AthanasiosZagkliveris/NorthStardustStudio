@@ -32,7 +32,7 @@ import { asBusinessCapabilityValue, equalOfferingShares } from "../../../../fram
 import { useItemFolds } from "../../fields/useItemFolds.ts";
 import { toggledIn } from "../../fields/toggledIn.ts";
 import { BusinessEngagementEditorProps, CONTENT_OF_THE_TABLE } from "./shared.tsx";
-import { dismissedAfter, relationshipTypesOf, withAnswerChannels, withAnswerSources } from "../../../../framework/engine/JourneySuggestions.ts";
+import { dismissedAfter, relationshipTypesOf, withAnswerChannels, withAnswerSources , withAnswerActions } from "../../../../framework/engine/JourneySuggestions.ts";
 import { businessRelationshipInteractions } from "../../../../framework/engine/businessFoundation/engagementPage.ts";
 import { chargedFeeOf, foreignFeeNote } from "../../../../framework/engine/GlobalSettings.ts";
 import { offeringChannelRevenue } from "../../../../framework/engine/DemandCapacity.ts";
@@ -247,11 +247,15 @@ export function useEngagementState(props: BusinessEngagementEditorProps) {
         const next = segments.map(segment => {
             const entry = engagement.segments.find(candidate => candidate.segmentId === segment.id);
             const channels = withAnswerChannels(entry?.channels ?? [], entry?.dismissedChannels ?? [], segment, identity);
-            if (channels !== (entry?.channels ?? []) && (entry || channels.length > 0)) {
+            const withChannels = channels !== (entry?.channels ?? []) && (entry || channels.length > 0)
+                ? { ...(entry ?? { ...createBusinessSegmentEngagement(segment.id), channels: [] }), channels }
+                : entry;
+            // (The actions the answers make, on the channels just kept: withAnswerActions.)
+            const withActions = withChannels ? withAnswerActions(withChannels, segment, identity) : withChannels;
+            if (withActions !== entry) {
                 changed = true;
-                return { ...(entry ?? { ...createBusinessSegmentEngagement(segment.id), channels: [] }), channels };
             }
-            return entry;
+            return withActions;
         }).filter((entry): entry is BusinessSegmentEngagementValue => entry !== undefined);
         // (How an Offering's customers buy, kept as its terms say -- O3, offeringStarts --, so every document reads it as the page shows it.)
         const demand = { ...engagement.demand };

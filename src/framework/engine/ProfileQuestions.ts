@@ -1,4 +1,4 @@
-import { JOB_INFO, JOB_LEVELS, JOB_RENAMED, SEGMENT_QUESTIONS, ratingOptions, ratingWords, segmentServesPeople, type SegmentAnswers, type SegmentContext, type SegmentOption } from "./SegmentQuestions.ts";
+import { JOB_INFO, JOB_LEVELS, JOB_RENAMED, SEGMENT_QUESTIONS, ratingWords, segmentServesPeople, type SegmentAnswers, type SegmentContext, type SegmentOption } from "./SegmentQuestions.ts";
 import { choiceLimit } from "./PositioningIds.ts";
 
 /**
@@ -36,10 +36,9 @@ const HOUSEHOLDS = [
     { id: "single-parent", label: "Single parent with children" }, { id: "relatives", label: "With parents / relatives" }, { id: "sharing", label: "With friends / housemates" }
 ] as const;
 
-/** A3b: a B2B Profile's job level (LinkedIn's ten seniority values merged into five). */
+/** A3b: a B2B Profile's job level (LinkedIn's seniority values, merged into three: who decides, who manages, who does the work; owner, 2026-11-17). */
 const SENIORITY = [
-    { id: "owner", label: "Owner / partner" }, { id: "executive", label: "Senior executive" }, { id: "director", label: "Director / head of department" },
-    { id: "manager", label: "Manager / team lead" }, { id: "specialist", label: "Specialist / team member" }
+    { id: "owner", label: "Owner or senior leader" }, { id: "manager", label: "Manager" }, { id: "specialist", label: "Specialist / team member" }
 ] as const;
 
 /** A B2B Profile's kind of work saved before A3b, read as a job level (owner, 2026-11-03). */
@@ -55,6 +54,9 @@ const FRUSTRATIONS = ["It costs too much", "It takes too long", "It is too compl
 /** Options merged into another (owner, 2026-11-06; E1, 2026-11-08): a saved tick of the first is read as the second; with both ticked it is one tick, the higher rating kept. */
 const MERGED: Readonly<Record<string, Readonly<Record<string, string>>>> = {
     e1: { "stay-within-the-rules": "meet-a-requirement" },
+    // (Owner, 2026-11-17: three genders; three job levels, a director a senior leader.)
+    a2: { "non-binary": "other" },
+    a3b: { executive: "owner", director: "owner" },
     e2: { "prices-are-unclear": "it-costs-too-much", "they-worry-about-mistakes-or-rules": "they-lack-the-know-how", "support-is-poor": "it-is-too-complicated" }
 };
 /** The words of an option said of one person and in no pronoun (the ids stay those of the first wording: they are saved answers). */
@@ -104,7 +106,7 @@ const list = (labels: readonly string[]): SegmentOption[] => labels.map(label =>
 const QUESTIONS: readonly ProfileQuestion[] = [
     {
         id: "a2", box: "personal", label: "What is this person's gender?", many: false,
-        options: [{ id: "woman", label: "Woman" }, { id: "man", label: "Man" }, { id: "non-binary", label: "Non-binary" }, { id: "other", label: "Another gender" }],
+        options: [{ id: "woman", label: "Woman" }, { id: "man", label: "Man" }, { id: "other", label: "Another gender" }],
         info: ["Asked when the Segment's gender mix leans one way (any point but 3); it starts from the mix. Change it freely."]
     },
     {
@@ -211,7 +213,6 @@ export function profilePartOf(question: Pick<ProfileQuestion, "id">, context: Pi
     return context.endsUser && USER_PART.includes(question.id) ? "user" : "buyer";
 }
 
-const COMFORT_RATING = { low: "Uneasy", high: "Confident" };
 const OUTCOME = SEGMENT_QUESTIONS.find(question => question.id === "u-outcome");
 
 /**
@@ -227,10 +228,7 @@ const USER_QUESTIONS: readonly ProfileQuestion[] = [
         id: "a7", box: "personal", label: "Who does {s} live with?", many: false, options: HOUSEHOLDS,
         info: ["Asked of an adult end user, who can live apart from the buyer.", "Based on: household types (ONS, Census 2021).", "Children: children living at home. With parents / relatives includes several generations under one roof."]
     },
-    {
-        id: "comfort", box: "personal", label: "How comfortable is {s} online?", many: false, rating: COMFORT_RATING, options: ratingOptions(COMFORT_RATING),
-        info: ["How easily they use websites, apps and online payment.", "The Segment's answer for its end users starts this; change it freely."]
-    },
+    // (A8, the end user's online comfort, is retired: the Segment's End user, 8 owns it; owner, 2026-11-17.)
     {
         // Named by the relationship as the rest of the part ("Outcome for the child"; owner, 2026-11-09): profileUserWho.
         id: "outcome", box: "goals", label: (OUTCOME?.label ?? "Outcome for the end user").replace("the end user", "{s}"), many: true, options: OUTCOME?.options ?? [],
@@ -299,8 +297,6 @@ export function profileUserQuestionAsked(question: Pick<ProfileQuestion, "id">, 
     switch (question.id) {
         case "a7":
             return context.frame !== "business" && ADULT_USER_AGES.includes(age);
-        case "comfort":
-            return age !== "baby";
         default:
             return true;
     }
@@ -348,9 +344,6 @@ export function profileUserSettle(saved: SegmentAnswers, segment: SegmentAnswers
  */
 export function profileUserShown(answers: SegmentAnswers, segment: SegmentAnswers, context: SegmentContext): SegmentAnswers {
     const shown: SegmentAnswers = { ...answers };
-    if (!("comfort" in shown) && (segment["u-comfort"] ?? []).length > 0) {
-        shown.comfort = segment["u-comfort"].slice(0, 1);
-    }
     if (!("outcome" in shown) && (segment["u-outcome"] ?? []).length > 0) {
         const limit = profileOutcomeLimit(context);
         shown.outcome = limit === null ? [...segment["u-outcome"]] : segment["u-outcome"].slice(0, limit);
@@ -534,6 +527,16 @@ export function profileOptionsShown(question: ProfileQuestion, segment: SegmentA
     let first: string[] = [];
     if (question.id === "a7") {
         first = [...new Set(context.relations.flatMap(id => HOUSEHOLD_FIRST[id] ?? []))];
+    } else if (question.id === "c4" && (segment.education ?? []).includes("postgraduate")) {
+        // (Postgraduates: talks and conferences first; owner, 2026-11-17.)
+        first = ["talk"];
+    } else if (question.id === "c2") {
+        // (Postgraduates: LinkedIn first; school or college: Instagram and TikTok first; owner, 2026-11-17.)
+        const education = segment.education ?? [];
+        first = education.includes("postgraduate") ? ["linkedin"] : education.includes("school") || education.includes("college") ? ["instagram", "tiktok"] : [];
+    } else if (question.id === "a3" && (segment.education ?? []).includes("postgraduate")) {
+        // (Postgraduates: professional and manager work first; owner, 2026-11-17.)
+        first = ["professional", "manager"];
     } else if (question.id === "e3") {
         const b1 = QUESTIONS.find(entry => entry.id === "b1")!;
         const ratings = profileRatings(answers, b1);
@@ -579,7 +582,7 @@ function startOf(question: ProfileQuestion, segment: SegmentAnswers, context: Se
                 return context.dual ? ["use", "order", "decide"] : ["order", "decide"];
             }
             const level = answers.a3b?.[0];
-            return level === "owner" || level === "executive" ? ["decide"] : level === "specialist" ? ["use"] : undefined;
+            return level === "owner" ? ["decide"] : level === "specialist" ? ["use"] : undefined;
         }
         case "c1": {
             const setting = first(segment.setting);
@@ -602,6 +605,9 @@ function startOf(question: ProfileQuestion, segment: SegmentAnswers, context: Se
             const compare = answers.d1 ?? [];
             return compare.includes("a-demo") || compare.includes(OLD_DEMO) || compare.includes("a-quote-or-proposal") ? ["formal"] : compare.includes("a-meeting-or-call") ? ["person"] : undefined;
         }
+        case "b1":
+            // (An end user in the early years: the buyer cares first for safety; owner, 2026-11-17.)
+            return (segment["u-school"] ?? []).includes("early") ? ["safety-and-low-risk"] : undefined;
         case "e3":
             // The household income, a rating: 1 (low) starts the worry about price.
             return (segment.income ?? []).includes("1") ? ["the-price-or-their-budget"] : undefined;

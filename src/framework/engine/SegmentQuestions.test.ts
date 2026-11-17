@@ -88,9 +88,10 @@ describe("the Segment's questions", () => {
         expect(ids(segmentOptions(question("u-school"), { "u-age": ["child"] }, parent))).toEqual(["early", "primary"]);
         expect(segmentSettle({ "u-age": ["baby"], "u-school": ["secondary"] }, parent)).toEqual({ "u-age": ["baby"], "u-school": ["early"] });
         const serving = { ...OPEN, endsUser: true, relations: ["rel:serving"] };
-        expect(ids(segmentQuestionsOf("user", { "u-orgtype": ["self"] }, serving))).toEqual(["u-age", "u-orgtype", "u-comfort"]);
+        // (The end user's work, job, clients and their size are retired: nothing read them; owner, 2026-11-17.)
+        expect(ids(segmentQuestionsOf("user", {}, serving))).toEqual(["u-age", "u-comfort"]);
         const employer = { ...OPEN, endsUser: true, relations: ["rel:employer", "rel:friend"] };
-        expect(ids(segmentQuestionsOf("user", {}, employer))).toEqual(["u-age", "u-work", "u-job", "u-comfort"]);
+        expect(ids(segmentQuestionsOf("user", {}, employer))).toEqual(["u-age", "u-comfort"]);
         // A family member buying for a child is asked the school stage (a grandparent; 2026-11-09).
         const family = { ...OPEN, endsUser: true, relations: ["rel:family"] };
         expect(ids(segmentQuestionsOf("user", { "u-age": ["child"] }, family))).toEqual(["u-age", "u-school", "u-comfort"]);
@@ -99,19 +100,19 @@ describe("the Segment's questions", () => {
         expect(ids(segmentOptions(question("u-age"), {}, institution))).toContain("baby");
         expect(ids(segmentOptions(question("u-age"), {}, institution))).toContain("dependent");
         expect(ids(segmentQuestionsOf("user", { "u-age": ["child"] }, institution))).toEqual(["u-age", "u-school", "u-comfort"]);
-        expect(ids(segmentQuestionsOf("user", { "u-age": ["active"] }, institution))).toEqual(["u-age", "u-work", "u-comfort"]);
+        expect(ids(segmentQuestionsOf("user", { "u-age": ["active"] }, institution))).toEqual(["u-age", "u-comfort"]);
     });
 
     it("settles the answers: what is no longer asked, or no longer offered, goes", () => {
         const students = { ...OPEN, frame: "people" as const, lifeStages: ["young"] };
-        expect(segmentSettle({ age: ["minor"], education: ["bachelor"], income: ["high"], work: ["retired"] }, students)).toEqual({ age: ["minor"] });
+        expect(segmentSettle({ age: ["minor"], education: ["degree"], income: ["high"], work: ["retired"] }, students)).toEqual({ age: ["minor"] });
         expect(segmentSettle({ age: ["peak"] }, students)).toEqual({});
         expect(segmentSettle({ orgtype: ["self"], size: ["micro"], sector: ["tech"], industry: ["health"] }, { ...OPEN, frame: "business" })).toEqual({ orgtype: ["self"], sector: ["tech"], authorise: ["solo"] });
     });
 
     it("does not show a question with one option left, and its answer is that option", () => {
         const adults = { ...OPEN, endsUser: true, userStages: ["age:young"], relations: ["rel:friend"] };
-        expect(ids(segmentQuestionsOf("user", {}, adults))).toEqual(["u-work", "u-comfort"]);
+        expect(ids(segmentQuestionsOf("user", {}, adults))).toEqual(["u-comfort"]);
         expect(segmentSettle({}, adults)).toEqual({ "u-age": ["young"] });
     });
 
@@ -151,7 +152,23 @@ describe("the Segment's questions", () => {
 
     it("reads an older saved work situation as working or not, and the situation", () => {
         expect(asSegmentAnswers({ work: ["employed"] })).toEqual({ work: ["working"] });
-        expect(asSegmentAnswers({ work: ["home"], "u-work": ["retired"] })).toEqual({ work: ["notworking"], work2: ["homemaker"], "u-work": ["notworking"], "u-work2": ["retired"] });
+        // (The end user's work is retired: its saved answer is not read.)
+        expect(asSegmentAnswers({ work: ["home"], "u-work": ["retired"] })).toEqual({ work: ["notworking"], work2: ["homemaker"] });
+    });
+
+    it("reads the options merged on 2026-11-17: four education levels, three ways of sharing", () => {
+        expect(asSegmentAnswers({ education: ["highschool"] })).toEqual({ education: ["school"] });
+        expect(asSegmentAnswers({ education: ["vocational"] })).toEqual({ education: ["college"] });
+        expect(asSegmentAnswers({ education: ["bachelor"] })).toEqual({ education: ["degree"] });
+        expect(asSegmentAnswers({ education: ["doctorate"] })).toEqual({ education: ["postgraduate"] });
+        expect(asSegmentAnswers({ share: ["private", "verbal", "public"] })).toEqual({ share: ["friends", "public"] });
+        // (Journals and trade magazines: for postgraduates, and a business Segment with its industry.)
+        const adverts = (answers: Record<string, string[]>, frame: "people" | "business") => ids(segmentOptions(question("advertising"), answers, { ...OPEN, frame }));
+        expect(adverts({}, "people")).not.toContain("journals");
+        expect(adverts({ education: ["postgraduate"] }, "people")).toContain("journals");
+        expect(adverts({ industry: ["health"] }, "business")).toContain("journals");
+        // (Keeping it to themselves: search, reviews and adverts first at Discover.)
+        expect(ids(segmentOptions(question("discover"), { share: ["none"] }, OPEN)).slice(0, 3)).toEqual(["search", "media", "adverts"]);
     });
 
     it("reads a saved answer: known questions and options only, one id for a radio", () => {
@@ -180,8 +197,8 @@ describe("the Segment's questions", () => {
         expect(lines).toContainEqual({ label: "How comfortable are your customers online?", value: "5 of 5 (Confident)" });
         expect(lines).toContainEqual({ label: "How crowded is your market?", value: "4 of 5" });
         // (In the card's order: how they share stands in Finding & Choosing, before how they pay, since 2026-11-16.)
-        expect(segmentAnswerLines({ share: ["public", "verbal"], pay: ["card"] })).toEqual([
-            { label: "How do your customers share what they like?", value: "They post it publicly on social media; They tell people in person" },
+        expect(segmentAnswerLines({ share: ["public", "friends"], pay: ["card"] })).toEqual([
+            { label: "How do your customers share what they like?", value: "They post it publicly on social media; They tell friends and family" },
             { label: "How do your customers pay?", value: "Credit / debit card" }
         ]);
     });
@@ -237,7 +254,7 @@ describe("the Segment's questions", () => {
             expect(segmentSettle({ "u-age": ["teen"] }, parent)["u-school"]).toEqual(["secondary"]);
             expect(ids(segmentQuestionsOf("user", { "u-age": ["child"] }, parent))).toEqual(["u-age", "u-school", "u-comfort"]);
             const adults = { ...OPEN, endsUser: true, userStages: ["age:adult"], relations: ["rel:parent", "rel:friend"] };
-            expect(ids(segmentQuestionsOf("user", { "u-age": ["peak"] }, adults))).toEqual(["u-age", "u-work", "u-comfort"]);
+            expect(ids(segmentQuestionsOf("user", { "u-age": ["peak"] }, adults))).toEqual(["u-age", "u-comfort"]);
         });
 
     });

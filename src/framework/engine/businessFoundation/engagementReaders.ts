@@ -300,6 +300,8 @@ export interface BusinessSegmentEngagementValue {
     offerings: BusinessOfferingRelationshipEntryValue[];
     /** The subchannels the answers make that the founder removed ("category|name", channelKey): never made again; All brings one back. */
     dismissedChannels?: string[];
+    /** The actions the answers made (withAnswerActions' keys): each made once, so one the founder removes is not made again. */
+    answerActions?: string[];
     /**
      * The payment services whose expense card the answers made (Which payment services do you take payments with?), lower case (withAnswerServiceCards): one held
      * here with no card left was removed by the founder, and is not made again while the answer stays.
@@ -795,6 +797,7 @@ export function asBusinessEngagementValue(value: unknown): BusinessEngagementVal
                 offerings: merged,
                 ...(Array.isArray(segment.dismissedChannels) ? { dismissedChannels: segment.dismissedChannels.map(asText).filter(Boolean) } : {}),
                 ...(Array.isArray(segment.answerCards) ? { answerCards: segment.answerCards.map(asText).filter(Boolean) } : {}),
+                ...(Array.isArray(segment.answerActions) ? { answerActions: segment.answerActions.map(asText).filter(Boolean) } : {}),
                 profiles
             };
 

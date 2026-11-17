@@ -105,7 +105,7 @@ The card is built and its layout is in section 1 ("The Profile card's layout"): 
 | C1 to C4 devices, social media, communities, events | buyer | where they find and buy (C1's "i": the devices they use to find and buy): who the channels must reach |
 | D1 to D3 comparing, help, when they buy | buyer | the purchase, run by the buyer (as doc 36 decided in 2026-11-01: the end user's Box D is not asked) |
 | E3 worries | buyer | the doubts about **buying** (the price among them), so the Offering's O8 reads the buyer's |
-| **A8** online comfort | end user | new, the end user's own: how easily the end user uses websites and apps; starts from the Segment's End user, 8; not asked of a Baby |
+| **A8** online comfort | end user | **retired 2026-11-17** (owner): the Segment's End user, 8 owns the end user's online comfort |
 | E1 goals | end user | what they want from it |
 | **E4** outcome for the end user | end user | moved here from the Segment's End user, 9 (and Positioning's 10 before it); stands first in the end user's Goals & Desires |
 | E2 frustrations | end user | what goes wrong for the person who uses it |
@@ -138,10 +138,9 @@ A typical person of the Segment, asked specifically.
 
 - **Control:** one choice (a radio).
 - **Asked when:** the Segment is of people and its gender mix is answered and is not Balanced mix.
-- **Options:**
+- **Options** (three, owner, 2026-11-17; Non-binary saved before is read as Another gender):
   - Woman
   - Man
-  - Non-binary
   - Another gender
 - **The "i" says:**
   - Asked when the Segment's gender mix leans one way (any point but 3); it starts from the mix. Change it freely.
@@ -204,6 +203,7 @@ A typical person of the Segment, asked specifically.
   - Professional: for example a teacher, nurse, engineer or lawyer. Skilled trade: for example an electrician, plumber or chef.
   - Someone who owns and runs a business: Manager / director. Armed forces: choose the group that fits the role.
 - **Saved answers:** the ids of the six groups before are kept where the meaning is closest (manager, professional, technician, service, operator); "owner", an employment status rather than an occupation, reads as Manager / director (`JOB_RENAMED`).
+- **Ordered (2026-11-17):** for a Postgraduate Segment (doc 35, Box 1, 2), Professional and Manager work first; never locked.
 - **Connections:**
   - *Comes from:* the Segment's work status.
   - *Read by (built):* the documents and the exports. *Not built yet:* C2's order (LinkedIn first for Manager / director and Professional); the Review.
@@ -213,17 +213,16 @@ A typical person of the Segment, asked specifically.
 *Added (owner, 2026-11-03), built.* A B2B Profile's job question, in A3's place.
 
 - **Control:** one choice (a radio).
-- **Asked when:** the Segment's buyer is a business, except where its customers are self-employed: then it is set to Owner / partner and not shown (section 9).
-- **Options** (LinkedIn's ten seniority values merged into five) [MSP-05]:
-  - Owner / partner (Owner, Partner)
-  - Senior executive (CXO, VP)
-  - Director / head of department (Director)
-  - Manager / team lead (Manager)
+- **Asked when:** the Segment's buyer is a business, except where its customers are self-employed: then it is set to Owner or senior leader and not shown (section 9).
+- **Options** (LinkedIn's ten seniority values merged into three: who decides, who manages, who does the work; owner, 2026-11-17) [MSP-05]:
+  - Owner or senior leader (Owner, Partner, CXO, VP, Director)
+  - Manager (Manager)
   - Specialist / team member (Senior, Entry, Training, Unpaid)
 - **The "i" says:**
-  - Based on: the seniority levels B2B platforms use (LinkedIn), merged into five.
-  - Senior executive: the chief executive, a C-level or a vice president. Trainees and interns: Specialist / team member.
-  - It starts the role in buying: an owner or senior executive makes the final decision; a specialist uses it.
+  - Based on: the seniority levels B2B platforms use (LinkedIn), merged into three.
+  - Trainees and interns: Specialist / team member.
+  - It starts the role in buying: an owner or senior leader makes the final decision; a specialist uses it.
+- **Saved answers (2026-11-17):** Senior executive and Director / head of department saved before read as Owner or senior leader; Manager / team lead as Manager.
 - **Saved answers:** a B2B Profile's kind of work saved before reads as a level: Owner to Owner / partner, Manager to Manager / team lead, the others to Specialist / team member.
 - **Connections:**
   - *Read by (built):* A5's starting value (Owner / partner or Senior executive: Makes the final decision; Specialist / team member: Uses it); the documents and the exports.
@@ -308,6 +307,7 @@ A typical person of the Segment, asked specifically.
   - Personalisation: made just for them. Safety / security: low risk, nothing goes wrong. Values: it stands for what they believe in.
   - Write their interests, lifestyle and hopes in the note.
   - 1 = Optional, 5 = Essential.
+- **Starts (2026-11-17):** at Safety / security where the Segment's end user is in the early years (End user, 2).
 - **Connections:**
   - *Read by (built, 2026-11-05):* the Competitor's K8 shows every value of L1, those ticked here first, the highest rated first, each banded by how many Profiles ticked it, and its K10 weighs each value by its rating here (doc 41).
   - *Comes from:* nothing.
@@ -335,6 +335,7 @@ What the Segment cannot say: which social media, which communities, which events
   - The platforms they actually use, if any.
   - Tick Other to write another.
 - **Other, written in:** a numbered list, one name a row (owner, 2026-11-15 16:43; the same for C3 and C4); each name is its own subchannel on Customer Engagement (doc 47).
+- **Ordered (2026-11-17):** for a Postgraduate Segment, LinkedIn first; for School or College or vocational, Instagram and TikTok first; never locked.
 - **Connections:**
   - *Comes from:* the Segment's discovery ways and online comfort.
   - *Read by (built):* each platform its Social Media subchannel at Discover, a name written under Other its own (doc 47); posts on social media after the sale (O23) at Support & Follow Up; the Competitors' reach openings (K10, doc 41). *Not built yet:* the Profile's hubs. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
@@ -370,6 +371,7 @@ What the Segment cannot say: which social media, which communities, which events
 - **The "i" says:**
   - The kinds of events a typical person of the Segment goes to.
   - Write the names of the events in the note.
+- **Ordered (2026-11-17):** for a Postgraduate Segment, Talk / conference first; never locked.
 - **Connections:**
   - *Comes from:* the Segment's social environment.
   - *Read by (built):* each event its In Person subchannel at Discover, a name written under Other its own (doc 47); the Competitors' reach openings (K10, doc 41). *Not built yet:* the Profile's hubs. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
