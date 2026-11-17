@@ -19,7 +19,7 @@ import { NUMBER_LIMITS, limitedNumberText } from "../../fields/numberInput.ts";
 import OptionPicker from "../../fields/OptionPicker.tsx";
 import { toggledIn } from "../../fields/toggledIn.ts";
 import TextLink from "../../fields/TextLink.tsx";
-import { DELIVERY_HELP, Scope, WARRANTY_GROUPS } from "../BusinessCapabilityModel.ts";
+import { Scope, WARRANTY_GROUPS } from "../BusinessCapabilityModel.ts";
 import type { useCapabilityState } from "./useCapabilityState.tsx";
 
 type Earlier = ReturnType<typeof useCapabilityState>;
@@ -1019,7 +1019,7 @@ export function useCapabilityCardFields(earlier: Earlier) {
                 {/* The links last, under the Description (the one card order). */}
                 {/* (A Staff card's hours a month they can give: their own row and bar in Capacity & Delivery; doc 52, 14; owner, 2026-11-17.) */}
                 {scope === "offering" && slot.category === "hr" && (
-                    <BusinessField label="Hours a month they can give" side info={DELIVERY_HELP.hoursAvailable}>
+                    <BusinessField label="Hours a month they can give">
                         <NumberCell kind="decimal"
                             aria-label={"Resource " + number + " hours a month they can give"}
                             placeholder="h"

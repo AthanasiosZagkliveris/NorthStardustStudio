@@ -118,11 +118,7 @@ export const DELIVERY_HELP = {
     equipment: [
         "The equipment or room each unit needs while it runs, and how many units it holds at once. A loom, a kiln or a treatment room often sets the pace while the founders still have hours.",
         "Based on: Little, Operations Research 59(3), 2011; Choo, Project Production Institute, 2016."
-    ],
-    /** A Staff, Partner or Supplier card's hours a month they can give. */
-    hoursAvailable: ["The hours a month this person or firm can give to the work. Capacity & Delivery sets them against the hours the expected sales need."],
-    /** A Supplier's lead time. */
-    leadWeeks: ["The weeks an order takes to arrive. Capacity & Delivery adds them to the Calendar Time of the Offerings this supplier can hold up."]
+    ]
 };
 
 /** A founder's Frequency: the period of the salary and the hours. */

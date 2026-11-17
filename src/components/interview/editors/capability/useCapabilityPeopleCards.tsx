@@ -893,7 +893,7 @@ export function useCapabilityPeopleCards(earlier: Earlier) {
                 {/* (THE HOURS THEY CAN GIVE, and a Supplier's lead time: read by Capacity & Delivery -- their own row and bar, and the Calendar Time of an Offering they can
                     hold up; doc 52, 14 and 16; owner, 2026-11-17.) */}
                 {scope === "offering" && (
-                    <BusinessField label="Hours a month they can give" side info={DELIVERY_HELP.hoursAvailable}>
+                    <BusinessField label="Hours a month they can give">
                         <NumberCell kind="decimal"
                             aria-label={(partner.name.trim() || "Entry " + number) + " hours a month they can give"}
                             placeholder="h"
@@ -904,7 +904,7 @@ export function useCapabilityPeopleCards(earlier: Earlier) {
                     </BusinessField>
                 )}
                 {scope === "offering" && partner.category === "suppliers" && (
-                    <BusinessField label="Lead time (weeks)" side info={DELIVERY_HELP.leadWeeks}>
+                    <BusinessField label="Lead time (weeks)" side>
                         <NumberCell kind="decimal"
                             aria-label={(partner.name.trim() || "Entry " + number) + " lead time in weeks"}
                             placeholder="e.g. 3"
