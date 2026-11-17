@@ -24,7 +24,12 @@ import { type SegmentAnswers, segmentSettle } from "./SegmentQuestions.ts";
  */
 /** The forms of the Segment's Offerings, as each card shows them (O1): the marketplaces the Segment is offered follow them (owner, 2026-11-17). */
 export function segmentForms(segment: BusinessCustomerSegmentValue): string[] {
-    return [...new Set(segment.offerings.flatMap(offering => offering.questions?.o1 ?? (offering.category === "Product" ? ["physical"] : [])))];
+    // (EVERYTHING WHILE AN OFFERING'S FORM IS UNKNOWN (1.5, the second batch of the review; owner, 2026-11-18 00:46): an Offering with no O1 yet could be any form,
+    // so no list is filtered by the forms -- the empty list -- until every Offering has one.)
+    if (segment.offerings.some(offering => (offering.questions?.o1 ?? []).length === 0)) {
+        return [];
+    }
+    return [...new Set(segment.offerings.flatMap(offering => offering.questions?.o1 ?? []))];
 }
 
 export function segmentTrials(segment: BusinessCustomerSegmentValue): string[] | undefined {
@@ -35,6 +40,11 @@ export function segmentTrials(segment: BusinessCustomerSegmentValue): string[] |
     const kinds = new Set<string>();
     for (const offering of segment.offerings) {
         const form = offering.questions?.o1?.[0];
+        // (An Offering whose form is unknown yet could be tried any way: every way, 1.5 of the review's second batch.)
+        if (!form) {
+            ["sample", "trial", "demo", "taster", "catalogue"].forEach(kind => kinds.add(kind));
+            continue;
+        }
         const physical = offering.category !== "Service" && !(form && NOT_PHYSICAL_FORMS.includes(form));
         if (physical) {
             kinds.add("sample");
@@ -59,13 +69,13 @@ export function segmentTrials(segment: BusinessCustomerSegmentValue): string[] |
 /** A Profile's answers as its card shows them: its own, with each start for a question it never answered. */
 export function effectiveProfileAnswers(profile: BusinessCustomerProfileValue, segment: BusinessCustomerSegmentValue, identity: SegmentIdentity | undefined): SegmentAnswers {
     // (The Segment's answers as its card shows them, its starts included: B4, owner, 2026-11-17 08:38.)
-    const context = { ...segmentContextFor(identity, segmentIsBusiness(segment)), trials: segmentTrials(segment) };
+    const context = { ...segmentContextFor(identity, segmentIsBusiness(segment)), trials: segmentTrials(segment), forms: segmentForms(segment) };
     return profileShown(profile.questions ?? {}, segmentPositioningShown(segment.questions, identity, context, segment.competitors), context);
 }
 
 /**
- * The end user's own answers of a Profile (doc 36, 2.1; owner, 2026-11-08), as its end-user part shows them: saved under `user.questions`, with A8 started from the Segment's End
- * user, 8 and E4 from the Segment's End user, 9 (itself started from Positioning's answer saved before) where never answered. Empty where the Segment has no end user. The end
+ * The end user's own answers of a Profile (doc 36, 2.1; owner, 2026-11-08), as its end-user part shows them: saved under `user.questions` (A8 is retired: the Segment's End user, 8 owns it; owner, 2026-11-17), with
+ * E4 from the Segment's End user, 9 (itself started from Positioning's answer saved before) where never answered. Empty where the Segment has no end user. The end
  * user's E1, E2 and Needs are in `effectiveProfileAnswers` (the part they stand in: `profilePartOf`).
  */
 export function effectiveProfileUserAnswers(profile: BusinessCustomerProfileValue, segment: BusinessCustomerSegmentValue, identity: SegmentIdentity | undefined): SegmentAnswers {
@@ -90,7 +100,19 @@ export function offeringContextOf(offering: BusinessOfferingValue, segment: Busi
     // (The answers as the card shows them, its starts included -- How they pay from where they shop, B4 --, settled.)
     const settled = segmentSettle(segmentPositioningShown(segment.questions, identity, context, segment.competitors), context);
     const pay = settled.pay ?? [];
-    return { reach: settled.reach ?? [], area: settled.area?.[0] ?? "", workenv: settled.workenv?.[0] ?? "", type: offering.category, stage: identity?.stage, differentiation, outcome: identity?.outcome ?? [], pay, worries, country: identity?.country, frame: context.frame, ...(context.endsUser ? { endsUser: true } : {}), ...(context.dual ? { dual: true } : {}) };
+    // (O4 and O8 in the order the Profiles weigh their values (B1) and worries (E3), each tick by its rating, 1 unrated: 2.11, the second batch of the review.)
+    const weights = (id: "b1" | "e3") => {
+        const out: Record<string, number> = {};
+        for (const profile of segment.profiles) {
+            const answers = effectiveProfileAnswers(profile, segment, identity);
+            const rated = Object.fromEntries((answers[id + "-rating"] ?? []).map(entry => entry.split(":")).map(([key, point]) => [key, Number(point) || 1]));
+            for (const key of answers[id] ?? []) {
+                out[key] = (out[key] ?? 0) + (rated[key] ?? 1);
+            }
+        }
+        return out;
+    };
+    return { reach: settled.reach ?? [], area: settled.area?.[0] ?? "", workenv: settled.workenv?.[0] ?? "", workincome: settled.workincome?.[0] ?? "", valueWeights: weights("b1"), worryWeights: weights("e3"), type: offering.category, stage: identity?.stage, differentiation, outcome: identity?.outcome ?? [], pay, worries, country: identity?.country, frame: context.frame, ...(context.endsUser ? { endsUser: true } : {}), ...(context.dual ? { dual: true } : {}) };
 }
 
 /** An Offering's answers as its card shows them: its own, with each start for a question it never answered. */

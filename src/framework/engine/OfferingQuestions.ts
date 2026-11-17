@@ -51,6 +51,20 @@ export interface OfferingContext {
     area?: string;
     /** Where the Segment's customers mainly work (workenv): working at home puts Local delivery first in O20 (owner, 2026-11-17). */
     workenv?: string;
+    /** How the Segment's customers are paid (Box 1, 7): a fixed salary puts Ongoing first in O3, hourly or variable pay Per session first (1.13, the second batch of the review; owner, 2026-11-18 00:46). */
+    workincome?: string;
+    /** How much the Segment's Profiles weigh each value of B1 (its ticks, each by its rating, 1 where unrated): O4's order (2.11, the second batch of the review; owner, 2026-11-18 00:46). */
+    valueWeights?: Readonly<Record<string, number>>;
+    /** And each worry of E3: O8's order. */
+    worryWeights?: Readonly<Record<string, number>>;
+}
+
+/** A list ordered by its weights, the heaviest first, the rest in their own order (2.11, the second batch of the review; owner, 2026-11-18 00:46). */
+function byWeight(options: readonly SegmentOption[], weights: Readonly<Record<string, number>> | undefined): readonly SegmentOption[] {
+    if (!weights) {
+        return options;
+    }
+    return options.map((option, at) => ({ option, at })).sort((a, b) => (weights[b.option.id] ?? 0) - (weights[a.option.id] ?? 0) || a.at - b.at).map(entry => entry.option);
 }
 
 /** O6's ways for each form (O1; owner, 2026-11-17): a project or ongoing service, every way. */
@@ -180,7 +194,7 @@ export const OFFERING_QUESTIONS: readonly OfferingQuestion[] = [
         "A place to work: a desk or a room for you to use. Access to their home or site: the work is done there, such as a repair or a fitting.",
         "Their time or attendance: they must take part or be there, such as at a session or a fitting."] },
     { id: "o14", label: "How is it offered?", many: true, max: 3, info: ["How it is put together for sale: one range, made to each order, packages, limited runs or extras. Counts and what is included go in the Notes.", "Based on: the product mix (Kotler and Keller)."] },
-    { id: "o15", label: "How long until they have it?", many: false, info: ["The time from order to having it. How it reaches them is the question below."] },
+    { id: "o15", label: "How long until they have it?", many: false, info: ["The time from order to having it. How it reaches them is the question above."] },
     { id: "o23", label: "How do you keep in touch after the sale?", many: true, other: true, info: ["How customers hear from you once they've bought: a newsletter, offers by email, posts or a personal note.", "Only when they get in touch stands alone: ticking it clears the others.", "Tick Other to write another."] },
     { id: "o16", label: "How fast do you reply?", many: false, info: ["How soon your customers hear back. The channels are on the Customer Engagement page."] },
     { id: "o17", label: "What comes after the sale?", many: true, info: ["What else comes with it after the sale; the help you give is the question above.", "None stands alone: ticking it clears the others."] },
@@ -242,7 +256,8 @@ export const OFFERING_BOX_QUESTIONS: Readonly<Record<string, readonly OfferingQu
     function: ["o1"],
     benefit: ["o8", "o4"],
     scope: ["o14"],
-    delivery: ["o2", "o3", "o3t", "o15", "o6", "o20", "o21", "o22"],
+    // (How they receive it and how it is sent before how long until they have it, which starts from them: 1.7, the second batch of the review; owner, 2026-11-18 00:46.)
+    delivery: ["o2", "o3", "o3t", "o6", "o20", "o21", "o22", "o15"],
     support: ["o7", "o17", "o23", "o16"],
     requirements: ["o10", "o18"]
 };
@@ -300,14 +315,17 @@ export function offeringOptions(id: OfferingQuestionId, context: OfferingContext
             // (TWO HEADED GROUPS, One purchase and Ongoing (owner, 2026-11-17); a project first in its group where the Segment pays by invoice or purchase order.)
             const ordered = (context.pay ?? []).includes("invoicepo") ? [...PAYMENT.filter(option => option.id === "project"), ...PAYMENT.filter(option => option.id !== "project")] : [...PAYMENT];
             const ongoing = ["subscription", "licence", "payg", "retainer"];
-            const once = ordered.filter(option => !ongoing.includes(option.id));
+            // (BY HOW THEY ARE PAID (Box 1, 7; 1.13, the second batch of the review; owner, 2026-11-18 00:46): hourly or variable pay puts Per session first in its group; a fixed salary the Ongoing group first.)
+            const paid = context.workincome ?? "";
+            const once = ordered.filter(option => !ongoing.includes(option.id)).sort((a, b) => paid === "hourly" || paid === "variable" ? Number(b.id === "session") - Number(a.id === "session") : 0);
             const recurring = ordered.filter(option => ongoing.includes(option.id));
-            return [...once.map((option, at) => at === 0 ? { ...option, heading: "One purchase" } : option), ...recurring.map((option, at) => at === 0 ? { ...option, heading: "Ongoing" } : option)];
+            const groups = [once.map((option, at) => at === 0 ? { ...option, heading: "One purchase" } : option), recurring.map((option, at) => at === 0 ? { ...option, heading: "Ongoing" } : option)];
+            return (paid === "salary" ? [groups[1], groups[0]] : groups).flat();
         }
-        case "o4": return COMPETITOR_VALUES;
+        case "o4": return byWeight(COMPETITOR_VALUES, context.valueWeights);
         case "o6": return RECEIVE;
         case "o7": return HELP;
-        case "o8": return WORRIES.filter(option => option.id !== SUPPORT_WORRY && (context.worries ?? []).includes(option.id));
+        case "o8": return byWeight(WORRIES.filter(option => option.id !== SUPPORT_WORRY && (context.worries ?? []).includes(option.id)), context.worryWeights);
         case "o10": return PROVIDE;
         case "o3t": return PAY_WHEN;
         case "o14": return OFFERED;
@@ -433,7 +451,8 @@ const LEAD_TIME_OF_RECEIVING: readonly [string, string][] = [["shipped", "week"]
 /** The Segment's reach → O20's one start (3.9; owner, 2026-11-17 08:38): a city, Local delivery; a country, Postal service; several countries, Courier. */
 const SENDING_START: Readonly<Record<string, string>> = { city: "local", country: "postal", countries: "courier" };
 /** O3 → O3b (2026-11-09): a subscription or retainer monthly; a project a deposit, then the rest; one purchase before they get it. */
-const PAY_WHEN_START: Record<string, string> = { subscription: "monthly", retainer: "monthly", project: "deposit", once: "before" };
+// (And per session and a licence before they get it, commission when it is done: 2.13, the second batch of the review; owner, 2026-11-18 00:46.)
+const PAY_WHEN_START: Record<string, string> = { subscription: "monthly", retainer: "monthly", project: "deposit", once: "before", session: "before", licence: "before", commission: "after" };
 
 /**
  * The answers as the card shows them: those saved, then a starting value where a question has none (doc 43: O2 from the business stage, O4 from the

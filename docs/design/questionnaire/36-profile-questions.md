@@ -277,6 +277,8 @@ A typical person of the Segment, asked specifically.
 
 ### A8. How comfortable is the end user online? (the end user's part only)
 
+*Retired (owner, 2026-11-17): the Segment's End user, 8 owns it; the code stays listed as retired. What follows is its history.*
+
 *Added (2.4; owner, 2026-11-08).*
 
 - **Control:** a rating from 1 (Uneasy) to 5 (Confident), the `RatingScale` of the Segment's own comfort question.
@@ -421,6 +423,7 @@ C1 opens the box (owner, 2026-11-08, P8): the devices they find and buy on are a
   - *Comes from:* the Segment's path to purchase.
   - *Read by (built):* the Evaluation channels (doc 47): the ways to try it first their Samples & Trials subchannel, the catalogue Print & Mail › Catalogue / Brochure, each named; a sample, trial, demo or taster makes the funnel's middle step "Tried it (%)" (doc 50); A demo or A quote starts D2's formal help. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
 - **Every way to try it first while no Offering says what it is** (owner, 2026-11-17 08:38: "Bugs plus the first batch" of the review): until an Offering of the Segment has a Type or a form (O1), all five ways are offered (`segmentTrials` gives none); then the ways its Offerings fit.
+- **Starts from where the Segment discovers** (built; owner, 2026-11-18 00:46, the review's second batch, 1.3 and 2.6): "Free samples, tasters or trials" starts the ways to try it first its Offerings fit, once every Offering says its form (O1); "Media, reviews and comparison sites" starts Online reviews / ratings; beside the start from how they decide (D1's earlier starts).
 
 ### D2. How much help does this person want before buying?
 
@@ -447,6 +450,7 @@ C1 opens the box (owner, 2026-11-08, P8): the devices they find and buy on are a
   - When they actually buy; the Segment's work schedule says when they work.
 - **Starts (built (owner, 2026-11-17; the open decisions and gaps, Group 4c)):** from the Segment's work schedule while the customers are working: Standard daytime hours, Evenings and Weekends; Shifts / varying hours, Weekday daytime and Weekends; Flexible / their own hours, Weekday daytime. Retired customers start at Weekday daytime. Change it freely.
 - **Connections:** *Read by:* the documents and the export. The habits Notes keep how they buy, in their words.
+- **Around seasons / holidays starts** (built; owner, 2026-11-18 00:46, the review's second batch, 2.12) where sales, seasons or planned gifts make them shop (Box 4, 5), beside the start from the work schedule.
 
 ## 7. Box E. Motivations
 

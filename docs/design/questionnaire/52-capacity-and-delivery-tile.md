@@ -27,6 +27,7 @@ The card's questions in the card's order, with proposed codes. The card has no c
 ### DV1. Delivered
 
 - **Control:** one choice (`OptionPicker`, side row): Per unit, Every month. **Asked:** always. **Started from:** O3. Built.
+- **A record of Customers Buy** (built; owner, 2026-11-18 00:46, the review's second batch, 1.2): where O3 leaves it open (unanswered or Free), Delivered is Demand & Conversion's Customers Buy (every month, until they cancel: Every month), one fact with one owner; the note that said they disagree is gone. Asked only while neither says.
 
 ### DV2. Hours Given
 
@@ -54,6 +55,7 @@ The card's questions in the card's order, with proposed codes. The card has no c
 - **Control:** one optional side row: DV7 a one-choice `OptionPicker` of this Offering's Resource cards (equipment, workspace), DV8 a `NumberCell` beside it. **Asked:** when DV1 is Per unit and the Offering has at least one Resource card.
 - **What it checks:** the card's "about N running at once" line adds "· the 3 floor looms hold 3", and where the running work is more than DV8: "About 4 running at once: the 3 floor looms hold 3. Plan for a longer Calendar Time or one more loom."
 - **The "i" says:** "The equipment or room each unit needs while it runs, and how many units it holds at once. A loom, a kiln or a treatment room often sets the pace while the founders still have hours."
+- **DV12's starts** (built; owner, 2026-11-18 00:46, the review's second batch, 2.10): on a card not yet saved, Equipment or a workspace where a Resource of that kind serves the Offering (the one, where there is one), and Materials from a supplier where a Supplier with a lead time serves it (the one, where there is one).
 
 ### DV9 and DV10. Set-up for a batch, and Units in a batch (proposed; doc 51, addition 7)
 

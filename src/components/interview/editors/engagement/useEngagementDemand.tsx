@@ -34,7 +34,7 @@ type Earlier = ReturnType<typeof useEngagementState> & ReturnType<typeof useEnga
 
 export function useEngagementDemand(earlier: Earlier) {
 
-    const { channelTileId, disabled, engagement, folds, identity, onChange, openFoundationAt, segmentOf, segments } = earlier;
+    const { channelTileId, disabled, engagement, folds, identity, onChange, openFoundationAt, openingDate, segmentOf, segments } = earlier;
     // (The folds of the floating card's sections: open until folded.)
     const sectionFold = useSectionFolds();
 
@@ -498,7 +498,8 @@ export function useEngagementDemand(earlier: Earlier) {
                         <MonthYearPicker
                             hideLabel
                             label={"Ready from, " + offeringLabel}
-                            value={demand.readyFrom ?? { month: "", year: "" }}
+                            // (READY FROM STARTS AT THE OPENING DATE'S MONTH (2.5, the second batch of the review; owner, 2026-11-18 00:46): a start, saved once chosen.)
+                            value={demand.readyFrom ?? (/^\d{4}-\d{2}/.test(openingDate) ? { month: String(Number(openingDate.slice(5, 7))), year: openingDate.slice(0, 4) } : { month: "", year: "" })}
                             disabled={disabled}
                             firstYear={new Date().getFullYear()}
                             isAllowed={() => true}

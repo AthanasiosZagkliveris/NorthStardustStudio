@@ -687,17 +687,44 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
      * (offeringStarts: Delivered from O3, Calendar Time from O15),
      * saved with the first thing written.
      */
+    /**
+     * DV1, DELIVERED, AS A RECORD (owner, 2026-11-17; 1.2, the second batch of the review, 2026-11-18 00:46): O3's where it says how customers are charged, else
+     * Demand & Conversion's Customers Buy where it is answered (every month, until they cancel: Every month); undefined while neither says, so the card asks.
+     */
+    function deliveryModeOf(offeringId: string, segments: ReturnType<typeof businessFoundationSegments>): "unit" | "monthly" | undefined {
+        const fromTerms = offeringStartsById(segments, offeringId).deliveryMode;
+        if (fromTerms) {
+            return fromTerms;
+        }
+        const bought = engagementValue.demand[offeringId];
+        return bought ? (bought.recurring ? "monthly" : "unit") : undefined;
+    }
     function startedDelivery(offeringId: string): DeliveryValue {
         const starts = offeringStartsById(businessFoundationSegments(foundation), offeringId);
         return {
             ...createDelivery(),
             ...(starts.deliveryMode ? { mode: starts.deliveryMode } : {}),
-            ...(starts.duration ? { duration: starts.duration } : {})
+            ...(starts.duration ? { duration: starts.duration } : {}),
+            ...holdUpStarts(offeringId)
+        };
+    }
+    /**
+     * DV12'S STARTS FROM THE OFFERING'S CARDS (2.10, the second batch of the review; owner, 2026-11-18 00:46): Equipment or a workspace where a Resource of that kind
+     * serves it (and the one, where there is one); Materials from a supplier where a Supplier with a lead time serves it (and the one). Starts of a card not yet saved.
+     */
+    function holdUpStarts(offeringId: string): Partial<DeliveryValue> {
+        const equipment = capability.offering.resources.filter(card => card.offeringIds.includes(offeringId) && (card.category === "equipment" || card.category === "workspace"));
+        const suppliers = capability.offering.providers.filter(card => card.offeringIds.includes(offeringId) && card.leadWeeks.trim() !== "");
+        const holdUps = [...(equipment.length > 0 ? ["equipment"] : []), ...(suppliers.length > 0 ? ["materials"] : [])];
+        return holdUps.length === 0 ? {} : {
+            holdUps,
+            ...(equipment.length === 1 ? { equipmentId: equipment[0].id } : {}),
+            ...(suppliers.length === 1 ? { supplierId: suppliers[0].id } : {})
         };
     }
     /*
         ONCE, WHERE IT HOLDS TEXT (owner, 2026-11-17; doc 52, DV12): a Delivery card's saved Constraints (DV5, retired) move into "What can hold up delivery?" as Other,
-        one row a sentence. And DV1 is O3's record: a saved card whose Delivered differs from what O3 says takes O3's.
+        one row a sentence. And DV1 is a record (deliveryModeOf): a saved card whose Delivered differs from what O3, or else Customers Buy, says takes theirs.
     */
     useEffect(() => {
         if (disabled) {
@@ -712,7 +739,7 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
                 const rows = entry.constraints.split(/(?<=[.!?])\s+|\n+/).map(text => text.trim()).filter(Boolean);
                 next = { ...next, constraints: "", holdUps: ["other"], holdUpsOther: rows };
             }
-            const mode = offeringStartsById(segments, offeringId).deliveryMode;
+            const mode = deliveryModeOf(offeringId, segments);
             if (mode && next.mode !== mode && !(mode === "unit" && next.mode === "")) {
                 next = { ...next, mode, ...(mode === "monthly" ? { duration: "" } : {}) };
             }
@@ -726,7 +753,7 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
         }
     // (When the saved cards or the Offerings' answers change.)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [JSON.stringify(capability.delivery), JSON.stringify(businessFoundationSegments(foundation).flatMap(segment => segment.offerings.map(offering => offering.id + ":" + JSON.stringify(offering.questions ?? {})))), disabled]);
+    }, [JSON.stringify(capability.delivery), JSON.stringify(businessFoundationSegments(foundation).flatMap(segment => segment.offerings.map(offering => offering.id + ":" + JSON.stringify(offering.questions ?? {})))), JSON.stringify(Object.entries(engagementValue.demand).map(([id, entry]) => id + ":" + entry.recurring)), disabled]);
     function changeDelivery(offeringId: string, patch: Partial<DeliveryValue>) {
         const started = startedDelivery(offeringId);
         const shown = capability.delivery[offeringId] ?? started;
@@ -911,17 +938,16 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
         /* THE FOUNDER CHOOSES how it is delivered: once per unit, over
            some weeks; or every month, for each active client (a
            retainer, a subscription), with no duration. */
-        // (DV1 IS O3'S RECORD where O3 is answered: how customers are charged says how it is delivered; owner, 2026-11-17.)
+        // (DV1 IS O3'S RECORD where O3 is answered: how customers are charged says how it is delivered; owner, 2026-11-17. And Demand & Conversion's Customers Buy's
+        // where O3 leaves it open -- unanswered or Free --: one fact, one owner (1.2, the second batch of the review; owner, 2026-11-18 00:46).)
         const starts = offeringStartsById(businessFoundationSegments(foundation), offering.id);
-        const recurring = starts.deliveryMode ? starts.deliveryMode === "monthly" : delivery.mode === "monthly";
+        const recorded = deliveryModeOf(offering.id, businessFoundationSegments(foundation));
+        const recurring = recorded ? recorded === "monthly" : delivery.mode === "monthly";
         const sessions = !recurring && !!starts.sessions;
         const batches = !recurring && !!starts.batches;
         const perSession = sessions ? customersPerSession(delivery) : 1;
         const setup = batches ? setupPerUnit(delivery) : 0;
 
-        // How customers buy it, said on Customer Engagement.
-        const bought = demandByOffering[offering.id];
-        const disagrees = (bought?.sources.length ?? 0) > 0 && bought.recurring !== recurring;
         const weekly = recurring && delivery.period === "week";
         const perUnit = recurring ? (weekly ? " per client a week" : " per client a month") : sessions ? " per session" : " per unit";
 
@@ -945,7 +971,7 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
                         label={offering.label + " delivered per unit or every month"}
                         placeholder="Per unit"
                         hug
-                        options={starts.deliveryMode ? [recurring ? "Every month" : "Per unit"] : ["Per unit", "Every month"]}
+                        options={recorded ? [recurring ? "Every month" : "Per unit"] : ["Per unit", "Every month"]}
                         disabled={disabled}
                         value={recurring ? "Every month" : "Per unit"}
                         onChange={(next) => changeDelivery(offering.id, next === "Every month"
@@ -953,14 +979,6 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
                             : { mode: "unit" })}
                     />
                 </BusinessField>
-
-                {disagrees && (
-                    <p className="delivery-muted delivery-mismatch" role="note">
-                        {recurring
-                            ? "On Customer Engagement, customers buy this Offering one sale at a time: deliver it Per unit, or change how customers buy."
-                            : "On Customer Engagement, customers buy this Offering every month: deliver it Every month, or change how customers buy."}
-                    </p>
-                )}
 
                 {recurring && (
                     <BusinessField label="Hours Given" info={DELIVERY_HELP.recurring} side>

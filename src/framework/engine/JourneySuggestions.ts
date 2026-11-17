@@ -245,7 +245,10 @@ export function journeySuggestions(segment: BusinessCustomerSegmentValue, identi
     }
 
     // DELIVERY: how they receive each Offering -- each channel serving the Offerings that are received that way (B3).
-    offerings.forEach((entry, at) => (entry.o6 ?? []).forEach(id => RECEIVE[id] && add("delivery", RECEIVE[id], "how they receive it", false, idAt(at))));
+    // (IN PERSON, WHERE (O10; 1.12, the second batch of the review; owner, 2026-11-18 00:46): at the customer's home or site where they give you access to it, or while
+    // nothing is said; at your Studio / Shop where they give you something else.)
+    const inPersonAt = (entry: (typeof offerings)[number]): Pick => (entry.o10 ?? []).length > 0 && !(entry.o10 ?? []).includes("home") ? ["In Person", "Studio / Shop"] : RECEIVE.inperson;
+    offerings.forEach((entry, at) => (entry.o6 ?? []).forEach(id => RECEIVE[id] && add("delivery", id === "inperson" ? inPersonAt(entry) : RECEIVE[id], id === "inperson" && (entry.o10 ?? []).length > 0 ? "what they give you" : "how they receive it", false, idAt(at))));
     // (Named by O20 to O22: each that very subchannel, made as a platform the Profiles name is; owner, 2026-11-15 16:26.)
     (["o20", "o21", "o22"] as const).forEach(key => {
         // (A saved "A download link" suggests File Delivery only until a file service is ticked.)

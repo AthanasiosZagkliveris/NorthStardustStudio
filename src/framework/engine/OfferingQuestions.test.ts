@@ -169,16 +169,17 @@ describe("O2, O3, O10 and O18 from the research (2026-11-08)", () => {
 
 /* Phase 5, P6 and P7 (owner, 2026-11-08): the boxes in the order of the card; the codes stay. */
 describe("the Offering's boxes", () => {
-    it("asks O1 alone in Function, O8 then O4 in Customer Benefit (after the needs addressed), and O2, O3, O15, O6 in Purchase & Delivery", () => {
+    it("asks O1 alone in Function, O8 then O4 in Customer Benefit (after the needs addressed), and O2, O3, O6, O20 to O22, then O15 in Purchase & Delivery", () => {
         expect(OFFERING_BOX_QUESTIONS.function).toEqual(["o1"]);
         expect(OFFERING_BOX_QUESTIONS.benefit).toEqual(["o8", "o4"]);
         // (Owner, 2026-11-09: O3b is a band of its own, straight after O3's.)
-        expect(OFFERING_BOX_QUESTIONS.delivery).toEqual(["o2", "o3", "o3t", "o15", "o6", "o20", "o21", "o22"]);
+        // (O6 and O20 before O15, which starts from them: 1.7, the second batch of the review; owner, 2026-11-18 00:46.)
+        expect(OFFERING_BOX_QUESTIONS.delivery).toEqual(["o2", "o3", "o3t", "o6", "o20", "o21", "o22", "o15"]);
     });
     it("points O8's and O15's \"i\" where the other question stands now", () => {
         expect(offeringInfo("o8", { type: "Service" }).join(" ")).toContain("in Support & Communication");
         expect(offeringInfo("o8", { type: "Service" }).join(" ")).not.toContain("above");
-        expect(offeringInfo("o15", { type: "Service" }).join(" ")).toContain("the question below");
+        expect(offeringInfo("o15", { type: "Service" }).join(" ")).toContain("the question above");
     });
 });
 
@@ -262,7 +263,7 @@ describe("O6's follow-ups", () => {
         expect(offeringAsks("o20", context, { o6: ["collect"] })).toBe(false);
         expect(offeringAsks("o21", context, { o6: ["byyou"] })).toBe(true);
         expect(offeringAsks("o22", context, { o6: ["live"] })).toBe(true);
-        expect(OFFERING_BOX_QUESTIONS.delivery.slice(-3)).toEqual(["o20", "o21", "o22"]);
+        expect(OFFERING_BOX_QUESTIONS.delivery.slice(-4, -1)).toEqual(["o20", "o21", "o22"]);
         const shown = offeringShown({ o1: ["physical"], o20: ["courier", "other"], "o20-other": ["Bike courier"] }, context);
         expect(shown.o6).toEqual(["shipped"]);
         expect(shown.o20).toEqual(["courier", "other"]);

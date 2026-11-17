@@ -80,9 +80,10 @@ The one owner of this map: each row is one input a later page needs, where Page 
 
 Each is one place where two answers can disagree, or an answer goes unread; the fix is the owner's choice of which answer owns the fact.
 
-- **A8 and End user, 8 (`u-comfort`) ask the same thing**: the Segment's answer only starts the end user's A8.
 - **O15 and Delivery's Calendar Time (DV4)** can disagree: O15 only starts DV4, and a saved Delivery card no longer follows it. Since 2026-11-17 the Delivery card says so where making and sending take longer than O15 allows (doc 52, 10).
 - **I11 (Market Structure)** is mapped but read by nothing beyond the export: single-sided in the first version, so no question needs it yet (doc 28, I11).
+
+**Closed 2026-11-18 (the review's second batch):** A8 and End user, 8 (A8 is retired, End user, 8 owns it; the gap was drift, owner, 2026-11-17); O10 read by nothing (it names the in-person delivery channel); Box 1, 7 read by nothing (it orders O3).
 
 **Closed 2026-11-17 (the open decisions and gaps, Groups 4b and 4c):** reach and O6 (the note under O6, doc 43); K1 to K10 (the Business Plan's competitor table, and K2's opening, doc 41).
 

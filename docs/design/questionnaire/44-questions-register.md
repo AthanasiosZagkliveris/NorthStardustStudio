@@ -208,7 +208,7 @@ None.
 | 5 | Box 1, 4 | `work2` | Why are your customers not working? | FittingRadioChoice | – | Box 1, 3 is No; set to Retired (not shown) for Active Retirees and Dependent seniors | with Box 1, 3, from the age group | built | doc 35, Box 1 |
 | 6 | Box 1, 5 | `workenv` | Where do your customers mainly work? | FittingRadioChoice | – | Box 1, 3 is Yes; held back while Planning (owner, 2026-11-08), its saved answer kept | – | built | doc 35, Box 1 |
 | 7 | Box 1, 6 | `workschedule` | What is your customers' work schedule? | RadioChoice | – | Box 1, 3 is Yes | – | built | doc 35, Box 1 |
-| 8 | Box 1, 7 | `workincome` | How are your customers paid? | FittingRadioChoice | – | Box 1, 3 is Yes; held back while Planning (owner, 2026-11-08), its saved answer kept | – | built | doc 35, Box 1 |
+| 8 | Box 1, 7 | `workincome` | How are your customers paid? | FittingRadioChoice | – | Box 1, 3 is Yes; held back while Planning (owner, 2026-11-08), its saved answer kept; orders O3 (owner, 2026-11-18) | – | built | doc 35, Box 1 |
 | 9 | Box 1, 8 | `income` | How high is your customers' household income? | RatingScale | – | the buyer is people and the age is not Minors | – | built | doc 35, Box 1 |
 | 10 | Box 1, 9 | `gender` | What is the gender mix of your customers? | RatingScale | – | the buyer is people | – | built | doc 35, Box 1 |
 
@@ -227,9 +227,9 @@ None.
 - **Box 1, 2. What is their highest level of education?**
   - Options: School; College or vocational; University degree; Postgraduate degree.
   - "i":
-    - Each level includes the ones below it: someone with a Master has a Bachelor.
-    - Secondary school: A-levels or the Leaving Certificate (UK, Ireland), a diploma (USA, Canada), Year 12 (Australia, New Zealand).
-    - Vocational or technical diploma: a post-school qualification such as a BTEC, a trade certificate or an associate degree.
+    - Each level includes the ones below it: someone with a postgraduate degree has a university degree.
+    - School: A-levels or the Leaving Certificate (UK, Ireland), a high school diploma (USA, Canada), Year 12 (Australia, New Zealand).
+    - College or vocational: a qualification after school such as a BTEC, a trade certificate or an associate degree.
     - Postgraduate degree: master's or doctorate
 - **Box 1, 3. Are your customers working?**
   - Options: Yes; No.
@@ -307,7 +307,7 @@ None.
 | Pos | Code | Saved id | Label | Control | Max | Asked when | Starts | Status | Owner |
 |---|---|---|---|---|---|---|---|---|---|
 | 14 | Box 2, 1 | `reach` | Where are your customers? | FittingRadioChoice | – | always | – | built | doc 35, Box 2 |
-| 15 | Box 2, 2 | `area` | Where do your customers live or work? | RatingScale | – | Managing or Growing, and Box 2, 1 is the city or town, the state or region, or the country | – | built | doc 35, Box 2 |
+| 15 | Box 2, 2 | `area` | Where do your customers live or work? | RatingScale | – | Box 2, 1 is the city or town, the state or region, or the country (from Planning, owner, 2026-11-18) | – | built | doc 35, Box 2 |
 
 - **Box 2, 1. Where are your customers?**
   - Options: In my city / town; In my state / region; Across my country; In several countries; Anywhere online.
@@ -325,8 +325,8 @@ None.
 |---|---|---|---|---|---|---|---|---|---|
 | 16 | Box 3, 1 | `orgtype` | What kind of organisation are your customers? | RadioChoice | – | the buyer is a business; set (not shown) where the scale leaves one type | – | built | doc 35, Box 3 |
 | 17 | Box 3, 2 | `size` | How big are your customers' organisations? | RadioChoice | – | the buyer is a business and not self-employed; set (not shown) where the scale leaves one size | – | built | doc 35, Box 3 |
-| 18 | Box 3, 3 | `sector` | Which sector are your customers in? | RadioChoice | – | the buyer is a business | – | built | doc 35, Box 3 |
-| 19 | Box 3, 4 | `industry` | Which industry are your customers in? | RadioChoice | – | a sector is chosen (that sector's industries) | – | built | doc 35, Box 3 |
+| 18 | Box 3, 3 | `sector` | Which sector are your customers in? | RadioChoice | – | never asked: a record of Box 3, 4's sector, said under the box (owner, 2026-11-18) | – | built | doc 35, Box 3 |
+| 19 | Box 3, 4 | `industry` | Which industry are your customers in? | RadioChoice | – | the buyer is a business; every industry under its sector's heading (owner, 2026-11-18) | – | built | doc 35, Box 3 |
 
 - **Box 3, 1. What kind of organisation are your customers?**
   - Options: Private business; Public body / Government agency; Non-profit / charity / NGO; Self-employed / freelancer / sole trader.
@@ -346,11 +346,11 @@ None.
 - **Box 3, 3. Which sector are your customers in?**
   - Options: Resource extraction & energy; Manufacturing & construction; Consumer goods & retail; Infrastructure & finance; Tech, data & media, and business services; Human services & public sector, and other services.
   - "i":
-    - Six classes over the industries below. If they work in more than one industry, make another Segment.
+    - The sector of the industry chosen.
 - **Box 3, 4. Which industry are your customers in?**
   - Options: Resource extraction & energy: Farming, forestry and fishing, Mining, oil, gas and quarrying, Energy, water and waste. Manufacturing & construction: Manufacturing, Construction. Consumer goods & retail: Wholesale and retail trade, Hospitality, Arts, sport and recreation. Infrastructure & finance: Transport, postal and logistics, Finance and insurance, Real estate and property. Tech, data & media, and business services: Software, IT, media and telecoms, Professional, scientific and technical services, Administrative and support services. Human services & public sector, and other services: Government and public administration, Education, Health and social care, Other services.
   - "i":
-    - The industries of the sector chosen, as the official schemes (SIC and NACE, NAICS, ANZSIC) name their sections.
+    - Each industry under its sector, as the official schemes (SIC and NACE, NAICS, ANZSIC) name their sections. The sector follows from the industry. If they work in more than one industry, make another Segment.
     - Government and public administration includes embassies and international bodies.
     - Other services includes households that employ staff, such as cleaners and nannies.
 
@@ -361,16 +361,16 @@ None.
 | 20 | Box 4, 1 | `comfort` | How comfortable are your customers online? | RatingScale | – | always | – | built | doc 35, Box 4 |
 | 21 | Box 4, 2 | `social` | How do your customers like to socialise? | FittingRadioChoice | – | the buyer is people | – | built | doc 35, Box 4 |
 | 22 | Box 4, 5 | `trigger` | What makes your customers go shopping? | BusinessTicks | 2 | the buyer is people | – | built | doc 35, Box 4 |
-| 23 | Box 4, 3 | `discover` | Where do your customers discover new products? | BusinessTicks (ends in Other, written in) | 3 | always (Sales calls or tenders for a business only); ordered by Box 4, 1 (1 or 2: the printed and in-person ways first) and Box 2, 1 (a city: passing by, flyers and events first; anywhere online: the online ways first) | – | built | doc 35, Box 4 |
-| 24 | Box 4, 3a | `advertising` | Where do they see adverts? | BusinessTicks | – | Box 4, 3 is Adverts in newspapers, magazines, radio or TV (owner, 2026-11-16 17:38) | – | built | doc 35, Box 4 |
-| 25 | Box 4, 4 | `share` | How do your customers share what they like? | BusinessTicks | – | the buyer is people; held back while Planning (owner, 2026-11-08), its saved answer kept | – | built | doc 35, Box 4 |
+| 23 | Box 4, 4 | `share` | How do your customers share what they like? | BusinessTicks | – | the buyer is people; held back while Planning (owner, 2026-11-08), its saved answer kept; asked before Box 4, 3 (owner, 2026-11-18) | – | built | doc 35, Box 4 |
+| 24 | Box 4, 3 | `discover` | Where do your customers discover new products? | BusinessTicks (ends in Other, written in) | 3 | always (Sales calls or tenders for a business only); ordered by Box 4, 1 (1 or 2: the printed and in-person ways first) and Box 2, 1 (a city: passing by, flyers and events first; anywhere online: the online ways first) | – | built | doc 35, Box 4 |
+| 25 | Box 4, 3a | `advertising` | Where do they see adverts? | BusinessTicks | – | Box 4, 3 is Adverts in newspapers, magazines, radio or TV (owner, 2026-11-16 17:38) | – | built | doc 35, Box 4 |
 | 26 | Box 4, 6 | `path` | How do your customers usually decide to buy? | RadioChoice | – | the buyer is people; ordered by Box 4, 5 (boredom or a friend or creator: On impulse first; a need: When they urgently need it and After comparing options first) | – | built | doc 35, Box 4 |
 | 27 | Box 4, 9 | `authorise` | Who decides to buy? | BusinessTicks | – | the buyer is a business; answered (not shown) for a self-employed customer | where not answered, a Public body (Box 3, 1) or Large (Box 3, 2) sets Formal procurement, Micro or Self-employed One person decides | built | doc 35, Box 4 |
 | 28 | Box 4, 7 | `setting` | Where do your customers usually shop? | RadioChoice | – | always | – | built | doc 35, Box 4 |
 | 29 | Box 4, 7a | `marketplaces` | Which marketplaces do your customers shop on? | BusinessTicks (ends in Other, written in) | – | Box 4, 7 is On a marketplace (owner, 2026-11-15 16:26); ends in Other, written in as a numbered list | – | built | doc 35, Box 4 |
 | 30 | Box 4, 7b | `shops` | Which shops or sellers do they buy from? | BusinessTicks | – | Box 4, 7 is In a shop or Both online and in shops (owner, 2026-11-15 16:26) | – | built | doc 35, Box 4 |
-| 31 | Box 4, 8 | `pay` | How do your customers pay? | BusinessTicks | – | always | Digital wallets where they shop on a phone and no way of paying is chosen | built | doc 35, Box 4 |
-| 32 | Box 4, 8a | `providers` | Which payment services do you take payments with? | BusinessTicks (ends in Other, written in) | – | Box 4, 8 has Credit / debit card or Digital wallets (owner, 2026-11-15 16:26); ends in Other, written in as a numbered list | – | built | doc 35, Box 4 |
+| 31 | Box 4, 8 | `pay` | How do your customers pay? | BusinessTicks | – | always | Digital wallets where they shop on a phone, Invoice or purchase order where a manager signs off or a formal procurement decides (owner, 2026-11-18), while no way of paying is chosen | built | doc 35, Box 4 |
+| 32 | Box 4, 8a | `providers` | Which payment services do you take payments with? | BusinessTicks (ends in Other, written in) | – | Box 4, 8 has Credit / debit card or Digital wallets and they do not shop on a marketplace (owner, 2026-11-15 16:26; 2026-11-18); ends in Other, written in as a numbered list | – | built | doc 35, Box 4 |
 
 - **Box 4, 1. How comfortable are your customers online?**
   - Options: the points 1 to 5 (Uneasy to Confident).
@@ -388,6 +388,11 @@ None.
   - "i":
     - Choose up to two.
     - Boredom or entertainment: browsing feeds, window shopping
+- **Box 4, 4. How do your customers share what they like?**
+  - Options: They post it publicly on social media; They tell friends and family; They keep what they buy to themselves.
+  - "i":
+    - Telling friends and family includes private chat apps such as WhatsApp and iMessage.
+    - They keep what they buy to themselves stands alone: choosing it clears the other two.
 - **Box 4, 3. Where do your customers discover new products?**
   - Options: Friends, family and colleagues; Online communities / forums; Creators / influencers / experts; Media, reviews and comparison sites; Feeds, ads and marketplace suggestions; Search engines / maps; Seeing it in person / passing by; Events / trade shows; Sales calls or tenders; Partner businesses; Affiliate sites / blogs; Adverts in newspapers, magazines, radio or TV; Flyers or posters; Letters or catalogues in the post; Free samples, tasters or trials; Other.
   - "i":
@@ -401,10 +406,6 @@ None.
   - Options: Newspapers / magazines; Radio; TV; Billboards / outdoor; Journals / trade magazines.
   - "i":
     - The adverts that reach them: each becomes a channel on Customer Engagement.
-- **Box 4, 4. How do your customers share what they like?**
-  - Options: They post it publicly on social media; They tell friends and family; They keep what they buy to themselves.
-  - "i":
-    - Private chat apps are for example WhatsApp and iMessage. "They rarely share what they buy" excludes the other three.
 - **Box 4, 6. How do your customers usually decide to buy?**
   - Options: On impulse; After comparing options; On a recommendation; Out of habit; When they urgently need it.
   - "i":
@@ -993,11 +994,11 @@ No questions: the tile shows a draft sentence and the open items, read from the 
 | 5 | O2 | `o2` | Can your customers buy it today? | FittingRadioChoice | – | always | from the business stage: Planning, Still being built; Launching to Growing, Yes, now | built | doc 43, O2 |
 | 6 | O3 | `o3` | On what terms do they pay for it? | RadioChoice | – | always | from O1: Online access, a subscription; Project work, a project or contract; An ongoing service, a retainer; a live online session or an in-person service, per session | built | doc 43, O3 |
 | 7 | O3b | `o3t` | When do they pay? | RadioChoice | – | always (its own band, straight after O3) | from O3: a subscription or retainer, monthly; a project, a deposit then the rest; one purchase, before they get it | built | doc 43, O3b |
-| 8 | O15 | `o15` | How long until they have it? | FittingRadioChoice | – | always | from O1: a digital file, an app / online tool or online access, Straight away | built | doc 43, O15 |
-| 9 | O6 | `o6` | How do your customers receive it? | BusinessTicks | – | always | from O1, the clearest way only (a physical item: Posted / shipped; a digital file: Sent automatically online; project work: Sent by you online; and so on) | built | doc 43, O6 |
-| 10 | O20 | `o20` | How do you send it? | BusinessTicks (ends in Other, written in) | – | O6 has Posted / shipped to them (owner, 2026-11-15 16:26); ends in Other, written in as a numbered list | – | built | doc 43, O20 |
-| 11 | O21 | `o21` | How do you send the files? | BusinessTicks (ends in Other, written in) | – | O6 has Sent automatically online or Sent by you online; ends in Other, written in as a numbered list | – | built | doc 43, O21 |
-| 12 | O22 | `o22` | Which tool do you meet them on? | BusinessTicks (ends in Other, written in) | – | O6 has In a live online session; ends in Other, written in as a numbered list | – | built | doc 43, O22 |
+| 8 | O6 | `o6` | How do your customers receive it? | BusinessTicks | – | always | from O1, the clearest way only (a physical item: Posted / shipped; a digital file: Sent automatically online; project work: Sent by you online; and so on) | built | doc 43, O6 |
+| 9 | O20 | `o20` | How do you send it? | BusinessTicks (ends in Other, written in) | – | O6 has Posted / shipped to them (owner, 2026-11-15 16:26); ends in Other, written in as a numbered list | – | built | doc 43, O20 |
+| 10 | O21 | `o21` | How do you send the files? | BusinessTicks (ends in Other, written in) | – | O6 has Sent automatically online or Sent by you online; ends in Other, written in as a numbered list | – | built | doc 43, O21 |
+| 11 | O22 | `o22` | Which tool do you meet them on? | BusinessTicks (ends in Other, written in) | – | O6 has In a live online session; ends in Other, written in as a numbered list | – | built | doc 43, O22 |
+| 12 | O15 | `o15` | How long until they have it? | FittingRadioChoice | – | always | from O1: a digital file, an app / online tool or online access, Straight away | built | doc 43, O15 |
 
 - **O2. Can your customers buy it today?**
   - Options: Yes, now; Almost ready; In a trial / beta; Still being built; Just an idea.
@@ -1018,10 +1019,6 @@ No questions: the tile shows a draft sentence and the open items, read from the 
   - Options: Before they get it; A deposit, then the rest; When it is done / delivered; In instalments / monthly; On invoice terms (for example 30 days).
   - "i":
     - When the money comes in.
-- **O15. How long until they have it?**
-  - Options: Straight away; Within a week; One to four weeks; One to three months; Longer.
-  - "i":
-    - The time from order to having it. How it reaches them is the question below.
 - **O6. How do your customers receive it?**
   - Options: Sent automatically online; Sent by you online; In a live online session; In person; Posted / shipped to them; They collect it; Ongoing online access.
   - "i":
@@ -1043,6 +1040,10 @@ No questions: the tile shows a draft sentence and the open items, read from the 
   - "i":
     - The tool each live session runs on: each becomes a channel on Customer Engagement.
     - Tick Other to write another.
+- **O15. How long until they have it?**
+  - Options: Straight away; Within a week; One to four weeks; One to three months; Longer.
+  - "i":
+    - The time from order to having it. How it reaches them is the question above.
 
 ### 7.5 Support & Communication
 

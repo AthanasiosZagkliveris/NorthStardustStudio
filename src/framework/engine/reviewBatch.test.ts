@@ -28,7 +28,9 @@ describe("B2: every way to try it first while no Offering says what it is", () =
     it("gives no list of ways (so all show) until an Offering has a Type or a form", () => {
         expect(segmentTrials(segmentOf([]))).toBeUndefined();
         expect(segmentTrials(segmentOf([{ id: "x", category: "" }]))).toBeUndefined();
-        expect(segmentTrials(segmentOf([{ id: "x", category: "Product" }]))).toEqual(["sample", "catalogue"]);
+        // (An Offering whose form is unknown yet could be tried any way: 1.5, the second batch of the review; owner, 2026-11-18 00:46.)
+        expect(segmentTrials(segmentOf([{ id: "x", category: "Product" }]))).toEqual(["sample", "trial", "demo", "taster", "catalogue"]);
+        expect(segmentTrials(segmentOf([{ id: "x", category: "Product", questions: { o1: ["physical"] } }]))).toEqual(["sample", "catalogue"]);
     });
 });
 

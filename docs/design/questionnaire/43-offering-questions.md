@@ -17,7 +17,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
   - **Function:** O1. Notes: what it is, by name (the Business Plan reads it).
   - **Customer Benefit:** the Functional Needs Addressed, then O8, then O4 (owner, 2026-11-08, P6: what it answers before what it does best). Notes: the benefit in the customers' words (the Business Plan reads it).
   - **Content & Scope:** O14. Notes: counts, inclusions and limits.
-  - **Purchase & Delivery:** O2 (owner, 2026-11-08, P7: whether it can be bought today opens the purchase); O3; O3b, "When do they pay?", a band of its own straight after O3's (owner, 2026-11-09: one question per band); O15; O6, then its follow-ups O20 to O22 where asked (owner, 2026-11-15 16:26) (how long until they have it, then how it reaches them). Notes: packaging and the steps.
+  - **Purchase & Delivery:** O2 (owner, 2026-11-08, P7: whether it can be bought today opens the purchase); O3; O3b, "When do they pay?", a band of its own straight after O3's (owner, 2026-11-09: one question per band); O6, then its follow-ups O20 to O22 where asked (owner, 2026-11-15 16:26); then O15 (built; owner, 2026-11-18 00:46, the review's second batch, 1.7: how long until they have it starts from how it reaches them, so it comes after them; O15's "i" points above). Notes: packaging and the steps.
   - **Support & Communication:** O7, O17, O23, O16. Notes: names and how often.
   - **Requirements & Conditions:** O10, O18. Notes: care instructions and standards.
   - Saved text of the boxes is kept: it is the Notes. A question no longer asked, or an option no longer offered, loses its answer; a starting value (O2, O4, O6) shows until that field is changed (another answer does not fix it), and the Business Plan, the export and the Value Proposition read it too (built 2026-11-08).
@@ -55,6 +55,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
   - *Read by (built, 2026-11-07):* O6's starting value; the Value Proposition draft (doc 42).
   - *Read by (built, 2026-11-09, with the Type):* Pages 2 and 3 (doc 28, 11.7): while no Offering has a physical item (a Service, or a form with none: A digital file, An app / online tool, Online access, A live online session, Project work, An ongoing service), Page 2 hides the Physical Delivery and Retail & Wholesale channels where the Segment has none (their tiles and the Channel list; `channelCategoryHidden`), and Page 3 the Offering's Vehicles and Materials & Inventory categories and the Logistics & Fulfilment group where they hold no card; hidden, not deleted (`noPhysicalOffering`, EffectiveAnswers.ts). Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
   - *Read by (built):* the Booking / Registration Page at Purchase for a live online or in-person session; the ways the Offering can be tried first, Box 4, 3 and D1 (`segmentTrials`, doc 47). Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
+- **Every list O1 filters shows everything until every Offering has its form** (built; owner, 2026-11-18 00:46, the review's second batch, 1.5): the marketplaces (7a) and D1's ways to try it first (`segmentForms`, `segmentTrials`); an Offering with no form yet counts every way.
 
 ## Box. Customer Benefit
 
@@ -74,6 +75,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
   - *Read by (not built yet):* the actions proposed at the Evaluation stage on page 2 (doc 28, 11.5, rule 8: price → a quote; trust → proof; fit → a demo). Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
 
 **The emotional and social needs are not asked here** (owner, 2026-11-06): the Value Proposition answers them (doc 42, its one owner). An "Emotional and social needs addressed" question proposed here on 2026-11-03 is withdrawn.
+- **Ordered by the Profiles' ratings** (built; owner, 2026-11-18 00:46, the review's second batch, 2.11): the worries the Profiles weigh most (E3's ticks, each by its rating, 1 unrated) first, the rest in their order. Order only.
 
 ### O4. Which of what matters most to your customers does it do best?
 
@@ -101,6 +103,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
   - *Owns the buyer's outcome* (owner, 2026-11-08, "Move all three"): Positioning's question 9 (doc 38) left the tile and is not asked twice; O4 is its one owner. Each of its four options has its value in L1 already (Lower costs: Affordability; Time saved: Speed, Convenience; Legal & data-protection cover: Safety / security, Reputation; Higher quality & prestige: Quality, Values), so no option was added; a saved `organisation.outcome` starts the ticks after the Differentiation's (`OUTCOME_CROSSWALK`, `OfferingQuestions.ts`).
   - *Read by (built, 2026-11-07):* the Value Proposition draft and its open items (doc 42). The open item "Unwanted benefit" reads only the ticks the App User saved, never the starting ticks (owner, 2026-11-08).
   - *Read by (not built yet):* the Review (doc 28, 11.5, rules 21 and 22: against the Profiles' B1 and the Competitors' K8).
+- **Ordered by the Profiles' ratings** (built; owner, 2026-11-18 00:46, the review's second batch, 2.11): what the Profiles weigh most (B1's ticks by their ratings) first, as K8's bands; order only, so the "Unmet value" open item still shows.
 
 ### O13. What job does it do for them? (RETIRED 2026-11-07)
 
@@ -201,6 +204,8 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
 - **The "i" says:** When the money comes in.
 - **Connections:** *Read by (built, 2026-11-09, as a start):* the Revenue stream's "Customer Pays" (its payment timing, Page 5; doc 28, 10.2), on a stream not saved yet. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
 - **Starts (built (owner, 2026-11-17 08:38: "Bugs plus the first batch" of the review)):** a physical item or a digital file (O1), One purchase; an app, A subscription; beside the starts of 2026-11-09 (online access, project work, an ongoing service, a session).
+- **Ordered by how customers are paid** (built; owner, 2026-11-18 00:46, the review's second batch, 1.13): a fixed salary (Box 1, 7) puts the Ongoing group first; hourly or variable pay puts Per session first in One purchase.
+- **O3b's starts** (built; owner, 2026-11-18 00:46, the review's second batch, 2.13): Per session and A licence, Before they get it; Commission on each sale, When it is done / delivered; beside the starts of 2026-11-09.
 
 ### O15. How long until they have it?
 
@@ -334,6 +339,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
   - Their time or attendance: they must take part or be there, such as at a session or a fitting.
 - **Connections:**
   - *Read by (built, 2026-11-09, as a start):* the Delivery card's Constraints (Page 3) start with the options ticked, in their words, on a Delivery not saved yet. *Not built yet:* the Delivery card's "What could slow the work down?" (doc 28, 9.3, W3) ticks. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
+- **Its job** (built; owner, 2026-11-18 00:46, the review's second batch, 1.12): where the Offering is given in person (O6), "Access to their home or site" (or nothing said yet) makes In Person › Customer Location its delivery channel; anything else, In Person › Studio / Shop. Lumen's Bespoke Commissions ticks access to the site: it is installed there.
 
 ### O18. Which conditions of sale apply?
 

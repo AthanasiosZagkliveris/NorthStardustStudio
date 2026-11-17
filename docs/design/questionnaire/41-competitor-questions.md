@@ -172,6 +172,7 @@ This follows the type rules already built for the text boxes: a substitute has n
   - *Comes from:* the Organisation's country and first activity (Legal Entity, `AnswerLegal.ts`), which order the rows. The order by industry and country rests on directory and vendor lists [FUN-64, FUN-65], not on a survey of how many people use each site; the use of Google and Apple Maps and the 4-star threshold rest on BrightLocal's survey of US consumers [FUN-62], Trustpilot in the UK on Littlechild [FUN-63]. The SBA asks what customers and prospects say about competitors [FUN-50].
   - *Read by (built):* K10 ("Win over their unhappy customers", for a platform rated below 4).
   - *Read by (not built yet):* the Review.
+- **Starts from K5** (built; owner, 2026-11-18 00:46, the review's second batch, 2.15): a Marketplace channel ticks the Marketplace row, a Facebook subchannel the Facebook row, ticked but never rated, while K6 was never answered (`competitorReviewStarts`). Only rated rows are printed, so a start prints nothing.
 
 ### K7. How easy do they make each stage for customers?
 

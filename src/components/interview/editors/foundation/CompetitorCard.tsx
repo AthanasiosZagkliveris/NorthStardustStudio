@@ -12,7 +12,7 @@ import RadioChoice from "../../../controls/RadioChoice.tsx";
 import RatingScale, { type Rating } from "../../../controls/RatingScale.tsx";
 import { withRatingMeaning } from "../../../controls/RatingScaleEnds.tsx";
 import RatingScaleGroup from "../../../controls/RatingScaleGroup.tsx";
-import { type OtherQuestion, competitorOtherList, competitorOtherSettleAll, competitorOtherTick, competitorOthers, COMPETITOR_CHANNEL_OPTIONS, COMPETITOR_EXPERIENCE_HOW, COMPETITOR_INFO, COMPETITOR_OFFER_OPTIONS, COMPETITOR_RATINGS, COMPETITOR_REACH_OPTIONS, COMPETITOR_SIZE_OPTIONS, COMPETITOR_STAGES, type CompetitorAnswers, type CompetitorQuestionId, REVIEW_PLATFORM_EXAMPLES, competitorAsks, competitorOpenings, competitorRate, competitorRatings, competitorSettle, competitorWording, competitorValueRows, shownOpenings, COMPETITOR_SUBCHANNELS, COMPETITOR_BAND_LINE, bandTone, COMPETITOR_CHANGES, valueProfiles, hardToBeat, reviewPlatformOrder, competitorK10Info } from "../../../../framework/engine/CompetitorQuestions.ts";
+import { type OtherQuestion, competitorOtherList, competitorOtherSettleAll, competitorOtherTick, competitorOthers, COMPETITOR_CHANNEL_OPTIONS, COMPETITOR_EXPERIENCE_HOW, COMPETITOR_INFO, COMPETITOR_OFFER_OPTIONS, COMPETITOR_RATINGS, COMPETITOR_REACH_OPTIONS, COMPETITOR_SIZE_OPTIONS, COMPETITOR_STAGES, type CompetitorAnswers, type CompetitorQuestionId, REVIEW_PLATFORM_EXAMPLES, competitorAsks, competitorOpenings, competitorRate, competitorRatings, competitorSettle, competitorWording, competitorValueRows, shownOpenings, COMPETITOR_SUBCHANNELS, COMPETITOR_BAND_LINE, bandTone, COMPETITOR_CHANGES, valueProfiles, hardToBeat, reviewPlatformOrder, competitorK10Info, competitorReviewStarts } from "../../../../framework/engine/CompetitorQuestions.ts";
 import FittingRadioChoice from "./FittingRadioChoice.tsx";
 import { type SegmentQuestion, segmentRowChoice, writtenInRows } from "../../../../framework/engine/SegmentQuestions.ts";
 import NumberedListInput from "../../fields/NumberedListInput.tsx";
@@ -124,7 +124,9 @@ export function competitorCard(scope: FoundationCardScope, competitor: BusinessC
     };
     // K6: the platforms in the order of the App User's industry and country (L18); a platform ticked before stays shown.
     const platforms = reviewPlatformOrder(identity?.country ?? "", identity?.activityCode ?? "");
-    const platformRows = [...platforms.first, ...platforms.rest.filter(platform => (answers.k6 ?? []).includes(platform.id))];
+    // (K6 starts from K5: competitorReviewStarts.)
+    const reviewed = competitorReviewStarts(answers);
+    const platformRows = [...platforms.first, ...platforms.rest.filter(platform => reviewed.includes(platform.id))];
     const context = { profiles: segment.profiles.map(profile => profile.questions ?? {}), others: segment.competitors.filter(other => other.id !== competitor.id).map(other => other.questions ?? {}), reach: segment.questions.reach?.[0] };
     // K8 (doc 41; owner, 2026-11-04): every value, the Profiles' highest rated first, each chosen value with a band of one colour, darker the more
     // Profiles chose it (bandTone: the count only).
@@ -228,8 +230,8 @@ export function competitorCard(scope: FoundationCardScope, competitor: BusinessC
         <>
             {rated("k6", platformRows, {
                 selectable: true,
-                selected: answers.k6 ?? [],
-                onSelect: (row, on) => write({ ...answers, k6: on ? [...(answers.k6 ?? []), row] : (answers.k6 ?? []).filter(entry => entry !== row) }),
+                selected: reviewed,
+                onSelect: (row, on) => write({ ...answers, k6: on ? [...reviewed, row] : reviewed.filter(entry => entry !== row) }),
                 foot: otherFoot("k6")
             })}
         </>

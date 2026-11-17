@@ -372,7 +372,8 @@ describe("BusinessFoundationEditor's Offering card order", () => {
         expect(fn.some(band => band.includes("Can your customers buy it today?"))).toBe(false);
         const delivery = labels(boxOf("Purchase & Delivery"));
         expect(delivery.findIndex(band => band.includes("Can your customers buy it today?"))).toBe(1);
-        expect(delivery.findIndex(band => band.includes("How long until they have it?"))).toBeLessThan(delivery.findIndex(band => band.includes("receive it?")));
+        // (How they receive it before how long until they have it, which starts from it: 1.7, the second batch of the review; owner, 2026-11-18 00:46.)
+        expect(delivery.findIndex(band => band.includes("receive it?"))).toBeLessThan(delivery.findIndex(band => band.includes("How long until they have it?")));
     });
 
     /* Owner, 2026-11-09: two sections, as the Profile's; the questions and the saved keys stay. */

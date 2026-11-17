@@ -509,6 +509,20 @@ const SINGLE: readonly CompetitorQuestionId[] = ["k1", "k2", "k3", "k4"];
  * A Competitor's answers settled against its type: a question the type no longer asks loses its answer (doc 41: removed on the next choice), as does an option
  * or a row not offered; a question held back only by the stage (K3 while Planning) keeps it, since the type alone is read here; a platform's rating goes with its tick; K10's ticks are settled against its options by the card (competitorOpenings).
  */
+/**
+ * K6'S STARTS FROM K5 (2.15, the second batch of the review; owner, 2026-11-18 00:46): where they reach customers on a marketplace, the Marketplace row; on
+ * Facebook, the Facebook row; ticked, never rated. Only while K6 was never answered.
+ */
+export function competitorReviewStarts(answers: CompetitorAnswers): string[] {
+    if ("k6" in answers) {
+        return answers.k6 ?? [];
+    }
+    return [
+        ...((answers.k5 ?? []).includes("marketplace") ? ["marketplace"] : []),
+        ...((answers["k5-sub"] ?? []).includes("social-media:facebook") ? ["facebook"] : [])
+    ];
+}
+
 export function competitorSettle(answers: CompetitorAnswers, type: string): CompetitorAnswers {
     const settled: CompetitorAnswers = {};
     for (const id of Object.keys(ASKED) as CompetitorQuestionId[]) {
