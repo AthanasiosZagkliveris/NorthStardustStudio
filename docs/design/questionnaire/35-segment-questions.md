@@ -413,6 +413,7 @@ The buyer is a business, or the Segment is of businesses where both relationship
   - Free samples, tasters or trials: a sample, a free class or a trial period that lets them try it first.
   - Choose up to three.
 - **Order (owner, 2026-11-16 17:38; never hidden):** online comfort (Box 4, 1) of 1 or 2 puts Seeing it in person, Flyers or posters, Letters or catalogues in the post, Adverts and Events first; a Segment in one city (Box 2, 1) Seeing it in person, Flyers or posters and Events; anywhere online the online ways (communities, creators, media, feeds, search, affiliate sites); Other stays last.
+- **Grouped (owner, 2026-11-17):** two headed groups, **Online** (communities, creators, media, feeds, search, affiliates) and **In person, in print and on air** (the rest), each in the order above; the group holding the first-ranked way comes first; Other last. Customers who keep what they buy to themselves (question 4) put search and reviews first among the online ways, adverts first among the others.
 - **Connections:**
   - *Comes from:* Nothing.
   - *Read by (built):* The Market document and the export; "Online communities / forums" makes the Profile ask C3 (doc 36).
@@ -502,6 +503,7 @@ The buyer is a business, or the Segment is of businesses where both relationship
 - **Asked when:** question 7 is On a marketplace (owner, 2026-11-15 16:26).
 - **Options:** Etsy · Amazon · eBay · Not On The High Street · Folksy · Gumroad · Fiverr · Upwork · Other.
 - **The "i" says:** The marketplaces where they find and buy what you sell: each becomes a channel on Customer Engagement, with its fees. · Tick Other to write another.
+- **Filtered (owner, 2026-11-17):** by the forms of the Segment's Offerings (O1): a physical item, Etsy, Folksy, Not On The High Street, Amazon, eBay; a digital file, Gumroad and Etsy; a service, Fiverr and Upwork; Other always; every one while no form is known. A marketplace saved before stays.
 - **Connections:** *Read by (built):* each tick, and each name written in, is the Marketplace subchannel of that name at Purchase (doc 47); its fees are the Channel Fee Table's row for the Legal Entity's country ([Global Settings](../../specifications/global-settings.md)).
 
 ### 7b. Which shops or sellers do they buy from?
@@ -543,6 +545,7 @@ The buyer is a business, or the Segment is of businesses where both relationship
 - **Asked when:** question 8 has Credit / debit card or Digital wallets (owner, 2026-11-15 16:26).
 - **Options:** Stripe · SumUp · Square · Zettle · PayPal · Shopify Payments · Other.
 - **The "i" says:** The services that take the card and wallet payments: each one's fees come from the Global Settings' Channel Fee Table for your country. · Tick Other to write another.
+- **Ordered (owner, 2026-11-17):** by where they shop (question 7): in a shop, SumUp, Square and Zettle first; online, Stripe, PayPal and Shopify Payments first; never locked.
 - **Connections:** *Read by (built):* each service is a "Payment processing fees" card on the Segment's Direct Payment channel, one card a service for the Organisation, made and kept by the rule of the subchannels the answers make (doc 47); its fees are the country's row ([Global Settings](../../specifications/global-settings.md)), charged in the forecast with or without a price on the card ([page 4, 30.4](../../specifications/business-system/page-4-financial-foundation.md#304-calculated-lines)).
 ### 4. How do your customers share what they like?
 

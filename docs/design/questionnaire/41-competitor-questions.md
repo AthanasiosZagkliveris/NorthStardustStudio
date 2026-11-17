@@ -145,6 +145,7 @@ This follows the type rules already built for the text boxes: a substitute has n
   - Write their account and shop names in the note. The list holds the channels that reach new customers.
 - **Kept as:** the channels under `k5`; the sub-channels under `k5-sub`, each "channel:sub" (`social-media:instagram`), kept while their channel is ticked. A channel's rating saved before 2026-11-04 (`k5-rating`) is dropped on the next answer and read by nothing.
 - **Not yet:** the sub-channels in the order of the App User's industry and country, as K6's platforms are: no source by industry was found for social media, communities or events; they stay in the Profile's order.
+- **Options (owner, 2026-11-17):** Advertising, Print & mail and Samples & trials join the list; the channel groups the customers' own answers use come first, headed "Your customers' channels", then the rest, headed "Others" (`competitorChannelOptions`).
 - **Connections:**
   - *Comes from:* the channel categories of page 2 by id (`BUSINESS_CHANNEL_CATEGORIES`); the sub-channel lists from the Profile's C2, C3 and C4 (doc 36).
   - *Read by (built, 2026-11-04):* K10: once K5 is answered, each social medium, community or kind of event a Profile of the Segment ticks (C2 to C4) that this competitor's sub-channels do not hold is an opening: "Reach customers on TikTok", "Reach customers in Facebook groups", "Meet customers at workshops and classes". It compares with the customers, never with the App User's own channels (The purpose).

@@ -22,6 +22,11 @@ import { type SegmentAnswers, segmentSettle } from "./SegmentQuestions.ts";
  * free sample and a catalogue (and a demo for a business Segment); an app or online access a free trial; an app or project work a demo; a live online or in-person
  * session a taster. Read from the saved form, not the effective answers, so a Profile's answers can read it (the Offering's read the Profiles').
  */
+/** The forms of the Segment's Offerings, as each card shows them (O1): the marketplaces the Segment is offered follow them (owner, 2026-11-17). */
+export function segmentForms(segment: BusinessCustomerSegmentValue): string[] {
+    return [...new Set(segment.offerings.flatMap(offering => offering.questions?.o1 ?? (offering.category === "Product" ? ["physical"] : [])))];
+}
+
 export function segmentTrials(segment: BusinessCustomerSegmentValue): string[] {
     const kinds = new Set<string>();
     for (const offering of segment.offerings) {
@@ -76,8 +81,9 @@ export function offeringContextOf(offering: BusinessOfferingValue, segment: Busi
     const differentiation = effectiveSegmentAnswers(segment, identity).differentiation ?? [];
     const context = segmentContextFor(identity, segmentIsBusiness(segment));
     // The pay O3's order reads is the Segment's settled answer (a stale invoice on a people Segment is not counted; phase 5, 2026-11-08); the frame tells O18's "i" a business Segment.
-    const pay = segmentSettle(segment.questions, context).pay ?? [];
-    return { type: offering.category, stage: identity?.stage, differentiation, outcome: identity?.outcome ?? [], pay, worries, country: identity?.country, frame: context.frame, ...(context.endsUser ? { endsUser: true } : {}), ...(context.dual ? { dual: true } : {}) };
+    const settled = segmentSettle(segment.questions, context);
+    const pay = settled.pay ?? [];
+    return { reach: settled.reach ?? [], area: settled.area?.[0] ?? "", type: offering.category, stage: identity?.stage, differentiation, outcome: identity?.outcome ?? [], pay, worries, country: identity?.country, frame: context.frame, ...(context.endsUser ? { endsUser: true } : {}), ...(context.dual ? { dual: true } : {}) };
 }
 
 /** An Offering's answers as its card shows them: its own, with each start for a question it never answered. */
@@ -163,6 +169,13 @@ export function offeringStarts(offering: BusinessOfferingValue, segment: Busines
         starts.batches = true;
     }
     return starts;
+}
+
+/** The answers of the Offering with this id as its card shows them, wherever it is on Page 1; none where there is no such Offering. */
+export function offeringAnswersById(segments: readonly BusinessCustomerSegmentValue[], offeringId: string, identity?: SegmentIdentity): OfferingAnswers {
+    const segment = segments.find(entry => entry.offerings.some(offering => offering.id === offeringId));
+    const offering = segment?.offerings.find(entry => entry.id === offeringId);
+    return segment && offering ? effectiveOfferingAnswers(offering, segment, identity) : {};
 }
 
 /** The starts of the Offering with this id, wherever it is on Page 1; none where there is no such Offering. */

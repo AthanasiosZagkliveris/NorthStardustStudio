@@ -167,8 +167,10 @@ describe("the Segment's questions", () => {
         expect(adverts({}, "people")).not.toContain("journals");
         expect(adverts({ education: ["postgraduate"] }, "people")).toContain("journals");
         expect(adverts({ industry: ["health"] }, "business")).toContain("journals");
-        // (Keeping it to themselves: search, reviews and adverts first at Discover.)
-        expect(ids(segmentOptions(question("discover"), { share: ["none"] }, OPEN)).slice(0, 3)).toEqual(["search", "media", "adverts"]);
+        // (Keeping it to themselves: search and reviews first among the online ways, adverts first among the others.)
+        const shown = ids(segmentOptions(question("discover"), { share: ["none"] }, OPEN));
+        expect(shown.slice(0, 2)).toEqual(["search", "media"]);
+        expect(shown[shown.indexOf("affiliates") + 1]).toBe("adverts");
     });
 
     it("reads a saved answer: known questions and options only, one id for a radio", () => {
@@ -288,7 +290,12 @@ describe("what is changing, the path to purchase and where they discover (2026-1
 
     it("offers Sales calls or tenders to business customers only", () => {
         const discover = (context: SegmentContext) => ids(segmentOptions(question("discover"), {}, context, false));
-        expect(discover(BUSINESS)).toEqual(["peers", "communities", "creators", "media", "algorithmic", "search", "passing", "events", "sales", "partners", "affiliates", "adverts", "flyers", "post", "samples", "other"]);
+        // (Two headed groups, Online, then In person, in print and on air; Other last: owner, 2026-11-17.)
+        expect(discover(BUSINESS)).toEqual(["communities", "creators", "media", "algorithmic", "search", "affiliates", "peers", "passing", "events", "sales", "partners", "adverts", "flyers", "post", "samples", "other"]);
+        const headings = segmentOptions(question("discover"), {}, BUSINESS, false).filter(option => option.heading).map(option => [option.id, option.heading]);
+        expect(headings).toEqual([["communities", "Online"], ["peers", "In person, in print and on air"]]);
+        // (Customers less at ease online: the in-person group first.)
+        expect(segmentOptions(question("discover"), { comfort: ["1"] }, BUSINESS, false)[0]).toMatchObject({ id: "passing", heading: "In person, in print and on air" });
         expect(discover(PEOPLE)).not.toContain("sales");
         expect(discover(OPEN)).not.toContain("sales");
         expect(segmentSettle({ discover: ["sales", "search"] }, PEOPLE).discover).toEqual(["search"]);

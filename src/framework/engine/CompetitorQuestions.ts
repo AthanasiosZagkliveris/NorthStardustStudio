@@ -143,8 +143,26 @@ export const COMPETITOR_SIZE_OPTIONS = segmentOptions("size");
 export const COMPETITOR_CHANNEL_OPTIONS: readonly SegmentOption[] = [
     { id: "social-media", label: "Social media" }, { id: "community", label: "Community" }, { id: "website", label: "Website" },
     { id: "marketplace", label: "Marketplace" }, { id: "in-person", label: "In person" }, { id: "email", label: "Email" },
-    { id: "online-live", label: "Online / live" }, { id: "retail-wholesale", label: "Shops or wholesalers" }, { id: "referral-affiliates", label: "Referrals or affiliates" }
+    { id: "online-live", label: "Online / live" }, { id: "retail-wholesale", label: "Shops or wholesalers" }, { id: "referral-affiliates", label: "Referrals or affiliates" },
+    // (The categories added to page 2 on 2026-11-16; owner, 2026-11-17.)
+    { id: "advertising", label: "Advertising" }, { id: "print-mail", label: "Print & mail" }, { id: "samples-trials", label: "Samples & trials" }
 ];
+
+/**
+ * K5'S OPTIONS FOR A SEGMENT (owner, 2026-11-17): the channel groups the Segment's own answers use first, headed "Your customers' channels", then the others,
+ * headed "Others"; with none known, the list as it stands.
+ */
+export function competitorChannelOptions(segmentCategoryIds: readonly string[]): SegmentOption[] {
+    const own = COMPETITOR_CHANNEL_OPTIONS.filter(option => segmentCategoryIds.includes(option.id));
+    const others = COMPETITOR_CHANNEL_OPTIONS.filter(option => !segmentCategoryIds.includes(option.id));
+    if (own.length === 0) {
+        return [...COMPETITOR_CHANNEL_OPTIONS];
+    }
+    return [
+        ...own.map((option, at) => at === 0 ? { ...option, heading: "Your customers' channels" } : option),
+        ...others.map((option, at) => at === 0 ? { ...option, heading: "Others" } : option)
+    ];
+}
 
 /** The Profile's own lists, without their Other (doc 36, C2 to C4). */
 const profileList = (id: string): readonly SegmentOption[] => (PROFILE_QUESTIONS.find(question => question.id === id)?.options ?? []).filter(option => option.id !== "other");

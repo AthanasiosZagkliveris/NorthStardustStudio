@@ -186,6 +186,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
   - Per session / per hour: a price for each session or hour. Rent / hire: they pay to use it for a time, then give it back.
   - Commission on each sale: a share of each sale you make for them. Free to them: someone else pays, such as an advertiser or a funder.
   - A minimum term: write it in the Notes.
+- **Grouped (owner, 2026-11-17):** two headed groups, **One purchase** (one purchase, per session, rent, a project, commission, free) and **Ongoing** (a subscription, a licence, pay as they go, a retainer); A project or contract first in its group where the Segment pays by invoice or purchase order.
 - **Connections:**
   - **Starts from O1 (2026-11-09):** Online access, A subscription / membership; Project work, A project or contract; An ongoing service, A monthly retainer; A live online session or An in-person service, Per session / per hour; the others start nothing. A saved answer wins.
   - *Comes from:* the Segment's "How do your customers pay?" (doc 35, Box 4, question 8). Invoice, bank transfer or purchase order puts A project or contract first, as an order only (found by its id, so the options added do not move it). It reads the Segment's **settled** answer (`segmentSettle`, in `offeringContextOf`; 2026-11-08): an invoice saved on a people Segment, where invoicing is not offered, no longer puts it first.
@@ -207,6 +208,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
 - **Starts from O1 (2026-11-09):** A digital file, An app / online tool or Online access, Straight away. A saved answer wins.
 - **The "i" says:**
   - The time from order to having it. How it reaches them is the question below (O6 follows O15 since 2026-11-08).
+- **Starts (owner, 2026-11-17):** at One to four weeks where the Segment's customers are in several countries, whatever the form. **Read by:** the Delivery card (Capacity & Delivery), which says so where making and sending take longer: "Customers expect it within a week, and making and sending it takes about 3 weeks. Keep some ready-made stock, or tell customers 1 to 4 weeks." (the Calendar Time, the supplier's lead time, and about a week to send by post, courier or a fulfilment service).
 - **Connections:** *Read by:* the export; *(built, 2026-11-09, as a start)* the Delivery card's Calendar Time (Page 3, weeks), for an Offering delivered per unit, on a Delivery not saved yet: the band's upper end (1, 4 or 13 weeks; Straight away and Longer start nothing). Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
 
 ### O6. How do your customers receive it?
@@ -224,6 +226,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
 - **The "i" says:**
   - How it reaches them once bought: tick each way, as one Offering is often delivered in several.
   - Sent automatically online: a download or an email sent by the shop. Sent by you online: a file you send when it is ready.
+- **Filtered and ordered (owner, 2026-11-17):** by the form (O1): a physical item, Posted / shipped, They collect it, In person; a digital file, Sent automatically or by you online; an app or access, Ongoing online access; a session, In a live online session or In person; project work or an ongoing service, every way. A saved way outside it stays, with "Kept from your earlier answer. It sits outside the usual ways to receive this kind of Offering." Ordered by the Segment's reach: a city, In person and They collect it first; a country or several countries, Posted / shipped first; anywhere online, the online ways first. Under it, where the customers are in several countries or anywhere online and the Offering is only given in person or collected: "Your customers live in several countries, and this Offering is given in person. Add a live online session or shipping, or narrow where your customers are."
 - **Connections:**
   - *Comes from:* O1, the starting value, the clearest way only (ticks since 2026-11-09: the others are ticked by hand, such as In person or They collect it for a physical item sold in a shop or café): a physical item → Posted / shipped to them; a digital file → Sent automatically online; a live online session → In a live online session; an app / online tool → Ongoing online access; online access → Ongoing online access; an in-person service → In person; project work → Sent by you online (2026-11-09); an ongoing service → none.
   - *Read by (built):* the Delivery stage's channels on Customer Engagement (doc 47). *Read by (not built yet):* the Review (the Segment's "Rural / remote", doc 35 Box 2 question 2, with In person or Posted / shipped: a delivery-cost check, rule 17). Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
@@ -233,6 +236,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
 - **Control:** ticks, as many as apply, ending in Other, written in as a numbered list. **Asked when:** O6 has Posted / shipped to them. (O18 is this card's, and the next code is proposed for pricing in doc 48: the follow-ups are O20 to O22.)
 - **Options:** Courier · Postal service · Local delivery · A fulfilment service · Other.
 - **The "i" says:** The way each order travels to them: each becomes a delivery channel on Customer Engagement. · Tick Other to write another.
+- **Ordered (owner, 2026-11-17):** by the Segment's reach: a city, Local delivery first; a country, Postal service and Courier first; several countries, Courier and A fulfilment service first; a rural area (rated 1 or 2), Postal service and Courier first; never locked.
 - **Connections:** *Read by (built):* Physical Delivery › Courier, Postal Service, Local Delivery, Third-party Fulfilment, or the name written in (doc 47).
 
 ### O21. How do you send the files?

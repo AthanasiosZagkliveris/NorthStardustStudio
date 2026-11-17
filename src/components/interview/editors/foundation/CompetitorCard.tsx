@@ -20,6 +20,9 @@ import { summaryText } from "../../cards/cardSummary.ts";
 import OptionPicker from "../../fields/OptionPicker.tsx";
 import { COMPETITOR_TYPE_QUESTIONS, SUBSECTIONS, SingleColumn, competitorParts } from "./shared.tsx";
 import type { FoundationCardScope } from "./useFoundationSubsections.tsx";
+import { competitorChannelOptions } from "../../../../framework/engine/CompetitorQuestions.ts";
+import { journeySuggestions } from "../../../../framework/engine/JourneySuggestions.ts";
+import { BUSINESS_CHANNEL_CATEGORIES } from "../../../../framework/engine/AnswerUtils.ts";
 
 /** Which of the card's questions each box of its Description asks (doc 41): K1 in Offerings, K2 to K4 in Market, K5 in Customer Acquisition, K6 and K7 in Customer Experience. */
 const PART_QUESTIONS: Record<string, CompetitorQuestionId[]> = { offerings: ["k1"], market: ["k2", "k3", "k4"], acquisition: ["k5"], experience: ["k6", "k7"] };
@@ -153,11 +156,14 @@ export function competitorCard(scope: FoundationCardScope, competitor: BusinessC
     // Profile's own (C2 to C4), so they compare with the customers; a sub-channel chosen in one row is not offered in another.
     k5: () => {
         const channels = answers.k5 ?? [];
+        // (The Segment's channel groups first, then the others: competitorChannelOptions; owner, 2026-11-17.)
+        const segmentCategories = [...new Set(journeySuggestions(segment, identity).map(suggestion => BUSINESS_CHANNEL_CATEGORIES.find(category => category.label === suggestion.category)?.id ?? ""))].filter(Boolean);
+        const channelOptions = competitorChannelOptions(segmentCategories);
         const subsOf = (channel: string) => (answers["k5-sub"] ?? []).filter(entry => entry.startsWith(channel + ":")).map(entry => entry.slice(channel.length + 1));
         const setSubs = (channel: string, list: readonly string[]) => write({ ...answers, "k5-sub": [...(answers["k5-sub"] ?? []).filter(entry => !entry.startsWith(channel + ":")), ...list.filter(Boolean).map(id => channel + ":" + id)] });
         return (
             <div className="business-competitor-channels" role="group" aria-label={words("k5")}>
-                {COMPETITOR_CHANNEL_OPTIONS.map(channel => {
+                {channelOptions.map(channel => {
                     const on = channels.includes(channel.id);
                     const list = on ? COMPETITOR_SUBCHANNELS[channel.id] : undefined;
                     const chosen = subsOf(channel.id);
@@ -179,6 +185,7 @@ export function competitorCard(scope: FoundationCardScope, competitor: BusinessC
                     );
                     return (
                         <Fragment key={channel.id}>
+                            {channel.heading && <span className="field-group-title business-tick-heading" role="presentation">{channel.heading}</span>}
                             <TickField
                                 className="business-foundation-tick business-competitor-channel"
                                 aria-label={words("k5") + ": " + channel.label}

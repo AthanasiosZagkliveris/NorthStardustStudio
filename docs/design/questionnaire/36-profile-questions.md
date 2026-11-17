@@ -335,7 +335,7 @@ What the Segment cannot say: which social media, which communities, which events
   - The platforms they actually use, if any.
   - Tick Other to write another.
 - **Other, written in:** a numbered list, one name a row (owner, 2026-11-15 16:43; the same for C3 and C4); each name is its own subchannel on Customer Engagement (doc 47).
-- **Ordered (2026-11-17):** for a Postgraduate Segment, LinkedIn first; for School or College or vocational, Instagram and TikTok first; never locked.
+- **Ordered (2026-11-17):** for a business Segment or a Postgraduate one, LinkedIn first; for customers under 25 (Minors or Young adults), TikTok and Instagram first; for School or College or vocational, Instagram and TikTok first; never locked.
 - **Connections:**
   - *Comes from:* the Segment's discovery ways and online comfort.
   - *Read by (built):* each platform its Social Media subchannel at Discover, a name written under Other its own (doc 47); posts on social media after the sale (O23) at Support & Follow Up; the Competitors' reach openings (K10, doc 41). *Not built yet:* the Profile's hubs. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).

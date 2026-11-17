@@ -46,7 +46,25 @@ export interface OfferingContext {
     endsUser?: boolean;
     /** That buyer is Dual-Intent (uses it too): the card keeps "your customers" (2026-11-09; offeringWho). */
     dual?: boolean;
+    /** The Segment's reach (Box 2, 1) and its area, a rating (1 rural to 5 urban): O6, O20 and O15 follow them (owner, 2026-11-17). */
+    reach?: readonly string[];
+    area?: string;
 }
+
+/** O6's ways for each form (O1; owner, 2026-11-17): a project or ongoing service, every way. */
+const RECEIVE_OF_FORM: Readonly<Record<string, readonly string[]>> = {
+    physical: ["shipped", "collect", "inperson"],
+    digital: ["auto", "byyou"],
+    app: ["access"], access: ["access"],
+    live: ["live", "inperson"], inperson: ["live", "inperson"]
+};
+/** What the Segment's reach puts first (owner, 2026-11-17): O6 and O20. */
+const REACH_FIRST: Readonly<Record<string, { o6: readonly string[]; o20: readonly string[] }>> = {
+    city: { o6: ["inperson", "collect"], o20: ["local"] },
+    country: { o6: ["shipped"], o20: ["postal", "courier"] },
+    countries: { o6: ["shipped"], o20: ["courier", "fulfilment"] },
+    online: { o6: ["auto", "byyou", "access", "live"], o20: [] }
+};
 
 const PRODUCT_FORMS: readonly SegmentOption[] = [
     { id: "physical", label: "A physical item" }, { id: "digital", label: "A digital file" }, { id: "app", label: "An app / online tool" }, { id: "access", label: "Online access" }
@@ -276,7 +294,14 @@ export function offeringOptions(id: OfferingQuestionId, context: OfferingContext
     switch (id) {
         case "o1": return context.type === "Product" ? PRODUCT_FORMS : context.type === "Service" ? SERVICE_FORMS : context.type === "Hybrid" ? [...PRODUCT_FORMS, ...SERVICE_FORMS] : [];
         case "o2": return READINESS;
-        case "o3": return (context.pay ?? []).includes("invoicepo") ? [...PAYMENT.filter(option => option.id === "project"), ...PAYMENT.filter(option => option.id !== "project")] : PAYMENT;
+        case "o3": {
+            // (TWO HEADED GROUPS, One purchase and Ongoing (owner, 2026-11-17); a project first in its group where the Segment pays by invoice or purchase order.)
+            const ordered = (context.pay ?? []).includes("invoicepo") ? [...PAYMENT.filter(option => option.id === "project"), ...PAYMENT.filter(option => option.id !== "project")] : [...PAYMENT];
+            const ongoing = ["subscription", "licence", "payg", "retainer"];
+            const once = ordered.filter(option => !ongoing.includes(option.id));
+            const recurring = ordered.filter(option => ongoing.includes(option.id));
+            return [...once.map((option, at) => at === 0 ? { ...option, heading: "One purchase" } : option), ...recurring.map((option, at) => at === 0 ? { ...option, heading: "Ongoing" } : option)];
+        }
         case "o4": return COMPETITOR_VALUES;
         case "o6": return RECEIVE;
         case "o7": return HELP;
@@ -295,6 +320,30 @@ export function offeringOptions(id: OfferingQuestionId, context: OfferingContext
     }
 }
 
+/**
+ * WHEN WHERE THE CUSTOMERS ARE AND HOW THEY RECEIVE IT DO NOT FIT (owner, 2026-11-17): customers in several countries or anywhere online, and an Offering given only in
+ * person or collected. Null where they fit.
+ */
+export function offeringReachNote(answers: OfferingAnswers, context: OfferingContext): string | null {
+    const reach = context.reach ?? [];
+    const ways = answers.o6 ?? [];
+    const far = reach.includes("countries") ? "live in several countries" : reach.includes("online") ? "are anywhere online" : "";
+    if (!far || ways.length === 0 || !ways.every(way => way === "inperson" || way === "collect")) {
+        return null;
+    }
+    return "Your customers " + far + ", and this Offering is " + (ways.includes("inperson") ? "given in person" : "collected") + ". Add a live online session or shipping, or narrow where your customers are.";
+}
+
+/** O15's bands in weeks, the most each allows (Straight away: none), and the next band's words for what to tell customers (owner, 2026-11-17). */
+export const LEAD_TIME_WEEKS: Readonly<Record<string, { weeks: number; expect: string; tell: string }>> = {
+    now: { weeks: 0, expect: "straight away", tell: "within a week" },
+    week: { weeks: 1, expect: "within a week", tell: "1 to 4 weeks" },
+    weeks: { weeks: 4, expect: "within four weeks", tell: "1 to 3 months" },
+    months: { weeks: 13, expect: "within three months", tell: "longer than three months" }
+};
+/** The weeks each way of sending (O20) takes, about (owner, 2026-11-17): local delivery the same week. */
+export const SENDING_WEEKS: Readonly<Record<string, number>> = { courier: 1, postal: 1, local: 0, fulfilment: 1 };
+
 /** What O10 puts first by the form (O1; 2026-11-09), an order, never a lock: an in-person service, Access to their home or site; a live online session, Their time or attendance. */
 const PROVIDE_FIRST: Readonly<Record<string, string>> = { inperson: "home", live: "attendance" };
 
@@ -303,7 +352,21 @@ const PROVIDE_FIRST: Readonly<Record<string, string>> = { inperson: "home", live
  * so it shows until it is unticked.
  */
 export function offeringOptionsWith(id: OfferingQuestionId, context: OfferingContext, chosen: readonly string[] = [], answers: OfferingAnswers = {}): readonly SegmentOption[] {
-    const listed = offeringOptions(id, context);
+    let listed: readonly SegmentOption[] = offeringOptions(id, context);
+    // (O6 FILTERED BY THE FORM (O1; owner, 2026-11-17): a saved way outside it stays, with a note.)
+    const ways = id === "o6" ? RECEIVE_OF_FORM[answers.o1?.[0] ?? ""] : undefined;
+    if (ways) {
+        listed = listed.filter(option => ways.includes(option.id) || chosen.includes(option.id))
+            .map(option => ways.includes(option.id) ? option : { ...option, note: "Kept from your earlier answer. It sits outside the usual ways to receive this kind of Offering." });
+    }
+    // (THE SEGMENT'S REACH ORDERS O6 AND O20, and a rural area puts the post and couriers first in O20; never locked.)
+    const reachFirst = (context.reach ?? []).flatMap(reach => id === "o6" ? REACH_FIRST[reach]?.o6 ?? [] : id === "o20" ? REACH_FIRST[reach]?.o20 ?? [] : []);
+    const rural = id === "o20" && (context.area === "1" || context.area === "2") ? ["postal", "courier"] : [];
+    const ranked = [...new Set([...reachFirst, ...rural])];
+    if (ranked.length > 0) {
+        const rank = (option: string) => ranked.includes(option) ? ranked.indexOf(option) : ranked.length;
+        listed = [...listed].sort((a, b) => (a.id === "other" ? 1 : 0) - (b.id === "other" ? 1 : 0) || rank(a.id) - rank(b.id));
+    }
     const first = id === "o10" ? PROVIDE_FIRST[answers.o1?.[0] ?? ""] : undefined;
     const offered = first ? [...listed.filter(option => option.id === first), ...listed.filter(option => option.id !== first)] : listed;
     const retired = (OFFERING_RETIRED[id] ?? []).filter(option => chosen.includes(option.id));
@@ -395,7 +458,10 @@ export function offeringShown(saved: OfferingAnswers, context: OfferingContext):
         shown.o6 = [RECEIVE_START[shown.o1[0]]];
     }
     // The starts of 2026-11-09 (doc 43): never over a saved answer, each from the answer shown above it.
-    if (!saved.o15 && shown.o1 && LEAD_TIME_START[shown.o1[0]]) {
+    // (Customers in several countries: One to four weeks, whatever the form; owner, 2026-11-17.)
+    if (!saved.o15 && (context.reach ?? []).includes("countries")) {
+        shown.o15 = ["weeks"];
+    } else if (!saved.o15 && shown.o1 && LEAD_TIME_START[shown.o1[0]]) {
         shown.o15 = [LEAD_TIME_START[shown.o1[0]]];
     }
     if (!saved.o3 && shown.o1 && TERMS_START[shown.o1[0]]) {

@@ -531,9 +531,10 @@ export function profileOptionsShown(question: ProfileQuestion, segment: SegmentA
         // (Postgraduates: talks and conferences first; owner, 2026-11-17.)
         first = ["talk"];
     } else if (question.id === "c2") {
-        // (Postgraduates: LinkedIn first; school or college: Instagram and TikTok first; owner, 2026-11-17.)
+        // (A business Segment or postgraduates: LinkedIn first; under 25, or school or college: TikTok and Instagram first; owner, 2026-11-17.)
         const education = segment.education ?? [];
-        first = education.includes("postgraduate") ? ["linkedin"] : education.includes("school") || education.includes("college") ? ["instagram", "tiktok"] : [];
+        const young = (segment.age ?? []).some(id => id === "minor" || id === "young");
+        first = context.frame === "business" || education.includes("postgraduate") ? ["linkedin"] : young ? ["tiktok", "instagram"] : education.includes("school") || education.includes("college") ? ["instagram", "tiktok"] : [];
     } else if (question.id === "a3" && (segment.education ?? []).includes("postgraduate")) {
         // (Postgraduates: professional and manager work first; owner, 2026-11-17.)
         first = ["professional", "manager"];

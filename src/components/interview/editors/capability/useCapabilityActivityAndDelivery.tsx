@@ -34,6 +34,8 @@ import { HOLD_UPS, customersPerSession, setupPerUnit } from "../../../../framewo
 import { PLANNING_CEILING, offeringCount } from "../../../../framework/engine/DemandCapacity.ts";
 import { planMonthLabel } from "../../../../framework/engine/FinancialModel.ts";
 import { effectiveProfileAnswers } from "../../../../framework/engine/EffectiveAnswers.ts";
+import { offeringAnswersById } from "../../../../framework/engine/EffectiveAnswers.ts";
+import { LEAD_TIME_WEEKS, SENDING_WEEKS } from "../../../../framework/engine/OfferingQuestions.ts";
 
 type Earlier = ReturnType<typeof useCapabilityState> & ReturnType<typeof useCapabilityCardFields> & ReturnType<typeof useCapabilityPeopleCards>;
 
@@ -1084,6 +1086,22 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
                         )}
                 </BusinessField>
 
+                {/* (WHEN MAKING AND SENDING TAKE LONGER THAN CUSTOMERS EXPECT (owner, 2026-11-17): the Calendar Time, a supplier's lead time and the sending (O20) against O15.) */}
+                {!recurring && (() => {
+                    const answers = offeringAnswersById(businessFoundationSegments(foundation), offering.id);
+                    const band = LEAD_TIME_WEEKS[answers.o15?.[0] ?? ""];
+                    const supplier = delivery.holdUps.includes("materials") ? capability.offering.providers.find(card => card.id === delivery.supplierId) : undefined;
+                    const sending = Math.max(0, ...(answers.o20 ?? []).map(way => SENDING_WEEKS[way] ?? 0));
+                    const takes = (readHours(delivery.duration) ?? 0) + (readHours(supplier?.leadWeeks) ?? 0) + sending;
+                    if (!band || takes <= band.weeks || takes <= 0) {
+                        return null;
+                    }
+                    return (
+                        <p className="delivery-muted delivery-mismatch" role="note">
+                            {"Customers expect it " + band.expect + ", and making and sending it takes about " + formatHours(Math.round(takes)) + (Math.round(takes) === 1 ? " week" : " weeks") + ". Keep some ready-made stock, or tell customers " + band.tell + "."}
+                        </p>
+                    );
+                })()}
                 {!recurring && (
                     <BusinessField label="Calendar Time (weeks)" info={DELIVERY_HELP.duration} side>
                         <NumberCell

@@ -165,3 +165,4 @@ The open decisions and gaps, Group 3 (owner, 2026-11-16 21:51; the coordinator's
 - **Production activities** linked to an Offering show its Delivery hours as a record: "Homeware Collection delivery: 3 h a unit", a link that opens the Delivery card.
 - **The export:** the Delivery table's last column is "What Can Hold Up Delivery".
 - **Lumen:** Weaving Workshops hold 3.2 h (Maya Chen) and 0.8 h (the tutor) a session for 8 customers, the same 0.4 h and 0.1 h a participant; option A is in the example (section 7).
+- **When customers expect it sooner** (Group 4b, 2026-11-17): the card says "Customers expect it within a week, and making and sending it takes about 3 weeks. Keep some ready-made stock, or tell customers 1 to 4 weeks." where the Calendar Time, a supplier's lead time and the sending (O20) take longer than O15 allows.

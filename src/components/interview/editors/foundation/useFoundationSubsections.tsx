@@ -17,7 +17,7 @@ import TextLink from "../../fields/TextLink.tsx";
 import { draftToAdd, differentiationSourceCards, namesInSentence } from "../../../../framework/engine/CompetitorQuestions.ts";
 import FittingRadioChoice from "./FittingRadioChoice.tsx";
 import { type OfferingContext, draftOffered, valuePropositionDraft, valuePropositionOpenItems } from "../../../../framework/engine/OfferingQuestions.ts";
-import { effectiveOfferingAnswers, effectiveProfileAnswers, effectiveProfileUserAnswers, offeringContextOf, segmentTrials, withFieldSet } from "../../../../framework/engine/EffectiveAnswers.ts";
+import { effectiveOfferingAnswers, effectiveProfileAnswers, effectiveProfileUserAnswers, offeringContextOf, segmentTrials, withFieldSet , segmentForms } from "../../../../framework/engine/EffectiveAnswers.ts";
 import NumberCell from "../../../controls/NumberCell.tsx";
 import { type ProfileBox, type ProfilePart, type ProfileQuestion, DUAL_USER, OWN_TASKS_INFO, PROFILE_NOTE_HINTS, profileAgeRange, profileChoose, profileOutcomeLimit, profileRate, profileRatings, profileWho, profileQuestionsOf, profileSettle, profileUserAgeRange, profileUserQuestionsOf, profileUserSettle, profileUserWho, profileUserName, profileOptionsShown, proposedBusinessProfiles, segmentNeedTicks } from "../../../../framework/engine/ProfileQuestions.ts";
 import { type SegmentBox, type SegmentQuestion, SEGMENT_QUESTIONS, writtenInNames, writtenInRows, segmentChoose, segmentOptions, segmentQuestionsOf, segmentRowChoice, segmentSettle, segmentSettledNotes } from "../../../../framework/engine/SegmentQuestions.ts";
@@ -268,7 +268,7 @@ export function useFoundationSubsections(earlier: Earlier) {
         // asks it without the tick; otherwise (nothing chosen, or several) every box stands, as before. The audience chosen in Identity is added to the "i" of the box it belongs to.
         const frame = segmentFrame(identity);
         // (The ways its Offerings can be tried first narrow the Profiles' D1: segmentTrials.)
-        const asked = { ...segmentContextFor(identity, segment.description[OPTIONAL_DESCRIPTION_PART] !== undefined), trials: segmentTrials(segment) };
+        const asked = { ...segmentContextFor(identity, segment.description[OPTIONAL_DESCRIPTION_PART] !== undefined), trials: segmentTrials(segment), forms: segmentForms(segment) };
         // (The Competitor cards name their type's own `asked`: the Segment's end user is read through this.)
         const segmentEndsUser = asked.endsUser;
 

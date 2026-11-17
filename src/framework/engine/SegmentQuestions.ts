@@ -14,7 +14,21 @@ export type SegmentBox = "demographics" | "geographics" | "business-data" | "pur
 export interface SegmentOption {
     id: string;
     label: string;
+    /** The heading of the group this option opens, where a long list is grouped (owner, 2026-11-17). */
+    heading?: string;
+    /** Said under it, small: a saved answer kept outside the options the answers above give (owner, 2026-11-17). */
+    note?: string;
 }
+
+/** The marketplaces each Offering form sells on (owner, 2026-11-17): a physical item, a digital file, a service. */
+const MARKETPLACES_OF_FORM: Readonly<Record<string, readonly string[]>> = {
+    physical: ["etsy", "folksy", "noths", "amazon", "ebay"],
+    digital: ["gumroad", "etsy"],
+    live: ["fiverr", "upwork"], inperson: ["fiverr", "upwork"], project: ["fiverr", "upwork"], ongoing: ["fiverr", "upwork"]
+};
+
+/** Discover's two groups (owner, 2026-11-17): the online ways, then those in person, in print and on air; Other after them. */
+const DISCOVER_ONLINE: readonly string[] = ["communities", "creators", "media", "algorithmic", "search", "affiliates"];
 
 export interface SegmentQuestion {
     id: string;
@@ -67,6 +81,8 @@ export interface SegmentContext {
     scales: readonly string[];
     /** The ways the Segment's Offerings can be tried first (segmentTrials: sample, trial, demo, taster, catalogue); not given, every way is offered. */
     trials?: readonly string[];
+    /** The forms of the Segment's Offerings (O1; segmentForms): the marketplaces offered follow them (owner, 2026-11-17); not given, every one. */
+    forms?: readonly string[];
 }
 
 /** One saved answer: question id to the ids chosen. */
@@ -806,8 +822,27 @@ export function segmentOptions(question: SegmentQuestion, answers: SegmentAnswer
                     : reach.includes("online") ? ["communities", "creators", "media", "algorithmic", "search", "affiliates"]
                         : [];
             const rank = (id: string) => first.includes(id) ? first.indexOf(id) : first.length;
-            // (Other stays last.)
-            return [...offered].sort((a, b) => (a.id === "other" ? 1 : 0) - (b.id === "other" ? 1 : 0) || rank(a.id) - rank(b.id));
+            // (TWO HEADED GROUPS, Online and In person, in print and on air, each in that order; the group holding the first-ranked way first; Other last. Owner, 2026-11-17.)
+            const sorted = [...offered].filter(option => option.id !== "other").sort((a, b) => rank(a.id) - rank(b.id));
+            const online = sorted.filter(option => DISCOVER_ONLINE.includes(option.id));
+            const inPerson = sorted.filter(option => !DISCOVER_ONLINE.includes(option.id));
+            const headed = (list: SegmentOption[], heading: string) => list.map((option, at) => at === 0 ? { ...option, heading } : option);
+            const groups = sorted.length > 0 && !DISCOVER_ONLINE.includes(sorted[0].id) && rank(sorted[0].id) < first.length
+                ? [...headed(inPerson, "In person, in print and on air"), ...headed(online, "Online")]
+                : [...headed(online, "Online"), ...headed(inPerson, "In person, in print and on air")];
+            return [...groups, ...offered.filter(option => option.id === "other")];
+        }
+        case "marketplaces": {
+            // (FILTERED BY THE OFFERINGS' FORMS (O1; owner, 2026-11-17): a maker's marketplaces, a digital file's, a service's; Other always; every one while no form is known.)
+            const fit = [...new Set((context.forms ?? []).flatMap(form => MARKETPLACES_OF_FORM[form] ?? []))];
+            return question.options.filter(option => keep(option, fit.length === 0 || option.id === "other" || fit.includes(option.id)));
+        }
+        case "providers": {
+            // (ORDERED BY WHERE THEY SHOP (owner, 2026-11-17): in a shop, the card readers first; online, the online payment services first; never locked.)
+            const setting = answers.setting ?? [];
+            const first = setting.includes("store") ? ["sumup", "square", "zettle"] : setting.some(id => ["mobile", "desktop", "marketplace", "multi"].includes(id)) ? ["stripe", "paypal", "shopify"] : [];
+            const rank = (id: string) => id === "other" ? first.length + 1 : first.includes(id) ? first.indexOf(id) : first.length;
+            return [...question.options].sort((a, b) => rank(a.id) - rank(b.id));
         }
         case "advertising":
             // (Journals and trade magazines: for customers with a postgraduate degree, and for a business Segment whose industry is chosen; owner, 2026-11-17.)

@@ -1414,6 +1414,13 @@
 /* A Competitor's channels (K5; owner, 2026-11-04): the Rating Scale's horizontal rule, a channel's tick in the left half and its sub-channel's dropdown in
    the right half, every dropdown the same width; a third column in the card's x column (the room the card keeps at its right) holds the "+" that adds a
    row, and each added row's x. A tick with no dropdown keeps its place in the left half. */
+/* (K5's group headings, The Segment's channels and Others, across the channels' grid: owner, 2026-11-17.) */
+.business-competitor-channels > .business-tick-heading{
+
+    grid-column:1 / -1;
+
+}
+
 .business-competitor-channels{
 
     display:grid;
