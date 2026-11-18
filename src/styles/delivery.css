@@ -220,6 +220,24 @@
 
 }
 
+/* (ON THE DELIVERY CARD each person is a side-label row as the card's others: the name in the label column, the hours filling the answer column to the content
+   edge; owner, 2026-11-18 12:41, "Fix the fields and their cells properly".) */
+.delivery-card .delivery-person{
+
+    grid-template-columns:var(--side-label-short) minmax(0, 1fr);
+
+    column-gap:var(--side-label-gap);
+
+    align-items:center;
+
+}
+
+.delivery-card .delivery-person-hours.interview-input.interview-input{
+
+    width:100%;
+
+}
+
 /* Total per unit, with the "i" on what a unit is. */
 .delivery-total{
 

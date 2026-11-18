@@ -1132,9 +1132,9 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
                         ]} />,
                         (sessions || batches) && <EngagementBox key="at-once" title="How Many at Once" bands={[
                             /* DV6, customers in one session: a class, a workshop, an event (doc 52; owner, 2026-11-17). */
-/* (Under its label: the label is long for the side column, where it sat off the box's centre line; layout check, 2026-11-17.) */
-sessions && (
-                    <BusinessField label="Customers in one session" info={DELIVERY_HELP.perSession}>
+                            /* (A side-label row, as every row of the card: owner, 2026-11-18 12:41, "Fix the fields and their cells properly".) */
+                            sessions && (
+                    <BusinessField label="Customers in one session" info={DELIVERY_HELP.perSession} side>
                         <NumberCell kind="int"
                             className="delivery-number"
                             aria-label={offering.label + " customers in one session"}
@@ -1193,9 +1193,9 @@ batches && (
                     const owned = uniqueChoices(capability.offering.resources.filter(card => card.offeringIds.includes(offering.id)), "Unnamed resource");
                     return (
                         <>
-                            {/* (Label above, as every field whose label or control is wider than the side column (--side-label-short) allows: a resource's own name
-                                ("8-shaft floor looms") needs the card's width, and the question its own line; layout check, 2026-11-17. "Which supplier?" below the same.) */}
-                            <BusinessField label="Which one?" info={DELIVERY_HELP.equipment}>
+                            {/* (Side-label rows, as every row of the card, in its bands: owner, 2026-11-18 12:41, "Fix the fields and their cells properly". "Which
+                                supplier?" below the same.) */}
+                            <BusinessField label="Which one?" info={DELIVERY_HELP.equipment} side>
                                 {owned.length === 0
                                     ? <span className="delivery-muted">Add this Offering's equipment or workspace under Resources.</span>
                                     : (
@@ -1210,7 +1210,7 @@ batches && (
                                         />
                                     )}
                             </BusinessField>
-                            <BusinessField label="How many units can it hold at once?">
+                            <BusinessField label="How many units can it hold at once?" side>
                                 <NumberCell kind="int"
                                     className="delivery-number"
                                     aria-label={offering.label + " units the equipment holds at once"}
@@ -1226,7 +1226,7 @@ batches && (
                             delivery.holdUps.includes("materials") && (() => {
                     const suppliers = uniqueChoices(capability.offering.providers.filter(card => card.offeringIds.includes(offering.id)), "Unnamed supplier");
                     return (
-                        <BusinessField label="Which supplier?">
+                        <BusinessField label="Which supplier?" side>
                             {suppliers.length === 0
                                 ? <span className="delivery-muted">Add this Offering's supplier under Partners &amp; Suppliers.</span>
                                 : (
