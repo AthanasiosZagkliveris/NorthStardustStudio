@@ -391,30 +391,20 @@ export function useEngagementDemand(earlier: Earlier) {
                                         basis
                                     ]}
                                 />,
-                                // (THE CHANNELS THAT BRING THEM, THIS SOURCE'S (owner, 2026-11-18 12:41: "Channels That Bring Them in their floated cards"): a tile
-                                // for each channel it comes through, its name and group, pressed to open that channel.)
+                                // (THE CHANNELS THAT BRING THEM, THIS SOURCE'S (owner, 2026-11-18 12:41: "Channels That Bring Them in their floated cards"; 18:01: "I do not want
+                                // the Channels that bring them as Tiles"): a list, one band a channel -- its name a link that opens it, its group beside it --, the bands'
+                                // lines running edge to edge.)
                                 <EngagementBox
                                     key="channels"
                                     title="Channels That Bring Them"
-                                    bands={[sourceChannels.length > 0
-                                        ? (
-                                            <CardBoxes
-                                                label={"Channels that bring the customers of " + capitalized(what)}
-                                                what="Channel"
-                                                autoStart={false}
-                                                items={sourceChannels.map((channel, at): CardBox => ({
-                                                    id: "demand-channel:" + source.id + ":" + channel.id,
-                                                    number: at + 1,
-                                                    name: channel.name.trim(),
-                                                    unnamed: "Unnamed channel",
-                                                    own: true,
-                                                    lines: channel.category.trim() ? [channel.category.trim()] : [],
-                                                    press: () => openChannel(segment, channel.id),
-                                                    content: () => null
-                                                }))}
-                                            />
-                                        )
-                                        : <BusinessEmpty>Choose the source's channel to list it here.</BusinessEmpty>]}
+                                    bands={sourceChannels.length > 0
+                                        ? sourceChannels.map(channel => (
+                                            <p className="business-demand-source-note" key={channel.id}>
+                                                <TextLink className="business-engagement-link" onClick={() => openChannel(segment, channel.id)}>{channel.name.trim() || "Unnamed channel"}</TextLink>
+                                                {channel.category.trim() && <span className="field-label-muted">{" · " + channel.category.trim()}</span>}
+                                            </p>
+                                        ))
+                                        : [<BusinessEmpty key="none">Choose the source's channel to list it here.</BusinessEmpty>]}
                                 />
                             ]}</EngagementBoxes>
                         </SingleColumn>
