@@ -448,7 +448,7 @@ describe("BusinessFoundationEditor holds questions back while Planning", () => {
             .map(name => (screen.queryByRole("radiogroup", { name }) ?? screen.queryByRole("group", { name })) !== null);
         expect(asked()).toEqual([false, false, false, false]);
         // (A choice elsewhere settles the Segment: the held-back answers stay.)
-        fireEvent.click(screen.getByRole("checkbox", { name: /Feeds, ads and marketplace suggestions/ }));
+        fireEvent.click(screen.getByRole("checkbox", { name: /Feeds, ads & marketplace suggestions/ }));
         const kept = () => {
             const segment = asBusinessFoundationValue(saved.current).segments[0];
             return [segment.questions.workenv, segment.questions.share, segment.competitors[0].questions?.k3, segment.offerings[0].questions?.o16];

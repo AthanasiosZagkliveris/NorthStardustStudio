@@ -458,7 +458,7 @@ export function financialForecast(
     const calculatedCosts = calc
         ? [
             { label: "Employer on-costs", values: calc.onCosts.values, cogs: false },
-            { label: "Key-person and health insurance", values: calc.employeeInsurance.values, cogs: false }
+            { label: "Key-person & health insurance", values: calc.employeeInsurance.values, cogs: false }
         ].filter(entry => entry.values.some(amount => Math.abs(amount) > 0.005))
         : [];
     const feeKinds = [

@@ -35,7 +35,7 @@ The SWOT is the founder's own, distinct from the Competitor SWOT (Thanos, 2026-1
 
 - **Label:** How could these changes affect you?
 - **Control:** a Rating Group with ticks. Each row has a tick; its 1 to 5 rounds show when the row is ticked.
-- **Rows** (the Segment's change list, as built): Technology; Rules and law; The economy; Society and lifestyle; Supply and delivery; Environment and climate.
+- **Rows** (the Segment's change list, as built): Technology; Rules & law; The economy; Society & lifestyle; Supply & delivery; Environment & climate.
 - **Starts from:** the changes ticked on any Segment start ticked and come first, the most ticked first.
 - **"i":**
   - 1 = Threat, 5 = Opportunity; 3 = little effect either way.

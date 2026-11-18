@@ -7,15 +7,15 @@ import type { BusinessCapabilityValue } from "./types.ts";
 
 /** LC1's options, in order; Other is written in, one name a row (`skillsOther`). */
 export const SKILLS = [
-    { id: "bookkeeping", label: "Bookkeeping and tax" },
-    { id: "legal", label: "Legal and contracts" },
-    { id: "marketing", label: "Marketing and social media" },
+    { id: "bookkeeping", label: "Bookkeeping & tax" },
+    { id: "legal", label: "Legal & contracts" },
+    { id: "marketing", label: "Marketing & social media" },
     { id: "selling", label: "Selling" },
     { id: "design", label: "Design" },
-    { id: "website", label: "Website and technology" },
+    { id: "website", label: "Website & technology" },
     { id: "making", label: "Making or producing" },
     { id: "service", label: "Customer service" },
-    { id: "delivery", label: "Delivery and logistics" },
+    { id: "delivery", label: "Delivery & logistics" },
     { id: "other", label: "Other" }
 ] as const;
 
@@ -33,7 +33,7 @@ const SKILL_GROUPS: Readonly<Record<string, readonly string[]>> = {
 const INFRASTRUCTURE_GROUPS = ["pre-operational", "operational"];
 
 /**
- * THE SKILL AN ACTIVITY USES, BY ITS NAME (owner, 2026-11-18 02:31: the lawyer and the accountant covered Website and technology, as every Infrastructure performer
+ * THE SKILL AN ACTIVITY USES, BY ITS NAME (owner, 2026-11-18 02:31: the lawyer and the accountant covered Website & technology, as every Infrastructure performer
  * covered every Infrastructure skill): a skill shared with other skills in its groups is covered by the activities whose name says it, in any group -- "Monthly
  * bookkeeping", "Register trade mark", "Launch website and journal". Marketing and Making keep their whole group, which is theirs alone; Other, Infrastructure's.
  */

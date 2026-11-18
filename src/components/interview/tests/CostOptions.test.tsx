@@ -41,7 +41,7 @@ describe("the options of the cost model", () => {
         ]);
         expect(costOptionsOf("offering", "royalties").map(option => option.billing)).toEqual(["percentage", "fixed", "lump-sum"]);
         expect(costOptionsOf("offering", "revenue-partners").map(option => option.billing)).toEqual(["percentage", "percentage"]);
-        expect(costOptionsOf("infrastructure", "insurances").map(option => option.label)).toEqual(["Commercial property and liability", "Key-person or employee health"]);
+        expect(costOptionsOf("infrastructure", "insurances").map(option => option.label)).toEqual(["Commercial property & liability", "Key-person or employee health"]);
         expect(costOptionsOf("infrastructure", "licences").map(option => option.billing)).toEqual(["lump-sum", "fixed"]);
         expect(costOptionsOf("offering", "logistics-fulfilment").map(option => option.label)).toEqual(["Flat per parcel", "By weight or zone", "Monthly flat fee", "Fulfilment per item"]);
         expect(costOptionsOf("offering", "agencies-influencers").map(option => option.label)).toEqual(["Campaign fee", "Monthly budget", "Retainer", "Per post"]);

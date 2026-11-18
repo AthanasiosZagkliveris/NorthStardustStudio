@@ -881,9 +881,9 @@ describe("the optional answers in the documents", () => {
             "- Certification: Certified in Microsoft Power Platform and Zapier\n");
         // Skills and Cover: Capacity & Delivery's LC1, each skill with who covers it (the Team of its activities), then the Notes.
         expect(given).not.toContain("Capability Gaps");
-        expect(given).toContain("### Skills and Cover\n\n- Bookkeeping and tax: covered by ");
+        expect(given).toContain("### Skills and Cover\n\n- Bookkeeping & tax: covered by ");
         expect(given).toContain("- Selling: covered by Jordan Ellis\n");
-        expect(given).toContain("- Marketing and social media: covered by Jordan Ellis\n");
+        expect(given).toContain("- Marketing & social media: covered by Jordan Ellis\n");
         expect(given).toContain("- Cover for holidays or illness: covered by ");
         expect(given).toContain("Brooklyn CPA practice");
     });
@@ -894,7 +894,7 @@ describe("the optional answers in the documents", () => {
             skillsNeeded: ["marketing"],
             offering: { ...(value.offering as Record<string, unknown>), activities: ((value.offering as { activities: { category: string }[] }).activities).filter(activity => activity.category !== "marketing") }
         }));
-        expect(partOf(planOf({ ...base(), business: noMarketing }), "## 7. Management and Organisation")).toContain("- Marketing and social media: not covered yet\n");
+        expect(partOf(planOf({ ...base(), business: noMarketing }), "## 7. Management and Organisation")).toContain("- Marketing & social media: not covered yet\n");
 
         const none = withAnswer(3, "business", AnswerType.BusinessCapability, value => ({ ...value, skillsNeeded: [], skillsOther: [], skillsNotes: "" }));
         expect(partOf(planOf({ ...base(), business: none }), "## 7. Management and Organisation")).toContain("### Skills and Cover\n\nNot covered by the Foundation answers.");
@@ -946,7 +946,7 @@ describe("the optional answers in the documents", () => {
         expect(profile).not.toContain("Capability Gaps");
         const business = loadQuill(3, "business");
         const capability = new MarkdownExporter().toMarkdown(business, "Foundation", buildExportContent(business, "Foundation"));
-        expect(capability).toContain("Skills and Cover\n\n- Bookkeeping and tax: covered by ");
+        expect(capability).toContain("Skills and Cover\n\n- Bookkeeping & tax: covered by ");
         expect(capability).toContain("- Cover for holidays or illness: covered by ");
         expect(capability).toContain("Brooklyn CPA practice");
 

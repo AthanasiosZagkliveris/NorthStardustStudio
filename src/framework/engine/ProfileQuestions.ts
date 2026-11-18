@@ -32,7 +32,7 @@ const OTHER = { id: "other", label: "Other" } as const;
 
 /** A7: the ONS household types (Census 2021, household composition 8a), in plain words. */
 const HOUSEHOLDS = [
-    { id: "alone", label: "Alone" }, { id: "partner", label: "With a partner" }, { id: "family", label: "With a partner and children" },
+    { id: "alone", label: "Alone" }, { id: "partner", label: "With a partner" }, { id: "family", label: "With a partner & children" },
     { id: "single-parent", label: "Single parent with children" }, { id: "relatives", label: "With parents / relatives" }, { id: "sharing", label: "With friends / housemates" }
 ] as const;
 

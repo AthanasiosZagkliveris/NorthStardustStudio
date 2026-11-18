@@ -991,7 +991,7 @@ describe("BusinessCapabilityEditor Delivery", () => {
         // Marketing has no activity with a Team: "Not covered yet", a link to the Activities.
         // (The Other rows' cover is Infrastructure's activities, with none here: one "Not covered yet" already.)
         const before = within(dialog).getAllByRole("button", { name: "Not covered yet" }).length;
-        fireEvent.click(within(dialog).getByRole("checkbox", { name: "Marketing and social media" }));
+        fireEvent.click(within(dialog).getByRole("checkbox", { name: "Marketing & social media" }));
         expect(within(dialog).getAllByRole("button", { name: "Not covered yet" })).toHaveLength(before + 1);
     });
 

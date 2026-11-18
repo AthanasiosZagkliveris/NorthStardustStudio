@@ -383,7 +383,7 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
         id: "social", box: "purchasing", group: "Finding & Choosing", label: "How do your customers like to socialise?", many: false,
         options: [
             { id: "digital", label: "Mostly online (gaming, community servers, chat apps)" },
-            { id: "mixed", label: "Online and in person" },
+            { id: "mixed", label: "Online & in person" },
             { id: "inperson", label: "Mostly in person (events, hospitality, clubs, sports)" }
             // ("Mostly on their own" removed, owner 2026-11-04: it contradicted the question and fed nothing; a saved answer of it is dropped when read.)
         ],
@@ -412,11 +412,11 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
     {
         id: "discover", box: "purchasing", group: "Finding & Choosing", label: "Where do your customers discover new products?", many: true, max: 3,
         options: [
-            { id: "peers", label: "Friends, family and colleagues" },
+            { id: "peers", label: "Friends, family & colleagues" },
             { id: "communities", label: "Online communities / forums" },
             { id: "creators", label: "Creators / influencers / experts" },
-            { id: "media", label: "Media, reviews and comparison sites" },
-            { id: "algorithmic", label: "Feeds, ads and marketplace suggestions" },
+            { id: "media", label: "Media, reviews & comparison sites" },
+            { id: "algorithmic", label: "Feeds, ads & marketplace suggestions" },
             // (Added 2026-11-08, the research; "Sales calls or tenders" is offered for business customers only, segmentOptions.)
             { id: "search", label: "Search engines / maps" },
             { id: "passing", label: "Seeing it in person / passing by" },
@@ -483,10 +483,10 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
             { id: "mobile", label: "Online, on a phone" },
             { id: "desktop", label: "Online, on a computer" },
             { id: "store", label: "In a shop" },
-            { id: "multi", label: "Both online and in shops" },
+            { id: "multi", label: "Both online & in shops" },
             { id: "marketplace", label: "On a marketplace, such as Etsy or Amazon" }
         ],
-        info: ["Where most of their purchases start and finish. Choose Both online and in shops when they mix the two about equally.", "A marketplace is a site that sells many sellers' goods, such as Etsy, Amazon or eBay."]
+        info: ["Where most of their purchases start and finish. Choose Both online & in shops when they mix the two about equally.", "A marketplace is a site that sells many sellers' goods, such as Etsy, Amazon or eBay."]
     },
     // WHICH MARKETPLACES AND WHICH SHOPS (owner, 2026-11-15 16:08: "skip the + add, by shaping the channels to previous sections"): the follow-ups of Where do your
     // customers usually shop?, each tick the subchannel of that name on Customer Engagement (JourneySuggestions.ts).
@@ -578,12 +578,12 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
         id: "trends", box: "market-size", label: "What is changing most for your customers?", many: true, max: 2,
         options: [
             { id: "technology", label: "Technology: Automation, AI, old systems being replaced" },
-            { id: "regulation", label: "Rules and law: New compliance, tax changes" },
+            { id: "regulation", label: "Rules & law: New compliance, tax changes" },
             { id: "economy", label: "The economy: Inflation, budget cuts, shifts in spending power" },
-            { id: "society", label: "Society and lifestyle: Remote work, changing habits" },
-            { id: "supply", label: "Supply and delivery: Material shortages, logistics costs, local sourcing" },
-            // (Added 2026-11-08, the research: the E of PESTLE. The environmental mandates and sustainability moved here from Rules and law and Society, so nothing overlaps.)
-            { id: "environment", label: "Environment and climate: Extreme weather, sustainability, environmental mandates" }
+            { id: "society", label: "Society & lifestyle: Remote work, changing habits" },
+            { id: "supply", label: "Supply & delivery: Material shortages, logistics costs, local sourcing" },
+            // (Added 2026-11-08, the research: the E of PESTLE. The environmental mandates and sustainability moved here from Rules & law and Society, so nothing overlaps.)
+            { id: "environment", label: "Environment & climate: Extreme weather, sustainability, environmental mandates" }
         ],
         info: ["The changes that affect your customers most. Choose up to two.", "Each Competitor is rated on how every one of these could affect it, the ones ticked here first."]
     },

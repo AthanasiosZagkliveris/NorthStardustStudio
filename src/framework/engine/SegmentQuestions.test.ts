@@ -293,9 +293,9 @@ describe("what is changing, the path to purchase and where they discover (2026-1
     const PEOPLE: SegmentContext = { ...OPEN, frame: "people" };
     const BUSINESS: SegmentContext = { ...OPEN, frame: "business" };
 
-    it("adds Environment and climate to what is changing", () => {
+    it("adds Environment & climate to what is changing", () => {
         expect(ids(question("trends").options)).toEqual(["technology", "regulation", "economy", "society", "supply", "environment"]);
-        expect(question("trends").options.find(option => option.id === "environment")?.label).toBe("Environment and climate");
+        expect(question("trends").options.find(option => option.id === "environment")?.label).toBe("Environment & climate");
     });
 
     it("reads Straight away as On impulse, its id kept, and adds habit and urgent need", () => {

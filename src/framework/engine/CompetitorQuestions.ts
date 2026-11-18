@@ -695,7 +695,8 @@ export function valueOfProfiles(value: string, context: OpeningContext): boolean
 
 const labelOf = (list: readonly SegmentOption[], id: string) => list.find(option => option.id === id)?.label ?? id;
 /** Words inside a sentence: the first letter small ("Be ready where the economy hurts them"). */
-const inSentence = (words: string) => words.charAt(0).toLowerCase() + words.slice(1);
+// (A label set in a sentence reads as prose: its "&" -- the labels' own, owner 2026-10-29/30 -- is "and" there.)
+const inSentence = (words: string) => (words.charAt(0).toLowerCase() + words.slice(1)).replace(/ & /g, " and ");
 
 /**
  * K10's options, in their order, each by its rule (doc 41): the values by their opening score, (5 − rating) × weight, ties broken by how many of the Segment's

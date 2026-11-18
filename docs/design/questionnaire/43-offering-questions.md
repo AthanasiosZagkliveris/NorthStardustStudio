@@ -273,7 +273,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
 - **Asked when:** always.
 - **Options:**
   - None
-  - Guides and how-tos
+  - Guides & how-tos
   - Automatic help, such as chat or emails
   - Personal help when needed
   - A dedicated person or team
@@ -284,7 +284,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
   - None stands alone: ticking it clears the others.
   - Tick Other to write another: each becomes a relationship type on Customer Engagement.
 - **Connections:**
-  - *Read by (built):* O8 and the Value Proposition's open item "Worry left open": any tick but None answers the Profiles' worry Support (after they buy), so O8 does not offer it. *Read by (built):* the relationship types (`autoRelationshipTypes`) and the Support & Follow Up channels on page 2 (doc 47). *Not built yet:* the Review against the Profiles' D2 (doc 36): "wants to talk to a person" while the help is None or Guides and how-tos (rule 10). Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
+  - *Read by (built):* O8 and the Value Proposition's open item "Worry left open": any tick but None answers the Profiles' worry Support (after they buy), so O8 does not offer it. *Read by (built):* the relationship types (`autoRelationshipTypes`) and the Support & Follow Up channels on page 2 (doc 47). *Not built yet:* the Review against the Profiles' D2 (doc 36): "wants to talk to a person" while the help is None or Guides & how-tos (rule 10). Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
 
 ### O17. What comes after the sale?
 
@@ -301,7 +301,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
 ### O23. How do you keep in touch after the sale?
 
 - **Control:** ticks, as many as apply; "Only when they get in touch" stands alone; ends in Other, written in as a numbered list. **Asked when:** from Launching, held back while Planning (its saved answer kept), as O17. (O18 is this card's and the next code is proposed in doc 48: the new one is O23, owner, 2026-11-16 16:31.)
-- **Options:** A newsletter · Offers and launches by email · Posts on social media · Personal messages · Only when they get in touch · Other.
+- **Options:** A newsletter · Offers & launches by email · Posts on social media · Personal messages · Only when they get in touch · Other.
 - **The "i" says:** How customers hear from you once they've bought: a newsletter, offers by email, posts or a personal note. · Only when they get in touch stands alone: ticking it clears the others. · Tick Other to write another.
 - **Connections:** *Read by (built):* at Support & Follow Up on Customer Engagement, Email › Newsletter, Email Campaign or Direct Email; posts on social media give the Segment's social platforms (C2) that stage too; Other a channel of the Other category per name (doc 47).
 

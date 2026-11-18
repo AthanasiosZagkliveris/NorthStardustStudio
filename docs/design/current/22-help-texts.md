@@ -383,7 +383,7 @@ Listed, never failed (doc 39, 3.6). The budget is 160 characters a point; the av
 | Where are your customers? | tile dialog | 6 | 1 | 124 | The widest area most of your customers are spread over, now or as you plan it. If it is more than one, make another Segment. |
 | Where do your customers discover new products? | tile dialog | 23 | 6 | 465 | Examples: communities such as Reddit, Discord and Facebook Groups; creators on TikTok, Instagram, YouTube and LinkedIn. Partner businesses: a shop, venue or fir... |
 | Where do your customers live or work? | tile dialog | 6 | 2 | 113 | 1 is countryside or remote places, 3 the suburbs and towns around a city, 5 a city centre. 1 = Rural, 5 = Urban. |
-| Where do your customers usually shop? | tile dialog | 10 | 2 | 202 | Where most of their purchases start and finish. Choose Both online and in shops when they mix the two about equally. A marketplace is a site that sells many sel... |
+| Where do your customers usually shop? | tile dialog | 10 | 2 | 202 | Where most of their purchases start and finish. Choose Both online & in shops when they mix the two about equally. A marketplace is a site that sells many sel... |
 | Which communities does this person belong to? | floating card | 6 | 2 | 78 | Where they ask, read and recommend. Write the names of the groups in the note. |
 | Which devices does this person use? | floating card | 6 | 2 | 107 | The devices they use to find and buy. The Segment's choice of where they buy starts this; change it freely. |
 | Which events does this person attend? | floating card | 6 | 2 | 103 | The kinds of events a typical person of the Segment goes to. Write the names of the events in the note. |

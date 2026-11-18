@@ -55,18 +55,18 @@ describe("LC1, the skills the business still needs (Capacity & Delivery; owner, 
 
     test("each example's needed skills read with their cover; a group with no one on its Team is not covered yet", () => {
         expect(neededSkills(capabilityOf(lumen), undefined, LUMEN_FOUNDERS).map(neededSkillLine)).toEqual([
-            "Marketing and social media: covered by Oliver Grant, Maya Chen",
+            "Marketing & social media: covered by Oliver Grant, Maya Chen",
             // (By the activities whose name says it -- "Launch website and journal" --, not every Infrastructure performer: owner, 2026-11-18 02:31.)
-            "Website and technology: covered by Oliver Grant",
+            "Website & technology: covered by Oliver Grant",
             "Making or producing: covered by Maya Chen, Priya Shah, FlameGuard Finishing"
         ]);
         expect(neededSkills(capabilityOf(quill), undefined, { "founder-q7m2x4ke": "Jordan Ellis" }).map(skill => skill.label)).toEqual([
-            "Bookkeeping and tax", "Legal and contracts", "Marketing and social media", "Selling", "Cover for holidays or illness"
+            "Bookkeeping & tax", "Legal & contracts", "Marketing & social media", "Selling", "Cover for holidays or illness"
         ]);
 
         const capability = capabilityOf(lumen);
         const noMarketing = { ...capability, offering: { ...capability.offering, activities: capability.offering.activities.filter(activity => activity.category !== "marketing") } };
-        expect(neededSkills(noMarketing, undefined, LUMEN_FOUNDERS).map(neededSkillLine)[0]).toBe("Marketing and social media: not covered yet");
+        expect(neededSkills(noMarketing, undefined, LUMEN_FOUNDERS).map(neededSkillLine)[0]).toBe("Marketing & social media: not covered yet");
     });
 
     test("the Review lists each skill not covered yet, linking to Capacity & Delivery", () => {
@@ -82,7 +82,7 @@ describe("LC1, the skills the business still needs (Capacity & Delivery; owner, 
         const items = reviewItems({ sessions, titles, organisationName: "Lumen" }).filter(item => item.text.includes("not covered yet"));
         expect(items).toHaveLength(1);
         expect(items[0].group).toBe("missing");
-        expect(items[0].text).toBe("Marketing and social media is not covered yet: 3. Business System → " + page.number + ". Infrastructure & Capability → Capacity & Delivery.");
+        expect(items[0].text).toBe("Marketing & social media is not covered yet: 3. Business System → " + page.number + ". Infrastructure & Capability → Capacity & Delivery.");
         expect(items[0].place).toMatchObject({ systemNumber: 3, sectionNumber: page.number, anchors: ["section-offering-delivery"] });
     });
 
