@@ -508,6 +508,19 @@
    ]
   },
   {
+   "label": "What do they charge for a similar offer?",
+   "place": "floating card",
+   "text": "The price range customers see today, From and To in your currency. It helps you place your own price.\nTick Not known yet until you find out: their website, a quote or what their customers say.\nBased on: MIT OpenCourseWare 15.818 Pricing; Penn State Extension, Choosing a pricing method.",
+   "lines": 15,
+   "points": 3,
+   "w": 360,
+   "chars": 286,
+   "scenes": [
+    "Business System / 1. Foundation / tile Competitors / card 1",
+    "Business System / 1. Foundation / tile Competitors / card 2"
+   ]
+  },
+  {
    "label": "Market",
    "place": "floating card",
    "text": "Where do they sell, how big are they, and are they growing?",
@@ -687,6 +700,18 @@
    "points": 1,
    "w": 360,
    "chars": 88,
+   "scenes": [
+    "Business System / 1. Foundation / tile Competitors / card 3"
+   ]
+  },
+  {
+   "label": "What does this alternative cost?",
+   "place": "floating card",
+   "text": "The price range customers see today, From and To in your currency. It helps you place your own price.\nTick Not known yet until you find out: their website, a quote or what their customers say.\nBased on: MIT OpenCourseWare 15.818 Pricing; Penn State Extension, Choosing a pricing method.",
+   "lines": 15,
+   "points": 3,
+   "w": 360,
+   "chars": 286,
    "scenes": [
     "Business System / 1. Foundation / tile Competitors / card 3"
    ]
@@ -2660,11 +2685,11 @@
   {
    "label": "Which skills does the business still need?",
    "place": "tile dialog",
-   "text": "Skills the plan needs that the team lacks today. Each one's cover comes from the Team of its activities.",
-   "lines": 5,
+   "text": "Skills the plan needs that the team lacks today. Each one's cover comes from the Team of its activities: Marketing's and Production's for marketing and making, and for the others the activities whose name says the skill (bookkeeping, a contract, the website).",
+   "lines": 10,
    "points": 1,
    "w": 360,
-   "chars": 104,
+   "chars": 259,
    "scenes": [
     "Business System / Infrastructure / tile Capacity & Delivery",
     "Business System / Infrastructure / tile Capacity & Delivery / card 1",
