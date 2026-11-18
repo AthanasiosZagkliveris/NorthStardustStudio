@@ -82,7 +82,7 @@ const DESIGN = [
   ["docs/design/questionnaire/45-purpose-and-beliefs-questions.md", "specification", "Purpose & Beliefs: the Identity System's Mission, Vision, Values, Principles, Philosophy and Manifesto as three pair tiles, each text with its guiding questions, control, length, \"i\" and connections (codes PB1 to PB6); built 2026-11-09 with the owner's decisions (section 6).", true],
   ["docs/design/questionnaire/46-ambassador-questions.md", "proposal", "The Ambassador: the Brand System's four tiles with their choices BA1 to BA4 and BA6 to BA9, the drafts, the Style suggestions; approved 2026-11-12, not built.", true],
   ["docs/design/questionnaire/47-customer-engagement-tiles.md", "specification", "Customer Engagement as one chapter per Segment with four Master Tiles, the Offering's four faces and the journey rebuild; approved 2026-11-12; step one (the tiles) built 2026-11-12, the journey rebuild not built.", true],
-  ["docs/design/questionnaire/48-financial-pages-tiles.md", "proposal", "The Financial pages as Master Tiles, the Offering Economics card, the questions RV1 and FN1, and the Inventory's changes IN1 to IN5; approved 2026-11-12, not built.", true],
+  ["docs/design/questionnaire/48-financial-pages-tiles.md", "specification", "The Financial pages as Master Tiles, the Offering Economics card, the questions RV1 and FN1, and the Inventory's changes IN1 to IN5; approved 2026-11-12; the pages' order and their chapters as tiles built 2026-11-17, the questions and the Offering Economics card not built.", true],
   ["docs/design/questionnaire/49-strategy-questions.md", "proposal", "Strategy: SW1, the SWOT suggestions, SC1 to SC3 and the Compass draft, Themes, Goals, Metrics linked to the plan, and the order of work for docs 45 to 49; approved 2026-11-12, not built.", true],
   ["docs/design/questionnaire/50-engagement-fees-and-demand-proposals.md", "specification", "Channel fees on Customer Engagement (the read-only Fees on a subchannel, the UK rows) and what Demand & Conversion adds (Tried it, the time to buy); built 2026-11-14.", true],
   ["docs/design/questionnaire/51-delivery-and-capacity-research.md", "proposal", "Delivery and capacity: what the sources say, what the app asks today, what is missing, and seven additions in priority order; not built.", true],
@@ -99,8 +99,8 @@ const SPEC = [
   ["docs/specifications/business-system/page-2-section-1-channels.md", "specification", "Page 2, section 1: the channels.", true],
   ["docs/specifications/business-system/page-2-section-2-customer-relationships.md", "specification", "Page 2, section 2: customer relationships (section 18 holds a worked example and the column rules).", true],
   ["docs/specifications/business-system/page-3-infrastructure-and-capability.md", "specification", "Page 3: Infrastructure and Capability.", true],
-  ["docs/specifications/business-system/page-4-financial-foundation.md", "specification", "Page 4: Financial Foundation.", true],
-  ["docs/specifications/business-system/page-5-financial-sustainability.md", "specification", "Page 5: Financial Sustainability.", true]
+  ["docs/specifications/business-system/page-5-costs-funding-and-position.md", "specification", "Page 4: Financial Foundation.", true],
+  ["docs/specifications/business-system/page-4-revenue-and-pricing.md", "specification", "Page 5: Financial Sustainability.", true]
 ];
 const ARCHIVE = [
   ["docs/engineering-phase-completion.md", "docs/archive/engineering-phase-completion.md", "archive", "The engineering phase completion report."],

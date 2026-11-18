@@ -2,7 +2,7 @@ import { InterviewSession } from "../framework/interview";
 import { frameworkRegistry } from "../framework/engine/FrameworkRegistry";
 import { systems } from "../data/systems";
 import { OrganizationService } from "./OrganizationService";
-import { IDENTITY_SYSTEM_NUMBER, BRAND_SYSTEM_NUMBER, STRATEGY_SYSTEM_NUMBER, BUSINESS_SYSTEM_NUMBER, swapBusinessAndStrategySequence, makeRoomForBusinessFoundationPage, makeRoomForCustomerEngagementPage, makeRoomForCapabilityPage, makeRoomForFinancialFoundationPage, makeRoomForFinancialSustainabilityPage, retireLegacyBusinessPages, moveGlobalIncomeTax, mergeBrandInventoryIntoStyle, handOverAmbassadorPageToBrandSystem, migrateLegacyBrandData, migrateLegacyStrategyData, migrateLegacyIdentityData, migrateLegacyOperationsData, normalizeOperationsSectionsForCurrentSchema } from "./storageMigrations";
+import { IDENTITY_SYSTEM_NUMBER, BRAND_SYSTEM_NUMBER, STRATEGY_SYSTEM_NUMBER, BUSINESS_SYSTEM_NUMBER, swapBusinessAndStrategySequence, makeRoomForBusinessFoundationPage, makeRoomForCustomerEngagementPage, makeRoomForCapabilityPage, makeRoomForFinancialFoundationPage, makeRoomForFinancialSustainabilityPage, retireLegacyBusinessPages, moveGlobalIncomeTax, swapFinancialPages, mergeBrandInventoryIntoStyle, handOverAmbassadorPageToBrandSystem, migrateLegacyBrandData, migrateLegacyStrategyData, migrateLegacyIdentityData, migrateLegacyOperationsData, normalizeOperationsSectionsForCurrentSchema } from "./storageMigrations";
 
 export class StorageService {
 
@@ -99,8 +99,10 @@ export class StorageService {
             makeRoomForFinancialSustainabilityPage(organizationId);
             // Last: it reads the numbers the shifts above have given.
             retireLegacyBusinessPages(organizationId);
-            // (After the page shifts: it reads 4. Financial Foundation at its Section.)
+            // (After the page shifts: it reads Financial Foundation at its Section 4, before the swap below.)
             moveGlobalIncomeTax(organizationId);
+            // (Last of all: Revenue & Pricing to Section 4, Costs, Funding & Position to 5; doc 48, section 11.)
+            swapFinancialPages(organizationId);
         }
 
         const raw = OrganizationService.loadSystemState(organizationId, systemNumber);

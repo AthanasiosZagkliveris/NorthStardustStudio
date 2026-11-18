@@ -100,7 +100,7 @@ await probe("Business", "Page tag", ".page-rail, [class*=page-tag], [class*=rail
 await probe("Business", "Dividers", ".answer-columns-divider, hr, [class*=divider]");
 await probe("Business", "Messages", "[class*=missing-note], [class*=message], [class*=alert], [class*=verification], [class*=total]");
 await probe("Business", "Side panel handles", "[class*=side-panel] button, [class*=drawer] button, [class*=handle]");
-await page.getByRole("navigation", { name: "Pages" }).getByRole("button", { name: /Financial Foundation/ }).first().evaluate(n => n.click());
+await page.getByRole("navigation", { name: "Pages" }).getByRole("button", { name: /Costs, Funding & Position/ }).first().evaluate(n => n.click());
 await wait(800);
 await probe("Financial Foundation", "Messages", "[class*=missing-note], [class*=message], [class*=alert], [class*=verification], [class*=total]");
 await probe("Financial Foundation", "Dividers", ".answer-columns-divider, hr, [class*=divider]");

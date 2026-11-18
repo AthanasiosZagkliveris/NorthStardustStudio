@@ -47,11 +47,11 @@ A page of a System can be a **compound page**: several sections drawn as chapter
 | 3. Business | 1. Foundation | One chapter per Segment: Segment Description (the Segment's questions and its Profiles), Competitors, Value Proposition, Offerings. A Profile, a Competitor and an Offering are cards that open floating. |
 | 3. Business | 2. Customer Engagement | One chapter per Segment, in its colour: Channels (the channels as tiles), Relationships, Demand & Conversion, Channel Costs, each opening its section in a dialog (doc 47, section 3; built 2026-11-12). |
 | 3. Business | 3. Infrastructure & Capability | Chapter Infrastructure: Founders, Resources, Activities, Partners & Suppliers. Chapter Offering's Capability: Resources, Activities, Partners & Suppliers, Capacity & Delivery (the Capacity, the Skills still needed, the Delivery cards). Chapter Inventory: the Inventory help tile and the Completed help tile. |
-| 3. Business | 4. Financial Foundation | Costs, Funding Need, Capital & Funding, Financial Position (folding cards, not tiles yet; see document 5). |
-| 3. Business | 5. Sustainability | Revenue, Break Even (folding cards, not tiles yet). |
+| 3. Business | 4. Revenue & Pricing | One chapter, Revenue, at the left at half width: Revenue Streams, Delivery Check, Revenue Summary, each opening its blocks in a dialog (doc 48, sections 2 and 11; built 2026-11-17). |
+| 3. Business | 5. Costs, Funding & Position | Two chapters side by side: Financial Foundation (Costs, Funding Need, Capital & Funding, Financial Position; doc 48, section 1) and Break Even (Break-Even Point, Break-Even Time, Sustainability, Stress Test; doc 48, section 2), each tile opening its blocks in a dialog (built 2026-11-17). |
 | 4. Strategy | Strategy System: Situation & Direction (one page) | Current Situation Analysis, SWOT Analysis, Strategic Compass, Strategic Period (with the Roadmap and the Theme, Goal, Objective, Metric cards inside it). Sections 2 (Goals & Objectives) and 3 (Roadmap) are hidden pages; their saved data is kept. |
 
-Every chapter of the Foundation is drawn as Master Tiles but the two Financial pages (document 5; doc 49, section 8, phase 7).
+Every chapter of the Foundation is drawn as Master Tiles, the two Financial pages too since 2026-11-17 (doc 48, sections 1, 2 and 11; doc 49, section 8, phase 7).
 
 ### B.2 Reading modes, screens and accessibility
 

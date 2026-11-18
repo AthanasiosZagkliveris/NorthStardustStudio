@@ -25,15 +25,20 @@
     Plan Start has been chosen, and disappears until then.
 -->
 
-## 04. Financial Foundation MM/YY - MM/YY
+<!--
+    The order of the two (doc 48, section 11; owner, 2026-11-17 07:36): Revenue & Pricing first, then Costs, Funding & Position, so each page reads only
+    the pages before it. Their answers changed Sections once (storageMigrations.swapFinancialPages); the keys inside them are as they were.
+-->
 
-**Structure:** Financial Foundation
+## 04. Revenue & Pricing MM/YY - MM/YY
+
+**Structure:** Financial Sustainability
 
 **Numbering:** Nested
 
-## 05. Sustainability MM/YY - MM/YY
+## 05. Costs, Funding & Position MM/YY - MM/YY
 
-**Structure:** Financial Sustainability
+**Structure:** Financial Foundation
 
 **Numbering:** Nested
 

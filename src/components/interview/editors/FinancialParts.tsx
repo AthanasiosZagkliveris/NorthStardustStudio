@@ -216,24 +216,28 @@ export function FinancialBlock({
 
     info,
 
+    bare = false,
+
     children
 
 }: {
 
     title: string;
     info?: InfoPoint[];
+    /** The block is a tile's dialog's whole subject (2026-11-17): the dialog's heading names it and carries its "i", so it draws no heading of its own. */
+    bare?: boolean;
     children: ReactNode;
 
 }) {
     return (
-        <div className="financial-block">
-            <span className="business-foundation-label-info">
+        <div className="financial-block" aria-label={bare ? title : undefined} role={bare ? "group" : undefined}>
+            {!bare && <span className="business-foundation-label-info">
                 <span className="business-capability-subhead">
                     <InfoText text={title}>
                         {info && <InfoNote label={title} points={info} fullList />}
                     </InfoText>
                 </span>
-            </span>
+            </span>}
             {children}
         </div>
     );

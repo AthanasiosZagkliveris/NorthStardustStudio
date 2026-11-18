@@ -367,7 +367,7 @@ export enum AnswerType {
      * from the three sections above it (see FinancialModel.ts).
      *
      * Its specification is
-     * docs/specifications/business-system/page-4-financial-foundation.md.
+     * docs/specifications/business-system/page-5-costs-funding-and-position.md.
      */
     FinancialFoundation = "financial-foundation",
 
@@ -381,7 +381,7 @@ export enum AnswerType {
      * of its own for the same reason Page 4 is.
      *
      * Its specification is
-     * docs/specifications/business-system/page-5-financial-sustainability.md.
+     * docs/specifications/business-system/page-4-revenue-and-pricing.md.
      */
     FinancialSustainability = "financial-sustainability"
 

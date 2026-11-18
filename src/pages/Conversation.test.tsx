@@ -369,8 +369,8 @@ describe("A System's opening screen", () => {
             "Foundation",
             "Customer Engagement",
             "Infrastructure & Capability",
-            "Financial Foundation",
-            "Sustainability"
+            "Revenue & Pricing",
+            "Costs, Funding & Position"
         ]);
         expect(fact("What it covers")).toContain("Defines how the organization creates, delivers, and sustains value over time.");
         expect(fact("Uses from earlier")).toBe("Your target audience, founders and legal details from 1. Identity System.");

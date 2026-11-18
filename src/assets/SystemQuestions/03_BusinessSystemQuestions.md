@@ -12,7 +12,7 @@ Thinking Time: About 3–4 hr
 
 ## 3. Infrastructure & Capability
 
-## 4. Financial Foundation MM/YY - MM/YY
+## 4. Revenue & Pricing MM/YY - MM/YY
 
-## 5. Sustainability MM/YY - MM/YY
+## 5. Costs, Funding & Position MM/YY - MM/YY
 

@@ -1,6 +1,6 @@
 # 5. What has not been done yet
 
-Status: **living list**, written 2026-10-14, updated 2026-11-09. Remove an item when it is done and record it in the log (`04-log.md`). Everything here is a plan or a proposal unless it says "decided". Nothing in section 5.3 is built, and of section 5.5 only what a row says is built.
+Status: **living list**, written 2026-10-14, updated 2026-11-12. Remove an item when it is done and record it in the log (`04-log.md`). Everything here is a plan or a proposal unless it says "decided". Nothing in section 5.3 is built, and of section 5.5 only what a row says is built.
 
 ## Open now
 
@@ -39,11 +39,11 @@ The plan of 33 tasks is locked (log, 4.5). F, G, H, I and J are committed; the e
 
 ## 5.3 Finish the Tile System
 
-Eleven of thirteen chapters are drawn as tiles. The rest:
+Every chapter is drawn as tiles since 2026-11-17: Revenue & Pricing (Revenue) and Costs, Funding & Position (Financial Foundation and Break Even; doc 48, sections 1, 2 and 11). Not built yet on them: the Offering Economics card, RV1, O19, K15 as a record, FN1 and C1 (phase 7a), the dialogs' nested sub tiles and the Cash Timeline as a Diagram tile (doc 48, section 1). The rest:
 
 | Where | State | What remains inline | Conversion (suggestion) |
 |---|---|---|---|
-| Business 4 · Financial Foundation | Not tiles | Four folding cards: Costs, Funding Need, Capital & Funding, Financial Position; plan dates and VAT inline | One frame of four Master Tiles; each opens its existing section in a dialog (the pattern the Roadmap and Registrations use). Plan settings become a small tile or the first tile. |
+| Business 4 · Financial Foundation | Tiles (2026-11-12) | The dialogs' nested sub tiles and the Cash Timeline as a Diagram tile (doc 48, section 1); the Costs sub tiles opening the Inventory's table (IN4); a dialog wide enough for the costs table and the Operating months (owner to decide: the dialog is the half-width chapter's width) | Later steps of phase 1 (doc 49, section 8) |
 | Business 5 · Sustainability | Not tiles | Two folding cards: Revenue, Break Even | Two tiles, same method |
 | Four editors | Old non-tile layout kept below an early return | Unreachable code (`asTiles` is always true) | Remove after confirming the tests do not use it |
 | Help tile | Not a real kind in the code | Inventory and Completed are normal tiles recognised by id | Add a real "help tile" kind |

@@ -95,6 +95,8 @@ export interface OrganizationDocument {
     legacyBusinessPagesRetired?: boolean;
     /** Set once a Global Settings income tax rate has been moved into Page 4's Plan Settings (storageMigrations.moveGlobalIncomeTax). */
     globalIncomeTaxMoved?: boolean;
+    /** Set once the two Financial pages have changed places: Revenue & Pricing Section 4, Costs, Funding & Position Section 5 (storageMigrations.swapFinancialPages). */
+    financialPagesSwapped?: boolean;
     /**
      * What was answered on those nine pages, set aside rather than
      * deleted: out of the Business System's own responses, so a page
