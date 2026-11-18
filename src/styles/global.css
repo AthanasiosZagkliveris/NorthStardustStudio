@@ -1082,7 +1082,9 @@ h6 {
 ========================================================== */
 .app-tooltip {
   position: fixed;
-  z-index: 1000;
+  /* OVER EVERY LAYER (owner, 2026-11-18 22:05 UTC+2: "Tooltips are behind the cards"): the dialogs and their cards (1000), the header over them (1001), a
+     question asked inside one (1100) -- a tip is read whole, whatever it stands over. */
+  z-index: 1200;
 
   max-width: min(360px, calc(100vw - 16px));
   /* One row of the pop-up cells' pitch: 32px, the words centred in it. */

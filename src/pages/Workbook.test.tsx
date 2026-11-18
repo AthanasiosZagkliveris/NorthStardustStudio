@@ -206,7 +206,7 @@ describe("the Workbook, a whole page (owner, 2026-11-09)", () => {
     it("opens from the header's Workbook on the Business Documents, the tabs in a report's order, the Card Notes last (owner, 2026-11-10)", () => {
         NotepadService.addNote(OrganizationService.getSelected()!);
         openFrom("/assistant");
-        const tabs = within(screen.getByRole("navigation", { name: "Go to a section" })).getAllByRole("button").map(tab => tab.textContent).filter(name => name !== "Back");
+        const tabs = within(screen.getByRole("navigation", { name: "Go to a section" })).getAllByRole("button").map(tab => tab.getAttribute("aria-label") ?? tab.textContent).filter(name => name !== "Back");
         expect(tabs).toEqual(["Business Documents", "Review", "References", "Glossary", "Card Notes"]);
         expect(screen.getByRole("heading", { name: /^Business Documents/ })).toBeTruthy();
         act(() => { fireEvent.click(railTab("Card Notes")); });
@@ -223,7 +223,7 @@ describe("the Workbook, a whole page (owner, 2026-11-09)", () => {
 
     it("opens from the Landing page's Workbook (the same button) with the Landing's tabs: the total review, the Glossary and the References", () => {
         openFrom("/assistant", "landing");
-        const tabs = within(screen.getByRole("navigation", { name: "Go to a section" })).getAllByRole("button").map(tab => tab.textContent).filter(name => name !== "Back");
+        const tabs = within(screen.getByRole("navigation", { name: "Go to a section" })).getAllByRole("button").map(tab => tab.getAttribute("aria-label") ?? tab.textContent).filter(name => name !== "Back");
         expect(tabs).toEqual(["Review", "References", "Glossary"]);
         act(() => { fireEvent.click(railTab("Review")); });
         expect(screen.getByRole("heading", { name: /^Total review$/ })).toBeTruthy();
@@ -264,13 +264,13 @@ describe("the Workbook, a whole page (owner, 2026-11-09)", () => {
         expect(document.querySelector(".workbook .interview-header .interview-divider")).toBeTruthy();
         expect(document.querySelector(".workbook .workbook-panel.section-tile-dialog .section-tile-dialog-body")).toBeTruthy();
         const rail = screen.getByRole("navigation", { name: "Go to a section" });
-        expect(rail.querySelector(".bullet-rail-item.active")?.textContent).toBe("Business Documents");
+        expect(rail.querySelector(".bullet-rail-item.active")?.getAttribute("aria-label")).toBe("Business Documents");
         act(() => { fireEvent.click(screen.getByRole("button", { name: "Next section" })); });
         expect(screen.getByRole("heading", { level: 2, name: /^Review/ })).toBeTruthy();
         act(() => { fireEvent.click(screen.getByRole("button", { name: "Previous section" })); });
         expect(screen.getByRole("heading", { level: 2, name: /^Business Documents/ })).toBeTruthy();
         act(() => { fireEvent.click(railTab("Glossary")); });
-        expect(rail.querySelector(".bullet-rail-item.active")?.textContent).toBe("Glossary");
+        expect(rail.querySelector(".bullet-rail-item.active")?.getAttribute("aria-label")).toBe("Glossary");
         expect(screen.getByRole("heading", { name: /^Glossary/ })).toBeTruthy();
     });
 

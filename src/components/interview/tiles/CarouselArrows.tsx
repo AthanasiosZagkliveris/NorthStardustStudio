@@ -354,7 +354,9 @@ export function CarouselArrows({ target, step, hue, back, side: fixedSide }: { t
                                     onClick={() => step.go?.(item.id)}
                                 >
                                     <span className="bullet-rail-dot status-shape" aria-hidden="true" />
-                                    <span className="strategy-card-nav-tip" aria-hidden="true">{item.label}</span>
+                                    {/* A name beside its dot where the tab shows names; else the app's one tooltip (TitleTooltips: its name, aria-label), drawn over every
+                                        layer -- a tip drawn in the tab stood behind the dialog, as the tab does (owner, 2026-11-18 22:05 UTC+2: "Tooltips are behind the cards"). */}
+                                    {named && <span className="strategy-card-nav-tip" aria-hidden="true">{item.label}</span>}
                                 </button>
                             </li>
                         ))}
