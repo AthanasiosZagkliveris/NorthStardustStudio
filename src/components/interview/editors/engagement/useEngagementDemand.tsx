@@ -513,7 +513,7 @@ export function useEngagementDemand(earlier: Earlier) {
                 </BusinessField>
                 {cancelField}
                 {notReady && (
-                    <BusinessField label="Ready From" info={["The month it is ready to sell. Its revenue on Sustainability begins no earlier."]}>
+                    <BusinessField label="Ready From" info={["The month it is ready to sell. Its revenue on Revenue & Pricing begins no earlier."]}>
                         <MonthYearPicker
                             hideLabel
                             label={"Ready from, " + offeringLabel}

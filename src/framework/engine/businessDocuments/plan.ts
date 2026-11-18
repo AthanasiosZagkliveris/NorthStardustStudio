@@ -717,7 +717,7 @@ function projectionBlocks(f: Foundation): ExportBlock[] {
         // Only the plan's own length: never extended beyond what was planned.
         ...(years < 5
             ? paragraph("The projections cover the plan's " + years + (years === 1 ? " year" : " years") +
-                ", as set on the Financial Foundation page; they are not extended to five years.")
+                ", as set in the Global Settings; they are not extended to five years.")
             : []),
         ...view.tables.flatMap(entry => [
             heading(titles[entry.title] ?? entry.title),

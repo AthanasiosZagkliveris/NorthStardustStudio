@@ -2,17 +2,17 @@
   "lumen": {
     "founders": "| Founder | Roles | Salary / month | Working Hours / month | Delivery Hours / month | Responsibilities |\n| --- | --- | --- | --- | --- | --- |\n| Maya Chen |  | £1,800 | 160 | 128 | Investigate Warping mill; Source yarns; Weave spring collection; Test fire-retardant finish; Sample headboard panels; Run first workshops; Freelance weaving tutor |\n| Oliver Grant |  | £1,800 | 160 | 48 | Set up Product photography; Launch website and journal (completed); Plan trade fair stand; Instagram content calendar; Build trade price list; DPD Local (courier); Royal Mail Tracked 48 |\n| Priya Shah |  | £1,800 | 160 | 40 | Register trade mark and ICO (completed); Set up Xero; Monthly bookkeeping; Set up repair service; Accountant; Lawyer; Hackney Wick Maker Yard; Hackney Sparks; FlameGuard Finishing; Shopify Payments; SumUp in-person card fees |\n\n",
     "forecast": "1d887effbf3788:14140",
-    "plan": "a49d4153c9970:166378",
+    "plan": "935d438d83e5c:166352",
     "exported": "6432aa2a78e5c:49770",
-    "planSettings": "1888b67b80127b:166931",
+    "planSettings": "1b1293f5ce25:166905",
     "forecastSettings": "140baa91f7d3ee:13389"
   },
   "quillfield": {
     "founders": "| Founder | Roles | Salary / month | Working Hours / month | Delivery Hours / month | Responsibilities |\n| --- | --- | --- | --- | --- | --- |\n| Jordan Ellis |  | £4,500 | 160 | 96 | Register business name (completed); Open a business bank account (completed); Contract templates; Write privacy policy; Launch the website with booking; Set up bookkeeping; Investigate password vault; Build component library; Create audit guide; Define handover pack; Set up monitoring; LinkedIn content plan; Start the monthly newsletter; Publish three case studies; Proposal templates; Recruit referral partners; Accountant (CPA); Lawyer; Launch web design; Brooklyn coworking; Referral partners; Freelance developer; QuickBooks Payments |\n\n",
     "forecast": "6ba0c7377f83f:11418",
-    "plan": "b37498cb87a5d:86031",
+    "plan": "1b07078acd2f23:86029",
     "exported": "451f2a9100c25:37498",
-    "planSettings": "d6dc08c3279e6:86318",
+    "planSettings": "31472a3344722:86316",
     "forecastSettings": "11122e1e30beb9:11513"
   },
   "lumen-weekly": {
@@ -2362,7 +2362,7 @@
       0,
       0
     ],
-    "planShape": "46e8767934004:161214",
+    "planShape": "1e91f16c9c37cc:161188",
     "planNumbers": [
       64,
       2,

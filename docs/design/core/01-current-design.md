@@ -1049,10 +1049,10 @@ Colour = what the user does in the section (work type). The code applies these w
 | 3. Infrastructure & Capability: Partners & Suppliers | Discover | Blue |
 | 3. Infrastructure & Capability: Delivery | Build | Yellow |
 | 3. Infrastructure & Capability: Completed | Review | Lavender |
-| 4. Financial Foundation: Costs (auto-generated table) | Build | Yellow |
-| 4. Financial Foundation: Funding Need | Decide | Orange |
-| 4. Financial Foundation: Revenue and other sections | Build | Yellow |
-| 5. Sustainability: Break-even and checks | Review | Lavender |
+| 4. Revenue & Pricing: Revenue streams and summary | Build | Yellow |
+| 5. Costs, Funding & Position: Costs (auto-generated table) | Build | Yellow |
+| 5. Costs, Funding & Position: Funding Need | Decide | Orange |
+| 5. Costs, Funding & Position: Break-even and checks | Review | Lavender |
 | 4. Strategy |  |  |
 | Situation & Direction | Discover | Blue |
 | Goals & Objectives | Decide | Orange |

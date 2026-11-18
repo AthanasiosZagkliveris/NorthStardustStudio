@@ -375,7 +375,7 @@ const REPAYMENT_EVERY: Record<PeriodFrequency, { adjective: string; unit: string
 export const LOAN_REPAYMENTS_RULE =
     "Only loans that are Approved / Agreed, Received / Available or Completed / Closed are repaid in this table. " +
     "A pending loan's repayments are counted only with the funding being sought: in Financial Position below, " +
-    "and in the Stress Test on Sustainability.";
+    "and in the Stress Test on Costs, Funding & Position.";
 
 /**
  * THE LOAN REPAYMENTS COLUMN, EXPLAINED FROM THE DATA: each loan, its
@@ -552,7 +552,7 @@ export function fundingNeeds(
     const operatingNote = lastNeeded < 0
         ? "Revenue covers the running costs from the start."
         : (streams.length === 0
-            ? "No expected revenue is recorded on Sustainability yet, so every running cost is counted. "
+            ? "No expected revenue is recorded on Revenue & Pricing yet, so every running cost is counted. "
             : "") +
             (laterIndex >= 0
                 ? "After the first year the running total falls a further " + format(firstYearLowest - laterLowest) +

@@ -80,8 +80,8 @@ Each of these keywords opts a whole Section into a hand-built React editor. As w
 | `Business Foundation` | `03_BusinessSystemAnswer.md` — 01. Foundation | `BusinessFoundationEditor` |
 | `Business Engagement` | `03_BusinessSystemAnswer.md` — 02. Customer Engagement | `BusinessEngagementEditor` |
 | `Business Capability` | `03_BusinessSystemAnswer.md` — 03. Infrastructure & Capability | `BusinessCapabilityEditor` |
-| `Financial Foundation` | `03_BusinessSystemAnswer.md` — 04. Financial Foundation | `FinancialFoundationEditor` |
-| `Financial Sustainability` | `03_BusinessSystemAnswer.md` — 05. Sustainability | `FinancialSustainabilityEditor` |
+| `Financial Sustainability` | `03_BusinessSystemAnswer.md` — 04. Revenue & Pricing | `FinancialSustainabilityEditor` |
+| `Financial Foundation` | `03_BusinessSystemAnswer.md` — 05. Costs, Funding & Position | `FinancialFoundationEditor` |
 | `Strategy Foundation` | `04_StrategySystemAnswer.md` — 01. Situation & Direction | `StrategyFoundationEditor` |
 | `Strategic Period` | `04_StrategySystemAnswer.md` — 02. Goals & Objectives | `StrategicPeriodEditor` |
 | `Strategic Roadmap` | `04_StrategySystemAnswer.md` — 03. Roadmap | `StrategicRoadmapEditor` |

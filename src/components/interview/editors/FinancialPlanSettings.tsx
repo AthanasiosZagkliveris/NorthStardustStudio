@@ -59,7 +59,7 @@ export default function FinancialPlanSettings({
             {row(
                 "Plan Start",
                 [
-                    "Month 1 of the financial plan. Every timeline on the Financial Foundation and on Sustainability runs from it.",
+                    "Month 1 of the financial plan. Every timeline on Revenue & Pricing and on Costs, Funding & Position runs from it.",
                     "Worked out: the earlier of the Opening Date's month (set on the Organisation tile) and the month of your earliest cost, a costed card or a legal expense, whichever was recorded first."
                 ],
                 <span>{planMonthLabel(planStart, 1)}</span>
@@ -79,7 +79,7 @@ export default function FinancialPlanSettings({
 
             {row(
                 "Amounts",
-                [...taxBases.map(entry => entry.label + ": " + entry.explanation), "Use the same basis for every amount on the Financial Foundation and on Sustainability.", "Whether the company is registered is answered once, on the Legal Entity (Tax & business registration)."],
+                [...taxBases.map(entry => entry.label + ": " + entry.explanation), "Use the same basis for every amount on Revenue & Pricing and on Costs, Funding & Position.", "Whether the company is registered is answered once, on the Legal Entity (Tax & business registration)."],
                 registered
                     ? (
                         <OptionPicker
