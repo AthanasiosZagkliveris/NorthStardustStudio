@@ -1877,7 +1877,9 @@
    "w": 360,
    "chars": 598,
    "scenes": [
-    "Business System / Costs, Funding & Position / tile Capital & Funding"
+    "Business System / Costs, Funding & Position / tile Capital & Funding",
+    "Business System / Costs, Funding & Position / tile Capital & Funding / card 1",
+    "Business System / Costs, Funding & Position / tile Capital & Funding / card 2"
    ]
   },
   {
@@ -1889,44 +1891,9 @@
    "w": 360,
    "chars": 105,
    "scenes": [
-    "Business System / Costs, Funding & Position / tile Capital & Funding"
-   ]
-  },
-  {
-   "label": "Status",
-   "place": "tile dialog",
-   "text": "Planned: Identified, waiting to be pursued.\nPreparing: An application or proposal is being prepared.\nRequested / Applied: Asked for; no answer yet.\nApproved / Agreed: Confirmed, but not all of it has arrived.\nReceived / Available: The money has arrived and can be used.\nCompleted / Closed: Fully received; nothing more to come.",
-   "lines": 17,
-   "points": 6,
-   "w": 360,
-   "chars": 327,
-   "scenes": [
     "Business System / Costs, Funding & Position / tile Capital & Funding",
-    "Business System / Costs, Funding & Position / tile Capital & Funding"
-   ]
-  },
-  {
-   "label": "Received So Far",
-   "place": "tile dialog",
-   "text": "How much has actually arrived. The rest counts as confirmed future money.",
-   "lines": 5,
-   "points": 1,
-   "w": 360,
-   "chars": 73,
-   "scenes": [
-    "Business System / Costs, Funding & Position / tile Capital & Funding"
-   ]
-  },
-  {
-   "label": "Funding Schedule",
-   "place": "tile dialog",
-   "text": "One-time: A single payment.\nPeriodic: A repeated amount at a set frequency.\nMilestone-based: Released as defined milestones or conditions are reached.\nOther: An arrangement that fits none of the above.",
-   "lines": 11,
-   "points": 4,
-   "w": 360,
-   "chars": 201,
-   "scenes": [
-    "Business System / Costs, Funding & Position / tile Capital & Funding"
+    "Business System / Costs, Funding & Position / tile Capital & Funding / card 1",
+    "Business System / Costs, Funding & Position / tile Capital & Funding / card 2"
    ]
   },
   {
@@ -1938,43 +1905,9 @@
    "w": 360,
    "chars": 208,
    "scenes": [
-    "Business System / Costs, Funding & Position / tile Capital & Funding"
-   ]
-  },
-  {
-   "label": "Loan Start",
-   "place": "tile dialog",
-   "text": "When the loan is paid out.",
-   "lines": 2,
-   "points": 1,
-   "w": 360,
-   "chars": 26,
-   "scenes": [
-    "Business System / Costs, Funding & Position / tile Capital & Funding"
-   ]
-  },
-  {
-   "label": "Repayment Method",
-   "place": "tile dialog",
-   "text": "Equal payments: The same payment every time; the interest part shrinks as the loan is repaid.\nEqual principal: The same amount of principal every time, plus that period's interest, so payments fall over time.",
-   "lines": 10,
-   "points": 2,
-   "w": 360,
-   "chars": 208,
-   "scenes": [
-    "Business System / Costs, Funding & Position / tile Capital & Funding"
-   ]
-  },
-  {
-   "label": "Loan repayment",
-   "place": "tile dialog",
-   "text": "Formula: Payment = P × r ÷ (1 − (1 + r)^−n) (annuity); equal-principal: P ÷ n plus interest\nA fixed payment that covers interest and repays the loan over n periods; r is the interest rate for one period (for monthly payments, the monthly rate).\nSource: Gutierrez, P.H. and Dalsted, N.L. (2012) Long Term Loan Repayment Methods. Fort Collins, CO: Colorado State University Extension. Available at: https://extension.colostate.edu/resource/long-term-loan-repayment-methods/ (Accessed: 29 September 2026). In the References",
-   "lines": 22,
-   "points": 3,
-   "w": 360,
-   "chars": 520,
-   "scenes": [
-    "Business System / Costs, Funding & Position / tile Capital & Funding"
+    "Business System / Costs, Funding & Position / tile Capital & Funding",
+    "Business System / Costs, Funding & Position / tile Capital & Funding / card 1",
+    "Business System / Costs, Funding & Position / tile Capital & Funding / card 2"
    ]
   },
   {
@@ -1986,7 +1919,82 @@
    "w": 360,
    "chars": 84,
    "scenes": [
-    "Business System / Costs, Funding & Position / tile Capital & Funding"
+    "Business System / Costs, Funding & Position / tile Capital & Funding",
+    "Business System / Costs, Funding & Position / tile Capital & Funding / card 1",
+    "Business System / Costs, Funding & Position / tile Capital & Funding / card 2"
+   ]
+  },
+  {
+   "label": "Status",
+   "place": "floating card",
+   "text": "Planned: Identified, waiting to be pursued.\nPreparing: An application or proposal is being prepared.\nRequested / Applied: Asked for; no answer yet.\nApproved / Agreed: Confirmed, but not all of it has arrived.\nReceived / Available: The money has arrived and can be used.\nCompleted / Closed: Fully received; nothing more to come.",
+   "lines": 17,
+   "points": 6,
+   "w": 360,
+   "chars": 327,
+   "scenes": [
+    "Business System / Costs, Funding & Position / tile Capital & Funding / card 1",
+    "Business System / Costs, Funding & Position / tile Capital & Funding / card 2"
+   ]
+  },
+  {
+   "label": "Received So Far",
+   "place": "floating card",
+   "text": "How much has actually arrived. The rest counts as confirmed future money.",
+   "lines": 5,
+   "points": 1,
+   "w": 360,
+   "chars": 73,
+   "scenes": [
+    "Business System / Costs, Funding & Position / tile Capital & Funding / card 1"
+   ]
+  },
+  {
+   "label": "Funding Schedule",
+   "place": "floating card",
+   "text": "One-time: A single payment.\nPeriodic: A repeated amount at a set frequency.\nMilestone-based: Released as defined milestones or conditions are reached.\nOther: An arrangement that fits none of the above.",
+   "lines": 11,
+   "points": 4,
+   "w": 360,
+   "chars": 201,
+   "scenes": [
+    "Business System / Costs, Funding & Position / tile Capital & Funding / card 1"
+   ]
+  },
+  {
+   "label": "Loan Start",
+   "place": "floating card",
+   "text": "When the loan is paid out.",
+   "lines": 2,
+   "points": 1,
+   "w": 360,
+   "chars": 26,
+   "scenes": [
+    "Business System / Costs, Funding & Position / tile Capital & Funding / card 2"
+   ]
+  },
+  {
+   "label": "Repayment Method",
+   "place": "floating card",
+   "text": "Equal payments: The same payment every time; the interest part shrinks as the loan is repaid.\nEqual principal: The same amount of principal every time, plus that period's interest, so payments fall over time.",
+   "lines": 10,
+   "points": 2,
+   "w": 360,
+   "chars": 208,
+   "scenes": [
+    "Business System / Costs, Funding & Position / tile Capital & Funding / card 2"
+   ]
+  },
+  {
+   "label": "Loan repayment",
+   "place": "floating card",
+   "text": "Formula: Payment = P × r ÷ (1 − (1 + r)^−n) (annuity); equal-principal: P ÷ n plus interest\nA fixed payment that covers interest and repays the loan over n periods; r is the interest rate for one period (for monthly payments, the monthly rate).\nSource: Gutierrez, P.H. and Dalsted, N.L. (2012) Long Term Loan Repayment Methods. Fort Collins, CO: Colorado State University Extension. Available at: https://extension.colostate.edu/resource/long-term-loan-repayment-methods/ (Accessed: 29 September 2026). In the References",
+   "lines": 22,
+   "points": 3,
+   "w": 360,
+   "chars": 520,
+   "scenes": [
+    "Business System / Costs, Funding & Position / tile Capital & Funding / card 2"
    ]
   },
   {
@@ -3469,11 +3477,11 @@
   {
    "label": "Price",
    "place": "floating card",
-   "text": "Start from what competitors publish (listed on Foundation) and what clients pay today to solve the same problem.\nCheck it covers the costs of each sale and leaves enough towards the running costs: the card shows what is left from each sale.\nEnter prices on the basis chosen under Amounts in the Global Settings. If you are registered, the tax you collect is not revenue.\nAllow for discounts: launch offers and first-client prices are common.",
-   "lines": 18,
-   "points": 4,
+   "text": "Start from what competitors publish (listed on Foundation) and what clients pay today to solve the same problem.\nCheck it covers the costs of each sale and leaves enough towards the running costs: the card shows what is left from each sale.\nEnter prices on the basis chosen under Amounts in the Global Settings. If you are registered, the tax you collect is not revenue.\nAllow for discounts: launch offers and first-client prices are common.\nYour competitors charge about $300 to $60,000 for a similar offer (their cards on Foundation, What do they charge?).",
+   "lines": 23,
+   "points": 5,
    "w": 360,
-   "chars": 441,
+   "chars": 558,
    "scenes": [
     "Business System / Revenue & Pricing / tile Revenue Streams / card 1",
     "Business System / Revenue & Pricing / tile Revenue Streams / card 2",
@@ -3511,11 +3519,11 @@
   {
    "label": "Expected Sales",
    "place": "floating card",
-   "text": "From this Offering's Demand & Conversion on Customer Engagement: Sales funnel: 24 prospects a month, 15% qualified, 25% of those buy: about 0.9 a month. Referrals: 1.5 referrals a month, 40% buy: about 0.6 a month. Together about 1.5 a month.",
-   "lines": 9,
+   "text": "From this Offering's Demand & Conversion on Customer Engagement: Sales funnel: 24 prospects a month, 15% qualified, 25% of those buy: about 0.9 a month. Referrals: 1.5 referrals a month, 40% buy: about 0.6 a month. Visitors: estimated at 0 a month. Together about 1.5 a month.",
+   "lines": 10,
    "points": 1,
    "w": 360,
-   "chars": 242,
+   "chars": 276,
    "scenes": [
     "Business System / Revenue & Pricing / tile Revenue Streams / card 1",
     "Business System / Revenue & Pricing / tile Revenue Streams / card 2"
@@ -3617,11 +3625,11 @@
   {
    "label": "Active Clients",
    "place": "floating card",
-   "text": "From this Offering's Demand & Conversion on Customer Engagement: Other: estimated at 0.3 new a month. Referrals: 0.5 referrals a month, 40% buy: about 0.2 new a month. Together about 0.5 new a month. With 10% cancelling a month, they level off at about 5 active clients, reached in about 22 months.",
-   "lines": 12,
+   "text": "From this Offering's Demand & Conversion on Customer Engagement: Other: estimated at 0.3 new a month. Referrals: 0.5 referrals a month, 40% buy: about 0.2 new a month. Sales funnel: estimated at 0 new a month. Together about 0.5 new a month. With 10% cancelling a month, they level off at about 5 active clients, reached in about 22 months.",
+   "lines": 13,
    "points": 1,
    "w": 360,
-   "chars": 298,
+   "chars": 340,
    "scenes": [
     "Business System / Revenue & Pricing / tile Revenue Streams / card 3"
    ]

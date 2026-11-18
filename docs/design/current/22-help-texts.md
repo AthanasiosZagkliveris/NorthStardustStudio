@@ -25,8 +25,8 @@ What was covered: every page of the four systems, every master tile opened, ever
 
 | Opens in | Help texts | Rows | Characters |
 |---|---|---|---|
-| tile dialog | 180 | 2 to 75 | 26 to 1766 |
-| floating card | 138 | 2 to 75 | 22 to 1766 |
+| tile dialog | 174 | 2 to 75 | 33 to 1766 |
+| floating card | 144 | 2 to 75 | 22 to 1766 |
 | settings page | 22 | 2 to 40 | 17 to 981 |
 
 ## Warnings
@@ -166,8 +166,8 @@ Listed, never failed (doc 39, 3.6). The budget is 160 characters a point; the av
 | a point over 160 characters (169) | Documents & Rights | Business System / Infrastructure / Resources | Licences: Paid permissions: the right to use another's work and permits from authorities, |
 | a point over 160 characters (183) | Equipment | Business System / Infrastructure / Resources | Devices & Tools: The tools, instruments and gear used to make or deliver the offering, bes |
 | an internal word (tile, card, locked, frozen, driver) | Equipment | Business System / Infrastructure / Resources | Card |
-| a point over 160 characters (298) | Active Clients | Business System / Revenue & Pricing / Revenue Streams | From this Offering's Demand & Conversion on Customer Engagement: Other: estimated at 0.3 n |
-| a point over 160 characters (242) | Expected Sales | Business System / Revenue & Pricing / Revenue Streams | From this Offering's Demand & Conversion on Customer Engagement: Sales funnel: 24 prospect |
+| a point over 160 characters (340) | Active Clients | Business System / Revenue & Pricing / Revenue Streams | From this Offering's Demand & Conversion on Customer Engagement: Other: estimated at 0.3 n |
+| a point over 160 characters (276) | Expected Sales | Business System / Revenue & Pricing / Revenue Streams | From this Offering's Demand & Conversion on Customer Engagement: Sales funnel: 24 prospect |
 | an internal word (tile, card, locked, frozen, driver) | Price | Business System / Revenue & Pricing / Revenue Streams | card |
 | a point over 160 characters (223) | Revenue Streams | Business System / Revenue & Pricing / Revenue Streams | Expected sales come from Demand & Conversion on Customer Engagement where it is filled in; |
 | the same text under 2 labels | Affiliate network or influencer commission | Global Settings / the page itself | Affiliate network or influencer commission, Sales agent or B2B broker commission |
@@ -421,14 +421,14 @@ Listed, never failed (doc 39, 3.6). The budget is 160 characters a point; the av
 |---|---|---|---|---|---|
 | Capital & Funding | tile dialog | 28 | 7 | 598 | Identify where the money will come from, how certain it is, and when it arrives. Record what each source obliges: repayments, equity or conditions. Capital: Mon... |
 | External | tile dialog | 10 | 3 | 208 | Non-repayable: Grants, subsidies and awards: nothing to repay, though often with conditions. Equity: Investment in exchange for a share of ownership. Debt: Loan... |
-| Funding Schedule | tile dialog | 11 | 4 | 201 | One-time: A single payment. Periodic: A repeated amount at a set frequency. Milestone-based: Released as defined milestones or conditions are reached. Other: An... |
+| Funding Schedule | floating card | 11 | 4 | 201 | One-time: A single payment. Periodic: A repeated amount at a set frequency. Milestone-based: Released as defined milestones or conditions are reached. Other: An... |
 | Internal | tile dialog | 5 | 1 | 105 | Money from inside your organisation: its founders' capital, reinvested revenue or funds it already holds. |
-| Loan repayment | tile dialog | 22 | 3 | 520 | Formula: Payment = P × r ÷ (1 − (1 + r)^−n) (annuity); equal-principal: P ÷ n plus interest A fixed payment that covers interest and repays the loan over n peri... |
-| Loan Start | tile dialog | 2 | 1 | 26 | When the loan is paid out. |
+| Loan repayment | floating card | 22 | 3 | 520 | Formula: Payment = P × r ÷ (1 − (1 + r)^−n) (annuity); equal-principal: P ÷ n plus interest A fixed payment that covers interest and repays the loan over n peri... |
+| Loan Start | floating card | 2 | 1 | 26 | When the loan is paid out. |
 | Other | tile dialog | 5 | 1 | 84 | Reward crowdfunding, friends & family, in-kind contributions and other arrangements. |
-| Received So Far | tile dialog | 5 | 1 | 73 | How much has actually arrived. The rest counts as confirmed future money. |
-| Repayment Method | tile dialog | 10 | 2 | 208 | Equal payments: The same payment every time; the interest part shrinks as the loan is repaid. Equal principal: The same amount of principal every time, plus tha... |
-| Status | tile dialog | 17 | 6 | 327 | Planned: Identified, waiting to be pursued. Preparing: An application or proposal is being prepared. Requested / Applied: Asked for; no answer yet. Approved / A... |
+| Received So Far | floating card | 5 | 1 | 73 | How much has actually arrived. The rest counts as confirmed future money. |
+| Repayment Method | floating card | 10 | 2 | 208 | Equal payments: The same payment every time; the interest part shrinks as the loan is repaid. Equal principal: The same amount of principal every time, plus tha... |
+| Status | floating card | 17 | 6 | 327 | Planned: Identified, waiting to be pursued. Preparing: An application or proposal is being prepared. Requested / Applied: Asked for; no answer yet. Approved / A... |
 
 **Costs**
 
@@ -622,17 +622,17 @@ Listed, never failed (doc 39, 3.6). The budget is 160 characters a point; the av
 
 | Label | Opens in | Rows | Points | Characters | Text |
 |---|---|---|---|---|---|
-| Active Clients | floating card | 12 | 1 | 298 | From this Offering's Demand & Conversion on Customer Engagement: Other: estimated at 0.3 new a month. Referrals: 0.5 referrals a month, 40% buy: about 0.2 new a... |
+| Active Clients | floating card | 13 | 1 | 340 | From this Offering's Demand & Conversion on Customer Engagement: Other: estimated at 0.3 new a month. Referrals: 0.5 referrals a month, 40% buy: about 0.2 new a... |
 | Begins and Payment | floating card | 21 | 4 | 472 | Revenue begins after the sales cycle, the time from first contact to a signed sale: for services to businesses it is often 4 to 12 weeks. One sale often leads t... |
 | Build-up | floating card | 11 | 3 | 206 | Steady from the start: The expected volume from the month revenue begins. Gradual build-up: Starts lower and grows evenly to the expected volume. Month by month... |
 | Can the Expected Sales Be Delivered? | tile dialog | 22 | 5 | 526 | Capacity is the founders' delivery hours a month: the time the organisation controls. Needed: each month's expected sales times each founder's Working Hours per... |
 | Charged | floating card | 15 | 4 | 334 | Per sale: paid once for each unit sold (a product, a session, an hour). Per project: paid once for each project or contract. Monthly, quarterly or annually: pai... |
 | Customer Pays | floating card | 23 | 7 | 471 | When the money is actually received, if not when the sale is made. It follows the Offering's When do they pay? on the Foundation page. Upfront: Paid in full whe... |
-| Expected Sales | floating card | 9 | 1 | 242 | From this Offering's Demand & Conversion on Customer Engagement: Sales funnel: 24 prospects a month, 15% qualified, 25% of those buy: about 0.9 a month. Referra... |
+| Expected Sales | floating card | 10 | 1 | 276 | From this Offering's Demand & Conversion on Customer Engagement: Sales funnel: 24 prospects a month, 15% qualified, 25% of those buy: about 0.9 a month. Referra... |
 | First Month | floating card | 3 | 1 | 46 | How many projects in the month revenue begins. |
 | First Month | floating card | 3 | 1 | 45 | How many clients in the month revenue begins. |
 | Months to Normal | floating card | 3 | 1 | 60 | How many months it takes to grow evenly to the normal level. |
-| Price | floating card | 18 | 4 | 441 | Start from what competitors publish (listed on Foundation) and what clients pay today to solve the same problem. Check it covers the costs of each sale and leav... |
+| Price | floating card | 23 | 5 | 558 | Start from what competitors publish (listed on Foundation) and what clients pay today to solve the same problem. Check it covers the costs of each sale and leav... |
 | Rest After | floating card | 2 | 1 | 22 | Months after the sale. |
 | Revenue Streams | tile dialog | 30 | 6 | 684 | Each Offering has its revenue stream below. For each, say how it is priced, how much sells, and when the money arrives. Expected sales come from Demand & Conver... |
 | Revenue Summary | tile dialog | 3 | 1 | 56 | Expected revenue at the normal operating level, a month. |
