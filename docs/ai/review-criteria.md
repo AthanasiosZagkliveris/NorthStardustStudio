@@ -32,7 +32,7 @@ The scale is closed: `--font-small` 14px, `--font-body` 18px, `--font-h3` 24px, 
 | A dialog or card title, a box name over a floating card | `--font-h3` | bold | as written | the bold tracking | the title ink / the card's label colour |
 | The caps title (a card kind word, a group heading: "1. SEGMENT", "INCLUDE") | `--font-body` | 600 | capitals on screen only | 0.05em | `--caps-title-color` (muted, 4.5:1 or more on its ground) |
 | A field label | `--font-body` | regular | sentence case | none | the card's label colour (`--label-color`): the darker tint of the card's hue |
-| A value in a cell, a dropdown option, a tick's words | `--font-body` | regular (the chosen option 700) | as written | none | the text colour |
+| A value in a cell, a dropdown option, a tick's words | `--font-body` | regular (the chosen option 700) | as written | none | the text colour (a tick's words: the label colour, `--label-color`; owner's list, 2026-10-20; 2026-11-19 reconciliation) |
 | A labelled button (add, header tool, export, toggle option) | `--font-body` | 500 | capitals on screen | 0.1em (`--rest-tracking`) | the accent ink |
 | A text link | `--font-body` | regular; bold under the pointer | as written | the bold's tracking at rest, so nothing moves | the link blue |
 | A tile title | `--font-body` | 600 | as written | 0.15em | the tile's ink |
@@ -74,7 +74,7 @@ Measure: the box rectangles of the two neighbours; the gap is the distance betwe
 | A tick box | 24px, corner 4px | drawn, recessed, ticked blue with the check | `TickField` |
 | A fold arrow | 36px (the label arrow: the label's own size, a 24px hit area at least) | the outlined triangle, filled under the pointer | `FoldArrow` |
 | A navigation arrow | the 44px circle of a page arrow; the 32px square for a row move | | `NavArrow` |
-| The "i" | 22px | the ground, a stroke and its letter in the card's tint; a swap under the pointer | `InfoNote` |
+| The "i" | 24px (2026-11-19 reconciliation) | the ground, a stroke and its letter in the card's tint; a swap under the pointer | `InfoNote` |
 
 A dropdown is **one** component for one choice (`OptionPicker`) and **one** for several (`MultiPicker`): its trigger, its chevron, its list (no stroke, the raised edge and the drop shadow; options 43px; the chosen one bold) are the same on every page. A dropdown is never drawn as a button or as an input.
 
@@ -93,7 +93,7 @@ Reactions (doc 18, `layout-rules.md` section 6): every control that can has **ho
 1. **A tile** is a true square of its grid (`--section-tile-size`), one title on one row cut by an ellipsis, its list under it, its corners `--tile-radius` 8px; under the pointer it grows 110% about its aimed corner, the others staying.
 2. **A card** stands at `--open-card-width` (492px) at most, its content 466px; its head is the number, the name cell (44px) and the x; everything under the head starts and ends where the name cell does.
 3. **A stack of cards** (a pair: a card and the card it leads to) is drawn once: one scrim, one shadow, the layer under it hidden, the arrows and rails of a hidden layer hidden. Open the same card three ways (its tile, a link, the Inventory) and from a stack: the result is the same card in the same place.
-4. **Opening and closing**: Escape closes the last layer opened; a press outside closes the card; Back goes up one level; nothing that should stay open closes, nothing that should close stays.
+4. **Opening and closing**: Escape closes every layer at once (`CLOSE_TILES_EVENT`; 2026-11-19 reconciliation); a press outside closes the card; a dialog's Back goes up one level; nothing that should stay open closes, nothing that should close stays.
 5. **A card that leads to another** (a founder's responsibility to an activity or a legal expense) stacks the second under the first and keeps the first visible.
 
 ## 8. Tables, lists and windows
@@ -117,7 +117,7 @@ Reactions (doc 18, `layout-rules.md` section 6): every control that can has **ho
 2. **What is shown is what is stored**: change an answer, and every place that shows it changes (the page, the Inventory, the Review, the calendar, the documents, the exports).
 3. **Old data**: a removed option or a renamed field leaves old answers cleared and said, never lost or shown wrong.
 4. **Names**: every control has an accessible name; an icon-only control has an `aria-label`; no `title` repeats it.
-5. **Keyboard**: every control reachable by Tab and answering Enter and Space; a list by the arrows; Escape closes the last layer; the focus is visible and returns where it came from.
+5. **Keyboard**: every control reachable by Tab and answering Enter and Space; a list by the arrows; Escape closes every layer at once (2026-11-19 reconciliation); the focus is visible and returns where it came from.
 6. **WCAG 2.2 AA**: text contrast 4.5:1, the boundary of a control 3:1 on its ground (`--cell-edge`, a list's border), target size (24px at least), focus visible, no information by colour alone.
 
 ## 11. The report
