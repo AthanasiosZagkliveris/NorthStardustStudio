@@ -157,9 +157,11 @@ export function competitorCard(scope: FoundationCardScope, competitor: BusinessC
         const terms = segment.offerings.map(offering => effectiveOfferingAnswers(offering, segment, identity).o3?.[0]).find(Boolean) ?? "";
         const per = PRICE_PER[terms] ?? "";
         const amount = (key: "from" | "to", label: string) => (
-            <BusinessField key={key} label={labelWithCurrency(label, currency)}>
+            <BusinessField key={key} label={labelWithCurrency(label, currency)} inline>
                 <NumberCell
                     className="business-demand-number"
+                    // (The Code step: a price range's two figures and their labels on one row.)
+                    data-size="code"
                     inputMode="decimal"
                     aria-label={label + ", " + words("k15") + ", " + whose}
                     placeholder="e.g. 40"
@@ -174,7 +176,8 @@ export function competitorCard(scope: FoundationCardScope, competitor: BusinessC
         );
         return (
             <>
-                {/* (From and To side by side, one row, each half of it: owner, 2026-11-18 12:41, "Fix the fields and their cells properly".) */}
+                {/* (From and To on one row, each its label beside its cell (owner, 2026-11-18 12:41 and 18:01: "From - To: place the fields horizontally, next to
+                    each other").) */}
                 <div className="business-demand-fields business-demand-range">
                     {amount("from", "From")}
                     {amount("to", "To")}

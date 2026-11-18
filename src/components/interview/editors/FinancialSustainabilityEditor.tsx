@@ -1,5 +1,6 @@
 import { competitorsPriceRange } from "../../../framework/engine/CompetitorQuestions.ts";
 import { offeringShareWeights } from "../../../framework/engine/DemandCapacity.ts";
+import { numberStep } from "./BusinessEngagementModel.ts";
 import { countedCapability } from "../../../framework/engine/CardCompleteness.ts";
 import TextBox from "../../controls/TextBox.tsx";
 import NumberCell from "../../controls/NumberCell.tsx";
@@ -246,6 +247,7 @@ export default function FinancialSustainabilityEditor({
                     ? (
                         <NumberCell
                             inputMode={numberInputMode(limits)}
+                            data-size={numberStep(limits)}
                             aria-label={ariaLabel}
                             placeholder={placeholder}
                             disabled={disabled}
@@ -284,6 +286,7 @@ export default function FinancialSustainabilityEditor({
             <BusinessField label={labelWithCurrency(label, currency)} info={info} inline>
                 <div className="business-capability-price">
                     <NumberCell
+                        data-size={numberStep(NUMBER_LIMITS.money)}
                         aria-label={nameWithCurrency(ariaLabel, currency)}
                         placeholder={placeholder}
                         disabled={disabled}

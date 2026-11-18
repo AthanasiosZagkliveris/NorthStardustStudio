@@ -136,8 +136,8 @@ export function CarouselArrows({ target, step, hue, back, side: fixedSide }: { t
         const railList = railRef.current?.querySelector<HTMLElement>(".bullet-rail-list");
         const railHeight = railRef.current ? railRef.current.scrollHeight + (railList ? Math.max(0, railList.scrollHeight - railList.clientHeight) : 0) : 0;
         const titleTop = Math.max(headerBottom + 12, Math.min(titleTopOf(node, restSample), window.innerHeight - Math.max(160, railHeight + 12)));
-        // (The foot the tab keeps to: a floating card's own box -- not the layer, which holds its caption under it --, else the layer's.)
-        const foot = (node.matches(".floating-card-body") ? node : node.querySelector<HTMLElement>(".floating-card-body"))?.getBoundingClientRect().bottom ?? box.bottom;
+        // (The foot the tab keeps to: a floating card's own box -- not the layer, which holds its caption under it --; a dialog's tab keeps to the window's, as before.)
+        const foot = (node.matches(".floating-card-body") ? node : node.querySelector<HTMLElement>(".floating-card-body"))?.getBoundingClientRect().bottom ?? 1e9;
         // (The tab stands on the side of the layer that is nearer its end of the page: a layer in the left half has it at its left, one in the right half at its right.)
         const side: "left" | "right" = fixedSide ?? (box.left + box.width / 2 < window.innerWidth / 2 ? "left" : "right");
         setAt(previous => previous && Math.abs(previous.left - left) < 0.5 && Math.abs(previous.right - right) < 0.5 && Math.abs(previous.top - top) < 0.5 && Math.abs(previous.titleTop - titleTop) < 0.5 && Math.abs(previous.bottom - foot) < 0.5 && previous.side === side && Math.abs(previous.leftEdge - box.left) < 0.5 && previous.tab?.bg === tab?.bg && previous.tab?.edge === tab?.edge && previous.tab?.ink === tab?.ink ? previous : { left, right, top, edge: box.right, leftEdge: box.left, side, titleTop, bottom: foot, tab });
@@ -259,7 +259,7 @@ export function CarouselArrows({ target, step, hue, back, side: fixedSide }: { t
     const arrowsTop = at?.top ?? 0;
 
     // THE TAB ENDS AT ITS CARD'S FOOT (owner, 2026-11-18 18:01: "Fix the rail on the colour floated card"; the arrows never move): where its bullets, the arrow's
-    // place among them and Back would run past the card, the gaps between the bullets close -- down to 6px -- just enough to end at the card's foot; the bullets
+    // place among them and Back would run past the card, the gaps between the bullets close -- down to 8px -- just enough to end at the card's foot; the bullets
     // keep their size and their distance from the arrow. Worked out from the list's natural height at its 18px gaps, so it settles at once.
     const [railGap, setRailGap] = useState<number | null>(null);
     useLayoutEffect(() => {
@@ -274,7 +274,8 @@ export function CarouselArrows({ target, step, hue, back, side: fixedSide }: { t
         const natural = rail.scrollHeight + (NATURAL - now) * (itemCount - 1);
         const room = at.bottom - at.titleTop;
         const over = natural - room;
-        const next = over <= 0.5 ? null : Math.max(6, Math.floor(NATURAL - over / (itemCount - 1)));
+        // (Never under 10px: each bullet keeps a clear 24px target, the smallest the rules allow (WCAG 2.2, 2.5.8); a longer list scrolls in the tab.)
+        const next = over <= 0.5 ? null : Math.max(10, Math.floor(NATURAL - over / (itemCount - 1)));
         setRailGap(previous => previous === next ? previous : next);
     });
 

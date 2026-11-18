@@ -3,6 +3,7 @@
  * One part of the Infrastructure & Capability editor (see BusinessCapabilityEditor.tsx): what it needs of the parts before it comes in as `scope`; what the parts after it need goes out.
  */
 import { givesWorkingHours } from "../../../../framework/engine/capability/partnerGroups.ts";
+import { numberStep } from "../BusinessEngagementModel.ts";
 import AddButton from "../../../controls/AddButton.tsx";
 import NumberCell from "../../../controls/NumberCell.tsx";
 import { Fragment, ReactNode, useEffect } from "react";
@@ -1052,6 +1053,7 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
                                             {row.label}
                                         </span>
                                         <NumberCell
+                                            data-size={numberStep(NUMBER_LIMITS.unitHours)}
                                             className="delivery-number delivery-person-hours"
                                             aria-label={row.label + " hours" + perUnit + " of " + offering.label + (row.external ? " (external)" : " (founder)")}
                                             placeholder="0"
@@ -1101,6 +1103,7 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
                             !recurring && (
                     <BusinessField label="Calendar Time (weeks)" info={DELIVERY_HELP.duration} side>
                         <NumberCell
+                            data-size={numberStep(NUMBER_LIMITS.weeks)}
                             className="delivery-number"
                             aria-label={offering.label + " calendar time, weeks"}
                             placeholder="e.g. 2"
@@ -1137,6 +1140,7 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
                             sessions && (
                     <BusinessField label="Customers in one session" info={DELIVERY_HELP.perSession}>
                         <NumberCell kind="int"
+                            data-size={numberStep(NUMBER_LIMITS.quantity)}
                             className="delivery-number"
                             aria-label={offering.label + " customers in one session"}
                             placeholder="1"
@@ -1151,6 +1155,7 @@ batches && (
                     <>
                         <BusinessField label="Set-up for a batch (hours)" info={DELIVERY_HELP.batch} side>
                             <NumberCell
+                                data-size={numberStep(NUMBER_LIMITS.unitHours)}
                                 className="delivery-number"
                                 aria-label={offering.label + " set-up hours for a batch"}
                                 placeholder="0"
@@ -1161,6 +1166,7 @@ batches && (
                         </BusinessField>
                         <BusinessField label="Units in a batch" side>
                             <NumberCell kind="int"
+                                data-size={numberStep(NUMBER_LIMITS.quantity)}
                                 className="delivery-number"
                                 aria-label={offering.label + " units in a batch"}
                                 placeholder="1"
@@ -1214,6 +1220,7 @@ batches && (
                             </BusinessField>
                             <BusinessField label="How many units can it hold at once?">
                                 <NumberCell kind="int"
+                                    data-size={numberStep(NUMBER_LIMITS.quantity)}
                                     className="delivery-number"
                                     aria-label={offering.label + " units the equipment holds at once"}
                                     placeholder="1"

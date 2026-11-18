@@ -1,5 +1,6 @@
 import { offeringShareWeights } from "../../../framework/engine/DemandCapacity.ts";
 import { countedCapability } from "../../../framework/engine/CardCompleteness.ts";
+import { numberStep } from "./BusinessEngagementModel.ts";
 import TextBox from "../../controls/TextBox.tsx";
 import NumberCell from "../../controls/NumberCell.tsx";
 import { calculatedLines } from "../../../framework/engine/CalculatedLines.ts";
@@ -226,6 +227,7 @@ export default function FinancialFoundationEditor({
                     ? (
                         <NumberCell
                             inputMode={numberInputMode(limits)}
+                            data-size={numberStep(limits)}
                             aria-label={ariaLabel}
                             placeholder={placeholder}
                             disabled={disabled}
