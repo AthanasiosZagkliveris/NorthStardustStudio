@@ -3077,6 +3077,16 @@
             }
         }
 
+        // C4. SHADED ONCE (layout rules 22.16; owner, 2026-11-18 22:05 UTC+2: "When the background has already shadow, and open a floated card, does not need an extra
+        //     shade"): while a category's dialog is open (its own dim shades the page), no chapter shade is drawn for a floating card.
+        {
+            const dialog = [...document.querySelectorAll(".section-tile-overlay:not(.floating-overlay) > .section-tile-dialog")].filter(visible).pop();
+            const shade = [...document.querySelectorAll(".floating-chapter-shade")].find(visible);
+            if (dialog && shade && dialog.dataset.tile !== "overview" && dialog.dataset.tile !== "completed") {
+                fail("a floating card adds no shade over a dialog's dim", shade, { dialog: dialog.dataset.tile ?? null });
+            }
+        }
+
         // D. A page of tiles whose chapters all stand above the footer does not scroll: there is nothing lower to reveal (what adds to the page stands in the
         //    footer's band, as Inventory, Completed and "+ Add Segment" do).
         if (!document.querySelector(".section-tile-overlay") && window.innerWidth >= 1212 && window.innerHeight >= 640) {
