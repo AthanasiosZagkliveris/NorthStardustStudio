@@ -161,10 +161,11 @@ export function useEngagementDemand(earlier: Earlier) {
             placeholder: string,
             value: string,
             onValue: (next: string) => void,
-            limits: NumberLimit
+            limits: NumberLimit,
+            side = false
         ) {
             return (
-                <BusinessField key={label} label={label} info={typeof help === "string" ? [help] : [...help]}>
+                <BusinessField key={label} label={label} info={typeof help === "string" ? [help] : [...help]} side={side}>
                     <NumberCell
                         inputMode={numberInputMode(limits)}
                         className="business-demand-number"
@@ -225,6 +226,7 @@ export function useEngagementDemand(earlier: Earlier) {
             const sourcePicker = (
                 <BusinessField
                     key="source"
+                    side={own}
                     label="Customer Source"
                     info={availableFor(source).map(entry => ({ title: entry.label, text: entry.explanation }))}
                 >
@@ -247,11 +249,11 @@ export function useEngagementDemand(earlier: Earlier) {
             // (A group's source lists its channels, the category's Discover channels that serve the Offering: owner, 2026-11-16 20:11.)
             const groupChannels = (source.channelIds ?? []).map(id => channelOf(id)?.name.trim() ?? "").filter(Boolean);
             const channelPicker = source.group ? (
-                <BusinessField key="channel" label="Channels" info={DEMAND_SOURCE_CHANNEL_HELP}>
+                <BusinessField key="channel" label="Channels" info={DEMAND_SOURCE_CHANNEL_HELP} side={own}>
                     <p className="business-demand-source-note">{groupChannels.join(", ")}</p>
                 </BusinessField>
             ) : (
-                <BusinessField key="channel" label="Channel" info={DEMAND_SOURCE_CHANNEL_HELP}>
+                <BusinessField key="channel" label="Channel" info={DEMAND_SOURCE_CHANNEL_HELP} side={own}>
                     <OptionPicker
                         label={"Channel, " + what}
                         placeholder="Select"
@@ -269,7 +271,7 @@ export function useEngagementDemand(earlier: Earlier) {
                 </BusinessField>
             );
             const estimatedPicker = type && type.fields.length > 0 && (
-                <BusinessField key="estimated" label="Estimated" info={DEMAND_CALCULATION_HELP}>
+                <BusinessField key="estimated" label="Estimated" info={DEMAND_CALCULATION_HELP} side={own}>
                     <OptionPicker
                         label={"How the sales are estimated, " + what}
                         placeholder={DEMAND_BY_FIGURE}
@@ -302,7 +304,8 @@ export function useEngagementDemand(earlier: Earlier) {
                         (next) => changeSource(source.id, {
                             inputs: { ...source.inputs, [field.key]: next }
                         }),
-                        field.kind === "percent" ? NUMBER_LIMITS.percent : DEMAND_COUNT_LIMITS[field.key] ?? NUMBER_LIMITS.volume
+                        field.kind === "percent" ? NUMBER_LIMITS.percent : DEMAND_COUNT_LIMITS[field.key] ?? NUMBER_LIMITS.volume,
+                        own
                     ))
                     : numberField(
                         type.id === "repeat"
@@ -315,7 +318,8 @@ export function useEngagementDemand(earlier: Earlier) {
                         "e.g. 1",
                         source.estimate,
                         (next) => changeSource(source.id, { estimate: next }),
-                        NUMBER_LIMITS.volume
+                        NUMBER_LIMITS.volume,
+                        own
                     )
             );
             // (THE TIME TO BUY, read only, on the Sales funnel and Contracts sources: from "Who decides to buy?" and how they decide; doc 50, section 2.5.)
@@ -361,9 +365,11 @@ export function useEngagementDemand(earlier: Earlier) {
                     >
                         <SingleColumn>
                             <EngagementBox
+                                // (A SIDE-LABEL ROW EACH, as the Delivery card's (owner, 2026-11-18 02:31: "there are fields with gaps"): the label in the one label
+                                // column, its control beside it, so no row is left half empty however many figures a source has.)
                                 bands={[
-                                    <div key="source" className="business-demand-fields">{sourcePicker}{channelPicker}</div>,
-                                    (estimatedPicker || figures) && <div key="figures" className="business-demand-fields">{estimatedPicker}{figures}</div>,
+                                    <div key="source" className="business-demand-side">{sourcePicker}{channelPicker}</div>,
+                                    (estimatedPicker || figures) && <div key="figures" className="business-demand-side">{estimatedPicker}{figures}</div>,
                                     noteLine,
                                     basis
                                 ]}
