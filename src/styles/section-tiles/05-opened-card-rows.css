@@ -233,7 +233,7 @@
 /* ==========================================================
    THE OPENED CARD'S COLUMNS (Resource, Activity, Partner, Provider; layout-rules 5a): three columns -- the MARKER (the number, as wide as its
    digits), the CONTENT (the name cell and everything under it) and the x (32px), the markers' and the x's column 8px from the content.
-   The head is [number] [name cell] [x]; EVERYTHING under it starts at the name cell's LEFT edge and ends at its RIGHT edge (the marker
+   The head is [number] [name cell] [x]; EVERYTHING under it (but a card in bands: see "The bands win" below) starts at the name cell's LEFT edge and ends at its RIGHT edge (the marker
    and the x columns stay empty under it), except what belongs to the x's column (an Activity's "+" / x beside a performer), which stands in it.
    Nothing clips: a field that wants more than the column takes ellipsis (a picker) or wraps (a text).
 ========================================================== */
@@ -260,6 +260,16 @@
     grid-column: 2;
 
     min-width: 0;
+
+}
+
+/* THE BANDS WIN OVER THE NAME CELL'S COLUMN (owner, 2026-11-18 20:20 UTC+2; layout rules section 11, "Page 3's cards in bands"): a card whose questions are bands
+   (EngagementBands: a Resource, an Activity, a Partner, Supplier or Staff card, a founder; never the Workspace form) has them under its head across the content and
+   the x columns, each band out to the card's sides, as Customer Engagement's. */
+.card-box-open > .business-capability-slot > .business-segment-grid-single,
+.card-box-open > .business-capability-slot > .business-capability-frozen > .business-segment-grid-single {
+
+    grid-column: 1 / -1;
 
 }
 

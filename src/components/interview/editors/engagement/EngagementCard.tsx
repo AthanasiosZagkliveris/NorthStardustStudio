@@ -4,7 +4,7 @@
  * its sections as BusinessGroup (the double rule, the title band, the fold), and in each section the boxes of one column (SingleColumn): a box's title band, then
  * one band per question, the tints alternating, as the Offering card's boxes. Only shared components and classes: nothing here is styled on its own.
  */
-import { Fragment, ReactNode, useState } from "react";
+import { Children, Fragment, ReactNode, isValidElement, useState } from "react";
 import { BusinessCard, BusinessGroup } from "../../cards/BusinessCardFields.tsx";
 import FieldLabel from "../../../controls/FieldLabel.tsx";
 import InfoNote, { InfoPoint, InfoText } from "../../fields/InfoNote.tsx";
@@ -128,4 +128,38 @@ export function EngagementBox({ title, info, extra, bands, anchor }: {
             ))}
         </div>
     );
+}
+
+/** What a card holds, its fragments opened out: one item a field, a row or a note. */
+function cardItems(node: ReactNode): ReactNode[] {
+    return Children.toArray(node).flatMap(child => isValidElement(child) && child.type === Fragment
+        ? cardItems((child.props as { children?: ReactNode }).children)
+        : [child]);
+}
+
+/**
+ * A CARD'S QUESTIONS AS BANDS, with no title of their own (owner, 2026-11-18 10:38: Infrastructure & Capability's cards "to fit the other"): each question a band,
+ * the tints alternating from the first, as a relationship type's card under its head (EngagementBox with no title); a line that says something of the question
+ * above it -- a total, an alarm, a note -- stays in that question's band.
+ */
+export function EngagementBands({ children }: { children: ReactNode }) {
+    const bands: ReactNode[][] = [];
+    for (const item of cardItems(children)) {
+        const says = isValidElement(item) && item.type === "p" && bands.length > 0;
+        if (says) {
+            bands[bands.length - 1].push(item);
+        } else {
+            bands.push([item]);
+        }
+    }
+    return (
+        <SingleColumn>
+            <EngagementBox bands={bands.map((band, at) => <Fragment key={at}>{band}</Fragment>)} />
+        </SingleColumn>
+    );
+}
+
+/** A card's body: in bands, or as it stands (a card kept as it is: the Workspace form, owner's rule). */
+export function CardBody({ banded, children }: { banded: boolean; children: ReactNode }) {
+    return banded ? <EngagementBands>{children}</EngagementBands> : <>{children}</>;
 }

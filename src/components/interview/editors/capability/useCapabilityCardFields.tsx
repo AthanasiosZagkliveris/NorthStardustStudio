@@ -20,6 +20,7 @@ import OptionPicker from "../../fields/OptionPicker.tsx";
 import { toggledIn } from "../../fields/toggledIn.ts";
 import TextLink from "../../fields/TextLink.tsx";
 import { Scope, WARRANTY_GROUPS } from "../BusinessCapabilityModel.ts";
+import { CardBody } from "../engagement/EngagementCard.tsx";
 import type { useCapabilityState } from "./useCapabilityState.tsx";
 
 type Earlier = ReturnType<typeof useCapabilityState>;
@@ -889,6 +890,11 @@ export function useCapabilityCardFields(earlier: Earlier) {
     /* ---------- 1. Resources ---------- */
 
     /** One recorded resource, wherever it is filed. */
+    /** A card of the Workspace (the Workspace category, in Infrastructure or an Offering, or a Premises card): kept exactly as it is (owner: "never change its interface again"). */
+    function workspaceCard(scope: Scope, slot: BusinessResourceSlotValue, groupId: string): boolean {
+        return groupId === PREMISES_GROUP_ID || slot.category === "workspace" || (scope === "infrastructure" && (capability.resources.workspace ?? []).some(subsection => subsection.slots.some(entry => entry.id === slot.id)));
+    }
+
     function resourceCard(
         scope: Scope,
         slot: BusinessResourceSlotValue,
@@ -931,6 +937,8 @@ export function useCapabilityCardFields(earlier: Earlier) {
                     />
                 )}
             >
+
+                <CardBody banded={!workspaceCard(scope, slot, groupId)}>
 
                 {cardDates("Resource " + number, slot.startDate, slot.endDate, onSlot, false, latestPaymentOf(slot.cost.frequency, slot.paymentPlan), slot.cost.frequency === "per-project" && slot.paymentPlan.on)}
 
@@ -1058,6 +1066,7 @@ export function useCapabilityCardFields(earlier: Earlier) {
                 {/* THE CARDS THIS ONE LEADS TO OR IS USED BY (the resource it insures, the activities that list it): at the end of the card. */}
                 {linksSection(slot.id, resourceLinks(slot))}
 
+                </CardBody>
             </BusinessCard>
         );
     }

@@ -26,6 +26,7 @@ import type { useCapabilityCardFields } from "./useCapabilityCardFields.tsx";
 import type { useCapabilityPeopleCards } from "./useCapabilityPeopleCards.tsx";
 import type { useCapabilityActivityAndDelivery } from "./useCapabilityActivityAndDelivery.tsx";
 import { deliveryEffort } from "../../../../framework/engine/DemandCapacity.ts";
+import { CardBody } from "../engagement/EngagementCard.tsx";
 import { OPEN_EVENT, type OpenRequest } from "../../tiles/SectionTiles.tsx";
 
 type Earlier = ReturnType<typeof useCapabilityState> & ReturnType<typeof useCapabilityCardFields> & ReturnType<typeof useCapabilityPeopleCards> & ReturnType<typeof useCapabilityActivityAndDelivery>;
@@ -461,6 +462,7 @@ export function useCapabilitySections(earlier: Earlier) {
 
                 {head}
 
+                <CardBody banded>
                 {cardDates("Activity " + number, activity.startDate, activity.endDate, onActivity)}
 
                 {/* The period its group runs in, and what is wrong where the dates leave it. */}
@@ -509,10 +511,10 @@ export function useCapabilitySections(earlier: Earlier) {
 
                 </div>
 
-                {/* Responsible after the Resources and their Cost, its dropdown at the Team's x. */}
-                <div className="business-capability-stack business-capability-activity-fields">
-
-                    {responsibilityField(
+                {/* Responsible after the Resources and their Cost, its dropdown at the Team's x. (Drawn only where there is a Responsible to ask: an empty
+                    wrapper would be an empty band of the card; owner, 2026-11-18 20:20 UTC+2, the bands of page 3's cards.) */}
+                {(() => {
+                    const responsible = responsibilityField(
                         businessAutoResponsibleId(founderIds, activity.performerIds),
                         activity.responsibleId,
                         (next) => onActivity({ responsibleId: next }),
@@ -525,9 +527,9 @@ export function useCapabilitySections(earlier: Earlier) {
                                 ? { responsibleOff: true, responsibleId: "" }
                                 : { responsibleOff: undefined })
                         }
-                    )}
-
-                </div>
+                    );
+                    return responsible ? <div className="business-capability-stack business-capability-activity-fields">{responsible}</div> : null;
+                })()}
 
                 <OptionalNote
                     label="Notes"
@@ -563,6 +565,7 @@ export function useCapabilitySections(earlier: Earlier) {
                     true
                 )}
 
+                </CardBody>
                 </fieldset>
 
                 {/* A line, then the card's state (Completed), then its links under it. */}
@@ -983,7 +986,8 @@ export function useCapabilitySections(earlier: Earlier) {
             // A founder's card is a card like the others (the same width), shown as a tile of the Founders tile and opened floating.
             cardFor: (cardId: string) => {
                 const index = founders.findIndex(founder => founder.id === cardId || "founder-" + founder.id === cardId);
-                return index >= 0 ? founderCard(founders[index], index, true) : null;
+                // (In the floating card's content box, so its bands reach the card's edges: owner, 2026-11-18 10:38.)
+                return index >= 0 ? <div className="column-tile-content">{founderCard(founders[index], index, true)}</div> : null;
             },
             opening: () => setResponsibilityFolds(new Map()),
             // (One founder is a section of its own: its card in the dialog, one of the tiles the arrows go through.)

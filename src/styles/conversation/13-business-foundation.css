@@ -1016,6 +1016,13 @@
 
 }
 
+/* (A founder's card keeps the x's column clear in its own padding (07-floating-card-details-2.css): its bands run out over that padding too, to the card's side.) */
+.floating-card-body .column-tile-content > .business-foundation-card.business-founder-open > .business-segment-grid-single{
+
+    margin-right:calc(-1 * (var(--card-padding) + var(--card-x-col)));
+
+}
+
 /* (Under 901px a column loses its right padding; this card keeps it, so the bands end at the card's edge at every width.) */
 /* THE CONTENT STOPS WHERE EVERY FLOATING CARD'S CONTENT STOPS -- at the right edge of the name cell, before the column of the x -- while the bands, their tints and the rules run on to the card's side: the sections keep that room as padding (the x column and the gap beside it; the grid's own 12px and the card's padding make up the rest). */
 .floating-card-body .column-tile-content > .business-foundation-card > .business-segment-grid-single .legal-entity-org-section{

@@ -26,6 +26,7 @@ import { toggledIn } from "../../fields/toggledIn.ts";
 import TextLink from "../../fields/TextLink.tsx";
 import { SECTIONS, DELIVERY_HELP, FOUNDER_FREQUENCIES, HOURS_PER_MONTH_HELP, formatHours, Scope, costInGroup, blankSlot } from "../BusinessCapabilityModel.ts";
 import type { useCapabilityState } from "./useCapabilityState.tsx";
+import { CardBody } from "../engagement/EngagementCard.tsx";
 import type { useCapabilityCardFields } from "./useCapabilityCardFields.tsx";
 
 type Earlier = ReturnType<typeof useCapabilityState> & ReturnType<typeof useCapabilityCardFields>;
@@ -191,6 +192,8 @@ export function useCapabilityPeopleCards(earlier: Earlier) {
                 disabled={disabled}
                 summary={summaryText(founder.roles[0])}
             >
+
+                <CardBody banded>
 
                 {cardDates(founderLabel, founder.startDate, "", change, true)}
 
@@ -448,6 +451,7 @@ export function useCapabilityPeopleCards(earlier: Earlier) {
                     .filter(activity => activity.performerIds.includes(founder.id))
                     .map(activity => ({ key: activity.id, noun: "Activity", name: activity.name.trim() || "Unnamed Activity", onOpen: () => openPair(activity.id, founder.id) })))}
 
+                </CardBody>
             </BusinessCard>
         );
 
@@ -809,6 +813,8 @@ export function useCapabilityPeopleCards(earlier: Earlier) {
                 )}
             >
 
+                <CardBody banded>
+
                 {cardDates(partner.name.trim() || "Entry " + number, partner.startDate, partner.endDate, change, false, latestPaymentOf(partner.cost.frequency, partner.paymentPlan), partner.cost.frequency === "per-project" && partner.paymentPlan.on)}
 
                 {/* (No Category row: the tile says whether it is a Partner or a Supplier. A card with no type yet, from an earlier answer, keeps the row so it can be given one.) */}
@@ -928,6 +934,7 @@ export function useCapabilityPeopleCards(earlier: Earlier) {
                 {/* THE CARDS THAT USE IT (the resources that name it, the activities it performs): at the end of the card, a link each (above this one when opened). */}
                 {linksSection(partner.id, users.map(user => ({ key: user.id, noun: user.noun, name: user.name, onOpen: () => openPair(user.id, partner.id) })))}
 
+                </CardBody>
             </BusinessCard>
         );
 
