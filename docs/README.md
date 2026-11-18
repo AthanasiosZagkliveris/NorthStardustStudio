@@ -50,7 +50,7 @@ The current design of the Foundation, the sources, the research, the log of ever
 
 | Document | Kind | What it holds | Updated |
 |---|---|---|---|
-| [design/core/01-current-design.md](design/core/01-current-design.md) | current design | The single description of what the Foundation capability is: what the app does, how it is organised, the interface elements, the cost model, the automatic rules, the help texts and the colour map. | 2026-11-18 |
+| [design/core/01-current-design.md](design/core/01-current-design.md) | current design | The single description of what the Foundation capability is: what the app does, how it is organised, the interface elements, the cost model, the automatic rules, the help texts and the colour map. | 2026-11-19 |
 | [design/core/02-references.md](design/core/02-references.md) | reference | The source register: the rule for what counts as a reference, and every decision in the app and in these documents with the source behind it. | 2026-11-08 |
 | [design/core/03-research.md](design/core/03-research.md) | research | The research behind the design decisions: the question, the recommendation, the reason and the source. Document 1 prevails where they differ. | 2026-11-17 |
 | [design/core/04-log.md](design/core/04-log.md) | log | Every change to the app, the design, the documents or the plan, newest on top. The only place a change is written. | 2026-11-19 |
