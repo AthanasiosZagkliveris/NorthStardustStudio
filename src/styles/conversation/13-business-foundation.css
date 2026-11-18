@@ -1540,3 +1540,11 @@
     margin-right:calc(-1 * (var(--card-x-column) + var(--space-field)));
 
 }
+
+/* THE LINKS' BAND (owner, 2026-11-18 23:56 UTC+2: "Links should be have a different coloured band"): the links' blue (--text-primary, each reading mode's own) at the
+   strength of a card's band (12%), not one of the alternating tints. */
+.legal-entity-org-section.legal-entity-org-section[data-section="links"]{
+
+    background:color-mix(in srgb, var(--text-primary) 12%, transparent);
+
+}

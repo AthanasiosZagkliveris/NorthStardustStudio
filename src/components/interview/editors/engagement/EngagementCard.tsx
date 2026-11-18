@@ -162,6 +162,10 @@ export function EngagementBands({ children }: { children: ReactNode }) {
                 bands.push(band);
             }
             for (const part of parts) {
+                // (A card's own divider line in a section is no question of it: the band parts from the one above by its colour.)
+                if (isValidElement(part) && part.type === "div" && /\bbusiness-capability-card-rule\b/.test(String((part.props as { className?: string }).className ?? ""))) {
+                    continue;
+                }
                 const says = isValidElement(part) && part.type === "p" && band.items.length > 0;
                 if (!says && band.questions > 0) {
                     band.items.push(<div className="business-capability-card-rule" role="separator" key={"rule-" + band.items.length} />);
@@ -194,7 +198,7 @@ export function EngagementBands({ children }: { children: ReactNode }) {
 
 /** A SECTION OF A CARD IN BANDS (BandSection's names: dates, type, costs, team, notes): its questions stand in one band (EngagementBands); on a card that is not
  *  banded (the Workspace form) it is nothing but its questions. */
-export function BandSection({ children }: { name: "dates" | "type" | "costs" | "team" | "notes"; children?: ReactNode }) {
+export function BandSection({ children }: { name: "dates" | "type" | "costs" | "team" | "notes" | "links"; children?: ReactNode }) {
     return <>{children}</>;
 }
 

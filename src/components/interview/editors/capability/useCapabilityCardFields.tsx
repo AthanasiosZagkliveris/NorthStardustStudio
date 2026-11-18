@@ -865,17 +865,19 @@ export function useCapabilityCardFields(earlier: Earlier) {
             return null;
         }
         if (links.length === 1) {
-            return <>{cardRule()}{cardLink(links[0].key, links[0].noun, links[0].name, links[0].onOpen)}</>;
+            return <BandSection name="links">{cardRule()}{cardLink(links[0].key, links[0].noun, links[0].name, links[0].onOpen)}</BandSection>;
         }
         const open = linksOpen.has(id);
+        // (THE LINKS ARE A BAND OF THEIR OWN COLOUR on a card in bands (owner, 2026-11-18 23:56 UTC+2: "Links should be have a different coloured band"): BandSection
+        // "links", drawn in the links' blue; on a card kept as it is, its line and the lines as before.)
         return (
-            <>
+            <BandSection name="links">
             {cardRule()}
             {/* The same row as a founder's Responsibilities: the fold arrow, the label, how many (the shared FoldList). */}
             <FoldList label="Links" name="Links of this card" count={links.length} open={open} onToggle={() => setLinksOpen(current => toggledIn(current, id))}>
                 {links.map(link => cardLink(link.key, link.noun, link.name, link.onOpen))}
             </FoldList>
-            </>
+            </BandSection>
         );
     }
     /** The cards a resource's card links to, apart from its supplier and its activity (those have their symbol beside their picker): the resource a generated Insurances card insures, and the activities that list it. */
