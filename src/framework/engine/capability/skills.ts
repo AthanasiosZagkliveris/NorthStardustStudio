@@ -20,7 +20,7 @@ export const SKILLS = [
 ] as const;
 
 /** LC1's "i". */
-export const SKILLS_HELP = ["Skills the plan needs that the team lacks today. Each one's cover comes from the Team of its activities."];
+export const SKILLS_HELP = ["Skills the plan needs that the team lacks today. Each one's cover comes from the Team of its activities: Marketing's and Production's for marketing and making, and for the others the activities whose name says the skill (bookkeeping, a contract, the website)."];
 
 /** The activity groups whose Team covers a skill: Marketing; Sales & Customer; Production; the rest Infrastructure's Pre-Operational and Operational. */
 const SKILL_GROUPS: Readonly<Record<string, readonly string[]>> = {
@@ -31,6 +31,21 @@ const SKILL_GROUPS: Readonly<Record<string, readonly string[]>> = {
     delivery: ["production"]
 };
 const INFRASTRUCTURE_GROUPS = ["pre-operational", "operational"];
+
+/**
+ * THE SKILL AN ACTIVITY USES, BY ITS NAME (owner, 2026-11-18 02:31: the lawyer and the accountant covered Website and technology, as every Infrastructure performer
+ * covered every Infrastructure skill): a skill shared with other skills in its groups is covered by the activities whose name says it, in any group -- "Monthly
+ * bookkeeping", "Register trade mark", "Launch website and journal". Marketing and Making keep their whole group, which is theirs alone; Other, Infrastructure's.
+ */
+const SKILL_WORDS: Readonly<Record<string, RegExp>> = {
+    bookkeeping: /book-?keep|account|xero|quickbooks|\btax|\bvat\b|payroll|invoic|bank|financ|budget/i,
+    legal: /legal|lawyer|contract|trade ?mark|\bico\b|privacy|gdpr|licen[cs]|insur|regist|complian|terms/i,
+    website: /web|\bsite\b|online (store|shop)|shopify|\bseo\b|domain|hosting|password|\bit\b|technolog/i,
+    design: /design|brand|logo|photo|packag|graphic|visual/i,
+    selling: /\bsell|\bsales?\b|price|proposal|quote|wholesale|stockist|referral|pitch|\btrade\b|order/i,
+    service: /service|support|customer|aftercare|repair|enquir|onboard/i,
+    delivery: /deliver|ship|\bpost|courier|dispatch|install|handover|fulfil/i
+};
 
 /** The activity groups whose Team covers a skill (a skill written under Other: Infrastructure's). */
 export function skillGroups(skillId: string): readonly string[] {
@@ -62,10 +77,15 @@ export function skillsOf(capability: Pick<BusinessCapabilityValue, "skillsNeeded
 /** Who covers a skill: the names on the Team of the activities in its groups (founders, staff, partners, suppliers), each once, by id. */
 export function skillCover(capability: BusinessCapabilityValue, skillId: string, nameOf: (id: string) => string): { id: string; name: string }[] {
     const groups = skillGroups(skillId);
-    const activities = [
-        ...capability.activities.filter(category => groups.includes(category.id)).flatMap(category => category.activities),
-        ...capability.offering.activities.filter(activity => groups.includes(activity.category))
-    ];
+    const words = SKILL_WORDS[skillId];
+    const every = [...capability.activities.flatMap(category => category.activities.map(activity => ({ ...activity, category: category.id }))), ...capability.offering.activities];
+    // (Selling keeps the Sales activities that are not customer service, whatever their words: the group is theirs but for service.)
+    const activities = words
+        ? every.filter(activity => words.test(activity.name) || (skillId === "selling" && activity.category === "sales" && !SKILL_WORDS.service.test(activity.name)))
+        : [
+            ...capability.activities.filter(category => groups.includes(category.id)).flatMap(category => category.activities),
+            ...capability.offering.activities.filter(activity => groups.includes(activity.category))
+        ];
     const ids = [...new Set(activities.flatMap(activity => activity.performerIds).filter(id => id !== ""))];
     return ids.map(id => ({ id, name: nameOf(id) })).filter(entry => entry.name !== "");
 }
