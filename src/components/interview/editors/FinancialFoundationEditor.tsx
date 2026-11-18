@@ -1104,6 +1104,44 @@ export default function FinancialFoundationEditor({
 
     }
 
+    /**
+     * FOUNDERS' CAPITAL AS A CARD (owner, 2026-11-18 16:55: "Do all 8", proposal 8): read only -- answered on the Legal Entity's Founders & Ownership --, each founder's
+     * capital and the total under one band, as a source's card, and the way to where it is answered.
+     */
+    function founderCapitalCard() {
+        const capital = founderCapitalSources(stored, legalEntity);
+        const total = capital.reduce((sum, source) => sum + fundingStanding(source, start).total, 0);
+        return (
+            <BusinessCard key="founders-capital" kind="Source" anchor="founders-capital" number={1} name="Founders' Capital" open disabled={disabled}>
+                <SingleColumn>
+                    <EngagementBoxes>{[
+                        <EngagementBox key="capital" title="Each Founder" bands={[
+                            <ul className="financial-cost-inputs" key="list">
+                                {capital.map(source => (
+                                    <li key={source.id}>
+                                        <span>{source.provider.trim() || "Unnamed founder"}</span>
+                                        <span>{format(fundingStanding(source, start).total)}</span>
+                                    </li>
+                                ))}
+                                <li className="financial-cost-inputs-total">
+                                    <span>Total</span><span>{format(total)}</span>
+                                </li>
+                            </ul>,
+                            onOpenLegalEntity && (
+                                <p className="financial-muted" key="where">
+                                    Answered on{" "}
+                                    <TextLink type="button" className="business-engagement-link" onClick={() => onOpenLegalEntity(["legal-section-1"])}>
+                                        1. Identity System → 1. Definition → Founders & Ownership
+                                    </TextLink>
+                                </p>
+                            )
+                        ]} />
+                    ]}</EngagementBoxes>
+                </SingleColumn>
+            </BusinessCard>
+        );
+    }
+
     function fundingSection() {
 
         const capital = founderCapitalSources(stored, legalEntity);
@@ -1141,7 +1179,7 @@ export default function FinancialFoundationEditor({
                                     autoStart={false}
                                     items={[
                                         // (FOUNDERS' CAPITAL AS A TILE (owner, 2026-11-18 16:55: "Do all 8", proposal 8): the Internal category's first, as the sources beside
-                                        // it -- its total, then each founder's --; pressed, it opens the Legal Entity's Founders & Ownership, where it is answered.)
+                                        // it -- its total, then each founder's --; pressed, its card floats as the sources' do, read only, with the way to Founders & Ownership.)
                                         ...(category.id === "internal" && capital.length > 0 ? [((): CardBox => {
                                             const total = capital.reduce((sum, source) => sum + fundingStanding(source, start).total, 0);
                                             return {
@@ -1151,7 +1189,6 @@ export default function FinancialFoundationEditor({
                                                 unnamed: "Founders' Capital",
                                                 own: true,
                                                 lines: [format(total), ...capital.map(source => (source.provider.trim() || "Unnamed founder") + ": " + format(fundingStanding(source, start).total))],
-                                                ...(onOpenLegalEntity ? { press: () => onOpenLegalEntity(["legal-section-1"]) } : {}),
                                                 content: () => null
                                             };
                                         })()] : []),
@@ -1413,8 +1450,11 @@ export default function FinancialFoundationEditor({
         ...(entry.id === "financial-funding" ? {
             // (Its dialog opens however many sources it holds: the founders' capital and each category's tiles are in it.)
             view: true,
-            holds: stored.funding.map(source => source.id),
+            holds: [...(founderCapitalSources(stored, legalEntity).length > 0 ? ["founders-capital"] : []), ...stored.funding.map(source => source.id)],
             cardFor: (id: string) => {
+                if (id === "founders-capital") {
+                    return <div className="column-tile-content financial-page financial-funding-floating">{founderCapitalCard()}</div>;
+                }
                 const of = stored.funding.find(source => source.id === id);
                 const index = of ? stored.funding.filter(source => source.category === of.category).indexOf(of) + (of.category === "internal" && founderCapitalSources(stored, legalEntity).length > 0 ? 1 : 0) : -1;
                 return of ? <div className="column-tile-content financial-page financial-funding-floating">{fundingCard(of, index)}</div> : null;
