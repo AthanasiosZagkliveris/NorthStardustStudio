@@ -152,6 +152,7 @@ This follows the type rules already built for the text boxes: a substitute has n
   - *Comes from:* the channel categories of page 2 by id (`BUSINESS_CHANNEL_CATEGORIES`); the sub-channel lists from the Profile's C2, C3 and C4 (doc 36).
   - *Read by (built, 2026-11-04):* K10: once K5 is answered, each social medium, community or kind of event a Profile of the Segment ticks (C2 to C4) that this competitor's sub-channels do not hold is an opening: "Reach customers on TikTok", "Reach customers in Facebook groups", "Meet customers at workshops and classes". It compares with the customers, never with the App User's own channels (The purpose).
   - *Read by (later, once page 2's channels are set):* the Review (doc 28, 11.5, rule 21); the order of the Discover channels on page 2. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
+- **Every channel opens its subchannels** (owner, 2026-11-18 02:31: "Online/live does not give an option drop-down list"): Website, Email, Online / live, Shops or wholesalers, Referrals or affiliates, Advertising, Print & mail and Samples & trials list Customer Engagement's subchannels of their category, by the same names (Online / live: Zoom, Google Meet, Microsoft Teams, Live Stream); Social media, Community and In person keep the Profile's lists (C2 to C4), which K10 compares; Marketplace its own.
 
 ## Box. Customer Experience
 

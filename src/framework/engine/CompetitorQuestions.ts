@@ -10,6 +10,7 @@ import { schemeKeyOf } from "./ActivityClassification.ts";
 import { PROFILE_QUESTIONS } from "./ProfileQuestions.ts";
 import { SEGMENT_QUESTIONS, type SegmentOption } from "./SegmentQuestions.ts";
 import { onlyPlanning } from "./BusinessStage.ts";
+import { BUSINESS_CHANNEL_CATEGORIES } from "./businessFoundation/channelCategories.ts";
 
 /** One saved answer: question id to the ids chosen. */
 export type CompetitorAnswers = Record<string, string[]>;
@@ -176,7 +177,11 @@ export const COMPETITOR_SUBCHANNELS: Readonly<Record<string, readonly SegmentOpt
     "social-media": profileList("c2"),
     community: profileList("c3"),
     marketplace: [{ id: "etsy", label: "Etsy" }, { id: "amazon", label: "Amazon" }, { id: "ebay", label: "eBay" }, { id: "not-on-the-high-street", label: "Not On The High Street" }, { id: "upwork", label: "Upwork" }, { id: "fiverr", label: "Fiverr" }],
-    "in-person": profileList("c4")
+    "in-person": profileList("c4"),
+    // (EVERY CHANNEL A LIST OF ITS OWN (owner, 2026-11-18 02:31: "Online/live does not give an option drop-down list"): the others take Customer Engagement's
+    // subchannels of their category, by the same names, so a competitor's channels read as the founder's own.)
+    ...Object.fromEntries(["website", "email", "online-live", "retail-wholesale", "referral-affiliates", "advertising", "print-mail", "samples-trials"].map(id => [id,
+        (BUSINESS_CHANNEL_CATEGORIES.find(category => category.id === id)?.channels ?? []).map(channel => ({ id: channel.label.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""), label: channel.label }))]))
 };
 
 /** Which Profile question each sub-channel list compares with. */
