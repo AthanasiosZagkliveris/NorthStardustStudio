@@ -160,7 +160,6 @@ export function competitorCard(scope: FoundationCardScope, competitor: BusinessC
             <BusinessField key={key} label={labelWithCurrency(label, currency)}>
                 <NumberCell
                     className="business-demand-number"
-                    data-size="s"
                     inputMode="decimal"
                     aria-label={label + ", " + words("k15") + ", " + whose}
                     placeholder="e.g. 40"
@@ -175,7 +174,8 @@ export function competitorCard(scope: FoundationCardScope, competitor: BusinessC
         );
         return (
             <>
-                <div className="business-demand-fields">
+                {/* (From and To side by side, one row, each half of it: owner, 2026-11-18 12:41, "Fix the fields and their cells properly".) */}
+                <div className="business-demand-fields business-demand-range">
                     {amount("from", "From")}
                     {amount("to", "To")}
                 </div>

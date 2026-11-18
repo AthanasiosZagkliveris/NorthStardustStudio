@@ -262,6 +262,24 @@
 .floating-card-body .business-foundation-card :is(.business-segment-box, .legal-entity-field > .legal-entity-org-section) .business-demand-fields .business-demand-number[data-size="code"]{ width:var(--control-code); }
 .floating-card-body .business-foundation-card :is(.business-segment-box, .legal-entity-field > .legal-entity-org-section) .business-demand-fields .business-demand-number[data-size="s"]{ width:var(--control-s); }
 
+/* A RANGE, FROM AND TO (a competitor's price, K15): one row, each half of it, the cells filling their half (owner, 2026-11-18 12:41, "Fix the fields and their cells
+   properly"). */
+.business-demand-fields.business-demand-range.business-demand-range{
+
+    display:grid;
+
+    grid-template-columns:repeat(2, minmax(0, 1fr));
+
+    gap:var(--space-field) var(--space-cell);
+
+}
+
+.business-demand-range .business-demand-number.business-demand-number.business-demand-number{
+
+    width:100%;
+
+}
+
 .business-demand-source-note{
 
     margin:0;
