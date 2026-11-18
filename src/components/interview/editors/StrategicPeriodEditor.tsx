@@ -2,6 +2,7 @@ import CurrencyPicker from "../fields/CurrencyPicker.tsx";
 import { CSSProperties, ReactNode, useState } from "react";
 
 import FoldArrow from "../fields/FoldArrow.tsx";
+import TextLink from "../fields/TextLink.tsx";
 import TextBox from "../../controls/TextBox.tsx";
 import CardShell from "../cards/CardShell.tsx";
 import FieldLabel from "../../controls/FieldLabel.tsx";
@@ -76,6 +77,9 @@ interface StrategicPeriodEditorProps {
 
     /** The organization's currency, from the Legal Entity country: a Currency Metric's default. */
     organisationCurrency?: string;
+
+    /** The names an Objective's "Add a draft" offers (P9; owner, 2026-11-18 03:01, "All, P1 to P9"): each open item of a Value Proposition and each needed skill not covered yet. */
+    objectiveDrafts?: readonly string[];
 
     /** Drawn inside another page's dialog (the Foundation's Strategic Period): only the tiles, no page around them. */
     embedded?: boolean;
@@ -171,6 +175,7 @@ export default function StrategicPeriodEditor({
     founders = [],
 
     organisationCurrency = "",
+    objectiveDrafts = [],
 
     embedded = false,
 
@@ -218,6 +223,7 @@ export default function StrategicPeriodEditor({
         withinPeriod,
         founders,
         organisationCurrency,
+        objectiveDrafts,
         periodStartYear: periodSet ? Number(foundation.period.start.year) : new Date().getFullYear()
     };
 
@@ -380,6 +386,8 @@ function GoalList({
 
     organisationCurrency,
 
+    objectiveDrafts,
+
     periodStartYear,
 
     onChangeGoals
@@ -399,6 +407,8 @@ function GoalList({
     founders: readonly { id: string; name: string }[];
 
     organisationCurrency: string;
+
+    objectiveDrafts: readonly string[];
 
     periodStartYear: number;
 
@@ -529,6 +539,7 @@ function GoalList({
                                 withinPeriod={withinPeriod}
                                 founders={founders}
                                 organisationCurrency={organisationCurrency}
+                                objectiveDrafts={objectiveDrafts}
                                 periodStartYear={periodStartYear}
                                 onChangeObjectives={(objectives) => updateGoal(goalIndex, { objectives })}
                             />
@@ -564,6 +575,8 @@ function ObjectiveList({
 
     organisationCurrency,
 
+    objectiveDrafts,
+
     periodStartYear,
 
     onChangeObjectives
@@ -583,6 +596,8 @@ function ObjectiveList({
     founders: readonly { id: string; name: string }[];
 
     organisationCurrency: string;
+
+    objectiveDrafts: readonly string[];
 
     periodStartYear: number;
 
@@ -738,6 +753,17 @@ function ObjectiveList({
                         {open && (
 
                             <div className="strategy-box-body">
+
+                                {/* (ADD A DRAFT (P9; owner, 2026-11-18 03:01, "All, P1 to P9"): an Objective with no name yet takes the first open item or uncovered skill no Objective names yet; nothing is
+                                    written until it is pressed.) */}
+                                {(() => {
+                                    const draft = objective.name.trim() === "" ? objectiveDrafts.find(name => !objectives.some(entry => entry.name.trim() === name)) : undefined;
+                                    return draft ? (
+                                        <TextLink className="business-competitor-draft" disabled={disabled} onClick={() => updateObjective(objectiveIndex, { name: draft })}>
+                                            Add a draft
+                                        </TextLink>
+                                    ) : null;
+                                })()}
 
                                 {!periodSet && (
                                     <p className="strategy-empty-note">

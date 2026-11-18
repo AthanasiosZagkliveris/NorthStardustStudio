@@ -177,6 +177,7 @@ The nested cards stay as built. A new Goal card offers suggestions for its Theme
 
 - **The Review:** "[Theme] has Goals and no Initiative yet" (Rumelt: goals are not a strategy).
 - **Later (phase 6):** an Initiative can link to a Page 3 Activity by id, so its dates, owner and cost are the Activity's and flow into the Financial Foundation.
+- **Built in part: an Objective's draft name (P9)** (owner, 2026-11-18 03:01 UTC+2: "All, P1 to P9"): an Objective with no name yet shows "Add a draft", which names it after the first open item of a Value Proposition (a value no Offering does best: "Lead on good support"; a need no Offering addresses: "Address …"; a worry no Offering answers: "Answer the worry about …") or the first needed skill not covered yet ("Bring in bookkeeping and tax") that no Objective names yet; nothing is written until pressed (strategyObjectiveDrafts, openItemObjective). Step 2 of this section (the suggestions inside each Theme) stays proposed.
 
 ### 2.7 Metrics linked to the plan's own figures
 

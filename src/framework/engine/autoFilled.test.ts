@@ -16,3 +16,21 @@ describe("P1 and P2: a source's Basis draft and what the founders' hours allow",
         expect(capacityCeiling(founders, undefined)).toBeNull();
     });
 });
+
+describe("P9: an Objective's drafts", () => {
+    it("names an Objective from each open item and each uncovered skill", async () => {
+        const { openItemObjective } = await import("./OfferingQuestions");
+        expect(openItemObjective({ kind: "Unmet value", text: "", about: "Good support" })).toBe("Lead on good support");
+        expect(openItemObjective({ kind: "Worry left open", text: "", about: "The price or their budget" })).toBe("Answer the worry about the price or their budget");
+        expect(openItemObjective({ kind: "Unwanted benefit", text: "" })).toBeNull();
+        const { InterviewSession } = await import("../interview");
+        const { frameworkRegistry } = await import("./FrameworkRegistry");
+        const { strategyObjectiveDrafts } = await import("./BusinessDocuments");
+        const quill = (await import("../../data/examples/quillfield-automation-llc.json")).default as unknown as { systems: Record<string, never> };
+        const load = (number: number, id: string) => InterviewSession.fromJSON(quill.systems[String(number)] ?? ({ responses: [] } as never), frameworkRegistry.getFramework(id));
+        const drafts = strategyObjectiveDrafts({ identity: load(1, "identity"), brand: load(2, "brand"), business: load(3, "business"), strategy: load(4, "strategy"), organisationName: "Quillfield" } as never);
+        // (Quillfield's Value Propositions are complete and its skills covered: nothing to draft, so no link shows.)
+        expect(drafts).toEqual([]);
+        expect(new Set(drafts).size).toBe(drafts.length);
+    });
+});

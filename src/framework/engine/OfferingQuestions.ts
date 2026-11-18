@@ -678,6 +678,19 @@ export function valueMismatch(profiles: readonly Record<string, string[]>[], off
 export interface OpenItem {
     kind: "Unmet value" | "Unwanted benefit" | "Unanswered need" | "Unused offering" | "Worry left open";
     text: string;
+    /** What it is about, in its own words (a value, a need, a worry): the Objective a draft names (openItemObjective). */
+    about?: string;
+}
+
+/** An open item as an Objective's name (P9; owner, 2026-11-18 03:01, "All, P1 to P9"): "Lead on good support", "Address \"…\"", "Answer the worry about …"; null for the items that ask to undo, not to do. */
+export function openItemObjective(item: OpenItem): string | null {
+    const about = item.about ?? "";
+    switch (item.kind) {
+        case "Unmet value": return about ? "Lead on " + about.charAt(0).toLowerCase() + about.slice(1) : null;
+        case "Unanswered need": return about ? "Address \"" + about + "\"" : null;
+        case "Worry left open": return about ? "Answer the worry about " + about.charAt(0).toLowerCase() + about.slice(1) : null;
+        default: return null;
+    }
 }
 
 const valueWord = (id: string) => COMPETITOR_VALUES.find(value => value.id === id)?.label ?? id;
@@ -694,7 +707,7 @@ export function valuePropositionOpenItems(segment: BusinessCustomerSegmentValue,
     const items: OpenItem[] = [];
     const mismatch = valueMismatch(profiles, segment.offerings.map((offering, at) => ({ name: named(offering, at), answers: answers[at] ?? {} })));
     for (const value of mismatch.unmet) {
-        items.push({ kind: "Unmet value", text: "Your Profiles care about " + valueWord(value) + ", and no Offering does it best." });
+        items.push({ kind: "Unmet value", text: "Your Profiles care about " + valueWord(value) + ", and no Offering does it best.", about: valueWord(value) });
     }
     // An unwanted benefit is one the user ticked: O4's starting ticks (from the Differentiation) are not counted until saved (owner, 2026-11-08).
     const saved = segment.offerings.map((offering, at) => ({ name: named(offering, at), answers: { o4: (offering.questions?.o4 ?? []).filter(id => (answers[at]?.o4 ?? []).includes(id)) } }));
@@ -705,7 +718,7 @@ export function valuePropositionOpenItems(segment: BusinessCustomerSegmentValue,
     const functional = businessSegmentFunctionalItems(segment);
     for (const item of functional) {
         if (!item.ids.some(id => ticked.has(id))) {
-            items.push({ kind: "Unanswered need", text: "\"" + item.text + "\" is not addressed by any Offering." });
+            items.push({ kind: "Unanswered need", text: "\"" + item.text + "\" is not addressed by any Offering.", about: item.text });
         }
     }
     const segmentIds = new Set(functional.flatMap(item => item.ids));
@@ -720,7 +733,7 @@ export function valuePropositionOpenItems(segment: BusinessCustomerSegmentValue,
     }
     const worries = [...new Set(profiles.flatMap(entry => entry.e3 ?? []))];
     for (const worry of WORRIES.map(option => option.id).filter(id => worries.includes(id) && !answered.has(id))) {
-        items.push({ kind: "Worry left open", text: "Your Profiles worry about " + worryWord(worry) + ", and no Offering answers it." });
+        items.push({ kind: "Worry left open", text: "Your Profiles worry about " + worryWord(worry) + ", and no Offering answers it.", about: worryWord(worry) });
     }
     return items;
 }

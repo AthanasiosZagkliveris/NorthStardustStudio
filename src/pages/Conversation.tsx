@@ -1027,6 +1027,7 @@ export default function Conversation() {
         guardPeriodChange,
         situationDraft,
         swotStarts,
+        objectiveDrafts,
         financialPlan,
         guardSituationRefresh
     } = readStrategy({ session, system, organizationId, organizationName, strategyFoundationValue, setStrategyPrompt });
@@ -1066,6 +1067,7 @@ export default function Conversation() {
                 },
                 situationDraft,
                 swotStarts,
+                objectiveDrafts,
                 guardSituationRefresh,
                 openBusinessPage,
                 financialPlan
