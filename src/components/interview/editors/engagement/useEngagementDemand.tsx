@@ -6,7 +6,7 @@ import type { ReactNode } from "react";
 import NumberCell from "../../../controls/NumberCell.tsx";
 import FieldLabel from "../../../controls/FieldLabel.tsx";
 import { BUSINESS_CHANNEL_ALL_OFFERINGS, BusinessCustomerSegmentValue } from "../../../../framework/engine/AnswerUtils.ts";
-import { DEMAND_SOURCES, DemandSource, DemandValue, createDemand, createDemandSource, demandChannelIds, demandResult } from "../../../../framework/engine/DemandCapacity.ts";
+import { DEMAND_SOURCES, DemandSource, DemandValue, createDemand, createDemandSource, demandChannelIds, demandResult, capacityCeiling, demandBasisDraft } from "../../../../framework/engine/DemandCapacity.ts";
 import TextLink from "../../fields/TextLink.tsx";
 import { OPEN_EVENT, type OpenRequest } from "../../tiles/SectionTiles.tsx";
 import { BusinessAddButton, BusinessEmpty, BusinessField, OptionalNote, BusinessRemove, BusinessTickOption } from "../../cards/BusinessCardFields.tsx";
@@ -34,7 +34,7 @@ type Earlier = ReturnType<typeof useEngagementState> & ReturnType<typeof useEnga
 
 export function useEngagementDemand(earlier: Earlier) {
 
-    const { channelTileId, disabled, engagement, folds, identity, onChange, openFoundationAt, openingDate, segmentOf, segments } = earlier;
+    const { capabilityValue, channelTileId, disabled, engagement, folds, identity, onChange, openFoundationAt, openingDate, segmentOf, segments } = earlier;
     // (The folds of the floating card's sections: open until folded.)
     const sectionFold = useSectionFolds();
 
@@ -338,6 +338,19 @@ export function useEngagementDemand(earlier: Earlier) {
                     label="Basis"
                     info={["What this source's figure rests on: a test, an enquiry, a promise, past sales."]}
                 >
+                    {/* (ADD A DRAFT (P1; owner, 2026-11-18 03:01): the source's own working as a sentence, added after what is written, as the Value Proposition's.) */}
+                    {demandBasisDraft(demand, source.id) && (
+                        <TextLink
+                            className="business-competitor-draft"
+                            disabled={disabled}
+                            onClick={() => {
+                                const draft = demandBasisDraft(demand, source.id);
+                                changeSource(source.id, { basis: source.basis.trim() ? source.basis.replace(/\s+$/, "") + "\n\n" + draft : draft });
+                            }}
+                        >
+                            Add a draft
+                        </TextLink>
+                    )}
                     <StrategyTextArea
                         className="interview-input business-demand-basis"
                         ariaLabel={"Basis, " + what}
@@ -551,6 +564,11 @@ export function useEngagementDemand(earlier: Earlier) {
                                         )
                                         : "Expected Sales: about " + result.expected + " a month"}
                                 </p>
+                                {/* (WHAT THE FOUNDERS' HOURS ALLOW (P2; owner, 2026-11-18 03:01): a ceiling to check against, read from Capacity & Delivery, never a start.) */}
+                                {(() => {
+                                    const ceiling = result.recurring ? null : capacityCeiling(capabilityValue.founders, capabilityValue.delivery[offeringId]);
+                                    return ceiling !== null ? <p className="business-demand-source-note">{"The founders' delivery hours allow about " + ceiling + " a month of this Offering alone (Capacity & Delivery)."}</p> : null;
+                                })()}
                                 <ul className="business-demand-working">
                                     {result.sources.filter(part => part.expected !== null).map(part => (
                                         <li key={part.id}>{part.label}: {part.working}.</li>

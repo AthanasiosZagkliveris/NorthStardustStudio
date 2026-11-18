@@ -818,6 +818,27 @@ export function founderWorkingHours(founder: FounderHours): number | null {
     return hours === null ? null : monthlyFromFounderPeriod(hours, founder.period ?? "");
 }
 
+/**
+ * WHAT THE FOUNDERS' HOURS ALLOW (P2; owner, 2026-11-18 03:01, "All, P1 to P9"): the founders' delivery hours a month over the founders' hours one unit of an Offering takes -- how many a month
+ * they could deliver of it alone, a ceiling to check the expected sales against, never a start. Null where either is not said.
+ */
+export function capacityCeiling(founders: readonly (FounderHours & { id: string })[], delivery: DeliveryValue | undefined): number | null {
+    const available = deliveryHours(founders);
+    const ids = new Set(founders.map(founder => founder.id));
+    const perUnit = Object.entries(deliveryAllocation(delivery)).filter(([id]) => ids.has(id) || id === "").reduce((sum, [, hours]) => sum + hours, 0);
+    return available !== null && available > 0 && perUnit > 0 ? Math.floor(available / perUnit) : null;
+}
+
+/**
+ * A SOURCE'S BASIS, DRAFTED FROM ITS OWN FIGURES (P1; owner, 2026-11-18 03:01, "All, P1 to P9"): the working the result shows ("625 visitors a month, 1.6% buy: about 10 a month"), as a
+ * sentence; "" while its figures give nothing.
+ */
+export function demandBasisDraft(demand: DemandValue | undefined, sourceId: string): string {
+    const part = demandResult(demand).sources.find(entry => entry.id === sourceId);
+    const working = part?.expected !== null && part?.expected !== undefined ? part.working.trim() : "";
+    return working ? working.charAt(0).toUpperCase() + working.slice(1).replace(/\.?$/, ".") : "";
+}
+
 /** The organization's controlled capacity: every founder's delivery hours. Null when none is known. */
 export function deliveryHours(founders: readonly FounderHours[]): number | null {
     const known = founders.map(founderDeliveryHours).filter((hours): hours is number => hours !== null);
