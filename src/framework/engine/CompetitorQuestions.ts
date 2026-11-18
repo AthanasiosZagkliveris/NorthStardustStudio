@@ -15,7 +15,7 @@ import { BUSINESS_CHANNEL_CATEGORIES } from "./businessFoundation/channelCategor
 /** One saved answer: question id to the ids chosen. */
 export type CompetitorAnswers = Record<string, string[]>;
 
-export type CompetitorQuestionId = "k1" | "k2" | "k3" | "k4" | "k5" | "k6" | "k7" | "k8" | "k9" | "k10";
+export type CompetitorQuestionId = "k1" | "k2" | "k3" | "k4" | "k5" | "k6" | "k7" | "k8" | "k9" | "k10" | "k15";
 
 /** The five types of competitor (BUSINESS_COMPETITOR_TYPES' ids); no type chosen is asked as a direct competitor. */
 type TypeId = "direct" | "indirect" | "substitutes" | "internal" | "status-quo";
@@ -26,7 +26,7 @@ const ALL: readonly TypeId[] = ["direct", "indirect", "substitutes", "internal",
 
 /** Which types are asked each question (doc 41, "What the type asks"). */
 const ASKED: Record<CompetitorQuestionId, readonly TypeId[]> = {
-    k1: SOLD, k2: SOLD, k3: RIVALS, k4: SOLD, k5: RIVALS, k6: SOLD, k7: SOLD, k8: ALL, k9: ALL, k10: ALL
+    k1: SOLD, k2: SOLD, k3: RIVALS, k4: SOLD, k5: RIVALS, k6: SOLD, k7: SOLD, k8: ALL, k9: ALL, k10: ALL, k15: SOLD
 };
 
 const typeOf = (type: string): TypeId => (ALL as readonly string[]).includes(type) ? type as TypeId : "direct";
@@ -67,7 +67,9 @@ const WORDING: Record<CompetitorQuestionId, Partial<Record<TypeId, string>> & { 
         internal: "How could each change affect customers doing it themselves?",
         "status-quo": "How could each change affect customers who do nothing?"
     },
-    k10: { direct: "What could you do differently?" }
+    k10: { direct: "What could you do differently?" },
+    // (K15 (owner, 2026-11-18 03:08: "Build K15 and P7 now"; doc 48, 12.2): the price range customers see today.)
+    k15: { direct: "What do they charge for a similar offer?", substitutes: "What does this alternative cost?" }
 };
 
 /** A question's words for a type of competitor. */
@@ -106,7 +108,8 @@ export const COMPETITOR_INFO: Record<CompetitorQuestionId, readonly string[]> = 
     ],
     k8: ["Rate each from what their customers say and what you have seen."],
     k9: ["How each change could help or hurt them. The changes and their examples are your Segment's."],
-    k10: ["Openings drawn from what you answered above. Tick the ones you will act on, then write how in the text.", "Your ticks here start the Segment's Differentiation, under your Competitors: an opening on price, ease, safety, quality, expertise or service starts its match."]
+    k10: ["Openings drawn from what you answered above. Tick the ones you will act on, then write how in the text.", "Your ticks here start the Segment's Differentiation, under your Competitors: an opening on price, ease, safety, quality, expertise or service starts its match."],
+    k15: ["The price range customers see today, From and To in your currency. It helps you place your own price.", "Tick Not known yet until you find out: their website, a quote or what their customers say.", "Based on: MIT OpenCourseWare 15.818 Pricing; Penn State Extension, Choosing a pricing method."]
 };
 
 /** K8's "i" line for the band (owner, 2026-11-04). */
@@ -528,10 +531,36 @@ export function competitorReviewStarts(answers: CompetitorAnswers): string[] {
     ];
 }
 
+/** K15's range as saved: From and To (amounts as typed, "" where not given), or Not known yet. */
+export function competitorPriceRange(answers: CompetitorAnswers): { from: string; to: string; unknown: boolean } {
+    const [from = "", to = ""] = answers.k15 ?? [];
+    return { from, to, unknown: (answers["k15-unknown"] ?? []).includes("yes") };
+}
+
+/**
+ * P7 (owner, 2026-11-18 03:01 and 03:08): what the Segment's competitors charge for a similar offer, the lowest From to the highest To across the competitors
+ * whose K15 says it; null where none does. Never compared with the founder's own price (the start-up rule).
+ */
+export function competitorsPriceRange(competitors: readonly { type: string; questions?: CompetitorAnswers }[]): { low: number; high: number } | null {
+    const amounts = competitors.filter(competitor => competitorAsks(competitor.type, "k15")).map(competitor => competitorPriceRange(competitor.questions ?? {}))
+        .filter(range => !range.unknown).flatMap(range => [range.from, range.to]).map(text => Number.parseFloat(text)).filter(value => Number.isFinite(value) && value > 0);
+    return amounts.length > 0 ? { low: Math.min(...amounts), high: Math.max(...amounts) } : null;
+}
+
 export function competitorSettle(answers: CompetitorAnswers, type: string): CompetitorAnswers {
     const settled: CompetitorAnswers = {};
     for (const id of Object.keys(ASKED) as CompetitorQuestionId[]) {
         if (!competitorAsks(type, id)) {
+            continue;
+        }
+        // (K15: two amounts, From and To, kept as typed; or Not known yet, which clears them.)
+        if (id === "k15") {
+            const range = competitorPriceRange(answers);
+            if (range.unknown) {
+                settled["k15-unknown"] = ["yes"];
+            } else if (range.from.trim() !== "" || range.to.trim() !== "") {
+                settled.k15 = [range.from, range.to];
+            }
             continue;
         }
         const offered = OPTIONS[id];
@@ -772,7 +801,7 @@ export function competitorOpenings(answers: CompetitorAnswers, type: string, con
  */
 export function competitorTable(
     competitors: readonly { name: string; type: string; questions?: CompetitorAnswers }[],
-    context: Pick<OpeningContext, "profiles" | "reach">
+    context: Pick<OpeningContext, "profiles" | "reach"> & { currencySymbol?: string }
 ): { head: string[]; rows: string[][] } {
     const label = (list: readonly SegmentOption[], id: string) => list.find(option => option.id === id)?.label ?? "";
     const rated = (answers: CompetitorAnswers, id: CompetitorQuestionId, list: readonly SegmentOption[], keep: (point: number) => boolean) =>
@@ -782,8 +811,11 @@ export function competitorTable(
         const others = competitors.filter((_, other) => other !== at).map(other => other.questions ?? {});
         const openings = competitorOpenings(answers, competitor.type, { profiles: context.profiles, others, reach: context.reach });
         const growth = answers.k4?.[0];
+        const price = competitorPriceRange(answers);
         return [
             label(COMPETITOR_OFFER_OPTIONS, answers.k1?.[0] ?? ""),
+            // (K15: the range they charge, as typed, in the organisation's currency; Not known yet as said.)
+            price.unknown ? "Not known yet" : price.from || price.to ? [price.from, price.to].filter(Boolean).map(amount => (context.currencySymbol ?? "") + amount).join(" to ") : "",
             label(COMPETITOR_REACH_OPTIONS, answers.k2?.[0] ?? ""),
             label(COMPETITOR_SIZE_OPTIONS, answers.k3?.[0] ?? ""),
             growth ? growth + " of 5 (" + COMPETITOR_RATINGS.k4.low + " to " + COMPETITOR_RATINGS.k4.high + ")" : "",
@@ -798,7 +830,7 @@ export function competitorTable(
             (answers.k10 ?? []).map(id => openings.find(opening => opening.id === id)?.label ?? "").filter(Boolean).join("; ")
         ];
     });
-    const names = ["What they offer", "Where they sell", "How big they are", "Growing", "How they reach customers", "Where they are reviewed", "Stages they make hard",
+    const names = ["What they offer", "What they charge", "Where they sell", "How big they are", "Growing", "How they reach customers", "Where they are reviewed", "Stages they make hard",
         "Strong on", "Weak on", "Changes that help them", "Changes that hurt them", "Your openings"];
     return {
         head: ["", ...competitors.map(competitor => competitor.name.trim() || "Unnamed competitor")],

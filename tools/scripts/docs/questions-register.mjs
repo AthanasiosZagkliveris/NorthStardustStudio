@@ -181,12 +181,12 @@ const PROFILE_SECTION = { personal: "3", psychographics: "4", hubs: "5", habits:
 
 /** The Competitor (doc 41): the box of each question (as the card asks them: `PART_QUESTIONS` in `CompetitorCard.tsx`), the code is the id in capitals. */
 const COMPETITOR_BOXES = [
-    ["offerings", ["k1"]], ["market", ["k2", "k3", "k4"]], ["acquisition", ["k5"]], ["experience", ["k6", "k7"]],
+    ["offerings", ["k1", "k15"]], ["market", ["k2", "k3", "k4"]], ["acquisition", ["k5"]], ["experience", ["k6", "k7"]],
     ["swot", ["k8", "k9"]], ["insights", ["k10"]]
 ];
 const COMPETITOR_CONTROLS = {
     k1: "FittingRadioChoice", k4: "RatingScale", k5: "TickField per channel, then OptionPicker per sub-channel", k6: "RatingScaleGroup (selectable, ends in Other)",
-    k7: "RatingScaleGroup", k8: "RatingScaleGroup", k9: "RatingScaleGroup", k10: "BusinessTicks"
+    k7: "RatingScaleGroup", k8: "RatingScaleGroup", k9: "RatingScaleGroup", k10: "BusinessTicks", k15: "NumberCell (From, To), TickField (Not known yet)"
 };
 const COMPETITOR_RETIRED = [
     ["K11", "What could you do differently? (its number later on 2026-11-04)", "K10 (renumbered before codes were permanent)"],
@@ -408,7 +408,8 @@ function rows(code) {
             k7: "rows, each rated 1 to 5 (Hard to Easy): " + list(C.COMPETITOR_STAGES),
             k8: "rows, each rated 1 to 5 (Weak to Strong), the Profiles' highest rated first: " + list(C.COMPETITOR_VALUES),
             k9: "rows, each rated 1 to 5 (Threat to Opportunity), the Segment's ticked changes first: " + list(C.COMPETITOR_CHANGES),
-            k10: "from the answers above (`competitorOpenings`): the openings each answer makes"
+            k10: "from the answers above (`competitorOpenings`): the openings each answer makes",
+            k15: "an amount range, From and To, in the organisation's currency, per the Segment's terms (O3); or Not known yet (owner, 2026-11-18)"
         };
         cards.push({
             title: "Competitor", where: "Business System, page 1, a Competitor of a Segment", owner: "41",

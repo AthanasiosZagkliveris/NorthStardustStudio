@@ -172,6 +172,8 @@ The app knows how much price matters and how customers pay; it holds no amount: 
 
 #### K15 (Competitor card, doc 41)
 
+- **Built (owner, 2026-11-18 03:08 UTC+2: "Build K15 and P7 now"):** on the Competitor card (doc 41, K15); the price's "i" on Sustainability (Revenue & Pricing once the pages are rearranged) says the Segment's competitors' range, last (P7); nothing is written into the price. O19 stays proposed.
+
 - **Placed (owner, 2026-11-17 07:16: "Yes to all"):** asked on the Competitor card, since it describes the competitor; the Revenue & Pricing section shows it beside the price as a record.
 
 - **Label:** What do they charge for a similar offer?

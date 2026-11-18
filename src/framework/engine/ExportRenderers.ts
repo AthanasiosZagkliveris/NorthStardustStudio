@@ -1,3 +1,6 @@
+import { countryCurrency } from "./LegalEntityJurisdictions.ts";
+import { currencyMark } from "./Currencies.ts";
+import { competitorPriceRange, competitorSettle } from "./CompetitorQuestions.ts";
 import { segmentAnswerLines } from "./SegmentQuestions.ts";
 import { profileAnswerLines, profileUserAnswerLines } from "./ProfileQuestions.ts";
 import { offeringAnswerLines } from "./OfferingQuestions.ts";
@@ -562,6 +565,12 @@ function segmentBlocks(segment: BusinessCustomerSegmentValue, index: number, org
             ...describe(competitor.description, competitor.type === "substitutes"
                 ? [["offerings", "Alternative Solution"], ["market", "Market"], ["experience", "Customer Experience"]]
                 : COMPETITOR_FIELDS),
+            // (K15, what they charge, as the Business Plan's table says it: owner, 2026-11-18.)
+            ...(() => {
+                const price = competitorPriceRange(competitorSettle(competitor.questions ?? {}, competitor.type));
+                const said = price.unknown ? "Not known yet" : [price.from, price.to].filter(Boolean).map(amount => currencyMark(countryCurrency(organisation.country ?? "")) + amount).join(" to ");
+                return said ? paragraph(said, "What they charge") : [];
+            })(),
             // Two notes since 2026-11-05 (owner): strengths and weaknesses, opportunities and threats.
             ...table(["Strengths and weaknesses", "Opportunities and threats"],
                 [[competitor.strengths, competitor.opportunities]]),

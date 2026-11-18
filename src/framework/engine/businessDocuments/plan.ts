@@ -1,5 +1,6 @@
 /* Part of BusinessDocuments.ts (split by its sections, 2026-11-10: the same code, in files of one topic each; BusinessDocuments.ts re-exports every part). */
 
+import { currencyMark } from "../Currencies.ts";
 import { OFFERING_QUESTIONS, offeringAnswerLines, offeringOptions } from "../OfferingQuestions.ts";
 import { workspacesOf, WORKSPACE_GROUP_ID } from "../AnswerUtils.ts";
 import { offeringRelationshipsFor } from "../JourneySuggestions.ts";
@@ -202,7 +203,7 @@ function marketBlocks(f: Foundation): ExportBlock[] {
                 ])),
                 // (K1 to K10 side by side, a column per competitor, the openings chosen last: competitorTable; owner, 2026-11-17.)
                 ...(() => {
-                    const compared = competitorTable(segment.competitors, { profiles: segment.profiles.map(profile => profile.questions ?? {}), reach: segment.questions.reach?.[0] });
+                    const compared = competitorTable(segment.competitors, { profiles: segment.profiles.map(profile => profile.questions ?? {}), reach: segment.questions.reach?.[0], currencySymbol: currencyMark(f.currency) });
                     return compared.rows.length > 0 ? table(compared.head, compared.rows) : [];
                 })()
             ])

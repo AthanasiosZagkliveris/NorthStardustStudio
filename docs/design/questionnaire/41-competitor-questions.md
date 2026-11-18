@@ -176,6 +176,16 @@ This follows the type rules already built for the text boxes: a substitute has n
 - **Starts from K5** (built; owner, 2026-11-18 00:46, the review's second batch, 2.15): a Marketplace channel ticks the Marketplace row, a Facebook subchannel the Facebook row, ticked but never rated, while K6 was never answered (`competitorReviewStarts`). Only rated rows are printed, so a start prints nothing.
 - **Its starts unticked to none stay none** (owner, 2026-11-18: a start follows its source until edited, and unticking every tick is an edit): the empty K6 is kept by the settle step.
 
+### K15. What do they charge for a similar offer?
+
+*Built (owner, 2026-11-18 03:08 UTC+2: "Build K15 and P7 now"), as doc 48, 12.2 proposed.*
+
+- **Where:** the Offerings part, under K1; asked of direct and indirect competitors and substitutes (a substitute: "What does this alternative cost?").
+- **Control:** From and To (`NumberCell`, the organisation's currency in the label), "Per sale / session / project / month / year" from the Segment's Offerings' terms (O3); a tick "Not known yet" that clears both (`TickField`).
+- **The "i":** the price range customers see today, From and To in your currency, to help place your own price; Not known yet until you find out; Based on: MIT OpenCourseWare 15.818 *Pricing*; Penn State Extension, *Choosing a pricing method* (last).
+- **Saved as:** `k15` [From, To] as typed, or `k15-unknown` ["yes"].
+- **Read by:** the Business Plan's competitor table ("What they charge", "£40 to £120"); the export, a "What they charge" line under each competitor's description; the price's "i" on Sustainability (P7: "Your competitors charge about £40 to £300 for a similar offer", the lowest From to the highest To across the Segment's competitors). Never compared with the founder's own price (the start-up rule).
+
 ### K7. How easy do they make each stage for customers?
 
 - **Control:** a rating group (`RatingScaleGroup`): one row for each of the app's Journey Stages, rated 1 (hard) to 5 (easy). A row left unrated is unanswered. No loyalty ticks (owner, 2026-11-04: they repeat K5's channels, Email and Community among them).

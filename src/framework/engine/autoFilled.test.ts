@@ -34,3 +34,18 @@ describe("P9: an Objective's drafts", () => {
         expect(new Set(drafts).size).toBe(drafts.length);
     });
 });
+
+describe("K15 and P7: what competitors charge", () => {
+    it("keeps From and To as typed, or Not known yet, and spans the Segment's competitors", async () => {
+        const { competitorSettle, competitorsPriceRange, competitorTable } = await import("./CompetitorQuestions");
+        expect(competitorSettle({ k15: ["40", "120"] }, "direct").k15).toEqual(["40", "120"]);
+        expect(competitorSettle({ k15: ["40", "120"], "k15-unknown": ["yes"] }, "direct")).toEqual({ "k15-unknown": ["yes"] });
+        // (Not asked of the status quo: its answer goes.)
+        expect(competitorSettle({ k15: ["40", "120"] }, "status-quo").k15).toBeUndefined();
+        expect(competitorsPriceRange([{ type: "direct", questions: { k15: ["40", "120"] } }, { type: "indirect", questions: { k15: ["90", "300"] } }, { type: "direct", questions: { "k15-unknown": ["yes"] } }]))
+            .toEqual({ low: 40, high: 300 });
+        expect(competitorsPriceRange([{ type: "direct", questions: {} }])).toBeNull();
+        const table = competitorTable([{ name: "A", type: "direct", questions: { k15: ["40", "120"] } }], { profiles: [], reach: undefined, currencySymbol: "£" });
+        expect(table.rows.find(row => row[0] === "What they charge")).toEqual(["What they charge", "£40 to £120"]);
+    });
+});
