@@ -3056,6 +3056,27 @@
             }
         }
 
+        // C3. ONE ARROW LEVEL (layout rules section 10, "One arrow level"; owner, 2026-11-18 21:34 UTC+2: "A: Level page arrows everywhere"): every page arrow and
+        //     every dialog's and floating card's carousel arrow has its centre at one height in a window -- on every page. The first height seen at a window size is
+        //     kept for the run (sessionStorage), and every later page, dialog and card is checked against it; the arrows shown now are level with each other.
+        {
+            const arrows = [...document.querySelectorAll(".page-arrow")].filter(arrow => visible(arrow) && getComputedStyle(arrow).visibility !== "hidden" && !arrow.closest(".strategy-card-nav, .notepad-panel, .org-calendar") && !arrow.matches(".notepad-close, .org-calendar-month-arrow"));
+            const centres = arrows.map(arrow => { const box = rect(arrow); return (box.top + box.bottom) / 2; });
+            if (centres.length > 0) {
+                if (Math.max(...centres) - Math.min(...centres) > 1) {
+                    fail("every arrow shown stands at one height", arrows[0], { centres });
+                }
+                const key = "layout-probe-arrow-level-" + window.innerWidth + "x" + window.innerHeight;
+                let seen = null;
+                try { seen = sessionStorage.getItem(key); } catch { /* (no storage: the check within the page stands) */ }
+                if (seen === null) {
+                    try { sessionStorage.setItem(key, String(centres[0])); } catch { /* (as above) */ }
+                } else if (Math.abs(centres[0] - Number(seen)) > 1) {
+                    fail("the arrows stand at one height on every page of a window", arrows[0], { centre: centres[0], elsewhere: Number(seen) });
+                }
+            }
+        }
+
         // D. A page of tiles whose chapters all stand above the footer does not scroll: there is nothing lower to reveal (what adds to the page stands in the
         //    footer's band, as Inventory, Completed and "+ Add Segment" do).
         if (!document.querySelector(".section-tile-overlay") && window.innerWidth >= 1212 && window.innerHeight >= 640) {

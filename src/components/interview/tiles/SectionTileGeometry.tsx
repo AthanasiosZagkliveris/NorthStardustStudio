@@ -175,48 +175,27 @@ export function tileName(title: string, items: readonly string[] = []): string {
 
 
 /**
- * THE GAP BETWEEN THE TWO ROWS OF TILES: the viewport's y of the middle of the space between the first row of a page card's four tiles and the second. The page arrows
- * stand level with it (the Pages and Sections rails follow them), and the carousel arrows beside a card stand at the page arrows' own level.
+ * THE ONE ARROW LEVEL (owner, 2026-11-18 21:34 UTC+2: "A: Level page arrows everywhere"; layout rules section 10, "One arrow level"): the viewport's y where every
+ * page arrow and every dialog's and floating card's carousel arrow has its centre, the same on every page of a window -- the arrows never move. It is the level of the
+ * gap between the two rows of a page of four tiles at this window: the page title's underline where the title is one line (pinned; a long title that wraps, as
+ * "Costs, Funding & Position" at 1366, has its further lines taken back, so it does not lower the arrows), the frame's 12px gap and its head
+ * (61px), one tile as a page of tiles sizes it (the card's width allows one, the window's height leaves room for two rows above the footer) and half the gap
+ * between the rows. Worked out from the window, never measured from a page's own tiles, so no page can move it. Where there is no page title (no page open), the
+ * middle of the dialog's frame.
  */
-export function tileGapLevel(): number | null {
-    const slots = Array.from(document.querySelectorAll<HTMLElement>(".section-tiles-quad .section-tile-slot"));
-    // (Measured where the tiles are laid out, not where they are drawn: a tile grown under the pointer must not move the arrows.)
-    const laidOut = (slot: HTMLElement) => {
-        const parent = slot.offsetParent as HTMLElement | null;
-        const top = (parent ? parent.getBoundingClientRect().top + parent.clientTop - parent.scrollTop : 0) + slot.offsetTop;
-        return { top, bottom: top + slot.offsetHeight };
-    };
-    const first = slots[0] ? laidOut(slots[0]) : undefined;
-    const second = first ? slots.map(laidOut).find(box => box.top > first.bottom - 4) : undefined;
-    if (first && second) {
-        return (first.bottom + second.top) / 2;
-    }
-    // A page with no tiles (a long page of lists): the level a page of tiles has at this width -- the heading's underline, the frame's 12px gap and its head (61px), one tile, and half the gap between rows.
+export function arrowLevel(): number | null {
     const underline = document.querySelector<HTMLElement>(".interview-divider")?.getBoundingClientRect();
     const card = document.querySelector<HTMLElement>(".conversation-card")?.getBoundingClientRect();
     if (underline && card && card.width > 300) {
-        // (As a page of tiles sizes its tiles: the card's width allows one, the window's height leaves room for two rows above the footer; the gap follows them down from 12px.)
-        const top = underline.bottom + window.scrollY + 12 + 61;
+        const title = document.querySelector<HTMLElement>(".interview-header h1");
+        const line = title ? parseFloat(getComputedStyle(title).lineHeight) : NaN;
+        const further = title && Number.isFinite(line) && line > 0 ? Math.max(0, Math.round(title.getBoundingClientRect().height / line) - 1) * line : 0;
+        const top = underline.bottom - further + 12 + 61;
         const footer = document.querySelector<HTMLElement>(".workspace-footer")?.offsetHeight ?? 64;
         const natural = (Math.floor((card.width - 12) / 2) - 26 - 12) / 2;
         const tile = Math.min(natural, Math.max(Math.floor((window.innerHeight - top - footer - 36) / 2), 150));
         const gap = natural > 0 ? Math.max(6, Math.min(12, Math.round(12 * tile / natural))) : 12;
         return top + tile + gap / 2;
-    }
-    const frame = dialogFrame();
-    return frame ? frame.top + frame.height / 2 : null;
-}
-
-
-/** The level the carousel arrows stand at: the page arrows' own. */
-export function arrowLevel(): number | null {
-    // (The Notes' closing arrow is no page arrow: with the Notes open, the carousel kept its level and stood at the top; owner, 2026-11-10.)
-    const page = document.querySelector<HTMLElement>(".page-arrow:not(.carousel-arrow, .notepad-close)");
-    if (page) {
-        const box = page.getBoundingClientRect();
-        if (box.height > 0) {
-            return box.top + box.height / 2;
-        }
     }
     const frame = dialogFrame();
     return frame ? frame.top + frame.height / 2 : null;
