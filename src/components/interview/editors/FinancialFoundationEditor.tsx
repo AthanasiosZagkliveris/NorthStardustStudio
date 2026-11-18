@@ -103,7 +103,9 @@ export default function FinancialFoundationEditor({
 
     globalSettings,
 
-    onOpenFoundation
+    onOpenFoundation,
+
+    onOpenLegalEntity
 
 }: FinancialFoundationEditorProps) {
 
@@ -312,12 +314,25 @@ export default function FinancialFoundationEditor({
         return { rows, uncounted };
     }
 
-    /** The cost of each sale: the prices per unit added up, and how many costs are a percent of revenue instead (the Costs section's third total, and its tile's). */
+    /**
+     * THE COSTS COUNTED WITH REVENUE, each named with its share (owner, 2026-11-18 16:55: "Do all 8", proposal 7), as each is paid on the part of the revenue it serves
+     * (a card fee online, another in person): [{ name: "Shopify Payments", share: "2%" }].
+     */
+    function revenueShareLines(rows: CostRow[]): { name: string; share: string }[] {
+        return rows.filter(row => row.bucket === "sale" && row.line.frequency === "usage-based" && (row.line.amountText ?? "").trim() !== "")
+            .map(row => ({ name: row.line.name.trim() || "A cost", share: row.line.amountText.trim() + "%" }));
+    }
+    /** The same in words: "2% of revenue" where there is one; several each named: "2% (Shopify Payments) · 1.69% (SumUp card fees)". Empty where there are none. */
+    function revenueSharesOf(rows: CostRow[]): string {
+        const lines = revenueShareLines(rows);
+        return lines.length === 0 ? "" : lines.length === 1 ? lines[0].share + " of revenue" : lines.map(line => line.share + " (" + line.name + ")").join(" · ");
+    }
+    /** The cost of each sale: the prices per unit added up, and the costs that are a share of revenue instead (the Costs section's third total, and its tile's). */
     function saleTextOf(rows: CostRow[]): string {
         const sales = rows.filter(row => row.bucket === "sale");
         const perSale = sales.filter(row => row.line.frequency !== "usage-based").reduce((sum, row) => sum + (row.line.variablePerUnit ?? row.amount), 0);
-        const percentCosts = sales.filter(row => row.line.frequency === "usage-based").length;
-        return sales.length === 0 ? format(0) : format(perSale) + (percentCosts > 0 ? " + " + percentCosts + (percentCosts === 1 ? " share of revenue" : " shares of revenue") : "");
+        const shares = revenueSharesOf(rows);
+        return sales.length === 0 ? format(0) : format(perSale) + (shares ? " + " + shares : "");
     }
 
     function costsSection() {
@@ -1089,33 +1104,6 @@ export default function FinancialFoundationEditor({
 
     }
 
-    /**
-     * The founders' capital, answered on the Legal Entity: who, and how
-     * much, and the total. Counted as in hand from the plan's start.
-     */
-    function founderCapitalList(capital: FundingSourceValue[]) {
-
-        const total = capital.reduce((sum, source) => sum + fundingStanding(source, start).total, 0);
-
-        return (
-            <div className="financial-need-card financial-capital-card">
-                <strong className="financial-need-name">Founders' Capital</strong>
-                <ul className="financial-cost-inputs">
-                    {capital.map(source => (
-                        <li key={source.id}>
-                            <span>{source.provider.trim() || "Unnamed founder"}</span>
-                            <span>{format(fundingStanding(source, start).total)}</span>
-                        </li>
-                    ))}
-                    <li className="financial-cost-inputs-total">
-                        <span>Total</span><span>{format(total)}</span>
-                    </li>
-                </ul>
-            </div>
-        );
-
-    }
-
     function fundingSection() {
 
         const capital = founderCapitalSources(stored, legalEntity);
@@ -1145,19 +1133,31 @@ export default function FinancialFoundationEditor({
 
                                 </div>
 
-                                {category.id === "internal" && capital.length > 0 && (
-                                    <div className="financial-funding-cards">{founderCapitalList(capital)}</div>
-                                )}
-
                                 {/* (THE SOURCES AS TILES (owner, 2026-11-18 12:41: "make the Funding Sources into tiles"): the dialog's card list, three in a row, each its
                                     type, amount and status, opening its card floating; the Add tile after them makes a blank one and opens it.) */}
                                 <CardBoxes
                                     label={category.label + " funding sources"}
                                     what="Funding Source"
                                     autoStart={false}
-                                    items={of.map((source, index): CardBox => ({
+                                    items={[
+                                        // (FOUNDERS' CAPITAL AS A TILE (owner, 2026-11-18 16:55: "Do all 8", proposal 8): the Internal category's first, as the sources beside
+                                        // it -- its total, then each founder's --; pressed, it opens the Legal Entity's Founders & Ownership, where it is answered.)
+                                        ...(category.id === "internal" && capital.length > 0 ? [((): CardBox => {
+                                            const total = capital.reduce((sum, source) => sum + fundingStanding(source, start).total, 0);
+                                            return {
+                                                id: "founders-capital",
+                                                number: 1,
+                                                name: "Founders' Capital",
+                                                unnamed: "Founders' Capital",
+                                                own: true,
+                                                lines: [format(total), ...capital.map(source => (source.provider.trim() || "Unnamed founder") + ": " + format(fundingStanding(source, start).total))],
+                                                ...(onOpenLegalEntity ? { press: () => onOpenLegalEntity(["legal-section-1"]) } : {}),
+                                                content: () => null
+                                            };
+                                        })()] : []),
+                                        ...of.map((source, index): CardBox => ({
                                         id: source.id,
-                                        number: index + 1,
+                                        number: index + 1 + (category.id === "internal" && capital.length > 0 ? 1 : 0),
                                         name: source.name,
                                         unnamed: "Funding Source " + (index + 1),
                                         own: true,
@@ -1167,7 +1167,7 @@ export default function FinancialFoundationEditor({
                                             FUNDING_STATUSES.find(entry => entry.id === source.status)?.label ?? ""
                                         ].filter(Boolean),
                                         content: () => null
-                                    }))}
+                                    }))]}
                                     add={{
                                         label: "Funding Source",
                                         disabled,
@@ -1365,8 +1365,9 @@ export default function FinancialFoundationEditor({
         ...(() => {
             const sales = costRows().rows.filter(row => row.bucket === "sale");
             const perSale = sales.filter(row => row.line.frequency !== "usage-based").reduce((sum, row) => sum + (row.line.variablePerUnit ?? row.amount), 0);
-            const shares = sales.filter(row => row.line.frequency === "usage-based").length;
-            return [pair("Cost of each sale", format(perSale)), ...(shares > 0 ? [pair("Shares of revenue", String(shares))] : [])];
+            // (Each share named on the face: one is "% of revenue", several each with its cost's name; coordinator, 2026-11-18.)
+            const shares = revenueShareLines(costRows().rows);
+            return [pair("Cost of each sale", format(perSale)), ...(shares.length === 1 ? [pair("Share of revenue", shares[0].share)] : shares.map(line => pair(line.name, line.share)))];
         })()
     ];
     const sources = allFunding(page, legalEntity);
@@ -1415,7 +1416,7 @@ export default function FinancialFoundationEditor({
             holds: stored.funding.map(source => source.id),
             cardFor: (id: string) => {
                 const of = stored.funding.find(source => source.id === id);
-                const index = of ? stored.funding.filter(source => source.category === of.category).indexOf(of) : -1;
+                const index = of ? stored.funding.filter(source => source.category === of.category).indexOf(of) + (of.category === "internal" && founderCapitalSources(stored, legalEntity).length > 0 ? 1 : 0) : -1;
                 return of ? <div className="column-tile-content financial-page financial-funding-floating">{fundingCard(of, index)}</div> : null;
             }
         } : {}),

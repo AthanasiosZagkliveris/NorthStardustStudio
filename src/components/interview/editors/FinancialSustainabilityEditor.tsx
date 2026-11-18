@@ -1458,7 +1458,7 @@ export default function FinancialSustainabilityEditor({
             </>
         );
 
-        /** The Stress Test's face: as planned and in the hardest case, each the shortfall or the lowest the cash falls to. */
+        /** The Stress Test's line on the Sustainability tile: the shortfall in its hardest case, or None. */
         function stressFace(): string[] {
             const test = stressTest(effective, financial, lines, legalEntity, format);
             if (test.scenarios.length === 0) {
@@ -1466,9 +1466,9 @@ export default function FinancialSustainabilityEditor({
             }
             const [planned] = test.scenarios;
             const hardest = test.scenarios.reduce((max, scenario) => scenario.shortfall > max.shortfall ? scenario : max, planned);
-            const said = (scenario: typeof planned) => scenario.shortfall > 0.5 ? format(scenario.shortfall) + " short" : "holds";
             // (Its hardest case alone: as planned is the Sustainability's own figure, said beside it; owner, 2026-11-18 16:55.)
-            return [pair("Stress Test, at worst", said(hardest))];
+            // (Short enough for the face: the shortfall's amount, or None.)
+            return [pair("Worst shortfall", hardest.shortfall > 0.5 ? format(hardest.shortfall) : "None")];
         }
 
         const stress = (

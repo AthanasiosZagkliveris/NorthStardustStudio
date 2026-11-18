@@ -338,26 +338,6 @@
 
 }
 
-.financial-funding-cards{
-
-    display:grid;
-
-    grid-template-columns:repeat(auto-fit, minmax(440px, 1fr));
-
-    gap:var(--space-card) 24px;
-
-    align-items:start;
-
-    width:100%;
-
-}
-
-@media (max-width:640px){
-
-    .financial-funding-cards{ grid-template-columns:minmax(0, 1fr); }
-
-}
-
 /* A source's details, and a loan's terms: one grid each, the rows
    dissolved into it, so the fields flow across the card's width. */
 .financial-funding-grid{
