@@ -2688,11 +2688,11 @@
   {
    "label": "Demand & Conversion",
    "place": "tile dialog",
-   "text": "For each Offering, estimate under Demand & Conversion where its customers come from and how many buy.\nWhere this Offering’s customers come from, and so how many sales to expect. One source with a figure is enough; add more, or calculate them, as the business develops.\nThe Expected Sales are used for Capacity & Delivery on Infrastructure & Capability and for this Offering’s revenue on Sustainability.\nCount each new customer once, under the source that brought the sale. Repeat customers are worked out from the others, so they are never counted twice.",
+   "text": "For each Offering, estimate under Demand & Conversion where its customers come from and how many buy.\nWhere this Offering’s customers come from, and so how many sales to expect. One source with a figure is enough; add more, or calculate them, as the business develops.\nThe Expected Sales are used for Capacity & Delivery on Infrastructure & Capability and for this Offering’s revenue on Revenue & Pricing.\nCount each new customer once, under the source that brought the sale. Repeat customers are worked out from the others, so they are never counted twice.",
    "lines": 24,
    "points": 4,
    "w": 360,
-   "chars": 554,
+   "chars": 557,
    "scenes": [
     "Business System / Customer Engagement / tile Demand &Conversion",
     "Business System / Customer Engagement / tile Demand &Conversion / card 1",
@@ -2703,11 +2703,11 @@
   {
    "label": "AI Workflow Audit",
    "place": "tile dialog",
-   "text": "For each Offering, estimate under Demand & Conversion where its customers come from and how many buy.\nWhere this Offering’s customers come from, and so how many sales to expect. One source with a figure is enough; add more, or calculate them, as the business develops.\nThe Expected Sales are used for Capacity & Delivery on Infrastructure & Capability and for this Offering’s revenue on Sustainability.\nCount each new customer once, under the source that brought the sale. Repeat customers are worked out from the others, so they are never counted twice.",
+   "text": "For each Offering, estimate under Demand & Conversion where its customers come from and how many buy.\nWhere this Offering’s customers come from, and so how many sales to expect. One source with a figure is enough; add more, or calculate them, as the business develops.\nThe Expected Sales are used for Capacity & Delivery on Infrastructure & Capability and for this Offering’s revenue on Revenue & Pricing.\nCount each new customer once, under the source that brought the sale. Repeat customers are worked out from the others, so they are never counted twice.",
    "lines": 24,
    "points": 4,
    "w": 360,
-   "chars": 554,
+   "chars": 557,
    "scenes": [
     "Business System / Customer Engagement / tile Demand &Conversion / card 1"
    ]
@@ -2743,11 +2743,11 @@
   {
    "label": "Automation Build",
    "place": "tile dialog",
-   "text": "For each Offering, estimate under Demand & Conversion where its customers come from and how many buy.\nWhere this Offering’s customers come from, and so how many sales to expect. One source with a figure is enough; add more, or calculate them, as the business develops.\nThe Expected Sales are used for Capacity & Delivery on Infrastructure & Capability and for this Offering’s revenue on Sustainability.\nCount each new customer once, under the source that brought the sale. Repeat customers are worked out from the others, so they are never counted twice.",
+   "text": "For each Offering, estimate under Demand & Conversion where its customers come from and how many buy.\nWhere this Offering’s customers come from, and so how many sales to expect. One source with a figure is enough; add more, or calculate them, as the business develops.\nThe Expected Sales are used for Capacity & Delivery on Infrastructure & Capability and for this Offering’s revenue on Revenue & Pricing.\nCount each new customer once, under the source that brought the sale. Repeat customers are worked out from the others, so they are never counted twice.",
    "lines": 24,
    "points": 4,
    "w": 360,
-   "chars": 554,
+   "chars": 557,
    "scenes": [
     "Business System / Customer Engagement / tile Demand &Conversion / card 2"
    ]
@@ -2755,11 +2755,11 @@
   {
    "label": "Automation Care Retainer",
    "place": "tile dialog",
-   "text": "For each Offering, estimate under Demand & Conversion where its customers come from and how many buy.\nWhere this Offering’s customers come from, and so how many sales to expect. One source with a figure is enough; add more, or calculate them, as the business develops.\nThe Expected Sales are used for Capacity & Delivery on Infrastructure & Capability and for this Offering’s revenue on Sustainability.\nCount each new customer once, under the source that brought the sale. Repeat customers are worked out from the others, so they are never counted twice.",
+   "text": "For each Offering, estimate under Demand & Conversion where its customers come from and how many buy.\nWhere this Offering’s customers come from, and so how many sales to expect. One source with a figure is enough; add more, or calculate them, as the business develops.\nThe Expected Sales are used for Capacity & Delivery on Infrastructure & Capability and for this Offering’s revenue on Revenue & Pricing.\nCount each new customer once, under the source that brought the sale. Repeat customers are worked out from the others, so they are never counted twice.",
    "lines": 24,
    "points": 4,
    "w": 360,
-   "chars": 554,
+   "chars": 557,
    "scenes": [
     "Business System / Customer Engagement / tile Demand &Conversion / card 3"
    ]
@@ -3437,11 +3437,11 @@
   {
    "label": "Price",
    "place": "tile dialog",
-   "text": "Start from what competitors publish (listed on Foundation) and what clients pay today to solve the same problem.\nCheck it covers the costs of each sale and leaves enough towards the running costs: the card shows what is left from each sale.\nEnter prices on the basis chosen under Amounts on Financial Foundation. If you are registered, the tax you collect is not revenue.\nAllow for discounts: launch offers and first-client prices are common.",
+   "text": "Start from what competitors publish (listed on Foundation) and what clients pay today to solve the same problem.\nCheck it covers the costs of each sale and leaves enough towards the running costs: the card shows what is left from each sale.\nEnter prices on the basis chosen under Amounts in the Global Settings. If you are registered, the tax you collect is not revenue.\nAllow for discounts: launch offers and first-client prices are common.",
    "lines": 18,
    "points": 4,
    "w": 360,
-   "chars": 442,
+   "chars": 441,
    "scenes": [
     "Business System / Revenue & Pricing / tile Revenue Streams",
     "Business System / Revenue & Pricing / tile Revenue Streams",
@@ -3504,6 +3504,19 @@
    ]
   },
   {
+   "label": "First Month",
+   "place": "tile dialog",
+   "text": "How many projects in the month revenue begins.",
+   "lines": 3,
+   "points": 1,
+   "w": 360,
+   "chars": 46,
+   "scenes": [
+    "Business System / Revenue & Pricing / tile Revenue Streams",
+    "Business System / Revenue & Pricing / tile Revenue Streams"
+   ]
+  },
+  {
    "label": "Months to Normal",
    "place": "tile dialog",
    "text": "How many months it takes to grow evenly to the normal level.",
@@ -3542,18 +3555,6 @@
    "scenes": [
     "Business System / Revenue & Pricing / tile Revenue Streams",
     "Business System / Revenue & Pricing / tile Revenue Streams",
-    "Business System / Revenue & Pricing / tile Revenue Streams"
-   ]
-  },
-  {
-   "label": "First Month",
-   "place": "tile dialog",
-   "text": "How many projects in the month revenue begins.",
-   "lines": 3,
-   "points": 1,
-   "w": 360,
-   "chars": 46,
-   "scenes": [
     "Business System / Revenue & Pricing / tile Revenue Streams"
    ]
   },
@@ -4064,11 +4065,11 @@
   {
    "label": "Opening Date",
    "place": "tile dialog",
-   "text": "The day the business opens and issues its first receipt. It sets the stage: planning before it, launching from it.\nThe stage also sets Positioning's name and how many choices its questions allow; a change of stage empties an answer over the new limit.\nCosts dated before it make the pre-operational budget, on the Financial Foundation.",
+   "text": "The day the business opens and issues its first receipt. It sets the stage: planning before it, launching from it.\nThe stage also sets Positioning's name and how many choices its questions allow; a change of stage empties an answer over the new limit.\nCosts dated before it make the pre-operational budget, on Costs, Funding & Position.",
    "lines": 16,
    "points": 3,
    "w": 360,
-   "chars": 335,
+   "chars": 336,
    "scenes": [
     "Identity System / 1. Definition / tile Organisation"
    ]
