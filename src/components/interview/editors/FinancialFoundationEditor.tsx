@@ -18,7 +18,7 @@ import CardBoxes, { type CardBox } from "../cards/CardBoxes.tsx";
 import DialogSectionBand from "../tiles/DialogSectionBand.tsx";
 import { SingleColumn } from "./foundation/shared.tsx";
 import { EngagementBox, EngagementBoxes } from "./engagement/EngagementCard.tsx";
-import SectionTiles, { DialogHeading, type SectionTile } from "../tiles/SectionTiles.tsx";
+import SectionTiles, { DialogHeading, stackedFace, type FaceRow, type SectionTile } from "../tiles/SectionTiles.tsx";
 import { workHue } from "../../../framework/engine/WorkColours.ts";
 import { summaryText } from "../cards/cardSummary.ts";
 import InfoNote, { type InfoPoint, InfoText } from "../fields/InfoNote.tsx";
@@ -1395,8 +1395,9 @@ export default function FinancialFoundationEditor({
 
     /* ---------- The page: one chapter of four Master Tiles (doc 48, section 1), each opening its section in a dialog ---------- */
 
-    /* What each tile says of its section (doc 48, section 1): two columns, a name and its figure in bold. */
-    const pair = (name: string, figure: string) => name + "\u0001" + (figure ? "**" + figure + "**" : "");
+    /* What each tile says of its section (doc 48, section 1): each name, its figure in bold under it -- the tile list's one face (stackedFace; owner, 2026-11-18
+       23:08 UTC+2: "Financial tiles' lists should follow the shared tile list"). */
+    const pair = (name: string, figure: string): FaceRow => ({ name, under: figure });
     const costFace = [
         pair("Launch budget", format(funds.schedule.total)),
         pair("Running costs a month", format(funds.monthlyOpEx)),
@@ -1413,15 +1414,17 @@ export default function FinancialFoundationEditor({
     const fundingFace = FUNDING_STATUSES
         .map(status => ({ status, count: sources.filter(source => (source.status || "planned") === status.id).length }))
         .filter(entry => entry.count > 0)
-        .map(entry => pair(entry.status.label, String(entry.count)));
-    const positionFace = position.gap > 0.005
+        // (Capital & Funding keeps its two columns, each status and its count (owner, 2026-11-18 23:18 UTC+2: "Capital & Funding could be as before"): the
+        // tile list's pairs, a line between the rows.)
+        .map(entry => entry.status.label + "\u0001**" + String(entry.count) + "**");
+    const positionFace: FaceRow[] = position.gap > 0.005
         ? [pair("Funding Gap", format(position.gap))]
         : covered
             ? [pair("Funding", "Covered"), pair("Financial Runway", runway)]
             : [];
 
     const sections = [
-        { id: "financial-costs", section: SECTIONS.costs, body: costsSection, items: costFace, anchor: "financial-costs financial-pre-operational-budget" },
+        { id: "financial-costs", section: SECTIONS.costs, body: costsSection, items: stackedFace(costFace), anchor: "financial-costs financial-pre-operational-budget" },
         { id: "financial-funding", section: SECTIONS.funding, body: fundingSection, items: fundingFace, anchor: "financial-funding" },
         // (THE FUNDING NEED INSIDE FINANCIAL POSITION (owner, 2026-11-18 16:55: "Do all 8", proposal 4): the need and the gap are one story; the position's headline
         // and figures first, then the need's blocks under their band. Its anchor answers a jump to the need too.)
@@ -1433,7 +1436,7 @@ export default function FinancialFoundationEditor({
                     <DialogSectionBand title={SECTIONS.need.title} info={[...SECTIONS.need.instructions, ...SECTIONS.need.info]}>{needSection()}</DialogSectionBand>
                 </>
             ),
-            items: [...positionFace, ...(position.need > 0.005 ? [pair("Total Funding Need", format(position.need))] : [])],
+            items: stackedFace([...positionFace, ...(position.need > 0.005 ? [pair("Total Funding Need", format(position.need))] : [])]),
             anchor: "financial-position financial-need"
         }
     ];

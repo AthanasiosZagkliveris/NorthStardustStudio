@@ -6,7 +6,7 @@ import TextBox from "../../controls/TextBox.tsx";
 import NumberCell from "../../controls/NumberCell.tsx";
 import { type CSSProperties, type ReactNode } from "react";
 import CardShell from "../cards/CardShell.tsx";
-import SectionTiles, { DialogHeading, type SectionTile } from "../tiles/SectionTiles.tsx";
+import SectionTiles, { DialogHeading, stackedFace, type FaceRow, type SectionTile } from "../tiles/SectionTiles.tsx";
 import { type LegalEntityValue, asBusinessCapabilityValue, asBusinessEngagementValue, asLegalEntityValue, businessFoundationSegments, withLegalEntityFounders } from "../../../framework/engine/AnswerUtils.ts";
 import { offeringStartsById } from "../../../framework/engine/EffectiveAnswers.ts";
 import { calculatedLines } from "../../../framework/engine/CalculatedLines.ts";
@@ -1014,10 +1014,10 @@ export default function FinancialSustainabilityEditor({
             </>
         );
 
-        const pair = (name: string, figure: string) => name + "\u0001" + (figure ? "**" + figure + "**" : "");
+        const pair = (name: string, figure: string): FaceRow => ({ name, under: figure });
         return {
             streams: { body: streams, face: shownStreams.map(entry => pair(offeringName(entry.stream), summaryPrice(entry.stream))) },
-            delivery: { body: capacityBlock(), face: [] as string[] },
+            delivery: { body: capacityBlock(), face: [] as FaceRow[] },
             summary: { body: summary, face: [pair("Expected revenue a month", format(total))] }
         };
 
@@ -1462,7 +1462,7 @@ export default function FinancialSustainabilityEditor({
         );
 
         /** The Stress Test's line on the Sustainability tile: the shortfall in its hardest case, or None. */
-        function stressFace(): string[] {
+        function stressFace(): FaceRow[] {
             const test = stressTest(effective, financial, lines, legalEntity, format);
             if (test.scenarios.length === 0) {
                 return [];
@@ -1511,7 +1511,7 @@ export default function FinancialSustainabilityEditor({
         );
 
         // (Each tile's face: the figure it is about.)
-        const pair = (name: string, figure: string) => name + "\u0001" + (figure ? "**" + figure + "**" : "");
+        const pair = (name: string, figure: string): FaceRow => ({ name, under: figure });
         return {
             point: { body: point, face: result.breakEvenRevenue === null ? [] : [pair("Break-even revenue", format(result.breakEvenRevenue) + " a month")] },
             time: { body: time, face: [pair("Expected Break Even", breakEven)] },
@@ -1526,7 +1526,7 @@ export default function FinancialSustainabilityEditor({
     /* ---------- The chapters (doc 48, sections 2 and 11; owner, 2026-11-17 07:36) ---------- */
 
     /** A chapter's tiles, each opening its blocks in a dialog with the chapter's heading and "i", as Financial Foundation's are. */
-    function chapterTiles(prefix: string, section: FinancialSection, entries: readonly { id: string; title: string; body: ReactNode; face: readonly string[]; extra?: ReactNode; info?: InfoPoint[] }[]): SectionTile[] {
+    function chapterTiles(prefix: string, section: FinancialSection, entries: readonly { id: string; title: string; body: ReactNode; face: readonly FaceRow[]; extra?: ReactNode; info?: InfoPoint[] }[]): SectionTile[] {
         return entries.map(entry => ({
             id: prefix + "-" + entry.id,
             title: entry.title,
@@ -1534,7 +1534,7 @@ export default function FinancialSustainabilityEditor({
             large: true,
             anchor: prefix + "-" + entry.id,
             rail: railId(entry.title),
-            items: entry.face,
+            items: stackedFace(entry.face),
             content: () => (
                 <div className="column-tile-content" data-anchor={prefix + "-" + entry.id} data-rail={railId(entry.title)} role="group" aria-label={entry.title}>
                     <div className="business-engagement-section-head">

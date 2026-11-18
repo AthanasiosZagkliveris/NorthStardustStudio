@@ -2,7 +2,7 @@ import { CSSProperties, ReactNode } from "react";
 import CardShell from "../cards/CardShell.tsx";
 import { BUSINESS_JOURNEY_STAGES, relationshipTypeLabel, segmentHue } from "../../../framework/engine/AnswerUtils.ts";
 import { DEMAND_SOURCES, demandResult } from "../../../framework/engine/DemandCapacity.ts";
-import SectionTiles, { DialogHeading, TILE_DIVIDER, type ItemMark, type SectionTile } from "../tiles/SectionTiles.tsx";
+import SectionTiles, { DialogHeading, stackedFace, type ItemMark, type SectionTile } from "../tiles/SectionTiles.tsx";
 import type { TileAdd } from "../tiles/SectionTileTypes.ts";
 import { DEMAND_BLOCK_HELP } from "./engagement/shared.tsx";
 import CardBoxes from "../cards/CardBoxes.tsx";
@@ -40,7 +40,7 @@ export default function BusinessEngagementEditor(props: BusinessEngagementEditor
         // divide lines"; the lines are the pairs list's own.)
         const pair = (name: string, figure: string) => name + "\u0001" + (figure ? "**" + figure.replace(/^(\S+) (.+)$/, (_all, number: string, unit: string) => number + " " + unit.replace(/ /g, "\u00a0")) + "**" : "");
         // (A name with a longer answer under it -- an Offering and its relationship types --, a line between one and the next: the tile list's own divider.)
-        const stacked = (rows: { name: string; under: string }[]) => rows.flatMap((row, at) => [...(at > 0 ? [TILE_DIVIDER] : []), row.name + (row.under ? "\n**" + row.under + "**" : "")]);
+        const stacked = stackedFace;
         const offeringName = (segment: (typeof segments)[number], offeringId: string) =>
             segment.offerings.find(offering => offering.id === offeringId)?.name.trim() || "Offering";
 

@@ -3093,6 +3093,14 @@
                 fail("a tile's two-column list holds one-word figures only", figure, { figure: figure.textContent.trim() });
             }
         }
+        // (The financial pages' tiles follow the shared tile list: each name, its figure under it -- never two columns; owner, 2026-11-18 23:08 UTC+2: "Financial
+        // tiles' lists should follow the shared tile list".)
+        if (/Revenue & Pricing|Costs, Funding & Position/.test(document.querySelector(".interview-header h1")?.textContent ?? "")) {
+            // (Capital & Funding keeps its two columns, each status and its count: owner, 2026-11-18 23:18 UTC+2, "Capital & Funding could be as before".)
+            for (const list of [...document.querySelectorAll(".section-tile-list-pairs")].filter(visible).filter(list => !list.closest('[data-tile="financial-funding"]'))) {
+                fail("a financial tile's list is the shared tile list, never two columns", list, { first: list.textContent.trim().slice(0, 40) });
+            }
+        }
 
         // C3. ONE ARROW LEVEL (layout rules section 10, "One arrow level"; owner, 2026-11-18 21:34 UTC+2: "A: Level page arrows everywhere"): every page arrow and
         //     every dialog's and floating card's carousel arrow has its centre at one height in a window -- on every page. The first height seen at a window size is

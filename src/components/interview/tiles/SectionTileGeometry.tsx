@@ -162,6 +162,18 @@ export function tailPlacement(count: number, columns: number): { row: number; co
 /** An item that is a LINE between two topics of a tile's list (a founder's roles, then the skills). */
 export const TILE_DIVIDER = "---";
 
+/** A line of a tile's face: a name and what is said of it (a figure, a type), or nothing. */
+export type FaceRow = { name: string; under: string };
+
+/**
+ * ONE FACE FOR EVERY TILE (owner, 2026-11-18 22:56 and 23:08 UTC+2: "Financial tiles' lists should follow the shared tile list"): each name, then what is said of it
+ * in bold under it, and the tile list's own line between one and the next (Demand & Conversion, Customer's Relationship, every financial tile). A name with nothing
+ * under it stands alone.
+ */
+export function stackedFace(rows: readonly FaceRow[]): string[] {
+    return rows.flatMap((row, at) => [...(at > 0 ? [TILE_DIVIDER] : []), row.name + (row.under ? "\n**" + row.under + "**" : "")]);
+}
+
 
 export function tileName(title: string, items: readonly string[] = []): string {
     const listed = items.map(item => plainTitle(item).replace(/\*\*/g, "").trim()).filter(item => item.length > 0 && item !== TILE_DIVIDER).slice(0, 6);
