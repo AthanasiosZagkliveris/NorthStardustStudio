@@ -1795,6 +1795,18 @@
    ]
   },
   {
+   "label": "Break-Even",
+   "place": "tile dialog",
+   "text": "Read how much your organisation must sell to cover its costs, when it is expected to get there, and whether that is before its money runs out.\nBreak-Even Point: The level of revenue or activity at which revenue covers costs.\nBreak-Even Time: When the organisation is expected to reach that level.\nFinancial Exhaustion: When available resources are expected to run out, with expected revenue included.\nAll results are estimates based on the assumptions entered, not guarantees.",
+   "lines": 23,
+   "points": 5,
+   "w": 360,
+   "chars": 476,
+   "scenes": [
+    "Business System / Costs, Funding & Position / tile Break-Even"
+   ]
+  },
+  {
    "label": "Break-Even Point",
    "place": "tile dialog",
    "text": "Contribution per unit = price − variable cost per unit.\nOffering break even: the units this Offering alone would need to sell to cover all fixed costs.\nOrganisation break even: the expected revenue mix, scaled as a whole until its contribution covers the fixed costs.\nFormula: Break-even units = Fixed costs ÷ (Price − Variable cost per unit)\nSource: U.S. Small Business Administration (n.d.) Calculate your startup costs: break-even point. Available at: https://www.sba.gov/business-guide/plan-your-business/calculate-your-startup-costs/break-even-point (Accessed: 29 September 2026). In the References",
@@ -1803,7 +1815,7 @@
    "w": 360,
    "chars": 603,
    "scenes": [
-    "Business System / Costs, Funding & Position / tile Break-Even Point"
+    "Business System / Costs, Funding & Position / tile Break-Even"
    ]
   },
   {
@@ -1815,7 +1827,7 @@
    "w": 360,
    "chars": 301,
    "scenes": [
-    "Business System / Costs, Funding & Position / tile Break-Even Point"
+    "Business System / Costs, Funding & Position / tile Break-Even"
    ]
   },
   {
@@ -1827,7 +1839,7 @@
    "w": 360,
    "chars": 343,
    "scenes": [
-    "Business System / Costs, Funding & Position / tile Break-Even Point"
+    "Business System / Costs, Funding & Position / tile Break-Even"
    ]
   },
   {
@@ -1839,9 +1851,9 @@
    "w": 360,
    "chars": 684,
    "scenes": [
-    "Business System / Costs, Funding & Position / tile Break-Even Point",
-    "Business System / Costs, Funding & Position / tile Break-Even Point",
-    "Business System / Costs, Funding & Position / tile Break-Even Point"
+    "Business System / Costs, Funding & Position / tile Break-Even",
+    "Business System / Costs, Funding & Position / tile Break-Even",
+    "Business System / Costs, Funding & Position / tile Break-Even"
    ]
   },
   {
@@ -1853,7 +1865,7 @@
    "w": 360,
    "chars": 132,
    "scenes": [
-    "Business System / Costs, Funding & Position / tile Break-Even Time"
+    "Business System / Costs, Funding & Position / tile Break-Even"
    ]
   },
   {
@@ -1865,7 +1877,7 @@
    "w": 360,
    "chars": 176,
    "scenes": [
-    "Business System / Costs, Funding & Position / tile Break-Even Time"
+    "Business System / Costs, Funding & Position / tile Break-Even"
    ]
   },
   {
@@ -2247,7 +2259,7 @@
    "w": 360,
    "chars": 255,
    "scenes": [
-    "Business System / Costs, Funding & Position / tile Funding Need"
+    "Business System / Costs, Funding & Position / tile Financial Position"
    ]
   },
   {
@@ -2259,7 +2271,7 @@
    "w": 360,
    "chars": 56,
    "scenes": [
-    "Business System / Costs, Funding & Position / tile Funding Need"
+    "Business System / Costs, Funding & Position / tile Financial Position"
    ]
   },
   {
@@ -2271,7 +2283,7 @@
    "w": 360,
    "chars": 162,
    "scenes": [
-    "Business System / Costs, Funding & Position / tile Funding Need"
+    "Business System / Costs, Funding & Position / tile Financial Position"
    ]
   },
   {
@@ -2283,7 +2295,7 @@
    "w": 360,
    "chars": 368,
    "scenes": [
-    "Business System / Costs, Funding & Position / tile Funding Need"
+    "Business System / Costs, Funding & Position / tile Financial Position"
    ]
   },
   {
@@ -2295,7 +2307,7 @@
    "w": 360,
    "chars": 99,
    "scenes": [
-    "Business System / Costs, Funding & Position / tile Funding Need"
+    "Business System / Costs, Funding & Position / tile Financial Position"
    ]
   },
   {
@@ -2307,7 +2319,7 @@
    "w": 360,
    "chars": 253,
    "scenes": [
-    "Business System / Costs, Funding & Position / tile Funding Need"
+    "Business System / Costs, Funding & Position / tile Financial Position"
    ]
   },
   {
@@ -2319,31 +2331,7 @@
    "w": 360,
    "chars": 250,
    "scenes": [
-    "Business System / Costs, Funding & Position / tile Funding Need"
-   ]
-  },
-  {
-   "label": "Stress Test",
-   "place": "tile dialog",
-   "text": "The plan as it stands, and the same plan when things go worse than hoped: sales 20% lower, revenue 3 months later, costs 10% higher (founders' pay aside), customers paying a month later than planned, and all four together.\nThe funding being sought is counted as if it arrives as planned, its repayments included: the question a lender asks is whether the plan holds with the money requested.\nHolds: cash stays at zero or above throughout the plan.\nShort: how much more money would keep it there.",
-   "lines": 22,
-   "points": 4,
-   "w": 360,
-   "chars": 495,
-   "scenes": [
-    "Business System / Costs, Funding & Position / tile Stress Test"
-   ]
-  },
-  {
-   "label": "What It Would Take",
-   "place": "tile dialog",
-   "text": "Worked out from the plan: the smallest single change that keeps the cash at zero or above in every month of the plan, each tried on its own with everything else as planned.\nThe funding being sought is counted as if it arrives as planned, its repayments included, as in the Stress Test.\nWhere the plan already holds, it says how far sales, the start of revenue or costs could go against it instead.",
-   "lines": 18,
-   "points": 3,
-   "w": 360,
-   "chars": 397,
-   "scenes": [
-    "Business System / Costs, Funding & Position / tile Stress Test"
+    "Business System / Costs, Funding & Position / tile Financial Position"
    ]
   },
   {
@@ -2414,6 +2402,30 @@
    "points": 1,
    "w": 360,
    "chars": 123,
+   "scenes": [
+    "Business System / Costs, Funding & Position / tile Sustainability"
+   ]
+  },
+  {
+   "label": "Stress Test",
+   "place": "tile dialog",
+   "text": "The plan as it stands, and the same plan when things go worse than hoped: sales 20% lower, revenue 3 months later, costs 10% higher (founders' pay aside), customers paying a month later than planned, and all four together.\nThe funding being sought is counted as if it arrives as planned, its repayments included: the question a lender asks is whether the plan holds with the money requested.\nHolds: cash stays at zero or above throughout the plan.\nShort: how much more money would keep it there.",
+   "lines": 22,
+   "points": 4,
+   "w": 360,
+   "chars": 495,
+   "scenes": [
+    "Business System / Costs, Funding & Position / tile Sustainability"
+   ]
+  },
+  {
+   "label": "What It Would Take",
+   "place": "tile dialog",
+   "text": "Worked out from the plan: the smallest single change that keeps the cash at zero or above in every month of the plan, each tried on its own with everything else as planned.\nThe funding being sought is counted as if it arrives as planned, its repayments included, as in the Stress Test.\nWhere the plan already holds, it says how far sales, the start of revenue or costs could go against it instead.",
+   "lines": 18,
+   "points": 3,
+   "w": 360,
+   "chars": 397,
    "scenes": [
     "Business System / Costs, Funding & Position / tile Sustainability"
    ]
