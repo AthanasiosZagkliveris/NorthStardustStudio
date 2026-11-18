@@ -184,7 +184,7 @@ This follows the type rules already built for the text boxes: a substitute has n
 - **Control:** From and To (`NumberCell`, the organisation's currency in the label), "Per sale / session / project / month / year" from the Segment's Offerings' terms (O3); a tick "Not known yet" that clears both (`TickField`).
 - **The "i":** the price range customers see today, From and To in your currency, to help place your own price; Not known yet until you find out; Based on: MIT OpenCourseWare 15.818 *Pricing*; Penn State Extension, *Choosing a pricing method* (last).
 - **Saved as:** `k15` [From, To] as typed, or `k15-unknown` ["yes"].
-- **Read by:** the Business Plan's competitor table ("What they charge", "£40 to £120"); the export, a "What they charge" line under each competitor's description; the price's "i" on Sustainability (P7: "Your competitors charge about £40 to £300 for a similar offer", the lowest From to the highest To across the Segment's competitors). Never compared with the founder's own price (the start-up rule).
+- **Read by:** the Business Plan's competitor table ("What they charge", "£40 to £120"); the export, a "What they charge" line under each competitor's description; the price's "i" on Revenue & Pricing (P7: "Your competitors charge about £40 to £300 for a similar offer", the lowest From to the highest To across the Segment's competitors). Never compared with the founder's own price (the start-up rule).
 
 ### K7. How easy do they make each stage for customers?
 
