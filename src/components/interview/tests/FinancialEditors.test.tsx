@@ -373,10 +373,15 @@ describe("the Financial pages' chapters", () => {
             />
         );
         const tiles = screen.getAllByRole("button").map(button => button.textContent ?? "");
-        for (const title of ["Costs", "Financial Position", "Break-Even Point", "Break-Even Time", "Sustainability", "Stress Test"]) {
+        for (const title of ["Costs", "Financial Position", "Break-Even", "Sustainability"]) {
             expect(tiles.some(text => text.startsWith(title))).toBe(true);
         }
-        openTile("Break-Even Point");
+        // (Break-Even Point and Time one tile, Sustainability and the Stress Test one tile: owner, 2026-11-18 16:55, "Do all 8".)
+        for (const title of ["Break-Even Point", "Break-Even Time", "Stress Test"]) {
+            expect(tiles.some(text => text.startsWith(title))).toBe(false);
+        }
+        openTile("Break-Even");
+        expect(screen.getByRole("heading", { name: "Break-Even Time" })).toBeTruthy();
         expect(wrote).toBe(false);
     });
 

@@ -1496,7 +1496,8 @@ export default function FinancialSustainabilityEditor({
             const [planned] = test.scenarios;
             const hardest = test.scenarios.reduce((max, scenario) => scenario.shortfall > max.shortfall ? scenario : max, planned);
             const said = (scenario: typeof planned) => scenario.shortfall > 0.5 ? format(scenario.shortfall) + " short" : "holds";
-            return [pair("As planned", said(planned)), pair("Hardest case", said(hardest))];
+            // (Its hardest case alone: as planned is the Sustainability's own figure, said beside it; owner, 2026-11-18 16:55.)
+            return [pair("Stress Test, at worst", said(hardest))];
         }
 
         const stress = (
@@ -1589,10 +1590,26 @@ export default function FinancialSustainabilityEditor({
     if (part === "break-even") {
         const parts = breakEvenParts();
         return chapter(SECTIONS.breakEven.title, SECTION_HUES["sustainability-break-even"] ?? 0, chapterTiles("sustainability-break-even", SECTIONS.breakEven, [
-            { id: "point", title: "Break-Even Point", ...parts.point, info: BREAK_EVEN_POINT_INFO },
-            { id: "time", title: "Break-Even Time", ...parts.time, info: BREAK_EVEN_TIME_INFO },
-            { id: "sustainability", title: "Sustainability", ...parts.sustainability },
-            { id: "stress", title: "Stress Test", ...parts.stress, info: STRESS_TEST_INFO }
+            // (TWO TILES, FOUR BLOCKS (owner, 2026-11-18 16:55: "Do all 8"): the Break-Even Point and its Time read the same costs and margins, one tile; the
+            // Sustainability and the Stress Test both say when the money could run out, one tile -- each block under its own band in the dialog.)
+            {
+                id: "point", title: "Break-Even", face: [...parts.point.face, ...parts.time.face],
+                body: (
+                    <>
+                        <DialogSectionBand title="Break-Even Point" info={BREAK_EVEN_POINT_INFO}>{parts.point.body}</DialogSectionBand>
+                        <DialogSectionBand title="Break-Even Time" info={BREAK_EVEN_TIME_INFO}>{parts.time.body}</DialogSectionBand>
+                    </>
+                )
+            },
+            {
+                id: "sustainability", title: "Sustainability", face: [...parts.sustainability.face, ...parts.stress.face],
+                body: (
+                    <>
+                        {parts.sustainability.body}
+                        <DialogSectionBand title="Stress Test" info={STRESS_TEST_INFO}>{parts.stress.body}</DialogSectionBand>
+                    </>
+                )
+            }
         ]));
     }
 
