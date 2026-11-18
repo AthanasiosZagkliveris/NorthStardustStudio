@@ -92,13 +92,15 @@ export function EngagementBoxes({ children }: { children: ReactNode[] }) {
 }
 
 /** One box: its title band (with its "i" and what stands at its end), then a band per question, the tints alternating. */
-export function EngagementBox({ title, info, extra, bands, anchor }: {
+export function EngagementBox({ title, info, extra, bands, anchor, sections }: {
     /** Absent where the card's head names the box (a relationship type's own card): its bands only. */
     title?: ReactNode;
     info?: InfoPoint[];
     extra?: ReactNode;
     bands: ReactNode[];
     anchor?: string;
+    /** For each band, the section of a card it holds (BandSection), where the card groups its questions so. */
+    sections?: (string | undefined)[];
 }) {
     const shown = bands.filter(band => band !== null && band !== undefined && band !== false && band !== "");
     const label = (
@@ -114,7 +116,7 @@ export function EngagementBox({ title, info, extra, bands, anchor }: {
         </span>
     );
     const bandsOf = shown.map((band, at) => (
-        <div className={"legal-entity-org-section" + (at % 2 === (title === undefined ? 0 : 1) ? " legal-entity-org-band" : "")} key={at}>{band}</div>
+        <div className={"legal-entity-org-section" + (at % 2 === (title === undefined ? 0 : 1) ? " legal-entity-org-band" : "")} data-section={sections?.[at]} key={at}>{band}</div>
     ));
     // (With no title, its bands stand straight in the card under its head, the first tinted, so it parts from the head as a title band would.)
     if (title === undefined) {
@@ -143,20 +145,57 @@ function cardItems(node: ReactNode): ReactNode[] {
  * above it -- a total, an alarm, a note -- stays in that question's band.
  */
 export function EngagementBands({ children }: { children: ReactNode }) {
-    const bands: ReactNode[][] = [];
+    // (A band of a SECTION holds every question of it, one under the other, the card's thin line between them: owner, 2026-11-18 21:45 and 22:00 UTC+2, "Start and End
+    // page should be a section, defining the type another, costs another, notes, another, team and responsibilities another", "I did not ask for titles". Two
+    // neighbouring parts of one section are one band; a section with nothing in it draws none; the card's order is kept.)
+    const bands: { section?: string; items: ReactNode[]; questions: number }[] = [];
     for (const item of cardItems(children)) {
+        if (isValidElement(item) && item.type === BandSection) {
+            const { name, children: inner } = item.props as { name: string; children?: ReactNode };
+            const parts = cardItems(inner);
+            if (parts.length === 0) {
+                continue;
+            }
+            const last = bands[bands.length - 1];
+            const band = last && last.section === name ? last : { section: name, items: [], questions: 0 };
+            if (band !== last) {
+                bands.push(band);
+            }
+            for (const part of parts) {
+                const says = isValidElement(part) && part.type === "p" && band.items.length > 0;
+                if (!says && band.questions > 0) {
+                    band.items.push(<div className="business-capability-card-rule" role="separator" key={"rule-" + band.items.length} />);
+                }
+                band.items.push(part);
+                band.questions += says ? 0 : 1;
+            }
+            continue;
+        }
+        // (A card's own divider line between its parts is no band of its own: the bands part from each other by their tints.)
+        if (isValidElement(item) && item.type === "div" && /\bbusiness-capability-card-rule\b/.test(String((item.props as { className?: string }).className ?? ""))) {
+            continue;
+        }
         const says = isValidElement(item) && item.type === "p" && bands.length > 0;
         if (says) {
-            bands[bands.length - 1].push(item);
+            bands[bands.length - 1].items.push(item);
         } else {
-            bands.push([item]);
+            bands.push({ items: [item], questions: 1 });
         }
     }
     return (
         <SingleColumn>
-            <EngagementBox bands={bands.map((band, at) => <Fragment key={at}>{band}</Fragment>)} />
+            <EngagementBox
+                bands={bands.map((band, at) => <Fragment key={at}>{band.items.map((part, index) => <Fragment key={index}>{part}</Fragment>)}</Fragment>)}
+                sections={bands.map(band => band.section)}
+            />
         </SingleColumn>
     );
+}
+
+/** A SECTION OF A CARD IN BANDS (BandSection's names: dates, type, costs, team, notes): its questions stand in one band (EngagementBands); on a card that is not
+ *  banded (the Workspace form) it is nothing but its questions. */
+export function BandSection({ children }: { name: "dates" | "type" | "costs" | "team" | "notes"; children?: ReactNode }) {
+    return <>{children}</>;
 }
 
 /** A card's body: in bands, or as it stands (a card kept as it is: the Workspace form, owner's rule). */

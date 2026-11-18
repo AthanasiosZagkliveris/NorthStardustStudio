@@ -2910,7 +2910,9 @@
 
         // 21. ONE QUESTION PER BAND (docs/ai/tile-and-card-pattern.md, "One band pattern"): in a box of bands (the Foundation page's cards and dialogs, on the page or in a dialog) each band
         // holds one question -- one labelled field row, the outermost in the band -- so the tints alternate question by question. `npm run check:card` measures it on the floating cards too.
-        for (const band of [...document.querySelectorAll(".business-segment-box > .legal-entity-org-section, .business-segment-grid > .legal-entity-field > .legal-entity-org-section")].filter(visible)) {
+        // (A band of a SECTION -- page 3's cards, data-section -- holds its section's questions, the card's thin line between them: owner, 2026-11-18 21:45 and 22:00
+        // UTC+2; layout rules section 11, "Page 3's cards in bands".)
+        for (const band of [...document.querySelectorAll(".business-segment-box > .legal-entity-org-section, .business-segment-grid > .legal-entity-field > .legal-entity-org-section")].filter(visible).filter(band => !band.hasAttribute("data-section"))) {
             const questions = [...band.querySelectorAll(".legal-entity-pair, .legal-entity-field")].filter(row => {
                 const up = row.parentElement.closest(".legal-entity-pair, .legal-entity-field");
                 // (A field row can be display: contents, no box of its own: its label is what is measured.)

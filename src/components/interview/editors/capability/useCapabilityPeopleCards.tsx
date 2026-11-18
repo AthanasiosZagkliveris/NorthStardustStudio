@@ -26,7 +26,7 @@ import { toggledIn } from "../../fields/toggledIn.ts";
 import TextLink from "../../fields/TextLink.tsx";
 import { SECTIONS, DELIVERY_HELP, FOUNDER_FREQUENCIES, HOURS_PER_MONTH_HELP, formatHours, Scope, costInGroup, blankSlot } from "../BusinessCapabilityModel.ts";
 import type { useCapabilityState } from "./useCapabilityState.tsx";
-import { CardBody } from "../engagement/EngagementCard.tsx";
+import { BandSection, CardBody } from "../engagement/EngagementCard.tsx";
 import type { useCapabilityCardFields } from "./useCapabilityCardFields.tsx";
 
 type Earlier = ReturnType<typeof useCapabilityState> & ReturnType<typeof useCapabilityCardFields>;
@@ -195,11 +195,14 @@ export function useCapabilityPeopleCards(earlier: Earlier) {
 
                 <CardBody banded>
 
+                <BandSection name="dates">
                 {cardDates(founderLabel, founder.startDate, "", change, true)}
+                </BandSection>
 
                 {/* Answered on the Founders Profile page, on the founder's own card --
                     shown here, not asked. No label: the roles are a BULLET list of their own
                     (named "Roles" for assistive technology), at the card's content edge. */}
+                <BandSection name="team">
                 <div className="business-capability-stack business-founder-roles">
 
                     {founder.roles.length === 0
@@ -221,6 +224,7 @@ export function useCapabilityPeopleCards(earlier: Earlier) {
 
                 </div>
 
+                </BandSection>
                 {/* Pay and time, in the card's two columns (labels
                     above, tops level): Salary | Frequency, then
                     Working Hours | Delivery Hours. The one Frequency is the
@@ -230,6 +234,7 @@ export function useCapabilityPeopleCards(earlier: Earlier) {
                     Capacity & Delivery under Offering's Capability adds up as the
                     capacity. A salary is paid in the organization's own
                     currency, so it is named in the label, not asked. */}
+                <BandSection name="costs">
                 <div className="business-founder-fields">
                 <div className="business-founder-grid">
 
@@ -335,7 +340,9 @@ export function useCapabilityPeopleCards(earlier: Earlier) {
 
                 {/* The founder's optional Allowance, Commission and Bonus. */}
                 {extrasFields(founderLabel, PEOPLE_EXTRA_KEYS, founder.extras, organisationCurrency, (next) => change({ extras: next }))}
+                </BandSection>
 
+                <BandSection name="team">
                 {/* Written by the activities that name this founder
                     as responsible, never typed here -- one fact, one
                     place. It folds, with the cards' own arrow, and
@@ -446,6 +453,7 @@ export function useCapabilityPeopleCards(earlier: Earlier) {
 
                 </div>
 
+                </BandSection>
                 {/* (The activities it works on, as each card's Team names them: one link each; owner, 2026-11-16 20:22.) */}
                 {linksSection(founder.id, [...capability.activities.flatMap(category => category.activities), ...capability.offering.activities]
                     .filter(activity => activity.performerIds.includes(founder.id))
@@ -815,13 +823,18 @@ export function useCapabilityPeopleCards(earlier: Earlier) {
 
                 <CardBody banded>
 
+                <BandSection name="dates">
                 {cardDates(partner.name.trim() || "Entry " + number, partner.startDate, partner.endDate, change, false, latestPaymentOf(partner.cost.frequency, partner.paymentPlan), partner.cost.frequency === "per-project" && partner.paymentPlan.on)}
+                </BandSection>
 
                 {/* (No Category row: the tile says whether it is a Partner or a Supplier. A card with no type yet, from an earlier answer, keeps the row so it can be given one.) */}
+                <BandSection name="type">
                 {capability.partnerCategories.some(entry => entry.id === partner.category) && partnerCategoryCell(partner, partner.name.trim() || "Entry " + number)}
 
                 {partnerGroupCell(scope, partner, partner.name.trim() || "Entry " + number)}
+                </BandSection>
 
+                <BandSection name="costs">
                 {/* Price | Frequency first (the Frequency's label above it, as it was), then
                     Responsible on a row of its own: its label beside its picker, in the
                     short side-label column. */}
@@ -867,7 +880,9 @@ export function useCapabilityPeopleCards(earlier: Earlier) {
                 {billingOf(scope, partner.group, partner.costOption) === "percentage" && rateOverrideField(
                     partner.name.trim() || "Entry " + number, partner.rateOverride, (next) => change({ rateOverride: next }), defaultRateOf(partner.costOption)
                 )}
+                </BandSection>
 
+                <BandSection name="team">
                 {/* Responsible after the payment plan, the extras and the rate override, before the Description (the card structure's order). */}
                 {responsibilityField(
                     // One founder: he is responsible (businessPartnerResponsibleId), nothing to choose.
@@ -885,6 +900,8 @@ export function useCapabilityPeopleCards(earlier: Earlier) {
                     }
                 )}
 
+                </BandSection>
+                <BandSection name="notes">
                 <OptionalNote
                     label="Notes"
                     fieldId="Description / Relevant Information"
@@ -894,6 +911,7 @@ export function useCapabilityPeopleCards(earlier: Earlier) {
                     value={partner.description}
                     onChange={(next) => change({ description: next })}
                 />
+                </BandSection>
 
                 {/* The links last, under the Description. */}
                 {/* (THE HOURS THEY CAN GIVE, and a Supplier's lead time: read by Capacity & Delivery -- their own row and bar, and the Calendar Time of an Offering they can

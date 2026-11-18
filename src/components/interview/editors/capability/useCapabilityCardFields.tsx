@@ -20,7 +20,7 @@ import OptionPicker from "../../fields/OptionPicker.tsx";
 import { toggledIn } from "../../fields/toggledIn.ts";
 import TextLink from "../../fields/TextLink.tsx";
 import { Scope, WARRANTY_GROUPS } from "../BusinessCapabilityModel.ts";
-import { CardBody } from "../engagement/EngagementCard.tsx";
+import { BandSection, CardBody } from "../engagement/EngagementCard.tsx";
 import type { useCapabilityState } from "./useCapabilityState.tsx";
 
 type Earlier = ReturnType<typeof useCapabilityState>;
@@ -495,6 +495,7 @@ export function useCapabilityCardFields(earlier: Earlier) {
         return (
             <>
 
+                <BandSection name="type">
                 <BusinessField label="Status" info={options.map(status => ({ title: status.label, text: status.explanation }))} inline={false} side>
                     {/* The picker, and beside it the "+" that adds another status row (the Team's place for its "+"). */}
                     <div className="business-capability-performers">
@@ -572,6 +573,8 @@ export function useCapabilityCardFields(earlier: Earlier) {
                     );
                 })}
 
+                </BandSection>
+                <BandSection name="costs">
                 {isCostingStatus(slot.status) && costOptionRows(what, scope, groupId, slot.costOption, (option) => onSlot({ costOption: option, cost: withDefaultRate(costWithOption(slot.cost, scope, groupId, option), scope, groupId, option) }), channelMade(scope, slot.id))}
 
                 {isCostingStatus(slot.status) && costFields(
@@ -586,6 +589,7 @@ export function useCapabilityCardFields(earlier: Earlier) {
                 )}
 
                 {isCostingStatus(slot.status) && slot.cost.frequency === "per-project" && paymentPlanFields(what, slot.startDate, slot.endDate, slot.paymentPlan, (next, dates) => onSlot({ paymentPlan: next, ...dates }), planTotalOf(slot.cost.price, slot.quantity))}
+                </BandSection>
 
             </>
         );
@@ -940,12 +944,16 @@ export function useCapabilityCardFields(earlier: Earlier) {
 
                 <CardBody banded={!workspaceCard(scope, slot, groupId)}>
 
+                <BandSection name="dates">
                 {cardDates("Resource " + number, slot.startDate, slot.endDate, onSlot, false, latestPaymentOf(slot.cost.frequency, slot.paymentPlan), slot.cost.frequency === "per-project" && slot.paymentPlan.on)}
+                </BandSection>
 
                 {/* Its category and group (Infrastructure's resources): the group it is filed in and its subsection. */}
+                <BandSection name="type">
                 {scope === "infrastructure" && resourceCategoryCells(slot)}
                 {scope === "offering" && !channelMade(scope, slot.id) && offeringCategoryCells(slot, onSlot)}
                 {scope === "offering" && channelMade(scope, slot.id) && channelCategoryText(slot)}
+                </BandSection>
 
                 {/* Status first; the Quantity only at Costs, where it
                     is what the cost is counted by (see statusFields). A
@@ -985,6 +993,7 @@ export function useCapabilityCardFields(earlier: Earlier) {
                     groupId
                 )}
 
+                <BandSection name="costs">
                 {/* Technical Support services that install this asset are part of its value (rule C2). */}
                 {(() => {
                     const services = servicesOfAsset(capability, slot.id)
@@ -1013,7 +1022,9 @@ export function useCapabilityCardFields(earlier: Earlier) {
 
                 {/* The extras this card offers: a bought space's tax and charge, a bought vehicle's road tax, a person's Allowance, Commission and Bonus. */}
                 {extrasFields("Resource " + number, slotExtraKeys(groupId, slot.status), slot.extras, slot.cost.currency || organisationCurrency, (next) => onSlot({ extras: next }))}
+                </BandSection>
 
+                <BandSection name="notes">
                 <OptionalNote
                     label="Notes"
                     fieldId="Description / Relevant Information"
@@ -1023,9 +1034,11 @@ export function useCapabilityCardFields(earlier: Earlier) {
                     value={slot.description}
                     onChange={(next) => onSlot({ description: next })}
                 />
+                </BandSection>
 
                 {/* The links last, under the Description (the one card order). */}
                 {/* (A Staff card's hours a month they can give: their own row and bar in Capacity & Delivery; doc 52, 14; owner, 2026-11-17.) */}
+                <BandSection name="team">
                 {scope === "offering" && slot.category === "hr" && (
                     <BusinessField label="Hours a month they can give">
                         <NumberCell kind="decimal"
@@ -1037,6 +1050,7 @@ export function useCapabilityCardFields(earlier: Earlier) {
                         />
                     </BusinessField>
                 )}
+                </BandSection>
                 {scope === "offering" && offeringsField(
                     slot.offeringIds,
                     (next) => onSlot(next),

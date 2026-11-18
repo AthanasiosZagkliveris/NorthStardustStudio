@@ -1512,3 +1512,18 @@
     margin-right:var(--gap-12);
 
 }
+
+/* A SECTION'S BAND (page 3's cards: Dates, Type, Costs, Team & Responsibilities, Notes; owner, 2026-11-18 21:45 and 22:00 UTC+2): its questions one under the other,
+   the card's thin line between them with 12px over and under it (the band's own 6px gap and 6px more), from side to side of the band. */
+.legal-entity-org-section[data-section] > .business-capability-card-rule{
+
+    margin-block:calc(var(--space-field) - var(--space-label));
+
+}
+
+/* (A band of a card in its content box keeps the x's column clear in its padding (a founder's): the line between its questions runs over that too, to the band's side.) */
+.floating-card-body .column-tile-content > .business-foundation-card > .business-segment-grid-single .legal-entity-org-section[data-section] > .business-capability-card-rule{
+
+    margin-right:calc(-1 * (var(--card-x-column) + var(--space-field)));
+
+}

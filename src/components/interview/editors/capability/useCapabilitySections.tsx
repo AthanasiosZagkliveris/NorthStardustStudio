@@ -26,7 +26,7 @@ import type { useCapabilityCardFields } from "./useCapabilityCardFields.tsx";
 import type { useCapabilityPeopleCards } from "./useCapabilityPeopleCards.tsx";
 import type { useCapabilityActivityAndDelivery } from "./useCapabilityActivityAndDelivery.tsx";
 import { deliveryEffort } from "../../../../framework/engine/DemandCapacity.ts";
-import { CardBody } from "../engagement/EngagementCard.tsx";
+import { BandSection, CardBody } from "../engagement/EngagementCard.tsx";
 import { OPEN_EVENT, type OpenRequest } from "../../tiles/SectionTiles.tsx";
 
 type Earlier = ReturnType<typeof useCapabilityState> & ReturnType<typeof useCapabilityCardFields> & ReturnType<typeof useCapabilityPeopleCards> & ReturnType<typeof useCapabilityActivityAndDelivery>;
@@ -463,6 +463,7 @@ export function useCapabilitySections(earlier: Earlier) {
                 {head}
 
                 <CardBody banded>
+                <BandSection name="dates">
                 {cardDates("Activity " + number, activity.startDate, activity.endDate, onActivity)}
 
                 {/* The period its group runs in, and what is wrong where the dates leave it. */}
@@ -478,8 +479,12 @@ export function useCapabilitySections(earlier: Earlier) {
                     );
                 })()}
 
+                </BandSection>
+                <BandSection name="type">
                 {categoryCell}
+                </BandSection>
 
+                <BandSection name="team">
                 {/* Team and Responsibility, one under the other, their dropdowns at one x
                     (business-capability-activity-fields). */}
                 <div className="business-capability-stack business-capability-activity-fields">
@@ -503,6 +508,8 @@ export function useCapabilitySections(earlier: Earlier) {
 
                 </div>
 
+                </BandSection>
+                <BandSection name="costs">
                 {performerCosts(scope, activity)}
 
                 <div className="business-capability-stack business-capability-activity-fields">
@@ -511,6 +518,8 @@ export function useCapabilitySections(earlier: Earlier) {
 
                 </div>
 
+                </BandSection>
+                <BandSection name="team">
                 {/* Responsible after the Resources and their Cost, its dropdown at the Team's x. (Drawn only where there is a Responsible to ask: an empty
                     wrapper would be an empty band of the card; owner, 2026-11-18 20:20 UTC+2, the bands of page 3's cards.) */}
                 {(() => {
@@ -531,6 +540,8 @@ export function useCapabilitySections(earlier: Earlier) {
                     return responsible ? <div className="business-capability-stack business-capability-activity-fields">{responsible}</div> : null;
                 })()}
 
+                </BandSection>
+                <BandSection name="notes">
                 <OptionalNote
                     label="Notes"
                     fieldId="description"
@@ -539,6 +550,7 @@ export function useCapabilitySections(earlier: Earlier) {
                     value={activity.description}
                     onChange={(next) => onActivity({ description: next })}
                 />
+                </BandSection>
 
                 {/* The links last, under the Description. */}
                 {/* (A PRODUCTION ACTIVITY'S DELIVERY HOURS, as a record: each linked Offering's Delivery card, its hours a unit, a link that opens it; owner, 2026-11-17.) */}
