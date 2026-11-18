@@ -1132,9 +1132,10 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
                         ]} />,
                         (sessions || batches) && <EngagementBox key="at-once" title="How Many at Once" bands={[
                             /* DV6, customers in one session: a class, a workshop, an event (doc 52; owner, 2026-11-17). */
-                            /* (A side-label row, as every row of the card: owner, 2026-11-18 12:41, "Fix the fields and their cells properly".) */
+                            /* (Under its label, its cell as wide as its content: a label longer than the side column sits off the box's centre line beside it;
+                                owner, 2026-11-18 12:41, "Fix the fields and their cells properly", and the layout check.) */
                             sessions && (
-                    <BusinessField label="Customers in one session" info={DELIVERY_HELP.perSession} side>
+                    <BusinessField label="Customers in one session" info={DELIVERY_HELP.perSession}>
                         <NumberCell kind="int"
                             className="delivery-number"
                             aria-label={offering.label + " customers in one session"}
@@ -1193,9 +1194,10 @@ batches && (
                     const owned = uniqueChoices(capability.offering.resources.filter(card => card.offeringIds.includes(offering.id)), "Unnamed resource");
                     return (
                         <>
-                            {/* (Side-label rows, as every row of the card, in its bands: owner, 2026-11-18 12:41, "Fix the fields and their cells properly". "Which
-                                supplier?" below the same.) */}
-                            <BusinessField label="Which one?" info={DELIVERY_HELP.equipment} side>
+                            {/* (Under their labels, each cell as wide as its content -- the picker its longest option, the number a short one: a resource's own name
+                                needs more than the side column, and the question its own line; owner, 2026-11-18 12:41, "Fix the fields and their cells properly", and the
+                                layout check. "Which supplier?" below the same.) */}
+                            <BusinessField label="Which one?" info={DELIVERY_HELP.equipment}>
                                 {owned.length === 0
                                     ? <span className="delivery-muted">Add this Offering's equipment or workspace under Resources.</span>
                                     : (
@@ -1210,7 +1212,7 @@ batches && (
                                         />
                                     )}
                             </BusinessField>
-                            <BusinessField label="How many units can it hold at once?" side>
+                            <BusinessField label="How many units can it hold at once?">
                                 <NumberCell kind="int"
                                     className="delivery-number"
                                     aria-label={offering.label + " units the equipment holds at once"}
@@ -1226,7 +1228,7 @@ batches && (
                             delivery.holdUps.includes("materials") && (() => {
                     const suppliers = uniqueChoices(capability.offering.providers.filter(card => card.offeringIds.includes(offering.id)), "Unnamed supplier");
                     return (
-                        <BusinessField label="Which supplier?" side>
+                        <BusinessField label="Which supplier?">
                             {suppliers.length === 0
                                 ? <span className="delivery-muted">Add this Offering's supplier under Partners &amp; Suppliers.</span>
                                 : (

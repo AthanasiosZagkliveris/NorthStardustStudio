@@ -181,6 +181,8 @@ export default function FinancialFoundationEditor({
 
     /* ---------- Small controls ---------- */
 
+    /* (True while a funding source's card is drawn: its dropdowns hug their longest option.) */
+    let pickersAlone = false;
     function picker(
         label: string,
         ariaLabel: string,
@@ -195,6 +197,7 @@ export default function FinancialFoundationEditor({
                 <OptionPicker
                     label={ariaLabel}
                     placeholder={placeholder}
+                    hug={pickersAlone}
                     options={options.map(option => option.label)}
                     disabled={disabled}
                     value={options.find(option => option.id === current)?.label ?? ""}
@@ -969,6 +972,9 @@ export default function FinancialFoundationEditor({
 
         const formattedAmount = source.amount.trim() ? format(fundingStanding(source, start).total) : "";
 
+        // (Each dropdown of a source's card as wide as its longest option, never stretched across the card: OptionPicker `hug`.)
+        pickersAlone = true;
+        try {
         return (
             <BusinessCard
                 key={source.id}
@@ -1076,6 +1082,9 @@ export default function FinancialFoundationEditor({
 
             </BusinessCard>
         );
+        } finally {
+            pickersAlone = false;
+        }
 
     }
 

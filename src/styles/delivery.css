@@ -320,3 +320,19 @@
 .delivery-budget-ceiling{ position:absolute; top:0; bottom:0; width:2px; margin-left:-1px; background:var(--text-primary); }
 
 /* THE DELIVERY CARDS in their dialog: each card is 360px wide (as an opened card is), side by side as many as fit, wrapping, 12px apart. */
+
+/* (ON THE DELIVERY CARD a field under its label has its cell as wide as its content -- a picker its longest option, a number a short one --, never stretched
+   across the band: owner, 2026-11-18 12:41, "Fix the fields and their cells properly".) */
+.delivery-card .legal-entity-org-section .business-foundation-field:not(.business-field-side) > .option-picker{
+
+    align-self:flex-start;
+
+}
+
+.delivery-card .legal-entity-org-section .business-foundation-field:not(.business-field-side) > .delivery-number.interview-input.interview-input{
+
+    align-self:flex-start;
+
+    width:var(--control-xs);
+
+}
