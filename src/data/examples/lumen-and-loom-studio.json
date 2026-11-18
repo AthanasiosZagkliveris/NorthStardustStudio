@@ -893,6 +893,10 @@
                         "social-media:instagram",
                         "marketplace:etsy",
                         "in-person:market"
+                      ],
+                      "k15": [
+                        "90",
+                        "220"
                       ]
                     }
                   },
@@ -963,6 +967,10 @@
                       "k5-sub": [
                         "social-media:instagram",
                         "social-media:pinterest"
+                      ],
+                      "k15": [
+                        "60",
+                        "180"
                       ]
                     }
                   },
@@ -1018,6 +1026,10 @@
                       ],
                       "k10": [
                         "better:quality-and-results"
+                      ],
+                      "k15": [
+                        "15",
+                        "45"
                       ]
                     }
                   }
@@ -1409,6 +1421,10 @@
                       ],
                       "k5-sub": [
                         "in-person:fair"
+                      ],
+                      "k15": [
+                        "1500",
+                        "6000"
                       ]
                     }
                   },
@@ -1476,6 +1492,10 @@
                       "k5-sub": [
                         "social-media:instagram",
                         "in-person:fair"
+                      ],
+                      "k15": [
+                        "1800",
+                        "5000"
                       ]
                     }
                   }
@@ -3263,9 +3283,9 @@
                     "id": "source-qk1dt2m5",
                     "type": "funnel",
                     "calculate": false,
-                    "estimate": "",
+                    "estimate": "0",
                     "inputs": {},
-                    "basis": "",
+                    "basis": "Counted with the online store: Instagram, Pinterest, TikTok and the newsletter send the visitors who buy there.",
                     "channelId": "",
                     "fromAnswers": true,
                     "group": "Sales funnel",
@@ -3283,9 +3303,9 @@
                     "id": "source-77w0vdn2",
                     "type": "referrals",
                     "calculate": false,
-                    "estimate": "",
+                    "estimate": "0",
                     "inputs": {},
-                    "basis": "",
+                    "basis": "Counted with the online store: an ambassador's followers arrive as store visitors.",
                     "channelId": "",
                     "fromAnswers": true,
                     "group": "Referrals",
@@ -3297,9 +3317,9 @@
                     "id": "source-th434sq4",
                     "type": "repeat",
                     "calculate": false,
-                    "estimate": "",
+                    "estimate": "0",
                     "inputs": {},
-                    "basis": "",
+                    "basis": "Not counted in the first year: a cushion or a throw is bought once every few years.",
                     "channelId": "",
                     "fromAnswers": true
                   }
@@ -3356,9 +3376,9 @@
                     "id": "source-3tkxi2f1",
                     "type": "marketplace",
                     "calculate": false,
-                    "estimate": "",
+                    "estimate": "0",
                     "inputs": {},
-                    "basis": "",
+                    "basis": "Counted with the sales funnel: the studio, market and taster sessions lead to the bookings made in the online store.",
                     "channelId": "",
                     "fromAnswers": true,
                     "group": "Visitors",
@@ -3405,9 +3425,9 @@
                     "id": "source-ofw6g2wh",
                     "type": "funnel",
                     "calculate": false,
-                    "estimate": "",
+                    "estimate": "0",
                     "inputs": {},
-                    "basis": "",
+                    "basis": "Counted with the trade fairs and the referrals: designers who find us online ask for a quote there.",
                     "channelId": "",
                     "fromAnswers": true,
                     "group": "Sales funnel",
@@ -3422,9 +3442,9 @@
                     "id": "source-urzggh19",
                     "type": "marketplace",
                     "calculate": false,
-                    "estimate": "",
+                    "estimate": "0",
                     "inputs": {},
-                    "basis": "",
+                    "basis": "Stockists and wholesale accounts buy the Trade Collection, not commissions.",
                     "channelId": "",
                     "fromAnswers": true,
                     "group": "Visitors",
@@ -3437,9 +3457,9 @@
                     "id": "source-88bclcmh",
                     "type": "repeat",
                     "calculate": false,
-                    "estimate": "",
+                    "estimate": "0",
                     "inputs": {},
-                    "basis": "",
+                    "basis": "A designer's next project comes through the referrals above.",
                     "channelId": "",
                     "fromAnswers": true
                   }
@@ -3493,9 +3513,9 @@
                     "id": "source-99tao63s",
                     "type": "referrals",
                     "calculate": false,
-                    "estimate": "",
+                    "estimate": "0",
                     "inputs": {},
-                    "basis": "",
+                    "basis": "Counted with the trade fairs: a stockist's recommendation brings the buyer to the next fair.",
                     "channelId": "",
                     "fromAnswers": true,
                     "group": "Referrals",
@@ -5862,7 +5882,7 @@
                   "resources": [
                     {
                       "id": "resource-c1ehnp3b",
-                      "units": ""
+                      "units": "1"
                     }
                   ],
                   "performerPeople": {}
@@ -5893,7 +5913,7 @@
                     },
                     {
                       "id": "resource-c1ehnp3b",
-                      "units": ""
+                      "units": "1"
                     }
                   ],
                   "performerPeople": {}
@@ -5923,7 +5943,9 @@
                       "units": ""
                     }
                   ],
-                  "performerPeople": {}
+                  "performerPeople": {
+                    "partner-3w37yf3a": "1"
+                  }
                 },
                 {
                   "id": "activity-chzfi0gr",
@@ -6083,7 +6105,7 @@
                     },
                     {
                       "id": "resource-zgn2xy6e",
-                      "units": ""
+                      "units": "1"
                     }
                   ],
                   "performerPeople": {}
@@ -6123,8 +6145,8 @@
                   "rateOverride": "",
                   "costOption": "",
                   "quantity": "0.4",
-                  "hoursAvailable": "",
-                  "leadWeeks": "",
+                  "hoursAvailable": "16",
+                  "leadWeeks": "1",
                   "extras": {},
                   "paymentPlan": {
                     "on": false,
@@ -6190,9 +6212,9 @@
                   "group": "logistics-fulfilment",
                   "rateOverride": "",
                   "costOption": "flat-per-parcel",
-                  "quantity": "",
+                  "quantity": "1",
                   "hoursAvailable": "",
-                  "leadWeeks": "",
+                  "leadWeeks": "0",
                   "extras": {},
                   "paymentPlan": {
                     "on": false,
@@ -6224,9 +6246,9 @@
                   "group": "logistics-fulfilment",
                   "rateOverride": "",
                   "costOption": "flat-per-parcel",
-                  "quantity": "",
+                  "quantity": "1",
                   "hoursAvailable": "",
-                  "leadWeeks": "",
+                  "leadWeeks": "0",
                   "extras": {},
                   "paymentPlan": {
                     "on": false,
@@ -6417,8 +6439,8 @@
                 "duration": "2",
                 "constraints": "",
                 "perSession": "",
-                "batchSetup": "",
-                "batchUnits": "",
+                "batchSetup": "1",
+                "batchUnits": "10",
                 "holdUps": [
                   "other"
                 ],
