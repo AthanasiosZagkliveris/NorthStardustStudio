@@ -944,6 +944,24 @@ export function draftToAdd(text: string, draft: string): string {
 }
 
 /**
+ * A FIELD WITH ITS DRAFT ADDED, ONCE (owner, 2026-11-18 10:38: the drafts were added again at each press): an empty field takes the draft; a field with text keeps
+ * it and takes, after a blank line, only the draft's lines it does not already hold; a field that holds them all is left as it is. Every "Add a draft" writes
+ * through it, and shows only while it would add something (draftAdds).
+ */
+export function withDraft(text: string, draft: string): string {
+    const adding = draftToAdd(text, draft);
+    if (!adding) {
+        return text;
+    }
+    return text.trim() ? text.replace(/\s+$/, "") + "\n\n" + adding : adding;
+}
+
+/** Whether "Add a draft" would add anything to the field (withDraft). */
+export function draftAdds(text: string, draft: string): boolean {
+    return draft.trim() !== "" && draftToAdd(text, draft) !== "";
+}
+
+/**
  * The draft added at the end of the Insights text when the App User asks (doc 41): "Customers want [value], and [name] falls short there.", one line for each value
  * the Segment's Profiles tick that K8 rates 1 or 2, with every competitor of the Segment that falls short on it; then "You could [opening]." for each tick of K10.
  */

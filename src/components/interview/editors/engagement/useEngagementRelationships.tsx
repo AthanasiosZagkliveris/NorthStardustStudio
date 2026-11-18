@@ -2,6 +2,7 @@
  * THE CHANNEL TILES and the relationships of each Offering.
  * One part of BusinessEngagementEditor (see BusinessEngagementEditor.tsx): what it needs of the parts before it comes in as `earlier`; what the parts after it need goes out.
  */
+import { draftAdds, withDraft } from "../../../../framework/engine/CompetitorQuestions.ts";
 import { CSSProperties, ReactNode, useContext, useEffect, useState } from "react";
 import { InitialBoxContext } from "../../tiles/DialogLevels.tsx";
 
@@ -707,7 +708,12 @@ export function useEngagementRelationships(earlier: Earlier) {
                                         <FieldRow key="purpose" pair label="Purpose" info={SECTIONS.relationships.purpose}>
                                             {/* (ADD A DRAFT (2.14, the second batch of the review; owner, 2026-11-18 00:46), as the Value Proposition's: the Purpose from the type
                                                 and the Offering's answers, added after what is written, and each empty Approach from its stage's channels, in one write.) */}
-                                            <TextLink
+                                            {(() => {
+                                                const purposeDraft = relationshipPurposeDraft(typeId, offeringName(offeringId), offeringAnswersById([segment], offeringId, identity));
+                                                const approachesOpen = offeringRows.some(interaction => !interactionOf(segment.id, offeringId, typeId, interaction.key, interaction.legacyKeys, startGoals(interaction.stageId, segment, offeringId, identity)).approach.trim()
+                                                    && relationshipApproachDraft(typeId, interaction.groups.flatMap(group => group.channelIds.map(channelName))) !== "");
+                                                return draftAdds(type.purpose, purposeDraft) || approachesOpen;
+                                            })() && <TextLink
                                                 className="business-competitor-draft"
                                                 disabled={disabled}
                                                 onClick={() => {
@@ -720,11 +726,11 @@ export function useEngagementRelationships(earlier: Earlier) {
                                                             interactions[interaction.key] = { ...current, approach };
                                                         }
                                                     }
-                                                    updateType(segment.id, offeringId, typeId, { purpose: type.purpose.trim() ? type.purpose.replace(/\s+$/, "") + "\n\n" + draft : draft, interactions });
+                                                    updateType(segment.id, offeringId, typeId, { purpose: withDraft(type.purpose, draft), interactions });
                                                 }}
                                             >
                                                 Add a draft
-                                            </TextLink>
+                                            </TextLink>}
                                             <StrategyTextArea
                                                 className="interview-input business-foundation-note"
                                                 ariaLabel={"Purpose of " + label + " for " + offeringName(offeringId)}

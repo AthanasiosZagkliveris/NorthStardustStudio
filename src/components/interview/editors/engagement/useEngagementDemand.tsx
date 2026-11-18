@@ -2,6 +2,7 @@
  * THE DEMAND AND CONVERSION of each Offering.
  * One part of BusinessEngagementEditor (see BusinessEngagementEditor.tsx): what it needs of the parts before it comes in as `earlier`; what the parts after it need goes out.
  */
+import { draftAdds, withDraft } from "../../../../framework/engine/CompetitorQuestions.ts";
 import type { ReactNode } from "react";
 import NumberCell from "../../../controls/NumberCell.tsx";
 import FieldLabel from "../../../controls/FieldLabel.tsx";
@@ -339,13 +340,12 @@ export function useEngagementDemand(earlier: Earlier) {
                     info={["What this source's figure rests on: a test, an enquiry, a promise, past sales."]}
                 >
                     {/* (ADD A DRAFT (P1; owner, 2026-11-18 03:01): the source's own working as a sentence, added after what is written, as the Value Proposition's.) */}
-                    {demandBasisDraft(demand, source.id) && (
+                    {draftAdds(source.basis, demandBasisDraft(demand, source.id)) && (
                         <TextLink
                             className="business-competitor-draft"
                             disabled={disabled}
                             onClick={() => {
-                                const draft = demandBasisDraft(demand, source.id);
-                                changeSource(source.id, { basis: source.basis.trim() ? source.basis.replace(/\s+$/, "") + "\n\n" + draft : draft });
+                                changeSource(source.id, { basis: withDraft(source.basis, demandBasisDraft(demand, source.id)) });
                             }}
                         >
                             Add a draft
