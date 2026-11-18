@@ -13,9 +13,9 @@ What was covered: every page of the four systems, every master tile opened, ever
 | Brand System / main page | 24 | 3 to 75 | 62 to 1766 |
 | Business System / 1. Foundation | 110 | 2 to 40 | 24 to 954 |
 | Business System / Costs, Funding & Position | 51 | 2 to 35 | 26 to 803 |
-| Business System / Customer Engagement | 30 | 3 to 75 | 62 to 1697 |
+| Business System / Customer Engagement | 31 | 3 to 75 | 62 to 1697 |
 | Business System / Infrastructure | 46 | 2 to 39 | 37 to 936 |
-| Business System / Revenue & Pricing | 17 | 2 to 30 | 22 to 684 |
+| Business System / Revenue & Pricing | 16 | 2 to 30 | 22 to 684 |
 | Global Settings | 22 | 2 to 40 | 17 to 981 |
 | Identity System / 1. Definition | 22 | 5 to 43 | 89 to 1009 |
 | Identity System / 2. Legal Entity | 7 | 7 to 17 | 103 to 415 |
@@ -25,8 +25,8 @@ What was covered: every page of the four systems, every master tile opened, ever
 
 | Opens in | Help texts | Rows | Characters |
 |---|---|---|---|
-| tile dialog | 197 | 2 to 75 | 22 to 1766 |
-| floating card | 121 | 2 to 75 | 24 to 1766 |
+| tile dialog | 180 | 2 to 75 | 26 to 1766 |
+| floating card | 138 | 2 to 75 | 22 to 1766 |
 | settings page | 22 | 2 to 40 | 17 to 981 |
 
 ## Warnings
@@ -35,9 +35,9 @@ Listed, never failed (doc 39, 3.6). The budget is 160 characters a point; the av
 
 | Kind | Count |
 |---|---|
-| a point over 160 characters | 75 |
+| a point over 160 characters | 74 |
 | an internal word (tile, card, locked, frozen, driver) | 27 |
-| the same text under several labels | 57 |
+| the same text under several labels | 51 |
 | a jargon acronym | 2 |
 
 | Kind | Label | Where | Found |
@@ -123,10 +123,6 @@ Listed, never failed (doc 39, 3.6). The budget is 160 characters a point; the av
 | the same text under 2 labels | Samples & Trials | Business System / Customer Engagement / Channels &Journey | Channel, Samples & Trials |
 | an internal word (tile, card, locked, frozen, driver) | Social Media | Business System / Customer Engagement / Channels &Journey | card |
 | an internal word (tile, card, locked, frozen, driver) | Website | Business System / Customer Engagement / Channels &Journey | card |
-| the same text under 4 labels | AI Workflow Audit | Business System / Customer Engagement / Customer'sRelationship | AI Workflow Audit, Automation Build, Automation Care Retainer, Customer's Relationship |
-| the same text under 4 labels | Automation Build | Business System / Customer Engagement / Customer'sRelationship | AI Workflow Audit, Automation Build, Automation Care Retainer, Customer's Relationship |
-| the same text under 4 labels | Automation Care Retainer | Business System / Customer Engagement / Customer'sRelationship | AI Workflow Audit, Automation Build, Automation Care Retainer, Customer's Relationship |
-| the same text under 4 labels | Customer's Relationship | Business System / Customer Engagement / Customer'sRelationship | AI Workflow Audit, Automation Build, Automation Care Retainer, Customer's Relationship |
 | a point over 160 characters (275) | Active clients | Business System / Customer Engagement / Demand &Conversion | Based on: Gupta, S. et al. (2006) ‘Modeling Customer Lifetime Value’, Journal of Service R |
 | a point over 160 characters (166) | AI Workflow Audit | Business System / Customer Engagement / Demand &Conversion | Where this Offering’s customers come from, and so how many sales to expect. One source wit |
 | the same text under 4 labels | AI Workflow Audit | Business System / Customer Engagement / Demand &Conversion | AI Workflow Audit, Automation Build, Automation Care Retainer, Demand & Conversion |
@@ -170,13 +166,10 @@ Listed, never failed (doc 39, 3.6). The budget is 160 characters a point; the av
 | a point over 160 characters (169) | Documents & Rights | Business System / Infrastructure / Resources | Licences: Paid permissions: the right to use another's work and permits from authorities, |
 | a point over 160 characters (183) | Equipment | Business System / Infrastructure / Resources | Devices & Tools: The tools, instruments and gear used to make or deliver the offering, bes |
 | an internal word (tile, card, locked, frozen, driver) | Equipment | Business System / Infrastructure / Resources | Card |
-| a point over 160 characters (223) | Delivery Check | Business System / Revenue & Pricing / Delivery Check | Expected sales come from Demand & Conversion on Customer Engagement where it is filled in; |
-| the same text under 2 labels | Delivery Check | Business System / Revenue & Pricing / Delivery Check | Delivery Check, Revenue Streams |
 | a point over 160 characters (298) | Active Clients | Business System / Revenue & Pricing / Revenue Streams | From this Offering's Demand & Conversion on Customer Engagement: Other: estimated at 0.3 n |
 | a point over 160 characters (242) | Expected Sales | Business System / Revenue & Pricing / Revenue Streams | From this Offering's Demand & Conversion on Customer Engagement: Sales funnel: 24 prospect |
 | an internal word (tile, card, locked, frozen, driver) | Price | Business System / Revenue & Pricing / Revenue Streams | card |
 | a point over 160 characters (223) | Revenue Streams | Business System / Revenue & Pricing / Revenue Streams | Expected sales come from Demand & Conversion on Customer Engagement where it is filled in; |
-| the same text under 2 labels | Revenue Streams | Business System / Revenue & Pricing / Revenue Streams | Delivery Check, Revenue Streams |
 | the same text under 2 labels | Affiliate network or influencer commission | Global Settings / the page itself | Affiliate network or influencer commission, Sales agent or B2B broker commission |
 | a point over 160 characters (204) | Business stages | Global Settings / the page itself | Set by the Opening Date and the durations below: planning before the opening, then launchi |
 | a point over 160 characters (175) | Business stages | Global Settings / the page itself | Planning: How long the planning is meant to take, counted back from the Opening Date (the |
@@ -525,10 +518,11 @@ Listed, never failed (doc 39, 3.6). The budget is 160 characters a point; the av
 
 | Label | Opens in | Rows | Points | Characters | Text |
 |---|---|---|---|---|---|
-| AI Workflow Audit | tile dialog | 12 | 3 | 267 | Choose the kind of relationship you maintain with each Customer Profile, and say why you maintain it. For each Offering, record when in the journey you interact... |
-| Automation Build | tile dialog | 12 | 3 | 267 | Choose the kind of relationship you maintain with each Customer Profile, and say why you maintain it. For each Offering, record when in the journey you interact... |
-| Automation Care Retainer | tile dialog | 12 | 3 | 267 | Choose the kind of relationship you maintain with each Customer Profile, and say why you maintain it. For each Offering, record when in the journey you interact... |
+| Approach | floating card | 5 | 1 | 81 | How will you use this interaction to maintain the relationship with the customer? |
 | Customer's Relationship | tile dialog | 12 | 3 | 267 | Choose the kind of relationship you maintain with each Customer Profile, and say why you maintain it. For each Offering, record when in the journey you interact... |
+| Goals | floating card | 9 | 3 | 175 | Get: Attract and convert suitable customers. Keep: Maintain satisfaction and encourage continued engagement. Grow: Develop the relationship through additional o... |
+| Journey Stage | floating card | 7 | 1 | 147 | When in the customer journey does the interaction take place? Each stage chosen is answered separately, because the Approach is individual to each. |
+| Purpose | floating card | 3 | 1 | 65 | Why do you maintain this type of relationship with this customer? |
 
 **Demand &Conversion**
 
@@ -624,37 +618,26 @@ Listed, never failed (doc 39, 3.6). The budget is 160 characters a point; the av
 
 ### Business System / Revenue & Pricing
 
-**Delivery Check**
-
-| Label | Opens in | Rows | Points | Characters | Text |
-|---|---|---|---|---|---|
-| Can the Expected Sales Be Delivered? | tile dialog | 22 | 5 | 526 | Capacity is the founders' delivery hours a month: the time the organisation controls. Needed: each month's expected sales times each founder's Working Hours per... |
-| Delivery Check | tile dialog | 30 | 6 | 684 | Each Offering has its revenue stream below. For each, say how it is priced, how much sells, and when the money arrives. Expected sales come from Demand & Conver... |
-
 **Revenue Streams**
 
 | Label | Opens in | Rows | Points | Characters | Text |
 |---|---|---|---|---|---|
-| Active Clients | tile dialog | 12 | 1 | 298 | From this Offering's Demand & Conversion on Customer Engagement: Other: estimated at 0.3 new a month. Referrals: 0.5 referrals a month, 40% buy: about 0.2 new a... |
-| Begins and Payment | tile dialog | 21 | 4 | 472 | Revenue begins after the sales cycle, the time from first contact to a signed sale: for services to businesses it is often 4 to 12 weeks. One sale often leads t... |
-| Build-up | tile dialog | 11 | 3 | 206 | Steady from the start: The expected volume from the month revenue begins. Gradual build-up: Starts lower and grows evenly to the expected volume. Month by month... |
-| Charged | tile dialog | 15 | 4 | 334 | Per sale: paid once for each unit sold (a product, a session, an hour). Per project: paid once for each project or contract. Monthly, quarterly or annually: pai... |
-| Customer Pays | tile dialog | 23 | 7 | 471 | When the money is actually received, if not when the sale is made. It follows the Offering's When do they pay? on the Foundation page. Upfront: Paid in full whe... |
-| Expected Sales | tile dialog | 9 | 1 | 242 | From this Offering's Demand & Conversion on Customer Engagement: Sales funnel: 24 prospects a month, 15% qualified, 25% of those buy: about 0.9 a month. Referra... |
-| First Month | tile dialog | 3 | 1 | 46 | How many projects in the month revenue begins. |
-| First Month | tile dialog | 3 | 1 | 45 | How many clients in the month revenue begins. |
-| Months to Normal | tile dialog | 3 | 1 | 60 | How many months it takes to grow evenly to the normal level. |
-| Price | tile dialog | 18 | 4 | 441 | Start from what competitors publish (listed on Foundation) and what clients pay today to solve the same problem. Check it covers the costs of each sale and leav... |
-| Rest After | tile dialog | 2 | 1 | 22 | Months after the sale. |
+| Active Clients | floating card | 12 | 1 | 298 | From this Offering's Demand & Conversion on Customer Engagement: Other: estimated at 0.3 new a month. Referrals: 0.5 referrals a month, 40% buy: about 0.2 new a... |
+| Begins and Payment | floating card | 21 | 4 | 472 | Revenue begins after the sales cycle, the time from first contact to a signed sale: for services to businesses it is often 4 to 12 weeks. One sale often leads t... |
+| Build-up | floating card | 11 | 3 | 206 | Steady from the start: The expected volume from the month revenue begins. Gradual build-up: Starts lower and grows evenly to the expected volume. Month by month... |
+| Can the Expected Sales Be Delivered? | tile dialog | 22 | 5 | 526 | Capacity is the founders' delivery hours a month: the time the organisation controls. Needed: each month's expected sales times each founder's Working Hours per... |
+| Charged | floating card | 15 | 4 | 334 | Per sale: paid once for each unit sold (a product, a session, an hour). Per project: paid once for each project or contract. Monthly, quarterly or annually: pai... |
+| Customer Pays | floating card | 23 | 7 | 471 | When the money is actually received, if not when the sale is made. It follows the Offering's When do they pay? on the Foundation page. Upfront: Paid in full whe... |
+| Expected Sales | floating card | 9 | 1 | 242 | From this Offering's Demand & Conversion on Customer Engagement: Sales funnel: 24 prospects a month, 15% qualified, 25% of those buy: about 0.9 a month. Referra... |
+| First Month | floating card | 3 | 1 | 46 | How many projects in the month revenue begins. |
+| First Month | floating card | 3 | 1 | 45 | How many clients in the month revenue begins. |
+| Months to Normal | floating card | 3 | 1 | 60 | How many months it takes to grow evenly to the normal level. |
+| Price | floating card | 18 | 4 | 441 | Start from what competitors publish (listed on Foundation) and what clients pay today to solve the same problem. Check it covers the costs of each sale and leav... |
+| Rest After | floating card | 2 | 1 | 22 | Months after the sale. |
 | Revenue Streams | tile dialog | 30 | 6 | 684 | Each Offering has its revenue stream below. For each, say how it is priced, how much sells, and when the money arrives. Expected sales come from Demand & Conver... |
-| Sales Volume | tile dialog | 13 | 3 | 293 | Few organisations sell at the normal level from the first month: a gradual build-up over 6 to 12 months is usual. For seasons (quieter summers, busy end-of-year... |
-| Upfront (%) | tile dialog | 5 | 1 | 101 | The share of the price paid when the sale is made; the rest arrives the months after given beside it. |
-
-**Revenue Summary**
-
-| Label | Opens in | Rows | Points | Characters | Text |
-|---|---|---|---|---|---|
 | Revenue Summary | tile dialog | 3 | 1 | 56 | Expected revenue at the normal operating level, a month. |
+| Sales Volume | floating card | 13 | 3 | 293 | Few organisations sell at the normal level from the first month: a gradual build-up over 6 to 12 months is usual. For seasons (quieter summers, busy end-of-year... |
+| Upfront (%) | floating card | 5 | 1 | 101 | The share of the price paid when the sale is made; the rest arrives the months after given beside it. |
 
 ### Global Settings
 
