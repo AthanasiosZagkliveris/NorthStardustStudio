@@ -14,7 +14,7 @@ import FinancialFoundationEditor from "../editors/FinancialFoundationEditor";
 import FinancialSustainabilityEditor from "../editors/FinancialSustainabilityEditor";
 import FinancialPlanSettings from "../editors/FinancialPlanSettings";
 import { asLegalEntityValue } from "../../../framework/engine/AnswerUtils";
-import { openTile, toggles, typeInto } from "../../../test/interviewTestUtils";
+import { openTile, typeInto } from "../../../test/interviewTestUtils";
 
 /** A revenue stream's card, opened from its tile in the Revenue Streams dialog (owner, 2026-11-18 10:38: the streams are tiles). */
 function openStream(number: number) {
@@ -35,22 +35,20 @@ afterEach(cleanup);
 
 describe("FinancialFoundationEditor folding", () => {
 
-    it("starts funding sources open (they are content) and opens a new one", () => {
+    it("draws each funding source as a tile whose card opens from it (owner, 2026-11-18 12:41: \"make the Funding Sources into tiles\")", () => {
 
         const initial = {
             ...asFinancialFoundationValue(undefined),
-            funding: [createFundingSource("internal"), createFundingSource("internal")]
+            funding: [{ ...createFundingSource("internal"), name: "Savings" }, { ...createFundingSource("internal"), name: "Reinvested" }]
         };
 
         render(<Harness initial={initial} />);
         openTile("Capital & Funding");
 
-        toggles(/Source \d+$/).forEach(t => expect(t.getAttribute("aria-expanded")).toBe("true"));
-
-        fireEvent.click(screen.getAllByRole("button", { name: /\+ Add/ }).find(b => /source/i.test(b.textContent ?? ""))!);
-
-        const sources = toggles(/Source \d+$/);
-        expect(sources[sources.length - 1].getAttribute("aria-expanded")).toBe("true");
+        const tiles = [...document.querySelectorAll<HTMLElement>(".section-tile-overlay [aria-label='Internal funding sources'] button.card-tile")];
+        expect(tiles.map(tile => tile.textContent ?? "").map(text => text.includes("Savings") || text.includes("Reinvested"))).toEqual([true, true]);
+        fireEvent.click(tiles[0]);
+        expect(screen.getByLabelText("Savings amount")).toBeTruthy();
 
     });
 
@@ -152,10 +150,8 @@ describe("FinancialFoundationEditor number limits", () => {
         render(<Harness initial={initial} />);
         openTile("Capital & Funding");
 
-        const card = toggles(/Source 1$/)[0];
-        if (card.getAttribute("aria-expanded") === "false") {
-            fireEvent.click(card);
-        }
+        // (The source's card floats from its tile: owner, 2026-11-18 12:41.)
+        fireEvent.click(document.querySelector<HTMLElement>(".section-tile-overlay [aria-label='External funding sources'] button.card-tile")!);
 
         const rate = screen.getByLabelText("Bank Loan interest rate") as HTMLInputElement;
         typeInto(rate, "150");

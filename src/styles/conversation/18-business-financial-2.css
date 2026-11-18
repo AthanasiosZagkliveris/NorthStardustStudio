@@ -325,13 +325,14 @@
 
 }
 
+/* (Its sources' tiles take the dialog's width, three in a row: owner, 2026-11-18 12:41.) */
 .financial-funding-category{
 
     display:flex;
 
     flex-direction:column;
 
-    align-items:flex-start;
+    align-items:stretch;
 
     gap:10px;
 
@@ -1184,3 +1185,63 @@
 
 }
 
+
+
+/* A FUNDING SOURCE'S FLOATING CARD (owner, 2026-11-18 12:41: "make the Funding Sources into tiles"): one side-label row a field, as a Customer Engagement card's --
+   the label in the one label column, its answer filling the rest to the content edge; a field of ticks, a note or a list of milestones keeps its label above;
+   under 396px the labels go above. */
+.financial-funding-floating .business-capability-row{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:var(--space-field);
+
+}
+
+.financial-funding-floating :is(.legal-entity-org-section, .business-capability-row) > .business-foundation-field:not(:has(.business-tick-row, textarea, .business-foundation-empty, .financial-milestone, input[type="checkbox"])){
+
+    /* (As wide as its longest label, "Interest Rate (% a year)", so the pickers show their options.) */
+    --side-label-short:calc(var(--font-body) * 11.5);
+
+    display:grid;
+
+    grid-template-columns:var(--side-label-short) minmax(0, 1fr);
+
+    column-gap:var(--side-label-gap);
+
+    align-items:center;
+
+    /* (One under the other: the row's side-by-side basis is not a height.) */
+    flex:none;
+
+}
+
+.financial-funding-floating :is(.legal-entity-org-section, .business-capability-row) > .business-foundation-field:not(:has(.business-tick-row, textarea, .business-foundation-empty, .financial-milestone, input[type="checkbox"])) > :not(:first-child){
+
+    grid-column:2;
+
+    width:100%;
+
+    max-width:none;
+
+}
+
+@container card (max-width: 395.98px){
+
+    .financial-funding-floating :is(.legal-entity-org-section, .business-capability-row) > .business-foundation-field:not(:has(.business-tick-row, textarea, .business-foundation-empty, .financial-milestone, input[type="checkbox"])){
+
+        grid-template-columns:minmax(0, 1fr);
+
+        align-items:start;
+
+    }
+
+    .financial-funding-floating :is(.legal-entity-org-section, .business-capability-row) > .business-foundation-field:not(:has(.business-tick-row, textarea, .business-foundation-empty, .financial-milestone, input[type="checkbox"])) > :not(:first-child){
+
+        grid-column:1;
+
+    }
+
+}
