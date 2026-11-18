@@ -81,7 +81,8 @@ export default function BusinessEngagementEditor(props: BusinessEngagementEditor
             // (An Other source made from an Other channel is called by that channel's name: owner, 2026-11-16 19:18.)
             // (A source made by the answers is one per kind, "Sales funnel", its channels listed under it: owner, 2026-11-16 20:22.)
             const sourceName = (source: { type: string; name?: string; group?: string }) => (source.type === "other" && source.name) || source.group || sourceLabel(source.type);
-            const sourceChannels = (source: { channelId: string; channelIds?: readonly string[] }) => ((source.channelIds ?? []).length > 0 ? source.channelIds! : [source.channelId]).map(channelLabel).filter(Boolean).join(", ");
+            // (A source's channels, one line each on its tile: owner, 2026-11-18 12:41, "This information should be on the source Tiles".)
+            const sourceChannels = (source: { channelId: string; channelIds?: readonly string[] }) => ((source.channelIds ?? []).length > 0 ? source.channelIds! : [source.channelId]).map(channelLabel).filter(Boolean);
             const channelLabel = (channelId: string) => segmentOf(segment.id).channels.find(channel => channel.id === channelId)?.name.trim() ?? "";
             const sourceLine = (offeringId: string, sourceId: string) => {
                 const part = demandResult(engagement.demand[offeringId]).sources.find(entry => entry.id === sourceId);
@@ -108,8 +109,8 @@ export default function BusinessEngagementEditor(props: BusinessEngagementEditor
                         const part = id.startsWith("dems:" + offeringId + "|") ? id.slice(("dems:" + offeringId + "|").length) : "";
                         return part ? floatingOf(demandFor(segment, offeringId, name, true, part)) : null;
                     },
-                    // (Expected Sales a section of the dialog itself -- how its customers buy, the result, the Channels That Bring Them --, the sources its tiles under it:
-                    // owner, 2026-11-13 16:35.)
+                    // (Expected Sales a section of the dialog itself -- how its customers buy, the result --, the sources its tiles under it: owner, 2026-11-13 16:35. The
+                    // Channels That Bring Them are each source's, on its tile and in its card: owner, 2026-11-18 12:41.)
                     content: () => dialog(name, [SECTIONS.relationships.instructions[3], ...DEMAND_BLOCK_HELP.map(point => typeof point === "string" ? point : "")].filter(Boolean) as string[], (
                         <>
                         {demandFor(segment, offeringId, name, true, "expected")}
@@ -124,8 +125,8 @@ export default function BusinessEngagementEditor(props: BusinessEngagementEditor
                                     number: index + 1,
                                     name: sourceName(source),
                                     unnamed: "Source " + (index + 1),
-                                    // (Its channel, then what it gives.)
-                                    lines: [sourceChannels(source), sourceLine(offeringId, source.id)].filter(Boolean),
+                                    // (Its channels, then what it gives.)
+                                    lines: [...sourceChannels(source), sourceLine(offeringId, source.id)].filter(Boolean),
                                     own: true,
                                     content: () => null
                                 }))
