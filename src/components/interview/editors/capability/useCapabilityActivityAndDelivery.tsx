@@ -706,13 +706,26 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
             ...createDelivery(),
             ...(starts.deliveryMode ? { mode: starts.deliveryMode } : {}),
             ...(starts.duration ? { duration: starts.duration } : {}),
-            ...holdUpStarts(offeringId)
+            ...holdUpStarts(offeringId),
+            ...perSessionStart(offeringId)
         };
     }
     /**
      * DV12'S STARTS FROM THE OFFERING'S CARDS (2.10, the second batch of the review; owner, 2026-11-18 00:46): Equipment or a workspace where a Resource of that kind
      * serves it (and the one, where there is one); Materials from a supplier where a Supplier with a lead time serves it (and the one). Starts of a card not yet saved.
      */
+    /** The Team of an Offering's Production activities, in their order, each person once (P3). */
+    function productionTeam(offeringId: string): string[] {
+        return [...new Set(capability.offering.activities.filter(activity => activity.category === "production" && activity.offeringIds.includes(offeringId)).flatMap(activity => activity.performerIds).filter(id => id !== ""))];
+    }
+    /**
+     * DV6'S START (P4; owner, 2026-11-18 03:01, "All, P1 to P9"): the Quantity of the one equipment or workspace Resource that serves this Offering alone, where it holds more than one -- eight
+     * frame looms, eight places --; blank otherwise. A start of a card not yet saved.
+     */
+    function perSessionStart(offeringId: string): Partial<DeliveryValue> {
+        const places = capability.offering.resources.filter(card => card.offeringIds.length === 1 && card.offeringIds[0] === offeringId && (card.category === "equipment" || card.category === "workspace") && Number.parseFloat(card.quantity) > 1);
+        return places.length === 1 && offeringStartsById(businessFoundationSegments(foundation), offeringId).sessions ? { perSession: String(Number.parseFloat(places[0].quantity)) } : {};
+    }
     function holdUpStarts(offeringId: string): Partial<DeliveryValue> {
         const equipment = capability.offering.resources.filter(card => card.offeringIds.includes(offeringId) && (card.category === "equipment" || card.category === "workspace"));
         const suppliers = capability.offering.providers.filter(card => card.offeringIds.includes(offeringId) && card.leadWeeks.trim() !== "");
@@ -895,10 +908,13 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
             "Unnamed card"
         );
 
+        // (P3; owner, 2026-11-18 03:01, "All, P1 to P9": the people who make it first -- the Team of the Offering's Production activities, in their order --, then the others; the hours blank.)
+        const makers = productionTeam(offering.id);
+        const rank = (id: string) => makers.includes(id) ? makers.indexOf(id) : makers.length;
         const rows = [
             ...founderChoices.map(choice => ({ ...choice, external: false })),
             ...linkedTeam.map(choice => ({ ...choice, external: true }))
-        ];
+        ].map((row, at) => ({ row, at })).sort((a, b) => rank(a.row.id) - rank(b.row.id) || a.at - b.at).map(entry => entry.row);
 
         /* SAVED BEFORE EFFORT WAS SPLIT: one total and who delivered
            it. Shown on its first deliverer until the hours are split,

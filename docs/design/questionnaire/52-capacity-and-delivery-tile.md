@@ -29,6 +29,8 @@ The card's questions in the card's order, with proposed codes. The card has no c
 - **Control:** one choice (`OptionPicker`, side row): Per unit, Every month. **Asked:** always. **Started from:** O3. Built.
 - **A record of Customers Buy** (built; owner, 2026-11-18 00:46, the review's second batch, 1.2): where O3 leaves it open (unanswered or Free), Delivered is Demand & Conversion's Customers Buy (every month, until they cancel: Every month), one fact with one owner; the note that said they disagree is gone. Asked only while neither says.
 - **Working Hours by person lists only those who give working time** (owner, 2026-11-18 02:31): the founders and Staff, and the Partners and Suppliers in a group that does part of the job (Contractors & Advisers, Technical Support, Creative & IT Services, or none yet), never one charged as a share of revenue; and any card that says its hours a month, or already holds hours on the card (`givesWorkingHours`). A courier, a payment service, a materials seller and a revenue partner are costs, not people.
+- **P3, the people who make it first** (owner, 2026-11-18 03:01 UTC+2: "All, P1 to P9"): Working Hours by person lists the Team of the Offering's Production activities first, in their order, then the other founders and people; the hours stay blank (no answer holds a time).
+- **P5, Hours Given per month** (owner, 2026-11-18 03:01 UTC+2: "All, P1 to P9"): Per month is already where Hours Given starts for every Offering delivered every month (a dedicated person or team included); Per week only where the founder chooses it. Nothing to add; the hours are the founder's.
 
 ### DV2. Hours Given
 
@@ -45,6 +47,7 @@ The card's questions in the card's order, with proposed codes. The card has no c
 - **What it changes:** the hours a sale takes are DV3 ÷ DV6; the budgets and Sustainability's check read the hours for the sessions needed (expected sales ÷ DV6, rounded up). With DV6 at 1 every saved card reads as today.
 - **The "i" says:** "The most customers one session serves: a class of 8 in a 3-hour session takes about 23 minutes a customer. Expected sales count customers; the hours count sessions."
 - **Lumen:** Weaving Workshops (up to eight a workshop) gets DV6 = 8 and DV3 per session (Maya Chen 3.2 h, the linked External Professional 0.8 h): the same 0.4 h and 0.1 h a participant as today, now read as about 4 sessions a month for the 32 places.
+- **P4, its start** (owner, 2026-11-18 03:01 UTC+2: "All, P1 to P9"): on a card not yet saved, the Quantity of the one equipment or workspace Resource that serves this Offering alone, where it holds more than one (Lumen's eight frame looms for the workshops: eight places); blank otherwise.
 
 ### DV4. Calendar Time (weeks)
 
