@@ -190,4 +190,5 @@ Owner, 2026-11-18 10:38 UTC+2: "Check the Capacity & Delivery dialogue and the f
   3. How many at once: DV6, or DV9 and DV10.
   4. What can hold it up: DV12 and its DV7, DV8 and DV13.
   5. The results: "While one runs" and "At expected sales". These read every answer above them, so they come last; before this, they stood between DV3 and the Calendar Time.
+- **The card's bands** (owner, same message: "fix the style of the dialogue and the floated cards to fit the other and follow the related rules"): each step above is a box of the shared bands, as a Customer Engagement card -- What Is Delivered, Who Does It and How Long, How Many at Once (where it is asked), What Can Hold It Up, Results -- its title band, then its questions in bands of their own, the tints alternating (`SingleColumn`, `EngagementBoxes`, `EngagementBox`). The card stands in the floating card's content box (`column-tile-content`), so its bands reach the card's edges.
 - **Wording:** the labels are unchanged. Field labels on the other pages use both cases ("Customers Buy", "Units in a batch"), so there is no shared rule to follow on this page alone.

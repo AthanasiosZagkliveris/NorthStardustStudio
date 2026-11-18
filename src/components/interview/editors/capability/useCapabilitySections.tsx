@@ -1075,7 +1075,8 @@ export function useCapabilitySections(earlier: Earlier) {
                 note: DELIVERY_HELP.section,
                 cardFor: (cardId: string) => {
                     const at = offeringChoices.findIndex(choice => "delivery-" + choice.id === cardId);
-                    return at >= 0 ? deliveryCard(offeringChoices[at], at) : null;
+                    // (In the floating card's content box, as Customer Engagement's: its bands reach the card's edges; owner, 2026-11-18 10:38.)
+                    return at >= 0 ? <div className="column-tile-content">{deliveryCard(offeringChoices[at], at)}</div> : null;
                 },
                 content: () => tileSection("offering", "Capacity & Delivery", DELIVERY_HELP.section, deliverySection)
             },

@@ -19,6 +19,8 @@ import { CAPACITY_UTILISATION_HELP, CashTimelineChart, FigureTable, FigureTiles,
 import { summaryText } from "../cards/cardSummary.ts";
 import CardBoxes, { type CardBox } from "../cards/CardBoxes.tsx";
 import DialogSectionBand from "../tiles/DialogSectionBand.tsx";
+import { SingleColumn } from "./foundation/shared.tsx";
+import { EngagementBox, EngagementBoxes } from "./engagement/EngagementCard.tsx";
 import InfoNote, { type InfoPoint, InfoText } from "../fields/InfoNote.tsx";
 import MonthYearPicker from "../fields/MonthYearPicker.tsx";
 import { NUMBER_LIMITS, type NumberLimit, limitedNumberText, numberInputMode } from "../fields/numberInput.ts";
@@ -495,43 +497,19 @@ export default function FinancialSustainabilityEditor({
         const splitPayment = timing === "split" || timing === "milestone";
         const delayedPayment = splitPayment || timing === "completion";
 
-        return (
-            <BusinessCard
-                key={stream.id}
-                kind="Revenue Stream"
-                number={index + 1}
-                name={orphan ? "Offering removed from the Foundation page" : offeringName(stream)}
-                open={floating || folds.isOpen(stream.id)}
-                onToggle={floating ? undefined : () => folds.toggle(stream.id)}
-                disabled={disabled}
-                anchor={"stream-" + stream.offeringId}
-                summary={summaryText(
-                    summaryPrice(stream),
-                    REVENUE_CHARGES.find(item => item.id === stream.frequency)?.label ?? stream.frequency
-                )}
-                actions={orphan && (
-                    <BusinessRemove
-                        what={what}
-                        disabled={disabled}
-                        onRemove={() => onChange({ ...page, streams: page.streams.filter(item => item.id !== stream.id) })}
-                    />
-                )}
-            >
-
-                {/* FOUR SHORT GROUPS, each under its own heading: what
-                    it costs the customer, how much sells, when the money
-                    arrives, and (only where it applies) orders. Every
-                    group shares four columns, labels above, so they line up. */}
-                <section className="financial-stream-group">
-                {/* (P7 (owner, 2026-11-18 03:01 and 03:08): what the Segment's competitors charge for a similar offer, from their K15 ranges, last in the "i";
-                    nothing is written into the price, and it is never compared with it.) */}
-                {groupHead("Price", (() => {
-                    const segment = businessFoundationSegments(foundation).find(entry => entry.offerings.some(offering => offering.id === stream.offeringId));
-                    const range = segment ? competitorsPriceRange(segment.competitors) : null;
-                    return range
-                        ? [...STREAM_HELP.price, "Your competitors charge about " + format(range.low) + (range.high > range.low ? " to " + format(range.high) : "") + " for a similar offer (their cards on Foundation, What do they charge?)."]
-                        : STREAM_HELP.price;
-                })())}
+        // (P7 (owner, 2026-11-18 03:01 and 03:08): what the Segment's competitors charge for a similar offer, from their K15 ranges, last in the Price's "i";
+        // nothing is written into the price, and it is never compared with it.)
+        const groups: { key: string; title: string; info?: InfoPoint[]; body: ReactNode }[] = [
+            {
+                key: "price", title: "Price", info: (() => {
+                        const segment = businessFoundationSegments(foundation).find(entry => entry.offerings.some(offering => offering.id === stream.offeringId));
+                        const range = segment ? competitorsPriceRange(segment.competitors) : null;
+                        return range
+                            ? [...STREAM_HELP.price, "Your competitors charge about " + format(range.low) + (range.high > range.low ? " to " + format(range.high) : "") + " for a similar offer (their cards on Foundation, What do they charge?)."]
+                            : STREAM_HELP.price;
+                    })(),
+                body: (
+                    <>
                 <div className="financial-inline-grid financial-stream-grid">
 
                     {listPicker("Charged", what + " charged", REVENUE_CHARGES.map(item => item.label),
@@ -569,10 +547,13 @@ export default function FinancialSustainabilityEditor({
                             : "On Customer Engagement, customers buy this Offering every month, but it is charged once here: its active clients would be counted as sales a month. Charge it Monthly, Quarterly or Annually, or change how customers buy."}
                     </p>
                 )}
-                </section>
-
-                <section className={"financial-stream-group" + (floating ? " financial-stream-group-band" : "")}>
-                {groupHead("Sales Volume", STREAM_HELP.volume)}
+                    </>
+                )
+            },
+            {
+                key: "volume", title: "Sales Volume", info: STREAM_HELP.volume,
+                body: (
+                    <>
                 <div className="financial-inline-grid financial-stream-grid">
 
                     {fromDemand.expected !== null
@@ -687,17 +668,13 @@ export default function FinancialSustainabilityEditor({
                     </BusinessField>
                 )}
 
-                </section>
-
-                {/* When the money arrives, and its orders: side by side on
-                    one band while payment takes two fields and orders apply,
-                    each group in two of the four columns, so every field
-                    stays on the grid above; otherwise, or where the grid is
-                    narrower, one under the other (conversation.css). */}
-                <div className={"financial-stream-band" + (perOrder > 0 && !delayedPayment ? " financial-stream-band-paired" : "")}>
-
-                <section className="financial-stream-group">
-                {groupHead("Begins and Payment", STREAM_HELP.timing)}
+                    </>
+                )
+            },
+            {
+                key: "payment", title: "Begins and Payment", info: STREAM_HELP.timing,
+                body: (
+                    <>
                 <div className="financial-inline-grid financial-stream-grid">
 
                     <PlanMonthField
@@ -742,12 +719,14 @@ export default function FinancialSustainabilityEditor({
                         ["Months after the sale."], true, NUMBER_LIMITS.months)}
 
                 </div>
-                </section>
-
-                {/* Asked only when this Offering has a cost per order, such as delivery. */}
-                {perOrder > 0 && (
-                    <section className={"financial-stream-group" + (floating ? " financial-stream-group-band" : "")}>
-                    {groupHead("Orders & Delivery", ORDERS_HELP)}
+                    </>
+                )
+            },
+            // (Asked only when this Offering has a cost per order, such as delivery.)
+            ...(perOrder > 0 ? [{
+                key: "orders", title: "Orders & Delivery", info: ORDERS_HELP,
+                body: (
+                    <>
                     <div className="financial-inline-grid financial-stream-grid">
                             {textInput(
                                 "Items per Order",
@@ -769,12 +748,11 @@ export default function FinancialSustainabilityEditor({
                                 ["What the customer pays towards delivery, per order. It is counted as revenue, shared by the " + plural(unit, 2) + " in the order."]
                             )}
                     </div>
-                    </section>
-                )}
-
-                </div>
-
-                {analysis && analysis.price !== null && (
+                    </>
+                )
+            }] : [])
+        ];
+        const outcome = analysis && analysis.price !== null && (
                     <p className="financial-stream-result">
                         <span>At the normal level: <strong>{format(analysis.revenue)} a month</strong></span>
                         <span>Left from each {unit} after its costs: <strong>{format(analysis.contribution ?? 0)}</strong></span>
@@ -785,15 +763,78 @@ export default function FinancialSustainabilityEditor({
                             </span>
                         )}
                     </p>
-                )}
+        );
+        const notes = (
+            <OptionalNote
+                label="Assumptions"
+                ariaLabel={what + " assumptions"}
+                disabled={disabled}
+                value={stream.description}
+                onChange={(next) => changeStream(stream.id, { description: next })}
+            />
+        );
 
-                <OptionalNote
-                    label="Assumptions"
-                    ariaLabel={what + " assumptions"}
-                    disabled={disabled}
-                    value={stream.description}
-                    onChange={(next) => changeStream(stream.id, { description: next })}
-                />
+        return (
+            <BusinessCard
+                key={stream.id}
+                kind="Revenue Stream"
+                number={index + 1}
+                name={orphan ? "Offering removed from the Foundation page" : offeringName(stream)}
+                open={floating || folds.isOpen(stream.id)}
+                onToggle={floating ? undefined : () => folds.toggle(stream.id)}
+                disabled={disabled}
+                anchor={"stream-" + stream.offeringId}
+                summary={summaryText(
+                    summaryPrice(stream),
+                    REVENUE_CHARGES.find(item => item.id === stream.frequency)?.label ?? stream.frequency
+                )}
+                actions={orphan && (
+                    <BusinessRemove
+                        what={what}
+                        disabled={disabled}
+                        onRemove={() => onChange({ ...page, streams: page.streams.filter(item => item.id !== stream.id) })}
+                    />
+                )}
+            >
+
+                {/* FOUR SHORT GROUPS, each under its own heading: what it costs the customer, how much sells, when the money arrives, and (only where it
+                    applies) orders. On the page every group shares four columns, labels above, so they line up. FLOATING, from its tile in the Revenue Streams
+                    dialog, as a Customer Engagement card (owner, 2026-11-18 10:38: "fix the style of the dialogue and the floated cards to fit the other"): each
+                    group a box of the shared bands -- its title band, its questions --, then the results and the Assumptions. Shared components only. */}
+                {floating
+                    ? (
+                        <SingleColumn>
+                            <EngagementBoxes>{[
+                                ...groups.map((group, at) => (
+                                    <EngagementBox key={group.key} title={group.title} info={group.info}
+                                        bands={[group.body, ...(!outcome && at === groups.length - 1 ? [notes] : [])]} />
+                                )),
+                                outcome && <EngagementBox key="results" title="Results" bands={[outcome, notes]} />
+                            ]}</EngagementBoxes>
+                        </SingleColumn>
+                    )
+                    : (
+                        <>
+                            {groups.slice(0, 2).map(group => (
+                                <section className="financial-stream-group" key={group.key}>
+                                    {groupHead(group.title, group.info)}
+                                    {group.body}
+                                </section>
+                            ))}
+                            {/* When the money arrives, and its orders: side by side on one band while payment takes two fields and orders apply, each group in
+                                two of the four columns, so every field stays on the grid above; otherwise, or where the grid is narrower, one under the other. */}
+                            <div className={"financial-stream-band" + (perOrder > 0 && !delayedPayment ? " financial-stream-band-paired" : "")}>
+                                {groups.slice(2).map(group => (
+                                    <section className="financial-stream-group" key={group.key}>
+                                        {groupHead(group.title, group.info)}
+                                        {group.body}
+                                    </section>
+                                ))}
+                            </div>
+                            {outcome}
+                            {notes}
+                        </>
+                    )}
 
             </BusinessCard>
         );
@@ -1594,7 +1635,7 @@ export default function FinancialSustainabilityEditor({
         holds: shownStreams.map(entry => streamCardId(entry.stream)),
         cardFor: (id: string) => {
             const at = shownStreams.findIndex(entry => streamCardId(entry.stream) === id);
-            return at < 0 ? null : <div className="column-tile-content financial-stream-floating"><div className="financial-page">{streamCard(shownStreams[at], at, true)}</div></div>;
+            return at < 0 ? null : <div className="column-tile-content financial-page financial-stream-floating">{streamCard(shownStreams[at], at, true)}</div>;
         }
     };
     return (

@@ -985,7 +985,8 @@
 }
 
 /* A REVENUE STREAM'S FLOATING CARD (owner, 2026-11-18 10:38: "fix the style of the dialogue and the floated cards to fit the other"): one side-label row a field,
-   as the Delivery and Customer Source cards: the label in the one label column, its answer filling the rest; under 396px the labels go above. */
+   as the Delivery and Customer Source cards: the label in the one label column, its answer filling the rest; under 396px the labels go above. Its
+   groups are the shared boxes of bands (EngagementBox), drawn by their own rules. */
 .financial-stream-floating .financial-stream-grid{
 
     grid-template-columns:minmax(0, 1fr);
@@ -1007,33 +1008,6 @@
 .financial-stream-floating .financial-stream-grid .business-field-inline > :not(:first-child){
 
     grid-column:2;
-
-}
-
-/* (Its groups as the shared bands, edge to edge with 12px above and below their content, every other one tinted as a card's question bands; one under the
-   other.) */
-.financial-stream-floating .financial-stream-band{
-
-    display:flex;
-
-    flex-direction:column;
-
-}
-
-.financial-stream-floating .financial-stream-group,
-.financial-stream-floating .financial-stream-band > .financial-stream-group{
-
-    margin:0 calc(-1 * var(--space-cell));
-
-    padding:var(--space-cell);
-
-    border-top:none;
-
-}
-
-.financial-stream-floating .financial-stream-group-band{
-
-    background:var(--tint-row-band);
 
 }
 

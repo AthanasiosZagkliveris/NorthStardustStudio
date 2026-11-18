@@ -288,28 +288,26 @@ describe("a revenue stream's Begins and Payment and Orders & Delivery", () => {
         // (The stream cards are in the Revenue Streams tile's dialog.)
         openTile("Revenue Streams");
         openStream(1);
-        return document.querySelector(".financial-stream-band")!;
+        return document.querySelector(".financial-stream-floating")!;
     }
+    /** The titles of the floating card's boxes, in order (owner, 2026-11-18 10:38: its groups as Customer Engagement's boxes of bands). */
+    const boxTitles = (card: Element) => [...card.querySelectorAll(".business-segment-box > .legal-entity-org-section:first-child [role='heading']")].map(head => head.textContent ?? "");
 
-    it("sit side by side on one band while payment takes two fields", () => {
-        const element = band("");
-        expect(element.classList.contains("financial-stream-band-paired")).toBe(true);
-        const heads = [...element.querySelectorAll(".financial-stream-subhead")].map(head => head.textContent ?? "");
-        expect(heads.length).toBe(2);
-        expect(heads[0].startsWith("Begins and Payment")).toBe(true);
-        expect(heads[1].startsWith("Orders & Delivery")).toBe(true);
+    it("stand as boxes of the shared bands, Begins and Payment then Orders & Delivery", () => {
+        const heads = boxTitles(band(""));
+        expect(heads[0].startsWith("Price")).toBe(true);
+        expect(heads.findIndex(head => head.startsWith("Begins and Payment"))).toBeGreaterThan(0);
+        expect(heads.findIndex(head => head.startsWith("Begins and Payment"))).toBeLessThan(heads.findIndex(head => head.startsWith("Orders & Delivery")));
         // The group says why it is asked; its fields what they ask.
         for (const name of ["Orders & Delivery", "Items per Order", "Delivery Charge"]) {
             expect(screen.queryAllByRole("button", { name: new RegExp("^" + name.replace(/[()£]/g, ".") + ".*: what this means$") }).length).toBeGreaterThan(0);
         }
     });
 
-    it("stack when payment needs more fields, or there are no orders to ask about", () => {
-        expect(band("split").classList.contains("financial-stream-band-paired")).toBe(false);
+    it("ask about orders only where the Offering has a cost per order", () => {
+        expect(boxTitles(band("split")).some(head => head.startsWith("Orders & Delivery"))).toBe(true);
         cleanup();
-        const alone = band("", false);
-        expect(alone.classList.contains("financial-stream-band-paired")).toBe(false);
-        expect(alone.querySelectorAll(".financial-stream-group").length).toBe(1);
+        expect(boxTitles(band("", false)).some(head => head.startsWith("Orders & Delivery"))).toBe(false);
     });
 
 });

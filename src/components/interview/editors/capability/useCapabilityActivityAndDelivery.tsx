@@ -20,6 +20,8 @@ import { asFinancialFoundationValue, moneyFormatter } from "../../../../framewor
 import { parseAmount, parseDecimal } from "../../../../framework/engine/Amounts.ts";
 import CardBoxes, { CardBox } from "../../cards/CardBoxes.tsx";
 import DialogSectionBand from "../../tiles/DialogSectionBand.tsx";
+import { SingleColumn } from "../foundation/shared.tsx";
+import { EngagementBox, EngagementBoxes } from "../engagement/EngagementCard.tsx";
 import { CrumbNote, DialogHeading, TileAdd } from "../../tiles/SectionTiles.tsx";
 import InfoNote, { InfoPoint, InfoText } from "../../fields/InfoNote.tsx";
 import { NUMBER_LIMITS, limitedNumberText } from "../../fields/numberInput.ts";
@@ -985,6 +987,16 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
                 disabled={disabled}
             >
 
+                {/* (THE BANDS OF A FLOATING CARD, as Customer Engagement's (owner, 2026-11-18 10:38: "fix the style of the dialogue and the floated cards to fit the
+                    other and follow the related rules (colour bands, text styles, lines, etc)"): a title band for each step a founder thinks in -- what is delivered, who
+                    does it and how long, how many at once, what can hold it up, the results --, its questions in bands of their own, the tints alternating. Shared
+                    components only: SingleColumn, EngagementBoxes, EngagementBox.) */}
+                {/* (THE ORDER A FOUNDER THINKS IN (owner, 2026-11-18 10:38): what is delivered, who does it and how long, how many at once, what can hold it up,
+                    then the results -- while one runs and at the expected sales -- once every answer they read is given.) */}
+                <SingleColumn>
+                    <EngagementBoxes>{[
+                        <EngagementBox key="what" title="What Is Delivered" bands={[
+                            <Fragment key="delivered">
                 {/* A side-label row: the label beside its control, on one
                     centre line, the picker as wide as its longest option. */}
                 <BusinessField label="Delivered" info={DELIVERY_HELP.mode} side>
@@ -1000,8 +1012,8 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
                             : { mode: "unit" })}
                     />
                 </BusinessField>
-
-                {recurring && (
+</Fragment>,
+                            recurring && (
                     <BusinessField label="Hours Given" info={DELIVERY_HELP.recurring} side>
                         <OptionPicker
                             label={offering.label + " hours given per week or per month"}
@@ -1013,8 +1025,10 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
                             onChange={(next) => changeDelivery(offering.id, { period: next === "Per week" ? "week" : "month" })}
                         />
                     </BusinessField>
-                )}
-
+                )
+                        ]} />,
+                        <EngagementBox key="who" title="Who Does It and How Long" bands={[
+                            <Fragment key="hours">
                 <BusinessField
                     label={recurring ? "Working Hours per Client (" + (weekly ? "a week" : "a month") + "), by person" : sessions ? "Working Hours per Session, by person" : "Working Hours per Unit, by person"}
                     info={DELIVERY_HELP.effort}
@@ -1083,11 +1097,8 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
                             </div>
                         )}
                 </BusinessField>
-
-
-                {/* (THE ORDER A FOUNDER THINKS IN (owner, 2026-11-18 10:38): what is delivered, who does it and how long, how many at once, what can hold it up,
-                    then the results -- while one runs and at the expected sales -- once every answer they read is given.) */}
-                {!recurring && (
+</Fragment>,
+                            !recurring && (
                     <BusinessField label="Calendar Time (weeks)" info={DELIVERY_HELP.duration} side>
                         <NumberCell
                             className="delivery-number"
@@ -1100,9 +1111,9 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
                             })}
                         />
                     </BusinessField>
-                )}
-                {/* (WHEN MAKING AND SENDING TAKE LONGER THAN CUSTOMERS EXPECT (owner, 2026-11-17): the Calendar Time, a supplier's lead time and the sending (O20) against O15.) */}
-                {!recurring && (() => {
+                ),
+                            /* (WHEN MAKING AND SENDING TAKE LONGER THAN CUSTOMERS EXPECT (owner, 2026-11-17): the Calendar Time, a supplier's lead time and the sending (O20) against O15.) */
+!recurring && (() => {
                     const answers = offeringAnswersById(businessFoundationSegments(foundation), offering.id);
                     const band = LEAD_TIME_WEEKS[answers.o15?.[0] ?? ""];
                     const supplier = delivery.holdUps.includes("materials") ? capability.offering.providers.find(card => card.id === delivery.supplierId) : undefined;
@@ -1117,11 +1128,12 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
                             {"Customers expect it " + band.expect + ", and making and sending it takes about " + formatHours(Math.round(takes)) + (Math.round(takes) === 1 ? " week" : " weeks") + ". Keep some ready-made stock, or tell customers " + band.tell + "."}
                         </p>
                     );
-                })()}
-
-                {/* DV6, customers in one session: a class, a workshop, an event (doc 52; owner, 2026-11-17). */}
-                {/* (Under its label: the label is long for the side column, where it sat off the box's centre line; layout check, 2026-11-17.) */}
-                {sessions && (
+                })()
+                        ]} />,
+                        (sessions || batches) && <EngagementBox key="at-once" title="How Many at Once" bands={[
+                            /* DV6, customers in one session: a class, a workshop, an event (doc 52; owner, 2026-11-17). */
+/* (Under its label: the label is long for the side column, where it sat off the box's centre line; layout check, 2026-11-17.) */
+sessions && (
                     <BusinessField label="Customers in one session" info={DELIVERY_HELP.perSession}>
                         <NumberCell kind="int"
                             className="delivery-number"
@@ -1132,10 +1144,9 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
                             onChange={(event) => changeDelivery(offering.id, { perSession: limitedNumberText(event.target.value, delivery.perSession, NUMBER_LIMITS.quantity) })}
                         />
                     </BusinessField>
-                )}
-
-                {/* DV9 and DV10, a batch's set-up and its units: a Product or Hybrid, not made to order. */}
-                {batches && (
+                ),
+                            /* DV9 and DV10, a batch's set-up and its units: a Product or Hybrid, not made to order. */
+batches && (
                     <>
                         <BusinessField label="Set-up for a batch (hours)" info={DELIVERY_HELP.batch} side>
                             <NumberCell
@@ -1158,8 +1169,10 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
                             />
                         </BusinessField>
                     </>
-                )}
-
+                )
+                        ]} />,
+                        <EngagementBox key="hold-ups" title="What Can Hold It Up" bands={[
+                            <Fragment key="hold-ups">
                 {/* DV12, WHAT CAN HOLD UP DELIVERY (replaces DV5, Constraints; owner, 2026-11-17): equipment or a workspace (DV7, DV8), materials from a supplier
                     (DV13), Other. Partners' time, seasons, skills, licences and money are read elsewhere: the bars, Busy times, Skills, Registrations, Financial Position. */}
                 <BusinessField label="What can hold up delivery?" info={DELIVERY_HELP.holdUps}>
@@ -1175,7 +1188,8 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
                         ))}
                     </div>
                 </BusinessField>
-                {delivery.holdUps.includes("equipment") && (() => {
+</Fragment>,
+                            delivery.holdUps.includes("equipment") && (() => {
                     const owned = uniqueChoices(capability.offering.resources.filter(card => card.offeringIds.includes(offering.id)), "Unnamed resource");
                     return (
                         <>
@@ -1207,8 +1221,8 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
                             </BusinessField>
                         </>
                     );
-                })()}
-                {delivery.holdUps.includes("materials") && (() => {
+                })(),
+                            delivery.holdUps.includes("materials") && (() => {
                     const suppliers = uniqueChoices(capability.offering.providers.filter(card => card.offeringIds.includes(offering.id)), "Unnamed supplier");
                     return (
                         <BusinessField label="Which supplier?">
@@ -1226,8 +1240,8 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
                                 )}
                         </BusinessField>
                     );
-                })()}
-                {delivery.holdUps.includes("other") && (
+                })(),
+                            delivery.holdUps.includes("other") && (
                     <NumberedListInput
                         label={offering.label + " what can hold up delivery, other"}
                         items={writtenInRows(delivery.holdUpsOther)}
@@ -1235,9 +1249,11 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
                         disabled={disabled}
                         onChange={(items) => changeDelivery(offering.id, { holdUpsOther: items })}
                     />
-                )}
-
-                {rows.length > 0 && deliveryPace(offering.id, rows, shownHours, recurring)}
+                )
+                        ]} />,
+                        rows.length > 0 && <EngagementBox key="results" title="Results" bands={[deliveryPace(offering.id, rows, shownHours, recurring)]} />
+                    ]}</EngagementBoxes>
+                </SingleColumn>
 
             </BusinessCard>
         );
