@@ -10,6 +10,17 @@ export const PARTNER_CATEGORIES = [
 ] as const;
 
 /** The groups of each type, by place: fixed lists (21 groups in Infrastructure with the resources', 26 in the Offering with theirs). */
+/**
+ * WHO GIVES WORKING HOURS TO AN OFFERING'S DELIVERY (owner, 2026-11-18 02:31: a courier and payment fees are not people): a Partner's or Supplier's card in a
+ * group that does part of the job -- Contractors & Advisers, Technical Support, Creative & IT Services --, or with no group yet, never one charged as a share of
+ * revenue; and any card that says the hours a month it can give, or already holds hours on the Delivery card.
+ */
+export const WORKING_PARTNER_GROUPS: readonly string[] = ["contractors-advisers", "technical-support", "creative-it-services", ""];
+
+export function givesWorkingHours(card: { group: string; hoursAvailable: string; cost: { frequency: string } }, heldHours = false): boolean {
+    return heldHours || card.hoursAvailable.trim() !== "" || (WORKING_PARTNER_GROUPS.includes(card.group) && card.cost.frequency !== "percent-revenue");
+}
+
 export const BUSINESS_PARTNER_GROUPS: Record<"infrastructure" | "offering", Record<"partners" | "suppliers", readonly { id: string; label: string; help: string }[]>> = {
     infrastructure: {
         partners: [

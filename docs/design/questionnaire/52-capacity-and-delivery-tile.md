@@ -28,6 +28,7 @@ The card's questions in the card's order, with proposed codes. The card has no c
 
 - **Control:** one choice (`OptionPicker`, side row): Per unit, Every month. **Asked:** always. **Started from:** O3. Built.
 - **A record of Customers Buy** (built; owner, 2026-11-18 00:46, the review's second batch, 1.2): where O3 leaves it open (unanswered or Free), Delivered is Demand & Conversion's Customers Buy (every month, until they cancel: Every month), one fact with one owner; the note that said they disagree is gone. Asked only while neither says.
+- **Working Hours by person lists only those who give working time** (owner, 2026-11-18 02:31): the founders and Staff, and the Partners and Suppliers in a group that does part of the job (Contractors & Advisers, Technical Support, Creative & IT Services, or none yet), never one charged as a share of revenue; and any card that says its hours a month, or already holds hours on the card (`givesWorkingHours`). A courier, a payment service, a materials seller and a revenue partner are costs, not people.
 
 ### DV2. Hours Given
 

@@ -2,6 +2,7 @@
  * THE ACTIVITY DETAILS and the Delivery section.
  * One part of the Infrastructure & Capability editor (see BusinessCapabilityEditor.tsx): what it needs of the parts before it comes in as `scope`; what the parts after it need goes out.
  */
+import { givesWorkingHours } from "../../../../framework/engine/capability/partnerGroups.ts";
 import AddButton from "../../../controls/AddButton.tsx";
 import NumberCell from "../../../controls/NumberCell.tsx";
 import { Fragment, ReactNode, useEffect } from "react";
@@ -886,8 +887,9 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
 
         /* WHO WORKS ON IT (owner, 2026-11-16 20:22: the Team's list): every founder, and the Offering's Staff, Partners and Suppliers linked to this Offering.
            Their hours are shown, and kept out of the founders' capacity (as a partner's always were) until capacity asks them. */
+        // (Only the people who give working hours: a courier's or a payment service's card is a cost, not a person -- givesWorkingHours; owner, 2026-11-18 02:31.)
         const linkedTeam = uniqueChoices(
-            [...staffOf("offering"), ...capability.offering.professionals, ...capability.offering.providers].filter(
+            [...staffOf("offering"), ...[...capability.offering.professionals, ...capability.offering.providers].filter(card => givesWorkingHours(card, Number.parseFloat(delivery.hours[card.id] ?? "") > 0))].filter(
                 card => card.offeringIds.includes(offering.id)
             ),
             "Unnamed card"
