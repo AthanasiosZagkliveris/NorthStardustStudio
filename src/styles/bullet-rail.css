@@ -248,6 +248,20 @@
 
 }
 
+/* EVERY LAYER'S TAB IS ONE GEOMETRY, OWNED BY THE RAIL (CarouselArrows; layout rules section 10, "One rail for every layer"; owner, 2026-11-18 20:00, 20:01 and 20:13
+   UTC+2: "All rails should have same width, same side, in between dots, and top and bottom gap", "Floated cards - Rails, only with dots and tooltips. Dialogue and
+   Chapters - Rails with dots and names (full size) only when screen size permits"): dots always; a floating card's names in tooltips only; a dialog's names beside its
+   dots, whole, where the room beside the dialog holds the named tab. Two widths only: the dots-only tab (its 12px dot and its padding) and the named tab
+   (--rail-tab-named-width: the longest tile name lit, "Typography & Text Hierarchy", 320px with the bold tracking, + its 12px gap + the 12px dot + the padding on both sides, 385px, rounded up);
+   one padding, one 18px gap, one 16px row, so one 34px pitch, with or without names. */
+:root {
+
+    --rail-tab-named-width: 388px;
+    --rail-tab-padding: calc(var(--gap-12) + var(--rail-dot-overhang));
+    --rail-tab-dots-width: calc(12px + 2 * var(--rail-tab-padding));
+
+}
+
 .bullet-rail-item.active .bullet-rail-dot {
 
     --status-ink: var(--rail-dot-active);

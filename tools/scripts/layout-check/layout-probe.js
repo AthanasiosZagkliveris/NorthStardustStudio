@@ -3007,6 +3007,48 @@
             }
         }
 
+        // C2. EVERY LAYER'S TAB IS ONE GEOMETRY (layout rules section 10, "One rail for every layer"; owner, 2026-11-18 20:00 UTC+2: "All rails should have same width,
+        //     same side, in between dots, and top and bottom gap"; 20:13: "Floated cards - Rails, only with dots and tooltips"): a tab is the dots-only width or the named width (bullet-rail.css), its padding the one tab padding
+        //     on every side, every row 16px, 18px between rows (the arrow's place aside), 12px under its layer's top.
+        {
+            const root = getComputedStyle(document.documentElement);
+            const px = name => { const probe = document.createElement("div"); probe.style.cssText = "position:absolute;visibility:hidden;width:var(" + name + ")"; document.body.appendChild(probe); const w = probe.getBoundingClientRect().width; probe.remove(); return w; };
+            const widths = [px("--rail-tab-dots-width"), px("--rail-tab-named-width")];
+            const padding = px("--rail-tab-padding");
+            for (const tab of [...document.querySelectorAll(".carousel-rail.carousel-rail-tab")].filter(visible)) {
+                const box = rect(tab);
+                const style = getComputedStyle(tab);
+                const named = tab.classList.contains("carousel-rail-named");
+                if (Math.abs(box.width - widths[named ? 1 : 0]) > 0.6) {
+                    fail("every tab is the dots-only or the named width", tab, { width: box.width, wanted: widths[named ? 1 : 0], named });
+                }
+                const pads = ["Top", "Right", "Bottom", "Left"].map(side => parseFloat(style["padding" + side]));
+                if (pads.some(value => Math.abs(value - padding) > 0.6)) {
+                    fail("every tab has the one tab padding on every side", tab, { pads, wanted: padding });
+                }
+                const items = [...tab.querySelectorAll(".bullet-rail-item")].filter(visible).map(rect);
+                const cut = [...tab.querySelectorAll(".strategy-card-nav-tip")].filter(tip => named && visible(tip) && tip.scrollWidth > tip.clientWidth + 1).map(tip => tip.textContent);
+                if (cut.length) {
+                    fail("a named tab shows every name whole", tab, { cut });
+                }
+                if (named && tab.closest(".floating-overlay")) {
+                    fail("a floating card's tab shows dots and tooltips only", tab, {});
+                }
+                if (items.some(item => Math.abs(item.height - 16) > 0.6)) {
+                    fail("every tab row is 16px, with or without its name", tab, { heights: items.map(item => item.height) });
+                }
+                const arrows = [...document.querySelectorAll(".carousel-arrow")].filter(visible).map(rect).filter(arrow => arrow.left < box.right && arrow.right > box.left);
+                const gaps = items.slice(1).map((item, i) => ({ gap: item.top - items[i].bottom, across: arrows.some(arrow => items[i].bottom <= arrow.top + 1 && item.top >= arrow.bottom - 1) })).filter(g => !g.across).map(g => g.gap);
+                if (gaps.some(gap => Math.abs(gap - 18) > 0.6)) {
+                    fail("every tab has 18px between its rows", tab, { gaps });
+                }
+                const layer = [...document.querySelectorAll(".floating-card-body, .section-tile-dialog")].filter(visible).pop();
+                if (layer && Math.abs(box.top - rect(layer).top - 12) > 0.6 && box.top > 80) {
+                    fail("every tab starts 12px under its layer's top", tab, { offset: box.top - rect(layer).top });
+                }
+            }
+        }
+
         // D. A page of tiles whose chapters all stand above the footer does not scroll: there is nothing lower to reveal (what adds to the page stands in the
         //    footer's band, as Inventory, Completed and "+ Add Segment" do).
         if (!document.querySelector(".section-tile-overlay") && window.innerWidth >= 1212 && window.innerHeight >= 640) {
