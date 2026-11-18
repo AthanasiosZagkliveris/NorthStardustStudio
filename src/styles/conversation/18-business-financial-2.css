@@ -972,6 +972,18 @@
 
 }
 
+/* (Where the figure comes from is read in full, on as many lines as it needs, never cut short: owner, 2026-11-18 12:41, "Fix the layout of the Revenue Streams floating
+   cards".) */
+.financial-stream-grid .financial-derived .financial-cost-link.financial-cost-link{
+
+    white-space:normal;
+
+    overflow:visible;
+
+    text-overflow:clip;
+
+}
+
 @media (max-width:1000px){
 
     .financial-stream-grid{ grid-template-columns:repeat(2, minmax(0, 1fr)); }
@@ -995,7 +1007,9 @@
 
 .financial-stream-floating .financial-stream-grid .business-field-inline{
 
-    --side-label-short:calc(var(--font-body) * 13);
+    /* (The label column as wide as this card's longest label and its "i" ("Months to Normal"), the rest to the answers, so a picker shows its whole option:
+       owner, 2026-11-18 12:41, "Fix the layout of the Revenue Streams floating cards".) */
+    --side-label-short:calc(var(--font-body) * 10.5);
 
     grid-template-columns:var(--side-label-short) minmax(0, 1fr);
 
