@@ -3086,6 +3086,14 @@
             }
         }
 
+        // C2c. ONE FACE FOR EVERY TILE (owner, 2026-11-18 22:56 UTC+2: "fix the listed items on the financial tiles, to follow the other tiles"): a tile's list in
+        //      two columns holds one-word figures only; a figure with words stands under its name (TileList).
+        for (const figure of [...document.querySelectorAll(".section-tile-list-pairs .section-tile-pair-right")].filter(visible)) {
+            if (figure.querySelector("strong, b") && /[  ]/.test(figure.textContent.trim())) {
+                fail("a tile's two-column list holds one-word figures only", figure, { figure: figure.textContent.trim() });
+            }
+        }
+
         // C3. ONE ARROW LEVEL (layout rules section 10, "One arrow level"; owner, 2026-11-18 21:34 UTC+2: "A: Level page arrows everywhere"): every page arrow and
         //     every dialog's and floating card's carousel arrow has its centre at one height in a window -- on every page. The first height seen at a window size is
         //     kept for the run (sessionStorage), and every later page, dialog and card is checked against it; the arrows shown now are level with each other.

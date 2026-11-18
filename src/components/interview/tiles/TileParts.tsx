@@ -167,7 +167,7 @@ export function TileTitle({ children, className }: { children: ReactNode; classN
  * assistive technology.
  */
 export function TileList({
-    items, links, alerts, marks, onLink, onPlain
+    items: given, links: givenLinks, alerts: givenAlerts, marks: givenMarks, onLink, onPlain
 }: {
     items: readonly string[];
     /** For each line, how it is drawn: faded (empty), teal (the Channel), a second teal bullet (it holds a channel's cards). */
@@ -180,6 +180,35 @@ export function TileList({
     /** A press on a list that has no links (text): what it does. */
     onPlain?: (event: ReactMouseEvent<HTMLUListElement>) => void;
 }) {
+    // ONE FACE FOR EVERY TILE (owner, 2026-11-18 22:56 UTC+2: "fix the listed items on the financial tiles, to follow the other tiles"): a list of names and figures
+    // stands in two columns while every figure is one word (a count, a sum, a percent: Channels & Journey, Costs); where a figure has words ("10 a month", "£11,204 a
+    // month", "Jun 2027"), each name has its figure under it in bold and a line between one and the next, as Demand & Conversion's -- the same on every page.
+    const figureWords = (item: string) => {
+        const figure = item.includes("\u0001") ? item.split("\u0001")[1] : "";
+        return /^\*\*[^*]*[ \u00a0][^*]*\*\*$/.test(figure);
+    };
+    const stacking = given.some(figureWords);
+    const items: string[] = [];
+    const links: (TileLink | undefined)[] = [];
+    const alerts: (readonly string[] | undefined)[] = [];
+    const marks: (ItemMark | undefined)[] = [];
+    given.forEach((item, at) => {
+        if (stacking && item.includes("\u0001")) {
+            if (items.length > 0 && items[items.length - 1] !== TILE_DIVIDER) {
+                items.push(TILE_DIVIDER);
+                links.push(undefined);
+                alerts.push(undefined);
+                marks.push(undefined);
+            }
+            const [name, figure] = item.split("\u0001");
+            items.push(name + (figure ? "\n" + figure : ""));
+        } else {
+            items.push(item);
+        }
+        links.push(givenLinks?.[at]);
+        alerts.push(givenAlerts?.[at]);
+        marks.push(givenMarks?.[at]);
+    });
     const list = useRef<HTMLUListElement | null>(null);
     // The list holds EVERY item and scrolls when they do not all fit under the title (and above the "+" box): a thin themed scrollbar, the wheel scrolls it
     // (not the card behind, until its end), the keyboard walks the links and scrolls them into view. Marked while it scrolls (its layer then takes the wheel).
