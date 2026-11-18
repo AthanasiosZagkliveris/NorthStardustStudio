@@ -26,7 +26,7 @@ export default function BusinessEngagementEditor(props: BusinessEngagementEditor
     const part2 = { ...part1, ...useEngagementChannelBoxes({ ...part1 }) };
     const part3 = { ...part1, ...part2, ...useEngagementRelationships({ ...part1, ...part2 }) };
     const part4 = { ...part1, ...part2, ...part3, ...useEngagementDemand({ ...part1, ...part2, ...part3 }) };
-    const { channelTileId, removedSources, removedTypes, removedTypesOf, typeOf, profilesOf, asTiles, channelCategoryFoldKeys, channelResourceTable, channelTiles, channelViewChoice, channelsFor, clearIsolation, collapsed, columnsDivider, demandFor, engagement, engagedOfferingIds, foldingSection, folds, heads, isolated, isolationNames, offeringRelationshipsOf, referenceColumn, relationshipsFor, segmentOf, segments, toggle } = part4;
+    const { channelTileId, removedSources, typeOf, profilesOf, asTiles, channelCategoryFoldKeys, channelResourceTable, channelTiles, channelViewChoice, channelsFor, clearIsolation, collapsed, columnsDivider, demandFor, engagement, engagedOfferingIds, foldingSection, folds, heads, isolated, isolationNames, offeringRelationshipsOf, referenceColumn, relationshipsFor, segmentOf, segments, toggle } = part4;
 
     /*
         THE PAGE AS TILES (doc 47, section 3, step one): one chapter per Segment, in the Segment's colour, as Page 1's, holding three Master Tiles -- Channels &
@@ -161,7 +161,8 @@ export default function BusinessEngagementEditor(props: BusinessEngagementEditor
                     links: [...profiles.map(() => undefined), ...types.map(typeId => ({ card: typeCardId(offeringId, typeId) }))],
                     holds: types.map(typeId => typeCardId(offeringId, typeId)),
                     // (Its dialog shows its types alone while none is removed: one type then opens at once; with one removed, the dialog and its Removed list.)
-                    lone: removedTypesOf(segment, offeringId).length === 0,
+                    // (No Removed list on a relationship dialog (owner, 2026-11-18 10:38): its types alone, so one type opens at once.)
+                    lone: true,
                     add,
                     cardFor: (id: string) => {
                         const typeId = id.startsWith("relt:" + offeringId + "|") ? id.slice(("relt:" + offeringId + "|").length) : "";
@@ -185,7 +186,6 @@ export default function BusinessEngagementEditor(props: BusinessEngagementEditor
                                 content: () => null
                             }))}
                         />
-                        {removedTypes(segment, offeringId)}
                         </>
                     ))
                 };
