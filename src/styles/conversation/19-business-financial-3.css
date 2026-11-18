@@ -33,21 +33,6 @@
 
 }
 
-.financial-capacity-table td{
-
-    text-align:right;
-
-    white-space:nowrap;
-
-}
-
-.financial-capacity-over th,
-.financial-capacity-over td{
-
-    background:var(--bg-capacity-short);
-
-}
-
 /* An answer that disagrees with how customers buy (Customer Engagement). */
 .financial-mismatch,
 .delivery-mismatch{

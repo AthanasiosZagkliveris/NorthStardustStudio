@@ -889,39 +889,8 @@ export default function FinancialSustainabilityEditor({
         return (
             <FinancialBlock title="Can the Expected Sales Be Delivered?" info={info}>
 
-                <div className="financial-table-scroll">
-                    <FigureTable className="financial-capacity-table">
-                        <thead>
-                            <tr>
-                                <th scope="col">Founder</th>
-                                <th scope="col">Delivery Hours</th>
-                                <th scope="col">Recurring Work</th>
-                                <th scope="col">Remaining</th>
-                                <th scope="col">Other Offerings</th>
-                                <th scope="col">Busiest Month</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {capacity.founders.map(founder => {
-                                // At the founder's busiest month.
-                                const recurring = founder.recurring[founder.peakIndex] ?? 0;
-                                const other = founder.other[founder.peakIndex] ?? 0;
-                                const over = founder.firstShortfall !== null;
-                                return (
-                                    <tr key={founder.id} className={over ? "financial-capacity-over" : undefined}>
-                                        <th scope="row">{founder.name}</th>
-                                        <td>{hours(founder.available)}</td>
-                                        <td>{hours(recurring)}</td>
-                                        <td>{hours(founder.available - recurring)}</td>
-                                        <td>{hours(other)}</td>
-                                        <td>{month(founder.peakIndex)}{over ? ": short" : ""}</td>
-                                    </tr>
-                                );
-                            })}
-                        </tbody>
-                    </FigureTable>
-                </div>
-
+                {/* (THE VERDICT ALONE (owner, 2026-11-18 16:55: "Do all 8", proposal 3): the founders' month, person by person, has one owner -- Capacity & Delivery's
+                    Capacity band; here, whether the expected sales fit, their busiest month and who delivers outside it, and the way there.) */}
                 <p className={"financial-capacity-verdict" + (short !== null ? " financial-capacity-short" : "")}>
                     {short !== null
                         ? <>From <strong>{month(short)}</strong>, the expected sales need more founders' hours than are available.
@@ -935,6 +904,10 @@ export default function FinancialSustainabilityEditor({
                                 <InfoNote label="Capacity used" points={CAPACITY_UTILISATION_HELP} />.
                             </InfoText></>}
                 </p>
+
+                {toDelivery && (
+                    <p className="financial-muted">Each founder's month, person by person: {toDelivery}.</p>
+                )}
 
                 {capacity.external.length > 0 && (
                     <p className="financial-muted">
@@ -1004,8 +977,8 @@ export default function FinancialSustainabilityEditor({
                                 <FigureTable>
                                     <thead>
                                         <tr>
+                                            {/* (No Price column: each stream's tile says it; owner, 2026-11-18 16:55, "Do all 8", proposal 6.) */}
                                             <th scope="col">Revenue Stream</th>
-                                            <th scope="col">Price</th>
                                             <th scope="col">Expected Volume</th>
                                             <th scope="col">Expected Revenue</th>
                                             <th scope="col">Share</th>
@@ -1015,7 +988,6 @@ export default function FinancialSustainabilityEditor({
                                         {result.streams.map(entry => (
                                             <tr key={entry.stream.id}>
                                                 <th scope="row">{offeringName(entry.stream)}</th>
-                                                <td>{priceLabel(entry.stream)}</td>
                                                 <td>{isRecurringRevenue(entry.stream.frequency)
                                                     ? formatUnits(entry.volume) + " active"
                                                     : formatUnits(entry.volume) + " / month"}</td>
@@ -1027,7 +999,6 @@ export default function FinancialSustainabilityEditor({
                                     <tfoot>
                                         <tr>
                                             <th scope="row">Total</th>
-                                            <td />
                                             <td />
                                             <td><strong>{format(total)} / month</strong></td>
                                             <td />
