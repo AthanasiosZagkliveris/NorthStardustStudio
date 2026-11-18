@@ -1202,6 +1202,7 @@ batches && (
                                         <OptionPicker
                                             label={offering.label + " equipment that holds up delivery"}
                                             placeholder="Select"
+                                            hug
                                             options={owned.map(choice => choice.label)}
                                             disabled={disabled}
                                             value={owned.find(choice => choice.id === delivery.equipmentId)?.label ?? ""}
@@ -1232,6 +1233,7 @@ batches && (
                                     <OptionPicker
                                         label={offering.label + " supplier that holds up delivery"}
                                         placeholder="Select"
+                                        hug
                                         options={suppliers.map(choice => choice.label)}
                                         disabled={disabled}
                                         value={suppliers.find(choice => choice.id === delivery.supplierId)?.label ?? ""}
