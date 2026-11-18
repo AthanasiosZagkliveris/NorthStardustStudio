@@ -15,14 +15,15 @@ import FinancialSustainabilityEditor from "../editors/FinancialSustainabilityEdi
 import FinancialPlanSettings from "../editors/FinancialPlanSettings";
 import { asLegalEntityValue } from "../../../framework/engine/AnswerUtils";
 import { openTile, toggles, typeInto } from "../../../test/interviewTestUtils";
-import { asFinancialFoundationValue, asFinancialSustainabilityValue, createFundingSource } from "../../../framework/engine/FinancialModel";
 
-/** Opens a fold that is closed; where the item starts OPEN (Customer Engagement, the financial pages) it is left as it is. */
-function openFold(toggle: Element) {
-    if (toggle.getAttribute("aria-expanded") !== "true") {
-        fireEvent.click(toggle);
-    }
+/** A revenue stream's card, opened from its tile in the Revenue Streams dialog (owner, 2026-11-18 10:38: the streams are tiles). */
+function openStream(number: number) {
+    const tiles = [...document.querySelectorAll<HTMLElement>(".section-tile-overlay [aria-label='Revenue Streams'] button.card-tile")];
+    fireEvent.click(tiles[number - 1]);
 }
+/** The words of the stream tiles. */
+const streamTiles = () => [...document.querySelectorAll<HTMLElement>(".section-tile-overlay [aria-label='Revenue Streams'] button.card-tile")].map(tile => tile.textContent ?? "");
+import { asFinancialFoundationValue, asFinancialSustainabilityValue, createFundingSource } from "../../../framework/engine/FinancialModel";
 
 function Harness({ initial }: { initial: unknown }) {
     const [value, setValue] = useState<unknown>(initial);
@@ -70,7 +71,7 @@ describe("FinancialSustainabilityEditor folding", () => {
         }]
     };
 
-    it("starts revenue streams open", () => {
+    it("draws each revenue stream as a tile whose card opens from it", () => {
 
         render(
             <FinancialSustainabilityEditor
@@ -81,13 +82,13 @@ describe("FinancialSustainabilityEditor folding", () => {
         );
         openTile("Revenue Streams");
 
-        const streams = toggles(/Revenue Stream \d+$/);
-        expect(streams.length).toBe(2);
-        streams.forEach(t => expect(t.getAttribute("aria-expanded")).toBe("true"));
+        expect(streamTiles().length).toBe(2);
+        openStream(1);
+        expect(screen.getByLabelText(/Revenue Stream 1 price/)).toBeTruthy();
 
     });
 
-    it("shows the frequency's label in a folded stream's summary, not its raw id", () => {
+    it("shows the frequency's label on a stream's tile, not its raw id", () => {
 
         const value = asFinancialSustainabilityValue({
             streams: [
@@ -104,13 +105,13 @@ describe("FinancialSustainabilityEditor folding", () => {
         );
         openTile("Revenue Streams");
 
-        toggles(/Revenue Stream \d+$/).forEach(t => fireEvent.click(t));
-        expect(screen.getByText(/1\D?200 \/ Client · Monthly/)).toBeTruthy();
-        expect(screen.queryByText(/· monthly$/)).toBeNull();
+        expect(streamTiles()[0]).toMatch(/1\D?200 \/ Client/);
+        expect(streamTiles()[0]).toContain("Monthly");
+        expect(streamTiles()[0]).not.toMatch(/monthly/);
 
     });
 
-    it("formats a folded stream's price as money and drops an empty unit", () => {
+    it("formats a stream tile's price as money and drops an empty unit", () => {
 
         const value = asFinancialSustainabilityValue({
             streams: [
@@ -129,9 +130,9 @@ describe("FinancialSustainabilityEditor folding", () => {
         );
         openTile("Revenue Streams");
 
-        toggles(/Revenue Stream \d+$/).forEach(t => fireEvent.click(t));
-        expect(screen.getByText("£1,200 / Client · Monthly")).toBeTruthy();
-        expect(screen.getByText("£80 · Monthly")).toBeTruthy();
+        expect(streamTiles()[0]).toContain("£1,200 / Client");
+        expect(streamTiles()[1]).toContain("£80");
+        expect(streamTiles()[1]).not.toContain("/");
 
     });
 
@@ -192,7 +193,7 @@ describe("FinancialSustainabilityEditor number limits", () => {
         render(<StreamHarness />);
         openTile("Revenue Streams");
 
-        openFold(toggles(/Revenue Stream 1$/)[0]);
+        openStream(1);
 
         const upfront = screen.getByLabelText(/percent paid at start$/) as HTMLInputElement;
         typeInto(upfront, "101");
@@ -286,7 +287,7 @@ describe("a revenue stream's Begins and Payment and Orders & Delivery", () => {
         );
         // (The stream cards are in the Revenue Streams tile's dialog.)
         openTile("Revenue Streams");
-        openFold(toggles(/Revenue Stream 1$/)[0]);
+        openStream(1);
         return document.querySelector(".financial-stream-band")!;
     }
 
@@ -329,10 +330,12 @@ describe("FinancialSustainabilityEditor starts from Page 1 (phase 5f, 2026-11-09
     it("starts Charged from O3, and shows Customer Pays as the record of O3's second row (When do they pay?)", () => {
         render(<FinancialSustainabilityEditor value={asFinancialSustainabilityValue(undefined)} foundation={foundation} onChange={() => {}} />);
         openTile("Revenue Streams");
+        openStream(1);
         expect(screen.getByRole("button", { name: "Revenue Stream 1 charged: Per project" })).toBeTruthy();
         // (WHEN THEY PAY HAS ONE OWNER, the Offering's O3t: one option, a record, read only; owner, 2026-11-16.)
         const timing = (stream: number, words: string) => screen.getByRole("textbox", { name: "Revenue Stream " + stream + " payment timing: " + words });
         expect(timing(1, "Split").getAttribute("aria-readonly")).toBe("true");
+        openStream(2);
         expect(screen.getByRole("button", { name: "Revenue Stream 2 charged: Annually" })).toBeTruthy();
         expect(timing(2, "Upfront").getAttribute("aria-readonly")).toBe("true");
     });
@@ -342,9 +345,11 @@ describe("FinancialSustainabilityEditor starts from Page 1 (phase 5f, 2026-11-09
         const value = asFinancialSustainabilityValue({ streams: [{ id: "stream-offering-1", offeringId: "offering-1", frequency: "per-sale", paymentTiming: "" }] });
         render(<FinancialSustainabilityEditor value={value} foundation={foundation} onChange={(next) => { saved = next; }} />);
         openTile("Revenue Streams");
+        openStream(1);
         expect(screen.getByRole("button", { name: "Revenue Stream 1 charged: Per sale" })).toBeTruthy();
         // (The page's own timing gives way to O3t's record: the Offering is paid by a deposit, so Split.)
         expect(screen.getByRole("textbox", { name: "Revenue Stream 1 payment timing: Split" }).getAttribute("aria-readonly")).toBe("true");
+        openStream(2);
         fireEvent.change(screen.getByLabelText("Revenue Stream 2 price"), { target: { value: "90" } });
         expect(asFinancialSustainabilityValue(saved).streams.find(stream => stream.offeringId === "offering-2")).toMatchObject({ frequency: "annually", paymentTiming: "upfront", price: "90" });
     });
@@ -359,7 +364,8 @@ describe("the Financial pages' chapters", () => {
         render(<FinancialSustainabilityEditor value={asFinancialSustainabilityValue(undefined)} onChange={() => {}} />);
         const tiles = screen.getAllByRole("button").map(button => button.textContent ?? "");
         expect(tiles.some(text => text.startsWith("Revenue Streams"))).toBe(true);
-        expect(tiles.some(text => text.startsWith("Revenue Summary"))).toBe(true);
+        // (One card: the Revenue Summary and the Delivery Check in the Revenue Streams dialog; owner, 2026-11-18 10:38.)
+        expect(tiles.some(text => text.startsWith("Revenue Summary"))).toBe(false);
         expect(tiles.some(text => text.startsWith("Break-Even Point"))).toBe(false);
     });
 

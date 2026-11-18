@@ -17,7 +17,8 @@ import { deliveryAllocation, demandResult } from "../../../framework/engine/Dema
 import { BusinessAddButton, BusinessCard, BusinessEmpty, BusinessField, OptionalNote, BusinessRemove, uniqueChoices } from "../cards/BusinessCardFields.tsx";
 import { CAPACITY_UTILISATION_HELP, CashTimelineChart, FigureTable, FigureTiles, FinancialBlock, type FinancialSection, PlanMonthField, SignalList, type TimelineMarker } from "./FinancialParts.tsx";
 import { summaryText } from "../cards/cardSummary.ts";
-import FoldAllToggle from "../fields/FoldAllToggle.tsx";
+import CardBoxes, { type CardBox } from "../cards/CardBoxes.tsx";
+import DialogSectionBand from "../tiles/DialogSectionBand.tsx";
 import InfoNote, { type InfoPoint, InfoText } from "../fields/InfoNote.tsx";
 import MonthYearPicker from "../fields/MonthYearPicker.tsx";
 import { NUMBER_LIMITS, type NumberLimit, limitedNumberText, numberInputMode } from "../fields/numberInput.ts";
@@ -470,7 +471,7 @@ export default function FinancialSustainabilityEditor({
         );
     }
 
-    function streamCard(entry: { stream: RevenueStreamValue; orphan: boolean }, index: number) {
+    function streamCard(entry: { stream: RevenueStreamValue; orphan: boolean }, index: number, floating = false) {
 
         const { stream, orphan } = entry;
         const fromDemand = demandResult(demand[stream.offeringId]);
@@ -500,8 +501,8 @@ export default function FinancialSustainabilityEditor({
                 kind="Revenue Stream"
                 number={index + 1}
                 name={orphan ? "Offering removed from the Foundation page" : offeringName(stream)}
-                open={folds.isOpen(stream.id)}
-                onToggle={() => folds.toggle(stream.id)}
+                open={floating || folds.isOpen(stream.id)}
+                onToggle={floating ? undefined : () => folds.toggle(stream.id)}
                 disabled={disabled}
                 anchor={"stream-" + stream.offeringId}
                 summary={summaryText(
@@ -570,7 +571,7 @@ export default function FinancialSustainabilityEditor({
                 )}
                 </section>
 
-                <section className="financial-stream-group">
+                <section className={"financial-stream-group" + (floating ? " financial-stream-group-band" : "")}>
                 {groupHead("Sales Volume", STREAM_HELP.volume)}
                 <div className="financial-inline-grid financial-stream-grid">
 
@@ -745,7 +746,7 @@ export default function FinancialSustainabilityEditor({
 
                 {/* Asked only when this Offering has a cost per order, such as delivery. */}
                 {perOrder > 0 && (
-                    <section className="financial-stream-group">
+                    <section className={"financial-stream-group" + (floating ? " financial-stream-group-band" : "")}>
                     {groupHead("Orders & Delivery", ORDERS_HELP)}
                     <div className="financial-inline-grid financial-stream-grid">
                             {textInput(
@@ -946,7 +947,7 @@ export default function FinancialSustainabilityEditor({
                             Their "Expand all" sits in the section's title
                             row (see sectionCard). */}
                         <div className="financial-stream-list">
-                            {shownStreams.map(streamCard)}
+                            {shownStreams.map((entry, at) => streamCard(entry, at))}
                         </div>
                     </>)}
             </>
@@ -1540,19 +1541,51 @@ export default function FinancialSustainabilityEditor({
         ]));
     }
 
-    // (REVENUE, the chapter of Revenue & Pricing: its streams, the Delivery Check and the summary. No settings box: the plan's months are in the page title,
+    // (REVENUE, the chapter of Revenue & Pricing. ONE CARD (owner, 2026-11-18 10:38: "Revenue streams should be tiles. Place the Revenue Summary and Delivery Check
+    // in the same card as the Revenue Stream Tiles"): its tile opens a dialog of a tile for each stream (the dialog's card list, three in a row, each opening its
+    // stream's card floating), then the Delivery Check and the Revenue Summary under their own bands. No settings box: the plan's months are in the page title,
     // and the currency beside every amount asked for.)
     const revenue = revenueParts();
+    const streamCardId = (stream: RevenueStreamValue) => "revenue-stream:" + stream.id;
+    const revenueTile: SectionTile = {
+        ...chapterTiles("sustainability-revenue", SECTIONS.revenue, [{
+            id: "streams", title: "Revenue Streams", face: revenue.streams.face,
+            body: (
+                <>
+                    {offerings.length === 0
+                        ? revenue.streams.body
+                        : (
+                            <CardBoxes
+                                label="Revenue Streams"
+                                what="Revenue Stream"
+                                autoStart={false}
+                                items={shownStreams.map((entry, at): CardBox => ({
+                                    id: streamCardId(entry.stream),
+                                    number: at + 1,
+                                    name: entry.orphan ? "Offering removed from the Foundation page" : offeringName(entry.stream),
+                                    unnamed: "Revenue Stream " + (at + 1),
+                                    own: true,
+                                    lines: [summaryPrice(entry.stream), REVENUE_CHARGES.find(item => item.id === entry.stream.frequency)?.label ?? ""].filter(Boolean),
+                                    content: () => null
+                                }))}
+                            />
+                        )}
+                    <DialogSectionBand title="Delivery Check">{revenue.delivery.body}</DialogSectionBand>
+                    <DialogSectionBand title="Revenue Summary" info={REVENUE_SUMMARY_INFO}>{revenue.summary.body}</DialogSectionBand>
+                </>
+            )
+        }])[0],
+        // (A dialog of its own, whatever the number of streams: the Delivery Check and the Revenue Summary stand in it too.)
+        view: true,
+        holds: shownStreams.map(entry => streamCardId(entry.stream)),
+        cardFor: (id: string) => {
+            const at = shownStreams.findIndex(entry => streamCardId(entry.stream) === id);
+            return at < 0 ? null : <div className="column-tile-content financial-stream-floating"><div className="financial-page">{streamCard(shownStreams[at], at, true)}</div></div>;
+        }
+    };
     return (
         <div className="answer-columns business-foundation business-engagement business-capability column-tiles-page strategy-single-frame" style={{ "--answer-column-count": 1 } as CSSProperties}>
-            {chapter(SECTIONS.revenue.title, SECTION_HUES["sustainability-revenue"] ?? 0, chapterTiles("sustainability-revenue", SECTIONS.revenue, [
-                {
-                    id: "streams", title: "Revenue Streams", ...revenue.streams,
-                    extra: offerings.length > 0 && <FoldAllToggle ids={shownStreams.map(entry => entry.stream.id)} folds={folds} label="revenue streams" />
-                },
-                { id: "delivery", title: "Delivery Check", ...revenue.delivery },
-                { id: "summary", title: "Revenue Summary", ...revenue.summary, info: REVENUE_SUMMARY_INFO }
-            ]))}
+            {chapter(SECTIONS.revenue.title, SECTION_HUES["sustainability-revenue"] ?? 0, [revenueTile])}
         </div>
     );
 
