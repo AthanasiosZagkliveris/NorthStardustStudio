@@ -48,12 +48,16 @@ describe("LC1, the skills the business still needs (Capacity & Delivery; owner, 
         expect(skillCover(capability, "marketing", names).map(entry => entry.name)).toEqual(["Oliver Grant", "Maya Chen"]);
         expect(skillCover(capability, "making", names).map(entry => entry.name)).toEqual(["Maya Chen", "Priya Shah", "FlameGuard Finishing"]);
         expect(skillCover(capability, "bookkeeping", names).map(entry => entry.name)).toContain("Accountant");
+        expect(skillCover(capability, "bookkeeping", names).map(entry => entry.name)).not.toContain("Lawyer");
+        expect(skillCover(capability, "legal", names).map(entry => entry.name)).toContain("Lawyer");
+        expect(skillCover(capability, "legal", names).map(entry => entry.name)).not.toContain("Accountant");
     });
 
     test("each example's needed skills read with their cover; a group with no one on its Team is not covered yet", () => {
         expect(neededSkills(capabilityOf(lumen), undefined, LUMEN_FOUNDERS).map(neededSkillLine)).toEqual([
             "Marketing and social media: covered by Oliver Grant, Maya Chen",
-            "Website and technology: covered by Priya Shah, Lawyer, Accountant, Maya Chen, Oliver Grant",
+            // (By the activities whose name says it -- "Launch website and journal" --, not every Infrastructure performer: owner, 2026-11-18 02:31.)
+            "Website and technology: covered by Oliver Grant",
             "Making or producing: covered by Maya Chen, Priya Shah, FlameGuard Finishing"
         ]);
         expect(neededSkills(capabilityOf(quill), undefined, { "founder-q7m2x4ke": "Jordan Ellis" }).map(skill => skill.label)).toEqual([

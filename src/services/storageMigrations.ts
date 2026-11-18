@@ -21,6 +21,7 @@ import {
     seedProcessSnapshots,
     sortOperationalLogRows
 } from "../framework/engine/AnswerUtils.ts";
+import { type SegmentAnswers, withoutCopiedStarts } from "../framework/engine/SegmentQuestions.ts";
 
 /**
  * The Identity System's System number (see data/systems.ts) --
@@ -438,6 +439,50 @@ export function retireLegacyBusinessPages(organizationId: string): void {
         }
 
         document.legacyBusinessPagesRetired = true;
+
+        OrganizationService.saveDocument(document);
+
+    }
+
+/**
+ * THE SEGMENT'S STARTS FOLLOW THEIR SOURCE AGAIN (B4; owner, 2026-11-17 08:38): before 2026-11-17 a choice wrote its starts -- Who decides to buy, How they
+ * pay, the work situation -- into the saved answers, where they stopped following it. Each saved answer equal to the start its source gives now is taken out
+ * of every Segment of the Business System's Foundation (Section 1), so it is a start again; an answer the founder changed is kept (withoutCopiedStarts). A flag: it runs once.
+ */
+export function followSegmentStarts(organizationId: string): void {
+
+        const document = OrganizationService.loadDocument(organizationId);
+
+        if (!document || document.segmentStartsFollow) {
+            return;
+        }
+
+        const stored = document.systems[String(BUSINESS_SYSTEM_NUMBER)];
+        const state = stored && typeof stored === "object" && !Array.isArray(stored) ? stored as Record<string, unknown> : null;
+
+        if (state && Array.isArray(state.responses)) {
+            state.responses = state.responses.map(entry => {
+                const response = entry && typeof entry === "object" && !Array.isArray(entry) ? entry as Record<string, unknown> : null;
+                const value = response && response.sectionNumber === 1 && response.value && typeof response.value === "object" ? response.value as Record<string, unknown> : null;
+                if (!value || !Array.isArray(value.segments)) {
+                    return entry;
+                }
+                return {
+                    ...response,
+                    value: {
+                        ...value,
+                        segments: value.segments.map(segment => {
+                            const item = segment && typeof segment === "object" ? segment as Record<string, unknown> : null;
+                            return item && item.questions && typeof item.questions === "object" && !Array.isArray(item.questions)
+                                ? { ...item, questions: withoutCopiedStarts(item.questions as SegmentAnswers) }
+                                : segment;
+                        })
+                    }
+                };
+            });
+        }
+
+        document.segmentStartsFollow = true;
 
         OrganizationService.saveDocument(document);
 

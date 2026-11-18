@@ -4,8 +4,8 @@ Status: **specification**, written 2026-09-27, updated 2026-11-09. The text from
 
 > **3. Business System — Page 1 of 5.**
 > Pages: **1. Foundation** · 2. Customer Engagement ·
-> 3. Infrastructure & Capability · 4. Financial Foundation ·
-> 5. Financial Sustainability
+> 3. Infrastructure & Capability · 4. Revenue & Pricing ·
+> 5. Costs, Funding & Position
 
 ## As built
 

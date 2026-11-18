@@ -635,14 +635,24 @@ function startOf(question: ProfileQuestion, segment: SegmentAnswers, context: Se
             // (WHEN THEY BUY, FROM WHEN THEY WORK (owner, 2026-11-17): standard daytime hours, the evenings and weekends; shifts, weekday daytime and weekends; their own
             // hours, weekday daytime; retired, weekday daytime.)
             const schedule = working(segment) ? first(segment.workschedule) : undefined;
-            if (schedule) {
-                return schedule === "standard" ? ["evenings", "weekends"] : schedule === "shift" ? ["weekday-daytime", "weekends"] : schedule === "flexible" ? ["weekday-daytime"] : undefined;
-            }
-            return !working(segment) && (segment.work2 ?? []).includes("retired") ? ["weekday-daytime"] : undefined;
+            const worked = schedule
+                ? schedule === "standard" ? ["evenings", "weekends"] : schedule === "shift" ? ["weekday-daytime", "weekends"] : schedule === "flexible" ? ["weekday-daytime"] : []
+                : !working(segment) && (segment.work2 ?? []).includes("retired") ? ["weekday-daytime"] : [];
+            // (And around seasons and holidays where sales, seasons or planned gifts make them shop: 2.12, the second batch of the review; owner, 2026-11-18 00:46.)
+            const seasonal = (segment.trigger ?? []).includes("seasonal") ? ["around-seasons-holidays"] : [];
+            const started = [...worked, ...seasonal];
+            return started.length > 0 ? started : undefined;
         }
         case "d1": {
             const path = first(segment.path);
-            return path === "researcher" ? ["reviews-and-recommendations-online"] : path === "validator" ? ["what-other-people-recommend"] : undefined;
+            const byPath = path === "researcher" ? ["reviews-and-recommendations-online"] : path === "validator" ? ["what-other-people-recommend"] : [];
+            // (FROM WHERE THE SEGMENT DISCOVERS (1.3 and 2.6, the second batch of the review; owner, 2026-11-18 00:46): free samples, tasters or trials start the ways to
+            // try it first its Offerings fit -- none while an Offering does not yet say what it is (O1) --; media, reviews and comparison sites start Online reviews / ratings.)
+            const discover = segment.discover ?? [];
+            const tried = discover.includes("samples") && context.trials && (context.forms ?? []).length > 0 ? TRIED_OPTIONS.filter(id => context.trials!.includes(TRIAL_OPTIONS[id])) : [];
+            const reviews = discover.includes("media") ? ["reviews-and-recommendations-online"] : [];
+            const started = [...new Set([...byPath, ...tried, ...reviews])];
+            return started.length > 0 ? started : undefined;
         }
         case "d2": {
             if ((segment.authorise ?? []).includes("procurement")) {

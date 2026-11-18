@@ -751,7 +751,7 @@ export function financialForecast(
         cashFlow,
         capitalExpenditure,
         notes: [
-            "Figures are estimates from the Business System's Financial Foundation and Sustainability pages.",
+            "Figures are estimates from the Business System's Revenue & Pricing and Costs, Funding & Position pages.",
             "Cash at the start of the plan is funding already received, less one-time costs paid before the plan (a loss before it starts); confirmed funding is counted when it arrives, and pending funding is not counted.",
             ...(calc
                 ? [
@@ -784,7 +784,7 @@ export function financialForecast(
             ...(taxRate !== null
                 ? ["Income tax is estimated at a flat " + ratePercent + " of each plan year's profit before tax: none on a loss, and no loss carried forward to a later year. " +
                     "It is accrued month by month on the profit so far that year, so a month or quarter still at a loss for the year shows none and a later loss month reverses some; it is a current liability (Income tax payable) until paid, and is paid in the first month of the following plan year; the final plan year's tax is still owed at the plan's end.",
-                "Break even, runway and the funding gap on the Financial Foundation and Sustainability pages are before income tax.",
+                "Break even, runway and the funding gap on Costs, Funding & Position are before income tax.",
                 "VAT or sales tax is not estimated. " +
                     "There are no trade payables: every cost is taken as paid when due, as no supplier payment terms are recorded."]
                 : passThrough
@@ -792,8 +792,8 @@ export function financialForecast(
                         "VAT or sales tax is not estimated. " +
                         "There are no trade payables: every cost is taken as paid when due, as no supplier payment terms are recorded."]
                     : ["Income tax is not included: " + (foundation.incomeTax === "rate"
-                        ? "no income tax rate has been given on Financial Foundation. "
-                        : "no income tax basis has been chosen on Financial Foundation. ") +
+                        ? "no income tax rate has been given in the Global Settings. "
+                        : "no income tax basis has been chosen in the Global Settings. ") +
                         "VAT or sales tax is not estimated. " +
                         "There are no trade payables: every cost is taken as paid when due, as no supplier payment terms are recorded."])
         ]

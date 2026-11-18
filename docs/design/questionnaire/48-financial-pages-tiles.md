@@ -124,6 +124,8 @@ New prefixes **RV** (revenue) and **FN** (funding). RV1 and FN1 enter the regist
 | D14 | Inventory IN1 to IN4 | Yes; IN3 optional |
 | D15 | Funnel blocks folded | Decided 13:44; Brief 1 fixes the documentation |
 
+- **Fees follow where they pay** (owner, 2026-11-17 09:09 UTC+2, option (a): "Fees follow where they pay"): the forecast's Channel fees line charges an Offering's revenue a fee only where its customers pay: it is shared equally among the Purchase-stage subchannels of its Segment that serve it (an Online Store, a marketplace, a Studio / Shop, a market, a stockist or wholesale account), and the Discover subchannels take none. A marketplace takes the money and its own fee only. The part paid on the founder's own subchannels that no fee of their own covers goes through the Segment's payment services (Direct Payment), equally; with no paying subchannel, the payment services share it all (`offeringPayingRevenue`). A commission -- a cost held by referral and affiliate subchannels only, a sales agent's or an affiliate's -- is still charged on the revenue of the Customer Sources that name it (`offeringChannelRevenue`). Revenue, volumes and revenue lines do not move; only the fee and commission lines do. The Inventory's Cost per Offering reads the same split, and its "i" says so. Lumen & Loom: Shopify Payments falls on the Online Store's half of the Homeware Collection's and the Weaving Workshops' revenue, SumUp's card fees on the market's half (no Customer Source named the Card, so they had fallen on the whole); its channel fees £185.55 to £107.02 a month, its break-even revenue £11,339 to £11,204. The rule in full: doc 47, section 5.
+
 ## 9. Phrases for the Business Plan
 
 | Answer | Option → phrase |
@@ -169,6 +171,8 @@ The app knows how much price matters and how customers pay; it holds no amount: 
 ### 12.2 Two proposed questions
 
 #### K15 (Competitor card, doc 41)
+
+- **Built (owner, 2026-11-18 03:08 UTC+2: "Build K15 and P7 now"):** on the Competitor card (doc 41, K15); the price's "i" on Revenue & Pricing says the Segment's competitors' range, last (P7); nothing is written into the price. O19 stays proposed.
 
 - **Placed (owner, 2026-11-17 07:16: "Yes to all"):** asked on the Competitor card, since it describes the competitor; the Revenue & Pricing section shows it beside the price as a record.
 

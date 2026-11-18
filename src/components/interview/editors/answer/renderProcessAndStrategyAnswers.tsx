@@ -79,6 +79,7 @@ export function renderStrategyFoundation(scope: AnswerScope) {
                     foundation={args.foundation}
                     founders={(legalEntityFounders ?? []).filter(founder => founder.name.trim().length > 0)}
                     organisationCurrency={organisationCurrency}
+                    objectiveDrafts={strategy.objectiveDrafts}
                     disabled={disabled}
                     onEditTheme={args.onEditTheme}
                     onRemoveTheme={args.onRemoveTheme}
@@ -125,6 +126,7 @@ export function renderStrategicPeriod(scope: AnswerScope) {
             foundation={strategy.foundation}
             founders={(legalEntityFounders ?? []).filter(founder => founder.name.trim().length > 0)}
             organisationCurrency={organisationCurrency}
+            objectiveDrafts={strategy.objectiveDrafts}
             columnsDivider={columnsDivider}
             showInstructions={showInstructions}
             onChange={onChange}

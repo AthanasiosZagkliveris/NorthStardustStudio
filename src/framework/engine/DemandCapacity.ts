@@ -818,6 +818,27 @@ export function founderWorkingHours(founder: FounderHours): number | null {
     return hours === null ? null : monthlyFromFounderPeriod(hours, founder.period ?? "");
 }
 
+/**
+ * WHAT THE FOUNDERS' HOURS ALLOW (P2; owner, 2026-11-18 03:01, "All, P1 to P9"): the founders' delivery hours a month over the founders' hours one unit of an Offering takes -- how many a month
+ * they could deliver of it alone, a ceiling to check the expected sales against, never a start. Null where either is not said.
+ */
+export function capacityCeiling(founders: readonly (FounderHours & { id: string })[], delivery: DeliveryValue | undefined): number | null {
+    const available = deliveryHours(founders);
+    const ids = new Set(founders.map(founder => founder.id));
+    const perUnit = Object.entries(deliveryAllocation(delivery)).filter(([id]) => ids.has(id) || id === "").reduce((sum, [, hours]) => sum + hours, 0);
+    return available !== null && available > 0 && perUnit > 0 ? Math.floor(available / perUnit) : null;
+}
+
+/**
+ * A SOURCE'S BASIS, DRAFTED FROM ITS OWN FIGURES (P1; owner, 2026-11-18 03:01, "All, P1 to P9"): the working the result shows ("625 visitors a month, 1.6% buy: about 10 a month"), as a
+ * sentence; "" while its figures give nothing.
+ */
+export function demandBasisDraft(demand: DemandValue | undefined, sourceId: string): string {
+    const part = demandResult(demand).sources.find(entry => entry.id === sourceId);
+    const working = part?.expected !== null && part?.expected !== undefined ? part.working.trim() : "";
+    return working ? working.charAt(0).toUpperCase() + working.slice(1).replace(/\.?$/, ".") : "";
+}
+
 /** The organization's controlled capacity: every founder's delivery hours. Null when none is known. */
 export function deliveryHours(founders: readonly FounderHours[]): number | null {
     const known = founders.map(founderDeliveryHours).filter((hours): hours is number => hours !== null);
@@ -1055,6 +1076,67 @@ export function offeringChannelRevenue(
                 out[offeringId] = { ...(out[offeringId] ?? {}), [key]: (out[offeringId]?.[key] ?? 0) + expected * price * items / found.length };
             }
         }
+    }
+    return out;
+}
+
+/** The channel category whose subchannels a payment service is (Card, Invoice, Bank transfer): how the founder takes the money on their own channels. */
+export const PAYMENT_CHANNEL_CATEGORY = "Direct Payment";
+/** The channel category whose sales the marketplace takes the money for: its own fee only. */
+export const MARKETPLACE_CHANNEL_CATEGORY = "Marketplace";
+/** The channel category of referrals and affiliates: a commission on the revenue of the Customer Source that names it. */
+export const REFERRAL_CHANNEL_CATEGORY = "Referral & Affiliates";
+
+/** A cost held by referral and affiliate subchannels only (their categories): a commission, charged on the revenue of the Customer Sources naming them. */
+export function referralOnly(categories: readonly string[]): boolean {
+    return categories.length > 0 && categories.every(category => category.trim() === REFERRAL_CHANNEL_CATEGORY);
+}
+
+/** A channel as the paying split reads it: its subchannel, stages and the Offerings it serves ("*" for all of its Segment's). */
+export interface PayingChannel {
+    id: string;
+    category: string;
+    name: string;
+    stages: readonly string[];
+    offerings: readonly string[];
+}
+
+/**
+ * FEES FOLLOW WHERE THEY PAY (owner, 2026-11-17 09:09, option (a)): each Offering's revenue a month at each subchannel where its customers pay, by the same
+ * "category\u0001name" keys as offeringChannelRevenue -- what a fee (a marketplace's, a payment service's) is charged on. The Offering's revenue is shared equally
+ * among the Purchase-stage subchannels of its Segment that serve it (an Online Store, a marketplace, a Studio / Shop, a market, a stockist); the Discover channels
+ * take none. The part paid on the founder's own subchannels (every one but a marketplace, which takes the money and its own fee) that no fee of its own covers is
+ * paid through the Segment's payment services (Direct Payment) serving the Offering, equally. With no paying subchannel, the payment services share it all. The
+ * revenue is the whole revenue (offeringMonthlyRevenue): only how the fees are charged moves.
+ */
+export function offeringPayingRevenue(
+    demand: Readonly<Record<string, DemandValue | undefined>>,
+    streams: readonly { offeringId: string; price: string; itemsPerOrder: string }[],
+    segments: readonly { segmentId: string; channels: readonly PayingChannel[]; offerings?: readonly { offeringId: string }[] }[],
+    /** The subchannels (ids) holding a fee of their own: their part is paid there, not through a payment service. */
+    feeCovered: ReadonlySet<string>
+): Record<string, Record<string, number>> {
+    const out: Record<string, Record<string, number>> = {};
+    const keyOf = (channel: PayingChannel) => channel.category.trim() + "\u0001" + channel.name.trim();
+    for (const [offeringId, revenue] of Object.entries(offeringMonthlyRevenue(demand, streams))) {
+        // (The Offering's Segment: where the page lists it, else where its Customer Sources' channels are, else a channel naming it.)
+        const named = (demand[offeringId]?.sources ?? []).flatMap(source => [source.channelId, ...(source.channelIds ?? [])]);
+        const segment = segments.find(entry => (entry.offerings ?? []).some(offering => offering.offeringId === offeringId))
+            ?? segments.find(entry => entry.channels.some(channel => named.includes(channel.id)))
+            ?? segments.find(entry => entry.channels.some(channel => channel.offerings.includes(offeringId)));
+        if (!segment) {
+            continue;
+        }
+        const serving = segment.channels.filter(channel => channel.stages.includes("purchase") && (channel.offerings.includes("*") || channel.offerings.includes(offeringId)));
+        const payments = serving.filter(channel => channel.category.trim() === PAYMENT_CHANNEL_CATEGORY);
+        const places = serving.filter(channel => channel.category.trim() !== PAYMENT_CHANNEL_CATEGORY);
+        const add = (channel: PayingChannel, amount: number) => {
+            out[offeringId] = { ...(out[offeringId] ?? {}), [keyOf(channel)]: (out[offeringId]?.[keyOf(channel)] ?? 0) + amount };
+        };
+        places.forEach(place => add(place, revenue / places.length));
+        const own = places.length === 0 ? 1
+            : places.filter(place => place.category.trim() !== MARKETPLACE_CHANNEL_CATEGORY && !feeCovered.has(place.id)).length / places.length;
+        payments.forEach(payment => add(payment, revenue * own / payments.length));
     }
     return out;
 }

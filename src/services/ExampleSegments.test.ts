@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import lumen from "../data/examples/lumen-and-loom-studio.json";
 import quillfield from "../data/examples/quillfield-automation-llc.json";
 import { asBusinessFoundationValue, asLegalEntityValue } from "../framework/engine/AnswerUtils";
-import { SEGMENT_QUESTIONS, segmentQuestionAsked, segmentSettle } from "../framework/engine/SegmentQuestions";
+import { SEGMENT_QUESTIONS, segmentQuestionAsked, segmentSettleSaved } from "../framework/engine/SegmentQuestions";
 import { stageOf } from "../framework/engine/BusinessStage";
 import { fitPositioningToStage } from "../components/interview/editors/legal/shared";
 import { segmentContextFor, segmentPositioningShown } from "../components/interview/editors/foundation/identityLink";
@@ -31,11 +31,12 @@ describe.each([["Lumen & Loom Studio", lumen], ["Quillfield Automation LLC", qui
     it.each(segments.map(segment => [segment.name, segment] as const))("answers every question asked of %s, and nothing else", (_segmentName, segment) => {
         // (Where both relationships are chosen, the Segment is of businesses if it has the Business Data key.)
         const context = segmentContextFor(identity, segment.description["business-data"] !== undefined);
-        expect(segmentSettle(segment.questions, context)).toEqual(segment.questions);
+        // (Settled against the card's starts, which follow their source unsaved: B4, owner, 2026-11-17 08:38.)
+        expect(segmentSettleSaved(segment.questions, context)).toEqual(segment.questions);
         // (A question with one option left is not shown, and holds that option as its answer: it is still asked. The Differentiation, and the end user's outcome, are answered by the
         // Positioning answer saved before 2026-11-08, their start, where the Segment saved none: segmentPositioningShown.)
         const shown = segmentPositioningShown(segment.questions, identity, context);
-        const asked = SEGMENT_QUESTIONS.filter(question => segmentQuestionAsked(question, segment.questions, context)).map(question => question.id);
+        const asked = SEGMENT_QUESTIONS.filter(question => segmentQuestionAsked(question, shown, context)).map(question => question.id);
         expect(asked.filter(id => !(shown[id]?.length))).toEqual([]);
         expect(Object.keys(segment.questions).filter(id => !asked.includes(id))).toEqual([]);
     });
@@ -44,7 +45,7 @@ describe.each([["Lumen & Loom Studio", lumen], ["Quillfield Automation LLC", qui
         const context = segmentContextFor(identity, segment.description["business-data"] !== undefined);
         const answers = asProfileAnswers(profile.questions);
         expect(Object.keys(answers).length).toBeGreaterThan(5);
-        expect(profileSettle(answers, segment.questions, context)).toEqual(answers);
+        expect(profileSettle(answers, segmentPositioningShown(segment.questions, identity, context), context)).toEqual(answers);
     });
 
     // The notes hold what the choices do not: the age is asked (A1), and a platform that is ticked is not named again in the note of the hubs.

@@ -12,7 +12,7 @@ import RadioChoice from "../../../controls/RadioChoice.tsx";
 import RatingScale, { type Rating } from "../../../controls/RatingScale.tsx";
 import { withRatingMeaning } from "../../../controls/RatingScaleEnds.tsx";
 import RatingScaleGroup from "../../../controls/RatingScaleGroup.tsx";
-import { type OtherQuestion, competitorOtherList, competitorOtherSettleAll, competitorOtherTick, competitorOthers, COMPETITOR_CHANNEL_OPTIONS, COMPETITOR_EXPERIENCE_HOW, COMPETITOR_INFO, COMPETITOR_OFFER_OPTIONS, COMPETITOR_RATINGS, COMPETITOR_REACH_OPTIONS, COMPETITOR_SIZE_OPTIONS, COMPETITOR_STAGES, type CompetitorAnswers, type CompetitorQuestionId, REVIEW_PLATFORM_EXAMPLES, competitorAsks, competitorOpenings, competitorRate, competitorRatings, competitorSettle, competitorWording, competitorValueRows, shownOpenings, COMPETITOR_SUBCHANNELS, COMPETITOR_BAND_LINE, bandTone, COMPETITOR_CHANGES, valueProfiles, hardToBeat, reviewPlatformOrder, competitorK10Info } from "../../../../framework/engine/CompetitorQuestions.ts";
+import { type OtherQuestion, competitorOtherList, competitorOtherSettleAll, competitorOtherTick, competitorOthers, COMPETITOR_CHANNEL_OPTIONS, COMPETITOR_EXPERIENCE_HOW, COMPETITOR_INFO, COMPETITOR_OFFER_OPTIONS, COMPETITOR_RATINGS, COMPETITOR_REACH_OPTIONS, COMPETITOR_SIZE_OPTIONS, COMPETITOR_STAGES, type CompetitorAnswers, type CompetitorQuestionId, REVIEW_PLATFORM_EXAMPLES, competitorAsks, competitorOpenings, competitorRate, competitorRatings, competitorSettle, competitorWording, competitorValueRows, shownOpenings, COMPETITOR_SUBCHANNELS, COMPETITOR_BAND_LINE, bandTone, COMPETITOR_CHANGES, valueProfiles, hardToBeat, reviewPlatformOrder, competitorK10Info, competitorReviewStarts } from "../../../../framework/engine/CompetitorQuestions.ts";
 import FittingRadioChoice from "./FittingRadioChoice.tsx";
 import { type SegmentQuestion, segmentRowChoice, writtenInRows } from "../../../../framework/engine/SegmentQuestions.ts";
 import NumberedListInput from "../../fields/NumberedListInput.tsx";
@@ -20,12 +20,21 @@ import { summaryText } from "../../cards/cardSummary.ts";
 import OptionPicker from "../../fields/OptionPicker.tsx";
 import { COMPETITOR_TYPE_QUESTIONS, SUBSECTIONS, SingleColumn, competitorParts } from "./shared.tsx";
 import type { FoundationCardScope } from "./useFoundationSubsections.tsx";
-import { competitorChannelOptions } from "../../../../framework/engine/CompetitorQuestions.ts";
+import { competitorChannelOptions, competitorPriceRange } from "../../../../framework/engine/CompetitorQuestions.ts";
+import { BusinessField } from "../../cards/BusinessCardFields.tsx";
+import NumberCell from "../../../controls/NumberCell.tsx";
+import { NUMBER_LIMITS, limitedNumberText } from "../../fields/numberInput.ts";
+import { labelWithCurrency } from "../../../../framework/engine/Currencies.ts";
+import { countryCurrency } from "../../../../framework/engine/LegalEntityJurisdictions.ts";
+import { effectiveOfferingAnswers } from "../../../../framework/engine/EffectiveAnswers.ts";
+
+/** The unit a K15 price is per, from the Segment's terms (O3). */
+const PRICE_PER: Readonly<Record<string, string>> = { once: "sale", session: "session", rent: "hire", commission: "sale", project: "project", subscription: "month", retainer: "month", payg: "month", licence: "year" };
 import { journeySuggestions } from "../../../../framework/engine/JourneySuggestions.ts";
 import { BUSINESS_CHANNEL_CATEGORIES } from "../../../../framework/engine/AnswerUtils.ts";
 
 /** Which of the card's questions each box of its Description asks (doc 41): K1 in Offerings, K2 to K4 in Market, K5 in Customer Acquisition, K6 and K7 in Customer Experience. */
-const PART_QUESTIONS: Record<string, CompetitorQuestionId[]> = { offerings: ["k1"], market: ["k2", "k3", "k4"], acquisition: ["k5"], experience: ["k6", "k7"] };
+const PART_QUESTIONS: Record<string, CompetitorQuestionId[]> = { offerings: ["k1", "k15"], market: ["k2", "k3", "k4"], acquisition: ["k5"], experience: ["k6", "k7"] };
 
 export function competitorCard(scope: FoundationCardScope, competitor: BusinessCompetitorValue, index: number): ReactNode {
 
@@ -124,7 +133,9 @@ export function competitorCard(scope: FoundationCardScope, competitor: BusinessC
     };
     // K6: the platforms in the order of the App User's industry and country (L18); a platform ticked before stays shown.
     const platforms = reviewPlatformOrder(identity?.country ?? "", identity?.activityCode ?? "");
-    const platformRows = [...platforms.first, ...platforms.rest.filter(platform => (answers.k6 ?? []).includes(platform.id))];
+    // (K6 starts from K5: competitorReviewStarts.)
+    const reviewed = competitorReviewStarts(answers);
+    const platformRows = [...platforms.first, ...platforms.rest.filter(platform => reviewed.includes(platform.id))];
     const context = { profiles: segment.profiles.map(profile => profile.questions ?? {}), others: segment.competitors.filter(other => other.id !== competitor.id).map(other => other.questions ?? {}), reach: segment.questions.reach?.[0] };
     // K8 (doc 41; owner, 2026-11-04): every value, the Profiles' highest rated first, each chosen value with a band of one colour, darker the more
     // Profiles chose it (bandTone: the count only).
@@ -138,6 +149,46 @@ export function competitorCard(scope: FoundationCardScope, competitor: BusinessC
     const openingTicks = (answers.k10 ?? []).filter(id => openings.some(opening => opening.id === id));
     const controls: Record<CompetitorQuestionId, () => ReactNode> = {
     k1: () => <FittingRadioChoice label={words("k1")} group={competitor.id + "-k1"} disabled={disabled} value={answers.k1?.[0] ?? ""} onChange={(next) => write({ ...answers, k1: [next] })} options={COMPETITOR_OFFER_OPTIONS} />,
+    // K15 (owner, 2026-11-18 03:08: "Build K15 and P7 now"; doc 48, 12.2): From and To in the organisation's currency, per the Segment's terms (O3), or Not known
+    // yet, which clears them. The competitor's own facts: never compared with the founder's price.
+    k15: () => {
+        const range = competitorPriceRange(answers);
+        const currency = countryCurrency(identity?.country ?? "");
+        const terms = segment.offerings.map(offering => effectiveOfferingAnswers(offering, segment, identity).o3?.[0]).find(Boolean) ?? "";
+        const per = PRICE_PER[terms] ?? "";
+        const amount = (key: "from" | "to", label: string) => (
+            <BusinessField key={key} label={labelWithCurrency(label, currency)}>
+                <NumberCell
+                    className="business-demand-number"
+                    data-size="s"
+                    inputMode="decimal"
+                    aria-label={label + ", " + words("k15") + ", " + whose}
+                    placeholder="e.g. 40"
+                    disabled={disabled || range.unknown}
+                    value={range[key]}
+                    onChange={(event) => {
+                        const next = limitedNumberText(event.target.value, range[key], NUMBER_LIMITS.money);
+                        write({ ...answers, k15: key === "from" ? [next, range.to] : [range.from, next] });
+                    }}
+                />
+            </BusinessField>
+        );
+        return (
+            <>
+                <div className="business-demand-fields">
+                    {amount("from", "From")}
+                    {amount("to", "To")}
+                </div>
+                {per && <p className="business-demand-source-note">{"Per " + per + ", as your Offerings are sold."}</p>}
+                <TickField className="business-foundation-tick" disabled={disabled} checked={range.unknown}
+                    onChange={(event) => write(event.currentTarget.checked
+                        ? { ...Object.fromEntries(Object.entries(answers).filter(([key]) => key !== "k15")), "k15-unknown": ["yes"] }
+                        : Object.fromEntries(Object.entries(answers).filter(([key]) => key !== "k15-unknown")))}>
+                    Not known yet
+                </TickField>
+            </>
+        );
+    },
     k2: () => radio("k2", COMPETITOR_REACH_OPTIONS),
     k3: () => radio("k3", COMPETITOR_SIZE_OPTIONS),
     k4: () => (
@@ -228,8 +279,8 @@ export function competitorCard(scope: FoundationCardScope, competitor: BusinessC
         <>
             {rated("k6", platformRows, {
                 selectable: true,
-                selected: answers.k6 ?? [],
-                onSelect: (row, on) => write({ ...answers, k6: on ? [...(answers.k6 ?? []), row] : (answers.k6 ?? []).filter(entry => entry !== row) }),
+                selected: reviewed,
+                onSelect: (row, on) => write({ ...answers, k6: on ? [...reviewed, row] : reviewed.filter(entry => entry !== row) }),
                 foot: otherFoot("k6")
             })}
         </>

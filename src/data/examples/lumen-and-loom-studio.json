@@ -485,9 +485,6 @@
                   "education": [
                     "degree"
                   ],
-                  "work": [
-                    "working"
-                  ],
                   "workenv": [
                     "office"
                   ],
@@ -1186,9 +1183,6 @@
                   "size": [
                     "small"
                   ],
-                  "sector": [
-                    "tech"
-                  ],
                   "industry": [
                     "professional"
                   ],
@@ -1530,7 +1524,8 @@
                       ],
                       "o10": [
                         "brief",
-                        "approval"
+                        "approval",
+                        "home"
                       ],
                       "o14": [
                         "custom"
@@ -3237,10 +3232,10 @@
                     ]
                   }
                 ],
-                "profiles": [],
                 "answerCards": [
                   "shopify payments"
-                ]
+                ],
+                "profiles": []
               }
             ],
             "demand": {
@@ -3256,7 +3251,57 @@
                       "buy": "1.6"
                     },
                     "basis": "About 625 visitors a month: some 525 to the online store, most from Instagram and Pinterest, of whom about 1.1% buy (the shop's rate in its first three months), and about 100 at the stall on market days, of whom one in 25 buys a piece. That is about 10 sales, a blended 1.6%.",
-                    "channelId": "channel-xrenzwzk"
+                    "channelId": "",
+                    "group": "Visitors",
+                    "channelIds": [
+                      "channel-xrenzwzk",
+                      "channel-lnstudio1",
+                      "channel-kuy4u7hj"
+                    ]
+                  },
+                  {
+                    "id": "source-qk1dt2m5",
+                    "type": "funnel",
+                    "calculate": false,
+                    "estimate": "",
+                    "inputs": {},
+                    "basis": "",
+                    "channelId": "",
+                    "fromAnswers": true,
+                    "group": "Sales funnel",
+                    "channelIds": [
+                      "segment-8lu427u5-channel",
+                      "channel-enk0uesk",
+                      "channel-segment-8lu427u5-social-media-tiktok",
+                      "channel-segment-8lu427u5-social-media-youtube",
+                      "channel-segment-8lu427u5-community-meetup",
+                      "channel-substack1",
+                      "channel-whatsapp1"
+                    ]
+                  },
+                  {
+                    "id": "source-77w0vdn2",
+                    "type": "referrals",
+                    "calculate": false,
+                    "estimate": "",
+                    "inputs": {},
+                    "basis": "",
+                    "channelId": "",
+                    "fromAnswers": true,
+                    "group": "Referrals",
+                    "channelIds": [
+                      "channel-segment-8lu427u5-referral-affiliates-influencer-ambassador"
+                    ]
+                  },
+                  {
+                    "id": "source-th434sq4",
+                    "type": "repeat",
+                    "calculate": false,
+                    "estimate": "",
+                    "inputs": {},
+                    "basis": "",
+                    "channelId": "",
+                    "fromAnswers": true
                   }
                 ],
                 "recurring": false,
@@ -3277,7 +3322,18 @@
                       "buy": "50"
                     },
                     "basis": "About 160 people a month ask about workshops through Instagram and the Facebook group; one in four opens the dates in the online store, and half of those book there.",
-                    "channelId": "channel-xrenzwzk"
+                    "channelId": "",
+                    "group": "Sales funnel",
+                    "channelIds": [
+                      "channel-xrenzwzk",
+                      "segment-8lu427u5-channel",
+                      "channel-kenelogh",
+                      "channel-segment-8lu427u5-social-media-tiktok",
+                      "channel-segment-8lu427u5-social-media-youtube",
+                      "channel-segment-8lu427u5-community-meetup",
+                      "channel-substack1",
+                      "channel-whatsapp1"
+                    ]
                   },
                   {
                     "id": "source-lumen-ws-referrals",
@@ -3289,7 +3345,28 @@
                       "buy": "60"
                     },
                     "basis": "Past participants bring friends: about 20 introductions a month, three in five book.",
-                    "channelId": "channel-segment-8lu427u5-referral-affiliates-customer-referral"
+                    "channelId": "",
+                    "group": "Referrals",
+                    "channelIds": [
+                      "channel-segment-8lu427u5-referral-affiliates-customer-referral",
+                      "channel-segment-8lu427u5-referral-affiliates-influencer-ambassador"
+                    ]
+                  },
+                  {
+                    "id": "source-3tkxi2f1",
+                    "type": "marketplace",
+                    "calculate": false,
+                    "estimate": "",
+                    "inputs": {},
+                    "basis": "",
+                    "channelId": "",
+                    "fromAnswers": true,
+                    "group": "Visitors",
+                    "channelIds": [
+                      "channel-lnstudio1",
+                      "channel-kuy4u7hj",
+                      "channel-lumen-taster"
+                    ]
                   }
                 ],
                 "recurring": false,
@@ -3323,6 +3400,48 @@
                     },
                     "basis": "Designers recommend us to other studios: about 5 introductions a month, three in ten commission.",
                     "channelId": "channel-segment-majxtl1u-referral-affiliates-customer-referral"
+                  },
+                  {
+                    "id": "source-ofw6g2wh",
+                    "type": "funnel",
+                    "calculate": false,
+                    "estimate": "",
+                    "inputs": {},
+                    "basis": "",
+                    "channelId": "",
+                    "fromAnswers": true,
+                    "group": "Sales funnel",
+                    "channelIds": [
+                      "segment-majxtl1u-channel",
+                      "channel-eo91172u",
+                      "channel-segment-majxtl1u-social-media-pinterest",
+                      "channel-segment-majxtl1u-website-main-website"
+                    ]
+                  },
+                  {
+                    "id": "source-urzggh19",
+                    "type": "marketplace",
+                    "calculate": false,
+                    "estimate": "",
+                    "inputs": {},
+                    "basis": "",
+                    "channelId": "",
+                    "fromAnswers": true,
+                    "group": "Visitors",
+                    "channelIds": [
+                      "channel-stockist1",
+                      "channel-wholesale1"
+                    ]
+                  },
+                  {
+                    "id": "source-88bclcmh",
+                    "type": "repeat",
+                    "calculate": false,
+                    "estimate": "",
+                    "inputs": {},
+                    "basis": "",
+                    "channelId": "",
+                    "fromAnswers": true
                   }
                 ],
                 "recurring": false,
@@ -3343,7 +3462,14 @@
                       "buy": "50"
                     },
                     "basis": "About 6 stockists and designers contacted a month through LinkedIn and Instagram; half ask for the trade price list, half of those order.",
-                    "channelId": "segment-majxtl1u-channel"
+                    "channelId": "",
+                    "group": "Sales funnel",
+                    "channelIds": [
+                      "segment-majxtl1u-channel",
+                      "channel-eo91172u",
+                      "channel-segment-majxtl1u-social-media-pinterest",
+                      "channel-segment-majxtl1u-website-main-website"
+                    ]
                   },
                   {
                     "id": "source-lumen-trade-fairs",
@@ -3355,7 +3481,27 @@
                       "buy": "10"
                     },
                     "basis": "About 15 trade visitors a month at the studio and the fairs; one in ten orders.",
-                    "channelId": "channel-imbnizvs"
+                    "channelId": "",
+                    "group": "Visitors",
+                    "channelIds": [
+                      "channel-imbnizvs",
+                      "channel-stockist1",
+                      "channel-wholesale1"
+                    ]
+                  },
+                  {
+                    "id": "source-99tao63s",
+                    "type": "referrals",
+                    "calculate": false,
+                    "estimate": "",
+                    "inputs": {},
+                    "basis": "",
+                    "channelId": "",
+                    "fromAnswers": true,
+                    "group": "Referrals",
+                    "channelIds": [
+                      "channel-segment-majxtl1u-referral-affiliates-customer-referral"
+                    ]
                   }
                 ],
                 "recurring": false,
@@ -8529,5 +8675,6 @@
       "franchise-licences": "10",
       "permits-licences": "5"
     }
-  }
+  },
+  "segmentStartsFollow": true
 }

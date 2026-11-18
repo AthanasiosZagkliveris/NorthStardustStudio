@@ -201,6 +201,17 @@ describe("a channel's share of revenue (owner, 2026-11-14 20:25)", () => {
         expect(shareLines(row, offerings, whole, { o1: { "Online Store\u0001Own website": 1000 }, o2: { "Online Store\u0001Own website": 3000 } }).map(line => costPerOfferingText(row, line))).toEqual(["2% · 20", "2% · 60"]);
         expect(shareLines(row, offerings, whole, { o2: { "Social Media\u0001Instagram": 2720 } }).map(line => costPerOfferingText(row, line))).toEqual(["2% · 44.80", "2% · 54.40"]);
     });
+
+    it("a fee is split by what is paid at its subchannels, a referral commission by its sources (owner, 2026-11-17 09:09, option (a))", async () => {
+        const { shareLines, costPerOfferingText } = await import("../tiles/CapabilityOverview.tsx");
+        const row = { id: "fees", tone: "channel", kind: "provider", name: "Shopify Payments", path: [], status: "", statusLabel: "", frequency: "percent-revenue", frequencyLabel: "% of Rev", amount: 2, links: [], offeringIds: ["o1"], channel: { places: [{ channel: "Website", sub: "Online Store" }], offerings: [], stages: [], actions: [], colour: 0, linkIds: [], behaviour: "" } } as unknown as FloorRow;
+        const referral = { ...row, id: "partner", name: "Referral partners", channel: { ...row.channel!, places: [{ channel: "Referral & Affiliates", sub: "Referral Partner" }] } } as FloorRow;
+        const offerings = [{ id: "o1", name: "Homeware" }];
+        const sources = { o1: { "Referral & Affiliates\u0001Referral Partner": 500, "Social Media\u0001Instagram": 1500 } };
+        const paying = { o1: { "Website\u0001Online Store": 1000, "In Person\u0001Market / Pop-up": 1000 } };
+        expect(shareLines(row, offerings, { o1: 2000 }, sources, null, {}, paying).map(line => costPerOfferingText(row, line))).toEqual(["2% · 20"]);
+        expect(shareLines(referral, offerings, { o1: 2000 }, sources, null, {}, paying).map(line => costPerOfferingText(referral, line))).toEqual(["2% · 10"]);
+    });
 });
 
 describe("a share of revenue's whole fee, as the forecast charges it (owner, 2026-11-16)", () => {

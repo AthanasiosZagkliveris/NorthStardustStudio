@@ -14,7 +14,11 @@ import { launchNeedOf } from "../ContingencyFunds.ts";
 import { asGlobalSettings, capitalisationLimitOf, stageDurationsOf } from "../GlobalSettings.ts";
 import { countryCurrency } from "../LegalEntityJurisdictions.ts";
 import { joinNames, preparedMonth, websiteOf } from "./plan.ts";
-import { settledSegmentAnswers } from "../SegmentContext.ts";
+import { segmentIdentityOf, settledSegmentAnswers } from "../SegmentContext.ts";
+import { effectiveOfferingAnswers, effectiveProfileAnswers } from "../EffectiveAnswers.ts";
+import { openItemObjective, valuePropositionOpenItems } from "../OfferingQuestions.ts";
+import { neededSkills } from "../capability/skills.ts";
+import { asFoundersProfileValue } from "../AnswerUtils.ts";
 
 /** The four Foundation Systems as saved -- any may be missing. */
 export interface FoundationSessions {
@@ -144,6 +148,24 @@ export function swotStartsOf(f: Foundation): { opportunities: string[]; threats:
 /** The SWOT's starts from what the Business System records (swotStartsOf), for the Strategy page. */
 export function strategySwotStarts(sessions: FoundationSessions): { opportunities: string[]; threats: string[] } {
     return swotStartsOf(readFoundation(sessions));
+}
+
+/**
+ * AN OBJECTIVE'S DRAFTS (P9; owner, 2026-11-18 03:01, "All, P1 to P9"): from each Segment's Value Proposition, its open items in plain words -- a value no Offering does best, a need no Offering
+ * addresses, a worry no Offering answers --, then each needed skill no one covers yet; each once.
+ */
+export function strategyObjectiveDrafts(sessions: FoundationSessions): string[] {
+    const f = readFoundation(sessions);
+    const drafts: string[] = [];
+    for (const segment of f.segments) {
+        const identity = segmentIdentityOf(f.legalEntity.organisation, f.stage);
+        const offerings = segment.offerings.map(offering => effectiveOfferingAnswers(offering, segment, identity));
+        const profiles = segment.profiles.map(profile => effectiveProfileAnswers(profile, segment, identity));
+        drafts.push(...valuePropositionOpenItems(segment, offerings, profiles).map(openItemObjective).filter((text): text is string => text !== null));
+    }
+    const founderNames = Object.fromEntries(f.legalEntity.founders.map(founder => [founder.id, founder.name.trim()]));
+    drafts.push(...neededSkills(f.capability, asFoundersProfileValue(f.foundersProfile), founderNames).filter(skill => skill.cover.length === 0).map(skill => "Bring in " + skill.label.charAt(0).toLowerCase() + skill.label.slice(1)));
+    return [...new Set(drafts)];
 }
 
 /** The financial plan's first and last month, for the Strategic Period to be compared with. */

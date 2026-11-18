@@ -265,9 +265,9 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
             { id: "postgraduate", label: "Postgraduate degree (master's or doctorate)" }
         ],
         info: [
-            "Each level includes the ones below it: someone with a Master has a Bachelor.",
-            "Secondary school: A-levels or the Leaving Certificate (UK, Ireland), a diploma (USA, Canada), Year 12 (Australia, New Zealand).",
-            "Vocational or technical diploma: a post-school qualification such as a BTEC, a trade certificate or an associate degree."
+            "Each level includes the ones below it: someone with a postgraduate degree has a university degree.",
+            "School: A-levels or the Leaving Certificate (UK, Ireland), a high school diploma (USA, Canada), Year 12 (Australia, New Zealand).",
+            "College or vocational: a qualification after school such as a BTEC, a trade certificate or an associate degree."
         ]
     },
     {
@@ -356,15 +356,16 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
         info: ["The EU's definition of small and medium-sized enterprises: micro under 10 employees, small under 50, medium-sized under 250.", "Countries define them a little differently; the United States and Canada use other limits.", "The sizes follow the scale chosen in Positioning.", "A public body can be of any size, so every size is offered for one."]
     },
     {
+        // (A RECORD OF THE INDUSTRY'S SECTOR (1.1, the second batch of the review; owner, 2026-11-18 00:46): never asked; the industry below carries its sector, so the one choice sets both.)
         id: "sector", box: "business-data", label: "Which sector are your customers in?", many: false,
         options: SEGMENT_SECTORS,
-        info: ["Six classes over the industries below. If they work in more than one industry, make another Segment."]
+        info: ["The sector of the industry chosen."]
     },
     {
         id: "industry", box: "business-data", label: "Which industry are your customers in?", many: false,
         options: SEGMENT_INDUSTRIES,
         info: [
-            "The industries of the sector chosen, as the official schemes (SIC and NACE, NAICS, ANZSIC) name their sections.",
+            "Each industry under its sector, as the official schemes (SIC and NACE, NAICS, ANZSIC) name their sections. The sector follows from the industry. If they work in more than one industry, make another Segment.",
             "Government and public administration includes embassies and international bodies.", "Other services includes households that employ staff, such as cleaners and nannies."
         ]
     },
@@ -397,6 +398,16 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
             { id: "seasonal", label: "Sales, seasons or planned gifts" }
         ],
         info: ["Choose up to two."]
+    },
+    {
+        // (Asked before where they discover, whose order it sets: 1.6, the second batch of the review; owner, 2026-11-18 00:46. Its code stays Box 4, 4.)
+        id: "share", box: "purchasing", group: "Finding & Choosing", label: "How do your customers share what they like?", many: true,
+        options: [
+            { id: "public", label: "They post it publicly on social media" },
+            { id: "friends", label: "They tell friends and family" },
+            { id: "none", label: "They keep what they buy to themselves" }
+        ],
+        info: ["Telling friends and family includes private chat apps such as WhatsApp and iMessage.", "They keep what they buy to themselves stands alone: choosing it clears the other two."]
     },
     {
         id: "discover", box: "purchasing", group: "Finding & Choosing", label: "Where do your customers discover new products?", many: true, max: 3,
@@ -441,15 +452,6 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
             { id: "outdoor", label: "Billboards / outdoor" }, { id: "journals", label: "Journals / trade magazines" }
         ],
         info: ["The adverts that reach them: each becomes a channel on Customer Engagement."]
-    },
-    {
-        id: "share", box: "purchasing", group: "Finding & Choosing", label: "How do your customers share what they like?", many: true,
-        options: [
-            { id: "public", label: "They post it publicly on social media" },
-            { id: "friends", label: "They tell friends and family" },
-            { id: "none", label: "They keep what they buy to themselves" }
-        ],
-        info: ["Private chat apps are for example WhatsApp and iMessage. \"They rarely share what they buy\" excludes the other three."]
     },
     {
         id: "path", box: "purchasing", group: "Finding & Choosing", label: "How do your customers usually decide to buy?", many: false,
@@ -737,13 +739,17 @@ export function segmentQuestionAsked(question: SegmentQuestion, answers: Segment
         case "education": case "income":
             return people && !has(answers, "age", "minor");
         case "area":
-            return !segmentEarly(context.stage) && ["city", "region", "country"].some(id => has(answers, "reach", id));
-        case "orgtype": case "sector":
+            // (From Planning: O20's order for the countryside reaches an early founder; 1.11, the second batch of the review; owner, 2026-11-18 00:46.)
+            return ["city", "region", "country"].some(id => has(answers, "reach", id));
+        case "sector":
+            // (A record of the industry's sector: 1.1, the second batch of the review; owner, 2026-11-18 00:46.)
+            return false;
+        case "orgtype":
             return business;
         case "size":
             return business && !has(answers, "orgtype", "self") && !onlySolo(context);
         case "industry":
-            return business && (answers.sector ?? []).length > 0;
+            return business;
         case "social": case "share": case "trigger": case "path":
             return people;
         case "authorise":
@@ -755,7 +761,8 @@ export function segmentQuestionAsked(question: SegmentQuestion, answers: Segment
         case "shops":
             return has(answers, "setting", "store") || has(answers, "setting", "multi");
         case "providers":
-            return has(answers, "pay", "card") || has(answers, "pay", "wallet");
+            // (Where they shop on a marketplace, the marketplace takes the payment and its own fee: no payment service of yours; 2.8, the second batch of the review; owner, 2026-11-18 00:46.)
+            return (has(answers, "pay", "card") || has(answers, "pay", "wallet")) && !has(answers, "setting", "marketplace");
         case "u-age": case "u-outcome":
             return context.endsUser;
         case "u-comfort":
@@ -814,8 +821,9 @@ export function segmentOptions(question: SegmentQuestion, answers: SegmentAnswer
             // A self-employed customer, or one who is only a freelancer, decides alone.
             return question.options.filter(option => keep(option, !(has(answers, "orgtype", "self") || onlySolo(context)) || option.id === "solo"));
         case "industry":
-            return SEGMENT_INDUSTRIES.filter(option => keep(option, (answers.sector ?? []).includes(option.sector)))
-                .map(({ id, label }) => ({ id, label }));
+            // (EVERY INDUSTRY UNDER ITS SECTOR'S HEADING (1.1, the second batch of the review; owner, 2026-11-18 00:46): one choice for both.)
+            return SEGMENT_SECTORS.flatMap(sector => SEGMENT_INDUSTRIES.filter(option => option.sector === sector.id)
+                .map(({ id, label }, at) => at === 0 ? { id, label, heading: sector.label } : { id, label }));
         case "discover": {
             // Sales calls or tenders: how a business finds a supplier, not a person (2026-11-08).
             const offered = question.options.filter(option => keep(option, option.id !== "sales" || context.frame === "business"));
@@ -906,6 +914,11 @@ export function segmentSettledNotes(box: SegmentBox, answers: SegmentAnswers, co
     if (box === "business-data" && onlySolo(context)) {
         notes.push("Size: no employees");
     }
+    // (The sector, a record of the industry chosen: 1.1, the second batch of the review.)
+    const sector = SEGMENT_SECTORS.find(entry => (segmentSettle(answers, context).sector ?? []).includes(entry.id));
+    if (box === "business-data" && sector && context.frame !== "people") {
+        notes.push("Sector: " + sector.label);
+    }
 
     return notes;
 
@@ -928,6 +941,75 @@ export function segmentWho(label: string, box: SegmentBox, context: SegmentConte
 }
 
 /** The answers after one question's choice changed: "They don't typically share" and the other ways exclude each other; ticks stay within their limit. */
+/**
+ * THE SEGMENT'S OWN STARTS (B4; owner, 2026-11-17 08:38; they were written into the saved answers when the source was chosen, so they stopped following it):
+ * where a question was never answered (no key saved), its start from the answers it follows, worked out each time --
+ * - Who decides to buy (Box 4, 9) from the kind and size of organisation (Box 3, 1 and 2): a public body or a large organisation, Formal procurement; a
+ *   micro or self-employed one, One person decides (2026-11-09);
+ * - How they pay: Digital wallets where they buy on a phone (owner, 2026-11-01);
+ * - Are your customers working? from the age term: Established, Peak and Mature working; Minors, Active retirees and the Dependent not, with Why not
+ *   working? Student for minors and Retired for the others. Young adults start nothing (owner, 2026-11-09: most of them work, BLS 67.5% of 20 to 24
+ *   year-olds employed).
+ * `saved` holds the keys answered; `shown` the answers as the card shows them (a source may itself be a start).
+ */
+export function segmentAnswerStarts(saved: SegmentAnswers, shown: SegmentAnswers): SegmentAnswers {
+    const starts: SegmentAnswers = {};
+    if (!("authorise" in saved)) {
+        const formal = has(shown, "orgtype", "public") || has(shown, "size", "large");
+        const alone = has(shown, "orgtype", "self") || has(shown, "size", "micro");
+        if (formal || alone) {
+            starts.authorise = [formal ? "procurement" : "solo"];
+        }
+    }
+    // (And Invoice or purchase order where a manager signs off or a formal procurement decides: 2.8, the second batch of the review; owner, 2026-11-18 00:46.)
+    const decides = starts.authorise ?? shown.authorise ?? [];
+    const invoiced = decides.includes("procurement") || decides.includes("executive");
+    if (!("pay" in saved) && (has(shown, "setting", "mobile") || invoiced)) {
+        starts.pay = [...(has(shown, "setting", "mobile") ? ["wallet"] : []), ...(invoiced ? ["invoicepo"] : [])];
+    }
+    const age = (shown.age ?? [])[0];
+    if (!("work" in saved) && age) {
+        if (age === "established" || age === "peak" || age === "mature") {
+            starts.work = ["working"];
+        } else if (age === "minor" || age === "active" || age === "dependent") {
+            starts.work = ["notworking"];
+        }
+    }
+    const work = starts.work ?? shown.work ?? [];
+    if (!("work2" in saved) && work.includes("notworking") && (age === "minor" || age === "active" || age === "dependent")) {
+        starts.work2 = [age === "minor" ? "student" : "retired"];
+    }
+    return starts;
+}
+
+/**
+ * THE STARTS A SAVED ANSWER ONCE COPIED (B4's migration, storageMigrations.followSegmentStarts): each saved answer equal to the start its source gives it now --
+ * written there by the choice before 2026-11-17, never changed -- is taken out, so it follows its source again; an answer the founder changed is kept.
+ */
+export function withoutCopiedStarts(saved: SegmentAnswers): SegmentAnswers {
+    const without: SegmentAnswers = { ...saved };
+    const bare = Object.fromEntries(Object.entries(saved).filter(([key]) => !["authorise", "pay", "work", "work2"].includes(key)));
+    const starts = segmentAnswerStarts(bare, saved);
+    for (const key of ["authorise", "pay", "work", "work2"] as const) {
+        if (starts[key] && saved[key] && JSON.stringify([...saved[key]!].sort()) === JSON.stringify([...starts[key]!].sort())) {
+            delete without[key];
+        }
+    }
+    return without;
+}
+
+/**
+ * THE SAVED ANSWERS SETTLED AGAINST WHAT THE CARD SHOWS (B4; owner, 2026-11-17 08:38): a question its start makes asked (Where do they work?, under a started
+ * Working) keeps its answer; the starts themselves stay unsaved. What every write of a Segment's answers settles with.
+ */
+export function segmentSettleSaved(saved: SegmentAnswers, context: SegmentContext): SegmentAnswers {
+    const settled = segmentSettle({ ...saved, ...segmentAnswerStarts(saved, saved) }, context);
+    return Object.fromEntries(Object.entries(settled).filter(([key]) => key in saved));
+}
+
+/** The ticks the answers start (segmentAnswerStarts): unticked to none, the empty answer is saved and kept, so the start does not come back (a start unticked is the founder's answer: owner, 2026-11-18). */
+export const SEGMENT_TICK_STARTS: readonly string[] = ["authorise", "pay"];
+
 export function segmentChoose(question: SegmentQuestion, answers: SegmentAnswers, next: string[]): SegmentAnswers {
 
     let chosen = next;
@@ -946,38 +1028,14 @@ export function segmentChoose(question: SegmentQuestion, answers: SegmentAnswers
     const settled = { ...answers };
 
     // (A question moved from Positioning keeps an empty answer: cleared, it does not fall back to the Positioning answer saved before.)
-    if (chosen.length > 0 || question.fromPositioning) {
+    if (chosen.length > 0 || question.fromPositioning || SEGMENT_TICK_STARTS.includes(question.id)) {
         settled[question.id] = chosen;
     } else {
         delete settled[question.id];
     }
 
-    // A starting value the user can change (2026-11-09): Who decides to buy (Box 4, 9) from the kind and size of organisation (Box 3, 1 and 2), where it is not answered yet: a public
-    // body or a large organisation buys by Formal procurement; a micro or self-employed one, One person decides.
-    if ((question.id === "orgtype" || question.id === "size") && !settled.authorise) {
-        const formal = has(settled, "orgtype", "public") || has(settled, "size", "large");
-        const alone = has(settled, "orgtype", "self") || has(settled, "size", "micro");
-        if (formal || alone) {
-            settled.authorise = [formal ? "procurement" : "solo"];
-        }
-    }
-
-    // A starting value the user can change (owner, 2026-11-01): Digital wallets, where they buy on a phone and no way of paying is chosen yet.
-    if (question.id === "setting" && chosen.includes("mobile") && !settled.pay) {
-        settled.pay = ["wallet"];
-    }
-
-    // A starting value the user confirms: the work situation that goes with the age term, where none is chosen yet.
-    // Young adults 18–24 start nothing (owner, 2026-11-09): most of them work (BLS: 67.5% of 20 to 24 year-olds employed), so "No / Student" was a wrong start.
-    if (question.id === "age" && chosen.length > 0 && !settled.work) {
-        const age = chosen[0];
-        if (age === "established" || age === "peak" || age === "mature") {
-            settled.work = ["working"];
-        } else if (age === "minor" || age === "active" || age === "dependent") {
-            settled.work = ["notworking"];
-            settled.work2 = [age === "minor" ? "student" : "retired"];
-        }
-    }
+    // (The starts this choice gives -- Who decides to buy, How they pay, the work situation -- are no longer written here: they follow their source until
+    // answered, segmentAnswerStarts; B4, owner, 2026-11-17 08:38.)
 
     return settled;
 
@@ -1026,6 +1084,10 @@ export function segmentSettle(answers: SegmentAnswers, context: SegmentContext):
             }
 
             if (chosen.length === 0) {
+                // (A start unticked to none stays none: SEGMENT_TICK_STARTS.)
+                if (SEGMENT_TICK_STARTS.includes(question.id)) {
+                    next[question.id] = [];
+                }
                 continue;
             }
 
@@ -1039,6 +1101,14 @@ export function segmentSettle(answers: SegmentAnswers, context: SegmentContext):
                 }
             }
 
+        }
+
+        // (THE SECTOR, A RECORD (1.1, the second batch of the review; owner, 2026-11-18 00:46): the industry's own; a sector saved with no industry yet stays, said under the box.)
+        const industry = SEGMENT_INDUSTRIES.find(option => (next.industry ?? []).includes(option.id));
+        if (industry) {
+            next.sector = [industry.sector];
+        } else if (current.sector && current.sector.length > 0 && context.frame !== "people") {
+            next.sector = current.sector;
         }
 
         if (JSON.stringify(next) === JSON.stringify(current)) {
@@ -1108,8 +1178,8 @@ export function asSegmentAnswers(source: unknown): SegmentAnswers {
         const ids = (Array.isArray(entry) ? entry : []).filter((id): id is string => typeof id === "string");
         const known = ids.filter((id, at) => ids.indexOf(id) === at && question.options.some(option => option.id === id));
 
-        // (A question moved from Positioning keeps an answer cleared: an empty list saved.)
-        if (known.length > 0 || (question.fromPositioning && Array.isArray(entry))) {
+        // (A question moved from Positioning keeps an answer cleared: an empty list saved. So does a start unticked to none: SEGMENT_TICK_STARTS.)
+        if (known.length > 0 || ((question.fromPositioning || SEGMENT_TICK_STARTS.includes(question.id)) && Array.isArray(entry))) {
             answers[question.id] = question.many ? known : known.slice(0, 1);
         }
 

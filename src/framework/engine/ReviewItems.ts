@@ -17,7 +17,7 @@ import { BUSINESS_CAPABILITY_SECTIONS } from "./AnswerBusinessCapability.ts";
 import { asFoundersProfileValue } from "./AnswerFounders.ts";
 import { neededSkills } from "./capability/skills.ts";
 
-/** A page as the rail names it: "4. Financial Foundation". */
+/** A page as the rail names it: "4. Revenue & Pricing". */
 function pageName(section: { number: number; title: string }): string {
     return pageRailItems([section])[0].label;
 }

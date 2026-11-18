@@ -64,7 +64,8 @@ describe("what each type of competitor is asked (doc 41)", () => {
     it("keeps a platform's rating only while it is ticked, and nothing outside 1 to 5", () => {
         const rated = competitorRate({ k6: ["google"] }, "k6", "google", 4);
         expect(competitorRatings(rated, "k6")).toEqual({ google: 4 });
-        expect(competitorSettle({ ...rated, k6: [] }, "direct")).toEqual({});
+        // (Unticked to none, K6 stays none: its starts from K5 do not come back; owner, 2026-11-18.)
+        expect(competitorSettle({ ...rated, k6: [] }, "direct")).toEqual({ k6: [] });
         expect(competitorSettle({ k6: ["google"], "k6-rating": ["google:7"] }, "direct")).toEqual({ k6: ["google"] });
         expect(competitorRate(rated, "k6", "google", undefined)["k6-rating"]).toBeUndefined();
     });

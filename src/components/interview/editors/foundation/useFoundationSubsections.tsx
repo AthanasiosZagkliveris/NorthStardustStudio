@@ -20,7 +20,7 @@ import { type OfferingContext, draftOffered, valuePropositionDraft, valueProposi
 import { effectiveOfferingAnswers, effectiveProfileAnswers, effectiveProfileUserAnswers, offeringContextOf, segmentTrials, withFieldSet , segmentForms } from "../../../../framework/engine/EffectiveAnswers.ts";
 import NumberCell from "../../../controls/NumberCell.tsx";
 import { type ProfileBox, type ProfilePart, type ProfileQuestion, DUAL_USER, OWN_TASKS_INFO, PROFILE_NOTE_HINTS, profileAgeRange, profileChoose, profileOutcomeLimit, profileRate, profileRatings, profileWho, profileQuestionsOf, profileSettle, profileUserAgeRange, profileUserQuestionsOf, profileUserSettle, profileUserWho, profileUserName, profileOptionsShown, proposedBusinessProfiles, segmentNeedTicks } from "../../../../framework/engine/ProfileQuestions.ts";
-import { type SegmentBox, type SegmentQuestion, SEGMENT_QUESTIONS, writtenInNames, writtenInRows, segmentChoose, segmentOptions, segmentQuestionsOf, segmentRowChoice, segmentSettle, segmentSettledNotes } from "../../../../framework/engine/SegmentQuestions.ts";
+import { type SegmentBox, type SegmentQuestion, SEGMENT_QUESTIONS, writtenInNames, writtenInRows, segmentChoose, segmentOptions, segmentQuestionsOf, segmentRowChoice, segmentSettledNotes, segmentSettleSaved } from "../../../../framework/engine/SegmentQuestions.ts";
 import { DIFFERENTIATIONS, INFO as POSITIONING_INFO, choiceLimit, differentiationOptionsFor, stageLimitLine, userOutcomeOptionsFor, withStageLine } from "../legal/shared.tsx";
 import InfoNote, { InfoPoint, InfoText } from "../../fields/InfoNote.tsx";
 import { OPEN_EVENT, type OpenRequest } from "../../tiles/SectionTiles.tsx";
@@ -294,11 +294,11 @@ export function useFoundationSubsections(earlier: Earlier) {
             // (K14's options in the question's own order, Positioning's (owner, 2026-11-10: "put the options in the question's sequence"), each with its "i" and the competitors it came from.)
             const options = question.id === "differentiation" ? differentiationOptionsFor(positioningOrder, chosen).map(option => ({ ...option, info: differentiationMeaning(option.label), note: sourceNote(option.id), noteText: sourceText(option.id) }))
                 : question.id === "u-outcome" ? userOutcomeOptionsFor(positioningOrder)
-                    : segmentOptions(question, segment.questions, asked);
+                    : segmentOptions(question, shownAnswers, asked);
             // (On a radio, the note stands in the option's words: its accessible name says both.)
             const radioOptions = (options as readonly { id: string; label: string; info?: InfoPoint[]; note?: ReactNode; noteText?: string }[]).map(option => option.note || option.info ? { ...option, label: <>{option.info ? <InfoText text={option.label}><InfoNote label={option.label} points={option.info} fullList /></InfoText> : option.label}{option.note && <span className="business-foundation-tick-source">{option.note}</span>}</>, name: option.label + (option.noteText ? ", " + option.noteText : "") } : option);
             const choose = (next: string[]) => updateSegment(segmentIndex, {
-                questions: segmentSettle(segmentChoose(question, segment.questions, next), asked)
+                questions: segmentSettleSaved(segmentChoose(question, segment.questions, next), asked)
             });
             // (A question from Positioning: one choice is a radio, several are ticks that lock at the stage's limit, as on Positioning.)
             const max = question.fromPositioning ? stageLimit ?? undefined : question.max;
@@ -374,11 +374,11 @@ export function useFoundationSubsections(earlier: Earlier) {
                 </FieldRow>
             );
         };
-        const settledNotes = (box: SegmentBox) => segmentSettledNotes(box, segment.questions, asked);
+        const settledNotes = (box: SegmentBox) => segmentSettledNotes(box, shownAnswers, asked);
         const questionsOf = (box: SegmentBox) => {
             const notes = settledNotes(box);
             // (A box in sections -- Box 4's Finding & Choosing, then Buying & Paying; owner, 2026-11-16 16:31 --: the group's title, as a group of fields in a card is named, where the section changes.)
-            const asks = segmentQuestionsOf(box, segment.questions, asked);
+            const asks = segmentQuestionsOf(box, shownAnswers, asked);
             const list = asks.flatMap((question, at) => question.group && question.group !== asks[at - 1]?.group
                 ? [<span key={"group-" + question.group} className="field-group-title">{question.group}</span>, questionOf(question)]
                 : [questionOf(question)]);
@@ -388,7 +388,7 @@ export function useFoundationSubsections(earlier: Earlier) {
                 : list;
         };
         /** A box's height in lines: its title, and each question's label and options. */
-        const weightOf = (box: SegmentBox) => 2 + segmentQuestionsOf(box, segment.questions, asked).reduce((sum, question) => sum + 2 + (question.rating ? 2 : segmentOptions(question, segment.questions, asked).length), 0);
+        const weightOf = (box: SegmentBox) => 2 + segmentQuestionsOf(box, shownAnswers, asked).reduce((sum, question) => sum + 2 + (question.rating ? 2 : segmentOptions(question, shownAnswers, asked).length), 0);
 
         const segmentParts: DescriptionPart[] = SUBSECTIONS.segments.segmentDescription
             // (A Segment is one group: a business Segment has no Demographics, a people Segment no Business Data.)
@@ -428,7 +428,7 @@ export function useFoundationSubsections(earlier: Earlier) {
                             } else {
                                 delete description[OPTIONAL_DESCRIPTION_PART];
                             }
-                            updateSegment(segmentIndex, { description, questions: segmentSettle(segment.questions, segmentContextFor(identity, next === "business")) });
+                            updateSegment(segmentIndex, { description, questions: segmentSettleSaved(segment.questions, segmentContextFor(identity, next === "business")) });
                         }}
                         options={kindOptions}
                     />
@@ -474,11 +474,11 @@ export function useFoundationSubsections(earlier: Earlier) {
             const group = profile.id + (own ? "-user-" : "-") + question.id;
             // (The end user's part names the end user by the relationship, "the child"; a Dual-Intent Segment asks E1, E2 and the Needs of a typical user, the buyer using it too: 2026-11-09.)
             const label = part === "buyer" ? profileWho(question.label, shown.a2?.[0]) : profileUserWho(question.label, part === "user" && asked.dual ? DUAL_USER : profileUserName(asked));
-            const ageRange = question.number ? (own ? profileUserAgeRange(segment.questions, asked) : profileAgeRange(segment.questions)) : null;
+            const ageRange = question.number ? (own ? profileUserAgeRange(shownAnswers, asked) : profileAgeRange(shownAnswers)) : null;
             const chosen = shown[question.id] ?? [];
             // Only this field is saved (with its ratings and Other); every other field keeps following its start (docs 36 and 43; owner, 2026-11-08).
             const saved = (own ? profile.user?.questions : profile.questions) ?? {};
-            const settle = (answers: Record<string, string[]>) => own ? profileUserSettle(answers, shownAnswers, asked) : profileSettle(answers, segment.questions, asked);
+            const settle = (answers: Record<string, string[]>) => own ? profileUserSettle(answers, shownAnswers, asked) : profileSettle(answers, shownAnswers, asked);
             // (A Profile whose Segment has no end user any more loses its end user's part with its next answer: doc 36, 2.2.)
             const put = (answers: Record<string, string[]>) => updateProfile(segmentIndex, profileIndex, own ? { user: { ...profile.user, questions: answers } } : { questions: answers, ...(!asked.endsUser && profile.user ? { user: undefined } : {}) });
             const write = (next: Record<string, string[]>) => put(settle(withFieldSet(saved, next, question.id)));
@@ -489,7 +489,7 @@ export function useFoundationSubsections(earlier: Earlier) {
             const max = outcome ? stageMax : question.max;
             const radio = outcome && stageMax === 1 && chosen.length <= 1;
             // (Tailored and ordered by the answers, never locked: a minor end user's goals and frustrations, the household by the relationship, the worries by B1; profileOptionsShown.)
-            const options = (outcome ? userOutcomeOptionsFor(positioningOrder) : own ? question.options : profileOptionsShown(question, segment.questions, asked, shown)).map(option => ({ ...option }));
+            const options = (outcome ? userOutcomeOptionsFor(positioningOrder) : own ? question.options : profileOptionsShown(question, shownAnswers, asked, shown)).map(option => ({ ...option }));
             const info: InfoPoint[] = question.rating ? withRatingMeaning(question.info, question.rating)
                 : outcome ? withStageLine(question.info, stageLimitLine(asked.stage, stageMax ?? null))
                     : [...question.info];
@@ -591,8 +591,8 @@ export function useFoundationSubsections(earlier: Earlier) {
                 note: true,
                 level: 4,
                 extra: [PROFILE_NOTE_HINTS[part.id as ProfileBox]],
-                questions: profileQuestionsOf(part.id as ProfileBox, segment.questions, asked).map(question => profileQuestionOf(profile, profileIndex, shown, question)),
-                weight: 2 + profileQuestionsOf(part.id as ProfileBox, segment.questions, asked).length * 4
+                questions: profileQuestionsOf(part.id as ProfileBox, shownAnswers, asked).map(question => profileQuestionOf(profile, profileIndex, shown, question)),
+                weight: 2 + profileQuestionsOf(part.id as ProfileBox, shownAnswers, asked).length * 4
             }));
         };
         /**
@@ -621,12 +621,12 @@ export function useFoundationSubsections(earlier: Earlier) {
                                             </FieldLabel>
                                         </span>
                                     </div>
-                                    {profileQuestionsOf(entry.box, segment.questions, asked).map((question, position) => (
+                                    {profileQuestionsOf(entry.box, shownAnswers, asked).map((question, position) => (
                                         <div className={"legal-entity-org-section" + (position % 2 === 1 ? " legal-entity-org-band" : "")} key={question.id}>
                                             {profileQuestionOf(profile, profileIndex, shown, question)}
                                         </div>
                                     ))}
-                                    <div className={"legal-entity-org-section business-note-band" + (profileQuestionsOf(entry.box, segment.questions, asked).length % 2 === 1 ? " legal-entity-org-band" : "")}>
+                                    <div className={"legal-entity-org-section business-note-band" + (profileQuestionsOf(entry.box, shownAnswers, asked).length % 2 === 1 ? " legal-entity-org-band" : "")}>
                                         <OptionalNote
                                             label="Notes"
                                             fieldId={entry.title + " notes"}
@@ -651,7 +651,7 @@ export function useFoundationSubsections(earlier: Earlier) {
         const NEEDS_INFO = ["Functional: tick and rate up to three jobs, then write their own tasks, one numbered line each; the Offerings choose from these lines.", "Emotional and Social: tick and rate up to three each, then add Notes."];
         const needsBands = (profile: BusinessCustomerProfileValue, profileIndex: number, inBox: boolean) => SUBSECTIONS.segments.needs.map((kind, at) => {
             // Emotional and Social are ticked and rated (doc 36, section 10), their numbered list kept as the note; Functional stays the list.
-            const choices = profileQuestionsOf("needs", segment.questions, asked).find(question => question.id.split("-")[0] === kind.id);
+            const choices = profileQuestionsOf("needs", shownAnswers, asked).find(question => question.id.split("-")[0] === kind.id);
             const shown = effectiveProfileAnswers(profile, segment, identity);
             return (
             // Emotional and Social: the ticks in their band, then the shared Notes in a band of its own, as every box's Notes
@@ -722,11 +722,11 @@ export function useFoundationSubsections(earlier: Earlier) {
             const shown = effectiveProfileAnswers(profile, segment, identity);
             const userShown = effectiveProfileUserAnswers(profile, segment, identity);
             const parts = SUBSECTIONS.segments.profileParts;
-            const own = (box: ProfileBox) => profileUserQuestionsOf(box, segment.questions, asked).map(question => profileQuestionOf(profile, profileIndex, userShown, question, "own"));
+            const own = (box: ProfileBox) => profileUserQuestionsOf(box, shownAnswers, asked).map(question => profileQuestionOf(profile, profileIndex, userShown, question, "own"));
             const motivation = (box: "goals" | "challenges" | "objections", title: string, part: ProfilePart, before: ReactNode[] = []): DescriptionPart => ({
                 id: box, title, text: SUBSECTIONS.segments.motivations[box][0], extra: [PROFILE_NOTE_HINTS[box]], level: 4, note: true,
                 noteValue: profile[box], onNote: (next) => updateProfile(segmentIndex, profileIndex, { [box]: next }),
-                questions: [...before, ...profileQuestionsOf(box, segment.questions, asked, part).map(question => profileQuestionOf(profile, profileIndex, shown, question, part))]
+                questions: [...before, ...profileQuestionsOf(box, shownAnswers, asked, part).map(question => profileQuestionOf(profile, profileIndex, shown, question, part))]
             });
             const buyer: DescriptionPart[] = [...profileParts(profile, profileIndex), motivation("objections", "Objections", "buyer")];
             const user: DescriptionPart[] = [
@@ -835,7 +835,7 @@ export function useFoundationSubsections(earlier: Earlier) {
                 {/* The Profiles proposed by buying role (doc 36, 2), read from the Segment's "Who decides to buy?": each is added
                     with its name and its roles in buying ticked, and is not offered again once a Profile has its name. */}
                 {(() => {
-                    const proposals = proposedBusinessProfiles(segment.questions, asked, segment.profiles.map(profile => profile.name));
+                    const proposals = proposedBusinessProfiles(shownAnswers, asked, segment.profiles.map(profile => profile.name));
                     return proposals.length > 0 && (
                         <div className="profile-proposals" aria-label={"Proposed Profiles for " + segmentPath}>
                             {proposals.map(proposal => (

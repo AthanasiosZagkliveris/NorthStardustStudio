@@ -9,7 +9,7 @@ export const STREAM_HELP: Record<"price" | "volume" | "timing", InfoPoint[]> = {
     price: [
         "Start from what competitors publish (listed on Foundation) and what clients pay today to solve the same problem.",
         "Check it covers the costs of each sale and leaves enough towards the running costs: the card shows what is left from each sale.",
-        "Enter prices on the basis chosen under Amounts on Financial Foundation. If you are registered, the tax you collect is not revenue.",
+        "Enter prices on the basis chosen under Amounts in the Global Settings. If you are registered, the tax you collect is not revenue.",
         "Allow for discounts: launch offers and first-client prices are common."
     ],
     volume: [

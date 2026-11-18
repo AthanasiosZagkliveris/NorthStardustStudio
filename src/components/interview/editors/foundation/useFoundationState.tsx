@@ -14,7 +14,7 @@ import { useItemFolds } from "../../fields/useItemFolds.ts";
 import { toggledIn } from "../../fields/toggledIn.ts";
 import { BusinessFoundationEditorProps, DescriptionPart, OPTIONAL_DESCRIPTION_PART, SingleColumn } from "./shared.tsx";
 import { createBusinessCustomerSegment, segmentHue } from "../../../../framework/engine/AnswerUtils.ts";
-import { segmentSettle } from "../../../../framework/engine/SegmentQuestions.ts";
+import { segmentSettleSaved } from "../../../../framework/engine/SegmentQuestions.ts";
 import { segmentContextFor } from "../../../../framework/engine/SegmentContext.ts";
 
 export function useFoundationState(props: BusinessFoundationEditorProps) {
@@ -88,7 +88,7 @@ export function useFoundationState(props: BusinessFoundationEditorProps) {
             } else {
                 description[OPTIONAL_DESCRIPTION_PART] = description[OPTIONAL_DESCRIPTION_PART] ?? "";
             }
-            return { ...segment, description, questions: segmentSettle(segment.questions, segmentContextFor(identity, at === 1)) };
+            return { ...segment, description, questions: segmentSettleSaved(segment.questions, segmentContextFor(identity, at === 1)) };
         });
         onChange({ ...latest.current, segments: [...made, ...current.slice(2)] });
         // eslint-disable-next-line react-hooks/exhaustive-deps

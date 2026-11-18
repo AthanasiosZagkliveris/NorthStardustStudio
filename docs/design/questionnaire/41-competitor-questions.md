@@ -152,6 +152,7 @@ This follows the type rules already built for the text boxes: a substitute has n
   - *Comes from:* the channel categories of page 2 by id (`BUSINESS_CHANNEL_CATEGORIES`); the sub-channel lists from the Profile's C2, C3 and C4 (doc 36).
   - *Read by (built, 2026-11-04):* K10: once K5 is answered, each social medium, community or kind of event a Profile of the Segment ticks (C2 to C4) that this competitor's sub-channels do not hold is an opening: "Reach customers on TikTok", "Reach customers in Facebook groups", "Meet customers at workshops and classes". It compares with the customers, never with the App User's own channels (The purpose).
   - *Read by (later, once page 2's channels are set):* the Review (doc 28, 11.5, rule 21); the order of the Discover channels on page 2. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
+- **Every channel opens its subchannels** (owner, 2026-11-18 02:31: "Online/live does not give an option drop-down list"): Website, Email, Online / live, Shops or wholesalers, Referrals or affiliates, Advertising, Print & mail and Samples & trials list Customer Engagement's subchannels of their category, by the same names (Online / live: Zoom, Google Meet, Microsoft Teams, Live Stream); Social media, Community and In person keep the Profile's lists (C2 to C4), which K10 compares; Marketplace its own.
 
 ## Box. Customer Experience
 
@@ -172,6 +173,18 @@ This follows the type rules already built for the text boxes: a substitute has n
   - *Comes from:* the Organisation's country and first activity (Legal Entity, `AnswerLegal.ts`), which order the rows. The order by industry and country rests on directory and vendor lists [FUN-64, FUN-65], not on a survey of how many people use each site; the use of Google and Apple Maps and the 4-star threshold rest on BrightLocal's survey of US consumers [FUN-62], Trustpilot in the UK on Littlechild [FUN-63]. The SBA asks what customers and prospects say about competitors [FUN-50].
   - *Read by (built):* K10 ("Win over their unhappy customers", for a platform rated below 4).
   - *Read by (not built yet):* the Review.
+- **Starts from K5** (built; owner, 2026-11-18 00:46, the review's second batch, 2.15): a Marketplace channel ticks the Marketplace row, a Facebook subchannel the Facebook row, ticked but never rated, while K6 was never answered (`competitorReviewStarts`). Only rated rows are printed, so a start prints nothing.
+- **Its starts unticked to none stay none** (owner, 2026-11-18: a start follows its source until edited, and unticking every tick is an edit): the empty K6 is kept by the settle step.
+
+### K15. What do they charge for a similar offer?
+
+*Built (owner, 2026-11-18 03:08 UTC+2: "Build K15 and P7 now"), as doc 48, 12.2 proposed.*
+
+- **Where:** the Offerings part, under K1; asked of direct and indirect competitors and substitutes (a substitute: "What does this alternative cost?").
+- **Control:** From and To (`NumberCell`, the organisation's currency in the label), "Per sale / session / project / month / year" from the Segment's Offerings' terms (O3); a tick "Not known yet" that clears both (`TickField`).
+- **The "i":** the price range customers see today, From and To in your currency, to help place your own price; Not known yet until you find out; Based on: MIT OpenCourseWare 15.818 *Pricing*; Penn State Extension, *Choosing a pricing method* (last).
+- **Saved as:** `k15` [From, To] as typed, or `k15-unknown` ["yes"].
+- **Read by:** the Business Plan's competitor table ("What they charge", "£40 to £120"); the export, a "What they charge" line under each competitor's description; the price's "i" on Revenue & Pricing (P7: "Your competitors charge about £40 to £300 for a similar offer", the lowest From to the highest To across the Segment's competitors). Never compared with the founder's own price (the start-up rule).
 
 ### K7. How easy do they make each stage for customers?
 

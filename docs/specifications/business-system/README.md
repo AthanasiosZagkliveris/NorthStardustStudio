@@ -25,7 +25,8 @@ Page 2 has three parts in the app, and only two are specified here: **1. Custome
 3. **Page 3's cards link to one another by id** (a resource to the activity it needs and to its partner or supplier; an activity to its performers and resources). **Page 3's costs are read by Page 4**, and the channel expenses of Page 2 create cards on Page 3.
 4. **Page 5 reads Page 4** (since 2026-11-17, doc 48, section 11): Costs, Funding & Position (Page 5) reads Revenue & Pricing (Page 4) for the revenue its Funding Need and Break Even count; Page 4 reads Page 1 for the Offerings, Page 2 for the Expected Sales and Page 3 for the capacity and the cost of each sale. Each page reads only the pages before it.
 5. **The Legal Entity feeds Page 5's costs** (its expenses and its founders), and **its country sets the currency** of Page 3's prices and of every total: the two cross-System reads. The currency is resolved in `src/pages/Conversation.tsx` (`organisationCurrency`) and handed down.
-6. **The Opening Date** (Identity, Organisation tile) and the **Global Settings** (`/settings`) feed Pages 3 to 5; the plan's start month is worked out, never typed (Page 4, "As built").
+6. **Page 5's fees read Page 2's Purchase channels** (owner, 2026-11-17 09:09 UTC+2, option (a): "Fees follow where they pay"): a fee is charged where the customers pay, each Offering's revenue (Page 4) shared equally among the Purchase-stage subchannels that serve it, the founder's own sales through the Segment's payment services; a commission, on the Customer Sources that name it (doc 47, section 5).
+7. **The Opening Date** (Identity, Organisation tile) and the **Global Settings** (`/settings`) feed Pages 3 to 5; the plan's start month is worked out, never typed (Page 4, "As built").
 
 ### What each later page reads from Page 1 (owner, 2026-11-08)
 
@@ -67,7 +68,7 @@ The one owner of this map: each row is one input a later page needs, where Page 
 | A licence | Every month, until they cancel | Every month | Annually |
 | Free to them, or no answer | no start | no start | no start |
 
-- **Calendar Time** (Page 3, weeks, for an Offering delivered per unit) from O15, the band's upper end: Within a week → 1; One to four weeks → 4; One to three months → 13; Straight away and Longer start nothing.
+- **Calendar Time** (Page 3, weeks, for an Offering delivered per unit) from O15, the band's upper end less the sending (O20, about a week by post, courier or a fulfilment service; a week at least; (owner, 2026-11-17 08:38: "Bugs plus the first batch" of the review)): Within a week → 1; One to four weeks → 4 (3 by courier); One to three months → 13; Straight away and Longer start nothing.
 - **Payment Timing** (Page 4) from O3b: Before they get it → Upfront; A deposit, then the rest → Split; When it is done / delivered → On completion; On invoice terms → On completion (the months after are the user's); In instalments / monthly → Milestones where the charge is paid once, and When earned (the default, so no start) where it is monthly or annual.
 - Doc 28, 10.2 proposed Per sale for Pay as they go; it is Monthly here, as Page 2's start makes it a monthly purchase, so the two pages agree.
 
@@ -79,9 +80,10 @@ The one owner of this map: each row is one input a later page needs, where Page 
 
 Each is one place where two answers can disagree, or an answer goes unread; the fix is the owner's choice of which answer owns the fact.
 
-- **A8 and End user, 8 (`u-comfort`) ask the same thing**: the Segment's answer only starts the end user's A8.
 - **O15 and Delivery's Calendar Time (DV4)** can disagree: O15 only starts DV4, and a saved Delivery card no longer follows it. Since 2026-11-17 the Delivery card says so where making and sending take longer than O15 allows (doc 52, 10).
 - **I11 (Market Structure)** is mapped but read by nothing beyond the export: single-sided in the first version, so no question needs it yet (doc 28, I11).
+
+**Closed 2026-11-18 (the review's second batch):** A8 and End user, 8 (A8 is retired, End user, 8 owns it; the gap was drift, owner, 2026-11-17); O10 read by nothing (it names the in-person delivery channel); Box 1, 7 read by nothing (it orders O3).
 
 **Closed 2026-11-17 (the open decisions and gaps, Groups 4b and 4c):** reach and O6 (the note under O6, doc 43); K1 to K10 (the Business Plan's competitor table, and K2's opening, doc 41).
 

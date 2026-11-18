@@ -787,6 +787,8 @@ export function useEngagementState(props: BusinessEngagementEditorProps) {
         to change it.
     */
     const feeTable = useMemo(() => asGlobalSettings(globalSettings).channelFees, [globalSettings]);
+    // (The Opening Date (Global Settings): Ready From starts at its month; 2.5, the second batch of the review.)
+    const openingDate = asGlobalSettings(globalSettings).openingDate;
     const streams = useMemo(() => asFinancialSustainabilityValue(financialSustainability).streams, [financialSustainability]);
     // (Each Offering's revenue a month through each subchannel: which Offerings a subchannel's Fees line speaks of.)
     const channelRevenue = useMemo(() => offeringChannelRevenue(engagement.demand, streams, engagement.segments.flatMap(segment => segment.channels)), [engagement, streams]);
@@ -846,6 +848,6 @@ export function useEngagementState(props: BusinessEngagementEditorProps) {
         );
     }
 
-    return { feeBand, identity, storedOfferingRelationshipsOf, asTiles, cards, channelActions, noPhysical, channelCategoryFoldKey, channelCategoryFoldKeys, channelResources, channelTileId, clearIsolation, collapsed, columnsDivider, currency, disabled, engagement, folds, interactionOf, isolated, isolatingSegment, isolationNames, offeringRelationshipsOf, offeringsOfMadeCards, onChange, onOpenCapability, onOpenFoundation, openAction, relatedStages, segmentOf, segments, setLit, toggle, typeOf, updateChannel, updateInteraction, updateOfferingRelationships, updateSegment, updateType, value };
+    return { feeBand, identity, openingDate, capabilityValue, storedOfferingRelationshipsOf, asTiles, cards, channelActions, noPhysical, channelCategoryFoldKey, channelCategoryFoldKeys, channelResources, channelTileId, clearIsolation, collapsed, columnsDivider, currency, disabled, engagement, folds, interactionOf, isolated, isolatingSegment, isolationNames, offeringRelationshipsOf, offeringsOfMadeCards, onChange, onOpenCapability, onOpenFoundation, openAction, relatedStages, segmentOf, segments, setLit, toggle, typeOf, updateChannel, updateInteraction, updateOfferingRelationships, updateSegment, updateType, value };
 
 }

@@ -1786,6 +1786,16 @@
                 if (boxes.length > 0 && !rules.near(rect(boxes.sort((one, other) => rect(one).left - rect(other).left)[0]).left, rect(grid).left, tolerance + 1)) {
                     fail("card tiles start at the grid's left edge", grid, { first: rect(boxes[0]).left, grid: rect(grid).left });
                 }
+                // A DIALOG'S LIST OF CARDS WITH NO ADD BOX is three in a row too (owner, 2026-11-18 00:46: "Place 3 tiles per row, like the other dialogue cards"),
+                // where the grid is wide enough for three at the tile size.
+                if (!add && !fills && boxes.length > 1 && grid.closest(".card-list") && !grid.closest(".strategy-goal-box")) {
+                    const placed = boxes.map(rect);
+                    const across = rules.distinct(placed.map(tile => Math.round(tile.left))).length;
+                    const wanted = Math.min(3, placed.length);
+                    if (wanted * placed[0].width + (wanted - 1) * spec.fieldGap <= rect(grid).width + 1 && across !== wanted) {
+                        fail("a dialog's list of cards is three in a row", grid, { across, wanted, n: boxes.length });
+                    }
+                }
                 if (add) {
                     const a = rect(add);
                     if (side !== null && (!rules.near(a.width, side, tolerance + 0.5) || !rules.near(a.height, a.width, tolerance))) {

@@ -13,8 +13,7 @@ import {
     segmentSettle,
     segmentWho,
     writtenInNames,
-    writtenInRows
-} from "./SegmentQuestions.ts";
+    writtenInRows, segmentAnswerStarts, withoutCopiedStarts, segmentSettledNotes } from "./SegmentQuestions.ts";
 
 const OPEN: SegmentContext = { frame: "open", stage: "manage", lifeStages: [], endsUser: false, userStages: [], relations: [], scales: [] };
 const question = (id: string) => SEGMENT_QUESTIONS.find(entry => entry.id === id)!;
@@ -42,11 +41,18 @@ describe("the Segment's questions", () => {
         expect(ids(segmentQuestionsOf("purchasing", {}, OPEN))).toEqual(expect.arrayContaining(["trigger", "authorise"]));
     });
 
-    it("skips the size of a self-employed organisation and asks the industry after the sector", () => {
+    it("skips the size of a self-employed organisation and asks one industry under its sector's heading, the sector its record", () => {
+        // (1.1, the second batch of the review; owner, 2026-11-18 00:46.)
         const business = { ...OPEN, frame: "business" as const };
-        expect(ids(segmentQuestionsOf("business-data", {}, business))).toEqual(["orgtype", "size", "sector"]);
-        expect(ids(segmentQuestionsOf("business-data", { orgtype: ["self"], sector: ["tech"] }, business))).toEqual(["orgtype", "sector", "industry"]);
-        expect(ids(segmentOptions(question("industry"), { sector: ["human"] }, business))).toEqual(["government", "education", "health", "other"]);
+        expect(ids(segmentQuestionsOf("business-data", {}, business))).toEqual(["orgtype", "size", "industry"]);
+        expect(ids(segmentQuestionsOf("business-data", { orgtype: ["self"] }, business))).toEqual(["orgtype", "industry"]);
+        const industries = segmentOptions(question("industry"), {}, business) as readonly { id: string; heading?: string }[];
+        expect(industries).toHaveLength(18);
+        expect(industries.filter(option => option.heading).map(option => option.heading)).toEqual(["Resource extraction & energy", "Manufacturing & construction", "Consumer goods & retail", "Infrastructure & finance", "Tech, data & media, and business services", "Human services & public sector, and other services"]);
+        expect(segmentSettle({ industry: ["health"] }, business).sector).toEqual(["human"]);
+        // (A sector saved with no industry yet stays, said under the box.)
+        expect(segmentSettle({ sector: ["tech"] }, business).sector).toEqual(["tech"]);
+        expect(segmentSettledNotes("business-data", { industry: ["health"] }, business)).toContain("Sector: Human services & public sector, and other services");
     });
 
     it("offers the age terms of the Positioning life stage, and drops education and income for minors", () => {
@@ -59,8 +65,9 @@ describe("the Segment's questions", () => {
         expect(ids(segmentOptions(question("pay"), { age: ["minor"] }, students))).not.toContain("bnpl");
     });
 
-    it("holds the kind of area back while planning and launching, and asks it only for one place or one country", () => {
-        expect(ids(segmentQuestionsOf("geographics", { reach: ["city"] }, { ...OPEN, stage: "plan" }))).toEqual(["reach"]);
+    it("asks the kind of area from Planning, only for one place or one country", () => {
+        // (1.11, the second batch of the review; owner, 2026-11-18 00:46: O20's order for the countryside reaches an early founder.)
+        expect(ids(segmentQuestionsOf("geographics", { reach: ["city"] }, { ...OPEN, stage: "plan" }))).toEqual(["reach", "area"]);
         expect(ids(segmentQuestionsOf("geographics", { reach: ["city"] }, OPEN))).toEqual(["reach", "area"]);
         expect(ids(segmentQuestionsOf("geographics", { reach: ["online"] }, OPEN))).toEqual(["reach"]);
     });
@@ -107,7 +114,7 @@ describe("the Segment's questions", () => {
         const students = { ...OPEN, frame: "people" as const, lifeStages: ["young"] };
         expect(segmentSettle({ age: ["minor"], education: ["degree"], income: ["high"], work: ["retired"] }, students)).toEqual({ age: ["minor"] });
         expect(segmentSettle({ age: ["peak"] }, students)).toEqual({});
-        expect(segmentSettle({ orgtype: ["self"], size: ["micro"], sector: ["tech"], industry: ["health"] }, { ...OPEN, frame: "business" })).toEqual({ orgtype: ["self"], sector: ["tech"], authorise: ["solo"] });
+        expect(segmentSettle({ orgtype: ["self"], size: ["micro"], sector: ["tech"], industry: ["health"] }, { ...OPEN, frame: "business" })).toEqual({ orgtype: ["self"], industry: ["health"], sector: ["human"], authorise: ["solo"] });
     });
 
     it("does not show a question with one option left, and its answer is that option", () => {
@@ -117,8 +124,10 @@ describe("the Segment's questions", () => {
     });
 
     it("starts the work situation from the age term, and leaves a chosen one alone", () => {
-        const work = (age: string, before: SegmentAnswers = {}) => segmentChoose(question("age"), before, [age]).work;
-        const started = (age: string, before: SegmentAnswers = {}) => segmentChoose(question("age"), before, [age]);
+        // (B4, owner, 2026-11-17 08:38: a start worked out each time, never saved by the choice.)
+        const started = (age: string, before: SegmentAnswers = {}) => { const saved = segmentChoose(question("age"), before, [age]); return { ...saved, ...segmentAnswerStarts(saved, saved) }; };
+        const work = (age: string, before: SegmentAnswers = {}) => started(age, before).work;
+        expect(segmentChoose(question("age"), {}, ["peak"])).toEqual({ age: ["peak"] });
         expect(started("minor").work).toEqual(["notworking"]);
         expect(started("minor").work2).toEqual(["student"]);
         // Young adults 18–24 start nothing (owner, 2026-11-09; BLS: 67.5% of 20 to 24 year-olds employed).
@@ -145,9 +154,15 @@ describe("the Segment's questions", () => {
     });
 
     it("starts the way of paying from where they buy: Digital wallets on a phone, and leaves a chosen way alone", () => {
-        expect(segmentChoose(question("setting"), {}, ["mobile"]).pay).toEqual(["wallet"]);
-        expect(segmentChoose(question("setting"), {}, ["desktop"]).pay).toBeUndefined();
-        expect(segmentChoose(question("setting"), { pay: ["card"] }, ["mobile"]).pay).toEqual(["card"]);
+        const pay = (saved: SegmentAnswers) => ({ ...saved, ...segmentAnswerStarts(saved, saved) }).pay;
+        expect(pay({ setting: ["mobile"] })).toEqual(["wallet"]);
+        expect(pay({ setting: ["desktop"] })).toBeUndefined();
+        expect(pay({ setting: ["mobile"], pay: ["card"] })).toEqual(["card"]);
+        // (It follows where they shop until answered: on a phone, then in a shop, no wallet.)
+        expect(pay({ setting: ["store"] })).toBeUndefined();
+        // (A wallet copied by the old choice is taken out once, so it follows again; one changed is kept.)
+        expect(withoutCopiedStarts({ setting: ["mobile"], pay: ["wallet"], age: ["minor"], work: ["notworking"], work2: ["student"] })).toEqual({ setting: ["mobile"], age: ["minor"] });
+        expect(withoutCopiedStarts({ setting: ["mobile"], pay: ["card"], age: ["peak"], work: ["notworking"] })).toEqual({ setting: ["mobile"], pay: ["card"], age: ["peak"], work: ["notworking"] });
     });
 
     it("reads an older saved work situation as working or not, and the situation", () => {
@@ -212,7 +227,7 @@ describe("the Segment's questions", () => {
 
         it("makes freelancers self-employed with no size, and shows them no question about who decides", () => {
             const solo = { ...business, scales: ["solo"] };
-            expect(ids(segmentQuestionsOf("business-data", {}, solo))).toEqual(["sector"]);
+            expect(ids(segmentQuestionsOf("business-data", {}, solo))).toEqual(["industry"]);
             expect(segmentSettle({}, solo)).toEqual({ orgtype: ["self"], authorise: ["solo"] });
             expect(ids(segmentQuestionsOf("purchasing", {}, solo))).not.toContain("authorise");
             expect(segmentSettle({ ...{}, orgtype: ["private"], size: ["small"], authorise: ["executive"] }, solo)).toEqual({ orgtype: ["self"], authorise: ["solo"] });
@@ -307,10 +322,11 @@ describe("what is changing, the path to purchase and where they discover (2026-1
 
 /* Phase 5, P3 (owner, 2026-11-08): Box 4 in the order of a purchase; the codes stay. In two sections since 2026-11-16 16:31: Finding & Choosing, Buying & Paying. */
 describe("Box 4's order", () => {
-    it("asks Finding & Choosing (comfort, socialising, what makes them shop, where they discover, how they share, how they decide), then Buying & Paying", () => {
+    it("asks Finding & Choosing (comfort, socialising, what makes them shop, how they share, where they discover, how they decide), then Buying & Paying", () => {
         const people = { ...OPEN, frame: "people" as const };
         const business = { ...OPEN, frame: "business" as const };
-        expect(ids(segmentQuestionsOf("purchasing", {}, people))).toEqual(["comfort", "social", "trigger", "discover", "share", "path", "setting", "pay"]);
+        // (How they share before where they discover, whose order it sets: 1.6, the second batch of the review.)
+        expect(ids(segmentQuestionsOf("purchasing", {}, people))).toEqual(["comfort", "social", "trigger", "share", "discover", "path", "setting", "pay"]);
         expect(segmentQuestionsOf("purchasing", {}, people).map(entry => entry.group)).toEqual([...Array(6).fill("Finding & Choosing"), "Buying & Paying", "Buying & Paying"]);
         expect(ids(segmentQuestionsOf("purchasing", {}, business))).toEqual(["comfort", "discover", "authorise", "setting", "pay"]);
     });
@@ -386,7 +402,7 @@ describe("where they discover: the traditional ways", () => {
         expect([...order({ comfort: ["1"] })].sort()).toEqual([...order({})].sort());
     });
     it("asks where they see adverts only where adverts are ticked; the answer goes with the tick", () => {
-        expect(ids(segmentQuestionsOf("purchasing", { discover: ["adverts"] }, people))).toEqual(["comfort", "social", "trigger", "discover", "advertising", "share", "path", "setting", "pay"]);
+        expect(ids(segmentQuestionsOf("purchasing", { discover: ["adverts"] }, people))).toEqual(["comfort", "social", "trigger", "share", "discover", "advertising", "path", "setting", "pay"]);
         expect(ids(segmentQuestionsOf("purchasing", { discover: ["flyers"] }, people))).not.toContain("advertising");
         expect(segmentSettle({ discover: ["flyers"], advertising: ["radio"] }, people).advertising).toBeUndefined();
         expect(segmentSettle({ discover: ["adverts"], advertising: ["radio"] }, people).advertising).toEqual(["radio"]);

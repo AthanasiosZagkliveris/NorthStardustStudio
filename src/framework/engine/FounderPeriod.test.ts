@@ -146,6 +146,18 @@ type Example = { systems: Record<string, Parameters<typeof InterviewSession.from
     2026-11-17, the Financial pages' order (doc 48, section 11): the export digests (and the weekly fixture's export words) written again when
     Revenue & Pricing became page 4 and Costs, Funding & Position page 5: the two titles, and the pages printed in their new order (the weekly
     fixture's 613 numbers the same, in that order). The forecast, the plan and both Global Settings digests are as they were.
+
+    2026-11-18 (the review's second batch; owner, 2026-11-18 00:46): the plan and export digests (and the weekly fixture's words) written again when
+    how customers share comes before where they discover (the Segment's lines in that order), Lumen's Bespoke Commissions names access to the client's
+    site as what they give (it is installed there) and Quillfield's Segment answers the type of area, now asked from Planning ("5 of 5 (Urban)": the only
+    new numbers). No amount changed: every forecast is as it was.
+
+    2026-11-18, later (the owner's points of 02:31): the plan and export digests (and the weekly fixture's words) written again when each needed skill's
+    cover became the Team of the activities whose name says it (Lumen's Website and technology covered by Oliver Grant, who launches the website,
+    not by the lawyer and the accountant). No amount changed.
+
+    2026-11-18, after the Financial pages' order: the plan and export digests (and the weekly fixture's words) written again when the texts that
+    named the old pages name the new ones (Revenue & Pricing, Costs, Funding & Position, the Global Settings). No amount changed.
 */
 const ENGAGEMENT = JSON.parse(engagementText) as Record<string, unknown>;
 

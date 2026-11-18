@@ -82,6 +82,7 @@ The people who pay (the buyer is people: B2C alone, or the first of the two Segm
 - **Connections:**
   - *Comes from:* This Segment's age (not asked of Minors).
   - *Read by (built):* The Market document and the export. **Postgraduate** puts Talk / conference first in the Profiles' C4, LinkedIn first in C2, Professional and Manager work first in A3, and offers Journals / trade magazines in the adverts follow-up (Box 4, 3a); **School** or **College or vocational** put Instagram and TikTok first in C2 (owner, 2026-11-17).
+- **The "i" matches the options** (built; owner, 2026-11-18 00:46, the review's second batch, 1.15): each level includes the ones below; School, and College or vocational, named by their examples.
 
 ### 3. Are your customers working?
 
@@ -97,6 +98,7 @@ The people who pay (the buyer is people: B2C alone, or the first of the two Segm
 - **Connections:**
   - *Comes from:* This Segment's age: choosing the age term starts it. **Starts:** Established, Peak and Mature adults start Yes; Minors start No, with Student; Active Retirees and Dependent seniors No, with Retired. Young adults 18–24 start nothing (owner, 2026-11-09: most of them work; BLS, *Employment status of the civilian noninstitutional population by age*, 67.5% of 20 to 24 year-olds employed). A saved answer wins.
   - *Read by (built):* The Market document and the export; the Profile asks A3 (job) when this is Yes (doc 36).
+- **Starts follow their source** (owner, 2026-11-17 08:38: "Bugs plus the first batch" of the review): the start from the age term (Established, Peak, Mature working; Minors, Active retirees, the Dependent not, with Student or Retired) is worked out each time and saved only when answered (`segmentAnswerStarts`); a copy the choice saved before 2026-11-17, unchanged, was taken out once (`storageMigrations.followSegmentStarts`). The questions it makes asked (Where they work, the schedule, how they are paid) keep their answers (`segmentSettleSaved`).
 
 ### 4. Why are your customers not working?
 
@@ -175,6 +177,7 @@ The people who pay (the buyer is people: B2C alone, or the first of the two Segm
   - *Comes from:* This Segment's work status.
   - *Read by (built):* The Market document and the export.
   - *Read by (not built yet):* Payment terms the Offering suggests (a thought, doc 33, row 7).
+- **Read by** (built; owner, 2026-11-18 00:46, the review's second batch, 1.13): O3's order -- a fixed salary puts the Ongoing terms first, hourly or variable pay Per session first in its group (`offeringOptions`, `OfferingContext.workincome`).
 
 ### 8. How high is your customers' household income?
 
@@ -241,7 +244,7 @@ Both.
   - *Comes from:* This Segment's reach, and the business stage (Organisation: the Opening Date).
   - *Read by (built):* The Market document and the export.
   - *Read by (not built yet):* The Review (remote customers and delivery in person).
-
+- **Asked from Planning** (built; owner, 2026-11-18 00:46, the review's second batch, 1.11): wherever the reach is a city, a region or a country, so O20's order for the countryside reaches an early founder.
 
 ## Box 3. Business Data
 
@@ -304,6 +307,7 @@ The buyer is a business, or the Segment is of businesses where both relationship
   - *Comes from:* Early Positioning: the relationship (business).
   - *Read by (built):* The Market document and the export.
   - *Read by (not built yet):* The industry question.
+- **A record of the industry** (built; owner, 2026-11-18 00:46, the review's second batch, 1.1): never asked; the industry (Box 3, 4) carries its sector, so one choice sets both. The sector is said under the box ("Sector: …") and printed; a sector saved with no industry yet stays, said there too. The code stays Box 3, 3.
 
 ### 4. Which industry are your customers in?
 
@@ -336,7 +340,7 @@ The buyer is a business, or the Segment is of businesses where both relationship
   - *Comes from:* This Segment's sector.
   - *Read by (built):* The Market document and the export.
   - *Read by (not built yet):* The Profile's kind of business; competitor industry overlap; channel suggestions by industry. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
-
+- **One list under the sectors' headings** (built; owner, 2026-11-18 00:46, the review's second batch, 1.1): asked of every business Segment, all eighteen industries under their six sectors' headings (`RadioChoice` headings); the sector is its record.
 
 ## Box 4. Purchasing Power & Behaviour
 
@@ -480,7 +484,7 @@ The buyer is a business, or the Segment is of businesses where both relationship
   - *Comes from:* Early Positioning: the relationship (business). **Starts (2026-11-09):** where it is not answered yet, choosing a Public body (Box 3, 1) or Large (Box 3, 2) sets Formal procurement, and Micro or Self-employed sets One person decides; change it freely (a saved answer wins).
   - *Read by (built):* The Market document and the export; the Profile's role in buying (A5 starts with every role where one person decides) and the proposed B2B Profiles by buying role (doc 36, 2); Formal procurement starts the Profile's D2 at "formal" (doc 36).
   - *Read by (built):* the Contracts or tenders row of Demand & Conversion and Direct Payment › Invoice at Purchase (formal procurement); the time to buy (`monthsToClose`); the relationship types (`autoRelationshipTypes`); the Profiles' A5 and D2 starts (doc 47). Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
-
+- **Its start follows its source** (owner, 2026-11-17 08:38: "Bugs plus the first batch" of the review): Formal procurement for a public body or a large organisation, One person decides for a micro or self-employed one, worked out each time from Box 3, 1 and 2 until answered (Micro then Large: Formal procurement); a saved copy unchanged since was taken out once.
 
 ### 7. Where do your customers usually shop?
 
@@ -540,7 +544,9 @@ The buyer is a business, or the Segment is of businesses where both relationship
   - *Read by (built):* The Market document and the export; the Offering's O3, whose options it orders (Invoice or purchase order puts A project or contract first; the settled answer is read, 2026-11-08; doc 43, O3).
   - *Read by (built):* Customer Engagement's Direct Payment channels (Card, Payment Link, Cash, Invoice, Bank Transfer; doc 47).
   - *Read by (not built yet):* The Offering's payment plan (instalments, invoicing). Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
-
+- **Its start follows its source** (owner, 2026-11-17 08:38: "Bugs plus the first batch" of the review): Digital wallets while they buy on a phone, until answered; a saved copy unchanged since was taken out once.
+- **Invoice or purchase order starts** (built; owner, 2026-11-18 00:46, the review's second batch, 2.8) where a manager signs off or a formal procurement decides (Who decides to buy, itself possibly a start), beside Digital wallets on a phone; a start, following its source until answered (`segmentAnswerStarts`).
+- **A start unticked to none stays none** (owner, 2026-11-18: a start follows its source until edited, and unticking every tick is an edit): the empty answer is saved and read back (`SEGMENT_TICK_STARTS`: How they pay, Who decides to buy), so neither start comes back when its source changes.
 
 ### 8a. Which payment services do you take payments with?
 
@@ -550,6 +556,8 @@ The buyer is a business, or the Segment is of businesses where both relationship
 - **The "i" says:** The services that take the card and wallet payments: each one's fees come from the Global Settings' Channel Fee Table for your country. · Tick Other to write another.
 - **Ordered (owner, 2026-11-17):** by where they shop (question 7): in a shop, SumUp, Square and Zettle first; online, Stripe, PayPal and Shopify Payments first; never locked.
 - **Connections:** *Read by (built):* each service is a "Payment processing fees" card on the Segment's Direct Payment channel, one card a service for the Organisation, made and kept by the rule of the subchannels the answers make (doc 47); its fees are the country's row ([Global Settings](../../specifications/global-settings.md)), charged in the forecast with or without a price on the card ([page 4, 30.4](../../specifications/business-system/page-5-costs-funding-and-position.md#304-calculated-lines)).
+- **Not asked where they shop on a marketplace** (built; owner, 2026-11-18 00:46, the review's second batch, 2.8): the marketplace takes the payment and its own fee, so no payment service of the founder's is charged there (the fee rule of 2026-11-17, doc 47, section 5); a card made from an earlier answer goes with it, while untouched.
+
 ### 4. How do your customers share what they like?
 
 - **Control:** ticks, as many as apply.
@@ -564,6 +572,7 @@ The buyer is a business, or the Segment is of businesses where both relationship
 - **Connections:**
   - *Comes from:* Early Positioning: the relationship (people).
   - *Read by (built):* The Market document and the export. **Posting publicly** and **telling friends and family** make Customer Referral a channel at Discover (so a Referrals Customer Source, the introductions) and at Support & Follow Up, where the answers make one action each, once: "Ask for a photo or review after each sale", "Invite them to refer a friend" (`withAnswerActions`). **Keeping it to themselves** makes no referral channel, and Discover (Box 4, 3) puts search, reviews and adverts first.
+- **Asked before where they discover** (built; owner, 2026-11-18 00:46, the review's second batch, 1.6): its answer orders that list (keeping it to themselves puts search, reviews and adverts first). The code stays Box 4, 4. Its "i" matches the three options: telling friends includes private chat apps; keeping it to themselves stands alone.
 
 ## Box 5. Market Size & Industry Outlook
 

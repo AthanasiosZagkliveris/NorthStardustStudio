@@ -379,7 +379,7 @@ export const INFO = {
     openingDate: [
         "The day the business opens and issues its first receipt. It sets the stage: planning before it, launching from it.",
         "The stage also sets Positioning's name and how many choices its questions allow; a change of stage empties an answer over the new limit.",
-        "Costs dated before it make the pre-operational budget, on the Financial Foundation."
+        "Costs dated before it make the pre-operational budget, on Costs, Funding & Position."
     ],
 
     businessStage: [

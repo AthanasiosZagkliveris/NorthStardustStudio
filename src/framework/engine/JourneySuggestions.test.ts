@@ -78,7 +78,9 @@ describe("the Demand rows the Foundation proposes", () => {
         const segment = quill.foundation.segments[0];
         const channels = quill.engagement.segments[0].channels;
         const build = segment.offerings[1];
-        const rows = demandSuggestions(segment, build.id, channels, quill.engagement.demand[build.id]);
+        // (Its sources before the answers made the grouped ones -- the example holds those now, as the page leaves it.)
+        const demand = quill.engagement.demand[build.id];
+        const rows = demandSuggestions(segment, build.id, channels, { ...demand, sources: demand.sources.filter(source => !source.group) });
         // (One row per kind, all its channels listed, so a customer is counted once; an Other channel its own row; Referral partners is the built-in Referral Partner since 2026-11-16 20:24: owner, 2026-11-16 20:22.)
         expect(rows.map(row => row.type + " " + row.label)).toEqual(["funnel Sales funnel", "referrals Referrals"]);
         const named = (id: string) => channels.find(channel => channel.id === id)?.name;
@@ -86,7 +88,9 @@ describe("the Demand rows the Foundation proposes", () => {
         expect(rows[1].channelIds?.map(named)).toEqual(["Referral Partner", "Customer Referral"]);
         // (The Audit's sources name LinkedIn and Referral partners, so those already bring its customers: only its other Discover channels are proposed.)
         const audit = segment.offerings[0];
-        expect(demandSuggestions(segment, audit.id, channels, quill.engagement.demand[audit.id]).map(row => row.label)).toEqual(["Sales funnel", "Visitors", "Referrals"]);
+        const auditDemand = quill.engagement.demand[audit.id];
+        expect(demandSuggestions(segment, audit.id, channels, { ...auditDemand, sources: auditDemand.sources.filter(source => !source.group) }).map(row => row.label)).toEqual(["Sales funnel", "Referrals", "Visitors"]);
+        // (In the order of the first open channel of each kind, as the example replayed on 2026-11-17 holds its channels.)
     });
 
     test("Contracts or tenders where the buyer decides by a formal tender, once", () => {

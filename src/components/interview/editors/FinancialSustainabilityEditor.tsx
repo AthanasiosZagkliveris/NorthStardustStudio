@@ -1,3 +1,4 @@
+import { competitorsPriceRange } from "../../../framework/engine/CompetitorQuestions.ts";
 import { offeringShareWeights } from "../../../framework/engine/DemandCapacity.ts";
 import { countedCapability } from "../../../framework/engine/CardCompleteness.ts";
 import TextBox from "../../controls/TextBox.tsx";
@@ -521,7 +522,15 @@ export default function FinancialSustainabilityEditor({
                     arrives, and (only where it applies) orders. Every
                     group shares four columns, labels above, so they line up. */}
                 <section className="financial-stream-group">
-                {groupHead("Price", STREAM_HELP.price)}
+                {/* (P7 (owner, 2026-11-18 03:01 and 03:08): what the Segment's competitors charge for a similar offer, from their K15 ranges, last in the "i";
+                    nothing is written into the price, and it is never compared with it.) */}
+                {groupHead("Price", (() => {
+                    const segment = businessFoundationSegments(foundation).find(entry => entry.offerings.some(offering => offering.id === stream.offeringId));
+                    const range = segment ? competitorsPriceRange(segment.competitors) : null;
+                    return range
+                        ? [...STREAM_HELP.price, "Your competitors charge about " + format(range.low) + (range.high > range.low ? " to " + format(range.high) : "") + " for a similar offer (their cards on Foundation, What do they charge?)."]
+                        : STREAM_HELP.price;
+                })())}
                 <div className="financial-inline-grid financial-stream-grid">
 
                     {listPicker("Charged", what + " charged", REVENUE_CHARGES.map(item => item.label),

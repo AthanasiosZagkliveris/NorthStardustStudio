@@ -6,7 +6,7 @@ import type { ReactNode } from "react";
 import NumberCell from "../../../controls/NumberCell.tsx";
 import FieldLabel from "../../../controls/FieldLabel.tsx";
 import { BUSINESS_CHANNEL_ALL_OFFERINGS, BusinessCustomerSegmentValue } from "../../../../framework/engine/AnswerUtils.ts";
-import { DEMAND_SOURCES, DemandSource, DemandValue, createDemand, createDemandSource, demandChannelIds, demandResult } from "../../../../framework/engine/DemandCapacity.ts";
+import { DEMAND_SOURCES, DemandSource, DemandValue, createDemand, createDemandSource, demandChannelIds, demandResult, capacityCeiling, demandBasisDraft } from "../../../../framework/engine/DemandCapacity.ts";
 import TextLink from "../../fields/TextLink.tsx";
 import { OPEN_EVENT, type OpenRequest } from "../../tiles/SectionTiles.tsx";
 import { BusinessAddButton, BusinessEmpty, BusinessField, OptionalNote, BusinessRemove, BusinessTickOption } from "../../cards/BusinessCardFields.tsx";
@@ -34,7 +34,7 @@ type Earlier = ReturnType<typeof useEngagementState> & ReturnType<typeof useEnga
 
 export function useEngagementDemand(earlier: Earlier) {
 
-    const { channelTileId, disabled, engagement, folds, identity, onChange, openFoundationAt, segmentOf, segments } = earlier;
+    const { capabilityValue, channelTileId, disabled, engagement, folds, identity, onChange, openFoundationAt, openingDate, segmentOf, segments } = earlier;
     // (The folds of the floating card's sections: open until folded.)
     const sectionFold = useSectionFolds();
 
@@ -161,10 +161,11 @@ export function useEngagementDemand(earlier: Earlier) {
             placeholder: string,
             value: string,
             onValue: (next: string) => void,
-            limits: NumberLimit
+            limits: NumberLimit,
+            side = false
         ) {
             return (
-                <BusinessField key={label} label={label} info={typeof help === "string" ? [help] : [...help]}>
+                <BusinessField key={label} label={label} info={typeof help === "string" ? [help] : [...help]} side={side}>
                     <NumberCell
                         inputMode={numberInputMode(limits)}
                         className="business-demand-number"
@@ -225,6 +226,7 @@ export function useEngagementDemand(earlier: Earlier) {
             const sourcePicker = (
                 <BusinessField
                     key="source"
+                    side={own}
                     label="Customer Source"
                     info={availableFor(source).map(entry => ({ title: entry.label, text: entry.explanation }))}
                 >
@@ -247,11 +249,11 @@ export function useEngagementDemand(earlier: Earlier) {
             // (A group's source lists its channels, the category's Discover channels that serve the Offering: owner, 2026-11-16 20:11.)
             const groupChannels = (source.channelIds ?? []).map(id => channelOf(id)?.name.trim() ?? "").filter(Boolean);
             const channelPicker = source.group ? (
-                <BusinessField key="channel" label="Channels" info={DEMAND_SOURCE_CHANNEL_HELP}>
+                <BusinessField key="channel" label="Channels" info={DEMAND_SOURCE_CHANNEL_HELP} side={own}>
                     <p className="business-demand-source-note">{groupChannels.join(", ")}</p>
                 </BusinessField>
             ) : (
-                <BusinessField key="channel" label="Channel" info={DEMAND_SOURCE_CHANNEL_HELP}>
+                <BusinessField key="channel" label="Channel" info={DEMAND_SOURCE_CHANNEL_HELP} side={own}>
                     <OptionPicker
                         label={"Channel, " + what}
                         placeholder="Select"
@@ -269,7 +271,7 @@ export function useEngagementDemand(earlier: Earlier) {
                 </BusinessField>
             );
             const estimatedPicker = type && type.fields.length > 0 && (
-                <BusinessField key="estimated" label="Estimated" info={DEMAND_CALCULATION_HELP}>
+                <BusinessField key="estimated" label="Estimated" info={DEMAND_CALCULATION_HELP} side={own}>
                     <OptionPicker
                         label={"How the sales are estimated, " + what}
                         placeholder={DEMAND_BY_FIGURE}
@@ -302,7 +304,8 @@ export function useEngagementDemand(earlier: Earlier) {
                         (next) => changeSource(source.id, {
                             inputs: { ...source.inputs, [field.key]: next }
                         }),
-                        field.kind === "percent" ? NUMBER_LIMITS.percent : DEMAND_COUNT_LIMITS[field.key] ?? NUMBER_LIMITS.volume
+                        field.kind === "percent" ? NUMBER_LIMITS.percent : DEMAND_COUNT_LIMITS[field.key] ?? NUMBER_LIMITS.volume,
+                        own
                     ))
                     : numberField(
                         type.id === "repeat"
@@ -315,7 +318,8 @@ export function useEngagementDemand(earlier: Earlier) {
                         "e.g. 1",
                         source.estimate,
                         (next) => changeSource(source.id, { estimate: next }),
-                        NUMBER_LIMITS.volume
+                        NUMBER_LIMITS.volume,
+                        own
                     )
             );
             // (THE TIME TO BUY, read only, on the Sales funnel and Contracts sources: from "Who decides to buy?" and how they decide; doc 50, section 2.5.)
@@ -334,6 +338,19 @@ export function useEngagementDemand(earlier: Earlier) {
                     label="Basis"
                     info={["What this source's figure rests on: a test, an enquiry, a promise, past sales."]}
                 >
+                    {/* (ADD A DRAFT (P1; owner, 2026-11-18 03:01): the source's own working as a sentence, added after what is written, as the Value Proposition's.) */}
+                    {demandBasisDraft(demand, source.id) && (
+                        <TextLink
+                            className="business-competitor-draft"
+                            disabled={disabled}
+                            onClick={() => {
+                                const draft = demandBasisDraft(demand, source.id);
+                                changeSource(source.id, { basis: source.basis.trim() ? source.basis.replace(/\s+$/, "") + "\n\n" + draft : draft });
+                            }}
+                        >
+                            Add a draft
+                        </TextLink>
+                    )}
                     <StrategyTextArea
                         className="interview-input business-demand-basis"
                         ariaLabel={"Basis, " + what}
@@ -361,9 +378,11 @@ export function useEngagementDemand(earlier: Earlier) {
                     >
                         <SingleColumn>
                             <EngagementBox
+                                // (A SIDE-LABEL ROW EACH, as the Delivery card's (owner, 2026-11-18 02:31: "there are fields with gaps"): the label in the one label
+                                // column, its control beside it, so no row is left half empty however many figures a source has.)
                                 bands={[
-                                    <div key="source" className="business-demand-fields">{sourcePicker}{channelPicker}</div>,
-                                    (estimatedPicker || figures) && <div key="figures" className="business-demand-fields">{estimatedPicker}{figures}</div>,
+                                    <div key="source" className="business-demand-side">{sourcePicker}{channelPicker}</div>,
+                                    (estimatedPicker || figures) && <div key="figures" className="business-demand-side">{estimatedPicker}{figures}</div>,
                                     noteLine,
                                     basis
                                 ]}
@@ -494,11 +513,12 @@ export function useEngagementDemand(earlier: Earlier) {
                 </BusinessField>
                 {cancelField}
                 {notReady && (
-                    <BusinessField label="Ready From" info={["The month it is ready to sell. Its revenue on Sustainability begins no earlier."]}>
+                    <BusinessField label="Ready From" info={["The month it is ready to sell. Its revenue on Revenue & Pricing begins no earlier."]}>
                         <MonthYearPicker
                             hideLabel
                             label={"Ready from, " + offeringLabel}
-                            value={demand.readyFrom ?? { month: "", year: "" }}
+                            // (READY FROM STARTS AT THE OPENING DATE'S MONTH (2.5, the second batch of the review; owner, 2026-11-18 00:46): a start, saved once chosen.)
+                            value={demand.readyFrom ?? (/^\d{4}-\d{2}/.test(openingDate) ? { month: String(Number(openingDate.slice(5, 7))), year: openingDate.slice(0, 4) } : { month: "", year: "" })}
                             disabled={disabled}
                             firstYear={new Date().getFullYear()}
                             isAllowed={() => true}
@@ -544,6 +564,11 @@ export function useEngagementDemand(earlier: Earlier) {
                                         )
                                         : "Expected Sales: about " + result.expected + " a month"}
                                 </p>
+                                {/* (WHAT THE FOUNDERS' HOURS ALLOW (P2; owner, 2026-11-18 03:01): a ceiling to check against, read from Capacity & Delivery, never a start.) */}
+                                {(() => {
+                                    const ceiling = result.recurring ? null : capacityCeiling(capabilityValue.founders, capabilityValue.delivery[offeringId]);
+                                    return ceiling !== null ? <p className="business-demand-source-note">{"The founders' delivery hours allow about " + ceiling + " a month of this Offering alone (Capacity & Delivery)."}</p> : null;
+                                })()}
                                 <ul className="business-demand-working">
                                     {result.sources.filter(part => part.expected !== null).map(part => (
                                         <li key={part.id}>{part.label}: {part.working}.</li>

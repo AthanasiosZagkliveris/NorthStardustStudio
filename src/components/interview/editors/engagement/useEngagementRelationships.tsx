@@ -45,6 +45,7 @@ import type { useEngagementState } from "./useEngagementState.tsx";
 import type { useEngagementChannelBoxes } from "./useEngagementChannelBoxes.tsx";
 import { offeringAnswersById } from "../../../../framework/engine/EffectiveAnswers.ts";
 import { supportPromise } from "../../../../framework/engine/OfferingQuestions.ts";
+import { relationshipApproachDraft, relationshipPurposeDraft } from "../../../../framework/engine/RelationshipDrafts.ts";
 
 type Earlier = ReturnType<typeof useEngagementState> & ReturnType<typeof useEngagementChannelBoxes>;
 
@@ -704,6 +705,26 @@ export function useEngagementRelationships(earlier: Earlier) {
                                     extra={ownCard ? undefined : removeType(typeId)}
                                     bands={[
                                         <FieldRow key="purpose" pair label="Purpose" info={SECTIONS.relationships.purpose}>
+                                            {/* (ADD A DRAFT (2.14, the second batch of the review; owner, 2026-11-18 00:46), as the Value Proposition's: the Purpose from the type
+                                                and the Offering's answers, added after what is written, and each empty Approach from its stage's channels, in one write.) */}
+                                            <TextLink
+                                                className="business-competitor-draft"
+                                                disabled={disabled}
+                                                onClick={() => {
+                                                    const draft = relationshipPurposeDraft(typeId, offeringName(offeringId), offeringAnswersById([segment], offeringId, identity));
+                                                    const interactions = { ...type.interactions };
+                                                    for (const interaction of offeringRows) {
+                                                        const current = interactionOf(segment.id, offeringId, typeId, interaction.key, interaction.legacyKeys, startGoals(interaction.stageId, segment, offeringId, identity));
+                                                        const approach = relationshipApproachDraft(typeId, interaction.groups.flatMap(group => group.channelIds.map(channelName)));
+                                                        if (!current.approach.trim() && approach) {
+                                                            interactions[interaction.key] = { ...current, approach };
+                                                        }
+                                                    }
+                                                    updateType(segment.id, offeringId, typeId, { purpose: type.purpose.trim() ? type.purpose.replace(/\s+$/, "") + "\n\n" + draft : draft, interactions });
+                                                }}
+                                            >
+                                                Add a draft
+                                            </TextLink>
                                             <StrategyTextArea
                                                 className="interview-input business-foundation-note"
                                                 ariaLabel={"Purpose of " + label + " for " + offeringName(offeringId)}

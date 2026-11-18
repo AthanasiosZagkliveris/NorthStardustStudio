@@ -27,6 +27,10 @@ The card's questions in the card's order, with proposed codes. The card has no c
 ### DV1. Delivered
 
 - **Control:** one choice (`OptionPicker`, side row): Per unit, Every month. **Asked:** always. **Started from:** O3. Built.
+- **A record of Customers Buy** (built; owner, 2026-11-18 00:46, the review's second batch, 1.2): where O3 leaves it open (unanswered or Free), Delivered is Demand & Conversion's Customers Buy (every month, until they cancel: Every month), one fact with one owner; the note that said they disagree is gone. Asked only while neither says.
+- **Working Hours by person lists only those who give working time** (owner, 2026-11-18 02:31): the founders and Staff, and the Partners and Suppliers in a group that does part of the job (Contractors & Advisers, Technical Support, Creative & IT Services, or none yet), never one charged as a share of revenue; and any card that says its hours a month, or already holds hours on the card (`givesWorkingHours`). A courier, a payment service, a materials seller and a revenue partner are costs, not people.
+- **P3, the people who make it first** (owner, 2026-11-18 03:01 UTC+2: "All, P1 to P9"): Working Hours by person lists the Team of the Offering's Production activities first, in their order, then the other founders and people; the hours stay blank (no answer holds a time).
+- **P5, Hours Given per month** (owner, 2026-11-18 03:01 UTC+2: "All, P1 to P9"): Per month is already where Hours Given starts for every Offering delivered every month (a dedicated person or team included); Per week only where the founder chooses it. Nothing to add; the hours are the founder's.
 
 ### DV2. Hours Given
 
@@ -43,22 +47,27 @@ The card's questions in the card's order, with proposed codes. The card has no c
 - **What it changes:** the hours a sale takes are DV3 ÷ DV6; the budgets and Sustainability's check read the hours for the sessions needed (expected sales ÷ DV6, rounded up). With DV6 at 1 every saved card reads as today.
 - **The "i" says:** "The most customers one session serves: a class of 8 in a 3-hour session takes about 23 minutes a customer. Expected sales count customers; the hours count sessions."
 - **Lumen:** Weaving Workshops (up to eight a workshop) gets DV6 = 8 and DV3 per session (Maya Chen 3.2 h, the linked External Professional 0.8 h): the same 0.4 h and 0.1 h a participant as today, now read as about 4 sessions a month for the 32 places.
+- **P4, its start** (owner, 2026-11-18 03:01 UTC+2: "All, P1 to P9"): on a card not yet saved, the Quantity of the one equipment or workspace Resource that serves this Offering alone, where it holds more than one (Lumen's eight frame looms for the workshops: eight places); blank otherwise.
 
 ### DV4. Calendar Time (weeks)
 
 - **Control:** a number. **Asked:** when DV1 is Per unit. **Started from:** O15. Built.
+- **Its start, less the sending** (owner, 2026-11-17 08:38: "Bugs plus the first batch" of the review): O15's upper end less the weeks the sending takes (O20: about a week by post, courier or a fulfilment service), a week at least -- "One to four weeks" by courier starts 3. The lead-time note (section 10) is said once the card is the founder's own (saved), never on its starts alone.
 
 ### DV7 and DV8. Limited by, and Holds at once (proposed; doc 51, addition 4)
 
 - **Control:** one optional side row: DV7 a one-choice `OptionPicker` of this Offering's Resource cards (equipment, workspace), DV8 a `NumberCell` beside it. **Asked:** when DV1 is Per unit and the Offering has at least one Resource card.
 - **What it checks:** the card's "about N running at once" line adds "· the 3 floor looms hold 3", and where the running work is more than DV8: "About 4 running at once: the 3 floor looms hold 3. Plan for a longer Calendar Time or one more loom."
 - **The "i" says:** "The equipment or room each unit needs while it runs, and how many units it holds at once. A loom, a kiln or a treatment room often sets the pace while the founders still have hours."
+- **DV12's starts** (built; owner, 2026-11-18 00:46, the review's second batch, 2.10): on a card not yet saved, Equipment or a workspace where a Resource of that kind serves the Offering (the one, where there is one), and Materials from a supplier where a Supplier with a lead time serves it (the one, where there is one).
+- **DV12's starts unticked to none stay none** (owner, 2026-11-18: a start follows its source until edited, and unticking every tick is an edit): the card is kept, saved with no ticks.
 
 ### DV9 and DV10. Set-up for a batch, and Units in a batch (proposed; doc 51, addition 7)
 
 - **Control:** two optional numbers on one side row. **Asked:** when DV1 is Per unit and the Offering's category is a Product or Hybrid (doc 43).
 - **What it changes:** the hours a unit takes add DV9 ÷ DV10; the total line shows "set-up adds 0.5 h a unit".
 - **The "i" says:** "The time one batch takes to set up (warping a loom, firing a kiln, preparing a kitchen) and the units it makes. Bigger batches spread the set-up over more units."
+- **A physical item only** (owner, 2026-11-17 08:38: "Bugs plus the first batch" of the review): asked of a Product or Hybrid not made to order that is physical (`offeringIsPhysical`); a digital file, an app or online access has no batch.
 
 ### DV5. Constraints
 
@@ -166,3 +175,4 @@ The open decisions and gaps, Group 3 (owner, 2026-11-16 21:51; the coordinator's
 - **The export:** the Delivery table's last column is "What Can Hold Up Delivery".
 - **Lumen:** Weaving Workshops hold 3.2 h (Maya Chen) and 0.8 h (the tutor) a session for 8 customers, the same 0.4 h and 0.1 h a participant; option A is in the example (section 7).
 - **When customers expect it sooner** (Group 4b, 2026-11-17): the card says "Customers expect it within a week, and making and sending it takes about 3 weeks. Keep some ready-made stock, or tell customers 1 to 4 weeks." where the Calendar Time, a supplier's lead time and the sending (O20) take longer than O15 allows.
+- **A needed skill's cover, skill by skill** (owner, 2026-11-18 02:31): Marketing and Making keep their group's Team (Marketing's, Production's); Selling the Sales activities but customer service; every other skill the activities whose name says it, in any group -- bookkeeping, a contract or a trade mark, the website, design, customer service, delivery (`skillCover`, `SKILL_WORDS`). Lumen's Website and technology: Oliver Grant, who launches the website (it had listed the lawyer and the accountant). Its "i" says so.

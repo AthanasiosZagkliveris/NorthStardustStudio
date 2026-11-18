@@ -81,27 +81,27 @@ const SEGMENT_CODES = {
     work2: ["Box 1, 4", "Box 1, 3 is No; set to Retired (not shown) for Active Retirees and Dependent seniors", "with Box 1, 3, from the age group"],
     workenv: ["Box 1, 5", "Box 1, 3 is Yes; held back while Planning (owner, 2026-11-08), its saved answer kept"],
     workschedule: ["Box 1, 6", "Box 1, 3 is Yes"],
-    workincome: ["Box 1, 7", "Box 1, 3 is Yes; held back while Planning (owner, 2026-11-08), its saved answer kept"],
+    workincome: ["Box 1, 7", "Box 1, 3 is Yes; held back while Planning (owner, 2026-11-08), its saved answer kept; orders O3 (owner, 2026-11-18)"],
     income: ["Box 1, 8", "the buyer is people and the age is not Minors"],
     gender: ["Box 1, 9", "the buyer is people"],
     reach: ["Box 2, 1", "always"],
-    area: ["Box 2, 2", "Managing or Growing, and Box 2, 1 is the city or town, the state or region, or the country"],
+    area: ["Box 2, 2", "Box 2, 1 is the city or town, the state or region, or the country (from Planning, owner, 2026-11-18)"],
     orgtype: ["Box 3, 1", "the buyer is a business; set (not shown) where the scale leaves one type"],
     size: ["Box 3, 2", "the buyer is a business and not self-employed; set (not shown) where the scale leaves one size"],
-    sector: ["Box 3, 3", "the buyer is a business"],
-    industry: ["Box 3, 4", "a sector is chosen (that sector's industries)"],
+    sector: ["Box 3, 3", "never asked: a record of Box 3, 4's sector, said under the box (owner, 2026-11-18)"],
+    industry: ["Box 3, 4", "the buyer is a business; every industry under its sector's heading (owner, 2026-11-18)"],
     comfort: ["Box 4, 1", "always"],
     social: ["Box 4, 2", "the buyer is people"],
     discover: ["Box 4, 3", "always (Sales calls or tenders for a business only); ordered by Box 4, 1 (1 or 2: the printed and in-person ways first) and Box 2, 1 (a city: passing by, flyers and events first; anywhere online: the online ways first)"],
     advertising: ["Box 4, 3a", "Box 4, 3 is Adverts in newspapers, magazines, radio or TV (owner, 2026-11-16 17:38)"],
-    share: ["Box 4, 4", "the buyer is people; held back while Planning (owner, 2026-11-08), its saved answer kept"],
+    share: ["Box 4, 4", "the buyer is people; held back while Planning (owner, 2026-11-08), its saved answer kept; asked before Box 4, 3 (owner, 2026-11-18)"],
     trigger: ["Box 4, 5", "the buyer is people"],
     path: ["Box 4, 6", "the buyer is people; ordered by Box 4, 5 (boredom or a friend or creator: On impulse first; a need: When they urgently need it and After comparing options first)"],
     setting: ["Box 4, 7", "always"],
     marketplaces: ["Box 4, 7a", "Box 4, 7 is On a marketplace (owner, 2026-11-15 16:26); ends in Other, written in as a numbered list"],
     shops: ["Box 4, 7b", "Box 4, 7 is In a shop or Both online and in shops (owner, 2026-11-15 16:26)"],
-    pay: ["Box 4, 8", "always", "Digital wallets where they shop on a phone and no way of paying is chosen"],
-    providers: ["Box 4, 8a", "Box 4, 8 has Credit / debit card or Digital wallets (owner, 2026-11-15 16:26); ends in Other, written in as a numbered list"],
+    pay: ["Box 4, 8", "always", "Digital wallets where they shop on a phone, Invoice or purchase order where a manager signs off or a formal procurement decides (owner, 2026-11-18), while no way of paying is chosen"],
+    providers: ["Box 4, 8a", "Box 4, 8 has Credit / debit card or Digital wallets and they do not shop on a marketplace (owner, 2026-11-15 16:26; 2026-11-18); ends in Other, written in as a numbered list"],
     authorise: ["Box 4, 9", "the buyer is a business; answered (not shown) for a self-employed customer", "where not answered, a Public body (Box 3, 1) or Large (Box 3, 2) sets Formal procurement, Micro or Self-employed One person decides"],
     tam: ["Box 5, 1", "always; \"potential buyers\" where the buyer is Proxy or Dual-Intent"],
     trajectory: ["Box 5, 2", "always"],
@@ -181,12 +181,12 @@ const PROFILE_SECTION = { personal: "3", psychographics: "4", hubs: "5", habits:
 
 /** The Competitor (doc 41): the box of each question (as the card asks them: `PART_QUESTIONS` in `CompetitorCard.tsx`), the code is the id in capitals. */
 const COMPETITOR_BOXES = [
-    ["offerings", ["k1"]], ["market", ["k2", "k3", "k4"]], ["acquisition", ["k5"]], ["experience", ["k6", "k7"]],
+    ["offerings", ["k1", "k15"]], ["market", ["k2", "k3", "k4"]], ["acquisition", ["k5"]], ["experience", ["k6", "k7"]],
     ["swot", ["k8", "k9"]], ["insights", ["k10"]]
 ];
 const COMPETITOR_CONTROLS = {
     k1: "FittingRadioChoice", k4: "RatingScale", k5: "TickField per channel, then OptionPicker per sub-channel", k6: "RatingScaleGroup (selectable, ends in Other)",
-    k7: "RatingScaleGroup", k8: "RatingScaleGroup", k9: "RatingScaleGroup", k10: "BusinessTicks"
+    k7: "RatingScaleGroup", k8: "RatingScaleGroup", k9: "RatingScaleGroup", k10: "BusinessTicks", k15: "NumberCell (From, To), TickField (Not known yet)"
 };
 const COMPETITOR_RETIRED = [
     ["K11", "What could you do differently? (its number later on 2026-11-04)", "K10 (renumbered before codes were permanent)"],
@@ -408,7 +408,8 @@ function rows(code) {
             k7: "rows, each rated 1 to 5 (Hard to Easy): " + list(C.COMPETITOR_STAGES),
             k8: "rows, each rated 1 to 5 (Weak to Strong), the Profiles' highest rated first: " + list(C.COMPETITOR_VALUES),
             k9: "rows, each rated 1 to 5 (Threat to Opportunity), the Segment's ticked changes first: " + list(C.COMPETITOR_CHANGES),
-            k10: "from the answers above (`competitorOpenings`): the openings each answer makes"
+            k10: "from the answers above (`competitorOpenings`): the openings each answer makes",
+            k15: "an amount range, From and To, in the organisation's currency, per the Segment's terms (O3); or Not known yet (owner, 2026-11-18)"
         };
         cards.push({
             title: "Competitor", where: "Business System, page 1, a Competitor of a Segment", owner: "41",

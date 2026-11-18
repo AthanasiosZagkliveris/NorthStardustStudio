@@ -1,6 +1,7 @@
 import { toneHue } from "../tiles/CardTile.tsx";
 import { asBusinessEngagementValue } from "../../../framework/engine/AnswerUtils.ts";
-import { offeringChannelRevenue, offeringMonthlyRevenue } from "../../../framework/engine/DemandCapacity.ts";
+import { offeringChannelRevenue, offeringMonthlyRevenue, offeringPayingRevenue, referralOnly } from "../../../framework/engine/DemandCapacity.ts";
+import { isPercentRow } from "../tiles/capabilityFloor.ts";
 import { asFinancialSustainabilityValue } from "../../../framework/engine/financial/revenueStored.ts";
 import CardShell from "../cards/CardShell.tsx";
 import AddButton from "../../controls/AddButton.tsx";
@@ -213,6 +214,11 @@ export default function BusinessCapabilityEditor(props: BusinessCapabilityEditor
                     offeringRevenue={offeringMonthlyRevenue(asBusinessEngagementValue(props.engagement).demand, asFinancialSustainabilityValue(props.financialSustainability).streams)}
                     // (And through each subchannel: what a share of a channel's revenue is split by.)
                     offeringChannelRevenue={offeringChannelRevenue(asBusinessEngagementValue(props.engagement).demand, asFinancialSustainabilityValue(props.financialSustainability).streams, asBusinessEngagementValue(props.engagement).segments.flatMap(segment => segment.channels))}
+                    // (And where the customers pay: what a fee is split by -- a subchannel holding a fee of its own is paid there, the rest through the payment services.)
+                    offeringPayingRevenue={offeringPayingRevenue(asBusinessEngagementValue(props.engagement).demand, asFinancialSustainabilityValue(props.financialSustainability).streams, asBusinessEngagementValue(props.engagement).segments,
+                        new Set(asBusinessEngagementValue(props.engagement).channelResources
+                            .filter(link => rows.some(row => row.id === link.resourceId && isPercentRow(row) && !referralOnly((row.channel?.places ?? []).map(place => place.channel))))
+                            .map(link => link.channelId)))}
                     // (A share of revenue's whole fee, as the forecast charges it, and one order's value for its fixed fee per order: owner, 2026-11-16.)
                     feeOf={(row) => chargedFeeFor(row.name, globalSettings ?? createGlobalSettings(), asLegalEntityValue(legalEntity).organisation.country, organisationCurrency)}
                     orderValue={Object.fromEntries(asFinancialSustainabilityValue(props.financialSustainability).streams.map(stream => [stream.offeringId, (Number.parseFloat(stream.price) || 0) * (Number.parseFloat(stream.itemsPerOrder) || 1)]))}

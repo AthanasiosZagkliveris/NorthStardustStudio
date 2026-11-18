@@ -512,13 +512,17 @@ function competitorLayoutOf2026_11_04(questions: Record<string, string[]>): Reco
 }
 
 /** The Offering's answers (O1 to O18), kept only where there are some: question ids to lists of option ids. */
+/** The Offering's ticks a start of 2026-11-17 or later fills (O20 from the reach): unticked to none, the empty answer is saved and kept, so the start does not come back (owner, 2026-11-18). */
+export const OFFERING_TICK_STARTS: readonly string[] = ["o20"];
+
 function offeringQuestionsOf(source: unknown): { questions?: Record<string, string[]> } {
     if (!source || typeof source !== "object") {
         return {};
     }
     const questions: Record<string, string[]> = {};
     for (const [key, value] of Object.entries(source as Record<string, unknown>)) {
-        if (Array.isArray(value) && value.every(entry => typeof entry === "string") && value.length > 0) {
+        // (An empty list is kept where it is a start unticked to none: OFFERING_TICK_STARTS, owner, 2026-11-18.)
+        if (Array.isArray(value) && value.every(entry => typeof entry === "string") && (value.length > 0 || OFFERING_TICK_STARTS.includes(key))) {
             questions[key] = value as string[];
         }
     }

@@ -1046,7 +1046,7 @@ describe("income tax in the forecast", () => {
     test("not chosen yet: the statements stay before tax, and say so", () => {
         const { forecast } = businessForecast(taxed("Lumen", ""));
         expect(rowOf(forecast.profitAndLoss.rows, "Income tax")).toMatchObject({ text: "Not chosen yet" });
-        expect(forecast.notes.join(" ")).toContain("Income tax is not included: no income tax basis has been chosen on Financial Foundation.");
+        expect(forecast.notes.join(" ")).toContain("Income tax is not included: no income tax basis has been chosen in the Global Settings.");
         expect(forecast.notes.join(" ")).not.toMatch(/income tax[^.]*not estimated/i);
     });
 

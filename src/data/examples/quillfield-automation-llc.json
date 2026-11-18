@@ -361,9 +361,6 @@
                   "size": [
                     "small"
                   ],
-                  "sector": [
-                    "tech"
-                  ],
                   "industry": [
                     "professional"
                   ],
@@ -397,6 +394,9 @@
                   ],
                   "competition": [
                     "3"
+                  ],
+                  "area": [
+                    "5"
                   ]
                 },
                 "profiles": [
@@ -1912,7 +1912,15 @@
                       "buy": "25"
                     },
                     "basis": "About 24 new firms reached a month through LinkedIn messages, posts and meetups. A pre-launch test of 20 messages brought 3 calls (15%); one call in four is expected to book an audit.",
-                    "channelId": "segment-qf3n8d2w-channel"
+                    "channelId": "",
+                    "group": "Sales funnel",
+                    "channelIds": [
+                      "segment-qf3n8d2w-channel",
+                      "channel-w8e2b5sq",
+                      "channel-qf-slack",
+                      "channel-segment-qf3n8d2w-social-media-x-twitter",
+                      "channel-agencyfc1"
+                    ]
                   },
                   {
                     "id": "source-r7d3n9wb",
@@ -1924,7 +1932,26 @@
                       "buy": "40"
                     },
                     "basis": "Introductions from the coworking community and two partner agencies; they arrive warm, so about 2 in 5 book.",
-                    "channelId": "channel-r4f7p1xk"
+                    "channelId": "",
+                    "group": "Referrals",
+                    "channelIds": [
+                      "channel-r4f7p1xk",
+                      "channel-segment-qf3n8d2w-referral-affiliates-customer-referral"
+                    ]
+                  },
+                  {
+                    "id": "source-z25y1lgp",
+                    "type": "marketplace",
+                    "calculate": false,
+                    "estimate": "",
+                    "inputs": {},
+                    "basis": "",
+                    "channelId": "",
+                    "fromAnswers": true,
+                    "group": "Visitors",
+                    "channelIds": [
+                      "channel-m2u5e8gv"
+                    ]
                   }
                 ],
                 "recurring": false,
@@ -1942,6 +1969,38 @@
                     "inputs": {},
                     "basis": "Builds come from audits: about 40% of audited firms go on to a build (1.5 audits a month x 40%).",
                     "channelId": "channel-qfzoom01"
+                  },
+                  {
+                    "id": "source-23ghn3hx",
+                    "type": "funnel",
+                    "calculate": false,
+                    "estimate": "",
+                    "inputs": {},
+                    "basis": "",
+                    "channelId": "",
+                    "fromAnswers": true,
+                    "group": "Sales funnel",
+                    "channelIds": [
+                      "segment-qf3n8d2w-channel",
+                      "channel-w8e2b5sq",
+                      "channel-segment-qf3n8d2w-social-media-x-twitter",
+                      "channel-agencyfc1"
+                    ]
+                  },
+                  {
+                    "id": "source-53h6k4qs",
+                    "type": "referrals",
+                    "calculate": false,
+                    "estimate": "",
+                    "inputs": {},
+                    "basis": "",
+                    "channelId": "",
+                    "fromAnswers": true,
+                    "group": "Referrals",
+                    "channelIds": [
+                      "channel-r4f7p1xk",
+                      "channel-segment-qf3n8d2w-referral-affiliates-customer-referral"
+                    ]
                   }
                 ],
                 "recurring": false,
@@ -1971,6 +2030,23 @@
                     },
                     "basis": "Firms introduced by retainer clients who want ongoing support without a build first.",
                     "channelId": "channel-segment-qf3n8d2w-referral-affiliates-customer-referral"
+                  },
+                  {
+                    "id": "source-dpd9fgw8",
+                    "type": "funnel",
+                    "calculate": false,
+                    "estimate": "",
+                    "inputs": {},
+                    "basis": "",
+                    "channelId": "",
+                    "fromAnswers": true,
+                    "group": "Sales funnel",
+                    "channelIds": [
+                      "segment-qf3n8d2w-channel",
+                      "channel-w8e2b5sq",
+                      "channel-segment-qf3n8d2w-social-media-x-twitter",
+                      "channel-agencyfc1"
+                    ]
                   }
                 ],
                 "recurring": true,
@@ -6042,5 +6118,6 @@
       "franchise-licences": "10",
       "permits-licences": "5"
     }
-  }
+  },
+  "segmentStartsFollow": true
 }

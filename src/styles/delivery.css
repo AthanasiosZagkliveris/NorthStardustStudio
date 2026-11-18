@@ -68,9 +68,23 @@
    control hugging -- in a label column wide enough for "Calendar Time
    (weeks)" and its "i", so the three controls start at one x. In a card too
    narrow for it, the label goes above, as every side label does. */
-.delivery-card .business-field-side{
+.delivery-card .business-field-side,
+.business-demand-side .business-field-side{
 
     --side-label-short:calc(var(--font-body) * 13);
+
+}
+
+/* A Customer Source's own card (Demand & Conversion): its fields one side-label row each, as the Delivery card's; owner, 2026-11-18 02:31. */
+.business-demand-side{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:var(--space-field);
+
+    min-width:0;
 
 }
 
@@ -88,7 +102,8 @@
 
 @container card (max-width: 395.98px){
 
-    .delivery-card .business-field-side{
+    .delivery-card .business-field-side,
+    .business-demand-side .business-field-side{
 
         grid-template-columns:minmax(0, 1fr);
 
@@ -96,7 +111,8 @@
 
     }
 
-    .delivery-card .business-field-side > :not(:first-child){
+    .delivery-card .business-field-side > :not(:first-child),
+    .business-demand-side .business-field-side > :not(:first-child){
 
         grid-column:1;
 
