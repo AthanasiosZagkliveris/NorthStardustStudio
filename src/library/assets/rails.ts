@@ -9,8 +9,9 @@ import type { AssetContract } from "../contract.ts";
  * app's blue bullet with a 4px bloom, grown 45%, and a bold label; under the
  * pointer or the keyboard focus the label takes the link colour and is
  * underlined and the bullet takes the hover blue with a 3px ring, grown 30%.
- * Below 1700px the rail shows its bullets only and the label is a tooltip on
- * hover and focus; from 1700px the labels stand beside the bullets.
+ * The rail stands in a tab of the one rail geometry (layout rules section 10, "One rail for every layer"; owner, 2026-11-18 20:00 and 20:13 UTC+2): the tab
+ * padding 20.5px, 16px rows, 18px between them; its bullets only (the label a tooltip on hover and focus) in the 53px dots-only tab, and its labels beside the
+ * bullets, whole, in the 388px named tab only where the room beside the frame holds it and every label fits (at today's page width, from a window of about 2176px).
  * An unlit plain bullet is unlit on purpose (owner, 2026-10-15): its low contrast
  * at rest (1.4 to 1.6:1) is an accepted design choice, so no contrast is asked of it;
  * the lit and hover states and the page status shapes are checked.
@@ -20,11 +21,11 @@ import type { AssetContract } from "../contract.ts";
 export const rails: AssetContract = {
     name: "Rails",
     kind: "navigation rail",
-    summary: "The Pages and Sections rails: a column of items, each a bullet and a label in one button. Rest, lit and hover looks; bullets only below 1700px with the name as a tooltip, labels inline from 1700px.",
+    summary: "The Pages and Sections rails: a column of items, each a bullet and a label in one button. Rest, lit and hover looks; in a tab of the one rail geometry: bullets only (the name a tooltip) in the 53px tab, labels inline in the 388px named tab only where it fits beside the frame and every label is whole (layout rules section 10, \"One rail for every layer\").",
     component: "src/components/interview/rails/BulletRail.tsx",
     stylesheet: "src/styles/bullet-rail.css",
     alsoStylesheets: ["src/styles/status-shape.css", "src/styles/global.css"],
-    parts: ["nav (the rail)", "list (18px between items)", "item button (label, 12px gap, bullet; 2px padding above and below)", "bullet (a plain dot, or a page status shape)", "label (tooltip below 1700px, inline from 1700px)"],
+    parts: ["nav (the rail)", "list (18px between items)", "item button (label, 12px gap, bullet; 2px padding above and below)", "bullet (a plain dot, or a page status shape)", "label (a tooltip in the dots-only tab; inline, one 16px row, in the named tab)"],
     states: ["rest", "hover", "focus", "open"],
     variants: [
         { id: "pages-left", context: "left", note: "the Pages rail: label then bullet; page status shapes (not started, in progress, defined) and the Introduction in capitals; one lit item" },

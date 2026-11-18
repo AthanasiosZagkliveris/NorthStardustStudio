@@ -26,7 +26,7 @@ Read this before reviewing or changing anything on screen, and tick every line t
 1. **Heights**: a single-line control and a labelled button 44px (`--add-button-height`, `--control-square`); the × and the "+" 32px; a tick 24px; the fold arrow 36px. Nothing random.
 2. **Widths**: the closed set of widths (`--control-s/m/l`, hug, fill); a table column by what it holds.
 3. **Colour follows the card**: a card, its tile, its tags, its pop-ups and windows take the card's hue (ground, line, ink), never a neutral grey or black where the card has a colour.
-4. **A card is not a tile**: a card has a wireframe in its own line and a drop shadow; no inner light or shade (that is a tile's).
+4. **A card is not a tile**: a card has its 1px edge, the inner light and shade (`--box-inset`) and a drop shadow, as every floating card's box (layout rules section 10); a tile is what opens something and grows under the pointer.
 5. **Tokens, not values**: no hard-coded colour, size or gap; the tokens check and the style lint stay green.
 6. **Text**: the type scale (14 / 18 / 24 / 36), the tracking that follows weight, text colour with the contrast of the rulebook in every mode.
 

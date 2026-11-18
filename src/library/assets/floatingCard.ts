@@ -4,7 +4,7 @@ import { lookHeight } from "../componentTokens.ts";
 /**
  * The floating card base (FloatingCards in SectionTiles.tsx; the model is the
  * Resource card): the one surface every floating card stands on. A card opens
- * over the dimmed page with its box name above it, and is made of the same
+ * over the page -- not darkened, not inert (layout rules section 10, "Floating card") -- with its box name above it, and is made of the same
  * parts from top to bottom: the name, the head row, the rows, the groups. Its
  * width, corners, padding and gaps are the values below, written once, so a
  * change here changes every card. Its colours are the card's tint tokens and
@@ -23,7 +23,7 @@ export const floatingCard: AssetContract = {
     stylesheet: "src/styles/section-tiles.css",
     alsoStylesheets: ["src/styles/page-3-edges.css", "src/styles/global.css"],
     parts: [
-        "host (a dialog over the dimmed page, placed by its tile)",
+        "host (a dialog over the page, which is neither darkened nor inert, placed by its tile)",
         "stack (one card, or a parent above its child)",
         "item (the box name, then the card)",
         "caption (the box name, with the box's \"i\")",

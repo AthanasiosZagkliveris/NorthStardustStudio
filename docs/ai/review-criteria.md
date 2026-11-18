@@ -83,7 +83,7 @@ Reactions (doc 18, `layout-rules.md` section 6): every control that can has **ho
 ## 6. Colour: what follows what
 
 1. **A card, its tile, its tags, its pop-ups and its windows are one family**: the ground, the line and the ink come from the card's hue (`--strategy-theme-hue`, the `--theme-*` tokens). A neutral grey or white window beside a coloured card is a finding.
-2. **A card is not a tile.** A tile (a button that opens something) has the inner light and shade (`--box-inset`) and the drop shadow; a card (an opened tile, a floating card, a nested card, a dialog frame) has a **wireframe** (1px, the card's own line) and the drop shadow, never an inner light or shade.
+2. **A card is not a tile.** A tile (a button that opens something) has the inner light and shade (`--box-inset`) and the drop shadow; a card (an opened tile, a floating card, a nested card, a dialog frame) has its 1px edge, the inner light and shade (`--box-inset`) and the drop shadow, as every floating card's box has (layout rules section 10, "A dialog darkens the page behind it, a floating card does not"; tile-and-card pattern, "A floating card shades only the chapter"). What tells a tile from a card is that a tile opens something and grows under the pointer.
 3. **A completed card is an ordinary card in four greys** (`--bg-completed-card` and its three companions); what stands with it takes the same greys.
 4. **The modes** (light, dark, sepia) are all the same design: measure each; a ground that stays light in the dark mode, or a shadow that glows (a shadow is the ink shadow, never the edge colour), is a finding.
 5. **No colour alone**: a state is also shape, weight or text.
