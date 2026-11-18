@@ -92,7 +92,7 @@ export function titleTopOf(node: HTMLElement, sample?: { current: { y: number; t
 
 
 export function CarouselArrows({ target, step, hue, back, side: fixedSide }: { target: RefObject<HTMLElement | null>; step: CarouselStep; hue: number; back?: () => void; /** The tab's side where the layer is as wide as the page (the Workbook's panel: at the left, as a System page's page tab). */ side?: "left" | "right" }) {
-    const [at, setAt] = useState<{ left: number; right: number; top: number; edge: number; leftEdge: number; side: "left" | "right"; titleTop: number; tab: { bg: string; edge: string; ink: string } | null } | null>(null);
+    const [at, setAt] = useState<{ left: number; right: number; top: number; edge: number; leftEdge: number; side: "left" | "right"; titleTop: number; bottom: number; tab: { bg: string; edge: string; ink: string } | null } | null>(null);
 
     // The tab's colours follow the reading mode (light, sepia, dark, auto) while the layer stays open: measured again when it changes.
     const [modeCount, setModeCount] = useState(0);
@@ -136,9 +136,11 @@ export function CarouselArrows({ target, step, hue, back, side: fixedSide }: { t
         const railList = railRef.current?.querySelector<HTMLElement>(".bullet-rail-list");
         const railHeight = railRef.current ? railRef.current.scrollHeight + (railList ? Math.max(0, railList.scrollHeight - railList.clientHeight) : 0) : 0;
         const titleTop = Math.max(headerBottom + 12, Math.min(titleTopOf(node, restSample), window.innerHeight - Math.max(160, railHeight + 12)));
+        // (The foot the tab keeps to: a floating card's own box -- not the layer, which holds its caption under it --, else the layer's.)
+        const foot = (node.matches(".floating-card-body") ? node : node.querySelector<HTMLElement>(".floating-card-body"))?.getBoundingClientRect().bottom ?? box.bottom;
         // (The tab stands on the side of the layer that is nearer its end of the page: a layer in the left half has it at its left, one in the right half at its right.)
         const side: "left" | "right" = fixedSide ?? (box.left + box.width / 2 < window.innerWidth / 2 ? "left" : "right");
-        setAt(previous => previous && Math.abs(previous.left - left) < 0.5 && Math.abs(previous.right - right) < 0.5 && Math.abs(previous.top - top) < 0.5 && Math.abs(previous.titleTop - titleTop) < 0.5 && previous.side === side && Math.abs(previous.leftEdge - box.left) < 0.5 && previous.tab?.bg === tab?.bg && previous.tab?.edge === tab?.edge && previous.tab?.ink === tab?.ink ? previous : { left, right, top, edge: box.right, leftEdge: box.left, side, titleTop, tab });
+        setAt(previous => previous && Math.abs(previous.left - left) < 0.5 && Math.abs(previous.right - right) < 0.5 && Math.abs(previous.top - top) < 0.5 && Math.abs(previous.titleTop - titleTop) < 0.5 && Math.abs(previous.bottom - foot) < 0.5 && previous.side === side && Math.abs(previous.leftEdge - box.left) < 0.5 && previous.tab?.bg === tab?.bg && previous.tab?.edge === tab?.edge && previous.tab?.ink === tab?.ink ? previous : { left, right, top, edge: box.right, leftEdge: box.left, side, titleTop, bottom: foot, tab });
     });
 
     // (Measured again whenever the box or the window changes size.)
@@ -256,6 +258,26 @@ export function CarouselArrows({ target, step, hue, back, side: fixedSide }: { t
     }, [at?.edge, at?.tab, topmost]);
     const arrowsTop = at?.top ?? 0;
 
+    // THE TAB ENDS AT ITS CARD'S FOOT (owner, 2026-11-18 18:01: "Fix the rail on the colour floated card"; the arrows never move): where its bullets, the arrow's
+    // place among them and Back would run past the card, the gaps between the bullets close -- down to 6px -- just enough to end at the card's foot; the bullets
+    // keep their size and their distance from the arrow. Worked out from the list's natural height at its 18px gaps, so it settles at once.
+    const [railGap, setRailGap] = useState<number | null>(null);
+    useLayoutEffect(() => {
+        const rail = railRef.current;
+        const list = rail?.querySelector<HTMLElement>(".bullet-rail-list");
+        if (!rail || !list || !at?.tab || itemCount < 2) {
+            setRailGap(previous => previous === null ? previous : null);
+            return;
+        }
+        const NATURAL = 18;
+        const now = railGap ?? NATURAL;
+        const natural = rail.scrollHeight + (NATURAL - now) * (itemCount - 1);
+        const room = at.bottom - at.titleTop;
+        const over = natural - room;
+        const next = over <= 0.5 ? null : Math.max(6, Math.floor(NATURAL - over / (itemCount - 1)));
+        setRailGap(previous => previous === next ? previous : next);
+    });
+
     useLayoutEffect(() => {
         const rail = railRef.current;
         if (!rail || !at?.tab || covered) {
@@ -296,7 +318,8 @@ export function CarouselArrows({ target, step, hue, back, side: fixedSide }: { t
             setSlot(previous => previous === null ? previous : null);
             return;
         }
-        const shift = index > 0 ? Math.max(0, arrowTop - gap - lines[index - 1].bottom) : 0;
+        // (The bullets keep their places from the tab's top: none is pushed down to the arrow, so the tab stays as short as its list; owner, 2026-11-18 18:01.)
+        const shift = 0;
         const extra = Math.max(0, arrowBottom + gap - (lines[index].top + shift));
         const next = { shift: Math.round(shift * 10) / 10, index, extra: Math.round(extra * 10) / 10 };
         setSlot(previous => previous && previous.index === next.index && Math.abs(previous.shift - next.shift) < 0.5 && Math.abs(previous.extra - next.extra) < 0.5 ? previous : next);
@@ -334,7 +357,9 @@ export function CarouselArrows({ target, step, hue, back, side: fixedSide }: { t
                     className={"carousel-rail" + (step.what === "section" && (at.tab && at.side === "left" ? at.left : at.right) >= 160 ? " carousel-rail-named" : "") + (at.tab ? " carousel-rail-tab" : "") + (at.tab && capped ? " carousel-rail-capped" : "") + (at.tab && at.side === "left" ? " carousel-rail-tab-left" : "")}
                     aria-label={"Go to a " + step.what}
                     // (A tab stands behind its layer, 1px under the layer's edge, so no gap opens between them: the layer's own edge is what shows where they meet; owner, 2026-11-11.)
-                    style={{ ...(at.tab && at.side === "left" ? { right: window.innerWidth - at.leftEdge - 1 } : { left: at.tab ? at.edge - 1 : at.edge }), top: at.tab ? at.titleTop : at.top + 36, ...(at.tab ? { maxHeight: Math.max(120, window.innerHeight - at.titleTop - 12) } : {}), "--rail-label-room": Math.max(0, (at.tab ? (at.side === "left" ? at.leftEdge : window.innerWidth - at.edge) - 25 : at.right) - 8 - (at.tab ? 0 : 24)) + "px", "--strategy-theme-hue": hue, ...(at.tab ? { "--tab-bg": at.tab.bg, "--tab-edge": at.tab.edge, "--tab-ink": at.tab.ink } : {}) } as unknown as CSSProperties}
+                    style={{ ...(at.tab && at.side === "left" ? { right: window.innerWidth - at.leftEdge - 1 } : { left: at.tab ? at.edge - 1 : at.edge }), top: at.tab ? at.titleTop : at.top + 36, // (THE TAB IS NEVER LONGER THAN ITS CARD (owner, 2026-11-18 18:01: "Fix the rail on the colour floated card"): its foot at the card's foot, or the window's, the nearer; a
+                    // longer list scrolls in it, its Back in view.)
+                    ...(at.tab ? { maxHeight: Math.max(120, Math.min(window.innerHeight - at.titleTop - 12, at.bottom - at.titleTop)) } : {}), ...(railGap !== null ? { "--rail-list-gap": railGap + "px" } : {}), "--rail-label-room": Math.max(0, (at.tab ? (at.side === "left" ? at.leftEdge : window.innerWidth - at.edge) - 25 : at.right) - 8 - (at.tab ? 0 : 24)) + "px", "--strategy-theme-hue": hue, ...(at.tab ? { "--tab-bg": at.tab.bg, "--tab-edge": at.tab.edge, "--tab-ink": at.tab.ink } : {}) } as unknown as CSSProperties}
                 >
                     <ol className="bullet-rail-list">
                         {step.items.map((item, position) => (

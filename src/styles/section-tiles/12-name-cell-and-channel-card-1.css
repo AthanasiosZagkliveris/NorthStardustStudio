@@ -605,6 +605,9 @@ main.conversation-content[data-reserve],
 
     min-height: 0;
 
+    /* (Closed a little where the tab would run past its card's foot: CarouselArrows, --rail-list-gap.) */
+    gap: var(--rail-list-gap, 18px);
+
 }
 
 .carousel-rail.carousel-rail-tab.carousel-rail-capped .bullet-rail-list {
