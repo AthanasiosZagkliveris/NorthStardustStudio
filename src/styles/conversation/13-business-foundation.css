@@ -1514,8 +1514,21 @@
 }
 
 /* A SECTION'S BAND (page 3's cards: Dates, Type, Costs, Team & Responsibilities, Notes; owner, 2026-11-18 21:45 and 22:00 UTC+2): its questions one under the other,
-   the card's thin line between them with 12px over and under it (the band's own 6px gap and 6px more), from side to side of the band. */
+   12px apart (the band's own 6px gap on each side of the line's place). NO LINE between them (owner, 2026-11-18 23:56 UTC+2: "Do not place dividing lines in the
+   section, when the fields are not radio choice or ticked boxes"): the card's thin line shows only between two questions that are both a radio choice or a tick box,
+   with 12px over and under it, from side to side of the band. */
 .legal-entity-org-section[data-section] > .business-capability-card-rule{
+
+    height:0;
+
+    margin-block:0;
+
+}
+
+/* (The question after the line is a tick box's -- an optional field, a tick field -- or a radio choice's, told by its own class: a :has() cannot stand in another.) */
+.legal-entity-org-section[data-section] > :has(.brand-tick-box, .radio-choice-option) + .business-capability-card-rule:has(+ :is(.optional-field, .tick-field, .radio-choice, .business-foundation-tick)){
+
+    height:1px;
 
     margin-block:calc(var(--space-field) - var(--space-label));
 
