@@ -250,14 +250,14 @@ describe("the Operating need's Loan Repayments column", () => {
 
     it("is there, with its i, when a loan is recorded, whatever its status", () => {
         render(<Harness initial={withFunding([{ ...createFundingSource("external"), type: "bank-loan", name: "Start Up Loan", amount: "9000", status: "requested" }])} />);
-        openTile("Funding Need");
+        openTile("Financial Position"); // (The Funding Need is inside Financial Position: owner, 2026-11-18 16:55.)
         expect(loanHead()).toBeDefined();
         expect(screen.getByRole("button", { name: "Loan Repayments: what this means" })).toBeTruthy();
     });
 
     it("is not there when no loan is recorded", () => {
         render(<Harness initial={withFunding([{ ...createFundingSource("external"), type: "grant", amount: "5000", status: "received" }])} />);
-        openTile("Funding Need");
+        openTile("Financial Position"); // (The Funding Need is inside Financial Position: owner, 2026-11-18 16:55.)
         expect(screen.queryAllByRole("columnheader").some(head => /Running Costs/.test(head.textContent ?? ""))).toBe(true);
         expect(loanHead()).toBeUndefined();
     });

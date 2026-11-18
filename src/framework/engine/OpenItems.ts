@@ -351,7 +351,7 @@ export function openItemsOf(
                     add("Income Tax: " + (financial.incomeTax === "rate" ? "rate not given yet." : "not chosen yet."), { key: key("income-tax") });
                 }
                 if (financial.funding.every(source => (parseAmount(source.amount) ?? 0) === 0) && Object.keys(financial.founderCapital).length === 0) {
-                    sectionItem(FINANCIAL_FOUNDATION_SECTIONS[2], "a funding source with its amount, or the founders' capital");
+                    sectionItem(FINANCIAL_FOUNDATION_SECTIONS[1], "a funding source with its amount, or the founders' capital");
                 }
                 break;
             }

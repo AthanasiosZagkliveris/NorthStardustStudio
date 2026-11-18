@@ -14,6 +14,7 @@ import { BusinessAddButton, BusinessCard, BusinessEmpty, BusinessField, Optional
 import { CashTimelineChart, FigureTable, FigureTiles, FinancialBlock, PlanMonthField, SignalList } from "./FinancialParts.tsx";
 import CardShell from "../cards/CardShell.tsx";
 import CardBoxes, { type CardBox } from "../cards/CardBoxes.tsx";
+import DialogSectionBand from "../tiles/DialogSectionBand.tsx";
 import { SingleColumn } from "./foundation/shared.tsx";
 import { EngagementBox, EngagementBoxes } from "./engagement/EngagementCard.tsx";
 import SectionTiles, { DialogHeading, type SectionTile } from "../tiles/SectionTiles.tsx";
@@ -1368,7 +1369,6 @@ export default function FinancialFoundationEditor({
             return [pair("Cost of each sale", format(perSale)), ...(shares > 0 ? [pair("Shares of revenue", String(shares))] : [])];
         })()
     ];
-    const needFace = calculatedNeeds.map(need => pair(need.label, format(need.amount)));
     const sources = allFunding(page, legalEntity);
     const fundingFace = FUNDING_STATUSES
         .map(status => ({ status, count: sources.filter(source => (source.status || "planned") === status.id).length }))
@@ -1382,9 +1382,20 @@ export default function FinancialFoundationEditor({
 
     const sections = [
         { id: "financial-costs", section: SECTIONS.costs, body: costsSection, items: costFace, anchor: "financial-costs financial-pre-operational-budget" },
-        { id: "financial-need", section: SECTIONS.need, body: needSection, items: needFace, anchor: "financial-need" },
         { id: "financial-funding", section: SECTIONS.funding, body: fundingSection, items: fundingFace, anchor: "financial-funding" },
-        { id: "financial-position", section: SECTIONS.position, body: positionSection, items: positionFace, anchor: "financial-position" }
+        // (THE FUNDING NEED INSIDE FINANCIAL POSITION (owner, 2026-11-18 16:55: "Do all 8", proposal 4): the need and the gap are one story; the position's headline
+        // and figures first, then the need's blocks under their band. Its anchor answers a jump to the need too.)
+        {
+            id: "financial-position", section: SECTIONS.position,
+            body: () => (
+                <>
+                    {positionSection()}
+                    <DialogSectionBand title={SECTIONS.need.title} info={[...SECTIONS.need.instructions, ...SECTIONS.need.info]}>{needSection()}</DialogSectionBand>
+                </>
+            ),
+            items: [...positionFace, ...(position.need > 0.005 ? [pair("Total Funding Need", format(position.need))] : [])],
+            anchor: "financial-position financial-need"
+        }
     ];
 
     const hue = workHue("build");
@@ -1392,6 +1403,8 @@ export default function FinancialFoundationEditor({
     const tiles: SectionTile[] = sections.map((entry, index) => ({
         id: entry.id,
         title: entry.section.title,
+        // (MASTER TILES KEEP THEIR SIZE AND THE 2 x 2 (owner's rule): three tiles fill three places of the four.)
+        large: true,
         anchor: entry.anchor,
         rail: railId(FINANCIAL_FOUNDATION_SECTIONS[index]),
         items: entry.items,

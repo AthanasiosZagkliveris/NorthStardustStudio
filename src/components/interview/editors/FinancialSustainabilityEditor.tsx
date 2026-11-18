@@ -1556,6 +1556,8 @@ export default function FinancialSustainabilityEditor({
         return entries.map(entry => ({
             id: prefix + "-" + entry.id,
             title: entry.title,
+            // (MASTER TILES KEEP THEIR SIZE AND THE 2 x 2 (owner's rule): a chapter of one or two tiles has them at the size of four, in its top row.)
+            large: true,
             anchor: prefix + "-" + entry.id,
             rail: railId(entry.title),
             items: entry.face,
