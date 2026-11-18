@@ -729,3 +729,45 @@
     box-shadow: none;
 
 }
+
+/* ONE RAIL FOR EVERY LAYER, THE PAGE'S TOO (owner, 2026-11-18 20:00, 20:13 and 21:49 UTC+2: "All rails should have same width, same side, in between dots, and top
+   and bottom gap", "Dialogue and Chapters - Rails with dots and names (full size) only when screen size permits", "Check the page (chapter) rail width"; layout
+   rules section 10, "One rail for every layer"): the Pages and Sections rails take the tab's one geometry -- its padding (--rail-tab-padding), the dots-only width
+   (--rail-tab-dots-width), and, where their names show (BulletRail: only where the room beside the frame holds the named tab and every name fits whole), the
+   named width (--rail-tab-named-width), each name one 16px row, so the 34px pitch with or without names. */
+.bullet-rail.bullet-rail-left,
+.bullet-rail.bullet-rail-right {
+
+    width: var(--rail-tab-dots-width);
+    max-width: none;
+
+    padding: var(--rail-tab-padding);
+
+}
+
+@media (min-width: 1700px) {
+
+    .bullet-rail.bullet-rail-left:not(.bullet-rail-compact),
+    .bullet-rail.bullet-rail-right:not(.bullet-rail-compact) {
+
+        width: var(--rail-tab-named-width);
+
+    }
+
+    .bullet-rail:not(.bullet-rail-compact) .bullet-rail-label {
+
+        max-width: 100%;
+        overflow: hidden;
+
+        white-space: nowrap;
+
+        line-height: 16px;
+
+        /* (Within the item's 2px above and below, as the dot's: the name takes no more of the row than the 12px dot does; 4px of room under it, taken back
+           by its margin, so its descenders and the hover underline show and the row is no taller.) */
+        padding-bottom: 4px;
+        margin-block: -2px -6px;
+
+    }
+
+}

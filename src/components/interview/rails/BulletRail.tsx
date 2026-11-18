@@ -93,16 +93,21 @@ export default function BulletRail({
         if (!node) {
             return;
         }
+        // ONE RAIL FOR EVERY LAYER (layout rules section 10; owner, 2026-11-18 20:13 UTC+2: names "(full size) only when screen size permits"): the names show only
+        // where the room beside the frame holds the named tab (--rail-tab-named-width, bullet-rail.css) and every name fits in it whole; else the bullets alone.
         const fit = () => {
             node.classList.remove("bullet-rail-compact");
-            const wraps = Array.from(node.querySelectorAll<HTMLElement>(".bullet-rail-label")).some(label => {
+            const box = node.getBoundingClientRect();
+            const room = side === "left" ? box.right : window.innerWidth - box.left;
+            const named = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--rail-tab-named-width")) || 388;
+            const cut = Array.from(node.querySelectorAll<HTMLElement>(".bullet-rail-label")).some(label => {
                 if (getComputedStyle(label).position === "absolute") {
                     return false;
                 }
                 const size = parseFloat(getComputedStyle(label).fontSize) || 16;
-                return label.getBoundingClientRect().height > size * 1.9;
+                return label.scrollWidth > label.clientWidth + 1 || label.getBoundingClientRect().height > size * 1.9;
             });
-            node.classList.toggle("bullet-rail-compact", wraps);
+            node.classList.toggle("bullet-rail-compact", cut || room < named);
         };
         fit();
         window.addEventListener("resize", fit);

@@ -3056,6 +3056,36 @@
             }
         }
 
+        // C2b. THE PAGE'S RAILS TOO (owner, 2026-11-18 21:49 UTC+2: "Check the page (chapter) rail width"): the Pages and Sections rails are the dots-only or the
+        //      named width, the one tab padding, 16px rows, 18px between them, and a name that shows is whole.
+        {
+            const px = name => { const probe = document.createElement("div"); probe.style.cssText = "position:absolute;visibility:hidden;width:var(" + name + ")"; document.body.appendChild(probe); const w = probe.getBoundingClientRect().width; probe.remove(); return w; };
+            const dotsWidth = px("--rail-tab-dots-width"), namedWidth = px("--rail-tab-named-width"), padding = px("--rail-tab-padding");
+            for (const rail of [...document.querySelectorAll("nav.bullet-rail.bullet-rail-left, nav.bullet-rail.bullet-rail-right")].filter(visible)) {
+                const box = rect(rail);
+                const style = getComputedStyle(rail);
+                if (![dotsWidth, namedWidth].some(width => Math.abs(box.width - width) <= 0.6)) {
+                    fail("a page rail is the dots-only or the named width", rail, { width: box.width, widths: [dotsWidth, namedWidth] });
+                }
+                const pads = ["Top", "Right", "Bottom", "Left"].map(side => parseFloat(style["padding" + side]));
+                if (pads.some(value => Math.abs(value - padding) > 0.6)) {
+                    fail("a page rail has the one tab padding on every side", rail, { pads, wanted: padding });
+                }
+                const items = [...rail.querySelectorAll(".bullet-rail-item")].filter(visible).map(rect);
+                if (items.some(item => Math.abs(item.height - 16) > 0.6)) {
+                    fail("a page rail's rows are 16px, with or without names", rail, { heights: items.map(item => item.height) });
+                }
+                const gaps = items.slice(1).map((item, i) => item.top - items[i].bottom);
+                if (gaps.some(gap => Math.abs(gap - 18) > 0.6)) {
+                    fail("a page rail has 18px between its rows", rail, { gaps });
+                }
+                const cut = [...rail.querySelectorAll(".bullet-rail-label")].filter(label => visible(label) && getComputedStyle(label).position !== "absolute" && label.scrollWidth > label.clientWidth + 1).map(label => label.textContent);
+                if (cut.length) {
+                    fail("a page rail shows every name whole", rail, { cut });
+                }
+            }
+        }
+
         // C3. ONE ARROW LEVEL (layout rules section 10, "One arrow level"; owner, 2026-11-18 21:34 UTC+2: "A: Level page arrows everywhere"): every page arrow and
         //     every dialog's and floating card's carousel arrow has its centre at one height in a window -- on every page. The first height seen at a window size is
         //     kept for the run (sessionStorage), and every later page, dialog and card is checked against it; the arrows shown now are level with each other.
