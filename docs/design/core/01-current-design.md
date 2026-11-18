@@ -1023,6 +1023,8 @@ Colour = what the user does in the section (work type). The code applies these w
 | Lavender `#cfc6e6` | Review | Examine, validate and refine what has been created |
 | Teal `#3fb5b0` | Connect | Items that come from, or link to, another section |
 
+**The band hues inside a card** (owner, 2026-11-18 23:56 and 2026-11-19 01:08 UTC+2: the app's shared band saturation and lightness, `--theme-bg-ink`, varying only the hue, at a card band's strength, 12%): the card's own hue (its tile's work colour) for its bands; the **Links** band the links' blue (`--text-primary`); the **Completed** band hue **150** (a green no page-3 card is drawn in; `--completed-band-hue`).
+
 ### Systems and sections
 
 | Section | Work type | Colour |
