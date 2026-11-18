@@ -675,7 +675,7 @@ export default function FinancialSustainabilityEditor({
                 )
             },
             {
-                key: "payment", title: "Begins and Payment", info: STREAM_HELP.timing,
+                key: "payment", title: "Begins & Payment", info: STREAM_HELP.timing,
                 body: (
                     <>
                 <div className="financial-inline-grid financial-stream-grid">

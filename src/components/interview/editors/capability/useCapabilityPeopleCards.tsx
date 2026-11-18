@@ -3,6 +3,7 @@
  * One part of the Infrastructure & Capability editor (see BusinessCapabilityEditor.tsx): what it needs of the parts before it comes in as `scope`; what the parts after it need goes out.
  */
 import { costIsShared } from "../../../../framework/engine/AnswerUtils.ts";
+import { MarkIcon } from "../ActionMarkers.tsx";
 import ListStatic from "../../fields/ListStatic.tsx";
 import FieldLabel from "../../../controls/FieldLabel.tsx";
 import NumberCell from "../../../controls/NumberCell.tsx";
@@ -97,7 +98,7 @@ export function useCapabilityPeopleCards(earlier: Earlier) {
  * A line of a founder's Responsibilities: a link that opens the linked card, with a tile list item's reaction. From the founder's card in the Founders' dialog the linked card
  * opens ALONE (the dialog already shows the founder's card); from the founder's FLOATING card it opens BELOW it, the two stacked.
  */
-    function responsibilityLink(founderId: string, entry: { id: string; name: string; kind?: "activity" | "partner" | "supplier" | "legal" }, done: boolean) {
+    function responsibilityLink(founderId: string, entry: { id: string; name: string; kind?: "activity" | "partner" | "supplier" | "legal"; responsible?: boolean }, done: boolean) {
         const letter = entry.kind === "partner" ? "P." : entry.kind === "supplier" ? "S." : entry.kind === "legal" ? "L." : "A.";
         return (
             <span className={"business-capability-responsibility-line" + (done ? " business-capability-responsibility-line-done" : "")}>
@@ -118,6 +119,12 @@ export function useCapabilityPeopleCards(earlier: Earlier) {
                 >
                     {entry.name}
                 </TextLink>
+                {/* THE RESPONSIBLE MARK (owner, 2026-11-19 01:20 UTC+2, "B: option 2"): the mark set's person with a tick, "Responsible" its tooltip and its name. */}
+                {entry.responsible && (
+                    <span className="business-capability-responsible-mark" role="img" aria-label="Responsible" title="Responsible">
+                        <MarkIcon kind="responsible" size={24} />
+                    </span>
+                )}
             </span>
         );
     }
@@ -135,8 +142,9 @@ export function useCapabilityPeopleCards(earlier: Earlier) {
             )
         });
 
+        // (THE ONE LIST: every activity the founder works on or is Responsible for, the latter marked; owner, 2026-11-19 00:04 UTC+2, "A: One list, Responsible marked".)
         const responsibilities = businessFounderResponsibilities(
-            capability, founder.id, legalExpenses
+            capability, founder.id, legalExpenses, true
         );
 
         const tally = businessResponsibilitiesTally(responsibilities);
@@ -454,10 +462,7 @@ export function useCapabilityPeopleCards(earlier: Earlier) {
                 </div>
 
                 </BandSection>
-                {/* (The activities it works on, as each card's Team names them: one link each; owner, 2026-11-16 20:22.) */}
-                {linksSection(founder.id, [...capability.activities.flatMap(category => category.activities), ...capability.offering.activities]
-                    .filter(activity => activity.performerIds.includes(founder.id))
-                    .map(activity => ({ key: activity.id, noun: "Activity", name: activity.name.trim() || "Unnamed Activity", onOpen: () => openPair(activity.id, founder.id) })))}
+                {/* (No Links section: the activities the founder works on are in the one Responsibilities list above; owner, 2026-11-19 00:04 UTC+2.) */}
 
                 </CardBody>
             </BusinessCard>

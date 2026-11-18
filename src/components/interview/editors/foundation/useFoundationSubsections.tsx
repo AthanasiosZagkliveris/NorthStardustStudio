@@ -217,13 +217,13 @@ export function useFoundationSubsections(earlier: Earlier) {
     const heads = [
         {
             number: 1,
-            title: "Customer Segment and Profile",
+            title: "Customer Segment & Profile",
             instructions: SUBSECTIONS.segments.instructions,
             note: { label: "Your Positioning (Identity)", points: targetAudienceNote }
         },
         {
             number: 2,
-            title: "Competitor and Alternative",
+            title: "Competitor & Alternative",
             instructions: SUBSECTIONS.competitors.instructions,
             // Who you are compared with follows from where you stand.
             note: { label: "Your Positioning (Identity)", points: targetAudienceNote }

@@ -767,7 +767,7 @@ export function useCapabilityCardFields(earlier: Earlier) {
         const percentOf = (id: string) => Math.round((fractions[id] ?? 0) * 100);
         const left = 100 - total;
         return (
-            <>
+            <BandSection name="offerings" title="Offerings">
             <BusinessField label="Offerings" className="business-offering-field">
                 {/* The user's own split: the percent each carries, totalled first, above the numbers; what is left to share said while it is short. */}
                 {split && own && (
@@ -832,7 +832,7 @@ export function useCapabilityCardFields(earlier: Earlier) {
                     />
                 </BusinessField>
             )}
-            </>
+            </BandSection>
         );
     }
     /** A dividing line across the card: above its Completed row and above the links at its foot. */

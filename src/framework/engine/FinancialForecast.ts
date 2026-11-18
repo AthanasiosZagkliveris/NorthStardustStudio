@@ -550,7 +550,7 @@ export function financialForecast(
         ];
 
     const profitAndLoss: ForecastTable = {
-        title: "Profit and Loss Forecast",
+        title: "Profit & Loss Forecast",
         rows: [
             flow("Revenue", revenue),
             flow("Cost of sales (variable costs)", costOfSales),

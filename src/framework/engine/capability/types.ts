@@ -443,4 +443,6 @@ export interface FounderResponsibility {
     completed: boolean;
     scope: "infrastructure" | "offering" | "legal";
     kind: "activity" | "partner" | "supplier" | "legal";
+    /** Whether the founder is Responsible for it (an activity the founder only works on, in its Team, is not: the founder card's one list; owner, 2026-11-19 00:04). */
+    responsible: boolean;
 }

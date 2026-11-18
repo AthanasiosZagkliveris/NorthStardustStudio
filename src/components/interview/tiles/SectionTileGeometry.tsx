@@ -207,10 +207,11 @@ export function arrowLevel(): number | null {
         const natural = (Math.floor((card.width - 12) / 2) - 26 - 12) / 2;
         const tile = Math.min(natural, Math.max(Math.floor((window.innerHeight - top - footer - 36) / 2), 150));
         const gap = natural > 0 ? Math.max(6, Math.min(12, Math.round(12 * tile / natural))) : 12;
-        return top + tile + gap / 2;
+        // (Whole pixels: the page arrows (--arrow-level) and the carousel arrows read the same number, so they never stand a fraction apart.)
+        return Math.round(top + tile + gap / 2);
     }
     const frame = dialogFrame();
-    return frame ? frame.top + frame.height / 2 : null;
+    return frame ? Math.round(frame.top + frame.height / 2) : null;
 }
 
 

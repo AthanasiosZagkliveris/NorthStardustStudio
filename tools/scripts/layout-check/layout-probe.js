@@ -2551,9 +2551,8 @@
                     // The side pickers (Status's, Responsible's) of the card: where the currency's left edge stands.
                     const side = card.querySelector(".business-field-side .option-picker-trigger, .business-field-side .business-capability-automatic");
                     const stacked = frequency && rect(frequency).top > rect(price).bottom + 4;
-                    // (In a card of bands, the band's content edge: the bands win over the name cell's column; owner, 2026-11-18 20:20 UTC+2.)
-                    const band = frequency && frequency.closest(".business-segment-grid-single .legal-entity-org-section");
-                    const edgeRight = band ? rect(band).right - (parseFloat(getComputedStyle(band).paddingRight) || 0) : name && rect(name).right;
+                    // (In a card of bands too: what stands in a band ends at the name cell's right edge, the x column clear; owner's screenshot, 2026-11-19 00:45 UTC+2.)
+                    const edgeRight = name && rect(name).right;
                     if (name && frequency && !stacked && !rules.near(rect(frequency).right, edgeRight, tolerance + 0.75)) {
                         fail("the Frequency's right edge is the name cell's", frequency, { frequency: rect(frequency).right, name: edgeRight });
                     }
@@ -2634,8 +2633,7 @@
                 // (The link symbol stands BEFORE the dropdown now, between the label and it: only a symbol or spacer AFTER the dropdown takes room from it.)
                 const linkPlace = rows.map(row => row.querySelector(":scope > .business-link-symbol, :scope > .business-capability-row-spacer")).filter(node => node && picker && rect(node).left >= rect(picker).right - 1).find(Boolean);
                 const wanted = rect(name).right - (linkPlace ? rect(linkPlace).width + 8 : 0);
-                // (In a card of bands the Team's rows keep the band's own padding: owner, 2026-11-18 20:20 UTC+2, "Page 3's cards in bands".)
-                if (picker && !card.querySelector(".business-segment-grid-single") && !rules.near(rect(picker).right, wanted, tolerance + 0.5)) {
+                if (picker && !rules.near(rect(picker).right, wanted, tolerance + 0.5)) {
                     fail("the Performer's dropdown ends where the name cell ends", picker, { picker: rect(picker).right, name: wanted });
                 }
                 if (picker && label && !rules.near(rect(picker).left - rect(label).right, spec.fieldGap, tolerance + 0.5)) {
@@ -2765,9 +2763,16 @@
                     fail("a child's name text starts at the name cell's left edge", name, { text: two.left, cell: nameBox.left });
                 }
             }
+            // (IN A CARD OF BANDS every control -- a cell, a picker, a text box -- ends at the name cell's right edge, the x column clear; only the bands' tints run on to
+            // the card's sides: owner's screenshot, 2026-11-19 00:45 UTC+2, layout rules section 11, "Page 3's cards in bands". The bands' own boxes are measured by it.)
+            for (const control of [...card.querySelectorAll(".business-segment-grid-single .legal-entity-org-section :is(input.interview-input, .option-picker, textarea, .date-cell)")].filter(visible)) {
+                if (rect(control).right > nameBox.right + 0.75) {
+                    fail("in a card of bands, a control ends at the name cell's right edge", control, { right: rect(control).right, name: nameBox.right });
+                }
+            }
             for (const element of card.querySelectorAll("*")) {
-                // (A divider line runs across the whole card, the x column too: rule 18. A card's BANDS run out to its sides, and what stands in them keeps the
-                // band's own padding, not the name cell's column: owner, 2026-11-18 20:20 UTC+2, layout rules section 11, "Page 3's cards in bands".)
+                // (A divider line runs across the whole card, the x column too: rule 18. A card's BANDS run out to its sides (their boxes: the check above measures
+                // what stands in them): owner, 2026-11-18 20:20 and 2026-11-19 00:45 UTC+2, layout rules section 11, "Page 3's cards in bands".)
                 if (head.contains(element) || element.closest(".option-picker-list, .business-segment-grid-single") || element.matches(".business-capability-card-rule, .business-segment-grid-single") || !visible(element)) continue;
                 const style = getComputedStyle(element);
                 if (style.display === "contents" || style.display === "none") continue;

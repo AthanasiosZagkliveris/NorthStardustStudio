@@ -686,3 +686,40 @@ body .business-capability-activity-completed.business-capability-activity-comple
     border-color: var(--line-completed) !important;
 
 }
+
+/* THE COMPLETED ROW IS A BAND OF ITS OWN COLOUR (owner, 2026-11-19 00:20 and 01:08 UTC+2: "Completed should have another coloured band"; layout rules section 11):
+   from side to side of the card, flush under the band above it and down to the card's foot, in --tint-completed-band; the card's line above it gives way to the
+   colour. */
+.card-box-open > .business-capability-slot > .business-capability-card-rule:has(+ .business-capability-done) {
+
+    display: none;
+
+}
+
+.card-box-open > .business-capability-slot > .business-capability-done.business-capability-done {
+
+    grid-column: 1 / -1;
+
+    justify-self: stretch;
+
+    display: flex;
+
+    width: auto;
+
+    max-width: none;
+
+    margin: calc(-1 * var(--space-field)) calc(-1 * var(--card-padding)) 0;
+
+    padding: var(--space-cell) var(--card-padding);
+
+    background: var(--tint-completed-band);
+
+}
+
+.card-box-open > .business-capability-slot > .business-capability-done:last-child {
+
+    margin-bottom: calc(-1 * var(--card-padding));
+
+    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+
+}

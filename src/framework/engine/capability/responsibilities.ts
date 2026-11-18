@@ -18,7 +18,10 @@ export function businessFounderResponsibilities(
     capability: BusinessCapabilityValue,
     founderId: string,
     /** The Legal Entity's expenses: an expense names the founder responsible for it. */
-    legalExpenses: readonly { id: string; name: string; responsibility: string; responsibleOff?: boolean }[] = []
+    legalExpenses: readonly { id: string; name: string; responsibility: string; responsibleOff?: boolean }[] = [],
+    /** With the activities the founder only works on (in its Team), unmarked: the founder card's one list (owner, 2026-11-19 00:04 UTC+2: "A: One list,
+        Responsible marked"). Without it, what the founder is Responsible for alone (the documents). */
+    withTeam = false
 ): FounderResponsibility[] {
 
     if (founderId.length === 0) {
@@ -30,7 +33,7 @@ export function businessFounderResponsibilities(
 
     const activities = businessAllActivities(capability)
         .filter(activity =>
-            businessResponsibleId(activity, founderIds) === founderId &&
+            (businessResponsibleId(activity, founderIds) === founderId || (withTeam && activity.performerIds.includes(founderId))) &&
             activity.name.trim().length > 0
         )
         .map(activity => ({
@@ -38,16 +41,17 @@ export function businessFounderResponsibilities(
             name: activity.name.trim(),
             completed: activity.completed,
             scope: offeringIds.has(activity.id) ? "offering" as const : "infrastructure" as const,
-            kind: "activity" as const
+            kind: "activity" as const,
+            responsible: businessResponsibleId(activity, founderIds) === founderId
         }));
 
     const partners = (list: readonly BusinessPartnerValue[], scope: "infrastructure" | "offering", kind: "partner" | "supplier") => list
         .filter(partner => businessPartnerResponsibleId(partner, founderIds) === founderId && partner.name.trim().length > 0)
-        .map(partner => ({ id: partner.id, name: partner.name.trim(), completed: false, scope, kind }));
+        .map(partner => ({ id: partner.id, name: partner.name.trim(), completed: false, scope, kind, responsible: true }));
 
     const legal = legalExpenses
         .filter(expense => expense.responsibleOff !== true && expense.responsibility === founderId && expense.name.trim().length > 0)
-        .map(expense => ({ id: expense.id, name: expense.name.trim(), completed: false, scope: "legal" as const, kind: "legal" as const }));
+        .map(expense => ({ id: expense.id, name: expense.name.trim(), completed: false, scope: "legal" as const, kind: "legal" as const, responsible: true }));
 
     return [
         ...activities,

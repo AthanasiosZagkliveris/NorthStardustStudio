@@ -263,7 +263,7 @@ describe("the Operating need's Loan Repayments column", () => {
     });
 });
 
-describe("a revenue stream's Begins and Payment and Orders & Delivery", () => {
+describe("a revenue stream's Begins & Payment and Orders & Delivery", () => {
 
     // A courier at 6 a delivery: a cost per order, so the stream asks about orders.
     const capability = {
@@ -289,11 +289,11 @@ describe("a revenue stream's Begins and Payment and Orders & Delivery", () => {
     /** The titles of the floating card's boxes, in order (owner, 2026-11-18 10:38: its groups as Customer Engagement's boxes of bands). */
     const boxTitles = (card: Element) => [...card.querySelectorAll(".business-segment-box > .legal-entity-org-section:first-child [role='heading']")].map(head => head.textContent ?? "");
 
-    it("stand as boxes of the shared bands, Begins and Payment then Orders & Delivery", () => {
+    it("stand as boxes of the shared bands, Begins & Payment then Orders & Delivery", () => {
         const heads = boxTitles(band(""));
         expect(heads[0].startsWith("Price")).toBe(true);
-        expect(heads.findIndex(head => head.startsWith("Begins and Payment"))).toBeGreaterThan(0);
-        expect(heads.findIndex(head => head.startsWith("Begins and Payment"))).toBeLessThan(heads.findIndex(head => head.startsWith("Orders & Delivery")));
+        expect(heads.findIndex(head => head.startsWith("Begins & Payment"))).toBeGreaterThan(0);
+        expect(heads.findIndex(head => head.startsWith("Begins & Payment"))).toBeLessThan(heads.findIndex(head => head.startsWith("Orders & Delivery")));
         // The group says why it is asked; its fields what they ask.
         for (const name of ["Orders & Delivery", "Items per Order", "Delivery Charge"]) {
             expect(screen.queryAllByRole("button", { name: new RegExp("^" + name.replace(/[()£]/g, ".") + ".*: what this means$") }).length).toBeGreaterThan(0);

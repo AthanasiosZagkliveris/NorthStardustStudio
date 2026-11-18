@@ -298,5 +298,13 @@ export function clearFieldRegistry(): void {
  * section's key and its place on the page can never drift apart.
  */
 export function sectionSegment(title: string): string {
-    return title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").replace(UK_SPELLING, (_, stem) => US_STEM[stem]);
+    const segment = title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").replace(UK_SPELLING, (_, stem) => US_STEM[stem]);
+    return KEPT_SEGMENTS[segment] ?? segment;
 }
+
+/** Sections renamed with "&" (owner, 2026-11-19 00:24 UTC+2: "I have said use & instead of and") keep the key they were saved under, so the notes, links and
+ *  answers that name them still find them. */
+const KEPT_SEGMENTS: Readonly<Record<string, string>> = {
+    "customer-segment-profile": "customer-segment-and-profile",
+    "competitor-alternative": "competitor-and-alternative"
+};

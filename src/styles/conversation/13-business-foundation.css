@@ -1173,7 +1173,8 @@
 
 }
 
-.floating-card-body .column-tile-content > .business-foundation-card > .business-group-fold-head .business-foundation-subhead{
+.floating-card-body .column-tile-content > .business-foundation-card > .business-group-fold-head .business-foundation-subhead,
+.legal-entity-org-section.business-section-band .business-foundation-subhead{
 
     font-size:var(--font-body);
 
@@ -1546,5 +1547,39 @@
 .legal-entity-org-section.legal-entity-org-section[data-section="links"]{
 
     background:color-mix(in srgb, var(--text-primary) 12%, transparent);
+
+}
+
+/* WHAT STANDS IN A BAND ENDS AT THE NAME CELL'S RIGHT EDGE, THE x COLUMN CLEAR (owner's screenshot, 2026-11-19 00:45 UTC+2, the documents reconciled: layout rules
+   section 11, "Page 3's cards in bands"): the bands' tints run out to the card's sides, and their content keeps the x column and the gap before it as padding, as
+   a founder's sections do. What belongs to the x column -- the "+" or x beside a Team or Status row -- stands out in it. */
+.card-box-open > .business-capability-slot .business-segment-grid-single .legal-entity-org-section{
+
+    padding-right:calc(var(--card-x-column) + var(--space-field));
+
+}
+
+.card-box-open > .business-capability-slot .business-segment-grid-single .legal-entity-org-section .business-capability-performer:has(> .plus-box, > .strategy-box-remove, > .business-capability-performer-slot){
+
+    margin-right:calc(-1 * var(--card-x-column));
+
+}
+
+/* A SECTION BAND IN A CARD OF BANDS (a titled BandSection: the Offerings of page 3's cards; owner, 2026-11-19 00:16 and 01:08 UTC+2): the Profile's section band --
+   the card's dark fill, its title in light capitals (the rule above) -- from side to side, its section's own band under it. The field under it says its name
+   no more: the band says it. */
+.legal-entity-org-section.business-section-band{
+
+    padding-block:8px;
+
+    background:var(--card-band-ink, var(--bg-primary));
+
+    --info-fill:var(--card-band-ink, var(--bg-primary));
+
+}
+
+.legal-entity-org-section.business-section-band + .legal-entity-org-section > .business-offering-field > :is(.business-foundation-label-info, .field-label, .business-foundation-label){
+
+    display:none;
 
 }

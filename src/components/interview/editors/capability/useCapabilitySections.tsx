@@ -509,7 +509,9 @@ export function useCapabilitySections(earlier: Earlier) {
                 </div>
 
                 </BandSection>
-                <BandSection name="costs">
+                {/* (The Team's costs and the Resources stand in the Team & Responsibilities section, one band with the Team and the Responsible: owner, 2026-11-19 00:20
+                    UTC+2, "Team, Resources and Responsible should be a section".) */}
+                <BandSection name="team">
                 {performerCosts(scope, activity)}
 
                 <div className="business-capability-stack business-capability-activity-fields">

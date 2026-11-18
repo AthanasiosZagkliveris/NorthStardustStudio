@@ -142,7 +142,7 @@ describe("BusinessFoundationEditor page order (owner, 2026-11-08)", () => {
         render(<Tiled />);
         const ids = [...document.querySelectorAll<HTMLElement>(".section-tile")].map(tile => (tile.getAttribute("data-tile") ?? "").replace(/^.*:/, ""));
         expect(ids).toEqual(["customers", "competitors", "offerings", "value-proposition"]);
-        expect([...BUSINESS_FOUNDATION_SUBSECTIONS]).toEqual(["Customer Segment and Profile", "Competitor and Alternative", "Offering", "Value Proposition"]);
+        expect([...BUSINESS_FOUNDATION_SUBSECTIONS]).toEqual(["Customer Segment & Profile", "Competitor & Alternative", "Offering", "Value Proposition"]);
         // Only the Offering is missing: it is the third subsection.
         expect(businessFoundationSubsectionsEmpty({
             segments: [{ id: "s", name: "Firms", description: {}, valueProposition: "We save time.", profiles: [{ ...createBusinessCustomerProfile(), name: "Office manager" }], competitors: [{ id: "c", name: "Zapier" }], offerings: [] }]
@@ -156,7 +156,7 @@ describe("BusinessFoundationEditor page order (owner, 2026-11-08)", () => {
         expect(screen.getAllByText(/Make sure each one answers your Profiles' needs\./).length).toBeGreaterThan(0);
         expect(screen.queryByText(/supports the Value Proposition/)).toBeNull();
         const titles = [...document.querySelectorAll(".answer-column-label")].map(title => title.textContent);
-        expect(titles).toEqual(["1.Customer Segment and Profile", "2.Competitor and Alternative", "3.Offering", "4.Value Proposition"]);
+        expect(titles).toEqual(["1.Customer Segment & Profile", "2.Competitor & Alternative", "3.Offering", "4.Value Proposition"]);
 
     });
 

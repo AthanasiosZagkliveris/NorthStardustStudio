@@ -823,8 +823,8 @@ export function businessFoundationSubsectionsEmpty(value: unknown): boolean[] {
  * Value Proposition is drafted from the Offerings, so it comes last.
  */
 export const BUSINESS_FOUNDATION_SUBSECTIONS = [
-    "Customer Segment and Profile",
-    "Competitor and Alternative",
+    "Customer Segment & Profile",
+    "Competitor & Alternative",
     "Offering",
     "Value Proposition"
 ] as const;

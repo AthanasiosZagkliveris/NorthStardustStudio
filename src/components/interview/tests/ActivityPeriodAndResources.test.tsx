@@ -186,10 +186,16 @@ describe("an activity's Team", () => {
 });
 
 describe("the cards on a Team link back", () => {
-    it("a founder's card lists the activities it works on", () => {
+    // (In its one Responsibilities list: every activity the founder works on or is Responsible for, the latter marked; no Links section; owner, 2026-11-19 00:04 UTC+2.)
+    it("a founder's card lists the activities it works on, in its one Responsibilities list", () => {
         render(<Harness initial={{ ...base(), activities: [{ id: "operational", name: "", activities: [activity({ performerIds: ["f1"] })] }] }} />);
         openTile("Founders");
+        const unfold = screen.queryAllByRole("button").find(button => /^Maximi[sz]e Responsibilities/.test(button.getAttribute("aria-label") ?? ""));
+        if (unfold) {
+            fireEvent.click(unfold);
+        }
         const card = document.querySelector(".floating-card-host") ?? topDialog();
         expect(card?.textContent ?? "").toContain("Weave");
+        expect(card?.textContent ?? "").not.toMatch(/Linkss*d/);
     });
 });

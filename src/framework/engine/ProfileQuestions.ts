@@ -863,7 +863,7 @@ export function proposedBusinessProfiles(segment: SegmentAnswers, context: Segme
         proposed.push({ id: "user", name: "User", roles: ["use", "influence"] });
         proposed.push({ id: "decider", name: "Decider", roles: ["decide"] });
         if (has("multi") && has("procurement")) {
-            proposed.push({ id: "checker-buyer", name: "Checker and buyer", roles: ["influence", "order", "gate"] });
+            proposed.push({ id: "checker-buyer", name: "Checker & buyer", roles: ["influence", "order", "gate"] });
         } else if (has("multi")) {
             proposed.push({ id: "checker", name: "Checker", roles: ["influence"] });
         } else if (has("procurement")) {
@@ -872,7 +872,8 @@ export function proposedBusinessProfiles(segment: SegmentAnswers, context: Segme
     } else if (has("solo")) {
         proposed.push({ id: "decider", name: "Decider", roles: ALL_ROLES });
     }
-    const taken = new Set(names.map(name => name.trim().toLowerCase()));
+    // (A Profile added before 2026-11-19 is named with "and" -- "Checker and buyer" --: read as the "&" name, so it is not proposed again.)
+    const taken = new Set(names.map(name => name.trim().toLowerCase().replace(/ and /g, " & ")));
     return proposed.filter(profile => !taken.has(profile.name.toLowerCase()));
 }
 

@@ -155,7 +155,7 @@ describe("Conversation records the last place worked", () => {
         expect(OrganizationService.getLastPlace(organization.id)).toEqual({ systemNumber: 1, sectionIndex: 2 });
         fireEvent.click(screen.getByRole("navigation", { name: "Pages" }).querySelectorAll(".bullet-rail-item")[1]);
 
-        // (The Definition and Purpose page holds the Definition chapter and the Purpose chapter: Philosophy & Manifesto's dialog opens, and the field in it is focused.)
+        // (The Definition & Purpose page holds the Definition chapter and the Purpose chapter: Philosophy & Manifesto's dialog opens, and the field in it is focused.)
         fireEvent.click(screen.getByRole("button", { name: /^Philosophy/ }));
         const card = document.querySelector<HTMLElement>(".column-tile-content[data-rail]")!;
         const field = card.querySelector<HTMLElement>("textarea, input")!;
