@@ -259,23 +259,32 @@ export function CarouselArrows({ target, step, hue, back, side: fixedSide }: { t
     const arrowsTop = at?.top ?? 0;
 
     // THE TAB ENDS AT ITS CARD'S FOOT (owner, 2026-11-18 18:01: "Fix the rail on the colour floated card"; the arrows never move): where its bullets, the arrow's
-    // place among them and Back would run past the card, the gaps between the bullets close -- down to 8px -- just enough to end at the card's foot; the bullets
-    // keep their size and their distance from the arrow. Worked out from the list's natural height at its 18px gaps, so it settles at once.
+    // place among them and Back would run past the card, the gaps between the bullets close -- down to 10px -- just enough to end at the card's foot; the bullets
+    // keep their size and their distance from the arrow. Worked out from the list's natural height at its 18px gaps.
+    // ONE WAY ONLY (owner, 2026-11-18 18:45: the Colours card crashed, "Maximum update depth exceeded"): the gaps only close while the same list stands by the
+    // same card -- closing them moves the bullets round the arrow, which changes the tab's height, which must not open them again -- and start again from 18px
+    // when the list or its card changes. Each measure is rounded to a whole pixel, so a fractional size (a zoomed window) cannot flip it either.
     const [railGap, setRailGap] = useState<number | null>(null);
+    const gapFor = useRef<string>("");
     useLayoutEffect(() => {
         const rail = railRef.current;
         const list = rail?.querySelector<HTMLElement>(".bullet-rail-list");
         if (!rail || !list || !at?.tab || itemCount < 2) {
+            gapFor.current = "";
             setRailGap(previous => previous === null ? previous : null);
             return;
         }
+        const key = itemCount + ":" + (step.items ?? []).map(item => item.id).join("|") + ":" + Math.round(at.bottom) + ":" + Math.round(at.titleTop);
+        const fresh = gapFor.current !== key;
+        gapFor.current = key;
         const NATURAL = 18;
-        const now = railGap ?? NATURAL;
-        const natural = rail.scrollHeight + (NATURAL - now) * (itemCount - 1);
-        const room = at.bottom - at.titleTop;
+        const now = fresh ? NATURAL : railGap ?? NATURAL;
+        const natural = Math.round(rail.scrollHeight + (NATURAL - (railGap ?? NATURAL)) * (itemCount - 1));
+        const room = Math.round(at.bottom - at.titleTop);
         const over = natural - room;
         // (Never under 10px: each bullet keeps a clear 24px target, the smallest the rules allow (WCAG 2.2, 2.5.8); a longer list scrolls in the tab.)
-        const next = over <= 0.5 ? null : Math.max(10, Math.floor(NATURAL - over / (itemCount - 1)));
+        const wanted = over <= 0 ? null : Math.max(10, Math.floor(NATURAL - over / (itemCount - 1)));
+        const next = fresh ? wanted : wanted === null ? (now === NATURAL ? null : now) : Math.min(now, wanted);
         setRailGap(previous => previous === next ? previous : next);
     });
 
