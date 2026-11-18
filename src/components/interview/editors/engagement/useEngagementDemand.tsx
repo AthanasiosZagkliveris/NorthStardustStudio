@@ -2,6 +2,7 @@
  * THE DEMAND AND CONVERSION of each Offering.
  * One part of BusinessEngagementEditor (see BusinessEngagementEditor.tsx): what it needs of the parts before it comes in as `earlier`; what the parts after it need goes out.
  */
+import CardBoxes, { type CardBox } from "../../cards/CardBoxes.tsx";
 import { draftAdds, withDraft } from "../../../../framework/engine/CompetitorQuestions.ts";
 import type { ReactNode } from "react";
 import NumberCell from "../../../controls/NumberCell.tsx";
@@ -234,7 +235,7 @@ export function useEngagementDemand(earlier: Earlier) {
                     <OptionPicker
                         label={capitalized(what)}
                         placeholder="Select"
-                        hug
+                        hug={!own}
                         options={availableFor(source).map(entry => entry.label)}
                         disabled={disabled}
                         value={type?.label ?? ""}
@@ -250,7 +251,7 @@ export function useEngagementDemand(earlier: Earlier) {
             // (A group's source lists its channels, the category's Discover channels that serve the Offering: owner, 2026-11-16 20:11.)
             const groupChannels = (source.channelIds ?? []).map(id => channelOf(id)?.name.trim() ?? "").filter(Boolean);
             const channelPicker = source.group ? (
-                <BusinessField key="channel" label="Channels" info={DEMAND_SOURCE_CHANNEL_HELP} side={own}>
+                <BusinessField key="channel" label="Channels" info={DEMAND_SOURCE_CHANNEL_HELP}>
                     <p className="business-demand-source-note">{groupChannels.join(", ")}</p>
                 </BusinessField>
             ) : (
@@ -258,7 +259,7 @@ export function useEngagementDemand(earlier: Earlier) {
                     <OptionPicker
                         label={"Channel, " + what}
                         placeholder="Select"
-                        hug
+                        hug={!own}
                         options={channelOptionsFor(source.channelId, source.type).map(option => option.label)}
                         disabled={disabled}
                         value={channelOptions.find(option => option.id === source.channelId)?.label ?? ""}
@@ -276,7 +277,7 @@ export function useEngagementDemand(earlier: Earlier) {
                     <OptionPicker
                         label={"How the sales are estimated, " + what}
                         placeholder={DEMAND_BY_FIGURE}
-                        hug
+                        hug={!own}
                         options={[DEMAND_BY_FIGURE, DEMAND_BY_CALCULATION]}
                         disabled={disabled}
                         value={source.calculate ? DEMAND_BY_CALCULATION : DEMAND_BY_FIGURE}
@@ -609,16 +610,18 @@ export function useEngagementDemand(earlier: Earlier) {
         const unchannelled = demand.sources.filter(source => source.type !== "" && !channelOptions.some(option => option.id === source.channelId) && (source.channelIds ?? []).length === 0).length;
         const channelsBringing = (
             <>
+                {/* (THE CHANNELS AS TILES (owner, 2026-11-18 10:38: "instead of listing the channels as text, place them on tiles"): the dialog's card list, three
+                    in a row, each its channel's name and group, pressed to open that channel.) */}
                 {broughtBy.length > 0 && (
-                    <ul className="business-relationship-profile-list">
-                        {broughtBy.map(id => (
-                            <li key={id}>
-                                <TextLink className="business-engagement-link" onClick={() => openChannel(segment, id)}>
-                                    {channelOptions.find(option => option.id === id)?.label ?? ""}
-                                </TextLink>
-                            </li>
-                        ))}
-                    </ul>
+                    <CardBoxes
+                        label={"Channels that bring the customers of " + offeringLabel}
+                        what="Channel"
+                        autoStart={false}
+                        items={broughtBy.map((id, at): CardBox => {
+                            const channel = segmentOf(segment.id).channels.find(entry => entry.id === id);
+                            return { id: "demand-channel:" + offeringId + ":" + id, number: at + 1, name: channelOptions.find(option => option.id === id)?.label ?? "", unnamed: "Unnamed channel", own: true, lines: channel?.category.trim() ? [channel.category.trim()] : [], press: () => openChannel(segment, id), content: () => null };
+                        })}
+                    />
                 )}
                 {(broughtBy.length === 0 || unchannelled > 0) && (
                     <BusinessEmpty>

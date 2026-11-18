@@ -664,7 +664,7 @@ describe("a Customer Source's choices narrowed by the earlier answers (owner, 20
         // (The Audit's dialog: its Expected Sales section, then its source's tile; owner, 2026-11-13 16:35.)
         openTile("1. Audit");
         expect(document.body.textContent).toContain("Expected Sales");
-        fireEvent.click([...document.querySelectorAll<HTMLElement>(".section-tile-overlay button.card-tile")][0]);
+        fireEvent.click([...document.querySelectorAll<HTMLElement>(".section-tile-overlay [aria-label^='Demand & Conversion of'] button.card-tile")][0]);
         const optionsOf = (label: string) => {
             // (One option is a record, not a dropdown: its value, read only; owner, 2026-11-14 14:21.)
             const record = screen.queryByRole("textbox", { name: new RegExp("^" + label) });
@@ -707,7 +707,7 @@ describe("a Customer Source's kind narrows its channels (owner, 2026-11-14 11:15
         render(<Harness />);
         openTile("Demand & Conversion");
         openTile("1. Audit");
-        fireEvent.click([...document.querySelectorAll<HTMLElement>(".section-tile-overlay button.card-tile")][0]);
+        fireEvent.click([...document.querySelectorAll<HTMLElement>(".section-tile-overlay [aria-label^='Demand & Conversion of'] button.card-tile")][0]);
         const channels = () => {
             // (One option is a record, not a dropdown: its value, read only; owner, 2026-11-14 14:21.)
             const record = screen.queryByRole("textbox", { name: /^Channel, / });

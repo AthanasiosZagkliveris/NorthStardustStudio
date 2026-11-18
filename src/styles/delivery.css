@@ -88,6 +88,22 @@
 
 }
 
+/* (Its controls fill their column, to the card's content edge, and a read-only value (its Channels) takes the card's width under its label: no dead space beside
+   them; owner, 2026-11-18 10:38.) */
+.business-demand-side .business-field-side > :not(:first-child){
+
+    width:100%;
+
+}
+
+.business-demand-side .business-demand-number{
+
+    max-width:none;
+
+    width:100%;
+
+}
+
 /* (Opened on its own, floating from the tile's link, the card is a .card-box-open whose 124px label column is for the Status and Frequency rows; a Delivery
    card keeps its own, wide enough for "Calendar Time (weeks)" on one line.) */
 @container card (min-width: 396px){
