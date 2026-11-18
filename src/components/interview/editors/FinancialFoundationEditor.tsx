@@ -297,7 +297,7 @@ export default function FinancialFoundationEditor({
                 const nature = split.after;
                 if (nature === "cogs" || line.behaviour === "variable") {
                     const percent = line.frequency === "usage-based";
-                    rows.push({ key: line.id + ":sale", line, bucket: "sale", amount: line.amount, text: percent ? line.amountText + " % of Rev" : format(line.variablePerUnit ?? line.amount) + " " + frequencyLabel(line).toLowerCase(), when: percent ? "With revenue" : frequencyLabel(line), nature });
+                    rows.push({ key: line.id + ":sale", line, bucket: "sale", amount: line.amount, text: percent ? line.amountText + "% of revenue" : format(line.variablePerUnit ?? line.amount) + " " + frequencyLabel(line).toLowerCase(), when: percent ? "With revenue" : frequencyLabel(line), nature });
                 } else if (line.frequency === "one-time" || line.frequency === "per-project" || nature === "capex" || nature === "startup" || nature === "pre-operating" || nature === "inventory") {
                     rows.push({ key: line.id + ":later", line, bucket: "later", amount: line.amount, text: format(line.amount), when: line.startDate ? line.startDate : frequencyLabel(line), nature });
                 } else {
@@ -314,7 +314,7 @@ export default function FinancialFoundationEditor({
         const sales = rows.filter(row => row.bucket === "sale");
         const perSale = sales.filter(row => row.line.frequency !== "usage-based").reduce((sum, row) => sum + (row.line.variablePerUnit ?? row.amount), 0);
         const percentCosts = sales.filter(row => row.line.frequency === "usage-based").length;
-        return sales.length === 0 ? format(0) : format(perSale) + (percentCosts > 0 ? " + " + percentCosts + " % of Rev" : "");
+        return sales.length === 0 ? format(0) : format(perSale) + (percentCosts > 0 ? " + " + percentCosts + (percentCosts === 1 ? " share of revenue" : " shares of revenue") : "");
     }
 
     function costsSection() {
@@ -1337,7 +1337,13 @@ export default function FinancialFoundationEditor({
     const costFace = [
         pair("Launch budget", format(funds.schedule.total)),
         pair("Running costs a month", format(funds.monthlyOpEx)),
-        pair("Cost of each sale", saleTextOf(costRows().rows))
+        // (A share of revenue on its own line, so the face never cuts it: owner, 2026-11-18 10:38.)
+        ...(() => {
+            const sales = costRows().rows.filter(row => row.bucket === "sale");
+            const perSale = sales.filter(row => row.line.frequency !== "usage-based").reduce((sum, row) => sum + (row.line.variablePerUnit ?? row.amount), 0);
+            const shares = sales.filter(row => row.line.frequency === "usage-based").length;
+            return [pair("Cost of each sale", format(perSale)), ...(shares > 0 ? [pair("Shares of revenue", String(shares))] : [])];
+        })()
     ];
     const needFace = calculatedNeeds.map(need => pair(need.label, format(need.amount)));
     const sources = allFunding(page, legalEntity);
@@ -1399,7 +1405,7 @@ export default function FinancialFoundationEditor({
     }
 
     return (
-        <div className={"answer-columns business-foundation business-engagement business-capability column-tiles-page" + (beside ? "" : " strategy-single-frame")} style={{ "--answer-column-count": beside ? 2 : 1 } as CSSProperties}>
+        <div className={"answer-columns business-foundation business-engagement business-capability column-tiles-page" + (beside ? " column-tiles-pair" : " strategy-single-frame")} style={{ "--answer-column-count": beside ? 2 : 1 } as CSSProperties}>
             <CardShell
                 data-anchor="column-tiles"
                 style={{ "--strategy-theme-hue": hue } as CSSProperties}

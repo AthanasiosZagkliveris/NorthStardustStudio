@@ -1446,6 +1446,18 @@ export default function FinancialSustainabilityEditor({
             </>
         );
 
+        /** The Stress Test's face: as planned and in the hardest case, each the shortfall or the lowest the cash falls to. */
+        function stressFace(): string[] {
+            const test = stressTest(effective, financial, lines, legalEntity, format);
+            if (test.scenarios.length === 0) {
+                return [];
+            }
+            const [planned] = test.scenarios;
+            const hardest = test.scenarios.reduce((max, scenario) => scenario.shortfall > max.shortfall ? scenario : max, planned);
+            const said = (scenario: typeof planned) => scenario.shortfall > 0.5 ? format(scenario.shortfall) + " short" : "holds";
+            return [pair("As planned", said(planned)), pair("Hardest case", said(hardest))];
+        }
+
         const stress = (
             <>
                 {stressBlock()}
@@ -1487,8 +1499,10 @@ export default function FinancialSustainabilityEditor({
         return {
             point: { body: point, face: result.breakEvenRevenue === null ? [] : [pair("Break-even revenue", format(result.breakEvenRevenue) + " a month")] },
             time: { body: time, face: [pair("Expected Break Even", breakEven)] },
-            sustainability: { body: <>{lead}{summary}</>, face: [pair(statusTitle, "")] },
-            stress: { body: stress, face: [] as string[] }
+            // (THE FACES SAY THEIR FIGURES (owner, 2026-11-18 10:38: "Check the structure, layout, sequence, content and wording"): the status with when the money
+            // runs out and the buffer; the Stress Test, as planned and at worst.)
+            sustainability: { body: <>{lead}{summary}</>, face: [pair(statusTitle, ""), pair("Financial Exhaustion", exhaustion), pair("Sustainability Buffer", bufferLabel)] },
+            stress: { body: stress, face: stressFace() }
         };
 
     }
