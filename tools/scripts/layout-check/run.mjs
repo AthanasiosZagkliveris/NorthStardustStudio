@@ -77,7 +77,7 @@ export const PAGES = [
     // button after the rail's number, whatever it is ("^(\d+\. )?Foundation"), so "Foundation" does not also find "Financial Foundation".
     ["Identity System", ["Definition", "Legal Entity"]],
     ["Brand System", ["Brand System"]],
-    ["Business System", ["Foundation", "Customer Engagement", "Infrastructure", "Financials"]],
+    ["Business System", ["Foundation & Engagement", "Infrastructure", "Financials"]],
     ["Strategy System", ["Strategy System"]]
 ];
 

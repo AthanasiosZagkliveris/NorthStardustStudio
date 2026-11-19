@@ -88,7 +88,7 @@ const attempt = async (name, fn, again = true) => {
     }
 };
 
-const PAGES = { "Identity System": ["Definition", "Legal Entity"], "Brand System": [null], "Business System": ["Foundation", "Customer Engagement", "Infrastructure", "Financials"], "Strategy System": [null] };
+const PAGES = { "Identity System": ["Definition", "Legal Entity"], "Brand System": [null], "Business System": ["Foundation & Engagement", "Infrastructure", "Financials"], "Strategy System": [null] };
 for (const [system, pages] of Object.entries(PAGES)) {
     for (const name of pages) {
         const where = system + " / " + (name ?? "main");

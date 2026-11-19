@@ -30,7 +30,7 @@ const pageFilter = arg("pages", "").split(",").filter(Boolean);
 const PAGES = [
     ["Identity System", ["Definition", "Legal Entity"]],
     ["Brand System", ["Brand System"]],
-    ["Business System", ["Foundation", "Customer Engagement", "Infrastructure", "Financials"]],
+    ["Business System", ["Foundation & Engagement", "Infrastructure", "Financials"]],
     ["Strategy System", ["Strategy System"]]
 ];
 const MAX_OPENINGS_PER_PAGE = Number(arg("max", "70"));

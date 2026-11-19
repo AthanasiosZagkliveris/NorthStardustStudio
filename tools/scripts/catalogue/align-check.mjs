@@ -60,7 +60,7 @@ function check() {
 async function scan(where) { scenes++; try { for (const f of await page.evaluate(check)) findings.push({ where, ...f }); } catch (error) { console.log("skipped " + where + ": " + String(error).slice(0, 60)); } }
 const attempt = async (name, fn) => { try { await fn(); } catch (error) { console.log("skipped " + name + ": " + String(error).slice(0, 80)); } };
 
-const PAGES = { "Identity System": ["Definition", "Legal Entity"], "Brand System": [null], "Business System": ["Foundation", "Customer Engagement", "Infrastructure", "Financials"], "Strategy System": [null] };
+const PAGES = { "Identity System": ["Definition", "Legal Entity"], "Brand System": [null], "Business System": ["Foundation & Engagement", "Infrastructure", "Financials"], "Strategy System": [null] };
 for (const [system, pages] of Object.entries(PAGES)) for (const name of pages) {
     const where = system + " / " + (name ?? "main");
     await attempt(where, async () => {

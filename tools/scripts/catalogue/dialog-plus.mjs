@@ -22,7 +22,7 @@ const pageFilter = arg("pages", "").split(",").filter(Boolean);
 const PAGES = [
     ["Identity System", ["Definition", "Legal Entity"]],
     ["Brand System", ["Brand System"]],
-    ["Business System", ["Foundation", "Customer Engagement", "Infrastructure", "Financials"]],
+    ["Business System", ["Foundation & Engagement", "Infrastructure", "Financials"]],
     ["Strategy System", ["Strategy System"]]
 ];
 const PLUS = ".plus-box, .strategy-add-button, .business-add-button";
