@@ -3093,9 +3093,24 @@
                 if (items.some(item => Math.abs(item.height - 16) > 0.6)) {
                     fail("a page rail's rows are 16px, with or without names", rail, { heights: items.map(item => item.height) });
                 }
-                const gaps = items.slice(1).map((item, i) => item.top - items[i].bottom);
+                // (The arrow's place aside: where the rail stands under its page arrow, the arrow takes one line's place in the list.)
+                const arrows = [...document.querySelectorAll(".page-arrow")].filter(arrow => visible(arrow) && getComputedStyle(arrow).visibility !== "hidden").map(rect).filter(arrow => arrow.left < box.right && arrow.right > box.left);
+                const gaps = items.slice(1).map((item, i) => ({ gap: item.top - items[i].bottom, across: arrows.some(arrow => items[i].bottom <= arrow.top + 1 && item.top >= arrow.bottom - 1) })).filter(g => !g.across).map(g => g.gap);
                 if (gaps.some(gap => Math.abs(gap - 18) > 0.6)) {
                     fail("a page rail has 18px between its rows", rail, { gaps });
+                }
+                // EVERY RAIL STARTS 12px UNDER ITS FRAME'S TOP (layout rules section 10, "One rail for every layer"; owner, 2026-11-19 12:52 UTC+2: "Why the rails
+                // (chapter/page and dialogue card) have different Top gaps"): the page's rails as a layer's tab, 12px under the top of the page's frame as it rests.
+                const frame = [...document.querySelectorAll(".conversation-card .business-foundation-card:not(.section-tile-dialog)")].find(candidate => rect(candidate).width > 300);
+                if (frame && getComputedStyle(rail).visibility !== "hidden") {
+                    let scrolled = window.scrollY;
+                    for (let node = frame.parentElement; node; node = node.parentElement) {
+                        scrolled += node.scrollTop;
+                    }
+                    // (Measured as the page rests: a page scrolled inside moves its frame, not the rail.)
+                    if (scrolled === window.scrollY && Math.abs(box.top - (rect(frame).top + 12)) > 1) {
+                        fail("every rail starts 12px under its frame's top", rail, { gap: box.top - rect(frame).top, wanted: 12 });
+                    }
                 }
                 const cut = [...rail.querySelectorAll(".bullet-rail-label")].filter(label => visible(label) && getComputedStyle(label).position !== "absolute" && label.scrollWidth > label.clientWidth + 1).map(label => label.textContent);
                 if (cut.length) {
