@@ -2,9 +2,11 @@
 
 **Moved, 2026-11-17 (doc 48, section 11; owner, 2026-11-17 07:36):** this page was Page 4, "Financial Foundation". It is Page 5 now, Costs, Funding & Position, so each page reads only the pages before it: its Funding Need reads revenue from Page 4, Revenue & Pricing. Its answer moved once to Section 5 (`storageMigrations.swapFinancialPages`), every key inside it as it was. It is drawn as two chapters: **Financial Foundation** (Costs, Funding Need, Capital & Funding, Financial Position; doc 48, section 1) and, beside it, **Break Even** (Break-Even Point, Break-Even Time, Sustainability, Stress Test; doc 48, section 2), the Break Even blocks read from Page 4's answer and drawn by its editor, nothing stored here. Where this specification says "Page 4" for itself, read Page 5.
 
-Status: **specification**, written 2026-09-27, updated 2026-11-12. The requirement as written (sections 1 to 29) is preceded by "As built", which wins where they differ; section 30 gives the rules of the cost nature, the funds and the scheduling.
+**One page, Financials, 2026-11-19 (the owner's approved plan of 2026-11-18, step 1; doc 48, section 11):** this section is drawn on one page with Section 4, Revenue & Pricing: the pages rail's "4. Financials" (`PageGroups.ts`), the title "4. Financials" and the plan's months. Its editor draws the page's second chapter, **Financial Foundation**: Costs, Capital & Funding and Financial Position (the Funding Need inside it). The Break Even tiles stand in the first chapter, Revenue & Break Even, drawn by Section 4's editor. The section keeps its number, its title and its saved answer; nothing moved. A note or a link to this section opens Financials.
 
-> **3. Business System — Page 5 of 5** (Page 4 until 2026-11-17).
+Status: **specification**, written 2026-09-27, updated 2026-11-19. The requirement as written (sections 1 to 29) is preceded by "As built", which wins where they differ; section 30 gives the rules of the cost nature, the funds and the scheduling.
+
+> **3. Business System — Section 5 of 5** (Page 4 until 2026-11-17), **drawn on Page 4 of 4, Financials, since 2026-11-19**.
 > The first of the two Financial pages; **Page 5 — Financial Sustainability** follows it.
 
 ## Contents

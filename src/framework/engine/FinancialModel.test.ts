@@ -1119,7 +1119,7 @@ describe("the Loan Repayments note", () => {
     test("the rule names where a pending loan's repayments are counted", () => {
         expect(LOAN_REPAYMENTS_RULE).toContain("Approved / Agreed, Received / Available or Completed / Closed");
         expect(LOAN_REPAYMENTS_RULE).toContain("Financial Position");
-        expect(LOAN_REPAYMENTS_RULE).toContain("Stress Test on Costs, Funding & Position");
+        expect(LOAN_REPAYMENTS_RULE).toContain("Stress Test on Financials");
     });
 });
 

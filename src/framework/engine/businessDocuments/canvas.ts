@@ -223,7 +223,7 @@ export function businessModelCanvas(sessions: FoundationSessions, capability = "
         systemName: "Business Model Canvas " + data.name,
         capability,
         documentTitle: "Business Model Canvas: " + data.name,
-        documentSubtitle: "Drawn from the Business System: Foundation, Customer Engagement, Infrastructure & Capability, Revenue & Pricing and Costs, Funding & Position.",
+        documentSubtitle: "Drawn from the Business System: Foundation, Customer Engagement, Infrastructure & Capability and Financials.",
         // Drawn as the nine-block grid by the PDF and the Markdown.
         canvas: CANVAS_BLOCKS.map(block => ({ id: block.id, title: block.title, items: data.blocks[block.id] })),
         sections: CANVAS_BLOCKS.map((block, index) => section(index + 1, block.title,

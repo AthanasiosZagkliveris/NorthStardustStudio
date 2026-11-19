@@ -251,7 +251,7 @@ export default function StrategyFoundationEditor({
         [
             { title: "What do you sell, and who uses it?", text: "(3. Business System → 1. Foundation: Offerings and Customer Segments)", onOpen: pageLink(AnswerType.BusinessFoundation) },
             { title: "How do people discover and reach you?", text: "(3. Business System → 2. Customer Engagement: Customer Channels)", onOpen: pageLink(AnswerType.BusinessEngagement) },
-            { title: "How are you supported financially today?", text: "(3. Business System → 4. Revenue & Pricing: Revenue and prices; 5. Costs, Funding & Position: Costs, funding and break even)", onOpen: pageLink(AnswerType.FinancialFoundation) }
+            { title: "How are you supported financially today?", text: "(3. Business System → 4. Financials: Revenue and prices; costs, funding and break even)", onOpen: pageLink(AnswerType.FinancialFoundation) }
         ],
         [
             "Strengths and Weaknesses: inside your organisation.",

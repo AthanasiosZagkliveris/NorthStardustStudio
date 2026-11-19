@@ -1,6 +1,6 @@
 # 47. Customer Engagement: the chapter, its tiles and the Offering's four faces, as proposed
 
-Status: **specification**, written 2026-11-12, updated 2026-11-12. Built in part. The owner approved it on 2026-11-12 (D6). **Step one (the layout) is built (2026-11-12, phase 1)**: one chapter per Segment of four Master Tiles, each opening its section as it was (section 3). **The page follows the Foundation (2026-11-12, phase 1; owner, 16:19: "Update the Customer engagement to follow the answers from the foundation")**: the suggested channels, the suggested relationship type and the proposed Demand rows of step two are built (section 3, "Built"). The rest of step two (the stage-first Journey, the channel card with J1 and J2, the goals reading Demand, the cost per customer) comes in phase 5 (the order of work: doc 49, section 8).
+Status: **specification**, written 2026-11-12, updated 2026-11-19. Built in part. The owner approved it on 2026-11-12 (D6). **Step one (the layout) is built (2026-11-12, phase 1)**: one chapter per Segment of four Master Tiles, each opening its section as it was (section 3). **The page follows the Foundation (2026-11-12, phase 1; owner, 16:19: "Update the Customer engagement to follow the answers from the foundation")**: the suggested channels, the suggested relationship type and the proposed Demand rows of step two are built (section 3, "Built"). The rest of step two (the stage-first Journey, the channel card with J1 and J2, the goals reading Demand, the cost per customer) comes in phase 5 (the order of work: doc 49, section 8).
 
 Related: doc 28 (section 7, the journey and its questions J1, J2, J3, J7), doc 40 (the form), the page 2 specification (`specifications/business-system/page-2-section-1-channels.md`), `ai/customer-engagement-layout.md`, `ai/tile-and-card-pattern.md`, doc 5 (5.3, C4, C7, C8), doc 48 (the Offering Economics card), doc 46 (BA3 and the Body Language draft read this page).
 
@@ -14,11 +14,11 @@ One card per Segment, in its colour, with the references (Segment, Profiles, Off
 |---|---|---|---|
 | **Demand** | Page 2, Demand & Conversion | sources, funnel figures, Customers Buy, Cancel / Month, Expected Sales | O3 |
 | **Delivery and capacity** | Page 3, Offering's Capability → Delivery card | Delivered, Hours Given, hours per unit or client, Calendar Time, Constraints; capacity = founders' delivery hours | O3, O15, O10 |
-| **Cost** | Page 3 cards linked to the Offering → Page 4 | Resources, Activities, Partners, Suppliers with shares; cost per unit | none |
-| **Price and revenue** | Page 5, Revenue stream card | Charged, Unit, Price, Volume, Development, Payment Timing, variable cost per unit | O3, O3b |
-| **Can it be delivered?** | Page 3, the Delivery dialog, at the normal level of sales; Page 5, month by month as sales grow (the busiest month) | expected sales × hours per unit against the founders' delivery hours | read |
+| **Cost** | Page 3 cards linked to the Offering → Page 4, Financials (Costs, in Financial Foundation) | Resources, Activities, Partners, Suppliers with shares; cost per unit | none |
+| **Price and revenue** | Page 4, Financials (Revenue Streams, a stream card) | Charged, Unit, Price, Volume, Development, Payment Timing, variable cost per unit | O3, O3b |
+| **Can it be delivered?** | Page 3, the Delivery dialog, at the normal level of sales; Page 4, Financials, in Revenue Streams' Delivery Check, month by month as sales grow (the busiest month) | expected sales × hours per unit against the founders' delivery hours | read |
 
-The Offering is the hub of pages 2 to 5 and each page holds one face; the founder never sees the four together.
+The Offering is the hub of pages 2 to 4 and each page holds one face; the founder never sees the four together. (Pages 4 and 5 are one page, Financials, since 2026-11-19: doc 48, section 11; the cost and the price are its two sections, Costs, Funding & Position and Revenue & Pricing.)
 
 **The delivery check stays where it is** (owner, 2026-11-12 15:54: "Leave Page 5 until step 7"). Page 3 already owns it at the normal level of sales: the Delivery dialog gives the founders' delivery capacity, each Offering's hours at the expected sales and what is left. Page 5's "Can the Expected Sales Be Delivered?" answers another question, the busiest month as sales grow, which needs page 5's growth figures; it stays, and in phase 7 it joins the Offering Economics card on the Revenue & Pricing page (doc 48, section 11).
 

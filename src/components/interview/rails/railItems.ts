@@ -57,10 +57,13 @@ export function pageRailItems(sections: readonly { number: number; title: string
 
 }
 
-/** The 0-based page index a page rail id ("page-N") points at. */
-export function pageIndexFromRailId(id: string): number {
+/**
+ * The 0-based index, among the interview's sections, of the section a page rail id ("page-N", N its id in the saved answer) points at: found by that id, never
+ * worked out from it as a place (ai-collaboration-rules.md, "Read the app's structure by what a thing is"). -1 where no section has it.
+ */
+export function pageIndexFromRailId(id: string, sections: readonly { number: number }[]): number {
 
-    return Number(id.replace("page-", "")) - 1;
+    return sections.findIndex(section => "page-" + section.number === id);
 
 }
 

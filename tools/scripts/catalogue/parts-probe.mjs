@@ -137,7 +137,7 @@ if (await calendar.count()) {
 await page.keyboard.press("Escape");
 });
 await attempt("financial foundation", async () => {
-await open("Business System", "Financial Foundation");
+await open("Business System", "Financials");
 await scanAll("Business, Financial Foundation");
 });
 await attempt("resource card units", async () => {

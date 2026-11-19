@@ -54,7 +54,7 @@ The current design of the Foundation, the sources, the research, the log of ever
 | [design/core/02-references.md](design/core/02-references.md) | reference | The source register: the rule for what counts as a reference, and every decision in the app and in these documents with the source behind it. | 2026-11-08 |
 | [design/core/03-research.md](design/core/03-research.md) | research | The research behind the design decisions: the question, the recommendation, the reason and the source. Document 1 prevails where they differ. | 2026-11-17 |
 | [design/core/04-log.md](design/core/04-log.md) | log | Every change to the app, the design, the documents or the plan, newest on top. The only place a change is written. | 2026-11-19 |
-| [design/core/05-not-done-yet.md](design/core/05-not-done-yet.md) | living list | What has not been done: the road, the plans, the requirements still open, the open decisions and the open points of the reviews. | 2026-11-17 |
+| [design/core/05-not-done-yet.md](design/core/05-not-done-yet.md) | living list | What has not been done: the road, the plans, the requirements still open, the open decisions and the open points of the reviews. | 2026-11-19 |
 | [design/core/06-catalogue-record.md](design/core/06-catalogue-record.md) | generated | The catalogue record of the app's pages, tiles, cards and controls, from the card scan and the probes. | 2026-11-02 |
 | [design/core/07-structure-tables.md](design/core/07-structure-tables.md) | generated | The structure tables of the app (pages, chapters, tiles, views, components, fields, card kinds), from the catalogue. | 2026-11-19 |
 
@@ -131,7 +131,7 @@ Standing rules, references and playbooks for an AI assistant working on the proj
 | Document | Kind | What it holds | Updated |
 |---|---|---|---|
 | [ai/README.md](ai/README.md) | index | The map of this folder: what to read first, what to read for a task. | 2026-11-03 |
-| [ai/ai-collaboration-rules.md](ai/ai-collaboration-rules.md) | rules | Standing rules for an AI assistant: commit but do not push, no unrequested changes, when to ask, what done requires, how work flows. | 2026-11-03 |
+| [ai/ai-collaboration-rules.md](ai/ai-collaboration-rules.md) | rules | Standing rules for an AI assistant: commit but do not push, no unrequested changes, when to ask, what done requires, how work flows. | 2026-11-19 |
 | [ai/toolchain-and-verification-playbook.md](ai/toolchain-and-verification-playbook.md) | playbook | What to run after a change (typecheck, tests, the lints and document checks, build, layout check) and the list of expected test failures. | 2026-11-13 |
 | [ai/framework-dsl-grammar.md](ai/framework-dsl-grammar.md) | reference | Grammar of the Markdown that defines a System's content. | 2026-11-18 |
 | [ai/framework-conventions-and-patterns.md](ai/framework-conventions-and-patterns.md) | reference | The architectural patterns and the data model of the framework. | 2026-11-11 |
@@ -152,13 +152,13 @@ The pages of the Business System and of the Identity System.
 |---|---|---|---|
 | [specifications/identity-system/README.md](specifications/identity-system/README.md) | specification | The Identity System: index of the pages that have a document of their own. | 2026-11-09 |
 | [specifications/identity-system/page-1-definition.md](specifications/identity-system/page-1-definition.md) | current design | 1. Identity System, 1. Definition: the master tile with its four tiles (Organisation, Early Positioning, Mission, Vision), its layout, reactions and readers, and the extra information that is neither built nor a future feature. | 2026-11-09 |
-| [specifications/business-system/README.md](specifications/business-system/README.md) | specification | The Business System: index of the pages and the editor mapping. | 2026-11-18 |
+| [specifications/business-system/README.md](specifications/business-system/README.md) | specification | The Business System: index of the pages and the editor mapping. | 2026-11-19 |
 | [specifications/business-system/page-1-foundation.md](specifications/business-system/page-1-foundation.md) | specification | Page 1: Foundation. | 2026-11-18 |
 | [specifications/business-system/page-2-section-1-channels.md](specifications/business-system/page-2-section-1-channels.md) | specification | Page 2, section 1: the channels. | 2026-11-16 |
 | [specifications/business-system/page-2-section-2-customer-relationships.md](specifications/business-system/page-2-section-2-customer-relationships.md) | specification | Page 2, section 2: customer relationships (section 18 holds a worked example and the column rules). | 2026-11-02 |
 | [specifications/business-system/page-3-infrastructure-and-capability.md](specifications/business-system/page-3-infrastructure-and-capability.md) | specification | Page 3: Infrastructure and Capability. | 2026-11-19 |
-| [specifications/business-system/page-5-costs-funding-and-position.md](specifications/business-system/page-5-costs-funding-and-position.md) | specification | Page 4: Financial Foundation. | 2026-11-18 |
-| [specifications/business-system/page-4-revenue-and-pricing.md](specifications/business-system/page-4-revenue-and-pricing.md) | specification | Page 5: Financial Sustainability. | 2026-11-17 |
+| [specifications/business-system/page-5-costs-funding-and-position.md](specifications/business-system/page-5-costs-funding-and-position.md) | specification | Page 4: Financial Foundation. | 2026-11-19 |
+| [specifications/business-system/page-4-revenue-and-pricing.md](specifications/business-system/page-4-revenue-and-pricing.md) | specification | Page 5: Financial Sustainability. | 2026-11-19 |
 
 ## 9. The archive (`archive/`)
 

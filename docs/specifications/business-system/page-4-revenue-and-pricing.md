@@ -2,9 +2,11 @@
 
 **Moved, 2026-11-17 (doc 48, section 11; owner, 2026-11-17 07:36):** this page was Page 5, "Sustainability". It is Page 4 now, Revenue & Pricing. Its answer moved once to Section 4 (`storageMigrations.swapFinancialPages`), every key inside it as it was. It is drawn as one chapter, **Revenue** (Revenue Streams, Delivery Check, Revenue Summary; doc 48, section 2); its Break Even section stands on Page 5, beside Financial Position. Not built yet, the rest of phase 7a: RV1, O19, K15 as a record, C1, the Offering Economics card (doc 48, sections 3, 4 and 12). Where this specification says "Page 5" for itself, read Page 4.
 
-Status: **specification**, written 2026-09-27, updated 2026-11-02. The requirement as written (sections 1 to 23) is preceded by "As built", which wins where they differ.
+**One page, Financials, 2026-11-19 (the owner's approved plan of 2026-11-18, step 1; doc 48, section 11):** this section is drawn on one page with Section 5, Costs, Funding & Position: the pages rail's "4. Financials" (`PageGroups.ts`), the title "4. Financials" and the plan's months. Its editor draws the page's first chapter, **Revenue & Break Even**: Revenue Streams (its dialog holds the Delivery Check and the Revenue Summary), Break-Even (the Point and the Time) and Sustainability (with the Stress Test). The Break Even blocks are drawn here now, read from this answer and Section 5's, writing nothing. The section keeps its number, its title and its saved answer; nothing moved. Where this specification says "Page 4" or "Page 5" for a financial page, read this section of Financials.
 
-> **3. Business System — Page 4 of 5** (Page 5 until 2026-11-17).
+Status: **specification**, written 2026-09-27, updated 2026-11-19. The requirement as written (sections 1 to 23) is preceded by "As built", which wins where they differ.
+
+> **3. Business System — Section 4 of 5** (Page 5 until 2026-11-17), **drawn on Page 4 of 4, Financials, since 2026-11-19**.
 > The second of the two Financial pages; it follows **Page 4 — Financial Foundation**.
 
 ## Contents
