@@ -111,12 +111,12 @@ await probe("Brand, Image 1", "Image holder", ".brand-image-card, .brand-image-f
 await probe("Brand, Image 1", "Image name and note", ".brand-image-name, .brand-image-note");
 
 // Business: messages, units, indicators
-await open("Business System", "Costs, Funding & Position");
+await open("Business System", "Financials");
 await probe("Financial Foundation", "Message: missing note", ".business-field-missing-note");
 await probe("Financial Foundation", "Unit text beside a number", ".settings-unit, .business-capability-frequency-unit, [class*=unit]");
 await probe("Financial Foundation", "Number holders", "input.interview-input");
 records.push({ where: "Financial Foundation", name: "Words beside a number (units)", selector: "text % / months / USD", ...(await page.evaluate(() => { const px = v => Math.round(parseFloat(v) * 100) / 100; const hit = [...document.querySelectorAll("span, div, label")].filter(e => e.children.length === 0 && /^(%|months|years|USD|GBP|EUR|px)$/.test(e.textContent.trim()) && e.getBoundingClientRect().width > 0); return { count: hit.length, items: hit.slice(0, 4).map(e => { const s = getComputedStyle(e), r = e.getBoundingClientRect(); return { tag: e.tagName.toLowerCase(), cls: (e.getAttribute("class") || "").slice(0, 50), text: e.textContent.trim(), size: px(s.fontSize), weight: s.fontWeight, colour: s.color, w: px(r.width), h: px(r.height) }; }) }; })) });
-await open("Business System", "Revenue & Pricing");
+// (Financials holds Sustainability's chapter too: the page opened above.)
 await probe("Sustainability", "Unit text beside a number", ".settings-unit, [class*=unit]");
 await open("Business System", "Infrastructure");
 await page.locator("[aria-label='Add Resource to Resources']").filter({ visible: true }).first().evaluate(n => n.click());

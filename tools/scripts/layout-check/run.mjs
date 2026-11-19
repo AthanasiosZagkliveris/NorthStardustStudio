@@ -75,7 +75,7 @@ export const PAGES = [
     // so "Foundation" does not also find "Financial Foundation".
     ["Identity System", ["^1\\. Definition", "^2\\. Legal Entity"]],
     ["Brand System", ["Brand System"]],
-    ["Business System", ["^1\\. Foundation", "Customer Engagement", "Infrastructure", "Revenue & Pricing", "Costs, Funding & Position"]],
+    ["Business System", ["^1\\. Foundation", "Customer Engagement", "Infrastructure", "Financials"]],
     ["Strategy System", ["Strategy System"]]
 ];
 
@@ -494,9 +494,9 @@ export async function runLayoutCheck(page, { base = "http://localhost:1420", pro
                     await page.evaluate(value => document.documentElement.setAttribute("data-theme", value), "light");
                 }
             }
-            // THE DOCUMENTS' PAPER in every reading mode (owner, 2026-11-14 23:37): from Financial Foundation, the Workbook's three documents, each read for the
+            // THE DOCUMENTS' PAPER in every reading mode (owner, 2026-11-14 23:37): from Financials, the Workbook's three documents, each read for the
             // paper's contrast alone (rule 0e) in each theme.
-            if (/Financial Foundation/.test(name)) {
+            if (/Financials/.test(name)) {
                 await page.setViewportSize({ width: 1920, height: 1000 });
                 const workbook = page.getByRole("button", { name: /Workbook/i }).first();
                 if (await workbook.count()) {
