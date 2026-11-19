@@ -418,6 +418,79 @@ export async function checkRealMouse(page, where) {
 }
 
 /** The whole check: a list of failures (empty is a pass). */
+/**
+ * EVERY CHAPTER OF A PAGE IS DRAWN ALIKE (owner, 2026-11-19 22:47 UTC+2, the Segment chapters: "the tile content is clearly smaller in chapter 2 than in chapter 1"):
+ * each chapter shown in turn from the chapters' rail, at 1920 x 1000 and at 2560 x 1200, each read for its tiles' side, the gap between them, the type of their titles and
+ * lists, and the content on the tiles' faces; every chapter must match the first. And the rail itself: a lit name stays inside its tab (layout rules section 10,
+ * "Names whole").
+ */
+export async function checkChapters(page, where) {
+    const failures = [];
+    const rail = page.locator("nav.bullet-rail-right .bullet-rail-item");
+    const count = await rail.count();
+    if (count < 2) {
+        return failures;
+    }
+    await page.evaluate(value => document.documentElement.setAttribute("data-theme", value), "light");
+    for (const [width, height] of [[1920, 1000], [2560, 1200]]) {
+        await page.setViewportSize({ width, height });
+        await page.waitForTimeout(300);
+        let first = null;
+        for (let at = 0; at < count; at++) {
+            await rail.nth(at).click({ force: true });
+            await page.mouse.move(2, height - 2);
+            await page.waitForTimeout(700);
+            const read = await page.evaluate(() => {
+                const shown = element => element.getBoundingClientRect().width > 0;
+                const quad = [...document.querySelectorAll(".section-tiles-quad")].find(shown);
+                const tiles = quad ? [...quad.querySelectorAll(".section-tile")].filter(shown) : [];
+                const one = (selector) => {
+                    const sizes = new Set(tiles.flatMap(tile => [...tile.querySelectorAll(selector)].map(node => getComputedStyle(node).fontSize)));
+                    return [...sizes].sort().join(" ");
+                };
+                const out = [];
+                for (const nav of document.querySelectorAll("nav.bullet-rail")) {
+                    const box = nav.getBoundingClientRect();
+                    const style = getComputedStyle(nav);
+                    const right = box.right - (parseFloat(style.paddingRight) || 0) + 0.5;
+                    const left = box.left + (parseFloat(style.paddingLeft) || 0) - 0.5;
+                    for (const label of nav.querySelectorAll(".bullet-rail-item.active .bullet-rail-label")) {
+                        if (getComputedStyle(label).position === "absolute") {
+                            continue;
+                        }
+                        const edge = label.getBoundingClientRect();
+                        if (edge.right > right || edge.left < left) {
+                            out.push(label.textContent.trim() + " reaches " + Math.round(Math.max(edge.right - right, left - edge.left)) + "px past its tab's padding");
+                        }
+                    }
+                }
+                return {
+                    side: tiles[0] ? Math.round(tiles[0].getBoundingClientRect().width) : 0,
+                    gap: quad ? getComputedStyle(quad).getPropertyValue("--space-card").trim() : "",
+                    large: quad ? quad.hasAttribute("data-large") : false,
+                    titles: one(".section-tile-title, .card-tile-title"),
+                    lists: one(".section-tile-list"),
+                    rail: out
+                };
+            });
+            read.rail.forEach(detail => failures.push({ page: where + " › chapter " + (at + 1), width, height, rule: "the rail holds its lit name", detail }));
+            if (first === null) {
+                first = read;
+                continue;
+            }
+            for (const key of ["side", "gap", "large", "titles", "lists"]) {
+                if (String(read[key]) !== String(first[key])) {
+                    failures.push({ page: where + " › chapter " + (at + 1), width, height, rule: "every chapter is drawn alike", detail: key + ": " + read[key] + ", the first chapter's " + first[key] });
+                }
+            }
+        }
+        await rail.nth(0).click({ force: true });
+        await page.waitForTimeout(300);
+    }
+    await page.setViewportSize({ width: 1920, height: 1000 });
+    return failures;
+}
+
 export async function runLayoutCheck(page, { base = "http://localhost:1420", probe, pages = PAGES, widths, sizes = (widths ?? WIDTHS).map(width => [width, 1000]), themes = THEMES, reference } = {}) {
     const failures = [];
     // The reference x: the first Legal Entity card's (measured here, or handed in by a run that measured it once).
@@ -451,6 +524,7 @@ export async function runLayoutCheck(page, { base = "http://localhost:1420", pro
                     failures.push(...found.map(failure => ({ page: system + " › " + name, theme, width, ...(height !== 1000 ? { height } : {}), ...failure })));
                 }
             }
+            failures.push(...(await checkChapters(page, system + " › " + name)));
             // The real mouse on the list items of the first-row tiles (3. Infrastructure & Capability), in a tall and a low window.
             if (/Infrastructure/.test(name)) {
                 await page.evaluate(value => document.documentElement.setAttribute("data-theme", value), "light");

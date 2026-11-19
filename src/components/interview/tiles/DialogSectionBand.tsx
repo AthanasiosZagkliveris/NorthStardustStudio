@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { Children, ReactNode } from "react";
 import FieldLabel from "../../controls/FieldLabel.tsx";
 import InfoNote, { type InfoPoint } from "../fields/InfoNote.tsx";
 
@@ -9,6 +9,11 @@ import InfoNote, { type InfoPoint } from "../fields/InfoNote.tsx";
  * 2026-11-10: "move the i from the Add Card, next to the THEMES").
  */
 export default function DialogSectionBand({ title, tiles = false, info, infoSize, children }: { title: string; tiles?: boolean; info?: InfoPoint[]; infoSize?: "standard" | "wide" | "double"; children: ReactNode }) {
+    // (TITLES ONLY OVER WHAT THEY TITLE (owner, 2026-11-19 22:48 UTC+2: "Titles - only when they have been defined, or already exist."): a section with nothing in it
+    // draws no title and no band.)
+    if (Children.toArray(children).length === 0) {
+        return null;
+    }
     return (
         <div className="legal-entity-grid legal-entity-grid-pairs legal-entity-grid-organization legal-entity-audience business-segment-grid business-segment-grid-full">
             <div className="legal-entity-field">

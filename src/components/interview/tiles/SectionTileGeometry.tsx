@@ -175,6 +175,18 @@ export function stackedFace(rows: readonly FaceRow[]): string[] {
 }
 
 
+/**
+ * A TILE'S SUB-TITLE, ONLY OVER WHAT IT TITLES (owner, 2026-11-19 22:48 UTC+2: "Titles - only when they have been defined, or already exist."): the sub-title in
+ * capitals, centred with no bullet, then its lines, bulleted; with no line under it, no sub-title either (the Segment Description's PROFILES).
+ */
+export function titledLines(title: string, lines: readonly string[]): { items: string[]; itemMarks: { centre?: boolean; bullet?: boolean }[] } {
+    if (lines.length === 0) {
+        return { items: [], itemMarks: [] };
+    }
+    return { items: [title.toLocaleUpperCase(), ...lines], itemMarks: [{ centre: true }, ...lines.map(() => ({ bullet: true }))] };
+}
+
+
 export function tileName(title: string, items: readonly string[] = []): string {
     const listed = items.map(item => plainTitle(item).replace(/\*\*/g, "").trim()).filter(item => item.length > 0 && item !== TILE_DIVIDER).slice(0, 6);
     title = plainTitle(title);
