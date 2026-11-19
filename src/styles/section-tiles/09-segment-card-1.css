@@ -280,14 +280,6 @@
 
 /* The tiles inside a strategy card are sized to it, three across (CardBoxes, threeAcross): the grid's own columns and size stand. */
 
-/* A Strategy Objective's floating card is as wide as its content needs (the initiatives and the metrics stand side by side). */
-.floating-card-host .floating-card-body.floating-card-card:has(.strategy-goal-card),
-.floating-card-host .floating-card-body.floating-card-card:has(.strategy-roadmap-card) {
-
-    width: min(1100px, calc(100vw - 16px));
-
-}
-
 /* The channel tiles of Customer Engagement are the small tiles of every dialog (215px), centred as a group. */
 .business-engagement-section .section-tiles-box {
 

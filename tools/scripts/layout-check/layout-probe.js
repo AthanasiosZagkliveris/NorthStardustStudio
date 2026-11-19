@@ -3703,10 +3703,10 @@
             }
         }
         const wanted = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--open-card-width")) || 480;
-        // (A card wide by nature -- the Roadmap, a Goal with its Objectives -- is as wide as that needs.)
-        const wide = !!(card && card.closest(".floating-card-body")?.querySelector(".strategy-goal-card, .strategy-roadmap-card"));
-        if (kind !== "workspace" && !wide && Math.abs(cardBox.width - Math.min(wanted, window.innerWidth - 16)) > 1.5) {
-            fail(kind === "founder" ? "a floating founder's card is the founder card width" : "a floating card is the open card width", { width: cardBox.width, wanted });
+        // (Every floating card, whatever it holds: no Goal or Roadmap floats -- a Goal is nested in its Theme's card, the Roadmap is drawn in its dialog; doc 49.)
+        // (The Workspace's form and a founder's card too: one width for every floating card; owner, 2026-11-19 01:41 UTC+2.)
+        if (Math.abs(cardBox.width - Math.min(wanted, window.innerWidth - 16)) > 1.5) {
+            fail("a floating card is the open card width", { width: cardBox.width, wanted, kind });
         }
         // ITS RAIL GOES THROUGH THE BOX IT WAS OPENED FROM (layout rules section 10, "Carousel arrows": "the cards of its tile (of its box, where it was opened from
         // one)"; the owner's bug report of 2026-11-19, a Production Machinery card stepped on into Devices & Tools): over a dialog that shows a box of cards alone
