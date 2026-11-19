@@ -48,7 +48,7 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
         if (!expense) {
             return null;
         }
-        const symbol = <LinkSymbol noun="Expense" name={expense.name.trim() || "Unnamed expense"} onOpen={() => openOnPage({ tile: "legal-entity-expenses", card: expense.id })} />;
+        const symbol = <LinkSymbol noun="Expense" name={expense.name.trim() || "Unnamed expense"} onOpen={() => openOnPage({ tile: "legal-entity-registrations", card: expense.id })} />;
         // (Hung in the margin at the left of the number's row, so the columns of the list stay where they are.)
         return hang ? <span className="legal-entity-link-hang">{symbol}</span> : symbol;
     }

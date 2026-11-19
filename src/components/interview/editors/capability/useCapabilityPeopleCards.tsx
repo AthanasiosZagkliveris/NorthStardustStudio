@@ -83,7 +83,7 @@ export function useCapabilityPeopleCards(earlier: Earlier) {
     /** A legal expense belongs to the Identity System: its page opens, and the card with it. */
     function openLegalExpense(id: string, under?: string) {
         // (From a founder's card, below it, the two stacked as a pair is; from the Inventory, the card alone.)
-        const detail: OpenRequest = { tile: "legal-entity-expenses", card: id, alone: under === undefined, under: under !== undefined };
+        const detail: OpenRequest = { tile: "legal-entity-registrations", card: id, alone: under === undefined, under: under !== undefined };
         setLegalUnder(under ?? null);
         // (A pair already standing -- an activity a responsibility led to -- gives its place to this one.)
         setPair(null);
