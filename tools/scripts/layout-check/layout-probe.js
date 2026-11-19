@@ -276,6 +276,11 @@
      * box's centre to the pixel (measured from the bars' computed boxes).
      */
     function plusBoxChecks(plus, name, fail, rules) {
+        // (Its look at rest: a box under the check's own pointer (its tile hovered, as found at 1366 on the Legal Entity and Brand pages) shows
+        // its swapped hover colours, which are no fault.)
+        if (plus.matches(":hover") || plus.closest(":hover")?.matches(".section-tile-slot, .card-tile-slot")) {
+            return;
+        }
         const style = getComputedStyle(plus);
         const box = plus.getBoundingClientRect();
         if (plus.textContent.trim() !== "") {
@@ -475,6 +480,11 @@
                 // DECLARED (docs/ai/tile-and-card-pattern.md, "Text holders and side cells"): in a box of bands (the Segment and Profile cards) a label with its cell beside it has the cell at the right end of the band, level with the label; `npm run check:card` measures it.
                 const pairLabel = control.closest(".business-segment-box .legal-entity-pair")?.querySelector(".field-label");
                 if (pairLabel && visible(pairLabel) && rect(pairLabel).top < rect(control).bottom && rect(pairLabel).bottom > rect(control).top && rect(pairLabel).right <= rect(control).left) {
+                    continue;
+                }
+                // (A founder's field on one row, its label beside its cell: layout rules section 8, "A field on one row"; owner, 2026-11-19.)
+                const founderLabel = control.closest(".business-founder-grid > *")?.firstElementChild;
+                if (founderLabel && !founderLabel.contains(control) && rect(founderLabel).right <= rect(control).left + 0.5 && rect(founderLabel).top < rect(control).bottom && rect(founderLabel).bottom > rect(control).top) {
                     continue;
                 }
                 if (!rules.near(rect(control).left, rect(cell).left, tolerance)) {
@@ -2261,8 +2271,11 @@
                             fail("a founder's four cells are one size (the Frequency picker's longest option) and 45px high", control, { width: box.width, height: box.height, cell: cellW });
                         }
                     }
-                    const left = controls.filter((control, at) => at % 2 === 0);
-                    const right = controls.filter((control, at) => at % 2 === 1);
+                    // (A FOUNDER'S FIELD ON ONE ROW -- its label beside its cell, where the row holds them (the Founders dialog's one founder): layout rules section 8, "A
+                    // field on one row, its cell at its step"; owner, 2026-11-19 13:34 and 13:45 UTC+2. The pairs' rules below are for the label over its cell.)
+                    const besideRow = (control) => { const field = control.closest(".business-founder-grid > *"); const label = field?.firstElementChild; if (!label || label.contains(control)) return false; const l = rect(label), c = rect(control); return l.right <= c.left + 0.5 && l.top < c.bottom && l.bottom > c.top; };
+                    const left = controls.filter((control, at) => at % 2 === 0 && !besideRow(control));
+                    const right = controls.filter((control, at) => at % 2 === 1 && !besideRow(control));
                     for (const control of left) {
                         if (!edgeOk(rect(control).left, content)) {
                             fail("a founder's left cells start at the card's content edge", control, { left: rect(control).left, edge: content });
@@ -2285,7 +2298,7 @@
                         }
                         const box = rect(label);
                         const cell = rect(control);
-                        if (!edgeOk(box.left, cell.left)) {
+                        if (!besideRow(control) && !edgeOk(box.left, cell.left)) {
                             fail("a founder's label is left-aligned to its cell", label, { label: box.left, cell: cell.left });
                         }
                         if (box.left < rect(card).left || box.right > rect(card).right - (parseFloat(style.borderRightWidth) || 0)) {
@@ -3119,6 +3132,28 @@
             }
         }
 
+        // C2d. A FIELD ON ONE ROW, ITS CELL AT ITS STEP (layout rules section 8; owner, 2026-11-19 13:34 UTC+2: "check the input and drop-down cells to ensure they are
+        //      the proper size. If it is possible, make the fields align horizontally, to save space"): a floating card's number cell with a step is that step's width
+        //      (or the room left, where narrower), and a tick that opens one cell beside it (an inline optional field) has the cell on its own row.
+        {
+            const steps = { xs: "--control-xs", code: "--control-code", s: "--control-s" };
+            const px = name => { const probe = document.createElement("div"); probe.style.cssText = "position:absolute;visibility:hidden;width:var(" + name + ")"; document.body.appendChild(probe); const w = probe.getBoundingClientRect().width; probe.remove(); return w; };
+            const widths = Object.fromEntries(Object.entries(steps).map(([key, name]) => [key, px(name)]));
+            for (const cell of [...document.querySelectorAll(".floating-card-body input.number-cell[data-size]")].filter(visible)) {
+                const wanted = widths[cell.dataset.size];
+                if (wanted && rect(cell).width > wanted + 0.6) {
+                    fail("a floating card's number cell is its step's width", cell, { width: rect(cell).width, step: cell.dataset.size, wanted });
+                }
+            }
+            for (const field of [...document.querySelectorAll(".floating-card-body .optional-field-inline")].filter(visible)) {
+                const head = field.querySelector(":scope > .optional-field-head");
+                const cell = field.querySelector(":scope > .optional-field-body input, :scope > .optional-field-body .option-picker");
+                if (head && cell && visible(cell) && rect(cell).top >= rect(head).bottom - 1) {
+                    fail("a tick and its cell stand on one row", cell, { head: rect(head).bottom, cell: rect(cell).top });
+                }
+            }
+        }
+
         // C2c. ONE FACE FOR EVERY TILE (owner, 2026-11-18 22:56 UTC+2: "fix the listed items on the financial tiles, to follow the other tiles"): a tile's list in
         //      two columns holds one-word figures only; a figure with words stands under its name (TileList).
         for (const figure of [...document.querySelectorAll(".section-tile-list-pairs .section-tile-pair-right")].filter(visible)) {
@@ -3742,6 +3777,21 @@
                 const gap = tab.classList.contains("carousel-rail-tab-left") ? cardBox.left - t.right : t.left - cardBox.right;
                 if (gap > 1.5) {
                     fail("a floating card's rail tab touches the card", { gap });
+                }
+            }
+        }
+        // ONE LEVEL: THE FIRST ROW OF TILES (layout rules section 8; owner, 2026-11-19 13:45 UTC+2, of the Infrastructure Partners & Suppliers card: "This is the
+        // proper layout for the floated cards"): the first card's top stands on the top of the first row of tiles of the column it stands over, its box name above it.
+        {
+            const frames = [...document.querySelectorAll(".conversation-card .business-foundation-card:not(.section-tile-dialog)")].filter(frame => visible(frame) && rect(frame).width > 300 && !frame.closest(".section-tile-overlay, .floating-card-host"));
+            const under = frames.find(frame => { const r = rect(frame); return cardBox.left < r.right && cardBox.right > r.left; });
+            const row = under?.querySelector(".section-tile-slot");
+            const first = host.querySelector(".floating-card-body");
+            const unscrolled = !document.querySelector("main.conversation-content") || document.querySelector("main.conversation-content").scrollTop === 0;
+            if (row && first && unscrolled && rect(row).top - rect(under).top <= 120 && rect(row).top < window.innerHeight - 260) {
+                const gap = rect(first).top - rect(row).top;
+                if (Math.abs(gap) > 1.5) {
+                    fail("a floating card opens on its column's first row of tiles", { gap });
                 }
             }
         }
