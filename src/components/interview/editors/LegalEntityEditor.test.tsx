@@ -544,8 +544,8 @@ describe("LegalEntityEditor organisation columns", () => {
         const labels = (column: Element) => [...column.querySelectorAll(".field-label")].map(label => label.textContent?.replace(/\s+/g, " ").replace(/i$/, "").trim());
         expect(labels(columns[0])).toEqual(["Organisation Name", "Country", "Address"]);
         expect(columns[1].classList.contains("legal-entity-questions")).toBe(true);
-        // (With no activity code yet, the two facts it would settle are asked beside the activities, the details in the United Kingdom: doc 53, stage 4.)
-        expect(labels(columns[1])).toEqual(["Legal Form", "Registration Date", "Opening Date", "Activities", "Primary", "Is your work a regulated profession?", "What do you keep people's details for?"]);
+        // (With no activity code yet, the profession it would settle is asked beside the activities: doc 53, stage 4.)
+        expect(labels(columns[1])).toEqual(["Legal Form", "Registration Date", "Opening Date", "Activities", "Primary", "Is your work a regulated profession?"]);
         // The Description stands below both columns, after a divider line.
         const below = document.querySelector("[data-anchor='legal-section-0'] .legal-entity-org-body > .legal-entity-org-description")!;
         expect(below.textContent).toContain("Notes");

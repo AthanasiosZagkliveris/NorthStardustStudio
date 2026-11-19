@@ -41,8 +41,8 @@ describe("the Ambassador's choices", () => {
     });
 
     it("writes the drafts and the Business Plan's line (doc 46, section 3)", () => {
-        const shown = ambassadorShown({ character: ["sincere"], dress: "smart", setting: ["workshop", "online"], words: "plain" }, none);
-        expect(aestheticsDraft(shown)).toBe("Our Ambassador is warm and honest, dresses in a smart casual way and is found in a workshop or studio and online.");
+        const shown = ambassadorShown({ character: ["sincere"], dress: "smart", setting: ["workshop", "outdoors"], words: "plain" }, none);
+        expect(aestheticsDraft(shown)).toBe("Our Ambassador is warm and honest, dresses in a smart casual way and is pictured in a workshop or studio and outdoors.");
         expect(voiceDraft(shown)).toBe("They speak in plain, everyday words, with a casual, respectful tone.");
         expect(brandVoiceLine(shown)).toBe("Our brand is warm and honest, with a casual, respectful tone.");
         expect(brandVoiceLine(ambassadorShown({}, none))).toBe("");

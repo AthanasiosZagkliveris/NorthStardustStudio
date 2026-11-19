@@ -253,12 +253,12 @@ const RESERVED = [
     ["SC2", "Where will growth come from in this period?", "Strategy, `strategyFoundation.growth`", "doc 49, 4", "built 2026-11-19 (`StrategyChoices.ts`)"],
     ["SC3", "Which Segment comes first?", "Strategy, `strategyFoundation.firstSegmentId`", "doc 49, 4", "built 2026-11-19 (`StrategyChoices.ts`)"],
     ["LF2", "Is your work a regulated profession?", "Identity, Definition, `organisation.regulatedProfession`", "doc 53, 6", "built 2026-11-19 (`LegalFacts.ts`; only where no activity code is given)"],
-    ["LF3", "Is this person part of your family?", "Business, a paid Staff card, `family`", "doc 53, 6", "built 2026-11-19 (`LegalFacts.ts`; a business that is not a company only, HSE40)"],
-    ["LF4", "What do you keep people's details for?", "Identity, Definition, `organisation.personalData`", "doc 53, 6", "built 2026-11-19 (`LegalFacts.ts`; the United Kingdom, where the activity code does not settle it)"]
+    ["LF3", "Is this person part of your family?", "Business, a paid Staff card, `family`", "doc 53, 6", "built 2026-11-19 (`LegalFacts.ts`; a business that is not a company only, HSE40)"]
 ];
 /** Codes withdrawn before they were ever registered: kept so they are never reused. [code, what it asked, why]. */
 const RESERVED_WITHDRAWN = [
-    ["BA5", "How close does the business stay to its customers?", "withdrawn 2026-11-12 before registration: the relationship type (J3, doc 47) answers it (doc 46, 7)"]
+    ["BA5", "How close does the business stay to its customers?", "withdrawn 2026-11-12 before registration: the relationship type (J3, doc 47) answers it (doc 46, 7)"],
+    ["LF4", "What do you keep people's details for?", "withdrawn 2026-11-19 21:44 UTC+2 before release: the ICO suggestion names the exemption itself, so the question added nothing (owner: \"What is the point of the: What do you keep people's details for?\"; doc 53, 6)"]
 ];
 
 /** False positives of the citation check: a token in a questionnaire document that looks like a question code and is not one. [doc number, token, why]. */

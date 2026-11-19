@@ -1,7 +1,7 @@
 import type { BusinessCustomerSegmentValue } from "./AnswerBusinessFoundation.ts";
 import type { BusinessSegmentEngagementValue } from "./businessFoundation/engagementReaders.ts";
 import { namesInSentence } from "./CompetitorQuestions.ts";
-import { effectiveOfferingAnswers, effectiveProfileAnswers } from "./EffectiveAnswers.ts";
+import { effectiveProfileAnswers } from "./EffectiveAnswers.ts";
 import { offeringRelationshipsFor } from "./JourneySuggestions.ts";
 import { PROFILE_QUESTIONS } from "./ProfileQuestions.ts";
 import { type SegmentIdentity, segmentContextFor, segmentIsBusiness, segmentPositioningShown } from "./SegmentContext.ts";
@@ -34,14 +34,19 @@ export const AMBASSADOR_DRESS = [
     { id: "creative", label: "Creative / artistic", phrase: "creative, artistic" }
 ] as const;
 
-/** BA3's options (doc 46, BA3). */
+/**
+ * BA3's options (doc 46, BA3): THE SURROUNDINGS THE IMAGINED AMBASSADOR SUITS (owner, 2026-11-19 21:44 UTC+2: "He is not a real person, but an idea that the app user could think
+ * about him/her. You cannot find him/her in a real place."): settings the founder pictures the persona in -- the feel of the brand's photos and spaces --, never where the
+ * business meets its customers. The ids kept from before keep their answers (workshop, office, home, outdoors).
+ */
 export const AMBASSADOR_SETTINGS = [
-    { id: "workshop", label: "A workshop / studio", phrase: "in a workshop or studio" },
-    { id: "office", label: "An office", phrase: "in an office" },
-    { id: "home", label: "A home", phrase: "in a home" },
-    { id: "venue", label: "A shop, café or venue", phrase: "in a shop, café or venue" },
-    { id: "outdoors", label: "Outdoors", phrase: "outdoors" },
-    { id: "online", label: "Online", phrase: "online" }
+    { id: "workshop", label: "A workshop or studio", phrase: "in a workshop or studio" },
+    { id: "home", label: "A calm home", phrase: "in a calm home" },
+    { id: "outdoors", label: "The outdoors", phrase: "outdoors" },
+    { id: "city", label: "A lively city street", phrase: "on a lively city street" },
+    { id: "gallery", label: "A gallery or showroom", phrase: "in a gallery or showroom" },
+    { id: "office", label: "A modern office", phrase: "in a modern office" },
+    { id: "cafe", label: "A café or market", phrase: "in a café or market" }
 ] as const;
 
 /** BA4's two rows, each its own single Rating Scale: its row name at 5, what 1 and 5 mean first in its "i" (doc 46, 1.3). */
@@ -89,7 +94,7 @@ export const AMBASSADOR_TICKS_MAX = 2;
 export const BA_INFO = {
     ba1: ["Picture your brand as a person: the character people describe after meeting it.", "Your choice starts the ratings on Body Language and Communication & Voice.", "Based on: Aaker (1997), Dimensions of brand personality."],
     ba2: ["Clothing speaks before a word is said.", "Colours, grooming and scent go in the text below."],
-    ba3: ["The surroundings that suit your brand: the places in your photos and the feel of your spaces."],
+    ba3: ["Picture your Ambassador somewhere: the surroundings that carry your brand's feel, in your photos and your spaces."],
     ba4: ["How your Ambassador stands, moves and reacts.", "Your character choice starts both ratings."],
     ba6: ["Your voice stays the same; your tone shifts with the moment. Rate the tone you use most.", "Your character choice starts all four ratings.", "Based on: Nielsen Norman Group, The four dimensions of tone of voice."],
     ba7: ["Choose the words your customers use themselves.", "Words to use and words to leave out go in the text below."],
@@ -100,7 +105,7 @@ export const BA_INFO = {
 export const BA_LABELS = {
     ba1: "Which character fits your Ambassador best?",
     ba2: "How does your Ambassador dress?",
-    ba3: "Where would people meet your Ambassador?",
+    ba3: "What surroundings suit your Ambassador?",
     ba4: "How does your Ambassador come across?",
     ba6: "What tone does your Ambassador use?",
     ba7: "Which words suit your customers?",
@@ -160,15 +165,6 @@ export interface AmbassadorContext {
     values?: readonly { id: string; text: string }[];
 }
 
-/** BA3's start from the Offerings' O6 (doc 46, BA3): in person or collected starts a shop, café or venue; any online delivery starts Online; posted starts nothing. */
-export function settingStart(context: AmbassadorContext): string[] {
-    const delivered = new Set(context.segments.flatMap(segment => segment.offerings.flatMap(offering => effectiveOfferingAnswers(offering, segment, context.identity).o6 ?? [])));
-    return [
-        ...(delivered.has("inperson") || delivered.has("collect") ? ["venue"] : []),
-        ...(["auto", "byyou", "live", "access"].some(id => delivered.has(id)) ? ["online"] : [])
-    ];
-}
-
 /** BA7's options in their order: the trade's own terms first where every Segment is a business (doc 46, BA7). */
 export function wordsOptions(context: AmbassadorContext): { id: string; label: string }[] {
     const trade = context.segments.length > 0 && context.segments.every(segmentIsBusiness);
@@ -220,7 +216,8 @@ export function ambassadorShown(saved: AmbassadorChoices, context: AmbassadorCon
     return {
         character: saved.character ?? [],
         dress: saved.dress ?? "",
-        setting: saved.setting ?? settingStart(context),
+        // (No start: the persona's surroundings are imagined, not where the Offerings are delivered; owner, 2026-11-19 21:44 UTC+2.)
+        setting: saved.setting ?? [],
         energy: saved.energy ?? first?.energy,
         expression: saved.expression ?? first?.expression,
         tone: { ...(first?.tone ?? {}), ...(saved.tone ?? {}) },
@@ -239,12 +236,12 @@ function characterPhrase(character: readonly string[]): string {
     return character.map(id => AMBASSADOR_CHARACTERS.find(entry => entry.id === id)?.phrase ?? "").filter(Boolean).join(" as well as ");
 }
 
-/** Aesthetics: "Our Ambassador is [BA1], dresses in a [BA2] way and is found [BA3, joined with 'and']." Each clause where answered; "" with none. */
+/** Aesthetics: "Our Ambassador is [BA1], dresses in a [BA2] way and is pictured [BA3, joined with 'and']." Each clause where answered; "" with none. */
 export function aestheticsDraft(shown: ReturnType<typeof ambassadorShown>): string {
     const character = characterPhrase(shown.character);
     const dress = AMBASSADOR_DRESS.find(entry => entry.id === shown.dress)?.phrase ?? "";
     const places = shown.setting.map(id => AMBASSADOR_SETTINGS.find(entry => entry.id === id)?.phrase ?? "").filter(Boolean);
-    const clauses = [character ? "is " + character : "", dress ? "dresses in a " + dress + " way" : "", places.length > 0 ? "is found " + namesInSentence(places) : ""].filter(Boolean);
+    const clauses = [character ? "is " + character : "", dress ? "dresses in a " + dress + " way" : "", places.length > 0 ? "is pictured " + namesInSentence(places) : ""].filter(Boolean);
     return clauses.length > 0 ? "Our Ambassador " + namesInSentence(clauses) + "." : "";
 }
 
