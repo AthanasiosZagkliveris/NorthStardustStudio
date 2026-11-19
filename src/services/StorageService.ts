@@ -2,7 +2,7 @@ import { InterviewSession } from "../framework/interview";
 import { frameworkRegistry } from "../framework/engine/FrameworkRegistry";
 import { systems } from "../data/systems";
 import { OrganizationService } from "./OrganizationService";
-import { IDENTITY_SYSTEM_NUMBER, BRAND_SYSTEM_NUMBER, STRATEGY_SYSTEM_NUMBER, BUSINESS_SYSTEM_NUMBER, swapBusinessAndStrategySequence, makeRoomForBusinessFoundationPage, makeRoomForCustomerEngagementPage, makeRoomForCapabilityPage, makeRoomForFinancialFoundationPage, makeRoomForFinancialSustainabilityPage, retireLegacyBusinessPages, moveGlobalIncomeTax, followSegmentStarts, swapFinancialPages, mergeBrandInventoryIntoStyle, handOverAmbassadorPageToBrandSystem, migrateLegacyBrandData, migrateLegacyStrategyData, migrateLegacyIdentityData, migrateLegacyOperationsData, normalizeOperationsSectionsForCurrentSchema } from "./storageMigrations";
+import { IDENTITY_SYSTEM_NUMBER, BRAND_SYSTEM_NUMBER, STRATEGY_SYSTEM_NUMBER, BUSINESS_SYSTEM_NUMBER, swapBusinessAndStrategySequence, makeRoomForBusinessFoundationPage, makeRoomForCustomerEngagementPage, makeRoomForCapabilityPage, makeRoomForFinancialFoundationPage, makeRoomForFinancialSustainabilityPage, retireLegacyBusinessPages, moveGlobalIncomeTax, followSegmentStarts, markIdentitySegments, swapFinancialPages, mergeBrandInventoryIntoStyle, handOverAmbassadorPageToBrandSystem, migrateLegacyBrandData, migrateLegacyStrategyData, migrateLegacyIdentityData, migrateLegacyOperationsData, normalizeOperationsSectionsForCurrentSchema } from "./storageMigrations";
 
 export class StorageService {
 
@@ -103,6 +103,8 @@ export class StorageService {
             moveGlobalIncomeTax(organizationId);
             // (The Segment's starts copied into its saved answers before 2026-11-17 follow their source again: B4.)
             followSegmentStarts(organizationId);
+            // (The Segments the app made from the Identity System's answers are marked, so their x is read by id: 2026-11-19.)
+            markIdentitySegments(organizationId);
             // (Last of all: Revenue & Pricing to Section 4, Costs, Funding & Position to 5; doc 48, section 11.)
             swapFinancialPages(organizationId);
         }

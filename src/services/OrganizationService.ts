@@ -99,6 +99,8 @@ export interface OrganizationDocument {
     financialPagesSwapped?: boolean;
     /** Set once the Segment's starts copied into its saved answers have been taken out, so they follow their source again (storageMigrations.followSegmentStarts). */
     segmentStartsFollow?: boolean;
+    /** Set once the Segments the app made from the Identity System's answers carry madeBy "identity" (storageMigrations.markIdentitySegments). */
+    identitySegmentsMarked?: boolean;
     /**
      * What was answered on those nine pages, set aside rather than
      * deleted: out of the Business System's own responses, so a page
