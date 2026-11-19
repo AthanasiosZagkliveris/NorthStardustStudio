@@ -76,7 +76,7 @@ The card's questions in the card's order, with proposed codes. The card has no c
 
 ### DV11. Hours a month they can give (proposed; doc 51, addition 7)
 
-- **Where:** on the External Professional's card (Partners & Suppliers), one optional `NumberCell`; its one owner is that card. Listed here because the Delivery card and the dialog read it.
+- **Where:** on the External Professional's card (Partners & Suppliers), one optional `NumberCell`; its one owner is that card. Listed here because the Delivery card and the dialog read it. Since 2026-11-19 (owner, 16:52, 3.5) in the card's Team section, and asked only on a card whose people do part of the job (`givesWorkingHours`); a Supplier's lead time is asked as "Weeks to deliver" on a producer's, a wholesaler's or a contractor's card (`LEAD_TIME_GROUPS`).
 - **What it checks:** the dialog and Sustainability report a professional's hours above it: "Ana: 30 h needed a month, 20 h available."
 
 ## 4. The Delivery dialog: the Capacity band

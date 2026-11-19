@@ -1187,7 +1187,7 @@ Leased (status Partners & Suppliers): the cost sits on the supplier's card. Boug
 
 #### Category: Human Resources
 
-**Every Delivery Team card also has** (owner, 2026-11-17; doc 52, 14): **Hours a month they can give** -- a number box under its label (the label is long for the side column), optional. Read by Capacity & Delivery: the card's own row and bar there.
+**Every Delivery Team card also has** (owner, 2026-11-17; doc 52, 14): **Hours a month they can give** -- a side number box, optional, in its Team section before the Notes (2026-11-19, 3.5). Read by Capacity & Delivery: the card's own row and bar there.
 
 ##### Offering > Resources > Human Resources > Delivery Team
 
@@ -1286,7 +1286,7 @@ The activity card carries no cost and no cost nature, and no card takes its cost
 
 #### Partners
 
-**Every Partner and Supplier card of the Offering also has** (owner, 2026-11-17; doc 52, 14 and 16): **Hours a month they can give** -- a number box under its label (the label is long for the side column), optional, read by Capacity & Delivery (the card's own row and bar); and, on a Supplier, **Lead time (weeks)** -- a side number box, optional, added by Capacity & Delivery to the Calendar Time of the Offerings this supplier can hold up.
+**A Partner or Supplier card of the Offering may also have** (owner, 2026-11-17; doc 52, 14 and 16; reviewed 2026-11-19 16:52 UTC+2, 3.5), in its Team section before the Notes: **Hours a month they can give** -- a side number box, optional, read by Capacity & Delivery (the card's own row and bar), on a card whose people do part of the job (Contractors & Advisers, Technical Support, Creative & IT Services, or no group yet; never one charged as a share of revenue: `givesWorkingHours`); and, on a Supplier, **Weeks to deliver** (its key stays "Lead time (weeks)") -- a side number box with its "i", optional, added by Capacity & Delivery to the Calendar Time of the Offerings this supplier can hold up, on a Producers & Wholesalers or a Contractors & Advisers card, or one with no group yet (`LEAD_TIME_GROUPS`). A card that holds an answer keeps showing it. Neither is filled in for the founder (doc 28, rule 6): no earlier answer says how many hours someone else can give or how long their orders take.
 
 ##### Offering > Partners > Revenue Partners > Revenue Partners
 

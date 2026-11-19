@@ -971,6 +971,22 @@ export function useCapabilityCardFields(earlier: Earlier) {
                 {extrasFields("Resource " + number, slotExtraKeys(groupId, slot.status), slot.extras, slot.cost.currency || organisationCurrency, (next) => onSlot({ extras: next }))}
                 </BandSection>
 
+                {/* (A Staff card's hours a month they can give: their own row and bar in Capacity & Delivery; doc 52, 14; owner, 2026-11-17. In the Team section, before the Notes:
+                    owner, 2026-11-19 16:52, 3.5.) */}
+                <BandSection name="team">
+                {scope === "offering" && slot.category === "hr" && (
+                    <BusinessField label="Hours a month they can give" fieldId="Hours a month they can give" side>
+                        <NumberCell kind="decimal"
+                            data-size={numberStep(NUMBER_LIMITS.hoursMonth)}
+                            aria-label={"Resource " + number + " hours a month they can give"}
+                            placeholder="h"
+                            disabled={disabled}
+                            value={slot.hoursAvailable}
+                            onChange={(event) => onSlot({ hoursAvailable: limitedNumberText(event.target.value, slot.hoursAvailable, NUMBER_LIMITS.hoursMonth) })}
+                        />
+                    </BusinessField>
+                )}
+                </BandSection>
                 <BandSection name="notes">
                 <OptionalNote
                     label="Notes"
@@ -984,21 +1000,6 @@ export function useCapabilityCardFields(earlier: Earlier) {
                 </BandSection>
 
                 {/* The links last, under the Description (the one card order). */}
-                {/* (A Staff card's hours a month they can give: their own row and bar in Capacity & Delivery; doc 52, 14; owner, 2026-11-17.) */}
-                <BandSection name="team">
-                {scope === "offering" && slot.category === "hr" && (
-                    <BusinessField label="Hours a month they can give" side>
-                        <NumberCell kind="decimal"
-                            data-size={numberStep(NUMBER_LIMITS.hoursMonth)}
-                            aria-label={"Resource " + number + " hours a month they can give"}
-                            placeholder="h"
-                            disabled={disabled}
-                            value={slot.hoursAvailable}
-                            onChange={(event) => onSlot({ hoursAvailable: limitedNumberText(event.target.value, slot.hoursAvailable, NUMBER_LIMITS.hoursMonth) })}
-                        />
-                    </BusinessField>
-                )}
-                </BandSection>
                 {scope === "offering" && offeringsField(
                     slot.offeringIds,
                     (next) => onSlot(next),
