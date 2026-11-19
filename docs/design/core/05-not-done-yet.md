@@ -39,7 +39,7 @@ The plan of 33 tasks is locked (log, 4.5). F, G, H, I and J are committed; the e
 
 ## 5.3 Finish the Tile System
 
-Every chapter is drawn as tiles since 2026-11-17: Revenue & Pricing (Revenue) and Costs, Funding & Position (Financial Foundation and Break Even; doc 48, sections 1, 2 and 11). Not built yet on them: the Offering Economics card, RV1, O19, K15 as a record, FN1 and C1 (phase 7a), the dialogs' nested sub tiles and the Cash Timeline as a Diagram tile (doc 48, section 1). The rest:
+Every chapter is drawn as tiles since 2026-11-17, on one page, Financials, since 2026-11-19: Revenue & Break Even (Section 4, Revenue & Pricing) and Financial Foundation (Section 5, Costs, Funding & Position; doc 48, sections 1, 2 and 11). Not built yet on them: the Offering Economics card, RV1, O19, K15 as a record, FN1 and C1 (phase 7a), the dialogs' nested sub tiles and the Cash Timeline as a Diagram tile (doc 48, section 1). The rest:
 
 | Where | State | What remains inline | Conversion (suggestion) |
 |---|---|---|---|
