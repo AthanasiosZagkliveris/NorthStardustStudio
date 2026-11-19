@@ -174,7 +174,9 @@ export function EngagementBands({ children }: { children: ReactNode }) {
                     continue;
                 }
                 const says = isValidElement(part) && part.type === "p" && band.items.length > 0;
-                if (!says && band.questions > 0) {
+                // (THE OPTIONS SECTION DRAWS NO LINES (owner, 2026-11-19 21:44 UTC+2: "Remove the dividing lines in the Allowance, Commission and Bonus section"): its
+                // optional choices stand one under the other, 12px apart, on every card.)
+                if (!says && band.questions > 0 && name !== "options") {
                     band.items.push(<div className="business-capability-card-rule" role="separator" key={"rule-" + band.items.length} />);
                 }
                 band.items.push(part);

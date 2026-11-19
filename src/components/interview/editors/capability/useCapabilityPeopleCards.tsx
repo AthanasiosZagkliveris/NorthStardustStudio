@@ -11,7 +11,7 @@ import { connectedOfferings } from "../../../../framework/engine/GeneratedCards.
 import { ReactNode } from "react";
 import { legalFormOptions } from "../../../../framework/engine/LegalEntityJurisdictions.ts";
 import { asLegalEntityValue } from "../../../../framework/engine/AnswerLegal.ts";
-import ResponsibilityFilter from "../../fields/ResponsibilityFilter.tsx";
+import ResponsibilityFilter, { RESPONSIBILITY_FILTER_OPTIONS } from "../../fields/ResponsibilityFilter.tsx";
 import { activityGroupsOf, activityCategoryLabel, soleGroupOf, givesWorkingHours, LEAD_TIME_GROUPS, BUSINESS_PARTNER_GROUPS, partnerGroupHelp, usesSupplier, PEOPLE_EXTRA_KEYS, partnerExtraFieldKeys, supplierConnections, billingOf, costWithOption, noteHint, partnerHasQuantity, businessQuantityText, BUSINESS_WORKSPACE_KINDS, BusinessActivityValue, BusinessCategoryValue, PARTNER_CATEGORIES, partnerCategoryLabel, BusinessCapabilityValue, BusinessFounderValue, BusinessPartnerValue, BusinessResourceSlotValue, businessDecimalText, businessAutoResponsibleId, businessPartnerResponsibleId, responsibleIsOff, businessFounderResponsibilities, businessResponsibilitiesTally, createBusinessResourceSlot, workspacesOf } from "../../../../framework/engine/AnswerUtils.ts";
 import { BusinessCard, ResponsibleField, BusinessEmpty, BusinessField, BusinessFieldTick, OptionalNote, BusinessRemove, uniqueChoices } from "../../cards/BusinessCardFields.tsx";
 import { founderDeliveryHours, founderWorkingHours } from "../../../../framework/engine/DemandCapacity.ts";
@@ -129,6 +129,8 @@ export function useCapabilityPeopleCards(earlier: Earlier) {
             </span>
         );
     }
+    /** A founder's Links filter: the places and kinds, then whether the founder is a Team member or the Responsible (owner, 2026-11-19 21:44 UTC+2). */
+    const FOUNDER_LINK_FILTER_OPTIONS = [...RESPONSIBILITY_FILTER_OPTIONS, "Team member", "Responsible"];
     /* ---------- 1. Founders ---------- */
 
     // A legal form with ONE owner in law (a sole proprietorship, a sole trader ...): the Founders' dialog is the founder's card itself, as on the Legal Entity page -- no frame of its own inside the dialog's.
@@ -153,7 +155,10 @@ export function useCapabilityPeopleCards(earlier: Earlier) {
         /* The funnel: where a responsibility stands (Infrastructure, Offerings) and what it is (Activities; Resources and Legal have none yet). */
         const filterOff = responsibilityOff.get(founder.id) ?? new Set<string>();
         const KIND_OPTION = { activity: "Activities", partner: "Partners & Suppliers", supplier: "Partners & Suppliers", legal: "Legal" } as const;
-        const shownResponsibilities = responsibilities.filter(entry => !filterOff.has(KIND_OPTION[entry.kind]) && (entry.scope === "legal" || !filterOff.has(entry.scope === "offering" ? "Offerings" : "Infrastructure")));
+        // (TEAM MEMBER AND RESPONSIBLE, two options of the funnel (owner, 2026-11-19 21:44 UTC+2: "Place 2 new options in the filter: 1. Team member, 2. Responsible"): a line
+        // the founder is Responsible for, and one the founder works on as a member of its Team.)
+        const shownResponsibilities = responsibilities.filter(entry => !filterOff.has(KIND_OPTION[entry.kind]) && (entry.scope === "legal" || !filterOff.has(entry.scope === "offering" ? "Offerings" : "Infrastructure"))
+            && !filterOff.has(entry.responsible ? "Responsible" : "Team member"));
 
         /* COLLAPSED until the founder's Responsibilities are opened; the fold is kept
            while the page is open. */
@@ -371,15 +376,16 @@ export function useCapabilityPeopleCards(earlier: Earlier) {
                             {responsibilities.length > 0 && (
                                 <FoldArrow variant="label"
                                     open={responsibilitiesOpen}
-                                    name={(responsibilitiesOpen ? "Minimise " : "Maximise ") + "Responsibilities of " + founderLabel}
+                                    name={(responsibilitiesOpen ? "Minimise " : "Maximise ") + "Links of " + founderLabel}
                                     onToggle={() => setResponsibilityFolds(current =>
                                         new Map(current).set(founder.id, !responsibilitiesOpen)
                                     )}
                                 />
                             )}
-                            <InfoText text="Responsibilities">
+                            {/* (LINKS, the list's name (owner, 2026-11-19 21:44 UTC+2: "Rename the Responsibilities to Links"): every card the founder works on or answers for.) */}
+                            <InfoText text="Links">
                                 <InfoNote
-                                    label="Responsibilities"
+                                    label="Links"
                                     points={SECTIONS.infrastructure.responsibilities}
                                     fullList
                                 />
@@ -394,7 +400,8 @@ export function useCapabilityPeopleCards(earlier: Earlier) {
 
                         {responsibilities.length > 0 && (
                             <ResponsibilityFilter
-                                label={"Filter the Responsibilities of " + founderLabel}
+                                label={"Filter the Links of " + founderLabel}
+                                options={FOUNDER_LINK_FILTER_OPTIONS}
                                 off={filterOff}
                                 onToggle={(option) => setResponsibilityOff(current => {
                                     const next = new Set(current.get(founder.id) ?? []);
@@ -409,8 +416,8 @@ export function useCapabilityPeopleCards(earlier: Earlier) {
                     {responsibilities.length === 0
                         ? (
                             <BusinessEmpty>
-                                Nothing yet. Make this founder responsible for an
-                                activity under Activities and it appears here.
+                                Nothing yet. Add this founder to an activity's Team, or make
+                                them its Responsible, and it appears here.
                             </BusinessEmpty>
                         )
                         : responsibilitiesOpen && (() => {
@@ -442,7 +449,7 @@ export function useCapabilityPeopleCards(earlier: Earlier) {
                                                 <FieldLabel className="business-foundation-label">
                                                     <FoldArrow variant="label"
                                                         open={doneOpen}
-                                                        name={(doneOpen ? "Minimise " : "Maximise ") + "completed responsibilities of " + founderLabel}
+                                                        name={(doneOpen ? "Minimise " : "Maximise ") + "completed links of " + founderLabel}
                                                         onToggle={() => setCompletedOpen(current => toggledIn(current, doneKey))}
                                                     />
                                                     {"Completed " + done.length}

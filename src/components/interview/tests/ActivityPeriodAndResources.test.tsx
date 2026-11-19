@@ -190,7 +190,7 @@ describe("the cards on a Team link back", () => {
     it("a founder's card lists the activities it works on, in its one Responsibilities list", () => {
         render(<Harness initial={{ ...base(), activities: [{ id: "operational", name: "", activities: [activity({ performerIds: ["f1"] })] }] }} />);
         openTile("Founders");
-        const unfold = screen.queryAllByRole("button").find(button => /^Maximi[sz]e Responsibilities/.test(button.getAttribute("aria-label") ?? ""));
+        const unfold = screen.queryAllByRole("button").find(button => /^Maximi[sz]e Links/.test(button.getAttribute("aria-label") ?? ""));
         if (unfold) {
             fireEvent.click(unfold);
         }
