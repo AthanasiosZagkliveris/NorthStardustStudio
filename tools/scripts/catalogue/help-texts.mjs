@@ -38,7 +38,7 @@ async function open(system, name) {
     await wait(800);
     const start = page.getByRole("button", { name: /Start Interview/i });
     if (await start.count()) { await start.first().click(); await wait(500); }
-    if (name) { await page.getByRole("navigation", { name: "Pages" }).getByRole("button", { name: new RegExp(name) }).first().evaluate(n => n.click()); await wait(800); }
+    if (name) { await page.getByRole("navigation", { name: "Pages" }).getByRole("button", { name: new RegExp("^(\\d+\\. )?" + name) }).first().evaluate(n => n.click()); await wait(800); }
 }
 
 /** In the page: press each "i" button one at a time and read its panel. */
@@ -88,7 +88,7 @@ const attempt = async (name, fn, again = true) => {
     }
 };
 
-const PAGES = { "Identity System": ["1. Definition", "2. Legal Entity"], "Brand System": [null], "Business System": ["1. Foundation", "Customer Engagement", "Infrastructure", "Financials"], "Strategy System": [null] };
+const PAGES = { "Identity System": ["Definition", "Legal Entity"], "Brand System": [null], "Business System": ["Foundation", "Customer Engagement", "Infrastructure", "Financials"], "Strategy System": [null] };
 for (const [system, pages] of Object.entries(PAGES)) {
     for (const name of pages) {
         const where = system + " / " + (name ?? "main");

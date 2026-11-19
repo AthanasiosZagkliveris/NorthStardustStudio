@@ -53,7 +53,7 @@ async function open(system, name, theme) {
     await page.waitForTimeout(900);
     const start = page.getByRole("button", { name: /Start Interview/i });
     if (await start.count()) { await start.first().click(); await page.waitForTimeout(600); }
-    await page.getByRole("navigation", { name: "Pages" }).getByRole("button", { name: new RegExp(name) }).first().evaluate(n => n.click());
+    await page.getByRole("navigation", { name: "Pages" }).getByRole("button", { name: new RegExp("^(\\d+\\. )?" + name) }).first().evaluate(n => n.click());
     await page.waitForTimeout(900);
     for (const button of await page.getByRole("button", { name: /^(Expand all|Maximize)/ }).all()) {
         try { await button.click({ timeout: 300 }); } catch { /* gone */ }

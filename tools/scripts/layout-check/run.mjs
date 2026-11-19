@@ -52,7 +52,7 @@ export const ALL_SYSTEMS = (() => {
     return [...read("systems.ts").matchAll(/title:\s*"([^"]+)",\s*capability:\s*"([^"]+)"/g)].map(m => [capabilities.get(m[2]), m[1]]);
 })();
 
-/** The pages of a System as its Pages rail lists them ("^1\. ", "^2\. ", ...), opened from its capability. */
+/** The pages of a System as its Pages rail names them ("Definition & Purpose", "Legal Entity", ...), opened from its capability. */
 export async function pagesOf(page, base, capability, system) {
     await page.goto(base + "/assistant");
     await page.waitForTimeout(600);
@@ -68,15 +68,16 @@ export async function pagesOf(page, base, capability, system) {
     }
     const labels = await page.getByRole("navigation", { name: "Pages" }).getByRole("button").allTextContents();
     // (Each page by its NAME, whatever number the rail gives it now: ai-collaboration-rules.md, "Read the app's structure by what a thing is".)
-    return labels.map(label => label.match(/^\d+\. (.+)$/)).filter(Boolean).map(m => "^\\d+\\. " + m[1].trim().replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
+    // (openPage matches a name after the rail's number, so the name is handed on with its pattern's characters escaped.)
+    return labels.map(label => label.match(/^\d+\. (.+)$/)).filter(Boolean).map(m => m[1].trim().replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
 }
 
 export const PAGES = [
-    // Each name is matched from the start of the page's button ("1. Definition"),
-    // so "Foundation" does not also find "Financial Foundation".
-    ["Identity System", ["^1\\. Definition", "^2\\. Legal Entity"]],
+    // EACH PAGE BY ITS NAME (ai-collaboration-rules.md, "Read the app's structure by what a thing is"): matched from the start of the page's
+    // button after the rail's number, whatever it is ("^(\d+\. )?Foundation"), so "Foundation" does not also find "Financial Foundation".
+    ["Identity System", ["Definition", "Legal Entity"]],
     ["Brand System", ["Brand System"]],
-    ["Business System", ["^1\\. Foundation", "Customer Engagement", "Infrastructure", "Financials"]],
+    ["Business System", ["Foundation", "Customer Engagement", "Infrastructure", "Financials"]],
     ["Strategy System", ["Strategy System"]]
 ];
 
@@ -88,7 +89,7 @@ export const PAGES = [
 export const EXAMPLES = [
     { name: "lumen-and-loom-studio.json", file: new URL("../../../src/data/examples/lumen-and-loom-studio.json", import.meta.url) },
     { name: "quillfield-automation-llc.json", file: new URL("../../../src/data/examples/quillfield-automation-llc.json", import.meta.url) },
-    { name: "proxy-tutoring.json", file: new URL("./fixtures/proxy-tutoring.json", import.meta.url), pages: [["Business System", ["^1\\. Foundation"]]] }
+    { name: "proxy-tutoring.json", file: new URL("./fixtures/proxy-tutoring.json", import.meta.url), pages: [["Business System", ["Foundation"]]] }
 ];
 
 export const WIDTHS = [1920, 1366, 768];
@@ -119,7 +120,7 @@ export async function openPage(page, base, system, pageName, capability = "Found
         await start.first().click();
         await page.waitForTimeout(600);
     }
-    const target = page.getByRole("navigation", { name: "Pages" }).getByRole("button", { name: new RegExp(pageName) }).first();
+    const target = page.getByRole("navigation", { name: "Pages" }).getByRole("button", { name: new RegExp("^(\\d+\\. )?" + pageName) }).first();
     if (!(await target.count())) {
         return false;
     }
@@ -421,7 +422,7 @@ export async function runLayoutCheck(page, { base = "http://localhost:1420", pro
     const failures = [];
     // The reference x: the first Legal Entity card's (measured here, or handed in by a run that measured it once).
     let referenceX = reference ?? null;
-    if (reference === undefined && await openPage(page, base, "Identity System", "^2\\. Legal Entity")) {
+    if (reference === undefined && await openPage(page, base, "Identity System", "Legal Entity")) {
         const card = page.locator(".legal-entity-card .strategy-box-remove").first();
         if (await card.count()) {
             referenceX = await removeLook(page, card);
@@ -619,7 +620,7 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
                 const page = await newCheckPage();
                 try {
                     await seedExample(page, base, readFileSync(job.file, "utf8"));
-                    if (await openPage(page, base, "Identity System", "^2\\. Legal Entity")) {
+                    if (await openPage(page, base, "Identity System", "Legal Entity")) {
                         const card = page.locator(".legal-entity-card .strategy-box-remove").first();
                         if (await card.count()) {
                             return await removeLook(page, card);

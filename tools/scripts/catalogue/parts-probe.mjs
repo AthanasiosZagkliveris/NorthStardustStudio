@@ -39,7 +39,7 @@ async function open(system, name) {
     const start = page.getByRole("button", { name: /Start Interview/i });
     if (await start.count()) { await start.first().click(); await wait(600); }
     if (name) {
-        await page.getByRole("navigation", { name: "Pages" }).getByRole("button", { name: new RegExp(name) }).first().evaluate(n => n.click());
+        await page.getByRole("navigation", { name: "Pages" }).getByRole("button", { name: new RegExp("^(\\d+\\. )?" + name) }).first().evaluate(n => n.click());
         await wait(900);
     }
 }

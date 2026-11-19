@@ -20,9 +20,9 @@ const theme = arg("theme", "light");
 const systemFilter = arg("systems", "").split(",").filter(Boolean);
 const pageFilter = arg("pages", "").split(",").filter(Boolean);
 const PAGES = [
-    ["Identity System", ["^1\\. Definition", "^2\\. Organi[sz]ation"]],
+    ["Identity System", ["Definition", "Legal Entity"]],
     ["Brand System", ["Brand System"]],
-    ["Business System", ["^1\\. Foundation", "Customer Engagement", "Infrastructure", "Financials"]],
+    ["Business System", ["Foundation", "Customer Engagement", "Infrastructure", "Financials"]],
     ["Strategy System", ["Strategy System"]]
 ];
 const PLUS = ".plus-box, .strategy-add-button, .business-add-button";
@@ -53,7 +53,7 @@ async function openPage(system, name) {
     await page.waitForTimeout(800);
     const start = page.getByRole("button", { name: /Start Interview/i });
     if (await start.count()) { await start.first().click(); await page.waitForTimeout(600); }
-    const target = page.getByRole("navigation", { name: "Pages" }).getByRole("button", { name: new RegExp(name) }).first();
+    const target = page.getByRole("navigation", { name: "Pages" }).getByRole("button", { name: new RegExp("^(\\d+\\. )?" + name) }).first();
     if (!(await target.count())) return false;
     await target.evaluate(node => node.click());
     await page.waitForTimeout(800);

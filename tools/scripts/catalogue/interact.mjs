@@ -55,7 +55,7 @@ async function openPage(system, name, theme = "light") {
     await wait(900);
     const start = page.getByRole("button", { name: /Start Interview/i });
     if (await start.count()) { await start.first().click(); await wait(600); }
-    await page.getByRole("navigation", { name: "Pages" }).getByRole("button", { name: new RegExp(name) }).first().evaluate(n => n.click());
+    await page.getByRole("navigation", { name: "Pages" }).getByRole("button", { name: new RegExp("^(\\d+\\. )?" + name) }).first().evaluate(n => n.click());
     await wait(900);
     for (const button of await page.getByRole("button", { name: /^(Expand all|Maximize)/ }).all()) {
         try { await button.click({ timeout: 300 }); } catch { /* gone */ }
@@ -179,7 +179,7 @@ async function railsAt(width, theme, withReactions) {
         ["Business > Infrastructure > Resources (dialog)", async () => { await openPage("Business System", "Infrastructure", theme); await pressTile("page", "Resources"); await wait(700); }],
         ["Business > Infrastructure > new Resource card (floating)", async () => { await openPage("Business System", "Infrastructure", theme); await page.locator("[aria-label='Add Resource to Resources']").filter({ visible: true }).first().evaluate(n => n.click()); await wait(700); }],
         ["Strategy > Strategic Period > Theme (dialog with nested cards)", async () => { await openPage("Strategy System", "Strategy System", theme); await page.locator(".section-tile-slot", { hasText: "Strategic Period" }).locator("button.section-tile-link").first().evaluate(n => n.click()); await wait(900); }],
-        ["Identity > Organization > Registrations (dialog)", async () => { await openPage("Identity System", "2. Legal Entity", theme); await pressTile("page", "Registrations"); await wait(700); }],
+        ["Identity > Organization > Registrations (dialog)", async () => { await openPage("Identity System", "Legal Entity", theme); await pressTile("page", "Registrations"); await wait(700); }],
         ["Brand > Brand System (page)", async () => { await openPage("Brand System", "Brand System", theme); }]
     ];
     for (const [place, setup] of places) {
@@ -352,7 +352,7 @@ function readMissing() {
 
 if (probe === "missing") {
     const kinds = [["Business > Infrastructure", "Infrastructure", "Add Resource to Resources"], ["Business > Infrastructure", "Infrastructure", "Add Activity to Activities"], ["Business > Infrastructure", "Infrastructure", "Add Partner to Partners & Suppliers"],
-        ["Business > Foundation", "1. Foundation", "Add Competitor to Competitors"], ["Business > Foundation", "1. Foundation", "Add Offering to Offerings"], ["Identity > Organization", "2. Legal Entity", "Add Expense to Expenses"], ["Brand", "Brand System", "Add Colour to Colours"]];
+        ["Business > Foundation", "Foundation", "Add Competitor to Competitors"], ["Business > Foundation", "Foundation", "Add Offering to Offerings"], ["Identity > Organization", "Legal Entity", "Add Expense to Expenses"], ["Brand", "Brand System", "Add Colour to Colours"]];
     for (const [where, name, plus] of kinds) {
         try {
             const system = where.startsWith("Brand") ? "Brand System" : where.startsWith("Identity") ? "Identity System" : "Business System";
