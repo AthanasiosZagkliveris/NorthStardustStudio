@@ -13,6 +13,102 @@
    ]
   },
   {
+   "label": "Which character fits your Ambassador best?",
+   "place": "tile dialog",
+   "text": "Picture your brand as a person: the character people describe after meeting it.\nYour choice starts the ratings on Body Language and Communication & Voice.\nBased on: Aaker (1997), Dimensions of brand personality.",
+   "lines": 11,
+   "points": 3,
+   "w": 360,
+   "chars": 211,
+   "scenes": [
+    "Brand System / main / tile aesthetics"
+   ]
+  },
+  {
+   "label": "Warm & honest",
+   "place": "tile dialog",
+   "text": "Sincere, down-to-earth, cheerful.",
+   "lines": 2,
+   "points": 1,
+   "w": 360,
+   "chars": 33,
+   "scenes": [
+    "Brand System / main / tile aesthetics"
+   ]
+  },
+  {
+   "label": "Lively & bold",
+   "place": "tile dialog",
+   "text": "Daring, spirited, imaginative.",
+   "lines": 2,
+   "points": 1,
+   "w": 360,
+   "chars": 30,
+   "scenes": [
+    "Brand System / main / tile aesthetics"
+   ]
+  },
+  {
+   "label": "Capable & reliable",
+   "place": "tile dialog",
+   "text": "Hard-working, intelligent, confident.",
+   "lines": 2,
+   "points": 1,
+   "w": 360,
+   "chars": 37,
+   "scenes": [
+    "Brand System / main / tile aesthetics"
+   ]
+  },
+  {
+   "label": "Refined & elegant",
+   "place": "tile dialog",
+   "text": "Glamorous, charming, polished.",
+   "lines": 2,
+   "points": 1,
+   "w": 360,
+   "chars": 30,
+   "scenes": [
+    "Brand System / main / tile aesthetics"
+   ]
+  },
+  {
+   "label": "Tough & practical",
+   "place": "tile dialog",
+   "text": "Outdoorsy, rugged, hard-wearing.",
+   "lines": 2,
+   "points": 1,
+   "w": 360,
+   "chars": 32,
+   "scenes": [
+    "Brand System / main / tile aesthetics"
+   ]
+  },
+  {
+   "label": "How does your Ambassador dress?",
+   "place": "tile dialog",
+   "text": "Clothing speaks before a word is said.\nColours, grooming and scent go in the text below.",
+   "lines": 6,
+   "points": 2,
+   "w": 360,
+   "chars": 88,
+   "scenes": [
+    "Brand System / main / tile aesthetics"
+   ]
+  },
+  {
+   "label": "Where would people meet your Ambassador?",
+   "place": "tile dialog",
+   "text": "The surroundings that suit your brand: the places in your photos and the feel of your spaces.",
+   "lines": 5,
+   "points": 1,
+   "w": 360,
+   "chars": 93,
+   "scenes": [
+    "Brand System / main / tile aesthetics"
+   ]
+  },
+  {
    "label": "Body Language",
    "place": "tile dialog",
    "text": "How does the Ambassador stand and move?\nHow does the Ambassador behave?\nPosture, facial expressions, gestures, personal space.",
@@ -20,6 +116,42 @@
    "points": 3,
    "w": 360,
    "chars": 126,
+   "scenes": [
+    "Brand System / main / tile attitude-body-language"
+   ]
+  },
+  {
+   "label": "How does your Ambassador come across?",
+   "place": "tile dialog",
+   "text": "How your Ambassador stands, moves and reacts.\nYour character choice starts both ratings.",
+   "lines": 6,
+   "points": 2,
+   "w": 360,
+   "chars": 88,
+   "scenes": [
+    "Brand System / main / tile attitude-body-language"
+   ]
+  },
+  {
+   "label": "Energy",
+   "place": "tile dialog",
+   "text": "1 = Calm, 5 = Energetic.\nThe pace and movement your Ambassador brings.",
+   "lines": 5,
+   "points": 2,
+   "w": 360,
+   "chars": 70,
+   "scenes": [
+    "Brand System / main / tile attitude-body-language"
+   ]
+  },
+  {
+   "label": "Expression",
+   "place": "tile dialog",
+   "text": "1 = Reserved, 5 = Expressive.\nHow openly your Ambassador shows feeling.",
+   "lines": 5,
+   "points": 2,
+   "w": 360,
+   "chars": 71,
    "scenes": [
     "Brand System / main / tile attitude-body-language"
    ]
@@ -47,7 +179,6 @@
    "scenes": [
     "Brand System / main / tile brand-inventory-1",
     "Brand System / main / tile brand-inventory-1 / card 1",
-    "Brand System / main / tile brand-inventory-1 / card 2",
     "Brand System / main / tile brand-inventory-1 / card 3"
    ]
   },
@@ -61,7 +192,6 @@
    "chars": 978,
    "scenes": [
     "Brand System / main / tile brand-inventory-1 / card 1",
-    "Brand System / main / tile brand-inventory-1 / card 2",
     "Brand System / main / tile brand-inventory-1 / card 3"
    ]
   },
@@ -296,6 +426,78 @@
    ]
   },
   {
+   "label": "What tone does your Ambassador use?",
+   "place": "tile dialog",
+   "text": "Your voice stays the same; your tone shifts with the moment. Rate the tone you use most.\nYour character choice starts all four ratings.\nBased on: Nielsen Norman Group, The four dimensions of tone of voice.",
+   "lines": 11,
+   "points": 3,
+   "w": 360,
+   "chars": 205,
+   "scenes": [
+    "Brand System / main / tile communication-voice"
+   ]
+  },
+  {
+   "label": "Formality",
+   "place": "tile dialog",
+   "text": "1 = Casual, 5 = Formal.",
+   "lines": 2,
+   "points": 1,
+   "w": 360,
+   "chars": 23,
+   "scenes": [
+    "Brand System / main / tile communication-voice"
+   ]
+  },
+  {
+   "label": "Humour",
+   "place": "tile dialog",
+   "text": "1 = Serious, 5 = Funny.",
+   "lines": 2,
+   "points": 1,
+   "w": 360,
+   "chars": 23,
+   "scenes": [
+    "Brand System / main / tile communication-voice"
+   ]
+  },
+  {
+   "label": "Respect",
+   "place": "tile dialog",
+   "text": "1 = Irreverent, 5 = Respectful.",
+   "lines": 2,
+   "points": 1,
+   "w": 360,
+   "chars": 31,
+   "scenes": [
+    "Brand System / main / tile communication-voice"
+   ]
+  },
+  {
+   "label": "Enthusiasm",
+   "place": "tile dialog",
+   "text": "1 = Matter-of-fact, 5 = Enthusiastic.",
+   "lines": 2,
+   "points": 1,
+   "w": 360,
+   "chars": 37,
+   "scenes": [
+    "Brand System / main / tile communication-voice"
+   ]
+  },
+  {
+   "label": "Which words suit your customers?",
+   "place": "tile dialog",
+   "text": "Choose the words your customers use themselves.\nWords to use and words to leave out go in the text below.",
+   "lines": 6,
+   "points": 2,
+   "w": 360,
+   "chars": 105,
+   "scenes": [
+    "Brand System / main / tile communication-voice"
+   ]
+  },
+  {
    "label": "Imprint",
    "place": "tile dialog",
    "text": "What first impression does the Ambassador leave?\nWhat lasting impression remains?\nWhat should people feel and remember?",
@@ -303,6 +505,30 @@
    "points": 3,
    "w": 360,
    "chars": 119,
+   "scenes": [
+    "Brand System / main / tile imprint"
+   ]
+  },
+  {
+   "label": "How should people feel when they first meet your brand?",
+   "place": "tile dialog",
+   "text": "Chosen from what your customers want to feel, on their Profiles.\nYour Value Proposition shows how each Offering gives it.",
+   "lines": 6,
+   "points": 2,
+   "w": 360,
+   "chars": 121,
+   "scenes": [
+    "Brand System / main / tile imprint"
+   ]
+  },
+  {
+   "label": "What should people remember you for?",
+   "place": "tile dialog",
+   "text": "The lasting impression: what people repeat about you to a friend.",
+   "lines": 3,
+   "points": 1,
+   "w": 360,
+   "chars": 65,
    "scenes": [
     "Brand System / main / tile imprint"
    ]
@@ -3541,6 +3767,18 @@
    ]
   },
   {
+   "label": "Weeks to deliver",
+   "place": "floating card",
+   "text": "From your order to its arrival. Capacity & Delivery adds it to the Calendar Time of the Offerings it serves, and says when to order ahead.",
+   "lines": 6,
+   "points": 1,
+   "w": 360,
+   "chars": 138,
+   "scenes": [
+    "Business System / Infrastructure / tile partners / card 2 / Supplier 1: Freelance develope"
+   ]
+  },
+  {
    "label": "Resources",
    "place": "tile dialog",
    "text": "Physical and digital resources the organisation needs to operate.",
@@ -4105,6 +4343,30 @@
    ]
   },
   {
+   "label": "What will your business be when your Vision comes true?",
+   "place": "tile dialog",
+   "text": "The kind of future your Vision describes.\nYour choices put the matching Strategic Themes first on the Strategy page.",
+   "lines": 7,
+   "points": 2,
+   "w": 360,
+   "chars": 116,
+   "scenes": [
+    "Identity System / Definition / tile mission-vision"
+   ]
+  },
+  {
+   "label": "Where will your customers be?",
+   "place": "tile dialog",
+   "text": "Where your customers will be when your Vision comes true.\nThe distance from today's reach, shown below, guides the growth choices on the Strategy page.",
+   "lines": 7,
+   "points": 2,
+   "w": 360,
+   "chars": 151,
+   "scenes": [
+    "Identity System / Definition / tile mission-vision"
+   ]
+  },
+  {
    "label": "Organisation",
    "place": "tile dialog",
    "text": "Choose the country first: the legal forms, the registry and the activity codes follow it.",
@@ -4285,10 +4547,9 @@
    "scenes": [
     "Identity System / Legal Entity / tile legal-entity-registrations",
     "Identity System / Legal Entity / tile legal-entity-registrations / card 1",
+    "Identity System / Legal Entity / tile legal-entity-registrations / card 1 / Requirement 1: Assumed Name",
     "Identity System / Legal Entity / tile legal-entity-registrations / card 2",
-    "Identity System / Legal Entity / tile legal-entity-registrations / card 2 / Requirement 1: Assumed Name",
-    "Identity System / Legal Entity / tile legal-entity-registrations / card 3",
-    "Identity System / Legal Entity / tile legal-entity-registrations / card 3 / Expense 1: Assumed Name filing"
+    "Identity System / Legal Entity / tile legal-entity-registrations / card 2 / Expense 1: Assumed Name filing"
    ]
   },
   {
@@ -4300,7 +4561,8 @@
    "w": 360,
    "chars": 182,
    "scenes": [
-    "Identity System / Legal Entity / tile legal-entity-registrations / card 1"
+    "Identity System / Legal Entity / tile legal-entity-registrations / card 1",
+    "Identity System / Legal Entity / tile legal-entity-registrations / card 1 / Requirement 1: Assumed Name"
    ]
   },
   {
@@ -4312,7 +4574,8 @@
    "w": 360,
    "chars": 162,
    "scenes": [
-    "Identity System / Legal Entity / tile legal-entity-registrations / card 1"
+    "Identity System / Legal Entity / tile legal-entity-registrations / card 1",
+    "Identity System / Legal Entity / tile legal-entity-registrations / card 1 / Requirement 1: Assumed Name"
    ]
   },
   {
@@ -4324,7 +4587,8 @@
    "w": 360,
    "chars": 415,
    "scenes": [
-    "Identity System / Legal Entity / tile legal-entity-registrations / card 1"
+    "Identity System / Legal Entity / tile legal-entity-registrations / card 1",
+    "Identity System / Legal Entity / tile legal-entity-registrations / card 1 / Requirement 1: Assumed Name"
    ]
   },
   {
@@ -4336,7 +4600,7 @@
    "w": 360,
    "chars": 65,
    "scenes": [
-    "Identity System / Legal Entity / tile legal-entity-registrations / card 2 / Requirement 1: Assumed Name"
+    "Identity System / Legal Entity / tile legal-entity-registrations / card 1 / Requirement 1: Assumed Name"
    ]
   },
   {
@@ -4348,8 +4612,8 @@
    "w": 360,
    "chars": 103,
    "scenes": [
-    "Identity System / Legal Entity / tile legal-entity-registrations / card 2 / Requirement 1: Assumed Name",
-    "Identity System / Legal Entity / tile legal-entity-registrations / card 3 / Expense 1: Assumed Name filing",
+    "Identity System / Legal Entity / tile legal-entity-registrations / card 1 / Requirement 1: Assumed Name",
+    "Identity System / Legal Entity / tile legal-entity-registrations / card 2 / Expense 1: Assumed Name filing",
     "Brand System / main / tile brand-style-colours / card 1",
     "Brand System / main / tile brand-style-colours / card 2",
     "Brand System / main / tile brand-style-colours / card 3",
@@ -4358,7 +4622,6 @@
     "Brand System / main / tile brand-style-typography / card 1",
     "Brand System / main / tile brand-style-typography / card 2",
     "Brand System / main / tile brand-inventory-1 / card 1",
-    "Brand System / main / tile brand-inventory-1 / card 2",
     "Brand System / main / tile brand-inventory-1 / card 3",
     "Business System / Foundation & Engagement / tile segment-qf3n8d2w:customers / card 1",
     "Business System / Foundation & Engagement / tile segment-qf3n8d2w:customers / card 1",
@@ -4457,7 +4720,7 @@
    "w": 360,
    "chars": 146,
    "scenes": [
-    "Identity System / Legal Entity / tile legal-entity-registrations / card 3 / Expense 1: Assumed Name filing"
+    "Identity System / Legal Entity / tile legal-entity-registrations / card 2 / Expense 1: Assumed Name filing"
    ]
   },
   {
@@ -4497,6 +4760,18 @@
    ]
   },
   {
+   "label": "How could these changes affect you?",
+   "place": "tile dialog",
+   "text": "1 = Threat, 5 = Opportunity; 3 = little effect either way.\n\nHow each change could help or hurt your business. The changes your Segments named start ticked.\nBased on: Aguilar (1967), Scanning the business environment (the external scan behind PESTLE).",
+   "lines": 11,
+   "points": 3,
+   "w": 360,
+   "chars": 250,
+   "scenes": [
+    "Strategy System / main / tile strategy-foundation-1"
+   ]
+  },
+  {
    "label": "Strategic Compass",
    "place": "tile dialog",
    "text": "Where do you want your organisation to be heading, and what do you want it to build, become, or achieve over the long term?\nChoose a time horizon far enough ahead to give your strategy direction, yet close enough for your organisation to make meaningful decisions about.\nThe Vision is the goal; the Compass is the route.: A future in which every small professional firm can use automation and AI as safely and confidently as a large one. Ten years from now, Quillfield is a trusted name for practical automation among small firms across the north-east United States: a small team of automation specialists, a library of proven and well-documented workflows, and hundreds of client firms whose staff spend their days on skilled work. Success means clients who stay for years, recommend us to their peers and never feel locked in.",
@@ -4504,6 +4779,30 @@
    "points": 3,
    "w": 360,
    "chars": 828,
+   "scenes": [
+    "Strategy System / main / tile strategy-foundation-2"
+   ]
+  },
+  {
+   "label": "What will this period's strategy mainly do?",
+   "place": "tile dialog",
+   "text": "Match what is inside your business with what is outside it, then choose where the effort goes.\nYour gaps are your SWOT's Weaknesses. Your SWOT suggests a start; change it freely.\nBased on: Weihrich (1982), The TOWS matrix: a tool for situational analysis.",
+   "lines": 12,
+   "points": 3,
+   "w": 360,
+   "chars": 255,
+   "scenes": [
+    "Strategy System / main / tile strategy-foundation-2"
+   ]
+  },
+  {
+   "label": "Where will growth come from in this period?",
+   "place": "tile dialog",
+   "text": "The direction your sales grow in during this period: Ansoff's four directions, plus a first launch for a business yet to sell.\nBased on: Ansoff (1957), Strategies for diversification.",
+   "lines": 8,
+   "points": 2,
+   "w": 360,
+   "chars": 183,
    "scenes": [
     "Strategy System / main / tile strategy-foundation-2"
    ]
