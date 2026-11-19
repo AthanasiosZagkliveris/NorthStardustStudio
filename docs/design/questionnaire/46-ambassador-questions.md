@@ -1,6 +1,6 @@
 # 46. The Ambassador: every question and option, as proposed
 
-Status: **proposal**, written 2026-11-12. The owner approved it on 2026-11-12 (decisions D3, D4, D5 below); it is built in phase 4 (the order of work: doc 49, section 8; numbered 5 until the financials moved last, 2026-11-12). **Built 2026-11-19** (the owner's approved plan of 2026-11-18, §3, B2): BA1 to BA4 and BA6 to BA8 with their starts, the drafts of section 3 (the Imprint's first sentence into its First impression), the Review item and the Business Plan's opening line (`AmbassadorChoices.ts`, `brand/AmbassadorChoices.tsx`). BA4's and BA6's rows are drawn as one rated group under their question (the shared `RatingScaleGroup`), each row with its own "i", in one band each. The Values' ids (section 5, step 1) are built the functional items' way: the Values' text stays saved as it was, and their ids stand beside it line for line (`valueIds`, `ValueIds.ts`), made from each line's words and place where a save has none. Not built yet: BA9 (section 5, step 2), the Style suggestions (section 4).
+Status: **proposal**, written 2026-11-12. The owner approved it on 2026-11-12 (decisions D3, D4, D5 below); it is built in phase 4 (the order of work: doc 49, section 8; numbered 5 until the financials moved last, 2026-11-12). **Built 2026-11-19** (the owner's approved plan of 2026-11-18, §3, B2): BA1 to BA4 and BA6 to BA8 with their starts, the drafts of section 3 (the Imprint's first sentence into its First impression), the Review item and the Business Plan's opening line (`AmbassadorChoices.ts`, `brand/AmbassadorChoices.tsx`). The Values' ids (section 5, step 1) are built the functional items' way: the Values' text stays saved as it was, and their ids stand beside it line for line (`valueIds`, `ValueIds.ts`), made from each line's words where a save has none (a suffix only to tell apart two lines of the same words). Not built yet: BA9 (section 5, step 2), the Style suggestions (section 4).
 
 Related: doc 40 (the form of a tile document), doc 39 (what an "i" says), doc 28 (8.3, the Brand System and its evidence), doc 45 (the Values this card reads), doc 47 (the relationship type, J3), doc 44 (the register and the code rule), doc 2 (the sources).
 
@@ -87,7 +87,7 @@ Aesthetics holds BA1, BA2, BA3; Body Language BA4; Communication & Voice BA6, BA
 ### BA4 (Body Language tile)
 
 - **Label:** How does your Ambassador come across?
-- **Control:** two single Rating Scales, each in its own band.
+- **Control:** two rated rows in the question's own band, one field: the shared Rating Scale group, each row with its own "i" (owner, 2026-11-19 18:32: "Energy and Expression should belong to the field").
 - **Rows** (each row's "i"):
   - Energy: "1 = Calm, 5 = Energetic." then "The pace and movement your Ambassador brings."
   - Expression: "1 = Reserved, 5 = Expressive." then "How openly your Ambassador shows feeling."
@@ -107,7 +107,7 @@ Aesthetics holds BA1, BA2, BA3; Body Language BA4; Communication & Voice BA6, BA
 ### BA6 (Communication & Voice tile)
 
 - **Label:** What tone does your Ambassador use?
-- **Control:** four single Rating Scales.
+- **Control:** four rated rows in the question's own band, one field, as BA4's (owner, 2026-11-19 18:32).
 - **Rows** (each row's "i", first line):
   - Formality: 1 = Casual, 5 = Formal.
   - Humour: 1 = Serious, 5 = Funny.

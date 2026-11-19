@@ -5,8 +5,8 @@ import { SingleColumn } from "../foundation/shared.tsx";
 import InfoNote, { InfoText } from "../../fields/InfoNote.tsx";
 import TextLink from "../../fields/TextLink.tsx";
 import RadioChoice from "../../../controls/RadioChoice.tsx";
-import RatingScaleGroup from "../../../controls/RatingScaleGroup.tsx";
 import { ratingScaleMeaning } from "../../../controls/RatingScaleEnds.tsx";
+import RatingScaleGroup from "../../../controls/RatingScaleGroup.tsx";
 import type { Rating } from "../../../controls/RatingScale.tsx";
 import { BusinessTicks } from "../../cards/BusinessCardFields.tsx";
 import { joinImprint, splitImprint } from "../../fields/ColumnFields.tsx";
@@ -23,7 +23,8 @@ export const AMBASSADOR_PARTS = ["aesthetics", "attitude-body-language", "commun
  * THE AMBASSADOR'S CHOICES (doc 46; the owner's approved plan of 2026-11-18, §3, B2): above each of the four texts, its questions, one per band, as the Vision's
  * choices and the Positioning dialog's stand (layout rules section 13: bands, every other one tinted), then "Add a draft" (the Value Proposition's link, doc 42),
  * which writes the tile's sentence at the end of its text once. The shared controls only: the field row with its label and "i" (`FieldRow`), the one choice
- * (`RadioChoice`), the ticks with their limit (`BusinessTicks`), the rated rows (`RatingScaleGroup`). Saved under the section's key `ambassador`.
+ * (`RadioChoice`), the ticks with their limit (`BusinessTicks`), the rated rows (`RatingScaleGroup`): BA4's and BA6's rows stand in their question's own band, one
+ * field (owner, 2026-11-19 18:32: "Energy and Expression should belong to the field"). Saved under the section's key `ambassador`.
  */
 export default function AmbassadorChoices({ part, value, onChange, context, stage, disabled = false }: {
     /** Which text's choices: one of AMBASSADOR_PARTS. */
