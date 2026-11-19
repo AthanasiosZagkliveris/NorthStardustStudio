@@ -1,5 +1,6 @@
 import { NO_REGISTRY_FORM, formationStatusOf, type LegalEntityValue } from "./AnswerLegal.ts";
-import { asBusinessCapabilityValue } from "./AnswerBusinessCapability.ts";
+import { asBusinessCapabilityValue, isCostingStatus } from "./AnswerBusinessCapability.ts";
+import { parseAmount } from "./Amounts.ts";
 import { founderMonthlySalary } from "./DemandCapacity.ts";
 
 /*
@@ -162,7 +163,19 @@ export function paysAnyone(capabilityValue: unknown): boolean {
         return false;
     }
     const capability = asBusinessCapabilityValue(capabilityValue);
-    return capability.founders.some(founder => (founderMonthlySalary(founder) ?? 0) > 0)
-        || capability.offering.resources.some(slot => slot.category === "hr")
-        || (capability.resources["hr"] ?? []).some(subsection => subsection.slots.length > 0);
+    return capability.founders.some(founder => (founderMonthlySalary(founder) ?? 0) > 0) || paidStaffOf(capabilityValue).length > 0;
+}
+
+/**
+ * THE PAID PEOPLE CARDS (doc 53, GB10 and GB11; owner, 2026-11-19): a Staff card (Human Resources, Infrastructure's or the Offering's) whose Status costs and whose
+ * price is above 0 -- an employee. A Partner's or Supplier's card is never one: a contractor is not employed.
+ */
+export function paidStaffOf(capabilityValue: unknown): { id: string; name: string }[] {
+    if (capabilityValue === undefined || capabilityValue === null) {
+        return [];
+    }
+    const capability = asBusinessCapabilityValue(capabilityValue);
+    const paid = (slot: { status: string; cost: { price: string } }) => isCostingStatus(slot.status) && (parseAmount(slot.cost.price) ?? 0) > 0;
+    return [...capability.offering.resources.filter(slot => slot.category === "hr"), ...(capability.resources["hr"] ?? []).flatMap(subsection => subsection.slots)]
+        .filter(paid).map(slot => ({ id: slot.id, name: slot.name }));
 }

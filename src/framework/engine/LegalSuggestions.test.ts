@@ -4,6 +4,8 @@ import { InterviewSession } from "../interview";
 import { frameworkRegistry } from "./FrameworkRegistry.ts";
 import { reviewItems } from "./ReviewItems.ts";
 import { thresholdMonth } from "./LegalSuggestions.ts";
+import { paidStaffOf } from "./LegalStarts.ts";
+import { asBusinessCapabilityValue, createBusinessResourceSlot } from "./AnswerUtils.ts";
 import lumenText from "../../data/examples/lumen-and-loom-studio.json?raw";
 import quillText from "../../data/examples/quillfield-automation-llc.json?raw";
 
@@ -37,6 +39,24 @@ describe("the legal suggestions", () => {
     test("say nothing for Quillfield, a New York sole proprietorship, a year on, and the fees' check once over a year old", () => {
         expect(legal("Quillfield")).toEqual([]);
         expect(legal("Lumen", new Date("2028-01-01T12:00:00")).some(item => item.text.includes("official fees were last checked on 19 Nov 2026"))).toBe(true);
+    });
+
+
+    test("ask employers' liability of a paid Staff card only, a contractor never, with HSE40's words for a limited company (GB11)", () => {
+        const staff = (status: string, price: string) => ({ ...createBusinessResourceSlot(), id: "s-" + status + price, name: "Assistant", category: "hr", group: "delivery-team", startDate: "2026-10-01", status, cost: { price, frequency: "monthly", frequencyOther: "", unit: "", currency: "" } });
+        const capability = (slots: unknown[], providers: unknown[] = []) => asBusinessCapabilityValue({ offering: { resources: slots, providers } });
+        expect(paidStaffOf(capability([staff("costs", "1200")])).map(entry => entry.name)).toEqual(["Assistant"]);
+        expect(paidStaffOf(capability([staff("costs", ""), staff("exists", "1200")]))).toEqual([]);
+        expect(paidStaffOf(capability([], [{ id: "p", name: "Freelance tutor", category: "suppliers", group: "contractors-advisers", cost: { price: "40", frequency: "per-unit" } }]))).toEqual([]);
+        // (Lumen, a limited company, with a paid assistant on Offering's Capability: the suggestion, in HSE40's words for a company.)
+        const saved = JSON.parse(lumenText) as { systems: Record<string, { responses: { sectionNumber: number; value: { offering: { resources: unknown[] } } }[] }> };
+        // (A card of Offering's Capability serves an Offering: Lumen's first.)
+        const offeringId = (saved.systems["3"].responses.find(response => response.sectionNumber === 1)!.value as unknown as { segments: { offerings: { id: string }[] }[] }).segments[0].offerings[0].id;
+        saved.systems["3"].responses.find(response => response.sectionNumber === 3)!.value.offering.resources.push({ ...staff("costs", "1200"), offeringIds: [offeringId] });
+        const sessions = Object.fromEntries([1, 2, 3, 4].map(number => [number, InterviewSession.fromJSON(saved.systems[String(number)] as never, frameworkRegistry.getFramework(ids[number]))])) as Record<number, InterviewSession | null>;
+        const text = reviewItems({ sessions, titles, organisationName: "Lumen", today: new Date("2026-11-20T12:00:00") }).find(item => item.text.includes("Employers' liability"))?.text ?? "";
+        expect(text).toContain("A limited company needs it for family members too");
+        expect(text).toContain("https://www.hse.gov.uk/pubns/hse40.pdf");
     });
 
 });

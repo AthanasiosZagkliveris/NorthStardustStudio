@@ -1,5 +1,5 @@
 import { PREMISES_GROUP_ID, WORKSPACE_GROUP_ID } from "./AnswerBusinessCapability.ts";
-import { LEGAL_FEES_CHECKED } from "./LegalStarts.ts";
+import { LEGAL_FEES_CHECKED, paidStaffOf } from "./LegalStarts.ts";
 import { effectiveOfferingAnswers } from "./EffectiveAnswers.ts";
 import { segmentIdentityOf, segmentIsBusiness } from "./SegmentContext.ts";
 import { streamRevenue } from "./financial/revenue.ts";
@@ -84,10 +84,18 @@ export function legalSuggestions(f: Foundation, today: Date = new Date()): Legal
         if (online && !said(f, /\bICO\b|data protection/i)) {
             out.push({ rule: "GB13", text: "Data protection fee (ICO): a business that keeps its customers' details on a computer usually pays it each year (£52 at the smallest tier, £5 less by Direct Debit); one that keeps them only for its own staff, marketing and accounts is exempt. The ICO's self-assessment, on ico.org.uk, says which.", source: "https://www.gov.uk/government/consultations/data-protection-fee-regime-proposed-changes/outcome/data-protection-fee-regime-government-response" });
         }
-        // (c) EMPLOYERS' LIABILITY INSURANCE, once someone is employed; family members, and an owner holding 50% or more, are exempt.
-        const staff = f.capability.offering.resources.some(slot => slot.category === "hr") || (f.capability.resources["hr"] ?? []).some(subsection => subsection.slots.length > 0);
-        if (staff && !said(f, /employers.? liability/i)) {
-            out.push({ rule: "GB11", text: "Employers' liability insurance: required once you employ someone, at least £5 million of cover, its certificate on show; family members, and an owner holding 50% or more of the business, are exempt. Its premium is costed once, as an Insurance card on Infrastructure & Capability (Documents & Rights).", source: "https://www.gov.uk/employers-liability-insurance" });
+        // (c) EMPLOYERS' LIABILITY INSURANCE, once someone is employed: a paid Staff card, never a Partner or Supplier (a contractor is not employed). HSE40 (the HSE's
+        // guide to the Act): close relatives are exempt, but not in a business incorporated as a limited company; a company employing only its owner, who holds 50% or more
+        // of its shares, is exempt.
+        const company = /Limited by Shares|Limited by Guarantee|Community Interest Company|(LLP)/.test(f.legalEntity.organisation.legalForm);
+        if (paidStaffOf(f.capability).length > 0 && !said(f, /employers.? liability/i)) {
+            out.push({
+                rule: "GB11",
+                text: "Employers' liability insurance: required once you employ someone, at least £5 million of cover, its certificate on show. "
+                    + (company ? "A limited company needs it for family members too; one that employs only its owner, holding 50% or more of its shares, is exempt." : "A business whose employees are all close relatives is exempt.")
+                    + " Its premium is costed once, as an Insurance card on Infrastructure & Capability (Documents & Rights).",
+                source: "https://www.hse.gov.uk/pubns/hse40.pdf"
+            });
         }
         // (c) BUSINESS RATES on premises of the business's own; small business rate relief takes them to nothing at a rateable value up to £12,000, tapering to £15,000.
         const premises = (f.capability.resources[WORKSPACE_GROUP_ID] ?? []).some(subsection => subsection.id === PREMISES_GROUP_ID && subsection.slots.length > 0);
