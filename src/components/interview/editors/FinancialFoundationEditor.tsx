@@ -1,3 +1,4 @@
+import { FINANCIALS_FRAMES } from "../../../framework/engine/PageGroups.ts";
 import { offeringShareWeights } from "../../../framework/engine/DemandCapacity.ts";
 import { countedCapability } from "../../../framework/engine/CardCompleteness.ts";
 import { numberStep } from "./BusinessEngagementModel.ts";
@@ -41,6 +42,8 @@ interface FinancialFoundationEditorProps {
     disabled?: boolean;
     showInstructions?: boolean;
     columnsDivider?: ReactNode;
+    /** The frame's heading the page hands in ("2. Financial Foundation": PageGroups.ts, layout rules section 13, "A page's name in the pages rail"). */
+    frameTitle?: string;
     /** Page 1's answer, for its Offerings. */
     foundation?: unknown;
     /** Page 3's answer, for the costs recorded there. */
@@ -80,6 +83,8 @@ export default function FinancialFoundationEditor({
     onChange,
 
     disabled = false,
+
+    frameTitle = FINANCIALS_FRAMES[1],
 
     foundation,
 
@@ -1499,7 +1504,7 @@ export default function FinancialFoundationEditor({
             >
                 <div className="card-scroll">
                     <div className="business-capability-section business-capability-tiles-section">
-                        <div className="business-engagement-section-head tiles-frame-head"><span className="field-group-title business-foundation-subhead">Financial Foundation</span></div>
+                        <div className="business-engagement-section-head tiles-frame-head"><span className="field-group-title business-foundation-subhead">{frameTitle}</span></div>
                         <SectionTiles label={FINANCIAL_FOUNDATION_SECTIONS.join(", ")} hue={hue} tiles={tiles} />
                     </div>
                 </div>

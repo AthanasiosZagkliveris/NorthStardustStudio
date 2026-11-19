@@ -1,3 +1,4 @@
+import { FINANCIALS_FRAMES } from "../../../framework/engine/PageGroups.ts";
 import { competitorsPriceRange } from "../../../framework/engine/CompetitorQuestions.ts";
 import { offeringShareWeights } from "../../../framework/engine/DemandCapacity.ts";
 import { numberStep } from "./BusinessEngagementModel.ts";
@@ -31,7 +32,7 @@ import { railId } from "../rails/railItems.ts";
 import { useItemFolds } from "../fields/useItemFolds.ts";
 import { labelWithCurrency, nameWithCurrency } from "../../../framework/engine/Currencies.ts";
 import TextLink from "../fields/TextLink.tsx";
-import { BREAK_EVEN_REVENUE_FORMULA, BREAK_EVEN_REVENUE_SECOND_SOURCE, BREAK_EVEN_SOURCE, BREAK_EVEN_UNITS_FORMULA, CONTRIBUTION_HELP, EXPECTED_BREAK_EVEN_HELP, EXPECTED_REVENUE_HELP, ORDERS_HELP, REVENUE_CHAPTER_TITLE, SECTIONS, SECTION_HUES, STATUS_TITLES, STREAM_HELP, TAKE_INFO } from "./financialSustainabilityTexts.ts";
+import { BREAK_EVEN_REVENUE_FORMULA, BREAK_EVEN_REVENUE_SECOND_SOURCE, BREAK_EVEN_SOURCE, BREAK_EVEN_UNITS_FORMULA, CONTRIBUTION_HELP, EXPECTED_BREAK_EVEN_HELP, EXPECTED_REVENUE_HELP, ORDERS_HELP, SECTIONS, SECTION_HUES, STATUS_TITLES, STREAM_HELP, TAKE_INFO } from "./financialSustainabilityTexts.ts";
 
 /* The "i" of the blocks that are a Break Even or Revenue tile's whole subject: the tile's dialog heading carries it (doc 48, section 2). */
 const REVENUE_SUMMARY_INFO: InfoPoint[] = ["Expected revenue at the normal operating level, a month."];
@@ -55,6 +56,8 @@ interface FinancialSustainabilityEditorProps {
     disabled?: boolean;
     showInstructions?: boolean;
     columnsDivider?: ReactNode;
+    /** The frame's heading the page hands in ("1. Revenue & Break Even": PageGroups.ts, layout rules section 13, "A page's name in the pages rail"). */
+    frameTitle?: string;
     /** Page 1, for its Offerings. */
     foundation?: unknown;
     /** Page 3, for the costs Page 4 consolidates. */
@@ -90,6 +93,8 @@ export default function FinancialSustainabilityEditor({
     onChange,
 
     disabled = false,
+
+    frameTitle = FINANCIALS_FRAMES[0],
 
     foundation,
 
@@ -1627,7 +1632,7 @@ export default function FinancialSustainabilityEditor({
     // the 2 x 2 with its fourth place empty (layout rules section 23).)
     return (
         <div className="answer-columns business-foundation business-engagement business-capability column-tiles-page" style={{ "--answer-column-count": 1 } as CSSProperties}>
-            {chapter(REVENUE_CHAPTER_TITLE, SECTION_HUES["sustainability-revenue"] ?? 0, [revenueTile, ...breakEvenTiles])}
+            {chapter(frameTitle, SECTION_HUES["sustainability-revenue"] ?? 0, [revenueTile, ...breakEvenTiles])}
         </div>
     );
 

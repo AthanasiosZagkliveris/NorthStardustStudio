@@ -105,13 +105,14 @@ export function renderBusinessCapability(scope: AnswerScope) {
 
 export function renderFinancialFoundation(scope: AnswerScope) {
 
-    const { value, onChange, disabled, businessFoundation, onOpenBusinessFoundation, organisationCurrency, legalEntity, businessCapability, openingDate, onChangeOpeningDate, globalSettings, financialSustainability, businessEngagement, onOpenBusinessCapability, onOpenLegalEntity, columnsDivider, showInstructions } = scope;
+    const { value, onChange, disabled, businessFoundation, onOpenBusinessFoundation, organisationCurrency, legalEntity, businessCapability, openingDate, onChangeOpeningDate, globalSettings, financialSustainability, businessEngagement, onOpenBusinessCapability, onOpenLegalEntity, columnsDivider, frameTitle, showInstructions } = scope;
 
     return (
 
         <FinancialFoundationEditor
             value={value}
             showInstructions={showInstructions}
+            frameTitle={frameTitle}
             columnsDivider={columnsDivider}
             foundation={businessFoundation}
             capability={businessCapability}
@@ -135,13 +136,14 @@ export function renderFinancialFoundation(scope: AnswerScope) {
 
 export function renderFinancialSustainability(scope: AnswerScope) {
 
-    const { value, onChange, disabled, businessFoundation, onOpenBusinessFoundation, organisationCurrency, legalEntity, businessCapability, financialFoundation, businessEngagement, onOpenBusinessEngagement, onOpenBusinessCapability, onOpenFinancialFoundation, columnsDivider, showInstructions, globalSettings, openingDate } = scope;
+    const { value, onChange, disabled, businessFoundation, onOpenBusinessFoundation, organisationCurrency, legalEntity, businessCapability, financialFoundation, businessEngagement, onOpenBusinessEngagement, onOpenBusinessCapability, onOpenFinancialFoundation, columnsDivider, frameTitle, showInstructions, globalSettings, openingDate } = scope;
 
     return (
 
         <FinancialSustainabilityEditor
             value={value}
             showInstructions={showInstructions}
+            frameTitle={frameTitle}
             columnsDivider={columnsDivider}
             foundation={businessFoundation}
             capability={businessCapability}
