@@ -1,3 +1,4 @@
+import { FINANCIALS_FRAMES } from "../../../framework/engine/PageGroups.ts";
 import { offeringShareWeights } from "../../../framework/engine/DemandCapacity.ts";
 import { countedCapability } from "../../../framework/engine/CardCompleteness.ts";
 import { numberStep } from "./BusinessEngagementModel.ts";
@@ -41,11 +42,8 @@ interface FinancialFoundationEditorProps {
     disabled?: boolean;
     showInstructions?: boolean;
     columnsDivider?: ReactNode;
-    /**
-     * A CHAPTER BESIDE FINANCIAL FOUNDATION (doc 48, section 11; owner, 2026-11-17 07:36): Break Even, beside Financial Position on Costs, Funding & Position --
-     * drawn by the Revenue & Pricing page's editor (FinancialSustainabilityEditor, part "break-even"), so its figures are worked out in one place.
-     */
-    beside?: ReactNode;
+    /** The frame's heading the page hands in ("2. Financial Foundation": PageGroups.ts, layout rules section 13, "A page's name in the pages rail"). */
+    frameTitle?: string;
     /** Page 1's answer, for its Offerings. */
     foundation?: unknown;
     /** Page 3's answer, for the costs recorded there. */
@@ -86,7 +84,7 @@ export default function FinancialFoundationEditor({
 
     disabled = false,
 
-    beside,
+    frameTitle = FINANCIALS_FRAMES[1],
 
     foundation,
 
@@ -535,7 +533,7 @@ export default function FinancialFoundationEditor({
 
                 <p className="financial-lead">
                     Calculated from the costs above. To change a need, change the costs it is made of.
-                    Until revenue is estimated on Revenue & Pricing, every running cost is counted
+                    Until revenue is estimated in Revenue Streams, every running cost is counted
                     in the operating need; it then falls to the months before revenue covers them.
                 </p>
 
@@ -1285,7 +1283,7 @@ export default function FinancialFoundationEditor({
                         tone: position.runwayMonths !== null && position.runwayMonths < 6 ? "risk" : "neutral",
                         info: [
                             DEFINITIONS.runway,
-                            "Counts money available now and confirmed money as it is scheduled to arrive, against every scheduled cost and loan repayment, with the revenue expected on Revenue & Pricing as it is received.",
+                            "Counts money available now and confirmed money as it is scheduled to arrive, against every scheduled cost and loan repayment, with the revenue expected in Revenue Streams as it is received.",
                             RUNWAY_FORMULA,
                             RUNWAY_SOURCE
                         ]
@@ -1497,20 +1495,20 @@ export default function FinancialFoundationEditor({
         ) : null;
     }
 
+    // (THE SECOND FRAME OF FINANCIALS (PageGroups.ts): beside Revenue & Break Even, as a frame of every page of several sections is drawn.)
     return (
-        <div className={"answer-columns business-foundation business-engagement business-capability column-tiles-page" + (beside ? " column-tiles-pair" : " strategy-single-frame")} style={{ "--answer-column-count": beside ? 2 : 1 } as CSSProperties}>
+        <div className="answer-columns business-foundation business-engagement business-capability column-tiles-page" style={{ "--answer-column-count": 1 } as CSSProperties}>
             <CardShell
                 data-anchor="column-tiles"
                 style={{ "--strategy-theme-hue": hue } as CSSProperties}
             >
                 <div className="card-scroll">
                     <div className="business-capability-section business-capability-tiles-section">
-                        <div className="business-engagement-section-head tiles-frame-head"><span className="field-group-title business-foundation-subhead">Financial Foundation</span></div>
+                        <div className="business-engagement-section-head tiles-frame-head"><span className="field-group-title business-foundation-subhead">{frameTitle}</span></div>
                         <SectionTiles label={FINANCIAL_FOUNDATION_SECTIONS.join(", ")} hue={hue} tiles={tiles} />
                     </div>
                 </div>
             </CardShell>
-            {beside}
         </div>
     );
 

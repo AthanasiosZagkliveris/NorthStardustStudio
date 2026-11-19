@@ -1269,11 +1269,11 @@
   {
    "label": "What is changing most for your customers?",
    "place": "tile dialog",
-   "text": "The changes that affect your customers most. Choose up to two.\nEach Competitor is rated on how every one of these could affect it, the ones ticked here first.\nTechnology: Automation, AI, old systems being replaced\nRules and law: New compliance, tax changes\nThe economy: Inflation, budget cuts, shifts in spending power\nSociety and lifestyle: Remote work, changing habits\nSupply and delivery: Material shortages, logistics costs, local sourcing\nEnvironment and climate: Extreme weather, sustainability, environmental mandates",
+   "text": "The changes that affect your customers most. Choose up to two.\nEach Competitor is rated on how every one of these could affect it, the ones ticked here first.\nTechnology: Automation, AI, old systems being replaced\nRules & law: New compliance, tax changes\nThe economy: Inflation, budget cuts, shifts in spending power\nSociety & lifestyle: Remote work, changing habits\nSupply & delivery: Material shortages, logistics costs, local sourcing\nEnvironment & climate: Extreme weather, sustainability, environmental mandates",
    "lines": 26,
    "points": 8,
    "w": 360,
-   "chars": 524,
+   "chars": 516,
    "scenes": [
     "Business System / 1. Foundation / tile Segment Description",
     "Business System / 1. Foundation / tile Segment Description / card 1",
@@ -1395,11 +1395,11 @@
   {
    "label": "Where do your customers usually shop?",
    "place": "tile dialog",
-   "text": "Where most of their purchases start and finish. Choose Both online and in shops when they mix the two about equally.\nA marketplace is a site that sells many sellers' goods, such as Etsy, Amazon or eBay.",
+   "text": "Where most of their purchases start and finish. Choose Both online & in shops when they mix the two about equally.\nA marketplace is a site that sells many sellers' goods, such as Etsy, Amazon or eBay.",
    "lines": 10,
    "points": 2,
    "w": 360,
-   "chars": 202,
+   "chars": 200,
    "scenes": [
     "Business System / 1. Foundation / tile Segment Description",
     "Business System / 1. Foundation / tile Segment Description / card 1",
@@ -1795,642 +1795,6 @@
    ]
   },
   {
-   "label": "Break-Even",
-   "place": "tile dialog",
-   "text": "Read how much your organisation must sell to cover its costs, when it is expected to get there, and whether that is before its money runs out.\nBreak-Even Point: The level of revenue or activity at which revenue covers costs.\nBreak-Even Time: When the organisation is expected to reach that level.\nFinancial Exhaustion: When available resources are expected to run out, with expected revenue included.\nAll results are estimates based on the assumptions entered, not guarantees.",
-   "lines": 23,
-   "points": 5,
-   "w": 360,
-   "chars": 476,
-   "scenes": [
-    "Business System / Costs, Funding & Position / tile Break-Even"
-   ]
-  },
-  {
-   "label": "Break-Even Point",
-   "place": "tile dialog",
-   "text": "Contribution per unit = price − variable cost per unit.\nOffering break even: the units this Offering alone would need to sell to cover all fixed costs.\nOrganisation break even: the expected revenue mix, scaled as a whole until its contribution covers the fixed costs.\nFormula: Break-even units = Fixed costs ÷ (Price − Variable cost per unit)\nSource: U.S. Small Business Administration (n.d.) Calculate your startup costs: break-even point. Available at: https://www.sba.gov/business-guide/plan-your-business/calculate-your-startup-costs/break-even-point (Accessed: 29 September 2026). In the References",
-   "lines": 28,
-   "points": 5,
-   "w": 360,
-   "chars": 603,
-   "scenes": [
-    "Business System / Costs, Funding & Position / tile Break-Even"
-   ]
-  },
-  {
-   "label": "Costs Used",
-   "place": "tile dialog",
-   "text": "Read from Financial Foundation, by behaviour.\nFixed: the monthly equivalent of every recurring cost, plus loan interest. Loan principal is repayment of borrowed money, kept outside the costs; one-time costs are what the funding is for.\nVariable: per-unit and per-project costs linked to each Offering.",
-   "lines": 13,
-   "points": 3,
-   "w": 360,
-   "chars": 301,
-   "scenes": [
-    "Business System / Costs, Funding & Position / tile Break-Even"
-   ]
-  },
-  {
-   "label": "Each Offering's Costs",
-   "place": "tile dialog",
-   "text": "An Offering's costs are those recorded for it on 3. Infrastructure & Capability → Offering's Capability.\nPer sale: paid for every unit or project sold. Contribution is what is left of the price after them.\nWhatever is sold: paid monthly or once, however much is sold. After them, what the Offering adds towards the organisation's shared costs.",
-   "lines": 15,
-   "points": 3,
-   "w": 360,
-   "chars": 343,
-   "scenes": [
-    "Business System / Costs, Funding & Position / tile Break-Even"
-   ]
-  },
-  {
-   "label": "Contribution",
-   "place": "tile dialog",
-   "text": "Formula: Contribution = Price − Variable costs; ratio = Contribution ÷ Price\nWhat each sale leaves to pay fixed costs and profit.\nSource: Franklin, M., Graybeal, P. and Cooper, D. (2019) ‘3.1 Explain Contribution Margin and Calculate Contribution Margin per Unit, Contribution Margin Ratio, and Total Contribution Margin’, in Principles of Accounting, Volume 2: Managerial Accounting. Houston, TX: OpenStax, Rice University. Available at: https://openstax.org/books/principles-managerial-accounting/pages/3-1-explain-contribution-margin-and-calculate-contribution-margin-per-unit-contribution-margin-ratio-and-total-contribution-margin (Accessed: 29 September 2026). In the References",
-   "lines": 29,
-   "points": 3,
-   "w": 360,
-   "chars": 684,
-   "scenes": [
-    "Business System / Costs, Funding & Position / tile Break-Even",
-    "Business System / Costs, Funding & Position / tile Break-Even",
-    "Business System / Costs, Funding & Position / tile Break-Even"
-   ]
-  },
-  {
-   "label": "Break-Even Time",
-   "place": "tile dialog",
-   "text": "The first month in which expected revenue covers that month's costs: the fixed costs, and the variable costs of that month's volume.",
-   "lines": 6,
-   "points": 1,
-   "w": 360,
-   "chars": 132,
-   "scenes": [
-    "Business System / Costs, Funding & Position / tile Break-Even"
-   ]
-  },
-  {
-   "label": "Revenue-Adjusted Financial Position",
-   "place": "tile dialog",
-   "text": "The Financial Foundation timeline with expected revenue received and variable costs paid as they are expected.\nFunding runway (Financial Foundation, without revenue): 6 months.",
-   "lines": 10,
-   "points": 2,
-   "w": 360,
-   "chars": 176,
-   "scenes": [
-    "Business System / Costs, Funding & Position / tile Break-Even"
-   ]
-  },
-  {
-   "label": "Capital & Funding",
-   "place": "tile dialog",
-   "text": "Identify where the money will come from, how certain it is, and when it arrives.\nRecord what each source obliges: repayments, equity or conditions.\nCapital: Money contributed to the organisation, particularly by founders or investors.\nFunding: Financial resources provided by another source to support the organisation.\nLoan: Borrowed money that creates a repayment obligation.\nRevenue: Money generated through the organisation's Offerings. Capital and funding are not revenue.\nExpected, confirmed and available money are different: only money that has arrived counts as money the organisation has.",
-   "lines": 28,
-   "points": 7,
-   "w": 360,
-   "chars": 598,
-   "scenes": [
-    "Business System / Costs, Funding & Position / tile Capital & Funding",
-    "Business System / Costs, Funding & Position / tile Capital & Funding / card 1",
-    "Business System / Costs, Funding & Position / tile Capital & Funding / card 2"
-   ]
-  },
-  {
-   "label": "Internal",
-   "place": "tile dialog",
-   "text": "Money from inside your organisation: its founders' capital, reinvested revenue or funds it already holds.",
-   "lines": 5,
-   "points": 1,
-   "w": 360,
-   "chars": 105,
-   "scenes": [
-    "Business System / Costs, Funding & Position / tile Capital & Funding",
-    "Business System / Costs, Funding & Position / tile Capital & Funding / card 1",
-    "Business System / Costs, Funding & Position / tile Capital & Funding / card 2"
-   ]
-  },
-  {
-   "label": "External",
-   "place": "tile dialog",
-   "text": "Non-repayable: Grants, subsidies and awards: nothing to repay, though often with conditions.\nEquity: Investment in exchange for a share of ownership.\nDebt: Loans and credit that must be repaid, with interest.",
-   "lines": 10,
-   "points": 3,
-   "w": 360,
-   "chars": 208,
-   "scenes": [
-    "Business System / Costs, Funding & Position / tile Capital & Funding",
-    "Business System / Costs, Funding & Position / tile Capital & Funding / card 1",
-    "Business System / Costs, Funding & Position / tile Capital & Funding / card 2"
-   ]
-  },
-  {
-   "label": "Other",
-   "place": "tile dialog",
-   "text": "Reward crowdfunding, friends & family, in-kind contributions and other arrangements.",
-   "lines": 5,
-   "points": 1,
-   "w": 360,
-   "chars": 84,
-   "scenes": [
-    "Business System / Costs, Funding & Position / tile Capital & Funding",
-    "Business System / Costs, Funding & Position / tile Capital & Funding / card 1",
-    "Business System / Costs, Funding & Position / tile Capital & Funding / card 2"
-   ]
-  },
-  {
-   "label": "Status",
-   "place": "floating card",
-   "text": "Planned: Identified, waiting to be pursued.\nPreparing: An application or proposal is being prepared.\nRequested / Applied: Asked for; no answer yet.\nApproved / Agreed: Confirmed, but not all of it has arrived.\nReceived / Available: The money has arrived and can be used.\nCompleted / Closed: Fully received; nothing more to come.",
-   "lines": 17,
-   "points": 6,
-   "w": 360,
-   "chars": 327,
-   "scenes": [
-    "Business System / Costs, Funding & Position / tile Capital & Funding / card 1",
-    "Business System / Costs, Funding & Position / tile Capital & Funding / card 2"
-   ]
-  },
-  {
-   "label": "Received So Far",
-   "place": "floating card",
-   "text": "How much has actually arrived. The rest counts as confirmed future money.",
-   "lines": 5,
-   "points": 1,
-   "w": 360,
-   "chars": 73,
-   "scenes": [
-    "Business System / Costs, Funding & Position / tile Capital & Funding / card 1"
-   ]
-  },
-  {
-   "label": "Funding Schedule",
-   "place": "floating card",
-   "text": "One-time: A single payment.\nPeriodic: A repeated amount at a set frequency.\nMilestone-based: Released as defined milestones or conditions are reached.\nOther: An arrangement that fits none of the above.",
-   "lines": 11,
-   "points": 4,
-   "w": 360,
-   "chars": 201,
-   "scenes": [
-    "Business System / Costs, Funding & Position / tile Capital & Funding / card 1"
-   ]
-  },
-  {
-   "label": "Loan Start",
-   "place": "floating card",
-   "text": "When the loan is paid out.",
-   "lines": 2,
-   "points": 1,
-   "w": 360,
-   "chars": 26,
-   "scenes": [
-    "Business System / Costs, Funding & Position / tile Capital & Funding / card 2"
-   ]
-  },
-  {
-   "label": "Repayment Method",
-   "place": "floating card",
-   "text": "Equal payments: The same payment every time; the interest part shrinks as the loan is repaid.\nEqual principal: The same amount of principal every time, plus that period's interest, so payments fall over time.",
-   "lines": 10,
-   "points": 2,
-   "w": 360,
-   "chars": 208,
-   "scenes": [
-    "Business System / Costs, Funding & Position / tile Capital & Funding / card 2"
-   ]
-  },
-  {
-   "label": "Loan repayment",
-   "place": "floating card",
-   "text": "Formula: Payment = P × r ÷ (1 − (1 + r)^−n) (annuity); equal-principal: P ÷ n plus interest\nA fixed payment that covers interest and repays the loan over n periods; r is the interest rate for one period (for monthly payments, the monthly rate).\nSource: Gutierrez, P.H. and Dalsted, N.L. (2012) Long Term Loan Repayment Methods. Fort Collins, CO: Colorado State University Extension. Available at: https://extension.colostate.edu/resource/long-term-loan-repayment-methods/ (Accessed: 29 September 2026). In the References",
-   "lines": 22,
-   "points": 3,
-   "w": 360,
-   "chars": 520,
-   "scenes": [
-    "Business System / Costs, Funding & Position / tile Capital & Funding / card 2"
-   ]
-  },
-  {
-   "label": "Costs",
-   "place": "tile dialog",
-   "text": "Review the costs gathered from the Legal Entity and Infrastructure & Capability.\nEach cost is grouped by what it supports, how it behaves, and when it is paid; to change one, change it where it was recorded.\nCost: Money the organisation needs to spend.\nCost Group says what a cost supports; Behaviour says how it changes with activity; Frequency says when it is paid. They are three different things.",
-   "lines": 18,
-   "points": 4,
-   "w": 360,
-   "chars": 400,
-   "scenes": [
-    "Business System / Costs, Funding & Position / tile Costs"
-   ]
-  },
-  {
-   "label": "Launch budget",
-   "place": "tile dialog",
-   "text": "What is spent before the opening: capital expenditure (assets) + startup expenses + pre-operating expenses. Opening stock is apart.\nCapital expenditure is an asset, depreciated; startup and pre-operating expenses are expensed.",
-   "lines": 10,
-   "points": 2,
-   "w": 360,
-   "chars": 226,
-   "scenes": [
-    "Business System / Costs, Funding & Position / tile Costs"
-   ]
-  },
-  {
-   "label": "Running costs a month",
-   "place": "tile dialog",
-   "text": "The fixed costs of a month of operation, from the opening (OpEx). They set the cash buffer: the launch budget plus months of running costs.",
-   "lines": 6,
-   "points": 1,
-   "w": 360,
-   "chars": 139,
-   "scenes": [
-    "Business System / Costs, Funding & Position / tile Costs"
-   ]
-  },
-  {
-   "label": "Cost of each sale",
-   "place": "tile dialog",
-   "text": "The variable costs that move with sales (COGS): prices per unit, and costs that are a percent of revenue. They decide the break-even.",
-   "lines": 6,
-   "points": 1,
-   "w": 360,
-   "chars": 133,
-   "scenes": [
-    "Business System / Costs, Funding & Position / tile Costs"
-   ]
-  },
-  {
-   "label": "Group",
-   "place": "tile dialog",
-   "text": "Establishment: Costs required to establish or launch the organisation.\nOperating: Ongoing costs that keep the organisation functioning, independently of any one Offering.\nOffering: Costs of creating, delivering or supporting a particular Offering.",
-   "lines": 11,
-   "points": 3,
-   "w": 360,
-   "chars": 247,
-   "scenes": [
-    "Business System / Costs, Funding & Position / tile Costs",
-    "Business System / Costs, Funding & Position / tile Costs"
-   ]
-  },
-  {
-   "label": "Launch: before the opening",
-   "place": "tile dialog",
-   "text": "Costs dated before the Opening Date: capital expenditure (assets), startup expenses and pre-operating expenses. They make the Total Pre-operational Budget.",
-   "lines": 7,
-   "points": 1,
-   "w": 360,
-   "chars": 155,
-   "scenes": [
-    "Business System / Costs, Funding & Position / tile Costs"
-   ]
-  },
-  {
-   "label": "Running costs: every month",
-   "place": "tile dialog",
-   "text": "Fixed costs that recur after the opening, as a monthly equivalent. They set the cash buffer: one-time costs plus months of running costs.",
-   "lines": 6,
-   "points": 1,
-   "w": 360,
-   "chars": 137,
-   "scenes": [
-    "Business System / Costs, Funding & Position / tile Costs"
-   ]
-  },
-  {
-   "label": "Cost of each sale",
-   "place": "tile dialog",
-   "text": "Variable costs that move with sales (cost of goods sold): a price per unit or a percent of revenue. They decide the break-even.",
-   "lines": 6,
-   "points": 1,
-   "w": 360,
-   "chars": 127,
-   "scenes": [
-    "Business System / Costs, Funding & Position / tile Costs"
-   ]
-  },
-  {
-   "label": "One-time costs after the opening",
-   "place": "tile dialog",
-   "text": "One-time costs paid from the opening on. They are in the Funding Need of their group.",
-   "lines": 5,
-   "points": 1,
-   "w": 360,
-   "chars": 85,
-   "scenes": [
-    "Business System / Costs, Funding & Position / tile Costs"
-   ]
-  },
-  {
-   "label": "Financial Position",
-   "place": "tile dialog",
-   "text": "Read the financial picture calculated from Costs, Funding Need and Capital & Funding: is your organisation covered, and for how long?\nFunding Gap: The amount of identified financial requirement not covered by available or confirmed financing.\nFinancial Runway: The estimated period for which available financial resources can support the organisation under current assumptions.\nEvery figure here is an estimate based on the information entered, not financial advice.",
-   "lines": 22,
-   "points": 4,
-   "w": 360,
-   "chars": 466,
-   "scenes": [
-    "Business System / Costs, Funding & Position / tile Financial Position"
-   ]
-  },
-  {
-   "label": "Funding Need",
-   "place": "tile dialog",
-   "text": "Funding Need: Money the organisation needs to obtain to support its financial requirements.",
-   "lines": 5,
-   "points": 1,
-   "w": 360,
-   "chars": 91,
-   "scenes": [
-    "Business System / Costs, Funding & Position / tile Financial Position"
-   ]
-  },
-  {
-   "label": "Available Now",
-   "place": "tile dialog",
-   "text": "Financial resources that have arrived and can be used.",
-   "lines": 3,
-   "points": 1,
-   "w": 360,
-   "chars": 54,
-   "scenes": [
-    "Business System / Costs, Funding & Position / tile Financial Position"
-   ]
-  },
-  {
-   "label": "Confirmed Future",
-   "place": "tile dialog",
-   "text": "Confirmed, but not yet available.",
-   "lines": 2,
-   "points": 1,
-   "w": 360,
-   "chars": 33,
-   "scenes": [
-    "Business System / Costs, Funding & Position / tile Financial Position"
-   ]
-  },
-  {
-   "label": "Pending",
-   "place": "tile dialog",
-   "text": "Expected and awaiting confirmation; the gap and the runway count it once it is confirmed.",
-   "lines": 5,
-   "points": 1,
-   "w": 360,
-   "chars": 89,
-   "scenes": [
-    "Business System / Costs, Funding & Position / tile Financial Position"
-   ]
-  },
-  {
-   "label": "Funding Gap",
-   "place": "tile dialog",
-   "text": "Funding Gap: The amount of identified financial requirement not covered by available or confirmed financing.\nFormula: Funding gap = Funding needed − Funding available and confirmed",
-   "lines": 10,
-   "points": 2,
-   "w": 360,
-   "chars": 180,
-   "scenes": [
-    "Business System / Costs, Funding & Position / tile Financial Position"
-   ]
-  },
-  {
-   "label": "Financial Runway",
-   "place": "tile dialog",
-   "text": "Financial Runway: The estimated period for which available financial resources can support the organisation under current assumptions.\nCounts money available now and confirmed money as it is scheduled to arrive, against every scheduled cost and loan repayment, with the revenue expected on Revenue & Pricing as it is received.\nFormula: Runway = Cash ÷ Monthly net burn (here: the first month the projected balance goes below zero)\nBased on: Damodaran, A. (2016) The Bonfire of VC: Cash Burn, the Good, the Bad & the Ugly. New York: NYU Stern School of Business. Available at: https://pages.stern.nyu.edu/~adamodar/pdfiles/blog/CashBurn.pdf (Accessed: 29 September 2026). In the References",
-   "lines": 30,
-   "points": 4,
-   "w": 360,
-   "chars": 688,
-   "scenes": [
-    "Business System / Costs, Funding & Position / tile Financial Position"
-   ]
-  },
-  {
-   "label": "Funding Need Coverage",
-   "place": "tile dialog",
-   "text": "Confirmed and available funding linked to each need under Capital & Funding.",
-   "lines": 5,
-   "points": 1,
-   "w": 360,
-   "chars": 76,
-   "scenes": [
-    "Business System / Costs, Funding & Position / tile Financial Position"
-   ]
-  },
-  {
-   "label": "Funding Mix",
-   "place": "tile dialog",
-   "text": "Where the financial resources originate, confirmed and pending.",
-   "lines": 3,
-   "points": 1,
-   "w": 360,
-   "chars": 63,
-   "scenes": [
-    "Business System / Costs, Funding & Position / tile Financial Position"
-   ]
-  },
-  {
-   "label": "Funding Timeline",
-   "place": "tile dialog",
-   "text": "Money in and out of your organisation month by month, and the balance it leaves. A dip below zero is a cash-pressure period, even when the totals are sufficient.",
-   "lines": 7,
-   "points": 1,
-   "w": 360,
-   "chars": 161,
-   "scenes": [
-    "Business System / Costs, Funding & Position / tile Financial Position"
-   ]
-  },
-  {
-   "label": "Upcoming Obligations",
-   "place": "tile dialog",
-   "text": "Significant money in or out over the next six months.",
-   "lines": 3,
-   "points": 1,
-   "w": 360,
-   "chars": 53,
-   "scenes": [
-    "Business System / Costs, Funding & Position / tile Financial Position"
-   ]
-  },
-  {
-   "label": "Funding Need",
-   "place": "tile dialog",
-   "text": "Check what has to be financed, calculated from the costs: how much, for what purpose, and when.\nFunding Need: Money the organisation needs to obtain to support its financial requirements.\nA need can be one amount by one date, or several amounts over time.",
-   "lines": 11,
-   "points": 3,
-   "w": 360,
-   "chars": 255,
-   "scenes": [
-    "Business System / Costs, Funding & Position / tile Financial Position"
-   ]
-  },
-  {
-   "label": "Establishment",
-   "place": "tile dialog",
-   "text": "Money required to establish and launch the organisation.",
-   "lines": 3,
-   "points": 1,
-   "w": 360,
-   "chars": 56,
-   "scenes": [
-    "Business System / Costs, Funding & Position / tile Financial Position"
-   ]
-  },
-  {
-   "label": "Operating",
-   "place": "tile dialog",
-   "text": "Money required to support operations before revenue becomes sufficient: the running costs, only until revenue covers them.\nLenders also call this working capital.",
-   "lines": 8,
-   "points": 2,
-   "w": 360,
-   "chars": 162,
-   "scenes": [
-    "Business System / Costs, Funding & Position / tile Financial Position"
-   ]
-  },
-  {
-   "label": "Loan Repayments",
-   "place": "tile dialog",
-   "text": "SBA Microloan (Requested / Applied): its $470 monthly repayments are not counted until it is approved.\nOnly loans that are Approved / Agreed, Received / Available or Completed / Closed are repaid in this table. A pending loan's repayments are counted only with the funding being sought: in Financial Position below, and in the Stress Test on Costs, Funding & Position.",
-   "lines": 17,
-   "points": 2,
-   "w": 360,
-   "chars": 368,
-   "scenes": [
-    "Business System / Costs, Funding & Position / tile Financial Position"
-   ]
-  },
-  {
-   "label": "Offering",
-   "place": "tile dialog",
-   "text": "Money required to develop, prepare or launch an Offering before it can generate sufficient revenue.",
-   "lines": 5,
-   "points": 1,
-   "w": 360,
-   "chars": 99,
-   "scenes": [
-    "Business System / Costs, Funding & Position / tile Financial Position"
-   ]
-  },
-  {
-   "label": "Cash to raise before the opening",
-   "place": "tile dialog",
-   "text": "The Total Pre-operational Budget (CapEx, Startup Expenses and Pre-Operating Expenses dated before the Opening Date) plus the Startup Contingency Fund, plus the cash for opening inventory, which is added after the contingency and is not part of its base.",
-   "lines": 10,
-   "points": 1,
-   "w": 360,
-   "chars": 253,
-   "scenes": [
-    "Business System / Costs, Funding & Position / tile Financial Position"
-   ]
-  },
-  {
-   "label": "Operational Contingency Fund",
-   "place": "tile dialog",
-   "text": "After the launch, each month a share of OpEx is set aside on top of the startup fund, until the fund equals the target reserve months of OpEx. The contribution is a cash set-aside, held as savings. The rates and the target are in the Global Settings.",
-   "lines": 9,
-   "points": 1,
-   "w": 360,
-   "chars": 250,
-   "scenes": [
-    "Business System / Costs, Funding & Position / tile Financial Position"
-   ]
-  },
-  {
-   "label": "Sustainability",
-   "place": "tile dialog",
-   "text": "Read how much your organisation must sell to cover its costs, when it is expected to get there, and whether that is before its money runs out.\nBreak-Even Point: The level of revenue or activity at which revenue covers costs.\nBreak-Even Time: When the organisation is expected to reach that level.\nFinancial Exhaustion: When available resources are expected to run out, with expected revenue included.\nAll results are estimates based on the assumptions entered, not guarantees.",
-   "lines": 23,
-   "points": 5,
-   "w": 360,
-   "chars": 476,
-   "scenes": [
-    "Business System / Costs, Funding & Position / tile Sustainability"
-   ]
-  },
-  {
-   "label": "Expected Monthly Revenue",
-   "place": "tile dialog",
-   "text": "Formula: Σ price × expected sales per month, for each Offering\nThe revenue the expected sales bring in a normal month.\nCalculated from your Offerings' prices and expected sales.",
-   "lines": 9,
-   "points": 3,
-   "w": 360,
-   "chars": 177,
-   "scenes": [
-    "Business System / Costs, Funding & Position / tile Sustainability"
-   ]
-  },
-  {
-   "label": "Break-Even Revenue",
-   "place": "tile dialog",
-   "text": "Fixed costs divided by the contribution margin of the expected revenue mix.\nFormula: Break-even revenue = Fixed costs ÷ Contribution margin ratio\nSource: U.S. Small Business Administration (n.d.) Calculate your startup costs: break-even point. Available at: https://www.sba.gov/business-guide/plan-your-business/calculate-your-startup-costs/break-even-point (Accessed: 29 September 2026). In the References\nAlso: Franklin, M., Graybeal, P. and Cooper, D. (2019) ‘3.2 Calculate a Break-Even Point in Units and Dollars’, in Principles of Accounting, Volume 2: Managerial Accounting. Houston, TX: OpenStax, Rice University. Available at: https://openstax.org/books/principles-managerial-accounting/pages/3-2-calculate-a-break-even-point-in-units-and-dollars (Accessed: 29 September 2026). In the References",
-   "lines": 35,
-   "points": 4,
-   "w": 360,
-   "chars": 803,
-   "scenes": [
-    "Business System / Costs, Funding & Position / tile Sustainability"
-   ]
-  },
-  {
-   "label": "Expected Break Even",
-   "place": "tile dialog",
-   "text": "The first month revenue covers costs, based on the build-up of sales you entered.",
-   "lines": 5,
-   "points": 1,
-   "w": 360,
-   "chars": 81,
-   "scenes": [
-    "Business System / Costs, Funding & Position / tile Sustainability"
-   ]
-  },
-  {
-   "label": "Financial Exhaustion",
-   "place": "tile dialog",
-   "text": "When available cash is expected to run out: funding received or confirmed on Financial Foundation, plus expected revenue as it is received.\nFunding still expected or applied for is not counted until it is confirmed.",
-   "lines": 10,
-   "points": 2,
-   "w": 360,
-   "chars": 215,
-   "scenes": [
-    "Business System / Costs, Funding & Position / tile Sustainability"
-   ]
-  },
-  {
-   "label": "Sustainability Buffer",
-   "place": "tile dialog",
-   "text": "Financial Exhaustion minus Break-Even Time: how much time exists between becoming sustainable and running out of resources.",
-   "lines": 6,
-   "points": 1,
-   "w": 360,
-   "chars": 123,
-   "scenes": [
-    "Business System / Costs, Funding & Position / tile Sustainability"
-   ]
-  },
-  {
-   "label": "Stress Test",
-   "place": "tile dialog",
-   "text": "The plan as it stands, and the same plan when things go worse than hoped: sales 20% lower, revenue 3 months later, costs 10% higher (founders' pay aside), customers paying a month later than planned, and all four together.\nThe funding being sought is counted as if it arrives as planned, its repayments included: the question a lender asks is whether the plan holds with the money requested.\nHolds: cash stays at zero or above throughout the plan.\nShort: how much more money would keep it there.",
-   "lines": 22,
-   "points": 4,
-   "w": 360,
-   "chars": 495,
-   "scenes": [
-    "Business System / Costs, Funding & Position / tile Sustainability"
-   ]
-  },
-  {
-   "label": "What It Would Take",
-   "place": "tile dialog",
-   "text": "Worked out from the plan: the smallest single change that keeps the cash at zero or above in every month of the plan, each tried on its own with everything else as planned.\nThe funding being sought is counted as if it arrives as planned, its repayments included, as in the Stress Test.\nWhere the plan already holds, it says how far sales, the start of revenue or costs could go against it instead.",
-   "lines": 18,
-   "points": 3,
-   "w": 360,
-   "chars": 397,
-   "scenes": [
-    "Business System / Costs, Funding & Position / tile Sustainability"
-   ]
-  },
-  {
    "label": "Channels & Journey",
    "place": "tile dialog",
    "text": "Decide which channels are relevant, and which offerings each one supports.\nRecord where in the customer journey each channel is used.\nDescribe what is done through the channel at each of those stages, and what it is for.\nFaded channels and subchannels stand ready to add: those your Foundation answers suggest list what they suggest, and pressing any of them adds it.\nPlace the tiles by Channels, or by Journey Stages to see the subchannels used at each stage.",
@@ -2728,11 +2092,11 @@
   {
    "label": "Demand & Conversion",
    "place": "tile dialog",
-   "text": "For each Offering, estimate under Demand & Conversion where its customers come from and how many buy.\nWhere this Offering’s customers come from, and so how many sales to expect. One source with a figure is enough; add more, or calculate them, as the business develops.\nThe Expected Sales are used for Capacity & Delivery on Infrastructure & Capability and for this Offering’s revenue on Revenue & Pricing.\nCount each new customer once, under the source that brought the sale. Repeat customers are worked out from the others, so they are never counted twice.",
+   "text": "For each Offering, estimate under Demand & Conversion where its customers come from and how many buy.\nWhere this Offering’s customers come from, and so how many sales to expect. One source with a figure is enough; add more, or calculate them, as the business develops.\nThe Expected Sales are used for Capacity & Delivery on Infrastructure & Capability and for this Offering’s revenue on Financials.\nCount each new customer once, under the source that brought the sale. Repeat customers are worked out from the others, so they are never counted twice.",
    "lines": 24,
    "points": 4,
    "w": 360,
-   "chars": 557,
+   "chars": 550,
    "scenes": [
     "Business System / Customer Engagement / tile Demand &Conversion",
     "Business System / Customer Engagement / tile Demand &Conversion / card 1",
@@ -2743,11 +2107,11 @@
   {
    "label": "AI Workflow Audit",
    "place": "tile dialog",
-   "text": "For each Offering, estimate under Demand & Conversion where its customers come from and how many buy.\nWhere this Offering’s customers come from, and so how many sales to expect. One source with a figure is enough; add more, or calculate them, as the business develops.\nThe Expected Sales are used for Capacity & Delivery on Infrastructure & Capability and for this Offering’s revenue on Revenue & Pricing.\nCount each new customer once, under the source that brought the sale. Repeat customers are worked out from the others, so they are never counted twice.",
+   "text": "For each Offering, estimate under Demand & Conversion where its customers come from and how many buy.\nWhere this Offering’s customers come from, and so how many sales to expect. One source with a figure is enough; add more, or calculate them, as the business develops.\nThe Expected Sales are used for Capacity & Delivery on Infrastructure & Capability and for this Offering’s revenue on Financials.\nCount each new customer once, under the source that brought the sale. Repeat customers are worked out from the others, so they are never counted twice.",
    "lines": 24,
    "points": 4,
    "w": 360,
-   "chars": 557,
+   "chars": 550,
    "scenes": [
     "Business System / Customer Engagement / tile Demand &Conversion / card 1"
    ]
@@ -2783,11 +2147,11 @@
   {
    "label": "Automation Build",
    "place": "tile dialog",
-   "text": "For each Offering, estimate under Demand & Conversion where its customers come from and how many buy.\nWhere this Offering’s customers come from, and so how many sales to expect. One source with a figure is enough; add more, or calculate them, as the business develops.\nThe Expected Sales are used for Capacity & Delivery on Infrastructure & Capability and for this Offering’s revenue on Revenue & Pricing.\nCount each new customer once, under the source that brought the sale. Repeat customers are worked out from the others, so they are never counted twice.",
+   "text": "For each Offering, estimate under Demand & Conversion where its customers come from and how many buy.\nWhere this Offering’s customers come from, and so how many sales to expect. One source with a figure is enough; add more, or calculate them, as the business develops.\nThe Expected Sales are used for Capacity & Delivery on Infrastructure & Capability and for this Offering’s revenue on Financials.\nCount each new customer once, under the source that brought the sale. Repeat customers are worked out from the others, so they are never counted twice.",
    "lines": 24,
    "points": 4,
    "w": 360,
-   "chars": 557,
+   "chars": 550,
    "scenes": [
     "Business System / Customer Engagement / tile Demand &Conversion / card 2"
    ]
@@ -2795,11 +2159,11 @@
   {
    "label": "Automation Care Retainer",
    "place": "tile dialog",
-   "text": "For each Offering, estimate under Demand & Conversion where its customers come from and how many buy.\nWhere this Offering’s customers come from, and so how many sales to expect. One source with a figure is enough; add more, or calculate them, as the business develops.\nThe Expected Sales are used for Capacity & Delivery on Infrastructure & Capability and for this Offering’s revenue on Revenue & Pricing.\nCount each new customer once, under the source that brought the sale. Repeat customers are worked out from the others, so they are never counted twice.",
+   "text": "For each Offering, estimate under Demand & Conversion where its customers come from and how many buy.\nWhere this Offering’s customers come from, and so how many sales to expect. One source with a figure is enough; add more, or calculate them, as the business develops.\nThe Expected Sales are used for Capacity & Delivery on Infrastructure & Capability and for this Offering’s revenue on Financials.\nCount each new customer once, under the source that brought the sale. Repeat customers are worked out from the others, so they are never counted twice.",
    "lines": 24,
    "points": 4,
    "w": 360,
-   "chars": 557,
+   "chars": 550,
    "scenes": [
     "Business System / Customer Engagement / tile Demand &Conversion / card 3"
    ]
@@ -2838,6 +2202,859 @@
    "chars": 415,
    "scenes": [
     "Business System / Customer Engagement / tile Demand &Conversion / card 3"
+   ]
+  },
+  {
+   "label": "Break-Even",
+   "place": "tile dialog",
+   "text": "Read how much your organisation must sell to cover its costs, when it is expected to get there, and whether that is before its money runs out.\nBreak-Even Point: The level of revenue or activity at which revenue covers costs.\nBreak-Even Time: When the organisation is expected to reach that level.\nFinancial Exhaustion: When available resources are expected to run out, with expected revenue included.\nAll results are estimates based on the assumptions entered, not guarantees.",
+   "lines": 23,
+   "points": 5,
+   "w": 360,
+   "chars": 476,
+   "scenes": [
+    "Business System / Financials / tile Break-Even"
+   ]
+  },
+  {
+   "label": "Break-Even Point",
+   "place": "tile dialog",
+   "text": "Contribution per unit = price − variable cost per unit.\nOffering break even: the units this Offering alone would need to sell to cover all fixed costs.\nOrganisation break even: the expected revenue mix, scaled as a whole until its contribution covers the fixed costs.\nFormula: Break-even units = Fixed costs ÷ (Price − Variable cost per unit)\nSource: U.S. Small Business Administration (n.d.) Calculate your startup costs: break-even point. Available at: https://www.sba.gov/business-guide/plan-your-business/calculate-your-startup-costs/break-even-point (Accessed: 29 September 2026). In the References",
+   "lines": 28,
+   "points": 5,
+   "w": 360,
+   "chars": 603,
+   "scenes": [
+    "Business System / Financials / tile Break-Even"
+   ]
+  },
+  {
+   "label": "Costs Used",
+   "place": "tile dialog",
+   "text": "Read from Financial Foundation, by behaviour.\nFixed: the monthly equivalent of every recurring cost, plus loan interest. Loan principal is repayment of borrowed money, kept outside the costs; one-time costs are what the funding is for.\nVariable: per-unit and per-project costs linked to each Offering.",
+   "lines": 13,
+   "points": 3,
+   "w": 360,
+   "chars": 301,
+   "scenes": [
+    "Business System / Financials / tile Break-Even"
+   ]
+  },
+  {
+   "label": "Each Offering's Costs",
+   "place": "tile dialog",
+   "text": "An Offering's costs are those recorded for it on 3. Infrastructure & Capability → Offering's Capability.\nPer sale: paid for every unit or project sold. Contribution is what is left of the price after them.\nWhatever is sold: paid monthly or once, however much is sold. After them, what the Offering adds towards the organisation's shared costs.",
+   "lines": 15,
+   "points": 3,
+   "w": 360,
+   "chars": 343,
+   "scenes": [
+    "Business System / Financials / tile Break-Even"
+   ]
+  },
+  {
+   "label": "Contribution",
+   "place": "tile dialog",
+   "text": "Formula: Contribution = Price − Variable costs; ratio = Contribution ÷ Price\nWhat each sale leaves to pay fixed costs and profit.\nSource: Franklin, M., Graybeal, P. and Cooper, D. (2019) ‘3.1 Explain Contribution Margin and Calculate Contribution Margin per Unit, Contribution Margin Ratio, and Total Contribution Margin’, in Principles of Accounting, Volume 2: Managerial Accounting. Houston, TX: OpenStax, Rice University. Available at: https://openstax.org/books/principles-managerial-accounting/pages/3-1-explain-contribution-margin-and-calculate-contribution-margin-per-unit-contribution-margin-ratio-and-total-contribution-margin (Accessed: 29 September 2026). In the References",
+   "lines": 29,
+   "points": 3,
+   "w": 360,
+   "chars": 684,
+   "scenes": [
+    "Business System / Financials / tile Break-Even",
+    "Business System / Financials / tile Break-Even",
+    "Business System / Financials / tile Break-Even"
+   ]
+  },
+  {
+   "label": "Break-Even Time",
+   "place": "tile dialog",
+   "text": "The first month in which expected revenue covers that month's costs: the fixed costs, and the variable costs of that month's volume.",
+   "lines": 6,
+   "points": 1,
+   "w": 360,
+   "chars": 132,
+   "scenes": [
+    "Business System / Financials / tile Break-Even"
+   ]
+  },
+  {
+   "label": "Revenue-Adjusted Financial Position",
+   "place": "tile dialog",
+   "text": "The Financial Foundation timeline with expected revenue received and variable costs paid as they are expected.\nFunding runway (Financial Foundation, without revenue): 6 months.",
+   "lines": 10,
+   "points": 2,
+   "w": 360,
+   "chars": 176,
+   "scenes": [
+    "Business System / Financials / tile Break-Even"
+   ]
+  },
+  {
+   "label": "Capital & Funding",
+   "place": "tile dialog",
+   "text": "Identify where the money will come from, how certain it is, and when it arrives.\nRecord what each source obliges: repayments, equity or conditions.\nCapital: Money contributed to the organisation, particularly by founders or investors.\nFunding: Financial resources provided by another source to support the organisation.\nLoan: Borrowed money that creates a repayment obligation.\nRevenue: Money generated through the organisation's Offerings. Capital and funding are not revenue.\nExpected, confirmed and available money are different: only money that has arrived counts as money the organisation has.",
+   "lines": 28,
+   "points": 7,
+   "w": 360,
+   "chars": 598,
+   "scenes": [
+    "Business System / Financials / tile Capital & Funding",
+    "Business System / Financials / tile Capital & Funding / card 1",
+    "Business System / Financials / tile Capital & Funding / card 2"
+   ]
+  },
+  {
+   "label": "Internal",
+   "place": "tile dialog",
+   "text": "Money from inside your organisation: its founders' capital, reinvested revenue or funds it already holds.",
+   "lines": 5,
+   "points": 1,
+   "w": 360,
+   "chars": 105,
+   "scenes": [
+    "Business System / Financials / tile Capital & Funding",
+    "Business System / Financials / tile Capital & Funding / card 1",
+    "Business System / Financials / tile Capital & Funding / card 2"
+   ]
+  },
+  {
+   "label": "External",
+   "place": "tile dialog",
+   "text": "Non-repayable: Grants, subsidies and awards: nothing to repay, though often with conditions.\nEquity: Investment in exchange for a share of ownership.\nDebt: Loans and credit that must be repaid, with interest.",
+   "lines": 10,
+   "points": 3,
+   "w": 360,
+   "chars": 208,
+   "scenes": [
+    "Business System / Financials / tile Capital & Funding",
+    "Business System / Financials / tile Capital & Funding / card 1",
+    "Business System / Financials / tile Capital & Funding / card 2"
+   ]
+  },
+  {
+   "label": "Other",
+   "place": "tile dialog",
+   "text": "Reward crowdfunding, friends & family, in-kind contributions and other arrangements.",
+   "lines": 5,
+   "points": 1,
+   "w": 360,
+   "chars": 84,
+   "scenes": [
+    "Business System / Financials / tile Capital & Funding",
+    "Business System / Financials / tile Capital & Funding / card 1",
+    "Business System / Financials / tile Capital & Funding / card 2"
+   ]
+  },
+  {
+   "label": "Status",
+   "place": "floating card",
+   "text": "Planned: Identified, waiting to be pursued.\nPreparing: An application or proposal is being prepared.\nRequested / Applied: Asked for; no answer yet.\nApproved / Agreed: Confirmed, but not all of it has arrived.\nReceived / Available: The money has arrived and can be used.\nCompleted / Closed: Fully received; nothing more to come.",
+   "lines": 17,
+   "points": 6,
+   "w": 360,
+   "chars": 327,
+   "scenes": [
+    "Business System / Financials / tile Capital & Funding / card 1",
+    "Business System / Financials / tile Capital & Funding / card 2"
+   ]
+  },
+  {
+   "label": "Received So Far",
+   "place": "floating card",
+   "text": "How much has actually arrived. The rest counts as confirmed future money.",
+   "lines": 5,
+   "points": 1,
+   "w": 360,
+   "chars": 73,
+   "scenes": [
+    "Business System / Financials / tile Capital & Funding / card 1"
+   ]
+  },
+  {
+   "label": "Funding Schedule",
+   "place": "floating card",
+   "text": "One-time: A single payment.\nPeriodic: A repeated amount at a set frequency.\nMilestone-based: Released as defined milestones or conditions are reached.\nOther: An arrangement that fits none of the above.",
+   "lines": 11,
+   "points": 4,
+   "w": 360,
+   "chars": 201,
+   "scenes": [
+    "Business System / Financials / tile Capital & Funding / card 1"
+   ]
+  },
+  {
+   "label": "Loan Start",
+   "place": "floating card",
+   "text": "When the loan is paid out.",
+   "lines": 2,
+   "points": 1,
+   "w": 360,
+   "chars": 26,
+   "scenes": [
+    "Business System / Financials / tile Capital & Funding / card 2"
+   ]
+  },
+  {
+   "label": "Repayment Method",
+   "place": "floating card",
+   "text": "Equal payments: The same payment every time; the interest part shrinks as the loan is repaid.\nEqual principal: The same amount of principal every time, plus that period's interest, so payments fall over time.",
+   "lines": 10,
+   "points": 2,
+   "w": 360,
+   "chars": 208,
+   "scenes": [
+    "Business System / Financials / tile Capital & Funding / card 2"
+   ]
+  },
+  {
+   "label": "Loan repayment",
+   "place": "floating card",
+   "text": "Formula: Payment = P × r ÷ (1 − (1 + r)^−n) (annuity); equal-principal: P ÷ n plus interest\nA fixed payment that covers interest and repays the loan over n periods; r is the interest rate for one period (for monthly payments, the monthly rate).\nSource: Gutierrez, P.H. and Dalsted, N.L. (2012) Long Term Loan Repayment Methods. Fort Collins, CO: Colorado State University Extension. Available at: https://extension.colostate.edu/resource/long-term-loan-repayment-methods/ (Accessed: 29 September 2026). In the References",
+   "lines": 22,
+   "points": 3,
+   "w": 360,
+   "chars": 520,
+   "scenes": [
+    "Business System / Financials / tile Capital & Funding / card 2"
+   ]
+  },
+  {
+   "label": "Costs",
+   "place": "tile dialog",
+   "text": "Review the costs gathered from the Legal Entity and Infrastructure & Capability.\nEach cost is grouped by what it supports, how it behaves, and when it is paid; to change one, change it where it was recorded.\nCost: Money the organisation needs to spend.\nCost Group says what a cost supports; Behaviour says how it changes with activity; Frequency says when it is paid. They are three different things.",
+   "lines": 18,
+   "points": 4,
+   "w": 360,
+   "chars": 400,
+   "scenes": [
+    "Business System / Financials / tile Costs"
+   ]
+  },
+  {
+   "label": "Launch budget",
+   "place": "tile dialog",
+   "text": "What is spent before the opening: capital expenditure (assets) + startup expenses + pre-operating expenses. Opening stock is apart.\nCapital expenditure is an asset, depreciated; startup and pre-operating expenses are expensed.",
+   "lines": 10,
+   "points": 2,
+   "w": 360,
+   "chars": 226,
+   "scenes": [
+    "Business System / Financials / tile Costs"
+   ]
+  },
+  {
+   "label": "Running costs a month",
+   "place": "tile dialog",
+   "text": "The fixed costs of a month of operation, from the opening (OpEx). They set the cash buffer: the launch budget plus months of running costs.",
+   "lines": 6,
+   "points": 1,
+   "w": 360,
+   "chars": 139,
+   "scenes": [
+    "Business System / Financials / tile Costs"
+   ]
+  },
+  {
+   "label": "Cost of each sale",
+   "place": "tile dialog",
+   "text": "The variable costs that move with sales (COGS): prices per unit, and costs that are a percent of revenue. They decide the break-even.",
+   "lines": 6,
+   "points": 1,
+   "w": 360,
+   "chars": 133,
+   "scenes": [
+    "Business System / Financials / tile Costs"
+   ]
+  },
+  {
+   "label": "Group",
+   "place": "tile dialog",
+   "text": "Establishment: Costs required to establish or launch the organisation.\nOperating: Ongoing costs that keep the organisation functioning, independently of any one Offering.\nOffering: Costs of creating, delivering or supporting a particular Offering.",
+   "lines": 11,
+   "points": 3,
+   "w": 360,
+   "chars": 247,
+   "scenes": [
+    "Business System / Financials / tile Costs",
+    "Business System / Financials / tile Costs"
+   ]
+  },
+  {
+   "label": "Launch: before the opening",
+   "place": "tile dialog",
+   "text": "Costs dated before the Opening Date: capital expenditure (assets), startup expenses and pre-operating expenses. They make the Total Pre-operational Budget.",
+   "lines": 7,
+   "points": 1,
+   "w": 360,
+   "chars": 155,
+   "scenes": [
+    "Business System / Financials / tile Costs"
+   ]
+  },
+  {
+   "label": "Running costs: every month",
+   "place": "tile dialog",
+   "text": "Fixed costs that recur after the opening, as a monthly equivalent. They set the cash buffer: one-time costs plus months of running costs.",
+   "lines": 6,
+   "points": 1,
+   "w": 360,
+   "chars": 137,
+   "scenes": [
+    "Business System / Financials / tile Costs"
+   ]
+  },
+  {
+   "label": "Cost of each sale",
+   "place": "tile dialog",
+   "text": "Variable costs that move with sales (cost of goods sold): a price per unit or a percent of revenue. They decide the break-even.",
+   "lines": 6,
+   "points": 1,
+   "w": 360,
+   "chars": 127,
+   "scenes": [
+    "Business System / Financials / tile Costs"
+   ]
+  },
+  {
+   "label": "One-time costs after the opening",
+   "place": "tile dialog",
+   "text": "One-time costs paid from the opening on. They are in the Funding Need of their group.",
+   "lines": 5,
+   "points": 1,
+   "w": 360,
+   "chars": 85,
+   "scenes": [
+    "Business System / Financials / tile Costs"
+   ]
+  },
+  {
+   "label": "Financial Position",
+   "place": "tile dialog",
+   "text": "Read the financial picture calculated from Costs, Funding Need and Capital & Funding: is your organisation covered, and for how long?\nFunding Gap: The amount of identified financial requirement not covered by available or confirmed financing.\nFinancial Runway: The estimated period for which available financial resources can support the organisation under current assumptions.\nEvery figure here is an estimate based on the information entered, not financial advice.",
+   "lines": 22,
+   "points": 4,
+   "w": 360,
+   "chars": 466,
+   "scenes": [
+    "Business System / Financials / tile Financial Position"
+   ]
+  },
+  {
+   "label": "Funding Need",
+   "place": "tile dialog",
+   "text": "Funding Need: Money the organisation needs to obtain to support its financial requirements.",
+   "lines": 5,
+   "points": 1,
+   "w": 360,
+   "chars": 91,
+   "scenes": [
+    "Business System / Financials / tile Financial Position"
+   ]
+  },
+  {
+   "label": "Available Now",
+   "place": "tile dialog",
+   "text": "Financial resources that have arrived and can be used.",
+   "lines": 3,
+   "points": 1,
+   "w": 360,
+   "chars": 54,
+   "scenes": [
+    "Business System / Financials / tile Financial Position"
+   ]
+  },
+  {
+   "label": "Confirmed Future",
+   "place": "tile dialog",
+   "text": "Confirmed, but not yet available.",
+   "lines": 2,
+   "points": 1,
+   "w": 360,
+   "chars": 33,
+   "scenes": [
+    "Business System / Financials / tile Financial Position"
+   ]
+  },
+  {
+   "label": "Pending",
+   "place": "tile dialog",
+   "text": "Expected and awaiting confirmation; the gap and the runway count it once it is confirmed.",
+   "lines": 5,
+   "points": 1,
+   "w": 360,
+   "chars": 89,
+   "scenes": [
+    "Business System / Financials / tile Financial Position"
+   ]
+  },
+  {
+   "label": "Funding Gap",
+   "place": "tile dialog",
+   "text": "Funding Gap: The amount of identified financial requirement not covered by available or confirmed financing.\nFormula: Funding gap = Funding needed − Funding available and confirmed",
+   "lines": 10,
+   "points": 2,
+   "w": 360,
+   "chars": 180,
+   "scenes": [
+    "Business System / Financials / tile Financial Position"
+   ]
+  },
+  {
+   "label": "Financial Runway",
+   "place": "tile dialog",
+   "text": "Financial Runway: The estimated period for which available financial resources can support the organisation under current assumptions.\nCounts money available now and confirmed money as it is scheduled to arrive, against every scheduled cost and loan repayment, with the revenue expected in Revenue Streams as it is received.\nFormula: Runway = Cash ÷ Monthly net burn (here: the first month the projected balance goes below zero)\nBased on: Damodaran, A. (2016) The Bonfire of VC: Cash Burn, the Good, the Bad & the Ugly. New York: NYU Stern School of Business. Available at: https://pages.stern.nyu.edu/~adamodar/pdfiles/blog/CashBurn.pdf (Accessed: 29 September 2026). In the References",
+   "lines": 30,
+   "points": 4,
+   "w": 360,
+   "chars": 686,
+   "scenes": [
+    "Business System / Financials / tile Financial Position"
+   ]
+  },
+  {
+   "label": "Funding Need Coverage",
+   "place": "tile dialog",
+   "text": "Confirmed and available funding linked to each need under Capital & Funding.",
+   "lines": 5,
+   "points": 1,
+   "w": 360,
+   "chars": 76,
+   "scenes": [
+    "Business System / Financials / tile Financial Position"
+   ]
+  },
+  {
+   "label": "Funding Mix",
+   "place": "tile dialog",
+   "text": "Where the financial resources originate, confirmed and pending.",
+   "lines": 3,
+   "points": 1,
+   "w": 360,
+   "chars": 63,
+   "scenes": [
+    "Business System / Financials / tile Financial Position"
+   ]
+  },
+  {
+   "label": "Funding Timeline",
+   "place": "tile dialog",
+   "text": "Money in and out of your organisation month by month, and the balance it leaves. A dip below zero is a cash-pressure period, even when the totals are sufficient.",
+   "lines": 7,
+   "points": 1,
+   "w": 360,
+   "chars": 161,
+   "scenes": [
+    "Business System / Financials / tile Financial Position"
+   ]
+  },
+  {
+   "label": "Upcoming Obligations",
+   "place": "tile dialog",
+   "text": "Significant money in or out over the next six months.",
+   "lines": 3,
+   "points": 1,
+   "w": 360,
+   "chars": 53,
+   "scenes": [
+    "Business System / Financials / tile Financial Position"
+   ]
+  },
+  {
+   "label": "Funding Need",
+   "place": "tile dialog",
+   "text": "Check what has to be financed, calculated from the costs: how much, for what purpose, and when.\nFunding Need: Money the organisation needs to obtain to support its financial requirements.\nA need can be one amount by one date, or several amounts over time.",
+   "lines": 11,
+   "points": 3,
+   "w": 360,
+   "chars": 255,
+   "scenes": [
+    "Business System / Financials / tile Financial Position"
+   ]
+  },
+  {
+   "label": "Establishment",
+   "place": "tile dialog",
+   "text": "Money required to establish and launch the organisation.",
+   "lines": 3,
+   "points": 1,
+   "w": 360,
+   "chars": 56,
+   "scenes": [
+    "Business System / Financials / tile Financial Position"
+   ]
+  },
+  {
+   "label": "Operating",
+   "place": "tile dialog",
+   "text": "Money required to support operations before revenue becomes sufficient: the running costs, only until revenue covers them.\nLenders also call this working capital.",
+   "lines": 8,
+   "points": 2,
+   "w": 360,
+   "chars": 162,
+   "scenes": [
+    "Business System / Financials / tile Financial Position"
+   ]
+  },
+  {
+   "label": "Loan Repayments",
+   "place": "tile dialog",
+   "text": "SBA Microloan (Requested / Applied): its $470 monthly repayments are not counted until it is approved.\nOnly loans that are Approved / Agreed, Received / Available or Completed / Closed are repaid in this table. A pending loan's repayments are counted only with the funding being sought: in Financial Position below, and in the Stress Test on Financials.",
+   "lines": 15,
+   "points": 2,
+   "w": 360,
+   "chars": 353,
+   "scenes": [
+    "Business System / Financials / tile Financial Position"
+   ]
+  },
+  {
+   "label": "Offering",
+   "place": "tile dialog",
+   "text": "Money required to develop, prepare or launch an Offering before it can generate sufficient revenue.",
+   "lines": 5,
+   "points": 1,
+   "w": 360,
+   "chars": 99,
+   "scenes": [
+    "Business System / Financials / tile Financial Position"
+   ]
+  },
+  {
+   "label": "Cash to raise before the opening",
+   "place": "tile dialog",
+   "text": "The Total Pre-operational Budget (CapEx, Startup Expenses and Pre-Operating Expenses dated before the Opening Date) plus the Startup Contingency Fund, plus the cash for opening inventory, which is added after the contingency and is not part of its base.",
+   "lines": 10,
+   "points": 1,
+   "w": 360,
+   "chars": 253,
+   "scenes": [
+    "Business System / Financials / tile Financial Position"
+   ]
+  },
+  {
+   "label": "Operational Contingency Fund",
+   "place": "tile dialog",
+   "text": "After the launch, each month a share of OpEx is set aside on top of the startup fund, until the fund equals the target reserve months of OpEx. The contribution is a cash set-aside, held as savings. The rates and the target are in the Global Settings.",
+   "lines": 9,
+   "points": 1,
+   "w": 360,
+   "chars": 250,
+   "scenes": [
+    "Business System / Financials / tile Financial Position"
+   ]
+  },
+  {
+   "label": "Revenue Streams",
+   "place": "tile dialog",
+   "text": "Each Offering has its revenue stream below. For each, say how it is priced, how much sells, and when the money arrives.\nExpected sales come from Demand & Conversion on Customer Engagement where it is filled in; otherwise enter them here. Not sure of a figure? The \"i\" beside Price, Sales Volume, and Begins and Payment says how to estimate it.\nWrite down what each figure rests on under Assumptions: lenders read those first.\nRevenue: Money generated through the organisation's Offerings.\nFunding, loans, founder capital, grants and investment are financing, and this list counts revenue only.\nRevenue may be zero at first. That is a valid model for an organisation under development.",
+   "lines": 30,
+   "points": 6,
+   "w": 360,
+   "chars": 684,
+   "scenes": [
+    "Business System / Financials / tile Revenue Streams",
+    "Business System / Financials / tile Revenue Streams / card 1",
+    "Business System / Financials / tile Revenue Streams / card 2",
+    "Business System / Financials / tile Revenue Streams / card 3"
+   ]
+  },
+  {
+   "label": "Can the Expected Sales Be Delivered?",
+   "place": "tile dialog",
+   "text": "Capacity is the founders' delivery hours a month: the time the organisation controls.\nNeeded: each month's expected sales times each founder's Working Hours per Unit (4. Delivery, on Infrastructure & Capability).\nRecurring work (subscriptions, retainers) is served first; what remains is flexible capacity for the other Offerings.\nExternal professionals' hours are delivered outside this capacity; their cost is part of the Offering's costs.\nA shortfall does not change the sales forecast: it says more capacity may be needed.",
+   "lines": 22,
+   "points": 5,
+   "w": 360,
+   "chars": 526,
+   "scenes": [
+    "Business System / Financials / tile Revenue Streams",
+    "Business System / Financials / tile Revenue Streams / card 1",
+    "Business System / Financials / tile Revenue Streams / card 2",
+    "Business System / Financials / tile Revenue Streams / card 3"
+   ]
+  },
+  {
+   "label": "Revenue Summary",
+   "place": "tile dialog",
+   "text": "Expected revenue at the normal operating level, a month.",
+   "lines": 3,
+   "points": 1,
+   "w": 360,
+   "chars": 56,
+   "scenes": [
+    "Business System / Financials / tile Revenue Streams",
+    "Business System / Financials / tile Revenue Streams / card 1",
+    "Business System / Financials / tile Revenue Streams / card 2",
+    "Business System / Financials / tile Revenue Streams / card 3"
+   ]
+  },
+  {
+   "label": "Price",
+   "place": "floating card",
+   "text": "Start from what competitors publish (listed on Foundation) and what clients pay today to solve the same problem.\nCheck it covers the costs of each sale and leaves enough towards the running costs: the card shows what is left from each sale.\nEnter prices on the basis chosen under Amounts in the Global Settings. If you are registered, the tax you collect is not revenue.\nAllow for discounts: launch offers and first-client prices are common.\nYour competitors charge about $300 to $60,000 for a similar offer (their cards on Foundation, What do they charge?).",
+   "lines": 23,
+   "points": 5,
+   "w": 360,
+   "chars": 558,
+   "scenes": [
+    "Business System / Financials / tile Revenue Streams / card 1",
+    "Business System / Financials / tile Revenue Streams / card 2",
+    "Business System / Financials / tile Revenue Streams / card 3"
+   ]
+  },
+  {
+   "label": "Charged",
+   "place": "floating card",
+   "text": "Per sale: paid once for each unit sold (a product, a session, an hour).\nPer project: paid once for each project or contract.\nMonthly, quarterly or annually: paid every period by each client subscribed or on a retainer.\nUse Monthly, Quarterly or Annually when customers buy every month under Demand & Conversion on Customer Engagement.",
+   "lines": 15,
+   "points": 4,
+   "w": 360,
+   "chars": 334,
+   "scenes": [
+    "Business System / Financials / tile Revenue Streams / card 1",
+    "Business System / Financials / tile Revenue Streams / card 2",
+    "Business System / Financials / tile Revenue Streams / card 3"
+   ]
+  },
+  {
+   "label": "Sales Volume",
+   "place": "floating card",
+   "text": "Few organisations sell at the normal level from the first month: a gradual build-up over 6 to 12 months is usual.\nFor seasons (quieter summers, busy end-of-year gifts), set Build-up to Month by month and enter the months that differ.\nAllow for refunds and returns: a share of sales comes back.",
+   "lines": 13,
+   "points": 3,
+   "w": 360,
+   "chars": 293,
+   "scenes": [
+    "Business System / Financials / tile Revenue Streams / card 1",
+    "Business System / Financials / tile Revenue Streams / card 2",
+    "Business System / Financials / tile Revenue Streams / card 3"
+   ]
+  },
+  {
+   "label": "Expected Sales",
+   "place": "floating card",
+   "text": "From this Offering's Demand & Conversion on Customer Engagement: Sales funnel: 24 prospects a month, 15% qualified, 25% of those buy: about 0.9 a month. Referrals: 1.5 referrals a month, 40% buy: about 0.6 a month. Visitors: estimated at 0 a month. Together about 1.5 a month.",
+   "lines": 10,
+   "points": 1,
+   "w": 360,
+   "chars": 276,
+   "scenes": [
+    "Business System / Financials / tile Revenue Streams / card 1",
+    "Business System / Financials / tile Revenue Streams / card 2"
+   ]
+  },
+  {
+   "label": "Build-up",
+   "place": "floating card",
+   "text": "Steady from the start: The expected volume from the month revenue begins.\nGradual build-up: Starts lower and grows evenly to the expected volume.\nMonth by month: Enter the volume for the months that differ.",
+   "lines": 11,
+   "points": 3,
+   "w": 360,
+   "chars": 206,
+   "scenes": [
+    "Business System / Financials / tile Revenue Streams / card 1",
+    "Business System / Financials / tile Revenue Streams / card 2",
+    "Business System / Financials / tile Revenue Streams / card 3"
+   ]
+  },
+  {
+   "label": "First Month",
+   "place": "floating card",
+   "text": "How many projects in the month revenue begins.",
+   "lines": 3,
+   "points": 1,
+   "w": 360,
+   "chars": 46,
+   "scenes": [
+    "Business System / Financials / tile Revenue Streams / card 1",
+    "Business System / Financials / tile Revenue Streams / card 2"
+   ]
+  },
+  {
+   "label": "Months to Normal",
+   "place": "floating card",
+   "text": "How many months it takes to grow evenly to the normal level.",
+   "lines": 3,
+   "points": 1,
+   "w": 360,
+   "chars": 60,
+   "scenes": [
+    "Business System / Financials / tile Revenue Streams / card 1",
+    "Business System / Financials / tile Revenue Streams / card 2",
+    "Business System / Financials / tile Revenue Streams / card 3"
+   ]
+  },
+  {
+   "label": "Begins & Payment",
+   "place": "floating card",
+   "text": "Revenue begins after the sales cycle, the time from first contact to a signed sale: for services to businesses it is often 4 to 12 weeks.\nOne sale often leads to another, such as a build after an audit: start the later stream when the first ones finish.\nMoney arrives when the customer pays, which can be well after the sale: invoices are often paid 30 days after they are sent, and some later.\nAsk for deposits on larger projects: part at signing, the rest on completion.",
+   "lines": 21,
+   "points": 4,
+   "w": 360,
+   "chars": 472,
+   "scenes": [
+    "Business System / Financials / tile Revenue Streams / card 1",
+    "Business System / Financials / tile Revenue Streams / card 2",
+    "Business System / Financials / tile Revenue Streams / card 3"
+   ]
+  },
+  {
+   "label": "Customer Pays",
+   "place": "floating card",
+   "text": "When the money is actually received, if not when the sale is made.\nIt follows the Offering's When do they pay? on the Foundation page.\nUpfront: Paid in full when the sale is made.\nOn completion: Paid in full the months given after the sale.\nSplit: A share when the sale is made, the rest the months given after.\nMilestones: As Split: a share at the start, the rest the months given after, at the milestone.\nOther: Counted when the sale is made; say how under Assumptions.",
+   "lines": 23,
+   "points": 7,
+   "w": 360,
+   "chars": 471,
+   "scenes": [
+    "Business System / Financials / tile Revenue Streams / card 1",
+    "Business System / Financials / tile Revenue Streams / card 2",
+    "Business System / Financials / tile Revenue Streams / card 3"
+   ]
+  },
+  {
+   "label": "Upfront (%)",
+   "place": "floating card",
+   "text": "The share of the price paid when the sale is made; the rest arrives the months after given beside it.",
+   "lines": 5,
+   "points": 1,
+   "w": 360,
+   "chars": 101,
+   "scenes": [
+    "Business System / Financials / tile Revenue Streams / card 2"
+   ]
+  },
+  {
+   "label": "Rest After",
+   "place": "floating card",
+   "text": "Months after the sale.",
+   "lines": 2,
+   "points": 1,
+   "w": 360,
+   "chars": 22,
+   "scenes": [
+    "Business System / Financials / tile Revenue Streams / card 2"
+   ]
+  },
+  {
+   "label": "Active Clients",
+   "place": "floating card",
+   "text": "From this Offering's Demand & Conversion on Customer Engagement: Other: estimated at 0.3 new a month. Referrals: 0.5 referrals a month, 40% buy: about 0.2 new a month. Sales funnel: estimated at 0 new a month. Together about 0.5 new a month. With 10% cancelling a month, they level off at about 5 active clients, reached in about 22 months.",
+   "lines": 13,
+   "points": 1,
+   "w": 360,
+   "chars": 340,
+   "scenes": [
+    "Business System / Financials / tile Revenue Streams / card 3"
+   ]
+  },
+  {
+   "label": "First Month",
+   "place": "floating card",
+   "text": "How many clients in the month revenue begins.",
+   "lines": 3,
+   "points": 1,
+   "w": 360,
+   "chars": 45,
+   "scenes": [
+    "Business System / Financials / tile Revenue Streams / card 3"
+   ]
+  },
+  {
+   "label": "Sustainability",
+   "place": "tile dialog",
+   "text": "Read how much your organisation must sell to cover its costs, when it is expected to get there, and whether that is before its money runs out.\nBreak-Even Point: The level of revenue or activity at which revenue covers costs.\nBreak-Even Time: When the organisation is expected to reach that level.\nFinancial Exhaustion: When available resources are expected to run out, with expected revenue included.\nAll results are estimates based on the assumptions entered, not guarantees.",
+   "lines": 23,
+   "points": 5,
+   "w": 360,
+   "chars": 476,
+   "scenes": [
+    "Business System / Financials / tile Sustainability"
+   ]
+  },
+  {
+   "label": "Expected Monthly Revenue",
+   "place": "tile dialog",
+   "text": "Formula: Σ price × expected sales per month, for each Offering\nThe revenue the expected sales bring in a normal month.\nCalculated from your Offerings' prices and expected sales.",
+   "lines": 9,
+   "points": 3,
+   "w": 360,
+   "chars": 177,
+   "scenes": [
+    "Business System / Financials / tile Sustainability"
+   ]
+  },
+  {
+   "label": "Break-Even Revenue",
+   "place": "tile dialog",
+   "text": "Fixed costs divided by the contribution margin of the expected revenue mix.\nFormula: Break-even revenue = Fixed costs ÷ Contribution margin ratio\nSource: U.S. Small Business Administration (n.d.) Calculate your startup costs: break-even point. Available at: https://www.sba.gov/business-guide/plan-your-business/calculate-your-startup-costs/break-even-point (Accessed: 29 September 2026). In the References\nAlso: Franklin, M., Graybeal, P. and Cooper, D. (2019) ‘3.2 Calculate a Break-Even Point in Units and Dollars’, in Principles of Accounting, Volume 2: Managerial Accounting. Houston, TX: OpenStax, Rice University. Available at: https://openstax.org/books/principles-managerial-accounting/pages/3-2-calculate-a-break-even-point-in-units-and-dollars (Accessed: 29 September 2026). In the References",
+   "lines": 35,
+   "points": 4,
+   "w": 360,
+   "chars": 803,
+   "scenes": [
+    "Business System / Financials / tile Sustainability"
+   ]
+  },
+  {
+   "label": "Expected Break Even",
+   "place": "tile dialog",
+   "text": "The first month revenue covers costs, based on the build-up of sales you entered.",
+   "lines": 5,
+   "points": 1,
+   "w": 360,
+   "chars": 81,
+   "scenes": [
+    "Business System / Financials / tile Sustainability"
+   ]
+  },
+  {
+   "label": "Financial Exhaustion",
+   "place": "tile dialog",
+   "text": "When available cash is expected to run out: funding received or confirmed on Financial Foundation, plus expected revenue as it is received.\nFunding still expected or applied for is not counted until it is confirmed.",
+   "lines": 10,
+   "points": 2,
+   "w": 360,
+   "chars": 215,
+   "scenes": [
+    "Business System / Financials / tile Sustainability"
+   ]
+  },
+  {
+   "label": "Sustainability Buffer",
+   "place": "tile dialog",
+   "text": "Financial Exhaustion minus Break-Even Time: how much time exists between becoming sustainable and running out of resources.",
+   "lines": 6,
+   "points": 1,
+   "w": 360,
+   "chars": 123,
+   "scenes": [
+    "Business System / Financials / tile Sustainability"
+   ]
+  },
+  {
+   "label": "Stress Test",
+   "place": "tile dialog",
+   "text": "The plan as it stands, and the same plan when things go worse than hoped: sales 20% lower, revenue 3 months later, costs 10% higher (founders' pay aside), customers paying a month later than planned, and all four together.\nThe funding being sought is counted as if it arrives as planned, its repayments included: the question a lender asks is whether the plan holds with the money requested.\nHolds: cash stays at zero or above throughout the plan.\nShort: how much more money would keep it there.",
+   "lines": 22,
+   "points": 4,
+   "w": 360,
+   "chars": 495,
+   "scenes": [
+    "Business System / Financials / tile Sustainability"
+   ]
+  },
+  {
+   "label": "What It Would Take",
+   "place": "tile dialog",
+   "text": "Worked out from the plan: the smallest single change that keeps the cash at zero or above in every month of the plan, each tried on its own with everything else as planned.\nThe funding being sought is counted as if it arrives as planned, its repayments included, as in the Stress Test.\nWhere the plan already holds, it says how far sales, the start of revenue or costs could go against it instead.",
+   "lines": 18,
+   "points": 3,
+   "w": 360,
+   "chars": 397,
+   "scenes": [
+    "Business System / Financials / tile Sustainability"
    ]
   },
   {
@@ -2901,10 +3118,10 @@
     "Business System / Infrastructure / tile Capacity & Delivery / card 1",
     "Business System / Infrastructure / tile Capacity & Delivery / card 2",
     "Business System / Infrastructure / tile Capacity & Delivery / card 3",
-    "Business System / Revenue & Pricing / tile Revenue Streams",
-    "Business System / Revenue & Pricing / tile Revenue Streams / card 1",
-    "Business System / Revenue & Pricing / tile Revenue Streams / card 2",
-    "Business System / Revenue & Pricing / tile Revenue Streams / card 3"
+    "Business System / Financials / tile Revenue Streams",
+    "Business System / Financials / tile Revenue Streams / card 1",
+    "Business System / Financials / tile Revenue Streams / card 2",
+    "Business System / Financials / tile Revenue Streams / card 3"
    ]
   },
   {
@@ -3442,223 +3659,6 @@
    ]
   },
   {
-   "label": "Revenue Streams",
-   "place": "tile dialog",
-   "text": "Each Offering has its revenue stream below. For each, say how it is priced, how much sells, and when the money arrives.\nExpected sales come from Demand & Conversion on Customer Engagement where it is filled in; otherwise enter them here. Not sure of a figure? The \"i\" beside Price, Sales Volume, and Begins and Payment says how to estimate it.\nWrite down what each figure rests on under Assumptions: lenders read those first.\nRevenue: Money generated through the organisation's Offerings.\nFunding, loans, founder capital, grants and investment are financing, and this list counts revenue only.\nRevenue may be zero at first. That is a valid model for an organisation under development.",
-   "lines": 30,
-   "points": 6,
-   "w": 360,
-   "chars": 684,
-   "scenes": [
-    "Business System / Revenue & Pricing / tile Revenue Streams",
-    "Business System / Revenue & Pricing / tile Revenue Streams / card 1",
-    "Business System / Revenue & Pricing / tile Revenue Streams / card 2",
-    "Business System / Revenue & Pricing / tile Revenue Streams / card 3"
-   ]
-  },
-  {
-   "label": "Can the Expected Sales Be Delivered?",
-   "place": "tile dialog",
-   "text": "Capacity is the founders' delivery hours a month: the time the organisation controls.\nNeeded: each month's expected sales times each founder's Working Hours per Unit (4. Delivery, on Infrastructure & Capability).\nRecurring work (subscriptions, retainers) is served first; what remains is flexible capacity for the other Offerings.\nExternal professionals' hours are delivered outside this capacity; their cost is part of the Offering's costs.\nA shortfall does not change the sales forecast: it says more capacity may be needed.",
-   "lines": 22,
-   "points": 5,
-   "w": 360,
-   "chars": 526,
-   "scenes": [
-    "Business System / Revenue & Pricing / tile Revenue Streams",
-    "Business System / Revenue & Pricing / tile Revenue Streams / card 1",
-    "Business System / Revenue & Pricing / tile Revenue Streams / card 2",
-    "Business System / Revenue & Pricing / tile Revenue Streams / card 3"
-   ]
-  },
-  {
-   "label": "Revenue Summary",
-   "place": "tile dialog",
-   "text": "Expected revenue at the normal operating level, a month.",
-   "lines": 3,
-   "points": 1,
-   "w": 360,
-   "chars": 56,
-   "scenes": [
-    "Business System / Revenue & Pricing / tile Revenue Streams",
-    "Business System / Revenue & Pricing / tile Revenue Streams / card 1",
-    "Business System / Revenue & Pricing / tile Revenue Streams / card 2",
-    "Business System / Revenue & Pricing / tile Revenue Streams / card 3"
-   ]
-  },
-  {
-   "label": "Price",
-   "place": "floating card",
-   "text": "Start from what competitors publish (listed on Foundation) and what clients pay today to solve the same problem.\nCheck it covers the costs of each sale and leaves enough towards the running costs: the card shows what is left from each sale.\nEnter prices on the basis chosen under Amounts in the Global Settings. If you are registered, the tax you collect is not revenue.\nAllow for discounts: launch offers and first-client prices are common.\nYour competitors charge about $300 to $60,000 for a similar offer (their cards on Foundation, What do they charge?).",
-   "lines": 23,
-   "points": 5,
-   "w": 360,
-   "chars": 558,
-   "scenes": [
-    "Business System / Revenue & Pricing / tile Revenue Streams / card 1",
-    "Business System / Revenue & Pricing / tile Revenue Streams / card 2",
-    "Business System / Revenue & Pricing / tile Revenue Streams / card 3"
-   ]
-  },
-  {
-   "label": "Charged",
-   "place": "floating card",
-   "text": "Per sale: paid once for each unit sold (a product, a session, an hour).\nPer project: paid once for each project or contract.\nMonthly, quarterly or annually: paid every period by each client subscribed or on a retainer.\nUse Monthly, Quarterly or Annually when customers buy every month under Demand & Conversion on Customer Engagement.",
-   "lines": 15,
-   "points": 4,
-   "w": 360,
-   "chars": 334,
-   "scenes": [
-    "Business System / Revenue & Pricing / tile Revenue Streams / card 1",
-    "Business System / Revenue & Pricing / tile Revenue Streams / card 2",
-    "Business System / Revenue & Pricing / tile Revenue Streams / card 3"
-   ]
-  },
-  {
-   "label": "Sales Volume",
-   "place": "floating card",
-   "text": "Few organisations sell at the normal level from the first month: a gradual build-up over 6 to 12 months is usual.\nFor seasons (quieter summers, busy end-of-year gifts), set Build-up to Month by month and enter the months that differ.\nAllow for refunds and returns: a share of sales comes back.",
-   "lines": 13,
-   "points": 3,
-   "w": 360,
-   "chars": 293,
-   "scenes": [
-    "Business System / Revenue & Pricing / tile Revenue Streams / card 1",
-    "Business System / Revenue & Pricing / tile Revenue Streams / card 2",
-    "Business System / Revenue & Pricing / tile Revenue Streams / card 3"
-   ]
-  },
-  {
-   "label": "Expected Sales",
-   "place": "floating card",
-   "text": "From this Offering's Demand & Conversion on Customer Engagement: Sales funnel: 24 prospects a month, 15% qualified, 25% of those buy: about 0.9 a month. Referrals: 1.5 referrals a month, 40% buy: about 0.6 a month. Visitors: estimated at 0 a month. Together about 1.5 a month.",
-   "lines": 10,
-   "points": 1,
-   "w": 360,
-   "chars": 276,
-   "scenes": [
-    "Business System / Revenue & Pricing / tile Revenue Streams / card 1",
-    "Business System / Revenue & Pricing / tile Revenue Streams / card 2"
-   ]
-  },
-  {
-   "label": "Build-up",
-   "place": "floating card",
-   "text": "Steady from the start: The expected volume from the month revenue begins.\nGradual build-up: Starts lower and grows evenly to the expected volume.\nMonth by month: Enter the volume for the months that differ.",
-   "lines": 11,
-   "points": 3,
-   "w": 360,
-   "chars": 206,
-   "scenes": [
-    "Business System / Revenue & Pricing / tile Revenue Streams / card 1",
-    "Business System / Revenue & Pricing / tile Revenue Streams / card 2",
-    "Business System / Revenue & Pricing / tile Revenue Streams / card 3"
-   ]
-  },
-  {
-   "label": "First Month",
-   "place": "floating card",
-   "text": "How many projects in the month revenue begins.",
-   "lines": 3,
-   "points": 1,
-   "w": 360,
-   "chars": 46,
-   "scenes": [
-    "Business System / Revenue & Pricing / tile Revenue Streams / card 1",
-    "Business System / Revenue & Pricing / tile Revenue Streams / card 2"
-   ]
-  },
-  {
-   "label": "Months to Normal",
-   "place": "floating card",
-   "text": "How many months it takes to grow evenly to the normal level.",
-   "lines": 3,
-   "points": 1,
-   "w": 360,
-   "chars": 60,
-   "scenes": [
-    "Business System / Revenue & Pricing / tile Revenue Streams / card 1",
-    "Business System / Revenue & Pricing / tile Revenue Streams / card 2",
-    "Business System / Revenue & Pricing / tile Revenue Streams / card 3"
-   ]
-  },
-  {
-   "label": "Begins and Payment",
-   "place": "floating card",
-   "text": "Revenue begins after the sales cycle, the time from first contact to a signed sale: for services to businesses it is often 4 to 12 weeks.\nOne sale often leads to another, such as a build after an audit: start the later stream when the first ones finish.\nMoney arrives when the customer pays, which can be well after the sale: invoices are often paid 30 days after they are sent, and some later.\nAsk for deposits on larger projects: part at signing, the rest on completion.",
-   "lines": 21,
-   "points": 4,
-   "w": 360,
-   "chars": 472,
-   "scenes": [
-    "Business System / Revenue & Pricing / tile Revenue Streams / card 1",
-    "Business System / Revenue & Pricing / tile Revenue Streams / card 2",
-    "Business System / Revenue & Pricing / tile Revenue Streams / card 3"
-   ]
-  },
-  {
-   "label": "Customer Pays",
-   "place": "floating card",
-   "text": "When the money is actually received, if not when the sale is made.\nIt follows the Offering's When do they pay? on the Foundation page.\nUpfront: Paid in full when the sale is made.\nOn completion: Paid in full the months given after the sale.\nSplit: A share when the sale is made, the rest the months given after.\nMilestones: As Split: a share at the start, the rest the months given after, at the milestone.\nOther: Counted when the sale is made; say how under Assumptions.",
-   "lines": 23,
-   "points": 7,
-   "w": 360,
-   "chars": 471,
-   "scenes": [
-    "Business System / Revenue & Pricing / tile Revenue Streams / card 1",
-    "Business System / Revenue & Pricing / tile Revenue Streams / card 2",
-    "Business System / Revenue & Pricing / tile Revenue Streams / card 3"
-   ]
-  },
-  {
-   "label": "Upfront (%)",
-   "place": "floating card",
-   "text": "The share of the price paid when the sale is made; the rest arrives the months after given beside it.",
-   "lines": 5,
-   "points": 1,
-   "w": 360,
-   "chars": 101,
-   "scenes": [
-    "Business System / Revenue & Pricing / tile Revenue Streams / card 2"
-   ]
-  },
-  {
-   "label": "Rest After",
-   "place": "floating card",
-   "text": "Months after the sale.",
-   "lines": 2,
-   "points": 1,
-   "w": 360,
-   "chars": 22,
-   "scenes": [
-    "Business System / Revenue & Pricing / tile Revenue Streams / card 2"
-   ]
-  },
-  {
-   "label": "Active Clients",
-   "place": "floating card",
-   "text": "From this Offering's Demand & Conversion on Customer Engagement: Other: estimated at 0.3 new a month. Referrals: 0.5 referrals a month, 40% buy: about 0.2 new a month. Sales funnel: estimated at 0 new a month. Together about 0.5 new a month. With 10% cancelling a month, they level off at about 5 active clients, reached in about 22 months.",
-   "lines": 13,
-   "points": 1,
-   "w": 360,
-   "chars": 340,
-   "scenes": [
-    "Business System / Revenue & Pricing / tile Revenue Streams / card 3"
-   ]
-  },
-  {
-   "label": "First Month",
-   "place": "floating card",
-   "text": "How many clients in the month revenue begins.",
-   "lines": 3,
-   "points": 1,
-   "w": 360,
-   "chars": 45,
-   "scenes": [
-    "Business System / Revenue & Pricing / tile Revenue Streams / card 3"
-   ]
-  },
-  {
    "label": "Global Settings",
    "place": "settings page",
    "text": "The rates and limits the calculated lines use. Change one here and every line that uses it follows.",
@@ -3673,11 +3673,11 @@
   {
    "label": "Plan Start",
    "place": "settings page",
-   "text": "Month 1 of the financial plan. Every timeline on Revenue & Pricing and on Costs, Funding & Position runs from it.\nWorked out: the earlier of the Opening Date's month (set on the Organisation tile) and the month of your earliest cost, a costed card or a legal expense, whichever was recorded first.",
-   "lines": 13,
+   "text": "Month 1 of the financial plan. Every timeline on Financials runs from it.\nWorked out: the earlier of the Opening Date's month (set on the Organisation tile) and the month of your earliest cost, a costed card or a legal expense, whichever was recorded first.",
+   "lines": 11,
    "points": 2,
    "w": 360,
-   "chars": 297,
+   "chars": 257,
    "scenes": [
     "Global Settings"
    ]
@@ -3733,11 +3733,11 @@
   {
    "label": "Opening Date",
    "place": "settings page",
-   "text": "The day the business opens and issues its first receipt. It sets the stage: planning before it, launching from it.\nThe stage also sets Positioning's name and how many choices its questions allow; a change of stage empties an answer over the new limit.\nCosts dated before it make the pre-operational budget, on Costs, Funding & Position.",
-   "lines": 16,
+   "text": "The day the business opens and issues its first receipt. It sets the stage: planning before it, launching from it.\nThe stage also sets Positioning's name and how many choices its questions allow; a change of stage empties an answer over the new limit.\nCosts dated before it make the pre-operational budget, on Financials.",
+   "lines": 15,
    "points": 3,
    "w": 360,
-   "chars": 336,
+   "chars": 321,
    "scenes": [
     "Global Settings"
    ]
@@ -4105,11 +4105,11 @@
   {
    "label": "Opening Date",
    "place": "tile dialog",
-   "text": "The day the business opens and issues its first receipt. It sets the stage: planning before it, launching from it.\nThe stage also sets Positioning's name and how many choices its questions allow; a change of stage empties an answer over the new limit.\nCosts dated before it make the pre-operational budget, on Costs, Funding & Position.",
-   "lines": 16,
+   "text": "The day the business opens and issues its first receipt. It sets the stage: planning before it, launching from it.\nThe stage also sets Positioning's name and how many choices its questions allow; a change of stage empties an answer over the new limit.\nCosts dated before it make the pre-operational budget, on Financials.",
+   "lines": 15,
    "points": 3,
    "w": 360,
-   "chars": 336,
+   "chars": 321,
    "scenes": [
     "Identity System / 1. Definition / tile Organisation"
    ]
@@ -4364,11 +4364,11 @@
   {
    "label": "Current Situation",
    "place": "tile dialog",
-   "text": "What do you sell, and who uses it? (3. Business System → 1. Foundation: Offerings and Customer Segments)\nHow do people discover and reach you? (3. Business System → 2. Customer Engagement: Customer Channels)\nHow are you supported financially today? (3. Business System → 4. Revenue & Pricing: Revenue and prices; 5. Costs, Funding & Position: Costs, funding and break even)",
-   "lines": 18,
+   "text": "What do you sell, and who uses it? (3. Business System → 1. Foundation: Offerings and Customer Segments)\nHow do people discover and reach you? (3. Business System → 2. Customer Engagement: Customer Channels)\nHow are you supported financially today? (3. Business System → 4. Financials: Revenue and prices; costs, funding and break even)",
+   "lines": 17,
    "points": 3,
    "w": 360,
-   "chars": 373,
+   "chars": 336,
    "scenes": [
     "Strategy System / main / tile Current Situation"
    ]

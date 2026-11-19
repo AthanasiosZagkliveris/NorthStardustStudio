@@ -1,6 +1,6 @@
 # User guide: the app's tools and the Foundation
 
-Status: **playbook**, written 2026-11-09, updated 2026-11-09. How a founder uses the app, step by step: the Organisations screen, the tools (Workbook, Notes, Search, Settings, Focus, the reading modes, the Calendar) and the Foundation with its Identity System and Business System.
+Status: **playbook**, written 2026-11-09, updated 2026-11-19. How a founder uses the app, step by step: the Organisations screen, the tools (Workbook, Notes, Search, Settings, Focus, the reading modes, the Calendar) and the Foundation with its Identity System and Business System.
 
 Related: `app/contents.md` (the map of the app, for the team), `app/index.md` (every place in the app), `app/glossary.md` (the terms). The app's own help is the "i" beside a title or a question: it says what the question is for and how to answer it.
 
@@ -70,8 +70,7 @@ What you sell, to whom, with what, and whether the money works. Five pages, best
    - **Offerings**: what you sell, its Description and its Terms & Service.
 2. **Customer Engagement**: how each Segment finds you, chooses and buys. Add the **Customer Channels** you use; a channel can make its own cost cards ("+ Add expenses", with the channel's typical costs). Customer Relationship and Demand & Conversion follow as folding cards.
 3. **Infrastructure & Capability**: two frames of four tiles. **Infrastructure**: Founders, Resources, Activities, Partners & Suppliers. **Offering's Capability**: Resources, Activities, Partners & Suppliers, Delivery. Each card carries its cost, its dates and its status. At the bottom, the **Inventory** lists every card with its cost, as tiles or as a table with a filter, and **Completed** holds the activities you have ticked as done.
-4. **Financial Foundation**: Costs (a summary of what the other pages recorded), Funding Need, Capital & Funding and Financial Position.
-5. **Sustainability**: Revenue and Break Even: when the business pays for itself.
+4. **Financials**: two chapters side by side. **Revenue & Break Even**: your Revenue Streams, when the business breaks even, and whether the money lasts until then. **Financial Foundation**: Costs (a summary of what the other pages recorded), Capital & Funding and Financial Position.
 
 ### 3.5 Business Documents
 

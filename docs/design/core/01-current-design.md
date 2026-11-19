@@ -1,6 +1,6 @@
 # 1. Current design of the Foundation capability
 
-Status: **current design**, written 2026-10-14, updated 2026-11-09. It is the single description of what the Foundation capability (Identity, Brand, Business and Strategy Systems) is and what has been decided for it. Where the code and this document disagree, the code is right.
+Status: **current design**, written 2026-10-14, updated 2026-11-19. It is the single description of what the Foundation capability (Identity, Brand, Business and Strategy Systems) is and what has been decided for it. Where the code and this document disagree, the code is right.
 
 Part F is document 26 (card structure). The catalogue tool (`tools/scripts/catalogue/load.mjs`) reads it from there, taking the headings with " > " and the numbered table rows between the headings of Part F and Part G, and the structure tables (document 7) and the catalogue record (document 6) are generated from it: its headings and row format stay as they are.
 
@@ -47,8 +47,7 @@ A page of a System can be a **compound page**: several sections drawn as chapter
 | 3. Business | 1. Foundation | One chapter per Segment: Segment Description (the Segment's questions and its Profiles), Competitors, Value Proposition, Offerings. A Profile, a Competitor and an Offering are cards that open floating. |
 | 3. Business | 2. Customer Engagement | One chapter per Segment, in its colour: Channels (the channels as tiles), Relationships, Demand & Conversion, Channel Costs, each opening its section in a dialog (doc 47, section 3; built 2026-11-12). |
 | 3. Business | 3. Infrastructure & Capability | Chapter Infrastructure: Founders, Resources, Activities, Partners & Suppliers. Chapter Offering's Capability: Resources, Activities, Partners & Suppliers, Capacity & Delivery (the Capacity, the Skills still needed, the Delivery cards). Chapter Inventory: the Inventory help tile and the Completed help tile. |
-| 3. Business | 4. Revenue & Pricing | One chapter, Revenue, at the left at half width: Revenue Streams, Delivery Check, Revenue Summary, each opening its blocks in a dialog (doc 48, sections 2 and 11; built 2026-11-17). |
-| 3. Business | 5. Costs, Funding & Position | Two chapters side by side: Financial Foundation (Costs, Funding Need, Capital & Funding, Financial Position; doc 48, section 1) and Break Even (Break-Even Point, Break-Even Time, Sustainability, Stress Test; doc 48, section 2), each tile opening its blocks in a dialog (built 2026-11-17). |
+| 3. Business | 4. Financials | One page of two sections (`PageGroups.ts`; built 2026-11-19, the owner's approved plan of 2026-11-18, step 1), their chapters side by side: Revenue & Break Even (Section 4, Revenue & Pricing: Revenue Streams, Break-Even, Sustainability; doc 48, section 2) and Financial Foundation (Section 5, Costs, Funding & Position: Costs, Capital & Funding, Financial Position; doc 48, section 1), each tile opening its blocks in a dialog. The title says the plan's months (doc 48, section 11). |
 | 4. Strategy | Strategy System: Situation & Direction (one page) | Current Situation Analysis, SWOT Analysis, Strategic Compass, Strategic Period (with the Roadmap and the Theme, Goal, Objective, Metric cards inside it). Sections 2 (Goals & Objectives) and 3 (Roadmap) are hidden pages; their saved data is kept. |
 
 Every chapter of the Foundation is drawn as Master Tiles, the two Financial pages too since 2026-11-17 (doc 48, sections 1, 2 and 11; doc 49, section 8, phase 7).
@@ -107,8 +106,8 @@ Pages come from `src/assets/SystemAnswers/01..04_*.md`. Each page's `Structure` 
 | 3 Business | 1 Foundation | `BusinessFoundationEditor` |
 | 3 Business | 2 Customer Engagement | `BusinessEngagementEditor` |
 | 3 Business | 3 Infrastructure & Capability | `BusinessCapabilityEditor` |
-| 3 Business | 4 Financial Foundation | `FinancialFoundationEditor` |
-| 3 Business | 5 Sustainability | `FinancialSustainabilityEditor` |
+| 3 Business | 4 Revenue & Pricing (on Financials) | `FinancialSustainabilityEditor` |
+| 3 Business | 5 Costs, Funding & Position (on Financials) | `FinancialFoundationEditor` |
 | 4 Strategy | 1 Situation & Direction | `StrategyFoundationEditor` |
 | 4 Strategy | 2 Goals & Objectives, 3 Roadmap | `StrategicPeriodEditor`, `StrategicRoadmapEditor` (hidden as pages; used inside the Strategic Period tile) |
 
@@ -1052,10 +1051,10 @@ Colour = what the user does in the section (work type). The code applies these w
 | 3. Infrastructure & Capability: Partners & Suppliers | Discover | Blue |
 | 3. Infrastructure & Capability: Delivery | Build | Yellow |
 | 3. Infrastructure & Capability: Completed | Review | Lavender |
-| 4. Revenue & Pricing: Revenue streams and summary | Build | Yellow |
-| 5. Costs, Funding & Position: Costs (auto-generated table) | Build | Yellow |
-| 5. Costs, Funding & Position: Funding Need | Decide | Orange |
-| 5. Costs, Funding & Position: Break-even and checks | Review | Lavender |
+| 4. Financials, Revenue & Pricing: Revenue streams and summary | Build | Yellow |
+| 4. Financials, Costs, Funding & Position: Costs (auto-generated table) | Build | Yellow |
+| 4. Financials, Costs, Funding & Position: Funding Need | Decide | Orange |
+| 4. Financials, Revenue & Break Even: Break-even and checks | Review | Lavender |
 | 4. Strategy |  |  |
 | Situation & Direction | Discover | Blue |
 | Goals & Objectives | Decide | Orange |

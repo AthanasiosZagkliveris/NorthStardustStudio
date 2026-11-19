@@ -12,10 +12,9 @@ What was covered: every page of the four systems, every master tile opened, ever
 |---|---|---|---|
 | Brand System / main page | 24 | 3 to 75 | 62 to 1766 |
 | Business System / 1. Foundation | 110 | 2 to 40 | 24 to 954 |
-| Business System / Costs, Funding & Position | 52 | 2 to 35 | 26 to 803 |
 | Business System / Customer Engagement | 31 | 3 to 75 | 62 to 1697 |
+| Business System / Financials | 68 | 2 to 35 | 22 to 803 |
 | Business System / Infrastructure | 46 | 2 to 39 | 37 to 936 |
-| Business System / Revenue & Pricing | 16 | 2 to 30 | 22 to 684 |
 | Global Settings | 22 | 2 to 40 | 17 to 981 |
 | Identity System / 1. Definition | 22 | 5 to 43 | 89 to 1009 |
 | Identity System / 2. Legal Entity | 7 | 7 to 17 | 103 to 415 |
@@ -35,7 +34,7 @@ Listed, never failed (doc 39, 3.6). The budget is 160 characters a point; the av
 
 | Kind | Count |
 |---|---|
-| a point over 160 characters | 74 |
+| a point over 160 characters | 73 |
 | an internal word (tile, card, locked, frozen, driver) | 27 |
 | the same text under several labels | 53 |
 | a jargon acronym | 2 |
@@ -85,23 +84,6 @@ Listed, never failed (doc 39, 3.6). The budget is 160 characters a point; the av
 | a point over 160 characters (206) | Which industry are your customers in? | Business System / 1. Foundation / Segment Description | Each industry under its sector, as the official schemes (SIC and NACE, NAICS, ANZSIC) name |
 | a jargon acronym | Which industry are your customers in? | Business System / 1. Foundation / Segment Description | SIC |
 | a point over 160 characters (171) | Value Proposition | Business System / 1. Foundation / Value Proposition | Based on: Moore's positioning template, and the pains and gains of the Value Proposition C |
-| the same text under 2 labels | Break-Even | Business System / Costs, Funding & Position / Break-Even | Break-Even, Sustainability |
-| a point over 160 characters (260) | Break-Even Point | Business System / Costs, Funding & Position / Break-Even | Source: U.S. Small Business Administration (n.d.) Calculate your startup costs: break-even |
-| a point over 160 characters (554) | Contribution | Business System / Costs, Funding & Position / Break-Even | Source: Franklin, M., Graybeal, P. and Cooper, D. (2019) ‘3.1 Explain Contribution Margin |
-| a point over 160 characters (189) | Costs Used | Business System / Costs, Funding & Position / Break-Even | Fixed: the monthly equivalent of every recurring cost, plus loan interest. Loan principal |
-| a point over 160 characters (275) | Loan repayment | Business System / Costs, Funding & Position / Capital & Funding | Source: Gutierrez, P.H. and Dalsted, N.L. (2012) Long Term Loan Repayment Methods. Fort Co |
-| a point over 160 characters (253) | Cash to raise before the opening | Business System / Costs, Funding & Position / Financial Position | The Total Pre-operational Budget (CapEx, Startup Expenses and Pre-Operating Expenses dated |
-| a point over 160 characters (191) | Financial Runway | Business System / Costs, Funding & Position / Financial Position | Counts money available now and confirmed money as it is scheduled to arrive, against every |
-| a point over 160 characters (257) | Financial Runway | Business System / Costs, Funding & Position / Financial Position | Based on: Damodaran, A. (2016) The Bonfire of VC: Cash Burn, the Good, the Bad & the Ugly. |
-| a point over 160 characters (161) | Funding Timeline | Business System / Costs, Funding & Position / Financial Position | Money in and out of your organisation month by month, and the balance it leaves. A dip bel |
-| a point over 160 characters (265) | Loan Repayments | Business System / Costs, Funding & Position / Financial Position | Only loans that are Approved / Agreed, Received / Available or Completed / Closed are repa |
-| a point over 160 characters (250) | Operational Contingency Fund | Business System / Costs, Funding & Position / Financial Position | After the launch, each month a share of OpEx is set aside on top of the startup fund, unti |
-| a point over 160 characters (260) | Break-Even Revenue | Business System / Costs, Funding & Position / Sustainability | Source: U.S. Small Business Administration (n.d.) Calculate your startup costs: break-even |
-| a point over 160 characters (396) | Break-Even Revenue | Business System / Costs, Funding & Position / Sustainability | Also: Franklin, M., Graybeal, P. and Cooper, D. (2019) ‘3.2 Calculate a Break-Even Point i |
-| a point over 160 characters (222) | Stress Test | Business System / Costs, Funding & Position / Sustainability | The plan as it stands, and the same plan when things go worse than hoped: sales 20% lower, |
-| a point over 160 characters (168) | Stress Test | Business System / Costs, Funding & Position / Sustainability | The funding being sought is counted as if it arrives as planned, its repayments included: |
-| the same text under 2 labels | Sustainability | Business System / Costs, Funding & Position / Sustainability | Break-Even, Sustainability |
-| a point over 160 characters (172) | What It Would Take | Business System / Costs, Funding & Position / Sustainability | Worked out from the plan: the smallest single change that keeps the cash at zero or above |
 | an internal word (tile, card, locked, frozen, driver) | Channel | Business System / Customer Engagement / Channels &Journey | card |
 | the same text under 2 labels | Channel | Business System / Customer Engagement / Channels &Journey | Channel, Samples & Trials |
 | an internal word (tile, card, locked, frozen, driver) | Channel | Business System / Customer Engagement / Channels &Journey | card |
@@ -136,6 +118,27 @@ Listed, never failed (doc 39, 3.6). The budget is 160 characters a point; the av
 | a point over 160 characters (166) | Demand & Conversion | Business System / Customer Engagement / Demand &Conversion | Where this Offering’s customers come from, and so how many sales to expect. One source wit |
 | the same text under 4 labels | Demand & Conversion | Business System / Customer Engagement / Demand &Conversion | AI Workflow Audit, Automation Build, Automation Care Retainer, Demand & Conversion |
 | a point over 160 characters (261) | Months to level | Business System / Customer Engagement / Demand &Conversion | Based on: Strang, G. and Herman, E. (2016) ‘5.2 Infinite Series’, in Calculus Volume 2. Ho |
+| the same text under 2 labels | Break-Even | Business System / Financials / Break-Even | Break-Even, Sustainability |
+| a point over 160 characters (260) | Break-Even Point | Business System / Financials / Break-Even | Source: U.S. Small Business Administration (n.d.) Calculate your startup costs: break-even |
+| a point over 160 characters (554) | Contribution | Business System / Financials / Break-Even | Source: Franklin, M., Graybeal, P. and Cooper, D. (2019) ‘3.1 Explain Contribution Margin |
+| a point over 160 characters (189) | Costs Used | Business System / Financials / Break-Even | Fixed: the monthly equivalent of every recurring cost, plus loan interest. Loan principal |
+| a point over 160 characters (275) | Loan repayment | Business System / Financials / Capital & Funding | Source: Gutierrez, P.H. and Dalsted, N.L. (2012) Long Term Loan Repayment Methods. Fort Co |
+| a point over 160 characters (253) | Cash to raise before the opening | Business System / Financials / Financial Position | The Total Pre-operational Budget (CapEx, Startup Expenses and Pre-Operating Expenses dated |
+| a point over 160 characters (189) | Financial Runway | Business System / Financials / Financial Position | Counts money available now and confirmed money as it is scheduled to arrive, against every |
+| a point over 160 characters (257) | Financial Runway | Business System / Financials / Financial Position | Based on: Damodaran, A. (2016) The Bonfire of VC: Cash Burn, the Good, the Bad & the Ugly. |
+| a point over 160 characters (161) | Funding Timeline | Business System / Financials / Financial Position | Money in and out of your organisation month by month, and the balance it leaves. A dip bel |
+| a point over 160 characters (250) | Loan Repayments | Business System / Financials / Financial Position | Only loans that are Approved / Agreed, Received / Available or Completed / Closed are repa |
+| a point over 160 characters (250) | Operational Contingency Fund | Business System / Financials / Financial Position | After the launch, each month a share of OpEx is set aside on top of the startup fund, unti |
+| a point over 160 characters (340) | Active Clients | Business System / Financials / Revenue Streams | From this Offering's Demand & Conversion on Customer Engagement: Other: estimated at 0.3 n |
+| a point over 160 characters (276) | Expected Sales | Business System / Financials / Revenue Streams | From this Offering's Demand & Conversion on Customer Engagement: Sales funnel: 24 prospect |
+| an internal word (tile, card, locked, frozen, driver) | Price | Business System / Financials / Revenue Streams | card |
+| a point over 160 characters (223) | Revenue Streams | Business System / Financials / Revenue Streams | Expected sales come from Demand & Conversion on Customer Engagement where it is filled in; |
+| a point over 160 characters (260) | Break-Even Revenue | Business System / Financials / Sustainability | Source: U.S. Small Business Administration (n.d.) Calculate your startup costs: break-even |
+| a point over 160 characters (396) | Break-Even Revenue | Business System / Financials / Sustainability | Also: Franklin, M., Graybeal, P. and Cooper, D. (2019) ‘3.2 Calculate a Break-Even Point i |
+| a point over 160 characters (222) | Stress Test | Business System / Financials / Sustainability | The plan as it stands, and the same plan when things go worse than hoped: sales 20% lower, |
+| a point over 160 characters (168) | Stress Test | Business System / Financials / Sustainability | The funding being sought is counted as if it arrives as planned, its repayments included: |
+| the same text under 2 labels | Sustainability | Business System / Financials / Sustainability | Break-Even, Sustainability |
+| a point over 160 characters (172) | What It Would Take | Business System / Financials / Sustainability | Worked out from the plan: the smallest single change that keeps the cash at zero or above |
 | the same text under 3 labels | AI Workflow Audit unit | Business System / Infrastructure / Capacity & Delivery | AI Workflow Audit unit, Automation Build unit, Automation Care Retainer unit |
 | the same text under 3 labels | Automation Build unit | Business System / Infrastructure / Capacity & Delivery | AI Workflow Audit unit, Automation Build unit, Automation Care Retainer unit |
 | the same text under 3 labels | Automation Care Retainer unit | Business System / Infrastructure / Capacity & Delivery | AI Workflow Audit unit, Automation Build unit, Automation Care Retainer unit |
@@ -168,10 +171,6 @@ Listed, never failed (doc 39, 3.6). The budget is 160 characters a point; the av
 | a point over 160 characters (169) | Documents & Rights | Business System / Infrastructure / Resources | Licences: Paid permissions: the right to use another's work and permits from authorities, |
 | a point over 160 characters (183) | Equipment | Business System / Infrastructure / Resources | Devices & Tools: The tools, instruments and gear used to make or deliver the offering, bes |
 | an internal word (tile, card, locked, frozen, driver) | Equipment | Business System / Infrastructure / Resources | Card |
-| a point over 160 characters (340) | Active Clients | Business System / Revenue & Pricing / Revenue Streams | From this Offering's Demand & Conversion on Customer Engagement: Other: estimated at 0.3 n |
-| a point over 160 characters (276) | Expected Sales | Business System / Revenue & Pricing / Revenue Streams | From this Offering's Demand & Conversion on Customer Engagement: Sales funnel: 24 prospect |
-| an internal word (tile, card, locked, frozen, driver) | Price | Business System / Revenue & Pricing / Revenue Streams | card |
-| a point over 160 characters (223) | Revenue Streams | Business System / Revenue & Pricing / Revenue Streams | Expected sales come from Demand & Conversion on Customer Engagement where it is filled in; |
 | the same text under 2 labels | Affiliate network or influencer commission | Global Settings / the page itself | Affiliate network or influencer commission, Sales agent or B2B broker commission |
 | a point over 160 characters (204) | Business stages | Global Settings / the page itself | Set by the Opening Date and the durations below: planning before the opening, then launchi |
 | a point over 160 characters (175) | Business stages | Global Settings / the page itself | Planning: How long the planning is meant to take, counted back from the Opening Date (the |
@@ -190,7 +189,6 @@ Listed, never failed (doc 39, 3.6). The budget is 160 characters a point; the av
 | a point over 160 characters (263) | Seller & Buyer Relationship | Identity System / 1. Definition / Early Positioning | Based on: Stayman, D. (2015) ‘How to Write Market Positioning Statements’, eCornell #IMPAC |
 | a point over 160 characters (261) | Seller & Buyer Relationship | Identity System / 1. Definition / Early Positioning | Also: Loy, T. (2007) E145 Technology Entrepreneurship, Session 6: Entrepreneurial Marketin |
 | a jargon acronym | Activities | Identity System / 1. Definition / Organisation | NAICS |
-| a point over 160 characters (165) | Current Situation | Strategy System / main page / Current Situation | How are you supported financially today? (3. Business System → 4. Revenue & Pricing: Reven |
 | a point over 160 characters (557) | Strategic Compass | Strategy System / main page / Strategic Compass | The Vision is the goal; the Compass is the route.: A future in which every small professio |
 | an internal word (tile, card, locked, frozen, driver) | Strategic Compass | Strategy System / main page / Strategic Compass | locked |
 | a point over 160 characters (231) | Theme | Strategy System / main page / Strategic Period | A broad area the organisation intends to develop during the Strategic Period (for example |
@@ -373,7 +371,7 @@ Listed, never failed (doc 39, 3.6). The budget is 160 characters a point; the av
 | What does this person want to achieve? | floating card | 35 | 12 | 649 | The results they are after; what they weigh when choosing goes in "What matters most". Choose up to three, then rate each. For example, to learn a new craft, or... |
 | What does this person want to achieve? | floating card | 22 | 4 | 504 | The practical tasks this person is trying to get done, one a line, in their own words: "furnish my home to last", "send an invoice in a minute". Start each with... |
 | What frustrates this person today? | floating card | 29 | 11 | 573 | What goes wrong with the way they do it now, before they buy from you. Choose up to three, then rate how much each bothers them. For example, the cheap version ... |
-| What is changing most for your customers? | tile dialog | 26 | 8 | 524 | The changes that affect your customers most. Choose up to two. Each Competitor is rated on how every one of these could affect it, the ones ticked here first. T... |
+| What is changing most for your customers? | tile dialog | 26 | 8 | 516 | The changes that affect your customers most. Choose up to two. Each Competitor is rated on how every one of these could affect it, the ones ticked here first. T... |
 | What is this person's job level? | floating card | 15 | 4 | 303 | Senior executive: the chief executive, a C-level or a vice president. Trainees and interns: Specialist / team member. It starts the role in buying: an owner or ... |
 | What is this person's role in buying? | floating card | 10 | 2 | 185 | The five buying-centre roles credited to Webster and Wind (1972). "Uses it" is the person who uses the offering day to day; the one who pays and the one who dec... |
 | What kind of job does this person need done? | floating card | 26 | 8 | 514 | The main jobs they need done. Choose up to three and rate each, then add their own tasks in the list below. Organisation: keeps tasks, records or belongings in ... |
@@ -383,7 +381,7 @@ Listed, never failed (doc 39, 3.6). The budget is 160 characters a point; the av
 | Where are your customers? | tile dialog | 6 | 1 | 124 | The widest area most of your customers are spread over, now or as you plan it. If it is more than one, make another Segment. |
 | Where do your customers discover new products? | tile dialog | 23 | 6 | 465 | Examples: communities such as Reddit, Discord and Facebook Groups; creators on TikTok, Instagram, YouTube and LinkedIn. Partner businesses: a shop, venue or fir... |
 | Where do your customers live or work? | tile dialog | 6 | 2 | 113 | 1 is countryside or remote places, 3 the suburbs and towns around a city, 5 a city centre. 1 = Rural, 5 = Urban. |
-| Where do your customers usually shop? | tile dialog | 10 | 2 | 202 | Where most of their purchases start and finish. Choose Both online & in shops when they mix the two about equally. A marketplace is a site that sells many sel... |
+| Where do your customers usually shop? | tile dialog | 10 | 2 | 200 | Where most of their purchases start and finish. Choose Both online & in shops when they mix the two about equally. A marketplace is a site that sells many selle... |
 | Which communities does this person belong to? | floating card | 6 | 2 | 78 | Where they ask, read and recommend. Write the names of the groups in the note. |
 | Which devices does this person use? | floating card | 6 | 2 | 107 | The devices they use to find and buy. The Segment's choice of where they buy starts this; change it freely. |
 | Which events does this person attend? | floating card | 6 | 2 | 103 | The kinds of events a typical person of the Segment goes to. Write the names of the events in the note. |
@@ -399,7 +397,55 @@ Listed, never failed (doc 39, 3.6). The budget is 160 characters a point; the av
 | Value Proposition | tile dialog | 10 | 3 | 210 | Define a clear, concise Value Proposition for each Customer Segment. State the specific problem you solve and the key benefits you provide. Explain what makes y... |
 | Value Proposition | tile dialog | 18 | 3 | 416 | Say how it meets the emotional and social needs below: those ticked on the Profiles, strongest first, then the lines of their Notes. Add a draft: a starting sen... |
 
-### Business System / Costs, Funding & Position
+### Business System / Customer Engagement
+
+**Channels &Journey**
+
+| Label | Opens in | Rows | Points | Characters | Text |
+|---|---|---|---|---|---|
+| Action | floating card | 8 | 2 | 182 | What is done through this channel at the selected Journey Stage, and what it is intended to achieve. Actions should explain enough to understand both what happe... |
+| Channel | floating card | 53 | 16 | 1697 | Samples & Trials: Ways for customers to try it before they buy. Social Media: Social platforms where people can discover your organisation, engage with your con... |
+| Channel | floating card | 53 | 16 | 1697 | In Person: Physical locations, meetings, events or activities where you interact directly with customers. Social Media: Social platforms where people can discov... |
+| Channel | floating card | 53 | 16 | 1697 | Direct Payment: Methods customers use to pay your organisation directly, such as cash, card or bank transfer. Social Media: Social platforms where people can di... |
+| Channel | floating card | 53 | 16 | 1697 | Online / Live: Live digital interactions or experiences delivered through online meeting, streaming or communication platforms. Social Media: Social platforms w... |
+| Channels & Journey | tile dialog | 21 | 5 | 460 | Decide which channels are relevant, and which offerings each one supports. Record where in the customer journey each channel is used. Describe what is done thro... |
+| Community | tile dialog | 75 | 16 | 1697 | Community: Spaces where people gather to discuss, participate, share knowledge and interact with your organisation or community. Social Media: Social platforms ... |
+| Direct Payment | floating card | 75 | 16 | 1697 | Direct Payment: Methods customers use to pay your organisation directly, such as cash, card or bank transfer. Social Media: Social platforms where people can di... |
+| Email | tile dialog | 75 | 16 | 1697 | Email: Communication with customers through email, including direct messages, newsletters and follow-ups. Social Media: Social platforms where people can discov... |
+| File Delivery | tile dialog | 75 | 16 | 1697 | File Delivery: Services or methods used to deliver digital files or downloadable products to customers. Social Media: Social platforms where people can discover... |
+| In Person | floating card | 75 | 16 | 1697 | In Person: Physical locations, meetings, events or activities where you interact directly with customers. Social Media: Social platforms where people can discov... |
+| Journey Stage | floating card | 10 | 2 | 188 | Journey Stage determines where in the customer journey the channel is relevant. Do not combine Purchase and Delivery. Payment and delivery may happen through co... |
+| Online / Live | floating card | 75 | 16 | 1697 | Online / Live: Live digital interactions or experiences delivered through online meeting, streaming or communication platforms. Social Media: Social platforms w... |
+| Referral & Affiliates | tile dialog | 75 | 16 | 1697 | Referral & Affiliates: People and partners who send customers to you and are rewarded for the sales or leads they bring. Social Media: Social platforms where pe... |
+| Samples & Trials | floating card | 75 | 16 | 1697 | Samples & Trials: Ways for customers to try it before they buy. Social Media: Social platforms where people can discover your organisation, engage with your con... |
+| Social Media | tile dialog | 75 | 16 | 1697 | Social Media: Social platforms where people can discover your organisation, engage with your content and stay connected. Community: Spaces where people gather t... |
+| Website | tile dialog | 75 | 16 | 1697 | Website: Your organisation's own website and pages, used to present information, offerings, transactions, delivery or support. Social Media: Social platforms wh... |
+
+**Customer'sRelationship**
+
+| Label | Opens in | Rows | Points | Characters | Text |
+|---|---|---|---|---|---|
+| Approach | floating card | 5 | 1 | 81 | How will you use this interaction to maintain the relationship with the customer? |
+| Customer's Relationship | tile dialog | 12 | 3 | 267 | Choose the kind of relationship you maintain with each Customer Profile, and say why you maintain it. For each Offering, record when in the journey you interact... |
+| Goals | floating card | 9 | 3 | 175 | Get: Attract and convert suitable customers. Keep: Maintain satisfaction and encourage continued engagement. Grow: Develop the relationship through additional o... |
+| Journey Stage | floating card | 7 | 1 | 147 | When in the customer journey does the interaction take place? Each stage chosen is answered separately, because the Approach is individual to each. |
+| Purpose | floating card | 3 | 1 | 65 | Why do you maintain this type of relationship with this customer? |
+
+**Demand &Conversion**
+
+| Label | Opens in | Rows | Points | Characters | Text |
+|---|---|---|---|---|---|
+| Active clients | tile dialog | 19 | 3 | 441 | Formula: Active clients = New clients a month ÷ Cancel% At the steady level, clients joining each month equal clients leaving. Average client lifetime ≈ 1 ÷ Can... |
+| AI Workflow Audit | tile dialog | 24 | 4 | 550 | For each Offering, estimate under Demand & Conversion where its customers come from and how many buy. Where this Offering’s customers come from, and so how many... |
+| Assumptions | tile dialog | 3 | 1 | 62 | Anything else the figures rest on, beyond each source's basis. |
+| Automation Build | tile dialog | 24 | 4 | 550 | For each Offering, estimate under Demand & Conversion where its customers come from and how many buy. Where this Offering’s customers come from, and so how many... |
+| Automation Care Retainer | tile dialog | 24 | 4 | 550 | For each Offering, estimate under Demand & Conversion where its customers come from and how many buy. Where this Offering’s customers come from, and so how many... |
+| Cancel / Month (%) | tile dialog | 5 | 1 | 100 | The share of active clients who cancel each month. At 5%, a client stays about 20 months on average. |
+| Customers Buy | tile dialog | 17 | 3 | 415 | One sale at a time: Each sale is paid for once: a product, a session, a project. Every month, until they cancel: A subscription, membership or retainer. The sou... |
+| Demand & Conversion | tile dialog | 24 | 4 | 550 | For each Offering, estimate under Demand & Conversion where its customers come from and how many buy. Where this Offering’s customers come from, and so how many... |
+| Months to level | tile dialog | 18 | 3 | 415 | Formula: Months to 90% = ln(10) ÷ −ln(1 − Cancel%) The gap to the steady level shrinks by the same share every month, so growth slows as you approach it. Based ... |
+
+### Business System / Financials
 
 **Break-Even**
 
@@ -451,19 +497,40 @@ Listed, never failed (doc 39, 3.6). The budget is 160 characters a point; the av
 | Confirmed Future | tile dialog | 2 | 1 | 33 | Confirmed, but not yet available. |
 | Establishment | tile dialog | 3 | 1 | 56 | Money required to establish and launch the organisation. |
 | Financial Position | tile dialog | 22 | 4 | 466 | Read the financial picture calculated from Costs, Funding Need and Capital & Funding: is your organisation covered, and for how long? Funding Gap: The amount of... |
-| Financial Runway | tile dialog | 30 | 4 | 688 | Financial Runway: The estimated period for which available financial resources can support the organisation under current assumptions. Counts money available no... |
+| Financial Runway | tile dialog | 30 | 4 | 686 | Financial Runway: The estimated period for which available financial resources can support the organisation under current assumptions. Counts money available no... |
 | Funding Gap | tile dialog | 10 | 2 | 180 | Funding Gap: The amount of identified financial requirement not covered by available or confirmed financing. Formula: Funding gap = Funding needed − Funding ava... |
 | Funding Mix | tile dialog | 3 | 1 | 63 | Where the financial resources originate, confirmed and pending. |
 | Funding Need | tile dialog | 5 | 1 | 91 | Funding Need: Money the organisation needs to obtain to support its financial requirements. |
 | Funding Need | tile dialog | 11 | 3 | 255 | Check what has to be financed, calculated from the costs: how much, for what purpose, and when. Funding Need: Money the organisation needs to obtain to support ... |
 | Funding Need Coverage | tile dialog | 5 | 1 | 76 | Confirmed and available funding linked to each need under Capital & Funding. |
 | Funding Timeline | tile dialog | 7 | 1 | 161 | Money in and out of your organisation month by month, and the balance it leaves. A dip below zero is a cash-pressure period, even when the totals are sufficient... |
-| Loan Repayments | tile dialog | 17 | 2 | 368 | SBA Microloan (Requested / Applied): its $470 monthly repayments are not counted until it is approved. Only loans that are Approved / Agreed, Received / Availab... |
+| Loan Repayments | tile dialog | 15 | 2 | 353 | SBA Microloan (Requested / Applied): its $470 monthly repayments are not counted until it is approved. Only loans that are Approved / Agreed, Received / Availab... |
 | Offering | tile dialog | 5 | 1 | 99 | Money required to develop, prepare or launch an Offering before it can generate sufficient revenue. |
 | Operating | tile dialog | 8 | 2 | 162 | Money required to support operations before revenue becomes sufficient: the running costs, only until revenue covers them. Lenders also call this working capita... |
 | Operational Contingency Fund | tile dialog | 9 | 1 | 250 | After the launch, each month a share of OpEx is set aside on top of the startup fund, until the fund equals the target reserve months of OpEx. The contribution ... |
 | Pending | tile dialog | 5 | 1 | 89 | Expected and awaiting confirmation; the gap and the runway count it once it is confirmed. |
 | Upcoming Obligations | tile dialog | 3 | 1 | 53 | Significant money in or out over the next six months. |
+
+**Revenue Streams**
+
+| Label | Opens in | Rows | Points | Characters | Text |
+|---|---|---|---|---|---|
+| Active Clients | floating card | 13 | 1 | 340 | From this Offering's Demand & Conversion on Customer Engagement: Other: estimated at 0.3 new a month. Referrals: 0.5 referrals a month, 40% buy: about 0.2 new a... |
+| Begins & Payment | floating card | 21 | 4 | 472 | Revenue begins after the sales cycle, the time from first contact to a signed sale: for services to businesses it is often 4 to 12 weeks. One sale often leads t... |
+| Build-up | floating card | 11 | 3 | 206 | Steady from the start: The expected volume from the month revenue begins. Gradual build-up: Starts lower and grows evenly to the expected volume. Month by month... |
+| Can the Expected Sales Be Delivered? | tile dialog | 22 | 5 | 526 | Capacity is the founders' delivery hours a month: the time the organisation controls. Needed: each month's expected sales times each founder's Working Hours per... |
+| Charged | floating card | 15 | 4 | 334 | Per sale: paid once for each unit sold (a product, a session, an hour). Per project: paid once for each project or contract. Monthly, quarterly or annually: pai... |
+| Customer Pays | floating card | 23 | 7 | 471 | When the money is actually received, if not when the sale is made. It follows the Offering's When do they pay? on the Foundation page. Upfront: Paid in full whe... |
+| Expected Sales | floating card | 10 | 1 | 276 | From this Offering's Demand & Conversion on Customer Engagement: Sales funnel: 24 prospects a month, 15% qualified, 25% of those buy: about 0.9 a month. Referra... |
+| First Month | floating card | 3 | 1 | 46 | How many projects in the month revenue begins. |
+| First Month | floating card | 3 | 1 | 45 | How many clients in the month revenue begins. |
+| Months to Normal | floating card | 3 | 1 | 60 | How many months it takes to grow evenly to the normal level. |
+| Price | floating card | 23 | 5 | 558 | Start from what competitors publish (listed on Foundation) and what clients pay today to solve the same problem. Check it covers the costs of each sale and leav... |
+| Rest After | floating card | 2 | 1 | 22 | Months after the sale. |
+| Revenue Streams | tile dialog | 30 | 6 | 684 | Each Offering has its revenue stream below. For each, say how it is priced, how much sells, and when the money arrives. Expected sales come from Demand & Conver... |
+| Revenue Summary | tile dialog | 3 | 1 | 56 | Expected revenue at the normal operating level, a month. |
+| Sales Volume | floating card | 13 | 3 | 293 | Few organisations sell at the normal level from the first month: a gradual build-up over 6 to 12 months is usual. For seasons (quieter summers, busy end-of-year... |
+| Upfront (%) | floating card | 5 | 1 | 101 | The share of the price paid when the sale is made; the rest arrives the months after given beside it. |
 
 **Sustainability**
 
@@ -477,54 +544,6 @@ Listed, never failed (doc 39, 3.6). The budget is 160 characters a point; the av
 | Sustainability | tile dialog | 23 | 5 | 476 | Read how much your organisation must sell to cover its costs, when it is expected to get there, and whether that is before its money runs out. Break-Even Point:... |
 | Sustainability Buffer | tile dialog | 6 | 1 | 123 | Financial Exhaustion minus Break-Even Time: how much time exists between becoming sustainable and running out of resources. |
 | What It Would Take | tile dialog | 18 | 3 | 397 | Worked out from the plan: the smallest single change that keeps the cash at zero or above in every month of the plan, each tried on its own with everything else... |
-
-### Business System / Customer Engagement
-
-**Channels &Journey**
-
-| Label | Opens in | Rows | Points | Characters | Text |
-|---|---|---|---|---|---|
-| Action | floating card | 8 | 2 | 182 | What is done through this channel at the selected Journey Stage, and what it is intended to achieve. Actions should explain enough to understand both what happe... |
-| Channel | floating card | 53 | 16 | 1697 | Samples & Trials: Ways for customers to try it before they buy. Social Media: Social platforms where people can discover your organisation, engage with your con... |
-| Channel | floating card | 53 | 16 | 1697 | In Person: Physical locations, meetings, events or activities where you interact directly with customers. Social Media: Social platforms where people can discov... |
-| Channel | floating card | 53 | 16 | 1697 | Direct Payment: Methods customers use to pay your organisation directly, such as cash, card or bank transfer. Social Media: Social platforms where people can di... |
-| Channel | floating card | 53 | 16 | 1697 | Online / Live: Live digital interactions or experiences delivered through online meeting, streaming or communication platforms. Social Media: Social platforms w... |
-| Channels & Journey | tile dialog | 21 | 5 | 460 | Decide which channels are relevant, and which offerings each one supports. Record where in the customer journey each channel is used. Describe what is done thro... |
-| Community | tile dialog | 75 | 16 | 1697 | Community: Spaces where people gather to discuss, participate, share knowledge and interact with your organisation or community. Social Media: Social platforms ... |
-| Direct Payment | floating card | 75 | 16 | 1697 | Direct Payment: Methods customers use to pay your organisation directly, such as cash, card or bank transfer. Social Media: Social platforms where people can di... |
-| Email | tile dialog | 75 | 16 | 1697 | Email: Communication with customers through email, including direct messages, newsletters and follow-ups. Social Media: Social platforms where people can discov... |
-| File Delivery | tile dialog | 75 | 16 | 1697 | File Delivery: Services or methods used to deliver digital files or downloadable products to customers. Social Media: Social platforms where people can discover... |
-| In Person | floating card | 75 | 16 | 1697 | In Person: Physical locations, meetings, events or activities where you interact directly with customers. Social Media: Social platforms where people can discov... |
-| Journey Stage | floating card | 10 | 2 | 188 | Journey Stage determines where in the customer journey the channel is relevant. Do not combine Purchase and Delivery. Payment and delivery may happen through co... |
-| Online / Live | floating card | 75 | 16 | 1697 | Online / Live: Live digital interactions or experiences delivered through online meeting, streaming or communication platforms. Social Media: Social platforms w... |
-| Referral & Affiliates | tile dialog | 75 | 16 | 1697 | Referral & Affiliates: People and partners who send customers to you and are rewarded for the sales or leads they bring. Social Media: Social platforms where pe... |
-| Samples & Trials | floating card | 75 | 16 | 1697 | Samples & Trials: Ways for customers to try it before they buy. Social Media: Social platforms where people can discover your organisation, engage with your con... |
-| Social Media | tile dialog | 75 | 16 | 1697 | Social Media: Social platforms where people can discover your organisation, engage with your content and stay connected. Community: Spaces where people gather t... |
-| Website | tile dialog | 75 | 16 | 1697 | Website: Your organisation's own website and pages, used to present information, offerings, transactions, delivery or support. Social Media: Social platforms wh... |
-
-**Customer'sRelationship**
-
-| Label | Opens in | Rows | Points | Characters | Text |
-|---|---|---|---|---|---|
-| Approach | floating card | 5 | 1 | 81 | How will you use this interaction to maintain the relationship with the customer? |
-| Customer's Relationship | tile dialog | 12 | 3 | 267 | Choose the kind of relationship you maintain with each Customer Profile, and say why you maintain it. For each Offering, record when in the journey you interact... |
-| Goals | floating card | 9 | 3 | 175 | Get: Attract and convert suitable customers. Keep: Maintain satisfaction and encourage continued engagement. Grow: Develop the relationship through additional o... |
-| Journey Stage | floating card | 7 | 1 | 147 | When in the customer journey does the interaction take place? Each stage chosen is answered separately, because the Approach is individual to each. |
-| Purpose | floating card | 3 | 1 | 65 | Why do you maintain this type of relationship with this customer? |
-
-**Demand &Conversion**
-
-| Label | Opens in | Rows | Points | Characters | Text |
-|---|---|---|---|---|---|
-| Active clients | tile dialog | 19 | 3 | 441 | Formula: Active clients = New clients a month ÷ Cancel% At the steady level, clients joining each month equal clients leaving. Average client lifetime ≈ 1 ÷ Can... |
-| AI Workflow Audit | tile dialog | 24 | 4 | 557 | For each Offering, estimate under Demand & Conversion where its customers come from and how many buy. Where this Offering’s customers come from, and so how many... |
-| Assumptions | tile dialog | 3 | 1 | 62 | Anything else the figures rest on, beyond each source's basis. |
-| Automation Build | tile dialog | 24 | 4 | 557 | For each Offering, estimate under Demand & Conversion where its customers come from and how many buy. Where this Offering’s customers come from, and so how many... |
-| Automation Care Retainer | tile dialog | 24 | 4 | 557 | For each Offering, estimate under Demand & Conversion where its customers come from and how many buy. Where this Offering’s customers come from, and so how many... |
-| Cancel / Month (%) | tile dialog | 5 | 1 | 100 | The share of active clients who cancel each month. At 5%, a client stays about 20 months on average. |
-| Customers Buy | tile dialog | 17 | 3 | 415 | One sale at a time: Each sale is paid for once: a product, a session, a project. Every month, until they cancel: A subscription, membership or retainer. The sou... |
-| Demand & Conversion | tile dialog | 24 | 4 | 557 | For each Offering, estimate under Demand & Conversion where its customers come from and how many buy. Where this Offering’s customers come from, and so how many... |
-| Months to level | tile dialog | 18 | 3 | 415 | Formula: Months to 90% = ln(10) ÷ −ln(1 − Cancel%) The gap to the steady level shrinks by the same share every month, so growth slows as you approach it. Based ... |
 
 ### Business System / Infrastructure
 
@@ -604,29 +623,6 @@ Listed, never failed (doc 39, 3.6). The budget is 160 characters a point; the av
 | Workstation | tile dialog | 5 | 1 | 113 | The furniture and fittings of the work areas, e.g. Standing desk, Drawing table, Ergonomic chair, Filing cabinet. |
 | Workstation | tile dialog | 6 | 1 | 133 | Fixed installations in your premises for making or showing the product, e.g. Workbench, Pallet racking, Showcase shelves, Sign board. |
 
-### Business System / Revenue & Pricing
-
-**Revenue Streams**
-
-| Label | Opens in | Rows | Points | Characters | Text |
-|---|---|---|---|---|---|
-| Active Clients | floating card | 13 | 1 | 340 | From this Offering's Demand & Conversion on Customer Engagement: Other: estimated at 0.3 new a month. Referrals: 0.5 referrals a month, 40% buy: about 0.2 new a... |
-| Begins and Payment | floating card | 21 | 4 | 472 | Revenue begins after the sales cycle, the time from first contact to a signed sale: for services to businesses it is often 4 to 12 weeks. One sale often leads t... |
-| Build-up | floating card | 11 | 3 | 206 | Steady from the start: The expected volume from the month revenue begins. Gradual build-up: Starts lower and grows evenly to the expected volume. Month by month... |
-| Can the Expected Sales Be Delivered? | tile dialog | 22 | 5 | 526 | Capacity is the founders' delivery hours a month: the time the organisation controls. Needed: each month's expected sales times each founder's Working Hours per... |
-| Charged | floating card | 15 | 4 | 334 | Per sale: paid once for each unit sold (a product, a session, an hour). Per project: paid once for each project or contract. Monthly, quarterly or annually: pai... |
-| Customer Pays | floating card | 23 | 7 | 471 | When the money is actually received, if not when the sale is made. It follows the Offering's When do they pay? on the Foundation page. Upfront: Paid in full whe... |
-| Expected Sales | floating card | 10 | 1 | 276 | From this Offering's Demand & Conversion on Customer Engagement: Sales funnel: 24 prospects a month, 15% qualified, 25% of those buy: about 0.9 a month. Referra... |
-| First Month | floating card | 3 | 1 | 46 | How many projects in the month revenue begins. |
-| First Month | floating card | 3 | 1 | 45 | How many clients in the month revenue begins. |
-| Months to Normal | floating card | 3 | 1 | 60 | How many months it takes to grow evenly to the normal level. |
-| Price | floating card | 23 | 5 | 558 | Start from what competitors publish (listed on Foundation) and what clients pay today to solve the same problem. Check it covers the costs of each sale and leav... |
-| Rest After | floating card | 2 | 1 | 22 | Months after the sale. |
-| Revenue Streams | tile dialog | 30 | 6 | 684 | Each Offering has its revenue stream below. For each, say how it is priced, how much sells, and when the money arrives. Expected sales come from Demand & Conver... |
-| Revenue Summary | tile dialog | 3 | 1 | 56 | Expected revenue at the normal operating level, a month. |
-| Sales Volume | floating card | 13 | 3 | 293 | Few organisations sell at the normal level from the first month: a gradual build-up over 6 to 12 months is usual. For seasons (quieter summers, busy end-of-year... |
-| Upfront (%) | floating card | 5 | 1 | 101 | The share of the price paid when the sale is made; the rest arrives the months after given beside it. |
-
 ### Global Settings
 
 **the page itself**
@@ -645,10 +641,10 @@ Listed, never failed (doc 39, 3.6). The budget is 160 characters a point; the av
 | Insurance per employee | settings page | 3 | 1 | 51 | An amount a month, for key-person and health cover. |
 | Launching duration | settings page | 7 | 1 | 154 | From the Opening Date: the first customers, the MVP, the proof that the market accepts it. The Early Positioning Statement is proved or changed within it. |
 | Managing duration | settings page | 5 | 1 | 111 | After Launching: stabilising, keeping customers, product-market fit. The Core Market Positioning stands for it. |
-| Opening Date | settings page | 16 | 3 | 336 | The day the business opens and issues its first receipt. It sets the stage: planning before it, launching from it. The stage also sets Positioning's name and ho... |
+| Opening Date | settings page | 15 | 3 | 321 | The day the business opens and issues its first receipt. It sets the stage: planning before it, launching from it. The stage also sets Positioning's name and ho... |
 | Operational Contingency Fund | settings page | 6 | 1 | 137 | A share of a month's OpEx, 3 to 5%, set aside each month after the launch until the target is reached. A cash set-aside, held as savings. |
 | Plan Length | settings page | 6 | 1 | 131 | How far ahead the plan looks. Lenders usually ask for the first year month by month and a profit and loss forecast for three years. |
-| Plan Start | settings page | 13 | 2 | 297 | Month 1 of the financial plan. Every timeline on Revenue & Pricing and on Costs, Funding & Position runs from it. Worked out: the earlier of the Opening Date's ... |
+| Plan Start | settings page | 11 | 2 | 257 | Month 1 of the financial plan. Every timeline on Financials runs from it. Worked out: the earlier of the Opening Date's month (set on the Organisation tile) and... |
 | Planning duration | settings page | 7 | 1 | 165 | How long the planning is meant to take, counted back from the Opening Date (the Review says when it has run longer). A business with no Opening Date yet is plan... |
 | Royalty on sales | settings page | 3 | 1 | 58 | The default rate; a card may set its own for its contract. |
 | Sales agent or B2B broker commission | settings page | 2 | 1 | 17 | The default rate. |
@@ -693,7 +689,7 @@ Listed, never failed (doc 39, 3.6). The budget is 160 characters a point; the av
 | Activities | tile dialog | 6 | 1 | 134 | The first is the primary activity; add others, up to four in all. Each one ends in one official code of your country (the NAICS code). |
 | Legal Form | tile dialog | 7 | 2 | 153 | Decides who is liable for the organisation's debts: the organisation, or you personally. Decides how it is taxed, and whether it must hold share capital. |
 | Notes | tile dialog | 8 | 5 | 103 | A reminder or a task A question to check Where a figure came from A decision and why Someone to talk to |
-| Opening Date | tile dialog | 16 | 3 | 336 | The day the business opens and issues its first receipt. It sets the stage: planning before it, launching from it. The stage also sets Positioning's name and ho... |
+| Opening Date | tile dialog | 15 | 3 | 321 | The day the business opens and issues its first receipt. It sets the stage: planning before it, launching from it. The stage also sets Positioning's name and ho... |
 | Organisation | tile dialog | 5 | 1 | 89 | Choose the country first: the legal forms, the registry and the activity codes follow it. |
 
 **Philosophy &Manifesto**
@@ -735,7 +731,7 @@ Listed, never failed (doc 39, 3.6). The budget is 160 characters a point; the av
 
 | Label | Opens in | Rows | Points | Characters | Text |
 |---|---|---|---|---|---|
-| Current Situation | tile dialog | 18 | 3 | 373 | What do you sell, and who uses it? (3. Business System → 1. Foundation: Offerings and Customer Segments) How do people discover and reach you? (3. Business Syst... |
+| Current Situation | tile dialog | 17 | 3 | 336 | What do you sell, and who uses it? (3. Business System → 1. Foundation: Offerings and Customer Segments) How do people discover and reach you? (3. Business Syst... |
 | Refresh | tile dialog | 3 | 1 | 51 | Filled in from the Business System. Edit it freely. |
 
 **Strategic Compass**

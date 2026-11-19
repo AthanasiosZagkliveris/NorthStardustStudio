@@ -1,6 +1,6 @@
 /**
- * PAGES THAT HOLD SEVERAL SECTIONS (the Identity and Brand Systems): a page shows the frames of its sections side by side, as the Business System's
- * Infrastructure & Capability page does. Each section keeps its own saved answer, its own number and its own title (the frame's heading); only the page
+ * PAGES THAT HOLD SEVERAL SECTIONS (the Identity and Brand Systems, and the Business System's Financials): a page shows the frames of its sections side
+ * by side, as the Business System's Infrastructure & Capability page does. Each section keeps its own saved answer, its own number and its own title (the frame's heading); only the page
  * is shared. The first section of a page is the page's own; the others are its COMPANIONS, drawn beside it and not pages of their own.
  */
 export interface PageGroup {
@@ -22,12 +22,18 @@ export interface PageGroup {
 
 }
 
+/** Financials' two chapters, in their order: their headings, numbered by the page ("1. Revenue & Break Even"; layout rules section 13). */
+export const FINANCIALS_FRAMES = ["Revenue & Break Even", "Financial Foundation"] as const;
+
 export const PAGE_GROUPS: readonly PageGroup[] = [
     // (Mission and Vision are saved in Definition, the first section, and drawn in Purpose as one pair tile: doc 45.)
     { systemNumber: 1, members: [1, 2], title: "Definition & Purpose", inHeader: true },
     // (The Founders Profile, the fourth section, is no frame of its own: its founders are tiles in the Founders & Ownership dialog and its Capability a tile beside it. It keeps its saved answer.)
     { systemNumber: 1, members: [3], title: "Legal Entity", inHeader: true, frameTitles: ["Legal Entity"] },
     { systemNumber: 2, members: [1, 2], title: "Brand System", inHeader: false },
+    // FINANCIALS (owner, 2026-11-18, the approved plan, step 1): Revenue & Pricing and Costs, Funding & Position are one page, their chapters Revenue & Break
+    // Even and Financial Foundation side by side, in that order. Each section keeps its number, its title and its saved answer (doc 48, section 11).
+    { systemNumber: 3, members: [4, 5], title: "Financials", inHeader: true, frameTitles: FINANCIALS_FRAMES },
     // The Strategy System is one page: its Situation & Direction (the Strategic Period's Goals and Objectives are written in each Theme's card there).
     { systemNumber: 4, members: [1], title: "Strategy System", inHeader: false }
 ];

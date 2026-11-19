@@ -3113,7 +3113,7 @@
         }
         // (The financial pages' tiles follow the shared tile list: each name, its figure under it -- never two columns; owner, 2026-11-18 23:08 UTC+2: "Financial
         // tiles' lists should follow the shared tile list".)
-        if (/Revenue & Pricing|Costs, Funding & Position/.test(document.querySelector(".interview-header h1")?.textContent ?? "")) {
+        if (/Financials/.test(document.querySelector(".interview-header h1")?.textContent ?? "")) {
             // (Capital & Funding keeps its two columns, each status and its count: owner, 2026-11-18 23:18 UTC+2, "Capital & Funding could be as before".)
             for (const list of [...document.querySelectorAll(".section-tile-list-pairs")].filter(visible).filter(list => !list.closest('[data-tile="financial-funding"]') && !list.closest(".section-tile-slot")?.querySelector('[data-tile="financial-funding"]'))) {
                 fail("a financial tile's list is the shared tile list, never two columns", list, { first: list.textContent.trim().slice(0, 40) });

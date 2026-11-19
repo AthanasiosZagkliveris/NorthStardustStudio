@@ -1,3 +1,4 @@
+import { FINANCIALS_FRAMES } from "../../../framework/engine/PageGroups.ts";
 import { competitorsPriceRange } from "../../../framework/engine/CompetitorQuestions.ts";
 import { offeringShareWeights } from "../../../framework/engine/DemandCapacity.ts";
 import { numberStep } from "./BusinessEngagementModel.ts";
@@ -55,11 +56,8 @@ interface FinancialSustainabilityEditorProps {
     disabled?: boolean;
     showInstructions?: boolean;
     columnsDivider?: ReactNode;
-    /**
-     * WHICH PART THE PAGE DRAWS (doc 48, sections 2 and 11; owner, 2026-11-17 07:36): "revenue", the Revenue chapter of Revenue & Pricing (the default);
-     * "break-even", the Break Even chapter alone, which Costs, Funding & Position draws beside Financial Position (read only: it writes nothing).
-     */
-    part?: "revenue" | "break-even";
+    /** The frame's heading the page hands in ("1. Revenue & Break Even": PageGroups.ts, layout rules section 13, "A page's name in the pages rail"). */
+    frameTitle?: string;
     /** Page 1, for its Offerings. */
     foundation?: unknown;
     /** Page 3, for the costs Page 4 consolidates. */
@@ -96,7 +94,7 @@ export default function FinancialSustainabilityEditor({
 
     disabled = false,
 
-    part = "revenue",
+    frameTitle = FINANCIALS_FRAMES[0],
 
     foundation,
 
@@ -1562,32 +1560,30 @@ export default function FinancialSustainabilityEditor({
         );
     }
 
-    // (BREAK EVEN, beside Financial Position on Costs, Funding & Position: the chapter alone, drawn by that page's editor.)
-    if (part === "break-even") {
-        const parts = breakEvenParts();
-        return chapter(SECTIONS.breakEven.title, SECTION_HUES["sustainability-break-even"] ?? 0, chapterTiles("sustainability-break-even", SECTIONS.breakEven, [
-            // (TWO TILES, FOUR BLOCKS (owner, 2026-11-18 16:55: "Do all 8"): the Break-Even Point and its Time read the same costs and margins, one tile; the
-            // Sustainability and the Stress Test both say when the money could run out, one tile -- each block under its own band in the dialog.)
-            {
-                id: "point", title: "Break-Even", face: [...parts.point.face, ...parts.time.face],
-                body: (
-                    <>
-                        <DialogSectionBand title="Break-Even Point" info={BREAK_EVEN_POINT_INFO}>{parts.point.body}</DialogSectionBand>
-                        <DialogSectionBand title="Break-Even Time" info={BREAK_EVEN_TIME_INFO}>{parts.time.body}</DialogSectionBand>
-                    </>
-                )
-            },
-            {
-                id: "sustainability", title: "Sustainability", face: [...parts.sustainability.face, ...parts.stress.face],
-                body: (
-                    <>
-                        {parts.sustainability.body}
-                        <DialogSectionBand title="Stress Test" info={STRESS_TEST_INFO}>{parts.stress.body}</DialogSectionBand>
-                    </>
-                )
-            }
-        ]));
-    }
+    // (THE BREAK EVEN TILES. TWO TILES, FOUR BLOCKS (owner, 2026-11-18 16:55: "Do all 8"): the Break-Even Point and its Time read the same costs and margins,
+    // one tile; the Sustainability and the Stress Test both say when the money could run out, one tile -- each block under its own band in the dialog. They
+    // write nothing. Their ids keep the Break Even chapter's prefix, so a note or a link saved on them still lands.)
+    const breakEven = breakEvenParts();
+    const breakEvenTiles = chapterTiles("sustainability-break-even", SECTIONS.breakEven, [
+        {
+            id: "point", title: "Break-Even", face: [...breakEven.point.face, ...breakEven.time.face],
+            body: (
+                <>
+                    <DialogSectionBand title="Break-Even Point" info={BREAK_EVEN_POINT_INFO}>{breakEven.point.body}</DialogSectionBand>
+                    <DialogSectionBand title="Break-Even Time" info={BREAK_EVEN_TIME_INFO}>{breakEven.time.body}</DialogSectionBand>
+                </>
+            )
+        },
+        {
+            id: "sustainability", title: "Sustainability", face: [...breakEven.sustainability.face, ...breakEven.stress.face],
+            body: (
+                <>
+                    {breakEven.sustainability.body}
+                    <DialogSectionBand title="Stress Test" info={STRESS_TEST_INFO}>{breakEven.stress.body}</DialogSectionBand>
+                </>
+            )
+        }
+    ]);
 
     // (REVENUE, the chapter of Revenue & Pricing. ONE CARD (owner, 2026-11-18 10:38: "Revenue streams should be tiles. Place the Revenue Summary and Delivery Check
     // in the same card as the Revenue Stream Tiles"): its tile opens a dialog of a tile for each stream (the dialog's card list, three in a row, each opening its
@@ -1631,9 +1627,12 @@ export default function FinancialSustainabilityEditor({
             return at < 0 ? null : <div className="column-tile-content financial-page financial-stream-floating">{streamCard(shownStreams[at], at, true)}</div>;
         }
     };
+    // (THE FIRST FRAME OF FINANCIALS (PageGroups.ts; owner, 2026-11-18, the approved plan, step 1): one chapter, Revenue & Break Even -- Revenue Streams,
+    // Break-Even, Sustainability --, beside Financial Foundation, as a frame of every page of several sections is drawn. Three Master Tiles keep their size:
+    // the 2 x 2 with its fourth place empty (layout rules section 23).)
     return (
-        <div className="answer-columns business-foundation business-engagement business-capability column-tiles-page strategy-single-frame" style={{ "--answer-column-count": 1 } as CSSProperties}>
-            {chapter(SECTIONS.revenue.title, SECTION_HUES["sustainability-revenue"] ?? 0, [revenueTile])}
+        <div className="answer-columns business-foundation business-engagement business-capability column-tiles-page" style={{ "--answer-column-count": 1 } as CSSProperties}>
+            {chapter(frameTitle, SECTION_HUES["sustainability-revenue"] ?? 0, [revenueTile, ...breakEvenTiles])}
         </div>
     );
 
