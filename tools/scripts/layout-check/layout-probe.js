@@ -930,6 +930,19 @@
                     if (divided && rules.near(gap, 2 * spec.fieldGap, 1.5)) {
                         continue;
                     }
+                    // A BAND'S EDGE: two bands of a card, each with its 12px above and below its content (the band rule, set once in the shared band style), so a
+                    // field gap either side of the edge where the next band starts (the Founders & Ownership's capital switch, then its table; 2026-11-19).
+                    let banded = false;
+                    for (let node = item.element; node && node !== card; node = node.parentElement) {
+                        const ground = getComputedStyle(node).backgroundColor;
+                        const top = rect(node).top;
+                        if (!/^(transparent|rgba\([^)]*,\s*0\))$/.test(ground) && top >= above.bottom - 0.5 && top <= item.top + 0.5) {
+                            banded = true;
+                        }
+                    }
+                    if (banded && gap >= 2 * spec.fieldGap - 1.5 && gap <= 2 * spec.fieldGap + 4.5) {
+                        continue;
+                    }
                     // A cell of a grid row stands under the row's TALLEST cell, which may be
                     // in the next column: measured from the lowest thing above it in the card.
                     const lowest = Math.max(...stack.filter(other => other !== item && other.bottom <= item.top + 0.5 && other.element.closest(CARDS) === home).map(other => other.bottom));
@@ -971,6 +984,7 @@
         if (spec.cardPadding) {
             for (const box of [...document.querySelectorAll(CARDS)].filter(visible)) {
                 if (box.matches(".legal-entity-unframed .legal-entity-section")) continue; // DECLARED: no frame in the dialogs, so no padding to measure
+                if (box.matches(".founders-profile > .legal-entity-card")) continue; // DECLARED: a founder's card in bands from side to side (owner, 2026-11-10 06:23), its content 12px in by each band's own padding
                 if (box.matches(".business-founder-unframed")) continue; // DECLARED: the one owner's founder card is the dialog's body, framed by the dialog
                 if (box.matches(".legal-entity-unframed .legal-entity-card") && box.querySelector(".founders-profile-sole-row")) continue; // DECLARED: the one owner's card is the dialog's body, framed by the dialog
                 const style = getComputedStyle(box);
@@ -1546,6 +1560,12 @@
                     const half = (rect(holder).width - spec.fieldGap) / 2;
                     if (!rules.near(box.width, box.height, tolerance) || box.width > half + 1) {
                         fail("the four tiles of a page card are squares, at most half the group's width less the gap", tile, { width: box.width, height: box.height, half });
+                    }
+                } else if (tile.closest(".section-tiles-completed")) {
+                    // (The Inventory and Completed row is no grid of tiles (layout rules section 23, "Every tile is a square"): squeezed into the footer's band, two
+                    // rectangles; where the window is tall enough (2560 x 1300), squares of their own side.)
+                    if (!tile.closest(".section-tiles-completed[data-squeezed]") && !rules.near(box.width, box.height, tolerance)) {
+                        fail("a section tile is a square", tile, { width: box.width, height: box.height });
                     }
                 } else if (tile.closest(".section-tiles-small, .business-engagement-section")) {
                     // (Tiles kept at the page's own small size -- 215px -- whatever their number: squares all the same.)
