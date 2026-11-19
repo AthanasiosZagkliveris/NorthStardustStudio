@@ -123,6 +123,7 @@ What the first published version contains and what it leaves for later (33, whic
 | [design/questionnaire/50-engagement-fees-and-demand-proposals.md](design/questionnaire/50-engagement-fees-and-demand-proposals.md) | specification | Channel fees on Customer Engagement (the read-only Fees on a subchannel, the UK rows) and what Demand & Conversion adds (Tried it, the time to buy); built 2026-11-14. | 2026-11-18 |
 | [design/questionnaire/51-delivery-and-capacity-research.md](design/questionnaire/51-delivery-and-capacity-research.md) | proposal | Delivery and capacity: what the sources say, what the app asks today, what is missing, and seven additions in priority order; not built. | 2026-11-14 |
 | [design/questionnaire/52-capacity-and-delivery-tile.md](design/questionnaire/52-capacity-and-delivery-tile.md) | proposal | Capacity & Delivery: the Delivery tile renamed, doc 51's seven additions on the Delivery card (DV1 to DV11), the dialog and Sustainability's check, the Lumen Workshops through the Online Store, and the decisions; not built. | 2026-11-19 |
+| [design/questionnaire/53-legal-starts.md](design/questionnaire/53-legal-starts.md) | proposal | Legal starts: the registrations, taxes and legal expenses the Legal Entity can start from Definition and the Business pages, by country, each with its official source; eight decisions; not built. | 2026-11-19 |
 
 ## 7. Rules for the assistant (`ai/`)
 
