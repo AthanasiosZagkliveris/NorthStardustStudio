@@ -1,5 +1,6 @@
-import { describe, expect, test } from "vitest";
+import { describe, expect, it, test } from "vitest";
 import { asBusinessCapabilityValue } from "../../../framework/engine/AnswerUtils.ts";
+import { asLegalEntityValue } from "../../../framework/engine/AnswerLegal.ts";
 import { DEFAULT_FLOOR_FILTER, FLOOR_PLACES, FloorFilter, FloorRow, filterFloor, floorColumnHasData, floorCategories, floorRows, floorSubgroups, kindClass, placeOf, subgroupKey, sortFloor, tileLines, typeClass, amountText } from "./capabilityFloor.ts";
 
 const slot = (fields: Record<string, unknown>) => ({
@@ -264,5 +265,23 @@ describe("the Inventory's columns stand where a row fills them (owner, 2026-11-1
         expect(floorColumnHasData("name", bare)).toBe(true);
         expect(floorColumnHasData("cost", [row({}), row({ amount: 12, frequencyLabel: "Monthly" })])).toBe(true);
         expect(floorColumnHasData("share", [row({ offeringIds: ["o1"] })])).toBe(true);
+    });
+});
+
+/* A LEGAL ENTITY EXPENSE FOR OFFERINGS (the owner's approved plan of 2026-11-18, step 3): its row carries the Offerings it serves and each one's share, as a card of
+   Offering's Capability does; one with none is the whole company's, with no Offering. */
+describe("a Legal Entity expense's row", () => {
+    it("carries the Offerings it serves and their shares; none, no Offering", () => {
+        const expenses = asLegalEntityValue({
+            expenses: [
+                { id: "e1", name: "Licence", cost: "120", frequency: "Annually", offeringIds: ["off-1", "off-2"], offeringShares: { "off-1": "60", "off-2": "40", "~basis": "own" } },
+                { id: "e2", name: "Accountant", cost: "80", frequency: "Monthly" }
+            ]
+        }).expenses;
+        const rows = floorRows(asBusinessCapabilityValue({}), expenses);
+        const licence = rows.find(row => row.id === "e1")!;
+        expect(licence.offeringIds).toEqual(["off-1", "off-2"]);
+        expect(licence.offeringShares).toEqual({ "off-1": 0.6, "off-2": 0.4 });
+        expect(rows.find(row => row.id === "e2")!.offeringIds).toBeUndefined();
     });
 });
