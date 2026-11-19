@@ -1109,13 +1109,22 @@ export default function FinancialFoundationEditor({
      * capital and the total under one band, as a source's card, and the way to where it is answered.
      */
     function founderCapitalCard() {
-        const capital = founderCapitalSources(stored, legalEntity);
-        const total = capital.reduce((sum, source) => sum + fundingStanding(source, start).total, 0);
         return (
             <BusinessCard key="founders-capital" kind="Source" anchor="founders-capital" number={1} name="Founders' Capital" open disabled={disabled}>
                 <SingleColumn>
                     <EngagementBoxes>{[
-                        <EngagementBox key="capital" title="Each Founder" bands={[
+                        <EngagementBox key="capital" title="Each Founder" bands={founderCapitalBands()} />
+                    ]}</EngagementBoxes>
+                </SingleColumn>
+            </BusinessCard>
+        );
+    }
+
+    /** Each founder's capital and the total, and the way to where it is answered: the founders' capital section's content (and its card's). */
+    function founderCapitalBands() {
+        const capital = founderCapitalSources(stored, legalEntity);
+        const total = capital.reduce((sum, source) => sum + fundingStanding(source, start).total, 0);
+        return [
                             <ul className="financial-cost-inputs" key="list">
                                 {capital.map(source => (
                                     <li key={source.id}>
@@ -1135,94 +1144,69 @@ export default function FinancialFoundationEditor({
                                     </TextLink>
                                 </p>
                             )
-                        ]} />
-                    ]}</EngagementBoxes>
-                </SingleColumn>
-            </BusinessCard>
-        );
+        ];
     }
 
+    /**
+     * CAPITAL & FUNDING, ONE DIALOG CARD (owner, 2026-11-19 21:44 UTC+2: "Create it as a dialogue card with the founders' capital as a section, and the other cards as tiles"):
+     * the founders' capital first, a section of its own -- each founder's capital and the total, read only, answered on Founders & Ownership --, then each category's
+     * sources, Internal, External and Other, a titled section of tiles each (DialogSectionBand, the Registrations' and the Themes' pattern), each tile opening its
+     * card floating. The ids stay: a jump to "founders-capital" lands on its section.
+     */
     function fundingSection() {
 
         const capital = founderCapitalSources(stored, legalEntity);
 
         return (
             <div className="financial-section-body">
-                {/* INTERNAL, EXTERNAL AND OTHER, each across the section:
-                    a loan's terms are long and a founder's capital is
-                    short, so side by side they left gaps. Within each,
-                    its sources sit side by side. */}
-                <div className="financial-funding-categories">
-                    {FUNDING_CATEGORIES.map(category => {
+                {capital.length > 0 && (
+                    <div data-anchor="founders-capital">
+                        <DialogSectionBand title="Founders' Capital" info={["Each founder's capital, as written on Founders & Ownership: the business's first internal funding."]}>
+                            {founderCapitalBands()}
+                        </DialogSectionBand>
+                    </div>
+                )}
+                {FUNDING_CATEGORIES.map(category => {
 
-                        const of = stored.funding.filter(source => source.category === category.id);
+                    const of = stored.funding.filter(source => source.category === category.id);
 
-                        return (
-                            <div className="financial-funding-category" key={category.id}>
+                    return (
+                        <DialogSectionBand key={category.id} title={category.label} tiles info={[...CATEGORY_INFO[category.id]]}>
+                            {/* (THE SOURCES AS TILES (owner, 2026-11-18 12:41: "make the Funding Sources into tiles"): each its type, amount and status, opening its card
+                                floating; the Add tile after them makes a blank one and opens it.) */}
+                            <CardBoxes
+                                label={category.label + " funding sources"}
+                                what="Funding Source"
+                                autoStart={false}
+                                items={of.map((source, index): CardBox => ({
+                                    id: source.id,
+                                    number: index + 1,
+                                    name: source.name,
+                                    unnamed: "Funding Source " + (index + 1),
+                                    own: true,
+                                    lines: [
+                                        FUNDING_TYPES.find(entry => entry.id === source.type)?.label ?? "",
+                                        source.amount.trim() ? format(fundingStanding(source, start).total) : "",
+                                        FUNDING_STATUSES.find(entry => entry.id === source.status)?.label ?? ""
+                                    ].filter(Boolean),
+                                    content: () => null
+                                }))}
+                                add={{
+                                    label: "Funding Source",
+                                    disabled,
+                                    onAdd: () => {
+                                        const source = createFundingSource(category.id);
+                                        update({ funding: [...live.current.funding, source] });
+                                        return source.id;
+                                    },
+                                    isBlank: (id) => fundingBlank(live.current.funding.find(entry => entry.id === id)),
+                                    onRemove: (ids) => update({ funding: live.current.funding.filter(entry => !ids.includes(entry.id)) })
+                                }}
+                            />
+                        </DialogSectionBand>
+                    );
 
-                                <div className="fold-group-head">
-                                    <span className="business-foundation-label-info">
-                                        <span className="business-capability-subhead">
-                                            <InfoText text={category.label}>
-                                                <InfoNote label={category.label} points={CATEGORY_INFO[category.id]} fullList />
-                                            </InfoText>
-                                        </span>
-                                    </span>
-
-                                </div>
-
-                                {/* (THE SOURCES AS TILES (owner, 2026-11-18 12:41: "make the Funding Sources into tiles"): the dialog's card list, three in a row, each its
-                                    type, amount and status, opening its card floating; the Add tile after them makes a blank one and opens it.) */}
-                                <CardBoxes
-                                    label={category.label + " funding sources"}
-                                    what="Funding Source"
-                                    autoStart={false}
-                                    items={[
-                                        // (FOUNDERS' CAPITAL AS A TILE (owner, 2026-11-18 16:55: "Do all 8", proposal 8): the Internal category's first, as the sources beside
-                                        // it -- its total, then each founder's --; pressed, its card floats as the sources' do, read only, with the way to Founders & Ownership.)
-                                        ...(category.id === "internal" && capital.length > 0 ? [((): CardBox => {
-                                            const total = capital.reduce((sum, source) => sum + fundingStanding(source, start).total, 0);
-                                            return {
-                                                id: "founders-capital",
-                                                number: 1,
-                                                name: "Founders' Capital",
-                                                unnamed: "Founders' Capital",
-                                                own: true,
-                                                lines: [format(total), ...capital.map(source => (source.provider.trim() || "Unnamed founder") + ": " + format(fundingStanding(source, start).total))],
-                                                content: () => null
-                                            };
-                                        })()] : []),
-                                        ...of.map((source, index): CardBox => ({
-                                        id: source.id,
-                                        number: index + 1 + (category.id === "internal" && capital.length > 0 ? 1 : 0),
-                                        name: source.name,
-                                        unnamed: "Funding Source " + (index + 1),
-                                        own: true,
-                                        lines: [
-                                            FUNDING_TYPES.find(entry => entry.id === source.type)?.label ?? "",
-                                            source.amount.trim() ? format(fundingStanding(source, start).total) : "",
-                                            FUNDING_STATUSES.find(entry => entry.id === source.status)?.label ?? ""
-                                        ].filter(Boolean),
-                                        content: () => null
-                                    }))]}
-                                    add={{
-                                        label: "Funding Source",
-                                        disabled,
-                                        onAdd: () => {
-                                            const source = createFundingSource(category.id);
-                                            update({ funding: [...live.current.funding, source] });
-                                            return source.id;
-                                        },
-                                        isBlank: (id) => fundingBlank(live.current.funding.find(entry => entry.id === id)),
-                                        onRemove: (ids) => update({ funding: live.current.funding.filter(entry => !ids.includes(entry.id)) })
-                                    }}
-                                />
-
-                            </div>
-                        );
-
-                    })}
-                </div>
+                })}
             </div>
         );
 
@@ -1453,13 +1437,13 @@ export default function FinancialFoundationEditor({
         ...(entry.id === "financial-funding" ? {
             // (Its dialog opens however many sources it holds: the founders' capital and each category's tiles are in it.)
             view: true,
-            holds: [...(founderCapitalSources(stored, legalEntity).length > 0 ? ["founders-capital"] : []), ...stored.funding.map(source => source.id)],
+            holds: stored.funding.map(source => source.id),
             cardFor: (id: string) => {
                 if (id === "founders-capital") {
                     return <div className="column-tile-content financial-page financial-funding-floating">{founderCapitalCard()}</div>;
                 }
                 const of = stored.funding.find(source => source.id === id);
-                const index = of ? stored.funding.filter(source => source.category === of.category).indexOf(of) + (of.category === "internal" && founderCapitalSources(stored, legalEntity).length > 0 ? 1 : 0) : -1;
+                const index = of ? stored.funding.filter(source => source.category === of.category).indexOf(of) : -1;
                 return of ? <div className="column-tile-content financial-page financial-funding-floating">{fundingCard(of, index)}</div> : null;
             }
         } : {}),

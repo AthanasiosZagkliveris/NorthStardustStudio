@@ -177,7 +177,8 @@ export default function FinancialSustainabilityEditor({
     */
     function streamStarts(offeringId: string): Partial<RevenueStreamValue> {
         const starts = offeringStartsById(businessFoundationSegments(foundation), offeringId);
-        return { ...(starts.charged ? { frequency: starts.charged } : {}), ...(starts.paymentTiming ? { paymentTiming: starts.paymentTiming } : {}) };
+        // (Its Per too, from the Offering's terms and form: OfferingStarts.unit; owner, 2026-11-19 21:44 UTC+2.)
+        return { ...(starts.charged ? { frequency: starts.charged } : {}), ...(starts.paymentTiming ? { paymentTiming: starts.paymentTiming } : {}), ...(starts.unit ? { unit: starts.unit } : {}) };
     }
     const shownStreams: { stream: RevenueStreamValue; orphan: boolean }[] = [
         ...offerings.flatMap(offering => {
