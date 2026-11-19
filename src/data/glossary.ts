@@ -55,7 +55,7 @@ export const APP_TERMS: readonly AppTerm[] = [
     {
         id: "offering",
         term: "Offering",
-        places: [{ system: 3, page: 1, part: "a Segment's Offerings", tile: "button.section-tile[data-field-key$=\"%3Aofferings\"]" }, { system: 3, page: 4, part: "Revenue", field: "[data-field-key=\"3.4:revenue\"]" }],
+        places: [{ system: 3, page: 1, part: "a Segment's Offerings", tile: "button.section-tile[data-field-key$=\"%3Aofferings\"]" }, { system: 3, page: 4, part: "Revenue Streams", tile: "button.section-tile[data-tile=\"sustainability-revenue-streams\"]" }],
         meaning: "What you sell: a product, a service or a hybrid of the two, with its price, its costs and the sales you expect.",
         also: ["product", "service"]
     },
@@ -151,7 +151,7 @@ export const APP_TERMS: readonly AppTerm[] = [
     {
         id: "break-even",
         term: "Break-even point",
-        places: [{ system: 3, page: 4, part: "Break Even", field: "[data-field-key=\"3.4:break-even\"]" }],
+        places: [{ system: 3, page: 4, part: "Break-Even", tile: "button.section-tile[data-tile=\"sustainability-break-even-point\"]" }],
         meaning: "The level of sales at which revenue covers all costs, so there is neither profit nor loss. In units: fixed costs ÷ (price − variable cost per unit).",
         also: ["break even", "break-even revenue"],
         sources: ["breakEvenPoint", "breakEvenInDollars"]
@@ -159,7 +159,7 @@ export const APP_TERMS: readonly AppTerm[] = [
     {
         id: "contribution-margin",
         term: "Contribution margin",
-        places: [{ system: 3, page: 4, part: "Break Even", field: "[data-field-key=\"3.4:break-even\"]" }],
+        places: [{ system: 3, page: 4, part: "Break-Even", tile: "button.section-tile[data-tile=\"sustainability-break-even-point\"]" }],
         meaning: "What each sale leaves to pay the fixed costs and the profit: price − variable costs. The ratio is that amount ÷ price.",
         also: ["contribution"],
         sources: ["contributionMargin"]
@@ -167,7 +167,7 @@ export const APP_TERMS: readonly AppTerm[] = [
     {
         id: "capacity-utilisation",
         term: "Capacity utilisation",
-        places: [{ system: 3, page: 4, part: "Break Even, Capacity", field: "[data-field-key=\"3.4:break-even\"]" }],
+        places: [{ system: 3, page: 4, part: "Revenue Streams, Delivery Check", tile: "button.section-tile[data-tile=\"sustainability-revenue-streams\"]" }],
         meaning: "How much of the time you have available the planned work needs: demand hours ÷ available hours. Above 100% means more work than capacity.",
         also: ["utilisation"],
         sources: ["capacityUtilisation"]
@@ -175,7 +175,7 @@ export const APP_TERMS: readonly AppTerm[] = [
     {
         id: "conversion-rate",
         term: "Conversion rate",
-        places: [{ system: 3, page: 2, part: "a Segment's Customer Channels", tile: "button.section-tile[data-field-key^=\"3.2:channel-tile-\"]" }],
+        places: [{ system: 3, page: 2, part: "a Segment's Customer Channels", tile: "button.section-tile[data-field-key$=\"%3Achannels\"]" }],
         meaning: "The share of visitors or prospects who buy: 5 purchases from 100 visitors is 5%.",
         also: ["buy rate"],
         sources: ["websiteConversion"]
@@ -183,14 +183,14 @@ export const APP_TERMS: readonly AppTerm[] = [
     {
         id: "referral",
         term: "Referral",
-        places: [{ system: 3, page: 2, part: "a Segment's Customer Channels", tile: "button.section-tile[data-field-key^=\"3.2:channel-tile-\"]" }],
+        places: [{ system: 3, page: 2, part: "a Segment's Customer Channels", tile: "button.section-tile[data-field-key$=\"%3Achannels\"]" }],
         meaning: "A new customer sent to you by an existing one. Referred customers tend to stay longer and be worth more than customers from other sources.",
         sources: ["referrals"]
     },
     {
         id: "repeat-rate",
         term: "Repeat rate",
-        places: [{ system: 3, page: 2, part: "a Segment's Customer Relationship", field: "[data-field-key^=\"3.2:customer-relationship\"]" }],
+        places: [{ system: 3, page: 2, part: "a Segment's Customer Relationship", tile: "button.section-tile[data-field-key$=\"%3Arelationships\"]" }],
         meaning: "The share of customers who buy again. Only their extra purchases are counted, never the customers twice.",
         also: ["repeat customers", "retention"],
         sources: ["repeatCustomers"]
@@ -198,7 +198,7 @@ export const APP_TERMS: readonly AppTerm[] = [
     {
         id: "customer-lifetime",
         term: "Customer lifetime",
-        places: [{ system: 3, page: 2, part: "a Segment's Customer Relationship", field: "[data-field-key^=\"3.2:customer-relationship\"]" }],
+        places: [{ system: 3, page: 2, part: "a Segment's Customer Relationship", tile: "button.section-tile[data-field-key$=\"%3Arelationships\"]" }],
         meaning: "How long a client stays on average before leaving: about 1 ÷ the share who cancel each month.",
         also: ["churn", "cancel rate", "customer lifetime value"],
         sources: ["customerLifetime"]
@@ -206,7 +206,7 @@ export const APP_TERMS: readonly AppTerm[] = [
     {
         id: "cash-runway",
         term: "Cash runway",
-        places: [{ system: 3, page: 5, part: "Financial Position, Runway", field: "[data-field-key=\"3.5:financial-position\"]" }],
+        places: [{ system: 3, page: 5, part: "Financial Position, Runway", tile: "button.section-tile[data-tile=\"financial-position\"]" }],
         meaning: "How long the cash lasts at the present rate of spending: cash ÷ monthly net burn. Here it is the first month the projected balance goes below zero.",
         also: ["runway", "burn rate"],
         sources: ["cashRunway"]
@@ -214,13 +214,13 @@ export const APP_TERMS: readonly AppTerm[] = [
     {
         id: "funding-gap",
         term: "Funding gap",
-        places: [{ system: 3, page: 5, part: "Funding Need, Funding Gap", field: "[data-field-key=\"3.5:funding-need\"]" }],
+        places: [{ system: 3, page: 5, part: "Financial Position, Funding Need", tile: "button.section-tile[data-tile=\"financial-position\"]" }],
         meaning: "The funding you still need to find: funding needed − funding available and confirmed."
     },
     {
         id: "loan-repayment",
         term: "Loan repayment",
-        places: [{ system: 3, page: 5, part: "Capital & Funding, a loan", field: "[data-field-key=\"3.5:capital-funding\"]" }],
+        places: [{ system: 3, page: 5, part: "Capital & Funding, a loan", tile: "button.section-tile[data-tile=\"financial-funding\"]" }],
         meaning: "A fixed payment that covers the interest and repays the loan over a number of periods (an annuity), or an equal part of the loan each period plus its interest.",
         also: ["annuity", "loan payment"],
         sources: ["loanRepayment"]
@@ -228,7 +228,7 @@ export const APP_TERMS: readonly AppTerm[] = [
     {
         id: "simple-interest",
         term: "Simple interest",
-        places: [{ system: 3, page: 5, part: "Capital & Funding, a loan", field: "[data-field-key=\"3.5:capital-funding\"]" }],
+        places: [{ system: 3, page: 5, part: "Capital & Funding, a loan", tile: "button.section-tile[data-tile=\"financial-funding\"]" }],
         meaning: "Interest on the amount borrowed only, without compounding: principal × rate × time.",
         sources: ["simpleInterest"]
     },
