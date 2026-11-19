@@ -1,6 +1,6 @@
 # 26. Card structure: what the user can reach in each card, and why
 
-Status: **current design**, written 2026-10-14, updated 2026-11-19. One entry for each card layout of the Foundation: its path, the row-by-row table of what the user can reach, and what happens behind the scenes. The part from "Channel cards" describes how channel-made cards would look; the text says where a part is a proposal. Which groups could link (the two Tasks) is a proposal in the archive (`archive/proposals/card-links.md`). The headings are the Part F of document 1, which points here, and keep their names. The catalogue tool (`tools/scripts/catalogue/load.mjs`) reads this document: the variants and rows below become the structure tables (document 7) and the catalogue record (document 6), so the table and heading shapes must not change without changing the tool.
+Status: **current design**, written 2026-10-14, updated 2026-11-02. One entry for each card layout of the Foundation: its path, the row-by-row table of what the user can reach, and what happens behind the scenes. The part from "Channel cards" describes how channel-made cards would look; the text says where a part is a proposal. Which groups could link (the two Tasks) is a proposal in the archive (`archive/proposals/card-links.md`). The headings are the Part F of document 1, which points here, and keep their names. The catalogue tool (`tools/scripts/catalogue/load.mjs`) reads this document: the variants and rows below become the structure tables (document 7) and the catalogue record (document 6), so the table and heading shapes must not change without changing the tool.
 
 Related: document 1 (the rest of the current design; Part G is the access by type), document 6 and 7 (generated from this), document 21 (the shared components), document 41 (which groups could link to which).
 
@@ -555,7 +555,7 @@ The activity card carries no cost and no cost nature, and no card takes its cost
 | 3 | Group | Alliances & Networks | None | Subtitle (text) | Automatic | “Alliances & Networks”, shown directly under the Category | A dropdown with one option is not used |
 | 4 | Price<br>Currency<br>Frequency | Price<br>(none)<br>Annually | Type<br>Select<br>None (shown) | Number box (decimal)<br>Searchable dropdown, no label<br>Read-only text | Required / Automatic / Automatic | **Price:** The price of one unit, one item or one period<br>**Currency:** The user may change it. The organisation's currency by default<br>**Frequency:** Annually. A list with one option is shown as text | One line. A card without a price is incomplete: red glow, left out of every total |
 | 5 | Responsible | Responsible | Tick, then select | Checkbox, then a dropdown of founders | Required | Hidden when there is one founder | Someone must coordinate the work |
-| 7 | Notes<br>Record date and time<br>Add Date | Notes<br>Record date and time<br>Add Date | Type<br>None (shown)<br>Click | Text box, auto-growing, opened by a tick<br>Read-only text<br>Button | Optional / Automatic / Button | **Notes:** The organisation, the contact and the terms of the agreement may be written here<br>**Record date and time:** Each note is stamped with the date and time it was recorded<br>**Add Date:** Adds a date to the note | A dated note |
+| 6 | Notes<br>Record date and time<br>Add Date | Notes<br>Record date and time<br>Add Date | Type<br>None (shown)<br>Click | Text box, auto-growing, opened by a tick<br>Read-only text<br>Button | Optional / Automatic / Button | **Notes:** The organisation, the contact and the terms of the agreement may be written here<br>**Record date and time:** Each note is stamped with the date and time it was recorded<br>**Add Date:** Adds a date to the note | A dated note |
 
 ###### Behind the scenes (not shown on the card)
 
@@ -1187,7 +1187,7 @@ Leased (status Partners & Suppliers): the cost sits on the supplier's card. Boug
 
 #### Category: Human Resources
 
-**Every Delivery Team card also has** (owner, 2026-11-17; doc 52, 14): **Hours a month they can give** -- a number box under its label (the label is long for the side column), optional. Read by Capacity & Delivery: the card's own row and bar there.
+**Every Delivery Team card also has** (owner, 2026-11-17; doc 52, 14): **Hours a month they can give** -- a side number box, optional, in its Team section before the Notes (2026-11-19, 3.5). Read by Capacity & Delivery: the card's own row and bar there.
 
 ##### Offering > Resources > Human Resources > Delivery Team
 
@@ -1286,7 +1286,7 @@ The activity card carries no cost and no cost nature, and no card takes its cost
 
 #### Partners
 
-**Every Partner and Supplier card of the Offering also has** (owner, 2026-11-17; doc 52, 14 and 16): **Hours a month they can give** -- a number box under its label (the label is long for the side column), optional, read by Capacity & Delivery (the card's own row and bar); and, on a Supplier, **Lead time (weeks)** -- a side number box, optional, added by Capacity & Delivery to the Calendar Time of the Offerings this supplier can hold up.
+**A Partner or Supplier card of the Offering may also have** (owner, 2026-11-17; doc 52, 14 and 16; reviewed 2026-11-19 16:52 UTC+2, 3.5), in its Team section before the Notes: **Hours a month they can give** -- a side number box, optional, read by Capacity & Delivery (the card's own row and bar), on a card whose people do part of the job (Contractors & Advisers, Technical Support, Creative & IT Services, or no group yet; never one charged as a share of revenue: `givesWorkingHours`); and, on a Supplier, **Weeks to deliver** (its key stays "Lead time (weeks)") -- a side number box with its "i", optional, added by Capacity & Delivery to the Calendar Time of the Offerings this supplier can hold up, on a Producers & Wholesalers or a Contractors & Advisers card, or one with no group yet (`LEAD_TIME_GROUPS`). A card that holds an answer keeps showing it. Neither is filled in for the founder (doc 28, rule 6): no earlier answer says how many hours someone else can give or how long their orders take.
 
 ##### Offering > Partners > Revenue Partners > Revenue Partners
 
@@ -1550,7 +1550,7 @@ A card made from a channel template would have the layout of its group's card ab
 
 ### Legal Entity expense card
 
-Shown in All Tiles under “Legal expenses”. It records registrations and their expenses only. **It may serve Offerings** (the owner's approved plan of 2026-11-18, step 3; it reverses this card's rule until then, "It belongs to the company, not to an offering, so it has no Linked to row"): the Offerings row is the one every card that carries it draws (`OfferingsField`), the same ticks and, with several, the same sharing; none ticked, the expense is the whole company's, as before. It stands in the Registrations & Expenses tile, the Expenses sub tile. Insurance, licences and certificates are cards of Documents & Rights.
+Shown in All Tiles under “Legal expenses”. It records registrations and their expenses only. **An expense the app made from a rule** (doc 53, stage 1: an incorporation, a confirmation statement's fee) carries its rule's id and the official fee; while the cost is that fee, a muted line under the row says "Official fee, checked 19 Nov 2026", its source a link; removed, it stays removed (`dismissedStarts`). It belongs to the company, not to an offering, so it has no Linked to row and no Offerings (owner, 2026-11-19 16:52 UTC+2: "From the Expenses, remove the offerings section", reversing the plan of 2026-11-18, step 3). Insurance, licences and certificates are cards of Documents & Rights.
 
 | # | Field, left to right | Label shown | Action | Function | Status | What it contains | Why |
 |---|---|---|---|---|---|---|---|
@@ -1559,7 +1559,6 @@ Shown in All Tiles under “Legal expenses”. It records registrations and thei
 | 3 | Cost<br>Frequency | Cost<br>Frequency | Type<br>Select | Number box<br>Dropdown | Required / Required | **Cost:** The label carries the organisation's currency<br>**Frequency:** One time; Monthly; Annually | The amount and how often it recurs |
 | 4 | Responsibility | Responsibility | Select | Dropdown of founders | Required | Shown when there is more than one founder. Hidden when there is one founder | Someone answers for it |
 | 5 | Linked registration | Linked registration | Select | Dropdown | Required | The registration and tax numbers and the requirements already recorded on the page. Only one can be chosen | Every expense pays for one registration |
-| 6 | Offerings<br>How is it shared? | Offerings<br>How is it shared? | Tick<br>Select | Tick boxes, each with its percent at its row's end<br>Dropdown | Optional / Shown with two or more ticked | **Offerings:** The Business System's Offerings, by name; the ids saved. None ticked: the whole company's<br>**How is it shared?:** By the hours each uses, the revenue each brings, in equal parts, or the user's own split | The same row as a resource's, an activity's or a partner's: a fee for one Offering (its trade mark, its licence) is that Offering's cost |
 | 6 | Notes<br>Record date and time<br>Add Date | Notes<br>Record date and time<br>Add Date | Type<br>None (shown)<br>Click | Text box, auto-growing, opened by a tick<br>Read-only text<br>Button | Optional / Automatic / Button | **Notes:** A note; nothing is calculated from it<br>**Record date and time:** Each note is stamped with the date and time it was recorded<br>**Add Date:** Adds a date to the note | A dated note |
 
 ###### Behind the scenes (not shown on the card)
@@ -1569,9 +1568,7 @@ Shown in All Tiles under “Legal expenses”. It records registrations and thei
 | One time | Step | OpEx | Start-up expense |
 | Monthly, Annually | Fixed | OpEx | Start-up expense |
 
-**An Offering removed** (owner, 2026-11-19: removing an Offering clears it from every card that points to it) is unticked on every card that stores Offering ids -- this one, Infrastructure & Capability's resources, activities, partners and suppliers, Customer Engagement's channels -- with its share, when the Business System is next saved (`offeringRemoval.ts`, `StorageService.saveInterview`); what is keyed by an Offering (its demand, its relationships, its revenue stream) stays.
-
-With Offerings ticked the expense is their cost, in the Offering group, as a card of Offering's Capability is; with several, each carries its share by the basis chosen (`offeringFractions`), its fee paid once or each period. The Inventory's row and the export's Legal Entity Expenses table say the Offerings it serves ("The whole company" where none is ticked).
+**An Offering removed** (owner, 2026-11-19: removing an Offering clears it from every card that points to it) is unticked on every card that stores Offering ids -- Infrastructure & Capability's resources, activities, partners and suppliers, Customer Engagement's channels -- with its share, when the Business System is next saved (`offeringRemoval.ts`, `StorageService.saveInterview`); what is keyed by an Offering (its demand, its relationships, its revenue stream) stays.
 
 <a id="points-to-decide"></a>
 

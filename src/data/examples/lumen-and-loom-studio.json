@@ -132,7 +132,8 @@
                 {
                   "id": "number-9sth9ns5",
                   "label": "PAYE Employer Reference",
-                  "number": "120/AB45678"
+                  "number": "120/AB45678",
+                  "rule": "GB10"
                 }
               ]
             },
@@ -143,7 +144,8 @@
                 "name": "PSC register",
                 "reference": "Maya Chen 40%, Oliver Grant 30%, Priya Shah 30%",
                 "notes": "Persons with Significant Control, kept at Companies House.",
-                "offerInExpenses": false
+                "offerInExpenses": false,
+                "rule": "GB4"
               },
               {
                 "id": "requirement-bwrjlji7",
@@ -160,6 +162,42 @@
                 "reference": "ZB712345",
                 "notes": "The ICO data protection fee, renewed each year.",
                 "offerInExpenses": true
+              },
+              {
+                "id": "requirement-gb2",
+                "type": "additional",
+                "name": "Confirmation statement",
+                "reference": "",
+                "notes": "Sent to Companies House at least once every 12 months, confirming the company's details.\nOfficial source: https://www.gov.uk/government/publications/companies-house-fees/companies-house-fees",
+                "offerInExpenses": true,
+                "rule": "GB2"
+              },
+              {
+                "id": "requirement-gb3",
+                "type": "additional",
+                "name": "Annual accounts to Companies House",
+                "reference": "",
+                "notes": "Sent every year; a small or micro-entity company may send simpler accounts.\nOfficial source: https://www.gov.uk/annual-accounts",
+                "offerInExpenses": false,
+                "rule": "GB3"
+              },
+              {
+                "id": "requirement-gb6",
+                "type": "additional",
+                "name": "Company Tax Return",
+                "reference": "",
+                "notes": "Filed within 12 months of the end of the accounting period; the Corporation Tax paid 9 months and 1 day after it.\nOfficial source: https://www.gov.uk/company-tax-returns",
+                "offerInExpenses": false,
+                "rule": "GB6"
+              },
+              {
+                "id": "requirement-gb7",
+                "type": "other",
+                "name": "Company details on the website, order forms and letters",
+                "reference": "",
+                "notes": "The registered number, the registered office, the place of registration and \"Limited\".\nOfficial source: https://www.gov.uk/running-a-limited-company/signs-stationery-and-promotional-material",
+                "offerInExpenses": false,
+                "rule": "GB7"
               }
             ],
             "expenses": [
@@ -174,24 +212,21 @@
                   "formation-registration-number"
                 ],
                 "description": "Registered at Companies House.",
-                "fromRequirement": "",
-                "offeringIds": [],
-                "offeringShares": {}
+                "fromRequirement": ""
               },
               {
                 "id": "expense-4pm3sqt4",
                 "name": "Confirmation statement",
                 "date": "2027-03-02",
                 "responsibility": "founder-3fhkh0cm",
-                "cost": "34",
+                "cost": "50",
                 "frequency": "Annually",
                 "links": [
-                  "formation-registration-number"
+                  "requirement-gb2"
                 ],
                 "description": "",
-                "fromRequirement": "",
-                "offeringIds": [],
-                "offeringShares": {}
+                "fromRequirement": "requirement-gb2",
+                "rule": "GB2"
               },
               {
                 "id": "expense-y97pryvw",
@@ -204,9 +239,7 @@
                   "number-1sm5nsnz"
                 ],
                 "description": "UK trade mark in 2 classes.",
-                "fromRequirement": "",
-                "offeringIds": [],
-                "offeringShares": {}
+                "fromRequirement": ""
               },
               {
                 "id": "expense-ew64in77",
@@ -219,11 +252,10 @@
                   "requirement-xag05b3o"
                 ],
                 "description": "",
-                "fromRequirement": "",
-                "offeringIds": [],
-                "offeringShares": {}
+                "fromRequirement": ""
               }
-            ]
+            ],
+            "dismissedStarts": []
           }
         },
         {
@@ -6247,7 +6279,7 @@
                   "costOption": "flat-per-parcel",
                   "quantity": "1",
                   "hoursAvailable": "",
-                  "leadWeeks": "0",
+                  "leadWeeks": "",
                   "extras": {},
                   "paymentPlan": {
                     "on": false,
@@ -6281,7 +6313,7 @@
                   "costOption": "flat-per-parcel",
                   "quantity": "1",
                   "hoursAvailable": "",
-                  "leadWeeks": "0",
+                  "leadWeeks": "",
                   "extras": {},
                   "paymentPlan": {
                     "on": false,

@@ -3,7 +3,9 @@
  * One part of LegalEntityEditor (see LegalEntityEditor.tsx): what it needs of the parts before it comes in as `earlier`; what the parts after it need goes out.
  */
 import TickField from "../../../controls/TickField.tsx";
-import OfferingsField from "../../cards/OfferingsField.tsx";
+import { LEGAL_FEES_CHECKED, legalStartOf } from "../../../../framework/engine/LegalStarts.ts";
+import TextLink from "../../fields/TextLink.tsx";
+import { openExternal } from "../../../references/HarvardReference.tsx";
 import AddButton from "../../../controls/AddButton.tsx";
 import FieldLabel from "../../../controls/FieldLabel.tsx";
 import NumberCell from "../../../controls/NumberCell.tsx";
@@ -21,7 +23,7 @@ import { FrozenUntil } from "../../fields/fieldMarks.tsx";
 import { NUMBER_LIMITS, limitedNumberText, numberInputMode } from "../../fields/numberInput.ts";
 import OptionPicker from "../../fields/OptionPicker.tsx";
 import { OptionalField } from "../../cards/BusinessCardFields.tsx";
-import { INFO, MAX_MORE_NUMBERS, yearsAhead } from "./shared.tsx";
+import { INFO, MAX_MORE_NUMBERS, shownDay, yearsAhead } from "./shared.tsx";
 import type { useLegalState } from "./useLegalState.tsx";
 import type { useLegalFieldsAndSections } from "./useLegalFieldsAndSections.tsx";
 
@@ -29,7 +31,7 @@ type Earlier = ReturnType<typeof useLegalState> & ReturnType<typeof useLegalFiel
 
 export function useLegalCardsAndSections(earlier: Earlier) {
 
-    const { offeringChoices, offeringShareWeights, amountLabel, changeRegistrationNumber, chosenSubdivision, commonRequirementsNote, consumptionTaxNote, countryChosen, currency, disabled, entity, expenseSymbol, field, folds, linkTargets, namedFounders, numberList, offerInExpenses, openOnPage, optionalNote, placeChosen, placeHint, profile, profiled, registrationRequest, subsection, update, updateFormation, updateTax } = earlier;
+    const { amountLabel, changeRegistrationNumber, chosenSubdivision, commonRequirementsNote, consumptionTaxNote, countryChosen, currency, disabled, entity, expenseSymbol, field, folds, linkTargets, namedFounders, numberList, offerInExpenses, openOnPage, optionalNote, placeChosen, placeHint, profile, profiled, registrationRequest, subsection, update, updateFormation, updateTax } = earlier;
 
     // The registry of the country (or of its state or canton): known, it is filled in and shown as text.
     const ownAuthority = registrationAuthorityFor(entity.organisation.country, entity.organisation.subdivision);
@@ -522,6 +524,22 @@ export function useLegalCardsAndSections(earlier: Earlier) {
                             false
                         )}
 
+                        {/* (AN OFFICIAL FEE THE APP FILLED IN, its source under it (doc 53, decision 5): "Official fee, checked 19 Nov 2026", a link to the official page; shown
+                            while the cost is still the official one -- once the founder changes it, it is theirs, and the line goes.) */}
+                        {(() => {
+                            const start = expense.rule ? legalStartOf(entity, expense.rule) : undefined;
+                            return start?.fee && start.fee.amount === expense.cost.trim() ? (
+                                <div className="legal-entity-field legal-entity-field-wide">
+                                    <p className="legal-entity-empty-note">
+                                        {"Official fee, checked " + shownDay(LEGAL_FEES_CHECKED) + ": "}
+                                        <TextLink as="a" href={start.source} target="_blank" rel="noreferrer" onClick={(event) => { event.preventDefault(); openExternal(start.source); }}>
+                                            {new URL(start.source).hostname.replace(/^www\./, "")}
+                                        </TextLink>
+                                    </p>
+                                </div>
+                            ) : null;
+                        })()}
+
                         {/*
                             The founders named in 2. Founders & Ownership, by
                             id -- so renaming a founder
@@ -592,23 +610,6 @@ export function useLegalCardsAndSections(earlier: Earlier) {
                                     return target ? <LinkSymbol noun="Registration" name={target.label} onOpen={() => openOnPage(registrationRequest(target.id))} /> : null;
                                 })()
                             )}
-
-                        {/* THE OFFERINGS IT SERVES (the owner's approved plan of 2026-11-18, step 3; doc 26, "Legal Entity expense card"): the one Offerings field every card
-                            that carries it draws -- the ticks, and with several how it is shared --; none ticked, the whole company's, as before. */}
-                        <OfferingsField
-                            current={expense.offeringIds}
-                            onNext={(next) => update({
-                                expenses: entity.expenses.map(
-                                    (candidate, position) => position === index ? { ...candidate, ...next } : candidate
-                                )
-                            })}
-                            name={"Expense " + (index + 1) + " linked Offerings"}
-                            empty={<>No Offerings yet: define them on 3. Business System → Foundation &amp; Engagement. Until then the expense is the whole company's.</>}
-                            shares={expense.offeringShares}
-                            choices={offeringChoices}
-                            shareWeights={offeringShareWeights}
-                            disabled={disabled}
-                        />
 
                         {optionalNote(
                             "Notes",

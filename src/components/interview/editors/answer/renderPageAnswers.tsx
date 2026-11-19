@@ -1,8 +1,8 @@
 /**
  * THE PAGE ANSWERS of the Business, Financial, Identity and Brand Systems: each hands its value to the editor of its page. One function per Answer Structure, each given the scope of the renderer (scope.ts). Split out of AnswerRenderer.tsx.
  */
+import { paysAnyone } from "../../../../framework/engine/LegalStarts.ts";
 import BrandStyleEditor from "../BrandStyleEditor.tsx";
-import { offeringFieldContext } from "../../cards/OfferingsField.tsx";
 import BusinessCapabilityEditor from "../BusinessCapabilityEditor.tsx";
 import BusinessEngagementEditor from "../BusinessEngagementEditor.tsx";
 import BusinessFoundationEditor from "../BusinessFoundationEditor.tsx";
@@ -168,14 +168,14 @@ export function renderFinancialSustainability(scope: AnswerScope) {
 
 export function renderLegalEntity(scope: AnswerScope) {
 
-    const { value, onChange, disabled, legalEntityPrefill, foundersProfile, onChangeFoundersProfile, openingDate, columnsDivider, frameTitle, showInstructions, businessFoundation, businessCapability, businessEngagement, financialSustainability } = scope;
+    const { value, onChange, disabled, legalEntityPrefill, foundersProfile, onChangeFoundersProfile, openingDate, columnsDivider, frameTitle, showInstructions, businessCapability } = scope;
 
     return (
 
         <LegalEntityEditor
             value={value}
-            // (An expense may serve the Business System's Offerings: their names and weights, read by id from its answers.)
-            {...offeringFieldContext(businessFoundation, businessCapability, businessEngagement, financialSustainability)}
+            // (Whether anyone on the payroll is paid, for the PAYE registration the app makes: doc 53, GB10.)
+            paysAnyone={paysAnyone(businessCapability)}
             prefill={legalEntityPrefill}
             foundersProfile={foundersProfile}
             onChangeFoundersProfile={onChangeFoundersProfile as ((value: FoundersProfileValue) => void) | undefined}

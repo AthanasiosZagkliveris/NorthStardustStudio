@@ -157,7 +157,9 @@
    "Introduction" for assistive technology). */
 .bullet-rail-item-capitals .bullet-rail-label { text-transform: uppercase; }
 
-.bullet-rail-head > .bullet-rail-title { margin-bottom: 0; }
+/* THE RAIL'S NAME KEEPS A ROW'S GAP UNDER IT (owner, 2026-11-19 16:52 UTC+2: "Fix the Page rail at their Titles (PAGES and SEGMENTS)"): the list's own 18px,
+   so PAGES and SEGMENTS stand clear of their first line on every rail that shows its name; a name not shown (a narrow window, a compact rail) takes no room. */
+.bullet-rail-head > .bullet-rail-title { margin-bottom: 18px; }
 
 .bullet-rail-list {
 

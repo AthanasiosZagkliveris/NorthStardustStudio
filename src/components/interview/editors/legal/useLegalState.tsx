@@ -20,14 +20,16 @@ import { OptionalNote } from "../../cards/BusinessCardFields.tsx";
 import { useItemFolds } from "../../fields/useItemFolds.ts";
 import { labelWithCurrency, nameWithCurrency } from "../../../../framework/engine/Currencies.ts";
 import { LEGAL_FORM_OTHER, LegalEntityEditorProps, withAutoExpenses, withExpensesInOrder } from "./shared.tsx";
+import { pendingLegalStarts, withLegalStarts } from "../../../../framework/engine/LegalStarts.ts";
+import { randomId } from "../../../../framework/engine/Readers.ts";
 
 export function useLegalState(props: LegalEntityEditorProps) {
-
-    const { offeringChoices = [], offeringShareWeights } = props;
 
     const {
 
     value,
+
+    paysAnyone = false,
 
     openingDate = "",
 
@@ -114,7 +116,13 @@ export function useLegalState(props: LegalEntityEditorProps) {
     }
     function update(patch: Partial<LegalEntityValue>) {
         // (The expense a ticked requirement makes is made when the requirements change -- the tick, the name -- and not by whatever else is edited: ticking the founders' capital must not make an expense, and an expense the user removed stays removed.)
-        onChange(withExpensesInOrder(withAutoExpenses({ ...entity, ...patch }, patch.requirements !== undefined)));
+        const next = withExpensesInOrder(withAutoExpenses({ ...entity, ...patch }, patch.requirements !== undefined));
+        // (AN ITEM THE APP MADE AND THE FOUNDER REMOVED STAYS REMOVED (doc 53, decision 8): its rule is remembered, wherever the item stood -- a requirement, an
+        // expense, a tax row -- so the rules never make it again unseen.)
+        const rules = (value: LegalEntityValue) => [...value.requirements, ...value.expenses, ...value.tax.additionalRegistrations].map(item => item.rule ?? "").filter(Boolean);
+        const kept = new Set(rules(next));
+        const removed = rules(entity).filter(rule => !kept.has(rule) && !next.dismissedStarts.includes(rule));
+        onChange(removed.length > 0 ? { ...next, dismissedStarts: [...next.dismissedStarts, ...removed] } : next);
     }
     /*
         Answering what the app already knows, once, on first open.
@@ -129,6 +137,22 @@ export function useLegalState(props: LegalEntityEditorProps) {
         field is already filled and this does nothing at all.
     */
     const prefilled = useRef(false);
+    /*
+        THE ITEMS THE LAW MAKES CERTAIN, MADE BY THE APP (doc 53, section 6, decisions 1 (a), 5 and 8; LegalStarts.ts): on the Legal Entity page itself -- not where
+        its cards float over another page, nor the Founders' dialog --, the legal form's filings and their official fees, and the PAYE registration once anyone is
+        paid, each once; one the founder removed stays removed. Dated by the registration, else the Opening Date.
+    */
+    const pageItself = asTiles && !cardsOnly && !organizationOnly && !audienceOnly && !props.foundersOnly;
+    useEffect(() => {
+        if (disabled || !pageItself) {
+            return;
+        }
+        const pending = pendingLegalStarts({ entity, paid: paysAnyone });
+        if (pending.length > 0) {
+            onChange(withExpensesInOrder(withAutoExpenses(withLegalStarts(entity, pending, randomId, entity.formation.date || openingDate), true)));
+        }
+    }, [disabled, pageItself, entity, paysAnyone, openingDate, onChange]);
+
     useEffect(() => {
 
         if (prefilled.current) {
@@ -716,6 +740,6 @@ export function useLegalState(props: LegalEntityEditorProps) {
     /** Asks the page's tiles to open a card, or a section of the Registrations. */
     const openOnPage = (request: OpenRequest) => document.dispatchEvent(new CustomEvent<OpenRequest>(OPEN_EVENT, { detail: request }));
 
-    return { offeringChoices, offeringShareWeights, amountLabel, amountName, asTiles, cardsOnly, changeRegistrationNumber, chooseCountry, chooseLegalForm, chooseSubdivision, chosenSubdivision, columnsDivider, foundersProfile, onChangeFoundersProfile, description, onDescriptionChange, organizationOnly, audienceOnly, commonRequirementsNote, consumptionTaxNote, countryChosen, currency, disabled, entity, folds, forms, founderLabel, frameTitle, labelled, latest, linkTargets, namedFounders, offerInExpenses, openOnPage, openingDate, onChangeOpeningDate, businessStage, optionalNote, ownershipComplete, ownershipOver, ownershipShort, percent, placeChosen, placeHint, postalLabel, profile, profiled, removeFieldButton, removeFounder, showInstructions, soleFounderForm, soleFounderSettled, soleFounderSurplus, subdivisionSpec, subsection, subsectionNumber, textControl, totalCapital, totalOwnership, update, updateFormation, updateFounder, updateOrganisation, updateTax };
+    return { amountLabel, amountName, asTiles, cardsOnly, changeRegistrationNumber, chooseCountry, chooseLegalForm, chooseSubdivision, chosenSubdivision, columnsDivider, foundersProfile, onChangeFoundersProfile, description, onDescriptionChange, organizationOnly, audienceOnly, commonRequirementsNote, consumptionTaxNote, countryChosen, currency, disabled, entity, folds, forms, founderLabel, frameTitle, labelled, latest, linkTargets, namedFounders, offerInExpenses, openOnPage, openingDate, onChangeOpeningDate, businessStage, optionalNote, ownershipComplete, ownershipOver, ownershipShort, percent, placeChosen, placeHint, postalLabel, profile, profiled, removeFieldButton, removeFounder, showInstructions, soleFounderForm, soleFounderSettled, soleFounderSurplus, subdivisionSpec, subsection, subsectionNumber, textControl, totalCapital, totalOwnership, update, updateFormation, updateFounder, updateOrganisation, updateTax };
 
 }

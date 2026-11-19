@@ -32,6 +32,23 @@ function colourOf(frame: Element): { bg: string; edge: string; ink: string } | n
     };
 }
 
+/**
+ * THE FRAME AS IT SHOWS (owner, 2026-11-19, "Where are the page tags"): a frame drawn by what holds it -- a Segment's chapter on Foundation & Engagement, whose
+ * parts are clear and whose chapter carries the colour -- is read from that holder: the nearest one inside the page's card with a ground of its own. So every page
+ * with a coloured frame has its tab, whatever element paints the colour.
+ */
+function shownFrame(frame: Element): Element {
+    if (opaque(getComputedStyle(frame).backgroundColor)) {
+        return frame;
+    }
+    for (let node = frame.parentElement; node && !node.matches(".conversation-card"); node = node.parentElement) {
+        if (opaque(getComputedStyle(node).backgroundColor)) {
+            return node;
+        }
+    }
+    return frame;
+}
+
 export type RailTabColours = { bg: string; edge: string; ink: string };
 
 export default function useRailTab(colours?: RailTabColours) {
@@ -58,7 +75,7 @@ export default function useRailTab(colours?: RailTabColours) {
                 set("right", colours);
                 return;
             }
-            const frames = [...document.querySelectorAll(FRAME)].filter(candidate => candidate.getBoundingClientRect().width > 300);
+            const frames = [...new Set([...document.querySelectorAll(FRAME)].filter(candidate => candidate.getBoundingClientRect().width > 300).map(shownFrame))];
             set("left", frames.length > 0 ? colourOf(frames[0]) : null);
             set("right", frames.length > 0 ? colourOf(frames[frames.length - 1]) : null);
             // EVERY RAIL STARTS 12px UNDER ITS FRAME'S TOP (layout rules section 10, "One rail for every layer"; owner, 2026-11-19 12:52 UTC+2: "Why the rails

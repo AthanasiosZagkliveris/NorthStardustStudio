@@ -1,5 +1,4 @@
 import type { StageKey } from "../../../../framework/engine/BusinessStage.ts";
-import type { ShareWeights } from "../../../../framework/engine/AnswerUtils.ts";
 import { ReactNode } from "react";
 import { BUSINESS_STAGE_WORDS, SCHEME_CODE_LABEL, schemeKeyOf } from "../../../../framework/engine/ActivityClassification.ts";
 import { choiceLimit } from "../../../../framework/engine/PositioningIds.ts";
@@ -517,6 +516,9 @@ export interface LegalEntityEditorProps {
 
     value: unknown;
 
+    /** Whether anyone on the payroll is paid (a founder's salary, a member of staff: Infrastructure & Capability), for the PAYE registration the app makes (doc 53). */
+    paysAnyone?: boolean;
+
     /** The Opening Date of the Global Settings: the company cannot be formed after it. */
     openingDate?: string;
     /** The business stage the Opening Date and the Global Settings' durations give (BusinessStage.ts): the limits and the locks of Early Positioning follow it. Planning where none is given. */
@@ -575,13 +577,6 @@ export interface LegalEntityEditorProps {
      * away (see founderIsEmpty).
      */
     foundersProfile?: unknown;
-
-    /**
-     * The Business System's Offerings, by id and name, and the hours and revenue of each: an expense may serve one or several (the owner's approved plan of
-     * 2026-11-18, step 3), ticked on the shared Offerings field (OfferingsField). None given: the Offerings field says there are none yet.
-     */
-    offeringChoices?: readonly { id: string; label: string }[];
-    offeringShareWeights?: ShareWeights;
 
 }
 

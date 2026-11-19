@@ -12,7 +12,7 @@ import { ReactNode } from "react";
 import { legalFormOptions } from "../../../../framework/engine/LegalEntityJurisdictions.ts";
 import { asLegalEntityValue } from "../../../../framework/engine/AnswerLegal.ts";
 import ResponsibilityFilter from "../../fields/ResponsibilityFilter.tsx";
-import { activityGroupsOf, activityCategoryLabel, soleGroupOf, BUSINESS_PARTNER_GROUPS, partnerGroupHelp, usesSupplier, PEOPLE_EXTRA_KEYS, partnerExtraFieldKeys, supplierConnections, billingOf, costWithOption, noteHint, partnerHasQuantity, businessQuantityText, BUSINESS_WORKSPACE_KINDS, BusinessActivityValue, BusinessCategoryValue, PARTNER_CATEGORIES, partnerCategoryLabel, BusinessCapabilityValue, BusinessFounderValue, BusinessPartnerValue, BusinessResourceSlotValue, businessDecimalText, businessAutoResponsibleId, businessPartnerResponsibleId, responsibleIsOff, businessFounderResponsibilities, businessResponsibilitiesTally, createBusinessResourceSlot, workspacesOf } from "../../../../framework/engine/AnswerUtils.ts";
+import { activityGroupsOf, activityCategoryLabel, soleGroupOf, givesWorkingHours, LEAD_TIME_GROUPS, BUSINESS_PARTNER_GROUPS, partnerGroupHelp, usesSupplier, PEOPLE_EXTRA_KEYS, partnerExtraFieldKeys, supplierConnections, billingOf, costWithOption, noteHint, partnerHasQuantity, businessQuantityText, BUSINESS_WORKSPACE_KINDS, BusinessActivityValue, BusinessCategoryValue, PARTNER_CATEGORIES, partnerCategoryLabel, BusinessCapabilityValue, BusinessFounderValue, BusinessPartnerValue, BusinessResourceSlotValue, businessDecimalText, businessAutoResponsibleId, businessPartnerResponsibleId, responsibleIsOff, businessFounderResponsibilities, businessResponsibilitiesTally, createBusinessResourceSlot, workspacesOf } from "../../../../framework/engine/AnswerUtils.ts";
 import { BusinessCard, ResponsibleField, BusinessEmpty, BusinessField, BusinessFieldTick, OptionalNote, BusinessRemove, uniqueChoices } from "../../cards/BusinessCardFields.tsx";
 import { founderDeliveryHours, founderWorkingHours } from "../../../../framework/engine/DemandCapacity.ts";
 import { parseDecimal } from "../../../../framework/engine/Amounts.ts";
@@ -347,6 +347,12 @@ export function useCapabilityPeopleCards(earlier: Earlier) {
                     </p>
                 )}
 
+                </BandSection>
+
+                {/* THE OPTIONS, ONE SECTION (owner, 2026-11-19 16:52 UTC+2, 3.1 and 3.3: "place the Allowance, Commission, and Bonus in a common section", "Any information
+                    that exists between the Price and the Responsibility as optional choices should be in a common section"): every optional choice after the price,
+                    one band of its own (BandSection "options", EngagementBands), on every card that has them. */}
+                <BandSection name="options">
                 {/* The founder's optional Allowance, Commission and Bonus. */}
                 {extrasFields(founderLabel, PEOPLE_EXTRA_KEYS, founder.extras, organisationCurrency, (next) => change({ extras: next }))}
                 </BandSection>
@@ -876,6 +882,12 @@ export function useCapabilityPeopleCards(earlier: Earlier) {
 
                 {partner.cost.frequency === "per-project" && paymentPlanFields(partner.name.trim() || "Entry " + number, partner.startDate, partner.endDate, partner.paymentPlan, (next, dates) => change({ paymentPlan: next, ...dates }), planTotalOf(partner.cost.price, partnerHasQuantity(supplierConnections(capability, partner.id), partner.cost) ? partner.quantity : ""))}
 
+                </BandSection>
+
+                {/* THE OPTIONS, ONE SECTION (owner, 2026-11-19 16:52 UTC+2, 3.1 and 3.3: "place the Allowance, Commission, and Bonus in a common section", "Any information
+                    that exists between the Price and the Responsibility as optional choices should be in a common section"): every optional choice after the price,
+                    one band of its own (BandSection "options", EngagementBands), on every card that has them. */}
+                <BandSection name="options">
                 {/* The extras by what is connected: a landlord's deposit, service charge and property tax, a lessor's road tax; a producer's duties. */}
                 {extrasFields(
                     partner.name.trim() || "Entry " + number,
@@ -906,6 +918,34 @@ export function useCapabilityPeopleCards(earlier: Earlier) {
                     }
                 )}
 
+                {/* (THE HOURS THEY CAN GIVE, and a Supplier's time to deliver: read by Capacity & Delivery -- their own row and bar, and the Calendar Time of an Offering
+                    they can hold up; doc 52, 14 and 16; owner, 2026-11-17. In the Team section, before the Notes (the card's order), and only where they mean
+                    something (owner, 2026-11-19 16:52 UTC+2, 3.5: "Check if these fields are necessary, whether their wording and layout could be improved"): the
+                    hours on a card whose people do part of the job (givesWorkingHours), the weeks on a producer's, a wholesaler's or a contractor's card; a card that
+                    holds an answer keeps showing it.) */}
+                {scope === "offering" && (givesWorkingHours(partner) || partner.hoursAvailable.trim() !== "") && (
+                    <BusinessField label="Hours a month they can give" fieldId="Hours a month they can give" side>
+                        <NumberCell kind="decimal"
+                            data-size={numberStep(NUMBER_LIMITS.hoursMonth)}
+                            aria-label={(partner.name.trim() || "Entry " + number) + " hours a month they can give"}
+                            placeholder="h"
+                            disabled={disabled}
+                            value={partner.hoursAvailable}
+                            onChange={(event) => change({ hoursAvailable: limitedNumberText(event.target.value, partner.hoursAvailable, NUMBER_LIMITS.hoursMonth) })}
+                        />
+                    </BusinessField>
+                )}
+                {scope === "offering" && partner.category === "suppliers" && (LEAD_TIME_GROUPS.includes(partner.group) || partner.leadWeeks.trim() !== "") && (
+                    <BusinessField label="Weeks to deliver" fieldId="Lead time (weeks)" info={["From your order to its arrival. Capacity & Delivery adds it to the Calendar Time of the Offerings it serves, and says when to order ahead."]} side>
+                        <NumberCell kind="decimal"
+                            aria-label={(partner.name.trim() || "Entry " + number) + " weeks to deliver"}
+                            placeholder="e.g. 3"
+                            disabled={disabled}
+                            value={partner.leadWeeks}
+                            onChange={(event) => change({ leadWeeks: limitedNumberText(event.target.value, partner.leadWeeks, NUMBER_LIMITS.weeks) })}
+                        />
+                    </BusinessField>
+                )}
                 </BandSection>
                 <BandSection name="notes">
                 <OptionalNote
@@ -920,31 +960,6 @@ export function useCapabilityPeopleCards(earlier: Earlier) {
                 </BandSection>
 
                 {/* The links last, under the Description. */}
-                {/* (THE HOURS THEY CAN GIVE, and a Supplier's lead time: read by Capacity & Delivery -- their own row and bar, and the Calendar Time of an Offering they can
-                    hold up; doc 52, 14 and 16; owner, 2026-11-17.) */}
-                {scope === "offering" && (
-                    <BusinessField label="Hours a month they can give" side>
-                        <NumberCell kind="decimal"
-                            data-size={numberStep(NUMBER_LIMITS.hoursMonth)}
-                            aria-label={(partner.name.trim() || "Entry " + number) + " hours a month they can give"}
-                            placeholder="h"
-                            disabled={disabled}
-                            value={partner.hoursAvailable}
-                            onChange={(event) => change({ hoursAvailable: limitedNumberText(event.target.value, partner.hoursAvailable, NUMBER_LIMITS.hoursMonth) })}
-                        />
-                    </BusinessField>
-                )}
-                {scope === "offering" && partner.category === "suppliers" && (
-                    <BusinessField label="Lead time (weeks)" side>
-                        <NumberCell kind="decimal"
-                            aria-label={(partner.name.trim() || "Entry " + number) + " lead time in weeks"}
-                            placeholder="e.g. 3"
-                            disabled={disabled}
-                            value={partner.leadWeeks}
-                            onChange={(event) => change({ leadWeeks: limitedNumberText(event.target.value, partner.leadWeeks, NUMBER_LIMITS.weeks) })}
-                        />
-                    </BusinessField>
-                )}
                 {scope === "offering" && offeringsField(
                     partner.offeringIds,
                     (next) => change(next),

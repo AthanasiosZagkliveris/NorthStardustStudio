@@ -1560,6 +1560,15 @@
 
 }
 
+/* WHAT A STATUS OPENS, ITS OWN STEP OF THE CARD'S HUE (owner, 2026-11-19 16:52 UTC+2, 3.2, and 19:44 UTC+2: the card's own hue, a step of its own, no new hue): the
+   Status section of a Resource card (a Partner's or Supplier's Category, Group and Name, an Activity, a Rent's landlord, the further Status rows) takes the card's
+   stronger tint, the one a box's title band has (--tint-box-title, 24% of the card's ink), so it reads as its own section in the card's colour. */
+.legal-entity-org-section.legal-entity-org-section[data-section="status"]{
+
+    background:var(--tint-box-title);
+
+}
+
 /* WHAT STANDS IN A BAND ENDS AT THE NAME CELL'S RIGHT EDGE, THE x COLUMN CLEAR (owner's screenshot, 2026-11-19 00:45 UTC+2, the documents reconciled: layout rules
    section 11, "Page 3's cards in bands"): the bands' tints run out to the card's sides, and their content keeps the x column and the gap before it as padding, as
    a founder's sections do. What belongs to the x column -- the "+" or x beside a Team or Status row -- stands out in it. */

@@ -1,4 +1,4 @@
-# The first version and the questionnaire (documents 27 to 52)
+# The first version and the questionnaire (documents 27 to 53)
 
 Status: **index**, updated 2026-11-19. Written by `npm run docs:index` from `tools/scripts/docs/write-index.mjs`; do not edit by hand.
 
@@ -34,3 +34,4 @@ The standard for these documents is [the standard of the documents](../../standa
 | [50-engagement-fees-and-demand-proposals.md](50-engagement-fees-and-demand-proposals.md) | specification | Channel fees on Customer Engagement (the read-only Fees on a subchannel, the UK rows) and what Demand & Conversion adds (Tried it, the time to buy); built 2026-11-14. | 2026-11-18 |
 | [51-delivery-and-capacity-research.md](51-delivery-and-capacity-research.md) | proposal | Delivery and capacity: what the sources say, what the app asks today, what is missing, and seven additions in priority order; not built. | 2026-11-14 |
 | [52-capacity-and-delivery-tile.md](52-capacity-and-delivery-tile.md) | proposal | Capacity & Delivery: the Delivery tile renamed, doc 51's seven additions on the Delivery card (DV1 to DV11), the dialog and Sustainability's check, the Lumen Workshops through the Online Store, and the decisions; not built. | 2026-11-19 |
+| [53-legal-starts.md](53-legal-starts.md) | proposal | Legal starts: the registrations, taxes and legal expenses the Legal Entity can start from Definition and the Business pages, by country, each with its official source; the eight decisions; stage 1 built (the legal form's filings and fees, UK PAYE). | 2026-11-19 |

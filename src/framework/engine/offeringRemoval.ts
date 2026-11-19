@@ -2,7 +2,7 @@
     AN OFFERING REMOVED LEAVES NO CARD POINTING AT IT (owner, Thanos, 2026-11-19: removing an Offering clears it from every card that points to it). When an
     Offering goes from the Business System's Foundation -- its card removed, or the Segment that held it --, its id is unticked on every card that stores
     Offering ids: Infrastructure & Capability's resources, activities, partners and suppliers (`offeringIds`, `offeringShares`), Customer Engagement's channels
-    (`offerings`, a list of ids) and the Legal Entity's expenses (`offeringIds`, `offeringShares`). The fields are found by their NAME wherever they stand
+    (`offerings`, a list of ids); the Legal Entity's expenses are the company's and hold none (owner, 2026-11-19 16:52). The fields are found by their NAME wherever they stand
     in an answer, never by a card's place (ai-collaboration-rules.md, "Read the app's structure by what a thing is"), so a card kind added later is cleared
     too. What is keyed by an Offering rather than ticked -- its demand, its relationships, its revenue stream (shown "Offering removed" on purpose) -- stays.
     The shared basis key of a split (OFFERING_BASIS_KEY) stays; a share of the removed Offering goes with it.

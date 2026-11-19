@@ -6,7 +6,8 @@ import { InterviewSession } from "../framework/interview";
 import { frameworkRegistry } from "../framework/engine/FrameworkRegistry";
 
 /* AN OFFERING REMOVED LEAVES NO CARD POINTING AT IT, WHEN THE BUSINESS SYSTEM IS SAVED (owner, 2026-11-19; offeringRemoval.ts, StorageService.saveInterview): its id
-   is unticked on Customer Engagement's channels and Infrastructure & Capability's cards, in the session, and on the Legal Entity's expenses, in storage. */
+   is unticked on Customer Engagement's channels and Infrastructure & Capability's cards, in the session; the Legal Entity's expenses hold no Offerings (owner,
+   2026-11-19 16:52), so the Identity System is left as it was. */
 beforeEach(() => {
     OrganizationService.flushPendingWrites();
     localStorage.clear();
@@ -51,9 +52,10 @@ describe("saving the Business System after an Offering is removed", () => {
         expect((value(2) as { segments: { channels: { offerings: string[] }[] }[] }).segments[0].channels[0].offerings).toEqual(["a"]);
         expect((value(3) as { offering: { resources: { offeringIds: string[]; offeringShares: Record<string, string> }[] } }).offering.resources[0]).toMatchObject({ offeringIds: ["a"], offeringShares: { a: "50" } });
 
+        // (An old save's expense that still lists an Offering is left as it was: expenses are the company's, and its list is no longer read.)
         const identity = (OrganizationService.loadDocument(id)!.systems["1"] as { responses: Responses }).responses;
         const expenses = (identity.find(response => response.sectionNumber === 3)!.value as { expenses: { offeringIds: string[] }[] }).expenses;
-        expect(expenses.map(expense => expense.offeringIds)).toEqual([[], ["a"]]);
+        expect(expenses.map(expense => expense.offeringIds)).toEqual([["b"], ["a"]]);
     });
 
     it("changes nothing when no Offering was removed", () => {

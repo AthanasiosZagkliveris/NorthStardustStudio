@@ -3127,7 +3127,11 @@
                 }
                 // EVERY RAIL STARTS 12px UNDER ITS FRAME'S TOP (layout rules section 10, "One rail for every layer"; owner, 2026-11-19 12:52 UTC+2: "Why the rails
                 // (chapter/page and dialogue card) have different Top gaps"): the page's rails as a layer's tab, 12px under the top of the page's frame as it rests.
-                const frame = [...document.querySelectorAll(".conversation-card .business-foundation-card:not(.section-tile-dialog)")].find(candidate => rect(candidate).width > 300);
+                // (The frame as it shows, as useRailTab reads it: a frame whose holder paints its colour -- a Segment's chapter -- is that holder; owner, 2026-11-19.)
+                const clear = colour => colour === "" || colour === "transparent" || /rgba\([^)]*,\s*0\)$/.test(colour);
+                const shown = node => { if (!clear(getComputedStyle(node).backgroundColor)) return node; for (let up = node.parentElement; up && !up.matches(".conversation-card"); up = up.parentElement) { if (!clear(getComputedStyle(up).backgroundColor)) return up; } return node; };
+                const found = [...document.querySelectorAll(".conversation-card .business-foundation-card:not(.section-tile-dialog)")].find(candidate => rect(candidate).width > 300);
+                const frame = found ? shown(found) : undefined;
                 if (frame && getComputedStyle(rail).visibility !== "hidden") {
                     let scrolled = window.scrollY;
                     for (let node = frame.parentElement; node; node = node.parentElement) {

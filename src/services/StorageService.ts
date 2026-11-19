@@ -258,9 +258,6 @@ export class StorageService {
 
 }
 
-/** The Identity System's Legal Entity, by its id in the saved answer. */
-const LEGAL_ENTITY_SECTION = 3;
-
 /** The Offering ids a Business Foundation answer holds, as saved: each Segment's Offerings, by id. */
 function savedOfferingIds(value: unknown): string[] {
     const segments = value && typeof value === "object" && Array.isArray((value as { segments?: unknown }).segments) ? (value as { segments: unknown[] }).segments : [];
@@ -294,12 +291,5 @@ function clearRemovedOfferings(organizationId: string, session: InterviewSession
         if (value !== undefined && holdsOfferings(value, removed)) {
             session.saveResponse(section.number, withoutOfferings(value, removed));
         }
-    }
-    const document = OrganizationService.loadDocument(organizationId);
-    const identity = document?.systems[String(IDENTITY_SYSTEM_NUMBER)] as { responses?: { sectionNumber: number; value?: unknown }[] } | undefined;
-    const legal = identity?.responses?.find(response => response.sectionNumber === LEGAL_ENTITY_SECTION);
-    if (document && legal && holdsOfferings(legal.value, removed)) {
-        legal.value = withoutOfferings(legal.value, removed);
-        OrganizationService.saveDocument(document);
     }
 }
