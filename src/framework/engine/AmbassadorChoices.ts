@@ -18,11 +18,11 @@ import { asText } from "./Readers.ts";
 
 /** BA1's options: Aaker's five facets, each with its "i", its draft phrase and the ratings it starts (BA4: Energy, Expression; BA6: Formality, Humour, Respect, Enthusiasm). */
 export const AMBASSADOR_CHARACTERS = [
-    { id: "sincere", label: "Warm and honest", info: "Sincere, down-to-earth, cheerful.", phrase: "warm and honest", energy: 3, expression: 4, tone: { formality: 2, humour: 3, respect: 4, enthusiasm: 4 } },
-    { id: "exciting", label: "Lively and bold", info: "Daring, spirited, imaginative.", phrase: "lively and bold", energy: 5, expression: 5, tone: { formality: 2, humour: 4, respect: 3, enthusiasm: 5 } },
-    { id: "competent", label: "Capable and reliable", info: "Hard-working, intelligent, confident.", phrase: "capable and reliable", energy: 2, expression: 2, tone: { formality: 4, humour: 2, respect: 4, enthusiasm: 2 } },
-    { id: "sophisticated", label: "Refined and elegant", info: "Glamorous, charming, polished.", phrase: "refined and elegant", energy: 2, expression: 2, tone: { formality: 5, humour: 2, respect: 5, enthusiasm: 2 } },
-    { id: "rugged", label: "Tough and practical", info: "Outdoorsy, rugged, hard-wearing.", phrase: "tough and practical", energy: 3, expression: 2, tone: { formality: 2, humour: 3, respect: 3, enthusiasm: 2 } }
+    { id: "sincere", label: "Warm & honest", info: "Sincere, down-to-earth, cheerful.", phrase: "warm and honest", energy: 3, expression: 4, tone: { formality: 2, humour: 3, respect: 4, enthusiasm: 4 } },
+    { id: "exciting", label: "Lively & bold", info: "Daring, spirited, imaginative.", phrase: "lively and bold", energy: 5, expression: 5, tone: { formality: 2, humour: 4, respect: 3, enthusiasm: 5 } },
+    { id: "competent", label: "Capable & reliable", info: "Hard-working, intelligent, confident.", phrase: "capable and reliable", energy: 2, expression: 2, tone: { formality: 4, humour: 2, respect: 4, enthusiasm: 2 } },
+    { id: "sophisticated", label: "Refined & elegant", info: "Glamorous, charming, polished.", phrase: "refined and elegant", energy: 2, expression: 2, tone: { formality: 5, humour: 2, respect: 5, enthusiasm: 2 } },
+    { id: "rugged", label: "Tough & practical", info: "Outdoorsy, rugged, hard-wearing.", phrase: "tough and practical", energy: 3, expression: 2, tone: { formality: 2, humour: 3, respect: 3, enthusiasm: 2 } }
 ] as const;
 
 /** BA2's options (doc 46, BA2). */

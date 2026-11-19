@@ -11,10 +11,10 @@ import { asText } from "./Readers.ts";
 /** PB7's options: each the Theme it puts first and its phrase for the Business Plan (doc 45, 3.8). */
 export const VISION_AMBITIONS = [
     { id: "customers", label: "Serving a large, growing customer base", theme: "Growth & Market", phrase: "serving a large, growing customer base" },
-    { id: "loved", label: "Loved and recommended by its customers", theme: "Customers & Experience", phrase: "recommended by loyal customers" },
+    { id: "loved", label: "Loved & recommended by its customers", theme: "Customers & Experience", phrase: "recommended by loyal customers" },
     { id: "range", label: "Offering a strong, growing range", theme: "Products & Innovation", phrase: "offering a strong, growing range" },
-    { id: "profitable", label: "Profitable and paying its own way", theme: "Revenue & Financial Sustainability", phrase: "profitable, paying its own way" },
-    { id: "trusted", label: "Known and trusted in its field", theme: "Brand & Positioning", phrase: "trusted in its field" },
+    { id: "profitable", label: "Profitable & paying its own way", theme: "Revenue & Financial Sustainability", phrase: "profitable, paying its own way" },
+    { id: "trusted", label: "Known & trusted in its field", theme: "Brand & Positioning", phrase: "trusted in its field" },
     { id: "smooth", label: "Running smoothly with a strong team", theme: "Operations & Capability", phrase: "running smoothly with a strong team" },
     { id: "partners", label: "Working closely with strong partners", theme: "Partnerships & Expansion", phrase: "working closely with strong partners" }
 ] as const;

@@ -38,11 +38,11 @@ Aesthetics holds BA1, BA2, BA3; Body Language BA4; Communication & Voice BA6, BA
 
   | id | Label | Its "i" | Draft phrase |
   |---|---|---|---|
-  | `sincere` | Warm and honest | Sincere, down-to-earth, cheerful. | warm and honest |
-  | `exciting` | Lively and bold | Daring, spirited, imaginative. | lively and bold |
-  | `competent` | Capable and reliable | Hard-working, intelligent, confident. | capable and reliable |
-  | `sophisticated` | Refined and elegant | Glamorous, charming, polished. | refined and elegant |
-  | `rugged` | Tough and practical | Outdoorsy, rugged, hard-wearing. | tough and practical |
+  | `sincere` | Warm & honest | Sincere, down-to-earth, cheerful. | warm and honest |
+  | `exciting` | Lively & bold | Daring, spirited, imaginative. | lively and bold |
+  | `competent` | Capable & reliable | Hard-working, intelligent, confident. | capable and reliable |
+  | `sophisticated` | Refined & elegant | Glamorous, charming, polished. | refined and elegant |
+  | `rugged` | Tough & practical | Outdoorsy, rugged, hard-wearing. | tough and practical |
 
 - **"i":**
   - Picture your brand as a person: the character people describe after meeting it.
@@ -95,11 +95,11 @@ Aesthetics holds BA1, BA2, BA3; Body Language BA4; Communication & Voice BA6, BA
   - How your Ambassador stands, moves and reacts.
   - Your character choice starts both ratings.
 - **Starts from BA1** (Energy, Expression):
-  - Warm and honest: 3, 4
-  - Lively and bold: 5, 5
-  - Capable and reliable: 2, 2
-  - Refined and elegant: 2, 2
-  - Tough and practical: 3, 2
+  - Warm & honest: 3, 4
+  - Lively & bold: 5, 5
+  - Capable & reliable: 2, 2
+  - Refined & elegant: 2, 2
+  - Tough & practical: 3, 2
 
   With two characters ticked, the first one sets the start. The mapping is the author's, and the evidence for it is weak (doc 28, 8.3).
 - **Saved as:** `ambassador.energy`, `ambassador.expression` (1 to 5).
@@ -121,11 +121,11 @@ Aesthetics holds BA1, BA2, BA3; Body Language BA4; Communication & Voice BA6, BA
 
   | Character | Formality | Humour | Respect | Enthusiasm |
   |---|---|---|---|---|
-  | Warm and honest | 2 | 3 | 4 | 4 |
-  | Lively and bold | 2 | 4 | 3 | 5 |
-  | Capable and reliable | 4 | 2 | 4 | 2 |
-  | Refined and elegant | 5 | 2 | 5 | 2 |
-  | Tough and practical | 2 | 3 | 3 | 2 |
+  | Warm & honest | 2 | 3 | 4 | 4 |
+  | Lively & bold | 2 | 4 | 3 | 5 |
+  | Capable & reliable | 4 | 2 | 4 | 2 |
+  | Refined & elegant | 5 | 2 | 5 | 2 |
+  | Tough & practical | 2 | 3 | 3 | 2 |
 
   The mapping is the author's, and the evidence for it is weak.
 - **Saved as:** `ambassador.tone: { formality, humour, respect, enthusiasm }`.

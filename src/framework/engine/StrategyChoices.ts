@@ -24,7 +24,7 @@ export const SC1_STANCES = [
     { id: "so", label: "Use your strengths to seize opportunities", phrase: "using our strengths to seize opportunities" },
     { id: "wo", label: "Close your gaps by seizing opportunities", phrase: "closing our gaps by seizing opportunities" },
     { id: "st", label: "Use your strengths to guard against threats", phrase: "using our strengths to guard against threats" },
-    { id: "wt", label: "Close your gaps and steer clear of threats", phrase: "closing our gaps and steering clear of threats" }
+    { id: "wt", label: "Close your gaps & steer clear of threats", phrase: "closing our gaps and steering clear of threats" }
 ] as const;
 
 /** SC2's options (doc 49, SC2); `launch` at Planning and Launching only. */

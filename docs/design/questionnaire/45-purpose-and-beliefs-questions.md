@@ -148,10 +148,10 @@ Added 2026-11-12 (owner approved, D1). In the Mission & Vision dialog, in the Vi
   | id | Label | Theme | Plan phrase |
   |---|---|---|---|
   | `customers` | Serving a large, growing customer base | Growth & Market | serving a large, growing customer base |
-  | `loved` | Loved and recommended by its customers | Customers & Experience | recommended by loyal customers |
+  | `loved` | Loved & recommended by its customers | Customers & Experience | recommended by loyal customers |
   | `range` | Offering a strong, growing range | Products & Innovation | offering a strong, growing range |
-  | `profitable` | Profitable and paying its own way | Revenue & Financial Sustainability | profitable, paying its own way |
-  | `trusted` | Known and trusted in its field | Brand & Positioning | trusted in its field |
+  | `profitable` | Profitable & paying its own way | Revenue & Financial Sustainability | profitable, paying its own way |
+  | `trusted` | Known & trusted in its field | Brand & Positioning | trusted in its field |
   | `smooth` | Running smoothly with a strong team | Operations & Capability | running smoothly with a strong team |
   | `partners` | Working closely with strong partners | Partnerships & Expansion | working closely with strong partners |
 

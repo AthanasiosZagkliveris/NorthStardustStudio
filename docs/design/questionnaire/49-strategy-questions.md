@@ -102,7 +102,7 @@ The Compass is the guiding policy: the choice that rules options out. Three choi
   - `so` – Use your strengths to seize opportunities – using our strengths to seize opportunities
   - `wo` – Close your gaps by seizing opportunities – closing our gaps by seizing opportunities
   - `st` – Use your strengths to guard against threats – using our strengths to guard against threats
-  - `wt` – Close your gaps and steer clear of threats – closing our gaps and steering clear of threats
+  - `wt` – Close your gaps & steer clear of threats – closing our gaps and steering clear of threats
 - **Starts from the SWOT:** the pair of quadrants with the most lines, where the first two lines of each list count double. At Planning and Launching the start chooses between `so` and `wo` only.
 - **"i":**
   - Match what is inside your business with what is outside it, then choose where the effort goes.
