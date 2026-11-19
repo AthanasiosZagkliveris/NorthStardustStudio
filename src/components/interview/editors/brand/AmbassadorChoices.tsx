@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 
 import FieldRow from "../../fields/FieldRow.tsx";
+import { SingleColumn } from "../foundation/shared.tsx";
 import InfoNote, { InfoText } from "../../fields/InfoNote.tsx";
 import TextLink from "../../fields/TextLink.tsx";
 import RadioChoice from "../../../controls/RadioChoice.tsx";
@@ -106,9 +107,10 @@ export default function AmbassadorChoices({ part, value, onChange, context, stag
     }
     return (
         <>
-            <div className="legal-entity-audience legal-entity-bands">
+            {/* (One column of bands, the shared helper the Positioning's and the cards' questions stand in.) */}
+            <SingleColumn>
                 {bands.map((content, at) => band(content, at, part + "-" + at))}
-            </div>
+            </SingleColumn>
             {draftAdds(text, draft) && (
                 <TextLink className="business-competitor-draft" disabled={disabled} onClick={() => writeDraft(withDraft(text, draft))}>
                     Add a draft

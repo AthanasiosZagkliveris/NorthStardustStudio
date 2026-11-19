@@ -1,4 +1,5 @@
 import FieldRow from "../../fields/FieldRow.tsx";
+import { SingleColumn } from "../foundation/shared.tsx";
 import RadioChoice from "../../../controls/RadioChoice.tsx";
 import { BusinessTicks } from "../../cards/BusinessCardFields.tsx";
 import { businessFoundationSegments } from "../../../../framework/engine/AnswerUtils.ts";
@@ -22,7 +23,8 @@ export default function VisionChoices({ value, onChange, foundation, disabled = 
     const reach = asVisionReach(value.visionReach);
     const today = widestSegmentReach(businessFoundationSegments(foundation));
     return (
-        <div className="legal-entity-audience legal-entity-bands">
+        // (One column of bands, the shared helper the Positioning's and the cards' questions stand in.)
+        <SingleColumn>
             <div className="legal-entity-org-section">
                 <FieldRow pair fullList label="What will your business be when your Vision comes true?" info={PB7_INFO} labelNote={<span className="business-foundation-tick-note">{VISION_AMBITIONS_MAX + " max"}</span>}>
                     <div className="radio-choice legal-entity-radio-stack" role="group" aria-label="What will your business be when your Vision comes true?">
@@ -51,6 +53,6 @@ export default function VisionChoices({ value, onChange, foundation, disabled = 
                     {today && <p className="legal-entity-empty-note">{"Today: " + today.label + " (" + today.segment + ")"}</p>}
                 </FieldRow>
             </div>
-        </div>
+        </SingleColumn>
     );
 }
