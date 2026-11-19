@@ -287,8 +287,14 @@
 
 }
 
-/* A PAGE OF ONE SEGMENT AT A TIME (Foundation & Engagement; segmentPage.ts): each chapter's frame of the Segment shown fills its half of the page, as every
-   frame of a page of several sections does; the frames of the other Segments are drawn and take no room. */
+/* A PAGE OF ONE SEGMENT AT A TIME (Foundation & Engagement; segmentPage.ts): the Segment shown is ONE chapter across the page, its seven Master Tiles in the
+   grid's own flow (four across, then three: gridColumns); the chapters of the other Segments are drawn and take no room. */
+.page-group.page-group-one-chapter {
+
+    grid-template-columns: minmax(0, 1fr);
+
+}
+
 .page-group .business-foundation-segment-frames {
 
     grid-template-columns: minmax(0, 1fr);

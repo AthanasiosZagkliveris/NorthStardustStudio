@@ -14,7 +14,8 @@ import InfoNote, { InfoPoint, InfoText } from "../fields/InfoNote.tsx";
 import { railId } from "../rails/railItems.ts";
 import { FieldMark } from "../fields/fieldMarks.tsx";
 import { toggledIn } from "../fields/toggledIn.ts";
-import { segmentFrameAttributes, useSegmentPage } from "../tiles/segmentPage.ts";
+import { segmentFrameAttributes, useCompanionTiles, useSegmentPage } from "../tiles/segmentPage.ts";
+import { segmentMadeByIdentity } from "../../../framework/engine/businessFoundation/foundationPage.ts";
 
 import { BusinessFoundationEditorProps, SUBSECTIONS } from "./foundation/shared.tsx";
 
@@ -38,8 +39,10 @@ import { useFoundationSubsections } from "./foundation/useFoundationSubsections.
  */
 export default function BusinessFoundationEditor(props: BusinessFoundationEditorProps) {
 
-    // (On Foundation & Engagement, one Segment at a time: the others are drawn and hidden, segmentPage.ts.)
+    // (On Foundation & Engagement, one Segment at a time, each ONE chapter of its seven tiles -- this section's four and Engagement's three, handed over by
+    // the Segment's id --; the others drawn and hidden: segmentPage.ts.)
     const segmentPage = useSegmentPage();
+    useCompanionTiles(segmentPage);
     const part1 = useFoundationState(props);
     const part2 = { ...part1, ...useFoundationSubsections({ ...part1 }) };
     const { addButton, asTiles, built, collapsed, columnsDivider, disabled, folds, forceOpen, foundation, heads, latest, onChange, remove, setCollapsed, showInstructions, subsectionsFor, update, updateSegment } = part2;
@@ -234,9 +237,11 @@ export default function BusinessFoundationEditor(props: BusinessFoundationEditor
                         <CardShell
                             
                             key={segment.id}
-                            data-anchor={segment.id}
+                            // (On Foundation & Engagement the chapter holds Engagement's tiles too: a link saved to them still lands here.)
+                            data-anchor={segmentPage ? segment.id + " engagement-segment-" + segment.id : segment.id}
                             {...segmentFrameAttributes(segmentPage, segment.id)}
-                            style={{ "--strategy-theme-hue": workHue("discover") } as CSSProperties}
+                            // (One hue a Segment, its own -- the shared saturation and lightness, the hue varying: owner, 2026-11-19, "adjusting the colours per segment".)
+                            style={{ "--strategy-theme-hue": segmentPage ? segmentHue(segment) : workHue("discover") } as CSSProperties}
                         >
                             <div className="card-scroll">
                                 <div className="business-capability-section business-capability-tiles-section">
@@ -251,12 +256,16 @@ export default function BusinessFoundationEditor(props: BusinessFoundationEditor
                                                 onChange={(name) => updateSegment(index, { name })}
                                             />
                                         </span>
-                                        {foundation.segments.length > 1 && remove(
+                                        {/* (The x of a Segment the user added, in the chapter's top-right corner; one the app made from the Identity System's answers has none,
+                                            read from madeBy by its id: owner, 2026-11-19.) */}
+                                        {!segmentMadeByIdentity(segment) && remove(
                                             "Segment " + (index + 1),
                                             () => update({ segments: foundation.segments.filter((_candidate, position) => position !== index) })
                                         )}
                                     </div>
-                                    <SectionTiles label={frameName(segment, index) + ": Customers, Competitors, Offerings, Value Proposition"} hue={workHue("discover")} tiles={tilesOf(segment, index)} incomplete={missingFoundation} />
+                                    {segmentPage
+                                        ? <SectionTiles label={frameName(segment, index) + ": Customers, Competitors, Offerings, Value Proposition, Channels & Journey, Customer's Relationship, Demand & Conversion"} hue={segmentHue(segment)} tiles={[...tilesOf(segment, index), ...segmentPage.companionTiles.get(segment.id)]} incomplete={missingFoundation} />
+                                        : <SectionTiles label={frameName(segment, index) + ": Customers, Competitors, Offerings, Value Proposition"} hue={workHue("discover")} tiles={tilesOf(segment, index)} incomplete={missingFoundation} />}
                                 </div>
                             </div>
                         </CardShell>

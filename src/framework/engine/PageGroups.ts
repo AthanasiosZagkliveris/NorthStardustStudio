@@ -28,9 +28,6 @@ export interface PageGroup {
 /** Financials' two chapters, in their order: their headings, numbered by the page ("1. Revenue & Break Even"; layout rules section 13). */
 export const FINANCIALS_FRAMES = ["Revenue & Break Even", "Financial Foundation"] as const;
 
-/** Foundation & Engagement's two chapters, in their order: their headings, numbered by the page ("1. Foundation"; layout rules section 13). */
-export const FOUNDATION_ENGAGEMENT_FRAMES = ["Foundation", "Engagement"] as const;
-
 export const PAGE_GROUPS: readonly PageGroup[] = [
     // (Mission and Vision are saved in Definition, the first section, and drawn in Purpose as one pair tile: doc 45.)
     { systemNumber: 1, members: [1, 2], title: "Definition & Purpose", inHeader: true },
@@ -38,8 +35,9 @@ export const PAGE_GROUPS: readonly PageGroup[] = [
     { systemNumber: 1, members: [3], title: "Legal Entity", inHeader: true, frameTitles: ["Legal Entity"] },
     { systemNumber: 2, members: [1, 2], title: "Brand System", inHeader: false },
     // FOUNDATION & ENGAGEMENT (the owner's approved plan of 2026-11-18, step 2): the Business System's Foundation and Customer Engagement are one page, one Segment at a
-    // time, its chapters Foundation and Engagement side by side. Each section keeps its number, its title and its saved answer.
-    { systemNumber: 3, members: [1, 2], title: "Foundation & Engagement", inHeader: true, frameTitles: FOUNDATION_ENGAGEMENT_FRAMES, oneSegmentAtATime: true },
+    // time, each Segment ONE chapter of its seven Master Tiles in its own hue (owner, 2026-11-19: "Place all the Tiles in the same chapter, adjusting the colours per
+    // segment"), headed by its name. Each section keeps its number, its title and its saved answer.
+    { systemNumber: 3, members: [1, 2], title: "Foundation & Engagement", inHeader: true, oneSegmentAtATime: true },
     // FINANCIALS (owner, 2026-11-18, the approved plan, step 1): Revenue & Pricing and Costs, Funding & Position are one page, their chapters Revenue & Break
     // Even and Financial Foundation side by side, in that order. Each section keeps its number, its title and its saved answer (doc 48, section 11).
     { systemNumber: 3, members: [4, 5], title: "Financials", inHeader: true, frameTitles: FINANCIALS_FRAMES },
