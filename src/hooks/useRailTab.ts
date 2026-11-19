@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { opaque, shownFrame } from "./shownFrame.ts";
 
 /**
  * THE PAGE TAB (docs/ai/tile-and-card-pattern.md, "Rails as a page tab"): the Pages rail and the Sections rail stand in a tab attached to the side of the
@@ -15,10 +16,6 @@ const HEAD = ".answer-column-label, .tiles-frame-head .field-group-title, .busin
 
 const NAMES = ["bg", "edge", "ink"] as const;
 
-function opaque(colour: string): boolean {
-    return colour !== "" && colour !== "transparent" && !/rgba\([^)]*,\s*0\)$/.test(colour);
-}
-
 function colourOf(frame: Element): { bg: string; edge: string; ink: string } | null {
     const style = getComputedStyle(frame);
     if (!opaque(style.backgroundColor)) {
@@ -30,23 +27,6 @@ function colourOf(frame: Element): { bg: string; edge: string; ink: string } | n
         edge: opaque(style.borderTopColor) ? style.borderTopColor : style.color,
         ink: head ? getComputedStyle(head).color : style.color
     };
-}
-
-/**
- * THE FRAME AS IT SHOWS (owner, 2026-11-19, "Where are the page tags"): a frame drawn by what holds it -- a Segment's chapter on Foundation & Engagement, whose
- * parts are clear and whose chapter carries the colour -- is read from that holder: the nearest one inside the page's card with a ground of its own. So every page
- * with a coloured frame has its tab, whatever element paints the colour.
- */
-function shownFrame(frame: Element): Element {
-    if (opaque(getComputedStyle(frame).backgroundColor)) {
-        return frame;
-    }
-    for (let node = frame.parentElement; node && !node.matches(".conversation-card"); node = node.parentElement) {
-        if (opaque(getComputedStyle(node).backgroundColor)) {
-            return node;
-        }
-    }
-    return frame;
 }
 
 export type RailTabColours = { bg: string; edge: string; ink: string };
