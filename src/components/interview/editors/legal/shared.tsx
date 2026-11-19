@@ -1,4 +1,5 @@
 import type { StageKey } from "../../../../framework/engine/BusinessStage.ts";
+import type { ShareWeights } from "../../../../framework/engine/AnswerUtils.ts";
 import { ReactNode } from "react";
 import { BUSINESS_STAGE_WORDS, SCHEME_CODE_LABEL, schemeKeyOf } from "../../../../framework/engine/ActivityClassification.ts";
 import { choiceLimit } from "../../../../framework/engine/PositioningIds.ts";
@@ -574,6 +575,13 @@ export interface LegalEntityEditorProps {
      * away (see founderIsEmpty).
      */
     foundersProfile?: unknown;
+
+    /**
+     * The Business System's Offerings, by id and name, and the hours and revenue of each: an expense may serve one or several (the owner's approved plan of
+     * 2026-11-18, step 3), ticked on the shared Offerings field (OfferingsField). None given: the Offerings field says there are none yet.
+     */
+    offeringChoices?: readonly { id: string; label: string }[];
+    offeringShareWeights?: ShareWeights;
 
 }
 

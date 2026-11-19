@@ -1131,7 +1131,7 @@ export default function FinancialFoundationEditor({
                                 <p className="financial-muted" key="where">
                                     Answered on{" "}
                                     <TextLink type="button" className="business-engagement-link" onClick={() => onOpenLegalEntity(["legal-section-1"])}>
-                                        1. Identity System → 1. Definition → Founders & Ownership
+                                        1. Identity System → Definition & Purpose → Founders & Ownership
                                     </TextLink>
                                 </p>
                             )
@@ -1480,7 +1480,7 @@ export default function FinancialFoundationEditor({
             <div className="financial-plan-bar">
                 {!currency && (
                     <span className="financial-plan-meta">
-                        Choose a country on 1. Identity System → 3. Legal Entity to set the currency.
+                        Choose a country on 1. Identity System → Definition & Purpose → Organisation to set the currency.
                     </span>
                 )}
                 {offerings.length === 0 && onOpenFoundation && (

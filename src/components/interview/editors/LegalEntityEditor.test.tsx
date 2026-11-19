@@ -861,17 +861,17 @@ describe("LegalEntityEditor as tiles", () => {
         return <LegalEntityEditor value={value} onChange={setValue} asTiles />;
     }
 
-    it("is Registrations and Expenses (the Organisation and Founders & Ownership are tiles of page 1, Definition; owner, 2026-11-09)", () => {
+    it("is one master tile, Registrations & Expenses (the Organisation and Founders & Ownership are tiles of Definition & Purpose; owner, 2026-11-09; the plan of 2026-11-18, step 3)", () => {
         render(<Tiled />);
         expect([...document.querySelectorAll(".section-tile")].map(tile => tile.getAttribute("data-tile"))).toEqual([
-            "legal-entity-registrations", "legal-entity-expenses"
+            "legal-entity-registrations"
         ]);
     });
 
     it("has no Capability tile, with the Founders Profile given too: the skills the business still needs are asked on Capacity & Delivery (owner, 2026-11-16 20:25)", () => {
         render(<LegalEntityEditor value={asLegalEntityValue({})} onChange={() => undefined} asTiles foundersProfile={{ founders: [], teamGaps: "No one sells." }} onChangeFoundersProfile={() => undefined} />);
         expect([...document.querySelectorAll(".section-tile")].map(tile => tile.getAttribute("data-tile"))).toEqual([
-            "legal-entity-registrations", "legal-entity-expenses"
+            "legal-entity-registrations"
         ]);
         expect(screen.queryByRole("button", { name: /^Capability/ })).toBeNull();
     });
@@ -911,11 +911,31 @@ describe("LegalEntityEditor as tiles", () => {
 
     });
 
-    it("opens a box for each expense, with the add box, in its section's dialog", () => {
+    it("opens a box for each expense, with the add box, in the Expenses sub tile of Registrations & Expenses", () => {
         render(<Tiled />);
-        fireEvent.click(document.querySelector("[data-tile=legal-entity-expenses]")!);
+        fireEvent.click(document.querySelector("[data-tile=legal-entity-registrations]")!);
+        fireEvent.click(document.querySelector("[data-tile=expenses]")!);
         expect(screen.getByRole("button", { name: /Expense 1: Filing fee/ })).toBeTruthy();
         expect(screen.getByRole("button", { name: "Add Card" })).toBeTruthy();
+    });
+
+    // AN EXPENSE MAY SERVE OFFERINGS (the owner's approved plan of 2026-11-18, step 3; doc 26, "Legal Entity expense card"): the shared Offerings field, ticked or not.
+    it("asks which Offerings an expense serves, on the shared Offerings field, and saves the ticks by id; none ticked is the whole company's", () => {
+        let saved = asLegalEntityValue(undefined);
+        function Offerings() {
+            const [value, setValue] = useState<unknown>(asLegalEntityValue({ expenses: [{ ...createLegalEntityExpense(), name: "Trade mark" }] }));
+            return <LegalEntityEditor value={value} onChange={(next) => { saved = next; setValue(next); }} asTiles offeringChoices={[{ id: "off-1", label: "Rugs" }, { id: "off-2", label: "Workshops" }]} />;
+        }
+        render(<Offerings />);
+        fireEvent.click(document.querySelector("[data-tile=legal-entity-registrations]")!);
+        fireEvent.click(document.querySelector("[data-tile=expenses]")!);
+        fireEvent.click(screen.getByRole("button", { name: /Expense 1: Trade mark/ }));
+        fireEvent.click(screen.getByRole("checkbox", { name: /Rugs/ }));
+        expect(saved.expenses[0].offeringIds).toEqual(["off-1"]);
+        fireEvent.click(screen.getByRole("checkbox", { name: /Workshops/ }));
+        expect(saved.expenses[0].offeringIds).toEqual(["off-1", "off-2"]);
+        // (Two Offerings: how it is shared, as on every card.)
+        expect(screen.getByRole("button", { name: /Expense 1 linked Offerings how it is shared/ })).toBeTruthy();
     });
 
     it("lists every expense and every founder on their tiles, no display cap (the list scrolls; owner, 2026-11-09)", () => {
@@ -929,17 +949,19 @@ describe("LegalEntityEditor as tiles", () => {
             asTiles
             onChangeFoundersProfile={() => undefined}
         />);
-        // (The list is the tile's links layer, laid over it: every line is there, the list scrolls where they do not all fit.)
+        // (The list is the tile's links layer, laid over it: every line is there, the list scrolls where they do not all fit. The expenses are on the Expenses sub tile,
+        // in the Registrations & Expenses dialog.)
+        fireEvent.click(document.querySelector("[data-tile=legal-entity-registrations]")!);
         const lines = [...document.querySelectorAll(".section-tile-list > li")].map(item => item.textContent?.trim() ?? "");
         expect(many.every(at => lines.includes("Fee " + at))).toBe(true);
         // (The founders are on the Founders & Ownership tile, drawn on 1. Definition: its face lists every founder.)
         expect(many.every(at => (foundersTileFace(asLegalEntityValue({ founders: many.map(at => ({ ...createLegalEntityFounder(), name: "Founder " + at, ownership: "9" })) }), true).items ?? []).includes("Founder " + at))).toBe(true);
     });
 
-    it("opens the Registrations as two sub tiles: Registration Numbers (the formation's and the tax's), Additional legal requirements", () => {
+    it("opens Registrations & Expenses as three sub tiles: Registration Numbers (the formation's and the tax's), Additional legal requirements, Expenses", () => {
         render(<Tiled />);
         fireEvent.click(document.querySelector("[data-tile=legal-entity-registrations]")!);
-        expect([...document.querySelectorAll(".section-tile-dialog .section-tile")].map(tile => tile.getAttribute("data-tile"))).toEqual(["registration-numbers", "requirements"]);
+        expect([...document.querySelectorAll(".section-tile-dialog .section-tile")].map(tile => tile.getAttribute("data-tile"))).toEqual(["registration-numbers", "requirements", "expenses"]);
         fireEvent.click(document.querySelector("[data-tile=requirements]")!);
         expect(screen.getByRole("button", { name: "Add Card" })).toBeTruthy();
     });
@@ -960,7 +982,7 @@ describe("LegalEntityEditor as tiles", () => {
         render(<Example />);
         // (A tile's list is its links layer, laid over it in the tile's slot.)
         const linesOf = (tile: string) => { let at = document.querySelector(`[data-tile=${tile}]`)?.parentElement ?? null; while (at && !at.querySelector(".section-tile-list > li")) { at = at.parentElement; } return [...(at?.querySelectorAll(".section-tile-list") ?? [])].slice(0, 1).flatMap(list => [...list.querySelectorAll(":scope > li")]).map(item => item.textContent?.trim() ?? ""); };
-        expect(linesOf("legal-entity-registrations")).toEqual(["Registration Numbers", "Additional Legal Requirements"]);
+        expect(linesOf("legal-entity-registrations")).toEqual(["Registration Numbers", "Additional Legal Requirements", "Expenses"]);
         fireEvent.click(document.querySelector("[data-tile=legal-entity-registrations]")!);
         expect(linesOf("registration-numbers")).toEqual(numbers);
         const requirements = asLegalEntityValue(saved).requirements.map(requirement => requirement.name);

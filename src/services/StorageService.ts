@@ -2,6 +2,8 @@ import { InterviewSession } from "../framework/interview";
 import { frameworkRegistry } from "../framework/engine/FrameworkRegistry";
 import { systems } from "../data/systems";
 import { OrganizationService } from "./OrganizationService";
+import { AnswerType } from "../framework/enums/AnswerType";
+import { holdsOfferings, removedOfferingIds, withoutOfferings } from "../framework/engine/offeringRemoval";
 import { IDENTITY_SYSTEM_NUMBER, BRAND_SYSTEM_NUMBER, STRATEGY_SYSTEM_NUMBER, BUSINESS_SYSTEM_NUMBER, swapBusinessAndStrategySequence, makeRoomForBusinessFoundationPage, makeRoomForCustomerEngagementPage, makeRoomForCapabilityPage, makeRoomForFinancialFoundationPage, makeRoomForFinancialSustainabilityPage, retireLegacyBusinessPages, moveGlobalIncomeTax, followSegmentStarts, markIdentitySegments, swapFinancialPages, mergeBrandInventoryIntoStyle, handOverAmbassadorPageToBrandSystem, migrateLegacyBrandData, migrateLegacyStrategyData, migrateLegacyIdentityData, migrateLegacyOperationsData, normalizeOperationsSectionsForCurrentSchema } from "./storageMigrations";
 
 export class StorageService {
@@ -38,6 +40,11 @@ export class StorageService {
      * on any System for a different Organization entirely.
      */
     static saveInterview(organizationId: string, session: InterviewSession): void {
+
+        // (An Offering removed from the Business System's Foundation is unticked on every card that pointed at it, first: offeringRemoval.ts.)
+        if (session.getFramework().metadata.systemNumber === BUSINESS_SYSTEM_NUMBER) {
+            clearRemovedOfferings(organizationId, session);
+        }
 
         const state = session.toJSON();
 
@@ -249,4 +256,50 @@ export class StorageService {
 
     }
 
+}
+
+/** The Identity System's Legal Entity, by its id in the saved answer. */
+const LEGAL_ENTITY_SECTION = 3;
+
+/** The Offering ids a Business Foundation answer holds, as saved: each Segment's Offerings, by id. */
+function savedOfferingIds(value: unknown): string[] {
+    const segments = value && typeof value === "object" && Array.isArray((value as { segments?: unknown }).segments) ? (value as { segments: unknown[] }).segments : [];
+    return segments.flatMap(segment => {
+        const offerings = segment && typeof segment === "object" && Array.isArray((segment as { offerings?: unknown }).offerings) ? (segment as { offerings: unknown[] }).offerings : [];
+        return offerings.map(offering => offering && typeof offering === "object" ? String((offering as { id?: unknown }).id ?? "") : "").filter(Boolean);
+    });
+}
+
+/*
+    AN OFFERING REMOVED LEAVES NO CARD POINTING AT IT (owner, Thanos, 2026-11-19; offeringRemoval.ts): before the Business System is saved, the Offerings its
+    Foundation held when last saved and holds no more are unticked on every other answer of the System (Customer Engagement, Infrastructure & Capability, the
+    Financials) and on the Identity System's Legal Entity, kept in storage. The Foundation's section is found by its answer's type, the Legal Entity by its id.
+*/
+function clearRemovedOfferings(organizationId: string, session: InterviewSession): void {
+    const foundation = session.getSections().find(section => section.answer?.type === AnswerType.BusinessFoundation);
+    if (!foundation) {
+        return;
+    }
+    const saved = OrganizationService.loadSystemState(organizationId, BUSINESS_SYSTEM_NUMBER) as { responses?: { sectionNumber: number; value?: unknown }[] } | null;
+    const before = saved?.responses?.find(response => response.sectionNumber === foundation.number)?.value;
+    if (before === undefined) {
+        return;
+    }
+    const removed = removedOfferingIds(savedOfferingIds(before), savedOfferingIds(session.getResponse(foundation.number)));
+    if (removed.length === 0) {
+        return;
+    }
+    for (const section of session.getSections()) {
+        const value = section.number === foundation.number ? undefined : session.getResponse(section.number);
+        if (value !== undefined && holdsOfferings(value, removed)) {
+            session.saveResponse(section.number, withoutOfferings(value, removed));
+        }
+    }
+    const document = OrganizationService.loadDocument(organizationId);
+    const identity = document?.systems[String(IDENTITY_SYSTEM_NUMBER)] as { responses?: { sectionNumber: number; value?: unknown }[] } | undefined;
+    const legal = identity?.responses?.find(response => response.sectionNumber === LEGAL_ENTITY_SECTION);
+    if (document && legal && holdsOfferings(legal.value, removed)) {
+        legal.value = withoutOfferings(legal.value, removed);
+        OrganizationService.saveDocument(document);
+    }
 }

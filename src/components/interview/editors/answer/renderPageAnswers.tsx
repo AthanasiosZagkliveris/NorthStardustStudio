@@ -2,6 +2,7 @@
  * THE PAGE ANSWERS of the Business, Financial, Identity and Brand Systems: each hands its value to the editor of its page. One function per Answer Structure, each given the scope of the renderer (scope.ts). Split out of AnswerRenderer.tsx.
  */
 import BrandStyleEditor from "../BrandStyleEditor.tsx";
+import { offeringFieldContext } from "../../cards/OfferingsField.tsx";
 import BusinessCapabilityEditor from "../BusinessCapabilityEditor.tsx";
 import BusinessEngagementEditor from "../BusinessEngagementEditor.tsx";
 import BusinessFoundationEditor from "../BusinessFoundationEditor.tsx";
@@ -167,12 +168,14 @@ export function renderFinancialSustainability(scope: AnswerScope) {
 
 export function renderLegalEntity(scope: AnswerScope) {
 
-    const { value, onChange, disabled, legalEntityPrefill, foundersProfile, onChangeFoundersProfile, openingDate, columnsDivider, frameTitle, showInstructions } = scope;
+    const { value, onChange, disabled, legalEntityPrefill, foundersProfile, onChangeFoundersProfile, openingDate, columnsDivider, frameTitle, showInstructions, businessFoundation, businessCapability, businessEngagement, financialSustainability } = scope;
 
     return (
 
         <LegalEntityEditor
             value={value}
+            // (An expense may serve the Business System's Offerings: their names and weights, read by id from its answers.)
+            {...offeringFieldContext(businessFoundation, businessCapability, businessEngagement, financialSustainability)}
             prefill={legalEntityPrefill}
             foundersProfile={foundersProfile}
             onChangeFoundersProfile={onChangeFoundersProfile as ((value: FoundersProfileValue) => void) | undefined}

@@ -3633,8 +3633,8 @@ export const foundationTables: readonly TableData[] = [
     "name": "Legal Entity expense card",
     "category": "",
     "group": "Legal Entity expense card",
-    "field_count": 11,
-    "fields_in_order": "F001 F002 F003 F072 F073 F026 F074 F075 F017 F018 F019",
+    "field_count": 13,
+    "fields_in_order": "F001 F002 F003 F072 F073 F026 F074 F075 F076 F017 F077 F018 F019",
     "source": "document 26 (v053)"
    },
    {
@@ -3644,7 +3644,7 @@ export const foundationTables: readonly TableData[] = [
     "category": "",
     "group": "",
     "field_count": 8,
-    "fields_in_order": "F076 F077 F078 F079 F080 F081 F082 F083",
+    "fields_in_order": "F078 F079 F080 F081 F082 F083 F084 F085",
     "source": "add probe (a new card)"
    },
    {
@@ -3654,7 +3654,7 @@ export const foundationTables: readonly TableData[] = [
     "category": "",
     "group": "",
     "field_count": 5,
-    "fields_in_order": "F084 F085 F078 F079 F083",
+    "fields_in_order": "F086 F087 F080 F081 F085",
     "source": "add probe (a new card)"
    },
    {
@@ -3664,7 +3664,7 @@ export const foundationTables: readonly TableData[] = [
     "category": "",
     "group": "",
     "field_count": 4,
-    "fields_in_order": "F086 F087 F088 F083",
+    "fields_in_order": "F088 F089 F090 F085",
     "source": "add probe (a new card)"
    },
    {
@@ -3674,7 +3674,7 @@ export const foundationTables: readonly TableData[] = [
     "category": "",
     "group": "",
     "field_count": 22,
-    "fields_in_order": "F089 F090 F091 F092 F093 F094 F095 F096 F097 F098 F099 F100 F101 F102 F103 F104 F105 F106 F107 F108 F109 F110",
+    "fields_in_order": "F091 F092 F093 F094 F095 F096 F097 F098 F099 F100 F101 F102 F103 F104 F105 F106 F107 F108 F109 F110 F111 F112",
     "source": "add probe (a new card)"
    },
    {
@@ -3684,7 +3684,7 @@ export const foundationTables: readonly TableData[] = [
     "category": "",
     "group": "",
     "field_count": 22,
-    "fields_in_order": "F111 F112 F113 F114 F115 F116 F117 F118 F119 F120 F121 F122 F123 F124 F125 F126 F127 F128 F129 F130 F131 F111",
+    "fields_in_order": "F113 F114 F115 F116 F117 F118 F119 F120 F121 F122 F123 F124 F125 F126 F127 F128 F129 F130 F131 F132 F133 F113",
     "source": "add probe (a new card)"
    },
    {
@@ -3694,7 +3694,7 @@ export const foundationTables: readonly TableData[] = [
     "category": "",
     "group": "",
     "field_count": 20,
-    "fields_in_order": "F132 F133 F051 F134 F134 F134 F134 F134 F135 F136 F137 F138 F139 F140 F141 F142 F143 F144 F145 F146",
+    "fields_in_order": "F134 F135 F051 F136 F136 F136 F136 F136 F137 F138 F139 F140 F141 F142 F143 F144 F145 F146 F147 F148",
     "source": "add probe (a new card)"
    },
    {
@@ -3704,7 +3704,7 @@ export const foundationTables: readonly TableData[] = [
     "category": "",
     "group": "",
     "field_count": 11,
-    "fields_in_order": "F147 F148 F149 F150 F151 F152 F153 F154 F155 F156 F157",
+    "fields_in_order": "F149 F150 F151 F152 F153 F154 F155 F156 F157 F158 F159",
     "source": "add probe (a new card)"
    },
    {
@@ -3714,7 +3714,7 @@ export const foundationTables: readonly TableData[] = [
     "category": "",
     "group": "",
     "field_count": 11,
-    "fields_in_order": "F147 F148 F149 F150 F151 F152 F158 F159 F160 F161 F162",
+    "fields_in_order": "F149 F150 F151 F152 F153 F154 F160 F161 F162 F163 F164",
     "source": "add probe (a new card)"
    },
    {
@@ -3724,7 +3724,7 @@ export const foundationTables: readonly TableData[] = [
     "category": "",
     "group": "",
     "field_count": 11,
-    "fields_in_order": "F147 F148 F149 F150 F151 F152 F163 F164 F165 F166 F167",
+    "fields_in_order": "F149 F150 F151 F152 F153 F154 F165 F166 F167 F168 F169",
     "source": "add probe (a new card)"
    },
    {
@@ -3734,7 +3734,7 @@ export const foundationTables: readonly TableData[] = [
     "category": "",
     "group": "",
     "field_count": 11,
-    "fields_in_order": "F168 F148 F149 F150 F151 F152 F169 F170 F171 F172 F173",
+    "fields_in_order": "F170 F150 F151 F152 F153 F154 F171 F172 F173 F174 F175",
     "source": "add probe (a new card)"
    },
    {
@@ -3744,7 +3744,7 @@ export const foundationTables: readonly TableData[] = [
     "category": "",
     "group": "",
     "field_count": 11,
-    "fields_in_order": "F147 F148 F149 F150 F151 F152 F174 F175 F176 F177 F178",
+    "fields_in_order": "F149 F150 F151 F152 F153 F154 F176 F177 F178 F179 F180",
     "source": "add probe (a new card)"
    },
    {
@@ -3754,7 +3754,7 @@ export const foundationTables: readonly TableData[] = [
     "category": "",
     "group": "",
     "field_count": 11,
-    "fields_in_order": "F147 F148 F149 F150 F151 F152 F179 F180 F181 F182 F183",
+    "fields_in_order": "F149 F150 F151 F152 F153 F154 F181 F182 F183 F184 F185",
     "source": "add probe (a new card)"
    },
    {
@@ -3764,7 +3764,7 @@ export const foundationTables: readonly TableData[] = [
     "category": "",
     "group": "",
     "field_count": 11,
-    "fields_in_order": "F147 F148 F149 F150 F151 F152 F184 F185 F186 F187 F188",
+    "fields_in_order": "F149 F150 F151 F152 F153 F154 F186 F187 F188 F189 F190",
     "source": "add probe (a new card)"
    },
    {
@@ -3774,7 +3774,7 @@ export const foundationTables: readonly TableData[] = [
     "category": "",
     "group": "",
     "field_count": 11,
-    "fields_in_order": "F147 F148 F149 F150 F151 F152 F189 F190 F191 F192 F193",
+    "fields_in_order": "F149 F150 F151 F152 F153 F154 F191 F192 F193 F194 F195",
     "source": "add probe (a new card)"
    },
    {
@@ -3784,7 +3784,7 @@ export const foundationTables: readonly TableData[] = [
     "category": "",
     "group": "",
     "field_count": 11,
-    "fields_in_order": "F147 F148 F149 F150 F151 F152 F189 F190 F191 F192 F193",
+    "fields_in_order": "F149 F150 F151 F152 F153 F154 F191 F192 F193 F194 F195",
     "source": "add probe (a new card)"
    },
    {
@@ -3794,7 +3794,7 @@ export const foundationTables: readonly TableData[] = [
     "category": "",
     "group": "",
     "field_count": 11,
-    "fields_in_order": "F147 F148 F149 F150 F151 F152 F189 F190 F191 F192 F193",
+    "fields_in_order": "F149 F150 F151 F152 F153 F154 F191 F192 F193 F194 F195",
     "source": "add probe (a new card)"
    },
    {
@@ -3804,7 +3804,7 @@ export const foundationTables: readonly TableData[] = [
     "category": "",
     "group": "",
     "field_count": 11,
-    "fields_in_order": "F147 F148 F149 F150 F151 F152 F189 F190 F191 F192 F193",
+    "fields_in_order": "F149 F150 F151 F152 F153 F154 F191 F192 F193 F194 F195",
     "source": "add probe (a new card)"
    },
    {
@@ -3814,7 +3814,7 @@ export const foundationTables: readonly TableData[] = [
     "category": "",
     "group": "",
     "field_count": 11,
-    "fields_in_order": "F147 F148 F149 F150 F151 F152 F189 F190 F191 F192 F193",
+    "fields_in_order": "F149 F150 F151 F152 F153 F154 F191 F192 F193 F194 F195",
     "source": "add probe (a new card)"
    },
    {
@@ -3824,7 +3824,7 @@ export const foundationTables: readonly TableData[] = [
     "category": "",
     "group": "",
     "field_count": 11,
-    "fields_in_order": "F147 F148 F149 F150 F151 F152 F189 F190 F191 F192 F193",
+    "fields_in_order": "F149 F150 F151 F152 F153 F154 F191 F192 F193 F194 F195",
     "source": "add probe (a new card)"
    }
   ]

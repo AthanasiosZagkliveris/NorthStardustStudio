@@ -384,6 +384,12 @@ export function floorRows(
     const shares = new Map<string, Record<string, number>>(cardsServing.map(card => [card.id, costIsShared(costOf(card), bought(card))
         ? offeringFractions(card.offeringIds ?? [], (card as { offeringShares?: Record<string, string> }).offeringShares ?? {}, shareWeights)
         : Object.fromEntries((card.offeringIds ?? []).map(id => [id, 1]))] as const));
+    // (A Legal Entity expense ticked to Offerings serves them as a card does, its fee paid once or each period shared by its basis: the owner's approved plan of
+    // 2026-11-18, step 3. None ticked: the whole company's, with no Offering.)
+    for (const expense of legalExpenses.filter(entry => entry.offeringIds.length > 0)) {
+        served.set(expense.id, expense.offeringIds);
+        shares.set(expense.id, offeringFractions(expense.offeringIds, expense.offeringShares, shareWeights));
+    }
     return rows.map(row => ({
         ...row,
         ...(lacking.has(row.id) && !freshCards.has(row.id) ? { missing: lacking.get(row.id) } : {}),

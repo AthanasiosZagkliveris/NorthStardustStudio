@@ -83,7 +83,7 @@ export function useCapabilityPeopleCards(earlier: Earlier) {
     /** A legal expense belongs to the Identity System: its page opens, and the card with it. */
     function openLegalExpense(id: string, under?: string) {
         // (From a founder's card, below it, the two stacked as a pair is; from the Inventory, the card alone.)
-        const detail: OpenRequest = { tile: "legal-entity-expenses", card: id, alone: under === undefined, under: under !== undefined };
+        const detail: OpenRequest = { tile: "legal-entity-registrations", card: id, alone: under === undefined, under: under !== undefined };
         setLegalUnder(under ?? null);
         // (A pair already standing -- an activity a responsibility led to -- gives its place to this one.)
         setPair(null);
@@ -218,7 +218,7 @@ export function useCapabilityPeopleCards(earlier: Earlier) {
                         ? (
                             <BusinessEmpty>
                                 No roles yet. Add them under 1. Identity System
-                                → 4. Founders Profile → 1. Founders.
+                                → Definition & Purpose → Founders & Ownership.
                             </BusinessEmpty>
                         )
                         : (
@@ -404,7 +404,7 @@ export function useCapabilityPeopleCards(earlier: Earlier) {
                         ? (
                             <BusinessEmpty>
                                 Nothing yet. Make this founder responsible for an
-                                activity under 2. Activities and it appears here.
+                                activity under Activities and it appears here.
                             </BusinessEmpty>
                         )
                         : responsibilitiesOpen && (() => {
@@ -754,7 +754,7 @@ export function useCapabilityPeopleCards(earlier: Earlier) {
             current,
             onNext,
             "Select",
-            "Add a founder under 1. Identity System → 1. Definition → Founders & Ownership.",
+            "Add a founder under 1. Identity System → Definition & Purpose → Founders & Ownership.",
             info,
             what ? what + " responsible" : undefined,
             !side,

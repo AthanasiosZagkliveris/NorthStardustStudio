@@ -117,6 +117,8 @@ export function openItemsOf(
         const answer = section.answer;
         const value = session.getResponse(section.number);
         const at = where(section);
+        // (The Identity System's Definition, by its id in the saved answer, said as the caller says every place: the page's name and its place in the rail.)
+        const definitionAt = (() => { const definition = session.getSections().find(candidate => candidate.number === 1); return definition ? where(definition) : at; })();
         const key = (...path: string[]) => fieldKey({ systemNumber, sectionNumber: section.number, path });
         const add = (text: string, place: Partial<OpenPlace> = {}) =>
             items.push({ text: at + ": " + text, place: { systemNumber, sectionNumber: section.number, ...place } });
@@ -177,12 +179,12 @@ export function openItemsOf(
                     blank(organisation.legalForm) && blank(organisation.legalFormOther) && "legal form"
                 ].filter((word): word is string => !!word);
                 if (missing.length > 0) {
-                    // (The Organization is a tile of the Identity System's Definition, page 1: its key is the tile's.)
-                    items.push({ text: at.replace(/ → [^→]*$/, " → 1. Definition") + ": Organisation: " + list(missing) + ".", place: { systemNumber, sectionNumber: 1, key: fieldKey({ systemNumber, sectionNumber: 1, path: ["description"] }) } });
+                    // (The Organization is a tile of the Identity System's Definition: its key is the tile's. The page is said by its name, from the page list by its section's id.)
+                    items.push({ text: definitionAt + ": Organisation: " + list(missing) + ".", place: { systemNumber, sectionNumber: 1, key: fieldKey({ systemNumber, sectionNumber: 1, path: ["description"] }) } });
                 }
                 if (!entity.founders.some(founder => !blank(founder.name))) {
-                    // (Founders & Ownership is a tile of the Identity System's Definition, page 1, since 2026-11-09: the item says it there and opens that page.)
-                    items.push({ text: at.replace(/ → [^→]*$/, " → 1. Definition") + ": " + LEGAL_ENTITY_SECTIONS[1] + ": a founder's name.", place: { systemNumber, sectionNumber: 1, anchors: ["legal-section-1"] } });
+                    // (Founders & Ownership is a tile of the Identity System's Definition since 2026-11-09: the item says it there and opens that page.)
+                    items.push({ text: definitionAt + ": " + LEGAL_ENTITY_SECTIONS[1] + ": a founder's name.", place: { systemNumber, sectionNumber: 1, anchors: ["legal-section-1"] } });
                 }
                 const planned = entity.formation.status === "planned";
                 const formation = [
