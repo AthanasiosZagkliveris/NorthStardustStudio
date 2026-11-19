@@ -80,6 +80,22 @@ describe("the Review page's items", () => {
         expect(reviewItems({ sessions, titles, organisationName: "Lumen" }).some(item => item.text.includes("Vision's future"))).toBe(false);
     });
 
+    test("an Ambassador with text and no character chosen is said at its Aesthetics (BA1, doc 46, section 5)", () => {
+        const sessions = load();
+        const brand = sessions[2]!;
+        const saved = brand.getResponse(1) as Record<string, unknown>;
+        brand.saveResponse(1, { ...saved, ambassador: { ...(saved.ambassador as object), character: [] } });
+        expect(reviewItems({ sessions, titles, organisationName: "Lumen" }).filter(item => item.group === "open")).toEqual([{
+            group: "open",
+            capability: "foundation",
+            text: "2. Brand System → 1. Ambassador: Your Ambassador's character: not chosen yet.",
+            place: { systemNumber: 2, sectionNumber: 1, key: "2.1:aesthetics" }
+        }]);
+        // (No text written: nothing asked yet.)
+        brand.saveResponse(1, { ambassador: { character: [] } });
+        expect(reviewItems({ sessions, titles, organisationName: "Lumen" }).some(item => item.text.includes("Ambassador's character"))).toBe(false);
+    });
+
     test("no founder named is said on Definition, where Founders & Ownership is drawn, and opens that page (2026-11-09)", () => {
         const sessions = load();
         const identity = sessions[1]!;

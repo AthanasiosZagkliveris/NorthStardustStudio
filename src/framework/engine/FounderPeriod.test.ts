@@ -164,6 +164,9 @@ type Example = { systems: Record<string, Parameters<typeof InterviewSession.from
 
     2026-11-19, the Vision's future (PB7, PB8; doc 45, 3.8; B2): the plan digests written again when the Executive Summary prints "When our Vision comes
     true, the business will be ..." from the examples' new answers. No amount changed.
+
+    2026-11-19, the Ambassador's choices (BA1 to BA4, BA6 to BA8; doc 46; B2): the plan digests written again when Brand & Voice opens with "Our brand is ...,
+    with a ... tone." from the examples' new answers. No amount changed.
 */
 const ENGAGEMENT = JSON.parse(engagementText) as Record<string, unknown>;
 

@@ -213,7 +213,25 @@
             "aesthetics": "A person in their thirties or forties in smart-casual clothes: a navy overshirt or knit over a plain white or light grey top, dark trousers and clean, simple shoes. Few accessories: a plain watch and a laptop in a matte grey sleeve. Neat, practical and unfussy, in navy, teal, off-white and grey. Nothing flashy, and nothing that looks like a tech start-up.",
             "attitude-body-language": "Calm and attentive. Sits beside the client at the same screen. Open posture, relaxed shoulders and steady eye contact. Listens more than they talk and takes notes by hand. Points to the real workflow on screen when explaining something. Never rushes and never glances at the clock.",
             "communication-voice": "Plain, precise and friendly. An even tone at a steady pace. Uses the client's own names for their tasks and avoids jargon; when a technical term is needed, it is explained once, in one sentence. Short sentences and concrete numbers: hours saved, steps removed. Honest about limits, and happy to say: \"I don't know yet, I'll check.\" Writes as it speaks: clear subject lines, a summary at the top, then short bullet points.",
-            "imprint": "First impression: \"this person understands how our office really works, and won't oversell.\" Lasting impression: relief and a sense of control. People should feel that their messy processes were taken seriously, that nothing will break without warning, and that they now own a system they understand. They remember the calm, the clear documentation and the hours they got back."
+            "imprint": "First impression: \"this person understands how our office really works, and won't oversell.\" Lasting impression: relief and a sense of control. People should feel that their messy processes were taken seriously, that nothing will break without warning, and that they now own a system they understand. They remember the calm, the clear documentation and the hours they got back.",
+            "ambassador": {
+              "character": [
+                "competent"
+              ],
+              "dress": "smart",
+              "setting": [
+                "office",
+                "online"
+              ],
+              "tone": {
+                "formality": 3
+              },
+              "words": "plain",
+              "feeling": [
+                "calm-and-worry-free",
+                "hopeful"
+              ]
+            }
           }
         },
         {

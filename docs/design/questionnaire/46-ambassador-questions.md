@@ -1,6 +1,6 @@
 # 46. The Ambassador: every question and option, as proposed
 
-Status: **proposal**, written 2026-11-12. The owner approved it on 2026-11-12 (decisions D3, D4, D5 below); it is built in phase 4 (the order of work: doc 49, section 8; numbered 5 until the financials moved last, 2026-11-12). Nothing here is built yet.
+Status: **proposal**, written 2026-11-12. The owner approved it on 2026-11-12 (decisions D3, D4, D5 below); it is built in phase 4 (the order of work: doc 49, section 8; numbered 5 until the financials moved last, 2026-11-12). **Built 2026-11-19** (the owner's approved plan of 2026-11-18, §3, B2): BA1 to BA4 and BA6 to BA8 with their starts, the drafts of section 3 (the Imprint's first sentence into its First impression), the Review item and the Business Plan's opening line (`AmbassadorChoices.ts`, `brand/AmbassadorChoices.tsx`). BA4's and BA6's rows are drawn as one rated group under their question (the shared `RatingScaleGroup`), each row with its own "i", in one band each. Not built yet: the Values' ids and BA9 (section 5, steps 1 and 2), the Style suggestions (section 4).
 
 Related: doc 40 (the form of a tile document), doc 39 (what an "i" says), doc 28 (8.3, the Brand System and its evidence), doc 45 (the Values this card reads), doc 47 (the relationship type, J3), doc 44 (the register and the code rule), doc 2 (the sources).
 

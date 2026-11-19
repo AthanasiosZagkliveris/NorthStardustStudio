@@ -1,5 +1,9 @@
 import ChoiceCard from "../../controls/ChoiceCard.tsx";
 import VisionChoices from "./purpose/VisionChoices.tsx";
+import AmbassadorChoices, { AMBASSADOR_PARTS } from "./brand/AmbassadorChoices.tsx";
+import { businessFoundationSegments } from "../../../framework/engine/AnswerUtils.ts";
+import { asBusinessEngagementValue } from "../../../framework/engine/businessFoundation/engagementReaders.ts";
+import { segmentIdentityOf } from "../../../framework/engine/SegmentContext.ts";
 import { CSSProperties, Fragment, useState } from "react";
 import CardShell from "../cards/CardShell.tsx";
 import { OptionalNote } from "../cards/BusinessCardFields.tsx";
@@ -71,7 +75,9 @@ function MultiPartAnswerRenderer({
 
     legalEntitySectionNumber,
 
-    businessFoundation
+    businessFoundation,
+
+    businessEngagement
 
 }: AnswerRendererProps) {
 
@@ -255,6 +261,8 @@ function MultiPartAnswerRenderer({
         // Philosophy & Manifesto. Mission and Vision are saved in Definition, the page's first section, under their own keys; Definition does not draw them.
         const holdsPurpose = (candidate: readonly (typeof parts)[number][] | undefined) => !!candidate?.some(part => part.id === "philosophy") && !!candidate?.some(part => part.id === "manifesto");
         const purposeHere = holdsPurpose(parts);
+        // THE AMBASSADOR (doc 46): the Brand System's first section, found by its four texts' keys.
+        const ambassadorHere = AMBASSADOR_PARTS.every(id => parts.some(part => part.id === id));
         const purposeBeside = !purposeHere && !!pageSections?.some(section => holdsPurpose(section.definition.parts));
         const definitionBeside = purposeHere ? pageSections?.find(section => section.definition.parts?.some(part => part.id === "mission")) : undefined;
 
@@ -336,6 +344,17 @@ function MultiPartAnswerRenderer({
                             businessStage={businessStage}
                             audienceOnly
                             onChange={(next) => onChangeLegalEntity(next)}
+                            disabled={disabled}
+                        />
+                    )}
+                    {/* (The Ambassador's choices above each of its texts, and its "Add a draft": doc 46.) */}
+                    {ambassadorHere && (
+                        <AmbassadorChoices
+                            part={part.id}
+                            value={values}
+                            onChange={(next) => onChange(next)}
+                            context={{ segments: businessFoundationSegments(businessFoundation), engagement: asBusinessEngagementValue(businessEngagement).segments, identity: segmentIdentityOf(asLegalEntityValue(legalEntity).organisation, businessStage) }}
+                            stage={businessStage}
                             disabled={disabled}
                         />
                     )}

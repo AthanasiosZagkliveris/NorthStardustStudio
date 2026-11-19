@@ -346,7 +346,22 @@
             "aesthetics": "A maker in their thirties in a well-worn oatmeal linen apron over undyed wool knitwear, sleeves pushed up. Natural fibres only, in cream, clay, moss green and indigo. Short nails, a little lanolin on the hands, a faint smell of wool and cedar. Always framed by the studio: north light through tall windows, looms in the background, spools of yarn on open shelves.",
             "attitude-body-language": "Relaxed and grounded. Stands side-on to you at the loom, inviting you in. Slow, deliberate hand movements; hands often in frame, touching the cloth. Warm eye contact and an easy smile; comfortable with pauses. Never hurried, never selling.",
             "communication-voice": "Calm, mid-low pitch, unhurried pace. Speaks plainly and specifically, naming the farm, the yarn weight and the hours a piece took, and explains craft terms the first time they come up. Short sentences, British spelling, gentle humour, no hype words (no 'luxury', no 'curated'). Asks questions and listens.",
-            "imprint": "First impression: 'these people really know what they're doing, and they're kind.' Lasting impression: a feeling of calm and of having learned something, and the urge to touch the cloth. People should leave wanting to keep what they buy for decades, and to come back and make something themselves."
+            "imprint": "First impression: 'these people really know what they're doing, and they're kind.' Lasting impression: a feeling of calm and of having learned something, and the urge to touch the cloth. People should leave wanting to keep what they buy for decades, and to come back and make something themselves.",
+            "ambassador": {
+              "character": [
+                "sincere"
+              ],
+              "dress": "creative",
+              "setting": [
+                "workshop",
+                "venue"
+              ],
+              "words": "plain",
+              "feeling": [
+                "calm-and-worry-free",
+                "delighted-by-how-it-looks"
+              ]
+            }
           }
         },
         {

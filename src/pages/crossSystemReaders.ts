@@ -188,17 +188,18 @@ export function readCrossSystem({ session, organizationId, systemNumber, navigat
     );
 
     /*
-        ON THE IDENTITY SYSTEM the Business System's answers are read as saved: its Foundation, Infrastructure & Capability, Customer Engagement and Financials, each
-        found by its answer's type in the Business framework (the section's id), so the Vision's PB8 says the Segment's reach today and a Legal Entity expense offers
-        the Offerings (the owner's approved plan of 2026-11-18, §3). The Business System's own pages read their open session.
+        ON EVERY OTHER SYSTEM the Business System's answers are read as saved: its Foundation, Infrastructure & Capability, Customer Engagement and Financials, each
+        found by its answer's type in the Business framework (the section's id), so the Vision's PB8 says the Segment's reach today, a Legal Entity expense offers
+        the Offerings and the Ambassador's choices read the Offerings, the Profiles and the relationships (the owner's approved plan of 2026-11-18, §3; doc 46).
+        The Business System's own pages read their open session.
     */
     const savedBusiness = (type: AnswerType): unknown => {
-        if (systemNumber !== IDENTITY_SYSTEM_NUMBER || !organizationId) {
+        const business = systems.find(candidate => candidate.id === "business");
+        if (!business || business.number === systemNumber || !organizationId) {
             return undefined;
         }
-        const business = systems.find(candidate => candidate.id === "business");
-        const section = business && frameworkRegistry.exists(business.id) ? frameworkRegistry.getFramework(business.id).sections.find(candidate => candidate.answer?.type === type) : undefined;
-        const state = section ? OrganizationService.loadSystemState(organizationId, business!.number) as { responses?: { sectionNumber: number; value?: unknown }[] } | null : null;
+        const section = frameworkRegistry.exists(business.id) ? frameworkRegistry.getFramework(business.id).sections.find(candidate => candidate.answer?.type === type) : undefined;
+        const state = section ? OrganizationService.loadSystemState(organizationId, business.number) as { responses?: { sectionNumber: number; value?: unknown }[] } | null : null;
         return section ? state?.responses?.find(response => response.sectionNumber === section.number)?.value : undefined;
     };
 

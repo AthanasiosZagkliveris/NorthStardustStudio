@@ -1129,13 +1129,13 @@ Registered before they are built, so their codes are fixed (the owner's approved
 | PB6 | Manifesto | Identity, section 2, `manifesto` | reserved | doc 45, 5 |
 | PB7 | What will your business be when your Vision comes true? | Identity, section 1, `visionAmbitions` | built 2026-11-19 (`VisionChoices.ts`) | doc 45, 3.8 |
 | PB8 | Where will your customers be? | Identity, section 1, `visionReach` | built 2026-11-19 (`VisionChoices.ts`) | doc 45, 3.8 |
-| BA1 | Which character fits your Ambassador best? | Brand, `ambassador.character` | reserved | doc 46, 2 |
-| BA2 | How does your Ambassador dress? | Brand, `ambassador.dress` | reserved | doc 46, 2 |
-| BA3 | Where would people meet your Ambassador? | Brand, `ambassador.setting` | reserved | doc 46, 2 |
-| BA4 | How does your Ambassador come across? | Brand, `ambassador.energy`, `ambassador.expression` | reserved | doc 46, 2 |
-| BA6 | What tone does your Ambassador use? | Brand, `ambassador.tone` | reserved | doc 46, 2 |
-| BA7 | Which words suit your customers? | Brand, `ambassador.words` | reserved | doc 46, 2 |
-| BA8 | How should people feel when they first meet your brand? | Brand, `ambassador.feeling` | reserved | doc 46, 2 |
+| BA1 | Which character fits your Ambassador best? | Brand, `ambassador.character` | built 2026-11-19 (`AmbassadorChoices.ts`) | doc 46, 2 |
+| BA2 | How does your Ambassador dress? | Brand, `ambassador.dress` | built 2026-11-19 (`AmbassadorChoices.ts`) | doc 46, 2 |
+| BA3 | Where would people meet your Ambassador? | Brand, `ambassador.setting` | built 2026-11-19 (`AmbassadorChoices.ts`) | doc 46, 2 |
+| BA4 | How does your Ambassador come across? | Brand, `ambassador.energy`, `ambassador.expression` | built 2026-11-19 (`AmbassadorChoices.ts`) | doc 46, 2 |
+| BA6 | What tone does your Ambassador use? | Brand, `ambassador.tone` | built 2026-11-19 (`AmbassadorChoices.ts`) | doc 46, 2 |
+| BA7 | Which words suit your customers? | Brand, `ambassador.words` | built 2026-11-19 (`AmbassadorChoices.ts`) | doc 46, 2 |
+| BA8 | How should people feel when they first meet your brand? | Brand, `ambassador.feeling` | built 2026-11-19 (`AmbassadorChoices.ts`) | doc 46, 2 |
 | BA9 | What should people remember you for? | Brand, `ambassador.remembered` | reserved | doc 46, 2 |
 | SW1 | How could these changes affect you? | Strategy, `strategyFoundation.changeEffects` | reserved | doc 49, 4 |
 | SC1 | What will this period's strategy mainly do? | Strategy, `strategyFoundation.stance` | reserved | doc 49, 4 |
@@ -1154,5 +1154,5 @@ Registered before they are built, so their codes are fixed (the owner's approved
 | Competitor | 12 | 0 | 3 |
 | Value Proposition | 0 | 0 | 0 |
 | Offering | 18 | 1 | 4 |
-| Reserved (Purpose & Beliefs, Ambassador, SWOT, Compass) | 2 | 18 | 1 |
-| **All** | **112** | **25** | **24** |
+| Reserved (Purpose & Beliefs, Ambassador, SWOT, Compass) | 9 | 11 | 1 |
+| **All** | **119** | **18** | **24** |

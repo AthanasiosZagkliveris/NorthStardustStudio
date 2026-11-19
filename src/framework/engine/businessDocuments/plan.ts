@@ -2,6 +2,7 @@
 
 import { currencyMark } from "../Currencies.ts";
 import { asVisionAmbitions, asVisionReach, visionChoicesSentence } from "../VisionChoices.ts";
+import { ambassadorShown, asAmbassadorChoices, brandVoiceLine } from "../AmbassadorChoices.ts";
 import { OFFERING_QUESTIONS, offeringAnswerLines, offeringOptions } from "../OfferingQuestions.ts";
 import { workspacesOf, WORKSPACE_GROUP_ID } from "../AnswerUtils.ts";
 import { offeringRelationshipsFor } from "../JourneySuggestions.ts";
@@ -300,7 +301,10 @@ function brandVoiceBlocks(f: Foundation): ExportBlock[] {
         ["Communication & Voice", f.ambassador["communication-voice"]],
         ["Imprint", f.ambassador.imprint]
     ] as [string, unknown][]).flatMap(([title, value]) => text(value) ? [heading(title, 2), ...paragraphs(value)] : []);
-    return parts.length > 0 ? [heading("Brand & Voice"), ...parts] : [];
+    // (The opening line above the four texts, from the character and the tone (doc 46, section 3: BA1, BA6).)
+    const identity = segmentIdentityOf(f.legalEntity.organisation, f.stage);
+    const opening = brandVoiceLine(ambassadorShown(asAmbassadorChoices(f.ambassador), { segments: f.segments, engagement: f.engagement.segments, identity }));
+    return parts.length > 0 || opening ? [heading("Brand & Voice"), ...(opening ? paragraph(opening) : []), ...parts] : [];
 }
 
 /**

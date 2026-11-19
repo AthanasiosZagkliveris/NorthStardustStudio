@@ -1,12 +1,12 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`Lumen & Loom Studio > Brand System › 1. Ambassador > tile aesthetics 1`] = `
-"AestheticsAestheticsiA maker in their thirties in a well-worn oatmeal linen apron over undyed wool knitwear, sleeves pushed up. Natural fibres only, in cream, clay, moss green and indigo. Short nails, a little lanolin on the hands, a faint smell of wool and cedar. Always framed by the studio: north light through tall windows, looms in the background, spools of yarn on open shelves.Back‹›Back
+"AestheticsAestheticsiWhich character fits your Ambassador best?i 2 maxWarm and honestiLively and boldiCapable and reliableiRefined and elegantiTough and practicaliHow does your Ambassador dress?iFormal / tailoredSmart casualRelaxed / casualPractical / workwearCreative / artisticWhere would people meet your Ambassador?i 2 maxA workshop / studioAn officeA homeA shop, café or venueOutdoorsOnlineAdd a draftA maker in their thirties in a well-worn oatmeal linen apron over undyed wool knitwear, sleeves pushed up. Natural fibres only, in cream, clay, moss green and indigo. Short nails, a little lanolin on the hands, a faint smell of wool and cedar. Always framed by the studio: north light through tall windows, looms in the background, spools of yarn on open shelves.Back‹›Back
 [fields] A maker in their thirties in a well-worn oatmeal linen apron over undyed wool knitwear, sleeves pushed up. Natural fibres only, in cream, clay, moss green and indigo. Short nails, a little lanolin on the hands, a faint smell of wool and cedar. Always framed by the studio: north light through tall windows, looms in the background, spools of yarn on open shelves."
 `;
 
 exports[`Lumen & Loom Studio > Brand System › 1. Ambassador > tile attitude-body-language 1`] = `
-"Body LanguageBody LanguageiRelaxed and grounded. Stands side-on to you at the loom, inviting you in. Slow, deliberate hand movements; hands often in frame, touching the cloth. Warm eye contact and an easy smile; comfortable with pauses. Never hurried, never selling.Back‹›Back
+"Body LanguageBody LanguageiHow does your Ambassador come across?i12345EnergyiExpressioniAdd a draftRelaxed and grounded. Stands side-on to you at the loom, inviting you in. Slow, deliberate hand movements; hands often in frame, touching the cloth. Warm eye contact and an easy smile; comfortable with pauses. Never hurried, never selling.Back‹›Back
 [fields] Relaxed and grounded. Stands side-on to you at the loom, inviting you in. Slow, deliberate hand movements; hands often in frame, touching the cloth. Warm eye contact and an easy smile; comfortable with pauses. Never hurried, never selling."
 `;
 
@@ -31,12 +31,12 @@ exports[`Lumen & Loom Studio > Brand System › 1. Ambassador > tile brand-style
 `;
 
 exports[`Lumen & Loom Studio > Brand System › 1. Ambassador > tile communication-voice 1`] = `
-"Communication & VoiceCommunication & VoiceiCalm, mid-low pitch, unhurried pace. Speaks plainly and specifically, naming the farm, the yarn weight and the hours a piece took, and explains craft terms the first time they come up. Short sentences, British spelling, gentle humour, no hype words (no 'luxury', no 'curated'). Asks questions and listens.Back‹›Back
+"Communication & VoiceCommunication & VoiceiWhat tone does your Ambassador use?i12345FormalityiHumouriRespectiEnthusiasmiWhich words suit your customers?iPlain, everyday wordsExpert words, explainedThe trade's own termsAdd a draftCalm, mid-low pitch, unhurried pace. Speaks plainly and specifically, naming the farm, the yarn weight and the hours a piece took, and explains craft terms the first time they come up. Short sentences, British spelling, gentle humour, no hype words (no 'luxury', no 'curated'). Asks questions and listens.Back‹›Back
 [fields] Calm, mid-low pitch, unhurried pace. Speaks plainly and specifically, naming the farm, the yarn weight and the hours a piece took, and explains craft terms the first time they come up. Short sentences, British spelling, gentle humour, no hype words (no 'luxury', no 'curated'). Asks questions and listens."
 `;
 
 exports[`Lumen & Loom Studio > Brand System › 1. Ambassador > tile imprint 1`] = `
-"ImprintImprintiFirst impression'these people really know what they're doing, and they're kind.'Lasting impressiona feeling of calm and of having learned something, and the urge to touch the cloth. People should leave wanting to keep what they buy for decades, and to come back and make something themselves.Back‹›Back
+"ImprintImprintiHow should people feel when they first meet your brand?i 2 maxCalmNurturedDelightedFulfilledProudConfidentGlad to work with youStylishIncludedAltruisticRespectedResponsibleAdd a draftFirst impression'these people really know what they're doing, and they're kind.'Lasting impressiona feeling of calm and of having learned something, and the urge to touch the cloth. People should leave wanting to keep what they buy for decades, and to come back and make something themselves.Back‹›Back
 [fields] 'these people really know what they're doing, and they're kind.' | a feeling of calm and of having learned something, and the urge to touch the cloth. People should leave wanting to keep what they buy for decades, and to come back and make something themselves."
 `;
 
@@ -46,12 +46,12 @@ exports[`Lumen & Loom Studio > Brand System › 1. Ambassador 1`] = `
 `;
 
 exports[`Lumen & Loom Studio > Brand System › 2. Style > tile aesthetics 1`] = `
-"AestheticsAestheticsiA maker in their thirties in a well-worn oatmeal linen apron over undyed wool knitwear, sleeves pushed up. Natural fibres only, in cream, clay, moss green and indigo. Short nails, a little lanolin on the hands, a faint smell of wool and cedar. Always framed by the studio: north light through tall windows, looms in the background, spools of yarn on open shelves.Back‹›Back
+"AestheticsAestheticsiWhich character fits your Ambassador best?i 2 maxWarm and honestiLively and boldiCapable and reliableiRefined and elegantiTough and practicaliHow does your Ambassador dress?iFormal / tailoredSmart casualRelaxed / casualPractical / workwearCreative / artisticWhere would people meet your Ambassador?i 2 maxA workshop / studioAn officeA homeA shop, café or venueOutdoorsOnlineAdd a draftA maker in their thirties in a well-worn oatmeal linen apron over undyed wool knitwear, sleeves pushed up. Natural fibres only, in cream, clay, moss green and indigo. Short nails, a little lanolin on the hands, a faint smell of wool and cedar. Always framed by the studio: north light through tall windows, looms in the background, spools of yarn on open shelves.Back‹›Back
 [fields] A maker in their thirties in a well-worn oatmeal linen apron over undyed wool knitwear, sleeves pushed up. Natural fibres only, in cream, clay, moss green and indigo. Short nails, a little lanolin on the hands, a faint smell of wool and cedar. Always framed by the studio: north light through tall windows, looms in the background, spools of yarn on open shelves."
 `;
 
 exports[`Lumen & Loom Studio > Brand System › 2. Style > tile attitude-body-language 1`] = `
-"Body LanguageBody LanguageiRelaxed and grounded. Stands side-on to you at the loom, inviting you in. Slow, deliberate hand movements; hands often in frame, touching the cloth. Warm eye contact and an easy smile; comfortable with pauses. Never hurried, never selling.Back‹›Back
+"Body LanguageBody LanguageiHow does your Ambassador come across?i12345EnergyiExpressioniAdd a draftRelaxed and grounded. Stands side-on to you at the loom, inviting you in. Slow, deliberate hand movements; hands often in frame, touching the cloth. Warm eye contact and an easy smile; comfortable with pauses. Never hurried, never selling.Back‹›Back
 [fields] Relaxed and grounded. Stands side-on to you at the loom, inviting you in. Slow, deliberate hand movements; hands often in frame, touching the cloth. Warm eye contact and an easy smile; comfortable with pauses. Never hurried, never selling."
 `;
 
@@ -76,12 +76,12 @@ exports[`Lumen & Loom Studio > Brand System › 2. Style > tile brand-style-typo
 `;
 
 exports[`Lumen & Loom Studio > Brand System › 2. Style > tile communication-voice 1`] = `
-"Communication & VoiceCommunication & VoiceiCalm, mid-low pitch, unhurried pace. Speaks plainly and specifically, naming the farm, the yarn weight and the hours a piece took, and explains craft terms the first time they come up. Short sentences, British spelling, gentle humour, no hype words (no 'luxury', no 'curated'). Asks questions and listens.Back‹›Back
+"Communication & VoiceCommunication & VoiceiWhat tone does your Ambassador use?i12345FormalityiHumouriRespectiEnthusiasmiWhich words suit your customers?iPlain, everyday wordsExpert words, explainedThe trade's own termsAdd a draftCalm, mid-low pitch, unhurried pace. Speaks plainly and specifically, naming the farm, the yarn weight and the hours a piece took, and explains craft terms the first time they come up. Short sentences, British spelling, gentle humour, no hype words (no 'luxury', no 'curated'). Asks questions and listens.Back‹›Back
 [fields] Calm, mid-low pitch, unhurried pace. Speaks plainly and specifically, naming the farm, the yarn weight and the hours a piece took, and explains craft terms the first time they come up. Short sentences, British spelling, gentle humour, no hype words (no 'luxury', no 'curated'). Asks questions and listens."
 `;
 
 exports[`Lumen & Loom Studio > Brand System › 2. Style > tile imprint 1`] = `
-"ImprintImprintiFirst impression'these people really know what they're doing, and they're kind.'Lasting impressiona feeling of calm and of having learned something, and the urge to touch the cloth. People should leave wanting to keep what they buy for decades, and to come back and make something themselves.Back‹›Back
+"ImprintImprintiHow should people feel when they first meet your brand?i 2 maxCalmNurturedDelightedFulfilledProudConfidentGlad to work with youStylishIncludedAltruisticRespectedResponsibleAdd a draftFirst impression'these people really know what they're doing, and they're kind.'Lasting impressiona feeling of calm and of having learned something, and the urge to touch the cloth. People should leave wanting to keep what they buy for decades, and to come back and make something themselves.Back‹›Back
 [fields] 'these people really know what they're doing, and they're kind.' | a feeling of calm and of having learned something, and the urge to touch the cloth. People should leave wanting to keep what they buy for decades, and to come back and make something themselves."
 `;
 
@@ -555,12 +555,12 @@ exports[`Lumen & Loom Studio > Strategy System › 3. Roadmap MM/YY - MM/YY 1`] 
 `;
 
 exports[`Quillfield Automation > Brand System › 1. Ambassador > tile aesthetics 1`] = `
-"AestheticsAestheticsiA person in their thirties or forties in smart-casual clothes: a navy overshirt or knit over a plain white or light grey top, dark trousers and clean, simple shoes. Few accessories: a plain watch and a laptop in a matte grey sleeve. Neat, practical and unfussy, in navy, teal, off-white and grey. Nothing flashy, and nothing that looks like a tech start-up.Back‹›Back
+"AestheticsAestheticsiWhich character fits your Ambassador best?iWarm and honestiLively and boldiCapable and reliableiRefined and elegantiTough and practicaliHow does your Ambassador dress?iFormal / tailoredSmart casualRelaxed / casualPractical / workwearCreative / artisticWhere would people meet your Ambassador?i 2 maxA workshop / studioAn officeA homeA shop, café or venueOutdoorsOnlineAdd a draftA person in their thirties or forties in smart-casual clothes: a navy overshirt or knit over a plain white or light grey top, dark trousers and clean, simple shoes. Few accessories: a plain watch and a laptop in a matte grey sleeve. Neat, practical and unfussy, in navy, teal, off-white and grey. Nothing flashy, and nothing that looks like a tech start-up.Back‹›Back
 [fields] A person in their thirties or forties in smart-casual clothes: a navy overshirt or knit over a plain white or light grey top, dark trousers and clean, simple shoes. Few accessories: a plain watch and a laptop in a matte grey sleeve. Neat, practical and unfussy, in navy, teal, off-white and grey. Nothing flashy, and nothing that looks like a tech start-up."
 `;
 
 exports[`Quillfield Automation > Brand System › 1. Ambassador > tile attitude-body-language 1`] = `
-"Body LanguageBody LanguageiCalm and attentive. Sits beside the client at the same screen. Open posture, relaxed shoulders and steady eye contact. Listens more than they talk and takes notes by hand. Points to the real workflow on screen when explaining something. Never rushes and never glances at the clock.Back‹›Back
+"Body LanguageBody LanguageiHow does your Ambassador come across?i12345EnergyiExpressioniAdd a draftCalm and attentive. Sits beside the client at the same screen. Open posture, relaxed shoulders and steady eye contact. Listens more than they talk and takes notes by hand. Points to the real workflow on screen when explaining something. Never rushes and never glances at the clock.Back‹›Back
 [fields] Calm and attentive. Sits beside the client at the same screen. Open posture, relaxed shoulders and steady eye contact. Listens more than they talk and takes notes by hand. Points to the real workflow on screen when explaining something. Never rushes and never glances at the clock."
 `;
 
@@ -585,12 +585,12 @@ exports[`Quillfield Automation > Brand System › 1. Ambassador > tile brand-sty
 `;
 
 exports[`Quillfield Automation > Brand System › 1. Ambassador > tile communication-voice 1`] = `
-"Communication & VoiceCommunication & VoiceiPlain, precise and friendly. An even tone at a steady pace. Uses the client's own names for their tasks and avoids jargon; when a technical term is needed, it is explained once, in one sentence. Short sentences and concrete numbers: hours saved, steps removed. Honest about limits, and happy to say: "I don't know yet, I'll check." Writes as it speaks: clear subject lines, a summary at the top, then short bullet points.Back‹›Back
+"Communication & VoiceCommunication & VoiceiWhat tone does your Ambassador use?i12345FormalityiHumouriRespectiEnthusiasmiWhich words suit your customers?iPlain, everyday wordsExpert words, explainedThe trade's own termsAdd a draftPlain, precise and friendly. An even tone at a steady pace. Uses the client's own names for their tasks and avoids jargon; when a technical term is needed, it is explained once, in one sentence. Short sentences and concrete numbers: hours saved, steps removed. Honest about limits, and happy to say: "I don't know yet, I'll check." Writes as it speaks: clear subject lines, a summary at the top, then short bullet points.Back‹›Back
 [fields] Plain, precise and friendly. An even tone at a steady pace. Uses the client's own names for their tasks and avoids jargon; when a technical term is needed, it is explained once, in one sentence. Short sentences and concrete numbers: hours saved, steps removed. Honest about limits, and happy to say: "I don't know yet, I'll check." Writes as it speaks: clear subject lines, a summary at the top, then short bullet points."
 `;
 
 exports[`Quillfield Automation > Brand System › 1. Ambassador > tile imprint 1`] = `
-"ImprintImprintiFirst impression"this person understands how our office really works, and won't oversell."Lasting impressionrelief and a sense of control. People should feel that their messy processes were taken seriously, that nothing will break without warning, and that they now own a system they understand. They remember the calm, the clear documentation and the hours they got back.Back‹›Back
+"ImprintImprintiHow should people feel when they first meet your brand?i 2 maxConfidentProsperousOptimisticTrustedRespectedFirst impression"this person understands how our office really works, and won't oversell."Lasting impressionrelief and a sense of control. People should feel that their messy processes were taken seriously, that nothing will break without warning, and that they now own a system they understand. They remember the calm, the clear documentation and the hours they got back.Back‹›Back
 [fields] "this person understands how our office really works, and won't oversell." | relief and a sense of control. People should feel that their messy processes were taken seriously, that nothing will break without warning, and that they now own a system they understand. They remember the calm, the clear documentation and the hours they got back."
 `;
 
@@ -600,12 +600,12 @@ exports[`Quillfield Automation > Brand System › 1. Ambassador 1`] = `
 `;
 
 exports[`Quillfield Automation > Brand System › 2. Style > tile aesthetics 1`] = `
-"AestheticsAestheticsiA person in their thirties or forties in smart-casual clothes: a navy overshirt or knit over a plain white or light grey top, dark trousers and clean, simple shoes. Few accessories: a plain watch and a laptop in a matte grey sleeve. Neat, practical and unfussy, in navy, teal, off-white and grey. Nothing flashy, and nothing that looks like a tech start-up.Back‹›Back
+"AestheticsAestheticsiWhich character fits your Ambassador best?iWarm and honestiLively and boldiCapable and reliableiRefined and elegantiTough and practicaliHow does your Ambassador dress?iFormal / tailoredSmart casualRelaxed / casualPractical / workwearCreative / artisticWhere would people meet your Ambassador?i 2 maxA workshop / studioAn officeA homeA shop, café or venueOutdoorsOnlineAdd a draftA person in their thirties or forties in smart-casual clothes: a navy overshirt or knit over a plain white or light grey top, dark trousers and clean, simple shoes. Few accessories: a plain watch and a laptop in a matte grey sleeve. Neat, practical and unfussy, in navy, teal, off-white and grey. Nothing flashy, and nothing that looks like a tech start-up.Back‹›Back
 [fields] A person in their thirties or forties in smart-casual clothes: a navy overshirt or knit over a plain white or light grey top, dark trousers and clean, simple shoes. Few accessories: a plain watch and a laptop in a matte grey sleeve. Neat, practical and unfussy, in navy, teal, off-white and grey. Nothing flashy, and nothing that looks like a tech start-up."
 `;
 
 exports[`Quillfield Automation > Brand System › 2. Style > tile attitude-body-language 1`] = `
-"Body LanguageBody LanguageiCalm and attentive. Sits beside the client at the same screen. Open posture, relaxed shoulders and steady eye contact. Listens more than they talk and takes notes by hand. Points to the real workflow on screen when explaining something. Never rushes and never glances at the clock.Back‹›Back
+"Body LanguageBody LanguageiHow does your Ambassador come across?i12345EnergyiExpressioniAdd a draftCalm and attentive. Sits beside the client at the same screen. Open posture, relaxed shoulders and steady eye contact. Listens more than they talk and takes notes by hand. Points to the real workflow on screen when explaining something. Never rushes and never glances at the clock.Back‹›Back
 [fields] Calm and attentive. Sits beside the client at the same screen. Open posture, relaxed shoulders and steady eye contact. Listens more than they talk and takes notes by hand. Points to the real workflow on screen when explaining something. Never rushes and never glances at the clock."
 `;
 
@@ -630,12 +630,12 @@ exports[`Quillfield Automation > Brand System › 2. Style > tile brand-style-ty
 `;
 
 exports[`Quillfield Automation > Brand System › 2. Style > tile communication-voice 1`] = `
-"Communication & VoiceCommunication & VoiceiPlain, precise and friendly. An even tone at a steady pace. Uses the client's own names for their tasks and avoids jargon; when a technical term is needed, it is explained once, in one sentence. Short sentences and concrete numbers: hours saved, steps removed. Honest about limits, and happy to say: "I don't know yet, I'll check." Writes as it speaks: clear subject lines, a summary at the top, then short bullet points.Back‹›Back
+"Communication & VoiceCommunication & VoiceiWhat tone does your Ambassador use?i12345FormalityiHumouriRespectiEnthusiasmiWhich words suit your customers?iPlain, everyday wordsExpert words, explainedThe trade's own termsAdd a draftPlain, precise and friendly. An even tone at a steady pace. Uses the client's own names for their tasks and avoids jargon; when a technical term is needed, it is explained once, in one sentence. Short sentences and concrete numbers: hours saved, steps removed. Honest about limits, and happy to say: "I don't know yet, I'll check." Writes as it speaks: clear subject lines, a summary at the top, then short bullet points.Back‹›Back
 [fields] Plain, precise and friendly. An even tone at a steady pace. Uses the client's own names for their tasks and avoids jargon; when a technical term is needed, it is explained once, in one sentence. Short sentences and concrete numbers: hours saved, steps removed. Honest about limits, and happy to say: "I don't know yet, I'll check." Writes as it speaks: clear subject lines, a summary at the top, then short bullet points."
 `;
 
 exports[`Quillfield Automation > Brand System › 2. Style > tile imprint 1`] = `
-"ImprintImprintiFirst impression"this person understands how our office really works, and won't oversell."Lasting impressionrelief and a sense of control. People should feel that their messy processes were taken seriously, that nothing will break without warning, and that they now own a system they understand. They remember the calm, the clear documentation and the hours they got back.Back‹›Back
+"ImprintImprintiHow should people feel when they first meet your brand?i 2 maxConfidentProsperousOptimisticTrustedRespectedFirst impression"this person understands how our office really works, and won't oversell."Lasting impressionrelief and a sense of control. People should feel that their messy processes were taken seriously, that nothing will break without warning, and that they now own a system they understand. They remember the calm, the clear documentation and the hours they got back.Back‹›Back
 [fields] "this person understands how our office really works, and won't oversell." | relief and a sense of control. People should feel that their messy processes were taken seriously, that nothing will break without warning, and that they now own a system they understand. They remember the calm, the clear documentation and the hours they got back."
 `;
 
