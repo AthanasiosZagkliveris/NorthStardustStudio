@@ -4,6 +4,7 @@ import AmbassadorChoices, { AMBASSADOR_PARTS } from "./brand/AmbassadorChoices.t
 import { businessFoundationSegments } from "../../../framework/engine/AnswerUtils.ts";
 import { asBusinessEngagementValue } from "../../../framework/engine/businessFoundation/engagementReaders.ts";
 import { segmentIdentityOf } from "../../../framework/engine/SegmentContext.ts";
+import { withValuesText } from "../../../framework/engine/ValueIds.ts";
 import { CSSProperties, Fragment, useState } from "react";
 import CardShell from "../cards/CardShell.tsx";
 import { OptionalNote } from "../cards/BusinessCardFields.tsx";
@@ -239,7 +240,8 @@ function MultiPartAnswerRenderer({
                     // The Early Positioning text under its questions is the shared optional note (the Notes of every card).
                     ? <OptionalNote label="Notes" fieldId={part.label} ariaLabel="Notes" value={typeof from[part.id] === "string" ? from[part.id] as string : ""} onChange={(next) => save({ ...from, [part.id]: next })} disabled={disabled} />
                 : part.id === "values" || part.id === "principles"
-                    ? <NumberedTextList label={part.label} value={from[part.id]} onChange={(next) => save({ ...from, [part.id]: next })} disabled={disabled} />
+                    // (The Values keep an id for each line, beside their text: withValuesText, doc 46, section 5.)
+                    ? <NumberedTextList label={part.label} value={from[part.id]} onChange={(next) => save(part.id === "values" ? withValuesText(from, next) : { ...from, [part.id]: next })} disabled={disabled} />
                     : (
                         <SingleAnswerRenderer
                             definition={part.answer}
