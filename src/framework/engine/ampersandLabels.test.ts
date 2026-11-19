@@ -51,4 +51,13 @@ describe("labels and options say & (owner, 2026-10-29/30 and 2026-11-19)", () =>
             .filter(label => !KEPT.has(label));
         expect(found).toEqual([]);
     });
+
+    // (A box's or a section's title, a heading: "Source and Amount", "Pay and tax" and "Who Does It and How Long" were missed by the check of labels alone; the
+    // owner's screenshot, 2026-11-19. A sentence -- with a "?" or a "," before "and" -- and a source's own title are not headings.)
+    it("has no ' and ' in a title or heading the app draws", () => {
+        const found = Object.values(sources)
+            .flatMap(text => [...text.matchAll(/(?:<EngagementBox[^>]*\stitle|<BusinessGroup[^>]*\stitle|<DialogHeading[^>]*\stitle)="([^"]* and [^"]*)"|sectionTitle\("([^"]* and [^"]*)"\)/g)].map(match => match[1] ?? match[2]))
+            .filter(title => !/[?,]/.test(title) && !KEPT.has(title));
+        expect(found).toEqual([]);
+    });
 });

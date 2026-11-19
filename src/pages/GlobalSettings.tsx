@@ -408,8 +408,8 @@ export default function GlobalSettings() {
                     </div>
                 </section>
 
-                <section className="settings-section" aria-label="Pay and tax">
-                    {sectionTitle("Pay and tax")}
+                <section className="settings-section" aria-label="Pay & tax">
+                    {sectionTitle("Pay & tax")}
                     {figureField("Employer on-cost coefficient", "Added to the gross salaries, for the country. It differs by country.", settings.onCostRate, (next) => change({ onCostRate: next }), NUMBER_LIMITS.percent, "%")}
                     {figureField("Insurance per employee", "An amount a month, for key-person and health cover.", settings.insurancePerEmployee, (next) => change({ insurancePerEmployee: next }), NUMBER_LIMITS.money)}
                 </section>
@@ -598,7 +598,7 @@ export default function GlobalSettings() {
                 </section>
 
                 <section className="settings-section" aria-label="Rates">
-                    {sectionTitle("Royalties and commissions")}
+                    {sectionTitle("Royalties & commissions")}
                     {figureField("Royalty on sales", "The default rate; a card may set its own for its contract.", settings.royaltyRate, (next) => change({ royaltyRate: next }), NUMBER_LIMITS.percent, "%")}
                     {figureField("Affiliate network or influencer commission", "The default rate.", settings.affiliateRate, (next) => change({ affiliateRate: next }), NUMBER_LIMITS.percent, "%")}
                     {figureField("Sales agent or B2B broker commission", "The default rate.", settings.agentRate, (next) => change({ agentRate: next }), NUMBER_LIMITS.percent, "%")}

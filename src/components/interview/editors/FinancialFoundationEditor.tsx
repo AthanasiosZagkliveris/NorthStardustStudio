@@ -1022,7 +1022,7 @@ export default function FinancialFoundationEditor({
                     as a Customer Engagement card -- the source and its amount, when it arrives (or a loan's terms), and what it is for.) */}
                 <SingleColumn>
                     <EngagementBoxes>{[
-                        <EngagementBox key="source" title="Source and Amount" bands={[
+                        <EngagementBox key="source" title="Source & Amount" bands={[
                                         <div className="business-capability-row">
                                             {picker("Funding Type", what + " type", types, source.type,
                                                 (next) => changeSource(source.id, { type: next }), "Select a type")}

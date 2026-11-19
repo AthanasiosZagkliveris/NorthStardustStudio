@@ -1028,7 +1028,7 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
                     </BusinessField>
                 )
                         ]} />,
-                        <EngagementBox key="who" title="Who Does It and How Long" bands={[
+                        <EngagementBox key="who" title="Who Does It & How Long" bands={[
                             <Fragment key="hours">
                 <BusinessField
                     label={recurring ? "Working Hours per Client (" + (weekly ? "a week" : "a month") + "), by person" : sessions ? "Working Hours per Session, by person" : "Working Hours per Unit, by person"}

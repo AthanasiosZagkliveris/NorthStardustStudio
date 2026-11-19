@@ -3708,6 +3708,28 @@
         if (Math.abs(cardBox.width - Math.min(wanted, window.innerWidth - 16)) > 1.5) {
             fail("a floating card is the open card width", { width: cardBox.width, wanted, kind });
         }
+        // ITS ARROWS STAND 12px FROM THE CARD ITSELF, AND ITS RAIL'S TAB TOUCHES IT (layout rules section 10, "Carousel arrows stand CAROUSEL_ARROW_GAP (12px) from the
+        // card or dialog", "Page tab": a rail stands in a tab touching the frame; the owner's screenshots of 2026-11-19, a financial card stood 13px off its own box).
+        {
+            const arrows = [...document.querySelectorAll(".carousel-arrow")].filter(visible).map(rect);
+            const left = arrows.find(box => box.right <= cardBox.left + cardBox.width / 2);
+            const right = arrows.find(box => box.left >= cardBox.left + cardBox.width / 2);
+            // (An arrow held in the window at its 4px edge -- a card as wide as a narrow window -- is not measured.)
+            if (left && left.left > 4.5 && !rules.near(cardBox.left - left.right, 12, 1)) {
+                fail("a floating card's arrows stand 12px from the card", { side: "left", gap: cardBox.left - left.right });
+            }
+            if (right && right.right < window.innerWidth - 4.5 && !rules.near(right.left - cardBox.right, 12, 1)) {
+                fail("a floating card's arrows stand 12px from the card", { side: "right", gap: right.left - cardBox.right });
+            }
+            const tab = [...document.querySelectorAll(".carousel-rail.carousel-rail-tab")].find(visible);
+            if (tab) {
+                const t = rect(tab);
+                const gap = tab.classList.contains("carousel-rail-tab-left") ? cardBox.left - t.right : t.left - cardBox.right;
+                if (gap > 1.5) {
+                    fail("a floating card's rail tab touches the card", { gap });
+                }
+            }
+        }
         // ITS RAIL GOES THROUGH THE BOX IT WAS OPENED FROM (layout rules section 10, "Carousel arrows": "the cards of its tile (of its box, where it was opened from
         // one)"; the owner's bug report of 2026-11-19, a Production Machinery card stepped on into Devices & Tools): over a dialog that shows a box of cards alone
         // (no category tiles), the card's rail has one bullet per card tile of that box.

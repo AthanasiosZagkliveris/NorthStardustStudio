@@ -38,11 +38,16 @@
 */
 .financial-page-head > .answer-columns-divider,
 .financial-page > .financial-plan-bar,
-.financial-page > .business-foundation-card{
+.financial-page:not(.floating-card-body *) > .business-foundation-card{
 
     margin-inline:-13px;
 
 }
+
+/* (A FLOATING CARD of a financial page -- a Revenue Stream, a Capital & Funding source -- is drawn in the page's wrapper but is no page column: it gives nothing back,
+   so it stands on its floating card's own box and its arrows and rail keep their 12px from it. It stood 13px to the left of that box: the left arrow touched the card,
+   the rail stood 13px off its right edge; the owner's screenshots, 2026-11-19; layout rules section 10, "Carousel arrows stand CAROUSEL_ARROW_GAP (12px) from the card",
+   "Page tab": a rail stands in a tab touching the frame.) */
 
 /* A cost group's arrow and title (its "i" inside the title, see
    .info-note) on one line, as every folding group on Pages 1 to 3
