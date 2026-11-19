@@ -14,6 +14,7 @@ import InfoNote, { InfoPoint, InfoText } from "../fields/InfoNote.tsx";
 import { railId } from "../rails/railItems.ts";
 import { FieldMark } from "../fields/fieldMarks.tsx";
 import { toggledIn } from "../fields/toggledIn.ts";
+import { segmentFrameAttributes, useSegmentPage } from "../tiles/segmentPage.ts";
 
 import { BusinessFoundationEditorProps, SUBSECTIONS } from "./foundation/shared.tsx";
 
@@ -37,6 +38,8 @@ import { useFoundationSubsections } from "./foundation/useFoundationSubsections.
  */
 export default function BusinessFoundationEditor(props: BusinessFoundationEditorProps) {
 
+    // (On Foundation & Engagement, one Segment at a time: the others are drawn and hidden, segmentPage.ts.)
+    const segmentPage = useSegmentPage();
     const part1 = useFoundationState(props);
     const part2 = { ...part1, ...useFoundationSubsections({ ...part1 }) };
     const { addButton, asTiles, built, collapsed, columnsDivider, disabled, folds, forceOpen, foundation, heads, latest, onChange, remove, setCollapsed, showInstructions, subsectionsFor, update, updateSegment } = part2;
@@ -232,6 +235,7 @@ export default function BusinessFoundationEditor(props: BusinessFoundationEditor
                             
                             key={segment.id}
                             data-anchor={segment.id}
+                            {...segmentFrameAttributes(segmentPage, segment.id)}
                             style={{ "--strategy-theme-hue": workHue("discover") } as CSSProperties}
                         >
                             <div className="card-scroll">

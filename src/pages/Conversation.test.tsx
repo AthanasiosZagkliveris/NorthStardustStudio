@@ -366,8 +366,7 @@ describe("A System's opening screen", () => {
         // In the shared numbered list, which draws the numbers.
         expect(document.querySelector(".intro-page")?.closest("ol")?.className).toBe("numbered-list-static");
         expect(Array.from(document.querySelectorAll(".intro-page")).map(page => page.textContent)).toEqual([
-            "Foundation",
-            "Customer Engagement",
+            "Foundation & Engagement",
             "Infrastructure & Capability",
             "Financials"
         ]);

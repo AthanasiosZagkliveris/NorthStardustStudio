@@ -3,6 +3,7 @@ import CardShell from "../cards/CardShell.tsx";
 import { BUSINESS_JOURNEY_STAGES, relationshipTypeLabel, segmentHue } from "../../../framework/engine/AnswerUtils.ts";
 import { DEMAND_SOURCES, demandResult } from "../../../framework/engine/DemandCapacity.ts";
 import SectionTiles, { DialogHeading, stackedFace, type ItemMark, type SectionTile } from "../tiles/SectionTiles.tsx";
+import { segmentFrameAttributes, useSegmentPage } from "../tiles/segmentPage.ts";
 import type { TileAdd } from "../tiles/SectionTileTypes.ts";
 import { DEMAND_BLOCK_HELP } from "./engagement/shared.tsx";
 import CardBoxes from "../cards/CardBoxes.tsx";
@@ -22,6 +23,8 @@ import { useEngagementDemand } from "./engagement/useEngagementDemand.tsx";
 
 export default function BusinessEngagementEditor(props: BusinessEngagementEditorProps) {
 
+    // (On Foundation & Engagement, one Segment at a time: the others are drawn and hidden, so their on-open saves run as before; segmentPage.ts.)
+    const segmentPage = useSegmentPage();
     const part1 = useEngagementState(props);
     const part2 = { ...part1, ...useEngagementChannelBoxes({ ...part1 }) };
     const part3 = { ...part1, ...part2, ...useEngagementRelationships({ ...part1, ...part2 }) };
@@ -262,6 +265,7 @@ export default function BusinessEngagementEditor(props: BusinessEngagementEditor
                             <CardShell
                                 key={segment.id}
                                 data-anchor={"engagement-segment-" + segment.id}
+                                {...segmentFrameAttributes(segmentPage, segment.id)}
                                 style={{ "--strategy-theme-hue": segmentHue(segment) } as CSSProperties}
                             >
                                 <div className="card-scroll">

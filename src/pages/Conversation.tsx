@@ -9,6 +9,8 @@ import InterviewHeader from "../components/interview/editors/InterviewHeader";
 import InterviewProgress, { SHOW_PROGRESS_LINE } from "../components/InterviewProgress";
 import InterviewSection from "../components/InterviewSection";
 import { groupOf, isCompanion, primaryOf } from "../framework/engine/PageGroups";
+import { SHOW_SEGMENT_EVENT, SegmentPageContext, type SegmentPage } from "../components/interview/tiles/segmentPage";
+import { asBusinessFoundationValue } from "../framework/engine/businessFoundation/foundationPage";
 import AnswerRenderer from "../components/interview/editors/AnswerRenderer";
 import type { PageSectionAnswer } from "../components/interview/editors/answer/shared.tsx";
 
@@ -740,6 +742,20 @@ export default function Conversation() {
         ? resolveStrategyFoundationValue(session)
         : undefined;
 
+    // THE SEGMENT SHOWN on a page of one Segment at a time (Foundation & Engagement; segmentPage.ts): the one chosen on its Segment rail, or the one a jump
+    // asked for; the first Segment until one is chosen. Kept while the page is open, never saved.
+    const [chosenSegment, setChosenSegment] = useState<string | null>(null);
+    useEffect(() => {
+        const show = (event: Event) => {
+            const id = (event as CustomEvent<string>).detail;
+            if (id) {
+                setChosenSegment(id);
+            }
+        };
+        document.addEventListener(SHOW_SEGMENT_EVENT, show);
+        return () => document.removeEventListener(SHOW_SEGMENT_EVENT, show);
+    }, []);
+
     // The two bullet rails. Computed before the early returns below
     // (hooks), and simply empty while nothing is loaded.
     // Each page bullet is drawn in its page status (PageStatus.ts),
@@ -1313,6 +1329,11 @@ export default function Conversation() {
     );
 
     const pageGroup = groupOf(groupSystemNumber, currentSection.number);
+    // (A page of one Segment at a time: the Segment shown, by its id in both answers -- the chosen one while it is there, else the first.)
+    const pageSegmentIds = pageGroup?.oneSegmentAtATime ? asBusinessFoundationValue(businessFoundationValue).segments.map(segment => segment.id) : [];
+    const segmentPage: SegmentPage | null = pageSegmentIds.length > 0
+        ? { segmentId: chosenSegment && pageSegmentIds.includes(chosenSegment) ? chosenSegment : pageSegmentIds[0], select: setChosenSegment, head: null }
+        : null;
 
     return (
         <div className="conversation-page">
@@ -1458,6 +1479,7 @@ export default function Conversation() {
 
                             {pageGroup && pageGroup.members.length > 1
                                 ? (
+                                    <SegmentPageContext.Provider value={segmentPage}>
                                     <div className="page-group">
                                         {renderAnswer(currentSection, effectiveAnswer ?? currentSection.answer, effectiveValue, sharedSource ? handleSharedAnswerChange : handleAnswerChange, true)}
                                         {pageGroup.members.slice(1).map(number => {
@@ -1470,6 +1492,7 @@ export default function Conversation() {
                                                 : null;
                                         })}
                                     </div>
+                                    </SegmentPageContext.Provider>
                                 )
                                 : renderAnswer(currentSection, effectiveAnswer ?? currentSection.answer, effectiveValue, sharedSource ? handleSharedAnswerChange : handleAnswerChange, true)}
 
