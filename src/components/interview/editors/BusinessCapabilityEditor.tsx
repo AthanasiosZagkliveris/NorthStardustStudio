@@ -1,5 +1,4 @@
 import { toneHue } from "../tiles/CardTile.tsx";
-import { uniqueChoices } from "../cards/BusinessCardFields.tsx";
 import { asBusinessEngagementValue } from "../../../framework/engine/AnswerUtils.ts";
 import { offeringChannelRevenue, offeringMonthlyRevenue, offeringPayingRevenue, referralOnly } from "../../../framework/engine/DemandCapacity.ts";
 import { isPercentRow } from "../tiles/capabilityFloor.ts";
@@ -320,7 +319,7 @@ export default function BusinessCapabilityEditor(props: BusinessCapabilityEditor
         <MissingMapContext.Provider value={missingById}>
         {legalEntity !== undefined && onChangeLegalEntity && (
             <StackUnderContext.Provider value={stackUnder}>
-                <LegalEntityEditor value={legalEntity} onChange={onChangeLegalEntity} prefill={legalEntityPrefill} foundersProfile={foundersProfile} openingDate={openingDate} asTiles cardsOnly disabled={disabled} offeringChoices={uniqueChoices(foundationOfferings, "Unnamed offering")} offeringShareWeights={part5.shareWeights} />
+                <LegalEntityEditor value={legalEntity} onChange={onChangeLegalEntity} prefill={legalEntityPrefill} foundersProfile={foundersProfile} openingDate={openingDate} asTiles cardsOnly disabled={disabled} />
             </StackUnderContext.Provider>
         )}
         {pending && (

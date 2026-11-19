@@ -919,25 +919,6 @@ describe("LegalEntityEditor as tiles", () => {
         expect(screen.getByRole("button", { name: "Add Card" })).toBeTruthy();
     });
 
-    // AN EXPENSE MAY SERVE OFFERINGS (the owner's approved plan of 2026-11-18, step 3; doc 26, "Legal Entity expense card"): the shared Offerings field, ticked or not.
-    it("asks which Offerings an expense serves, on the shared Offerings field, and saves the ticks by id; none ticked is the whole company's", () => {
-        let saved = asLegalEntityValue(undefined);
-        function Offerings() {
-            const [value, setValue] = useState<unknown>(asLegalEntityValue({ expenses: [{ ...createLegalEntityExpense(), name: "Trade mark" }] }));
-            return <LegalEntityEditor value={value} onChange={(next) => { saved = next; setValue(next); }} asTiles offeringChoices={[{ id: "off-1", label: "Rugs" }, { id: "off-2", label: "Workshops" }]} />;
-        }
-        render(<Offerings />);
-        fireEvent.click(document.querySelector("[data-tile=legal-entity-registrations]")!);
-        fireEvent.click(document.querySelector("[data-tile=expenses]")!);
-        fireEvent.click(screen.getByRole("button", { name: /Expense 1: Trade mark/ }));
-        fireEvent.click(screen.getByRole("checkbox", { name: /Rugs/ }));
-        expect(saved.expenses[0].offeringIds).toEqual(["off-1"]);
-        fireEvent.click(screen.getByRole("checkbox", { name: /Workshops/ }));
-        expect(saved.expenses[0].offeringIds).toEqual(["off-1", "off-2"]);
-        // (Two Offerings: how it is shared, as on every card.)
-        expect(screen.getByRole("button", { name: /Expense 1 linked Offerings how it is shared/ })).toBeTruthy();
-    });
-
     it("lists every expense and every founder on their tiles, no display cap (the list scrolls; owner, 2026-11-09)", () => {
         const many = Array.from({ length: 11 }, (_entry, at) => at + 1);
         render(<LegalEntityEditor

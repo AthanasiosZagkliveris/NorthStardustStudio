@@ -34,14 +34,6 @@ describe("removing an Offering", () => {
         expect(holdsOfferings(cleared, ["b"])).toBe(false);
     });
 
-    it("unticks it on a Legal Entity expense, with its share", () => {
-        const entity = asLegalEntityValue({ expenses: [{ id: "e1", name: "Licence", offeringIds: ["a", "b"], offeringShares: { a: "50", b: "50" } }, { id: "e2", name: "Fee" }] });
-        const cleared = withoutOfferings(entity, ["a"]);
-        expect(cleared.expenses[0].offeringIds).toEqual(["b"]);
-        expect(cleared.expenses[0].offeringShares).toEqual({ b: "50" });
-        expect(cleared.expenses[1].offeringIds).toEqual([]);
-    });
-
     it("unticks it on a Customer Engagement channel, keeping what is keyed by Offering", () => {
         const engagement = asBusinessEngagementValue({
             segments: [{ segmentId: "seg", channels: [{ id: "c1", category: "website", name: "Shop", offerings: ["a", "b"], stages: ["purchase"] }] }],

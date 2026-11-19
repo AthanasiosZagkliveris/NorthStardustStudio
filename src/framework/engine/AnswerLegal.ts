@@ -6,12 +6,7 @@ import { registrationDateApplies } from "./LegalEntityJurisdictions.ts";
 import { parseAmount, parseDecimal } from "./Amounts.ts";
 import { asText, randomId } from "./Readers.ts";
 import { todayIsoDate } from "./AnswerProcess.ts";
-import { isoDateText, asOfferingShares } from "./AnswerBusinessCapability.ts";
-
-/** An expense's Offering ids, as saved: the ids, each once. */
-function offeringIdsOf(value: unknown): string[] {
-    return [...new Set((Array.isArray(value) ? value : []).map(asText).filter(Boolean))];
-}
+import { isoDateText } from "./AnswerBusinessCapability.ts";
 import { AUDIENCE_IDS, BUYER_CATEGORY_KEYS, DIFFERENTIATION_IDS, MODEL_IDS, OUTCOME_IDS, PURPOSE_IDS, USER_OUTCOME_IDS, endUserFrom, userOutcomeFrom } from "./PositioningIds.ts";
 
 /* ==========================================================
@@ -225,13 +220,6 @@ export interface LegalEntityExpenseValue {
     description: string;
     /** The id of the requirement that made this expense ("Add to Legal Entity Expenses"), or "": such an expense is named and linked by its requirement. */
     fromRequirement: string;
-    /**
-     * THE OFFERINGS IT SERVES (the owner's approved plan of 2026-11-18, step 3; it reverses doc 26's "belongs to the company, not to an offering"): ids of the
-     * Business System's Offerings, as a resource's, an activity's or a partner's on Infrastructure & Capability; none, the whole company's, as before. With
-     * several, `offeringShares` says how it is shared (the same rules: capability/offeringShares.ts).
-     */
-    offeringIds: string[];
-    offeringShares: Record<string, string>;
 }
 
 export interface LegalEntityValue {
@@ -287,9 +275,7 @@ export function createLegalEntityExpense(): LegalEntityExpenseValue {
         frequency: "",
         links: [],
         description: "",
-        fromRequirement: "",
-        offeringIds: [],
-        offeringShares: {}
+        fromRequirement: ""
     };
 }
 
@@ -405,9 +391,7 @@ export function asLegalEntityValue(value: unknown): LegalEntityValue {
             // (One registration only: an earlier answer's several keep the first.)
             links: (Array.isArray(row.links) ? row.links : []).map(asText).filter(Boolean).slice(0, 1),
             description: asText(row.description),
-            fromRequirement: asText(row.fromRequirement),
-            offeringIds: offeringIdsOf(row.offeringIds),
-            offeringShares: asOfferingShares(row.offeringShares, offeringIdsOf(row.offeringIds))
+            fromRequirement: asText(row.fromRequirement)
         };
 
     });

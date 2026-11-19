@@ -177,26 +177,6 @@ describe("cost consolidation", () => {
 
     });
 
-    // AN EXPENSE FOR OFFERINGS (the owner's approved plan of 2026-11-18, step 3; doc 26, "Legal Entity expense card"): ticked to Offerings it is their cost, as a
-    // card of Offering's Capability is, shared by its basis where there are several; none ticked, the whole company's, as before.
-    test("a Legal Entity expense ticked to Offerings is their cost, shared by its basis; one with none is the company's", () => {
-        const legalEntity = asLegalEntityValue({
-            expenses: [
-                { id: "e1", name: "Trade mark", cost: "300", frequency: "One time", offeringIds: ["off-1"] },
-                { id: "e2", name: "Product licence", cost: "120", frequency: "Annually", offeringIds: ["off-1", "off-2"], offeringShares: { "off-1": "75", "off-2": "25", "~basis": "own" } },
-                { id: "e3", name: "Accountant", cost: "80", frequency: "Monthly" }
-            ]
-        });
-        const byId = Object.fromEntries(consolidateCosts(foundation(), sources({ legalEntity })).map(line => [line.id, line]));
-        expect(byId["legal-e1"]).toMatchObject({ group: "offering", offeringIds: ["off-1"], offeringId: "off-1" });
-        expect(byId["legal-e2"]).toMatchObject({ group: "offering", offeringIds: ["off-1", "off-2"] });
-        expect(byId["legal-e2"].offeringShares).toEqual({ "off-1": 0.75, "off-2": 0.25 });
-        expect(byId["legal-e3"]).toMatchObject({ group: "operating", offeringIds: [] });
-        // (Read back as saved: the ids each once, the shares kept with their basis.)
-        expect(legalEntity.expenses[1].offeringShares).toMatchObject({ "off-1": "75", "off-2": "25" });
-        expect(asLegalEntityValue({ expenses: [{ id: "x", offeringIds: ["a", "a", ""] }] }).expenses[0].offeringIds).toEqual(["a"]);
-    });
-
     test("the page's classification is laid over a read cost, within its limits", () => {
 
         const legalEntity = asLegalEntityValue({

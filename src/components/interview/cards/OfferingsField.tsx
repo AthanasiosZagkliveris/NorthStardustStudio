@@ -1,20 +1,9 @@
 import { ReactNode } from "react";
 import NumberCell from "../../controls/NumberCell.tsx";
 import OptionPicker from "../fields/OptionPicker.tsx";
-import { BusinessEmpty, BusinessField, BusinessTicks, uniqueChoices } from "./BusinessCardFields.tsx";
+import { BusinessEmpty, BusinessField, BusinessTicks } from "./BusinessCardFields.tsx";
 import { BandSection } from "../editors/engagement/EngagementCard.tsx";
-import { OFFERING_BASIS_KEY, SHARE_BASES, SHARE_BASIS_HELP, asBusinessCapabilityValue, asBusinessEngagementValue, businessFoundationSegments, offeringFractions, offeringSharesFor, offeringSharesTotal, shareBasisOf, type ShareWeights } from "../../../framework/engine/AnswerUtils.ts";
-import { offeringShareWeights } from "../../../framework/engine/DemandCapacity.ts";
-import { asFinancialSustainabilityValue } from "../../../framework/engine/FinancialModel.ts";
-
-/** The Offerings a cost can serve and the weights it can be shared by, from the Business System's answers as saved: what a page outside Infrastructure & Capability hands
-    the field (a Legal Entity expense on the Identity System), so its shares read as they do there. */
-export function offeringFieldContext(foundation: unknown, capability: unknown, engagement: unknown, sustainability: unknown): { offeringChoices: { id: string; label: string }[]; offeringShareWeights: ShareWeights } {
-    return {
-        offeringChoices: uniqueChoices(businessFoundationSegments(foundation).flatMap(segment => segment.offerings), "Unnamed offering"),
-        offeringShareWeights: offeringShareWeights(asBusinessCapabilityValue(capability).delivery, asBusinessEngagementValue(engagement).demand, asFinancialSustainabilityValue(sustainability).streams)
-    };
-}
+import { OFFERING_BASIS_KEY, SHARE_BASES, SHARE_BASIS_HELP, offeringFractions, offeringSharesFor, offeringSharesTotal, shareBasisOf, type ShareWeights } from "../../../framework/engine/AnswerUtils.ts";
 
 /**
  * THE OFFERINGS A COST SERVES, AND HOW IT IS SHARED (one component for every card that carries it: a resource, an activity, a partner or supplier on

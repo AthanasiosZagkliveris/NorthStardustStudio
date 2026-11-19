@@ -363,10 +363,6 @@ export function consolidateCosts(
         if (parseAmount(expense.cost) === null) {
             return;
         }
-        // (AN EXPENSE FOR OFFERINGS (the owner's approved plan of 2026-11-18, step 3): ticked to one or several, it is their cost, as a card of Offering's
-        // Capability is -- shared by the card's basis where there are several, its fees paid once or each period --; none ticked, the whole company's, as before.)
-        const forOfferings = expense.offeringIds.length > 0;
-        const before = lines.length;
         read(
             "legal-" + expense.id,
             expense.name,
@@ -376,16 +372,13 @@ export function consolidateCosts(
             "",
             fromLegalFrequency(expense.frequency),
             "",
-            forOfferings ? "offering" : expense.frequency === "One time" ? "establishment" : "operating",
-            forOfferings ? expense.offeringIds : [],
+            expense.frequency === "One time" ? "establishment" : "operating",
+            [],
             null,
             // (A one-time expense falls in the month of its own date; with none, in the month of the formation.)
             expense.frequency === "One time" ? monthOfDate(expense.date) ?? formationMonth : null,
             ["legal-expense-" + expense.id, "legal-section-5"]
         );
-        if (lines.length > before && expense.offeringIds.length > 1) {
-            lines[lines.length - 1].offeringShares = offeringFractions(expense.offeringIds, expense.offeringShares, sources.shareWeights);
-        }
     });
 
     const capability = sources.capability;

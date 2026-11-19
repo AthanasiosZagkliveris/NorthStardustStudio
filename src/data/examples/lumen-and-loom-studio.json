@@ -174,9 +174,7 @@
                   "formation-registration-number"
                 ],
                 "description": "Registered at Companies House.",
-                "fromRequirement": "",
-                "offeringIds": [],
-                "offeringShares": {}
+                "fromRequirement": ""
               },
               {
                 "id": "expense-4pm3sqt4",
@@ -189,9 +187,7 @@
                   "formation-registration-number"
                 ],
                 "description": "",
-                "fromRequirement": "",
-                "offeringIds": [],
-                "offeringShares": {}
+                "fromRequirement": ""
               },
               {
                 "id": "expense-y97pryvw",
@@ -204,9 +200,7 @@
                   "number-1sm5nsnz"
                 ],
                 "description": "UK trade mark in 2 classes.",
-                "fromRequirement": "",
-                "offeringIds": [],
-                "offeringShares": {}
+                "fromRequirement": ""
               },
               {
                 "id": "expense-ew64in77",
@@ -219,9 +213,7 @@
                   "requirement-xag05b3o"
                 ],
                 "description": "",
-                "fromRequirement": "",
-                "offeringIds": [],
-                "offeringShares": {}
+                "fromRequirement": ""
               }
             ]
           }

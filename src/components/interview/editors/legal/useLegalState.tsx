@@ -23,8 +23,6 @@ import { LEGAL_FORM_OTHER, LegalEntityEditorProps, withAutoExpenses, withExpense
 
 export function useLegalState(props: LegalEntityEditorProps) {
 
-    const { offeringChoices = [], offeringShareWeights } = props;
-
     const {
 
     value,
@@ -716,6 +714,6 @@ export function useLegalState(props: LegalEntityEditorProps) {
     /** Asks the page's tiles to open a card, or a section of the Registrations. */
     const openOnPage = (request: OpenRequest) => document.dispatchEvent(new CustomEvent<OpenRequest>(OPEN_EVENT, { detail: request }));
 
-    return { offeringChoices, offeringShareWeights, amountLabel, amountName, asTiles, cardsOnly, changeRegistrationNumber, chooseCountry, chooseLegalForm, chooseSubdivision, chosenSubdivision, columnsDivider, foundersProfile, onChangeFoundersProfile, description, onDescriptionChange, organizationOnly, audienceOnly, commonRequirementsNote, consumptionTaxNote, countryChosen, currency, disabled, entity, folds, forms, founderLabel, frameTitle, labelled, latest, linkTargets, namedFounders, offerInExpenses, openOnPage, openingDate, onChangeOpeningDate, businessStage, optionalNote, ownershipComplete, ownershipOver, ownershipShort, percent, placeChosen, placeHint, postalLabel, profile, profiled, removeFieldButton, removeFounder, showInstructions, soleFounderForm, soleFounderSettled, soleFounderSurplus, subdivisionSpec, subsection, subsectionNumber, textControl, totalCapital, totalOwnership, update, updateFormation, updateFounder, updateOrganisation, updateTax };
+    return { amountLabel, amountName, asTiles, cardsOnly, changeRegistrationNumber, chooseCountry, chooseLegalForm, chooseSubdivision, chosenSubdivision, columnsDivider, foundersProfile, onChangeFoundersProfile, description, onDescriptionChange, organizationOnly, audienceOnly, commonRequirementsNote, consumptionTaxNote, countryChosen, currency, disabled, entity, folds, forms, founderLabel, frameTitle, labelled, latest, linkTargets, namedFounders, offerInExpenses, openOnPage, openingDate, onChangeOpeningDate, businessStage, optionalNote, ownershipComplete, ownershipOver, ownershipShort, percent, placeChosen, placeHint, postalLabel, profile, profiled, removeFieldButton, removeFounder, showInstructions, soleFounderForm, soleFounderSettled, soleFounderSurplus, subdivisionSpec, subsection, subsectionNumber, textControl, totalCapital, totalOwnership, update, updateFormation, updateFounder, updateOrganisation, updateTax };
 
 }

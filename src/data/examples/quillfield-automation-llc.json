@@ -147,9 +147,7 @@
                   "formation-registration-number"
                 ],
                 "description": "Kings County Clerk's fee, paid at filing in August 2026.",
-                "fromRequirement": "",
-                "offeringIds": [],
-                "offeringShares": {}
+                "fromRequirement": ""
               }
             ]
           }

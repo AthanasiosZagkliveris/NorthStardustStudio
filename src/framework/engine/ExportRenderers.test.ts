@@ -50,9 +50,6 @@ describe("exporting the Foundation capability", () => {
         expect(outputs.strategy).toContain("2.1.1 Launch the Trade Collection");
         expect(outputs.strategy).toContain("Goals & Objectives · Oct 2026 – Sep 2029");
         expect(outputs.identity).toContain("Formation Date: 2 March 2025");
-        // (A Legal Entity expense says the Offerings it serves; none ticked, the whole company: the owner's approved plan of 2026-11-18, step 3.)
-        expect(outputs.identity).toMatch(/| Expense | Date | Responsibility | Cost | Frequency | Registration | Offerings |/);
-        expect(outputs.identity).toContain("The whole company");
     });
 
     test("the Funding Need table uses an em dash, not \"n/a\", for a $0 need's When", () => {

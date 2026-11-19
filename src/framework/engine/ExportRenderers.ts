@@ -357,9 +357,6 @@ function foundersProfileBlocks(value: unknown, context: ExportContext): ExportBl
 ========================================================== */
 
 function legalEntityBlocks(value: unknown, context: ExportContext): ExportBlock[] {
-    // (The Business System's Offerings and their weights, for the expenses that serve them.)
-    const businessFoundation = context.responseOf?.(AnswerType.BusinessFoundation);
-    const expenseWeights = () => offeringShareWeights(capabilityOf(context.responseOf?.(AnswerType.BusinessCapability), context).delivery, demandOf(context) ?? {}, asFinancialSustainabilityValue(context.responseOf?.(AnswerType.FinancialSustainability)).streams);
 
     const entity = asLegalEntityValue(value);
     const organisation = entity.organisation;
@@ -435,12 +432,10 @@ function legalEntityBlocks(value: unknown, context: ExportContext): ExportBlock[
         ])),
 
         ...(entity.expenses.length > 0 ? [heading("Legal Entity Expenses")] : []),
-        // (The Offerings each expense serves, split by its basis as Infrastructure's cards print it; none, the whole company's: the plan of 2026-11-18, step 3.)
-        ...table(["Expense", "Date", "Responsibility", "Cost", "Frequency", "Registration", "Offerings"],
+        ...table(["Expense", "Date", "Responsibility", "Cost", "Frequency", "Registration"],
             entity.expenses.map(expense => [
                 expense.name, expense.date, founderName(expense.responsibility), moneyText(expense.cost, currency), expense.frequency,
-                expense.links.map(numberLabel).filter(Boolean).join("; "),
-                expense.offeringIds.length === 0 ? "The whole company" : offeringSplitText(businessFoundation, expense.offeringIds, expense.offeringIds.length > 1 ? offeringFractions(expense.offeringIds, expense.offeringShares, expenseWeights()) : undefined)
+                expense.links.map(numberLabel).filter(Boolean).join("; ")
             ]))
     ];
 
