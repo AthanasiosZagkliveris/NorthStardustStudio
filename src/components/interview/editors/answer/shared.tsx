@@ -1,4 +1,5 @@
 import type { StageKey } from "../../../../framework/engine/BusinessStage.ts";
+import type { StrategyChoiceContext } from "../../../../framework/engine/StrategyChoices.ts";
 import { ReactNode } from "react";
 import type { OpenPage } from "../../tiles/jumpTo.ts";
 import { TableColumn, TableRow } from "../../fields/DynamicTable.tsx";
@@ -365,6 +366,9 @@ export interface AnswerRendererProps {
 
         /** The names an Objective's "Add a draft" offers (strategyObjectiveDrafts; P9; owner, 2026-11-18 03:01, "All, P1 to P9"). */
         objectiveDrafts?: readonly string[];
+
+        /** What SW1 and SC1 to SC3 read (strategyChoiceContext; doc 49, 2.3 and 2.4). */
+        choices?: StrategyChoiceContext;
 
         /** Asks before a Refresh replaces the founder's own words. */
         guardSituationRefresh?: (apply: () => void) => void;

@@ -102,6 +102,14 @@ export interface StrategyFoundationValue {
     compass: string;
     period: StrategyRangeValue;
     themes: StrategyThemeValue[];
+    /** SW1 (doc 49, 2.3): each change ticked, by its id, with its rating 1 (Threat) to 5 (Opportunity), 0 while unrated; missing until the founder ticks or rates (the Segments' changes start ticked). */
+    changeEffects?: Record<string, number>;
+    /** SC1 (doc 49, 2.4): the stance; missing while it follows its start from the SWOT. */
+    stance?: string;
+    /** SC2: where growth comes from, 2 at most; missing while it follows its start. */
+    growth?: string[];
+    /** SC3: the Segment that comes first, by its id. */
+    firstSegmentId?: string;
 }
 
 export interface StrategyMetricValue {
@@ -309,7 +317,14 @@ export function asStrategyFoundationValue(value: unknown): StrategyFoundationVal
             (Array.isArray(source.swotEdited) && source.swotEdited.includes(id)) || swot[id].some(entry => entry.trim().length > 0)),
         compass: asText(source.compass),
         period: strategyRange(source.period),
-        themes
+        themes,
+        // (The Compass's and the SWOT's choices, only where saved: a key never saved keeps following its start; StrategyChoices.ts.)
+        ...(source.changeEffects && typeof source.changeEffects === "object" && !Array.isArray(source.changeEffects)
+            ? { changeEffects: Object.fromEntries(Object.entries(source.changeEffects as Record<string, unknown>).filter(([, point]) => typeof point === "number" && Number.isInteger(point) && point >= 0 && point <= 5)) as Record<string, number> }
+            : {}),
+        ...(asText(source.stance) ? { stance: asText(source.stance) } : {}),
+        ...(Array.isArray(source.growth) ? { growth: source.growth.map(asText).filter(Boolean) } : {}),
+        ...(asText(source.firstSegmentId) ? { firstSegmentId: asText(source.firstSegmentId) } : {})
     };
 
 }

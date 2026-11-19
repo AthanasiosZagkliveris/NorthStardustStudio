@@ -1047,6 +1047,7 @@ export default function Conversation() {
         situationDraft,
         swotStarts,
         objectiveDrafts,
+        choices,
         financialPlan,
         guardSituationRefresh
     } = readStrategy({ session, system, organizationId, organizationName, strategyFoundationValue, setStrategyPrompt });
@@ -1087,6 +1088,7 @@ export default function Conversation() {
                 situationDraft,
                 swotStarts,
                 objectiveDrafts,
+                choices,
                 guardSituationRefresh,
                 openBusinessPage,
                 financialPlan

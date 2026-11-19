@@ -1137,10 +1137,10 @@ Registered before they are built, so their codes are fixed (the owner's approved
 | BA7 | Which words suit your customers? | Brand, `ambassador.words` | built 2026-11-19 (`AmbassadorChoices.ts`) | doc 46, 2 |
 | BA8 | How should people feel when they first meet your brand? | Brand, `ambassador.feeling` | built 2026-11-19 (`AmbassadorChoices.ts`) | doc 46, 2 |
 | BA9 | What should people remember you for? | Brand, `ambassador.remembered` | built 2026-11-19 (`AmbassadorChoices.ts`) | doc 46, 2 |
-| SW1 | How could these changes affect you? | Strategy, `strategyFoundation.changeEffects` | reserved | doc 49, 4 |
-| SC1 | What will this period's strategy mainly do? | Strategy, `strategyFoundation.stance` | reserved | doc 49, 4 |
-| SC2 | Where will growth come from in this period? | Strategy, `strategyFoundation.growth` | reserved | doc 49, 4 |
-| SC3 | Which Segment comes first? | Strategy, `strategyFoundation.firstSegmentId` | reserved | doc 49, 4 |
+| SW1 | How could these changes affect you? | Strategy, `strategyFoundation.changeEffects` | built 2026-11-19 (`StrategyChoices.ts`) | doc 49, 4 |
+| SC1 | What will this period's strategy mainly do? | Strategy, `strategyFoundation.stance` | built 2026-11-19 (`StrategyChoices.ts`) | doc 49, 4 |
+| SC2 | Where will growth come from in this period? | Strategy, `strategyFoundation.growth` | built 2026-11-19 (`StrategyChoices.ts`) | doc 49, 4 |
+| SC3 | Which Segment comes first? | Strategy, `strategyFoundation.firstSegmentId` | built 2026-11-19 (`StrategyChoices.ts`) | doc 49, 4 |
 | BA5 | How close does the business stay to its customers? | – | withdrawn | withdrawn 2026-11-12 before registration: the relationship type (J3, doc 47) answers it (doc 46, 7) |
 
 ## 9. The count
@@ -1154,5 +1154,5 @@ Registered before they are built, so their codes are fixed (the owner's approved
 | Competitor | 12 | 0 | 3 |
 | Value Proposition | 0 | 0 | 0 |
 | Offering | 18 | 1 | 4 |
-| Reserved (Purpose & Beliefs, Ambassador, SWOT, Compass) | 10 | 10 | 1 |
-| **All** | **120** | **17** | **24** |
+| Reserved (Purpose & Beliefs, Ambassador, SWOT, Compass) | 14 | 6 | 1 |
+| **All** | **124** | **13** | **24** |

@@ -4464,6 +4464,16 @@
                 "name": "Delivery Capacity",
                 "description": "Deliver more projects to a high standard without longer hours: reusable templates, clear documentation and trusted delivery partners."
               }
+            ],
+            "changeEffects": {
+              "technology": 5,
+              "regulation": 4,
+              "economy": 2
+            },
+            "stance": "wo",
+            "growth": [
+              "launch",
+              "penetration"
             ]
           }
         },

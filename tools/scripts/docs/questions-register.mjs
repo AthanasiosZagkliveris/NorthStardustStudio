@@ -247,10 +247,10 @@ const RESERVED = [
     ["BA7", "Which words suit your customers?", "Brand, `ambassador.words`", "doc 46, 2", "built 2026-11-19 (`AmbassadorChoices.ts`)"],
     ["BA8", "How should people feel when they first meet your brand?", "Brand, `ambassador.feeling`", "doc 46, 2", "built 2026-11-19 (`AmbassadorChoices.ts`)"],
     ["BA9", "What should people remember you for?", "Brand, `ambassador.remembered`", "doc 46, 2", "built 2026-11-19 (`AmbassadorChoices.ts`)"],
-    ["SW1", "How could these changes affect you?", "Strategy, `strategyFoundation.changeEffects`", "doc 49, 4"],
-    ["SC1", "What will this period's strategy mainly do?", "Strategy, `strategyFoundation.stance`", "doc 49, 4"],
-    ["SC2", "Where will growth come from in this period?", "Strategy, `strategyFoundation.growth`", "doc 49, 4"],
-    ["SC3", "Which Segment comes first?", "Strategy, `strategyFoundation.firstSegmentId`", "doc 49, 4"]
+    ["SW1", "How could these changes affect you?", "Strategy, `strategyFoundation.changeEffects`", "doc 49, 4", "built 2026-11-19 (`StrategyChoices.ts`)"],
+    ["SC1", "What will this period's strategy mainly do?", "Strategy, `strategyFoundation.stance`", "doc 49, 4", "built 2026-11-19 (`StrategyChoices.ts`)"],
+    ["SC2", "Where will growth come from in this period?", "Strategy, `strategyFoundation.growth`", "doc 49, 4", "built 2026-11-19 (`StrategyChoices.ts`)"],
+    ["SC3", "Which Segment comes first?", "Strategy, `strategyFoundation.firstSegmentId`", "doc 49, 4", "built 2026-11-19 (`StrategyChoices.ts`)"]
 ];
 /** Codes withdrawn before they were ever registered: kept so they are never reused. [code, what it asked, why]. */
 const RESERVED_WITHDRAWN = [

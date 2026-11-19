@@ -6956,6 +6956,16 @@
                 "name": "Craft Capacity",
                 "description": "Increase what we can make without losing quality: more looms, a trained maker, and a fully documented low-carbon supply chain."
               }
+            ],
+            "changeEffects": {
+              "society": 4,
+              "economy": 2,
+              "environment": 4
+            },
+            "stance": "so",
+            "growth": [
+              "launch",
+              "penetration"
             ]
           }
         },
