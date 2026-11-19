@@ -1,6 +1,8 @@
 /* Part of BusinessDocuments.ts (split by its sections, 2026-11-10: the same code, in files of one topic each; BusinessDocuments.ts re-exports every part). */
 
 import { currencyMark } from "../Currencies.ts";
+import { asVisionAmbitions, asVisionReach, visionChoicesSentence } from "../VisionChoices.ts";
+import { ambassadorShown, asAmbassadorChoices, brandVoiceLine } from "../AmbassadorChoices.ts";
 import { OFFERING_QUESTIONS, offeringAnswerLines, offeringOptions } from "../OfferingQuestions.ts";
 import { workspacesOf, WORKSPACE_GROUP_ID } from "../AnswerUtils.ts";
 import { offeringRelationshipsFor } from "../JourneySuggestions.ts";
@@ -66,6 +68,8 @@ function executiveSummary(f: Foundation): ExportBlock[] {
         ...paragraph([opening, offer].filter(Boolean).join(" ")),
         ...labelled("Mission", text(f.definition.mission)),
         ...labelled("Vision", text(f.definition.vision)),
+        // (The Vision's future, PB7 and PB8: "When our Vision comes true, the business will be ..., with customers ..." -- doc 45, 3.8.)
+        ...(visionChoicesSentence(asVisionAmbitions(f.definition.visionAmbitions), asVisionReach(f.definition.visionReach)) ? paragraph(visionChoicesSentence(asVisionAmbitions(f.definition.visionAmbitions), asVisionReach(f.definition.visionReach))) : []),
         ...labelled("Financial outlook", [money, revenue].filter(Boolean).join(" ")),
         ...(outlook.signals[0] ? labelled(outlook.signals[0].title, outlook.signals[0].text) : []),
         ...labelled("Direction", f.strategyFoundation.compass)
@@ -297,7 +301,10 @@ function brandVoiceBlocks(f: Foundation): ExportBlock[] {
         ["Communication & Voice", f.ambassador["communication-voice"]],
         ["Imprint", f.ambassador.imprint]
     ] as [string, unknown][]).flatMap(([title, value]) => text(value) ? [heading(title, 2), ...paragraphs(value)] : []);
-    return parts.length > 0 ? [heading("Brand & Voice"), ...parts] : [];
+    // (The opening line above the four texts, from the character and the tone (doc 46, section 3: BA1, BA6).)
+    const identity = segmentIdentityOf(f.legalEntity.organisation, f.stage);
+    const opening = brandVoiceLine(ambassadorShown(asAmbassadorChoices(f.ambassador), { segments: f.segments, engagement: f.engagement.segments, identity }));
+    return parts.length > 0 || opening ? [heading("Brand & Voice"), ...(opening ? paragraph(opening) : []), ...parts] : [];
 }
 
 /**

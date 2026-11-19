@@ -44,6 +44,11 @@ import { InterviewValidator } from "./InterviewValidator.ts";
 import { monthOrdinal } from "./FinancialModel.ts";
 import { parseAmount } from "./Amounts.ts";
 import { pageStatus } from "./PageStatus.ts";
+import { asVisionAmbitions, asVisionReach } from "./VisionChoices.ts";
+import { asAmbassadorChoices } from "./AmbassadorChoices.ts";
+
+/** The Ambassador's four texts, by their saved keys (doc 46). */
+const AMBASSADOR_TEXTS = ["aesthetics", "attitude-body-language", "communication-voice", "imprint"] as const;
 import { effectiveOfferingAnswers } from "./EffectiveAnswers.ts";
 
 /*
@@ -163,6 +168,17 @@ export function openItemsOf(
                     }
                     add(part.label + ": not answered yet.", { key: key(part.id) });
                 }
+            }
+            // (THE VISION'S FUTURE (doc 45, 3.8, PB7 and PB8): once the Vision has text and either choice is empty, an item where the Mission & Vision is drawn.)
+            if (noted && columns.parts.some(part => part.id === "vision") && !isAnswerEmpty(columns.parts.find(part => part.id === "vision")!.answer, values.vision)
+                && (asVisionAmbitions(values.visionAmbitions).length === 0 || !asVisionReach(values.visionReach))) {
+                const drawnIn = session.getSections().find(candidate => candidate.answer?.parts?.some(other => other.id === "philosophy"));
+                items.push({ text: (drawnIn ? where(drawnIn) : at) + ": Your Vision's future: not chosen yet.", place: { systemNumber, sectionNumber: section.number, key: key("vision") } });
+            }
+            // (THE AMBASSADOR'S CHARACTER (doc 46, section 5, BA1): once any of its four texts is written and no character is chosen, at its Aesthetics tile.)
+            if (AMBASSADOR_TEXTS.every(id => columns.parts!.some(part => part.id === id)) && AMBASSADOR_TEXTS.some(id => typeof values[id] === "string" && (values[id] as string).trim() !== "")
+                && (asAmbassadorChoices(values).character ?? []).length === 0) {
+                add("Your Ambassador's character: not chosen yet.", { key: key("aesthetics") });
             }
             continue;
         }

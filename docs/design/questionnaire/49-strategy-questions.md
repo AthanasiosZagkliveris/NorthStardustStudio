@@ -1,6 +1,6 @@
 # 49. Strategy: SWOT, Compass, Themes and Metrics, as proposed
 
-Status: **proposal**, written 2026-11-12, updated 2026-11-19. **The Business pages it reads are three since 2026-11-19** (the owner's approved plan of 2026-11-18, steps 1 and 2): Foundation & Engagement (the Foundation's and Customer Engagement's answers, one Segment at a time), Infrastructure & Capability and Financials (Revenue & Pricing's and Costs, Funding & Position's answers); every answer it reads is where it was, by its section and key, so nothing here changes. Its "Customer Engagement", "Sustainability" and page numbers name the sections. The owner approved it on 2026-11-12 (D7 to D10, D16 to D22). Built in phases 2 (Strategy reads the Business), 3 (Direction) and 6 (Initiatives and Activities). Nothing here is built yet.
+Status: **proposal**, written 2026-11-12, updated 2026-11-19. **The Business pages it reads are three since 2026-11-19** (the owner's approved plan of 2026-11-18, steps 1 and 2): Foundation & Engagement (the Foundation's and Customer Engagement's answers, one Segment at a time), Infrastructure & Capability and Financials (Revenue & Pricing's and Costs, Funding & Position's answers); every answer it reads is where it was, by its section and key, so nothing here changes. Its "Customer Engagement", "Sustainability" and page numbers name the sections. The owner approved it on 2026-11-12 (D7 to D10, D16 to D22). Built in phases 2 (Strategy reads the Business), 3 (Direction) and 6 (Initiatives and Activities). **Built 2026-11-19** (the owner's approved plan of 2026-11-18, §3, B2; `StrategyChoices.ts`): SW1 in its band above the Opportunities and Threats, its rated changes starting the SWOT's lines ("Changes in ... could help you" / "could hurt you") in a quadrant never edited, as the market's starts do; SC1 to SC3 above the Compass's text, with their starts, and the Compass draft ("Add a draft"). Not built yet: the rest of the suggestions table with Add (2.3), the "waiting" line, the reminder, the Theme order (2.5), the Goal suggestions (2.6), the Linked figure (2.7).
 
 Related: doc 40 (the form), doc 45 (PB7 and PB8, which this page reads), doc 46 (BA1), doc 47 and doc 48 (the figures read), doc 28 (9.3 and 9.4, the skill areas), doc 5 (5.5.7), `src/framework/engine/AnswerStrategy.ts`, doc 2 (the sources).
 
@@ -102,7 +102,7 @@ The Compass is the guiding policy: the choice that rules options out. Three choi
   - `so` – Use your strengths to seize opportunities – using our strengths to seize opportunities
   - `wo` – Close your gaps by seizing opportunities – closing our gaps by seizing opportunities
   - `st` – Use your strengths to guard against threats – using our strengths to guard against threats
-  - `wt` – Close your gaps and steer clear of threats – closing our gaps and steering clear of threats
+  - `wt` – Close your gaps & steer clear of threats – closing our gaps and steering clear of threats
 - **Starts from the SWOT:** the pair of quadrants with the most lines, where the first two lines of each list count double. At Planning and Launching the start chooses between `so` and `wo` only.
 - **"i":**
   - Match what is inside your business with what is outside it, then choose where the effort goes.
@@ -232,7 +232,7 @@ The Business Plan's Strategy and Milestones section gains the Compass's three ch
 
 ## 4. Codes
 
-New prefixes **SW** (SWOT) and **SC** (Strategic Compass): SW1, SC1, SC2, SC3. They enter the register when built.
+New prefixes **SW** (SWOT) and **SC** (Strategic Compass): SW1, SC1, SC2, SC3. They are reserved in the register (doc 44, "Reserved codes", 2026-11-19, B2) and move to their card's section when built.
 
 ## 5. Decided
 

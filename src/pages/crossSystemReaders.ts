@@ -13,6 +13,7 @@ import { countryCurrency } from "../framework/engine/LegalEntityJurisdictions.ts
 import { OrganizationService } from "../services/OrganizationService";
 import { asGlobalSettings, stageDurationsOf } from "../framework/engine/GlobalSettings";
 import { stageOf } from "../framework/engine/BusinessStage";
+import { valuesWithIds } from "../framework/engine/ValueIds.ts";
 import { PreferencesService } from "../services/PreferencesService";
 import { jumpTo, type OpenPage } from "../components/interview/tiles/jumpTo.ts";
 import { systems } from "../data/systems";
@@ -108,6 +109,18 @@ export function readCrossSystem({ session, organizationId, systemNumber, navigat
 
     })();
 
+    /* The Values with their ids (ValueIds.ts), from the Identity section that holds them, found by its Values' key, never its number: the Brand System's
+       Ambassador offers them for BA9 (doc 46). */
+    const identityValues = (() => {
+        const identity = systems.find(candidate => candidate.id === "identity");
+        if (!organizationId || !identity || !frameworkRegistry.exists(identity.id)) {
+            return [];
+        }
+        const section = frameworkRegistry.getFramework(identity.id).sections.find(candidate => candidate.answer?.parts?.some(part => part.id === "values"));
+        const state = OrganizationService.loadSystemState(organizationId, identity.number) as { responses?: Array<{ sectionNumber: number; value?: unknown }> } | null;
+        return section ? valuesWithIds(state?.responses?.find(response => response.sectionNumber === section.number)?.value) : [];
+    })();
+
     /*
         The currency the organisation is registered in: the country
         chosen on the Identity System's Legal Entity page, through
@@ -187,9 +200,25 @@ export function readCrossSystem({ session, organizationId, systemNumber, navigat
         candidate => candidate.answer?.type === AnswerType.BusinessFoundation
     );
 
+    /*
+        ON EVERY OTHER SYSTEM the Business System's answers are read as saved: its Foundation, Infrastructure & Capability, Customer Engagement and Financials, each
+        found by its answer's type in the Business framework (the section's id), so the Vision's PB8 says the Segment's reach today, a Legal Entity expense offers
+        the Offerings and the Ambassador's choices read the Offerings, the Profiles and the relationships (the owner's approved plan of 2026-11-18, §3; doc 46).
+        The Business System's own pages read their open session.
+    */
+    const savedBusiness = (type: AnswerType): unknown => {
+        const business = systems.find(candidate => candidate.id === "business");
+        if (!business || business.number === systemNumber || !organizationId) {
+            return undefined;
+        }
+        const section = frameworkRegistry.exists(business.id) ? frameworkRegistry.getFramework(business.id).sections.find(candidate => candidate.answer?.type === type) : undefined;
+        const state = section ? OrganizationService.loadSystemState(organizationId, business.number) as { responses?: { sectionNumber: number; value?: unknown }[] } | null : null;
+        return section ? state?.responses?.find(response => response.sectionNumber === section.number)?.value : undefined;
+    };
+
     const businessFoundationValue = businessFoundationSection
         ? session.getResponse(businessFoundationSection.number)
-        : undefined;
+        : savedBusiness(AnswerType.BusinessFoundation);
 
     const openBusinessFoundation: OpenPage | undefined = businessFoundationSection
         ? (path) => {
@@ -227,7 +256,7 @@ export function readCrossSystem({ session, organizationId, systemNumber, navigat
 
     const businessCapabilityValue = capabilitySection
         ? session.getResponse(capabilitySection.number)
-        : undefined;
+        : savedBusiness(AnswerType.BusinessCapability);
 
     const financialFoundationValue = financialFoundationSection
         ? session.getResponse(financialFoundationSection.number)
@@ -248,12 +277,12 @@ export function readCrossSystem({ session, organizationId, systemNumber, navigat
     // Its Demand & Conversion gives the expected sales both Financial pages use.
     const businessEngagementValue = businessEngagementSection
         ? session.getResponse(businessEngagementSection.number)
-        : undefined;
+        : savedBusiness(AnswerType.BusinessEngagement);
 
     // Its revenue is what Financial Foundation's operating need is net of.
     const financialSustainabilityValue = financialSustainabilitySection
         ? session.getResponse(financialSustainabilitySection.number)
-        : undefined;
+        : savedBusiness(AnswerType.FinancialSustainability);
 
     const openBusinessSection = (type: AnswerType): OpenPage | undefined => {
 
@@ -337,6 +366,7 @@ export function readCrossSystem({ session, organizationId, systemNumber, navigat
         legalEntityPrefill,
         targetAudience,
         identityVision,
+        identityValues,
         legalEntity,
         foundersProfile,
         organisationCurrency,

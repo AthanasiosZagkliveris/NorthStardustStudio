@@ -225,6 +225,38 @@ const OFFERING_RETIRED = [
     ["O13", "What job does it do for them?", "the Profile's Functional need (doc 36, section 10) and Functional Needs Addressed (retired 2026-11-07)"]
 ];
 
+/**
+ * RESERVED CODES (B2, the owner's approved plan of 2026-11-18, §3; registered before they are built, so their codes are fixed): the Identity System's Purpose &
+ * Beliefs (doc 45, section 5), the Brand System's Ambassador (doc 46, section 7) and the Strategy System's SWOT and Strategic Compass (doc 49, section 4). Each
+ * leaves this list for its card's map when it is built. [code, the question or text, the key it is saved under, the owner].
+ */
+const RESERVED = [
+    ["PB1", "Mission", "Identity, section 1, `mission`", "doc 45, 5"],
+    ["PB2", "Vision", "Identity, section 1, `vision`", "doc 45, 5"],
+    ["PB3", "Values", "Identity, section 2, `values`", "doc 45, 5"],
+    ["PB4", "Principles", "Identity, section 2, `principles`", "doc 45, 5"],
+    ["PB5", "Philosophy", "Identity, section 2, `philosophy`", "doc 45, 5"],
+    ["PB6", "Manifesto", "Identity, section 2, `manifesto`", "doc 45, 5"],
+    ["PB7", "What will your business be when your Vision comes true?", "Identity, section 1, `visionAmbitions`", "doc 45, 3.8", "built 2026-11-19 (`VisionChoices.ts`)"],
+    ["PB8", "Where will your customers be?", "Identity, section 1, `visionReach`", "doc 45, 3.8", "built 2026-11-19 (`VisionChoices.ts`)"],
+    ["BA1", "Which character fits your Ambassador best?", "Brand, `ambassador.character`", "doc 46, 2", "built 2026-11-19 (`AmbassadorChoices.ts`)"],
+    ["BA2", "How does your Ambassador dress?", "Brand, `ambassador.dress`", "doc 46, 2", "built 2026-11-19 (`AmbassadorChoices.ts`)"],
+    ["BA3", "Where would people meet your Ambassador?", "Brand, `ambassador.setting`", "doc 46, 2", "built 2026-11-19 (`AmbassadorChoices.ts`)"],
+    ["BA4", "How does your Ambassador come across?", "Brand, `ambassador.energy`, `ambassador.expression`", "doc 46, 2", "built 2026-11-19 (`AmbassadorChoices.ts`)"],
+    ["BA6", "What tone does your Ambassador use?", "Brand, `ambassador.tone`", "doc 46, 2", "built 2026-11-19 (`AmbassadorChoices.ts`)"],
+    ["BA7", "Which words suit your customers?", "Brand, `ambassador.words`", "doc 46, 2", "built 2026-11-19 (`AmbassadorChoices.ts`)"],
+    ["BA8", "How should people feel when they first meet your brand?", "Brand, `ambassador.feeling`", "doc 46, 2", "built 2026-11-19 (`AmbassadorChoices.ts`)"],
+    ["BA9", "What should people remember you for?", "Brand, `ambassador.remembered`", "doc 46, 2", "built 2026-11-19 (`AmbassadorChoices.ts`)"],
+    ["SW1", "How could these changes affect you?", "Strategy, `strategyFoundation.changeEffects`", "doc 49, 4", "built 2026-11-19 (`StrategyChoices.ts`)"],
+    ["SC1", "What will this period's strategy mainly do?", "Strategy, `strategyFoundation.stance`", "doc 49, 4", "built 2026-11-19 (`StrategyChoices.ts`)"],
+    ["SC2", "Where will growth come from in this period?", "Strategy, `strategyFoundation.growth`", "doc 49, 4", "built 2026-11-19 (`StrategyChoices.ts`)"],
+    ["SC3", "Which Segment comes first?", "Strategy, `strategyFoundation.firstSegmentId`", "doc 49, 4", "built 2026-11-19 (`StrategyChoices.ts`)"]
+];
+/** Codes withdrawn before they were ever registered: kept so they are never reused. [code, what it asked, why]. */
+const RESERVED_WITHDRAWN = [
+    ["BA5", "How close does the business stay to its customers?", "withdrawn 2026-11-12 before registration: the relationship type (J3, doc 47) answers it (doc 46, 7)"]
+];
+
 /** False positives of the citation check: a token in a questionnaire document that looks like a question code and is not one. [doc number, token, why]. */
 const CITATION_ALLOW = [
     ["28", "C5", "doc 28's own earlier ids (the withdrawn list of 2026-10-26), not a Profile code"],
@@ -554,7 +586,14 @@ function render(cards, commit) {
         }
         counts.push([card.title, built, notBuilt, retired.length]);
     });
-    md.push("## " + (cards.length + 1) + ". The count", "", "| Card | Built | Not built | Retired |", "|---|---|---|---|");
+    md.push("## " + (cards.length + 1) + ". Reserved codes", "",
+        "Registered before they are built, so their codes are fixed (the owner's approved plan of 2026-11-18, §3, B2): each moves to its card's section when it is built. Their words, controls and options are in the owner document.", "",
+        "| Code | Question or text | Saved under | Status | Owner |", "|---|---|---|---|---|");
+    for (const [code, label, key, owner, status] of RESERVED) md.push("| " + [code, label, key, status ?? "reserved", owner].map(cell).join(" | ") + " |");
+    for (const [code, was, why] of RESERVED_WITHDRAWN) md.push("| " + [code, was, "–", "withdrawn", why].map(cell).join(" | ") + " |");
+    md.push("");
+    counts.push(["Reserved (Purpose & Beliefs, Ambassador, SWOT, Compass)", RESERVED.filter(entry => entry[4]).length, RESERVED.filter(entry => !entry[4]).length, RESERVED_WITHDRAWN.length]);
+    md.push("## " + (cards.length + 2) + ". The count", "", "| Card | Built | Not built | Retired |", "|---|---|---|---|");
     for (const [title, built, notBuilt, retired] of counts) md.push("| " + title + " | " + built + " | " + notBuilt + " | " + retired + " |");
     const total = counts.reduce((sum, entry) => [sum[0] + entry[1], sum[1] + entry[2], sum[2] + entry[3]], [0, 0, 0]);
     md.push("| **All** | **" + total[0] + "** | **" + total[1] + "** | **" + total[2] + "** |", "");
@@ -563,7 +602,7 @@ function render(cards, commit) {
 
 /** Every code the register knows, for the citation check: the built, the not built and the retired, of the cards whose codes are cited as tokens. */
 export function knownCodes(cards) {
-    return new Set(cards.flatMap(card => [...(card.boxes ?? []).flatMap(box => box.questions.map(question => question.code)), ...(card.retired ?? []).map(entry => entry.code)]));
+    return new Set([...cards.flatMap(card => [...(card.boxes ?? []).flatMap(box => box.questions.map(question => question.code)), ...(card.retired ?? []).map(entry => entry.code)]), ...RESERVED.map(([code]) => code), ...RESERVED_WITHDRAWN.map(([code]) => code)]);
 }
 
 /**
