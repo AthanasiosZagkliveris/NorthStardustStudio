@@ -212,6 +212,9 @@ export interface AnswerRendererProps {
     /** The Identity System's Vision: shown beside the Strategic Compass. */
     identityVision?: string;
 
+    /** The Identity System's Values with their ids (ValueIds.ts): the Ambassador's BA9 offers them (doc 46). */
+    identityValues?: readonly { id: string; text: string }[];
+
     /**
      * The Business System's Foundation answer (Page 1), handed to
      * the Customer Engagement page (Page 2) -- which is answered

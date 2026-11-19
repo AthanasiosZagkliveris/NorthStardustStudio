@@ -1136,7 +1136,7 @@ Registered before they are built, so their codes are fixed (the owner's approved
 | BA6 | What tone does your Ambassador use? | Brand, `ambassador.tone` | built 2026-11-19 (`AmbassadorChoices.ts`) | doc 46, 2 |
 | BA7 | Which words suit your customers? | Brand, `ambassador.words` | built 2026-11-19 (`AmbassadorChoices.ts`) | doc 46, 2 |
 | BA8 | How should people feel when they first meet your brand? | Brand, `ambassador.feeling` | built 2026-11-19 (`AmbassadorChoices.ts`) | doc 46, 2 |
-| BA9 | What should people remember you for? | Brand, `ambassador.remembered` | reserved | doc 46, 2 |
+| BA9 | What should people remember you for? | Brand, `ambassador.remembered` | built 2026-11-19 (`AmbassadorChoices.ts`) | doc 46, 2 |
 | SW1 | How could these changes affect you? | Strategy, `strategyFoundation.changeEffects` | reserved | doc 49, 4 |
 | SC1 | What will this period's strategy mainly do? | Strategy, `strategyFoundation.stance` | reserved | doc 49, 4 |
 | SC2 | Where will growth come from in this period? | Strategy, `strategyFoundation.growth` | reserved | doc 49, 4 |
@@ -1154,5 +1154,5 @@ Registered before they are built, so their codes are fixed (the owner's approved
 | Competitor | 12 | 0 | 3 |
 | Value Proposition | 0 | 0 | 0 |
 | Offering | 18 | 1 | 4 |
-| Reserved (Purpose & Beliefs, Ambassador, SWOT, Compass) | 9 | 11 | 1 |
-| **All** | **119** | **18** | **24** |
+| Reserved (Purpose & Beliefs, Ambassador, SWOT, Compass) | 10 | 10 | 1 |
+| **All** | **120** | **17** | **24** |

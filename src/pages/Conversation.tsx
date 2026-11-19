@@ -1013,6 +1013,7 @@ export default function Conversation() {
         legalEntityPrefill,
         targetAudience,
         identityVision,
+        identityValues,
         legalEntity,
         foundersProfile,
         organisationCurrency,
@@ -1252,6 +1253,7 @@ export default function Conversation() {
                                 legalEntityPrefill={legalEntityPrefill}
                                 targetAudience={targetAudience}
                                 identityVision={identityVision}
+                                identityValues={identityValues}
                                 businessFoundation={businessFoundationValue}
                                 onOpenBusinessFoundation={openBusinessFoundation}
                                 organisationCurrency={organisationCurrency}

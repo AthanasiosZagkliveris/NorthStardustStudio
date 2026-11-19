@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { aestheticsDraft, ambassadorShown, asAmbassadorChoices, brandVoiceLine, characterLimit, presenceWords, toneWords, voiceDraft, wordsOptions } from "./AmbassadorChoices.ts";
+import { aestheticsDraft, ambassadorShown, asAmbassadorChoices, brandVoiceLine, characterLimit, lastingImpressionDraft, presenceWords, rememberedOptions, toneWords, voiceDraft, wordsOptions } from "./AmbassadorChoices.ts";
 
 /* THE AMBASSADOR'S CHOICES, BA1 TO BA4 AND BA6 TO BA8 (doc 46). */
 describe("the Ambassador's choices", () => {
@@ -47,6 +47,15 @@ describe("the Ambassador's choices", () => {
         expect(brandVoiceLine(shown)).toBe("Our brand is warm and honest, with a casual, respectful tone.");
         expect(brandVoiceLine(ambassadorShown({}, none))).toBe("");
         expect(aestheticsDraft(ambassadorShown({ character: ["sincere", "competent"] }, none))).toBe("Our Ambassador is warm and honest as well as capable and reliable.");
+    });
+
+    it("offers BA9 the Values by their ids, keeps a tick on a Value still there, and writes the Lasting impression (doc 46, BA9)", () => {
+        const context = { segments: [], values: [{ id: "value-a", text: "Craft over speed" }, { id: "value-b", text: "Honest prices" }] };
+        expect(rememberedOptions(context).map(option => option.id)).toEqual(["value-a", "value-b"]);
+        const shown = ambassadorShown({ remembered: ["value-b", "value-gone", "value-a"] }, context);
+        expect(shown.remembered).toEqual(["value-b", "value-a"]);
+        expect(lastingImpressionDraft(shown, context)).toBe("They remember us for Honest prices and Craft over speed.");
+        expect(lastingImpressionDraft(ambassadorShown({}, context), context)).toBe("");
     });
 
     it("puts the trade's own terms first only where every Segment is a business", () => {

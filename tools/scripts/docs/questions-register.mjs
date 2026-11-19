@@ -246,7 +246,7 @@ const RESERVED = [
     ["BA6", "What tone does your Ambassador use?", "Brand, `ambassador.tone`", "doc 46, 2", "built 2026-11-19 (`AmbassadorChoices.ts`)"],
     ["BA7", "Which words suit your customers?", "Brand, `ambassador.words`", "doc 46, 2", "built 2026-11-19 (`AmbassadorChoices.ts`)"],
     ["BA8", "How should people feel when they first meet your brand?", "Brand, `ambassador.feeling`", "doc 46, 2", "built 2026-11-19 (`AmbassadorChoices.ts`)"],
-    ["BA9", "What should people remember you for?", "Brand, `ambassador.remembered`", "doc 46, 2"],
+    ["BA9", "What should people remember you for?", "Brand, `ambassador.remembered`", "doc 46, 2", "built 2026-11-19 (`AmbassadorChoices.ts`)"],
     ["SW1", "How could these changes affect you?", "Strategy, `strategyFoundation.changeEffects`", "doc 49, 4"],
     ["SC1", "What will this period's strategy mainly do?", "Strategy, `strategyFoundation.stance`", "doc 49, 4"],
     ["SC2", "Where will growth come from in this period?", "Strategy, `strategyFoundation.growth`", "doc 49, 4"],

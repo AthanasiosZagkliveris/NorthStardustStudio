@@ -13,6 +13,7 @@ import { countryCurrency } from "../framework/engine/LegalEntityJurisdictions.ts
 import { OrganizationService } from "../services/OrganizationService";
 import { asGlobalSettings, stageDurationsOf } from "../framework/engine/GlobalSettings";
 import { stageOf } from "../framework/engine/BusinessStage";
+import { valuesWithIds } from "../framework/engine/ValueIds.ts";
 import { PreferencesService } from "../services/PreferencesService";
 import { jumpTo, type OpenPage } from "../components/interview/tiles/jumpTo.ts";
 import { systems } from "../data/systems";
@@ -106,6 +107,18 @@ export function readCrossSystem({ session, organizationId, systemNumber, navigat
 
         return typeof vision === "string" ? vision : "";
 
+    })();
+
+    /* The Values with their ids (ValueIds.ts), from the Identity section that holds them, found by its Values' key, never its number: the Brand System's
+       Ambassador offers them for BA9 (doc 46). */
+    const identityValues = (() => {
+        const identity = systems.find(candidate => candidate.id === "identity");
+        if (!organizationId || !identity || !frameworkRegistry.exists(identity.id)) {
+            return [];
+        }
+        const section = frameworkRegistry.getFramework(identity.id).sections.find(candidate => candidate.answer?.parts?.some(part => part.id === "values"));
+        const state = OrganizationService.loadSystemState(organizationId, identity.number) as { responses?: Array<{ sectionNumber: number; value?: unknown }> } | null;
+        return section ? valuesWithIds(state?.responses?.find(response => response.sectionNumber === section.number)?.value) : [];
     })();
 
     /*
@@ -353,6 +366,7 @@ export function readCrossSystem({ session, organizationId, systemNumber, navigat
         legalEntityPrefill,
         targetAudience,
         identityVision,
+        identityValues,
         legalEntity,
         foundersProfile,
         organisationCurrency,

@@ -78,7 +78,9 @@ function MultiPartAnswerRenderer({
 
     businessFoundation,
 
-    businessEngagement
+    businessEngagement,
+
+    identityValues
 
 }: AnswerRendererProps) {
 
@@ -355,7 +357,7 @@ function MultiPartAnswerRenderer({
                             part={part.id}
                             value={values}
                             onChange={(next) => onChange(next)}
-                            context={{ segments: businessFoundationSegments(businessFoundation), engagement: asBusinessEngagementValue(businessEngagement).segments, identity: segmentIdentityOf(asLegalEntityValue(legalEntity).organisation, businessStage) }}
+                            context={{ segments: businessFoundationSegments(businessFoundation), engagement: asBusinessEngagementValue(businessEngagement).segments, identity: segmentIdentityOf(asLegalEntityValue(legalEntity).organisation, businessStage), values: identityValues }}
                             stage={businessStage}
                             disabled={disabled}
                         />
@@ -670,6 +672,8 @@ function SingleAnswerRenderer({
 
     identityVision,
 
+    identityValues,
+
     // What the Business System's Customer Engagement page needs
     // from its Foundation page, resolved by the page (see
     // AnswerRendererProps.businessFoundation). Ignored by every
@@ -715,7 +719,7 @@ function SingleAnswerRenderer({
 
     const { fixedVariantOptions, activeVariantId, setActiveVariantId, cardListOptions, activeCardId, setActiveCardId, variantCardsScrollRef, profileCardsScrollRef, tableColumns } = useAnswerState({ definition, value, onChange, resolveDynamicOptions, dynamicOptionsDependency });
 
-    const scope: AnswerScope = { definition, value, onChange, disabled, resolveDynamicOptions, rowSelection, ownerSuggestions, processLibraryProcesses, dynamicOptionsDependency, ariaLabel, autoGrow, columnNumberOffset, legalEntityPrefill, targetAudience, identityVision, businessFoundation, onOpenBusinessFoundation, organisationCurrency, legalEntityFounders, foundersProfile, legalEntity, onChangeLegalEntity, onChangeFoundersProfile, businessCapability, financialFoundation, openingDate, onChangeOpeningDate, businessStage, globalSettings, financialSustainability, businessEngagement, onOpenBusinessEngagement, onOpenBusinessCapability, onChangeBusinessCapability, onOpenFinancialFoundation, onOpenLegalEntity, columnsDivider, frameTitle, showInstructions, strategy, fixedVariantOptions, activeVariantId, setActiveVariantId, cardListOptions, activeCardId, setActiveCardId, variantCardsScrollRef, profileCardsScrollRef, tableColumns };
+    const scope: AnswerScope = { definition, value, onChange, disabled, resolveDynamicOptions, rowSelection, ownerSuggestions, processLibraryProcesses, dynamicOptionsDependency, ariaLabel, autoGrow, columnNumberOffset, legalEntityPrefill, targetAudience, identityVision, identityValues, businessFoundation, onOpenBusinessFoundation, organisationCurrency, legalEntityFounders, foundersProfile, legalEntity, onChangeLegalEntity, onChangeFoundersProfile, businessCapability, financialFoundation, openingDate, onChangeOpeningDate, businessStage, globalSettings, financialSustainability, businessEngagement, onOpenBusinessEngagement, onOpenBusinessCapability, onChangeBusinessCapability, onOpenFinancialFoundation, onOpenLegalEntity, columnsDivider, frameTitle, showInstructions, strategy, fixedVariantOptions, activeVariantId, setActiveVariantId, cardListOptions, activeCardId, setActiveCardId, variantCardsScrollRef, profileCardsScrollRef, tableColumns };
 
     switch (definition.type) {
 

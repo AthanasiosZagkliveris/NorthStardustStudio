@@ -13,7 +13,7 @@ import { joinImprint, splitImprint } from "../../fields/ColumnFields.tsx";
 import { draftAdds, withDraft } from "../../../../framework/engine/CompetitorQuestions.ts";
 import {
     AMBASSADOR_CHARACTERS, AMBASSADOR_DRESS, AMBASSADOR_PRESENCE, AMBASSADOR_SETTINGS, AMBASSADOR_TICKS_MAX, AMBASSADOR_TONE, BA_INFO, BA_LABELS,
-    type AmbassadorContext, aestheticsDraft, ambassadorShown, asAmbassadorChoices, bodyLanguageDraft, characterLimit, feelingOptions, firstImpressionDraft, voiceDraft, wordsOptions
+    type AmbassadorContext, aestheticsDraft, ambassadorShown, asAmbassadorChoices, bodyLanguageDraft, characterLimit, feelingOptions, firstImpressionDraft, lastingImpressionDraft, rememberedOptions, voiceDraft, wordsOptions
 } from "../../../../framework/engine/AmbassadorChoices.ts";
 
 /** The Ambassador's four texts, by their saved keys (the Brand System's first section). */
@@ -75,6 +75,8 @@ export default function AmbassadorChoices({ part, value, onChange, context, stag
     let draft = "";
     let text = typeof value[part] === "string" ? value[part] as string : "";
     let writeDraft = (next: string) => onChange({ ...value, [part]: next });
+    let imprintAdds = false;
+    let writeImprint: (() => void) | undefined;
 
     if (part === "aesthetics") {
         const limit = characterLimit(stage);
@@ -97,11 +99,14 @@ export default function AmbassadorChoices({ part, value, onChange, context, stag
     } else if (part === "imprint") {
         const options = feelingOptions(context);
         bands.push(question("ba8", ticks(BA_LABELS.ba8, options, shown.feeling, AMBASSADOR_TICKS_MAX, (next) => set("feeling", next.filter(id => options.some(option => option.id === id)))), AMBASSADOR_TICKS_MAX));
-        // (The First impression's sentence goes into its own text: doc 46, section 3, "First impression: people feel ...".)
+        const remembered = rememberedOptions(context);
+        bands.push(question("ba9", ticks(BA_LABELS.ba9, remembered.map(option => ({ id: option.id, label: option.label })), shown.remembered, AMBASSADOR_TICKS_MAX, (next) => set("remembered", next.filter(id => remembered.some(option => option.id === id)))), AMBASSADOR_TICKS_MAX));
+        // (Each sentence goes into its own text: the First impression's (BA8) and the Lasting impression's (BA9); doc 46, section 3. One "Add a draft" adds what each lacks.)
         const { first, lasting } = splitImprint(value[part]);
-        text = first;
-        writeDraft = (next: string) => onChange({ ...value, [part]: joinImprint(next, lasting) });
-        draft = firstImpressionDraft(shown, context);
+        const firstDraft = firstImpressionDraft(shown, context);
+        const lastingDraft = lastingImpressionDraft(shown, context);
+        imprintAdds = draftAdds(first, firstDraft) || draftAdds(lasting, lastingDraft);
+        writeImprint = () => onChange({ ...value, [part]: joinImprint(withDraft(first, firstDraft), withDraft(lasting, lastingDraft)) });
     }
     if (bands.length === 0) {
         return null;
@@ -112,8 +117,8 @@ export default function AmbassadorChoices({ part, value, onChange, context, stag
             <SingleColumn>
                 {bands.map((content, at) => band(content, at, part + "-" + at))}
             </SingleColumn>
-            {draftAdds(text, draft) && (
-                <TextLink className="business-competitor-draft" disabled={disabled} onClick={() => writeDraft(withDraft(text, draft))}>
+            {(writeImprint ? imprintAdds : draftAdds(text, draft)) && (
+                <TextLink className="business-competitor-draft" disabled={disabled} onClick={() => writeImprint ? writeImprint() : writeDraft(withDraft(text, draft))}>
                     Add a draft
                 </TextLink>
             )}

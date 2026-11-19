@@ -4,14 +4,15 @@ import { namesInSentence } from "./CompetitorQuestions.ts";
 import { effectiveOfferingAnswers, effectiveProfileAnswers } from "./EffectiveAnswers.ts";
 import { offeringRelationshipsFor } from "./JourneySuggestions.ts";
 import { PROFILE_QUESTIONS } from "./ProfileQuestions.ts";
-import { type SegmentIdentity, segmentIsBusiness } from "./SegmentContext.ts";
+import { type SegmentIdentity, segmentContextFor, segmentIsBusiness, segmentPositioningShown } from "./SegmentContext.ts";
+import { DIFFERENTIATION_WORDS } from "./ActivityClassification.ts";
 import { asText } from "./Readers.ts";
 
 /*
     THE AMBASSADOR'S CHOICES, BA1 TO BA4 AND BA6 TO BA8 (doc 46; owner, 2026-11-12, D3 to D5; built 2026-11-19, the owner's approved plan of 2026-11-18, §3, B2):
     a few choices above each of the four texts of the Brand System's Ambassador, saved under the section's own key `ambassador`, and an "Add a draft" that writes
     a sentence at the end of the text (the Value Proposition's pattern, doc 42). Aesthetics holds BA1 to BA3, Body Language BA4, Communication & Voice BA6 and BA7,
-    Imprint BA8 (BA9 follows once the Values have ids, doc 46, section 5). A start follows its source until the founder changes it (doc 46, section 6): the
+    Imprint BA8 and BA9 (BA9 built once the Values had ids, doc 46, section 5; ValueIds.ts). A start follows its source until the founder changes it (doc 46, section 6): the
     ratings of BA4 and BA6 follow BA1, BA3 follows the Offerings' O6; only what the founder sets is saved.
 */
 
@@ -76,7 +77,13 @@ const RELATIONSHIP_PHRASES = [
 export type PresenceRow = (typeof AMBASSADOR_PRESENCE)[number]["id"];
 export type ToneRow = (typeof AMBASSADOR_TONE)[number]["id"];
 
-/** The most BA3 and BA8 take, and BA1 from Managing on. */
+/** K14's phrases, one list shared with the Compass draft (doc 46, section 9; doc 49): what a Differentiation reads as in a sentence. */
+export const DIFFERENTIATION_PHRASES: Readonly<Record<string, string>> = {
+    cost: "good value", convenience: "making things easy", compliance: "keeping customers safe", premium: "high quality",
+    performance: "high performance", ecosystem: "fitting the tools customers already use", personal: "personal service"
+};
+
+/** The most BA3, BA8 and BA9 take, and BA1 from Managing on. */
 export const AMBASSADOR_TICKS_MAX = 2;
 
 export const BA_INFO = {
@@ -86,7 +93,8 @@ export const BA_INFO = {
     ba4: ["How your Ambassador stands, moves and reacts.", "Your character choice starts both ratings."],
     ba6: ["Your voice stays the same; your tone shifts with the moment. Rate the tone you use most.", "Your character choice starts all four ratings.", "Based on: Nielsen Norman Group, The four dimensions of tone of voice."],
     ba7: ["Choose the words your customers use themselves.", "Words to use and words to leave out go in the text below."],
-    ba8: ["Chosen from what your customers want to feel, on their Profiles.", "Your Value Proposition shows how each Offering gives it."]
+    ba8: ["Chosen from what your customers want to feel, on their Profiles.", "Your Value Proposition shows how each Offering gives it."],
+    ba9: ["The lasting impression: what people repeat about you to a friend."]
 } as const;
 
 export const BA_LABELS = {
@@ -96,7 +104,8 @@ export const BA_LABELS = {
     ba4: "How does your Ambassador come across?",
     ba6: "What tone does your Ambassador use?",
     ba7: "Which words suit your customers?",
-    ba8: "How should people feel when they first meet your brand?"
+    ba8: "How should people feel when they first meet your brand?",
+    ba9: "What should people remember you for?"
 } as const;
 
 /** The Ambassador's choices as saved: only what the founder set (a missing key keeps following its start). */
@@ -109,6 +118,8 @@ export interface AmbassadorChoices {
     tone?: Partial<Record<ToneRow, number>>;
     words?: string;
     feeling?: string[];
+    /** BA9: Value ids and Differentiation ids (K14). */
+    remembered?: string[];
 }
 
 const ids = (list: readonly { id: string }[]) => new Set<string>(list.map(entry => entry.id));
@@ -130,6 +141,7 @@ export function asAmbassadorChoices(sectionValue: unknown): AmbassadorChoices {
     if (Object.keys(rated).length > 0) out.tone = rated;
     if (ids(AMBASSADOR_WORDS).has(asText(saved.words))) out.words = asText(saved.words);
     if ("feeling" in saved) out.feeling = (Array.isArray(saved.feeling) ? saved.feeling : []).map(asText).filter(Boolean).slice(0, AMBASSADOR_TICKS_MAX);
+    if ("remembered" in saved) out.remembered = (Array.isArray(saved.remembered) ? saved.remembered : []).map(asText).filter(Boolean).slice(0, AMBASSADOR_TICKS_MAX);
     return out;
 }
 
@@ -144,6 +156,8 @@ export interface AmbassadorContext {
     /** The Customer Engagement's Segments (their relationships by Offering), as saved. */
     engagement?: readonly BusinessSegmentEngagementValue[];
     identity?: SegmentIdentity;
+    /** The Identity System's Values with their ids (ValueIds.ts), for BA9. */
+    values?: readonly { id: string; text: string }[];
 }
 
 /** BA3's start from the Offerings' O6 (doc 46, BA3): in person or collected starts a shop, café or venue; any online delivery starts Online; posted starts nothing. */
@@ -187,6 +201,18 @@ export function feelingOptions(context: AmbassadorContext): { id: string; label:
     return every.filter(option => counts.has(option.id)).map((option, order) => ({ ...option, order })).sort((a, b) => (counts.get(b.id) ?? 0) - (counts.get(a.id) ?? 0) || a.order - b.order).map(({ id, label }) => ({ id, label }));
 }
 
+/** BA9's options (doc 46, BA9): the Values' lines, then each Differentiation chosen on the Segments (K14), each once. */
+export function rememberedOptions(context: AmbassadorContext): { id: string; label: string; phrase: string }[] {
+    const differentiations = [...new Set(context.segments.flatMap(segment => {
+        const asked = segmentContextFor(context.identity, segmentIsBusiness(segment));
+        return segmentPositioningShown(segment.questions ?? {}, context.identity, asked, segment.competitors).differentiation ?? [];
+    }))].filter(id => DIFFERENTIATION_WORDS[id]);
+    return [
+        ...(context.values ?? []).filter(value => value.text.trim()).map(value => ({ id: value.id, label: value.text, phrase: value.text })),
+        ...differentiations.map(id => ({ id, label: DIFFERENTIATION_WORDS[id], phrase: DIFFERENTIATION_PHRASES[id] ?? DIFFERENTIATION_WORDS[id].toLowerCase() }))
+    ];
+}
+
 /** The choices as the tiles show them: each start where the founder set nothing (BA3 from O6, BA4 and BA6 from the first character). */
 export function ambassadorShown(saved: AmbassadorChoices, context: AmbassadorContext): Required<Omit<AmbassadorChoices, "energy" | "expression">> & { energy?: number; expression?: number } {
     const first = AMBASSADOR_CHARACTERS.find(entry => entry.id === saved.character?.[0]);
@@ -200,7 +226,9 @@ export function ambassadorShown(saved: AmbassadorChoices, context: AmbassadorCon
         tone: { ...(first?.tone ?? {}), ...(saved.tone ?? {}) },
         words: saved.words ?? "",
         // (A need no Profile holds any more is not shown, and leaves on the next choice: doc 46, section 6.)
-        feeling: (saved.feeling ?? []).filter(id => offered.has(id))
+        feeling: (saved.feeling ?? []).filter(id => offered.has(id)),
+        // (So does a Value or a Differentiation no longer there.)
+        remembered: (saved.remembered ?? []).filter(id => rememberedOptions(context).some(option => option.id === id))
     };
 }
 
@@ -280,6 +308,13 @@ export function firstImpressionDraft(shown: ReturnType<typeof ambassadorShown>, 
     const options = feelingOptions(context);
     const labels = shown.feeling.map(id => options.find(option => option.id === id)?.label.toLowerCase() ?? "").filter(Boolean);
     return labels.length > 0 ? "People feel " + namesInSentence(labels) + "." : "";
+}
+
+/** Imprint, the Lasting impression: "They remember us for [BA9 phrases]." ("" with none chosen; a Value as typed); written into the Lasting impression's text. */
+export function lastingImpressionDraft(shown: ReturnType<typeof ambassadorShown>, context: AmbassadorContext): string {
+    const options = rememberedOptions(context);
+    const phrases = shown.remembered.map(id => options.find(option => option.id === id)?.phrase ?? "").filter(Boolean);
+    return phrases.length > 0 ? "They remember us for " + namesInSentence(phrases) + "." : "";
 }
 
 /** The Business Plan's opening line of Brand & Voice: "Our brand is [BA1 phrase], with a [tone words] tone." ("" without BA1). */
