@@ -607,7 +607,7 @@ export function useEngagementRelationships(earlier: Earlier) {
         if (offeringIds.length === 0) {
             return (
                 <BusinessEmpty>
-                    Give a Channel in 1. Customer Channel one of this Segment&rsquo;s
+                    Give a Channel in Customer Channel one of this Segment&rsquo;s
                     Offerings and a Journey Stage, and the interactions appear here.
                 </BusinessEmpty>
             );

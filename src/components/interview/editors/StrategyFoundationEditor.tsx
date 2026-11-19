@@ -261,7 +261,7 @@ export default function StrategyFoundationEditor({
         [
             "Where do you want your organisation to be heading, and what do you want it to build, become, or achieve over the long term?",
             "Choose a time horizon far enough ahead to give your strategy direction, yet close enough for your organisation to make meaningful decisions about.",
-            { title: "The Vision is the goal; the Compass is the route.", text: vision.trim() ? vision.trim() : "Your Vision is not written yet. Write it under 1. Identity System → 1. Definition → 4. Vision." }
+            { title: "The Vision is the goal; the Compass is the route.", text: vision.trim() ? vision.trim() : "Your Vision is not written yet. Write it under 1. Identity System → Definition & Purpose → Mission & Vision." }
         ],
         [
             "Choose a start and an end: three to five years.",

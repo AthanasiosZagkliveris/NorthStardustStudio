@@ -208,7 +208,7 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
                 {who.length === 0 && !onNew
                     ? (
                         <BusinessEmpty>
-                            Add a founder, staff, or a partner or supplier under 3. Partners & Suppliers.
+                            Add a founder, staff, or a partner or supplier under Partners & Suppliers.
                         </BusinessEmpty>
                     )
                     : (
@@ -382,7 +382,7 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
                 disabled={disabled}
             >
                 {candidates.length === 0
-                    ? <BusinessEmpty>Add resources under 1. Resources first.</BusinessEmpty>
+                    ? <BusinessEmpty>Add resources under Resources first.</BusinessEmpty>
                     : (
                         <div className="business-capability-performers business-capability-resource-rows">
                             {rows.map((entry, position) => {
@@ -1037,8 +1037,8 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
                     {rows.length === 0
                         ? (
                             <BusinessEmpty>
-                                Nobody yet. Add founders under 1. Identity System → 3. Legal Entity → 2. Founders &amp; Ownership,
-                                or an external professional under 3. Partners &amp; Providers.
+                                Nobody yet. Add founders under 1. Identity System → Definition &amp; Purpose → Founders &amp; Ownership,
+                                or an external professional under Partners &amp; Providers.
                             </BusinessEmpty>
                         )
                         : (

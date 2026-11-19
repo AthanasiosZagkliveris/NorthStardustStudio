@@ -218,7 +218,7 @@ export function useCapabilityPeopleCards(earlier: Earlier) {
                         ? (
                             <BusinessEmpty>
                                 No roles yet. Add them under 1. Identity System
-                                → 4. Founders Profile → 1. Founders.
+                                → Definition & Purpose → Founders & Ownership.
                             </BusinessEmpty>
                         )
                         : (
@@ -404,7 +404,7 @@ export function useCapabilityPeopleCards(earlier: Earlier) {
                         ? (
                             <BusinessEmpty>
                                 Nothing yet. Make this founder responsible for an
-                                activity under 2. Activities and it appears here.
+                                activity under Activities and it appears here.
                             </BusinessEmpty>
                         )
                         : responsibilitiesOpen && (() => {
@@ -754,7 +754,7 @@ export function useCapabilityPeopleCards(earlier: Earlier) {
             current,
             onNext,
             "Select",
-            "Add a founder under 1. Identity System → 1. Definition → Founders & Ownership.",
+            "Add a founder under 1. Identity System → Definition & Purpose → Founders & Ownership.",
             info,
             what ? what + " responsible" : undefined,
             !side,

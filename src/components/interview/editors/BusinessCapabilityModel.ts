@@ -91,7 +91,7 @@ export const DELIVERY_HELP = {
     effort: [
         "The working hours one unit of this Offering takes, by each person who works on it.",
         "Founders' hours count against their capacity. The hours of staff, partners and suppliers are delivered, and paid for, outside it: their cost is recorded on their own card.",
-        "To share the work, add a Staff card under Resources › Human Resources, or a partner or supplier under 3. Partners & Suppliers, and link it to this Offering."
+        "To share the work, add a Staff card under Resources › Human Resources, or a partner or supplier under Partners & Suppliers, and link it to this Offering."
     ],
     capacity: [
         "The budgets below compare this with the hours each Offering's expected sales need.",

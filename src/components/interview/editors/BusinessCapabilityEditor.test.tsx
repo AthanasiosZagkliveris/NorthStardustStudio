@@ -553,11 +553,11 @@ describe("BusinessCapabilityEditor founders' roles", () => {
 
     });
 
-    it("points to the Founders Profile when a founder has none", () => {
+    it("points to Founders & Ownership when a founder has none", () => {
 
         renderWith({ founders: [{ id: "f1", roles: [""] }] });
 
-        expect(screen.getByText(/Add them under 1\. Identity System → 4\. Founders Profile → 1\. Founders\./)).toBeTruthy();
+        expect(screen.getByText(/Add them under 1\. Identity System → Definition & Purpose → Founders & Ownership\./)).toBeTruthy();
 
     });
 
