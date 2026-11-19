@@ -347,6 +347,12 @@ export function useCapabilityPeopleCards(earlier: Earlier) {
                     </p>
                 )}
 
+                </BandSection>
+
+                {/* THE OPTIONS, ONE SECTION (owner, 2026-11-19 16:52 UTC+2, 3.1 and 3.3: "place the Allowance, Commission, and Bonus in a common section", "Any information
+                    that exists between the Price and the Responsibility as optional choices should be in a common section"): every optional choice after the price,
+                    one band of its own (BandSection "options", EngagementBands), on every card that has them. */}
+                <BandSection name="options">
                 {/* The founder's optional Allowance, Commission and Bonus. */}
                 {extrasFields(founderLabel, PEOPLE_EXTRA_KEYS, founder.extras, organisationCurrency, (next) => change({ extras: next }))}
                 </BandSection>
@@ -876,6 +882,12 @@ export function useCapabilityPeopleCards(earlier: Earlier) {
 
                 {partner.cost.frequency === "per-project" && paymentPlanFields(partner.name.trim() || "Entry " + number, partner.startDate, partner.endDate, partner.paymentPlan, (next, dates) => change({ paymentPlan: next, ...dates }), planTotalOf(partner.cost.price, partnerHasQuantity(supplierConnections(capability, partner.id), partner.cost) ? partner.quantity : ""))}
 
+                </BandSection>
+
+                {/* THE OPTIONS, ONE SECTION (owner, 2026-11-19 16:52 UTC+2, 3.1 and 3.3: "place the Allowance, Commission, and Bonus in a common section", "Any information
+                    that exists between the Price and the Responsibility as optional choices should be in a common section"): every optional choice after the price,
+                    one band of its own (BandSection "options", EngagementBands), on every card that has them. */}
+                <BandSection name="options">
                 {/* The extras by what is connected: a landlord's deposit, service charge and property tax, a lessor's road tax; a producer's duties. */}
                 {extrasFields(
                     partner.name.trim() || "Entry " + number,

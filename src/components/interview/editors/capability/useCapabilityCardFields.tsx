@@ -940,6 +940,12 @@ export function useCapabilityCardFields(earlier: Earlier) {
                     );
                 })()}
 
+                </BandSection>
+
+                {/* THE OPTIONS, ONE SECTION (owner, 2026-11-19 16:52 UTC+2, 3.1 and 3.3: "place the Allowance, Commission, and Bonus in a common section", "Any information
+                    that exists between the Price and the Responsibility as optional choices should be in a common section"): every optional choice after the price,
+                    one band of its own (BandSection "options", EngagementBands), on every card that has them. */}
+                <BandSection name="options">
                 {/* A Deposit is the landlord's extra now; one an earlier answer left on a Premises card with no supplier stays here, to be moved or cleared. */}
                 {groupId === PREMISES_GROUP_ID && slot.deposit.trim() !== "" && depositField(slot, onSlot)}
 
