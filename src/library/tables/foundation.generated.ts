@@ -39,9 +39,9 @@ export const foundationTables: readonly TableData[] = [
     "id": "S3",
     "name": "Business System",
     "number": 3,
-    "pages": "4 (plus Introduction)",
-    "page_ids": "P3.1, P3.2, P3.3, P3.4",
-    "page_names": "1. Foundation; 2. Customer Engagement; 3. Infrastructure & Capability; 4. Financials",
+    "pages": "3 (plus Introduction)",
+    "page_ids": "P3.1, P3.3, P3.4",
+    "page_names": "1. Foundation & Engagement; 2. Infrastructure & Capability; 3. Financials",
     "page_types": "tiles page (chapters of master tiles)"
    },
    {
@@ -103,27 +103,17 @@ export const foundationTables: readonly TableData[] = [
    {
     "id": "P3.1",
     "system": "S3",
-    "name": "1. Foundation",
-    "sections": "3.1 Foundation",
+    "name": "1. Foundation & Engagement",
+    "sections": "3.1 Foundation; 3.2 Customer Engagement",
     "type": "tiles page (chapters of master tiles)",
-    "chapters": 1,
-    "master_tiles": 4,
-    "base_content": "header; Pages rail; page arrows; chapter frames"
-   },
-   {
-    "id": "P3.2",
-    "system": "S3",
-    "name": "2. Customer Engagement",
-    "sections": "3.2 Customer Engagement",
-    "type": "tiles page (chapters of master tiles)",
-    "chapters": 1,
-    "master_tiles": 13,
+    "chapters": 2,
+    "master_tiles": 0,
     "base_content": "header; Pages rail; page arrows; chapter frames"
    },
    {
     "id": "P3.3",
     "system": "S3",
-    "name": "3. Infrastructure & Capability",
+    "name": "2. Infrastructure & Capability",
     "sections": "3.3 Infrastructure & Capability",
     "type": "tiles page (chapters of master tiles)",
     "chapters": 3,
@@ -133,7 +123,7 @@ export const foundationTables: readonly TableData[] = [
    {
     "id": "P3.4",
     "system": "S3",
-    "name": "4. Financials",
+    "name": "3. Financials",
     "sections": "3.4 Revenue & Pricing; 3.5 Costs, Funding & Position",
     "type": "tiles page (chapters of master tiles)",
     "chapters": 2,
@@ -206,20 +196,20 @@ export const foundationTables: readonly TableData[] = [
     "source": "PageGroups.ts"
    },
    {
-    "id": "C3.1-no-title",
+    "id": "C3.1-foundation",
     "page": "P3.1",
     "order": 1,
-    "title": "(no title)",
+    "title": "1. Foundation",
     "extra_features": "none",
-    "source": "probe 2026-11-10"
+    "source": "PageGroups.ts"
    },
    {
-    "id": "C3.2-segment",
-    "page": "P3.2",
-    "order": 1,
-    "title": "1. Segment",
-    "extra_features": "fold arrow, info (i)",
-    "source": "probe 2026-11-10"
+    "id": "C3.1-customer-engagement",
+    "page": "P3.1",
+    "order": 2,
+    "title": "2. Customer Engagement",
+    "extra_features": "none",
+    "source": "PageGroups.ts"
    },
    {
     "id": "C3.3-infrastructure",
@@ -274,7 +264,7 @@ export const foundationTables: readonly TableData[] = [
  {
   "code": "MT",
   "title": "Master tiles",
-  "note": "A master tile is the large tile of a chapter: a title, the list of what it holds (each a link that opens a view or a card), and often a \"+\" to add. Seen by the add probe of 2026-11-10 in the Quillfield example, joined to its page and chapter by name; its id is its chapter and its title. Left out, as their names are no page or chapter of the app now: Identity System / 1. Definition / 2. Ethics. Style of every master tile: see the components table (CO master tile).",
+  "note": "A master tile is the large tile of a chapter: a title, the list of what it holds (each a link that opens a view or a card), and often a \"+\" to add. Seen by the add probe of 2026-11-10 in the Quillfield example, joined to its page and chapter by name; its id is its chapter and its title. Left out, as their names are no page or chapter of the app now: Business System / 1. Foundation / (no title); Business System / Customer Engagement / 1. Segment; Identity System / 1. Definition / 2. Ethics. Style of every master tile: see the components table (CO master tile).",
   "columns": [
    "id",
    "chapter",
@@ -391,159 +381,6 @@ export const foundationTables: readonly TableData[] = [
     "opens": "dialog view",
     "inside_the_tile": "none",
     "add_button": "Add Image to Brand Images",
-    "seen": "probe 2026-11-10"
-   },
-   {
-    "id": "MT3.1-no-title-segment-description",
-    "chapter": "C3.1-no-title",
-    "title": "Segment Description",
-    "opens": "dialog view",
-    "inside_the_tile": "2 links: The Stretched Operations Manager, The Agency Founder",
-    "add_button": "Add Profile to Segment Description",
-    "seen": "probe 2026-11-10"
-   },
-   {
-    "id": "MT3.1-no-title-value-proposition",
-    "chapter": "C3.1-no-title",
-    "title": "Value Proposition",
-    "opens": "dialog view",
-    "inside_the_tile": "none",
-    "add_button": "none",
-    "seen": "probe 2026-11-10"
-   },
-   {
-    "id": "MT3.1-no-title-competitors",
-    "chapter": "C3.1-no-title",
-    "title": "Competitors",
-    "opens": "dialog view",
-    "inside_the_tile": "4 links: Freelance automation specialists on marketplaces (, Larger AI consultancies and systems integrators, DIY no-code and built-in AI tools, Doing it manually or hiring an admin",
-    "add_button": "Add Competitor to Competitors",
-    "seen": "probe 2026-11-10"
-   },
-   {
-    "id": "MT3.1-no-title-offerings",
-    "chapter": "C3.1-no-title",
-    "title": "Offerings",
-    "opens": "dialog view",
-    "inside_the_tile": "3 links: AI Workflow Audit, Automation Build, Automation Care Retainer",
-    "add_button": "Add Offering to Offerings",
-    "seen": "probe 2026-11-10"
-   },
-   {
-    "id": "MT3.2-segment-social-media",
-    "chapter": "C3.2-segment",
-    "title": "Social Media",
-    "opens": "dialog view",
-    "inside_the_tile": "none",
-    "add_button": "Add Subchannel to Social Media",
-    "seen": "probe 2026-11-10"
-   },
-   {
-    "id": "MT3.2-segment-website",
-    "chapter": "C3.2-segment",
-    "title": "Website",
-    "opens": "dialog view",
-    "inside_the_tile": "none",
-    "add_button": "Add Subchannel to Website",
-    "seen": "probe 2026-11-10"
-   },
-   {
-    "id": "MT3.2-segment-email",
-    "chapter": "C3.2-segment",
-    "title": "Email",
-    "opens": "dialog view",
-    "inside_the_tile": "none",
-    "add_button": "Add Subchannel to Email",
-    "seen": "probe 2026-11-10"
-   },
-   {
-    "id": "MT3.2-segment-other",
-    "chapter": "C3.2-segment",
-    "title": "Other",
-    "opens": "dialog view",
-    "inside_the_tile": "none",
-    "add_button": "Add Subchannel to Other",
-    "seen": "probe 2026-11-10"
-   },
-   {
-    "id": "MT3.2-segment-in-person",
-    "chapter": "C3.2-segment",
-    "title": "In Person",
-    "opens": "dialog view",
-    "inside_the_tile": "none",
-    "add_button": "Add Subchannel to In Person",
-    "seen": "probe 2026-11-10"
-   },
-   {
-    "id": "MT3.2-segment-direct-payment",
-    "chapter": "C3.2-segment",
-    "title": "Direct Payment",
-    "opens": "dialog view",
-    "inside_the_tile": "none",
-    "add_button": "Add Subchannel to Direct Payment",
-    "seen": "probe 2026-11-10"
-   },
-   {
-    "id": "MT3.2-segment-online-live",
-    "chapter": "C3.2-segment",
-    "title": "Online / Live",
-    "opens": "dialog view",
-    "inside_the_tile": "none",
-    "add_button": "Add Subchannel to Online / Live",
-    "seen": "probe 2026-11-10"
-   },
-   {
-    "id": "MT3.2-segment-file-delivery",
-    "chapter": "C3.2-segment",
-    "title": "File Delivery",
-    "opens": "dialog view",
-    "inside_the_tile": "none",
-    "add_button": "Add Subchannel to File Delivery",
-    "seen": "probe 2026-11-10"
-   },
-   {
-    "id": "MT3.2-segment-community",
-    "chapter": "C3.2-segment",
-    "title": "Community",
-    "opens": "floating card",
-    "inside_the_tile": "none",
-    "add_button": "Add Subchannel to Community",
-    "seen": "probe 2026-11-10"
-   },
-   {
-    "id": "MT3.2-segment-marketplace",
-    "chapter": "C3.2-segment",
-    "title": "Marketplace",
-    "opens": "floating card",
-    "inside_the_tile": "none",
-    "add_button": "Add Subchannel to Marketplace",
-    "seen": "probe 2026-11-10"
-   },
-   {
-    "id": "MT3.2-segment-physical-delivery",
-    "chapter": "C3.2-segment",
-    "title": "Physical Delivery",
-    "opens": "floating card",
-    "inside_the_tile": "none",
-    "add_button": "Add Subchannel to Physical Delivery",
-    "seen": "probe 2026-11-10"
-   },
-   {
-    "id": "MT3.2-segment-retail-and-wholesale",
-    "chapter": "C3.2-segment",
-    "title": "Retail & Wholesale",
-    "opens": "floating card",
-    "inside_the_tile": "none",
-    "add_button": "Add Subchannel to Retail & Wholesale",
-    "seen": "probe 2026-11-10"
-   },
-   {
-    "id": "MT3.2-segment-referral-and-affiliates",
-    "chapter": "C3.2-segment",
-    "title": "Referral & Affiliates",
-    "opens": "floating card",
-    "inside_the_tile": "none",
-    "add_button": "Add Subchannel to Referral & Affiliates",
     "seen": "probe 2026-11-10"
    },
    {
@@ -1153,8 +990,8 @@ export const foundationTables: readonly TableData[] = [
     "width_px": 492
    },
    {
-    "id": "V3.2-social-media",
-    "page": "P3.2",
+    "id": "V3.1-social-media",
+    "page": "P3.1",
     "parent": "page",
     "path": "Social Media",
     "opens_as": "dialog view",
@@ -1164,9 +1001,9 @@ export const foundationTables: readonly TableData[] = [
     "width_px": ""
    },
    {
-    "id": "V3.2-social-media--linkedin",
-    "page": "P3.2",
-    "parent": "V3.2-social-media",
+    "id": "V3.1-social-media--linkedin",
+    "page": "P3.1",
+    "parent": "V3.1-social-media",
     "path": "Social Media > LinkedIn",
     "opens_as": "floating card",
     "pressed": "tile",
@@ -1175,9 +1012,9 @@ export const foundationTables: readonly TableData[] = [
     "width_px": 492
    },
    {
-    "id": "V3.2-social-media--linkedin_ai-workflow-audit",
-    "page": "P3.2",
-    "parent": "V3.2-social-media--linkedin",
+    "id": "V3.1-social-media--linkedin_ai-workflow-audit",
+    "page": "P3.1",
+    "parent": "V3.1-social-media--linkedin",
     "path": "Social Media > LinkedIn / AI Workflow Audit",
     "opens_as": "floating card",
     "pressed": "link",
@@ -1186,9 +1023,9 @@ export const foundationTables: readonly TableData[] = [
     "width_px": 492
    },
    {
-    "id": "V3.2-social-media--instagram",
-    "page": "P3.2",
-    "parent": "V3.2-social-media",
+    "id": "V3.1-social-media--instagram",
+    "page": "P3.1",
+    "parent": "V3.1-social-media",
     "path": "Social Media > Instagram",
     "opens_as": "floating card",
     "pressed": "tile",
@@ -1197,8 +1034,8 @@ export const foundationTables: readonly TableData[] = [
     "width_px": 492
    },
    {
-    "id": "V3.2-website",
-    "page": "P3.2",
+    "id": "V3.1-website",
+    "page": "P3.1",
     "parent": "page",
     "path": "Website",
     "opens_as": "dialog view",
@@ -1208,9 +1045,9 @@ export const foundationTables: readonly TableData[] = [
     "width_px": ""
    },
    {
-    "id": "V3.2-website--main-website",
-    "page": "P3.2",
-    "parent": "V3.2-website",
+    "id": "V3.1-website--main-website",
+    "page": "P3.1",
+    "parent": "V3.1-website",
     "path": "Website > Main Website",
     "opens_as": "floating card",
     "pressed": "tile",
@@ -1219,9 +1056,9 @@ export const foundationTables: readonly TableData[] = [
     "width_px": 492
    },
    {
-    "id": "V3.2-website--main-website_ai-workflow-audit",
-    "page": "P3.2",
-    "parent": "V3.2-website--main-website",
+    "id": "V3.1-website--main-website_ai-workflow-audit",
+    "page": "P3.1",
+    "parent": "V3.1-website--main-website",
     "path": "Website > Main Website / AI Workflow Audit",
     "opens_as": "floating card",
     "pressed": "link",
@@ -1230,9 +1067,9 @@ export const foundationTables: readonly TableData[] = [
     "width_px": 492
    },
    {
-    "id": "V3.2-website--booking_registration-page",
-    "page": "P3.2",
-    "parent": "V3.2-website",
+    "id": "V3.1-website--booking_registration-page",
+    "page": "P3.1",
+    "parent": "V3.1-website",
     "path": "Website > Booking / Registration Page",
     "opens_as": "floating card",
     "pressed": "link",
@@ -1241,9 +1078,9 @@ export const foundationTables: readonly TableData[] = [
     "width_px": 492
    },
    {
-    "id": "V3.2-website--booking_registration-page_ai-workflow-audit",
-    "page": "P3.2",
-    "parent": "V3.2-website",
+    "id": "V3.1-website--booking_registration-page_ai-workflow-audit",
+    "page": "P3.1",
+    "parent": "V3.1-website",
     "path": "Website > Booking / Registration Page / AI Workflow Audit",
     "opens_as": "floating card",
     "pressed": "link",
@@ -1252,9 +1089,9 @@ export const foundationTables: readonly TableData[] = [
     "width_px": 492
    },
    {
-    "id": "V3.2-website--online-store",
-    "page": "P3.2",
-    "parent": "V3.2-website",
+    "id": "V3.1-website--online-store",
+    "page": "P3.1",
+    "parent": "V3.1-website",
     "path": "Website > Online Store",
     "opens_as": "floating card",
     "pressed": "tile",
@@ -1263,9 +1100,9 @@ export const foundationTables: readonly TableData[] = [
     "width_px": 492
    },
    {
-    "id": "V3.2-website--landing-page",
-    "page": "P3.2",
-    "parent": "V3.2-website",
+    "id": "V3.1-website--landing-page",
+    "page": "P3.1",
+    "parent": "V3.1-website",
     "path": "Website > Landing Page",
     "opens_as": "floating card",
     "pressed": "tile",
@@ -1274,9 +1111,9 @@ export const foundationTables: readonly TableData[] = [
     "width_px": 492
    },
    {
-    "id": "V3.2-website--contact-page",
-    "page": "P3.2",
-    "parent": "V3.2-website",
+    "id": "V3.1-website--contact-page",
+    "page": "P3.1",
+    "parent": "V3.1-website",
     "path": "Website > Contact Page",
     "opens_as": "floating card",
     "pressed": "tile",
@@ -1285,8 +1122,8 @@ export const foundationTables: readonly TableData[] = [
     "width_px": 492
    },
    {
-    "id": "V3.2-email",
-    "page": "P3.2",
+    "id": "V3.1-email",
+    "page": "P3.1",
     "parent": "page",
     "path": "Email",
     "opens_as": "dialog view",
@@ -1296,9 +1133,9 @@ export const foundationTables: readonly TableData[] = [
     "width_px": ""
    },
    {
-    "id": "V3.2-email--newsletter",
-    "page": "P3.2",
-    "parent": "V3.2-email",
+    "id": "V3.1-email--newsletter",
+    "page": "P3.1",
+    "parent": "V3.1-email",
     "path": "Email > Newsletter",
     "opens_as": "floating card",
     "pressed": "tile",
@@ -1307,9 +1144,9 @@ export const foundationTables: readonly TableData[] = [
     "width_px": 492
    },
    {
-    "id": "V3.2-email--newsletter_ai-workflow-audit",
-    "page": "P3.2",
-    "parent": "V3.2-email--newsletter",
+    "id": "V3.1-email--newsletter_ai-workflow-audit",
+    "page": "P3.1",
+    "parent": "V3.1-email--newsletter",
     "path": "Email > Newsletter / AI Workflow Audit",
     "opens_as": "floating card",
     "pressed": "link",
@@ -1318,9 +1155,9 @@ export const foundationTables: readonly TableData[] = [
     "width_px": 492
    },
    {
-    "id": "V3.2-email--direct-email",
-    "page": "P3.2",
-    "parent": "V3.2-email",
+    "id": "V3.1-email--direct-email",
+    "page": "P3.1",
+    "parent": "V3.1-email",
     "path": "Email > Direct Email",
     "opens_as": "floating card",
     "pressed": "tile",
@@ -1329,9 +1166,9 @@ export const foundationTables: readonly TableData[] = [
     "width_px": 492
    },
    {
-    "id": "V3.2-email--direct-email_ai-workflow-audit",
-    "page": "P3.2",
-    "parent": "V3.2-email--direct-email",
+    "id": "V3.1-email--direct-email_ai-workflow-audit",
+    "page": "P3.1",
+    "parent": "V3.1-email--direct-email",
     "path": "Email > Direct Email / AI Workflow Audit",
     "opens_as": "floating card",
     "pressed": "link",
@@ -1340,9 +1177,9 @@ export const foundationTables: readonly TableData[] = [
     "width_px": 492
    },
    {
-    "id": "V3.2-email--email-campaign",
-    "page": "P3.2",
-    "parent": "V3.2-email",
+    "id": "V3.1-email--email-campaign",
+    "page": "P3.1",
+    "parent": "V3.1-email",
     "path": "Email > Email Campaign",
     "opens_as": "floating card",
     "pressed": "tile",
@@ -1351,9 +1188,9 @@ export const foundationTables: readonly TableData[] = [
     "width_px": 492
    },
    {
-    "id": "V3.2-email--automated-email",
-    "page": "P3.2",
-    "parent": "V3.2-email",
+    "id": "V3.1-email--automated-email",
+    "page": "P3.1",
+    "parent": "V3.1-email",
     "path": "Email > Automated Email",
     "opens_as": "floating card",
     "pressed": "tile",
@@ -1362,8 +1199,8 @@ export const foundationTables: readonly TableData[] = [
     "width_px": 492
    },
    {
-    "id": "V3.2-other",
-    "page": "P3.2",
+    "id": "V3.1-other",
+    "page": "P3.1",
     "parent": "page",
     "path": "Other",
     "opens_as": "dialog view",
@@ -1373,9 +1210,9 @@ export const foundationTables: readonly TableData[] = [
     "width_px": ""
    },
    {
-    "id": "V3.2-other--referral-partners-bookkeepers-and-it-pr",
-    "page": "P3.2",
-    "parent": "V3.2-other",
+    "id": "V3.1-other--referral-partners-bookkeepers-and-it-pr",
+    "page": "P3.1",
+    "parent": "V3.1-other",
     "path": "Other > Referral partners (bookkeepers and IT pr",
     "opens_as": "floating card",
     "pressed": "tile",
@@ -1384,9 +1221,9 @@ export const foundationTables: readonly TableData[] = [
     "width_px": 492
    },
    {
-    "id": "V3.2-other--referral-partners-bookkeepers-and-it-pr_ai-workflow-audit",
-    "page": "P3.2",
-    "parent": "V3.2-other--referral-partners-bookkeepers-and-it-pr",
+    "id": "V3.1-other--referral-partners-bookkeepers-and-it-pr_ai-workflow-audit",
+    "page": "P3.1",
+    "parent": "V3.1-other--referral-partners-bookkeepers-and-it-pr",
     "path": "Other > Referral partners (bookkeepers and IT pr / AI Workflow Audit",
     "opens_as": "floating card",
     "pressed": "link",
@@ -1395,8 +1232,8 @@ export const foundationTables: readonly TableData[] = [
     "width_px": 492
    },
    {
-    "id": "V3.2-in-person",
-    "page": "P3.2",
+    "id": "V3.1-in-person",
+    "page": "P3.1",
     "parent": "page",
     "path": "In Person",
     "opens_as": "dialog view",
@@ -1406,9 +1243,9 @@ export const foundationTables: readonly TableData[] = [
     "width_px": ""
    },
    {
-    "id": "V3.2-in-person--event_talk",
-    "page": "P3.2",
-    "parent": "V3.2-in-person",
+    "id": "V3.1-in-person--event_talk",
+    "page": "P3.1",
+    "parent": "V3.1-in-person",
     "path": "In Person > Event / Talk",
     "opens_as": "floating card",
     "pressed": "link",
@@ -1417,9 +1254,9 @@ export const foundationTables: readonly TableData[] = [
     "width_px": 492
    },
    {
-    "id": "V3.2-in-person--event_talk_ai-workflow-audit",
-    "page": "P3.2",
-    "parent": "V3.2-in-person",
+    "id": "V3.1-in-person--event_talk_ai-workflow-audit",
+    "page": "P3.1",
+    "parent": "V3.1-in-person",
     "path": "In Person > Event / Talk / AI Workflow Audit",
     "opens_as": "floating card",
     "pressed": "link",
@@ -1428,9 +1265,9 @@ export const foundationTables: readonly TableData[] = [
     "width_px": 492
    },
    {
-    "id": "V3.2-in-person--studio_shop",
-    "page": "P3.2",
-    "parent": "V3.2-in-person",
+    "id": "V3.1-in-person--studio_shop",
+    "page": "P3.1",
+    "parent": "V3.1-in-person",
     "path": "In Person > Studio / Shop",
     "opens_as": "floating card",
     "pressed": "link",
@@ -1439,8 +1276,8 @@ export const foundationTables: readonly TableData[] = [
     "width_px": 492
    },
    {
-    "id": "V3.2-direct-payment",
-    "page": "P3.2",
+    "id": "V3.1-direct-payment",
+    "page": "P3.1",
     "parent": "page",
     "path": "Direct Payment",
     "opens_as": "dialog view",
@@ -1450,9 +1287,9 @@ export const foundationTables: readonly TableData[] = [
     "width_px": ""
    },
    {
-    "id": "V3.2-direct-payment--invoice",
-    "page": "P3.2",
-    "parent": "V3.2-direct-payment",
+    "id": "V3.1-direct-payment--invoice",
+    "page": "P3.1",
+    "parent": "V3.1-direct-payment",
     "path": "Direct Payment > Invoice",
     "opens_as": "floating card",
     "pressed": "tile",
@@ -1461,9 +1298,9 @@ export const foundationTables: readonly TableData[] = [
     "width_px": 492
    },
    {
-    "id": "V3.2-direct-payment--invoice_ai-workflow-audit",
-    "page": "P3.2",
-    "parent": "V3.2-direct-payment--invoice",
+    "id": "V3.1-direct-payment--invoice_ai-workflow-audit",
+    "page": "P3.1",
+    "parent": "V3.1-direct-payment--invoice",
     "path": "Direct Payment > Invoice / AI Workflow Audit",
     "opens_as": "floating card",
     "pressed": "link",
@@ -1472,9 +1309,9 @@ export const foundationTables: readonly TableData[] = [
     "width_px": 492
    },
    {
-    "id": "V3.2-direct-payment--card",
-    "page": "P3.2",
-    "parent": "V3.2-direct-payment",
+    "id": "V3.1-direct-payment--card",
+    "page": "P3.1",
+    "parent": "V3.1-direct-payment",
     "path": "Direct Payment > Card",
     "opens_as": "floating card",
     "pressed": "tile",
@@ -1483,8 +1320,8 @@ export const foundationTables: readonly TableData[] = [
     "width_px": 492
    },
    {
-    "id": "V3.2-online_live",
-    "page": "P3.2",
+    "id": "V3.1-online_live",
+    "page": "P3.1",
     "parent": "page",
     "path": "Online / Live",
     "opens_as": "dialog view",
@@ -1494,8 +1331,8 @@ export const foundationTables: readonly TableData[] = [
     "width_px": ""
    },
    {
-    "id": "V3.2-online_live--zoom",
-    "page": "P3.2",
+    "id": "V3.1-online_live--zoom",
+    "page": "P3.1",
     "parent": "page",
     "path": "Online / Live > Zoom",
     "opens_as": "floating card",
@@ -1505,8 +1342,8 @@ export const foundationTables: readonly TableData[] = [
     "width_px": 492
    },
    {
-    "id": "V3.2-online_live--zoom_ai-workflow-audit",
-    "page": "P3.2",
+    "id": "V3.1-online_live--zoom_ai-workflow-audit",
+    "page": "P3.1",
     "parent": "page",
     "path": "Online / Live > Zoom / AI Workflow Audit",
     "opens_as": "floating card",
@@ -1516,8 +1353,8 @@ export const foundationTables: readonly TableData[] = [
     "width_px": 492
    },
    {
-    "id": "V3.2-online_live--google-meet",
-    "page": "P3.2",
+    "id": "V3.1-online_live--google-meet",
+    "page": "P3.1",
     "parent": "page",
     "path": "Online / Live > Google Meet",
     "opens_as": "floating card",
@@ -1527,8 +1364,8 @@ export const foundationTables: readonly TableData[] = [
     "width_px": 492
    },
    {
-    "id": "V3.2-file-delivery",
-    "page": "P3.2",
+    "id": "V3.1-file-delivery",
+    "page": "P3.1",
     "parent": "page",
     "path": "File Delivery",
     "opens_as": "dialog view",
@@ -1538,9 +1375,9 @@ export const foundationTables: readonly TableData[] = [
     "width_px": ""
    },
    {
-    "id": "V3.2-file-delivery--client-portal",
-    "page": "P3.2",
-    "parent": "V3.2-file-delivery",
+    "id": "V3.1-file-delivery--client-portal",
+    "page": "P3.1",
+    "parent": "V3.1-file-delivery",
     "path": "File Delivery > Client Portal",
     "opens_as": "floating card",
     "pressed": "tile",
@@ -1549,9 +1386,9 @@ export const foundationTables: readonly TableData[] = [
     "width_px": 492
    },
    {
-    "id": "V3.2-file-delivery--client-portal_ai-workflow-audit",
-    "page": "P3.2",
-    "parent": "V3.2-file-delivery--client-portal",
+    "id": "V3.1-file-delivery--client-portal_ai-workflow-audit",
+    "page": "P3.1",
+    "parent": "V3.1-file-delivery--client-portal",
     "path": "File Delivery > Client Portal / AI Workflow Audit",
     "opens_as": "floating card",
     "pressed": "link",
@@ -1560,9 +1397,9 @@ export const foundationTables: readonly TableData[] = [
     "width_px": 492
    },
    {
-    "id": "V3.2-file-delivery--wetransfer",
-    "page": "P3.2",
-    "parent": "V3.2-file-delivery",
+    "id": "V3.1-file-delivery--wetransfer",
+    "page": "P3.1",
+    "parent": "V3.1-file-delivery",
     "path": "File Delivery > WeTransfer",
     "opens_as": "floating card",
     "pressed": "tile",
@@ -1571,8 +1408,8 @@ export const foundationTables: readonly TableData[] = [
     "width_px": 492
    },
    {
-    "id": "V3.2-community",
-    "page": "P3.2",
+    "id": "V3.1-community",
+    "page": "P3.1",
     "parent": "page",
     "path": "Community",
     "opens_as": "floating card",
@@ -1582,8 +1419,8 @@ export const foundationTables: readonly TableData[] = [
     "width_px": 492
    },
    {
-    "id": "V3.2-marketplace",
-    "page": "P3.2",
+    "id": "V3.1-marketplace",
+    "page": "P3.1",
     "parent": "page",
     "path": "Marketplace",
     "opens_as": "floating card",
@@ -1593,8 +1430,8 @@ export const foundationTables: readonly TableData[] = [
     "width_px": 492
    },
    {
-    "id": "V3.2-physical-delivery",
-    "page": "P3.2",
+    "id": "V3.1-physical-delivery",
+    "page": "P3.1",
     "parent": "page",
     "path": "Physical Delivery",
     "opens_as": "floating card",
@@ -1604,8 +1441,8 @@ export const foundationTables: readonly TableData[] = [
     "width_px": 492
    },
    {
-    "id": "V3.2-retail-and-wholesale",
-    "page": "P3.2",
+    "id": "V3.1-retail-and-wholesale",
+    "page": "P3.1",
     "parent": "page",
     "path": "Retail & Wholesale",
     "opens_as": "floating card",
@@ -1615,8 +1452,8 @@ export const foundationTables: readonly TableData[] = [
     "width_px": 492
    },
    {
-    "id": "V3.2-referral-and-affiliates",
-    "page": "P3.2",
+    "id": "V3.1-referral-and-affiliates",
+    "page": "P3.1",
     "parent": "page",
     "path": "Referral & Affiliates",
     "opens_as": "floating card",
