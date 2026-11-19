@@ -815,6 +815,23 @@
 
 }
 
+/* (Its tick, words and "i" stand on the control's centre line: the label row centres them, and the tick row puts its words in the middle of its 24px -- as a line of
+   text it stood 1.5px under the control, the "i" 2px; layout rules section 4, "Text beside a control", and "the i on its words' centre line"; the Lumen check,
+   2026-11-19.) */
+.business-foundation-field.business-foundation-field.business-foundation-field:not(.optional-field):has(> .business-foundation-label-info > .business-foundation-tick-inline) > .business-foundation-label-info{
+
+    display:flex;
+
+    align-items:center;
+
+}
+
+.business-foundation-field.business-foundation-field.business-foundation-field:not(.optional-field) > .business-foundation-label-info > .business-foundation-tick-inline{
+
+    padding-top:calc((var(--size-mark) - 1lh) / 2);
+
+}
+
 .business-foundation-field.business-foundation-field.business-foundation-field:not(.optional-field):has(> .business-foundation-label-info > .business-foundation-tick-inline) > .business-capability-automatic{
 
     /* (The founder the rule names is text on the tick's own line, not a control-high box.) */
@@ -1013,13 +1030,6 @@
     margin-right:calc(-1 * var(--card-padding));
 
     max-width:none;
-
-}
-
-/* (A founder's card keeps the x's column clear in its own padding (07-floating-card-details-2.css): its bands run out over that padding too, to the card's side.) */
-.floating-card-body .column-tile-content > .business-foundation-card.business-founder-open > .business-segment-grid-single{
-
-    margin-right:calc(-1 * (var(--card-padding) + var(--card-x-col)));
 
 }
 

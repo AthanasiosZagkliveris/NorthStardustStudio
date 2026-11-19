@@ -115,14 +115,15 @@
 
     width: auto;
 
-    /* (The row leaves 8px before the x or the "+"; the name cell above leaves 12px, so the picker ends 4px short of the row's gap: at the name cell's right edge.) */
-    margin-inline-end: 4px;
-
 }
 
 .card-box-open .business-capability-performer > :is(.plus-box, .strategy-box-remove, .business-capability-performer-slot) {
 
     flex: none;
+
+    /* (12px before the x or the "+", as under the name cell -- the row's own 8px and 4px more -- so whatever stands last in the row, a picker or a resource's units,
+       ends at the name cell's right edge: layout rules section 11, "x column 44px"; the Lumen check, 2026-11-19, a resource's units stood 4px past it.) */
+    margin-inline-start: 4px;
 
     width: 32px;
     height: 32px;

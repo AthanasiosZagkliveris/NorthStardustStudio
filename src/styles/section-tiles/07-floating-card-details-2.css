@@ -599,13 +599,8 @@
 }
 
 
-/* THE CONTENT UNDER A CARD'S NAME runs from the name's left edge to its right edge, on every card: a founder's card has no name cell, so its content keeps the
-   same left (after the number) and the same right (the delete x's column kept clear). */
-.business-foundation-card.business-founder-open {
-
-    padding-right: calc(var(--card-padding) + var(--card-x-col));
-
-}
+/* (A founder's card has the card padding of every card on its right too, its head's x column and its sections' padding keeping the content to the name cell's right
+   edge, as on every page-3 card: layout rules section 10, "One card", the same padding; the Lumen check, 2026-11-19. It stood at 12px + 40px.) */
 
 .floating-card-host .business-founder-open {
 
