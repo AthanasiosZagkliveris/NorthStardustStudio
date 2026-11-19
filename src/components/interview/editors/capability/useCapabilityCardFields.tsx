@@ -3,6 +3,11 @@
  * One part of the Infrastructure & Capability editor (see BusinessCapabilityEditor.tsx): what it needs of the parts before it comes in as `scope`; what the parts after it need goes out.
  */
 import { costIsShared } from "../../../../framework/engine/AnswerUtils.ts";
+import RadioChoice from "../../../controls/RadioChoice.tsx";
+import { COMPANY_FORM } from "../../../../framework/engine/LegalFacts.ts";
+import { BUSINESS_PEOPLE_GROUP_IDS, asLegalEntityValue } from "../../../../framework/engine/AnswerUtils.ts";
+/** LF3's "i": the close relatives HSE40 and gov.uk name (doc 53, stage 4). */
+const FAMILY_INFO = ["A close relative: husband, wife, civil partner, father, mother, grandfather, grandmother, stepfather, stepmother, son, daughter, grandson, granddaughter, stepson, stepdaughter, brother, sister, half-brother or half-sister.", "A business whose employees are all close relatives needs no employers' liability insurance.", "Based on: HSE40, the Health and Safety Executive's guide to the Employers' Liability (Compulsory Insurance) Act 1969."];
 import CurrencyPicker from "../../fields/CurrencyPicker.tsx";
 import TextBox from "../../../controls/TextBox.tsx";
 import AddButton from "../../../controls/AddButton.tsx";
@@ -29,7 +34,7 @@ type Earlier = ReturnType<typeof useCapabilityState>;
 
 export function useCapabilityCardFields(earlier: Earlier) {
 
-    const { shareWeights, activityRows, capability, cardDates, channelCategoryText, channelMade, channelTitle, costOptionRows, dateNotice, defaultRateOf, disabled, foundation, latestPaymentOf, linksOpen, offeringCategoryCells, onChange, onOpenFoundation, openPair, organisationCurrency, rentRow, resourceCategoryCells, setDateNotice, setLinksOpen, supplierRows, withDefaultRate } = earlier;
+    const { shareWeights, activityRows, capability, cardDates, legalEntity, channelCategoryText, channelMade, channelTitle, costOptionRows, dateNotice, defaultRateOf, disabled, foundation, latestPaymentOf, linksOpen, offeringCategoryCells, onChange, onOpenFoundation, openPair, organisationCurrency, rentRow, resourceCategoryCells, setDateNotice, setLinksOpen, supplierRows, withDefaultRate } = earlier;
 
     /**
      * A price, the currency it is in, and how often it is paid.
@@ -974,6 +979,21 @@ export function useCapabilityCardFields(earlier: Earlier) {
                 {/* (A Staff card's hours a month they can give: their own row and bar in Capacity & Delivery; doc 52, 14; owner, 2026-11-17. In the Team section, before the Notes:
                     owner, 2026-11-19 16:52, 3.5.) */}
                 <BandSection name="team">
+                {/* (LF3, A CLOSE RELATIVE (doc 53, stage 4; owner, 2026-11-19 20:59 UTC+2: only what no earlier answer says): on a paid Staff card of a business that is not
+                    a company -- HSE40: the close relatives' exemption from employers' liability insurance "does not apply to family businesses which are incorporated as
+                    limited companies"; never on a Partner's or Supplier's card, a contractor not being employed.) */}
+                {BUSINESS_PEOPLE_GROUP_IDS.includes(groupId as never) && isCostingStatus(slot.status) && (parseAmount(slot.cost.price) ?? 0) > 0 && !COMPANY_FORM.test(asLegalEntityValue(legalEntity).organisation.legalForm) && (
+                    <BusinessField label="Is this person part of your family?" info={FAMILY_INFO} side>
+                        <RadioChoice
+                            label={"Resource " + number + " part of your family"}
+                            group={"family-" + slot.id}
+                            disabled={disabled}
+                            value={slot.family ?? ""}
+                            onChange={(next) => onSlot({ family: next as "yes" | "no" })}
+                            options={[{ id: "yes", label: "Yes" }, { id: "no", label: "No" }]}
+                        />
+                    </BusinessField>
+                )}
                 {scope === "offering" && slot.category === "hr" && (
                     <BusinessField label="Hours a month they can give" fieldId="Hours a month they can give" side>
                         <NumberCell kind="decimal"

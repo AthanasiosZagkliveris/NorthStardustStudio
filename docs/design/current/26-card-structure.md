@@ -1187,7 +1187,7 @@ Leased (status Partners & Suppliers): the cost sits on the supplier's card. Boug
 
 #### Category: Human Resources
 
-**Every Delivery Team card also has** (owner, 2026-11-17; doc 52, 14): **Hours a month they can give** -- a side number box, optional, in its Team section before the Notes (2026-11-19, 3.5). Read by Capacity & Delivery: the card's own row and bar there.
+**Every Delivery Team card also has** (owner, 2026-11-17; doc 52, 14): **Hours a month they can give** -- a side number box, optional, in its Team section before the Notes (2026-11-19, 3.5). Read by Capacity & Delivery: the card's own row and bar there. **A paid Staff card** (its Status Costs, a price above 0; Infrastructure's Admin Team or the Offering's Delivery Team) **of a business that is not a company also asks** "Is this person part of your family?" (Yes / No; doc 53, LF3; HSE40), in its Team section; never a Partner's or Supplier's card.
 
 ##### Offering > Resources > Human Resources > Delivery Team
 
@@ -1556,7 +1556,7 @@ Shown in All Tiles under “Legal expenses”. It records registrations and thei
 |---|---|---|---|---|---|---|---|
 | 1 | Number<br>Name<br>Remove × | Number<br>Name<br>× | None (shown)<br>Type<br>Click | Read-only number<br>Text box<br>Button | Automatic / Required / Button | **Number:** The card number<br>**Name:** The name of the card (“Expense name”)<br>**Remove ×:** Removes the card | A card without a name cannot be found or linked |
 | 2 | Date | Date | Pick a date | Calendar | Required | Places the cost in a month of the cash flow | Placed after the name |
-| 3 | Cost<br>Frequency | Cost<br>Frequency | Type<br>Select | Number box<br>Dropdown | Required / Required | **Cost:** The label carries the organisation's currency<br>**Frequency:** One time; Monthly; Annually | The amount and how often it recurs |
+| 3 | Cost<br>Frequency | Cost<br>Frequency | Type<br>Select | Number box<br>Dropdown | Required / Required | **Cost:** The label carries the organisation's currency<br>**Frequency:** One time; Monthly; Annually; Every two years (doc 53, decision 2) | The amount and how often it recurs |
 | 4 | Responsibility | Responsibility | Select | Dropdown of founders | Required | Shown when there is more than one founder. Hidden when there is one founder | Someone answers for it |
 | 5 | Linked registration | Linked registration | Select | Dropdown | Required | The registration and tax numbers and the requirements already recorded on the page. Only one can be chosen | Every expense pays for one registration |
 | 6 | Notes<br>Record date and time<br>Add Date | Notes<br>Record date and time<br>Add Date | Type<br>None (shown)<br>Click | Text box, auto-growing, opened by a tick<br>Read-only text<br>Button | Optional / Automatic / Button | **Notes:** A note; nothing is calculated from it<br>**Record date and time:** Each note is stamped with the date and time it was recorded<br>**Add Date:** Adds a date to the note | A dated note |

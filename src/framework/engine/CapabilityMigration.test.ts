@@ -185,8 +185,8 @@ describe("an answer saved before the nine categories is moved into them (F3)", (
 
 describe("frequencies and quantity (F4)", () => {
 
-    test("the seven frequencies: Quarterly and % of Rev added; Per order and Other gone", () => {
-        expect(BUSINESS_COST_FREQUENCIES.map(entry => entry.id)).toEqual(["one-time", "monthly", "quarterly", "annually", "per-unit", "per-project", "percent-revenue"]);
+    test("the eight frequencies: Quarterly, % of Rev and Every two years (doc 53, decision 2) added; Per order and Other gone", () => {
+        expect(BUSINESS_COST_FREQUENCIES.map(entry => entry.id)).toEqual(["one-time", "monthly", "quarterly", "annually", "biennially", "per-unit", "per-project", "percent-revenue"]);
     });
 
     test("Per order is Per unit with the unit 'order'; Other is cleared and its words kept in the description", () => {

@@ -1,5 +1,6 @@
 import { NO_REGISTRY_FORM, formationStatusOf, type LegalEntityValue } from "./AnswerLegal.ts";
-import { asBusinessCapabilityValue } from "./AnswerBusinessCapability.ts";
+import { asBusinessCapabilityValue, isCostingStatus } from "./AnswerBusinessCapability.ts";
+import { parseAmount } from "./Amounts.ts";
 import { founderMonthlySalary } from "./DemandCapacity.ts";
 
 /*
@@ -24,7 +25,7 @@ export interface LegalStart {
     /** What it asks, in a line, for the requirement's notes. */
     says?: string;
     /** The official fee, and how often (LEGAL_ENTITY_EXPENSE_FREQUENCIES); none where there is no fixed fee. */
-    fee?: { amount: string; frequency: "One time" | "Annually"; expenseName: string };
+    fee?: { amount: string; frequency: "One time" | "Annually" | "Every two years"; expenseName: string };
     /** The official page behind it. */
     source: string;
 }
@@ -78,8 +79,8 @@ export function legalStartsFor({ entity, paid }: LegalFacts): LegalStart[] {
                 starts.push({ rule: "US2", kind: "expense", name: "Articles of Organization", fee: { amount: "200", frequency: "One time", expenseName: "Articles of Organization" }, source: "https://dos.ny.gov/articles-organization-domestic-limited-liability-company-0" });
             }
             starts.push({ rule: "US3", kind: "requirement", type: "additional", name: "Publication of the LLC's formation", says: "Published in two newspapers chosen by the county clerk for six weeks in a row, within 120 days of formation, then the Certificate of Publication filed.", fee: { amount: "50", frequency: "One time", expenseName: "Certificate of Publication" }, source: "https://dos.ny.gov/certificate-publication-domestic-limited-liability-company-0" });
-            // (The Biennial Statement's $9 every two years waits for the "Every two years" frequency: doc 53, decision 2, stage 3.)
-            starts.push({ rule: "US4", kind: "requirement", type: "additional", name: "Biennial Statement", says: "Filed every two years, in the month the Articles were filed; $9.", source: "https://dos.ny.gov/articles-organization-domestic-limited-liability-company-0" });
+            // (The Biennial Statement's $9 every two years: the "Every two years" frequency, doc 53, decision 2, stage 3.)
+            starts.push({ rule: "US4", kind: "requirement", type: "additional", name: "Biennial Statement", says: "Filed every two years, in the month the Articles were filed.", fee: { amount: "9", frequency: "Every two years", expenseName: "Biennial Statement" }, source: "https://dos.ny.gov/articles-organization-domestic-limited-liability-company-0" });
         }
     }
     if (country === "CA" && form === "Corporation (federal)") {
@@ -162,7 +163,19 @@ export function paysAnyone(capabilityValue: unknown): boolean {
         return false;
     }
     const capability = asBusinessCapabilityValue(capabilityValue);
-    return capability.founders.some(founder => (founderMonthlySalary(founder) ?? 0) > 0)
-        || capability.offering.resources.some(slot => slot.category === "hr")
-        || (capability.resources["hr"] ?? []).some(subsection => subsection.slots.length > 0);
+    return capability.founders.some(founder => (founderMonthlySalary(founder) ?? 0) > 0) || paidStaffOf(capabilityValue).length > 0;
+}
+
+/**
+ * THE PAID PEOPLE CARDS (doc 53, GB10 and GB11; owner, 2026-11-19): a Staff card (Human Resources, Infrastructure's or the Offering's) whose Status costs and whose
+ * price is above 0 -- an employee. A Partner's or Supplier's card is never one: a contractor is not employed.
+ */
+export function paidStaffOf(capabilityValue: unknown): { id: string; name: string; family?: "" | "yes" | "no" }[] {
+    if (capabilityValue === undefined || capabilityValue === null) {
+        return [];
+    }
+    const capability = asBusinessCapabilityValue(capabilityValue);
+    const paid = (slot: { status: string; cost: { price: string } }) => isCostingStatus(slot.status) && (parseAmount(slot.cost.price) ?? 0) > 0;
+    return [...capability.offering.resources.filter(slot => slot.category === "hr"), ...(capability.resources["hr"] ?? []).flatMap(subsection => subsection.slots)]
+        .filter(paid).map(slot => ({ id: slot.id, name: slot.name, family: slot.family }));
 }

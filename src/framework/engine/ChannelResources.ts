@@ -162,6 +162,7 @@ export function costPeriodWords(cost: BusinessCostValue): string {
     switch (cost.frequency) {
         case "monthly": return "a month";
         case "annually": return "a year";
+        case "biennially": return "every two years";
         case "one-time": return "one-time";
         case "quarterly": return "a quarter";
         case "per-unit": return cost.unit.trim() && cost.unit.trim() !== "unit" ? "per " + cost.unit.trim() : "per unit";
@@ -202,8 +203,8 @@ export function channelCostSummary(cards: readonly CostCard[], currency: string,
         if (amount === null || (card.cost.currency && card.cost.currency !== currency)) {
             continue;
         }
-        if (card.cost.frequency === "annually") {
-            add("a month", amount / 12);
+        if (card.cost.frequency === "annually" || card.cost.frequency === "biennially") {
+            add("a month", amount / (card.cost.frequency === "annually" ? 12 : 24));
         } else {
             add(costPeriodWords(card.cost) || "each time", amount);
         }

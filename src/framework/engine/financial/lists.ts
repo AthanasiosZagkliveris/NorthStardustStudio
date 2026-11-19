@@ -49,6 +49,7 @@ export const COST_FREQUENCIES = [
     { id: "monthly", label: "Monthly" },
     { id: "quarterly", label: "Quarterly" },
     { id: "annually", label: "Annually" },
+    { id: "biennially", label: "Every two years" },
     { id: "per-project", label: "Per project" },
     { id: "per-unit", label: "Per unit" },
     { id: "per-order", label: "Per order" },
@@ -60,7 +61,7 @@ export type CostFrequency = typeof COST_FREQUENCIES[number]["id"];
 
 /** Frequencies with a place in the calendar. */
 export const SCHEDULED_FREQUENCIES: readonly CostFrequency[] =
-    ["one-time", "monthly", "quarterly", "annually"];
+    ["one-time", "monthly", "quarterly", "annually", "biennially"];
 
 /** Frequencies paid per unit of activity: a variable cost per unit. */
 export const PER_UNIT_FREQUENCIES: readonly CostFrequency[] = ["per-project", "per-unit", "per-order"];

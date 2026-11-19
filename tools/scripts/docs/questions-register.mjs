@@ -213,7 +213,8 @@ const OFFERING_CODES = {
     o20: ["O20", "O6 has Posted / shipped to them (owner, 2026-11-15 16:26); ends in Other, written in as a numbered list"],
     o21: ["O21", "O6 has Sent automatically online or Sent by you online; ends in Other, written in as a numbered list"],
     o22: ["O22", "O6 has In a live online session; ends in Other, written in as a numbered list"],
-    o23: ["O23", "always from Launching; held back while Planning, its saved answer kept (owner, 2026-11-16 16:31); Only when they get in touch stands alone; ends in Other, written in as a numbered list"]
+    o23: ["O23", "always from Launching; held back while Planning, its saved answer kept (owner, 2026-11-16 16:31); Only when they get in touch stands alone; ends in Other, written in as a numbered list"],
+    o24: ["O24", "a Product or a Hybrid that is a physical item, and only where the activity code does not say what it is (doc 53, stage 4; owner, 2026-11-19 20:59 UTC+2); None of these stands alone"]
 };
 const OFFERING_NOT_BUILT = [
     ["O12", "Is a minimum age to buy it set by law?", "no longer a question: a derived Review item from the activities and the country (proposed, owner 2026-11-06)"]
@@ -250,7 +251,10 @@ const RESERVED = [
     ["SW1", "How could these changes affect you?", "Strategy, `strategyFoundation.changeEffects`", "doc 49, 4", "built 2026-11-19 (`StrategyChoices.ts`)"],
     ["SC1", "What will this period's strategy mainly do?", "Strategy, `strategyFoundation.stance`", "doc 49, 4", "built 2026-11-19 (`StrategyChoices.ts`)"],
     ["SC2", "Where will growth come from in this period?", "Strategy, `strategyFoundation.growth`", "doc 49, 4", "built 2026-11-19 (`StrategyChoices.ts`)"],
-    ["SC3", "Which Segment comes first?", "Strategy, `strategyFoundation.firstSegmentId`", "doc 49, 4", "built 2026-11-19 (`StrategyChoices.ts`)"]
+    ["SC3", "Which Segment comes first?", "Strategy, `strategyFoundation.firstSegmentId`", "doc 49, 4", "built 2026-11-19 (`StrategyChoices.ts`)"],
+    ["LF2", "Is your work a regulated profession?", "Identity, Definition, `organisation.regulatedProfession`", "doc 53, 6", "built 2026-11-19 (`LegalFacts.ts`; only where no activity code is given)"],
+    ["LF3", "Is this person part of your family?", "Business, a paid Staff card, `family`", "doc 53, 6", "built 2026-11-19 (`LegalFacts.ts`; a business that is not a company only, HSE40)"],
+    ["LF4", "What do you keep people's details for?", "Identity, Definition, `organisation.personalData`", "doc 53, 6", "built 2026-11-19 (`LegalFacts.ts`; the United Kingdom, where the activity code does not settle it)"]
 ];
 /** Codes withdrawn before they were ever registered: kept so they are never reused. [code, what it asked, why]. */
 const RESERVED_WITHDRAWN = [
@@ -592,7 +596,7 @@ function render(cards, commit) {
     for (const [code, label, key, owner, status] of RESERVED) md.push("| " + [code, label, key, status ?? "reserved", owner].map(cell).join(" | ") + " |");
     for (const [code, was, why] of RESERVED_WITHDRAWN) md.push("| " + [code, was, "–", "withdrawn", why].map(cell).join(" | ") + " |");
     md.push("");
-    counts.push(["Reserved (Purpose & Beliefs, Ambassador, SWOT, Compass)", RESERVED.filter(entry => entry[4]).length, RESERVED.filter(entry => !entry[4]).length, RESERVED_WITHDRAWN.length]);
+    counts.push(["Reserved (Purpose & Beliefs, Ambassador, SWOT, Compass, Legal facts)", RESERVED.filter(entry => entry[4]).length, RESERVED.filter(entry => !entry[4]).length, RESERVED_WITHDRAWN.length]);
     md.push("## " + (cards.length + 2) + ". The count", "", "| Card | Built | Not built | Retired |", "|---|---|---|---|");
     for (const [title, built, notBuilt, retired] of counts) md.push("| " + title + " | " + built + " | " + notBuilt + " | " + retired + " |");
     const total = counts.reduce((sum, entry) => [sum[0] + entry[1], sum[1] + entry[2], sum[2] + entry[3]], [0, 0, 0]);

@@ -4,6 +4,7 @@
  * Answers are kept on the Offering under `questions`, question id to the option ids chosen, as the Profile's and the Competitor's are.
  */
 import type { SegmentOption } from "./SegmentQuestions.ts";
+import { PRODUCT_KINDS, productKindsFromCode } from "./LegalFacts.ts";
 import { COMPETITOR_VALUES, clearOpenings, valueInSentence } from "./CompetitorQuestions.ts";
 import { PROFILE_QUESTIONS, profileRatings } from "./ProfileQuestions.ts";
 import type { BusinessCustomerSegmentValue, BusinessOfferingValue } from "./AnswerBusinessFoundation.ts";
@@ -11,7 +12,7 @@ import { businessSegmentFunctionalItems } from "./AnswerBusinessFoundation.ts";
 import { onlyPlanning } from "./BusinessStage.ts";
 
 export type OfferingAnswers = Record<string, string[]>;
-export type OfferingQuestionId = "o1" | "o2" | "o3" | "o3t" | "o4" | "o6" | "o7" | "o8" | "o10" | "o14" | "o15" | "o16" | "o17" | "o18" | "o20" | "o21" | "o22" | "o23";
+export type OfferingQuestionId = "o1" | "o2" | "o3" | "o3t" | "o4" | "o6" | "o7" | "o8" | "o10" | "o14" | "o15" | "o16" | "o17" | "o18" | "o20" | "o21" | "o22" | "o23" | "o24";
 
 export interface OfferingQuestion {
     id: OfferingQuestionId;
@@ -40,6 +41,8 @@ export interface OfferingContext {
     worries?: readonly string[];
     /** The Organisation's country (ISO code), for the cancellation rule O18's "i" shows. */
     country?: string;
+    /** The Organisation's activity code (Definition), for O24's start: a code that says what the product is settles it (doc 53, stage 4). */
+    activityCode?: string;
     /** The Segment's frame (its customers are people or businesses): a business Segment's O18 "i" says consumer cancellation rights do not apply (2026-11-08). */
     frame?: "people" | "business" | "open";
     /** The Segment has an end user (its buyer is Proxy or Dual-Intent): the draft's goal and frustration are the end user's (doc 36, 2.1; doc 42, 1). */
@@ -196,6 +199,8 @@ export const OFFERING_QUESTIONS: readonly OfferingQuestion[] = [
     { id: "o14", label: "How is it offered?", many: true, max: 3, info: ["How it is put together for sale: one range, made to each order, packages, limited runs or extras. Counts and what is included go in the Notes.", "Based on: the product mix (Kotler and Keller)."] },
     { id: "o15", label: "How long until they have it?", many: false, info: ["The time from order to having it. How it reaches them is the question above."] },
     { id: "o23", label: "How do you keep in touch after the sale?", many: true, other: true, info: ["How customers hear from you once they've bought: a newsletter, offers by email, posts or a personal note.", "Only when they get in touch stands alone: ticking it clears the others.", "Tick Other to write another."] },
+    // (O24, doc 53, stage 4: what a law turns on -- food registration (GB20), a safety marking (GB16). None of these stands alone.)
+    { id: "o24", label: "Is it any of these?", many: true, info: ["Each has rules of its own before it is sold.", "Food or drink: registered with the local council before trading.", "Toys, Electrical or electronic, Cosmetics, Protective equipment: a safety marking, such as UKCA or CE, and their own safety rules.", "Your activity code answers it where it says what you make."] },
     { id: "o16", label: "How fast do you reply?", many: false, info: ["How soon your customers hear back. The channels are on the Customer Engagement page."] },
     { id: "o17", label: "What comes after the sale?", many: true, info: ["What else comes with it after the sale; the help you give is the question above.", "None stands alone: ticking it clears the others."] },
     // O18's "i" says the cancellation rule of the Organisation's country only (offeringInfo); this is what it says with no country, or another one.
@@ -253,7 +258,8 @@ export function offeringInfo(id: OfferingQuestionId, context: OfferingContext): 
 // Purchase & Delivery, and how long until they have it (O15) comes before how they receive it (O6). The codes stay.)
 // (Owner, 2026-11-09: when they pay (O3b) is a band of its own, straight after O3's, no longer a second row in O3's band.)
 export const OFFERING_BOX_QUESTIONS: Readonly<Record<string, readonly OfferingQuestionId[]>> = {
-    function: ["o1"],
+    // (O24 after the form: what the product is, where a law turns on it; doc 53, stage 4.)
+    function: ["o1", "o24"],
     benefit: ["o8", "o4"],
     scope: ["o14"],
     // (How they receive it and how it is sent before how long until they have it, which starts from them: 1.7, the second batch of the review; owner, 2026-11-18 00:46.)
@@ -270,7 +276,7 @@ export function offeringChoose(id: OfferingQuestionId, chosen: readonly string[]
     if (id === "o4") {
         return [...chosen.filter(entry => next.includes(entry)), ...next.filter(entry => !chosen.includes(entry))];
     }
-    if (id !== "o17" && id !== "o7" && id !== "o23") {
+    if (id !== "o17" && id !== "o7" && id !== "o23" && id !== "o24") {
         return [...next];
     }
     const added = next.filter(entry => !chosen.includes(entry));
@@ -302,6 +308,12 @@ export function offeringAsks(id: OfferingQuestionId, context: OfferingContext, a
         case "o1": return context.type === "Product" || context.type === "Service" || context.type === "Hybrid";
         case "o8": return (context.worries ?? []).some(id => id !== SUPPORT_WORRY);
         case "o10": return context.type === "Service" || context.type === "Hybrid";
+        // (O24, WHAT THE PRODUCT IS (doc 53, stage 4; owner, 2026-11-19 20:59 UTC+2: "only the necessary questions"): a Product or a Hybrid that is a physical item,
+        // and only where the activity code does not already say it (productKindsFromCode). Read without its answers (the documents, the starts), the form is not
+        // known, so a product is enough.)
+        case "o24": return (context.type === "Product" || context.type === "Hybrid")
+            && productKindsFromCode(context.country ?? "", context.activityCode ?? "").length === 0
+            && (answers.o1 === undefined || answers.o1.includes("physical"));
         default: return true;
     }
 }
@@ -337,6 +349,7 @@ export function offeringOptions(id: OfferingQuestionId, context: OfferingContext
         case "o21": return FILES;
         case "o22": return MEET;
         case "o23": return KEEP_IN_TOUCH;
+        case "o24": return PRODUCT_KINDS.map(kind => ({ id: kind.id, label: kind.label }));
     }
 }
 

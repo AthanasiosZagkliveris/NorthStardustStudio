@@ -43,7 +43,7 @@ export interface NatureContext {
 /** The groups whose cards the Offering's rule C7 makes COGS whatever their driver. */
 const COGS_GROUPS: readonly string[] = ["materials-stock", "delivery-team", "delivery-running-costs", "site-hire"];
 
-const isRecurring = (frequency: CostFrequency) => frequency === "monthly" || frequency === "quarterly" || frequency === "annually";
+const isRecurring = (frequency: CostFrequency) => frequency === "monthly" || frequency === "quarterly" || frequency === "annually" || frequency === "biennially";
 
 /**
  * THE NATURE OF A COST FROM THE OPENING DATE, or with no date (steps 2 and 5 of the rules): the first rule that fits.
@@ -202,7 +202,7 @@ export function splitAtOpening(line: CostLine, openingDate: string): { before: n
         }
         return { before: stock ? Math.round(line.amount * Math.max(1, parseDecimal(line.cardQuantity ?? "") ?? 1) * 100) / 100 : line.amount, startsBefore: true, runsPast: false };
     }
-    if (line.frequency === "monthly" || line.frequency === "quarterly" || line.frequency === "annually") {
+    if (line.frequency === "monthly" || line.frequency === "quarterly" || line.frequency === "annually" || line.frequency === "biennially") {
         const lastMonthEnd = endsBefore ? end : openingDate;
         // (A month counts when any of it falls before the opening: from the Start date's month up to the month the opening or the End date falls in.)
         const months = Math.max(1, monthsBetween(start, lastMonthEnd) + (endsBefore ? 1 : 0));
@@ -218,6 +218,7 @@ export function monthlyEquivalent(amount: number, frequency: CostFrequency): num
         case "monthly": return amount;
         case "quarterly": return amount / 3;
         case "annually": return amount / 12;
+        case "biennially": return amount / 24;
         default: return 0;
     }
 }

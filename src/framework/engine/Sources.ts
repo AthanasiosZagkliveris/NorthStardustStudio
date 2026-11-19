@@ -118,7 +118,9 @@ const ACCEPTED_DOMAINS = [
     "ontario.ca",         // Government of Ontario (its e-Laws)
     "un.org",             // United Nations, incl. its Statistics Division
     "canada.ca",          // Government of Canada (incl. Corporations Canada, ised-isde.canada.ca; doc 53)
-    "cro.ie"              // Companies Registration Office, Ireland (doc 53)
+    "cro.ie",             // Companies Registration Office, Ireland (doc 53)
+    "revenue.ie",         // Revenue, Ireland's tax authority (doc 53)
+    "ico.org.uk"          // Information Commissioner's Office, the UK data protection regulator (doc 53)
 ];
 
 /** The host of a URL, lower-cased and without "www."; empty when it is not a URL. */

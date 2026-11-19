@@ -32,12 +32,12 @@ const options = () => screen.getAllByRole("option").map(option => option.textCon
 
 describe("the frequencies and units of a group", () => {
 
-    it("a group offers its own frequencies; one it does not know offers all seven", () => {
+    it("a group offers its own frequencies, Every two years wherever Annually is; one it does not know offers all eight", () => {
         expect(frequencyIdsOf("infrastructure", "premises-utilities")).toEqual(["monthly"]);
         expect(frequencyIdsOf("infrastructure", "devices-tools")).toEqual(["monthly", "per-unit"]);
-        expect(frequencyIdsOf("offering", "devices-tools")).toEqual(["annually", "per-unit"]);
-        expect(frequencyIdsOf("offering", "royalties")).toEqual(["one-time", "monthly", "annually", "percent-revenue"]);
-        expect(frequencyIdsOf("infrastructure", "unassigned")).toHaveLength(7);
+        expect(frequencyIdsOf("offering", "devices-tools")).toEqual(["annually", "biennially", "per-unit"]);
+        expect(frequencyIdsOf("offering", "royalties")).toEqual(["one-time", "monthly", "annually", "biennially", "percent-revenue"]);
+        expect(frequencyIdsOf("infrastructure", "unassigned")).toHaveLength(8);
     });
 
     it("a group has its units, \"unit\" always among them; one unit besides \"unit\" is text", () => {
@@ -73,7 +73,7 @@ describe("the cost row of a card", () => {
         openCard("Loom");
         fireEvent.click(screen.getByLabelText(/Resource 1 payment frequency: /));
         // (Per unit is one option for each unit of the group; the plain "Per unit" is not among them where the group has its own.)
-        expect(options()).toEqual(["Annually", "Per item", "Per set"]);
+        expect(options()).toEqual(["Annually", "Every two years", "Per item", "Per set"]);
     });
 
     it("a group with one frequency shows it as text; a One-time one is not shown at all", () => {
