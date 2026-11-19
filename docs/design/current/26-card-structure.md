@@ -1187,7 +1187,7 @@ Leased (status Partners & Suppliers): the cost sits on the supplier's card. Boug
 
 #### Category: Human Resources
 
-**Every Delivery Team card also has** (owner, 2026-11-17; doc 52, 14): **Hours a month they can give** -- a side number box, optional, in its Team section before the Notes (2026-11-19, 3.5). Read by Capacity & Delivery: the card's own row and bar there.
+**Every Delivery Team card also has** (owner, 2026-11-17; doc 52, 14): **Hours a month they can give** -- a side number box, optional, in its Team section before the Notes (2026-11-19, 3.5). Read by Capacity & Delivery: the card's own row and bar there. **A paid Staff card** (its Status Costs, a price above 0; Infrastructure's Admin Team or the Offering's Delivery Team) **of a business that is not a company also asks** "Is this person part of your family?" (Yes / No; doc 53, LF3; HSE40), in its Team section; never a Partner's or Supplier's card.
 
 ##### Offering > Resources > Human Resources > Delivery Team
 

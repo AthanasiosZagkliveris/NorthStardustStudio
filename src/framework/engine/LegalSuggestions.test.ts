@@ -59,4 +59,9 @@ describe("the legal suggestions", () => {
         expect(text).toContain("https://www.hse.gov.uk/pubns/hse40.pdf");
     });
 
+
+    test("suggest the music licence where Lumen's Market / Pop-up channel holds public gatherings, with no question (GB18)", () => {
+        expect(legal("Lumen").some(item => item.text.includes("TheMusicLicence (PPL PRS)"))).toBe(true);
+    });
+
 });

@@ -947,6 +947,7 @@ export function asBusinessResourceSlot(
         name: asText(slot.name),
         quantity: moved ? "" : quantity,
         hoursAvailable: businessDecimalText(asText(slot.hoursAvailable)),
+        ...(["yes", "no"].includes(asText(slot.family)) ? { family: asText(slot.family) as "yes" | "no" } : {}),
         description: withEarlier(withEarlier(moved
             ? ("Quantity: " + quantity.replace(/\.$/, "") + ". " + description).trim()
             : description, "frequency", earlierFrequency), "status", earlierStatus),

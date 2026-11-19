@@ -2,6 +2,7 @@ import { PREMISES_GROUP_ID, WORKSPACE_GROUP_ID } from "./AnswerBusinessCapabilit
 import { LEGAL_FEES_CHECKED, paidStaffOf } from "./LegalStarts.ts";
 import { effectiveOfferingAnswers } from "./EffectiveAnswers.ts";
 import { segmentIdentityOf, segmentIsBusiness } from "./SegmentContext.ts";
+import { COMPANY_FORM, musicFromCode, personalDataFromCode, productKindsFromCode, professionFromCode } from "./LegalFacts.ts";
 import { streamRevenue } from "./financial/revenue.ts";
 import { planMonthLabel } from "./financial/period.ts";
 import type { Foundation } from "./businessDocuments/reading.ts";
@@ -77,18 +78,43 @@ export function legalSuggestions(f: Foundation, today: Date = new Date()): Legal
         }
     }
 
+    // A REGULATED PROFESSION (doc 53, stage 4): by the activity code, else the founder's answer in Definition (LF2); its body's registration, in every country.
+    const code = f.legalEntity.organisation.activities[0]?.code ?? "";
+    if ((professionFromCode(country, code) ?? f.legalEntity.organisation.regulatedProfession === "yes") && !said(f, /professional (body|registration)/i)) {
+        out.push({ rule: "professional", text: "Professional registration: a regulated profession works under its body's registration -- an accountant's, a solicitor's, an architect's, a financial adviser's, a health professional's. Add it under Additional Legal Requirements with its number.", source: "" });
+    }
+
     if (country === "GB") {
         // (c) THE DATA PROTECTION FEE, where customers' details are kept: a people Segment, or an Offering sold or delivered online; exempt only where the data serves
         // the business's own staff, marketing and accounts -- the ICO's self-assessment settles it.
         const online = f.segments.some(segment => !segmentIsBusiness(segment) || segment.offerings.some(offering => (offering.questions?.o6 ?? []).some(way => ["shipped", "auto", "byyou", "access"].includes(way))));
-        if (online && !said(f, /\bICO\b|data protection/i)) {
+        // (Where the activity code or the founder's answer in Definition says the details serve only staff, own marketing and accounts, nothing is said: LF4.)
+        const details = personalDataFromCode(country, code) ?? f.legalEntity.organisation.personalData;
+        if ((online || details === "other") && details !== "own" && !said(f, /\bICO\b|data protection/i)) {
             out.push({ rule: "GB13", text: "Data protection fee (ICO): a business that keeps its customers' details on a computer usually pays it each year (£52 at the smallest tier, £5 less by Direct Debit); one that keeps them only for its own staff, marketing and accounts is exempt. The ICO's self-assessment, on ico.org.uk, says which.", source: "https://www.gov.uk/government/consultations/data-protection-fee-regime-proposed-changes/outcome/data-protection-fee-regime-government-response" });
+        }
+        // FOOD OR DRINK (GB20) and A SAFETY MARKING (GB16), from the activity code or the Offering's O24 (doc 53, stage 4).
+        const kinds = new Set([...productKindsFromCode(country, code), ...f.segments.flatMap(segment => segment.offerings.flatMap(offering => effectiveOfferingAnswers(offering, segment, identityOf(f)).o24 ?? []))]);
+        if (kinds.has("food") && !said(f, /food business/i)) {
+            out.push({ rule: "GB20", text: "Food business registration: register each place you make, sell or serve food with your local council, at least 28 days before you start trading; it is free.", source: "https://www.gov.uk/food-business-registration" });
+        }
+        if (["toys", "electrical", "cosmetics", "protective"].some(kind => kinds.has(kind)) && !said(f, /UKCA|CE marking/i)) {
+            out.push({ rule: "GB16", text: "UKCA or CE marking: toys, electrical goods, cosmetics and protective equipment carry their marking and meet their own safety rules before they are sold.", source: "https://www.gov.uk/guidance/using-the-ukca-marking" });
+        }
+        // MUSIC (GB18; owner, 2026-11-19 21:05 UTC+2: "Use it only wherever is required"): no question; the licence is suggested where it is required in practice --
+        // an activity code of PPL PRS's sectors (musicFromCode), or an In Person channel of public gatherings, Event / Talk or Market / Pop-up.
+        const gatherings = f.engagement.segments.some(entry => entry.channels.some(channel => channel.name === "Event / Talk" || channel.name === "Market / Pop-up"));
+        if ((musicFromCode(country, code) || gatherings) && !said(f, /music licen/i)) {
+            out.push({ rule: "GB18", text: "TheMusicLicence (PPL PRS): music, radio or TV played at work -- to customers, guests or staff -- or on a phone's hold line needs it; a one-off event can use a temporary permit, and royalty-free music needs none. It is costed with the premises or the activity.", source: "https://www.gov.uk/licence-to-play-live-or-recorded-music" });
         }
         // (c) EMPLOYERS' LIABILITY INSURANCE, once someone is employed: a paid Staff card, never a Partner or Supplier (a contractor is not employed). HSE40 (the HSE's
         // guide to the Act): close relatives are exempt, but not in a business incorporated as a limited company; a company employing only its owner, who holds 50% or more
         // of its shares, is exempt.
-        const company = /Limited by Shares|Limited by Guarantee|Community Interest Company|(LLP)/.test(f.legalEntity.organisation.legalForm);
-        if (paidStaffOf(f.capability).length > 0 && !said(f, /employers.? liability/i)) {
+        const company = COMPANY_FORM.test(f.legalEntity.organisation.legalForm);
+        // (Where every paid member of staff is a close relative and the business is not a company, it is exempt: LF3, on the Staff card.)
+        const employees = paidStaffOf(f.capability);
+        const allFamily = !company && employees.length > 0 && employees.every(person => person.family === "yes");
+        if (employees.length > 0 && !allFamily && !said(f, /employers.? liability/i)) {
             out.push({
                 rule: "GB11",
                 text: "Employers' liability insurance: required once you employ someone, at least £5 million of cover, its certificate on show. "
@@ -98,7 +124,8 @@ export function legalSuggestions(f: Foundation, today: Date = new Date()): Legal
             });
         }
         // (c) BUSINESS RATES on premises of the business's own; small business rate relief takes them to nothing at a rateable value up to £12,000, tapering to £15,000.
-        const premises = (f.capability.resources[WORKSPACE_GROUP_ID] ?? []).some(subsection => subsection.id === PREMISES_GROUP_ID && subsection.slots.length > 0);
+        // (A home is no business premises: the Workspace's kind says it, with no question; doc 53, stage 4.)
+        const premises = (f.capability.resources[WORKSPACE_GROUP_ID] ?? []).some(subsection => subsection.id === PREMISES_GROUP_ID && subsection.slots.some(slot => slot.workspaceKind !== "home"));
         if (premises && !said(f, /business rates/i)) {
             out.push({ rule: "GB17", text: "Business rates: premises of the business's own pay them to the council; small business rate relief takes them to nothing at a rateable value up to £12,000, tapering to £15,000. Your council's bill says which; they are costed with the premises, on Infrastructure & Capability.", source: "https://www.gov.uk/introduction-to-business-rates" });
         }
@@ -116,4 +143,9 @@ export function legalSuggestions(f: Foundation, today: Date = new Date()): Legal
     }
 
     return out;
+}
+
+/** Identity as the Segments read it, for the Offerings' effective answers. */
+function identityOf(f: Foundation) {
+    return segmentIdentityOf(f.legalEntity.organisation, f.stage);
 }

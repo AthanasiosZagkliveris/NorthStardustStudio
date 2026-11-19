@@ -169,12 +169,20 @@ describe("O2, O3, O10 and O18 from the research (2026-11-08)", () => {
 
 /* Phase 5, P6 and P7 (owner, 2026-11-08): the boxes in the order of the card; the codes stay. */
 describe("the Offering's boxes", () => {
-    it("asks O1 alone in Function, O8 then O4 in Customer Benefit (after the needs addressed), and O2, O3, O6, O20 to O22, then O15 in Purchase & Delivery", () => {
-        expect(OFFERING_BOX_QUESTIONS.function).toEqual(["o1"]);
+    it("asks O1 then O24 in Function, O8 then O4 in Customer Benefit (after the needs addressed), and O2, O3, O6, O20 to O22, then O15 in Purchase & Delivery", () => {
+        expect(OFFERING_BOX_QUESTIONS.function).toEqual(["o1", "o24"]);
         expect(OFFERING_BOX_QUESTIONS.benefit).toEqual(["o8", "o4"]);
         // (Owner, 2026-11-09: O3b is a band of its own, straight after O3's.)
         // (O6 and O20 before O15, which starts from them: 1.7, the second batch of the review; owner, 2026-11-18 00:46.)
         expect(OFFERING_BOX_QUESTIONS.delivery).toEqual(["o2", "o3", "o3t", "o6", "o20", "o21", "o22", "o15"]);
+    });
+    it("asks O24 of a physical product only where the activity code does not say what it is; None of these stands alone (doc 53, stage 4)", () => {
+        expect(offeringAsks("o24", { type: "Product", country: "GB", activityCode: "13921" }, { o1: ["physical"] })).toBe(true);
+        expect(offeringAsks("o24", { type: "Product", country: "GB", activityCode: "10710" }, { o1: ["physical"] })).toBe(false);
+        expect(offeringAsks("o24", { type: "Product", country: "GB" }, { o1: ["digital"] })).toBe(false);
+        expect(offeringAsks("o24", { type: "Service", country: "GB" }, {})).toBe(false);
+        expect(offeringChoose("o24", ["toys"], ["toys", "none"])).toEqual(["none"]);
+        expect(offeringChoose("o24", ["none"], ["none", "food"])).toEqual(["food"]);
     });
     it("points O8's and O15's \"i\" where the other question stands now", () => {
         expect(offeringInfo("o8", { type: "Service" }).join(" ")).toContain("in Support & Communication");

@@ -305,6 +305,16 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
 - **The "i" says:** How customers hear from you once they've bought: a newsletter, offers by email, posts or a personal note. · Only when they get in touch stands alone: ticking it clears the others. · Tick Other to write another.
 - **Connections:** *Read by (built):* at Support & Follow Up on Customer Engagement, Email › Newsletter, Email Campaign or Direct Email; posts on social media give the Segment's social platforms (C2) that stage too; Other a channel of the Other category per name (doc 47).
 
+
+### O24. Is it any of these?
+
+- **Box:** Function, after O1 (built 2026-11-19; doc 53, stage 4; owner, 2026-11-19 20:59 UTC+2: only the questions no earlier answer settles).
+- **Asked when:** a Product or a Hybrid that is a physical item, and only where the activity code does not say what it is (`productKindsFromCode`, `LegalFacts.ts`).
+- **Control:** ticks; None of these stands alone.
+- **Options:** Food or drink / Toys / Electrical or electronic / Cosmetics / Protective equipment / None of these.
+- **"i":** each has rules of its own before it is sold; food or drink is registered with the local council; the others carry a safety marking such as UKCA or CE.
+- **Feeds:** the Review's food business registration (GB20) and UKCA or CE marking (GB16) suggestions (doc 53).
+
 ### O16. How fast do you reply?
 
 *Added (owner, 2026-11-07: "Approve Decisions 2, 3, and 4 as proposed, and for Decision 1, approve Q1–Q6 with two targeted adjustments").* Box: Support & Communication.
