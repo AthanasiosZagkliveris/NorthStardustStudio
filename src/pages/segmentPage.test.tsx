@@ -39,12 +39,12 @@ function openPage(sectionNumber: number) {
 /** Which Segments' chapters show, found by an anchor the chapter answers to (its own, or Engagement's, which links saved before 2026-11-19 name). */
 const shown = (container: HTMLElement, prefix: string) => segmentIds.filter(id => {
     const frame = container.querySelector<HTMLElement>('[data-anchor~="' + prefix + id + '"]');
-    return frame !== null && !frame.hasAttribute("hidden");
+    return frame !== null && !frame.closest("[hidden]");
 });
 // (Compared without their spaces: a title of two lines is drawn on its lines, "Channels &" over "Journey".)
 const TILES = ["Segment Description", "Competitors", "Offerings", "Value Proposition", "Channels & Journey", "Customer's Relationship", "Demand & Conversion"].map(title => title.replace(/\s+/g, ""));
-/** The titles of a Segment's chapter's tiles, in order. */
-const tilesOf = (container: HTMLElement, id: string) => [...container.querySelector<HTMLElement>('[data-anchor~="' + id + '"]')!.querySelectorAll<HTMLElement>("button.section-tile")]
+/** The titles of a Segment's tiles, in order: both its chapters, in the Segment's one frame. */
+const tilesOf = (container: HTMLElement, id: string) => [...container.querySelector<HTMLElement>('[data-anchor~="' + id + '"]')!.closest<HTMLElement>(".segment-chapter")!.querySelectorAll<HTMLElement>("button.section-tile")]
     .map(tile => (tile.querySelector(".section-tile-title")?.textContent ?? "").replace(/\s+/g, ""));
 
 describe("Foundation & Engagement", () => {
@@ -56,7 +56,10 @@ describe("Foundation & Engagement", () => {
         expect(tilesOf(container, segmentIds[0])).toEqual(TILES);
         // (Drawn with its tiles too, hidden, with the Segment's id.)
         expect(tilesOf(container, segmentIds[1])).toEqual(TILES);
-        expect(container.querySelector('[data-anchor~="' + segmentIds[1] + '"]')?.getAttribute("data-segment-hidden")).toBe(segmentIds[1]);
+        expect(container.querySelector('[data-anchor~="' + segmentIds[1] + '"]')?.closest("[data-segment-hidden]")?.getAttribute("data-segment-hidden")).toBe(segmentIds[1]);
+        // (Two chapters side by side, as on every page of two -- Foundation's four, Engagement's three --, in the one frame.)
+        const chapters = container.querySelector('[data-anchor~="' + segmentIds[0] + '"]')!.closest(".segment-chapter")!.querySelectorAll(".business-foundation-input[data-anchor]");
+        expect([...chapters].map(chapter => chapter.querySelectorAll("button.section-tile").length)).toEqual([4, 3]);
         // (Made by the app from Positioning: no x. madeBy, by id.)
         expect(container.querySelectorAll(".business-foundation-frame-head .card-remove").length).toBe(0);
     });

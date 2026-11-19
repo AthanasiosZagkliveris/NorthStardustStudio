@@ -84,7 +84,7 @@ export const DELIVERY_HELP = {
     mode: [
         { title: "Per unit", text: "Done once for each unit sold (a project, a product, a session), over its Calendar Time in weeks." },
         { title: "Every month", text: "Ongoing work for each active client every month (a retainer, a subscription). It has no Calendar Time, and it uses founders' hours first." },
-        "Match how customers buy under Demand & Conversion on Customer Engagement: an Offering bought every month is delivered every month."
+        "Match how customers buy under Demand & Conversion on Foundation & Engagement: an Offering bought every month is delivered every month."
     ],
     recurring: ["A subscription or retainer is served every period. Give each client's hours a week or a month; weekly hours become monthly at about 4.33 weeks a month."],
     share: ["The share of working hours spent delivering Offerings, as recorded before delivery hours were asked for. Enter Delivery Hours instead to replace it."],
@@ -97,7 +97,7 @@ export const DELIVERY_HELP = {
         "The budgets below compare this with the hours each Offering's expected sales need.",
         "Recurring work (subscriptions, retainers) uses founders' hours first; what remains is flexible capacity for the other Offerings."
     ],
-    expected: ["The expected sales are the Offering's, from Demand & Conversion on Customer Engagement."],
+    expected: ["The expected sales are the Offering's, from Demand & Conversion on Foundation & Engagement."],
     unit: [
         "One unit is one sale: one project, one product, one session.",
         "For a recurring Offering (a subscription or retainer), one unit is each client, each month: the hours one active client takes a month."

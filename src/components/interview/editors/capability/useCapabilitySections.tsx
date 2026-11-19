@@ -571,7 +571,7 @@ export function useCapabilitySections(earlier: Earlier) {
                     activity.offeringIds,
                     (next) => onActivity(next),
                     "Activity " + number + " linked Offerings",
-                    "Define an Offering on the Foundation page first.",
+                    "Define an Offering on Foundation & Engagement first.",
                     activity.offeringShares,
                     false,
                     activity.madeBy !== "" ? connectedOfferings(capability, activity).ids : [],

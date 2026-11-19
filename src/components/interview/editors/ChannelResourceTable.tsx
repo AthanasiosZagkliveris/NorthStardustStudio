@@ -11,7 +11,7 @@ import { labelWithCurrency } from "../../../framework/engine/Currencies.ts";
     THE CHANNEL RESOURCES TABLE (ChannelResourceTable.ts): a Segment's
     resources in one read-only table under its Customer Channel table.
     Derived live, never stored, never counted. Each resource's name opens
-    its Resource card on 3. Infrastructure & Capability; each "#12" goes
+    its Resource card on Infrastructure & Capability; each "#12" goes
     to that action's line in the table above. The Channel cell lists the
     channel the resource was made on first and each other channel it shows
     in through an action after it.
@@ -127,7 +127,7 @@ export default function ChannelResourceTable({ table, segmentName, onOpenCard, o
                                         type="button"
                                         className="channel-resource-open"
                                         disabled={!onOpenCard}
-                                        title={"Open " + row.name + " on 3. Infrastructure & Capability"}
+                                        title={"Open " + row.name + " on Infrastructure & Capability"}
                                         onClick={() => onOpenCard?.(row)}
                                     >
                                         <span className="channel-resource-dot" aria-hidden="true" />

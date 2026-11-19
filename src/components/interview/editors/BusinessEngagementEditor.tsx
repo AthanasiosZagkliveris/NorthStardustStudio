@@ -334,7 +334,7 @@ export default function BusinessEngagementEditor(props: BusinessEngagementEditor
             {segments.length === 0 ? (
                 <div className="business-engagement-page-empty">
                     <BusinessEmpty>
-                        Define a Customer Segment on the Foundation page first.
+                        Define a Customer Segment on Foundation & Engagement first.
                         Everything on this page is answered about one.
                     </BusinessEmpty>
                 </div>

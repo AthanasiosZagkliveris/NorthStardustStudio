@@ -249,9 +249,9 @@ export default function StrategyFoundationEditor({
     const pageLink = (type: AnswerType) => openBusinessPage ? () => openBusinessPage(type) : undefined;
     const columnInfo: InfoPoint[][] = [
         [
-            { title: "What do you sell, and who uses it?", text: "(3. Business System → 1. Foundation: Offerings and Customer Segments)", onOpen: pageLink(AnswerType.BusinessFoundation) },
-            { title: "How do people discover and reach you?", text: "(3. Business System → 2. Customer Engagement: Customer Channels)", onOpen: pageLink(AnswerType.BusinessEngagement) },
-            { title: "How are you supported financially today?", text: "(3. Business System → 4. Financials: Revenue and prices; costs, funding and break even)", onOpen: pageLink(AnswerType.FinancialFoundation) }
+            { title: "What do you sell, and who uses it?", text: "(3. Business System → Foundation & Engagement: Offerings and Customer Segments)", onOpen: pageLink(AnswerType.BusinessFoundation) },
+            { title: "How do people discover and reach you?", text: "(3. Business System → Foundation & Engagement: Customer Channels)", onOpen: pageLink(AnswerType.BusinessEngagement) },
+            { title: "How are you supported financially today?", text: "(3. Business System → Financials: Revenue and prices; costs, funding and break even)", onOpen: pageLink(AnswerType.FinancialFoundation) }
         ],
         [
             "Strengths and Weaknesses: inside your organisation.",

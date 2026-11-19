@@ -43,7 +43,7 @@ import TextLink from "../fields/TextLink.tsx";
 /*
     A CHANNEL'S RESOURCES (ChannelResources.ts), in its cell of the
     Customer Channel table: each a small card -- its name (the name of
-    its Resource card on 3. Infrastructure & Capability, one name), what
+    its Resource card on Infrastructure & Capability, one name), what
     it costs there ("£150 a month", or "No cost yet"), which opens that
     card, and the channel's actions it serves, linked as a note links a
     place: "#" and the action's total order number in the table with its

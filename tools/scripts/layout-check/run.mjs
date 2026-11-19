@@ -89,7 +89,7 @@ export const PAGES = [
 export const EXAMPLES = [
     { name: "lumen-and-loom-studio.json", file: new URL("../../../src/data/examples/lumen-and-loom-studio.json", import.meta.url) },
     { name: "quillfield-automation-llc.json", file: new URL("../../../src/data/examples/quillfield-automation-llc.json", import.meta.url) },
-    { name: "proxy-tutoring.json", file: new URL("./fixtures/proxy-tutoring.json", import.meta.url), pages: [["Business System", ["Foundation"]]] }
+    { name: "proxy-tutoring.json", file: new URL("./fixtures/proxy-tutoring.json", import.meta.url), pages: [["Business System", ["Foundation & Engagement"]]] }
 ];
 
 export const WIDTHS = [1920, 1366, 768];

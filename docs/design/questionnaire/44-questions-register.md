@@ -405,7 +405,7 @@ None.
 - **Box 4, 3a. Where do they see adverts?**
   - Options: Newspapers / magazines; Radio; TV; Billboards / outdoor; Journals / trade magazines.
   - "i":
-    - The adverts that reach them: each becomes a channel on Customer Engagement.
+    - The adverts that reach them: each becomes a channel on Foundation & Engagement.
 - **Box 4, 6. How do your customers usually decide to buy?**
   - Options: On impulse; After comparing options; On a recommendation; Out of habit; When they urgently need it.
   - "i":
@@ -433,12 +433,12 @@ None.
 - **Box 4, 7a. Which marketplaces do your customers shop on?**
   - Options: Etsy; Amazon; eBay; Not On The High Street; Folksy; Gumroad; Fiverr; Upwork; Other.
   - "i":
-    - The marketplaces where they find and buy what you sell: each becomes a channel on Customer Engagement, with its fees.
+    - The marketplaces where they find and buy what you sell: each becomes a channel on Foundation & Engagement, with its fees.
     - Tick Other to write another.
 - **Box 4, 7b. Which shops or sellers do they buy from?**
   - Options: Your own shop or studio; Shops that stock your products; A space inside another shop; Distributors or wholesalers; Resellers, online or in shops.
   - "i":
-    - The shops where they buy what you sell: each becomes a channel on Customer Engagement.
+    - The shops where they buy what you sell: each becomes a channel on Foundation & Engagement.
     - A space inside another shop is a concession or shop-in-shop.
 - **Box 4, 8. How do your customers pay?**
   - Options: Credit / debit card; Digital wallets; Cash; Buy Now, Pay Later or financing; Invoice or purchase order; Bank transfer.
@@ -1036,17 +1036,17 @@ No questions: the tile shows a draft sentence and the open items, read from the 
 - **O20. How do you send it?**
   - Options: Courier; Postal service; Local delivery; A fulfilment service; Other.
   - "i":
-    - The way each order travels to them: each becomes a delivery channel on Customer Engagement.
+    - The way each order travels to them: each becomes a delivery channel on Foundation & Engagement.
     - Tick Other to write another.
 - **O21. How do you send the files?**
   - Options: Email attachment; WeTransfer; Google Drive; Dropbox; OneDrive; Client portal; Other.
   - "i":
-    - The way they receive the files: each becomes a delivery channel on Customer Engagement.
+    - The way they receive the files: each becomes a delivery channel on Foundation & Engagement.
     - Tick Other to write another.
 - **O22. Which tool do you meet them on?**
   - Options: Zoom; Google Meet; Microsoft Teams; Live stream; Other.
   - "i":
-    - The tool each live session runs on: each becomes a channel on Customer Engagement.
+    - The tool each live session runs on: each becomes a channel on Foundation & Engagement.
     - Tick Other to write another.
 - **O15. How long until they have it?**
   - Options: Straight away; Within a week; One to four weeks; One to three months; Longer.
@@ -1067,7 +1067,7 @@ No questions: the tile shows a draft sentence and the open items, read from the 
   - "i":
     - The help that comes with it after the sale: tick each kind you give.
     - None stands alone: ticking it clears the others.
-    - Tick Other to write another: each becomes a relationship type on Customer Engagement.
+    - Tick Other to write another: each becomes a relationship type on Foundation & Engagement.
 - **O17. What comes after the sale?**
   - Options: Guarantee / warranty; Repairs / maintenance; Updates; Training; Replacements / refills; None.
   - "i":

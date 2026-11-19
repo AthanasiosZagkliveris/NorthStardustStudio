@@ -82,7 +82,7 @@ export const SECTIONS = {
         title: "Revenue",
         instructions: [
             "Each Offering has its revenue stream below. For each, say how it is priced, how much sells, and when the money arrives.",
-            "Expected sales come from Demand & Conversion on Customer Engagement where it is filled in; otherwise enter them here. Not sure of a figure? The \"i\" beside Price, Sales Volume, and Begins and Payment says how to estimate it.",
+            "Expected sales come from Demand & Conversion on Foundation & Engagement where it is filled in; otherwise enter them here. Not sure of a figure? The \"i\" beside Price, Sales Volume, and Begins and Payment says how to estimate it.",
             "Write down what each figure rests on under Assumptions: lenders read those first."
         ],
         info: [

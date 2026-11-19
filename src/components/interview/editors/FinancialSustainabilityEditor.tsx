@@ -340,7 +340,7 @@ export default function FinancialSustainabilityEditor({
             <FinancialBlock
                 title="Each Offering's Costs"
                 info={[
-                    "An Offering's costs are those recorded for it on 3. Infrastructure & Capability → Offering's Capability.",
+                    "An Offering's costs are those recorded for it on Infrastructure & Capability → Offering's Capability.",
                     "Per sale: paid for every unit or project sold. Contribution is what is left of the price after them.",
                     "Whatever is sold: paid monthly or once, however much is sold. After them, what the Offering adds towards the organisation's shared costs."
                 ]}
@@ -523,7 +523,7 @@ export default function FinancialSustainabilityEditor({
                             "Per sale: paid once for each unit sold (a product, a session, an hour).",
                             "Per project: paid once for each project or contract.",
                             "Monthly, quarterly or annually: paid every period by each client subscribed or on a retainer.",
-                            "Use Monthly, Quarterly or Annually when customers buy every month under Demand & Conversion on Customer Engagement."
+                            "Use Monthly, Quarterly or Annually when customers buy every month under Demand & Conversion on Foundation & Engagement."
                         ],
                         true)}
 
@@ -563,7 +563,7 @@ export default function FinancialSustainabilityEditor({
                                changed there, never entered twice. */
                             <BusinessField
                                 label={recurring ? "Active " + capitalized(plural(unit, 2)) : "Expected Sales"}
-                                info={["From this Offering's Demand & Conversion on Customer Engagement: " + fromDemand.working]}
+                                info={["From this Offering's Demand & Conversion on Foundation & Engagement: " + fromDemand.working]}
                                 inline
                             >
                                 <span className="financial-derived">
@@ -590,7 +590,7 @@ export default function FinancialSustainabilityEditor({
                                 recurring
                                     ? "How many " + plural(unit, 2) + " are paying at the normal operating level. The price is spread evenly over the months it covers."
                                     : "How many " + plural(unit, 2) + " are sold in a month at the normal operating level.",
-                                "To work it out from where customers come from (referrals, a sales funnel, repeat customers and more), fill in Demand & Conversion for this Offering on Customer Engagement: it then fills this in."
+                                "To work it out from where customers come from (referrals, a sales funnel, repeat customers and more), fill in Demand & Conversion for this Offering on Foundation & Engagement: it then fills this in."
                             ],
                             true,
                             NUMBER_LIMITS.volume
@@ -700,7 +700,7 @@ export default function FinancialSustainabilityEditor({
                         "When earned",
                         [
                             "When the money is actually received, if not when the sale is made.",
-                            ...(timingAnswered ? ["It follows the Offering's When do they pay? on the Foundation page."] : []),
+                            ...(timingAnswered ? ["It follows the Offering's When do they pay? on Foundation & Engagement."] : []),
                             { title: "Upfront", text: "Paid in full when the sale is made." },
                             { title: "On completion", text: "Paid in full the months given after the sale." },
                             { title: "Split", text: "A share when the sale is made, the rest the months given after." },
@@ -945,7 +945,7 @@ export default function FinancialSustainabilityEditor({
                 {offerings.length === 0
                     ? (
                         <BusinessEmpty>
-                            Each Offering on the Foundation page gets its revenue stream here. Define an Offering first
+                            Each Offering on Foundation & Engagement gets its revenue stream here. Define an Offering first
                             {onOpenFoundation && (
                                 <>
                                     {": "}

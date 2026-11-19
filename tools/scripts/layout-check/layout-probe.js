@@ -3835,6 +3835,16 @@
         if (anchor && columns.length === 2 && columns.includes(anchor)) {
             anchor = columns[columns[0] === anchor ? 1 : 0];
         }
+        // (The same on every page of two chapters side by side -- the app's otherColumn: a card opens over the chapter on the other half -- such as a Segment's two
+        // chapters on Foundation & Engagement; layout rules section 10.)
+        else if (anchor) {
+            const pair = [...document.querySelectorAll(".business-foundation-input[data-anchor]")].filter(frame => !frame.closest(".section-tile-overlay") && frame.getBoundingClientRect().width > 0);
+            const own = box(anchor);
+            const beside = pair.filter(frame => frame !== anchor && Math.abs(box(frame).top - own.top) < own.height && (box(frame).left + box(frame).width / 2 < window.innerWidth / 2) !== (own.left + own.width / 2 < window.innerWidth / 2));
+            if (pair.length === 2 && pair.includes(anchor) && beside.length === 1) {
+                anchor = beside[0];
+            }
+        }
         if (anchor) {
             const a = box(anchor);
             centreX = a.left + a.width / 2;
