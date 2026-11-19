@@ -315,28 +315,8 @@
     source's terms are rows of short figures, labels above, two or
     three to a row, as every row of figures in the Business System.
 */
-.financial-funding-categories{
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:20px;
-
-}
 
 /* (Its sources' tiles take the dialog's width, three in a row: owner, 2026-11-18 12:41.) */
-.financial-funding-category{
-
-    display:flex;
-
-    flex-direction:column;
-
-    align-items:stretch;
-
-    gap:10px;
-
-}
 
 /* A source's details, and a loan's terms: one grid each, the rows
    dissolved into it, so the fields flow across the card's width. */
