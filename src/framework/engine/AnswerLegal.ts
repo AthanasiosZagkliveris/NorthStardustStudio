@@ -66,8 +66,6 @@ export interface LegalEntityOrganisationValue {
     mainActivity: string;
     /** LF2 (doc 53, stage 4): "Is your work a regulated profession?" -- "yes", "no", or "" unasked; asked only where there is no activity code. */
     regulatedProfession?: "" | "yes" | "no";
-    /** LF4: "What do you keep people's details for?" -- "own" (only for staff, own marketing and accounts) or "other"; asked in the United Kingdom only, where the activity code does not settle it. */
-    personalData?: "" | "own" | "other";
     /**
      * The jurisdiction's own classification code, asked for only
      * where there is one to ask for.
@@ -423,7 +421,6 @@ export function asLegalEntityValue(value: unknown): LegalEntityValue {
             legalFormOther: asText(organisationSource.legalFormOther),
             mainActivity: asText(organisationSource.mainActivity),
             ...(["yes", "no"].includes(asText(organisationSource.regulatedProfession)) ? { regulatedProfession: asText(organisationSource.regulatedProfession) as "yes" | "no" } : {}),
-            ...(["own", "other"].includes(asText(organisationSource.personalData)) ? { personalData: asText(organisationSource.personalData) as "own" | "other" } : {}),
             activityCode: asText(organisationSource.activityCode),
             activityCodeOn: typeof organisationSource.activityCodeOn === "boolean"
                 ? organisationSource.activityCodeOn

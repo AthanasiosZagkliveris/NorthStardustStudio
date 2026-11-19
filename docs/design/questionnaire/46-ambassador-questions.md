@@ -17,7 +17,7 @@ One chapter of four Master Tiles, each a free text: **Aesthetics**, **Body Langu
 - **Options come from earlier answers** where the app holds them: the Profiles' emotional and social needs, the Values' lines, K14, the Offerings' delivery (O6). The relationship type (J3) is read straight into the Body Language draft, with no question of its own.
 - **Evidence:** personality is moderate; colour, type and shape links are moderate to weak (doc 28, 8.3). What Style reads from them is labelled "a suggestion".
 - **Where the character sits:** first in the Aesthetics tile, the tile the founder meets first, so no tile moves (D5).
-- **Quick to answer:** BA1 starts all six ratings, BA3 starts from the Offerings and BA8 and BA9 list the founder's own answers. A founder in a hurry picks a character, accepts the starts and presses "Add a draft".
+- **Quick to answer:** BA1 starts all six ratings and BA8 and BA9 list the founder's own answers; BA3's surroundings are imagined, with no start. A founder in a hurry picks a character, accepts the starts and presses "Add a draft".
 
 ### 1.3 The wording rules
 
@@ -67,22 +67,20 @@ Aesthetics holds BA1, BA2, BA3; Body Language BA4; Communication & Voice BA6, BA
 
 ### BA3 (Aesthetics)
 
-- **Label:** Where would people meet your Ambassador?
+- **Label:** What surroundings suit your Ambassador?
+- **The concept** (owner, 2026-11-19 21:44 UTC+2: "He is not a real person, but an idea that the app user could think about him/her. You cannot find him/her in a real place. Read carefully; the i help texts in that section."): the Ambassador is an imagined persona, so BA3 asks for the surroundings the founder pictures the persona in -- the feel of the brand's photos and spaces --, never where the business meets its customers. It has no start (it started from the Offerings' delivery before: withdrawn).
 - **Control:** ticks, "2 max".
 - **Options** (id – label – draft phrase):
-  - `workshop` – A workshop / studio – in a workshop or studio
-  - `office` – An office – in an office
-  - `home` – A home – in a home
-  - `venue` – A shop, café or venue – in a shop, café or venue
-  - `outdoors` – Outdoors – outdoors
-  - `online` – Online – online
-- **Starts from:** the Offerings' "How do your customers receive it?" (O6):
-  - "In person" or "They collect it" starts `venue`.
-  - "Sent automatically online", "Sent by you online", "In a live online session" or "Ongoing online access" starts `online`.
-  - "Posted / shipped to them" starts nothing.
+  - `workshop` – A workshop or studio – in a workshop or studio
+  - `home` – A calm home – in a calm home
+  - `outdoors` – The outdoors – outdoors
+  - `city` – A lively city street – on a lively city street
+  - `gallery` – A gallery or showroom – in a gallery or showroom
+  - `office` – A modern office – in a modern office
+  - `cafe` – A café or market – in a café or market
 - **"i":**
-  - The surroundings that suit your brand: the places in your photos and the feel of your spaces.
-- **Saved as:** `ambassador.setting`.
+  - Picture your Ambassador somewhere: the surroundings that carry your brand's feel, in your photos and your spaces.
+- **Saved as:** `ambassador.setting` (the ids kept from before keep their answers; "venue" and "online" are no longer offered).
 
 ### BA4 (Body Language tile)
 
@@ -179,8 +177,8 @@ Aesthetics holds BA1, BA2, BA3; Body Language BA4; Communication & Voice BA6, BA
 
 ## 3. The drafts ("Add a draft", written at the end of each text)
 
-- **Aesthetics:** "Our Ambassador is [BA1 phrase], dresses in a [BA2 phrase] way and is found [BA3 phrases, joined with 'and']."
-  - Example: "Our Ambassador is warm and honest, dresses in a smart casual way and is found in a workshop or studio and online."
+- **Aesthetics:** "Our Ambassador is [BA1 phrase], dresses in a [BA2 phrase] way and is pictured [BA3 phrases, joined with 'and']."
+  - Example: "Our Ambassador is warm and honest, dresses in a smart casual way and is pictured in a workshop or studio and in a calm home."
 - **Body Language:** "They come across as [BA4 in words] and [J3 phrase]."
   - BA4 in words: Energy 1–2 "calm", 4–5 "energetic"; Expression 1–2 "reserved", 4–5 "expressive". A 3 is left out; with both at 3, "balanced".
   - J3 phrase (the most personal type on any Segment):
@@ -212,7 +210,6 @@ From BA1, through doc 28, 8.3's table: suggested colour families on the Colours 
 ## 6. What changes when an answer above changes
 
 - Changing BA1 moves the starts of BA4 and BA6 where the founder has not changed them (starts follow until changed, `EffectiveAnswers.ts`); a rating the founder set stays.
-- BA3's start follows the Offerings' O6 the same way.
 - BA8's options follow the Profiles' emotional and social needs; a tick on a need no Profile holds any more is removed on the next choice (the rule of every tile).
 - BA9's options follow the Values and the Segments' Differentiation the same way.
 
@@ -236,7 +233,7 @@ Still to decide: nothing. The starting values of BA4 and BA6 are the author's ma
 |---|---|
 | BA1 (draft) | sincere → warm and honest; exciting → lively and bold; competent → capable and reliable; sophisticated → refined and elegant; rugged → tough and practical. Two ticked join with "as well as" |
 | BA2 (draft) | formal → formal, tailored; smart → smart casual; relaxed → relaxed, casual; practical → practical, workwear; creative → creative, artistic |
-| BA3 (draft, after "is found") | workshop → in a workshop or studio; office → in an office; home → in a home; venue → in a shop, café or venue; outdoors → outdoors; online → online |
+| BA3 (draft, after "is pictured") | workshop → in a workshop or studio; home → in a calm home; outdoors → outdoors; city → on a lively city street; gallery → in a gallery or showroom; office → in a modern office; cafe → in a café or market |
 | BA4 (draft) | Energy 1–2 calm, 4–5 energetic; Expression 1–2 reserved, 4–5 expressive; a 3 left out; both at 3 → balanced |
 | BA6 tone words | the two rows furthest from 3, as the end word each leans to; a tie goes to the row order Formality, Humour, Respect, Enthusiasm; a row at 3 never used; all at 3 → balanced |
 | J3 (Body Language draft) | Do-it-yourself help → let customers help themselves, with help close at hand; Automatic help → help customers at any hour; A customer community → bring customers together; Personal help → step in personally when customers need them; A dedicated person or team → stay close to every customer |

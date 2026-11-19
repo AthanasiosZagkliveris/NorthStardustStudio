@@ -3,7 +3,7 @@
  * One part of LegalEntityEditor (see LegalEntityEditor.tsx): what it needs of the parts before it comes in as `earlier`; what the parts after it need goes out.
  */
 import { currentBrowserCountryHint } from "../../../../framework/engine/BrowserRegion.ts";
-import { personalDataFromCode, professionFromCode } from "../../../../framework/engine/LegalFacts.ts";
+import { professionFromCode } from "../../../../framework/engine/LegalFacts.ts";
 import { registrationDateApplies } from "../../../../framework/engine/LegalEntityJurisdictions.ts";
 import { ReactNode, useState } from "react";
 import FieldRow from "../../fields/FieldRow.tsx";
@@ -638,8 +638,8 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
                     [activitiesInfo(entity.organisation.country)]
                 )}
                 {/* (THE TWO FACTS THE ACTIVITY CODE MAY LEAVE OPEN (doc 53, stage 4; owner, 2026-11-19 20:59 UTC+2: "Build only the necessary questions that their information
-                    cannot be extracted by the existing answers"; LegalFacts.ts): LF2, a regulated profession, only where no activity code is given; LF4, whose details are kept,
-                    in the United Kingdom only, where the code does not settle it. Each beside the activities it follows from.) */}
+                    cannot be extracted by the existing answers"; LegalFacts.ts): LF2, a regulated profession, only where no activity code is given; LF4 withdrawn 2026-11-19 21:44 UTC+2: the ICO
+                    suggestion names the exemption itself. Each beside the activities it follows from.) */}
                 {professionFromCode(entity.organisation.country, entity.organisation.activities[0]?.code ?? "") === null && labelled(
                     "Is your work a regulated profession?",
                     <RadioChoice label="Is your work a regulated profession?" group="regulated-profession" className="legal-entity-radio-stack" disabled={disabled}
@@ -649,16 +649,6 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
                     true,
                     undefined,
                     ["Work that a professional body registers or licenses, such as an accountant, a solicitor, an architect, a financial adviser or a health professional.", "Your activity code answers it where you give one."]
-                )}
-                {entity.organisation.country === "GB" && personalDataFromCode(entity.organisation.country, entity.organisation.activities[0]?.code ?? "") === null && labelled(
-                    "What do you keep people's details for?",
-                    <RadioChoice label="What do you keep people's details for?" group="personal-data" className="legal-entity-radio-stack" disabled={disabled}
-                        value={entity.organisation.personalData ?? ""}
-                        onChange={(next) => updateOrganisation({ personalData: next as "own" | "other" })}
-                        options={[{ id: "own", label: "Only for staff, my own marketing & my accounts" }, { id: "other", label: "Also for other uses, such as customer accounts, CCTV or sharing them" }]} />,
-                    true,
-                    undefined,
-                    ["Details kept only for your staff, your own marketing and your accounts need no data protection fee; any other use, on a computer, usually does.", "Based on: the Information Commissioner's Office, the data protection fee."]
                 )}
                 </FrozenUntil>
                 </div>

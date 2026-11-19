@@ -88,9 +88,9 @@ export function legalSuggestions(f: Foundation, today: Date = new Date()): Legal
         // (c) THE DATA PROTECTION FEE, where customers' details are kept: a people Segment, or an Offering sold or delivered online; exempt only where the data serves
         // the business's own staff, marketing and accounts -- the ICO's self-assessment settles it.
         const online = f.segments.some(segment => !segmentIsBusiness(segment) || segment.offerings.some(offering => (offering.questions?.o6 ?? []).some(way => ["shipped", "auto", "byyou", "access"].includes(way))));
-        // (Where the activity code or the founder's answer in Definition says the details serve only staff, own marketing and accounts, nothing is said: LF4.)
-        const details = personalDataFromCode(country, code) ?? f.legalEntity.organisation.personalData;
-        if ((online || details === "other") && details !== "own" && !said(f, /\bICO\b|data protection/i)) {
+        // (Wherever customers' details may be kept -- a people Segment, an Offering sold online -- or the activity keeps people's details (the code), the fee is suggested with
+        // its exemption named; the question that asked it is withdrawn: owner, 2026-11-19 21:44 UTC+2, "What is the point of the: What do you keep people's details for?".)
+        if ((online || personalDataFromCode(country, code) === "other") && !said(f, /\bICO\b|data protection/i)) {
             out.push({ rule: "GB13", text: "Data protection fee (ICO): a business that keeps its customers' details on a computer usually pays it each year (£52 at the smallest tier, £5 less by Direct Debit); one that keeps them only for its own staff, marketing and accounts is exempt. The ICO's self-assessment, on ico.org.uk, says which.", source: "https://www.gov.uk/government/consultations/data-protection-fee-regime-proposed-changes/outcome/data-protection-fee-regime-government-response" });
         }
         // FOOD OR DRINK (GB20) and A SAFETY MARKING (GB16), from the activity code or the Offering's O24 (doc 53, stage 4).

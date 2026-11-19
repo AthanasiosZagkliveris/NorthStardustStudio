@@ -30,7 +30,7 @@ export const SECTIONS = {
         ],
         resources: ["Physical and digital resources the organisation needs to operate."],
         workspace: ["Where the organisation's work is carried out."],
-        responsibilities: ["This list is developed automatically."],
+        responsibilities: ["Every card this founder works on, as a Team member, or answers for, as its Responsible (marked). The list builds itself from those cards."],
         activities: [
             "Add activities directly or create them from resources marked Activity.",
             "Activities do not record costs directly. Any resulting cost is recorded under the relevant Resource, Partner or Supplier.",
