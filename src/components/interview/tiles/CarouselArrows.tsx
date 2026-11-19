@@ -3,6 +3,7 @@ import NavArrow from "../../controls/NavArrow.tsx";
 import { CSSProperties, RefObject, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { type CarouselStep } from "./SectionTileTypes.ts";
 import { arrowLevel } from "./SectionTileGeometry.tsx";
+import { slotMargin, useRailSlot } from "../rails/useRailSlot.ts";
 
 /** The carousel arrow's box: the page arrow's (24 x 44), 10% larger. */
 export const CAROUSEL_ARROW_WIDTH = 24;
@@ -218,9 +219,6 @@ export function CarouselArrows({ target, step, hue, back, side: fixedSide }: { t
     // pitch and the arrow takes exactly one line's place among them -- the line that would reach it continues right after it, one line's gap on each side -- the list
     // set down by less than one pitch (`shift`) so that the gaps above and below the arrow are the list's own.
     const railRef = useRef<HTMLElement | null>(null);
-    const [slot, setSlot] = useState<{ shift: number; index: number; extra: number } | null>(null);
-    const slotRef = useRef(slot);
-    slotRef.current = slot;
     // (The tab measured again whenever it, or the window, changes size: names arriving, fonts loading, the layer moving.)
     const [, setRailSize] = useState(0);
     const itemCount = step.items?.length ?? 0;
@@ -262,51 +260,8 @@ export function CarouselArrows({ target, step, hue, back, side: fixedSide }: { t
     const namedWidth = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--rail-tab-named-width")) || 220;
     const named = step.what === "section" && room >= namedWidth;
 
-    useLayoutEffect(() => {
-        const rail = railRef.current;
-        if (!rail || !at?.tab || covered) {
-            setSlot(null);
-            return;
-        }
-        // The arrow on the tab's side, and whether the tab stands under it at all.
-        const box = rail.getBoundingClientRect();
-        const arrowLeft = at.side === "left" ? at.left : window.innerWidth - at.right - CAROUSEL_ARROW_WIDTH;
-        const arrowTop = at.top - 22;
-        const arrowBottom = at.top + 22;
-        if (arrowLeft + CAROUSEL_ARROW_WIDTH <= box.left || arrowLeft >= box.right || arrowBottom <= box.top || arrowTop >= box.bottom) {
-            setSlot(previous => previous === null ? previous : null);
-            return;
-        }
-        // Every line (the bullets, then Back) where it stands without the slot: its measured top, less what the slot moved it.
-        const applied = slotRef.current;
-        const lines = [...rail.querySelectorAll<HTMLElement>("ol > li, .carousel-rail-back")].map((line, position) => {
-            const r = line.getBoundingClientRect();
-            const moved = (applied ? applied.shift : 0) + (applied && position >= applied.index ? applied.extra : 0);
-            return { top: r.top - moved, bottom: r.bottom - moved };
-        });
-        if (lines.length < 2) {
-            setSlot(previous => previous === null ? previous : null);
-            return;
-        }
-        const pitch = lines[1].top - lines[0].top;
-        const listGap = Math.max(4, lines[0].bottom - lines[0].top > 0 ? pitch - (lines[0].bottom - lines[0].top) : 8);
-        // (The arrow keeps the list's gap from a bullet's GROWN edge -- the lit bullet and its bloom, --rail-dot-overhang in bullet-rail.css -- so a grown bullet
-        // never touches it; owner, 2026-11-14 13:54: "with the proper gaps (counting the scaling over hovering)".)
-        const rootStyle = getComputedStyle(document.documentElement);
-        const grow = parseFloat(rootStyle.getPropertyValue("--rail-dot-grow")) || 1;
-        const bloom = parseFloat(rootStyle.getPropertyValue("--rail-bloom-width")) || 0;
-        const gap = listGap + 12 * (grow - 1) / 2 + bloom * grow;
-        // The first line that would reach the arrow (with the list's own gap before it): it and those after it go after the arrow.
-        const index = lines.findIndex(line => line.bottom + gap > arrowTop);
-        if (index < 0) {
-            setSlot(previous => previous === null ? previous : null);
-            return;
-        }
-        const shift = index > 0 ? Math.max(0, arrowTop - gap - lines[index - 1].bottom) : 0;
-        const extra = Math.max(0, arrowBottom + gap - (lines[index].top + shift));
-        const next = { shift: Math.round(shift * 10) / 10, index, extra: Math.round(extra * 10) / 10 };
-        setSlot(previous => previous && previous.index === next.index && Math.abs(previous.shift - next.shift) < 0.5 && Math.abs(previous.extra - next.extra) < 0.5 ? previous : next);
-    });
+    // (The one placement of every rail: useRailSlot, shared with the page's rails.)
+    const slot = useRailSlot(railRef, () => at ? { left: at.side === "left" ? at.left : window.innerWidth - at.right - CAROUSEL_ARROW_WIDTH, right: (at.side === "left" ? at.left : window.innerWidth - at.right - CAROUSEL_ARROW_WIDTH) + CAROUSEL_ARROW_WIDTH, top: at.top - 22, bottom: at.top + 22 } : null, !!at?.tab && !covered);
 
     if (!at || !topmost || covered) {
         return null;
@@ -344,7 +299,7 @@ export function CarouselArrows({ target, step, hue, back, side: fixedSide }: { t
                 >
                     <ol className="bullet-rail-list">
                         {step.items.map((item, position) => (
-                            <li key={item.id} style={slot && (position === 0 ? slot.shift : 0) + (slot.index === position ? slot.extra : 0) > 0 ? { marginTop: (position === 0 ? slot.shift : 0) + (slot.index === position ? slot.extra : 0) } : undefined}>
+                            <li key={item.id} style={slotMargin(slot, position) > 0 ? { marginTop: slotMargin(slot, position) } : undefined}>
                                 <button
                                     type="button"
                                     className={"bullet-rail-item" + (position === step.current ? " active" : "")}

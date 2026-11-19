@@ -16,6 +16,7 @@ import { parseAmount, parseDecimal } from "../../../../framework/engine/Amounts.
 import { randomId } from "../../../../framework/engine/Readers.ts";
 import DateCellInput from "../../fields/DateCellInput.tsx";
 import { NUMBER_LIMITS, limitedNumberText } from "../../fields/numberInput.ts";
+import { numberStep } from "../BusinessEngagementModel.ts";
 import OptionPicker from "../../fields/OptionPicker.tsx";
 import { toggledIn } from "../../fields/toggledIn.ts";
 import TextLink from "../../fields/TextLink.tsx";
@@ -700,9 +701,11 @@ export function useCapabilityCardFields(earlier: Earlier) {
                 ? [currency, key === "handling-pallet" ? "a pallet" : counted[definition.frequency]].filter(Boolean).join(" ")
                 : definition.kind === "percent" ? counted[definition.frequency] : "units";
             return (
+                // (A FIELD ON ONE ROW, ITS CELL AT ITS STEP: the tick and its words, the cell, the unit; layout rules section 8; owner, 2026-11-19 13:34 UTC+2.)
                 <OptionalField
                     key={key}
                     label={definition.label}
+                    inline
                     filled={value !== ""}
                     onClear={() => onNext(Object.fromEntries(Object.entries(extras).filter(([name]) => name !== key)) as BusinessExtrasValue)}
                     disabled={disabled}
@@ -710,13 +713,14 @@ export function useCapabilityCardFields(earlier: Earlier) {
                     <div className="business-capability-deposit-row">
                         <NumberCell
                             inputMode={definition.kind === "quantity" ? "numeric" : "decimal"}
+                            data-size={numberStep(definition.kind === "percent" ? NUMBER_LIMITS.percent : definition.kind === "quantity" ? { max: 9_999_999, decimals: 0 } : NUMBER_LIMITS.moneyExtra)}
                             aria-label={what + " " + definition.label.toLowerCase()}
                             disabled={disabled}
                             value={value}
                             onChange={(event) => {
                                 const next = definition.kind === "quantity"
                                     ? event.target.value.replace(/\D/g, "").slice(0, 7)
-                                    : limitedNumberText(event.target.value, value, definition.kind === "percent" ? NUMBER_LIMITS.percent : NUMBER_LIMITS.money);
+                                    : limitedNumberText(event.target.value, value, definition.kind === "percent" ? NUMBER_LIMITS.percent : NUMBER_LIMITS.moneyExtra);
                                 onNext({ ...extras, [key]: next });
                             }}
                         />
@@ -1042,8 +1046,9 @@ export function useCapabilityCardFields(earlier: Earlier) {
                 {/* (A Staff card's hours a month they can give: their own row and bar in Capacity & Delivery; doc 52, 14; owner, 2026-11-17.) */}
                 <BandSection name="team">
                 {scope === "offering" && slot.category === "hr" && (
-                    <BusinessField label="Hours a month they can give">
+                    <BusinessField label="Hours a month they can give" side>
                         <NumberCell kind="decimal"
+                            data-size={numberStep(NUMBER_LIMITS.hoursMonth)}
                             aria-label={"Resource " + number + " hours a month they can give"}
                             placeholder="h"
                             disabled={disabled}

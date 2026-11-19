@@ -61,6 +61,19 @@ export default function useRailTab(colours?: RailTabColours) {
             const frames = [...document.querySelectorAll(FRAME)].filter(candidate => candidate.getBoundingClientRect().width > 300);
             set("left", frames.length > 0 ? colourOf(frames[0]) : null);
             set("right", frames.length > 0 ? colourOf(frames[frames.length - 1]) : null);
+            // EVERY RAIL STARTS 12px UNDER ITS FRAME'S TOP (layout rules section 10, "One rail for every layer"; owner, 2026-11-19 12:52 UTC+2: "Why the rails
+            // (chapter/page and dialogue card) have different Top gaps", 13:04: "Fix it in the root"): the page's rails take the top of the frame they are attached
+            // to, as the page rests (its scroll taken back), as a dialog's or a card's tab takes its layer's; --rail-frame-top, read by bullet-rail.css.
+            if (frames.length > 0) {
+                const frame = frames[0];
+                let scrolled = window.scrollY;
+                for (let node = frame.parentElement; node; node = node.parentElement) {
+                    scrolled += node.scrollTop;
+                }
+                root.style.setProperty("--rail-frame-top", Math.round(frame.getBoundingClientRect().top + scrolled + 12) + "px");
+            } else {
+                root.style.removeProperty("--rail-frame-top");
+            }
         }
 
         function later() {
@@ -85,6 +98,7 @@ export default function useRailTab(colours?: RailTabColours) {
             }
             set("left", null);
             set("right", null);
+            root.style.removeProperty("--rail-frame-top");
         };
 
     }, [colours]);

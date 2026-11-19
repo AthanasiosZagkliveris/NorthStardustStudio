@@ -1,7 +1,8 @@
-import { ReactNode, useLayoutEffect, useRef, useState } from "react";
+import { ReactNode, useEffect, useLayoutEffect, useRef, useState } from "react";
 
 import type { RailItem } from "./railItems";
 import { PAGE_STATUS_WORDS } from "../../../framework/engine/PageStatus";
+import { slotMargin, useRailSlot } from "./useRailSlot.ts";
 
 import "../../../styles/status-shape.css";
 import "../../../styles/bullet-rail.css";
@@ -114,6 +115,30 @@ export default function BulletRail({
         return () => window.removeEventListener("resize", fit);
     });
 
+    // ONE PLACEMENT FOR EVERY RAIL (useRailSlot; layout rules section 10, "One rail for every layer", "Page tab"): the rail starts 12px under its frame's top
+    // (--rail-frame-top, bullet-rail.css) and the page arrow keeps the one arrow level (--arrow-level); where the rail stands under its arrow, the arrow takes one
+    // line's place in the list, as a dialog's or a card's tab does. (Measured again when the window or the tiles settle: the arrow level moves with them.)
+    const [, setSettled] = useState(0);
+    useEffect(() => {
+        const again = () => setSettled(count => count + 1);
+        window.addEventListener("resize", again);
+        window.addEventListener("tiles-fit", again);
+        const later = [300, 900, 1600].map(delay => window.setTimeout(again, delay));
+        return () => {
+            window.removeEventListener("resize", again);
+            window.removeEventListener("tiles-fit", again);
+            later.forEach(timer => window.clearTimeout(timer));
+        };
+    }, []);
+    const slot = useRailSlot(nav, () => {
+        const arrowNode = nav.current?.querySelector<HTMLElement>(".bullet-rail-head > .page-arrow");
+        if (!arrowNode) {
+            return null;
+        }
+        const box = arrowNode.getBoundingClientRect();
+        return box.width > 0 ? { left: box.left, right: box.right, top: box.top, bottom: box.bottom } : null;
+    }, items.length >= 2, "ol > li");
+
     // The head: the page arrow on a row of its own, then the rail's
     // name ("PAGES", "SECTIONS"), hidden from assistive technology
     // (the nav's own label says it).
@@ -136,7 +161,7 @@ export default function BulletRail({
 
             <ol className="bullet-rail-list">
 
-                {items.map(item => {
+                {items.map((item, position) => {
 
                     const active = item.id === activeId;
 
@@ -171,7 +196,7 @@ export default function BulletRail({
                     );
 
                     return (
-                        <li key={item.id}>
+                        <li key={item.id} style={slotMargin(slot, position) > 0 ? { marginTop: slotMargin(slot, position) } : undefined}>
                             <button
                                 type="button"
                                 className={"bullet-rail-item" + (active ? " active" : "") + (tooltipInside[item.id] ? " tooltip-inside" : "") + (item.capitals ? " bullet-rail-item-capitals" : "")}

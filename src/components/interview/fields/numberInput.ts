@@ -30,6 +30,9 @@ export const NUMBER_LIMITS = {
     /** Sales, clients or units a month. */
     volume: { max: 1_000_000, decimals: 2 },
     money: { max: 1_000_000_000, decimals: 2 },
+    /** A person's or a space's extra -- an Allowance, a Bonus, a charge -- a month or a year: up to 9,999,999.99, so its cell is the Code step and the tick, the cell and
+     *  its unit stand on one row (layout rules section 8, "A field on one row, its cell at its step"; owner, 2026-11-19 13:34 UTC+2). */
+    moneyExtra: { max: 9_999_999, decimals: 2 },
     hoursWeek: { max: 168, decimals: 1 },
     hoursMonth: { max: 730, decimals: 1 },
     hoursYear: { max: 8760, decimals: 1 },

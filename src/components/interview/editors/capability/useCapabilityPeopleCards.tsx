@@ -21,6 +21,7 @@ import { summaryText } from "../../cards/cardSummary.ts";
 import { TileAdd, OPEN_EVENT, type OpenRequest } from "../../tiles/SectionTiles.tsx";
 import InfoNote, { InfoPoint, InfoText } from "../../fields/InfoNote.tsx";
 import { NUMBER_LIMITS, limitedNumberText } from "../../fields/numberInput.ts";
+import { numberStep } from "../BusinessEngagementModel.ts";
 import OptionPicker from "../../fields/OptionPicker.tsx";
 import FoldArrow from "../../fields/FoldArrow.tsx";
 import { toggledIn } from "../../fields/toggledIn.ts";
@@ -922,8 +923,9 @@ export function useCapabilityPeopleCards(earlier: Earlier) {
                 {/* (THE HOURS THEY CAN GIVE, and a Supplier's lead time: read by Capacity & Delivery -- their own row and bar, and the Calendar Time of an Offering they can
                     hold up; doc 52, 14 and 16; owner, 2026-11-17.) */}
                 {scope === "offering" && (
-                    <BusinessField label="Hours a month they can give">
+                    <BusinessField label="Hours a month they can give" side>
                         <NumberCell kind="decimal"
+                            data-size={numberStep(NUMBER_LIMITS.hoursMonth)}
                             aria-label={(partner.name.trim() || "Entry " + number) + " hours a month they can give"}
                             placeholder="h"
                             disabled={disabled}
