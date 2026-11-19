@@ -156,6 +156,8 @@ export interface LegalEntityNumberValue {
      */
     label: string;
     number: string;
+    /** The rule that made it (doc 53, LegalStarts.ts: "GB2"), where the app made it; absent where the founder did. */
+    rule?: string;
 }
 
 export interface LegalEntityFormationValue {
@@ -194,6 +196,8 @@ export interface LegalEntityRequirementValue {
      * where an expense already links to it.
      */
     offerInExpenses: boolean;
+    /** The rule that made it (doc 53, LegalStarts.ts: "GB2"), where the app made it; absent where the founder did. */
+    rule?: string;
 }
 
 export interface LegalEntityExpenseValue {
@@ -220,6 +224,8 @@ export interface LegalEntityExpenseValue {
     description: string;
     /** The id of the requirement that made this expense ("Add to Legal Entity Expenses"), or "": such an expense is named and linked by its requirement. */
     fromRequirement: string;
+    /** The rule that made it (doc 53, LegalStarts.ts: "GB2"), where the app made it; absent where the founder did. */
+    rule?: string;
 }
 
 export interface LegalEntityValue {
@@ -236,6 +242,8 @@ export interface LegalEntityValue {
     tax: LegalEntityTaxValue;
     requirements: LegalEntityRequirementValue[];
     expenses: LegalEntityExpenseValue[];
+    /** The rules whose items the founder removed (doc 53, decision 8): never made again unseen. */
+    dismissedStarts: string[];
 }
 
 
@@ -290,7 +298,8 @@ export function legalEntityNumberList(value: unknown): LegalEntityNumberValue[] 
         return {
             id: asText(row.id) || randomId("number"),
             label: asText(row.label),
-            number: asText(row.number)
+            number: asText(row.number),
+            ...(asText(row.rule) ? { rule: asText(row.rule) } : {})
         };
 
     });
@@ -369,7 +378,8 @@ export function asLegalEntityValue(value: unknown): LegalEntityValue {
             name: asText(row.name),
             reference: asText(row.reference),
             notes: asText(row.notes),
-            offerInExpenses: typeof row.offerInExpenses === "boolean" ? row.offerInExpenses : linkedIds.has(id)
+            offerInExpenses: typeof row.offerInExpenses === "boolean" ? row.offerInExpenses : linkedIds.has(id),
+            ...(asText(row.rule) ? { rule: asText(row.rule) } : {})
         };
 
     });
@@ -391,7 +401,8 @@ export function asLegalEntityValue(value: unknown): LegalEntityValue {
             // (One registration only: an earlier answer's several keep the first.)
             links: (Array.isArray(row.links) ? row.links : []).map(asText).filter(Boolean).slice(0, 1),
             description: asText(row.description),
-            fromRequirement: asText(row.fromRequirement)
+            fromRequirement: asText(row.fromRequirement),
+            ...(asText(row.rule) ? { rule: asText(row.rule) } : {})
         };
 
     });
@@ -490,7 +501,9 @@ export function asLegalEntityValue(value: unknown): LegalEntityValue {
         // simply not read: an empty list says the same.)
         requirements,
 
-        expenses
+        expenses,
+
+        dismissedStarts: (Array.isArray(source.dismissedStarts) ? source.dismissedStarts : []).map(asText).filter(Boolean)
 
     };
 

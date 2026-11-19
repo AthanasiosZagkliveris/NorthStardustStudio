@@ -516,6 +516,9 @@ export interface LegalEntityEditorProps {
 
     value: unknown;
 
+    /** Whether anyone on the payroll is paid (a founder's salary, a member of staff: Infrastructure & Capability), for the PAYE registration the app makes (doc 53). */
+    paysAnyone?: boolean;
+
     /** The Opening Date of the Global Settings: the company cannot be formed after it. */
     openingDate?: string;
     /** The business stage the Opening Date and the Global Settings' durations give (BusinessStage.ts): the limits and the locks of Early Positioning follow it. Planning where none is given. */

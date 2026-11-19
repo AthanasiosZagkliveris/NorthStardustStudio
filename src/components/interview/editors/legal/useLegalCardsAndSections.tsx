@@ -3,6 +3,9 @@
  * One part of LegalEntityEditor (see LegalEntityEditor.tsx): what it needs of the parts before it comes in as `earlier`; what the parts after it need goes out.
  */
 import TickField from "../../../controls/TickField.tsx";
+import { LEGAL_FEES_CHECKED, legalStartOf } from "../../../../framework/engine/LegalStarts.ts";
+import TextLink from "../../fields/TextLink.tsx";
+import { openExternal } from "../../../references/HarvardReference.tsx";
 import AddButton from "../../../controls/AddButton.tsx";
 import FieldLabel from "../../../controls/FieldLabel.tsx";
 import NumberCell from "../../../controls/NumberCell.tsx";
@@ -20,7 +23,7 @@ import { FrozenUntil } from "../../fields/fieldMarks.tsx";
 import { NUMBER_LIMITS, limitedNumberText, numberInputMode } from "../../fields/numberInput.ts";
 import OptionPicker from "../../fields/OptionPicker.tsx";
 import { OptionalField } from "../../cards/BusinessCardFields.tsx";
-import { INFO, MAX_MORE_NUMBERS, yearsAhead } from "./shared.tsx";
+import { INFO, MAX_MORE_NUMBERS, shownDay, yearsAhead } from "./shared.tsx";
 import type { useLegalState } from "./useLegalState.tsx";
 import type { useLegalFieldsAndSections } from "./useLegalFieldsAndSections.tsx";
 
@@ -520,6 +523,22 @@ export function useLegalCardsAndSections(earlier: Earlier) {
                             undefined,
                             false
                         )}
+
+                        {/* (AN OFFICIAL FEE THE APP FILLED IN, its source under it (doc 53, decision 5): "Official fee, checked 19 Nov 2026", a link to the official page; shown
+                            while the cost is still the official one -- once the founder changes it, it is theirs, and the line goes.) */}
+                        {(() => {
+                            const start = expense.rule ? legalStartOf(entity, expense.rule) : undefined;
+                            return start?.fee && start.fee.amount === expense.cost.trim() ? (
+                                <div className="legal-entity-field legal-entity-field-wide">
+                                    <p className="legal-entity-empty-note">
+                                        {"Official fee, checked " + shownDay(LEGAL_FEES_CHECKED) + ": "}
+                                        <TextLink as="a" href={start.source} target="_blank" rel="noreferrer" onClick={(event) => { event.preventDefault(); openExternal(start.source); }}>
+                                            {new URL(start.source).hostname.replace(/^www\./, "")}
+                                        </TextLink>
+                                    </p>
+                                </div>
+                            ) : null;
+                        })()}
 
                         {/*
                             The founders named in 2. Founders & Ownership, by

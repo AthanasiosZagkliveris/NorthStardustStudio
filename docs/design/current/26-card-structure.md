@@ -1550,7 +1550,7 @@ A card made from a channel template would have the layout of its group's card ab
 
 ### Legal Entity expense card
 
-Shown in All Tiles under “Legal expenses”. It records registrations and their expenses only. It belongs to the company, not to an offering, so it has no Linked to row and no Offerings (owner, 2026-11-19 16:52 UTC+2: "From the Expenses, remove the offerings section", reversing the plan of 2026-11-18, step 3). Insurance, licences and certificates are cards of Documents & Rights.
+Shown in All Tiles under “Legal expenses”. It records registrations and their expenses only. **An expense the app made from a rule** (doc 53, stage 1: an incorporation, a confirmation statement's fee) carries its rule's id and the official fee; while the cost is that fee, a muted line under the row says "Official fee, checked 19 Nov 2026", its source a link; removed, it stays removed (`dismissedStarts`). It belongs to the company, not to an offering, so it has no Linked to row and no Offerings (owner, 2026-11-19 16:52 UTC+2: "From the Expenses, remove the offerings section", reversing the plan of 2026-11-18, step 3). Insurance, licences and certificates are cards of Documents & Rights.
 
 | # | Field, left to right | Label shown | Action | Function | Status | What it contains | Why |
 |---|---|---|---|---|---|---|---|
