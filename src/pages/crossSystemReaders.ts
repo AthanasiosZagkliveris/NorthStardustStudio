@@ -187,9 +187,24 @@ export function readCrossSystem({ session, organizationId, systemNumber, navigat
         candidate => candidate.answer?.type === AnswerType.BusinessFoundation
     );
 
+    /*
+        ON THE IDENTITY SYSTEM the Business System's answers are read as saved: its Foundation, Infrastructure & Capability, Customer Engagement and Financials, each
+        found by its answer's type in the Business framework (the section's id), so the Vision's PB8 says the Segment's reach today and a Legal Entity expense offers
+        the Offerings (the owner's approved plan of 2026-11-18, §3). The Business System's own pages read their open session.
+    */
+    const savedBusiness = (type: AnswerType): unknown => {
+        if (systemNumber !== IDENTITY_SYSTEM_NUMBER || !organizationId) {
+            return undefined;
+        }
+        const business = systems.find(candidate => candidate.id === "business");
+        const section = business && frameworkRegistry.exists(business.id) ? frameworkRegistry.getFramework(business.id).sections.find(candidate => candidate.answer?.type === type) : undefined;
+        const state = section ? OrganizationService.loadSystemState(organizationId, business!.number) as { responses?: { sectionNumber: number; value?: unknown }[] } | null : null;
+        return section ? state?.responses?.find(response => response.sectionNumber === section.number)?.value : undefined;
+    };
+
     const businessFoundationValue = businessFoundationSection
         ? session.getResponse(businessFoundationSection.number)
-        : undefined;
+        : savedBusiness(AnswerType.BusinessFoundation);
 
     const openBusinessFoundation: OpenPage | undefined = businessFoundationSection
         ? (path) => {
@@ -227,7 +242,7 @@ export function readCrossSystem({ session, organizationId, systemNumber, navigat
 
     const businessCapabilityValue = capabilitySection
         ? session.getResponse(capabilitySection.number)
-        : undefined;
+        : savedBusiness(AnswerType.BusinessCapability);
 
     const financialFoundationValue = financialFoundationSection
         ? session.getResponse(financialFoundationSection.number)
@@ -248,12 +263,12 @@ export function readCrossSystem({ session, organizationId, systemNumber, navigat
     // Its Demand & Conversion gives the expected sales both Financial pages use.
     const businessEngagementValue = businessEngagementSection
         ? session.getResponse(businessEngagementSection.number)
-        : undefined;
+        : savedBusiness(AnswerType.BusinessEngagement);
 
     // Its revenue is what Financial Foundation's operating need is net of.
     const financialSustainabilityValue = financialSustainabilitySection
         ? session.getResponse(financialSustainabilitySection.number)
-        : undefined;
+        : savedBusiness(AnswerType.FinancialSustainability);
 
     const openBusinessSection = (type: AnswerType): OpenPage | undefined => {
 

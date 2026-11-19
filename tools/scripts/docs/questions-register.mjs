@@ -237,8 +237,8 @@ const RESERVED = [
     ["PB4", "Principles", "Identity, section 2, `principles`", "doc 45, 5"],
     ["PB5", "Philosophy", "Identity, section 2, `philosophy`", "doc 45, 5"],
     ["PB6", "Manifesto", "Identity, section 2, `manifesto`", "doc 45, 5"],
-    ["PB7", "What will your business be when your Vision comes true?", "Identity, section 1, `visionAmbitions`", "doc 45, 3.8"],
-    ["PB8", "Where will your customers be?", "Identity, section 1, `visionReach`", "doc 45, 3.8"],
+    ["PB7", "What will your business be when your Vision comes true?", "Identity, section 1, `visionAmbitions`", "doc 45, 3.8", "built 2026-11-19 (`VisionChoices.ts`)"],
+    ["PB8", "Where will your customers be?", "Identity, section 1, `visionReach`", "doc 45, 3.8", "built 2026-11-19 (`VisionChoices.ts`)"],
     ["BA1", "Which character fits your Ambassador best?", "Brand, `ambassador.character`", "doc 46, 2"],
     ["BA2", "How does your Ambassador dress?", "Brand, `ambassador.dress`", "doc 46, 2"],
     ["BA3", "Where would people meet your Ambassador?", "Brand, `ambassador.setting`", "doc 46, 2"],
@@ -589,10 +589,10 @@ function render(cards, commit) {
     md.push("## " + (cards.length + 1) + ". Reserved codes", "",
         "Registered before they are built, so their codes are fixed (the owner's approved plan of 2026-11-18, §3, B2): each moves to its card's section when it is built. Their words, controls and options are in the owner document.", "",
         "| Code | Question or text | Saved under | Status | Owner |", "|---|---|---|---|---|");
-    for (const [code, label, key, owner] of RESERVED) md.push("| " + [code, label, key, "reserved", owner].map(cell).join(" | ") + " |");
+    for (const [code, label, key, owner, status] of RESERVED) md.push("| " + [code, label, key, status ?? "reserved", owner].map(cell).join(" | ") + " |");
     for (const [code, was, why] of RESERVED_WITHDRAWN) md.push("| " + [code, was, "–", "withdrawn", why].map(cell).join(" | ") + " |");
     md.push("");
-    counts.push(["Reserved (Purpose & Beliefs, Ambassador, SWOT, Compass)", 0, RESERVED.length, RESERVED_WITHDRAWN.length]);
+    counts.push(["Reserved (Purpose & Beliefs, Ambassador, SWOT, Compass)", RESERVED.filter(entry => entry[4]).length, RESERVED.filter(entry => !entry[4]).length, RESERVED_WITHDRAWN.length]);
     md.push("## " + (cards.length + 2) + ". The count", "", "| Card | Built | Not built | Retired |", "|---|---|---|---|");
     for (const [title, built, notBuilt, retired] of counts) md.push("| " + title + " | " + built + " | " + notBuilt + " | " + retired + " |");
     const total = counts.reduce((sum, entry) => [sum[0] + entry[1], sum[1] + entry[2], sum[2] + entry[3]], [0, 0, 0]);

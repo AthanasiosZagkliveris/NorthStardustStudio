@@ -12,7 +12,13 @@
             "description": "Quillfield Automation is a one-person automation studio in Brooklyn, New York, founded in 2026 by Jordan Ellis. We design and build AI-assisted workflow automations for small professional-services firms: law, accounting, architecture and marketing firms of 5 to 50 staff. We provide three services. The AI Workflow Audit finds the repetitive work worth automating. The Automation Build puts the chosen workflows into daily use. The Automation Care Retainer keeps them running, secure and up to date.",
             "mission": "To give small professional firms back the hours they lose to repetitive admin. Many small firms spend a large part of each week copying data between tools, chasing documents and writing the same emails again and again. Large consultancies do not serve them, and ready-made AI tools rarely fit how they work. We build reliable, well-documented automations around the tools a firm already uses, so its people can spend their time on client work. This matters because small firms compete on care and expertise, not on admin capacity.",
             "positioning": "For owners and office managers of small professional-services firms who know automation could help but have no technical staff, Quillfield Automation is a hands-on automation partner in the small-business IT and consulting market. Clients work directly with the person who designs and builds their system, at fixed project prices, and we map the workflow first, build on the firm's existing software, document every step and stay on to maintain it.",
-            "vision": "A future in which every small professional firm can use automation and AI as safely and confidently as a large one. Ten years from now, Quillfield is a trusted name for practical automation among small firms across the north-east United States: a small team of automation specialists, a library of proven and well-documented workflows, and hundreds of client firms whose staff spend their days on skilled work. Success means clients who stay for years, recommend us to their peers and never feel locked in."
+            "vision": "A future in which every small professional firm can use automation and AI as safely and confidently as a large one. Ten years from now, Quillfield is a trusted name for practical automation among small firms across the north-east United States: a small team of automation specialists, a library of proven and well-documented workflows, and hundreds of client firms whose staff spend their days on skilled work. Success means clients who stay for years, recommend us to their peers and never feel locked in.",
+            "visionAmbitions": [
+              "trusted",
+              "range",
+              "customers"
+            ],
+            "visionReach": "region"
           }
         },
         {

@@ -1,6 +1,7 @@
 /* Part of BusinessDocuments.ts (split by its sections, 2026-11-10: the same code, in files of one topic each; BusinessDocuments.ts re-exports every part). */
 
 import { currencyMark } from "../Currencies.ts";
+import { asVisionAmbitions, asVisionReach, visionChoicesSentence } from "../VisionChoices.ts";
 import { OFFERING_QUESTIONS, offeringAnswerLines, offeringOptions } from "../OfferingQuestions.ts";
 import { workspacesOf, WORKSPACE_GROUP_ID } from "../AnswerUtils.ts";
 import { offeringRelationshipsFor } from "../JourneySuggestions.ts";
@@ -66,6 +67,8 @@ function executiveSummary(f: Foundation): ExportBlock[] {
         ...paragraph([opening, offer].filter(Boolean).join(" ")),
         ...labelled("Mission", text(f.definition.mission)),
         ...labelled("Vision", text(f.definition.vision)),
+        // (The Vision's future, PB7 and PB8: "When our Vision comes true, the business will be ..., with customers ..." -- doc 45, 3.8.)
+        ...(visionChoicesSentence(asVisionAmbitions(f.definition.visionAmbitions), asVisionReach(f.definition.visionReach)) ? paragraph(visionChoicesSentence(asVisionAmbitions(f.definition.visionAmbitions), asVisionReach(f.definition.visionReach))) : []),
         ...labelled("Financial outlook", [money, revenue].filter(Boolean).join(" ")),
         ...(outlook.signals[0] ? labelled(outlook.signals[0].title, outlook.signals[0].text) : []),
         ...labelled("Direction", f.strategyFoundation.compass)

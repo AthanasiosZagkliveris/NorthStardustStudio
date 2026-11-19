@@ -1,4 +1,5 @@
 import ChoiceCard from "../../controls/ChoiceCard.tsx";
+import VisionChoices from "./purpose/VisionChoices.tsx";
 import { CSSProperties, Fragment, useState } from "react";
 import CardShell from "../cards/CardShell.tsx";
 import { OptionalNote } from "../cards/BusinessCardFields.tsx";
@@ -68,7 +69,9 @@ function MultiPartAnswerRenderer({
 
     onChangeFoundersProfile,
 
-    legalEntitySectionNumber
+    legalEntitySectionNumber,
+
+    businessFoundation
 
 }: AnswerRendererProps) {
 
@@ -288,6 +291,8 @@ function MultiPartAnswerRenderer({
                                     <DialogHeading title={text.part.label} info={guidance(text.part)} />
                                 </div>
                                 {columnControl(text.part, text.from, text.save)}
+                                {/* (The Vision's two choices, under its text: PB7 and PB8, doc 45, 3.8.) */}
+                                {text.part.id === "vision" && <VisionChoices value={text.from} onChange={text.save} foundation={businessFoundation} disabled={disabled} />}
                             </div>
                         );
                         return (

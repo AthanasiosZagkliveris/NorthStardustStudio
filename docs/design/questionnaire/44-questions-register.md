@@ -1127,8 +1127,8 @@ Registered before they are built, so their codes are fixed (the owner's approved
 | PB4 | Principles | Identity, section 2, `principles` | reserved | doc 45, 5 |
 | PB5 | Philosophy | Identity, section 2, `philosophy` | reserved | doc 45, 5 |
 | PB6 | Manifesto | Identity, section 2, `manifesto` | reserved | doc 45, 5 |
-| PB7 | What will your business be when your Vision comes true? | Identity, section 1, `visionAmbitions` | reserved | doc 45, 3.8 |
-| PB8 | Where will your customers be? | Identity, section 1, `visionReach` | reserved | doc 45, 3.8 |
+| PB7 | What will your business be when your Vision comes true? | Identity, section 1, `visionAmbitions` | built 2026-11-19 (`VisionChoices.ts`) | doc 45, 3.8 |
+| PB8 | Where will your customers be? | Identity, section 1, `visionReach` | built 2026-11-19 (`VisionChoices.ts`) | doc 45, 3.8 |
 | BA1 | Which character fits your Ambassador best? | Brand, `ambassador.character` | reserved | doc 46, 2 |
 | BA2 | How does your Ambassador dress? | Brand, `ambassador.dress` | reserved | doc 46, 2 |
 | BA3 | Where would people meet your Ambassador? | Brand, `ambassador.setting` | reserved | doc 46, 2 |
@@ -1154,5 +1154,5 @@ Registered before they are built, so their codes are fixed (the owner's approved
 | Competitor | 12 | 0 | 3 |
 | Value Proposition | 0 | 0 | 0 |
 | Offering | 18 | 1 | 4 |
-| Reserved (Purpose & Beliefs, Ambassador, SWOT, Compass) | 0 | 20 | 1 |
-| **All** | **110** | **27** | **24** |
+| Reserved (Purpose & Beliefs, Ambassador, SWOT, Compass) | 2 | 18 | 1 |
+| **All** | **112** | **25** | **24** |
