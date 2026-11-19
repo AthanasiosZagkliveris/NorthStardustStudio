@@ -1115,7 +1115,35 @@ No questions: the tile shows a draft sentence and the open items, read from the 
 | O11 | What they spend on (doc 28, 6.8) | retired | not asked: nothing would read it (kept as a thought) | doc 43, Decided, and still to decide |
 | O13 | What job does it do for them? | retired | the Profile's Functional need (doc 36, section 10) and Functional Needs Addressed (retired 2026-11-07) | doc 43, O13 |
 
-## 8. The count
+## 8. Reserved codes
+
+Registered before they are built, so their codes are fixed (the owner's approved plan of 2026-11-18, §3, B2): each moves to its card's section when it is built. Their words, controls and options are in the owner document.
+
+| Code | Question or text | Saved under | Status | Owner |
+|---|---|---|---|---|
+| PB1 | Mission | Identity, section 1, `mission` | reserved | doc 45, 5 |
+| PB2 | Vision | Identity, section 1, `vision` | reserved | doc 45, 5 |
+| PB3 | Values | Identity, section 2, `values` | reserved | doc 45, 5 |
+| PB4 | Principles | Identity, section 2, `principles` | reserved | doc 45, 5 |
+| PB5 | Philosophy | Identity, section 2, `philosophy` | reserved | doc 45, 5 |
+| PB6 | Manifesto | Identity, section 2, `manifesto` | reserved | doc 45, 5 |
+| PB7 | What will your business be when your Vision comes true? | Identity, section 1, `visionAmbitions` | reserved | doc 45, 3.8 |
+| PB8 | Where will your customers be? | Identity, section 1, `visionReach` | reserved | doc 45, 3.8 |
+| BA1 | Which character fits your Ambassador best? | Brand, `ambassador.character` | reserved | doc 46, 2 |
+| BA2 | How does your Ambassador dress? | Brand, `ambassador.dress` | reserved | doc 46, 2 |
+| BA3 | Where would people meet your Ambassador? | Brand, `ambassador.setting` | reserved | doc 46, 2 |
+| BA4 | How does your Ambassador come across? | Brand, `ambassador.energy`, `ambassador.expression` | reserved | doc 46, 2 |
+| BA6 | What tone does your Ambassador use? | Brand, `ambassador.tone` | reserved | doc 46, 2 |
+| BA7 | Which words suit your customers? | Brand, `ambassador.words` | reserved | doc 46, 2 |
+| BA8 | How should people feel when they first meet your brand? | Brand, `ambassador.feeling` | reserved | doc 46, 2 |
+| BA9 | What should people remember you for? | Brand, `ambassador.remembered` | reserved | doc 46, 2 |
+| SW1 | How could these changes affect you? | Strategy, `strategyFoundation.changeEffects` | reserved | doc 49, 4 |
+| SC1 | What will this period's strategy mainly do? | Strategy, `strategyFoundation.stance` | reserved | doc 49, 4 |
+| SC2 | Where will growth come from in this period? | Strategy, `strategyFoundation.growth` | reserved | doc 49, 4 |
+| SC3 | Which Segment comes first? | Strategy, `strategyFoundation.firstSegmentId` | reserved | doc 49, 4 |
+| BA5 | How close does the business stay to its customers? | – | withdrawn | withdrawn 2026-11-12 before registration: the relationship type (J3, doc 47) answers it (doc 46, 7) |
+
+## 9. The count
 
 | Card | Built | Not built | Retired |
 |---|---|---|---|
@@ -1126,4 +1154,5 @@ No questions: the tile shows a draft sentence and the open items, read from the 
 | Competitor | 12 | 0 | 3 |
 | Value Proposition | 0 | 0 | 0 |
 | Offering | 18 | 1 | 4 |
-| **All** | **110** | **7** | **23** |
+| Reserved (Purpose & Beliefs, Ambassador, SWOT, Compass) | 0 | 20 | 1 |
+| **All** | **110** | **27** | **24** |

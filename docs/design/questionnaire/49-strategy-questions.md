@@ -232,7 +232,7 @@ The Business Plan's Strategy and Milestones section gains the Compass's three ch
 
 ## 4. Codes
 
-New prefixes **SW** (SWOT) and **SC** (Strategic Compass): SW1, SC1, SC2, SC3. They enter the register when built.
+New prefixes **SW** (SWOT) and **SC** (Strategic Compass): SW1, SC1, SC2, SC3. They are reserved in the register (doc 44, "Reserved codes", 2026-11-19, B2) and move to their card's section when built.
 
 ## 5. Decided
 

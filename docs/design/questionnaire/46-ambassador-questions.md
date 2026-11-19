@@ -218,7 +218,7 @@ From BA1, through doc 28, 8.3's table: suggested colour families on the Colours 
 
 ## 7. Codes
 
-New prefix **BA** (Brand Ambassador), unused in doc 44. BA1 to BA4 and BA6 to BA9 enter the register when built (`tools/scripts/docs/questions-register.mjs`). **BA5 is withdrawn** (2026-11-12, before registration): it asked how close the business stays to its customers, which the relationship type (J3, doc 47) answers; the register lists it as withdrawn, never reused. BA4 has two rows (Energy, Expression); a third, Manner, was dropped as BA6's Formality reversed.
+New prefix **BA** (Brand Ambassador), unused in doc 44. BA1 to BA4 and BA6 to BA9 are reserved in the register (doc 44, "Reserved codes", 2026-11-19, B2), BA5 listed there as withdrawn; each moves to its card's section when built. **BA5 is withdrawn** (2026-11-12, before registration): it asked how close the business stays to its customers, which the relationship type (J3, doc 47) answers; the register lists it as withdrawn, never reused. BA4 has two rows (Energy, Expression); a third, Manner, was dropped as BA6's Formality reversed.
 
 ## 8. Decided, and still to decide
 
