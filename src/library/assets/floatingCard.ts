@@ -18,7 +18,7 @@ import { lookHeight } from "../componentTokens.ts";
 export const floatingCard: AssetContract = {
     name: "Floating card",
     kind: "card base",
-    summary: "The one surface every floating card stands on: 492px wide (a founder's 297px), 8px corners, 12px padding and 12px between everything, a height that follows its contents, an inset light and shade edge and a drop shadow, in the tint of its tile and the colours of the reading mode.",
+    summary: "The one surface every floating card stands on: 492px wide, every kind (a founder's too), 8px corners, 12px padding and 12px between everything, a height that follows its contents, an inset light and shade edge and a drop shadow, in the tint of its tile and the colours of the reading mode.",
     component: "src/components/interview/tiles/SectionTiles.tsx, the FloatingCards component",
     stylesheet: "src/styles/section-tiles.css",
     alsoStylesheets: ["src/styles/page-3-edges.css", "src/styles/global.css"],
@@ -31,16 +31,14 @@ export const floatingCard: AssetContract = {
     ],
     states: ["rest", "open"],
     variants: [
-        { id: "card", context: "kind card", note: "a Resource, Activity, Partner, Provider or any other card: --open-card-width wide" },
-        { id: "founder", context: "kind founder", note: "a founder's card: --founder-card-min wide" }
+        { id: "card", context: "kind card", note: "every floating card, a founder's too: --open-card-width wide (owner, 2026-11-19)" }
     ],
     tokens: [
-        "--open-card-width", "--founder-card-min", "--radius-lg", "--card-padding", "--space-field", "--space-label", "--control-square", "--card-label-col",
+        "--open-card-width", "--radius-lg", "--card-padding", "--space-field", "--space-label", "--control-square", "--card-label-col",
         "--theme-bg-inner", "--theme-ground-weight", "--theme-ground-paper", "--theme-line-edge", "--theme-line-accent", "--strategy-theme-hue", "--shadow-18", "--shadow-12", "--box-inset"
     ],
     geometry: {
         cardWidth: 492,
-        founderWidth: 297,
         radius: 8,
         padding: 12,
         gap: 12,
@@ -53,7 +51,6 @@ export const floatingCard: AssetContract = {
     },
     sizes: [
         { use: "Card width (kind card)", token: "--open-card-width", unit: "px", values: { tablet: 492, laptop: 492, desktop: 492 }, note: "at most the window less the window margin" },
-        { use: "Founder card width", token: "--founder-card-min", unit: "px", values: { tablet: 297, laptop: 297, desktop: 297 } },
         { use: "Card corners", token: "--radius-lg", unit: "px", values: { tablet: 8, laptop: 8, desktop: 8 } },
         { use: "Card padding, side, top and bottom", token: "--card-padding", unit: "px", values: { tablet: 12, laptop: 12, desktop: 12 } },
         { use: "Gap between rows, and between the box name and the card", token: "--space-field", unit: "px", values: { tablet: 12, laptop: 12, desktop: 12 } },

@@ -59,6 +59,14 @@
 
 }
 
+/* (THE LIST KEEPS CLEAR OF THE CIRCLES, as a tile's list keeps clear of its "+": it ends 4px above them -- the circles' 10px foot and 12px height, 4px, less the
+   tile's own 13px padding; the owner's bug report of 2026-11-19, the circles stood on the list's last line. Layout rules section 9, "Card tiles".) */
+.card-tile-slot:has(> .card-tile-symbols) :is(.section-tile, .section-tile-links-layer) > .section-tile-list {
+
+    margin-bottom: calc(10px + 12px + 4px - 13px);
+
+}
+
 .card-tile-symbols {
 
     display: inline-flex;

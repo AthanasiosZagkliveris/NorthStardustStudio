@@ -354,7 +354,7 @@ export function TileDialog({
     opener: HTMLElement | null;
     onClose: () => void;
     /** A card chosen inside (a card box pressed, a subcategory box that holds one card, a "+" box): it is opened floating, outside the dialog. Null for a tile that keeps its cards in the dialog. */
-    onOpenCard: ((id: string, caption: string | undefined, remover: TileAdd | undefined, pointer: boolean, fresh: boolean) => void) | null;
+    onOpenCard: ((id: string, caption: string | undefined, remover: TileAdd | undefined, pointer: boolean, fresh: boolean, siblings?: readonly string[]) => void) | null;
 
 }) {
 

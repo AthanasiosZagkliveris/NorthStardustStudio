@@ -368,7 +368,10 @@ export default function SectionTiles({
 
     // THE CAROUSEL: the arrows beside the layer opened last. A floating card goes through the cards of its tile (or of its box, where it was opened from one); a
     // dialog goes through the tiles of the section, the ones that have something to open (a tile of none would make a blank card).
-    const boxCards = floating && floatingTile ? Object.values(floatingTile.boxHolds ?? {}).find(ids => ids.includes(floating.id)) : undefined;
+    // (The box is the one it was opened from, where that box told it its cards -- a group inside a category, Equipment / Production Machinery: the owner's bug,
+    // 2026-11-19, the arrows went on into Devices & Tools while the dialog stayed on Production Machinery.)
+    const openedBox = floating?.siblings && floating.siblings.includes(floating.id) ? floating.siblings : undefined;
+    const boxCards = floating && floatingTile ? openedBox ?? Object.values(floatingTile.boxHolds ?? {}).find(ids => ids.includes(floating.id)) : undefined;
     const siblingCards = floating && floatingTile ? (boxCards ?? floatingTile.holds ?? []) : [];
     const goFloating = (nextId: string) => {
         if (!floating || siblingCards.length < 2) {
@@ -497,14 +500,14 @@ export default function SectionTiles({
                     hue={open.channel ? CHANNEL_TILE_HUE : hue}
                     step={steppable.length > 1 && steppable.some(tile => tile.id === open.id) ? { what: "section", previous: () => stepDialog(-1), next: () => stepDialog(1), items: steppable.map(tile => ({ id: tile.id, label: tile.title })), current: steppable.findIndex(tile => tile.id === open.id), go: (id: string) => { const target = steppable.find(tile => tile.id === id); if (target && target.id !== open.id) { goDialog(target); } } } : undefined}
                     onClose={() => setOpenId(null)}
-                    onOpenCard={cardsFloatOnly(open) ? (id, caption, remover, pointer, fresh) => {
+                    onOpenCard={cardsFloatOnly(open) ? (id, caption, remover, pointer, fresh, siblings) => {
                         // A card chosen in the dialog's grid (or made by a box's "+"): the dialog closes and the card floats on its section part,
                         // under the box's name (the tile's where none is given).
                         // (The dialog STAYS under the card: Back returns to it, as to the view the card was opened from; Escape closes every layer.)
                         const from = opener.current ?? document.body;
                         openedByPointer.current = pointer;
                         open.opening?.();
-                        setFloating({ tileId: open.id, id, opener: from, pressed: lastPressed.current, anchor: acrossFrom(lastPressed.current) ?? otherColumn(sectionAnchor(from)), fresh, caption, remover });
+                        setFloating({ tileId: open.id, id, opener: from, pressed: lastPressed.current, anchor: acrossFrom(lastPressed.current) ?? otherColumn(sectionAnchor(from)), fresh, caption, remover, siblings });
                     } : null}
                 />
             )}

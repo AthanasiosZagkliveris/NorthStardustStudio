@@ -283,7 +283,7 @@ export function useCapabilitySections(earlier: Earlier) {
 
     }
     /** The parent's card, drawn as it is when opened, with the name of the box it belongs to. */
-    function parentCard(id: string): { caption: string; scope: Scope; kind: "card" | "founder"; node: ReactNode } | null {
+    function parentCard(id: string): { caption: string; scope: Scope; kind: "card"; node: ReactNode } | null {
         const founderAt = founders.findIndex(founder => founder.id === id);
         if (founderAt >= 0) {
             return { caption: "Founders", scope: "infrastructure", kind: "card", node: founderCard(founders[founderAt], founderAt, true) };
@@ -326,7 +326,7 @@ export function useCapabilitySections(earlier: Earlier) {
     function completedCaption(id: string): string | undefined {
         return [...capability.activities.flatMap(category => category.activities), ...capability.offering.activities].some(activity => activity.id === id && activity.completed) ? "Completed" : undefined;
     }
-    function childCard(id: string): { caption: string; node: ReactNode; kind?: "card" | "founder" } | null {
+    function childCard(id: string): { caption: string; node: ReactNode; kind?: "card" } | null {
         for (const category of capability.activities) {
             if (category.activities.some(activity => activity.id === id)) {
                 const node = activityCardFor("infrastructure", category.activities, (next) => setCategoryActivities(category.id, next), id);

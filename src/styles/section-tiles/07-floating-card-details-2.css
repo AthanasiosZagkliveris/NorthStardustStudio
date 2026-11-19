@@ -922,15 +922,8 @@ body:has(.floating-overlay) .section-tile-overlay:not(.floating-overlay) > .caro
 }
 
 /* ---- A FOUNDER'S CARD ON THE OTHER CARDS' SIZE ----
-   As wide as every card (--open-card-width), its content from the same edge to the same edge, and every field a side-label row: the label in --card-label-col, the cell
-   beside it (the Start date, the Salary, the Frequency, the Working and the Delivery Hrs). */
-.floating-card-founder,
-.floating-card-host .floating-card-body.floating-card-founder {
-
-    width: min(var(--open-card-width), calc(100vw - 16px));
-
-}
-
+   As wide as every card (the one width, 04-tile-slot-and-floating-card.css), its content from the same edge to the same edge, and every field a side-label row: the
+   label in --card-label-col, the cell beside it (the Start date, the Salary, the Frequency, the Working and the Delivery Hrs). */
 .business-founder-open .business-founder-grid {
 
     /* Salary | Frequency, then Working Hrs | Delivery Hrs: two equal columns, the labels above their cells, each label on one line. */

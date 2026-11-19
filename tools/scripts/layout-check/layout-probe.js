@@ -1775,6 +1775,16 @@
                     if ((box.closest(".section-tile-slot") || box).querySelectorAll(".section-tile-list > li").length === 0 && !box.closest(".section-tile-completed") && !box.closest(".section-tile-slot-empty") && !box.closest("[data-own]") && !box.hasAttribute("data-own")) {
                         fail("a card tile lists at least one line", box, {});
                     }
+                    // THE LIST KEEPS CLEAR OF THE CIRCLES (layout rules section 9, "Card tiles"; the owner's bug report of 2026-11-19): its last line ends 4px above them.
+                    const circles = box.closest(".card-tile-slot")?.querySelector(":scope > .card-tile-symbols");
+                    const lines = [...(box.closest(".section-tile-slot") || box).querySelectorAll(".section-tile-list > li")].filter(visible);
+                    if (circles && visible(circles) && lines.length > 0) {
+                        const list = lines[0].parentElement;
+                        const lastBottom = Math.min(rect(list).bottom, Math.max(...lines.map(line => rect(line).bottom)));
+                        if (lastBottom > rect(circles).top - 4 + tolerance) {
+                            fail("a card tile's list keeps clear of its circles", box, { list: lastBottom, circles: rect(circles).top });
+                        }
+                    }
                 }
                 for (const row of rules.rowsOf(boxes.map(rect), 2)) {
                     const ordered = row.sort((one, other) => one.left - other.left);
@@ -2773,7 +2783,8 @@
             for (const element of card.querySelectorAll("*")) {
                 // (A divider line runs across the whole card, the x column too: rule 18. A card's BANDS run out to its sides (their boxes: the check above measures
                 // what stands in them): owner, 2026-11-18 20:20 and 2026-11-19 00:45 UTC+2, layout rules section 11, "Page 3's cards in bands".)
-                if (head.contains(element) || element.closest(".option-picker-list, .business-segment-grid-single") || element.matches(".business-capability-card-rule, .business-segment-grid-single") || !visible(element)) continue;
+                // (The Completed row is a band too, from side to side: its box is skipped, what stands in it is measured; owner, 2026-11-19 00:16 and 01:08 UTC+2.)
+                if (head.contains(element) || element.closest(".option-picker-list, .business-segment-grid-single") || element.matches(".business-capability-card-rule, .business-segment-grid-single, .card-box-open > .business-capability-slot > .business-capability-done") || !visible(element)) continue;
                 const style = getComputedStyle(element);
                 if (style.display === "contents" || style.display === "none") continue;
                 const box = rect(element);
@@ -3696,6 +3707,20 @@
         const wide = !!(card && card.closest(".floating-card-body")?.querySelector(".strategy-goal-card, .strategy-roadmap-card"));
         if (kind !== "workspace" && !wide && Math.abs(cardBox.width - Math.min(wanted, window.innerWidth - 16)) > 1.5) {
             fail(kind === "founder" ? "a floating founder's card is the founder card width" : "a floating card is the open card width", { width: cardBox.width, wanted });
+        }
+        // ITS RAIL GOES THROUGH THE BOX IT WAS OPENED FROM (layout rules section 10, "Carousel arrows": "the cards of its tile (of its box, where it was opened from
+        // one)"; the owner's bug report of 2026-11-19, a Production Machinery card stepped on into Devices & Tools): over a dialog that shows a box of cards alone
+        // (no category tiles), the card's rail has one bullet per card tile of that box.
+        {
+            const under = [...document.querySelectorAll(".section-tile-dialog")].pop();
+            const tab = [...document.querySelectorAll(".carousel-rail.carousel-rail-tab")].find(element => element.getBoundingClientRect().width > 0 && getComputedStyle(element).visibility !== "hidden");
+            if (under && tab && under.querySelectorAll("button.section-tile:not(.card-tile)").length === 0) {
+                const tiles = under.querySelectorAll("button.card-tile").length;
+                const bullets = tab.querySelectorAll(".bullet-rail-list > li").length;
+                if (tiles > 0 && bullets > 0 && bullets !== tiles) {
+                    fail("a floating card's rail goes through the cards of the box it was opened from", { bullets, tiles, dialog: under.dataset.tile });
+                }
+            }
         }
         // Centred over its anchor.
         const underline = document.querySelector(".interview-divider");
