@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { cleanup, fireEvent, render, screen } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen, within } from "@testing-library/react";
 import { MemoryRouter, Route, Routes, useLocation, useNavigate } from "react-router-dom";
 
 import Conversation from "./Conversation";
@@ -150,10 +150,10 @@ describe("Conversation records the last place worked", () => {
         fireEvent.click(screen.getByRole("button", { name: "Start Interview" }));
         expect(OrganizationService.getLastPlace(organization.id)).toEqual({ systemNumber: 1, sectionIndex: 0 });
 
-        // (The first item is the Introduction; the second the Legal Entity page, which holds the Legal Entity and the Founders Profile.)
-        fireEvent.click(screen.getByRole("navigation", { name: "Pages" }).querySelectorAll(".bullet-rail-item")[2]);
+        // (The Legal Entity page, which holds the Legal Entity and the Founders Profile, found by its name.)
+        fireEvent.click(within(screen.getByRole("navigation", { name: "Pages" })).getByRole("button", { name: /Legal Entity/ }));
         expect(OrganizationService.getLastPlace(organization.id)).toEqual({ systemNumber: 1, sectionIndex: 2 });
-        fireEvent.click(screen.getByRole("navigation", { name: "Pages" }).querySelectorAll(".bullet-rail-item")[1]);
+        fireEvent.click(within(screen.getByRole("navigation", { name: "Pages" })).getByRole("button", { name: /Definition & Purpose/ }));
 
         // (The Definition & Purpose page holds the Definition chapter and the Purpose chapter: Philosophy & Manifesto's dialog opens, and the field in it is focused.)
         fireEvent.click(screen.getByRole("button", { name: /^Philosophy/ }));
@@ -308,7 +308,7 @@ describe("Conversation records the last place worked", () => {
         expect(current()).toMatch(/^1. /);
 
         // And → on the Introduction does the same.
-        fireEvent.click(screen.getByRole("navigation", { name: "Pages" }).querySelectorAll(".bullet-rail-item")[2]);
+        fireEvent.click(within(screen.getByRole("navigation", { name: "Pages" })).getByRole("button", { name: /Legal Entity/ }));
         fireEvent.click(screen.getByRole("button", { name: "Introduction" }));
         fireEvent.keyDown(document.body, { key: "ArrowRight" });
         expect(current()).toMatch(/^1. /);

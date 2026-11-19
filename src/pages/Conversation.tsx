@@ -1385,7 +1385,7 @@ export default function Conversation() {
                                             key: page.id,
                                             className: "intro-page",
                                             text: (
-                                                <TextLink className="intro-page-link" onClick={() => startInterviewAt(pageIndexFromRailId(page.id))}>
+                                                <TextLink className="intro-page-link" onClick={() => startInterviewAt(pageIndexFromRailId(page.id, session.getSections()))}>
                                                     {page.label.replace(/^\d+\.\s+/, "")}
                                                 </TextLink>
                                             )
@@ -1509,7 +1509,7 @@ export default function Conversation() {
                             activeId={"page-" + currentSection.number}
                             onSelect={id => id === INTRODUCTION_RAIL_ID
                                 ? goToIntroduction()
-                                : goToPage(pageIndexFromRailId(id))}
+                                : goToPage(pageIndexFromRailId(id, session.getSections()))}
                             arrow={
                                 <PageArrow
                                     direction="previous"

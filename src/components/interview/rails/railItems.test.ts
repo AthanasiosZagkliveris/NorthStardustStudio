@@ -24,9 +24,12 @@ describe("pageRailItems", () => {
 });
 
 describe("pageIndexFromRailId", () => {
-    it("turns a page rail id back into the 0-based page index", () => {
-        expect(pageIndexFromRailId("page-1")).toBe(0);
-        expect(pageIndexFromRailId("page-14")).toBe(13);
+    it("finds the section a page rail id names by its id, wherever it stands", () => {
+        const sections = [{ number: 1 }, { number: 3 }, { number: 14 }];
+        expect(pageIndexFromRailId("page-1", sections)).toBe(0);
+        expect(pageIndexFromRailId("page-3", sections)).toBe(1);
+        expect(pageIndexFromRailId("page-14", sections)).toBe(2);
+        expect(pageIndexFromRailId("page-2", sections)).toBe(-1);
     });
 });
 
