@@ -67,7 +67,8 @@ export async function pagesOf(page, base, capability, system) {
         await page.waitForTimeout(600);
     }
     const labels = await page.getByRole("navigation", { name: "Pages" }).getByRole("button").allTextContents();
-    return labels.map(label => label.match(/^(\d+)\. /)).filter(Boolean).map(m => "^" + m[1] + "\\. ");
+    // (Each page by its NAME, whatever number the rail gives it now: ai-collaboration-rules.md, "Read the app's structure by what a thing is".)
+    return labels.map(label => label.match(/^\d+\. (.+)$/)).filter(Boolean).map(m => "^\\d+\\. " + m[1].trim().replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
 }
 
 export const PAGES = [
