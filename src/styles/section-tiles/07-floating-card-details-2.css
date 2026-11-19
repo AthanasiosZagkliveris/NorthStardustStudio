@@ -287,17 +287,31 @@
 
 }
 
-/* A PAGE OF ONE SEGMENT AT A TIME (Foundation & Engagement; segmentPage.ts): the Segment shown is ONE chapter across the page, its seven Master Tiles in the
-   grid's own flow (four across, then three: gridColumns); the chapters of the other Segments are drawn and take no room. */
+/* A PAGE OF ONE SEGMENT AT A TIME (Foundation & Engagement; segmentPage.ts): the page holds one editor's chapters across its width, the Segment shown standing
+   at the left as a page of one chapter does, as wide as one chapter of a page of two (layout rules section 13, "A page of one chapter": the Segment frames'
+   own grid of two); the chapters of the other Segments are drawn and take no room. */
 .page-group.page-group-one-chapter {
 
     grid-template-columns: minmax(0, 1fr);
 
 }
 
+/* (The page group already takes back the card's 13px at each side: the Segment frames' own bleed is not added to it, so the chapter stands where Definition's does.) */
 .page-group .business-foundation-segment-frames {
 
-    grid-template-columns: minmax(0, 1fr);
+    margin-inline: 0;
+
+}
+
+/* (A Segment's seven tiles run past the window, so "+ Add Segment" stays under the chapter, in the page's flow, as the rule below says for a page that does not fit
+   the window; owner, 2026-11-19: never over the chapter.) */
+.page-group .business-foundation-segment-frames + .business-foundation-input-actions {
+
+    position: static;
+
+    height: auto;
+
+    margin-top: var(--space-card);
 
 }
 

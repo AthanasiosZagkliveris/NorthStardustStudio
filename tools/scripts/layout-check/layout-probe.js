@@ -1492,6 +1492,19 @@
             if (sides.length > 1 && Math.max(...sides) - Math.min(...sides) > 1.5) {
                 fail("every master tile of every chapter of a page has one side", masters[0], { sides: [...new Set(sides)] });
             }
+            // 17b. ONE SIDE ON EVERY PAGE OF A WINDOW (owner, 2026-11-19: "Why did you change the master tiles' size?"): the first side seen at a window size is kept for
+            //      the run (sessionStorage), as the arrows' level is (C3), and every later page's master tiles are held to it -- Foundation & Engagement's seven as
+            //      Definition's four (326px at 1920 x 1000, 210px at 1366 x 768).
+            if (sides.length > 0) {
+                const key = "layout-probe-master-side-" + window.innerWidth + "x" + window.innerHeight;
+                let seen = null;
+                try { seen = sessionStorage.getItem(key); } catch { /* (no storage: the check within the page stands) */ }
+                if (seen === null) {
+                    try { sessionStorage.setItem(key, String(sides[0])); } catch { /* (as above) */ }
+                } else if (Math.abs(sides[0] - Number(seen)) > 1.5) {
+                    fail("every page's master tiles have one side in a window", masters[0], { side: sides[0], elsewhere: Number(seen) });
+                }
+            }
         }
 
         // 17. SECTION TILES (docs/ai/layout-rules.md, "Section tiles and dialog"): every

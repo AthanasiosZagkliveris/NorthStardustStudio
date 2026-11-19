@@ -103,7 +103,10 @@ export default function SectionTiles({
     // (Two large tiles stand side by side, in one row of the same squares. MASTER TILES NEVER CHANGE THEIR SIZES, AND LAYOUT (owner, 2026-11-09; layout rules, section 23):
     // three large tiles are the 2 x 2 of four, its fourth place empty, so a chapter of three has the tiles of a chapter of four in the same window.)
     const threeLarge = tiles.length === 3 && tiles.every(tile => tile.large);
-    const big = !small && (tiles.length === 4 || threeLarge || (tiles.length > 0 && tiles.length <= 2 && tiles.every(tile => tile.large)));
+    // (MORE THAN FOUR MASTER TILES IN ONE CHAPTER -- a Segment's seven on Foundation & Engagement --: the 2 x 2's side, two across, the rows going on down;
+    // never stretched to the chapter: layout rules sections 13 and 23; owner, 2026-11-19, "fix the width of the chapter's frame".)
+    const wide = !small && tiles.length > 4 && tiles.every(tile => tile.large);
+    const big = !small && (tiles.length === 4 || threeLarge || wide || (tiles.length > 0 && tiles.length <= 2 && tiles.every(tile => tile.large)));
     // (The side is the 2 x 2's in every case, so one or two large tiles are the size of four in the same window.)
     const bigRows = 2;
     useLayoutEffect(() => {
@@ -124,8 +127,9 @@ export default function SectionTiles({
             const side = Math.floor((window.innerHeight - top - footer - 12 - 12 - 12 - reserved) / bigRows);
             box.style.setProperty("--quad-max-side", Math.max(side, 150) + "px");
             // The type of the four tiles from the type scale by their size: 24px titles and 18px lists from 250px a side, else 18px and 14px.
-            const actual = Math.min((box.clientWidth - 12) / 2, Math.max(side, 150));
-            const natural = (box.clientWidth - 12) / 2;
+            const across = (box.clientWidth - 12) / 2;
+            const actual = Math.min(across, Math.max(side, 150));
+            const natural = across;
             // (Where the window's height makes the tiles much smaller than the width would -- under 85% -- the gap between them follows, from 12px: the same proportion; a little smaller keeps the 12px.)
             const gap = natural > 0 && actual / natural < 0.85 ? Math.max(6, Math.min(12, Math.round(12 * actual / natural))) : 12;
             box.style.setProperty("--space-card", gap + "px");
@@ -158,7 +162,7 @@ export default function SectionTiles({
 
     // The shape counts every tile but the tail one (if any), which is placed beside the last of them.
     const others = tiles.filter(tile => !tile.tail);
-    const shape = big && threeLarge ? 2 : gridColumns(others.length);
+    const shape = big && (threeLarge || wide) ? 2 : gridColumns(others.length);
     const placement = others.length < tiles.length ? tailPlacement(others.length, shape) : null;
     const columns = placement ? placement.columns : shape;
     const rows = placement ? Math.max(placement.row, Math.ceil(others.length / shape)) : Math.ceil(others.length / shape);
