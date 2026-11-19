@@ -143,6 +143,8 @@ export interface OfferingStarts {
     duration?: string;
     /** Page 5, the revenue stream's Charged. */
     charged?: "per-sale" | "per-project" | "monthly" | "annually";
+    /** Page 5, the revenue stream's Per (REVENUE_UNITS), from the Offering's terms (O3) and form (O1): what one sale is (owner, 2026-11-19 21:44 UTC+2: "Check which parts can be auto-filled by previous answers"). */
+    unit?: "Product" | "Project" | "Session" | "Participant" | "Hour" | "Subscription" | "Licence" | "Client";
     /** Page 5, the revenue stream's Payment Timing (PAYMENT_TIMINGS' ids; When earned, "", is the default and starts nothing). */
     paymentTiming?: "upfront" | "completion" | "split" | "milestone";
     /** Whether O3t is answered: Page 5's Payment Timing is then its record (paymentTiming, or When earned where it gives none). */
@@ -177,6 +179,14 @@ export function offeringStarts(offering: BusinessOfferingValue, segment: Busines
     }
     if (O3_CHARGED[terms]) {
         starts.charged = O3_CHARGED[terms];
+    }
+    // (WHAT ONE SALE IS, the stream's Per: by the terms first -- a project, a session, a subscription, a licence, a retainer's client --, then by the form -- a physical item
+    // or a digital file a Product, a live or in-person session a Participant, project work a Project, online access or an app a Subscription.)
+    const form = answers.o1?.[0] ?? "";
+    const unit = terms === "project" ? "Project" : terms === "session" ? "Session" : terms === "subscription" ? "Subscription" : terms === "licence" ? "Licence" : terms === "retainer" ? "Client"
+        : form === "physical" || form === "digital" ? "Product" : form === "live" || form === "inperson" ? "Participant" : form === "project" ? "Project" : form === "access" || form === "app" ? "Subscription" : undefined;
+    if (unit) {
+        starts.unit = unit;
     }
     // When they pay (O3t): paid in instalments is Milestones on a charge paid once, and When earned (no start) on a monthly one.
     const when = answers.o3t?.[0] ?? "";
