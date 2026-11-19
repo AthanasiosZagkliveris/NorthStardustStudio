@@ -512,7 +512,13 @@ export function useCapabilityCardFields(earlier: Earlier) {
                         </div>
                     </div>
                 </BusinessField>
+                </BandSection>
 
+                {/* WHAT A STATUS BRINGS, A SECTION OF ITS OWN (owner, 2026-11-19 16:52 UTC+2, 3.2: "whenever the Status is Activity or Partner & Supplier, the next
+                    auto-generated fields should have a different colour-tinted section"): the rows a Status opens -- a Rent's landlord, a Partner's or Supplier's
+                    Category, Group and Name, an Activity and its category, and the further Status rows the "+" adds -- stand in one band of their own, under the
+                    Status, its tint the next one (BandSection "status", EngagementBands). A Status that opens nothing draws no band. */}
+                <BandSection name="status">
                 {/* A space's or vehicle's Rent: the supplier of the one group (the place's landlords and lessors), whose card holds the rent or lease and its extras;
                     the link symbol beside the name opens it. */}
                 {slot.status === "rent" && rentRow(
@@ -760,7 +766,13 @@ export function useCapabilityCardFields(earlier: Earlier) {
         kept: readonly string[] = [],
         whole = false
     ) {
-        return <OfferingsField current={current} onNext={onNext} name={name} empty={empty} shares={shares} choices={offeringChoices} shareWeights={shareWeights} disabled={disabled} locked={locked} kept={kept} whole={whole} />;
+        // (OFFERINGS, A SECTION WITH ITS TITLE (owner, 2026-11-19 00:16 and 01:08 UTC+2, the Profile's DESCRIPTION band; again 16:52, 3.4: "I said to make the Offerings a
+        // section Title"): the section stands straight in the card's body, where the bands read it; inside the field it was never seen, so no title band showed.)
+        return (
+            <BandSection name="offerings" title="Offerings">
+                <OfferingsField current={current} onNext={onNext} name={name} empty={empty} shares={shares} choices={offeringChoices} shareWeights={shareWeights} disabled={disabled} locked={locked} kept={kept} whole={whole} />
+            </BandSection>
+        );
     }
     /** A dividing line across the card: above its Completed row and above the links at its foot. */
     function cardRule() {
