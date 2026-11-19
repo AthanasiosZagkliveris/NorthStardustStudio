@@ -528,7 +528,7 @@ export default function FinancialFoundationEditor({
 
                 <p className="financial-lead">
                     Calculated from the costs above. To change a need, change the costs it is made of.
-                    Until revenue is estimated on Revenue & Pricing, every running cost is counted
+                    Until revenue is estimated in Revenue Streams, every running cost is counted
                     in the operating need; it then falls to the months before revenue covers them.
                 </p>
 
@@ -1278,7 +1278,7 @@ export default function FinancialFoundationEditor({
                         tone: position.runwayMonths !== null && position.runwayMonths < 6 ? "risk" : "neutral",
                         info: [
                             DEFINITIONS.runway,
-                            "Counts money available now and confirmed money as it is scheduled to arrive, against every scheduled cost and loan repayment, with the revenue expected on Revenue & Pricing as it is received.",
+                            "Counts money available now and confirmed money as it is scheduled to arrive, against every scheduled cost and loan repayment, with the revenue expected in Revenue Streams as it is received.",
                             RUNWAY_FORMULA,
                             RUNWAY_SOURCE
                         ]

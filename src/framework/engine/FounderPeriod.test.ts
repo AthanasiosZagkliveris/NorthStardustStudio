@@ -158,6 +158,9 @@ type Example = { systems: Record<string, Parameters<typeof InterviewSession.from
 
     2026-11-18, after the Financial pages' order: the plan and export digests (and the weekly fixture's words) written again when the texts that
     named the old pages name the new ones (Revenue & Pricing, Costs, Funding & Position, the Global Settings). No amount changed.
+
+    2026-11-19, Financials (the owner's approved plan of 2026-11-18, step 1): the plan digests (and the weekly fixture's words) written again when the
+    two Financial pages became one, Financials, and the plan's notes name it ("on Financials", "in Revenue Streams"). No amount changed.
 */
 const ENGAGEMENT = JSON.parse(engagementText) as Record<string, unknown>;
 

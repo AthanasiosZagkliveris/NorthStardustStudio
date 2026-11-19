@@ -55,7 +55,7 @@ export const APP_TERMS: readonly AppTerm[] = [
     {
         id: "offering",
         term: "Offering",
-        places: [{ system: 3, page: 1, part: "a Segment's Offerings", tile: "button.section-tile[data-field-key$=\"%3Aofferings\"]" }, { system: 3, page: 5, part: "Revenue", field: "[data-field-key=\"3.5:revenue\"]" }],
+        places: [{ system: 3, page: 1, part: "a Segment's Offerings", tile: "button.section-tile[data-field-key$=\"%3Aofferings\"]" }, { system: 3, page: 4, part: "Revenue", field: "[data-field-key=\"3.4:revenue\"]" }],
         meaning: "What you sell: a product, a service or a hybrid of the two, with its price, its costs and the sales you expect.",
         also: ["product", "service"]
     },
@@ -151,7 +151,7 @@ export const APP_TERMS: readonly AppTerm[] = [
     {
         id: "break-even",
         term: "Break-even point",
-        places: [{ system: 3, page: 5, part: "Break Even", field: "[data-field-key=\"3.5:break-even\"]" }],
+        places: [{ system: 3, page: 4, part: "Break Even", field: "[data-field-key=\"3.4:break-even\"]" }],
         meaning: "The level of sales at which revenue covers all costs, so there is neither profit nor loss. In units: fixed costs ÷ (price − variable cost per unit).",
         also: ["break even", "break-even revenue"],
         sources: ["breakEvenPoint", "breakEvenInDollars"]
@@ -159,7 +159,7 @@ export const APP_TERMS: readonly AppTerm[] = [
     {
         id: "contribution-margin",
         term: "Contribution margin",
-        places: [{ system: 3, page: 5, part: "Break Even", field: "[data-field-key=\"3.5:break-even\"]" }],
+        places: [{ system: 3, page: 4, part: "Break Even", field: "[data-field-key=\"3.4:break-even\"]" }],
         meaning: "What each sale leaves to pay the fixed costs and the profit: price − variable costs. The ratio is that amount ÷ price.",
         also: ["contribution"],
         sources: ["contributionMargin"]
@@ -167,7 +167,7 @@ export const APP_TERMS: readonly AppTerm[] = [
     {
         id: "capacity-utilisation",
         term: "Capacity utilisation",
-        places: [{ system: 3, page: 5, part: "Break Even, Capacity", field: "[data-field-key=\"3.5:break-even\"]" }],
+        places: [{ system: 3, page: 4, part: "Break Even, Capacity", field: "[data-field-key=\"3.4:break-even\"]" }],
         meaning: "How much of the time you have available the planned work needs: demand hours ÷ available hours. Above 100% means more work than capacity.",
         also: ["utilisation"],
         sources: ["capacityUtilisation"]
@@ -206,7 +206,7 @@ export const APP_TERMS: readonly AppTerm[] = [
     {
         id: "cash-runway",
         term: "Cash runway",
-        places: [{ system: 3, page: 4, part: "Financial Position, Runway", field: "[data-field-key=\"3.4:financial-position\"]" }],
+        places: [{ system: 3, page: 5, part: "Financial Position, Runway", field: "[data-field-key=\"3.5:financial-position\"]" }],
         meaning: "How long the cash lasts at the present rate of spending: cash ÷ monthly net burn. Here it is the first month the projected balance goes below zero.",
         also: ["runway", "burn rate"],
         sources: ["cashRunway"]
@@ -214,13 +214,13 @@ export const APP_TERMS: readonly AppTerm[] = [
     {
         id: "funding-gap",
         term: "Funding gap",
-        places: [{ system: 3, page: 4, part: "Funding Need, Funding Gap", field: "[data-field-key=\"3.4:funding-need\"]" }],
+        places: [{ system: 3, page: 5, part: "Funding Need, Funding Gap", field: "[data-field-key=\"3.5:funding-need\"]" }],
         meaning: "The funding you still need to find: funding needed − funding available and confirmed."
     },
     {
         id: "loan-repayment",
         term: "Loan repayment",
-        places: [{ system: 3, page: 4, part: "Capital & Funding, a loan", field: "[data-field-key=\"3.4:capital-funding\"]" }],
+        places: [{ system: 3, page: 5, part: "Capital & Funding, a loan", field: "[data-field-key=\"3.5:capital-funding\"]" }],
         meaning: "A fixed payment that covers the interest and repays the loan over a number of periods (an annuity), or an equal part of the loan each period plus its interest.",
         also: ["annuity", "loan payment"],
         sources: ["loanRepayment"]
@@ -228,7 +228,7 @@ export const APP_TERMS: readonly AppTerm[] = [
     {
         id: "simple-interest",
         term: "Simple interest",
-        places: [{ system: 3, page: 4, part: "Capital & Funding, a loan", field: "[data-field-key=\"3.4:capital-funding\"]" }],
+        places: [{ system: 3, page: 5, part: "Capital & Funding, a loan", field: "[data-field-key=\"3.5:capital-funding\"]" }],
         meaning: "Interest on the amount borrowed only, without compounding: principal × rate × time.",
         sources: ["simpleInterest"]
     },
