@@ -1,6 +1,6 @@
 # 45. Purpose & Beliefs: the six texts and their questions
 
-Status: **specification**, written 2026-11-09, updated 2026-11-12. How the Identity System's six texts (Mission, Vision, Values, Principles, Philosophy, Manifesto) become one chapter, "Purpose & Beliefs", of three pair tiles, and, for each text, the guiding questions, the control, the length, the "i" and the connections. **Built 2026-11-09** as the owner decided (section 6): the chapter, its three pair tiles, the page name and the "i" of the six texts; the saved keys stay as they are. Not built: the Positioning note beside the Mission (section 6, 7) and the codes in the register (section 5).
+Status: **specification**, written 2026-11-09, updated 2026-11-19. How the Identity System's six texts (Mission, Vision, Values, Principles, Philosophy, Manifesto) become one chapter, "Purpose & Beliefs", of three pair tiles, and, for each text, the guiding questions, the control, the length, the "i" and the connections. **Built 2026-11-09** as the owner decided (section 6): the chapter, its three pair tiles, the page name and the "i" of the six texts; the saved keys stay as they are. Not built: the Positioning note beside the Mission (section 6, 7) and the codes in the register (section 5).
 
 Related: doc 40 (the form of a tile document), doc 39 (what an "i" says), doc 28 (4.1, the wording rules; 8.1, the page as built; 8.6a, the Review), doc 38 (Positioning, which comes before), doc 44 (the questions register and the code rule), doc 2 (the source rule).
 
@@ -148,10 +148,10 @@ Added 2026-11-12 (owner approved, D1). In the Mission & Vision dialog, in the Vi
   | id | Label | Theme | Plan phrase |
   |---|---|---|---|
   | `customers` | Serving a large, growing customer base | Growth & Market | serving a large, growing customer base |
-  | `loved` | Loved and recommended by its customers | Customers & Experience | recommended by loyal customers |
+  | `loved` | Loved & recommended by its customers | Customers & Experience | recommended by loyal customers |
   | `range` | Offering a strong, growing range | Products & Innovation | offering a strong, growing range |
-  | `profitable` | Profitable and paying its own way | Revenue & Financial Sustainability | profitable, paying its own way |
-  | `trusted` | Known and trusted in its field | Brand & Positioning | trusted in its field |
+  | `profitable` | Profitable & paying its own way | Revenue & Financial Sustainability | profitable, paying its own way |
+  | `trusted` | Known & trusted in its field | Brand & Positioning | trusted in its field |
   | `smooth` | Running smoothly with a strong team | Operations & Capability | running smoothly with a strong team |
   | `partners` | Working closely with strong partners | Partnerships & Expansion | working closely with strong partners |
 
@@ -225,7 +225,7 @@ The Identity texts have no codes in the register (doc 44 lists the Foundation's 
 | PB7 | The Vision's ambitions | section 1, `visionAmbitions` (new) | proposed |
 | PB8 | The Vision's reach | section 1, `visionReach` (new) | proposed |
 
-The codes follow the pairs' order, not today's tile order. They enter the register (`tools/scripts/docs/questions-register.mjs`) now that the chapter is built (section 6); they are not in it yet. The Values and Principles take no structured question (sections 3.3 and 3.4). The Vision gains two, PB7 and PB8 (section 3.8, approved 2026-11-12), the next free codes.
+The codes follow the pairs' order, not today's tile order. They are reserved in the register (doc 44, "Reserved codes", 2026-11-19, B2) and move to their card's section there when built. The Values and Principles take no structured question (sections 3.3 and 3.4). The Vision gains two, PB7 and PB8 (section 3.8, approved 2026-11-12), the next free codes.
 
 ## 6. The owner's decisions
 
@@ -238,7 +238,7 @@ The owner, 2026-11-09 ("Change the 2. Ethics to Purpose & Beliefs, and move ther
 5. **The Business Plan's headings: as they are.** The readers stay untouched (section 1): the plan prints Philosophy under "Values and Principles" and the Manifesto apart. Its reader now finds the four texts by the chapter's new title (`BusinessDocuments.ts`).
 6. **A pair tile's face: both texts' lines, built**, the first's, a hairline, the second's, as a tile shows one text; the list scrolls.
 7. **The Positioning beside the Mission: yes, not built.** It needs a new note beside the Mission's box (section 3.1, "Read by (not built yet)"), a new feature; it waits, with the Review note on a customer no Segment describes.
-8. **The Vision's two choices, PB7 and PB8 (owner, 2026-11-12 14:10, D1): approved, not built** (section 3.8; built in phase 3, doc 49, section 8).
+8. **The Vision's two choices, PB7 and PB8 (owner, 2026-11-12 14:10, D1): built 2026-11-19** (section 3.8; the owner's approved plan of 2026-11-18, §3, B2): the two questions under the Vision's text, one per band (`VisionChoices.tsx`, `VisionChoices.ts`), PB8's "Today" line from the Business System's saved Segments, the Review item and the Business Plan's sentence. The reads on the Strategy page (the Theme order, the Compass draft, the SWOT Opportunity, SC2's start) come with SW1 and SC1 to SC3.
 
 The codes PB1 to PB6 (section 5) are decided; they are not yet in the register (`tools/scripts/docs/questions-register.mjs`, doc 44).
 

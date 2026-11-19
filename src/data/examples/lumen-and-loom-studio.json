@@ -12,7 +12,13 @@
             "description": "Lumen & Loom Studio Ltd is a London-based textile design studio, founded in 2026 by Maya Chen, Oliver Grant and Priya Shah and based at a shared workshop in Hackney Wick, East London. We design and handweave sustainable home textiles (cushions, throws, table linen and wall hangings) from British wool, organic cotton and recycled yarns. Alongside our own collection we run small-group weaving workshops and take bespoke commissions for interior designers and boutique hotels.",
             "mission": "To bring slow, handmade craft back into everyday homes: making beautiful, durable textiles from responsibly sourced materials, paying fair prices along our supply chain, and teaching people the skills to make and repair for themselves.",
             "positioning": "For design-conscious Londoners and interior professionals who want homeware with a story, Lumen & Loom is an independent textile studio that makes every piece by hand in London from traceable, low-impact yarns. Each piece is made in a small batch, can be repaired for life, and comes with the name of the weaver who made it, and our studio is open: customers can learn to weave with us. ",
-            "vision": "By 2030, to be London's best-known independent weaving studio: a self-sustaining team of eight makers, a collection stocked by twenty UK independent retailers, a waiting list for our workshops, and a verified low-carbon supply chain from sheep to sofa."
+            "vision": "By 2030, to be London's best-known independent weaving studio: a self-sustaining team of eight makers, a collection stocked by twenty UK independent retailers, a waiting list for our workshops, and a verified low-carbon supply chain from sheep to sofa.",
+            "visionAmbitions": [
+              "trusted",
+              "smooth",
+              "partners"
+            ],
+            "visionReach": "country"
           }
         },
         {
@@ -70,7 +76,8 @@
               "addressLine1": "Unit 4, Hackney Wick Maker Yard, 92 Wallis Road\nLondon\nE9 5LN",
               "addressLine2": "",
               "city": "",
-              "postalCode": ""
+              "postalCode": "",
+              "personalData": "other"
             },
             "capitalApplies": true,
             "founders": [
@@ -126,7 +133,8 @@
                 {
                   "id": "number-9sth9ns5",
                   "label": "PAYE Employer Reference",
-                  "number": "120/AB45678"
+                  "number": "120/AB45678",
+                  "rule": "GB10"
                 }
               ]
             },
@@ -137,7 +145,8 @@
                 "name": "PSC register",
                 "reference": "Maya Chen 40%, Oliver Grant 30%, Priya Shah 30%",
                 "notes": "Persons with Significant Control, kept at Companies House.",
-                "offerInExpenses": false
+                "offerInExpenses": false,
+                "rule": "GB4"
               },
               {
                 "id": "requirement-bwrjlji7",
@@ -154,6 +163,42 @@
                 "reference": "ZB712345",
                 "notes": "The ICO data protection fee, renewed each year.",
                 "offerInExpenses": true
+              },
+              {
+                "id": "requirement-gb2",
+                "type": "additional",
+                "name": "Confirmation statement",
+                "reference": "",
+                "notes": "Sent to Companies House at least once every 12 months, confirming the company's details.\nOfficial source: https://www.gov.uk/government/publications/companies-house-fees/companies-house-fees",
+                "offerInExpenses": true,
+                "rule": "GB2"
+              },
+              {
+                "id": "requirement-gb3",
+                "type": "additional",
+                "name": "Annual accounts to Companies House",
+                "reference": "",
+                "notes": "Sent every year; a small or micro-entity company may send simpler accounts.\nOfficial source: https://www.gov.uk/annual-accounts",
+                "offerInExpenses": false,
+                "rule": "GB3"
+              },
+              {
+                "id": "requirement-gb6",
+                "type": "additional",
+                "name": "Company Tax Return",
+                "reference": "",
+                "notes": "Filed within 12 months of the end of the accounting period; the Corporation Tax paid 9 months and 1 day after it.\nOfficial source: https://www.gov.uk/company-tax-returns",
+                "offerInExpenses": false,
+                "rule": "GB6"
+              },
+              {
+                "id": "requirement-gb7",
+                "type": "other",
+                "name": "Company details on the website, order forms and letters",
+                "reference": "",
+                "notes": "The registered number, the registered office, the place of registration and \"Limited\".\nOfficial source: https://www.gov.uk/running-a-limited-company/signs-stationery-and-promotional-material",
+                "offerInExpenses": false,
+                "rule": "GB7"
               }
             ],
             "expenses": [
@@ -175,13 +220,14 @@
                 "name": "Confirmation statement",
                 "date": "2027-03-02",
                 "responsibility": "founder-3fhkh0cm",
-                "cost": "34",
+                "cost": "50",
                 "frequency": "Annually",
                 "links": [
-                  "formation-registration-number"
+                  "requirement-gb2"
                 ],
                 "description": "",
-                "fromRequirement": ""
+                "fromRequirement": "requirement-gb2",
+                "rule": "GB2"
               },
               {
                 "id": "expense-y97pryvw",
@@ -209,7 +255,8 @@
                 "description": "",
                 "fromRequirement": ""
               }
-            ]
+            ],
+            "dismissedStarts": []
           }
         },
         {
@@ -332,7 +379,26 @@
             "aesthetics": "A maker in their thirties in a well-worn oatmeal linen apron over undyed wool knitwear, sleeves pushed up. Natural fibres only, in cream, clay, moss green and indigo. Short nails, a little lanolin on the hands, a faint smell of wool and cedar. Always framed by the studio: north light through tall windows, looms in the background, spools of yarn on open shelves.",
             "attitude-body-language": "Relaxed and grounded. Stands side-on to you at the loom, inviting you in. Slow, deliberate hand movements; hands often in frame, touching the cloth. Warm eye contact and an easy smile; comfortable with pauses. Never hurried, never selling.",
             "communication-voice": "Calm, mid-low pitch, unhurried pace. Speaks plainly and specifically, naming the farm, the yarn weight and the hours a piece took, and explains craft terms the first time they come up. Short sentences, British spelling, gentle humour, no hype words (no 'luxury', no 'curated'). Asks questions and listens.",
-            "imprint": "First impression: 'these people really know what they're doing, and they're kind.' Lasting impression: a feeling of calm and of having learned something, and the urge to touch the cloth. People should leave wanting to keep what they buy for decades, and to come back and make something themselves."
+            "imprint": "First impression: 'these people really know what they're doing, and they're kind.' Lasting impression: a feeling of calm and of having learned something, and the urge to touch the cloth. People should leave wanting to keep what they buy for decades, and to come back and make something themselves.",
+            "ambassador": {
+              "character": [
+                "sincere"
+              ],
+              "dress": "creative",
+              "setting": [
+                "workshop",
+                "venue"
+              ],
+              "words": "plain",
+              "feeling": [
+                "calm-and-worry-free",
+                "delighted-by-how-it-looks"
+              ],
+              "remembered": [
+                "value-3cgzf",
+                "value-vguds0"
+              ]
+            }
           }
         },
         {
@@ -1103,6 +1169,9 @@
                       ],
                       "o23": [
                         "newsletter"
+                      ],
+                      "o24": [
+                        "none"
                       ]
                     }
                   },
@@ -1633,6 +1702,9 @@
                       ],
                       "o23": [
                         "offers"
+                      ],
+                      "o24": [
+                        "none"
                       ]
                     }
                   }
@@ -6214,7 +6286,7 @@
                   "costOption": "flat-per-parcel",
                   "quantity": "1",
                   "hoursAvailable": "",
-                  "leadWeeks": "0",
+                  "leadWeeks": "",
                   "extras": {},
                   "paymentPlan": {
                     "on": false,
@@ -6248,7 +6320,7 @@
                   "costOption": "flat-per-parcel",
                   "quantity": "1",
                   "hoursAvailable": "",
-                  "leadWeeks": "0",
+                  "leadWeeks": "",
                   "extras": {},
                   "paymentPlan": {
                     "on": false,
@@ -6923,6 +6995,16 @@
                 "name": "Craft Capacity",
                 "description": "Increase what we can make without losing quality: more looms, a trained maker, and a fully documented low-carbon supply chain."
               }
+            ],
+            "changeEffects": {
+              "society": 4,
+              "economy": 2,
+              "environment": 4
+            },
+            "stance": "so",
+            "growth": [
+              "launch",
+              "penetration"
             ]
           }
         },

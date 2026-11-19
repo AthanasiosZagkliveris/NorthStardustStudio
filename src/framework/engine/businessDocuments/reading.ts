@@ -19,6 +19,8 @@ import { effectiveOfferingAnswers, effectiveProfileAnswers } from "../EffectiveA
 import { openItemObjective, valuePropositionOpenItems } from "../OfferingQuestions.ts";
 import { neededSkills } from "../capability/skills.ts";
 import { asFoundersProfileValue } from "../AnswerUtils.ts";
+import { changeEffectLines, type StrategyChoiceContext } from "../StrategyChoices.ts";
+import { asVisionReach, reachRank, widestSegmentReach } from "../VisionChoices.ts";
 
 /** The four Foundation Systems as saved -- any may be missing. */
 export interface FoundationSessions {
@@ -142,7 +144,33 @@ export function swotStartsOf(f: Foundation): { opportunities: string[]; threats:
             opportunities.push(market + " has few competitors yet.");
         }
     }
-    return { opportunities, threats };
+    // (SW1's lines, where the founder rated a change: doc 49, 2.3. The Strategy page adds them from its own open answer, as it is typed.)
+    const changes = changeEffectLines(f.strategyFoundation.changeEffects);
+    return { opportunities: [...opportunities, ...changes.opportunities], threats: [...threats, ...changes.threats] };
+}
+
+/**
+ * WHAT THE STRATEGY PAGE'S CHOICES READ (doc 49, 2.3 and 2.4: SW1, SC1 to SC3): the business stage; each Segment's id, name and Differentiation (K14), as its card
+ * shows them; the changes the Segments named, the most named first (SW1's start); whether the Vision's PB8 reaches wider than every Segment today (SC2's start).
+ */
+export function strategyChoiceContextOf(f: Foundation): StrategyChoiceContext {
+    const settled = f.segments.map(segment => ({ segment, answers: settledSegmentAnswers(segment, f.legalEntity.organisation) }));
+    const named = new Map<string, number>();
+    settled.forEach(({ answers }) => (answers.trends ?? []).forEach(id => named.set(id, (named.get(id) ?? 0) + 1)));
+    const changeStarts = [...named.entries()].map(([id, count], order) => ({ id, count, order })).sort((a, b) => b.count - a.count || a.order - b.order).map(entry => entry.id);
+    const reach = asVisionReach((f.definition as Record<string, unknown> | undefined)?.visionReach);
+    const today = widestSegmentReach(settled.map(({ segment, answers }) => ({ name: segment.name, questions: answers })));
+    return {
+        stage: f.stage,
+        changeStarts,
+        segments: settled.map(({ segment, answers }) => ({ id: segment.id, name: segment.name.trim(), differentiation: answers.differentiation ?? [] })),
+        reachBeyond: !!reach && reachRank(reach) > (today?.rank ?? 0)
+    };
+}
+
+/** What the Strategy page's choices read (strategyChoiceContextOf), from the sessions. */
+export function strategyChoiceContext(sessions: FoundationSessions): StrategyChoiceContext {
+    return strategyChoiceContextOf(readFoundation(sessions));
 }
 
 /** The SWOT's starts from what the Business System records (swotStartsOf), for the Strategy page. */

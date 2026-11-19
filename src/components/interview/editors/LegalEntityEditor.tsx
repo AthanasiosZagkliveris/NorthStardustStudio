@@ -4,6 +4,7 @@ import { legalExpenseMissing, legalRequirementMissing } from "../../../framework
 import type { FloorLink } from "../tiles/capabilityFloor.ts";
 import SectionTiles, { DialogHeading, type SectionTile } from "../tiles/SectionTiles.tsx";
 import CardBoxes, { type CardBox, type CardBoxAdd } from "../cards/CardBoxes.tsx";
+import DialogSectionBand from "../tiles/DialogSectionBand.tsx";
 import SubTiles from "../tiles/SubTiles.tsx";
 import FoundersProfileEditor from "./FoundersProfileEditor.tsx";
 import { workHue } from "../../../framework/engine/WorkColours.ts";
@@ -111,12 +112,6 @@ export default function LegalEntityEditor(props: LegalEntityEditorProps) {
         );
         /** A card floating over its tile keeps the page's Legal Entity scope. */
         const floating = (card: ReactNode) => <div className="column-tile-content legal-entity"><div className="legal-entity-body">{card}</div></div>;
-        const dialogOf = (section: number, info: InfoPoint[], boxes: ReactNode) => (
-            <div className="column-tile-content legal-entity" data-rail={rail(section)}>
-                <div className="business-engagement-section-head"><DialogHeading title={section === 5 ? "Expenses" : LEGAL_ENTITY_SECTIONS[section]} info={info} /></div>
-                {boxes}
-            </div>
-        );
         const typeLabel = (requirement: LegalEntityValue["requirements"][number]) => LEGAL_REQUIREMENT_TYPES.find(type => type.id === requirement.type)?.label ?? "";
         /** The circles of a tile: one for each expense linked to any of these registrations. */
         const expenseCircles = (targets: readonly string[]): FloorLink[] => entity.expenses
@@ -255,31 +250,42 @@ export default function LegalEntityEditor(props: LegalEntityEditorProps) {
         }
         const tiles: SectionTile[] = [
             // (No Capability tile: the skills the business still needs are asked on Capacity & Delivery, 3. Infrastructure & Capability; owner, 2026-11-16 20:25.)
+            // (REGISTRATIONS & EXPENSES, ONE MASTER TILE (the owner's approved plan of 2026-11-18, step 3): the registrations and what they cost, three sub tiles --
+            // Registration Numbers, Additional Legal Requirements, Expenses -- where there were two master tiles. Its id is the Registrations tile's, so every link,
+            // note and card opened by it lands; no saved data changes.)
             {
-                id: "legal-entity-registrations", title: "Registrations", large: true, rail: rail(2), view: true,
-                // What its dialog holds, in the dialog's words: its two sub tiles, each line a link to its own.
-                items: ["Registration Numbers", "Additional Legal Requirements"],
+                id: "legal-entity-registrations", title: "Registrations & Expenses", large: true, rail: rail(2), view: true,
+                // What its dialog holds, in the dialog's words: its three sub tiles, each line a link to its own.
+                // (Two sub tiles since 2026-11-19 16:52: the Registrations, which hold the Additional Legal Requirements as nested tiles, and the Expenses.)
+                items: ["Registrations", "Expenses"],
                 // (A second bullet, in the link's colour, where a registration of that section is linked to an expense.)
                 itemMarks: [{ bullet: true }, { bullet: true }],
-                links: [{ box: "registration-numbers" }, { box: "requirements" }],
-                holds: entity.requirements.map(requirement => requirement.id),
-                boxHolds: { requirements: entity.requirements.map(requirement => requirement.id) },
+                links: [{ box: "registration-numbers" }, { box: "expenses" }],
+                holds: [...entity.requirements.map(requirement => requirement.id), ...entity.expenses.map(expense => expense.id)],
+                boxHolds: { "registration-numbers": entity.requirements.map(requirement => requirement.id), expenses: entity.expenses.map(expense => expense.id) },
                 cardFor: cardOf,
                 pairOf,
                 content: () => (
                     <div className="column-tile-content legal-entity legal-entity-unframed" data-rail={rail(2)}>
-                        <div className="business-engagement-section-head"><DialogHeading title="Registrations" /></div>
+                        {/* (The Expenses' help, which their own tile's "i" carried, is the dialog's: a sub tile has no "i" of its own.) */}
+                        <div className="business-engagement-section-head"><DialogHeading title="Registrations & Expenses" info={INFO.expenses} /></div>
                         <SubTiles
-                            label="Registrations"
+                            label="Registrations & Expenses"
                             tiles={[
                                 {
-                                    // THE REGISTRATION NUMBERS, ONE TILE (owner, 2026-10-24): the numbers of the registry (formation) and of the tax, under one heading; the Registration Date is on the Organization tile.
+                                    // THE REGISTRATIONS, ONE DIALOG CARD (owner, 2026-11-19 16:52 UTC+2: "Unify the Registrations and Additional Legal Requirements, to one
+                                    // dialogue card, with the registrations as sections and the Additional Legal Requirements as nested Tiles"): the registry's numbers, then
+                                    // the tax's, a band each, then the requirements, a titled section of nested tiles (DialogSectionBand, the Themes' pattern). Its id stays
+                                    // the Registration Numbers', so every link, note and card opened by it lands; no saved data changes.
                                     id: "registration-numbers",
                                     // (A sub tile's title is one line, as every tile's: a long one is cut and slides under the pointer, never broken.)
-                                    title: "Registration Numbers",
-                                    items: [...formationEntries, ...taxEntries],
-                                    itemMarks: [...formationEntries, ...taxEntries].map(() => ({ bullet: true })),
-                                    circles: expenseCircles(["formation-registration-number", ...entity.formation.additionalNumbers.map(number => number.id), "tax-consumption-number", ...entity.tax.additionalRegistrations.map(registration => registration.id)]),
+                                    title: "Registrations",
+                                    // (Its numbers, then each requirement by the name its tile shows, a link to its card.)
+                                    items: [...formationEntries, ...taxEntries, ...entity.requirements.map(requirement => requirement.name.trim() || "Unnamed requirement")],
+                                    itemMarks: [...formationEntries, ...taxEntries, ...entity.requirements].map(() => ({ bullet: true })),
+                                    links: [...[...formationEntries, ...taxEntries].map(() => undefined), ...entity.requirements.map(requirement => ({ card: requirement.id }))],
+                                    circles: expenseCircles(["formation-registration-number", ...entity.formation.additionalNumbers.map(number => number.id), "tax-consumption-number", ...entity.tax.additionalRegistrations.map(registration => registration.id), ...entity.requirements.map(requirement => requirement.id)]),
+                                    add: addOf("requirement"),
                                     content: () => (
                                         <div className="legal-entity-body legal-entity-subview">
                                             {/* In bands (owner, 2026-11-09: one style for every card of the Foundation): the registry's numbers, then the tax's, tinted. */}
@@ -287,35 +293,26 @@ export default function LegalEntityEditor(props: LegalEntityEditorProps) {
                                                 <div className="legal-entity-org-section">{section2}</div>
                                                 <div className="legal-entity-org-section legal-entity-org-band">{section3}</div>
                                             </div>
+                                            <DialogSectionBand title="Additional Legal Requirements" tiles>
+                                                <CardBoxes items={requirementBoxes} label="Legal requirements" what="Requirement" add={addOf("requirement")} autoStart={false} />
+                                            </DialogSectionBand>
                                         </div>
                                     )
                                 },
                                 {
-                                    id: "requirements",
-                                    title: "Additional Legal Requirements",
-                                    // (Every requirement its dialog holds, in its order and with the name its box shows: the list scrolls where they do not all fit, as every tile's list does.)
-                                    items: entity.requirements.map(requirement => requirement.name.trim() || "Unnamed requirement"),
-                                    itemMarks: entity.requirements.map(() => ({ bullet: true })),
-                                    links: entity.requirements.map(requirement => ({ card: requirement.id })),
-                                    circles: expenseCircles(entity.requirements.map(requirement => requirement.id)),
-                                    add: addOf("requirement"),
-                                    content: () => <CardBoxes items={requirementBoxes} label="Legal requirements" what="Requirement" add={addOf("requirement")} autoStart={false} />
+                                    id: "expenses",
+                                    title: "Expenses",
+                                    // (Every expense by the name its box shows, each a link to its card.)
+                                    items: expenseEntries.map(expense => expense.name.trim()),
+                                    itemMarks: expenseEntries.map(() => ({ bullet: true })),
+                                    links: expenseEntries.map(expense => ({ card: expense.id })),
+                                    add: addOf("expense"),
+                                    content: () => <CardBoxes items={expenseBoxes} label="Expenses" what="Expense" add={addOf("expense")} />
                                 }
                             ]}
                         />
                     </div>
                 )
-            },
-            {
-                id: "legal-entity-expenses", title: "Expenses", large: true, rail: rail(5), view: true, note: INFO.expenses,
-                items: expenseEntries.map(expense => expense.name.trim()),
-                itemMarks: expenseEntries.map(() => ({ bullet: true })),
-                links: expenseEntries.map(expense => ({ card: expense.id })),
-                holds: entity.expenses.map(expense => expense.id),
-                cardFor: cardOf,
-                pairOf,
-                add: addOf("expense"),
-                content: () => dialogOf(5, INFO.expenses, <CardBoxes items={expenseBoxes} label="Expenses" what="Expense" add={addOf("expense")} />)
             }
         ];
         if (cardsOnly) {

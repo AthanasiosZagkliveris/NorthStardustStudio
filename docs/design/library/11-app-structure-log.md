@@ -6,6 +6,288 @@ Every change of the tables, that is, of the structure of the app: a placement pl
 
 | Id | Date | Change | Where | Asset | Not in the library | What | Note |
 |---|---|---|---|---|---|---|---|
+| A1342 | 2026-11-19 | removed | FN FN29 |  |  | row removed |  |
+| A1341 | 2026-11-19 | removed | F F195 |  |  | row removed |  |
+| A1340 | 2026-11-19 | removed | F F194 |  |  | row removed |  |
+| A1339 | 2026-11-19 | edited | F F193 |  |  | row changed: component, component_id, name |  |
+| A1338 | 2026-11-19 | edited | F F192 |  |  | row changed: name |  |
+| A1337 | 2026-11-19 | edited | F F191 |  |  | row changed: name |  |
+| A1336 | 2026-11-19 | edited | F F190 |  |  | row changed: component, component_id, name, used_in |  |
+| A1335 | 2026-11-19 | edited | F F189 |  |  | row changed: name, used_in |  |
+| A1334 | 2026-11-19 | edited | F F188 |  |  | row changed: component, component_id, name |  |
+| A1333 | 2026-11-19 | edited | F F187 |  |  | row changed: name |  |
+| A1332 | 2026-11-19 | edited | F F186 |  |  | row changed: name |  |
+| A1331 | 2026-11-19 | edited | F F185 |  |  | row changed: component, component_id, name |  |
+| A1330 | 2026-11-19 | edited | F F184 |  |  | row changed: name |  |
+| A1329 | 2026-11-19 | edited | F F183 |  |  | row changed: component, component_id, name |  |
+| A1328 | 2026-11-19 | edited | F F182 |  |  | row changed: name |  |
+| A1327 | 2026-11-19 | edited | F F181 |  |  | row changed: name |  |
+| A1326 | 2026-11-19 | edited | F F180 |  |  | row changed: component, component_id, name |  |
+| A1325 | 2026-11-19 | edited | F F179 |  |  | row changed: name |  |
+| A1324 | 2026-11-19 | edited | F F178 |  |  | row changed: component, component_id, name |  |
+| A1323 | 2026-11-19 | edited | F F177 |  |  | row changed: name |  |
+| A1322 | 2026-11-19 | edited | F F176 |  |  | row changed: name |  |
+| A1321 | 2026-11-19 | edited | F F175 |  |  | row changed: component, component_id, name |  |
+| A1320 | 2026-11-19 | edited | F F174 |  |  | row changed: name |  |
+| A1319 | 2026-11-19 | edited | F F173 |  |  | row changed: component, component_id, name |  |
+| A1318 | 2026-11-19 | edited | F F172 |  |  | row changed: name |  |
+| A1317 | 2026-11-19 | edited | F F171 |  |  | row changed: name |  |
+| A1316 | 2026-11-19 | edited | F F170 |  |  | row changed: component, component_id, name |  |
+| A1315 | 2026-11-19 | edited | F F169 |  |  | row changed: component, component_id, name |  |
+| A1314 | 2026-11-19 | edited | F F168 |  |  | row changed: component, component_id, name |  |
+| A1313 | 2026-11-19 | edited | F F167 |  |  | row changed: component, component_id, name |  |
+| A1312 | 2026-11-19 | edited | F F166 |  |  | row changed: name |  |
+| A1311 | 2026-11-19 | edited | F F165 |  |  | row changed: name |  |
+| A1310 | 2026-11-19 | edited | F F164 |  |  | row changed: component, component_id, name |  |
+| A1309 | 2026-11-19 | edited | F F163 |  |  | row changed: name |  |
+| A1308 | 2026-11-19 | edited | F F162 |  |  | row changed: component, component_id, name |  |
+| A1307 | 2026-11-19 | edited | F F161 |  |  | row changed: name |  |
+| A1306 | 2026-11-19 | edited | F F160 |  |  | row changed: name |  |
+| A1305 | 2026-11-19 | edited | F F159 |  |  | row changed: component, component_id, name |  |
+| A1304 | 2026-11-19 | edited | F F158 |  |  | row changed: name |  |
+| A1303 | 2026-11-19 | edited | F F157 |  |  | row changed: component, component_id, name |  |
+| A1302 | 2026-11-19 | edited | F F156 |  |  | row changed: name |  |
+| A1301 | 2026-11-19 | edited | F F155 |  |  | row changed: name |  |
+| A1300 | 2026-11-19 | edited | F F154 |  |  | row changed: component, component_id, name, used_in |  |
+| A1299 | 2026-11-19 | edited | F F153 |  |  | row changed: name, used_in |  |
+| A1298 | 2026-11-19 | edited | F F152 |  |  | row changed: component, component_id, name |  |
+| A1297 | 2026-11-19 | edited | F F151 |  |  | row changed: component, component_id, name |  |
+| A1296 | 2026-11-19 | edited | F F150 |  |  | row changed: component, component_id, name |  |
+| A1295 | 2026-11-19 | edited | F F149 |  |  | row changed: component, component_id, name, used_in |  |
+| A1294 | 2026-11-19 | edited | F F148 |  |  | row changed: component, component_id, name, used_in |  |
+| A1293 | 2026-11-19 | edited | F F147 |  |  | row changed: component, component_id, name, used_in |  |
+| A1292 | 2026-11-19 | edited | F F146 |  |  | row changed: name |  |
+| A1291 | 2026-11-19 | edited | F F145 |  |  | row changed: name |  |
+| A1290 | 2026-11-19 | edited | F F144 |  |  | row changed: name |  |
+| A1289 | 2026-11-19 | edited | F F143 |  |  | row changed: name |  |
+| A1288 | 2026-11-19 | edited | F F142 |  |  | row changed: name |  |
+| A1287 | 2026-11-19 | edited | F F141 |  |  | row changed: name |  |
+| A1286 | 2026-11-19 | edited | F F140 |  |  | row changed: name |  |
+| A1285 | 2026-11-19 | edited | F F139 |  |  | row changed: name |  |
+| A1284 | 2026-11-19 | edited | F F138 |  |  | row changed: name |  |
+| A1283 | 2026-11-19 | edited | F F137 |  |  | row changed: name |  |
+| A1282 | 2026-11-19 | edited | F F136 |  |  | row changed: component, component_id, name, used_in |  |
+| A1281 | 2026-11-19 | edited | F F135 |  |  | row changed: component, component_id, name |  |
+| A1280 | 2026-11-19 | edited | F F134 |  |  | row changed: component, component_id, name, used_in |  |
+| A1279 | 2026-11-19 | edited | F F133 |  |  | row changed: component, component_id, name |  |
+| A1278 | 2026-11-19 | edited | F F132 |  |  | row changed: name |  |
+| A1277 | 2026-11-19 | edited | F F131 |  |  | row changed: name |  |
+| A1276 | 2026-11-19 | edited | F F130 |  |  | row changed: name |  |
+| A1275 | 2026-11-19 | edited | F F129 |  |  | row changed: name |  |
+| A1274 | 2026-11-19 | edited | F F128 |  |  | row changed: name |  |
+| A1273 | 2026-11-19 | edited | F F127 |  |  | row changed: name |  |
+| A1272 | 2026-11-19 | edited | F F126 |  |  | row changed: name |  |
+| A1271 | 2026-11-19 | edited | F F125 |  |  | row changed: name |  |
+| A1270 | 2026-11-19 | edited | F F124 |  |  | row changed: name |  |
+| A1269 | 2026-11-19 | edited | F F123 |  |  | row changed: name |  |
+| A1268 | 2026-11-19 | edited | F F122 |  |  | row changed: name |  |
+| A1267 | 2026-11-19 | edited | F F121 |  |  | row changed: name |  |
+| A1266 | 2026-11-19 | edited | F F120 |  |  | row changed: name |  |
+| A1265 | 2026-11-19 | edited | F F119 |  |  | row changed: name |  |
+| A1264 | 2026-11-19 | edited | F F118 |  |  | row changed: name |  |
+| A1263 | 2026-11-19 | edited | F F117 |  |  | row changed: name |  |
+| A1262 | 2026-11-19 | edited | F F116 |  |  | row changed: component, component_id, name |  |
+| A1261 | 2026-11-19 | edited | F F115 |  |  | row changed: name |  |
+| A1260 | 2026-11-19 | edited | F F114 |  |  | row changed: component, component_id |  |
+| A1259 | 2026-11-19 | edited | F F113 |  |  | row changed: component, component_id, name, used_in |  |
+| A1258 | 2026-11-19 | edited | F F112 |  |  | row changed: component, component_id, name |  |
+| A1257 | 2026-11-19 | edited | F F111 |  |  | row changed: component, component_id, name, used_in |  |
+| A1256 | 2026-11-19 | edited | F F110 |  |  | row changed: name |  |
+| A1255 | 2026-11-19 | edited | F F109 |  |  | row changed: name |  |
+| A1254 | 2026-11-19 | edited | F F108 |  |  | row changed: name |  |
+| A1253 | 2026-11-19 | edited | F F107 |  |  | row changed: name |  |
+| A1252 | 2026-11-19 | edited | F F106 |  |  | row changed: name |  |
+| A1251 | 2026-11-19 | edited | F F105 |  |  | row changed: name |  |
+| A1250 | 2026-11-19 | edited | F F104 |  |  | row changed: name |  |
+| A1249 | 2026-11-19 | edited | F F103 |  |  | row changed: name |  |
+| A1248 | 2026-11-19 | edited | F F102 |  |  | row changed: name |  |
+| A1247 | 2026-11-19 | edited | F F101 |  |  | row changed: name |  |
+| A1246 | 2026-11-19 | edited | F F100 |  |  | row changed: name |  |
+| A1245 | 2026-11-19 | edited | F F099 |  |  | row changed: name |  |
+| A1244 | 2026-11-19 | edited | F F098 |  |  | row changed: name |  |
+| A1243 | 2026-11-19 | edited | F F097 |  |  | row changed: name |  |
+| A1242 | 2026-11-19 | edited | F F096 |  |  | row changed: name |  |
+| A1241 | 2026-11-19 | edited | F F095 |  |  | row changed: name |  |
+| A1240 | 2026-11-19 | edited | F F094 |  |  | row changed: name |  |
+| A1239 | 2026-11-19 | edited | F F093 |  |  | row changed: name |  |
+| A1238 | 2026-11-19 | edited | F F092 |  |  | row changed: component, component_id, name |  |
+| A1237 | 2026-11-19 | edited | F F091 |  |  | row changed: component, component_id, name |  |
+| A1236 | 2026-11-19 | edited | F F090 |  |  | row changed: component, component_id, name |  |
+| A1235 | 2026-11-19 | edited | F F089 |  |  | row changed: component, component_id, name |  |
+| A1234 | 2026-11-19 | edited | F F088 |  |  | row changed: component, component_id, name |  |
+| A1233 | 2026-11-19 | edited | F F087 |  |  | row changed: name |  |
+| A1232 | 2026-11-19 | edited | F F086 |  |  | row changed: name |  |
+| A1231 | 2026-11-19 | edited | F F085 |  |  | row changed: component, component_id, name, used_in |  |
+| A1230 | 2026-11-19 | edited | F F084 |  |  | row changed: component, component_id, name |  |
+| A1229 | 2026-11-19 | edited | F F083 |  |  | row changed: component, component_id, name, used_in |  |
+| A1228 | 2026-11-19 | edited | F F082 |  |  | row changed: component, component_id, name |  |
+| A1227 | 2026-11-19 | edited | F F081 |  |  | row changed: component, component_id, name, used_in |  |
+| A1226 | 2026-11-19 | edited | F F080 |  |  | row changed: name, used_in |  |
+| A1225 | 2026-11-19 | edited | F F079 |  |  | row changed: component, component_id, name, used_in |  |
+| A1224 | 2026-11-19 | edited | F F078 |  |  | row changed: component, component_id, name, used_in |  |
+| A1223 | 2026-11-19 | edited | F F077 |  |  | row changed: component, component_id, functions, name |  |
+| A1222 | 2026-11-19 | edited | F F076 |  |  | row changed: component, component_id, functions, name |  |
+| A1221 | 2026-11-19 | edited | K K072 |  |  | row changed: fields_in_order |  |
+| A1220 | 2026-11-19 | edited | K K071 |  |  | row changed: fields_in_order |  |
+| A1219 | 2026-11-19 | edited | K K070 |  |  | row changed: fields_in_order |  |
+| A1218 | 2026-11-19 | edited | K K069 |  |  | row changed: fields_in_order |  |
+| A1217 | 2026-11-19 | edited | K K068 |  |  | row changed: fields_in_order |  |
+| A1216 | 2026-11-19 | edited | K K067 |  |  | row changed: fields_in_order |  |
+| A1215 | 2026-11-19 | edited | K K066 |  |  | row changed: fields_in_order |  |
+| A1214 | 2026-11-19 | edited | K K065 |  |  | row changed: fields_in_order |  |
+| A1213 | 2026-11-19 | edited | K K064 |  |  | row changed: fields_in_order |  |
+| A1212 | 2026-11-19 | edited | K K063 |  |  | row changed: fields_in_order |  |
+| A1211 | 2026-11-19 | edited | K K062 |  |  | row changed: fields_in_order |  |
+| A1210 | 2026-11-19 | edited | K K061 |  |  | row changed: fields_in_order |  |
+| A1209 | 2026-11-19 | edited | K K060 |  |  | row changed: fields_in_order |  |
+| A1208 | 2026-11-19 | edited | K K059 |  |  | row changed: fields_in_order |  |
+| A1207 | 2026-11-19 | edited | K K058 |  |  | row changed: fields_in_order |  |
+| A1206 | 2026-11-19 | edited | K K057 |  |  | row changed: fields_in_order |  |
+| A1205 | 2026-11-19 | edited | K K056 |  |  | row changed: fields_in_order |  |
+| A1204 | 2026-11-19 | edited | K K055 |  |  | row changed: fields_in_order |  |
+| A1203 | 2026-11-19 | edited | K K054 |  |  | row changed: fields_in_order |  |
+| A1202 | 2026-11-19 | edited | K K053 |  |  | row changed: field_count, fields_in_order |  |
+| A1201 | 2026-11-19 | placed | FN FN29 |  |  | row added |  |
+| A1200 | 2026-11-19 | placed | F F195 |  |  | row added |  |
+| A1199 | 2026-11-19 | placed | F F194 |  |  | row added |  |
+| A1198 | 2026-11-19 | edited | F F193 |  |  | row changed: component, component_id, name |  |
+| A1197 | 2026-11-19 | edited | F F192 |  |  | row changed: name |  |
+| A1196 | 2026-11-19 | edited | F F191 |  |  | row changed: name |  |
+| A1195 | 2026-11-19 | edited | F F190 |  |  | row changed: component, component_id, name, used_in |  |
+| A1194 | 2026-11-19 | edited | F F189 |  |  | row changed: name, used_in |  |
+| A1193 | 2026-11-19 | edited | F F188 |  |  | row changed: component, component_id, name |  |
+| A1192 | 2026-11-19 | edited | F F187 |  |  | row changed: name |  |
+| A1191 | 2026-11-19 | edited | F F186 |  |  | row changed: name |  |
+| A1190 | 2026-11-19 | edited | F F185 |  |  | row changed: component, component_id, name |  |
+| A1189 | 2026-11-19 | edited | F F184 |  |  | row changed: name |  |
+| A1188 | 2026-11-19 | edited | F F183 |  |  | row changed: component, component_id, name |  |
+| A1187 | 2026-11-19 | edited | F F182 |  |  | row changed: name |  |
+| A1186 | 2026-11-19 | edited | F F181 |  |  | row changed: name |  |
+| A1185 | 2026-11-19 | edited | F F180 |  |  | row changed: component, component_id, name |  |
+| A1184 | 2026-11-19 | edited | F F179 |  |  | row changed: name |  |
+| A1183 | 2026-11-19 | edited | F F178 |  |  | row changed: component, component_id, name |  |
+| A1182 | 2026-11-19 | edited | F F177 |  |  | row changed: name |  |
+| A1181 | 2026-11-19 | edited | F F176 |  |  | row changed: name |  |
+| A1180 | 2026-11-19 | edited | F F175 |  |  | row changed: component, component_id, name |  |
+| A1179 | 2026-11-19 | edited | F F174 |  |  | row changed: name |  |
+| A1178 | 2026-11-19 | edited | F F173 |  |  | row changed: component, component_id, name |  |
+| A1177 | 2026-11-19 | edited | F F172 |  |  | row changed: name |  |
+| A1176 | 2026-11-19 | edited | F F171 |  |  | row changed: name |  |
+| A1175 | 2026-11-19 | edited | F F170 |  |  | row changed: component, component_id, name |  |
+| A1174 | 2026-11-19 | edited | F F169 |  |  | row changed: component, component_id, name |  |
+| A1173 | 2026-11-19 | edited | F F168 |  |  | row changed: component, component_id, name |  |
+| A1172 | 2026-11-19 | edited | F F167 |  |  | row changed: component, component_id, name |  |
+| A1171 | 2026-11-19 | edited | F F166 |  |  | row changed: name |  |
+| A1170 | 2026-11-19 | edited | F F165 |  |  | row changed: name |  |
+| A1169 | 2026-11-19 | edited | F F164 |  |  | row changed: component, component_id, name |  |
+| A1168 | 2026-11-19 | edited | F F163 |  |  | row changed: name |  |
+| A1167 | 2026-11-19 | edited | F F162 |  |  | row changed: component, component_id, name |  |
+| A1166 | 2026-11-19 | edited | F F161 |  |  | row changed: name |  |
+| A1165 | 2026-11-19 | edited | F F160 |  |  | row changed: name |  |
+| A1164 | 2026-11-19 | edited | F F159 |  |  | row changed: component, component_id, name |  |
+| A1163 | 2026-11-19 | edited | F F158 |  |  | row changed: name |  |
+| A1162 | 2026-11-19 | edited | F F157 |  |  | row changed: component, component_id, name |  |
+| A1161 | 2026-11-19 | edited | F F156 |  |  | row changed: name |  |
+| A1160 | 2026-11-19 | edited | F F155 |  |  | row changed: name |  |
+| A1159 | 2026-11-19 | edited | F F154 |  |  | row changed: component, component_id, name, used_in |  |
+| A1158 | 2026-11-19 | edited | F F153 |  |  | row changed: name, used_in |  |
+| A1157 | 2026-11-19 | edited | F F152 |  |  | row changed: component, component_id, name |  |
+| A1156 | 2026-11-19 | edited | F F151 |  |  | row changed: component, component_id, name |  |
+| A1155 | 2026-11-19 | edited | F F150 |  |  | row changed: component, component_id, name |  |
+| A1154 | 2026-11-19 | edited | F F149 |  |  | row changed: component, component_id, name, used_in |  |
+| A1153 | 2026-11-19 | edited | F F148 |  |  | row changed: component, component_id, name, used_in |  |
+| A1152 | 2026-11-19 | edited | F F147 |  |  | row changed: component, component_id, name, used_in |  |
+| A1151 | 2026-11-19 | edited | F F146 |  |  | row changed: name |  |
+| A1150 | 2026-11-19 | edited | F F145 |  |  | row changed: name |  |
+| A1149 | 2026-11-19 | edited | F F144 |  |  | row changed: name |  |
+| A1148 | 2026-11-19 | edited | F F143 |  |  | row changed: name |  |
+| A1147 | 2026-11-19 | edited | F F142 |  |  | row changed: name |  |
+| A1146 | 2026-11-19 | edited | F F141 |  |  | row changed: name |  |
+| A1145 | 2026-11-19 | edited | F F140 |  |  | row changed: name |  |
+| A1144 | 2026-11-19 | edited | F F139 |  |  | row changed: name |  |
+| A1143 | 2026-11-19 | edited | F F138 |  |  | row changed: name |  |
+| A1142 | 2026-11-19 | edited | F F137 |  |  | row changed: name |  |
+| A1141 | 2026-11-19 | edited | F F136 |  |  | row changed: component, component_id, name, used_in |  |
+| A1140 | 2026-11-19 | edited | F F135 |  |  | row changed: component, component_id, name |  |
+| A1139 | 2026-11-19 | edited | F F134 |  |  | row changed: component, component_id, name, used_in |  |
+| A1138 | 2026-11-19 | edited | F F133 |  |  | row changed: component, component_id, name |  |
+| A1137 | 2026-11-19 | edited | F F132 |  |  | row changed: name |  |
+| A1136 | 2026-11-19 | edited | F F131 |  |  | row changed: name |  |
+| A1135 | 2026-11-19 | edited | F F130 |  |  | row changed: name |  |
+| A1134 | 2026-11-19 | edited | F F129 |  |  | row changed: name |  |
+| A1133 | 2026-11-19 | edited | F F128 |  |  | row changed: name |  |
+| A1132 | 2026-11-19 | edited | F F127 |  |  | row changed: name |  |
+| A1131 | 2026-11-19 | edited | F F126 |  |  | row changed: name |  |
+| A1130 | 2026-11-19 | edited | F F125 |  |  | row changed: name |  |
+| A1129 | 2026-11-19 | edited | F F124 |  |  | row changed: name |  |
+| A1128 | 2026-11-19 | edited | F F123 |  |  | row changed: name |  |
+| A1127 | 2026-11-19 | edited | F F122 |  |  | row changed: name |  |
+| A1126 | 2026-11-19 | edited | F F121 |  |  | row changed: name |  |
+| A1125 | 2026-11-19 | edited | F F120 |  |  | row changed: name |  |
+| A1124 | 2026-11-19 | edited | F F119 |  |  | row changed: name |  |
+| A1123 | 2026-11-19 | edited | F F118 |  |  | row changed: name |  |
+| A1122 | 2026-11-19 | edited | F F117 |  |  | row changed: name |  |
+| A1121 | 2026-11-19 | edited | F F116 |  |  | row changed: component, component_id, name |  |
+| A1120 | 2026-11-19 | edited | F F115 |  |  | row changed: name |  |
+| A1119 | 2026-11-19 | edited | F F114 |  |  | row changed: component, component_id |  |
+| A1118 | 2026-11-19 | edited | F F113 |  |  | row changed: component, component_id, name, used_in |  |
+| A1117 | 2026-11-19 | edited | F F112 |  |  | row changed: component, component_id, name |  |
+| A1116 | 2026-11-19 | edited | F F111 |  |  | row changed: component, component_id, name, used_in |  |
+| A1115 | 2026-11-19 | edited | F F110 |  |  | row changed: name |  |
+| A1114 | 2026-11-19 | edited | F F109 |  |  | row changed: name |  |
+| A1113 | 2026-11-19 | edited | F F108 |  |  | row changed: name |  |
+| A1112 | 2026-11-19 | edited | F F107 |  |  | row changed: name |  |
+| A1111 | 2026-11-19 | edited | F F106 |  |  | row changed: name |  |
+| A1110 | 2026-11-19 | edited | F F105 |  |  | row changed: name |  |
+| A1109 | 2026-11-19 | edited | F F104 |  |  | row changed: name |  |
+| A1108 | 2026-11-19 | edited | F F103 |  |  | row changed: name |  |
+| A1107 | 2026-11-19 | edited | F F102 |  |  | row changed: name |  |
+| A1106 | 2026-11-19 | edited | F F101 |  |  | row changed: name |  |
+| A1105 | 2026-11-19 | edited | F F100 |  |  | row changed: name |  |
+| A1104 | 2026-11-19 | edited | F F099 |  |  | row changed: name |  |
+| A1103 | 2026-11-19 | edited | F F098 |  |  | row changed: name |  |
+| A1102 | 2026-11-19 | edited | F F097 |  |  | row changed: name |  |
+| A1101 | 2026-11-19 | edited | F F096 |  |  | row changed: name |  |
+| A1100 | 2026-11-19 | edited | F F095 |  |  | row changed: name |  |
+| A1099 | 2026-11-19 | edited | F F094 |  |  | row changed: name |  |
+| A1098 | 2026-11-19 | edited | F F093 |  |  | row changed: name |  |
+| A1097 | 2026-11-19 | edited | F F092 |  |  | row changed: component, component_id, name |  |
+| A1096 | 2026-11-19 | edited | F F091 |  |  | row changed: component, component_id, name |  |
+| A1095 | 2026-11-19 | edited | F F090 |  |  | row changed: component, component_id, name |  |
+| A1094 | 2026-11-19 | edited | F F089 |  |  | row changed: component, component_id, name |  |
+| A1093 | 2026-11-19 | edited | F F088 |  |  | row changed: component, component_id, name |  |
+| A1092 | 2026-11-19 | edited | F F087 |  |  | row changed: name |  |
+| A1091 | 2026-11-19 | edited | F F086 |  |  | row changed: name |  |
+| A1090 | 2026-11-19 | edited | F F085 |  |  | row changed: component, component_id, name, used_in |  |
+| A1089 | 2026-11-19 | edited | F F084 |  |  | row changed: component, component_id, name |  |
+| A1088 | 2026-11-19 | edited | F F083 |  |  | row changed: component, component_id, name, used_in |  |
+| A1087 | 2026-11-19 | edited | F F082 |  |  | row changed: component, component_id, name |  |
+| A1086 | 2026-11-19 | edited | F F081 |  |  | row changed: component, component_id, name, used_in |  |
+| A1085 | 2026-11-19 | edited | F F080 |  |  | row changed: name, used_in |  |
+| A1084 | 2026-11-19 | edited | F F079 |  |  | row changed: component, component_id, name, used_in |  |
+| A1083 | 2026-11-19 | edited | F F078 |  |  | row changed: component, component_id, name, used_in |  |
+| A1082 | 2026-11-19 | edited | F F077 |  |  | row changed: component, component_id, functions, name |  |
+| A1081 | 2026-11-19 | edited | F F076 |  |  | row changed: component, component_id, functions, name |  |
+| A1080 | 2026-11-19 | edited | K K072 |  |  | row changed: fields_in_order |  |
+| A1079 | 2026-11-19 | edited | K K071 |  |  | row changed: fields_in_order |  |
+| A1078 | 2026-11-19 | edited | K K070 |  |  | row changed: fields_in_order |  |
+| A1077 | 2026-11-19 | edited | K K069 |  |  | row changed: fields_in_order |  |
+| A1076 | 2026-11-19 | edited | K K068 |  |  | row changed: fields_in_order |  |
+| A1075 | 2026-11-19 | edited | K K067 |  |  | row changed: fields_in_order |  |
+| A1074 | 2026-11-19 | edited | K K066 |  |  | row changed: fields_in_order |  |
+| A1073 | 2026-11-19 | edited | K K065 |  |  | row changed: fields_in_order |  |
+| A1072 | 2026-11-19 | edited | K K064 |  |  | row changed: fields_in_order |  |
+| A1071 | 2026-11-19 | edited | K K063 |  |  | row changed: fields_in_order |  |
+| A1070 | 2026-11-19 | edited | K K062 |  |  | row changed: fields_in_order |  |
+| A1069 | 2026-11-19 | edited | K K061 |  |  | row changed: fields_in_order |  |
+| A1068 | 2026-11-19 | edited | K K060 |  |  | row changed: fields_in_order |  |
+| A1067 | 2026-11-19 | edited | K K059 |  |  | row changed: fields_in_order |  |
+| A1066 | 2026-11-19 | edited | K K058 |  |  | row changed: fields_in_order |  |
+| A1065 | 2026-11-19 | edited | K K057 |  |  | row changed: fields_in_order |  |
+| A1064 | 2026-11-19 | edited | K K056 |  |  | row changed: fields_in_order |  |
+| A1063 | 2026-11-19 | edited | K K055 |  |  | row changed: fields_in_order |  |
+| A1062 | 2026-11-19 | edited | K K054 |  |  | row changed: fields_in_order |  |
+| A1061 | 2026-11-19 | edited | K K053 |  |  | row changed: field_count, fields_in_order |  |
 | A1060 | 2026-11-19 | removed | V V3.2-referral-and-affiliates |  |  | row removed |  |
 | A1059 | 2026-11-19 | removed | V V3.2-retail-and-wholesale |  |  | row removed |  |
 | A1058 | 2026-11-19 | removed | V V3.2-physical-delivery |  |  | row removed |  |

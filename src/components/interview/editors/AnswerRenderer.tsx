@@ -1,4 +1,10 @@
 import ChoiceCard from "../../controls/ChoiceCard.tsx";
+import VisionChoices from "./purpose/VisionChoices.tsx";
+import AmbassadorChoices, { AMBASSADOR_PARTS } from "./brand/AmbassadorChoices.tsx";
+import { businessFoundationSegments } from "../../../framework/engine/AnswerUtils.ts";
+import { asBusinessEngagementValue } from "../../../framework/engine/businessFoundation/engagementReaders.ts";
+import { segmentIdentityOf } from "../../../framework/engine/SegmentContext.ts";
+import { withValuesText } from "../../../framework/engine/ValueIds.ts";
 import { CSSProperties, Fragment, useState } from "react";
 import CardShell from "../cards/CardShell.tsx";
 import { OptionalNote } from "../cards/BusinessCardFields.tsx";
@@ -68,7 +74,13 @@ function MultiPartAnswerRenderer({
 
     onChangeFoundersProfile,
 
-    legalEntitySectionNumber
+    legalEntitySectionNumber,
+
+    businessFoundation,
+
+    businessEngagement,
+
+    identityValues
 
 }: AnswerRendererProps) {
 
@@ -230,7 +242,8 @@ function MultiPartAnswerRenderer({
                     // The Early Positioning text under its questions is the shared optional note (the Notes of every card).
                     ? <OptionalNote label="Notes" fieldId={part.label} ariaLabel="Notes" value={typeof from[part.id] === "string" ? from[part.id] as string : ""} onChange={(next) => save({ ...from, [part.id]: next })} disabled={disabled} />
                 : part.id === "values" || part.id === "principles"
-                    ? <NumberedTextList label={part.label} value={from[part.id]} onChange={(next) => save({ ...from, [part.id]: next })} disabled={disabled} />
+                    // (The Values keep an id for each line, beside their text: withValuesText, doc 46, section 5.)
+                    ? <NumberedTextList label={part.label} value={from[part.id]} onChange={(next) => save(part.id === "values" ? withValuesText(from, next) : { ...from, [part.id]: next })} disabled={disabled} />
                     : (
                         <SingleAnswerRenderer
                             definition={part.answer}
@@ -252,6 +265,8 @@ function MultiPartAnswerRenderer({
         // Philosophy & Manifesto. Mission and Vision are saved in Definition, the page's first section, under their own keys; Definition does not draw them.
         const holdsPurpose = (candidate: readonly (typeof parts)[number][] | undefined) => !!candidate?.some(part => part.id === "philosophy") && !!candidate?.some(part => part.id === "manifesto");
         const purposeHere = holdsPurpose(parts);
+        // THE AMBASSADOR (doc 46): the Brand System's first section, found by its four texts' keys.
+        const ambassadorHere = AMBASSADOR_PARTS.every(id => parts.some(part => part.id === id));
         const purposeBeside = !purposeHere && !!pageSections?.some(section => holdsPurpose(section.definition.parts));
         const definitionBeside = purposeHere ? pageSections?.find(section => section.definition.parts?.some(part => part.id === "mission")) : undefined;
 
@@ -288,6 +303,8 @@ function MultiPartAnswerRenderer({
                                     <DialogHeading title={text.part.label} info={guidance(text.part)} />
                                 </div>
                                 {columnControl(text.part, text.from, text.save)}
+                                {/* (The Vision's two choices, under its text: PB7 and PB8, doc 45, 3.8.) */}
+                                {text.part.id === "vision" && <VisionChoices value={text.from} onChange={text.save} foundation={businessFoundation} disabled={disabled} />}
                             </div>
                         );
                         return (
@@ -331,6 +348,17 @@ function MultiPartAnswerRenderer({
                             businessStage={businessStage}
                             audienceOnly
                             onChange={(next) => onChangeLegalEntity(next)}
+                            disabled={disabled}
+                        />
+                    )}
+                    {/* (The Ambassador's choices above each of its texts, and its "Add a draft": doc 46.) */}
+                    {ambassadorHere && (
+                        <AmbassadorChoices
+                            part={part.id}
+                            value={values}
+                            onChange={(next) => onChange(next)}
+                            context={{ segments: businessFoundationSegments(businessFoundation), engagement: asBusinessEngagementValue(businessEngagement).segments, identity: segmentIdentityOf(asLegalEntityValue(legalEntity).organisation, businessStage), values: identityValues }}
+                            stage={businessStage}
                             disabled={disabled}
                         />
                     )}
@@ -644,6 +672,8 @@ function SingleAnswerRenderer({
 
     identityVision,
 
+    identityValues,
+
     // What the Business System's Customer Engagement page needs
     // from its Foundation page, resolved by the page (see
     // AnswerRendererProps.businessFoundation). Ignored by every
@@ -689,7 +719,7 @@ function SingleAnswerRenderer({
 
     const { fixedVariantOptions, activeVariantId, setActiveVariantId, cardListOptions, activeCardId, setActiveCardId, variantCardsScrollRef, profileCardsScrollRef, tableColumns } = useAnswerState({ definition, value, onChange, resolveDynamicOptions, dynamicOptionsDependency });
 
-    const scope: AnswerScope = { definition, value, onChange, disabled, resolveDynamicOptions, rowSelection, ownerSuggestions, processLibraryProcesses, dynamicOptionsDependency, ariaLabel, autoGrow, columnNumberOffset, legalEntityPrefill, targetAudience, identityVision, businessFoundation, onOpenBusinessFoundation, organisationCurrency, legalEntityFounders, foundersProfile, legalEntity, onChangeLegalEntity, onChangeFoundersProfile, businessCapability, financialFoundation, openingDate, onChangeOpeningDate, businessStage, globalSettings, financialSustainability, businessEngagement, onOpenBusinessEngagement, onOpenBusinessCapability, onChangeBusinessCapability, onOpenFinancialFoundation, onOpenLegalEntity, columnsDivider, frameTitle, showInstructions, strategy, fixedVariantOptions, activeVariantId, setActiveVariantId, cardListOptions, activeCardId, setActiveCardId, variantCardsScrollRef, profileCardsScrollRef, tableColumns };
+    const scope: AnswerScope = { definition, value, onChange, disabled, resolveDynamicOptions, rowSelection, ownerSuggestions, processLibraryProcesses, dynamicOptionsDependency, ariaLabel, autoGrow, columnNumberOffset, legalEntityPrefill, targetAudience, identityVision, identityValues, businessFoundation, onOpenBusinessFoundation, organisationCurrency, legalEntityFounders, foundersProfile, legalEntity, onChangeLegalEntity, onChangeFoundersProfile, businessCapability, financialFoundation, openingDate, onChangeOpeningDate, businessStage, globalSettings, financialSustainability, businessEngagement, onOpenBusinessEngagement, onOpenBusinessCapability, onChangeBusinessCapability, onOpenFinancialFoundation, onOpenLegalEntity, columnsDivider, frameTitle, showInstructions, strategy, fixedVariantOptions, activeVariantId, setActiveVariantId, cardListOptions, activeCardId, setActiveCardId, variantCardsScrollRef, profileCardsScrollRef, tableColumns };
 
     switch (definition.type) {
 

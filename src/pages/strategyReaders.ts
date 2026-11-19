@@ -8,7 +8,7 @@
 import type { InterviewSession } from "../framework/interview";
 import { AnswerType } from "../framework/enums/AnswerType";
 import { asStrategicPeriodValue, formatRangeShort, isRangeSet, monthIndex, numberedUnitCount, strategyGoalsForTheme, strategyThemeHasContent, type StrategyFoundationValue, type StrategyRangeValue, type StrategyThemeValue } from "../framework/engine/AnswerUtils.ts";
-import { currentSituationDraft, financialPlanRange, strategyObjectiveDrafts, strategySwotStarts } from "../framework/engine/BusinessDocuments.ts";
+import { currentSituationDraft, financialPlanRange, strategyChoiceContext, strategyObjectiveDrafts, strategySwotStarts } from "../framework/engine/BusinessDocuments.ts";
 import { StorageService } from "../services/StorageService";
 import { OrganizationService } from "../services/OrganizationService";
 import { IDENTITY_SYSTEM_NUMBER, BUSINESS_SYSTEM_NUMBER } from "./conversationHelpers";
@@ -178,6 +178,8 @@ export function readStrategy({ session, system, organizationId, organizationName
     const swotStarts = businessSessions ? strategySwotStarts(businessSessions) : undefined;
     // (An Objective's drafts: each open item of a Value Proposition and each uncovered skill; P9; owner, 2026-11-18 03:01, "All, P1 to P9".)
     const objectiveDrafts = businessSessions ? strategyObjectiveDrafts(businessSessions) : [];
+    // (What SW1 and SC1 to SC3 read: doc 49, 2.3 and 2.4.)
+    const choices = businessSessions ? strategyChoiceContext(businessSessions) : undefined;
 
     /* The financial plan's dates, for the Strategic Period to be compared with. */
     const financialPlan = businessSessions ? financialPlanRange(businessSessions) : null;
@@ -201,6 +203,7 @@ export function readStrategy({ session, system, organizationId, organizationName
         situationDraft,
         swotStarts,
         objectiveDrafts,
+        choices,
         financialPlan,
         guardSituationRefresh
     };

@@ -544,7 +544,8 @@ describe("LegalEntityEditor organisation columns", () => {
         const labels = (column: Element) => [...column.querySelectorAll(".field-label")].map(label => label.textContent?.replace(/\s+/g, " ").replace(/i$/, "").trim());
         expect(labels(columns[0])).toEqual(["Organisation Name", "Country", "Address"]);
         expect(columns[1].classList.contains("legal-entity-questions")).toBe(true);
-        expect(labels(columns[1])).toEqual(["Legal Form", "Registration Date", "Opening Date", "Activities", "Primary"]);
+        // (With no activity code yet, the two facts it would settle are asked beside the activities, the details in the United Kingdom: doc 53, stage 4.)
+        expect(labels(columns[1])).toEqual(["Legal Form", "Registration Date", "Opening Date", "Activities", "Primary", "Is your work a regulated profession?", "What do you keep people's details for?"]);
         // The Description stands below both columns, after a divider line.
         const below = document.querySelector("[data-anchor='legal-section-0'] .legal-entity-org-body > .legal-entity-org-description")!;
         expect(below.textContent).toContain("Notes");
@@ -861,17 +862,17 @@ describe("LegalEntityEditor as tiles", () => {
         return <LegalEntityEditor value={value} onChange={setValue} asTiles />;
     }
 
-    it("is Registrations and Expenses (the Organisation and Founders & Ownership are tiles of page 1, Definition; owner, 2026-11-09)", () => {
+    it("is one master tile, Registrations & Expenses (the Organisation and Founders & Ownership are tiles of Definition & Purpose; owner, 2026-11-09; the plan of 2026-11-18, step 3)", () => {
         render(<Tiled />);
         expect([...document.querySelectorAll(".section-tile")].map(tile => tile.getAttribute("data-tile"))).toEqual([
-            "legal-entity-registrations", "legal-entity-expenses"
+            "legal-entity-registrations"
         ]);
     });
 
     it("has no Capability tile, with the Founders Profile given too: the skills the business still needs are asked on Capacity & Delivery (owner, 2026-11-16 20:25)", () => {
         render(<LegalEntityEditor value={asLegalEntityValue({})} onChange={() => undefined} asTiles foundersProfile={{ founders: [], teamGaps: "No one sells." }} onChangeFoundersProfile={() => undefined} />);
         expect([...document.querySelectorAll(".section-tile")].map(tile => tile.getAttribute("data-tile"))).toEqual([
-            "legal-entity-registrations", "legal-entity-expenses"
+            "legal-entity-registrations"
         ]);
         expect(screen.queryByRole("button", { name: /^Capability/ })).toBeNull();
     });
@@ -911,9 +912,10 @@ describe("LegalEntityEditor as tiles", () => {
 
     });
 
-    it("opens a box for each expense, with the add box, in its section's dialog", () => {
+    it("opens a box for each expense, with the add box, in the Expenses sub tile of Registrations & Expenses", () => {
         render(<Tiled />);
-        fireEvent.click(document.querySelector("[data-tile=legal-entity-expenses]")!);
+        fireEvent.click(document.querySelector("[data-tile=legal-entity-registrations]")!);
+        fireEvent.click(document.querySelector("[data-tile=expenses]")!);
         expect(screen.getByRole("button", { name: /Expense 1: Filing fee/ })).toBeTruthy();
         expect(screen.getByRole("button", { name: "Add Card" })).toBeTruthy();
     });
@@ -929,18 +931,22 @@ describe("LegalEntityEditor as tiles", () => {
             asTiles
             onChangeFoundersProfile={() => undefined}
         />);
-        // (The list is the tile's links layer, laid over it: every line is there, the list scrolls where they do not all fit.)
+        // (The list is the tile's links layer, laid over it: every line is there, the list scrolls where they do not all fit. The expenses are on the Expenses sub tile,
+        // in the Registrations & Expenses dialog.)
+        fireEvent.click(document.querySelector("[data-tile=legal-entity-registrations]")!);
         const lines = [...document.querySelectorAll(".section-tile-list > li")].map(item => item.textContent?.trim() ?? "");
         expect(many.every(at => lines.includes("Fee " + at))).toBe(true);
         // (The founders are on the Founders & Ownership tile, drawn on 1. Definition: its face lists every founder.)
         expect(many.every(at => (foundersTileFace(asLegalEntityValue({ founders: many.map(at => ({ ...createLegalEntityFounder(), name: "Founder " + at, ownership: "9" })) }), true).items ?? []).includes("Founder " + at))).toBe(true);
     });
 
-    it("opens the Registrations as two sub tiles: Registration Numbers (the formation's and the tax's), Additional legal requirements", () => {
+    it("opens Registrations & Expenses as two sub tiles: Registrations (the formation's and the tax's numbers, the requirements nested), Expenses (owner, 2026-11-19 16:52)", () => {
         render(<Tiled />);
         fireEvent.click(document.querySelector("[data-tile=legal-entity-registrations]")!);
-        expect([...document.querySelectorAll(".section-tile-dialog .section-tile")].map(tile => tile.getAttribute("data-tile"))).toEqual(["registration-numbers", "requirements"]);
-        fireEvent.click(document.querySelector("[data-tile=requirements]")!);
+        expect([...document.querySelectorAll(".section-tile-dialog .section-tile")].map(tile => tile.getAttribute("data-tile"))).toEqual(["registration-numbers", "expenses"]);
+        fireEvent.click(document.querySelector("[data-tile=registration-numbers]")!);
+        // (The requirements are a titled section of nested tiles in the same dialog card, under the numbers.)
+        expect(screen.getByRole("heading", { name: "Additional Legal Requirements" })).toBeTruthy();
         expect(screen.getByRole("button", { name: "Add Card" })).toBeTruthy();
     });
 
@@ -951,7 +957,7 @@ describe("LegalEntityEditor as tiles", () => {
         ["Quillfield (US)", quillText, [
             "New York Department of State: KC-2026-0817", "Tax Identification Number (EIN): 93-4567812"
         ]]
-    ])("%s: the Registrations tiles list what their dialogs hold, in the dialogs' order and words, with no status line", (_name, text, numbers) => {
+    ])("%s: the Registrations tile lists what its dialog holds, in the dialog's order and words, with no status line", (_name, text, numbers) => {
         const saved = (JSON.parse(text) as { systems: Record<string, { responses: Array<{ value?: { formation?: unknown } }> }> }).systems["1"].responses.find(response => response.value?.formation)!.value;
         function Example() {
             const [value, setValue] = useState<unknown>(saved);
@@ -960,11 +966,11 @@ describe("LegalEntityEditor as tiles", () => {
         render(<Example />);
         // (A tile's list is its links layer, laid over it in the tile's slot.)
         const linesOf = (tile: string) => { let at = document.querySelector(`[data-tile=${tile}]`)?.parentElement ?? null; while (at && !at.querySelector(".section-tile-list > li")) { at = at.parentElement; } return [...(at?.querySelectorAll(".section-tile-list") ?? [])].slice(0, 1).flatMap(list => [...list.querySelectorAll(":scope > li")]).map(item => item.textContent?.trim() ?? ""); };
-        expect(linesOf("legal-entity-registrations")).toEqual(["Registration Numbers", "Additional Legal Requirements"]);
+        expect(linesOf("legal-entity-registrations")).toEqual(["Registrations", "Expenses"]);
         fireEvent.click(document.querySelector("[data-tile=legal-entity-registrations]")!);
-        expect(linesOf("registration-numbers")).toEqual(numbers);
+        // (The Registrations tile lists its numbers, then each requirement it holds.)
         const requirements = asLegalEntityValue(saved).requirements.map(requirement => requirement.name);
-        expect(linesOf("requirements")).toEqual(requirements);
+        expect(linesOf("registration-numbers")).toEqual([...numbers, ...requirements]);
         // (The dialog holds the same: the registry and the tax number as written there.)
         fireEvent.click(document.querySelector("[data-tile=registration-numbers]")!);
         expect((screen.getByRole("textbox", { name: "Registration Number" }) as HTMLInputElement).value).toBe(numbers[0].split(": ")[1]);

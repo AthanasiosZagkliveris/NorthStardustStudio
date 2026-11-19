@@ -1,4 +1,4 @@
-import { CSSProperties, ReactNode, useEffect, useRef } from "react";
+import { CSSProperties, Fragment, ReactNode, useEffect, useRef } from "react";
 import DialogSectionBand from "../tiles/DialogSectionBand.tsx";
 
 import AddButton from "../../controls/AddButton.tsx";
@@ -29,6 +29,18 @@ import { AnswerType } from "../../../framework/enums/AnswerType.ts";
 import MonthYearPicker from "../fields/MonthYearPicker.tsx";
 import StrategyTextArea from "../fields/StrategyTextArea.tsx";
 import NumberedListInput from "../fields/NumberedListInput.tsx";
+import FieldRow from "../fields/FieldRow.tsx";
+import TextLink from "../fields/TextLink.tsx";
+import RadioChoice from "../../controls/RadioChoice.tsx";
+import RatingScaleGroup from "../../controls/RatingScaleGroup.tsx";
+import type { Rating } from "../../controls/RatingScale.tsx";
+import { BusinessTicks } from "../cards/BusinessCardFields.tsx";
+import { SingleColumn } from "./foundation/shared.tsx";
+import { draftAdds, withDraft } from "../../../framework/engine/CompetitorQuestions.ts";
+import {
+    SC1_STANCES, SC2_MAX, SC_INFO, SC_LABELS, SW1_INFO, SW1_LABEL, type StrategyChoiceContext,
+    changeEffectLines, changeEffectsShown, changeRows, compassChoicesShown, compassDraft, growthOptions
+} from "../../../framework/engine/StrategyChoices.ts";
 
 interface StrategyFoundationEditorProps {
 
@@ -46,6 +58,9 @@ interface StrategyFoundationEditorProps {
 
     /** The SWOT's starts from the Business System's market answers (swotStartsOf), shown in a quadrant never edited (strategySwotShown). */
     swotStarts?: { opportunities: string[]; threats: string[] };
+
+    /** What SW1 and SC1 to SC3 read from the other Systems (strategyChoiceContext; doc 49, 2.3 and 2.4). */
+    choices?: StrategyChoiceContext;
 
     /** Asks before a Refresh replaces the founder's own words. */
     guardSituationRefresh?: (apply: () => void) => void;
@@ -141,6 +156,8 @@ export default function StrategyFoundationEditor({
 
     swotStarts,
 
+    choices,
+
     guardSituationRefresh,
 
     openBusinessPage,
@@ -156,6 +173,20 @@ export default function StrategyFoundationEditor({
     function update(patch: Partial<StrategyFoundationValue>) {
         onChange({ ...foundation, ...patch });
     }
+
+    /*
+        SW1 AND SC1 TO SC3 (doc 49, 2.3 and 2.4; the owner's approved plan of 2026-11-18, §3, B2). The SWOT shown adds SW1's lines to the starts as they are rated;
+        the Compass's three choices follow their starts until chosen, and its "Add a draft" writes the Compass sentence once.
+    */
+    const changeLines = changeEffectLines(foundation.changeEffects);
+    const starts = { opportunities: [...(swotStarts?.opportunities ?? []), ...changeLines.opportunities], threats: [...(swotStarts?.threats ?? []), ...changeLines.threats] };
+    const swotShown = strategySwotShown(foundation, starts);
+    const effects = changeEffectsShown(foundation.changeEffects, choices?.changeStarts ?? []);
+    /** SW1 saved whole once touched: each ticked change with its rating (0 while unrated). */
+    const saveEffects = (ticked: readonly string[], ratings: Readonly<Record<string, number>>) => update({ changeEffects: Object.fromEntries(ticked.map(id => [id, ratings[id] ?? 0])) });
+    const compassShown = choices ? compassChoicesShown(foundation, swotShown, choices) : undefined;
+    const draft = choices && compassShown ? compassDraft(isRangeSet(foundation.period) ? formatRangeAbbrev(foundation.period) : "", compassShown, choices) : "";
+    const band = (content: ReactNode, at: number) => <div key={at} className={"legal-entity-org-section" + (at % 2 === 1 ? " legal-entity-org-band" : "")}>{content}</div>;
 
     /* The answer as it is now, for a Theme left blank and taken away later. */
     const latest = useRef({ foundation, onChange });
@@ -261,7 +292,7 @@ export default function StrategyFoundationEditor({
         [
             "Where do you want your organisation to be heading, and what do you want it to build, become, or achieve over the long term?",
             "Choose a time horizon far enough ahead to give your strategy direction, yet close enough for your organisation to make meaningful decisions about.",
-            { title: "The Vision is the goal; the Compass is the route.", text: vision.trim() ? vision.trim() : "Your Vision is not written yet. Write it under 1. Identity System → 1. Definition → 4. Vision." }
+            { title: "The Vision is the goal; the Compass is the route.", text: vision.trim() ? vision.trim() : "Your Vision is not written yet. Write it under 1. Identity System → Definition & Purpose → Mission & Vision." }
         ],
         [
             "Choose a start and an end: three to five years.",
@@ -333,7 +364,33 @@ export default function StrategyFoundationEditor({
 
                 {STRATEGY_SWOT_QUADRANTS.map(quadrant => (
 
-                    <div className="strategy-swot-quadrant" key={quadrant.id} data-field-holder="">
+                    <Fragment key={quadrant.id}>
+
+                    {/* (SW1, in its band above the Opportunities and Threats: doc 49, 2.3.) */}
+                    {quadrant.id === "opportunities" && choices && (
+                        <SingleColumn>
+                            {band(
+                                <FieldRow pair fullList infoLead label={SW1_LABEL} info={[...SW1_INFO]}>
+                                    <RatingScaleGroup
+                                        label={SW1_LABEL}
+                                        name="strategy-change-effects"
+                                        rows={changeRows(choices.changeStarts)}
+                                        values={effects.ratings as Readonly<Partial<Record<string, Rating>>>}
+                                        selectable
+                                        selected={effects.ticked}
+                                        onSelect={(id, on) => saveEffects(on ? [...effects.ticked, id] : effects.ticked.filter(entry => entry !== id), effects.ratings)}
+                                        onChange={(id, next) => saveEffects(effects.ticked, { ...effects.ratings, [id]: next ?? 0 })}
+                                        lowLabel="Threat"
+                                        highLabel="Opportunity"
+                                        disabled={disabled}
+                                    />
+                                </FieldRow>,
+                                0
+                            )}
+                        </SingleColumn>
+                    )}
+
+                    <div className="strategy-swot-quadrant" data-field-holder="">
 
                         <FieldLabel className="strategy-field-label">
                             {quadrant.label}
@@ -343,7 +400,7 @@ export default function StrategyFoundationEditor({
 
                         <NumberedListInput
                             label={quadrant.label}
-                            items={strategySwotShown(foundation, swotStarts ?? {})[quadrant.id]}
+                            items={swotShown[quadrant.id]}
                             disabled={disabled}
                             onChange={(items) => update({
                                 swot: { ...foundation.swot, [quadrant.id]: items },
@@ -354,12 +411,45 @@ export default function StrategyFoundationEditor({
 
                     </div>
 
+                    </Fragment>
+
                 ))}
 
             </>
         ),
         (
             <>
+
+                {/* (SC1 to SC3, one question per band above the Compass's text, then "Add a draft": doc 49, 2.4.) */}
+                {choices && compassShown && (
+                    <SingleColumn>
+                        {[
+                            <FieldRow key="sc1" pair fullList label={SC_LABELS.sc1} info={[...SC_INFO.sc1]}>
+                                <RadioChoice label={SC_LABELS.sc1} group="strategy-stance" className="legal-entity-radio-stack" disabled={disabled} value={compassShown.stance}
+                                    onChange={(next) => update({ stance: next })}
+                                    options={SC1_STANCES.filter(stance => !(choices.stage === "plan" || choices.stage === "launch") || stance.id === "so" || stance.id === "wo" || stance.id === compassShown.stance).map(stance => ({ id: stance.id, label: stance.label }))} />
+                            </FieldRow>,
+                            <FieldRow key="sc2" pair fullList label={SC_LABELS.sc2} info={[...SC_INFO.sc2]} labelNote={<span className="business-foundation-tick-note">{SC2_MAX + " max"}</span>}>
+                                <div className="radio-choice legal-entity-radio-stack" role="group" aria-label={SC_LABELS.sc2}>
+                                    <BusinessTicks name={SC_LABELS.sc2} disabled={disabled} options={growthOptions(choices.stage)} chosen={compassShown.growth} max={SC2_MAX} onChange={(next) => update({ growth: next })} />
+                                </div>
+                            </FieldRow>,
+                            // (SC3 is asked with two Segments or more; with one, that Segment is the answer.)
+                            ...(choices.segments.length >= 2 ? [
+                                <FieldRow key="sc3" pair fullList label={SC_LABELS.sc3} info={[...SC_INFO.sc3]}>
+                                    <RadioChoice label={SC_LABELS.sc3} group="strategy-first-segment" className="legal-entity-radio-stack" disabled={disabled} value={compassShown.firstSegmentId}
+                                        onChange={(next) => update({ firstSegmentId: next })}
+                                        options={choices.segments.map((segment, at) => ({ id: segment.id, label: segment.name || "Segment " + (at + 1) }))} />
+                                </FieldRow>
+                            ] : [])
+                        ].map((content, at) => band(content, at))}
+                    </SingleColumn>
+                )}
+                {draftAdds(foundation.compass, draft) && (
+                    <TextLink className="business-competitor-draft" disabled={disabled} onClick={() => update({ compass: withDraft(foundation.compass, draft) })}>
+                        Add a draft
+                    </TextLink>
+                )}
 
                 <StrategyTextArea
                     className="interview-input strategy-prose"

@@ -1013,6 +1013,7 @@ export default function Conversation() {
         legalEntityPrefill,
         targetAudience,
         identityVision,
+        identityValues,
         legalEntity,
         foundersProfile,
         organisationCurrency,
@@ -1046,6 +1047,7 @@ export default function Conversation() {
         situationDraft,
         swotStarts,
         objectiveDrafts,
+        choices,
         financialPlan,
         guardSituationRefresh
     } = readStrategy({ session, system, organizationId, organizationName, strategyFoundationValue, setStrategyPrompt });
@@ -1086,6 +1088,7 @@ export default function Conversation() {
                 situationDraft,
                 swotStarts,
                 objectiveDrafts,
+                choices,
                 guardSituationRefresh,
                 openBusinessPage,
                 financialPlan
@@ -1252,6 +1255,7 @@ export default function Conversation() {
                                 legalEntityPrefill={legalEntityPrefill}
                                 targetAudience={targetAudience}
                                 identityVision={identityVision}
+                                identityValues={identityValues}
                                 businessFoundation={businessFoundationValue}
                                 onOpenBusinessFoundation={openBusinessFoundation}
                                 organisationCurrency={organisationCurrency}

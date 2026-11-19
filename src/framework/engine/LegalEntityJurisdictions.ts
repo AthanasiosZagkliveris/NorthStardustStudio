@@ -213,7 +213,9 @@ export const LEGAL_REQUIREMENT_TYPES = [
 export const LEGAL_ENTITY_EXPENSE_FREQUENCIES = [
     "One time",
     "Monthly",
-    "Annually"
+    "Annually",
+    // (A filing due every two years, from its first month: New York's Biennial Statement; doc 53, decision 2.)
+    "Every two years"
 ] as const;
 
 /**

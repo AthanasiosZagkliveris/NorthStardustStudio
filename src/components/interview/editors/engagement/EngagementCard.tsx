@@ -204,9 +204,9 @@ export function EngagementBands({ children }: { children: ReactNode }) {
     );
 }
 
-/** A SECTION OF A CARD IN BANDS (BandSection's names: dates, type, costs, team, notes, links, offerings): its questions stand in one band (EngagementBands), under a
+/** A SECTION OF A CARD IN BANDS (BandSection's names: dates, type, status, costs, options, team, notes, links, offerings): its questions stand in one band (EngagementBands), under a
  *  section band of its `title` where it has one; on a card that is not banded (the Workspace form) it is nothing but its questions. */
-export function BandSection({ children }: { name: "dates" | "type" | "costs" | "team" | "notes" | "links" | "offerings"; title?: string; children?: ReactNode }) {
+export function BandSection({ children }: { name: "dates" | "type" | "status" | "costs" | "options" | "team" | "notes" | "links" | "offerings"; title?: string; children?: ReactNode }) {
     return <>{children}</>;
 }
 

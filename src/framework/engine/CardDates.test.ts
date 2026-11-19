@@ -24,6 +24,12 @@ describe("a card's dates in the cash flow", () => {
         expect(months.slice(0, 6)).toEqual([0, 0, 0, 30, 30, 30]);
     });
 
+    it("a cost every two years falls in its first month, then 24 months on (doc 53, decision 2)", () => {
+        const months = schedule({ cost: cost("90", "biennially"), startDate: "2027-03-01" });
+        expect(months.slice(0, 30).map((amount, at) => amount > 0 ? at : -1).filter(at => at >= 0)).toEqual([2, 26]);
+        expect(months[2]).toBe(90);
+    });
+
     it("an End date stops it in that month", () => {
         const months = schedule({ cost: cost("30", "monthly"), startDate: "2027-02-01", endDate: "2027-05-31" });
         expect(months.slice(0, 7)).toEqual([0, 30, 30, 30, 30, 0, 0]);

@@ -112,7 +112,7 @@ export function offeringContextOf(offering: BusinessOfferingValue, segment: Busi
         }
         return out;
     };
-    return { reach: settled.reach ?? [], area: settled.area?.[0] ?? "", workenv: settled.workenv?.[0] ?? "", workincome: settled.workincome?.[0] ?? "", valueWeights: weights("b1"), worryWeights: weights("e3"), type: offering.category, stage: identity?.stage, differentiation, outcome: identity?.outcome ?? [], pay, worries, country: identity?.country, frame: context.frame, ...(context.endsUser ? { endsUser: true } : {}), ...(context.dual ? { dual: true } : {}) };
+    return { reach: settled.reach ?? [], area: settled.area?.[0] ?? "", workenv: settled.workenv?.[0] ?? "", workincome: settled.workincome?.[0] ?? "", valueWeights: weights("b1"), worryWeights: weights("e3"), type: offering.category, stage: identity?.stage, differentiation, outcome: identity?.outcome ?? [], pay, worries, country: identity?.country, activityCode: identity?.activityCode, frame: context.frame, ...(context.endsUser ? { endsUser: true } : {}), ...(context.dual ? { dual: true } : {}) };
 }
 
 /** An Offering's answers as its card shows them: its own, with each start for a question it never answered. */

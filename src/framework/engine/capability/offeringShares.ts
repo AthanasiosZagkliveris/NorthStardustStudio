@@ -136,5 +136,5 @@ export function offeringSharesFor(next: readonly string[], shares: Record<string
  * too. One paid per unit of what is sold, or as a share of revenue, each pays in full.
  */
 export function costIsShared(frequency: string, purchase = false): boolean {
-    return ["one-time", "monthly", "quarterly", "annually"].includes(frequency) || (purchase && frequency === "per-unit");
+    return ["one-time", "monthly", "quarterly", "annually", "biennially"].includes(frequency) || (purchase && frequency === "per-unit");
 }

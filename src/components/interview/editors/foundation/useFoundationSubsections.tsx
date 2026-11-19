@@ -207,7 +207,7 @@ export function useFoundationSubsections(earlier: Earlier) {
     const targetAudienceNote: InfoPoint[] = [
         targetAudience.trim().length > 0
             ? targetAudience.trim()
-            : "Nothing recorded yet. Write it under 1. Identity System → 1. Definition → Positioning."
+            : "Nothing recorded yet. Write it under 1. Identity System → Definition & Purpose → Positioning."
     ];
     /**
      * The four subsection headings and their guidance -- the same

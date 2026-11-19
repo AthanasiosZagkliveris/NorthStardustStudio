@@ -1,4 +1,5 @@
 import type { AnswerDefinition } from "../model";
+import { legalSuggestions } from "./LegalSuggestions.ts";
 import type { InterviewSession } from "../interview";
 import { AnswerType } from "../enums/AnswerType.ts";
 import { businessPlan, readFoundation, type FoundationSessions } from "./BusinessDocuments.ts";
@@ -189,6 +190,21 @@ function secondLook(input: ReviewInput): ReviewItem[] {
                 });
             }
         });
+    }
+
+    // THE LEGAL SUGGESTIONS (doc 53, stage 2: LegalSuggestions.ts): a threshold the forecast crosses, a duty an exemption may lift, a state the app holds no rules
+    // for yet, a fee checked over a year ago -- each with its official page, at the Legal Entity.
+    const identity = input.sessions[1];
+    const legal = pageOf(identity, AnswerType.LegalEntity);
+    if (legal) {
+        for (const suggestion of legalSuggestions(f, input.today)) {
+            items.push({
+                group: "second-look",
+                text: input.titles[1] + " → " + pageName(legal) + ": " + suggestion.text + (suggestion.source ? " " + suggestion.source : ""),
+                place: { systemNumber: 1, sectionNumber: legal.number },
+                capability: "foundation"
+            });
+        }
     }
 
     return items;

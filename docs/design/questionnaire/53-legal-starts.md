@@ -1,0 +1,178 @@
+# 53. Legal starts: the registrations, taxes and legal expenses the app can start, as proposed
+
+Status: **proposal**, written 2026-11-19, decided (section 6, the owner's delegation of 2026-11-19 19:48 UTC+2); **stages 1 to 4 built 2026-11-19** (section 6, the build). Asked by the owner on 2026-11-19 16:52 UTC+2 (2.1: "check, according to the country, activity, and other information from the 1. Identity System — 1. Definition, what registrations, taxes and other legal documents could be auto-generated"; 2.3: "Check according to the 3. Business System — 1. Foundation & Engagement, and 2. Infrastructure & Capability, if it can be auto-generated, any registrations, taxes, or legal expenses"). Every figure below comes from an official government page fetched on **2026-11-19**, unless a row says otherwise. Rows whose figure rests only on a search excerpt of an official page (the page itself refused the fetch tool) are marked **(excerpt)**; anything with no official page behind it is listed in section 5 as **unverified** and kept out of the rules.
+
+Related: doc 26 (the Legal Entity cards), doc 28 (rule 6, no figure filled in), doc 34 (lists and classifications, rule 14: official government sources), doc 43 (the Offering: O1, O6), doc 52 (the people with salaries), `src/framework/engine/AnswerLegal.ts`, `src/framework/engine/LegalEntityJurisdictions.ts`.
+
+
+## 1. Summary
+
+- The Legal Entity card already holds five slots a rule can fill (src/framework/engine/AnswerLegal.ts): a **registration number row** (`formation.additionalNumbers[]`: label + number), the **tax number** (`tax.identificationNumber`, labelled by `taxIdName`), the **consumption tax status** (`tax.consumptionTaxStatus`: yes / no / not-applicable), a **tax registration row** (`tax.additionalRegistrations[]`), an **Additional Legal Requirement** card (`requirements[]`, type id from `LEGAL_REQUIREMENT_TYPES` in src/framework/engine/LegalEntityJurisdictions.ts: `licence`, `professional`, `additional`, `officer`, `beneficial-owner`, `other`) and a **Legal Entity Expense** (`expenses[]`: name, date, cost, frequency One time / Monthly / Annually, one link to the row or requirement it pays for).
+- The facts that drive most rules are already held: **country, subdivision (US state), legal form, formation status** (Definition → Legal Entity), **activity codes** (ActivityClassification.ts: SIC / NACE / NAICS / ANZSIC / BIC), **customer type B2C/B2B** (CUSTOMER_TYPE_WORDS), **Offering form O1** (physical, digital, app, access, live, inperson, project, ongoing) and **delivery O6** (shipped, collect, inperson, auto, byyou, live, access) in OfferingQuestions.ts, **Segment reach** (city, country, countries, online), **Capability cost kinds** (premises, premises-utilities, company-vehicles, delivery-vehicles, insurances, ...) in AnswerBusinessCapability.ts and capability/costOptions.ts, and **team members with salaries**.
+- Strong, officially published rules exist for: company formation and annual filings (all six countries), beneficial-owner / PSC records (GB, IE), consumption-tax thresholds (all six), employer registration (all six), employer insurance (GB, NY), NY LLC publication and biennial statement, the UK data protection fee, UK food business registration, UK distance-selling information, UK general product safety, UK music licence, UK business rates and UK business waste.
+- Two rule families stay **suggestions rather than generated rows**: consumption tax (it depends on turnover, which the app forecasts but the founder confirms) and activity licences (they depend on a sub-activity the app does not ask yet, such as "sells food").
+- Proposed wording for every generated item is affirmative ("Register for VAT once turnover passes £90,000"), and every generated item carries its source link in its "i", references last.
+
+**How a rule should behave (proposal).** A rule *starts* the row or card, marked as started by the app, with the name, type, authority, typical cost and frequency filled and the number left empty for the founder. The founder keeps, edits or removes it; a removed item is remembered so the rule does not start it again. A rule that depends on a threshold starts a **Review suggestion**, not a row.
+
+## 2. Rules by country
+
+Legend for "Generated item": **Reg row** = `formation.additionalNumbers` row; **Tax row** = `tax.additionalRegistrations` row; **Tax status** = `tax.consumptionTaxStatus` suggestion; **Req (type)** = `requirements[]` card of that type id; **Expense** = `expenses[]` row (cost, frequency), linked to the item named.
+
+### 2.1 United Kingdom (GB) — most thorough (example: Lumen & Loom Ltd, London)
+
+| # | Trigger (app fact) | Generated item (type, name) | Cost & frequency | Official source (fetched 2026-11-19) |
+|---|---|---|---|---|
+| GB1 | country = GB and legalForm = Private Company Limited by Shares / by Guarantee / CIC / LLP | Reg row "Company number (Companies House)"; Expense "Company incorporation" linked to it | £100 online, One time (paper £124) | https://www.gov.uk/government/publications/companies-house-fees/companies-house-fees |
+| GB2 | same as GB1 | Req (`additional`) "Confirmation statement"; Expense "Confirmation statement fee" | £50 online, Annually (first statement in each 12-month period) | same as GB1 |
+| GB3 | same as GB1 | Req (`additional`) "Annual accounts to Companies House" (small and micro-entity companies may send simpler accounts) | No fee stated, Annually | https://www.gov.uk/annual-accounts |
+| GB4 | same as GB1 (GB `commonRequirements` already lists `beneficial-owner`) | Req (`beneficial-owner`) "People with significant control (PSC)": everyone holding more than 25% of shares or votes, or able to appoint most directors; started from the Founders & Ownership rows above 25% | No fee stated; changes reported within 14 days | https://www.gov.uk/guidance/people-with-significant-control-pscs |
+| GB5 | legalForm = a company form | Req (`officer`) "Director" for each founder marked as director (GB `commonRequirements` already lists `officer`) | none | GB `commonRequirements` (LegalEntityJurisdictions.ts); PSC page above |
+| GB6 | legalForm = a company form | `tax.identificationNumber` labelled "UTR" stays the Corporation Tax reference; Req (`additional`) "Company Tax Return": filed 12 months after the accounting period ends, tax paid 9 months and 1 day after | Annually | https://www.gov.uk/company-tax-returns ; https://www.gov.uk/corporation-tax |
+| GB7 | legalForm = a company form | Req (`other`) "Company details on website, order forms and letters": registered number, registered office, place of registration, "Limited"; name sign at the premises (a home address needs none) | none | https://www.gov.uk/running-a-limited-company/signs-stationery-and-promotional-material |
+| GB8 | forecast taxable turnover for any rolling 12 months reaches £90,000, or is expected to within 30 days | **Tax status suggestion** "Register for VAT within 30 days of passing £90,000" (Review card, not a row); on "yes", Tax row "VAT registration number" | No fee stated | https://www.gov.uk/vat-registration |
+| GB9 | organisation based outside the UK and an Offering sold to a UK Segment | Tax status suggestion "Register for UK VAT from the first UK sale" (any turnover) | No fee stated | https://www.gov.uk/vat-registration |
+| GB10 | a company form (a sole director is already an employee), or any team member with a salary | Tax row "Employer PAYE reference": register before the first payday, at most 2 months before | No fee stated | https://www.gov.uk/register-employer |
+| GB11 | a team member with a salary, other than family members only | Req (`other`) "Employers' liability insurance" (at least £5 million cover, certificate on display); Expense "Employers' liability insurance" linked, cost typed by the founder | Annually (premium from the insurer); the law sets the cover, not the price | https://www.gov.uk/employers-liability-insurance |
+| GB12 | a team member with a salary aged 22 to State Pension age earning £10,000 or more a year | Req (`other`) "Workplace pension (automatic enrolment)" from the first employee's start date | Employer contribution each pay period | https://www.gov.uk/workplace-pensions-employers |
+| GB13 | the organisation keeps customer or contact details electronically: any B2C Segment, any O6 = shipped / auto / byyou / access, any Offering form app / access, or an online engagement channel | Req (`additional`) "Data protection fee (ICO)"; Expense "Data protection fee" | Tier 1 (turnover up to £632,000 or up to 10 staff) **£52**; Tier 2 (up to £36m or 250 staff) £78; Tier 3 £3,763; £5 less by Direct Debit; Annually | https://www.gov.uk/government/consultations/data-protection-fee-regime-proposed-changes/outcome/data-protection-fee-regime-government-response ; ico.org.uk refused the fetch tool (403) |
+| GB14 | an Offering sold to a B2C Segment with O6 = shipped / auto / byyou / access (sold at a distance) | Req (`other`) "Distance-selling information and 14-day cancellation": details before the order, copy of the contract by delivery, delivery within 30 days | none | https://www.gov.uk/online-and-distance-selling-for-businesses |
+| GB15 | an Offering with O1 = physical sold to a B2C Segment | Req (`other`) "General product safety": safe before sale; producer's name, address and product or batch reference on the item or its packaging | none | https://www.gov.uk/government/publications/general-product-safety-regulations-2005/general-product-safety-regulations-2005-great-britain |
+| GB16 | an Offering with O1 = physical **and** an activity code in a product sector with its own regulation (toys, electrical equipment, ...) | Req (`other`) "UKCA or CE marking" — only for those sectors; general homeware carries none | none | https://www.gov.uk/guidance/using-the-ukca-marking |
+| GB17 | a Capability cost of kind **premises** (rent, owned office, studio), not a home address | Req (`other`) "Business rates (non-domestic property)"; Expense "Business rates" with cost typed from the council's bill | Annually (council bill); relief possible from the local council | https://www.gov.uk/introduction-to-business-rates |
+| GB18 | premises open to the public or to staff (premises **and** an Offering with O6 = inperson, or a team member) and music played there | Req (`licence`) "TheMusicLicence (PPL PRS)"; Expense linked, cost from a PPL PRS quote | Annually; price depends on the venue and use | https://www.gov.uk/licence-to-play-live-or-recorded-music |
+| GB19 | a Capability cost of kind **premises** or an Offering with O1 = physical (production waste) | Req (`other`) "Business waste duty of care": waste transfer note per load, registered carrier; "Waste carrier registration" when the business regularly carries its own waste | none stated | https://www.gov.uk/managing-your-waste-an-overview |
+| GB20 | an activity code in food and drink (SIC divisions 10, 11, 56, 47.2x) or an Offering that is food | Req (`additional`) "Food business registration with the local authority", at least 28 days before trading, each site separately | No fee stated | https://www.gov.uk/food-business-registration |
+
+**Lumen & Loom would get:** GB1 to GB7, GB10 (a director), GB13 (B2C online shop), GB14, GB15, GB17 (studio), GB19; GB8 as a Review suggestion once the forecast passes £90,000; GB11/GB12 once a non-family employee is added; GB18 only if music plays at the workshops (a question the app does not ask yet).
+
+### 2.2 United States (US) — New York first (example: Quillfield LLC)
+
+| # | Trigger (app fact) | Generated item (type, name) | Cost & frequency | Official source (fetched 2026-11-19) |
+|---|---|---|---|---|
+| US1 | country = US and legalForm = LLC / C Corporation / S Corporation / LP, or any team member with a salary, or a partnership | `tax.identificationNumber` labelled "EIN" (already); Req (`additional`) "EIN from the IRS", applied for after the state formation | Free ("You never have to pay a fee for an EIN"), One time | https://www.irs.gov/businesses/small-businesses-self-employed/get-an-employer-identification-number |
+| US2 | US, subdivision = NY, legalForm = LLC | Reg row "DOS ID (NY Department of State)"; Expense "Articles of Organization" | $200, One time | https://dos.ny.gov/articles-organization-domestic-limited-liability-company-0 |
+| US3 | same as US2 | Req (`additional`) "Publication of the LLC's formation" in two newspapers chosen by the county clerk, six consecutive weeks, within 120 days; Expense "Certificate of Publication" | $50 filing fee, One time (newspaper charges on top, typed by the founder) | https://dos.ny.gov/certificate-publication-domestic-limited-liability-company-0 ; Articles page above |
+| US4 | same as US2 | Req (`additional`) "Biennial Statement", due in the month the Articles were filed, every two years; Expense "Biennial Statement" | $9 every two years | https://dos.ny.gov/articles-organization-domestic-limited-liability-company-0 |
+| US5 | US, NY, an Offering of taxable goods or taxable services (physical goods, or a service the founder marks taxable) | Tax row "NY Certificate of Authority (sales tax)", registered before beginning business | No fee stated | https://www.tax.ny.gov/bus/st/register.htm |
+| US6 | US, NY, any team member with a salary (LLC members are not employees) | Req (`other`) "Workers' compensation insurance"; Expense linked (premium typed) | Annually (premium) | https://www.wcb.ny.gov/content/main/coverage-required-wc.jsp |
+| US7 | US, NY, one or more employees on 30 days in a calendar year | Req (`other`) "Disability and Paid Family Leave insurance (DB/PFL)", in place within 4 weeks of the 30th day; Expense linked | Annually (premium) | https://www.wcb.ny.gov/content/main/coverage-required-db.jsp |
+| US8 | US, NY, paid remuneration of $300 or more in a calendar quarter | Tax row "NY unemployment insurance employer number" | No fee; quarterly returns follow | https://dol.ny.gov/bizserve/ui/register/classification |
+| US9 | US, any domestic legal form | **No** beneficial ownership (BOI) report: FinCEN's interim final rule of 26 March 2025 exempts US companies. The app keeps `beneficial-owner` off the US starting list | none | https://www.fincen.gov/boi |
+
+**Quillfield would get:** US1, US2, US3, US4; US5 only if a service is marked taxable (consulting taxability not verified, section 5); US6 to US8 once an employee is added.
+
+### 2.3 Ireland (IE)
+
+| # | Trigger | Generated item | Cost & frequency | Official source |
+|---|---|---|---|---|
+| IE1 | legalForm = LTD / DAC / CLG | Reg row "Company number (CRO)"; Expense "Company incorporation (Form A1)" | €50 online, One time **(excerpt)** | https://cro.ie/publications/fees/company/ (403 to the fetch tool; figure from the official page's search excerpt) |
+| IE2 | same | Req (`additional`) "Annual return (Form B1)"; Expense | €20 electronic, Annually **(excerpt)** | same |
+| IE3 | same | Req (`beneficial-owner`) "Register of Beneficial Ownership (RBO)" within 5 months of incorporation; changes within 14 days | Free, One time **(excerpt)** | https://cro.ie/registration/beneficial-ownership/ ; https://rbo.gov.ie/faqs/ |
+| IE4 | forecast turnover over €42,500 (services only) or €85,000 (goods, or 90% goods) in a rolling 12 months | Tax status suggestion "Register for VAT" | Free | https://www.revenue.ie/en/vat/vat-registration/who-should-register-for-vat/index.aspx (thresholds from Revenue's thresholds page and Finance Act 2024 notes, **(excerpt)**) |
+| IE5 | a company form (directors count), or any team member with a salary | Tax row "Employer registration (PAYE)", before the first payment | Free | https://www.revenue.ie/en/employing-people/becoming-an-employer-and-ongoing-obligations/registration-of-employers-for-paye-purposes/index.aspx **(excerpt)** |
+
+### 2.4 Canada (CA)
+
+| # | Trigger | Generated item | Cost & frequency | Official source |
+|---|---|---|---|---|
+| CA1 | legalForm = Corporation (federal) | Reg row "Corporation number (Corporations Canada)"; Expense "Incorporation" | $200 online, One time | https://ised-isde.canada.ca/site/corporations-canada/en/services-fees-and-processing-times |
+| CA2 | same | Req (`additional`) "Annual return"; Expense | $12 online, Annually | same |
+| CA3 | worldwide taxable revenue over $30,000 in a calendar quarter or four consecutive quarters | Tax status suggestion "Register for GST/HST within 29 days" | Free | https://www.canada.ca/en/revenue-agency/services/forms-publications/publications/rc4022/general-information-gst-hst-registrants.html |
+| CA4 | any team member with a salary | Tax row "Payroll program account (RP)" on the BN, before the first remittance is due | Free | https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/payroll/open-manage-payroll-account/determine-need-register.html **(excerpt)** |
+
+### 2.5 Australia (AU)
+
+| # | Trigger | Generated item | Cost & frequency | Official source |
+|---|---|---|---|---|
+| AU1 | legalForm = Pty Ltd | Reg row "ACN (ASIC)"; Expense "Company registration" | $636, One time (from 1 July 2026) | https://business.gov.au/news/changes-for-businesses-from-1-july-2026 |
+| AU2 | same | Req (`additional`) "Annual review fee"; Expense | $342, Annually (from 1 July 2026) | same |
+| AU3 | GST turnover of $75,000 or more, actual or expected in the first year | Tax status suggestion "Register for GST within 21 days" | Free | https://business.gov.au/registrations/register-for-taxes/register-for-goods-and-services-tax-gst |
+| AU4 | any team member with a salary | Tax row "PAYG withholding", before the first pay; Req (`other`) "Superannuation on each pay run" (12% of qualifying earnings); Req (`other`) "Workers compensation insurance" (state scheme), Expense linked | Each pay run; insurance Annually | https://business.gov.au/people/employees/hiring-employees ; payday super in the 1 July 2026 page above |
+
+### 2.6 New Zealand (NZ)
+
+| # | Trigger | Generated item | Cost & frequency | Official source |
+|---|---|---|---|---|
+| NZ1 | legalForm = Limited Company / LTC | Reg row "Company number (Companies Office)"; Expense "Incorporation" | $118.74 excl. GST ($136.55 incl.), One time | https://companies-register.companiesoffice.govt.nz/help-centre/managing-your-online-account/schedule-of-fees/ |
+| NZ2 | same | Req (`additional`) "Annual return", from the calendar year after incorporation; Expense | $49.74 excl. GST ($57.20 incl.), Annually | same |
+| NZ3 | turnover of $60,000 or more in the last or next 12 months | Tax status suggestion "Register for GST" | Free | https://www.ird.govt.nz/gst/registering-for-gst |
+| NZ4 | any team member with a salary | Tax row "Employer registration (IRD)", before the first pay; Req (`other`) "KiwiSaver employer contributions" (at least 3.5%) | Each pay | https://www.ird.govt.nz/employing-staff/am-i-an-employer **(excerpt)**; https://www.ird.govt.nz/kiwisaver/kiwisaver-employers/starting-employees-in-kiwisaver/auto-enrol-employees-into-kiwisaver **(excerpt)** |
+
+## 3. Cross-country rule shapes (for the engine)
+
+1. **Form rules** (GB1-7, US1-4, IE1-3, CA1-2, AU1-2, NZ1-2): `country + legalForm (+ subdivision)` → registration row, annual filing requirement, their fees. Deterministic; safe to start on choosing the form. Sole trader / proprietor forms (`NO_REGISTRY_FORM` in AnswerLegal.ts) get none of them.
+2. **Threshold rules** (GB8, IE4, CA3, AU3, NZ3): forecast turnover from the financial pages against the official threshold → a Review suggestion; the founder's "yes" fills `consumptionTaxStatus` and the tax row.
+3. **Employer rules** (GB10-12, US6-8, IE5, CA4, AU4, NZ4): first team member with a salary (and, for GB/IE, a company with a director) → employer tax row, insurance requirement + expense.
+4. **Offering rules** (GB13-16, GB20, US5): O1 form, O6 delivery, B2C/B2B and reach → consumer, product-safety, data and food requirements.
+5. **Infrastructure rules** (GB17-19): Capability kind premises → business rates, waste, music licence.
+6. **Insurance expenses**: the requirement links to the Capability "Insurances" kind so the premium is counted once (either in Legal Entity Expenses or in Capability, never both: an owner choice, section 6).
+
+## 4. Facts the app does not hold yet that would unlock more rules
+
+- **Sells or serves food or drink** (unlocks GB20 and food rules elsewhere); the activity code alone covers food businesses but not a craft studio selling refreshments at workshops.
+- **Plays music or holds events open to the public at its premises** (GB18; premises licence for regulated entertainment).
+- **Sells alcohol** (personal and premises licences).
+- **Premises is the founder's home** versus a separate space (business rates, name sign: GB7, GB17).
+- **Team member is a family member / a director / a contractor** (GB11 exemption for family only; NY members not employees; GB10 director counts).
+- **Expected turnover by month** is forecast, but **the turnover the founder confirms** for the VAT/GST/HST threshold is not stored as a fact.
+- **The service is taxable for sales tax** in the US state (consulting, information services: per-state rule).
+- **Stores customer personal data electronically** as an explicit tick (GB13 is inferred today from B2C and online delivery).
+- **Product sector with its own safety rules** (toys, electrical, cosmetics, PPE) for GB16.
+- **Regulated profession** (accountant, solicitor, architect, financial adviser) for `professional` requirements.
+- **Business carries its own waste regularly** (waste carrier registration, GB19).
+- **Directors list** (who among the founders is a director or officer) if not already a column of Founders & Ownership.
+
+## 5. Unverified (left out of the rules)
+
+- NY LLC filing fee (Form IT-204-LL, $25 for a single-member disregarded LLC with NY income): only found in old tax.ny.gov instructions (2022 PDF could not be read by the tools). Unverified for 2026.
+- NY sales tax on consulting / information services (Quillfield): not checked on an official page.
+- UK public liability insurance: no official page fetched; commonly optional, not a legal requirement in itself.
+- UK textile fibre-composition labelling for homeware (the gov.uk guidance URL tried returned 404).
+- UK premises licence for weaving workshops (Licensing Act 2003, regulated entertainment): not fetched.
+- ICO fee commencement date (17 February 2025): from law-firm summaries only; the gov.uk response states "early 2025".
+- Irish VAT, CRO and RBO figures: official pages refused the fetch tool; figures from search excerpts of those pages (marked "excerpt" above). Fetch again before building.
+- Australian state payroll tax thresholds and workers compensation premiums; NZ ACC employer levy; Canadian provincial incorporation fees and provincial sales taxes (PST/QST).
+- Business name (DBA / assumed name, ASIC business name) registrations: not researched in this pass.
+
+## 6. Decided (the owner's delegation, 2026-11-19 19:48 UTC+2)
+
+The owner asked for these eight to be researched, refined and accepted; they stand as decided. The questions as first put are kept in section 7.
+
+1. **Three levels.**
+   - (a) **Created by the app:** only what a fact the app holds makes mandatory, with no exemption -- the legal form's registrations and filings (GB1 to GB7, US1 to US4, CA1 and CA2, AU1 and AU2, NZ1 and NZ2; IE1 to IE3 without figures until their official pages are fetched), and the United Kingdom's PAYE employer registration whenever anyone on the payroll is paid, a sole director of a limited company included ("You must register even if you're only employing yourself ... the only director of a limited company"; before the first payday, at most 2 months before: https://www.gov.uk/register-employer).
+   - (b) **Review suggestions at a threshold**, with the reason and "Required from [month]", when the forecast crosses it: VAT on both tests (the last 12 months, and the next 30 days, at £90,000; voluntary registration said too: https://www.gov.uk/register-for-vat); the other countries' GST and VAT the same way.
+   - (c) **Review suggestions where an exemption may apply**, each with its official checker: the ICO fee (exempt only where the data is processed for staff administration, the business's own marketing, accounts and records: ico.org.uk's exemptions and self-assessment); employers' liability insurance (HSE40: family members and a sole owner of 50% or more are exempt; HSE40 to be fetched before its "i" is written); business rates (small business rate relief: 100% at a rateable value up to £12,000, tapering to £15,000).
+2. **"Every two years"** joins the cost frequencies, with its first month due, on every cost card (the cash flow shows each payment in its month).
+3. **Insurance premiums live in Capability → Insurances** (one owner). The Legal Entity keeps the requirement and links to the Insurance card; the Insurance card is made with an empty premium when the requirement is.
+4. **Business rates and the music licence are costed with the premises** (or the event activity) in Capability; the Legal Entity holds the requirement and its link.
+5. **Fixed official fees are filled in** -- £100 incorporation, £50 confirmation statement (from 1 February 2026, gov.uk), $200, $9 -- with a muted line "Official fee, checked 19 Nov 2026" and its source, followed until edited; the Review says when a fee's check is over 12 months old. Premiums and quotes stay empty (doc 28, rule 6).
+6. **The United States:** the federal items (EIN, the federal filings) for every state; the state items for New York only for now; every other state has one Review note, "Check your state's registration and tax rules", its state's link to come.
+7. **The facts the app does not hold yet are asked** as short choices, each only where it matters and once, where its fact belongs (one owner per fact): sells food, where an Offering is a product; plays music or holds events, with premises or an events channel or activity; works from home, on the premises card; a family employee, on the Staff card; personal data beyond its own staff, marketing and accounts (for the ICO suggestion); a regulated product or profession, on the Definition.
+8. **An item the founder removes stays removed** (its rule remembered); where the fact behind it changes later (a first employee), the Review suggests it again, once; it is never made again unseen.
+
+**The build, in stages.** Stage 1 (2026-11-19, built): the rules of level (a) for the legal forms and the UK PAYE registration, made by the app, their fees filled with their source line, a removed one remembered (`LegalStarts.ts`). Stage 2 (2026-11-19, built): the Review suggestions of levels (b) and (c) under "Worth a second look", at the Legal Entity -- the consumption tax on both tests from the forecast's monthly turnover (GB £90,000; IE €42,500, €85,000 with a product; CA $30,000; AU $75,000; NZ $60,000), the ICO fee where customers' details are kept, employers' liability once someone is employed, business rates with premises -- each said only where the Legal Entity does not already answer it, with its official page; the note for a United States state other than New York; the fees' check once over 12 months old (`LegalSuggestions.ts`). Stage 3 (2026-11-19, built): "Every two years" on every cost card where Annually is, and on the Legal Entity's expenses, placed in its first month and every 24 months on (its monthly equivalent a 24th), New York's Biennial Statement at $9 every two years with it (decision 2); the employers' liability and business rates suggestions say where their cost is kept -- the premium as an Insurance card on Infrastructure & Capability, the rates with the premises -- and the Legal Entity keeps only the requirement (decisions 3 and 4; an Insurance card is made with the requirement once a level (c) item is accepted, which comes with the Review's accept step). Stage 4 (2026-11-19, built; owner, 20:59 UTC+2: "Build only the necessary questions that their information cannot be extracted by the existing answers. The questions should be placed to the related section."; 21:05 UTC+2 on the music licence: "Use it only wherever is required"). The facts are read from the answers first (`LegalFacts.ts`); a question is asked only where nothing earlier says it, in the section its fact belongs to.
+
+| # | The fact | Read from (no question) | Asked only when | Where | The question | Options | Feeds |
+|---|---|---|---|---|---|---|---|
+| O24 | What a product is | The activity code: food (SIC 10, 11, 47.2, 56; NAICS 311, 312, 445, 722; ANZSIC 11, 12, 45), toys (32.40; 339930), electrical or electronic (26, 27; 334, 335), cosmetics (20.42; 325620) | a Product or a Hybrid that is a physical item, and the code does not say what it is | The Offering card, Function, after its form | Is it any of these? | Food or drink / Toys / Electrical or electronic / Cosmetics / Protective equipment / None of these (ticks; None of these stands alone) | GB20, food business registration; GB16, UKCA or CE marking |
+| -- | Music, radio or TV where people come | The activity code of PPL PRS's sectors -- retail with premises (47, not 47.91 online-only), accommodation (55), food and drink (56), arts (90), sport and recreation (93), dance and cultural education (85.52), hair and beauty (96.02), events and trade shows (82.3), taxis and land transport (49.3), and their NAICS and ANZSIC equivalents -- or an In Person channel of public gatherings, Event / Talk or Market / Pop-up | never: no question, no saved field | -- | -- | -- | GB18, TheMusicLicence (music, radio or TV at work or on a phone's hold line; a temporary permit for a one-off event; royalty-free music needs none) |
+| -- | Works from home | The Workspace's kind, "Home" | never | -- | -- | -- | GB17: no business rates for a home |
+| LF2 | A regulated profession | The activity code: SIC 69, 71.11, 86, 66.19; NAICS 5411, 5412, 54131, 621, 52393; ANZSIC 692, 693, 84, 85 | no activity code is given | Definition, beside the activities | Is your work a regulated profession? | Yes / No | A professional registration, said on the Review |
+| LF3 | A member of staff is a close relative | -- | a paid Staff card (its Status Costs, a price above 0), never a Partner's or Supplier's, in a business that is not a company (HSE40: the close relatives' exemption "does not apply to family businesses which are incorporated as limited companies") | The Staff card, Team section | Is this person part of your family? (its "i": the close relatives HSE40 and gov.uk name) | Yes / No | GB11: no employers' liability suggestion where every employee is a close relative |
+| LF4 | Personal details beyond staff, own marketing and accounts | The activity code: health, social work and childcare, finance, legal, employment, IT and data (SIC 86, 88, 64 to 66, 69.1, 78, 62, 63; NAICS 62, 52, 5411, 5613, 518, 5415) | the United Kingdom, and the code does not settle it | Definition, beside the activities | What do you keep people's details for? | Only for staff, my own marketing & my accounts / Also for other uses, such as customer accounts, CCTV or sharing them | GB13: the ICO suggestion unless "Only for staff ..." |
+
+Lumen (UK, a limited company, SIC 13921) meets O24 on its two products ("None of these") and LF4 ("Also for other uses"), never LF3 (a company); the music licence is suggested from its Market / Pop-up channel. Quillfield (US, NAICS 541512) meets none.
+
+**Checked 2026-11-19** (HSE40, *Employers' Liability (Compulsory Insurance) Act 1969: A brief guide for employers*, https://www.hse.gov.uk/pubns/hse40.pdf, read from the official PDF): close relatives are exempt, but the exemption "does not apply to family businesses which are incorporated as limited companies"; a company employing only its owner, who holds 50% or more of the issued share capital, is exempt; the cover is at least £5 million.
+
+## 7. The questions as first put
+
+1. **Start or suggest?** Should form rules (section 3.1) start rows and requirements on their own when the legal form is chosen, and threshold, employer and offering rules only appear as Review suggestions the founder accepts? (Proposed: yes.)
+2. **"Every two years"**: `LEGAL_ENTITY_EXPENSE_FREQUENCIES` offers One time / Monthly / Annually. The NY Biennial Statement ($9 every two years) needs either a new frequency "Every two years" or an annual equivalent ($4.50). Which?
+3. **Insurance premiums**: employers' liability (GB), workers' compensation and DB/PFL (NY) are legal requirements whose cost is an insurance premium. Count the premium in Legal Entity Expenses (linked to the requirement) or in Capability → Insurances (with the requirement pointing there)?
+4. **Business rates and music licence**: legal requirements tied to premises. Should their expense live with the premises in Capability, with only the requirement card in Legal Entity?
+5. **Fee figures in the app**: show official fees as filled costs (with the date checked and the source in the "i"), or as a typical range in the "i" only (doc 28, rule 6: "no figure is filled in")? Fees set by a registry (Companies House £100/£50, NY $200/$50/$9) are exact, not estimates; proposal: fill registry fees, leave premiums and quotes empty.
+6. **US scope**: build New York only for the first version, or all 50 states' formation and annual report fees (a large official-source task)?
+7. **New questions**: may the app add the facts in section 4 (food, music/events, home premises, family employee, taxable service, personal data tick, regulated product sector, profession) as questions, each passing the app purpose test?
+8. **Removed items**: when a founder deletes an item the app started, should the app remember and never start it again (proposed), or start it again when the trigger changes?

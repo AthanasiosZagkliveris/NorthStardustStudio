@@ -161,6 +161,18 @@ type Example = { systems: Record<string, Parameters<typeof InterviewSession.from
 
     2026-11-19, Financials (the owner's approved plan of 2026-11-18, step 1): the plan digests (and the weekly fixture's words) written again when the
     two Financial pages became one, Financials, and the plan's notes name it ("on Financials", "in Revenue Streams"). No amount changed.
+
+    2026-11-19, the Vision's future (PB7, PB8; doc 45, 3.8; B2): the plan digests written again when the Executive Summary prints "When our Vision comes
+    true, the business will be ..." from the examples' new answers. No amount changed.
+
+    2026-11-19, the Ambassador's choices (BA1 to BA4, BA6 to BA8; doc 46; B2): the plan digests written again when Brand & Voice opens with "Our brand is ...,
+    with a ... tone." from the examples' new answers. No amount changed.
+
+    2026-11-19, the legal starts (doc 53, stage 1): Lumen's confirmation statement is GB2's, at the official fee since 1 February 2026, £50 a year (it was £34),
+    and its four new requirements stand in the Legal Entity. WRITE_GOLDEN=all: Lumen's forecast moved by £16 a year from Mar 2027 (the funding gap £25,848 ->
+    £25,864), its settings forecast with it; Quillfield is as it was.
+
+    2026-11-19, the legal facts (doc 53, stage 4): Lumen's two products answer O24, "None of these", and the export prints it. Words only; no amount changed.
 */
 const ENGAGEMENT = JSON.parse(engagementText) as Record<string, unknown>;
 

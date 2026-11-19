@@ -1,6 +1,6 @@
 # 46. The Ambassador: every question and option, as proposed
 
-Status: **proposal**, written 2026-11-12. The owner approved it on 2026-11-12 (decisions D3, D4, D5 below); it is built in phase 4 (the order of work: doc 49, section 8; numbered 5 until the financials moved last, 2026-11-12). Nothing here is built yet.
+Status: **proposal**, written 2026-11-12. The owner approved it on 2026-11-12 (decisions D3, D4, D5 below); it is built in phase 4 (the order of work: doc 49, section 8; numbered 5 until the financials moved last, 2026-11-12). **Built 2026-11-19** (the owner's approved plan of 2026-11-18, §3, B2): BA1 to BA4 and BA6 to BA8 with their starts, the drafts of section 3 (the Imprint's first sentence into its First impression), the Review item and the Business Plan's opening line (`AmbassadorChoices.ts`, `brand/AmbassadorChoices.tsx`). The Values' ids (section 5, step 1) are built the functional items' way: the Values' text stays saved as it was, and their ids stand beside it line for line (`valueIds`, `ValueIds.ts`), made from each line's words where a save has none (a suffix only to tell apart two lines of the same words). BA9 is built on them (2026-11-19): the Values by their ids, then the Segments' Differentiations, its sentence written into the Lasting impression's text by the Imprint's one "Add a draft". Not built yet: the Style suggestions (section 4).
 
 Related: doc 40 (the form of a tile document), doc 39 (what an "i" says), doc 28 (8.3, the Brand System and its evidence), doc 45 (the Values this card reads), doc 47 (the relationship type, J3), doc 44 (the register and the code rule), doc 2 (the sources).
 
@@ -38,11 +38,11 @@ Aesthetics holds BA1, BA2, BA3; Body Language BA4; Communication & Voice BA6, BA
 
   | id | Label | Its "i" | Draft phrase |
   |---|---|---|---|
-  | `sincere` | Warm and honest | Sincere, down-to-earth, cheerful. | warm and honest |
-  | `exciting` | Lively and bold | Daring, spirited, imaginative. | lively and bold |
-  | `competent` | Capable and reliable | Hard-working, intelligent, confident. | capable and reliable |
-  | `sophisticated` | Refined and elegant | Glamorous, charming, polished. | refined and elegant |
-  | `rugged` | Tough and practical | Outdoorsy, rugged, hard-wearing. | tough and practical |
+  | `sincere` | Warm & honest | Sincere, down-to-earth, cheerful. | warm and honest |
+  | `exciting` | Lively & bold | Daring, spirited, imaginative. | lively and bold |
+  | `competent` | Capable & reliable | Hard-working, intelligent, confident. | capable and reliable |
+  | `sophisticated` | Refined & elegant | Glamorous, charming, polished. | refined and elegant |
+  | `rugged` | Tough & practical | Outdoorsy, rugged, hard-wearing. | tough and practical |
 
 - **"i":**
   - Picture your brand as a person: the character people describe after meeting it.
@@ -87,7 +87,7 @@ Aesthetics holds BA1, BA2, BA3; Body Language BA4; Communication & Voice BA6, BA
 ### BA4 (Body Language tile)
 
 - **Label:** How does your Ambassador come across?
-- **Control:** two single Rating Scales, each in its own band.
+- **Control:** two rated rows in the question's own band, one field: the shared Rating Scale group, each row with its own "i" (owner, 2026-11-19 18:32: "Energy and Expression should belong to the field").
 - **Rows** (each row's "i"):
   - Energy: "1 = Calm, 5 = Energetic." then "The pace and movement your Ambassador brings."
   - Expression: "1 = Reserved, 5 = Expressive." then "How openly your Ambassador shows feeling."
@@ -95,11 +95,11 @@ Aesthetics holds BA1, BA2, BA3; Body Language BA4; Communication & Voice BA6, BA
   - How your Ambassador stands, moves and reacts.
   - Your character choice starts both ratings.
 - **Starts from BA1** (Energy, Expression):
-  - Warm and honest: 3, 4
-  - Lively and bold: 5, 5
-  - Capable and reliable: 2, 2
-  - Refined and elegant: 2, 2
-  - Tough and practical: 3, 2
+  - Warm & honest: 3, 4
+  - Lively & bold: 5, 5
+  - Capable & reliable: 2, 2
+  - Refined & elegant: 2, 2
+  - Tough & practical: 3, 2
 
   With two characters ticked, the first one sets the start. The mapping is the author's, and the evidence for it is weak (doc 28, 8.3).
 - **Saved as:** `ambassador.energy`, `ambassador.expression` (1 to 5).
@@ -107,7 +107,7 @@ Aesthetics holds BA1, BA2, BA3; Body Language BA4; Communication & Voice BA6, BA
 ### BA6 (Communication & Voice tile)
 
 - **Label:** What tone does your Ambassador use?
-- **Control:** four single Rating Scales.
+- **Control:** four rated rows in the question's own band, one field, as BA4's (owner, 2026-11-19 18:32).
 - **Rows** (each row's "i", first line):
   - Formality: 1 = Casual, 5 = Formal.
   - Humour: 1 = Serious, 5 = Funny.
@@ -121,11 +121,11 @@ Aesthetics holds BA1, BA2, BA3; Body Language BA4; Communication & Voice BA6, BA
 
   | Character | Formality | Humour | Respect | Enthusiasm |
   |---|---|---|---|---|
-  | Warm and honest | 2 | 3 | 4 | 4 |
-  | Lively and bold | 2 | 4 | 3 | 5 |
-  | Capable and reliable | 4 | 2 | 4 | 2 |
-  | Refined and elegant | 5 | 2 | 5 | 2 |
-  | Tough and practical | 2 | 3 | 3 | 2 |
+  | Warm & honest | 2 | 3 | 4 | 4 |
+  | Lively & bold | 2 | 4 | 3 | 5 |
+  | Capable & reliable | 4 | 2 | 4 | 2 |
+  | Refined & elegant | 5 | 2 | 5 | 2 |
+  | Tough & practical | 2 | 3 | 3 | 2 |
 
   The mapping is the author's, and the evidence for it is weak.
 - **Saved as:** `ambassador.tone: { formality, humour, respect, enthusiasm }`.
@@ -218,7 +218,7 @@ From BA1, through doc 28, 8.3's table: suggested colour families on the Colours 
 
 ## 7. Codes
 
-New prefix **BA** (Brand Ambassador), unused in doc 44. BA1 to BA4 and BA6 to BA9 enter the register when built (`tools/scripts/docs/questions-register.mjs`). **BA5 is withdrawn** (2026-11-12, before registration): it asked how close the business stays to its customers, which the relationship type (J3, doc 47) answers; the register lists it as withdrawn, never reused. BA4 has two rows (Energy, Expression); a third, Manner, was dropped as BA6's Formality reversed.
+New prefix **BA** (Brand Ambassador), unused in doc 44. BA1 to BA4 and BA6 to BA9 are reserved in the register (doc 44, "Reserved codes", 2026-11-19, B2), BA5 listed there as withdrawn; each moves to its card's section when built. **BA5 is withdrawn** (2026-11-12, before registration): it asked how close the business stays to its customers, which the relationship type (J3, doc 47) answers; the register lists it as withdrawn, never reused. BA4 has two rows (Energy, Expression); a third, Manner, was dropped as BA6's Formality reversed.
 
 ## 8. Decided, and still to decide
 

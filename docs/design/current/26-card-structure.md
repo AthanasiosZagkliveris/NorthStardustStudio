@@ -1187,7 +1187,7 @@ Leased (status Partners & Suppliers): the cost sits on the supplier's card. Boug
 
 #### Category: Human Resources
 
-**Every Delivery Team card also has** (owner, 2026-11-17; doc 52, 14): **Hours a month they can give** -- a number box under its label (the label is long for the side column), optional. Read by Capacity & Delivery: the card's own row and bar there.
+**Every Delivery Team card also has** (owner, 2026-11-17; doc 52, 14): **Hours a month they can give** -- a side number box, optional, in its Team section before the Notes (2026-11-19, 3.5). Read by Capacity & Delivery: the card's own row and bar there. **A paid Staff card** (its Status Costs, a price above 0; Infrastructure's Admin Team or the Offering's Delivery Team) **of a business that is not a company also asks** "Is this person part of your family?" (Yes / No; doc 53, LF3; HSE40), in its Team section; never a Partner's or Supplier's card.
 
 ##### Offering > Resources > Human Resources > Delivery Team
 
@@ -1286,7 +1286,7 @@ The activity card carries no cost and no cost nature, and no card takes its cost
 
 #### Partners
 
-**Every Partner and Supplier card of the Offering also has** (owner, 2026-11-17; doc 52, 14 and 16): **Hours a month they can give** -- a number box under its label (the label is long for the side column), optional, read by Capacity & Delivery (the card's own row and bar); and, on a Supplier, **Lead time (weeks)** -- a side number box, optional, added by Capacity & Delivery to the Calendar Time of the Offerings this supplier can hold up.
+**A Partner or Supplier card of the Offering may also have** (owner, 2026-11-17; doc 52, 14 and 16; reviewed 2026-11-19 16:52 UTC+2, 3.5), in its Team section before the Notes: **Hours a month they can give** -- a side number box, optional, read by Capacity & Delivery (the card's own row and bar), on a card whose people do part of the job (Contractors & Advisers, Technical Support, Creative & IT Services, or no group yet; never one charged as a share of revenue: `givesWorkingHours`); and, on a Supplier, **Weeks to deliver** (its key stays "Lead time (weeks)") -- a side number box with its "i", optional, added by Capacity & Delivery to the Calendar Time of the Offerings this supplier can hold up, on a Producers & Wholesalers or a Contractors & Advisers card, or one with no group yet (`LEAD_TIME_GROUPS`). A card that holds an answer keeps showing it. Neither is filled in for the founder (doc 28, rule 6): no earlier answer says how many hours someone else can give or how long their orders take.
 
 ##### Offering > Partners > Revenue Partners > Revenue Partners
 
@@ -1550,13 +1550,13 @@ A card made from a channel template would have the layout of its group's card ab
 
 ### Legal Entity expense card
 
-Shown in All Tiles under “Legal expenses”. It records registrations and their expenses only. It belongs to the company, not to an offering, so it has no Linked to row. Insurance, licences and certificates are cards of Documents & Rights.
+Shown in All Tiles under “Legal expenses”. It records registrations and their expenses only. **An expense the app made from a rule** (doc 53, stage 1: an incorporation, a confirmation statement's fee) carries its rule's id and the official fee; while the cost is that fee, a muted line under the row says "Official fee, checked 19 Nov 2026", its source a link; removed, it stays removed (`dismissedStarts`). It belongs to the company, not to an offering, so it has no Linked to row and no Offerings (owner, 2026-11-19 16:52 UTC+2: "From the Expenses, remove the offerings section", reversing the plan of 2026-11-18, step 3). Insurance, licences and certificates are cards of Documents & Rights.
 
 | # | Field, left to right | Label shown | Action | Function | Status | What it contains | Why |
 |---|---|---|---|---|---|---|---|
 | 1 | Number<br>Name<br>Remove × | Number<br>Name<br>× | None (shown)<br>Type<br>Click | Read-only number<br>Text box<br>Button | Automatic / Required / Button | **Number:** The card number<br>**Name:** The name of the card (“Expense name”)<br>**Remove ×:** Removes the card | A card without a name cannot be found or linked |
 | 2 | Date | Date | Pick a date | Calendar | Required | Places the cost in a month of the cash flow | Placed after the name |
-| 3 | Cost<br>Frequency | Cost<br>Frequency | Type<br>Select | Number box<br>Dropdown | Required / Required | **Cost:** The label carries the organisation's currency<br>**Frequency:** One time; Monthly; Annually | The amount and how often it recurs |
+| 3 | Cost<br>Frequency | Cost<br>Frequency | Type<br>Select | Number box<br>Dropdown | Required / Required | **Cost:** The label carries the organisation's currency<br>**Frequency:** One time; Monthly; Annually; Every two years (doc 53, decision 2) | The amount and how often it recurs |
 | 4 | Responsibility | Responsibility | Select | Dropdown of founders | Required | Shown when there is more than one founder. Hidden when there is one founder | Someone answers for it |
 | 5 | Linked registration | Linked registration | Select | Dropdown | Required | The registration and tax numbers and the requirements already recorded on the page. Only one can be chosen | Every expense pays for one registration |
 | 6 | Notes<br>Record date and time<br>Add Date | Notes<br>Record date and time<br>Add Date | Type<br>None (shown)<br>Click | Text box, auto-growing, opened by a tick<br>Read-only text<br>Button | Optional / Automatic / Button | **Notes:** A note; nothing is calculated from it<br>**Record date and time:** Each note is stamped with the date and time it was recorded<br>**Add Date:** Adds a date to the note | A dated note |
@@ -1567,6 +1567,8 @@ Shown in All Tiles under “Legal expenses”. It records registrations and thei
 |---|---|---|---|
 | One time | Step | OpEx | Start-up expense |
 | Monthly, Annually | Fixed | OpEx | Start-up expense |
+
+**An Offering removed** (owner, 2026-11-19: removing an Offering clears it from every card that points to it) is unticked on every card that stores Offering ids -- Infrastructure & Capability's resources, activities, partners and suppliers, Customer Engagement's channels -- with its share, when the Business System is next saved (`offeringRemoval.ts`, `StorageService.saveInterview`); what is keyed by an Offering (its demand, its relationships, its revenue stream) stays.
 
 <a id="points-to-decide"></a>
 

@@ -44,6 +44,11 @@ import { InterviewValidator } from "./InterviewValidator.ts";
 import { monthOrdinal } from "./FinancialModel.ts";
 import { parseAmount } from "./Amounts.ts";
 import { pageStatus } from "./PageStatus.ts";
+import { asVisionAmbitions, asVisionReach } from "./VisionChoices.ts";
+import { asAmbassadorChoices } from "./AmbassadorChoices.ts";
+
+/** The Ambassador's four texts, by their saved keys (doc 46). */
+const AMBASSADOR_TEXTS = ["aesthetics", "attitude-body-language", "communication-voice", "imprint"] as const;
 import { effectiveOfferingAnswers } from "./EffectiveAnswers.ts";
 
 /*
@@ -117,6 +122,8 @@ export function openItemsOf(
         const answer = section.answer;
         const value = session.getResponse(section.number);
         const at = where(section);
+        // (The Identity System's Definition, by its id in the saved answer, said as the caller says every place: the page's name and its place in the rail.)
+        const definitionAt = (() => { const definition = session.getSections().find(candidate => candidate.number === 1); return definition ? where(definition) : at; })();
         const key = (...path: string[]) => fieldKey({ systemNumber, sectionNumber: section.number, path });
         const add = (text: string, place: Partial<OpenPlace> = {}) =>
             items.push({ text: at + ": " + text, place: { systemNumber, sectionNumber: section.number, ...place } });
@@ -162,6 +169,17 @@ export function openItemsOf(
                     add(part.label + ": not answered yet.", { key: key(part.id) });
                 }
             }
+            // (THE VISION'S FUTURE (doc 45, 3.8, PB7 and PB8): once the Vision has text and either choice is empty, an item where the Mission & Vision is drawn.)
+            if (noted && columns.parts.some(part => part.id === "vision") && !isAnswerEmpty(columns.parts.find(part => part.id === "vision")!.answer, values.vision)
+                && (asVisionAmbitions(values.visionAmbitions).length === 0 || !asVisionReach(values.visionReach))) {
+                const drawnIn = session.getSections().find(candidate => candidate.answer?.parts?.some(other => other.id === "philosophy"));
+                items.push({ text: (drawnIn ? where(drawnIn) : at) + ": Your Vision's future: not chosen yet.", place: { systemNumber, sectionNumber: section.number, key: key("vision") } });
+            }
+            // (THE AMBASSADOR'S CHARACTER (doc 46, section 5, BA1): once any of its four texts is written and no character is chosen, at its Aesthetics tile.)
+            if (AMBASSADOR_TEXTS.every(id => columns.parts!.some(part => part.id === id)) && AMBASSADOR_TEXTS.some(id => typeof values[id] === "string" && (values[id] as string).trim() !== "")
+                && (asAmbassadorChoices(values).character ?? []).length === 0) {
+                add("Your Ambassador's character: not chosen yet.", { key: key("aesthetics") });
+            }
             continue;
         }
 
@@ -177,12 +195,12 @@ export function openItemsOf(
                     blank(organisation.legalForm) && blank(organisation.legalFormOther) && "legal form"
                 ].filter((word): word is string => !!word);
                 if (missing.length > 0) {
-                    // (The Organization is a tile of the Identity System's Definition, page 1: its key is the tile's.)
-                    items.push({ text: at.replace(/ → [^→]*$/, " → 1. Definition") + ": Organisation: " + list(missing) + ".", place: { systemNumber, sectionNumber: 1, key: fieldKey({ systemNumber, sectionNumber: 1, path: ["description"] }) } });
+                    // (The Organization is a tile of the Identity System's Definition: its key is the tile's. The page is said by its name, from the page list by its section's id.)
+                    items.push({ text: definitionAt + ": Organisation: " + list(missing) + ".", place: { systemNumber, sectionNumber: 1, key: fieldKey({ systemNumber, sectionNumber: 1, path: ["description"] }) } });
                 }
                 if (!entity.founders.some(founder => !blank(founder.name))) {
-                    // (Founders & Ownership is a tile of the Identity System's Definition, page 1, since 2026-11-09: the item says it there and opens that page.)
-                    items.push({ text: at.replace(/ → [^→]*$/, " → 1. Definition") + ": " + LEGAL_ENTITY_SECTIONS[1] + ": a founder's name.", place: { systemNumber, sectionNumber: 1, anchors: ["legal-section-1"] } });
+                    // (Founders & Ownership is a tile of the Identity System's Definition since 2026-11-09: the item says it there and opens that page.)
+                    items.push({ text: definitionAt + ": " + LEGAL_ENTITY_SECTIONS[1] + ": a founder's name.", place: { systemNumber, sectionNumber: 1, anchors: ["legal-section-1"] } });
                 }
                 const planned = entity.formation.status === "planned";
                 const formation = [

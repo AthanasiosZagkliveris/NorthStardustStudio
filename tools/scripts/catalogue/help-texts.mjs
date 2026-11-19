@@ -96,26 +96,41 @@ for (const [system, pages] of Object.entries(PAGES)) {
         await attempt(where, async () => {
             await open(system, name);
             await record(where + " / page");
-            const count = await page.locator(".section-tile-slot button.section-tile").count();
-            console.log("  " + where + ": " + count + " tiles");
-            for (let i = 0; i < count; i++) {
-                await attempt(where + " tile " + i, async () => {
+            // (EACH TILE BY WHAT IT IS, never by its place (ai-collaboration-rules.md, "Read the app's structure by what a thing is"): a page's tile by its chapter's
+            // anchor and its id -- two chapters may hold tiles of one id, Infrastructure's and Offering's Capability's Resources --; a tile in a dialog by its id,
+            // else its name. Then each one's nested tiles, up to 16 (2026-11-17), and -- where a nested tile opens a list of cards in place (a sub tile:
+            // Registrations & Expenses → Expenses) -- one of those cards, by its name, so the help on a card inside a sub tile is found too.)
+            const keysOf = selector => page.locator(selector).evaluateAll(nodes => [...new Set(nodes.map(node => (node.closest(".business-foundation-input[data-anchor]")?.getAttribute("data-anchor") ?? "") + "|" + (node.getAttribute("data-tile") || node.getAttribute("aria-label") || (node.textContent ?? "").trim().replace(/\s+/g, " "))))]);
+            const pressKey = (selector, key) => page.locator(selector).evaluateAll((nodes, wanted) => {
+                const node = nodes.find(candidate => (candidate.closest(".business-foundation-input[data-anchor]")?.getAttribute("data-anchor") ?? "") + "|" + (candidate.getAttribute("data-tile") || candidate.getAttribute("aria-label") || (candidate.textContent ?? "").trim().replace(/\s+/g, " ")) === wanted);
+                node?.click();
+                return !!node;
+            }, key);
+            const PAGE_TILE = ".section-tile-slot button.section-tile";
+            const NESTED = ".section-tile-overlay:not(.floating-overlay) button.section-tile";
+            const tileKeys = await keysOf(PAGE_TILE);
+            console.log("  " + where + ": " + tileKeys.length + " tiles");
+            for (const key of tileKeys) {
+                await attempt(where + " tile " + key, async () => {
                     await open(system, name);
-                    const tile = page.locator(".section-tile-slot button.section-tile").nth(i);
-                    const title = (await tile.textContent() ?? "").trim().replace(/\s+/g, " ").slice(0, 30);
-                    await tile.evaluate(n => n.click());
+                    const title = key.split("|").slice(1).join("|").slice(0, 30);
+                    await pressKey(PAGE_TILE, key);
                     await wait(900);
                     await record(where + " / tile " + title);
-                    const nested = page.locator(".section-tile-overlay:not(.floating-overlay) button.section-tile");
-                    // (EVERY NESTED TILE of a dialog, up to 16 (2026-11-17): Customer Engagement opens as three tiles a Segment, its channel categories one level down,
-                    // where the first two alone left most of the page unseen.)
-                    const nn = Math.min(await nested.count(), 16);
-                    for (let j = 0; j < nn; j++) {
-                        await attempt(where + " nested " + j, async () => {
-                            if (j > 0) { await open(system, name); await page.locator(".section-tile-slot button.section-tile").nth(i).evaluate(n => n.click()); await wait(900); }
-                            await nested.nth(j).evaluate(n => n.click());
+                    const nestedKeys = (await keysOf(NESTED)).slice(0, 16);
+                    for (const [at, nestedKey] of nestedKeys.entries()) {
+                        await attempt(where + " nested " + nestedKey, async () => {
+                            if (at > 0) { await open(system, name); await pressKey(PAGE_TILE, key); await wait(900); }
+                            if (!(await pressKey(NESTED, nestedKey))) return;
                             await wait(900);
-                            await record(where + " / tile " + title + " / card " + (j + 1));
+                            await record(where + " / tile " + title + " / card " + (at + 1));
+                            // (A nested tile that opened a list of cards in place: one card of it, found by its name.)
+                            const cardNames = await page.locator(".section-tile-overlay:not(.floating-overlay) button.card-tile").evaluateAll(nodes => nodes.map(node => node.getAttribute("aria-label") || "").filter(Boolean));
+                            if (cardNames.length > 0 && !(await page.locator(".floating-card-host").count())) {
+                                await page.getByRole("button", { name: cardNames[0], exact: true }).first().evaluate(n => n.click());
+                                await wait(900);
+                                await record(where + " / tile " + title + " / card " + (at + 1) + " / " + cardNames[0].slice(0, 30));
+                            }
                         });
                     }
                 });

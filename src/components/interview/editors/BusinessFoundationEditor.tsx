@@ -8,7 +8,7 @@ import { workHue } from "../../../framework/engine/WorkColours.ts";
 import CardBoxes, { type CardBox } from "../cards/CardBoxes.tsx";
 import DialogSectionBand from "../tiles/DialogSectionBand.tsx";
 import SectionTiles, { DialogHeading, useTitleSlide, type SectionTile, type TileAdd } from "../tiles/SectionTiles.tsx";
-import { BUSINESS_COMPETITOR_TYPES, BUSINESS_FOUNDATION_SUBSECTIONS, BusinessCustomerSegmentValue, createBusinessCompetitor, createBusinessCustomerProfile, createBusinessCustomerSegment, createBusinessOffering, segmentHue } from "../../../framework/engine/AnswerUtils.ts";
+import { BUSINESS_FOUNDATION_SUBSECTIONS, BusinessCustomerSegmentValue, createBusinessCompetitor, createBusinessCustomerProfile, createBusinessCustomerSegment, createBusinessOffering, segmentHue } from "../../../framework/engine/AnswerUtils.ts";
 import FoldAllToggle from "../fields/FoldAllToggle.tsx";
 import InfoNote, { InfoPoint, InfoText } from "../fields/InfoNote.tsx";
 import { railId } from "../rails/railItems.ts";
@@ -16,6 +16,7 @@ import { FieldMark } from "../fields/fieldMarks.tsx";
 import { toggledIn } from "../fields/toggledIn.ts";
 import { segmentFrameAttributes, useCompanionTiles, useSegmentPage } from "../tiles/segmentPage.ts";
 import { segmentMadeByIdentity } from "../../../framework/engine/businessFoundation/foundationPage.ts";
+import { competitorFaceLines, offeringFaceLines, profileFaceLines } from "../../../framework/engine/CardFaces.ts";
 
 import { BusinessFoundationEditorProps, SUBSECTIONS } from "./foundation/shared.tsx";
 
@@ -45,7 +46,7 @@ export default function BusinessFoundationEditor(props: BusinessFoundationEditor
     useCompanionTiles(segmentPage);
     const part1 = useFoundationState(props);
     const part2 = { ...part1, ...useFoundationSubsections({ ...part1 }) };
-    const { addButton, asTiles, built, collapsed, columnsDivider, disabled, folds, forceOpen, foundation, heads, latest, onChange, remove, setCollapsed, showInstructions, subsectionsFor, update, updateSegment } = part2;
+    const { addButton, asTiles, built, collapsed, columnsDivider, disabled, folds, forceOpen, foundation, heads, identity, latest, onChange, remove, setCollapsed, showInstructions, subsectionsFor, update, updateSegment } = part2;
 
     /* THE PAGE AS TILES (the page's tile system): four tiles, two by two -- Customers (the Segments and their Profiles) and Value Proposition above, Competitors and
        Offerings under them. Everything this page asks is asked about a Segment, so each tile's dialog lists the Segments, each with its part: the Segment and its
@@ -123,10 +124,11 @@ export default function BusinessFoundationEditor(props: BusinessFoundationEditor
             number: at + 1,
             name: entry.name,
             unnamed: "Unnamed " + NOUN[kind].toLowerCase(),
-            // A Competitor's tile names its Type under its name, in the Type select's own words (doc 41); none while no Type is chosen.
-            summary: kind === "competitors"
-                ? BUSINESS_COMPETITOR_TYPES.find(type => type.id === segment.competitors[at].type)?.label
-                : undefined,
+            // (WHAT ITS TILE SAYS, a line each (owner, 2026-11-19 16:52 UTC+2, 1.2; CardFaces.ts): a Profile's age, kind of work and first goal; a Competitor's Type,
+            // in the Type select's own words (doc 41), its reach and its size; an Offering's Type, form, whether it can be bought today and how it is paid for.)
+            lines: kind === "profiles" ? profileFaceLines(segment.profiles[at], segment, identity)
+                : kind === "competitors" ? competitorFaceLines(segment.competitors[at])
+                    : offeringFaceLines(segment.offerings[at], segment, identity),
             own: true,
             content: () => null
         }));
