@@ -435,124 +435,126 @@ Each field once, with the component it uses (CO) and the functions it carries (F
 | F073 | Cost | number box | CO07 | FN22 | 1 |
 | F074 | Responsibility | dropdown | CO02 | FN28 | 1 |
 | F075 | Linked registration | dropdown | CO02 | FN05 | 1 |
-| F076 | Colour 4 name | text area | CO09 | - | 1 |
-| F077 | Remove Colour 4 | x | CO12 | - | 1 |
-| F078 | Role: what this means | info | CO04 | - | 2 |
-| F079 | Rolei | dropdown | CO02 | - | 2 |
-| F080 | Colour: what this means | info | CO04 | - | 1 |
-| F081 | Secondary B HEX | text box | CO10 | - | 1 |
-| F082 | Colouri | x | CO12 | - | 1 |
-| F083 | Notes | tick box | CO11 | - | 3 |
-| F084 | Typeface 3 name | text area | CO09 | - | 1 |
-| F085 | Remove Typeface 3 | x | CO12 | - | 1 |
-| F086 | Image 4 name | text area | CO09 | - | 1 |
-| F087 | Remove Image 4 | x | CO12 | - | 1 |
-| F088 | text box | text box | CO10 | - | 1 |
-| F089 | Segment 1, Profile 3 name | text area | CO09 | - | 1 |
-| F090 | Remove Profile 3 | x | CO12 | - | 1 |
-| F091 | Specific Personal Information: what this | info | CO04 | - | 1 |
-| F092 | Specific Personal Informationi | text area | CO09 | - | 1 |
-| F093 | Psychographics: what this means | info | CO04 | - | 1 |
-| F094 | Psychographicsi | text area | CO09 | - | 1 |
-| F095 | Social & Interest Hubs: what this means | info | CO04 | - | 1 |
-| F096 | Social & Interest Hubsi | text area | CO09 | - | 1 |
-| F097 | Information & Shopping Habits: what this | info | CO04 | - | 1 |
-| F098 | Information & Shopping Habitsi | text area | CO09 | - | 1 |
-| F099 | Goals & Desires: what this means | info | CO04 | - | 1 |
-| F100 | Goals & Desiresi | text area | CO09 | - | 1 |
-| F101 | Challenges & Problems: what this means | info | CO04 | - | 1 |
-| F102 | Challenges & Problemsi | text area | CO09 | - | 1 |
-| F103 | Objections: what this means | info | CO04 | - | 1 |
-| F104 | Objectionsi | text area | CO09 | - | 1 |
-| F105 | Functional: what this means | info | CO04 | - | 1 |
-| F106 | Functionali | text area | CO09 | - | 1 |
-| F107 | Emotional: what this means | info | CO04 | - | 1 |
-| F108 | Emotionali | text area | CO09 | - | 1 |
-| F109 | Social: what this means | info | CO04 | - | 1 |
-| F110 | Sociali | text area | CO09 | - | 1 |
-| F111 | Typei | text area | CO09 | - | 2 |
-| F112 | Typei | x | CO12 | - | 1 |
-| F113 | Type: what this means | info | CO04 | - | 1 |
-| F114 | Typei | dropdown | CO02 | - | 1 |
-| F115 | Offerings: what this means | info | CO04 | - | 1 |
-| F116 | Offeringsi | text area | CO09 | - | 1 |
-| F117 | Market: what this means | info | CO04 | - | 1 |
-| F118 | Marketi | text area | CO09 | - | 1 |
-| F119 | Customer Acquisition: what this means | info | CO04 | - | 1 |
-| F120 | Customer Acquisitioni | text area | CO09 | - | 1 |
-| F121 | Customer Experience: what this means | info | CO04 | - | 1 |
-| F122 | Customer Experiencei | text area | CO09 | - | 1 |
-| F123 | Strengths: what this means | info | CO04 | - | 1 |
-| F124 | Strengthsi | text area | CO09 | - | 1 |
-| F125 | Weaknesses: what this means | info | CO04 | - | 1 |
-| F126 | Weaknessesi | text area | CO09 | - | 1 |
-| F127 | Opportunities: what this means | info | CO04 | - | 1 |
-| F128 | Opportunitiesi | text area | CO09 | - | 1 |
-| F129 | Threats: what this means | info | CO04 | - | 1 |
-| F130 | Threatsi | text area | CO09 | - | 1 |
-| F131 | Insights: what this means | info | CO04 | - | 1 |
-| F132 | Type | text area | CO09 | - | 1 |
-| F133 | Type | x | CO12 | - | 1 |
-| F134 | tick box | tick box | CO11 | - | 5 |
-| F135 | Function: what this means | info | CO04 | - | 1 |
-| F136 | Functioni | text area | CO09 | - | 1 |
-| F137 | Customer Benefit: what this means | info | CO04 | - | 1 |
-| F138 | Customer Benefiti | text area | CO09 | - | 1 |
-| F139 | Content & Scope: what this means | info | CO04 | - | 1 |
-| F140 | Content & Scopei | text area | CO09 | - | 1 |
-| F141 | Purchase & Delivery: what this means | info | CO04 | - | 1 |
-| F142 | Purchase & Deliveryi | text area | CO09 | - | 1 |
-| F143 | Support & Communication: what this means | info | CO04 | - | 1 |
-| F144 | Support & Communicationi | text area | CO09 | - | 1 |
-| F145 | Requirements & Conditions: what this mea | info | CO04 | - | 1 |
-| F146 | Requirements & Conditionsi | text area | CO09 | - | 1 |
-| F147 | Subchannel name: Select a subchannel | dropdown | CO02 | - | 12 |
-| F148 | Remove Subchannel | x | CO12 | - | 13 |
-| F149 | Action: what this means | info | CO04 | - | 13 |
-| F150 | Journey Stage: what this means | info | CO04 | - | 13 |
-| F151 | Links | tick box | CO11 | - | 13 |
-| F152 | Expenses | plus | CO08 | - | 13 |
-| F153 | Offerings of Subchannel 2: All Offerings | tick box | CO11 | - | 1 |
-| F154 | Offerings of Subchannel 2: AI Workflow A | tick box | CO11 | - | 1 |
-| F155 | Offerings of Subchannel 2: Automation Bu | tick box | CO11 | - | 1 |
-| F156 | Offerings of Subchannel 2: Automation Ca | tick box | CO11 | - | 1 |
-| F157 | Journey Stage 1 for Subchannel 2: Select | dropdown | CO02 | - | 1 |
-| F158 | Offerings of Subchannel 4: All Offerings | tick box | CO11 | - | 1 |
-| F159 | Offerings of Subchannel 4: AI Workflow A | tick box | CO11 | - | 1 |
-| F160 | Offerings of Subchannel 4: Automation Bu | tick box | CO11 | - | 1 |
-| F161 | Offerings of Subchannel 4: Automation Ca | tick box | CO11 | - | 1 |
-| F162 | Journey Stage 1 for Subchannel 4: Select | dropdown | CO02 | - | 1 |
-| F163 | Offerings of Subchannel 6: All Offerings | tick box | CO11 | - | 1 |
-| F164 | Offerings of Subchannel 6: AI Workflow A | tick box | CO11 | - | 1 |
-| F165 | Offerings of Subchannel 6: Automation Bu | tick box | CO11 | - | 1 |
-| F166 | Offerings of Subchannel 6: Automation Ca | tick box | CO11 | - | 1 |
-| F167 | Journey Stage 1 for Subchannel 6: Select | dropdown | CO02 | - | 1 |
-| F168 | Subchannel name | text area | CO09 | - | 1 |
-| F169 | Offerings of Subchannel 7: All Offerings | tick box | CO11 | - | 1 |
-| F170 | Offerings of Subchannel 7: AI Workflow A | tick box | CO11 | - | 1 |
-| F171 | Offerings of Subchannel 7: Automation Bu | tick box | CO11 | - | 1 |
-| F172 | Offerings of Subchannel 7: Automation Ca | tick box | CO11 | - | 1 |
-| F173 | Journey Stage 1 for Subchannel 7: Select | dropdown | CO02 | - | 1 |
-| F174 | Offerings of Subchannel 8: All Offerings | tick box | CO11 | - | 1 |
-| F175 | Offerings of Subchannel 8: AI Workflow A | tick box | CO11 | - | 1 |
-| F176 | Offerings of Subchannel 8: Automation Bu | tick box | CO11 | - | 1 |
-| F177 | Offerings of Subchannel 8: Automation Ca | tick box | CO11 | - | 1 |
-| F178 | Journey Stage 1 for Subchannel 8: Select | dropdown | CO02 | - | 1 |
-| F179 | Offerings of Subchannel 9: All Offerings | tick box | CO11 | - | 1 |
-| F180 | Offerings of Subchannel 9: AI Workflow A | tick box | CO11 | - | 1 |
-| F181 | Offerings of Subchannel 9: Automation Bu | tick box | CO11 | - | 1 |
-| F182 | Offerings of Subchannel 9: Automation Ca | tick box | CO11 | - | 1 |
-| F183 | Journey Stage 1 for Subchannel 9: Select | dropdown | CO02 | - | 1 |
-| F184 | Offerings of Subchannel 10: All Offering | tick box | CO11 | - | 1 |
-| F185 | Offerings of Subchannel 10: AI Workflow | tick box | CO11 | - | 1 |
-| F186 | Offerings of Subchannel 10: Automation B | tick box | CO11 | - | 1 |
-| F187 | Offerings of Subchannel 10: Automation C | tick box | CO11 | - | 1 |
-| F188 | Journey Stage 1 for Subchannel 10: Selec | dropdown | CO02 | - | 1 |
-| F189 | Offerings of Subchannel 11: All Offering | tick box | CO11 | - | 6 |
-| F190 | Offerings of Subchannel 11: AI Workflow | tick box | CO11 | - | 6 |
-| F191 | Offerings of Subchannel 11: Automation B | tick box | CO11 | - | 6 |
-| F192 | Offerings of Subchannel 11: Automation C | tick box | CO11 | - | 6 |
-| F193 | Journey Stage 1 for Subchannel 11: Selec | dropdown | CO02 | - | 6 |
+| F076 | Offerings | other: Tick boxes, each with its percent at its row's end | - | FN29 | 1 |
+| F077 | How is it shared? | dropdown | CO02 | FN05 | 1 |
+| F078 | Colour 4 name | text area | CO09 | - | 1 |
+| F079 | Remove Colour 4 | x | CO12 | - | 1 |
+| F080 | Role: what this means | info | CO04 | - | 2 |
+| F081 | Rolei | dropdown | CO02 | - | 2 |
+| F082 | Colour: what this means | info | CO04 | - | 1 |
+| F083 | Secondary B HEX | text box | CO10 | - | 1 |
+| F084 | Colouri | x | CO12 | - | 1 |
+| F085 | Notes | tick box | CO11 | - | 3 |
+| F086 | Typeface 3 name | text area | CO09 | - | 1 |
+| F087 | Remove Typeface 3 | x | CO12 | - | 1 |
+| F088 | Image 4 name | text area | CO09 | - | 1 |
+| F089 | Remove Image 4 | x | CO12 | - | 1 |
+| F090 | text box | text box | CO10 | - | 1 |
+| F091 | Segment 1, Profile 3 name | text area | CO09 | - | 1 |
+| F092 | Remove Profile 3 | x | CO12 | - | 1 |
+| F093 | Specific Personal Information: what this | info | CO04 | - | 1 |
+| F094 | Specific Personal Informationi | text area | CO09 | - | 1 |
+| F095 | Psychographics: what this means | info | CO04 | - | 1 |
+| F096 | Psychographicsi | text area | CO09 | - | 1 |
+| F097 | Social & Interest Hubs: what this means | info | CO04 | - | 1 |
+| F098 | Social & Interest Hubsi | text area | CO09 | - | 1 |
+| F099 | Information & Shopping Habits: what this | info | CO04 | - | 1 |
+| F100 | Information & Shopping Habitsi | text area | CO09 | - | 1 |
+| F101 | Goals & Desires: what this means | info | CO04 | - | 1 |
+| F102 | Goals & Desiresi | text area | CO09 | - | 1 |
+| F103 | Challenges & Problems: what this means | info | CO04 | - | 1 |
+| F104 | Challenges & Problemsi | text area | CO09 | - | 1 |
+| F105 | Objections: what this means | info | CO04 | - | 1 |
+| F106 | Objectionsi | text area | CO09 | - | 1 |
+| F107 | Functional: what this means | info | CO04 | - | 1 |
+| F108 | Functionali | text area | CO09 | - | 1 |
+| F109 | Emotional: what this means | info | CO04 | - | 1 |
+| F110 | Emotionali | text area | CO09 | - | 1 |
+| F111 | Social: what this means | info | CO04 | - | 1 |
+| F112 | Sociali | text area | CO09 | - | 1 |
+| F113 | Typei | text area | CO09 | - | 2 |
+| F114 | Typei | x | CO12 | - | 1 |
+| F115 | Type: what this means | info | CO04 | - | 1 |
+| F116 | Typei | dropdown | CO02 | - | 1 |
+| F117 | Offerings: what this means | info | CO04 | - | 1 |
+| F118 | Offeringsi | text area | CO09 | - | 1 |
+| F119 | Market: what this means | info | CO04 | - | 1 |
+| F120 | Marketi | text area | CO09 | - | 1 |
+| F121 | Customer Acquisition: what this means | info | CO04 | - | 1 |
+| F122 | Customer Acquisitioni | text area | CO09 | - | 1 |
+| F123 | Customer Experience: what this means | info | CO04 | - | 1 |
+| F124 | Customer Experiencei | text area | CO09 | - | 1 |
+| F125 | Strengths: what this means | info | CO04 | - | 1 |
+| F126 | Strengthsi | text area | CO09 | - | 1 |
+| F127 | Weaknesses: what this means | info | CO04 | - | 1 |
+| F128 | Weaknessesi | text area | CO09 | - | 1 |
+| F129 | Opportunities: what this means | info | CO04 | - | 1 |
+| F130 | Opportunitiesi | text area | CO09 | - | 1 |
+| F131 | Threats: what this means | info | CO04 | - | 1 |
+| F132 | Threatsi | text area | CO09 | - | 1 |
+| F133 | Insights: what this means | info | CO04 | - | 1 |
+| F134 | Type | text area | CO09 | - | 1 |
+| F135 | Type | x | CO12 | - | 1 |
+| F136 | tick box | tick box | CO11 | - | 5 |
+| F137 | Function: what this means | info | CO04 | - | 1 |
+| F138 | Functioni | text area | CO09 | - | 1 |
+| F139 | Customer Benefit: what this means | info | CO04 | - | 1 |
+| F140 | Customer Benefiti | text area | CO09 | - | 1 |
+| F141 | Content & Scope: what this means | info | CO04 | - | 1 |
+| F142 | Content & Scopei | text area | CO09 | - | 1 |
+| F143 | Purchase & Delivery: what this means | info | CO04 | - | 1 |
+| F144 | Purchase & Deliveryi | text area | CO09 | - | 1 |
+| F145 | Support & Communication: what this means | info | CO04 | - | 1 |
+| F146 | Support & Communicationi | text area | CO09 | - | 1 |
+| F147 | Requirements & Conditions: what this mea | info | CO04 | - | 1 |
+| F148 | Requirements & Conditionsi | text area | CO09 | - | 1 |
+| F149 | Subchannel name: Select a subchannel | dropdown | CO02 | - | 12 |
+| F150 | Remove Subchannel | x | CO12 | - | 13 |
+| F151 | Action: what this means | info | CO04 | - | 13 |
+| F152 | Journey Stage: what this means | info | CO04 | - | 13 |
+| F153 | Links | tick box | CO11 | - | 13 |
+| F154 | Expenses | plus | CO08 | - | 13 |
+| F155 | Offerings of Subchannel 2: All Offerings | tick box | CO11 | - | 1 |
+| F156 | Offerings of Subchannel 2: AI Workflow A | tick box | CO11 | - | 1 |
+| F157 | Offerings of Subchannel 2: Automation Bu | tick box | CO11 | - | 1 |
+| F158 | Offerings of Subchannel 2: Automation Ca | tick box | CO11 | - | 1 |
+| F159 | Journey Stage 1 for Subchannel 2: Select | dropdown | CO02 | - | 1 |
+| F160 | Offerings of Subchannel 4: All Offerings | tick box | CO11 | - | 1 |
+| F161 | Offerings of Subchannel 4: AI Workflow A | tick box | CO11 | - | 1 |
+| F162 | Offerings of Subchannel 4: Automation Bu | tick box | CO11 | - | 1 |
+| F163 | Offerings of Subchannel 4: Automation Ca | tick box | CO11 | - | 1 |
+| F164 | Journey Stage 1 for Subchannel 4: Select | dropdown | CO02 | - | 1 |
+| F165 | Offerings of Subchannel 6: All Offerings | tick box | CO11 | - | 1 |
+| F166 | Offerings of Subchannel 6: AI Workflow A | tick box | CO11 | - | 1 |
+| F167 | Offerings of Subchannel 6: Automation Bu | tick box | CO11 | - | 1 |
+| F168 | Offerings of Subchannel 6: Automation Ca | tick box | CO11 | - | 1 |
+| F169 | Journey Stage 1 for Subchannel 6: Select | dropdown | CO02 | - | 1 |
+| F170 | Subchannel name | text area | CO09 | - | 1 |
+| F171 | Offerings of Subchannel 7: All Offerings | tick box | CO11 | - | 1 |
+| F172 | Offerings of Subchannel 7: AI Workflow A | tick box | CO11 | - | 1 |
+| F173 | Offerings of Subchannel 7: Automation Bu | tick box | CO11 | - | 1 |
+| F174 | Offerings of Subchannel 7: Automation Ca | tick box | CO11 | - | 1 |
+| F175 | Journey Stage 1 for Subchannel 7: Select | dropdown | CO02 | - | 1 |
+| F176 | Offerings of Subchannel 8: All Offerings | tick box | CO11 | - | 1 |
+| F177 | Offerings of Subchannel 8: AI Workflow A | tick box | CO11 | - | 1 |
+| F178 | Offerings of Subchannel 8: Automation Bu | tick box | CO11 | - | 1 |
+| F179 | Offerings of Subchannel 8: Automation Ca | tick box | CO11 | - | 1 |
+| F180 | Journey Stage 1 for Subchannel 8: Select | dropdown | CO02 | - | 1 |
+| F181 | Offerings of Subchannel 9: All Offerings | tick box | CO11 | - | 1 |
+| F182 | Offerings of Subchannel 9: AI Workflow A | tick box | CO11 | - | 1 |
+| F183 | Offerings of Subchannel 9: Automation Bu | tick box | CO11 | - | 1 |
+| F184 | Offerings of Subchannel 9: Automation Ca | tick box | CO11 | - | 1 |
+| F185 | Journey Stage 1 for Subchannel 9: Select | dropdown | CO02 | - | 1 |
+| F186 | Offerings of Subchannel 10: All Offering | tick box | CO11 | - | 1 |
+| F187 | Offerings of Subchannel 10: AI Workflow | tick box | CO11 | - | 1 |
+| F188 | Offerings of Subchannel 10: Automation B | tick box | CO11 | - | 1 |
+| F189 | Offerings of Subchannel 10: Automation C | tick box | CO11 | - | 1 |
+| F190 | Journey Stage 1 for Subchannel 10: Selec | dropdown | CO02 | - | 1 |
+| F191 | Offerings of Subchannel 11: All Offering | tick box | CO11 | - | 6 |
+| F192 | Offerings of Subchannel 11: AI Workflow | tick box | CO11 | - | 6 |
+| F193 | Offerings of Subchannel 11: Automation B | tick box | CO11 | - | 6 |
+| F194 | Offerings of Subchannel 11: Automation C | tick box | CO11 | - | 6 |
+| F195 | Journey Stage 1 for Subchannel 11: Selec | dropdown | CO02 | - | 6 |
 
 ### FN. Functions of a field (Part F's Function column)
 
@@ -586,6 +588,7 @@ Each field once, with the component it uses (CO) and the functions it carries (F
 | FN26 | Checkboxes; with more than one ticked on a cost paid once or each period (a purchase priced per unit included), "How is it shared?" (dropdown: By the hours each one uses, By the revenue each one brings, In equal parts, My own split) and each Offering's percent beside it, a number box under My own split |
 | FN27 | Checkboxes, one per offering |
 | FN28 | Dropdown of founders |
+| FN29 | Tick boxes, each with its percent at its row's end |
 
 ### K. Card kinds, with their fields in order
 
@@ -645,26 +648,26 @@ A card kind lists its fields (F ids) top to bottom. The standard order: head (nu
 | K050 | Offering Supplier card | Offering > Suppliers > Venues & Organisers > Venues & Organisers | Venues & Organisers | Venues & Organisers | 24 | F001 F002 F003 F004 F005 F020 F013 F014 F023 F033 F034 F035 F036 F037 F038 F039 F040 F041 F009 F057 F017 F018 F019 F063 | document 26 (v050) |
 | K051 | Offering Supplier card | Offering > Suppliers > Landlords, Leasing & Warehouses > Landlords, Leasing & Warehouses | Landlords, Leasing & Warehouses | Landlords, Leasing & Warehouses | 20 | F001 F002 F003 F004 F005 F020 F022 F013 F014 F023 F059 F060 F061 F071 F062 F057 F017 F018 F019 F063 | document 26 (v051) |
 | K052 | Offering Supplier card | Offering > Suppliers > Platforms & Payments > Platforms & Payments | Platforms & Payments | Platforms & Payments | 17 | F001 F002 F003 F004 F005 F020 F031 F032 F013 F014 F026 F024 F057 F017 F018 F019 F063 | document 26 (v052) |
-| K053 | Legal Entity card | Legal Entity expense card |  | Legal Entity expense card | 11 | F001 F002 F003 F072 F073 F026 F074 F075 F017 F018 F019 | document 26 (v053) |
-| K054 | Brand card | Add Colour to Colours |  |  | 8 | F076 F077 F078 F079 F080 F081 F082 F083 | add probe (a new card) |
-| K055 | Brand card | Add Typeface to Typography & Text Hierarchy |  |  | 5 | F084 F085 F078 F079 F083 | add probe (a new card) |
-| K056 | Brand card | Add Image to Brand Images |  |  | 4 | F086 F087 F088 F083 | add probe (a new card) |
-| K057 | Foundation card | Add Profile to Segment Description |  |  | 22 | F089 F090 F091 F092 F093 F094 F095 F096 F097 F098 F099 F100 F101 F102 F103 F104 F105 F106 F107 F108 F109 F110 | add probe (a new card) |
-| K058 | Foundation card | Add Competitor to Competitors |  |  | 22 | F111 F112 F113 F114 F115 F116 F117 F118 F119 F120 F121 F122 F123 F124 F125 F126 F127 F128 F129 F130 F131 F111 | add probe (a new card) |
-| K059 | Foundation card | Add Offering to Offerings |  |  | 20 | F132 F133 F051 F134 F134 F134 F134 F134 F135 F136 F137 F138 F139 F140 F141 F142 F143 F144 F145 F146 | add probe (a new card) |
-| K060 | Channel card | Add Subchannel to Social Media |  |  | 11 | F147 F148 F149 F150 F151 F152 F153 F154 F155 F156 F157 | add probe (a new card) |
-| K061 | Channel card | Add Subchannel to Website |  |  | 11 | F147 F148 F149 F150 F151 F152 F158 F159 F160 F161 F162 | add probe (a new card) |
-| K062 | Channel card | Add Subchannel to Email |  |  | 11 | F147 F148 F149 F150 F151 F152 F163 F164 F165 F166 F167 | add probe (a new card) |
-| K063 | Channel card | Add Subchannel to Other |  |  | 11 | F168 F148 F149 F150 F151 F152 F169 F170 F171 F172 F173 | add probe (a new card) |
-| K064 | Channel card | Add Subchannel to In Person |  |  | 11 | F147 F148 F149 F150 F151 F152 F174 F175 F176 F177 F178 | add probe (a new card) |
-| K065 | Channel card | Add Subchannel to Direct Payment |  |  | 11 | F147 F148 F149 F150 F151 F152 F179 F180 F181 F182 F183 | add probe (a new card) |
-| K066 | Channel card | Add Subchannel to Online / Live |  |  | 11 | F147 F148 F149 F150 F151 F152 F184 F185 F186 F187 F188 | add probe (a new card) |
-| K067 | Channel card | Add Subchannel to File Delivery |  |  | 11 | F147 F148 F149 F150 F151 F152 F189 F190 F191 F192 F193 | add probe (a new card) |
-| K068 | Channel card | Add Subchannel to Community |  |  | 11 | F147 F148 F149 F150 F151 F152 F189 F190 F191 F192 F193 | add probe (a new card) |
-| K069 | Channel card | Add Subchannel to Marketplace |  |  | 11 | F147 F148 F149 F150 F151 F152 F189 F190 F191 F192 F193 | add probe (a new card) |
-| K070 | Channel card | Add Subchannel to Physical Delivery |  |  | 11 | F147 F148 F149 F150 F151 F152 F189 F190 F191 F192 F193 | add probe (a new card) |
-| K071 | Channel card | Add Subchannel to Retail & Wholesale |  |  | 11 | F147 F148 F149 F150 F151 F152 F189 F190 F191 F192 F193 | add probe (a new card) |
-| K072 | Channel card | Add Subchannel to Referral & Affiliates |  |  | 11 | F147 F148 F149 F150 F151 F152 F189 F190 F191 F192 F193 | add probe (a new card) |
+| K053 | Legal Entity card | Legal Entity expense card |  | Legal Entity expense card | 13 | F001 F002 F003 F072 F073 F026 F074 F075 F076 F017 F077 F018 F019 | document 26 (v053) |
+| K054 | Brand card | Add Colour to Colours |  |  | 8 | F078 F079 F080 F081 F082 F083 F084 F085 | add probe (a new card) |
+| K055 | Brand card | Add Typeface to Typography & Text Hierarchy |  |  | 5 | F086 F087 F080 F081 F085 | add probe (a new card) |
+| K056 | Brand card | Add Image to Brand Images |  |  | 4 | F088 F089 F090 F085 | add probe (a new card) |
+| K057 | Foundation card | Add Profile to Segment Description |  |  | 22 | F091 F092 F093 F094 F095 F096 F097 F098 F099 F100 F101 F102 F103 F104 F105 F106 F107 F108 F109 F110 F111 F112 | add probe (a new card) |
+| K058 | Foundation card | Add Competitor to Competitors |  |  | 22 | F113 F114 F115 F116 F117 F118 F119 F120 F121 F122 F123 F124 F125 F126 F127 F128 F129 F130 F131 F132 F133 F113 | add probe (a new card) |
+| K059 | Foundation card | Add Offering to Offerings |  |  | 20 | F134 F135 F051 F136 F136 F136 F136 F136 F137 F138 F139 F140 F141 F142 F143 F144 F145 F146 F147 F148 | add probe (a new card) |
+| K060 | Channel card | Add Subchannel to Social Media |  |  | 11 | F149 F150 F151 F152 F153 F154 F155 F156 F157 F158 F159 | add probe (a new card) |
+| K061 | Channel card | Add Subchannel to Website |  |  | 11 | F149 F150 F151 F152 F153 F154 F160 F161 F162 F163 F164 | add probe (a new card) |
+| K062 | Channel card | Add Subchannel to Email |  |  | 11 | F149 F150 F151 F152 F153 F154 F165 F166 F167 F168 F169 | add probe (a new card) |
+| K063 | Channel card | Add Subchannel to Other |  |  | 11 | F170 F150 F151 F152 F153 F154 F171 F172 F173 F174 F175 | add probe (a new card) |
+| K064 | Channel card | Add Subchannel to In Person |  |  | 11 | F149 F150 F151 F152 F153 F154 F176 F177 F178 F179 F180 | add probe (a new card) |
+| K065 | Channel card | Add Subchannel to Direct Payment |  |  | 11 | F149 F150 F151 F152 F153 F154 F181 F182 F183 F184 F185 | add probe (a new card) |
+| K066 | Channel card | Add Subchannel to Online / Live |  |  | 11 | F149 F150 F151 F152 F153 F154 F186 F187 F188 F189 F190 | add probe (a new card) |
+| K067 | Channel card | Add Subchannel to File Delivery |  |  | 11 | F149 F150 F151 F152 F153 F154 F191 F192 F193 F194 F195 | add probe (a new card) |
+| K068 | Channel card | Add Subchannel to Community |  |  | 11 | F149 F150 F151 F152 F153 F154 F191 F192 F193 F194 F195 | add probe (a new card) |
+| K069 | Channel card | Add Subchannel to Marketplace |  |  | 11 | F149 F150 F151 F152 F153 F154 F191 F192 F193 F194 F195 | add probe (a new card) |
+| K070 | Channel card | Add Subchannel to Physical Delivery |  |  | 11 | F149 F150 F151 F152 F153 F154 F191 F192 F193 F194 F195 | add probe (a new card) |
+| K071 | Channel card | Add Subchannel to Retail & Wholesale |  |  | 11 | F149 F150 F151 F152 F153 F154 F191 F192 F193 F194 F195 | add probe (a new card) |
+| K072 | Channel card | Add Subchannel to Referral & Affiliates |  |  | 11 | F149 F150 F151 F152 F153 F154 F191 F192 F193 F194 F195 | add probe (a new card) |
 
 ### H. App header
 
