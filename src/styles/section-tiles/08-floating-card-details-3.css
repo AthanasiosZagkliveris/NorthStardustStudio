@@ -94,8 +94,10 @@
 
 }
 
-/* THE RECTANGULAR TILES (Inventory, Completed): the title is the tile's only word, so it has no rule under it. */
-.section-tiles-completed .section-tile-title {
+/* THE RECTANGULAR TILES (Inventory, Completed, squeezed into the footer's band): the title is the tile's only word, so it has no rule under it. Where the window
+   is tall enough for them to stand as squares with their lists (2560 x 1300), they are tiles like any other, their title underlined by its hairline (layout check,
+   2026-11-20). */
+.section-tiles-completed[data-squeezed] .section-tile-title {
 
     padding-bottom: 0;
 
