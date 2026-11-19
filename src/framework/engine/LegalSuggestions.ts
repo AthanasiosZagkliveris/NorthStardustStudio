@@ -7,6 +7,9 @@ import { planMonthLabel } from "./financial/period.ts";
 import type { Foundation } from "./businessDocuments/reading.ts";
 
 /*
+    (Stage 3, decisions 3 and 4: an insurance premium is costed once, on its Insurance card in Infrastructure & Capability, and business rates with the premises;
+    the suggestions say where. The Legal Entity keeps only the requirement.)
+
     THE LEGAL SUGGESTIONS, STAGE 2 (doc 53, section 6, decisions 1 (b) and (c), 5 and 6; the owner's delegation of 2026-11-19 19:48 UTC+2): what the law asks only
     past a threshold, or where an exemption may apply, is said on the Review, never made unseen -- each with its reason, the month it is required from where a
     forecast says it, and the official page that settles it. A suggestion the Legal Entity already answers (the tax registered, a requirement of that name) is not
@@ -84,12 +87,12 @@ export function legalSuggestions(f: Foundation, today: Date = new Date()): Legal
         // (c) EMPLOYERS' LIABILITY INSURANCE, once someone is employed; family members, and an owner holding 50% or more, are exempt.
         const staff = f.capability.offering.resources.some(slot => slot.category === "hr") || (f.capability.resources["hr"] ?? []).some(subsection => subsection.slots.length > 0);
         if (staff && !said(f, /employers.? liability/i)) {
-            out.push({ rule: "GB11", text: "Employers' liability insurance: required once you employ someone, at least £5 million of cover, its certificate on show; family members, and an owner holding 50% or more of the business, are exempt.", source: "https://www.gov.uk/employers-liability-insurance" });
+            out.push({ rule: "GB11", text: "Employers' liability insurance: required once you employ someone, at least £5 million of cover, its certificate on show; family members, and an owner holding 50% or more of the business, are exempt. Its premium is costed once, as an Insurance card on Infrastructure & Capability (Documents & Rights).", source: "https://www.gov.uk/employers-liability-insurance" });
         }
         // (c) BUSINESS RATES on premises of the business's own; small business rate relief takes them to nothing at a rateable value up to £12,000, tapering to £15,000.
         const premises = (f.capability.resources[WORKSPACE_GROUP_ID] ?? []).some(subsection => subsection.id === PREMISES_GROUP_ID && subsection.slots.length > 0);
         if (premises && !said(f, /business rates/i)) {
-            out.push({ rule: "GB17", text: "Business rates: premises of the business's own pay them to the council; small business rate relief takes them to nothing at a rateable value up to £12,000, tapering to £15,000. Your council's bill says which.", source: "https://www.gov.uk/introduction-to-business-rates" });
+            out.push({ rule: "GB17", text: "Business rates: premises of the business's own pay them to the council; small business rate relief takes them to nothing at a rateable value up to £12,000, tapering to £15,000. Your council's bill says which; they are costed with the premises, on Infrastructure & Capability.", source: "https://www.gov.uk/introduction-to-business-rates" });
         }
     }
 

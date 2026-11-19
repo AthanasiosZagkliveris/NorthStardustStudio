@@ -110,17 +110,18 @@ function fromCapabilityFrequency(frequency: string, unit = "", purchase = false)
     if (frequency === "per-unit") {
         return purchase ? "one-time" : unit.trim() === "order" ? "per-order" : "per-unit";
     }
-    return frequency === "one-time" || frequency === "monthly" || frequency === "quarterly" || frequency === "annually" ||
+    return frequency === "one-time" || frequency === "monthly" || frequency === "quarterly" || frequency === "annually" || frequency === "biennially" ||
         frequency === "per-order" || frequency === "per-project"
         ? frequency
         : frequency === "percent-revenue" ? "usage-based"
         : frequency === "other" ? "other" : "monthly";
 }
 
-/** The Legal Entity's ("One time", "Monthly", "Annually"). */
+/** The Legal Entity's ("One time", "Monthly", "Annually", "Every two years"). */
 function fromLegalFrequency(frequency: string): CostFrequency {
     return frequency === "One time" ? "one-time"
         : frequency === "Annually" ? "annually"
+        : frequency === "Every two years" ? "biennially"
             : frequency === "Monthly" ? "monthly"
                 : "other";
 }
@@ -783,7 +784,7 @@ export function costSchedule(line: CostLine, start: StrategyMonthValue): number[
     const paidOrdinal = monthOrdinal(line.month);
     const startOrdinal = monthOrdinal(start);
     if (paidOrdinal !== null && startOrdinal !== null && paidOrdinal < startOrdinal) {
-        const step = line.frequency === "quarterly" ? 3 : line.frequency === "annually" ? 12 : 1;
+        const step = line.frequency === "quarterly" ? 3 : line.frequency === "annually" ? 12 : line.frequency === "biennially" ? 24 : 1;
         first = ((paidOrdinal - startOrdinal) % step + step) % step;
     }
 
@@ -815,6 +816,9 @@ export function costSchedule(line: CostLine, start: StrategyMonthValue): number[
             break;
         case "annually":
             every(12);
+            break;
+        case "biennially":
+            every(24);
             break;
     }
 

@@ -15,6 +15,8 @@ export const BUSINESS_COST_FREQUENCIES = [
     { id: "monthly", label: "Monthly" },
     { id: "quarterly", label: "Quarterly" },
     { id: "annually", label: "Annually" },
+    // (Every two years, from its first month: a biennial filing, a two-year licence; doc 53, decision 2.)
+    { id: "biennially", label: "Every two years" },
     { id: "per-unit", label: "Per unit" },
     { id: "per-project", label: "Per project" },
     { id: "percent-revenue", label: "% of Rev" }
@@ -216,7 +218,9 @@ export function frequencyIdsOf(place: "infrastructure" | "offering", groupId: st
     const offered = groupId === ""
         ? [...new Set(Object.entries(GROUP_FREQUENCIES).filter(([key]) => key.startsWith(place + ":")).flatMap(([, ids]) => ids))]
         : GROUP_FREQUENCIES[place + ":" + groupId];
-    return offered === undefined ? BUSINESS_COST_FREQUENCIES.map(entry => entry.id) : BUSINESS_COST_FREQUENCIES.map(entry => entry.id).filter(id => offered.includes(id));
+    // (Every two years goes wherever Annually does: a cost that recurs by the year may recur every second year -- doc 53, decision 2, "on every cost card".)
+    const withTwoYears = offered === undefined ? undefined : offered.includes("annually") ? [...offered, "biennially"] : offered;
+    return withTwoYears === undefined ? BUSINESS_COST_FREQUENCIES.map(entry => entry.id) : BUSINESS_COST_FREQUENCIES.map(entry => entry.id).filter(id => withTwoYears.includes(id));
 }
 
 /**

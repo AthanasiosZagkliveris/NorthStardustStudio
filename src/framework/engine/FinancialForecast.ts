@@ -428,7 +428,7 @@ export function financialForecast(
             return;
         }
         const first = paid.findIndex(amount => amount > 0);
-        if ((line.frequency === "annually" || line.frequency === "quarterly") && first >= 0) {
+        if ((line.frequency === "annually" || line.frequency === "quarterly" || line.frequency === "biennially") && first >= 0) {
             const monthly = monthlyEquivalent(scheduledAmount(line), line.frequency);
             paid.forEach((amount, index) => {
                 const spread = index >= first ? monthly : 0;
