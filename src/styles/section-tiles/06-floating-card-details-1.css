@@ -1159,3 +1159,38 @@ body:has([data-pair]) .section-tile-overlay.floating-overlay.business-foundation
     justify-self: stretch;
 
 }
+
+/* AN EXTRA ON ONE ROW (a founder's, a staff member's or a space's Allowance, Commission, Bonus and charges; layout rules section 8, "A field on one row, its cell at
+   its step"; owner, 2026-11-19 13:34 UTC+2): beside its tick, the cell at its step, then its unit right after it -- not the Deposit's Price column. */
+:is(.business-capability-slot, .business-founder-open) .optional-field-inline .business-capability-deposit-row {
+
+    grid-template-columns: max-content max-content;
+    column-gap: var(--space-cell);
+
+}
+
+:is(.business-capability-slot, .business-founder-open) .optional-field-inline .business-capability-deposit-row > .interview-input.number-cell[data-size] {
+
+    margin-right: 0;
+
+}
+
+:is(.business-capability-slot, .business-founder-open) .optional-field-inline .business-capability-deposit-row > .business-capability-deposit-currency {
+
+    grid-column: 2;
+
+}
+
+/* A SIDE LABEL THAT TAKES TWO LINES ("Hours a month they can give") keeps its FIRST line on its cell's centre line, the second under it, as every side label's one line
+   is (layout rules, "Text beside a control": its first line centred on the control's centre line); a one-line label stands where it stood. (A plain label beside a number cell: a tick's row and a dropdown's keep their own.) */
+.card-box-open .business-field-side:has(> .field-label:first-child + input.number-cell) {
+
+    align-items: start;
+
+}
+
+.card-box-open .business-field-side:has(> .field-label:first-child + input.number-cell) > .field-label:first-child {
+
+    margin-top: calc((var(--card-cell-height, 44px) - 1lh) / 2);
+
+}

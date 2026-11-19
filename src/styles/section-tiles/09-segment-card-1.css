@@ -605,8 +605,10 @@
 
 }
 
-/* A tick whose cell is generated beside its label (the Rate override): the label at the content's left edge, its percent cell right after it, on one line. */
-.business-capability-slot .business-foundation-field.optional-field-inline {
+/* A tick whose cell is generated beside its label (the Rate override; a founder's, a staff member's or a space's Allowance, Commission, Bonus and charges): the label at
+   the content's left edge, its cell right after it, its unit after the cell, on one line (layout rules section 8, "A field on one row, its cell at its step"; owner,
+   2026-11-19 13:34 UTC+2). Every page-3 card, a founder's too. */
+:is(.business-capability-slot, .business-founder-open) .business-foundation-field.optional-field-inline {
 
     display: grid;
     /* (The side-label row of the card: the label in the label column, the cell in the column every cell of the card starts in.) */
@@ -620,13 +622,13 @@
 
 }
 
-.business-capability-slot .business-foundation-field.optional-field-inline > .optional-field-head {
+:is(.business-capability-slot, .business-founder-open) .business-foundation-field.optional-field-inline > .optional-field-head {
 
     justify-self: start;
 
 }
 
-.business-capability-slot .business-foundation-field.optional-field-inline > .optional-field-body {
+:is(.business-capability-slot, .business-founder-open) .business-foundation-field.optional-field-inline > .optional-field-body {
 
     width: auto;
 

@@ -60,8 +60,10 @@
 
     content: "";
 
-    /* (The arrow's centre stands at --arrow-level, the gap between the two rows of tiles -- PageArrow.tsx --; the rails' row starts 24px under it.) */
-    flex: 0 1 max(0px, calc(var(--arrow-level, calc(50vh - 24px)) + 24px - 104px));
+    /* (EVERY RAIL STARTS 12px UNDER ITS FRAME'S TOP, as a dialog's or a card's tab does: --rail-frame-top, read from the page's frame by useRailTab.ts; owner,
+       2026-11-19 12:52 UTC+2, "Why the rails (chapter/page and dialogue card) have different Top gaps". They stood 24px under the arrow level. A page with no
+       frame keeps that place.) */
+    flex: 0 1 max(0px, calc(var(--rail-frame-top, calc(var(--arrow-level, calc(50vh - 24px)) + 24px)) - 104px));
 
 }
 
@@ -133,7 +135,9 @@
     gap: var(--gap-8);
 
     max-width: 100%;
-    margin-bottom: 18px;
+    /* (No room of its own under it: the arrow stands out of the flow and the name, where it shows, keeps its own 18px; so the first row starts at the tab's
+       padding, as on every layer's tab -- it stood 18px lower; owner, 2026-11-19, the rails' one geometry.) */
+    margin-bottom: 0;
 
     pointer-events: auto;
 
@@ -682,12 +686,13 @@
 
 }
 
-/* The arrow is out of the tab's flow (no blank at its top): level with the gap between the tile rows as ever, 12px from the frame. */
+/* The arrow is out of the tab's flow (no blank at its top): at the one arrow level, wherever the rail starts, 12px from the frame; where the rail stands under it, it
+   takes one line's place in the list (useRailSlot). */
 .bullet-rail-head > .page-arrow {
 
-    position: absolute;
+    position: fixed;
 
-    top: -46px;
+    top: calc(var(--arrow-level, calc(50vh - 24px)) - 22px);
 
     margin: 0;
 
@@ -695,13 +700,13 @@
 
 .bullet-rail-left .bullet-rail-head > .page-arrow {
 
-    right: var(--rail-offset);
+    right: calc(50% + var(--card-width) / 2 + var(--rail-offset));
 
 }
 
 .bullet-rail-right .bullet-rail-head > .page-arrow {
 
-    left: var(--rail-offset);
+    left: calc(50% + var(--card-width) / 2 + var(--rail-offset));
 
 }
 
@@ -769,5 +774,13 @@
         margin-block: -2px -6px;
 
     }
+
+}
+
+/* THE PAGE IS A LAYER TOO (layout rules section 10, "One rail for every layer"; owner, 2026-11-19): while a dialog or a floating card is open, only the layer opened
+   last shows its arrows and rail -- the page's rails, which start where a layer's tab does, would stand beside or under it. */
+body:has(.section-tile-overlay, .floating-overlay) .bullet-rails {
+
+    visibility: hidden;
 
 }

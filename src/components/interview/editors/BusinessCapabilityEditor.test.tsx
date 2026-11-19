@@ -748,7 +748,8 @@ describe("BusinessCapabilityEditor Frequency and Responsibility side labels", ()
         expectLabelThenHuggingDropdown();
         closeTile();
         openCards("Partners & Suppliers", "Partner 1", "Partners");
-        expect(sideLabels()).toEqual(["Start date", "End date", "Group", "Responsible"]);
+        // (Its Hours a month they can give a side-label row too: layout rules section 8, "A field on one row, its cell at its step"; owner, 2026-11-19.)
+        expect(sideLabels()).toEqual(["Start date", "End date", "Group", "Responsible", "Hours a month they can give"]);
         // The partner's Frequency keeps its label above the dropdown, on the Price's row (the dropdown hugs its longest option too).
         const partnerFrequency = [...document.querySelectorAll('.floating-card-host .business-foundation-field')]
             .find(field => field.querySelector(":scope > .field-label")?.textContent?.startsWith("Frequency"))!;
