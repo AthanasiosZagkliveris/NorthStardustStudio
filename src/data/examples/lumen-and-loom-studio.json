@@ -6279,7 +6279,7 @@
                   "costOption": "flat-per-parcel",
                   "quantity": "1",
                   "hoursAvailable": "",
-                  "leadWeeks": "0",
+                  "leadWeeks": "",
                   "extras": {},
                   "paymentPlan": {
                     "on": false,
@@ -6313,7 +6313,7 @@
                   "costOption": "flat-per-parcel",
                   "quantity": "1",
                   "hoursAvailable": "",
-                  "leadWeeks": "0",
+                  "leadWeeks": "",
                   "extras": {},
                   "paymentPlan": {
                     "on": false,

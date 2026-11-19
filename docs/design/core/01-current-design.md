@@ -98,10 +98,10 @@ Pages come from `src/assets/SystemAnswers/01..04_*.md`. Each page's `Structure` 
 
 | System | Pages | AnswerType and renderer |
 |---|---|---|
-| 1 Identity | Definition, Purpose | Free Text drawn as column tiles (`AnswerRenderer`, `ColumnFields`, `ColumnHeads`) |
+| 1 Identity | Definition, Purpose | Free Text drawn as column tiles (`AnswerRenderer`, `ColumnFields`, `ColumnHeads`); the Vision's two choices, PB7 and PB8, under its text (`purpose/VisionChoices.tsx`, doc 45); the Values' ids beside their text (`ValueIds.ts`) |
 | 1 Identity | Legal Entity | `LegalEntityEditor` |
 | 1 Identity | Founders Profile | `FoundersProfileEditor` |
-| 2 Brand | Ambassador (with the Imprint field) | Free Text, column tiles |
+| 2 Brand | Ambassador (with the Imprint field) | Free Text, column tiles; the choices BA1 to BA4 and BA6 to BA9 above each text, with "Add a draft" (`brand/AmbassadorChoices.tsx`, `AmbassadorChoices.ts`, doc 46) |
 | 2 Brand | Style | `BrandStyleEditor` plus `BrandInventoryEditor` |
 | 3 Business | 1 Foundation | `BusinessFoundationEditor` |
 | 3 Business | 2 Customer Engagement | `BusinessEngagementEditor` |
@@ -175,7 +175,7 @@ A "Chapter" has no named type in the code. Frames are classes:
 | Engagement tiles | One per channel and subchannel (teal hue); `inactive` for an unused channel | `SectionTiles` |
 | Infrastructure group tiles | Founders; Resources, Activities, Partners & Suppliers (per chapter); Delivery; Workspace (`direct`) | `BusinessCapabilityEditor` |
 | **Diagram tile** | The Roadmap: a wide banner (442 × 102 px) with a 36 px title and no list; its dialog covers the page | `SectionTile.diagram`, `StrategicPeriodEditor` |
-| Strategy tiles | Current Situation, SWOT Analysis, Strategic Compass, Strategic Period; Goals and Objectives; Roadmap | `StrategyFoundationEditor`, `StrategicPeriodEditor` |
+| Strategy tiles | Current Situation, SWOT Analysis (with SW1 above the Opportunities and Threats), Strategic Compass (with SC1 to SC3 and its draft: `StrategyChoices.ts`, doc 49), Strategic Period; Goals and Objectives; Roadmap | `StrategyFoundationEditor`, `StrategicPeriodEditor` |
 | **Help tile: Inventory** | Counts of resources, activities, partners & suppliers; stands in the footer band of page 3 beside Completed; its dialog (`CapabilityOverview`) shows tiles or a table (the `Tiles` / `Table` and `Aa` radios, a column list, a link legend) and a filter and sort window that opens outward (rulebook, section 12) | `BusinessCapabilityEditor`, `CapabilityOverview.tsx`, `capabilityFloor.ts` |
 | **Help tile: Completed** | Grey; lists completed activities; exists only while one is completed | `BusinessCapabilityEditor` |
 | Sub tile | A section tile inside a dialog (the three Registrations tiles) | `I/tiles/SubTiles.tsx` |
