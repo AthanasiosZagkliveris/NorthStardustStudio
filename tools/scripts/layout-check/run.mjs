@@ -418,6 +418,129 @@ export async function checkRealMouse(page, where) {
 }
 
 /** The whole check: a list of failures (empty is a pass). */
+/**
+ * EVERY CHAPTER OF A PAGE IS DRAWN ALIKE (owner, 2026-11-19 22:47 UTC+2, the Segment chapters: "the tile content is clearly smaller in chapter 2 than in chapter 1"):
+ * each chapter shown in turn from the chapters' rail, at 1920 x 1000 and at 2560 x 1200, each read for its tiles' side, the gap between them, the type of their titles and
+ * lists, and the content on the tiles' faces; every chapter must match the first. And the rail itself: a lit name stays inside its tab (layout rules section 10,
+ * "Names whole").
+ */
+export async function checkChapters(page, where) {
+    const failures = [];
+    const rail = page.locator("nav.bullet-rail-right .bullet-rail-item");
+    const count = await rail.count();
+    if (count < 2) {
+        return failures;
+    }
+    await page.evaluate(value => document.documentElement.setAttribute("data-theme", value), "light");
+    for (const [width, height] of [[1920, 1000], [2560, 1200]]) {
+        await page.setViewportSize({ width, height });
+        await page.waitForTimeout(300);
+        let first = null;
+        for (let at = 0; at < count; at++) {
+            await rail.nth(at).click({ force: true });
+            await page.mouse.move(2, height - 2);
+            await page.waitForTimeout(700);
+            const read = await page.evaluate(() => {
+                const shown = element => element.getBoundingClientRect().width > 0;
+                const quad = [...document.querySelectorAll(".section-tiles-quad")].find(shown);
+                const tiles = quad ? [...quad.querySelectorAll(".section-tile")].filter(shown) : [];
+                const one = (selector) => {
+                    const sizes = new Set(tiles.flatMap(tile => [...tile.querySelectorAll(selector)].map(node => getComputedStyle(node).fontSize)));
+                    return [...sizes].sort().join(" ");
+                };
+                const out = [];
+                for (const nav of document.querySelectorAll("nav.bullet-rail")) {
+                    const box = nav.getBoundingClientRect();
+                    const style = getComputedStyle(nav);
+                    const right = box.right - (parseFloat(style.paddingRight) || 0) + 0.5;
+                    const left = box.left + (parseFloat(style.paddingLeft) || 0) - 0.5;
+                    for (const label of nav.querySelectorAll(".bullet-rail-item.active .bullet-rail-label")) {
+                        if (getComputedStyle(label).position === "absolute") {
+                            continue;
+                        }
+                        const edge = label.getBoundingClientRect();
+                        if (edge.right > right || edge.left < left) {
+                            out.push(label.textContent.trim() + " reaches " + Math.round(Math.max(edge.right - right, left - edge.left)) + "px past its tab's padding");
+                        }
+                    }
+                }
+                return {
+                    side: tiles[0] ? Math.round(tiles[0].getBoundingClientRect().width) : 0,
+                    gap: quad ? getComputedStyle(quad).getPropertyValue("--space-card").trim() : "",
+                    large: quad ? quad.hasAttribute("data-large") : false,
+                    titles: one(".section-tile-title, .card-tile-title"),
+                    lists: one(".section-tile-list"),
+                    rail: out
+                };
+            });
+            read.rail.forEach(detail => failures.push({ page: where + " › chapter " + (at + 1), width, height, rule: "the rail holds its lit name", detail }));
+            if (first === null) {
+                first = read;
+                continue;
+            }
+            for (const key of ["side", "gap", "large", "titles", "lists"]) {
+                if (String(read[key]) !== String(first[key])) {
+                    failures.push({ page: where + " › chapter " + (at + 1), width, height, rule: "every chapter is drawn alike", detail: key + ": " + read[key] + ", the first chapter's " + first[key] });
+                }
+            }
+        }
+        await rail.nth(0).click({ force: true });
+        await page.waitForTimeout(300);
+    }
+    await page.setViewportSize({ width: 1920, height: 1000 });
+    return failures;
+}
+
+/**
+ * EVERY DIALOG OPENS AT ITS FRAME'S TOP (owner, 2026-11-19 23:15 UTC+2: "The dialogue cards' level are different on the Segment. Fix it."; layout rules section 23,
+ * "Every dialog opens at its frame's top"): each master tile of the page's first chapter opened in turn at 1920 x 1000, its dialog's top read against the top of the frame as it shows
+ * (a Segment's chapter, a page's frame); every one within a pixel of it.
+ */
+export async function checkDialogLevel(page, where) {
+    const failures = [];
+    await page.setViewportSize({ width: 1920, height: 1000 });
+    await page.evaluate(() => window.scrollTo(0, 0));
+    const count = await page.evaluate(() => [...document.querySelectorAll(".section-tiles-quad .section-tile")].filter(tile => tile.getBoundingClientRect().width > 0).length);
+    for (let at = 0; at < count; at++) {
+        const read = await page.evaluate(index => {
+            const tile = [...document.querySelectorAll(".section-tiles-quad .section-tile")].filter(node => node.getBoundingClientRect().width > 0)[index];
+            if (!tile) {
+                return null;
+            }
+            const clear = colour => colour === "" || colour === "transparent" || /rgba\([^)]*,\s*0\)$/.test(colour);
+            let frame = tile.closest(".business-foundation-input");
+            for (let node = frame; node && !node.matches(".conversation-card"); node = node.parentElement) {
+                if (!clear(getComputedStyle(node).backgroundColor)) {
+                    frame = node;
+                    break;
+                }
+            }
+            tile.scrollIntoView({ block: "nearest" });
+            return { title: tile.getAttribute("aria-label")?.split(",")[0] ?? "", frame: frame ? frame.getBoundingClientRect().top : null };
+        }, at);
+        if (!read || read.frame === null) {
+            continue;
+        }
+        // (by the pointer, on the title: a click on a list line opens that line's card)
+        await page.locator(".section-tiles-quad .section-tile:visible").nth(at).click({ position: { x: 60, y: 30 } }).catch(() => {});
+        await page.waitForTimeout(700);
+        const top = await page.evaluate(() => {
+            const dialog = [...document.querySelectorAll(".section-tile-dialog, .floating-card-host")].find(node => node.getBoundingClientRect().width > 0);
+            return dialog && dialog.matches(".section-tile-dialog") ? dialog.getBoundingClientRect().top : null;
+        });
+        const frame = read.frame;
+        if (top !== null && Math.abs(top - Math.max(frame, 0)) > 1 && top > frame) {
+            failures.push({ page: where, width: 1920, rule: "every dialog opens at its frame's top", detail: read.title + ": the dialog's top " + Math.round(top) + ", the frame's " + Math.round(frame) });
+        }
+        // (closed as a reader closes it, until no dialog or card stands open)
+        for (let tries = 0; tries < 4 && await page.evaluate(() => [...document.querySelectorAll(".section-tile-dialog, .floating-card-host")].some(node => node.getBoundingClientRect().width > 0)); tries++) {
+            await page.keyboard.press("Escape");
+            await page.waitForTimeout(400);
+        }
+    }
+    return failures;
+}
+
 export async function runLayoutCheck(page, { base = "http://localhost:1420", probe, pages = PAGES, widths, sizes = (widths ?? WIDTHS).map(width => [width, 1000]), themes = THEMES, reference } = {}) {
     const failures = [];
     // The reference x: the first Legal Entity card's (measured here, or handed in by a run that measured it once).
@@ -451,6 +574,8 @@ export async function runLayoutCheck(page, { base = "http://localhost:1420", pro
                     failures.push(...found.map(failure => ({ page: system + " › " + name, theme, width, ...(height !== 1000 ? { height } : {}), ...failure })));
                 }
             }
+            failures.push(...(await checkChapters(page, system + " › " + name)));
+            failures.push(...(await checkDialogLevel(page, system + " › " + name)));
             // The real mouse on the list items of the first-row tiles (3. Infrastructure & Capability), in a tall and a low window.
             if (/Infrastructure/.test(name)) {
                 await page.evaluate(value => document.documentElement.setAttribute("data-theme", value), "light");

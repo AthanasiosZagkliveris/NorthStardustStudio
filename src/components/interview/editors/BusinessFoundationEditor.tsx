@@ -7,6 +7,7 @@ import { cardNameMissing } from "../../../framework/engine/SystemCardCompletenes
 import { workHue } from "../../../framework/engine/WorkColours.ts";
 import CardBoxes, { type CardBox } from "../cards/CardBoxes.tsx";
 import DialogSectionBand from "../tiles/DialogSectionBand.tsx";
+import { titledLines } from "../tiles/SectionTileGeometry.tsx";
 import SectionTiles, { DialogHeading, useTitleSlide, type SectionTile, type TileAdd } from "../tiles/SectionTiles.tsx";
 import { BUSINESS_FOUNDATION_SUBSECTIONS, BusinessCustomerSegmentValue, createBusinessCompetitor, createBusinessCustomerProfile, createBusinessCustomerSegment, createBusinessOffering, segmentHue } from "../../../framework/engine/AnswerUtils.ts";
 import FoldAllToggle from "../fields/FoldAllToggle.tsx";
@@ -186,10 +187,9 @@ export default function BusinessFoundationEditor(props: BusinessFoundationEditor
                     large: true,
                     view: true,
                     rail: rail(0),
-                    // Under the title's rule: PROFILES, centred in capitals with no bullet; the Profiles follow, bulleted.
-                    items: ["PROFILES", ...profileNames],
-                    itemMarks: [{ centre: true }, ...profileNames.map(() => ({ bullet: true }))],
-                    links: [undefined, ...segment.profiles.filter(profile => profile.name.trim()).slice(0, 5).map(profile => ({ card: profile.id }))],
+                    // Under the title's rule: PROFILES, centred in capitals with no bullet, only over Profiles that have names; the Profiles follow, bulleted.
+                    ...titledLines("Profiles", profileNames),
+                    links: profileNames.length > 0 ? [undefined, ...segment.profiles.filter(profile => profile.name.trim()).slice(0, 5).map(profile => ({ card: profile.id }))] : [],
                     note: info(0),
                     holds: segment.profiles.map(profile => profile.id),
                     add: profileAdd,

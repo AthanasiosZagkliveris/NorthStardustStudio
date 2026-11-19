@@ -101,14 +101,31 @@ export default function BulletRail({
             const box = node.getBoundingClientRect();
             const room = side === "left" ? box.right : window.innerWidth - box.left;
             const named = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--rail-tab-named-width")) || 388;
-            const cut = Array.from(node.querySelectorAll<HTMLElement>(".bullet-rail-label")).some(label => {
-                if (getComputedStyle(label).position === "absolute") {
-                    return false;
+            // (THE RAIL SIZES TO ITS LONGEST NAME LIT (owner, 2026-11-19 22:47 UTC+2, the SEGMENTS rail: "2. Designers & Boutique Hotels" ran to the tab's edge; layout
+            // rules section 10, "Names whole"): each name measured bold, with the bold tracking -- 0.05em wider a letter than at rest --, its dot and gap beside it, and
+            // the padding on both sides; the named tab's width at least, wider where a name needs it and the room beside the frame holds it, else the bullets alone.)
+            const style = getComputedStyle(node);
+            const padding = (parseFloat(style.paddingLeft) || 0) + (parseFloat(style.paddingRight) || 0);
+            let need = 0;
+            let wraps = false;
+            Array.from(node.querySelectorAll<HTMLElement>(".bullet-rail-label")).forEach(label => {
+                const labelStyle = getComputedStyle(label);
+                if (labelStyle.position === "absolute") {
+                    return;
                 }
-                const size = parseFloat(getComputedStyle(label).fontSize) || 16;
-                return label.scrollWidth > label.clientWidth + 1 || label.getBoundingClientRect().height > size * 1.9;
+                const size = parseFloat(labelStyle.fontSize) || 16;
+                const item = label.closest<HTMLElement>(".bullet-rail-item");
+                const lit = item?.classList.contains("active") ?? false;
+                // (The letters shown: the status word stands in the narrow window's tooltip only.)
+                const shown = (label.textContent ?? "").length - (label.querySelector(".bullet-rail-status-word")?.textContent ?? "").length;
+                const extra = lit ? 0 : shown * size * 0.05;
+                const beside = item ? item.getBoundingClientRect().width - label.getBoundingClientRect().width : 0;
+                need = Math.max(need, label.scrollWidth + extra + Math.max(beside, 0));
+                wraps = wraps || label.getBoundingClientRect().height > size * 1.9;
             });
-            node.classList.toggle("bullet-rail-compact", cut || room < named);
+            const width = Math.max(named, Math.ceil(need + padding));
+            node.style.setProperty("--rail-own-named-width", width + "px");
+            node.classList.toggle("bullet-rail-compact", wraps || room < width);
         };
         fit();
         window.addEventListener("resize", fit);

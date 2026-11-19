@@ -754,12 +754,19 @@
 
 @media (min-width: 1700px) {
 
+    /* (The named tab's width, or the rail's own where its longest name lit needs more: BulletRail measures it, --rail-own-named-width.) */
     .bullet-rail.bullet-rail-left:not(.bullet-rail-compact),
     .bullet-rail.bullet-rail-right:not(.bullet-rail-compact) {
 
-        width: var(--rail-tab-named-width);
+        width: var(--rail-own-named-width, var(--rail-tab-named-width));
 
     }
+
+    /* (A PAGE RAIL'S NAMES TAKE THE ROOM THE GUTTER HAS (layout rules section 10, "Names whole"; 2026-11-19 22:58 UTC+2): the grown dot's overhang is kept on the
+       dot's side only; on the names' side, by the window's edge, the 12px inset.) */
+    .bullet-rail.bullet-rail-left:not(.bullet-rail-compact) { padding-left: var(--gap-12); }
+
+    .bullet-rail.bullet-rail-right:not(.bullet-rail-compact) { padding-right: var(--gap-12); }
 
     .bullet-rail:not(.bullet-rail-compact) .bullet-rail-label {
 

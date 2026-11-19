@@ -3101,19 +3101,33 @@
         }
 
         // C2b. THE PAGE'S RAILS TOO (owner, 2026-11-18 21:49 UTC+2: "Check the page (chapter) rail width"): the Pages and Sections rails are the dots-only or the
-        //      named width, the one tab padding, 16px rows, 18px between them, and a name that shows is whole.
+        //      named width, the one tab padding, 16px rows, 18px between them, and a name that shows is whole. (2026-11-19 22:58 UTC+2: a named page rail is as wide as its
+        //      longest name lit needs, the named width at least, and keeps 12px on the names' side, by the window's edge; a lit name stays inside that inset.)
         {
             const px = name => { const probe = document.createElement("div"); probe.style.cssText = "position:absolute;visibility:hidden;width:var(" + name + ")"; document.body.appendChild(probe); const w = probe.getBoundingClientRect().width; probe.remove(); return w; };
             const dotsWidth = px("--rail-tab-dots-width"), namedWidth = px("--rail-tab-named-width"), padding = px("--rail-tab-padding");
             for (const rail of [...document.querySelectorAll("nav.bullet-rail.bullet-rail-left, nav.bullet-rail.bullet-rail-right")].filter(visible)) {
                 const box = rect(rail);
                 const style = getComputedStyle(rail);
-                if (![dotsWidth, namedWidth].some(width => Math.abs(box.width - width) <= 0.6)) {
-                    fail("a page rail is the dots-only or the named width", rail, { width: box.width, widths: [dotsWidth, namedWidth] });
+                const named = !rail.classList.contains("bullet-rail-compact") && Math.abs(box.width - dotsWidth) > 0.6;
+                const own = parseFloat(rail.style.getPropertyValue("--rail-own-named-width")) || namedWidth;
+                if (!(Math.abs(box.width - dotsWidth) <= 0.6 || (named && box.width >= namedWidth - 0.6 && Math.abs(box.width - own) <= 0.6))) {
+                    fail("a page rail is the dots-only or the named width", rail, { width: box.width, widths: [dotsWidth, namedWidth, own] });
                 }
+                const nameSide = rail.classList.contains("bullet-rail-left") ? "Left" : "Right";
                 const pads = ["Top", "Right", "Bottom", "Left"].map(side => parseFloat(style["padding" + side]));
-                if (pads.some(value => Math.abs(value - padding) > 0.6)) {
-                    fail("a page rail has the one tab padding on every side", rail, { pads, wanted: padding });
+                const wanted = ["Top", "Right", "Bottom", "Left"].map(side => named && side === nameSide ? 12 : padding);
+                if (pads.some((value, at) => Math.abs(value - wanted[at]) > 0.6)) {
+                    fail("a page rail has the one tab padding on every side", rail, { pads, wanted });
+                }
+                for (const label of [...rail.querySelectorAll(".bullet-rail-item.active .bullet-rail-label")].filter(visible)) {
+                    if (getComputedStyle(label).position === "absolute") {
+                        continue;
+                    }
+                    const edge = rect(label);
+                    if (edge.right > box.right - pads[1] + 0.6 || edge.left < box.left + pads[3] - 0.6) {
+                        fail("a page rail holds its lit name inside its padding", label, { label: [edge.left, edge.right], tab: [box.left + pads[3], box.right - pads[1]] });
+                    }
                 }
                 const items = [...rail.querySelectorAll(".bullet-rail-item")].filter(visible).map(rect);
                 if (items.some(item => Math.abs(item.height - 16) > 0.6)) {
@@ -3386,7 +3400,23 @@
                 let top = (window.innerHeight - height) / 2;
                 // A dialog covers the area of the card of its section (its left and right edges, top and height); a page-level dialog keeps the page frame.
                 const sectionCard = tile.closest(".section-tiles-completed") ? null : tile.closest(".business-foundation-input");
-                const cardBox = sectionCard ? sectionCard.getBoundingClientRect() : null;
+                // (EVERY DIALOG OPENS AT ITS FRAME'S TOP (owner, 2026-11-19 23:15 UTC+2; layout rules section 23): the section's top is that of the frame as it shows, a
+                // Segment's chapter with its title band, where that stands above it; its sides and foot stay the section's.)
+                const ownBox = sectionCard ? sectionCard.getBoundingClientRect() : null;
+                let shownBox = null;
+                if (sectionCard && ownBox) {
+                    const clear = colour => colour === "" || colour === "transparent" || /rgba\([^)]*,\s*0\)$/.test(colour);
+                    let shown = sectionCard;
+                    for (let node = sectionCard; node && !node.matches(".conversation-card"); node = node.parentElement) {
+                        if (!clear(getComputedStyle(node).backgroundColor)) {
+                            shown = node;
+                            break;
+                        }
+                    }
+                    shownBox = shown.getBoundingClientRect();
+                }
+                const lifted = ownBox && shownBox && shownBox.top < ownBox.top && shownBox.bottom >= ownBox.bottom - 1 ? shownBox.top : null;
+                const cardBox = ownBox ? (lifted === null ? ownBox : { left: ownBox.left, width: ownBox.width, top: lifted, bottom: ownBox.bottom, height: ownBox.bottom - lifted }) : null;
                 // (A card taller than the window -- the Customer Channels' -- cannot be covered by its dialog: the dialog then fills the window under the header, and only its width is the card's.)
                 const tallCard = !!cardBox && cardBox.height > window.innerHeight;
                 if (cardBox && cardBox.width > 200 && cardBox.height > 200 && !tallCard) {

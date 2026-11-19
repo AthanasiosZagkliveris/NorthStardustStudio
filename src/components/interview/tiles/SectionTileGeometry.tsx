@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
 import { type SectionTile } from "./SectionTileTypes.ts";
+import { shownFrame } from "../../../hooks/shownFrame.ts";
 
 /**
  * ONE WAY TO PRESENT A CARD: the cards of these tiles (Resource, Activity, Partner, Provider; their channel and finished ones) are only ever FLOATING cards,
@@ -175,6 +176,18 @@ export function stackedFace(rows: readonly FaceRow[]): string[] {
 }
 
 
+/**
+ * A TILE'S SUB-TITLE, ONLY OVER WHAT IT TITLES (owner, 2026-11-19 22:48 UTC+2: "Titles - only when they have been defined, or already exist."): the sub-title in
+ * capitals, centred with no bullet, then its lines, bulleted; with no line under it, no sub-title either (the Segment Description's PROFILES).
+ */
+export function titledLines(title: string, lines: readonly string[]): { items: string[]; itemMarks: { centre?: boolean; bullet?: boolean }[] } {
+    if (lines.length === 0) {
+        return { items: [], itemMarks: [] };
+    }
+    return { items: [title.toLocaleUpperCase(), ...lines], itemMarks: [{ centre: true }, ...lines.map(() => ({ bullet: true }))] };
+}
+
+
 export function tileName(title: string, items: readonly string[] = []): string {
     const listed = items.map(item => plainTitle(item).replace(/\*\*/g, "").trim()).filter(item => item.length > 0 && item !== TILE_DIVIDER).slice(0, 6);
     title = plainTitle(title);
@@ -230,7 +243,13 @@ export function dialogFrame(opener?: HTMLElement | null): { width: number; heigh
     // (Inventory and Completed stand outside both sections: their dialogs keep the page's full width.)
     const section = opener && !opener.closest(".section-tiles-completed") ? sectionAnchor(opener) : null;
     if (section) {
-        const box = section.getBoundingClientRect();
+        // (EVERY DIALOG OPENS AT ITS FRAME'S TOP (owner, 2026-11-19 23:15 UTC+2: "The dialogue cards' level are different on the Segment. Fix it."; layout rules
+        // section 23, "Every dialog opens at its frame's top"): its top is the top of the frame as it shows -- a Segment's chapter, whose title band stands over its columns, as the
+        // page's frame elsewhere --; its sides and foot are its section's.)
+        const own = section.getBoundingClientRect();
+        const frame = shownFrame(section).getBoundingClientRect();
+        const top0 = frame.top < own.top && frame.bottom >= own.bottom - 1 ? frame.top : own.top;
+        const box = { left: own.left, width: own.width, top: top0, bottom: own.bottom, height: own.bottom - top0 };
         if (box.width > 200 && box.height > 200) {
             // (A card taller than the window is covered only as far as the window shows: under the header and the page title that stays under it, above the footer.)
             const header = Math.max(document.querySelector<HTMLElement>(".app-header")?.getBoundingClientRect().bottom ?? 0, document.querySelector<HTMLElement>(".interview-divider")?.getBoundingClientRect().bottom ?? 0);

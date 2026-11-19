@@ -114,7 +114,8 @@ export default function SectionTiles({
         const fit = () => {
             // (Measured at the page's FIRST chapter: where the chapters stand one under another (768px), a lower chapter has its tiles the first's size, not the
             // 150px minimum the window leaves under it -- every master tile of a page has one side; layout check, 2026-11-14.)
-            const first = box.closest(".conversation-card")?.querySelector<HTMLElement>(".section-tiles-quad") ?? box;
+            // (the first chapter SHOWN: a chapter hidden by the carousel stands at no place and has no width)
+            const first = Array.from(box.closest(".conversation-card")?.querySelectorAll<HTMLElement>(".section-tiles-quad") ?? []).find(quad => quad.getClientRects().length > 0 && quad.clientWidth > 0) ?? box;
             const top = first.getBoundingClientRect().top + window.scrollY;
             const footer = document.querySelector<HTMLElement>(".workspace-footer")?.offsetHeight ?? 64;
             // (the footer and its 12px, the card's 12px padding, the gap between the two rows)
@@ -124,8 +125,14 @@ export default function SectionTiles({
             const side = Math.floor((window.innerHeight - top - footer - 12 - 12 - 12 - reserved) / bigRows);
             box.style.setProperty("--quad-max-side", Math.max(side, 150) + "px");
             // The type of the four tiles from the type scale by their size: 24px titles and 18px lists from 250px a side, else 18px and 14px.
-            const actual = Math.min((box.clientWidth - 12) / 2, Math.max(side, 150));
-            const natural = (box.clientWidth - 12) / 2;
+            // (EVERY CHAPTER HAS THE SAME TYPE (owner, 2026-11-19 22:47 UTC+2, the Segment chapters): the width is the first chapter's, the one shown, so a chapter
+            // measured while hidden -- 0px wide -- takes the same size as the first, and measures again when it is shown.)
+            const width = first.clientWidth > 0 ? first.clientWidth : box.clientWidth;
+            if (width <= 0) {
+                return;
+            }
+            const actual = Math.min((width - 12) / 2, Math.max(side, 150));
+            const natural = (width - 12) / 2;
             // (Where the window's height makes the tiles much smaller than the width would -- under 85% -- the gap between them follows, from 12px: the same proportion; a little smaller keeps the 12px.)
             const gap = natural > 0 && actual / natural < 0.85 ? Math.max(6, Math.min(12, Math.round(12 * actual / natural))) : 12;
             box.style.setProperty("--space-card", gap + "px");
@@ -139,7 +146,13 @@ export default function SectionTiles({
         };
         fit();
         window.addEventListener("resize", fit);
-        return () => window.removeEventListener("resize", fit);
+        // (A chapter shown after the page opened -- the carousel's next Segment -- gets its width then: it fits again.)
+        const watch = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(() => fit());
+        watch?.observe(box);
+        return () => {
+            window.removeEventListener("resize", fit);
+            watch?.disconnect();
+        };
     }, [big, bigRows]);
 
     const open = tiles.find(tile => tile.id === openId) ?? null;

@@ -151,6 +151,17 @@ describe("BulletRail", () => {
 
     });
 
+    it("sizes its named tab to its longest name lit, bold and with the bold tracking (owner, 2026-11-19 22:47 UTC+2)", () => {
+        const width = vi.spyOn(HTMLElement.prototype, "scrollWidth", "get").mockImplementation(function (this: HTMLElement) {
+            return this.classList.contains("bullet-rail-label") ? 380 : 0;
+        });
+        const { container } = render(<BulletRail items={[{ id: "a", label: "1. London Homemakers" }, { id: "b", label: "2. Designers & Boutique Hotels" }]} activeId="a" onSelect={() => {}} side="right" label="Segments" />);
+        const nav = container.querySelector<HTMLElement>("nav.bullet-rail")!;
+        // (380px of name, and 0.05em a letter more where it is not lit yet: 28 letters at 18px or the inherited size)
+        expect(parseFloat(nav.style.getPropertyValue("--rail-own-named-width"))).toBeGreaterThan(388);
+        width.mockRestore();
+    });
+
     it("renders nothing for a single item", () => {
         const { container } = render(<BulletRail items={[items[0]]} activeId="a" onSelect={() => {}} side="right" label="Sections" />);
         expect(container.firstChild).toBeNull();
