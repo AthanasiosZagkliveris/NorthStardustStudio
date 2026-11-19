@@ -1,5 +1,5 @@
 import { systems } from "../../data/systems";
-import { PAGE_GROUPS, groupOf, isCompanion } from "../../framework/engine/PageGroups";
+import { groupOf, isCompanion } from "../../framework/engine/PageGroups";
 import { land } from "../interview/tiles/jumpTo";
 import { frameworkRegistry } from "../../framework/engine/FrameworkRegistry";
 import { registeredFields, parseFieldKey } from "../../framework/engine/FieldKeys";
@@ -141,10 +141,12 @@ export function pagePlace(systemNumber: number, sectionNumber: number): string {
     const group = groupOf(systemNumber, sectionNumber);
     if (group) {
         // (Its place among the pages the rail shows -- each section that is no companion of another --, so a group after pages of one section, the Business
-        // System's Financials, is numbered where it stands. Without the System's sections, its place among the System's groups.)
-        const index = sections.length > 0
-            ? sections.filter(section => !isCompanion(systemNumber, section.number) && section.number <= group.members[0]).length
-            : PAGE_GROUPS.filter(entry => entry.systemNumber === systemNumber).indexOf(group) + 1;
+        // System's Financials, is numbered where it stands; worked out when said, never kept. Without the System's sections, its name alone: ai-collaboration-rules.md,
+        // "Read the app's structure by what a thing is".)
+        if (sections.length === 0) {
+            return systemTitle(systemNumber) + " → " + group.title;
+        }
+        const index = sections.filter(section => !isCompanion(systemNumber, section.number) && section.number <= group.members[0]).length;
         return systemTitle(systemNumber) + " → " + index + ". " + group.title;
     }
     const title = sections.find(section => section.number === sectionNumber)?.title ?? "";
