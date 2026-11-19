@@ -451,7 +451,7 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
             { id: "tv", label: "TV" },
             { id: "outdoor", label: "Billboards / outdoor" }, { id: "journals", label: "Journals / trade magazines" }
         ],
-        info: ["The adverts that reach them: each becomes a channel on Customer Engagement."]
+        info: ["The adverts that reach them: each becomes a channel on Foundation & Engagement."]
     },
     {
         id: "path", box: "purchasing", group: "Finding & Choosing", label: "How do your customers usually decide to buy?", many: false,
@@ -504,7 +504,7 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
             { id: "other", label: "Other" }
         ],
         other: true,
-        info: ["The marketplaces where they find and buy what you sell: each becomes a channel on Customer Engagement, with its fees.", "Tick Other to write another."]
+        info: ["The marketplaces where they find and buy what you sell: each becomes a channel on Foundation & Engagement, with its fees.", "Tick Other to write another."]
     },
     {
         id: "shops", box: "purchasing", group: "Buying & Paying", label: "Which shops or sellers do they buy from?", many: true,
@@ -515,7 +515,7 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
             { id: "distributors", label: "Distributors or wholesalers" },
             { id: "resellers", label: "Resellers, online or in shops" }
         ],
-        info: ["The shops where they buy what you sell: each becomes a channel on Customer Engagement.", "A space inside another shop is a concession or shop-in-shop."]
+        info: ["The shops where they buy what you sell: each becomes a channel on Foundation & Engagement.", "A space inside another shop is a concession or shop-in-shop."]
     },
     {
         id: "pay", box: "purchasing", group: "Buying & Paying", label: "How do your customers pay?", many: true,

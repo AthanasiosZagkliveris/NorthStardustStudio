@@ -949,7 +949,7 @@ export function useCapabilityPeopleCards(earlier: Earlier) {
                     partner.offeringIds,
                     (next) => change(next),
                     (partner.name.trim() || "Entry " + number) + " linked Offerings",
-                    "Define an Offering on the Foundation page first.",
+                    "Define an Offering on Foundation & Engagement first.",
                     partner.offeringShares,
                     channelMade(scope, partner.id),
                     partner.madeBy !== "" ? connectedOfferings(capability, partner).ids : [],

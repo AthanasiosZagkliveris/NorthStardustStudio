@@ -18,6 +18,8 @@
 /** Opens another page; with a path, at the card it names (see jumpTo). */
 export type OpenPage = (path?: readonly string[]) => void;
 
+import { revealSegmentOf } from "./segmentPage.ts";
+
 const STEP_MS = 60;
 const GIVE_UP_MS = 4000;
 const HIGHLIGHT_MS = 2400;
@@ -101,6 +103,11 @@ export function jumpTo(path: readonly string[]) {
         const target = find(path[0]);
 
         if (target) {
+            // (A Segment the page is not showing is shown first, then looked for again: segmentPage.ts.)
+            if (revealSegmentOf(target) && Date.now() - started < GIVE_UP_MS) {
+                window.setTimeout(attempt, STEP_MS);
+                return;
+            }
             // A closed box that opens its card in place (a founder's master tile): pressed, then
             // the card that replaces it is the target.
             if (target.hasAttribute("data-opens") && Date.now() - started < GIVE_UP_MS) {
@@ -119,7 +126,12 @@ export function jumpTo(path: readonly string[]) {
             return;
         }
 
-        // A card inside a closed tile: the tile that holds it is pressed (its dialog draws the card).
+        // A card inside a closed tile: the tile that holds it is pressed (its dialog draws the card) -- its Segment shown first, where the page hides it.
+        const holder = document.querySelector<HTMLElement>('[data-tile][data-holds~="' + CSS.escape(path[0]) + '"]');
+        if (revealSegmentOf(holder) && Date.now() - started < GIVE_UP_MS) {
+            window.setTimeout(attempt, STEP_MS);
+            return;
+        }
         openTile(document.querySelector<HTMLElement>('[data-tile][data-holds~="' + CSS.escape(path[0]) + '"]'));
 
         // ... and, inside the dialog, the subcategory box that holds it (SubcategoryBoxes): it opens
@@ -188,6 +200,10 @@ export function focusField(key: string, anchors: readonly string[] = []) {
         const field = findField(key);
 
         if (field) {
+            if (revealSegmentOf(field) && Date.now() - started <= GIVE_UP_MS) {
+                window.setTimeout(attempt, STEP_MS);
+                return;
+            }
             // A folded card: opened first, so its first control can
             // take the focus.
             const toggle = !controlOf(field) && field.matches("[data-anchor]") ? ownToggle(field) : null;
@@ -264,6 +280,10 @@ export function focusText(text: string, ids: readonly string[] = []) {
 
         const cards = ids.map(cardWithId);
         const innermost = cards.find((card): card is HTMLElement => card !== null) ?? null;
+        if (revealSegmentOf(innermost) && Date.now() - started <= GIVE_UP_MS) {
+            window.setTimeout(attempt, STEP_MS);
+            return;
+        }
         const control = controlHolding(text, cards[0] ?? document);
 
         if (control) {

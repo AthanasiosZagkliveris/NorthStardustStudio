@@ -14,6 +14,7 @@ import { useItemFolds } from "../../fields/useItemFolds.ts";
 import { toggledIn } from "../../fields/toggledIn.ts";
 import { BusinessFoundationEditorProps, DescriptionPart, OPTIONAL_DESCRIPTION_PART, SingleColumn } from "./shared.tsx";
 import { createBusinessCustomerSegment, segmentHue } from "../../../../framework/engine/AnswerUtils.ts";
+import { bothPeopleAndBusinesses } from "../../../../framework/engine/businessFoundation/foundationPage.ts";
 import { segmentSettleSaved } from "../../../../framework/engine/SegmentQuestions.ts";
 import { segmentContextFor } from "../../../../framework/engine/SegmentContext.ts";
 
@@ -73,7 +74,7 @@ export function useFoundationState(props: BusinessFoundationEditorProps) {
         (the kind is the presence of the Business Data key). A Segment added after them asks who its customer is.
     */
     const relationships = identity?.relationships ?? [];
-    const bothChosen = relationships.includes("b2c") && relationships.some(id => id === "b2b" || id === "b2g" || id === "g2b");
+    const bothChosen = bothPeopleAndBusinesses(relationships);
     const [first, second] = foundation.segments;
     const needsFix = bothChosen && !disabled && (!second || first.description[OPTIONAL_DESCRIPTION_PART] !== undefined || second.description[OPTIONAL_DESCRIPTION_PART] === undefined);
     useEffect(() => {
@@ -81,14 +82,15 @@ export function useFoundationState(props: BusinessFoundationEditorProps) {
             return;
         }
         const current = latest.current.segments;
-        const made = [current[0], current[1] ?? createBusinessCustomerSegment(current.map(segmentHue))].map((segment, at) => {
+        const made = [current[0], current[1] ?? createBusinessCustomerSegment(current.map(segmentHue), "identity")].map((segment, at) => {
             const description = { ...segment.description };
             if (at === 0) {
                 delete description[OPTIONAL_DESCRIPTION_PART];
             } else {
                 description[OPTIONAL_DESCRIPTION_PART] = description[OPTIONAL_DESCRIPTION_PART] ?? "";
             }
-            return { ...segment, description, questions: segmentSettleSaved(segment.questions, segmentContextFor(identity, at === 1)) };
+            // (Both are the Identity System's: made from its Positioning, so neither has an x -- madeBy, read by the Segment's id.)
+            return { ...segment, description, questions: segmentSettleSaved(segment.questions, segmentContextFor(identity, at === 1)), madeBy: "identity" as const };
         });
         onChange({ ...latest.current, segments: [...made, ...current.slice(2)] });
         // eslint-disable-next-line react-hooks/exhaustive-deps

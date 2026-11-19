@@ -1,6 +1,7 @@
 import { systems } from "../../data/systems";
-import { groupOf, isCompanion } from "../../framework/engine/PageGroups";
+import { groupOf, isCompanion, primaryOf } from "../../framework/engine/PageGroups";
 import { land } from "../interview/tiles/jumpTo";
+import { HIDDEN_SEGMENT_ATTRIBUTE, revealSegmentOf } from "../interview/tiles/segmentPage";
 import { frameworkRegistry } from "../../framework/engine/FrameworkRegistry";
 import { registeredFields, parseFieldKey } from "../../framework/engine/FieldKeys";
 import { OrganizationService } from "../../services/OrganizationService";
@@ -131,27 +132,23 @@ type Navigate = (to: string, options?: { state?: unknown }) => void;
 /** A page in words, as a place is said in the app ("3. Business System → 1. Foundation"): the Glossary's "In the app". */
 export function pagePlace(systemNumber: number, sectionNumber: number): string {
     const system = systems.find(candidate => candidate.number === systemNumber);
-    // (A page that groups sections is said by its group's title and its place among the System's pages: "1. Definition and Purpose", "2. Legal Entity".)
+
     let sections: readonly { number: number; title: string }[] = [];
     try {
         sections = system && frameworkRegistry.exists(system.id) ? frameworkRegistry.getFramework(system.id).sections : [];
     } catch {
         sections = [];
     }
+    // (A page is said as the pages rail names it: its group's title, else its section's, numbered by its place among the pages the rail shows -- each section
+    // that is no companion of another --, worked out when said; a System of one page names it with no number. Never by the section's number, which is its id
+    // in the saved answer: ai-collaboration-rules.md, "Read the app's structure by what a thing is". Without the System's sections, its name alone.)
     const group = groupOf(systemNumber, sectionNumber);
-    if (group) {
-        // (Its place among the pages the rail shows -- each section that is no companion of another --, so a group after pages of one section, the Business
-        // System's Financials, is numbered where it stands; worked out when said, never kept. Without the System's sections, its name alone: ai-collaboration-rules.md,
-        // "Read the app's structure by what a thing is".)
-        if (sections.length === 0) {
-            return systemTitle(systemNumber) + " → " + group.title;
-        }
-        const index = sections.filter(section => !isCompanion(systemNumber, section.number) && section.number <= group.members[0]).length;
-        return systemTitle(systemNumber) + " → " + index + ". " + group.title;
-    }
-    const title = sections.find(section => section.number === sectionNumber)?.title ?? "";
+    const primary = primaryOf(systemNumber, sectionNumber);
+    const shown = sections.filter(section => !isCompanion(systemNumber, section.number));
     // (A title's date placeholder, "MM/YY - MM/YY", is the page's own period, never part of its name.)
-    return systemTitle(systemNumber) + " → " + sectionNumber + ". " + title.replace(/\s+MM\/YY.*$/, "");
+    const name = group?.title ?? (sections.find(section => section.number === primary)?.title ?? "").replace(/\s+MM\/YY.*$/, "");
+    const place = shown.findIndex(section => section.number === primary) + 1;
+    return systemTitle(systemNumber) + " → " + (shown.length > 1 && place > 0 ? place + ". " : "") + name;
 }
 
 /*
@@ -186,6 +183,12 @@ const afterNavigation = () => new Promise<void>(resolve => window.setTimeout(res
 
 /** A page tile's dialog open, and no other: the tile pressed once the dialog of another tile has closed. */
 async function openTileDialog(tile: HTMLElement): Promise<void> {
+    // (A tile of a Segment the page is not showing: its Segment shown first, the tile then the one drawn: segmentPage.ts.)
+    if (revealSegmentOf(tile)) {
+        const id = tile.dataset.tile ?? "";
+        const shown = await waitFor(() => document.querySelector<HTMLElement>(".section-tile[data-tile=\"" + CSS.escape(id) + "\"]:not([" + HIDDEN_SEGMENT_ATTRIBUTE + "] *)"), 1500);
+        tile = shown ?? tile;
+    }
     const id = tile.dataset.tile ?? "";
     if (document.querySelector(".section-tile-dialog[data-tile=\"" + CSS.escape(id) + "\"]")) {
         return;

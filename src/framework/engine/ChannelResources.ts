@@ -17,7 +17,7 @@ import { randomId } from "./Readers.ts";
     A CUSTOMER CHANNEL'S RESOURCES.
 
     What a channel needs -- a paid plan, a card reader, a stall -- is a
-    Resource card on 3. Infrastructure & Capability, where its Quantity,
+    Resource card on Infrastructure & Capability, where its Quantity,
     Price, Frequency and Description are entered like any resource's.
     The channel holds a link to it by id (BusinessChannelResourceValue),
     and the actions of the channel it serves. One name: the card's.

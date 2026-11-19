@@ -363,7 +363,7 @@ export const INFO = {
 
     expenses: [
         "What it costs to register and keep registered: filing, renewal and agent fees. Each is linked to one registration or requirement.",
-        "Licences, insurance and certificates for an offering are recorded in Documents & Rights, on 3. Infrastructure & Capability."
+        "Licences, insurance and certificates for an offering are recorded in Documents & Rights, on Infrastructure & Capability."
     ],
 
     mainActivity: [

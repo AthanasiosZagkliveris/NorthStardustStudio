@@ -1487,7 +1487,7 @@ export default function FinancialFoundationEditor({
                     <span className="financial-plan-meta">
                         No Offerings yet:{" "}
                         <TextLink type="button" className="business-engagement-link" onClick={() => onOpenFoundation()}>
-                            define them on Foundation
+                            define them on Foundation & Engagement
                         </TextLink>
                     </span>
                 )}

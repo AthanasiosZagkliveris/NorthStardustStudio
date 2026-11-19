@@ -934,7 +934,7 @@ export function useCapabilityCardFields(earlier: Earlier) {
                 number={number}
                 name={slot.name}
                 /* A card a Customer Channel made is AUTO-GENERATED: its name is shown, not asked (no name cell), and it has no x -- it is renamed
-                   and removed only from the channel's cell on Customer Engagement. */
+                   and removed only from the channel's cell on Foundation & Engagement. */
                 onName={channelMade(scope, slot.id) ? undefined : (next) => onSlot({ name: next })}
                 nameLink={channelMade(scope, slot.id) ? channelTitle(slot.id) : undefined}
                 open
@@ -1063,7 +1063,7 @@ export function useCapabilityCardFields(earlier: Earlier) {
                     (next) => onSlot(next),
                     "Resource " + number + " linked Offerings",
                     <>
-                        Define an Offering on the Foundation page first
+                        Define an Offering on Foundation & Engagement first
                         {onOpenFoundation && (
                             <>
                                 {": "}

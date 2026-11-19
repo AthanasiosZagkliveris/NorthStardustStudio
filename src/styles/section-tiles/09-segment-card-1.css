@@ -248,9 +248,11 @@
 /* A title as every tile title is (layout rules, section 9, "Tile title"): one line, cut by an ellipsis, sliding under the pointer (useTitleSlide), the full name its tooltip. */
 .business-foundation-frame-head .business-foundation-frame-name {
 
-    flex: 1 1 0;
+    /* (As wide as the name, so the number and the name stand together, centred as one heading -- "1. London Homemakers" -- as every numbered chapter's
+       heading does (layout rules section 13); a name longer than the head is cut by the ellipsis.) */
+    flex: 0 1 auto;
 
-    width: 100%;
+    field-sizing: content;
 
     overflow: hidden;
     white-space: nowrap;

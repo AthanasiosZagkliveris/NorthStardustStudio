@@ -90,6 +90,11 @@ exports[`Lumen & Loom Studio > Brand System › 2. Style 1`] = `
 [fields] "
 `;
 
+exports[`Lumen & Loom Studio > Business System › 1. Foundation > tile segment-8lu427u5:channels 1`] = `
+"Channels & JourneyChannels & JourneyiChannelsJourney StagesSocial MediaInstagramPinterestTikTokYouTubeSubstackWebsiteOnline StoreContact PageEmailNewsletterCommunityFacebook GroupMeetupWhatsApp groupsIn PersonStudio / ShopMarket / Pop-upWorkshop / ClassDirect PaymentCardPhysical DeliveryCourierPostal ServiceReferral & AffiliatesInfluencer / AmbassadorCustomer ReferralOnline / LiveZoomSamples & TrialsFree SampleTaster Session / Free ClassBack‹›Back
+[fields] "
+`;
+
 exports[`Lumen & Loom Studio > Business System › 1. Foundation > tile segment-8lu427u5:competitors 1`] = `
 "CompetitorsCompetitorsi1. Independent weaversDirect competitor2. Premium homeware brandsIndirect competitor3. High-street homewareSubstitute+Add CardDifferentiationHow will you stand apart?i 2 maxConvenience-driveniPerformance & InnovationiStatus & PremiumiIndependent weaversHigh-street homewareEcosystem & IntegrationiPersonal Service & RelationshipiIndependent weaversCost-driveniCompliance, Risk & SecurityiBack‹›Back
 [fields] "
@@ -100,14 +105,29 @@ exports[`Lumen & Loom Studio > Business System › 1. Foundation > tile segment-
 [fields] "
 `;
 
+exports[`Lumen & Loom Studio > Business System › 1. Foundation > tile segment-8lu427u5:demand 1`] = `
+"Demand & ConversionDemand & Conversioni1. Homeware Collection10 a monthVisitorsSales funnelReferralsRepeat customers2. Weaving Workshops32 a monthSales funnelReferralsVisitorsBack‹›Back
+[fields] "
+`;
+
 exports[`Lumen & Loom Studio > Business System › 1. Foundation > tile segment-8lu427u5:offerings 1`] = `
 "OfferingsOfferingsi1. Homeware Collection2. Weaving Workshops+Add CardBack‹›Back
+[fields] "
+`;
+
+exports[`Lumen & Loom Studio > Business System › 1. Foundation > tile segment-8lu427u5:relationships 1`] = `
+"Customer's RelationshipCustomer's Relationshipi1. Homeware CollectionThe Considered NesterPersonal Assistance2. Weaving WorkshopsThe Hands-On Hobby LearnerCommunityBack‹›Back
 [fields] "
 `;
 
 exports[`Lumen & Loom Studio > Business System › 1. Foundation > tile segment-8lu427u5:value-proposition 1`] = `
 "Value PropositionValue PropositioniValue PropositioniAdd a draft for Homeware CollectionAdd a draft for Weaving WorkshopsFor Londoners who want a calm, personal home without the throwaway cycle, Lumen & Loom makes handwoven cushions, throws and linens in Hackney from traceable British wool and organic cotton. Each piece is signed by its maker and repaired for life, and we teach you to weave your own. You know exactly who made it, where the yarn came from, and that it will last.Emotional NeedsCalmFulfilledDelightedProudNurturedSocial NeedsStylishIncludedAltruisticBack‹›Back
 [fields] For Londoners who want a calm, personal home without the throwaway cycle, Lumen & Loom makes handwoven cushions, throws and linens in Hackney from traceable British wool and organic cotton. Each piece is signed by its maker and repaired for life, and we teach you to weave your own. You know exactly who made it, where the yarn came from, and that it will last."
+`;
+
+exports[`Lumen & Loom Studio > Business System › 1. Foundation > tile segment-majxtl1u:channels 1`] = `
+"Channels & JourneyChannels & JourneyiChannelsJourney StagesSocial MediaLinkedInInstagramPinterestWebsiteLanding PageMain WebsiteContact PageEmailDirect EmailEmail CampaignIn PersonTrade Fair / ExhibitionStudio / ShopCustomer LocationDirect PaymentInvoicePhysical DeliveryPostal ServiceCourierReferral & AffiliatesCustomer ReferralOnline / LiveZoomRetail & WholesaleRetail StockistWholesale AccountBack‹›Back
+[fields] "
 `;
 
 exports[`Lumen & Loom Studio > Business System › 1. Foundation > tile segment-majxtl1u:competitors 1`] = `
@@ -120,8 +140,18 @@ exports[`Lumen & Loom Studio > Business System › 1. Foundation > tile segment-
 [fields] "
 `;
 
+exports[`Lumen & Loom Studio > Business System › 1. Foundation > tile segment-majxtl1u:demand 1`] = `
+"Demand & ConversionDemand & Conversioni1. Bespoke Commissions3 a monthContracts or tendersReferralsSales funnelVisitorsRepeat customers2. Trade Collection3 a monthSales funnelVisitorsReferralsBack‹›Back
+[fields] "
+`;
+
 exports[`Lumen & Loom Studio > Business System › 1. Foundation > tile segment-majxtl1u:offerings 1`] = `
 "OfferingsOfferingsi1. Bespoke Commissions2. Trade Collection+Add CardBack‹›Back
+[fields] "
+`;
+
+exports[`Lumen & Loom Studio > Business System › 1. Foundation > tile segment-majxtl1u:relationships 1`] = `
+"Customer's RelationshipCustomer's Relationshipi1. Bespoke CommissionsThe Eco Interior DesignerDedicated Support2. Trade CollectionThe Eco Interior DesignerPersonal AssistanceBack‹›Back
 [fields] "
 `;
 
@@ -131,7 +161,7 @@ exports[`Lumen & Loom Studio > Business System › 1. Foundation > tile segment-
 `;
 
 exports[`Lumen & Loom Studio > Business System › 1. Foundation 1`] = `
-"…Saving…AutoFocusSearchWorkbookNotesSettingsLumen & Loom Studio3. Business System — 1. Foundation1.×Segment DescriptionPROFILESThe Considered NesterThe Hands-On Hobby LearnerCompetitorsIndependent weaversPremium homeware brandsHigh-street homewareOfferingsHomeware CollectionWeaving WorkshopsValue PropositionFor Londoners who want a calm, personal home without the throwaway cycle, Lumen & Loom makes handwoven cushions, throws and linens in Hackney from traceable British wool and organic cotton. Each piece is signed by its maker and repaired for life, and we teach you to weave your own. You know exactly who made it, where the yarn came from, and that it will last.2.×Segment DescriptionPROFILESThe Eco Interior DesignerCompetitorsContract textile millsTextile studiosOfferingsBespoke CommissionsTrade CollectionValue PropositionFor interior designers and boutique hotels who want a local, sustainable signature in every project, Lumen & Loom weaves bespoke textiles to specification in London, with samples in a week, fixed lead times and a documentation pack covering materials, carbon and fire compliance. We make small runs and one-offs, and we deliver on time.+ Add Segment‹PagesIntroduction1. Foundation: defined2. Customer Engagement: defined3. Infrastructure & Capability: defined4. Financials: defined›Back
+"…Saving…AutoFocusSearchWorkbookNotesSettingsLumen & Loom Studio3. Business System — 1. Foundation & Engagement1.Segment DescriptionPROFILESThe Considered NesterThe Hands-On Hobby LearnerCompetitorsIndependent weaversPremium homeware brandsHigh-street homewareOfferingsHomeware CollectionWeaving WorkshopsValue PropositionFor Londoners who want a calm, personal home without the throwaway cycle, Lumen & Loom makes handwoven cushions, throws and linens in Hackney from traceable British wool and organic cotton. Each piece is signed by its maker and repaired for life, and we teach you to weave your own. You know exactly who made it, where the yarn came from, and that it will last.Channels &JourneyDiscover13Evaluation9Purchase3Delivery5Support & Follow Up5Customer'sRelationshipHomeware Collection Personal AssistanceWeaving Workshops CommunityDemand &ConversionHomeware Collection 10 a monthWeaving Workshops 32 a month2.Segment DescriptionPROFILESThe Eco Interior DesignerCompetitorsContract textile millsTextile studiosOfferingsBespoke CommissionsTrade CollectionValue PropositionFor interior designers and boutique hotels who want a local, sustainable signature in every project, Lumen & Loom weaves bespoke textiles to specification in London, with samples in a week, fixed lead times and a documentation pack covering materials, carbon and fire compliance. We make small runs and one-offs, and we deliver on time.Channels &JourneyDiscover6Evaluation6Purchase4Delivery4Support & Follow Up3Customer'sRelationshipBespoke Commissions Dedicated SupportTrade Collection Personal AssistanceDemand &ConversionBespoke Commissions 3 a monthTrade Collection 3 a month+ Add Segment‹PagesIntroduction1. Foundation & Engagement: defined2. Infrastructure & Capability: defined3. Financials: defined›Segments1. London Homemakers2. Designers & Boutique HotelsBack
 [fields] London Homemakers | Designers & Boutique Hotels"
 `;
 
@@ -140,8 +170,23 @@ exports[`Lumen & Loom Studio > Business System › 2. Customer Engagement > tile
 [fields] "
 `;
 
+exports[`Lumen & Loom Studio > Business System › 2. Customer Engagement > tile segment-8lu427u5:competitors 1`] = `
+"CompetitorsCompetitorsi1. Independent weaversDirect competitor2. Premium homeware brandsIndirect competitor3. High-street homewareSubstitute+Add CardDifferentiationHow will you stand apart?i 2 maxConvenience-driveniPerformance & InnovationiStatus & PremiumiIndependent weaversHigh-street homewareEcosystem & IntegrationiPersonal Service & RelationshipiIndependent weaversCost-driveniCompliance, Risk & SecurityiBack‹›Back
+[fields] "
+`;
+
+exports[`Lumen & Loom Studio > Business System › 2. Customer Engagement > tile segment-8lu427u5:customers 1`] = `
+"Segment DescriptionSegment DescriptioniDescriptionDemographicsiHow old are your customers?iEstablished 25–39Peak 40–54Mature 55–64What is their highest level of education?iSchoolCollege or vocationalUniversity degreePostgraduate degreeAre your customers working?iYesNoWhere do your customers mainly work?iAt homeIn an officeOn siteOn the roadWhat is your customers' work schedule?iStandard daytime hoursShifts / varying hoursFlexible / their own hoursHow are your customers paid?iFixed salaryHourly wageVariable payHow high is your customers' household income?i12345What is the gender mix of your customers?i12345GeographicsiWhere are your customers?iIn my city / townIn my state / regionAcross my countryIn several countriesAnywhere onlineWhere do your customers live or work?i12345Market Size & Industry OutlookiHow many potential customers are there?iVery small niche, under 1,000Specialist, 1,000–49,999Mid-market, 50,000–499,999Mass market, 500,000 or moreIs your market growing or shrinking?i12345What is changing most for your customers?i 2 maxTechnologyRules & lawThe economySociety & lifestyleSupply & deliveryEnvironment & climateHow crowded is your market?i12345Purchasing Power & BehaviouriFinding & ChoosingHow comfortable are your customers online?i12345How do your customers like to socialise?iMostly onlineOnline & in personMostly in personWhat makes your customers go shopping?i 2 maxBoredom or entertainmentSeeing a friend or creator use itA need / problem to solveSales, seasons or planned giftsHow do your customers share what they like?iThey post it publicly on social mediaThey tell friends and familyThey keep what they buy to themselvesWhere do your customers discover new products?i 3 maxOnlineOnline communities / forumsCreators / influencers / expertsMedia, reviews & comparison sitesFeeds, ads & marketplace suggestionsSearch engines / mapsAffiliate sites / blogsIn person, in print and on airFriends, family & colleaguesSeeing it in person / passing byEvents / trade showsPartner businessesAdverts in newspapers, magazines, radio or TVFlyers or postersLetters or catalogues in the postFree samples, tasters or trialsOtherHow do your customers usually decide to buy?iOn impulseAfter comparing optionsOn a recommendationOut of habitWhen they urgently need itBuying & PayingWhere do your customers usually shop?iOnline, on a phoneOnline, on a computerIn a shopBoth online & in shopsOn a marketplace, such as Etsy or AmazonHow do your customers pay?iCredit / debit cardDigital walletsCashBuy Now, Pay Later or financingBank transferWhich payment services do you take payments with?iStripePayPalShopify PaymentsSumUpSquareZettleOtherProfiles1. The Considered Nester2. The Hands-On Hobby Learner+Add CardBack‹›Back
+[fields] "
+`;
+
 exports[`Lumen & Loom Studio > Business System › 2. Customer Engagement > tile segment-8lu427u5:demand 1`] = `
 "Demand & ConversionDemand & Conversioni1. Homeware Collection10 a monthVisitorsSales funnelReferralsRepeat customers2. Weaving Workshops32 a monthSales funnelReferralsVisitorsBack‹›Back
+[fields] "
+`;
+
+exports[`Lumen & Loom Studio > Business System › 2. Customer Engagement > tile segment-8lu427u5:offerings 1`] = `
+"OfferingsOfferingsi1. Homeware Collection2. Weaving Workshops+Add CardBack‹›Back
 [fields] "
 `;
 
@@ -150,8 +195,23 @@ exports[`Lumen & Loom Studio > Business System › 2. Customer Engagement > tile
 [fields] "
 `;
 
+exports[`Lumen & Loom Studio > Business System › 2. Customer Engagement > tile segment-8lu427u5:value-proposition 1`] = `
+"Value PropositionValue PropositioniValue PropositioniAdd a draft for Homeware CollectionAdd a draft for Weaving WorkshopsFor Londoners who want a calm, personal home without the throwaway cycle, Lumen & Loom makes handwoven cushions, throws and linens in Hackney from traceable British wool and organic cotton. Each piece is signed by its maker and repaired for life, and we teach you to weave your own. You know exactly who made it, where the yarn came from, and that it will last.Emotional NeedsCalmFulfilledDelightedProudNurturedSocial NeedsStylishIncludedAltruisticBack‹›Back
+[fields] For Londoners who want a calm, personal home without the throwaway cycle, Lumen & Loom makes handwoven cushions, throws and linens in Hackney from traceable British wool and organic cotton. Each piece is signed by its maker and repaired for life, and we teach you to weave your own. You know exactly who made it, where the yarn came from, and that it will last."
+`;
+
 exports[`Lumen & Loom Studio > Business System › 2. Customer Engagement > tile segment-majxtl1u:channels 1`] = `
 "Channels & JourneyChannels & JourneyiChannelsJourney StagesSocial MediaLinkedInInstagramPinterestWebsiteLanding PageMain WebsiteContact PageEmailDirect EmailEmail CampaignIn PersonTrade Fair / ExhibitionStudio / ShopCustomer LocationDirect PaymentInvoicePhysical DeliveryPostal ServiceCourierReferral & AffiliatesCustomer ReferralOnline / LiveZoomRetail & WholesaleRetail StockistWholesale AccountBack‹›Back
+[fields] "
+`;
+
+exports[`Lumen & Loom Studio > Business System › 2. Customer Engagement > tile segment-majxtl1u:competitors 1`] = `
+"CompetitorsCompetitorsi1. Contract textile millsDirect competitor2. Textile studiosDirect competitor+Add CardDifferentiationHow will you stand apart?i 2 maxConvenience-driveniContract textile millsTextile studiosPerformance & InnovationiStatus & PremiumiEcosystem & IntegrationiPersonal Service & RelationshipiContract textile millsCost-driveniCompliance, Risk & SecurityiBack‹›Back
+[fields] "
+`;
+
+exports[`Lumen & Loom Studio > Business System › 2. Customer Engagement > tile segment-majxtl1u:customers 1`] = `
+"Segment DescriptionSegment DescriptioniDescriptionBusiness DataiSet for you from Positioning and your answers above: Sector: Tech, data & media, and business services.What kind of organisation are your customers?iPrivate businessNon-profit / charity / NGOHow big are your customers' organisations?iMicro, 1–9 employeesSmall, 10–49 employeesWhich industry are your customers in?iResource extraction & energyFarming, forestry and fishingMining, oil, gas and quarryingEnergy, water and wasteManufacturing & constructionManufacturingConstructionConsumer goods & retailWholesale and retail tradeHospitalityArts, sport and recreationInfrastructure & financeTransport, postal and logisticsFinance and insuranceReal estate and propertyTech, data & media, and business servicesSoftware, IT, media and telecomsProfessional, scientific and technical servicesAdministrative and support servicesHuman services & public sector, and other servicesGovernment and public administrationEducationHealth and social careOther servicesGeographicsiWhere are your customers?iIn my city / townIn my state / regionAcross my countryIn several countriesAnywhere onlineWhere do your customers live or work?i12345Market Size & Industry OutlookiHow many potential customers are there?iVery small niche, under 1,000Specialist, 1,000–49,999Mid-market, 50,000–499,999Mass market, 500,000 or moreIs your market growing or shrinking?i12345What is changing most for your customers?i 2 maxTechnologyRules & lawThe economySociety & lifestyleSupply & deliveryEnvironment & climateHow crowded is your market?i12345Purchasing Power & BehaviouriFinding & ChoosingHow comfortable are your customers online?i12345Where do your customers discover new products?i 3 maxOnlineOnline communities / forumsCreators / influencers / expertsMedia, reviews & comparison sitesFeeds, ads & marketplace suggestionsSearch engines / mapsAffiliate sites / blogsIn person, in print and on airFriends, family & colleaguesSeeing it in person / passing byEvents / trade showsSales calls or tendersPartner businessesAdverts in newspapers, magazines, radio or TVFlyers or postersLetters or catalogues in the postFree samples, tasters or trialsOtherWho decides to buy?iOne person decidesThe team agreesA manager signs offSeveral departments checkFormal procurementBuying & PayingWhere do your customers usually shop?iOnline, on a phoneOnline, on a computerIn a shopBoth online & in shopsOn a marketplace, such as Etsy or AmazonWhich shops or sellers do they buy from?iYour own shop or studioShops that stock your productsA space inside another shopDistributors or wholesalersResellers, online or in shopsHow do your customers pay?iCredit / debit cardDigital walletsCashBuy Now, Pay Later or financingInvoice or purchase orderBank transferWhich payment services do you take payments with?iStripePayPalShopify PaymentsSumUpSquareZettleOtherProfiles1. The Eco Interior Designer+Add CardBack‹›Back
 [fields] "
 `;
 
@@ -160,14 +220,24 @@ exports[`Lumen & Loom Studio > Business System › 2. Customer Engagement > tile
 [fields] "
 `;
 
+exports[`Lumen & Loom Studio > Business System › 2. Customer Engagement > tile segment-majxtl1u:offerings 1`] = `
+"OfferingsOfferingsi1. Bespoke Commissions2. Trade Collection+Add CardBack‹›Back
+[fields] "
+`;
+
 exports[`Lumen & Loom Studio > Business System › 2. Customer Engagement > tile segment-majxtl1u:relationships 1`] = `
 "Customer's RelationshipCustomer's Relationshipi1. Bespoke CommissionsThe Eco Interior DesignerDedicated Support2. Trade CollectionThe Eco Interior DesignerPersonal AssistanceBack‹›Back
 [fields] "
 `;
 
+exports[`Lumen & Loom Studio > Business System › 2. Customer Engagement > tile segment-majxtl1u:value-proposition 1`] = `
+"Value PropositionValue PropositioniValue PropositioniAdd a draft for Bespoke CommissionsAdd a draft for Trade CollectionFor interior designers and boutique hotels who want a local, sustainable signature in every project, Lumen & Loom weaves bespoke textiles to specification in London, with samples in a week, fixed lead times and a documentation pack covering materials, carbon and fire compliance. We make small runs and one-offs, and we deliver on time.Emotional NeedsConfidentGlad to work with youSocial NeedsResponsibleRespectedOpen itemsiUnwanted benefit: Bespoke Commissions does Personalisation best, which no Profile ticks as what matters most.Back‹›Back
+[fields] For interior designers and boutique hotels who want a local, sustainable signature in every project, Lumen & Loom weaves bespoke textiles to specification in London, with samples in a week, fixed lead times and a documentation pack covering materials, carbon and fire compliance. We make small runs and one-offs, and we deliver on time."
+`;
+
 exports[`Lumen & Loom Studio > Business System › 2. Customer Engagement 1`] = `
-"…Saving…AutoFocusSearchWorkbookNotesSettingsLumen & Loom Studio3. Business System — 2. Customer Engagement1. London HomemakersChannels &JourneyDiscover13Evaluation9Purchase3Delivery5Support & Follow Up5Customer'sRelationshipHomeware Collection Personal AssistanceWeaving Workshops CommunityDemand &ConversionHomeware Collection 10 a monthWeaving Workshops 32 a month2. Designers & Boutique HotelsChannels &JourneyDiscover6Evaluation6Purchase4Delivery4Support & Follow Up3Customer'sRelationshipBespoke Commissions Dedicated SupportTrade Collection Personal AssistanceDemand &ConversionBespoke Commissions 3 a monthTrade Collection 3 a month‹PagesIntroduction1. Foundation: defined2. Customer Engagement: defined3. Infrastructure & Capability: defined4. Financials: defined›Back
-[fields] "
+"…Saving…AutoFocusSearchWorkbookNotesSettingsLumen & Loom Studio3. Business System — 1. Foundation & Engagement1.Segment DescriptionPROFILESThe Considered NesterThe Hands-On Hobby LearnerCompetitorsIndependent weaversPremium homeware brandsHigh-street homewareOfferingsHomeware CollectionWeaving WorkshopsValue PropositionFor Londoners who want a calm, personal home without the throwaway cycle, Lumen & Loom makes handwoven cushions, throws and linens in Hackney from traceable British wool and organic cotton. Each piece is signed by its maker and repaired for life, and we teach you to weave your own. You know exactly who made it, where the yarn came from, and that it will last.Channels &JourneyDiscover13Evaluation9Purchase3Delivery5Support & Follow Up5Customer'sRelationshipHomeware Collection Personal AssistanceWeaving Workshops CommunityDemand &ConversionHomeware Collection 10 a monthWeaving Workshops 32 a month2.Segment DescriptionPROFILESThe Eco Interior DesignerCompetitorsContract textile millsTextile studiosOfferingsBespoke CommissionsTrade CollectionValue PropositionFor interior designers and boutique hotels who want a local, sustainable signature in every project, Lumen & Loom weaves bespoke textiles to specification in London, with samples in a week, fixed lead times and a documentation pack covering materials, carbon and fire compliance. We make small runs and one-offs, and we deliver on time.Channels &JourneyDiscover6Evaluation6Purchase4Delivery4Support & Follow Up3Customer'sRelationshipBespoke Commissions Dedicated SupportTrade Collection Personal AssistanceDemand &ConversionBespoke Commissions 3 a monthTrade Collection 3 a month+ Add Segment‹PagesIntroduction1. Foundation & Engagement: defined2. Infrastructure & Capability: defined3. Financials: defined›Segments1. London Homemakers2. Designers & Boutique HotelsBack
+[fields] London Homemakers | Designers & Boutique Hotels"
 `;
 
 exports[`Lumen & Loom Studio > Business System › 3. Infrastructure & Capability > tile activities 1`] = `
@@ -221,7 +291,7 @@ exports[`Lumen & Loom Studio > Business System › 3. Infrastructure & Capabilit
 `;
 
 exports[`Lumen & Loom Studio > Business System › 3. Infrastructure & Capability 1`] = `
-"…Saving…AutoFocusSearchWorkbookNotesSettingsLumen & Loom Studio3. Business System — 3. Infrastructure & Capability1.InfrastructureFoundersMaya ChenOliver GrantPriya ShahResourcesWorkspaceUtilitiesWorkstationEquipmentVehiclesDigital InfrastructureMaterials & InventoryDocuments & RightsHuman ResourcesActivitiesPre-OperationalOperationalPartners & SuppliersPartnersSuppliers2.Offering's CapabilityResourcesWorkspaceUtilitiesWorkstationEquipmentVehiclesDigital InfrastructureMaterials & InventoryDocuments & RightsHuman ResourcesActivitiesProductionMarketingSales & CustomerPartners & SuppliersPartnersSuppliersCapacity & DeliveryHomeware CollectionWeaving WorkshopsBespoke CommissionsTrade CollectionInventory3 founders39 resources15 activities10 partners & suppliersCompletedRegister trade mark and ICOLaunch website and journal‹PagesIntroduction1. Foundation: defined2. Customer Engagement: defined3. Infrastructure & Capability: defined4. Financials: defined›Back
+"…Saving…AutoFocusSearchWorkbookNotesSettingsLumen & Loom Studio3. Business System — 3. Infrastructure & Capability1.InfrastructureFoundersMaya ChenOliver GrantPriya ShahResourcesWorkspaceUtilitiesWorkstationEquipmentVehiclesDigital InfrastructureMaterials & InventoryDocuments & RightsHuman ResourcesActivitiesPre-OperationalOperationalPartners & SuppliersPartnersSuppliers2.Offering's CapabilityResourcesWorkspaceUtilitiesWorkstationEquipmentVehiclesDigital InfrastructureMaterials & InventoryDocuments & RightsHuman ResourcesActivitiesProductionMarketingSales & CustomerPartners & SuppliersPartnersSuppliersCapacity & DeliveryHomeware CollectionWeaving WorkshopsBespoke CommissionsTrade CollectionInventory3 founders39 resources15 activities10 partners & suppliersCompletedRegister trade mark and ICOLaunch website and journal‹PagesIntroduction1. Foundation & Engagement: defined2. Infrastructure & Capability: defined3. Financials: defined›Back
 [fields] "
 `;
 
@@ -256,7 +326,7 @@ exports[`Lumen & Loom Studio > Business System › 4. Revenue & Pricing MM/YY - 
 `;
 
 exports[`Lumen & Loom Studio > Business System › 4. Revenue & Pricing MM/YY - MM/YY 1`] = `
-"…Saving…AutoFocusSearchWorkbookNotesSettingsLumen & Loom Studio3. Business System — 4. Financials · Apr 2025 – Mar 20281. Revenue & Break EvenRevenue StreamsHomeware Collection £160 / ProductWeaving Workshops £85 / ParticipantBespoke Commissions £2,400 / ProjectTrade Collection £48 / ProductBreak-EvenBreak-even revenue £11,204 a monthExpected Break Even Jun 2027SustainabilityFinancial RiskFinancial Exhaustion Nov 2026Sustainability Buffer n/aWorst shortfall £56,0512. Financial FoundationCostsLaunch budget £0Running costs a month £7,259Cost of each sale £2,589Shopify Payments 2%SumUp in-person card fees 1.69%Capital & FundingPlanned1Preparing1Approved / Agreed1Received / Available5Financial PositionFunding Gap £25,848Total Funding Need £61,848‹PagesIntroduction1. Foundation: defined2. Customer Engagement: defined3. Infrastructure & Capability: defined4. Financials: definedBack
+"…Saving…AutoFocusSearchWorkbookNotesSettingsLumen & Loom Studio3. Business System — 3. Financials · Apr 2025 – Mar 20281. Revenue & Break EvenRevenue StreamsHomeware Collection £160 / ProductWeaving Workshops £85 / ParticipantBespoke Commissions £2,400 / ProjectTrade Collection £48 / ProductBreak-EvenBreak-even revenue £11,204 a monthExpected Break Even Jun 2027SustainabilityFinancial RiskFinancial Exhaustion Nov 2026Sustainability Buffer n/aWorst shortfall £56,0512. Financial FoundationCostsLaunch budget £0Running costs a month £7,259Cost of each sale £2,589Shopify Payments 2%SumUp in-person card fees 1.69%Capital & FundingPlanned1Preparing1Approved / Agreed1Received / Available5Financial PositionFunding Gap £25,848Total Funding Need £61,848‹PagesIntroduction1. Foundation & Engagement: defined2. Infrastructure & Capability: defined3. Financials: definedBack
 [fields] "
 `;
 
@@ -291,7 +361,7 @@ exports[`Lumen & Loom Studio > Business System › 5. Costs, Funding & Position 
 `;
 
 exports[`Lumen & Loom Studio > Business System › 5. Costs, Funding & Position MM/YY - MM/YY 1`] = `
-"…Saving…AutoFocusSearchWorkbookNotesSettingsLumen & Loom Studio3. Business System — 4. Financials · Apr 2025 – Mar 20281. Revenue & Break EvenRevenue StreamsHomeware Collection £160 / ProductWeaving Workshops £85 / ParticipantBespoke Commissions £2,400 / ProjectTrade Collection £48 / ProductBreak-EvenBreak-even revenue £11,204 a monthExpected Break Even Jun 2027SustainabilityFinancial RiskFinancial Exhaustion Nov 2026Sustainability Buffer n/aWorst shortfall £56,0512. Financial FoundationCostsLaunch budget £0Running costs a month £7,259Cost of each sale £2,589Shopify Payments 2%SumUp in-person card fees 1.69%Capital & FundingPlanned1Preparing1Approved / Agreed1Received / Available5Financial PositionFunding Gap £25,848Total Funding Need £61,848‹PagesIntroduction1. Foundation: defined2. Customer Engagement: defined3. Infrastructure & Capability: defined4. Financials: definedBack
+"…Saving…AutoFocusSearchWorkbookNotesSettingsLumen & Loom Studio3. Business System — 3. Financials · Apr 2025 – Mar 20281. Revenue & Break EvenRevenue StreamsHomeware Collection £160 / ProductWeaving Workshops £85 / ParticipantBespoke Commissions £2,400 / ProjectTrade Collection £48 / ProductBreak-EvenBreak-even revenue £11,204 a monthExpected Break Even Jun 2027SustainabilityFinancial RiskFinancial Exhaustion Nov 2026Sustainability Buffer n/aWorst shortfall £56,0512. Financial FoundationCostsLaunch budget £0Running costs a month £7,259Cost of each sale £2,589Shopify Payments 2%SumUp in-person card fees 1.69%Capital & FundingPlanned1Preparing1Approved / Agreed1Received / Available5Financial PositionFunding Gap £25,848Total Funding Need £61,848‹PagesIntroduction1. Foundation & Engagement: defined2. Infrastructure & Capability: defined3. Financials: definedBack
 [fields] "
 `;
 
@@ -584,6 +654,11 @@ exports[`Quillfield Automation > Brand System › 2. Style 1`] = `
 [fields] "
 `;
 
+exports[`Quillfield Automation > Business System › 1. Foundation > tile segment-qf3n8d2w:channels 1`] = `
+"Channels & JourneyChannels & JourneyiChannelsJourney StagesSocial MediaLinkedInX (Twitter)WebsiteMain WebsiteBooking PageContact PageEmailNewsletterDirect EmailReferral & AffiliatesReferral PartnerCustomer ReferralIn PersonEvent / TalkDirect PaymentInvoiceOnline / LiveZoomFile DeliveryClient PortalEmail AttachmentCommunitySlackAgency founder communitiesSamples & TrialsDemoBack‹›Back
+[fields] "
+`;
+
 exports[`Quillfield Automation > Business System › 1. Foundation > tile segment-qf3n8d2w:competitors 1`] = `
 "CompetitorsCompetitorsi1. Freelance specialistsDirect competitor2. AI consultanciesIndirect competitor3. DIY AI toolsSubstitute4. Manual workStatus quo+Add CardDifferentiationHow will you stand apart?iConvenience-driveniAI consultanciesEcosystem & IntegrationiCost-driveniPerformance & InnovationiPersonal Service & RelationshipiFreelance specialistsDIY AI toolsCompliance, Risk & SecurityiStatus & PremiumiFreelance specialistsBack‹›Back
 [fields] "
@@ -594,8 +669,18 @@ exports[`Quillfield Automation > Business System › 1. Foundation > tile segmen
 [fields] "
 `;
 
+exports[`Quillfield Automation > Business System › 1. Foundation > tile segment-qf3n8d2w:demand 1`] = `
+"Demand & ConversionDemand & Conversioni1. AI Workflow Audit1.5 a monthSales funnelReferralsVisitors2. Automation Build0.6 a monthOtherSales funnelReferrals3. Automation Care Retainer5 activeOtherReferralsSales funnelBack‹›Back
+[fields] "
+`;
+
 exports[`Quillfield Automation > Business System › 1. Foundation > tile segment-qf3n8d2w:offerings 1`] = `
 "OfferingsOfferingsi1. AI Workflow Audit2. Automation Build3. Automation Care Retainer+Add CardBack‹›Back
+[fields] "
+`;
+
+exports[`Quillfield Automation > Business System › 1. Foundation > tile segment-qf3n8d2w:relationships 1`] = `
+"Customer's RelationshipCustomer's Relationshipi1. AI Workflow AuditThe Busy Ops ManagerThe Agency FounderPersonal Assistance2. Automation BuildThe Busy Ops ManagerThe Agency FounderDedicated Support3. Automation Care RetainerThe Busy Ops ManagerThe Agency FounderDedicated SupportBack‹›Back
 [fields] "
 `;
 
@@ -605,7 +690,7 @@ exports[`Quillfield Automation > Business System › 1. Foundation > tile segmen
 `;
 
 exports[`Quillfield Automation > Business System › 1. Foundation 1`] = `
-"…Saving…AutoFocusSearchWorkbookNotesSettingsQuillfield Automation3. Business System — 1. FoundationSegment DescriptionPROFILESThe Busy Ops ManagerThe Agency FounderCompetitorsFreelance specialistsAI consultanciesDIY AI toolsManual workOfferingsAI Workflow AuditAutomation BuildAutomation Care RetainerValue PropositionFor small New York professional-services firms that are drowning in repetitive admin, Quillfield Automation finds where AI and automation will save the most hours, builds those workflows on the tools the firm already uses, and keeps them running. A fixed-price audit comes first, so every build starts with a clear business case, and every automation is documented, privacy-reviewed and monitored. Quillfield stays accountable after launch, at a price and pace that suit a 10-person firm.+ Add Segment‹PagesIntroduction1. Foundation: defined2. Customer Engagement: defined3. Infrastructure & Capability: defined4. Financials: defined›Back
+"…Saving…AutoFocusSearchWorkbookNotesSettingsQuillfield Automation3. Business System — 1. Foundation & EngagementSegment DescriptionPROFILESThe Busy Ops ManagerThe Agency FounderCompetitorsFreelance specialistsAI consultanciesDIY AI toolsManual workOfferingsAI Workflow AuditAutomation BuildAutomation Care RetainerValue PropositionFor small New York professional-services firms that are drowning in repetitive admin, Quillfield Automation finds where AI and automation will save the most hours, builds those workflows on the tools the firm already uses, and keeps them running. A fixed-price audit comes first, so every build starts with a clear business case, and every automation is documented, privacy-reviewed and monitored. Quillfield stays accountable after launch, at a price and pace that suit a 10-person firm.Channels &JourneyDiscover8Evaluation10Purchase2Delivery4Support & Follow Up4Customer'sRelationshipAI Workflow Audit Personal AssistanceAutomation Build Dedicated SupportAutomation Care Retainer Dedicated SupportDemand &ConversionAI Workflow Audit 1.5 a monthAutomation Build 0.6 a monthAutomation Care Retainer 5 active+ Add Segment‹PagesIntroduction1. Foundation & Engagement: defined2. Infrastructure & Capability: defined3. Financials: defined›Back
 [fields] NYC Service Firms"
 `;
 
@@ -614,8 +699,23 @@ exports[`Quillfield Automation > Business System › 2. Customer Engagement > ti
 [fields] "
 `;
 
+exports[`Quillfield Automation > Business System › 2. Customer Engagement > tile segment-qf3n8d2w:competitors 1`] = `
+"CompetitorsCompetitorsi1. Freelance specialistsDirect competitor2. AI consultanciesIndirect competitor3. DIY AI toolsSubstitute4. Manual workStatus quo+Add CardDifferentiationHow will you stand apart?iConvenience-driveniAI consultanciesEcosystem & IntegrationiCost-driveniPerformance & InnovationiPersonal Service & RelationshipiFreelance specialistsDIY AI toolsCompliance, Risk & SecurityiStatus & PremiumiFreelance specialistsBack‹›Back
+[fields] "
+`;
+
+exports[`Quillfield Automation > Business System › 2. Customer Engagement > tile segment-qf3n8d2w:customers 1`] = `
+"Segment DescriptionSegment DescriptioniDescriptionBusiness DataiSet for you from Positioning and your answers above: Sector: Tech, data & media, and business services.What kind of organisation are your customers?iPrivate businessNon-profit / charity / NGOHow big are your customers' organisations?iMicro, 1–9 employeesSmall, 10–49 employeesWhich industry are your customers in?iResource extraction & energyFarming, forestry and fishingMining, oil, gas and quarryingEnergy, water and wasteManufacturing & constructionManufacturingConstructionConsumer goods & retailWholesale and retail tradeHospitalityArts, sport and recreationInfrastructure & financeTransport, postal and logisticsFinance and insuranceReal estate and propertyTech, data & media, and business servicesSoftware, IT, media and telecomsProfessional, scientific and technical servicesAdministrative and support servicesHuman services & public sector, and other servicesGovernment and public administrationEducationHealth and social careOther servicesMarket Size & Industry OutlookiHow many potential customers are there?iVery small niche, under 1,000Specialist, 1,000–49,999Mid-market, 50,000–499,999Mass market, 500,000 or moreIs your market growing or shrinking?i12345What is changing most for your customers?i 2 maxTechnologyRules & lawThe economySociety & lifestyleSupply & deliveryEnvironment & climateHow crowded is your market?i12345GeographicsiWhere are your customers?iIn my city / townIn my state / regionAcross my countryIn several countriesAnywhere onlineWhere do your customers live or work?i12345Purchasing Power & BehaviouriFinding & ChoosingHow comfortable are your customers online?i12345Where do your customers discover new products?i 3 maxOnlineOnline communities / forumsCreators / influencers / expertsMedia, reviews & comparison sitesFeeds, ads & marketplace suggestionsSearch engines / mapsAffiliate sites / blogsIn person, in print and on airFriends, family & colleaguesSeeing it in person / passing byEvents / trade showsSales calls or tendersPartner businessesAdverts in newspapers, magazines, radio or TVFlyers or postersLetters or catalogues in the postFree samples, tasters or trialsOtherWho decides to buy?iOne person decidesThe team agreesA manager signs offSeveral departments checkFormal procurementBuying & PayingWhere do your customers usually shop?iOnline, on a phoneOnline, on a computerIn a shopBoth online & in shopsOn a marketplace, such as Etsy or AmazonHow do your customers pay?iCredit / debit cardDigital walletsCashBuy Now, Pay Later or financingInvoice or purchase orderBank transferProfiles1. The Busy Ops Manager2. The Agency Founder+Add CardBack‹›Back
+[fields] "
+`;
+
 exports[`Quillfield Automation > Business System › 2. Customer Engagement > tile segment-qf3n8d2w:demand 1`] = `
 "Demand & ConversionDemand & Conversioni1. AI Workflow Audit1.5 a monthSales funnelReferralsVisitors2. Automation Build0.6 a monthOtherSales funnelReferrals3. Automation Care Retainer5 activeOtherReferralsSales funnelBack‹›Back
+[fields] "
+`;
+
+exports[`Quillfield Automation > Business System › 2. Customer Engagement > tile segment-qf3n8d2w:offerings 1`] = `
+"OfferingsOfferingsi1. AI Workflow Audit2. Automation Build3. Automation Care Retainer+Add CardBack‹›Back
 [fields] "
 `;
 
@@ -624,9 +724,14 @@ exports[`Quillfield Automation > Business System › 2. Customer Engagement > ti
 [fields] "
 `;
 
+exports[`Quillfield Automation > Business System › 2. Customer Engagement > tile segment-qf3n8d2w:value-proposition 1`] = `
+"Value PropositionValue PropositioniValue PropositioniAdd a draft for AI Workflow AuditAdd a draft for Automation BuildAdd a draft for Automation Care RetainerFor small New York professional-services firms that are drowning in repetitive admin, Quillfield Automation finds where AI and automation will save the most hours, builds those workflows on the tools the firm already uses, and keeps them running. A fixed-price audit comes first, so every build starts with a clear business case, and every automation is documented, privacy-reviewed and monitored. Quillfield stays accountable after launch, at a price and pace that suit a 10-person firm.Emotional NeedsConfidentProsperousOptimisticFrom the Profiles' NotesRelief from constant firefightingThe Busy Ops ManagerFeel in control of the agency's tools againThe Agency FounderSocial NeedsTrustedRespectedFrom the Profiles' NotesBe seen by the partners as the person who modernised the firmThe Busy Ops ManagerBe known by clients as an agency that uses AI wellThe Agency FounderOpen itemsiUnwanted benefit: AI Workflow Audit does Expertise and Safety / security best, which no Profile ticks as what matters most.Unwanted benefit: Automation Care Retainer does Safety / security best, which no Profile ticks as what matters most.Back‹›Back
+[fields] For small New York professional-services firms that are drowning in repetitive admin, Quillfield Automation finds where AI and automation will save the most hours, builds those workflows on the tools the firm already uses, and keeps them running. A fixed-price audit comes first, so every build starts with a clear business case, and every automation is documented, privacy-reviewed and monitored. Quillfield stays accountable after launch, at a price and pace that suit a 10-person firm."
+`;
+
 exports[`Quillfield Automation > Business System › 2. Customer Engagement 1`] = `
-"…Saving…AutoFocusSearchWorkbookNotesSettingsQuillfield Automation3. Business System — 2. Customer EngagementNYC Service FirmsChannels &JourneyDiscover8Evaluation10Purchase2Delivery4Support & Follow Up4Customer'sRelationshipAI Workflow Audit Personal AssistanceAutomation Build Dedicated SupportAutomation Care Retainer Dedicated SupportDemand &ConversionAI Workflow Audit 1.5 a monthAutomation Build 0.6 a monthAutomation Care Retainer 5 active‹PagesIntroduction1. Foundation: defined2. Customer Engagement: defined3. Infrastructure & Capability: defined4. Financials: defined›Back
-[fields] "
+"…Saving…AutoFocusSearchWorkbookNotesSettingsQuillfield Automation3. Business System — 1. Foundation & EngagementSegment DescriptionPROFILESThe Busy Ops ManagerThe Agency FounderCompetitorsFreelance specialistsAI consultanciesDIY AI toolsManual workOfferingsAI Workflow AuditAutomation BuildAutomation Care RetainerValue PropositionFor small New York professional-services firms that are drowning in repetitive admin, Quillfield Automation finds where AI and automation will save the most hours, builds those workflows on the tools the firm already uses, and keeps them running. A fixed-price audit comes first, so every build starts with a clear business case, and every automation is documented, privacy-reviewed and monitored. Quillfield stays accountable after launch, at a price and pace that suit a 10-person firm.Channels &JourneyDiscover8Evaluation10Purchase2Delivery4Support & Follow Up4Customer'sRelationshipAI Workflow Audit Personal AssistanceAutomation Build Dedicated SupportAutomation Care Retainer Dedicated SupportDemand &ConversionAI Workflow Audit 1.5 a monthAutomation Build 0.6 a monthAutomation Care Retainer 5 active+ Add Segment‹PagesIntroduction1. Foundation & Engagement: defined2. Infrastructure & Capability: defined3. Financials: defined›Back
+[fields] NYC Service Firms"
 `;
 
 exports[`Quillfield Automation > Business System › 3. Infrastructure & Capability > tile activities 1`] = `
@@ -680,7 +785,7 @@ exports[`Quillfield Automation > Business System › 3. Infrastructure & Capabil
 `;
 
 exports[`Quillfield Automation > Business System › 3. Infrastructure & Capability 1`] = `
-"…Saving…AutoFocusSearchWorkbookNotesSettingsQuillfield Automation3. Business System — 3. Infrastructure & Capability1.InfrastructureFoundersJordan EllisResourcesWorkspaceUtilitiesWorkstationEquipmentVehiclesDigital InfrastructureMaterials & InventoryDocuments & RightsHuman ResourcesActivitiesPre-OperationalOperationalPartners & SuppliersPartnersSuppliers2.Offering's CapabilityResourcesWorkspaceUtilitiesWorkstationEquipmentDigital InfrastructureDocuments & RightsHuman ResourcesActivitiesProductionMarketingSales & CustomerPartners & SuppliersPartnersSuppliersCapacity & DeliveryAI Workflow AuditAutomation BuildAutomation Care RetainerInventory1 founder26 resources16 activities7 partners & suppliersCompletedRegister business nameOpen a business bank account‹PagesIntroduction1. Foundation: defined2. Customer Engagement: defined3. Infrastructure & Capability: defined4. Financials: defined›Back
+"…Saving…AutoFocusSearchWorkbookNotesSettingsQuillfield Automation3. Business System — 3. Infrastructure & Capability1.InfrastructureFoundersJordan EllisResourcesWorkspaceUtilitiesWorkstationEquipmentVehiclesDigital InfrastructureMaterials & InventoryDocuments & RightsHuman ResourcesActivitiesPre-OperationalOperationalPartners & SuppliersPartnersSuppliers2.Offering's CapabilityResourcesWorkspaceUtilitiesWorkstationEquipmentDigital InfrastructureDocuments & RightsHuman ResourcesActivitiesProductionMarketingSales & CustomerPartners & SuppliersPartnersSuppliersCapacity & DeliveryAI Workflow AuditAutomation BuildAutomation Care RetainerInventory1 founder26 resources16 activities7 partners & suppliersCompletedRegister business nameOpen a business bank account‹PagesIntroduction1. Foundation & Engagement: defined2. Infrastructure & Capability: defined3. Financials: defined›Back
 [fields] "
 `;
 
@@ -715,7 +820,7 @@ exports[`Quillfield Automation > Business System › 4. Revenue & Pricing MM/YY 
 `;
 
 exports[`Quillfield Automation > Business System › 4. Revenue & Pricing MM/YY - MM/YY 1`] = `
-"…Saving…AutoFocusSearchWorkbookNotesSettingsQuillfield Automation3. Business System — 4. Financials · Aug 2026 – Jul 20291. Revenue & Break EvenRevenue StreamsAI Workflow Audit $2,500 / ProjectAutomation Build $7,500 / ProjectAutomation Care Retainer $1,200 / ClientBreak-EvenBreak-even revenue $5,796 a monthExpected Break Even Jul 2027SustainabilityFinancial RiskFinancial Exhaustion Feb 2027Sustainability Buffer n/aWorst shortfall $30,9592. Financial FoundationCostsLaunch budget $8,014Running costs a month $5,229Cost of each sale $1,755Referral partners 4%QuickBooks Payments 0.7%Capital & FundingRequested / Applied1Received / Available1Financial PositionFunding Gap $14,842Total Funding Need $25,542‹PagesIntroduction1. Foundation: defined2. Customer Engagement: defined3. Infrastructure & Capability: defined4. Financials: definedBack
+"…Saving…AutoFocusSearchWorkbookNotesSettingsQuillfield Automation3. Business System — 3. Financials · Aug 2026 – Jul 20291. Revenue & Break EvenRevenue StreamsAI Workflow Audit $2,500 / ProjectAutomation Build $7,500 / ProjectAutomation Care Retainer $1,200 / ClientBreak-EvenBreak-even revenue $5,796 a monthExpected Break Even Jul 2027SustainabilityFinancial RiskFinancial Exhaustion Feb 2027Sustainability Buffer n/aWorst shortfall $30,9592. Financial FoundationCostsLaunch budget $8,014Running costs a month $5,229Cost of each sale $1,755Referral partners 4%QuickBooks Payments 0.7%Capital & FundingRequested / Applied1Received / Available1Financial PositionFunding Gap $14,842Total Funding Need $25,542‹PagesIntroduction1. Foundation & Engagement: defined2. Infrastructure & Capability: defined3. Financials: definedBack
 [fields] "
 `;
 
@@ -750,7 +855,7 @@ exports[`Quillfield Automation > Business System › 5. Costs, Funding & Positio
 `;
 
 exports[`Quillfield Automation > Business System › 5. Costs, Funding & Position MM/YY - MM/YY 1`] = `
-"…Saving…AutoFocusSearchWorkbookNotesSettingsQuillfield Automation3. Business System — 4. Financials · Aug 2026 – Jul 20291. Revenue & Break EvenRevenue StreamsAI Workflow Audit $2,500 / ProjectAutomation Build $7,500 / ProjectAutomation Care Retainer $1,200 / ClientBreak-EvenBreak-even revenue $5,796 a monthExpected Break Even Jul 2027SustainabilityFinancial RiskFinancial Exhaustion Feb 2027Sustainability Buffer n/aWorst shortfall $30,9592. Financial FoundationCostsLaunch budget $8,014Running costs a month $5,229Cost of each sale $1,755Referral partners 4%QuickBooks Payments 0.7%Capital & FundingRequested / Applied1Received / Available1Financial PositionFunding Gap $14,842Total Funding Need $25,542‹PagesIntroduction1. Foundation: defined2. Customer Engagement: defined3. Infrastructure & Capability: defined4. Financials: definedBack
+"…Saving…AutoFocusSearchWorkbookNotesSettingsQuillfield Automation3. Business System — 3. Financials · Aug 2026 – Jul 20291. Revenue & Break EvenRevenue StreamsAI Workflow Audit $2,500 / ProjectAutomation Build $7,500 / ProjectAutomation Care Retainer $1,200 / ClientBreak-EvenBreak-even revenue $5,796 a monthExpected Break Even Jul 2027SustainabilityFinancial RiskFinancial Exhaustion Feb 2027Sustainability Buffer n/aWorst shortfall $30,9592. Financial FoundationCostsLaunch budget $8,014Running costs a month $5,229Cost of each sale $1,755Referral partners 4%QuickBooks Payments 0.7%Capital & FundingRequested / Applied1Received / Available1Financial PositionFunding Gap $14,842Total Funding Need $25,542‹PagesIntroduction1. Foundation & Engagement: defined2. Infrastructure & Capability: defined3. Financials: definedBack
 [fields] "
 `;
 

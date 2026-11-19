@@ -64,7 +64,7 @@ export const GLOSSARY_INFO: Record<"glossary" | "references" | "documents", stri
     // (The Business Documents: what they are drawn from is the Plan's own subtitle; how to change them is said here, once.)
     documents: [
         "Your Business Plan, Business Model Canvas and Financial Forecast, written from your Foundation answers each time you open them.",
-        "Figures are estimates over the plan's length, from its first month: set them on 3. Business System → 4. Financials.",
+        "Figures are estimates over the plan's length, from its first month: set them on 3. Business System → Financials.",
         "To change a line, change the answer it came from. Export each one as Markdown or PDF, and the Forecast as CSV too."
     ]
 };

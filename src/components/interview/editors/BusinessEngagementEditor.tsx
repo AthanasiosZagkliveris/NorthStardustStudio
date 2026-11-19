@@ -1,8 +1,9 @@
-import { CSSProperties, ReactNode } from "react";
+import { CSSProperties, ReactNode, useLayoutEffect } from "react";
 import CardShell from "../cards/CardShell.tsx";
 import { BUSINESS_JOURNEY_STAGES, relationshipTypeLabel, segmentHue } from "../../../framework/engine/AnswerUtils.ts";
 import { DEMAND_SOURCES, demandResult } from "../../../framework/engine/DemandCapacity.ts";
 import SectionTiles, { DialogHeading, stackedFace, type ItemMark, type SectionTile } from "../tiles/SectionTiles.tsx";
+import { useSegmentPage } from "../tiles/segmentPage.ts";
 import type { TileAdd } from "../tiles/SectionTileTypes.ts";
 import { DEMAND_BLOCK_HELP } from "./engagement/shared.tsx";
 import CardBoxes from "../cards/CardBoxes.tsx";
@@ -22,6 +23,12 @@ import { useEngagementDemand } from "./engagement/useEngagementDemand.tsx";
 
 export default function BusinessEngagementEditor(props: BusinessEngagementEditorProps) {
 
+    // (On Foundation & Engagement this editor draws no frame: it hands each Segment's three tiles to the Segment's one chapter, and stays drawn, so its on-open
+    // saves run for every Segment as before; segmentPage.ts. The chapter is told once this editor has drawn.)
+    const segmentPage = useSegmentPage();
+    useLayoutEffect(() => {
+        segmentPage?.companionTiles.changed();
+    });
     const part1 = useEngagementState(props);
     const part2 = { ...part1, ...useEngagementChannelBoxes({ ...part1 }) };
     const part3 = { ...part1, ...part2, ...useEngagementRelationships({ ...part1, ...part2 }) };
@@ -251,6 +258,14 @@ export default function BusinessEngagementEditor(props: BusinessEngagementEditor
             ];
         };
 
+        if (segmentPage) {
+            for (const segment of segments) {
+                segmentPage.companionTiles.set(segment.id, tilesOf(segment));
+            }
+            // (A resource waiting for one of its channel's actions: the table's action lines take a click.)
+            return <ActionPicker />;
+        }
+
         return (
             <div className="answer-columns business-foundation business-engagement business-capability column-tiles-page" style={{ "--answer-column-count": 1 } as CSSProperties}>
                 {/* A resource waiting for one of its channel's actions: the table's action lines take a click. */}
@@ -319,7 +334,7 @@ export default function BusinessEngagementEditor(props: BusinessEngagementEditor
             {segments.length === 0 ? (
                 <div className="business-engagement-page-empty">
                     <BusinessEmpty>
-                        Define a Customer Segment on the Foundation page first.
+                        Define a Customer Segment on Foundation & Engagement first.
                         Everything on this page is answered about one.
                     </BusinessEmpty>
                 </div>

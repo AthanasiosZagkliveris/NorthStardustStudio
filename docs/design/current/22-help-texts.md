@@ -11,13 +11,12 @@ What was covered: every page of the four systems, every master tile opened, ever
 | Category (system / page) | Help texts | Rows | Characters |
 |---|---|---|---|
 | Brand System / main page | 24 | 3 to 75 | 62 to 1766 |
-| Business System / 1. Foundation | 110 | 2 to 40 | 24 to 954 |
-| Business System / Customer Engagement | 31 | 3 to 75 | 62 to 1697 |
 | Business System / Financials | 68 | 2 to 35 | 22 to 803 |
+| Business System / Foundation & Engagement | 141 | 2 to 75 | 24 to 1697 |
 | Business System / Infrastructure | 46 | 2 to 39 | 37 to 936 |
 | Global Settings | 22 | 2 to 40 | 17 to 981 |
-| Identity System / 1. Definition | 22 | 5 to 43 | 89 to 1009 |
-| Identity System / 2. Legal Entity | 7 | 7 to 17 | 103 to 415 |
+| Identity System / Definition | 22 | 5 to 43 | 89 to 1009 |
+| Identity System / Legal Entity | 7 | 7 to 17 | 103 to 415 |
 | Strategy System / main page | 11 | 3 to 35 | 51 to 1113 |
 
 ## By where it opens
@@ -50,74 +49,6 @@ Listed, never failed (doc 39, 3.6). The budget is 160 characters a point; the av
 | an internal word (tile, card, locked, frozen, driver) | Icon & Logo | Brand System / main page / Icon & Logo | cards |
 | the same text under 2 labels | Typography | Brand System / main page / Typography &Text HierarchyManr | Typography, Typography & Text Hierarchy |
 | the same text under 2 labels | Typography & Text Hierarchy | Brand System / main page / Typography &Text HierarchyManr | Typography, Typography & Text Hierarchy |
-| the same text under 2 labels | Alternative Solution | Business System / 1. Foundation / Competitors | Alternative Solution, Offerings |
-| the same text under 2 labels | Competitor | Business System / 1. Foundation / Competitors | Competitor, Competitors |
-| the same text under 2 labels | Competitors | Business System / 1. Foundation / Competitors | Competitor, Competitors |
-| the same text under 3 labels | How could each change affect customers who do nothing? | Business System / 1. Foundation / Competitors | How could each change affect customers who do nothing?, How could each change affect them? |
-| the same text under 3 labels | How could each change affect them? | Business System / 1. Foundation / Competitors | How could each change affect customers who do nothing?, How could each change affect them? |
-| the same text under 3 labels | How could each change affect this alternative? | Business System / 1. Foundation / Competitors | How could each change affect customers who do nothing?, How could each change affect them? |
-| the same text under 3 labels | How do they do on what matters most to your customers? | Business System / 1. Foundation / Competitors | How do they do on what matters most to your customers?, How does doing nothing do on what |
-| the same text under 3 labels | How does doing nothing do on what matters most to your customers? | Business System / 1. Foundation / Competitors | How do they do on what matters most to your customers?, How does doing nothing do on what |
-| the same text under 3 labels | How does this alternative do on what matters most to your customers? | Business System / 1. Foundation / Competitors | How do they do on what matters most to your customers?, How does doing nothing do on what |
-| the same text under 2 labels | How easy do they make each stage for customers? | Business System / 1. Foundation / Competitors | How easy do they make each stage for customers?, How easy does this alternative make each |
-| the same text under 2 labels | How easy does this alternative make each stage for customers? | Business System / 1. Foundation / Competitors | How easy do they make each stage for customers?, How easy does this alternative make each |
-| a point over 160 characters (264) | How will you stand apart? | Business System / 1. Foundation / Competitors | Based on: Institute for Strategy and Competitiveness (n.d.) Strategic Positioning. Boston, |
-| a point over 160 characters (261) | How will you stand apart? | Business System / 1. Foundation / Competitors | Also: Loy, T. (2007) E145 Technology Entrepreneurship, Session 6: Entrepreneurial Marketin |
-| the same text under 2 labels | Is their business growing? | Business System / 1. Foundation / Competitors | Is their business growing?, Is this alternative growing? |
-| the same text under 2 labels | Is this alternative growing? | Business System / 1. Foundation / Competitors | Is their business growing?, Is this alternative growing? |
-| the same text under 2 labels | Offerings | Business System / 1. Foundation / Competitors | Alternative Solution, Offerings |
-| the same text under 2 labels | What do they charge for a similar offer? | Business System / 1. Foundation / Competitors | What do they charge for a similar offer?, What does this alternative cost? |
-| the same text under 2 labels | What do they offer? | Business System / 1. Foundation / Competitors | What do they offer?, What form does this alternative take? |
-| the same text under 2 labels | What does this alternative cost? | Business System / 1. Foundation / Competitors | What do they charge for a similar offer?, What does this alternative cost? |
-| the same text under 2 labels | What form does this alternative take? | Business System / 1. Foundation / Competitors | What do they offer?, What form does this alternative take? |
-| the same text under 2 labels | Where are they reviewed, and how are they rated? | Business System / 1. Foundation / Competitors | Where are they reviewed, and how are they rated?, Where is this alternative reviewed, and |
-| the same text under 2 labels | Where can customers get this alternative? | Business System / 1. Foundation / Competitors | Where can customers get this alternative?, Where do they sell? |
-| the same text under 2 labels | Where do they sell? | Business System / 1. Foundation / Competitors | Where can customers get this alternative?, Where do they sell? |
-| the same text under 2 labels | Where is this alternative reviewed, and how is it rated? | Business System / 1. Foundation / Competitors | Where are they reviewed, and how are they rated?, Where is this alternative reviewed, and |
-| the same text under 2 labels | Offering | Business System / 1. Foundation / Offerings | Offering, Offerings |
-| the same text under 2 labels | Offerings | Business System / 1. Foundation / Offerings | Offering, Offerings |
-| an internal word (tile, card, locked, frozen, driver) | On what terms do they pay for it? | Business System / 1. Foundation / Offerings | card |
-| a point over 160 characters (165) | How does this person want to be seen? | Business System / 1. Foundation / Segment Description | Based on: Bain's Elements of Value (HBR, 2016 and 2018). In the References (Almquist, Seni |
-| a point over 160 characters (165) | How does this person want to feel? | Business System / 1. Foundation / Segment Description | Based on: Bain's Elements of Value (HBR, 2016 and 2018). In the References (Almquist, Seni |
-| the same text under 2 labels | Profile | Business System / 1. Foundation / Segment Description | Profile, Segment Description |
-| the same text under 2 labels | Segment Description | Business System / 1. Foundation / Segment Description | Profile, Segment Description |
-| a point over 160 characters (206) | Which industry are your customers in? | Business System / 1. Foundation / Segment Description | Each industry under its sector, as the official schemes (SIC and NACE, NAICS, ANZSIC) name |
-| a jargon acronym | Which industry are your customers in? | Business System / 1. Foundation / Segment Description | SIC |
-| a point over 160 characters (171) | Value Proposition | Business System / 1. Foundation / Value Proposition | Based on: Moore's positioning template, and the pains and gains of the Value Proposition C |
-| an internal word (tile, card, locked, frozen, driver) | Channel | Business System / Customer Engagement / Channels &Journey | card |
-| the same text under 2 labels | Channel | Business System / Customer Engagement / Channels &Journey | Channel, Samples & Trials |
-| an internal word (tile, card, locked, frozen, driver) | Channel | Business System / Customer Engagement / Channels &Journey | card |
-| the same text under 2 labels | Channel | Business System / Customer Engagement / Channels &Journey | Channel, In Person |
-| an internal word (tile, card, locked, frozen, driver) | Channel | Business System / Customer Engagement / Channels &Journey | card |
-| the same text under 2 labels | Channel | Business System / Customer Engagement / Channels &Journey | Channel, Direct Payment |
-| an internal word (tile, card, locked, frozen, driver) | Channel | Business System / Customer Engagement / Channels &Journey | card |
-| the same text under 2 labels | Channel | Business System / Customer Engagement / Channels &Journey | Channel, Online / Live |
-| an internal word (tile, card, locked, frozen, driver) | Channels & Journey | Business System / Customer Engagement / Channels &Journey | tiles |
-| an internal word (tile, card, locked, frozen, driver) | Community | Business System / Customer Engagement / Channels &Journey | card |
-| an internal word (tile, card, locked, frozen, driver) | Direct Payment | Business System / Customer Engagement / Channels &Journey | card |
-| the same text under 2 labels | Direct Payment | Business System / Customer Engagement / Channels &Journey | Channel, Direct Payment |
-| an internal word (tile, card, locked, frozen, driver) | Email | Business System / Customer Engagement / Channels &Journey | card |
-| an internal word (tile, card, locked, frozen, driver) | File Delivery | Business System / Customer Engagement / Channels &Journey | card |
-| an internal word (tile, card, locked, frozen, driver) | In Person | Business System / Customer Engagement / Channels &Journey | card |
-| the same text under 2 labels | In Person | Business System / Customer Engagement / Channels &Journey | Channel, In Person |
-| an internal word (tile, card, locked, frozen, driver) | Online / Live | Business System / Customer Engagement / Channels &Journey | card |
-| the same text under 2 labels | Online / Live | Business System / Customer Engagement / Channels &Journey | Channel, Online / Live |
-| an internal word (tile, card, locked, frozen, driver) | Referral & Affiliates | Business System / Customer Engagement / Channels &Journey | card |
-| an internal word (tile, card, locked, frozen, driver) | Samples & Trials | Business System / Customer Engagement / Channels &Journey | card |
-| the same text under 2 labels | Samples & Trials | Business System / Customer Engagement / Channels &Journey | Channel, Samples & Trials |
-| an internal word (tile, card, locked, frozen, driver) | Social Media | Business System / Customer Engagement / Channels &Journey | card |
-| an internal word (tile, card, locked, frozen, driver) | Website | Business System / Customer Engagement / Channels &Journey | card |
-| a point over 160 characters (275) | Active clients | Business System / Customer Engagement / Demand &Conversion | Based on: Gupta, S. et al. (2006) ‘Modeling Customer Lifetime Value’, Journal of Service R |
-| a point over 160 characters (166) | AI Workflow Audit | Business System / Customer Engagement / Demand &Conversion | Where this Offering’s customers come from, and so how many sales to expect. One source wit |
-| the same text under 4 labels | AI Workflow Audit | Business System / Customer Engagement / Demand &Conversion | AI Workflow Audit, Automation Build, Automation Care Retainer, Demand & Conversion |
-| a point over 160 characters (166) | Automation Build | Business System / Customer Engagement / Demand &Conversion | Where this Offering’s customers come from, and so how many sales to expect. One source wit |
-| the same text under 4 labels | Automation Build | Business System / Customer Engagement / Demand &Conversion | AI Workflow Audit, Automation Build, Automation Care Retainer, Demand & Conversion |
-| a point over 160 characters (166) | Automation Care Retainer | Business System / Customer Engagement / Demand &Conversion | Where this Offering’s customers come from, and so how many sales to expect. One source wit |
-| the same text under 4 labels | Automation Care Retainer | Business System / Customer Engagement / Demand &Conversion | AI Workflow Audit, Automation Build, Automation Care Retainer, Demand & Conversion |
-| a point over 160 characters (191) | Customers Buy | Business System / Customer Engagement / Demand &Conversion | Every month, until they cancel: A subscription, membership or retainer. The sources give t |
-| a point over 160 characters (166) | Demand & Conversion | Business System / Customer Engagement / Demand &Conversion | Where this Offering’s customers come from, and so how many sales to expect. One source wit |
-| the same text under 4 labels | Demand & Conversion | Business System / Customer Engagement / Demand &Conversion | AI Workflow Audit, Automation Build, Automation Care Retainer, Demand & Conversion |
-| a point over 160 characters (261) | Months to level | Business System / Customer Engagement / Demand &Conversion | Based on: Strang, G. and Herman, E. (2016) ‘5.2 Infinite Series’, in Calculus Volume 2. Ho |
 | the same text under 2 labels | Break-Even | Business System / Financials / Break-Even | Break-Even, Sustainability |
 | a point over 160 characters (260) | Break-Even Point | Business System / Financials / Break-Even | Source: U.S. Small Business Administration (n.d.) Calculate your startup costs: break-even |
 | a point over 160 characters (554) | Contribution | Business System / Financials / Break-Even | Source: Franklin, M., Graybeal, P. and Cooper, D. (2019) ‘3.1 Explain Contribution Margin |
@@ -129,16 +60,84 @@ Listed, never failed (doc 39, 3.6). The budget is 160 characters a point; the av
 | a point over 160 characters (161) | Funding Timeline | Business System / Financials / Financial Position | Money in and out of your organisation month by month, and the balance it leaves. A dip bel |
 | a point over 160 characters (250) | Loan Repayments | Business System / Financials / Financial Position | Only loans that are Approved / Agreed, Received / Available or Completed / Closed are repa |
 | a point over 160 characters (250) | Operational Contingency Fund | Business System / Financials / Financial Position | After the launch, each month a share of OpEx is set aside on top of the startup fund, unti |
-| a point over 160 characters (340) | Active Clients | Business System / Financials / Revenue Streams | From this Offering's Demand & Conversion on Customer Engagement: Other: estimated at 0.3 n |
-| a point over 160 characters (276) | Expected Sales | Business System / Financials / Revenue Streams | From this Offering's Demand & Conversion on Customer Engagement: Sales funnel: 24 prospect |
+| a point over 160 characters (344) | Active Clients | Business System / Financials / Revenue Streams | From this Offering's Demand & Conversion on Foundation & Engagement: Other: estimated at 0 |
+| a point over 160 characters (280) | Expected Sales | Business System / Financials / Revenue Streams | From this Offering's Demand & Conversion on Foundation & Engagement: Sales funnel: 24 pros |
 | an internal word (tile, card, locked, frozen, driver) | Price | Business System / Financials / Revenue Streams | card |
-| a point over 160 characters (223) | Revenue Streams | Business System / Financials / Revenue Streams | Expected sales come from Demand & Conversion on Customer Engagement where it is filled in; |
+| a point over 160 characters (227) | Revenue Streams | Business System / Financials / Revenue Streams | Expected sales come from Demand & Conversion on Foundation & Engagement where it is filled |
 | a point over 160 characters (260) | Break-Even Revenue | Business System / Financials / Sustainability | Source: U.S. Small Business Administration (n.d.) Calculate your startup costs: break-even |
 | a point over 160 characters (396) | Break-Even Revenue | Business System / Financials / Sustainability | Also: Franklin, M., Graybeal, P. and Cooper, D. (2019) ‘3.2 Calculate a Break-Even Point i |
 | a point over 160 characters (222) | Stress Test | Business System / Financials / Sustainability | The plan as it stands, and the same plan when things go worse than hoped: sales 20% lower, |
 | a point over 160 characters (168) | Stress Test | Business System / Financials / Sustainability | The funding being sought is counted as if it arrives as planned, its repayments included: |
 | the same text under 2 labels | Sustainability | Business System / Financials / Sustainability | Break-Even, Sustainability |
 | a point over 160 characters (172) | What It Would Take | Business System / Financials / Sustainability | Worked out from the plan: the smallest single change that keeps the cash at zero or above |
+| an internal word (tile, card, locked, frozen, driver) | Channel | Business System / Foundation & Engagement / Channels &Journey | card |
+| the same text under 2 labels | Channel | Business System / Foundation & Engagement / Channels &Journey | Channel, Samples & Trials |
+| an internal word (tile, card, locked, frozen, driver) | Channel | Business System / Foundation & Engagement / Channels &Journey | card |
+| the same text under 2 labels | Channel | Business System / Foundation & Engagement / Channels &Journey | Channel, In Person |
+| an internal word (tile, card, locked, frozen, driver) | Channel | Business System / Foundation & Engagement / Channels &Journey | card |
+| the same text under 2 labels | Channel | Business System / Foundation & Engagement / Channels &Journey | Channel, Direct Payment |
+| an internal word (tile, card, locked, frozen, driver) | Channel | Business System / Foundation & Engagement / Channels &Journey | card |
+| the same text under 2 labels | Channel | Business System / Foundation & Engagement / Channels &Journey | Channel, Online / Live |
+| an internal word (tile, card, locked, frozen, driver) | Channels & Journey | Business System / Foundation & Engagement / Channels &Journey | tiles |
+| an internal word (tile, card, locked, frozen, driver) | Community | Business System / Foundation & Engagement / Channels &Journey | card |
+| an internal word (tile, card, locked, frozen, driver) | Direct Payment | Business System / Foundation & Engagement / Channels &Journey | card |
+| the same text under 2 labels | Direct Payment | Business System / Foundation & Engagement / Channels &Journey | Channel, Direct Payment |
+| an internal word (tile, card, locked, frozen, driver) | Email | Business System / Foundation & Engagement / Channels &Journey | card |
+| an internal word (tile, card, locked, frozen, driver) | File Delivery | Business System / Foundation & Engagement / Channels &Journey | card |
+| an internal word (tile, card, locked, frozen, driver) | In Person | Business System / Foundation & Engagement / Channels &Journey | card |
+| the same text under 2 labels | In Person | Business System / Foundation & Engagement / Channels &Journey | Channel, In Person |
+| an internal word (tile, card, locked, frozen, driver) | Online / Live | Business System / Foundation & Engagement / Channels &Journey | card |
+| the same text under 2 labels | Online / Live | Business System / Foundation & Engagement / Channels &Journey | Channel, Online / Live |
+| an internal word (tile, card, locked, frozen, driver) | Referral & Affiliates | Business System / Foundation & Engagement / Channels &Journey | card |
+| an internal word (tile, card, locked, frozen, driver) | Samples & Trials | Business System / Foundation & Engagement / Channels &Journey | card |
+| the same text under 2 labels | Samples & Trials | Business System / Foundation & Engagement / Channels &Journey | Channel, Samples & Trials |
+| an internal word (tile, card, locked, frozen, driver) | Social Media | Business System / Foundation & Engagement / Channels &Journey | card |
+| an internal word (tile, card, locked, frozen, driver) | Website | Business System / Foundation & Engagement / Channels &Journey | card |
+| the same text under 2 labels | Alternative Solution | Business System / Foundation & Engagement / Competitors | Alternative Solution, Offerings |
+| the same text under 2 labels | Competitor | Business System / Foundation & Engagement / Competitors | Competitor, Competitors |
+| the same text under 2 labels | Competitors | Business System / Foundation & Engagement / Competitors | Competitor, Competitors |
+| the same text under 3 labels | How could each change affect customers who do nothing? | Business System / Foundation & Engagement / Competitors | How could each change affect customers who do nothing?, How could each change affect them? |
+| the same text under 3 labels | How could each change affect them? | Business System / Foundation & Engagement / Competitors | How could each change affect customers who do nothing?, How could each change affect them? |
+| the same text under 3 labels | How could each change affect this alternative? | Business System / Foundation & Engagement / Competitors | How could each change affect customers who do nothing?, How could each change affect them? |
+| the same text under 3 labels | How do they do on what matters most to your customers? | Business System / Foundation & Engagement / Competitors | How do they do on what matters most to your customers?, How does doing nothing do on what |
+| the same text under 3 labels | How does doing nothing do on what matters most to your customers? | Business System / Foundation & Engagement / Competitors | How do they do on what matters most to your customers?, How does doing nothing do on what |
+| the same text under 3 labels | How does this alternative do on what matters most to your customers? | Business System / Foundation & Engagement / Competitors | How do they do on what matters most to your customers?, How does doing nothing do on what |
+| the same text under 2 labels | How easy do they make each stage for customers? | Business System / Foundation & Engagement / Competitors | How easy do they make each stage for customers?, How easy does this alternative make each |
+| the same text under 2 labels | How easy does this alternative make each stage for customers? | Business System / Foundation & Engagement / Competitors | How easy do they make each stage for customers?, How easy does this alternative make each |
+| a point over 160 characters (264) | How will you stand apart? | Business System / Foundation & Engagement / Competitors | Based on: Institute for Strategy and Competitiveness (n.d.) Strategic Positioning. Boston, |
+| a point over 160 characters (261) | How will you stand apart? | Business System / Foundation & Engagement / Competitors | Also: Loy, T. (2007) E145 Technology Entrepreneurship, Session 6: Entrepreneurial Marketin |
+| the same text under 2 labels | Is their business growing? | Business System / Foundation & Engagement / Competitors | Is their business growing?, Is this alternative growing? |
+| the same text under 2 labels | Is this alternative growing? | Business System / Foundation & Engagement / Competitors | Is their business growing?, Is this alternative growing? |
+| the same text under 2 labels | Offerings | Business System / Foundation & Engagement / Competitors | Alternative Solution, Offerings |
+| the same text under 2 labels | What do they charge for a similar offer? | Business System / Foundation & Engagement / Competitors | What do they charge for a similar offer?, What does this alternative cost? |
+| the same text under 2 labels | What do they offer? | Business System / Foundation & Engagement / Competitors | What do they offer?, What form does this alternative take? |
+| the same text under 2 labels | What does this alternative cost? | Business System / Foundation & Engagement / Competitors | What do they charge for a similar offer?, What does this alternative cost? |
+| the same text under 2 labels | What form does this alternative take? | Business System / Foundation & Engagement / Competitors | What do they offer?, What form does this alternative take? |
+| the same text under 2 labels | Where are they reviewed, and how are they rated? | Business System / Foundation & Engagement / Competitors | Where are they reviewed, and how are they rated?, Where is this alternative reviewed, and |
+| the same text under 2 labels | Where can customers get this alternative? | Business System / Foundation & Engagement / Competitors | Where can customers get this alternative?, Where do they sell? |
+| the same text under 2 labels | Where do they sell? | Business System / Foundation & Engagement / Competitors | Where can customers get this alternative?, Where do they sell? |
+| the same text under 2 labels | Where is this alternative reviewed, and how is it rated? | Business System / Foundation & Engagement / Competitors | Where are they reviewed, and how are they rated?, Where is this alternative reviewed, and |
+| a point over 160 characters (275) | Active clients | Business System / Foundation & Engagement / Demand &Conversion | Based on: Gupta, S. et al. (2006) ‘Modeling Customer Lifetime Value’, Journal of Service R |
+| a point over 160 characters (166) | AI Workflow Audit | Business System / Foundation & Engagement / Demand &Conversion | Where this Offering’s customers come from, and so how many sales to expect. One source wit |
+| the same text under 4 labels | AI Workflow Audit | Business System / Foundation & Engagement / Demand &Conversion | AI Workflow Audit, Automation Build, Automation Care Retainer, Demand & Conversion |
+| a point over 160 characters (166) | Automation Build | Business System / Foundation & Engagement / Demand &Conversion | Where this Offering’s customers come from, and so how many sales to expect. One source wit |
+| the same text under 4 labels | Automation Build | Business System / Foundation & Engagement / Demand &Conversion | AI Workflow Audit, Automation Build, Automation Care Retainer, Demand & Conversion |
+| a point over 160 characters (166) | Automation Care Retainer | Business System / Foundation & Engagement / Demand &Conversion | Where this Offering’s customers come from, and so how many sales to expect. One source wit |
+| the same text under 4 labels | Automation Care Retainer | Business System / Foundation & Engagement / Demand &Conversion | AI Workflow Audit, Automation Build, Automation Care Retainer, Demand & Conversion |
+| a point over 160 characters (191) | Customers Buy | Business System / Foundation & Engagement / Demand &Conversion | Every month, until they cancel: A subscription, membership or retainer. The sources give t |
+| a point over 160 characters (166) | Demand & Conversion | Business System / Foundation & Engagement / Demand &Conversion | Where this Offering’s customers come from, and so how many sales to expect. One source wit |
+| the same text under 4 labels | Demand & Conversion | Business System / Foundation & Engagement / Demand &Conversion | AI Workflow Audit, Automation Build, Automation Care Retainer, Demand & Conversion |
+| a point over 160 characters (261) | Months to level | Business System / Foundation & Engagement / Demand &Conversion | Based on: Strang, G. and Herman, E. (2016) ‘5.2 Infinite Series’, in Calculus Volume 2. Ho |
+| the same text under 2 labels | Offering | Business System / Foundation & Engagement / Offerings | Offering, Offerings |
+| the same text under 2 labels | Offerings | Business System / Foundation & Engagement / Offerings | Offering, Offerings |
+| an internal word (tile, card, locked, frozen, driver) | On what terms do they pay for it? | Business System / Foundation & Engagement / Offerings | card |
+| a point over 160 characters (165) | How does this person want to be seen? | Business System / Foundation & Engagement / Segment Description | Based on: Bain's Elements of Value (HBR, 2016 and 2018). In the References (Almquist, Seni |
+| a point over 160 characters (165) | How does this person want to feel? | Business System / Foundation & Engagement / Segment Description | Based on: Bain's Elements of Value (HBR, 2016 and 2018). In the References (Almquist, Seni |
+| the same text under 2 labels | Profile | Business System / Foundation & Engagement / Segment Description | Profile, Segment Description |
+| the same text under 2 labels | Segment Description | Business System / Foundation & Engagement / Segment Description | Profile, Segment Description |
+| a point over 160 characters (206) | Which industry are your customers in? | Business System / Foundation & Engagement / Segment Description | Each industry under its sector, as the official schemes (SIC and NACE, NAICS, ANZSIC) name |
+| a jargon acronym | Which industry are your customers in? | Business System / Foundation & Engagement / Segment Description | SIC |
+| a point over 160 characters (171) | Value Proposition | Business System / Foundation & Engagement / Value Proposition | Based on: Moore's positioning template, and the pains and gains of the Value Proposition C |
 | the same text under 3 labels | AI Workflow Audit unit | Business System / Infrastructure / Capacity & Delivery | AI Workflow Audit unit, Automation Build unit, Automation Care Retainer unit |
 | the same text under 3 labels | Automation Build unit | Business System / Infrastructure / Capacity & Delivery | AI Workflow Audit unit, Automation Build unit, Automation Care Retainer unit |
 | the same text under 3 labels | Automation Care Retainer unit | Business System / Infrastructure / Capacity & Delivery | AI Workflow Audit unit, Automation Build unit, Automation Care Retainer unit |
@@ -184,11 +183,11 @@ Listed, never failed (doc 39, 3.6). The budget is 160 characters a point; the av
 | an internal word (tile, card, locked, frozen, driver) | Royalty on sales | Global Settings / the page itself | card |
 | the same text under 2 labels | Sales agent or B2B broker commission | Global Settings / the page itself | Affiliate network or influencer commission, Sales agent or B2B broker commission |
 | a point over 160 characters (291) | Useful Life | Global Settings / the page itself | Source: Texas Department of Family and Protective Services (2011) ‘Appendix B: State Prope |
-| a point over 160 characters (245) | Audience Specialisation & Scale | Identity System / 1. Definition / Early Positioning | Based on: U.S. Small Business Administration (n.d.) Market research and competitive analys |
-| a point over 160 characters (305) | Buyer's category | Identity System / 1. Definition / Early Positioning | Based on: The Open University (n.d.) ‘3.4 Business decision makers’, in Understanding your |
-| a point over 160 characters (263) | Seller & Buyer Relationship | Identity System / 1. Definition / Early Positioning | Based on: Stayman, D. (2015) ‘How to Write Market Positioning Statements’, eCornell #IMPAC |
-| a point over 160 characters (261) | Seller & Buyer Relationship | Identity System / 1. Definition / Early Positioning | Also: Loy, T. (2007) E145 Technology Entrepreneurship, Session 6: Entrepreneurial Marketin |
-| a jargon acronym | Activities | Identity System / 1. Definition / Organisation | NAICS |
+| a point over 160 characters (245) | Audience Specialisation & Scale | Identity System / Definition / Early Positioning | Based on: U.S. Small Business Administration (n.d.) Market research and competitive analys |
+| a point over 160 characters (305) | Buyer's category | Identity System / Definition / Early Positioning | Based on: The Open University (n.d.) ‘3.4 Business decision makers’, in Understanding your |
+| a point over 160 characters (263) | Seller & Buyer Relationship | Identity System / Definition / Early Positioning | Based on: Stayman, D. (2015) ‘How to Write Market Positioning Statements’, eCornell #IMPAC |
+| a point over 160 characters (261) | Seller & Buyer Relationship | Identity System / Definition / Early Positioning | Also: Loy, T. (2007) E145 Technology Entrepreneurship, Session 6: Entrepreneurial Marketin |
+| a jargon acronym | Activities | Identity System / Definition / Organisation | NAICS |
 | a point over 160 characters (557) | Strategic Compass | Strategy System / main page / Strategic Compass | The Vision is the goal; the Compass is the route.: A future in which every small professio |
 | an internal word (tile, card, locked, frozen, driver) | Strategic Compass | Strategy System / main page / Strategic Compass | locked |
 | a point over 160 characters (231) | Theme | Strategy System / main page / Strategic Period | A broad area the organisation intends to develop during the Strategic Period (for example |
@@ -265,7 +264,129 @@ Listed, never failed (doc 39, 3.6). The budget is 160 characters a point; the av
 | Typography | tile dialog | 55 | 15 | 1766 | Choose typefaces that support your brand's character while remaining appropriate for their intended use. Serif: letters with finishing strokes, often giving a t... |
 | Typography & Text Hierarchy | floating card | 74 | 15 | 1766 | Choose typefaces that support your brand's character while remaining appropriate for their intended use. Serif: letters with finishing strokes, often giving a t... |
 
-### Business System / 1. Foundation
+### Business System / Financials
+
+**Break-Even**
+
+| Label | Opens in | Rows | Points | Characters | Text |
+|---|---|---|---|---|---|
+| Break-Even | tile dialog | 23 | 5 | 476 | Read how much your organisation must sell to cover its costs, when it is expected to get there, and whether that is before its money runs out. Break-Even Point:... |
+| Break-Even Point | tile dialog | 28 | 5 | 603 | Contribution per unit = price − variable cost per unit. Offering break even: the units this Offering alone would need to sell to cover all fixed costs. Organisa... |
+| Break-Even Time | tile dialog | 6 | 1 | 132 | The first month in which expected revenue covers that month's costs: the fixed costs, and the variable costs of that month's volume. |
+| Contribution | tile dialog | 29 | 3 | 684 | Formula: Contribution = Price − Variable costs; ratio = Contribution ÷ Price What each sale leaves to pay fixed costs and profit. Source: Franklin, M., Graybeal... |
+| Costs Used | tile dialog | 13 | 3 | 301 | Read from Financial Foundation, by behaviour. Fixed: the monthly equivalent of every recurring cost, plus loan interest. Loan principal is repayment of borrowed... |
+| Each Offering's Costs | tile dialog | 15 | 3 | 340 | An Offering's costs are those recorded for it on Infrastructure & Capability → Offering's Capability. Per sale: paid for every unit or project sold. Contributio... |
+| Revenue-Adjusted Financial Position | tile dialog | 10 | 2 | 176 | The Financial Foundation timeline with expected revenue received and variable costs paid as they are expected. Funding runway (Financial Foundation, without rev... |
+
+**Capital & Funding**
+
+| Label | Opens in | Rows | Points | Characters | Text |
+|---|---|---|---|---|---|
+| Capital & Funding | tile dialog | 28 | 7 | 598 | Identify where the money will come from, how certain it is, and when it arrives. Record what each source obliges: repayments, equity or conditions. Capital: Mon... |
+| External | tile dialog | 10 | 3 | 208 | Non-repayable: Grants, subsidies and awards: nothing to repay, though often with conditions. Equity: Investment in exchange for a share of ownership. Debt: Loan... |
+| Funding Schedule | floating card | 11 | 4 | 201 | One-time: A single payment. Periodic: A repeated amount at a set frequency. Milestone-based: Released as defined milestones or conditions are reached. Other: An... |
+| Internal | tile dialog | 5 | 1 | 105 | Money from inside your organisation: its founders' capital, reinvested revenue or funds it already holds. |
+| Loan repayment | floating card | 22 | 3 | 520 | Formula: Payment = P × r ÷ (1 − (1 + r)^−n) (annuity); equal-principal: P ÷ n plus interest A fixed payment that covers interest and repays the loan over n peri... |
+| Loan Start | floating card | 2 | 1 | 26 | When the loan is paid out. |
+| Other | tile dialog | 5 | 1 | 84 | Reward crowdfunding, friends & family, in-kind contributions and other arrangements. |
+| Received So Far | floating card | 5 | 1 | 73 | How much has actually arrived. The rest counts as confirmed future money. |
+| Repayment Method | floating card | 10 | 2 | 208 | Equal payments: The same payment every time; the interest part shrinks as the loan is repaid. Equal principal: The same amount of principal every time, plus tha... |
+| Status | floating card | 17 | 6 | 327 | Planned: Identified, waiting to be pursued. Preparing: An application or proposal is being prepared. Requested / Applied: Asked for; no answer yet. Approved / A... |
+
+**Costs**
+
+| Label | Opens in | Rows | Points | Characters | Text |
+|---|---|---|---|---|---|
+| Cost of each sale | tile dialog | 6 | 1 | 133 | The variable costs that move with sales (COGS): prices per unit, and costs that are a percent of revenue. They decide the break-even. |
+| Cost of each sale | tile dialog | 6 | 1 | 127 | Variable costs that move with sales (cost of goods sold): a price per unit or a percent of revenue. They decide the break-even. |
+| Costs | tile dialog | 18 | 4 | 400 | Review the costs gathered from the Legal Entity and Infrastructure & Capability. Each cost is grouped by what it supports, how it behaves, and when it is paid; ... |
+| Group | tile dialog | 11 | 3 | 247 | Establishment: Costs required to establish or launch the organisation. Operating: Ongoing costs that keep the organisation functioning, independently of any one... |
+| Launch budget | tile dialog | 10 | 2 | 226 | What is spent before the opening: capital expenditure (assets) + startup expenses + pre-operating expenses. Opening stock is apart. Capital expenditure is an as... |
+| Launch: before the opening | tile dialog | 7 | 1 | 155 | Costs dated before the Opening Date: capital expenditure (assets), startup expenses and pre-operating expenses. They make the Total Pre-operational Budget. |
+| One-time costs after the opening | tile dialog | 5 | 1 | 85 | One-time costs paid from the opening on. They are in the Funding Need of their group. |
+| Running costs a month | tile dialog | 6 | 1 | 139 | The fixed costs of a month of operation, from the opening (OpEx). They set the cash buffer: the launch budget plus months of running costs. |
+| Running costs: every month | tile dialog | 6 | 1 | 137 | Fixed costs that recur after the opening, as a monthly equivalent. They set the cash buffer: one-time costs plus months of running costs. |
+
+**Financial Position**
+
+| Label | Opens in | Rows | Points | Characters | Text |
+|---|---|---|---|---|---|
+| Available Now | tile dialog | 3 | 1 | 54 | Financial resources that have arrived and can be used. |
+| Cash to raise before the opening | tile dialog | 10 | 1 | 253 | The Total Pre-operational Budget (CapEx, Startup Expenses and Pre-Operating Expenses dated before the Opening Date) plus the Startup Contingency Fund, plus the ... |
+| Confirmed Future | tile dialog | 2 | 1 | 33 | Confirmed, but not yet available. |
+| Establishment | tile dialog | 3 | 1 | 56 | Money required to establish and launch the organisation. |
+| Financial Position | tile dialog | 22 | 4 | 466 | Read the financial picture calculated from Costs, Funding Need and Capital & Funding: is your organisation covered, and for how long? Funding Gap: The amount of... |
+| Financial Runway | tile dialog | 30 | 4 | 686 | Financial Runway: The estimated period for which available financial resources can support the organisation under current assumptions. Counts money available no... |
+| Funding Gap | tile dialog | 10 | 2 | 180 | Funding Gap: The amount of identified financial requirement not covered by available or confirmed financing. Formula: Funding gap = Funding needed − Funding ava... |
+| Funding Mix | tile dialog | 3 | 1 | 63 | Where the financial resources originate, confirmed and pending. |
+| Funding Need | tile dialog | 5 | 1 | 91 | Funding Need: Money the organisation needs to obtain to support its financial requirements. |
+| Funding Need | tile dialog | 11 | 3 | 255 | Check what has to be financed, calculated from the costs: how much, for what purpose, and when. Funding Need: Money the organisation needs to obtain to support ... |
+| Funding Need Coverage | tile dialog | 5 | 1 | 76 | Confirmed and available funding linked to each need under Capital & Funding. |
+| Funding Timeline | tile dialog | 7 | 1 | 161 | Money in and out of your organisation month by month, and the balance it leaves. A dip below zero is a cash-pressure period, even when the totals are sufficient... |
+| Loan Repayments | tile dialog | 15 | 2 | 353 | SBA Microloan (Requested / Applied): its $470 monthly repayments are not counted until it is approved. Only loans that are Approved / Agreed, Received / Availab... |
+| Offering | tile dialog | 5 | 1 | 99 | Money required to develop, prepare or launch an Offering before it can generate sufficient revenue. |
+| Operating | tile dialog | 8 | 2 | 162 | Money required to support operations before revenue becomes sufficient: the running costs, only until revenue covers them. Lenders also call this working capita... |
+| Operational Contingency Fund | tile dialog | 9 | 1 | 250 | After the launch, each month a share of OpEx is set aside on top of the startup fund, until the fund equals the target reserve months of OpEx. The contribution ... |
+| Pending | tile dialog | 5 | 1 | 89 | Expected and awaiting confirmation; the gap and the runway count it once it is confirmed. |
+| Upcoming Obligations | tile dialog | 3 | 1 | 53 | Significant money in or out over the next six months. |
+
+**Revenue Streams**
+
+| Label | Opens in | Rows | Points | Characters | Text |
+|---|---|---|---|---|---|
+| Active Clients | floating card | 13 | 1 | 344 | From this Offering's Demand & Conversion on Foundation & Engagement: Other: estimated at 0.3 new a month. Referrals: 0.5 referrals a month, 40% buy: about 0.2 n... |
+| Begins & Payment | floating card | 21 | 4 | 472 | Revenue begins after the sales cycle, the time from first contact to a signed sale: for services to businesses it is often 4 to 12 weeks. One sale often leads t... |
+| Build-up | floating card | 11 | 3 | 206 | Steady from the start: The expected volume from the month revenue begins. Gradual build-up: Starts lower and grows evenly to the expected volume. Month by month... |
+| Can the Expected Sales Be Delivered? | tile dialog | 22 | 5 | 526 | Capacity is the founders' delivery hours a month: the time the organisation controls. Needed: each month's expected sales times each founder's Working Hours per... |
+| Charged | floating card | 15 | 4 | 338 | Per sale: paid once for each unit sold (a product, a session, an hour). Per project: paid once for each project or contract. Monthly, quarterly or annually: pai... |
+| Customer Pays | floating card | 24 | 7 | 475 | When the money is actually received, if not when the sale is made. It follows the Offering's When do they pay? on Foundation & Engagement. Upfront: Paid in full... |
+| Expected Sales | floating card | 12 | 1 | 280 | From this Offering's Demand & Conversion on Foundation & Engagement: Sales funnel: 24 prospects a month, 15% qualified, 25% of those buy: about 0.9 a month. Ref... |
+| First Month | floating card | 3 | 1 | 46 | How many projects in the month revenue begins. |
+| First Month | floating card | 3 | 1 | 45 | How many clients in the month revenue begins. |
+| Months to Normal | floating card | 3 | 1 | 60 | How many months it takes to grow evenly to the normal level. |
+| Price | floating card | 23 | 5 | 558 | Start from what competitors publish (listed on Foundation) and what clients pay today to solve the same problem. Check it covers the costs of each sale and leav... |
+| Rest After | floating card | 2 | 1 | 22 | Months after the sale. |
+| Revenue Streams | tile dialog | 30 | 6 | 688 | Each Offering has its revenue stream below. For each, say how it is priced, how much sells, and when the money arrives. Expected sales come from Demand & Conver... |
+| Revenue Summary | tile dialog | 3 | 1 | 56 | Expected revenue at the normal operating level, a month. |
+| Sales Volume | floating card | 13 | 3 | 293 | Few organisations sell at the normal level from the first month: a gradual build-up over 6 to 12 months is usual. For seasons (quieter summers, busy end-of-year... |
+| Upfront (%) | floating card | 5 | 1 | 101 | The share of the price paid when the sale is made; the rest arrives the months after given beside it. |
+
+**Sustainability**
+
+| Label | Opens in | Rows | Points | Characters | Text |
+|---|---|---|---|---|---|
+| Break-Even Revenue | tile dialog | 35 | 4 | 803 | Fixed costs divided by the contribution margin of the expected revenue mix. Formula: Break-even revenue = Fixed costs ÷ Contribution margin ratio Source: U.S. S... |
+| Expected Break Even | tile dialog | 5 | 1 | 81 | The first month revenue covers costs, based on the build-up of sales you entered. |
+| Expected Monthly Revenue | tile dialog | 9 | 3 | 177 | Formula: Σ price × expected sales per month, for each Offering The revenue the expected sales bring in a normal month. Calculated from your Offerings' prices an... |
+| Financial Exhaustion | tile dialog | 10 | 2 | 215 | When available cash is expected to run out: funding received or confirmed on Financial Foundation, plus expected revenue as it is received. Funding still expect... |
+| Stress Test | tile dialog | 22 | 4 | 495 | The plan as it stands, and the same plan when things go worse than hoped: sales 20% lower, revenue 3 months later, costs 10% higher (founders' pay aside), custo... |
+| Sustainability | tile dialog | 23 | 5 | 476 | Read how much your organisation must sell to cover its costs, when it is expected to get there, and whether that is before its money runs out. Break-Even Point:... |
+| Sustainability Buffer | tile dialog | 6 | 1 | 123 | Financial Exhaustion minus Break-Even Time: how much time exists between becoming sustainable and running out of resources. |
+| What It Would Take | tile dialog | 18 | 3 | 397 | Worked out from the plan: the smallest single change that keeps the cash at zero or above in every month of the plan, each tried on its own with everything else... |
+
+### Business System / Foundation & Engagement
+
+**Channels &Journey**
+
+| Label | Opens in | Rows | Points | Characters | Text |
+|---|---|---|---|---|---|
+| Action | floating card | 8 | 2 | 182 | What is done through this channel at the selected Journey Stage, and what it is intended to achieve. Actions should explain enough to understand both what happe... |
+| Channel | floating card | 53 | 16 | 1697 | Samples & Trials: Ways for customers to try it before they buy. Social Media: Social platforms where people can discover your organisation, engage with your con... |
+| Channel | floating card | 53 | 16 | 1697 | In Person: Physical locations, meetings, events or activities where you interact directly with customers. Social Media: Social platforms where people can discov... |
+| Channel | floating card | 53 | 16 | 1697 | Direct Payment: Methods customers use to pay your organisation directly, such as cash, card or bank transfer. Social Media: Social platforms where people can di... |
+| Channel | floating card | 53 | 16 | 1697 | Online / Live: Live digital interactions or experiences delivered through online meeting, streaming or communication platforms. Social Media: Social platforms w... |
+| Channels & Journey | tile dialog | 21 | 5 | 460 | Decide which channels are relevant, and which offerings each one supports. Record where in the customer journey each channel is used. Describe what is done thro... |
+| Community | tile dialog | 75 | 16 | 1697 | Community: Spaces where people gather to discuss, participate, share knowledge and interact with your organisation or community. Social Media: Social platforms ... |
+| Direct Payment | floating card | 75 | 16 | 1697 | Direct Payment: Methods customers use to pay your organisation directly, such as cash, card or bank transfer. Social Media: Social platforms where people can di... |
+| Email | tile dialog | 75 | 16 | 1697 | Email: Communication with customers through email, including direct messages, newsletters and follow-ups. Social Media: Social platforms where people can discov... |
+| File Delivery | tile dialog | 75 | 16 | 1697 | File Delivery: Services or methods used to deliver digital files or downloadable products to customers. Social Media: Social platforms where people can discover... |
+| In Person | floating card | 75 | 16 | 1697 | In Person: Physical locations, meetings, events or activities where you interact directly with customers. Social Media: Social platforms where people can discov... |
+| Journey Stage | floating card | 10 | 2 | 188 | Journey Stage determines where in the customer journey the channel is relevant. Do not combine Purchase and Delivery. Payment and delivery may happen through co... |
+| Online / Live | floating card | 75 | 16 | 1697 | Online / Live: Live digital interactions or experiences delivered through online meeting, streaming or communication platforms. Social Media: Social platforms w... |
+| Referral & Affiliates | tile dialog | 75 | 16 | 1697 | Referral & Affiliates: People and partners who send customers to you and are rewarded for the sales or leads they bring. Social Media: Social platforms where pe... |
+| Samples & Trials | floating card | 75 | 16 | 1697 | Samples & Trials: Ways for customers to try it before they buy. Social Media: Social platforms where people can discover your organisation, engage with your con... |
+| Social Media | tile dialog | 75 | 16 | 1697 | Social Media: Social platforms where people can discover your organisation, engage with your content and stay connected. Community: Spaces where people gather t... |
+| Website | tile dialog | 75 | 16 | 1697 | Website: Your organisation's own website and pages, used to present information, offerings, transactions, delivery or support. Social Media: Social platforms wh... |
 
 **Competitors**
 
@@ -313,6 +434,30 @@ Listed, never failed (doc 39, 3.6). The budget is 160 characters a point; the av
 | Where do they sell? | floating card | 3 | 1 | 67 | The widest area they sell in. Write the places by name in the note. |
 | Where is this alternative reviewed, and how is it rated? | floating card | 28 | 7 | 615 | Tick each place they are reviewed and give their average there, to the nearest star. Most people only use a business with 4 stars or more. For another place, ti... |
 
+**Customer'sRelationship**
+
+| Label | Opens in | Rows | Points | Characters | Text |
+|---|---|---|---|---|---|
+| Approach | floating card | 5 | 1 | 81 | How will you use this interaction to maintain the relationship with the customer? |
+| Customer's Relationship | tile dialog | 12 | 3 | 267 | Choose the kind of relationship you maintain with each Customer Profile, and say why you maintain it. For each Offering, record when in the journey you interact... |
+| Goals | floating card | 9 | 3 | 175 | Get: Attract and convert suitable customers. Keep: Maintain satisfaction and encourage continued engagement. Grow: Develop the relationship through additional o... |
+| Journey Stage | floating card | 7 | 1 | 147 | When in the customer journey does the interaction take place? Each stage chosen is answered separately, because the Approach is individual to each. |
+| Purpose | floating card | 3 | 1 | 65 | Why do you maintain this type of relationship with this customer? |
+
+**Demand &Conversion**
+
+| Label | Opens in | Rows | Points | Characters | Text |
+|---|---|---|---|---|---|
+| Active clients | tile dialog | 19 | 3 | 441 | Formula: Active clients = New clients a month ÷ Cancel% At the steady level, clients joining each month equal clients leaving. Average client lifetime ≈ 1 ÷ Can... |
+| AI Workflow Audit | tile dialog | 24 | 4 | 550 | For each Offering, estimate under Demand & Conversion where its customers come from and how many buy. Where this Offering’s customers come from, and so how many... |
+| Assumptions | tile dialog | 3 | 1 | 62 | Anything else the figures rest on, beyond each source's basis. |
+| Automation Build | tile dialog | 24 | 4 | 550 | For each Offering, estimate under Demand & Conversion where its customers come from and how many buy. Where this Offering’s customers come from, and so how many... |
+| Automation Care Retainer | tile dialog | 24 | 4 | 550 | For each Offering, estimate under Demand & Conversion where its customers come from and how many buy. Where this Offering’s customers come from, and so how many... |
+| Cancel / Month (%) | tile dialog | 5 | 1 | 100 | The share of active clients who cancel each month. At 5%, a client stays about 20 months on average. |
+| Customers Buy | tile dialog | 17 | 3 | 415 | One sale at a time: Each sale is paid for once: a product, a session, a project. Every month, until they cancel: A subscription, membership or retainer. The sou... |
+| Demand & Conversion | tile dialog | 24 | 4 | 550 | For each Offering, estimate under Demand & Conversion where its customers come from and how many buy. Where this Offering’s customers come from, and so how many... |
+| Months to level | tile dialog | 18 | 3 | 415 | Formula: Months to 90% = ln(10) ÷ −ln(1 − Cancel%) The gap to the steady level shrinks by the same share every month, so growth slows as you approach it. Based ... |
+
 **Offerings**
 
 | Label | Opens in | Rows | Points | Characters | Text |
@@ -321,7 +466,7 @@ Listed, never failed (doc 39, 3.6). The budget is 160 characters a point; the av
 | Content & Scope | floating card | 3 | 1 | 50 | What does it include, and what are its boundaries? |
 | Customer Benefit | floating card | 3 | 1 | 54 | Which problem does it solve, in your customers' words? |
 | Function | floating card | 3 | 1 | 51 | What does it do, and what result should it deliver? |
-| How do you send the files? | floating card | 6 | 2 | 116 | The way they receive the files: each becomes a delivery channel on Customer Engagement. Tick Other to write another. |
+| How do you send the files? | floating card | 6 | 2 | 120 | The way they receive the files: each becomes a delivery channel on Foundation & Engagement. Tick Other to write another. |
 | How do your customers receive it? | floating card | 11 | 3 | 216 | How it reaches them once bought: tick each way, as one Offering is often delivered in several. Sent automatically online: a download or an email sent by the sho... |
 | How is it offered? | floating card | 12 | 2 | 242 | How it is put together for sale: one range, made to each order, packages, limited runs or extras. Counts and what is included go in the Notes. Based on: the pro... |
 | How long until they have it? | floating card | 3 | 1 | 76 | The time from order to having it. How it reaches them is the question above. |
@@ -333,7 +478,7 @@ Listed, never failed (doc 39, 3.6). The budget is 160 characters a point; the av
 | Support & Communication | floating card | 3 | 1 | 38 | What the help and the updates include. |
 | What do your customers need to give you? | floating card | 13 | 3 | 308 | What you need from them before or during the work. The details go in the Notes. A place to work: a desk or a room for you to use. Access to their home or site: ... |
 | What form does it take? | floating card | 8 | 2 | 170 | It refines the Type. For a Hybrid, make one Offering for each form, or choose the main one. Online access: a membership area, a course platform or a subscriptio... |
-| What help do you give after they buy? | floating card | 10 | 3 | 203 | The help that comes with it after the sale: tick each kind you give. None stands alone: ticking it clears the others. Tick Other to write another: each becomes ... |
+| What help do you give after they buy? | floating card | 10 | 3 | 207 | The help that comes with it after the sale: tick each kind you give. None stands alone: ticking it clears the others. Tick Other to write another: each becomes ... |
 | When do they pay? | floating card | 2 | 1 | 24 | When the money comes in. |
 | Which conditions of sale apply? | floating card | 8 | 3 | 143 | The terms your customers agree to. Between businesses, your contract terms set the cancellation rules. For an age limit, write it in the Notes. |
 | Which of their worries does it answer? | floating card | 11 | 2 | 222 | The doubts that stop your customers buying from you, as your Profiles say. A worry left unanswered shows as an open item on the Value Proposition. Support is an... |
@@ -397,154 +542,6 @@ Listed, never failed (doc 39, 3.6). The budget is 160 characters a point; the av
 | Value Proposition | tile dialog | 10 | 3 | 210 | Define a clear, concise Value Proposition for each Customer Segment. State the specific problem you solve and the key benefits you provide. Explain what makes y... |
 | Value Proposition | tile dialog | 18 | 3 | 416 | Say how it meets the emotional and social needs below: those ticked on the Profiles, strongest first, then the lines of their Notes. Add a draft: a starting sen... |
 
-### Business System / Customer Engagement
-
-**Channels &Journey**
-
-| Label | Opens in | Rows | Points | Characters | Text |
-|---|---|---|---|---|---|
-| Action | floating card | 8 | 2 | 182 | What is done through this channel at the selected Journey Stage, and what it is intended to achieve. Actions should explain enough to understand both what happe... |
-| Channel | floating card | 53 | 16 | 1697 | Samples & Trials: Ways for customers to try it before they buy. Social Media: Social platforms where people can discover your organisation, engage with your con... |
-| Channel | floating card | 53 | 16 | 1697 | In Person: Physical locations, meetings, events or activities where you interact directly with customers. Social Media: Social platforms where people can discov... |
-| Channel | floating card | 53 | 16 | 1697 | Direct Payment: Methods customers use to pay your organisation directly, such as cash, card or bank transfer. Social Media: Social platforms where people can di... |
-| Channel | floating card | 53 | 16 | 1697 | Online / Live: Live digital interactions or experiences delivered through online meeting, streaming or communication platforms. Social Media: Social platforms w... |
-| Channels & Journey | tile dialog | 21 | 5 | 460 | Decide which channels are relevant, and which offerings each one supports. Record where in the customer journey each channel is used. Describe what is done thro... |
-| Community | tile dialog | 75 | 16 | 1697 | Community: Spaces where people gather to discuss, participate, share knowledge and interact with your organisation or community. Social Media: Social platforms ... |
-| Direct Payment | floating card | 75 | 16 | 1697 | Direct Payment: Methods customers use to pay your organisation directly, such as cash, card or bank transfer. Social Media: Social platforms where people can di... |
-| Email | tile dialog | 75 | 16 | 1697 | Email: Communication with customers through email, including direct messages, newsletters and follow-ups. Social Media: Social platforms where people can discov... |
-| File Delivery | tile dialog | 75 | 16 | 1697 | File Delivery: Services or methods used to deliver digital files or downloadable products to customers. Social Media: Social platforms where people can discover... |
-| In Person | floating card | 75 | 16 | 1697 | In Person: Physical locations, meetings, events or activities where you interact directly with customers. Social Media: Social platforms where people can discov... |
-| Journey Stage | floating card | 10 | 2 | 188 | Journey Stage determines where in the customer journey the channel is relevant. Do not combine Purchase and Delivery. Payment and delivery may happen through co... |
-| Online / Live | floating card | 75 | 16 | 1697 | Online / Live: Live digital interactions or experiences delivered through online meeting, streaming or communication platforms. Social Media: Social platforms w... |
-| Referral & Affiliates | tile dialog | 75 | 16 | 1697 | Referral & Affiliates: People and partners who send customers to you and are rewarded for the sales or leads they bring. Social Media: Social platforms where pe... |
-| Samples & Trials | floating card | 75 | 16 | 1697 | Samples & Trials: Ways for customers to try it before they buy. Social Media: Social platforms where people can discover your organisation, engage with your con... |
-| Social Media | tile dialog | 75 | 16 | 1697 | Social Media: Social platforms where people can discover your organisation, engage with your content and stay connected. Community: Spaces where people gather t... |
-| Website | tile dialog | 75 | 16 | 1697 | Website: Your organisation's own website and pages, used to present information, offerings, transactions, delivery or support. Social Media: Social platforms wh... |
-
-**Customer'sRelationship**
-
-| Label | Opens in | Rows | Points | Characters | Text |
-|---|---|---|---|---|---|
-| Approach | floating card | 5 | 1 | 81 | How will you use this interaction to maintain the relationship with the customer? |
-| Customer's Relationship | tile dialog | 12 | 3 | 267 | Choose the kind of relationship you maintain with each Customer Profile, and say why you maintain it. For each Offering, record when in the journey you interact... |
-| Goals | floating card | 9 | 3 | 175 | Get: Attract and convert suitable customers. Keep: Maintain satisfaction and encourage continued engagement. Grow: Develop the relationship through additional o... |
-| Journey Stage | floating card | 7 | 1 | 147 | When in the customer journey does the interaction take place? Each stage chosen is answered separately, because the Approach is individual to each. |
-| Purpose | floating card | 3 | 1 | 65 | Why do you maintain this type of relationship with this customer? |
-
-**Demand &Conversion**
-
-| Label | Opens in | Rows | Points | Characters | Text |
-|---|---|---|---|---|---|
-| Active clients | tile dialog | 19 | 3 | 441 | Formula: Active clients = New clients a month ÷ Cancel% At the steady level, clients joining each month equal clients leaving. Average client lifetime ≈ 1 ÷ Can... |
-| AI Workflow Audit | tile dialog | 24 | 4 | 550 | For each Offering, estimate under Demand & Conversion where its customers come from and how many buy. Where this Offering’s customers come from, and so how many... |
-| Assumptions | tile dialog | 3 | 1 | 62 | Anything else the figures rest on, beyond each source's basis. |
-| Automation Build | tile dialog | 24 | 4 | 550 | For each Offering, estimate under Demand & Conversion where its customers come from and how many buy. Where this Offering’s customers come from, and so how many... |
-| Automation Care Retainer | tile dialog | 24 | 4 | 550 | For each Offering, estimate under Demand & Conversion where its customers come from and how many buy. Where this Offering’s customers come from, and so how many... |
-| Cancel / Month (%) | tile dialog | 5 | 1 | 100 | The share of active clients who cancel each month. At 5%, a client stays about 20 months on average. |
-| Customers Buy | tile dialog | 17 | 3 | 415 | One sale at a time: Each sale is paid for once: a product, a session, a project. Every month, until they cancel: A subscription, membership or retainer. The sou... |
-| Demand & Conversion | tile dialog | 24 | 4 | 550 | For each Offering, estimate under Demand & Conversion where its customers come from and how many buy. Where this Offering’s customers come from, and so how many... |
-| Months to level | tile dialog | 18 | 3 | 415 | Formula: Months to 90% = ln(10) ÷ −ln(1 − Cancel%) The gap to the steady level shrinks by the same share every month, so growth slows as you approach it. Based ... |
-
-### Business System / Financials
-
-**Break-Even**
-
-| Label | Opens in | Rows | Points | Characters | Text |
-|---|---|---|---|---|---|
-| Break-Even | tile dialog | 23 | 5 | 476 | Read how much your organisation must sell to cover its costs, when it is expected to get there, and whether that is before its money runs out. Break-Even Point:... |
-| Break-Even Point | tile dialog | 28 | 5 | 603 | Contribution per unit = price − variable cost per unit. Offering break even: the units this Offering alone would need to sell to cover all fixed costs. Organisa... |
-| Break-Even Time | tile dialog | 6 | 1 | 132 | The first month in which expected revenue covers that month's costs: the fixed costs, and the variable costs of that month's volume. |
-| Contribution | tile dialog | 29 | 3 | 684 | Formula: Contribution = Price − Variable costs; ratio = Contribution ÷ Price What each sale leaves to pay fixed costs and profit. Source: Franklin, M., Graybeal... |
-| Costs Used | tile dialog | 13 | 3 | 301 | Read from Financial Foundation, by behaviour. Fixed: the monthly equivalent of every recurring cost, plus loan interest. Loan principal is repayment of borrowed... |
-| Each Offering's Costs | tile dialog | 15 | 3 | 343 | An Offering's costs are those recorded for it on 3. Infrastructure & Capability → Offering's Capability. Per sale: paid for every unit or project sold. Contribu... |
-| Revenue-Adjusted Financial Position | tile dialog | 10 | 2 | 176 | The Financial Foundation timeline with expected revenue received and variable costs paid as they are expected. Funding runway (Financial Foundation, without rev... |
-
-**Capital & Funding**
-
-| Label | Opens in | Rows | Points | Characters | Text |
-|---|---|---|---|---|---|
-| Capital & Funding | tile dialog | 28 | 7 | 598 | Identify where the money will come from, how certain it is, and when it arrives. Record what each source obliges: repayments, equity or conditions. Capital: Mon... |
-| External | tile dialog | 10 | 3 | 208 | Non-repayable: Grants, subsidies and awards: nothing to repay, though often with conditions. Equity: Investment in exchange for a share of ownership. Debt: Loan... |
-| Funding Schedule | floating card | 11 | 4 | 201 | One-time: A single payment. Periodic: A repeated amount at a set frequency. Milestone-based: Released as defined milestones or conditions are reached. Other: An... |
-| Internal | tile dialog | 5 | 1 | 105 | Money from inside your organisation: its founders' capital, reinvested revenue or funds it already holds. |
-| Loan repayment | floating card | 22 | 3 | 520 | Formula: Payment = P × r ÷ (1 − (1 + r)^−n) (annuity); equal-principal: P ÷ n plus interest A fixed payment that covers interest and repays the loan over n peri... |
-| Loan Start | floating card | 2 | 1 | 26 | When the loan is paid out. |
-| Other | tile dialog | 5 | 1 | 84 | Reward crowdfunding, friends & family, in-kind contributions and other arrangements. |
-| Received So Far | floating card | 5 | 1 | 73 | How much has actually arrived. The rest counts as confirmed future money. |
-| Repayment Method | floating card | 10 | 2 | 208 | Equal payments: The same payment every time; the interest part shrinks as the loan is repaid. Equal principal: The same amount of principal every time, plus tha... |
-| Status | floating card | 17 | 6 | 327 | Planned: Identified, waiting to be pursued. Preparing: An application or proposal is being prepared. Requested / Applied: Asked for; no answer yet. Approved / A... |
-
-**Costs**
-
-| Label | Opens in | Rows | Points | Characters | Text |
-|---|---|---|---|---|---|
-| Cost of each sale | tile dialog | 6 | 1 | 133 | The variable costs that move with sales (COGS): prices per unit, and costs that are a percent of revenue. They decide the break-even. |
-| Cost of each sale | tile dialog | 6 | 1 | 127 | Variable costs that move with sales (cost of goods sold): a price per unit or a percent of revenue. They decide the break-even. |
-| Costs | tile dialog | 18 | 4 | 400 | Review the costs gathered from the Legal Entity and Infrastructure & Capability. Each cost is grouped by what it supports, how it behaves, and when it is paid; ... |
-| Group | tile dialog | 11 | 3 | 247 | Establishment: Costs required to establish or launch the organisation. Operating: Ongoing costs that keep the organisation functioning, independently of any one... |
-| Launch budget | tile dialog | 10 | 2 | 226 | What is spent before the opening: capital expenditure (assets) + startup expenses + pre-operating expenses. Opening stock is apart. Capital expenditure is an as... |
-| Launch: before the opening | tile dialog | 7 | 1 | 155 | Costs dated before the Opening Date: capital expenditure (assets), startup expenses and pre-operating expenses. They make the Total Pre-operational Budget. |
-| One-time costs after the opening | tile dialog | 5 | 1 | 85 | One-time costs paid from the opening on. They are in the Funding Need of their group. |
-| Running costs a month | tile dialog | 6 | 1 | 139 | The fixed costs of a month of operation, from the opening (OpEx). They set the cash buffer: the launch budget plus months of running costs. |
-| Running costs: every month | tile dialog | 6 | 1 | 137 | Fixed costs that recur after the opening, as a monthly equivalent. They set the cash buffer: one-time costs plus months of running costs. |
-
-**Financial Position**
-
-| Label | Opens in | Rows | Points | Characters | Text |
-|---|---|---|---|---|---|
-| Available Now | tile dialog | 3 | 1 | 54 | Financial resources that have arrived and can be used. |
-| Cash to raise before the opening | tile dialog | 10 | 1 | 253 | The Total Pre-operational Budget (CapEx, Startup Expenses and Pre-Operating Expenses dated before the Opening Date) plus the Startup Contingency Fund, plus the ... |
-| Confirmed Future | tile dialog | 2 | 1 | 33 | Confirmed, but not yet available. |
-| Establishment | tile dialog | 3 | 1 | 56 | Money required to establish and launch the organisation. |
-| Financial Position | tile dialog | 22 | 4 | 466 | Read the financial picture calculated from Costs, Funding Need and Capital & Funding: is your organisation covered, and for how long? Funding Gap: The amount of... |
-| Financial Runway | tile dialog | 30 | 4 | 686 | Financial Runway: The estimated period for which available financial resources can support the organisation under current assumptions. Counts money available no... |
-| Funding Gap | tile dialog | 10 | 2 | 180 | Funding Gap: The amount of identified financial requirement not covered by available or confirmed financing. Formula: Funding gap = Funding needed − Funding ava... |
-| Funding Mix | tile dialog | 3 | 1 | 63 | Where the financial resources originate, confirmed and pending. |
-| Funding Need | tile dialog | 5 | 1 | 91 | Funding Need: Money the organisation needs to obtain to support its financial requirements. |
-| Funding Need | tile dialog | 11 | 3 | 255 | Check what has to be financed, calculated from the costs: how much, for what purpose, and when. Funding Need: Money the organisation needs to obtain to support ... |
-| Funding Need Coverage | tile dialog | 5 | 1 | 76 | Confirmed and available funding linked to each need under Capital & Funding. |
-| Funding Timeline | tile dialog | 7 | 1 | 161 | Money in and out of your organisation month by month, and the balance it leaves. A dip below zero is a cash-pressure period, even when the totals are sufficient... |
-| Loan Repayments | tile dialog | 15 | 2 | 353 | SBA Microloan (Requested / Applied): its $470 monthly repayments are not counted until it is approved. Only loans that are Approved / Agreed, Received / Availab... |
-| Offering | tile dialog | 5 | 1 | 99 | Money required to develop, prepare or launch an Offering before it can generate sufficient revenue. |
-| Operating | tile dialog | 8 | 2 | 162 | Money required to support operations before revenue becomes sufficient: the running costs, only until revenue covers them. Lenders also call this working capita... |
-| Operational Contingency Fund | tile dialog | 9 | 1 | 250 | After the launch, each month a share of OpEx is set aside on top of the startup fund, until the fund equals the target reserve months of OpEx. The contribution ... |
-| Pending | tile dialog | 5 | 1 | 89 | Expected and awaiting confirmation; the gap and the runway count it once it is confirmed. |
-| Upcoming Obligations | tile dialog | 3 | 1 | 53 | Significant money in or out over the next six months. |
-
-**Revenue Streams**
-
-| Label | Opens in | Rows | Points | Characters | Text |
-|---|---|---|---|---|---|
-| Active Clients | floating card | 13 | 1 | 340 | From this Offering's Demand & Conversion on Customer Engagement: Other: estimated at 0.3 new a month. Referrals: 0.5 referrals a month, 40% buy: about 0.2 new a... |
-| Begins & Payment | floating card | 21 | 4 | 472 | Revenue begins after the sales cycle, the time from first contact to a signed sale: for services to businesses it is often 4 to 12 weeks. One sale often leads t... |
-| Build-up | floating card | 11 | 3 | 206 | Steady from the start: The expected volume from the month revenue begins. Gradual build-up: Starts lower and grows evenly to the expected volume. Month by month... |
-| Can the Expected Sales Be Delivered? | tile dialog | 22 | 5 | 526 | Capacity is the founders' delivery hours a month: the time the organisation controls. Needed: each month's expected sales times each founder's Working Hours per... |
-| Charged | floating card | 15 | 4 | 334 | Per sale: paid once for each unit sold (a product, a session, an hour). Per project: paid once for each project or contract. Monthly, quarterly or annually: pai... |
-| Customer Pays | floating card | 23 | 7 | 471 | When the money is actually received, if not when the sale is made. It follows the Offering's When do they pay? on the Foundation page. Upfront: Paid in full whe... |
-| Expected Sales | floating card | 10 | 1 | 276 | From this Offering's Demand & Conversion on Customer Engagement: Sales funnel: 24 prospects a month, 15% qualified, 25% of those buy: about 0.9 a month. Referra... |
-| First Month | floating card | 3 | 1 | 46 | How many projects in the month revenue begins. |
-| First Month | floating card | 3 | 1 | 45 | How many clients in the month revenue begins. |
-| Months to Normal | floating card | 3 | 1 | 60 | How many months it takes to grow evenly to the normal level. |
-| Price | floating card | 23 | 5 | 558 | Start from what competitors publish (listed on Foundation) and what clients pay today to solve the same problem. Check it covers the costs of each sale and leav... |
-| Rest After | floating card | 2 | 1 | 22 | Months after the sale. |
-| Revenue Streams | tile dialog | 30 | 6 | 684 | Each Offering has its revenue stream below. For each, say how it is priced, how much sells, and when the money arrives. Expected sales come from Demand & Conver... |
-| Revenue Summary | tile dialog | 3 | 1 | 56 | Expected revenue at the normal operating level, a month. |
-| Sales Volume | floating card | 13 | 3 | 293 | Few organisations sell at the normal level from the first month: a gradual build-up over 6 to 12 months is usual. For seasons (quieter summers, busy end-of-year... |
-| Upfront (%) | floating card | 5 | 1 | 101 | The share of the price paid when the sale is made; the rest arrives the months after given beside it. |
-
-**Sustainability**
-
-| Label | Opens in | Rows | Points | Characters | Text |
-|---|---|---|---|---|---|
-| Break-Even Revenue | tile dialog | 35 | 4 | 803 | Fixed costs divided by the contribution margin of the expected revenue mix. Formula: Break-even revenue = Fixed costs ÷ Contribution margin ratio Source: U.S. S... |
-| Expected Break Even | tile dialog | 5 | 1 | 81 | The first month revenue covers costs, based on the build-up of sales you entered. |
-| Expected Monthly Revenue | tile dialog | 9 | 3 | 177 | Formula: Σ price × expected sales per month, for each Offering The revenue the expected sales bring in a normal month. Calculated from your Offerings' prices an... |
-| Financial Exhaustion | tile dialog | 10 | 2 | 215 | When available cash is expected to run out: funding received or confirmed on Financial Foundation, plus expected revenue as it is received. Funding still expect... |
-| Stress Test | tile dialog | 22 | 4 | 495 | The plan as it stands, and the same plan when things go worse than hoped: sales 20% lower, revenue 3 months later, costs 10% higher (founders' pay aside), custo... |
-| Sustainability | tile dialog | 23 | 5 | 476 | Read how much your organisation must sell to cover its costs, when it is expected to get there, and whether that is before its money runs out. Break-Even Point:... |
-| Sustainability Buffer | tile dialog | 6 | 1 | 123 | Financial Exhaustion minus Break-Even Time: how much time exists between becoming sustainable and running out of resources. |
-| What It Would Take | tile dialog | 18 | 3 | 397 | Worked out from the plan: the smallest single change that keeps the cash at zero or above in every month of the plan, each tried on its own with everything else... |
-
 ### Business System / Infrastructure
 
 **Activities**
@@ -563,10 +560,10 @@ Listed, never failed (doc 39, 3.6). The budget is 160 characters a point; the av
 | Calendar Time (weeks) | floating card | 8 | 1 | 196 | From start to finish, including waiting for the client: approvals, access, feedback. Not working time: it is not added to the hours, and only sets the pace (hou... |
 | Capacity & Delivery | tile dialog | 11 | 2 | 245 | The capacity the founders have, the skills the business still needs, and how each Offering is delivered: the hours one unit takes, how long it takes, and who de... |
 | Capacity used | tile dialog | 17 | 3 | 395 | Formula: Utilisation = Demand hours ÷ Available hours How much of the available time the planned work needs. Above 100% means more work than capacity. Based on:... |
-| Delivered | floating card | 18 | 3 | 388 | Per unit: Done once for each unit sold (a project, a product, a session), over its Calendar Time in weeks. Every month: Ongoing work for each active client ever... |
+| Delivered | floating card | 18 | 3 | 392 | Per unit: Done once for each unit sold (a project, a product, a session), over its Calendar Time in weeks. Every month: Ongoing work for each active client ever... |
 | Delivery | floating card | 11 | 2 | 245 | The capacity the founders have, the skills the business still needs, and how each Offering is delivered: the hours one unit takes, how long it takes, and who de... |
 | Delivery capacity | tile dialog | 10 | 2 | 211 | The budgets below compare this with the hours each Offering's expected sales need. Recurring work (subscriptions, retainers) uses founders' hours first; what re... |
-| Expected sales | floating card | 5 | 1 | 87 | The expected sales are the Offering's, from Demand & Conversion on Customer Engagement. |
+| Expected sales | floating card | 5 | 1 | 91 | The expected sales are the Offering's, from Demand & Conversion on Foundation & Engagement. |
 | Hours Given | floating card | 7 | 1 | 151 | A subscription or retainer is served every period. Give each client's hours a week or a month; weekly hours become monthly at about 4.33 weeks a month. |
 | What can hold up delivery? | floating card | 6 | 1 | 122 | Think about what slows you down when orders pick up: a machine or room, or materials arriving. Tick each one that applies. |
 | Which skills does the business still need? | tile dialog | 10 | 1 | 259 | Skills the plan needs that the team lacks today. Each one's cover comes from the Team of its activities: Marketing's and Production's for marketing and making, ... |
@@ -652,7 +649,7 @@ Listed, never failed (doc 39, 3.6). The budget is 160 characters a point; the av
 | Target operating reserve | settings page | 5 | 1 | 102 | Months of OpEx the Operational Contingency Fund builds up to. 3 by default; an investor may ask for 6. |
 | Useful Life | settings page | 25 | 4 | 598 | What it is: The years an asset serves the business before it is worn out, outdated or replaced. What it does: The cost (CapEx) is spread over those years, a sha... |
 
-### Identity System / 1. Definition
+### Identity System / Definition
 
 **Early Positioning**
 
@@ -706,14 +703,14 @@ Listed, never failed (doc 39, 3.6). The budget is 160 characters a point; the av
 | Principles | tile dialog | 9 | 3 | 175 | For each value, what do you always do, and what do you always avoid? One rule a line, beginning "We …". Example: "We remake any piece with a fault, at no cost, ... |
 | Values | tile dialog | 11 | 3 | 228 | What matters most in how you work? What would you hold to, even at the cost of a sale? List three to five, one a line, each with what it means here. Example: "C... |
 
-### Identity System / 2. Legal Entity
+### Identity System / Legal Entity
 
 **Expenses**
 
 | Label | Opens in | Rows | Points | Characters | Text |
 |---|---|---|---|---|---|
-| Expenses | floating card | 11 | 2 | 253 | What it costs to register and keep registered: filing, renewal and agent fees. Each is linked to one registration or requirement. Licences, insurance and certif... |
-| Expenses | tile dialog | 11 | 2 | 253 | What it costs to register and keep registered: filing, renewal and agent fees. Each is linked to one registration or requirement. Licences, insurance and certif... |
+| Expenses | floating card | 11 | 2 | 250 | What it costs to register and keep registered: filing, renewal and agent fees. Each is linked to one registration or requirement. Licences, insurance and certif... |
+| Expenses | tile dialog | 11 | 2 | 250 | What it costs to register and keep registered: filing, renewal and agent fees. Each is linked to one registration or requirement. Licences, insurance and certif... |
 | Linked registration | floating card | 7 | 2 | 146 | Says which registration or requirement this expense pays for. It lists the registration numbers and the requirements recorded under Registrations. |
 | Notes | floating card | 8 | 5 | 103 | A reminder or a task A question to check Where a figure came from A decision and why Someone to talk to |
 
@@ -731,7 +728,7 @@ Listed, never failed (doc 39, 3.6). The budget is 160 characters a point; the av
 
 | Label | Opens in | Rows | Points | Characters | Text |
 |---|---|---|---|---|---|
-| Current Situation | tile dialog | 17 | 3 | 336 | What do you sell, and who uses it? (3. Business System → 1. Foundation: Offerings and Customer Segments) How do people discover and reach you? (3. Business Syst... |
+| Current Situation | tile dialog | 17 | 3 | 344 | What do you sell, and who uses it? (3. Business System → Foundation & Engagement: Offerings and Customer Segments) How do people discover and reach you? (3. Bus... |
 | Refresh | tile dialog | 3 | 1 | 51 | Filled in from the Business System. Edit it freely. |
 
 **Strategic Compass**

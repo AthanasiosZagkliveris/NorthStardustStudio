@@ -874,7 +874,7 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
                     )
                     : (
                         <p className="delivery-muted">
-                            Add this Offering's expected sales under Demand & Conversion on Customer Engagement to see the hours it takes a month.
+                            Add this Offering's expected sales under Demand & Conversion on Foundation & Engagement to see the hours it takes a month.
                         </p>
                     )}
 
@@ -1368,7 +1368,7 @@ batches && (
                 {offeringChoices.length === 0
                     ? (
                         <BusinessEmpty>
-                            No Offerings yet. Define them on the Foundation page, and each
+                            No Offerings yet. Define them on Foundation & Engagement, and each
                             one gets its Delivery card here.
                         </BusinessEmpty>
                     )
@@ -1534,7 +1534,7 @@ batches && (
                         return missing.length > 0 && (
                             <p className="delivery-muted">
                                 Not in the budgets yet, with no expected sales: {missing.map(choice => choice.label).join(", ")}.
-                                Add them under Demand &amp; Conversion on Customer Engagement.
+                                Add them under Demand &amp; Conversion on Foundation & Engagement.
                             </p>
                         );
                     })()}

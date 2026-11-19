@@ -32,7 +32,7 @@ async function open(system, name) {
     await wait(800);
     const start = page.getByRole("button", { name: /Start Interview/i });
     if (await start.count()) { await start.first().click(); await wait(500); }
-    if (name) { await page.getByRole("navigation", { name: "Pages" }).getByRole("button", { name: new RegExp(name) }).first().evaluate(n => n.click()); await wait(800); }
+    if (name) { await page.getByRole("navigation", { name: "Pages" }).getByRole("button", { name: new RegExp("^(\\d+\\. )?" + name) }).first().evaluate(n => n.click()); await wait(800); }
 }
 
 /** In the page: the controls of the open view or card, and the pairs side by side that break the rule. */
@@ -60,7 +60,7 @@ function check() {
 async function scan(where) { scenes++; try { for (const f of await page.evaluate(check)) findings.push({ where, ...f }); } catch (error) { console.log("skipped " + where + ": " + String(error).slice(0, 60)); } }
 const attempt = async (name, fn) => { try { await fn(); } catch (error) { console.log("skipped " + name + ": " + String(error).slice(0, 80)); } };
 
-const PAGES = { "Identity System": ["1. Definition", "2. Legal Entity"], "Brand System": [null], "Business System": ["1. Foundation", "Customer Engagement", "Infrastructure", "Financials"], "Strategy System": [null] };
+const PAGES = { "Identity System": ["Definition", "Legal Entity"], "Brand System": [null], "Business System": ["Foundation & Engagement", "Infrastructure", "Financials"], "Strategy System": [null] };
 for (const [system, pages] of Object.entries(PAGES)) for (const name of pages) {
     const where = system + " / " + (name ?? "main");
     await attempt(where, async () => {

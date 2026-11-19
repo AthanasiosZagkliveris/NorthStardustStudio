@@ -9,6 +9,8 @@ import InterviewHeader from "../components/interview/editors/InterviewHeader";
 import InterviewProgress, { SHOW_PROGRESS_LINE } from "../components/InterviewProgress";
 import InterviewSection from "../components/InterviewSection";
 import { groupOf, isCompanion, primaryOf } from "../framework/engine/PageGroups";
+import { SHOW_SEGMENT_EVENT, SegmentPageContext, createTileStore, type SegmentPage } from "../components/interview/tiles/segmentPage";
+import { asBusinessFoundationValue } from "../framework/engine/businessFoundation/foundationPage";
 import AnswerRenderer from "../components/interview/editors/AnswerRenderer";
 import type { PageSectionAnswer } from "../components/interview/editors/answer/shared.tsx";
 
@@ -740,6 +742,22 @@ export default function Conversation() {
         ? resolveStrategyFoundationValue(session)
         : undefined;
 
+    // THE SEGMENT SHOWN on a page of one Segment at a time (Foundation & Engagement; segmentPage.ts): the one chosen on its Segment rail, or the one a jump
+    // asked for; the first Segment until one is chosen. Kept while the page is open, never saved.
+    const [chosenSegment, setChosenSegment] = useState<string | null>(null);
+    // (The tiles Engagement hands each Segment's chapter: one store for the page, segmentPage.ts.)
+    const [companionTiles] = useState(createTileStore);
+    useEffect(() => {
+        const show = (event: Event) => {
+            const id = (event as CustomEvent<string>).detail;
+            if (id) {
+                setChosenSegment(id);
+            }
+        };
+        document.addEventListener(SHOW_SEGMENT_EVENT, show);
+        return () => document.removeEventListener(SHOW_SEGMENT_EVENT, show);
+    }, []);
+
     // The two bullet rails. Computed before the early returns below
     // (hooks), and simply empty while nothing is loaded.
     // Each page bullet is drawn in its page status (PageStatus.ts),
@@ -1313,6 +1331,14 @@ export default function Conversation() {
     );
 
     const pageGroup = groupOf(groupSystemNumber, currentSection.number);
+    // (A page of one Segment at a time: the Segment shown, by its id in both answers -- the chosen one while it is there, else the first.)
+    const pageSegments = pageGroup?.oneSegmentAtATime ? asBusinessFoundationValue(businessFoundationValue).segments : [];
+    const pageSegmentIds = pageSegments.map(segment => segment.id);
+    // (Each Segment by its name, numbered by its order where there are several, as its frames were: "1. London Homemakers"; "Segment" until it has a name.)
+    const segmentRailItems = pageSegments.map((segment, at) => ({ id: segment.id, label: (pageSegments.length > 1 ? (at + 1) + ". " : "") + (segment.name.trim() || "Segment") }));
+    const segmentPage: SegmentPage | null = pageSegmentIds.length > 0
+        ? { segmentId: chosenSegment && pageSegmentIds.includes(chosenSegment) ? chosenSegment : pageSegmentIds[0], select: setChosenSegment, companionTiles }
+        : null;
 
     return (
         <div className="conversation-page">
@@ -1458,8 +1484,10 @@ export default function Conversation() {
 
                             {pageGroup && pageGroup.members.length > 1
                                 ? (
-                                    <div className="page-group">
-                                        {renderAnswer(currentSection, effectiveAnswer ?? currentSection.answer, effectiveValue, sharedSource ? handleSharedAnswerChange : handleAnswerChange, true)}
+                                    <SegmentPageContext.Provider value={segmentPage}>
+                                    <div className={"page-group" + (segmentPage ? " page-group-one-chapter" : "")}>
+                                        {/* (A page of one Segment at a time: the companion first, so the tiles it hands the chapter are this draw's.) */}
+                                        {!segmentPage && renderAnswer(currentSection, effectiveAnswer ?? currentSection.answer, effectiveValue, sharedSource ? handleSharedAnswerChange : handleAnswerChange, true)}
                                         {pageGroup.members.slice(1).map(number => {
                                             const companion = session.getSections().find(candidate => candidate.number === number);
                                             return companion
@@ -1469,7 +1497,9 @@ export default function Conversation() {
                                                 }, false)
                                                 : null;
                                         })}
+                                        {segmentPage && renderAnswer(currentSection, effectiveAnswer ?? currentSection.answer, effectiveValue, sharedSource ? handleSharedAnswerChange : handleAnswerChange, true)}
                                     </div>
+                                    </SegmentPageContext.Provider>
                                 )
                                 : renderAnswer(currentSection, effectiveAnswer ?? currentSection.answer, effectiveValue, sharedSource ? handleSharedAnswerChange : handleAnswerChange, true)}
 
@@ -1518,12 +1548,19 @@ export default function Conversation() {
                                 />
                             }
                         />
+                        {/* THE SEGMENT RAIL (owner, 2026-11-19, relayed: "the Segments go in the right-hand page rail"): on a page of one Segment at a time the
+                            page's right-hand rail -- empty on a page drawn as tiles (layout rules section 13) -- lists the Segments, each by its id, the one shown
+                            lit; a bullet shows its Segment. The same rail, slot and geometry (section 10, "The page's rails too"). */}
                         <BulletRail
                             side="right"
-                            label="Sections"
-                            items={railSections}
-                            activeId={activeRailSection}
+                            label={segmentPage ? "Segments" : "Sections"}
+                            items={segmentPage ? segmentRailItems : railSections}
+                            activeId={segmentPage ? segmentPage.segmentId : activeRailSection}
                             onSelect={id => {
+                                if (segmentPage) {
+                                    segmentPage.select(id);
+                                    return;
+                                }
                                 // Pinned first, so the jump's own scroll keeps it.
                                 selectRailSection(id);
                                 scrollToRailSection(id);

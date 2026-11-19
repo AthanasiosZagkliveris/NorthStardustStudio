@@ -598,7 +598,7 @@ export function useEngagementRelationships(earlier: Earlier) {
         if (segment.offerings.length === 0) {
             return (
                 <BusinessEmpty>
-                    Add an Offering to this Segment on the Foundation page,
+                    Add an Offering to this Segment on Foundation & Engagement,
                     then describe the relationship you keep about it here.
                 </BusinessEmpty>
             );
@@ -863,7 +863,7 @@ export function useEngagementRelationships(earlier: Earlier) {
                                                 {(offeringIndex + 1) + ". Offering -"}
                                             </span>
                                             {/* The name is the link to the Offering
-                                                on the Foundation page, as a
+                                                on Foundation & Engagement, as a
                                                 Profile's name is; its "i" stays
                                                 with it as one run. */}
                                             <span>

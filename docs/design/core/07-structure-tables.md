@@ -12,7 +12,7 @@ Foundation capability only, from src/data/systems.ts; their pages as the pages r
 |---|---|---|---|---|---|---|
 | S1 | Identity System | 1 | 2 (plus Introduction) | P1.1, P1.3 | 1. Definition & Purpose; 2. Legal Entity | tiles page (chapters of master tiles) |
 | S2 | Brand System | 2 | 1 (plus Introduction) | P2.1 | Brand System | tiles page (chapters of master tiles) |
-| S3 | Business System | 3 | 4 (plus Introduction) | P3.1, P3.2, P3.3, P3.4 | 1. Foundation; 2. Customer Engagement; 3. Infrastructure & Capability; 4. Financials | tiles page (chapters of master tiles) |
+| S3 | Business System | 3 | 3 (plus Introduction) | P3.1, P3.3, P3.4 | 1. Foundation & Engagement; 2. Infrastructure & Capability; 3. Financials | tiles page (chapters of master tiles) |
 | S4 | Strategy System | 4 | 1 (plus Introduction) | P4.1 | Strategy System | tiles page (chapters of master tiles) |
 
 ### P. Pages
@@ -24,10 +24,9 @@ Every page the pages rail shows, from the app's definitions (the Systems' answer
 | P1.1 | S1 | 1. Definition & Purpose | 1.1 Definition; 1.2 Purpose | tiles page (chapters of master tiles) | 2 | 4 | header; Pages rail; page arrows; chapter frames |
 | P1.3 | S1 | 2. Legal Entity | 1.3 Legal Entity | tiles page (chapters of master tiles) | 1 | 0 | header; Pages rail; page arrows; chapter frames |
 | P2.1 | S2 | Brand System | 2.1 Ambassador; 2.2 Style | tiles page (chapters of master tiles) | 2 | 8 | header; Pages rail; page arrows; chapter frames |
-| P3.1 | S3 | 1. Foundation | 3.1 Foundation | tiles page (chapters of master tiles) | 1 | 4 | header; Pages rail; page arrows; chapter frames |
-| P3.2 | S3 | 2. Customer Engagement | 3.2 Customer Engagement | tiles page (chapters of master tiles) | 1 | 13 | header; Pages rail; page arrows; chapter frames |
-| P3.3 | S3 | 3. Infrastructure & Capability | 3.3 Infrastructure & Capability | tiles page (chapters of master tiles) | 3 | 10 | header; Pages rail; page arrows; chapter frames |
-| P3.4 | S3 | 4. Financials | 3.4 Revenue & Pricing; 3.5 Costs, Funding & Position | tiles page (chapters of master tiles) | 2 | 0 | header; Pages rail; page arrows; chapter frames |
+| P3.1 | S3 | 1. Foundation & Engagement | 3.1 Foundation; 3.2 Customer Engagement | tiles page (chapters of master tiles) | 2 | 0 | header; Pages rail; page arrows; chapter frames |
+| P3.3 | S3 | 2. Infrastructure & Capability | 3.3 Infrastructure & Capability | tiles page (chapters of master tiles) | 3 | 10 | header; Pages rail; page arrows; chapter frames |
+| P3.4 | S3 | 3. Financials | 3.4 Revenue & Pricing; 3.5 Costs, Funding & Position | tiles page (chapters of master tiles) | 2 | 0 | header; Pages rail; page arrows; chapter frames |
 | P4.1 | S4 | Strategy System | 4.1 Situation & Direction | tiles page (chapters of master tiles) | 1 | 4 | header; Pages rail; page arrows; chapter frames |
 
 ### C. Chapters
@@ -41,8 +40,8 @@ A chapter is a frame on a page that holds master tiles. A page of several sectio
 | C1.3-legal-entity | P1.3 | 1 | Legal Entity | none | PageGroups.ts |
 | C2.1-ambassador | P2.1 | 1 | 1. Ambassador | none | PageGroups.ts |
 | C2.1-style | P2.1 | 2 | 2. Style | none | PageGroups.ts |
-| C3.1-no-title | P3.1 | 1 | (no title) | none | probe 2026-11-10 |
-| C3.2-segment | P3.2 | 1 | 1. Segment | fold arrow, info (i) | probe 2026-11-10 |
+| C3.1-foundation | P3.1 | 1 | 1. Foundation | none | PageGroups.ts |
+| C3.1-customer-engagement | P3.1 | 2 | 2. Customer Engagement | none | PageGroups.ts |
 | C3.3-infrastructure | P3.3 | 1 | 1. Infrastructure | none | probe 2026-11-10 |
 | C3.3-offering-s-capability | P3.3 | 2 | 2. Offering's Capability | none | probe 2026-11-10 |
 | C3.3-no-title | P3.3 | 3 | (no title) | none | probe 2026-11-10 |
@@ -52,7 +51,7 @@ A chapter is a frame on a page that holds master tiles. A page of several sectio
 
 ### MT. Master tiles
 
-A master tile is the large tile of a chapter: a title, the list of what it holds (each a link that opens a view or a card), and often a "+" to add. Seen by the add probe of 2026-11-10 in the Quillfield example, joined to its page and chapter by name; its id is its chapter and its title. Left out, as their names are no page or chapter of the app now: Identity System / 1. Definition / 2. Ethics. Style of every master tile: see the components table (CO master tile).
+A master tile is the large tile of a chapter: a title, the list of what it holds (each a link that opens a view or a card), and often a "+" to add. Seen by the add probe of 2026-11-10 in the Quillfield example, joined to its page and chapter by name; its id is its chapter and its title. Left out, as their names are no page or chapter of the app now: Business System / 1. Foundation / (no title); Business System / Customer Engagement / 1. Segment; Identity System / 1. Definition / 2. Ethics. Style of every master tile: see the components table (CO master tile).
 
 | id | chapter | title | opens | inside_the_tile | add_button | seen |
 |---|---|---|---|---|---|---|
@@ -68,23 +67,6 @@ A master tile is the large tile of a chapter: a title, the list of what it holds
 | MT2.1-style-typography-and-text-hierarchy | C2.1-style | Typography &Text Hierarchy | dialog view | none | Add Typeface to Typography & Text Hierarchy | probe 2026-11-10 |
 | MT2.1-style-icon-and-logo | C2.1-style | Icon & Logo | dialog view | none | none | probe 2026-11-10 |
 | MT2.1-style-brand-images | C2.1-style | Brand Images | dialog view | none | Add Image to Brand Images | probe 2026-11-10 |
-| MT3.1-no-title-segment-description | C3.1-no-title | Segment Description | dialog view | 2 links: The Stretched Operations Manager, The Agency Founder | Add Profile to Segment Description | probe 2026-11-10 |
-| MT3.1-no-title-value-proposition | C3.1-no-title | Value Proposition | dialog view | none | none | probe 2026-11-10 |
-| MT3.1-no-title-competitors | C3.1-no-title | Competitors | dialog view | 4 links: Freelance automation specialists on marketplaces (, Larger AI consultancies and systems integrators, DIY no-code and built-in AI tools, Doing it manually or hiring an admin | Add Competitor to Competitors | probe 2026-11-10 |
-| MT3.1-no-title-offerings | C3.1-no-title | Offerings | dialog view | 3 links: AI Workflow Audit, Automation Build, Automation Care Retainer | Add Offering to Offerings | probe 2026-11-10 |
-| MT3.2-segment-social-media | C3.2-segment | Social Media | dialog view | none | Add Subchannel to Social Media | probe 2026-11-10 |
-| MT3.2-segment-website | C3.2-segment | Website | dialog view | none | Add Subchannel to Website | probe 2026-11-10 |
-| MT3.2-segment-email | C3.2-segment | Email | dialog view | none | Add Subchannel to Email | probe 2026-11-10 |
-| MT3.2-segment-other | C3.2-segment | Other | dialog view | none | Add Subchannel to Other | probe 2026-11-10 |
-| MT3.2-segment-in-person | C3.2-segment | In Person | dialog view | none | Add Subchannel to In Person | probe 2026-11-10 |
-| MT3.2-segment-direct-payment | C3.2-segment | Direct Payment | dialog view | none | Add Subchannel to Direct Payment | probe 2026-11-10 |
-| MT3.2-segment-online-live | C3.2-segment | Online / Live | dialog view | none | Add Subchannel to Online / Live | probe 2026-11-10 |
-| MT3.2-segment-file-delivery | C3.2-segment | File Delivery | dialog view | none | Add Subchannel to File Delivery | probe 2026-11-10 |
-| MT3.2-segment-community | C3.2-segment | Community | floating card | none | Add Subchannel to Community | probe 2026-11-10 |
-| MT3.2-segment-marketplace | C3.2-segment | Marketplace | floating card | none | Add Subchannel to Marketplace | probe 2026-11-10 |
-| MT3.2-segment-physical-delivery | C3.2-segment | Physical Delivery | floating card | none | Add Subchannel to Physical Delivery | probe 2026-11-10 |
-| MT3.2-segment-retail-and-wholesale | C3.2-segment | Retail & Wholesale | floating card | none | Add Subchannel to Retail & Wholesale | probe 2026-11-10 |
-| MT3.2-segment-referral-and-affiliates | C3.2-segment | Referral & Affiliates | floating card | none | Add Subchannel to Referral & Affiliates | probe 2026-11-10 |
 | MT3.3-infrastructure-founders | C3.3-infrastructure | Founders | dialog view | 1 links: Jordan Ellis | none | probe 2026-11-10 |
 | MT3.3-infrastructure-resources | C3.3-infrastructure | Resources | dialog view | 9 links: Workspace, Utilities, Workstation, Equipment, Vehicles, Digital Infrastructure, Materials & Inventory, Documents & Rights, Human Resources | Add Resource to Resources | probe 2026-11-10 |
 | MT3.3-infrastructure-activities | C3.3-infrastructure | Activities | dialog view | 2 links: Pre-Operational, Operational | Add Activity to Activities | probe 2026-11-10 |
@@ -148,49 +130,49 @@ Every dialog view (a view of tiles) and floating card the card scan of 2026-10-2
 | V3.1-offerings--automation-build | P3.1 | V3.1-offerings | Offerings > 2. Automation Build | floating card | tile | name cell | Back, carousel arrows, carousel rail | 492 |
 | V3.1-offerings--automation-care-retainer | P3.1 | V3.1-offerings | Offerings > 3. Automation Care Retainer | floating card | tile | name cell | Back, carousel arrows, carousel rail | 492 |
 | V3.1-offerings_ai-workflow-audit | P3.1 | V3.1-offerings | Offerings / AI Workflow Audit | floating card | link | name cell | carousel arrows, carousel rail | 492 |
-| V3.2-social-media | P3.2 | page | Social Media | dialog view | tile |  | Back, carousel arrows, carousel rail |  |
-| V3.2-social-media--linkedin | P3.2 | V3.2-social-media | Social Media > LinkedIn | floating card | tile | no name cell (name inherited or fixed) | Back, carousel rail | 492 |
-| V3.2-social-media--linkedin_ai-workflow-audit | P3.2 | V3.2-social-media--linkedin | Social Media > LinkedIn / AI Workflow Audit | floating card | link | no name cell (name inherited or fixed) | Back, carousel rail | 492 |
-| V3.2-social-media--instagram | P3.2 | V3.2-social-media | Social Media > Instagram | floating card | tile | no name cell (name inherited or fixed) | Back, carousel arrows, carousel rail | 492 |
-| V3.2-website | P3.2 | page | Website | dialog view | tile |  | Back, carousel arrows, carousel rail |  |
-| V3.2-website--main-website | P3.2 | V3.2-website | Website > Main Website | floating card | tile | no name cell (name inherited or fixed) | Back, carousel arrows, carousel rail | 492 |
-| V3.2-website--main-website_ai-workflow-audit | P3.2 | V3.2-website--main-website | Website > Main Website / AI Workflow Audit | floating card | link | no name cell (name inherited or fixed) | Back, carousel arrows, carousel rail | 492 |
-| V3.2-website--booking_registration-page | P3.2 | V3.2-website | Website > Booking / Registration Page | floating card | link | no name cell (name inherited or fixed) | Back, carousel arrows, carousel rail | 492 |
-| V3.2-website--booking_registration-page_ai-workflow-audit | P3.2 | V3.2-website | Website > Booking / Registration Page / AI Workflow Audit | floating card | link | no name cell (name inherited or fixed) | Back, carousel arrows, carousel rail | 492 |
-| V3.2-website--online-store | P3.2 | V3.2-website | Website > Online Store | floating card | tile | no name cell (name inherited or fixed) | Back, carousel arrows, carousel rail | 492 |
-| V3.2-website--landing-page | P3.2 | V3.2-website | Website > Landing Page | floating card | tile | no name cell (name inherited or fixed) | Back, carousel arrows, carousel rail | 492 |
-| V3.2-website--contact-page | P3.2 | V3.2-website | Website > Contact Page | floating card | tile | no name cell (name inherited or fixed) | Back, carousel arrows, carousel rail | 492 |
-| V3.2-email | P3.2 | page | Email | dialog view | tile |  | Back, carousel arrows, carousel rail |  |
-| V3.2-email--newsletter | P3.2 | V3.2-email | Email > Newsletter | floating card | tile | no name cell (name inherited or fixed) | Back, carousel arrows, carousel rail | 492 |
-| V3.2-email--newsletter_ai-workflow-audit | P3.2 | V3.2-email--newsletter | Email > Newsletter / AI Workflow Audit | floating card | link | no name cell (name inherited or fixed) | Back, carousel arrows, carousel rail | 492 |
-| V3.2-email--direct-email | P3.2 | V3.2-email | Email > Direct Email | floating card | tile | no name cell (name inherited or fixed) | Back, carousel arrows, carousel rail | 492 |
-| V3.2-email--direct-email_ai-workflow-audit | P3.2 | V3.2-email--direct-email | Email > Direct Email / AI Workflow Audit | floating card | link | no name cell (name inherited or fixed) | Back, carousel arrows, carousel rail | 492 |
-| V3.2-email--email-campaign | P3.2 | V3.2-email | Email > Email Campaign | floating card | tile | no name cell (name inherited or fixed) | Back, carousel arrows, carousel rail | 492 |
-| V3.2-email--automated-email | P3.2 | V3.2-email | Email > Automated Email | floating card | tile | no name cell (name inherited or fixed) | Back, carousel arrows, carousel rail | 492 |
-| V3.2-other | P3.2 | page | Other | dialog view | tile |  | Back, carousel arrows, carousel rail |  |
-| V3.2-other--referral-partners-bookkeepers-and-it-pr | P3.2 | V3.2-other | Other > Referral partners (bookkeepers and IT pr | floating card | tile | name cell | Back, carousel rail | 492 |
-| V3.2-other--referral-partners-bookkeepers-and-it-pr_ai-workflow-audit | P3.2 | V3.2-other--referral-partners-bookkeepers-and-it-pr | Other > Referral partners (bookkeepers and IT pr / AI Workflow Audit | floating card | link | name cell | Back, carousel rail | 492 |
-| V3.2-in-person | P3.2 | page | In Person | dialog view | tile |  | Back, carousel arrows, carousel rail |  |
-| V3.2-in-person--event_talk | P3.2 | V3.2-in-person | In Person > Event / Talk | floating card | link | no name cell (name inherited or fixed) | Back, carousel rail | 492 |
-| V3.2-in-person--event_talk_ai-workflow-audit | P3.2 | V3.2-in-person | In Person > Event / Talk / AI Workflow Audit | floating card | link | no name cell (name inherited or fixed) | Back, carousel rail | 492 |
-| V3.2-in-person--studio_shop | P3.2 | V3.2-in-person | In Person > Studio / Shop | floating card | link | no name cell (name inherited or fixed) | Back, carousel arrows, carousel rail | 492 |
-| V3.2-direct-payment | P3.2 | page | Direct Payment | dialog view | tile |  | Back, carousel arrows, carousel rail |  |
-| V3.2-direct-payment--invoice | P3.2 | V3.2-direct-payment | Direct Payment > Invoice | floating card | tile | no name cell (name inherited or fixed) | Back, carousel rail | 492 |
-| V3.2-direct-payment--invoice_ai-workflow-audit | P3.2 | V3.2-direct-payment--invoice | Direct Payment > Invoice / AI Workflow Audit | floating card | link | no name cell (name inherited or fixed) | Back, carousel rail | 492 |
-| V3.2-direct-payment--card | P3.2 | V3.2-direct-payment | Direct Payment > Card | floating card | tile | no name cell (name inherited or fixed) | Back, carousel arrows, carousel rail | 492 |
-| V3.2-online_live | P3.2 | page | Online / Live | dialog view | link |  | Back, carousel arrows, carousel rail |  |
-| V3.2-online_live--zoom | P3.2 | page | Online / Live > Zoom | floating card | link | no name cell (name inherited or fixed) | Back, carousel rail | 492 |
-| V3.2-online_live--zoom_ai-workflow-audit | P3.2 | page | Online / Live > Zoom / AI Workflow Audit | floating card | link | no name cell (name inherited or fixed) | Back, carousel rail | 492 |
-| V3.2-online_live--google-meet | P3.2 | page | Online / Live > Google Meet | floating card | link | no name cell (name inherited or fixed) | Back, carousel arrows, carousel rail | 492 |
-| V3.2-file-delivery | P3.2 | page | File Delivery | dialog view | tile |  | Back, carousel arrows, carousel rail |  |
-| V3.2-file-delivery--client-portal | P3.2 | V3.2-file-delivery | File Delivery > Client Portal | floating card | tile | no name cell (name inherited or fixed) | Back, carousel rail | 492 |
-| V3.2-file-delivery--client-portal_ai-workflow-audit | P3.2 | V3.2-file-delivery--client-portal | File Delivery > Client Portal / AI Workflow Audit | floating card | link | no name cell (name inherited or fixed) | Back, carousel rail | 492 |
-| V3.2-file-delivery--wetransfer | P3.2 | V3.2-file-delivery | File Delivery > WeTransfer | floating card | tile | no name cell (name inherited or fixed) | Back, carousel arrows, carousel rail | 492 |
-| V3.2-community | P3.2 | page | Community | floating card | tile | no name cell (name inherited or fixed) | carousel rail | 492 |
-| V3.2-marketplace | P3.2 | page | Marketplace | floating card | tile | no name cell (name inherited or fixed) | carousel rail | 492 |
-| V3.2-physical-delivery | P3.2 | page | Physical Delivery | floating card | tile | no name cell (name inherited or fixed) | carousel rail | 492 |
-| V3.2-retail-and-wholesale | P3.2 | page | Retail & Wholesale | floating card | tile | no name cell (name inherited or fixed) | carousel rail | 492 |
-| V3.2-referral-and-affiliates | P3.2 | page | Referral & Affiliates | floating card | tile | no name cell (name inherited or fixed) | carousel rail | 492 |
+| V3.1-social-media | P3.1 | page | Social Media | dialog view | tile |  | Back, carousel arrows, carousel rail |  |
+| V3.1-social-media--linkedin | P3.1 | V3.1-social-media | Social Media > LinkedIn | floating card | tile | no name cell (name inherited or fixed) | Back, carousel rail | 492 |
+| V3.1-social-media--linkedin_ai-workflow-audit | P3.1 | V3.1-social-media--linkedin | Social Media > LinkedIn / AI Workflow Audit | floating card | link | no name cell (name inherited or fixed) | Back, carousel rail | 492 |
+| V3.1-social-media--instagram | P3.1 | V3.1-social-media | Social Media > Instagram | floating card | tile | no name cell (name inherited or fixed) | Back, carousel arrows, carousel rail | 492 |
+| V3.1-website | P3.1 | page | Website | dialog view | tile |  | Back, carousel arrows, carousel rail |  |
+| V3.1-website--main-website | P3.1 | V3.1-website | Website > Main Website | floating card | tile | no name cell (name inherited or fixed) | Back, carousel arrows, carousel rail | 492 |
+| V3.1-website--main-website_ai-workflow-audit | P3.1 | V3.1-website--main-website | Website > Main Website / AI Workflow Audit | floating card | link | no name cell (name inherited or fixed) | Back, carousel arrows, carousel rail | 492 |
+| V3.1-website--booking_registration-page | P3.1 | V3.1-website | Website > Booking / Registration Page | floating card | link | no name cell (name inherited or fixed) | Back, carousel arrows, carousel rail | 492 |
+| V3.1-website--booking_registration-page_ai-workflow-audit | P3.1 | V3.1-website | Website > Booking / Registration Page / AI Workflow Audit | floating card | link | no name cell (name inherited or fixed) | Back, carousel arrows, carousel rail | 492 |
+| V3.1-website--online-store | P3.1 | V3.1-website | Website > Online Store | floating card | tile | no name cell (name inherited or fixed) | Back, carousel arrows, carousel rail | 492 |
+| V3.1-website--landing-page | P3.1 | V3.1-website | Website > Landing Page | floating card | tile | no name cell (name inherited or fixed) | Back, carousel arrows, carousel rail | 492 |
+| V3.1-website--contact-page | P3.1 | V3.1-website | Website > Contact Page | floating card | tile | no name cell (name inherited or fixed) | Back, carousel arrows, carousel rail | 492 |
+| V3.1-email | P3.1 | page | Email | dialog view | tile |  | Back, carousel arrows, carousel rail |  |
+| V3.1-email--newsletter | P3.1 | V3.1-email | Email > Newsletter | floating card | tile | no name cell (name inherited or fixed) | Back, carousel arrows, carousel rail | 492 |
+| V3.1-email--newsletter_ai-workflow-audit | P3.1 | V3.1-email--newsletter | Email > Newsletter / AI Workflow Audit | floating card | link | no name cell (name inherited or fixed) | Back, carousel arrows, carousel rail | 492 |
+| V3.1-email--direct-email | P3.1 | V3.1-email | Email > Direct Email | floating card | tile | no name cell (name inherited or fixed) | Back, carousel arrows, carousel rail | 492 |
+| V3.1-email--direct-email_ai-workflow-audit | P3.1 | V3.1-email--direct-email | Email > Direct Email / AI Workflow Audit | floating card | link | no name cell (name inherited or fixed) | Back, carousel arrows, carousel rail | 492 |
+| V3.1-email--email-campaign | P3.1 | V3.1-email | Email > Email Campaign | floating card | tile | no name cell (name inherited or fixed) | Back, carousel arrows, carousel rail | 492 |
+| V3.1-email--automated-email | P3.1 | V3.1-email | Email > Automated Email | floating card | tile | no name cell (name inherited or fixed) | Back, carousel arrows, carousel rail | 492 |
+| V3.1-other | P3.1 | page | Other | dialog view | tile |  | Back, carousel arrows, carousel rail |  |
+| V3.1-other--referral-partners-bookkeepers-and-it-pr | P3.1 | V3.1-other | Other > Referral partners (bookkeepers and IT pr | floating card | tile | name cell | Back, carousel rail | 492 |
+| V3.1-other--referral-partners-bookkeepers-and-it-pr_ai-workflow-audit | P3.1 | V3.1-other--referral-partners-bookkeepers-and-it-pr | Other > Referral partners (bookkeepers and IT pr / AI Workflow Audit | floating card | link | name cell | Back, carousel rail | 492 |
+| V3.1-in-person | P3.1 | page | In Person | dialog view | tile |  | Back, carousel arrows, carousel rail |  |
+| V3.1-in-person--event_talk | P3.1 | V3.1-in-person | In Person > Event / Talk | floating card | link | no name cell (name inherited or fixed) | Back, carousel rail | 492 |
+| V3.1-in-person--event_talk_ai-workflow-audit | P3.1 | V3.1-in-person | In Person > Event / Talk / AI Workflow Audit | floating card | link | no name cell (name inherited or fixed) | Back, carousel rail | 492 |
+| V3.1-in-person--studio_shop | P3.1 | V3.1-in-person | In Person > Studio / Shop | floating card | link | no name cell (name inherited or fixed) | Back, carousel arrows, carousel rail | 492 |
+| V3.1-direct-payment | P3.1 | page | Direct Payment | dialog view | tile |  | Back, carousel arrows, carousel rail |  |
+| V3.1-direct-payment--invoice | P3.1 | V3.1-direct-payment | Direct Payment > Invoice | floating card | tile | no name cell (name inherited or fixed) | Back, carousel rail | 492 |
+| V3.1-direct-payment--invoice_ai-workflow-audit | P3.1 | V3.1-direct-payment--invoice | Direct Payment > Invoice / AI Workflow Audit | floating card | link | no name cell (name inherited or fixed) | Back, carousel rail | 492 |
+| V3.1-direct-payment--card | P3.1 | V3.1-direct-payment | Direct Payment > Card | floating card | tile | no name cell (name inherited or fixed) | Back, carousel arrows, carousel rail | 492 |
+| V3.1-online_live | P3.1 | page | Online / Live | dialog view | link |  | Back, carousel arrows, carousel rail |  |
+| V3.1-online_live--zoom | P3.1 | page | Online / Live > Zoom | floating card | link | no name cell (name inherited or fixed) | Back, carousel rail | 492 |
+| V3.1-online_live--zoom_ai-workflow-audit | P3.1 | page | Online / Live > Zoom / AI Workflow Audit | floating card | link | no name cell (name inherited or fixed) | Back, carousel rail | 492 |
+| V3.1-online_live--google-meet | P3.1 | page | Online / Live > Google Meet | floating card | link | no name cell (name inherited or fixed) | Back, carousel arrows, carousel rail | 492 |
+| V3.1-file-delivery | P3.1 | page | File Delivery | dialog view | tile |  | Back, carousel arrows, carousel rail |  |
+| V3.1-file-delivery--client-portal | P3.1 | V3.1-file-delivery | File Delivery > Client Portal | floating card | tile | no name cell (name inherited or fixed) | Back, carousel rail | 492 |
+| V3.1-file-delivery--client-portal_ai-workflow-audit | P3.1 | V3.1-file-delivery--client-portal | File Delivery > Client Portal / AI Workflow Audit | floating card | link | no name cell (name inherited or fixed) | Back, carousel rail | 492 |
+| V3.1-file-delivery--wetransfer | P3.1 | V3.1-file-delivery | File Delivery > WeTransfer | floating card | tile | no name cell (name inherited or fixed) | Back, carousel arrows, carousel rail | 492 |
+| V3.1-community | P3.1 | page | Community | floating card | tile | no name cell (name inherited or fixed) | carousel rail | 492 |
+| V3.1-marketplace | P3.1 | page | Marketplace | floating card | tile | no name cell (name inherited or fixed) | carousel rail | 492 |
+| V3.1-physical-delivery | P3.1 | page | Physical Delivery | floating card | tile | no name cell (name inherited or fixed) | carousel rail | 492 |
+| V3.1-retail-and-wholesale | P3.1 | page | Retail & Wholesale | floating card | tile | no name cell (name inherited or fixed) | carousel rail | 492 |
+| V3.1-referral-and-affiliates | P3.1 | page | Referral & Affiliates | floating card | tile | no name cell (name inherited or fixed) | carousel rail | 492 |
 | V3.3-founders | P3.3 | page | Founders | dialog view | tile |  | Back, carousel arrows, carousel rail |  |
 | V3.3-founders_jordan-ellis | P3.3 | V3.3-founders | Founders / Jordan Ellis | floating card | link | no name cell (name inherited or fixed) | carousel rail | 492 |
 | V3.3-resources | P3.3 | page | Resources | dialog view | tile |  | Back, carousel arrows, carousel rail |  |

@@ -28,9 +28,9 @@ const systemFilter = arg("systems", "").split(",").filter(Boolean);
 const pageFilter = arg("pages", "").split(",").filter(Boolean);
 
 const PAGES = [
-    ["Identity System", ["^1\\. Definition", "^2\\. Organi[sz]ation"]],
+    ["Identity System", ["Definition", "Legal Entity"]],
     ["Brand System", ["Brand System"]],
-    ["Business System", ["^1\\. Foundation", "Customer Engagement", "Infrastructure", "Financials"]],
+    ["Business System", ["Foundation & Engagement", "Infrastructure", "Financials"]],
     ["Strategy System", ["Strategy System"]]
 ];
 const MAX_OPENINGS_PER_PAGE = Number(arg("max", "70"));
@@ -69,7 +69,7 @@ async function openPage(system, pageName) {
         await start.first().click();
         await page.waitForTimeout(600);
     }
-    const target = page.getByRole("navigation", { name: "Pages" }).getByRole("button", { name: new RegExp(pageName) }).first();
+    const target = page.getByRole("navigation", { name: "Pages" }).getByRole("button", { name: new RegExp("^(\\d+\\. )?" + pageName) }).first();
     if (!(await target.count())) return false;
     await target.evaluate(node => node.click());
     await page.waitForTimeout(800);

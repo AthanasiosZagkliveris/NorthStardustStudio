@@ -5,7 +5,7 @@
  *   one band pattern, by the colours drawn (under a title band the first band untinted, then the tints alternate, the Notes the next tint); one question per band; heading levels that never skip; no "None of these" in an option; text 4.5:1 and a control's boundary 3:1 (measured on the pixels); targets of 24px; names; console errors.
  *
  *   node tools/scripts/layout-check/floating-card-audit.mjs
- *   CARD_PAGE="1. Foundation" CARD_SYSTEM="Business System" CARD_OPEN="The Considered Nester" EXAMPLE=lumen-and-loom-studio node tools/scripts/layout-check/floating-card-audit.mjs
+ *   CARD_PAGE="Foundation" CARD_SYSTEM="Business System" CARD_OPEN="The Considered Nester" EXAMPLE=lumen-and-loom-studio node tools/scripts/layout-check/floating-card-audit.mjs
  *
  * With no CARD_OPEN or EXAMPLE it audits each card of CARDS in turn: the Considered Nester, a Competitor and an Offering of the Lumen example (src/data/examples), and the Profile of the check-only fixture
  * fixtures/proxy-tutoring.json (a parent buying tutoring for a child: B2C Proxy), the two-part Profile, whose "The buyer" and "The end user" sections it also requires.
@@ -17,7 +17,7 @@ import { readFileSync } from "node:fs";
 
 const BASE = process.env.BASE_URL ?? "http://localhost:1420";
 const SYSTEM = process.env.CARD_SYSTEM ?? "Business System";
-const PAGE = process.env.CARD_PAGE ?? "1. Foundation";
+const PAGE = process.env.CARD_PAGE ?? "Foundation";
 /** The cards audited by default: an example's card, then a fixture's (./fixtures, never one of the examples: no test reads it). `parts`: the section headings the card must show. */
 const CARDS = [
     { open: "The Considered Nester", file: new URL("../../../src/data/examples/lumen-and-loom-studio.json", import.meta.url) },
@@ -136,7 +136,7 @@ for (const [theme, width] of RUNS) {
     await page.getByText("Foundation", { exact: true }).first().click(); await page.waitForTimeout(250); await page.keyboard.press("Escape");
     await page.locator("li.system-item", { hasText: SYSTEM }).press("Enter"); await page.waitForTimeout(800);
     const start = page.getByRole("button", { name: /Start Interview/i }); if (await start.count()) { await start.first().click(); await page.waitForTimeout(600); }
-    await page.getByRole("navigation", { name: "Pages" }).getByRole("button", { name: new RegExp("^" + PAGE.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")) }).first().evaluate(n => n.click()); await page.waitForTimeout(900);
+    await page.getByRole("navigation", { name: "Pages" }).getByRole("button", { name: new RegExp("^(\\d+\\. )?" + PAGE.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")) }).first().evaluate(n => n.click()); await page.waitForTimeout(900);
     for (let r = 0; r < 3; r++) { for (const bt of await page.getByRole("button", { name: /^(Expand all|Maximize)/ }).all()) { try { await bt.click({ timeout: 400 }); } catch {} } await page.waitForTimeout(250); }
     await page.locator("text=" + OPEN).first().evaluate(n => n.click()); await page.waitForTimeout(3500);
     const problems = await page.evaluate(structure);

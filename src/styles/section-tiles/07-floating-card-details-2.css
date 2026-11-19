@@ -287,6 +287,98 @@
 
 }
 
+/* A PAGE OF ONE SEGMENT AT A TIME (Foundation & Engagement; segmentPage.ts): the Segment shown is one chapter as wide as a page's two chapters, its seven Master
+   Tiles four across, then three (layout rules section 13, "A page of one chapter of more than four tiles"; owner, 2026-11-19 13:36); the page group's own
+   bleed is not added twice; the chapters of the other Segments are drawn and take no room. */
+.page-group.page-group-one-chapter {
+
+    grid-template-columns: minmax(0, 1fr);
+
+}
+
+.page-group .business-foundation-segment-frames {
+
+    grid-template-columns: minmax(0, 1fr);
+
+    margin-inline: 0;
+
+}
+
+/* THE SEGMENT'S TWO CHAPTERS IN ONE FRAME (owner, 2026-11-19 13:40 and 13:46: "The chapter should be 2 rows of 4 columns, with a dividing vertical line in the middle,
+   that would separate the foundation and the engagement", "Use the divide line as a border for the chapters"): the frame (.segment-chapter, a card with no anchor) is
+   a chapter's frame in the Segment's hue, its head over both; inside, the two chapters (.segment-chapter-part, the anchored cards every dialog and floating card
+   measures) stand where a page's two chapters' tiles stand -- the frames' gap and the two frames' borders and padding between them -- with no edge, ground or
+   padding of their own; a 1px line in the card's divider colour down the middle of that gap, from the top edge of the top tiles to the bottom edge of the bottom
+   ones. Layout rules section 13. */
+.segment-chapter-groups {
+
+    position: relative;
+
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+
+    column-gap: var(--space-card);
+
+}
+
+.segment-chapter-groups::before {
+
+    content: "";
+
+    position: absolute;
+    top: 0;
+    bottom: calc(var(--card-padding) + 1px);
+    left: 50%;
+
+    width: 1px;
+
+    transform: translateX(-50%);
+
+    background: var(--band-divider);
+
+}
+
+/* The frame round the two: a chapter's frame (the Segment's hue as ground, a 1px edge in it, the large radius), its edge drawn inside so it takes no room: the
+   chapters' own 1px border and 12px padding stand where a chapter's do. Its head over both, as a chapter's head stands in its frame. */
+.segment-chapter {
+
+    padding-top: calc(var(--card-padding) + 1px);
+
+    border-radius: var(--radius-lg);
+
+    background: color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
+    box-shadow: inset 0 0 0 1px hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
+
+    --x-ground: color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
+
+}
+
+.segment-chapter > .card-scroll > .business-capability-section > .business-foundation-frame-head {
+
+    margin-inline: calc(var(--card-padding) + 1px);
+
+}
+
+/* The two chapters: a card's border (unseen) and side and bottom padding, no ground or edge of their own; their top is the frame's head. */
+.segment-chapter-groups > .business-foundation-card.segment-chapter-part {
+
+    padding-top: 0;
+
+    border-color: transparent;
+    border-top-width: 0;
+    border-radius: 0;
+
+    background: none;
+
+}
+
+.page-group .business-foundation-segment-frames > [data-segment-hidden] {
+
+    display: none;
+
+}
+
 .tiles-frame-head {
 
     margin-bottom: var(--space-card);

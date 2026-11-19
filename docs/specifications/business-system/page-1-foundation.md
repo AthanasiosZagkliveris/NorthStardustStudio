@@ -1,11 +1,12 @@
 # Business System — Page 1: Foundation
 
-Status: **specification**, written 2026-09-27, updated 2026-11-09. The text from "Describe and implement" on is the owner's requirement as given (its wording is used exactly); "As built" says how the app draws it today.
+Status: **specification**, written 2026-09-27, updated 2026-11-19. The text from "Describe and implement" on is the owner's requirement as given (its wording is used exactly); "As built" says how the app draws it today.
 
-> **3. Business System — Page 1 of 5.**
-> Pages: **1. Foundation** · 2. Customer Engagement ·
-> 3. Infrastructure & Capability · 4. Revenue & Pricing ·
-> 5. Costs, Funding & Position
+> **3. Business System — Section 1 of 5, drawn on Page 1 of 3, Foundation & Engagement, since 2026-11-19.**
+> Pages: **1. Foundation & Engagement** (Sections 1 and 2) · 2. Infrastructure & Capability ·
+> 3. Financials (Sections 4 and 5)
+
+**One page, Foundation & Engagement, 2026-11-19 (the owner's approved plan of 2026-11-18, step 2; owner, 2026-11-19 13:40 and 13:46; layout rules section 13):** this section is drawn on one page with Section 2, Customer Engagement, one Segment at a time, chosen on the page's right-hand Segments rail. A Segment is two chapters side by side in one frame of its own hue: this section's, Foundation (Segment Description, Competitors, Offerings, Value Proposition), and Engagement's; the Segment's number and name head the frame, written there, and a Segment the user added has its x in the frame's top-right corner (a Segment the app made from the Identity System's answers, `madeBy: "identity"`, has none). The section keeps its number, its title and its saved answer; nothing moved.
 
 ## As built
 

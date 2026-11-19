@@ -6,10 +6,12 @@ import { pagePlace } from "./notepadPlaces";
    note saved on either of its sections names the one page. */
 describe("a page said in words", () => {
 
-    it("names the Business System's Financials from either of its sections, at its place after the pages of one section", () => {
-        expect(pagePlace(3, 4)).toBe("3. Business System → 4. Financials");
-        expect(pagePlace(3, 5)).toBe("3. Business System → 4. Financials");
-        expect(pagePlace(3, 3)).toBe("3. Business System → 3. Infrastructure & Capability");
+    it("names the Business System's joined pages from either of their sections, each at its place among the rail's pages", () => {
+        expect(pagePlace(3, 1)).toBe("3. Business System → 1. Foundation & Engagement");
+        expect(pagePlace(3, 2)).toBe("3. Business System → 1. Foundation & Engagement");
+        expect(pagePlace(3, 3)).toBe("3. Business System → 2. Infrastructure & Capability");
+        expect(pagePlace(3, 4)).toBe("3. Business System → 3. Financials");
+        expect(pagePlace(3, 5)).toBe("3. Business System → 3. Financials");
     });
 
     it("keeps the Identity System's pages as they were", () => {

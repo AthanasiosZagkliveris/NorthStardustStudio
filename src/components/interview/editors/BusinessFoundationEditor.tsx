@@ -14,6 +14,8 @@ import InfoNote, { InfoPoint, InfoText } from "../fields/InfoNote.tsx";
 import { railId } from "../rails/railItems.ts";
 import { FieldMark } from "../fields/fieldMarks.tsx";
 import { toggledIn } from "../fields/toggledIn.ts";
+import { segmentFrameAttributes, useCompanionTiles, useSegmentPage } from "../tiles/segmentPage.ts";
+import { segmentMadeByIdentity } from "../../../framework/engine/businessFoundation/foundationPage.ts";
 
 import { BusinessFoundationEditorProps, SUBSECTIONS } from "./foundation/shared.tsx";
 
@@ -37,6 +39,10 @@ import { useFoundationSubsections } from "./foundation/useFoundationSubsections.
  */
 export default function BusinessFoundationEditor(props: BusinessFoundationEditorProps) {
 
+    // (On Foundation & Engagement, one Segment at a time, each ONE chapter of its seven tiles -- this section's four and Engagement's three, handed over by
+    // the Segment's id --; the others drawn and hidden: segmentPage.ts.)
+    const segmentPage = useSegmentPage();
+    useCompanionTiles(segmentPage);
     const part1 = useFoundationState(props);
     const part2 = { ...part1, ...useFoundationSubsections({ ...part1 }) };
     const { addButton, asTiles, built, collapsed, columnsDivider, disabled, folds, forceOpen, foundation, heads, latest, onChange, remove, setCollapsed, showInstructions, subsectionsFor, update, updateSegment } = part2;
@@ -227,36 +233,69 @@ export default function BusinessFoundationEditor(props: BusinessFoundationEditor
         return (
             <div className="answer-columns business-foundation business-engagement business-capability column-tiles-page" style={{ "--answer-column-count": 1 } as CSSProperties}>
                 <div className="business-foundation-segment-frames">
-                    {foundation.segments.map((segment, index) => (
-                        <CardShell
-                            
-                            key={segment.id}
-                            data-anchor={segment.id}
-                            style={{ "--strategy-theme-hue": workHue("discover") } as CSSProperties}
-                        >
-                            <div className="card-scroll">
-                                <div className="business-capability-section business-capability-tiles-section">
-                                    {/* The Segment's frame holds all its tiles: its title is the frame's, as Identity's and Brand's are -- centred, in capitals -- and is the Segment's name, edited right there. */}
-                                    <div className="business-engagement-section-head tiles-frame-head business-foundation-frame-head">
-                                        <span className="field-group-title business-foundation-subhead business-foundation-frame-title">
-                                            {foundation.segments.length > 1 && <span className="business-foundation-frame-number">{(index + 1) + "."}</span>}
-                                            <SegmentName
-                                                number={index + 1}
-                                                disabled={disabled}
-                                                value={segment.name}
-                                                onChange={(name) => updateSegment(index, { name })}
-                                            />
-                                        </span>
-                                        {foundation.segments.length > 1 && remove(
-                                            "Segment " + (index + 1),
-                                            () => update({ segments: foundation.segments.filter((_candidate, position) => position !== index) })
-                                        )}
-                                    </div>
-                                    <SectionTiles label={frameName(segment, index) + ": Customers, Competitors, Offerings, Value Proposition"} hue={workHue("discover")} tiles={tilesOf(segment, index)} incomplete={missingFoundation} />
-                                </div>
+                    {foundation.segments.map((segment, index) => {
+                        /* The Segment's head: its number and its name, written right there, centred, in capitals, as a chapter's heading; the x of a Segment the user
+                           added in the top-right corner -- one the app made from the Identity System's answers has none, read from madeBy by its id (owner, 2026-11-19). */
+                        const head = (
+                            <div className="business-engagement-section-head tiles-frame-head business-foundation-frame-head">
+                                <span className="field-group-title business-foundation-subhead business-foundation-frame-title">
+                                    {foundation.segments.length > 1 && <span className="business-foundation-frame-number">{(index + 1) + "."}</span>}
+                                    <SegmentName
+                                        number={index + 1}
+                                        disabled={disabled}
+                                        value={segment.name}
+                                        onChange={(name) => updateSegment(index, { name })}
+                                    />
+                                </span>
+                                {!segmentMadeByIdentity(segment) && remove(
+                                    "Segment " + (index + 1),
+                                    () => update({ segments: foundation.segments.filter((_candidate, position) => position !== index) })
+                                )}
                             </div>
-                        </CardShell>
-                    ))}
+                        );
+                        /* FOUNDATION & ENGAGEMENT (owner, 2026-11-19 13:40 and 13:46: "The chapter should be 2 rows of 4 columns, with a dividing vertical line in the middle, that
+                           would separate the foundation and the engagement", "Use the divide line as a border for the chapters. So to avoid changing the layout of the dialogue and
+                           floated cards"): the Segment's TWO CHAPTERS side by side, as on every page of two -- this section's 2 x 2 and Engagement's three, handed over by the
+                           Segment's id -- so every dialog and floating card behaves as there; one frame edge round both, in the Segment's own hue, its head over both, and the
+                           line between them. Layout rules section 13. */
+                        if (segmentPage) {
+                            const hue = { "--strategy-theme-hue": segmentHue(segment) } as CSSProperties;
+                            const chapter = (anchor: string, label: string, tiles: SectionTile[], incomplete?: typeof missingFoundation) => (
+                                <CardShell className="segment-chapter-part" data-anchor={anchor} style={hue}>
+                                    <SectionTiles label={frameName(segment, index) + ": " + label} hue={segmentHue(segment)} tiles={tiles} incomplete={incomplete} />
+                                </CardShell>
+                            );
+                            return (
+                                // (The frame round both: drawn as a chapter's frame is, but no card -- the two inside are the chapters, each with a card's margins.)
+                                <div key={segment.id} className="segment-chapter" style={hue} {...segmentFrameAttributes(segmentPage, segment.id)}>
+                                    <div className="card-scroll">
+                                        <div className="business-capability-section business-capability-tiles-section">
+                                            {head}
+                                            <div className="segment-chapter-groups">
+                                                {chapter(segment.id, "Customers, Competitors, Offerings, Value Proposition", tilesOf(segment, index), missingFoundation)}
+                                                {chapter("engagement-segment-" + segment.id, "Channels & Journey, Customer's Relationship, Demand & Conversion", segmentPage.companionTiles.get(segment.id))}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            );
+                        }
+                        return (
+                            <CardShell
+                                key={segment.id}
+                                data-anchor={segment.id}
+                                style={{ "--strategy-theme-hue": workHue("discover") } as CSSProperties}
+                            >
+                                <div className="card-scroll">
+                                    <div className="business-capability-section business-capability-tiles-section">
+                                        {/* The Segment's frame holds all its tiles: its title is the frame's, as Identity's and Brand's are -- centred, in capitals -- and is the Segment's name, edited right there. */}
+                                        {head}
+                                        <SectionTiles label={frameName(segment, index) + ": Customers, Competitors, Offerings, Value Proposition"} hue={workHue("discover")} tiles={tilesOf(segment, index)} incomplete={missingFoundation} />
+                                    </div>
+                                </div>
+                            </CardShell>
+                        );
+                    })}
                 </div>
                 {segmentAdd}
             </div>
