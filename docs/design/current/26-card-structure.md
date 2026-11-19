@@ -1569,6 +1569,8 @@ Shown in All Tiles under “Legal expenses”. It records registrations and thei
 | One time | Step | OpEx | Start-up expense |
 | Monthly, Annually | Fixed | OpEx | Start-up expense |
 
+**An Offering removed** (owner, 2026-11-19: removing an Offering clears it from every card that points to it) is unticked on every card that stores Offering ids -- this one, Infrastructure & Capability's resources, activities, partners and suppliers, Customer Engagement's channels -- with its share, when the Business System is next saved (`offeringRemoval.ts`, `StorageService.saveInterview`); what is keyed by an Offering (its demand, its relationships, its revenue stream) stays.
+
 With Offerings ticked the expense is their cost, in the Offering group, as a card of Offering's Capability is; with several, each carries its share by the basis chosen (`offeringFractions`), its fee paid once or each period. The Inventory's row and the export's Legal Entity Expenses table say the Offerings it serves ("The whole company" where none is ticked).
 
 <a id="points-to-decide"></a>
