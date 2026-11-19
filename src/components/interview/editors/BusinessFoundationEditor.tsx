@@ -264,7 +264,19 @@ export default function BusinessFoundationEditor(props: BusinessFoundationEditor
                                         )}
                                     </div>
                                     {segmentPage
-                                        ? <SectionTiles label={frameName(segment, index) + ": Customers, Competitors, Offerings, Value Proposition, Channels & Journey, Customer's Relationship, Demand & Conversion"} hue={segmentHue(segment)} tiles={[...tilesOf(segment, index), ...segmentPage.companionTiles.get(segment.id)]} incomplete={missingFoundation} />
+                                        // (THE SEGMENT'S TWO GROUPS SIDE BY SIDE (owner, 2026-11-19 13:36 and 13:38: "the chapter's tiles should layout horizontally", "Use a
+                                        // dividing line, that would start from the top edge of the top tile, and reach the bottom edge of the bottom tile"): this section's 2 x 2 and
+                                        // Engagement's three in its 2 x 2, each the size of a chapter's, a line between them; no headings. Layout rules section 13.)
+                                        ? (
+                                            <div className="segment-chapter-groups">
+                                                <div className="segment-chapter-group">
+                                                    <SectionTiles label={frameName(segment, index) + ": Customers, Competitors, Offerings, Value Proposition"} hue={segmentHue(segment)} tiles={tilesOf(segment, index)} incomplete={missingFoundation} />
+                                                </div>
+                                                <div className="segment-chapter-group">
+                                                    <SectionTiles label={frameName(segment, index) + ": Channels & Journey, Customer's Relationship, Demand & Conversion"} hue={segmentHue(segment)} tiles={segmentPage.companionTiles.get(segment.id)} />
+                                                </div>
+                                            </div>
+                                        )
                                         : <SectionTiles label={frameName(segment, index) + ": Customers, Competitors, Offerings, Value Proposition"} hue={workHue("discover")} tiles={tilesOf(segment, index)} incomplete={missingFoundation} />}
                                 </div>
                             </div>

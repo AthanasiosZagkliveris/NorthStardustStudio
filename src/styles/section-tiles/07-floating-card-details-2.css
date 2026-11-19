@@ -287,31 +287,59 @@
 
 }
 
-/* A PAGE OF ONE SEGMENT AT A TIME (Foundation & Engagement; segmentPage.ts): the page holds one editor's chapters across its width, the Segment shown standing
-   at the left as a page of one chapter does, as wide as one chapter of a page of two (layout rules section 13, "A page of one chapter": the Segment frames'
-   own grid of two); the chapters of the other Segments are drawn and take no room. */
+/* A PAGE OF ONE SEGMENT AT A TIME (Foundation & Engagement; segmentPage.ts): the Segment shown is one chapter as wide as a page's two chapters, its seven Master
+   Tiles four across, then three (layout rules section 13, "A page of one chapter of more than four tiles"; owner, 2026-11-19 13:36); the page group's own
+   bleed is not added twice; the chapters of the other Segments are drawn and take no room. */
 .page-group.page-group-one-chapter {
 
     grid-template-columns: minmax(0, 1fr);
 
 }
 
-/* (The page group already takes back the card's 13px at each side: the Segment frames' own bleed is not added to it, so the chapter stands where Definition's does.) */
 .page-group .business-foundation-segment-frames {
+
+    grid-template-columns: minmax(0, 1fr);
 
     margin-inline: 0;
 
 }
 
-/* (A Segment's seven tiles run past the window, so "+ Add Segment" stays under the chapter, in the page's flow, as the rule below says for a page that does not fit
-   the window; owner, 2026-11-19: never over the chapter.) */
-.page-group .business-foundation-segment-frames + .business-foundation-input-actions {
+/* THE SEGMENT'S TWO GROUPS (owner, 2026-11-19 13:36 and 13:38): its Foundation 2 x 2 and its Engagement 2 x 2 side by side in the one frame, each group's box as wide
+   as a chapter's on a page of two -- so its Master Tiles are a chapter's -- the frames' gap and the two frames' borders and padding between them; a 1px line in the card's
+   divider colour down the middle of that gap, from the top edge of the top tiles to the bottom edge of the bottom ones. No headings. Layout rules section 13. */
+.segment-chapter-groups {
 
-    position: static;
+    position: relative;
 
-    height: auto;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
 
-    margin-top: var(--space-card);
+    /* (Two frames side by side stand --space-card apart, each with its 1px border and its padding inside: the same between the two groups.) */
+    column-gap: calc(var(--space-card) + 2 * (var(--card-padding) + 1px));
+
+}
+
+.segment-chapter-groups::before {
+
+    content: "";
+
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+
+    width: 1px;
+
+    transform: translateX(-50%);
+
+    background: var(--band-divider);
+
+}
+
+.segment-chapter-group {
+
+    min-width: 0;
 
 }
 
