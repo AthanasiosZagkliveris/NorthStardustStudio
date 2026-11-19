@@ -105,32 +105,12 @@ export function renderBusinessCapability(scope: AnswerScope) {
 
 export function renderFinancialFoundation(scope: AnswerScope) {
 
-    const { value, onChange, disabled, businessFoundation, onOpenBusinessFoundation, organisationCurrency, legalEntity, businessCapability, openingDate, onChangeOpeningDate, globalSettings, financialSustainability, businessEngagement, onOpenBusinessCapability, onOpenBusinessEngagement, onOpenLegalEntity, columnsDivider, showInstructions } = scope;
+    const { value, onChange, disabled, businessFoundation, onOpenBusinessFoundation, organisationCurrency, legalEntity, businessCapability, openingDate, onChangeOpeningDate, globalSettings, financialSustainability, businessEngagement, onOpenBusinessCapability, onOpenLegalEntity, columnsDivider, showInstructions } = scope;
 
     return (
 
         <FinancialFoundationEditor
             value={value}
-            // (BREAK EVEN BESIDE FINANCIAL POSITION (doc 48, section 11): read from Revenue & Pricing's answer, which it never writes.)
-            beside={(
-                <FinancialSustainabilityEditor
-                    part="break-even"
-                    value={financialSustainability}
-                    foundation={businessFoundation}
-                    capability={businessCapability}
-                    financialFoundation={value}
-                    engagement={businessEngagement}
-                    legalEntity={legalEntity}
-                    currency={organisationCurrency}
-                    onOpenFoundation={onOpenBusinessFoundation}
-                    onOpenEngagement={onOpenBusinessEngagement}
-                    onOpenCapability={onOpenBusinessCapability}
-                    globalSettings={globalSettings}
-                    openingDate={openingDate}
-                    onChange={() => {}}
-                    disabled
-                />
-            )}
             showInstructions={showInstructions}
             columnsDivider={columnsDivider}
             foundation={businessFoundation}

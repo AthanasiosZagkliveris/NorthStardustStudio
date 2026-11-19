@@ -1103,7 +1103,8 @@ export default function Conversation() {
     const pageTitleGroup = groupOf(groupSystemNumber, currentSection.number);
     const pageTitle = pageTitleGroup
         // A page of several sections is named for them all (and a System of one such page needs no page name).
-        ? (!pageTitleGroup.inHeader ? undefined : (railPages.findIndex(page => page.id === "page-" + currentSection.number) + 1) + ". " + pageTitleGroup.title)
+        // (A page whose sections carry the plan's months, Financials, keeps them after its name: doc 48, section 1, "The plan's dates stay in the page title".)
+        ? (!pageTitleGroup.inHeader ? undefined : (railPages.findIndex(page => page.id === "page-" + currentSection.number) + 1) + ". " + titleWithPeriod(pageTitleGroup.title + (/MM\/YY - MM\/YY/.test(currentSection.title) ? " MM/YY - MM/YY" : ""), titlePeriod))
         : effectiveAnswer?.nestedNumbering && resolvedSectionTitle
         ? currentSection.number + ". " + resolvedSectionTitle
         : resolvedSectionTitle;

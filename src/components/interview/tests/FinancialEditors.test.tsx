@@ -350,39 +350,38 @@ describe("FinancialSustainabilityEditor starts from Page 1 (phase 5f, 2026-11-09
 
 });
 
-/* THE FINANCIAL PAGES' CHAPTERS (doc 48, sections 1, 2 and 11; owner, 2026-11-17 07:36): Revenue & Pricing holds the Revenue chapter; Costs, Funding & Position
-   holds Financial Foundation and, beside it, Break Even. */
-describe("the Financial pages' chapters", () => {
+/* FINANCIALS' TWO CHAPTERS (owner, 2026-11-18, the approved plan, step 1; PageGroups.ts): Revenue & Pricing draws Revenue & Break Even -- Revenue Streams,
+   Break-Even, Sustainability --; Costs, Funding & Position draws Financial Foundation -- Costs, Capital & Funding, Financial Position --, side by side. */
+describe("Financials' chapters", () => {
 
-    it("draws Revenue & Pricing as the Revenue chapter alone", () => {
-        render(<FinancialSustainabilityEditor value={asFinancialSustainabilityValue(undefined)} onChange={() => {}} />);
-        const tiles = screen.getAllByRole("button").map(button => button.textContent ?? "");
-        expect(tiles.some(text => text.startsWith("Revenue Streams"))).toBe(true);
-        // (One card: the Revenue Summary and the Delivery Check in the Revenue Streams dialog; owner, 2026-11-18 10:38.)
-        expect(tiles.some(text => text.startsWith("Revenue Summary"))).toBe(false);
-        expect(tiles.some(text => text.startsWith("Break-Even Point"))).toBe(false);
-    });
-
-    it("draws Costs, Funding & Position with Break Even beside Financial Foundation, writing nothing to the revenue", () => {
+    it("draws Revenue & Pricing as Revenue & Break Even, writing nothing until a field is changed", () => {
         let wrote = false;
-        render(
-            <FinancialFoundationEditor
-                value={asFinancialFoundationValue(undefined)}
-                onChange={() => {}}
-                beside={<FinancialSustainabilityEditor part="break-even" value={asFinancialSustainabilityValue(undefined)} onChange={() => { wrote = true; }} disabled />}
-            />
-        );
+        render(<FinancialSustainabilityEditor value={asFinancialSustainabilityValue(undefined)} onChange={() => { wrote = true; }} />);
+        expect(screen.getByText("Revenue & Break Even")).toBeTruthy();
         const tiles = screen.getAllByRole("button").map(button => button.textContent ?? "");
-        for (const title of ["Costs", "Financial Position", "Break-Even", "Sustainability"]) {
+        for (const title of ["Revenue Streams", "Break-Even", "Sustainability"]) {
             expect(tiles.some(text => text.startsWith(title))).toBe(true);
         }
-        // (Break-Even Point and Time one tile, Sustainability and the Stress Test one tile: owner, 2026-11-18 16:55, "Do all 8".)
-        for (const title of ["Break-Even Point", "Break-Even Time", "Stress Test"]) {
+        // (One card: the Revenue Summary and the Delivery Check in the Revenue Streams dialog; owner, 2026-11-18 10:38. Break-Even Point and Time one tile,
+        // Sustainability and the Stress Test one tile: owner, 2026-11-18 16:55, "Do all 8".)
+        for (const title of ["Revenue Summary", "Break-Even Point", "Break-Even Time", "Stress Test"]) {
             expect(tiles.some(text => text.startsWith(title))).toBe(false);
         }
         openTile("Break-Even");
         expect(screen.getByRole("heading", { name: "Break-Even Time" })).toBeTruthy();
         expect(wrote).toBe(false);
+    });
+
+    it("draws Costs, Funding & Position as Financial Foundation alone", () => {
+        render(<FinancialFoundationEditor value={asFinancialFoundationValue(undefined)} onChange={() => {}} />);
+        expect(screen.getByText("Financial Foundation")).toBeTruthy();
+        const tiles = screen.getAllByRole("button").map(button => button.textContent ?? "");
+        for (const title of ["Costs", "Financial Position"]) {
+            expect(tiles.some(text => text.startsWith(title))).toBe(true);
+        }
+        for (const title of ["Break-Even", "Sustainability", "Revenue Streams"]) {
+            expect(tiles.some(text => text.startsWith(title))).toBe(false);
+        }
     });
 
 });

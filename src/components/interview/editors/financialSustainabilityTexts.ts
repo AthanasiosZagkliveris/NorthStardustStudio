@@ -105,6 +105,9 @@ export const SECTIONS = {
     }
 };
 
+/** The heading of Financials' first frame, which holds the Revenue tiles and the Break Even tiles (owner, 2026-11-18, the approved plan, step 1). */
+export const REVENUE_CHAPTER_TITLE = "Revenue & Break Even";
+
 /**
  * Each section's own palette colour, apart from each other and from
  * Page 4's four: lavender for Revenue, teal for Break Even.

@@ -1,5 +1,5 @@
 import { systems } from "../../data/systems";
-import { PAGE_GROUPS, groupOf } from "../../framework/engine/PageGroups";
+import { PAGE_GROUPS, groupOf, isCompanion } from "../../framework/engine/PageGroups";
 import { land } from "../interview/tiles/jumpTo";
 import { frameworkRegistry } from "../../framework/engine/FrameworkRegistry";
 import { registeredFields, parseFieldKey } from "../../framework/engine/FieldKeys";
@@ -132,17 +132,22 @@ type Navigate = (to: string, options?: { state?: unknown }) => void;
 export function pagePlace(systemNumber: number, sectionNumber: number): string {
     const system = systems.find(candidate => candidate.number === systemNumber);
     // (A page that groups sections is said by its group's title and its place among the System's pages: "1. Definition and Purpose", "2. Legal Entity".)
+    let sections: readonly { number: number; title: string }[] = [];
+    try {
+        sections = system && frameworkRegistry.exists(system.id) ? frameworkRegistry.getFramework(system.id).sections : [];
+    } catch {
+        sections = [];
+    }
     const group = groupOf(systemNumber, sectionNumber);
     if (group) {
-        const index = PAGE_GROUPS.filter(entry => entry.systemNumber === systemNumber).indexOf(group) + 1;
+        // (Its place among the pages the rail shows -- each section that is no companion of another --, so a group after pages of one section, the Business
+        // System's Financials, is numbered where it stands. Without the System's sections, its place among the System's groups.)
+        const index = sections.length > 0
+            ? sections.filter(section => !isCompanion(systemNumber, section.number) && section.number <= group.members[0]).length
+            : PAGE_GROUPS.filter(entry => entry.systemNumber === systemNumber).indexOf(group) + 1;
         return systemTitle(systemNumber) + " → " + index + ". " + group.title;
     }
-    let title = "";
-    try {
-        title = system && frameworkRegistry.exists(system.id) ? frameworkRegistry.getFramework(system.id).sections.find(section => section.number === sectionNumber)?.title ?? "" : "";
-    } catch {
-        title = "";
-    }
+    const title = sections.find(section => section.number === sectionNumber)?.title ?? "";
     // (A title's date placeholder, "MM/YY - MM/YY", is the page's own period, never part of its name.)
     return systemTitle(systemNumber) + " → " + sectionNumber + ". " + title.replace(/\s+MM\/YY.*$/, "");
 }

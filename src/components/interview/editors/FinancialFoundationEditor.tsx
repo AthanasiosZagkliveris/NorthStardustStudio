@@ -41,11 +41,6 @@ interface FinancialFoundationEditorProps {
     disabled?: boolean;
     showInstructions?: boolean;
     columnsDivider?: ReactNode;
-    /**
-     * A CHAPTER BESIDE FINANCIAL FOUNDATION (doc 48, section 11; owner, 2026-11-17 07:36): Break Even, beside Financial Position on Costs, Funding & Position --
-     * drawn by the Revenue & Pricing page's editor (FinancialSustainabilityEditor, part "break-even"), so its figures are worked out in one place.
-     */
-    beside?: ReactNode;
     /** Page 1's answer, for its Offerings. */
     foundation?: unknown;
     /** Page 3's answer, for the costs recorded there. */
@@ -85,8 +80,6 @@ export default function FinancialFoundationEditor({
     onChange,
 
     disabled = false,
-
-    beside,
 
     foundation,
 
@@ -1497,8 +1490,9 @@ export default function FinancialFoundationEditor({
         ) : null;
     }
 
+    // (THE SECOND FRAME OF FINANCIALS (PageGroups.ts): beside Revenue & Break Even, as a frame of every page of several sections is drawn.)
     return (
-        <div className={"answer-columns business-foundation business-engagement business-capability column-tiles-page" + (beside ? " column-tiles-pair" : " strategy-single-frame")} style={{ "--answer-column-count": beside ? 2 : 1 } as CSSProperties}>
+        <div className="answer-columns business-foundation business-engagement business-capability column-tiles-page" style={{ "--answer-column-count": 1 } as CSSProperties}>
             <CardShell
                 data-anchor="column-tiles"
                 style={{ "--strategy-theme-hue": hue } as CSSProperties}
@@ -1510,7 +1504,6 @@ export default function FinancialFoundationEditor({
                     </div>
                 </div>
             </CardShell>
-            {beside}
         </div>
     );
 
