@@ -3400,7 +3400,23 @@
                 let top = (window.innerHeight - height) / 2;
                 // A dialog covers the area of the card of its section (its left and right edges, top and height); a page-level dialog keeps the page frame.
                 const sectionCard = tile.closest(".section-tiles-completed") ? null : tile.closest(".business-foundation-input");
-                const cardBox = sectionCard ? sectionCard.getBoundingClientRect() : null;
+                // (EVERY DIALOG OPENS AT ITS FRAME'S TOP (owner, 2026-11-19 23:15 UTC+2; layout rules section 23): the section's top is that of the frame as it shows, a
+                // Segment's chapter with its title band, where that stands above it; its sides and foot stay the section's.)
+                const ownBox = sectionCard ? sectionCard.getBoundingClientRect() : null;
+                let shownBox = null;
+                if (sectionCard && ownBox) {
+                    const clear = colour => colour === "" || colour === "transparent" || /rgba\([^)]*,\s*0\)$/.test(colour);
+                    let shown = sectionCard;
+                    for (let node = sectionCard; node && !node.matches(".conversation-card"); node = node.parentElement) {
+                        if (!clear(getComputedStyle(node).backgroundColor)) {
+                            shown = node;
+                            break;
+                        }
+                    }
+                    shownBox = shown.getBoundingClientRect();
+                }
+                const lifted = ownBox && shownBox && shownBox.top < ownBox.top && shownBox.bottom >= ownBox.bottom - 1 ? shownBox.top : null;
+                const cardBox = ownBox ? (lifted === null ? ownBox : { left: ownBox.left, width: ownBox.width, top: lifted, bottom: ownBox.bottom, height: ownBox.bottom - lifted }) : null;
                 // (A card taller than the window -- the Customer Channels' -- cannot be covered by its dialog: the dialog then fills the window under the header, and only its width is the card's.)
                 const tallCard = !!cardBox && cardBox.height > window.innerHeight;
                 if (cardBox && cardBox.width > 200 && cardBox.height > 200 && !tallCard) {
