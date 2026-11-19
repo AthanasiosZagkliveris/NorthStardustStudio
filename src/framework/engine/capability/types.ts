@@ -46,7 +46,7 @@ export const BUSINESS_EXTRAS = {
     "road-tax": { label: "Road tax", kind: "money", frequency: "annually" },
     "minimum-order": { label: "Minimum order", kind: "quantity", frequency: "per-unit" },
     "customs-duty": { label: "Customs duty", kind: "percent", frequency: "percent-cost" },
-    "clearance-handling": { label: "Clearance and handling", kind: "money", frequency: "per-project" },
+    "clearance-handling": { label: "Clearance & handling", kind: "money", frequency: "per-project" },
     "other-duties": { label: "Other duties", kind: "percent", frequency: "percent-cost" }
 } as const;
 
@@ -443,4 +443,6 @@ export interface FounderResponsibility {
     completed: boolean;
     scope: "infrastructure" | "offering" | "legal";
     kind: "activity" | "partner" | "supplier" | "legal";
+    /** Whether the founder is Responsible for it (an activity the founder only works on, in its Team, is not: the founder card's one list; owner, 2026-11-19 00:04). */
+    responsible: boolean;
 }

@@ -159,7 +159,8 @@ export const CrumbsContext = createContext<readonly Crumb[] | null>(null);
 
 
 /** What a box inside a dialog calls to open a card it made floating (TileDialog's `onOpenCard`). */
-export const OpenCardContext = createContext<((id: string, caption: string | undefined, remover: TileAdd | undefined, pointer: boolean, fresh: boolean) => void) | null>(null);
+// (`siblings`: the cards of the box it was opened from, the ones its arrows and rail go through; layout-rules section 10, "Carousel arrows".)
+export const OpenCardContext = createContext<((id: string, caption: string | undefined, remover: TileAdd | undefined, pointer: boolean, fresh: boolean, siblings?: readonly string[]) => void) | null>(null);
 
 
 /** The subcategory box a dialog opens on, if its tile was opened from a list item that names one. */

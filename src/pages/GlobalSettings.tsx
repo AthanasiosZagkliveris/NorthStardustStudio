@@ -61,7 +61,7 @@ const STAGE_ROWS: readonly { field: "planning" | "launching" | "managing" | "gro
 /** What the amortisation of an intangible asset is, and the standards its years come from (Global Settings > Assets > Intangible assets). */
 const AMORTISATION_POINTS = [
     { title: "What it is", text: "Amortisation is depreciation for an asset you cannot touch: a licence, a permit, a franchise right, software, a website, a trademark. Its cost is spread over the years it serves the business, in a straight line." },
-    { title: "UK and Ireland (FRS 102)", text: "Every intangible has a finite life, estimated from evidence; where it cannot be estimated reliably, no more than 10 years." },
+    { title: "UK & Ireland (FRS 102)", text: "Every intangible has a finite life, estimated from evidence; where it cannot be estimated reliably, no more than 10 years." },
     { title: "International (IAS 38)", text: "A finite life is amortised; an asset with no foreseeable limit (a well-established brand) is not, and is tested for impairment each year." },
     { title: "US tax", text: "Intangibles bought with a business (goodwill, customer lists) are amortised over 15 years; purchased software outside such a deal over 36 months." },
     { title: "Common practice", text: "Small companies write off websites and software over about 3 years, domain names and trademarks over 10." }
@@ -408,8 +408,8 @@ export default function GlobalSettings() {
                     </div>
                 </section>
 
-                <section className="settings-section" aria-label="Pay and tax">
-                    {sectionTitle("Pay and tax")}
+                <section className="settings-section" aria-label="Pay & tax">
+                    {sectionTitle("Pay & tax")}
                     {figureField("Employer on-cost coefficient", "Added to the gross salaries, for the country. It differs by country.", settings.onCostRate, (next) => change({ onCostRate: next }), NUMBER_LIMITS.percent, "%")}
                     {figureField("Insurance per employee", "An amount a month, for key-person and health cover.", settings.insurancePerEmployee, (next) => change({ insurancePerEmployee: next }), NUMBER_LIMITS.money)}
                 </section>
@@ -598,7 +598,7 @@ export default function GlobalSettings() {
                 </section>
 
                 <section className="settings-section" aria-label="Rates">
-                    {sectionTitle("Royalties and commissions")}
+                    {sectionTitle("Royalties & commissions")}
                     {figureField("Royalty on sales", "The default rate; a card may set its own for its contract.", settings.royaltyRate, (next) => change({ royaltyRate: next }), NUMBER_LIMITS.percent, "%")}
                     {figureField("Affiliate network or influencer commission", "The default rate.", settings.affiliateRate, (next) => change({ affiliateRate: next }), NUMBER_LIMITS.percent, "%")}
                     {figureField("Sales agent or B2B broker commission", "The default rate.", settings.agentRate, (next) => change({ agentRate: next }), NUMBER_LIMITS.percent, "%")}

@@ -467,8 +467,9 @@
             for (const cell of cells) {
                 const control = cell.matches(CONTROL) ? cell : cell.querySelector(CONTROL);
                 // A cell that is a row of its own (the VAT tick and its number, a list of numbers) is checked as one.
+                // (A box of bands in one column -- a Customer Engagement card, the Delivery and Revenue Stream cards: layout rules, "A floating card's groups are boxes of the shared bands" -- is one cell of many rows, each band a row of its own whose label and control the side-row and band checks measure: declared, 2026-11-18.)
                 // (The right column of a grid of bands, the Positioning's and the Organisation's, starts its controls 12px after the middle divider, inside its own padding; a Legal card's row is a band from the card's side, its control inside its padding: declared, 2026-11-09.)
-                if (!control || !visible(control) || cell.classList.contains("business-field-inline") || cell.classList.contains("business-field-side") || cell.classList.contains("legal-entity-field-side") || cell.matches(".business-capability-cost-after:has(> .business-field-side), .legal-entity-tax-row, .legal-entity-registrations, .legal-entity-field-wide:has(.legal-entity-number-row), .legal-entity-field:has(> .numbered-list), .legal-entity-side-row, .founders-profile-row, .legal-entity-audience > .legal-entity-field + .legal-entity-field, .legal-entity-grid-requirement > *, .legal-entity-grid-expense-card > .legal-entity-field-wide, .founders-profile .founder-band")) {
+                if (!control || !visible(control) || cell.classList.contains("business-field-inline") || cell.classList.contains("business-field-side") || cell.classList.contains("legal-entity-field-side") || cell.matches(".business-capability-cost-after:has(> .business-field-side), .legal-entity-tax-row, .legal-entity-registrations, .legal-entity-field-wide:has(.legal-entity-number-row), .legal-entity-field:has(> .numbered-list), .legal-entity-side-row, .founders-profile-row, .legal-entity-audience > .legal-entity-field + .legal-entity-field, .legal-entity-grid-requirement > *, .legal-entity-grid-expense-card > .legal-entity-field-wide, .founders-profile .founder-band, .business-segment-grid-single > .legal-entity-field")) {
                     continue;
                 }
                 // DECLARED (docs/ai/tile-and-card-pattern.md, "Text holders and side cells"): in a box of bands (the Segment and Profile cards) a label with its cell beside it has the cell at the right end of the band, level with the label; `npm run check:card` measures it.
@@ -1774,6 +1775,16 @@
                     if ((box.closest(".section-tile-slot") || box).querySelectorAll(".section-tile-list > li").length === 0 && !box.closest(".section-tile-completed") && !box.closest(".section-tile-slot-empty") && !box.closest("[data-own]") && !box.hasAttribute("data-own")) {
                         fail("a card tile lists at least one line", box, {});
                     }
+                    // THE LIST KEEPS CLEAR OF THE CIRCLES (layout rules section 9, "Card tiles"; the owner's bug report of 2026-11-19): its last line ends 4px above them.
+                    const circles = box.closest(".card-tile-slot")?.querySelector(":scope > .card-tile-symbols");
+                    const lines = [...(box.closest(".section-tile-slot") || box).querySelectorAll(".section-tile-list > li")].filter(visible);
+                    if (circles && visible(circles) && lines.length > 0) {
+                        const list = lines[0].parentElement;
+                        const lastBottom = Math.min(rect(list).bottom, Math.max(...lines.map(line => rect(line).bottom)));
+                        if (lastBottom > rect(circles).top - 4 + tolerance) {
+                            fail("a card tile's list keeps clear of its circles", box, { list: lastBottom, circles: rect(circles).top });
+                        }
+                    }
                 }
                 for (const row of rules.rowsOf(boxes.map(rect), 2)) {
                     const ordered = row.sort((one, other) => one.left - other.left);
@@ -2197,7 +2208,9 @@
                 }
                 const number = card.querySelector(":scope > .strategy-box-head .list-number");
                 const name = card.querySelector(":scope > .strategy-box-head .strategy-name-static, :scope > .strategy-box-head textarea");
-                if (number && !edgeOk(textLeft(number), hang)) {
+                // (Or drawn inside its name cell, 10px in, as every card's number is: a founder's floating card in its content box, owner, 2026-11-18 20:20 UTC+2.)
+                const numberInName = number && name && rules.near(textLeft(number) - rect(name).left, spec.numberInName ?? 10, tolerance + 0.75);
+                if (number && !numberInName && !edgeOk(textLeft(number), hang)) {
                     fail("a founder's head number hangs in the marker column", number, { left: textLeft(number), marker: hang });
                 }
                 if (name && !cardLike && !edgeOk(name.matches("textarea") ? rect(name).left : textLeft(name), content)) {
@@ -2548,8 +2561,10 @@
                     // The side pickers (Status's, Responsible's) of the card: where the currency's left edge stands.
                     const side = card.querySelector(".business-field-side .option-picker-trigger, .business-field-side .business-capability-automatic");
                     const stacked = frequency && rect(frequency).top > rect(price).bottom + 4;
-                    if (name && frequency && !stacked && !rules.near(rect(frequency).right, rect(name).right, tolerance + 0.75)) {
-                        fail("the Frequency's right edge is the name cell's", frequency, { frequency: rect(frequency).right, name: rect(name).right });
+                    // (In a card of bands too: what stands in a band ends at the name cell's right edge, the x column clear; owner's screenshot, 2026-11-19 00:45 UTC+2.)
+                    const edgeRight = name && rect(name).right;
+                    if (name && frequency && !stacked && !rules.near(rect(frequency).right, edgeRight, tolerance + 0.75)) {
+                        fail("the Frequency's right edge is the name cell's", frequency, { frequency: rect(frequency).right, name: edgeRight });
                     }
                     if (side && currency && !rules.near(rect(currency).left, rect(side).left, tolerance + 0.75)) {
                         fail("the currency's left edge is the side pickers' (Status's, Responsible's)", currency, { currency: rect(currency).left, side: rect(side).left });
@@ -2758,9 +2773,18 @@
                     fail("a child's name text starts at the name cell's left edge", name, { text: two.left, cell: nameBox.left });
                 }
             }
+            // (IN A CARD OF BANDS every control -- a cell, a picker, a text box -- ends at the name cell's right edge, the x column clear; only the bands' tints run on to
+            // the card's sides: owner's screenshot, 2026-11-19 00:45 UTC+2, layout rules section 11, "Page 3's cards in bands". The bands' own boxes are measured by it.)
+            for (const control of [...card.querySelectorAll(".business-segment-grid-single .legal-entity-org-section :is(input.interview-input, .option-picker, textarea, .date-cell)")].filter(visible)) {
+                if (rect(control).right > nameBox.right + 0.75) {
+                    fail("in a card of bands, a control ends at the name cell's right edge", control, { right: rect(control).right, name: nameBox.right });
+                }
+            }
             for (const element of card.querySelectorAll("*")) {
-                // (A divider line runs across the whole card, the x column too: rule 18.)
-                if (head.contains(element) || element.closest(".option-picker-list") || element.matches(".business-capability-card-rule") || !visible(element)) continue;
+                // (A divider line runs across the whole card, the x column too: rule 18. A card's BANDS run out to its sides (their boxes: the check above measures
+                // what stands in them): owner, 2026-11-18 20:20 and 2026-11-19 00:45 UTC+2, layout rules section 11, "Page 3's cards in bands".)
+                // (The Completed row is a band too, from side to side: its box is skipped, what stands in it is measured; owner, 2026-11-19 00:16 and 01:08 UTC+2.)
+                if (head.contains(element) || element.closest(".option-picker-list, .business-segment-grid-single") || element.matches(".business-capability-card-rule, .business-segment-grid-single, .card-box-open > .business-capability-slot > .business-capability-done") || !visible(element)) continue;
                 const style = getComputedStyle(element);
                 if (style.display === "contents" || style.display === "none") continue;
                 const box = rect(element);
@@ -2902,7 +2926,9 @@
 
         // 21. ONE QUESTION PER BAND (docs/ai/tile-and-card-pattern.md, "One band pattern"): in a box of bands (the Foundation page's cards and dialogs, on the page or in a dialog) each band
         // holds one question -- one labelled field row, the outermost in the band -- so the tints alternate question by question. `npm run check:card` measures it on the floating cards too.
-        for (const band of [...document.querySelectorAll(".business-segment-box > .legal-entity-org-section, .business-segment-grid > .legal-entity-field > .legal-entity-org-section")].filter(visible)) {
+        // (A band of a SECTION -- page 3's cards, data-section -- holds its section's questions, the card's thin line between them: owner, 2026-11-18 21:45 and 22:00
+        // UTC+2; layout rules section 11, "Page 3's cards in bands".)
+        for (const band of [...document.querySelectorAll(".business-segment-box > .legal-entity-org-section, .business-segment-grid > .legal-entity-field > .legal-entity-org-section")].filter(visible).filter(band => !band.hasAttribute("data-section"))) {
             const questions = [...band.querySelectorAll(".legal-entity-pair, .legal-entity-field")].filter(row => {
                 const up = row.parentElement.closest(".legal-entity-pair, .legal-entity-field");
                 // (A field row can be display: contents, no box of its own: its label is what is measured.)
@@ -3003,6 +3029,125 @@
             }
             if (!(Number(style.zIndex) < 0)) {
                 fail("a layer's tab stands behind its layer", tab, { zIndex: style.zIndex });
+            }
+        }
+
+        // C2. EVERY LAYER'S TAB IS ONE GEOMETRY (layout rules section 10, "One rail for every layer"; owner, 2026-11-18 20:00 UTC+2: "All rails should have same width,
+        //     same side, in between dots, and top and bottom gap"; 20:13: "Floated cards - Rails, only with dots and tooltips"): a tab is the dots-only width or the named width (bullet-rail.css), its padding the one tab padding
+        //     on every side, every row 16px, 18px between rows (the arrow's place aside), 12px under its layer's top.
+        {
+            const root = getComputedStyle(document.documentElement);
+            const px = name => { const probe = document.createElement("div"); probe.style.cssText = "position:absolute;visibility:hidden;width:var(" + name + ")"; document.body.appendChild(probe); const w = probe.getBoundingClientRect().width; probe.remove(); return w; };
+            const widths = [px("--rail-tab-dots-width"), px("--rail-tab-named-width")];
+            const padding = px("--rail-tab-padding");
+            for (const tab of [...document.querySelectorAll(".carousel-rail.carousel-rail-tab")].filter(visible)) {
+                const box = rect(tab);
+                const style = getComputedStyle(tab);
+                const named = tab.classList.contains("carousel-rail-named");
+                if (Math.abs(box.width - widths[named ? 1 : 0]) > 0.6) {
+                    fail("every tab is the dots-only or the named width", tab, { width: box.width, wanted: widths[named ? 1 : 0], named });
+                }
+                const pads = ["Top", "Right", "Bottom", "Left"].map(side => parseFloat(style["padding" + side]));
+                if (pads.some(value => Math.abs(value - padding) > 0.6)) {
+                    fail("every tab has the one tab padding on every side", tab, { pads, wanted: padding });
+                }
+                const items = [...tab.querySelectorAll(".bullet-rail-item")].filter(visible).map(rect);
+                const cut = [...tab.querySelectorAll(".strategy-card-nav-tip")].filter(tip => named && visible(tip) && tip.scrollWidth > tip.clientWidth + 1).map(tip => tip.textContent);
+                if (cut.length) {
+                    fail("a named tab shows every name whole", tab, { cut });
+                }
+                if (named && tab.closest(".floating-overlay")) {
+                    fail("a floating card's tab shows dots and tooltips only", tab, {});
+                }
+                if (items.some(item => Math.abs(item.height - 16) > 0.6)) {
+                    fail("every tab row is 16px, with or without its name", tab, { heights: items.map(item => item.height) });
+                }
+                const arrows = [...document.querySelectorAll(".carousel-arrow")].filter(visible).map(rect).filter(arrow => arrow.left < box.right && arrow.right > box.left);
+                const gaps = items.slice(1).map((item, i) => ({ gap: item.top - items[i].bottom, across: arrows.some(arrow => items[i].bottom <= arrow.top + 1 && item.top >= arrow.bottom - 1) })).filter(g => !g.across).map(g => g.gap);
+                if (gaps.some(gap => Math.abs(gap - 18) > 0.6)) {
+                    fail("every tab has 18px between its rows", tab, { gaps });
+                }
+                const layer = [...document.querySelectorAll(".floating-card-body, .section-tile-dialog")].filter(visible).pop();
+                if (layer && Math.abs(box.top - rect(layer).top - 12) > 0.6 && box.top > 80) {
+                    fail("every tab starts 12px under its layer's top", tab, { offset: box.top - rect(layer).top });
+                }
+            }
+        }
+
+        // C2b. THE PAGE'S RAILS TOO (owner, 2026-11-18 21:49 UTC+2: "Check the page (chapter) rail width"): the Pages and Sections rails are the dots-only or the
+        //      named width, the one tab padding, 16px rows, 18px between them, and a name that shows is whole.
+        {
+            const px = name => { const probe = document.createElement("div"); probe.style.cssText = "position:absolute;visibility:hidden;width:var(" + name + ")"; document.body.appendChild(probe); const w = probe.getBoundingClientRect().width; probe.remove(); return w; };
+            const dotsWidth = px("--rail-tab-dots-width"), namedWidth = px("--rail-tab-named-width"), padding = px("--rail-tab-padding");
+            for (const rail of [...document.querySelectorAll("nav.bullet-rail.bullet-rail-left, nav.bullet-rail.bullet-rail-right")].filter(visible)) {
+                const box = rect(rail);
+                const style = getComputedStyle(rail);
+                if (![dotsWidth, namedWidth].some(width => Math.abs(box.width - width) <= 0.6)) {
+                    fail("a page rail is the dots-only or the named width", rail, { width: box.width, widths: [dotsWidth, namedWidth] });
+                }
+                const pads = ["Top", "Right", "Bottom", "Left"].map(side => parseFloat(style["padding" + side]));
+                if (pads.some(value => Math.abs(value - padding) > 0.6)) {
+                    fail("a page rail has the one tab padding on every side", rail, { pads, wanted: padding });
+                }
+                const items = [...rail.querySelectorAll(".bullet-rail-item")].filter(visible).map(rect);
+                if (items.some(item => Math.abs(item.height - 16) > 0.6)) {
+                    fail("a page rail's rows are 16px, with or without names", rail, { heights: items.map(item => item.height) });
+                }
+                const gaps = items.slice(1).map((item, i) => item.top - items[i].bottom);
+                if (gaps.some(gap => Math.abs(gap - 18) > 0.6)) {
+                    fail("a page rail has 18px between its rows", rail, { gaps });
+                }
+                const cut = [...rail.querySelectorAll(".bullet-rail-label")].filter(label => visible(label) && getComputedStyle(label).position !== "absolute" && label.scrollWidth > label.clientWidth + 1).map(label => label.textContent);
+                if (cut.length) {
+                    fail("a page rail shows every name whole", rail, { cut });
+                }
+            }
+        }
+
+        // C2c. ONE FACE FOR EVERY TILE (owner, 2026-11-18 22:56 UTC+2: "fix the listed items on the financial tiles, to follow the other tiles"): a tile's list in
+        //      two columns holds one-word figures only; a figure with words stands under its name (TileList).
+        for (const figure of [...document.querySelectorAll(".section-tile-list-pairs .section-tile-pair-right")].filter(visible)) {
+            if (figure.querySelector("strong, b") && /[  ]/.test(figure.textContent.trim())) {
+                fail("a tile's two-column list holds one-word figures only", figure, { figure: figure.textContent.trim() });
+            }
+        }
+        // (The financial pages' tiles follow the shared tile list: each name, its figure under it -- never two columns; owner, 2026-11-18 23:08 UTC+2: "Financial
+        // tiles' lists should follow the shared tile list".)
+        if (/Revenue & Pricing|Costs, Funding & Position/.test(document.querySelector(".interview-header h1")?.textContent ?? "")) {
+            // (Capital & Funding keeps its two columns, each status and its count: owner, 2026-11-18 23:18 UTC+2, "Capital & Funding could be as before".)
+            for (const list of [...document.querySelectorAll(".section-tile-list-pairs")].filter(visible).filter(list => !list.closest('[data-tile="financial-funding"]') && !list.closest(".section-tile-slot")?.querySelector('[data-tile="financial-funding"]'))) {
+                fail("a financial tile's list is the shared tile list, never two columns", list, { first: list.textContent.trim().slice(0, 40) });
+            }
+        }
+
+        // C3. ONE ARROW LEVEL (layout rules section 10, "One arrow level"; owner, 2026-11-18 21:34 UTC+2: "A: Level page arrows everywhere"): every page arrow and
+        //     every dialog's and floating card's carousel arrow has its centre at one height in a window -- on every page. The first height seen at a window size is
+        //     kept for the run (sessionStorage), and every later page, dialog and card is checked against it; the arrows shown now are level with each other.
+        {
+            const arrows = [...document.querySelectorAll(".page-arrow")].filter(arrow => visible(arrow) && getComputedStyle(arrow).visibility !== "hidden" && !arrow.closest(".strategy-card-nav, .notepad-panel, .org-calendar") && !arrow.matches(".notepad-close, .org-calendar-month-arrow"));
+            const centres = arrows.map(arrow => { const box = rect(arrow); return (box.top + box.bottom) / 2; });
+            if (centres.length > 0) {
+                if (Math.max(...centres) - Math.min(...centres) > 1) {
+                    fail("every arrow shown stands at one height", arrows[0], { centres });
+                }
+                const key = "layout-probe-arrow-level-" + window.innerWidth + "x" + window.innerHeight;
+                let seen = null;
+                try { seen = sessionStorage.getItem(key); } catch { /* (no storage: the check within the page stands) */ }
+                if (seen === null) {
+                    try { sessionStorage.setItem(key, String(centres[0])); } catch { /* (as above) */ }
+                } else if (Math.abs(centres[0] - Number(seen)) > 1) {
+                    fail("the arrows stand at one height on every page of a window", arrows[0], { centre: centres[0], elsewhere: Number(seen) });
+                }
+            }
+        }
+
+        // C4. SHADED ONCE (layout rules 22.16; owner, 2026-11-18 22:05 UTC+2: "When the background has already shadow, and open a floated card, does not need an extra
+        //     shade"): while a category's dialog is open (its own dim shades the page), no chapter shade is drawn for a floating card.
+        {
+            const dialog = [...document.querySelectorAll(".section-tile-overlay:not(.floating-overlay) > .section-tile-dialog")].filter(visible).pop();
+            const shade = [...document.querySelectorAll(".floating-chapter-shade")].find(visible);
+            if (dialog && shade && dialog.dataset.tile !== "overview" && dialog.dataset.tile !== "completed") {
+                fail("a floating card adds no shade over a dialog's dim", shade, { dialog: dialog.dataset.tile ?? null });
             }
         }
 
@@ -3558,10 +3703,46 @@
             }
         }
         const wanted = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--open-card-width")) || 480;
-        // (A card wide by nature -- the Roadmap, a Goal with its Objectives -- is as wide as that needs.)
-        const wide = !!(card && card.closest(".floating-card-body")?.querySelector(".strategy-goal-card, .strategy-roadmap-card"));
-        if (kind !== "workspace" && !wide && Math.abs(cardBox.width - Math.min(wanted, window.innerWidth - 16)) > 1.5) {
-            fail(kind === "founder" ? "a floating founder's card is the founder card width" : "a floating card is the open card width", { width: cardBox.width, wanted });
+        // (Every floating card, whatever it holds: no Goal or Roadmap floats -- a Goal is nested in its Theme's card, the Roadmap is drawn in its dialog; doc 49.)
+        // (The Workspace's form and a founder's card too: one width for every floating card; owner, 2026-11-19 01:41 UTC+2.)
+        if (Math.abs(cardBox.width - Math.min(wanted, window.innerWidth - 16)) > 1.5) {
+            fail("a floating card is the open card width", { width: cardBox.width, wanted, kind });
+        }
+        // ITS ARROWS STAND 12px FROM THE CARD ITSELF, AND ITS RAIL'S TAB TOUCHES IT (layout rules section 10, "Carousel arrows stand CAROUSEL_ARROW_GAP (12px) from the
+        // card or dialog", "Page tab": a rail stands in a tab touching the frame; the owner's screenshots of 2026-11-19, a financial card stood 13px off its own box).
+        {
+            const arrows = [...document.querySelectorAll(".carousel-arrow")].filter(visible).map(rect);
+            const left = arrows.find(box => box.right <= cardBox.left + cardBox.width / 2);
+            const right = arrows.find(box => box.left >= cardBox.left + cardBox.width / 2);
+            // (An arrow held in the window at its 4px edge -- a card as wide as a narrow window -- is not measured.)
+            if (left && left.left > 4.5 && !rules.near(cardBox.left - left.right, 12, 1)) {
+                fail("a floating card's arrows stand 12px from the card", { side: "left", gap: cardBox.left - left.right });
+            }
+            if (right && right.right < window.innerWidth - 4.5 && !rules.near(right.left - cardBox.right, 12, 1)) {
+                fail("a floating card's arrows stand 12px from the card", { side: "right", gap: right.left - cardBox.right });
+            }
+            const tab = [...document.querySelectorAll(".carousel-rail.carousel-rail-tab")].find(visible);
+            if (tab) {
+                const t = rect(tab);
+                const gap = tab.classList.contains("carousel-rail-tab-left") ? cardBox.left - t.right : t.left - cardBox.right;
+                if (gap > 1.5) {
+                    fail("a floating card's rail tab touches the card", { gap });
+                }
+            }
+        }
+        // ITS RAIL GOES THROUGH THE BOX IT WAS OPENED FROM (layout rules section 10, "Carousel arrows": "the cards of its tile (of its box, where it was opened from
+        // one)"; the owner's bug report of 2026-11-19, a Production Machinery card stepped on into Devices & Tools): over a dialog that shows a box of cards alone
+        // (no category tiles), the card's rail has one bullet per card tile of that box.
+        {
+            const under = [...document.querySelectorAll(".section-tile-dialog")].pop();
+            const tab = [...document.querySelectorAll(".carousel-rail.carousel-rail-tab")].find(element => element.getBoundingClientRect().width > 0 && getComputedStyle(element).visibility !== "hidden");
+            if (under && tab && under.querySelectorAll("button.section-tile:not(.card-tile)").length === 0) {
+                const tiles = under.querySelectorAll("button.card-tile").length;
+                const bullets = tab.querySelectorAll(".bullet-rail-list > li").length;
+                if (tiles > 0 && bullets > 0 && bullets !== tiles) {
+                    fail("a floating card's rail goes through the cards of the box it was opened from", { bullets, tiles, dialog: under.dataset.tile });
+                }
+            }
         }
         // Centred over its anchor.
         const underline = document.querySelector(".interview-divider");

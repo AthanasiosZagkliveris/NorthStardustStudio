@@ -39,7 +39,6 @@ describe("the floating card base's contract", () => {
         const g = floatingCard.geometry;
         const by = (token: string) => floatingCard.sizes!.find(row => row.token === token)!.values.desktop;
         expect(g.cardWidth).toBe(by("--open-card-width"));
-        expect(g.founderWidth).toBe(by("--founder-card-min"));
         expect(g.radius).toBe(by("--radius-lg"));
         expect(g.padding).toBe(by("--card-padding"));
         expect(g.gap).toBe(by("--space-field"));

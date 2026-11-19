@@ -213,7 +213,7 @@ describe("the extras on the cards", () => {
         const value = base();
         render(<Harness initial={{ ...value, offering: { ...value.offering, providers: [supplier("prod", "Wool Mill", "producers-wholesalers", { cost: cost("", "") })] } }} />);
         openTile("Partners & Suppliers", "Suppliers", "Wool Mill");
-        expect(labelsOf()).toEqual(["Minimum order", "Customs duty", "Clearance and handling", "Other duties"]);
+        expect(labelsOf()).toEqual(["Minimum order", "Customs duty", "Clearance & handling", "Other duties"]);
         cleanup();
         render(<Harness initial={{ ...value, resources: { hr: [{ id: "admin-team", name: "", slots: [card("Bookkeeper", { status: "costs" })] }] } }} />);
         openTile("Human Resources");

@@ -3,6 +3,7 @@
  * One part of the Infrastructure & Capability editor (see BusinessCapabilityEditor.tsx): what it needs of the parts before it comes in as `scope`; what the parts after it need goes out.
  */
 import { costIsShared } from "../../../../framework/engine/AnswerUtils.ts";
+import { MarkIcon } from "../ActionMarkers.tsx";
 import ListStatic from "../../fields/ListStatic.tsx";
 import FieldLabel from "../../../controls/FieldLabel.tsx";
 import NumberCell from "../../../controls/NumberCell.tsx";
@@ -26,6 +27,7 @@ import { toggledIn } from "../../fields/toggledIn.ts";
 import TextLink from "../../fields/TextLink.tsx";
 import { SECTIONS, DELIVERY_HELP, FOUNDER_FREQUENCIES, HOURS_PER_MONTH_HELP, formatHours, Scope, costInGroup, blankSlot } from "../BusinessCapabilityModel.ts";
 import type { useCapabilityState } from "./useCapabilityState.tsx";
+import { BandSection, CardBody } from "../engagement/EngagementCard.tsx";
 import type { useCapabilityCardFields } from "./useCapabilityCardFields.tsx";
 
 type Earlier = ReturnType<typeof useCapabilityState> & ReturnType<typeof useCapabilityCardFields>;
@@ -96,7 +98,7 @@ export function useCapabilityPeopleCards(earlier: Earlier) {
  * A line of a founder's Responsibilities: a link that opens the linked card, with a tile list item's reaction. From the founder's card in the Founders' dialog the linked card
  * opens ALONE (the dialog already shows the founder's card); from the founder's FLOATING card it opens BELOW it, the two stacked.
  */
-    function responsibilityLink(founderId: string, entry: { id: string; name: string; kind?: "activity" | "partner" | "supplier" | "legal" }, done: boolean) {
+    function responsibilityLink(founderId: string, entry: { id: string; name: string; kind?: "activity" | "partner" | "supplier" | "legal"; responsible?: boolean }, done: boolean) {
         const letter = entry.kind === "partner" ? "P." : entry.kind === "supplier" ? "S." : entry.kind === "legal" ? "L." : "A.";
         return (
             <span className={"business-capability-responsibility-line" + (done ? " business-capability-responsibility-line-done" : "")}>
@@ -117,6 +119,12 @@ export function useCapabilityPeopleCards(earlier: Earlier) {
                 >
                     {entry.name}
                 </TextLink>
+                {/* THE RESPONSIBLE MARK (owner, 2026-11-19 01:20 UTC+2, "B: option 2"): the mark set's person with a tick, "Responsible" its tooltip and its name. */}
+                {entry.responsible && (
+                    <span className="business-capability-responsible-mark" role="img" aria-label="Responsible" title="Responsible">
+                        <MarkIcon kind="responsible" size={24} />
+                    </span>
+                )}
             </span>
         );
     }
@@ -134,8 +142,9 @@ export function useCapabilityPeopleCards(earlier: Earlier) {
             )
         });
 
+        // (THE ONE LIST: every activity the founder works on or is Responsible for, the latter marked; owner, 2026-11-19 00:04 UTC+2, "A: One list, Responsible marked".)
         const responsibilities = businessFounderResponsibilities(
-            capability, founder.id, legalExpenses
+            capability, founder.id, legalExpenses, true
         );
 
         const tally = businessResponsibilitiesTally(responsibilities);
@@ -192,11 +201,16 @@ export function useCapabilityPeopleCards(earlier: Earlier) {
                 summary={summaryText(founder.roles[0])}
             >
 
+                <CardBody banded>
+
+                <BandSection name="dates">
                 {cardDates(founderLabel, founder.startDate, "", change, true)}
+                </BandSection>
 
                 {/* Answered on the Founders Profile page, on the founder's own card --
                     shown here, not asked. No label: the roles are a BULLET list of their own
                     (named "Roles" for assistive technology), at the card's content edge. */}
+                <BandSection name="team">
                 <div className="business-capability-stack business-founder-roles">
 
                     {founder.roles.length === 0
@@ -218,6 +232,7 @@ export function useCapabilityPeopleCards(earlier: Earlier) {
 
                 </div>
 
+                </BandSection>
                 {/* Pay and time, in the card's two columns (labels
                     above, tops level): Salary | Frequency, then
                     Working Hours | Delivery Hours. The one Frequency is the
@@ -227,6 +242,7 @@ export function useCapabilityPeopleCards(earlier: Earlier) {
                     Capacity & Delivery under Offering's Capability adds up as the
                     capacity. A salary is paid in the organization's own
                     currency, so it is named in the label, not asked. */}
+                <BandSection name="costs">
                 <div className="business-founder-fields">
                 <div className="business-founder-grid">
 
@@ -332,7 +348,9 @@ export function useCapabilityPeopleCards(earlier: Earlier) {
 
                 {/* The founder's optional Allowance, Commission and Bonus. */}
                 {extrasFields(founderLabel, PEOPLE_EXTRA_KEYS, founder.extras, organisationCurrency, (next) => change({ extras: next }))}
+                </BandSection>
 
+                <BandSection name="team">
                 {/* Written by the activities that name this founder
                     as responsible, never typed here -- one fact, one
                     place. It folds, with the cards' own arrow, and
@@ -443,11 +461,10 @@ export function useCapabilityPeopleCards(earlier: Earlier) {
 
                 </div>
 
-                {/* (The activities it works on, as each card's Team names them: one link each; owner, 2026-11-16 20:22.) */}
-                {linksSection(founder.id, [...capability.activities.flatMap(category => category.activities), ...capability.offering.activities]
-                    .filter(activity => activity.performerIds.includes(founder.id))
-                    .map(activity => ({ key: activity.id, noun: "Activity", name: activity.name.trim() || "Unnamed Activity", onOpen: () => openPair(activity.id, founder.id) })))}
+                </BandSection>
+                {/* (No Links section: the activities the founder works on are in the one Responsibilities list above; owner, 2026-11-19 00:04 UTC+2.) */}
 
+                </CardBody>
             </BusinessCard>
         );
 
@@ -809,13 +826,20 @@ export function useCapabilityPeopleCards(earlier: Earlier) {
                 )}
             >
 
+                <CardBody banded>
+
+                <BandSection name="dates">
                 {cardDates(partner.name.trim() || "Entry " + number, partner.startDate, partner.endDate, change, false, latestPaymentOf(partner.cost.frequency, partner.paymentPlan), partner.cost.frequency === "per-project" && partner.paymentPlan.on)}
+                </BandSection>
 
                 {/* (No Category row: the tile says whether it is a Partner or a Supplier. A card with no type yet, from an earlier answer, keeps the row so it can be given one.) */}
+                <BandSection name="type">
                 {capability.partnerCategories.some(entry => entry.id === partner.category) && partnerCategoryCell(partner, partner.name.trim() || "Entry " + number)}
 
                 {partnerGroupCell(scope, partner, partner.name.trim() || "Entry " + number)}
+                </BandSection>
 
+                <BandSection name="costs">
                 {/* Price | Frequency first (the Frequency's label above it, as it was), then
                     Responsible on a row of its own: its label beside its picker, in the
                     short side-label column. */}
@@ -861,7 +885,9 @@ export function useCapabilityPeopleCards(earlier: Earlier) {
                 {billingOf(scope, partner.group, partner.costOption) === "percentage" && rateOverrideField(
                     partner.name.trim() || "Entry " + number, partner.rateOverride, (next) => change({ rateOverride: next }), defaultRateOf(partner.costOption)
                 )}
+                </BandSection>
 
+                <BandSection name="team">
                 {/* Responsible after the payment plan, the extras and the rate override, before the Description (the card structure's order). */}
                 {responsibilityField(
                     // One founder: he is responsible (businessPartnerResponsibleId), nothing to choose.
@@ -879,6 +905,8 @@ export function useCapabilityPeopleCards(earlier: Earlier) {
                     }
                 )}
 
+                </BandSection>
+                <BandSection name="notes">
                 <OptionalNote
                     label="Notes"
                     fieldId="Description / Relevant Information"
@@ -888,6 +916,7 @@ export function useCapabilityPeopleCards(earlier: Earlier) {
                     value={partner.description}
                     onChange={(next) => change({ description: next })}
                 />
+                </BandSection>
 
                 {/* The links last, under the Description. */}
                 {/* (THE HOURS THEY CAN GIVE, and a Supplier's lead time: read by Capacity & Delivery -- their own row and bar, and the Calendar Time of an Offering they can
@@ -928,6 +957,7 @@ export function useCapabilityPeopleCards(earlier: Earlier) {
                 {/* THE CARDS THAT USE IT (the resources that name it, the activities it performs): at the end of the card, a link each (above this one when opened). */}
                 {linksSection(partner.id, users.map(user => ({ key: user.id, noun: user.noun, name: user.name, onOpen: () => openPair(user.id, partner.id) })))}
 
+                </CardBody>
             </BusinessCard>
         );
 

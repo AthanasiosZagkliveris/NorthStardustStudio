@@ -1,11 +1,12 @@
 import { competitorsPriceRange } from "../../../framework/engine/CompetitorQuestions.ts";
 import { offeringShareWeights } from "../../../framework/engine/DemandCapacity.ts";
+import { numberStep } from "./BusinessEngagementModel.ts";
 import { countedCapability } from "../../../framework/engine/CardCompleteness.ts";
 import TextBox from "../../controls/TextBox.tsx";
 import NumberCell from "../../controls/NumberCell.tsx";
 import { type CSSProperties, type ReactNode } from "react";
 import CardShell from "../cards/CardShell.tsx";
-import SectionTiles, { DialogHeading, type SectionTile } from "../tiles/SectionTiles.tsx";
+import SectionTiles, { DialogHeading, stackedFace, type FaceRow, type SectionTile } from "../tiles/SectionTiles.tsx";
 import { type LegalEntityValue, asBusinessCapabilityValue, asBusinessEngagementValue, asLegalEntityValue, businessFoundationSegments, withLegalEntityFounders } from "../../../framework/engine/AnswerUtils.ts";
 import { offeringStartsById } from "../../../framework/engine/EffectiveAnswers.ts";
 import { calculatedLines } from "../../../framework/engine/CalculatedLines.ts";
@@ -17,7 +18,10 @@ import { deliveryAllocation, demandResult } from "../../../framework/engine/Dema
 import { BusinessAddButton, BusinessCard, BusinessEmpty, BusinessField, OptionalNote, BusinessRemove, uniqueChoices } from "../cards/BusinessCardFields.tsx";
 import { CAPACITY_UTILISATION_HELP, CashTimelineChart, FigureTable, FigureTiles, FinancialBlock, type FinancialSection, PlanMonthField, SignalList, type TimelineMarker } from "./FinancialParts.tsx";
 import { summaryText } from "../cards/cardSummary.ts";
-import FoldAllToggle from "../fields/FoldAllToggle.tsx";
+import CardBoxes, { type CardBox } from "../cards/CardBoxes.tsx";
+import DialogSectionBand from "../tiles/DialogSectionBand.tsx";
+import { SingleColumn } from "./foundation/shared.tsx";
+import { EngagementBox, EngagementBoxes } from "./engagement/EngagementCard.tsx";
 import InfoNote, { type InfoPoint, InfoText } from "../fields/InfoNote.tsx";
 import MonthYearPicker from "../fields/MonthYearPicker.tsx";
 import { NUMBER_LIMITS, type NumberLimit, limitedNumberText, numberInputMode } from "../fields/numberInput.ts";
@@ -243,6 +247,7 @@ export default function FinancialSustainabilityEditor({
                     ? (
                         <NumberCell
                             inputMode={numberInputMode(limits)}
+                            data-size={numberStep(limits)}
                             aria-label={ariaLabel}
                             placeholder={placeholder}
                             disabled={disabled}
@@ -281,6 +286,7 @@ export default function FinancialSustainabilityEditor({
             <BusinessField label={labelWithCurrency(label, currency)} info={info} inline>
                 <div className="business-capability-price">
                     <NumberCell
+                        data-size={numberStep(NUMBER_LIMITS.money)}
                         aria-label={nameWithCurrency(ariaLabel, currency)}
                         placeholder={placeholder}
                         disabled={disabled}
@@ -470,7 +476,7 @@ export default function FinancialSustainabilityEditor({
         );
     }
 
-    function streamCard(entry: { stream: RevenueStreamValue; orphan: boolean }, index: number) {
+    function streamCard(entry: { stream: RevenueStreamValue; orphan: boolean }, index: number, floating = false) {
 
         const { stream, orphan } = entry;
         const fromDemand = demandResult(demand[stream.offeringId]);
@@ -494,43 +500,19 @@ export default function FinancialSustainabilityEditor({
         const splitPayment = timing === "split" || timing === "milestone";
         const delayedPayment = splitPayment || timing === "completion";
 
-        return (
-            <BusinessCard
-                key={stream.id}
-                kind="Revenue Stream"
-                number={index + 1}
-                name={orphan ? "Offering removed from the Foundation page" : offeringName(stream)}
-                open={folds.isOpen(stream.id)}
-                onToggle={() => folds.toggle(stream.id)}
-                disabled={disabled}
-                anchor={"stream-" + stream.offeringId}
-                summary={summaryText(
-                    summaryPrice(stream),
-                    REVENUE_CHARGES.find(item => item.id === stream.frequency)?.label ?? stream.frequency
-                )}
-                actions={orphan && (
-                    <BusinessRemove
-                        what={what}
-                        disabled={disabled}
-                        onRemove={() => onChange({ ...page, streams: page.streams.filter(item => item.id !== stream.id) })}
-                    />
-                )}
-            >
-
-                {/* FOUR SHORT GROUPS, each under its own heading: what
-                    it costs the customer, how much sells, when the money
-                    arrives, and (only where it applies) orders. Every
-                    group shares four columns, labels above, so they line up. */}
-                <section className="financial-stream-group">
-                {/* (P7 (owner, 2026-11-18 03:01 and 03:08): what the Segment's competitors charge for a similar offer, from their K15 ranges, last in the "i";
-                    nothing is written into the price, and it is never compared with it.) */}
-                {groupHead("Price", (() => {
-                    const segment = businessFoundationSegments(foundation).find(entry => entry.offerings.some(offering => offering.id === stream.offeringId));
-                    const range = segment ? competitorsPriceRange(segment.competitors) : null;
-                    return range
-                        ? [...STREAM_HELP.price, "Your competitors charge about " + format(range.low) + (range.high > range.low ? " to " + format(range.high) : "") + " for a similar offer (their cards on Foundation, What do they charge?)."]
-                        : STREAM_HELP.price;
-                })())}
+        // (P7 (owner, 2026-11-18 03:01 and 03:08): what the Segment's competitors charge for a similar offer, from their K15 ranges, last in the Price's "i";
+        // nothing is written into the price, and it is never compared with it.)
+        const groups: { key: string; title: string; info?: InfoPoint[]; body: ReactNode }[] = [
+            {
+                key: "price", title: "Price", info: (() => {
+                        const segment = businessFoundationSegments(foundation).find(entry => entry.offerings.some(offering => offering.id === stream.offeringId));
+                        const range = segment ? competitorsPriceRange(segment.competitors) : null;
+                        return range
+                            ? [...STREAM_HELP.price, "Your competitors charge about " + format(range.low) + (range.high > range.low ? " to " + format(range.high) : "") + " for a similar offer (their cards on Foundation, What do they charge?)."]
+                            : STREAM_HELP.price;
+                    })(),
+                body: (
+                    <>
                 <div className="financial-inline-grid financial-stream-grid">
 
                     {listPicker("Charged", what + " charged", REVENUE_CHARGES.map(item => item.label),
@@ -568,10 +550,13 @@ export default function FinancialSustainabilityEditor({
                             : "On Customer Engagement, customers buy this Offering every month, but it is charged once here: its active clients would be counted as sales a month. Charge it Monthly, Quarterly or Annually, or change how customers buy."}
                     </p>
                 )}
-                </section>
-
-                <section className="financial-stream-group">
-                {groupHead("Sales Volume", STREAM_HELP.volume)}
+                    </>
+                )
+            },
+            {
+                key: "volume", title: "Sales Volume", info: STREAM_HELP.volume,
+                body: (
+                    <>
                 <div className="financial-inline-grid financial-stream-grid">
 
                     {fromDemand.expected !== null
@@ -686,17 +671,13 @@ export default function FinancialSustainabilityEditor({
                     </BusinessField>
                 )}
 
-                </section>
-
-                {/* When the money arrives, and its orders: side by side on
-                    one band while payment takes two fields and orders apply,
-                    each group in two of the four columns, so every field
-                    stays on the grid above; otherwise, or where the grid is
-                    narrower, one under the other (conversation.css). */}
-                <div className={"financial-stream-band" + (perOrder > 0 && !delayedPayment ? " financial-stream-band-paired" : "")}>
-
-                <section className="financial-stream-group">
-                {groupHead("Begins and Payment", STREAM_HELP.timing)}
+                    </>
+                )
+            },
+            {
+                key: "payment", title: "Begins & Payment", info: STREAM_HELP.timing,
+                body: (
+                    <>
                 <div className="financial-inline-grid financial-stream-grid">
 
                     <PlanMonthField
@@ -741,12 +722,14 @@ export default function FinancialSustainabilityEditor({
                         ["Months after the sale."], true, NUMBER_LIMITS.months)}
 
                 </div>
-                </section>
-
-                {/* Asked only when this Offering has a cost per order, such as delivery. */}
-                {perOrder > 0 && (
-                    <section className="financial-stream-group">
-                    {groupHead("Orders & Delivery", ORDERS_HELP)}
+                    </>
+                )
+            },
+            // (Asked only when this Offering has a cost per order, such as delivery.)
+            ...(perOrder > 0 ? [{
+                key: "orders", title: "Orders & Delivery", info: ORDERS_HELP,
+                body: (
+                    <>
                     <div className="financial-inline-grid financial-stream-grid">
                             {textInput(
                                 "Items per Order",
@@ -768,12 +751,11 @@ export default function FinancialSustainabilityEditor({
                                 ["What the customer pays towards delivery, per order. It is counted as revenue, shared by the " + plural(unit, 2) + " in the order."]
                             )}
                     </div>
-                    </section>
-                )}
-
-                </div>
-
-                {analysis && analysis.price !== null && (
+                    </>
+                )
+            }] : [])
+        ];
+        const outcome = analysis && analysis.price !== null && (
                     <p className="financial-stream-result">
                         <span>At the normal level: <strong>{format(analysis.revenue)} a month</strong></span>
                         <span>Left from each {unit} after its costs: <strong>{format(analysis.contribution ?? 0)}</strong></span>
@@ -784,15 +766,78 @@ export default function FinancialSustainabilityEditor({
                             </span>
                         )}
                     </p>
-                )}
+        );
+        const notes = (
+            <OptionalNote
+                label="Assumptions"
+                ariaLabel={what + " assumptions"}
+                disabled={disabled}
+                value={stream.description}
+                onChange={(next) => changeStream(stream.id, { description: next })}
+            />
+        );
 
-                <OptionalNote
-                    label="Assumptions"
-                    ariaLabel={what + " assumptions"}
-                    disabled={disabled}
-                    value={stream.description}
-                    onChange={(next) => changeStream(stream.id, { description: next })}
-                />
+        return (
+            <BusinessCard
+                key={stream.id}
+                kind="Revenue Stream"
+                number={index + 1}
+                name={orphan ? "Offering removed from the Foundation page" : offeringName(stream)}
+                open={floating || folds.isOpen(stream.id)}
+                onToggle={floating ? undefined : () => folds.toggle(stream.id)}
+                disabled={disabled}
+                anchor={"stream-" + stream.offeringId}
+                summary={summaryText(
+                    summaryPrice(stream),
+                    REVENUE_CHARGES.find(item => item.id === stream.frequency)?.label ?? stream.frequency
+                )}
+                actions={orphan && (
+                    <BusinessRemove
+                        what={what}
+                        disabled={disabled}
+                        onRemove={() => onChange({ ...page, streams: page.streams.filter(item => item.id !== stream.id) })}
+                    />
+                )}
+            >
+
+                {/* FOUR SHORT GROUPS, each under its own heading: what it costs the customer, how much sells, when the money arrives, and (only where it
+                    applies) orders. On the page every group shares four columns, labels above, so they line up. FLOATING, from its tile in the Revenue Streams
+                    dialog, as a Customer Engagement card (owner, 2026-11-18 10:38: "fix the style of the dialogue and the floated cards to fit the other"): each
+                    group a box of the shared bands -- its title band, its questions --, then the results and the Assumptions. Shared components only. */}
+                {floating
+                    ? (
+                        <SingleColumn>
+                            <EngagementBoxes>{[
+                                ...groups.map((group, at) => (
+                                    <EngagementBox key={group.key} title={group.title} info={group.info}
+                                        bands={[group.body, ...(!outcome && at === groups.length - 1 ? [notes] : [])]} />
+                                )),
+                                outcome && <EngagementBox key="results" title="Results" bands={[outcome, notes]} />
+                            ]}</EngagementBoxes>
+                        </SingleColumn>
+                    )
+                    : (
+                        <>
+                            {groups.slice(0, 2).map(group => (
+                                <section className="financial-stream-group" key={group.key}>
+                                    {groupHead(group.title, group.info)}
+                                    {group.body}
+                                </section>
+                            ))}
+                            {/* When the money arrives, and its orders: side by side on one band while payment takes two fields and orders apply, each group in
+                                two of the four columns, so every field stays on the grid above; otherwise, or where the grid is narrower, one under the other. */}
+                            <div className={"financial-stream-band" + (perOrder > 0 && !delayedPayment ? " financial-stream-band-paired" : "")}>
+                                {groups.slice(2).map(group => (
+                                    <section className="financial-stream-group" key={group.key}>
+                                        {groupHead(group.title, group.info)}
+                                        {group.body}
+                                    </section>
+                                ))}
+                            </div>
+                            {outcome}
+                            {notes}
+                        </>
+                    )}
 
             </BusinessCard>
         );
@@ -847,39 +892,8 @@ export default function FinancialSustainabilityEditor({
         return (
             <FinancialBlock title="Can the Expected Sales Be Delivered?" info={info}>
 
-                <div className="financial-table-scroll">
-                    <FigureTable className="financial-capacity-table">
-                        <thead>
-                            <tr>
-                                <th scope="col">Founder</th>
-                                <th scope="col">Delivery Hours</th>
-                                <th scope="col">Recurring Work</th>
-                                <th scope="col">Remaining</th>
-                                <th scope="col">Other Offerings</th>
-                                <th scope="col">Busiest Month</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {capacity.founders.map(founder => {
-                                // At the founder's busiest month.
-                                const recurring = founder.recurring[founder.peakIndex] ?? 0;
-                                const other = founder.other[founder.peakIndex] ?? 0;
-                                const over = founder.firstShortfall !== null;
-                                return (
-                                    <tr key={founder.id} className={over ? "financial-capacity-over" : undefined}>
-                                        <th scope="row">{founder.name}</th>
-                                        <td>{hours(founder.available)}</td>
-                                        <td>{hours(recurring)}</td>
-                                        <td>{hours(founder.available - recurring)}</td>
-                                        <td>{hours(other)}</td>
-                                        <td>{month(founder.peakIndex)}{over ? ": short" : ""}</td>
-                                    </tr>
-                                );
-                            })}
-                        </tbody>
-                    </FigureTable>
-                </div>
-
+                {/* (THE VERDICT ALONE (owner, 2026-11-18 16:55: "Do all 8", proposal 3): the founders' month, person by person, has one owner -- Capacity & Delivery's
+                    Capacity band; here, whether the expected sales fit, their busiest month and who delivers outside it, and the way there.) */}
                 <p className={"financial-capacity-verdict" + (short !== null ? " financial-capacity-short" : "")}>
                     {short !== null
                         ? <>From <strong>{month(short)}</strong>, the expected sales need more founders' hours than are available.
@@ -893,6 +907,10 @@ export default function FinancialSustainabilityEditor({
                                 <InfoNote label="Capacity used" points={CAPACITY_UTILISATION_HELP} />.
                             </InfoText></>}
                 </p>
+
+                {toDelivery && (
+                    <p className="financial-muted">Each founder's month, person by person: {toDelivery}.</p>
+                )}
 
                 {capacity.external.length > 0 && (
                     <p className="financial-muted">
@@ -946,7 +964,7 @@ export default function FinancialSustainabilityEditor({
                             Their "Expand all" sits in the section's title
                             row (see sectionCard). */}
                         <div className="financial-stream-list">
-                            {shownStreams.map(streamCard)}
+                            {shownStreams.map((entry, at) => streamCard(entry, at))}
                         </div>
                     </>)}
             </>
@@ -962,8 +980,8 @@ export default function FinancialSustainabilityEditor({
                                 <FigureTable>
                                     <thead>
                                         <tr>
+                                            {/* (No Price column: each stream's tile says it; owner, 2026-11-18 16:55, "Do all 8", proposal 6.) */}
                                             <th scope="col">Revenue Stream</th>
-                                            <th scope="col">Price</th>
                                             <th scope="col">Expected Volume</th>
                                             <th scope="col">Expected Revenue</th>
                                             <th scope="col">Share</th>
@@ -973,7 +991,6 @@ export default function FinancialSustainabilityEditor({
                                         {result.streams.map(entry => (
                                             <tr key={entry.stream.id}>
                                                 <th scope="row">{offeringName(entry.stream)}</th>
-                                                <td>{priceLabel(entry.stream)}</td>
                                                 <td>{isRecurringRevenue(entry.stream.frequency)
                                                     ? formatUnits(entry.volume) + " active"
                                                     : formatUnits(entry.volume) + " / month"}</td>
@@ -986,7 +1003,6 @@ export default function FinancialSustainabilityEditor({
                                         <tr>
                                             <th scope="row">Total</th>
                                             <td />
-                                            <td />
                                             <td><strong>{format(total)} / month</strong></td>
                                             <td />
                                         </tr>
@@ -998,10 +1014,10 @@ export default function FinancialSustainabilityEditor({
             </>
         );
 
-        const pair = (name: string, figure: string) => name + "\u0001" + (figure ? "**" + figure + "**" : "");
+        const pair = (name: string, figure: string): FaceRow => ({ name, under: figure });
         return {
             streams: { body: streams, face: shownStreams.map(entry => pair(offeringName(entry.stream), summaryPrice(entry.stream))) },
-            delivery: { body: capacityBlock(), face: [] as string[] },
+            delivery: { body: capacityBlock(), face: [] as FaceRow[] },
             summary: { body: summary, face: [pair("Expected revenue a month", format(total))] }
         };
 
@@ -1445,6 +1461,19 @@ export default function FinancialSustainabilityEditor({
             </>
         );
 
+        /** The Stress Test's line on the Sustainability tile: the shortfall in its hardest case, or None. */
+        function stressFace(): FaceRow[] {
+            const test = stressTest(effective, financial, lines, legalEntity, format);
+            if (test.scenarios.length === 0) {
+                return [];
+            }
+            const [planned] = test.scenarios;
+            const hardest = test.scenarios.reduce((max, scenario) => scenario.shortfall > max.shortfall ? scenario : max, planned);
+            // (Its hardest case alone: as planned is the Sustainability's own figure, said beside it; owner, 2026-11-18 16:55.)
+            // (Short enough for the face: the shortfall's amount, or None.)
+            return [pair("Worst shortfall", hardest.shortfall > 0.5 ? format(hardest.shortfall) : "None")];
+        }
+
         const stress = (
             <>
                 {stressBlock()}
@@ -1482,12 +1511,14 @@ export default function FinancialSustainabilityEditor({
         );
 
         // (Each tile's face: the figure it is about.)
-        const pair = (name: string, figure: string) => name + "\u0001" + (figure ? "**" + figure + "**" : "");
+        const pair = (name: string, figure: string): FaceRow => ({ name, under: figure });
         return {
             point: { body: point, face: result.breakEvenRevenue === null ? [] : [pair("Break-even revenue", format(result.breakEvenRevenue) + " a month")] },
             time: { body: time, face: [pair("Expected Break Even", breakEven)] },
-            sustainability: { body: <>{lead}{summary}</>, face: [pair(statusTitle, "")] },
-            stress: { body: stress, face: [] as string[] }
+            // (THE FACES SAY THEIR FIGURES (owner, 2026-11-18 10:38: "Check the structure, layout, sequence, content and wording"): the status with when the money
+            // runs out and the buffer; the Stress Test, as planned and at worst.)
+            sustainability: { body: <>{lead}{summary}</>, face: [pair(statusTitle, ""), pair("Financial Exhaustion", exhaustion), pair("Sustainability Buffer", bufferLabel)] },
+            stress: { body: stress, face: stressFace() }
         };
 
     }
@@ -1495,13 +1526,15 @@ export default function FinancialSustainabilityEditor({
     /* ---------- The chapters (doc 48, sections 2 and 11; owner, 2026-11-17 07:36) ---------- */
 
     /** A chapter's tiles, each opening its blocks in a dialog with the chapter's heading and "i", as Financial Foundation's are. */
-    function chapterTiles(prefix: string, section: FinancialSection, entries: readonly { id: string; title: string; body: ReactNode; face: readonly string[]; extra?: ReactNode; info?: InfoPoint[] }[]): SectionTile[] {
+    function chapterTiles(prefix: string, section: FinancialSection, entries: readonly { id: string; title: string; body: ReactNode; face: readonly FaceRow[]; extra?: ReactNode; info?: InfoPoint[] }[]): SectionTile[] {
         return entries.map(entry => ({
             id: prefix + "-" + entry.id,
             title: entry.title,
+            // (MASTER TILES KEEP THEIR SIZE AND THE 2 x 2 (owner's rule): a chapter of one or two tiles has them at the size of four, in its top row.)
+            large: true,
             anchor: prefix + "-" + entry.id,
             rail: railId(entry.title),
-            items: entry.face,
+            items: stackedFace(entry.face),
             content: () => (
                 <div className="column-tile-content" data-anchor={prefix + "-" + entry.id} data-rail={railId(entry.title)} role="group" aria-label={entry.title}>
                     <div className="business-engagement-section-head">
@@ -1533,26 +1566,74 @@ export default function FinancialSustainabilityEditor({
     if (part === "break-even") {
         const parts = breakEvenParts();
         return chapter(SECTIONS.breakEven.title, SECTION_HUES["sustainability-break-even"] ?? 0, chapterTiles("sustainability-break-even", SECTIONS.breakEven, [
-            { id: "point", title: "Break-Even Point", ...parts.point, info: BREAK_EVEN_POINT_INFO },
-            { id: "time", title: "Break-Even Time", ...parts.time, info: BREAK_EVEN_TIME_INFO },
-            { id: "sustainability", title: "Sustainability", ...parts.sustainability },
-            { id: "stress", title: "Stress Test", ...parts.stress, info: STRESS_TEST_INFO }
+            // (TWO TILES, FOUR BLOCKS (owner, 2026-11-18 16:55: "Do all 8"): the Break-Even Point and its Time read the same costs and margins, one tile; the
+            // Sustainability and the Stress Test both say when the money could run out, one tile -- each block under its own band in the dialog.)
+            {
+                id: "point", title: "Break-Even", face: [...parts.point.face, ...parts.time.face],
+                body: (
+                    <>
+                        <DialogSectionBand title="Break-Even Point" info={BREAK_EVEN_POINT_INFO}>{parts.point.body}</DialogSectionBand>
+                        <DialogSectionBand title="Break-Even Time" info={BREAK_EVEN_TIME_INFO}>{parts.time.body}</DialogSectionBand>
+                    </>
+                )
+            },
+            {
+                id: "sustainability", title: "Sustainability", face: [...parts.sustainability.face, ...parts.stress.face],
+                body: (
+                    <>
+                        {parts.sustainability.body}
+                        <DialogSectionBand title="Stress Test" info={STRESS_TEST_INFO}>{parts.stress.body}</DialogSectionBand>
+                    </>
+                )
+            }
         ]));
     }
 
-    // (REVENUE, the chapter of Revenue & Pricing: its streams, the Delivery Check and the summary. No settings box: the plan's months are in the page title,
+    // (REVENUE, the chapter of Revenue & Pricing. ONE CARD (owner, 2026-11-18 10:38: "Revenue streams should be tiles. Place the Revenue Summary and Delivery Check
+    // in the same card as the Revenue Stream Tiles"): its tile opens a dialog of a tile for each stream (the dialog's card list, three in a row, each opening its
+    // stream's card floating), then the Delivery Check and the Revenue Summary under their own bands. No settings box: the plan's months are in the page title,
     // and the currency beside every amount asked for.)
     const revenue = revenueParts();
+    const streamCardId = (stream: RevenueStreamValue) => "revenue-stream:" + stream.id;
+    const revenueTile: SectionTile = {
+        ...chapterTiles("sustainability-revenue", SECTIONS.revenue, [{
+            id: "streams", title: "Revenue Streams", face: revenue.streams.face,
+            body: (
+                <>
+                    {offerings.length === 0
+                        ? revenue.streams.body
+                        : (
+                            <CardBoxes
+                                label="Revenue Streams"
+                                what="Revenue Stream"
+                                autoStart={false}
+                                items={shownStreams.map((entry, at): CardBox => ({
+                                    id: streamCardId(entry.stream),
+                                    number: at + 1,
+                                    name: entry.orphan ? "Offering removed from the Foundation page" : offeringName(entry.stream),
+                                    unnamed: "Revenue Stream " + (at + 1),
+                                    own: true,
+                                    lines: [summaryPrice(entry.stream), REVENUE_CHARGES.find(item => item.id === entry.stream.frequency)?.label ?? ""].filter(Boolean),
+                                    content: () => null
+                                }))}
+                            />
+                        )}
+                    <DialogSectionBand title="Delivery Check">{revenue.delivery.body}</DialogSectionBand>
+                    <DialogSectionBand title="Revenue Summary" info={REVENUE_SUMMARY_INFO}>{revenue.summary.body}</DialogSectionBand>
+                </>
+            )
+        }])[0],
+        // (A dialog of its own, whatever the number of streams: the Delivery Check and the Revenue Summary stand in it too.)
+        view: true,
+        holds: shownStreams.map(entry => streamCardId(entry.stream)),
+        cardFor: (id: string) => {
+            const at = shownStreams.findIndex(entry => streamCardId(entry.stream) === id);
+            return at < 0 ? null : <div className="column-tile-content financial-page financial-stream-floating">{streamCard(shownStreams[at], at, true)}</div>;
+        }
+    };
     return (
         <div className="answer-columns business-foundation business-engagement business-capability column-tiles-page strategy-single-frame" style={{ "--answer-column-count": 1 } as CSSProperties}>
-            {chapter(SECTIONS.revenue.title, SECTION_HUES["sustainability-revenue"] ?? 0, chapterTiles("sustainability-revenue", SECTIONS.revenue, [
-                {
-                    id: "streams", title: "Revenue Streams", ...revenue.streams,
-                    extra: offerings.length > 0 && <FoldAllToggle ids={shownStreams.map(entry => entry.stream.id)} folds={folds} label="revenue streams" />
-                },
-                { id: "delivery", title: "Delivery Check", ...revenue.delivery },
-                { id: "summary", title: "Revenue Summary", ...revenue.summary, info: REVENUE_SUMMARY_INFO }
-            ]))}
+            {chapter(SECTIONS.revenue.title, SECTION_HUES["sustainability-revenue"] ?? 0, [revenueTile])}
         </div>
     );
 

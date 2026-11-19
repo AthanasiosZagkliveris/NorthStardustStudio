@@ -271,7 +271,7 @@ export function sustainability(
         ? {
             ...base,
             fixed: base.fixed + staffMonthly,
-            parts: [...base.parts, { label: "Employer on-costs and insurance", amount: staffMonthly }],
+            parts: [...base.parts, { label: "Employer on-costs & insurance", amount: staffMonthly }],
             timeline: [...base.timeline, ...extraFixed.slice(0, planMonths).map((amount, index) => ({ from: index + 1, to: index + 1, amount })).filter(entry => entry.amount > 0)]
         }
         : base;

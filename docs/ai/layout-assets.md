@@ -170,10 +170,10 @@ A frameless X inside a cell, at its right end, that removes what the cell holds 
 
 ### Rails
 
-The Pages and Sections rails: a column of items, each a bullet and a label in one button. Rest, lit and hover looks; bullets only below 1700px with the name as a tooltip, labels inline from 1700px.
+The Pages and Sections rails: a column of items, each a bullet and a label in one button. Rest, lit and hover looks; in a tab of the one rail geometry: bullets only (the name a tooltip) in the 53px tab, labels inline in the 388px named tab only where it fits beside the frame and every label is whole (layout rules section 10, "One rail for every layer").
 
 - **Kind:** navigation rail. **Code:** `src/components/interview/rails/BulletRail.tsx`. **Stylesheet:** `src/styles/bullet-rail.css` (also `src/styles/status-shape.css`, `src/styles/global.css`).
-- **Parts:** nav (the rail); list (18px between items); item button (label, 12px gap, bullet; 2px padding above and below); bullet (a plain dot, or a page status shape); label (tooltip below 1700px, inline from 1700px).
+- **Parts:** nav (the rail); list (18px between items); item button (label, 12px gap, bullet; 2px padding above and below); bullet (a plain dot, or a page status shape); label (a tooltip in the dots-only tab; inline, one 16px row, in the named tab).
 - **States:** rest, hover, focus, open.
 - **Used in:** the Pages rail (left) and the Sections rail (right) beside the interview card.
 - **Custom properties it reads:** `--rail-dot`, `--rail-dot-active`, `--rail-bloom`, `--rail-dot-hover`, `--rail-hover-ring`, `--rail-status`, `--rail-status-hover`, `--text-subtle`, `--text-strong`, `--text-primary`, `--hover-bold`, `--bold-tracking`, `--line-primary`, `--tooltip-bg`, `--tooltip-text`, `--tooltip-border`.
@@ -316,23 +316,21 @@ A drawn dropdown: a 44px trigger in one of the standard widths (or hugging its w
 
 ### Floating card
 
-The one surface every floating card stands on: 492px wide (a founder's 297px), 8px corners, 12px padding and 12px between everything, a height that follows its contents, an inset light and shade edge and a drop shadow, in the tint of its tile and the colours of the reading mode.
+The one surface every floating card stands on: 492px wide, every kind (a founder's too), 8px corners, 12px padding and 12px between everything, a height that follows its contents, an inset light and shade edge and a drop shadow, in the tint of its tile and the colours of the reading mode.
 
 - **Kind:** card base. **Code:** `src/components/interview/tiles/SectionTiles.tsx, the FloatingCards component`. **Stylesheet:** `src/styles/section-tiles.css` (also `src/styles/page-3-edges.css`, `src/styles/global.css`).
-- **Parts:** host (a dialog over the dimmed page, placed by its tile); stack (one card, or a parent above its child); item (the box name, then the card); caption (the box name, with the box's "i"); body (the card: its ground, edge and shadow).
+- **Parts:** host (a dialog over the page, which is neither darkened nor inert, placed by its tile); stack (one card, or a parent above its child); item (the box name, then the card); caption (the box name, with the box's "i"); body (the card: its ground, edge and shadow).
 - **States:** rest, open.
 - **Used in:** every floating card on the Foundation pages (Identity, Brand, Business, Strategy); the Resource, Activity, Partner, Provider, Founder, Legal Entity and Brand cards.
-- **Custom properties it reads:** `--open-card-width`, `--founder-card-min`, `--radius-lg`, `--card-padding`, `--space-field`, `--space-label`, `--control-square`, `--card-label-col`, `--theme-bg-inner`, `--theme-ground-weight`, `--theme-ground-paper`, `--theme-line-edge`, `--theme-line-accent`, `--strategy-theme-hue`, `--shadow-18`, `--shadow-12`, `--box-inset`.
+- **Custom properties it reads:** `--open-card-width`, `--radius-lg`, `--card-padding`, `--space-field`, `--space-label`, `--control-square`, `--card-label-col`, `--theme-bg-inner`, `--theme-ground-weight`, `--theme-ground-paper`, `--theme-line-edge`, `--theme-line-accent`, `--strategy-theme-hue`, `--shadow-18`, `--shadow-12`, `--box-inset`.
 
 | Variant | Where | Note |
 |---|---|---|
-| card | kind card | a Resource, Activity, Partner, Provider or any other card: --open-card-width wide |
-| founder | kind founder | a founder's card: --founder-card-min wide |
+| card | kind card | every floating card, a founder's too: --open-card-width wide (owner, 2026-11-19) |
 
 | Number | Value |
 |---|---|
 | cardWidth | 492 |
-| founderWidth | 297 |
 | radius | 8 |
 | padding | 12 |
 | gap | 12 |
@@ -347,7 +345,6 @@ The one surface every floating card stands on: 492px wide (a founder's 297px), 8
 | Use | Property | Tablet | Laptop | Desktop |
 |---|---|---|---|---|
 | Card width (kind card) (at most the window less the window margin) | `--open-card-width` | 492px | 492px | 492px |
-| Founder card width | `--founder-card-min` | 297px | 297px | 297px |
 | Card corners | `--radius-lg` | 8px | 8px | 8px |
 | Card padding, side, top and bottom | `--card-padding` | 12px | 12px | 12px |
 | Gap between rows, and between the box name and the card | `--space-field` | 12px | 12px | 12px |

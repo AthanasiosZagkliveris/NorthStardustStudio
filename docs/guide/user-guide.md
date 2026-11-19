@@ -117,7 +117,7 @@ Press **Settings** for the **Global Settings**: the rates and limits every calcu
 
 - **Financial plan**: the plan's start (worked out from the Opening Date) and its length.
 - **Business stages**: the Opening Date as recorded, and how long each stage lasts: Planning, Launching, Managing, Growing.
-- **Pay and tax**, **Assets** (the useful life of each group), **Rates** (royalties and commissions), **Reserve** and the **Channel Fee Table**.
+- **Pay & tax**, **Assets** (the useful life of each group), **Rates** (royalties and commissions), **Reserve** and the **Channel Fee Table**.
 
 Each setting has its "i" with what it means.
 

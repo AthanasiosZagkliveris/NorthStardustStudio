@@ -599,13 +599,8 @@
 }
 
 
-/* THE CONTENT UNDER A CARD'S NAME runs from the name's left edge to its right edge, on every card: a founder's card has no name cell, so its content keeps the
-   same left (after the number) and the same right (the delete x's column kept clear). */
-.business-foundation-card.business-founder-open {
-
-    padding-right: calc(var(--card-padding) + var(--card-x-col));
-
-}
+/* (A founder's card has the card padding of every card on its right too, its head's x column and its sections' padding keeping the content to the name cell's right
+   edge, as on every page-3 card: layout rules section 10, "One card", the same padding; the Lumen check, 2026-11-19. It stood at 12px + 40px.) */
 
 .floating-card-host .business-founder-open {
 
@@ -922,15 +917,8 @@ body:has(.floating-overlay) .section-tile-overlay:not(.floating-overlay) > .caro
 }
 
 /* ---- A FOUNDER'S CARD ON THE OTHER CARDS' SIZE ----
-   As wide as every card (--open-card-width), its content from the same edge to the same edge, and every field a side-label row: the label in --card-label-col, the cell
-   beside it (the Start date, the Salary, the Frequency, the Working and the Delivery Hrs). */
-.floating-card-founder,
-.floating-card-host .floating-card-body.floating-card-founder {
-
-    width: min(var(--open-card-width), calc(100vw - 16px));
-
-}
-
+   As wide as every card (the one width, 04-tile-slot-and-floating-card.css), its content from the same edge to the same edge, and every field a side-label row: the
+   label in --card-label-col, the cell beside it (the Start date, the Salary, the Frequency, the Working and the Delivery Hrs). */
 .business-founder-open .business-founder-grid {
 
     /* Salary | Frequency, then Working Hrs | Delivery Hrs: two equal columns, the labels above their cells, each label on one line. */
@@ -1353,9 +1341,9 @@ body:has([data-carousel]) .page-arrow:not(.carousel-arrow, .notepad-close) {
     /* (Fixed to the window and measured again as the page scrolls: it stays on the chapter, whatever the card does.) */
     position: fixed;
 
-    /* (Two layers of the shadow tone over the page's own ground: the chapter under the card is COVERED, never read through -- its letters, figures and stamps
-       confused the card (owner, 2026-11-15 16:42); about a third black in light and sepia, more in dark.) */
-    background: linear-gradient(var(--shadow-18), var(--shadow-18)), linear-gradient(var(--shadow-18), var(--shadow-18)), var(--bg-page);
+    /* A SHADOW, NOT A SOLID COLOUR, AND NO BLUR (owner, 2026-11-18 21:50 and 22:36 UTC+2: "It should be a shadow, not a solid colour!", "do not blur the
+       background"): the shadow tone, once, over the chapter, which shows through it. */
+    background: var(--shadow-18);
 
     pointer-events: auto;
 

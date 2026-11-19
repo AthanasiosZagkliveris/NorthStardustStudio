@@ -473,7 +473,7 @@ Each field once, with the component it uses (CO) and the functions it carries (F
 | F065 | Amortisation period | number box | CO07 | FN16 | 1 |
 | F066 | Extra: Minimum order | extra (tick + number) | - | FN11 | 1 |
 | F067 | Extra: Customs duty | extra (tick + number) | - | FN11 | 1 |
-| F068 | Extra: Clearance and handling | extra (tick + number) | - | FN11 | 1 |
+| F068 | Extra: Clearance & handling | extra (tick + number) | - | FN11 | 1 |
 | F069 | Extra: Other duties | extra (tick + number) | - | FN11 | 1 |
 | F070 | Cost options | dropdown | CO02 | FN05 | 2 |
 | F071 | Extra: Handling per pallet | extra (tick + number) | - | FN11 | 1 |

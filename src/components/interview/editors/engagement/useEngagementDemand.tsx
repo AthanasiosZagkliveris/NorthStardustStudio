@@ -2,6 +2,8 @@
  * THE DEMAND AND CONVERSION of each Offering.
  * One part of BusinessEngagementEditor (see BusinessEngagementEditor.tsx): what it needs of the parts before it comes in as `earlier`; what the parts after it need goes out.
  */
+import CardBoxes, { type CardBox } from "../../cards/CardBoxes.tsx";
+import { draftAdds, withDraft } from "../../../../framework/engine/CompetitorQuestions.ts";
 import type { ReactNode } from "react";
 import NumberCell from "../../../controls/NumberCell.tsx";
 import FieldLabel from "../../../controls/FieldLabel.tsx";
@@ -233,7 +235,7 @@ export function useEngagementDemand(earlier: Earlier) {
                     <OptionPicker
                         label={capitalized(what)}
                         placeholder="Select"
-                        hug
+                        hug={!own}
                         options={availableFor(source).map(entry => entry.label)}
                         disabled={disabled}
                         value={type?.label ?? ""}
@@ -249,7 +251,7 @@ export function useEngagementDemand(earlier: Earlier) {
             // (A group's source lists its channels, the category's Discover channels that serve the Offering: owner, 2026-11-16 20:11.)
             const groupChannels = (source.channelIds ?? []).map(id => channelOf(id)?.name.trim() ?? "").filter(Boolean);
             const channelPicker = source.group ? (
-                <BusinessField key="channel" label="Channels" info={DEMAND_SOURCE_CHANNEL_HELP} side={own}>
+                <BusinessField key="channel" label="Channels" info={DEMAND_SOURCE_CHANNEL_HELP}>
                     <p className="business-demand-source-note">{groupChannels.join(", ")}</p>
                 </BusinessField>
             ) : (
@@ -257,7 +259,7 @@ export function useEngagementDemand(earlier: Earlier) {
                     <OptionPicker
                         label={"Channel, " + what}
                         placeholder="Select"
-                        hug
+                        hug={!own}
                         options={channelOptionsFor(source.channelId, source.type).map(option => option.label)}
                         disabled={disabled}
                         value={channelOptions.find(option => option.id === source.channelId)?.label ?? ""}
@@ -275,7 +277,7 @@ export function useEngagementDemand(earlier: Earlier) {
                     <OptionPicker
                         label={"How the sales are estimated, " + what}
                         placeholder={DEMAND_BY_FIGURE}
-                        hug
+                        hug={!own}
                         options={[DEMAND_BY_FIGURE, DEMAND_BY_CALCULATION]}
                         disabled={disabled}
                         value={source.calculate ? DEMAND_BY_CALCULATION : DEMAND_BY_FIGURE}
@@ -339,13 +341,12 @@ export function useEngagementDemand(earlier: Earlier) {
                     info={["What this source's figure rests on: a test, an enquiry, a promise, past sales."]}
                 >
                     {/* (ADD A DRAFT (P1; owner, 2026-11-18 03:01): the source's own working as a sentence, added after what is written, as the Value Proposition's.) */}
-                    {demandBasisDraft(demand, source.id) && (
+                    {draftAdds(source.basis, demandBasisDraft(demand, source.id)) && (
                         <TextLink
                             className="business-competitor-draft"
                             disabled={disabled}
                             onClick={() => {
-                                const draft = demandBasisDraft(demand, source.id);
-                                changeSource(source.id, { basis: source.basis.trim() ? source.basis.replace(/\s+$/, "") + "\n\n" + draft : draft });
+                                changeSource(source.id, { basis: withDraft(source.basis, demandBasisDraft(demand, source.id)) });
                             }}
                         >
                             Add a draft
@@ -377,16 +378,35 @@ export function useEngagementDemand(earlier: Earlier) {
                         actions={remove}
                     >
                         <SingleColumn>
-                            <EngagementBox
-                                // (A SIDE-LABEL ROW EACH, as the Delivery card's (owner, 2026-11-18 02:31: "there are fields with gaps"): the label in the one label
-                                // column, its control beside it, so no row is left half empty however many figures a source has.)
-                                bands={[
-                                    <div key="source" className="business-demand-side">{sourcePicker}{channelPicker}</div>,
-                                    (estimatedPicker || figures) && <div key="figures" className="business-demand-side">{estimatedPicker}{figures}</div>,
-                                    noteLine,
-                                    basis
-                                ]}
-                            />
+                            <EngagementBoxes>{[
+                                <EngagementBox
+                                    key="source"
+                                    // (A SIDE-LABEL ROW EACH, as the Delivery card's (owner, 2026-11-18 02:31: "there are fields with gaps"): the label in the one label
+                                    // column, its control beside it, so no row is left half empty however many figures a source has. A group's channels are listed
+                                    // in the box below, so it asks for none.)
+                                    bands={[
+                                        <div key="source" className="business-demand-side">{sourcePicker}{source.group ? null : channelPicker}</div>,
+                                        (estimatedPicker || figures) && <div key="figures" className="business-demand-side">{estimatedPicker}{figures}</div>,
+                                        noteLine,
+                                        basis
+                                    ]}
+                                />,
+                                // (THE CHANNELS THAT BRING THEM, THIS SOURCE'S (owner, 2026-11-18 12:41: "Channels That Bring Them in their floated cards"; 18:01: "I do not want
+                                // the Channels that bring them as Tiles"): a list, one band a channel -- its name a link that opens it, its group beside it --, the bands'
+                                // lines running edge to edge.)
+                                <EngagementBox
+                                    key="channels"
+                                    title="Channels That Bring Them"
+                                    bands={sourceChannels.length > 0
+                                        ? sourceChannels.map(channel => (
+                                            <p className="business-demand-source-note" key={channel.id}>
+                                                <TextLink className="business-engagement-link" onClick={() => openChannel(segment, channel.id)}>{channel.name.trim() || "Unnamed channel"}</TextLink>
+                                                {channel.category.trim() && <span className="field-label-muted">{" · " + channel.category.trim()}</span>}
+                                            </p>
+                                        ))
+                                        : [<BusinessEmpty key="none">Choose the source's channel to list it here.</BusinessEmpty>]}
+                                />
+                            ]}</EngagementBoxes>
                         </SingleColumn>
                     </EngagementCard>
                 );
@@ -609,16 +629,18 @@ export function useEngagementDemand(earlier: Earlier) {
         const unchannelled = demand.sources.filter(source => source.type !== "" && !channelOptions.some(option => option.id === source.channelId) && (source.channelIds ?? []).length === 0).length;
         const channelsBringing = (
             <>
+                {/* (THE CHANNELS AS TILES (owner, 2026-11-18 10:38: "instead of listing the channels as text, place them on tiles"): the dialog's card list, three
+                    in a row, each its channel's name and group, pressed to open that channel.) */}
                 {broughtBy.length > 0 && (
-                    <ul className="business-relationship-profile-list">
-                        {broughtBy.map(id => (
-                            <li key={id}>
-                                <TextLink className="business-engagement-link" onClick={() => openChannel(segment, id)}>
-                                    {channelOptions.find(option => option.id === id)?.label ?? ""}
-                                </TextLink>
-                            </li>
-                        ))}
-                    </ul>
+                    <CardBoxes
+                        label={"Channels that bring the customers of " + offeringLabel}
+                        what="Channel"
+                        autoStart={false}
+                        items={broughtBy.map((id, at): CardBox => {
+                            const channel = segmentOf(segment.id).channels.find(entry => entry.id === id);
+                            return { id: "demand-channel:" + offeringId + ":" + id, number: at + 1, name: channelOptions.find(option => option.id === id)?.label ?? "", unnamed: "Unnamed channel", own: true, lines: channel?.category.trim() ? [channel.category.trim()] : [], press: () => openChannel(segment, id), content: () => null };
+                        })}
+                    />
                 )}
                 {(broughtBy.length === 0 || unchannelled > 0) && (
                     <BusinessEmpty>
@@ -644,10 +666,8 @@ export function useEngagementDemand(earlier: Earlier) {
             const bands = [<BusinessField key="buy" label="Customers Buy" info={DEMAND_BUYING_HELP} inline>{buyPicker}</BusinessField>, cancelField, resultBlock, assumptions].filter(Boolean);
             return (
                 <SingleColumn>
-                    <EngagementBoxes>{[
-                        <EngagementBox key="expected" title="Expected Sales" anchor={"demand-" + offeringId} bands={bands} />,
-                        <EngagementBox key="channels" title="Channels That Bring Them" bands={[channelsBringing]} />
-                    ]}</EngagementBoxes>
+                    {/* (No Channels That Bring Them here: each source's are on its tile and in its card; owner, 2026-11-18 12:41.) */}
+                    <EngagementBox key="expected" title="Expected Sales" anchor={"demand-" + offeringId} bands={bands} />
                 </SingleColumn>
             );
         }

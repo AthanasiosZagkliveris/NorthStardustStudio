@@ -255,6 +255,12 @@ export function CarouselArrows({ target, step, hue, back, side: fixedSide }: { t
         };
     }, [at?.edge, at?.tab, topmost]);
     const arrowsTop = at?.top ?? 0;
+    // NAMES BY THE ROOM ONLY (owner, 2026-11-18 20:13 UTC+2: "Floated cards - Rails, only with dots and tooltips. Dialogue and Chapters - Rails with dots and names
+    // (full size) only when screen size permits"): a floating card's rail (it steps through cards) has its dots and tooltips alone; a dialog's (it steps through
+    // sections) shows its names, whole, where the room beside its layer holds the named tab (--rail-tab-named-width, bullet-rail.css), else its dots alone. No caller sets it.
+    const room = at ? (at.tab ? (at.side === "left" ? at.leftEdge : window.innerWidth - at.edge) : (at.side === "left" ? at.left : at.right)) : 0;
+    const namedWidth = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--rail-tab-named-width")) || 220;
+    const named = step.what === "section" && room >= namedWidth;
 
     useLayoutEffect(() => {
         const rail = railRef.current;
@@ -328,10 +334,10 @@ export function CarouselArrows({ target, step, hue, back, side: fixedSide }: { t
                 onClick={step.next}
             />
             {step.items && step.items.length > 1 && step.go && (
-                // The rail under the arrows (the right one's): a bullet for each of the list, this one's lit. A card's bullet says its name in a tooltip (a card is named by the user); a SECTION'S bullet has its name beside it (the tiles' names are given), where the window has the room for it.
+                // The rail under the arrows (the right one's): a bullet for each of the list, this one's lit; its name beside it where the window has the room for the named tab, else in a tooltip (`named`).
                 <nav
                     ref={railRef}
-                    className={"carousel-rail" + (step.what === "section" && (at.tab && at.side === "left" ? at.left : at.right) >= 160 ? " carousel-rail-named" : "") + (at.tab ? " carousel-rail-tab" : "") + (at.tab && capped ? " carousel-rail-capped" : "") + (at.tab && at.side === "left" ? " carousel-rail-tab-left" : "")}
+                    className={"carousel-rail" + (named ? " carousel-rail-named" : "") + (at.tab ? " carousel-rail-tab" : "") + (at.tab && capped ? " carousel-rail-capped" : "") + (at.tab && at.side === "left" ? " carousel-rail-tab-left" : "")}
                     aria-label={"Go to a " + step.what}
                     // (A tab stands behind its layer, 1px under the layer's edge, so no gap opens between them: the layer's own edge is what shows where they meet; owner, 2026-11-11.)
                     style={{ ...(at.tab && at.side === "left" ? { right: window.innerWidth - at.leftEdge - 1 } : { left: at.tab ? at.edge - 1 : at.edge }), top: at.tab ? at.titleTop : at.top + 36, ...(at.tab ? { maxHeight: Math.max(120, window.innerHeight - at.titleTop - 12) } : {}), "--rail-label-room": Math.max(0, (at.tab ? (at.side === "left" ? at.leftEdge : window.innerWidth - at.edge) - 25 : at.right) - 8 - (at.tab ? 0 : 24)) + "px", "--strategy-theme-hue": hue, ...(at.tab ? { "--tab-bg": at.tab.bg, "--tab-edge": at.tab.edge, "--tab-ink": at.tab.ink } : {}) } as unknown as CSSProperties}
@@ -348,7 +354,9 @@ export function CarouselArrows({ target, step, hue, back, side: fixedSide }: { t
                                     onClick={() => step.go?.(item.id)}
                                 >
                                     <span className="bullet-rail-dot status-shape" aria-hidden="true" />
-                                    <span className="strategy-card-nav-tip" aria-hidden="true">{item.label}</span>
+                                    {/* A name beside its dot where the tab shows names; else the app's one tooltip (TitleTooltips: its name, aria-label), drawn over every
+                                        layer -- a tip drawn in the tab stood behind the dialog, as the tab does (owner, 2026-11-18 22:05 UTC+2: "Tooltips are behind the cards"). */}
+                                    {named && <span className="strategy-card-nav-tip" aria-hidden="true">{item.label}</span>}
                                 </button>
                             </li>
                         ))}

@@ -387,12 +387,12 @@ describe("Quillfield: the documents tie together", () => {
     test("the projections: Year 1 by quarter, the later years by year, capital expenditure and assumptions", () => {
         const projections = planMd.slice(planMd.indexOf("## 12. Financial Projections"), planMd.indexOf("## 13. Appendix"));
         const headings = [...projections.matchAll(/^### (.+)$/gm)].map(match => match[1]);
-        expect(headings).toEqual(["Profit and Loss", "Profit Kept in the Business", "Balance Sheet", "Cash Flow", "Capital Expenditure", "Assumptions"]);
+        expect(headings).toEqual(["Profit & Loss", "Profit Kept in the Business", "Balance Sheet", "Cash Flow", "Capital Expenditure", "Assumptions"]);
         expect(projections).toContain("| USD | Q1 | Q2 | Q3 | Q4 | Year 1 | Year 2 | Year 3 |");
         expect(projections).toContain("**Periods:** Q1: Aug – Oct 2026; Q2: Nov 2026 – Jan 2027; Q3: Feb – Apr 2027; Q4: May – Jul 2027; Year 2: Aug 2027 – Jul 2028; Year 3: Aug 2028 – Jul 2029.");
         expect(projections).toContain("they are not extended to five years");
         // The drawings are not in the profit and loss; the reconciliation below it ties to Page 5.
-        const pl = projections.slice(projections.indexOf("### Profit and Loss"), projections.indexOf("### Profit Kept"));
+        const pl = projections.slice(projections.indexOf("### Profit & Loss"), projections.indexOf("### Profit Kept"));
         expect(pl).not.toMatch(/drawings/i);
         expect(projections).toContain("| Less: owner's drawings | $0 | -$4,500 | -$13,500 | -$13,500 | -$31,500 | -$54,000 | -$54,000 |");
         expect(projections).toContain("the result Sustainability shows as revenue less costs");
@@ -408,7 +408,7 @@ describe("Quillfield: the documents tie together", () => {
         expect(planMd).toMatch(/Prepared: [A-Z][a-z]{2} [0-9]{4}/);
         expect(planMd).toContain("Website: quillfieldautomation.com");
         // Financial Projections, with the drawings line.
-        expect(at("Financial Projections")).toContain("### Profit and Loss");
+        expect(at("Financial Projections")).toContain("### Profit & Loss");
         expect(at("Financial Projections")).toContain("### Profit Kept in the Business");
         expect(at("Financial Projections")).toContain("| Profit kept in the business |");
         expect(at("Financial Projections")).toContain("### Balance Sheet");
@@ -442,7 +442,7 @@ describe("Quillfield: the documents tie together", () => {
     test("the forecast exports as a document", () => {
         const md = new MarkdownExporter().toMarkdown(all.business, "Foundation", businessForecastContent(all, "annual", 3));
         expect(md).toContain("# Financial Forecast: Quillfield Automation");
-        expect(md).toContain("## 1. Profit and Loss Forecast");
+        expect(md).toContain("## 1. Profit & Loss Forecast");
         expect(md).toContain("## 2. Profit Kept in the Business");
         expect(md).toContain("| Profit kept in the business |");
         expect(md).toContain("| Cash shortfall (unfunded) |");
@@ -530,7 +530,7 @@ describe("Quillfield: the documents tie together", () => {
             .filter(row => !row.heading && !row.total && row.text === undefined)
             .forEach(row => expect(row.values.some(amount => Math.abs(amount) > 0.005), row.label).toBe(true)));
         expect(annual.tables.map(table => table.title))
-            .toEqual(["Profit and Loss Forecast", "Profit Kept in the Business", "Balance Sheet", "Cash-Flow Forecast"]);
+            .toEqual(["Profit & Loss Forecast", "Profit Kept in the Business", "Balance Sheet", "Cash-Flow Forecast"]);
         const byTitle = (view: typeof annual, title: string) => view.tables.find(table => table.title === title)!;
         expect(byTitle(annual, "Cash-Flow Forecast").rows.some(row => row.label === "Interest paid")).toBe(false);
         const monthly = forecastView(forecast, "monthly", 2);
@@ -569,7 +569,7 @@ describe("Quillfield: the documents tie together", () => {
         const monthly = businessForecastContent(all, "monthly", 3);
         expect(monthly.landscape).toBe(true);
         expect(monthly.sections.map(entry => entry.title)).toEqual([
-            "Profit and Loss Forecast: Year 1", "Profit and Loss Forecast: Year 2", "Profit and Loss Forecast: Year 3",
+            "Profit & Loss Forecast: Year 1", "Profit & Loss Forecast: Year 2", "Profit & Loss Forecast: Year 3",
             "Profit Kept in the Business: Year 1", "Profit Kept in the Business: Year 2", "Profit Kept in the Business: Year 3",
             "Balance Sheet: Year 1", "Balance Sheet: Year 2", "Balance Sheet: Year 3",
             "Cash-Flow Forecast: Year 1", "Cash-Flow Forecast: Year 2", "Cash-Flow Forecast: Year 3",
@@ -587,14 +587,14 @@ describe("Quillfield: the documents tie together", () => {
         // A single plan year is already narrow enough: left as one table.
         const oneYear = businessForecastContent(all, "monthly", 1);
         expect(oneYear.sections.map(entry => entry.title)).toEqual([
-            "Profit and Loss Forecast", "Profit Kept in the Business", "Balance Sheet", "Cash-Flow Forecast", "Notes"
+            "Profit & Loss Forecast", "Profit Kept in the Business", "Balance Sheet", "Cash-Flow Forecast", "Notes"
         ]);
 
         // The annual view is narrow regardless of plan length: never split.
         const annual = businessForecastContent(all, "annual", 3);
         expect(annual.landscape).toBe(true);
         expect(annual.sections.map(entry => entry.title)).toEqual([
-            "Profit and Loss Forecast", "Profit Kept in the Business", "Balance Sheet", "Cash-Flow Forecast", "Notes"
+            "Profit & Loss Forecast", "Profit Kept in the Business", "Balance Sheet", "Cash-Flow Forecast", "Notes"
         ]);
     });
 
@@ -791,7 +791,7 @@ describe("the forecast statements' structure", () => {
 
         // Its document splits by year, like the monthly one.
         const content = businessForecastContent(quillSessions, "quarterly", 2);
-        expect(content.sections[0].title).toBe("Profit and Loss Forecast: Year 1");
+        expect(content.sections[0].title).toBe("Profit & Loss Forecast: Year 1");
         expect(content.systemName).toContain("quarterly");
     });
 
@@ -881,9 +881,9 @@ describe("the optional answers in the documents", () => {
             "- Certification: Certified in Microsoft Power Platform and Zapier\n");
         // Skills and Cover: Capacity & Delivery's LC1, each skill with who covers it (the Team of its activities), then the Notes.
         expect(given).not.toContain("Capability Gaps");
-        expect(given).toContain("### Skills and Cover\n\n- Bookkeeping and tax: covered by ");
+        expect(given).toContain("### Skills and Cover\n\n- Bookkeeping & tax: covered by ");
         expect(given).toContain("- Selling: covered by Jordan Ellis\n");
-        expect(given).toContain("- Marketing and social media: covered by Jordan Ellis\n");
+        expect(given).toContain("- Marketing & social media: covered by Jordan Ellis\n");
         expect(given).toContain("- Cover for holidays or illness: covered by ");
         expect(given).toContain("Brooklyn CPA practice");
     });
@@ -894,7 +894,7 @@ describe("the optional answers in the documents", () => {
             skillsNeeded: ["marketing"],
             offering: { ...(value.offering as Record<string, unknown>), activities: ((value.offering as { activities: { category: string }[] }).activities).filter(activity => activity.category !== "marketing") }
         }));
-        expect(partOf(planOf({ ...base(), business: noMarketing }), "## 7. Management and Organisation")).toContain("- Marketing and social media: not covered yet\n");
+        expect(partOf(planOf({ ...base(), business: noMarketing }), "## 7. Management and Organisation")).toContain("- Marketing & social media: not covered yet\n");
 
         const none = withAnswer(3, "business", AnswerType.BusinessCapability, value => ({ ...value, skillsNeeded: [], skillsOther: [], skillsNotes: "" }));
         expect(partOf(planOf({ ...base(), business: none }), "## 7. Management and Organisation")).toContain("### Skills and Cover\n\nNot covered by the Foundation answers.");
@@ -946,7 +946,7 @@ describe("the optional answers in the documents", () => {
         expect(profile).not.toContain("Capability Gaps");
         const business = loadQuill(3, "business");
         const capability = new MarkdownExporter().toMarkdown(business, "Foundation", buildExportContent(business, "Foundation"));
-        expect(capability).toContain("Skills and Cover\n\n- Bookkeeping and tax: covered by ");
+        expect(capability).toContain("Skills and Cover\n\n- Bookkeeping & tax: covered by ");
         expect(capability).toContain("- Cover for holidays or illness: covered by ");
         expect(capability).toContain("Brooklyn CPA practice");
 

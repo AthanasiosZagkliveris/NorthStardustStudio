@@ -705,7 +705,7 @@ function projectionBlocks(f: Foundation): ExportBlock[] {
     const view = { ...full, tables: full.tables.map(short) };
     const whole = moneyFormatter(f.currency, { wholeOnly: true });
     const titles: Record<string, string> = {
-        "Profit and Loss Forecast": "Profit and Loss",
+        "Profit & Loss Forecast": "Profit & Loss",
         "Cash-Flow Forecast": "Cash Flow"
     };
     const capex = short(forecastView(forecast, "quarterly", years, { quarterlyYears: 1, tables: [forecast.capitalExpenditure] }).tables[0]);

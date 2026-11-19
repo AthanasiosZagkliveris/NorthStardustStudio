@@ -16,7 +16,7 @@ import { InterviewSession } from "../framework/interview";
 import { frameworkRegistry } from "../framework/engine/FrameworkRegistry";
 import { AnswerDefinition, Section, ValidationIssue } from "../framework/model";
 import { AnswerType } from "../framework/enums/AnswerType";
-import { financialPlanPeriod } from "../framework/engine/FinancialModel.ts";
+import { asFinancialFoundationValue, costStartDates, derivedPlanStart, financialPlanPeriod, legalExpenseDates, withPlanStart } from "../framework/engine/FinancialModel.ts";
 import {
     defaultAnswerValue,
     numberedUnitCount,
@@ -24,7 +24,7 @@ import {
     asLegalEntityValue,
     type StrategicPeriodValue,
     asStrategyFoundationValue,
-    titleWithPeriod } from "../framework/engine/AnswerUtils.ts";
+    titleWithPeriod, asBusinessCapabilityValue } from "../framework/engine/AnswerUtils.ts";
 
 import { StorageService } from "../services/StorageService";
 import { OrganizationService } from "../services/OrganizationService";
@@ -1083,8 +1083,11 @@ export default function Conversation() {
     // The period a title's "MM/YY - MM/YY" stands for: the Strategic
     // Period on the Strategy pages, the financial plan's months on the
     // Business System's Financial pages (financialPlanPeriod).
+    // (The plan's first month as the pages work it out -- from the Opening Date and the earliest dated cost --, never a start saved before: both financial pages
+    // show the one period; owner, 2026-11-18 10:38.)
+    const storedPlan = asFinancialFoundationValue(financialFoundationSection ? session.getResponse(financialFoundationSection.number) : undefined);
     const titlePeriod = strategyFoundationValue?.period ?? (financialFoundationSection
-        ? financialPlanPeriod(session.getResponse(financialFoundationSection.number))
+        ? financialPlanPeriod(withPlanStart(storedPlan, undefined, derivedPlanStart(openingDate, [...costStartDates(asBusinessCapabilityValue(businessCapabilityValue)), ...legalExpenseDates(legalEntity)], withPlanStart(storedPlan).planStart)))
         : { start: { month: "", year: "" }, end: { month: "", year: "" } });
 
     const resolvedSectionTitle: string | undefined = currentSection

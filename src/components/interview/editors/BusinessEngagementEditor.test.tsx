@@ -664,7 +664,7 @@ describe("a Customer Source's choices narrowed by the earlier answers (owner, 20
         // (The Audit's dialog: its Expected Sales section, then its source's tile; owner, 2026-11-13 16:35.)
         openTile("1. Audit");
         expect(document.body.textContent).toContain("Expected Sales");
-        fireEvent.click([...document.querySelectorAll<HTMLElement>(".section-tile-overlay button.card-tile")][0]);
+        fireEvent.click([...document.querySelectorAll<HTMLElement>(".section-tile-overlay [aria-label^='Demand & Conversion of'] button.card-tile")][0]);
         const optionsOf = (label: string) => {
             // (One option is a record, not a dropdown: its value, read only; owner, 2026-11-14 14:21.)
             const record = screen.queryByRole("textbox", { name: new RegExp("^" + label) });
@@ -707,7 +707,7 @@ describe("a Customer Source's kind narrows its channels (owner, 2026-11-14 11:15
         render(<Harness />);
         openTile("Demand & Conversion");
         openTile("1. Audit");
-        fireEvent.click([...document.querySelectorAll<HTMLElement>(".section-tile-overlay button.card-tile")][0]);
+        fireEvent.click([...document.querySelectorAll<HTMLElement>(".section-tile-overlay [aria-label^='Demand & Conversion of'] button.card-tile")][0]);
         const channels = () => {
             // (One option is a record, not a dropdown: its value, read only; owner, 2026-11-14 14:21.)
             const record = screen.queryByRole("textbox", { name: /^Channel, / });
@@ -744,7 +744,7 @@ describe("the Removed lists of Customer's Relationship and Demand & Conversion",
         expect(document.querySelector(".floating-card-host")?.textContent).toContain("Personal Assistance");
     });
 
-    it("lists a removed type and a removed source, and Restore brings each back", () => {
+    it("lists a removed source, and Restore brings it back; a relationship dialog lists no removed type", () => {
         const offering = { ...createBusinessOffering(), name: "Audit", questions: { o7: ["personal", "dedicated"] } };
         const segment = { ...createBusinessCustomerSegment([]), name: "Firms", offerings: [offering] };
         const foundation = { ...asBusinessFoundationValue(undefined), segments: [segment] };
@@ -761,13 +761,9 @@ describe("the Removed lists of Customer's Relationship and Demand & Conversion",
         }
         render(<Harness />);
         const saved = () => asBusinessEngagementValue(latest);
-        // The type: one left, so the tile opens its dialog, where the Removed list stands.
+        // (No Removed list on a relationship dialog: owner, 2026-11-18 10:38.)
         openTile("Customer's Relationship");
-        openTile("1. Audit");
-        fireEvent.click(screen.getByRole("button", { name: "Maximise Removed relationship types" }));
-        expect(screen.getByText("Dedicated Support")).toBeTruthy();
-        fireEvent.click(screen.getByRole("button", { name: "Restore" }));
-        expect(saved().segments[0].offerings[0].dismissed ?? []).toEqual([]);
+        expect(screen.queryByRole("button", { name: "Maximise Removed relationship types" })).toBeNull();
         closeAllTiles();
         // The source: not made while removed; Restore makes it again.
         expect(saved().demand[offering.id]?.sources.some(source => (source.channelIds ?? []).includes("site")) ?? false).toBe(false);

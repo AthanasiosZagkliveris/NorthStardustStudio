@@ -821,7 +821,7 @@ export const referenceTables: readonly TableData[] = [
    },
    {
     "id": "F068",
-    "name": "Extra: Clearance and handling",
+    "name": "Extra: Clearance & handling",
     "component": "extra (tick + number)",
     "component_id": "-",
     "functions": "FN11",

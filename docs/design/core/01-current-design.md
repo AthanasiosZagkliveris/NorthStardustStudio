@@ -128,7 +128,7 @@ Pages come from `src/assets/SystemAnswers/01..04_*.md`. Each page's `Structure` 
 | Search dialog | Results in four groups (Pages, Fields, Glossary, Your answers) open a System, page, field (card unfolded), a term on the Workbook page's Glossary, or an answer | `C/SearchDialog.tsx`, `services/SearchService.ts` | Header |
 | Undo toast | One toast for the app, after a removal | `C/UndoToast.tsx`, `services/UndoService.ts` | Header |
 | Workbook page | One page drawn as a dialog: the title "Workbook", one framed panel with the carousel arrows and a tab of bullets; sections Card Notes, Review, Glossary, References and Business Documents (Business Plan, Business Model Canvas, Financial Forecast); from the Landing page, the total review, the Glossary of every Organisation and the References. Its shape: layout rules 22.37. Review: four groups (Still open, Worth a second look, Missing from the documents, Key dates), each item with "Go there". Glossary: the app's terms (`data/glossary.ts`) in blue and the user's own (`services/GlossaryService.ts`) in terracotta, A to Z, under ONE funnel. References: `Sources.ts` as a Harvard list, a funnel of letter ranges (`letterRanges`) | `pages/Workbook.tsx`, `C/notepad/Notepad.tsx`, `C/OrganizationReview.tsx`, `C/GlossaryList.tsx`, `C/BusinessDocumentsView.tsx`, `C/references/HarvardReference.tsx` | `/workbook` (`/glossary`, `/review` and `/documents` open it on their section) |
-| Global Settings page | Financial plan, Business stages, Pay and tax, Assets (useful life, amortisation), Rates, Reserve, Channel Fee Table | `pages/GlobalSettings.tsx`, `FinancialPlanSettings.tsx` | `/settings` |
+| Global Settings page | Financial plan, Business stages, Pay & tax, Assets (useful life, amortisation), Rates, Reserve, Channel Fee Table | `pages/GlobalSettings.tsx`, `FinancialPlanSettings.tsx` | `/settings` |
 | Business Documents | A section of the Workbook page (2026-11-09): tabs (Business Plan, Business Model Canvas, Financial Forecast), period picker, downloads | `C/BusinessDocumentsView.tsx` | `/workbook` (`/documents` opens it there) |
 | Confirmation dialog | Overlay, title, message, action buttons | Markup repeated in `Conversation.tsx`, `Landing.tsx` and others (6 uses; no shared component) | Delete, strategy prompt, export steps |
 | Export dialogs | Two steps: options, then Markdown or PDF | `Conversation.tsx` | Last page |
@@ -202,6 +202,7 @@ Tile dialogs (`SectionTiles.tsx`): header with a trail and Back (`DialogHeading`
 | Order number | `CardNumber.tsx` |
 | Remove × | `BusinessRemove`, `.strategy-box-remove`, `removal-marks`; contract `src/library/assets/removeX.ts` |
 | Link symbol and dots | `LinkSymbol`, `Dots` and `SYMBOLS` (`CardTile.tsx`), `ActionMarkers.tsx` |
+| The mark icons | `MarkIcon` (`ActionMarkers.tsx`): one set, Tabler's 24px outline icons with 2px round strokes, drawn inline: **link**, **tag**, and **responsible** (Tabler's user-check: a person with a tick; owner, 2026-11-19 01:20 UTC+2, "B: option 2"), the Responsible mark beside a founder's responsibility, "Responsible" its tooltip and its name for screen readers |
 | Dates | `DateCellInput` |
 | Status | `status-shape.css`, `ResourceStatuses` |
 | Quantity, price, groups | `BusinessField`, `BusinessGroup` |
@@ -1022,6 +1023,8 @@ Colour = what the user does in the section (work type). The code applies these w
 | Yellow `#e8b84a` | Build | Combine existing information into a structured outcome |
 | Lavender `#cfc6e6` | Review | Examine, validate and refine what has been created |
 | Teal `#3fb5b0` | Connect | Items that come from, or link to, another section |
+
+**The band hues inside a card** (owner, 2026-11-18 23:56 and 2026-11-19 01:08 UTC+2: the app's shared band saturation and lightness, `--theme-bg-ink`, varying only the hue, at a card band's strength, 12%): the card's own hue (its tile's work colour) for its bands; the **Links** band the links' blue (`--text-primary`); the **Completed** band hue **150** (a green no page-3 card is drawn in; `--completed-band-hue`).
 
 ### Systems and sections
 

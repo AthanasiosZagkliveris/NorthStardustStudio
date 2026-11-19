@@ -435,6 +435,20 @@ body:has([data-pair]) .section-tile-overlay.floating-overlay.business-foundation
 
 }
 
+/* A PAGE OF TWO CHAPTERS SIDE BY SIDE (owner, 2026-11-18 10:38: "The chapter tiles should be next to each other"; Costs, Funding & Position: Financial Foundation
+   and Break Even): each chapter one column of the page's two, the same width the rule above gives one chapter alone, top-aligned. */
+.answer-columns.business-foundation.business-engagement.business-capability.column-tiles-page.column-tiles-pair > .business-foundation-card {
+
+    grid-column: auto;
+
+    justify-self: stretch;
+
+    align-self: start;
+
+    width: auto;
+
+}
+
 .column-tile-content {
 
     display: flex;

@@ -256,11 +256,11 @@ For Internal solution and Status quo the box stays text only: it asks about the 
   - Status quo: "How could each change affect customers who do nothing?"
 - **Rows:** the Segment's "What is changing most for your customers?" (doc 35, Box 5, question 3; `trends`). The changes the Segment ticked come first. No band (owner, 2026-11-04: no Segment or Profile answer chooses a change directly; the links tried that evening were withdrawn):
   - Technology
-  - Rules and law
+  - Rules & law
   - The economy
-  - Society and lifestyle
-  - Supply and delivery
-  - Environment and climate (added 2026-11-08 with the Segment's option)
+  - Society & lifestyle
+  - Supply & delivery
+  - Environment & climate (added 2026-11-08 with the Segment's option)
 - **The "i" says:**
   - How each change could help or hurt them. The changes and their examples are your Segment's.
   - 1 = Threat, 5 = Opportunity.

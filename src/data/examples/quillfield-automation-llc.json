@@ -703,6 +703,10 @@
                       "k5-sub": [
                         "marketplace:upwork",
                         "marketplace:fiverr"
+                      ],
+                      "k15": [
+                        "2000",
+                        "8000"
                       ]
                     }
                   },
@@ -771,6 +775,10 @@
                       ],
                       "k5-sub": [
                         "in-person:talk"
+                      ],
+                      "k15": [
+                        "15000",
+                        "60000"
                       ]
                     }
                   },
@@ -828,6 +836,10 @@
                       "k10": [
                         "better:good-support",
                         "stage:support"
+                      ],
+                      "k15": [
+                        "300",
+                        "2400"
                       ]
                     }
                   },
@@ -861,6 +873,10 @@
                       "k10": [
                         "cost:speed",
                         "act:economy"
+                      ],
+                      "k15": [
+                        "3000",
+                        "12000"
                       ]
                     }
                   }
@@ -1943,9 +1959,9 @@
                     "id": "source-z25y1lgp",
                     "type": "marketplace",
                     "calculate": false,
-                    "estimate": "",
+                    "estimate": "0",
                     "inputs": {},
-                    "basis": "",
+                    "basis": "Counted with the sales funnel: the people met at events and talks are the prospects reached there.",
                     "channelId": "",
                     "fromAnswers": true,
                     "group": "Visitors",
@@ -1974,9 +1990,9 @@
                     "id": "source-23ghn3hx",
                     "type": "funnel",
                     "calculate": false,
-                    "estimate": "",
+                    "estimate": "0",
                     "inputs": {},
-                    "basis": "",
+                    "basis": "Counted with the audits: builds come from audited firms, not straight from the funnel.",
                     "channelId": "",
                     "fromAnswers": true,
                     "group": "Sales funnel",
@@ -1991,9 +2007,9 @@
                     "id": "source-53h6k4qs",
                     "type": "referrals",
                     "calculate": false,
-                    "estimate": "",
+                    "estimate": "0",
                     "inputs": {},
-                    "basis": "",
+                    "basis": "Counted with the audits: an introduced firm starts with an audit.",
                     "channelId": "",
                     "fromAnswers": true,
                     "group": "Referrals",
@@ -2035,9 +2051,9 @@
                     "id": "source-dpd9fgw8",
                     "type": "funnel",
                     "calculate": false,
-                    "estimate": "",
+                    "estimate": "0",
                     "inputs": {},
-                    "basis": "",
+                    "basis": "Counted with the builds: a retainer follows a finished build.",
                     "channelId": "",
                     "fromAnswers": true,
                     "group": "Sales funnel",
@@ -3810,7 +3826,7 @@
                   "resources": [
                     {
                       "id": "resource-y7r2c5mt",
-                      "units": ""
+                      "units": "1"
                     }
                   ],
                   "performerPeople": {}
@@ -3992,9 +4008,9 @@
                   "group": "contractors-advisers",
                   "rateOverride": "",
                   "costOption": "",
-                  "quantity": "",
-                  "hoursAvailable": "",
-                  "leadWeeks": "",
+                  "quantity": "1",
+                  "hoursAvailable": "40",
+                  "leadWeeks": "2",
                   "extras": {},
                   "paymentPlan": {
                     "on": false,

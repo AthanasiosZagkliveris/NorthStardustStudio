@@ -88,6 +88,22 @@
 
 }
 
+/* (Its controls fill their column, to the card's content edge, and a read-only value (its Channels) takes the card's width under its label: no dead space beside
+   them; owner, 2026-11-18 10:38.) */
+.business-demand-side .business-field-side > :not(:first-child){
+
+    width:100%;
+
+}
+
+.business-demand-side .business-demand-number{
+
+    max-width:none;
+
+    width:100%;
+
+}
+
 /* (Opened on its own, floating from the tile's link, the card is a .card-box-open whose 124px label column is for the Status and Frequency rows; a Delivery
    card keeps its own, wide enough for "Calendar Time (weeks)" on one line.) */
 @container card (min-width: 396px){
@@ -204,6 +220,24 @@
 
 }
 
+/* (ON THE DELIVERY CARD each person is a side-label row as the card's others: the name in the label column, the hours filling the answer column to the content
+   edge; owner, 2026-11-18 12:41, "Fix the fields and their cells properly".) */
+.delivery-card .delivery-person{
+
+    grid-template-columns:var(--side-label-short) minmax(0, 1fr);
+
+    column-gap:var(--side-label-gap);
+
+    align-items:center;
+
+}
+
+.delivery-card .delivery-person-hours.interview-input.interview-input{
+
+    width:100%;
+
+}
+
 /* Total per unit, with the "i" on what a unit is. */
 .delivery-total{
 
@@ -286,3 +320,19 @@
 .delivery-budget-ceiling{ position:absolute; top:0; bottom:0; width:2px; margin-left:-1px; background:var(--text-primary); }
 
 /* THE DELIVERY CARDS in their dialog: each card is 360px wide (as an opened card is), side by side as many as fit, wrapping, 12px apart. */
+
+/* (ON THE DELIVERY CARD a field under its label has its cell as wide as its content -- a picker its longest option, a number a short one --, never stretched
+   across the band: owner, 2026-11-18 12:41, "Fix the fields and their cells properly".) */
+.delivery-card .legal-entity-org-section .business-foundation-field:not(.business-field-side) > .option-picker{
+
+    align-self:flex-start;
+
+}
+
+.delivery-card .legal-entity-org-section .business-foundation-field:not(.business-field-side) > .delivery-number.interview-input.interview-input{
+
+    align-self:flex-start;
+
+    width:var(--control-xs);
+
+}

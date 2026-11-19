@@ -317,7 +317,7 @@ export function calculatedLines(input: CalculationInput, fromFoundationRate: num
     const perEmployee = settingNumber(settings.insurancePerEmployee);
     const employeeInsurance: CalculatedLine = {
         id: "employee-insurance",
-        label: "Key-person and health insurance",
+        label: "Key-person & health insurance",
         values: keyPersonCards.length > 0 ? headcount.map(people => round(people * (perEmployee ?? parseAmount(keyPersonCards[0].amountText) ?? 0))) : zeros()
     };
 

@@ -930,8 +930,9 @@
    box of as many lines as it needs. Country and State / Region take
    the column's width, as the Address does, rather than the step their
    longest option would pick (the "column" width variant). */
+/* (Not the currency of a cost row in a card of bands: it keeps its own size, its code and the arrow; owner, 2026-11-18 20:20 UTC+2, the bands of page 3's cards.) */
 .legal-entity-where .option-picker,
-.legal-entity-grid-organization > .legal-entity-field .option-picker{
+.legal-entity-grid-organization > .legal-entity-field .option-picker:not(.business-capability-cost-currency .option-picker){
 
     width:100%;
 

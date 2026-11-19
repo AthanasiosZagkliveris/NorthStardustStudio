@@ -695,7 +695,8 @@ export function valueOfProfiles(value: string, context: OpeningContext): boolean
 
 const labelOf = (list: readonly SegmentOption[], id: string) => list.find(option => option.id === id)?.label ?? id;
 /** Words inside a sentence: the first letter small ("Be ready where the economy hurts them"). */
-const inSentence = (words: string) => words.charAt(0).toLowerCase() + words.slice(1);
+// (A label set in a sentence reads as prose: its "&" -- the labels' own, owner 2026-10-29/30 -- is "and" there.)
+const inSentence = (words: string) => (words.charAt(0).toLowerCase() + words.slice(1)).replace(/ & /g, " and ");
 
 /**
  * K10's options, in their order, each by its rule (doc 41): the values by their opening score, (5 − rating) × weight, ties broken by how many of the Segment's
@@ -941,6 +942,24 @@ export function shownOpenings(openings: readonly Opening[], ticked: readonly str
 export function draftToAdd(text: string, draft: string): string {
     const said = text.replace(/\s+/g, " ").trim();
     return draft.split("\n").map(line => line.trim()).filter(line => line && !said.includes(line.replace(/\s+/g, " "))).join("\n");
+}
+
+/**
+ * A FIELD WITH ITS DRAFT ADDED, ONCE (owner, 2026-11-18 10:38: the drafts were added again at each press): an empty field takes the draft; a field with text keeps
+ * it and takes, after a blank line, only the draft's lines it does not already hold; a field that holds them all is left as it is. Every "Add a draft" writes
+ * through it, and shows only while it would add something (draftAdds).
+ */
+export function withDraft(text: string, draft: string): string {
+    const adding = draftToAdd(text, draft);
+    if (!adding) {
+        return text;
+    }
+    return text.trim() ? text.replace(/\s+$/, "") + "\n\n" + adding : adding;
+}
+
+/** Whether "Add a draft" would add anything to the field (withDraft). */
+export function draftAdds(text: string, draft: string): boolean {
+    return draft.trim() !== "" && draftToAdd(text, draft) !== "";
 }
 
 /**

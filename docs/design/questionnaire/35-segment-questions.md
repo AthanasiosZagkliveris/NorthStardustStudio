@@ -366,7 +366,7 @@ The buyer is a business, or the Segment is of businesses where both relationship
 - **Asked when:** The buyer is people.
 - **Options:**
   - Mostly online (gaming, community servers, chat apps)
-  - Online and in person
+  - Online & in person
   - Mostly in person (events, hospitality, clubs, sports)
   - ("Mostly on their own" removed, owner 2026-11-04: it contradicted the question, which asks how they socialise, and nothing read it; a saved answer of it is dropped when read.)
 - **The "i" says:**
@@ -375,7 +375,7 @@ The buyer is a business, or the Segment is of businesses where both relationship
   - Mostly in person: events, hospitality, clubs, sports
 - **Connections:**
   - *Comes from:* Early Positioning: the relationship (people).
-  - *Read by (built):* The Market document and the export; the Profile's C4 (events) is asked when this is Online and in person or Mostly in person (doc 36).
+  - *Read by (built):* The Market document and the export; the Profile's C4 (events) is asked when this is Online & in person or Mostly in person (doc 36).
   - *Read by (not built yet):* The Profile's social and interest hubs.
 
 ### 5. What makes your customers go shopping?
@@ -402,11 +402,11 @@ The buyer is a business, or the Segment is of businesses where both relationship
 - **Control:** ticks, up to 3.
 - **Asked when:** Always.
 - **Options:**
-  - Friends, family and colleagues
+  - Friends, family & colleagues
   - Online communities / forums
   - Creators / influencers / experts
-  - Media, reviews and comparison sites
-  - Feeds, ads and marketplace suggestions
+  - Media, reviews & comparison sites
+  - Feeds, ads & marketplace suggestions
   - Search engines / maps
   - Seeing it in person / passing by
   - Events / trade shows
@@ -494,10 +494,10 @@ The buyer is a business, or the Segment is of businesses where both relationship
   - Online, on a phone
   - Online, on a computer
   - In a shop
-  - Both online and in shops
+  - Both online & in shops
   - On a marketplace, such as Etsy or Amazon
 - **The "i" says:**
-  - Where most of their purchases start and finish. Choose Both online and in shops when they mix the two about equally.
+  - Where most of their purchases start and finish. Choose Both online & in shops when they mix the two about equally.
 - **Connections:**
   - *Comes from:* Nothing.
   - *Read by (built):* The Market document and the export; the Profile's C1 (devices) starts from this answer (doc 36).
@@ -516,7 +516,7 @@ The buyer is a business, or the Segment is of businesses where both relationship
 ### 7b. Which shops or sellers do they buy from?
 
 - **Control:** ticks, as many as apply (no Other: the kinds are closed).
-- **Asked when:** question 7 is In a shop, or Both online and in shops.
+- **Asked when:** question 7 is In a shop, or Both online & in shops.
 - **Options:** Your own shop or studio · Shops that stock your products · A space inside another shop · Distributors or wholesalers · Resellers, online or in shops (added 2026-11-16).
 - **The "i" says:** The shops where they buy what you sell: each becomes a channel on Customer Engagement. · A space inside another shop is a concession or shop-in-shop.
 - **Connections:** *Read by (built):* In Person › Studio / Shop; Retail & Wholesale › Retail Stockist (a people Segment) or Wholesale Account (a business Segment), Concession / Shop-in-shop, Distributor, Reseller, at Purchase (doc 47).
@@ -622,23 +622,23 @@ Both.
 - **Asked when:** Always.
 - **Options:**
   - Technology
-  - Rules and law
+  - Rules & law
   - The economy
-  - Society and lifestyle
-  - Supply and delivery
-  - Environment and climate (`environment`; added 2026-11-08, the options-and-wording research: the E of PESTLE, which no option held. Its examples "environmental mandates" and "sustainability" moved here from Rules and law and Society and lifestyle, so no two options overlap.)
+  - Society & lifestyle
+  - Supply & delivery
+  - Environment & climate (`environment`; added 2026-11-08, the options-and-wording research: the E of PESTLE, which no option held. Its examples "environmental mandates" and "sustainability" moved here from Rules & law and Society & lifestyle, so no two options overlap.)
 - **The "i" says:**
   - The changes that affect your customers most. Choose up to two.
   - Each Competitor is rated on how every one of these could affect it, the ones ticked here first.
   - Technology: Automation, AI, old systems being replaced
-  - Rules and law: New compliance, tax changes
+  - Rules & law: New compliance, tax changes
   - The economy: Inflation, budget cuts, shifts in spending power
-  - Society and lifestyle: Remote work, changing habits
-  - Supply and delivery: Material shortages, logistics costs, local sourcing
-  - Environment and climate: Extreme weather, sustainability, environmental mandates
+  - Society & lifestyle: Remote work, changing habits
+  - Supply & delivery: Material shortages, logistics costs, local sourcing
+  - Environment & climate: Extreme weather, sustainability, environmental mandates
 - **Connections:**
   - *Comes from:* Nothing.
-  - *Read by (built, 2026-11-04):* the Competitor's K9 rates each of these changes, the ones ticked here first (doc 41); Environment and climate is a K9 row too since 2026-11-08.
+  - *Read by (built, 2026-11-04):* the Competitor's K9 rates each of these changes, the ones ticked here first (doc 41); Environment & climate is a K9 row too since 2026-11-08.
   - *Read by (built):* The Market document and the export; the Business Plan's Market Analysis is covered once a market question is answered.
   - *Read by (not built yet):* The Review.
 

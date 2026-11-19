@@ -1,7 +1,7 @@
 import { useLayoutEffect, useRef } from "react";
 
 import NavArrow from "../../controls/NavArrow.tsx";
-import { tileGapLevel } from "../tiles/SectionTiles.tsx";
+import { arrowLevel } from "../tiles/SectionTiles.tsx";
 
 /** How many page arrows are drawn now: the page's two (previous and next) share the one level. */
 let mounted = 0;
@@ -34,12 +34,12 @@ export default function PageArrow({
 
     const node = useRef<HTMLButtonElement | null>(null);
 
-    // Level with the gap between the two rows of the page's tiles (--arrow-level, read by the rails: they follow the arrow).
+    // At the one arrow level of the window (arrowLevel; --arrow-level, read by the rails: they follow the arrow): the same on every page.
     useLayoutEffect(() => {
         const root = document.documentElement;
         const level = () => {
-            // (The gap between the two rows of the page's tiles; where the page has none, the middle of its frame, the heading's underline to the footer.)
-            const y = tileGapLevel();
+            // (Worked out from the window and the pinned page title, never from this page's own tiles: owner, 2026-11-18 21:34 UTC+2, "Level page arrows everywhere".)
+            const y = arrowLevel();
             if (y !== null) {
                 root.style.setProperty("--arrow-level", Math.round(y) + "px");
             }

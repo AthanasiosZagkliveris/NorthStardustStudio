@@ -40,7 +40,7 @@ Related: doc 35 (the Segment's questions, built, in the same form), doc 28 (6.4 
 | Gender mix (not Balanced) | A2 gender | shown when the mix is not Balanced mix; a Profile's gender should fit the mix (Review) |
 | Industry | A4 kind of business | the finer list (doc 34, 5.4) of the Segment's industry, each with its example |
 | Where they discover new products (ticks) | C2, C3, C4 | the platforms, communities and events related to the ticked ways come first (not built yet); built: C3 is asked only when "Online communities / forums" is ticked |
-| Where they spend time (social environment) | C4 events | asked when the Segment socialises "Online and in person" or "Mostly in person" (doc 35, Box 4, 2); a business Segment's Profile is always asked (owner, 2026-11-08) |
+| Where they spend time (social environment) | C4 events | asked when the Segment socialises "Online & in person" or "Mostly in person" (doc 35, Box 4, 2); a business Segment's Profile is always asked (owner, 2026-11-08) |
 
 The app also **proposes Profiles** (up to three): one for each age term of the group (not built yet). The App User presses Add on the ones they want. *(For a Proxy or Dual-Intent buyer a second Profile for the end user was proposed here; since 2026-11-08 every Profile of such a Segment holds the end user in its own part instead: 2.4.)*
 
@@ -169,11 +169,11 @@ A typical person of the Segment, asked specifically.
 
 - **Control:** one choice (a radio).
 - **Asked when:** the Segment's buyer is people (B2C), and not where the Segment's age group is only Minors; on a Proxy or Dual-Intent Segment, of the buyer (the buyer's household), and again of an adult end user in the end user's part, A7 (end user) (2.4).
-- **Order (2026-11-09; an order, never a lock):** the buyer's households of the relationship first: Parent or guardian, With a partner and children and Single parent with children; Spouse or partner, With a partner and With a partner and children (`profileOptionsShown`).
+- **Order (2026-11-09; an order, never a lock):** the buyer's households of the relationship first: Parent or guardian, With a partner & children and Single parent with children; Spouse or partner, With a partner and With a partner & children (`profileOptionsShown`).
 - **Options** (the ONS household types, Census 2021, household composition 8a, in plain words) [DEM-14]:
   - Alone
   - With a partner
-  - With a partner and children
+  - With a partner & children
   - Single parent with children
   - With parents / relatives
   - With friends / housemates
@@ -399,7 +399,7 @@ C1 opens the box (owner, 2026-11-08, P8): the devices they find and buy on are a
   - The Segment's choice of where they buy starts this; change it freely.
 - **Starts and read by (built (owner, 2026-11-17; the open decisions and gaps, Group 4c)):** where the shopping setting starts nothing, the Segment's On the road (Where do your customers mainly work?) starts Smartphone. Where every Profile of the Segment uses a smartphone only, the Main Website's subchannel card on Customer Engagement says "Design for phones first: your customers find and buy on a smartphone." (`segmentPhonesOnly`).
 - **Connections:**
-  - *Comes from:* the Segment's where they buy: the setting starts it (Online, on a phone: Smartphone; Online, on a computer: Laptop / desktop; In a shop: none; Both online and in shops: Smartphone and Laptop / desktop), as a starting value the App User can change.
+  - *Comes from:* the Segment's where they buy: the setting starts it (Online, on a phone: Smartphone; Online, on a computer: Laptop / desktop; In a shop: none; Both online & in shops: Smartphone and Laptop / desktop), as a starting value the App User can change.
   - *Read by (not built yet):* the Review (make the order and the forms work on a phone; a note where the devices ticked leave out the one the Segment buys on).
 
 ### D1. How does this person compare options?
@@ -423,7 +423,7 @@ C1 opens the box (owner, 2026-11-08, P8): the devices they find and buy on are a
   - *Comes from:* the Segment's path to purchase.
   - *Read by (built):* the Evaluation channels (doc 47): the ways to try it first their Samples & Trials subchannel, the catalogue Print & Mail › Catalogue / Brochure, each named; a sample, trial, demo or taster makes the funnel's middle step "Tried it (%)" (doc 50); A demo or A quote starts D2's formal help. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
 - **Every way to try it first while no Offering says what it is** (owner, 2026-11-17 08:38: "Bugs plus the first batch" of the review): until an Offering of the Segment has a Type or a form (O1), all five ways are offered (`segmentTrials` gives none); then the ways its Offerings fit.
-- **Starts from where the Segment discovers** (built; owner, 2026-11-18 00:46, the review's second batch, 1.3 and 2.6): "Free samples, tasters or trials" starts the ways to try it first its Offerings fit, once every Offering says its form (O1); "Media, reviews and comparison sites" starts Online reviews / ratings; beside the start from how they decide (D1's earlier starts).
+- **Starts from where the Segment discovers** (built; owner, 2026-11-18 00:46, the review's second batch, 1.3 and 2.6): "Free samples, tasters or trials" starts the ways to try it first its Offerings fit, once every Offering says its form (O1); "Media, reviews & comparison sites" starts Online reviews / ratings; beside the start from how they decide (D1's earlier starts).
 
 ### D2. How much help does this person want before buying?
 

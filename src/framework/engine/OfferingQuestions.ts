@@ -120,7 +120,7 @@ const MEET: readonly SegmentOption[] = [
     { id: "other", label: "Other" }
 ];
 const HELP: readonly SegmentOption[] = [
-    { id: "none", label: "None" }, { id: "guides", label: "Guides and how-tos" }, { id: "auto", label: "Automatic help, such as chat or emails" },
+    { id: "none", label: "None" }, { id: "guides", label: "Guides & how-tos" }, { id: "auto", label: "Automatic help, such as chat or emails" },
     { id: "personal", label: "Personal help when needed" }, { id: "dedicated", label: "A dedicated person or team" },
     // (Owner, 2026-11-16 19:18: help of another kind, written in; each name its own relationship type on Customer Engagement.)
     { id: "other", label: "Other" }
@@ -157,7 +157,7 @@ const REPLY: readonly SegmentOption[] = [
 /* HOW THEY HEAR FROM YOU AFTER THE SALE (owner, 2026-11-16 16:31): O23, each tick its Support & Follow Up channel (JourneySuggestions.ts); "Only when they get in touch"
    stands alone, as O7's None. */
 const KEEP_IN_TOUCH: readonly SegmentOption[] = [
-    { id: "newsletter", label: "A newsletter" }, { id: "offers", label: "Offers and launches by email" }, { id: "social", label: "Posts on social media" },
+    { id: "newsletter", label: "A newsletter" }, { id: "offers", label: "Offers & launches by email" }, { id: "social", label: "Posts on social media" },
     { id: "personal", label: "Personal messages" }, { id: "none", label: "Only when they get in touch" }, { id: "other", label: "Other" }
 ];
 const AFTER_SALE: readonly SegmentOption[] = [

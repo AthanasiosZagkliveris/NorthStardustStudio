@@ -14,7 +14,7 @@ import RatingScale, { type Rating } from "../../../controls/RatingScale.tsx";
 import { withRatingMeaning } from "../../../controls/RatingScaleEnds.tsx";
 import RatingScaleGroup from "../../../controls/RatingScaleGroup.tsx";
 import TextLink from "../../fields/TextLink.tsx";
-import { draftToAdd, differentiationSourceCards, namesInSentence } from "../../../../framework/engine/CompetitorQuestions.ts";
+import { draftAdds, draftToAdd, withDraft, differentiationSourceCards, namesInSentence } from "../../../../framework/engine/CompetitorQuestions.ts";
 import FittingRadioChoice from "./FittingRadioChoice.tsx";
 import { type OfferingContext, draftOffered, valuePropositionDraft, valuePropositionOpenItems } from "../../../../framework/engine/OfferingQuestions.ts";
 import { effectiveOfferingAnswers, effectiveProfileAnswers, effectiveProfileUserAnswers, offeringContextOf, segmentTrials, withFieldSet , segmentForms } from "../../../../framework/engine/EffectiveAnswers.ts";
@@ -217,13 +217,13 @@ export function useFoundationSubsections(earlier: Earlier) {
     const heads = [
         {
             number: 1,
-            title: "Customer Segment and Profile",
+            title: "Customer Segment & Profile",
             instructions: SUBSECTIONS.segments.instructions,
             note: { label: "Your Positioning (Identity)", points: targetAudienceNote }
         },
         {
             number: 2,
-            title: "Competitor and Alternative",
+            title: "Competitor & Alternative",
             instructions: SUBSECTIONS.competitors.instructions,
             // Who you are compared with follows from where you stand.
             note: { label: "Your Positioning (Identity)", points: targetAudienceNote }
@@ -937,14 +937,13 @@ export function useFoundationSubsections(earlier: Earlier) {
             <div className="legal-entity-field">
             <div className="legal-entity-org-section business-foundation-field">
 
-                {drafts.map(({ offering, draft }) => (
+                {drafts.filter(({ draft }) => draftAdds(segment.valueProposition, draft)).map(({ offering, draft }) => (
                     <TextLink
                         key={offering.id}
                         className="business-competitor-draft"
                         disabled={disabled}
                         onClick={() => {
-                            const adding = draftToAdd(segment.valueProposition, draft);
-                            updateSegment(segmentIndex, { valueProposition: segment.valueProposition.trim() ? segment.valueProposition.replace(/\s+$/, "") + "\n\n" + adding : adding });
+                            updateSegment(segmentIndex, { valueProposition: withDraft(segment.valueProposition, draft) });
                         }}
                     >
                         {segment.offerings.length > 1 ? "Add a draft for " + (offering.name.trim() || "this Offering") : "Add a draft"}

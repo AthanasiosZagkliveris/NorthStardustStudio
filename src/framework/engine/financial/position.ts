@@ -963,8 +963,6 @@ export function financialFoundationSectionsEmpty(value: unknown): boolean[] {
         // Costs are mostly read from elsewhere; what this page asks
         // is when the plan starts, and how income tax is estimated.
         monthOrdinal(foundation.planStart) === null || incomeTaxMissing(foundation),
-        // Calculated from the costs: nothing to answer.
-        false,
         // A founder's capital is answered on the Legal Entity; its
         // standing is kept here once the founder has set it.
         foundation.funding.every(source => (parseAmount(source.amount) ?? 0) === 0) &&
@@ -973,9 +971,9 @@ export function financialFoundationSectionsEmpty(value: unknown): boolean[] {
     ];
 }
 
+/** The page's tiles, in order (the Funding Need is inside Financial Position: owner, 2026-11-18 16:55, "Do all 8"). */
 export const FINANCIAL_FOUNDATION_SECTIONS = [
     "Costs",
-    "Funding Need",
     "Capital & Funding",
     "Financial Position"
 ] as const;

@@ -32,6 +32,31 @@ function openAll() {
     }
 }
 
+describe("BrandStyleEditor as tiles", () => {
+
+    // (Owner, 2026-11-18 18:45: pressing a colour crashed the page, "Maximum update depth exceeded" -- the card's tab and its bullets measured each other. The
+    // loop needs real layout, which the headless browser check covers; here, the card opens from a swatch and from the dialog, and nothing throws.)
+    it("opens a colour's floating card from the Colours tile without an error", () => {
+
+        const errors: unknown[] = [];
+        const spy = (event: ErrorEvent) => errors.push(event.error);
+        window.addEventListener("error", spy);
+        const style = asBrandStyleValue(undefined);
+        const value = { ...style, colours: style.colours.map((colour, index) => index === 0 ? { ...colour, enabled: true, name: "Loom Blue", hex: "#1a2b3c" } : colour) };
+        render(<BrandStyleEditor value={value} onChange={() => {}} asTiles />);
+        fireEvent.click(screen.getAllByRole("button", { name: /^Colours/ })[0]);
+        const box = [...document.querySelectorAll<HTMLElement>(".section-tile-overlay button")].find(button => (button.textContent ?? "").includes("Loom Blue"));
+        expect(box).toBeTruthy();
+        fireEvent.click(box!);
+        expect(document.querySelector(".floating-card-body")).toBeTruthy();
+        expect(screen.getByLabelText("Colour 1 name")).toBeTruthy();
+        window.removeEventListener("error", spy);
+        expect(errors).toEqual([]);
+
+    });
+
+});
+
 describe("BrandStyleEditor limits", () => {
 
     it("refuses a size over 120 px and anything but hex in a HEX box", () => {

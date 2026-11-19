@@ -15,9 +15,10 @@ Related: doc 51 (the research and the seven additions), doc 50 (Demand & Convers
 
 - **Where:** Business System › page 3, Business Capability › Offering's Capability, beside Activities and Partners & Suppliers.
 - **The tile (closed):** its title and a link for each Offering; a link opens that Offering's Delivery card alone, floating; the rest of the tile opens the dialog. Unchanged.
-- **The dialog, in order:**
-  1. **Capacity** (the `delivery-capacity` band): the founders' delivery capacity line, the per-founder list, and each founder's month at the expected sales (the `delivery-budget-table` and its bar). Sections 4.1 to 4.4 add to it.
-  2. **The Delivery cards** (`CardBoxes`, one `BusinessCard` for each Offering). Section 3 adds to them.
+- **The dialog, in order** (section 11, owner, 2026-11-18 10:38):
+  1. **The Delivery tiles** (`CardBoxes`, one tile for each Offering, its `BusinessCard` floating from it). Each tile says how it is delivered and the hours it takes. Section 3 adds to the cards.
+  2. **Capacity**, under its band (`DialogSectionBand`): the founders' delivery capacity line, the per-founder list, and each founder's month at the expected sales (the `delivery-budget-table` and its bar). Sections 4.1 to 4.4 add to it.
+  3. **Skills**, under its band (section 9).
 - **Components used:** only the ones the dialog and card already use: `BusinessCard`, `BusinessField` (side rows), `OptionPicker`, `NumberCell`, `OptionalNote`, `InfoText` with `InfoNote`, the `delivery-budget-table`, the `delivery-budget-bar`, `delivery-muted` lines and `CardBoxes`. The one addition to a look is a mark on the bar at the planning ceiling (section 4.1), made in the bar's own shared style **[decision 2]**.
 
 ## 3. The Delivery card, one for each Offering
@@ -149,8 +150,8 @@ Each step: tests, the examples (`src/data/examples/`), the golden files, doc 44 
 The owner, 2026-11-16 20:25: "capacity and capability should be unified, and the capability section to be removed." The Legal Entity's Capability tile (its two texts, Gaps and Cover) is gone; what it asked is asked here, between the Capacity and the Delivery cards.
 
 - **The dialog, in order:** 1. Capacity, as before; 2. **Skills**; 3. the Delivery cards, three a row.
-- **LC1, "Which skills does the business still need?"** Ticks, one a line: Bookkeeping and tax; Legal and contracts; Marketing and social media; Selling; Design; Website and technology; Making or producing; Customer service; Delivery and logistics; Other (a numbered list, one skill a row). Its "i": "Skills the plan needs that the team lacks today. Each one's cover comes from the Team of its activities."
-- **The cover, read, never typed.** Beside each ticked skill, "Covered by:" and the names on the Team of the activities in its group, each a link to that card: Marketing and social media from Marketing; Selling and Customer service from Sales & Customer; Making or producing and Delivery and logistics from Production; the rest, and every Other row, from Infrastructure's Pre-Operational and Operational. With no one there, "Not covered yet", a link to the Activities tile.
+- **LC1, "Which skills does the business still need?"** Ticks, one a line: Bookkeeping and tax; Legal & contracts; Marketing & social media; Selling; Design; Website & technology; Making or producing; Customer service; Delivery and logistics; Other (a numbered list, one skill a row). Its "i": "Skills the plan needs that the team lacks today. Each one's cover comes from the Team of its activities."
+- **The cover, read, never typed.** Beside each ticked skill, "Covered by:" and the names on the Team of the activities in its group, each a link to that card: Marketing & social media from Marketing; Selling and Customer service from Sales & Customer; Making or producing and Delivery and logistics from Production; the rest, and every Other row, from Infrastructure's Pre-Operational and Operational. With no one there, "Not covered yet", a link to the Activities tile.
 - **Notes:** one shared Notes field (`NotesField`), with no placeholder.
 - **Saved as** `skillsNeeded` (the ticked ids), `skillsOther` (the rows) and `skillsNotes` on the Business Capability answer (`src/framework/engine/capability/skills.ts`).
 - **Read once from the old answer.** While `skillsNeeded` has never been saved, every reader takes the Founders Profile's `teamGaps` as Other rows, one a sentence, and `teamCover` as the Notes; the page saves that the first time it can write, where that text is there (a page opened fresh is left as it is). `teamGaps` and `teamCover` are kept as legacy keys, read only.
@@ -175,4 +176,21 @@ The open decisions and gaps, Group 3 (owner, 2026-11-16 21:51; the coordinator's
 - **The export:** the Delivery table's last column is "What Can Hold Up Delivery".
 - **Lumen:** Weaving Workshops hold 3.2 h (Maya Chen) and 0.8 h (the tutor) a session for 8 customers, the same 0.4 h and 0.1 h a participant; option A is in the example (section 7).
 - **When customers expect it sooner** (Group 4b, 2026-11-17): the card says "Customers expect it within a week, and making and sending it takes about 3 weeks. Keep some ready-made stock, or tell customers 1 to 4 weeks." where the Calendar Time, a supplier's lead time and the sending (O20) take longer than O15 allows.
-- **A needed skill's cover, skill by skill** (owner, 2026-11-18 02:31): Marketing and Making keep their group's Team (Marketing's, Production's); Selling the Sales activities but customer service; every other skill the activities whose name says it, in any group -- bookkeeping, a contract or a trade mark, the website, design, customer service, delivery (`skillCover`, `SKILL_WORDS`). Lumen's Website and technology: Oliver Grant, who launches the website (it had listed the lawyer and the accountant). Its "i" says so.
+- **A needed skill's cover, skill by skill** (owner, 2026-11-18 02:31): Marketing and Making keep their group's Team (Marketing's, Production's); Selling the Sales activities but customer service; every other skill the activities whose name says it, in any group -- bookkeeping, a contract or a trade mark, the website, design, customer service, delivery (`skillCover`, `SKILL_WORDS`). Lumen's Website & technology: Oliver Grant, who launches the website (it had listed the lawyer and the accountant). Its "i" says so.
+
+## 11. Decided 2026-11-18: the order a founder thinks in
+
+Owner, 2026-11-18 10:38 UTC+2: "Check the Capacity & Delivery dialogue and the floated card's structure, layout, sequence, content and wording."
+
+- **The dialog** opens on what is delivered: the Delivery tiles first, then the Capacity band, then the Skills band. Each band is the shared `DialogSectionBand`. Before this, the tiles stood last, under the Skills' Notes, with blank faces.
+- **A Delivery tile's face:** how it is delivered (DV1, "Per unit" or "Every month") and the hours it takes, everyone together ("5.3 h a unit", "4 h a session", "6 h a client a month").
+- **The card, in order:**
+  1. What is delivered: DV1 (and DV2, Hours Given).
+  2. Who does it and how long: DV3 by person and the total, then DV4, Calendar Time. The note on when customers expect it follows the Calendar Time it is about.
+  3. How many at once: DV6, or DV9 and DV10.
+  4. What can hold it up: DV12 and its DV7, DV8 and DV13.
+  5. The results: "While one runs" and "At expected sales". These read every answer above them, so they come last; before this, they stood between DV3 and the Calendar Time.
+- **The card's bands** (owner, same message: "fix the style of the dialogue and the floated cards to fit the other and follow the related rules"): each step above is a box of the shared bands, as a Customer Engagement card -- What Is Delivered, Who Does It & How Long, How Many at Once (where it is asked), What Can Hold It Up, Results -- its title band, then its questions in bands of their own, the tints alternating (`SingleColumn`, `EngagementBoxes`, `EngagementBox`). The card stands in the floating card's content box (`column-tile-content`), so its bands reach the card's edges.
+- **The rows and their cells** (owner, 2026-11-18 12:41: "Fix the fields and their cells properly"): each person's hours fill the answer column to the content edge, the name in the label column, as the card's side-label rows. Customers in one session, Which one?, How many units can it hold at once? and Which supplier? stand under their labels -- their words, or a resource's own name, are longer than the side column holds --, a number cell short, a dropdown as wide as its longest option.
+- **Wording:** the labels are unchanged. Field labels on the other pages use both cases ("Customers Buy", "Units in a batch"), so there is no shared rule to follow on this page alone.
+- **One owner for the founders' month** (owner, 2026-11-18 16:55, "Do all 8"): the founders' table at the expected sales is this tile's Capacity band alone; Revenue & Pricing's Delivery Check (doc 48, section 8) says only whether the expected sales fit, their busiest month and who delivers outside the founders' hours, with a link here.

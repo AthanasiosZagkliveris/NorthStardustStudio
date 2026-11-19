@@ -229,6 +229,12 @@ export default function TitleTooltips() {
             }, 170);
             return () => window.clearTimeout(timer);
         }
+        // A RAIL'S BULLET says its name over itself, always (doc 24, section 1: "stands in the same place, over its bullet"): the bullets above and below it are no
+        // reason to move it away (owner, 2026-11-18 22:05 UTC+2: "Tooltips are behind the cards").
+        if (tip.element.matches(".bullet-rail-item")) {
+            setPosition(aboveTipPosition(tip.element.getBoundingClientRect(), box.current.getBoundingClientRect()));
+            return;
+        }
         setPosition(tipPlace(tip.element.getBoundingClientRect(), box.current.getBoundingClientRect(), tip.element));
     }, [tip]);
 

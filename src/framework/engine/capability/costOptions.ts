@@ -119,7 +119,7 @@ export const BILLING_TYPES: readonly { id: Exclude<BillingType, "">; label: stri
 ];
 
 export const INSURANCE_OPTIONS: readonly BusinessCostOption[] = [
-    { id: "property-liability", label: "Commercial property and liability", billing: "fixed" },
+    { id: "property-liability", label: "Commercial property & liability", billing: "fixed" },
     { id: "key-person-health", label: "Key-person or employee health", billing: "fixed", frequencies: ["monthly"], perEmployee: true }
 ];
 
@@ -140,8 +140,8 @@ export const COST_OPTIONS: Record<string, readonly BusinessCostOption[]> = {
         { id: "franchise-fee", label: "Upfront franchise or master licence fee", billing: "lump-sum" }
     ],
     "offering:revenue-partners": [
-        { id: "affiliate-commission", label: "Affiliate networks and influencer commissions", billing: "percentage" },
-        { id: "sales-agents", label: "Sales agents and B2B brokers", billing: "percentage" }
+        { id: "affiliate-commission", label: "Affiliate networks & influencer commissions", billing: "percentage" },
+        { id: "sales-agents", label: "Sales agents & B2B brokers", billing: "percentage" }
     ],
     "offering:platforms-payments": [
         { id: "payment-gateway", label: "Payment gateway", billing: "percentage" },

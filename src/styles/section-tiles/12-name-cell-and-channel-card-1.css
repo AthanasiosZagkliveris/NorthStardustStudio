@@ -559,11 +559,12 @@ main.conversation-content[data-reserve],
 
     box-sizing: border-box;
 
-    width: auto;
+    /* One width: the dots-only tab, or the named tab (bullet-rail.css, "Every layer's tab is one geometry"). */
+    width: var(--rail-tab-dots-width);
 
     /* 12px round the bullets, counted from the lit bullet's grown edge (--rail-dot-overhang, bullet-rail.css): the grown bullet and its bloom keep 12px
        from every edge of the tab (owner, 2026-11-14 13:54). */
-    padding: calc(var(--gap-12) + var(--rail-dot-overhang));
+    padding: var(--rail-tab-padding);
 
     /* (Edged on all four sides: the side against the layer stands over the layer's own edge, so the edge runs on unbroken where the tab joins it; owner, 2026-11-11.) */
     border: 1px solid var(--tab-edge);
@@ -646,10 +647,8 @@ main.conversation-content[data-reserve],
 /* (In a tab the names are plain text on the tab's ground, as the page tab's are.) */
 .carousel-rail.carousel-rail-tab.carousel-rail-named .strategy-card-nav-tip {
 
-    /* The name is clipped at its box (the ellipsis): 4px of room below it, taken back by the margin, so the hover underline (0.2em under the text) shows and the row is no taller. */
+    /* 4px of room below the name, taken back by its margin (the named tab's rule below), so the hover underline (0.2em under the text) shows and the row is no taller. */
     padding: 0 0 4px;
-
-    margin-bottom: -4px;
 
     border: 0;
 
@@ -751,6 +750,39 @@ main.conversation-content[data-reserve],
 .carousel-rail.carousel-rail-tab.carousel-rail-named .bullet-rail-item {
 
     gap: var(--gap-12);
+
+    /* (The named tab's width holds the longest name whole: no name is cut; the probe fails one that is.) */
+    max-width: 100%;
+
+}
+
+/* THE NAMED TAB: one width, and a name's row no taller than its dot's (16px), so the pitch is the dots-only tab's 34px (bullet-rail.css, "Every layer's tab is one geometry"). */
+.carousel-rail.carousel-rail-tab.carousel-rail-named {
+
+    width: var(--rail-tab-named-width);
+
+}
+
+.carousel-rail.carousel-rail-tab.carousel-rail-named .bullet-rail-list,
+.carousel-rail.carousel-rail-tab.carousel-rail-named .bullet-rail-list > li {
+
+    max-width: 100%;
+
+}
+
+.carousel-rail.carousel-rail-tab.carousel-rail-named .strategy-card-nav-tip {
+
+    line-height: 16px;
+
+    white-space: nowrap;
+
+    /* (Whole: the tooltip's own 260px cap is not a named tab's.) */
+    max-width: none;
+
+    /* (Within the item's 2px above and below, as the dot's: the name and its 4px of underline room take no more of the row than the 12px dot does.) */
+    margin-top: -2px;
+
+    margin-bottom: -6px;
 
 }
 

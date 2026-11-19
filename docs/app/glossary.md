@@ -46,7 +46,7 @@ One-line definitions, so that terminology is the same in every document and Skil
 
 **Library / contract / placement** — the assets library records every asset once with its variants and a contract (`src/library`); a placement says where an asset stands in the app; two logs record the changes. *Owner: doc 8.*
 
-**Global Settings** — the per-organization settings in the header (Financial plan, Business stages, Pay and tax, Assets, Rates, Reserve, Channel Fee Table). *Owner: doc 1, Part D 6.*
+**Global Settings** — the per-organization settings in the header (Financial plan, Business stages, Pay & tax, Assets, Rates, Reserve, Channel Fee Table). *Owner: doc 1, Part D 6.*
 
 **Opening Date** — the date the organisation opens, a field of the Organisation tile (doc 37); the budget before it is the cash to raise. **Business stage** — Planning, Launching, Managing or Growing, worked out from the Opening Date and the four durations in the Global Settings, never chosen; it sets the limits and locks of the Positioning questions. Defaults: Planning 3 months, counted back from the Opening Date; Launching 12 months from it; Managing the next 12 (to month 24); Growing the next 3 years (to month 60). **Key dates** — the milestones of the organisation (plan start, registration, opening, the end of each stage's window), shown on the Review and the Calendar. *Owner: doc 28, 8.2a.*
 

@@ -358,7 +358,13 @@ export function SubcategoryBoxes({
     // (A category with one group has that group's tile too, empty or not: the arrows that bring the user here never make a card.)
 
     if (open) {
-        return <InnerLevel>{open.content()}</InnerLevel>;
+        // (A card opened inside a group goes through that group's cards alone: its arrows and rail never step out of the box the dialog shows.)
+        const inBox = open.holds;
+        return (
+            <OpenCardContext.Provider value={openCard && inBox ? (id, caption, remover, pointer, fresh, siblings) => openCard(id, caption, remover, pointer, fresh, siblings ?? inBox) : openCard}>
+                <InnerLevel>{open.content()}</InnerLevel>
+            </OpenCardContext.Provider>
+        );
     }
 
     // (A blank, unnamed group of the user's own is no tile; the one just made is open, so it is never in the grid.)

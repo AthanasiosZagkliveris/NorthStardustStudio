@@ -153,7 +153,7 @@ type Example = { systems: Record<string, Parameters<typeof InterviewSession.from
     new numbers). No amount changed: every forecast is as it was.
 
     2026-11-18, later (the owner's points of 02:31): the plan and export digests (and the weekly fixture's words) written again when each needed skill's
-    cover became the Team of the activities whose name says it (Lumen's Website and technology covered by Oliver Grant, who launches the website,
+    cover became the Team of the activities whose name says it (Lumen's Website & technology covered by Oliver Grant, who launches the website,
     not by the lawyer and the accountant). No amount changed.
 
     2026-11-18, after the Financial pages' order: the plan and export digests (and the weekly fixture's words) written again when the texts that

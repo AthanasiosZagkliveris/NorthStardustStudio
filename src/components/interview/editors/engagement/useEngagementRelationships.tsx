@@ -2,7 +2,8 @@
  * THE CHANNEL TILES and the relationships of each Offering.
  * One part of BusinessEngagementEditor (see BusinessEngagementEditor.tsx): what it needs of the parts before it comes in as `earlier`; what the parts after it need goes out.
  */
-import { CSSProperties, ReactNode, useContext, useEffect, useState } from "react";
+import { draftAdds, withDraft } from "../../../../framework/engine/CompetitorQuestions.ts";
+import { CSSProperties, useContext, useEffect, useState } from "react";
 import { InitialBoxContext } from "../../tiles/DialogLevels.tsx";
 
 /** A link on the Channels & Journey master tile that names a stage's tile: the dialog it opens shows the tiles by Journey Stages, so that tile is there to open. */
@@ -485,32 +486,6 @@ export function useEngagementRelationships(earlier: Earlier) {
         const stored = storedOfferingRelationshipsOf(segment.id, offeringId);
         updateOfferingRelationships(segment.id, offeringId, { types: stored.types.filter(type => type !== typeId), dismissed: [...new Set([...(stored.dismissed ?? []), typeId])] });
     }
-    /**
-     * THE WAY BACK FOR A TYPE (owner, 2026-11-16 19:18, as for the channels): a type the answers make and the founder removed, listed at the foot of its Offering's
-     * dialog in the shared FoldList "Removed", each with Restore, which takes it off the removed list so the answers make it again.
-     */
-    function removedTypesOf(segment: BusinessCustomerSegmentValue, offeringId: string): string[] {
-        const dismissed = storedOfferingRelationshipsOf(segment.id, offeringId).dismissed ?? [];
-        return autoRelationshipTypes(segment, offeringId, identity).map(entry => entry.type).filter(type => dismissed.includes(type));
-    }
-    function removedTypes(segment: BusinessCustomerSegmentValue, offeringId: string): ReactNode {
-        const removed = removedTypesOf(segment, offeringId);
-        if (removed.length === 0) {
-            return null;
-        }
-        const stored = storedOfferingRelationshipsOf(segment.id, offeringId);
-        const foldKey = "removed-types:" + segment.id + ":" + offeringId;
-        return (
-            <FoldList label="Removed" name="Removed relationship types" count={removed.length} open={!folds.isOpen(foldKey)} onToggle={() => folds.toggle(foldKey)}>
-                {removed.map(typeId => (
-                    <FoldListLine key={typeId} wrap>
-                        {relationshipTypeLabel(typeId)}{" "}
-                        <TextLink type="button" disabled={disabled} onClick={() => updateOfferingRelationships(segment.id, offeringId, { dismissed: (stored.dismissed ?? []).filter(type => type !== typeId) })}>Restore</TextLink>
-                    </FoldListLine>
-                ))}
-            </FoldList>
-        );
-    }
     /* ---------- 2. Customer Relationship ---------- */
 
     /**
@@ -707,7 +682,12 @@ export function useEngagementRelationships(earlier: Earlier) {
                                         <FieldRow key="purpose" pair label="Purpose" info={SECTIONS.relationships.purpose}>
                                             {/* (ADD A DRAFT (2.14, the second batch of the review; owner, 2026-11-18 00:46), as the Value Proposition's: the Purpose from the type
                                                 and the Offering's answers, added after what is written, and each empty Approach from its stage's channels, in one write.) */}
-                                            <TextLink
+                                            {(() => {
+                                                const purposeDraft = relationshipPurposeDraft(typeId, offeringName(offeringId), offeringAnswersById([segment], offeringId, identity));
+                                                const approachesOpen = offeringRows.some(interaction => !interactionOf(segment.id, offeringId, typeId, interaction.key, interaction.legacyKeys, startGoals(interaction.stageId, segment, offeringId, identity)).approach.trim()
+                                                    && relationshipApproachDraft(typeId, interaction.groups.flatMap(group => group.channelIds.map(channelName))) !== "");
+                                                return draftAdds(type.purpose, purposeDraft) || approachesOpen;
+                                            })() && <TextLink
                                                 className="business-competitor-draft"
                                                 disabled={disabled}
                                                 onClick={() => {
@@ -720,11 +700,11 @@ export function useEngagementRelationships(earlier: Earlier) {
                                                             interactions[interaction.key] = { ...current, approach };
                                                         }
                                                     }
-                                                    updateType(segment.id, offeringId, typeId, { purpose: type.purpose.trim() ? type.purpose.replace(/\s+$/, "") + "\n\n" + draft : draft, interactions });
+                                                    updateType(segment.id, offeringId, typeId, { purpose: withDraft(type.purpose, draft), interactions });
                                                 }}
                                             >
                                                 Add a draft
-                                            </TextLink>
+                                            </TextLink>}
                                             <StrategyTextArea
                                                 className="interview-input business-foundation-note"
                                                 ariaLabel={"Purpose of " + label + " for " + offeringName(offeringId)}
@@ -1266,6 +1246,6 @@ export function useEngagementRelationships(earlier: Earlier) {
 
     }
 
-    return { addRelationshipType, channelTiles, channelViewChoice, engagedOfferingIds, relationshipsFor, profilesOf, removedTypes, removedTypesOf };
+    return { addRelationshipType, channelTiles, channelViewChoice, engagedOfferingIds, relationshipsFor, profilesOf };
 
 }

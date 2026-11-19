@@ -70,11 +70,11 @@ Other lists that are not this one:
 
 | Master tile | Group | Option | Billing | Frequencies | Against the group |
 |---|---|---|---|---|---|
-| infrastructure | Insurances | Commercial property and liability | fixed | Monthly, Annually | same as the group |
+| infrastructure | Insurances | Commercial property & liability | fixed | Monthly, Annually | same as the group |
 | infrastructure | Insurances | Key-person or employee health | fixed | Monthly | fewer than the group |
 | infrastructure | Licences | Initial permit | lump-sum | One-time | fewer than the group |
 | infrastructure | Licences | Annual renewal, music rights, municipal taxes | fixed | Annually | fewer than the group |
-| offering | Insurances | Commercial property and liability | fixed | Annually | fewer than the group |
+| offering | Insurances | Commercial property & liability | fixed | Annually | fewer than the group |
 | offering | Insurances | Key-person or employee health | fixed | Monthly | **Monthly is not offered by the group** |
 | offering | Licences | Initial operating licence | lump-sum | One-time | fewer than the group |
 | offering | Licences | Annual renewal | fixed | Annually | fewer than the group |

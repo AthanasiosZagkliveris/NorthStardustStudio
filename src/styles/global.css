@@ -1082,7 +1082,9 @@ h6 {
 ========================================================== */
 .app-tooltip {
   position: fixed;
-  z-index: 1000;
+  /* OVER EVERY LAYER (owner, 2026-11-18 22:05 UTC+2: "Tooltips are behind the cards"): the dialogs and their cards (1000), the header over them (1001), a
+     question asked inside one (1100) -- a tip is read whole, whatever it stands over. */
+  z-index: 1200;
 
   max-width: min(360px, calc(100vw - 16px));
   /* One row of the pop-up cells' pitch: 32px, the words centred in it. */
@@ -1477,6 +1479,10 @@ label:has(> input[type="checkbox"]:not(:disabled)):hover > :not(input),
   --card-band-ink: hsl(var(--strategy-theme-hue, 217) var(--theme-bg-ink));
   --tint-row-band: color-mix(in srgb, var(--card-band-ink) 12%, transparent);
   --tint-box-title: color-mix(in srgb, var(--card-band-ink) 24%, transparent);
+  /* THE COMPLETED BAND (owner, 2026-11-19 00:20 and 01:08 UTC+2): the bands' own saturation and lightness, a hue of its own -- 150, a green no page-3 card is drawn
+     in (doc 01, "The band hues inside a card") -- at a band's strength. */
+  --completed-band-hue: 150;
+  --tint-completed-band: color-mix(in srgb, hsl(var(--completed-band-hue) var(--theme-bg-ink)) 12%, transparent);
   /* (The line between two bands is a light tint of the card's colour (owner, 2026-11-10: "I did not say white, but a light card's colour tint!"):
      30% of the card's ink in the card's light tone.) */
   --band-divider: color-mix(in srgb, var(--card-band-ink) 30%, hsl(var(--strategy-theme-hue, 217) var(--theme-bg-inner)));

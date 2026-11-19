@@ -3,6 +3,7 @@
  * One part of the Infrastructure & Capability editor (see BusinessCapabilityEditor.tsx): what it needs of the parts before it comes in as `scope`; what the parts after it need goes out.
  */
 import { givesWorkingHours } from "../../../../framework/engine/capability/partnerGroups.ts";
+import { numberStep } from "../BusinessEngagementModel.ts";
 import AddButton from "../../../controls/AddButton.tsx";
 import NumberCell from "../../../controls/NumberCell.tsx";
 import { Fragment, ReactNode, useEffect } from "react";
@@ -19,6 +20,9 @@ import { DeliveryValue, createDelivery, deliveryAllocation, deliveryHours, WEEKS
 import { asFinancialFoundationValue, moneyFormatter } from "../../../../framework/engine/FinancialModel.ts";
 import { parseAmount, parseDecimal } from "../../../../framework/engine/Amounts.ts";
 import CardBoxes, { CardBox } from "../../cards/CardBoxes.tsx";
+import DialogSectionBand from "../../tiles/DialogSectionBand.tsx";
+import { SingleColumn } from "../foundation/shared.tsx";
+import { EngagementBox, EngagementBoxes } from "../engagement/EngagementCard.tsx";
 import { CrumbNote, DialogHeading, TileAdd } from "../../tiles/SectionTiles.tsx";
 import InfoNote, { InfoPoint, InfoText } from "../../fields/InfoNote.tsx";
 import { NUMBER_LIMITS, limitedNumberText } from "../../fields/numberInput.ts";
@@ -984,6 +988,16 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
                 disabled={disabled}
             >
 
+                {/* (THE BANDS OF A FLOATING CARD, as Customer Engagement's (owner, 2026-11-18 10:38: "fix the style of the dialogue and the floated cards to fit the
+                    other and follow the related rules (colour bands, text styles, lines, etc)"): a title band for each step a founder thinks in -- what is delivered, who
+                    does it and how long, how many at once, what can hold it up, the results --, its questions in bands of their own, the tints alternating. Shared
+                    components only: SingleColumn, EngagementBoxes, EngagementBox.) */}
+                {/* (THE ORDER A FOUNDER THINKS IN (owner, 2026-11-18 10:38): what is delivered, who does it and how long, how many at once, what can hold it up,
+                    then the results -- while one runs and at the expected sales -- once every answer they read is given.) */}
+                <SingleColumn>
+                    <EngagementBoxes>{[
+                        <EngagementBox key="what" title="What Is Delivered" bands={[
+                            <Fragment key="delivered">
                 {/* A side-label row: the label beside its control, on one
                     centre line, the picker as wide as its longest option. */}
                 <BusinessField label="Delivered" info={DELIVERY_HELP.mode} side>
@@ -999,8 +1013,8 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
                             : { mode: "unit" })}
                     />
                 </BusinessField>
-
-                {recurring && (
+</Fragment>,
+                            recurring && (
                     <BusinessField label="Hours Given" info={DELIVERY_HELP.recurring} side>
                         <OptionPicker
                             label={offering.label + " hours given per week or per month"}
@@ -1012,49 +1026,10 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
                             onChange={(next) => changeDelivery(offering.id, { period: next === "Per week" ? "week" : "month" })}
                         />
                     </BusinessField>
-                )}
-
-                {/* DV6, customers in one session: a class, a workshop, an event (doc 52; owner, 2026-11-17). */}
-                {/* (Under its label: the label is long for the side column, where it sat off the box's centre line; layout check, 2026-11-17.) */}
-                {sessions && (
-                    <BusinessField label="Customers in one session" info={DELIVERY_HELP.perSession}>
-                        <NumberCell kind="int"
-                            className="delivery-number"
-                            aria-label={offering.label + " customers in one session"}
-                            placeholder="1"
-                            disabled={disabled}
-                            value={delivery.perSession}
-                            onChange={(event) => changeDelivery(offering.id, { perSession: limitedNumberText(event.target.value, delivery.perSession, NUMBER_LIMITS.quantity) })}
-                        />
-                    </BusinessField>
-                )}
-
-                {/* DV9 and DV10, a batch's set-up and its units: a Product or Hybrid, not made to order. */}
-                {batches && (
-                    <>
-                        <BusinessField label="Set-up for a batch (hours)" info={DELIVERY_HELP.batch} side>
-                            <NumberCell
-                                className="delivery-number"
-                                aria-label={offering.label + " set-up hours for a batch"}
-                                placeholder="0"
-                                disabled={disabled}
-                                value={delivery.batchSetup}
-                                onChange={(event) => changeDelivery(offering.id, { batchSetup: limitedNumberText(event.target.value, delivery.batchSetup, NUMBER_LIMITS.unitHours) })}
-                            />
-                        </BusinessField>
-                        <BusinessField label="Units in a batch" side>
-                            <NumberCell kind="int"
-                                className="delivery-number"
-                                aria-label={offering.label + " units in a batch"}
-                                placeholder="1"
-                                disabled={disabled}
-                                value={delivery.batchUnits}
-                                onChange={(event) => changeDelivery(offering.id, { batchUnits: limitedNumberText(event.target.value, delivery.batchUnits, NUMBER_LIMITS.quantity) })}
-                            />
-                        </BusinessField>
-                    </>
-                )}
-
+                )
+                        ]} />,
+                        <EngagementBox key="who" title="Who Does It & How Long" bands={[
+                            <Fragment key="hours">
                 <BusinessField
                     label={recurring ? "Working Hours per Client (" + (weekly ? "a week" : "a month") + "), by person" : sessions ? "Working Hours per Session, by person" : "Working Hours per Unit, by person"}
                     info={DELIVERY_HELP.effort}
@@ -1078,6 +1053,7 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
                                             {row.label}
                                         </span>
                                         <NumberCell
+                                            data-size={numberStep(NUMBER_LIMITS.unitHours)}
                                             className="delivery-number delivery-person-hours"
                                             aria-label={row.label + " hours" + perUnit + " of " + offering.label + (row.external ? " (external)" : " (founder)")}
                                             placeholder="0"
@@ -1119,14 +1095,28 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
                         </p>
                     )}
 
-                    {deliveryPace(offering.id, rows, shownHours, recurring)}
 
                             </div>
                         )}
                 </BusinessField>
-
-                {/* (WHEN MAKING AND SENDING TAKE LONGER THAN CUSTOMERS EXPECT (owner, 2026-11-17): the Calendar Time, a supplier's lead time and the sending (O20) against O15.) */}
-                {!recurring && (() => {
+</Fragment>,
+                            !recurring && (
+                    <BusinessField label="Calendar Time (weeks)" info={DELIVERY_HELP.duration} side>
+                        <NumberCell
+                            data-size={numberStep(NUMBER_LIMITS.weeks)}
+                            className="delivery-number"
+                            aria-label={offering.label + " calendar time, weeks"}
+                            placeholder="e.g. 2"
+                            disabled={disabled}
+                            value={delivery.duration}
+                            onChange={(event) => changeDelivery(offering.id, {
+                                duration: limitedNumberText(event.target.value, delivery.duration, NUMBER_LIMITS.weeks)
+                            })}
+                        />
+                    </BusinessField>
+                ),
+                            /* (WHEN MAKING AND SENDING TAKE LONGER THAN CUSTOMERS EXPECT (owner, 2026-11-17): the Calendar Time, a supplier's lead time and the sending (O20) against O15.) */
+!recurring && (() => {
                     const answers = offeringAnswersById(businessFoundationSegments(foundation), offering.id);
                     const band = LEAD_TIME_WEEKS[answers.o15?.[0] ?? ""];
                     const supplier = delivery.holdUps.includes("materials") ? capability.offering.providers.find(card => card.id === delivery.supplierId) : undefined;
@@ -1141,22 +1131,55 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
                             {"Customers expect it " + band.expect + ", and making and sending it takes about " + formatHours(Math.round(takes)) + (Math.round(takes) === 1 ? " week" : " weeks") + ". Keep some ready-made stock, or tell customers " + band.tell + "."}
                         </p>
                     );
-                })()}
-                {!recurring && (
-                    <BusinessField label="Calendar Time (weeks)" info={DELIVERY_HELP.duration} side>
-                        <NumberCell
+                })()
+                        ]} />,
+                        (sessions || batches) && <EngagementBox key="at-once" title="How Many at Once" bands={[
+                            /* DV6, customers in one session: a class, a workshop, an event (doc 52; owner, 2026-11-17). */
+                            /* (Under its label, its cell as wide as its content: a label longer than the side column sits off the box's centre line beside it;
+                                owner, 2026-11-18 12:41, "Fix the fields and their cells properly", and the layout check.) */
+                            sessions && (
+                    <BusinessField label="Customers in one session" info={DELIVERY_HELP.perSession}>
+                        <NumberCell kind="int"
+                            data-size={numberStep(NUMBER_LIMITS.quantity)}
                             className="delivery-number"
-                            aria-label={offering.label + " calendar time, weeks"}
-                            placeholder="e.g. 2"
+                            aria-label={offering.label + " customers in one session"}
+                            placeholder="1"
                             disabled={disabled}
-                            value={delivery.duration}
-                            onChange={(event) => changeDelivery(offering.id, {
-                                duration: limitedNumberText(event.target.value, delivery.duration, NUMBER_LIMITS.weeks)
-                            })}
+                            value={delivery.perSession}
+                            onChange={(event) => changeDelivery(offering.id, { perSession: limitedNumberText(event.target.value, delivery.perSession, NUMBER_LIMITS.quantity) })}
                         />
                     </BusinessField>
-                )}
-
+                ),
+                            /* DV9 and DV10, a batch's set-up and its units: a Product or Hybrid, not made to order. */
+batches && (
+                    <>
+                        <BusinessField label="Set-up for a batch (hours)" info={DELIVERY_HELP.batch} side>
+                            <NumberCell
+                                data-size={numberStep(NUMBER_LIMITS.unitHours)}
+                                className="delivery-number"
+                                aria-label={offering.label + " set-up hours for a batch"}
+                                placeholder="0"
+                                disabled={disabled}
+                                value={delivery.batchSetup}
+                                onChange={(event) => changeDelivery(offering.id, { batchSetup: limitedNumberText(event.target.value, delivery.batchSetup, NUMBER_LIMITS.unitHours) })}
+                            />
+                        </BusinessField>
+                        <BusinessField label="Units in a batch" side>
+                            <NumberCell kind="int"
+                                data-size={numberStep(NUMBER_LIMITS.quantity)}
+                                className="delivery-number"
+                                aria-label={offering.label + " units in a batch"}
+                                placeholder="1"
+                                disabled={disabled}
+                                value={delivery.batchUnits}
+                                onChange={(event) => changeDelivery(offering.id, { batchUnits: limitedNumberText(event.target.value, delivery.batchUnits, NUMBER_LIMITS.quantity) })}
+                            />
+                        </BusinessField>
+                    </>
+                )
+                        ]} />,
+                        <EngagementBox key="hold-ups" title="What Can Hold It Up" bands={[
+                            <Fragment key="hold-ups">
                 {/* DV12, WHAT CAN HOLD UP DELIVERY (replaces DV5, Constraints; owner, 2026-11-17): equipment or a workspace (DV7, DV8), materials from a supplier
                     (DV13), Other. Partners' time, seasons, skills, licences and money are read elsewhere: the bars, Busy times, Skills, Registrations, Financial Position. */}
                 <BusinessField label="What can hold up delivery?" info={DELIVERY_HELP.holdUps}>
@@ -1172,12 +1195,14 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
                         ))}
                     </div>
                 </BusinessField>
-                {delivery.holdUps.includes("equipment") && (() => {
+</Fragment>,
+                            delivery.holdUps.includes("equipment") && (() => {
                     const owned = uniqueChoices(capability.offering.resources.filter(card => card.offeringIds.includes(offering.id)), "Unnamed resource");
                     return (
                         <>
-                            {/* (Label above, as every field whose label or control is wider than the side column (--side-label-short) allows: a resource's own name
-                                ("8-shaft floor looms") needs the card's width, and the question its own line; layout check, 2026-11-17. "Which supplier?" below the same.) */}
+                            {/* (Under their labels, each cell as wide as its content -- the picker its longest option, the number a short one: a resource's own name
+                                needs more than the side column, and the question its own line; owner, 2026-11-18 12:41, "Fix the fields and their cells properly", and the
+                                layout check. "Which supplier?" below the same.) */}
                             <BusinessField label="Which one?" info={DELIVERY_HELP.equipment}>
                                 {owned.length === 0
                                     ? <span className="delivery-muted">Add this Offering's equipment or workspace under Resources.</span>
@@ -1185,6 +1210,7 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
                                         <OptionPicker
                                             label={offering.label + " equipment that holds up delivery"}
                                             placeholder="Select"
+                                            hug
                                             options={owned.map(choice => choice.label)}
                                             disabled={disabled}
                                             value={owned.find(choice => choice.id === delivery.equipmentId)?.label ?? ""}
@@ -1194,6 +1220,7 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
                             </BusinessField>
                             <BusinessField label="How many units can it hold at once?">
                                 <NumberCell kind="int"
+                                    data-size={numberStep(NUMBER_LIMITS.quantity)}
                                     className="delivery-number"
                                     aria-label={offering.label + " units the equipment holds at once"}
                                     placeholder="1"
@@ -1204,8 +1231,8 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
                             </BusinessField>
                         </>
                     );
-                })()}
-                {delivery.holdUps.includes("materials") && (() => {
+                })(),
+                            delivery.holdUps.includes("materials") && (() => {
                     const suppliers = uniqueChoices(capability.offering.providers.filter(card => card.offeringIds.includes(offering.id)), "Unnamed supplier");
                     return (
                         <BusinessField label="Which supplier?">
@@ -1215,6 +1242,7 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
                                     <OptionPicker
                                         label={offering.label + " supplier that holds up delivery"}
                                         placeholder="Select"
+                                        hug
                                         options={suppliers.map(choice => choice.label)}
                                         disabled={disabled}
                                         value={suppliers.find(choice => choice.id === delivery.supplierId)?.label ?? ""}
@@ -1223,8 +1251,8 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
                                 )}
                         </BusinessField>
                     );
-                })()}
-                {delivery.holdUps.includes("other") && (
+                })(),
+                            delivery.holdUps.includes("other") && (
                     <NumberedListInput
                         label={offering.label + " what can hold up delivery, other"}
                         items={writtenInRows(delivery.holdUpsOther)}
@@ -1232,7 +1260,11 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
                         disabled={disabled}
                         onChange={(items) => changeDelivery(offering.id, { holdUpsOther: items })}
                     />
-                )}
+                )
+                        ]} />,
+                        rows.length > 0 && <EngagementBox key="results" title="Results" bands={[deliveryPace(offering.id, rows, shownHours, recurring)]} />
+                    ]}</EngagementBoxes>
+                </SingleColumn>
 
             </BusinessCard>
         );
@@ -1308,6 +1340,15 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
         const words = times.size === 2 ? "in the evenings and at weekends" : times.has("evenings") ? "in the evenings" : "at weekends";
         return <p className="delivery-muted">{"Your customers buy " + words + ": plan the delivery hours for those times."}</p>;
     }
+    /** A Delivery tile's face (owner, 2026-11-18 10:38): how it is delivered, and the hours it takes, by everyone together. */
+    function deliveryTileLines(offeringId: string): string[] {
+        const delivery = capability.delivery[offeringId] ?? startedDelivery(offeringId);
+        const recorded = deliveryModeOf(offeringId, businessFoundationSegments(foundation));
+        const recurring = recorded ? recorded === "monthly" : delivery.mode === "monthly";
+        const total = Object.values(delivery.hours).reduce((sum, hours) => sum + (readHours(hours) ?? 0), 0);
+        const unit = recurring ? (delivery.period === "week" ? " a client a week" : " a client a month") : offeringStartsById(businessFoundationSegments(foundation), offeringId).sessions ? " a session" : " a unit";
+        return [recurring ? "Every month" : "Per unit", ...(total > 0 ? [formatHours(total) + " h" + unit] : [])];
+    }
     function deliverySection() {
 
         const available = deliveryHours(founders);
@@ -1319,9 +1360,29 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
             }))
             .filter((entry): entry is { label: string; hours: number } => entry.hours !== null);
 
+        // (THE DIALOG IN THE ORDER A FOUNDER THINKS IN (owner, 2026-11-18 10:38): what is delivered -- a tile for each Offering, its card floating from it --, then
+        // the capacity it leaves, then the skills, each under its own band.)
         return (
             <>
 
+                {offeringChoices.length === 0
+                    ? (
+                        <BusinessEmpty>
+                            No Offerings yet. Define them on the Foundation page, and each
+                            one gets its Delivery card here.
+                        </BusinessEmpty>
+                    )
+                    : (
+                        /* Each Offering's Delivery is a card, and each card a tile: pressed, it floats over the page. */
+                        <CardBoxes
+                            items={offeringChoices.map((choice, at): CardBox => ({ id: "delivery-" + choice.id, number: at + 1, name: choice.label, unnamed: "Unnamed offering", own: true, lines: deliveryTileLines(choice.id), content: () => null }))}
+                            label="Delivery"
+                            what="Delivery"
+                            autoStart={false}
+                        />
+                    )}
+
+                <DialogSectionBand title="Capacity">
                 <div className="delivery-capacity">
                     <p className="delivery-capacity-line">
                         <InfoText
@@ -1479,24 +1540,10 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
                     })()}
                 </div>
 
-                {skillsBand()}
+                </DialogSectionBand>
 
-                {offeringChoices.length === 0
-                    ? (
-                        <BusinessEmpty>
-                            No Offerings yet. Define them on the Foundation page, and each
-                            one gets its Delivery card here.
-                        </BusinessEmpty>
-                    )
-                    : (
-                        /* Each Offering's Delivery is a card, and each card a tile: pressed, it floats over the page. */
-                        <CardBoxes
-                            items={offeringChoices.map((choice, at): CardBox => ({ id: "delivery-" + choice.id, number: at + 1, name: choice.label, unnamed: "Unnamed offering", own: true, content: () => null }))}
-                            label="Delivery"
-                            what="Delivery"
-                            autoStart={false}
-                        />
-                    )}
+                <DialogSectionBand title="Skills">{skillsBand()}</DialogSectionBand>
+
 
             </>
         );

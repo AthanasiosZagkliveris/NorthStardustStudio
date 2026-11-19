@@ -262,6 +262,48 @@
 .floating-card-body .business-foundation-card :is(.business-segment-box, .legal-entity-field > .legal-entity-org-section) .business-demand-fields .business-demand-number[data-size="code"]{ width:var(--control-code); }
 .floating-card-body .business-foundation-card :is(.business-segment-box, .legal-entity-field > .legal-entity-org-section) .business-demand-fields .business-demand-number[data-size="s"]{ width:var(--control-s); }
 
+/* A RANGE, FROM AND TO (a competitor's price, K15): one row, each label beside its cell, the cells the money step (owner, 2026-11-18 12:41 and 18:01: "From - To:
+   place the fields horizontally, next to each other"). */
+.business-demand-fields.business-demand-range.business-demand-range{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    align-items:center;
+
+    gap:var(--space-field) var(--space-cell);
+
+    width:100%;
+
+}
+
+/* (Each as wide as its label and its cell, so the two stand side by side.) */
+.business-demand-range.business-demand-range > .business-foundation-field.business-field-inline{
+
+    flex:none;
+
+    width:auto;
+
+    max-width:none;
+
+    display:flex;
+
+    flex-direction:row;
+
+    align-items:center;
+
+    gap:var(--side-label-gap);
+
+}
+
+/* EVERY NUMBER CELL OF A FLOATING CARD AT ITS WIDTH STEP (owner, 2026-11-18 18:01: "Rearrange the fields and their cells ... what type of cells could be used according
+   to their inputs"): the step its figure needs (numberStep: the digits its limits allow) -- a percent, hours, weeks or a count XS, money S --, never stretched across
+   its column. */
+.floating-card-body .business-foundation-card .interview-input.number-cell[data-size="xs"]{ width:var(--control-xs); max-width:none; margin-right:auto; }
+.floating-card-body .business-foundation-card .interview-input.number-cell[data-size="code"]{ width:var(--control-code); max-width:none; margin-right:auto; }
+.floating-card-body .business-foundation-card .interview-input.number-cell[data-size="s"]{ width:var(--control-s); max-width:none; margin-right:auto; }
+
 .business-demand-source-note{
 
     margin:0;

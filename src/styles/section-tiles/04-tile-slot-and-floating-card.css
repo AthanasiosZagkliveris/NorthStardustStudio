@@ -349,15 +349,11 @@
 
 }
 
+/* ONE WIDTH FOR EVERY FLOATING CARD, whatever it holds (owner, 2026-11-19 01:41 UTC+2: "All the floated cards, should have the same width"; layout rules section 10,
+   "One card"): set here, never by the card or its caller. */
 .floating-card-card {
 
     width: min(var(--open-card-width), calc(100vw - 16px));
-
-}
-
-.floating-card-founder {
-
-    width: min(var(--founder-card-min), calc(100vw - 16px));
 
 }
 
@@ -393,12 +389,6 @@
 .floating-card-host .floating-card-body.floating-card-card {
 
     width: min(var(--open-card-width), calc(100vw - 16px));
-
-}
-
-.floating-card-host .floating-card-body.floating-card-founder {
-
-    width: min(var(--founder-card-min), calc(100vw - 16px));
 
 }
 

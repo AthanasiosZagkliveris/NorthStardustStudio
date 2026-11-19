@@ -120,11 +120,11 @@ export interface SectionTile {
     /** A card that has a parent or a child (a requirement and the expense it made) is drawn with it: the parent above, the child under it, whichever was pressed. */
     pairOf?: (id: string) => { parent: { id: string; caption: string }; child: { id: string; caption: string } } | null;
 
-    /** The look of its floating cards: a founder's (the founder's card width), the Workspace's form, any other card (480px). */
-    cardKind?: "card" | "founder";
+    /** The look of its floating cards: one look, one width for every card, a founder's too (layout rules section 10, "One card"). */
+    cardKind?: "card";
 
     /** The look of ONE card where the tile holds cards of several looks (the "Inventory" tile: a founder's, the Workspace's form, any other). */
-    kindFor?: (id: string) => "card" | "founder";
+    kindFor?: (id: string) => "card";
 
     /**
      * Pressing the tile opens this card alone as a floating card, with no dialog around it (the Workspace: its form,
@@ -256,6 +256,8 @@ export interface FloatingOpen {
     caption?: string;
     /** Who removes the card again when it is left blank, where it was not the tile's own "+" (a subcategory box's). */
     remover?: TileAdd;
+    /** The cards of the box it was opened from (a group's, inside a category): its arrows and rail go through these, not the whole tile's. */
+    siblings?: readonly string[];
 }
 
 
@@ -282,7 +284,7 @@ export interface FloatingItem {
     key: string;
     /** The name of the tile or box the card belongs to ("Operational", "Providers"): drawn centred ABOVE the card, outside it. */
     caption: string;
-    kind: "card" | "founder";
+    kind: "card";
     node: ReactNode;
     /** The card's own colour where it differs from its stack's (a card of Offering's Capability opened from a founder's card keeps the Offering's). */
     hue?: number;

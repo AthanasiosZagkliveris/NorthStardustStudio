@@ -815,6 +815,23 @@
 
 }
 
+/* (Its tick, words and "i" stand on the control's centre line: the label row centres them, and the tick row puts its words in the middle of its 24px -- as a line of
+   text it stood 1.5px under the control, the "i" 2px; layout rules section 4, "Text beside a control", and "the i on its words' centre line"; the Lumen check,
+   2026-11-19.) */
+.business-foundation-field.business-foundation-field.business-foundation-field:not(.optional-field):has(> .business-foundation-label-info > .business-foundation-tick-inline) > .business-foundation-label-info{
+
+    display:flex;
+
+    align-items:center;
+
+}
+
+.business-foundation-field.business-foundation-field.business-foundation-field:not(.optional-field) > .business-foundation-label-info > .business-foundation-tick-inline{
+
+    padding-top:calc((var(--size-mark) - 1lh) / 2);
+
+}
+
 .business-foundation-field.business-foundation-field.business-foundation-field:not(.optional-field):has(> .business-foundation-label-info > .business-foundation-tick-inline) > .business-capability-automatic{
 
     /* (The founder the rule names is text on the tick's own line, not a control-high box.) */
@@ -1166,7 +1183,8 @@
 
 }
 
-.floating-card-body .column-tile-content > .business-foundation-card > .business-group-fold-head .business-foundation-subhead{
+.floating-card-body .column-tile-content > .business-foundation-card > .business-group-fold-head .business-foundation-subhead,
+.legal-entity-org-section.business-section-band .business-foundation-subhead{
 
     font-size:var(--font-body);
 
@@ -1503,5 +1521,75 @@
 .floating-card-body .column-tile-content > .business-foundation-card > .business-segment-grid-single .legal-entity-org-section > .legal-entity-label-info > .business-demand-figure{
 
     margin-right:var(--gap-12);
+
+}
+
+/* A SECTION'S BAND (page 3's cards: Dates, Type, Costs, Team & Responsibilities, Notes; owner, 2026-11-18 21:45 and 22:00 UTC+2): its questions one under the other,
+   12px apart (the band's own 6px gap on each side of the line's place). NO LINE between them (owner, 2026-11-18 23:56 UTC+2: "Do not place dividing lines in the
+   section, when the fields are not radio choice or ticked boxes"): the card's thin line shows only between two questions that are both a radio choice or a tick box,
+   with 12px over and under it, from side to side of the band. */
+.legal-entity-org-section[data-section] > .business-capability-card-rule{
+
+    height:0;
+
+    margin-block:0;
+
+}
+
+/* (The question after the line is a tick box's -- an optional field, a tick field -- or a radio choice's, told by its own class: a :has() cannot stand in another.) */
+.legal-entity-org-section[data-section] > :has(.brand-tick-box, .radio-choice-option) + .business-capability-card-rule:has(+ :is(.optional-field, .tick-field, .radio-choice, .business-foundation-tick)){
+
+    height:1px;
+
+    margin-block:calc(var(--space-field) - var(--space-label));
+
+}
+
+/* (A band of a card in its content box keeps the x's column clear in its padding (a founder's): the line between its questions runs over that too, to the band's side.) */
+.floating-card-body .column-tile-content > .business-foundation-card > .business-segment-grid-single .legal-entity-org-section[data-section] > .business-capability-card-rule{
+
+    margin-right:calc(-1 * (var(--card-x-column) + var(--space-field)));
+
+}
+
+/* THE LINKS' BAND (owner, 2026-11-18 23:56 UTC+2: "Links should be have a different coloured band"): the links' blue (--text-primary, each reading mode's own) at the
+   strength of a card's band (12%), not one of the alternating tints. */
+.legal-entity-org-section.legal-entity-org-section[data-section="links"]{
+
+    background:color-mix(in srgb, var(--text-primary) 12%, transparent);
+
+}
+
+/* WHAT STANDS IN A BAND ENDS AT THE NAME CELL'S RIGHT EDGE, THE x COLUMN CLEAR (owner's screenshot, 2026-11-19 00:45 UTC+2, the documents reconciled: layout rules
+   section 11, "Page 3's cards in bands"): the bands' tints run out to the card's sides, and their content keeps the x column and the gap before it as padding, as
+   a founder's sections do. What belongs to the x column -- the "+" or x beside a Team or Status row -- stands out in it. */
+.card-box-open > .business-capability-slot .business-segment-grid-single .legal-entity-org-section{
+
+    padding-right:calc(var(--card-x-column) + var(--space-field));
+
+}
+
+.card-box-open > .business-capability-slot .business-segment-grid-single .legal-entity-org-section .business-capability-performer:has(> .plus-box, > .strategy-box-remove, > .business-capability-performer-slot){
+
+    margin-right:calc(-1 * var(--card-x-column));
+
+}
+
+/* A SECTION BAND IN A CARD OF BANDS (a titled BandSection: the Offerings of page 3's cards; owner, 2026-11-19 00:16 and 01:08 UTC+2): the Profile's section band --
+   the card's dark fill, its title in light capitals (the rule above) -- from side to side, its section's own band under it. The field under it says its name
+   no more: the band says it. */
+.legal-entity-org-section.business-section-band{
+
+    padding-block:8px;
+
+    background:var(--card-band-ink, var(--bg-primary));
+
+    --info-fill:var(--card-band-ink, var(--bg-primary));
+
+}
+
+.legal-entity-org-section.business-section-band + .legal-entity-org-section > .business-offering-field > :is(.business-foundation-label-info, .field-label, .business-foundation-label){
+
+    display:none;
 
 }

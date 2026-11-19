@@ -1,29 +1,32 @@
 import { offeringShareWeights } from "../../../framework/engine/DemandCapacity.ts";
 import { countedCapability } from "../../../framework/engine/CardCompleteness.ts";
+import { numberStep } from "./BusinessEngagementModel.ts";
 import TextBox from "../../controls/TextBox.tsx";
 import NumberCell from "../../controls/NumberCell.tsx";
 import { calculatedLines } from "../../../framework/engine/CalculatedLines.ts";
 import { contingencyFunds, launchNeedOf } from "../../../framework/engine/ContingencyFunds.ts";
 import { ownersTakeDrawings } from "../../../framework/engine/FinancialForecast.ts";
 import { capitalisationLimitOf, createGlobalSettings, type GlobalSettingsValue } from "../../../framework/engine/GlobalSettings.ts";
-import { type CSSProperties, type ReactNode, useEffect, useState } from "react";
+import { type CSSProperties, type ReactNode, useEffect, useRef, useState } from "react";
 import { type LegalEntityValue, type StrategyMonthValue, asBusinessCapabilityValue, asBusinessEngagementValue, asLegalEntityValue, businessFoundationSegments, withLegalEntityFounders } from "../../../framework/engine/AnswerUtils.ts";
 import { assetUnitCostsOf, incomeTaxRate, COST_GROUPS, COST_FREQUENCIES, COST_NATURES, COST_NATURE_LABELS, natureSplitOf, FINANCIAL_FOUNDATION_SECTIONS, FUNDING_CATEGORIES, FUNDING_NEED_CATEGORIES, FUNDING_SCHEDULES, FUNDING_STATUSES, FUNDING_TYPES, LOAN_METHODS, PERIOD_FREQUENCIES, planLength, asFinancialFoundationValue, consolidateCosts, createFundingSource, createMilestone, financialPosition, founderCapitalSources, fundingNeeds, fundingStanding, fundingType, isNonCash, loanRepaymentNotes, loanSchedule, moneyFormatter, allFunding, monthlyEquivalent, planMonthLabel, withPlanStart, derivedPlanStart, legalExpenseDates, costStartDates, type CostLine, type FinancialFoundationValue, asFinancialSustainabilityValue, withDemand, type FundingSourceValue } from "../../../framework/engine/FinancialModel.ts";
 import { costSourcesFor } from "../../../framework/engine/ExportRenderers.ts";
 import { BusinessAddButton, BusinessCard, BusinessEmpty, BusinessField, OptionalNote, BusinessRemove, BusinessTicks, uniqueChoices } from "../cards/BusinessCardFields.tsx";
 import { CashTimelineChart, FigureTable, FigureTiles, FinancialBlock, PlanMonthField, SignalList } from "./FinancialParts.tsx";
 import CardShell from "../cards/CardShell.tsx";
-import SectionTiles, { DialogHeading, type SectionTile } from "../tiles/SectionTiles.tsx";
+import CardBoxes, { type CardBox } from "../cards/CardBoxes.tsx";
+import DialogSectionBand from "../tiles/DialogSectionBand.tsx";
+import { SingleColumn } from "./foundation/shared.tsx";
+import { EngagementBox, EngagementBoxes } from "./engagement/EngagementCard.tsx";
+import SectionTiles, { DialogHeading, stackedFace, type FaceRow, type SectionTile } from "../tiles/SectionTiles.tsx";
 import { workHue } from "../../../framework/engine/WorkColours.ts";
 import { summaryText } from "../cards/cardSummary.ts";
-import FoldAllToggle from "../fields/FoldAllToggle.tsx";
 import InfoNote, { type InfoPoint, InfoText } from "../fields/InfoNote.tsx";
 import MonthYearPicker from "../fields/MonthYearPicker.tsx";
 import { NUMBER_LIMITS, type NumberLimit, limitedNumberText, numberInputMode } from "../fields/numberInput.ts";
 import OptionPicker from "../fields/OptionPicker.tsx";
 import { type OpenPage } from "../tiles/jumpTo.ts";
 import { railId } from "../rails/railItems.ts";
-import { useItemFolds } from "../fields/useItemFolds.ts";
 import { toggledIn } from "../fields/toggledIn.ts";
 import TextLink from "../fields/TextLink.tsx";
 import { CATEGORY_INFO, DEFINITIONS, FUNDING_GAP_FORMULA, LOAN_PAYMENT_HELP, LOAN_PRE_INTEREST_HELP, RUNWAY_FORMULA, RUNWAY_SOURCE, SECTIONS, explain } from "./financialFoundationTexts.ts";
@@ -101,7 +104,9 @@ export default function FinancialFoundationEditor({
 
     globalSettings,
 
-    onOpenFoundation
+    onOpenFoundation,
+
+    onOpenLegalEntity
 
 }: FinancialFoundationEditorProps) {
 
@@ -162,13 +167,6 @@ export default function FinancialFoundationEditor({
         "Unnamed offering"
     );
 
-    /**
-     * Which Funding Source cards are open. Funding sources start
-     * CLOSED -- see useItemFolds -- unlike the structural sections
-     * and categories around them, which are on `expanded` and start
-     * closed too (every fold arrow starts closed).
-     */
-    const folds = useItemFolds(true);
 
     /* The Costs table's filters (by group, by Offering, by nature) and its order. */
     const [costFilter, setCostFilter] = useState({ group: "", offering: "", nature: "", sort: "amount" });
@@ -179,9 +177,16 @@ export default function FinancialFoundationEditor({
     function update(patch: Partial<FinancialFoundationValue>) {
         onChange({ ...stored, ...patch });
     }
+    /* (What is stored as this render sees it, for the funding tiles' add and clean-up.) */
+    const live = useRef(stored);
+    live.current = stored;
+    /** A funding source still as it was made: nothing written in it (its tile's Add leaves none behind). */
+    const fundingBlank = (source: FundingSourceValue | undefined) => !!source && JSON.stringify({ ...source, id: "" }) === JSON.stringify({ ...createFundingSource(source.category), id: "" });
 
     /* ---------- Small controls ---------- */
 
+    /* (True while a funding source's card is drawn: its dropdowns hug their longest option.) */
+    let pickersAlone = false;
     function picker(
         label: string,
         ariaLabel: string,
@@ -196,6 +201,7 @@ export default function FinancialFoundationEditor({
                 <OptionPicker
                     label={ariaLabel}
                     placeholder={placeholder}
+                    hug={pickersAlone}
                     options={options.map(option => option.label)}
                     disabled={disabled}
                     value={options.find(option => option.id === current)?.label ?? ""}
@@ -221,6 +227,7 @@ export default function FinancialFoundationEditor({
                     ? (
                         <NumberCell
                             inputMode={numberInputMode(limits)}
+                            data-size={numberStep(limits)}
                             aria-label={ariaLabel}
                             placeholder={placeholder}
                             disabled={disabled}
@@ -297,7 +304,7 @@ export default function FinancialFoundationEditor({
                 const nature = split.after;
                 if (nature === "cogs" || line.behaviour === "variable") {
                     const percent = line.frequency === "usage-based";
-                    rows.push({ key: line.id + ":sale", line, bucket: "sale", amount: line.amount, text: percent ? line.amountText + " % of Rev" : format(line.variablePerUnit ?? line.amount) + " " + frequencyLabel(line).toLowerCase(), when: percent ? "With revenue" : frequencyLabel(line), nature });
+                    rows.push({ key: line.id + ":sale", line, bucket: "sale", amount: line.amount, text: percent ? line.amountText + "% of revenue" : format(line.variablePerUnit ?? line.amount) + " " + frequencyLabel(line).toLowerCase(), when: percent ? "With revenue" : frequencyLabel(line), nature });
                 } else if (line.frequency === "one-time" || line.frequency === "per-project" || nature === "capex" || nature === "startup" || nature === "pre-operating" || nature === "inventory") {
                     rows.push({ key: line.id + ":later", line, bucket: "later", amount: line.amount, text: format(line.amount), when: line.startDate ? line.startDate : frequencyLabel(line), nature });
                 } else {
@@ -309,12 +316,25 @@ export default function FinancialFoundationEditor({
         return { rows, uncounted };
     }
 
-    /** The cost of each sale: the prices per unit added up, and how many costs are a percent of revenue instead (the Costs section's third total, and its tile's). */
+    /**
+     * THE COSTS COUNTED WITH REVENUE, each named with its share (owner, 2026-11-18 16:55: "Do all 8", proposal 7), as each is paid on the part of the revenue it serves
+     * (a card fee online, another in person): [{ name: "Shopify Payments", share: "2%" }].
+     */
+    function revenueShareLines(rows: CostRow[]): { name: string; share: string }[] {
+        return rows.filter(row => row.bucket === "sale" && row.line.frequency === "usage-based" && (row.line.amountText ?? "").trim() !== "")
+            .map(row => ({ name: row.line.name.trim() || "A cost", share: row.line.amountText.trim() + "%" }));
+    }
+    /** The same in words: "2% of revenue" where there is one; several each named: "2% (Shopify Payments) · 1.69% (SumUp card fees)". Empty where there are none. */
+    function revenueSharesOf(rows: CostRow[]): string {
+        const lines = revenueShareLines(rows);
+        return lines.length === 0 ? "" : lines.length === 1 ? lines[0].share + " of revenue" : lines.map(line => line.share + " (" + line.name + ")").join(" · ");
+    }
+    /** The cost of each sale: the prices per unit added up, and the costs that are a share of revenue instead (the Costs section's third total, and its tile's). */
     function saleTextOf(rows: CostRow[]): string {
         const sales = rows.filter(row => row.bucket === "sale");
         const perSale = sales.filter(row => row.line.frequency !== "usage-based").reduce((sum, row) => sum + (row.line.variablePerUnit ?? row.amount), 0);
-        const percentCosts = sales.filter(row => row.line.frequency === "usage-based").length;
-        return sales.length === 0 ? format(0) : format(perSale) + (percentCosts > 0 ? " + " + percentCosts + " % of Rev" : "");
+        const shares = revenueSharesOf(rows);
+        return sales.length === 0 ? format(0) : format(perSale) + (shares ? " + " + shares : "");
     }
 
     function costsSection() {
@@ -970,6 +990,9 @@ export default function FinancialFoundationEditor({
 
         const formattedAmount = source.amount.trim() ? format(fundingStanding(source, start).total) : "";
 
+        // (Each dropdown of a source's card as wide as its longest option, never stretched across the card: OptionPicker `hug`.)
+        pickersAlone = true;
+        try {
         return (
             <BusinessCard
                 key={source.id}
@@ -979,8 +1002,7 @@ export default function FinancialFoundationEditor({
                 number={index + 1}
                 name={source.name}
                 onName={(next) => changeSource(source.id, { name: next })}
-                open={folds.isOpen(source.id)}
-                onToggle={() => folds.toggle(source.id)}
+                open
                 disabled={disabled}
                 summary={summaryText(
                     FUNDING_TYPES.find(t => t.id === source.type)?.label,
@@ -996,114 +1018,130 @@ export default function FinancialFoundationEditor({
                 }
             >
 
-                <div className="financial-funding-grid">
-                <div className="business-capability-row">
-                    {picker("Funding Type", what + " type", types, source.type,
-                        (next) => changeSource(source.id, { type: next }), "Select a type")}
-                    {textInput(
-                        nature === "debt" ? "Lender" : nature === "equity" ? "Investor" : "Provider / Source",
-                        what + " provider", source.provider,
-                        (next) => changeSource(source.id, { provider: next }))}
-                </div>
-
-                <div className="business-capability-row">
-                    {textInput(nature === "debt" ? "Principal Amount" : "Total Amount", what + " amount",
-                        source.amount, (next) => changeSource(source.id, { amount: next }), amountPlaceholder,
-                        undefined, NUMBER_LIMITS.money)}
-                    {picker("Status", what + " status", FUNDING_STATUSES, source.status,
-                        (next) => changeSource(source.id, { status: next as FundingSourceValue["status"] }),
-                        "Select a status", explain(FUNDING_STATUSES))}
-                    {confirmedStatus && textInput(
-                        "Received So Far", what + " received so far", source.received,
-                        (next) => changeSource(source.id, { received: next }),
-                        source.status === "approved" ? amountPlaceholder : "All of it, unless less",
-                        ["How much has actually arrived. The rest counts as confirmed future money."],
-                        NUMBER_LIMITS.money
-                    )}
-                </div>
-
-                {/* ONE GRID FOR THE CARD'S SHORT FIELDS: what it is, how
-                    much and when, the schedule or the loan's terms, the
-                    equity -- all in the same columns, never on rows of
-                    their own under the grid. The standing line takes a
-                    row of its own, under the amount. */}
-                {standingLine(source)}
-
-                {nature === "debt" ? loanTermFields(source, what) : scheduleFields(source, what)}
-
-                {nature === "equity" && textInput(
+                {/* (A FUNDING SOURCE'S CARD, floating from its tile (owner, 2026-11-18 12:41: "make the Funding Sources into tiles"): three boxes of the shared bands,
+                    as a Customer Engagement card -- the source and its amount, when it arrives (or a loan's terms), and what it is for.) */}
+                <SingleColumn>
+                    <EngagementBoxes>{[
+                        <EngagementBox key="source" title="Source & Amount" bands={[
+                                        <div className="business-capability-row">
+                                            {picker("Funding Type", what + " type", types, source.type,
+                                                (next) => changeSource(source.id, { type: next }), "Select a type")}
+                                            {textInput(
+                                                nature === "debt" ? "Lender" : nature === "equity" ? "Investor" : "Provider / Source",
+                                                what + " provider", source.provider,
+                                                (next) => changeSource(source.id, { provider: next }))}
+                                        </div>
+                        ,
+                                        <div className="business-capability-row">
+                                            {textInput(nature === "debt" ? "Principal Amount" : "Total Amount", what + " amount",
+                                                source.amount, (next) => changeSource(source.id, { amount: next }), amountPlaceholder,
+                                                undefined, NUMBER_LIMITS.money)}
+                                            {picker("Status", what + " status", FUNDING_STATUSES, source.status,
+                                                (next) => changeSource(source.id, { status: next as FundingSourceValue["status"] }),
+                                                "Select a status", explain(FUNDING_STATUSES))}
+                                            {confirmedStatus && textInput(
+                                                "Received So Far", what + " received so far", source.received,
+                                                (next) => changeSource(source.id, { received: next }),
+                                                source.status === "approved" ? amountPlaceholder : "All of it, unless less",
+                                                ["How much has actually arrived. The rest counts as confirmed future money."],
+                                                NUMBER_LIMITS.money
+                                            )}
+                                        </div>
+                        ,
+                            standingLine(source)
+                        ]} />,
+                        <EngagementBox key="when" title={nature === "debt" ? "Loan Terms" : "When It Arrives"} bands={[
+                            nature === "debt" ? loanTermFields(source, what) : scheduleFields(source, what),
+                            nature === "equity" && textInput(
                     "Ownership / Equity (%)", what + " equity", source.equity,
                     (next) => changeSource(source.id, { equity: next }), "e.g. 10",
                     ["The share given in exchange. The Legal Entity remains where legal ownership is recorded."],
                     NUMBER_LIMITS.percent
-                )}
-                </div>
-
-                {nature === "debt" && loanSummary(source)}
-
-                <OptionalNote
-                    label="Purpose"
-                    ariaLabel={what + " purpose"}
-                    placeholder="What it supports"
-                    disabled={disabled}
-                    value={source.purpose}
-                    onChange={(next) => changeSource(source.id, { purpose: next })}
-                />
-
-                <OptionalNote
-                    label="Conditions"
-                    ariaLabel={what + " conditions"}
-                    disabled={disabled}
-                    value={source.conditions}
-                    onChange={(next) => changeSource(source.id, { conditions: next })}
-                />
-
-                <BusinessField label="Linked Funding Need">
-                    {calculatedNeeds.every(need => need.amount <= 0.005)
-                        ? <BusinessEmpty>No Funding Need yet: it is calculated from the costs.</BusinessEmpty>
-                        : (
-                            <BusinessTicks
-                                name={what + " funding needs"}
-                                options={calculatedNeeds
-                                    .filter(need => need.amount > 0.005 || source.needIds.includes(need.id))
-                                    .map(need => ({ id: need.id, label: need.label, meaning: format(need.amount) }))}
-                                chosen={source.needIds}
-                                disabled={disabled}
-                                onChange={(next) => changeSource(source.id, { needIds: next })}
-                            />
-                        )}
-                </BusinessField>
+                ),
+                            nature === "debt" && loanSummary(source)
+                        ]} />,
+                        <EngagementBox key="for" title="What It Is For" bands={[
+                                        <OptionalNote
+                                            label="Purpose"
+                                            ariaLabel={what + " purpose"}
+                                            placeholder="What it supports"
+                                            disabled={disabled}
+                                            value={source.purpose}
+                                            onChange={(next) => changeSource(source.id, { purpose: next })}
+                                        />
+                        ,
+                                        <OptionalNote
+                                            label="Conditions"
+                                            ariaLabel={what + " conditions"}
+                                            disabled={disabled}
+                                            value={source.conditions}
+                                            onChange={(next) => changeSource(source.id, { conditions: next })}
+                                        />
+                        ,
+                                        <BusinessField label="Linked Funding Need">
+                                            {calculatedNeeds.every(need => need.amount <= 0.005)
+                                                ? <BusinessEmpty>No Funding Need yet: it is calculated from the costs.</BusinessEmpty>
+                                                : (
+                                                    <BusinessTicks
+                                                        name={what + " funding needs"}
+                                                        options={calculatedNeeds
+                                                            .filter(need => need.amount > 0.005 || source.needIds.includes(need.id))
+                                                            .map(need => ({ id: need.id, label: need.label, meaning: format(need.amount) }))}
+                                                        chosen={source.needIds}
+                                                        disabled={disabled}
+                                                        onChange={(next) => changeSource(source.id, { needIds: next })}
+                                                    />
+                                                )}
+                                        </BusinessField>
+                        
+                        ]} />
+                    ]}</EngagementBoxes>
+                </SingleColumn>
 
             </BusinessCard>
         );
+        } finally {
+            pickersAlone = false;
+        }
 
     }
 
     /**
-     * The founders' capital, answered on the Legal Entity: who, and how
-     * much, and the total. Counted as in hand from the plan's start.
+     * FOUNDERS' CAPITAL AS A CARD (owner, 2026-11-18 16:55: "Do all 8", proposal 8): read only -- answered on the Legal Entity's Founders & Ownership --, each founder's
+     * capital and the total under one band, as a source's card, and the way to where it is answered.
      */
-    function founderCapitalList(capital: FundingSourceValue[]) {
-
+    function founderCapitalCard() {
+        const capital = founderCapitalSources(stored, legalEntity);
         const total = capital.reduce((sum, source) => sum + fundingStanding(source, start).total, 0);
-
         return (
-            <div className="financial-need-card financial-capital-card">
-                <strong className="financial-need-name">Founders' Capital</strong>
-                <ul className="financial-cost-inputs">
-                    {capital.map(source => (
-                        <li key={source.id}>
-                            <span>{source.provider.trim() || "Unnamed founder"}</span>
-                            <span>{format(fundingStanding(source, start).total)}</span>
-                        </li>
-                    ))}
-                    <li className="financial-cost-inputs-total">
-                        <span>Total</span><span>{format(total)}</span>
-                    </li>
-                </ul>
-            </div>
+            <BusinessCard key="founders-capital" kind="Source" anchor="founders-capital" number={1} name="Founders' Capital" open disabled={disabled}>
+                <SingleColumn>
+                    <EngagementBoxes>{[
+                        <EngagementBox key="capital" title="Each Founder" bands={[
+                            <ul className="financial-cost-inputs" key="list">
+                                {capital.map(source => (
+                                    <li key={source.id}>
+                                        <span>{source.provider.trim() || "Unnamed founder"}</span>
+                                        <span>{format(fundingStanding(source, start).total)}</span>
+                                    </li>
+                                ))}
+                                <li className="financial-cost-inputs-total">
+                                    <span>Total</span><span>{format(total)}</span>
+                                </li>
+                            </ul>,
+                            onOpenLegalEntity && (
+                                <p className="financial-muted" key="where">
+                                    Answered on{" "}
+                                    <TextLink type="button" className="business-engagement-link" onClick={() => onOpenLegalEntity(["legal-section-1"])}>
+                                        1. Identity System → 1. Definition → Founders & Ownership
+                                    </TextLink>
+                                </p>
+                            )
+                        ]} />
+                    ]}</EngagementBoxes>
+                </SingleColumn>
+            </BusinessCard>
         );
-
     }
 
     function fundingSection() {
@@ -1133,27 +1171,52 @@ export default function FinancialFoundationEditor({
                                         </span>
                                     </span>
 
-                                    <FoldAllToggle
-                                        ids={of.map(source => source.id)}
-                                        folds={folds}
-                                        label="funding sources"
-                                    />
                                 </div>
 
-                                {((category.id === "internal" && capital.length > 0) || of.length > 0) && (
-                                    <div className="financial-funding-cards">
-                                        {category.id === "internal" && capital.length > 0 && founderCapitalList(capital)}
-                                        {of.map((source, index) => fundingCard(source, index))}
-                                    </div>
-                                )}
-
-                                <BusinessAddButton
-                                    label="Funding Source"
-                                    disabled={disabled}
-                                    onAdd={() => {
-                                        const source = createFundingSource(category.id);
-                                        update({ funding: [...stored.funding, source] });
-                                        folds.expand(source.id);
+                                {/* (THE SOURCES AS TILES (owner, 2026-11-18 12:41: "make the Funding Sources into tiles"): the dialog's card list, three in a row, each its
+                                    type, amount and status, opening its card floating; the Add tile after them makes a blank one and opens it.) */}
+                                <CardBoxes
+                                    label={category.label + " funding sources"}
+                                    what="Funding Source"
+                                    autoStart={false}
+                                    items={[
+                                        // (FOUNDERS' CAPITAL AS A TILE (owner, 2026-11-18 16:55: "Do all 8", proposal 8): the Internal category's first, as the sources beside
+                                        // it -- its total, then each founder's --; pressed, its card floats as the sources' do, read only, with the way to Founders & Ownership.)
+                                        ...(category.id === "internal" && capital.length > 0 ? [((): CardBox => {
+                                            const total = capital.reduce((sum, source) => sum + fundingStanding(source, start).total, 0);
+                                            return {
+                                                id: "founders-capital",
+                                                number: 1,
+                                                name: "Founders' Capital",
+                                                unnamed: "Founders' Capital",
+                                                own: true,
+                                                lines: [format(total), ...capital.map(source => (source.provider.trim() || "Unnamed founder") + ": " + format(fundingStanding(source, start).total))],
+                                                content: () => null
+                                            };
+                                        })()] : []),
+                                        ...of.map((source, index): CardBox => ({
+                                        id: source.id,
+                                        number: index + 1 + (category.id === "internal" && capital.length > 0 ? 1 : 0),
+                                        name: source.name,
+                                        unnamed: "Funding Source " + (index + 1),
+                                        own: true,
+                                        lines: [
+                                            FUNDING_TYPES.find(entry => entry.id === source.type)?.label ?? "",
+                                            source.amount.trim() ? format(fundingStanding(source, start).total) : "",
+                                            FUNDING_STATUSES.find(entry => entry.id === source.status)?.label ?? ""
+                                        ].filter(Boolean),
+                                        content: () => null
+                                    }))]}
+                                    add={{
+                                        label: "Funding Source",
+                                        disabled,
+                                        onAdd: () => {
+                                            const source = createFundingSource(category.id);
+                                            update({ funding: [...live.current.funding, source] });
+                                            return source.id;
+                                        },
+                                        isBlank: (id) => fundingBlank(live.current.funding.find(entry => entry.id === id)),
+                                        onRemove: (ids) => update({ funding: live.current.funding.filter(entry => !ids.includes(entry.id)) })
                                     }}
                                 />
 
@@ -1332,30 +1395,50 @@ export default function FinancialFoundationEditor({
 
     /* ---------- The page: one chapter of four Master Tiles (doc 48, section 1), each opening its section in a dialog ---------- */
 
-    /* What each tile says of its section (doc 48, section 1): two columns, a name and its figure in bold. */
-    const pair = (name: string, figure: string) => name + "\u0001" + (figure ? "**" + figure + "**" : "");
+    /* What each tile says of its section (doc 48, section 1): each name, its figure in bold under it -- the tile list's one face (stackedFace; owner, 2026-11-18
+       23:08 UTC+2: "Financial tiles' lists should follow the shared tile list"). */
+    const pair = (name: string, figure: string): FaceRow => ({ name, under: figure });
     const costFace = [
         pair("Launch budget", format(funds.schedule.total)),
         pair("Running costs a month", format(funds.monthlyOpEx)),
-        pair("Cost of each sale", saleTextOf(costRows().rows))
+        // (A share of revenue on its own line, so the face never cuts it: owner, 2026-11-18 10:38.)
+        ...(() => {
+            const sales = costRows().rows.filter(row => row.bucket === "sale");
+            const perSale = sales.filter(row => row.line.frequency !== "usage-based").reduce((sum, row) => sum + (row.line.variablePerUnit ?? row.amount), 0);
+            // (Each share named on the face: one is "% of revenue", several each with its cost's name; coordinator, 2026-11-18.)
+            const shares = revenueShareLines(costRows().rows);
+            return [pair("Cost of each sale", format(perSale)), ...(shares.length === 1 ? [pair("Share of revenue", shares[0].share)] : shares.map(line => pair(line.name, line.share)))];
+        })()
     ];
-    const needFace = calculatedNeeds.map(need => pair(need.label, format(need.amount)));
     const sources = allFunding(page, legalEntity);
     const fundingFace = FUNDING_STATUSES
         .map(status => ({ status, count: sources.filter(source => (source.status || "planned") === status.id).length }))
         .filter(entry => entry.count > 0)
-        .map(entry => pair(entry.status.label, String(entry.count)));
-    const positionFace = position.gap > 0.005
+        // (Capital & Funding keeps its two columns, each status and its count (owner, 2026-11-18 23:18 UTC+2: "Capital & Funding could be as before"): the
+        // tile list's pairs, a line between the rows.)
+        .map(entry => entry.status.label + "\u0001**" + String(entry.count) + "**");
+    const positionFace: FaceRow[] = position.gap > 0.005
         ? [pair("Funding Gap", format(position.gap))]
         : covered
             ? [pair("Funding", "Covered"), pair("Financial Runway", runway)]
             : [];
 
     const sections = [
-        { id: "financial-costs", section: SECTIONS.costs, body: costsSection, items: costFace, anchor: "financial-costs financial-pre-operational-budget" },
-        { id: "financial-need", section: SECTIONS.need, body: needSection, items: needFace, anchor: "financial-need" },
+        { id: "financial-costs", section: SECTIONS.costs, body: costsSection, items: stackedFace(costFace), anchor: "financial-costs financial-pre-operational-budget" },
         { id: "financial-funding", section: SECTIONS.funding, body: fundingSection, items: fundingFace, anchor: "financial-funding" },
-        { id: "financial-position", section: SECTIONS.position, body: positionSection, items: positionFace, anchor: "financial-position" }
+        // (THE FUNDING NEED INSIDE FINANCIAL POSITION (owner, 2026-11-18 16:55: "Do all 8", proposal 4): the need and the gap are one story; the position's headline
+        // and figures first, then the need's blocks under their band. Its anchor answers a jump to the need too.)
+        {
+            id: "financial-position", section: SECTIONS.position,
+            body: () => (
+                <>
+                    {positionSection()}
+                    <DialogSectionBand title={SECTIONS.need.title} info={[...SECTIONS.need.instructions, ...SECTIONS.need.info]}>{needSection()}</DialogSectionBand>
+                </>
+            ),
+            items: stackedFace([...positionFace, ...(position.need > 0.005 ? [pair("Total Funding Need", format(position.need))] : [])]),
+            anchor: "financial-position financial-need"
+        }
     ];
 
     const hue = workHue("build");
@@ -1363,9 +1446,25 @@ export default function FinancialFoundationEditor({
     const tiles: SectionTile[] = sections.map((entry, index) => ({
         id: entry.id,
         title: entry.section.title,
+        // (MASTER TILES KEEP THEIR SIZE AND THE 2 x 2 (owner's rule): three tiles fill three places of the four.)
+        large: true,
         anchor: entry.anchor,
         rail: railId(FINANCIAL_FOUNDATION_SECTIONS[index]),
         items: entry.items,
+        // (Capital & Funding's sources float from their tiles: owner, 2026-11-18 12:41.)
+        ...(entry.id === "financial-funding" ? {
+            // (Its dialog opens however many sources it holds: the founders' capital and each category's tiles are in it.)
+            view: true,
+            holds: [...(founderCapitalSources(stored, legalEntity).length > 0 ? ["founders-capital"] : []), ...stored.funding.map(source => source.id)],
+            cardFor: (id: string) => {
+                if (id === "founders-capital") {
+                    return <div className="column-tile-content financial-page financial-funding-floating">{founderCapitalCard()}</div>;
+                }
+                const of = stored.funding.find(source => source.id === id);
+                const index = of ? stored.funding.filter(source => source.category === of.category).indexOf(of) + (of.category === "internal" && founderCapitalSources(stored, legalEntity).length > 0 ? 1 : 0) : -1;
+                return of ? <div className="column-tile-content financial-page financial-funding-floating">{fundingCard(of, index)}</div> : null;
+            }
+        } : {}),
         content: () => (
             <div className="column-tile-content" data-anchor={entry.id} data-rail={railId(FINANCIAL_FOUNDATION_SECTIONS[index])} role="group" aria-label={entry.section.title}>
                 <div className="business-engagement-section-head">
@@ -1399,7 +1498,7 @@ export default function FinancialFoundationEditor({
     }
 
     return (
-        <div className={"answer-columns business-foundation business-engagement business-capability column-tiles-page" + (beside ? "" : " strategy-single-frame")} style={{ "--answer-column-count": beside ? 2 : 1 } as CSSProperties}>
+        <div className={"answer-columns business-foundation business-engagement business-capability column-tiles-page" + (beside ? " column-tiles-pair" : " strategy-single-frame")} style={{ "--answer-column-count": beside ? 2 : 1 } as CSSProperties}>
             <CardShell
                 data-anchor="column-tiles"
                 style={{ "--strategy-theme-hue": hue } as CSSProperties}

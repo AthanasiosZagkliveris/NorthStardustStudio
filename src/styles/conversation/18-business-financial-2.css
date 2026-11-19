@@ -325,35 +325,16 @@
 
 }
 
+/* (Its sources' tiles take the dialog's width, three in a row: owner, 2026-11-18 12:41.) */
 .financial-funding-category{
 
     display:flex;
 
     flex-direction:column;
 
-    align-items:flex-start;
+    align-items:stretch;
 
     gap:10px;
-
-}
-
-.financial-funding-cards{
-
-    display:grid;
-
-    grid-template-columns:repeat(auto-fit, minmax(440px, 1fr));
-
-    gap:var(--space-card) 24px;
-
-    align-items:start;
-
-    width:100%;
-
-}
-
-@media (max-width:640px){
-
-    .financial-funding-cards{ grid-template-columns:minmax(0, 1fr); }
 
 }
 
@@ -972,6 +953,18 @@
 
 }
 
+/* (Where the figure comes from is read in full, on as many lines as it needs, never cut short: owner, 2026-11-18 12:41, "Fix the layout of the Revenue Streams floating
+   cards".) */
+.financial-stream-grid .financial-derived .financial-cost-link.financial-cost-link{
+
+    white-space:normal;
+
+    overflow:visible;
+
+    text-overflow:clip;
+
+}
+
 @media (max-width:1000px){
 
     .financial-stream-grid{ grid-template-columns:repeat(2, minmax(0, 1fr)); }
@@ -981,6 +974,53 @@
 @media (max-width:560px){
 
     .financial-stream-grid{ grid-template-columns:minmax(0, 1fr); }
+
+}
+
+/* A REVENUE STREAM'S FLOATING CARD (owner, 2026-11-18 10:38: "fix the style of the dialogue and the floated cards to fit the other"): one side-label row a field,
+   as the Delivery and Customer Source cards: the label in the one label column, its answer filling the rest; under 396px the labels go above. Its
+   groups are the shared boxes of bands (EngagementBox), drawn by their own rules. */
+.financial-stream-floating .financial-stream-grid{
+
+    grid-template-columns:minmax(0, 1fr);
+
+}
+
+.financial-stream-floating .financial-stream-grid .business-field-inline{
+
+    /* (The label column as wide as this card's longest label and its "i" ("Months to Normal"), the rest to the answers, so a picker shows its whole option:
+       owner, 2026-11-18 12:41, "Fix the layout of the Revenue Streams floating cards".) */
+    --side-label-short:calc(var(--font-body) * 10.5);
+
+    grid-template-columns:var(--side-label-short) minmax(0, 1fr);
+
+    column-gap:var(--side-label-gap);
+
+    align-items:center;
+
+}
+
+.financial-stream-floating .financial-stream-grid .business-field-inline > :not(:first-child){
+
+    grid-column:2;
+
+}
+
+@container card (max-width: 395.98px){
+
+    .financial-stream-floating .financial-stream-grid .business-field-inline{
+
+        grid-template-columns:minmax(0, 1fr);
+
+        align-items:start;
+
+    }
+
+    .financial-stream-floating .financial-stream-grid .business-field-inline > :not(:first-child){
+
+        grid-column:1;
+
+    }
 
 }
 
@@ -1124,4 +1164,5 @@
     min-height:44px;
 
 }
+
 
