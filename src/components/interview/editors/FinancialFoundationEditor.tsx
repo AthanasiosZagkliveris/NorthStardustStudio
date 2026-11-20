@@ -1425,8 +1425,9 @@ export default function FinancialFoundationEditor({
             id: "financial-funding", section: SECTIONS.funding, title: "Funding",
             body: () => (
                 <>
-                    {/* (SOURCES & USES (doc 48, section 13, step 3): the money in, then what it is for, then the position they give.) */}
-                    <DialogSectionBand title="Sources" info={[...SECTIONS.funding.instructions, ...SECTIONS.funding.info]}>{fundingSection()}</DialogSectionBand>
+                    {/* (SOURCES & USES (doc 48, section 13, step 3): the money in, its sources each a section, then what it is for, the Uses, then the position they give.) */}
+                    {/* (The sources first: the founders' capital, then Internal, External and Other, a titled section each -- one question to a band, layout rules section 13.) */}
+                    {fundingSection()}
                     <div data-anchor="financial-position financial-need" data-rail={railId(FINANCIAL_FOUNDATION_SECTIONS[2])}>
                         <DialogSectionBand title="Uses" info={[...SECTIONS.need.instructions, ...SECTIONS.need.info]}>{needSection()}</DialogSectionBand>
                         <DialogSectionBand title={SECTIONS.position.title} info={[...SECTIONS.position.instructions, ...SECTIONS.position.info]}>{positionSection()}</DialogSectionBand>

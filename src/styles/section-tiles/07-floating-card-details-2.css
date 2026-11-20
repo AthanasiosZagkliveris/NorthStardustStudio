@@ -343,6 +343,10 @@
    chapters' own 1px border and 12px padding stand where a chapter's do. Its head over both, as a chapter's head stands in its frame. */
 .segment-chapter {
 
+    /* (As wide as a page's two chapters wherever it stands: in the Segments' frames, and straight in a page's columns, the Financials' one chapter of two groups
+       (doc 48, section 13; 2026-11-20: it stood in one column, half the page, its dialog and cards cramped).) */
+    grid-column: 1 / -1;
+
     padding-top: calc(var(--card-padding) + 1px);
 
     border-radius: var(--radius-lg);
