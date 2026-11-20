@@ -259,7 +259,7 @@ Listed, never failed (doc 39, 3.6). The budget is 160 characters a point; the av
 |---|---|---|---|---|---|
 | Role | floating card | 5 | 1 | 85 | Use for headings, logo lockups, product names and other designated brand expressions. |
 | Role | floating card | 3 | 1 | 62 | Use for body text, interface content and product descriptions. |
-| Text Hierarchy | tile dialog | 26 | 8 | 633 | Use larger sizes for more important headings, and smaller sizes for longer text to keep it comfortable to read. H1 (Title), 36–48 px: the title of a page or doc... |
+| Text Hierarchy | tile dialog | 26 | 8 | 633 | Use larger sizes for more important headings, and smaller sizes for longer text to keep it comfortable to read. H1: Title, 36–48 px: the title of a page or doc... |
 | Typography | tile dialog | 55 | 15 | 1766 | Choose typefaces that support your brand's character while remaining appropriate for their intended use. Serif: letters with finishing strokes, often giving a t... |
 | Typography & Text Hierarchy | floating card | 74 | 15 | 1766 | Choose typefaces that support your brand's character while remaining appropriate for their intended use. Serif: letters with finishing strokes, often giving a t... |
 

@@ -367,7 +367,7 @@
   {
    "label": "Text Hierarchy",
    "place": "tile dialog",
-   "text": "Use larger sizes for more important headings, and smaller sizes for longer text to keep it comfortable to read.\nH1 (Title), 36–48 px: the title of a page or document.\nH2 (Section), 28–36 px: the headings of its sections.\nH3 (Subsection), 22–28 px: the headings within a section.\nBody Text, 16–18 px: paragraphs and anything read at length.\nCaptions & Metadata / Interface, 12–14 px: captions, dates and labels, and the text of an interface.\nMaintain a clear and consistent relationship between text levels.\nUse size and weight to distinguish levels, keep similar content at the same level, and avoid creating unnecessary text levels.",
+   "text": "Use larger sizes for more important headings, and smaller sizes for longer text to keep it comfortable to read.\nH1: Title, 36–48 px: the title of a page or document.\nH2: Section, 28–36 px: the headings of its sections.\nH3: Subsection, 22–28 px: the headings within a section.\nBody Text, 16–18 px: paragraphs and anything read at length.\nCaptions & Metadata / Interface, 12–14 px: captions, dates and labels, and the text of an interface.\nMaintain a clear and consistent relationship between text levels.\nUse size and weight to distinguish levels, keep similar content at the same level, and avoid creating unnecessary text levels.",
    "lines": 26,
    "points": 8,
    "w": 480,

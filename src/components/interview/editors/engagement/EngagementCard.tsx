@@ -11,7 +11,10 @@ import InfoNote, { InfoPoint, InfoText } from "../../fields/InfoNote.tsx";
 import { SingleColumn } from "../foundation/shared.tsx";
 
 /** The card: the Offering's number and name (its name a link to the Foundation's Offering, where it is named), always open. */
-export function EngagementCard({ kind, number, name, anchor, ariaPrefix, onOpenName, headRow, actions, emptyName = "Unnamed Offering", children, headless = false }: {
+export function EngagementCard({ kind, number, name, anchor, ariaPrefix, onOpenName, headRow, actions, emptyName = "Unnamed Offering", children, headless = false, madeByApp = false }: {
+    /** MADE FROM EARLIER ANSWERS (owner, 2026-11-20 18:35 UTC+2: "auto-generated from previous answers, so they do not need to have x (delete) button. Use that space
+     *  (right edge) to widen the text cells"): no x, and the x column's room goes to the cells (`card-made-by-app`). */
+    madeByApp?: boolean;
     /** What stands at the end of the head: the card's x (a relationship type's, while its Offering has another). */
     actions?: ReactNode;
     emptyName?: string;
@@ -37,7 +40,8 @@ export function EngagementCard({ kind, number, name, anchor, ariaPrefix, onOpenN
             headRow={headRow}
             head={headless ? <></> : undefined}
             emptyName={emptyName}
-            actions={actions}
+            actions={madeByApp ? undefined : actions}
+            className={madeByApp ? "card-made-by-app" : undefined}
             nameLink={onOpenName ? { title: name.trim() || "Offering", onClick: onOpenName, ariaLabel: "Open the Foundation page, where the Offering " + (name.trim() || "") + " is defined" } : undefined}
         >
             {children}
@@ -117,8 +121,13 @@ export function EngagementBox({ title, info, extra, bands, anchor, sections, hea
             {extra}
         </span>
     );
+    // (A TITLED SECTION HAS THE SHARED DOUBLE RULE ABOVE ITS TITLE BAND, as every titled section of a card or a dialog (layout rules section 9, the Segment card: "Profiles
+    // are a section under the boxes: the shared double rule, a title band"; owner, 2026-11-20 19:45 UTC+2: "is missing a double line above the section").)
     const bandsOf = shown.map((band, at) => (
-        <div className={"legal-entity-org-section" + (headings?.[at] ? " business-section-band" : at % 2 === (title === undefined ? 0 : 1) ? " legal-entity-org-band" : "")} data-section={sections?.[at]} key={at}>{band}</div>
+        <Fragment key={at}>
+            {headings?.[at] && at > 0 && <div className="business-capability-card-rule legal-entity-org-rule business-capability-card-rule-double" role="separator" />}
+            <div className={"legal-entity-org-section" + (headings?.[at] ? " business-section-band" : at % 2 === (title === undefined ? 0 : 1) ? " legal-entity-org-band" : "")} data-section={sections?.[at]}>{band}</div>
+        </Fragment>
     ));
     // (With no title, its bands stand straight in the card under its head, the first tinted, so it parts from the head as a title band would.)
     if (title === undefined) {

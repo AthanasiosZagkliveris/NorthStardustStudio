@@ -215,7 +215,9 @@ export function channelCostSummary(cards: readonly CostCard[], currency: string,
         .sort(([one], [other]) => (order.indexOf(one) + 99) % 99 - (order.indexOf(other) + 99) % 99)
         .map(([words, amount]) => format(Math.round(amount * 100) / 100) + " " + words);
 
-    return parts.length > 0 ? "Costs: " + parts.join(" · ") + (shared ? " (shared)" : "") : null;
+    // (Whether part of it is shared is said in the line's "i", never in brackets: owner, 2026-11-20 18:35 UTC+2; ChannelResources.tsx.)
+    void shared;
+    return parts.length > 0 ? "Costs: " + parts.join(" · ") : null;
 
 }
 

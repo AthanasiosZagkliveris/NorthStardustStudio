@@ -30,13 +30,13 @@ import MonthYearPicker from "../fields/MonthYearPicker.tsx";
 import StrategyTextArea from "../fields/StrategyTextArea.tsx";
 import NumberedListInput from "../fields/NumberedListInput.tsx";
 import FieldRow from "../fields/FieldRow.tsx";
-import TextLink from "../fields/TextLink.tsx";
+import { AutoDraft } from "../fields/useAutoDraft.ts";
 import RadioChoice from "../../controls/RadioChoice.tsx";
 import RatingScaleGroup from "../../controls/RatingScaleGroup.tsx";
 import type { Rating } from "../../controls/RatingScale.tsx";
 import { BusinessTicks } from "../cards/BusinessCardFields.tsx";
 import { SingleColumn } from "./foundation/shared.tsx";
-import { draftAdds, namesInSentence, withDraft } from "../../../framework/engine/CompetitorQuestions.ts";
+import { namesInSentence } from "../../../framework/engine/CompetitorQuestions.ts";
 import { DIFFERENTIATION_PHRASES } from "../../../framework/engine/AmbassadorChoices.ts";
 import {
     SC1_STANCES, SC2_MAX, SC_INFO, SC_LABELS, SW1_INFO, SW1_LABEL, type StrategyChoiceContext,
@@ -466,11 +466,8 @@ export default function StrategyFoundationEditor({
                         ].map((content, at) => band(content, at))}
                     </SingleColumn>
                 )}
-                {draftAdds(foundation.compass, draft) && (
-                    <TextLink className="business-competitor-draft" disabled={disabled} onClick={() => update({ compass: withDraft(foundation.compass, draft) })}>
-                        Add a draft
-                    </TextLink>
-                )}
+                {/* (THE DRAFT, WRITTEN IN BY ITSELF while the Compass is empty or still the app's: owner, 2026-11-20 18:35 UTC+2; the details go in its Notes, under it.) */}
+                <AutoDraft text={foundation.compass} draft={draft} write={(next) => update({ compass: next })} disabled={disabled} />
 
                 <StrategyTextArea
                     className="interview-input strategy-prose"

@@ -51,6 +51,15 @@
 
 }
 
+/* A CARD MADE FROM EARLIER ANSWERS (owner, 2026-11-20 18:35 UTC+2: a Relationship or a Customer Source the answers made): no x, so no x column -- its cells take that
+   room, to the card's padding. */
+.floating-card-body .column-tile-content > .business-foundation-card.card-made-by-app,
+.business-foundation-card.card-made-by-app {
+
+    --card-x-column: 0px;
+
+}
+
 /* (The same for a Segment's card, a colour's or a typeface's card, and a channel's card.) */
 .floating-card-body .column-tile-content > .business-foundation-card {
 

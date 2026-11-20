@@ -19,6 +19,7 @@ export default function ResponsibilityFilter({
     onToggle,
     label,
     options = RESPONSIBILITY_FILTER_OPTIONS,
+    sets,
     groups
 }: {
     /** The options under folded categories (owner, 2026-11-10: "place the options under folded categories"): each a FoldHead, closed at first,
@@ -26,6 +27,9 @@ export default function ResponsibilityFilter({
     groups?: readonly { name: string; options: readonly string[] }[];
     /** The choices (a founder's Responsibilities by default). */
     options?: readonly string[];
+    /** THE OPTIONS IN SETS OF ONE KIND (owner, 2026-11-20 18:35 UTC+2: "add a dividing line in their option card, so the user can better understand what options they
+     *  have"): given, they take the place of `options`, a 1px line between one set and the next (where things stand, then how the founder takes part). */
+    sets?: readonly (readonly string[])[];
     /** The options ticked off. */
     off: ReadonlySet<string>;
     onToggle: (option: string) => void;
@@ -106,11 +110,14 @@ export default function ResponsibilityFilter({
                                 </div>
                             );
                         })}</div>
-                        : options.map(option => (
-                            <TickField key={option} className="responsibility-filter-option" checked={!off.has(option)} onChange={() => onToggle(option)}>
-                                <span>{option}</span>
-                            </TickField>
-                        ))}
+                        : (sets ?? [options]).filter(set => set.length > 0).map((set, at) => [
+                            ...(at > 0 ? [<hr key={"rule-" + at} className="responsibility-filter-rule" />] : []),
+                            ...set.map(option => (
+                                <TickField key={option} className="responsibility-filter-option" checked={!off.has(option)} onChange={() => onToggle(option)}>
+                                    <span>{option}</span>
+                                </TickField>
+                            ))
+                        ])}
                 </div>
             )}
 

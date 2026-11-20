@@ -231,8 +231,23 @@
 /* The total of an activity's costs: a rule over it, between the last cost and the sum. A partner's cost under its resource is indented. */
 .business-capability-cost-line.business-capability-cost-total {
 
+    position: relative;
+
     margin-top: 4px;
     padding-top: 6px;
+
+}
+
+/* (THE RULE OVER THE TOTAL RUNS EDGE TO EDGE of its band (layout rules section 6, 18 and "A dividing line runs edge to edge"; owner, 2026-11-20 19:00 UTC+2:
+   "Dividing lines from edge to edge!"): from the band's left side, through the costs' room, the x column's and the band's own, to its right side.) */
+.business-capability-cost-line.business-capability-cost-total::before {
+
+    content: "";
+
+    position: absolute;
+    top: 0;
+    left: calc(-1 * var(--card-padding));
+    right: calc(-1 * (2 * var(--card-x-column) + var(--card-marker-gap) + var(--space-field)));
 
     border-top: 1px solid var(--line-faint, var(--box-border));
 

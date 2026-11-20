@@ -372,7 +372,9 @@ export default function SectionTiles({
         // it is, so the card keeps standing on its row; 2026-11-20, a stacked page at 768 slid under its card.)
         const follow = cells[0] ?? tile ?? block ?? line;
         if (follow?.closest(".section-tile-overlay, .floating-card-host")) {
-            follow.scrollIntoView?.({ block: "nearest", inline: "nearest", behavior: reduced ? "auto" : "smooth" });
+            // (A TABLE'S FRAMED ROW stands in the middle of the view, the same level row after row, so the eye never goes to the window's top or foot: owner,
+            // 2026-11-20 18:35 UTC+2, "I want the indicator frame to stay within a level range". A tile is brought in the least it can.)
+            follow.scrollIntoView?.({ block: cells[0] ? "center" : "nearest", inline: "nearest", behavior: reduced ? "auto" : "smooth" });
         }
         return () => {
             marked.forEach(element => {

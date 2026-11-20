@@ -200,7 +200,20 @@ export default function TitleTooltips() {
         if (!tip) {
             return;
         }
-        const timer = window.setInterval(() => setTip(current => current && !current.element.isConnected ? null : current), 400);
+        // (One over an element that has moved or been hidden goes too: a carousel's arrow taken over by the next layer stood elsewhere while its tip stayed at the
+        // window's edge (owner's screenshot, 2026-11-20 18:35 UTC+2). The pointer's next move over it shows it again, in its new place.)
+        const first = tip.element.getBoundingClientRect();
+        const timer = window.setInterval(() => setTip(current => {
+            if (!current) {
+                return current;
+            }
+            const now = current.element.getBoundingClientRect();
+            const gone = !current.element.isConnected || now.width === 0 || getComputedStyle(current.element).visibility === "hidden";
+            // (Its centre, which a control's own growth under the pointer leaves where it is; a tile grows from its corner or edge and is not measured.)
+            const moved = !current.element.closest(".section-tile-slot, .card-tile-slot") &&
+                (Math.abs(now.left + now.width / 2 - (first.left + first.width / 2)) > 2 || Math.abs(now.top + now.height / 2 - (first.top + first.height / 2)) > 2);
+            return gone || moved ? null : current;
+        }), 400);
         const watcher = new MutationObserver(() => {
             if (tip.element.getAttribute("aria-expanded") === "true") {
                 setTip(null);

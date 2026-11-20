@@ -860,8 +860,8 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
                     ? (
                         <p>
                             <span className="delivery-pace-label">
-                                <InfoText text={"At expected sales (" + formatHours(expected.volume) + (recurring ? " active clients" : " a month") + "):"}>
-                                    <InfoNote label="Expected sales" points={DELIVERY_HELP.expected} fullList />
+                                <InfoText text="At expected sales:">
+                                    <InfoNote label="Expected sales" points={["Expected: " + formatHours(expected.volume) + (recurring ? " active clients" : " a month") + ".", ...DELIVERY_HELP.expected]} fullList />
                                 </InfoText>
                             </span>{" "}
                             {[
@@ -1282,7 +1282,9 @@ batches && (
             const monthly = delivery?.mode === "monthly";
             return [{
                 id: choice.id,
-                label: choice.label + " (" + formatHours(expected.volume) + (monthly ? " clients" : " a month") + ")",
+                // (The Offering by its name; how many it serves a month in its "i", never in brackets: owner, 2026-11-20 18:35 UTC+2.)
+                label: choice.label,
+                volume: formatHours(expected.volume) + (monthly ? " clients" : " a month"),
                 hours: perUnit * expected.volume,
                 monthly
             }];
@@ -1426,7 +1428,7 @@ batches && (
                                         </tr>
                                         {items.map(item => (
                                             <tr key={item.id}>
-                                                <th scope="row">{item.label}</th>
+                                                <th scope="row"><InfoText text={item.label}><InfoNote label={item.label} points={["Expected: " + item.volume + "."]} /></InfoText></th>
                                                 <td>−{inFounderUnit(item.hours)}</td>
                                             </tr>
                                         ))}

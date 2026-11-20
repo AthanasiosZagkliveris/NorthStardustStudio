@@ -180,7 +180,7 @@ describe("a channel's resources", () => {
         const shared = sharedResourceLinks(engagement, "seg-1", "pin", cards);
         expect(shared.map(entry => entry.card.name)).toEqual(["Meta ads"]);
         expect(resourceReach(engagement, engagement.channelResources[0])).toEqual(["pin"]);
-        expect(channelCostSummary(shared.map(entry => entry.card), "GBP", true)).toBe("Costs: £150 a month (shared)");
+        expect(channelCostSummary(shared.map(entry => entry.card), "GBP", true)).toBe("Costs: £150 a month");
         expect(channelCostSummary(channelResourceLinks(engagement, "seg-1", "insta", cards).map(entry => entry.card), "GBP")).toBe("Costs: £150 a month");
 
         // Unlinked from the action: Pinterest no longer lists it.

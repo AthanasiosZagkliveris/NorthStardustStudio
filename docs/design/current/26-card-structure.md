@@ -489,7 +489,7 @@ Leased (status Partners & Suppliers): the cost sits on the supplier's card, as a
 | 6 | Allowance<br>Frequency | Allowance<br>Monthly | Type<br>None (shown) | Number box<br>Read-only text | Optional / Automatic | **Allowance:** An allowance given to people who work from home<br>**Frequency:** Monthly | The allowance is a payment to the person, so it sits on the people cards |
 | 7 | Extra: Commission | Commission | Tick, then type | Checkbox and number box | Optional | A share of sales paid to the person (frequency % of Rev) | It depends on this one card, so it sits here |
 | 8 | Extra: Bonus | Bonus | Tick, then type | Checkbox and number box | Optional | A payment above pay (frequency Annually) | It depends on this one card, so it sits here |
-| 9 | Responsibilities | Responsibilities | None (shown) | Read-only list with a Completed fold | Automatic | The activities this founder works on (their Team) or is responsible for, the latter with the responsible mark; the suppliers and legal expenses they answer for (owner, 2026-11-19 00:04: "A: One list, Responsible marked"; the card has no Links section) | Shows the founder's load |
+| 9 | Responsibilities | Responsibilities | None (shown) | Read-only list with a Completed fold | Automatic | The activities this founder works on (their Team) or is responsible for (the Links filter's "Responsible" shows the latter; no mark after the name since 2026-11-20); the suppliers and legal expenses they answer for (owner, 2026-11-19 00:04: "A: One list, Responsible marked"; the card has no Links section) | Shows the founder's load |
 
 ###### Behind the scenes (not shown on the card)
 

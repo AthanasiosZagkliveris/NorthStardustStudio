@@ -1077,8 +1077,11 @@
 
 }
 
-/* The section stands flush under the boxes above it: the dialog's row gap is taken back, so the double rule follows the last band without a gap. */
-.business-foundation-description + .business-segment-grid-full{
+/* The section stands flush under the boxes above it: the dialog's row gap is taken back, so the double rule follows the last band without a gap -- under a dialog's
+   bands too (the Registrations: a strip of the dialog's ground stood between the tax band and the Additional Legal Requirements; owner's screenshot, 2026-11-20
+   18:35 UTC+2). */
+.business-foundation-description + .business-segment-grid-full,
+.legal-entity-bands + .business-segment-grid-full{
 
     margin-top:calc(-1 * var(--space-card));
 
@@ -1545,8 +1548,22 @@
 
 }
 
-/* (A band of a card in its content box keeps the x's column clear in its padding (a founder's): the line between its questions runs over that too, to the band's side.) */
-.floating-card-body .column-tile-content > .business-foundation-card > .business-segment-grid-single .legal-entity-org-section[data-section] > .business-capability-card-rule{
+/* THE TEAM & RESPONSIBILITIES BAND DRAWS ITS LINES (owner, 2026-11-20 18:35 UTC+2: "At the Activities floated Cards, at the Team, Resources and Responsible section,
+   place dividing lines (no colour var) between them"): the Team, the Resources and the Responsible parted by the card's own rule (its neutral colour, no tint), 12px
+   over and under it, on every card with that band. */
+.legal-entity-org-section[data-section="team"] > .business-capability-card-rule{
+
+    height:1px;
+
+    margin-block:calc(var(--space-field) - var(--space-label));
+
+}
+
+/* (A band of a card in its content box keeps the x's column clear in its padding (a founder's, and every card in bands: an Activity's, a Resource's): the line between its
+   questions runs over that too, to the band's side -- EDGE TO EDGE (layout rules section 6, 18: "A divider line runs from edge to edge of its card"; owner, 2026-11-14
+   19:09 and 2026-11-20 19:00 UTC+2: "Dividing lines from edge to edge!").) */
+.floating-card-body .column-tile-content > .business-foundation-card > .business-segment-grid-single .legal-entity-org-section[data-section] > .business-capability-card-rule,
+.card-box-open > .business-capability-slot .business-segment-grid-single .legal-entity-org-section[data-section] > .business-capability-card-rule{
 
     margin-right:calc(-1 * (var(--card-x-column) + var(--space-field)));
 

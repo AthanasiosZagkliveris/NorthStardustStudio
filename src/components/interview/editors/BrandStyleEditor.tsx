@@ -226,7 +226,7 @@ const LEVEL_PURPOSES: Record<string, string> = {
  * px box keeps to -- and what it is for.
  */
 const HIERARCHY_LEVEL_HELP: InfoPoint[] = BRAND_HIERARCHY_LEVELS.map(level => ({
-    title: level.label + ", " + level.range + " px",
+    title: level.label + (level.role ? ": " + level.role : "") + ", " + level.range + " px",
     text: LEVEL_PURPOSES[level.id] ?? ""
 }));
 

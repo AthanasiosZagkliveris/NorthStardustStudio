@@ -3,7 +3,7 @@
  * One part of BusinessEngagementEditor (see BusinessEngagementEditor.tsx): what it needs of the parts before it comes in as `earlier`; what the parts after it need goes out.
  */
 import CardBoxes, { type CardBox } from "../../cards/CardBoxes.tsx";
-import { draftAdds, withDraft } from "../../../../framework/engine/CompetitorQuestions.ts";
+import { AutoDraft } from "../../fields/useAutoDraft.ts";
 import type { ReactNode } from "react";
 import NumberCell from "../../../controls/NumberCell.tsx";
 import FieldLabel from "../../../controls/FieldLabel.tsx";
@@ -340,18 +340,9 @@ export function useEngagementDemand(earlier: Earlier) {
                     label="Basis"
                     info={["What this source's figure rests on: a test, an enquiry, a promise, past sales."]}
                 >
-                    {/* (ADD A DRAFT (P1; owner, 2026-11-18 03:01): the source's own working as a sentence, added after what is written, as the Value Proposition's.) */}
-                    {draftAdds(source.basis, demandBasisDraft(demand, source.id)) && (
-                        <TextLink
-                            className="business-competitor-draft"
-                            disabled={disabled}
-                            onClick={() => {
-                                changeSource(source.id, { basis: withDraft(source.basis, demandBasisDraft(demand, source.id)) });
-                            }}
-                        >
-                            Add a draft
-                        </TextLink>
-                    )}
+                    {/* (THE DRAFT, WRITTEN IN BY ITSELF (P1; owner, 2026-11-18 03:01 and 2026-11-20 18:35 UTC+2): the source's own working as a sentence while the Basis is
+                        empty or still the app's; the details go in its Notes, under it.) */}
+                    <AutoDraft text={source.basis} draft={demandBasisDraft(demand, source.id)} write={(next) => changeSource(source.id, { basis: next })} disabled={disabled} />
                     <StrategyTextArea
                         className="interview-input business-demand-basis"
                         ariaLabel={"Basis, " + what}
@@ -376,6 +367,9 @@ export function useEngagementDemand(earlier: Earlier) {
                         anchor={"demand-source-" + source.id}
                         headRow={figure || undefined}
                         actions={remove}
+                        // (A source the answers made -- or one that took their channels, a kind never twice -- has no x: its room goes to the cells; one the founder added on its own keeps it.
+                        // Owner, 2026-11-20 18:35 UTC+2.)
+                        madeByApp={source.fromAnswers === true || source.channelId !== "" || (source.channelIds?.length ?? 0) > 0}
                     >
                         <SingleColumn>
                             <EngagementBoxes>{[

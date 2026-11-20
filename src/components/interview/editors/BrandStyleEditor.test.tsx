@@ -144,7 +144,7 @@ describe("BrandStyleEditor Text Hierarchy", () => {
     });
 
     function h1() {
-        return screen.getByLabelText(/^H1 \(Title\) size in pixels/) as HTMLInputElement;
+        return screen.getByLabelText(/^H1 size in pixels/) as HTMLInputElement;
     }
 
     it("draws each level's name at the size in its box, within its range", () => {

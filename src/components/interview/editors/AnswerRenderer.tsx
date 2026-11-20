@@ -309,7 +309,7 @@ function MultiPartAnswerRenderer({
                                 <div className="business-engagement-section-head">
                                     <DialogHeading title={text.part.label} info={guidance(text.part)} />
                                 </div>
-                                {/* (The Vision's two choices above its text, PB8 then PB7, and its "Add a draft": doc 45, 3.8; doc 49, section 9, P1 and P2.) */}
+                                {/* (The Vision's two choices above its text, PB8 then PB7, and its draft written in: doc 45, 3.8; doc 49, section 9, P1 and P2.) */}
                                 {text.part.id === "vision" && <VisionChoices value={text.from} onChange={text.save} foundation={businessFoundation} disabled={disabled} />}
                                 {columnControl(text.part, text.from, text.save)}
                             </div>
@@ -358,7 +358,7 @@ function MultiPartAnswerRenderer({
                             disabled={disabled}
                         />
                     )}
-                    {/* (The Ambassador's choices above each of its texts, and its "Add a draft": doc 46.) */}
+                    {/* (The Ambassador's choices above each of its texts, and its drafts written in: doc 46.) */}
                     {ambassadorHere && (
                         <AmbassadorChoices
                             part={part.id}

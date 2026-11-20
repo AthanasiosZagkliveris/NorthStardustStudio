@@ -42,9 +42,9 @@ export type ActionIsolation =
     | { kind: "resource"; segmentId: string; resourceIds: readonly string[]; fromActionId?: string }
     | null;
 
-/* Tabler's "link", "tag" and "user-check" -- the responsible mark (owner, 2026-11-19 01:20 UTC+2, "B: option 2") -- (24px, 2px strokes), drawn inline: the
+/* Tabler's "link" and "tag" (24px, 2px strokes), drawn inline: the
    app has no icon library, and its x is drawn the same way (doc 01, "The mark icons"). */
-export function MarkIcon({ kind, size = 16 }: { kind: "link" | "tag" | "responsible"; size?: number }) {
+export function MarkIcon({ kind, size = 16 }: { kind: "link" | "tag"; size?: number }) {
     return (
         <svg
             className="action-mark-icon"
@@ -59,15 +59,7 @@ export function MarkIcon({ kind, size = 16 }: { kind: "link" | "tag" | "responsi
             aria-hidden="true"
             focusable="false"
         >
-            {kind === "responsible"
-                ? (
-                    <>
-                        <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />
-                        <path d="M6 21v-2a4 4 0 0 1 4 -4h4" />
-                        <path d="M15 19l2 2l4 -4" />
-                    </>
-                )
-                : kind === "link"
+            {kind === "link"
                 ? (
                     <>
                         <path d="M9 15l6 -6" />

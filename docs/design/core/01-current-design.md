@@ -201,7 +201,7 @@ Tile dialogs (`SectionTiles.tsx`): header with a trail and Back (`DialogHeading`
 | Order number | `CardNumber.tsx` |
 | Remove × | `BusinessRemove`, `.strategy-box-remove`, `removal-marks`; contract `src/library/assets/removeX.ts` |
 | Link symbol and dots | `LinkSymbol`, `Dots` and `SYMBOLS` (`CardTile.tsx`), `ActionMarkers.tsx` |
-| The mark icons | `MarkIcon` (`ActionMarkers.tsx`): one set, Tabler's 24px outline icons with 2px round strokes, drawn inline: **link**, **tag**, and **responsible** (Tabler's user-check: a person with a tick; owner, 2026-11-19 01:20 UTC+2, "B: option 2"), the Responsible mark beside a founder's responsibility, "Responsible" its tooltip and its name for screen readers |
+| The mark icons | `MarkIcon` (`ActionMarkers.tsx`): one set, Tabler's 24px outline icons with 2px round strokes, drawn inline: **link** and **tag**. (The responsible mark, a person with a tick after a founder's link, was taken away on 2026-11-20, owner 18:35 UTC+2: the Links filter's "Responsible" shows it.) |
 | Dates | `DateCellInput` |
 | Status | `status-shape.css`, `ResourceStatuses` |
 | Quantity, price, groups | `BusinessField`, `BusinessGroup` |
