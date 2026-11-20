@@ -90,7 +90,7 @@ Reactions (doc 18, `layout-rules.md` section 6): every control that can has **ho
 
 ## 7. Tiles, cards and stacks
 
-1. **A tile** is a true square of its grid (`--section-tile-size`), one title on one row cut by an ellipsis, its list under it, its corners `--tile-radius` 8px; under the pointer it grows 110% about its aimed corner, the others staying.
+1. **A tile** is a true square of its grid (`--section-tile-size`), its title on the page wrapping to three lines at most, in a dialog on one row sliding under the pointer (layout rules sections 8 and 9), its list under it, its corners `--tile-radius` 8px; under the pointer it grows 110% about its aimed corner, the others staying.
 2. **A card** stands at `--open-card-width` (492px) at most, its content 466px; its head is the number, the name cell (44px) and the x; everything under the head starts and ends where the name cell does.
 3. **A stack of cards** (a pair: a card and the card it leads to) is drawn once: one scrim, one shadow, the layer under it hidden, the arrows and rails of a hidden layer hidden. Open the same card three ways (its tile, a link, the Inventory) and from a stack: the result is the same card in the same place.
 4. **Opening and closing**: Escape closes every layer at once (`CLOSE_TILES_EVENT`; 2026-11-19 reconciliation); a press outside closes the card; a dialog's Back goes up one level; nothing that should stay open closes, nothing that should close stays.

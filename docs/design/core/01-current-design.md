@@ -1,6 +1,6 @@
 # 1. Current design of the Foundation capability
 
-Status: **current design**, written 2026-10-14, updated 2026-11-19. It is the single description of what the Foundation capability (Identity, Brand, Business and Strategy Systems) is and what has been decided for it. Where the code and this document disagree, the code is right.
+Status: **current design**, written 2026-10-14, updated 2026-11-20. It is the single description of what the Foundation capability (Identity, Brand, Business and Strategy Systems) is and what has been decided for it. Where the code and this document disagree, the code is right.
 
 Part F is document 26 (card structure). The catalogue tool (`tools/scripts/catalogue/load.mjs`) reads it from there, taking the headings with " > " and the numbered table rows between the headings of Part F and Part G, and the structure tables (document 7) and the catalogue record (document 6) are generated from it: its headings and row format stay as they are.
 
@@ -161,16 +161,16 @@ A "Chapter" has no named type in the code. Frames are classes:
 | Single frame | `strategy-single-frame` | Strategy 1 |
 | Two section cards | `.business-foundation-card` with `CardTitleHelp` and `.card-scroll` | Business 3 |
 | Numbered subsection frames | `heads[]` in `BusinessFoundationEditor` and `BusinessEngagementEditor` | Business 1 and 2 |
-| Financial section cards | `FinancialSectionCard`, `FinancialPageHead`, `FinancialBlock` | Business 4 and 5 (no tile frame yet) |
+| Financial blocks | `FinancialBlock` (`FinancialParts.tsx`, which also holds `FinancialSectionCard` and `FinancialPageHead`, waiting for a use) | Business 4 and 5: the blocks inside the dialogs of Financials' six tiles, one tile frame, Financial Foundation |
 | Settings section | `.settings-section` | Global Settings |
 
 ### C.5 Layer D: Master Tiles, help tiles and tile dialogs
 
 | Tile | Holds | Notes |
 |---|---|---|
-| Large column tile | Identity Definition, Purpose (its pair tiles), Brand Ambassador; Definition's Organisation and Founders & Ownership; Legal Entity Capability, Registrations, Expenses | `large: true`; `view: true` gives a dialog of sub tiles |
+| Large column tile | Identity Definition, Purpose (its pair tiles), Brand Ambassador; Definition's Organisation and Founders & Ownership; the Legal Entity's Registrations & Expenses, with its two tiles Registrations and Expenses | `large: true`; `view: true` gives a dialog of sub tiles |
 | Brand picture tiles | Colours, Typography & Text Hierarchy, Icon & Logo, Brand Images | `picture` property |
-| Founders Profile tile | Capability and the founder card tiles | `FoundersProfileEditor` |
+| Founders Profile tile | The founder card tiles, one per founder | `FoundersProfileEditor` |
 | Business Foundation tiles | Segment Description (the Segment card: its five boxes ask choice questions, `SegmentQuestions.ts`, read through `SegmentContext.ts`; a Profiles section with the Profile cards, which ask `ProfileQuestions.ts`), Value Proposition and card boxes (Profile, Competitor, Offering) | `BusinessFoundationEditor`; doc 35 and doc 36 |
 | Engagement tiles | One per channel and subchannel (teal hue); `inactive` for an unused channel | `SectionTiles` |
 | Infrastructure group tiles | Founders; Resources, Activities, Partners & Suppliers (per chapter); Delivery; Workspace (`direct`) | `BusinessCapabilityEditor` |

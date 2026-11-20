@@ -228,7 +228,8 @@ const OFFERING_RETIRED = [
 
 /**
  * RESERVED CODES (B2, the owner's approved plan of 2026-11-18, §3; registered before they are built, so their codes are fixed): the Identity System's Purpose &
- * Beliefs (doc 45, section 5), the Brand System's Ambassador (doc 46, section 7) and the Strategy System's SWOT and Strategic Compass (doc 49, section 4). Each
+ * Beliefs (doc 45, section 5), the Brand System's Ambassador (doc 46, section 7), the Strategy System's SWOT and Strategic Compass (doc 49, section 4) and
+ * the Financials' price and funding questions (doc 48, sections 4 and 12.2). Each
  * leaves this list for its card's map when it is built. [code, the question or text, the key it is saved under, the owner].
  */
 const RESERVED = [
@@ -242,7 +243,7 @@ const RESERVED = [
     ["PB8", "Where will your customers be?", "Identity, section 1, `visionReach`", "doc 45, 3.8", "built 2026-11-19 (`VisionChoices.ts`)"],
     ["BA1", "Which character fits your Ambassador best?", "Brand, `ambassador.character`", "doc 46, 2", "built 2026-11-19 (`AmbassadorChoices.ts`)"],
     ["BA2", "How does your Ambassador dress?", "Brand, `ambassador.dress`", "doc 46, 2", "built 2026-11-19 (`AmbassadorChoices.ts`)"],
-    ["BA3", "Where would people meet your Ambassador?", "Brand, `ambassador.setting`", "doc 46, 2", "built 2026-11-19 (`AmbassadorChoices.ts`)"],
+    ["BA3", "What surroundings suit your Ambassador?", "Brand, `ambassador.setting`", "doc 46, 2", "built 2026-11-19 (`AmbassadorChoices.ts`)"],
     ["BA4", "How does your Ambassador come across?", "Brand, `ambassador.energy`, `ambassador.expression`", "doc 46, 2", "built 2026-11-19 (`AmbassadorChoices.ts`)"],
     ["BA6", "What tone does your Ambassador use?", "Brand, `ambassador.tone`", "doc 46, 2", "built 2026-11-19 (`AmbassadorChoices.ts`)"],
     ["BA7", "Which words suit your customers?", "Brand, `ambassador.words`", "doc 46, 2", "built 2026-11-19 (`AmbassadorChoices.ts`)"],
@@ -596,7 +597,7 @@ function render(cards, commit) {
     for (const [code, label, key, owner, status] of RESERVED) md.push("| " + [code, label, key, status ?? "reserved", owner].map(cell).join(" | ") + " |");
     for (const [code, was, why] of RESERVED_WITHDRAWN) md.push("| " + [code, was, "–", "withdrawn", why].map(cell).join(" | ") + " |");
     md.push("");
-    counts.push(["Reserved (Purpose & Beliefs, Ambassador, SWOT, Compass, Legal facts)", RESERVED.filter(entry => entry[4]).length, RESERVED.filter(entry => !entry[4]).length, RESERVED_WITHDRAWN.length]);
+    counts.push(["Reserved (Purpose & Beliefs, Ambassador, SWOT, Compass, Legal facts, Financials)", RESERVED.filter(entry => entry[4]).length, RESERVED.filter(entry => !entry[4]).length, RESERVED_WITHDRAWN.length]);
     md.push("## " + (cards.length + 2) + ". The count", "", "| Card | Built | Not built | Retired |", "|---|---|---|---|");
     for (const [title, built, notBuilt, retired] of counts) md.push("| " + title + " | " + built + " | " + notBuilt + " | " + retired + " |");
     const total = counts.reduce((sum, entry) => [sum[0] + entry[1], sum[1] + entry[2], sum[2] + entry[3]], [0, 0, 0]);

@@ -1,10 +1,10 @@
 # 48. The Financial pages and the Inventory: tiles and two questions, as proposed
 
-Status: **specification**, written 2026-11-12, updated 2026-11-20. Built in part. The owner approved it on 2026-11-12 (D12, D13, D14, D15). **One page, Financials (2026-11-19; the owner's approved plan of 2026-11-18, step 1)**: Revenue & Pricing (Section 4) and Costs, Funding & Position (Section 5) are drawn as one page, "Financials" (`PageGroups.ts`), its two chapters side by side: **Revenue & Break Even** (Revenue Streams, Break-Even, Sustainability) and **Financial Foundation** (Costs, Capital & Funding, Financial Position). Each section keeps its number, its title and its saved answer; nothing moved (section 11). **Built 2026-11-17** (owner, 2026-11-17 07:36: "Rearrange the financial parts (Financial Foundation and Sustainability) according to the documents"): section 11's order -- Revenue & Pricing Page 4, Costs, Funding & Position Page 5, their answers moved once (`swapFinancialPages`), the keys inside them unchanged --; section 1's four Master Tiles of Financial Foundation (as first built on 2026-11-12, then parked); section 2's tiles as Revenue (Revenue Streams, Delivery Check, Revenue Summary) on Page 4 and Break Even (Break-Even Point, Break-Even Time, Sustainability, Stress Test) beside Financial Position on Page 5, each tile opening the blocks it held. Layout only. **Next in phase 7a:** the Offering Economics card (section 3), RV1 (section 4), O19, K15 as a record and C1 (section 12), FN1, the dialogs' nested sub tiles and the Cash Timeline as a Diagram tile. The build waits for phase 7, the financials, the last phase of the order of work (doc 49, section 8; owner, 2026-11-12 15:18): the tiles, RV1, FN1, IN1 to IN4 and the Offering Economics card are built there; IN5 with phase 6 (Initiatives and Activities). Nothing here is built yet.
+Status: **specification**, written 2026-11-12, updated 2026-11-20. Built in part. The owner approved it on 2026-11-12 (D12, D13, D14, D15). **One page, Financials (2026-11-19; the owner's approved plan of 2026-11-18, step 1)**: Revenue & Pricing (Section 4) and Costs, Funding & Position (Section 5) are drawn as one page, "Financials" (`PageGroups.ts`), drawn since 2026-11-20 as ONE chapter, **Financial Foundation**, of six Master Tiles in this order: Revenue Streams, Costs, Capital & Funding, Financial Position (holding the Funding Need), Break-Even, Sustainability (`oneChapter`; `joinedChapter.ts`). Each section keeps its number, its title and its saved answer; nothing moved (section 11). **Built 2026-11-17** (owner, 2026-11-17 07:36: "Rearrange the financial parts (Financial Foundation and Sustainability) according to the documents"): section 11's order -- Revenue & Pricing Page 4, Costs, Funding & Position Page 5, their answers moved once (`swapFinancialPages`), the keys inside them unchanged --; section 1's four Master Tiles of Financial Foundation (as first built on 2026-11-12, then parked); section 2's tiles as Revenue (Revenue Streams, Delivery Check, Revenue Summary) on Page 4 and Break Even (Break-Even Point, Break-Even Time, Sustainability, Stress Test) beside Financial Position on Page 5, each tile opening the blocks it held. Layout only. **Next in phase 7a:** the Offering Economics card (section 3), RV1 (section 4), O19 and K15 as a record (section 12), the fee on a VAT-inclusive price (section 11), FN1, the dialogs' nested sub tiles and the Cash Timeline as a Diagram tile. They are built in phase 7, the financials, the last phase of the order of work (doc 49, section 8; owner, 2026-11-12 15:18), with IN1 to IN4; IN5 comes with phase 6 (Initiatives and Activities).
 
 Related: doc 40 (the form), the page 4 and page 5 specifications (`specifications/business-system/`), doc 5 (5.3, I7, I9, K1), `ai/layout-rules.md` (section 12, the Inventory), doc 47 (the Offering's four faces), doc 49 (Strategy reads these figures).
 
-## 1. Financial Foundation: one chapter, four Master Tiles
+## 1. Financial Foundation: the costs, the funding and the position
 
 | Master Tile | Its face lists | Dialog: nested sub tiles | Cards |
 |---|---|---|---|
@@ -15,29 +15,29 @@ Related: doc 40 (the form), the page 4 and page 5 specifications (`specification
 
 The plan's dates stay in the page title; VAT and the plan settings sit in the Costs dialog's head. A page of one chapter stands at the left at half width, so its tiles are the size of every chapter's.
 
-**As built (2026-11-19; one chapter since 2026-11-20, section 11):** Financial Foundation is three Master Tiles (Costs, Capital & Funding, Financial Position, the Funding Need inside Financial Position; owner, 2026-11-18 16:55), the second chapter of Financials, beside Revenue & Break Even (section 11). The title says "4. Financials" and the plan's months.
+**As built (2026-11-20, section 11):** Financials is one chapter, Financial Foundation, of six Master Tiles. Section 5 hands it three of them, after Revenue Streams: Costs, Capital & Funding and Financial Position, the Funding Need inside Financial Position (owner, 2026-11-18 16:55). The title says "3. Financials" and the plan's months.
 
-## 2. Sustainability: two chapters of four Master Tiles
+## 2. Revenue and Break Even: the Master Tiles
 
 | Chapter | Master Tiles | Nested |
 |---|---|---|
 | **Revenue** | Revenue Streams (one card per Offering); Offering Economics (section 3); Delivery Check (per Offering); Revenue Summary | the stream card's Revenue Timeline as a Diagram tile |
 | **Break Even** | Break-Even Point; Break-Even Time (Diagram tile); Sustainability (status, buffer, summary, signals); Stress Test (the four worse cases and What It Would Take) | none |
 
-**As built (2026-11-19; since 2026-11-20 these tiles stand in the page's one chapter, Financial Foundation, section 11):** one chapter, **Revenue & Break Even**, the first of Financials (section 11), of three Master Tiles: Revenue Streams (its dialog holds the Delivery Check and the Revenue Summary; owner, 2026-11-18 10:38), Break-Even (the Point and the Time) and Sustainability (with the Stress Test; owner, 2026-11-18 16:55). The tiles keep their ids, so a note or a link saved on one still lands.
+**As built (2026-11-20, section 11):** Section 4's editor draws Financials' one chapter, Financial Foundation, with three Master Tiles of its own: Revenue Streams first (its dialog holds the Delivery Check and the Revenue Summary; owner, 2026-11-18 10:38), then, after Section 5's three, Break-Even (the Point and the Time) and Sustainability (with the Stress Test; owner, 2026-11-18 16:55). The tiles keep their ids, so a note or a link saved on one still lands.
 
 ## 3. The Offering Economics card (read-only)
 
 One floating card per Offering that joins its four faces. It owns nothing; every figure is a link to its owner.
 
-- **Where:** a Master Tile in Sustainability's Revenue chapter (section 2), one card tile per Offering; also reached from the Offering's card on Page 1 by a link "See its economics".
+- **Where:** a Master Tile of Financials' one chapter, Financial Foundation, beside Revenue Streams (section 2), one card tile per Offering; also reached from the Offering's card on Page 1 by a link "See its economics".
 - **Bands, each shown once its figures exist:**
   1. **Demand:** expected sales a month, Customers Buy, Cancel / Month.
   2. **Delivery:** hours per unit or client, hours needed a month, the share of delivery capacity.
   3. **Price:** the price, how it is charged, the payment timing, RV1's basis.
   4. **Cost:** the variable cost per unit, the fixed costs linked to it a month.
   5. **Result:** margin per unit, contribution a month, its own break-even volume.
-  With no price yet, the Price and Result bands read "Set a price on Sustainability to see the margin."
+  With no price yet, the Price and Result bands read "Set a price on Revenue Streams to see the margin."
 - **Signals:** "Expected sales need more delivery hours than the founders have"; "The price sits below the cost of each sale"; "Expected sales are above the Segment's market size band".
 - **Needs:** the Inventory's Offering column and filter (section 6).
 
@@ -45,7 +45,7 @@ One floating card per Offering that joins its four faces. It owns nothing; every
 
 The tax in a price needs no question: Financial Foundation's VAT basis (Excluding VAT, Including VAT, Not VAT registered) already covers every amount on both Financial pages.
 
-### RV1 (Sustainability, Revenue stream card, the band under the Price)
+### RV1 (Financials, Revenue Streams: a stream's card, the band under the Price)
 
 - **Label:** How did you set this price?
 - **Control:** one choice.
@@ -69,7 +69,7 @@ The tax in a price needs no question: Financial Foundation's VAT basis (Excludin
   - The Review: "[Offering]: a launch price; plan when it rises". It shows once `launch` is chosen and the Development field holds no rise.
 - The SWOT Weakness "[Offering] is priced below its cost of each sale" reads the price and the cost only, whatever RV1 says.
 
-### FN1 (Financial Foundation, Capital & Funding dialog head)
+### FN1 (Financials, Capital & Funding dialog head)
 
 - **Label:** How much of the business would you offer investors?
 - **Control:** one choice.
@@ -117,7 +117,7 @@ A page-wide help tile on Page 3 (footer band; layout rules, section 12; page 3 s
 
 ## 7. Codes
 
-New prefixes **RV** (revenue) and **FN** (funding). RV1 and FN1 enter the register when built. **RV2 is withdrawn** (2026-11-12, before registration): the tax in a price is answered once for both Financial pages by Financial Foundation's VAT basis (`VAT_BASES`, `src/framework/engine/financial/stored.ts`); never reused.
+New prefixes **RV** (revenue) and **FN** (funding). RV1 and FN1 enter the register (doc 44) when built (section 12). **RV2 is withdrawn** (2026-11-12, before registration): the tax in a price is answered once for both Financial pages by Financial Foundation's VAT basis (`VAT_BASES`, `src/framework/engine/financial/stored.ts`); never reused.
 
 ## 8. Decided
 
@@ -134,12 +134,12 @@ New prefixes **RV** (revenue) and **FN** (funding). RV1 and FN1 enter the regist
 - **The funding sources as tiles** (owner, 2026-11-18 12:41: "At the Capital & Funding, make the Funding Sources into tiles"): in the Capital & Funding dialog each category -- Internal, External, Other -- lists its sources as tiles (the dialog's card list, three in a row: its type, amount and status), the Add tile after them; the Founders' Capital stays as its summary. A source's card floats from its tile in three boxes of the shared bands -- Source & Amount ("&" in headings, owner 2026-10-29/30, 2026-11-19 00:24), When It Arrives (a loan: Loan Terms), What It Is For --, each field under its label (the card's own rows: a funding type, a lender's name and a loan's terms are longer than a side column holds), its dropdowns as wide as their longest option.
 - **Break Even in two tiles** (owner, 2026-11-18 16:55: "Do all 8", the review's proposals 1 and 2): **Break-Even** -- the Break-Even Point and the Break-Even Time, which read the same costs and margins; its face the break-even revenue and the expected month; its dialog each block under its band -- and **Sustainability** -- the Sustainability and the Stress Test, which both say when the money could run out; its face the status, the Financial Exhaustion, the Sustainability Buffer and the Worst shortfall, the Stress Test's hardest case (the "as planned" shortfall is the Sustainability's own, said once). Its tile ids are the first block's (`point`, `sustainability`); nothing saved names the tiles.
 - **Funding Need inside Financial Position** (owner, 2026-11-18 16:55, proposal 4): Financial Foundation has three tiles -- Costs, Capital & Funding, Financial Position --; Financial Position's dialog opens on its headline and figures, then the Funding Need's blocks under their band (Establishment, Operating, Offering, the cash to raise before the opening, the Operational Contingency Fund, the total). Its face adds the Total Funding Need. `FINANCIAL_FOUNDATION_SECTIONS` and its empty checks lose the Funding Need (it asked nothing: calculated from the costs); the Business Plan and the exports keep their own Funding Need heading.
-- **Page 4, one tile** (owner, 2026-11-18 16:55, proposal 5): Revenue & Pricing stays its own page (section 11's order); its chapter holds Revenue Streams alone until phase 7a's Offering Economics card (section 3) joins it as its second tile. Its tile is a master tile at the size of four (the 2 x 2's side), centred in its chapter as every chapter of one large tile; Financial Foundation's three tiles and Break Even's two are master tiles too, filling three places and the top row of the 2 x 2 (the owner's rule: master tiles never change their size or layout).
+- **Revenue Streams, one tile** (owner, 2026-11-18 16:55, proposal 5): Revenue & Pricing's part of Financials is one tile, Revenue Streams, the first of the one chapter's six Master Tiles (section 11); phase 7a's Offering Economics card (section 3) joins it as a tile beside it. All six are master tiles (the owner's rule: master tiles never change their size or layout).
 - **The Delivery Check, its verdict** (owner, 2026-11-18 16:55, proposal 3): in the Revenue Streams dialog the Delivery Check says whether the expected sales fit the founders' capacity, its busiest month, and who delivers outside it, with a link to Capacity & Delivery on Infrastructure & Capability, where the founders' table is (one owner: doc 52, section 4).
 - **The Revenue Summary without its Price** (owner, 2026-11-18 16:55, proposal 6): Revenue Stream, Expected Volume, Expected Revenue, Share; each stream's tile says its price.
-- **The Costs tile says the share of revenue** (owner, 2026-11-18 16:55, proposal 7): each cost counted with revenue named with its share ("Shopify Payments 2%", "SumUp in-person card fees 1.69%"; one alone, "Share of revenue 2%"), in place of how many there are; never added up, as each is paid on its own part of the revenue. The Costs total says the same: "£2,589 + 2% (Shopify Payments) · 1.69% (SumUp in-person card fees)".
+- **The Costs tile says the share of revenue** (owner, 2026-11-18 16:55, proposal 7): each cost counted with revenue named with its share ("Shopify Payments 2%", "SumUp in-person card fees 1.69%"; one alone, "Share of revenue 2%"); never added up, as each is paid on its own part of the revenue. The Costs total says the same: "£2,589 + 2% (Shopify Payments) · 1.69% (SumUp in-person card fees)".
 - **Founders' Capital as a tile** (owner, 2026-11-18 16:55, proposal 8): in Capital & Funding's Internal category the founders' capital is the first tile, as the sources beside it (its total and each founder's); its card floats as theirs do, read only -- each founder's capital and the total under one band --, with the way to the Legal Entity's Founders & Ownership, where it is answered.
-- **The two chapters of Costs, Funding & Position side by side** (owner, 2026-11-18 10:38: "The chapter tiles should be next to each other"): Financial Foundation and Break Even each one column of the page, top-aligned (`.column-tiles-pair`).
+- **The tiles next to each other** (owner, 2026-11-18 10:38: "The chapter tiles should be next to each other"): Financials' six tiles stand together in one frame, the one chapter Financial Foundation (2026-11-20, section 11).
 - **The financial cards reviewed** (owner, 2026-11-18 10:38): both pages' titles show the plan's period as the pages work it out, from the Opening Date and the earliest dated cost (Revenue & Pricing had shown a start saved before); the Sustainability tile says the status, when the money runs out and the buffer; the Stress Test tile says the plan as planned and in the hardest case; Costs says the cost of each sale and, on its own line, how many costs are a share of revenue ("% of Rev" retired from the words: "2% of revenue", "2 shares of revenue").
 
 ## 9. Phrases for the Business Plan
@@ -156,7 +156,7 @@ New prefixes **RV** (revenue) and **FN** (funding). RV1 and FN1 enter the regist
 
 ## 11. The order of the Financial pages
 
-Recorded 2026-11-12 (owner, 15:37; doc 49, section 8, phase 7). Pages 4 and 5 change places in content: **Revenue & Pricing first, then Costs, Funding & Position**, so each page reads only the pages before it. Today Funding Need (page 4) reads revenue from Sustainability (page 5); in this order it reads it from the page before.
+Recorded 2026-11-12 (owner, 15:37; doc 49, section 8, phase 7). The Financial sections stand in this order: **Revenue & Pricing first, then Costs, Funding & Position**, so each reads only what stands before it: the Funding Need reads its revenue from Revenue & Pricing.
 
 | Page | Holds | Reads |
 |---|---|---|
@@ -167,9 +167,9 @@ Recorded 2026-11-12 (owner, 15:37; doc 49, section 8, phase 7). Pages 4 and 5 ch
 - The Offering Economics card stands on the Revenue & Pricing page.
 - Break-even stands beside Financial Position: it needs the margin per unit (page 4) and the fixed costs (page 5).
 - Status: built 2026-11-17 (owner, 2026-11-17 07:36: "Rearrange the financial parts (Financial Foundation and Sustainability) according to the documents"), layout only: the pages' order and their chapters; Funding Need reads the revenue of the page before it.
-- **One page, Financials** (built 2026-11-19; the owner's approved plan of 2026-11-18, step 1): the two sections are one page of the pages rail, "4. Financials" (`PageGroups.ts`, as Identity's Definition & Purpose), its chapters side by side in this order, numbered as every joined page's frames (layout rules section 13; owner, 2026-11-19): **1. Revenue & Break Even** (Section 4's editor: Revenue Streams, Break-Even, Sustainability) and **2. Financial Foundation** (Section 5's editor: Costs, Capital & Funding, Financial Position). The sections keep their numbers, titles and saved answers, and the order of reading above: no data moved, no migration; `swapFinancialPages` and `retireLegacyBusinessPages` are as they were. A note, a link or a Glossary place on either section opens Financials; the title keeps the plan's months (section 1). Break-even now stands in the first chapter, across from Financial Foundation; it still reads both sections.
+- **One page, Financials** (built 2026-11-19; the owner's approved plan of 2026-11-18, step 1): the two sections are one page of the pages rail, "3. Financials" (`PageGroups.ts`, as Identity's Definition & Purpose), drawn as one chapter (the next point). The sections keep their numbers, titles and saved answers, and the order of reading above: no data moved, no migration; `swapFinancialPages` and `retireLegacyBusinessPages` are as they were. A note, a link or a Glossary place on either section opens Financials; the title keeps the plan's months (section 1). Break-Even reads both sections.
 - **One chapter** (built 2026-11-20; owner, 02:11 UTC+2: "The financials should be in a single page. Maybe they should all be under only one chapter."): rule | was | now: each part reads only what stands before it | Revenue & Break Even (Revenue Streams, Break-Even, Sustainability) before Financial Foundation (Costs, Capital & Funding, Financial Position), so Break-Even and Sustainability read the chapter after them | one chapter, Financial Foundation (this document's own name for it, section 1; the page's title, Financials, is not repeated): Revenue Streams, Costs, Capital & Funding, Financial Position, Break-Even, Sustainability. Ids, saved keys and dialogs unchanged.
-- **Waiting for Revenue & Pricing, C1** (owner, 2026-11-17 07:16: "Yes to all"): the channel fees on a price that includes VAT (the fee is taken of the whole price the customer pays, VAT included), read where the price is set.
+- **Waiting for Revenue & Pricing, the fee on a VAT-inclusive price** (owner, 2026-11-17 07:16: "Yes to all"; a calculation, named without a code: the code C1 is the founder's skill area, doc 28, section 9.3): the channel fees on a price that includes VAT (the fee is taken of the whole price the customer pays, VAT included), read where the price is set.
 - **Waiting for Revenue & Pricing** (owner, 2026-11-17; the open decisions and gaps, Group 4d): O14's job there (doc 43): Packages / tiers, a price row per tier on the Offering's revenue stream; Add-ons / extras, an add-on stream beside it (Made to order already skips DV9, the batch's set-up, doc 52). And the seasons: the Profiles' D3 (Around seasons / holidays) and the Segment's "Sales, seasons or planned gifts" shape the monthly pattern of the expected sales (doc 50, 2.3), on the page that holds the months.
 
 ## 12. Pricing inputs
@@ -219,6 +219,16 @@ The app knows how much price matters and how customers pay; it holds no amount: 
 
 **Sources** (each read in excerpt; opened in full before an "i" cites it): MIT OpenCourseWare 15.818 *Pricing* (Spring 2010), lecture 1; MIT OpenCourseWare 15.810 *Marketing Management*, lecture 10, *Principles of Pricing* (Hauser, Fall 2015); Penn State Extension, *Product pricing: what do I charge?* and *Choosing a pricing method*.
 
+## 12.3 The Revenue card, 2026-11-20
+
+Built (owner, 2026-11-20 12:49 UTC+2: "proceed to changes"): rule | was | now.
+
+| Rule | Was | Now |
+|---|---|---|
+| The start-up rule: the competitors' range is shown, never compared with the price (section 12.2) | Last in the Price's "i" | A line under the price: "Your competitors charge about [From] to [To] for a similar offer."; out of the "i", one owner |
+| A card's lists fold alike (layout rules section 21, `FoldList`) | Volume from Each Month always open | Folded under Sales Volume with its count; open while it holds no month |
+| Affirmative voice; a note that names a fix offers it | "... customers buy this Offering every month, but it is charged once here ..." | "On Customer Engagement, customers buy this Offering every month. Charged monthly, its active clients count as clients each month." and the link "Charge it monthly" (or per sale), which sets Charged |
+
 ## 13. The Financials chapter: one proposal for the page (2026-11-20)
 
 Asked by the owner (2026-11-19 21:44 UTC+2: review the financial master cards for a logical sequence; 2026-11-20 02:13: "Did you review the existing financial tiles, and their content? Did you do also an online research?"; 02:14: "Do not make a proposal for each tile, but for all the financial page/chapter."). Read field by field in the code and on the Lumen & Loom and Quillfield examples, and against four sources (below). **Nothing in this section is built**: each part waits for the owner. What is built already: the one chapter and its order (section 11, "One chapter"), the Sustainability Buffer said in words, the Launch budget line only where there is one.
@@ -227,9 +237,9 @@ Asked by the owner (2026-11-19 21:44 UTC+2: review the financial master cards fo
 
 **The proposed chapter: five steps, each reading only what stands before it.**
 
-1. **Revenue** (today's Revenue Streams). One card per Offering: what it is charged per, the price, the expected sales and their build-up, when it begins and when the customer pays; the Delivery Check and the Revenue Summary as now. *Auto-filled*: the charge and the unit from the Offering's terms and form (O3, O1), when the customer pays from O3t (asked once: the stream shows it, never asks it again), the sales from Demand & Conversion, the hours from Capacity & Delivery. *For a founder with no price yet*: the card opens on the competitors' price range (K15) and the customers' expected range (O19) as the starting point, says "Not priced yet" on the face instead of staying empty, and the rest of the chapter still shows the costs and the funding (each step says what it waits for).
+1. **Revenue** (today's Revenue Streams). One card per Offering: what it is charged per, the price, the expected sales and their build-up, when it begins and when the customer pays; the Delivery Check and the Revenue Summary as now. *Auto-filled*: the charge and the unit from the Offering's terms and form (O3, O1), when the customer pays from O3t (asked once: the stream shows it, never asks it again), the sales from Demand & Conversion, the hours from Capacity & Delivery. *For a founder with no price yet*: the card opens on the competitors' price range (K15) and the customers' expected range (O19) as the starting point, says "Not priced yet" on the face, and the rest of the chapter still shows the costs and the funding (each step says what it waits for).
 2. **Costs** (today's Costs). Unchanged in what it reads (Legal Entity expenses, Founders, Workspace, Resources, Partners and Suppliers, the Offerings' resources, the calculated lines); its face says the Launch budget, the Running costs a month and the Cost of each sale. *Add*: **the owner's minimum pay** as a line of its own where no founder salary is set (Start Up Loans: the owner's minimum pay is an expense; SBDC: owner pay by legal form), read from a **personal survival budget** (below).
-3. **Funding** (today's Capital & Funding and Financial Position, MERGED into one tile). The money in (the founders' capital, read from Founders & Ownership, then each source) and what it is for, side by side: **Sources & Uses** (SBDC's exhibit; BU's amount required, use of funds and type of funds) in place of the separate Funding Need band and the Linked Funding Need ticks. *Drop*: "Founder's Capital" as a type a founder can add (it is read from Founders & Ownership: one owner per fact). *Pad*: the contingency on the launch budget stays (Global Settings), and its range is said with NYU's 10 to 20%. The face: Funding Gap or Covered, and the Runway.
+3. **Funding** (today's Capital & Funding and Financial Position, MERGED into one tile). The money in (the founders' capital, read from Founders & Ownership, then each source) and what it is for, side by side: **Sources & Uses** (SBDC's exhibit; BU's amount required, use of funds and type of funds), which takes over the separate Funding Need band and the Linked Funding Need ticks. *Drop*: "Founder's Capital" as a type a founder can add (it is read from Founders & Ownership: one owner per fact). *Pad*: the contingency on the launch budget stays (Global Settings), and its range is said with NYU's 10 to 20%. The face: Funding Gap or Covered, and the Runway.
 4. **Cash Flow** (NEW, from what is computed today). The first 12 months, month by month: money in (revenue, funding received), money out (costs, the owner's pay, loan repayments), net, and the closing balance (Start Up Loans' forecast; BU's cash table; SBDC's 3-year horizon on the documents). It takes over the two cash charts (Financial Position's Funding Timeline and Break-Even's Revenue-Adjusted Financial Position, one chart) and the Operating need's first-year table. The forecast already computes it for the documents (`FinancialForecast.ts`); the page shows it.
 5. **Break-Even & Sustainability** (today's Break-Even and Sustainability, MERGED into one tile). When it pays for itself (BU: fixed costs / (price - variable cost)) and how long the money lasts: the break-even revenue, the Expected Break Even, the Financial Exhaustion and the Buffer said in words, the Stress Test and What It Would Take. *Drop*: the five figures said twice in the Sustainability dialog (its table repeats its own tiles), and the third runway in Break-Even's "i" (the Runway is Funding's, one figure). *Read the 3 to 6 months of cover* (SBDC) as the Buffer's goal.
 

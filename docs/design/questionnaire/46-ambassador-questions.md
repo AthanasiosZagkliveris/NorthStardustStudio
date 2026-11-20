@@ -1,6 +1,6 @@
 # 46. The Ambassador: every question and option, as proposed
 
-Status: **proposal**, written 2026-11-12. The owner approved it on 2026-11-12 (decisions D3, D4, D5 below); it is built in phase 4 (the order of work: doc 49, section 8; numbered 5 until the financials moved last, 2026-11-12). **Built 2026-11-19** (the owner's approved plan of 2026-11-18, §3, B2): BA1 to BA4 and BA6 to BA8 with their starts, the drafts of section 3 (the Imprint's first sentence into its First impression), the Review item and the Business Plan's opening line (`AmbassadorChoices.ts`, `brand/AmbassadorChoices.tsx`). The Values' ids (section 5, step 1) are built the functional items' way: the Values' text stays saved as it was, and their ids stand beside it line for line (`valueIds`, `ValueIds.ts`), made from each line's words where a save has none (a suffix only to tell apart two lines of the same words). BA9 is built on them (2026-11-19): the Values by their ids, then the Segments' Differentiations, its sentence written into the Lasting impression's text by the Imprint's one "Add a draft". Not built yet: the Style suggestions (section 4).
+Status: **proposal**, written 2026-11-12, updated 2026-11-20. The owner approved it on 2026-11-12 (decisions D3, D4, D5 below); it is built in phase 4 (the order of work: doc 49, section 8; numbered 5 until the financials moved last, 2026-11-12). **Built 2026-11-19** (the owner's approved plan of 2026-11-18, §3, B2): BA1 to BA4 and BA6 to BA8 with their starts, the drafts of section 3 (the Imprint's first sentence into its First impression), the Review item and the Business Plan's opening line (`AmbassadorChoices.ts`, `brand/AmbassadorChoices.tsx`). The Values' ids (section 5, step 1) are built the functional items' way: the Values' text stays saved as it was, and their ids stand beside it line for line (`valueIds`, `ValueIds.ts`), made from each line's words where a save has none (a suffix only to tell apart two lines of the same words). BA9 is built on them (2026-11-19): the Values by their ids, then the Segments' Differentiations, its sentence written into the Lasting impression's text by the Imprint's one "Add a draft". Not built yet: the Style suggestions (section 4).
 
 Related: doc 40 (the form of a tile document), doc 39 (what an "i" says), doc 28 (8.3, the Brand System and its evidence), doc 45 (the Values this card reads), doc 47 (the relationship type, J3), doc 44 (the register and the code rule), doc 2 (the sources).
 
@@ -14,7 +14,7 @@ One chapter of four Master Tiles, each a free text: **Aesthetics**, **Body Langu
 
 - **The texts stay**, with their keys and prompts. Each tile gains a few choices above its text, saved under a new key of the section, and an **"Add a draft"** link that writes a sentence at the end of the text (the Value Proposition's pattern, doc 42).
 - **The models:** brand personality (Aaker, 1997, already in doc 2) and the four dimensions of tone of voice (NN/g, opened).
-- **Options come from earlier answers** where the app holds them: the Profiles' emotional and social needs, the Values' lines, K14, the Offerings' delivery (O6). The relationship type (J3) is read straight into the Body Language draft, with no question of its own.
+- **Options come from earlier answers** where the app holds them: the Profiles' emotional and social needs, the Values' lines, K14. The relationship type (J3) is read straight into the Body Language draft, with no question of its own.
 - **Evidence:** personality is moderate; colour, type and shape links are moderate to weak (doc 28, 8.3). What Style reads from them is labelled "a suggestion".
 - **Where the character sits:** first in the Aesthetics tile, the tile the founder meets first, so no tile moves (D5).
 - **Quick to answer:** BA1 starts all six ratings and BA8 and BA9 list the founder's own answers; BA3's surroundings are imagined, with no start. A founder in a hurry picks a character, accepts the starts and presses "Add a draft".
@@ -38,11 +38,11 @@ Aesthetics holds BA1, BA2, BA3; Body Language BA4; Communication & Voice BA6, BA
 
   | id | Label | Its "i" | Draft phrase |
   |---|---|---|---|
-  | `sincere` | Warm & honest | Sincere, down-to-earth, cheerful. | warm and honest |
-  | `exciting` | Lively & bold | Daring, spirited, imaginative. | lively and bold |
-  | `competent` | Capable & reliable | Hard-working, intelligent, confident. | capable and reliable |
-  | `sophisticated` | Refined & elegant | Glamorous, charming, polished. | refined and elegant |
-  | `rugged` | Tough & practical | Outdoorsy, rugged, hard-wearing. | tough and practical |
+  | `sincere` | Warm & honest | Down-to-earth, honest, wholesome and cheerful (Aaker's Sincerity). | warm and honest |
+  | `exciting` | Lively & bold | Daring, spirited, imaginative and up-to-date (Aaker's Excitement). | lively and bold |
+  | `competent` | Capable & reliable | Reliable, intelligent and successful (Aaker's Competence). | capable and reliable |
+  | `sophisticated` | Refined & elegant | Upper-class and charming (Aaker's Sophistication). | refined and elegant |
+  | `rugged` | Tough & practical | Outdoorsy and tough (Aaker's Ruggedness). | tough and practical |
 
 - **"i":**
   - Picture your brand as a person: the character people describe after meeting it.

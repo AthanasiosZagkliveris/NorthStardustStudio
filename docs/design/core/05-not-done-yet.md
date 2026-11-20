@@ -1,6 +1,6 @@
 # 5. What has not been done yet
 
-Status: **living list**, written 2026-10-14, updated 2026-11-12. Remove an item when it is done and record it in the log (`04-log.md`). Everything here is a plan or a proposal unless it says "decided". Nothing in section 5.3 is built, and of section 5.5 only what a row says is built.
+Status: **living list**, written 2026-10-14, updated 2026-11-20. Remove an item when it is done and record it in the log (`04-log.md`). Everything here is a plan or a proposal unless it says "decided". Nothing in section 5.3 is built, and of section 5.5 only what a row says is built.
 
 ## Open now
 
@@ -39,12 +39,11 @@ The plan of 33 tasks is locked (log, 4.5). F, G, H, I and J are committed; the e
 
 ## 5.3 Finish the Tile System
 
-Every chapter is drawn as tiles since 2026-11-17, on one page, Financials, since 2026-11-19, one chapter since 2026-11-20: Financial Foundation, the tiles of Section 4 (Revenue & Pricing) and Section 5 (Costs, Funding & Position) in reading order (doc 48, sections 1, 2 and 11). Not built yet on them: the Offering Economics card, RV1, O19, K15 as a record, FN1 and C1 (phase 7a), the dialogs' nested sub tiles and the Cash Timeline as a Diagram tile (doc 48, section 1). The rest:
+Every chapter is drawn as tiles since 2026-11-17, on one page, Financials, since 2026-11-19, one chapter since 2026-11-20: Financial Foundation, the tiles of Section 4 (Revenue & Pricing) and Section 5 (Costs, Funding & Position) in reading order (doc 48, sections 1, 2 and 11). Not built yet on them: the Offering Economics card, RV1, O19, K15 as a record, FN1 and the fee on a VAT-inclusive price (phase 7a), the dialogs' nested sub tiles and the Cash Timeline as a Diagram tile (doc 48, section 1). The rest:
 
 | Where | State | What remains inline | Conversion (suggestion) |
 |---|---|---|---|
-| Business 4 · Financial Foundation | Tiles (2026-11-12) | The dialogs' nested sub tiles and the Cash Timeline as a Diagram tile (doc 48, section 1); the Costs sub tiles opening the Inventory's table (IN4); a dialog wide enough for the costs table and the Operating months (owner to decide: the dialog is the half-width chapter's width) | Later steps of phase 1 (doc 49, section 8) |
-| Business 5 · Sustainability | Not tiles | Two folding cards: Revenue, Break Even | Two tiles, same method |
+| Business 4 and 5 · Financials | Tiles (2026-11-17), one chapter, Financial Foundation, of six Master Tiles (2026-11-20) | The dialogs' nested sub tiles and the Cash Timeline as a Diagram tile (doc 48, section 1); the Costs sub tiles opening the Inventory's table (IN4); a dialog wide enough for the costs table and the Operating months (owner to decide: the dialog is the half-width chapter's width) | Later steps of phase 1 (doc 49, section 8) |
 | Four editors | Old non-tile layout kept below an early return | Unreachable code (`asTiles` is always true) | Remove after confirming the tests do not use it |
 | Help tile | Not a real kind in the code | Inventory and Completed are normal tiles recognised by id | Add a real "help tile" kind |
 
@@ -103,10 +102,10 @@ Ordering of work (decided): the **Tile System** is finished first (T1–T2), the
 | A4 | Every setting that belongs to a business lives with the data it governs; Global Settings keeps only per-user and per-device preferences (section 5.5.6). | S | Fix |
 | A5 | Completeness: each page names which answers are required, in one place, and the page status uses that list. Goals and targets are optional but nudged. | S | Gap |
 | A6 | Calendar also reads: Strategic Period start/end, the plan start, and delivery calendar time of an offering when it is turned into dates. | C | Gap |
-| A7 | Currency: an organization-level override beside the country default; cards of another currency are converted by a stated rate or flagged, not silently skipped. | S | Gap |
+| A7 | Currency: an organization-level override beside the country default; cards of another currency are converted by a stated rate or flagged with a note the founder sees. | S | Gap |
 | A8 | Example organisations and their tests are updated with every interface or requirement change. | M | Rule |
 | A9 | Documents in the project are Markdown; PDFs are exports only. | M | Rule |
-| T1 | **Tile System complete:** Financial Foundation (4 sections) and Sustainability (2 sections) are drawn as tiles that open their existing sections in dialogs. | M | Gap |
+| T1 | **Tile System complete:** Financial Foundation (4 sections) and Sustainability (2 sections) are drawn as tiles that open their existing sections in dialogs. | M | Done 2026-11-17; one page, Financials, 2026-11-19, and one chapter, Financial Foundation, of six Master Tiles 2026-11-20 (doc 48, section 11); the dialogs' nested sub tiles and the Cash Timeline wait (section 5.3) |
 | T2 | **Customer Engagement:** Customer Relationship, Demand & Conversion and the channel resource table become tiles in each segment's frame. | M | Done 2026-11-12 (doc 47, section 3); the Channel Costs table's width waits for the owner |
 | T3 | The old non-tile layout under the `asTiles` early return in four editors is removed once tests no longer use it. | S | Fix |
 | X1 | **Extraction readiness:** shared parts (reading mode, notes, calendar, search, review, undo, help, export, preferences) have no import from Systems 05–24; the operations and social-media branches in `Conversation` are removed; storage stays behind the store interface; the desktop opener is the only Tauri import. | S | New |
@@ -141,7 +140,7 @@ Ordering of work (decided): the **Tile System** is finished first (T1–T2), the
 | Id | Requirement | P | State |
 |---|---|---|---|
 | F8 | Offering type is validated against the list. **Decision:** should it drive anything? Candidates: Product shows a materials group and stock; Service shows delivery hours; Hybrid both. | S | Decision |
-| F9 | Each offering states how it is **bought**: one sale at a time, or every month. This is the single source; Delivery and Demand read it instead of asking again (today the Delivery card shows a mismatch note). | S | Fix |
+| F9 | Each offering states how it is **bought**: one sale at a time, or every month. This is the single source, asked once; Delivery and Demand read it from there (today the Delivery card shows a mismatch note). | S | Fix |
 
 ### 5.5.4 Business pages 2 and 3
 
@@ -279,7 +278,7 @@ The plans of 2026-10-14 for the clean-up round, the library automation and its s
 - **No Foundation folder exists.** Systems 01–24 are rows in `src/data/systems.ts`; the interview code is shared and the business editors are wired in as answer types. The cut is by feature, not by folder. Foundation-only Markdown content (Systems 01 to 04: Answer, Questions and Help files) is about 10 KB of 131 KB.
 - **To keep** (shared parts): reading mode (`ThemeService`, colours), focus mode, notes (Notepad), calendar, search, review, undo, help notes, export and documents, preferences, storage behind its interface.
 - **To leave behind:** Systems 05–24 content and menu rows, `CapabilityGenerator`, the operations and social-media branches in `Conversation`, and any editor only they use (Process Library, Operational Log, Roles & Responsibilities).
-- **Not to leave behind:** Financial Foundation, Sustainability and the financial model. They are Business pages 4 and 5. (The raw audit listed them as "likely other systems"; that is wrong.)
+- **Not to leave behind:** Financial Foundation, Sustainability and the financial model. They are the Business System's Sections 4 and 5, drawn on its page Financials. (The raw audit listed them as "likely other systems"; that is wrong.)
 - **Desktop-only code:** one import (`@tauri-apps/plugin-opener` in `InfoNote`, with a web fallback already in place), plus the Tauri folder and two port settings in the build file. A web build is straightforward.
 - **Storage:** all data is in the browser's local storage (about 5 MB), behind one store interface. A server or IndexedDB store fits behind the same interface. The two example organisations alone are about 600 KB.
 - **Calendar: decided, it exists in the new app.** The earlier Foundation App Plan listed it as staying behind. It reads card dates, so it depends on the card engine and travels with it; its sources (card dates, Operational Log, schedules) are kept.

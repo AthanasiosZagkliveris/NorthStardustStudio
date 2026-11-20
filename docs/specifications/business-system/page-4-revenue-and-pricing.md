@@ -1,13 +1,13 @@
 # Business System — Page 4: Revenue & Pricing
 
-**Moved, 2026-11-17 (doc 48, section 11; owner, 2026-11-17 07:36):** this page was Page 5, "Sustainability". It is Page 4 now, Revenue & Pricing. Its answer moved once to Section 4 (`storageMigrations.swapFinancialPages`), every key inside it as it was. It is drawn as one chapter, **Revenue** (Revenue Streams, Delivery Check, Revenue Summary; doc 48, section 2); its Break Even section stands on Page 5, beside Financial Position. Not built yet, the rest of phase 7a: RV1, O19, K15 as a record, C1, the Offering Economics card (doc 48, sections 3, 4 and 12). Where this specification says "Page 5" for itself, read Page 4.
+**Moved, 2026-11-17 (doc 48, section 11; owner, 2026-11-17 07:36):** this page was Page 5, "Sustainability". It is Page 4 now, Revenue & Pricing. Its answer moved once to Section 4 (`storageMigrations.swapFinancialPages`), every key inside it as it was. Its tiles stand in Financials' one chapter, Financial Foundation (the next paragraph; doc 48, sections 2 and 11). Not built yet, the rest of phase 7a: RV1, O19, K15 as a record, the fee on a VAT-inclusive price, the Offering Economics card (doc 48, sections 3, 4, 11 and 12). Where this specification says "Page 5" for itself, read Page 4.
 
-**One page, Financials, 2026-11-19 (the owner's approved plan of 2026-11-18, step 1; doc 48, section 11):** this section is drawn on one page with Section 5, Costs, Funding & Position: the pages rail's "4. Financials" (`PageGroups.ts`), the title "4. Financials" and the plan's months. Since 2026-11-20 the page is ONE chapter, **Financial Foundation** (owner, 02:11 UTC+2; doc 48, section 11): this editor draws it, Revenue Streams first, then the three tiles Section 5 hands it (Costs, Capital & Funding, Financial Position), then Break-Even and Sustainability. Before that its editor drew the page's first chapter, **Revenue & Break Even**: Revenue Streams (its dialog holds the Delivery Check and the Revenue Summary), Break-Even (the Point and the Time) and Sustainability (with the Stress Test). The Break Even blocks are drawn here now, read from this answer and Section 5's, writing nothing. The section keeps its number, its title and its saved answer; nothing moved. Where this specification says "Page 4" or "Page 5" for a financial page, read this section of Financials.
+**One page, Financials, 2026-11-19 (the owner's approved plan of 2026-11-18, step 1; doc 48, section 11):** this section is drawn on one page with Section 5, Costs, Funding & Position: the pages rail's "3. Financials" (`PageGroups.ts`), the title "3. Financials" and the plan's months. Since 2026-11-20 the page is ONE chapter, **Financial Foundation** (owner, 02:11 UTC+2; doc 48, section 11): this editor draws it, Revenue Streams first, then the three tiles Section 5 hands it (Costs, Capital & Funding, Financial Position), then Break-Even and Sustainability. Before that its editor drew the page's first chapter, **Revenue & Break Even**: Revenue Streams (its dialog holds the Delivery Check and the Revenue Summary), Break-Even (the Point and the Time) and Sustainability (with the Stress Test). The Break Even blocks are drawn here now, read from this answer and Section 5's, writing nothing. The section keeps its number, its title and its saved answer; nothing moved. Where this specification says "Page 4" or "Page 5" for a financial page, read this section of Financials.
 
-Status: **specification**, written 2026-09-27, updated 2026-11-19. The requirement as written (sections 1 to 23) is preceded by "As built", which wins where they differ.
+Status: **specification**, written 2026-09-27, updated 2026-11-20. The requirement as written (sections 1 to 23) is preceded by "As built", which wins where they differ.
 
-> **3. Business System — Section 4 of 5** (Page 5 until 2026-11-17), **drawn on Page 4 of 4, Financials, since 2026-11-19**.
-> The second of the two Financial pages; it follows **Page 4 — Financial Foundation**.
+> **3. Business System — Section 4 of 5** (Page 5 until 2026-11-17), **drawn on Page 3 of 3, Financials, since 2026-11-19**.
+> The first of the two Financial sections; **Section 5 — Costs, Funding & Position** follows it, in Financials' one chapter, Financial Foundation.
 
 ## Contents
 
@@ -39,7 +39,7 @@ Status: **specification**, written 2026-09-27, updated 2026-11-19. The requireme
 
 ## As built
 
-Page 5 is a Structure of its own, `Financial Sustainability` (editor `FinancialSustainabilityEditor`), two folding cards numbered 5.1 and 5.2; they are not tiles yet (document 5, section 5.3). It shares its model, its month field, its time and its currency with Page 4 (`page-5-costs-funding-and-position.md`, "As built"). The revenue stream card is also described in document 28, 10.2.
+Section 4 is a Structure of its own, `Financial Sustainability` (editor `FinancialSustainabilityEditor`). Its editor draws Financials' one chapter, Financial Foundation, of six Master Tiles: its own Revenue Streams first (5.1 Revenue below, the Delivery Check and the Revenue Summary in its dialog), then the three tiles Section 5 hands it (Costs, Capital & Funding, Financial Position), then its own Break-Even and Sustainability (5.2 Break Even below, the Stress Test inside Sustainability; doc 48, section 11). It shares its model, its month field, its time and its currency with Section 5 (`page-5-costs-funding-and-position.md`, "As built"). The revenue stream card is also described in document 28, 10.2.
 
 | Section | How it is built |
 |---|---|

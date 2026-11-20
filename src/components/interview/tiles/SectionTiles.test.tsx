@@ -1332,9 +1332,11 @@ describe("the slide of a long title", () => {
         const css = stylesheet("section-tiles.css");
         const rule = css.slice(css.indexOf(".section-tile-title {"), css.indexOf("}", css.indexOf(".section-tile-title {")));
         expect(rule).toMatch(/overflow: hidden;/);
-        // (A title wraps to three lines at most, then is cut: layout rules section 8, "Tile anatomy"; 2026-11-20.)
-        expect(rule).toMatch(/white-space: normal;/);
-        expect(rule).toMatch(/-webkit-line-clamp: 3;/);
+        expect(rule).toMatch(/white-space: nowrap;/);
+        // (In a dialog one line, sliding (owner, 2026-10-15); a Master Tile's title on the page wraps to three lines: layout rules sections 8 and 9.)
+        const quad = css.slice(css.indexOf(".section-tiles-quad .section-tile-title {"), css.indexOf("}", css.indexOf(".section-tiles-quad .section-tile-title {")));
+        expect(quad).toMatch(/white-space: normal;/);
+        expect(quad).toMatch(/-webkit-line-clamp: 3;/);
     });
 
 });

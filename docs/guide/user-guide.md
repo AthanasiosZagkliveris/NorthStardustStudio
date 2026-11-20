@@ -1,6 +1,6 @@
 # User guide: the app's tools and the Foundation
 
-Status: **playbook**, written 2026-11-09, updated 2026-11-19. How a founder uses the app, step by step: the Organisations screen, the tools (Workbook, Notes, Search, Settings, Focus, the reading modes, the Calendar) and the Foundation with its Identity System and Business System.
+Status: **playbook**, written 2026-11-09, updated 2026-11-20. How a founder uses the app, step by step: the Organisations screen, the tools (Workbook, Notes, Search, Settings, Focus, the reading modes, the Calendar) and the Foundation with its Identity System and Business System.
 
 Related: `app/contents.md` (the map of the app, for the team), `app/index.md` (every place in the app), `app/glossary.md` (the terms). The app's own help is the "i" beside a title or a question: it says what the question is for and how to answer it.
 
@@ -54,10 +54,11 @@ Who the organisation is, in law and in purpose. Two pages.
 3. **Founders & Ownership**: each founder, their roles and what they bring: their industry, management, achievements and skills.
 4. **Purpose & Beliefs**: three pair tiles, Mission & Vision, Values & Principles, Philosophy & Manifesto, each a short text in your own words.
 
-**Page 2, Legal Entity**
-1. **Capability**: the skills the team has and the ones it still needs.
-2. **Registrations**: its two small tiles, **Registration Numbers** and **Additional Legal Requirements**, list what you have registered and what the law asks of your activity in your country.
-3. **Expenses**: the legal costs (incorporation, trade marks, licences). Each becomes a cost card the Business System counts.
+**Page 2, Legal Entity**: one tile, **Registrations & Expenses**, which opens two tiles.
+1. **Registrations**: the registry's and the tax's numbers, and inside them the **Additional Legal Requirements**: what you have registered and what the law asks of your activity in your country.
+2. **Expenses**: the legal costs (incorporation, trade marks, licences). Each becomes a cost card the Business System counts.
+
+The skills the business still needs are asked on the Business System's Infrastructure & Capability: Offering's Capability, Capacity & Delivery.
 
 ### 3.4 The Business System
 
@@ -69,7 +70,7 @@ What you sell, to whom, with what, and whether the money works. Three pages, bes
    - **Competitors**: who else serves the Segment, how they compare, and a SWOT Analysis.
    - **Offerings**: what you sell, its Description and its Terms & Service.
    **Engagement**, beside it: how the Segment finds you, chooses and buys. Add the **Customer Channels** you use; a channel can make its own cost cards ("+ Add expenses", with the channel's typical costs). Customer Relationship and Demand & Conversion follow as folding cards.
-2. **Infrastructure & Capability**: two frames of four tiles. **Infrastructure**: Founders, Resources, Activities, Partners & Suppliers. **Offering's Capability**: Resources, Activities, Partners & Suppliers, Delivery. Each card carries its cost, its dates and its status. At the bottom, the **Inventory** lists every card with its cost, as tiles or as a table with a filter, and **Completed** holds the activities you have ticked as done.
+2. **Infrastructure & Capability**: two frames of four tiles. **Infrastructure**: Founders, Resources, Activities, Partners & Suppliers. **Offering's Capability**: Resources, Activities, Partners & Suppliers, Capacity & Delivery. Each card carries its cost, its dates and its status. At the bottom, the **Inventory** lists every card with its cost, as tiles or as a table with a filter, and **Completed** holds the activities you have ticked as done.
 3. **Financials**: one chapter, **Financial Foundation**, read from left to right: your Revenue Streams, your Costs (a summary of what the other pages recorded), your Capital & Funding, your Financial Position, then when the business breaks even and whether the money lasts until then.
 
 ### 3.5 Business Documents
@@ -144,6 +145,6 @@ On **System Selection**, the **Calendar** tab in the left rail opens the calenda
 
 1. Set your name, add the Organisation and choose the reading mode you like.
 2. Identity System, page 1: the Organisation tile first (the Opening Date above all), then Positioning, then Founders & Ownership.
-3. Business System, pages 1 to 5 in order: Segments and Offerings first, then the channels, the resources and activities, then the money.
+3. Business System, pages 1 to 3 in order: Segments and Offerings first, then the channels, the resources and activities, then the money.
 4. Open the **Workbook's Review** after each session: it lists what is still open and what deserves a second look.
 5. When the Review is clear, write the **Business Documents**, and export the Organisation to keep a copy.

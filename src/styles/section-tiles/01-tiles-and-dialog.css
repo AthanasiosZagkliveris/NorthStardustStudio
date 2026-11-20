@@ -131,15 +131,13 @@
 
     overflow-wrap: anywhere;
 
-    /* A TITLE WRAPS, AT MOST THREE LINES (layout rules section 8, "Tile anatomy"; 2026-11-20, the cut "REGISTRATIONS & EXPEN..." and "CORE MARKET
-       POSITIONI..."): its lines break between words ("&" kept with the word after it, drawnTitle), the last one centred above the quarter line, the title
-       growing upward (TileTitle measures it); a fourth line is cut with an ellipsis, its full text the tile's tooltip. The tile keeps its size. */
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 3;
-    line-clamp: 3;
+    /* ONE LINE IN A DIALOG (owner, 2026-10-15: the tiles that floating cards generate "show the title on one line, and a title that is too long moves
+       horizontally instead of being cut off"; layout rules section 9): a sub tile's and a card tile's title stand on one line, sliding under the pointer
+       (useTitleSlide). The page's Master Tiles wrap: the rule below. */
+    display: block;
 
-    white-space: normal;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 
     overflow: hidden;
 
@@ -574,5 +572,19 @@
     align-self: center;
 
     margin-block: 0;
+
+}
+
+/* A MASTER TILE'S TITLE WRAPS, AT MOST THREE LINES (layout rules section 8, "Tile anatomy"; 2026-11-20, the cut "REGISTRATIONS & EXPEN..." and "CORE
+   MARKET POSITIONI..."): on the page, outside every dialog, its lines break between words ("&" kept with the word after it, drawnTitle), the title growing
+   upward (TileTitle measures it, as wide as its longest line); a fourth line is cut with an ellipsis, its full text the tile's tooltip. The tile keeps its size. */
+.section-tiles-quad .section-tile-title {
+
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+
+    white-space: normal;
 
 }

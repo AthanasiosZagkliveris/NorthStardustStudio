@@ -13,16 +13,16 @@ import { asText } from "./Readers.ts";
     a few choices above each of the four texts of the Brand System's Ambassador, saved under the section's own key `ambassador`, and an "Add a draft" that writes
     a sentence at the end of the text (the Value Proposition's pattern, doc 42). Aesthetics holds BA1 to BA3, Body Language BA4, Communication & Voice BA6 and BA7,
     Imprint BA8 and BA9 (BA9 built once the Values had ids, doc 46, section 5; ValueIds.ts). A start follows its source until the founder changes it (doc 46, section 6): the
-    ratings of BA4 and BA6 follow BA1, BA3 follows the Offerings' O6; only what the founder sets is saved.
+    ratings of BA4 and BA6 follow BA1; BA3, the surroundings the imagined Ambassador suits, has no start (2026-11-19); only what the founder sets is saved.
 */
 
-/** BA1's options: Aaker's five facets, each with its "i", its draft phrase and the ratings it starts (BA4: Energy, Expression; BA6: Formality, Humour, Respect, Enthusiasm). */
+/** BA1's options: Aaker's five dimensions, each "i" in Aaker's own facet words (Aaker, 1997; doc 49, section 9, P4; owner, 2026-11-20 12:49 UTC+2), for the imagined Ambassador, each with its "i", its draft phrase and the ratings it starts (BA4: Energy, Expression; BA6: Formality, Humour, Respect, Enthusiasm). */
 export const AMBASSADOR_CHARACTERS = [
-    { id: "sincere", label: "Warm & honest", info: "Sincere, down-to-earth, cheerful.", phrase: "warm and honest", energy: 3, expression: 4, tone: { formality: 2, humour: 3, respect: 4, enthusiasm: 4 } },
-    { id: "exciting", label: "Lively & bold", info: "Daring, spirited, imaginative.", phrase: "lively and bold", energy: 5, expression: 5, tone: { formality: 2, humour: 4, respect: 3, enthusiasm: 5 } },
-    { id: "competent", label: "Capable & reliable", info: "Hard-working, intelligent, confident.", phrase: "capable and reliable", energy: 2, expression: 2, tone: { formality: 4, humour: 2, respect: 4, enthusiasm: 2 } },
-    { id: "sophisticated", label: "Refined & elegant", info: "Glamorous, charming, polished.", phrase: "refined and elegant", energy: 2, expression: 2, tone: { formality: 5, humour: 2, respect: 5, enthusiasm: 2 } },
-    { id: "rugged", label: "Tough & practical", info: "Outdoorsy, rugged, hard-wearing.", phrase: "tough and practical", energy: 3, expression: 2, tone: { formality: 2, humour: 3, respect: 3, enthusiasm: 2 } }
+    { id: "sincere", label: "Warm & honest", info: "Down-to-earth, honest, wholesome and cheerful (Aaker's Sincerity).", phrase: "warm and honest", energy: 3, expression: 4, tone: { formality: 2, humour: 3, respect: 4, enthusiasm: 4 } },
+    { id: "exciting", label: "Lively & bold", info: "Daring, spirited, imaginative and up-to-date (Aaker's Excitement).", phrase: "lively and bold", energy: 5, expression: 5, tone: { formality: 2, humour: 4, respect: 3, enthusiasm: 5 } },
+    { id: "competent", label: "Capable & reliable", info: "Reliable, intelligent and successful (Aaker's Competence).", phrase: "capable and reliable", energy: 2, expression: 2, tone: { formality: 4, humour: 2, respect: 4, enthusiasm: 2 } },
+    { id: "sophisticated", label: "Refined & elegant", info: "Upper-class and charming (Aaker's Sophistication).", phrase: "refined and elegant", energy: 2, expression: 2, tone: { formality: 5, humour: 2, respect: 5, enthusiasm: 2 } },
+    { id: "rugged", label: "Tough & practical", info: "Outdoorsy and tough (Aaker's Ruggedness).", phrase: "tough and practical", energy: 3, expression: 2, tone: { formality: 2, humour: 3, respect: 3, enthusiasm: 2 } }
 ] as const;
 
 /** BA2's options (doc 46, BA2). */
