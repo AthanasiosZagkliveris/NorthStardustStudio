@@ -301,3 +301,98 @@ The Business Plan keeps every part that is not a figure of money and, where its 
 **The Business Plan's export carries the Financial Documents as its appendix** (owner, 2026-11-20 20:47 UTC+2, his decision: "the appendix"). On screen the plan names where they are; its Markdown and PDF end, after its own Appendix, with "Financial Appendix A: Funding Request" and "Financial Appendix B: Financial Plan" (and the Financial Forecast, where the Workbook exports it), written by the Financial Documents' own code, no second copy (`businessPlanForExport`, `plan.ts`). A document whose parts carry their own headings gives one appendix section a part ("Financial Appendix A: Funding Request, Financial Projections"), so every heading keeps its level. One switch turns it off (`PLAN_EXPORT_WITH_FINANCIAL_APPENDIX`): the plan then exports alone and each Financial Document on its own.
 
 **What left the Funding tile is said in the Funding Request** (rule | was | now: nothing a record showed is lost | the Uses card showed the cash to raise before the opening and the Operational Contingency Fund | the Funding Request's "Cash to Raise Before the Opening" (the budget's three parts, the Total Pre-operational Budget, the Startup Contingency Fund, the opening inventory, the total) and "Operational Contingency Fund" (the target, the running costs a month, what is set aside each month, what is held at the opening, the months to reach the target), from the same engine (`contingencyFunds`), once there is an Opening Date). Their three inputs -- the two rates and the target months -- are the Global Settings' and stay there. The Financial Plan's Funding Need keeps its Loan repayments column while a loan is recorded. While there is no Opening Date, the Costs tile says where it is given ("Give the Opening Date, on the Organization tile (Identity System), ..."), the words the Funding tile used.
+
+## 15. Each Offering's sales, cost, price and margin (the round of 2026-11-21 00:56 UTC+2)
+
+Asked (owner, 2026-11-21 00:56 UTC+2): "Review the Revenue Streams and Funding sections; which parts could be covered by existing answers from previous parts." "There is a wide price range in competitors' offerings, without filtering them … That way we could narrow down the price range." "I do not want the cost to present the same information with the inventory. It would have been better to define the costs of each offering." "Having a better idea of the competitors offering's price, and the app user's offering's costs we could calculate better the revenue of each offering." Decided (owner, 23:44 UTC+2): "2. Do an online research and find the best answer." "3. I think they should be compared according the profile's needs and answers." "4. and 5." built as proposed; "6. a. Demand & Conversion to Expected Sales (do also online research …)" — the research found **Sales Forecast** the established term, and the owner chose it (23:49); "b. stay as it is: Capacity does not mean only hours but also skills and expenses."
+
+### 15.1 One owner for each figure
+
+| Figure | Owner (asked once) | Read, never asked again, by |
+|---|---|---|
+| An Offering's normal monthly sales and the months to reach them | **Sales Forecast** (Customer Engagement; formerly "Demand & Conversion"): potential customers × reached × converted × buying, built up month by month | the Revenue Stream (shown), the Capacity & Delivery cards, the forecast |
+| When its sales begin | the **Revenue Stream**'s Begins, starting from the later of the plan's first month after the Opening Date and the Offering's readiness (O2); the founder changes it freely | Sales Forecast's build-up starts there |
+| Its price and how it is charged | the **Revenue Stream** (its charge and unit start from the Offering's O3 and O1) | the market price range beside it (information only) |
+| How many sales the founders' hours allow | **Capacity & Delivery** (the founders' delivery hours ÷ the hours one sale takes) | a warning beside the Sales Forecast and the stream where the sales need more hours: never a second figure for the sales |
+| A loan: amount, month received, term, rate, repayment holiday | **Funding**, one source a loan | the cash flow: in the month received; repayments from the month after, or after the holiday (interest only during it) |
+| The founders' capital: amount | **Founders & Ownership** (the capital switch on) | Funding (read only), the cash flow: in the plan's first month (in hand when the plan starts) |
+| The founders' pay and hours | **Infrastructure & Capability** (the Founders) | the costs, the cash flow, the running-cost rate below |
+
+Rule | was | now: a figure is asked once | the stream asked its own monthly volume, its First Month and its Months to Normal beside Sales Forecast's (C2; the stream's volume, when Sales Forecast answered, was an unread second copy) | the stream shows Sales Forecast's figures with a link to where they are changed; where Sales Forecast has no answer for an Offering, the stream keeps asking them (an Offering sold without a forecast still counts). Saved answers stay valid: a stream's saved volume, First Month and Months to Normal are kept and read only where Sales Forecast is silent.
+
+Sources: SBA (2017; n.d.), driver-based forecasts built from reach and conversion; Aulet (2013) and Disciplined Entrepreneurship (n.d.), bottom-up market sizing; SCORE (2020) and University of Wisconsin SBDC (n.d.), the projections templates; Start Up Loans (n.d.-a; n.d.-b) and GOV.UK (n.d.), the 12-month cash-flow forecast and the loan repayments.
+
+### 15.2 The cost of each Offering
+
+The **Costs** tile becomes **Cost of each Offering** (rule | was | now: one owner for a list | the Costs dialog listed every cost card, the Inventory's lines again (C5) | a card for each Offering; the full list of costs stays in the Inventory and the Workbook's Financial Plan, "Costs in Full"). Its face: each Offering, its full cost of one. Its dialog: a card for each Offering, and over them the running costs a month, the founders' delivery hours available and the rate.
+
+Each Offering's card (time-driven activity-based costing with the founders' delivery hours as the one driver: Kaplan and Anderson, 2004; HBS Working Knowledge, 2004; Garrett, n.d.):
+
+```
+Direct cost of one          = its own costs per sale (materials, per-order and per-project costs, the fees of the channels it sells through) — as the break even counts them
+Running costs to share      = the running costs a month, less the costs that serve this Offering alone
+Rate (per delivery hour)    = running costs to share ÷ the founders' delivery hours available a month
+Running cost of one         = the hours one sale takes (Capacity & Delivery) × the rate
+                              + its own running costs a month ÷ its sales a month (Sales Forecast)
+Full cost of one            = direct cost of one + running cost of one
+Contribution of one         = price − direct cost of one
+Margin                      = (price − full cost of one) ÷ price
+```
+
+- The denominator is the hours **available**, not the hours sold: each Offering carries only the time it takes; hours left over are capacity still free, said as such (Kaplan and Anderson, 2004).
+- A cost that serves one Offering alone (its equipment, its own tool) is charged to it, never shared (Garrett, n.d.).
+- An Offering with no hours per sale yet takes its share by its revenue, and its card says so in its "i".
+- The card shows the **contribution beside the full cost**: a sale whose price is below its full cost but above its direct cost still helps cover the running costs; the full cost is for planning and long-run pricing (CIMA, 2005; Kaplan and Anderson, 2004). How the running costs are shared changes each Offering's cost, never the total profit.
+- A price below the direct cost (Lumen's Trade Collection, £48 against about £72) is said plainly, in the card's alert colour: "Each sale costs more than its price." The price stays the founder's.
+
+### 15.3 The price customers already pay elsewhere
+
+A Competitor card gains **K16, "Which of the Profile's needs do they meet?"** (ticks of the same need items an Offering ticks, by id; doc 41, K16). Beside each Revenue Stream's price, the **market price range**: the lowest From to the highest To (K15) of the Segment's competitors that meet at least one need this Offering meets, their count and names in its "i"; while no competitor ticks K16, every competitor of the Segment, said in the "i". It is the price customers already pay for these needs (value-based pricing's reference value: ICAEW, n.d.; MIT OpenCourseWare, 2010), never a price the app sets and never compared with the founder's own past prices (a start-up has none; the owner's rule of 2026-11-04). Sources: Osterwalder et al. (2014) and Strategyzer (n.d.), the Value Proposition Canvas; Christensen et al. (2016), jobs to be done.
+
+### 15.4 Each Offering's revenue
+
+Each Revenue Stream's card closes with **This Offering's economics**: its price, the market price range, its direct cost, contribution, full cost and margin, and its sales a month from the Sales Forecast; the stream's tile face keeps its price. The Workbook's Financial Plan gains the same table, one row an Offering.
+
+### 15.5 The examples
+
+Rule | was | now: an example's data agrees with itself | Lumen's courier, priced per parcel, was counted per item; the freelance tutor's hours differed between the cost card and the Delivery card | the courier counted per order; the tutor's hours one figure. Lumen's Trade Collection keeps its £48: the example shows the warning.
+
+### 15.6 Sources
+
+Aulet, B. (2013) *Disciplined Entrepreneurship: 24 Steps to a Successful Startup*. Hoboken, NJ: Wiley.
+
+Christensen, C.M., Hall, T., Dillon, K. and Duncan, D.S. (2016) 'Know your customers' "jobs to be done"', *Harvard Business Review*, 94(9), pp. 54–62. Available at: https://hbr.org/2016/09/know-your-customers-jobs-to-be-done (Accessed: 21 November 2026).
+
+CIMA (2005) *Management Accounting Official Terminology*. 2nd edn. Oxford: CIMA Publishing.
+
+Disciplined Entrepreneurship (n.d.) *Step 4: Calculate the total addressable market size for the beachhead market*. Available at: https://www.d-eship.com/step4/ (Accessed: 21 November 2026).
+
+Garrett, K. (n.d.) *Activity-based costing*. ACCA technical article. Available at: https://www.accaglobal.com/uk/en/student/exam-support-resources/fundamentals-exams-study-resources/f5/technical-articles/ABC.html (Accessed: 21 November 2026).
+
+GOV.UK (n.d.) *Apply for a Start Up Loan for your business*. Available at: https://www.gov.uk/apply-start-up-loan (Accessed: 21 November 2026).
+
+HBS Working Knowledge (2004) *Adding time to activity-based costing*. Harvard Business School. Available at: https://www.library.hbs.edu/working-knowledge/adding-time-to-activity-based-costing (Accessed: 21 November 2026).
+
+ICAEW (n.d.) *Financial strategy: value-based pricing*. Available at: https://www.icaew.com/technical/business-and-management/boards-and-committees/general/financial-strategy-value-based-pricing-the-driver-to-increased-short-term-profits (Accessed: 21 November 2026).
+
+Kaplan, R.S. and Anderson, S.R. (2004) 'Time-driven activity-based costing', *Harvard Business Review*, 82(11), pp. 131–138. Available at: https://hbr.org/2004/11/time-driven-activity-based-costing (Accessed: 21 November 2026).
+
+Kotler, P. and Keller, K.L. (2016) *Marketing Management*. 15th edn. Harlow: Pearson.
+
+MIT OpenCourseWare (2010) *15.818 Pricing, Lecture 2: Economic value to the customer*. Available at: https://ocw.mit.edu/courses/15-818-pricing-spring-2010/ (Accessed: 21 November 2026).
+
+Osterwalder, A., Pigneur, Y., Bernarda, G. and Smith, A. (2014) *Value Proposition Design*. Hoboken, NJ: Wiley.
+
+SBA (2017) *What makes a new business forecast realistic?* Available at: https://www.sba.gov/blog/what-makes-new-business-forecast-realistic (Accessed: 21 November 2026).
+
+SBA (n.d.) *Write your business plan*. Available at: https://www.sba.gov/business-guide/plan-your-business/write-your-business-plan (Accessed: 21 November 2026).
+
+SCORE (2020) *Financial Projections Template Guide*. Available at: https://www.score.org/resource/template/financial-projections-template (Accessed: 21 November 2026).
+
+Start Up Loans (n.d.-a) *What is a cash flow forecast?* Available at: https://www.startuploans.co.uk/cash-flow-forecast-template (Accessed: 21 November 2026).
+
+Start Up Loans (n.d.-b) *Loan repayments*. Available at: https://www.startuploans.co.uk/support-and-guidance/frequently-asked-questions/loan-repayments (Accessed: 21 November 2026).
+
+Strategyzer (n.d.) *Value Proposition Canvas*. Available at: https://www.strategyzer.com/canvas/value-proposition-canvas (Accessed: 21 November 2026).
+
+University of Wisconsin SBDC (n.d.) *Financial projections templates*. Available at: https://projections.sbdc.wisc.edu/ (Accessed: 21 November 2026).

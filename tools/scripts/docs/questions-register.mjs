@@ -259,7 +259,8 @@ const RESERVED = [
     ["PB11", "What do you offer them?", "Identity, section 1, `missionOffers`", "doc 45, 8", "built 2026-11-20 (approved 22:08 UTC+2)"],
     ["PB12", "What do they gain?", "Identity, section 1, `missionGains`", "doc 45, 8", "built 2026-11-20 (approved 22:08 UTC+2)"],
     ["PB13", "What matters most in how you work?", "Identity, section 2, `valueKinds`", "doc 45, 8", "built 2026-11-20 (approved 22:08 UTC+2, option A)"],
-    ["SW2", "Which of these fit you?", "Strategy, the quadrant's list, `strategyFoundation.swot`", "doc 49, 10", "built 2026-11-20 (approved 22:08 UTC+2)"]
+    ["SW2", "Which of these fit you?", "Strategy, the quadrant's list, `strategyFoundation.swot`", "doc 49, 10", "built 2026-11-20 (approved 22:08 UTC+2)"],
+    ["K16", "Which of the Profile's needs do they meet?", "Business, a Competitor card, `k16`", "doc 41, K16; doc 48, 15.3"]
 ];
 /** Codes withdrawn before they were ever registered: kept so they are never reused. [code, what it asked, why]. */
 const RESERVED_WITHDRAWN = [

@@ -186,6 +186,16 @@ This follows the type rules already built for the text boxes: a substitute has n
 - **Saved as:** `k15` [From, To] as typed, or `k15-unknown` ["yes"].
 - **Read by:** the Business Plan's competitor table ("What they charge", "£40 to £120"); the export, a "What they charge" line under each competitor's description; the price's "i" on Revenue & Pricing (P7: "Your competitors charge about £40 to £300 for a similar offer", the lowest From to the highest To across the Segment's competitors). Never compared with the founder's own price (the start-up rule).
 
+### K16. Which of the Profile's needs do they meet?
+
+*Built 2026-11-21 (owner, 2026-11-20 23:44 UTC+2: "I think they should be compared according the profile's needs and answers"; doc 48, section 15.3).*
+
+- **Where:** the Offerings part, after K15; asked of every competitor whose K15 is asked (direct and indirect competitors, substitutes).
+- **Control:** ticks (`BusinessTicks`) of the needs the Segment's Profiles name, each once, the same items an Offering ticks ("Which needs does it address?"); no limit.
+- **The "i":** the customer needs this competitor meets, from your Profiles; the price range beside each of your Offerings then counts only the competitors that meet the needs it meets (doc 48, 15.3). Based on: Osterwalder et al. (2014), *Value Proposition Design*; Christensen et al. (2016), *Know your customers' jobs to be done* (last).
+- **Saved as:** `k16` [the need items' ids, as an Offering saves them].
+- **Read by:** the market price range beside each Revenue Stream's price (doc 48, 15.3): the lowest From to the highest To (K15) of the competitors whose K16 meets at least one need the Offering ticks; while none ticks K16, every competitor of the Segment.
+
 ### K7. How easy do they make each stage for customers?
 
 - **Control:** a rating group (`RatingScaleGroup`): one row for each of the app's Journey Stages, rated 1 (hard) to 5 (easy). A row left unrated is unanswered. No loyalty ticks (owner, 2026-11-04: they repeat K5's channels, Email and Community among them).
