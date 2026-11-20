@@ -363,6 +363,8 @@ export interface AnswerRendererProps {
 
         /** The SWOT's starts from the Business System's market answers (swotStartsOf): shown in a quadrant never edited. */
         swotStarts?: { opportunities: string[]; threats: string[] };
+        /** SW2's suggestions for each quadrant (swotSuggestionsOf): ticked into its list. */
+        swotSuggestions?: { strengths: string[]; weaknesses: string[]; opportunities: string[]; threats: string[] };
 
         /** The names an Objective's "Add a draft" offers (strategyObjectiveDrafts; P9; owner, 2026-11-18 03:01, "All, P1 to P9"). */
         objectiveDrafts?: readonly string[];

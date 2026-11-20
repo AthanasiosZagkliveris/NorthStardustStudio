@@ -18,7 +18,18 @@
               "smooth",
               "partners"
             ],
-            "visionReach": "country"
+            "visionReach": "country",
+            "missionServes": [
+              "segment-8lu427u5"
+            ],
+            "missionOffers": [
+              "offering-nvfuu2km",
+              "offering-8e935f0e"
+            ],
+            "missionGains": [
+              "express-who-they-are",
+              "learn-something-new"
+            ]
           }
         },
         {
@@ -27,7 +38,11 @@
             "philosophy": "We believe the things we live with shape how we live. A well-made textile, repaired and kept for decades, teaches us to care for what we own. Our work is a small, practical argument for slowness: fewer, better things, made close to home by people you can meet.",
             "values": "1. Craft over speed\n2. Honesty about materials and prices\n3. Care for people and planet\n4. Openness: share skills, not secrets\n5. Community before scale",
             "principles": "1. Every yarn we use is traceable to its farm or mill.\n2. We pay our makers and suppliers a London Living Wage or better.\n3. We repair anything we have made, for life.\n4. We never discount to clear stock; we make to order instead.\n5. We decide by consensus of the three founders on anything that affects people or materials.",
-            "manifesto": "We stand for things made slowly and kept for a lifetime. We stand for knowing who made your cushion and where the wool came from. We stand against throwaway homeware, hidden supply chains and craft reduced to a style. Come and see how it's made. Better still, come and make it with us."
+            "manifesto": "We stand for things made slowly and kept for a lifetime. We stand for knowing who made your cushion and where the wool came from. We stand against throwaway homeware, hidden supply chains and craft reduced to a style. Come and see how it's made. Better still, come and make it with us.",
+            "valueKinds": [
+              "create",
+              "collaborate"
+            ]
           }
         },
         {

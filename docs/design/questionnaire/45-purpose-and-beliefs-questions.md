@@ -100,8 +100,8 @@ Each entry follows doc 40. The "i" follows doc 39, 3.2: the guiding questions fi
 - **Control:** numbered list (as today). **Asked when:** always. **Options:** none.
 - **Length:** three to seven lines; each one rule, beginning "We …".
 - **The "i" says:**
-  - For each value, what do you always do, and what do you always avoid?
-  - One rule a line, beginning "We …".
+  - What do you always do?
+  - For each value, one rule a line under it, beginning "We always …".
   - Example: "We remake any piece with a fault, at no cost, within a year."
 - **Connections.** *Comes from:* the Values (each principle should follow from one). *Read by (built):* the Business Plan, company description, "Values and Principles", the sub-heading "Principles" (a numbered list); the Review. *Read by (not built yet):* none proposed.
 - **Would a choice question help? Rejected.** Tying each principle to a value by a picker would add a step and change nothing in the documents; the "i" asks for the link instead.
@@ -113,21 +113,21 @@ Each entry follows doc 40. The "i" follows doc 39, 3.2: the guiding questions fi
 - **Control:** text box (as today). **Asked when:** always. **Options:** none.
 - **Length:** one short paragraph, three to five sentences.
 - **The "i" says:**
-  - What do you believe about your trade that sets you apart? Why do you work this way?
-  - Explain the belief; the rules it leads to go in Principles.
+  - What do you believe about your trade?
+  - One or two sentences that explain the belief; the rules it leads to go in Principles.
   - Example: "We believe a thing made slowly is used for longer, so we make fewer and better."
 - **Connections.** *Comes from:* the Values and Principles above. *Read by (built):* the Business Plan, company description, "Values and Principles", the line "Philosophy"; the Review. *Read by (not built yet):* none proposed.
 
 ### 3.6 Manifesto (proposed code PB6)
 
 - **Its purpose for the founder:** the public declaration: a few lines, in the business's own voice, of what it stands for and against, written to be read by customers and the people who might join. It opens the Business Plan's company description.
-- **Guiding questions:** 1. What do you stand for? 2. What do you stand against? 3. What would you say to the customers and people you want to attract?
+- **Guiding questions:** 1. What do you stand for? 2. What would you say to the customers and people you want to attract?
 - **Control:** text box (as today). **Asked when:** always. **Options:** none.
 - **Length:** four to eight short lines or a short paragraph; each line break is a paragraph in the plan.
 - **The "i" says:**
-  - What do you stand for, and what do you stand against?
+  - What do you stand for?
   - Write it for your customers, in your own voice. Draw on your Values and say them in fresh words.
-  - Example: "We are for things that last. We are against the throwaway gift."
+  - Example: "We are for things that last, made by hand and kept for life."
 - **Connections.** *Comes from:* all five texts above (in its own voice). *Read by (built):* the Business Plan, company description, the heading "Manifesto" (`paragraphs`); the Review. *Read by (not built yet):* the Brand System's voice, as a display only (doc 28, 6.1: no text is written into Brand).
 
 ### 3.7 What changes when an answer above changes
@@ -255,3 +255,20 @@ Written in the Harvard style of doc 2, 2.1. "Opened" means read on 2026-11-09 fo
 - **[SIN-09]** Sinek, S. (2009) *How great leaders inspire action* [TED talk]. Available at: https://www.ted.com/talks/simon_sinek_how_great_leaders_inspire_action (not opened in this session; not verified). Considered and not used (section 2.1).
 
 These are listed here only; none is added to doc 2 until the chapter is built and an "i" cites one.
+
+## 8. The questions checked again, the round of 2026-11-20 18:35 (approved by the owner, 22:08 UTC+2: "All, Values A")
+
+Asked (owner, 2026-11-20 18:35 UTC+2): "Check the questions in the Purpose, Ambassador, and Situation & Direction. If you cannot find proper multiple-choice questions, create smaller, more precise, readable and understandable text questions. Or combine both." Each text stays the founder's own and editable; a choice only writes its draft in (`useAutoDraft`, layout rules section 6, "A draft is written in by itself").
+
+| Text | Today | Proposed | Why |
+|---|---|---|---|
+| Mission (PB1) | one free text, three questions in its "i" | **Combine both.** PB10 "Who do you serve first?" (ticks, the Segments by name, 2 max); PB11 "What do you offer them?" (ticks, the Offerings by name, 3 max); PB12 "What do they gain?" (ticks, the gains and needs ticked on those Segments' Profiles, most chosen first, 2 max). The Mission's draft: "We help [PB10] with [PB11], so that they [PB12]." | Every part of a Mission (who, what, why: section 3.1) is already answered on the Business System; the founder picks, the app writes, the founder edits. |
+| Vision (PB2) | PB8, PB7 and a draft | no change | Already a choice and a draft (2026-11-19, 2026-11-20). |
+| Values (PB3) | a numbered list, one value a line | **A: Combine both.** PB13 "What matters most in how you work?" (ticks, 2 max): Caring for people and working together (Collaborate); Making new and better things (Create); Winning customers and results (Compete); Doing things right, every time (Control), the Competing Values Framework (Cameron & Quinn, University of Michigan); each tick writes a starting line ("Care: ...", "Craft: ...") the founder completes. **B: Smaller text.** The list keeps its lines, the prompt shortened to "One value a line: a word, then what it means here." | No business-school list of single values was found that rule 14 accepts (blogs and vendors only); the CVF is a university framework of four kinds of value. The owner chooses A or B. |
+| Principles (PB4) | a numbered list | **Smaller text:** the question "What do you always do?", its "i" "For each value, one rule a line under it, beginning “We always …”"; one line offered under each Value, "We always ...", the Value's word before it | Ties each rule to its Value (section 4); no choice list fits a founder's own rules. |
+| Philosophy (PB5) | one free text | **Smaller text:** the question "What do you believe about your trade?", "one or two sentences" in its "i" (owner's rule: detail in the "i", the prompt the question only) | A belief is the founder's own; one short question is easier to answer. |
+| Manifesto (PB6) | one free text | **Combine both:** its draft written from the Values ("We are for [Values].") and the Philosophy's first sentence; the prompt "What do you stand for?" (affirmative voice) | The Manifesto restates the Values in the founder's voice (section 4); the draft gives it a start. |
+
+Saved answers: PB10 to PB13 are new keys (`missionServes`, `missionOffers`, `missionGains`, `valueKinds`); no text changes; a text already written is never overwritten (the draft writes only an empty text, or one still the app's own). Sources: Cameron, K. S. and Quinn, R. E. (2011) *Diagnosing and Changing Organizational Culture*, 3rd edn. San Francisco: Jossey-Bass (University of Michigan, Ross School of Business); section 7, for the Mission's three parts.
+
+**As built (2026-11-20, batch C):** PB10 to PB12 above the Mission and PB13 above the Values (`MissionChoices.ts`, `purpose/MissionChoices.tsx`, `purpose/ValuesChoices.tsx`), each in a band of the shared field row and ticks; the Mission's, the Values', the Principles' and the Manifesto's drafts written in by themselves (`useAutoDraft`). PB12 shows the goals' short words, as the Profiles do; the Mission's draft says their own words ("so that they can learn something new"). The value kinds read with "&" ("Caring for people & working together"), the app's rule for labels. The prompts are the question only, the detail in each "i" (owner, 2026-11-20): Philosophy "What do you believe about your trade?", Principles "What do you always do?", Manifesto "What do you stand for?". The examples answer PB10 to PB13; their texts are kept as written.

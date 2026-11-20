@@ -102,6 +102,8 @@ const NEEDS_INFO = (what: string, example: string) => ["The " + what + " that de
 const slug = (text: string) => text.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 /** What an option says (owner, 2026-11-03): similar things are joined with a slash ("Laptop / desktop"), different things with the word "or" ("Win customers or earn more"). The words shown are the ones written, or their entry in WORDS; the id stays the slug of the words it was first written with. */
 const list = (labels: readonly string[]): SegmentOption[] => labels.map(label => ({ id: slug(label), label: WORDS[slug(label)] ?? label }));
+/** The goals' own words, by id ("save-time-money": "Save time / money"), for a sentence that says them (the Mission's draft: MissionChoices.ts). */
+export const GOAL_PHRASES: Readonly<Record<string, string>> = Object.fromEntries(GOALS.map(label => [slug(label), label]));
 
 const QUESTIONS: readonly ProfileQuestion[] = [
     {

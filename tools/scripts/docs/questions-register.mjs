@@ -254,7 +254,12 @@ const RESERVED = [
     ["SC2", "Where will growth come from in this period?", "Strategy, `strategyFoundation.growth`", "doc 49, 4", "built 2026-11-19 (`StrategyChoices.ts`)"],
     ["SC3", "Which Segment comes first?", "Strategy, `strategyFoundation.firstSegmentId`", "doc 49, 4", "built 2026-11-19 (`StrategyChoices.ts`)"],
     ["LF2", "Is your work a regulated profession?", "Identity, Definition, `organisation.regulatedProfession`", "doc 53, 6", "built 2026-11-19 (`LegalFacts.ts`; only where no activity code is given)"],
-    ["LF3", "Is this person part of your family?", "Business, a paid Staff card, `family`", "doc 53, 6", "built 2026-11-19 (`LegalFacts.ts`; a business that is not a company only, HSE40)"]
+    ["LF3", "Is this person part of your family?", "Business, a paid Staff card, `family`", "doc 53, 6", "built 2026-11-19 (`LegalFacts.ts`; a business that is not a company only, HSE40)"],
+    ["PB10", "Who do you serve first?", "Identity, section 1, `missionServes`", "doc 45, 8", "built 2026-11-20 (approved 22:08 UTC+2)"],
+    ["PB11", "What do you offer them?", "Identity, section 1, `missionOffers`", "doc 45, 8", "built 2026-11-20 (approved 22:08 UTC+2)"],
+    ["PB12", "What do they gain?", "Identity, section 1, `missionGains`", "doc 45, 8", "built 2026-11-20 (approved 22:08 UTC+2)"],
+    ["PB13", "What matters most in how you work?", "Identity, section 2, `valueKinds`", "doc 45, 8", "built 2026-11-20 (approved 22:08 UTC+2, option A)"],
+    ["SW2", "Which of these fit you?", "Strategy, the quadrant's list, `strategyFoundation.swot`", "doc 49, 10", "built 2026-11-20 (approved 22:08 UTC+2)"]
 ];
 /** Codes withdrawn before they were ever registered: kept so they are never reused. [code, what it asked, why]. */
 const RESERVED_WITHDRAWN = [

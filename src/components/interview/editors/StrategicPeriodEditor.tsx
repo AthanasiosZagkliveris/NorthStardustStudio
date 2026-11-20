@@ -287,7 +287,7 @@ export default function StrategicPeriodEditor({
                                         <TextBox
                                             className="interview-input strategy-theme-name"
                                             aria-label={"Strategic Theme " + (themeIndex + 1) + " name"}
-                                            placeholder="Theme name"
+                                            placeholder="What will you build?"
                                             disabled={disabled}
                                             value={theme.name}
                                             onChange={(event) => onEditTheme(theme.id, { name: event.target.value })}
@@ -492,7 +492,7 @@ function GoalList({
                             name={(
                                 <CardNameInput
                                     ariaLabel={`Goal ${goalIndex + 1} name`}
-                                    placeholder="Goal name"
+                                    placeholder="What will you achieve?"
                                     disabled={disabled}
                                     value={goal.name}
                                     onChange={(name) => updateGoal(goalIndex, { name })}
@@ -715,7 +715,7 @@ function ObjectiveList({
                             name={(
                                 <CardNameInput
                                     ariaLabel={`Objective ${objectiveIndex + 1} name`}
-                                    placeholder="Objective name"
+                                    placeholder="What will be done, by when?"
                                     disabled={disabled}
                                     value={objective.name}
                                     onChange={(name) => updateObjective(objectiveIndex, { name })}
@@ -1043,7 +1043,7 @@ function MetricList({
                             name={(
                                 <CardNameInput
                                     ariaLabel={`Objective ${objectiveNumber} metric ${metricIndex + 1} name`}
-                                    placeholder="Metric name"
+                                    placeholder="What will you count?"
                                     disabled={disabled}
                                     value={metric.name}
                                     onChange={(name) => updateMetric(metricIndex, { name })}

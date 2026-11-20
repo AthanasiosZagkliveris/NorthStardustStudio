@@ -179,7 +179,7 @@ Aesthetics holds BA1, BA2, BA3; Body Language BA4; Communication & Voice BA6, BA
 
 - **Aesthetics:** "Our Ambassador is [BA1 phrase], dresses in a [BA2 phrase] way and is pictured [BA3 phrases, joined with 'and']."
   - Example: "Our Ambassador is warm and honest, dresses in a smart casual way and is pictured in a workshop or studio and in a calm home."
-- **Body Language:** "They come across as [BA4 in words] and [J3 phrase]."
+- **Body Language:** "They come across as [BA4 in words], and [J3 phrase]."
   - BA4 in words: Energy 1–2 "calm", 4–5 "energetic"; Expression 1–2 "reserved", 4–5 "expressive". A 3 is left out; with both at 3, "balanced".
   - J3 phrase (the most personal type on any Segment):
     - Do-it-yourself help → "let customers help themselves, with help close at hand"
@@ -190,7 +190,7 @@ Aesthetics holds BA1, BA2, BA3; Body Language BA4; Communication & Voice BA6, BA
   - With no J3 yet, the sentence ends after BA4.
 - **Communication & Voice:** "They speak in [BA7 phrase], with a [tone words] tone."
   - Tone words: the two BA6 rows furthest from 3, each as the end word it leans to (for example "formal, respectful"). With every row at 3, "balanced".
-- **Imprint:** "First impression: people feel [BA8 labels, lower case]. Lasting impression: they remember us for [BA9 phrases]."
+- **Imprint:** the First impression box "People feel [BA8 labels, lower case].", the Lasting impression box "They remember us for [BA9 phrases]." (each its box's first words; saved together as "First impression: ... / Lasting impression: ...").
 - **The Business Plan, Brand & Voice:** one opening line above the four texts: "Our brand is [BA1 phrase], with a [tone words] tone."
 
 ## 4. What Style and the Brand Images read (suggestions, labelled)
@@ -244,3 +244,11 @@ Still to decide: nothing. The starting values of BA4 and BA6 are the author's ma
 
 - Aaker, J.L. (1997) 'Dimensions of brand personality', *Journal of Marketing Research*, 34(3), pp. 347–356 (in doc 2 as BRD-01). Cited from knowledge; to be opened before the "i" copy is locked.
 - Moran, K. (2016) *The four dimensions of tone of voice*. Nielsen Norman Group. Available at: https://www.nngroup.com/articles/tone-of-voice-dimensions/ (Accessed: 12 November 2026). Opened.
+
+## 11. The questions checked again, the round of 2026-11-20 18:35 (approved by the owner, 22:08 UTC+2: "All, Values A")
+
+Asked (owner, 2026-11-20 18:35 UTC+2): "Check the questions in the Purpose, Ambassador, and Situation & Direction. If you cannot find proper multiple-choice questions, create smaller, more precise, readable and understandable text questions. Or combine both."
+
+The Ambassador already asks by choice (BA1 to BA4, BA6 to BA9) and writes each text's draft from them (section 9); no question is added. Proposed, where this document and the app differ, one owner each: the Body Language draft "They come across as [BA4], and [J3]." (the app's comma kept, this document follows); the Imprint's drafts "People feel ..." and "They remember us for ...", each its box's first words (capitals kept); BA8's list for a business customer (`EMOTIONAL_BUSINESS`), where every Segment is a business, recorded here. Each "Add a draft" of this document reads "written in by itself" (2026-11-20).
+
+**As built (2026-11-20, batch C):** sections 3's drafts above follow the app (the comma in Body Language; the Imprint's two boxes). No question changed.

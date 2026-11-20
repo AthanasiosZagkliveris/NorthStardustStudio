@@ -37,8 +37,8 @@ Thinking Time: About 1–1.5 hr
 
 ### Philosophy
 
-- What do you believe about your trade that sets you apart? Why do you work this way?
-- Explain the belief; the rules it leads to go in Principles.
+- What do you believe about your trade?
+- One or two sentences that explain the belief; the rules it leads to go in Principles.
 - Example: "We believe a thing made slowly is used for longer, so we make fewer and better."
 
 ### Values
@@ -49,15 +49,15 @@ Thinking Time: About 1–1.5 hr
 
 ### Principles
 
-- For each value, what do you always do, and what do you always avoid?
-- One rule a line, beginning "We …".
+- What do you always do?
+- For each value, one rule a line under it, beginning "We always …".
 - Example: "We remake any piece with a fault, at no cost, within a year."
 
 ### Manifesto
 
-- What do you stand for, and what do you stand against?
+- What do you stand for?
 - Write it for your customers, in your own voice. Draw on your Values and say them in fresh words.
-- Example: "We are for things that last. We are against the throwaway gift."
+- Example: "We are for things that last, made by hand and kept for life."
 
 ## 3. Legal Entity
 

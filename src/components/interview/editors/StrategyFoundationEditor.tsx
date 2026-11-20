@@ -39,7 +39,7 @@ import { SingleColumn } from "./foundation/shared.tsx";
 import { namesInSentence } from "../../../framework/engine/CompetitorQuestions.ts";
 import { DIFFERENTIATION_PHRASES } from "../../../framework/engine/AmbassadorChoices.ts";
 import {
-    SC1_STANCES, SC2_MAX, SC_INFO, SC_LABELS, SW1_INFO, SW1_LABEL, type StrategyChoiceContext,
+    SC1_STANCES, SC2_MAX, SC_INFO, SC_LABELS, SW1_INFO, SW1_LABEL, SW2_INFO, SW2_LABEL, type StrategyChoiceContext,
     changeEffectLines, changeEffectsShown, changeRows, compassChoicesShown, compassDraft, growthOptions
 } from "../../../framework/engine/StrategyChoices.ts";
 
@@ -59,6 +59,8 @@ interface StrategyFoundationEditorProps {
 
     /** The SWOT's starts from the Business System's market answers (swotStartsOf), shown in a quadrant never edited (strategySwotShown). */
     swotStarts?: { opportunities: string[]; threats: string[] };
+    /** SW2's suggestions for each quadrant (swotSuggestionsOf): ticked into its list (doc 49, sections 2.3 and 10). */
+    swotSuggestions?: { strengths: string[]; weaknesses: string[]; opportunities: string[]; threats: string[] };
 
     /** What SW1 and SC1 to SC3 read from the other Systems (strategyChoiceContext; doc 49, 2.3 and 2.4). */
     choices?: StrategyChoiceContext;
@@ -156,6 +158,7 @@ export default function StrategyFoundationEditor({
     situationDraft = "",
 
     swotStarts,
+    swotSuggestions,
 
     choices,
 
@@ -180,8 +183,14 @@ export default function StrategyFoundationEditor({
         the Compass's three choices follow their starts until chosen, and its "Add a draft" writes the Compass sentence once.
     */
     const changeLines = changeEffectLines(foundation.changeEffects);
-    const starts = { opportunities: [...(swotStarts?.opportunities ?? []), ...changeLines.opportunities], threats: [...(swotStarts?.threats ?? []), ...changeLines.threats] };
+    // (Each line once: the starts read from the saved answers already hold SW1's saved lines, and the page adds them as they are rated.)
+    const starts = { opportunities: [...new Set([...(swotStarts?.opportunities ?? []), ...changeLines.opportunities])], threats: [...new Set([...(swotStarts?.threats ?? []), ...changeLines.threats])] };
     const swotShown = strategySwotShown(foundation, starts);
+    /** SW2's lines for a quadrant: the suggestions, with SW1's lines as they are rated, each once. */
+    const suggestedFor = (quadrant: string): string[] => [...new Set([
+        ...((swotSuggestions as Record<string, string[] | undefined> | undefined)?.[quadrant] ?? []),
+        ...(quadrant === "opportunities" ? changeLines.opportunities : quadrant === "threats" ? changeLines.threats : [])
+    ])];
     const effects = changeEffectsShown(foundation.changeEffects, choices?.changeStarts ?? []);
     /** SW1 saved whole once touched: each ticked change with its rating (0 while unrated). */
     const saveEffects = (ticked: readonly string[], ratings: Readonly<Record<string, number>>) => update({ changeEffects: Object.fromEntries(ticked.map(id => [id, ratings[id] ?? 0])) });
@@ -420,6 +429,29 @@ export default function StrategyFoundationEditor({
                                 swotEdited: [...new Set([...foundation.swotEdited, quadrant.id])]
                             })}
                         />
+
+                        {/* SW2, "WHICH OF THESE FIT YOU?" (doc 49, sections 2.3 and 10; the owner's approval of 2026-11-20 22:08 UTC+2): the quadrant's suggestions as ticks,
+                            a ticked one a line of the list (the list is the one owner: a line written there is ticked here), the founder's own lines kept. */}
+                        {suggestedFor(quadrant.id).length > 0 && (<SingleColumn>{band((
+                            <FieldRow pair fullList label={SW2_LABEL} info={[...SW2_INFO]}>
+                                <div className="radio-choice legal-entity-radio-stack" role="group" aria-label={SW2_LABEL + " " + quadrant.label}>
+                                    <BusinessTicks
+                                        name={SW2_LABEL + " " + quadrant.label}
+                                        disabled={disabled}
+                                        options={suggestedFor(quadrant.id).map(line => ({ id: line, label: line }))}
+                                        chosen={suggestedFor(quadrant.id).filter(line => swotShown[quadrant.id].includes(line))}
+                                        onChange={(next) => {
+                                            const offered = suggestedFor(quadrant.id);
+                                            const kept = swotShown[quadrant.id].filter(line => !offered.includes(line) || next.includes(line));
+                                            update({
+                                                swot: { ...foundation.swot, [quadrant.id]: [...kept, ...next.filter(line => !kept.includes(line))] },
+                                                swotEdited: [...new Set([...foundation.swotEdited, quadrant.id])]
+                                            });
+                                        }}
+                                    />
+                                </div>
+                            </FieldRow>
+                        ), 1)}</SingleColumn>)}
 
                     </div>
 

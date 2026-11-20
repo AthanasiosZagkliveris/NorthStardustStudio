@@ -1539,6 +1539,14 @@
 
 }
 
+/* A TEXT UNDER ITS CHOICES (the Mission's, the Vision's, the Values', the Ambassador's texts; doc 45 and 46): the column stands its parts a label gap apart (6px),
+   but the text is a field of its own under the choices' last band -- a field gap (12px) under it, the band rule's 12px inside the band (owner, 2026-11-10). */
+.column-tile-content.legal-entity-field > .business-segment-grid-single + *{
+
+    margin-top:calc(var(--space-field) - 6px);
+
+}
+
 /* Every other question band: a light tint of the app's blue, the card titles' colour (owner, 2026-11-04: not the grey of the label colour it was), the same
    hue as the importance tints (rating-scale.css), lighter than their first step. */
 .legal-entity-audience .legal-entity-org-band{
