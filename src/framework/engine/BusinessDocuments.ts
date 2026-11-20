@@ -21,3 +21,4 @@ export * from "./businessDocuments/reading.ts";
 export * from "./businessDocuments/canvas.ts";
 export * from "./businessDocuments/plan.ts";
 export * from "./businessDocuments/forecast.ts";
+export * from "./businessDocuments/swotSuggestions.ts";

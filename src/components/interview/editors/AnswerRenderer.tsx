@@ -1,6 +1,8 @@
 import ChoiceCard from "../../controls/ChoiceCard.tsx";
 import { salariedFounderIds } from "../../../framework/engine/LegalStarts.ts";
 import VisionChoices from "./purpose/VisionChoices.tsx";
+import MissionChoices from "./purpose/MissionChoices.tsx";
+import ValuesChoices, { PurposeDrafts } from "./purpose/ValuesChoices.tsx";
 import AmbassadorChoices, { AMBASSADOR_PARTS } from "./brand/AmbassadorChoices.tsx";
 import { businessFoundationSegments } from "../../../framework/engine/AnswerUtils.ts";
 import { asBusinessEngagementValue } from "../../../framework/engine/businessFoundation/engagementReaders.ts";
@@ -310,6 +312,11 @@ function MultiPartAnswerRenderer({
                                     <DialogHeading title={text.part.label} info={guidance(text.part)} />
                                 </div>
                                 {/* (The Vision's two choices above its text, PB8 then PB7, and its draft written in: doc 45, 3.8; doc 49, section 9, P1 and P2.) */}
+                                {/* (The Mission's three choices above its text, PB10 to PB12, and its draft written in: doc 45, section 8.) */}
+                                {text.part.id === "mission" && <MissionChoices value={text.from} onChange={text.save} foundation={businessFoundation} disabled={disabled} />}
+                                {/* (The Values' kinds above the Values, PB13, and the Principles' and the Manifesto's drafts written in: doc 45, section 8.) */}
+                                {text.part.id === "values" && <ValuesChoices value={text.from} onChange={text.save} disabled={disabled} />}
+                                {(text.part.id === "principles" || text.part.id === "manifesto") && <PurposeDrafts part={text.part.id} value={text.from} onChange={text.save} disabled={disabled} />}
                                 {text.part.id === "vision" && <VisionChoices value={text.from} onChange={text.save} foundation={businessFoundation} disabled={disabled} />}
                                 {columnControl(text.part, text.from, text.save)}
                             </div>

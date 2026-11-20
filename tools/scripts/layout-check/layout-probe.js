@@ -419,6 +419,8 @@
             const outer = body.getBoundingClientRect();
             const inner = { left: outer.left + body.clientLeft, right: outer.left + body.clientLeft + body.clientWidth };
             const box = band.getBoundingClientRect();
+            // (DECLARED: a band in a column of a pair dialog -- Mission beside Vision, Values beside Principles -- spans its column, as the other column's bands do.)
+            if (band.closest(".purpose-pair")) continue;
             if (Math.abs(box.left - inner.left) <= 1 && band.closest(".legal-entity-field")?.matches(":only-child") && Math.abs(box.right - inner.right) > 1) {
                 fail("a dialog's band meets both of its edges", band, { left: box.left - inner.left, right: inner.right - box.right });
             }

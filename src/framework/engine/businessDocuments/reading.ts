@@ -21,6 +21,7 @@ import { neededSkills } from "../capability/skills.ts";
 import { asFoundersProfileValue } from "../AnswerUtils.ts";
 import { changeEffectLines, type StrategyChoiceContext } from "../StrategyChoices.ts";
 import { asVisionReach, reachRank, widestSegmentReach } from "../VisionChoices.ts";
+import { DIFFERENTIATION_PHRASES } from "../AmbassadorChoices.ts";
 
 /** The four Foundation Systems as saved -- any may be missing. */
 export interface FoundationSessions {
@@ -84,6 +85,26 @@ export function currentSituationDraft(sessions: FoundationSessions): string {
             .map(offering => priced(offering.id, offering.name.trim()))) +
             (segment.name.trim() ? " to " + segment.name.trim() : "") + ".");
 
+    /* THE MARKET, THE COMPETITION AND THE READINESS (doc 49, sections 2.3 and 10; the round of 2026-11-20 18:35 UTC+2, approved at 22:08): each Segment's market
+       growth and crowding, its named competitors and what it stands out for (K14), and, from Launching on, each Offering not ready to sell (O2). */
+    const identity = segmentIdentityOf(f.legalEntity.organisation, f.stage);
+    const market = f.segments.flatMap(segment => {
+        const answers = settledSegmentAnswers(segment, f.legalEntity.organisation);
+        const growth = Number(answers.trajectory?.[0] ?? 0);
+        const crowded = Number(answers.competition?.[0] ?? 0);
+        const traits = [growth >= 4 ? "is growing" : growth >= 1 && growth <= 2 ? "is shrinking" : "", crowded >= 4 ? "is crowded, with established players" : crowded >= 1 && crowded <= 2 ? "has few competitors yet" : ""].filter(Boolean);
+        const name = segment.name.trim();
+        const rivals = segment.competitors.filter(competitor => competitor.name.trim()).length;
+        const standOut = (answers.differentiation ?? []).map(id => DIFFERENTIATION_PHRASES[id] ?? "").filter(Boolean);
+        return [
+            traits.length > 0 ? (name ? "The market for " + name : "Our customers' market") + " " + joinNames(traits) + "." : "",
+            rivals > 0 ? "We have named " + rivals + (rivals === 1 ? " competitor" : " competitors") + (name ? " for " + name : "") + (standOut.length > 0 ? "; we stand out for " + joinNames(standOut) : "") + "." : ""
+        ].filter(Boolean);
+    });
+    const notReady = f.stage === "plan" ? [] : f.segments.flatMap(segment => segment.offerings
+        .filter(offering => offering.name.trim() && ["building", "idea"].includes(effectiveOfferingAnswers(offering, segment, identity).o2?.[0] ?? ""))
+        .map(offering => offering.name.trim() + " is still being built."));
+
     /* How customers find and reach it: the channels used for
        Discovery, Evaluation or Purchase (not delivery or support). */
     const reaching = ["discovery", "evaluation", "purchase"];
@@ -115,7 +136,7 @@ export function currentSituationDraft(sessions: FoundationSessions): string {
         finance.push("The plan still has a funding gap of " + format(position.gap) + ".");
     }
 
-    return [...selling, ...reach, finance.join(" ")].filter(Boolean).join("\n");
+    return [...selling, ...market, ...notReady, ...reach, finance.join(" ")].filter(Boolean).join("\n");
 
 }
 

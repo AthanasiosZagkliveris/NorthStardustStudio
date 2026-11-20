@@ -1,7 +1,7 @@
 import { describe, expect, test } from "vitest";
 
 import { InterviewSession } from "../interview";
-import { businessForecast, businessForecastContent, businessModelCanvas, businessModelCanvasData, businessPlan, businessPlanForExport, financialPlan, fundingRequest, currentSituationDraft, financialPlanRange, readFoundation } from "./BusinessDocuments.ts";
+import { businessForecast, businessForecastContent, businessModelCanvas, businessModelCanvasData, businessPlan, businessPlanForExport, financialPlan, fundingRequest, strategySwotSuggestions, currentSituationDraft, financialPlanRange, readFoundation } from "./BusinessDocuments.ts";
 
 /** The Business Plan as it exports: with the Financial Documents as its appendix (doc 48, section 14; owner, 2026-11-20 20:47 UTC+2). */
 const planExport = (sessions: Parameters<typeof businessPlan>[0]) => businessPlanForExport(businessPlan(sessions), [fundingRequest(sessions), financialPlan(sessions)]);
@@ -354,6 +354,20 @@ describe("Quillfield: the documents tie together", () => {
         expect(request).not.toMatch(/\brepaid\b|\brepayments included\b/);
         expect(request).not.toContain("Still short after repayments");
         expect(request).toMatch(/Still short with the funding sought: (\$[\d,]+ at the lowest point, in \w+ \d{4}, even with the funding sought|Nothing: with the funding sought, cash stays above zero)/);
+    });
+
+    test("the Current Situation draft says the market and the competition, each Segment (doc 49, sections 2.3 and 10)", () => {
+        const draft = currentSituationDraft(all);
+        expect(draft).toContain("The market for NYC Service Firms is growing.");
+        expect(draft).toContain("We have named 4 competitors for NYC Service Firms; we stand out for making things easy.");
+    });
+
+    test("SW2 offers each quadrant the suggestions its answers support (doc 49, sections 2.3 and 10)", () => {
+        const suggestions = strategySwotSuggestions(all);
+        expect(suggestions.weaknesses).toContain("Funding gap of $14,059");
+        expect(suggestions.strengths.some(line => line.startsWith("Your chosen point of difference: "))).toBe(true);
+        // (Each line once, in every quadrant.)
+        for (const lines of Object.values(suggestions)) expect(new Set(lines).size).toBe(lines.length);
     });
 
     test("the Funding Request says the contingency funds the Funding tile showed, from the Global Settings (doc 48, section 14)", () => {

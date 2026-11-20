@@ -13,6 +13,9 @@ import { DIFFERENTIATION_PHRASES } from "./AmbassadorChoices.ts";
 export const SW1_CHANGES = COMPETITOR_CHANGES;
 
 export const SW1_LABEL = "How could these changes affect you?";
+/** SW2 (doc 49, sections 2.3 and 10; the owner's approval of 2026-11-20 22:08 UTC+2): each quadrant's suggestions from the Business System, ticked into its list. */
+export const SW2_LABEL = "Which of these fit you?";
+export const SW2_INFO = ["Read from your answers on the Business System and the Profiles; a tick adds the line to the list above.", "Your own lines stay; untick one to take it out."] as const;
 export const SW1_INFO = [
     "1 = Threat, 5 = Opportunity; 3 = little effect either way.",
     "How each change could help or hurt your business. The changes your Segments named start ticked.",

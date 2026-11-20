@@ -18,7 +18,17 @@
               "range",
               "customers"
             ],
-            "visionReach": "region"
+            "visionReach": "region",
+            "missionServes": [
+              "segment-qf3n8d2w"
+            ],
+            "missionOffers": [
+              "offering-a4k9r2td",
+              "offering-b7w3m5qx"
+            ],
+            "missionGains": [
+              "win-customers-or-earn-more"
+            ]
           }
         },
         {
@@ -27,7 +37,11 @@
             "philosophy": "We believe technology should serve people's working day, not reshape it around a tool. The best automation is quiet: it removes a chore, works every time and is easy to understand. We would rather automate one workflow well than ten badly. And we believe clients should always own, and understand, what we build for them.",
             "values": "1. Clarity over cleverness\n2. Reliability in everything we deliver\n3. Honesty about what AI can and cannot do\n4. Respect for client data and privacy\n5. Long-term partnership",
             "principles": "1. We map and measure a workflow before we automate it.\n2. We quote fixed prices and agree the scope in writing.\n3. We build on the client's existing tools wherever we can.\n4. Every automation that affects clients or money has a named person who checks it.\n5. We document every build so the client could run it without us.\n6. We never put client data into a new tool without the client's written approval.\n7. We turn down work we cannot deliver well.",
-            "manifesto": "We stand for small firms having the same smart tools as large ones. We stand for automation that people understand, own and trust. We stand against hype, black-box systems and contracts that lock clients in. We stand against software that replaces people's judgement without anyone checking it. Everything we build exists for one reason: to give people back time for the work they chose their profession for."
+            "manifesto": "We stand for small firms having the same smart tools as large ones. We stand for automation that people understand, own and trust. We stand against hype, black-box systems and contracts that lock clients in. We stand against software that replaces people's judgement without anyone checking it. Everything we build exists for one reason: to give people back time for the work they chose their profession for.",
+            "valueKinds": [
+              "compete",
+              "control"
+            ]
           }
         },
         {
