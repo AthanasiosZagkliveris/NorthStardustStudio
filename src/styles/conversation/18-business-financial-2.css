@@ -30,8 +30,7 @@
 
 }
 
-.financial-section .financial-tile,
-.financial-section .financial-signal{
+.financial-section .financial-tile{
 
     background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
 

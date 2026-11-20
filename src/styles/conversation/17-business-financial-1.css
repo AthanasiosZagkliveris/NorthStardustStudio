@@ -36,7 +36,6 @@
     section cards) gives that back and spans the full width, as on
     Pages 1 to 3.
 */
-.financial-page-head > .answer-columns-divider,
 .financial-page > .financial-plan-bar,
 .financial-page:not(.floating-card-body *) > .business-foundation-card{
 
@@ -546,18 +545,6 @@
 
 }
 
-.financial-block{
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:10px;
-
-    min-width:0;
-
-}
-
 /* EVERY LABEL-AND-AMOUNT LIST of the financial pages -- the cost
    breakdowns of the Funding Need cards (Establishment, Initial
    Operating, an Offering's), the funding and capital lists, the
@@ -655,69 +642,6 @@
 
 /* Decision signals: an icon and a title with each, so the colour
    never carries the meaning alone. */
-.financial-signals{
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:var(--gap-8);
-
-    margin:0;
-
-    padding:0;
-
-    list-style:none;
-
-}
-
-.financial-signal{
-
-    display:flex;
-
-    align-items:flex-start;
-
-    gap:10px;
-
-    padding:10px 12px;
-
-    border-radius:var(--radius-lg);
-
-    background:var(--bg-surface);
-
-    font-size:var(--font-body);
-    line-height:1.5;
-
-}
-
-.financial-signal-icon{
-
-    display:inline-flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    flex:0 0 22px;
-
-    height:22px;
-
-    border-radius:50%;
-
-    font-size:var(--font-small);
-    font-weight:700;
-    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
-
-    color:var(--text-on-fill);
-
-    background:var(--bg-faint);
-
-}
-
-.financial-signal-risk .financial-signal-icon{ background:var(--financial-risk); }
-.financial-signal-caution .financial-signal-icon{ background:var(--bg-caution); }
-.financial-signal-good .financial-signal-icon{ background:var(--bg-good); }
-.financial-signal-info .financial-signal-icon{ background:var(--bg-info); font-style:italic; }
 
 /* ---------- The cash timeline ---------- */
 

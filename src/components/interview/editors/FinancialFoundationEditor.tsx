@@ -1,4 +1,3 @@
-import { FINANCIALS_FRAMES } from "../../../framework/engine/PageGroups.ts";
 import { offeringShareWeights } from "../../../framework/engine/DemandCapacity.ts";
 import { countedCapability } from "../../../framework/engine/CardCompleteness.ts";
 import { numberStep } from "./BusinessEngagementModel.ts";
@@ -85,7 +84,7 @@ export default function FinancialFoundationEditor({
 
     disabled = false,
 
-    frameTitle = FINANCIALS_FRAMES[1],
+    frameTitle = "Financial Foundation",
 
     foundation,
 
@@ -783,11 +782,6 @@ export default function FinancialFoundationEditor({
 
     }
 
-    /** The section a source stands in: one saved under Internal is read under Other (doc 48, section 14). */
-    function shownCategory(category: string): string {
-        return category === "internal" ? "other" : category;
-    }
-
     function fundingCard(source: FundingSourceValue, index: number) {
 
         const type = fundingType(source.type);
@@ -797,8 +791,9 @@ export default function FinancialFoundationEditor({
 
         // (THE FOUNDERS' CAPITAL IS READ, NEVER ADDED (doc 48, section 13, step 3; one owner per fact): it comes from Founders & Ownership, so a new source does not
         // offer it; a source saved with it keeps it.)
+        // (Reinvested revenue is the forecast's own cash, never a source to add (doc 48, section 14): a source saved with it keeps it, as the founders' capital.)
         const typeEntries = FUNDING_TYPES
-            .filter(entry => entry.category === source.category && (entry.id !== "founder-capital" || source.type === "founder-capital"));
+            .filter(entry => entry.category === source.category && ((entry.id !== "founder-capital" && entry.id !== "reinvested-revenue") || source.type === entry.id));
         const types = typeEntries.map(entry => ({ id: entry.id, label: entry.label }));
         // (Each family -- Non-repayable, Equity, Debt -- a heading of the list, never a bracket after every type: owner, 2026-11-20 18:35 UTC+2.)
         const typeHeadings: Record<string, string> = {};
@@ -990,9 +985,9 @@ export default function FinancialFoundationEditor({
                 )}
                 {/* (NO INTERNAL SECTION (doc 48, section 14; owner, 2026-11-20 18:35 UTC+2): the founders' money is their capital, above; a source saved under Internal
                     is read under Other, its type and figures kept.) */}
-                {FUNDING_CATEGORIES.filter(category => category.id !== "internal").map(category => {
+                {FUNDING_CATEGORIES.map(category => {
 
-                    const of = stored.funding.filter(source => source.category === category.id || (category.id === "other" && source.category === "internal"));
+                    const of = stored.funding.filter(source => source.category === category.id);
 
                     return (
                         <DialogSectionBand key={category.id} title={category.label} tiles info={[...CATEGORY_INFO[category.id]]}>
@@ -1113,7 +1108,7 @@ export default function FinancialFoundationEditor({
                     return <div className="column-tile-content financial-page financial-funding-floating">{founderCapitalCard()}</div>;
                 }
                 const of = stored.funding.find(source => source.id === id);
-                const index = of ? stored.funding.filter(source => shownCategory(source.category) === shownCategory(of.category)).indexOf(of) : -1;
+                const index = of ? stored.funding.filter(source => source.category === of.category).indexOf(of) : -1;
                 return of ? <div className="column-tile-content financial-page financial-funding-floating">{fundingCard(of, index)}</div> : null;
             }
         } : {}),

@@ -89,13 +89,13 @@
               "city": "",
               "postalCode": ""
             },
-            "capitalApplies": false,
+            "capitalApplies": true,
             "founders": [
               {
                 "id": "founder-q7m2x4ke",
                 "name": "Jordan Ellis",
                 "ownership": "100",
-                "capital": "",
+                "capital": "10700",
                 "roles": [
                   ""
                 ],
@@ -4222,51 +4222,6 @@
             "costs": [],
             "needs": [],
             "funding": [
-              {
-                "id": "funding-j4o8w1sv",
-                "name": "Owner's savings",
-                "category": "internal",
-                "type": "founder-capital",
-                "provider": "Jordan Ellis",
-                "amount": "10700",
-                "status": "received",
-                "received": "",
-                "schedule": {
-                  "kind": "one-time",
-                  "month": {
-                    "month": "",
-                    "year": ""
-                  },
-                  "periodAmount": "",
-                  "frequency": "monthly",
-                  "start": {
-                    "month": "",
-                    "year": ""
-                  },
-                  "periods": "",
-                  "milestones": [],
-                  "note": ""
-                },
-                "purpose": "Jordan's own savings, paid into the business account before the plan starts: with the $25 certificate paid, the opening cash.",
-                "needIds": [],
-                "conditions": "",
-                "equity": "",
-                "loan": {
-                  "rate": "",
-                  "interestType": "",
-                  "start": {
-                    "month": "",
-                    "year": ""
-                  },
-                  "repaymentStart": {
-                    "month": "",
-                    "year": ""
-                  },
-                  "frequency": "monthly",
-                  "payments": "",
-                  "method": "annuity"
-                }
-              },
               {
                 "id": "funding-s8b3a6mq",
                 "name": "SBA Microloan",

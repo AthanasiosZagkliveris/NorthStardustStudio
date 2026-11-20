@@ -41,9 +41,9 @@ export function tipPlace(box: DOMRect, size: DOMRect, own: HTMLElement, alignRig
         above,
         { left: above.left, top: box.bottom + 6 },
         { left: icon.right + 6, top: middle },
-        // (After it, at the window's edge where the window is narrow, so long as it stays clear of the control.)
-        { left: Math.max(icon.right + 1, window.innerWidth - 8 - size.width), top: middle },
         { left: icon.left - 6 - size.width, top: middle }
+        // (NEVER AT THE WINDOW'S EDGE, AWAY FROM ITS CONTROL (owner, 2026-11-21 01:04 UTC+2: the left page arrow's tip stood at the window's right edge, where the
+        // hidden next arrow would be; doc 24, one place beside the control): every place touches the control's box, 6px off it; where none is clear, above it.)
     ].filter(place => place.left >= 8 && place.left + size.width <= window.innerWidth - 8 && place.top >= 8 && place.top + size.height <= window.innerHeight - 8);
     return places.find(place => !coversControl(place.left, place.top, size, own)) ?? above;
 }

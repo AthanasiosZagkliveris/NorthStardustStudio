@@ -239,18 +239,6 @@
    card's own control colour rather than the body black, so a group
    and the subsection inside it are told apart by more than
    indent. */
-.business-capability-subhead{
-
-    font-size:var(--font-body);
-    font-weight:700;
-
-    letter-spacing:0.05em;
-
-    line-height:28px;
-
-    color:hsl(var(--strategy-theme-hue, 0) var(--theme-text-ink));
-
-}
 
 /* Fields the specification puts beside one another -- Quantity
    next to the Name, Status next to the Quantity, Price next to the

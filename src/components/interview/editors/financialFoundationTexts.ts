@@ -119,11 +119,10 @@ export const SECTION_HUES: Record<string, number> = {
 };
 
 export const CATEGORY_INFO: Record<FundingCategory, InfoPoint[]> = {
-    internal: ["Money from inside your organisation: its founders' capital, reinvested revenue or funds it already holds."],
     external: [
         { title: "Non-repayable", text: "Grants, subsidies and awards: nothing to repay, though often with conditions." },
         { title: "Equity", text: "Investment in exchange for a share of ownership." },
         { title: "Debt", text: "Loans and credit that must be repaid, with interest." }
     ],
-    other: ["Reward crowdfunding, friends & family, in-kind contributions and other arrangements."]
+    other: ["Reward crowdfunding, friends & family, in-kind contributions, funds your organisation already holds and other arrangements."]
 };

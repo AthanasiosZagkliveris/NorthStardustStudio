@@ -40,7 +40,7 @@ describe("FinancialFoundationEditor folding", () => {
         const initial = {
             ...asFinancialFoundationValue(undefined),
             // (Internal is removed, 2026-11-20: a source saved under it is read under Other, its figures kept; doc 48, section 14.)
-            funding: [{ ...createFundingSource("internal"), name: "Savings" }, { ...createFundingSource("other"), name: "Reinvested" }]
+            funding: [{ ...createFundingSource("other"), category: "internal" as unknown as "other", name: "Savings" }, { ...createFundingSource("other"), name: "Reinvested" }]
         };
 
         render(<Harness initial={initial} />);
@@ -332,14 +332,14 @@ describe("FinancialSustainabilityEditor starts from Page 1 (phase 5f, 2026-11-09
 
 });
 
-/* FINANCIALS' TWO CHAPTERS (owner, 2026-11-18, the approved plan, step 1; PageGroups.ts): Revenue & Pricing draws Revenue & Break Even -- Revenue Streams,
-   Break-Even, Sustainability --; Costs, Funding & Position draws Financial Foundation -- Costs, Capital & Funding, Financial Position --, side by side. */
+/* FINANCIALS' ONE CHAPTER, FINANCIAL FOUNDATION (PageGroups.ts, oneChapter; doc 48, sections 11 and 14): Revenue & Pricing draws Revenue Streams, Costs, Funding & Position its
+   Costs and Funding; each editor alone (outside the page) titles its frame "Financial Foundation" too. */
 describe("Financials' chapters", () => {
 
-    it("draws Revenue & Pricing as Revenue & Break Even, writing nothing until a field is changed", () => {
+    it("draws Revenue & Pricing as Financial Foundation, writing nothing until a field is changed", () => {
         let wrote = false;
         render(<FinancialSustainabilityEditor value={asFinancialSustainabilityValue(undefined)} onChange={() => { wrote = true; }} />);
-        expect(screen.getByText("Revenue & Break Even")).toBeTruthy();
+        expect(screen.getByText("Financial Foundation")).toBeTruthy();
         const tiles = screen.getAllByRole("button").map(button => (button.textContent ?? "").replace(/\s+/g, " "));
         // (Break-Even & Sustainability is a record, in the Workbook's Financial Plan since the round of 2026-11-20 18:35 UTC+2: doc 48, section 14.)
         for (const title of ["Revenue Streams"]) {

@@ -246,14 +246,14 @@ export function founderCapitalSources(
         */
         .map(founder => {
             return {
-                ...createFundingSource("internal"),
+                ...createFundingSource("other"),
                 id: "capital-" + founder.id,
                 name: "Founder's Capital: " + (founder.name.trim() || "Unnamed founder"),
                 type: "founder-capital",
                 provider: founder.name,
                 amount: founder.capital,
                 status: "received",
-                schedule: createFundingSource("internal").schedule
+                schedule: createFundingSource("other").schedule
             };
         });
 

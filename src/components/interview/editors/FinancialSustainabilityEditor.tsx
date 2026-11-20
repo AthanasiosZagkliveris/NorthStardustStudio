@@ -1,4 +1,3 @@
-import { FINANCIALS_FRAMES } from "../../../framework/engine/PageGroups.ts";
 import { competitorsPriceRange } from "../../../framework/engine/CompetitorQuestions.ts";
 import { offeringShareWeights } from "../../../framework/engine/DemandCapacity.ts";
 import { numberStep } from "./BusinessEngagementModel.ts";
@@ -82,7 +81,7 @@ export default function FinancialSustainabilityEditor({
 
     disabled = false,
 
-    frameTitle = FINANCIALS_FRAMES[0],
+    frameTitle = "Financial Foundation",
 
     foundation,
 

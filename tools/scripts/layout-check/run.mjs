@@ -303,6 +303,41 @@ async function checkRemoveLook(page, where, reference, sample = 12) {
  * dialog, and -- on Escape -- return to the default page: no tile grown, no focus ring on the opener (a mouse opened it). One opened with the keyboard
  * keeps its ring, and still no tile grown.
  */
+/**
+ * THE TOOLTIPS OF THE PAGE ARROWS AND THE RAILS' BULLETS (doc 24; owner, 2026-11-10 06:23 and 2026-11-21 01:01 and 01:04 UTC+2): under the real pointer, each
+ * shown arrow's and bullet's tip stands beside its trigger (its box within 12px of the trigger's) and its text is never underlined -- the app's one
+ * tooltip (.app-tooltip) and a rail's name shown as a tooltip (a bullet's .bullet-rail-label while it stands apart from the rail) alike.
+ */
+export async function checkTooltips(page, where) {
+    const failures = [];
+    const triggers = page.locator(".page-arrow, .bullet-rail-item");
+    const count = await triggers.count();
+    for (let at = 0; at < count; at++) {
+        const trigger = triggers.nth(at);
+        if (!(await trigger.isVisible())) continue;
+        const box = await trigger.boundingBox();
+        if (!box || box.width === 0) continue;
+        await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+        await page.waitForTimeout(900);
+        const found = await page.evaluate(({ x, y, w, h }) => {
+            const near = (r) => r.right >= x - 12 && r.left <= x + w + 12 && r.bottom >= y - 12 && r.top <= y + h + 12;
+            const tips = [...document.querySelectorAll(".app-tooltip")].filter(tip => getComputedStyle(tip).visibility !== "hidden" && tip.getBoundingClientRect().width > 0);
+            const labels = [...document.querySelectorAll(".bullet-rail-item:hover .bullet-rail-label")].filter(label => getComputedStyle(label).position === "absolute" && Number(getComputedStyle(label).opacity) > 0.5);
+            return [...tips, ...labels].map(tip => {
+                const r = tip.getBoundingClientRect();
+                const lines = [tip, ...tip.querySelectorAll("*")].map(node => getComputedStyle(node).textDecorationLine);
+                return { text: (tip.textContent || "").slice(0, 60), beside: near(r), underlined: lines.some(line => line.includes("underline")), left: Math.round(r.left), top: Math.round(r.top) };
+            });
+        }, { x: box.x, y: box.y, w: box.width, h: box.height });
+        for (const tip of found) {
+            if (!tip.beside) failures.push({ page: where, rule: "a tooltip stands beside its trigger", detail: { text: tip.text, left: tip.left, top: tip.top, trigger: { x: Math.round(box.x), y: Math.round(box.y) } } });
+            if (tip.underlined) failures.push({ page: where, rule: "a tooltip's text has no underline", detail: { text: tip.text } });
+        }
+    }
+    await page.mouse.move(2, 2);
+    return failures;
+}
+
 export async function checkRealMouse(page, where) {
     const failures = [];
     const fail = (rule, detail) => failures.push({ page: where, rule, detail });
@@ -637,6 +672,14 @@ export async function runLayoutCheck(page, { base = "http://localhost:1420", pro
             failures.push(...(await checkChapters(page, system + " › " + name)));
             failures.push(...(await checkDialogLevel(page, system + " › " + name)));
             failures.push(...(await checkScrolledDialog(page, system + " › " + name)));
+            // THE ARROWS' AND THE RAILS' TOOLTIPS, beside their triggers and never underlined (doc 24), at a wide and a narrow window.
+            for (const [width, height] of [[1920, 1100], [1366, 768]]) {
+                await page.setViewportSize({ width, height });
+                await page.waitForTimeout(300);
+                failures.push(...(await checkTooltips(page, system + " › " + name + " (" + width + " x " + height + ")")));
+            }
+            await page.setViewportSize({ width: 1920, height: 1000 });
+            await page.waitForTimeout(300);
             // The real mouse on the list items of the first-row tiles (3. Infrastructure & Capability), in a tall and a low window.
             if (/Infrastructure/.test(name)) {
                 await page.evaluate(value => document.documentElement.setAttribute("data-theme", value), "light");

@@ -793,3 +793,41 @@ body:has(.section-tile-overlay, .floating-overlay) .bullet-rails {
     visibility: hidden;
 
 }
+
+/* A RAIL'S NAME SHOWN AS A TOOLTIP IS A TOOLTIP (owner, 2026-11-10 06:23: "Tooltips should not be underlined and should appear in a specific position"; again
+   2026-11-21 01:01 UTC+2: "I have said the Tooltips should not be underlined!"; doc 24): where a rail shows its bullets alone -- a window under 1700px, or a
+   compact rail -- a bullet's name appears beside it as a tooltip, with the tooltip's own text: never underlined, and none of its item's bold tracking, shadow
+   or capitals. (Where the names stand inline, from 1700px, the hover underline stays: it is the rail's, not a tooltip's.) */
+@media not all and (min-width: 1700px) {
+
+    .bullet-rail .bullet-rail-item .bullet-rail-label,
+    .bullet-rail .bullet-rail-item:hover .bullet-rail-label,
+    .bullet-rail .bullet-rail-item:focus-visible .bullet-rail-label,
+    .bullet-rail .bullet-rail-item:hover .bullet-rail-label .list-number,
+    .bullet-rail .bullet-rail-item:focus-visible .bullet-rail-label .list-number {
+
+        text-decoration: none;
+        letter-spacing: normal;
+        text-transform: none;
+        text-shadow: none;
+
+    }
+
+}
+
+@media (min-width: 1700px) {
+
+    .bullet-rail.bullet-rail-compact .bullet-rail-item .bullet-rail-label,
+    .bullet-rail.bullet-rail-compact .bullet-rail-item:hover .bullet-rail-label,
+    .bullet-rail.bullet-rail-compact .bullet-rail-item:focus-visible .bullet-rail-label,
+    .bullet-rail.bullet-rail-compact .bullet-rail-item:hover .bullet-rail-label .list-number,
+    .bullet-rail.bullet-rail-compact .bullet-rail-item:focus-visible .bullet-rail-label .list-number {
+
+        text-decoration: none;
+        letter-spacing: normal;
+        text-transform: none;
+        text-shadow: none;
+
+    }
+
+}

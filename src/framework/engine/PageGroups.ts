@@ -31,8 +31,6 @@ export interface PageGroup {
 
 }
 
-/** Financials' two chapters, in their order: their headings, numbered by the page ("1. Revenue & Break Even"; layout rules section 13). */
-export const FINANCIALS_FRAMES = ["Revenue & Break Even", "Financial Foundation"] as const;
 
 export const PAGE_GROUPS: readonly PageGroup[] = [
     // (Mission and Vision are saved in Definition, the first section, and drawn in Purpose as one pair tile: doc 45.)
@@ -50,7 +48,7 @@ export const PAGE_GROUPS: readonly PageGroup[] = [
     // Even and Financial Foundation side by side, in that order. Each section keeps its number, its title and its saved answer (doc 48, section 11).
     // ONE CHAPTER (owner, 2026-11-20 02:11 UTC+2: "The financials should be in a single page. Maybe they should all be under only one chapter."): the six Master
     // Tiles in one frame, in the order each reads only what stands before it (doc 48, section 11), named by doc 48's own name for its chapter.
-    { systemNumber: 3, members: [4, 5], title: "Financials", inHeader: true, frameTitles: FINANCIALS_FRAMES, oneChapter: "Financial Foundation" },
+    { systemNumber: 3, members: [4, 5], title: "Financials", inHeader: true, oneChapter: "Financial Foundation" },
     // The Strategy System is one page: its Situation & Direction (the Strategic Period's Goals and Objectives are written in each Theme's card there).
     { systemNumber: 4, members: [1], title: "Strategy System", inHeader: false }
 ];
