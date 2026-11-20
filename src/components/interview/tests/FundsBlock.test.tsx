@@ -44,7 +44,7 @@ function show(openingDate: string) {
         />
     );
     // (Funding Need is a tile of the page: its section opens in the tile's dialog.)
-    openTile("Financial Position"); // (The Funding Need is inside Financial Position: owner, 2026-11-18 16:55.)
+    openTile("Funding"); // (The Funding Need is the Funding tile's Uses: doc 48, section 13, step 3.)
 }
 
 describe("the funds under Funding Need", () => {
@@ -121,7 +121,7 @@ describe("the Costs and Funding Need sections with the cost nature and the cash 
 
     it("the Establishment need is the cash to raise before the opening: the 30,000 of CapEx and its 3,000 contingency, not counted again as running costs", () => {
         render(<Stateful />);
-        openTile("Financial Position"); // (The Funding Need is inside Financial Position: owner, 2026-11-18 16:55.)
+        openTile("Funding"); // (The Funding Need is the Funding tile's Uses: doc 48, section 13, step 3.)
         const establishment = [...document.querySelectorAll(".financial-need-card")].find(card => card.textContent?.includes("Establishment")) as HTMLElement;
         expect(establishment).toBeTruthy();
         expect(establishment.textContent).toMatch(/33,000/);

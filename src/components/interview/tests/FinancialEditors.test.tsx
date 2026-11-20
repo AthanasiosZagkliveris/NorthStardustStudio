@@ -43,7 +43,7 @@ describe("FinancialFoundationEditor folding", () => {
         };
 
         render(<Harness initial={initial} />);
-        openTile("Capital & Funding");
+        openTile("Funding");
 
         const tiles = [...document.querySelectorAll<HTMLElement>(".section-tile-overlay [aria-label='Internal funding sources'] button.card-tile")];
         expect(tiles.map(tile => tile.textContent ?? "").map(text => text.includes("Savings") || text.includes("Reinvested"))).toEqual([true, true]);
@@ -148,7 +148,7 @@ describe("FinancialFoundationEditor number limits", () => {
         };
 
         render(<Harness initial={initial} />);
-        openTile("Capital & Funding");
+        openTile("Funding");
 
         // (The source's card floats from its tile: owner, 2026-11-18 12:41.)
         fireEvent.click(document.querySelector<HTMLElement>(".section-tile-overlay [aria-label='External funding sources'] button.card-tile")!);
@@ -250,14 +250,14 @@ describe("the Operating need's Loan Repayments column", () => {
 
     it("is there, with its i, when a loan is recorded, whatever its status", () => {
         render(<Harness initial={withFunding([{ ...createFundingSource("external"), type: "bank-loan", name: "Start Up Loan", amount: "9000", status: "requested" }])} />);
-        openTile("Financial Position"); // (The Funding Need is inside Financial Position: owner, 2026-11-18 16:55.)
+        openTile("Funding"); // (The Funding Need is the Funding tile's Uses: doc 48, section 13, step 3.)
         expect(loanHead()).toBeDefined();
         expect(screen.getByRole("button", { name: "Loan Repayments: what this means" })).toBeTruthy();
     });
 
     it("is not there when no loan is recorded", () => {
         render(<Harness initial={withFunding([{ ...createFundingSource("external"), type: "grant", amount: "5000", status: "received" }])} />);
-        openTile("Financial Position"); // (The Funding Need is inside Financial Position: owner, 2026-11-18 16:55.)
+        openTile("Funding"); // (The Funding Need is the Funding tile's Uses: doc 48, section 13, step 3.)
         expect(screen.queryAllByRole("columnheader").some(head => /Running Costs/.test(head.textContent ?? ""))).toBe(true);
         expect(loanHead()).toBeUndefined();
     });
@@ -358,8 +358,9 @@ describe("Financials' chapters", () => {
         let wrote = false;
         render(<FinancialSustainabilityEditor value={asFinancialSustainabilityValue(undefined)} onChange={() => { wrote = true; }} />);
         expect(screen.getByText("Revenue & Break Even")).toBeTruthy();
-        const tiles = screen.getAllByRole("button").map(button => button.textContent ?? "");
-        for (const title of ["Revenue Streams", "Break-Even", "Sustainability"]) {
+        const tiles = screen.getAllByRole("button").map(button => (button.textContent ?? "").replace(/\s+/g, " "));
+        // (Break-Even & Sustainability, one tile since 2026-11-20: doc 48, section 13, step 5.)
+        for (const title of ["Revenue Streams", "Break-Even & Sustainability"]) {
             expect(tiles.some(text => text.startsWith(title))).toBe(true);
         }
         // (One card: the Revenue Summary and the Delivery Check in the Revenue Streams dialog; owner, 2026-11-18 10:38. Break-Even Point and Time one tile,
@@ -367,19 +368,21 @@ describe("Financials' chapters", () => {
         for (const title of ["Revenue Summary", "Break-Even Point", "Break-Even Time", "Stress Test"]) {
             expect(tiles.some(text => text.startsWith(title))).toBe(false);
         }
-        openTile("Break-Even");
+        openTile("Break-Even & Sustainability");
         expect(screen.getByRole("heading", { name: "Break-Even Time" })).toBeTruthy();
+        expect(screen.getByRole("heading", { name: "Stress Test" })).toBeTruthy();
         expect(wrote).toBe(false);
     });
 
     it("draws Costs, Funding & Position as Financial Foundation alone", () => {
         render(<FinancialFoundationEditor value={asFinancialFoundationValue(undefined)} onChange={() => {}} />);
         expect(screen.getByText("Financial Foundation")).toBeTruthy();
-        const tiles = screen.getAllByRole("button").map(button => button.textContent ?? "");
-        for (const title of ["Costs", "Financial Position"]) {
+        const tiles = screen.getAllByRole("button").map(button => (button.textContent ?? "").replace(/\s+/g, " "));
+        // (Capital & Funding and Financial Position, one tile, Funding, since 2026-11-20: doc 48, section 13, step 3.)
+        for (const title of ["Costs", "Funding"]) {
             expect(tiles.some(text => text.startsWith(title))).toBe(true);
         }
-        for (const title of ["Break-Even", "Sustainability", "Revenue Streams"]) {
+        for (const title of ["Financial Position", "Capital & Funding", "Break-Even", "Sustainability", "Revenue Streams"]) {
             expect(tiles.some(text => text.startsWith(title))).toBe(false);
         }
     });

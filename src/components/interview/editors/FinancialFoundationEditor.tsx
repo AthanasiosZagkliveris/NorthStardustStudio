@@ -986,8 +986,10 @@ export default function FinancialFoundationEditor({
         const what = source.name.trim() || type?.label || "Funding Source " + (index + 1);
         const confirmedStatus = source.status === "approved" || source.status === "received" || source.status === "closed";
 
+        // (THE FOUNDERS' CAPITAL IS READ, NEVER ADDED (doc 48, section 13, step 3; one owner per fact): it comes from Founders & Ownership, so a new source does not
+        // offer it; a source saved with it keeps it.)
         const types = FUNDING_TYPES
-            .filter(entry => entry.category === source.category)
+            .filter(entry => entry.category === source.category && (entry.id !== "founder-capital" || source.type === "founder-capital"))
             .map(entry => ({
                 id: entry.id,
                 label: entry.family ? entry.label + " (" + entry.family + ")" : entry.label
@@ -1400,13 +1402,6 @@ export default function FinancialFoundationEditor({
             return [pair("Cost of each sale", format(perSale)), ...(shares.length === 1 ? [pair("Share of revenue", shares[0].share)] : shares.map(line => pair(line.name, line.share)))];
         })()
     ];
-    const sources = allFunding(page, legalEntity);
-    const fundingFace = FUNDING_STATUSES
-        .map(status => ({ status, count: sources.filter(source => (source.status || "planned") === status.id).length }))
-        .filter(entry => entry.count > 0)
-        // (Capital & Funding keeps its two columns, each status and its count (owner, 2026-11-18 23:18 UTC+2: "Capital & Funding could be as before"): the
-        // tile list's pairs, a line between the rows.)
-        .map(entry => entry.status.label + "\u0001**" + String(entry.count) + "**");
     const positionFace: FaceRow[] = position.gap > 0.005
         ? [pair("Funding Gap", format(position.gap))]
         : covered
@@ -1414,20 +1409,24 @@ export default function FinancialFoundationEditor({
             : [];
 
     const sections = [
-        { id: "financial-costs", section: SECTIONS.costs, body: costsSection, items: stackedFace(costFace), anchor: "financial-costs financial-pre-operational-budget" },
-        { id: "financial-funding", section: SECTIONS.funding, body: fundingSection, items: fundingFace, anchor: "financial-funding" },
-        // (THE FUNDING NEED INSIDE FINANCIAL POSITION (owner, 2026-11-18 16:55: "Do all 8", proposal 4): the need and the gap are one story; the position's headline
-        // and figures first, then the need's blocks under their band. Its anchor answers a jump to the need too.)
+        { id: "financial-costs", section: SECTIONS.costs, title: undefined as string | undefined, body: costsSection, items: stackedFace(costFace), anchor: "financial-costs financial-pre-operational-budget" },
+        // (STEP 3, FUNDING: CAPITAL & FUNDING AND FINANCIAL POSITION, ONE TILE (doc 48, section 13; owner, 2026-11-20 12:49 UTC+2, "proceed to changes"): the money in --
+        // the founders' capital, then each source -- and, under it, the position it gives: the headline and figures, then the Funding Need, what the money is for.
+        // The tile keeps Capital & Funding's id and sources; the position's anchors answer every jump, note and link made to it, and to the need.)
         {
-            id: "financial-position", section: SECTIONS.position,
+            id: "financial-funding", section: SECTIONS.funding, title: "Funding",
             body: () => (
                 <>
-                    {positionSection()}
-                    <DialogSectionBand title={SECTIONS.need.title} info={[...SECTIONS.need.instructions, ...SECTIONS.need.info]}>{needSection()}</DialogSectionBand>
+                    {/* (SOURCES & USES (doc 48, section 13, step 3): the money in, then what it is for, then the position they give.) */}
+                    <DialogSectionBand title="Sources" info={[...SECTIONS.funding.instructions, ...SECTIONS.funding.info]}>{fundingSection()}</DialogSectionBand>
+                    <div data-anchor="financial-position financial-need" data-rail={railId(FINANCIAL_FOUNDATION_SECTIONS[2])}>
+                        <DialogSectionBand title="Uses" info={[...SECTIONS.need.instructions, ...SECTIONS.need.info]}>{needSection()}</DialogSectionBand>
+                        <DialogSectionBand title={SECTIONS.position.title} info={[...SECTIONS.position.instructions, ...SECTIONS.position.info]}>{positionSection()}</DialogSectionBand>
+                    </div>
                 </>
             ),
             items: stackedFace([...positionFace, ...(position.need > 0.005 ? [pair("Total Funding Need", format(position.need))] : [])]),
-            anchor: "financial-position financial-need"
+            anchor: "financial-funding financial-position financial-need"
         }
     ];
 
@@ -1435,7 +1434,7 @@ export default function FinancialFoundationEditor({
 
     const tiles: SectionTile[] = sections.map((entry, index) => ({
         id: entry.id,
-        title: entry.section.title,
+        title: entry.title ?? entry.section.title,
         // (MASTER TILES KEEP THEIR SIZE AND THE 2 x 2 (owner's rule): three tiles fill three places of the four.)
         large: true,
         anchor: entry.anchor,
@@ -1456,9 +1455,9 @@ export default function FinancialFoundationEditor({
             }
         } : {}),
         content: () => (
-            <div className="column-tile-content" data-anchor={entry.id} data-rail={railId(FINANCIAL_FOUNDATION_SECTIONS[index])} role="group" aria-label={entry.section.title}>
+            <div className="column-tile-content" data-anchor={entry.id} data-rail={railId(FINANCIAL_FOUNDATION_SECTIONS[index])} role="group" aria-label={entry.title ?? entry.section.title}>
                 <div className="business-engagement-section-head">
-                    <DialogHeading title={entry.section.title} info={[...entry.section.instructions, ...entry.section.info]} />
+                    <DialogHeading title={entry.title ?? entry.section.title} info={[...entry.section.instructions, ...entry.section.info]} />
                 </div>
                 {/* (The page's chart colours, which the Financial pages define, hold in the dialog too.) */}
                 <div className="financial-page">{entry.body()}</div>

@@ -14,7 +14,8 @@ import SectionTiles, { DialogHeading, stackedFace, type FaceRow, type SectionTil
 import { type LegalEntityValue, asBusinessCapabilityValue, asBusinessEngagementValue, asLegalEntityValue, businessFoundationSegments, withLegalEntityFounders } from "../../../framework/engine/AnswerUtils.ts";
 import { offeringStartsById } from "../../../framework/engine/EffectiveAnswers.ts";
 import { calculatedLines } from "../../../framework/engine/CalculatedLines.ts";
-import { ownersTakeDrawings } from "../../../framework/engine/FinancialForecast.ts";
+import { financialForecast, forecastView, ownersTakeDrawings } from "../../../framework/engine/FinancialForecast.ts";
+import ForecastTable from "../../ForecastTable.tsx";
 import { type GlobalSettingsValue } from "../../../framework/engine/GlobalSettings.ts";
 import { costStartDates, derivedPlanStart, incomeTaxRate, legalExpenseDates, PAYMENT_TIMINGS, planLength, REVENUE_DEVELOPMENTS, REVENUE_FREQUENCIES, REVENUE_CHARGES, REVENUE_UNITS, asFinancialFoundationValue, asFinancialSustainabilityValue, consolidateCosts, createDetailedVolume, createRevenueStream, formatUnits, isRecurringRevenue, moneyFormatter, offeringCosts, parseAmount, planMonthLabel, sustainability, withPlanStart, salesCapacity, withDemand, stressTest, whatItWouldTake, type FinancialSustainabilityValue, type RevenueStreamValue, type StreamAnalysis, allFunding, hasLoans } from "../../../framework/engine/FinancialModel.ts";
 import { costSourcesFor } from "../../../framework/engine/ExportRenderers.ts";
@@ -1045,7 +1046,8 @@ export default function FinancialSustainabilityEditor({
 
         const pair = (name: string, figure: string): FaceRow => ({ name, under: figure });
         return {
-            streams: { body: streams, face: shownStreams.map(entry => pair(offeringName(entry.stream), summaryPrice(entry.stream))) },
+            // (NOT PRICED YET (doc 48, section 13, step 1; owner, 2026-11-20 12:49 UTC+2, "proceed to changes"): an Offering with no price says so on the face; the founder sets the price.)
+            streams: { body: streams, face: shownStreams.map(entry => pair(offeringName(entry.stream), summaryPrice(entry.stream) || "Not priced yet")) },
             delivery: { body: capacityBlock(), face: [] as FaceRow[] },
             summary: { body: summary, face: [pair("Expected revenue a month", format(total))] }
         };
@@ -1513,19 +1515,12 @@ export default function FinancialSustainabilityEditor({
             <>
                 <FinancialBlock title="Sustainability" bare>
                     <div className="financial-table-scroll">
+                        {/* (THE FIGURES ARE SAID ONCE (doc 48, section 13, step 5): the figure tiles above hold the revenue, the break-even, the exhaustion and the buffer; the table keeps the activity break-even takes, which no tile says.) */}
                         <FigureTable className="financial-summary">
                             <tbody>
-                                <tr><th scope="row">Expected Monthly Revenue</th><td>{format(result.expectedRevenue)}</td></tr>
-                                <tr><th scope="row">Break-Even Revenue</th><td>{result.breakEvenRevenue === null ? "n/a" : format(result.breakEvenRevenue)}</td></tr>
                                 <tr>
                                     <th scope="row">Break-Even Activity</th>
                                     <td>{result.breakEvenScale === null ? "n/a" : activityList(result.streams, result.breakEvenScale)}</td>
-                                </tr>
-                                <tr><th scope="row">Expected Break Even</th><td>{breakEven}</td></tr>
-                                <tr><th scope="row">Financial Exhaustion</th><td>{exhaustion}</td></tr>
-                                <tr>
-                                    <th scope="row">Sustainability Buffer</th>
-                                    <td>{bufferLabel}</td>
                                 </tr>
                             </tbody>
                         </FigureTable>
@@ -1594,22 +1589,21 @@ export default function FinancialSustainabilityEditor({
     // one tile; the Sustainability and the Stress Test both say when the money could run out, one tile -- each block under its own band in the dialog. They
     // write nothing. Their ids keep the Break Even chapter's prefix, so a note or a link saved on them still lands.)
     const breakEven = breakEvenParts();
+    // (STEP 5, BREAK-EVEN & SUSTAINABILITY, ONE TILE (doc 48, section 13; owner, 2026-11-20 12:49 UTC+2, "proceed to changes"): when the business pays for itself and
+    // how long the money lasts, one story -- the Break-Even Point and Time, then the Sustainability and its Stress Test, each under its band. The tile keeps the
+    // Break-Even's id; the Sustainability's anchor answers every jump, note and link made to it.)
     const breakEvenTiles = chapterTiles("sustainability-break-even", SECTIONS.breakEven, [
         {
-            id: "point", title: "Break-Even", face: [...breakEven.point.face, ...breakEven.time.face],
+            id: "point", title: "Break-Even & Sustainability",
+            face: [...breakEven.point.face, ...breakEven.time.face, ...breakEven.sustainability.face.filter(row => row.under !== "")],
             body: (
                 <>
                     <DialogSectionBand title="Break-Even Point" info={BREAK_EVEN_POINT_INFO}>{breakEven.point.body}</DialogSectionBand>
                     <DialogSectionBand title="Break-Even Time" info={BREAK_EVEN_TIME_INFO}>{breakEven.time.body}</DialogSectionBand>
-                </>
-            )
-        },
-        {
-            id: "sustainability", title: "Sustainability", face: [...breakEven.sustainability.face, ...breakEven.stress.face],
-            body: (
-                <>
-                    {breakEven.sustainability.body}
-                    <DialogSectionBand title="Stress Test" info={STRESS_TEST_INFO}>{breakEven.stress.body}</DialogSectionBand>
+                    <div data-anchor="sustainability-break-even-sustainability">
+                        <DialogSectionBand title="Sustainability">{breakEven.sustainability.body}</DialogSectionBand>
+                        <DialogSectionBand title="Stress Test" info={STRESS_TEST_INFO}>{breakEven.stress.body}</DialogSectionBand>
+                    </div>
                 </>
             )
         }
@@ -1665,6 +1659,26 @@ export default function FinancialSustainabilityEditor({
     // Break-Even and Sustainability --, two groups side by side in one frame, the line between them, as Foundation & Engagement's chapter: so every Master Tile
     // keeps its size and layout (layout rules section 23) and every dialog and floating card behaves as before.)
     if (joined) {
+        // (STEP 4, CASH FLOW (doc 48, section 13; owner, 2026-11-20 12:49 UTC+2, "proceed to changes"): the first twelve months, month by month -- money in, money out,
+        // the net and the cash at the end of each month -- read from the one forecast the documents use, never worked out again; its face, the cash after twelve
+        // months and the lowest month. Sources: Start Up Loans, the cash flow forecast; Boston University, the cash table.)
+        const forecast = financialForecast(financial, effective, lines, legalEntity, format, calculated);
+        const cashTable = forecastView(forecast, "monthly", 1, { tables: [forecast.cashFlow] }).tables[0];
+        const closings = (forecast.cashFlow.rows.find(row => row.label === "Cash at end of period")?.values ?? []).slice(0, 12);
+        const lowest = closings.length > 0 ? closings.reduce((at, value, index) => value < closings[at] ? index : at, 0) : -1;
+        const cashFace: FaceRow[] = closings.length > 0 ? [
+            { name: "Cash after " + closings.length + " months", under: format(closings[closings.length - 1]) },
+            { name: "Lowest, " + (forecast.months[lowest] ?? ""), under: format(closings[lowest]) }
+        ] : [];
+        const cashSection: FinancialSection = {
+            title: "Cash Flow",
+            instructions: ["The money in and the money out of your first twelve months, month by month, and the cash left at the end of each."],
+            info: ["Money in is your sales and the funding you receive; money out is your costs, your pay and your loan repayments.", "The same figures as the Cash-Flow Forecast in your Workbook.", "Based on: Start Up Loans, Cash flow forecast template; Gupta (2020), Building a financial plan: the numbers, Boston University."]
+        };
+        const cashTile = chapterTiles("sustainability-cash-flow", cashSection, [{
+            id: "months", title: "Cash Flow", face: cashFace,
+            body: cashTable ? <ForecastTable table={cashTable} currency={currency} format={format} /> : null
+        }])[0];
         const hue = SECTION_HUES["sustainability-revenue"] ?? 0;
         const style = { "--strategy-theme-hue": hue } as CSSProperties;
         const group = (anchor: string, tiles: SectionTile[]) => (
@@ -1679,7 +1693,8 @@ export default function FinancialSustainabilityEditor({
                         <div className="business-capability-section business-capability-tiles-section">
                             <div className="business-engagement-section-head tiles-frame-head"><span className="field-group-title business-foundation-subhead">{frameTitle}</span></div>
                             <div className="segment-chapter-groups">
-                                {group("column-tiles-money", [revenueTile, ...joined.get(JOINED_CHAPTER_KEY)])}
+                                {/* (Five Master Tiles in the one chapter, four and one (doc 48, section 13: "five in the two groups of the chapter (four and one, or three and two)", the first named): Revenue, Costs, Funding, Cash Flow; then Break-Even & Sustainability.) */}
+                                {group("column-tiles-money", [revenueTile, ...joined.get(JOINED_CHAPTER_KEY), cashTile])}
                                 {group("column-tiles-break-even", breakEvenTiles)}
                             </div>
                         </div>
