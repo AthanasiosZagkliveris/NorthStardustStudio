@@ -2004,6 +2004,9 @@
             // THE HOVER (150%): the aim is taken the way the pointer does (pointerover), the scale applied by hand (a stylesheet's :hover
             // cannot be forced), the scaled rect compared with the scrolling body of the card the tile stands in, then undone.
             const scrolled = new Set();
+            // (The window's scroll is given back too: bringing a page tile into view scrolled the page under an open layer, and every later measure read a moved page;
+            // layout rules section 18, 2026-11-20.)
+            const windowY = window.scrollY;
             for (const slot of slots) {
                 const body = slot.closest(".card-scroll");
                 if (!body) continue;
@@ -2029,6 +2032,7 @@
                 void keep;
             }
             for (const body of scrolled) body.scrollTop = 0;
+            window.scrollTo(0, windowY);
         }
 
         // 17b. THE TITLE ARROW (docs/ai/layout-rules.md, "The title arrow"): the column title is

@@ -371,8 +371,21 @@ export default function SectionTiles({
         // (Inside a layer only: the page under an open layer never scrolls (layout rules section 10, "Scrolling is global") -- a page tile behind the card stays where
         // it is, so the card keeps standing on its row; 2026-11-20, a stacked page at 768 slid under its card.)
         const follow = cells[0] ?? tile ?? block ?? line;
-        if (follow?.closest(".section-tile-overlay, .floating-card-host")) {
-            follow.scrollIntoView?.({ block: "nearest", inline: "nearest", behavior: reduced ? "auto" : "smooth" });
+        // (scrollIntoView would scroll the window too, under the fixed layer (at 768, by 600px): only the layer's own scrolling box moves, the least it can.)
+        const layer = follow?.closest<HTMLElement>(".section-tile-overlay, .floating-card-host");
+        if (follow && layer) {
+            for (let box = follow.parentElement; box && layer.contains(box); box = box.parentElement) {
+                const overflow = getComputedStyle(box).overflowY;
+                if ((overflow === "auto" || overflow === "scroll") && box.scrollHeight > box.clientHeight + 1) {
+                    const room = box.getBoundingClientRect();
+                    const at = follow.getBoundingClientRect();
+                    const by = at.top < room.top ? at.top - room.top : at.bottom > room.bottom ? Math.min(at.bottom - room.bottom, at.top - room.top) : 0;
+                    if (by !== 0) {
+                        box.scrollBy?.({ top: by, behavior: reduced ? "auto" : "smooth" });
+                    }
+                    break;
+                }
+            }
         }
         return () => {
             marked.forEach(element => {

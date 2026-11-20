@@ -98,8 +98,20 @@ export function acrossFrom(pressed: HTMLElement | null): HTMLElement | null {
     const middle = (Math.min(...boxes.map(box => box.left)) + Math.max(...boxes.map(box => box.right))) / 2;
     const here = pressed.getBoundingClientRect();
     const leftHalf = here.left + here.width / 2 < middle;
-    const across = frames.filter((_frame, at) => (boxes[at].left + boxes[at].width / 2 < middle) !== leftHalf);
-    return across[0] ?? null;
+    // (A frame as wide as the page -- the chapters stacked -- stands on neither half: its centre is the middle.)
+    const across = frames.filter((_frame, at) => Math.abs(boxes[at].left + boxes[at].width / 2 - middle) > 1 && (boxes[at].left + boxes[at].width / 2 < middle) !== leftHalf);
+    if (across.length > 0) {
+        return across[0];
+    }
+    // (FRAMES ONE UNDER THE OTHER (below 1200px): no other half; the card stands over the chapter its dialog covers, on that chapter's first row -- layout rules
+    // section 8, "Placed on the first row"; 2026-11-20, at 768 it stood at the top of the band instead.)
+    const dialog = pressed.closest<HTMLElement>(".section-tile-dialog")?.getBoundingClientRect();
+    if (!dialog) {
+        return null;
+    }
+    const overlap = (at: number) => Math.max(0, Math.min(boxes[at].bottom, dialog.bottom) - Math.max(boxes[at].top, dialog.top));
+    const covered = frames.map((_frame, at) => at).filter(at => overlap(at) > 0).sort((one, other) => overlap(other) - overlap(one));
+    return covered.length > 0 ? frames[covered[0]] : null;
 }
 
 /**
