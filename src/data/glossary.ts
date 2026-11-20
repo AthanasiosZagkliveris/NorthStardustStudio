@@ -25,7 +25,9 @@ export interface AppTerm {
     sources?: readonly SourceId[];
     /** WHERE IN THE APP THE TERM IS USED (owner, 2026-11-10: "where in the app does this term exist"; "Clicking on it should direct the user to that specific
      *  field"): its System, its page (the section's number) and the part of it in words; the tile to open there and the field to bring into view (selectors). */
-    places?: readonly { system: number; page: number; part: string; tile?: string; field?: string; card?: "amortisationYears" | "usefulLife"; has?: string }[];
+    places?: readonly { system: number; page: number; part: string; tile?: string; field?: string; card?: "amortisationYears" | "usefulLife"; has?: string;
+        /** A record of the Workbook's Financial Documents (doc 48, section 14): the place opens that tab, not a page. */
+        document?: "forecast" | "funding" | "financial-plan" }[];
 }
 
 export const APP_TERMS: readonly AppTerm[] = [
@@ -151,7 +153,7 @@ export const APP_TERMS: readonly AppTerm[] = [
     {
         id: "break-even",
         term: "Break-even point",
-        places: [{ system: 3, page: 4, part: "Break-Even", tile: "button.section-tile[data-tile=\"sustainability-break-even-point\"]" }],
+        places: [{ system: 3, page: 4, part: "Financial Plan, Break Even", document: "financial-plan" }],
         meaning: "The level of sales at which revenue covers all costs, so there is neither profit nor loss. In units: fixed costs ÷ (price − variable cost per unit).",
         also: ["break even", "break-even revenue"],
         sources: ["breakEvenPoint", "breakEvenInDollars"]
@@ -159,7 +161,7 @@ export const APP_TERMS: readonly AppTerm[] = [
     {
         id: "contribution-margin",
         term: "Contribution margin",
-        places: [{ system: 3, page: 4, part: "Break-Even", tile: "button.section-tile[data-tile=\"sustainability-break-even-point\"]" }],
+        places: [{ system: 3, page: 4, part: "Financial Plan, Break Even", document: "financial-plan" }],
         meaning: "What each sale leaves to pay the fixed costs and the profit: price − variable costs. The ratio is that amount ÷ price.",
         also: ["contribution"],
         sources: ["contributionMargin"]
@@ -206,7 +208,7 @@ export const APP_TERMS: readonly AppTerm[] = [
     {
         id: "cash-runway",
         term: "Cash runway",
-        places: [{ system: 3, page: 5, part: "Funding, Financial Position, Runway", tile: "button.section-tile[data-tile=\"financial-funding\"]" }],
+        places: [{ system: 3, page: 5, part: "Funding Request", document: "funding" }],
         meaning: "How long the cash lasts at the present rate of spending: cash ÷ monthly net burn. Here it is the first month the projected balance goes below zero.",
         also: ["runway", "burn rate"],
         sources: ["cashRunway"]
@@ -214,7 +216,7 @@ export const APP_TERMS: readonly AppTerm[] = [
     {
         id: "funding-gap",
         term: "Funding gap",
-        places: [{ system: 3, page: 5, part: "Funding, Uses (the Funding Need)", tile: "button.section-tile[data-tile=\"financial-funding\"]" }],
+        places: [{ system: 3, page: 5, part: "Funding Request, Use of Funds", document: "funding" }],
         meaning: "The funding you still need to find: funding needed − funding available and confirmed."
     },
     {

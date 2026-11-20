@@ -56,12 +56,12 @@ Shown in each quadrant's band under its list: a line, an **Add** button, a muted
 | **Strengths** | "Your chosen point of difference: [option]" | K14 | each Segment's Differentiation |
 | | "Founders' skills: [skill]" | Founders Profile | each typed skill (until the skill areas exist, 2.9) |
 | | "Funded to [month], with the funding need covered" | Financials, Funding (its Financial Position; the Funding Need in Uses) | gap 0 and the runway reaches the period's end |
-| | "Breaks even in [month]" | Financials, Break-Even & Sustainability | break even inside the plan |
+| | "Breaks even in [month]" | Workbook, Financial Plan, Break Even | break even inside the plan |
 | | "Room to deliver more: [n] hours a month spare" | Capacity & Delivery; Financials, the Delivery Check | delivery hours above the hours needed |
 | **Weaknesses** | "Gap you named: [line]" | Capacity & Delivery, the Skills band (LC1, doc 52, section 9) | each skill ticked as still needed (until the skill areas exist) |
 | | "Funding gap of [amount]" | Financials, Funding (its Financial Position) | gap above 0 |
-| | "Break even falls beyond the plan" | Financials, Break-Even & Sustainability | none found within it |
-| | "The plan holds up to [case] only" | Financials, Break-Even & Sustainability's Stress Test | the first case that fails |
+| | "Break even falls beyond the plan" | Workbook, Financial Plan, Break Even | none found within it |
+| | "The plan holds up to [case] only" | Workbook, Financial Plan, the Stress Test | the first case that fails |
 | | "More sales than hours to deliver them: [Offering]" | Financials, Revenue Streams' Delivery Check | a shortfall |
 | | "Customers want [value]; your Offerings are yet to lead on it" | Value Proposition, Unmet value | each item |
 | | "[Offering] is still being built" | O2 | Still being built or Just an idea, from Launching on |
@@ -199,7 +199,7 @@ A Metric gains one optional field. When a figure is chosen:
   | Cancel / Month: [Offering] | Demand & Conversion | Percentage | lower |
   | Revenue a month | Financials, Revenue Streams | Currency | higher |
   | Margin per unit: [Offering] | Offering Economics | Currency | higher |
-  | Break-even month | Financials, Break-Even & Sustainability | Month | earlier |
+  | Break-even month | Workbook, Financial Plan, Break Even | Month | earlier |
   | Funding gap | Financials, Funding (its Financial Position) | Currency | lower |
   | Runway | Financials, Funding (its Financial Position) | Number (months) | higher |
   | Delivery hours used | Capacity & Delivery; Financials, the Delivery Check | Percentage | none |
@@ -276,7 +276,7 @@ Each phase is one branch and one pull request from a fresh `main`, in the owner'
 | **4. Ambassador** | the Values migration to `{ id, text }` first (with its test); BA1 to BA4, BA6 to BA9 with the drafts; Style suggestions | BA1 to BA4, BA6 to BA9 | M | D4 |
 | **5. Journey rebuild** | the stage-first Journey, the channel card with J1 and J2, the goals reading Demand, cost per customer (the suggested channels, the relationship type suggestion and the Demand rows are built in phase 1) | J1, J2 | L | the stage card prototype; phase 1 |
 | **6. Initiatives and Activities** | an Initiative linked to a Page 3 Activity; IN5 | none | L | phase 3 |
-| **7. Financials** | In this order (doc 48, section 11). **Layout built:** the sections' order and their tiles (2026-11-17), one page, Financials (2026-11-19), and one chapter, Financial Foundation, of five Master Tiles, four and one: Revenue Streams, Costs, Funding (Capital & Funding and Financial Position, with the Funding Need in its Uses), Cash Flow, then Break-Even & Sustainability (2026-11-20; doc 48, sections 1, 2, 11 and 13); the questions and the Offering Economics card are next. **(a) Revenue & Pricing first:** the price with RV1, the revenue streams, the Offering Economics card and its signals, and the two pricing questions: O19 and RV1 asked in the Revenue & Pricing section beside the price, K15 asked on the Competitor card and shown there as a record (doc 48, section 12; owner, 2026-11-17 07:16: "Yes to all"); the fee on a VAT-inclusive price (a calculation, named without a code: C1 is the founder's skill area, doc 28, 9.3); O14's tiers and add-on stream and D3's seasons wait here too (doc 48, section 11; 2026-11-17). **(b) Then Costs, Funding & Position:** Costs, Capital & Funding with FN1, Financial Position with the Funding Need (net of revenue, read from Revenue & Pricing before it), then Break-Even and Sustainability with the Stress Test. With them: the review in the Library proposal "2026-11-12-financial-pages-one-owner-per-fact" (decisions D1 to D6 open); the Inventory's IN1 to IN4 and IN6 (IN6 in that proposal) | RV1, FN1, K15, O19 | L | phase 1 |
+| **7. Financials** | In this order (doc 48, section 11). **Layout built:** the sections' order and their tiles (2026-11-17), one page, Financials (2026-11-19), and one chapter, Financial Foundation, of three Master Tiles that ask: Revenue Streams, Costs, Funding, the records (the Funding Need, the Financial Position, the Cash Flow, the Break Even and its Stress Test) in the Workbook's Financial Documents (2026-11-20; doc 48, sections 1, 2, 11, 13 and 14); the questions and the Offering Economics card are next. **(a) Revenue & Pricing first:** the price with RV1, the revenue streams, the Offering Economics card and its signals, and the two pricing questions: O19 and RV1 asked in the Revenue & Pricing section beside the price, K15 asked on the Competitor card and shown there as a record (doc 48, section 12; owner, 2026-11-17 07:16: "Yes to all"); the fee on a VAT-inclusive price (a calculation, named without a code: C1 is the founder's skill area, doc 28, 9.3); O14's tiers and add-on stream and D3's seasons wait here too (doc 48, section 11; 2026-11-17). **(b) Then Costs, Funding & Position:** Costs, Capital & Funding with FN1, Financial Position with the Funding Need (net of revenue, read from Revenue & Pricing before it), then Break-Even and Sustainability with the Stress Test. With them: the review in the Library proposal "2026-11-12-financial-pages-one-owner-per-fact" (decisions D1 to D6 open); the Inventory's IN1 to IN4 and IN6 (IN6 in that proposal) | RV1, FN1, K15, O19 | L | phase 1 |
 
 The financials come last (owner, Thanos, 2026-11-12 15:18: "I think it is better to rearrange the working sequence, and place the financials for later").
 

@@ -19,7 +19,13 @@ export function businessForecast(sessions: FoundationSessions) {
         years: planYears(f.financial),
         currency: f.currency,
         format: f.format,
-        name: f.name
+        name: f.name,
+        // (THE TWO CASH CHARTS, the Financials' records moved here (doc 48, section 14): the funding's month by month, then with the revenue, each once.)
+        timeline: f.position.timeline,
+        runwayMonths: f.position.runwayMonths,
+        revenueTimeline: f.outlook.revenueTimeline,
+        breakEvenMonth: f.outlook.breakEvenMonth,
+        exhaustionMonth: f.outlook.exhaustionMonth
     };
 }
 

@@ -181,14 +181,6 @@
 }
 
 /* The total at the foot of a Funding Need's list: a rule over it. */
-.financial-cost-inputs > li.financial-cost-total{
-
-    margin-top:4px;
-    padding-top:6px;
-
-    border-top:1px solid var(--line-faint, var(--box-border));
-
-}
 
 /* A Financial Foundation section's number stands on the middle of the title's line, as the title does. */
 .financial-section .fold-card-head > .strategy-box-number{

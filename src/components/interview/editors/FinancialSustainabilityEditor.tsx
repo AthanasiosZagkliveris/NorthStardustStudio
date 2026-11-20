@@ -5,26 +5,24 @@ import { numberStep } from "./BusinessEngagementModel.ts";
 import { countedCapability } from "../../../framework/engine/CardCompleteness.ts";
 import TextBox from "../../controls/TextBox.tsx";
 import NumberCell from "../../controls/NumberCell.tsx";
-import { type CSSProperties, Fragment, type ReactNode, useState, useSyncExternalStore } from "react";
+import { type CSSProperties, type ReactNode, useState, useSyncExternalStore } from "react";
 import FoldList from "../fields/FoldList.tsx";
 import { toggledIn } from "../fields/toggledIn.ts";
-import { CASH_CHARTS_KEY, JOINED_CHAPTER_KEY, useJoinedChapter } from "../tiles/joinedChapter.ts";
+import { JOINED_CHAPTER_KEY, useJoinedChapter } from "../tiles/joinedChapter.ts";
 import CardShell from "../cards/CardShell.tsx";
 import SectionTiles, { DialogHeading, stackedFace, type FaceRow, type SectionTile } from "../tiles/SectionTiles.tsx";
 import { type LegalEntityValue, asBusinessCapabilityValue, asBusinessEngagementValue, asLegalEntityValue, businessFoundationSegments, withLegalEntityFounders } from "../../../framework/engine/AnswerUtils.ts";
 import { offeringStartsById } from "../../../framework/engine/EffectiveAnswers.ts";
 import { calculatedLines } from "../../../framework/engine/CalculatedLines.ts";
-import { financialForecast, forecastView, ownersTakeDrawings } from "../../../framework/engine/FinancialForecast.ts";
-import ForecastTable from "../../ForecastTable.tsx";
+import { ownersTakeDrawings } from "../../../framework/engine/FinancialForecast.ts";
 import { type GlobalSettingsValue } from "../../../framework/engine/GlobalSettings.ts";
-import { costStartDates, derivedPlanStart, incomeTaxRate, legalExpenseDates, PAYMENT_TIMINGS, planLength, REVENUE_DEVELOPMENTS, REVENUE_FREQUENCIES, REVENUE_CHARGES, REVENUE_UNITS, asFinancialFoundationValue, asFinancialSustainabilityValue, consolidateCosts, createDetailedVolume, createRevenueStream, formatUnits, isRecurringRevenue, moneyFormatter, offeringCosts, parseAmount, planMonthLabel, sustainability, withPlanStart, salesCapacity, withDemand, stressTest, whatItWouldTake, type FinancialSustainabilityValue, type RevenueStreamValue, type StreamAnalysis, allFunding, hasLoans } from "../../../framework/engine/FinancialModel.ts";
+import { costStartDates, derivedPlanStart, incomeTaxRate, legalExpenseDates, PAYMENT_TIMINGS, planLength, REVENUE_DEVELOPMENTS, REVENUE_CHARGES, REVENUE_UNITS, asFinancialFoundationValue, asFinancialSustainabilityValue, consolidateCosts, createDetailedVolume, createRevenueStream, formatUnits, isRecurringRevenue, moneyFormatter, parseAmount, planMonthLabel, sustainability, withPlanStart, salesCapacity, withDemand, type FinancialSustainabilityValue, type RevenueStreamValue } from "../../../framework/engine/FinancialModel.ts";
 import { costSourcesFor } from "../../../framework/engine/ExportRenderers.ts";
 import { deliveryAllocation, demandResult } from "../../../framework/engine/DemandCapacity.ts";
 import { BusinessAddButton, BusinessCard, BusinessEmpty, BusinessField, OptionalNote, BusinessRemove, uniqueChoices } from "../cards/BusinessCardFields.tsx";
-import { CAPACITY_UTILISATION_HELP, CashTimelineChart, FigureTable, FigureTiles, FinancialBlock, type FinancialSection, PlanMonthField, SignalList, type TimelineMarker } from "./FinancialParts.tsx";
+import { CAPACITY_UTILISATION_HELP, FigureTable, FinancialBlock, type FinancialSection, PlanMonthField } from "./FinancialParts.tsx";
 import { summaryText } from "../cards/cardSummary.ts";
 import CardBoxes, { type CardBox } from "../cards/CardBoxes.tsx";
-import DialogSectionBand from "../tiles/DialogSectionBand.tsx";
 import { SingleColumn } from "./foundation/shared.tsx";
 import { EngagementBox, EngagementBoxes } from "./engagement/EngagementCard.tsx";
 import InfoNote, { type InfoPoint, InfoText } from "../fields/InfoNote.tsx";
@@ -36,23 +34,9 @@ import { railId } from "../rails/railItems.ts";
 import { useItemFolds } from "../fields/useItemFolds.ts";
 import { labelWithCurrency, nameWithCurrency } from "../../../framework/engine/Currencies.ts";
 import TextLink from "../fields/TextLink.tsx";
-import { BREAK_EVEN_REVENUE_FORMULA, BREAK_EVEN_REVENUE_SECOND_SOURCE, BREAK_EVEN_SOURCE, BREAK_EVEN_UNITS_FORMULA, CONTRIBUTION_HELP, EXPECTED_BREAK_EVEN_HELP, EXPECTED_REVENUE_HELP, ORDERS_HELP, SECTIONS, SECTION_HUES, STATUS_TITLES, STREAM_HELP, TAKE_INFO } from "./financialSustainabilityTexts.ts";
+import { ORDERS_HELP, SECTIONS, SECTION_HUES, STREAM_HELP } from "./financialSustainabilityTexts.ts";
 
 /* The "i" of the blocks that are a Break Even or Revenue tile's whole subject: the tile's dialog heading carries it (doc 48, section 2). */
-const REVENUE_SUMMARY_INFO: InfoPoint[] = ["Expected revenue at the normal operating level, a month."];
-const BREAK_EVEN_POINT_INFO: InfoPoint[] = [
-    "Contribution per unit = price − variable cost per unit.",
-    "Offering break even: the units this Offering alone would need to sell to cover all fixed costs.",
-    "Organisation break even: the expected revenue mix, scaled as a whole until its contribution covers the fixed costs.",
-    BREAK_EVEN_UNITS_FORMULA,
-    BREAK_EVEN_SOURCE
-];
-const BREAK_EVEN_TIME_INFO: InfoPoint[] = ["The first month in which expected revenue covers that month's costs: the fixed costs, and the variable costs of that month's volume."];
-const STRESS_TEST_INFO: InfoPoint[] = [
-    "The plan as it stands, and the same plan when things go worse than hoped: sales 20% lower, revenue 3 months later, costs 10% higher (founders' pay aside), customers paying a month later than planned, and all four together.",
-    "The funding being sought is counted as if it arrives as planned, its repayments included: the question a lender asks is whether the plan holds with the money requested.",
-    "Holds: cash stays at zero or above throughout the plan.", "Short: how much more money would keep it there."
-];
 
 interface FinancialSustainabilityEditorProps {
     value: unknown;
@@ -112,7 +96,6 @@ export default function FinancialSustainabilityEditor({
 
     onOpenFoundation,
 
-    onOpenFinancialFoundation,
 
     engagement,
 
@@ -317,16 +300,6 @@ export default function FinancialSustainabilityEditor({
         return Math.abs(count - 1) < 0.05 ? word : word.endsWith("s") ? word : word + "s";
     }
 
-    /** The price as entered: "€800 / project", "€30 / subscription, monthly". */
-    function priceLabel(stream: RevenueStreamValue): string {
-        const price = parseAmount(stream.price);
-        if (price === null) {
-            return "Not set";
-        }
-        const frequency = REVENUE_FREQUENCIES.find(entry => entry.id === stream.frequency);
-        return format(price) + " / " + unitName(stream) +
-            (frequency && isRecurringRevenue(frequency.id) ? ", " + frequency.label.toLowerCase() : "");
-    }
 
     /**
      * The price on a folded card's summary line: "£1,200 / Client",
@@ -340,116 +313,6 @@ export default function FinancialSustainabilityEditor({
         return amount && (unit ? amount + " / " + unit : amount);
     }
 
-    /**
-     * Each Offering's own costs beside its price: what one sale costs,
-     * what is left of the price, and what the Offering costs every
-     * month whatever it sells. Read from its lines on Financial
-     * Foundation, which come from Page 3's Offering's Capability.
-     */
-    function offeringCostsBlock() {
-
-        return (
-            <FinancialBlock
-                title="Each Offering's Costs"
-                info={[
-                    "An Offering's costs are those recorded for it on Infrastructure & Capability → Offering's Capability.",
-                    "Per sale: paid for every unit or project sold. Contribution is what is left of the price after them.",
-                    "Whatever is sold: paid monthly or once, however much is sold. After them, what the Offering adds towards the organisation's shared costs."
-                ]}
-            >
-                <div className="financial-offering-costs">
-                    {result.streams.map(entry => {
-
-                        const costs = offeringCosts(lines, entry.stream.offeringId);
-                        const unit = unitName(entry.stream);
-                        const monthlyContribution = entry.contribution !== null ? entry.contribution * entry.volume : null;
-                        const unitsForOwnCosts = entry.contribution !== null && entry.contribution > 0 && costs.fixedMonthly > 0
-                            ? costs.fixedMonthly / entry.contribution
-                            : null;
-
-                        return (
-                            <div className="financial-offering-cost-card" key={entry.stream.id}>
-
-                                <strong className="financial-offering-cost-name">{offeringName(entry.stream)}</strong>
-
-                                <ul className="financial-cost-inputs">
-                                    <li><span>Price</span><span>{priceLabel(entry.stream)}</span></li>
-                                    {(parseAmount(entry.stream.deliveryCharge) ?? 0) > 0 && (
-                                        <li>
-                                            <span>Delivery charged to the customer</span>
-                                            <span>{format(parseAmount(entry.stream.deliveryCharge) ?? 0)} / order</span>
-                                        </li>
-                                    )}
-                                </ul>
-
-                                <span className="field-group-title financial-offering-cost-subhead">Per {unit} sold</span>
-                                <ul className="financial-cost-inputs">
-                                    {costs.perUnit.length === 0
-                                        ? <li><span className="financial-muted">No costs per sale recorded</span></li>
-                                        : costs.perUnit.map(item => (
-                                            <li key={item.name + item.basis}>
-                                                <span>{item.name}{item.basis === "variable part" ? " (variable part)" : ""}</span>
-                                                <span>{format(item.amount)}{item.basis === "project" && unit !== "project" ? " / project" : ""}{item.basis === "order" ? " / order" : ""}</span>
-                                            </li>
-                                        ))}
-                                    <li className="financial-cost-inputs-total">
-                                        <span>Cost of one {unit}</span><span>{format(entry.variable)}</span>
-                                    </li>
-                                    {entry.contribution !== null && entry.price !== null && entry.price > 0 && (
-                                        <li className="financial-cost-inputs-total">
-                                            <span>
-                                                <InfoText text="Contribution">
-                                                    <InfoNote label="Contribution" points={CONTRIBUTION_HELP} />
-                                                </InfoText>
-                                            </span>
-                                            <span>{format(entry.contribution)} ({Math.round(entry.contribution / entry.price * 100)}% of the price)</span>
-                                        </li>
-                                    )}
-                                </ul>
-                                {entry.variableOverridden && (
-                                    <p className="financial-muted">
-                                        The revenue stream's own figure, {format(entry.variable)}, applies here and replaces the {format(costs.variablePerUnit)} recorded above.
-                                    </p>
-                                )}
-
-                                {(costs.recurring.length > 0 || costs.oneTime.length > 0) && (
-                                    <>
-                                        <span className="field-group-title financial-offering-cost-subhead">Whatever is sold</span>
-                                        <ul className="financial-cost-inputs">
-                                            {costs.recurring.map(item => (
-                                                <li key={item.name}><span>{item.name}</span><span>{format(item.monthly)} / month</span></li>
-                                            ))}
-                                            {costs.oneTime.map(item => (
-                                                <li key={item.name}><span>{item.name}</span><span>{format(item.amount)} once</span></li>
-                                            ))}
-                                        </ul>
-                                    </>
-                                )}
-
-                                <ul className="financial-cost-inputs financial-offering-cost-result">
-                                    {unitsForOwnCosts !== null && (
-                                        <li>
-                                            <span>Covers its own monthly costs from</span>
-                                            <span>≈ {volumeText(entry.stream, unitsForOwnCosts, " / month")}</span>
-                                        </li>
-                                    )}
-                                    {monthlyContribution !== null && (
-                                        <li className="financial-cost-inputs-total">
-                                            <span>Adds to shared costs, at the normal level</span>
-                                            <span>{format(monthlyContribution - costs.fixedMonthly)} / month</span>
-                                        </li>
-                                    )}
-                                </ul>
-
-                            </div>
-                        );
-
-                    })}
-                </div>
-            </FinancialBlock>
-        );
-
-    }
 
     /** Where an Offering's Demand & Conversion is, as a jump path (see jumpTo.ts). */
     function demandPath(offeringId: string): string[] {
@@ -1054,504 +917,6 @@ export default function FinancialSustainabilityEditor({
 
     }
 
-    /* ---------- 2. Break Even ---------- */
-
-    /**
-     * A volume in words: "2.2 projects a month" for what is sold, "4.7
-     * active clients" for what is paid every period (a count, not a
-     * rate).
-     */
-    function volumeText(stream: RevenueStreamValue, units: number, perMonth = " a month"): string {
-        return isRecurringRevenue(stream.frequency)
-            ? formatUnits(units) + " active " + plural(unitName(stream), units)
-            : formatUnits(units) + " " + plural(unitName(stream), units) + perMonth;
-    }
-
-    /** One line per Offering: "≈ 3 projects a month (Bespoke Textile Commissions)". */
-    function activityLines(streams: StreamAnalysis[], scale: number): string[] {
-        return streams
-            .filter(entry => entry.volume > 0)
-            .map(entry => {
-                const units = entry.volume * scale;
-                return "≈ " + volumeText(entry.stream, units) +
-                    (streams.length > 1 ? " (" + offeringName(entry.stream) + ")" : "");
-            });
-    }
-
-    function activityList(streams: StreamAnalysis[], scale: number) {
-        return (
-            <ul className="financial-activity-list">
-                {activityLines(streams, scale).map(line => <li key={line}>{line}</li>)}
-            </ul>
-        );
-    }
-
-    const whenLabel = (month: number | null) => month === null ? "Not reached" : planMonthLabel(start, month);
-
-    /** Whether any revenue is expected in the plan: without it, nothing to test. */
-    const hasRevenue = result.months.some(month => month.revenue > 0);
-
-    /**
-     * THE STRESS TEST: the plan as it stands and four worse cases, fixed
-     * so the answer is the same for everyone, with the funding being
-     * sought counted. One sentence says whether the plan holds; the
-     * table says how far each case falls.
-     */
-    function stressBlock() {
-
-        // With no revenue, there is no plan to put under stress.
-        if (!hasRevenue) {
-            return (
-                <FinancialBlock title="Stress Test" bare>
-                    <BusinessEmpty>
-                        Add the price and expected sales of each revenue stream above: the Stress Test runs on them.
-                    </BusinessEmpty>
-                </FinancialBlock>
-            );
-        }
-
-        const test = stressTest(effective, financial, lines, legalEntity, format);
-        const [planned, ...worse] = test.scenarios;
-        const failing = worse.filter(scenario => scenario.shortfall > 0.5);
-        const hardest = test.scenarios.reduce((max, scenario) => scenario.shortfall > max.shortfall ? scenario : max, planned);
-        const lowestOfAll = test.scenarios.reduce((min, scenario) => scenario.lowest < min.lowest ? scenario : min, planned);
-
-        const verdict = planned.shortfall > 0.5
-            ? {
-                tone: "risk",
-                text: "The plan does not hold even as planned: cash falls " + format(planned.shortfall) + " short in " +
-                    planned.lowestLabel + ". The hardest case, " + hardest.label.toLowerCase() + ", falls " +
-                    format(hardest.shortfall) + " short."
-            }
-            : failing.length === 0
-                ? {
-                    tone: "good",
-                    text: "The plan holds in every case: at worst, cash falls to " + format(lowestOfAll.lowest) +
-                        " in " + lowestOfAll.lowestLabel + " (" + lowestOfAll.label.toLowerCase() + ")."
-                }
-                : {
-                    tone: "caution",
-                    text: "The plan holds as planned, but not with " +
-                        failing.map(scenario => scenario.label.toLowerCase()).join(", ").replace(/, ([^,]*)$/, " or $1") +
-                        ": the hardest case needs " + format(hardest.shortfall) + " more."
-                };
-
-        return (
-            <FinancialBlock title="Stress Test" bare>
-                <p className={"financial-stress-verdict financial-stress-" + verdict.tone}>{verdict.text}</p>
-                <p className="financial-muted">
-                    {test.sought > 0.5
-                        ? "Counting the " + format(test.sought) + " being sought as if it arrives as planned, its repayments included."
-                        : "Counting the funding received and confirmed on Financial Foundation."}
-                </p>
-                <div className="financial-table-scroll">
-                    <FigureTable className="financial-fixed-table">
-                        <colgroup><col className="financial-col-label" /><col /><col /><col /></colgroup>
-                        <thead>
-                            <tr>
-                                <th scope="col">Case</th>
-                                <th scope="col">Break Even</th>
-                                <th scope="col">Lowest Cash</th>
-                                <th scope="col">Result</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {test.scenarios.map(scenario => (
-                                <tr key={scenario.id}>
-                                    <th scope="row">{scenario.label}</th>
-                                    <td>{whenLabel(scenario.breakEvenMonth)}</td>
-                                    <td>{format(scenario.lowest)}{scenario.lowestLabel ? ", " + scenario.lowestLabel : ""}</td>
-                                    <td className={scenario.shortfall > 0.5 ? "financial-stress-short" : "financial-stress-holds"}>
-                                        {scenario.shortfall > 0.5 ? format(scenario.shortfall) + " short" : "Holds"}
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </FigureTable>
-                </div>
-            </FinancialBlock>
-        );
-
-    }
-
-    /**
-     * WHAT IT WOULD TAKE: the smallest single change that keeps the cash
-     * above zero through the plan, each on its own; or, where the plan
-     * already holds, how much room it has. Worked out, never asked.
-     */
-    function takeBlock() {
-
-        if (!hasRevenue) {
-            return (
-                <FinancialBlock title="What It Would Take">
-                    <BusinessEmpty>
-                        Once revenue is expected, this says what it would take to keep the cash above zero: more funding, higher prices, more sales, lower costs or an earlier start.
-                    </BusinessEmpty>
-                </FinancialBlock>
-            );
-        }
-
-        const take = whatItWouldTake(effective, financial, lines, legalEntity, format);
-        const basis = take.sought > 0.5
-            ? ", with the " + format(take.sought) + " being sought"
-            : "";
-
-        if (take.room) {
-            const room = take.room;
-            return (
-                <FinancialBlock title="What It Would Take" info={TAKE_INFO}>
-                    <p className="financial-stress-verdict financial-stress-good">
-                        The plan holds as it stands{basis}. It has room for any one of these:
-                    </p>
-                    <ul className="financial-take-list">
-                        <li>Sales up to <strong>{room.sales}%</strong> lower{room.sales >= 100 ? " (or none at all)" : ""}</li>
-                        <li>Revenue up to <strong>{room.later} month{room.later === 1 ? "" : "s"}</strong> later{room.later >= 24 ? " or more" : ""}</li>
-                        <li>Costs up to <strong>{room.costs}%</strong> higher{room.costs >= 200 ? " or more" : ""}, founders' pay aside</li>
-                    </ul>
-                    <p className="financial-muted">Each on its own, with everything else as planned.</p>
-                </FinancialBlock>
-            );
-        }
-
-        const options: string[] = [
-            format(take.shortfall) + " more funding, by " + take.shortBy,
-            ...(take.prices !== null ? ["Prices " + take.prices + "% higher"] : []),
-            ...(take.sales !== null ? ["Sales " + take.sales + "% higher"] : []),
-            ...(take.costs !== null ? ["Costs " + take.costs + "% lower, founders' pay aside"] : []),
-            ...(take.earlier !== null ? ["Revenue starting " + take.earlier + " month" + (take.earlier === 1 ? "" : "s") + " earlier"] : [])
-        ];
-        const out: string[] = [
-            ...(take.prices === null ? ["prices (not even three times as high)"] : []),
-            ...(take.sales === null ? ["sales (not even four times as many)"] : []),
-            ...(take.costs === null ? ["costs (not even with every cost but founders' pay removed)"] : []),
-            ...(take.earlier === null ? ["an earlier start (not within 12 months)"] : [])
-        ];
-
-        return (
-            <FinancialBlock title="What It Would Take" info={TAKE_INFO}>
-                <p className="financial-stress-verdict financial-stress-risk">
-                    To keep cash above zero through the plan{basis}, any one of these would do:
-                </p>
-                <ul className="financial-take-list">
-                    {options.map(option => <li key={option}>{option}</li>)}
-                </ul>
-                {out.length > 0 && (
-                    <p className="financial-muted">Not possible by changing {out.join(", ").replace(/, ([^,]*)$/, " or $1")} alone.</p>
-                )}
-                <p className="financial-muted">
-                    Each on its own, with everything else as planned; a mix of smaller changes can do the same.
-                </p>
-            </FinancialBlock>
-        );
-
-    }
-
-    /**
-     * BREAK EVEN IN FOUR PARTS (doc 48, section 2; owner, 2026-11-17 07:36): the Break Even chapter's tiles on Costs, Funding & Position -- Break-Even Point
-     * (the costs used, the point, the costs of each Offering), Break-Even Time (the months and the revenue-adjusted position), Sustainability (the headline,
-     * the figures, the summary and its signals) and Stress Test (the four worse cases and What It Would Take); the same blocks as before, nothing stored.
-     */
-    function breakEvenParts() {
-
-        const inputs = result.inputs;
-
-        /* A tile holds the date alone, on one line; which month of the
-           plan it is goes beneath it, as every tile's detail does. */
-        const ofPlan = (month: number) => "Month " + month + " of the plan";
-
-        const breakEven = result.breakEvenMonth === null
-            ? "Not reached"
-            : result.breakEvenMonth === 1
-                ? "Already above"
-                : planMonthLabel(start, result.breakEvenMonth);
-        const breakEvenDetail = result.breakEvenMonth === null
-            ? "within the " + months + "-month plan"
-            : ofPlan(result.breakEvenMonth);
-
-        const exhaustion = result.exhaustionMonth === null
-            ? "Beyond the plan"
-            : planMonthLabel(start, result.exhaustionMonth);
-        const exhaustionDetail = result.exhaustionMonth === null
-            ? "of " + months + " months"
-            : ofPlan(result.exhaustionMonth);
-
-        // Break even with no exhaustion in sight: the buffer is at
-        // least the rest of the plan.
-        const bufferLabel = result.buffer !== null
-            ? result.buffer + " month" + (result.buffer === 1 ? "" : "s")
-            : result.breakEvenMonth !== null && result.exhaustionMonth === null
-                ? months + "+ months"
-                // (SAID IN WORDS (owner, 2026-11-20, doc 48 section 13; the app's affirmative voice): what stands in the buffer's place, never "n/a".)
-                : result.exhaustionMonth !== null ? "Runs out before break-even" : "No break-even in the plan";
-
-        const statusTitle = STATUS_TITLES[result.status];
-
-        const statusTone = result.status === "above" || result.status === "sustainable"
-            ? "good"
-            : result.status === "no-revenue" ? "neutral" : "risk";
-
-        const markers: TimelineMarker[] = [];
-        if (result.breakEvenMonth !== null) {
-            markers.push({ month: result.breakEvenMonth, label: "Break even", tone: "good" });
-        }
-        if (result.exhaustionMonth !== null) {
-            markers.push({ month: result.exhaustionMonth, label: "Funds run out", tone: "risk" });
-        }
-
-        const reachedIndex = result.breakEvenMonth ?? 0;
-        const tableMonths = result.months.slice(0, Math.min(months, Math.max(6, reachedIndex + 2)));
-
-        const lead = (
-            <>
-                <div className={"financial-headline financial-headline-" + statusTone}>
-                    <strong>{statusTitle}</strong>
-                    <span>{result.signals[0]?.text}</span>
-                </div>
-
-                <FigureTiles tiles={[
-                    {
-                        label: "Expected Monthly Revenue",
-                        value: format(result.expectedRevenue),
-                        detail: "at the normal level",
-                        info: EXPECTED_REVENUE_HELP
-                    },
-                    {
-                        label: "Break-Even Revenue",
-                        value: result.breakEvenRevenue === null ? "n/a" : format(result.breakEvenRevenue),
-                        detail: "a month",
-                        info: [
-                            "Fixed costs divided by the contribution margin of the expected revenue mix.",
-                            BREAK_EVEN_REVENUE_FORMULA,
-                            BREAK_EVEN_SOURCE,
-                            BREAK_EVEN_REVENUE_SECOND_SOURCE
-                        ]
-                    },
-                    {
-                        label: "Expected Break Even",
-                        value: breakEven,
-                        detail: breakEvenDetail,
-                        tone: result.breakEvenMonth === null ? "risk" : "good",
-                        info: EXPECTED_BREAK_EVEN_HELP
-                    },
-                    {
-                        label: "Financial Exhaustion",
-                        value: exhaustion,
-                        detail: exhaustionDetail,
-                        tone: result.exhaustionMonth !== null ? "risk" : "neutral",
-                        info: [
-                            "When available cash is expected to run out: funding received or confirmed on Financial Foundation, plus expected revenue as it is received.",
-                            "Funding still expected or applied for is not counted until it is confirmed."
-                        ]
-                    },
-                    {
-                        label: "Sustainability Buffer",
-                        value: bufferLabel,
-                        detail: undefined,
-                        info: ["Financial Exhaustion minus Break-Even Time: how much time exists between becoming sustainable and running out of resources."]
-                    }
-                ]} />
-            </>
-        );
-
-        const point = (
-            <>
-                {result.streams.length > 0 && (
-                    <FinancialBlock title="Break-Even Point" bare>
-                        <div className="financial-table-scroll">
-                            <FigureTable>
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Offering</th>
-                                        <th scope="col">Price</th>
-                                        <th scope="col">Variable Cost</th>
-                                        <th scope="col">Contribution</th>
-                                        <th scope="col">Break Even Alone</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {result.streams.map(entry => (
-                                        <tr key={entry.stream.id}>
-                                            <th scope="row">{offeringName(entry.stream)}</th>
-                                            <td>{priceLabel(entry.stream)}</td>
-                                            <td>{format(entry.variable)}{entry.variableOverridden ? " (entered)" : ""}</td>
-                                            <td>{entry.contribution === null ? "n/a" : format(entry.contribution)}</td>
-                                            <td>
-                                                {entry.breakEvenAlone === null
-                                                    ? "n/a"
-                                                    : "≈ " + volumeText(entry.stream, entry.breakEvenAlone, " / month")}
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </FigureTable>
-                        </div>
-                        {result.breakEvenScale !== null && result.breakEvenRevenue !== null
-                            ? (
-                                <div className="financial-result">
-                                    <strong>Break-even revenue: {format(result.breakEvenRevenue)} / month.</strong>{" "}
-                                    Equivalent activity, in the expected mix:
-                                    {activityList(result.streams, result.breakEvenScale)}
-                                </div>
-                            )
-                            : (
-                                <p className="financial-result">
-                                    No break-even point: the expected revenue does not contribute anything above its variable costs.
-                                </p>
-                            )}
-                    </FinancialBlock>
-                )}
-
-                <FinancialBlock
-                    title="Costs Used"
-                    info={[
-                        "Read from Financial Foundation, by behaviour.",
-                        "Fixed: the monthly equivalent of every recurring cost, plus loan interest. Loan principal is repayment of borrowed money, kept outside the costs; one-time costs are what the funding is for.",
-                        "Variable: per-unit and per-project costs linked to each Offering."
-                    ]}
-                >
-                    <ul className="financial-cost-inputs">
-                        {inputs.parts.length === 0
-                            ? <li>No recurring costs recorded on Financial Foundation yet.</li>
-                            : inputs.parts.map(part => (
-                                <li key={part.label}><span>{part.label}</span><span>{format(part.amount)} / month</span></li>
-                            ))}
-                        <li className="financial-cost-inputs-total">
-                            <span>Fixed costs</span><span>{format(inputs.fixed)} / month</span>
-                        </li>
-                    </ul>
-                    {inputs.caveats.map(caveat => <p className="financial-muted" key={caveat}>Estimate: {caveat}</p>)}
-                    {onOpenFinancialFoundation && (
-                        <TextLink type="button" className="business-engagement-link" onClick={() => onOpenFinancialFoundation(["financial-costs"])}>
-                            Review the costs on Financial Foundation
-                        </TextLink>
-                    )}
-                </FinancialBlock>
-
-                {result.streams.length > 0 && offeringCostsBlock()}
-            </>
-        );
-
-        const time = (
-            <>
-                <FinancialBlock title="Break-Even Time" bare>
-                    {result.expectedRevenue <= 0
-                        ? <BusinessEmpty>With no expected revenue, break even cannot be reached from revenue.</BusinessEmpty>
-                        : (
-                            <div className="financial-table-scroll">
-                                <FigureTable>
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">Month</th>
-                                            <th scope="col">Expected Revenue</th>
-                                            <th scope="col">Costs</th>
-                                            <th scope="col">Position</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {tableMonths.map(month => (
-                                            <tr key={month.month} className={month.month === result.breakEvenMonth ? "financial-row-highlight" : undefined}>
-                                                <th scope="row">{month.label}</th>
-                                                <td>{format(month.revenue)}</td>
-                                                <td>{format(month.costs)}</td>
-                                                <td>
-                                                    {month.position === "below"
-                                                        ? "Below Break Even"
-                                                        : month.position === "at" ? "Break Even" : "Above Break Even"}
-                                                </td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </FigureTable>
-                            </div>
-                        )}
-                </FinancialBlock>
-
-            </>
-        );
-
-        // (THE REVENUE-ADJUSTED FINANCIAL POSITION (doc 48, section 13, step 4): drawn in the Cash Flow tile's dialog, shown once.)
-        const revenueChart = (
-            <div data-anchor="sustainability-revenue-adjusted-position">
-                    <FinancialBlock
-                        title="Revenue-Adjusted Financial Position"
-                        info={[
-                            "The Financial Foundation timeline with expected revenue received and variable costs paid as they are expected.",
-                            "Funding runway (Financial Foundation, without revenue): " + (result.fundingRunway === null
-                                ? "beyond the " + months + "-month plan."
-                                : result.fundingRunway + (result.fundingRunway === 1 ? " month." : " months."))
-                        ]}
-                    >
-                        {result.revenueTimeline.some(month => month.inflow > 0 || month.outflow > 0 || month.balance !== 0)
-                            ? (
-                                <CashTimelineChart
-                                    timeline={result.revenueTimeline}
-                                    format={format}
-                                    markers={markers}
-                                    inLabel="Funding & revenue in"
-                                    outLabel={hasLoans(allFunding(financial, legalEntity)) ? "Costs & repayments out" : "Costs out"}
-                                />
-                            )
-                            : <BusinessEmpty>Nothing is scheduled to come in or go out yet.</BusinessEmpty>}
-                    </FinancialBlock>
-            </div>
-        );
-
-        /** The Stress Test's line on the Sustainability tile: the shortfall in its hardest case, or None. */
-        function stressFace(): FaceRow[] {
-            const test = stressTest(effective, financial, lines, legalEntity, format);
-            if (test.scenarios.length === 0) {
-                return [];
-            }
-            const [planned] = test.scenarios;
-            const hardest = test.scenarios.reduce((max, scenario) => scenario.shortfall > max.shortfall ? scenario : max, planned);
-            // (Its hardest case alone: as planned is the Sustainability's own figure, said beside it; owner, 2026-11-18 16:55.)
-            // (Short enough for the face: the shortfall's amount, or None.)
-            return [pair("Worst shortfall", hardest.shortfall > 0.5 ? format(hardest.shortfall) : "None")];
-        }
-
-        const stress = (
-            <>
-                {stressBlock()}
-                {takeBlock()}
-            </>
-        );
-
-        const summary = (
-            <>
-                <FinancialBlock title="Sustainability" bare>
-                    <div className="financial-table-scroll">
-                        {/* (THE FIGURES ARE SAID ONCE (doc 48, section 13, step 5): the figure tiles above hold the revenue, the break-even, the exhaustion and the buffer; the table keeps the activity break-even takes, which no tile says.) */}
-                        <FigureTable className="financial-summary">
-                            <tbody>
-                                <tr>
-                                    <th scope="row">Break-Even Activity</th>
-                                    <td>{result.breakEvenScale === null ? "n/a" : activityList(result.streams, result.breakEvenScale)}</td>
-                                </tr>
-                            </tbody>
-                        </FigureTable>
-                    </div>
-                    <SignalList signals={result.signals} />
-                    <p className="financial-muted">
-                        Based on the current assumptions only. These are estimates, not guarantees or financial advice.
-                    </p>
-                </FinancialBlock>
-            </>
-        );
-
-        // (Each tile's face: the figure it is about.)
-        const pair = (name: string, figure: string): FaceRow => ({ name, under: figure });
-        return {
-            point: { body: point, face: result.breakEvenRevenue === null ? [] : [pair("Break-even revenue", format(result.breakEvenRevenue) + " a month")] },
-            time: { body: time, face: [pair("Expected Break Even", breakEven)] },
-            // (THE FACES SAY THEIR FIGURES (owner, 2026-11-18 10:38: "Check the structure, layout, sequence, content and wording"): the status with when the money
-            // runs out and the buffer; the Stress Test, as planned and at worst.)
-            sustainability: { body: <>{lead}{summary}</>, face: [pair(statusTitle, ""), pair("Financial Exhaustion", exhaustion), pair("Sustainability Buffer", bufferLabel)] },
-            stress: { body: stress, face: stressFace() },
-            charts: revenueChart
-        };
-
-    }
-
     /* ---------- The chapters (doc 48, sections 2 and 11; owner, 2026-11-17 07:36) ---------- */
 
     /** A chapter's tiles, each opening its blocks in a dialog with the chapter's heading and "i", as Financial Foundation's are. */
@@ -1591,29 +956,8 @@ export default function FinancialSustainabilityEditor({
         );
     }
 
-    // (THE BREAK EVEN TILES. TWO TILES, FOUR BLOCKS (owner, 2026-11-18 16:55: "Do all 8"): the Break-Even Point and its Time read the same costs and margins,
-    // one tile; the Sustainability and the Stress Test both say when the money could run out, one tile -- each block under its own band in the dialog. They
-    // write nothing. Their ids keep the Break Even chapter's prefix, so a note or a link saved on them still lands.)
-    const breakEven = breakEvenParts();
-    // (STEP 5, BREAK-EVEN & SUSTAINABILITY, ONE TILE (doc 48, section 13; owner, 2026-11-20 12:49 UTC+2, "proceed to changes"): when the business pays for itself and
-    // how long the money lasts, one story -- the Break-Even Point and Time, then the Sustainability and its Stress Test, each under its band. The tile keeps the
-    // Break-Even's id; the Sustainability's anchor answers every jump, note and link made to it.)
-    const breakEvenTiles = chapterTiles("sustainability-break-even", SECTIONS.breakEven, [
-        {
-            id: "point", title: "Break-Even & Sustainability",
-            face: [...breakEven.point.face, ...breakEven.time.face, ...breakEven.sustainability.face.filter(row => row.under !== "")],
-            body: (
-                <>
-                    <DialogSectionBand title="Break-Even Point" info={BREAK_EVEN_POINT_INFO}>{breakEven.point.body}</DialogSectionBand>
-                    <DialogSectionBand title="Break-Even Time" info={BREAK_EVEN_TIME_INFO}>{breakEven.time.body}</DialogSectionBand>
-                    <div data-anchor="sustainability-break-even-sustainability">
-                        <DialogSectionBand title="Sustainability">{breakEven.sustainability.body}</DialogSectionBand>
-                        <DialogSectionBand title="Stress Test" info={STRESS_TEST_INFO}>{breakEven.stress.body}</DialogSectionBand>
-                    </div>
-                </>
-            )
-        }
-    ]);
+    // (BREAK-EVEN & SUSTAINABILITY AND CASH FLOW ARE RECORDS: they ask nothing, and the Workbook says them -- the Business Plan's "2. Break Even" with its Stress
+    // Test, the Financial Forecast's Cash-Flow Forecast with its two charts (doc 48, section 14; owner, 2026-11-20 18:35 UTC+2). The page keeps what asks.)
 
     // (REVENUE, the chapter of Revenue & Pricing. ONE CARD (owner, 2026-11-18 10:38: "Revenue streams should be tiles. Place the Revenue Summary and Delivery Check
     // in the same card as the Revenue Stream Tiles"): its tile opens a dialog of a tile for each stream (the dialog's card list, three in a row, each opening its
@@ -1644,12 +988,10 @@ export default function FinancialSustainabilityEditor({
                                 }))}
                             />
                         )}
-                    <DialogSectionBand title="Delivery Check">{revenue.delivery.body}</DialogSectionBand>
-                    <DialogSectionBand title="Revenue Summary" info={REVENUE_SUMMARY_INFO}>{revenue.summary.body}</DialogSectionBand>
                 </>
             )
         }])[0],
-        // (A dialog of its own, whatever the number of streams: the Delivery Check and the Revenue Summary stand in it too.)
+        // (A dialog of its own, whatever the number of streams; the Delivery Check and the Revenue Summary are the Business Plan's, doc 48, section 14.)
         view: true,
         holds: shownStreams.map(entry => streamCardId(entry.stream)),
         cardFor: (id: string) => {
@@ -1664,60 +1006,12 @@ export default function FinancialSustainabilityEditor({
     // Tiles in the order each reads only what stands before it (doc 48, section 11) -- Revenue Streams, Costs, Capital & Funding, Financial Position, then
     // Break-Even and Sustainability --, two groups side by side in one frame, the line between them, as Foundation & Engagement's chapter: so every Master Tile
     // keeps its size and layout (layout rules section 23) and every dialog and floating card behaves as before.)
-    if (joined) {
-        // (STEP 4, CASH FLOW (doc 48, section 13; owner, 2026-11-20 12:49 UTC+2, "proceed to changes"): the first twelve months, month by month -- money in, money out,
-        // the net and the cash at the end of each month -- read from the one forecast the documents use, never worked out again; its face, the cash after twelve
-        // months and the lowest month. Sources: Start Up Loans, the cash flow forecast; Boston University, the cash table.)
-        const forecast = financialForecast(financial, effective, lines, legalEntity, format, calculated);
-        const cashTable = forecastView(forecast, "monthly", 1, { tables: [forecast.cashFlow] }).tables[0];
-        const closings = (forecast.cashFlow.rows.find(row => row.label === "Cash at end of period")?.values ?? []).slice(0, 12);
-        const lowest = closings.length > 0 ? closings.reduce((at, value, index) => value < closings[at] ? index : at, 0) : -1;
-        const cashFace: FaceRow[] = closings.length > 0 ? [
-            { name: "Cash after " + closings.length + " months", under: format(closings[closings.length - 1]) },
-            { name: "Lowest, " + (forecast.months[lowest] ?? ""), under: format(closings[lowest]) }
-        ] : [];
-        const cashSection: FinancialSection = {
-            title: "Cash Flow",
-            instructions: ["The money in and the money out of your first twelve months, month by month, and the cash left at the end of each."],
-            info: ["Money in is your sales and the funding you receive; money out is your costs, your pay and your loan repayments.", "The same figures as the Cash-Flow Forecast in your Workbook.", "Based on: Start Up Loans, Cash flow forecast template; Gupta (2020), Building a financial plan: the numbers, Boston University."]
-        };
-        const cashTile = chapterTiles("sustainability-cash-flow", cashSection, [{
-            id: "months", title: "Cash Flow", face: cashFace,
-            body: (
-                <>
-                    {cashTable && <ForecastTable table={cashTable} currency={currency} format={format} />}
-                    {joined.get(CASH_CHARTS_KEY).map(chart => <Fragment key={chart.id}>{chart.content()}</Fragment>)}
-                    {breakEven.charts}
-                </>
-            )
-        }])[0];
-        const hue = SECTION_HUES["sustainability-revenue"] ?? 0;
-        const style = { "--strategy-theme-hue": hue } as CSSProperties;
-        const group = (anchor: string, tiles: SectionTile[]) => (
-            <CardShell className="segment-chapter-part" data-anchor={anchor} style={style}>
-                <SectionTiles label={tiles.map(tile => tile.title).join(", ")} hue={hue} tiles={tiles} />
-            </CardShell>
-        );
-        return (
-            <div className="answer-columns business-foundation business-engagement business-capability column-tiles-page" style={{ "--answer-column-count": 1 } as CSSProperties}>
-                <div className="segment-chapter" style={style} data-anchor="column-tiles">
-                    <div className="card-scroll">
-                        <div className="business-capability-section business-capability-tiles-section">
-                            <div className="business-engagement-section-head tiles-frame-head"><span className="field-group-title business-foundation-subhead">{frameTitle}</span></div>
-                            <div className="segment-chapter-groups">
-                                {/* (Five Master Tiles in the one chapter, four and one (doc 48, section 13: "five in the two groups of the chapter (four and one, or three and two)", the first named): Revenue, Costs, Funding, Cash Flow; then Break-Even & Sustainability.) */}
-                                {group("column-tiles-money", [revenueTile, ...joined.get(JOINED_CHAPTER_KEY), cashTile])}
-                                {group("column-tiles-break-even", breakEvenTiles)}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        );
-    }
+    // (THE ONE CHAPTER OF FINANCIALS, THREE MASTER TILES THAT ASK (doc 48, section 14): Revenue Streams, Costs, Funding, in the 2 x 2, its fourth place empty
+    // (layout rules section 23).)
+    const chapterTilesShown = joined ? [revenueTile, ...joined.get(JOINED_CHAPTER_KEY)] : [revenueTile];
     return (
         <div className="answer-columns business-foundation business-engagement business-capability column-tiles-page" style={{ "--answer-column-count": 1 } as CSSProperties}>
-            {chapter(frameTitle, SECTION_HUES["sustainability-revenue"] ?? 0, [revenueTile, ...breakEvenTiles])}
+            {chapter(frameTitle, SECTION_HUES["sustainability-revenue"] ?? 0, chapterTilesShown)}
         </div>
     );
 

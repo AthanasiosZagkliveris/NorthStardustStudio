@@ -58,6 +58,8 @@ Status: **specification**, written 2026-09-27, updated 2026-11-20. The requireme
 
 ## As built
 
+**As built since the round of 2026-11-20 18:35 UTC+2 (doc 48, section 14): the page asks, the documents record.** Section 5 hands Costs and Funding to the chapter; **Funding** asks the sources only -- the founders' capital, read from Founders & Ownership, then the External and Other sources (**Internal is removed**: a source saved under it is read under Other, its type and figures kept; section 9 below stands for what was). The Uses, the Financial Position and the Cash Flow are records: the Workbook's Funding Request (the need, what is available, the gap, Use of Funds, the Cash to Raise Before the Opening, the Operational Contingency Fund, Sources of Funds), Financial Plan and Financial Forecast (its two charts under the Cash-Flow Forecast) say them. The paragraph below is the chapter as built before that round.
+
 **The section as tiles (doc 48, sections 1, 11 and 13).** Section 5 hands two Master Tiles to Financials' one chapter, Financial Foundation, after Revenue Streams: Costs and Funding; Section 4's editor draws Cash Flow after them, from the one forecast (built 2026-11-20; doc 48, section 13). Each tile opens its section, as described below, in a dialog; the section's help (its instructions and its "i") is the "i" beside the dialog's heading. **Funding** (`financial-funding`) holds Capital & Funding and Financial Position in one tile; its dialog reads, in order, **Sources** (the founders' capital, read from Founders & Ownership, then the Internal, External and Other sources as tiles), **Uses** (the Funding Need: Establishment, Operating and Offering with their amounts, the cash to raise and the contingency) and **Financial Position** (headline, figures, coverage, mix, timeline, obligations, signals). Old links to Financial Position or the Funding Need land in it, their anchors kept. **Cash Flow** shows the first twelve months of the documents' Cash-Flow Forecast (operating, investing and financing activities, the net change, and the cash at the start and end of each month) in the shared `ForecastTable` component, the Workbook's too (sources: Start Up Loans, cash flow forecast; Gupta (2020), Boston University). The faces: Costs, the Launch budget, the running costs a month and the cost of each sale; Funding, the Funding Gap, or Covered with the Runway, and the Total Funding Need; Cash Flow, the cash after 12 months and the lowest month. The plan's months and currency stay in the page title; the plan's settings, the VAT basis among them, stay on the Global Settings screen; the notes on a missing currency or Offerings stand at the head of the Costs dialog. No field, calculation or saved key changed.
 
 **The section and the model it shares with Section 4.** Section 5 is a Structure of its own, `Financial Foundation` (editor `FinancialFoundationEditor`); Section 4 is `Financial Sustainability`. Every calculation on either page lives in one module of pure functions, `src/framework/engine/FinancialModel.ts`, tested in `FinancialModel.test.ts` against the specifications' own worked examples. The two editors share their month field, figure tiles, cash timeline chart and signal list (`FinancialParts.tsx`). The four sections (`**Numbering:** Nested`) open from the tiles above: Costs from Costs; Funding Need, Capital & Funding and Financial Position from Funding (Uses, Sources, Financial Position).
@@ -343,6 +345,8 @@ They should not be confused with the specific funding type.
 ---
 
 # 9. Internal
+
+(Removed from the Funding tile in the round of 2026-11-20 18:35 UTC+2, doc 48, section 14: the founders' own money is the Founders' Capital, read from Founders & Ownership; reinvested revenue is the forecast's own cash. A source saved under Internal is read under Other.)
 
 Possible types:
 
@@ -681,7 +685,7 @@ Consider:
 
 # 23. Financial Timeline
 
-Drawn in the Cash Flow tile's dialog since 2026-11-20, after its twelve-month table, as the Funding Timeline (doc 48, section 13, step 4); shown once, out of Financial Position.
+Drawn in the Workbook's Financial Forecast since the round of 2026-11-20 18:35 UTC+2, under the Cash-Flow Forecast, as the Funding Timeline (doc 48, section 14); shown once.
 
 Provide a visual timeline of incoming and outgoing money.
 

@@ -168,8 +168,7 @@
 
 }
 
-.financial-total,
-.financial-result{
+.financial-total{
 
     margin:0;
 
@@ -459,58 +458,7 @@
 
 }
 
-.financial-row-highlight{
-
-    background:var(--bg-highlight);
-
-}
-
-.financial-summary th{
-
-    width:50%;
-
-}
-
 /* ---------- 4. Financial Position ---------- */
-
-.financial-headline{
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:var(--gap-4);
-
-    padding:14px 16px;
-
-    border:1px solid var(--line-sheet);
-    border-left-width:6px;
-    border-radius:var(--radius-lg);
-
-    background:var(--bg-surface);
-
-    font-size:var(--font-body);
-    line-height:1.5;
-
-}
-
-.financial-headline > strong{
-
-    font-size:var(--font-h3);
-
-}
-
-.financial-headline-risk{
-
-    border-left-color:var(--financial-risk);
-
-}
-
-.financial-headline-good{
-
-    border-left-color:var(--financial-good);
-
-}
 
 .financial-tiles{
 
@@ -618,9 +566,6 @@
    inside a label that wraps, so a wrapped item never runs into the
    one under it; and each amount (a meter, a swatch) stands on the
    FIRST line of its label, not the middle of it. */
-.financial-coverage,
-.financial-obligations,
-.financial-mix-legend,
 .financial-cost-inputs{
 
     display:flex;
@@ -647,89 +592,8 @@
    `display:contents` on the row is what lets its three cells become
    items of THIS grid rather than of a row-sized grid of their own,
    so one set of column widths governs every row. */
-.financial-coverage{
-
-    display:grid;
-
-    grid-template-columns:minmax(0, 1.5fr) minmax(120px, 2fr) auto;
-
-    /* The first line: the shared rule above. */
-    align-items:first baseline;
-
-    column-gap:var(--gap-12);
-
-}
-
-.financial-coverage > li{
-
-    display:contents;
-
-}
-
-.financial-meter{
-
-    display:block;
-
-    height:8px;
-
-    border-radius:var(--radius-sm);
-
-    background:var(--bg-financial-grid);
-
-    overflow:hidden;
-
-}
-
-.financial-meter > span{
-
-    display:block;
-
-    height:100%;
-
-    border-radius:var(--radius-sm);
-
-    background:var(--financial-in);
-
-}
 
 /* The mix: segments with a 2px surface gap between fills. */
-.financial-mix-bar{
-
-    display:flex;
-
-    gap:var(--gap-2);
-
-    height:16px;
-
-}
-
-.financial-mix-segment{
-
-    flex-basis:0;
-
-    min-width:4px;
-
-    border-radius:var(--radius-sm);
-
-}
-
-.financial-mix-legend > li{
-
-    display:grid;
-
-    grid-template-columns:14px minmax(0, 1fr) auto;
-
-    align-items:first baseline;
-
-    gap:var(--gap-8);
-
-}
-
-.financial-series-1{ background:var(--bg-financial-in); }
-.financial-series-2{ background:var(--bg-financial-out); }
-.financial-series-3{ background:var(--bg-series-3); }
-.financial-series-4{ background:var(--bg-series-4); }
-.financial-series-5{ background:var(--bg-series-5); }
 
 .financial-swatch{
 
@@ -763,44 +627,6 @@
 
 /* Ruled rows: the rule in the middle of the row gap, --space-row
    either side of it, in place of the list's own gap. */
-.financial-obligations{
-
-    gap:0;
-
-}
-
-.financial-obligations > li{
-
-    display:grid;
-
-    grid-template-columns:100px minmax(0, 1fr) auto;
-
-    align-items:first baseline;
-
-    gap:var(--gap-12);
-
-    padding:var(--space-row) 0;
-
-    border-bottom:1px solid var(--line-financial-grid);
-
-}
-
-.financial-obligation-month{
-
-    font-weight:600;
-    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
-
-}
-
-.financial-obligation-in,
-.financial-obligation-out{
-
-    font-variant-numeric:tabular-nums;
-
-    font-weight:600;
-    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
-
-}
 
 .financial-cost-inputs > li{
 

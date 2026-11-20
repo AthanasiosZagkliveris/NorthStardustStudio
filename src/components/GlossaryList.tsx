@@ -1,5 +1,6 @@
 import { CSSProperties, Fragment, useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { openWorkbook } from "./notepad/Notepad";
 
 import TextLink from "./interview/fields/TextLink";
 import ResponsibilityFilter from "./interview/fields/ResponsibilityFilter";
@@ -35,7 +36,7 @@ interface Entry {
     organisation?: string;
     open?: () => void;
     /** Where in the app an app term is used: its pages, each a link (owner, 2026-11-10: "where in the app does this term exist"). */
-    places?: readonly { system: number; page: number; part: string; tile?: string; field?: string; card?: "amortisationYears" | "usefulLife" }[];
+    places?: readonly { system: number; page: number; part: string; tile?: string; field?: string; card?: "amortisationYears" | "usefulLife"; document?: "forecast" | "funding" | "financial-plan" }[];
 }
 
 /** The letter a term or a reference is filed under: its first letter. */
@@ -121,6 +122,7 @@ export default function GlossaryList({ organizationIds, target, onCitation }: {
 }) {
 
     const navigate = useNavigate();
+    const location = useLocation();
     const [off, setOff] = useState<ReadonlySet<string>>(new Set());
     // The Glossary's own letter ranges (owner, 2026-11-05: "add a letter range filter similarly to the references").
     const [lettersOff, setLettersOff] = useState<ReadonlySet<string>>(new Set());
@@ -235,8 +237,8 @@ export default function GlossaryList({ organizationIds, target, onCitation }: {
                                                 return (
                                                     <Fragment key={place.system + "." + place.page + place.part}>
                                                         {at > 0 && "; "}
-                                                        <TextLink className="glossary-place" onClick={() => card ? openCard(navigate, card.organizationId, place.system, place.page, card.cardId, place.part.toLowerCase().replace(/[^a-z0-9]+/g, "-")) : openPage(navigate, place.system, place.page, place)}>
-                                                            {pagePlace(place.system, place.page) + ", " + (card ? "the " + card.name + " card, " : "") + place.part}
+                                                        <TextLink className="glossary-place" onClick={() => place.document ? openWorkbook(navigate, location, { tab: "financial-documents", document: place.document }) : card ? openCard(navigate, card.organizationId, place.system, place.page, card.cardId, place.part.toLowerCase().replace(/[^a-z0-9]+/g, "-")) : openPage(navigate, place.system, place.page, place)}>
+                                                            {(place.document ? "Workbook, Financial Documents" : pagePlace(place.system, place.page)) + ", " + (card ? "the " + card.name + " card, " : "") + place.part}
                                                         </TextLink>
                                                     </Fragment>
                                                 );

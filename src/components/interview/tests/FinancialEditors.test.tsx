@@ -39,16 +39,18 @@ describe("FinancialFoundationEditor folding", () => {
 
         const initial = {
             ...asFinancialFoundationValue(undefined),
-            funding: [{ ...createFundingSource("internal"), name: "Savings" }, { ...createFundingSource("internal"), name: "Reinvested" }]
+            // (Internal is removed, 2026-11-20: a source saved under it is read under Other, its figures kept; doc 48, section 14.)
+            funding: [{ ...createFundingSource("internal"), name: "Savings" }, { ...createFundingSource("other"), name: "Reinvested" }]
         };
 
         render(<Harness initial={initial} />);
         openTile("Funding");
 
-        const tiles = [...document.querySelectorAll<HTMLElement>(".section-tile-overlay [aria-label='Internal funding sources'] button.card-tile")];
+        const tiles = [...document.querySelectorAll<HTMLElement>(".section-tile-overlay [aria-label='Other funding sources'] button.card-tile")];
         expect(tiles.map(tile => tile.textContent ?? "").map(text => text.includes("Savings") || text.includes("Reinvested"))).toEqual([true, true]);
         fireEvent.click(tiles[0]);
         expect(screen.getByLabelText("Savings amount")).toBeTruthy();
+        expect(document.querySelector("[aria-label='Internal funding sources']")).toBeNull();
 
     });
 
@@ -243,26 +245,6 @@ describe("the plan's income tax setting (Global Settings)", () => {
 
 });
 
-describe("the Operating need's Loan Repayments column", () => {
-
-    const withFunding = (funding: unknown[]) => ({ ...asFinancialFoundationValue(undefined), funding });
-    const loanHead = () => screen.queryAllByRole("columnheader", { name: "Loan repayments" })[0];
-
-    it("is there, with its i, when a loan is recorded, whatever its status", () => {
-        render(<Harness initial={withFunding([{ ...createFundingSource("external"), type: "bank-loan", name: "Start Up Loan", amount: "9000", status: "requested" }])} />);
-        openTile("Funding"); // (The Funding Need is the Funding tile's Uses: doc 48, section 13, step 3.)
-        expect(loanHead()).toBeDefined();
-        expect(screen.getByRole("button", { name: "Loan Repayments: what this means" })).toBeTruthy();
-    });
-
-    it("is not there when no loan is recorded", () => {
-        render(<Harness initial={withFunding([{ ...createFundingSource("external"), type: "grant", amount: "5000", status: "received" }])} />);
-        openTile("Funding"); // (The Funding Need is the Funding tile's Uses: doc 48, section 13, step 3.)
-        expect(screen.queryAllByRole("columnheader").some(head => /Running Costs/.test(head.textContent ?? ""))).toBe(true);
-        expect(loanHead()).toBeUndefined();
-    });
-});
-
 describe("a revenue stream's Begins & Payment and Orders & Delivery", () => {
 
     // A courier at 6 a delivery: a cost per order, so the stream asks about orders.
@@ -359,18 +341,15 @@ describe("Financials' chapters", () => {
         render(<FinancialSustainabilityEditor value={asFinancialSustainabilityValue(undefined)} onChange={() => { wrote = true; }} />);
         expect(screen.getByText("Revenue & Break Even")).toBeTruthy();
         const tiles = screen.getAllByRole("button").map(button => (button.textContent ?? "").replace(/\s+/g, " "));
-        // (Break-Even & Sustainability, one tile since 2026-11-20: doc 48, section 13, step 5.)
-        for (const title of ["Revenue Streams", "Break-Even & Sustainability"]) {
+        // (Break-Even & Sustainability is a record, in the Workbook's Financial Plan since the round of 2026-11-20 18:35 UTC+2: doc 48, section 14.)
+        for (const title of ["Revenue Streams"]) {
             expect(tiles.some(text => text.startsWith(title))).toBe(true);
         }
         // (One card: the Revenue Summary and the Delivery Check in the Revenue Streams dialog; owner, 2026-11-18 10:38. Break-Even Point and Time one tile,
         // Sustainability and the Stress Test one tile: owner, 2026-11-18 16:55, "Do all 8".)
-        for (const title of ["Revenue Summary", "Break-Even Point", "Break-Even Time", "Stress Test"]) {
+        for (const title of ["Revenue Summary", "Break-Even & Sustainability", "Break-Even Point", "Break-Even Time", "Stress Test", "Cash Flow"]) {
             expect(tiles.some(text => text.startsWith(title))).toBe(false);
         }
-        openTile("Break-Even & Sustainability");
-        expect(screen.getByRole("heading", { name: "Break-Even Time" })).toBeTruthy();
-        expect(screen.getByRole("heading", { name: "Stress Test" })).toBeTruthy();
         expect(wrote).toBe(false);
     });
 

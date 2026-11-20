@@ -1,4 +1,5 @@
 import { countryCurrency } from "./LegalEntityJurisdictions.ts";
+import { stressTest } from "./financial/stressTest.ts";
 import { currencyMark } from "./Currencies.ts";
 import { competitorPriceRange, competitorSettle } from "./CompetitorQuestions.ts";
 import { segmentAnswerLines } from "./SegmentQuestions.ts";
@@ -1118,6 +1119,20 @@ export function financialSustainabilityBlocks(value: unknown, context: ExportCon
             entry.breakEvenAlone === null ? "" : formatUnits(entry.breakEvenAlone) + " a month"
         ])),
         ...list(result.inputs.caveats.map(caveat => "Estimate: " + caveat)),
+        // (THE STRESS TEST, the Financials' record moved here (doc 48, section 14; owner, 2026-11-20 18:35 UTC+2: "Any doc that are just records ... should be placed in the
+        // Business Documents"): each hard case, when it breaks even and the shortfall at its lowest point.)
+        ...(() => {
+            const test = stressTest(revenuePage, foundationPage, lines, legalEntity, format);
+            return test.scenarios.length === 0 ? [] : [
+                heading("Stress Test", 2),
+                ...table(["Case", "Break even", "Lowest cash", "Shortfall"], test.scenarios.map(scenario => [
+                    scenario.label,
+                    monthText(scenario.breakEvenMonth),
+                    format(scenario.lowest) + (scenario.lowestLabel ? ", " + scenario.lowestLabel : ""),
+                    scenario.shortfall > 0.005 ? format(scenario.shortfall) : "None"
+                ]))
+            ];
+        })(),
         // The plan gathers the signals under its Risks, and the capacity under its Operations.
         ...(document ? [] : list(result.signals.map(signal => signal.title + ": " + signal.text))),
         ...(document ? [] : capacityBlocks(

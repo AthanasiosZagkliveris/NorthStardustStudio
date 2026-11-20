@@ -1,10 +1,11 @@
 import TabList from "./controls/TabList.tsx";
-import { useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState, Fragment } from "react";
 import AddButton from "./controls/AddButton.tsx";
 import MenuOption from "./controls/MenuOption.tsx";
 import { usePopupDismiss } from "./controls/PopupPanel.tsx";
 import WorkbookTools from "./WorkbookTools.tsx";
 import ForecastTable from "./ForecastTable.tsx";
+import { CashTimelineChart } from "./interview/editors/FinancialParts.tsx";
 
 
 
@@ -16,6 +17,9 @@ import {
     businessForecastContent,
     businessModelCanvasData,
     businessPlan,
+    businessPlanForExport,
+    financialPlan,
+    fundingRequest,
     type FoundationSessions
 } from "../framework/engine/BusinessDocuments.ts";
 import type { ExportContent } from "../framework/engine/ExportContentBuilder.ts";
@@ -38,7 +42,15 @@ const reviewManager = new ReviewManager();
 /** The four Foundation Systems, in their order. */
 const FOUNDATION = systems.filter(system => system.capability === "foundation");
 
-type DocumentId = "plan" | "canvas" | "forecast";
+type DocumentId = "plan" | "canvas" | "forecast" | "funding" | "financial-plan";
+
+/** THE TWO KINDS OF DOCUMENT (doc 48, section 14; owner, 2026-11-20 20:46 UTC+2): the Business Documents and the Financial Documents, each its tabs. */
+export type DocumentGroup = "business" | "financial";
+const GROUP_TABS: Record<DocumentGroup, { id: DocumentId; label: string }[]> = {
+    business: [{ id: "plan", label: "Business Plan" }, { id: "canvas", label: "Business Model Canvas" }],
+    financial: [{ id: "forecast", label: "Financial Forecast" }, { id: "funding", label: "Funding Request" }, { id: "financial-plan", label: "Financial Plan" }]
+};
+const TAB_NAME = (id: DocumentId) => [...GROUP_TABS.business, ...GROUP_TABS.financial].find(tab => tab.id === id)?.label ?? "";
 
 const PERIODS: { id: ForecastPeriod; label: string }[] = [
     { id: "annual", label: "Annually" },
@@ -96,9 +108,9 @@ function ExportMenu({ what, options, disabled }: { what: string; options: { labe
  * previewed and exported. Built on every visit from what is saved (BusinessDocuments.ts), so they are never out of date and never edited here: to change a
  * line, change the answer it came from.
  */
-export default function BusinessDocumentsView({ organizationId }: { organizationId: string }) {
+export default function BusinessDocumentsView({ organizationId, group = "business", start }: { organizationId: string; group?: DocumentGroup; /** The tab to open on (a link to a moved record). */ start?: DocumentId }) {
 
-    const [documentId, setDocumentId] = useState<DocumentId>("plan");
+    const [documentId, setDocumentId] = useState<DocumentId>(() => start && GROUP_TABS[group].some(tab => tab.id === start) ? start : GROUP_TABS[group][0].id);
     const [period, setPeriod] = useState<ForecastPeriod>("annual");
     const [untilYear, setUntilYear] = useState<number | null>(null);
 
@@ -141,6 +153,8 @@ export default function BusinessDocumentsView({ organizationId }: { organization
             sessions,
             unfinished,
             plan: businessPlan(sessions),
+            funding: fundingRequest(sessions),
+            financialPlan: financialPlan(sessions),
             canvas: businessModelCanvas(sessions),
             canvasData: businessModelCanvasData(sessions),
             forecast: businessForecast(sessions)
@@ -152,7 +166,7 @@ export default function BusinessDocumentsView({ organizationId }: { organization
         return null;
     }
 
-    const content: ExportContent = documentId === "canvas" ? loaded.canvas : loaded.plan;
+    const content: ExportContent = documentId === "canvas" ? loaded.canvas : documentId === "funding" ? loaded.funding : documentId === "financial-plan" ? loaded.financialPlan : loaded.plan;
 
     /* The forecast: to the plan's last year unless a nearer one is chosen. */
     const planYearCount = loaded.forecast.years;
@@ -171,13 +185,20 @@ export default function BusinessDocumentsView({ organizationId }: { organization
         "text/csv;charset=utf-8"
     );
 
+    /* What an export writes: the Forecast at its period; the Business Plan with the Financial Documents as its appendix (owner, 2026-11-20 20:47 UTC+2). */
+    const exported = (): ExportContent => documentId === "forecast"
+        ? businessForecastContent(loaded.sessions, period, lastYear)
+        : documentId === "plan"
+            ? businessPlanForExport(loaded.plan, [loaded.funding, loaded.financialPlan, businessForecastContent(loaded.sessions, period, lastYear)])
+            : content;
+
     /* Any saved session will do to export from: the document carries
        its own title and content (see ExportContent.documentTitle). */
     const anySession = loaded.sessions.business ?? loaded.sessions.identity ??
         loaded.sessions.brand ?? loaded.sessions.strategy ?? null;
 
     return (
-        <section className="business-documents" aria-label="Business Documents">
+        <section className="business-documents" aria-label={group === "financial" ? "Financial Documents" : "Business Documents"}>
 
                 {loaded.unfinished.length > 0 && (
                     <p className="business-documents-note" role="status">
@@ -187,7 +208,7 @@ export default function BusinessDocumentsView({ organizationId }: { organization
 
                 <TabList
                     label="Document"
-                    tabs={[{ id: "plan", label: "Business Plan" }, { id: "canvas", label: "Business Model Canvas" }, { id: "forecast", label: "Financial Forecast" }]}
+                    tabs={GROUP_TABS[group]}
                     value={documentId}
                     onChange={setDocumentId}
                 />
@@ -197,19 +218,19 @@ export default function BusinessDocumentsView({ organizationId }: { organization
                     title row with the other buttons (WorkbookTools): the formats the document has, the Forecast's CSV too. */}
                 <WorkbookTools>
                     <ExportMenu
-                        what={documentId === "plan" ? "Business Plan" : documentId === "canvas" ? "Business Model Canvas" : "Financial Forecast"}
+                        what={TAB_NAME(documentId)}
                         disabled={!anySession}
                         options={[
                             ...(documentId === "forecast" ? [{ label: "CSV", run: exportCsv }] : []),
-                            { label: "Markdown", run: () => anySession && reviewManager.exportMarkdown(anySession, "Foundation", documentId === "forecast" ? businessForecastContent(loaded.sessions, period, lastYear) : content) },
-                            { label: "PDF", run: () => anySession && reviewManager.exportPdf(anySession, "Foundation", documentId === "forecast" ? businessForecastContent(loaded.sessions, period, lastYear) : content) }
+                            { label: "Markdown", run: () => anySession && reviewManager.exportMarkdown(anySession, "Foundation", exported()) },
+                            { label: "PDF", run: () => anySession && reviewManager.exportPdf(anySession, "Foundation", exported()) }
                         ]}
                     />
                 </WorkbookTools>
 
                 {/* ONE PAGE WITH ITS TABS (owner, 2026-11-10, 18:27: "Connect the tags with the content as a solid page with page tags"): the chosen document is
                     drawn on one sheet under the tabs, the chosen tab opening into it; the Plan's own sheet is that page. */}
-                <div className="business-documents-page" data-first-tab={documentId === "plan" ? "" : undefined} role="tabpanel" aria-label={documentId === "plan" ? "Business Plan" : documentId === "canvas" ? "Business Model Canvas" : "Financial Forecast"}>
+                <div className="business-documents-page" data-first-tab={documentId === GROUP_TABS[group][0].id ? "" : undefined} role="tabpanel" aria-label={TAB_NAME(documentId)}>
 
                 {documentId === "canvas" && (
                     <div className="business-canvas-head">
@@ -282,7 +303,27 @@ export default function BusinessDocumentsView({ organizationId }: { organization
                             </div>
                         </div>
                         {view.tables.map(table => (
-                            <ForecastTable key={table.title} table={table} currency={loaded.forecast.currency} format={loaded.forecast.format} annual={period === "annual"} />
+                            <Fragment key={table.title}>
+                                <ForecastTable table={table} currency={loaded.forecast.currency} format={loaded.forecast.format} annual={period === "annual"} />
+                                {/* (UNDER THE CASH-FLOW FORECAST, ITS TWO CHARTS (doc 48, section 14; owner, 2026-11-20 18:35 UTC+2: records go to the Workbook): the funding's
+                                    month by month, then with the expected revenue; each once.) */}
+                                {table.title === "Cash-Flow Forecast" && (
+                                    <>
+                                        <p className="business-forecast-caption">Funding Timeline</p>
+                                        <CashTimelineChart timeline={loaded.forecast.timeline} format={loaded.forecast.format} markers={loaded.forecast.runwayMonths !== null ? [{ month: loaded.forecast.runwayMonths + 1, label: "Funds run out", tone: "risk" }] : []} />
+                                        <p className="business-forecast-caption">Revenue-Adjusted Financial Position</p>
+                                        <CashTimelineChart
+                                            timeline={loaded.forecast.revenueTimeline}
+                                            format={loaded.forecast.format}
+                                            markers={[
+                                                ...(loaded.forecast.breakEvenMonth !== null ? [{ month: loaded.forecast.breakEvenMonth, label: "Break even", tone: "good" as const }] : []),
+                                                ...(loaded.forecast.exhaustionMonth !== null ? [{ month: loaded.forecast.exhaustionMonth, label: "Funds run out", tone: "risk" as const }] : [])
+                                            ]}
+                                            inLabel="Funding & revenue in"
+                                        />
+                                    </>
+                                )}
+                            </Fragment>
                         ))}
                         <ul className="business-forecast-notes business-hanging-list">
                             {loaded.forecast.forecast.notes.map(note => <li key={note}>{note}</li>)}
@@ -290,7 +331,7 @@ export default function BusinessDocumentsView({ organizationId }: { organization
                     </div>
                 )}
 
-                {documentId === "plan" && (
+                {(documentId === "plan" || documentId === "funding" || documentId === "financial-plan") && (
                     <article className="business-document">
                         {/* The logo, above the title as on the printed cover. */}
                         {content.documentLogo && (

@@ -39,7 +39,7 @@ Status: **specification**, written 2026-09-27, updated 2026-11-20. The requireme
 
 ## As built
 
-Section 4 is a Structure of its own, `Financial Sustainability` (editor `FinancialSustainabilityEditor`). Its editor draws Financials' one chapter, Financial Foundation, of five Master Tiles in two groups, four and one (doc 48, section 13): its own Revenue Streams first (5.1 Revenue below, the Delivery Check and the Revenue Summary in its dialog; a stream with no price says "Not priced yet" on the face), then the tiles Section 5 hands it (Costs, Funding, Cash Flow), then its own **Break-Even & Sustainability** (`sustainability-break-even-point`), one tile whose dialog holds four bands: Break-Even Point, Break-Even Time, Sustainability, Stress Test (5.2 Break Even below; doc 48, sections 11 and 13). It shares its model, its month field, its time and its currency with Section 5 (`page-5-costs-funding-and-position.md`, "As built"). The revenue stream card is also described in document 28, 10.2.
+Section 4 is a Structure of its own, `Financial Sustainability` (editor `FinancialSustainabilityEditor`). Its editor draws Financials' one chapter, Financial Foundation, of three Master Tiles that ask, in the 2 x 2 (doc 48, section 14; the round of 2026-11-20 18:35 UTC+2): its own Revenue Streams first (5.1 Revenue below; a stream with no price says "Not priced yet" on the face), then the tiles Section 5 hands it (Costs, Funding). What 5.2 Break Even below works out -- the Break-Even Point and Time, the Sustainability, the Stress Test -- and the Delivery Check and the Revenue Summary are records: the Workbook's Financial Plan says them, the Stress Test as a table of its four cases (doc 48, section 14). It shares its model, its month field, its time and its currency with Section 5 (`page-5-costs-funding-and-position.md`, "As built"). The revenue stream card is also described in document 28, 10.2.
 
 | Section | How it is built |
 |---|---|
@@ -584,7 +584,7 @@ How long the organisation can continue based on available funds and known outflo
 
 ### Revenue-Adjusted Financial Position
 
-Drawn in the Cash Flow tile's dialog since 2026-11-20, after the twelve-month table and the Funding Timeline (doc 48, section 13, step 4: the Cash Flow tile takes over the cash charts); shown once.
+Drawn in the Workbook's Financial Forecast since the round of 2026-11-20 18:35 UTC+2, under the Cash-Flow Forecast, after the Funding Timeline (doc 48, section 14); shown once.
 
 How the financial position changes when expected revenue is received at the expected times.
 

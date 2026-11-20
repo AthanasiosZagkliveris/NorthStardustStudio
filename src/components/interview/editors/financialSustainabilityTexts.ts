@@ -106,12 +106,10 @@ export const SECTIONS = {
 };
 
 /**
- * Each section's own palette colour, apart from each other and from
- * Page 4's four: lavender for Revenue, teal for Break Even.
+ * The section's own palette colour: lavender for Revenue. (Break Even's teal went with its tile, a record in the Workbook since 2026-11-20: doc 48, section 14.)
  */
 export const SECTION_HUES: Record<string, number> = {
-    "sustainability-revenue": paletteHueNamed("lavender"),
-    "sustainability-break-even": paletteHueNamed("teal")
+    "sustainability-revenue": paletteHueNamed("lavender")
 };
 
 export const STATUS_TITLES = {

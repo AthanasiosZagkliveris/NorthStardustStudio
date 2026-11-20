@@ -9,11 +9,12 @@ describe("the financial label-and-amount lists", () => {
     const css = stylesheet("conversation.css");
 
     it("space their rows by --space-field, in one rule", () => {
-        expect(css).toMatch(/\.financial-coverage,\s*\.financial-obligations,\s*\.financial-mix-legend,\s*\.financial-cost-inputs\s*\{[^}]*gap:\s*var\(--space-field\)/);
+        // (The coverage, obligations and mix lists were the Financial Position's and the Break-Even's, records now in the Workbook: doc 48, section 14.)
+        expect(css).toMatch(/\.financial-cost-inputs\s*\{[^}]*gap:\s*var\(--space-field\)/);
     });
 
     it("put each amount on the first line of its label", () => {
-        for (const row of [".financial-cost-inputs > li", ".financial-mix-legend > li", ".financial-obligations > li"]) {
+        for (const row of [".financial-cost-inputs > li"]) {
             const escaped = row.replace(/[.>]/g, m => "\\" + m);
             expect(css, row).toMatch(new RegExp(escaped + "\\s*\\{[^}]*align-items:\\s*first baseline"));
         }
