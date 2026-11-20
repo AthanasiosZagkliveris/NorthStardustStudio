@@ -18,7 +18,7 @@ import { launchNeedOf } from "../../../framework/engine/ContingencyFunds";
 import { asFinancialFoundationValue, asFinancialSustainabilityValue, assetUnitCostsOf, consolidateCosts, financialPosition, fundingNeeds } from "../../../framework/engine/FinancialModel";
 import { createGlobalSettings } from "../../../framework/engine/GlobalSettings";
 
-/* I6: Funding Need shows the cash to raise before the opening and the Operational Contingency Fund. */
+/* I6: the cash to raise before the opening and the Operational Contingency Fund, said by the Workbook's Funding Request (doc 48, section 14). */
 
 afterEach(cleanup);
 
@@ -32,46 +32,46 @@ const capability = {
     }
 };
 
-function show(openingDate: string) {
-    render(
-        <FinancialFoundationEditor
-            value={{ ...asFinancialFoundationValue(undefined), planStart: { month: "01", year: "2027" } }}
-            onChange={() => undefined}
-            capability={capability}
-            currency="EUR"
-            openingDate={openingDate}
-            globalSettings={{ ...createGlobalSettings(), capitalisationLimit: "500" }}
-        />
-    );
-    // (Funding Need is a tile of the page: its section opens in the tile's dialog.)
-    openTile("Funding"); // (The Funding Need is the Funding tile's Uses: doc 48, section 13, step 3.)
+/** The launch need and its contingency funds, as the Funding Request reads them (doc 48, section 14). */
+function launchedOf(openingDate: string) {
+    const foundation = { ...asFinancialFoundationValue({}), planStart: { month: "01", year: "2027" } };
+    const value = asBusinessCapabilityValue(capability);
+    const lines = consolidateCosts(foundation, { legalEntity: asLegalEntityValue({}), capability: value, resourceGroupLabels: {}, subsectionLabels: {}, currency: "EUR", foundersLinked: false });
+    const settings = { ...createGlobalSettings(), capitalisationLimit: "500" };
+    const calculated = calculatedLines({ foundation, revenuePage: asFinancialSustainabilityValue({ streams: [] }), lines, capability: value, settings, openingDate, drawings: false });
+    return launchNeedOf(lines, { openingDate, capitalisationLimit: 500, assetUnitCosts: assetUnitCostsOf(value) }, settings, {}, calculated);
 }
 
-describe("the funds under Funding Need", () => {
+describe("the funds before and after the opening", () => {
 
-    it("asks for the Opening Date while there is none", () => {
-        show("");
+    it("the Costs tile asks for the Opening Date while there is none", () => {
+        render(
+            <FinancialFoundationEditor
+                value={{ ...asFinancialFoundationValue(undefined), planStart: { month: "01", year: "2027" } }}
+                onChange={() => undefined}
+                capability={capability}
+                currency="EUR"
+                openingDate=""
+                globalSettings={{ ...createGlobalSettings(), capitalisationLimit: "500" }}
+            />
+        );
+        openTile("Costs");
         expect(screen.getByText(/Give the Opening Date, on the Organization tile/)).toBeTruthy();
-        expect(document.querySelector("[data-anchor='financial-funds']")).toBeNull();
     });
 
-    it("shows the budget before the opening, the Startup Contingency and the cash to raise: 30,000 of CapEx + 10% = 33,000", () => {
-        show("2027-04-01");
-        const funds = document.querySelector("[data-anchor='financial-funds']") as HTMLElement;
-        expect(funds).toBeTruthy();
-        const text = funds.textContent ?? "";
-        expect(text).toMatch(/Cash to raise before the opening/);
-        expect(text).toMatch(/Capital Expenditure.*30,000/);
-        expect(text).toMatch(/Startup Contingency Fund \(10%\).*3,000/);
-        expect(text).toMatch(/33,000/);
+    it("works out the budget before the opening, the Startup Contingency and the cash to raise: 30,000 of CapEx + 10% = 33,000", () => {
+        const { funds } = launchedOf("2027-04-01")!;
+        expect(funds.schedule.total).toBe(30000);
+        expect(funds.startupRate).toBe(10);
+        expect(funds.startupFund).toBe(3000);
+        expect(funds.cashToRaise).toBe(33000);
     });
 
-    it("shows the Operational Contingency: OpEx a month, the target and the months to reach it", () => {
-        show("2027-04-01");
-        const text = (document.querySelector("[data-anchor='financial-funds']") as HTMLElement).textContent ?? "";
-        expect(text).toMatch(/OpEx a month.*4,000/);
-        expect(text).toMatch(/12,000/);
-        expect(text).toMatch(/Months to reach the target.*57/);
+    it("works out the Operational Contingency: OpEx a month, the target and the months to reach it", () => {
+        const { funds } = launchedOf("2027-04-01")!;
+        expect(funds.monthlyOpEx).toBe(4000);
+        expect(funds.target).toBe(12000);
+        expect(funds.monthsToTarget).toBe(57);
     });
 
 });
@@ -116,19 +116,18 @@ describe("the Costs and Funding Need sections with the cost nature and the cash 
         render(<Stateful />);
         openTile("Costs");
         const total = document.querySelector("[data-anchor='financial-pre-operational-budget']") as HTMLElement;
-        expect(total.textContent).toMatch(/Total Pre-operational Budget:.*30,000/);
+        expect(total.textContent).toMatch(/Total Pre-operational Budget.*: €30,000/);
+        // (Its parts in its "i", no brackets: the round of 2026-11-20 18:35 UTC+2, item 9.)
+        expect(total.textContent).not.toContain("(Capital expenditure");
     });
 
     it("the Establishment need is the cash to raise before the opening: the 30,000 of CapEx and its 3,000 contingency, not counted again as running costs", () => {
-        render(<Stateful />);
-        openTile("Funding"); // (The Funding Need is the Funding tile's Uses: doc 48, section 13, step 3.)
-        const establishment = [...document.querySelectorAll(".financial-need-card")].find(card => card.textContent?.includes("Establishment")) as HTMLElement;
-        expect(establishment).toBeTruthy();
-        expect(establishment.textContent).toMatch(/33,000/);
-        expect(establishment.textContent).toMatch(/Startup Contingency Fund \(10%\)/);
-        expect(establishment.textContent).toMatch(/Before Apr 2027/);
+        // (The Funding Need is a record, in the Workbook's Funding Request since 2026-11-20: doc 48, section 14. Its figures, from the engine.)
+        const { funds } = launchedOf("2027-04-01")!;
+        expect(funds.schedule.capex).toBe(30000);
+        expect(funds.startupFund).toBe(3000);
+        expect(funds.cashToRaise).toBe(33000);
     });
-
 });
 
 describe("fundingNeeds and financialPosition with a launch", () => {

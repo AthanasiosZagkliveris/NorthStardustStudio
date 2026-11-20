@@ -207,7 +207,7 @@ describe("the Workbook, a whole page (owner, 2026-11-09)", () => {
         NotepadService.addNote(OrganizationService.getSelected()!);
         openFrom("/assistant");
         const tabs = within(screen.getByRole("navigation", { name: "Go to a section" })).getAllByRole("button").map(tab => tab.getAttribute("aria-label") ?? tab.textContent).filter(name => name !== "Back");
-        expect(tabs).toEqual(["Business Documents", "Review", "References", "Glossary", "Card Notes"]);
+        expect(tabs).toEqual(["Business Documents", "Financial Documents", "Review", "References", "Glossary", "Card Notes"]);
         expect(screen.getByRole("heading", { name: /^Business Documents/ })).toBeTruthy();
         act(() => { fireEvent.click(railTab("Card Notes")); });
         expect(screen.getByText(/^No card notes yet/)).toBeTruthy();
@@ -265,8 +265,9 @@ describe("the Workbook, a whole page (owner, 2026-11-09)", () => {
         expect(document.querySelector(".workbook .workbook-panel.section-tile-dialog .section-tile-dialog-body")).toBeTruthy();
         const rail = screen.getByRole("navigation", { name: "Go to a section" });
         expect(rail.querySelector(".bullet-rail-item.active")?.getAttribute("aria-label")).toBe("Business Documents");
+        // (Financial Documents, second, under Business Documents: owner, 2026-11-20 20:46 UTC+2; doc 48, section 14.)
         act(() => { fireEvent.click(screen.getByRole("button", { name: "Next section" })); });
-        expect(screen.getByRole("heading", { level: 2, name: /^Review/ })).toBeTruthy();
+        expect(screen.getByRole("heading", { level: 2, name: /^Financial Documents/ })).toBeTruthy();
         act(() => { fireEvent.click(screen.getByRole("button", { name: "Previous section" })); });
         expect(screen.getByRole("heading", { level: 2, name: /^Business Documents/ })).toBeTruthy();
         act(() => { fireEvent.click(railTab("Glossary")); });

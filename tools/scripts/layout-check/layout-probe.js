@@ -1521,6 +1521,50 @@
             }
         }
 
+        // 16a. A TILE'S TITLE IS IN CAPITALS, BUT ON A TILE THAT OPENS A FLOATING CARD (owner, 2026-11-20 21:27 UTC+2: "All tile titles are capitalised, except the
+        //      tiles that open floated cards"; layout rules section 9, "Tile title"): a card tile (`CardTile`, `.card-tile`: one card, opened floating) keeps its name as written.
+        for (const title of [...document.querySelectorAll(".section-tile .section-tile-title")].filter(visible)) {
+            const floats = title.closest(".section-tile.card-tile") !== null;
+            const transform = getComputedStyle(title).textTransform;
+            if (floats ? transform === "uppercase" : transform !== "uppercase") {
+                fail(floats ? "a tile that opens a floating card keeps its title as written" : "a tile's title is in capitals", title, { title: title.textContent, transform });
+            }
+        }
+
+        // 16b. THE 2 x 2 OF MASTER TILES (layout rules section 23; owner, 2026-11-20 21:01 UTC+2, the Financials): the tiles of one chapter are equal squares on
+        //      the shared grid -- one side, two columns and two rows of that side, one gap apart, the first place top left -- so three tiles leave the fourth
+        //      place empty and nothing overlaps at rest. (Measured at rest: the probe's own style holds the hover growth back.)
+        // (And ONE CHAPTER SIZE ON EVERY PAGE (owner, 2026-11-11 and 2026-11-20 21:33 UTC+2, the Financials: "fix the size of the Financial Tile and its chapter"):
+        //  from a window of 1200px a chapter of a 2 x 2 is half the page card less the 12px between two chapters, on every page, one chapter or two; a Segment's
+        //  chapter, two groups in one frame, is its own kind (section 13).)
+        if (window.innerWidth >= 1200) {
+            const card = document.querySelector(".conversation-card");
+            for (const frame of [...document.querySelectorAll(".business-foundation-card")].filter(visible).filter(frame => frame.querySelector(".section-tiles-quad") && !frame.closest(".segment-chapter, .section-tile-dialog"))) {
+                const expected = card ? (rect(card).width - 12) / 2 : rect(frame).width;
+                if (!rules.near(rect(frame).width, expected, 2)) {
+                    fail("a chapter of master tiles is one size on every page (half the page less 12px)", frame, { width: rect(frame).width, expected });
+                }
+            }
+        }
+        for (const quad of [...document.querySelectorAll(".section-tiles-quad > .section-tiles")].filter(visible)) {
+            const slots = [...quad.children].filter(slot => slot.matches(".section-tile-slot") && visible(slot)).map(slot => ({ slot, box: rect(slot) }));
+            if (slots.length < 2) continue;
+            const side = slots[0].box.width;
+            // (12px apart, rows and columns, at EVERY window height: no narrowing with the height; owner, 2026-11-20 21:07 UTC+2.)
+            const gap = 12;
+            const drawn = getComputedStyle(quad);
+            if (!rules.near(parseFloat(drawn.columnGap) || 0, gap, 0.5) || !rules.near(parseFloat(drawn.rowGap) || 0, gap, 0.5)) {
+                fail("the master tiles of a chapter are 12px apart at every window height", quad, { columnGap: drawn.columnGap, rowGap: drawn.rowGap });
+            }
+            slots.forEach(({ slot, box }, at) => {
+                const column = at % 2, row = Math.floor(at / 2);
+                const x = slots[0].box.left + column * (side + gap), y = slots[0].box.top + row * (side + gap);
+                if (!rules.near(box.width, side, 1) || !rules.near(box.height, side, 1) || !rules.near(box.left, x, 1) || !rules.near(box.top, y, 1)) {
+                    fail("the master tiles of a chapter are equal squares on the shared 2 x 2 grid", slot, { at, width: box.width, height: box.height, left: box.left, top: box.top, x, y });
+                }
+            });
+        }
+
         // 17. SECTION TILES (docs/ai/layout-rules.md, "Section tiles and dialog"): every
         //     tile is a true square of the one size -- a third of its group's width less the
         //     two gaps (--section-tile-size, never under --section-tile-min), so three across

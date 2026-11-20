@@ -9,12 +9,12 @@ import { contingencyFunds, launchNeedOf } from "../../../framework/engine/Contin
 import { ownersTakeDrawings } from "../../../framework/engine/FinancialForecast.ts";
 import { capitalisationLimitOf, createGlobalSettings, type GlobalSettingsValue } from "../../../framework/engine/GlobalSettings.ts";
 import { type CSSProperties, type ReactNode, useEffect, useLayoutEffect, useRef, useState } from "react";
-import { CASH_CHARTS_KEY, JOINED_CHAPTER_KEY, useJoinedChapter } from "../tiles/joinedChapter.ts";
+import { JOINED_CHAPTER_KEY, useJoinedChapter } from "../tiles/joinedChapter.ts";
 import { type LegalEntityValue, type StrategyMonthValue, asBusinessCapabilityValue, asBusinessEngagementValue, asLegalEntityValue, businessFoundationSegments, withLegalEntityFounders } from "../../../framework/engine/AnswerUtils.ts";
-import { assetUnitCostsOf, incomeTaxRate, COST_GROUPS, COST_FREQUENCIES, COST_NATURES, COST_NATURE_LABELS, natureSplitOf, FINANCIAL_FOUNDATION_SECTIONS, FUNDING_CATEGORIES, FUNDING_NEED_CATEGORIES, FUNDING_SCHEDULES, FUNDING_STATUSES, FUNDING_TYPES, LOAN_METHODS, PERIOD_FREQUENCIES, planLength, asFinancialFoundationValue, consolidateCosts, createFundingSource, createMilestone, financialPosition, founderCapitalSources, fundingNeeds, fundingStanding, fundingType, isNonCash, loanRepaymentNotes, loanSchedule, moneyFormatter, allFunding, monthlyEquivalent, planMonthLabel, withPlanStart, derivedPlanStart, legalExpenseDates, costStartDates, type CostLine, type FinancialFoundationValue, asFinancialSustainabilityValue, withDemand, type FundingSourceValue } from "../../../framework/engine/FinancialModel.ts";
+import { assetUnitCostsOf, incomeTaxRate, COST_GROUPS, COST_FREQUENCIES, COST_NATURES, COST_NATURE_LABELS, natureSplitOf, FINANCIAL_FOUNDATION_SECTIONS, FUNDING_CATEGORIES, FUNDING_SCHEDULES, FUNDING_STATUSES, FUNDING_TYPES, LOAN_METHODS, PERIOD_FREQUENCIES, planLength, asFinancialFoundationValue, consolidateCosts, createFundingSource, createMilestone, financialPosition, founderCapitalSources, fundingNeeds, fundingStanding, fundingType, isNonCash, loanSchedule, moneyFormatter, monthlyEquivalent, planMonthLabel, withPlanStart, derivedPlanStart, legalExpenseDates, costStartDates, type CostLine, type FinancialFoundationValue, asFinancialSustainabilityValue, withDemand, type FundingSourceValue } from "../../../framework/engine/FinancialModel.ts";
 import { costSourcesFor } from "../../../framework/engine/ExportRenderers.ts";
 import { BusinessAddButton, BusinessCard, BusinessEmpty, BusinessField, OptionalNote, BusinessRemove, BusinessTicks, uniqueChoices } from "../cards/BusinessCardFields.tsx";
-import { CashTimelineChart, FigureTable, FigureTiles, FinancialBlock, PlanMonthField, SignalList } from "./FinancialParts.tsx";
+import { FigureTable, FigureTiles, PlanMonthField } from "./FinancialParts.tsx";
 import CardShell from "../cards/CardShell.tsx";
 import CardBoxes, { type CardBox } from "../cards/CardBoxes.tsx";
 import DialogSectionBand from "../tiles/DialogSectionBand.tsx";
@@ -31,7 +31,7 @@ import { type OpenPage } from "../tiles/jumpTo.ts";
 import { railId } from "../rails/railItems.ts";
 import { toggledIn } from "../fields/toggledIn.ts";
 import TextLink from "../fields/TextLink.tsx";
-import { CATEGORY_INFO, DEFINITIONS, FUNDING_GAP_FORMULA, LOAN_PAYMENT_HELP, LOAN_PRE_INTEREST_HELP, RUNWAY_FORMULA, RUNWAY_SOURCE, SECTIONS, explain } from "./financialFoundationTexts.ts";
+import { CATEGORY_INFO, LOAN_PAYMENT_HELP, LOAN_PRE_INTEREST_HELP, SECTIONS, explain } from "./financialFoundationTexts.ts";
 
 /* ==========================================================
    The editor
@@ -199,7 +199,9 @@ export default function FinancialFoundationEditor({
         current: string,
         onNext: (next: string) => void,
         placeholder: string,
-        info?: InfoPoint[]
+        info?: InfoPoint[],
+        /** The list in groups: a heading before the option it is keyed by (a funding type's family, never in brackets; owner, 2026-11-20 18:35 UTC+2). */
+        headings?: Readonly<Record<string, string>>
     ) {
         return (
             <BusinessField label={label} info={info}>
@@ -207,6 +209,7 @@ export default function FinancialFoundationEditor({
                     label={ariaLabel}
                     placeholder={placeholder}
                     hug={pickersAlone}
+                    headings={headings}
                     options={options.map(option => option.label)}
                     disabled={disabled}
                     value={options.find(option => option.id === current)?.label ?? ""}
@@ -329,10 +332,10 @@ export default function FinancialFoundationEditor({
         return rows.filter(row => row.bucket === "sale" && row.line.frequency === "usage-based" && (row.line.amountText ?? "").trim() !== "")
             .map(row => ({ name: row.line.name.trim() || "A cost", share: row.line.amountText.trim() + "%" }));
     }
-    /** The same in words: "2% of revenue" where there is one; several each named: "2% (Shopify Payments) · 1.69% (SumUp card fees)". Empty where there are none. */
+    /** The same in words: "2% of revenue" where there is one; several each named: "Shopify Payments 2% · SumUp card fees 1.69%" (no brackets: the round of 2026-11-20 18:35 UTC+2, item 9). Empty where there are none. */
     function revenueSharesOf(rows: CostRow[]): string {
         const lines = revenueShareLines(rows);
-        return lines.length === 0 ? "" : lines.length === 1 ? lines[0].share + " of revenue" : lines.map(line => line.share + " (" + line.name + ")").join(" · ");
+        return lines.length === 0 ? "" : lines.length === 1 ? lines[0].share + " of revenue" : lines.map(line => line.name + " " + line.share).join(" · ");
     }
     /** The cost of each sale: the prices per unit added up, and the costs that are a share of revenue instead (the Costs section's third total, and its tile's). */
     function saleTextOf(rows: CostRow[]): string {
@@ -411,8 +414,17 @@ export default function FinancialFoundationEditor({
                 {/* The pre-operational budget: what is dated before the Opening Date (rule F1); opening stock is apart, after the contingency. */}
                 {openingDate !== "" && funds.schedule.total + funds.schedule.openingInventory > 0 && (
                     <p className="financial-total" data-anchor="financial-pre-operational-budget">
-                        <strong>Total Pre-operational Budget:</strong> {format(funds.schedule.total)}
-                        {" (Capital expenditure (assets) " + format(funds.schedule.capex) + " + Startup expenses " + format(funds.schedule.startup) + " + Pre-operating expenses " + format(funds.schedule.preOperating) + ")"}
+                        {/* (Its parts in its "i", no brackets: the round of 2026-11-20 18:35 UTC+2, item 9.) */}
+                        <strong>
+                            <InfoText text="Total Pre-operational Budget">
+                                <InfoNote
+                                    label="Total Pre-operational Budget"
+                                    points={["Capital expenditure, the assets: " + format(funds.schedule.capex) + ".", "Startup expenses: " + format(funds.schedule.startup) + ".", "Pre-operating expenses: " + format(funds.schedule.preOperating) + "."]}
+                                    fullList
+                                />
+                            </InfoText>
+                        </strong>
+                        {": " + format(funds.schedule.total)}
                         {funds.schedule.openingInventory > 0 ? " \u00b7 Opening inventory " + format(funds.schedule.openingInventory) + " is apart" : ""}
                         {funds.cashToRaise > 0 ? " \u00b7 Cash to raise before the opening: " + format(funds.cashToRaise) : ""}
                     </p>
@@ -512,243 +524,10 @@ export default function FinancialFoundationEditor({
                         " \u00b7 target reserve " + setting(settings.targetReserveMonths) + (settings.targetReserveMonths.trim() ? " months" : "")}
                 </p>
 
-            </div>
-        );
-
-    }
-
-    /* ---------- 2. Funding Need ---------- */
-
-    /*
-        CALCULATED, NOT ASKED. Each category adds up what is already
-        recorded: the one-time costs above, by their group, and the
-        running costs until revenue covers them (FinancialModel.ts,
-        fundingNeeds). To change a need, change the cost it comes from.
-    */
-    /** THE FUNDING TIMELINE (doc 48, section 13, step 4: the Cash Flow tile takes over the cash charts): drawn in the Cash Flow tile's dialog, handed to it
-        with the tiles (joinedChapter.ts, CASH_CHARTS_KEY); shown once. */
-    function fundingTimeline(): ReactNode {
-        return (
-            <div data-anchor="financial-funding-timeline">
-                        <FinancialBlock
-                            title="Funding Timeline"
-                            info={["Money in and out of your organisation month by month, and the balance it leaves. A dip below zero is a cash-pressure period, even when the totals are sufficient."]}
-                        >
-                            {position.timeline.some(month => month.inflow > 0 || month.outflow > 0 || month.balance !== 0)
-                                ? (
-                                    <CashTimelineChart
-                                        timeline={position.timeline}
-                                        format={format}
-                                        markers={position.runwayMonths !== null
-                                            ? [{ month: position.runwayMonths + 1, label: "Funds run out", tone: "risk" }]
-                                            : []}
-                                    />
-                                )
-                                : <BusinessEmpty>Nothing is scheduled to come in or go out yet.</BusinessEmpty>}
-                        </FinancialBlock>
-            </div>
-        );
-    }
-
-    function needSection() {
-
-        const needs = calculatedNeeds;
-        const total = needs.reduce((sum, need) => sum + need.amount, 0);
-
-        /* Each loan and whether its repayments are counted: the "i" on
-           the Loan Repayments column. No loan, no column. */
-        const loanNotes = loanRepaymentNotes(allFunding(page, legalEntity), start, format);
-        const showLoans = loanNotes.length > 0;
-
-        return (
-            <div className="financial-section-body">
-
-                <p className="financial-lead">
-                    Calculated from the costs above. To change a need, change the costs it is made of.
-                    Until revenue is estimated in Revenue Streams, every running cost is counted
-                    in the operating need; it then falls to the months before revenue covers them.
-                </p>
-
-                <div className="financial-need-cards">
-                    {needs.map(need => {
-
-                        const category = FUNDING_NEED_CATEGORIES.find(entry => entry.id === need.id);
-
-                        return (
-                            <div
-                                className={"financial-need-card" + (need.months ? " financial-need-card-wide" : "")}
-                                key={need.id}
-                            >
-
-                                <span className="business-foundation-label-info">
-                                    <strong className="financial-need-name">
-                                        <InfoText text={need.label}>
-                                            {category && (
-                                                <InfoNote
-                                                    label={need.label}
-                                                    points={"alsoCalled" in category ? [category.explanation, category.alsoCalled] : [category.explanation]}
-                                                    fullList
-                                                />
-                                            )}
-                                        </InfoText>
-                                    </strong>
-                                </span>
-
-                                <span className="financial-need-amount">{format(need.amount)}</span>
-                                {/* Always a line, empty or not, so every card's list
-                                    starts level with its neighbours'. */}
-                                <span className="financial-muted financial-need-when">{need.when || "\u00a0"}</span>
-
-                                {need.months
-                                    ? (
-                                        /* The first year, month by month. */
-                                        <div className="financial-table-scroll">
-                                            <FigureTable className="financial-need-months">
-                                                <thead>
-                                                    <tr>
-                                                        <th scope="col">Month</th>
-                                                        <th scope="col">Running Costs</th>
-                                                        <th scope="col">Costs of Sales</th>
-                                                        {showLoans && (
-                                                            // "Repayments" on the page, so the head keeps to one
-                                                            // line in its share of the table; its "i" and its
-                                                            // name say they are the loans'.
-                                                            <th scope="col" aria-label="Loan repayments">
-                                                                <InfoText text="Repayments">
-                                                                    <InfoNote label="Loan Repayments" points={loanNotes} fullList />
-                                                                </InfoText>
-                                                            </th>
-                                                        )}
-                                                        <th scope="col">Revenue</th>
-                                                        <th scope="col">Net</th>
-                                                        <th scope="col">Running Total</th>
-                                                        <th scope="col">Needed</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {need.months.map(month => (
-                                                        <tr key={month.label}>
-                                                            <th scope="row">{month.label}</th>
-                                                            <td>{format(month.costs)}</td>
-                                                            <td>{format(month.variable)}</td>
-                                                            {showLoans && <td>{format(month.loans)}</td>}
-                                                            <td>{format(month.revenue)}</td>
-                                                            <td>{format(month.net)}</td>
-                                                            <td>{format(month.cumulative)}</td>
-                                                            <td><strong>{month.needed > 0.005 ? format(month.needed) : ""}</strong></td>
-                                                        </tr>
-                                                    ))}
-                                                </tbody>
-                                                <tfoot>
-                                                    <tr>
-                                                        <th scope="row">First year</th>
-                                                        <td colSpan={showLoans ? 6 : 5} />
-                                                        <td><strong>{format(need.amount)}</strong></td>
-                                                    </tr>
-                                                </tfoot>
-                                            </FigureTable>
-                                        </div>
-                                    )
-                                    : need.parts.length === 0
-                                    ? <span className="financial-muted">{need.id === "offering-launch"
-                                        ? (() => {
-                                            const offered = lines.filter(line => line.group === "offering" && line.counted && line.amount !== null);
-                                            const oneTime = offered.filter(line => line.frequency === "one-time" && launched?.launch.budgetLineIds.has(line.id));
-                                            return offered.length === 0
-                                                ? "No Offering costs are recorded."
-                                                : offered.length + (offered.length === 1 ? " Offering cost is" : " Offering costs are") + " recorded: "
-                                                    + (oneTime.length > 0 ? oneTime.length + " one-time, bought before the opening, in Establishment's cash to raise (" + format(oneTime.reduce((sum, line) => sum + (line.amount ?? 0), 0)) + "); " : "")
-                                                    + "the running ones are in Operating. Only one-time Offering costs after the opening appear here.";
-                                        })()
-                                        : "Nothing recorded."}</span>
-                                    : (
-                                        <ul className="financial-cost-inputs">
-                                            {need.parts.map(part => (
-                                                <li key={part.name + part.when}>
-                                                    <span>{part.name}</span>
-                                                    <span>{format(part.amount)}</span>
-                                                </li>
-                                            ))}
-                                            {/* The total of the parts, under a rule. */}
-                                            <li className="financial-cost-total">
-                                                <strong>Total</strong>
-                                                <strong>{format(need.amount)}</strong>
-                                            </li>
-                                        </ul>
-                                    )}
-
-                                {need.note && <p className="financial-muted financial-need-note">{need.note}</p>}
-
-                            </div>
-                        );
-
-                    })}
-                </div>
-
-                {/* BEFORE THE OPENING: what has to be raised, and the reserve that is set aside to run on. */}
-                {openingDate === ""
-                    ? <p className="financial-muted">Give the Opening Date, on the Organization tile (Identity System), to see the cash to raise before the opening and the contingency funds.</p>
-                    : (
-                        <div className="financial-need-cards" data-anchor="financial-funds">
-
-                            <div className="financial-need-card">
-                                <span className="business-foundation-label-info">
-                                    <strong className="financial-need-name">
-                                        <InfoText text="Cash to raise before the opening">
-                                            <InfoNote
-                                                label="Cash to raise before the opening"
-                                                points={[
-                                                    "The Total Pre-operational Budget (CapEx, Startup Expenses and Pre-Operating Expenses dated before the Opening Date) plus the Startup Contingency Fund, plus the cash for opening inventory, which is added after the contingency and is not part of its base."
-                                                ]}
-                                                fullList
-                                            />
-                                        </InfoText>
-                                    </strong>
-                                </span>
-                                <span className="financial-need-amount">{format(funds.cashToRaise)}</span>
-                                <span className="financial-muted financial-need-when">{" "}</span>
-                                <ul className="financial-cost-inputs">
-                                    <li><span>Capital Expenditure</span><span>{format(funds.schedule.capex)}</span></li>
-                                    <li><span>Startup Expenses</span><span>{format(funds.schedule.startup)}</span></li>
-                                    <li><span>Pre-Operating Expenses</span><span>{format(funds.schedule.preOperating)}</span></li>
-                                    <li><span>Total Pre-operational Budget</span><span>{format(funds.schedule.total)}</span></li>
-                                    <li><span>{"Startup Contingency Fund (" + funds.startupRate + "%)"}</span><span>{format(funds.startupFund)}</span></li>
-                                    <li><span>Opening inventory</span><span>{format(funds.schedule.openingInventory)}</span></li>
-                                    <li className="financial-cost-total"><strong>Total</strong><strong>{format(funds.cashToRaise)}</strong></li>
-                                </ul>
-                            </div>
-
-                            <div className="financial-need-card">
-                                <span className="business-foundation-label-info">
-                                    <strong className="financial-need-name">
-                                        <InfoText text="Operational Contingency Fund">
-                                            <InfoNote
-                                                label="Operational Contingency Fund"
-                                                points={[
-                                                    "After the launch, each month a share of OpEx is set aside on top of the startup fund, until the fund equals the target reserve months of OpEx. The contribution is a cash set-aside, held as savings. The rates and the target are in the Global Settings."
-                                                ]}
-                                                fullList
-                                            />
-                                        </InfoText>
-                                    </strong>
-                                </span>
-                                <span className="financial-need-amount">{format(funds.target)}</span>
-                                <span className="financial-muted financial-need-when">{funds.targetMonths + (funds.targetMonths === 1 ? " month" : " months") + " of OpEx"}</span>
-                                <ul className="financial-cost-inputs">
-                                    <li><span>OpEx a month</span><span>{format(funds.monthlyOpEx)}</span></li>
-                                    <li><span>{"Set aside each month (" + funds.operationalRate + "%)"}</span><span>{format(funds.monthlyOpEx * funds.operationalRate / 100)}</span></li>
-                                    <li><span>Held at the opening (the startup fund)</span><span>{format(funds.startupFund)}</span></li>
-                                    <li>
-                                        <span>Months to reach the target</span>
-                                        <span>{funds.monthsToTarget === null ? "Not reached" : String(funds.monthsToTarget)}</span>
-                                    </li>
-                                </ul>
-                            </div>
-
-                        </div>
-                    )}
-
-                <p className="financial-total"><strong>Total Funding Need:</strong> {format(total)}</p>
+                {/* While there is no Opening Date, where it is given (the funds it opens are in the Workbook's Funding Request: doc 48, section 14). */}
+                {openingDate === "" && (
+                    <p className="financial-muted">Give the Opening Date, on the Organization tile (Identity System), to see the cash to raise before the opening and the contingency funds in the Workbook's Funding Request.</p>
+                )}
 
             </div>
         );
@@ -1004,6 +783,11 @@ export default function FinancialFoundationEditor({
 
     }
 
+    /** The section a source stands in: one saved under Internal is read under Other (doc 48, section 14). */
+    function shownCategory(category: string): string {
+        return category === "internal" ? "other" : category;
+    }
+
     function fundingCard(source: FundingSourceValue, index: number) {
 
         const type = fundingType(source.type);
@@ -1013,12 +797,16 @@ export default function FinancialFoundationEditor({
 
         // (THE FOUNDERS' CAPITAL IS READ, NEVER ADDED (doc 48, section 13, step 3; one owner per fact): it comes from Founders & Ownership, so a new source does not
         // offer it; a source saved with it keeps it.)
-        const types = FUNDING_TYPES
-            .filter(entry => entry.category === source.category && (entry.id !== "founder-capital" || source.type === "founder-capital"))
-            .map(entry => ({
-                id: entry.id,
-                label: entry.family ? entry.label + " (" + entry.family + ")" : entry.label
-            }));
+        const typeEntries = FUNDING_TYPES
+            .filter(entry => entry.category === source.category && (entry.id !== "founder-capital" || source.type === "founder-capital"));
+        const types = typeEntries.map(entry => ({ id: entry.id, label: entry.label }));
+        // (Each family -- Non-repayable, Equity, Debt -- a heading of the list, never a bracket after every type: owner, 2026-11-20 18:35 UTC+2.)
+        const typeHeadings: Record<string, string> = {};
+        typeEntries.forEach((entry, at) => {
+            if (entry.family && entry.family !== typeEntries[at - 1]?.family) {
+                typeHeadings[entry.label] = entry.family;
+            }
+        });
 
         const formattedAmount = source.amount.trim() ? format(fundingStanding(source, start).total) : "";
 
@@ -1057,7 +845,7 @@ export default function FinancialFoundationEditor({
                         <EngagementBox key="source" title="Source & Amount" bands={[
                                         <div className="business-capability-row">
                                             {picker("Funding Type", what + " type", types, source.type,
-                                                (next) => changeSource(source.id, { type: next }), "Select a type")}
+                                                (next) => changeSource(source.id, { type: next }), "Select a type", undefined, typeHeadings)}
                                             {textInput(
                                                 nature === "debt" ? "Lender" : nature === "equity" ? "Investor" : "Provider / Source",
                                                 what + " provider", source.provider,
@@ -1200,9 +988,11 @@ export default function FinancialFoundationEditor({
                         </DialogSectionBand>
                     </div>
                 )}
-                {FUNDING_CATEGORIES.map(category => {
+                {/* (NO INTERNAL SECTION (doc 48, section 14; owner, 2026-11-20 18:35 UTC+2): the founders' money is their capital, above; a source saved under Internal
+                    is read under Other, its type and figures kept.) */}
+                {FUNDING_CATEGORIES.filter(category => category.id !== "internal").map(category => {
 
-                    const of = stored.funding.filter(source => source.category === category.id);
+                    const of = stored.funding.filter(source => source.category === category.id || (category.id === "other" && source.category === "internal"));
 
                     return (
                         <DialogSectionBand key={category.id} title={category.label} tiles info={[...CATEGORY_INFO[category.id]]}>
@@ -1259,138 +1049,6 @@ export default function FinancialFoundationEditor({
 
     const covered = position.need > 0 && position.gap <= 0.005;
 
-    function positionSection() {
-
-        const mixTotal = position.mix.reduce((sum, entry) => sum + entry.confirmed + entry.pending, 0);
-
-        return (
-            <div className="financial-section-body">
-
-                <div className={"financial-headline financial-headline-" +
-                    (position.gap > 0.005 ? "risk" : covered ? "good" : "neutral")}>
-                    {position.gap > 0.005
-                        ? <strong>Additional financing required: {format(position.gap)}</strong>
-                        : covered
-                            ? <strong>Funding Requirement Covered</strong>
-                            : <strong>No Funding Need recorded yet</strong>}
-                    {position.gap <= 0.005 && (
-                        <span>
-                            {!position.hasOutflows
-                                ? "Record costs and funding above to estimate the Financial Runway."
-                                : "Estimated Financial Runway: " + (position.runwayMonths === null
-                                    ? "beyond the " + months + "-month plan"
-                                    : runway)}
-                        </span>
-                    )}
-                </div>
-
-                <FigureTiles tiles={[
-                    { label: "Funding Need", value: format(position.need), info: [DEFINITIONS.need] },
-                    { label: "Available Now", value: format(position.availableNow), info: ["Financial resources that have arrived and can be used."] },
-                    { label: "Confirmed Future", value: format(position.confirmedFuture), info: ["Confirmed, but not yet available."] },
-                    { label: "Pending", value: format(position.pending), info: ["Expected and awaiting confirmation; the gap and the runway count it once it is confirmed."] },
-                    {
-                        label: "Funding Gap",
-                        value: format(position.gap),
-                        tone: position.gap > 0.005 ? "risk" : covered ? "good" : "neutral",
-                        info: [DEFINITIONS.gap, FUNDING_GAP_FORMULA]
-                    },
-                    {
-                        label: "Financial Runway",
-                        value: runway,
-                        tone: position.runwayMonths !== null && position.runwayMonths < 6 ? "risk" : "neutral",
-                        info: [
-                            DEFINITIONS.runway,
-                            "Counts money available now and confirmed money as it is scheduled to arrive, against every scheduled cost and loan repayment, with the revenue expected in Revenue Streams as it is received.",
-                            RUNWAY_FORMULA,
-                            RUNWAY_SOURCE
-                        ]
-                    }
-                ]} />
-
-                {position.coverage.length > 0 && (
-                    <FinancialBlock title="Funding Need Coverage" info={["Confirmed and available funding linked to each need under Capital & Funding."]}>
-                        <ul className="financial-coverage">
-                            {position.coverage.map(entry => {
-                                const share = entry.need > 0 ? Math.min(1, entry.linked / entry.need) : 0;
-                                return (
-                                    <li key={entry.id}>
-                                        <span>{entry.name}</span>
-                                        <span className="financial-meter" aria-hidden="true">
-                                            <span style={{ width: (share * 100) + "%" }} />
-                                        </span>
-                                        <span>{format(entry.linked)} of {format(entry.need)}</span>
-                                    </li>
-                                );
-                            })}
-                        </ul>
-                    </FinancialBlock>
-                )}
-
-                {mixTotal > 0 && (
-                    <FinancialBlock title="Funding Mix" info={["Where the financial resources originate, confirmed and pending."]}>
-                        <div className="financial-mix-bar" aria-hidden="true">
-                            {position.mix.map((entry, index) => (
-                                <span
-                                    key={entry.nature}
-                                    className={"financial-mix-segment financial-series-" + (index + 1)}
-                                    style={{ flexGrow: entry.confirmed + entry.pending }}
-                                />
-                            ))}
-                        </div>
-                        <ul className="financial-mix-legend">
-                            {position.mix.map((entry, index) => (
-                                <li key={entry.nature}>
-                                    <span className={"financial-swatch financial-series-" + (index + 1)} />
-                                    <span>{entry.label}</span>
-                                    <span>
-                                        {Math.round((entry.confirmed + entry.pending) / mixTotal * 100)}%
-                                        {" · "}{format(entry.confirmed)} confirmed
-                                        {entry.pending > 0 ? " · " + format(entry.pending) + " pending" : ""}
-                                    </span>
-                                </li>
-                            ))}
-                        </ul>
-                    </FinancialBlock>
-                )}
-
-                <FinancialBlock title="Upcoming Obligations" info={["Significant money in or out over the next six months."]}>
-                    {position.obligations.length === 0
-                        ? <BusinessEmpty>Nothing significant scheduled in the next six months.</BusinessEmpty>
-                        : (
-                            <ul className="financial-obligations">
-                                {position.obligations.map((entry, index) => (
-                                    <li key={entry.what + index}>
-                                        <span className="financial-obligation-month">{entry.label}</span>
-                                        <span>{entry.what}</span>
-                                        <span className={"financial-obligation-" + entry.direction}>
-                                            {entry.direction === "in" ? "+" : "−"}{format(entry.amount)}
-                                        </span>
-                                    </li>
-                                ))}
-                            </ul>
-                        )}
-                </FinancialBlock>
-
-                <FinancialBlock title="Decision Signals">
-                    <SignalList signals={position.signals} />
-                    {position.uncounted.unscheduled.length > 0 && (
-                        <p className="financial-muted">
-                            {position.uncounted.unscheduled.length} cost{position.uncounted.unscheduled.length === 1 ? "" : "s"} paid
-                            per unit, per order, per project or by usage depend on activity and are not in the timeline.
-                            Sustainability counts those paid per unit, per order or per project against revenue;
-                            one paid by usage needs a per-unit, per-project or periodic basis to be counted.
-                        </p>
-                    )}
-                    <p className="financial-muted">
-                        These are observations calculated from the information entered, not financial advice.
-                    </p>
-                </FinancialBlock>
-
-            </div>
-        );
-
-    }
 
     /* ---------- The page: one chapter of four Master Tiles (doc 48, section 1), each opening its section in a dialog ---------- */
 
@@ -1425,13 +1083,9 @@ export default function FinancialFoundationEditor({
             id: "financial-funding", section: SECTIONS.funding, title: "Funding",
             body: () => (
                 <>
-                    {/* (SOURCES & USES (doc 48, section 13, step 3): the money in, its sources each a section, then what it is for, the Uses, then the position they give.) */}
-                    {/* (The sources first: the founders' capital, then Internal, External and Other, a titled section each -- one question to a band, layout rules section 13.) */}
+                    {/* (THE SOURCES, WHAT THE FUNDING TILE ASKS (doc 48, section 14; owner, 2026-11-20 18:35 UTC+2): the founders' capital, then External and Other, a titled section
+                        each. The Uses and the Financial Position are records: the Business Plan's Funding Request says them.) */}
                     {fundingSection()}
-                    <div data-anchor="financial-position financial-need" data-rail={railId(FINANCIAL_FOUNDATION_SECTIONS[2])}>
-                        <DialogSectionBand title="Uses" info={[...SECTIONS.need.instructions, ...SECTIONS.need.info]}>{needSection()}</DialogSectionBand>
-                        <DialogSectionBand title={SECTIONS.position.title} info={[...SECTIONS.position.instructions, ...SECTIONS.position.info]}>{positionSection()}</DialogSectionBand>
-                    </div>
                 </>
             ),
             items: stackedFace([...positionFace, ...(position.need > 0.005 ? [pair("Total Funding Need", format(position.need))] : [])]),
@@ -1459,7 +1113,7 @@ export default function FinancialFoundationEditor({
                     return <div className="column-tile-content financial-page financial-funding-floating">{founderCapitalCard()}</div>;
                 }
                 const of = stored.funding.find(source => source.id === id);
-                const index = of ? stored.funding.filter(source => source.category === of.category).indexOf(of) : -1;
+                const index = of ? stored.funding.filter(source => shownCategory(source.category) === shownCategory(of.category)).indexOf(of) : -1;
                 return of ? <div className="column-tile-content financial-page financial-funding-floating">{fundingCard(of, index)}</div> : null;
             }
         } : {}),
@@ -1499,7 +1153,6 @@ export default function FinancialFoundationEditor({
     // which Revenue & Pricing draws, and stays drawn, so what it does when it opens is done as before. Else its own frame, beside Revenue & Break Even.)
     if (joined) {
         joined.set(JOINED_CHAPTER_KEY, tiles);
-        joined.set(CASH_CHARTS_KEY, [{ id: "funding-timeline", title: "Funding Timeline", content: fundingTimeline }]);
         return null;
     }
     return (

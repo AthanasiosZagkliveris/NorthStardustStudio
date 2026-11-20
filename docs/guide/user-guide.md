@@ -71,11 +71,11 @@ What you sell, to whom, with what, and whether the money works. Three pages, bes
    - **Offerings**: what you sell, its Description and its Terms & Service.
    **Engagement**, beside it: how the Segment finds you, chooses and buys. Add the **Customer Channels** you use; a channel can make its own cost cards ("+ Add expenses", with the channel's typical costs). Customer Relationship and Demand & Conversion follow as folding cards.
 2. **Infrastructure & Capability**: two frames of four tiles. **Infrastructure**: Founders, Resources, Activities, Partners & Suppliers. **Offering's Capability**: Resources, Activities, Partners & Suppliers, Capacity & Delivery. Each card carries its cost, its dates and its status. At the bottom, the **Inventory** lists every card with its cost, as tiles or as a table with a filter, and **Completed** holds the activities you have ticked as done.
-3. **Financials**: one chapter, **Financial Foundation**, five tiles read from left to right: your **Revenue Streams** (a stream you have not priced yet says "Not priced yet"), your **Costs** (a summary of what the other pages recorded), your **Funding** (where the money comes from, starting with the founders' capital from Founders & Ownership, what it is for, and your Financial Position), your **Cash Flow** (the money in and out for each of the first twelve months, and the cash at the end of each), then **Break-Even & Sustainability**: when the business breaks even and whether the money lasts until then.
+3. **Financials**: one chapter, **Financial Foundation**, three tiles read from left to right: your **Revenue Streams** (a stream you have not priced yet says "Not priced yet"), your **Costs** (a summary of what the other pages recorded) and your **Funding** (where the money comes from, starting with the founders' capital from Founders & Ownership). What your answers work out is in the Workbook, under **Financial Documents**: the **Funding Request** (what you need, what you have, the gap, and what the money is for), the **Financial Plan** (your costs, your revenue, when the business breaks even and whether the money lasts until then) and the **Financial Forecast** (the money in and out, month by month, with its two charts).
 
-### 3.5 Business Documents
+### 3.5 Business and Financial Documents
 
-The Foundation's answers write the **Business Plan**, the **Business Model Canvas** and the **Financial Forecast** (annual, quarterly or monthly). They are in the Workbook (section 4.1); the **Business Documents** button of the Foundation on System Selection opens them there. Each downloads as Markdown or PDF, and the Forecast as CSV too.
+The Foundation's answers write the **Business Documents** -- the **Business Plan** and the **Business Model Canvas** -- and the **Financial Documents** -- the **Financial Forecast** (annual, quarterly or monthly, with its two cash charts), the **Funding Request** and the **Financial Plan**. They are in the Workbook (section 4.1); the **Business Documents** button of the Foundation on System Selection opens them there. Each downloads as Markdown or PDF, and the Forecast as CSV too. The Business Plan's download ends with the Financial Documents as its appendix.
 
 ## 4. The tools
 
@@ -90,9 +90,10 @@ Everything you have written and everything the app explains, on one page.
 3. **Review**: Still open, Worth a second look, Missing from the documents and Key dates. "Go there" opens the page or card an item is about.
 4. **Glossary**: every term from A to Z, the app's words in blue (with their meaning and sources) and the names you gave in terracotta (with "Open the …"). The funnel chooses the kinds and the letter ranges.
 5. **References**: every source the app cites, as a Harvard reference list. A citation in the Glossary opens its reference here.
-6. **Business Documents**: the Business Plan, the Business Model Canvas and the Financial Forecast, a tab each (section 3.5). **Export**, at the right of the title, downloads the one shown.
+6. **Business Documents**: the Business Plan and the Business Model Canvas, a tab each (section 3.5). **Export**, at the right of the title, downloads the one shown.
+7. **Financial Documents**, under it: the Financial Forecast, the Funding Request and the Financial Plan, a tab each, with the same Export.
 
-On the **Organisations screen** the same button covers every Organisation: their Reviews, their terms in the Glossary (each named with its Organisation) and the References. Card Notes and Business Documents belong to one Organisation and show inside it.
+On the **Organisations screen** the same button covers every Organisation: their Reviews, their terms in the Glossary (each named with its Organisation) and the References. Card Notes, Business Documents and Financial Documents belong to one Organisation and show inside it.
 
 Back or Escape returns you to where you opened the Workbook.
 

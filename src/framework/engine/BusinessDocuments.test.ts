@@ -1,7 +1,10 @@
 import { describe, expect, test } from "vitest";
 
 import { InterviewSession } from "../interview";
-import { businessForecast, businessForecastContent, businessModelCanvas, businessModelCanvasData, businessPlan, currentSituationDraft, financialPlanRange, readFoundation } from "./BusinessDocuments.ts";
+import { businessForecast, businessForecastContent, businessModelCanvas, businessModelCanvasData, businessPlan, businessPlanForExport, financialPlan, fundingRequest, currentSituationDraft, financialPlanRange, readFoundation } from "./BusinessDocuments.ts";
+
+/** The Business Plan as it exports: with the Financial Documents as its appendix (doc 48, section 14; owner, 2026-11-20 20:47 UTC+2). */
+const planExport = (sessions: Parameters<typeof businessPlan>[0]) => businessPlanForExport(businessPlan(sessions), [fundingRequest(sessions), financialPlan(sessions)]);
 import { financialPosition, stressTest, sustainability, whatItWouldTake, withWhatIf } from "./FinancialModel.ts";
 import { financialForecast, forecastCsv, forecastView, splitMonthlyTableByYear } from "./FinancialForecast.ts";
 import { frameworkRegistry } from "./FrameworkRegistry.ts";
@@ -43,7 +46,7 @@ describe("business documents", () => {
     });
 
     test("the plan has every section, answered", () => {
-        const md = markdown(businessPlan(sessions));
+        const md = markdown(planExport(sessions));
         for (const title of ["Executive Summary", "Company Description", "Market Analysis", "Products and Services",
             "Marketing and Sales", "Operations", "Management and Organisation", "Financial Plan", "Funding Request",
             "Financial Projections", "Strategy and Milestones", "Risks", "Appendix"]) {
@@ -271,7 +274,7 @@ describe("Quillfield: the documents tie together", () => {
         organisationName: "Quillfield Automation"
     };
     const f = readFoundation(all);
-    const planMd = new MarkdownExporter().toMarkdown(all.business, "Foundation", businessPlan(all));
+    const planMd = new MarkdownExporter().toMarkdown(all.business, "Foundation", planExport(all));
     const count = (text: string, part: string) => text.split(part).length - 1;
 
     test("names the channels' journey stages as the page does, and their new channel names", () => {
@@ -344,7 +347,7 @@ describe("Quillfield: the documents tie together", () => {
         // The same $15,000 sought, as a grant: nothing is repaid.
         const asGrant = JSON.parse(quillfieldText.replace('"type": "microloan"', '"type": "grant"')) as typeof example;
         const business = InterviewSession.fromJSON(asGrant.systems["3"], frameworkRegistry.getFramework("business"));
-        const md = new MarkdownExporter().toMarkdown(business, "Foundation", businessPlan({ ...all, business }));
+        const md = new MarkdownExporter().toMarkdown(business, "Foundation", planExport({ ...all, business }));
         // The Funding Request section only, up to the next section.
         const from = md.indexOf("Funding Request\n");
         const request = md.slice(from, md.indexOf("\n## ", from + 1));
@@ -353,11 +356,32 @@ describe("Quillfield: the documents tie together", () => {
         expect(request).toMatch(/Still short with the funding sought: (\$[\d,]+ at the lowest point, in \w+ \d{4}, even with the funding sought|Nothing: with the funding sought, cash stays above zero)/);
     });
 
+    test("the Funding Request says the contingency funds the Funding tile showed, from the Global Settings (doc 48, section 14)", () => {
+        const settings = (quill as unknown as { globalSettings?: unknown }).globalSettings;
+        const md = new MarkdownExporter().toMarkdown(all.business, "Foundation", fundingRequest({ ...all, globalSettings: settings }));
+        expect(md).toContain("### Cash to Raise Before the Opening");
+        expect(md).toMatch(/| Startup Contingency Fund | $[d,]+ |/);
+        expect(md).toContain("### Operational Contingency Fund");
+        expect(md).toMatch(/Months to reach the target:/);
+        // Without an Opening Date there is nothing before the opening to say.
+        expect(new MarkdownExporter().toMarkdown(all.business, "Foundation", fundingRequest(all))).not.toContain("Cash to Raise Before the Opening");
+    });
+
+    test("the Financial Plan's Funding Need has a Loan repayments column only while a loan is recorded", () => {
+        const asGrant = JSON.parse(quillfieldText.replace('"type": "microloan"', '"type": "grant"')) as typeof example;
+        const business = InterviewSession.fromJSON(asGrant.systems["3"], frameworkRegistry.getFramework("business"));
+        const head = "| Month | Running costs | Costs of sales | Loan repayments |";
+        expect(new MarkdownExporter().toMarkdown(all.business, "Foundation", financialPlan(all))).toContain(head);
+        expect(new MarkdownExporter().toMarkdown(business, "Foundation", financialPlan({ ...all, business }))).not.toContain(head);
+    });
+
     test("the plan runs in the standard order: the request, then the financials, then the Appendix", () => {
         const titles = [...planMd.matchAll(/^## [0-9]+\. (.+)$/gm)].map(match => match[1]);
         expect(titles).toEqual(["Executive Summary", "Company Description", "Market Analysis", "Products and Services",
             "Marketing and Sales", "Operations", "Management and Organisation", "Strategy and Milestones", "Risks",
-            "Funding Request", "Financial Plan", "Financial Projections", "Appendix"]);
+            "Financial Documents", "Appendix", "Financial Appendix A: Funding Request",
+            "Financial Appendix A: Funding Request, Financial Projections", "Financial Appendix B: Financial Plan",
+            "Financial Appendix B: Financial Plan, Costs in Full"]);
         const part = (title: string) => {
             const from = planMd.indexOf(title);
             const next = planMd.slice(from + 1).search(/^## [0-9]+\. /m);
@@ -376,7 +400,7 @@ describe("Quillfield: the documents tie together", () => {
     });
 
     test("the funding request states its terms, debt and equity, period and repayment", () => {
-        const request = planMd.slice(planMd.indexOf("## 10. Funding Request"), planMd.indexOf("## 11. Financial Plan"));
+        const request = planMd.slice(planMd.indexOf("## 12. Financial Appendix A: Funding Request"), planMd.indexOf("## 13. "));
         expect(request).toContain("| Source | Type | Amount | Status | Received | Terms |");
         expect(request).toContain("| SBA Microloan | Microloan | $15,000 | Requested / Applied | $0 | 8% a year, fixed; 36 monthly repayments of $470 from Mar 2027 |");
         expect(request).toContain("**Debt and equity:** Debt: $15,000; equity and owner's capital: $10,700");
@@ -385,7 +409,7 @@ describe("Quillfield: the documents tie together", () => {
     });
 
     test("the projections: Year 1 by quarter, the later years by year, capital expenditure and assumptions", () => {
-        const projections = planMd.slice(planMd.indexOf("## 12. Financial Projections"), planMd.indexOf("## 13. Appendix"));
+        const projections = planMd.slice(planMd.indexOf("## 13. Financial Appendix A: Funding Request, Financial Projections"), planMd.indexOf("## 14. "));
         const headings = [...projections.matchAll(/^### (.+)$/gm)].map(match => match[1]);
         expect(headings).toEqual(["Profit & Loss", "Profit Kept in the Business", "Balance Sheet", "Cash Flow", "Capital Expenditure", "Assumptions"]);
         expect(projections).toContain("| USD | Q1 | Q2 | Q3 | Q4 | Year 1 | Year 2 | Year 3 |");
@@ -432,8 +456,8 @@ describe("Quillfield: the documents tie together", () => {
         expect(marketing).toContain("### Brand & Voice");
         expect(marketing).toContain("#### Body Language");
         expect(planMd).not.toMatch(/^## [0-9]+[.] Brand$/m);
-        expect(at("## 13. Appendix")).toContain("### Brand Style Guide");
-        expect(at("## 13. Appendix")).toContain("### Costs");
+        expect(at("## 11. Appendix")).toContain("### Brand Style Guide");
+        expect(at("## 15. Financial Appendix B: Financial Plan, Costs in Full")).toContain("### Costs");
         // Products with their prices.
         expect(planMd).toContain("| $2,500 per project | Sale |");
         expect(planMd).toContain("| $1,200 per client a month | Subscription / Retainer |");
@@ -514,7 +538,7 @@ describe("Quillfield: the documents tie together", () => {
         expect(planMd).toContain("to NYC Service Firms.");
         expect(planMd).toContain("### For NYC Service Firms");
         // The costs, by group, with subtotals and a total, without their source.
-        const appendix = planMd.slice(planMd.indexOf("## 13. Appendix"));
+        const appendix = planMd.slice(planMd.indexOf("## 15. Financial Appendix B: Financial Plan, Costs in Full"));
         expect(appendix).toContain("#### Establishment");
         expect(appendix).toContain("| Subtotal | $535 one-time |");
         expect(appendix).toContain("**Total:** $535 one-time; $5,229 a month");
@@ -554,7 +578,7 @@ describe("Quillfield: the documents tie together", () => {
         expect(swot).toContain("Larger agencies packaging low-cost automation offers for small firms");
         expect(swot).toContain("A single founder's capacity limits how many builds can run at once");
 
-        const risks = planMd.slice(planMd.indexOf("## 9. Risks"), planMd.indexOf("## 10. Funding Request"));
+        const risks = planMd.slice(planMd.indexOf("## 9. Risks"), planMd.indexOf("## 10. Financial Documents"));
         expect(risks).toContain("See SWOT: Weaknesses and Threats");
         expect(risks).not.toContain("Larger agencies packaging low-cost automation offers for small firms");
         expect(risks).not.toContain("A single founder's capacity limits how many builds can run at once");
@@ -831,7 +855,7 @@ describe("the optional answers in the documents", () => {
         organisationName: "Quillfield Automation"
     });
     const planOf = (all: ReturnType<typeof base>) =>
-        new MarkdownExporter().toMarkdown(all.business, "Foundation", businessPlan(all));
+        new MarkdownExporter().toMarkdown(all.business, "Foundation", planExport(all));
     const partOf = (md: string, title: string) => {
         const from = md.indexOf(title);
         const next = md.slice(from + 1).search(/^## [0-9]+\. /m);
@@ -983,7 +1007,7 @@ describe("the industry outlook in the documents", () => {
         organisationName: "Quillfield Automation"
     });
     const market = (business: InterviewSession) => {
-        const md = new MarkdownExporter().toMarkdown(business, "Foundation", businessPlan(all(business)));
+        const md = new MarkdownExporter().toMarkdown(business, "Foundation", planExport(all(business)));
         return md.slice(md.indexOf("## 3. Market Analysis"), md.indexOf("## 4. Products and Services"));
     };
     // A rating since 2026-11-04 (doc 35): the documents print its point and, at an end, its words.
@@ -1006,6 +1030,7 @@ describe("the industry outlook in the documents", () => {
 
 /* Income tax: not chosen yet, none at business level, or a rate on profit. */
 import { asFinancialFoundationValue, financialFoundationSectionsEmpty } from "./FinancialModel.ts";
+
 
 describe("income tax in the forecast", () => {
 

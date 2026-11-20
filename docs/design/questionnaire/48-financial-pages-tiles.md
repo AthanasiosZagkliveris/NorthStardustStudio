@@ -256,3 +256,42 @@ Asked by the owner (2026-11-19 21:44 UTC+2: review the financial master cards fo
 - UW-Madison Small Business Development Center (Wisconsin School of Business), *Beginner's Guide to Financial Projections Workbook*, 2023: revenue, start-up costs, variable and fixed costs, labour and owner pay; working capital "3-6 months of expense coverage"; the Sources and Uses of Funds exhibit.
 - Frank Rimalovski, *The Runway Equation: How Much to Raise and When to Spend It*, NYU Entrepreneurship, 22 Nov 2025: a bottom-up budget padded by 10 to 20%, 18 to 24 months of runway, founders' survival pay, revenue as the best non-dilutive capital.
 - Start Up Loans (the UK government-backed programme, British Business Bank): the business plan, the cash flow forecast template (12 months; money in minus money out; the owner's minimum salary and loan repayments as expenses) and the personal survival budget template (read 2026-11-20 by the cloud session; startuploans.co.uk refuses automated reading from this computer).
+
+## 14. Inputs on the page, records in the Workbook (owner, 2026-11-20 18:35 UTC+2)
+
+Asked: "At the Financial Page, Funding, remove the Internal section, and optimise the remaining section." "Check if any information/section is already covered (Cash Flow VS Financial Forecast, etc.)." "The app should have tiles/sections that require inputs or answers (radio, multiple, drop down etc). Any doc that are just records (especially when it is a final output), should be placed in the Business Documents, in the Workbook."
+
+**Read, tile by tile** (what each asks, and where the Workbook already says it):
+
+| Tile | Asks for | Records it shows | Already in the Workbook |
+|---|---|---|---|
+| Revenue Streams | each stream's price, charge, volume build-up, begins, payment | the Delivery Check, the Revenue Summary | Business Plan, Financial Plan, "1. Revenue" (the streams table, the expected revenue) and "Capacity" |
+| Costs | each cost's classification (group, behaviour, frequency where Other), own costs | the launch budget, running costs and cost of each sale | Business Plan Appendix "Costs"; Financial Forecast |
+| Funding | each source (type, amount, status, schedule) | Uses (the Funding Need), Financial Position | Business Plan "Funding Request": need, available, gap, Use of Funds, Sources of Funds |
+| Cash Flow | nothing | the twelve months, the Funding Timeline, the Revenue-Adjusted Financial Position | Financial Forecast: the Cash-Flow Forecast (the same table); the two charts are not there yet |
+| Break-Even & Sustainability | nothing | point, time, exhaustion, buffer, Stress Test | Business Plan "2. Break Even" (all but the Stress Test) |
+
+**The page after this change** (rule | was | now: a page asks; the documents record | five Master Tiles, two of them records only | three, each asking):
+
+1. **Revenue Streams**: the stream cards. Its Delivery Check and Revenue Summary leave the dialog: the Business Plan says both.
+2. **Costs**: as now.
+3. **Funding**: the sources only. **Internal is removed**: the founders' own money is the Founders' Capital, read from Founders & Ownership (one owner per fact); reinvested revenue is the forecast's own (the cash the business keeps), never a source to add; existing organisational funds are an Other source. A source saved under Internal is read under Other, its type and figures kept (nothing is lost). The sections then: Founders' Capital (read only), External, Other. Uses and Financial Position leave the dialog: the Business Plan's Funding Request says them.
+
+**To the Workbook**: Cash Flow (the Financial Forecast holds the table; its two charts, the Funding Timeline and the Revenue-Adjusted Financial Position, stand under the Cash-Flow Forecast, each once) and Break-Even & Sustainability (the Business Plan's "2. Break Even"; the Stress Test table is added there, its four cases and their shortfalls).
+
+The chapter keeps its name and frame, Financial Foundation, its three Master Tiles in the 2 x 2, the fourth place empty (layout rules section 23, "three leave its fourth place empty"). No saved answer changes: the records hold no input. As built: a link or note made to the Uses or the Financial Position lands on the Funding tile (their anchors kept on it); the Glossary's places for the break even, the contribution margin, the cash runway and the funding gap open the Workbook's Financial Documents at the tab that says them; a note made to the Cash Flow or Break-Even tile opens the Financials page.
+
+**Bracketed details** (round of 18:35, item 9) on the three tiles that stay go into their "i".
+
+**The Workbook's two kinds of document** (owner, 2026-11-20 20:46 UTC+2: "At the Workbook separate the Business and the Financial Documents. Make the Financial Documents with tabs just like the Business Documents."). Rule | was | now: each record has one place | one section, Business Documents, with the Business Plan, the Business Model Canvas and the Financial Forecast, the plan repeating the Funding Request, the Financial Plan and the Projections | two sections of the Workbook's rail, one under the other, each the same panel, title, "i", text sizes, Export and tabs (`BusinessDocumentsView`):
+
+| Section | Tabs |
+|---|---|
+| Business Documents | Business Plan, Business Model Canvas |
+| Financial Documents | Financial Forecast (its tables, then the Funding Timeline and the Revenue-Adjusted Financial Position under the Cash-Flow Forecast), Funding Request (the need, what is available, the gap, Use of Funds, the Cash to Raise Before the Opening and the Operational Contingency Fund, Sources of Funds; then the Financial Projections), Financial Plan (the costs, the revenue, the break even with its Stress Test, the capacity, the costs in full) |
+
+The Business Plan keeps every part that is not a figure of money and, where its financial parts stood, one section, **Financial Documents**, that names where they are (one owner per fact): the Funding Request, the Financial Plan and the Financial Forecast of the Workbook. Its Executive Summary still says the plan's figures in a sentence (the funding sought, the expected revenue, the break even). Each Financial Document exports on its own, as Markdown and PDF (the Forecast also as CSV). A link, note or search result made to a moved record lands on its tab.
+
+**The Business Plan's export carries the Financial Documents as its appendix** (owner, 2026-11-20 20:47 UTC+2, his decision: "the appendix"). On screen the plan names where they are; its Markdown and PDF end, after its own Appendix, with "Financial Appendix A: Funding Request" and "Financial Appendix B: Financial Plan" (and the Financial Forecast, where the Workbook exports it), written by the Financial Documents' own code, no second copy (`businessPlanForExport`, `plan.ts`). A document whose parts carry their own headings gives one appendix section a part ("Financial Appendix A: Funding Request, Financial Projections"), so every heading keeps its level. One switch turns it off (`PLAN_EXPORT_WITH_FINANCIAL_APPENDIX`): the plan then exports alone and each Financial Document on its own.
+
+**What left the Funding tile is said in the Funding Request** (rule | was | now: nothing a record showed is lost | the Uses card showed the cash to raise before the opening and the Operational Contingency Fund | the Funding Request's "Cash to Raise Before the Opening" (the budget's three parts, the Total Pre-operational Budget, the Startup Contingency Fund, the opening inventory, the total) and "Operational Contingency Fund" (the target, the running costs a month, what is set aside each month, what is held at the opening, the months to reach the target), from the same engine (`contingencyFunds`), once there is an Opening Date). Their three inputs -- the two rates and the target months -- are the Global Settings' and stay there. The Financial Plan's Funding Need keeps its Loan repayments column while a loan is recorded. While there is no Opening Date, the Costs tile says where it is given ("Give the Opening Date, on the Organization tile (Identity System), ..."), the words the Funding tile used.

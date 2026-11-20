@@ -195,6 +195,47 @@ export function TileTitle({ children, className }: { children: ReactNode; classN
  * without links is decoration -- it says again what the tile's accessible name says -- and hidden from
  * assistive technology.
  */
+/**
+ * ONE ALIGNMENT FOR THE LISTS OF A GRID OF TILES (owner, 2026-11-20 21:01 UTC+2: "the listed items are not centered aligned, or at least they do not follow the
+ * same alignment"; layout rules section 8, "Tile anatomy"): each list is a block centred under its title; the lists of one DIALOG grid (never a page's master tiles)
+ * share ONE width, the longest item of any of them (scrolled-away items too), so their bullets or names start at one point in every tile (owner, 21:31).
+ * Text (plain or centred lines, a column page's text) and two-column lists keep their own width. Each TileList asks for its grid; one pass a frame.
+ */
+const gridsToAlign = new Set<HTMLElement>();
+let alignFrame = 0;
+function alignGridLists(grid: HTMLElement) {
+    const lists = Array.from(grid.querySelectorAll<HTMLElement>(":scope > * .section-tile-list")).filter(list =>
+        list.children.length > 0
+        && !list.classList.contains("section-tile-list-pairs")
+        && !list.querySelector(".section-tile-list-plain, .section-tile-list-centre")
+        && (!list.closest(".column-tiles-page") || list.querySelector(".section-tile-list-bullet, .section-tile-divider") !== null));
+    grid.style.removeProperty("--tile-list-width");
+    grid.querySelectorAll(".section-tile-list[data-shared-width]").forEach(list => list.removeAttribute("data-shared-width"));
+    const widest = Math.max(0, ...lists.map(list => list.getBoundingClientRect().width));
+    if (lists.length > 1 && widest > 0) {
+        grid.style.setProperty("--tile-list-width", Math.ceil(widest) + "px");
+        lists.forEach(list => list.setAttribute("data-shared-width", ""));
+    }
+}
+function askToAlign(grid: HTMLElement | null | undefined) {
+    if (!grid || typeof window === "undefined") {
+        return;
+    }
+    gridsToAlign.add(grid);
+    if (alignFrame === 0) {
+        alignFrame = window.requestAnimationFrame(() => {
+            alignFrame = 0;
+            const grids = [...gridsToAlign];
+            gridsToAlign.clear();
+            grids.filter(each => each.isConnected).forEach(alignGridLists);
+        });
+    }
+}
+if (typeof window !== "undefined") {
+    // (A new window width changes the tiles' side and the type: every grid on screen lines up again.)
+    window.addEventListener("resize", () => document.querySelectorAll<HTMLElement>(".section-tile-dialog :is(.section-tile-slot, .card-tile-slot)").forEach(slot => askToAlign(slot.parentElement)));
+}
+
 export function TileList({
     items: given, links: givenLinks, alerts: givenAlerts, marks: givenMarks, onLink, onPlain
 }: {
@@ -239,6 +280,14 @@ export function TileList({
         marks.push(givenMarks?.[at]);
     });
     const list = useRef<HTMLUListElement | null>(null);
+    // (Its grid's lists share one width: see askToAlign.)
+    useLayoutEffect(() => {
+        // (Only in a DIALOG's grid: a page's master tiles keep each list centred on the tile's centre line at its own width; owner, 2026-11-20 21:28 and 21:32 UTC+2.)
+        const slot = list.current?.closest<HTMLElement>(".section-tile-slot, .card-tile-slot");
+        if (slot?.closest(".section-tile-dialog")) {
+            askToAlign(slot.parentElement);
+        }
+    });
     // The list holds EVERY item and scrolls when they do not all fit under the title (and above the "+" box): a thin themed scrollbar, the wheel scrolls it
     // (not the card behind, until its end), the keyboard walks the links and scrolls them into view. Marked while it scrolls (its layer then takes the wheel).
     const [scrolls, setScrolls] = useState(false);

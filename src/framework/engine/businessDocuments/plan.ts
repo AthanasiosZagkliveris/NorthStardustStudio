@@ -599,6 +599,25 @@ function fundingRequestBlocks(f: Foundation): ExportBlock[] {
             ...position.needs.map(need => [need.label, format(need.amount), need.when]),
             ["Total", format(position.need), ""]
         ])),
+        // Before the opening and after it: the contingency funds, worked out from the Global Settings' rates and target (doc 48, section 14).
+        ...(f.funds ? [
+            ...titled("Cash to Raise Before the Opening", table(["Part", "Amount"], [
+                ["Capital Expenditure", format(f.funds.schedule.capex)],
+                ["Startup Expenses", format(f.funds.schedule.startup)],
+                ["Pre-Operating Expenses", format(f.funds.schedule.preOperating)],
+                ["Total Pre-operational Budget", format(f.funds.schedule.total)],
+                ["Startup Contingency Fund", format(f.funds.startupFund)],
+                ["Opening inventory", format(f.funds.schedule.openingInventory)],
+                ["Total", format(f.funds.cashToRaise)]
+            ])),
+            ...titled("Operational Contingency Fund", details([
+                ["Target", format(f.funds.target) + ", " + f.funds.targetMonths + (f.funds.targetMonths === 1 ? " month" : " months") + " of running costs"],
+                ["Running costs a month", format(f.funds.monthlyOpEx)],
+                ["Set aside each month", format(f.funds.monthlyOpEx * f.funds.operationalRate / 100)],
+                ["Held at the opening", format(f.funds.startupFund)],
+                ["Months to reach the target", f.funds.monthsToTarget === null ? "Not reached" : String(f.funds.monthsToTarget)]
+            ]))
+        ] : []),
         ...titled("Sources of Funds", [
             ...table(["Source", "Type", "Amount", "Status", "Received", "Terms"], cash.map(entry => [
                 entry.source.name || entry.source.provider,
@@ -746,11 +765,17 @@ function notCovered(title: string): ExportBlock[] {
 
 /** The Appendix: the costs in full, and the brand's style guide -- its colours, type and hierarchy, then its pictures. */
 function appendixBlocks(f: Foundation): ExportBlock[] {
+    const demote = (blocks: ExportBlock[]) => blocks.map(block => block.kind === "subheading" ? { ...block, level: 2 as const } : block);
+    const style = [...demote(brandStyleBlocks(f.brandStyleValue)), ...brandGuidePictures(f)];
+    // (The costs in full are the Financial Plan's, a Financial Document: doc 48, section 14.)
+    return titled("Brand Style Guide", style);
+}
+
+/** The costs in full, by group: the Financial Plan's last part (doc 48, section 14). */
+function costsBlocks(f: Foundation): ExportBlock[] {
     const frequencyOf = (line: CostLine) => line.frequency === "other"
         ? (line.frequencyOther || "Other")
         : COST_FREQUENCIES.find(entry => entry.id === line.frequency)?.label ?? line.frequency;
-    const demote = (blocks: ExportBlock[]) => blocks.map(block => block.kind === "subheading" ? { ...block, level: 2 as const } : block);
-    const style = [...demote(brandStyleBlocks(f.brandStyleValue)), ...brandGuidePictures(f)];
     return [
         ...titled("Costs", [
             ...paragraph("Subtotals count one-time costs once and recurring costs a month at a time; costs paid per unit or per project are in each Offering's cost of sales, not the totals."),
@@ -774,8 +799,7 @@ function appendixBlocks(f: Foundation): ExportBlock[] {
                 ];
             }),
             ...labelled("Total", sumText(f, costSums(f.lines)))
-        ]),
-        ...titled("Brand Style Guide", style)
+        ])
     ];
 }
 
@@ -823,13 +847,45 @@ function continueNumbering(blocks: ExportBlock[], before: ExportBlock[]): Export
         : block);
 }
 
+/** A Financial Document as the documents' content: its title, its cover and its numbered parts (doc 48, section 14). */
+function financialDocument(f: Foundation, title: string, parts: [string, ExportBlock[]][]): ExportContent {
+    return {
+        systemNumber: "",
+        systemName: title + " " + f.name,
+        capability: "Foundation",
+        documentTitle: title + ": " + f.name,
+        documentSubtitle: "Figures are estimates over a " + planLength(f.financial) + "-month plan from " + planMonthLabel(f.financial.planStart, 1) + ".",
+        documentMeta: coverLines(f),
+        documentLogo: brandPictures(f.brandInventoryValue).logo,
+        sections: parts.map(([heading, blocks], index) => section(index + 1, heading, blocks.length > 0 ? blocks : paragraph("Not answered yet.")))
+    };
+}
+
+/** THE FUNDING REQUEST, a Financial Document: what the plan needs and has, the gap, Use of Funds, Sources of Funds (doc 48, section 14). */
+export function fundingRequest(sessions: FoundationSessions): ExportContent {
+    const f = readFoundation(sessions, { wholeOnly: true });
+    return financialDocument(f, "Funding Request", [["Funding Request", fundingRequestBlocks(f)], ["Financial Projections", projectionBlocks(f)]]);
+}
+
+/** THE FINANCIAL PLAN, a Financial Document: the costs and the funding, the revenue, the break even with its Stress Test, the capacity, then the costs in full. */
+export function financialPlan(sessions: FoundationSessions): ExportContent {
+    const f = readFoundation(sessions, { wholeOnly: true });
+    const asDocument = { costName: (line: CostLine) => costName(f, line), omitCosts: true };
+    const financialFoundation = financialFoundationBlocks({ ...asFinancialFoundationValue(f.business.responseOf?.(AnswerType.FinancialFoundation)), planStart: f.financial.planStart }, f.business, asDocument);
+    return financialDocument(f, "Financial Plan", [
+        ["Financial Plan", [
+            ...financialFoundation,
+            ...continueNumbering(
+                financialSustainabilityBlocks(f.business.responseOf?.(AnswerType.FinancialSustainability), f.business, asDocument),
+                financialFoundation)
+        ]],
+        ["Costs in Full", costsBlocks(f)]
+    ]);
+}
+
 export function businessPlan(sessions: FoundationSessions): ExportContent {
 
     const f = readFoundation(sessions, { wholeOnly: true });
-
-    // The costs are in the Appendix.
-    const asDocument = { costName: (line: CostLine) => costName(f, line), omitCosts: true };
-    const financialFoundation = financialFoundationBlocks({ ...asFinancialFoundationValue(f.business.responseOf?.(AnswerType.FinancialFoundation)), planStart: f.financial.planStart }, f.business, asDocument);
 
     const parts: [string, ExportBlock[]][] = [
         ["Executive Summary", executiveSummary(f)],
@@ -841,16 +897,8 @@ export function businessPlan(sessions: FoundationSessions): ExportContent {
         ["Management and Organisation", teamBlocks(f)],
         ["Strategy and Milestones", strategyBlocks(f)],
         ["Risks", riskBlocks(f)],
-        // The request, then the financials that support it, then the
-        // Appendix: the order SBA and SCORE give.
-        ["Funding Request", fundingRequestBlocks(f)],
-        ["Financial Plan", [
-            ...financialFoundation,
-            ...continueNumbering(
-                financialSustainabilityBlocks(f.business.responseOf?.(AnswerType.FinancialSustainability), f.business, asDocument),
-                financialFoundation)
-        ]],
-        ["Financial Projections", projectionBlocks(f)],
+        // (THE FINANCIALS ARE THE FINANCIAL DOCUMENTS (doc 48, section 14; owner, 2026-11-20 20:46 UTC+2): the plan names where they are, one owner per fact.)
+        ["Financial Documents", paragraph("The Funding Request, the Financial Plan and the Financial Forecast are the Financial Documents of the Workbook, each written from the same answers as this plan.")],
         ["Appendix", appendixBlocks(f)]
     ];
 
@@ -868,4 +916,30 @@ export function businessPlan(sessions: FoundationSessions): ExportContent {
             blocks.length > 0 ? blocks : paragraph("Not answered yet.")))
     };
 
+}
+
+/**
+ * THE BUSINESS PLAN'S EXPORT CARRIES THE FINANCIAL DOCUMENTS AS ITS APPENDIX (owner, 2026-11-20 20:47 UTC+2, "the appendix"; doc 48, section 14): on screen
+ * the plan names where they are; its Markdown and PDF end with the Funding Request, the Financial Plan and the Financial Forecast, written by their own code
+ * (no second copy). Off, the plan exports alone and each Financial Document exports on its own.
+ */
+export const PLAN_EXPORT_WITH_FINANCIAL_APPENDIX = true;
+
+export function businessPlanForExport(plan: ExportContent, financialDocuments: readonly ExportContent[]): ExportContent {
+    if (!PLAN_EXPORT_WITH_FINANCIAL_APPENDIX) {
+        return plan;
+    }
+    const letters = "ABCDEFGH";
+    const appendix = financialDocuments.flatMap((document, at) => {
+        const name = "Financial Appendix " + letters[at] + ": " + (document.documentTitle ?? document.systemName).split(":")[0];
+        const nested = document.sections.some(part => part.blocks.some(block => block.kind === "subheading"));
+        // A document whose parts carry their own headings: one appendix section per part, so every heading keeps its level.
+        return nested
+            ? document.sections.map((part, index) => [index === 0 ? name : name + ", " + part.title, part.blocks] as const)
+            : [[name, document.sections.flatMap(part => [heading(part.title), ...part.blocks])] as const];
+    });
+    return {
+        ...plan,
+        sections: [...plan.sections, ...appendix.map(([title, blocks], at) => section(plan.sections.length + at + 1, title, [...blocks]))]
+    };
 }

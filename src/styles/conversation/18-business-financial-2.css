@@ -39,23 +39,8 @@
 
 }
 
-.financial-section .financial-headline{
-
-    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-inner)) var(--theme-ground-weight), var(--theme-ground-paper));
-
-    border-top-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge-soft));
-    border-right-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge-soft));
-    border-bottom-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge-soft));
-
-}
-
 /* The headline's left edge says good or bad; a neutral one takes
    the section's own colour. */
-.financial-section .financial-headline-neutral{
-
-    border-left-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge));
-
-}
 
 .financial-section .financial-table,
 .financial-section .financial-chart,
@@ -66,16 +51,9 @@
 }
 
 .financial-section .financial-table th,
-.financial-section .financial-table td,
-.financial-section .financial-obligations > li{
+.financial-section .financial-table td{
 
     border-bottom-color:hsl(var(--strategy-theme-hue, 0) var(--theme-line-rule-light));
-
-}
-
-.financial-section .financial-meter{
-
-    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-meter)) var(--theme-ground-weight), var(--theme-ground-paper));
 
 }
 
@@ -91,34 +69,10 @@
 /* ---------- Sustainability: break-even activity ---------- */
 
 /* Break-even activity: one Offering a line. */
-.financial-activity-list{
-
-    margin:4px 0 0;
-
-    padding-left:20px;
-
-}
-
-.financial-activity-list > li + li{
-
-    margin-top:2px;
-
-}
 
 /* In a table cell, the list sits flush with the figures, one line
    each and no bullets: a right-aligned cell leaves a bullet stranded
    far from its line. */
-.financial-table td > .financial-activity-list{
-
-    margin:0;
-
-    padding-left:0;
-
-    list-style:none;
-
-    white-space:normal;
-
-}
 
 /* A STRATEGY CARD'S HEAD BUTTONS: a cell gap (12px) after the "i" -- the head's own gap is already 12px -- a cell gap apart, the
    last at the card's side margin. */
@@ -616,70 +570,9 @@
 
 /* ---------- Each Offering's costs (Sustainability) ---------- */
 
-.financial-offering-costs{
-
-    display:grid;
-
-    grid-template-columns:repeat(auto-fit, minmax(340px, 1fr));
-
-    gap:var(--gap-12);
-
-}
-
-.financial-offering-cost-card{
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:var(--gap-8);
-
-    min-width:0;
-
-    /* A card's side margin (--card-padding). */
-    padding:14px var(--card-padding);
-
-    border:1px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge-light));
-    border-radius:var(--radius-lg);
-
-    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-card-wash)) var(--theme-ground-weight), var(--theme-ground-paper));
-
-}
-
-.financial-offering-cost-name{
-
-    font-size:var(--font-body);
-
-}
-
-.financial-offering-cost-subhead{
-
-    margin-top:4px;
-
-}
-
-.financial-offering-cost-card .financial-cost-inputs > li{
-
-    max-width:none;
-
-}
-
 /* The figure takes what it needs and wraps, rather than pushing
    past the card's edge ("$2,460 (98% of the price)" beside its
    label in a narrow card). */
-.financial-offering-cost-card .financial-cost-inputs > li > span:last-child{
-
-    min-width:0;
-
-    text-align:right;
-
-}
-
-.financial-offering-cost-result{
-
-    margin-top:4px;
-
-}
 
 /* ---------- The Funding Need, calculated (Financial Foundation) ---------- */
 
@@ -688,111 +581,9 @@
    content (the card grids' rule, card-folding.css), and every card
    has the same title, amount and date lines, so their lists start
    level. */
-.financial-need-cards{
-
-    display:grid;
-
-    grid-auto-flow:dense;
-
-    grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));
-
-    gap:var(--gap-12);
-
-}
-
-.financial-need-card{
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:var(--gap-6);
-
-    min-width:0;
-
-    /* A card's side margin (--card-padding). */
-    padding:14px var(--card-padding);
-
-    border:1px solid hsl(var(--strategy-theme-hue, 0) var(--theme-line-edge-light));
-    border-radius:var(--radius-lg);
-
-    background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-card-wash)) var(--theme-ground-weight), var(--theme-ground-paper));
-
-}
-
-.financial-need-name{
-
-    font-size:var(--font-body);
-
-}
-
-.financial-need-amount{
-
-    font-size:var(--font-h3);
-    font-weight:700;
-    letter-spacing: calc(var(--rest-tracking, 0em) + var(--bold-tracking));
-
-    color:var(--text-default);
-
-}
-
-.financial-need-card .financial-cost-inputs,
-.financial-need-card > .financial-table-scroll{
-
-    /* The list of costs, or the Operating need's months: one start line. */
-    margin-top:4px;
-
-    font-size:var(--font-body);
-
-}
-
-.financial-need-card .financial-cost-inputs > li{
-
-    max-width:none;
-
-}
-
-.financial-need-card .financial-cost-inputs > li > span:last-child{
-
-    flex-shrink:0;
-
-}
-
-.financial-need-note{
-
-    margin:0;
-
-    font-size:var(--font-body);
-
-}
 
 /* The operating need carries its first year, month by month: the
    whole width, with the other three needs beside one another below. */
-.financial-need-card-wide{
-
-    grid-column:1 / -1;
-
-}
-
-.financial-need-months td,
-.financial-need-months th{
-
-    white-space:nowrap;
-
-}
-
-.financial-need-months td{
-
-    text-align:right;
-
-}
-
-.financial-need-months tfoot th,
-.financial-need-months tfoot td{
-
-    border-top:2px solid var(--line-quiet);
-
-}
 
 /* ---------- Where a link landed (see jumpTo.ts) ----------
 

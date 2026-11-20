@@ -43,14 +43,14 @@ export type WorkbookTab = NonNullable<WorkbookState["tab"]>;
 /** The Workbook's colour: the work done in it is reviewing (WorkColours.ts; docs/design/core/01-current-design.md, part I). */
 const WORKBOOK_HUE = workHue("review");
 
-const TAB_LABELS: Record<WorkbookTab, string> = { "card-notes": "Card Notes", review: "Review", glossary: "Glossary", references: "References", documents: "Business Documents" };
+const TAB_LABELS: Record<WorkbookTab, string> = { "card-notes": "Card Notes", review: "Review", glossary: "Glossary", references: "References", documents: "Business Documents", "financial-documents": "Financial Documents" };
 
 /**
  * What the Glossary's and the References' titles' "i" says (doc 39, 3.3: a page title's note, at most three points of at most 160
  * characters; an option's meaning as "Name: meaning"). What the tab is, how to use it, and what its two colours or its style mean:
  * nothing of it repeats the title. (The Card Notes and the Review carry no "i", as before.)
  */
-export const GLOSSARY_INFO: Record<"glossary" | "references" | "documents", string[]> = {
+export const GLOSSARY_INFO: Record<"glossary" | "references" | "documents" | "financial-documents", string[]> = {
     glossary: [
         "Every word the app uses and every name you gave, from A to Z. The funnel shows either kind, or both, and the letter ranges.",
         "App terms, in blue: the app's own words, with what each means here and the source it rests on. Press a source to read it in full.",
@@ -63,7 +63,13 @@ export const GLOSSARY_INFO: Record<"glossary" | "references" | "documents", stri
     ],
     // (The Business Documents: what they are drawn from is the Plan's own subtitle; how to change them is said here, once.)
     documents: [
-        "Your Business Plan, Business Model Canvas and Financial Forecast, written from your Foundation answers each time you open them.",
+        "Your Business Plan and Business Model Canvas, written from your Foundation answers each time you open them.",
+        "The plan's figures are the Financial Documents: its export ends with them as its appendix.",
+        "To change a line, change the answer it came from. Export each one as Markdown or PDF."
+    ],
+    // (THE FINANCIAL DOCUMENTS (doc 48, section 14; owner, 2026-11-20 20:46 UTC+2): the records of 3. Business System → Financials.)
+    "financial-documents": [
+        "Your Financial Forecast, Funding Request and Financial Plan, written from your answers each time you open them.",
         "Figures are estimates over the plan's length, from its first month: set them on 3. Business System → Financials.",
         "To change a line, change the answer it came from. Export each one as Markdown or PDF, and the Forecast as CSV too."
     ]
@@ -88,7 +94,7 @@ export default function Workbook() {
     // its conclusions, then the end matter -- references, glossary, appendices -- as university report guides set it (Notre Dame Australia, Western Sydney,
     // Reading): the Business Documents (the body), the Review (what to look at again), the References, the Glossary, and the Card Notes (the working notes,
     // an appendix).
-    const tabs = useMemo(() => (landing ? ["review", "references", "glossary"] as const : ["documents", "review", "references", "glossary", "card-notes"] as const)
+    const tabs = useMemo(() => (landing ? ["review", "references", "glossary"] as const : ["documents", "financial-documents", "review", "references", "glossary", "card-notes"] as const)
         .map(id => ({ id: id as WorkbookTab, label: TAB_LABELS[id] })), [landing]);
     const first = (wanted?: WorkbookTab): WorkbookTab => wanted && tabs.some(entry => entry.id === wanted) ? wanted : tabs[0].id;
     const [tab, setTab] = useState<WorkbookTab>(() => first(state.tab));
@@ -248,7 +254,7 @@ export default function Workbook() {
                     Title"; "should stay in place, not move on scrolling down"): outside the body that scrolls. */}
                 <div className="workbook-head">
                     <div className="business-engagement-section-head" role="heading" aria-level={2}>
-                        <DialogHeading key={tab} title={title} info={tab === "glossary" || tab === "references" || tab === "documents" ? GLOSSARY_INFO[tab] : undefined} />
+                        <DialogHeading key={tab} title={title} info={tab === "glossary" || tab === "references" || tab === "documents" || tab === "financial-documents" ? GLOSSARY_INFO[tab] : undefined} />
                     </div>
                     <div className="workbook-tools" ref={setToolsSlot}>
                         <RadioChoice
@@ -330,6 +336,7 @@ export default function Workbook() {
                 )}
 
                 {tab === "documents" && organizationId && <BusinessDocumentsView organizationId={organizationId} />}
+                {tab === "financial-documents" && organizationId && <BusinessDocumentsView key={state.document ?? "financial"} organizationId={organizationId} group="financial" start={state.document} />}
 
                 </div>
                 </div>

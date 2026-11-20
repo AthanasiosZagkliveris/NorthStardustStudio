@@ -10,7 +10,7 @@ import { ownersTakeDrawings } from "../FinancialForecast.ts";
 import { capabilityOf, costLines, heading, labelled } from "../ExportRenderers.ts";
 import { planLength, withDemand, allFunding, asFinancialFoundationValue, asFinancialSustainabilityValue, financialPosition, fundingType, isNonCash, statusStanding, parseAmount, moneyFormatter, planMonthLabel, incomeTaxRate, assetUnitCostsOf, sustainability, withPlanStart, derivedPlanStart, legalExpenseDates, costStartDates, type CostLine, type RevenueStreamValue } from "../FinancialModel.ts";
 import { calculatedLines } from "../CalculatedLines.ts";
-import { launchNeedOf } from "../ContingencyFunds.ts";
+import { contingencyFunds, launchNeedOf } from "../ContingencyFunds.ts";
 import { asGlobalSettings, capitalisationLimitOf, stageDurationsOf } from "../GlobalSettings.ts";
 import { countryCurrency } from "../LegalEntityJurisdictions.ts";
 import { joinNames, preparedMonth, websiteOf } from "./plan.ts";
@@ -256,14 +256,12 @@ export function readFoundation(sessions: FoundationSessions, options?: { wholeOn
         ? calculatedLines({ foundation: financial, revenuePage, lines, capability, settings, openingDate: settings.openingDate, drawings, country: legalEntity.organisation.country, engagement }, incomeTaxRate(financial))
         : undefined;
     // The cash to raise before the opening, which the Establishment need is (ContingencyFunds.ts).
-    const launched = settings
-        ? launchNeedOf(
-            lines,
-            { openingDate: settings.openingDate, capitalisationLimit: capitalisationLimitOf(settings), assetUnitCosts: assetUnitCostsOf(capability) },
-            settings,
-            Object.fromEntries(Object.entries(financial.classified).map(([id, entry]) => [id, entry.nature || undefined])),
-            calculated
-        )
+    const natureContext = settings ? { openingDate: settings.openingDate, capitalisationLimit: capitalisationLimitOf(settings), assetUnitCosts: assetUnitCostsOf(capability) } : undefined;
+    const chosenNatures = Object.fromEntries(Object.entries(financial.classified).map(([id, entry]) => [id, entry.nature || undefined]));
+    const launched = settings && natureContext ? launchNeedOf(lines, natureContext, settings, chosenNatures, calculated) : undefined;
+    // The contingency funds, once there is an Opening Date (as the Funding tile showed them; the Funding Request says them now: doc 48, section 14).
+    const funds = settings && natureContext && settings.openingDate.trim() !== ""
+        ? launched?.funds ?? contingencyFunds(lines, natureContext, settings, chosenNatures, calculated)
         : undefined;
 
     const position = financialPosition(financial, lines, legalEntity, currency, format, revenuePage, launched?.launch);
@@ -275,6 +273,8 @@ export function readFoundation(sessions: FoundationSessions, options?: { wholeOn
         stage,
         legalEntity, foundersProfile, currency, format, drawings, business, strategy, foundationValue, segments,
         capability, engagement, financial, lines, position, revenuePage, outlook, name, calculated,
+        // The contingency funds worked out from the Global Settings (the rates and the target are inputs there), for the Funding Request.
+        funds,
         definition: responseByTitle(sessions.identity, /^definition$/i),
         // (The six texts of Purpose, doc 45: the Values, Principles, Philosophy and Manifesto are saved in its section; the Mission and Vision in Definition.)
         ethics: responseByTitle(sessions.identity, /^purpose( & beliefs)?$/i),

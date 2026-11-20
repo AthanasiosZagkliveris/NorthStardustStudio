@@ -41,6 +41,15 @@
 }
 
 /* The type of the four tiles: every tile title is the body step (18px), on every kind of tile; from 250px a side their list is the body step (18px), under it 14px. */
+/* ONE ALIGNMENT FOR THE BULLETED LISTS OF A GROUP (TileList, TileParts.tsx; layout rules section 8, "Tile anatomy"): the grid's widest bulleted list sets the
+   width of every one of them, still centred under its title, so the bullets of a row stand at one place in every tile. */
+.section-tile-list[data-shared-width],
+.column-tiles-page .section-tile-list[data-shared-width] {
+
+    width: var(--tile-list-width, fit-content);
+
+}
+
 .section-tiles-quad[data-large] .section-tile-list {
 
     font-size: var(--font-body);

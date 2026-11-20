@@ -19,7 +19,7 @@ Paths are written "System › page › tile". "Doc 28" is the document numbered 
 |---|---|---|
 | Brand | System 2: one page, Brand System (Ambassador, Style) | Doc 1, B.1 |
 | Brand Images | Brand › Brand System › Style | Doc 1, B.1 |
-| Break Even | Business › 3 Financials › Financial Foundation › Break-Even & Sustainability | Page 4; doc 48, section 13 |
+| Break Even | Workbook › Financial Documents › Financial Plan, Break Even (with the Stress Test) | Page 4; doc 48, section 14 |
 | Business | System 3: Foundation & Engagement, Infrastructure & Capability, Financials | `specifications/business-system/README.md` |
 | Business Documents | Header › Workbook › Business Documents (also System Selection › Foundation › the Business Documents button, and `/documents`): Business Plan, Business Model Canvas, Financial Forecast | Doc 1, C.2 and C.11 |
 | Business stages | Global Settings › Business stages (the four durations); worked out from the Opening Date | Doc 28, 8.2a; doc 37 |
@@ -65,7 +65,8 @@ Paths are written "System › page › tile". "Doc 28" is the document numbered 
 
 | Item | Where in the app | Described in |
 |---|---|---|
-| Financial Foundation | Business › 3 Financials, the page's one chapter: Revenue Streams, Costs, Funding, Cash Flow, Break-Even & Sustainability | Pages 4 and 5; doc 48, section 13 |
+| Financial Documents | Workbook › Financial Documents: Financial Forecast (with the Funding Timeline and the Revenue-Adjusted Financial Position), Funding Request, Financial Plan | doc 48, section 14 |
+| Financial Foundation | Business › 3 Financials, the page's one chapter: Revenue Streams, Costs, Funding | Pages 4 and 5; doc 48, sections 13 and 14 |
 | Financial Position | Business › 3 Financials › Financial Foundation › Funding › Financial Position | Page 5; doc 48, section 13 |
 | Focus (reading aid) | Header, on a System's pages | `contents.md` |
 | Founders | Identity System › Definition › Founders & Ownership (saved in the Legal Entity); Business › 2 Infrastructure & Capability › Infrastructure › Founders | Doc 28, 9; page 3 |
@@ -157,7 +158,7 @@ Paths are written "System › page › tile". "Doc 28" is the document numbered 
 | Strategic Period | Strategy › Situation & Direction (its dates, the Roadmap, the Themes with their Goals, Objectives and Metrics) | Doc 1, B.1 |
 | Strategy | System 4: one page, Situation & Direction | Doc 1, B.1 |
 | Style | Brand › Brand System, the second frame: Colours, Typography, Text Hierarchy, Icon & Logo, Brand Images | Doc 1, B.1 |
-| Sustainability | Business › 3 Financials › Financial Foundation › Break-Even & Sustainability (with the Stress Test) | Page 4 |
+| Sustainability | Workbook › Financial Documents › Financial Plan, Break Even (with the Stress Test) | Page 4; doc 48, section 14 |
 | SWOT Analysis | Strategy › Situation & Direction | Doc 1, B.1 |
 | System Selection | The screen of the Capabilities and their Systems (`/assistant`) | `contents.md` |
 

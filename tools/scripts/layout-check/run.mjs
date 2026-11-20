@@ -97,7 +97,8 @@ export const WIDTHS = [1920, 1536, 1366, 768];
 export const THEMES = ["light", "dark"];
 
 /** A window is [width, height]; the standard check keeps the height at 1000. */
-export const SIZES = WIDTHS.map(width => [width, 1000]);
+// (And one short window, 1366 x 768 -- the commonest laptop screen --, where the master tiles keep their 12px apart: owner, 2026-11-20 21:07 UTC+2.)
+export const SIZES = [...WIDTHS.map(width => [width, 1000]), [1366, 768]];
 
 /**
  * THE WIDE CHECK (--wide): all three reading modes (sepia too) and the screen classes of the website's profiles and of the minimum width
