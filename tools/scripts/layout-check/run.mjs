@@ -542,6 +542,54 @@ export async function checkDialogLevel(page, where) {
     return failures;
 }
 
+/**
+ * A DIALOG OPENED FROM A SCROLLED PAGE (layout rules section 23, "Every dialog opens at its frame's top"; section 10, "One rail for every layer"; 2026-11-20): at 768 x 1000,
+ * where the stacked chapters run below the window, the page scrolled to its foot and its last Master Tile opened as a reader opens it. The dialog stands 12px under the
+ * page title's underline (or at its frame's top where that shows lower), and its tab 12px under the dialog's top.
+ */
+export async function checkScrolledDialog(page, where) {
+    const failures = [];
+    await page.setViewportSize({ width: 768, height: 1000 });
+    await page.waitForTimeout(300);
+    const opened = await page.evaluate(async () => {
+        const pause = ms => new Promise(resolve => setTimeout(resolve, ms));
+        window.scrollTo(0, document.documentElement.scrollHeight);
+        await pause(150);
+        const tiles = [...document.querySelectorAll(".section-tiles-quad .section-tile")].filter(tile => tile.getBoundingClientRect().width > 0 && !tile.closest(".section-tile-overlay"));
+        const tile = tiles[tiles.length - 1];
+        if (!tile || window.scrollY < 1) {
+            return null;
+        }
+        tile.scrollIntoView({ block: "nearest" });
+        await pause(60);
+        tile.click();
+        await pause(900);
+        const dialog = document.querySelector(".section-tile-dialog");
+        const underline = document.querySelector(".interview-divider");
+        const tab = [...document.querySelectorAll(".carousel-rail.carousel-rail-tab")].find(node => node.getBoundingClientRect().width > 0);
+        if (!dialog || !underline) {
+            return null;
+        }
+        const title = (tile.querySelector(".section-tile-title") || tile).textContent.trim();
+        const top = dialog.getBoundingClientRect().top;
+        return { title, top, rest: underline.getBoundingClientRect().bottom + 12, tab: tab ? tab.getBoundingClientRect().top - top : null };
+    });
+    if (opened) {
+        if (opened.top < opened.rest - 1) {
+            failures.push({ page: where, width: 768, rule: "a dialog opened from a scrolled page stands 12px under the page title's underline", detail: opened.title + ": its top " + Math.round(opened.top) + ", wanted " + Math.round(opened.rest) });
+        }
+        if (opened.tab !== null && Math.abs(opened.tab - 12) > 0.6) {
+            failures.push({ page: where, width: 768, rule: "a dialog opened from a scrolled page has its tab 12px under its top", detail: opened.title + ": " + Math.round(opened.tab) + "px" });
+        }
+    }
+    for (let tries = 0; tries < 4 && await page.evaluate(() => !!document.querySelector(".section-tile-dialog, .floating-card-host")); tries++) {
+        await page.keyboard.press("Escape");
+        await page.waitForTimeout(400);
+    }
+    await page.evaluate(() => window.scrollTo(0, 0));
+    return failures;
+}
+
 export async function runLayoutCheck(page, { base = "http://localhost:1420", probe, pages = PAGES, widths, sizes = (widths ?? WIDTHS).map(width => [width, 1000]), themes = THEMES, reference } = {}) {
     const failures = [];
     // The reference x: the first Legal Entity card's (measured here, or handed in by a run that measured it once).
@@ -577,6 +625,7 @@ export async function runLayoutCheck(page, { base = "http://localhost:1420", pro
             }
             failures.push(...(await checkChapters(page, system + " › " + name)));
             failures.push(...(await checkDialogLevel(page, system + " › " + name)));
+            failures.push(...(await checkScrolledDialog(page, system + " › " + name)));
             // The real mouse on the list items of the first-row tiles (3. Infrastructure & Capability), in a tall and a low window.
             if (/Infrastructure/.test(name)) {
                 await page.evaluate(value => document.documentElement.setAttribute("data-theme", value), "light");

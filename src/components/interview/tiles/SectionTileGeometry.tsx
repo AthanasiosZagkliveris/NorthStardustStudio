@@ -254,7 +254,9 @@ export function dialogFrame(opener?: HTMLElement | null): { width: number; heigh
             // (A card taller than the window is covered only as far as the window shows: under the header and the page title that stays under it, above the footer.)
             const header = Math.max(document.querySelector<HTMLElement>(".app-header")?.getBoundingClientRect().bottom ?? 0, document.querySelector<HTMLElement>(".interview-divider")?.getBoundingClientRect().bottom ?? 0);
             const footer = document.querySelector<HTMLElement>(".workspace-footer")?.getBoundingClientRect().top;
-            const top = Math.max(box.top, header);
+            // (Where the page is scrolled past the frame's top, the dialog stands where a frame stands at rest: 12px under the page title's underline, never against it;
+            // layout rules section 23, "Every dialog opens at its frame's top"; 2026-11-20, a stacked page at 768.)
+            const top = Math.max(box.top, header + 12);
             const bottom = Math.min(box.bottom, footer !== undefined ? footer - 12 : window.innerHeight);
             if (bottom - top > 200 && (top > box.top || bottom < box.bottom)) {
                 return { width: box.width, height: bottom - top, top, left: box.left };

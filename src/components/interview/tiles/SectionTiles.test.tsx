@@ -650,7 +650,7 @@ describe("the tiles' stylesheet", () => {
     it("sets the page's two cards side by side in the page's two equal columns, stacked only under 1100px", () => {
         const page = stylesheet("conversation.css");
         expect(page).toMatch(/\.business-capability > \.business-foundation-card ?\{ ?grid-column: ?auto;[^}]*align-self: ?start; ?\}/);
-        expect(page).toMatch(/@container page-card \(max-width: 699px\) ?\{ ?[^}]*\.business-capability > \.business-foundation-card:is\(:nth-child\(1\), :nth-child\(2\)\) ?\{ ?grid-column: ?1 \/ -1;/);
+        expect(page).toMatch(/@container page-card \(max-width: 699px\) ?\{ ?[^}]*\.business-capability(?::not\(\.page-group \.answer-columns\))? > \.business-foundation-card:is\(:nth-child\(1\), :nth-child\(2\)\) ?\{ ?grid-column: ?1 \/ -1;/);
     });
 
     it("draws no rule down the left of a group of sections any more", () => {

@@ -3127,7 +3127,7 @@
                 }
                 const layer = [...document.querySelectorAll(".floating-card-body, .section-tile-dialog")].filter(visible).pop();
                 if (layer && Math.abs(box.top - rect(layer).top - 12) > 0.6 && box.top > 80) {
-                    fail("every tab starts 12px under its layer's top", tab, { offset: box.top - rect(layer).top });
+                    fail("every tab starts 12px under its layer's top", tab, { offset: box.top - rect(layer).top, scrollY: window.scrollY, scrolled: (() => { let s = 0; for (let e = layer.parentElement; e && e !== document.documentElement; e = e.parentElement) s += e.scrollTop; return s; })() });
                 }
             }
         }
@@ -3364,6 +3364,12 @@
             if (only && !only.includes(title)) {
                 continue;
             }
+            // (A KNOWN SCROLL BEFORE EACH SCENE (2026-11-20): the window at its top, then the tile brought into view as a reader brings it -- a lower chapter's tile on a
+            // stacked page under 1200px opens from a scrolled page, the case "Every dialog opens at its frame's top" covers -- and the scroll left to settle, so a run
+            // never starts where the last scene left the page.)
+            window.scrollTo(0, 0);
+            tile.scrollIntoView({ block: "nearest", inline: "nearest" });
+            await pause(60);
             root.__layoutProbe.openSide = tile.getBoundingClientRect().width;
             tile.click();
             await pause(settle);
@@ -3452,15 +3458,22 @@
                 const cardBox = ownBox ? (lifted === null ? ownBox : { left: ownBox.left, width: ownBox.width, top: lifted, bottom: ownBox.bottom, height: ownBox.bottom - lifted }) : null;
                 // (A card taller than the window -- the Customer Channels' -- cannot be covered by its dialog: the dialog then fills the window under the header, and only its width is the card's.)
                 const tallCard = !!cardBox && cardBox.height > window.innerHeight;
+                // (A page scrolled past the frame's top: the dialog stands 12px under the page title's underline, the frame's place at rest, and runs to the frame's foot or the
+                // window's, 12px above the footer; layout rules section 23, "Every dialog opens at its frame's top", 2026-11-20.)
+                const rest = Math.max(header ? header.getBoundingClientRect().bottom : 0, underline ? underline.getBoundingClientRect().bottom : 0) + 12;
                 if (cardBox && cardBox.width > 200 && cardBox.height > 200 && !tallCard) {
                     width = cardBox.width;
                     height = cardBox.height;
                     top = cardBox.top;
+                    if (cardBox.top < rest - 0.5) {
+                        top = rest;
+                        height = Math.min(cardBox.bottom, footer ? footer.getBoundingClientRect().top - 12 : window.innerHeight) - rest;
+                    }
                 } else if (tallCard) {
                     width = cardBox.width;
                     height = 0;
                     // (Under the header and the page title that stays under it while the page scrolls; owner, 2026-11-11.)
-                    top = Math.max(cardBox.top, header ? header.getBoundingClientRect().bottom : 0, underline ? underline.getBoundingClientRect().bottom : 0);
+                    top = Math.max(cardBox.top, rest);
                 } else if (underline) {
                     // A page-wide dialog (Inventory, Completed) stands from the top of the page's cards to 12px above the window's foot, over the footer's band (owner, 2026-11-12).
                     const cardsTop = document.querySelector(".answer-columns.business-capability > .business-foundation-card");

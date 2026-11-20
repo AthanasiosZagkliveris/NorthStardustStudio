@@ -55,7 +55,9 @@
 
 @container page-card (max-width: 699px){
 
-    .answer-columns.business-foundation.business-engagement.business-capability > .business-foundation-card:is(:nth-child(1), :nth-child(2)){
+    /* (Not in a page of several sections: its columns already give the 13px back (.page-group .answer-columns), and a second bleed stood the frames 13px left of
+       the page title's line at 768; 2026-11-20.) */
+    .answer-columns.business-foundation.business-engagement.business-capability:not(.page-group .answer-columns) > .business-foundation-card:is(:nth-child(1), :nth-child(2)){
 
         grid-column:1 / -1;
 
