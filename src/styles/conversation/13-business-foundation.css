@@ -1077,8 +1077,11 @@
 
 }
 
-/* The section stands flush under the boxes above it: the dialog's row gap is taken back, so the double rule follows the last band without a gap. */
-.business-foundation-description + .business-segment-grid-full{
+/* The section stands flush under the boxes above it: the dialog's row gap is taken back, so the double rule follows the last band without a gap -- under a dialog's
+   bands too (the Registrations: a strip of the dialog's ground stood between the tax band and the Additional Legal Requirements; owner's screenshot, 2026-11-20
+   18:35 UTC+2). */
+.business-foundation-description + .business-segment-grid-full,
+.legal-entity-bands + .business-segment-grid-full{
 
     margin-top:calc(-1 * var(--space-card));
 
