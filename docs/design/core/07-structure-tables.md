@@ -10,7 +10,7 @@ Foundation capability only, from src/data/systems.ts; their pages as the pages r
 
 | id | name | number | pages | page_ids | page_names | page_types |
 |---|---|---|---|---|---|---|
-| S1 | Identity System | 1 | 2 (plus Introduction) | P1.1, P1.3 | 1. Definition & Purpose; 2. Legal Entity | tiles page (chapters of master tiles) |
+| S1 | Identity System | 1 | 1 (plus Introduction) | P1.1 | Identity System | tiles page (chapters of master tiles) |
 | S2 | Brand System | 2 | 1 (plus Introduction) | P2.1 | Brand System | tiles page (chapters of master tiles) |
 | S3 | Business System | 3 | 3 (plus Introduction) | P3.1, P3.3, P3.4 | 1. Foundation & Engagement; 2. Infrastructure & Capability; 3. Financials | tiles page (chapters of master tiles) |
 | S4 | Strategy System | 4 | 1 (plus Introduction) | P4.1 | Strategy System | tiles page (chapters of master tiles) |
@@ -21,8 +21,7 @@ Every page the pages rail shows, from the app's definitions (the Systems' answer
 
 | id | system | name | sections | type | chapters | master_tiles | base_content |
 |---|---|---|---|---|---|---|---|
-| P1.1 | S1 | 1. Definition & Purpose | 1.1 Definition; 1.2 Purpose | tiles page (chapters of master tiles) | 2 | 4 | header; Pages rail; page arrows; chapter frames |
-| P1.3 | S1 | 2. Legal Entity | 1.3 Legal Entity | tiles page (chapters of master tiles) | 1 | 0 | header; Pages rail; page arrows; chapter frames |
+| P1.1 | S1 | Identity System | 1.1 Definition; 1.2 Purpose; 1.3 Legal Entity | tiles page (chapters of master tiles) | 2 | 4 | header; Pages rail; page arrows; chapter frames |
 | P2.1 | S2 | Brand System | 2.1 Ambassador; 2.2 Style | tiles page (chapters of master tiles) | 2 | 8 | header; Pages rail; page arrows; chapter frames |
 | P3.1 | S3 | 1. Foundation & Engagement | 3.1 Foundation; 3.2 Customer Engagement | tiles page (chapters of master tiles) | 2 | 0 | header; Pages rail; page arrows; chapter frames |
 | P3.3 | S3 | 2. Infrastructure & Capability | 3.3 Infrastructure & Capability | tiles page (chapters of master tiles) | 3 | 10 | header; Pages rail; page arrows; chapter frames |
@@ -37,7 +36,6 @@ A chapter is a frame on a page that holds master tiles. A page of several sectio
 |---|---|---|---|---|---|
 | C1.1-definition | P1.1 | 1 | 1. Definition | none | PageGroups.ts |
 | C1.1-purpose | P1.1 | 2 | 2. Purpose | none | PageGroups.ts |
-| C1.3-legal-entity | P1.3 | 1 | Legal Entity | none | PageGroups.ts |
 | C2.1-ambassador | P2.1 | 1 | 1. Ambassador | none | PageGroups.ts |
 | C2.1-style | P2.1 | 2 | 2. Style | none | PageGroups.ts |
 | C3.1-foundation | P3.1 | 1 | 1. Foundation | none | PageGroups.ts |

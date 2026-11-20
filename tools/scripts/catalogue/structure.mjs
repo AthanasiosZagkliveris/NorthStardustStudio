@@ -95,8 +95,9 @@ for (const system of FOUNDATION_SYSTEMS) {
         // (The rail's own name: the group's, else the section's; numbered by its order when the System has more than one page, as the rail draws it.)
         const name = (shown.length > 1 ? (at + 1) + ". " : "") + (group ? group.title : section.title);
         // (A page of one chapter made of several sections -- Financials since 2026-11-20 -- is that one chapter: PageGroups.ts, `oneChapter`.)
+        // (A section that hands its tiles to another's chapter draws no frame: the Legal Entity on the Identity System's one page, `handsTiles`.)
         const frames = group?.oneChapter ? [group.oneChapter] : members.length > 1 || group?.frameTitles
-            ? members.map((member, index) => (members.length > 1 ? (index + 1) + ". " : "") + (group?.frameTitles?.[index] ?? member.title))
+            ? members.map((member, index) => (members.length > 1 ? (index + 1) + ". " : "") + (group?.frameTitles?.[index] ?? member.title)).filter((_, index) => members[index].number !== group?.handsTiles)
             : [];
         // (A scanned page is this page where its name is the page's, or the name of one of its sections, or the start of one: "Infrastructure".)
         const names = [group?.title, ...members.map(member => member.title)].filter(Boolean).map(words);

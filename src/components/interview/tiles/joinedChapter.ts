@@ -11,6 +11,9 @@ import { type TileStore } from "./segmentPage.ts";
 /** The key a joined page's tiles are handed under. */
 export const JOINED_CHAPTER_KEY = "chapter";
 
+/** The key the Legal Entity hands its tile under, to the Identity System's Definition chapter (PageGroups.ts, `handsTiles`; owner, 2026-11-20 13:02 UTC+2). */
+export const HANDED_TILES_KEY = "handed";
+
 export const JoinedChapterContext = createContext<TileStore | null>(null);
 
 /** The store of the page's one chapter, where the page joins its sections into one; null on every other page. */

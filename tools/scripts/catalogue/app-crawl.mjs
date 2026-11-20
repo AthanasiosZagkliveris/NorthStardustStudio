@@ -65,7 +65,7 @@ function collect() {
 async function record(where) { try { scenes.push({ where, ...(await page.evaluate(collect)) }); } catch (error) { scenes.push({ where, items: [], units: [], error: String(error).slice(0, 80) }); } }
 const attempt = async (name, fn) => { try { await fn(); } catch (error) { console.log("skipped " + name + ": " + String(error).slice(0, 90)); } };
 
-const PAGES = { "Identity System": ["Definition", "Legal Entity"], "Brand System": [null], "Business System": ["Foundation & Engagement", "Infrastructure", "Financials"], "Strategy System": [null] };
+const PAGES = { "Identity System": [null], "Brand System": [null], "Business System": ["Foundation & Engagement", "Infrastructure", "Financials"], "Strategy System": [null] };
 for (const [system, pages] of Object.entries(PAGES)) {
     for (const name of pages) {
         const where = system + " / " + (name ?? "main");

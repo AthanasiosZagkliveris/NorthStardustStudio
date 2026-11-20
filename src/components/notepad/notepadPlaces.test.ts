@@ -14,9 +14,11 @@ describe("a page said in words", () => {
         expect(pagePlace(3, 5)).toBe("3. Business System → 3. Financials");
     });
 
-    it("keeps the Identity System's pages as they were", () => {
-        expect(pagePlace(1, 2)).toBe("1. Identity System → 1. Definition & Purpose");
-        expect(pagePlace(1, 3)).toBe("1. Identity System → 2. Legal Entity");
+    it("names the Identity System's one page from any of its sections, as the Brand System's is named", () => {
+        expect(pagePlace(1, 1)).toBe("1. Identity System → Identity System");
+        expect(pagePlace(1, 2)).toBe("1. Identity System → Identity System");
+        expect(pagePlace(1, 3)).toBe("1. Identity System → Identity System");
+        expect(pagePlace(2, 2)).toBe("2. Brand System → Brand System");
     });
 
 });

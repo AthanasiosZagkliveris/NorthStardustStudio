@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { cleanup, fireEvent, render, screen, within } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import { MemoryRouter, Route, Routes, useLocation, useNavigate } from "react-router-dom";
 
 import Conversation from "./Conversation";
@@ -127,15 +127,30 @@ describe("Conversation records the last place worked", () => {
 
     const identity = systems.find(system => system.id === "identity")!;
 
-    function renderIdentity(state: Record<string, unknown>) {
+    const business = systems.find(system => system.id === "business")!;
+
+    function renderSystem(system: typeof identity, state: Record<string, unknown>) {
         return render(
-            <MemoryRouter initialEntries={[{ pathname: "/conversation", state: { system: identity, ...state } }]}>
+            <MemoryRouter initialEntries={[{ pathname: "/conversation", state: { system, ...state } }]}>
                 <Routes>
                     <Route path="/conversation" element={<Conversation />} />
                 </Routes>
             </MemoryRouter>
         );
     }
+
+    // The Identity System is one page: the Definition chapter and the Purpose chapter.
+    function renderIdentity(state: Record<string, unknown>) {
+        return renderSystem(identity, state);
+    }
+
+    // The Business System has three pages: 1. Foundation & Engagement (sections 1 and 2), 2. Infrastructure & Capability (3), 3. Financials (4 and 5).
+    function renderBusiness(state: Record<string, unknown>) {
+        return renderSystem(business, state);
+    }
+
+    const pagesRail = () => screen.getByRole("navigation", { name: "Pages" });
+    const current = () => pagesRail().querySelector("[aria-current='true']")?.getAttribute("aria-label");
 
     it("records the System and page once the interview shows, and the card a field is focused in", () => {
 
@@ -150,12 +165,7 @@ describe("Conversation records the last place worked", () => {
         fireEvent.click(screen.getByRole("button", { name: "Start Interview" }));
         expect(OrganizationService.getLastPlace(organization.id)).toEqual({ systemNumber: 1, sectionIndex: 0 });
 
-        // (The Legal Entity page, which holds the Legal Entity and the Founders Profile, found by its name.)
-        fireEvent.click(within(screen.getByRole("navigation", { name: "Pages" })).getByRole("button", { name: /Legal Entity/ }));
-        expect(OrganizationService.getLastPlace(organization.id)).toEqual({ systemNumber: 1, sectionIndex: 2 });
-        fireEvent.click(within(screen.getByRole("navigation", { name: "Pages" })).getByRole("button", { name: /Definition & Purpose/ }));
-
-        // (The Definition & Purpose page holds the Definition chapter and the Purpose chapter: Philosophy & Manifesto's dialog opens, and the field in it is focused.)
+        // (The Identity System's one page holds the Definition chapter and the Purpose chapter: Philosophy & Manifesto's dialog opens, and the field in it is focused.)
         fireEvent.click(screen.getByRole("button", { name: /^Philosophy/ }));
         const card = document.querySelector<HTMLElement>(".column-tile-content[data-rail]")!;
         const field = card.querySelector<HTMLElement>("textarea, input")!;
@@ -166,6 +176,14 @@ describe("Conversation records the last place worked", () => {
             sectionIndex: 0,
             anchor: card.dataset.rail
         });
+        cleanup();
+
+        // A System of several pages records the page opened from the Pages rail, found by its name.
+        renderBusiness({});
+        fireEvent.click(screen.getByRole("button", { name: "Start Interview" }));
+        expect(OrganizationService.getLastPlace(organization.id)).toEqual({ systemNumber: 3, sectionIndex: 0 });
+        fireEvent.click(within(pagesRail()).getByRole("button", { name: /Infrastructure & Capability/ }));
+        expect(OrganizationService.getLastPlace(organization.id)).toEqual({ systemNumber: 3, sectionIndex: 2 });
 
     });
 
@@ -187,7 +205,7 @@ describe("Conversation records the last place worked", () => {
 
     });
 
-    it("draws Founders & Ownership on Definition, saved in the Legal Entity's answer as before (owner, 2026-11-09)", () => {
+    it("draws Founders & Ownership and Registrations & Expenses on Definition, each saved in the Legal Entity's answer as before (owner, 2026-11-09 and 2026-11-20)", async () => {
 
         const organization = OrganizationService.create("Quillfield");
         vi.spyOn(OrganizationService, "getSelected").mockReturnValue(organization.id);
@@ -195,7 +213,12 @@ describe("Conversation records the last place worked", () => {
         renderIdentity({ targetSectionNumber: 1, resume: {} });
 
         const tilesOf = (frame: Element) => [...frame.querySelectorAll(".section-tile[data-tile]")].map(tile => tile.getAttribute("data-tile"));
-        expect(tilesOf(document.querySelectorAll(".column-tiles-page")[0])).toEqual(["organization", "positioning", "legal-entity-founders"]);
+        // Registrations & Expenses stands fourth in the Definition chapter, keeping the Legal Entity's field key.
+        expect(tilesOf(document.querySelectorAll(".column-tiles-page")[0])).toEqual(["organization", "positioning", "legal-entity-founders", "legal-entity-registrations"]);
+        const registrations = document.querySelector<HTMLElement>(".section-tile[data-tile=legal-entity-registrations]")!;
+        expect(registrations.dataset.fieldSection).toBe("3");
+        // (It is drawn once the Legal Entity has handed it over, and marked when the page sees it come.)
+        await waitFor(() => expect((registrations.closest<HTMLElement>(".section-tile-slot") ?? registrations).dataset.fieldKey).toBe("1.3:legal-entity-registrations"));
 
         // Its dialog is the Ownership; a founder named there is saved in the Legal Entity section (3), not in Definition.
         fireEvent.click(screen.getByRole("button", { name: /^Founders & Ownership/ }));
@@ -205,9 +228,9 @@ describe("Conversation records the last place worked", () => {
         expect(JSON.stringify(section(3).founders)).toContain("Jordan Ellis");
         expect(section(1).founders).toBeUndefined();
 
-        // The Legal Entity page no longer draws it.
-        fireEvent.click(screen.getByRole("button", { name: "Next page" }));
-        expect(document.querySelector("[data-tile=legal-entity-founders]")).toBeNull();
+        // The Identity System is one page: the Pages rail holds the Introduction and "Identity System", with no Legal Entity page.
+        expect([...pagesRail().querySelectorAll(".bullet-rail-item")].map(item => (item.textContent ?? "").split(":")[0])).toEqual(["Introduction", "Identity System"]);
+        expect(within(pagesRail()).queryByRole("button", { name: /Legal Entity/ })).toBeNull();
 
     });
 
@@ -246,8 +269,7 @@ describe("Conversation records the last place worked", () => {
         const organization = OrganizationService.create("Quillfield");
         vi.spyOn(OrganizationService, "getSelected").mockReturnValue(organization.id);
 
-        renderIdentity({ targetSectionNumber: 1, resume: {} });
-        const current = () => screen.getByRole("navigation", { name: "Pages" }).querySelector("[aria-current='true']")?.getAttribute("aria-label");
+        renderBusiness({ targetSectionNumber: 1, resume: {} });
 
         expect(current()).toMatch(/^1. /);
         fireEvent.click(screen.getByRole("button", { name: "Next page" }));
@@ -261,14 +283,28 @@ describe("Conversation records the last place worked", () => {
         fireEvent.click(screen.getByRole("button", { name: "Previous page" }));
         expect(current()).toMatch(/^1. /);
 
-        // Not while typing (page 1's Organisation tile holds boxes; page 2's Legal Entity holds none until a country is chosen).
+        // Then to the Introduction.
+        fireEvent.click(screen.getByRole("button", { name: "Previous page" }));
+        expect(screen.getByRole("button", { name: "Start Interview" })).toBeTruthy();
+
+    });
+
+    it("keeps the page while typing: ← in a box of the Identity System's one page stays there", () => {
+
+        const organization = OrganizationService.create("Quillfield");
+        vi.spyOn(OrganizationService, "getSelected").mockReturnValue(organization.id);
+
+        renderIdentity({ targetSectionNumber: 1, resume: {} });
+        expect(current()).toMatch(/^Identity System/);
+
+        // (The Organisation tile's dialog holds boxes.)
         fireEvent.click(screen.getByRole("button", { name: /^Organisation/ }));
         const box = document.querySelector<HTMLElement>("[role='dialog'] textarea, [role='dialog'] input, .section-tile-dialog textarea, .section-tile-dialog input")!;
         fireEvent.keyDown(box, { key: "ArrowLeft" });
-        expect(current()).toMatch(/^1. /);
+        expect(current()).toMatch(/^Identity System/);
         fireEvent.keyDown(document.body, { key: "Escape" });
 
-        // Then to the Introduction.
+        // Its one page leads back to the Introduction.
         fireEvent.click(screen.getByRole("button", { name: "Previous page" }));
         expect(screen.getByRole("button", { name: "Start Interview" })).toBeTruthy();
 
@@ -279,8 +315,8 @@ describe("Conversation records the last place worked", () => {
         const organization = OrganizationService.create("Quillfield");
         vi.spyOn(OrganizationService, "getSelected").mockReturnValue(organization.id);
 
-        renderIdentity({ targetSectionNumber: 2, resume: {} });
-        const items = screen.getByRole("navigation", { name: "Pages" }).querySelectorAll(".bullet-rail-item");
+        renderBusiness({ targetSectionNumber: 3, resume: {} });
+        const items = pagesRail().querySelectorAll(".bullet-rail-item");
         expect(items[0].textContent).toBe("Introduction");
         // Drawn in capitals.
         expect(items[0].classList.contains("bullet-rail-item-capitals")).toBe(true);
@@ -299,8 +335,7 @@ describe("Conversation records the last place worked", () => {
         const organization = OrganizationService.create("Quillfield");
         vi.spyOn(OrganizationService, "getSelected").mockReturnValue(organization.id);
 
-        renderIdentity({ targetSectionNumber: 3, resume: {} });
-        const current = () => screen.getByRole("navigation", { name: "Pages" }).querySelector("[aria-current='true']")?.getAttribute("aria-label");
+        renderBusiness({ targetSectionNumber: 3, resume: {} });
         expect(current()).toMatch(/^2. /);
 
         fireEvent.click(screen.getByRole("button", { name: "Introduction" }));
@@ -308,7 +343,7 @@ describe("Conversation records the last place worked", () => {
         expect(current()).toMatch(/^1. /);
 
         // And → on the Introduction does the same.
-        fireEvent.click(within(screen.getByRole("navigation", { name: "Pages" })).getByRole("button", { name: /Legal Entity/ }));
+        fireEvent.click(within(pagesRail()).getByRole("button", { name: /Infrastructure & Capability/ }));
         fireEvent.click(screen.getByRole("button", { name: "Introduction" }));
         fireEvent.keyDown(document.body, { key: "ArrowRight" });
         expect(current()).toMatch(/^1. /);
@@ -320,12 +355,24 @@ describe("Conversation records the last place worked", () => {
         const organization = OrganizationService.create("Quillfield");
         vi.spyOn(OrganizationService, "getSelected").mockReturnValue(organization.id);
 
+        renderBusiness({ targetSectionNumber: 3, resume: {} });
+
+        expect(screen.queryByRole("button", { name: "Start Interview" })).toBeNull();
+        expect(current()).toMatch(/^2. Infrastructure & Capability/);
+        expect(OrganizationService.getLastPlace(organization.id)).toEqual({ systemNumber: 3, sectionIndex: 2 });
+
+    });
+
+    it("opens the Identity System's one page when continued at the Legal Entity", () => {
+
+        const organization = OrganizationService.create("Quillfield");
+        vi.spyOn(OrganizationService, "getSelected").mockReturnValue(organization.id);
+
         renderIdentity({ targetSectionNumber: 3, resume: {} });
 
         expect(screen.queryByRole("button", { name: "Start Interview" })).toBeNull();
-        expect(screen.getByRole("navigation", { name: "Pages" }).querySelector("[aria-current='true']")?.getAttribute("aria-label"))
-            .toMatch(/^2. Legal Entity/);
-        expect(OrganizationService.getLastPlace(organization.id)).toEqual({ systemNumber: 1, sectionIndex: 2 });
+        expect(current()).toMatch(/^Identity System/);
+        expect(document.querySelector("[data-tile=legal-entity-registrations]")).toBeTruthy();
 
     });
 
@@ -398,13 +445,13 @@ describe("A System's opening screen", () => {
 
     it("opens the interview at a page named under What it covers", () => {
 
-        renderOpening("identity");
+        renderOpening("business");
 
-        fireEvent.click(screen.getByRole("button", { name: "Legal Entity" }));
+        fireEvent.click(screen.getByRole("button", { name: "Infrastructure & Capability" }));
 
         expect(screen.queryByRole("button", { name: "Start Interview" })).toBeNull();
         expect(screen.getByRole("navigation", { name: "Pages" }).querySelector("[aria-current='true']")?.getAttribute("aria-label"))
-            .toMatch(/^2. Legal Entity/);
+            .toMatch(/^2. Infrastructure & Capability/);
 
     });
 

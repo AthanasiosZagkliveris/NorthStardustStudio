@@ -28,7 +28,7 @@ const systemFilter = arg("systems", "").split(",").filter(Boolean);
 const pageFilter = arg("pages", "").split(",").filter(Boolean);
 
 const PAGES = [
-    ["Identity System", ["Definition", "Legal Entity"]],
+    ["Identity System", ["Identity System"]],
     ["Brand System", ["Brand System"]],
     ["Business System", ["Foundation & Engagement", "Infrastructure", "Financials"]],
     ["Strategy System", ["Strategy System"]]

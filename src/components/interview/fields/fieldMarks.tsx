@@ -200,7 +200,7 @@ function markControls(root: HTMLElement, page: FieldPageValue): void {
             continue;
         }
         const rail = card.closest<HTMLElement>("[data-rail]");
-        const key = fieldKey({ systemNumber: page.systemNumber, sectionNumber: page.sectionNumber, path: [rail?.dataset.rail, anchor].filter((segment): segment is string => !!segment) });
+        const key = fieldKey({ systemNumber: page.systemNumber, sectionNumber: ownSection(card, page.sectionNumber), path: [rail?.dataset.rail, anchor].filter((segment): segment is string => !!segment) });
         const name = card.querySelector<HTMLInputElement>(".strategy-name-input, .card-name-input, input[aria-label$=' name']")?.value.trim()
             || card.querySelector(".strategy-name-static, .strategy-box-number, .card-number")?.textContent?.trim() || anchor;
         card.dataset.fieldKey = key;
@@ -213,7 +213,8 @@ function markControls(root: HTMLElement, page: FieldPageValue): void {
             continue;
         }
         const id = tile.dataset.tile ?? "";
-        const key = fieldKey({ systemNumber: page.systemNumber, sectionNumber: page.sectionNumber, path: [id] });
+        // (A tile standing in another section's chapter keeps its own section's key: the Legal Entity's Registrations & Expenses on Definition.)
+        const key = fieldKey({ systemNumber: page.systemNumber, sectionNumber: ownSection(tile, page.sectionNumber), path: [id] });
         const name = tile.querySelector(".section-tile-title")?.textContent?.replace(/\s+/g, " ").trim() || (tile.getAttribute("aria-label") ?? id).split(",")[0];
         // (On the tile's frame, which holds the tile and the layer of its list's lines: a press anywhere on it links the tile.)
         (tile.closest<HTMLElement>(".section-tile-slot") ?? tile).dataset.fieldKey = key;
@@ -246,7 +247,7 @@ function markControls(root: HTMLElement, page: FieldPageValue): void {
         // A column's own box is the column itself.
         const path = [rail?.dataset.rail, anchors[0], rail?.dataset.rail === own && !anchors[0] ? undefined : own]
             .filter((segment): segment is string => !!segment);
-        const key = fieldKey({ systemNumber: page.systemNumber, sectionNumber: page.sectionNumber, path });
+        const key = fieldKey({ systemNumber: page.systemNumber, sectionNumber: ownSection(control, page.sectionNumber), path });
 
         if (control.dataset.fieldKey !== key) {
             control.dataset.fieldKey = key;
@@ -255,6 +256,12 @@ function markControls(root: HTMLElement, page: FieldPageValue): void {
 
     }
 
+}
+
+/** The section a field, card or tile belongs to: the page's, unless it stands in another section's chapter and says its own (`data-field-section`: the Legal
+    Entity's Registrations & Expenses on the Identity System's one page, its tile, dialog and floating cards; owner, 2026-11-20 13:02 UTC+2). */
+function ownSection(element: Element, pageSection: number): number {
+    return Number(element.closest<HTMLElement>("[data-field-section]")?.dataset.fieldSection) || pageSection;
 }
 
 /** The box a noted field is drawn on: the card itself, or the field's control. */
