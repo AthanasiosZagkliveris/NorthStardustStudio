@@ -2,7 +2,7 @@
 
 Status: **specification**, written 2026-09-27, updated 2026-11-19. The requirement as written, with what the app does where it differs marked "as built". The page is called Customer Engagement in the app; the order of the page's sections and how they are built are in `README.md` (page 2).
 
-> **3. Business System — Page 2 of 5, Section 1 of 2; drawn on Page 1 of 3, Foundation & Engagement, since 2026-11-19.**
+> **3. Business System — Section 2 (Customer Engagement), part 1 of 2; drawn on the page Foundation & Engagement, the Segment's Engagement subchapter, since 2026-11-19.**
 >
 > **One page, Foundation & Engagement, 2026-11-19 (the owner's approved plan of 2026-11-18, step 2; owner, 2026-11-19 13:40 and 13:46; layout rules section 13):** Customer Engagement is the second subchapter of each Segment's chapter, Engagement (Channels & Journey, Customer's Relationship, Demand & Conversion), beside its Business Foundation subchapter in one frame; its saved answer, keyed by the Segment's id, is as it was, and what it does when it opens is done for every Segment.
 >
@@ -63,7 +63,7 @@ Status: **specification**, written 2026-09-27, updated 2026-11-19. The requireme
 
 **As built, 16:50 (2026-11-13; doc 47, section 3).** The suggestion rules of doc 47 (media and reviews, Buy Now, Pay Later, the marketplace, D2, O7 None, Repeat customers); Customers Buy read from the Offering's terms (O3), asked only where they leave it open.
 
-Section 1 is "1. Customer Channel" in each Segment's card on Page 2 (the page, its editor and the sections that follow are in `page-2-section-2-customer-relationships.md`, "As built"; the layout is `ai/customer-engagement-layout.md`). The reference header of section 4 is the card's three reference columns (Segment, Profiles, Offerings), always shown. The channels are a four-column table (Channel, Offerings, Journey Stage, Action) with each channel's Links under its name (an optional field: the "Links" tick opens a numbered list of links, placeholder "Link"). Channels are grouped under their category, drawn once, in the fixed category order; each category carries a fold arrow and its channels sit a step in from it, and channels keep their numbers when a category is folded. Actions are stored by Journey Stage (`Record<stageId, string[]>`), so unticking a stage hides its Actions without deleting them.
+Section 1 is "1. Customer Channel" in each Segment's card on Page 2 (the page, its editor and the sections that follow are in `page-1-customer-relationships.md`, "As built"; the layout is `ai/customer-engagement-layout.md`). The reference header of section 4 is the card's three reference columns (Segment, Profiles, Offerings), always shown. The channels are a four-column table (Channel, Offerings, Journey Stage, Action) with each channel's Links under its name (an optional field: the "Links" tick opens a numbered list of links, placeholder "Link"). Channels are grouped under their category, drawn once, in the fixed category order; each category carries a fold arrow and its channels sit a step in from it, and channels keep their numbers when a category is folded. Actions are stored by Journey Stage (`Record<stageId, string[]>`), so unticking a stage hides its Actions without deleting them.
 
 ## 1. Purpose
 

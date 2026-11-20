@@ -193,7 +193,7 @@ Ordering of work (decided): the **Tile System** is finished first (T1–T2), the
 
 #### 5.5.4.2 Page 3 · Infrastructure & Capability
 
-The Delivery card as built is described in the page 3 specification (specifications/business-system/page-3-infrastructure-and-capability.md, section 7).
+The Delivery card as built is described in the page 3 specification (specifications/business-system/page-2-infrastructure-and-capability.md, section 7).
 
 | Id | Requirement | P | State |
 |---|---|---|---|

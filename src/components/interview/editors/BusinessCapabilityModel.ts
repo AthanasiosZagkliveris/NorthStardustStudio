@@ -10,7 +10,7 @@ import { InfoPoint } from "../fields/InfoNote.tsx";
  * The guidance and help this page carries.
  *
  * Every explanation behind an "i" is the specification's own
- * (docs/specifications/business-system/page-3-infrastructure-and-capability.md);
+ * (docs/specifications/business-system/page-2-infrastructure-and-capability.md);
  * the guidance above the process line is this page's, as every
  * page writes its own.
  */

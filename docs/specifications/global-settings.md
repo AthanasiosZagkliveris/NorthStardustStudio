@@ -11,10 +11,10 @@ The rates and limits the calculated lines read, held in one place (the cost mode
 | Section | What it holds | Owner of the detail |
 |---|---|---|
 | Business stages | The Opening Date (entered on the Organisation tile), the four stages' durations, today's stage | doc 28, 8.2a |
-| Financial plan | The Financial Foundation's own settings (its answer, edited here) | [Section 5](business-system/page-5-costs-funding-and-position.md) |
-| Assets | The capitalisation limit, the useful life of each asset group, each asset's own years, the intangible assets' amortisation | [Section 5, 30.6](business-system/page-5-costs-funding-and-position.md#306-dates-rates-and-floors) |
+| Financial plan | The Financial Foundation's own settings (its answer, edited here) | [Section 5](business-system/page-3-costs-funding-and-position.md) |
+| Assets | The capitalisation limit, the useful life of each asset group, each asset's own years, the intangible assets' amortisation | [Section 5, 30.6](business-system/page-3-costs-funding-and-position.md#306-dates-rates-and-floors) |
 | Rates | The employer on-cost coefficient, the royalty, affiliate and sales-agent rates | the cost model, section 6 |
-| Reserve | The Startup and Operational Contingency Funds, the target operating reserve | [Section 5, 30.3](business-system/page-5-costs-funding-and-position.md#303-funds-rules-f1-to-f6) |
+| Reserve | The Startup and Operational Contingency Funds, the target operating reserve | [Section 5, 30.3](business-system/page-3-costs-funding-and-position.md#303-funds-rules-f1-to-f6) |
 | **Channel Fee Table** | What each channel takes of its sales | below |
 
 ## The Channel Fee Table
@@ -36,7 +36,7 @@ There is no "+ Add channel" and no x: a row appears with its channel and leaves 
 **Who reads a row.** The match is by name, the more particular first (Stripe Terminal before Stripe; `channelFeeRowFor`), in the Legal Entity's country; a row with no rate, or not available there, is never charged.
 
 - A paying subchannel's card on Customer Engagement shows its **Fees** (its own name, its expense cards' names, then the Segment's payment services; doc 47).
-- The forecast's channel fees ([Section 5, 30.4](business-system/page-5-costs-funding-and-position.md#304-calculated-lines)): a "% of revenue" card is charged on each Offering's own revenue through the card's subchannels, at the full rate; a payment service's card with no price is charged from its row; never twice.
+- The forecast's channel fees ([Section 5, 30.4](business-system/page-3-costs-funding-and-position.md#304-calculated-lines)): a "% of revenue" card is charged on each Offering's own revenue through the card's subchannels, at the full rate; a payment service's card with no price is charged from its row; never twice.
 
 ## Built from the review, 2026-11-20
 

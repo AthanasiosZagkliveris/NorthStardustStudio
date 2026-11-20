@@ -2,7 +2,7 @@
 
 Status: **specification**, written 2026-09-27, updated 2026-11-02. It says what the page asks and shows. Where it points elsewhere, that document owns the detail: the card rows are document 26 (card structure, in `design/current/`), the cost model is document 1, Part D, the measures and the look are the layout rulebook (`ai/layout-rules.md`, sections 8 to 12) and the pattern of tiles and cards is `ai/tile-and-card-pattern.md`. The open requirements for this page are in document 5, section 5.5.4.2.
 
-> **3. Business System — Page 3 of 5.** Page 2 is Customer Engagement; Page 4 reads this page's costs.
+> **3. Business System — Section 3, the page Infrastructure & Capability (the second of three pages).** It reads Customer Engagement (Section 2); the Financials' Costs (Section 5) read its costs.
 
 The page records the resources, activities, partners and suppliers the organisation needs to **establish, operate and deliver**. It has two cards of four tiles each.
 
@@ -72,7 +72,7 @@ A resource card belongs to a **category** and a **group**; both lists are fixed 
 
 ## 6. Founders (Infrastructure)
 
-The Founders tile lists the names alone. A founder is defined once, on the Legal Entity page of the Identity System; this page adds the cost: **Start date** (when the pay starts), **Salary** with its **Frequency** (Weekly, Monthly or Annually), **Working Hrs** and **Delivery Hrs** (delivery cannot exceed working hours; a muted line shows the share of the working hours), an optional **Allowance** and the extras **Commission** and **Bonus**; the **Roles** and the Responsibilities are read, not typed. Up to four founders show their cards open side by side in one row; five to eight show two balanced rows; more than eight show each founder as a closed box (name and first role), and a press opens that card in place of the boxes. The Responsibilities list starts collapsed every time the dialog opens.
+The Founders tile lists the names alone. A founder is defined once, in the Identity System's Definition, on its Founders & Ownership tile; this page adds the cost: **Start date** (when the pay starts), **Salary** with its **Frequency** (Weekly, Monthly or Annually), **Working Hrs** and **Delivery Hrs** (delivery cannot exceed working hours; a muted line shows the share of the working hours), an optional **Allowance** and the extras **Commission** and **Bonus**; the **Roles** and the Responsibilities are read, not typed. Up to four founders show their cards open side by side in one row; five to eight show two balanced rows; more than eight show each founder as a closed box (name and first role), and a press opens that card in place of the boxes. The Responsibilities list starts collapsed every time the dialog opens.
 
 ## 7. Offering's Capability only
 
@@ -106,10 +106,10 @@ A card needs an answer in every field that is not behind an optional tick box (`
 
 ## 10. What reads this page
 
-- **Page 4** reads every card with a price, grouped by cost nature, with the **Opening Date** (set on the Identity System's Organisation tile) and the **Global Settings** (`/settings`: capitalisation limit, useful lives by asset group, fee tables, contingency rates, insurance per employee, income tax) that this page never asks for again. Its Costs section is a read-only summary: nothing is typed there.
+- **The Financials' Costs** (Section 5) read every card with a price, grouped by cost nature, with the **Opening Date** (set on the Identity System's Organisation tile) and the **Global Settings** (`/settings`: capitalisation limit, useful lives by asset group, fee tables, contingency rates, insurance per employee, income tax) that this page never asks for again. Its Costs section is a read-only summary: nothing is typed there.
 - **Page 2** channel expenses create cards here (section 7).
 - **Currency**: every price carries a currency, defaulting to the currency of the registered country (Identity System, Legal Entity) and changeable per price; a price left on the default follows the registration. A cost in another currency is listed and flagged, not counted (Page 4).
-- **Page 5** reads the capacity (founders' delivery hours) against the expected sales.
+- **The Business Plan's Operations, Capacity** reads the capacity (founders' delivery hours) against the expected sales (the Delivery Check is no longer a page part since the round of 2026-11-20 18:35, doc 48, section 14).
 - **The Business Plan** (Management and Organisation, "Skills and Cover"), the Business System's export and the **Review** (one item per skill not covered yet) read the Skills.
 
 ## 11. Where the rest is
