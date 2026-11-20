@@ -77,9 +77,13 @@ export function otherColumn(anchor: HTMLElement | null): HTMLElement | null {
 }
 
 
+/** How far under its title a chapter's first row is looked for (FloatingCards: a row more than this under the frame's top is not its first row). */
+const CARD_ROOM = 120;
+
 /**
  * THE OTHER HALF, FROM A TILE IN A DIALOG: a card opened from a tile inside a dialog (a category's, the Inventory's, the Completed's) stands over the frame on the half of the
- * page the pressed tile is NOT in -- a tile on the left opens its card on the right, one on the right on the left -- whatever frame the dialog itself covers.
+ * page the pressed tile is NOT in -- a tile on the left opens its card on the right, one on the right on the left -- whatever frame the dialog itself covers. Where the
+ * chapters stand one under the other (below 1200px) there is no other half: the card stands over the chapter the dialog covers from its top, on its first row.
  */
 export function acrossFrom(pressed: HTMLElement | null): HTMLElement | null {
     if (!pressed || !pressed.closest(".section-tile-overlay")) {
@@ -108,6 +112,14 @@ export function acrossFrom(pressed: HTMLElement | null): HTMLElement | null {
     const dialog = pressed.closest<HTMLElement>(".section-tile-dialog")?.getBoundingClientRect();
     if (!dialog) {
         return null;
+    }
+    // (The chapter under the dialog's top as it shows -- a dialog taller than the window scrolls in its layer, its own top far above: the chapter it was opened over.)
+    const shownTop = Math.max(dialog.top, document.querySelector<HTMLElement>(".interview-divider")?.getBoundingClientRect().bottom ?? 0);
+    // (The first chapter that still shows a row under that top (CARD_ROOM, 120px, the room a first row is looked for in): the one the dialog covers from its top --
+    // a Segment's part starts under the chapter's head; a chapter scrolled away all but its foot is passed over.)
+    const under = frames.map((_frame, at) => at).filter(at => boxes[at].bottom > shownTop + CARD_ROOM).sort((one, other) => boxes[one].top - boxes[other].top)[0] ?? -1;
+    if (under >= 0) {
+        return frames[under];
     }
     const overlap = (at: number) => Math.max(0, Math.min(boxes[at].bottom, dialog.bottom) - Math.max(boxes[at].top, dialog.top));
     const covered = frames.map((_frame, at) => at).filter(at => overlap(at) > 0).sort((one, other) => overlap(other) - overlap(one));
