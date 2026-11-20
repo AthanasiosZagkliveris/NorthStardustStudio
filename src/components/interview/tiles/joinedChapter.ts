@@ -14,6 +14,9 @@ export const JOINED_CHAPTER_KEY = "chapter";
 /** The key the Legal Entity hands its tile under, to the Identity System's Definition chapter (PageGroups.ts, `handsTiles`; owner, 2026-11-20 13:02 UTC+2). */
 export const HANDED_TILES_KEY = "handed";
 
+/** The key Costs, Funding & Position hands its cash chart under, to the Financials' Cash Flow tile (doc 48, section 13, step 4): the chart's drawing as a tile's content. */
+export const CASH_CHARTS_KEY = "cash-charts";
+
 export const JoinedChapterContext = createContext<TileStore | null>(null);
 
 /** The store of the page's one chapter, where the page joins its sections into one; null on every other page. */

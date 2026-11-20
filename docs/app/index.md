@@ -19,7 +19,7 @@ Paths are written "System › page › tile". "Doc 28" is the document numbered 
 |---|---|---|
 | Brand | System 2: one page, Brand System (Ambassador, Style) | Doc 1, B.1 |
 | Brand Images | Brand › Brand System › Style | Doc 1, B.1 |
-| Break Even | Business › 3 Financials › Financial Foundation › Break-Even | Page 4 |
+| Break Even | Business › 3 Financials › Financial Foundation › Break-Even & Sustainability | Page 4; doc 48, section 13 |
 | Business | System 3: Foundation & Engagement, Infrastructure & Capability, Financials | `specifications/business-system/README.md` |
 | Business Documents | Header › Workbook › Business Documents (also System Selection › Foundation › the Business Documents button, and `/documents`): Business Plan, Business Model Canvas, Financial Forecast | Doc 1, C.2 and C.11 |
 | Business stages | Global Settings › Business stages (the four durations); worked out from the Opening Date | Doc 28, 8.2a; doc 37 |
@@ -32,8 +32,9 @@ Paths are written "System › page › tile". "Doc 28" is the document numbered 
 | Capabilities | System Selection › the left rail and the list: Foundation, Deliver Value, Manage Information, Manage the Organisation, Communicate, Measure & Improve | `contents.md` |
 | Capability (founders) | Business › 2 Infrastructure & Capability › Offering's Capability › Capacity & Delivery (the skills the business still needs, LC1) | Doc 28, 9; doc 26 |
 | Capability Generator | Organisations (home) › the Capability Generator button; an unfinished page (a text box, and "Analyse Capability" does nothing yet) | `contents.md` |
-| Capital & Funding | Business › 3 Financials › Financial Foundation › Capital & Funding | Page 5 |
+| Capital & Funding | Business › 3 Financials › Financial Foundation › Funding › Sources | Page 5; doc 48, section 13 |
 | Card notes | Header › Workbook (`/workbook`) › Card Notes | `contents.md` |
+| Cash Flow | Business › 3 Financials › Financial Foundation › Cash Flow (the first twelve months of the Cash-Flow Forecast) | Page 5; doc 48, section 13 |
 | Channel Fee Table | Global Settings › Channel Fee Table | Doc 1, Part D 6 |
 | Channels | Business › 1 Foundation & Engagement › Engagement › Channels & Journey | Page 2, section 1 |
 | Colours | Brand › Brand System › Style | Doc 1, B.1 |
@@ -64,11 +65,12 @@ Paths are written "System › page › tile". "Doc 28" is the document numbered 
 
 | Item | Where in the app | Described in |
 |---|---|---|
-| Financial Foundation | Business › 3 Financials, the page's one chapter: Revenue Streams, Costs, Capital & Funding, Financial Position, Break-Even, Sustainability | Pages 4 and 5; doc 48 |
-| Financial Position | Business › 3 Financials › Financial Foundation › Financial Position | Page 5 |
+| Financial Foundation | Business › 3 Financials, the page's one chapter: Revenue Streams, Costs, Funding, Cash Flow, Break-Even & Sustainability | Pages 4 and 5; doc 48, section 13 |
+| Financial Position | Business › 3 Financials › Financial Foundation › Funding › Financial Position | Page 5; doc 48, section 13 |
 | Focus (reading aid) | Header, on a System's pages | `contents.md` |
 | Founders | Identity System › Definition › Founders & Ownership (saved in the Legal Entity); Business › 2 Infrastructure & Capability › Infrastructure › Founders | Doc 28, 9; page 3 |
-| Funding Need | Business › 3 Financials › Financial Foundation › Financial Position (it holds the Funding Need) | Page 5 |
+| Funding | Business › 3 Financials › Financial Foundation › Funding (Sources, Uses, Financial Position) | Page 5; doc 48, section 13 |
+| Funding Need | Business › 3 Financials › Financial Foundation › Funding › Uses | Page 5 |
 
 ## G
 
@@ -155,7 +157,7 @@ Paths are written "System › page › tile". "Doc 28" is the document numbered 
 | Strategic Period | Strategy › Situation & Direction (its dates, the Roadmap, the Themes with their Goals, Objectives and Metrics) | Doc 1, B.1 |
 | Strategy | System 4: one page, Situation & Direction | Doc 1, B.1 |
 | Style | Brand › Brand System, the second frame: Colours, Typography, Text Hierarchy, Icon & Logo, Brand Images | Doc 1, B.1 |
-| Sustainability | Business › 3 Financials › Financial Foundation › Sustainability (with the Stress Test) | Page 4 |
+| Sustainability | Business › 3 Financials › Financial Foundation › Break-Even & Sustainability (with the Stress Test) | Page 4 |
 | SWOT Analysis | Strategy › Situation & Direction | Doc 1, B.1 |
 | System Selection | The screen of the Capabilities and their Systems (`/assistant`) | `contents.md` |
 

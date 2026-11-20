@@ -9,7 +9,7 @@ import { contingencyFunds, launchNeedOf } from "../../../framework/engine/Contin
 import { ownersTakeDrawings } from "../../../framework/engine/FinancialForecast.ts";
 import { capitalisationLimitOf, createGlobalSettings, type GlobalSettingsValue } from "../../../framework/engine/GlobalSettings.ts";
 import { type CSSProperties, type ReactNode, useEffect, useLayoutEffect, useRef, useState } from "react";
-import { JOINED_CHAPTER_KEY, useJoinedChapter } from "../tiles/joinedChapter.ts";
+import { CASH_CHARTS_KEY, JOINED_CHAPTER_KEY, useJoinedChapter } from "../tiles/joinedChapter.ts";
 import { type LegalEntityValue, type StrategyMonthValue, asBusinessCapabilityValue, asBusinessEngagementValue, asLegalEntityValue, businessFoundationSegments, withLegalEntityFounders } from "../../../framework/engine/AnswerUtils.ts";
 import { assetUnitCostsOf, incomeTaxRate, COST_GROUPS, COST_FREQUENCIES, COST_NATURES, COST_NATURE_LABELS, natureSplitOf, FINANCIAL_FOUNDATION_SECTIONS, FUNDING_CATEGORIES, FUNDING_NEED_CATEGORIES, FUNDING_SCHEDULES, FUNDING_STATUSES, FUNDING_TYPES, LOAN_METHODS, PERIOD_FREQUENCIES, planLength, asFinancialFoundationValue, consolidateCosts, createFundingSource, createMilestone, financialPosition, founderCapitalSources, fundingNeeds, fundingStanding, fundingType, isNonCash, loanRepaymentNotes, loanSchedule, moneyFormatter, allFunding, monthlyEquivalent, planMonthLabel, withPlanStart, derivedPlanStart, legalExpenseDates, costStartDates, type CostLine, type FinancialFoundationValue, asFinancialSustainabilityValue, withDemand, type FundingSourceValue } from "../../../framework/engine/FinancialModel.ts";
 import { costSourcesFor } from "../../../framework/engine/ExportRenderers.ts";
@@ -525,6 +525,31 @@ export default function FinancialFoundationEditor({
         running costs until revenue covers them (FinancialModel.ts,
         fundingNeeds). To change a need, change the cost it comes from.
     */
+    /** THE FUNDING TIMELINE (doc 48, section 13, step 4: the Cash Flow tile takes over the cash charts): drawn in the Cash Flow tile's dialog, handed to it
+        with the tiles (joinedChapter.ts, CASH_CHARTS_KEY); shown once. */
+    function fundingTimeline(): ReactNode {
+        return (
+            <div data-anchor="financial-funding-timeline">
+                        <FinancialBlock
+                            title="Funding Timeline"
+                            info={["Money in and out of your organisation month by month, and the balance it leaves. A dip below zero is a cash-pressure period, even when the totals are sufficient."]}
+                        >
+                            {position.timeline.some(month => month.inflow > 0 || month.outflow > 0 || month.balance !== 0)
+                                ? (
+                                    <CashTimelineChart
+                                        timeline={position.timeline}
+                                        format={format}
+                                        markers={position.runwayMonths !== null
+                                            ? [{ month: position.runwayMonths + 1, label: "Funds run out", tone: "risk" }]
+                                            : []}
+                                    />
+                                )
+                                : <BusinessEmpty>Nothing is scheduled to come in or go out yet.</BusinessEmpty>}
+                        </FinancialBlock>
+            </div>
+        );
+    }
+
     function needSection() {
 
         const needs = calculatedNeeds;
@@ -1329,23 +1354,6 @@ export default function FinancialFoundationEditor({
                     </FinancialBlock>
                 )}
 
-                <FinancialBlock
-                    title="Funding Timeline"
-                    info={["Money in and out of your organisation month by month, and the balance it leaves. A dip below zero is a cash-pressure period, even when the totals are sufficient."]}
-                >
-                    {position.timeline.some(month => month.inflow > 0 || month.outflow > 0 || month.balance !== 0)
-                        ? (
-                            <CashTimelineChart
-                                timeline={position.timeline}
-                                format={format}
-                                markers={position.runwayMonths !== null
-                                    ? [{ month: position.runwayMonths + 1, label: "Funds run out", tone: "risk" }]
-                                    : []}
-                            />
-                        )
-                        : <BusinessEmpty>Nothing is scheduled to come in or go out yet.</BusinessEmpty>}
-                </FinancialBlock>
-
                 <FinancialBlock title="Upcoming Obligations" info={["Significant money in or out over the next six months."]}>
                     {position.obligations.length === 0
                         ? <BusinessEmpty>Nothing significant scheduled in the next six months.</BusinessEmpty>
@@ -1490,6 +1498,7 @@ export default function FinancialFoundationEditor({
     // which Revenue & Pricing draws, and stays drawn, so what it does when it opens is done as before. Else its own frame, beside Revenue & Break Even.)
     if (joined) {
         joined.set(JOINED_CHAPTER_KEY, tiles);
+        joined.set(CASH_CHARTS_KEY, [{ id: "funding-timeline", title: "Funding Timeline", content: fundingTimeline }]);
         return null;
     }
     return (

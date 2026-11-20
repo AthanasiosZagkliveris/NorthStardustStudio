@@ -5,10 +5,10 @@ import { numberStep } from "./BusinessEngagementModel.ts";
 import { countedCapability } from "../../../framework/engine/CardCompleteness.ts";
 import TextBox from "../../controls/TextBox.tsx";
 import NumberCell from "../../controls/NumberCell.tsx";
-import { type CSSProperties, type ReactNode, useState, useSyncExternalStore } from "react";
+import { type CSSProperties, Fragment, type ReactNode, useState, useSyncExternalStore } from "react";
 import FoldList from "../fields/FoldList.tsx";
 import { toggledIn } from "../fields/toggledIn.ts";
-import { JOINED_CHAPTER_KEY, useJoinedChapter } from "../tiles/joinedChapter.ts";
+import { CASH_CHARTS_KEY, JOINED_CHAPTER_KEY, useJoinedChapter } from "../tiles/joinedChapter.ts";
 import CardShell from "../cards/CardShell.tsx";
 import SectionTiles, { DialogHeading, stackedFace, type FaceRow, type SectionTile } from "../tiles/SectionTiles.tsx";
 import { type LegalEntityValue, asBusinessCapabilityValue, asBusinessEngagementValue, asLegalEntityValue, businessFoundationSegments, withLegalEntityFounders } from "../../../framework/engine/AnswerUtils.ts";
@@ -1466,29 +1466,34 @@ export default function FinancialSustainabilityEditor({
                         )}
                 </FinancialBlock>
 
-                <FinancialBlock
-                    title="Revenue-Adjusted Financial Position"
-                    info={[
-                        "The Financial Foundation timeline with expected revenue received and variable costs paid as they are expected.",
-                        "Funding runway (Financial Foundation, without revenue): " + (result.fundingRunway === null
-                            ? "beyond the " + months + "-month plan."
-                            : result.fundingRunway + (result.fundingRunway === 1 ? " month." : " months."))
-                    ]}
-                >
-                    {result.revenueTimeline.some(month => month.inflow > 0 || month.outflow > 0 || month.balance !== 0)
-                        ? (
-                            <CashTimelineChart
-                                timeline={result.revenueTimeline}
-                                format={format}
-                                markers={markers}
-                                inLabel="Funding & revenue in"
-                                outLabel={hasLoans(allFunding(financial, legalEntity)) ? "Costs & repayments out" : "Costs out"}
-                            />
-                        )
-                        : <BusinessEmpty>Nothing is scheduled to come in or go out yet.</BusinessEmpty>}
-                </FinancialBlock>
-
             </>
+        );
+
+        // (THE REVENUE-ADJUSTED FINANCIAL POSITION (doc 48, section 13, step 4): drawn in the Cash Flow tile's dialog, shown once.)
+        const revenueChart = (
+            <div data-anchor="sustainability-revenue-adjusted-position">
+                    <FinancialBlock
+                        title="Revenue-Adjusted Financial Position"
+                        info={[
+                            "The Financial Foundation timeline with expected revenue received and variable costs paid as they are expected.",
+                            "Funding runway (Financial Foundation, without revenue): " + (result.fundingRunway === null
+                                ? "beyond the " + months + "-month plan."
+                                : result.fundingRunway + (result.fundingRunway === 1 ? " month." : " months."))
+                        ]}
+                    >
+                        {result.revenueTimeline.some(month => month.inflow > 0 || month.outflow > 0 || month.balance !== 0)
+                            ? (
+                                <CashTimelineChart
+                                    timeline={result.revenueTimeline}
+                                    format={format}
+                                    markers={markers}
+                                    inLabel="Funding & revenue in"
+                                    outLabel={hasLoans(allFunding(financial, legalEntity)) ? "Costs & repayments out" : "Costs out"}
+                                />
+                            )
+                            : <BusinessEmpty>Nothing is scheduled to come in or go out yet.</BusinessEmpty>}
+                    </FinancialBlock>
+            </div>
         );
 
         /** The Stress Test's line on the Sustainability tile: the shortfall in its hardest case, or None. */
@@ -1541,7 +1546,8 @@ export default function FinancialSustainabilityEditor({
             // (THE FACES SAY THEIR FIGURES (owner, 2026-11-18 10:38: "Check the structure, layout, sequence, content and wording"): the status with when the money
             // runs out and the buffer; the Stress Test, as planned and at worst.)
             sustainability: { body: <>{lead}{summary}</>, face: [pair(statusTitle, ""), pair("Financial Exhaustion", exhaustion), pair("Sustainability Buffer", bufferLabel)] },
-            stress: { body: stress, face: stressFace() }
+            stress: { body: stress, face: stressFace() },
+            charts: revenueChart
         };
 
     }
@@ -1677,7 +1683,13 @@ export default function FinancialSustainabilityEditor({
         };
         const cashTile = chapterTiles("sustainability-cash-flow", cashSection, [{
             id: "months", title: "Cash Flow", face: cashFace,
-            body: cashTable ? <ForecastTable table={cashTable} currency={currency} format={format} /> : null
+            body: (
+                <>
+                    {cashTable && <ForecastTable table={cashTable} currency={currency} format={format} />}
+                    {joined.get(CASH_CHARTS_KEY).map(chart => <Fragment key={chart.id}>{chart.content()}</Fragment>)}
+                    {breakEven.charts}
+                </>
+            )
         }])[0];
         const hue = SECTION_HUES["sustainability-revenue"] ?? 0;
         const style = { "--strategy-theme-hue": hue } as CSSProperties;
