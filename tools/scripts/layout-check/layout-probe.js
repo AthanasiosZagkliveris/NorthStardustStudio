@@ -3012,6 +3012,16 @@
             }
         }
 
+        // 21c. A TITLED SECTION HAS THE SHARED DOUBLE RULE ABOVE ITS TITLE BAND (layout rules section 9, the Segment card: "Profiles are a section under the boxes: the
+        //      shared double rule, a title band"; owner, 2026-11-20 19:45 UTC+2: "is missing a double line above the section"): a card's section band (OFFERINGS, LINKS)
+        //      that follows other bands stands right under one.
+        for (const heading of [...document.querySelectorAll(".legal-entity-org-section.business-section-band")].filter(visible)) {
+            const before = heading.previousElementSibling;
+            if (before && visible(before) && !before.matches(".business-capability-card-rule-double")) {
+                fail("a titled section has the double rule above it", heading, { title: heading.textContent.trim().slice(0, 30) });
+            }
+        }
+
         // A remove x never lies on a cell, and keeps 12px from the cell beside it (it stands in the x column): no text box, picker or text area of the same card overlaps it
         // or ends less than 12px before it on its row.
         for (const remove of [...document.querySelectorAll(".strategy-box-remove, .card-remove")].filter(visible)) {

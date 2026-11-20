@@ -121,8 +121,13 @@ export function EngagementBox({ title, info, extra, bands, anchor, sections, hea
             {extra}
         </span>
     );
+    // (A TITLED SECTION HAS THE SHARED DOUBLE RULE ABOVE ITS TITLE BAND, as every titled section of a card or a dialog (layout rules section 9, the Segment card: "Profiles
+    // are a section under the boxes: the shared double rule, a title band"; owner, 2026-11-20 19:45 UTC+2: "is missing a double line above the section").)
     const bandsOf = shown.map((band, at) => (
-        <div className={"legal-entity-org-section" + (headings?.[at] ? " business-section-band" : at % 2 === (title === undefined ? 0 : 1) ? " legal-entity-org-band" : "")} data-section={sections?.[at]} key={at}>{band}</div>
+        <Fragment key={at}>
+            {headings?.[at] && at > 0 && <div className="business-capability-card-rule legal-entity-org-rule business-capability-card-rule-double" role="separator" />}
+            <div className={"legal-entity-org-section" + (headings?.[at] ? " business-section-band" : at % 2 === (title === undefined ? 0 : 1) ? " legal-entity-org-band" : "")} data-section={sections?.[at]}>{band}</div>
+        </Fragment>
     ));
     // (With no title, its bands stand straight in the card under its head, the first tinted, so it parts from the head as a title band would.)
     if (title === undefined) {
