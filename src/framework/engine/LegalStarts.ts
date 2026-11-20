@@ -2,6 +2,7 @@ import { NO_REGISTRY_FORM, formationStatusOf, type LegalEntityValue } from "./An
 import { asBusinessCapabilityValue, isCostingStatus } from "./AnswerBusinessCapability.ts";
 import { parseAmount } from "./Amounts.ts";
 import { founderMonthlySalary } from "./DemandCapacity.ts";
+import { usStateOf } from "./UsStates.ts";
 
 /*
     THE LEGAL STARTS, STAGE 1 (doc 53, section 6, decisions 1 (a), 5 and 8; the owner's delegation of 2026-11-19 19:48 UTC+2): what a fact the app holds makes
@@ -74,13 +75,31 @@ export function legalStartsFor({ entity, paid }: LegalFacts): LegalStart[] {
         if (formed || paid) {
             starts.push({ rule: "US1", kind: "requirement", type: "additional", name: "EIN from the IRS", says: "Applied for once the state has formed the business; there is no fee.", source: "https://www.irs.gov/businesses/small-businesses-self-employed/get-an-employer-identification-number" });
         }
-        if (/\(LLC\)/.test(form) && /^(NY|New York)$/i.test(subdivision)) {
-            if (planned) {
-                starts.push({ rule: "US2", kind: "expense", name: "Articles of Organization", fee: { amount: "200", frequency: "One time", expenseName: "Articles of Organization" }, source: "https://dos.ny.gov/articles-organization-domestic-limited-liability-company-0" });
+        // EVERY STATE FROM ITS ROW (owner, 2026-11-19 21:44 UTC+2: "I need the registrations, tax and legal docs to cover the whole USA, not only NY"; doc 53): the state's
+        // formation filing and fee while the business is planned, its publication where the state asks for one, its periodic report (yearly or every two years) and
+        // a fixed yearly tax or licence fee owed whatever the profit -- each only where the state's official page confirms it (UsStates.ts, checked 2026-11-19).
+        const state = usStateOf(subdivision);
+        const kind = /\(LLC\)/.test(form) ? "llc" : /Corporation/.test(form) ? "corporation" : null;
+        const filings = state && kind ? state[kind] : undefined;
+        const source = state?.sources[0] ?? "";
+        if (state && kind && filings) {
+            const what = kind === "llc" ? "the LLC's" : "the corporation's";
+            if (planned && filings.formation) {
+                starts.push({ rule: "US2", kind: "expense", name: filings.formation.name, fee: { amount: filings.formation.amount, frequency: filings.formation.frequency, expenseName: filings.formation.name }, source });
             }
-            starts.push({ rule: "US3", kind: "requirement", type: "additional", name: "Publication of the LLC's formation", says: "Published in two newspapers chosen by the county clerk for six weeks in a row, within 120 days of formation, then the Certificate of Publication filed.", fee: { amount: "50", frequency: "One time", expenseName: "Certificate of Publication" }, source: "https://dos.ny.gov/certificate-publication-domestic-limited-liability-company-0" });
-            // (The Biennial Statement's $9 every two years: the "Every two years" frequency, doc 53, decision 2, stage 3.)
-            starts.push({ rule: "US4", kind: "requirement", type: "additional", name: "Biennial Statement", says: "Filed every two years, in the month the Articles were filed.", fee: { amount: "9", frequency: "Every two years", expenseName: "Biennial Statement" }, source: "https://dos.ny.gov/articles-organization-domestic-limited-liability-company-0" });
+            if (filings.publication) {
+                const fee = filings.publication.fee;
+                starts.push({ rule: "US3", kind: "requirement", type: "additional", name: "Publication of " + what + " formation", says: filings.publication.says, ...(fee ? { fee: { amount: fee.amount, frequency: fee.frequency, expenseName: fee.name } } : {}), source });
+            }
+            if (filings.report) {
+                const report = filings.report;
+                const when = report.frequency === "Every two years" ? "every two years" : "every year";
+                starts.push({ rule: "US4", kind: "requirement", type: "additional", name: report.name, says: "Filed with the state " + when + ".", ...(parseFloat(report.amount) > 0 ? { fee: { amount: report.amount, frequency: report.frequency, expenseName: report.name } } : {}), source });
+            }
+        }
+        const fixed = state && kind ? state.fixedTax?.[kind] : undefined;
+        if (fixed) {
+            starts.push({ rule: "US10", kind: "requirement", type: "additional", name: fixed.name, says: "Owed to the state every year, whatever the profit.", fee: { amount: fixed.amount, frequency: fixed.frequency, expenseName: fixed.name }, source });
         }
     }
     if (country === "CA" && form === "Corporation (federal)") {

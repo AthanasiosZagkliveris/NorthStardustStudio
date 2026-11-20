@@ -29,9 +29,16 @@ describe("the legal starts", () => {
         expect(legalStartsFor({ entity: entityWith({ country: "GB", legalForm: "Sole Trader" }), paid: true })).toEqual([]);
     });
 
-    it("make a New York LLC's state items and the federal EIN; another state's LLC the EIN alone", () => {
+    // (Owner, 2026-11-19 21:44 UTC+2: "I need the registrations, tax and legal docs to cover the whole USA, not only NY".)
+    it("make a New York LLC's state items and the federal EIN; every other state its own row's", () => {
         expect(rules(legalStartsFor({ entity: entityWith({ country: "US", subdivision: "New York", legalForm: "Limited Liability Company (LLC)" }), paid: false }))).toEqual(["US1", "US2", "US3", "US4"]);
-        expect(rules(legalStartsFor({ entity: entityWith({ country: "US", subdivision: "California", legalForm: "Limited Liability Company (LLC)" }), paid: false }))).toEqual(["US1"]);
+        expect(rules(legalStartsFor({ entity: entityWith({ country: "US", subdivision: "California", legalForm: "Limited Liability Company (LLC)" }), paid: false }))).toEqual(["US1", "US2", "US4", "US10"]);
+        const ca = legalStartsFor({ entity: entityWith({ country: "US", subdivision: "CA", legalForm: "C Corporation" }), paid: false });
+        expect(ca.find(start => start.rule === "US10")?.fee).toMatchObject({ amount: "800", frequency: "Annually" });
+        // (Publication only where the state asks for it: an Arizona LLC publishes, a Texas one does not; a state with no confirmed figure makes the EIN alone.)
+        expect(rules(legalStartsFor({ entity: entityWith({ country: "US", subdivision: "Arizona", legalForm: "Limited Liability Company (LLC)" }), paid: false }))).toContain("US3");
+        expect(rules(legalStartsFor({ entity: entityWith({ country: "US", subdivision: "Texas", legalForm: "Limited Liability Company (LLC)" }), paid: false }))).not.toContain("US3");
+        expect(rules(legalStartsFor({ entity: entityWith({ country: "US", subdivision: "", legalForm: "Limited Liability Company (LLC)" }), paid: false }))).toEqual(["US1"]);
     });
 
     it("make each item once, by its rule or its name, and never one the founder removed", () => {

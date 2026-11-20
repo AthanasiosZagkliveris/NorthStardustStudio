@@ -120,7 +120,8 @@ const ACCEPTED_DOMAINS = [
     "canada.ca",          // Government of Canada (incl. Corporations Canada, ised-isde.canada.ca; doc 53)
     "cro.ie",             // Companies Registration Office, Ireland (doc 53)
     "revenue.ie",         // Revenue, Ireland's tax authority (doc 53)
-    "ico.org.uk"          // Information Commissioner's Office, the UK data protection regulator (doc 53)
+    "ico.org.uk",         // Information Commissioner's Office, the UK data protection regulator (doc 53)
+    "floridarevenue.com"  // Florida Department of Revenue, the state's tax authority (UsStates.ts; doc 53)
 ];
 
 /** The host of a URL, lower-cased and without "www."; empty when it is not a URL. */
@@ -144,6 +145,11 @@ export function isAcceptedHost(host: string): boolean {
     const secondLast = labels[labels.length - 2];
 
     if (ACCEPTED_TOP_LABELS.includes(last)) {
+        return true;
+    }
+
+    // (A US state government's own namespace, state.<state>.us: the Colorado, Massachusetts and Texas Secretaries of State; UsStates.ts, doc 53.)
+    if (last === "us" && secondLast && secondLast.length === 2 && labels[labels.length - 3] === "state") {
         return true;
     }
 

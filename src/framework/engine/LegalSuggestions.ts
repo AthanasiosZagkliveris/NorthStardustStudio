@@ -2,6 +2,7 @@ import { PREMISES_GROUP_ID, WORKSPACE_GROUP_ID } from "./AnswerBusinessCapabilit
 import { LEGAL_FEES_CHECKED, paidStaffOf } from "./LegalStarts.ts";
 import { effectiveOfferingAnswers } from "./EffectiveAnswers.ts";
 import { segmentIdentityOf, segmentIsBusiness } from "./SegmentContext.ts";
+import { usStateOf } from "./UsStates.ts";
 import { COMPANY_FORM, musicFromCode, personalDataFromCode, productKindsFromCode, professionFromCode } from "./LegalFacts.ts";
 import { streamRevenue } from "./financial/revenue.ts";
 import { planMonthLabel } from "./financial/period.ts";
@@ -131,9 +132,12 @@ export function legalSuggestions(f: Foundation, today: Date = new Date()): Legal
         }
     }
 
-    // THE UNITED STATES OUTSIDE NEW YORK (decision 6): the federal items are made; the state's own wait for its rules.
-    if (country === "US" && subdivision.trim() && !/^(NY|New York)$/i.test(subdivision) && legalForm.trim()) {
-        out.push({ rule: "US-state", text: "Check your state's registration and tax rules: the app holds New York's for now, and the federal ones for every state.", source: "https://www.sba.gov/business-guide/launch-your-business/register-your-business" });
+    // EVERY US STATE FROM ITS ROW (owner, 2026-11-19 21:44 UTC+2: "the whole USA, not only NY"; UsStates.ts): the state's sales tax registration where the business
+    // sells goods and the state has a sales tax; where the row holds no confirmed filing for the legal form, the founder checks the state's own page.
+    if (country === "US" && legalForm.trim()) {
+        const identity = segmentIdentityOf(f.legalEntity.organisation, f.stage);
+        const goods = f.segments.some(segment => segment.offerings.some(offering => (effectiveOfferingAnswers(offering, segment, identity).o1 ?? []).includes("physical")));
+        out.push(...usStateSuggestions(subdivision, legalForm, goods, f.legalEntity.tax.consumptionTaxStatus === "yes" || said(f, /sales tax|seller'?s permit/i)));
     }
 
     // A FEE WHOSE OFFICIAL CHECK IS OVER 12 MONTHS OLD (decision 5).
@@ -148,4 +152,22 @@ export function legalSuggestions(f: Foundation, today: Date = new Date()): Legal
 /** Identity as the Segments read it, for the Offerings' effective answers. */
 function identityOf(f: Foundation) {
     return segmentIdentityOf(f.legalEntity.organisation, f.stage);
+}
+
+/** A US state's own notes (UsStates.ts): its sales tax registration where the business sells goods, the state has a sales tax and nothing says it is done; where
+    the state's row holds no confirmed filing for an LLC or a corporation, the founder checks the state's own page. Nothing for a state the row confirms. */
+export function usStateSuggestions(subdivision: string, legalForm: string, sellsGoods: boolean, salesTaxDone: boolean): LegalSuggestion[] {
+    const state = usStateOf(subdivision);
+    if (!state) {
+        return [];
+    }
+    const out: LegalSuggestion[] = [];
+    if (sellsGoods && state.salesTax && state.salesTaxRegistration && !salesTaxDone) {
+        out.push({ rule: "US-sales-tax", text: "Register for sales tax before your first sale: " + state.salesTaxRegistration + ".", source: state.sources[0] });
+    }
+    const filings = /(LLC)/.test(legalForm) ? state.llc : /Corporation/.test(legalForm) ? state.corporation : undefined;
+    if (/(LLC)|Corporation/.test(legalForm) && !filings?.formation && !filings?.report) {
+        out.push({ rule: "US-state", text: "Check " + state.name + "'s own filings and fees for your legal form on its official page: the app holds the federal ones, and " + state.name + "'s are still being confirmed.", source: state.sources[0] ?? "https://www.sba.gov/business-guide/launch-your-business/register-your-business" });
+    }
+    return out;
 }
