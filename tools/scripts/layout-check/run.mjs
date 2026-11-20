@@ -616,6 +616,13 @@ export async function runLayoutCheck(page, { base = "http://localhost:1420", pro
                 await page.evaluate(value => document.documentElement.setAttribute("data-theme", value), theme);
                 for (const [width, height] of sizes) {
                     await page.setViewportSize({ width, height });
+                    // (EACH WINDOW AND THEME FROM THE PAGE AT REST (2026-11-20): no layer left open by the last pass, the window at its top -- a dark pass after the light
+                    // one had started where the light one ended, and found what a fresh start does not.)
+                    for (let tries = 0; tries < 4 && await page.evaluate(() => !!document.querySelector(".section-tile-dialog, .floating-card-host")); tries++) {
+                        await page.keyboard.press("Escape");
+                        await page.waitForTimeout(300);
+                    }
+                    await page.evaluate(() => window.scrollTo(0, 0));
                     await page.waitForTimeout(300);
                     // The page as drawn, then every section tile's dialog opened in turn
                     // (a page with no tiles is just the page).
