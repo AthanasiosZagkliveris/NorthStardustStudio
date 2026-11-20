@@ -37,3 +37,14 @@ There is no "+ Add channel" and no x: a row appears with its channel and leaves 
 
 - A paying subchannel's card on Customer Engagement shows its **Fees** (its own name, its expense cards' names, then the Segment's payment services; doc 47).
 - The forecast's channel fees ([page 4, 30.4](business-system/page-5-costs-funding-and-position.md#304-calculated-lines)): a "% of revenue" card is charged on each Offering's own revenue through the card's subchannels, at the full rate; a payment service's card with no price is charged from its row; never twice.
+
+## Review of 2026-11-20
+
+Asked by the owner (2026-11-19 21:44 UTC+2, the round's Global Settings review). Read on the screen and in `GlobalSettings.ts` against this round's changes and the sources of doc 48, section 13. Nothing needed a change; three points wait for the owner.
+
+| Rule | Now | Proposed |
+|---|---|---|
+| The Reserve follows a cited range | Startup Contingency Fund "10 to 15%"; Target operating reserve 3 months ("an investor may ask for 6") | Keep 3 months (UW-Madison SBDC: "3-6 months of expense coverage"); say the startup padding as 10 to 20% (NYU Entrepreneurship, *The Runway Equation*, 2025), the default left at its value |
+| A frequency the cost cards offer is known everywhere | "Every two years" (biennial, added 2026-11-19) is a cost frequency, not a setting | Nothing here: no setting uses a frequency |
+| A country's figures come from its own rows | The Channel Fee Table holds six countries (GB, US, CA, AU, NZ, IE); the on-cost rate is one figure for the country | For the United States, employers' state unemployment insurance varies by state: a note under the on-cost rate where the country is the US, once the states' table (doc 53) is built |
+| The legal fees say when they were checked | The fees' checked date lives with the fees (`LEGAL_FEES_CHECKED`, 2026-11-19), and the Review says when it is a year old | Nothing here |
