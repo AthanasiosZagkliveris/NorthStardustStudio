@@ -1,5 +1,5 @@
 import { NO_REGISTRY_FORM, formationStatusOf, type LegalEntityValue } from "./AnswerLegal.ts";
-import { asBusinessCapabilityValue, isCostingStatus } from "./AnswerBusinessCapability.ts";
+import { asBusinessCapabilityValue, isCostingStatus, withLegalEntityFounders } from "./AnswerBusinessCapability.ts";
 import { parseAmount } from "./Amounts.ts";
 import { founderMonthlySalary } from "./DemandCapacity.ts";
 import { usStateOf } from "./UsStates.ts";
@@ -183,6 +183,16 @@ export function paysAnyone(capabilityValue: unknown): boolean {
     }
     const capability = asBusinessCapabilityValue(capabilityValue);
     return capability.founders.some(founder => (founderMonthlySalary(founder) ?? 0) > 0) || paidStaffOf(capabilityValue).length > 0;
+}
+
+/** The founders Infrastructure & Capability pays a salary (their ids): every other founder is asked the Personal Survival Budget (doc 48, section 13). */
+export function salariedFounderIds(capabilityValue: unknown, legal?: LegalEntityValue): string[] {
+    if (capabilityValue === undefined || capabilityValue === null) {
+        return [];
+    }
+    // (Matched to the Legal Entity's founders first, as Costs reads them: by id, else by name.)
+    const capability = asBusinessCapabilityValue(capabilityValue);
+    return (legal ? withLegalEntityFounders(capability, legal.founders) : capability).founders.filter(founder => (founderMonthlySalary(founder) ?? 0) > 0).map(founder => founder.id);
 }
 
 /**

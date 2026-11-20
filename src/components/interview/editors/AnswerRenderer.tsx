@@ -1,4 +1,5 @@
 import ChoiceCard from "../../controls/ChoiceCard.tsx";
+import { salariedFounderIds } from "../../../framework/engine/LegalStarts.ts";
 import VisionChoices from "./purpose/VisionChoices.tsx";
 import AmbassadorChoices, { AMBASSADOR_PARTS } from "./brand/AmbassadorChoices.tsx";
 import { businessFoundationSegments } from "../../../framework/engine/AnswerUtils.ts";
@@ -62,6 +63,8 @@ function MultiPartAnswerRenderer({
     legalEntityPrefill,
 
     foundersProfile,
+
+    businessCapability,
 
     openingDate,
 
@@ -381,6 +384,7 @@ function MultiPartAnswerRenderer({
                     onChangeFoundersProfile={onChangeFoundersProfile}
                     asTiles
                     foundersOnly
+                    salariedFounderIds={salariedFounderIds(businessCapability, asLegalEntityValue(legalEntity))}
                     onChange={(next) => onChangeLegalEntity(next)}
                     disabled={disabled}
                 />
