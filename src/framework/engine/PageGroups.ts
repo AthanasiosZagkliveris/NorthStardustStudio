@@ -23,6 +23,9 @@ export interface PageGroup {
     /** Whether the page shows one Segment at a time, chosen on its Segment rail (both sections keyed by the same Segment id: segmentPage.ts). */
     oneSegmentAtATime?: boolean;
 
+    /** The page's sections drawn as ONE chapter of this name, the page's own section drawing it with the tiles the others hand it (joinedChapter.ts). */
+    oneChapter?: string;
+
 }
 
 /** Financials' two chapters, in their order: their headings, numbered by the page ("1. Revenue & Break Even"; layout rules section 13). */
@@ -40,7 +43,9 @@ export const PAGE_GROUPS: readonly PageGroup[] = [
     { systemNumber: 3, members: [1, 2], title: "Foundation & Engagement", inHeader: true, oneSegmentAtATime: true },
     // FINANCIALS (owner, 2026-11-18, the approved plan, step 1): Revenue & Pricing and Costs, Funding & Position are one page, their chapters Revenue & Break
     // Even and Financial Foundation side by side, in that order. Each section keeps its number, its title and its saved answer (doc 48, section 11).
-    { systemNumber: 3, members: [4, 5], title: "Financials", inHeader: true, frameTitles: FINANCIALS_FRAMES },
+    // ONE CHAPTER (owner, 2026-11-20 02:11 UTC+2: "The financials should be in a single page. Maybe they should all be under only one chapter."): the six Master
+    // Tiles in one frame, in the order each reads only what stands before it (doc 48, section 11), named by doc 48's own name for its chapter.
+    { systemNumber: 3, members: [4, 5], title: "Financials", inHeader: true, frameTitles: FINANCIALS_FRAMES, oneChapter: "Financial Foundation" },
     // The Strategy System is one page: its Situation & Direction (the Strategic Period's Goals and Objectives are written in each Theme's card there).
     { systemNumber: 4, members: [1], title: "Strategy System", inHeader: false }
 ];

@@ -70,7 +70,7 @@ What you sell, to whom, with what, and whether the money works. Three pages, bes
    - **Offerings**: what you sell, its Description and its Terms & Service.
    **Engagement**, beside it: how the Segment finds you, chooses and buys. Add the **Customer Channels** you use; a channel can make its own cost cards ("+ Add expenses", with the channel's typical costs). Customer Relationship and Demand & Conversion follow as folding cards.
 2. **Infrastructure & Capability**: two frames of four tiles. **Infrastructure**: Founders, Resources, Activities, Partners & Suppliers. **Offering's Capability**: Resources, Activities, Partners & Suppliers, Delivery. Each card carries its cost, its dates and its status. At the bottom, the **Inventory** lists every card with its cost, as tiles or as a table with a filter, and **Completed** holds the activities you have ticked as done.
-3. **Financials**: two chapters side by side. **Revenue & Break Even**: your Revenue Streams, when the business breaks even, and whether the money lasts until then. **Financial Foundation**: Costs (a summary of what the other pages recorded), Capital & Funding and Financial Position.
+3. **Financials**: one chapter, **Financial Foundation**, read from left to right: your Revenue Streams, your Costs (a summary of what the other pages recorded), your Capital & Funding, your Financial Position, then when the business breaks even and whether the money lasts until then.
 
 ### 3.5 Business Documents
 

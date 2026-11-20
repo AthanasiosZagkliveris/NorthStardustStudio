@@ -10,6 +10,7 @@ import InterviewProgress, { SHOW_PROGRESS_LINE } from "../components/InterviewPr
 import InterviewSection from "../components/InterviewSection";
 import { groupOf, isCompanion, primaryOf } from "../framework/engine/PageGroups";
 import { SHOW_SEGMENT_EVENT, SegmentPageContext, createTileStore, type SegmentPage } from "../components/interview/tiles/segmentPage";
+import { JoinedChapterContext } from "../components/interview/tiles/joinedChapter";
 import { asBusinessFoundationValue } from "../framework/engine/businessFoundation/foundationPage";
 import AnswerRenderer from "../components/interview/editors/AnswerRenderer";
 import type { PageSectionAnswer } from "../components/interview/editors/answer/shared.tsx";
@@ -747,6 +748,8 @@ export default function Conversation() {
     const [chosenSegment, setChosenSegment] = useState<string | null>(null);
     // (The tiles Engagement hands each Segment's chapter: one store for the page, segmentPage.ts.)
     const [companionTiles] = useState(createTileStore);
+    // (The tiles the Financials' other section hands the page's one chapter: joinedChapter.ts.)
+    const [chapterTiles] = useState(createTileStore);
     useEffect(() => {
         const show = (event: Event) => {
             const id = (event as CustomEvent<string>).detail;
@@ -1244,7 +1247,7 @@ export default function Conversation() {
                                 definition={answerDefinition ?? section.answer}
                                 value={answerValue}
                                 onChange={change}
-                                frameTitle={pageGroup && pageGroup.members.length > 1 ? (pageGroup.members.indexOf(section.number) + 1) + ". " + (pageGroup.frameTitles?.[pageGroup.members.indexOf(section.number)] ?? section.title) : pageGroup?.frameTitles?.[0]}
+                                frameTitle={pageGroup?.oneChapter ? pageGroup.oneChapter : pageGroup && pageGroup.members.length > 1 ? (pageGroup.members.indexOf(section.number) + 1) + ". " + (pageGroup.frameTitles?.[pageGroup.members.indexOf(section.number)] ?? section.title) : pageGroup?.frameTitles?.[0]}
                                 pageSections={pageSectionsBeside(section)}
                                 legalEntitySectionNumber={legalEntitySection?.number}
                                 resolveDynamicOptions={resolveDynamicOptions}
@@ -1489,9 +1492,10 @@ export default function Conversation() {
                             {pageGroup && pageGroup.members.length > 1
                                 ? (
                                     <SegmentPageContext.Provider value={segmentPage}>
-                                    <div className={"page-group" + (segmentPage ? " page-group-one-chapter" : "")}>
-                                        {/* (A page of one Segment at a time: the companion first, so the tiles it hands the chapter are this draw's.) */}
-                                        {!segmentPage && renderAnswer(currentSection, effectiveAnswer ?? currentSection.answer, effectiveValue, sharedSource ? handleSharedAnswerChange : handleAnswerChange, true)}
+                                    <JoinedChapterContext.Provider value={pageGroup.oneChapter ? chapterTiles : null}>
+                                    <div className={"page-group" + (segmentPage || pageGroup.oneChapter ? " page-group-one-chapter" : "")}>
+                                        {/* (A page of one Segment at a time, or of one chapter: the companion first, so the tiles it hands the chapter are this draw's.) */}
+                                        {!segmentPage && !pageGroup.oneChapter && renderAnswer(currentSection, effectiveAnswer ?? currentSection.answer, effectiveValue, sharedSource ? handleSharedAnswerChange : handleAnswerChange, true)}
                                         {pageGroup.members.slice(1).map(number => {
                                             const companion = session.getSections().find(candidate => candidate.number === number);
                                             return companion
@@ -1501,8 +1505,9 @@ export default function Conversation() {
                                                 }, false)
                                                 : null;
                                         })}
-                                        {segmentPage && renderAnswer(currentSection, effectiveAnswer ?? currentSection.answer, effectiveValue, sharedSource ? handleSharedAnswerChange : handleAnswerChange, true)}
+                                        {(segmentPage || pageGroup.oneChapter) && renderAnswer(currentSection, effectiveAnswer ?? currentSection.answer, effectiveValue, sharedSource ? handleSharedAnswerChange : handleAnswerChange, true)}
                                     </div>
+                                    </JoinedChapterContext.Provider>
                                     </SegmentPageContext.Provider>
                                 )
                                 : renderAnswer(currentSection, effectiveAnswer ?? currentSection.answer, effectiveValue, sharedSource ? handleSharedAnswerChange : handleAnswerChange, true)}

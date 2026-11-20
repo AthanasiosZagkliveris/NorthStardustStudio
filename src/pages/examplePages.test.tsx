@@ -87,3 +87,23 @@ for (const example of EXAMPLES) {
         }
     });
 }
+
+/* THE FINANCIALS IN ONE CHAPTER (owner, 2026-11-20 02:11 UTC+2: "The financials should be in a single page. Maybe they should all be under only one chapter."):
+   one frame, its six Master Tiles in the order each reads only what stands before it (doc 48, section 11). */
+describe("the Financials page", () => {
+    it("draws one chapter of six Master Tiles, each after what it reads", () => {
+        selected = lumen.id;
+        const system = systems.find(candidate => candidate.id === "business")!;
+        const section = frameworkRegistry.getFramework(system.id).sections.find(candidate => candidate.title.startsWith("Revenue & Pricing"))!;
+        const { container } = render(
+            <MemoryRouter initialEntries={[{ pathname: "/conversation", state: { system, targetSectionNumber: section.number, resume: {} } }]}>
+                <Routes>
+                    <Route path="/conversation" element={<Conversation />} />
+                </Routes>
+            </MemoryRouter>
+        );
+        expect([...container.querySelectorAll(".tiles-frame-head")].map(head => head.textContent?.trim())).toEqual(["Financial Foundation"]);
+        const titles = [...container.querySelectorAll<HTMLElement>(".segment-chapter .section-tile-title")].map(title => title.textContent?.replace(/\s+/g, " ").trim().toLowerCase());
+        expect(titles).toEqual(["revenue streams", "costs", "capital & funding", "financial position", "break-even", "sustainability"]);
+    });
+});
