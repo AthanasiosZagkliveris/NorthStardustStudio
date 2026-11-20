@@ -255,7 +255,7 @@ A typical person of the Segment, asked specifically.
 - **Read by (built (owner, 2026-11-17; the open decisions and gaps, Group 4c)):** D1's order: Uses it puts A free trial and A demo first; Makes the final decision puts A quote or proposal first; never locked.
 - **Connections:**
   - *Comes from:* the Segment's decision authorisation and end-user part. **Starts:** every role where one person decides; on a Proxy Segment, Places the order and Makes the final decision; on a Dual-Intent Segment also Uses it (2026-11-09).
-  - *Read by (not built yet):* the Review (nobody makes the final decision); context on the Customer Engagement page. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
+  - *Read by (not built yet):* the Review (nobody makes the final decision); context on the Customer Engagement page. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-section-1-owner-2026-11-08).
 
 ### A6. Specialised needs
 
@@ -271,7 +271,7 @@ A typical person of the Segment, asked specifically.
 
 - **Connections (A6):**
   - *Comes from:* the tick; each question the answer above it.
-  - *Read by (not built yet):* flags the owner's text asks for, kept as a thought (doc 33, section 15, row 6): a solo or single-parent household raises a time-poverty and churn-risk note in a customer journey; sensory or physical needs raise a "compliance validation required" badge on an Offering. They would only highlight, never decide. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
+  - *Read by (not built yet):* flags the owner's text asks for, kept as a thought (doc 33, section 15, row 6): a solo or single-parent household raises a time-poverty and churn-risk note in a customer journey; sensory or physical needs raise a "compliance validation required" badge on an Offering. They would only highlight, never decide. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-section-1-owner-2026-11-08).
 
 ## 4. Box B. Psychographics
 
@@ -342,7 +342,7 @@ What the Segment cannot say: which social media, which communities, which events
 - **Ordered (2026-11-17):** for a business Segment or a Postgraduate one, LinkedIn first; for customers under 25 (Minors or Young adults), TikTok and Instagram first; for School or College or vocational, Instagram and TikTok first; never locked.
 - **Connections:**
   - *Comes from:* the Segment's discovery ways and online comfort.
-  - *Read by (built):* each platform its Social Media subchannel at Discover, a name written under Other its own (doc 47); posts on social media after the sale (O23) at Support & Follow Up; the Competitors' reach openings (K10, doc 41). *Not built yet:* the Profile's hubs. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
+  - *Read by (built):* each platform its Social Media subchannel at Discover, a name written under Other its own (doc 47); posts on social media after the sale (O23) at Support & Follow Up; the Competitors' reach openings (K10, doc 41). *Not built yet:* the Profile's hubs. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-section-1-owner-2026-11-08).
 
 ### C3. Which communities does this person belong to?
 
@@ -360,7 +360,7 @@ What the Segment cannot say: which social media, which communities, which events
   - Write the names of the groups in the note.
 - **Connections:**
   - *Comes from:* the Segment's discovery ways.
-  - *Read by (built):* each community its Community subchannel at Discover, a name written under Other its own (doc 47); the relationship types (`autoRelationshipTypes`); the Competitors' reach openings (K10, doc 41). *Not built yet:* the Profile's hubs. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
+  - *Read by (built):* each community its Community subchannel at Discover, a name written under Other its own (doc 47); the relationship types (`autoRelationshipTypes`); the Competitors' reach openings (K10, doc 41). *Not built yet:* the Profile's hubs. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-section-1-owner-2026-11-08).
 
 ### C4. Which events does this person attend?
 
@@ -378,7 +378,7 @@ What the Segment cannot say: which social media, which communities, which events
 - **Ordered (2026-11-17):** for a Postgraduate Segment, Talk / conference first; never locked.
 - **Connections:**
   - *Comes from:* the Segment's social environment.
-  - *Read by (built):* each event its In Person subchannel at Discover, a name written under Other its own (doc 47); the Competitors' reach openings (K10, doc 41). *Not built yet:* the Profile's hubs. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
+  - *Read by (built):* each event its In Person subchannel at Discover, a name written under Other its own (doc 47); the Competitors' reach openings (K10, doc 41). *Not built yet:* the Profile's hubs. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-section-1-owner-2026-11-08).
 
 ## 6. Box D. Information & Shopping Habits
 
@@ -421,7 +421,7 @@ C1 opens the box (owner, 2026-11-08, P8): the devices they find and buy on are a
 - **Ordered (built (owner, 2026-11-17; the open decisions and gaps, Group 4c)):** by A5 (see A5).
 - **Connections:**
   - *Comes from:* the Segment's path to purchase.
-  - *Read by (built):* the Evaluation channels (doc 47): the ways to try it first their Samples & Trials subchannel, the catalogue Print & Mail › Catalogue / Brochure, each named; a sample, trial, demo or taster makes the funnel's middle step "Tried it (%)" (doc 50); A demo or A quote starts D2's formal help. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
+  - *Read by (built):* the Evaluation channels (doc 47): the ways to try it first their Samples & Trials subchannel, the catalogue Print & Mail › Catalogue / Brochure, each named; a sample, trial, demo or taster makes the funnel's middle step "Tried it (%)" (doc 50); A demo or A quote starts D2's formal help. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-section-1-owner-2026-11-08).
 - **Every way to try it first while no Offering says what it is** (owner, 2026-11-17 08:38: "Bugs plus the first batch" of the review): until an Offering of the Segment has a Type or a form (O1), all five ways are offered (`segmentTrials` gives none); then the ways its Offerings fit.
 - **Starts from where the Segment discovers** (built; owner, 2026-11-18 00:46, the review's second batch, 1.3 and 2.6): "Free samples, tasters or trials" starts the ways to try it first its Offerings fit, once every Offering says its form (O1); "Media, reviews & comparison sites" starts Online reviews / ratings; beside the start from how they decide (D1's earlier starts).
 
@@ -438,7 +438,7 @@ C1 opens the box (owner, 2026-11-08, P8): the devices they find and buy on are a
   - The help a typical person wants before buying; it can differ from how comfortable the Segment is online.
 - **Connections:**
   - *Comes from:* the Segment's online comfort. **Starts:** Formal procurement (Segment, Box 4, 9) starts Needs a formal demonstration or proposal; else the online comfort (4 or 5, Works it out alone; 1 or 2, Wants to talk to a person); else, with no other start, D1 (2026-11-09): A demo / trial / sample or A quote / proposal starts Needs a formal demonstration or proposal, A meeting / call Wants to talk to a person. A saved answer wins.
-  - *Read by (built):* the relationship types suggested on page 2 (`autoRelationshipTypes`, doc 47). *Not built yet:* the Review (against the help the Offering gives). Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
+  - *Read by (built):* the relationship types suggested on page 2 (`autoRelationshipTypes`, doc 47). *Not built yet:* the Review (against the help the Offering gives). Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-section-1-owner-2026-11-08).
 
 ### D3. When does this person usually buy?
 
@@ -535,7 +535,7 @@ C1 opens the box (owner, 2026-11-08, P8): the devices they find and buy on are a
   - Starts with the price where the Segment's household income is rated 1; change it freely.
   - 1 = Minor, 5 = Blocking.
 - **Order (2026-11-09; an order, never a lock):** the worries B1's ticks point to come first, the highest rated value first: Affordability, Price; Reputation, Credibility; Safety / security, Risk; Support, Support (`profileOptionsShown`).
-- **Asked when:** always. *Read by (built, 2026-11-07):* the Offering's O8 offers the worries ticked here, so it ticks those it answers (doc 43); the Value Proposition's open item "Worry left open" (doc 42, 2). *Read by (not built yet):* the Evaluation actions suggested on page 2. *Comes from:* the Segment's household income (the starting value). Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-page-1-owner-2026-11-08).
+- **Asked when:** always. *Read by (built, 2026-11-07):* the Offering's O8 offers the worries ticked here, so it ticks those it answers (doc 43); the Value Proposition's open item "Worry left open" (doc 42, 2). *Read by (not built yet):* the Evaluation actions suggested on page 2. *Comes from:* the Segment's household income (the starting value). Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-section-1-owner-2026-11-08).
 
 
 **One word for each option (owner, 2026-11-06, replacing the same day's shorter words).** The ids are unchanged where an option is only renamed (`WORDS` in `ProfileQuestions.ts`); what each word means is a line of the question's "i", each within 160 characters. B1: Affordability, Speed, Convenience, Quality, Reputation, Expertise, Personalisation, Support, Safety / security, Values. E1: Accessibility, Development, Expression, Compliance, Revenue, Governance ("Competence" was suggested with no old option: not added, the owner asked); since 2026-11-08 Governance is merged into Compliance and Efficiency, Resolution and Enjoyment are added (E1 above). E2, with three merges: Cost (Unclear prices merged in), Delays, Complexity (Poor support merged in), Inconsistency, Trust, Insecurity (Fear of mistakes merged in), Capacity; a saved tick of a merged option is read as the one kept, once, the higher rating kept (`MERGED`, `asProfileAnswers`, tested); since 2026-11-08 Complexity reads Hassle and Insecurity reads Skills gap, the ids kept (E2 above). E3: Price, Credibility, Onboarding, Complexity, Risk, Fit, Support, Migration; Image added 2026-11-08. The needs: section 10.

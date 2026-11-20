@@ -15,8 +15,8 @@
     other at load time.
 
     Specifications:
-    docs/specifications/business-system/page-5-costs-funding-and-position.md
-    docs/specifications/business-system/page-4-revenue-and-pricing.md
+    docs/specifications/business-system/page-3-costs-funding-and-position.md
+    docs/specifications/business-system/page-3-revenue-and-pricing.md
 
     Two decisions the specifications leave open, settled with the
     product owner:

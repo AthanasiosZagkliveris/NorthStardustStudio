@@ -7,8 +7,8 @@
    Business System -- Customer Engagement (Page 2)
 
    See AnswerType.BusinessEngagement, and the specifications at
-   docs/specifications/business-system/page-2-section-1-channels.md
-   and page-2-section-2-customer-relationships.md (with its worked
+   docs/specifications/business-system/page-1-channels.md
+   and page-1-customer-relationships.md (with its worked
    example beside it).
 
    Two sections, and the Segment owns both -- for the same reason it

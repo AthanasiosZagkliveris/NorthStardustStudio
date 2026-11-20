@@ -109,7 +109,7 @@ A card needs an answer in every field that is not behind an optional tick box (`
 - **The Financials' Costs** (Section 5) read every card with a price, grouped by cost nature, with the **Opening Date** (set on the Identity System's Organisation tile) and the **Global Settings** (`/settings`: capitalisation limit, useful lives by asset group, fee tables, contingency rates, insurance per employee, income tax) that this page never asks for again. Its Costs section is a read-only summary: nothing is typed there.
 - **Page 2** channel expenses create cards here (section 7).
 - **Currency**: every price carries a currency, defaulting to the currency of the registered country (Identity System, Legal Entity) and changeable per price; a price left on the default follows the registration. A cost in another currency is listed and flagged, not counted (Page 4).
-- **The Workbook's Financial Plan** reads the capacity (founders' delivery hours) against the expected sales (its capacity check; the Delivery Check is no longer a page part since the round of 2026-11-20 18:35, doc 48, section 14).
+- **The Business Plan's Operations, Capacity** reads the capacity (founders' delivery hours) against the expected sales (the Delivery Check is no longer a page part since the round of 2026-11-20 18:35, doc 48, section 14).
 - **The Business Plan** (Management and Organisation, "Skills and Cover"), the Business System's export and the **Review** (one item per skill not covered yet) read the Skills.
 
 ## 11. Where the rest is

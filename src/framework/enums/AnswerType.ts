@@ -322,8 +322,8 @@ export enum AnswerType {
      *   different tree.
      *
      * Its specifications are
-     * docs/specifications/business-system/page-2-section-1-channels.md
-     * and page-2-section-2-customer-relationships.md, with the
+     * docs/specifications/business-system/page-1-channels.md
+     * and page-1-customer-relationships.md, with the
      * worked example beside them.
      */
     BusinessEngagement = "business-engagement",
@@ -351,7 +351,7 @@ export enum AnswerType {
      * named subsections that also takes additions.
      *
      * Its specification is
-     * docs/specifications/business-system/page-3-infrastructure-and-capability.md.
+     * docs/specifications/business-system/page-2-infrastructure-and-capability.md.
      */
     BusinessCapability = "business-capability",
 
@@ -367,7 +367,7 @@ export enum AnswerType {
      * from the three sections above it (see FinancialModel.ts).
      *
      * Its specification is
-     * docs/specifications/business-system/page-5-costs-funding-and-position.md.
+     * docs/specifications/business-system/page-3-costs-funding-and-position.md.
      */
     FinancialFoundation = "financial-foundation",
 
@@ -381,7 +381,7 @@ export enum AnswerType {
      * of its own for the same reason Page 4 is.
      *
      * Its specification is
-     * docs/specifications/business-system/page-4-revenue-and-pricing.md.
+     * docs/specifications/business-system/page-3-revenue-and-pricing.md.
      */
     FinancialSustainability = "financial-sustainability"
 
