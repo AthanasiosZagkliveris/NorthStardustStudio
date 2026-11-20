@@ -32,12 +32,14 @@ const options = () => screen.getAllByRole("option").map(option => option.textCon
 
 describe("the frequencies and units of a group", () => {
 
-    it("a group offers its own frequencies, Every two years wherever Annually is; one it does not know offers all eight", () => {
+    it("a group offers its own frequencies, Every two years only in Licences (owner, 2026-11-20 13:31 UTC+2); one it does not know offers the default seven", () => {
         expect(frequencyIdsOf("infrastructure", "premises-utilities")).toEqual(["monthly"]);
         expect(frequencyIdsOf("infrastructure", "devices-tools")).toEqual(["monthly", "per-unit"]);
-        expect(frequencyIdsOf("offering", "devices-tools")).toEqual(["annually", "biennially", "per-unit"]);
-        expect(frequencyIdsOf("offering", "royalties")).toEqual(["one-time", "monthly", "annually", "biennially", "percent-revenue"]);
-        expect(frequencyIdsOf("infrastructure", "unassigned")).toHaveLength(8);
+        expect(frequencyIdsOf("offering", "devices-tools")).toEqual(["annually", "per-unit"]);
+        expect(frequencyIdsOf("offering", "royalties")).toEqual(["one-time", "monthly", "annually", "percent-revenue"]);
+        expect(frequencyIdsOf("infrastructure", "licences")).toEqual(["one-time", "annually", "biennially", "per-unit"]);
+        expect(frequencyIdsOf("infrastructure", "unassigned")).toHaveLength(7);
+        expect(frequencyIdsOf("infrastructure", "unassigned")).not.toContain("biennially");
     });
 
     it("a group has its units, \"unit\" always among them; one unit besides \"unit\" is text", () => {
@@ -64,6 +66,21 @@ describe("the frequencies and units of a group", () => {
 
 describe("the cost row of a card", () => {
 
+    // (EVERY TWO YEARS (owner, 2026-11-20 13:31 UTC+2): "only for the specific two-year filings and licences, or whenever there is as an existing option".)
+    it("keeps Every two years on a card that already holds it, in a group that offers it no longer", () => {
+        const value = base();
+        let saved: unknown = null;
+        render(<Harness initial={{ ...value, offering: { ...value.offering, resources: [card("Loom", { category: "equipment", group: "devices-tools", cost: cost("5", "biennially") })] } }} onValue={(next) => { saved = next; }} />);
+        openTile("Resources", undefined, undefined, offeringCard());
+        openBox("Equipment");
+        openBox("Devices & Tools");
+        openCard("Loom");
+        fireEvent.click(screen.getByLabelText(/Resource 1 payment frequency: /));
+        expect(options()).toContain("Every two years");
+        // (The saved answer is never moved to another frequency.)
+        expect(JSON.stringify(saved ?? "")).not.toMatch(/"frequency":"(annually|per-unit)"/);
+    });
+
     it("a group with several frequencies lists only its own", () => {
         const value = base();
         render(<Harness initial={{ ...value, offering: { ...value.offering, resources: [card("Loom", { category: "equipment", group: "devices-tools", cost: cost("5", "annually") })] } }} />);
@@ -73,7 +90,7 @@ describe("the cost row of a card", () => {
         openCard("Loom");
         fireEvent.click(screen.getByLabelText(/Resource 1 payment frequency: /));
         // (Per unit is one option for each unit of the group; the plain "Per unit" is not among them where the group has its own.)
-        expect(options()).toEqual(["Annually", "Every two years", "Per item", "Per set"]);
+        expect(options()).toEqual(["Annually", "Per item", "Per set"]);
     });
 
     it("a group with one frequency shows it as text; a One-time one is not shown at all", () => {

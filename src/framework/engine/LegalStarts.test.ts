@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { LEGAL_ENTITY_EXPENSE_FREQUENCIES } from "./LegalEntityJurisdictions.ts";
 
 import lumen from "../../data/examples/lumen-and-loom-studio.json";
 import quill from "../../data/examples/quillfield-automation-llc.json";
@@ -33,6 +34,9 @@ describe("the legal starts", () => {
     it("make a New York LLC's state items and the federal EIN; every other state its own row's", () => {
         expect(rules(legalStartsFor({ entity: entityWith({ country: "US", subdivision: "New York", legalForm: "Limited Liability Company (LLC)" }), paid: false }))).toEqual(["US1", "US2", "US3", "US4"]);
         expect(rules(legalStartsFor({ entity: entityWith({ country: "US", subdivision: "California", legalForm: "Limited Liability Company (LLC)" }), paid: false }))).toEqual(["US1", "US2", "US4", "US10"]);
+        // (The Legal Entity's two-year filings keep Every two years: New York's Biennial Statement; owner, 2026-11-20 13:31 UTC+2.)
+        expect(legalStartsFor({ entity: entityWith({ country: "US", subdivision: "NY", legalForm: "Limited Liability Company (LLC)" }), paid: false }).find(start => start.rule === "US4")?.fee?.frequency).toBe("Every two years");
+        expect(LEGAL_ENTITY_EXPENSE_FREQUENCIES).toContain("Every two years");
         const ca = legalStartsFor({ entity: entityWith({ country: "US", subdivision: "CA", legalForm: "C Corporation" }), paid: false });
         expect(ca.find(start => start.rule === "US10")?.fee).toMatchObject({ amount: "800", frequency: "Annually" });
         // (Publication only where the state asks for it: an Arizona LLC publishes, a Texas one does not; a state with no confirmed figure makes the EIN alone.)

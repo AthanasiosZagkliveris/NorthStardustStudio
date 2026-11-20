@@ -74,9 +74,11 @@ export function useCapabilityCardFields(earlier: Earlier) {
         // THE FREQUENCIES THE GROUP OFFERS (all seven where it is not known; the one already chosen stays offered). One frequency is nothing to choose: it is
         // text, and a One-time one is implied, so it is not shown at all.
         // (A chosen cost option locks the driver to the ones its billing type allows.)
-        const offered = where
+        const listed = where
             ? optionFrequenciesOf(place, groupId, where.costOption ?? "") ?? frequencyIdsOf(place, groupId)
-            : BUSINESS_COST_FREQUENCIES.map(entry => entry.id);
+            : BUSINESS_COST_FREQUENCIES.map(entry => entry.id).filter(id => id !== "biennially");
+        // (A card that already holds Every two years keeps it, whatever its group offers: a saved answer is never moved; owner, 2026-11-20 13:31 UTC+2.)
+        const offered = cost.frequency === "biennially" && !listed.includes("biennially") ? [...listed, "biennially"] : listed;
         // (Only what the group offers: a frequency set before its group, or kept from another group, that this group does not offer is not listed -- it moves to the group's own, or to its only one.)
         const frequencyOptions = BUSINESS_COST_FREQUENCIES.filter(entry => offered.includes(entry.id));
         if (where && cost.frequency !== "" && !offered.includes(cost.frequency) && offered.length > 0) {
