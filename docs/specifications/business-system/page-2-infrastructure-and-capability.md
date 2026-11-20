@@ -1,6 +1,6 @@
-# Business System — Page 3: Infrastructure & Capability
+# Business System — Page 2: Infrastructure & Capability
 
-Status: **specification**, written 2026-09-27, updated 2026-11-02. It says what the page asks and shows. Where it points elsewhere, that document owns the detail: the card rows are document 26 (card structure, in `design/current/`), the cost model is document 1, Part D, the measures and the look are the layout rulebook (`ai/layout-rules.md`, sections 8 to 12) and the pattern of tiles and cards is `ai/tile-and-card-pattern.md`. The open requirements for this page are in document 5, section 5.5.4.2.
+Status: **specification**, written 2026-09-27, updated 2026-11-21. It says what the page asks and shows. Where it points elsewhere, that document owns the detail: the card rows are document 26 (card structure, in `design/current/`), the cost model is document 1, Part D, the measures and the look are the layout rulebook (`ai/layout-rules.md`, sections 8 to 12) and the pattern of tiles and cards is `ai/tile-and-card-pattern.md`. The open requirements for this page are in document 5, section 5.5.4.2.
 
 > **3. Business System — Section 3, the page Infrastructure & Capability (the second of three pages).** It reads Customer Engagement (Section 2); the Financials' Costs (Section 5) read its costs.
 
@@ -107,8 +107,8 @@ A card needs an answer in every field that is not behind an optional tick box (`
 ## 10. What reads this page
 
 - **The Financials' Costs** (Section 5) read every card with a price, grouped by cost nature, with the **Opening Date** (set on the Identity System's Organisation tile) and the **Global Settings** (`/settings`: capitalisation limit, useful lives by asset group, fee tables, contingency rates, insurance per employee, income tax) that this page never asks for again. Its Costs section is a read-only summary: nothing is typed there.
-- **Page 2** channel expenses create cards here (section 7).
-- **Currency**: every price carries a currency, defaulting to the currency of the registered country (Identity System, Legal Entity) and changeable per price; a price left on the default follows the registration. A cost in another currency is listed and flagged, not counted (Page 4).
+- **Customer Engagement's** (Section 2, on Page 1, Foundation & Engagement) channel expenses create cards here (section 7).
+- **Currency**: every price carries a currency, defaulting to the currency of the registered country (Identity System, Legal Entity) and changeable per price; a price left on the default follows the registration. A cost in another currency is listed and flagged and left out of the totals (the Financials' Costs, Section 5).
 - **The Business Plan's Operations, Capacity** reads the capacity (founders' delivery hours) against the expected sales (the Delivery Check is no longer a page part since the round of 2026-11-20 18:35, doc 48, section 14).
 - **The Business Plan** (Management and Organisation, "Skills and Cover"), the Business System's export and the **Review** (one item per skill not covered yet) read the Skills.
 

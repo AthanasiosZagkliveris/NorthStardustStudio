@@ -1,6 +1,6 @@
-# Business System — Page 2, Section 1: Channels
+# Business System — Page 1, Foundation & Engagement: Channels
 
-Status: **specification**, written 2026-09-27, updated 2026-11-19. The requirement as written, with what the app does where it differs marked "as built". The page is called Customer Engagement in the app; the order of the page's sections and how they are built are in `README.md` (page 2).
+Status: **specification**, written 2026-09-27, updated 2026-11-21. The requirement as written, with what the app does where it differs marked "as built". The page is called Customer Engagement in the app; the order of the page's sections and how they are built are in `README.md` (page 2).
 
 > **3. Business System — Section 2 (Customer Engagement), part 1 of 2; drawn on the page Foundation & Engagement, the Segment's Engagement subchapter, since 2026-11-19.**
 >
@@ -681,7 +681,7 @@ Each channel cell has one button, **+ Add expense**, that opens a list of the wa
 
 Removing a channel removes the template cards it made that nothing else uses, and keeps any card the user linked as existing.
 
-The cost of a channel is read by Page 4 from its cards: payment-processor and marketplace fees are calculated lines (Channel Fee Table by card name, rates from Global Settings), and royalties, affiliate and agent commissions are Percentage billing lines whose rate is the card's override, then its price, then the Global Settings default.
+The cost of a channel is read by the Financials' Costs (Section 5) from its cards: payment-processor and marketplace fees are calculated lines (Channel Fee Table by card name, rates from Global Settings), and royalties, affiliate and agent commissions are Percentage billing lines whose rate is the card's override, then its price, then the Global Settings default.
 
 - **2026-11-14 (owner, 11:51 to 12:41).** A floating channel card's own x shows with All only; its inner x (a stage's, an action's, an expense's, a linked action's) in both. The action lines' and the linked-action chips' x is the in-cell x (`CellRemoveButton`), inside the cell at its right end; a chip is 32px tall (`--chip-height`). A Direct Payment, Website or Marketplace subchannel's card shows its Fees under its Expenses, read from the Global Settings' Channel Fee Table (doc 50, 1.4).
 

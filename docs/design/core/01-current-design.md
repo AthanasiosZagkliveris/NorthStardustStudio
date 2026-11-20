@@ -1,6 +1,6 @@
 # 1. Current design of the Foundation capability
 
-Status: **current design**, written 2026-10-14, updated 2026-11-20. It is the single description of what the Foundation capability (Identity, Brand, Business and Strategy Systems) is and what has been decided for it. Where the code and this document disagree, the code is right.
+Status: **current design**, written 2026-10-14, updated 2026-11-21. It is the single description of what the Foundation capability (Identity, Brand, Business and Strategy Systems) is and what has been decided for it. Where the code and this document disagree, the code is right.
 
 Part F is document 26 (card structure). The catalogue tool (`tools/scripts/catalogue/load.mjs`) reads it from there, taking the headings with " > " and the numbered table rows between the headings of Part F and Part G, and the structure tables (document 7) and the catalogue record (document 6) are generated from it: its headings and row format stay as they are.
 
@@ -47,7 +47,7 @@ A page of a System can be a **compound page**: several sections drawn as chapter
 | 3. Business | 1. Foundation & Engagement | Foundation & Engagement: one Segment at a time, chosen on the page's right-hand Segments rail; each Segment a chapter, in one frame of its own hue, of two subchapters side by side (owner, 2026-11-20 13:28 UTC+2: "Segment - chapter, Business Foundation, and Engagement - subchapters") -- Business Foundation (Segment Description, Competitors, Offerings, Value Proposition) and Engagement (Channels & Journey, Customer's Relationship, Demand & Conversion) -- the Segment's name over both and a line between them (layout rules section 13; built 2026-11-19, the owner's approved plan of 2026-11-18, step 2). A Profile, a Competitor and an Offering are cards that open floating. |
 | 3. Business | (1. Foundation & Engagement, a Segment's Engagement subchapter) | One subchapter per Segment, in its colour: Channels (the channels as tiles), Relationships, Demand & Conversion, Channel Costs, each opening its section in a dialog (doc 47, section 3; built 2026-11-12). | |
 | 3. Business | 2. Infrastructure & Capability | Chapter Infrastructure: Founders, Resources, Activities, Partners & Suppliers. Chapter Offering's Capability: Resources, Activities, Partners & Suppliers, Capacity & Delivery (the Capacity, the Skills still needed, the Delivery cards). Chapter Inventory: the Inventory help tile and the Completed help tile. |
-| 3. Business | 3. Financials | One page of two sections (`PageGroups.ts`; built 2026-11-19, the owner's approved plan of 2026-11-18, step 1) drawn as ONE chapter, Financial Foundation (owner, 2026-11-20 02:11 UTC+2; `oneChapter`, `joinedChapter.ts`): three Master Tiles that ask, in the 2 x 2, its fourth place empty, since the round of 2026-11-20 18:35 UTC+2 (doc 48, section 14): Revenue Streams (Section 4, Revenue & Pricing; a stream with no price says "Not priced yet"), Costs, Funding (Section 5, Costs, Funding & Position, `financial-funding`: the sources only, no Internal), in the order each reads only what stands before it (doc 48, sections 1, 2, 11 and 13), each tile opening its blocks in a dialog; the records (Uses, Financial Position, Cash Flow, Break-Even & Sustainability) are the Workbook's Financial Documents. The title says the plan's months (doc 48, section 11). |
+| 3. Business | 3. Financials | One page of two sections (`PageGroups.ts`; built 2026-11-19, the owner's approved plan of 2026-11-18, step 1) drawn as ONE chapter, Financial Foundation (owner, 2026-11-20 02:11 UTC+2; `oneChapter`, `joinedChapter.ts`), each tile opening its blocks in a dialog; its tiles and the records in the Workbook's Financial Documents are doc 48, section 14. The title says the plan's months (doc 48, section 11). |
 | 4. Strategy | Strategy System: Situation & Direction (one page) | Current Situation Analysis, SWOT Analysis, Strategic Compass, Strategic Period (with the Roadmap and the Theme, Goal, Objective, Metric cards inside it). Sections 2 (Goals & Objectives) and 3 (Roadmap) are hidden pages; their saved data is kept. |
 
 Every chapter of the Foundation is drawn as Master Tiles, the two Financial pages too since 2026-11-17 (doc 48, sections 1, 2 and 11; doc 49, section 8, phase 7).
@@ -101,7 +101,7 @@ Pages come from `src/assets/SystemAnswers/01..04_*.md`. Each page's `Structure` 
 | 1 Identity | Definition, Purpose | Free Text drawn as column tiles (`AnswerRenderer`, `ColumnFields`, `ColumnHeads`); the Vision's two choices, PB7 and PB8, under its text (`purpose/VisionChoices.tsx`, doc 45); the Values' ids beside their text (`ValueIds.ts`) |
 | 1 Identity | Legal Entity | `LegalEntityEditor` |
 | 1 Identity | Founders Profile | `FoundersProfileEditor` |
-| 2 Brand | Ambassador (with the Imprint field) | Free Text, column tiles; the choices BA1 to BA4 and BA6 to BA9 above each text, with "Add a draft" (`brand/AmbassadorChoices.tsx`, `AmbassadorChoices.ts`, doc 46) |
+| 2 Brand | Ambassador (with the Imprint field) | Free Text, column tiles; the choices BA1 to BA4 and BA6 to BA9 above each text, their drafts written in by themselves (`useAutoDraft`; `brand/AmbassadorChoices.tsx`, `AmbassadorChoices.ts`, doc 46) |
 | 2 Brand | Style | `BrandStyleEditor` plus `BrandInventoryEditor` |
 | 3 Business | 1 Foundation | `BusinessFoundationEditor` |
 | 3 Business | 2 Customer Engagement | `BusinessEngagementEditor` |
@@ -157,12 +157,12 @@ A "Chapter" has no named type in the code. Frames are classes:
 
 | Frame | Class and file | Used on |
 |---|---|---|
-| Tiles frame (heading plus tiles) | `.answer-columns … column-tiles-page`, `.tiles-frame-head` (`AnswerRenderer`) | Identity Definition and Purpose, Brand Ambassador |
+| Tiles frame (heading plus tiles) | `.answer-columns … column-tiles-page`, `.tiles-frame-head` (`AnswerRenderer`) | Identity System (Definition, Purpose), Brand Ambassador |
 | Single wide frame | `column-tiles-page-wide` | Strategy Roadmap |
 | Single frame | `strategy-single-frame` | Strategy 1 |
 | Two section cards | `.business-foundation-card` with `CardTitleHelp` and `.card-scroll` | Business 3 |
 | Numbered subsection frames | `heads[]` in `BusinessFoundationEditor` and `BusinessEngagementEditor` | Business 1 and 2 |
-| Financial blocks | `FinancialBlock` (`FinancialParts.tsx`, which also holds `FinancialSectionCard` and `FinancialPageHead`, waiting for a use) | Business 4 and 5: the blocks inside the dialogs of Financials' five tiles (doc 48, section 13), one tile frame, Financial Foundation |
+| Financial dialogs | the shared bands (`EngagementBox`, `EngagementBoxes`, `DialogSectionBand`) with `FigureTiles`, `FigureTable` and `PlanMonthField` (`FinancialParts.tsx`) | Business 4 and 5: the dialogs of Financials' tiles (doc 48, section 14), one tile frame, Financial Foundation |
 | Settings section | `.settings-section` | Global Settings |
 
 ### C.5 Layer D: Master Tiles, help tiles and tile dialogs
@@ -269,7 +269,6 @@ Tile dialogs (`SectionTiles.tsx`): header with a trail and Back (`DialogHeading`
 | Missing or incomplete | Red glowing tile, `incompleteTitle`, `capability-overview-incomplete` |
 | Alerts | `legal-entity-total-alert`, `settings-alarm`, `brand-inventory-error`, the `FrozenUntil` hint |
 | Open items | The Workbook's Review, `OpenItems.ts`, `ReviewItems.ts` |
-| Signals | `SignalList` (risk, caution, good, info) |
 | Isolation notes | `IsolationNote` |
 | Limits | The 3-point cap on info notes; the open-founder cap; "Already uses this subchannel" |
 | Confirmations | `confirmation-warning-*` |
@@ -289,7 +288,7 @@ Tile dialogs (`SectionTiles.tsx`): header with a trail and Back (`DialogHeading`
 
 ### C.12 What the record shows
 
-- **In code, not named in `tile-and-card-pattern.md` or `card-kinds.md`:** `SubTiles`, `PictureBoxes`, `CardBoxes`, `SectionView`, `SubcategoryBoxes`, `AddTile`, `CardNav`, `BoxActions`, `FoldAllToggle`, `FigureTiles`, `SignalList`, `CashTimelineChart`, the Introduction page, the status line, Focus mode, the undo toast, the Notepad, the search dialog, the Inventory funnel, "Completed".
+- **In code, not named in `tile-and-card-pattern.md` or `card-kinds.md`:** `SubTiles`, `PictureBoxes`, `CardBoxes`, `SectionView`, `SubcategoryBoxes`, `AddTile`, `CardNav`, `BoxActions`, `FoldAllToggle`, `FigureTiles`, `CashTimelineChart`, the Introduction page, the status line, Focus mode, the undo toast, the Notepad, the search dialog, the Inventory funnel, "Completed".
 - **Named in documents, not in code:** "Master Tile", "Chapter" and "help tile" are the owner's words and have no code counterpart. "Marker column" is gone, as `card-kinds.md` says.
 - **Unused:** `InterviewProgress` is switched off.
 - **Near-duplicates (the shared components are in document 21):** the two funnels (`CapabilityOverview`, `CalendarFunnel`); the confirmation-dialog markup repeated in six places; `business-channel-table` and `business-relationship-table`; the three rails (`BulletRail`, `CardNav`, the dialog rail); several "empty note" classes.
@@ -1052,10 +1051,7 @@ Colour = what the user does in the section (work type). The code applies these w
 | 3. Infrastructure & Capability: Partners & Suppliers | Discover | Blue |
 | 3. Infrastructure & Capability: Delivery | Build | Yellow |
 | 3. Infrastructure & Capability: Completed | Review | Lavender |
-| 4. Financials, Revenue & Pricing: Revenue streams and summary | Build | Yellow |
-| 4. Financials, Costs, Funding & Position: Costs (auto-generated table) | Build | Yellow |
-| 4. Financials, Costs, Funding & Position: Funding Need | Decide | Orange |
-| 4. Financials, Financial Foundation: Break-even and checks | Review | Lavender |
+| 3. Financials: the chapter Financial Foundation and its tiles (doc 48, section 14) | Review | Lavender |
 | 4. Strategy |  |  |
 | Situation & Direction | Discover | Blue |
 | Goals & Objectives | Decide | Orange |
