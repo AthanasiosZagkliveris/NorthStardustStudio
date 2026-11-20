@@ -2,7 +2,7 @@
 
 Status: **specification**, written 2026-09-27, updated 2026-11-02. The requirement as written (sections 1 to 17) is preceded by "As built", which wins where they differ. The page is called Customer Engagement in the app.
 
-> **3. Business System — Page 2 of 5, Section 2 of 2.**
+> **3. Business System — Section 2 (Customer Engagement), part 2 of 2; drawn on the page Foundation & Engagement, the Segment's Engagement subchapter, since 2026-11-19.**
 > Follows **Section 1 — Channels** on the same page, and
 > references the Channels defined there.
 

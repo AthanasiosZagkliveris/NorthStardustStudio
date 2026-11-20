@@ -8,4 +8,4 @@ The pages are numbered as the app numbers them. A page's document describes the 
 
 | Page | Title | Document | Editor |
 |---|---|---|---|
-| 1 | Definition and Purpose: the master tile **1. Definition** (Organisation, Early Positioning, Founders & Ownership; Mission and Vision saved here, drawn in Purpose & Beliefs, doc 45) | `page-1-definition.md` | `src/components/interview/editors/AnswerRenderer.tsx` and `src/components/interview/editors/LegalEntityEditor.tsx` |
+| 1 | Identity System, the System's one page (since 2026-11-20): the chapter **1. Definition** (Organisation, Early Positioning, Founders & Ownership, Registrations & Expenses; Mission and Vision saved here, drawn in the chapter Purpose, doc 45) and the chapter **2. Purpose** (Mission & Vision, Values & Principles, Philosophy & Manifesto: doc 45, its questions section 8) | `page-1-definition.md` | `src/components/interview/editors/AnswerRenderer.tsx` and `src/components/interview/editors/LegalEntityEditor.tsx` |
