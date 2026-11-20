@@ -3,7 +3,7 @@ import { describe, expect, test } from "vitest";
 import { InterviewSession } from "../interview";
 import { frameworkRegistry } from "./FrameworkRegistry.ts";
 import { reviewItems } from "./ReviewItems.ts";
-import { thresholdMonth } from "./LegalSuggestions.ts";
+import { thresholdMonth, usStateSuggestions } from "./LegalSuggestions.ts";
 import { paidStaffOf } from "./LegalStarts.ts";
 import { asBusinessCapabilityValue, createBusinessResourceSlot } from "./AnswerUtils.ts";
 import lumenText from "../../data/examples/lumen-and-loom-studio.json?raw";
@@ -20,6 +20,22 @@ const legal = (which: "Lumen" | "Quillfield", today = new Date("2026-11-20T12:00
     .filter(item => item.group === "second-look" && item.text.startsWith("1. Identity System → "));
 
 describe("the legal suggestions", () => {
+
+    // EVERY US STATE FROM ITS ROW (owner, 2026-11-19 21:44 UTC+2: "I need the registrations, tax and legal docs to cover the whole USA, not only NY").
+    test("say a US state's own sales tax registration where it sells goods, and send to the state's page only where its filings are not confirmed", () => {
+        const rules = (subdivision: string, form: string, goods: boolean, done = false) => usStateSuggestions(subdivision, form, goods, done).map(item => item.rule);
+        expect(usStateSuggestions("California", "Limited Liability Company (LLC)", true, false)[0].text).toContain("Seller's Permit");
+        expect(rules("California", "Limited Liability Company (LLC)", false)).toEqual([]);
+        expect(rules("California", "Limited Liability Company (LLC)", true, true)).toEqual([]);
+        // (No statewide sales tax: Oregon, Montana, New Hampshire, Delaware, Alaska.)
+        for (const state of ["OR", "MT", "NH", "DE", "AK"]) {
+            expect(rules(state, "Limited Liability Company (LLC)", true)).not.toContain("US-sales-tax");
+        }
+        // (Kansas's fees are not confirmed yet: its own page; New York's are: nothing to send to.)
+        expect(rules("Kansas", "Limited Liability Company (LLC)", false)).toEqual(["US-state"]);
+        expect(rules("New York", "Limited Liability Company (LLC)", false)).toEqual([]);
+        expect(rules("", "Limited Liability Company (LLC)", true)).toEqual([]);
+    });
 
     test("find the month turnover passes a threshold, over 12 months or in one month alone", () => {
         expect(thresholdMonth([10, 10, 10], 100)).toBeNull();
