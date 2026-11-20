@@ -3166,7 +3166,8 @@
                     fail("a page rail's rows are 16px, with or without names", rail, { heights: items.map(item => item.height) });
                 }
                 // (The arrow's place aside: where the rail stands under its page arrow, the arrow takes one line's place in the list.)
-                const arrows = [...document.querySelectorAll(".page-arrow")].filter(arrow => visible(arrow) && getComputedStyle(arrow).visibility !== "hidden").map(rect).filter(arrow => arrow.left < box.right && arrow.right > box.left);
+                // (A page arrow an open dialog hides keeps its place there, so the rail never moves: layout rules section 10, "One arrow level"; 2026-11-20, 768 wide.)
+                const arrows = [...document.querySelectorAll(".page-arrow")].filter(arrow => visible(arrow) && (getComputedStyle(arrow).visibility !== "hidden" || arrow.closest(".bullet-rail-head"))).map(rect).filter(arrow => arrow.left < box.right && arrow.right > box.left);
                 const gaps = items.slice(1).map((item, i) => ({ gap: item.top - items[i].bottom, across: arrows.some(arrow => items[i].bottom <= arrow.top + 1 && item.top >= arrow.bottom - 1) })).filter(g => !g.across).map(g => g.gap);
                 if (gaps.some(gap => Math.abs(gap - 18) > 0.6)) {
                     fail("a page rail has 18px between its rows", rail, { gaps });

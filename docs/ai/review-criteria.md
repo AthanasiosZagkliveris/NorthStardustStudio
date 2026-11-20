@@ -106,7 +106,7 @@ Reactions (doc 18, `layout-rules.md` section 6): every control that can has **ho
 
 ## 9. Pages
 
-1. **The page is complete**: its heading, its rails (pages and sections), its Back, its header and footer, each in place at 768, 1366, 1440 and 1920 wide, with a minimum width of 768.
+1. **The page is complete**: its heading, its rails (pages and sections), its Back, its header and footer, each in place at 768, 1366, 1440, 1536 and 1920 wide, with a minimum width of 768.
 2. **The order and the alignment**: the order of its blocks follows the spec of the page; the columns align at one x; nothing is cut or hidden under the fixed header or footer.
 3. **Every state of the data**: empty, one, many (hundreds), a very long name, a long number; folded and open.
 4. **Navigation**: reached from the Review, the calendar, a card's link and the header; each lands on the same place and leaves a way back.

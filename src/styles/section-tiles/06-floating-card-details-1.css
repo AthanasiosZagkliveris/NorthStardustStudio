@@ -429,7 +429,7 @@ body:has([data-pair]) .section-tile-overlay.floating-overlay.business-foundation
     justify-self: start;
 
     /* One chapter is as wide as one of two (a page of two chapters: the page less the column gap, halved), so the tiles are the same size on every page. The page's grid has 13px at each side and a 12px gap, and this card spans it: half of that grid plus (13 + 13 - 12) / 2 = 7px. */
-    width: calc(50% + 7px);
+    width: var(--one-chapter-width);
 
     min-width: 0;
 

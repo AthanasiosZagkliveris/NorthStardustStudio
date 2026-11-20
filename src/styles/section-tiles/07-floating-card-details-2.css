@@ -270,12 +270,43 @@
 
 }
 
-/* UNDER 1100px THE FRAMES STACK, one to a row, as a page of one frame (the Business System's) already stands: two frames side by side would leave each too narrow for its tiles. */
-@media (max-width: 1099px) {
+/* THE ONE PLACE WHERE CHAPTERS STACK: BELOW 1200px (layout rules sections 13 and 23; owner, 2026-11-20 15:35 UTC+2: the website's tablet/desktop line, styles.css 1200,
+   and Android's large window class from 1200dp). CSS reads no variable inside @media, so this query is written once, here: a page's frames one to a row,
+   a chapter's two groups one under the other (below), a page of one chapter the page's whole width (--one-chapter-width, global.css). */
+@media (max-width: 1199px) {
+
+    :root {
+
+        /* (The page's grid has 13px at each side, which the card takes back: the whole width is the grid plus 26px.) */
+        --one-chapter-width: calc(100% + 26px);
+
+    }
 
     .page-group {
 
         grid-template-columns: minmax(0, 1fr);
+
+    }
+
+    .segment-chapter-groups {
+
+        grid-template-columns: minmax(0, 1fr);
+
+    }
+
+    .segment-chapter-groups::before {
+
+        display: none;
+
+    }
+
+    /* (The line between the two groups runs across, in the gap above the second.) */
+    .segment-chapter-groups > .business-foundation-card.segment-chapter-part + .business-foundation-card.segment-chapter-part {
+
+        padding-top: var(--card-padding);
+
+        border-top-width: 1px;
+        border-top-color: var(--band-divider);
 
     }
 

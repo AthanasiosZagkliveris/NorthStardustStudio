@@ -92,7 +92,8 @@ export const EXAMPLES = [
     { name: "proxy-tutoring.json", file: new URL("./fixtures/proxy-tutoring.json", import.meta.url), pages: [["Business System", ["Foundation & Engagement"]]] }
 ];
 
-export const WIDTHS = [1920, 1366, 768];
+// (1536: a 1920 screen at 125% scaling, the second most common desktop width; owner, 2026-11-20 15:35 UTC+2.)
+export const WIDTHS = [1920, 1536, 1366, 768];
 export const THEMES = ["light", "dark"];
 
 /** A window is [width, height]; the standard check keeps the height at 1000. */

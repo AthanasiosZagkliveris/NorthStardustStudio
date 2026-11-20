@@ -666,7 +666,7 @@
 /* (The one frame of Strategy System is as wide as each of a two-frame page's: half the card area less half the gap between them.) */
 .answer-columns.strategy-single-frame > .business-foundation-card {
 
-    width: calc(50% + 7px) !important;
+    width: var(--one-chapter-width) !important;
 
 }
 

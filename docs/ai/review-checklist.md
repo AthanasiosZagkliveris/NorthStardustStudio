@@ -43,7 +43,7 @@ Read this before reviewing or changing anything on screen, and tick every line t
 
 ## 5. Layout and behaviour
 
-1. **Does it fit?** At 1920, 1440, 1366 and the minimum 768: nothing cut, nothing wrapped by word where a phrase should stay together, nothing pushed off the edge; where it cannot fit, it scrolls, and the heading and the first column stay.
+1. **Does it fit?** At 1920, 1536, 1440, 1366 and the minimum 768: nothing cut, nothing wrapped by word where a phrase should stay together, nothing pushed off the edge; where it cannot fit, it scrolls, and the heading and the first column stay.
 2. **Alignment**: one centre line in a row, one top and bottom for components of one height, the gaps of the closed set (6, 8, 12, 16).
 3. **Layers**: a card over a card hides the one under it (one stack, one scrim, no double shadow); the page behind is shaded once; arrows and rails of a hidden layer are hidden.
 4. **Order of opening and closing**: open A, then B from A, then C from B; close with Escape, Back and a press outside; each leaves the right thing open. Open the same card two ways.
