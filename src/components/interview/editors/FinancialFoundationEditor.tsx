@@ -9,7 +9,7 @@ import { contingencyFunds, launchNeedOf } from "../../../framework/engine/Contin
 import { ownersTakeDrawings } from "../../../framework/engine/FinancialForecast.ts";
 import { capitalisationLimitOf, createGlobalSettings, type GlobalSettingsValue } from "../../../framework/engine/GlobalSettings.ts";
 import { type CSSProperties, type ReactNode, useEffect, useLayoutEffect, useRef, useState } from "react";
-import { JOINED_CHAPTER_KEY, useJoinedChapter } from "../tiles/joinedChapter.ts";
+import { CASH_CHARTS_KEY, JOINED_CHAPTER_KEY, useJoinedChapter } from "../tiles/joinedChapter.ts";
 import { type LegalEntityValue, type StrategyMonthValue, asBusinessCapabilityValue, asBusinessEngagementValue, asLegalEntityValue, businessFoundationSegments, withLegalEntityFounders } from "../../../framework/engine/AnswerUtils.ts";
 import { assetUnitCostsOf, incomeTaxRate, COST_GROUPS, COST_FREQUENCIES, COST_NATURES, COST_NATURE_LABELS, natureSplitOf, FINANCIAL_FOUNDATION_SECTIONS, FUNDING_CATEGORIES, FUNDING_NEED_CATEGORIES, FUNDING_SCHEDULES, FUNDING_STATUSES, FUNDING_TYPES, LOAN_METHODS, PERIOD_FREQUENCIES, planLength, asFinancialFoundationValue, consolidateCosts, createFundingSource, createMilestone, financialPosition, founderCapitalSources, fundingNeeds, fundingStanding, fundingType, isNonCash, loanRepaymentNotes, loanSchedule, moneyFormatter, allFunding, monthlyEquivalent, planMonthLabel, withPlanStart, derivedPlanStart, legalExpenseDates, costStartDates, type CostLine, type FinancialFoundationValue, asFinancialSustainabilityValue, withDemand, type FundingSourceValue } from "../../../framework/engine/FinancialModel.ts";
 import { costSourcesFor } from "../../../framework/engine/ExportRenderers.ts";
@@ -525,6 +525,31 @@ export default function FinancialFoundationEditor({
         running costs until revenue covers them (FinancialModel.ts,
         fundingNeeds). To change a need, change the cost it comes from.
     */
+    /** THE FUNDING TIMELINE (doc 48, section 13, step 4: the Cash Flow tile takes over the cash charts): drawn in the Cash Flow tile's dialog, handed to it
+        with the tiles (joinedChapter.ts, CASH_CHARTS_KEY); shown once. */
+    function fundingTimeline(): ReactNode {
+        return (
+            <div data-anchor="financial-funding-timeline">
+                        <FinancialBlock
+                            title="Funding Timeline"
+                            info={["Money in and out of your organisation month by month, and the balance it leaves. A dip below zero is a cash-pressure period, even when the totals are sufficient."]}
+                        >
+                            {position.timeline.some(month => month.inflow > 0 || month.outflow > 0 || month.balance !== 0)
+                                ? (
+                                    <CashTimelineChart
+                                        timeline={position.timeline}
+                                        format={format}
+                                        markers={position.runwayMonths !== null
+                                            ? [{ month: position.runwayMonths + 1, label: "Funds run out", tone: "risk" }]
+                                            : []}
+                                    />
+                                )
+                                : <BusinessEmpty>Nothing is scheduled to come in or go out yet.</BusinessEmpty>}
+                        </FinancialBlock>
+            </div>
+        );
+    }
+
     function needSection() {
 
         const needs = calculatedNeeds;
@@ -986,8 +1011,10 @@ export default function FinancialFoundationEditor({
         const what = source.name.trim() || type?.label || "Funding Source " + (index + 1);
         const confirmedStatus = source.status === "approved" || source.status === "received" || source.status === "closed";
 
+        // (THE FOUNDERS' CAPITAL IS READ, NEVER ADDED (doc 48, section 13, step 3; one owner per fact): it comes from Founders & Ownership, so a new source does not
+        // offer it; a source saved with it keeps it.)
         const types = FUNDING_TYPES
-            .filter(entry => entry.category === source.category)
+            .filter(entry => entry.category === source.category && (entry.id !== "founder-capital" || source.type === "founder-capital"))
             .map(entry => ({
                 id: entry.id,
                 label: entry.family ? entry.label + " (" + entry.family + ")" : entry.label
@@ -1327,23 +1354,6 @@ export default function FinancialFoundationEditor({
                     </FinancialBlock>
                 )}
 
-                <FinancialBlock
-                    title="Funding Timeline"
-                    info={["Money in and out of your organisation month by month, and the balance it leaves. A dip below zero is a cash-pressure period, even when the totals are sufficient."]}
-                >
-                    {position.timeline.some(month => month.inflow > 0 || month.outflow > 0 || month.balance !== 0)
-                        ? (
-                            <CashTimelineChart
-                                timeline={position.timeline}
-                                format={format}
-                                markers={position.runwayMonths !== null
-                                    ? [{ month: position.runwayMonths + 1, label: "Funds run out", tone: "risk" }]
-                                    : []}
-                            />
-                        )
-                        : <BusinessEmpty>Nothing is scheduled to come in or go out yet.</BusinessEmpty>}
-                </FinancialBlock>
-
                 <FinancialBlock title="Upcoming Obligations" info={["Significant money in or out over the next six months."]}>
                     {position.obligations.length === 0
                         ? <BusinessEmpty>Nothing significant scheduled in the next six months.</BusinessEmpty>
@@ -1400,13 +1410,6 @@ export default function FinancialFoundationEditor({
             return [pair("Cost of each sale", format(perSale)), ...(shares.length === 1 ? [pair("Share of revenue", shares[0].share)] : shares.map(line => pair(line.name, line.share)))];
         })()
     ];
-    const sources = allFunding(page, legalEntity);
-    const fundingFace = FUNDING_STATUSES
-        .map(status => ({ status, count: sources.filter(source => (source.status || "planned") === status.id).length }))
-        .filter(entry => entry.count > 0)
-        // (Capital & Funding keeps its two columns, each status and its count (owner, 2026-11-18 23:18 UTC+2: "Capital & Funding could be as before"): the
-        // tile list's pairs, a line between the rows.)
-        .map(entry => entry.status.label + "\u0001**" + String(entry.count) + "**");
     const positionFace: FaceRow[] = position.gap > 0.005
         ? [pair("Funding Gap", format(position.gap))]
         : covered
@@ -1414,20 +1417,25 @@ export default function FinancialFoundationEditor({
             : [];
 
     const sections = [
-        { id: "financial-costs", section: SECTIONS.costs, body: costsSection, items: stackedFace(costFace), anchor: "financial-costs financial-pre-operational-budget" },
-        { id: "financial-funding", section: SECTIONS.funding, body: fundingSection, items: fundingFace, anchor: "financial-funding" },
-        // (THE FUNDING NEED INSIDE FINANCIAL POSITION (owner, 2026-11-18 16:55: "Do all 8", proposal 4): the need and the gap are one story; the position's headline
-        // and figures first, then the need's blocks under their band. Its anchor answers a jump to the need too.)
+        { id: "financial-costs", section: SECTIONS.costs, title: undefined as string | undefined, body: costsSection, items: stackedFace(costFace), anchor: "financial-costs financial-pre-operational-budget" },
+        // (STEP 3, FUNDING: CAPITAL & FUNDING AND FINANCIAL POSITION, ONE TILE (doc 48, section 13; owner, 2026-11-20 12:49 UTC+2, "proceed to changes"): the money in --
+        // the founders' capital, then each source -- and, under it, the position it gives: the headline and figures, then the Funding Need, what the money is for.
+        // The tile keeps Capital & Funding's id and sources; the position's anchors answer every jump, note and link made to it, and to the need.)
         {
-            id: "financial-position", section: SECTIONS.position,
+            id: "financial-funding", section: SECTIONS.funding, title: "Funding",
             body: () => (
                 <>
-                    {positionSection()}
-                    <DialogSectionBand title={SECTIONS.need.title} info={[...SECTIONS.need.instructions, ...SECTIONS.need.info]}>{needSection()}</DialogSectionBand>
+                    {/* (SOURCES & USES (doc 48, section 13, step 3): the money in, its sources each a section, then what it is for, the Uses, then the position they give.) */}
+                    {/* (The sources first: the founders' capital, then Internal, External and Other, a titled section each -- one question to a band, layout rules section 13.) */}
+                    {fundingSection()}
+                    <div data-anchor="financial-position financial-need" data-rail={railId(FINANCIAL_FOUNDATION_SECTIONS[2])}>
+                        <DialogSectionBand title="Uses" info={[...SECTIONS.need.instructions, ...SECTIONS.need.info]}>{needSection()}</DialogSectionBand>
+                        <DialogSectionBand title={SECTIONS.position.title} info={[...SECTIONS.position.instructions, ...SECTIONS.position.info]}>{positionSection()}</DialogSectionBand>
+                    </div>
                 </>
             ),
             items: stackedFace([...positionFace, ...(position.need > 0.005 ? [pair("Total Funding Need", format(position.need))] : [])]),
-            anchor: "financial-position financial-need"
+            anchor: "financial-funding financial-position financial-need"
         }
     ];
 
@@ -1435,7 +1443,7 @@ export default function FinancialFoundationEditor({
 
     const tiles: SectionTile[] = sections.map((entry, index) => ({
         id: entry.id,
-        title: entry.section.title,
+        title: entry.title ?? entry.section.title,
         // (MASTER TILES KEEP THEIR SIZE AND THE 2 x 2 (owner's rule): three tiles fill three places of the four.)
         large: true,
         anchor: entry.anchor,
@@ -1456,9 +1464,9 @@ export default function FinancialFoundationEditor({
             }
         } : {}),
         content: () => (
-            <div className="column-tile-content" data-anchor={entry.id} data-rail={railId(FINANCIAL_FOUNDATION_SECTIONS[index])} role="group" aria-label={entry.section.title}>
+            <div className="column-tile-content" data-anchor={entry.id} data-rail={railId(FINANCIAL_FOUNDATION_SECTIONS[index])} role="group" aria-label={entry.title ?? entry.section.title}>
                 <div className="business-engagement-section-head">
-                    <DialogHeading title={entry.section.title} info={[...entry.section.instructions, ...entry.section.info]} />
+                    <DialogHeading title={entry.title ?? entry.section.title} info={[...entry.section.instructions, ...entry.section.info]} />
                 </div>
                 {/* (The page's chart colours, which the Financial pages define, hold in the dialog too.) */}
                 <div className="financial-page">{entry.body()}</div>
@@ -1491,6 +1499,7 @@ export default function FinancialFoundationEditor({
     // which Revenue & Pricing draws, and stays drawn, so what it does when it opens is done as before. Else its own frame, beside Revenue & Break Even.)
     if (joined) {
         joined.set(JOINED_CHAPTER_KEY, tiles);
+        joined.set(CASH_CHARTS_KEY, [{ id: "funding-timeline", title: "Funding Timeline", content: fundingTimeline }]);
         return null;
     }
     return (

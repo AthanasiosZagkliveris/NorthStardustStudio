@@ -120,6 +120,9 @@ export function TileTitle({ children, className }: { children: ReactNode; classN
         const apply = () => {
             // (A TITLE THAT WRAPS IS AS WIDE AS ITS LONGEST LINE (layout rules section 8, "Tile anatomy"; 2026-11-20): its rule then runs under its words, as a
             // title broken by hand does, never across the whole tile.)
+            tile.removeAttribute("data-title-small");
+            tile.closest<HTMLElement>(".section-tile-slot")?.removeAttribute("data-title-small");
+            const fitWidth = () => {
             node.style.width = "";
             const range = document.createRange();
             range.selectNodeContents(node);
@@ -137,8 +140,15 @@ export function TileTitle({ children, className }: { children: ReactNode; classN
                 const widest = Math.max(...[...lines.values()].map(line => line.right - line.left));
                 node.style.width = Math.ceil(widest + (parseFloat(style.paddingLeft) || 0) + (parseFloat(style.paddingRight) || 0)) + "px";
             }
-            tile.removeAttribute("data-title-small");
-            tile.closest<HTMLElement>(".section-tile-slot")?.removeAttribute("data-title-small");
+            };
+            fitWidth();
+            // (A MASTER TILE'S TITLE TOO LONG FOR THE ROOM ABOVE ITS LINE DROPS TO THE SMALL SIZE, THAT TITLE ONLY (layout rules section 8, "Tile anatomy": its first line at
+            // least 12px from the square's top; 2026-11-20, "BREAK-EVEN & SUSTAINABILITY" at 1366 and 768): the tile and its slot take data-title-small, and it is measured again.)
+            if (node.closest(".section-tiles-quad") && (node.getBoundingClientRect().top - tile.getBoundingClientRect().top < 12 + tile.clientTop || node.scrollHeight > node.clientHeight + 1)) {
+                tile.setAttribute("data-title-small", "");
+                tile.closest<HTMLElement>(".section-tile-slot")?.setAttribute("data-title-small", "");
+                fitWidth();
+            }
             // The distance from the title's rule to the foot of the title's row: the list under it comes up by that (or goes down, a title of two lines).
             const row = parseFloat(getComputedStyle(tile).gridTemplateRows.split(" ")[0]) || 0;
             const standing = String(row > 0 ? Math.round((row - (node.offsetTop + node.offsetHeight + tile.clientTop)) * 10) / 10 : parseFloat(getComputedStyle(node).marginBottom) || 0) + "px";

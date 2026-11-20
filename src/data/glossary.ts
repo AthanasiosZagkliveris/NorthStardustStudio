@@ -206,7 +206,7 @@ export const APP_TERMS: readonly AppTerm[] = [
     {
         id: "cash-runway",
         term: "Cash runway",
-        places: [{ system: 3, page: 5, part: "Financial Position, Runway", tile: "button.section-tile[data-tile=\"financial-position\"]" }],
+        places: [{ system: 3, page: 5, part: "Funding, Financial Position, Runway", tile: "button.section-tile[data-tile=\"financial-funding\"]" }],
         meaning: "How long the cash lasts at the present rate of spending: cash ÷ monthly net burn. Here it is the first month the projected balance goes below zero.",
         also: ["runway", "burn rate"],
         sources: ["cashRunway"]
@@ -214,13 +214,13 @@ export const APP_TERMS: readonly AppTerm[] = [
     {
         id: "funding-gap",
         term: "Funding gap",
-        places: [{ system: 3, page: 5, part: "Financial Position, Funding Need", tile: "button.section-tile[data-tile=\"financial-position\"]" }],
+        places: [{ system: 3, page: 5, part: "Funding, Uses (the Funding Need)", tile: "button.section-tile[data-tile=\"financial-funding\"]" }],
         meaning: "The funding you still need to find: funding needed − funding available and confirmed."
     },
     {
         id: "loan-repayment",
         term: "Loan repayment",
-        places: [{ system: 3, page: 5, part: "Capital & Funding, a loan", tile: "button.section-tile[data-tile=\"financial-funding\"]" }],
+        places: [{ system: 3, page: 5, part: "Funding, Sources, a loan", tile: "button.section-tile[data-tile=\"financial-funding\"]" }],
         meaning: "A fixed payment that covers the interest and repays the loan over a number of periods (an annuity), or an equal part of the loan each period plus its interest.",
         also: ["annuity", "loan payment"],
         sources: ["loanRepayment"]
@@ -228,7 +228,7 @@ export const APP_TERMS: readonly AppTerm[] = [
     {
         id: "simple-interest",
         term: "Simple interest",
-        places: [{ system: 3, page: 5, part: "Capital & Funding, a loan", tile: "button.section-tile[data-tile=\"financial-funding\"]" }],
+        places: [{ system: 3, page: 5, part: "Funding, Sources, a loan", tile: "button.section-tile[data-tile=\"financial-funding\"]" }],
         meaning: "Interest on the amount borrowed only, without compounding: principal × rate × time.",
         sources: ["simpleInterest"]
     },
