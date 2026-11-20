@@ -622,7 +622,10 @@ export async function runLayoutCheck(page, { base = "http://localhost:1420", pro
                         await page.keyboard.press("Escape");
                         await page.waitForTimeout(300);
                     }
-                    await page.evaluate(() => window.scrollTo(0, 0));
+                    // (Nothing focused: a closed card gives the focus back to the "+" that opened it, which then shows its focus look, not its rest look.)
+                    await page.evaluate(() => { window.scrollTo(0, 0); if (document.activeElement instanceof HTMLElement) { document.activeElement.blur(); } });
+                    // (The pointer off every control: a "+" box under it at the last pass's place showed its hover look, no stroke.)
+                    await page.mouse.move(width - 1, height - 1);
                     await page.waitForTimeout(300);
                     // The page as drawn, then every section tile's dialog opened in turn
                     // (a page with no tiles is just the page).
