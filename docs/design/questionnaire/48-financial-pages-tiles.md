@@ -15,7 +15,7 @@ Related: doc 40 (the form), the page 4 and page 5 specifications (`specification
 
 The plan's dates stay in the page title; VAT and the plan settings sit in the Costs dialog's head. A page of one chapter stands at the left at half width, so its tiles are the size of every chapter's.
 
-**As built (2026-11-19):** Financial Foundation is three Master Tiles (Costs, Capital & Funding, Financial Position, the Funding Need inside Financial Position; owner, 2026-11-18 16:55), the second chapter of Financials, beside Revenue & Break Even (section 11). The title says "4. Financials" and the plan's months.
+**As built (2026-11-19; one chapter since 2026-11-20, section 11):** Financial Foundation is three Master Tiles (Costs, Capital & Funding, Financial Position, the Funding Need inside Financial Position; owner, 2026-11-18 16:55), the second chapter of Financials, beside Revenue & Break Even (section 11). The title says "4. Financials" and the plan's months.
 
 ## 2. Sustainability: two chapters of four Master Tiles
 
@@ -24,7 +24,7 @@ The plan's dates stay in the page title; VAT and the plan settings sit in the Co
 | **Revenue** | Revenue Streams (one card per Offering); Offering Economics (section 3); Delivery Check (per Offering); Revenue Summary | the stream card's Revenue Timeline as a Diagram tile |
 | **Break Even** | Break-Even Point; Break-Even Time (Diagram tile); Sustainability (status, buffer, summary, signals); Stress Test (the four worse cases and What It Would Take) | none |
 
-**As built (2026-11-19):** one chapter, **Revenue & Break Even**, the first of Financials (section 11), of three Master Tiles: Revenue Streams (its dialog holds the Delivery Check and the Revenue Summary; owner, 2026-11-18 10:38), Break-Even (the Point and the Time) and Sustainability (with the Stress Test; owner, 2026-11-18 16:55). The tiles keep their ids, so a note or a link saved on one still lands.
+**As built (2026-11-19; since 2026-11-20 these tiles stand in the page's one chapter, Financial Foundation, section 11):** one chapter, **Revenue & Break Even**, the first of Financials (section 11), of three Master Tiles: Revenue Streams (its dialog holds the Delivery Check and the Revenue Summary; owner, 2026-11-18 10:38), Break-Even (the Point and the Time) and Sustainability (with the Stress Test; owner, 2026-11-18 16:55). The tiles keep their ids, so a note or a link saved on one still lands.
 
 ## 3. The Offering Economics card (read-only)
 

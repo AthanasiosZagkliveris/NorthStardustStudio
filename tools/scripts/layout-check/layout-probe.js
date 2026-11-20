@@ -1626,6 +1626,17 @@
                     if (titleBox.top - box.top < 12 - tolerance - 1) {
                         fail("a tile's title is 12px or more from the top of the square", tile, { fromTop: titleBox.top - box.top });
                     }
+                    // A TITLE WRAPS BEFORE IT IS CUT (layout rules section 8, "Tile anatomy"; 2026-11-20): cut only after its third line, never on one line.
+                    {
+                        const style = getComputedStyle(title);
+                        const lineHeight = parseFloat(style.lineHeight) || parseFloat(style.fontSize) * 1.45;
+                        const shownLines = Math.round((title.clientHeight - (parseFloat(style.paddingBottom) || 0)) / lineHeight);
+                        const cutAcross = title.scrollWidth > title.clientWidth + 1;
+                        const cutDown = title.scrollHeight > title.clientHeight + 1 && shownLines < 3;
+                        if (cutAcross || cutDown) {
+                            fail("a tile's title wraps before it is cut, three lines at most", tile, { text: title.textContent, shownLines, scrollWidth: title.scrollWidth, width: title.clientWidth });
+                        }
+                    }
                     {
                         const rule = getComputedStyle(title);
                         if (parseFloat(rule.borderBottomWidth) < 0.5 || rule.borderBottomStyle !== "solid") {

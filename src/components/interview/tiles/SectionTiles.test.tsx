@@ -1332,7 +1332,9 @@ describe("the slide of a long title", () => {
         const css = stylesheet("section-tiles.css");
         const rule = css.slice(css.indexOf(".section-tile-title {"), css.indexOf("}", css.indexOf(".section-tile-title {")));
         expect(rule).toMatch(/overflow: hidden;/);
-        expect(rule).toMatch(/white-space: nowrap;/);
+        // (A title wraps to three lines at most, then is cut: layout rules section 8, "Tile anatomy"; 2026-11-20.)
+        expect(rule).toMatch(/white-space: normal;/);
+        expect(rule).toMatch(/-webkit-line-clamp: 3;/);
     });
 
 });

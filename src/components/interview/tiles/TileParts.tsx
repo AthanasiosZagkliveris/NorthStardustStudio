@@ -115,9 +115,28 @@ export function TileTitle({ children, className }: { children: ReactNode; classN
         if (!node || !tile) {
             return;
         }
-        // ONE LINE, ONE SIZE, ONE PLACE for every title of every tile: no wrapping and no size step; a title too long is cut with an ellipsis and its full text
+        // EVERY TITLE AT ONE PLACE (layout rules section 8, "Tile anatomy"): it wraps to three lines at most, growing upward; a longer one is cut with an ellipsis and its full text
         // is the tooltip. The list under it starts the same distance under the rule on every tile of a size.
         const apply = () => {
+            // (A TITLE THAT WRAPS IS AS WIDE AS ITS LONGEST LINE (layout rules section 8, "Tile anatomy"; 2026-11-20): its rule then runs under its words, as a
+            // title broken by hand does, never across the whole tile.)
+            node.style.width = "";
+            const range = document.createRange();
+            range.selectNodeContents(node);
+            const lines = new Map<number, { left: number; right: number }>();
+            for (const rect of Array.from(range.getClientRects?.() ?? [])) {
+                if (rect.width < 0.5) {
+                    continue;
+                }
+                const key = Math.round(rect.top);
+                const line = lines.get(key);
+                lines.set(key, line ? { left: Math.min(line.left, rect.left), right: Math.max(line.right, rect.right) } : { left: rect.left, right: rect.right });
+            }
+            if (lines.size > 1) {
+                const style = getComputedStyle(node);
+                const widest = Math.max(...[...lines.values()].map(line => line.right - line.left));
+                node.style.width = Math.ceil(widest + (parseFloat(style.paddingLeft) || 0) + (parseFloat(style.paddingRight) || 0)) + "px";
+            }
             tile.removeAttribute("data-title-small");
             tile.closest<HTMLElement>(".section-tile-slot")?.removeAttribute("data-title-small");
             // The distance from the title's rule to the foot of the title's row: the list under it comes up by that (or goes down, a title of two lines).

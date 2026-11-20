@@ -131,12 +131,15 @@
 
     overflow-wrap: anywhere;
 
-    /* ONE LINE, ONE SIZE, ONE PLACE: a title too long for the tile is cut with an ellipsis (its full text is the tile's tooltip); it never wraps and never
-       drops a size, so every title of every kind of tile stands on the same line. */
-    display: block;
+    /* A TITLE WRAPS, AT MOST THREE LINES (layout rules section 8, "Tile anatomy"; 2026-11-20, the cut "REGISTRATIONS & EXPEN..." and "CORE MARKET
+       POSITIONI..."): its lines break between words ("&" kept with the word after it, drawnTitle), the last one centred above the quarter line, the title
+       growing upward (TileTitle measures it); a fourth line is cut with an ellipsis, its full text the tile's tooltip. The tile keeps its size. */
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
 
-    white-space: nowrap;
-    text-overflow: ellipsis;
+    white-space: normal;
 
     overflow: hidden;
 
