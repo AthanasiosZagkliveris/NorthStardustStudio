@@ -21,6 +21,7 @@ import SectionTiles, { TILE_DIVIDER, type SectionTile } from "../tiles/SectionTi
 import { workHue } from "../../../framework/engine/WorkColours.ts";
 import SubTiles, { type SubTile } from "../tiles/SubTiles.tsx";
 import NumberCell from "../../controls/NumberCell.tsx";
+import { survivalMinimum } from "../../../framework/engine/AnswerLegal.ts";
 import CardNameInput from "../cards/CardNameInput.tsx";
 import { summaryText } from "../cards/cardSummary.ts";
 import FoldAllToggle from "../fields/FoldAllToggle.tsx";
@@ -64,6 +65,12 @@ const INFO = {
         "One achievement a line, with a figure where there is one: sales, customers, savings.",
         "Any business they started before, and how it turned out.",
         "Results are what make a track record believable."
+    ],
+
+    survival: [
+        "What your household has a month without the business (a partner's pay, benefits, savings drawn), and what it costs a month: rent or mortgage, bills, food, travel, debts.",
+        "The difference is the least you need from the business: Costs count it as your minimum pay, so the cash flow, the break-even and the runway include it.",
+        "Source: Start Up Loans (British Business Bank), Personal Survival Budget."
     ],
 
     skills: [
@@ -129,6 +136,20 @@ interface FoundersProfileEditorProps {
 
 
     /**
+     * THE PERSONAL SURVIVAL BUDGET (doc 48, section 13; Start Up Loans): asked of a founder the business pays no salary, saved on the Legal Entity's founder
+     * (beside the capital); the household's income and costs a month, and the least the founder needs from the business.
+     */
+    survival?: {
+        asked: (id: string) => boolean;
+        of: (id: string) => { income: string; costs: string };
+        onChange: (id: string, patch: { householdIncome?: string; householdCosts?: string }) => void;
+        /** "Household Income a Month (£)": what a cell says it is. */
+        label: (text: string) => string;
+        placeholder: string;
+        money: (amount: number) => string;
+    };
+
+    /**
      * The founders answered under 3. Legal Entity, 2. Founders &
      * Ownership: who this page's cards are for, and in what order.
      */
@@ -171,6 +192,7 @@ export default function FoundersProfileEditor({
 
     soleFounder,
 
+    survival,
 
     legalEntityFounders = [],
 
@@ -338,6 +360,43 @@ export default function FoundersProfileEditor({
 
     }
 
+    /**
+     * ROW 3, THE PERSONAL SURVIVAL BUDGET (doc 48, section 13), TWO EQUAL COLUMNS: the household's income a month | its costs a month, then, in the costs'
+     * band, the least the founder needs from the business (the costs less the income, never below nothing).
+     */
+    function survivalRow(founder: FounderProfileValue & { name: string }, who: string) {
+        if (!survival) {
+            return null;
+        }
+        const budget = survival.of(founder.id);
+        const minimum = survivalMinimum({ householdIncome: budget.income, householdCosts: budget.costs });
+        const cell = (text: string, value: string, key: "householdIncome" | "householdCosts") => (
+            <NumberCell
+                aria-label={who + " " + text.toLowerCase()}
+                placeholder={survival.placeholder}
+                disabled={disabled}
+                value={value}
+                onChange={(event) => {
+                    const next = limitedNumberText(event.target.value, value, NUMBER_LIMITS.money);
+                    if (next !== value) {
+                        survival.onChange(founder.id, { [key]: next });
+                    }
+                }}
+            />
+        );
+        return (
+            <div className="legal-entity-field-wide founders-profile-row founders-profile-row-two">
+                {field(survival.label("Household Income a Month"), INFO.survival, cell("Household income a month", budget.income, "householdIncome"))}
+                {field(survival.label("Household Costs a Month"), INFO.survival, (
+                    <>
+                        {cell("Household costs a month", budget.costs, "householdCosts")}
+                        {minimum !== null && <p className="financial-muted financial-inline-note">{minimum > 0 ? "You need about " + survival.money(minimum) + " a month from the business." : "Your household is covered without pay from the business."}</p>}
+                    </>
+                ), false, true)}
+            </div>
+        );
+    }
+
     /* ---------- A founder ---------- */
 
     function founderCard(founder: FounderProfileValue & { name: string }, index: number, always = false) {
@@ -459,6 +518,8 @@ export default function FoundersProfileEditor({
                         {field("Skills, Expertise & Qualifications", INFO.skills, skillList(founder, who), false, true)}
 
                         </div>
+
+                        {survival && survival.asked(founder.id) && survivalRow(founder, who)}
 
                     </div>
                 )}

@@ -516,6 +516,9 @@ export interface LegalEntityEditorProps {
 
     value: unknown;
 
+    /** The founders Infrastructure & Capability pays a salary (their ids): the founder's card asks the Personal Survival Budget of every other founder (doc 48, section 13). */
+    salariedFounderIds?: readonly string[];
+
     /** Whether anyone on the payroll is paid (a founder's salary, a member of staff: Infrastructure & Capability), for the PAYE registration the app makes (doc 53). */
     paysAnyone?: boolean;
 

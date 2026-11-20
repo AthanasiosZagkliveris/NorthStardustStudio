@@ -4,7 +4,8 @@ import { workspacesOf, WORKSPACE_GROUP_ID } from "../AnswerUtils.ts";
 import { parseAmount, parseDecimal } from "../Amounts.ts";
 import { type BillingType, type BusinessPaymentPlan, type BusinessCapabilityValue, type BusinessCostValue, type BusinessPartnerValue, type BusinessResourceSlotValue, type LegalEntityValue, type StrategyMonthValue } from "../AnswerUtils.ts";
 import { BUSINESS_EXTRAS, billingOf, isSpaceOnlyGroup, paymentPlanIncomplete, paymentPlanLines, type BusinessExtraKey, type BusinessExtrasValue, isCostingStatus, offeringFractions, isPurchaseGroup, partnerExtraKeys, PEOPLE_EXTRA_KEYS, partnerKindOf, resourceUnitCount, slotExtraKeys, supplierConnections, serviceAssetLinks, partnerHasQuantity, workspaceCardName , costIsShared, type ShareWeights } from "../AnswerUtils.ts";
-import { founderMonthlySalary } from "../DemandCapacity.ts";
+import { founderMonthlySalary } from "../DemandCapacity.ts";
+import { survivalMinimum } from "../AnswerLegal.ts";
 import { PER_UNIT_FREQUENCIES, SCHEDULED_FREQUENCIES, type CostBehaviour, type CostFrequency, type CostGroup } from "./lists.ts";
 import { EMPTY_MONTH, type CostAsset, type FinancialFoundationValue, type OwnCostValue } from "./stored.ts";
 import { MODEL_MONTHS, monthOrdinal, notNegative, planMonth } from "./period.ts";
@@ -395,6 +396,29 @@ export function consolidateCosts(
             );
             const monthly = founderMonthlySalary(founder);
             if (monthly === null) {
+                // (THE OWNER'S MINIMUM PAY (doc 48, section 13, step 2; Start Up Loans): a founder the business pays no salary still has to live. What the
+                // Personal Survival Budget on the founder's card says the household needs from the business is a cost of its own, a month: drawings, so no
+                // employer's on-costs (CalculatedLines reads only salary- lines).)
+                const legal = sources.legalEntity.founders.find(entry => entry.id === founder.id);
+                const minimum = legal ? survivalMinimum(legal) : null;
+                if (minimum !== null && minimum > 0) {
+                    read(
+                        "owner-pay-" + founder.id,
+                        "Owner's minimum pay: " + (founder.name.trim() || "Unnamed founder"),
+                        "founders",
+                        "Founders & Ownership → Personal Survival Budget",
+                        String(minimum),
+                        "",
+                        "monthly",
+                        "",
+                        "operating",
+                        [],
+                        null,
+                        null,
+                        // (Founders' pay wherever pay is read: the statements' drawings, the Salaries nature, never made dearer by the Stress Test.)
+                        ["owner-pay-" + founder.id, "resource-group-founders", "contains-founders", "legal-entity-founders"]
+                    );
+                }
                 return;
             }
             read(
@@ -550,6 +574,7 @@ export function consolidateCosts(
     capability.founders.forEach(founder => {
         dates.set("founder-" + founder.id, { start: founder.startDate, end: "" });
         dates.set("salary-" + founder.id, { start: founder.startDate, end: "" });
+        dates.set("owner-pay-" + founder.id, { start: founder.startDate, end: "" });
     });
     sources.legalEntity.expenses.forEach(expense => dates.set("legal-" + expense.id, { start: expense.date, end: "" }));
     lines.forEach(line => {

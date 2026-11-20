@@ -251,6 +251,22 @@ export default function LegalEntityEditor(props: LegalEntityEditorProps) {
                                     placeholder: currency || "Amount"
                                 } : undefined}
                                 subTilesWith={<div className="legal-entity-body legal-entity-subview">{section1}</div>}
+                                // (THE PERSONAL SURVIVAL BUDGET (doc 48, section 13): saved on the Legal Entity's founder, beside the capital; asked of a founder the business
+                                // pays no salary.)
+                                survival={{
+                                    asked: (id) => !(props.salariedFounderIds ?? []).includes(id) && entity.founders.some(founder => founder.id === id),
+                                    of: (id) => {
+                                        const founder = entity.founders.find(entry => entry.id === id);
+                                        return { income: founder?.householdIncome ?? "", costs: founder?.householdCosts ?? "" };
+                                    },
+                                    onChange: (id, patch) => {
+                                        const founders = entity.founders.map(founder => founder.id === id ? { ...founder, ...patch } : founder);
+                                        update({ founders });
+                                    },
+                                    label: amountLabel,
+                                    placeholder: currency || "Amount",
+                                    money: (amount) => moneyText(String(amount), currency)
+                                }}
                             />
                         </div>
                     )

@@ -147,6 +147,22 @@ export interface LegalEntityFounderValue {
      * Profile's Relevant Industry Experience.
      */
     experience: string;
+    /**
+     * THE PERSONAL SURVIVAL BUDGET (doc 48, section 13; built 2026-11-20): what the founder's household has a month without the business, and what it
+     * costs a month, as typed. Asked on the founder's card in Founders & Ownership where Infrastructure & Capability gives the founder no salary; the
+     * difference is the owner's minimum pay counted in Costs (survivalMinimum). Absent on a founder saved before, and written only once typed.
+     */
+    householdIncome?: string;
+    householdCosts?: string;
+}
+
+/** The least the founder needs from the business a month: the household's costs less its income, never below nothing; null with no costs typed. */
+export function survivalMinimum(founder: Pick<LegalEntityFounderValue, "householdIncome" | "householdCosts">): number | null {
+    const costs = parseAmount(founder.householdCosts ?? "");
+    if (costs === null) {
+        return null;
+    }
+    return Math.max(0, Math.round((costs - (parseAmount(founder.householdIncome ?? "") ?? 0)) * 100) / 100);
 }
 
 /** A registration or tax number beyond the first. */
@@ -354,7 +370,10 @@ export function asLegalEntityValue(value: unknown): LegalEntityValue {
                 ? row.roles.map(asText)
                 : [asText(row.role)],
             // Asked for later: a founder saved before it has none.
-            experience: asText(row.experience)
+            experience: asText(row.experience),
+            // (The Personal Survival Budget: kept only where it was typed, so a founder saved before stays as it was.)
+            ...(typeof row.householdIncome === "string" ? { householdIncome: row.householdIncome } : {}),
+            ...(typeof row.householdCosts === "string" ? { householdCosts: row.householdCosts } : {})
         };
 
     });
