@@ -1150,3 +1150,26 @@
     background:color-mix(in srgb, hsl(var(--strategy-theme-hue, 0) var(--theme-bg-ground)) var(--theme-ground-weight), var(--theme-ground-paper));
 
 }
+
+/* THE NOTES BAND RUNS TO THE DIALOG'S FOOT (owner's screenshot, 2026-11-20 18:35 UTC+2: a strip of the dialog's inner shade stood under it): its 12px under
+   the Notes cell are the dialog's last 12px; the dialog keeps no padding, gap or empty foot below it, and the band takes the dialog's lower corners. */
+.section-tile-dialog:has(.brand-inventory .brand-asset-slot-icon > .brand-slot-aside){
+
+    padding-bottom:0;
+    row-gap:0;
+
+}
+
+.section-tile-dialog:has(.brand-inventory .brand-asset-slot-icon > .brand-slot-aside) > .section-tile-dialog-body{
+
+    margin-bottom:0;
+    padding-bottom:0;
+
+}
+
+.section-tile-dialog .brand-asset-slot-icon > .brand-slot-aside{
+
+    border-bottom-left-radius:calc(var(--radius-lg) - 1px);
+    border-bottom-right-radius:calc(var(--radius-lg) - 1px);
+
+}
