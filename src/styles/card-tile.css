@@ -293,8 +293,10 @@ button.card-tile-symbol[aria-pressed="true"] {
 
 }
 
-/* THE TITLES OF THE MAIN TILES of a page (Founders, Resources, Activities, Partners & Suppliers, Delivery, Inventory, Completed) are in capitals, as the category tiles'. */
-.answer-columns.business-capability .section-tile-slot:not(.card-tile-slot) > .section-tile .section-tile-title,
+/* EVERY TILE'S TITLE IS IN CAPITALS, BUT A CARD TILE'S (owner, 2026-11-20 21:27 UTC+2: "All tile titles are capitalised, except the tiles that open floated cards";
+   layout rules section 9, "Tile title"): a page's Master Tiles, a dialog's tiles (a Journey Stage, a channel, an Offering, a Strategic Theme), the category
+   and sub tiles; a card tile (CardTile, one card, opened floating) keeps its name as written. The layout probe checks it. */
+.section-tile:not(.card-tile) .section-tile-title,
 .section-tiles-completed .section-tile-slot > .section-tile .section-tile-title {
     text-transform: uppercase;
 }

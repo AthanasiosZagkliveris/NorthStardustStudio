@@ -197,8 +197,8 @@ export function TileTitle({ children, className }: { children: ReactNode; classN
  */
 /**
  * ONE ALIGNMENT FOR THE LISTS OF A GRID OF TILES (owner, 2026-11-20 21:01 UTC+2: "the listed items are not centered aligned, or at least they do not follow the
- * same alignment"; layout rules section 8, "Tile anatomy"): each list is a block centred under its title, and the lists of one grid -- a page's, a dialog's,
- * a category's -- share ONE width, the longest item of any of them (scrolled-away items too), so their bullets or names stand at one place in every tile.
+ * same alignment"; layout rules section 8, "Tile anatomy"): each list is a block centred under its title; the lists of one DIALOG grid (never a page's master tiles)
+ * share ONE width, the longest item of any of them (scrolled-away items too), so their bullets or names start at one point in every tile (owner, 21:31).
  * Text (plain or centred lines, a column page's text) and two-column lists keep their own width. Each TileList asks for its grid; one pass a frame.
  */
 const gridsToAlign = new Set<HTMLElement>();
@@ -233,7 +233,7 @@ function askToAlign(grid: HTMLElement | null | undefined) {
 }
 if (typeof window !== "undefined") {
     // (A new window width changes the tiles' side and the type: every grid on screen lines up again.)
-    window.addEventListener("resize", () => document.querySelectorAll<HTMLElement>(".section-tile-slot, .card-tile-slot").forEach(slot => askToAlign(slot.parentElement)));
+    window.addEventListener("resize", () => document.querySelectorAll<HTMLElement>(".section-tile-dialog :is(.section-tile-slot, .card-tile-slot)").forEach(slot => askToAlign(slot.parentElement)));
 }
 
 export function TileList({
@@ -282,7 +282,11 @@ export function TileList({
     const list = useRef<HTMLUListElement | null>(null);
     // (Its grid's lists share one width: see askToAlign.)
     useLayoutEffect(() => {
-        askToAlign(list.current?.closest<HTMLElement>(".section-tile-slot, .card-tile-slot")?.parentElement);
+        // (Only in a DIALOG's grid: a page's master tiles keep each list centred on the tile's centre line at its own width; owner, 2026-11-20 21:28 and 21:32 UTC+2.)
+        const slot = list.current?.closest<HTMLElement>(".section-tile-slot, .card-tile-slot");
+        if (slot?.closest(".section-tile-dialog")) {
+            askToAlign(slot.parentElement);
+        }
     });
     // The list holds EVERY item and scrolls when they do not all fit under the title (and above the "+" box): a thin themed scrollbar, the wheel scrolls it
     // (not the card behind, until its end), the keyboard walks the links and scrolls them into view. Marked while it scrolls (its layer then takes the wheel).
