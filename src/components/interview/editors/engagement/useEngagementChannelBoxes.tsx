@@ -12,6 +12,7 @@ import OptionPicker from "../../fields/OptionPicker.tsx";
 import { railId } from "../../rails/railItems.ts";
 import SuggestedInput from "../../fields/SuggestedInput.tsx";
 import { journeyStageLabels } from "../../../../framework/engine/ChannelTableColumns.ts";
+import { channelKey, journeySuggestions } from "../../../../framework/engine/JourneySuggestions.ts";
 import ChannelResourceTable from "../ChannelResourceTable.tsx";
 import { buildChannelResourceTable } from "../../../../framework/engine/ChannelResourceTable.ts";
 import FoldArrow from "../../fields/FoldArrow.tsx";
@@ -368,6 +369,8 @@ export function useEngagementChannelBoxes(earlier: Earlier) {
 
         }
 
+        // (The subchannels the Profiles name -- a social media or community written under "Other": their names are the Profiles', said on the card as a title.)
+        const namedByProfiles = new Set(journeySuggestions(segment, identity).filter(suggestion => suggestion.name !== "").map(suggestion => channelKey(suggestion.category, suggestion.name)));
         /* THE HEAD OF A SUBCHANNEL'S CARD: its name (typed, with the category's own places offered), its "i" and its x -- said once, here. */
         const subchannelHead = () => {
             const channel = answers.channels.find(entry => entry.id === sub);
@@ -381,6 +384,11 @@ export function useEngagementChannelBoxes(earlier: Earlier) {
                     {(() => {
                         const known = channelNameOptions(channel.category, answers.channels.filter(candidate => candidate.id !== channel.id)).filter(option => option !== BUSINESS_CHANNEL_OTHER);
                         const typed = channel.name.trim() !== "" && channel.name !== BUSINESS_CHANNEL_OTHER && !known.some(option => option.toLocaleLowerCase() === channel.name.trim().toLocaleLowerCase());
+                        // (A SUBCHANNEL THE ANSWERS MADE from a Profile's "Other" -- Substack, WhatsApp groups -- is said as Pinterest is, its name the card's title: it was named
+                        // in the Profile, its one place; owner, 2026-11-20 18:35 and 18:38 UTC+2: "exactly like the other channel cards".)
+                        if (typed && (channel.fromAnswers || namedByProfiles.has(channelKey(channel.category, channel.name)))) {
+                            return <span className="business-subchannel-name">{channel.name}</span>;
+                        }
                         if (channel.name.trim() !== "" && channel.name !== BUSINESS_CHANNEL_OTHER && !typed && channel.category !== BUSINESS_CHANNEL_OTHER) {
                             return <span className="business-subchannel-name">{channel.name}</span>;
                         }
