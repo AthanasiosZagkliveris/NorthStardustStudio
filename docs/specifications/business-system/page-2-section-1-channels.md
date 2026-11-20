@@ -4,7 +4,7 @@ Status: **specification**, written 2026-09-27, updated 2026-11-19. The requireme
 
 > **3. Business System — Page 2 of 5, Section 1 of 2; drawn on Page 1 of 3, Foundation & Engagement, since 2026-11-19.**
 >
-> **One page, Foundation & Engagement, 2026-11-19 (the owner's approved plan of 2026-11-18, step 2; owner, 2026-11-19 13:40 and 13:46; layout rules section 13):** Customer Engagement is the second chapter of each Segment, Engagement (Channels & Journey, Customer's Relationship, Demand & Conversion), beside its Foundation chapter in one frame; its saved answer, keyed by the Segment's id, is as it was, and what it does when it opens is done for every Segment.
+> **One page, Foundation & Engagement, 2026-11-19 (the owner's approved plan of 2026-11-18, step 2; owner, 2026-11-19 13:40 and 13:46; layout rules section 13):** Customer Engagement is the second subchapter of each Segment's chapter, Engagement (Channels & Journey, Customer's Relationship, Demand & Conversion), beside its Business Foundation subchapter in one frame; its saved answer, keyed by the Segment's id, is as it was, and what it does when it opens is done for every Segment.
 >
 > Page 2 holds **Channels** (this section), then
 > **Customer Relationships**, which references the Channels

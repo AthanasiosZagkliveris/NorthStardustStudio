@@ -64,7 +64,7 @@ The skills the business still needs are asked on the Business System's Infrastru
 
 What you sell, to whom, with what, and whether the money works. Three pages, best answered in order: each later page starts from what the earlier ones say.
 
-1. **Foundation & Engagement**: one customer **Segment** at a time (choose it on the Segments rail at the right), in one frame of two chapters. **Foundation** has four tiles:
+1. **Foundation & Engagement**: one customer **Segment** at a time (choose it on the Segments rail at the right), each Segment a chapter of two subchapters in one frame. **Business Foundation** has four tiles:
    - **Segment Description**: five boxes of choice questions about the people or businesses who buy, and under them the **Profiles**, each a typical buyer with their needs.
    - **Value Proposition**: what each Profile needs and how your offer answers it.
    - **Competitors**: who else serves the Segment, how they compare, and a SWOT Analysis.

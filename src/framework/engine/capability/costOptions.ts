@@ -212,15 +212,20 @@ export function costWithOption(cost: BusinessCostValue, place: "infrastructure" 
 export const validCostOption = (place: "infrastructure" | "offering", groupId: string, optionId: string): string =>
     costOptionOf(place, groupId, optionId) ? optionId : "";
 
-/** The frequencies a group offers, in the order of the seven; all seven for a group the list does not know. */
+/** The groups whose costs may run two years: permits and licences (owner, 2026-11-20 13:31 UTC+2). */
+const TWO_YEAR_GROUPS = new Set(["licences"]);
+
+/** The frequencies a group offers, in the list's order; the default seven for a group the list does not know. */
 export function frequencyIdsOf(place: "infrastructure" | "offering", groupId: string): readonly string[] {
     // A card with no group yet offers what the groups of its master tile offer, together (never one no group of it has).
     const offered = groupId === ""
         ? [...new Set(Object.entries(GROUP_FREQUENCIES).filter(([key]) => key.startsWith(place + ":")).flatMap(([, ids]) => ids))]
         : GROUP_FREQUENCIES[place + ":" + groupId];
-    // (Every two years goes wherever Annually does: a cost that recurs by the year may recur every second year -- doc 53, decision 2, "on every cost card".)
-    const withTwoYears = offered === undefined ? undefined : offered.includes("annually") ? [...offered, "biennially"] : offered;
-    return withTwoYears === undefined ? BUSINESS_COST_FREQUENCIES.map(entry => entry.id) : BUSINESS_COST_FREQUENCIES.map(entry => entry.id).filter(id => withTwoYears.includes(id));
+    // (EVERY TWO YEARS ONLY WHERE A COST RUNS TWO YEARS (owner, 2026-11-20 13:31 UTC+2: "use the Every two years only for the specific two-year filings and licences,
+    // or whenever there is as an existing option"): the Licences group, whose permits and licences may run two years; a card that already holds it keeps it
+    // (useCapabilityCardFields). The Legal Entity's filings have it in their own list (LEGAL_ENTITY_EXPENSE_FREQUENCIES).)
+    const withTwoYears = offered === undefined ? undefined : TWO_YEAR_GROUPS.has(groupId) && offered.includes("annually") ? [...offered, "biennially"] : offered;
+    return withTwoYears === undefined ? BUSINESS_COST_FREQUENCIES.map(entry => entry.id).filter(id => id !== "biennially") : BUSINESS_COST_FREQUENCIES.map(entry => entry.id).filter(id => withTwoYears.includes(id));
 }
 
 /**
