@@ -1054,7 +1054,7 @@ Colour = what the user does in the section (work type). The code applies these w
 | 4. Financials, Revenue & Pricing: Revenue streams and summary | Build | Yellow |
 | 4. Financials, Costs, Funding & Position: Costs (auto-generated table) | Build | Yellow |
 | 4. Financials, Costs, Funding & Position: Funding Need | Decide | Orange |
-| 4. Financials, Revenue & Break Even: Break-even and checks | Review | Lavender |
+| 4. Financials, Financial Foundation: Break-even and checks | Review | Lavender |
 | 4. Strategy |  |  |
 | Situation & Direction | Discover | Blue |
 | Goals & Objectives | Decide | Orange |

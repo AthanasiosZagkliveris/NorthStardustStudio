@@ -281,3 +281,20 @@ Each phase is one branch and one pull request from a fresh `main`, in the owner'
 The financials come last (owner, Thanos, 2026-11-12 15:18: "I think it is better to rearrange the working sequence, and place the financials for later").
 
 The order inside phase 7, revenue and pricing before costs and funding, follows the placement research (owner, Thanos, 2026-11-12 15:37: "Update the plan and report back."). Its basis, each read in excerpt only and to be opened in full before an "i" cites it: University of Wisconsin-Madison, Wisconsin SBDC, *Beginner's Guide to Financial Projections* (Business Model, then Revenue, Costs and Funding); MIT OpenCourseWare 15.818 *Pricing* (cost, customer and competition); MIT OpenCourseWare 15.760B *Introduction to Operations Management*, lecture 3, *Capacity* (demand against capacity). Also named, found by the project's assistant and not yet opened here: Thomas and Wasserstein (2024) *A Primer on Breakeven Analysis*, Yale School of Management.
+
+## 9. The choice questions' proposals P1 to P8, checked again (2026-11-20)
+
+Asked by the owner (the round of 2026-11-19 21:44 UTC+2: "P1–P8 review after changes"). The proposals are those of the research document "Choice questions: research and order" (Claude Doc, 2026-11-19, its table P1 to P8), read again against what changed on 2026-11-19 and 2026-11-20: the Ambassador an imagined persona and BA3 the surroundings it suits; the Profile card as the pattern for every card; Financials one chapter; the question on keeping people's details gone; the whole USA. Nothing below is built.
+
+| # | Where | Proposal | Built? | Still valid? | Update needed |
+|---|---|---|---|---|---|
+| P1 | Mission & Vision | The Vision's choices (PB7, PB8) above its text, with "Add a draft" as on the Ambassador's tiles | No: the choices stand under the text, no draft | Yes | None from today's changes |
+| P2 | Mission & Vision | PB8 (where the customers will be) before PB7 (what the business will be) | No: PB7 first | Yes | None |
+| P3 | Mission & Vision | A new PB9, "What kind of goal drives your Vision?" | No | Yes | None; its code PB9 stays free in doc 44 |
+| P4 | Ambassador | BA1's five "i" texts in Aaker's own facet words | Not checked as built | Yes | Yes, in its wording: the "i" texts speak of the Ambassador as an imagined persona, never a real person (owner, 2026-11-19 21:44: "He is not a real person, but an idea") |
+| P5 | Ambassador | Keep the tile order: it follows Kapferer's identity prism | Kept | Yes | Yes, its note: BA3 is now the surroundings the imagined Ambassador suits (the prism's physique and culture), no longer a real place |
+| P6 | SWOT | The Vision at the top of the SWOT dialog, as its aim | No | Yes | None |
+| P7 | Strategic Compass | SC3 (which Segment first), then SC2, then SC1 | No: SC1, SC2, SC3 | Yes | None; the Compass draft already reads SC3 first in its sentence |
+| P8 | Strategic Compass | Each Segment's point of difference (K14) as a record under SC1 | In part: the Compass draft says K14 ("and stand out for ...") | Yes | None |
+
+None of the eight depends on Financials, the Profile pattern, the removed personal-details question or the US states. Two need their words updated before they are built (P4, P5); the owner decides which are built.

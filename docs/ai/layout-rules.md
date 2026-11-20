@@ -1481,6 +1481,16 @@ These are open. Where a value is settled, the code and its tests carry it (the v
 - **Reflow at 320px** (WCAG 1.4.10): the 768px floor is a declared exception until the owner rules on it (doc 5, 5.6).
 - **The completed card's dropdown chevron** is drawn in the theme's ink, not in `--completed-dim` (a fifth tone in a card of four greys).
 
+**Layout ideas of 2026-11-20 (the owner's round of 2026-11-19 21:44 UTC+2, "layouts per page/chapter"; read on every page of the Lumen example at 1920 x 1080; nothing built, each waits for the owner):**
+
+| Page | Rule | Now | Idea |
+|---|---|---|---|
+| Legal Entity | A chapter shows what its section holds (section 23) | One frame holding one tile, Registrations & Expenses, that opens a dialog of two tiles; three quarters of the frame and the right half of the page empty | Registrations and Expenses as the chapter's two Master Tiles (the dialog's two tiles moved up), or the Legal Entity as a third chapter of Definition & Purpose's page |
+| Strategy System | Chapters side by side (section 13) | One chapter, Situation & Direction, in the left half; the right half empty | The Strategic Period's Themes as a second chapter beside it (its tile opens them today), or the one chapter centred |
+| Definition & Purpose | Master Tiles one size (section 23) | Definition holds three tiles (its fourth place empty), Purpose three | Nothing to change; the empty fourth places are the rule |
+| Infrastructure & Capability | A list marks what it means (section 9) | "Suppliers" on Offering's Capability carries a two-dot mark where the others have the bullet | Say in the tile's "i" what the mark means, or draw it as the shared bullet with its status colour |
+| Financials | Each part reads what stands before it (doc 48, section 11) | One chapter of six tiles, four and two (built 2026-11-20) | Doc 48, section 13, the five-step proposal |
+
 ---
 
 ## 21. Floating cards, generated cards, notes, folds, cells
