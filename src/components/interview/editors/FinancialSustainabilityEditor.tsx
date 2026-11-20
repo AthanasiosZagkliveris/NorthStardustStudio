@@ -5,7 +5,8 @@ import { numberStep } from "./BusinessEngagementModel.ts";
 import { countedCapability } from "../../../framework/engine/CardCompleteness.ts";
 import TextBox from "../../controls/TextBox.tsx";
 import NumberCell from "../../controls/NumberCell.tsx";
-import { type CSSProperties, type ReactNode } from "react";
+import { type CSSProperties, type ReactNode, useSyncExternalStore } from "react";
+import { JOINED_CHAPTER_KEY, useJoinedChapter } from "../tiles/joinedChapter.ts";
 import CardShell from "../cards/CardShell.tsx";
 import SectionTiles, { DialogHeading, stackedFace, type FaceRow, type SectionTile } from "../tiles/SectionTiles.tsx";
 import { type LegalEntityValue, asBusinessCapabilityValue, asBusinessEngagementValue, asLegalEntityValue, businessFoundationSegments, withLegalEntityFounders } from "../../../framework/engine/AnswerUtils.ts";
@@ -121,6 +122,10 @@ export default function FinancialSustainabilityEditor({
     openingDate = ""
 
 }: FinancialSustainabilityEditorProps) {
+
+    // (On Financials, one chapter: the tiles Costs, Funding & Position hands it, drawn again when they change; joinedChapter.ts.)
+    const joined = useJoinedChapter();
+    useSyncExternalStore(joined?.subscribe ?? noJoined, joined?.version ?? noVersion);
 
     const page = asFinancialSustainabilityValue(value);
 
@@ -1249,7 +1254,8 @@ export default function FinancialSustainabilityEditor({
             ? result.buffer + " month" + (result.buffer === 1 ? "" : "s")
             : result.breakEvenMonth !== null && result.exhaustionMonth === null
                 ? months + "+ months"
-                : "n/a";
+                // (SAID IN WORDS (owner, 2026-11-20, doc 48 section 13; the app's affirmative voice): what stands in the buffer's place, never "n/a".)
+                : result.exhaustionMonth !== null ? "Runs out before break-even" : "No break-even in the plan";
 
         const statusTitle = STATUS_TITLES[result.status];
 
@@ -1313,9 +1319,7 @@ export default function FinancialSustainabilityEditor({
                     {
                         label: "Sustainability Buffer",
                         value: bufferLabel,
-                        detail: bufferLabel === "n/a"
-                            ? (result.exhaustionMonth !== null ? "funds run out before break even" : "no break even in the plan")
-                            : undefined,
+                        detail: undefined,
                         info: ["Financial Exhaustion minus Break-Even Time: how much time exists between becoming sustainable and running out of resources."]
                     }
                 ]} />
@@ -1631,6 +1635,34 @@ export default function FinancialSustainabilityEditor({
     // (THE FIRST FRAME OF FINANCIALS (PageGroups.ts; owner, 2026-11-18, the approved plan, step 1): one chapter, Revenue & Break Even -- Revenue Streams,
     // Break-Even, Sustainability --, beside Financial Foundation, as a frame of every page of several sections is drawn. Three Master Tiles keep their size:
     // the 2 x 2 with its fourth place empty (layout rules section 23).)
+    // (THE ONE CHAPTER OF FINANCIALS (PageGroups.ts, `oneChapter`; owner, 2026-11-20 02:11 UTC+2: "Maybe they should all be under only one chapter."): the six Master
+    // Tiles in the order each reads only what stands before it (doc 48, section 11) -- Revenue Streams, Costs, Capital & Funding, Financial Position, then
+    // Break-Even and Sustainability --, two groups side by side in one frame, the line between them, as Foundation & Engagement's chapter: so every Master Tile
+    // keeps its size and layout (layout rules section 23) and every dialog and floating card behaves as before.)
+    if (joined) {
+        const hue = SECTION_HUES["sustainability-revenue"] ?? 0;
+        const style = { "--strategy-theme-hue": hue } as CSSProperties;
+        const group = (anchor: string, tiles: SectionTile[]) => (
+            <CardShell className="segment-chapter-part" data-anchor={anchor} style={style}>
+                <SectionTiles label={tiles.map(tile => tile.title).join(", ")} hue={hue} tiles={tiles} />
+            </CardShell>
+        );
+        return (
+            <div className="answer-columns business-foundation business-engagement business-capability column-tiles-page" style={{ "--answer-column-count": 1 } as CSSProperties}>
+                <div className="segment-chapter" style={style} data-anchor="column-tiles">
+                    <div className="card-scroll">
+                        <div className="business-capability-section business-capability-tiles-section">
+                            <div className="business-engagement-section-head tiles-frame-head"><span className="field-group-title business-foundation-subhead">{frameTitle}</span></div>
+                            <div className="segment-chapter-groups">
+                                {group("column-tiles-money", [revenueTile, ...joined.get(JOINED_CHAPTER_KEY)])}
+                                {group("column-tiles-break-even", breakEvenTiles)}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
     return (
         <div className="answer-columns business-foundation business-engagement business-capability column-tiles-page" style={{ "--answer-column-count": 1 } as CSSProperties}>
             {chapter(frameTitle, SECTION_HUES["sustainability-revenue"] ?? 0, [revenueTile, ...breakEvenTiles])}
@@ -1638,3 +1670,6 @@ export default function FinancialSustainabilityEditor({
     );
 
 }
+
+const noJoined = () => () => {};
+const noVersion = () => 0;

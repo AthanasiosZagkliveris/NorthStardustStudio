@@ -6,6 +6,9 @@ Every change of the tables, that is, of the structure of the app: a placement pl
 
 | Id | Date | Change | Where | Asset | Not in the library | What | Note |
 |---|---|---|---|---|---|---|---|
+| A1345 | 2026-11-20 | removed | C C3.4-revenue-and-break-even |  |  | row removed |  |
+| A1344 | 2026-11-20 | edited | C C3.4-financial-foundation |  |  | row changed: order, title |  |
+| A1343 | 2026-11-20 | edited | P P3.4 |  |  | row changed: chapters |  |
 | A1342 | 2026-11-19 | removed | FN FN29 |  |  | row removed |  |
 | A1341 | 2026-11-19 | removed | F F195 |  |  | row removed |  |
 | A1340 | 2026-11-19 | removed | F F194 |  |  | row removed |  |

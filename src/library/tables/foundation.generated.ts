@@ -126,7 +126,7 @@ export const foundationTables: readonly TableData[] = [
     "name": "3. Financials",
     "sections": "3.4 Revenue & Pricing; 3.5 Costs, Funding & Position",
     "type": "tiles page (chapters of master tiles)",
-    "chapters": 2,
+    "chapters": 1,
     "master_tiles": 0,
     "base_content": "header; Pages rail; page arrows; chapter frames"
    },
@@ -236,18 +236,10 @@ export const foundationTables: readonly TableData[] = [
     "source": "probe 2026-11-10"
    },
    {
-    "id": "C3.4-revenue-and-break-even",
-    "page": "P3.4",
-    "order": 1,
-    "title": "1. Revenue & Break Even",
-    "extra_features": "none",
-    "source": "PageGroups.ts"
-   },
-   {
     "id": "C3.4-financial-foundation",
     "page": "P3.4",
-    "order": 2,
-    "title": "2. Financial Foundation",
+    "order": 1,
+    "title": "Financial Foundation",
     "extra_features": "none",
     "source": "PageGroups.ts"
    },

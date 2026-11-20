@@ -26,7 +26,7 @@ Every page the pages rail shows, from the app's definitions (the Systems' answer
 | P2.1 | S2 | Brand System | 2.1 Ambassador; 2.2 Style | tiles page (chapters of master tiles) | 2 | 8 | header; Pages rail; page arrows; chapter frames |
 | P3.1 | S3 | 1. Foundation & Engagement | 3.1 Foundation; 3.2 Customer Engagement | tiles page (chapters of master tiles) | 2 | 0 | header; Pages rail; page arrows; chapter frames |
 | P3.3 | S3 | 2. Infrastructure & Capability | 3.3 Infrastructure & Capability | tiles page (chapters of master tiles) | 3 | 10 | header; Pages rail; page arrows; chapter frames |
-| P3.4 | S3 | 3. Financials | 3.4 Revenue & Pricing; 3.5 Costs, Funding & Position | tiles page (chapters of master tiles) | 2 | 0 | header; Pages rail; page arrows; chapter frames |
+| P3.4 | S3 | 3. Financials | 3.4 Revenue & Pricing; 3.5 Costs, Funding & Position | tiles page (chapters of master tiles) | 1 | 0 | header; Pages rail; page arrows; chapter frames |
 | P4.1 | S4 | Strategy System | 4.1 Situation & Direction | tiles page (chapters of master tiles) | 1 | 4 | header; Pages rail; page arrows; chapter frames |
 
 ### C. Chapters
@@ -45,8 +45,7 @@ A chapter is a frame on a page that holds master tiles. A page of several sectio
 | C3.3-infrastructure | P3.3 | 1 | 1. Infrastructure | none | probe 2026-11-10 |
 | C3.3-offering-s-capability | P3.3 | 2 | 2. Offering's Capability | none | probe 2026-11-10 |
 | C3.3-no-title | P3.3 | 3 | (no title) | none | probe 2026-11-10 |
-| C3.4-revenue-and-break-even | P3.4 | 1 | 1. Revenue & Break Even | none | PageGroups.ts |
-| C3.4-financial-foundation | P3.4 | 2 | 2. Financial Foundation | none | PageGroups.ts |
+| C3.4-financial-foundation | P3.4 | 1 | Financial Foundation | none | PageGroups.ts |
 | C4.1-situation-and-direction | P4.1 | 1 | Situation & Direction | none | probe 2026-11-10 |
 
 ### MT. Master tiles

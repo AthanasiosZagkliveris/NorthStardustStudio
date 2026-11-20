@@ -8,7 +8,8 @@ import { calculatedLines } from "../../../framework/engine/CalculatedLines.ts";
 import { contingencyFunds, launchNeedOf } from "../../../framework/engine/ContingencyFunds.ts";
 import { ownersTakeDrawings } from "../../../framework/engine/FinancialForecast.ts";
 import { capitalisationLimitOf, createGlobalSettings, type GlobalSettingsValue } from "../../../framework/engine/GlobalSettings.ts";
-import { type CSSProperties, type ReactNode, useEffect, useRef, useState } from "react";
+import { type CSSProperties, type ReactNode, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { JOINED_CHAPTER_KEY, useJoinedChapter } from "../tiles/joinedChapter.ts";
 import { type LegalEntityValue, type StrategyMonthValue, asBusinessCapabilityValue, asBusinessEngagementValue, asLegalEntityValue, businessFoundationSegments, withLegalEntityFounders } from "../../../framework/engine/AnswerUtils.ts";
 import { assetUnitCostsOf, incomeTaxRate, COST_GROUPS, COST_FREQUENCIES, COST_NATURES, COST_NATURE_LABELS, natureSplitOf, FINANCIAL_FOUNDATION_SECTIONS, FUNDING_CATEGORIES, FUNDING_NEED_CATEGORIES, FUNDING_SCHEDULES, FUNDING_STATUSES, FUNDING_TYPES, LOAN_METHODS, PERIOD_FREQUENCIES, planLength, asFinancialFoundationValue, consolidateCosts, createFundingSource, createMilestone, financialPosition, founderCapitalSources, fundingNeeds, fundingStanding, fundingType, isNonCash, loanRepaymentNotes, loanSchedule, moneyFormatter, allFunding, monthlyEquivalent, planMonthLabel, withPlanStart, derivedPlanStart, legalExpenseDates, costStartDates, type CostLine, type FinancialFoundationValue, asFinancialSustainabilityValue, withDemand, type FundingSourceValue } from "../../../framework/engine/FinancialModel.ts";
 import { costSourcesFor } from "../../../framework/engine/ExportRenderers.ts";
@@ -107,6 +108,12 @@ export default function FinancialFoundationEditor({
     onOpenLegalEntity
 
 }: FinancialFoundationEditorProps) {
+
+    // (On Financials, one chapter: this section's tiles are handed to it, and the chapter is told once this editor has drawn; joinedChapter.ts.)
+    const joined = useJoinedChapter();
+    useLayoutEffect(() => {
+        joined?.changed();
+    });
 
     const stored = asFinancialFoundationValue(value);
 
@@ -1381,7 +1388,8 @@ export default function FinancialFoundationEditor({
        23:08 UTC+2: "Financial tiles' lists should follow the shared tile list"). */
     const pair = (name: string, figure: string): FaceRow => ({ name, under: figure });
     const costFace = [
-        pair("Launch budget", format(funds.schedule.total)),
+        // (A LINE ONLY WHERE IT SAYS SOMETHING (owner, 2026-11-19 22:48 UTC+2; doc 48 section 13): the Launch budget where there is one.)
+        ...(funds.schedule.total > 0.005 ? [pair("Launch budget", format(funds.schedule.total))] : []),
         pair("Running costs a month", format(funds.monthlyOpEx)),
         // (A share of revenue on its own line, so the face never cuts it: owner, 2026-11-18 10:38.)
         ...(() => {
@@ -1479,7 +1487,12 @@ export default function FinancialFoundationEditor({
         ) : null;
     }
 
-    // (THE SECOND FRAME OF FINANCIALS (PageGroups.ts): beside Revenue & Break Even, as a frame of every page of several sections is drawn.)
+    // (ONE CHAPTER (PageGroups.ts, `oneChapter`; owner, 2026-11-20 02:11 UTC+2): this section draws no frame; it hands its three tiles to the page's one chapter,
+    // which Revenue & Pricing draws, and stays drawn, so what it does when it opens is done as before. Else its own frame, beside Revenue & Break Even.)
+    if (joined) {
+        joined.set(JOINED_CHAPTER_KEY, tiles);
+        return null;
+    }
     return (
         <div className="answer-columns business-foundation business-engagement business-capability column-tiles-page" style={{ "--answer-column-count": 1 } as CSSProperties}>
             <CardShell
