@@ -136,7 +136,7 @@ Nothing is removed: the six are free texts and none decides whether another is a
 
 ### 3.8 The Vision's two choices (PB7, PB8)
 
-Added 2026-11-12 (owner approved, D1). In the Mission & Vision dialog, in the Vision's column, under its text, one question per band. Built in phase 3 (the order of work: doc 49, section 8). The phrases the Business Plan prints are at the end of this section.
+Added 2026-11-12 (owner approved, D1). In the Mission & Vision dialog, in the Vision's column, ABOVE its text, one question per band: PB8 (where the customers will be) first, then PB7, then "Add a draft", which writes the Business Plan's sentence below at the end of the Vision (doc 49, section 9, P1 and P2; owner, 2026-11-20 12:49 UTC+2, "proceed to changes"). Built in phase 3 (the order of work: doc 49, section 8). The phrases the Business Plan prints are at the end of this section.
 
 #### PB7. What will your business be when your Vision comes true?
 

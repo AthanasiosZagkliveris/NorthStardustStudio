@@ -1,6 +1,6 @@
 # Glossary
 
-Status: **reference**, written 2026-08-02, updated 2026-11-09 (every term checked against its owner document and the code on 2026-11-02; the Glossary entry on 2026-11-09). Covers the framework, the app, the questionnaire and the first version, and the documents.
+Status: **reference**, written 2026-08-02, updated 2026-11-20 (every term checked against its owner document and the code on 2026-11-02; the Glossary entry on 2026-11-09). Covers the framework, the app, the questionnaire and the first version, and the documents.
 
 One-line definitions, so that terminology is the same in every document and Skill; each term has one owner document, where the full explanation is. A name without a folder is a file in `docs/ai/`; "doc 28" is the document numbered 28 in `docs/README.md`.
 
@@ -32,7 +32,7 @@ One-line definitions, so that terminology is the same in every document and Skil
 
 **Card / Floating card** — a card is an opened tile; a floating card is a card placed over the page (a placement, not a type); every floating card shares one width, content line and double rule between its sections. A card of a completed activity is grey. *Owner: `card-kinds.md`, `tile-and-card-pattern.md`.*
 
-**Help tile** — a tile that holds no information of its own and only filters and presents records: the **Inventory** (every card with its cost, as tiles or a table, with a filter and sort window) and **Completed**. They stand in the footer band of Business page 3. *Owner: `layout-rules.md`, section 12.*
+**Help tile** — a tile that holds no information of its own and only filters and presents records: the **Inventory** (every card with its cost, as tiles or a table, with a filter and sort window) and **Completed**. They stand in the footer band of the Business page Infrastructure & Capability (2 in the pages rail). *Owner: `layout-rules.md`, section 12.*
 
 **Rail / page tab** — the bullets and page tags at the side of a page (Pages on the left, Sections on the right), and the tab that holds them with the Back button. *Owner: `tile-and-card-pattern.md`.*
 

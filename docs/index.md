@@ -8,7 +8,7 @@ Status: **index**, updated 2026-11-20, written by `npm run docs:index` (the subj
 - **Activities and codes (classifications)**: [34 sections 5.7 to 5.10](design/questionnaire/34-lists-and-classifications.md); [28 section 8.5](design/questionnaire/28-questionnaire-specification.md)
 - **Age limits by activity and country**: [30](design/questionnaire/30-age-limits-by-activity.md); [31 section 10.2](design/questionnaire/31-positioning-categories.md)
 - **Age stages**: [31 section 10.1](design/questionnaire/31-positioning-categories.md)
-- **Ambassador (Brand)**: [46 (proposal)](design/questionnaire/46-ambassador-questions.md)
+- **Ambassador (Brand)**: [46 (built 2026-11-19, in part)](design/questionnaire/46-ambassador-questions.md)
 - **App, contents**: [app/contents](app/contents.md)
 - **App, places (index)**: [app/index](app/index.md)
 - **Archive**: [README section 9](README.md)
@@ -95,7 +95,7 @@ Status: **index**, updated 2026-11-20, written by `npm run docs:index` (the subj
 - **Segment card**: [35 (as built)](design/questionnaire/35-segment-questions.md); [28 section 6.3](design/questionnaire/28-questionnaire-specification.md)
 - **Shared components**: [21](design/current/21-shared-components.md)
 - **Standard of the documents**: [standard](standard.md)
-- **Strategy (SWOT, Compass, Themes, Metrics)**: [49 (proposal)](design/questionnaire/49-strategy-questions.md)
+- **Strategy (SWOT, Compass, Themes, Metrics)**: [49 (built 2026-11-19, in part)](design/questionnaire/49-strategy-questions.md)
 - **Structure tables**: [7](design/core/07-structure-tables.md)
 ## T
 

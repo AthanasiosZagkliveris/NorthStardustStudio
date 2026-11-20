@@ -36,7 +36,8 @@ import RatingScaleGroup from "../../controls/RatingScaleGroup.tsx";
 import type { Rating } from "../../controls/RatingScale.tsx";
 import { BusinessTicks } from "../cards/BusinessCardFields.tsx";
 import { SingleColumn } from "./foundation/shared.tsx";
-import { draftAdds, withDraft } from "../../../framework/engine/CompetitorQuestions.ts";
+import { draftAdds, namesInSentence, withDraft } from "../../../framework/engine/CompetitorQuestions.ts";
+import { DIFFERENTIATION_PHRASES } from "../../../framework/engine/AmbassadorChoices.ts";
 import {
     SC1_STANCES, SC2_MAX, SC_INFO, SC_LABELS, SW1_INFO, SW1_LABEL, type StrategyChoiceContext,
     changeEffectLines, changeEffectsShown, changeRows, compassChoicesShown, compassDraft, growthOptions
@@ -362,6 +363,17 @@ export default function StrategyFoundationEditor({
         (
             <>
 
+                {/* (THE VISION AT THE TOP OF THE SWOT, AS ITS AIM (doc 49, section 9, P6; owner, 2026-11-20 12:49 UTC+2, "proceed to changes"): read from the
+                    Identity System's Definition, shown, never edited here.) */}
+                <SingleColumn>
+                    {band(
+                        <FieldRow pair fullList label="Your Vision" info={["The aim the SWOT is read against: what helps you reach it, and what stands in the way."]}>
+                            <p className="legal-entity-empty-note">{vision.trim() ? vision.trim() : "Write your Vision on Definition & Purpose, Mission & Vision."}</p>
+                        </FieldRow>,
+                        0
+                    )}
+                </SingleColumn>
+
                 {STRATEGY_SWOT_QUADRANTS.map(quadrant => (
 
                     <Fragment key={quadrant.id}>
@@ -424,16 +436,8 @@ export default function StrategyFoundationEditor({
                 {choices && compassShown && (
                     <SingleColumn>
                         {[
-                            <FieldRow key="sc1" pair fullList label={SC_LABELS.sc1} info={[...SC_INFO.sc1]}>
-                                <RadioChoice label={SC_LABELS.sc1} group="strategy-stance" className="legal-entity-radio-stack" disabled={disabled} value={compassShown.stance}
-                                    onChange={(next) => update({ stance: next })}
-                                    options={SC1_STANCES.filter(stance => !(choices.stage === "plan" || choices.stage === "launch") || stance.id === "so" || stance.id === "wo" || stance.id === compassShown.stance).map(stance => ({ id: stance.id, label: stance.label }))} />
-                            </FieldRow>,
-                            <FieldRow key="sc2" pair fullList label={SC_LABELS.sc2} info={[...SC_INFO.sc2]} labelNote={<span className="business-foundation-tick-note">{SC2_MAX + " max"}</span>}>
-                                <div className="radio-choice legal-entity-radio-stack" role="group" aria-label={SC_LABELS.sc2}>
-                                    <BusinessTicks name={SC_LABELS.sc2} disabled={disabled} options={growthOptions(choices.stage)} chosen={compassShown.growth} max={SC2_MAX} onChange={(next) => update({ growth: next })} />
-                                </div>
-                            </FieldRow>,
+                        // (THE COMPASS IN THE ORDER IT IS DECIDED (doc 49, section 9, P7; owner, 2026-11-20 12:49 UTC+2): which Segment first, where growth comes from, then
+                        // what the strategy mainly does.)
                             // (SC3 is asked with two Segments or more; with one, that Segment is the answer.)
                             ...(choices.segments.length >= 2 ? [
                                 <FieldRow key="sc3" pair fullList label={SC_LABELS.sc3} info={[...SC_INFO.sc3]}>
@@ -441,7 +445,24 @@ export default function StrategyFoundationEditor({
                                         onChange={(next) => update({ firstSegmentId: next })}
                                         options={choices.segments.map((segment, at) => ({ id: segment.id, label: segment.name || "Segment " + (at + 1) }))} />
                                 </FieldRow>
-                            ] : [])
+                            ] : []),
+                            <FieldRow key="sc2" pair fullList label={SC_LABELS.sc2} info={[...SC_INFO.sc2]} labelNote={<span className="business-foundation-tick-note">{SC2_MAX + " max"}</span>}>
+                                <div className="radio-choice legal-entity-radio-stack" role="group" aria-label={SC_LABELS.sc2}>
+                                    <BusinessTicks name={SC_LABELS.sc2} disabled={disabled} options={growthOptions(choices.stage)} chosen={compassShown.growth} max={SC2_MAX} onChange={(next) => update({ growth: next })} />
+                                </div>
+                            </FieldRow>,
+                            <FieldRow key="sc1" pair fullList label={SC_LABELS.sc1} info={[...SC_INFO.sc1]}>
+                                <RadioChoice label={SC_LABELS.sc1} group="strategy-stance" className="legal-entity-radio-stack" disabled={disabled} value={compassShown.stance}
+                                    onChange={(next) => update({ stance: next })}
+                                    options={SC1_STANCES.filter(stance => !(choices.stage === "plan" || choices.stage === "launch") || stance.id === "so" || stance.id === "wo" || stance.id === compassShown.stance).map(stance => ({ id: stance.id, label: stance.label }))} />
+                                {/* (EACH SEGMENT'S POINT OF DIFFERENCE, K14, AS A RECORD UNDER SC1 (doc 49, section 9, P8; owner, 2026-11-20 12:49 UTC+2, "proceed to changes"): read from
+                                    the Competitors' Differentiation, in the Compass draft's words; nothing is asked here.) */}
+                                {choices.segments.filter(segment => segment.differentiation.length > 0).map((segment, at) => (
+                                    <p key={segment.id} className="legal-entity-empty-note">
+                                        {(segment.name || "Segment " + (at + 1)) + " stands out for " + namesInSentence(segment.differentiation.map(id => DIFFERENTIATION_PHRASES[id] ?? "").filter(Boolean)) + "."}
+                                    </p>
+                                ))}
+                            </FieldRow>
                         ].map((content, at) => band(content, at))}
                     </SingleColumn>
                 )}

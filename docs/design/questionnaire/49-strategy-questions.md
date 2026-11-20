@@ -1,6 +1,6 @@
 # 49. Strategy: SWOT, Compass, Themes and Metrics, as proposed
 
-Status: **proposal**, written 2026-11-12, updated 2026-11-19. **The Business pages it reads are three since 2026-11-19** (the owner's approved plan of 2026-11-18, steps 1 and 2): Foundation & Engagement (the Foundation's and Customer Engagement's answers, one Segment at a time), Infrastructure & Capability and Financials (Revenue & Pricing's and Costs, Funding & Position's answers); every answer it reads is where it was, by its section and key, so nothing here changes. Its "Customer Engagement", "Sustainability" and page numbers name the sections. The owner approved it on 2026-11-12 (D7 to D10, D16 to D22). Built in phases 2 (Strategy reads the Business), 3 (Direction) and 6 (Initiatives and Activities). **Built 2026-11-19** (the owner's approved plan of 2026-11-18, §3, B2; `StrategyChoices.ts`): SW1 in its band above the Opportunities and Threats, its rated changes starting the SWOT's lines ("Changes in ... could help you" / "could hurt you") in a quadrant never edited, as the market's starts do; SC1 to SC3 above the Compass's text, with their starts, and the Compass draft ("Add a draft"). Not built yet: the rest of the suggestions table with Add (2.3), the "waiting" line, the reminder, the Theme order (2.5), the Goal suggestions (2.6), the Linked figure (2.7).
+Status: **proposal**, written 2026-11-12, updated 2026-11-20. **The Business pages it reads are three since 2026-11-19** (the owner's approved plan of 2026-11-18, steps 1 and 2): Foundation & Engagement (the Foundation's and Customer Engagement's answers, one Segment at a time), Infrastructure & Capability and Financials (Revenue & Pricing's and Costs, Funding & Position's answers); every answer it reads is where it was, by its section and key, so nothing here changes. Its "Customer Engagement", "Sustainability" and page numbers name the sections. The owner approved it on 2026-11-12 (D7 to D10, D16 to D22). Built in phases 2 (Strategy reads the Business), 3 (Direction) and 6 (Initiatives and Activities). **Built 2026-11-19** (the owner's approved plan of 2026-11-18, §3, B2; `StrategyChoices.ts`): SW1 in its band above the Opportunities and Threats, its rated changes starting the SWOT's lines ("Changes in ... could help you" / "could hurt you") in a quadrant never edited, as the market's starts do; SC1 to SC3 above the Compass's text, with their starts, and the Compass draft ("Add a draft"). Not built yet: the rest of the suggestions table with Add (2.3), the "waiting" line, the reminder, the Theme order (2.5), the Goal suggestions (2.6), the Linked figure (2.7).
 
 Related: doc 40 (the form), doc 45 (PB7 and PB8, which this page reads), doc 46 (BA1), doc 47 and doc 48 (the figures read), doc 28 (9.3 and 9.4, the skill areas), doc 5 (5.5.7), `src/framework/engine/AnswerStrategy.ts`, doc 2 (the sources).
 
@@ -55,17 +55,17 @@ Shown in each quadrant's band under its list: a line, an **Add** button, a muted
 |---|---|---|---|
 | **Strengths** | "Your chosen point of difference: [option]" | K14 | each Segment's Differentiation |
 | | "Founders' skills: [skill]" | Founders Profile | each typed skill (until the skill areas exist, 2.9) |
-| | "Funded to [month], with the funding need covered" | Page 4 | gap 0 and the runway reaches the period's end |
-| | "Breaks even in [month]" | Page 5 | break even inside the plan |
-| | "Room to deliver more: [n] hours a month spare" | Pages 3, 5 | delivery hours above the hours needed |
-| **Weaknesses** | "Gap you named: [line]" | Capability, Gaps | each line of the Gaps text (until the skill areas exist) |
-| | "Funding gap of [amount]" | Page 4 | gap above 0 |
-| | "Break even falls beyond the plan" | Page 5 | none found within it |
-| | "The plan holds up to [case] only" | Page 5 Stress Test | the first case that fails |
-| | "More sales than hours to deliver them: [Offering]" | Page 5 Delivery Check | a shortfall |
+| | "Funded to [month], with the funding need covered" | Financials, Financial Position (it holds the Funding Need) | gap 0 and the runway reaches the period's end |
+| | "Breaks even in [month]" | Financials, Break-Even | break even inside the plan |
+| | "Room to deliver more: [n] hours a month spare" | Capacity & Delivery; Financials, the Delivery Check | delivery hours above the hours needed |
+| **Weaknesses** | "Gap you named: [line]" | Capacity & Delivery, the Skills band (LC1, doc 52, section 9) | each skill ticked as still needed (until the skill areas exist) |
+| | "Funding gap of [amount]" | Financials, Financial Position | gap above 0 |
+| | "Break even falls beyond the plan" | Financials, Break-Even | none found within it |
+| | "The plan holds up to [case] only" | Financials, Sustainability's Stress Test | the first case that fails |
+| | "More sales than hours to deliver them: [Offering]" | Financials, Revenue Streams' Delivery Check | a shortfall |
 | | "Customers want [value]; your Offerings are yet to lead on it" | Value Proposition, Unmet value | each item |
 | | "[Offering] is still being built" | O2 | Still being built or Just an idea, from Launching on |
-| | "[Offering] is priced below its cost of each sale" | Page 5, Offering Economics | price below the variable cost per unit |
+| | "[Offering] is priced below its cost of each sale" | Financials, Offering Economics | price below the variable cost per unit |
 | **Opportunities** | "Customers rate [value] highly, and competitors fall short on it" | K8 with B1 | K8 1 or 2 on a value a Profile rates 4 or 5 (the clear opening as built) |
 | | "Your market is growing: [Segment]" | Box 5, Q2 | 4 or 5 |
 | | "Room in an open market: [Segment]" | Box 5, Q4 | 1 or 2 |
@@ -82,7 +82,7 @@ Shown in each quadrant's band under its list: a line, an **Add** button, a muted
 
 - **Text:** "More suggestions appear once you add: [field], [field]."
 - Each field is a link that scrolls to its target.
-- **Shown:** only while a rule of that band needs a figure that is still empty. The fields named are the Expected sales (Customer Engagement), the price (Sustainability), the Financial Plan dates, and the Funding Need.
+- **Shown:** only while a rule of that band needs a figure that is still empty. The fields named are the Expected sales (Customer Engagement), the price (Financials, Revenue Streams), the Financial Plan dates, and the Funding Need (Financials, Financial Position).
 
 **The priority order:** the quadrant's "i" gains "Put the most important first." (the lists already reorder); SC1, the Themes and the Compass draft read the first lines first.
 
@@ -197,12 +197,12 @@ A Metric gains one optional field. When a figure is chosen:
   |---|---|---|---|
   | Expected sales a month: [Offering] | Demand & Conversion | Number | higher |
   | Cancel / Month: [Offering] | Demand & Conversion | Percentage | lower |
-  | Revenue a month | Sustainability | Currency | higher |
+  | Revenue a month | Financials, Revenue Streams | Currency | higher |
   | Margin per unit: [Offering] | Offering Economics | Currency | higher |
-  | Break-even month | Sustainability | Month | earlier |
-  | Funding gap | Financial Foundation | Currency | lower |
-  | Runway | Financial Foundation | Number (months) | higher |
-  | Delivery hours used | Pages 3 and 5 | Percentage | none |
+  | Break-even month | Financials, Break-Even | Month | earlier |
+  | Funding gap | Financials, Financial Position | Currency | lower |
+  | Runway | Financials, Financial Position | Number (months) | higher |
+  | Delivery hours used | Capacity & Delivery; Financials, the Delivery Check | Percentage | none |
   | Offerings ready to sell | Offerings (O2) | Number | higher |
   | Value Proposition open items | Value Proposition | Number | lower |
 
@@ -270,13 +270,13 @@ Each phase is one branch and one pull request from a fresh `main`, in the owner'
 
 | Phase | Content | New questions | Size | Depends on |
 |---|---|---|---|---|
-| **1. Customer Engagement as tiles** | one chapter per Segment, four tiles opening today's sections; layout only (doc 47, section 3, step one) (built 2026-11-12); the page follows the Foundation: suggested channels by stage, a suggested relationship type and proposed Demand rows (built 2026-11-12, doc 47, section 3; owner, 2026-11-12 16:19); the delivery check stays as it is: page 3's Delivery dialog owns it at the normal level of sales, and page 5's busiest-month view joins the Offering Economics card in phase 7 (doc 47, section 2; owner, 2026-11-12 15:54); the folded-funnel documentation fix (done 2026-11-12, PR #32) | none | L | nothing |
+| **1. Customer Engagement as tiles** | one chapter per Segment, four tiles opening today's sections; layout only (doc 47, section 3, step one) (built 2026-11-12); the page follows the Foundation: suggested channels by stage, a suggested relationship type and proposed Demand rows (built 2026-11-12, doc 47, section 3; owner, 2026-11-12 16:19); the delivery check stays as it is: Capacity & Delivery owns it at the normal level of sales, and the busiest-month view of Financials' Delivery Check joins the Offering Economics card in phase 7 (doc 47, section 2; owner, 2026-11-12 15:54); the folded-funnel documentation fix (done 2026-11-12, PR #32) | none | L | nothing |
 | **2. Strategy reads the Business** | SW1; the SWOT suggestions, priority, reminder (the market's Opportunity and Threat starts built 2026-11-17, 2.3); the Current Situation's new lines; Theme order and the balance check; Metric "Linked figure"; Roadmap markers. It reads today's financial calculations as they stand | SW1 | L | phase 1 (one folder, one branch at a time) |
 | **3. Direction** | PB7, PB8; SC1 to SC3 and the Compass draft; Goal, Objective, Initiative suggestions; the skill areas (doc 28, 9.3) | PB7, PB8, SC1 to SC3 (+ C1, W1 to W3, C4) | L | phase 2 |
 | **4. Ambassador** | the Values migration to `{ id, text }` first (with its test); BA1 to BA4, BA6 to BA9 with the drafts; Style suggestions | BA1 to BA4, BA6 to BA9 | M | D4 |
 | **5. Journey rebuild** | the stage-first Journey, the channel card with J1 and J2, the goals reading Demand, cost per customer (the suggested channels, the relationship type suggestion and the Demand rows are built in phase 1) | J1, J2 | L | the stage card prototype; phase 1 |
 | **6. Initiatives and Activities** | an Initiative linked to a Page 3 Activity; IN5 | none | L | phase 3 |
-| **7. Financials** | In this order (doc 48, section 11). **Layout built 2026-11-17:** the two pages' order and their chapters as tiles (doc 48, sections 1, 2 and 11); the questions and the Offering Economics card are next. **(a) Revenue & Pricing first:** the price with RV1, the revenue streams, the Offering Economics card and its signals, and the two pricing questions: O19 and RV1 asked in the Revenue & Pricing section beside the price, K15 asked on the Competitor card and shown there as a record (doc 48, section 12; owner, 2026-11-17 07:16: "Yes to all"); C1, the fees on a price including VAT; O14's tiers and add-on stream and D3's seasons wait here too (doc 48, section 11; 2026-11-17). **(b) Then Costs, Funding & Position:** Costs, Funding Need (net of revenue; the read forward from page 5 is gone), Capital & Funding with FN1, Financial Position, then Break-even and the Stress Test. With them: Financial Foundation as tiles (the parked branch `feat/financial-foundation-tiles`, commit 49851b38, to be rebased); the review in the Library proposal "2026-11-12-financial-pages-one-owner-per-fact" (decisions D1 to D6 open); the Inventory's IN1 to IN4 and IN6 (IN6 in that proposal) | RV1, FN1, K15, O19 | L | phase 1 |
+| **7. Financials** | In this order (doc 48, section 11). **Layout built:** the sections' order and their tiles (2026-11-17), one page, Financials (2026-11-19), and one chapter, Financial Foundation, of six Master Tiles: Revenue Streams, Costs, Capital & Funding, Financial Position (holding the Funding Need), Break-Even, Sustainability (2026-11-20; doc 48, sections 1, 2 and 11); the questions and the Offering Economics card are next. **(a) Revenue & Pricing first:** the price with RV1, the revenue streams, the Offering Economics card and its signals, and the two pricing questions: O19 and RV1 asked in the Revenue & Pricing section beside the price, K15 asked on the Competitor card and shown there as a record (doc 48, section 12; owner, 2026-11-17 07:16: "Yes to all"); the fee on a VAT-inclusive price (a calculation, named without a code: C1 is the founder's skill area, doc 28, 9.3); O14's tiers and add-on stream and D3's seasons wait here too (doc 48, section 11; 2026-11-17). **(b) Then Costs, Funding & Position:** Costs, Capital & Funding with FN1, Financial Position with the Funding Need (net of revenue, read from Revenue & Pricing before it), then Break-Even and Sustainability with the Stress Test. With them: the review in the Library proposal "2026-11-12-financial-pages-one-owner-per-fact" (decisions D1 to D6 open); the Inventory's IN1 to IN4 and IN6 (IN6 in that proposal) | RV1, FN1, K15, O19 | L | phase 1 |
 
 The financials come last (owner, Thanos, 2026-11-12 15:18: "I think it is better to rearrange the working sequence, and place the financials for later").
 
@@ -296,5 +296,7 @@ Asked by the owner (the round of 2026-11-19 21:44 UTC+2: "P1–P8 review after c
 | P6 | SWOT | The Vision at the top of the SWOT dialog, as its aim | No | Yes | None |
 | P7 | Strategic Compass | SC3 (which Segment first), then SC2, then SC1 | No: SC1, SC2, SC3 | Yes | None; the Compass draft already reads SC3 first in its sentence |
 | P8 | Strategic Compass | Each Segment's point of difference (K14) as a record under SC1 | In part: the Compass draft says K14 ("and stand out for ...") | Yes | None |
+
+**Built 2026-11-20** (owner, 12:49 UTC+2: "review the 5 proposals, update them if it is required, and proceed to changes"): P1 (the Vision's choices above its text, with "Add a draft" writing the Business Plan's sentence), P2 (PB8 before PB7), P4 (BA1's "i" texts in Aaker's facet words: Sincerity down-to-earth, honest, wholesome and cheerful; Excitement daring, spirited, imaginative and up-to-date; Competence reliable, intelligent and successful; Sophistication upper-class and charming; Ruggedness outdoorsy and tough; Aaker, 1997), P6 (the Vision in a band at the top of the SWOT dialog, shown, its "i" the SWOT's aim), P7 (SC3, then SC2, then SC1) and P8 (under SC1, each Segment's point of difference: "[Segment] stands out for [K14 phrases].", read from the Competitors' Differentiation). P5 needs nothing built: the tile order stands. **P3 waits for the owner**: PB9's answer has no reader in the docs yet, and a question nothing reads fails the purpose test (doc 27, section 1).
 
 None of the eight depends on Financials, the Profile pattern, the removed personal-details question or the US states. Two need their words updated before they are built (P4, P5); the owner decides which are built.

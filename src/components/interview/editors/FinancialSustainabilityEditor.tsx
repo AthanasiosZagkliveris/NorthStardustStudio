@@ -5,7 +5,9 @@ import { numberStep } from "./BusinessEngagementModel.ts";
 import { countedCapability } from "../../../framework/engine/CardCompleteness.ts";
 import TextBox from "../../controls/TextBox.tsx";
 import NumberCell from "../../controls/NumberCell.tsx";
-import { type CSSProperties, type ReactNode, useSyncExternalStore } from "react";
+import { type CSSProperties, type ReactNode, useState, useSyncExternalStore } from "react";
+import FoldList from "../fields/FoldList.tsx";
+import { toggledIn } from "../fields/toggledIn.ts";
 import { JOINED_CHAPTER_KEY, useJoinedChapter } from "../tiles/joinedChapter.ts";
 import CardShell from "../cards/CardShell.tsx";
 import SectionTiles, { DialogHeading, stackedFace, type FaceRow, type SectionTile } from "../tiles/SectionTiles.tsx";
@@ -122,6 +124,9 @@ export default function FinancialSustainabilityEditor({
     openingDate = ""
 
 }: FinancialSustainabilityEditorProps) {
+
+    // (The streams whose Volume from Each Month the founder folded or unfolded: kept while the page is open, never saved.)
+    const [volumeFolds, setVolumeFolds] = useState<ReadonlySet<string>>(() => new Set());
 
     // (On Financials, one chapter: the tiles Costs, Funding & Position hands it, drawn again when they change; joinedChapter.ts.)
     const joined = useJoinedChapter();
@@ -504,17 +509,14 @@ export default function FinancialSustainabilityEditor({
         const splitPayment = timing === "split" || timing === "milestone";
         const delayedPayment = splitPayment || timing === "completion";
 
-        // (P7 (owner, 2026-11-18 03:01 and 03:08): what the Segment's competitors charge for a similar offer, from their K15 ranges, last in the Price's "i";
-        // nothing is written into the price, and it is never compared with it.)
+        // (THE COMPETITORS' RANGE BESIDE THE PRICE (P7, owner, 2026-11-18 03:01 and 03:08; on the card since 2026-11-20, owner 12:49 UTC+2, "proceed"): what the
+        // Segment's competitors charge for a similar offer, from their K15 ranges, a line under the price; nothing is written into the price, and it is never
+        // compared with it (doc 48, section 12.2).)
+        const competitorsSegment = businessFoundationSegments(foundation).find(entry => entry.offerings.some(offering => offering.id === stream.offeringId));
+        const competitorsRange = competitorsSegment ? competitorsPriceRange(competitorsSegment.competitors) : null;
         const groups: { key: string; title: string; info?: InfoPoint[]; body: ReactNode }[] = [
             {
-                key: "price", title: "Price", info: (() => {
-                        const segment = businessFoundationSegments(foundation).find(entry => entry.offerings.some(offering => offering.id === stream.offeringId));
-                        const range = segment ? competitorsPriceRange(segment.competitors) : null;
-                        return range
-                            ? [...STREAM_HELP.price, "Your competitors charge about " + format(range.low) + (range.high > range.low ? " to " + format(range.high) : "") + " for a similar offer (their cards on Foundation, What do they charge?)."]
-                            : STREAM_HELP.price;
-                    })(),
+                key: "price", title: "Price", info: STREAM_HELP.price,
                 body: (
                     <>
                 <div className="financial-inline-grid financial-stream-grid">
@@ -543,15 +545,30 @@ export default function FinancialSustainabilityEditor({
 
                 </div>
 
+                {competitorsRange && (
+                    <p className="financial-muted financial-inline-note">
+                        Your competitors charge about {format(competitorsRange.low)}{competitorsRange.high > competitorsRange.low ? " to " + format(competitorsRange.high) : ""} for a similar offer.
+                    </p>
+                )}
+
                 {/* How customers buy is said once, on Customer
                     Engagement; a charge that disagrees counts the
                     expected sales as the wrong thing. */}
                 {(demand[stream.offeringId]?.sources.length ?? 0) > 0 && stream.frequency !== "" &&
                     demand[stream.offeringId].recurring !== recurring && (
+                    // (ONE CLICK TO MATCH (owner, 2026-11-20 12:49 UTC+2, "proceed"): the note says how customers buy, and its link charges the stream to match.)
                     <p className="financial-muted financial-mismatch" role="note">
                         {recurring
-                            ? "On Customer Engagement, customers buy this Offering one sale at a time, but it is charged every period here: its expected sales would be counted as active clients. Charge it per sale or per project, or change how customers buy."
-                            : "On Customer Engagement, customers buy this Offering every month, but it is charged once here: its active clients would be counted as sales a month. Charge it Monthly, Quarterly or Annually, or change how customers buy."}
+                            ? "On Customer Engagement, customers buy this Offering one sale at a time. Charged per sale, its expected sales count as sales. "
+                            : "On Customer Engagement, customers buy this Offering every month. Charged monthly, its active clients count as clients each month. "}
+                        <TextLink
+                            type="button"
+                            className="business-engagement-link"
+                            disabled={disabled}
+                            onClick={() => changeStream(stream.id, { frequency: recurring ? "per-sale" : "monthly" })}
+                        >
+                            {recurring ? "Charge it per sale" : "Charge it monthly"}
+                        </TextLink>
                     </p>
                 )}
                     </>
@@ -629,8 +646,16 @@ export default function FinancialSustainabilityEditor({
                     )}
 
                 </div>
+                {/* (VOLUME FROM EACH MONTH FOLDS (owner, 2026-11-20 12:49 UTC+2, "proceed"): under Sales Volume, the one fold of a card's lists (FoldList), its count
+                    beside it; open while it holds no month yet, so its "+ Month" shows.) */}
                 {stream.development === "detailed" && (
-                    <BusinessField label="Volume from Each Month">
+                    <FoldList
+                        label="Volume from Each Month"
+                        name={"Volume from Each Month of " + what}
+                        count={stream.detailed.length}
+                        open={(stream.detailed.length === 0) !== volumeFolds.has(stream.id)}
+                        onToggle={() => setVolumeFolds(current => toggledIn(current, stream.id))}
+                    >
                         <div className="financial-schedule">
                             {stream.detailed.map((item, position) => (
                                 <div className="financial-schedule-row" key={item.id}>
@@ -672,7 +697,7 @@ export default function FinancialSustainabilityEditor({
                             />
                             <span className="financial-muted">Each volume holds until the next month listed.</span>
                         </div>
-                    </BusinessField>
+                    </FoldList>
                 )}
 
                     </>

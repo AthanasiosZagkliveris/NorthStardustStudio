@@ -385,3 +385,55 @@ describe("Financials' chapters", () => {
     });
 
 });
+
+/* THE REVENUE CARD, 2026-11-20 (owner, 12:49 UTC+2: "proceed to changes"; doc 48, sections 8 and 12.2): the competitors' range under the price, Volume from
+   Each Month folded under Sales Volume, and the one click that charges a stream as its customers buy. */
+describe("a revenue stream's card, 2026-11-20", () => {
+
+    const foundation = {
+        segments: [{
+            offerings: [{ id: "offering-1", name: "Offering One" }],
+            competitors: [{ id: "c1", name: "Rival", type: "direct", questions: { k15: ["40", "90"] } }]
+        }]
+    };
+
+    function card(stream: Record<string, unknown>, engagement?: unknown, onChange: (next: unknown) => void = () => {}) {
+        render(
+            <FinancialSustainabilityEditor
+                value={asFinancialSustainabilityValue({ streams: [{ offeringId: "offering-1", ...stream }] })}
+                foundation={foundation}
+                engagement={engagement}
+                onChange={onChange}
+            />
+        );
+        openTile("Revenue Streams");
+        openStream(1);
+        return document.querySelector(".financial-stream-floating")!;
+    }
+
+    it("says what the competitors charge under the price, writing nothing into it", () => {
+        const shown = card({ price: "" });
+        expect(shown.textContent).toContain("Your competitors charge about");
+        expect(shown.textContent).toMatch(/40.*to.*90/);
+    });
+
+    it("folds Volume from Each Month, open while it holds no month, with its count", () => {
+        const empty = card({ development: "detailed", detailed: [] });
+        expect(empty.querySelector(".financial-schedule")).not.toBeNull();
+        cleanup();
+        const listed = card({ development: "detailed", detailed: [{ id: "d1", month: "", volume: "4" }] });
+        expect(listed.querySelector(".financial-schedule")).toBeNull();
+        fireEvent.click(screen.getByRole("button", { name: /Maximise Volume from Each Month/ }));
+        expect(document.querySelector(".financial-stream-floating .financial-schedule")).not.toBeNull();
+    });
+
+    it("charges a stream as its customers buy, in one click", () => {
+        let saved: unknown = null;
+        const engagement = { demand: { "offering-1": { recurring: true, sources: [{ id: "s1", kind: "visitors", volume: "100", rate: "10" }] } } };
+        card({ frequency: "per-sale" }, engagement, next => { saved = next; });
+        const fix = screen.getByRole("button", { name: "Charge it monthly" });
+        fireEvent.click(fix);
+        expect(JSON.stringify(saved)).toContain("\"frequency\":\"monthly\"");
+    });
+
+});

@@ -410,7 +410,7 @@ export default function GlobalSettings() {
 
                 <section className="settings-section" aria-label="Pay & tax">
                     {sectionTitle("Pay & tax")}
-                    {figureField("Employer on-cost coefficient", "Added to the gross salaries, for the country. It differs by country.", settings.onCostRate, (next) => change({ onCostRate: next }), NUMBER_LIMITS.percent, "%")}
+                    {figureField("Employer on-cost coefficient", "Added to the gross salaries, for the country. It differs by country." + (legalEntity.organisation.country === "US" ? " In the United States it includes your state's unemployment insurance rate, which your state's agency gives you. Source: U.S. Department of Labor, Contacts for State UI Tax Information and Assistance, https://oui.doleta.gov/unemploy/agencies.asp" : ""), settings.onCostRate, (next) => change({ onCostRate: next }), NUMBER_LIMITS.percent, "%")}
                     {figureField("Insurance per employee", "An amount a month, for key-person and health cover.", settings.insurancePerEmployee, (next) => change({ insurancePerEmployee: next }), NUMBER_LIMITS.money)}
                 </section>
 
@@ -606,7 +606,7 @@ export default function GlobalSettings() {
 
                 <section className="settings-section" aria-label="Reserve">
                     {sectionTitle("Reserve")}
-                    {figureField("Startup Contingency Fund", "A share of the Total Pre-operational Budget, 10 to 15%. It is held when operations start.", settings.startupContingencyRate, (next) => change({ startupContingencyRate: next }), NUMBER_LIMITS.percent, "%")}
+                    {figureField("Startup Contingency Fund", "A share of the Total Pre-operational Budget, usually 10 to 20%. It is held when operations start. Source: NYU Entrepreneurship, The Runway Equation (2025).", settings.startupContingencyRate, (next) => change({ startupContingencyRate: next }), NUMBER_LIMITS.percent, "%")}
                     {figureField("Operational Contingency Fund", "A share of a month's OpEx, 3 to 5%, set aside each month after the launch until the target is reached. A cash set-aside, held as savings.", settings.operationalContingencyRate, (next) => change({ operationalContingencyRate: next }), NUMBER_LIMITS.percent, "%")}
                     {figureField("Target operating reserve", "Months of OpEx the Operational Contingency Fund builds up to. 3 by default; an investor may ask for 6.", settings.targetReserveMonths, (next) => change({ targetReserveMonths: next }), NUMBER_LIMITS.months, "months")}
                 </section>

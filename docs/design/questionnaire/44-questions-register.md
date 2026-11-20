@@ -1139,7 +1139,7 @@ Registered before they are built, so their codes are fixed (the owner's approved
 | PB8 | Where will your customers be? | Identity, section 1, `visionReach` | built 2026-11-19 (`VisionChoices.ts`) | doc 45, 3.8 |
 | BA1 | Which character fits your Ambassador best? | Brand, `ambassador.character` | built 2026-11-19 (`AmbassadorChoices.ts`) | doc 46, 2 |
 | BA2 | How does your Ambassador dress? | Brand, `ambassador.dress` | built 2026-11-19 (`AmbassadorChoices.ts`) | doc 46, 2 |
-| BA3 | Where would people meet your Ambassador? | Brand, `ambassador.setting` | built 2026-11-19 (`AmbassadorChoices.ts`) | doc 46, 2 |
+| BA3 | What surroundings suit your Ambassador? | Brand, `ambassador.setting` | built 2026-11-19 (`AmbassadorChoices.ts`) | doc 46, 2 |
 | BA4 | How does your Ambassador come across? | Brand, `ambassador.energy`, `ambassador.expression` | built 2026-11-19 (`AmbassadorChoices.ts`) | doc 46, 2 |
 | BA6 | What tone does your Ambassador use? | Brand, `ambassador.tone` | built 2026-11-19 (`AmbassadorChoices.ts`) | doc 46, 2 |
 | BA7 | Which words suit your customers? | Brand, `ambassador.words` | built 2026-11-19 (`AmbassadorChoices.ts`) | doc 46, 2 |
@@ -1165,5 +1165,5 @@ Registered before they are built, so their codes are fixed (the owner's approved
 | Competitor | 12 | 0 | 3 |
 | Value Proposition | 0 | 0 | 0 |
 | Offering | 19 | 1 | 4 |
-| Reserved (Purpose & Beliefs, Ambassador, SWOT, Compass, Legal facts) | 16 | 6 | 2 |
+| Reserved (Purpose & Beliefs, Ambassador, SWOT, Compass, Legal facts, Financials) | 16 | 6 | 2 |
 | **All** | **127** | **13** | **25** |

@@ -59,7 +59,7 @@ export interface GlobalSettingsValue {
     amortisation: Record<string, string>;
     /** Months of OpEx the Operational Contingency Fund builds up to. */
     targetReserveMonths: string;
-    /** The Startup Contingency Fund, a percentage (10 to 15) of the Total Pre-operational Budget. */
+    /** The Startup Contingency Fund, a percentage (usually 10 to 20: NYU Entrepreneurship, The Runway Equation, 2025) of the Total Pre-operational Budget. */
     startupContingencyRate: string;
     /** The Operational Contingency Fund: the percentage (3 to 5) of a month's OpEx set aside each month, until the target is reached. */
     operationalContingencyRate: string;

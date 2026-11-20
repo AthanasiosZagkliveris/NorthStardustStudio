@@ -1,13 +1,13 @@
 # Business System — Page 5: Costs, Funding & Position
 
-**Moved, 2026-11-17 (doc 48, section 11; owner, 2026-11-17 07:36):** this page was Page 4, "Financial Foundation". It is Page 5 now, Costs, Funding & Position, so each page reads only the pages before it: its Funding Need reads revenue from Page 4, Revenue & Pricing. Its answer moved once to Section 5 (`storageMigrations.swapFinancialPages`), every key inside it as it was. It is drawn as two chapters: **Financial Foundation** (Costs, Funding Need, Capital & Funding, Financial Position; doc 48, section 1) and, beside it, **Break Even** (Break-Even Point, Break-Even Time, Sustainability, Stress Test; doc 48, section 2), the Break Even blocks read from Page 4's answer and drawn by its editor, nothing stored here. Where this specification says "Page 4" for itself, read Page 5.
+**Moved, 2026-11-17 (doc 48, section 11; owner, 2026-11-17 07:36):** this page was Page 4, "Financial Foundation". It is Page 5 now, Costs, Funding & Position, so each page reads only the pages before it: its Funding Need reads revenue from Page 4, Revenue & Pricing. Its answer moved once to Section 5 (`storageMigrations.swapFinancialPages`), every key inside it as it was. Its tiles stand in Financials' one chapter, Financial Foundation (the next paragraph); the Break Even blocks are read from Section 4's answer and drawn by its editor, nothing stored here. Where this specification says "Page 4" for itself, read Page 5.
 
-**One page, Financials, 2026-11-19 (the owner's approved plan of 2026-11-18, step 1; doc 48, section 11):** this section is drawn on one page with Section 4, Revenue & Pricing: the pages rail's "4. Financials" (`PageGroups.ts`), the title "4. Financials" and the plan's months. Since 2026-11-20 its editor draws no frame and hands its three tiles to the page's one chapter, **Financial Foundation** (owner, 02:11 UTC+2; doc 48, section 11), after Revenue Streams. Before that it drew the page's second chapter, **Financial Foundation**: Costs, Capital & Funding and Financial Position (the Funding Need inside it). The Break Even tiles stand in the first chapter, Revenue & Break Even, drawn by Section 4's editor. The section keeps its number, its title and its saved answer; nothing moved. A note or a link to this section opens Financials.
+**One page, Financials, 2026-11-19 (the owner's approved plan of 2026-11-18, step 1; doc 48, section 11):** this section is drawn on one page with Section 4, Revenue & Pricing: the pages rail's "3. Financials" (`PageGroups.ts`), the title "3. Financials" and the plan's months. Since 2026-11-20 its editor draws no frame and hands its three tiles to the page's one chapter, **Financial Foundation** (owner, 02:11 UTC+2; doc 48, section 11), after Revenue Streams. Before that it drew the page's second chapter, **Financial Foundation**: Costs, Capital & Funding and Financial Position (the Funding Need inside it). The Break Even tiles stand in the first chapter, Revenue & Break Even, drawn by Section 4's editor. The section keeps its number, its title and its saved answer; nothing moved. A note or a link to this section opens Financials.
 
-Status: **specification**, written 2026-09-27, updated 2026-11-19. The requirement as written (sections 1 to 29) is preceded by "As built", which wins where they differ; section 30 gives the rules of the cost nature, the funds and the scheduling.
+Status: **specification**, written 2026-09-27, updated 2026-11-20. The requirement as written (sections 1 to 29) is preceded by "As built", which wins where they differ; section 30 gives the rules of the cost nature, the funds and the scheduling.
 
-> **3. Business System — Section 5 of 5** (Page 4 until 2026-11-17), **drawn on Page 4 of 4, Financials, since 2026-11-19**.
-> The first of the two Financial pages; **Page 5 — Financial Sustainability** follows it.
+> **3. Business System — Section 5 of 5** (Page 4 until 2026-11-17), **drawn on Page 3 of 3, Financials, since 2026-11-19**.
+> The second of the two Financial sections; it follows **Section 4 — Revenue & Pricing**, in Financials' one chapter, Financial Foundation.
 
 ## Contents
 
@@ -58,9 +58,9 @@ Status: **specification**, written 2026-09-27, updated 2026-11-19. The requireme
 
 ## As built
 
-**The page as tiles (2026-11-12, doc 48, section 1).** The page is one chapter, "Financial Foundation", standing at the left at half width as Strategy's one chapter does (`strategy-single-frame`), of four Master Tiles: Costs, Funding Need, Capital & Funding, Financial Position. Each tile opens its section, as described below, in a dialog; the section's help (its instructions and its "i") is the "i" beside the dialog's heading. The faces: Costs, the Launch budget, the running costs a month and the cost of each sale; Funding Need, Establishment, Operating and Offering with their amounts; Capital & Funding, the sources by status (a count each); Financial Position, the Funding Gap, or Covered with the Financial Runway. The plan's months and currency stay in the page title; the plan's settings, the VAT basis among them, stay on the Global Settings screen; the notes on a missing currency or Offerings stand at the head of the Costs dialog. No field, calculation or saved key changed.
+**The section as tiles (doc 48, sections 1 and 11).** Section 5 hands three Master Tiles to Financials' one chapter, Financial Foundation, after Revenue Streams: Costs, Capital & Funding and Financial Position, the Funding Need inside Financial Position (owner, 2026-11-18 16:55). Each tile opens its section, as described below, in a dialog; the section's help (its instructions and its "i") is the "i" beside the dialog's heading. The faces: Costs, the Launch budget, the running costs a month and the cost of each sale; Capital & Funding, the sources by status (a count each); Financial Position, the Funding Gap, or Covered with the Financial Runway, and the Total Funding Need; its dialog holds the Funding Need's blocks (Establishment, Operating and Offering with their amounts) under their band. The plan's months and currency stay in the page title; the plan's settings, the VAT basis among them, stay on the Global Settings screen; the notes on a missing currency or Offerings stand at the head of the Costs dialog. No field, calculation or saved key changed.
 
-**The page and the model it shares with Page 5.** Page 4 is a Structure of its own, `Financial Foundation` (editor `FinancialFoundationEditor`); Page 5 is `Financial Sustainability`. Every calculation on either page lives in one module of pure functions, `src/framework/engine/FinancialModel.ts`, tested in `FinancialModel.test.ts` against the specifications' own worked examples. The two editors share their month field, figure tiles, cash timeline chart and signal list (`FinancialParts.tsx`). The four sections are folding cards numbered 1 to 4 (`**Numbering:** Nested`); they are not tiles yet (document 5, section 5.3).
+**The section and the model it shares with Section 4.** Section 5 is a Structure of its own, `Financial Foundation` (editor `FinancialFoundationEditor`); Section 4 is `Financial Sustainability`. Every calculation on either page lives in one module of pure functions, `src/framework/engine/FinancialModel.ts`, tested in `FinancialModel.test.ts` against the specifications' own worked examples. The two editors share their month field, figure tiles, cash timeline chart and signal list (`FinancialParts.tsx`). The four sections (`**Numbering:** Nested`) open from the three tiles above, the Funding Need inside Financial Position.
 
 - **Time.** The month the plan starts is never typed: it is worked out from the Opening Date (set on the Identity System's Organisation tile) and the earliest cost, a card's or a legal expense's. That is Month 1; the plan length is set in the Global Settings, and every date on either page is a month picked within it.
 - **Currency.** Every total is in the organisation's currency (the Legal Entity country's). A cost priced in another currency on Page 3 is listed, flagged "Other currency: not counted", and left out of every total: there are no exchange rates to convert it.
@@ -146,6 +146,8 @@ Do not turn this page into professional accounting or treasury software.
 ---
 
 # 3. Page Structure
+
+**As built (doc 48, section 11):** the four sections are three Master Tiles of Financials' one chapter, Financial Foundation, after Revenue Streams: Costs, Capital & Funding, Financial Position (the Funding Need inside it).
 
 The page contains four sequential sections:
 
@@ -786,7 +788,7 @@ Capital and funding are **not revenue** and should not be used to artificially i
 
 # 28. Page layout
 
-Use the existing North Stardust visual language and progressive structure. The page is headed "3. Business System" and "Financial Foundation"; the four sections follow one under another in the order of the logic (1. Costs, 2. Funding Need, 3. Capital & Funding, 4. Financial Position), each a folding card with its "i". What each holds, as built, is the "As built" table at the top; the funds that stand under the Funding Need are section 30.3.
+Use the existing North Stardust visual language and progressive structure. The page is headed "3. Business System" and "3. Financials"; the four sections stand in the order of the logic (1. Costs, 2. Funding Need, 3. Capital & Funding, 4. Financial Position) as three Master Tiles of Financials' one chapter, Financial Foundation, after Revenue Streams: Costs, Capital & Funding and Financial Position, the Funding Need inside Financial Position, each tile with its "i". What each holds, as built, is the "As built" table at the top; the funds that stand under the Funding Need are section 30.3.
 
 # 29. Scope Boundary
 

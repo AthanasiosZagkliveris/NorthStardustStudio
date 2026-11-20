@@ -17,7 +17,7 @@ import { settingNumber, targetReserveMonthsOf, type GlobalSettingsValue } from "
 
     - F1 The Total Pre-operational Budget: CapEx + Startup Expenses + Pre-Operating Expenses, everything dated before the Opening Date except opening stock.
       It is the base of the contingency.
-    - F2 The Startup Contingency Fund: 10 to 15% of that budget, already held when operations start.
+    - F2 The Startup Contingency Fund: usually 10 to 20% of that budget, already held when operations start.
     - F6 Cash to raise before the opening: the budget + the Startup Contingency + the cash for opening inventory, which is added after the contingency
       calculation as a flat line outside its base.
     - F3 The Operational Contingency Fund: after the launch, each month 3 to 5% of OpEx is added on top of the startup fund until the total equals the target
