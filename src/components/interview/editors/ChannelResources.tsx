@@ -1,4 +1,5 @@
 import ChipOpen from "../../controls/ChipOpen.tsx";
+import InfoNote, { InfoText } from "../fields/InfoNote.tsx";
 import SuggestionOption from "../../controls/SuggestionOption.tsx";
 import FieldLabel from "../../controls/FieldLabel.tsx";
 import TextBox from "../../controls/TextBox.tsx";
@@ -345,7 +346,13 @@ export default function ChannelResources(props: ChannelResourcesProps) {
                 </ul>
             )}
 
-            {summary && !isolating && <p className="business-channel-cost-summary">{summary}</p>}
+            {summary && !isolating && (
+                <p className="business-channel-cost-summary">
+                    {shared.length > 0
+                        ? <InfoText text={summary}><InfoNote label="Costs" points={["Part of it is shared with other channels: each shares the card's cost."]} /></InfoText>
+                        : summary}
+                </p>
+            )}
 
             {/* ONE BUTTON for every way of adding an expense: a blank one, every typical cost of the channel at once, one typical cost, or a card the company already has
                 (Link existing). The menu stays open for the next, and closes with its own "Done". */}

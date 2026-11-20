@@ -460,9 +460,10 @@ export function brandStyleBlocks(value: unknown): ExportBlock[] {
             .filter(entry => entry.typeface.enabled)
             .map(({ typeface, slot }) => [slot, typeface.font, typeface.purpose])))),
 
-        ...titled("Text Hierarchy", table(["Level", "Size"], answeredRows(BRAND_HIERARCHY_LEVELS
+        // (A document has no "i": each level's role in a column of its own, never in brackets; owner, 2026-11-20 18:35 UTC+2.)
+        ...titled("Text Hierarchy", table(["Level", "Role", "Size"], answeredRows(BRAND_HIERARCHY_LEVELS
             .filter(level => style.hierarchy[level.id]?.enabled)
-            .map(level => [level.label, text(style.hierarchy[level.id].size) ? style.hierarchy[level.id].size + " px" : ""])))),
+            .map(level => [level.label, level.role, text(style.hierarchy[level.id].size) ? style.hierarchy[level.id].size + " px" : ""])))),
 
         ...brandInventoryBlocks(style.inventory)
     ];

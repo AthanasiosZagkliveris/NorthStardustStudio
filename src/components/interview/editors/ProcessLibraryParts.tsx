@@ -1,6 +1,7 @@
 /* Part of ProcessLibraryEditor.tsx (moved out as it was, 2026-11-11: the owner, "can you do them all?"; ProcessLibraryEditor.tsx imports it). */
 
 import { Fragment, type MouseEvent, useState } from "react";
+import InfoNote from "../fields/InfoNote.tsx";
 import NavArrow from "../../controls/NavArrow.tsx";
 import AddButton from "../../controls/AddButton.tsx";
 import RemoveButton from "../../controls/RemoveButton.tsx";
@@ -858,8 +859,10 @@ export function ProcessCard({
                 <AddButton className="process-library-add-sop-link"
                     onClick={() => onChange({ ...process, sops: [...sops, createBlankProcessSop()] })}
                     disabled={disabled}>
-                    + Add SOP (this process has more than one procedure)
+                    + Add SOP
                 </AddButton>
+                {/* (When to add one in its "i", never in brackets on the button: owner, 2026-11-20 18:35 UTC+2.) */}
+                <InfoNote label="Add SOP" points={["Add one where this process has more than one procedure."]} />
 
             </div>
 

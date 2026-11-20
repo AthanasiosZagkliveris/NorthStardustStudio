@@ -26,7 +26,7 @@ exports[`Lumen & Loom Studio > Brand System › 1. Ambassador > tile brand-style
 `;
 
 exports[`Lumen & Loom Studio > Brand System › 1. Ambassador > tile brand-style-typography 1`] = `
-"Typography & Text HierarchyTypographyiFrauncesPrimaryAaInterSecondaryAaCaveatOptionalAaText HierarchyiH1 (Title)pxH2 (Section)pxH3 (Subsection)pxBody TextpxCaptions & Metadata /InterfacepxBack‹›Back
+"Typography & Text HierarchyTypographyiFrauncesPrimaryAaInterSecondaryAaCaveatOptionalAaText HierarchyiH1pxH2pxH3pxBody TextpxCaptions & Metadata /InterfacepxBack‹›Back
 [fields] 48 | 32 | 24 | 18 | 14"
 `;
 
@@ -71,7 +71,7 @@ exports[`Lumen & Loom Studio > Brand System › 2. Style > tile brand-style-colo
 `;
 
 exports[`Lumen & Loom Studio > Brand System › 2. Style > tile brand-style-typography 1`] = `
-"Typography & Text HierarchyTypographyiFrauncesPrimaryAaInterSecondaryAaCaveatOptionalAaText HierarchyiH1 (Title)pxH2 (Section)pxH3 (Subsection)pxBody TextpxCaptions & Metadata /InterfacepxBack‹›Back
+"Typography & Text HierarchyTypographyiFrauncesPrimaryAaInterSecondaryAaCaveatOptionalAaText HierarchyiH1pxH2pxH3pxBody TextpxCaptions & Metadata /InterfacepxBack‹›Back
 [fields] 48 | 32 | 24 | 18 | 14"
 `;
 
@@ -256,7 +256,7 @@ exports[`Lumen & Loom Studio > Business System › 3. Infrastructure & Capabilit
 `;
 
 exports[`Lumen & Loom Studio > Business System › 3. Infrastructure & Capability > tile delivery 1`] = `
-"Capacity & DeliveryCapacity & Deliveryi1. Homeware CollectionPer unit5.3 h a unit2. Weaving WorkshopsPer unit4 h a session3. Bespoke CommissionsPer unit32 h a unit4. Trade CollectionPer unit4 h a unitCapacityFounders' delivery capacity: about 216 hours a month.iMaya Chen: about 128 hours a monthOliver Grant: about 48 hours a monthPriya Shah: about 40 hours a monthMaya Chen's month at the expected salesDelivery hours128 h a monthHomeware Collection (10 a month)−35 h a monthWeaving Workshops (32 a month)−12.8 h a monthBespoke Commissions (3 a month)−72 h a monthTrade Collection (3 a month)−7.7 h a monthLeft0.5 h a month100% of Maya Chen's delivery hours at the expected sales. A plan holds best at 85% or less: that leaves room for a busy week or a day off.iAt 85% of Maya Chen's hours, 3 Trade Collection orders and 1 Bespoke Commission a month, about £2,832, need more hours or help.Maya Chen passes 85% in June 2027. To have help by then, start looking by April.iOliver Grant's month at the expected salesDelivery hours48 h a monthBespoke Commissions (3 a month)−24 h a monthTrade Collection (3 a month)−1.5 h a monthLeft22.5 h a month53% of Oliver Grant's hours: room for a busy week or a day off.iPriya Shah's month at the expected salesDelivery hours40 h a monthHomeware Collection (10 a month)−17.5 h a monthTrade Collection (3 a month)−3.1 h a monthLeft19.4 h a month51% of Priya Shah's hours: room for a busy week or a day off.iFreelance weaving tutor: 3.2 h needed a month, 16 h available.Your customers buy in the evenings and at weekends: plan the delivery hours for those times.SkillsWhich skills does the business still need?iBookkeeping & taxLegal & contractsMarketing & social mediaCovered by: Oliver Grant, Maya ChenSellingDesignWebsite & technologyCovered by: Oliver GrantMaking or producingCovered by: Maya Chen, Priya Shah, FlameGuard FinishingCustomer serviceDelivery & logisticsOtherNotesA freelance e-commerce specialist covers the online shop and digital marketing for the first year while Oliver completes a digital marketing course. A retired mill production manager mentors us on sourcing and small-batch production. Hale & Co Accountants and our lawyer cover year-end accounts and legal work, and we plan to hire and train an apprentice weaver to add studio production capacity.Back‹›Back
+"Capacity & DeliveryCapacity & Deliveryi1. Homeware CollectionPer unit5.3 h a unit2. Weaving WorkshopsPer unit4 h a session3. Bespoke CommissionsPer unit32 h a unit4. Trade CollectionPer unit4 h a unitCapacityFounders' delivery capacity: about 216 hours a month.iMaya Chen: about 128 hours a monthOliver Grant: about 48 hours a monthPriya Shah: about 40 hours a monthMaya Chen's month at the expected salesDelivery hours128 h a monthHomeware Collectioni−35 h a monthWeaving Workshopsi−12.8 h a monthBespoke Commissionsi−72 h a monthTrade Collectioni−7.7 h a monthLeft0.5 h a month100% of Maya Chen's delivery hours at the expected sales. A plan holds best at 85% or less: that leaves room for a busy week or a day off.iAt 85% of Maya Chen's hours, 3 Trade Collection orders and 1 Bespoke Commission a month, about £2,832, need more hours or help.Maya Chen passes 85% in June 2027. To have help by then, start looking by April.iOliver Grant's month at the expected salesDelivery hours48 h a monthBespoke Commissionsi−24 h a monthTrade Collectioni−1.5 h a monthLeft22.5 h a month53% of Oliver Grant's hours: room for a busy week or a day off.iPriya Shah's month at the expected salesDelivery hours40 h a monthHomeware Collectioni−17.5 h a monthTrade Collectioni−3.1 h a monthLeft19.4 h a month51% of Priya Shah's hours: room for a busy week or a day off.iFreelance weaving tutor: 3.2 h needed a month, 16 h available.Your customers buy in the evenings and at weekends: plan the delivery hours for those times.SkillsWhich skills does the business still need?iBookkeeping & taxLegal & contractsMarketing & social mediaCovered by: Oliver Grant, Maya ChenSellingDesignWebsite & technologyCovered by: Oliver GrantMaking or producingCovered by: Maya Chen, Priya Shah, FlameGuard FinishingCustomer serviceDelivery & logisticsOtherNotesA freelance e-commerce specialist covers the online shop and digital marketing for the first year while Oliver completes a digital marketing course. A retired mill production manager mentors us on sourcing and small-batch production. Hale & Co Accountants and our lawyer cover year-end accounts and legal work, and we plan to hire and train an apprentice weaver to add studio production capacity.Back‹›Back
 [fields] A freelance e-commerce specialist covers the online shop and digital marketing for the first year while Oliver completes a digital marketing course. A retired mill production manager mentors us on sourcing and small-batch production. Hale & Co Accountants and our lawyer cover year-end accounts and legal work, and we plan to hire and train an apprentice weaver to add studio production capacity."
 `;
 
@@ -529,7 +529,7 @@ exports[`Lumen & Loom Studio > Operations System › 1. Handbook 1`] = `
 `;
 
 exports[`Lumen & Loom Studio > Operations System › 2. Process Library 1`] = `
-"…Saving…AutoFocusSearchWorkbookNotesSettingsLumen & Loom Studio8. Operations System2. Process LibraryQuestions• For each process, record its name, purpose, who does it, how often it happens, and its status.• A process can hold several SOPs, each broken down into its own ordered Steps -- a process withzero or one SOP shows its Steps directly; the SOP breakdown only appears once a second SOP exists.Need Help?#Process IDProcess NamePurposeProcess OwnerFrequencyStatus▾ 1-01SelectSelectDailyWeeklyBi-WeeklyMonthlyQuarterlySemi-AnnuallyAnnuallyAs NeededCustomSelectSelectActiveDraftRetired▲▼×StepsActions1▲▼×+ Add SOP (this process has more than one procedure)‹PagesIntroduction1. Handbook: not started2. Process Library: not started3. Operational Log: not started4. Roles & Responsibilities: not started›Back
+"…Saving…AutoFocusSearchWorkbookNotesSettingsLumen & Loom Studio8. Operations System2. Process LibraryQuestions• For each process, record its name, purpose, who does it, how often it happens, and its status.• A process can hold several SOPs, each broken down into its own ordered Steps -- a process withzero or one SOP shows its Steps directly; the SOP breakdown only appears once a second SOP exists.Need Help?#Process IDProcess NamePurposeProcess OwnerFrequencyStatus▾ 1-01SelectSelectDailyWeeklyBi-WeeklyMonthlyQuarterlySemi-AnnuallyAnnuallyAs NeededCustomSelectSelectActiveDraftRetired▲▼×StepsActions1▲▼×+ Add SOPi‹PagesIntroduction1. Handbook: not started2. Process Library: not started3. Operational Log: not started4. Roles & Responsibilities: not started›Back
 [fields] "
 `;
 
@@ -644,7 +644,7 @@ exports[`Quillfield Automation > Brand System › 1. Ambassador > tile brand-sty
 `;
 
 exports[`Quillfield Automation > Brand System › 1. Ambassador > tile brand-style-typography 1`] = `
-"Typography & Text HierarchyTypographyiManropePrimaryAaSource Sans 3SecondaryAa+Add CardText HierarchyiH1 (Title)pxH2 (Section)pxH3 (Subsection)pxBody TextpxCaptions & Metadata /InterfacepxBack‹›Back
+"Typography & Text HierarchyTypographyiManropePrimaryAaSource Sans 3SecondaryAa+Add CardText HierarchyiH1pxH2pxH3pxBody TextpxCaptions & Metadata /InterfacepxBack‹›Back
 [fields] 40 | 30 | 24 | 17 | 13"
 `;
 
@@ -689,7 +689,7 @@ exports[`Quillfield Automation > Brand System › 2. Style > tile brand-style-co
 `;
 
 exports[`Quillfield Automation > Brand System › 2. Style > tile brand-style-typography 1`] = `
-"Typography & Text HierarchyTypographyiManropePrimaryAaSource Sans 3SecondaryAa+Add CardText HierarchyiH1 (Title)pxH2 (Section)pxH3 (Subsection)pxBody TextpxCaptions & Metadata /InterfacepxBack‹›Back
+"Typography & Text HierarchyTypographyiManropePrimaryAaSource Sans 3SecondaryAa+Add CardText HierarchyiH1pxH2pxH3pxBody TextpxCaptions & Metadata /InterfacepxBack‹›Back
 [fields] 40 | 30 | 24 | 17 | 13"
 `;
 
@@ -804,7 +804,7 @@ exports[`Quillfield Automation > Business System › 3. Infrastructure & Capabil
 `;
 
 exports[`Quillfield Automation > Business System › 3. Infrastructure & Capability > tile delivery 1`] = `
-"Capacity & DeliveryCapacity & Deliveryi1. AI Workflow AuditPer unit15 h a unit2. Automation BuildPer unit60 h a unit3. Automation Care RetainerEvery month6 h a client a monthCapacityFounders' delivery capacity: about 96 hours a month.iJordan Ellis's month at the expected salesDelivery hours96 h a monthAutomation Care Retainer (5 clients)−30 h a monthAI Workflow Audit (1.5 a month)−22.5 h a monthAutomation Build (0.6 a month)−24 h a monthLeft19.5 h a month80% of Jordan Ellis's hours: room for a busy week or a day off.iFreelance developer: 12 h needed a month, 40 h available.SkillsWhich skills does the business still need?iBookkeeping & taxCovered by: Jordan Ellis, Accountant (CPA)Legal & contractsCovered by: Jordan Ellis, LawyerMarketing & social mediaCovered by: Jordan EllisSellingCovered by: Jordan EllisDesignWebsite & technologyMaking or producingCustomer serviceDelivery & logisticsOther1.Cover for holidays or illnessCovered by: Jordan Ellis, Lawyer, Launch web design, Accountant (CPA)NotesBookkeeping and taxes are covered by our Brooklyn CPA practice and contracts by a small-business attorney. A freelance automation specialist, trained on our templates, will cover urgent Care Retainer work when Jordan is away, and Jordan meets a SCORE mentor monthly on sales and marketing.Back‹›Back
+"Capacity & DeliveryCapacity & Deliveryi1. AI Workflow AuditPer unit15 h a unit2. Automation BuildPer unit60 h a unit3. Automation Care RetainerEvery month6 h a client a monthCapacityFounders' delivery capacity: about 96 hours a month.iJordan Ellis's month at the expected salesDelivery hours96 h a monthAutomation Care Retaineri−30 h a monthAI Workflow Auditi−22.5 h a monthAutomation Buildi−24 h a monthLeft19.5 h a month80% of Jordan Ellis's hours: room for a busy week or a day off.iFreelance developer: 12 h needed a month, 40 h available.SkillsWhich skills does the business still need?iBookkeeping & taxCovered by: Jordan Ellis, Accountant (CPA)Legal & contractsCovered by: Jordan Ellis, LawyerMarketing & social mediaCovered by: Jordan EllisSellingCovered by: Jordan EllisDesignWebsite & technologyMaking or producingCustomer serviceDelivery & logisticsOther1.Cover for holidays or illnessCovered by: Jordan Ellis, Lawyer, Launch web design, Accountant (CPA)NotesBookkeeping and taxes are covered by our Brooklyn CPA practice and contracts by a small-business attorney. A freelance automation specialist, trained on our templates, will cover urgent Care Retainer work when Jordan is away, and Jordan meets a SCORE mentor monthly on sales and marketing.Back‹›Back
 [fields] Cover for holidays or illness | Bookkeeping and taxes are covered by our Brooklyn CPA practice and contracts by a small-business attorney. A freelance automation specialist, trained on our templates, will cover urgent Care Retainer work when Jordan is away, and Jordan meets a SCORE mentor monthly on sales and marketing."
 `;
 
@@ -1077,7 +1077,7 @@ exports[`Quillfield Automation > Operations System › 1. Handbook 1`] = `
 `;
 
 exports[`Quillfield Automation > Operations System › 2. Process Library 1`] = `
-"…Saving…AutoFocusSearchWorkbookNotesSettingsQuillfield Automation8. Operations System2. Process LibraryQuestions• For each process, record its name, purpose, who does it, how often it happens, and its status.• A process can hold several SOPs, each broken down into its own ordered Steps -- a process withzero or one SOP shows its Steps directly; the SOP breakdown only appears once a second SOP exists.Need Help?#Process IDProcess NamePurposeProcess OwnerFrequencyStatus▾ 1-01SelectSelectDailyWeeklyBi-WeeklyMonthlyQuarterlySemi-AnnuallyAnnuallyAs NeededCustomSelectSelectActiveDraftRetired▲▼×StepsActions1▲▼×+ Add SOP (this process has more than one procedure)‹PagesIntroduction1. Handbook: not started2. Process Library: not started3. Operational Log: not started4. Roles & Responsibilities: not started›Back
+"…Saving…AutoFocusSearchWorkbookNotesSettingsQuillfield Automation8. Operations System2. Process LibraryQuestions• For each process, record its name, purpose, who does it, how often it happens, and its status.• A process can hold several SOPs, each broken down into its own ordered Steps -- a process withzero or one SOP shows its Steps directly; the SOP breakdown only appears once a second SOP exists.Need Help?#Process IDProcess NamePurposeProcess OwnerFrequencyStatus▾ 1-01SelectSelectDailyWeeklyBi-WeeklyMonthlyQuarterlySemi-AnnuallyAnnuallyAs NeededCustomSelectSelectActiveDraftRetired▲▼×StepsActions1▲▼×+ Add SOPi‹PagesIntroduction1. Handbook: not started2. Process Library: not started3. Operational Log: not started4. Roles & Responsibilities: not started›Back
 [fields] "
 `;
 

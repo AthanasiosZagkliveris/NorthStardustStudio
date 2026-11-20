@@ -125,13 +125,14 @@ export const BRAND_TYPEFACE_SLOTS = [
         help: "Use for specific applications where an additional typographic character is useful." }
 ] as const;
 
-/** Each level with its recommended size range: guidance, never enforced. */
+/** Each level with its recommended size range: guidance, never enforced. A heading level's role (Title, Section, Subsection) is said in the table's "i", never in
+    brackets beside its name (owner, 2026-11-20 18:35 UTC+2). */
 export const BRAND_HIERARCHY_LEVELS = [
-    { id: "h1", label: "H1 (Title)", defaultEnabled: true, dependsOn: undefined, range: "36–48" },
-    { id: "h2", label: "H2 (Section)", defaultEnabled: false, dependsOn: undefined, range: "28–36" },
-    { id: "h3", label: "H3 (Subsection)", defaultEnabled: false, dependsOn: "h2", range: "22–28" },
-    { id: "body", label: "Body Text", defaultEnabled: true, dependsOn: undefined, range: "16–18" },
-    { id: "caption", label: "Captions & Metadata / Interface", defaultEnabled: false, dependsOn: undefined, range: "12–14" }
+    { id: "h1", label: "H1", role: "Title", defaultEnabled: true, dependsOn: undefined, range: "36–48" },
+    { id: "h2", label: "H2", role: "Section", defaultEnabled: false, dependsOn: undefined, range: "28–36" },
+    { id: "h3", label: "H3", role: "Subsection", defaultEnabled: false, dependsOn: "h2", range: "22–28" },
+    { id: "body", label: "Body Text", role: "", defaultEnabled: true, dependsOn: undefined, range: "16–18" },
+    { id: "caption", label: "Captions & Metadata / Interface", role: "", defaultEnabled: false, dependsOn: undefined, range: "12–14" }
 ] as const;
 
 /**
