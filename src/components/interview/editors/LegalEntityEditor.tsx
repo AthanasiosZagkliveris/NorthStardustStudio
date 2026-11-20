@@ -22,7 +22,7 @@ import { useLegalFieldsAndSections } from "./legal/useLegalFieldsAndSections.tsx
 import { useLegalCardsAndSections } from "./legal/useLegalCardsAndSections.tsx";
 
 /**
- * The Identity System's Legal Entity page (see
+ * The Identity System's Legal Entity section (see
  * AnswerType.LegalEntity).
  *
  * Six subsections in one progressive form, running from the
@@ -221,7 +221,7 @@ export default function LegalEntityEditor(props: LegalEntityEditorProps) {
             ...entity.tax.additionalRegistrations.map(registration => entry(registration.label, registration.number))
         ].filter(text => text.length > 0);
         // THE FOUNDERS & OWNERSHIP TILE stands on 1. Definition (owner, 2026-11-09): the Definition draws it (AnswerRenderer) with this dialog
-        // (`foundersOnly`); its face is `foundersTileFace`. It is no tile of the Legal Entity page.
+        // (`foundersOnly`); its face is `foundersTileFace`. It is no tile of the Legal Entity section.
         // (The dialog holds the Ownership, with the founders' profile tiles under it; without the Founders Profile saver, the Ownership alone.)
         const foundersTile: SectionTile = {
                 id: "legal-entity-founders", title: "Founders & Ownership", large: true, rail: rail(1), anchor: "legal-section-1",

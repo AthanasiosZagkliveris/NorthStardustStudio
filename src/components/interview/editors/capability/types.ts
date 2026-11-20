@@ -44,9 +44,9 @@ export interface BusinessCapabilityEditorProps {
     legalEntityFounders?: readonly LegalEntityFounderValue[];
     /** 1. Identity System — 3. Legal Entity's expenses: shown (not opened) among the "Inventory". */
     legalExpenses?: readonly LegalEntityExpenseValue[];
-    /** Opens the Identity System's Legal Entity page (a legal expense a founder is responsible for). */
+    /** Opens the Identity System's Legal Entity section (a legal expense a founder is responsible for). */
     onOpenLegalEntity?: OpenPage;
-    /** The Legal Entity page's answer and how to save it (it belongs to the Identity System): a legal card called from this page floats here, and is edited here. */
+    /** The Legal Entity section's answer and how to save it (it belongs to the Identity System): a legal card called from this page floats here, and is edited here. */
     legalEntity?: unknown;
     onChangeLegalEntity?: (value: unknown) => void;
     legalEntityPrefill?: { organisationName: string; founderName: string };

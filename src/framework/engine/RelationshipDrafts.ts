@@ -2,7 +2,7 @@ import { relationshipTypeLabel } from "./businessFoundation/engagementReaders.ts
 import type { OfferingAnswers } from "./OfferingQuestions.ts";
 
 /*
-    A RELATIONSHIP TYPE'S DRAFTS (2.14, the second batch of the review; owner, 2026-11-18 00:46): "Add a draft" on a relationship type's card writes a starting
+    A RELATIONSHIP TYPE'S DRAFTS (2.14, the second batch of the review; owner, 2026-11-18 00:46): the draft written in by itself on a relationship type's card (useAutoDraft) is a starting
     Purpose from the type and the Offering's answers -- the help it gives after the sale (O7), how fast you reply (O16) -- and a starting Approach for each journey
     stage still empty, from the channels of that stage. As the Value Proposition's draft: the founder's words replace it.
 */

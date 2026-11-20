@@ -48,40 +48,12 @@ export const MAX_MORE_NUMBERS = 5;
 /** The longest further number (a trade mark, a licence): any characters, no more than this. */
 export const MAX_OTHER_NUMBER_LENGTH = 30;
 
-/**
- * The seven answers on this page a founder cannot be expected to
- * know cold, and the most anyone needs to be told about each (see
- * InfoNote). Three points is the cap, and most take fewer: this is
- * a footnote, not a manual.
- *
- * Each one says what the field IS. Not what it is not -- a note
- * that spends a line ruling something out has spent it on the
- * reader's wrong guess rather than on the answer -- and not which
- * answer to give, which is theirs and their jurisdiction's.
- */
-/** The four stages of the US Small Business Administration's business guide (design document 28, I8), in its order: its headings (Plan, Launch, Manage, Grow your business) said as the stage a business is in. */
-export const BUSINESS_STAGES = [
-    { id: "plan", label: "Planning" },
-    { id: "launch", label: "Launching" },
-    { id: "manage", label: "Managing" },
-    { id: "grow", label: "Growing" }
-] as const;
-
-export type CustomerType = "b2c" | "b2b" | "b2g" | "g2b" | "both" | "";
-export type MarketType = "single" | "multi" | "";
-
 /** Seller & Buyer Relationship (design document 28, 8.2): the owner's words as written, one choice. */
 export const CUSTOMER_TYPES = [
     { id: "b2c", label: "B2C (Business-to-Consumer)" },
     { id: "b2b", label: "B2B (Business-to-Business)" },
     { id: "b2g", label: "B2G (Business-to-Government)" },
     { id: "g2b", label: "G2B Context (Regulatory/Compliance)" }
-] as const;
-
-/** Market Structure: the owner's words as written, one choice. */
-export const MARKET_TYPES = [
-    { id: "single", label: "Single-sided Market" },
-    { id: "multi", label: "Multi-sided Market / Platform" }
 ] as const;
 
 /** Audience Specialisation & Scale (a business or public buyer), one choice. */
@@ -105,14 +77,6 @@ export const JURISDICTIONS = [
     { id: "regional", label: "Regional Administration" },
     { id: "central", label: "Central Government & Ministries" },
     { id: "institutional", label: "Institutional / Public Organisations" }
-] as const;
-
-/** Regulatory Intensity of the target industry (G2B context). */
-export const REGULATORY_INTENSITIES = [
-    { id: "lowreg", label: "General Commerce / Mass Market" },
-    { id: "specialized", label: "Specialised Sectors" },
-    { id: "heavy", label: "Heavily Regulated Markets" },
-    { id: "crossborder", label: "Cross-border Trade" }
 ] as const;
 
 /**
@@ -261,18 +225,6 @@ export function stageLimitLine(stage: string, limit: number | null): string {
 export function withStageLine(info: readonly InfoPoint[], line: string): InfoPoint[] {
     const sourceAt = info.findIndex(point => typeof point !== "string" && "source" in point);
     return sourceAt < 0 ? [...info, line] : [...info.slice(0, sourceAt), line, ...info.slice(sourceAt)];
-}
-
-/**
- * WHAT A STAGE LOCKS for a public buyer or the compliance context (the owner's framework, 2026-10-24): the central government and the heavily regulated markets are not open while planning
- * and launching; the beachhead (local government, general commerce) is. Returns the ids locked.
- */
-export function lockedAudience(stage: string, model: string): string[] {
-    const early = stage !== "manage" && stage !== "grow";
-    if (!early) {
-        return [];
-    }
-    return model === "b2g" ? ["central"] : model === "g2b" ? ["heavy"] : [];
 }
 
 /**

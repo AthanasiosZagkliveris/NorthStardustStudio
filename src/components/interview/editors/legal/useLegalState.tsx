@@ -138,7 +138,7 @@ export function useLegalState(props: LegalEntityEditorProps) {
     */
     const prefilled = useRef(false);
     /*
-        THE ITEMS THE LAW MAKES CERTAIN, MADE BY THE APP (doc 53, section 6, decisions 1 (a), 5 and 8; LegalStarts.ts): on the Legal Entity page itself -- not where
+        THE ITEMS THE LAW MAKES CERTAIN, MADE BY THE APP (doc 53, section 6, decisions 1 (a), 5 and 8; LegalStarts.ts): on the Legal Entity section itself -- not where
         its cards float over another page, nor the Founders' dialog --, the legal form's filings and their official fees, and the PAYE registration once anyone is
         paid, each once; one the founder removed stays removed. Dated by the registration, else the Opening Date.
     */

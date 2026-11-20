@@ -93,7 +93,7 @@ describe("sectionRailItems", () => {
         ]);
     });
 
-    it("numbers the Legal Entity page's sections on their own", () => {
+    it("numbers the Legal Entity section's sections on their own", () => {
         const answer = { type: AnswerType.LegalEntity, nestedNumbering: true } as unknown as AnswerDefinition;
         const labels = sectionRailItems(answer).map(item => item.label);
         expect(labels[0]).toBe("1. Organisation");

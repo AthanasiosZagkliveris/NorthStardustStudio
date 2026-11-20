@@ -43,7 +43,7 @@ interface FinancialSustainabilityEditorProps {
     disabled?: boolean;
     showInstructions?: boolean;
     columnsDivider?: ReactNode;
-    /** The frame's heading the page hands in ("1. Revenue & Break Even": PageGroups.ts, layout rules section 13, "A page's name in the pages rail"). */
+    /** The frame's heading the page hands in (the page's one chapter, "Financial Foundation": PageGroups.ts, `oneChapter`). */
     frameTitle?: string;
     /** Page 1, for its Offerings. */
     foundation?: unknown;
@@ -734,7 +734,7 @@ export default function FinancialSustainabilityEditor({
     }
 
 
-    /** REVENUE IN THREE PARTS (doc 48, section 2): the Revenue chapter's tiles on Revenue & Pricing -- Revenue Streams, Delivery Check, Revenue Summary. */
+    /** REVENUE (doc 48, sections 2 and 14): the Revenue Streams tile, its face and its dialog; the Delivery Check and the Revenue Summary are records of the Workbook's Financial Plan. */
     function revenueParts() {
 
 
@@ -816,10 +816,8 @@ export default function FinancialSustainabilityEditor({
     // (BREAK-EVEN & SUSTAINABILITY AND CASH FLOW ARE RECORDS: they ask nothing, and the Workbook says them -- the Business Plan's "2. Break Even" with its Stress
     // Test, the Financial Forecast's Cash-Flow Forecast with its two charts (doc 48, section 14; owner, 2026-11-20 18:35 UTC+2). The page keeps what asks.)
 
-    // (REVENUE, the chapter of Revenue & Pricing. ONE CARD (owner, 2026-11-18 10:38: "Revenue streams should be tiles. Place the Revenue Summary and Delivery Check
-    // in the same card as the Revenue Stream Tiles"): its tile opens a dialog of a tile for each stream (the dialog's card list, three in a row, each opening its
-    // stream's card floating), then the Delivery Check and the Revenue Summary under their own bands. No settings box: the plan's months are in the page title,
-    // and the currency beside every amount asked for.)
+    // (REVENUE STREAMS (owner, 2026-11-18 10:38: "Revenue streams should be tiles"): its tile opens a dialog of a tile for each stream (the dialog's card list,
+    // three in a row, each opening its stream's card floating). No settings box: the plan's months are in the page title, and the currency beside every amount.)
     const revenue = revenueParts();
     const streamCardId = (stream: RevenueStreamValue) => "revenue-stream:" + stream.id;
     const revenueTile: SectionTile = {
@@ -856,13 +854,6 @@ export default function FinancialSustainabilityEditor({
             return at < 0 ? null : <div className="column-tile-content financial-page financial-stream-floating">{streamCard(shownStreams[at], at, true)}</div>;
         }
     };
-    // (THE FIRST FRAME OF FINANCIALS (PageGroups.ts; owner, 2026-11-18, the approved plan, step 1): one chapter, Revenue & Break Even -- Revenue Streams,
-    // Break-Even, Sustainability --, beside Financial Foundation, as a frame of every page of several sections is drawn. Three Master Tiles keep their size:
-    // the 2 x 2 with its fourth place empty (layout rules section 23).)
-    // (THE ONE CHAPTER OF FINANCIALS (PageGroups.ts, `oneChapter`; owner, 2026-11-20 02:11 UTC+2: "Maybe they should all be under only one chapter."): the six Master
-    // Tiles in the order each reads only what stands before it (doc 48, section 11) -- Revenue Streams, Costs, Capital & Funding, Financial Position, then
-    // Break-Even and Sustainability --, two groups side by side in one frame, the line between them, as Foundation & Engagement's chapter: so every Master Tile
-    // keeps its size and layout (layout rules section 23) and every dialog and floating card behaves as before.)
     // (THE ONE CHAPTER OF FINANCIALS, THREE MASTER TILES THAT ASK (doc 48, section 14): Revenue Streams, Costs, Funding, in the 2 x 2, its fourth place empty
     // (layout rules section 23).)
     const chapterTilesShown = joined ? [revenueTile, ...joined.get(JOINED_CHAPTER_KEY)] : [revenueTile];

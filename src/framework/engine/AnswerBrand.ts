@@ -199,7 +199,7 @@ export function numberedUnitCount(
         return STRATEGY_FOUNDATION_SECTIONS.length;
     }
 
-    // ONE, not six. The Legal Entity page takes a single number of
+    // ONE, not six. The Legal Entity section takes a single number of
     // its own in a running count -- 9 after the Identity System's
     // two four-column pages -- and its six subsections number
     // themselves from inside it (1 to 6 under the page-by-page

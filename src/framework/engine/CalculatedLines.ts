@@ -12,7 +12,6 @@ import {
     streamRevenue,
     streamVolumes,
     type CostLine,
-    type CostNature,
     type FinancialFoundationValue,
     type FinancialSustainabilityValue,
     type NatureContext
@@ -496,14 +495,3 @@ export function calculatedLines(input: CalculationInput, fromFoundationRate: num
     };
 
 }
-
-/** What each nature feeds, for a screen that lists the calculated lines: the nature a calculated line has. */
-export const CALCULATED_LINE_NATURE: Record<string, CostNature | "non-cash"> = {
-    "on-costs": "opex",
-    "employee-insurance": "opex",
-    "channel-fee": "cogs",
-    royalty: "cogs",
-    commission: "cogs",
-    depreciation: "non-cash",
-    amortisation: "non-cash"
-};

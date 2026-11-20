@@ -100,7 +100,7 @@ export function capabilityCardDates(capability: BusinessCapabilityValue, legalEx
     return dates;
 }
 
-/** The dates of the Legal Entity page: each expense (the registration is one of the key dates). */
+/** The dates of the Legal Entity section: each expense (the registration is one of the key dates). */
 export function legalEntityCardDates(entity: LegalEntityValue): CardDate[] {
     const dates: CardDate[] = [];
     for (const expense of entity.expenses) {

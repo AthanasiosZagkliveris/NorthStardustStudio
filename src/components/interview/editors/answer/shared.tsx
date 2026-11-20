@@ -196,7 +196,7 @@ export interface AnswerRendererProps {
     columnNumberOffset?: number;
 
     /**
-     * Handed to the Legal Entity page so it can answer its first
+     * Handed to the Legal Entity section so it can answer its first
      * fields from what the app already knows (see
      * LegalEntityEditorProps.prefill). Ignored by every other
      * Answer Structure.
@@ -235,7 +235,7 @@ export interface AnswerRendererProps {
 
     /**
      * The currency the organisation is registered in, from the
-     * Identity System's Legal Entity page -- "" until a country is
+     * Identity System's Legal Entity section -- "" until a country is
      * chosen there. The Business System's Infrastructure &
      * Capability page offers it beside every Price. Ignored by
      * every other Answer Structure.
@@ -255,7 +255,7 @@ export interface AnswerRendererProps {
      * The Identity System's Founders Profile, as saved: each
      * founder's Roles for the Business System's Infrastructure &
      * Capability page, and what keeps a profiled founder's row on
-     * the Legal Entity page (see LegalEntityEditorProps.foundersProfile).
+     * the Legal Entity section (see LegalEntityEditorProps.foundersProfile).
      * Ignored by every other Answer Structure.
      */
     foundersProfile?: unknown;
@@ -267,9 +267,9 @@ export interface AnswerRendererProps {
      * reads Page 4. Ignored by every other Answer Structure.
      */
     legalEntity?: LegalEntityValue;
-    /** Saves the Legal Entity page's answer from another page (3. Infrastructure & Capability's floating legal cards). */
+    /** Saves the Legal Entity section's answer from another page (3. Infrastructure & Capability's floating legal cards). */
     onChangeLegalEntity?: (value: unknown) => void;
-    /** Saves the Founders Profile from the Legal Entity page, which holds the founders' tiles and the Capability tile (the Founders Profile is no page of its own). */
+    /** Saves the Founders Profile from the Legal Entity section, which holds the founders' tiles and the Capability tile (the Founders Profile is no page of its own). */
     onChangeFoundersProfile?: (value: unknown) => void;
     businessCapability?: unknown;
     financialFoundation?: unknown;
@@ -366,7 +366,7 @@ export interface AnswerRendererProps {
         /** SW2's suggestions for each quadrant (swotSuggestionsOf): ticked into its list. */
         swotSuggestions?: { strengths: string[]; weaknesses: string[]; opportunities: string[]; threats: string[] };
 
-        /** The names an Objective's "Add a draft" offers (strategyObjectiveDrafts; P9; owner, 2026-11-18 03:01, "All, P1 to P9"). */
+        /** The names an Objective's draft is written from (strategyObjectiveDrafts; P9; owner, 2026-11-18 03:01, "All, P1 to P9"). */
         objectiveDrafts?: readonly string[];
 
         /** What SW1 and SC1 to SC3 read (strategyChoiceContext; doc 49, 2.3 and 2.4). */

@@ -41,20 +41,6 @@ export const LOAN_PRE_INTEREST_HELP: InfoPoint[] = [
     { title: "Source", source: SOURCES.simpleInterest }
 ];
 
-/** The funding gap formula, added to that figure's own info. */
-export const FUNDING_GAP_FORMULA: InfoPoint = {
-    title: "Formula",
-    text: "Funding gap = Funding needed − Funding available and confirmed"
-};
-
-/** The runway formula, added to that figure's own info. */
-export const RUNWAY_FORMULA: InfoPoint = {
-    title: "Formula",
-    text: "Runway = Cash ÷ Monthly net burn (here: the first month the projected balance goes below zero)"
-};
-
-export const RUNWAY_SOURCE: InfoPoint = { title: "Based on", source: SOURCES.cashRunway };
-
 export const SECTIONS = {
     costs: {
         title: "Costs",

@@ -72,9 +72,9 @@ interface FinancialFoundationEditorProps {
  * AnswerType.FinancialFoundation, and FinancialModel.ts for every
  * calculation it shows).
  *
- * Four sections, top to bottom, in the order the specification's
- * logic runs: Costs → Funding Need → Capital & Funding → Financial
- * Position. The first three are answered; the last is worked out.
+ * Two tiles, Costs and Funding (doc 48, section 14): the Funding Need and the
+ * Financial Position it works out are records in the Workbook's Financial
+ * Documents (the Funding Request, the Financial Plan).
  */
 export default function FinancialFoundationEditor({
 
@@ -1144,8 +1144,8 @@ export default function FinancialFoundationEditor({
         ) : null;
     }
 
-    // (ONE CHAPTER (PageGroups.ts, `oneChapter`; owner, 2026-11-20 02:11 UTC+2): this section draws no frame; it hands its three tiles to the page's one chapter,
-    // which Revenue & Pricing draws, and stays drawn, so what it does when it opens is done as before. Else its own frame, beside Revenue & Break Even.)
+    // (ONE CHAPTER (PageGroups.ts, `oneChapter`; owner, 2026-11-20 02:11 UTC+2): this section draws no frame; it hands its two tiles, Costs and Funding, to the page's one
+    // chapter, which Revenue & Pricing draws, and stays drawn, so what it does when it opens is done as before. Drawn alone, its own frame.)
     if (joined) {
         joined.set(JOINED_CHAPTER_KEY, tiles);
         return null;

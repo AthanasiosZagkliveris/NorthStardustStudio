@@ -34,7 +34,7 @@ export function readCrossSystem({ session, organizationId, systemNumber, navigat
 
     const framework = session.getFramework();
 
-    // What the Legal Entity page can answer for the user without
+    // What the Legal Entity section can answer for the user without
     // asking: the Organization's name and the User's own, both
     // given when the app was set up. Read here because the page
     // itself has no access to either.
@@ -51,7 +51,7 @@ export function readCrossSystem({ session, organizationId, systemNumber, navigat
         It was answered two Systems earlier, under the Identity
         System's Positioning column ("Who is your target
         audience?"), so the Foundation page shows it rather than
-        asking again -- the same reason the Legal Entity page
+        asking again -- the same reason the Legal Entity section
         prefills the organization's own name above.
 
         Read straight from storage rather than through a Session:
@@ -123,7 +123,7 @@ export function readCrossSystem({ session, organizationId, systemNumber, navigat
 
     /*
         The currency the organisation is registered in: the country
-        chosen on the Identity System's Legal Entity page, through
+        chosen on the Identity System's Legal Entity section, through
         the same countryCurrency that page shows beside its own
         amounts. The Business System's Infrastructure & Capability
         page puts it beside every Price, so a founder names the
@@ -174,7 +174,7 @@ export function readCrossSystem({ session, organizationId, systemNumber, navigat
     /*
         The Identity System's Founders Profile, as saved: each
         founder's Roles, which Infrastructure & Capability shows
-        under 1. Founders, and the profiles the Legal Entity page
+        under 1. Founders, and the profiles the Legal Entity section
         will not drop a founder's row from (see founderProfiles).
     */
     const foundersProfile = identityResponse(AnswerType.FoundersProfile);
@@ -315,7 +315,7 @@ export function readCrossSystem({ session, organizationId, systemNumber, navigat
         ? frameworkRegistry.getFramework(identitySystem.id).sections
             .find(candidate => candidate.answer?.type === AnswerType.LegalEntity)
         : undefined;
-    /** Saves the Legal Entity page's answer (the Identity System's) from the Business System, where its legal cards float over 3. Infrastructure & Capability. */
+    /** Saves the Legal Entity section's answer (the Identity System's) from the Business System, where its legal cards float over 3. Infrastructure & Capability. */
     const changeLegalEntity = identitySystem && legalEntitySection && organizationId
         ? (next: unknown) => {
             const state = OrganizationService.loadSystemState(organizationId, IDENTITY_SYSTEM_NUMBER) as { responses?: Array<{ sectionNumber: number; value?: unknown }> } | null;
