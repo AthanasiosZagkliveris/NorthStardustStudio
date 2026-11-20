@@ -116,7 +116,9 @@ describe("the Costs and Funding Need sections with the cost nature and the cash 
         render(<Stateful />);
         openTile("Costs");
         const total = document.querySelector("[data-anchor='financial-pre-operational-budget']") as HTMLElement;
-        expect(total.textContent).toMatch(/Total Pre-operational Budget:.*30,000/);
+        expect(total.textContent).toMatch(/Total Pre-operational Budget.*: €30,000/);
+        // (Its parts in its "i", no brackets: the round of 2026-11-20 18:35 UTC+2, item 9.)
+        expect(total.textContent).not.toContain("(Capital expenditure");
     });
 
     it("the Establishment need is the cash to raise before the opening: the 30,000 of CapEx and its 3,000 contingency, not counted again as running costs", () => {

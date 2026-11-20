@@ -16,11 +16,11 @@ import { offeringStartsById } from "../../../framework/engine/EffectiveAnswers.t
 import { calculatedLines } from "../../../framework/engine/CalculatedLines.ts";
 import { ownersTakeDrawings } from "../../../framework/engine/FinancialForecast.ts";
 import { type GlobalSettingsValue } from "../../../framework/engine/GlobalSettings.ts";
-import { costStartDates, derivedPlanStart, incomeTaxRate, legalExpenseDates, PAYMENT_TIMINGS, planLength, REVENUE_DEVELOPMENTS, REVENUE_CHARGES, REVENUE_UNITS, asFinancialFoundationValue, asFinancialSustainabilityValue, consolidateCosts, createDetailedVolume, createRevenueStream, formatUnits, isRecurringRevenue, moneyFormatter, parseAmount, planMonthLabel, sustainability, withPlanStart, salesCapacity, withDemand, type FinancialSustainabilityValue, type RevenueStreamValue } from "../../../framework/engine/FinancialModel.ts";
+import { costStartDates, derivedPlanStart, incomeTaxRate, legalExpenseDates, PAYMENT_TIMINGS, planLength, REVENUE_DEVELOPMENTS, REVENUE_CHARGES, REVENUE_UNITS, asFinancialFoundationValue, asFinancialSustainabilityValue, consolidateCosts, createDetailedVolume, createRevenueStream, formatUnits, isRecurringRevenue, moneyFormatter, parseAmount, sustainability, withPlanStart, withDemand, type FinancialSustainabilityValue, type RevenueStreamValue } from "../../../framework/engine/FinancialModel.ts";
 import { costSourcesFor } from "../../../framework/engine/ExportRenderers.ts";
 import { deliveryAllocation, demandResult } from "../../../framework/engine/DemandCapacity.ts";
 import { BusinessAddButton, BusinessCard, BusinessEmpty, BusinessField, OptionalNote, BusinessRemove, uniqueChoices } from "../cards/BusinessCardFields.tsx";
-import { CAPACITY_UTILISATION_HELP, FigureTable, FinancialBlock, type FinancialSection, PlanMonthField } from "./FinancialParts.tsx";
+import { type FinancialSection, PlanMonthField } from "./FinancialParts.tsx";
 import { summaryText } from "../cards/cardSummary.ts";
 import CardBoxes, { type CardBox } from "../cards/CardBoxes.tsx";
 import { SingleColumn } from "./foundation/shared.tsx";
@@ -101,7 +101,6 @@ export default function FinancialSustainabilityEditor({
 
     onOpenEngagement,
 
-    onOpenCapability,
 
     globalSettings,
 
@@ -148,8 +147,6 @@ export default function FinancialSustainabilityEditor({
         : undefined;
     const result = sustainability(effective, financial, lines, legalEntity, format, calculated);
 
-    /* Capacity: the founders' delivery hours, and each Offering's effort. */
-    const capacity = salesCapacity(effective, financial, capability);
 
     const offerings = uniqueChoices(
         businessFoundationSegments(foundation).flatMap(segment => segment.offerings),
@@ -737,103 +734,10 @@ export default function FinancialSustainabilityEditor({
 
     }
 
-    /**
-     * Expected sales against the founders' capacity: the organization's
-     * controlled delivery hours. Recurring work (subscriptions,
-     * retainers) uses each founder's hours first; what remains is the
-     * flexible capacity for the other Offerings. Hours from external
-     * professionals are shown apart, as what is delivered outside it.
-     * A shortfall is reported as a need for capacity, never as an
-     * error, and the sales forecast is left as it is.
-     */
-    function capacityBlock() {
-
-        const toDelivery = onOpenCapability && (
-            <TextLink
-                type="button"
-                className="business-engagement-link financial-cost-link"
-                onClick={() => onOpenCapability(["section-offering-delivery", "capability-offering-capability"])}
-            >
-                Capacity & Delivery on Infrastructure & Capability
-            </TextLink>
-        );
-
-        const info = [
-            "Capacity is the founders' delivery hours a month: the time the organisation controls.",
-            "Needed: each month's expected sales times each founder's Working Hours per Unit (4. Delivery, on Infrastructure & Capability).",
-            "Recurring work (subscriptions, retainers) is served first; what remains is flexible capacity for the other Offerings.",
-            "External professionals' hours are delivered outside this capacity; their cost is part of the Offering's costs.",
-            "A shortfall does not change the sales forecast: it says more capacity may be needed."
-        ];
-
-        if (!capacity) {
-            return (
-                <FinancialBlock title="Can the Expected Sales Be Delivered?" info={info}>
-                    <p className="financial-muted">
-                        To check, add each founder's delivery hours on the Founder cards, and the hours one unit of each
-                        Offering takes, by person, under {toDelivery ?? "Capacity & Delivery on Infrastructure & Capability"}.
-                    </p>
-                </FinancialBlock>
-            );
-        }
-
-        const hours = (amount: number) => formatUnits(Math.round(amount)) + " h";
-        const month = (index: number) => planMonthLabel(start, index + 1);
-        const short = capacity.firstShortfall;
-        const nameOf = (id: string) => offerings.find(offering => offering.id === id)?.label ?? "an Offering";
-
-        return (
-            <FinancialBlock title="Can the Expected Sales Be Delivered?" info={info}>
-
-                {/* (THE VERDICT ALONE (owner, 2026-11-18 16:55: "Do all 8", proposal 3): the founders' month, person by person, has one owner -- Capacity & Delivery's
-                    Capacity band; here, whether the expected sales fit, their busiest month and who delivers outside it, and the way there.) */}
-                <p className={"financial-capacity-verdict" + (short !== null ? " financial-capacity-short" : "")}>
-                    {short !== null
-                        ? <>From <strong>{month(short)}</strong>, the expected sales need more founders' hours than are available.
-                            More delivery capacity may be needed: more founder hours, an external professional for part of the work, or a hire.
-                            The sales forecast is not changed.</>
-                        : <>The expected sales fit the founders' capacity: at the busiest ({month(capacity.peakIndex)}), about {hours(capacity.peak)} of {hours(capacity.available)} a month
-                            {" "}
-                            {/* Glued: "(80%)", its "i" and the full stop
-                                never part (see InfoText). */}
-                            <InfoText text={"(" + Math.round(capacity.peak / Math.max(1, capacity.available) * 100) + "%)"}>
-                                <InfoNote label="Capacity used" points={CAPACITY_UTILISATION_HELP} />.
-                            </InfoText></>}
-                </p>
-
-                {toDelivery && (
-                    <p className="financial-muted">Each founder's month, person by person: {toDelivery}.</p>
-                )}
-
-                {capacity.external.length > 0 && (
-                    <p className="financial-muted">
-                        Delivered outside the founders' capacity: {capacity.external
-                            .map(entry => entry.name + " about " + hours(entry.peak) + " a month at the busiest").join("; ")}.
-                        Their cost is part of the Offering's costs.
-                    </p>
-                )}
-                {capacity.unassigned.some(amount => amount > 0.05) && (
-                    <p className="financial-muted">
-                        Some working hours are recorded without saying who works them: they are counted against the founders together.
-                        {toDelivery && <> Split it by person under {toDelivery}.</>}
-                    </p>
-                )}
-                {capacity.unmeasured.length > 0 && (
-                    <p className="financial-muted">
-                        Not counted, with no working hours recorded: {capacity.unmeasured.map(nameOf).join(", ")}.
-                        {toDelivery && <> Add it under {toDelivery}.</>}
-                    </p>
-                )}
-
-            </FinancialBlock>
-        );
-
-    }
 
     /** REVENUE IN THREE PARTS (doc 48, section 2): the Revenue chapter's tiles on Revenue & Pricing -- Revenue Streams, Delivery Check, Revenue Summary. */
     function revenueParts() {
 
-        const total = result.expectedRevenue;
 
         const streams = (
             <>
@@ -863,56 +767,10 @@ export default function FinancialSustainabilityEditor({
             </>
         );
 
-        const summary = (
-            <>
-                <FinancialBlock title="Revenue Summary" bare>
-                    {result.streams.length === 0
-                        ? <BusinessEmpty>No revenue streams yet. Expected revenue is {format(0)}, which is a valid starting point.</BusinessEmpty>
-                        : (
-                            <div className="financial-table-scroll">
-                                <FigureTable>
-                                    <thead>
-                                        <tr>
-                                            {/* (No Price column: each stream's tile says it; owner, 2026-11-18 16:55, "Do all 8", proposal 6.) */}
-                                            <th scope="col">Revenue Stream</th>
-                                            <th scope="col">Expected Volume</th>
-                                            <th scope="col">Expected Revenue</th>
-                                            <th scope="col">Share</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {result.streams.map(entry => (
-                                            <tr key={entry.stream.id}>
-                                                <th scope="row">{offeringName(entry.stream)}</th>
-                                                <td>{isRecurringRevenue(entry.stream.frequency)
-                                                    ? formatUnits(entry.volume) + " active"
-                                                    : formatUnits(entry.volume) + " / month"}</td>
-                                                <td>{format(entry.revenue)}</td>
-                                                <td>{total > 0 ? Math.round(entry.revenue / total * 100) + "%" : "n/a"}</td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                    <tfoot>
-                                        <tr>
-                                            <th scope="row">Total</th>
-                                            <td />
-                                            <td><strong>{format(total)} / month</strong></td>
-                                            <td />
-                                        </tr>
-                                    </tfoot>
-                                </FigureTable>
-                            </div>
-                        )}
-                </FinancialBlock>
-            </>
-        );
-
         const pair = (name: string, figure: string): FaceRow => ({ name, under: figure });
         return {
             // (NOT PRICED YET (doc 48, section 13, step 1; owner, 2026-11-20 12:49 UTC+2, "proceed to changes"): an Offering with no price says so on the face; the founder sets the price.)
-            streams: { body: streams, face: shownStreams.map(entry => pair(offeringName(entry.stream), summaryPrice(entry.stream) || "Not priced yet")) },
-            delivery: { body: capacityBlock(), face: [] as FaceRow[] },
-            summary: { body: summary, face: [pair("Expected revenue a month", format(total))] }
+            streams: { body: streams, face: shownStreams.map(entry => pair(offeringName(entry.stream), summaryPrice(entry.stream) || "Not priced yet")) }
         };
 
     }

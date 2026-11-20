@@ -332,10 +332,10 @@ export default function FinancialFoundationEditor({
         return rows.filter(row => row.bucket === "sale" && row.line.frequency === "usage-based" && (row.line.amountText ?? "").trim() !== "")
             .map(row => ({ name: row.line.name.trim() || "A cost", share: row.line.amountText.trim() + "%" }));
     }
-    /** The same in words: "2% of revenue" where there is one; several each named: "2% (Shopify Payments) · 1.69% (SumUp card fees)". Empty where there are none. */
+    /** The same in words: "2% of revenue" where there is one; several each named: "Shopify Payments 2% · SumUp card fees 1.69%" (no brackets: the round of 2026-11-20 18:35 UTC+2, item 9). Empty where there are none. */
     function revenueSharesOf(rows: CostRow[]): string {
         const lines = revenueShareLines(rows);
-        return lines.length === 0 ? "" : lines.length === 1 ? lines[0].share + " of revenue" : lines.map(line => line.share + " (" + line.name + ")").join(" · ");
+        return lines.length === 0 ? "" : lines.length === 1 ? lines[0].share + " of revenue" : lines.map(line => line.name + " " + line.share).join(" · ");
     }
     /** The cost of each sale: the prices per unit added up, and the costs that are a share of revenue instead (the Costs section's third total, and its tile's). */
     function saleTextOf(rows: CostRow[]): string {
@@ -414,8 +414,17 @@ export default function FinancialFoundationEditor({
                 {/* The pre-operational budget: what is dated before the Opening Date (rule F1); opening stock is apart, after the contingency. */}
                 {openingDate !== "" && funds.schedule.total + funds.schedule.openingInventory > 0 && (
                     <p className="financial-total" data-anchor="financial-pre-operational-budget">
-                        <strong>Total Pre-operational Budget:</strong> {format(funds.schedule.total)}
-                        {" (Capital expenditure (assets) " + format(funds.schedule.capex) + " + Startup expenses " + format(funds.schedule.startup) + " + Pre-operating expenses " + format(funds.schedule.preOperating) + ")"}
+                        {/* (Its parts in its "i", no brackets: the round of 2026-11-20 18:35 UTC+2, item 9.) */}
+                        <strong>
+                            <InfoText text="Total Pre-operational Budget">
+                                <InfoNote
+                                    label="Total Pre-operational Budget"
+                                    points={["Capital expenditure, the assets: " + format(funds.schedule.capex) + ".", "Startup expenses: " + format(funds.schedule.startup) + ".", "Pre-operating expenses: " + format(funds.schedule.preOperating) + "."]}
+                                    fullList
+                                />
+                            </InfoText>
+                        </strong>
+                        {": " + format(funds.schedule.total)}
                         {funds.schedule.openingInventory > 0 ? " \u00b7 Opening inventory " + format(funds.schedule.openingInventory) + " is apart" : ""}
                         {funds.cashToRaise > 0 ? " \u00b7 Cash to raise before the opening: " + format(funds.cashToRaise) : ""}
                     </p>

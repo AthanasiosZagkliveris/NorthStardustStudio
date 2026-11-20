@@ -8,30 +8,7 @@
 
 }
 
-.financial-capacity-verdict{
-
-    margin:8px 0 4px;
-
-    padding:10px 14px;
-
-    border-left:4px solid var(--line-capacity-ok);
-    border-radius:var(--radius-md);
-
-    background:var(--bg-capacity-ok);
-
-    font-size:var(--font-body);
-    line-height:1.5;
-
-}
-
 /* A shortfall is a caution to act on, not an error in the plan. */
-.financial-capacity-short{
-
-    border-left-color:var(--line-capacity-short);
-
-    background:var(--bg-capacity-short);
-
-}
 
 /* An answer that disagrees with how customers buy (Customer Engagement). */
 .financial-mismatch,
