@@ -5,7 +5,7 @@ import { businessFoundationSegments } from "../../../framework/engine/AnswerUtil
 import { asBusinessEngagementValue } from "../../../framework/engine/businessFoundation/engagementReaders.ts";
 import { segmentIdentityOf } from "../../../framework/engine/SegmentContext.ts";
 import { withValuesText } from "../../../framework/engine/ValueIds.ts";
-import { CSSProperties, Fragment, type ReactNode, useState, useSyncExternalStore } from "react";
+import { CSSProperties, Fragment, type ReactElement, type ReactNode, cloneElement, isValidElement, useState, useSyncExternalStore } from "react";
 import { HANDED_TILES_KEY, useJoinedChapter } from "../tiles/joinedChapter.ts";
 import CardShell from "../cards/CardShell.tsx";
 import { OptionalNote } from "../cards/BusinessCardFields.tsx";
@@ -401,9 +401,10 @@ function MultiPartAnswerRenderer({
         // (REGISTRATIONS & EXPENSES IN THE DEFINITION CHAPTER (owner, 2026-11-20 13:02 UTC+2: "Move the master Tile to the 1st page, in the Definition Chapter"):
         // the Legal Entity's one Master Tile, handed over by its editor, in the chapter's fourth place, after Founders & Ownership.)
         if (handed && parts.some(part => part.id === "description") && parts.some(part => part.id === "positioning")) {
-            // (Its dialog and cards stand in the Legal Entity's own field page, as Founders & Ownership's do: every key, note and link of section 3 stays as it was.)
-            const own = (node: ReactNode) => fieldPage && legalEntitySectionNumber !== undefined
-                ? <FieldPageProvider organizationId={fieldPage.organizationId} systemNumber={fieldPage.systemNumber} sectionNumber={legalEntitySectionNumber} pageTitle={fieldPage.pageTitle}>{node}</FieldPageProvider>
+            // (Its tile, dialog and floating cards say the Legal Entity's section (`data-field-section`, read by fieldMarks.tsx): every key, note and link of section 3
+            // stays as it was, and the card stays the floating card's first child, as every card is.)
+            const own = (node: ReactNode) => isValidElement(node) && legalEntitySectionNumber !== undefined
+                ? cloneElement(node as ReactElement<Record<string, unknown>>, { "data-field-section": legalEntitySectionNumber })
                 : node;
             tiles.push(...handed.get(HANDED_TILES_KEY).map(tile => ({
                 ...tile,
