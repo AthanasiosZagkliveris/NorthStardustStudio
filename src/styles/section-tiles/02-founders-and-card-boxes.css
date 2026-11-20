@@ -637,6 +637,14 @@
 
 }
 
+/* (A dialog whose content is drawn inside a field page's wrapper -- Founders & Ownership, the Mission & Vision pair -- heads it at the same size: layout rules section 8,
+   "The dialog header", --font-h3; 2026-11-20, they stood at 18px.) */
+.section-tile-dialog-body .column-tile-content > .business-engagement-section-head .field-group-title {
+
+    font-size: var(--font-h3);
+
+}
+
 /* ==========================================================
    THE GREY OF THE FINISHED ONES (layout-rules 5a, "Completed activities"): the Completed tile, its dialog and the
    boxes and cards in it take the neutral grey of everything completed (--*-completed-*, colors.css), no category hue,

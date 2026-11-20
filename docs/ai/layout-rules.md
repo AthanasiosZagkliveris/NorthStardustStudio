@@ -904,7 +904,7 @@ drawn only in a dialog that its tile opens.
   is never transparent). The card's edge colour, `box-shadow: 0 16px 40px`, padding `--card-padding`.
   The cards inside any dialog (`.section-tile-dialog .business-foundation-card`) are solid too: the inner tint, the same edge -- one rule, not per-dialog colours.
   **Contrast:** text on a solid ground is held at 4.5:1 or more by the colour tokens of each theme (the check reads it).
-- **The dialog header.** The section's heading is the dialog's title (title style, `--font-h3`, 24px); the views opened inside the
+- **The dialog header.** The section's heading is the dialog's title (title style, `--font-h3`, 24px; every dialog alike, one drawn in a field page's wrapper too -- Founders & Ownership and the Mission & Vision pair stood at 18px until 2026-11-20); the views opened inside the
   dialog follow it ON THE SAME LINE after a slash -- "6. Digital Infrastructure / Software / Xero accounting", "Activities / Completed /
   Finished one", "1. Founders / Maya Chen" (`DialogHeading`, fed by `useDialogInnerBack`): the slash 8px each side after the root title and
   6px each side inside the trail of views, the names the body size (18; a size under the root title), regular weight, `--text-muted`, one line high; a long header cuts the names with an ellipsis (the full name is the tooltip) and keeps
