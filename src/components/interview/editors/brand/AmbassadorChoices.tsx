@@ -3,14 +3,13 @@ import type { ReactNode } from "react";
 import FieldRow from "../../fields/FieldRow.tsx";
 import { SingleColumn } from "../foundation/shared.tsx";
 import InfoNote, { InfoText } from "../../fields/InfoNote.tsx";
-import TextLink from "../../fields/TextLink.tsx";
 import RadioChoice from "../../../controls/RadioChoice.tsx";
 import { ratingScaleMeaning } from "../../../controls/RatingScaleEnds.tsx";
 import RatingScaleGroup from "../../../controls/RatingScaleGroup.tsx";
 import type { Rating } from "../../../controls/RatingScale.tsx";
 import { BusinessTicks } from "../../cards/BusinessCardFields.tsx";
 import { joinImprint, splitImprint } from "../../fields/ColumnFields.tsx";
-import { draftAdds, withDraft } from "../../../../framework/engine/CompetitorQuestions.ts";
+import { useAutoDraft } from "../../fields/useAutoDraft.ts";
 import {
     AMBASSADOR_CHARACTERS, AMBASSADOR_DRESS, AMBASSADOR_PRESENCE, AMBASSADOR_SETTINGS, AMBASSADOR_TICKS_MAX, AMBASSADOR_TONE, BA_INFO, BA_LABELS,
     type AmbassadorContext, aestheticsDraft, ambassadorShown, asAmbassadorChoices, bodyLanguageDraft, characterLimit, feelingOptions, firstImpressionDraft, lastingImpressionDraft, rememberedOptions, voiceDraft, wordsOptions
@@ -75,8 +74,7 @@ export default function AmbassadorChoices({ part, value, onChange, context, stag
     let draft = "";
     let text = typeof value[part] === "string" ? value[part] as string : "";
     let writeDraft = (next: string) => onChange({ ...value, [part]: next });
-    let imprintAdds = false;
-    let writeImprint: (() => void) | undefined;
+    let imprintDraft: string | null = null;
 
     if (part === "aesthetics") {
         const limit = characterLimit(stage);
@@ -105,9 +103,12 @@ export default function AmbassadorChoices({ part, value, onChange, context, stag
         const { first, lasting } = splitImprint(value[part]);
         const firstDraft = firstImpressionDraft(shown, context);
         const lastingDraft = lastingImpressionDraft(shown, context);
-        imprintAdds = draftAdds(first, firstDraft) || draftAdds(lasting, lastingDraft);
-        writeImprint = () => onChange({ ...value, [part]: joinImprint(withDraft(first, firstDraft), withDraft(lasting, lastingDraft)) });
+        // (Both impressions drafted together: the two sentences, each in its own text.)
+        text = joinImprint(first, lasting);
+        imprintDraft = joinImprint(firstDraft, lastingDraft);
     }
+    // (THE DRAFT, WRITTEN IN BY ITSELF while the text is empty or still the app's: owner, 2026-11-20 18:35 UTC+2; its Notes stand under the text.)
+    useAutoDraft(text, imprintDraft ?? draft, (next: string) => writeDraft(next), disabled);
     if (bands.length === 0) {
         return null;
     }
@@ -117,11 +118,6 @@ export default function AmbassadorChoices({ part, value, onChange, context, stag
             <SingleColumn>
                 {bands.map((content, at) => band(content, at, part + "-" + at))}
             </SingleColumn>
-            {(writeImprint ? imprintAdds : draftAdds(text, draft)) && (
-                <TextLink className="business-competitor-draft" disabled={disabled} onClick={() => writeImprint ? writeImprint() : writeDraft(withDraft(text, draft))}>
-                    Add a draft
-                </TextLink>
-            )}
         </>
     );
 }

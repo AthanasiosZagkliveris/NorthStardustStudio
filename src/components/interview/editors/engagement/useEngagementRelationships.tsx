@@ -2,7 +2,7 @@
  * THE CHANNEL TILES and the relationships of each Offering.
  * One part of BusinessEngagementEditor (see BusinessEngagementEditor.tsx): what it needs of the parts before it comes in as `earlier`; what the parts after it need goes out.
  */
-import { draftAdds, withDraft } from "../../../../framework/engine/CompetitorQuestions.ts";
+import { AutoDraft } from "../../fields/useAutoDraft.ts";
 import { CSSProperties, useContext, useEffect, useState } from "react";
 import { InitialBoxContext } from "../../tiles/DialogLevels.tsx";
 
@@ -682,31 +682,9 @@ export function useEngagementRelationships(earlier: Earlier) {
                                     extra={ownCard ? undefined : removeType(typeId)}
                                     bands={[
                                         <FieldRow key="purpose" pair label="Purpose" info={SECTIONS.relationships.purpose}>
-                                            {/* (ADD A DRAFT (2.14, the second batch of the review; owner, 2026-11-18 00:46), as the Value Proposition's: the Purpose from the type
-                                                and the Offering's answers, added after what is written, and each empty Approach from its stage's channels, in one write.) */}
-                                            {(() => {
-                                                const purposeDraft = relationshipPurposeDraft(typeId, offeringName(offeringId), offeringAnswersById([segment], offeringId, identity));
-                                                const approachesOpen = offeringRows.some(interaction => !interactionOf(segment.id, offeringId, typeId, interaction.key, interaction.legacyKeys, startGoals(interaction.stageId, segment, offeringId, identity)).approach.trim()
-                                                    && relationshipApproachDraft(typeId, interaction.groups.flatMap(group => group.channelIds.map(channelName))) !== "");
-                                                return draftAdds(type.purpose, purposeDraft) || approachesOpen;
-                                            })() && <TextLink
-                                                className="business-competitor-draft"
-                                                disabled={disabled}
-                                                onClick={() => {
-                                                    const draft = relationshipPurposeDraft(typeId, offeringName(offeringId), offeringAnswersById([segment], offeringId, identity));
-                                                    const interactions = { ...type.interactions };
-                                                    for (const interaction of offeringRows) {
-                                                        const current = interactionOf(segment.id, offeringId, typeId, interaction.key, interaction.legacyKeys, startGoals(interaction.stageId, segment, offeringId, identity));
-                                                        const approach = relationshipApproachDraft(typeId, interaction.groups.flatMap(group => group.channelIds.map(channelName)));
-                                                        if (!current.approach.trim() && approach) {
-                                                            interactions[interaction.key] = { ...current, approach };
-                                                        }
-                                                    }
-                                                    updateType(segment.id, offeringId, typeId, { purpose: withDraft(type.purpose, draft), interactions });
-                                                }}
-                                            >
-                                                Add a draft
-                                            </TextLink>}
+                                            {/* (THE DRAFTS, WRITTEN IN BY THEMSELVES (2.14; owner, 2026-11-18 00:46 and 2026-11-20 18:35 UTC+2): the Purpose from the type and the Offering's
+                                                answers while it is empty or still the app's, and each Approach from its stage's channels (below); the details go in the Notes.) */}
+                                            <AutoDraft text={type.purpose} draft={relationshipPurposeDraft(typeId, offeringName(offeringId), offeringAnswersById([segment], offeringId, identity))} write={(next) => updateType(segment.id, offeringId, typeId, { purpose: next })} disabled={disabled} />
                                             <StrategyTextArea
                                                 className="interview-input business-foundation-note"
                                                 ariaLabel={"Purpose of " + label + " for " + offeringName(offeringId)}
@@ -761,6 +739,7 @@ export function useEngagementRelationships(earlier: Earlier) {
                                                             onChange={(next) => updateInteraction(segment.id, offeringId, typeId, interaction.key, interaction.legacyKeys, { goals: next }, start)}
                                                         />
                                                     </div>
+                                                    <AutoDraft text={answersFor.approach} draft={relationshipApproachDraft(typeId, interaction.groups.flatMap(group => group.channelIds.map(channelName)))} write={(next) => updateInteraction(segment.id, offeringId, typeId, interaction.key, interaction.legacyKeys, { approach: next }, start)} disabled={disabled} />
                                                     <StrategyTextArea
                                                         className="interview-input business-foundation-note"
                                                         ariaLabel={"Approach for " + about}

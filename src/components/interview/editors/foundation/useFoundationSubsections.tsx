@@ -14,7 +14,8 @@ import RatingScale, { type Rating } from "../../../controls/RatingScale.tsx";
 import { withRatingMeaning } from "../../../controls/RatingScaleEnds.tsx";
 import RatingScaleGroup from "../../../controls/RatingScaleGroup.tsx";
 import TextLink from "../../fields/TextLink.tsx";
-import { draftAdds, draftToAdd, withDraft, differentiationSourceCards, namesInSentence } from "../../../../framework/engine/CompetitorQuestions.ts";
+import { AutoDraft } from "../../fields/useAutoDraft.ts";
+import { differentiationSourceCards, namesInSentence } from "../../../../framework/engine/CompetitorQuestions.ts";
 import FittingRadioChoice from "./FittingRadioChoice.tsx";
 import { type OfferingContext, draftOffered, valuePropositionDraft, valuePropositionOpenItems } from "../../../../framework/engine/OfferingQuestions.ts";
 import { effectiveOfferingAnswers, effectiveProfileAnswers, effectiveProfileUserAnswers, offeringContextOf, segmentTrials, withFieldSet , segmentForms } from "../../../../framework/engine/EffectiveAnswers.ts";
@@ -923,11 +924,11 @@ export function useFoundationSubsections(earlier: Earlier) {
         // (The end users' own answers, for the draft's E4 line: effectiveProfileUserAnswers; empty where the Segment has no end user.)
         const userAnswers = segment.profiles.map(profile => effectiveProfileUserAnswers(profile, segment, identity));
 
-        /* The draft (doc 42, 1): one link for each Offering with a Type (the doc's proposal for several Offerings), adding its sentence at the end of the text. */
-        const drafts = draftOffered(segment)
-            ? segment.offerings.map((offering, at) => ({ offering, draft: offering.category.trim() ? valuePropositionDraft(segment, offering, offeringAnswers[at], offeringContext(offering), profileAnswers, userAnswers) : "" })).filter(entry => entry.draft && draftToAdd(segment.valueProposition, entry.draft))
-            : [];
         const openItems = valuePropositionOpenItems(segment, offeringAnswers, profileAnswers);
+        // (The whole draft, every Offering's sentence, written in while the text is empty or still the app's.)
+        const fullDraft = draftOffered(segment)
+            ? segment.offerings.map((offering, at) => offering.category.trim() ? valuePropositionDraft(segment, offering, offeringAnswers[at], offeringContext(offering), profileAnswers, userAnswers) : "").filter(Boolean).join(String.fromCharCode(10, 10))
+            : "";
 
         // In the bands every card has (one band pattern, as the Profiles' and the Differentiation's sections): the text untinted, then Emotional Needs and Social Needs side by side,
         // one tinted band across, then Open items untinted. Where the needs stand one under the other (a dialog under 600px) the run goes on band by band: Social untinted, Open items tinted.
@@ -937,18 +938,9 @@ export function useFoundationSubsections(earlier: Earlier) {
             <div className="legal-entity-field">
             <div className="legal-entity-org-section business-foundation-field">
 
-                {drafts.filter(({ draft }) => draftAdds(segment.valueProposition, draft)).map(({ offering, draft }) => (
-                    <TextLink
-                        key={offering.id}
-                        className="business-competitor-draft"
-                        disabled={disabled}
-                        onClick={() => {
-                            updateSegment(segmentIndex, { valueProposition: withDraft(segment.valueProposition, draft) });
-                        }}
-                    >
-                        {segment.offerings.length > 1 ? "Add a draft for " + (offering.name.trim() || "this Offering") : "Add a draft"}
-                    </TextLink>
-                ))}
+                {/* (THE DRAFT, WRITTEN IN BY ITSELF (doc 42, 1; owner, 2026-11-20 18:35 UTC+2): each Offering's sentence, one under the other, while the text is empty or
+                    still the app's; the details go in its Notes, under it.) */}
+                <AutoDraft text={segment.valueProposition} draft={fullDraft} write={(next) => updateSegment(segmentIndex, { valueProposition: next })} disabled={disabled} />
 
                 <StrategyTextArea
                     className="interview-input business-foundation-proposition-input"
@@ -1061,7 +1053,7 @@ export function useFoundationSubsections(earlier: Earlier) {
 
             </div>
             </div>,
-            [...SUBSECTIONS.valueProposition.note, "Add a draft: a starting sentence made from your answers on this page. It is yours once added: change it freely.", "Based on: Moore's positioning template, and the pains and gains of the Value Proposition Canvas."]
+            [...SUBSECTIONS.valueProposition.note, "A starting sentence made from your answers on this page is written in while the text is empty. It is yours: change it freely.", "Based on: Moore's positioning template, and the pains and gains of the Value Proposition Canvas."]
         );
 
         /* ---- 4. The Offerings sold to this Segment ---- */
