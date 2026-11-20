@@ -132,10 +132,9 @@ export default function SectionTiles({
                 return;
             }
             const actual = Math.min((width - 12) / 2, Math.max(side, 150));
-            const natural = (width - 12) / 2;
-            // (Where the window's height makes the tiles much smaller than the width would -- under 85% -- the gap between them follows, from 12px: the same proportion; a little smaller keeps the 12px.)
-            const gap = natural > 0 && actual / natural < 0.85 ? Math.max(6, Math.min(12, Math.round(12 * actual / natural))) : 12;
-            box.style.setProperty("--space-card", gap + "px");
+            // (THE TWO ROWS ARE 12px APART AT EVERY WINDOW HEIGHT (layout rules sections 9 and 23, the probe; owner, 2026-11-20 21:01, the conflict between the two rules resolved for 12px
+            // at 21:07 UTC+2): no narrowing with the height -- the side above already keeps the 12px.)
+            box.style.removeProperty("--space-card");
             // (The page arrows stand level with the gap between the tile rows: they measure again now that the tiles have their size.)
             window.requestAnimationFrame(() => window.dispatchEvent(new Event("tiles-fit")));
             if (actual >= 250) {

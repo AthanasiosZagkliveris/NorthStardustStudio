@@ -1521,6 +1521,28 @@
             }
         }
 
+        // 16b. THE 2 x 2 OF MASTER TILES (layout rules section 23; owner, 2026-11-20 21:01 UTC+2, the Financials): the tiles of one chapter are equal squares on
+        //      the shared grid -- one side, two columns and two rows of that side, one gap apart, the first place top left -- so three tiles leave the fourth
+        //      place empty and nothing overlaps at rest. (Measured at rest: the probe's own style holds the hover growth back.)
+        for (const quad of [...document.querySelectorAll(".section-tiles-quad > .section-tiles")].filter(visible)) {
+            const slots = [...quad.children].filter(slot => slot.matches(".section-tile-slot") && visible(slot)).map(slot => ({ slot, box: rect(slot) }));
+            if (slots.length < 2) continue;
+            const side = slots[0].box.width;
+            // (12px apart, rows and columns, at EVERY window height: no narrowing with the height; owner, 2026-11-20 21:07 UTC+2.)
+            const gap = 12;
+            const drawn = getComputedStyle(quad);
+            if (!rules.near(parseFloat(drawn.columnGap) || 0, gap, 0.5) || !rules.near(parseFloat(drawn.rowGap) || 0, gap, 0.5)) {
+                fail("the master tiles of a chapter are 12px apart at every window height", quad, { columnGap: drawn.columnGap, rowGap: drawn.rowGap });
+            }
+            slots.forEach(({ slot, box }, at) => {
+                const column = at % 2, row = Math.floor(at / 2);
+                const x = slots[0].box.left + column * (side + gap), y = slots[0].box.top + row * (side + gap);
+                if (!rules.near(box.width, side, 1) || !rules.near(box.height, side, 1) || !rules.near(box.left, x, 1) || !rules.near(box.top, y, 1)) {
+                    fail("the master tiles of a chapter are equal squares on the shared 2 x 2 grid", slot, { at, width: box.width, height: box.height, left: box.left, top: box.top, x, y });
+                }
+            });
+        }
+
         // 17. SECTION TILES (docs/ai/layout-rules.md, "Section tiles and dialog"): every
         //     tile is a true square of the one size -- a third of its group's width less the
         //     two gaps (--section-tile-size, never under --section-tile-min), so three across
