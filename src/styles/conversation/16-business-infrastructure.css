@@ -705,14 +705,4 @@
 .responsibility-filter-panel .capability-overview-menu-head > strong{
     white-space:nowrap;
 }
-/* THE RESPONSIBLE MARK (owner, 2026-11-19 01:20 UTC+2, "B: option 2"; doc 01, "The mark icons"): the mark set's person with a tick, at the mark size, 8px after the
-   name, on its line, in the card's label colour. */
-.business-capability-responsible-mark{
-    display:inline-flex;
-    align-items:center;
-    width:var(--size-mark);
-    height:var(--size-mark);
-    margin-left:var(--gap-8);
-    vertical-align:text-bottom;
-    color:var(--label-color, var(--text-muted));
-}
+

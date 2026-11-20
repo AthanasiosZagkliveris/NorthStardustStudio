@@ -1545,6 +1545,19 @@
 
 }
 
+/* THE TEAM & RESPONSIBILITIES BAND DRAWS ITS LINES (owner, 2026-11-20 18:35 UTC+2: "At the Activities floated Cards, at the Team, Resources and Responsible section,
+   place dividing lines (no colour var) between them"): the Team, the Resources and the Responsible parted by the neutral divider (--line-divider, no tint), 12px
+   over and under it, on every card with that band. */
+.legal-entity-org-section[data-section="team"] > .business-capability-card-rule{
+
+    height:1px;
+
+    margin-block:calc(var(--space-field) - var(--space-label));
+
+    background:var(--line-divider);
+
+}
+
 /* (A band of a card in its content box keeps the x's column clear in its padding (a founder's): the line between its questions runs over that too, to the band's side.) */
 .floating-card-body .column-tile-content > .business-foundation-card > .business-segment-grid-single .legal-entity-org-section[data-section] > .business-capability-card-rule{
 

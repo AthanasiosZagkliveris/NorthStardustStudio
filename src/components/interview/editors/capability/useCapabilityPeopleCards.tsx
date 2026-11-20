@@ -3,7 +3,6 @@
  * One part of the Infrastructure & Capability editor (see BusinessCapabilityEditor.tsx): what it needs of the parts before it comes in as `scope`; what the parts after it need goes out.
  */
 import { costIsShared } from "../../../../framework/engine/AnswerUtils.ts";
-import { MarkIcon } from "../ActionMarkers.tsx";
 import ListStatic from "../../fields/ListStatic.tsx";
 import FieldLabel from "../../../controls/FieldLabel.tsx";
 import NumberCell from "../../../controls/NumberCell.tsx";
@@ -120,12 +119,7 @@ export function useCapabilityPeopleCards(earlier: Earlier) {
                 >
                     {entry.name}
                 </TextLink>
-                {/* THE RESPONSIBLE MARK (owner, 2026-11-19 01:20 UTC+2, "B: option 2"): the mark set's person with a tick, "Responsible" its tooltip and its name. */}
-                {entry.responsible && (
-                    <span className="business-capability-responsible-mark" role="img" aria-label="Responsible" title="Responsible">
-                        <MarkIcon kind="responsible" size={24} />
-                    </span>
-                )}
+                {/* (No mark after the name: the Links filter's "Responsible" shows what the founder answers for; owner, 2026-11-20 18:35 UTC+2.) */}
             </span>
         );
     }
@@ -402,6 +396,7 @@ export function useCapabilityPeopleCards(earlier: Earlier) {
                             <ResponsibilityFilter
                                 label={"Filter the Links of " + founderLabel}
                                 options={FOUNDER_LINK_FILTER_OPTIONS}
+                                sets={[RESPONSIBILITY_FILTER_OPTIONS, ["Team member", "Responsible"]]}
                                 off={filterOff}
                                 onToggle={(option) => setResponsibilityOff(current => {
                                     const next = new Set(current.get(founder.id) ?? []);

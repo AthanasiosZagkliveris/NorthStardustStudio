@@ -1008,6 +1008,19 @@
 
 }
 
+/* THE LINE BETWEEN TWO SETS OF OPTIONS (owner, 2026-11-20 18:35 UTC+2): 1px in the neutral divider colour, no tint, across the panel's content. */
+.responsibility-filter-panel > .responsibility-filter-rule {
+
+    width: 100%;
+    height: 0;
+
+    margin: 0;
+
+    border: 0;
+    border-top: 1px solid var(--line-divider);
+
+}
+
 .responsibility-filter-panel > .capability-overview-menu {
 
     padding: 0;
