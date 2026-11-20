@@ -55,7 +55,7 @@ seen.clear();
 
 for (const example of ["lumen-and-loom-studio.json", "quillfield-automation-llc.json"]) {
     await seedExample(page, base, readFileSync(new URL("../../../src/data/examples/" + example, import.meta.url), "utf8"));
-    const pages = [["Identity System", ["Legal Entity"]], ...PAGES];
+    const pages = PAGES;
     for (const [system, names] of pages) {
         for (const name of names) {
             where = example.replace(".json", "") + " > " + system + " > " + name;

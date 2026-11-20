@@ -21,9 +21,9 @@ export const foundationTables: readonly TableData[] = [
     "id": "S1",
     "name": "Identity System",
     "number": 1,
-    "pages": "2 (plus Introduction)",
-    "page_ids": "P1.1, P1.3",
-    "page_names": "1. Definition & Purpose; 2. Legal Entity",
+    "pages": "1 (plus Introduction)",
+    "page_ids": "P1.1",
+    "page_names": "Identity System",
     "page_types": "tiles page (chapters of master tiles)"
    },
    {
@@ -73,21 +73,11 @@ export const foundationTables: readonly TableData[] = [
    {
     "id": "P1.1",
     "system": "S1",
-    "name": "1. Definition & Purpose",
-    "sections": "1.1 Definition; 1.2 Purpose",
+    "name": "Identity System",
+    "sections": "1.1 Definition; 1.2 Purpose; 1.3 Legal Entity",
     "type": "tiles page (chapters of master tiles)",
     "chapters": 2,
     "master_tiles": 4,
-    "base_content": "header; Pages rail; page arrows; chapter frames"
-   },
-   {
-    "id": "P1.3",
-    "system": "S1",
-    "name": "2. Legal Entity",
-    "sections": "1.3 Legal Entity",
-    "type": "tiles page (chapters of master tiles)",
-    "chapters": 1,
-    "master_tiles": 0,
     "base_content": "header; Pages rail; page arrows; chapter frames"
    },
    {
@@ -168,14 +158,6 @@ export const foundationTables: readonly TableData[] = [
     "page": "P1.1",
     "order": 2,
     "title": "2. Purpose",
-    "extra_features": "none",
-    "source": "PageGroups.ts"
-   },
-   {
-    "id": "C1.3-legal-entity",
-    "page": "P1.3",
-    "order": 1,
-    "title": "Legal Entity",
     "extra_features": "none",
     "source": "PageGroups.ts"
    },

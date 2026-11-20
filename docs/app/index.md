@@ -9,7 +9,7 @@ Paths are written "System › page › tile". "Doc 28" is the document numbered 
 | Item | Where in the app | Described in |
 |---|---|---|
 | Activities (Business) | Business › 2 Infrastructure & Capability › Infrastructure and Offering's Capability › Activities | Page 3; doc 26 |
-| Activities (Organisation) | Identity › 1 Definition and Purpose › Organisation (the activity and its code) | Doc 37; doc 34, 5.7 |
+| Activities (Organisation) | Identity System › Definition › Organisation (the activity and its code) | Doc 37; doc 34, 5.7 |
 | Ambassador | Brand › Brand System, the first frame: Aesthetics, Body Language, Communication & Voice, Imprint | Doc 1, B.1 |
 | Assets library | Not in the app's build: a gallery of the components, reached only by `npm run dev` (`/library`, `/library/inventory`, `/library/looks`) | Docs 8, 9 |
 
@@ -58,7 +58,7 @@ Paths are written "System › page › tile". "Doc 28" is the document numbered 
 | Early Positioning (tile) | Identity › 1 Definition and Purpose; named by the business stage (Early, Core Market, Corporate & Portfolio Positioning) | Doc 38; doc 28, 8.2; doc 33 |
 | Ethics | See Purpose | Doc 45 |
 | Examples | Organisations (home): Lumen & Loom Studio, Quillfield Automation | Doc 25 |
-| Expenses (Legal Entity) | Identity › 2 Legal Entity › Registrations & Expenses › Expenses | Doc 26 |
+| Expenses (Legal Entity) | Identity System › Definition › Registrations & Expenses › Expenses | Doc 26 |
 
 ## F
 
@@ -67,7 +67,7 @@ Paths are written "System › page › tile". "Doc 28" is the document numbered 
 | Financial Foundation | Business › 3 Financials, the page's one chapter: Revenue Streams, Costs, Capital & Funding, Financial Position, Break-Even, Sustainability | Pages 4 and 5; doc 48 |
 | Financial Position | Business › 3 Financials › Financial Foundation › Financial Position | Page 5 |
 | Focus (reading aid) | Header, on a System's pages | `contents.md` |
-| Founders | Identity › 1 Definition and Purpose › Founders & Ownership (saved in the Legal Entity); Business › 2 Infrastructure & Capability › Infrastructure › Founders | Doc 28, 9; page 3 |
+| Founders | Identity System › Definition › Founders & Ownership (saved in the Legal Entity); Business › 2 Infrastructure & Capability › Infrastructure › Founders | Doc 28, 9; page 3 |
 | Funding Need | Business › 3 Financials › Financial Foundation › Financial Position (it holds the Funding Need) | Page 5 |
 
 ## G
@@ -97,14 +97,14 @@ Paths are written "System › page › tile". "Doc 28" is the document numbered 
 
 | Item | Where in the app | Described in |
 |---|---|---|
-| Legal Entity | Identity › 2 Legal Entity | Doc 28, 8.5; doc 26 |
+| Legal Entity | Identity System › Definition › Founders & Ownership and Registrations & Expenses (the section draws no page of its own since 2026-11-20) | Doc 28, 8.5; doc 26 |
 
 ## M
 
 | Item | Where in the app | Described in |
 |---|---|---|
-| Manifesto | Identity › 1 Definition and Purpose › Purpose › Philosophy & Manifesto | Doc 45, 3.6 |
-| Mission | Identity › 1 Definition and Purpose › Purpose › Mission & Vision (saved in Definition) | Doc 45, 3.1 |
+| Manifesto | Identity System › Definition › Purpose › Philosophy & Manifesto | Doc 45, 3.6 |
+| Mission | Identity System › Definition › Purpose › Mission & Vision (saved in Definition) | Doc 45, 3.1 |
 
 ## N
 
@@ -118,8 +118,8 @@ Paths are written "System › page › tile". "Doc 28" is the document numbered 
 |---|---|---|
 | Offering's Capability | Business › 2 Infrastructure & Capability, the second chapter: Resources, Activities, Partners & Suppliers, Capacity & Delivery | Page 3 |
 | Offerings | Business › 1 Foundation & Engagement › Foundation › Offerings | Doc 43; doc 28, 6.8; page 1 |
-| Opening Date | Identity › 1 Definition and Purpose › Organisation; it decides the business stage and the plan start | Doc 37; doc 28, 8.2a |
-| Organisation (tile) | Identity › 1 Definition and Purpose › Organisation | Doc 37; doc 28, 8.5 |
+| Opening Date | Identity System › Definition › Organisation; it decides the business stage and the plan start | Doc 37; doc 28, 8.2a |
+| Organisation (tile) | Identity System › Definition › Organisation | Doc 37; doc 28, 8.5 |
 | Organisations (home) | The first screen: create, import, export or delete an Organisation; Reload; System Selection; Capability Generator | `contents.md` |
 
 ## P
@@ -127,9 +127,9 @@ Paths are written "System › page › tile". "Doc 28" is the document numbered 
 | Item | Where in the app | Described in |
 |---|---|---|
 | Partners & Suppliers | Business › 2 Infrastructure & Capability (both cards) | Page 3 |
-| Philosophy | Identity › 1 Definition and Purpose › Purpose › Philosophy & Manifesto | Doc 45, 3.5 |
+| Philosophy | Identity System › Definition › Purpose › Philosophy & Manifesto | Doc 45, 3.5 |
 | Positioning (tile) | Identity › 1 Definition and Purpose; its name follows the business stage (see Early Positioning) | Doc 38 |
-| Principles | Identity › 1 Definition and Purpose › Purpose › Values & Principles | Doc 45, 3.4 |
+| Principles | Identity System › Definition › Purpose › Values & Principles | Doc 45, 3.4 |
 | Purpose | Identity › 1 Definition and Purpose, the second frame: Mission & Vision, Values & Principles, Philosophy & Manifesto | Doc 45 |
 | Profile | Business › 1 Foundation & Engagement › Foundation › Segment Description, the Profiles section under the Segment's boxes (a card that opens floating) | Doc 36; doc 28, 6.4 |
 
@@ -139,7 +139,7 @@ Paths are written "System › page › tile". "Doc 28" is the document numbered 
 |---|---|---|
 | Reading mode | Header: light, sepia, dark, auto | Doc 1, B.2 |
 | References | Header › Workbook › References: every source the app cites, as a Harvard reference list; the "i" notes cite the same references | Doc 2, 2.1 and 2.2 |
-| Registrations | Identity › 2 Legal Entity › Registrations & Expenses › Registrations (one dialog card: the registry's and the tax's numbers as sections, the Additional Legal Requirements as nested tiles) | Doc 26; layout rules, 13 |
+| Registrations | Identity System › Definition › Registrations & Expenses › Registrations (one dialog card: the registry's and the tax's numbers as sections, the Additional Legal Requirements as nested tiles) | Doc 26; layout rules, 13 |
 | Resources | Business › 2 Infrastructure & Capability (both cards) | Page 3 |
 | Revenue | Business › 3 Financials › Financial Foundation › Revenue Streams (its dialog holds the Delivery Check and the Revenue Summary) | Page 4 |
 | Review | Header › Workbook › Review (`/review` opens it there): Still open, Worth a second look, Key dates, Missing from the documents; on the Organisations screen, every organisation, with a funnel of the Organisations | Doc 1, C.2 |
@@ -171,6 +171,6 @@ Paths are written "System › page › tile". "Doc 28" is the document numbered 
 | Item | Where in the app | Described in |
 |---|---|---|
 | Value Proposition | Business › 1 Foundation & Engagement › Foundation › Value Proposition | Doc 42; doc 28, 6.7; page 1 |
-| Values | Identity › 1 Definition and Purpose › Purpose › Values & Principles | Doc 45, 3.3 |
-| Vision | Identity › 1 Definition and Purpose › Purpose › Mission & Vision (saved in Definition) | Doc 45, 3.2 |
+| Values | Identity System › Definition › Purpose › Values & Principles | Doc 45, 3.3 |
+| Vision | Identity System › Definition › Purpose › Mission & Vision (saved in Definition) | Doc 45, 3.2 |
 | Workbook | Header, wherever an Organisation is open, and the Landing page (one button, no count): the Workbook page (`/workbook`), sections Card Notes, Review, Glossary, References and Business Documents; on the Landing page Review (every Organisation), Glossary and References; Back or Escape returns | `contents.md`; layout rules 22.37 |

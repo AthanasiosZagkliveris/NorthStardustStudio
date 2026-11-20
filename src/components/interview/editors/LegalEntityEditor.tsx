@@ -1,4 +1,5 @@
-import { CSSProperties, ReactNode } from "react";
+import { CSSProperties, ReactNode, useLayoutEffect } from "react";
+import { HANDED_TILES_KEY, useJoinedChapter } from "../tiles/joinedChapter.ts";
 import CardShell from "../cards/CardShell.tsx";
 import { legalExpenseMissing, legalRequirementMissing } from "../../../framework/engine/SystemCardCompleteness.ts";
 import type { FloorLink } from "../tiles/capabilityFloor.ts";
@@ -69,6 +70,16 @@ export function foundersTileFace(value: unknown, holdsFounders: boolean): Pick<S
 }
 
 export default function LegalEntityEditor(props: LegalEntityEditorProps) {
+
+    // (ON THE IDENTITY SYSTEM'S ONE PAGE (PageGroups.ts, `handsTiles`; owner, 2026-11-20 13:02 UTC+2): the page's tiles go to the Definition chapter, which is told
+    // once this editor has drawn; joinedChapter.ts.)
+    // (Only the page's own Legal Entity hands its tiles: the instances drawn inside the Definition chapter -- Founders & Ownership, the Organisation, the
+    // Positioning -- never tell the chapter, or each draw of it would start the next.)
+    const joined = useJoinedChapter();
+    const handTo = joined && props.asTiles && !props.foundersOnly && !props.audienceOnly && !props.organizationOnly && !props.cardsOnly ? joined : null;
+    useLayoutEffect(() => {
+        handTo?.changed();
+    });
 
     const part1 = useLegalState(props);
     const part2 = { ...part1, ...useLegalFieldsAndSections({ ...part1 }) };
@@ -317,6 +328,11 @@ export default function LegalEntityEditor(props: LegalEntityEditorProps) {
         ];
         if (cardsOnly) {
             return <SectionTiles label={LEGAL_ENTITY_SECTIONS.join(", ")} hue={workHue("define")} tiles={tiles} incomplete={missingById} cardsOnly />;
+        }
+        // (No frame of its own on the Identity System's one page: its Registrations & Expenses tile stands in the Definition chapter, its id, dialog and cards as they are.)
+        if (handTo) {
+            handTo.set(HANDED_TILES_KEY, tiles);
+            return null;
         }
         return (
             <div className="answer-columns business-foundation business-engagement business-capability column-tiles-page" style={{ "--answer-column-count": 1 } as CSSProperties}>

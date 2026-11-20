@@ -5,7 +5,8 @@ import { businessFoundationSegments } from "../../../framework/engine/AnswerUtil
 import { asBusinessEngagementValue } from "../../../framework/engine/businessFoundation/engagementReaders.ts";
 import { segmentIdentityOf } from "../../../framework/engine/SegmentContext.ts";
 import { withValuesText } from "../../../framework/engine/ValueIds.ts";
-import { CSSProperties, Fragment, useState } from "react";
+import { CSSProperties, Fragment, type ReactNode, useState, useSyncExternalStore } from "react";
+import { HANDED_TILES_KEY, useJoinedChapter } from "../tiles/joinedChapter.ts";
 import CardShell from "../cards/CardShell.tsx";
 import { OptionalNote } from "../cards/BusinessCardFields.tsx";
 import { BUYER_CATEGORIES, BUYER_USER_RELATIONS, USER_LIFE_STAGES, positioningName } from "./legal/shared.tsx";
@@ -94,6 +95,9 @@ function MultiPartAnswerRenderer({
     const parts = definition.parts ?? [];
 
     const [activePartId, setActivePartId] = useState<string | undefined>(parts[0]?.id);
+    // (The tiles the Legal Entity hands the Definition chapter on the Identity System's one page, drawn again when they change; joinedChapter.ts.)
+    const handed = useJoinedChapter();
+    useSyncExternalStore(handed?.subscribe ?? noHanded, handed?.version ?? noHandedVersion);
 
     const tabScrollRef = useDragToScroll<HTMLDivElement>();
 
@@ -392,6 +396,21 @@ function MultiPartAnswerRenderer({
                     ? <FieldPageProvider organizationId={fieldPage.organizationId} systemNumber={fieldPage.systemNumber} sectionNumber={legalEntitySectionNumber} pageTitle={fieldPage.pageTitle}>{founders}</FieldPageProvider>
                     : founders
             });
+        }
+
+        // (REGISTRATIONS & EXPENSES IN THE DEFINITION CHAPTER (owner, 2026-11-20 13:02 UTC+2: "Move the master Tile to the 1st page, in the Definition Chapter"):
+        // the Legal Entity's one Master Tile, handed over by its editor, in the chapter's fourth place, after Founders & Ownership.)
+        if (handed && parts.some(part => part.id === "description") && parts.some(part => part.id === "positioning")) {
+            // (Its dialog and cards stand in the Legal Entity's own field page, as Founders & Ownership's do: every key, note and link of section 3 stays as it was.)
+            const own = (node: ReactNode) => fieldPage && legalEntitySectionNumber !== undefined
+                ? <FieldPageProvider organizationId={fieldPage.organizationId} systemNumber={fieldPage.systemNumber} sectionNumber={legalEntitySectionNumber} pageTitle={fieldPage.pageTitle}>{node}</FieldPageProvider>
+                : node;
+            tiles.push(...handed.get(HANDED_TILES_KEY).map(tile => ({
+                ...tile,
+                section: legalEntitySectionNumber,
+                content: () => own(tile.content()),
+                ...(tile.cardFor ? { cardFor: (id: string) => own(tile.cardFor!(id)) } : {})
+            })));
         }
 
         return (
@@ -818,3 +837,6 @@ function SingleAnswerRenderer({
     }
 
 }
+
+const noHanded = () => () => {};
+const noHandedVersion = () => 0;

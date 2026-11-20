@@ -37,6 +37,10 @@ export interface SectionTile {
     /** The section's content, drawn only while its dialog is open. */
     content: () => ReactNode;
 
+    /** The section whose answer the tile holds, where it stands in another section's chapter (the Legal Entity's Registrations & Expenses on the Identity System's
+        one page): its notes, search and Glossary keys stay that section's (fieldMarks.tsx). */
+    section?: number;
+
     /** The title in sentence case (only its first letter a capital), not in capitals. */
     sentence?: boolean;
 

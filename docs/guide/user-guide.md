@@ -16,7 +16,7 @@ The app helps you write down the decisions your business runs on: who you are, w
 
 The first screen lists your Organisations: each business you plan is one Organisation.
 
-1. **Write your name** in the box at the top. It starts the first founder's name on the Legal Entity page and appears on your documents.
+1. **Write your name** in the box at the top. It starts the first founder's name on Founders & Ownership and appears on your documents.
 2. **Press "+ Add Organisation"** and type its name in the new row. Press a row to select it; the selected Organisation is the one you work on.
 3. **Press "System Selection"** to start work on the selected Organisation.
 4. **Keep a copy**: "Export Organisation" saves the selected one as a file; "Import Organisation" opens such a file, here or on another device. The x at the end of a row removes that Organisation, after you confirm.
@@ -54,7 +54,7 @@ Who the organisation is, in law and in purpose. Two pages.
 3. **Founders & Ownership**: each founder, their roles and what they bring: their industry, management, achievements and skills.
 4. **Purpose & Beliefs**: three pair tiles, Mission & Vision, Values & Principles, Philosophy & Manifesto, each a short text in your own words.
 
-**Page 2, Legal Entity**: one tile, **Registrations & Expenses**, which opens two tiles.
+**In the Definition chapter, Registrations & Expenses**: the fourth tile (one page for the whole Identity System since 20 November 2026), which opens two tiles.
 1. **Registrations**: the registry's and the tax's numbers, and inside them the **Additional Legal Requirements**: what you have registered and what the law asks of your activity in your country.
 2. **Expenses**: the legal costs (incorporation, trade marks, licences). Each becomes a cost card the Business System counts.
 

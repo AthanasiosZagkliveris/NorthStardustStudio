@@ -1492,7 +1492,7 @@ export default function Conversation() {
                             {pageGroup && pageGroup.members.length > 1
                                 ? (
                                     <SegmentPageContext.Provider value={segmentPage}>
-                                    <JoinedChapterContext.Provider value={pageGroup.oneChapter ? chapterTiles : null}>
+                                    <JoinedChapterContext.Provider value={pageGroup.oneChapter || pageGroup.handsTiles ? chapterTiles : null}>
                                     <div className={"page-group" + (segmentPage || pageGroup.oneChapter ? " page-group-one-chapter" : "")}>
                                         {/* (A page of one Segment at a time, or of one chapter: the companion first, so the tiles it hands the chapter are this draw's.) */}
                                         {!segmentPage && !pageGroup.oneChapter && renderAnswer(currentSection, effectiveAnswer ?? currentSection.answer, effectiveValue, sharedSource ? handleSharedAnswerChange : handleAnswerChange, true)}

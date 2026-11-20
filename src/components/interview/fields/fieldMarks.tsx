@@ -213,7 +213,8 @@ function markControls(root: HTMLElement, page: FieldPageValue): void {
             continue;
         }
         const id = tile.dataset.tile ?? "";
-        const key = fieldKey({ systemNumber: page.systemNumber, sectionNumber: page.sectionNumber, path: [id] });
+        // (A tile standing in another section's chapter keeps its own section's key: the Legal Entity's Registrations & Expenses on Definition.)
+        const key = fieldKey({ systemNumber: page.systemNumber, sectionNumber: Number(tile.dataset.fieldSection) || page.sectionNumber, path: [id] });
         const name = tile.querySelector(".section-tile-title")?.textContent?.replace(/\s+/g, " ").trim() || (tile.getAttribute("aria-label") ?? id).split(",")[0];
         // (On the tile's frame, which holds the tile and the layer of its list's lines: a press anywhere on it links the tile.)
         (tile.closest<HTMLElement>(".section-tile-slot") ?? tile).dataset.fieldKey = key;

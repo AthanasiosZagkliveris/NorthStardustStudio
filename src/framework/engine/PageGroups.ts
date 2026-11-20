@@ -26,6 +26,9 @@ export interface PageGroup {
     /** The page's sections drawn as ONE chapter of this name, the page's own section drawing it with the tiles the others hand it (joinedChapter.ts). */
     oneChapter?: string;
 
+    /** A section of the page that draws no frame: it hands its tiles to the page's own section's chapter (joinedChapter.ts), which draws them after its own. */
+    handsTiles?: number;
+
 }
 
 /** Financials' two chapters, in their order: their headings, numbered by the page ("1. Revenue & Break Even"; layout rules section 13). */
@@ -33,9 +36,11 @@ export const FINANCIALS_FRAMES = ["Revenue & Break Even", "Financial Foundation"
 
 export const PAGE_GROUPS: readonly PageGroup[] = [
     // (Mission and Vision are saved in Definition, the first section, and drawn in Purpose as one pair tile: doc 45.)
-    { systemNumber: 1, members: [1, 2], title: "Definition & Purpose", inHeader: true },
+    // THE IDENTITY SYSTEM, ONE PAGE (owner, 2026-11-20 13:02 UTC+2: "Legal Entity - Move the master Tile to the 1st page, in the Definition Chapter. 1. Identity System
+    // will have only one page."): the Legal Entity (section 3) draws no frame; its Registrations & Expenses tile stands in the Definition chapter's fourth place. It keeps
+    // its number, its saved answer, its ids and its dialog.
+    { systemNumber: 1, members: [1, 2, 3], title: "Identity System", inHeader: false, handsTiles: 3 },
     // (The Founders Profile, the fourth section, is no frame of its own: its founders are tiles in the Founders & Ownership dialog and its Capability a tile beside it. It keeps its saved answer.)
-    { systemNumber: 1, members: [3], title: "Legal Entity", inHeader: true, frameTitles: ["Legal Entity"] },
     { systemNumber: 2, members: [1, 2], title: "Brand System", inHeader: false },
     // FOUNDATION & ENGAGEMENT (the owner's approved plan of 2026-11-18, step 2): the Business System's Foundation and Customer Engagement are one page, one Segment at a
     // time, each Segment ONE chapter of its seven Master Tiles in its own hue (owner, 2026-11-19: "Place all the Tiles in the same chapter, adjusting the colours per
@@ -56,7 +61,7 @@ export const PAGE_GROUPS: readonly PageGroup[] = [
  */
 export const HIDDEN_SECTIONS: readonly { systemNumber: number; sections: readonly number[]; primary: number }[] = [
     { systemNumber: 4, sections: [2, 3], primary: 1 },
-    { systemNumber: 1, sections: [4], primary: 3 }
+    { systemNumber: 1, sections: [4], primary: 1 }
 ];
 
 /** Whether the section is kept out of the pages. */

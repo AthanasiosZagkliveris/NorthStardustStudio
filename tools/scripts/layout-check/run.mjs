@@ -52,7 +52,7 @@ export const ALL_SYSTEMS = (() => {
     return [...read("systems.ts").matchAll(/title:\s*"([^"]+)",\s*capability:\s*"([^"]+)"/g)].map(m => [capabilities.get(m[2]), m[1]]);
 })();
 
-/** The pages of a System as its Pages rail names them ("Definition & Purpose", "Legal Entity", ...), opened from its capability. */
+/** The pages of a System as its Pages rail names them ("Foundation & Engagement", "Infrastructure & Capability", ...), opened from its capability. */
 export async function pagesOf(page, base, capability, system) {
     await page.goto(base + "/assistant");
     await page.waitForTimeout(600);
@@ -75,7 +75,7 @@ export async function pagesOf(page, base, capability, system) {
 export const PAGES = [
     // EACH PAGE BY ITS NAME (ai-collaboration-rules.md, "Read the app's structure by what a thing is"): matched from the start of the page's
     // button after the rail's number, whatever it is ("^(\d+\. )?Foundation"), so "Foundation" does not also find "Financial Foundation".
-    ["Identity System", ["Definition", "Legal Entity"]],
+    ["Identity System", ["Identity System"]],
     ["Brand System", ["Brand System"]],
     ["Business System", ["Foundation & Engagement", "Infrastructure", "Financials"]],
     ["Strategy System", ["Strategy System"]]
@@ -545,7 +545,7 @@ export async function runLayoutCheck(page, { base = "http://localhost:1420", pro
     const failures = [];
     // The reference x: the first Legal Entity card's (measured here, or handed in by a run that measured it once).
     let referenceX = reference ?? null;
-    if (reference === undefined && await openPage(page, base, "Identity System", "Legal Entity")) {
+    if (reference === undefined && await openPage(page, base, "Identity System", "Identity System")) {
         const card = page.locator(".legal-entity-card .strategy-box-remove").first();
         if (await card.count()) {
             referenceX = await removeLook(page, card);
@@ -745,7 +745,7 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
                 const page = await newCheckPage();
                 try {
                     await seedExample(page, base, readFileSync(job.file, "utf8"));
-                    if (await openPage(page, base, "Identity System", "Legal Entity")) {
+                    if (await openPage(page, base, "Identity System", "Identity System")) {
                         const card = page.locator(".legal-entity-card .strategy-box-remove").first();
                         if (await card.count()) {
                             return await removeLook(page, card);

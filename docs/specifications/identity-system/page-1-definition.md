@@ -23,7 +23,7 @@ Related: doc 37 (the Organisation tile's fields), doc 38 (the Positioning tile's
 
 ## 1. What the master tile is
 
-The Identity System (System 1, Foundation) opens on its page 1, **"1. Definition and Purpose"**. The page holds two **master tiles** (frames), side by side: **1. Definition** and 2. Purpose & Beliefs (Mission & Vision, Values & Principles, Philosophy & Manifesto: doc 45). Page 2 is Legal Entity.
+The Identity System (System 1, Foundation) is ONE page, **"1. Identity System"** (since 2026-11-20; owner, 13:02 UTC+2: "1. Identity System will have only one page"). The page holds two **master tiles** (frames), side by side: **1. Definition** and 2. Purpose & Beliefs (Mission & Vision, Values & Principles, Philosophy & Manifesto: doc 45). Page 2 is Legal Entity.
 
 The master tile **1. Definition** holds these tiles, in this order (Mission and Vision are saved here and drawn in 2. Purpose & Beliefs, in its pair tile Mission & Vision, doc 45):
 
@@ -32,6 +32,7 @@ The master tile **1. Definition** holds these tiles, in this order (Mission and 
 | 1 | **Organisation** | Name, country, address, legal form, dates, activities, and the description (Notes) | the Legal Entity answer (`organisation`), the Opening Date in the Global Settings, the description under the key "Description" | dialog with fields |
 | 2 | **Early Positioning** (named by the stage, section 8) | Who the business sells to, why, how it differs, and the result | the Legal Entity answer (`organisation`); its Notes under the key "Positioning" | dialog with choice questions |
 | 3 | **Founders & Ownership** (owner, 2026-11-09) | The owners, their shares and capital, and a tile for each founder's profile | the Legal Entity answer (`founders`) and the Founders Profile; its fields keep the Legal Entity's keys | dialog: the Ownership, then the founders' tiles (a one-owner form: the founder's card) |
+| 4 | **Registrations & Expenses** (owner, 2026-11-20 13:02 UTC+2: "Move the master Tile to the 1st page, in the Definition Chapter") | The registry's and the tax's numbers with the Additional Legal Requirements, and the Legal Entity's expenses | the Legal Entity answer; its tile, dialog and cards keep the Legal Entity's ids and keys (`handsTiles`, `SectionTile.section`) | dialog of two tiles, Registrations and Expenses |
 | (3) | **Mission**, drawn in Purpose & Beliefs | One free text | the key "Mission" | the Mission & Vision dialog, its first text |
 | (4) | **Vision**, drawn in Purpose & Beliefs | One free text | the key "Vision" | the Mission & Vision dialog, its second text |
 
@@ -70,7 +71,7 @@ Only one dialog is open at a time; which one is open is view state and is never 
 
 - **Frozen until a country is chosen:** Address, Legal Form, State and the activities show the hint "Choose a country first." and keep what they hold.
 - **Country:** the six of the first version and **Other**; it drives the legal forms, the activity scheme and its code name, the registration numbers, the currency and the date format. For Other, the legal forms are the four generic ones (Sole Proprietorship, General Partnership, Private Limited Company, Limited Liability Partnership; `GENERIC_LEGAL_FORMS`) and the activity and its code are typed. Public company, nonprofit and cooperative forms are not offered (doc 33, section 3).
-- **Legal Form:** a one-owner form removes the ownership questions of the Legal Entity page.
+- **Legal Form:** a one-owner form removes the ownership questions of Founders & Ownership.
 - **Registration Date:** not asked where the legal form is a sole trader or a sole proprietorship in the six countries (`registrationDateApplies`). A warning stands under it for a date that has not come or a company formed after the Opening Date.
 - **Opening Date:** saved in the Global Settings; it decides the business stage (section 8).
 - **Activities:** a finished activity is folded to one line (fold arrow, "Primary", code, path); an open one shows its dropdowns. Changing a level empties the levels below it and the code.
@@ -127,7 +128,7 @@ The business stage (Planning, Launching, Managing, Growing) is **not asked**: it
 
 | Answer | Read by |
 |---|---|
-| Name, country, address, legal form, dates | The Legal Entity page (page 2), the registration numbers and the jurisdiction profile, the currency and the tax name, the financials, the Calendar's key dates, the Review, the Business Plan and the exports (doc 28, 8.1) |
+| Name, country, address, legal form, dates | Registrations & Expenses (Definition's fourth tile), the registration numbers and the jurisdiction profile, the currency and the tax name, the financials, the Calendar's key dates, the Review, the Business Plan and the exports (doc 28, 8.1) |
 | Legal Form | The ownership questions (a one-owner form has none), owners' drawings, the open items |
 | Opening Date | The stage; the plan start; key dates; the Review's messages; the exported title |
 | Activities | The exports only (as codes with the scheme's initials) |
