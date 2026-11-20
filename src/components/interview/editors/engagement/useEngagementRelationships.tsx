@@ -663,6 +663,8 @@ export function useEngagementRelationships(earlier: Earlier) {
                     anchor={"relationship-offering-" + offeringId + (ownCard ? "-" + typeOnly : "")}
                     actions={ownCard ? removeType(typeOnly) : undefined}
                     headless={!ownCard}
+                    // (Made from the Foundation's answers: no x, its room to the cells; owner, 2026-11-20 18:35 UTC+2.)
+                    madeByApp
                 >
                     {/* EACH RELATIONSHIP TYPE A BOX (owner, 2026-11-12 23:16: "Rearrange the colour tints ... to see the x button is not possible"): its name, its "i" and its
                         x on the box's title band, as a Customer Source's on the Demand card; then a band for its Purpose and a band for each stage, its Goals in one row

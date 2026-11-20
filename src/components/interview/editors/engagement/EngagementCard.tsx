@@ -11,7 +11,10 @@ import InfoNote, { InfoPoint, InfoText } from "../../fields/InfoNote.tsx";
 import { SingleColumn } from "../foundation/shared.tsx";
 
 /** The card: the Offering's number and name (its name a link to the Foundation's Offering, where it is named), always open. */
-export function EngagementCard({ kind, number, name, anchor, ariaPrefix, onOpenName, headRow, actions, emptyName = "Unnamed Offering", children, headless = false }: {
+export function EngagementCard({ kind, number, name, anchor, ariaPrefix, onOpenName, headRow, actions, emptyName = "Unnamed Offering", children, headless = false, madeByApp = false }: {
+    /** MADE FROM EARLIER ANSWERS (owner, 2026-11-20 18:35 UTC+2: "auto-generated from previous answers, so they do not need to have x (delete) button. Use that space
+     *  (right edge) to widen the text cells"): no x, and the x column's room goes to the cells (`card-made-by-app`). */
+    madeByApp?: boolean;
     /** What stands at the end of the head: the card's x (a relationship type's, while its Offering has another). */
     actions?: ReactNode;
     emptyName?: string;
@@ -37,7 +40,8 @@ export function EngagementCard({ kind, number, name, anchor, ariaPrefix, onOpenN
             headRow={headRow}
             head={headless ? <></> : undefined}
             emptyName={emptyName}
-            actions={actions}
+            actions={madeByApp ? undefined : actions}
+            className={madeByApp ? "card-made-by-app" : undefined}
             nameLink={onOpenName ? { title: name.trim() || "Offering", onClick: onOpenName, ariaLabel: "Open the Foundation page, where the Offering " + (name.trim() || "") + " is defined" } : undefined}
         >
             {children}

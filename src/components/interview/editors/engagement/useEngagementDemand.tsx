@@ -376,6 +376,9 @@ export function useEngagementDemand(earlier: Earlier) {
                         anchor={"demand-source-" + source.id}
                         headRow={figure || undefined}
                         actions={remove}
+                        // (A source the answers made -- or one that took their channels, a kind never twice -- has no x: its room goes to the cells; one the founder added on its own keeps it.
+                        // Owner, 2026-11-20 18:35 UTC+2.)
+                        madeByApp={source.fromAnswers === true || source.channelId !== "" || (source.channelIds?.length ?? 0) > 0}
                     >
                         <SingleColumn>
                             <EngagementBoxes>{[
