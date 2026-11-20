@@ -1,4 +1,5 @@
 import ChoiceCard from "../../controls/ChoiceCard.tsx";
+import { SingleColumn } from "./foundation/shared.tsx";
 import { salariedFounderIds } from "../../../framework/engine/LegalStarts.ts";
 import VisionChoices from "./purpose/VisionChoices.tsx";
 import AmbassadorChoices, { AMBASSADOR_PARTS } from "./brand/AmbassadorChoices.tsx";
@@ -312,6 +313,14 @@ function MultiPartAnswerRenderer({
                                 {/* (The Vision's two choices above its text, PB8 then PB7, and its "Add a draft": doc 45, 3.8; doc 49, section 9, P1 and P2.) */}
                                 {text.part.id === "vision" && <VisionChoices value={text.from} onChange={text.save} foundation={businessFoundation} disabled={disabled} />}
                                 {columnControl(text.part, text.from, text.save)}
+                                {/* (The Vision's draft is written in by itself; the details go in its Notes, under it: owner, 2026-11-20 18:35 UTC+2.) */}
+                                {text.part.id === "vision" && (
+                                    <SingleColumn>
+                                        <div className="legal-entity-org-section">
+                                            <OptionalNote label="Notes" fieldId="Vision Notes" ariaLabel="Vision notes" value={typeof text.from.visionNotes === "string" ? text.from.visionNotes : ""} onChange={(next) => text.save({ ...text.from, visionNotes: next })} disabled={disabled} />
+                                        </div>
+                                    </SingleColumn>
+                                )}
                             </div>
                         );
                         return (

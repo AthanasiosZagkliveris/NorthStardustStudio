@@ -4,8 +4,8 @@ import RadioChoice from "../../../controls/RadioChoice.tsx";
 import { BusinessTicks } from "../../cards/BusinessCardFields.tsx";
 import { businessFoundationSegments } from "../../../../framework/engine/AnswerUtils.ts";
 import { PB7_INFO, PB8_INFO, VISION_AMBITIONS, VISION_AMBITIONS_MAX, VISION_REACH, asVisionAmbitions, asVisionReach, visionChoicesSentence, widestSegmentReach } from "../../../../framework/engine/VisionChoices.ts";
-import { draftAdds, withDraft } from "../../../../framework/engine/CompetitorQuestions.ts";
-import TextLink from "../../fields/TextLink.tsx";
+import { useAutoDraft } from "../../fields/useAutoDraft.ts";
+import InfoNote, { InfoText } from "../../fields/InfoNote.tsx";
 
 /**
  * THE VISION'S TWO CHOICES, PB8 THEN PB7, ABOVE ITS TEXT, AND "ADD A DRAFT" (doc 45, section 3.8; doc 49, section 9, P1 and P2; owner, 2026-11-20 12:49 UTC+2,
@@ -29,6 +29,8 @@ export default function VisionChoices({ value, onChange, foundation, disabled = 
     const today = widestSegmentReach(businessFoundationSegments(foundation));
     const vision = typeof value.vision === "string" ? value.vision : "";
     const draft = visionChoicesSentence(ambitions, reach);
+    // (The draft written in by itself while the Vision is empty or still the app's: owner, 2026-11-20 18:35 UTC+2; its Notes stand under the text.)
+    useAutoDraft(vision, draft, (next) => onChange({ ...value, vision: next }), disabled);
     return (
         // (One column of bands, the shared helper the Positioning's and the cards' questions stand in.)
         <SingleColumn>
@@ -43,7 +45,14 @@ export default function VisionChoices({ value, onChange, foundation, disabled = 
                         onChange={(next) => onChange({ ...value, visionReach: asVisionReach(next) })}
                         options={VISION_REACH.map(option => ({ id: option.id, label: option.label })) as never}
                     />
-                    {today && <p className="legal-entity-empty-note">{"Today: " + today.label + " (" + today.segment + ")"}</p>}
+                    {/* (The Segment it is read from in its "i", never in brackets: owner, 2026-11-20 18:35 UTC+2.) */}
+                    {today && (
+                        <p className="legal-entity-empty-note">
+                            <InfoText text={"Today: " + today.label}>
+                                <InfoNote label="Today" points={["Read from the Segment that reaches widest today: " + today.segment + "."]} />
+                            </InfoText>
+                        </p>
+                    )}
                 </FieldRow>
             </div>
             <div className="legal-entity-org-section legal-entity-org-band">
@@ -60,11 +69,6 @@ export default function VisionChoices({ value, onChange, foundation, disabled = 
                     </div>
                 </FieldRow>
             </div>
-            {draftAdds(vision, draft) && (
-                <TextLink className="business-competitor-draft" disabled={disabled} onClick={() => onChange({ ...value, vision: withDraft(vision, draft) })}>
-                    Add a draft
-                </TextLink>
-            )}
         </SingleColumn>
     );
 }
