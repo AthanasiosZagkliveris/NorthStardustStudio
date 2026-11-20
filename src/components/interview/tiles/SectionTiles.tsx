@@ -368,7 +368,12 @@ export default function SectionTiles({
         });
         // THE DIALOG FOLLOWS THE ARROWS (owner, 2026-11-16 19:18): the marked tile scrolls into view behind the card, smoothly, the least it can; at once where motion is reduced.
         const reduced = typeof window.matchMedia === "function" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-        (cells[0] ?? tile ?? block ?? line)?.scrollIntoView?.({ block: "nearest", inline: "nearest", behavior: reduced ? "auto" : "smooth" });
+        // (Inside a layer only: the page under an open layer never scrolls (layout rules section 10, "Scrolling is global") -- a page tile behind the card stays where
+        // it is, so the card keeps standing on its row; 2026-11-20, a stacked page at 768 slid under its card.)
+        const follow = cells[0] ?? tile ?? block ?? line;
+        if (follow?.closest(".section-tile-overlay, .floating-card-host")) {
+            follow.scrollIntoView?.({ block: "nearest", inline: "nearest", behavior: reduced ? "auto" : "smooth" });
+        }
         return () => {
             marked.forEach(element => {
                 element.removeAttribute("data-opener-tile");

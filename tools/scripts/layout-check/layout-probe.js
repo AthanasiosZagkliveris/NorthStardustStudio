@@ -3877,14 +3877,22 @@
         // proper layout for the floated cards"): the first card's top stands on the top of the first row of tiles of the column it stands over, its box name above it.
         {
             const frames = [...document.querySelectorAll(".conversation-card .business-foundation-card:not(.section-tile-dialog)")].filter(frame => visible(frame) && rect(frame).width > 300 && !frame.closest(".section-tile-overlay, .floating-card-host"));
-            const under = frames.find(frame => { const r = rect(frame); return cardBox.left < r.right && cardBox.right > r.left; });
+            // (Frames one under the other, below 1200px: the column is the chapter the open dialog covers, else the one the card's top stands in; layout rules section 8.)
+            const across = frames.filter(frame => { const r = rect(frame); return cardBox.left < r.right && cardBox.right > r.left; });
+            const dialogOpen = [...document.querySelectorAll(".section-tile-dialog")].filter(visible).pop();
+            const overlap = frame => { if (!dialogOpen) return 0; const r = rect(frame), d = rect(dialogOpen); return Math.max(0, Math.min(r.bottom, d.bottom) - Math.max(r.top, d.top)); };
+            const under = across.length > 1
+                ? (dialogOpen && across.some(frame => overlap(frame) > 0) ? across.reduce((best, frame) => overlap(frame) > overlap(best) ? frame : best) : across.find(frame => rect(frame).top <= cardBox.top && rect(frame).bottom > cardBox.top) ?? across[0])
+                : across[0];
             const row = under?.querySelector(".section-tile-slot");
             const first = host.querySelector(".floating-card-body");
-            const unscrolled = !document.querySelector("main.conversation-content") || document.querySelector("main.conversation-content").scrollTop === 0;
+            // (The page as it rests: the window unscrolled too -- a stacked page under 1200px scrolls the window, and a card fixed to it then stands over a row that moved;
+            // the rest place is the next rule's, "a floating card's top stands on the top of the first row", which undoes the scroll.)
+            const unscrolled = (!document.querySelector("main.conversation-content") || document.querySelector("main.conversation-content").scrollTop === 0) && window.scrollY < 1;
             if (row && first && unscrolled && rect(row).top - rect(under).top <= 120 && rect(row).top < window.innerHeight - 260) {
                 const gap = rect(first).top - rect(row).top;
                 if (Math.abs(gap) > 1.5) {
-                    fail("a floating card opens on its column's first row of tiles", { gap });
+                    fail("a floating card opens on its column's first row of tiles", { gap, card: Math.round(rect(first).top), row: Math.round(rect(row).top), scrollY: Math.round(window.scrollY) });
                 }
             }
         }
@@ -3913,7 +3921,11 @@
         // A card pops up over the OTHER section's column (Infrastructure's over Offering's Capability's and the reverse), at the level of its first row of tiles.
         const columns = [...document.querySelectorAll(".answer-columns.business-capability > .business-foundation-card")];
         if (anchor && columns.length === 2 && columns.includes(anchor)) {
-            anchor = columns[columns[0] === anchor ? 1 : 0];
+            // (Side by side only: stacked below 1200px, the card keeps its own chapter; layout rules section 8, "Placed on the first row".)
+            const other = columns[columns[0] === anchor ? 1 : 0];
+            if (Math.abs(box(other).top - box(anchor).top) < box(anchor).height) {
+                anchor = other;
+            }
         }
         // (The same on every page of two chapters side by side -- the app's otherColumn: a card opens over the chapter on the other half -- such as a Segment's two
         // chapters on Foundation & Engagement; layout rules section 10.)
@@ -3984,7 +3996,7 @@
                     wanted - nameAbove < t.bottom + 12 && wanted - nameAbove + n.height > t.top && Math.abs(n.top - (t.bottom + 12)) <= 3;
             });
             if (rowTop < window.innerHeight && Math.abs(box(firstBody).top - wanted) > 3 && !clearOfTitle) {
-                fail("a floating card's top stands on the top of the first row of tiles of its column", { card: box(firstBody).top, row: rowTop, wanted });
+                fail("a floating card's top stands on the top of the first row of tiles of its column", { card: box(firstBody).top, row: rowTop, wanted, anchor: (anchor.dataset.anchor || anchor.className).slice(0, 60), scrollY: Math.round(window.scrollY) });
             }
             // A stack taller than the room under that top scrolls in itself.
             if (host.hasAttribute("data-tall")) {

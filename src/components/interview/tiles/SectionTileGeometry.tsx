@@ -55,7 +55,11 @@ export function otherColumn(anchor: HTMLElement | null): HTMLElement | null {
     }
     const columns = Array.from(document.querySelectorAll<HTMLElement>(".answer-columns.business-capability > .business-foundation-card"));
     if (columns.length === 2 && columns.includes(anchor)) {
-        return columns[columns[0] === anchor ? 1 : 0];
+        // (Only where the two stand side by side: below 1200px they stack, and a card keeps the chapter it was opened from -- the one its dialog covers;
+        // layout rules section 8, "Placed on the first row"; 2026-11-20.)
+        const other = columns[columns[0] === anchor ? 1 : 0];
+        const here = anchor.getBoundingClientRect();
+        return Math.abs(other.getBoundingClientRect().top - here.top) < here.height ? other : anchor;
     }
     // EVERY OTHER PAGE: the page is divided, inside, into a left and a right half, and a card opens on the half its tile is NOT in: over the frame on the other half
     // (the Brand System's Ambassador and Style, the Identity System's frames). A page of one frame, or frames one under the other, keeps its frame.
