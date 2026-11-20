@@ -64,7 +64,9 @@ export default function useRailTab(colours?: RailTabColours) {
             if (frames.length > 0) {
                 const frame = frames[0];
                 let scrolled = window.scrollY;
-                for (let node = frame.parentElement; node; node = node.parentElement) {
+                // (The window's scroll once: the document element's own scrollTop is the same scroll, and counting it too put the rail that far down once the page's
+                // stacked chapters (below 1200px) had been scrolled -- 2026-11-20, a rail 680px under its frame at 768.)
+                for (let node = frame.parentElement; node && node !== document.documentElement; node = node.parentElement) {
                     scrolled += node.scrollTop;
                 }
                 root.style.setProperty("--rail-frame-top", Math.round(frame.getBoundingClientRect().top + scrolled + 12) + "px");

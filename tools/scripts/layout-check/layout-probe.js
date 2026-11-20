@@ -2004,6 +2004,9 @@
             // THE HOVER (150%): the aim is taken the way the pointer does (pointerover), the scale applied by hand (a stylesheet's :hover
             // cannot be forced), the scaled rect compared with the scrolling body of the card the tile stands in, then undone.
             const scrolled = new Set();
+            // (The window's scroll is given back too: bringing a page tile into view scrolled the page under an open layer, and every later measure read a moved page;
+            // layout rules section 18, 2026-11-20.)
+            const windowY = window.scrollY;
             for (const slot of slots) {
                 const body = slot.closest(".card-scroll");
                 if (!body) continue;
@@ -2029,6 +2032,7 @@
                 void keep;
             }
             for (const body of scrolled) body.scrollTop = 0;
+            window.scrollTo(0, windowY);
         }
 
         // 17b. THE TITLE ARROW (docs/ai/layout-rules.md, "The title arrow"): the column title is
@@ -3127,7 +3131,7 @@
                 }
                 const layer = [...document.querySelectorAll(".floating-card-body, .section-tile-dialog")].filter(visible).pop();
                 if (layer && Math.abs(box.top - rect(layer).top - 12) > 0.6 && box.top > 80) {
-                    fail("every tab starts 12px under its layer's top", tab, { offset: box.top - rect(layer).top });
+                    fail("every tab starts 12px under its layer's top", tab, { offset: box.top - rect(layer).top, scrollY: window.scrollY, scrolled: (() => { let s = 0; for (let e = layer.parentElement; e && e !== document.documentElement; e = e.parentElement) s += e.scrollTop; return s; })() });
                 }
             }
         }
@@ -3138,7 +3142,9 @@
         {
             const px = name => { const probe = document.createElement("div"); probe.style.cssText = "position:absolute;visibility:hidden;width:var(" + name + ")"; document.body.appendChild(probe); const w = probe.getBoundingClientRect().width; probe.remove(); return w; };
             const dotsWidth = px("--rail-tab-dots-width"), namedWidth = px("--rail-tab-named-width"), padding = px("--rail-tab-padding");
-            for (const rail of [...document.querySelectorAll("nav.bullet-rail.bullet-rail-left, nav.bullet-rail.bullet-rail-right")].filter(visible)) {
+            // (Only a rail that shows: the page's rails are hidden while a layer is open -- layout rules section 10, "The page is a layer too" -- and their places then are
+            // nobody's to read; 2026-11-20, at 768 a hidden rail read a 97px gap.)
+            for (const rail of [...document.querySelectorAll("nav.bullet-rail.bullet-rail-left, nav.bullet-rail.bullet-rail-right")].filter(visible).filter(rail => getComputedStyle(rail).visibility !== "hidden")) {
                 const box = rect(rail);
                 const style = getComputedStyle(rail);
                 const named = !rail.classList.contains("bullet-rail-compact") && Math.abs(box.width - dotsWidth) > 0.6;
@@ -3363,6 +3369,12 @@
             if (only && !only.includes(title)) {
                 continue;
             }
+            // (A KNOWN SCROLL BEFORE EACH SCENE (2026-11-20): the window at its top, then the tile brought into view as a reader brings it -- a lower chapter's tile on a
+            // stacked page under 1200px opens from a scrolled page, the case "Every dialog opens at its frame's top" covers -- and the scroll left to settle, so a run
+            // never starts where the last scene left the page.)
+            window.scrollTo(0, 0);
+            tile.scrollIntoView({ block: "nearest", inline: "nearest" });
+            await pause(60);
             root.__layoutProbe.openSide = tile.getBoundingClientRect().width;
             tile.click();
             await pause(settle);
@@ -3451,15 +3463,22 @@
                 const cardBox = ownBox ? (lifted === null ? ownBox : { left: ownBox.left, width: ownBox.width, top: lifted, bottom: ownBox.bottom, height: ownBox.bottom - lifted }) : null;
                 // (A card taller than the window -- the Customer Channels' -- cannot be covered by its dialog: the dialog then fills the window under the header, and only its width is the card's.)
                 const tallCard = !!cardBox && cardBox.height > window.innerHeight;
+                // (A page scrolled past the frame's top: the dialog stands 12px under the page title's underline, the frame's place at rest, and runs to the frame's foot or the
+                // window's, 12px above the footer; layout rules section 23, "Every dialog opens at its frame's top", 2026-11-20.)
+                const rest = Math.max(header ? header.getBoundingClientRect().bottom : 0, underline ? underline.getBoundingClientRect().bottom : 0) + 12;
                 if (cardBox && cardBox.width > 200 && cardBox.height > 200 && !tallCard) {
                     width = cardBox.width;
                     height = cardBox.height;
                     top = cardBox.top;
+                    if (cardBox.top < rest - 0.5) {
+                        top = rest;
+                        height = Math.min(cardBox.bottom, footer ? footer.getBoundingClientRect().top - 12 : window.innerHeight) - rest;
+                    }
                 } else if (tallCard) {
                     width = cardBox.width;
                     height = 0;
                     // (Under the header and the page title that stays under it while the page scrolls; owner, 2026-11-11.)
-                    top = Math.max(cardBox.top, header ? header.getBoundingClientRect().bottom : 0, underline ? underline.getBoundingClientRect().bottom : 0);
+                    top = Math.max(cardBox.top, rest);
                 } else if (underline) {
                     // A page-wide dialog (Inventory, Completed) stands from the top of the page's cards to 12px above the window's foot, over the footer's band (owner, 2026-11-12).
                     const cardsTop = document.querySelector(".answer-columns.business-capability > .business-foundation-card");
@@ -3863,14 +3882,22 @@
         // proper layout for the floated cards"): the first card's top stands on the top of the first row of tiles of the column it stands over, its box name above it.
         {
             const frames = [...document.querySelectorAll(".conversation-card .business-foundation-card:not(.section-tile-dialog)")].filter(frame => visible(frame) && rect(frame).width > 300 && !frame.closest(".section-tile-overlay, .floating-card-host"));
-            const under = frames.find(frame => { const r = rect(frame); return cardBox.left < r.right && cardBox.right > r.left; });
+            // (Frames one under the other, below 1200px: the column is the chapter the open dialog covers, else the one the card's top stands in; layout rules section 8.)
+            const across = frames.filter(frame => { const r = rect(frame); return cardBox.left < r.right && cardBox.right > r.left; });
+            const dialogOpen = [...document.querySelectorAll(".section-tile-dialog")].filter(visible).pop();
+            const overlap = frame => { if (!dialogOpen) return 0; const r = rect(frame), d = rect(dialogOpen); return Math.max(0, Math.min(r.bottom, d.bottom) - Math.max(r.top, d.top)); };
+            const under = across.length > 1
+                ? (dialogOpen && across.some(frame => overlap(frame) > 0) ? across.reduce((best, frame) => overlap(frame) > overlap(best) ? frame : best) : across.find(frame => rect(frame).top <= cardBox.top && rect(frame).bottom > cardBox.top) ?? across[0])
+                : across[0];
             const row = under?.querySelector(".section-tile-slot");
             const first = host.querySelector(".floating-card-body");
-            const unscrolled = !document.querySelector("main.conversation-content") || document.querySelector("main.conversation-content").scrollTop === 0;
+            // (The page as it rests: the window unscrolled too -- a stacked page under 1200px scrolls the window, and a card fixed to it then stands over a row that moved;
+            // the rest place is the next rule's, "a floating card's top stands on the top of the first row", which undoes the scroll.)
+            const unscrolled = (!document.querySelector("main.conversation-content") || document.querySelector("main.conversation-content").scrollTop === 0) && window.scrollY < 1;
             if (row && first && unscrolled && rect(row).top - rect(under).top <= 120 && rect(row).top < window.innerHeight - 260) {
                 const gap = rect(first).top - rect(row).top;
                 if (Math.abs(gap) > 1.5) {
-                    fail("a floating card opens on its column's first row of tiles", { gap });
+                    fail("a floating card opens on its column's first row of tiles", { gap, card: Math.round(rect(first).top), row: Math.round(rect(row).top), scrollY: Math.round(window.scrollY) });
                 }
             }
         }
@@ -3899,7 +3926,11 @@
         // A card pops up over the OTHER section's column (Infrastructure's over Offering's Capability's and the reverse), at the level of its first row of tiles.
         const columns = [...document.querySelectorAll(".answer-columns.business-capability > .business-foundation-card")];
         if (anchor && columns.length === 2 && columns.includes(anchor)) {
-            anchor = columns[columns[0] === anchor ? 1 : 0];
+            // (Side by side only: stacked below 1200px, the card keeps its own chapter; layout rules section 8, "Placed on the first row".)
+            const other = columns[columns[0] === anchor ? 1 : 0];
+            if (Math.abs(box(other).top - box(anchor).top) < box(anchor).height) {
+                anchor = other;
+            }
         }
         // (The same on every page of two chapters side by side -- the app's otherColumn: a card opens over the chapter on the other half -- such as a Segment's two
         // chapters on Foundation & Engagement; layout rules section 10.)
@@ -3970,7 +4001,7 @@
                     wanted - nameAbove < t.bottom + 12 && wanted - nameAbove + n.height > t.top && Math.abs(n.top - (t.bottom + 12)) <= 3;
             });
             if (rowTop < window.innerHeight && Math.abs(box(firstBody).top - wanted) > 3 && !clearOfTitle) {
-                fail("a floating card's top stands on the top of the first row of tiles of its column", { card: box(firstBody).top, row: rowTop, wanted });
+                fail("a floating card's top stands on the top of the first row of tiles of its column", { card: box(firstBody).top, row: rowTop, wanted, anchor: (anchor.dataset.anchor || anchor.className).slice(0, 60), scrollY: Math.round(window.scrollY) });
             }
             // A stack taller than the room under that top scrolls in itself.
             if (host.hasAttribute("data-tall")) {

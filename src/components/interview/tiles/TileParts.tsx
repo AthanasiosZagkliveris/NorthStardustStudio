@@ -252,6 +252,25 @@ export function TileList({
         const layer = node.parentElement?.classList.contains("section-tile-links-layer") ? node.parentElement : null;
         const snap = () => {
             if (!layer) {
+                // (A LIST WITH NO LINKS LAYER -- a card tile's in a dialog -- ends at a whole item too, inside the room its tile gives it: at 768 a card tile 1px smaller
+                // cut its last line by a pixel; layout rules section 9, "A tile's lines"; 2026-11-20.)
+                node.style.height = "";
+                const room = node.clientHeight;
+                if (room <= 0 || node.scrollHeight <= room) {
+                    return;
+                }
+                let fit = 0;
+                for (const child of Array.from(node.children) as HTMLElement[]) {
+                    const bottom = child.offsetTop - (child.offsetParent === node ? 0 : node.offsetTop) + child.offsetHeight;
+                    if (bottom <= room + 0.5) {
+                        fit = bottom;
+                    } else {
+                        break;
+                    }
+                }
+                if (fit > 0) {
+                    node.style.height = fit + "px";
+                }
                 return;
             }
             const rows = getComputedStyle(layer).gridTemplateRows.split(" ").map(parseFloat);

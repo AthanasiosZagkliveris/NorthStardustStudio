@@ -1052,8 +1052,10 @@ export const viewportBreakpoints: readonly Boundary[] = [
     { axis: "width", wideFrom: 761, queries: { "max-width: 760px": 2 } },
     { axis: "width", wideFrom: 901, queries: { "max-width: 900px": 12, "min-width: 900.02px": 1 } },
     { axis: "width", wideFrom: 1001, queries: { "max-width: 1000px": 2, "min-width: 1001px": 1 } },
-    { axis: "width", wideFrom: 1100, queries: { "max-width: 1099px": 2, "min-width: 1100px": 1 } },
+    { axis: "width", wideFrom: 1100, queries: { "max-width: 1099px": 1, "min-width: 1100px": 1 } },
     { axis: "width", wideFrom: 1101, queries: { "max-width: 1100px": 2 } },
+    // (Where chapters stack: the one query, owner 2026-11-20 15:35 UTC+2; layout rules sections 13 and 23.)
+    { axis: "width", wideFrom: 1200, queries: { "max-width: 1199px": 1 } },
     { axis: "width", wideFrom: 1212, queries: { "min-width: 1212px": 1 } },
     { axis: "width", wideFrom: 1501, queries: { "max-width: 1500px": 4, "min-width: 1501px": 1 } },
     { axis: "width", wideFrom: 1700, queries: { "min-width: 1700px": 4 } },

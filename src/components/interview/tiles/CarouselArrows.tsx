@@ -72,8 +72,10 @@ export const TAB_DROP = 12;
  * Where the frame stands with every scroll that moves it undone: the layers it stands in scrolled to their tops, and the window scrolled to its top where the frame moves with the page (the dialogs are
  * placed from the page's own heading, so they do). It is the same number wherever the user has scrolled to, so a tab placed from it stays where it is while the dialog scrolls under it.
  * `sample` remembers the last measure: if the window has scrolled since and the frame did not move with it, the frame is fixed to the window and the window's scroll is not undone.
+ * Only the scroll SINCE THE LAYER OPENED is undone (`y0`, the first measure's): a dialog opened from a page already scrolled (a stacked page under 1200px) has its
+ * tab 12px under its top as it opens (layout rules section 10, "One rail for every layer"; 2026-11-20, 768).
  */
-export function titleTopOf(node: HTMLElement, sample?: { current: { y: number; top: number; withPage: boolean } | null }): number {
+export function titleTopOf(node: HTMLElement, sample?: { current: { y: number; y0: number; top: number; withPage: boolean } | null }): number {
     const frame = node.querySelector<HTMLElement>(".floating-card-body") ?? node;
     let scrolled = 0;
     for (let element: HTMLElement | null = frame.parentElement; element && element !== document.documentElement; element = element.parentElement) {
@@ -85,10 +87,11 @@ export function titleTopOf(node: HTMLElement, sample?: { current: { y: number; t
     if (previous && Math.abs(window.scrollY - previous.y) > 1) {
         withPage = Math.abs((top - previous.top) + (window.scrollY - previous.y)) < 2;
     }
+    const y0 = previous?.y0 ?? (sample ? window.scrollY : 0);
     if (sample) {
-        sample.current = { y: window.scrollY, top, withPage };
+        sample.current = { y: window.scrollY, y0, top, withPage };
     }
-    return top + scrolled + (withPage ? window.scrollY : 0) + TAB_DROP;
+    return top + scrolled + (withPage ? window.scrollY - y0 : 0) + TAB_DROP;
 }
 
 
@@ -111,7 +114,7 @@ export function CarouselArrows({ target, step, hue, back, side: fixedSide }: { t
 
     const tabCache = useRef<{ key: string; value: ReturnType<typeof tabColours> } | null>(null);
     const measureTick = useRef(0);
-    const restSample = useRef<{ y: number; top: number; withPage: boolean } | null>(null);
+    const restSample = useRef<{ y: number; y0: number; top: number; withPage: boolean } | null>(null);
 
     useLayoutEffect(() => {
         const node = target.current;
