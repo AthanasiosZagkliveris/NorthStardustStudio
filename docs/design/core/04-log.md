@@ -1,19 +1,17 @@
 # 4. Log: history, changes and updates
 
-Status: **log**, started 2026-10-14, updated 2026-11-21. The rows of sections 4.1 and 4.4 dated before 2026-11-18 are in the archive: [log-archive-2026-07-to-10.md](../../archive/log/log-archive-2026-07-to-10.md) (to 2026-10-31), [log-archive-2026-11-01-to-07.md](../../archive/log/log-archive-2026-11-01-to-07.md) (2026-11-01 to 2026-11-07), [log-archive-2026-11-08-to-10.md](../../archive/log/log-archive-2026-11-08-to-10.md) (2026-11-08 to 2026-11-10) and [log-archive-2026-11-11-to-17.md](../../archive/log/log-archive-2026-11-11-to-17.md) (2026-11-11 to 2026-11-17). Add a dated entry each time the design, the documents or the plan change. Dates come from the git history (455 commits from 2026-07-26 to 2026-10-13), from the dates of the design drafts, and from the owner's decisions recorded in the project notes; where a date could not be established, the entry says so. Every table of dated entries is kept NEWEST FIRST (the latest on top).
+Status: **log**, started 2026-10-14, updated 2026-11-21. The rows dated before 2026-11-18, the old section 4.4 (changes to these documents, now rows of 4.1), and sections 4.2 (the drafts' versions) and 4.5 (the task plan F to K, as locked on 2026-10-09) are in the archive: [log-archive-2026-07-to-10.md](../../archive/log/log-archive-2026-07-to-10.md) (to 2026-10-31), [log-archive-2026-11-01-to-07.md](../../archive/log/log-archive-2026-11-01-to-07.md) (2026-11-01 to 2026-11-07), [log-archive-2026-11-08-to-10.md](../../archive/log/log-archive-2026-11-08-to-10.md) (2026-11-08 to 2026-11-10) and [log-archive-2026-11-11-to-17.md](../../archive/log/log-archive-2026-11-11-to-17.md) (2026-11-11 to 2026-11-17). Add a dated entry each time the design, the documents or the plan change. Dates come from the git history (455 commits from 2026-07-26 to 2026-10-13), from the dates of the design drafts, and from the owner's decisions recorded in the project notes; where a date could not be established, the entry says so. Every table of dated entries is kept NEWEST FIRST (the latest on top).
 
 **Contents**
 
 - [4.1 Timeline](#41-timeline)
-- [4.2 Version history of the design drafts](#42-version-history-of-the-design-drafts)
 - [4.3 Decisions](#43-decisions)
-- [4.4 Changes to these documents](#44-changes-to-these-documents)
-- [4.5 The task plan F to K (as locked on 2026-10-09)](#45-the-task-plan-f-to-k-as-locked-on-2026-10-09)
 
 ## 4.1 Timeline
 
 | Dates | What happened |
 |---|---|
+| 2026-11-21 | **The documents tidied (owner, 2026-11-21 13:16 UTC+2: "Check again if there is space or could change their content, layout, numbers, amounts, folders, structure etc."; 13:24, "All of them").** Rule | was | now: a page is named by its section (`specifications/business-system/README.md`, "The old page numbers") | about 25 documents called Customer Engagement "page 2", Infrastructure & Capability "page 3" and the Financials "page 4" and "page 5" | each named by its section; the owner's requirements keep their old numbers, listed once in that README. Global Settings opens from the Menu's Settings row (`global-settings.md`, the costs specification). Doc 26 names doc 36 for the Profile. Doc 5, 5.7: the Organisations are kept in IndexedDB. Docs 28, 35 and the layout rules (the reactions table) follow standard section 3, the latest dated decision. The channels specification's seven copies of doc 47's points of 2026-11-16 are one pointer to doc 47, section 5, their owner. The log's sections 4.2 and 4.5 went to `archive/log/log-archive-2026-07-to-10.md`, and the empty 4.4 left it. Moved: `archive/library/library-log-archive.md` to `archive/log/`, `specifications/global-settings.md` to `specifications/settings/`, `app/guide-specs-and-future.md` to `guide/`; links, the index and the standard's section 1 follow. |
 | 2026-11-21 | **The standard and the checks agree (owner, 2026-11-21 12:52 UTC+2, "Fix all four").** Rule | was | now: standard.md, section 3, where the code and a document disagree: the code is right | the latest dated decision wins (owner, 2026-11-19 and 2026-11-21); names of files and functions follow the code; the same in README.md (`write-index.mjs`), ai/README.md and doc 1's status line. The question-code check (`questions-register.mjs`, `citations`): docs 27 to 43, codes O, K and A1 to E3 | docs 27 to 55 without doc 44, codes O, K, PB, BA, SW and SC (A1 to E3 only in 27 to 43, where they are the Profile's); the proposed O19 (docs 47 to 49) and PB9 (doc 49, section 9, P3) in `CITATION_ALLOW`; standard.md, section 1, says so. A contents block (standard.md, section 2, item 6) | missing | added to docs 3, 35, 36 and 48 and the toolchain playbook. README.md: the document-reference test covers six documents | five (`documentReferences.test.ts`). standard.md, section 3: the anchor check named beside the link check. `npm run docs:check` passes. |
 | 2026-11-21 | **The documents folder cleaned up (owner, 2026-11-21 12:29 UTC+2: "I need a full cleanup (improvement, optimisation, merging, restructuring, updating, etc.) of the whole docs Folder. Check all the existing documents.").** The index (`write-index.mjs`, so README.md, index.md and the chapter READMEs): the fourteen specification documents it left out are listed (the Brand, Strategy and Identity System pages, the Inventory, the Workbook's six files, Settings and Global Settings), with the archived log of 2026-11-08 to 10 and the archived Competitor and Value Proposition proposal; the questionnaire chapter is documents 27 to 55 and its reading guide names 45 to 55; the Business System's pages carry their page numbers of the three-page rail; "proposal" reads as standard.md, section 2, defines it; the subjects index gains channel fees, delivery and capacity, legal starts, auto-filled answers, the Beta questionnaire, the Workbook, Settings, the Inventory and each System's pages. Kinds, by doc 40, section 1 (a tile document built in part is a specification): docs 46, 49 and 52 proposal | specification; doc 42 in the index proposal | specification, as its own status line says. Status lines in the present tense (standard.md, section 3: a change is written in the log): docs 46 to 50 and 52 say what each holds, what is built and what is still to build; the build dates stay in this log. Doc 40, section 2: where each tile stands, as built today (45 built; 46, 49 and 52 built in part; the Business pages by their three-page numbers). One owner: the folder table of doc 25 points to standard.md, section 1, which now lists every specification folder and the questionnaire chapter to 55. Doc 48, section 11: five Master Tiles | three that ask (section 14, the later decision). Dated "since" phrases taken out of the describing documents' present-tense lines (the Business System's README and page banners, the Identity System's README, docs 1, 5, 28 and 47, app/contents and app/index); `ThemeSwitch.tsx` | `ToolsMenu.tsx` in the Settings README (the file that draws Appearance). Generated again from their sources: docs 9, 13 and 14 (out of date by `npm run library:doc:check`, `library:components:check` and `library:fields-list:check`). The log's rows of 2026-11-11 to 2026-11-17 (115) are in `archive/log/log-archive-2026-11-11-to-17.md`, words unchanged, and the rows left here are newest first. `npm run docs:check` passes. |
 | 2026-11-21 | **The fourth pair settled: a narrow founder card's pairs** (owner, 2026-11-21 12:20 UTC+2: "How should a narrow founder card show its label and answer pairs? As it is now."). Rule | was | now: a rule says what the app does | "where the card is too narrow for each label beside its cell, the label stands over its cell" (2026-10-17) beside "stacks the pairs" (2026-10-13) | the pairs side by side where the fields have the room; under 300px they stand one under the other, each label with its cell, as the app does (`18-business-financial-2.css`, `cost-fields`); no code changed. |
@@ -167,22 +165,6 @@ Status: **log**, started 2026-10-14, updated 2026-11-21. The rows of sections 4.
 | 2026-11-18 | **The review's second batch (owner, 2026-11-18 00:46 UTC+2: "Continue with the 2nd batch").** 1.1: one industry list under the sectors' headings, the sector its record. 1.2: Delivered (DV1) a record of Customers Buy where O3 leaves it open. 1.3 and 2.6: D1 starts from where the Segment discovers. 1.4: A8's drift (retired). 1.5: every list O1 filters shows everything until each Offering has its form. 1.6: how they share before where they discover. 1.7: O6 and O20 to O22 before O15. 1.11: the type of area from Planning. 1.12: O10 names the in-person delivery channel (Customer Location or Studio / Shop). 1.13: Box 1, 7 orders O3. 1.15: two "i" texts. 2.5: Ready From starts at the Opening Date's month. 2.8: Invoice or purchase order starts from who decides; no payment services where they shop on a marketplace. 2.10: DV12 starts from the cards. 2.11: O4 and O8 ordered by the Profiles' ratings. 2.12: D3's seasons. 2.13: O3b's starts. 2.14: "Add a draft" on a relationship type. 2.15: K6 from K5. Examples: the saved sector taken out (a record now), Quillfield's area (5, a city centre), Lumen's Bespoke Commissions given access to the site; no amount moved (the plan and export words in the golden file). Docs 35, 36, 41, 43, 47, 52, the questions register, the business-system README; tests. Not 1.9 and 1.10 (the stages a relationship type shows, O21 for files sent automatically): the owner's call. |
 | 2026-11-18 | **A dialog's list of cards is three in a row** (owner, 2026-11-18 00:46 UTC+2: "Place 3 tiles per row, like the other dialogue cards"): `CardBoxes` puts every list three across, with its Add Card or without (Demand & Conversion's Customer Sources and the relationship types had taken the page groups' 2 x 2); the `cardList` flag it needed for the Delivery cards retired; the probe checks a list with no add box too (`.card-list`). Layout rules, "Tile grids". |
 
-## 4.2 Version history of the design drafts
-
-The drafts were HTML and PDF files in `docs/ai`, never committed to git. Only the current version of each family was converted into these documents; the earlier versions were intermediate iterations. Dates are the files' last-saved dates.
-
-| Family | Versions kept on disk | First | Last | Where it went |
-|---|---|---|---|---|
-| Classification (cost model iterations) | 41 | 2026-10-05 | 2026-10-08 | Became the cost model; not kept |
-| Card structure by group | 20 | 2026-10-08 | 2026-10-08 | Current version is document 1, part F |
-| Automatic rules | 17 | 2026-10-08 | 2026-10-08 | Current version is document 1, part E |
-| App compared with the specification, and tasks | 12 | 2026-10-08 | 2026-10-09 | Current version is in document 5 (tasks and status) |
-| Card access by type | 3 | 2026-10-08 | 2026-10-08 | Current version is document 1, part G (written from specification version 25; part F is later and prevails) |
-| Cost model | 2 | 2026-10-08 | 2026-10-09 | Current version is document 1, part D |
-| Help texts | 1 | to 2026-10-13 | 2026-10-13 | Document 1, part H; the test now reads that part (2026-10-14) |
-| Foundation colour map | 1 | 2026-10-04 | 2026-10-04 | Document 1, part I (the code reads it through the work colours) |
-| Research notes, activity model, event cards, per-project cards, industry costs | 8 files | 2026-10-05 | 2026-10-07 | Document 3 |
-
 ## 4.3 Decisions
 
 | Date | Decision |
@@ -201,61 +183,3 @@ The drafts were HTML and PDF files in `docs/ai`, never committed to git. Only th
 | 2026-09-30 | "Once batch C completes, stop": batches D and E wait for the owner. Flags and per-field notes replaced by the Notepad; no "needs review" status. |
 | 2026-09-29 | Source rule: only accepted sources, through one checked list (document 2, section 2.1). |
 | 2026-09-29 | Roadmap: build workspace batches A, B, C on the UX branch; the owner tries all once in the real app; then overall check, clean-up and optimisation; then docs; then merge, push and tag. Batch D (duplicate organization and card, scenarios, Compare) and Batch E (What would it take?, lender check, One-Pager and elevator pitch, glossary hints) follow. Later: the Foundation is extracted into a separate app. |
-
-## 4.4 Changes to these documents
-
-| Date | Change |
-|---|---|
-
-
-## 4.5 The task plan F to K (as locked on 2026-10-09)
-
-Grouped in batches F to K, so that you try the result once per batch.
-
-| Task | What | Files | Needs | Size |
-|---|---|---|---|---|
-| F1 | Agree the mapping from the old kinds to the new groups and statuses as one list: kinds to groups; Provided to Rent; Partners & Providers to Partners & Suppliers; Needs Activity to Activity; Needs Investigation; Costs to Buy on spaces and vehicles; Already Exists / Free to Exists / Free | Specification | None | Small |
-| F2 | Data model: 9 categories and the groups per place; Offering resources gain groups; Providers become Suppliers with groups; Human Resources cards (Founders & Owners kept as the Founders tile, Admin Team, Delivery Team); activity groups by place with their periods and the Pre-Operational type | AnswerUtils.ts | F1 | Large |
-| F3 | Migration of saved organisations to the new groups and statuses: an automatic mapping, unmatched cards in “No category”, a format version | AnswerUtils.ts, OrganizationService.ts | F2 | Large |
-| F4 | Frequencies and quantity: add Quarterly and % of revenue; merge Per order into Per unit with a unit; remove Other; asset purchases from One-time to Per unit (existing cards migrate); Qty starts at 1, whole numbers except hours, metres, litres and kWh | AnswerUtils.ts, FinancialModel.ts, editor | F2 | Medium |
-| G1 | Page 3 tiles and dialogs for both places: category tiles and group chips from the fixed lists (no “Other…” to add one); Offering resources grouped; the help texts | BusinessCapabilityEditor.tsx, SectionTiles.tsx | F2 | Large |
-| G2 | Common card layout: Start date and End date straight after the name (founders Start only); one-option dropdowns as text; Exists / Free; the status “+” that adds status rows | BusinessCapabilityEditor.tsx, BusinessCardFields.tsx | G1 | Large |
-| G3 | Partner and supplier link: Category, Group, Name cascade; the link symbol beside each chosen name in place of the “Open …” lines; generated cards have no symbol and their name is the link | BusinessCapabilityEditor.tsx, CardBoxes.tsx | G2 | Large |
-| G4 | Rent and Buy: spaces and vehicles in both places (Rent opens only the supplier group of the place); replace the Workspace form (Provided becomes Rent, Costs becomes Buy) | BusinessCapabilityEditor.tsx, AnswerUtils.ts | G3 | Medium |
-| G5 | Activity status: a list of the activities that have not ended at the card's start date, with “Other…” to create one when there is none; remove the derived “Set up” and “Investigate” activities | BusinessCapabilityEditor.tsx | G3, H1 | Medium |
-| G6 | Cost row: Qty, Price, currency, Frequency, Unit (a dropdown by group, no label; text when one option besides “unit”); a single-option Frequency as text and a One-time Frequency hidden; useful life; warranty with its date beside the checkbox; the rate override | AnswerUtils.ts, BusinessCapabilityEditor.tsx | G2 | Large |
-| G7 | Extras, all optional: Commission and Bonus on people cards; Allowance on people cards; Minimum order, Customs duty, Clearance and handling, Other duties on Producers & Wholesalers; Commercial property tax and Service charge on a bought space; Road tax on a bought vehicle; the landlord's extras by what is connected | AnswerUtils.ts, editor, FinancialModel.ts | G4 | Large |
-| G8 | Payment Plan for Per project cards: Deposit & Balance, Instalments, Milestones with dates; the 100% validator | AnswerUtils.ts, editor, FinancialModel.ts | G6 | Medium |
-| G9 | Notes with an automatic record date and time and an Add Date button | BusinessCardFields.tsx | G2 | Small |
-| G10 | Linked offerings required on Offering cards, with a % beside each and a 100% check | BusinessCapabilityEditor.tsx, FinancialModel.ts | G2 | Medium |
-| G11 | All Tiles, funnel and table for the new structure; completed activities hidden by default and shown with the Completed filter; the currency in the column header; costs right aligned; tooltips above their icon | capabilityFloor.ts, CapabilityOverview.tsx, SectionTiles.tsx | G1 | Medium |
-| H1 | Activities: period by group, Start date required, End date optional (one day when empty), dates inside the period; Resources tick box with units and the date check; Cost or Total after the last resource; Performer with a number of people; the Pre-Operational type | BusinessCapabilityEditor.tsx, AnswerUtils.ts | G2 | Large |
-| H2 | Technical Support supplier group; a service linked to an asset is added to its value, an unlinked one is a Start-up expense or OpEx; the Repair Record stays in a later batch | AnswerUtils.ts, editor, FinancialModel.ts | H1 | Small |
-| H3 | Insurances and Certificates: renewal and expiry as the End date, details in the Description; insurance cards generated from vehicles, premises, workshops, machines, events and channels | AnswerUtils.ts, editor | G2 | Medium |
-| H4 | Channels: add the two categories; “Typical costs for this channel” creating the template cards T1 to T10 and T12 with Link existing; the channel-made name stays the link | AnswerUtils.ts, ChannelResources.ts, ChannelResources.tsx | G1 | Large |
-| H5 | Legal Entity: registrations and their expenses only; a Date after the name; exactly one linked registration; insurance moves out | LegalEntityEditor.tsx, AnswerUtils.ts | H3 | Small |
-| I1 | Global Settings: a central screen and store (on-cost coefficient, Channel Fee Table, default rates, capitalisation limit, default useful life, target reserve months, insurance per employee, income tax rate) | New settings module, PreferencesService.ts | F1 | Large |
-| I2 | Opening Date next to Plan Start on page 4, stored in Global Settings; a card splits by its dates around it | FinancialFoundationEditor.tsx, FinancialModel.ts | G2 | Medium |
-| I3 | Billing type and cost options for Platforms & Payments, Revenue Partners, Royalties, Insurances and Licences | AnswerUtils.ts, editor | G6, I1 | Large |
-| I4 | Financial engine: the cost nature rules C1 to C16, the capitalisation limit on one unit, services bundled into the asset, Startup and Pre-Operating Expenses | FinancialModel.ts, FinancialForecast.ts | G6, I1, I2 | Large |
-| I5 | Calculated lines: employer on-costs, channel fees, royalties, partner commissions, depreciation from useful life, amortisation, opening inventory released to COGS, the accumulated start-up row, income tax from the settings | FinancialModel.ts, FinancialForecast.ts | I4 | Large |
-| I6 | Contingency funds and cash to raise: the startup fund (10 to 15%), the operational fund up to the target reserve months, opening inventory outside the base | FinancialModel.ts, FinancialFoundationEditor.tsx | I4 | Large |
-| I7 | Page 4 screens: cost nature, the pre-operational budget, funds and cash to raise, updating the Costs, Funding Need and Financial Position sections; amounts with the currency in the column header | FinancialFoundationEditor.tsx | I4 to I6 | Large |
-| I8 | Scheduling of Per project costs by their payment plan, and of Per unit costs from the sales volumes | FinancialModel.ts | G8, I4 | Medium |
-| J1 | Update the example organisations to the new structure and run Reload | docs/examples, refreshExampleOrganizations | F3, H4 | Medium |
-| J2 | Rewrite the stale page 2, page 3 and page 4 specifications and docs/ai/layout-rules.md | docs/specifications, docs/ai/layout-rules.md | All | Medium |
-| J3 | Tests for each task, the full layout check, then one visual pass by you | Tests, tools/scripts/layout-check | All | Medium |
-| K1 | Later batch: VAT as a pass-through, import VAT included, rates in Global Settings | FinancialModel.ts, FinancialForecast.ts, settings | I5 | Large |
-| K2 | Later batch, actuals: the Repair Record draws on the Contingency Fund; plan against actual | FinancialModel.ts, editor | I6 | Large |
-
-### Suggested order (as locked)
-
-| Step | Tasks | What you can see afterwards |
-|---|---|---|
-| 1 | F1 to F4 | Mapping, data model, migration, frequencies. Nothing visible changes except the structure. |
-| 2 | G1 to G11 | Page 3 shows the new categories, groups, statuses, links, dates, cost row, extras, payment plan, notes and All Tiles. |
-| 3 | H1 to H5 | Activities, Technical Support, Insurances and Certificates, channel templates, Legal Entity. |
-| 4 | I1 to I8 | Global Settings, Opening Date, billing types, cost nature, calculated lines, funds and the page 4 screens. |
-| 5 | J1 to J3 | Examples, specifications, tests, the layout check and your one visual pass. |
-| 6 | Batch D, then Batch E | After the structure is stable: scenarios store overrides keyed by field, and the helpers read the model, so both would break if the structure changed afterwards. |
- **Brand Images blocks keep one look on hover (2026-10-31):** each uploaded picture of the Brand Images tile is drawn from a thumbnail sized to its block (`ThumbBlock`, block width × screen density × 1.1), and the tile keeps one raster layer (`will-change: transform`), so the picture no longer looks denser when the tile scales up on hover.

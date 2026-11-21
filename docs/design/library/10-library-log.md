@@ -1,6 +1,6 @@
 # 10. The library log
 
-Status: **log**, started 2026-10-15, updated 2026-10-30. Written by `npm run library:log`; rows are added on top.
+Status: **log**, started 2026-10-15, updated 2026-11-21. Written by `npm run library:log`; rows are added on top.
 
 Every change to an asset of the library: added, edited, placed (and where), moved (from where to where), removed. Written by `npm run library:log` from the difference between the library and its last logged state; do not edit by hand.
 
@@ -194,4 +194,4 @@ Every change to an asset of the library: added, edited, placed (and where), move
 | L0504 | 2026-10-16 | TXT.001 | edited | text box: defaultVariant, kind, name, summary, variants |  | Defaults are the main assets, calendar list back, no weight 600, add buttons updated, bullet contrast recorded |
 | L0503 | 2026-10-16 | TXS.001 | edited | text: belongs, defaultVariant, kind, look, summary, variants |  | Defaults are the main assets, calendar list back, no weight 600, add buttons updated, bullet contrast recorded |
 
-The older rows are in `docs/archive/library/library-log-archive.md`.
+The older rows are in `docs/archive/log/library-log-archive.md`.

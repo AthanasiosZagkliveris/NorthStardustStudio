@@ -9,11 +9,11 @@ Related: doc 51 (the research and the seven additions), doc 50 (Sales Forecast, 
 - **Built:** the tile (`useCapabilitySections.tsx`, the tile with id `delivery`) and its dialog are titled **Capacity & Delivery**. The dialog's first part is the founders' capacity (and, with this proposal, the planning ceiling, the deliverable sales and when to add help); the cards below hold each Offering's delivery. The new name says both.
 - **The floating card keeps "Delivery"** as its caption (the tile's `group`): it holds one Offering's delivery only **[decision 1, built as recommended]**.
 - **It also separates the tile from the journey stage.** "Delivery" is also a stage of the customer journey on Customer Engagement (doc 47). "Capacity & Delivery" on Business Capability reads as its own place.
-- **What changes with it:** the tile's `title`, the dialog's heading, `DELIVERY_HELP.section`'s first line ("How much the founders can deliver, and how each Offering is delivered: …"), the tests that open the tile by name (`BusinessCapabilityEditor.test.tsx`, `openTile("Delivery")`), the examples' golden files, doc 22 (help texts) and the page 3 specification. The tile's id (`delivery`), its anchor (`section-offering-delivery`) and the saved data (`capability.delivery`) stay as they are, so saved work opens unchanged.
+- **What changes with it:** the tile's `title`, the dialog's heading, `DELIVERY_HELP.section`'s first line ("How much the founders can deliver, and how each Offering is delivered: …"), the tests that open the tile by name (`BusinessCapabilityEditor.test.tsx`, `openTile("Delivery")`), the examples' golden files, doc 22 (help texts) and the Infrastructure & Capability specification. The tile's id (`delivery`), its anchor (`section-offering-delivery`) and the saved data (`capability.delivery`) stay as they are, so saved work opens unchanged.
 
 ## 2. What the tile is
 
-- **Where:** Business System › page 3, Business Capability › Offering's Capability, beside Activities and Partners & Suppliers.
+- **Where:** Business System › Infrastructure & Capability › Offering's Capability, beside Activities and Partners & Suppliers.
 - **The tile (closed):** its title and a link for each Offering; a link opens that Offering's Delivery card alone, floating; the rest of the tile opens the dialog. Unchanged.
 - **The dialog, in order** (section 11, owner, 2026-11-18 10:38):
   1. **The Delivery tiles** (`CardBoxes`, one tile for each Offering, its `BusinessCard` floating from it). Each tile says how it is delivered and the hours it takes. Section 3 adds to the cards.
@@ -122,7 +122,7 @@ Doc 51's additions 1, 2, 3 and 6 add lines to the band. None asks a new question
 3. DV6 (Customers in one session), then DV7 and DV8, then DV9 and DV10, then DV11.
 4. 4.4 now for D3; the busiest month with doc 50's seasons.
 
-Each step: tests, the examples (`src/data/examples/`), the golden files, doc 44 (`npm run docs:index`), doc 22, the page 3 specification and the log.
+Each step: tests, the examples (`src/data/examples/`), the golden files, doc 44 (`npm run docs:index`), doc 22, the Infrastructure & Capability specification and the log.
 
 ## 7. The Lumen example: Weaving Workshops sold through the Online Store
 

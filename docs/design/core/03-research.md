@@ -1,6 +1,6 @@
 # 3. Research
 
-Status: **research**, written 2026-10-14, updated 2026-11-02. This document keeps the research behind the design decisions: the question, the recommendation, the reason and the source. Parts R1 to R9 are the research notes written 2026-10-04 to 2026-10-08; Part R10 is the analysis of 2026-10-14. The notes say "Recommend" where they propose; the decided design is in document 1. Where a note and document 1 differ, document 1 prevails. The proposal tables of the notes (the categories, groups, places and behaviours, in their names of the time) are not kept here where document 1, part D, section 3 now holds the decided version; each place says so. The "Decisions for you" and "Questions for you" lists are the questions put to the owner at the time; the answers are the design built, in document 1.
+Status: **research**, written 2026-10-14, updated 2026-11-21. This document keeps the research behind the design decisions: the question, the recommendation, the reason and the source. Parts R1 to R9 are the research notes written 2026-10-04 to 2026-10-08; Part R10 is the analysis of 2026-10-14. The notes say "Recommend" where they propose; the decided design is in document 1. Where a note and document 1 differ, document 1 prevails. The proposal tables of the notes (the categories, groups, places and behaviours, in their names of the time) are not kept here where document 1, part D, section 3 now holds the decided version; each place says so. The "Decisions for you" and "Questions for you" lists are the questions put to the owner at the time; the answers are the design built, in document 1.
 
 How much each note can be trusted is in document 2, sections 2.3b and 2.4. In short: the notes of October rest mostly on vendor and blog pages and on general knowledge, so they explain *why* a decision was made but do not *prove* it.
 
@@ -22,7 +22,7 @@ How much each note can be trusted is in document 2, sections 2.3b and 2.4. In sh
 
 | Part | Note | Written | Subject | Related decision in document 1 (matched by subject) |
 |---|---|---|---|---|
-| [R1](#r1-resources-activities-partners-and-costs) | Resources, activities, partners and costs | 2026-10-05 | Page 3 frame (Business Model Canvas, Porter's value chain), resource types and groups, partners, channels, cost behaviour | The 9 categories and 47 groups (document 1, part D) |
+| [R1](#r1-resources-activities-partners-and-costs) | Resources, activities, partners and costs | 2026-10-05 | Infrastructure & Capability frame (Business Model Canvas, Porter's value chain), resource types and groups, partners, channels, cost behaviour | The 9 categories and 47 groups (document 1, part D) |
 | [R2](#r2-part-2-groups-by-place-frequency-options-key-definition-cost-behaviour) | Part 2: groups, frequency, key definition, cost behaviour | 2026-10-05 | Groups by place, the frequency options, what a "key" cost is, default behaviours | The 7 drivers |
 | [R3](#r3-part-3-allocation-simplification-payments-channels-suppliers) | Part 3: allocation, simplification, payments, channels, suppliers | 2026-10-05 | A card serving several offerings, payment structures, supplier terms | The linked-offering shares and the payment plan |
 | [R4](#r4-part-4-channel-review-groups-equipment-and-digital-payment-plan) | Part 4: channel review, groups, Equipment and Digital, payment plan | 2026-10-05 | What the channel table generates, groups for Equipment and Digital, the payment plan | The channel templates |
@@ -35,7 +35,7 @@ How much each note can be trusted is in document 2, sections 2.3b and 2.4. In sh
 
 ## R1. Resources, activities, partners and costs
 
-Research and recommendations for page 3 (Infrastructure & Capability). Facts come from the sources listed at the end. Recommendations are marked **Recommend**; these are proposals of the note; the decided design is in document 1.
+Research and recommendations for Infrastructure & Capability. Facts come from the sources listed at the end. Recommendations are marked **Recommend**; these are proposals of the note; the decided design is in document 1.
 
 ### 1. The frame used
 
@@ -339,7 +339,7 @@ The updated list proposed Partners (Strategic Alliances & Joint Ventures; Resell
 - Rename Providers to Suppliers, with the Partners and Suppliers categories above?
 - Frequency list down to the 8 options, with a unit name on Per unit?
 - An optional Payment plan on cards (shares plus date or trigger)?
-- Shared-cost allocation: **decided and built 2026-11-17** (owner, the open decisions and gaps): four bases -- by hours, by revenue, in equal parts, the user's own split --, by hours by default where the Offerings have Delivery cards, else by revenue; by units retired (Page 3 spec, section 7).
+- Shared-cost allocation: **decided and built 2026-11-17** (owner, the open decisions and gaps): four bases -- by hours, by revenue, in equal parts, the user's own split --, by hours by default where the Offerings have Delivery cards, else by revenue; by units retired (Infrastructure & Capability specification, section 7).
 - Merged groups as listed; activities stay with categories only and no additions?
 - Add Retail & Wholesale and Referral & Affiliates channel categories?
 

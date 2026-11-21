@@ -30,7 +30,7 @@ Status: **index**, updated 2026-11-21, written by `npm run docs:index` (the subj
 - **Caregiving**: [31 section 4](design/questionnaire/31-positioning-categories.md)
 - **Catalogue record**: [6](design/core/06-catalogue-record.md)
 - **Change history (log)**: [4](design/core/04-log.md); [archive (before 2026-11-01)](archive/log/log-archive-2026-07-to-10.md); [archive (2026-11-01 to 07)](archive/log/log-archive-2026-11-01-to-07.md); [archive (2026-11-08 to 10)](archive/log/log-archive-2026-11-08-to-10.md); [archive (2026-11-11 to 17)](archive/log/log-archive-2026-11-11-to-17.md)
-- **Channel fees and Sales Forecast additions**: [50](design/questionnaire/50-engagement-fees-and-demand-proposals.md); [Global Settings](specifications/global-settings.md)
+- **Channel fees and Sales Forecast additions**: [50](design/questionnaire/50-engagement-fees-and-demand-proposals.md); [Global Settings](specifications/settings/global-settings.md)
 - **Colour map of the pages**: [1 Part I](design/core/01-current-design.md)
 - **Competitor card**: [41 (as built)](design/questionnaire/41-competitor-questions.md); [28 section 6.6](design/questionnaire/28-questionnaire-specification.md)
 - **Components, defaults**: [12](design/library/12-component-defaults.md)
@@ -56,7 +56,7 @@ Status: **index**, updated 2026-11-21, written by `npm run docs:index` (the subj
 - **Free texts**: [20](design/current/20-free-text-categories.md); [16 (text holders)](design/current/16-text-holders.md)
 - **Frequency options**: [17](design/current/17-frequency-options.md)
 - **Future features**: [33](design/questionnaire/33-specs-and-limitations.md)
-- **Future features (AI Assistant, Team mode, Voice, more languages)**: [app/guide-specs-and-future section 5](app/guide-specs-and-future.md)
+- **Future features (AI Assistant, Team mode, Voice, more languages)**: [app/guide-specs-and-future section 5](guide/guide-specs-and-future.md)
 ## G
 
 - **Glossary**: [app/glossary](app/glossary.md)
@@ -72,7 +72,7 @@ Status: **index**, updated 2026-11-21, written by `npm run docs:index` (the subj
 - **Layout rules and the layout check**: [layout-rules](ai/layout-rules.md)
 - **Legal forms**: [33 section 3](design/questionnaire/33-specs-and-limitations.md)
 - **Legal starts (registrations, taxes, legal expenses)**: [53](design/questionnaire/53-legal-starts.md)
-- **Library log**: [10](design/library/10-library-log.md); [archive](archive/library/library-log-archive.md); [11 (app structure)](design/library/11-app-structure-log.md)
+- **Library log**: [10](design/library/10-library-log.md); [archive](archive/log/library-log-archive.md); [11 (app structure)](design/library/11-app-structure-log.md)
 - **Lists and classifications**: [34](design/questionnaire/34-lists-and-classifications.md)
 ## M
 
@@ -104,7 +104,7 @@ Status: **index**, updated 2026-11-21, written by `npm run docs:index` (the subj
 ## S
 
 - **Segment card**: [35 (as built)](design/questionnaire/35-segment-questions.md); [28 section 6.3](design/questionnaire/28-questionnaire-specification.md)
-- **Settings (Global Settings, Appearance, Focus)**: [specifications, Settings](specifications/settings/README.md); [Global Settings](specifications/global-settings.md)
+- **Settings (Global Settings, Appearance, Focus)**: [specifications, Settings](specifications/settings/README.md); [Global Settings](specifications/settings/global-settings.md)
 - **Shared components**: [21](design/current/21-shared-components.md)
 - **Standard of the documents**: [standard](standard.md)
 - **Strategy (SWOT, Compass, Themes, Metrics)**: [49 (built in part)](design/questionnaire/49-strategy-questions.md); [specifications, Strategy System](specifications/strategy-system/page-1-situation-and-direction.md)

@@ -1,6 +1,6 @@
 # The app: its guide, its specifications and its future features
 
-Status: **proposal**, written 2026-11-21. Parts 1 to 4 describe the app as it is and point to the one document that owns each fact; part 5 proposes its future features (an AI Assistant, Team working mode, Voice mode, more languages and countries), from online research, nothing of it built; part 6 lists the sources. Asked by the owner on 2026-11-21 00:56 UTC+2: "create a new document with the app's guide and specs and its future features … Do online research and check what extra features the app needs now, or it could have in the future".
+Status: **proposal**, written 2026-11-21, updated 2026-11-21. Parts 1 to 4 describe the app as it is and point to the one document that owns each fact; part 5 proposes its future features (an AI Assistant, Team working mode, Voice mode, more languages and countries), from online research, nothing of it built; part 6 lists the sources. Asked by the owner on 2026-11-21 00:56 UTC+2: "create a new document with the app's guide and specs and its future features … Do online research and check what extra features the app needs now, or it could have in the future".
 
 ## Contents
 
@@ -26,7 +26,7 @@ The **Workbook** records what the answers work out: the Business Documents (Busi
 
 ## 2. The guide
 
-How a founder uses the app, step by step, is [the user guide](../guide/user-guide.md) (the one owner): the Organisations screen (section 2), the Systems and their pages (section 3), the header's Menu and Workbook (section 4), the Workbook (section 4.1). This document does not repeat it.
+How a founder uses the app, step by step, is [the user guide](user-guide.md) (the one owner): the Organisations screen (section 2), the Systems and their pages (section 3), the header's Menu and Workbook (section 4), the Workbook (section 4.1). This document does not repeat it.
 
 ## 3. The specifications
 
@@ -39,7 +39,7 @@ Each page and screen has its specification under `docs/specifications/`:
 | Business System | [business-system](../specifications/business-system/README.md): page 1, Foundation & Engagement; page 2, Infrastructure & Capability; page 3, Financials (its tiles: doc 48, section 14) |
 | Strategy System | [strategy-system](../specifications/strategy-system/README.md) |
 | The Workbook | [workbook](../specifications/workbook/README.md), a file for each section |
-| Settings, Appearance (the reading modes), Focus | [settings](../specifications/settings/README.md), [Global Settings](../specifications/global-settings.md) |
+| Settings, Appearance (the reading modes), Focus | [settings](../specifications/settings/README.md), [Global Settings](../specifications/settings/global-settings.md) |
 | The Inventory | [inventory](../specifications/inventory/README.md) |
 
 The questions are in `docs/design/questionnaire/` (their register: doc 44); the layout is the rulebook's (`docs/ai/layout-rules.md`).
