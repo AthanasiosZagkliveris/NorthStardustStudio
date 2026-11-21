@@ -45,12 +45,6 @@ const SAME: readonly (readonly [string, readonly string[]])[] = [
     ["--size-box-button", ["BTN.001", "BTN.ADD.001.001"]]
 ];
 
-/** The three corner steps (--radius-sm, -md, -lg): the corners of a text button, of a cell and of a tile, as the library has them. */
-export function cornerSteps(): { readonly "radius-sm": number; readonly "radius-md": number; readonly "radius-lg": number } {
-    const n = (code: string) => parseFloat(lookOf(code).corners);
-    return { "radius-sm": n("BTN.008"), "radius-md": n("TXT.001"), "radius-lg": n("FRM.TIL.001.007") };
-}
-
 export function componentTokens(): ComponentToken[] {
     const tokens: ComponentToken[] = [
         { token: "--card-cell-height", value: px(lookHeight("TXT.001")), code: "TXT.001", what: "every single-line cell: a text box, a dropdown, a date, a name cell" },

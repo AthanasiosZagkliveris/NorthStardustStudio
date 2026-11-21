@@ -4,7 +4,7 @@ import { AnswerType } from "../enums/AnswerType.ts";
 import { frameworkRegistry } from "./FrameworkRegistry.ts";
 import { systems } from "../../data/systems";
 import { asBusinessCapabilityValue, asBusinessFoundationValue, createBusinessActivity } from "./answers/AnswerUtils.ts";
-import { headerCount, nothingOpen, reviewCount, reviewCountText, reviewItems } from "./ReviewItems.ts";
+import { nothingOpen, reviewItems } from "./ReviewItems.ts";
 import { positioningLacks } from "./OpenItems.ts";
 import lumenText from "../../data/examples/lumen-and-loom-studio.json?raw";
 import quillText from "../../data/examples/quillfield-automation-llc.json?raw";
@@ -185,15 +185,6 @@ describe("the Review page's items", () => {
         const items = reviewItems({ sessions: load(), titles, organisationName: "Lumen" }).filter(item => item.group === "missing");
         expect(items.some(item => /Intellectual Property/.test(item.text))).toBe(false);
         expect(items.every(item => item.place)).toBe(true);
-    });
-
-    test("counts what is still open or worth a second look", () => {
-        const open = { group: "open" as const, text: "y", place: { systemNumber: 1, sectionNumber: 1 } };
-        expect(reviewCount([{ group: "missing", text: "x" }, open])).toBe(1);
-        expect(headerCount([open, { group: "second-look", text: "z" }, { group: "missing", text: "w" }])).toBe(2);
-        expect(reviewCountText(0)).toBe("Nothing open");
-        expect(reviewCountText(1)).toBe("1 item to look at");
-        expect(reviewCountText(3)).toBe("3 items to look at");
     });
 
 });

@@ -50,7 +50,17 @@ Every answerable value, section or card is addressed by one `FieldKey` (`src/fra
 
 ## Chained answers
 
-An answer that depends on another waits for it (`src/framework/engine/fields/FieldDependencies.ts`, the one list of chains). A `frozen` chain wraps its dependents in `FrozenUntil` (`fieldMarks.tsx`): a disabled fieldset drawing no box, so every control in it is disabled, and each field's status line says what it waits for ("Choose a country first.", `waitingHint`). What a frozen field holds is kept. A `conditional` chain needs nothing more: its dependents are not drawn until the parent is answered.
+An answer that depends on another waits for it; the table below is the one list of chains (`src/framework/engine/fields/FieldDependencies.ts` holds `waitingHint`). A `frozen` chain wraps its dependents in `FrozenUntil` (`fieldMarks.tsx`): a disabled fieldset drawing no box, so every control in it is disabled, and each field's status line says what it waits for ("Choose a country first.", `waitingHint`). What a frozen field holds is kept. A `conditional` chain needs nothing more: its dependents are not drawn until the parent is answered.
+
+| Chain | System | Answer depended on | What waits for it | How |
+|---|---|---|---|---|
+| legal-country | 1 | Legal Entity › Organisation › Country | State / Region (where the country has them), Address, Legal Form, Formation & Registration › Registration Authority | frozen ("Choose a country first.") |
+| legal-subdivision | 1 | Legal Entity › Organisation › State / Region | Address, Formation & Registration › Registration Authority | frozen |
+| legal-form | 1 | Legal Entity › Organisation › Legal Form | Name the legal form (Other), the founders' Capital (whether it applies follows the form) | conditional |
+| legal-status | 1 | Legal Entity › Formation & Registration › Status (Registered) | Formation Date, Registration Number, extra registration numbers, Tax Identification Number, sales-tax registration | conditional |
+| funding-type | 3 | Financial Foundation › a funding source's Funding Type | loan terms (Lender, Principal, Interest, Loan Start, Repayments), equity terms (Investor, Ownership / Equity) | conditional |
+| funding-schedule | 3 | Financial Foundation › a funding source's Funding Schedule | Amount per Period and its frequency, Milestones | conditional |
+| metric-unit | 4 | Goals & Objectives › a Metric's Unit (Currency) | the Metric's currency | conditional |
 
 ## The Notepad
 

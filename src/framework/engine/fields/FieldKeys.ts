@@ -138,40 +138,11 @@ export function pageKeyPrefix(systemNumber: number, sectionNumber: number): stri
     return systemNumber + "." + sectionNumber + ":";
 }
 
-/** Whether `key` lies inside `scope` (the same key, or a path under it). */
-export function isWithin(key: FieldKey, scope: FieldKey): boolean {
-    return key === scope || key.startsWith(scope.endsWith(":") ? scope : scope + "/");
-}
-
 /*
-    Reading and writing a value by path. An object is entered by key;
-    an array by the id of the element carrying it ("id" field), or by
-    its index when the segment is a number and no element has that id.
+    Writing a value by path. An object is entered by key; an array by
+    the id of the element carrying it ("id" field), or by its index
+    when the segment is a number and no element has that id.
 */
-
-function step(container: unknown, segment: string): unknown {
-
-    if (Array.isArray(container)) {
-        const byId = container.find(item =>
-            item && typeof item === "object" && (item as { id?: unknown }).id === segment);
-        if (byId !== undefined) {
-            return byId;
-        }
-        return /^\d+$/.test(segment) ? container[Number(segment)] : undefined;
-    }
-
-    if (container && typeof container === "object") {
-        return (container as Record<string, unknown>)[segment];
-    }
-
-    return undefined;
-
-}
-
-/** The value at `path` inside `value`, or undefined where the path does not lead. */
-export function readField(value: unknown, path: readonly string[]): unknown {
-    return path.reduce<unknown>((current, segment) => step(current, segment), value);
-}
 
 /**
  * `value` with `next` at `path`, copied along the path and shared

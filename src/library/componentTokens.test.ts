@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { componentTokens, cornerSteps, lookHeight, renderComponentTokens } from "./componentTokens.ts";
+import { componentTokens, lookHeight, renderComponentTokens } from "./componentTokens.ts";
+import { library } from "./data/library.ts";
 import { corners } from "../styles/tokens/tokens.ts";
 import { sheetSource, stylesheet } from "../test/stylesheet.ts";
 
@@ -22,7 +23,10 @@ describe("the component tokens", () => {
     });
 
     it("have the corner steps the app's own token file holds (the app does not import the library, so it carries the three numbers itself)", () => {
-        expect(corners).toEqual(cornerSteps());
+        // The three corner steps (--radius-sm, -md, -lg): a text button's, a cell's and a tile's corners, as the library has them.
+        const looks = [...library.assets, ...library.assets.flatMap(a => a.variants)];
+        const corner = (code: string) => parseFloat(looks.find(l => l.code === code)!.look!.corners);
+        expect(corners).toEqual({ "radius-sm": corner("BTN.008"), "radius-md": corner("TXT.001"), "radius-lg": corner("FRM.TIL.001.007") });
     });
 
     it("are read by the stylesheets and written by none of them", () => {

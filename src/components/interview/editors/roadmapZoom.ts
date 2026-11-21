@@ -72,15 +72,6 @@ export function wheelPixels(deltaY: number, deltaMode: number): number {
 
 }
 
-/**
- * Where a month falls across a track, in pixels from its left edge.
- * The same proportion at both levels -- only the track's width
- * changes -- so a bar starts and ends on its own month either way.
- */
-export function monthX(month: number, spanStart: number, spanMonths: number, trackWidth: number): number {
-    return ((month - spanStart) / spanMonths) * trackWidth;
-}
-
 /** How far across a track (0..1) a pointer at clientX sits. */
 export function trackFraction(clientX: number, trackLeft: number, trackWidth: number): number {
 

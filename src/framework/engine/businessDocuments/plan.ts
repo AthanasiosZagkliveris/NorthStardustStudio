@@ -953,8 +953,8 @@ export function businessPlan(sessions: FoundationSessions): ExportContent {
  */
 export const PLAN_EXPORT_WITH_FINANCIAL_APPENDIX = true;
 
-export function businessPlanForExport(plan: ExportContent, financialDocuments: readonly ExportContent[]): ExportContent {
-    if (!PLAN_EXPORT_WITH_FINANCIAL_APPENDIX) {
+export function businessPlanForExport(plan: ExportContent, financialDocuments: readonly ExportContent[], withAppendix = PLAN_EXPORT_WITH_FINANCIAL_APPENDIX): ExportContent {
+    if (!withAppendix) {
         return plan;
     }
     const letters = "ABCDEFGH";

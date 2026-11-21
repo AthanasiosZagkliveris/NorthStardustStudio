@@ -4,7 +4,7 @@ import { readdirSync, readFileSync } from "node:fs";
 
 import { describe, expect, it } from "vitest";
 
-import { harvardCitation, harvardDate, harvardParts, harvardReference, hostOf, isAcceptedHost, isAcceptedUrl, referenceList, SOURCES, sourceLabel } from "./Sources";
+import { harvardCitation, harvardDate, harvardParts, harvardReference, hostOf, isAcceptedHost, isAcceptedUrl, referenceList, SOURCES } from "./Sources";
 
 /**
  * URLs that are NOT references, and so are exempt from the
@@ -70,7 +70,6 @@ describe("accepted sources", () => {
         expect(harvardReference(SOURCES.ukSicCodes)).toBe(
             "Companies House (2025) Standard industrial classification of economic activities (SIC). Available at: " +
             SOURCES.ukSicCodes.url + " (Accessed: 1 October 2026).");
-        expect(sourceLabel(SOURCES.ukSicCodes)).toBe(harvardReference(SOURCES.ukSicCodes));
         // A part of a book: the part in quotation marks, the book in italics, then place and publisher.
         const chapter = harvardParts(SOURCES.breakEvenInDollars);
         expect(chapter.map(part => part.text).join("")).toBe(

@@ -58,16 +58,7 @@ export const BUSINESS_PARTNER_GROUPS: Record<"infrastructure" | "offering", Reco
 /** The help text of Founders & Owners, the first group of Human Resources in Infrastructure (the Founders tile): the help-texts document's own. */
 export const FOUNDERS_OWNERS_HELP = "Owners who work in the company and draw pay from it, e.g. Founder salary, Part-time director fee.";
 
-/**
- * THE HELP OF A CATEGORY, as the help-texts document shows it: the text of its one group, or one line for each of its groups ("Company Vehicles: cars and
- * bikes the company owns ..."), the group's name first and its text after it in lower case.
- */
-export function groupHelpLines(groups: readonly { label: string; help: string }[]): string[] {
-    const usable = groups.filter(group => group.help.length > 0);
-    return usable.length === 1 ? [usable[0].help] : usable.map(group => group.label + ": " + group.help.charAt(0).toLowerCase() + group.help.slice(1));
-}
-
-/** The same as points of an "i": one group is its text; several are each a bold name and its text (as the Status's "i" lists its options). */
+/** THE HELP OF A CATEGORY as the points of an "i": one group is its text; several are each a bold name and its text (as the Status's "i" lists its options). */
 export function groupHelpPoints(groups: readonly { label: string; help: string }[]): (string | { title: string; text: string })[] {
     const usable = groups.filter(group => group.help.length > 0);
     return usable.length === 1 ? [usable[0].help] : usable.map(group => ({ title: group.label, text: group.help }));

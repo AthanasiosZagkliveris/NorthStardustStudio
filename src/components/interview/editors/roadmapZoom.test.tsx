@@ -5,15 +5,13 @@ import StrategicRoadmapEditor from "./StrategicRoadmapEditor";
 import {
     ROADMAP_MONTH_WIDTH,
     anchoredScrollLeft,
-    monthX,
     pinnedLabelShift,
     trackFraction,
     wheelZoomTarget
 } from "./roadmapZoom";
 import {
     asStrategicPeriodValue,
-    asStrategyFoundationValue,
-    monthIndex
+    asStrategyFoundationValue
 } from "../../../framework/engine/answers/AnswerUtils";
 
 /** January 2027 to December 2029: 12 quarters, 36 months. */
@@ -42,8 +40,6 @@ const period = asStrategicPeriodValue({
     }
 });
 
-const spanStart = monthIndex({ month: "01", year: "2027" });
-
 describe("roadmap zoom arithmetic", () => {
 
     it("zooms in on wheel up and out on wheel down, and only when the level can change", () => {
@@ -54,25 +50,6 @@ describe("roadmap zoom arithmetic", () => {
         expect(wheelZoomTarget("months", -100)).toBeNull();
 
     });
-
-    it("maps a date to the same share of the track at both levels", () => {
-
-        const start = monthIndex({ month: "04", year: "2027" });
-        const end = monthIndex({ month: "09", year: "2027" }) + 1;
-
-        // Quarters: a 1152px track, 32px a month.
-        expect(monthX(start, spanStart, 36, 1152)).toBe(96);
-        expect(monthX(end, spanStart, 36, 1152) - monthX(start, spanStart, 36, 1152)).toBe(192);
-
-        // Months: 96px a month, so the bar starts on April's column
-        // and spans exactly six of them.
-        const zoomed = 36 * ROADMAP_MONTH_WIDTH;
-        expect(monthX(start, spanStart, 36, zoomed)).toBe(3 * ROADMAP_MONTH_WIDTH);
-        expect(monthX(end, spanStart, 36, zoomed) - monthX(start, spanStart, 36, zoomed))
-            .toBe(6 * ROADMAP_MONTH_WIDTH);
-
-    });
-
 
     it("moves a bar's name in by as much as the bar is hidden, never past the bar's end", () => {
 

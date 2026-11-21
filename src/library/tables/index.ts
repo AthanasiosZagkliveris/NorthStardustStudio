@@ -14,7 +14,3 @@ export function table(code: string): TableData {
     if (!found) throw new Error("no table " + code);
     return found;
 }
-
-export function row(code: string, id: string): TableRow | undefined {
-    return table(code).rows.find(r => r.id === id);
-}

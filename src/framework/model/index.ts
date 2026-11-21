@@ -11,6 +11,5 @@ export * from "./FieldOption.ts";
 export * from "./TableDefinition.ts";
 export * from "./TableColumnDefinition.ts";
 export * from "./VariantDefinition.ts";
-export * from "./QuestionDefinition.ts";
 export * from "./ProfileCardsDefinition.ts";
 export * from "./AnswerPartDefinition.ts";

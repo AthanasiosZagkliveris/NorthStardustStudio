@@ -722,8 +722,7 @@ export interface BusinessFunctionalItem {
 }
 
 /**
- * The functional items of ALL of a Segment's Profiles, in page order, one for the same words on several Profiles (as businessSegmentNeeds pools
- * them), each with the ids an Offering ticks (owner, 2026-11-07: by id, not by text).
+ * The functional items of ALL of a Segment's Profiles, in page order, one for the same words on several Profiles, each with the ids an Offering ticks (owner, 2026-11-07: by id, not by text).
  */
 export function businessSegmentFunctionalItems(segment: BusinessCustomerSegmentValue): BusinessFunctionalItem[] {
     const items: BusinessFunctionalItem[] = [];
@@ -754,39 +753,6 @@ export function businessOfferingNeedTexts(segment: BusinessCustomerSegmentValue,
     return businessSegmentFunctionalItems(segment)
         .filter(item => item.ids.some(id => offering.needsAddressed.includes(id)))
         .map(item => item.text);
-}
-
-export function businessSegmentNeeds(
-    segment: BusinessCustomerSegmentValue,
-    kind: "functional" | "emotional" | "social"
-): string[] {
-
-    const needs: string[] = [];
-    const seen = new Set<string>();
-
-    for (const profile of segment.profiles) {
-        for (const need of profile.needs[kind]) {
-
-            const text = need.trim();
-
-            if (text.length === 0) {
-                continue;
-            }
-
-            const key = text.toLocaleLowerCase();
-
-            if (seen.has(key)) {
-                continue;
-            }
-
-            seen.add(key);
-            needs.push(text);
-
-        }
-    }
-
-    return needs;
-
 }
 
 /**

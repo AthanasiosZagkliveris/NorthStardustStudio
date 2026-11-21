@@ -1,7 +1,7 @@
 import { describe, expect, test } from "vitest";
 
 import { asBusinessEngagementValue, type BusinessSegmentEngagementValue } from "../answers/AnswerUtils.ts";
-import { actionPlaces, rowActions, withChosenAction, withRowLines } from "./ChannelActions.ts";
+import { rowActions, withChosenAction, withRowLines } from "./ChannelActions.ts";
 import { removalPatches, undoRemoval } from "../RemovalPatch.ts";
 import lumenText from "../../../data/examples/lumen-and-loom-studio.json?raw";
 
@@ -43,7 +43,7 @@ describe("a Segment's shared channel actions", () => {
         const collaborate = rowActions(value, "insta", "discovery").ids[1];
         value = withChosenAction(value, "pin", "discovery", 1, collaborate);
         expect(rowActions(value, "pin", "discovery").ids[1]).toBe(collaborate);
-        expect(actionPlaces(value, collaborate)).toEqual(["Instagram › Discover", "Pinterest › Discover"]);
+        expect(rowActions(value, "insta", "discovery").ids).toContain(collaborate);
         // Edited in one row, it reads so in both, once stored.
         value = reread(withRowLines(value, "pin", "discovery", ["Post reels", "Collaborate with interiors accounts"], [0, 1]));
         expect(rowActions(value, "insta", "discovery").texts[1]).toBe("Collaborate with interiors accounts");
@@ -75,7 +75,7 @@ describe("a Segment's shared channel actions", () => {
         const engagement = asBusinessEngagementValue(example.systems["3"].responses.find(response => response.sectionNumber === 2)?.value);
         const retail = engagement.segments.find(entry => entry.segmentId === "segment-8lu427u5")!;
         const touch = retail.actions.find(action => action.text === "Let visitors touch the cloth and try the loom")!;
-        expect(actionPlaces(retail, touch.id)).toEqual(["Studio / Shop › Evaluation", "Market / Pop-up › Evaluation"]);
+        expect(retail.channels.filter(channel => channel.actionIds.evaluation?.includes(touch.id)).map(channel => channel.name)).toEqual(["Studio / Shop", "Market / Pop-up"]);
         // Read as texts, row by row, as before: once in each row.
         expect(retail.channels.filter(channel => channel.actions.evaluation?.includes(touch.text))).toHaveLength(2);
     });

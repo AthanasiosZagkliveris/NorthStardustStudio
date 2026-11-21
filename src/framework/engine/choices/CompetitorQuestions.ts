@@ -915,18 +915,10 @@ export function differentiationFromOpenings(competitors: readonly { questions?: 
 }
 
 /**
- * Where each Differentiation the K10 ticks argue for came from (owner, 2026-11-09: K14's options say which competitor each start came from): the names of the
- * competitors whose ticks argue for it, in the competitors' order ("Competitor N" for one not named yet).
+ * Where each Differentiation the K10 ticks argue for came from (owner, 2026-11-09: K14's options say which competitor each start came from; 2026-11-10: "Link the
+ * competitors listed under each Differentiation option to their related field"): the competitors whose ticks argue for it, each with its card's id, in the
+ * competitors' order ("Competitor N" for one not named yet).
  */
-export function differentiationSources(competitors: readonly { id?: string; name?: string; questions?: Readonly<Record<string, readonly string[]>> }[]): Record<string, string[]> {
-    const sources: Record<string, string[]> = {};
-    for (const [differentiation, cards] of Object.entries(differentiationSourceCards(competitors))) {
-        sources[differentiation] = cards.map(card => card.name);
-    }
-    return sources;
-}
-
-/** The same, each competitor with its card's id (owner, 2026-11-10: "Link the competitors listed under each Differentiation option to their related field"). */
 export function differentiationSourceCards(competitors: readonly { id?: string; name?: string; questions?: Readonly<Record<string, readonly string[]>> }[]): Record<string, { id: string; name: string }[]> {
     const sources: Record<string, { id: string; name: string }[]> = {};
     competitors.forEach((competitor, at) => {
@@ -949,54 +941,4 @@ export function namesInSentence(names: readonly string[]): string {
 /** K10's options shown (owner, 2026-11-05: thirteen options under "3 max" were too many): the first six, in their order (the values by their score first), and any already ticked. */
 export function shownOpenings(openings: readonly Opening[], ticked: readonly string[], most = 6): Opening[] {
     return openings.filter((opening, at) => at < most || ticked.includes(opening.id));
-}
-
-/** The draft's lines not already in the text (compared trimmed, any spacing): "Add to text" adds only these, and is not offered when none is left. */
-export function draftToAdd(text: string, draft: string): string {
-    const said = text.replace(/\s+/g, " ").trim();
-    return draft.split("\n").map(line => line.trim()).filter(line => line && !said.includes(line.replace(/\s+/g, " "))).join("\n");
-}
-
-/**
- * A FIELD WITH ITS DRAFT ADDED, ONCE (owner, 2026-11-18 10:38: the drafts were added again at each press): an empty field takes the draft; a field with text keeps
- * it and takes, after a blank line, only the draft's lines it does not already hold; a field that holds them all is left as it is. Every "Add a draft" writes
- * through it, and shows only while it would add something (draftAdds).
- */
-export function withDraft(text: string, draft: string): string {
-    const adding = draftToAdd(text, draft);
-    if (!adding) {
-        return text;
-    }
-    return text.trim() ? text.replace(/\s+$/, "") + "\n\n" + adding : adding;
-}
-
-/** Whether "Add a draft" would add anything to the field (withDraft). */
-export function draftAdds(text: string, draft: string): boolean {
-    return draft.trim() !== "" && draftToAdd(text, draft) !== "";
-}
-
-/**
- * The draft added at the end of the Insights text when the App User asks (Questions 14): "Customers want [value], and [name] falls short there.", one line for each value
- * the Segment's Profiles tick that K8 rates 1 or 2, with every competitor of the Segment that falls short on it; then "You could [opening]." for each tick of K10.
- */
-export function insightsDraft(name: string, answers: CompetitorAnswers, context: OpeningContext & { names: readonly { name: string; answers: CompetitorAnswers }[] }, openings: readonly Opening[]): string {
-    const lines: string[] = [];
-    for (const [value, point] of Object.entries(listedValues(answers, context))) {
-        if (point === undefined || point > 2 || !valueOfProfiles(value, context)) {
-            continue;
-        }
-        const short = [name, ...context.names
-            .filter(other => other.answers !== answers && (competitorRatings(other.answers, "k8")[value] ?? 5) <= 2)
-            .map(other => other.name)]
-            .map(entry => entry.trim())
-            .filter((entry, at, all) => entry && all.indexOf(entry) === at);
-        lines.push("Customers want " + valueNoun(value) + ", and " + (short.length > 0 ? short.join(", ") : "this competitor") + " " + (short.length > 1 ? "fall" : "falls") + " short there.");
-    }
-    for (const id of answers.k10 ?? []) {
-        const opening = openings.find(entry => entry.id === id);
-        if (opening) {
-            lines.push("You could " + inSentence(opening.label) + ".");
-        }
-    }
-    return lines.join("\n");
 }
