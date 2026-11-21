@@ -664,7 +664,7 @@ describe("the stylesheet of the page tiles, the floating cards and the dialog gr
     });
 
     it("floats every card, a founder's too, with a drop shadow, 492px wide: one width, set by the floating card alone", () => {
-        expect(stylesheet("page-3-edges.css")).toMatch(/\.floating-card-host :is\([^)]*\) \{[^}]*--card-drop: var\(--shadow-drop\)/);
+        expect(stylesheet("capability-edges.css")).toMatch(/\.floating-card-host :is\([^)]*\) \{[^}]*--card-drop: var\(--shadow-drop\)/);
         expect(css).toMatch(/\.floating-card-card \{[^}]*width: min\(var\(--open-card-width\), calc\(100vw - 16px\)\);/);
         expect(css).not.toMatch(/\.floating-card-founder\b/);
         expect(global).toMatch(/--open-card-width: 492px;/);

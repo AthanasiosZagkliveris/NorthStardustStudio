@@ -3,7 +3,7 @@ import { lookHeight } from "../componentTokens.ts";
 
 /**
  * The "i" (InfoNote.tsx, .info-note-button in conversation.css, section-tiles.css
- * and page-3-edges.css; rulebook "An i" and "The i of a coloured card"): the
+ * and capability-edges.css; rulebook "An i" and "The i of a coloured card"): the
  * small round button after a label that opens a note. One rule for the gap and
  * the centre line (an "i" stands 6px, --info-gap, after its label's last word,
  * on that line's centre); three looks by where it stands:
@@ -21,13 +21,13 @@ export const infoNote: AssetContract = {
     summary: "A 24px round \"i\" after a label that opens a note. A swap of two colours under the pointer (the disc filled, the letter in the ground colour); it never changes size.",
     component: "src/components/interview/fields/InfoNote.tsx",
     stylesheet: "src/styles/conversation.css",
-    alsoStylesheets: ["src/styles/section-tiles.css", "src/styles/page-3-edges.css", "src/styles/global.css"],
+    alsoStylesheets: ["src/styles/section-tiles.css", "src/styles/capability-edges.css", "src/styles/global.css"],
     parts: ["button (24px disc with a stroke)", "the letter i (bold italic, small size)", "an invisible 24px hit area (::after)"],
     states: ["rest", "hover", "focus", "open"],
     variants: [
         { id: "plain", context: "page", note: "the base look: blue stroke and letter on a white disc, in a label outside any card of a hue" },
         { id: "tinted", context: "hue", note: "inside a card or tile of a hue: stroke and letter in the card's tint (section-tiles.css)" },
-        { id: "page-3", context: "answer-columns business-capability", note: "the page-3 card look: ground fill, 1.5px stroke, letter in --info-ink, a full swap on hover, focus and open (page-3-edges.css)" }
+        { id: "page-3", context: "answer-columns business-capability", note: "the page-3 card look: ground fill, 1.5px stroke, letter in --info-ink, a full swap on hover, focus and open (capability-edges.css)" }
     ],
     tokens: ["--info-gap", "--font-small", "--line-primary", "--text-primary", "--bg-surface", "--bg-primary", "--text-on-fill", "--theme-line-accent", "--info-ink", "--info-fill", "--glow-color", "--strategy-theme-hue"],
     geometry: {

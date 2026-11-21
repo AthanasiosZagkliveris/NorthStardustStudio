@@ -62,7 +62,7 @@ describe("the asset contracts", () => {
         expect(g.hitArea).toBe(g.disc);
         expect(conversation).toContain("margin-left:var(--info-gap, " + g.gap + "px);");
         expect(stylesheet("global.css")).toContain("--info-gap: " + g.gap + "px;");
-        expect(stylesheet("page-3-edges.css")).toContain("border: " + g.strokePage3 + "px solid var(--info-ink);");
+        expect(stylesheet("capability-edges.css")).toContain("border: " + g.strokePage3 + "px solid var(--info-ink);");
         expect(Object.keys(note.knownFindings ?? {})).toEqual(["tinted-rule-overridden"]);
     });
 

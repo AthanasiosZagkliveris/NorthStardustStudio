@@ -1,4 +1,4 @@
-import logo from "../assets/NORTH STARDUST Organization Framework.svg";
+import logo from "../assets/organization-framework.svg";
 
 import { lazy, Suspense } from "react";
 import AddButton from "./controls/AddButton.tsx";
