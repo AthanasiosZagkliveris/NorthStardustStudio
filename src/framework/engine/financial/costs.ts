@@ -97,13 +97,6 @@ export interface CostLine {
     sourcePath: string[];
 }
 
-/** What an asset is worth: its own cost plus the services bundled into it (counted ones only). */
-export function assetValue(lines: readonly CostLine[], assetId: string): number {
-    return lines
-        .filter(line => line.counted && (line.id === assetId || line.capitalisedInto === assetId))
-        .reduce((total, line) => total + (line.amount ?? 0), 0);
-}
-
 /** Page 3's frequencies onto this page's. */
 function fromCapabilityFrequency(frequency: string, unit = "", purchase = false): CostFrequency {
     /* A purchase of an asset (an asset group's card priced Per unit) is paid once, for its quantity; any other Per unit is a cost of each unit -- per order

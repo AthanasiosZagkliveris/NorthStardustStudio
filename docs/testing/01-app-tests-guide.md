@@ -17,7 +17,7 @@ Status: **reference**, written 2026-11-21, updated 2026-11-21. The app's tests: 
 
 ### Where they are and how they run
 
-The app has 2,315 tests in 200 files (2,313 pass, 2 are skipped on purpose: they rewrite the saved examples and the saved document words, and run only when asked), counted on the Finance link fix, now on main. Most test files sit beside the file they test and carry its name with `.test.ts` or `.test.tsx` added, so `FinancialModel.ts` is tested by `FinancialModel.test.ts` next to it. The house-rule tests and the shared test helpers are in src/test/.
+The app has 2,313 tests in 200 files (2,311 pass, 2 are skipped on purpose: they rewrite the saved examples and the saved document words, and run only when asked), counted on the Finance link fix, now on main. Most test files sit beside the file they test and carry its name with `.test.ts` or `.test.tsx` added, so `FinancialModel.ts` is tested by `FinancialModel.test.ts` next to it. The house-rule tests and the shared test helpers are in src/test/.
 
 They are written with Vitest and come in two kinds:
 
@@ -35,12 +35,12 @@ How to run them:
 
 ### The six groups
 
-More than four tests in five check either the screens (991) or the business rules behind them (907).
+More than four tests in five check either the screens (991) or the business rules behind them (905).
 
 | Group | Tests | Files | Where | What it protects |
 | --- | --- | --- | --- | --- |
 | Screens | 991 | 93 | `src/components/` | every card, tile, field, rail and dialog draws and behaves as specified |
-| Business rules | 907 | 70 | `src/framework/engine/` | the questions, choices, money, legal and channel logic gives the right answers |
+| Business rules | 905 | 70 | `src/framework/engine/` | the questions, choices, money, legal and channel logic gives the right answers |
 | Saved data and examples | 125 | 10 | `src/services/`, `src/data/`, `src/hooks/` | saving, loading, old answers and the two example businesses |
 | Whole pages | 115 | 9 | `src/pages/` | each page opens, moves and exports as a whole |
 | Design system and docs | 114 | 17 | `src/library/`, `src/styles/`, `src/docs/`, `src/test/` | the look stays on the tokens; the docs name only what exists |
@@ -58,14 +58,14 @@ These draw a part of the app and use it as a founder would: open a tile, tick a 
 - **Rails** (38, `rails/`) and **cards** (24, `cards/`): the side dots, the page arrows, card faces and their completeness.
 - **The rest of the frame** (91): the Menu, Notes, Calendar, header, shared controls and the Workbook's Financial Documents.
 
-### Business rules: 907 tests
+### Business rules: 905 tests
 
 These run the app's logic without drawing anything, so they are fast and exact about numbers and words.
 
 - **Questions and choices** (161, `choices/`): what each Segment, Profile, Offering and Competitor is asked, and the Mission, Vision, Ambassador and Strategy options. Example: a Profile's questions follow its Segment's answers.
 - **Money** (132 in `financial/`): amounts, the cash flow, funding, position, contingency, the cost of each Offering, the owner's minimum pay. The forecast, payment and cost files beside the folder are counted under Everything else.
 - **Channels** (39) and **legal** (29): channel resources and fees; legal facts, starts, suggestions and the US states.
-- **Everything else in `framework/engine/`** (546): the Business Documents and forecast, demand against capacity, journey suggestions, search, statuses, card dates, the palette, labels with "&".
+- **Everything else in `framework/engine/`** (544): the Business Documents and forecast, demand against capacity, journey suggestions, search, statuses, card dates, the palette, labels with "&".
 
 ### Saved data and examples: 125 tests
 
@@ -1726,9 +1726,9 @@ The largest folder: the resource, activity, partner and supplier cards of the Ca
 
 ## Business rules: every test
 
-70 files, 907 tests. They check the app's engine without drawing a screen: the money (costs, revenue, the forecast and its statements), the dates and stages, the choices that follow earlier answers, the channels, the legal rules, and the moving of older saves. Many tests run on the two example organisations, Lumen & Loom Studio and Quillfield Automation LLC.
+70 files, 905 tests. They check the app's engine without drawing a screen: the money (costs, revenue, the forecast and its statements), the dates and stages, the choices that follow earlier answers, the channels, the legal rules, and the moving of older saves. Many tests run on the two example organisations, Lumen & Loom Studio and Quillfield Automation LLC.
 
-### src/framework/engine/ (40 files, 458 tests)
+### src/framework/engine/ (40 files, 456 tests)
 
 #### ActionOrder.test.ts (8)
 
@@ -2072,7 +2072,7 @@ The largest folder: the resource, activity, partner and supplier cards of the Ca
   - keeps a tick when the item's words are edited, and matches the Profile by id
   - keeps each line's id through an edit, a new line, a split and a removal
 
-#### GlobalSettings.test.ts (19)
+#### GlobalSettings.test.ts (18)
 
 - **the starting values** (2)
   - hold the cost model's examples and leave a country's or the user's own figure empty
@@ -2082,10 +2082,9 @@ The largest folder: the resource, activity, partner and supplier cards of the Ca
   - cleans a figure to digits and one point
   - is idempotent
   - keeps only the useful life of the known asset groups
-- **the readers** (3)
+- **the readers** (2)
   - give the useful life of a group, the capitalisation limit and the reserve
   - work out the channel fee of the cost model: Stripe (UK cards, checked 14/11/2026) on 100,000 and 4,000 orders is 2,800
-  - work out employer on-costs: 6,000 of salaries at 25% is 1,500; nothing while no coefficient is set
 - **the channel fee data** (5)
   - gives a table saved at version 2 the rows checked on 2026-11-17, keeps a row the founder changed, and adds the new providers in the data's order
   - never offers a provider where it does not sell, and names Zettle PayPal Point of Sale in the US
@@ -2201,22 +2200,21 @@ The largest folder: the resource, activity, partner and supplier cards of the Ca
   - owes what is not yet paid under the plan, and the balance sheet still balances
   - holds as prepaid what is paid before the cost is incurred
 
-#### PurposeRelevance.test.ts (14)
+#### PurposeRelevance.test.ts (13)
 
-- **the relevance of a purpose to the buyer (the owner's tables of 2026-10-30)** (14)
+- **the relevance of a purpose to the buyer (the owner's tables of 2026-10-30)** (13)
   - says nothing, and keeps the list as it is, until something is answered
   - reads the seller and buyer relationship table: Business Growth is a business purpose, Entertainment and Everyday Needs are consumer ones
   - reads the buyer's category table when a category is chosen: a Direct Buyer does not gift, a Proxy Buyer does
   - reads the buyer and user relationship table of a consumer buyer first: a friend does not buy for productivity, a Commercial & Professional buyer does not buy entertainment
   - puts the primary purposes first, then the possible ones, then the rest, and takes none away
-  - says how each consumer relationship usually reads: proxy, dual-intent or either (the owner's table)
   - reads the table of the buyer's and the user's life stage first, and the next table for the three purposes it does not cover
   - reads the owner's table of the audience scale and the business buyer's category first for a business buyer
   - orders the differentiations by the business buyer's audience scale and category
   - reads the owner's tables of the business buyer and user relationships before the audience scale
   - says which differentiations the purposes chosen drive
   - says which differentiations a business buyer and user relationship drives
-  - says which outcomes the purposes chosen drive: the buyer's, by the category, and the user's
+  - says which outcomes the purposes chosen drive for the user
   - makes the life stages, once both are answered, the first key of the differentiations and the outcomes
 
 #### RelationshipFit.test.ts (10)

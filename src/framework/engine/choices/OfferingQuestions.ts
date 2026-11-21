@@ -100,7 +100,7 @@ const PAYMENT: readonly SegmentOption[] = [
     { id: "project", label: "A project or contract" }, { id: "retainer", label: "A monthly retainer" }, { id: "commission", label: "Commission on each sale" },
     { id: "free", label: "Free to them" }
 ];
-/** Options merged into another (2026-11-08): a saved answer of the first is read as the second (asOfferingAnswers). */
+/** Options merged into another (2026-11-08): a saved answer of the first is read as the second (offeringShown). */
 const OFFERING_MERGED: Readonly<Record<string, Readonly<Record<string, string>>>> = { o3: { membership: "subscription" } };
 const RECEIVE: readonly SegmentOption[] = [
     { id: "auto", label: "Sent automatically online" }, { id: "byyou", label: "Sent by you online" }, { id: "live", label: "In a live online session" }, { id: "inperson", label: "In person" },
@@ -546,26 +546,6 @@ export function offeringShown(saved: OfferingAnswers, context: OfferingContext):
         shown.o17 = ["none"];
     }
     return shown;
-}
-
-/** A saved answer, whatever its shape: question ids to lists of option ids. */
-export function asOfferingAnswers(source: unknown): OfferingAnswers {
-    if (!source || typeof source !== "object") {
-        return {};
-    }
-    const result: OfferingAnswers = {};
-    for (const [key, value] of Object.entries(source as Record<string, unknown>)) {
-        if (Array.isArray(value) && value.every(entry => typeof entry === "string")) {
-            result[key] = value as string[];
-        }
-    }
-    // Merged options (2026-11-08): a saved A membership is A subscription / membership, counted once.
-    for (const [id, merged] of Object.entries(OFFERING_MERGED)) {
-        if (result[id]) {
-            result[id] = [...new Set(result[id].map(option => merged[option] ?? option))];
-        }
-    }
-    return result;
 }
 
 /** The option's words for a printed answer (the documents and the export). */

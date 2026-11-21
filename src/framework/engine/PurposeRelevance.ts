@@ -181,11 +181,6 @@ export function purposeRelevance(context: PurposeContext): Record<string, number
     return out;
 }
 
-/** What the order follows, in words (for the "i"), or "" where the list keeps its order. */
-export function purposeOrderAbout(context: PurposeContext): string {
-    return applicable(context)[0]?.about ?? "";
-}
-
 /** The options in the order of their relevance, the most relevant first; the order they came in within each level. All of them stay. */
 export function orderedByRelevance<T extends { id: string }>(options: readonly T[], relevance: Record<string, number> | null): T[] {
     if (!relevance) {
@@ -194,34 +189,10 @@ export function orderedByRelevance<T extends { id: string }>(options: readonly T
     return options.map((option, at) => ({ option, at })).sort((a, b) => (relevance[b.option.id] ?? 0) - (relevance[a.option.id] ?? 0) || a.at - b.at).map(entry => entry.option);
 }
 
-/** How a buyer and user relationship usually reads (the owner's table): a proxy buyer (buys for the other), a dual-intent buyer (the purchase is for both) or either. */
-export const RELATIONSHIP_INTENT: Record<string, "proxy" | "dual" | "either"> = {
-    "rel:parent": "proxy", "rel:caregiver": "proxy", "rel:family": "either", "rel:partner": "dual", "rel:friend": "proxy", "rel:commercial": "proxy", "rel:otherpersonal": "either"
-};
-
-/**
- * The outcome for the buyer each purpose drives, by the buyer's category (the owner's table of 2026-10-30): one row for each purpose in the order of the purpose ids, four marks for each in the
- * order of the outcome ids (savings, time, assurance, prestige): P primary, S secondary, . low relevance. A Direct Buyer's table has no row for Social Connection, Health, Gifting or Creation.
- */
-const DIRECT_OUTCOME_DRIVES = [".S.P", "....", "....", "...P", "....", "SP..", "S..P", "....", "PP..", "..P.", "..P.", "PS.."];
+/** The outcome for the buyer each purpose drives where the buyer is a Proxy or Dual-Intent Buyer (the owner's table of 2026-10-30): one row for each purpose in the order of the purpose ids, four marks in the order of the outcome ids (savings, time, assurance, prestige): P primary, S secondary, . low relevance. */
 const SHARED_OUTCOME_DRIVES = ["...P", "S...", "...P", "...P", "...P", ".P..", "...P", ".S..", "SP..", "..P.", "..P.", "P..."];
 /** The outcome for the user each purpose drives (a Proxy or Dual-Intent Buyer's user), in the order of the user outcome ids: enjoy, comfort, safety, learning, belong, practical. */
 const USER_OUTCOME_DRIVES = ["...P..", "..P...", "....P.", "P.....", "....P.", ".....P", ".....P", "P.....", ".P....", "..P...", ".....P", ".P...."];
-
-/** The outcomes (for the buyer) the chosen purposes drive, by outcome id (2 primary, 1 secondary, 0 low): the strongest across the purposes chosen and the categories chosen; null until a purpose and a category are chosen. */
-export function outcomeByPurpose(purposes: readonly string[], categories: readonly string[]): Record<string, number> | null {
-    const at = purposes.map(id => PURPOSE_IDS.indexOf(id as typeof PURPOSE_IDS[number])).filter(position => position >= 0);
-    const keys = categories.map(id => id.split(":")[1]);
-    if (at.length === 0 || keys.length === 0) {
-        return null;
-    }
-    const tables = [...(keys.includes("direct") ? [DIRECT_OUTCOME_DRIVES] : []), ...(keys.some(key => key === "proxy" || key === "dual") ? [SHARED_OUTCOME_DRIVES] : [])];
-    const out: Record<string, number> = {};
-    OUTCOME_IDS.forEach((id, column) => {
-        out[id] = Math.max(0, ...tables.flatMap(table => at.map(row => (table[row][column] === "P" ? 2 : table[row][column] === "S" ? 1 : 0))));
-    });
-    return out;
-}
 
 /** The outcomes for the user the chosen purposes drive, by outcome id (2 primary, 0 low); null until a purpose is chosen. */
 export function userOutcomeByPurpose(purposes: readonly string[]): Record<string, number> | null {

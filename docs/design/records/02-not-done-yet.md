@@ -1,16 +1,16 @@
 # 2. What has not been done yet
 
-Status: **living list**, written 2026-10-14, updated 2026-11-21. Remove an item when it is done and record it in the log (`01-log.md`). Everything here is a plan or a proposal unless it says "decided". Nothing in section 5.3 is built, and of section 5.5 only what a row says is built.
+Status: **living list**, written 2026-10-14, updated 2026-11-21 (every item checked against the code on 2026-11-21; the done ones removed). The one list of what is not built yet: sections 5.1 to 5.11 hold the open work, 5.12 points to every planned connection between answers ("Read by (not built yet)"), and 5.13 to every future feature and proposal kept in another document, one line each with the place its design lives. Remove an item when it is done and record it in the log (`01-log.md`). Everything here is a plan or a proposal unless it says "decided".
 
 ## Open now
 
-**The questionnaire build**: built are the Segment card's questions (Questions 12), the Profile card's questions A1 to A3, A5, B1, C1 to C4, D1, D2 and E1 to E3 (Questions 13), and the Organisation and Positioning tiles (Questions 7 and 8). Not built: the Profile's A4 (kind of business) and A6 (specialised needs), the proposed Profiles and the user's own Profile (the second Profile of a Proxy or Dual-Intent Segment), and every read of the Segment's and Profile's answers listed as "Read by (not built yet)" in Questions 12 and 36. What else is left of the first version is Questions 4; where each tile stands is Questions 1, section 11. The help texts follow Interface 10 (a proposal: only its size budget is built).
+**The questionnaire build**: built are the Segment card's questions (Questions 12), the Profile card's questions A1 to A3, A5, B1, C1 to C4, D1, D2 and E1 to E3 (Questions 13), and the Organisation and Positioning tiles (Questions 7 and 8). Not built: the Profile's A4 (kind of business) and A6 (specialised needs), the proposed Profiles by age term (the B2B ones by buying role and the end user's part of a Proxy or Dual-Intent Profile are built, Questions 13, section 2), and every read of the Segment's and Profile's answers listed as "Read by (not built yet)" in Questions 12 and 13 (section 5.12). What else is left of the first version is Questions 4; where each tile stands is Questions 1, section 11. The help texts follow Interface 10 (a proposal: only its size budget is built).
 
-**The release**: `chore/light-cleanup` is merged into `main` (log, 2026-10-22). Next: the Tile System (5.3), then Batches D and E (5.4), then the extraction (5.7).
+**The road**: the Tile System is built but for the items of 5.3; next are Batches D and E (5.4), then the extraction (5.7).
 
 **On hold (owner, 2026-11-09)**: P2, the Profile's Needs before its Motivations; P4, the Segment's Box 4 (Purchasing Power & Behaviour) split in two; a full third example Organisation. None is built; each waits for the owner's word.
 
-**Waiting for the owner**: the proposals in `04-frequency-options.md` (frequency groups); the generated cards' inputs beyond "adding, not removing"; the open decisions of 5.8; the sizes and gaps that are not on a step (5.6).
+**Waiting for the owner**: the generated cards' inputs beyond "adding, not removing"; the open decisions of 5.8; the sizes and gaps that are not on a step (5.6).
 
 **To unify**: the Legal Entity cards' own CSS (`legal-entity-*`) stays: a merge into the shared card was tried and put back, because the shared card's classes move the number, the name gap and the ground. The Inventory grid's columns come from the stylesheet and stay. The other places once thought to be copies are not (`01-shared-components.md`, "What is hand-made, read one by one").
 
@@ -27,9 +27,9 @@ Status: **living list**, written 2026-10-14, updated 2026-11-21. Remove an item 
 | Phase | Content | State |
 |---|---|---|
 | 1 | Light clean-up: one rulebook, baseline triage, current page names, a wider layout check; the drafts converted; asset library, first half | Done and merged (log, 2026-10-14 to 2026-10-22) |
-| 2 | **Finish the Tile System** on the places that are not tiles yet (5.3) | Open |
+| 2 | **Finish the Tile System** on the places that are not tiles yet (5.3) | Mostly done (2026-11-12 to 2026-11-20): every chapter is drawn as tiles; what is left is 5.3 |
 | 3 | **Batches D and E** (5.4) | Open |
-| 4 | **Full clean-up and optimisation** of the completed Foundation (5.6), plus the second half of the asset library (merge duplicates, fold the rules into the contracts) | Partly done: the CSS clean-up, the token source, the shared components and the lints are built; the load and run measurements of 5.6 are not |
+| 4 | **Full clean-up and optimisation** of the completed Foundation (5.6), plus the second half of the asset library (merge duplicates, fold the rules into the contracts) | Partly done: the CSS clean-up, the token source, the shared components and the lints are built; the unused-code pass is done (2026-11-21); the load and run measurements of 5.6 are not |
 | 5 | **Extraction** into the new app (5.7) | Open |
 
 ## 5.2 The task plan F to K: what is not done
@@ -44,12 +44,12 @@ Every chapter is drawn as tiles; the page Financials is one chapter, Financial F
 | Where | State | What remains inline | Conversion (suggestion) |
 |---|---|---|---|
 | Business 4 and 5 · Financials | Tiles (2026-11-17), one chapter, Financial Foundation (its tiles: Questions 20, section 14) | The dialogs' nested sub tiles and the Cash Timeline as a Diagram tile (Questions 20, section 1); the Costs sub tiles opening the Inventory's table (IN4); a dialog wide enough for the costs table and the Operating months (owner to decide: the dialog is the half-width chapter's width) | Later steps of phase 1 (Questions 1, section 10) |
-| Four editors | Old non-tile layout kept below an early return | Unreachable code (`asTiles` is always true) | Remove after confirming the tests do not use it |
+| Four editors | The old non-tile layout below the `asTiles` early return (Founders Profile, Legal Entity, Brand Inventory, Customer Engagement) | Still reachable: `asTiles` defaults to false, and `AnswerRenderer.tsx` draws the Legal Entity twice without it, which draws the Founders Profile without it | Find which screens still open those paths; remove the layout where none does |
 | Help tile | Not a real kind in the code | Inventory and Completed are normal tiles recognised by id | Add a real "help tile" kind |
 
 ## 5.4 Workspace batches D and E
 
-The briefs (in `docs/archive/plans/`; they are not finished work, only kept there) say D and E wait until the structure is stable; it is, and the order is decided (after the Tile System). What they ask for is checked below against the code.
+The briefs (`docs/proposals/workspace-d-duplicate-scenarios-compare.md` and `workspace-e-founder-helpers.md`; nothing of either is built) say D and E wait until the structure is stable; it is, and the order is decided (after the Tile System). What they ask for is checked below against the code.
 
 **Already built** (the briefs asked to reuse them): `FieldKey`, `openField`, the field status line (with the unused "Changed in … · Reset" parts), the Workbook (its Review and its Glossary), the Notepad (the Notes tool), the undo toast, search, and `Sources.ts`. **Absent:** `planOutcomes`, scenarios, duplicate organisation and card, the Compare route, the lender check, the One-Pager.
 
@@ -60,7 +60,7 @@ The briefs (in `docs/archive/plans/`; they are not finished work, only kept ther
 | D2 Duplicate a card | Absent | The card kinds are now the cost-model cards; generated cards must not be duplicated; offering links and shares kept or cleared by rule | L |
 | D3 Scenarios | Absent | The scenario-able inputs table no longer matches; Global Settings are saved with each organisation; `withWhatIf` only scales revenue, so a layer that applies overrides to the whole document is needed | L (largest) |
 | D4 Compare | Absent | Needs `planOutcomes` and a route; runway, funding gap, yearly profit and repayments must be added | M |
-| E1 What would it take? | Partly exists ("What It Would Take" on Sustainability: percent levers for a cash shortfall) | The brief asks for "break even by month X", amounts per offering and "Try this" (needs D3) | M |
+| E1 What would it take? | Partly exists: `whatItWouldTake` (`engine/financial/whatItWouldTake.ts`, percent levers for a cash shortfall) is tested, but no screen shows it today | The brief asks for "break even by month X", amounts per offering and "Try this" (needs D3) | M |
 | E2 Lender-ready check | Absent | The Review page has changed; the ten rules must be re-checked against the new data; each needs a Source | M |
 | E3 One-Pager and elevator pitch | Absent | Re-read segment, offering and founder data through `readFoundation`; one-page fit needs a measurement test | M |
 | E4 Glossary hints | Absent | About 40 terms, each with a checked reference; conflicts with the global tooltip rules | M |
@@ -83,14 +83,14 @@ From the analysis in Research 2, R10. Each requirement has an id, a priority (**
 
 | App function | What exists today | Where this proposal adds |
 |---|---|---|
-| **1. Requests information** by text, choice, field, number, with help | Field types on all pages; help notes; limits on numbers | F1–F4, C1, C4, I4–I5 (more choices instead of free text) |
-| **2. Stores and connects it** and creates further requests from it | Answers saved per organisation; cards link by id (resources, activities, offerings); generated cards (channel expenses, insurance) | F1, F6, C2, C11, C16 (links by id), I1 (Delivery Team shown on Delivery) |
-| **3. Calculates, records, presents** (tables, diagrams, by time and category) | Demand, capacity, costs by nature, Funding Need, Break Even, forecast, Calendar, Inventory | C14 (spend by channel), I7–I9, A6, T1–T2 (tiles for the Financial pages), D4 Compare |
-| **4. Proves and validates** | Completeness rules, open items, the Workbook's Review, capacity check, date checks, Stress Test, "What It Would Take" | A5, F7, C9, E2 (Lender check), planOutcomes |
+| **1. Requests information** by text, choice, field, number, with help | Field types on all pages; help notes; limits on numbers | F2–F4, C1, C4, I4–I5 (more choices instead of free text) |
+| **2. Stores and connects it** and creates further requests from it | Answers saved per organisation; cards link by id (resources, activities, offerings); generated cards (channel expenses, insurance) | C2, C11, C16 (links by id), I1 (Delivery Team shown on Delivery) |
+| **3. Calculates, records, presents** (tables, diagrams, by time and category) | Demand, capacity, costs by nature, Funding Need, Break Even, forecast, Calendar, Inventory | C14 (spend by channel), I7–I9, A6, D4 Compare |
+| **4. Proves and validates** | Completeness rules, open items, the Workbook's Review, capacity check, date checks, Stress Test, the Value Proposition's open items | A5, C9, E2 (Lender check), planOutcomes |
 | **5. Helps** (instructions, resources, pre-filled data; Note and Calendar; messages, errors, reminders, limits; smart navigation) | InfoNote, Notepad, Calendar, Search, rails, arrows, Undo | A6, E4 (Glossary), C5 (proposals) |
 | **6. Generates and exports Business Documents** | Business Plan, Canvas, Forecast; PDF and Markdown | E3 (One-Pager) |
 
-Ordering of work (decided): the **Tile System** is finished first (T1–T2), then **Batches D and E** (section 5.4), then the full clean-up and optimisation, then the extraction.
+Ordering of work (decided): the **Tile System** first (built, but for 5.3), then **Batches D and E** (section 5.4), then the full clean-up and optimisation, then the extraction.
 
 ### 5.5.2 App-wide requirements
 
@@ -105,11 +105,9 @@ Ordering of work (decided): the **Tile System** is finished first (T1–T2), the
 | A7 | Currency: an organization-level override beside the country default; cards of another currency are converted by a stated rate or flagged with a note the founder sees. | S | Gap |
 | A8 | Example organisations and their tests are updated with every interface or requirement change. | M | Rule |
 | A9 | Documents in the project are Markdown; PDFs are exports only. | M | Rule |
-| T1 | **Tile System complete:** Financial Foundation (4 sections) and Sustainability (2 sections) are drawn as tiles that open their existing sections in dialogs. | M | Done 2026-11-17; one page, Financials, 2026-11-19, and one chapter, Financial Foundation, 2026-11-20 (its tiles: Questions 20, section 14); the dialogs' nested sub tiles and the Cash Timeline wait (section 5.3) |
-| T2 | **Customer Engagement:** Customer Relationship, Sales Forecast and the channel resource table become tiles in each segment's frame. | M | Done 2026-11-12 (Questions 17, section 3); the Channel Costs table's width waits for the owner |
-| T3 | The old non-tile layout under the `asTiles` early return in four editors is removed once tests no longer use it. | S | Fix |
+| T3 | The old non-tile layout under the `asTiles` early return in four editors is removed once no screen opens it (section 5.3). | S | Fix |
 | X1 | **Extraction readiness:** shared parts (reading mode, notes, calendar, search, review, undo, help, export, preferences) have no import from Systems 05–24; the operations and social-media branches in `Conversation` are removed; storage stays behind the store interface; the desktop opener is the only Tauri import. | S | New |
-| X2 | The examples load on demand, and are optional in the new app. | S | New |
+| X2 | The examples are optional in the new app (they already load on demand: `ExampleOrganizations.ts`). | S | New |
 
 ### 5.5.3 Business Section 1 · Foundation
 
@@ -117,7 +115,6 @@ Ordering of work (decided): the **Tile System** is finished first (T1–T2), the
 
 | Id | Requirement | P | State |
 |---|---|---|---|
-| F1 | A profile's **needs** have stable ids. Offerings and the value proposition refer to a need by id. | M | Fix |
 | F2 | **Pain points** are defined once: a need that is unmet or costly today, in the profile's words. The profile's challenges feed them; they are a choice list from the profile, not a new free text. | S | Gap |
 | F3 | Segment and profile fields that are used as **filters** elsewhere (channel fit, relationship type, offering) are choices, not free text. A table lists which field filters which (section 5). | S | New; partly built: the Segment and Profile ask choice questions (Questions 12 and 13), nothing yet filters by them |
 | F4 | A segment can mark its **touch preference** (self-serve, assisted, personal). It proposes the relationship type on Customer Engagement; the user can override. | C | New |
@@ -130,10 +127,7 @@ Ordering of work (decided): the **Tile System** is finished first (T1–T2), the
 
 #### 5.5.3.3 Value Proposition
 
-| Id | Requirement | P | State |
-|---|---|---|---|
-| F6 | The value proposition is **built from ticked needs** (id) of the segment, with one sentence per need that the offering addresses; the free sentence stays. | S | Fix |
-| F7 | An offering that addresses no need, or a need no offering addresses, is shown as an open item. | M | Gap |
+F1 (needs by id), F6 (the draft from the ticked needs) and F7 (the open items) are built (Questions 15, sections 1 and 2).
 
 #### 5.5.3.4 Offering
 
@@ -266,11 +260,10 @@ The plans of 2026-10-14 for the clean-up round, the library automation and its s
 
   **Later.** Once an asset has replaced the old one (phase 3), the app is built from the library for that asset, and the sync then finds the asset where the library put it.
 
-- The unused-code pass (a list of exports no file imports; to be chosen: `knip` or `ts-prune`).
 - The values of old 5.14 that are not on a step (gaps of 10, 14, 18, 20px and others; corners of 1, 2, 3, 7, 10, 12px; three window and container boundaries drawn twice) wait for the owner: each joins a step, becomes a step, or stays a literal in the lint's baseline. The decided breakpoint set (768, 1200, heights 900 and 1250) is not yet used by any query.
 - The 768px floor against WCAG 1.4.10 Reflow (320px at 400% zoom): a declared exception until the owner rules (rulebook, section 20).
 - The library: asset by asset, each with its contract, gallery entry and page code changed to use it (step 5), the style-reading tests converted as each asset gets its contract, then the page check last (step 6) with its baseline rewritten; the sync (`01-library-system.md`, step 7).
-- Optimisation, measured before and after: load (`Conversation`, `Landing` and the registry chunks; the two examples are bundled into `Landing` and could load on demand; every editor is in one chunk), run (the biggest editors re-render on every key: profile first, memoise only where the profile shows it), code (files over 2,000 lines such as `FinancialModel.ts`, `AnswerBusinessCapability.ts` and `Conversation.tsx`; duplicated helpers; the dead non-tile paths under `asTiles` in four editors; the Operations and social-media branches in `Conversation`). The old figures (a bundle of 662 KB, 1.07 MB of CSS, 1,355 tests) are of 2026-10-14 and must be measured again. Bundle-size limits have no official value: the limit is a choice to make after the first measurement. Target for interaction: "good" Interaction to Next Paint is 200 ms or less (web.dev).
+- Optimisation, measured before and after: load (`Conversation`, `Landing` and the registry chunks; the two examples already load on demand; every editor is in one chunk), run (the biggest editors re-render on every key: profile first, memoise only where the profile shows it), code (files over 2,000 lines such as `FinancialModel.ts`, `AnswerBusinessCapability.ts` and `Conversation.tsx`; duplicated helpers; the non-tile paths under `asTiles` in four editors (5.3); the Operations and social-media branches in `Conversation`). The old figures (a bundle of 662 KB, 1.07 MB of CSS, 1,355 tests) are of 2026-10-14 and must be measured again. Bundle-size limits have no official value: the limit is a choice to make after the first measurement. Target for interaction: "good" Interaction to Next Paint is 200 ms or less (web.dev).
 
 
 ## 5.7 Extraction into the new app: what the audit found
@@ -321,7 +314,6 @@ For the owner to decide, or work not done. Each item leaves this list when done 
 **Pop-ups and tooltips (Interface 7, 25)**
 - P2's panels are 260px wide today for the calendar and the colour card; a menu is as wide as its longest line. One width for every P2 panel would be simpler: say if wanted.
 - A P4 tip is not announced to a screen reader except by the control's own label; the label already says it.
-- The comment on `useAboveTip` in `Tooltip.tsx` says "centred on it"; the code puts the tip's left edge on the control's left edge. Fix the comment.
 
 **Free texts (Interface 3, 17)**
 - The character limits (60, 200, 600, 1000) and one component for each free-text category are not built.
@@ -330,13 +322,11 @@ For the owner to decide, or work not done. Each item leaves this list when done 
 **Library (Library 1, 10, 11, 12)**
 - Step 7 of the library plan (the sync of the app to the tables, with a watch mode) is not built.
 - The hand-written rows of Library 6 (L0653 to L0659) and Library 7 (A0029 to A0034) hold facts the log does not (tipWords, aria-pressed, label-arrow.css, MultiPicker).
-- The older library log rows (L0001 to L0502) are kept in `docs/archive/log/library-log-archive.md`.
 
 **The design record (Foundation 1, Research 1 and 2)**
 - Part F of Foundation 1 is Foundation 2; its repeated template for each card could be reduced, but the catalogue tool reads its table shapes.
 - Research 1, 2.7 (the source register, about 100 KB) could become its own document; other documents cite its ids.
 - The Part G "Key flag" idea and the Part E "Both" place are in no code and no longer in Foundation 1: formally dropped? (They stay in Research 2 R2.)
-- The comment in `PartnerGroupHelp.test.ts` still says "part H"; it is Part D, section 3.
 
 **The questionnaire (Questions 1, 28, 29)**
 - 25 ids are listed as withdrawn or merged, but 91 minus 67 is 24: the 91 or one id is wrong (Questions 2, Appendix B).
@@ -357,3 +347,41 @@ For the owner to decide, or work not done. Each item leaves this list when done 
 - The routing of the outcome for the user into the second Profile (P9, P17) is not built (Questions 4, item 13).
 - The Canadian classification file (`src/data/classifications/ca-naics-2022.json`) has 694 industries and 923 Canadian industries; Statistics Canada publishes 695 and 922. Check it against the official structure file (Research 3, 5.7).
 - The card scan `tools/catalogue/scans/quillfield-1920-light.json` is not written by any script of the repository; it still names page 2 "2. Organisation" (two rows of Records 4, twelve of Library 3). A script for it is not built.
+
+## 5.12 Planned connections between answers (not built)
+
+The questions documents mark each answer that a later page is meant to read, and does not yet, with "*Read by (not built yet):*" under the question. They stay in the question's own section (one owner per fact); this is where they are counted, by the feature that would read them. Map of the later pages: [what each later page reads](../../specifications/03-business-system/README.md).
+
+| Feature that would read them | Where the planned reads are |
+|---|---|
+| **The Review** (a note where answers do not fit each other: ages, gender mix, devices, delivery cost, Offering stage, the competitor's reach) | Questions 12 (Segment), 13 (Profile), 14 (Competitor), 15 (Value Proposition, the same open items) and 16 (Offering): most of their "not built yet" reads |
+| **The Value Proposition draft** (the purpose, the competitor's "stands out for") | Questions 8 (Positioning), 13 and 14 |
+| **Customer Engagement and the customer journey** (the tender row for a public body, the times to reach them, the Journey Stages, the Evaluation stage's actions) | Questions 12, 14 and 16 |
+| **The SWOT, the documents and the exports** (a competitor's ratings as strengths, weaknesses, threats and opportunities) | Questions 14 |
+| **The Profiles** (the end user's Profile from the Segment, the proposed Profiles by age term, A6 when it is built) | Questions 12 and 13 |
+| **The industry pack's examples** and the Segment's first customer question | Questions 7 (Organisation) and 13 |
+| **The Brand System's voice and the Positioning notes** (display only) | Questions 9 (Purpose & Beliefs) |
+| **The Business Plan's risks and operations text** | Questions 19 (Capacity & Delivery, section 4.2) |
+| **Competitor emphasis** (a thought, Questions 4, section 15) | Questions 12 |
+
+**Answers nothing reads, not even in a plan:** three questions of Questions 12 say "*Read by (not built yet):* Nothing yet": "Why are your customers not working?" (twice) and "How big are their clients' organisations?". For the owner: name a reader, or keep them as context the documents show.
+
+## 5.13 Future features and proposals in other documents (not built)
+
+Each line points to the one place its design lives; the item is removed here when the log records it built.
+
+| What | Where its design lives | State |
+|---|---|---|
+| AI Assistant, Team working mode, Voice mode, extra languages and countries | [Guide 2, sections 5.1 to 5.4](../../guide/02-overview-and-future-features.md#5-future-features) | Not built |
+| Other features ranked for an early-stage founder (persistent-storage request, lender-ready exports, scenarios, dashboard and plan against actual, privacy controls, industry templates, accounting integration, pitch export, funding finder, `.ics` reminders, onboarding tour) | [Guide 2, section 5.5](../../guide/02-overview-and-future-features.md#55-other-features-ranked-by-value-for-an-early-stage-founder) and its roadmap, 5.6 | Not built, except the rows that section marks built |
+| Workspace D (duplicate an organisation or a card, scenarios, Compare) and E (What would it take, lender check, One-Pager, glossary hints) | [docs/proposals/](../../proposals/) and section 5.4 above | Not built |
+| The open points of the first version, the research still to do, the heavy and public options, the Thoughts | [Questions 4](../questions/04-specs-and-limitations.md), sections 9, 12, 14 and 15 | Open, not scheduled |
+| The Beta questionnaire for the app's first founders | [Research 8](../research/08-beta-questionnaire.md) | Proposal, nothing built |
+| Delivery and capacity additions not yet on the cards | [Research 7](../research/07-delivery-and-capacity-research.md) and [Questions 19](../questions/19-capacity-and-delivery.md) (its status names the built parts) | Built in part |
+| The Financials still to build (Offering Economics card, RV1, O19, K15 as a record, FN1, nested sub tiles, the Cash Timeline) | [Questions 20](../questions/20-financials-and-inventory.md), sections 1 and 14, and section 5.3 above | Not built |
+| The Strategy's Current Situation lines (the market, the competition, the capacity check) | [Questions 21](../questions/21-strategy.md), section 10 (from section 2.3) | Not built |
+| The free-text character limits and one component per category | [Interface 3](../interface/03-free-text-categories.md) | Proposal |
+| The help texts' structure beyond the size budget | [Interface 10](../interface/10-help-texts-guide.md) | Built in part |
+| The library's sync of the app to the tables (step 7) | [Library 1](../library/01-library-system.md), section 7, and section 5.6 above | Not built |
+| Lists and classifications for more countries | [Research 3](../research/03-lists-and-classifications.md) (Questions 4 governs) | Future feature |
+| Engine functions kept for a later screen: `whatItWouldTake` (E1) and `loanRepaymentNotes` | `engine/financial/whatItWouldTake.ts`, `engine/financial/position.ts` | Tested, no screen shows them |

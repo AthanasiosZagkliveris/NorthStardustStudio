@@ -370,7 +370,3 @@ export function foreignFeeNote(row: ChannelFeeRow, organisationCurrency: string)
     return "The " + shown + " per order is in " + currencyWords(code) + ", so the totals leave it out.";
 }
 
-/** Employer on-costs on gross salaries (X3): 6,000 at 25% is 1,500. Zero while the coefficient is not set. */
-export function employerOnCosts(settings: GlobalSettingsValue, grossSalaries: number): number {
-    return Math.round(grossSalaries * (settingNumber(settings.onCostRate) ?? 0)) / 100;
-}
