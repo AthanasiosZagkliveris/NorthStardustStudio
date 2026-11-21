@@ -178,7 +178,7 @@ export function useCapabilityState(props: BusinessCapabilityEditorProps) {
     /** The cards whose Links section is open (it starts folded). */
     const [linksOpen, setLinksOpen] = useState<ReadonlySet<string>>(new Set());
     /*
-        EXPECTED SALES, from Demand & Conversion on Foundation & Engagement:
+        EXPECTED SALES, from Sales Forecast on Foundation & Engagement:
         the page before this one, so already filled in on the way here.
         Never from a later page.
     */

@@ -282,7 +282,7 @@ export interface AnswerRendererProps {
     globalSettings?: GlobalSettingsValue;
     /** Sustainability's saved value, for Financial Foundation's operating need. */
     financialSustainability?: unknown;
-    /** Customer Engagement's saved value: its Demand & Conversion gives expected sales. */
+    /** Customer Engagement's saved value: its Sales Forecast gives expected sales. */
     businessEngagement?: unknown;
     onOpenBusinessEngagement?: OpenPage;
     onOpenBusinessCapability?: OpenPage;

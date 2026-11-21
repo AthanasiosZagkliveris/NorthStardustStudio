@@ -1219,7 +1219,7 @@
         // 18. CONTENT STARTS AT THE TITLE: under every head with a fold arrow --
         //     a numbered card, section, sub-block or item ("1. Segment",
         //     "2. Customer Relationship") or a titled block with no number
-        //     ("Demand & Conversion", "Electricity") -- the content starts at
+        //     ("Sales Forecast", "Electricity") -- the content starts at
         //     the left edge of the title's text (its number, where it has
         //     one). Fold arrows, grips and "Expand all" are not content.
         //     Named exceptions: a Brand colour or typeface card (its body

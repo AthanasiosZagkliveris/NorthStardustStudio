@@ -106,7 +106,7 @@ Ordering of work (decided): the **Tile System** is finished first (T1–T2), the
 | A8 | Example organisations and their tests are updated with every interface or requirement change. | M | Rule |
 | A9 | Documents in the project are Markdown; PDFs are exports only. | M | Rule |
 | T1 | **Tile System complete:** Financial Foundation (4 sections) and Sustainability (2 sections) are drawn as tiles that open their existing sections in dialogs. | M | Done 2026-11-17; one page, Financials, 2026-11-19, and one chapter, Financial Foundation, 2026-11-20 (its tiles: doc 48, section 14); the dialogs' nested sub tiles and the Cash Timeline wait (section 5.3) |
-| T2 | **Customer Engagement:** Customer Relationship, Demand & Conversion and the channel resource table become tiles in each segment's frame. | M | Done 2026-11-12 (doc 47, section 3); the Channel Costs table's width waits for the owner |
+| T2 | **Customer Engagement:** Customer Relationship, Sales Forecast and the channel resource table become tiles in each segment's frame. | M | Done 2026-11-12 (doc 47, section 3); the Channel Costs table's width waits for the owner |
 | T3 | The old non-tile layout under the `asTiles` early return in four editors is removed once tests no longer use it. | S | Fix |
 | X1 | **Extraction readiness:** shared parts (reading mode, notes, calendar, search, review, undo, help, export, preferences) have no import from Systems 05–24; the operations and social-media branches in `Conversation` are removed; storage stays behind the store interface; the desktop opener is the only Tauri import. | S | New |
 | X2 | The examples load on demand, and are optional in the new app. | S | New |

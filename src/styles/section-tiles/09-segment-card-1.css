@@ -491,7 +491,7 @@
 
 }
 
-/* DEMAND & CONVERSION AS A TABLE */
+/* SALES FORECAST AS A TABLE */
 
 /* A channel the Segment does not use yet: a faded tile; pressed, it becomes one. */
 /* (Drawn in the grey of everything deactivated, section-tile-completed.) */
@@ -543,7 +543,7 @@
 
 }
 
-/* DEMAND & CONVERSION: one table for the Segment, an Offering at a time. */
+/* SALES FORECAST: one table for the Segment, an Offering at a time. */
 
 /* ONE FOUNDER: the card has the width, so Salary, Frequency, Working Hrs and Delivery Hrs stand each beside its label, in cells of one width (the card does not grow). */
 .business-founder-open.business-founder-solo .business-founder-grid {
@@ -661,7 +661,7 @@
 
 }
 
-/* Demand & Conversion as one table: an Offering's own cells (the Offering, how it is bought, its channels) span its rows; a line under each Offering. */
+/* Sales Forecast as one table: an Offering's own cells (the Offering, how it is bought, its channels) span its rows; a line under each Offering. */
 
 /* A DELIVERY CARD: the hours of each person stand as the card's other side-label rows do -- the name in the label column, its cell in the column every cell starts in. */
 @container card (min-width: 396px) {
@@ -788,7 +788,7 @@
 
 }
 
-/* Demand & Conversion's cells show what they hold: a result wraps rather than runs under the x, a picker is as wide as its value. */
+/* Sales Forecast's cells show what they hold: a result wraps rather than runs under the x, a picker is as wide as its value. */
 
 /* THE CURRENCY CELL of a price starts in the column every cell of the card starts in (the Start date's, the Rate override's): its picker is not set in by the 6px its wrapper keeps. */
 .business-capability-cost-currency > .option-picker {
@@ -1088,7 +1088,7 @@
 
 }
 
-/* DEMAND & CONVERSION: each Offering's block is in a frame of its own (the frames' pattern: 12px inside, 8px corners, one hairline in the hue). */
+/* SALES FORECAST: each Offering's block is in a frame of its own (the frames' pattern: 12px inside, 8px corners, one hairline in the hue). */
 .business-demand-section > .business-demand-cell {
 
     box-sizing: border-box;

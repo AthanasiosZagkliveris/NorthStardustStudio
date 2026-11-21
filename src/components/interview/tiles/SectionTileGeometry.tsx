@@ -196,7 +196,7 @@ export type FaceRow = { name: string; under: string };
 
 /**
  * ONE FACE FOR EVERY TILE (owner, 2026-11-18 22:56 and 23:08 UTC+2: "Financial tiles' lists should follow the shared tile list"): each name, then what is said of it
- * in bold under it, and the tile list's own line between one and the next (Demand & Conversion, Customer's Relationship, every financial tile). A name with nothing
+ * in bold under it, and the tile list's own line between one and the next (Sales Forecast, Customer's Relationship, every financial tile). A name with nothing
  * under it stands alone.
  */
 export function stackedFace(rows: readonly FaceRow[]): string[] {

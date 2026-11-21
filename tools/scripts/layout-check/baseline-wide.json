@@ -6978,13 +6978,13 @@
   "rule": "a tile's list stands under the title, inside the square"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|light|768|1024|a section tile's title is inside its square|engagement-section-segment-~-demand › Demand & Conversion, Bespoke Commissions 1.5 a month, Trade Collection 30 a mont|",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|light|768|1024|a section tile's title is inside its square|engagement-section-segment-~-demand › Sales Forecast, Bespoke Commissions 1.5 a month, Trade Collection 30 a mont|",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a section tile's title is inside its square"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|light|768|1024|a tile's list stands under the title, inside the square|engagement-section-segment-~-demand › Demand & Conversion, Bespoke Commissions 1.5 a month, Trade Collection 30 a mont|",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|light|768|1024|a tile's list stands under the title, inside the square|engagement-section-segment-~-demand › Sales Forecast, Bespoke Commissions 1.5 a month, Trade Collection 30 a mont|",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a tile's list stands under the title, inside the square"
@@ -7044,7 +7044,7 @@
   "rule": "a tile's list stands under the title, inside the square"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|light|768|1024|a tile's list stands under the title, inside the square|engagement-section-segment-~-demand › Demand & Conversion, Bespoke Commissions 1.5 a month, Trade Collection 30 a mont|Channels &Journey",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|light|768|1024|a tile's list stands under the title, inside the square|engagement-section-segment-~-demand › Sales Forecast, Bespoke Commissions 1.5 a month, Trade Collection 30 a mont|Channels &Journey",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a tile's list stands under the title, inside the square"
@@ -7110,7 +7110,7 @@
   "rule": "a tile's list stands under the title, inside the square"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|light|768|1024|a tile's list stands under the title, inside the square|engagement-section-segment-~-demand › Demand & Conversion, Bespoke Commissions 1.5 a month, Trade Collection 30 a mont|Customer'sRelationship",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|light|768|1024|a tile's list stands under the title, inside the square|engagement-section-segment-~-demand › Sales Forecast, Bespoke Commissions 1.5 a month, Trade Collection 30 a mont|Customer'sRelationship",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a tile's list stands under the title, inside the square"
@@ -7146,67 +7146,67 @@
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|light|768|1024|a section dialog is the page card area's width, from the heading's underline to the footer|Demand &Conversion|",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|light|768|1024|a section dialog is the page card area's width, from the heading's underline to the footer|Sales Forecast|",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a section dialog is the page card area's width, from the heading's underline to the footer"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|light|768|1024|a section tile's dialog starts at the heading's underline|Demand &Conversion|",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|light|768|1024|a section tile's dialog starts at the heading's underline|Sales Forecast|",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a section tile's dialog starts at the heading's underline"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|light|768|1024|every master tile of every chapter of a page has one side|engagement-segment-segment-~ › section-tiles-box section-tiles-quad|Demand &Conversion",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|light|768|1024|every master tile of every chapter of a page has one side|engagement-segment-segment-~ › section-tiles-box section-tiles-quad|Sales Forecast",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "every master tile of every chapter of a page has one side"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|light|768|1024|a tile's list stands under the title, inside the square|engagement-section-segment-~-~ › Channels & Journey, Discover 5, Evaluation 5, Purchase 2, Delivery 3, Support & |Demand &Conversion",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|light|768|1024|a tile's list stands under the title, inside the square|engagement-section-segment-~-~ › Channels & Journey, Discover 5, Evaluation 5, Purchase 2, Delivery 3, Support & |Sales Forecast",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a tile's list stands under the title, inside the square"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|light|768|1024|a tile's list stands under the title, inside the square|engagement-section-segment-~-relationships › Customer's Relationship, Bespoke Commissions Dedicated Support, Trade Collection|Demand &Conversion",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|light|768|1024|a tile's list stands under the title, inside the square|engagement-section-segment-~-relationships › Customer's Relationship, Bespoke Commissions Dedicated Support, Trade Collection|Sales Forecast",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a tile's list stands under the title, inside the square"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|light|768|1024|a tile's list stands under the title, inside the square|engagement-section-segment-~-demand › Demand & Conversion, Bespoke Commissions 1.5 a month, Trade Collection 30 a mont|Demand &Conversion",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|light|768|1024|a tile's list stands under the title, inside the square|engagement-section-segment-~-demand › Sales Forecast, Bespoke Commissions 1.5 a month, Trade Collection 30 a mont|Sales Forecast",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a tile's list stands under the title, inside the square"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|light|768|1024|the content of a tile (title, list, items, +) is inside its square, no overflow|engagement-segment-segment-~ › section-tile-list section-tile-list-pairs|Demand &Conversion",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|light|768|1024|the content of a tile (title, list, items, +) is inside its square, no overflow|engagement-segment-segment-~ › section-tile-list section-tile-list-pairs|Sales Forecast",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "the content of a tile (title, list, items, +) is inside its square, no overflow"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|light|768|1024|the content of a tile (title, list, items, +) is inside its square, no overflow|engagement-segment-segment-~ › section-tile-list|Demand &Conversion",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|light|768|1024|the content of a tile (title, list, items, +) is inside its square, no overflow|engagement-segment-segment-~ › section-tile-list|Sales Forecast",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "the content of a tile (title, list, items, +) is inside its square, no overflow"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|light|768|1024|the content of a tile (title, list, items, +) is inside its square, no overflow|engagement-segment-segment-~ › LI|Demand &Conversion",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|light|768|1024|the content of a tile (title, list, items, +) is inside its square, no overflow|engagement-segment-segment-~ › LI|Sales Forecast",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "the content of a tile (title, list, items, +) is inside its square, no overflow"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|light|768|1024|the content of a tile (title, list, items, +) is inside its square, no overflow|engagement-segment-segment-~ › section-tile-divider|Demand &Conversion",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|light|768|1024|the content of a tile (title, list, items, +) is inside its square, no overflow|engagement-segment-segment-~ › section-tile-divider|Sales Forecast",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "the content of a tile (title, list, items, +) is inside its square, no overflow"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|light|768|1024|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Demand &Conversion",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|light|768|1024|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Sales Forecast",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
@@ -7242,13 +7242,13 @@
   "rule": "a tile's list stands under the title, inside the square"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|light|1024|768|a section tile's title is inside its square|engagement-section-segment-~-demand › Demand & Conversion, Bespoke Commissions 1.5 a month, Trade Collection 30 a mont|",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|light|1024|768|a section tile's title is inside its square|engagement-section-segment-~-demand › Sales Forecast, Bespoke Commissions 1.5 a month, Trade Collection 30 a mont|",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a section tile's title is inside its square"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|light|1024|768|a tile's list stands under the title, inside the square|engagement-section-segment-~-demand › Demand & Conversion, Bespoke Commissions 1.5 a month, Trade Collection 30 a mont|",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|light|1024|768|a tile's list stands under the title, inside the square|engagement-section-segment-~-demand › Sales Forecast, Bespoke Commissions 1.5 a month, Trade Collection 30 a mont|",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a tile's list stands under the title, inside the square"
@@ -7308,7 +7308,7 @@
   "rule": "a tile's list stands under the title, inside the square"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|light|1024|768|a tile's list stands under the title, inside the square|engagement-section-segment-~-demand › Demand & Conversion, Bespoke Commissions 1.5 a month, Trade Collection 30 a mont|Channels &Journey",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|light|1024|768|a tile's list stands under the title, inside the square|engagement-section-segment-~-demand › Sales Forecast, Bespoke Commissions 1.5 a month, Trade Collection 30 a mont|Channels &Journey",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a tile's list stands under the title, inside the square"
@@ -7374,7 +7374,7 @@
   "rule": "a tile's list stands under the title, inside the square"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|light|1024|768|a tile's list stands under the title, inside the square|engagement-section-segment-~-demand › Demand & Conversion, Bespoke Commissions 1.5 a month, Trade Collection 30 a mont|Customer'sRelationship",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|light|1024|768|a tile's list stands under the title, inside the square|engagement-section-segment-~-demand › Sales Forecast, Bespoke Commissions 1.5 a month, Trade Collection 30 a mont|Customer'sRelationship",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a tile's list stands under the title, inside the square"
@@ -7410,67 +7410,67 @@
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|light|1024|768|a section dialog is the page card area's width, from the heading's underline to the footer|Demand &Conversion|",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|light|1024|768|a section dialog is the page card area's width, from the heading's underline to the footer|Sales Forecast|",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a section dialog is the page card area's width, from the heading's underline to the footer"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|light|1024|768|a section tile's dialog starts at the heading's underline|Demand &Conversion|",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|light|1024|768|a section tile's dialog starts at the heading's underline|Sales Forecast|",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a section tile's dialog starts at the heading's underline"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|light|1024|768|every master tile of every chapter of a page has one side|engagement-segment-segment-~ › section-tiles-box section-tiles-quad|Demand &Conversion",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|light|1024|768|every master tile of every chapter of a page has one side|engagement-segment-segment-~ › section-tiles-box section-tiles-quad|Sales Forecast",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "every master tile of every chapter of a page has one side"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|light|1024|768|a tile's list stands under the title, inside the square|engagement-section-segment-~-~ › Channels & Journey, Discover 5, Evaluation 5, Purchase 2, Delivery 3, Support & |Demand &Conversion",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|light|1024|768|a tile's list stands under the title, inside the square|engagement-section-segment-~-~ › Channels & Journey, Discover 5, Evaluation 5, Purchase 2, Delivery 3, Support & |Sales Forecast",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a tile's list stands under the title, inside the square"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|light|1024|768|a tile's list stands under the title, inside the square|engagement-section-segment-~-relationships › Customer's Relationship, Bespoke Commissions Dedicated Support, Trade Collection|Demand &Conversion",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|light|1024|768|a tile's list stands under the title, inside the square|engagement-section-segment-~-relationships › Customer's Relationship, Bespoke Commissions Dedicated Support, Trade Collection|Sales Forecast",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a tile's list stands under the title, inside the square"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|light|1024|768|a tile's list stands under the title, inside the square|engagement-section-segment-~-demand › Demand & Conversion, Bespoke Commissions 1.5 a month, Trade Collection 30 a mont|Demand &Conversion",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|light|1024|768|a tile's list stands under the title, inside the square|engagement-section-segment-~-demand › Sales Forecast, Bespoke Commissions 1.5 a month, Trade Collection 30 a mont|Sales Forecast",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a tile's list stands under the title, inside the square"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|light|1024|768|the content of a tile (title, list, items, +) is inside its square, no overflow|engagement-segment-segment-~ › section-tile-list section-tile-list-pairs|Demand &Conversion",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|light|1024|768|the content of a tile (title, list, items, +) is inside its square, no overflow|engagement-segment-segment-~ › section-tile-list section-tile-list-pairs|Sales Forecast",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "the content of a tile (title, list, items, +) is inside its square, no overflow"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|light|1024|768|the content of a tile (title, list, items, +) is inside its square, no overflow|engagement-segment-segment-~ › section-tile-list|Demand &Conversion",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|light|1024|768|the content of a tile (title, list, items, +) is inside its square, no overflow|engagement-segment-segment-~ › section-tile-list|Sales Forecast",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "the content of a tile (title, list, items, +) is inside its square, no overflow"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|light|1024|768|the content of a tile (title, list, items, +) is inside its square, no overflow|engagement-segment-segment-~ › LI|Demand &Conversion",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|light|1024|768|the content of a tile (title, list, items, +) is inside its square, no overflow|engagement-segment-segment-~ › LI|Sales Forecast",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "the content of a tile (title, list, items, +) is inside its square, no overflow"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|light|1024|768|the content of a tile (title, list, items, +) is inside its square, no overflow|engagement-segment-segment-~ › section-tile-divider|Demand &Conversion",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|light|1024|768|the content of a tile (title, list, items, +) is inside its square, no overflow|engagement-segment-segment-~ › section-tile-divider|Sales Forecast",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "the content of a tile (title, list, items, +) is inside its square, no overflow"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|light|1024|768|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Demand &Conversion",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|light|1024|768|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Sales Forecast",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
@@ -7500,7 +7500,7 @@
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|light|1366|768|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Demand &Conversion",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|light|1366|768|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Sales Forecast",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
@@ -7530,7 +7530,7 @@
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|light|1440|864|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Demand &Conversion",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|light|1440|864|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Sales Forecast",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
@@ -7548,7 +7548,7 @@
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|light|1440|1024|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Demand &Conversion",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|light|1440|1024|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Sales Forecast",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
@@ -7566,7 +7566,7 @@
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Demand &Conversion",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Sales Forecast",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
@@ -7584,7 +7584,7 @@
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|light|1920|1300|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Demand &Conversion",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|light|1920|1300|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Sales Forecast",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
@@ -7620,13 +7620,13 @@
   "rule": "a tile's list stands under the title, inside the square"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|sepia|768|1024|a section tile's title is inside its square|engagement-section-segment-~-demand › Demand & Conversion, Bespoke Commissions 1.5 a month, Trade Collection 30 a mont|",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|sepia|768|1024|a section tile's title is inside its square|engagement-section-segment-~-demand › Sales Forecast, Bespoke Commissions 1.5 a month, Trade Collection 30 a mont|",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a section tile's title is inside its square"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|sepia|768|1024|a tile's list stands under the title, inside the square|engagement-section-segment-~-demand › Demand & Conversion, Bespoke Commissions 1.5 a month, Trade Collection 30 a mont|",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|sepia|768|1024|a tile's list stands under the title, inside the square|engagement-section-segment-~-demand › Sales Forecast, Bespoke Commissions 1.5 a month, Trade Collection 30 a mont|",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a tile's list stands under the title, inside the square"
@@ -7686,7 +7686,7 @@
   "rule": "a tile's list stands under the title, inside the square"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|sepia|768|1024|a tile's list stands under the title, inside the square|engagement-section-segment-~-demand › Demand & Conversion, Bespoke Commissions 1.5 a month, Trade Collection 30 a mont|Channels &Journey",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|sepia|768|1024|a tile's list stands under the title, inside the square|engagement-section-segment-~-demand › Sales Forecast, Bespoke Commissions 1.5 a month, Trade Collection 30 a mont|Channels &Journey",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a tile's list stands under the title, inside the square"
@@ -7752,7 +7752,7 @@
   "rule": "a tile's list stands under the title, inside the square"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|sepia|768|1024|a tile's list stands under the title, inside the square|engagement-section-segment-~-demand › Demand & Conversion, Bespoke Commissions 1.5 a month, Trade Collection 30 a mont|Customer'sRelationship",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|sepia|768|1024|a tile's list stands under the title, inside the square|engagement-section-segment-~-demand › Sales Forecast, Bespoke Commissions 1.5 a month, Trade Collection 30 a mont|Customer'sRelationship",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a tile's list stands under the title, inside the square"
@@ -7788,67 +7788,67 @@
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|sepia|768|1024|a section dialog is the page card area's width, from the heading's underline to the footer|Demand &Conversion|",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|sepia|768|1024|a section dialog is the page card area's width, from the heading's underline to the footer|Sales Forecast|",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a section dialog is the page card area's width, from the heading's underline to the footer"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|sepia|768|1024|a section tile's dialog starts at the heading's underline|Demand &Conversion|",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|sepia|768|1024|a section tile's dialog starts at the heading's underline|Sales Forecast|",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a section tile's dialog starts at the heading's underline"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|sepia|768|1024|every master tile of every chapter of a page has one side|engagement-segment-segment-~ › section-tiles-box section-tiles-quad|Demand &Conversion",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|sepia|768|1024|every master tile of every chapter of a page has one side|engagement-segment-segment-~ › section-tiles-box section-tiles-quad|Sales Forecast",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "every master tile of every chapter of a page has one side"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|sepia|768|1024|a tile's list stands under the title, inside the square|engagement-section-segment-~-~ › Channels & Journey, Discover 5, Evaluation 5, Purchase 2, Delivery 3, Support & |Demand &Conversion",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|sepia|768|1024|a tile's list stands under the title, inside the square|engagement-section-segment-~-~ › Channels & Journey, Discover 5, Evaluation 5, Purchase 2, Delivery 3, Support & |Sales Forecast",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a tile's list stands under the title, inside the square"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|sepia|768|1024|a tile's list stands under the title, inside the square|engagement-section-segment-~-relationships › Customer's Relationship, Bespoke Commissions Dedicated Support, Trade Collection|Demand &Conversion",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|sepia|768|1024|a tile's list stands under the title, inside the square|engagement-section-segment-~-relationships › Customer's Relationship, Bespoke Commissions Dedicated Support, Trade Collection|Sales Forecast",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a tile's list stands under the title, inside the square"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|sepia|768|1024|a tile's list stands under the title, inside the square|engagement-section-segment-~-demand › Demand & Conversion, Bespoke Commissions 1.5 a month, Trade Collection 30 a mont|Demand &Conversion",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|sepia|768|1024|a tile's list stands under the title, inside the square|engagement-section-segment-~-demand › Sales Forecast, Bespoke Commissions 1.5 a month, Trade Collection 30 a mont|Sales Forecast",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a tile's list stands under the title, inside the square"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|sepia|768|1024|the content of a tile (title, list, items, +) is inside its square, no overflow|engagement-segment-segment-~ › section-tile-list section-tile-list-pairs|Demand &Conversion",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|sepia|768|1024|the content of a tile (title, list, items, +) is inside its square, no overflow|engagement-segment-segment-~ › section-tile-list section-tile-list-pairs|Sales Forecast",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "the content of a tile (title, list, items, +) is inside its square, no overflow"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|sepia|768|1024|the content of a tile (title, list, items, +) is inside its square, no overflow|engagement-segment-segment-~ › section-tile-list|Demand &Conversion",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|sepia|768|1024|the content of a tile (title, list, items, +) is inside its square, no overflow|engagement-segment-segment-~ › section-tile-list|Sales Forecast",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "the content of a tile (title, list, items, +) is inside its square, no overflow"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|sepia|768|1024|the content of a tile (title, list, items, +) is inside its square, no overflow|engagement-segment-segment-~ › LI|Demand &Conversion",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|sepia|768|1024|the content of a tile (title, list, items, +) is inside its square, no overflow|engagement-segment-segment-~ › LI|Sales Forecast",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "the content of a tile (title, list, items, +) is inside its square, no overflow"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|sepia|768|1024|the content of a tile (title, list, items, +) is inside its square, no overflow|engagement-segment-segment-~ › section-tile-divider|Demand &Conversion",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|sepia|768|1024|the content of a tile (title, list, items, +) is inside its square, no overflow|engagement-segment-segment-~ › section-tile-divider|Sales Forecast",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "the content of a tile (title, list, items, +) is inside its square, no overflow"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|sepia|768|1024|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Demand &Conversion",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|sepia|768|1024|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Sales Forecast",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
@@ -7884,13 +7884,13 @@
   "rule": "a tile's list stands under the title, inside the square"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|sepia|1024|768|a section tile's title is inside its square|engagement-section-segment-~-demand › Demand & Conversion, Bespoke Commissions 1.5 a month, Trade Collection 30 a mont|",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|sepia|1024|768|a section tile's title is inside its square|engagement-section-segment-~-demand › Sales Forecast, Bespoke Commissions 1.5 a month, Trade Collection 30 a mont|",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a section tile's title is inside its square"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|sepia|1024|768|a tile's list stands under the title, inside the square|engagement-section-segment-~-demand › Demand & Conversion, Bespoke Commissions 1.5 a month, Trade Collection 30 a mont|",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|sepia|1024|768|a tile's list stands under the title, inside the square|engagement-section-segment-~-demand › Sales Forecast, Bespoke Commissions 1.5 a month, Trade Collection 30 a mont|",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a tile's list stands under the title, inside the square"
@@ -7950,7 +7950,7 @@
   "rule": "a tile's list stands under the title, inside the square"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|sepia|1024|768|a tile's list stands under the title, inside the square|engagement-section-segment-~-demand › Demand & Conversion, Bespoke Commissions 1.5 a month, Trade Collection 30 a mont|Channels &Journey",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|sepia|1024|768|a tile's list stands under the title, inside the square|engagement-section-segment-~-demand › Sales Forecast, Bespoke Commissions 1.5 a month, Trade Collection 30 a mont|Channels &Journey",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a tile's list stands under the title, inside the square"
@@ -8016,7 +8016,7 @@
   "rule": "a tile's list stands under the title, inside the square"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|sepia|1024|768|a tile's list stands under the title, inside the square|engagement-section-segment-~-demand › Demand & Conversion, Bespoke Commissions 1.5 a month, Trade Collection 30 a mont|Customer'sRelationship",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|sepia|1024|768|a tile's list stands under the title, inside the square|engagement-section-segment-~-demand › Sales Forecast, Bespoke Commissions 1.5 a month, Trade Collection 30 a mont|Customer'sRelationship",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a tile's list stands under the title, inside the square"
@@ -8052,67 +8052,67 @@
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|sepia|1024|768|a section dialog is the page card area's width, from the heading's underline to the footer|Demand &Conversion|",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|sepia|1024|768|a section dialog is the page card area's width, from the heading's underline to the footer|Sales Forecast|",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a section dialog is the page card area's width, from the heading's underline to the footer"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|sepia|1024|768|a section tile's dialog starts at the heading's underline|Demand &Conversion|",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|sepia|1024|768|a section tile's dialog starts at the heading's underline|Sales Forecast|",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a section tile's dialog starts at the heading's underline"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|sepia|1024|768|every master tile of every chapter of a page has one side|engagement-segment-segment-~ › section-tiles-box section-tiles-quad|Demand &Conversion",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|sepia|1024|768|every master tile of every chapter of a page has one side|engagement-segment-segment-~ › section-tiles-box section-tiles-quad|Sales Forecast",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "every master tile of every chapter of a page has one side"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|sepia|1024|768|a tile's list stands under the title, inside the square|engagement-section-segment-~-~ › Channels & Journey, Discover 5, Evaluation 5, Purchase 2, Delivery 3, Support & |Demand &Conversion",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|sepia|1024|768|a tile's list stands under the title, inside the square|engagement-section-segment-~-~ › Channels & Journey, Discover 5, Evaluation 5, Purchase 2, Delivery 3, Support & |Sales Forecast",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a tile's list stands under the title, inside the square"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|sepia|1024|768|a tile's list stands under the title, inside the square|engagement-section-segment-~-relationships › Customer's Relationship, Bespoke Commissions Dedicated Support, Trade Collection|Demand &Conversion",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|sepia|1024|768|a tile's list stands under the title, inside the square|engagement-section-segment-~-relationships › Customer's Relationship, Bespoke Commissions Dedicated Support, Trade Collection|Sales Forecast",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a tile's list stands under the title, inside the square"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|sepia|1024|768|a tile's list stands under the title, inside the square|engagement-section-segment-~-demand › Demand & Conversion, Bespoke Commissions 1.5 a month, Trade Collection 30 a mont|Demand &Conversion",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|sepia|1024|768|a tile's list stands under the title, inside the square|engagement-section-segment-~-demand › Sales Forecast, Bespoke Commissions 1.5 a month, Trade Collection 30 a mont|Sales Forecast",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a tile's list stands under the title, inside the square"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|sepia|1024|768|the content of a tile (title, list, items, +) is inside its square, no overflow|engagement-segment-segment-~ › section-tile-list section-tile-list-pairs|Demand &Conversion",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|sepia|1024|768|the content of a tile (title, list, items, +) is inside its square, no overflow|engagement-segment-segment-~ › section-tile-list section-tile-list-pairs|Sales Forecast",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "the content of a tile (title, list, items, +) is inside its square, no overflow"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|sepia|1024|768|the content of a tile (title, list, items, +) is inside its square, no overflow|engagement-segment-segment-~ › section-tile-list|Demand &Conversion",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|sepia|1024|768|the content of a tile (title, list, items, +) is inside its square, no overflow|engagement-segment-segment-~ › section-tile-list|Sales Forecast",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "the content of a tile (title, list, items, +) is inside its square, no overflow"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|sepia|1024|768|the content of a tile (title, list, items, +) is inside its square, no overflow|engagement-segment-segment-~ › LI|Demand &Conversion",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|sepia|1024|768|the content of a tile (title, list, items, +) is inside its square, no overflow|engagement-segment-segment-~ › LI|Sales Forecast",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "the content of a tile (title, list, items, +) is inside its square, no overflow"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|sepia|1024|768|the content of a tile (title, list, items, +) is inside its square, no overflow|engagement-segment-segment-~ › section-tile-divider|Demand &Conversion",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|sepia|1024|768|the content of a tile (title, list, items, +) is inside its square, no overflow|engagement-segment-segment-~ › section-tile-divider|Sales Forecast",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "the content of a tile (title, list, items, +) is inside its square, no overflow"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|sepia|1024|768|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Demand &Conversion",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|sepia|1024|768|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Sales Forecast",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
@@ -8142,7 +8142,7 @@
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|sepia|1366|768|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Demand &Conversion",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|sepia|1366|768|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Sales Forecast",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
@@ -8172,7 +8172,7 @@
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|sepia|1440|864|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Demand &Conversion",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|sepia|1440|864|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Sales Forecast",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
@@ -8190,7 +8190,7 @@
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|sepia|1440|1024|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Demand &Conversion",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|sepia|1440|1024|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Sales Forecast",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
@@ -8208,7 +8208,7 @@
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|sepia|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Demand &Conversion",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|sepia|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Sales Forecast",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
@@ -8226,7 +8226,7 @@
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|sepia|1920|1300|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Demand &Conversion",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|sepia|1920|1300|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Sales Forecast",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
@@ -8262,13 +8262,13 @@
   "rule": "a tile's list stands under the title, inside the square"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|dark|768|1024|a section tile's title is inside its square|engagement-section-segment-~-demand › Demand & Conversion, Bespoke Commissions 1.5 a month, Trade Collection 30 a mont|",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|dark|768|1024|a section tile's title is inside its square|engagement-section-segment-~-demand › Sales Forecast, Bespoke Commissions 1.5 a month, Trade Collection 30 a mont|",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a section tile's title is inside its square"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|dark|768|1024|a tile's list stands under the title, inside the square|engagement-section-segment-~-demand › Demand & Conversion, Bespoke Commissions 1.5 a month, Trade Collection 30 a mont|",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|dark|768|1024|a tile's list stands under the title, inside the square|engagement-section-segment-~-demand › Sales Forecast, Bespoke Commissions 1.5 a month, Trade Collection 30 a mont|",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a tile's list stands under the title, inside the square"
@@ -8328,7 +8328,7 @@
   "rule": "a tile's list stands under the title, inside the square"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|dark|768|1024|a tile's list stands under the title, inside the square|engagement-section-segment-~-demand › Demand & Conversion, Bespoke Commissions 1.5 a month, Trade Collection 30 a mont|Channels &Journey",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|dark|768|1024|a tile's list stands under the title, inside the square|engagement-section-segment-~-demand › Sales Forecast, Bespoke Commissions 1.5 a month, Trade Collection 30 a mont|Channels &Journey",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a tile's list stands under the title, inside the square"
@@ -8394,7 +8394,7 @@
   "rule": "a tile's list stands under the title, inside the square"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|dark|768|1024|a tile's list stands under the title, inside the square|engagement-section-segment-~-demand › Demand & Conversion, Bespoke Commissions 1.5 a month, Trade Collection 30 a mont|Customer'sRelationship",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|dark|768|1024|a tile's list stands under the title, inside the square|engagement-section-segment-~-demand › Sales Forecast, Bespoke Commissions 1.5 a month, Trade Collection 30 a mont|Customer'sRelationship",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a tile's list stands under the title, inside the square"
@@ -8430,67 +8430,67 @@
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|dark|768|1024|a section dialog is the page card area's width, from the heading's underline to the footer|Demand &Conversion|",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|dark|768|1024|a section dialog is the page card area's width, from the heading's underline to the footer|Sales Forecast|",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a section dialog is the page card area's width, from the heading's underline to the footer"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|dark|768|1024|a section tile's dialog starts at the heading's underline|Demand &Conversion|",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|dark|768|1024|a section tile's dialog starts at the heading's underline|Sales Forecast|",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a section tile's dialog starts at the heading's underline"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|dark|768|1024|every master tile of every chapter of a page has one side|engagement-segment-segment-~ › section-tiles-box section-tiles-quad|Demand &Conversion",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|dark|768|1024|every master tile of every chapter of a page has one side|engagement-segment-segment-~ › section-tiles-box section-tiles-quad|Sales Forecast",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "every master tile of every chapter of a page has one side"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|dark|768|1024|a tile's list stands under the title, inside the square|engagement-section-segment-~-~ › Channels & Journey, Discover 5, Evaluation 5, Purchase 2, Delivery 3, Support & |Demand &Conversion",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|dark|768|1024|a tile's list stands under the title, inside the square|engagement-section-segment-~-~ › Channels & Journey, Discover 5, Evaluation 5, Purchase 2, Delivery 3, Support & |Sales Forecast",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a tile's list stands under the title, inside the square"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|dark|768|1024|a tile's list stands under the title, inside the square|engagement-section-segment-~-relationships › Customer's Relationship, Bespoke Commissions Dedicated Support, Trade Collection|Demand &Conversion",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|dark|768|1024|a tile's list stands under the title, inside the square|engagement-section-segment-~-relationships › Customer's Relationship, Bespoke Commissions Dedicated Support, Trade Collection|Sales Forecast",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a tile's list stands under the title, inside the square"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|dark|768|1024|a tile's list stands under the title, inside the square|engagement-section-segment-~-demand › Demand & Conversion, Bespoke Commissions 1.5 a month, Trade Collection 30 a mont|Demand &Conversion",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|dark|768|1024|a tile's list stands under the title, inside the square|engagement-section-segment-~-demand › Sales Forecast, Bespoke Commissions 1.5 a month, Trade Collection 30 a mont|Sales Forecast",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a tile's list stands under the title, inside the square"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|dark|768|1024|the content of a tile (title, list, items, +) is inside its square, no overflow|engagement-segment-segment-~ › section-tile-list section-tile-list-pairs|Demand &Conversion",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|dark|768|1024|the content of a tile (title, list, items, +) is inside its square, no overflow|engagement-segment-segment-~ › section-tile-list section-tile-list-pairs|Sales Forecast",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "the content of a tile (title, list, items, +) is inside its square, no overflow"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|dark|768|1024|the content of a tile (title, list, items, +) is inside its square, no overflow|engagement-segment-segment-~ › section-tile-list|Demand &Conversion",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|dark|768|1024|the content of a tile (title, list, items, +) is inside its square, no overflow|engagement-segment-segment-~ › section-tile-list|Sales Forecast",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "the content of a tile (title, list, items, +) is inside its square, no overflow"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|dark|768|1024|the content of a tile (title, list, items, +) is inside its square, no overflow|engagement-segment-segment-~ › LI|Demand &Conversion",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|dark|768|1024|the content of a tile (title, list, items, +) is inside its square, no overflow|engagement-segment-segment-~ › LI|Sales Forecast",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "the content of a tile (title, list, items, +) is inside its square, no overflow"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|dark|768|1024|the content of a tile (title, list, items, +) is inside its square, no overflow|engagement-segment-segment-~ › section-tile-divider|Demand &Conversion",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|dark|768|1024|the content of a tile (title, list, items, +) is inside its square, no overflow|engagement-segment-segment-~ › section-tile-divider|Sales Forecast",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "the content of a tile (title, list, items, +) is inside its square, no overflow"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|dark|768|1024|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Demand &Conversion",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|dark|768|1024|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Sales Forecast",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
@@ -8526,13 +8526,13 @@
   "rule": "a tile's list stands under the title, inside the square"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|dark|1024|768|a section tile's title is inside its square|engagement-section-segment-~-demand › Demand & Conversion, Bespoke Commissions 1.5 a month, Trade Collection 30 a mont|",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|dark|1024|768|a section tile's title is inside its square|engagement-section-segment-~-demand › Sales Forecast, Bespoke Commissions 1.5 a month, Trade Collection 30 a mont|",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a section tile's title is inside its square"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|dark|1024|768|a tile's list stands under the title, inside the square|engagement-section-segment-~-demand › Demand & Conversion, Bespoke Commissions 1.5 a month, Trade Collection 30 a mont|",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|dark|1024|768|a tile's list stands under the title, inside the square|engagement-section-segment-~-demand › Sales Forecast, Bespoke Commissions 1.5 a month, Trade Collection 30 a mont|",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a tile's list stands under the title, inside the square"
@@ -8592,7 +8592,7 @@
   "rule": "a tile's list stands under the title, inside the square"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|dark|1024|768|a tile's list stands under the title, inside the square|engagement-section-segment-~-demand › Demand & Conversion, Bespoke Commissions 1.5 a month, Trade Collection 30 a mont|Channels &Journey",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|dark|1024|768|a tile's list stands under the title, inside the square|engagement-section-segment-~-demand › Sales Forecast, Bespoke Commissions 1.5 a month, Trade Collection 30 a mont|Channels &Journey",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a tile's list stands under the title, inside the square"
@@ -8658,7 +8658,7 @@
   "rule": "a tile's list stands under the title, inside the square"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|dark|1024|768|a tile's list stands under the title, inside the square|engagement-section-segment-~-demand › Demand & Conversion, Bespoke Commissions 1.5 a month, Trade Collection 30 a mont|Customer'sRelationship",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|dark|1024|768|a tile's list stands under the title, inside the square|engagement-section-segment-~-demand › Sales Forecast, Bespoke Commissions 1.5 a month, Trade Collection 30 a mont|Customer'sRelationship",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a tile's list stands under the title, inside the square"
@@ -8694,67 +8694,67 @@
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|dark|1024|768|a section dialog is the page card area's width, from the heading's underline to the footer|Demand &Conversion|",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|dark|1024|768|a section dialog is the page card area's width, from the heading's underline to the footer|Sales Forecast|",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a section dialog is the page card area's width, from the heading's underline to the footer"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|dark|1024|768|a section tile's dialog starts at the heading's underline|Demand &Conversion|",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|dark|1024|768|a section tile's dialog starts at the heading's underline|Sales Forecast|",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a section tile's dialog starts at the heading's underline"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|dark|1024|768|every master tile of every chapter of a page has one side|engagement-segment-segment-~ › section-tiles-box section-tiles-quad|Demand &Conversion",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|dark|1024|768|every master tile of every chapter of a page has one side|engagement-segment-segment-~ › section-tiles-box section-tiles-quad|Sales Forecast",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "every master tile of every chapter of a page has one side"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|dark|1024|768|a tile's list stands under the title, inside the square|engagement-section-segment-~-~ › Channels & Journey, Discover 5, Evaluation 5, Purchase 2, Delivery 3, Support & |Demand &Conversion",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|dark|1024|768|a tile's list stands under the title, inside the square|engagement-section-segment-~-~ › Channels & Journey, Discover 5, Evaluation 5, Purchase 2, Delivery 3, Support & |Sales Forecast",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a tile's list stands under the title, inside the square"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|dark|1024|768|a tile's list stands under the title, inside the square|engagement-section-segment-~-relationships › Customer's Relationship, Bespoke Commissions Dedicated Support, Trade Collection|Demand &Conversion",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|dark|1024|768|a tile's list stands under the title, inside the square|engagement-section-segment-~-relationships › Customer's Relationship, Bespoke Commissions Dedicated Support, Trade Collection|Sales Forecast",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a tile's list stands under the title, inside the square"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|dark|1024|768|a tile's list stands under the title, inside the square|engagement-section-segment-~-demand › Demand & Conversion, Bespoke Commissions 1.5 a month, Trade Collection 30 a mont|Demand &Conversion",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|dark|1024|768|a tile's list stands under the title, inside the square|engagement-section-segment-~-demand › Sales Forecast, Bespoke Commissions 1.5 a month, Trade Collection 30 a mont|Sales Forecast",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a tile's list stands under the title, inside the square"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|dark|1024|768|the content of a tile (title, list, items, +) is inside its square, no overflow|engagement-segment-segment-~ › section-tile-list section-tile-list-pairs|Demand &Conversion",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|dark|1024|768|the content of a tile (title, list, items, +) is inside its square, no overflow|engagement-segment-segment-~ › section-tile-list section-tile-list-pairs|Sales Forecast",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "the content of a tile (title, list, items, +) is inside its square, no overflow"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|dark|1024|768|the content of a tile (title, list, items, +) is inside its square, no overflow|engagement-segment-segment-~ › section-tile-list|Demand &Conversion",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|dark|1024|768|the content of a tile (title, list, items, +) is inside its square, no overflow|engagement-segment-segment-~ › section-tile-list|Sales Forecast",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "the content of a tile (title, list, items, +) is inside its square, no overflow"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|dark|1024|768|the content of a tile (title, list, items, +) is inside its square, no overflow|engagement-segment-segment-~ › LI|Demand &Conversion",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|dark|1024|768|the content of a tile (title, list, items, +) is inside its square, no overflow|engagement-segment-segment-~ › LI|Sales Forecast",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "the content of a tile (title, list, items, +) is inside its square, no overflow"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|dark|1024|768|the content of a tile (title, list, items, +) is inside its square, no overflow|engagement-segment-segment-~ › section-tile-divider|Demand &Conversion",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|dark|1024|768|the content of a tile (title, list, items, +) is inside its square, no overflow|engagement-segment-segment-~ › section-tile-divider|Sales Forecast",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "the content of a tile (title, list, items, +) is inside its square, no overflow"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|dark|1024|768|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Demand &Conversion",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|dark|1024|768|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Sales Forecast",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
@@ -8784,7 +8784,7 @@
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|dark|1366|768|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Demand &Conversion",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|dark|1366|768|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Sales Forecast",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
@@ -8814,7 +8814,7 @@
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|dark|1440|864|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Demand &Conversion",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|dark|1440|864|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Sales Forecast",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
@@ -8832,7 +8832,7 @@
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|dark|1440|1024|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Demand &Conversion",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|dark|1440|1024|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Sales Forecast",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
@@ -8850,7 +8850,7 @@
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|dark|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Demand &Conversion",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|dark|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Sales Forecast",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
@@ -8868,7 +8868,7 @@
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
  },
  {
-  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|dark|1920|1300|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Demand &Conversion",
+  "key": "lumen-and-loom-studio.json|Business System › Foundation & Engagement|dark|1920|1300|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Sales Forecast",
   "example": "lumen-and-loom-studio.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
@@ -26778,7 +26778,7 @@
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Foundation & Engagement|light|768|1024|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Demand &Conversion",
+  "key": "quillfield-automation-llc.json|Business System › Foundation & Engagement|light|768|1024|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Sales Forecast",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
@@ -26808,7 +26808,7 @@
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Foundation & Engagement|light|1024|768|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Demand &Conversion",
+  "key": "quillfield-automation-llc.json|Business System › Foundation & Engagement|light|1024|768|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Sales Forecast",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
@@ -26832,7 +26832,7 @@
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Foundation & Engagement|light|1366|768|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Demand &Conversion",
+  "key": "quillfield-automation-llc.json|Business System › Foundation & Engagement|light|1366|768|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Sales Forecast",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
@@ -26856,7 +26856,7 @@
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Foundation & Engagement|light|1440|864|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Demand &Conversion",
+  "key": "quillfield-automation-llc.json|Business System › Foundation & Engagement|light|1440|864|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Sales Forecast",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
@@ -26874,7 +26874,7 @@
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Foundation & Engagement|light|1440|1024|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Demand &Conversion",
+  "key": "quillfield-automation-llc.json|Business System › Foundation & Engagement|light|1440|1024|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Sales Forecast",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
@@ -26892,7 +26892,7 @@
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Foundation & Engagement|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Demand &Conversion",
+  "key": "quillfield-automation-llc.json|Business System › Foundation & Engagement|light|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Sales Forecast",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
@@ -26910,7 +26910,7 @@
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Foundation & Engagement|light|1920|1300|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Demand &Conversion",
+  "key": "quillfield-automation-llc.json|Business System › Foundation & Engagement|light|1920|1300|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Sales Forecast",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
@@ -26928,7 +26928,7 @@
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Foundation & Engagement|sepia|768|1024|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Demand &Conversion",
+  "key": "quillfield-automation-llc.json|Business System › Foundation & Engagement|sepia|768|1024|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Sales Forecast",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
@@ -26958,7 +26958,7 @@
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Foundation & Engagement|sepia|1024|768|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Demand &Conversion",
+  "key": "quillfield-automation-llc.json|Business System › Foundation & Engagement|sepia|1024|768|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Sales Forecast",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
@@ -26982,7 +26982,7 @@
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Foundation & Engagement|sepia|1366|768|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Demand &Conversion",
+  "key": "quillfield-automation-llc.json|Business System › Foundation & Engagement|sepia|1366|768|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Sales Forecast",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
@@ -27006,7 +27006,7 @@
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Foundation & Engagement|sepia|1440|864|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Demand &Conversion",
+  "key": "quillfield-automation-llc.json|Business System › Foundation & Engagement|sepia|1440|864|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Sales Forecast",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
@@ -27024,7 +27024,7 @@
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Foundation & Engagement|sepia|1440|1024|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Demand &Conversion",
+  "key": "quillfield-automation-llc.json|Business System › Foundation & Engagement|sepia|1440|1024|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Sales Forecast",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
@@ -27042,7 +27042,7 @@
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Foundation & Engagement|sepia|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Demand &Conversion",
+  "key": "quillfield-automation-llc.json|Business System › Foundation & Engagement|sepia|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Sales Forecast",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
@@ -27060,7 +27060,7 @@
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Foundation & Engagement|sepia|1920|1300|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Demand &Conversion",
+  "key": "quillfield-automation-llc.json|Business System › Foundation & Engagement|sepia|1920|1300|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Sales Forecast",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
@@ -27078,7 +27078,7 @@
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Foundation & Engagement|dark|768|1024|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Demand &Conversion",
+  "key": "quillfield-automation-llc.json|Business System › Foundation & Engagement|dark|768|1024|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Sales Forecast",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
@@ -27108,7 +27108,7 @@
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Foundation & Engagement|dark|1024|768|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Demand &Conversion",
+  "key": "quillfield-automation-llc.json|Business System › Foundation & Engagement|dark|1024|768|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Sales Forecast",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
@@ -27132,7 +27132,7 @@
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Foundation & Engagement|dark|1366|768|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Demand &Conversion",
+  "key": "quillfield-automation-llc.json|Business System › Foundation & Engagement|dark|1366|768|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Sales Forecast",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
@@ -27156,7 +27156,7 @@
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Foundation & Engagement|dark|1440|864|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Demand &Conversion",
+  "key": "quillfield-automation-llc.json|Business System › Foundation & Engagement|dark|1440|864|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Sales Forecast",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
@@ -27174,7 +27174,7 @@
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Foundation & Engagement|dark|1440|1024|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Demand &Conversion",
+  "key": "quillfield-automation-llc.json|Business System › Foundation & Engagement|dark|1440|1024|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Sales Forecast",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
@@ -27192,7 +27192,7 @@
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Foundation & Engagement|dark|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Demand &Conversion",
+  "key": "quillfield-automation-llc.json|Business System › Foundation & Engagement|dark|1920|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Sales Forecast",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
@@ -27210,7 +27210,7 @@
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"
  },
  {
-  "key": "quillfield-automation-llc.json|Business System › Foundation & Engagement|dark|1920|1300|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Demand &Conversion",
+  "key": "quillfield-automation-llc.json|Business System › Foundation & Engagement|dark|1920|1300|a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)|section-tile-link|Sales Forecast",
   "example": "quillfield-automation-llc.json",
   "page": "Business System › Foundation & Engagement",
   "rule": "a button smaller than 24px takes the click across a 24px box, or stands clear of the others (WCAG 2.2, 2.5.8)"

@@ -1053,7 +1053,7 @@
   {
    "tag": "button",
    "cls": "text-link.business-engagement-link.financial-cost-link",
-   "text": "from Demand & Conversion",
+   "text": "from Sales Forecast",
    "colour": "rgb(11, 87, 208)",
    "weight": "400",
    "size": 18,

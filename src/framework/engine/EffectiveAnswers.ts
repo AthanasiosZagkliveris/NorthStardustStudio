@@ -135,7 +135,7 @@ const O15_WEEKS: Readonly<Record<string, string>> = { week: "1", weeks: "4", mon
 
 /** What an Offering's later cards start from: each field is there only where Page 1's answer says it. */
 export interface OfferingStarts {
-    /** Page 2, Demand & Conversion, Customers Buy: true is "Every month, until they cancel". */
+    /** Page 2, Sales Forecast, Customers Buy: true is "Every month, until they cancel". */
     recurring?: boolean;
     /** Page 3, Delivery, Delivered. */
     deliveryMode?: "unit" | "monthly";
@@ -153,7 +153,7 @@ export interface OfferingStarts {
     sessions?: boolean;
     /** Made in batches (a Product or Hybrid, not made to order: Type, O14): the Delivery card asks DV9 and DV10. */
     batches?: boolean;
-    /** Not ready to sell (O2: Just an idea, Still being built): Demand & Conversion asks Ready from, and its sales start then (owner, 2026-11-17). */
+    /** Not ready to sell (O2: Just an idea, Still being built): Sales Forecast asks Ready from, and its sales start then (owner, 2026-11-17). */
     notReady?: "idea" | "building";
 }
 

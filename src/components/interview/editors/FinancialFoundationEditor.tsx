@@ -52,7 +52,7 @@ interface FinancialFoundationEditorProps {
     legalEntity?: LegalEntityValue;
     /** Sustainability's answer: the revenue the operating need is net of. */
     sustainability?: unknown;
-    /** Customer Engagement's answer: expected sales from its Demand & Conversion. */
+    /** Customer Engagement's answer: expected sales from its Sales Forecast. */
     engagement?: unknown;
     /** The organisation's currency, from the Legal Entity's country. */
     currency?: string;

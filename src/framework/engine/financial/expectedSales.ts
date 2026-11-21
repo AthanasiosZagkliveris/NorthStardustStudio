@@ -12,12 +12,12 @@ import { offeringStartsById } from "../EffectiveAnswers.ts";
 import { monthOrdinal } from "./period.ts";
 
 /* ==========================================================
-   Expected sales from Demand & Conversion
+   Expected sales from Sales Forecast
 ========================================================== */
 
 /**
  * The revenue page with each stream's expected sales taken from
- * Customer Engagement's Demand & Conversion, where that Offering has
+ * Customer Engagement's Sales Forecast, where that Offering has
  * one that gives a figure. A stream without one keeps the volume
  * entered on Sustainability: an organization that estimates
  * directly is never made to fill in demand.

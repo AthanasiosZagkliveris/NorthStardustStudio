@@ -461,7 +461,7 @@ The buyer is a business, or the Segment is of businesses where both relationship
   - *Comes from:* Early Positioning: the relationship (people).
   - *Comes from (an order, 2026-11-09):* What makes them go shopping (Box 4, 5): Boredom or entertainment, or Seeing a friend or creator use it, puts On impulse first; A need / problem to solve puts When they urgently need it and After comparing options first. Never a lock.
   - *Read by (built):* The Market document and the export; the Profile's D1 is not asked on "On impulse" or "When they urgently need it" (neither compares first), is asked with no start on "Out of habit", and otherwise starts from this answer (doc 36).
-  - *Read by (built):* the Profiles' D1 (asked unless on impulse or urgently; its starts) and the Repeat customers row of Demand & Conversion (out of habit); the time to buy shown on a funnel or contracts source (`monthsToClose`); the Keep and Grow goals (`startGoals`). Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-section-1-owner-2026-11-08).
+  - *Read by (built):* the Profiles' D1 (asked unless on impulse or urgently; its starts) and the Repeat customers row of Sales Forecast (out of habit); the time to buy shown on a funnel or contracts source (`monthsToClose`); the Keep and Grow goals (`startGoals`). Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-section-1-owner-2026-11-08).
 
 ### 9. Who decides to buy?
 
@@ -483,7 +483,7 @@ The buyer is a business, or the Segment is of businesses where both relationship
 - **Connections:**
   - *Comes from:* Early Positioning: the relationship (business). **Starts (2026-11-09):** where it is not answered yet, choosing a Public body (Box 3, 1) or Large (Box 3, 2) sets Formal procurement, and Micro or Self-employed sets One person decides; change it freely (a saved answer wins).
   - *Read by (built):* The Market document and the export; the Profile's role in buying (A5 starts with every role where one person decides) and the proposed B2B Profiles by buying role (doc 36, 2); Formal procurement starts the Profile's D2 at "formal" (doc 36).
-  - *Read by (built):* the Contracts or tenders row of Demand & Conversion and Direct Payment › Invoice at Purchase (formal procurement); the time to buy (`monthsToClose`); the relationship types (`autoRelationshipTypes`); the Profiles' A5 and D2 starts (doc 47). Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-section-1-owner-2026-11-08).
+  - *Read by (built):* the Contracts or tenders row of Sales Forecast and Direct Payment › Invoice at Purchase (formal procurement); the time to buy (`monthsToClose`); the relationship types (`autoRelationshipTypes`); the Profiles' A5 and D2 starts (doc 47). Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-section-1-owner-2026-11-08).
 - **Its start follows its source** (owner, 2026-11-17 08:38: "Bugs plus the first batch" of the review): Formal procurement for a public body or a large organisation, One person decides for a micro or self-employed one, worked out each time from Box 3, 1 and 2 until answered (Micro then Large: Formal procurement); a saved copy unchanged since was taken out once.
 
 ### 7. Where do your customers usually shop?

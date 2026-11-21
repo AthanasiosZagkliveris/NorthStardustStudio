@@ -106,7 +106,7 @@ exports[`Lumen & Loom Studio > Business System › 1. Foundation > tile segment-
 `;
 
 exports[`Lumen & Loom Studio > Business System › 1. Foundation > tile segment-8lu427u5:demand 1`] = `
-"Demand & ConversionDemand & Conversioni1. Homeware Collection10 a monthVisitorsSales funnelReferralsRepeat customers2. Weaving Workshops32 a monthSales funnelReferralsVisitorsBack‹›Back
+"Sales ForecastSales Forecasti1. Homeware Collection10 a monthVisitorsSales funnelReferralsRepeat customers2. Weaving Workshops32 a monthSales funnelReferralsVisitorsBack‹›Back
 [fields] "
 `;
 
@@ -141,7 +141,7 @@ exports[`Lumen & Loom Studio > Business System › 1. Foundation > tile segment-
 `;
 
 exports[`Lumen & Loom Studio > Business System › 1. Foundation > tile segment-majxtl1u:demand 1`] = `
-"Demand & ConversionDemand & Conversioni1. Bespoke Commissions3 a monthContracts or tendersReferralsSales funnelVisitorsRepeat customers2. Trade Collection3 a monthSales funnelVisitorsReferralsBack‹›Back
+"Sales ForecastSales Forecasti1. Bespoke Commissions3 a monthContracts or tendersReferralsSales funnelVisitorsRepeat customers2. Trade Collection3 a monthSales funnelVisitorsReferralsBack‹›Back
 [fields] "
 `;
 
@@ -161,7 +161,7 @@ exports[`Lumen & Loom Studio > Business System › 1. Foundation > tile segment-
 `;
 
 exports[`Lumen & Loom Studio > Business System › 1. Foundation 1`] = `
-"…Saving…MenuWorkbookLumen & Loom Studio3. Business System — 1. Foundation & Engagement1.Segment DescriptionPROFILESThe Considered NesterThe Hands-On Hobby LearnerCompetitorsIndependent weaversPremium homeware brandsHigh-street homewareOfferingsHomeware CollectionWeaving WorkshopsValue PropositionFor Londoners who want a calm, personal home without the throwaway cycle, Lumen & Loom makes handwoven cushions, throws and linens in Hackney from traceable British wool and organic cotton. Each piece is signed by its maker and repaired for life, and we teach you to weave your own. You know exactly who made it, where the yarn came from, and that it will last.Channels &JourneyDiscover13Evaluation9Purchase3Delivery5Support & Follow Up5Customer'sRelationshipHomeware Collection Personal AssistanceWeaving Workshops CommunityDemand &ConversionHomeware Collection 10 a monthWeaving Workshops 32 a month2.Segment DescriptionPROFILESThe Eco Interior DesignerCompetitorsContract textile millsTextile studiosOfferingsBespoke CommissionsTrade CollectionValue PropositionFor interior designers and boutique hotels who want a local, sustainable signature in every project, Lumen & Loom weaves bespoke textiles to specification in London, with samples in a week, fixed lead times and a documentation pack covering materials, carbon and fire compliance. We make small runs and one-offs, and we deliver on time.Channels &JourneyDiscover6Evaluation6Purchase4Delivery4Support & Follow Up3Customer'sRelationshipBespoke Commissions Dedicated SupportTrade Collection Personal AssistanceDemand &ConversionBespoke Commissions 3 a monthTrade Collection 3 a month+ Add Segment‹PagesIntroduction1. Foundation & Engagement: defined2. Infrastructure & Capability: defined3. Financials: defined›Segments1. London Homemakers2. Designers & Boutique HotelsBack
+"…Saving…MenuWorkbookLumen & Loom Studio3. Business System — 1. Foundation & Engagement1.Segment DescriptionPROFILESThe Considered NesterThe Hands-On Hobby LearnerCompetitorsIndependent weaversPremium homeware brandsHigh-street homewareOfferingsHomeware CollectionWeaving WorkshopsValue PropositionFor Londoners who want a calm, personal home without the throwaway cycle, Lumen & Loom makes handwoven cushions, throws and linens in Hackney from traceable British wool and organic cotton. Each piece is signed by its maker and repaired for life, and we teach you to weave your own. You know exactly who made it, where the yarn came from, and that it will last.Channels &JourneyDiscover13Evaluation9Purchase3Delivery5Support & Follow Up5Customer'sRelationshipHomeware Collection Personal AssistanceWeaving Workshops CommunitySales ForecastHomeware Collection 10 a monthWeaving Workshops 32 a month2.Segment DescriptionPROFILESThe Eco Interior DesignerCompetitorsContract textile millsTextile studiosOfferingsBespoke CommissionsTrade CollectionValue PropositionFor interior designers and boutique hotels who want a local, sustainable signature in every project, Lumen & Loom weaves bespoke textiles to specification in London, with samples in a week, fixed lead times and a documentation pack covering materials, carbon and fire compliance. We make small runs and one-offs, and we deliver on time.Channels &JourneyDiscover6Evaluation6Purchase4Delivery4Support & Follow Up3Customer'sRelationshipBespoke Commissions Dedicated SupportTrade Collection Personal AssistanceSales ForecastBespoke Commissions 3 a monthTrade Collection 3 a month+ Add Segment‹PagesIntroduction1. Foundation & Engagement: defined2. Infrastructure & Capability: defined3. Financials: defined›Segments1. London Homemakers2. Designers & Boutique HotelsBack
 [fields] London Homemakers | Designers & Boutique Hotels"
 `;
 
@@ -181,7 +181,7 @@ exports[`Lumen & Loom Studio > Business System › 2. Customer Engagement > tile
 `;
 
 exports[`Lumen & Loom Studio > Business System › 2. Customer Engagement > tile segment-8lu427u5:demand 1`] = `
-"Demand & ConversionDemand & Conversioni1. Homeware Collection10 a monthVisitorsSales funnelReferralsRepeat customers2. Weaving Workshops32 a monthSales funnelReferralsVisitorsBack‹›Back
+"Sales ForecastSales Forecasti1. Homeware Collection10 a monthVisitorsSales funnelReferralsRepeat customers2. Weaving Workshops32 a monthSales funnelReferralsVisitorsBack‹›Back
 [fields] "
 `;
 
@@ -216,7 +216,7 @@ exports[`Lumen & Loom Studio > Business System › 2. Customer Engagement > tile
 `;
 
 exports[`Lumen & Loom Studio > Business System › 2. Customer Engagement > tile segment-majxtl1u:demand 1`] = `
-"Demand & ConversionDemand & Conversioni1. Bespoke Commissions3 a monthContracts or tendersReferralsSales funnelVisitorsRepeat customers2. Trade Collection3 a monthSales funnelVisitorsReferralsBack‹›Back
+"Sales ForecastSales Forecasti1. Bespoke Commissions3 a monthContracts or tendersReferralsSales funnelVisitorsRepeat customers2. Trade Collection3 a monthSales funnelVisitorsReferralsBack‹›Back
 [fields] "
 `;
 
@@ -236,7 +236,7 @@ exports[`Lumen & Loom Studio > Business System › 2. Customer Engagement > tile
 `;
 
 exports[`Lumen & Loom Studio > Business System › 2. Customer Engagement 1`] = `
-"…Saving…MenuWorkbookLumen & Loom Studio3. Business System — 1. Foundation & Engagement1.Segment DescriptionPROFILESThe Considered NesterThe Hands-On Hobby LearnerCompetitorsIndependent weaversPremium homeware brandsHigh-street homewareOfferingsHomeware CollectionWeaving WorkshopsValue PropositionFor Londoners who want a calm, personal home without the throwaway cycle, Lumen & Loom makes handwoven cushions, throws and linens in Hackney from traceable British wool and organic cotton. Each piece is signed by its maker and repaired for life, and we teach you to weave your own. You know exactly who made it, where the yarn came from, and that it will last.Channels &JourneyDiscover13Evaluation9Purchase3Delivery5Support & Follow Up5Customer'sRelationshipHomeware Collection Personal AssistanceWeaving Workshops CommunityDemand &ConversionHomeware Collection 10 a monthWeaving Workshops 32 a month2.Segment DescriptionPROFILESThe Eco Interior DesignerCompetitorsContract textile millsTextile studiosOfferingsBespoke CommissionsTrade CollectionValue PropositionFor interior designers and boutique hotels who want a local, sustainable signature in every project, Lumen & Loom weaves bespoke textiles to specification in London, with samples in a week, fixed lead times and a documentation pack covering materials, carbon and fire compliance. We make small runs and one-offs, and we deliver on time.Channels &JourneyDiscover6Evaluation6Purchase4Delivery4Support & Follow Up3Customer'sRelationshipBespoke Commissions Dedicated SupportTrade Collection Personal AssistanceDemand &ConversionBespoke Commissions 3 a monthTrade Collection 3 a month+ Add Segment‹PagesIntroduction1. Foundation & Engagement: defined2. Infrastructure & Capability: defined3. Financials: defined›Segments1. London Homemakers2. Designers & Boutique HotelsBack
+"…Saving…MenuWorkbookLumen & Loom Studio3. Business System — 1. Foundation & Engagement1.Segment DescriptionPROFILESThe Considered NesterThe Hands-On Hobby LearnerCompetitorsIndependent weaversPremium homeware brandsHigh-street homewareOfferingsHomeware CollectionWeaving WorkshopsValue PropositionFor Londoners who want a calm, personal home without the throwaway cycle, Lumen & Loom makes handwoven cushions, throws and linens in Hackney from traceable British wool and organic cotton. Each piece is signed by its maker and repaired for life, and we teach you to weave your own. You know exactly who made it, where the yarn came from, and that it will last.Channels &JourneyDiscover13Evaluation9Purchase3Delivery5Support & Follow Up5Customer'sRelationshipHomeware Collection Personal AssistanceWeaving Workshops CommunitySales ForecastHomeware Collection 10 a monthWeaving Workshops 32 a month2.Segment DescriptionPROFILESThe Eco Interior DesignerCompetitorsContract textile millsTextile studiosOfferingsBespoke CommissionsTrade CollectionValue PropositionFor interior designers and boutique hotels who want a local, sustainable signature in every project, Lumen & Loom weaves bespoke textiles to specification in London, with samples in a week, fixed lead times and a documentation pack covering materials, carbon and fire compliance. We make small runs and one-offs, and we deliver on time.Channels &JourneyDiscover6Evaluation6Purchase4Delivery4Support & Follow Up3Customer'sRelationshipBespoke Commissions Dedicated SupportTrade Collection Personal AssistanceSales ForecastBespoke Commissions 3 a monthTrade Collection 3 a month+ Add Segment‹PagesIntroduction1. Foundation & Engagement: defined2. Infrastructure & Capability: defined3. Financials: defined›Segments1. London Homemakers2. Designers & Boutique HotelsBack
 [fields] London Homemakers | Designers & Boutique Hotels"
 `;
 
@@ -704,7 +704,7 @@ exports[`Quillfield Automation > Business System › 1. Foundation > tile segmen
 `;
 
 exports[`Quillfield Automation > Business System › 1. Foundation > tile segment-qf3n8d2w:demand 1`] = `
-"Demand & ConversionDemand & Conversioni1. AI Workflow Audit1.5 a monthSales funnelReferralsVisitors2. Automation Build0.6 a monthOtherSales funnelReferrals3. Automation Care Retainer5 activeOtherReferralsSales funnelBack‹›Back
+"Sales ForecastSales Forecasti1. AI Workflow Audit1.5 a monthSales funnelReferralsVisitors2. Automation Build0.6 a monthOtherSales funnelReferrals3. Automation Care Retainer5 activeOtherReferralsSales funnelBack‹›Back
 [fields] "
 `;
 
@@ -724,7 +724,7 @@ exports[`Quillfield Automation > Business System › 1. Foundation > tile segmen
 `;
 
 exports[`Quillfield Automation > Business System › 1. Foundation 1`] = `
-"…Saving…MenuWorkbookQuillfield Automation3. Business System — 1. Foundation & EngagementSegment DescriptionPROFILESThe Busy Ops ManagerThe Agency FounderCompetitorsFreelance specialistsAI consultanciesDIY AI toolsManual workOfferingsAI Workflow AuditAutomation BuildAutomation Care RetainerValue PropositionFor small New York professional-services firms that are drowning in repetitive admin, Quillfield Automation finds where AI and automation will save the most hours, builds those workflows on the tools the firm already uses, and keeps them running. A fixed-price audit comes first, so every build starts with a clear business case, and every automation is documented, privacy-reviewed and monitored. Quillfield stays accountable after launch, at a price and pace that suit a 10-person firm.Channels &JourneyDiscover8Evaluation10Purchase2Delivery4Support & Follow Up4Customer'sRelationshipAI Workflow Audit Personal AssistanceAutomation Build Dedicated SupportAutomation Care Retainer Dedicated SupportDemand &ConversionAI Workflow Audit 1.5 a monthAutomation Build 0.6 a monthAutomation Care Retainer 5 active+ Add Segment‹PagesIntroduction1. Foundation & Engagement: defined2. Infrastructure & Capability: defined3. Financials: defined›Back
+"…Saving…MenuWorkbookQuillfield Automation3. Business System — 1. Foundation & EngagementSegment DescriptionPROFILESThe Busy Ops ManagerThe Agency FounderCompetitorsFreelance specialistsAI consultanciesDIY AI toolsManual workOfferingsAI Workflow AuditAutomation BuildAutomation Care RetainerValue PropositionFor small New York professional-services firms that are drowning in repetitive admin, Quillfield Automation finds where AI and automation will save the most hours, builds those workflows on the tools the firm already uses, and keeps them running. A fixed-price audit comes first, so every build starts with a clear business case, and every automation is documented, privacy-reviewed and monitored. Quillfield stays accountable after launch, at a price and pace that suit a 10-person firm.Channels &JourneyDiscover8Evaluation10Purchase2Delivery4Support & Follow Up4Customer'sRelationshipAI Workflow Audit Personal AssistanceAutomation Build Dedicated SupportAutomation Care Retainer Dedicated SupportSales ForecastAI Workflow Audit 1.5 a monthAutomation Build 0.6 a monthAutomation Care Retainer 5 active+ Add Segment‹PagesIntroduction1. Foundation & Engagement: defined2. Infrastructure & Capability: defined3. Financials: defined›Back
 [fields] NYC Service Firms"
 `;
 
@@ -744,7 +744,7 @@ exports[`Quillfield Automation > Business System › 2. Customer Engagement > ti
 `;
 
 exports[`Quillfield Automation > Business System › 2. Customer Engagement > tile segment-qf3n8d2w:demand 1`] = `
-"Demand & ConversionDemand & Conversioni1. AI Workflow Audit1.5 a monthSales funnelReferralsVisitors2. Automation Build0.6 a monthOtherSales funnelReferrals3. Automation Care Retainer5 activeOtherReferralsSales funnelBack‹›Back
+"Sales ForecastSales Forecasti1. AI Workflow Audit1.5 a monthSales funnelReferralsVisitors2. Automation Build0.6 a monthOtherSales funnelReferrals3. Automation Care Retainer5 activeOtherReferralsSales funnelBack‹›Back
 [fields] "
 `;
 
@@ -764,7 +764,7 @@ exports[`Quillfield Automation > Business System › 2. Customer Engagement > ti
 `;
 
 exports[`Quillfield Automation > Business System › 2. Customer Engagement 1`] = `
-"…Saving…MenuWorkbookQuillfield Automation3. Business System — 1. Foundation & EngagementSegment DescriptionPROFILESThe Busy Ops ManagerThe Agency FounderCompetitorsFreelance specialistsAI consultanciesDIY AI toolsManual workOfferingsAI Workflow AuditAutomation BuildAutomation Care RetainerValue PropositionFor small New York professional-services firms that are drowning in repetitive admin, Quillfield Automation finds where AI and automation will save the most hours, builds those workflows on the tools the firm already uses, and keeps them running. A fixed-price audit comes first, so every build starts with a clear business case, and every automation is documented, privacy-reviewed and monitored. Quillfield stays accountable after launch, at a price and pace that suit a 10-person firm.Channels &JourneyDiscover8Evaluation10Purchase2Delivery4Support & Follow Up4Customer'sRelationshipAI Workflow Audit Personal AssistanceAutomation Build Dedicated SupportAutomation Care Retainer Dedicated SupportDemand &ConversionAI Workflow Audit 1.5 a monthAutomation Build 0.6 a monthAutomation Care Retainer 5 active+ Add Segment‹PagesIntroduction1. Foundation & Engagement: defined2. Infrastructure & Capability: defined3. Financials: defined›Back
+"…Saving…MenuWorkbookQuillfield Automation3. Business System — 1. Foundation & EngagementSegment DescriptionPROFILESThe Busy Ops ManagerThe Agency FounderCompetitorsFreelance specialistsAI consultanciesDIY AI toolsManual workOfferingsAI Workflow AuditAutomation BuildAutomation Care RetainerValue PropositionFor small New York professional-services firms that are drowning in repetitive admin, Quillfield Automation finds where AI and automation will save the most hours, builds those workflows on the tools the firm already uses, and keeps them running. A fixed-price audit comes first, so every build starts with a clear business case, and every automation is documented, privacy-reviewed and monitored. Quillfield stays accountable after launch, at a price and pace that suit a 10-person firm.Channels &JourneyDiscover8Evaluation10Purchase2Delivery4Support & Follow Up4Customer'sRelationshipAI Workflow Audit Personal AssistanceAutomation Build Dedicated SupportAutomation Care Retainer Dedicated SupportSales ForecastAI Workflow Audit 1.5 a monthAutomation Build 0.6 a monthAutomation Care Retainer 5 active+ Add Segment‹PagesIntroduction1. Foundation & Engagement: defined2. Infrastructure & Capability: defined3. Financials: defined›Back
 [fields] NYC Service Firms"
 `;
 

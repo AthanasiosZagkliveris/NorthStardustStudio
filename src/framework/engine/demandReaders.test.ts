@@ -6,7 +6,7 @@ import { demandSuggestions } from "./JourneySuggestions";
 import { withDemand } from "./FinancialModel";
 import type { SegmentIdentity } from "./SegmentContext";
 
-/* Demand & Conversion reads the answers (the open decisions and gaps, Group 4d, item 23; owner, 2026-11-17). */
+/* Sales Forecast reads the answers (the open decisions and gaps, Group 4d, item 23; owner, 2026-11-17). */
 
 const foundation = (o2: string) => ({
     segments: [{ id: "s", name: "Makers", questions: {}, profiles: [], offerings: [{ id: "o", name: "Kit", category: "Product", questions: { o2: [o2] } }] }]

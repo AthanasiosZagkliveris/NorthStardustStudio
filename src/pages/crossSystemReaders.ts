@@ -274,7 +274,7 @@ export function readCrossSystem({ session, organizationId, systemNumber, navigat
         }
     };
 
-    // Its Demand & Conversion gives the expected sales both Financial pages use.
+    // Its Sales Forecast gives the expected sales both Financial pages use.
     const businessEngagementValue = businessEngagementSection
         ? session.getResponse(businessEngagementSection.number)
         : savedBusiness(AnswerType.BusinessEngagement);

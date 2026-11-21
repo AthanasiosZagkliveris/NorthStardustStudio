@@ -49,10 +49,10 @@ Listed, never failed (doc 39, 3.6). The budget is 160 characters a point; the av
 | the same text under 2 labels | Typography | Brand System / main page / brand-style-typography | Typography, Typography & Text Hierarchy |
 | the same text under 2 labels | Typography & Text Hierarchy | Brand System / main page / brand-style-typography | Typography, Typography & Text Hierarchy |
 | a point over 160 characters (275) | Loan repayment | Business System / Financials / financial-funding | Source: Gutierrez, P.H. and Dalsted, N.L. (2012) Long Term Loan Repayment Methods. Fort Co |
-| a point over 160 characters (344) | Active Clients | Business System / Financials / sustainability-revenue-streams | From this Offering's Demand & Conversion on Foundation & Engagement: Other: estimated at 0 |
-| a point over 160 characters (280) | Expected Sales | Business System / Financials / sustainability-revenue-streams | From this Offering's Demand & Conversion on Foundation & Engagement: Sales funnel: 24 pros |
+| a point over 160 characters (344) | Active Clients | Business System / Financials / sustainability-revenue-streams | From this Offering's Sales Forecast on Foundation & Engagement: Other: estimated at 0 |
+| a point over 160 characters (280) | Expected Sales | Business System / Financials / sustainability-revenue-streams | From this Offering's Sales Forecast on Foundation & Engagement: Sales funnel: 24 pros |
 | an internal word (tile, card, locked, frozen, driver) | Price | Business System / Financials / sustainability-revenue-streams | card |
-| a point over 160 characters (227) | Revenue Streams | Business System / Financials / sustainability-revenue-streams | Expected sales come from Demand & Conversion on Foundation & Engagement where it is filled |
+| a point over 160 characters (227) | Revenue Streams | Business System / Financials / sustainability-revenue-streams | Expected sales come from Sales Forecast on Foundation & Engagement where it is filled |
 | an internal word (tile, card, locked, frozen, driver) | Channel | Business System / Foundation & Engagement / segment-qf3n8d2w:channels | card |
 | the same text under 2 labels | Channel | Business System / Foundation & Engagement / segment-qf3n8d2w:channels | Channel, Samples & Trials |
 | an internal word (tile, card, locked, frozen, driver) | Channel | Business System / Foundation & Engagement / segment-qf3n8d2w:channels | card |
@@ -108,14 +108,14 @@ Listed, never failed (doc 39, 3.6). The budget is 160 characters a point; the av
 | a jargon acronym | Which industry are your customers in? | Business System / Foundation & Engagement / segment-qf3n8d2w:customers | SIC |
 | a point over 160 characters (275) | Active clients | Business System / Foundation & Engagement / segment-qf3n8d2w:demand | Based on: Gupta, S. et al. (2006) ‘Modeling Customer Lifetime Value’, Journal of Service R |
 | a point over 160 characters (166) | AI Workflow Audit | Business System / Foundation & Engagement / segment-qf3n8d2w:demand | Where this Offering’s customers come from, and so how many sales to expect. One source wit |
-| the same text under 4 labels | AI Workflow Audit | Business System / Foundation & Engagement / segment-qf3n8d2w:demand | AI Workflow Audit, Automation Build, Automation Care Retainer, Demand & Conversion |
+| the same text under 4 labels | AI Workflow Audit | Business System / Foundation & Engagement / segment-qf3n8d2w:demand | AI Workflow Audit, Automation Build, Automation Care Retainer, Sales Forecast |
 | a point over 160 characters (166) | Automation Build | Business System / Foundation & Engagement / segment-qf3n8d2w:demand | Where this Offering’s customers come from, and so how many sales to expect. One source wit |
-| the same text under 4 labels | Automation Build | Business System / Foundation & Engagement / segment-qf3n8d2w:demand | AI Workflow Audit, Automation Build, Automation Care Retainer, Demand & Conversion |
+| the same text under 4 labels | Automation Build | Business System / Foundation & Engagement / segment-qf3n8d2w:demand | AI Workflow Audit, Automation Build, Automation Care Retainer, Sales Forecast |
 | a point over 160 characters (166) | Automation Care Retainer | Business System / Foundation & Engagement / segment-qf3n8d2w:demand | Where this Offering’s customers come from, and so how many sales to expect. One source wit |
-| the same text under 4 labels | Automation Care Retainer | Business System / Foundation & Engagement / segment-qf3n8d2w:demand | AI Workflow Audit, Automation Build, Automation Care Retainer, Demand & Conversion |
+| the same text under 4 labels | Automation Care Retainer | Business System / Foundation & Engagement / segment-qf3n8d2w:demand | AI Workflow Audit, Automation Build, Automation Care Retainer, Sales Forecast |
 | a point over 160 characters (191) | Customers Buy | Business System / Foundation & Engagement / segment-qf3n8d2w:demand | Every month, until they cancel: A subscription, membership or retainer. The sources give t |
-| a point over 160 characters (166) | Demand & Conversion | Business System / Foundation & Engagement / segment-qf3n8d2w:demand | Where this Offering’s customers come from, and so how many sales to expect. One source wit |
-| the same text under 4 labels | Demand & Conversion | Business System / Foundation & Engagement / segment-qf3n8d2w:demand | AI Workflow Audit, Automation Build, Automation Care Retainer, Demand & Conversion |
+| a point over 160 characters (166) | Sales Forecast | Business System / Foundation & Engagement / segment-qf3n8d2w:demand | Where this Offering’s customers come from, and so how many sales to expect. One source wit |
+| the same text under 4 labels | Sales Forecast | Business System / Foundation & Engagement / segment-qf3n8d2w:demand | AI Workflow Audit, Automation Build, Automation Care Retainer, Sales Forecast |
 | a point over 160 characters (261) | Months to level | Business System / Foundation & Engagement / segment-qf3n8d2w:demand | Based on: Strang, G. and Herman, E. (2016) ‘5.2 Infinite Series’, in Calculus Volume 2. Ho |
 | the same text under 2 labels | Offering | Business System / Foundation & Engagement / segment-qf3n8d2w:offerings | Offering, Offerings |
 | the same text under 2 labels | Offerings | Business System / Foundation & Engagement / segment-qf3n8d2w:offerings | Offering, Offerings |
@@ -302,12 +302,12 @@ Listed, never failed (doc 39, 3.6). The budget is 160 characters a point; the av
 
 | Label | Opens in | Rows | Points | Characters | Text |
 |---|---|---|---|---|---|
-| Active Clients | floating card | 13 | 1 | 344 | From this Offering's Demand & Conversion on Foundation & Engagement: Other: estimated at 0.3 new a month. Referrals: 0.5 referrals a month, 40% buy: about 0.2 n... |
+| Active Clients | floating card | 13 | 1 | 344 | From this Offering's Sales Forecast on Foundation & Engagement: Other: estimated at 0.3 new a month. Referrals: 0.5 referrals a month, 40% buy: about 0.2 n... |
 | Begins & Payment | floating card | 21 | 4 | 472 | Revenue begins after the sales cycle, the time from first contact to a signed sale: for services to businesses it is often 4 to 12 weeks. One sale often leads t... |
 | Build-up | floating card | 11 | 3 | 206 | Steady from the start: The expected volume from the month revenue begins. Gradual build-up: Starts lower and grows evenly to the expected volume. Month by month... |
 | Charged | floating card | 15 | 4 | 338 | Per sale: paid once for each unit sold (a product, a session, an hour). Per project: paid once for each project or contract. Monthly, quarterly or annually: pai... |
 | Customer Pays | floating card | 24 | 7 | 475 | When the money is actually received, if not when the sale is made. It follows the Offering's When do they pay? on Foundation & Engagement. Upfront: Paid in full... |
-| Expected Sales | floating card | 12 | 1 | 280 | From this Offering's Demand & Conversion on Foundation & Engagement: Sales funnel: 24 prospects a month, 15% qualified, 25% of those buy: about 0.9 a month. Ref... |
+| Expected Sales | floating card | 12 | 1 | 280 | From this Offering's Sales Forecast on Foundation & Engagement: Sales funnel: 24 prospects a month, 15% qualified, 25% of those buy: about 0.9 a month. Ref... |
 | First Month | floating card | 3 | 1 | 46 | How many projects in the month revenue begins. |
 | First Month | floating card | 3 | 1 | 45 | How many clients in the month revenue begins. |
 | Months to Normal | floating card | 3 | 1 | 60 | How many months it takes to grow evenly to the normal level. |
@@ -442,13 +442,13 @@ Listed, never failed (doc 39, 3.6). The budget is 160 characters a point; the av
 | Label | Opens in | Rows | Points | Characters | Text |
 |---|---|---|---|---|---|
 | Active clients | tile dialog | 19 | 3 | 441 | Formula: Active clients = New clients a month ÷ Cancel% At the steady level, clients joining each month equal clients leaving. Average client lifetime ≈ 1 ÷ Can... |
-| AI Workflow Audit | tile dialog | 24 | 4 | 550 | For each Offering, estimate under Demand & Conversion where its customers come from and how many buy. Where this Offering’s customers come from, and so how many... |
+| AI Workflow Audit | tile dialog | 24 | 4 | 550 | For each Offering, estimate under Sales Forecast where its customers come from and how many buy. Where this Offering’s customers come from, and so how many... |
 | Assumptions | tile dialog | 3 | 1 | 62 | Anything else the figures rest on, beyond each source's basis. |
-| Automation Build | tile dialog | 24 | 4 | 550 | For each Offering, estimate under Demand & Conversion where its customers come from and how many buy. Where this Offering’s customers come from, and so how many... |
-| Automation Care Retainer | tile dialog | 24 | 4 | 550 | For each Offering, estimate under Demand & Conversion where its customers come from and how many buy. Where this Offering’s customers come from, and so how many... |
+| Automation Build | tile dialog | 24 | 4 | 550 | For each Offering, estimate under Sales Forecast where its customers come from and how many buy. Where this Offering’s customers come from, and so how many... |
+| Automation Care Retainer | tile dialog | 24 | 4 | 550 | For each Offering, estimate under Sales Forecast where its customers come from and how many buy. Where this Offering’s customers come from, and so how many... |
 | Cancel / Month (%) | tile dialog | 5 | 1 | 100 | The share of active clients who cancel each month. At 5%, a client stays about 20 months on average. |
 | Customers Buy | tile dialog | 17 | 3 | 415 | One sale at a time: Each sale is paid for once: a product, a session, a project. Every month, until they cancel: A subscription, membership or retainer. The sou... |
-| Demand & Conversion | tile dialog | 24 | 4 | 550 | For each Offering, estimate under Demand & Conversion where its customers come from and how many buy. Where this Offering’s customers come from, and so how many... |
+| Sales Forecast | tile dialog | 24 | 4 | 550 | For each Offering, estimate under Sales Forecast where its customers come from and how many buy. Where this Offering’s customers come from, and so how many... |
 | Months to level | tile dialog | 18 | 3 | 415 | Formula: Months to 90% = ln(10) ÷ −ln(1 − Cancel%) The gap to the steady level shrinks by the same share every month, so growth slows as you approach it. Based ... |
 
 **segment-qf3n8d2w:offerings**
@@ -521,9 +521,9 @@ Listed, never failed (doc 39, 3.6). The budget is 160 characters a point; the av
 | Delivered | floating card | 18 | 3 | 392 | Per unit: Done once for each unit sold (a project, a product, a session), over its Calendar Time in weeks. Every month: Ongoing work for each active client ever... |
 | Delivery | floating card | 11 | 2 | 245 | The capacity the founders have, the skills the business still needs, and how each Offering is delivered: the hours one unit takes, how long it takes, and who de... |
 | Delivery capacity | tile dialog | 10 | 2 | 211 | The budgets below compare this with the hours each Offering's expected sales need. Recurring work (subscriptions, retainers) uses founders' hours first; what re... |
-| Expected sales | floating card | 7 | 2 | 114 | Expected: 1.5 a month. The expected sales are the Offering's, from Demand & Conversion on Foundation & Engagement. |
-| Expected sales | floating card | 7 | 2 | 114 | Expected: 0.6 a month. The expected sales are the Offering's, from Demand & Conversion on Foundation & Engagement. |
-| Expected sales | floating card | 7 | 2 | 119 | Expected: 5 active clients. The expected sales are the Offering's, from Demand & Conversion on Foundation & Engagement. |
+| Expected sales | floating card | 7 | 2 | 114 | Expected: 1.5 a month. The expected sales are the Offering's, from Sales Forecast on Foundation & Engagement. |
+| Expected sales | floating card | 7 | 2 | 114 | Expected: 0.6 a month. The expected sales are the Offering's, from Sales Forecast on Foundation & Engagement. |
+| Expected sales | floating card | 7 | 2 | 119 | Expected: 5 active clients. The expected sales are the Offering's, from Sales Forecast on Foundation & Engagement. |
 | Hours Given | floating card | 7 | 1 | 151 | A subscription or retainer is served every period. Give each client's hours a week or a month; weekly hours become monthly at about 4.33 weeks a month. |
 | What can hold up delivery? | floating card | 6 | 1 | 122 | Think about what slows you down when orders pick up: a machine or room, or materials arriving. Tick each one that applies. |
 | Which skills does the business still need? | tile dialog | 10 | 1 | 259 | Skills the plan needs that the team lacks today. Each one's cover comes from the Team of its activities: Marketing's and Production's for marketing and making, ... |

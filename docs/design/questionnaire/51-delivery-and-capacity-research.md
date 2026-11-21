@@ -2,7 +2,7 @@
 
 Status: **proposal**, written 2026-11-14, for the owner's decision (owner, 2026-11-14 17:44: "Do online research regarding delivery and capacity of an offering. Compare it with the Delivery dialogue and floated cards, and the Capacity dialogue card. Check if and what is missing."). Nothing here is built.
 
-Related: doc 50 (Demand & Conversion, seasons read from D3), doc 43 (the Offering card, O10 and O15), doc 48 (the Financial pages), `src/components/interview/editors/capability/useCapabilityActivityAndDelivery.tsx` (the Delivery dialog and cards), `src/framework/engine/DemandCapacity.ts` (`founderDeliveryHours`, `capacityCheck`), `src/components/interview/editors/FinancialSustainabilityEditor.tsx` ("Can the Expected Sales Be Delivered?").
+Related: doc 50 (Sales Forecast, seasons read from D3), doc 43 (the Offering card, O10 and O15), doc 48 (the Financial pages), `src/components/interview/editors/capability/useCapabilityActivityAndDelivery.tsx` (the Delivery dialog and cards), `src/framework/engine/DemandCapacity.ts` (`founderDeliveryHours`, `capacityCheck`), `src/components/interview/editors/FinancialSustainabilityEditor.tsx` ("Can the Expected Sales Be Delivered?").
 
 ## 1. What the sources say
 

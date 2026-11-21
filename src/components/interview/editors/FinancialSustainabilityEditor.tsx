@@ -55,7 +55,7 @@ interface FinancialSustainabilityEditorProps {
     currency?: string;
     onOpenFoundation?: OpenPage;
     onOpenFinancialFoundation?: OpenPage;
-    /** Customer Engagement: its Demand & Conversion gives expected sales. */
+    /** Customer Engagement: its Sales Forecast gives expected sales. */
     engagement?: unknown;
     onOpenEngagement?: OpenPage;
     onOpenCapability?: OpenPage;
@@ -134,7 +134,7 @@ export default function FinancialSustainabilityEditor({
     // formatter, so nobody's own pence are ever hidden by it.
     const format = moneyFormatter(currency, { wholeOnly: true });
 
-    /* Where an Offering's Demand & Conversion gives expected sales,
+    /* Where an Offering's Sales Forecast gives expected sales,
        every figure uses them (withDemand); the page shows them, and
        keeps asking only where there is none. */
     const demand = asBusinessEngagementValue(engagement).demand;
@@ -312,7 +312,7 @@ export default function FinancialSustainabilityEditor({
     }
 
 
-    /** Where an Offering's Demand & Conversion is, as a jump path (see jumpTo.ts). */
+    /** Where an Offering's Sales Forecast is, as a jump path (see jumpTo.ts). */
     function demandPath(offeringId: string): string[] {
         const segment = businessFoundationSegments(foundation)
             .find(entry => entry.offerings.some(offering => offering.id === offeringId));
@@ -396,7 +396,7 @@ export default function FinancialSustainabilityEditor({
                             "Per sale: paid once for each unit sold (a product, a session, an hour).",
                             "Per project: paid once for each project or contract.",
                             "Monthly, quarterly or annually: paid every period by each client subscribed or on a retainer.",
-                            "Use Monthly, Quarterly or Annually when customers buy every month under Demand & Conversion on Foundation & Engagement."
+                            "Use Monthly, Quarterly or Annually when customers buy every month under Sales Forecast on Foundation & Engagement."
                         ],
                         true)}
 
@@ -455,11 +455,11 @@ export default function FinancialSustainabilityEditor({
 
                     {fromDemand.expected !== null
                         ? (
-                            /* Taken from Demand & Conversion: shown, and
+                            /* Taken from Sales Forecast: shown, and
                                changed there, never entered twice. */
                             <BusinessField
                                 label={recurring ? "Active " + capitalized(plural(unit, 2)) : "Expected Sales"}
-                                info={["From this Offering's Demand & Conversion on Foundation & Engagement: " + fromDemand.working]}
+                                info={["From this Offering's Sales Forecast on Foundation & Engagement: " + fromDemand.working]}
                                 inline
                             >
                                 <span className="financial-derived">
@@ -471,7 +471,7 @@ export default function FinancialSustainabilityEditor({
                                             className="business-engagement-link financial-cost-link"
                                             onClick={() => onOpenEngagement(demandPath(stream.offeringId))}
                                         >
-                                            from Demand & Conversion
+                                            from Sales Forecast
                                         </TextLink>
                                     )}
                                 </span>
@@ -486,17 +486,17 @@ export default function FinancialSustainabilityEditor({
                                 recurring
                                     ? "How many " + plural(unit, 2) + " are paying at the normal operating level. The price is spread evenly over the months it covers."
                                     : "How many " + plural(unit, 2) + " are sold in a month at the normal operating level.",
-                                "To work it out from where customers come from (referrals, a sales funnel, repeat customers and more), fill in Demand & Conversion for this Offering on Foundation & Engagement: it then fills this in."
+                                "To work it out from where customers come from (referrals, a sales funnel, repeat customers and more), fill in Sales Forecast for this Offering on Foundation & Engagement: it then fills this in."
                             ],
                             true,
                             NUMBER_LIMITS.volume
                         )}
-                    {/* (ONE OWNER FOR THE BUILD-UP (doc 48, 15.1): where Demand & Conversion works it out -- a recurring Offering's clients joining and
+                    {/* (ONE OWNER FOR THE BUILD-UP (doc 48, 15.1): where Sales Forecast works it out -- a recurring Offering's clients joining and
                         cancelling --, it is shown here and changed there; the stream's own Build-up is asked only where it is silent.) */}
                     {fromDemand.monthsToNormal !== null && fromDemand.joining !== null && fromDemand.expected !== null && stream.development !== "detailed" ? (
                         <BusinessField
                             label="Build-up"
-                            info={["From this Offering's Demand & Conversion on Foundation & Engagement: " + fromDemand.working]}
+                            info={["From this Offering's Sales Forecast on Foundation & Engagement: " + fromDemand.working]}
                             inline
                         >
                             <span className="financial-derived">
@@ -508,7 +508,7 @@ export default function FinancialSustainabilityEditor({
                                         className="business-engagement-link financial-cost-link"
                                         onClick={() => onOpenEngagement(demandPath(stream.offeringId))}
                                     >
-                                        from Demand & Conversion
+                                        from Sales Forecast
                                     </TextLink>
                                 )}
                             </span>
