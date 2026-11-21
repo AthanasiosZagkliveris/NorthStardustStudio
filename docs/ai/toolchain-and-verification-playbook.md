@@ -4,6 +4,22 @@ Status: **playbook**, written 2026-10-21, updated 2026-11-10. The procedure for 
 
 The exact procedure for working on NorthStardustStudio's frontend, and the record of which test failures are expected. Everything here was checked by use. The list of what to look at on screen is `review-checklist.md`; this file is what to run.
 
+**Contents**
+
+- [Repo layout for this workflow](#repo-layout-for-this-workflow)
+- [Verify a change, in order](#verify-a-change-in-order)
+- [What the unit tests cover, and what they do not](#what-the-unit-tests-cover-and-what-they-do-not)
+- [The screen snapshot](#the-screen-snapshot)
+- [Finding where something is styled](#finding-where-something-is-styled)
+- [The console walk](#the-console-walk)
+- [The app files alone](#the-app-files-alone)
+- [Before every commit](#before-every-commit)
+- [Continuous integration](#continuous-integration)
+- [Common failure modes](#common-failure-modes)
+- [How to triage a red result](#how-to-triage-a-red-result)
+- [Currently known expected failures](#currently-known-expected-failures)
+- [Stability](#stability)
+
 ## Repo layout for this workflow
 
 One tree, edited in place. There is no separate build tree and no sync step.

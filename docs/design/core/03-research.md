@@ -4,6 +4,20 @@ Status: **research**, written 2026-10-14, updated 2026-11-02. This document keep
 
 How much each note can be trusted is in document 2, sections 2.3b and 2.4. In short: the notes of October rest mostly on vendor and blog pages and on general knowledge, so they explain *why* a decision was made but do not *prove* it.
 
+**Contents**
+
+- [Index](#index)
+- [R1. Resources, activities, partners and costs](#r1-resources-activities-partners-and-costs)
+- [R2. Part 2: groups by place, frequency options, key definition, cost behaviour](#r2-part-2-groups-by-place-frequency-options-key-definition-cost-behaviour)
+- [R3. Part 3: allocation, simplification, payments, channels, suppliers](#r3-part-3-allocation-simplification-payments-channels-suppliers)
+- [R4. Part 4: channel review, groups, Equipment and Digital, payment plan](#r4-part-4-channel-review-groups-equipment-and-digital-payment-plan)
+- [R5. Industry costs compared with the app, and graded insurances](#r5-industry-costs-compared-with-the-app-and-graded-insurances)
+- [R6. Event card: three examples](#r6-event-card-three-examples)
+- [R7. Activity model: how an event or project connects the cards](#r7-activity-model-how-an-event-or-project-connects-the-cards)
+- [R8. Cards priced per project](#r8-cards-priced-per-project)
+- [R9. Extra costs table](#r9-extra-costs-table)
+- [R10. Business System analysis (2026-10-14)](#r10-business-system-analysis-2026-10-14)
+
 ## Index
 
 | Part | Note | Written | Subject | Related decision in document 1 (matched by subject) |

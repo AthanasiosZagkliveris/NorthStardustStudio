@@ -15,4 +15,4 @@ The standard for these documents is [the standard of the documents](../../standa
 | [12-component-defaults.md](12-component-defaults.md) | generated | The default of each component: the reference sizes and the criteria. | 2026-11-14 |
 | [13-components-list.md](13-components-list.md) | generated | The components, and which fields and cards use each. | 2026-11-21 |
 | [14-fields-list.md](14-fields-list.md) | generated | The fields, the add buttons and the field names. | 2026-11-21 |
-| [15-library-vs-app.md](15-library-vs-app.md) | generated | The library measured against the running app. | 2026-10-29 |
+| [15-library-vs-app.md](15-library-vs-app.md) | generated | The library measured against the running app. | 2026-11-11 |

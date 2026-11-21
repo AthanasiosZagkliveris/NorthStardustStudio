@@ -272,7 +272,11 @@ const RESERVED_WITHDRAWN = [
 const CITATION_ALLOW = [
     ["28", "C5", "doc 28's own earlier ids (the withdrawn list of 2026-10-26), not a Profile code"],
     ["29", "C5", "doc 29's earlier founder question (\"Do you plan to hire?\", merged into its C4), not a Profile code"],
-    ["43", "O19", "a proposed code, placed in Revenue & Pricing (doc 48, 12.2; owner, 2026-11-17 07:16): it enters the register when built"]
+    ["43", "O19", "a proposed code, placed in Revenue & Pricing (doc 48, 12.2; owner, 2026-11-17 07:16): it enters the register when built"],
+    ["47", "O19", "the same proposed code (doc 48, 12.2)"],
+    ["48", "O19", "the same proposed code (doc 48, 12.2)"],
+    ["49", "O19", "the same proposed code (doc 48, 12.2)"],
+    ["49", "PB9", "a proposed code (doc 49, section 9, P3, waiting for the owner): it enters the register when built"]
 ];
 
 /* --------------------------------------------------------------------------------------------------------------------------------------------- */
@@ -617,19 +621,21 @@ export function knownCodes(cards) {
 }
 
 /**
- * The citations of the questionnaire documents (27 to 43): a token shaped as an Offering code (O1), a Competitor code (K1) or a Profile code (A1 to E3,
- * with a letter after it as A3b) that the register does not know. Links and URLs are left out; a line that says "retired" is not checked; the allow-list
+ * The citations of the questionnaire documents (27 to 55, without the register itself, 44): a token shaped as an Offering code (O1), a Competitor code (K1),
+ * a Purpose & Beliefs, Ambassador or Strategy code (PB1, BA1, SW1, SC1) or, in 27 to 43, a Profile code (A1 to E3, with a letter after it as A3b) that the
+ * register does not know. From 45 on, A1 to E3 stand for other things (the owner's decisions D1 to D22, for example), so they are not read there. Links and URLs are left out; a line that says "retired" is not checked; the allow-list
  * holds the false positives.
  */
 function citations(known) {
     const dir = R + "docs/design/questionnaire/";
     const found = [];
-    for (const name of readdirSync(dir).filter(file => /^(2[7-9]|3\d|4[0-3])-.*\.md$/.test(file))) {
+    for (const name of readdirSync(dir).filter(file => /^(2[7-9]|3\d|4[0-3]|4[5-9]|5\d)-.*\.md$/.test(file))) {
         const doc = name.slice(0, 2);
+        const shape = +doc <= 43 ? /\b(?:O\d{1,2}|K\d{1,2}|PB\d{1,2}|BA\d{1,2}|SW\d{1,2}|SC\d{1,2}|[A-E]\d{1,2}[a-d]?)\b/g : /\b(?:O\d{1,2}|K\d{1,2}|PB\d{1,2}|BA\d{1,2}|SW\d{1,2}|SC\d{1,2})\b/g;
         readFileSync(dir + name, "utf8").replace(/\r\n/g, "\n").split("\n").forEach((line, at) => {
             if (/retired/i.test(line)) return;
             const text = line.replace(/\]\([^)]*\)/g, "]").replace(/https?:\/\/\S+/g, "");
-            for (const match of text.matchAll(/\b(?:O\d{1,2}|K\d{1,2}|[A-E]\d{1,2}[a-d]?)\b/g)) {
+            for (const match of text.matchAll(shape)) {
                 const token = match[0];
                 if (known.has(token) || CITATION_ALLOW.some(([inDoc, allowed]) => inDoc === doc && allowed === token)) continue;
                 found.push(name + ":" + (at + 1) + "  " + token);
