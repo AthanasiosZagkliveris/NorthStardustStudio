@@ -1440,7 +1440,7 @@ drawn only in a dialog that its tile opens.
 - A Theme's card stands in the centre under its section's title.
 - **The Strategic Period dialog's tiles and top row end where the Themes' tiles end**, at any width.
 - **Founder's card in a page frame (labels beside cells)**: the four cells (Salary, Frequency, Working Hours, Delivery Hours) are 108px in two pairs; each label column is as wide as its widest label (at least 8.8 body-em, the Start date's column too), 12px before its cell, so no "i" runs under a cell.
-- **A founder's floating card keeps its pairs side by side** (Salary | Frequency, Working Hours | Delivery Hours): where the card is too narrow for each label beside its cell, the label stands over its cell. The funnel ends where the Start date's calendar box ends (container query on `cost-fields`).
+- **A founder's floating card keeps its pairs side by side** (Salary | Frequency, Working Hours | Delivery Hours) where its fields have the room; where they are narrower than 300px (a small window, a card in a half-page column), the pairs stand one under the other, in one column, each label with its cell (owner, 2026-11-21 12:20 UTC+2, "As it is now": the app's `cost-fields` container query; it replaced "the label stands over its cell"). The funnel ends where the Start date's calendar box ends (container query on `cost-fields`).
 
 ---
 
