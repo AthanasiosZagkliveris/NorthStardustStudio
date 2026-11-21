@@ -2,7 +2,7 @@
 
 Status: **current design**, written 2026-10-17, updated 2026-11-02. The four categories and the owner's decisions are current; the character limits are a proposal and the one component per category is not built.
 
-The four kinds of free text and what decides the kind. The holders themselves, with their counts, styles, rows and widths as the walk of the running app found them (Quillfield example, 1920px, light theme), are in `docs/design/current/16-text-holders.md` (generated; its counts are the current ones). No text holder has a character limit today (no `maxLength` anywhere in `src/`), so the "Proposed limit" column is a proposal, set from the longest text the example holds and rounded up.
+The four kinds of free text and what decides the kind. The holders themselves, with their counts, styles, rows and widths as the walk of the running app found them (Quillfield example, 1920px, light theme), are in `docs/design/interface/16-text-holders.md` (generated; its counts are the current ones). No text holder has a character limit today (no `maxLength` anywhere in `src/`), so the "Proposed limit" column is a proposal, set from the longest text the example holds and rounded up.
 
 Name cells, numbers, dates, colours and search boxes are not free texts (they have their own components); the Text Hierarchy's px boxes are numbers.
 

@@ -18,15 +18,15 @@ execFileSync(process.execPath, ["tools/scripts/library/fields-list.mjs", "--expo
 execFileSync(process.execPath, ["tools/scripts/library/components-pdf.mjs", "exports/The-fields.pdf"], { stdio: "inherit", env: { ...process.env, DOC: "docs/design/library/14-fields-list.md", LANDSCAPE: "1", TITLE: "The fields" } });
 // The design documents that have a downloadable version: a PDF of each (md-to-pdf.mjs, no pictures), and the CSV its own script writes.
 const DOCUMENTS = [
-    ["docs/design/current/16-text-holders.md", "The-text-holders", "The text holders", "tools/scripts/catalogue/text-holders-doc.mjs"],
-    ["docs/design/current/18-reactions.md", "The-reactions", "The reactions"],
-    ["docs/design/current/19-text-links.md", "The-text-links", "The text links", "tools/scripts/catalogue/text-links-doc.mjs"],
-    ["docs/design/current/20-free-text-categories.md", "The-free-text-categories", "The free-text categories"],
-    ["docs/design/current/21-shared-components.md", "The-shared-components", "The shared components"],
-    ["docs/design/current/22-help-texts.md", "The-help-texts", "The help texts", "tools/scripts/catalogue/help-texts-doc.mjs"],
-    ["docs/design/current/23-popups.md", "The-popups", "The popups"],
-    ["docs/design/questionnaire/37-organization-fields.md", "The-organisation-tile", "The Organisation tile"],
-    ["docs/design/questionnaire/38-positioning-questions.md", "The-positioning-tile", "The Positioning tile"]
+    ["docs/design/interface/16-text-holders.md", "The-text-holders", "The text holders", "tools/scripts/catalogue/text-holders-doc.mjs"],
+    ["docs/design/interface/18-reactions.md", "The-reactions", "The reactions"],
+    ["docs/design/interface/19-text-links.md", "The-text-links", "The text links", "tools/scripts/catalogue/text-links-doc.mjs"],
+    ["docs/design/interface/20-free-text-categories.md", "The-free-text-categories", "The free-text categories"],
+    ["docs/design/interface/21-shared-components.md", "The-shared-components", "The shared components"],
+    ["docs/design/interface/22-help-texts.md", "The-help-texts", "The help texts", "tools/scripts/catalogue/help-texts-doc.mjs"],
+    ["docs/design/interface/23-popups.md", "The-popups", "The popups"],
+    ["docs/design/questions/37-organization-fields.md", "The-organisation-tile", "The Organisation tile"],
+    ["docs/design/questions/38-positioning-questions.md", "The-positioning-tile", "The Positioning tile"]
 ];
 for (const [doc, file, title, csvScript] of DOCUMENTS) {
     if (csvScript) {

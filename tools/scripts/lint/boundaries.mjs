@@ -1,5 +1,5 @@
 /**
- * THE BOUNDARIES (docs/design/current/25-folder-plan.md, "The layout to come", step 1): the parts meant to be shared by every page,
+ * THE BOUNDARIES (docs/ai/folder-plan.md, "The layout to come", step 1): the parts meant to be shared by every page,
  * and later by other apps, import nothing from the pages or the editors, so each can move into a package of its own unchanged.
  *
  *   node tools/scripts/lint/boundaries.mjs            list every import that crosses a boundary; fail when there is one

@@ -2,7 +2,7 @@
  * THE QUESTIONS REGISTER (doc 44): every question of the Foundation's cards, card by card in page order and box by box in the card's order, with its position,
  * its permanent code, the key it is saved under, its words, its control, its limit, when it is asked, its starting value, its options and its "i".
  *
- *   node tools/scripts/docs/questions-register.mjs           write docs/design/questionnaire/44-questions-register.md (npm run docs:index runs it)
+ *   node tools/scripts/docs/questions-register.mjs           write docs/design/questions/44-questions-register.md (npm run docs:index runs it)
  *   node tools/scripts/docs/questions-register.mjs --check   write nothing; fail when doc 44 differs from the code, or when a questionnaire
  *                                                             document (27 to 43) cites a question code the register does not know
  *
@@ -20,7 +20,7 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 import { build } from "esbuild";
 
 const R = fileURLToPath(new URL("../../../", import.meta.url));
-const OUT = "docs/design/questionnaire/44-questions-register.md";
+const OUT = "docs/design/questions/44-questions-register.md";
 const SCRIPT = "tools/scripts/docs/questions-register.mjs";
 const SOURCES = [
     "src/framework/engine/choices/SegmentQuestions.ts",
@@ -276,6 +276,9 @@ const CITATION_ALLOW = [
     ["47", "O19", "the same proposed code (doc 48, 12.2)"],
     ["48", "O19", "the same proposed code (doc 48, 12.2)"],
     ["49", "O19", "the same proposed code (doc 48, 12.2)"],
+    ["27", "O19", "the same proposed code (doc 48, 12.2), in the order of work moved here from doc 49, section 8"],
+    ["27", "D4", "the owner's decision D4 of the order of work (moved from doc 49, section 8), not a Profile code"],
+    ["27", "D6", "the owner's decision D6 of the order of work (moved from doc 49, section 8), not a Profile code"],
     ["49", "PB9", "a proposed code (doc 49, section 9, P3, waiting for the owner): it enters the register when built"]
 ];
 
@@ -627,9 +630,10 @@ export function knownCodes(cards) {
  * holds the false positives.
  */
 function citations(known) {
-    const dir = R + "docs/design/questionnaire/";
+    // (The questionnaire documents keep their numbers in the folders of what they hold: questions/, research/ and interface/ for 39.)
+    const dirs = ["questions", "research", "interface"].map(folder => R + "docs/design/" + folder + "/");
     const found = [];
-    for (const name of readdirSync(dir).filter(file => /^(2[7-9]|3\d|4[0-3]|4[5-9]|5\d)-.*\.md$/.test(file))) {
+    for (const [dir, name] of dirs.flatMap(dir => readdirSync(dir).filter(file => /^(2[7-9]|3\d|4[0-3]|4[5-9]|5\d)-.*\.md$/.test(file)).map(file => [dir, file]))) {
         const doc = name.slice(0, 2);
         const shape = +doc <= 43 ? /\b(?:O\d{1,2}|K\d{1,2}|PB\d{1,2}|BA\d{1,2}|SW\d{1,2}|SC\d{1,2}|[A-E]\d{1,2}[a-d]?)\b/g : /\b(?:O\d{1,2}|K\d{1,2}|PB\d{1,2}|BA\d{1,2}|SW\d{1,2}|SC\d{1,2})\b/g;
         readFileSync(dir + name, "utf8").replace(/\r\n/g, "\n").split("\n").forEach((line, at) => {
@@ -665,7 +669,7 @@ async function main() {
         console.log("The questions register (doc 44) matches the code, and the questionnaire documents cite only codes it knows.");
         return;
     }
-    // (Written with CRLF, as its neighbours in docs/design/questionnaire are.)
+    // (Written with CRLF, as its neighbours in docs/design/questions are.)
     writeFileSync(R + OUT, text.replace(/\n/g, "\r\n"));
     console.log(OUT + " written (" + knownCodes(cards).size + " codes).");
 }

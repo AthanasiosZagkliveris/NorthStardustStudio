@@ -1,6 +1,6 @@
-# 25. Folders: the app files, the examples and the working files
+# Folders: the app files, the examples and the working files
 
-Status: **current design**, written 2026-10-22, updated 2026-11-21. Where the app's files, the examples and the working files are kept apart, and how the app alone is exported.
+Status: **reference**, written 2026-10-22, updated 2026-11-21 (it was document 25 of `design/current/` until 2026-11-21; the number is retired). Where the app's files, the examples and the working files are kept apart, and how the app alone is exported.
 
 ## Where things are
 

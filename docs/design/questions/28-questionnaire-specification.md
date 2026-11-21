@@ -4,7 +4,7 @@ Status: **proposal**, written 2026-10-22, updated 2026-11-21; parts are built. I
 
 > **First published version (owner, 2026-10-29):** English only; UK, Ireland, USA, Canada, Australia, New Zealand and Other; single-sided; B2C and/or B2B; the buyer's category separate from the buyer's life stage. **Doc 33 governs** where it differs from this document. Everything described here that the first version does not contain (B2G, G2B, multi-sided markets, other countries, accessibility, caregiving and the rest) is a future feature: doc 33. Age limits are checked on the Offering (O12) and the Review (doc 43; O12 is not built yet). Contents of the documents: `docs/README.md`; index: `docs/index.md`; glossary: `docs/app/glossary.md`.
 
-> **Where each part stands (2026-11-08).** What is built, tile by tile, is held in the questionnaire README (`docs/design/questionnaire/README.md`) and in document 40; this note says only which document governs each section. Current: 1 to 5 (the summary, the rules and the wording), 11 (the connection map and the evidence), 12 to 15. Governed by their tile documents: 6.3a by **document 35** (the Segment), 6.4 and 6.5 by **document 36** (the Profile), 6.6 to 6.8 by **documents 41, 42 and 43** (the Competitor, the Value Proposition, the Offering), 8.2 by **document 38** (Positioning), 8.5 by **document 37** (the Organisation); where they differ, those documents are right. Replaced and archived: 6.3 (the Segment's G-list), the 6.6 tables and the 6.7 paragraph of 2026-11-03. Not yet specified in that form: 7 (Customer Engagement), 9 and 10. Age limits by activity: **document 30**. What an "i" says: **document 39**. The form every tile document takes: **document 40**.
+> **Where each part stands (2026-11-08).** What is built, tile by tile, is held in the questions README (`docs/design/questions/README.md`) and in document 40; this note says only which document governs each section. Current: 1 to 5 (the summary, the rules and the wording), 11 (the connection map and the evidence), 12 to 15. Governed by their tile documents: 6.3a by **document 35** (the Segment), 6.4 and 6.5 by **document 36** (the Profile), 6.6 to 6.8 by **documents 41, 42 and 43** (the Competitor, the Value Proposition, the Offering), 8.2 by **document 38** (Positioning), 8.5 by **document 37** (the Organisation); where they differ, those documents are right. Replaced and archived: 6.3 (the Segment's G-list), the 6.6 tables and the 6.7 paragraph of 2026-11-03. Not yet specified in that form: 7 (Customer Engagement), 9 and 10. Age limits by activity: **document 30**. What an "i" says: **document 39**. The form every tile document takes: **document 40**.
 
 **Contents**
 
@@ -14,16 +14,16 @@ Status: **proposal**, written 2026-10-22, updated 2026-11-21; parts are built. I
 - [4. Plain wording](#4-plain-wording)
   - [4.1 Rules for writing our questions](#41-rules-for-writing-our-questions)
 - [5. The countries and the shared lists](#5-the-countries-and-the-shared-lists)
-  - [5.1 What differs by country](34-lists-and-classifications.md#51-what-differs-by-country)
-  - [5.2 The shared lists](34-lists-and-classifications.md#52-the-shared-lists)
-  - [5.3 The crosswalks (national schemes behind the plain lists)](34-lists-and-classifications.md#53-the-crosswalks-national-schemes-behind-the-plain-lists)
-  - [5.4 Industries, level 2: the "more exactly?" list](34-lists-and-classifications.md#54-industries-level-2-the-more-exactly-list)
-  - [5.5 Examples under the options](34-lists-and-classifications.md#55-examples-under-the-options)
-  - [5.6 The industry pack: what a sub-industry gives the user](34-lists-and-classifications.md#56-the-industry-pack-what-a-sub-industry-gives-the-user)
-  - [5.7 The activity cascade: levels, how many to pick, and what the data shows](34-lists-and-classifications.md#57-the-activity-cascade-levels-how-many-to-pick-and-what-the-data-shows)
-  - [5.8 The code and the words: what the cascade ends on, and how each country names it](34-lists-and-classifications.md#58-the-code-and-the-words-what-the-cascade-ends-on-and-how-each-country-names-it)
-  - [5.9 How many choices at each level (the sufficient numbers)](34-lists-and-classifications.md#59-how-many-choices-at-each-level-the-sufficient-numbers)
-  - [5.10 The classification data](34-lists-and-classifications.md#510-the-classification-data)
+  - [5.1 What differs by country](../research/34-lists-and-classifications.md#51-what-differs-by-country)
+  - [5.2 The shared lists](../research/34-lists-and-classifications.md#52-the-shared-lists)
+  - [5.3 The crosswalks (national schemes behind the plain lists)](../research/34-lists-and-classifications.md#53-the-crosswalks-national-schemes-behind-the-plain-lists)
+  - [5.4 Industries, level 2: the "more exactly?" list](../research/34-lists-and-classifications.md#54-industries-level-2-the-more-exactly-list)
+  - [5.5 Examples under the options](../research/34-lists-and-classifications.md#55-examples-under-the-options)
+  - [5.6 The industry pack: what a sub-industry gives the user](../research/34-lists-and-classifications.md#56-the-industry-pack-what-a-sub-industry-gives-the-user)
+  - [5.7 The activity cascade: levels, how many to pick, and what the data shows](../research/34-lists-and-classifications.md#57-the-activity-cascade-levels-how-many-to-pick-and-what-the-data-shows)
+  - [5.8 The code and the words: what the cascade ends on, and how each country names it](../research/34-lists-and-classifications.md#58-the-code-and-the-words-what-the-cascade-ends-on-and-how-each-country-names-it)
+  - [5.9 How many choices at each level (the sufficient numbers)](../research/34-lists-and-classifications.md#59-how-many-choices-at-each-level-the-sufficient-numbers)
+  - [5.10 The classification data](../research/34-lists-and-classifications.md#510-the-classification-data)
 - [6. Business 1 · Foundation: the customer model and the cards](#6-business-1--foundation-the-customer-model-and-the-cards)
   - [6.1 The owner's customer-segment text: analysis and what was adopted](#61-the-owners-customer-segment-text-analysis-and-what-was-adopted)
   - [6.2 The model: categories, groups and the questions that carry them](#62-the-model-categories-groups-and-the-questions-that-carry-them)
@@ -161,16 +161,16 @@ This section owns how a question is worded; doc 39 owns what its "i" says. From 
 
 **Moved to doc 34 (`34-lists-and-classifications.md`) on 2026-10-29; the sub-section numbers are unchanged.** It holds the country differences, the shared lists, the national crosswalks, the industry lists, the examples, the industry pack, the activity cascade, the code and the words, the choices at each level and the classification data. References in this document written "doc 34, 5.N" point there.
 
-- [5.1 What differs by country](34-lists-and-classifications.md#51-what-differs-by-country)
-- [5.2 The shared lists](34-lists-and-classifications.md#52-the-shared-lists)
-- [5.3 The crosswalks (national schemes behind the plain lists)](34-lists-and-classifications.md#53-the-crosswalks-national-schemes-behind-the-plain-lists)
-- [5.4 Industries, level 2: the "more exactly?" list](34-lists-and-classifications.md#54-industries-level-2-the-more-exactly-list)
-- [5.5 Examples under the options](34-lists-and-classifications.md#55-examples-under-the-options)
-- [5.6 The industry pack: what a sub-industry gives the user](34-lists-and-classifications.md#56-the-industry-pack-what-a-sub-industry-gives-the-user)
-- [5.7 The activity cascade: levels, how many to pick, and what the data shows](34-lists-and-classifications.md#57-the-activity-cascade-levels-how-many-to-pick-and-what-the-data-shows)
-- [5.8 The code and the words: what the cascade ends on, and how each country names it](34-lists-and-classifications.md#58-the-code-and-the-words-what-the-cascade-ends-on-and-how-each-country-names-it)
-- [5.9 How many choices at each level (the sufficient numbers)](34-lists-and-classifications.md#59-how-many-choices-at-each-level-the-sufficient-numbers)
-- [5.10 The classification data](34-lists-and-classifications.md#510-the-classification-data)
+- [5.1 What differs by country](../research/34-lists-and-classifications.md#51-what-differs-by-country)
+- [5.2 The shared lists](../research/34-lists-and-classifications.md#52-the-shared-lists)
+- [5.3 The crosswalks (national schemes behind the plain lists)](../research/34-lists-and-classifications.md#53-the-crosswalks-national-schemes-behind-the-plain-lists)
+- [5.4 Industries, level 2: the "more exactly?" list](../research/34-lists-and-classifications.md#54-industries-level-2-the-more-exactly-list)
+- [5.5 Examples under the options](../research/34-lists-and-classifications.md#55-examples-under-the-options)
+- [5.6 The industry pack: what a sub-industry gives the user](../research/34-lists-and-classifications.md#56-the-industry-pack-what-a-sub-industry-gives-the-user)
+- [5.7 The activity cascade: levels, how many to pick, and what the data shows](../research/34-lists-and-classifications.md#57-the-activity-cascade-levels-how-many-to-pick-and-what-the-data-shows)
+- [5.8 The code and the words: what the cascade ends on, and how each country names it](../research/34-lists-and-classifications.md#58-the-code-and-the-words-what-the-cascade-ends-on-and-how-each-country-names-it)
+- [5.9 How many choices at each level (the sufficient numbers)](../research/34-lists-and-classifications.md#59-how-many-choices-at-each-level-the-sufficient-numbers)
+- [5.10 The classification data](../research/34-lists-and-classifications.md#510-the-classification-data)
 
 ## 6. Business 1 · Foundation: the customer model and the cards
 

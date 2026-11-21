@@ -4,7 +4,7 @@ Status: **rules**, written 2026-10-20, updated 2026-11-08. What to check when re
 
 The standard behind each line, with the numbers and how to measure them, is `review-criteria.md`.
 
-Read this before reviewing or changing anything on screen, and tick every line that applies before saying "done". Each line is here because it was missed once. The rules it points to are in `layout-rules.md` and, in `../design/current/`, doc 18 (the reactions), doc 21 (the shared components) and doc 24 (the tooltips).
+Read this before reviewing or changing anything on screen, and tick every line that applies before saying "done". Each line is here because it was missed once. The rules it points to are in `layout-rules.md` and, in `../design/interface/`, doc 18 (the reactions), doc 21 (the shared components) and doc 24 (the tooltips).
 
 ## 0. Before looking
 

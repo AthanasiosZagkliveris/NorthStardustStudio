@@ -43,7 +43,7 @@ Every chapter is drawn as tiles; the page Financials is one chapter, Financial F
 
 | Where | State | What remains inline | Conversion (suggestion) |
 |---|---|---|---|
-| Business 4 and 5 · Financials | Tiles (2026-11-17), one chapter, Financial Foundation (its tiles: doc 48, section 14) | The dialogs' nested sub tiles and the Cash Timeline as a Diagram tile (doc 48, section 1); the Costs sub tiles opening the Inventory's table (IN4); a dialog wide enough for the costs table and the Operating months (owner to decide: the dialog is the half-width chapter's width) | Later steps of phase 1 (doc 49, section 8) |
+| Business 4 and 5 · Financials | Tiles (2026-11-17), one chapter, Financial Foundation (its tiles: doc 48, section 14) | The dialogs' nested sub tiles and the Cash Timeline as a Diagram tile (doc 48, section 1); the Costs sub tiles opening the Inventory's table (IN4); a dialog wide enough for the costs table and the Operating months (owner to decide: the dialog is the half-width chapter's width) | Later steps of phase 1 (doc 27, section 10) |
 | Four editors | Old non-tile layout kept below an early return | Unreachable code (`asTiles` is always true) | Remove after confirming the tests do not use it |
 | Help tile | Not a real kind in the code | Inventory and Completed are normal tiles recognised by id | Add a real "help tile" kind |
 

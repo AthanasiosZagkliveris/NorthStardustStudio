@@ -1,6 +1,6 @@
-# 48. The Financial pages and the Inventory: tiles and two questions, as proposed
+# 48. Financials and the Inventory: the tiles, the questions, the pricing inputs and each Offering's margin
 
-Status: **specification**, written 2026-11-12, updated 2026-11-21. The page Financials: Revenue & Pricing (Section 4) and Costs, Funding & Position (Section 5) drawn as one chapter, **Financial Foundation** (`PageGroups.ts`, `oneChapter`, `joinedChapter.ts`), of three Master Tiles that ask, Revenue Streams, Costs and Funding (section 14, the one owner of the chapter's tiles), with the Offering Economics card, the questions RV1 and FN1, the Inventory's changes IN1 to IN5 and the owner's decisions D12 to D15. Each section keeps its number, its title and its saved answer (section 11). Built in part: the page, its order and its tiles (sections 1, 2, 11 and 14); still to build, in phase 7a: the Offering Economics card (section 3), RV1 (section 4), O19 and K15 as a record (section 12), the fee on a VAT-inclusive price (section 11), FN1, the dialogs' nested sub tiles and the Cash Timeline as a Diagram tile, with IN1 to IN4; IN5 comes with phase 6 (doc 49, section 8). The dates of each step are in the log.
+Status: **specification**, written 2026-11-12, updated 2026-11-21. The page Financials: Revenue & Pricing (Section 4) and Costs, Funding & Position (Section 5) drawn as one chapter, **Financial Foundation** (`PageGroups.ts`, `oneChapter`, `joinedChapter.ts`), of three Master Tiles that ask, Revenue Streams, Costs and Funding (section 14, the one owner of the chapter's tiles), with the Offering Economics card, the questions RV1 and FN1, the Inventory's changes IN1 to IN5 and the owner's decisions D12 to D15. Each section keeps its number, its title and its saved answer (section 11). Built in part: the page, its order and its tiles (sections 1, 2, 11 and 14); still to build, in phase 7a: the Offering Economics card (section 3), RV1 (section 4), O19 and K15 as a record (section 12), the fee on a VAT-inclusive price (section 11), FN1, the dialogs' nested sub tiles and the Cash Timeline as a Diagram tile, with IN1 to IN4; IN5 comes with phase 6 (doc 27, section 10). The dates of each step are in the log.
 
 Related: doc 40 (the form), the two Financials specifications (`specifications/business-system/page-3-*.md`), doc 5 (5.3, I7, I9, K1), `ai/layout-rules.md` (section 12, the Inventory), doc 47 (the Offering's four faces), doc 49 (Strategy reads these figures).
 
@@ -18,7 +18,7 @@ Related: doc 40 (the form), the two Financials specifications (`specifications/b
 - [10. Sources](#10-sources)
 - [11. The order of the Financial pages](#11-the-order-of-the-financial-pages)
 - [12. Pricing inputs](#12-pricing-inputs)
-- [12.3 The Revenue card, 2026-11-20](#123-the-revenue-card-2026-11-20)
+  - [12.3 The Revenue card, 2026-11-20](#123-the-revenue-card-2026-11-20)
 - [13. The Financials chapter: one proposal for the page (2026-11-20)](#13-the-financials-chapter-one-proposal-for-the-page-2026-11-20)
 - [14. Inputs on the page, records in the Workbook (owner, 2026-11-20 18:35 UTC+2)](#14-inputs-on-the-page-records-in-the-workbook-owner-2026-11-20-1835-utc2)
 - [15. Each Offering's sales, cost, price and margin (the round of 2026-11-21 00:56 UTC+2)](#15-each-offerings-sales-cost-price-and-margin-the-round-of-2026-11-21-0056-utc2)
@@ -177,7 +177,7 @@ The decisions below are as built on 2026-11-17 and 2026-11-18; the chapter as it
 
 ## 11. The order of the Financial pages
 
-Recorded 2026-11-12 (owner, 15:37; doc 49, section 8, phase 7). The Financial sections stand in this order: **Revenue & Pricing first, then Costs, Funding & Position**, so each reads only what stands before it: the Funding Need reads its revenue from Revenue & Pricing.
+Recorded 2026-11-12 (owner, 15:37; doc 27, section 10, phase 7). The Financial sections stand in this order: **Revenue & Pricing first, then Costs, Funding & Position**, so each reads only what stands before it: the Funding Need reads its revenue from Revenue & Pricing.
 
 | Page | Holds | Reads |
 |---|---|---|
@@ -240,7 +240,7 @@ The app knows how much price matters and how customers pay; it holds no amount: 
 
 **Sources** (each read in excerpt; opened in full before an "i" cites it): MIT OpenCourseWare 15.818 *Pricing* (Spring 2010), lecture 1; MIT OpenCourseWare 15.810 *Marketing Management*, lecture 10, *Principles of Pricing* (Hauser, Fall 2015); Penn State Extension, *Product pricing: what do I charge?* and *Choosing a pricing method*.
 
-## 12.3 The Revenue card, 2026-11-20
+### 12.3 The Revenue card, 2026-11-20
 
 Built (owner, 2026-11-20 12:49 UTC+2: "proceed to changes"): rule | was | now.
 

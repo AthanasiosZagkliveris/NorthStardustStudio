@@ -2,7 +2,7 @@
 
 Status: **current design**, written 2026-11-20. The Strategy System's one page and its one chapter: the four Master Tiles, what each asks, the cards of the Strategic Period, what the page reads and writes, and the rules it follows. The questions, their options and "i" are doc 49's; the layout is the rulebook's; this file names them and does not repeat them.
 
-> **Keep this document true:** whoever changes a tile, a question, a draft, a card's field or a read of this page changes this file in the same commit and writes the change in the log (`design/core/04-log.md`).
+> **Keep this document true:** whoever changes a tile, a question, a draft, a card's field or a read of this page changes this file in the same commit and writes the change in the log (`design/records/04-log.md`).
 
 ## Contents
 

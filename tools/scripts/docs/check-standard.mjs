@@ -42,7 +42,9 @@ for (const f of files) {
 }
 // 3. numbering without a gap or a repeat
 numbers.sort((a, b) => a - b);
-for (let n = 1; n <= numbers[numbers.length - 1]; n++) if (!numbers.includes(n)) problems.push("docs/design: no document is numbered " + n);
+// (A retired number stays unused: its document left the design chapters, and the numbers are permanent ids. 25 is ai/folder-plan.md.)
+const RETIRED = [25];
+for (let n = 1; n <= numbers[numbers.length - 1]; n++) if (!numbers.includes(n) && !RETIRED.includes(n)) problems.push("docs/design: no document is numbered " + n);
 for (let i = 1; i < numbers.length; i++) if (numbers[i] === numbers[i - 1]) problems.push("docs/design: the number " + numbers[i] + " is used twice");
 // 4. relative links resolve
 for (const f of files) {
@@ -55,4 +57,4 @@ for (const f of files) {
 // 5. anchors find their headings (or an explicit <a id>)
 problems.push(...brokenAnchors(R));
 if (problems.length) { console.error("The documents do not meet docs/standard.md:\n" + problems.map(p => "  " + p).join("\n")); process.exit(1); }
-console.log("The " + files.length + " documents meet docs/standard.md (" + numbers.length + " numbered design documents, 1 to " + numbers[numbers.length - 1] + ").");
+console.log("The " + files.length + " documents meet docs/standard.md (" + numbers.length + " numbered design documents, 1 to " + numbers[numbers.length - 1] + ", " + RETIRED.length + " number retired).");

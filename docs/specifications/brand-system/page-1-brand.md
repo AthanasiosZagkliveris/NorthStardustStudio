@@ -2,7 +2,7 @@
 
 Status: **current design**, written 2026-11-20, updated 2026-11-21. The Brand System's one page: its two chapters, their tiles, what each asks, what it reads and writes, and the rules it follows. The questions are doc 46's; the tile and card layout is the rulebook's (`ai/layout-rules.md`); this file names them and does not repeat them.
 
-> **Keep this document true:** whoever changes a tile, a question, a draft or a read of this page changes this file in the same commit and writes the change in the log (`design/core/04-log.md`).
+> **Keep this document true:** whoever changes a tile, a question, a draft or a read of this page changes this file in the same commit and writes the change in the log (`design/records/04-log.md`).
 
 ## Contents
 

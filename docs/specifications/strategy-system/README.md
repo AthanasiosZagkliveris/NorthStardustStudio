@@ -2,7 +2,7 @@
 
 Status: **index**, written 2026-11-20. The Strategy System (System 4 of the Foundation) is ONE page, "4. Strategy System", of one chapter, **Situation & Direction** (`PageGroups.ts`: section 1 the page; sections 2, Goals & Objectives, and 3, Roadmap, hidden, their answers drawn inside the chapter's Strategic Period tile). The System is answered after the Business System: a founder describes the business before choosing a strategy for it.
 
-Each file here describes the app as it is; where it and the code differ, both are mended in one commit with a row in the log (`design/core/04-log.md`). The layout is the rulebook's (`ai/layout-rules.md`, sections 13 and 23); the questions are doc 49's (`design/questionnaire/49-strategy-questions.md`), the codes the register's (doc 44, section 8).
+Each file here describes the app as it is; where it and the code differ, both are mended in one commit with a row in the log (`design/records/04-log.md`). The layout is the rulebook's (`ai/layout-rules.md`, sections 13 and 23); the questions are doc 49's (`design/questions/49-strategy-questions.md`), the codes the register's (doc 44, section 8).
 
 ## The page
 

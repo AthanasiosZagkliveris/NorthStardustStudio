@@ -97,7 +97,7 @@ Add the two that change a figure the app writes and that nothing else asks: **Ac
 - **Ready From** (doc 43, O2): an Offering that is "Just an idea" or "Still being built" asks, under Customers Buy, the month it is ready, with "This Offering is still an idea. Its sales start once it is ready." ("still being built" for the second). Its revenue on Sustainability begins no earlier (`withDemand` moves Begins to it, as a record, while O2 says so).
 - **The Identity answers** reach the source suggestions as they reach the channels (every call now passes them), and selling to government (I3, B2G) proposes Contracts or tenders, as a buyer deciding by formal procurement does.
 - **Visitors from where they buy** (owner, 2026-11-17 08:38: "Bugs plus the first batch" of the review): a Purchase channel the answers make -- a marketplace, an Online Store, a Studio / Shop, a stockist -- brings Visitors, so the Visitors source lists it beside the Discover channels (`demandSuggestions`).
-- **Held:** seasons (2.3). The monthly pattern exists only on Sustainability (`streamVolumes`), which waits for step 7 (doc 49, section 8, phase 7a); D3's reading is recorded in doc 48's Revenue & Pricing list.
+- **Held:** seasons (2.3). The monthly pattern exists only on Sustainability (`streamVolumes`), which waits for step 7 (doc 27, section 10, phase 7a); D3's reading is recorded in doc 48's Revenue & Pricing list.
 
 **Sources for the funnel's stages** (read in excerpt): Singapore Management University Academy, *Marketing funnel*; University of Newcastle Business School, Marketing Technology Lab, *The Marketing Funnel*; Santa Clara University, *Digital marketing and marketing funnel*; Elias St. Elmo Lewis's AIDA (as cited by MasterClass, *AIDA Model*).
 
