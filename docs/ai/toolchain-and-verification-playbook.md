@@ -1,6 +1,6 @@
 # Toolchain and verification playbook
 
-Status: **playbook**, written 2026-10-21, updated 2026-11-10. The procedure for working on the frontend, and the record of which test failures are expected.
+Status: **playbook**, written 2026-10-21, updated 2026-11-21. The procedure for working on the frontend, and the record of which test failures are expected.
 
 The exact procedure for working on NorthStardustStudio's frontend, and the record of which test failures are expected. Everything here was checked by use. The list of what to look at on screen is `review-checklist.md`; this file is what to run.
 
@@ -57,7 +57,7 @@ One tree, edited in place. There is no separate build tree and no sync step.
 
 Vitest is the only unit-test layer: parsing, number and date logic, data transforms, what a component or a hook computes, the generated documents, and the examples (`ExampleDrift`, `ExampleCompleteness`, the golden files). `environment: "jsdom"` is set in `vitest.config.ts` (a separate file from `vite.config.ts`, whose `server` block is for Tauri). A test stands beside what it tests; tests that cross components are in `components/interview/tests/`.
 
-Document tests: `src/docs/documentReferences.test.ts` (the rulebook, `card-kinds.md`, the page 3 specification, doc 1 and doc 26 name only properties, classes and files the code has), `documentValues.test.ts` and `documentAssets.test.ts` (the generated parts of the rulebook). Run them with `npx vitest run src/docs` after editing any of these documents.
+Document tests: `src/docs/documentReferences.test.ts` (the rulebook, `card-kinds.md`, the Infrastructure & Capability specification, doc 1 and doc 26 name only properties, classes and files the code has), `documentValues.test.ts` and `documentAssets.test.ts` (the generated parts of the rulebook). Run them with `npx vitest run src/docs` after editing any of these documents.
 
 A green run proves the logic, not the look. How the app renders and responds to the pointer is checked by the layout check and by looking (steps 5 and 6).
 

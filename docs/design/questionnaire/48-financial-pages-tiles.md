@@ -2,7 +2,7 @@
 
 Status: **specification**, written 2026-11-12, updated 2026-11-21. The page Financials: Revenue & Pricing (Section 4) and Costs, Funding & Position (Section 5) drawn as one chapter, **Financial Foundation** (`PageGroups.ts`, `oneChapter`, `joinedChapter.ts`), of three Master Tiles that ask, Revenue Streams, Costs and Funding (section 14, the one owner of the chapter's tiles), with the Offering Economics card, the questions RV1 and FN1, the Inventory's changes IN1 to IN5 and the owner's decisions D12 to D15. Each section keeps its number, its title and its saved answer (section 11). Built in part: the page, its order and its tiles (sections 1, 2, 11 and 14); still to build, in phase 7a: the Offering Economics card (section 3), RV1 (section 4), O19 and K15 as a record (section 12), the fee on a VAT-inclusive price (section 11), FN1, the dialogs' nested sub tiles and the Cash Timeline as a Diagram tile, with IN1 to IN4; IN5 comes with phase 6 (doc 49, section 8). The dates of each step are in the log.
 
-Related: doc 40 (the form), the page 4 and page 5 specifications (`specifications/business-system/`), doc 5 (5.3, I7, I9, K1), `ai/layout-rules.md` (section 12, the Inventory), doc 47 (the Offering's four faces), doc 49 (Strategy reads these figures).
+Related: doc 40 (the form), the two Financials specifications (`specifications/business-system/page-3-*.md`), doc 5 (5.3, I7, I9, K1), `ai/layout-rules.md` (section 12, the Inventory), doc 47 (the Offering's four faces), doc 49 (Strategy reads these figures).
 
 **Contents**
 
@@ -118,7 +118,7 @@ The tax in a price needs no question: Financial Foundation's VAT basis (Excludin
 
 ### 6.1 What it is
 
-A page-wide help tile on Page 3 (footer band; layout rules, section 12; page 3 spec, section 8). It lists every Resource, Activity, Partner, Supplier, the Founders and the Legal Entity's expenses, as tiles or a table (Name, Type, Section, Category, Group, Cost, Frequency, Cost Nature, Behaviour, Status, Linked), with a funnel (Include, Sort, Belongs to, Status, Frequency, Linked, Costs, Columns), a legend for the four links and three text sizes. Cost Nature and Behaviour follow the Financial Foundation's rules (`InventoryClassification.ts`).
+A page-wide help tile on Infrastructure & Capability (footer band; layout rules, section 12; the Infrastructure & Capability specification, section 8). It lists every Resource, Activity, Partner, Supplier, the Founders and the Legal Entity's expenses, as tiles or a table (Name, Type, Section, Category, Group, Cost, Frequency, Cost Nature, Behaviour, Status, Linked), with a funnel (Include, Sort, Belongs to, Status, Frequency, Linked, Costs, Columns), a legend for the four links and three text sizes. Cost Nature and Behaviour follow the Financial Foundation's rules (`InventoryClassification.ts`).
 
 ### 6.2 Decided
 
@@ -130,7 +130,7 @@ A page-wide help tile on Page 3 (footer band; layout rules, section 12; page 3 s
 |---|---|---|---|
 | IN1 | An **Offering** column (the Offerings with their shares) and an **Offering** block in the funnel | the Offering Economics card and the Metric "margin per unit" need each Offering's costs together; doc 5, I7 | phase 7 |
 | IN2 | **Each currency's total** shown apart | a cost in another currency is listed and left out of every total; doc 5, I9 | phase 7 |
-| IN3 | An optional column **"A month"** (the monthly equivalent Page 4 already works out), off by default in Columns | a monthly, a yearly and a per-project cost compare at a glance | phase 7 |
+| IN3 | An optional column **"A month"** (the monthly equivalent Costs, Funding & Position already works out), off by default in Columns | a monthly, a yearly and a per-project cost compare at a glance | phase 7 |
 | IN4 | **The Financial Costs tile opens this table** filtered to its heading | one register of costs, two ways in: one owner, one component | phase 7 |
 | IN5 | The Linked column gains an **Objective** circle | once an Initiative links to an Activity (phase 6), the Inventory shows which work serves a Strategy Objective | phase 6 |
 
@@ -186,7 +186,7 @@ Recorded 2026-11-12 (owner, 15:37; doc 49, section 8, phase 7). The Financial se
 
 - The saved keys stay as they are, as with the Purpose chapter (doc 45): only where the sections stand changes.
 - The Offering Economics card stands on the Revenue & Pricing page.
-- Break-even stands beside Financial Position: it needs the margin per unit (page 4) and the fixed costs (page 5).
+- Break-even stands beside Financial Position: it needs the margin per unit (Revenue & Pricing) and the fixed costs (Costs, Funding & Position).
 - Status: built 2026-11-17 (owner, 2026-11-17 07:36: "Rearrange the financial parts (Financial Foundation and Sustainability) according to the documents"), layout only: the pages' order and their chapters; Funding Need reads the revenue of the page before it.
 - **One page, Financials** (built 2026-11-19; the owner's approved plan of 2026-11-18, step 1): the two sections are one page of the pages rail, "3. Financials" (`PageGroups.ts`, as Identity's Definition & Purpose), drawn as one chapter (the next point). The sections keep their numbers, titles and saved answers, and the order of reading above: no data moved, no migration; `swapFinancialPages` and `retireLegacyBusinessPages` are as they were. A note, a link or a Glossary place on either section opens Financials; the title keeps the plan's months (section 1). Break-Even reads both sections.
 - **One chapter** (built 2026-11-20; owner, 02:11 UTC+2: "The financials should be in a single page. Maybe they should all be under only one chapter."): rule | was | now: each part reads only what stands before it | Revenue & Break Even (Revenue Streams, Break-Even, Sustainability) before Financial Foundation (Costs, Capital & Funding, Financial Position), so Break-Even and Sustainability read the chapter after them | one chapter, Financial Foundation (this document's own name for it, section 1; the page's title, Financials, is not repeated): Revenue Streams, Costs, Capital & Funding, Financial Position, Break-Even, Sustainability. Ids, saved keys and dialogs unchanged. **Three Master Tiles that ask** (section 14, the one owner of the chapter's tiles): Revenue Streams, Costs and Funding, each reading only what stands before it, the records in the Workbook's Financial Documents; the merged tiles keep their ids and anchors, so a note or a link lands in them.
@@ -201,7 +201,7 @@ Status: **proposal**, written 2026-11-12; the wording is for the owner's approva
 
 | The three Cs | What the app has | Where |
 |---|---|---|
-| **Cost** | the cost of each sale and each Offering's monthly costs, by its shares | `offeringCosts` (`src/framework/engine/financial/offeringCosts.ts`), from the page 3 cards and the Legal Entity's expenses; available before page 4 is opened |
+| **Cost** | the cost of each sale and each Offering's monthly costs, by its shares | `offeringCosts` (`src/framework/engine/financial/offeringCosts.ts`), from the Infrastructure & Capability cards and the Legal Entity's expenses; available before Costs, Funding & Position is opened |
 | **Customer** | how price-sensitive customers are: *Lower price* rated (B1), "It costs too much" (E2), "The price or their budget" (E3), *Save time / money* (E1); the household income (Box 1, 8, `income`); the organisation's size (Box 3, 2, `size`); who holds the budget (Box 4, 9, `authorise`); how they decide (Box 4, 6, `path`); how they pay (Box 4, 8, `pay`); the Offering's terms and timing (O3, O3b) | Segment and Profile (page 1), Offering (page 1) |
 | **Competition** | a rating on Affordability where a Profile chose *Lower price* (K8); the opening "Offer lower prices" (K10); the Differentiation *Cost-driven* or *Status & Premium* (K14) | Competitor card (page 1) |
 

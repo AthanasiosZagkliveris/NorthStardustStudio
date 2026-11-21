@@ -1,6 +1,6 @@
 # 2. Brand System — the page
 
-Status: **current design**, written 2026-11-20. The Brand System's one page: its two chapters, their tiles, what each asks, what it reads and writes, and the rules it follows. The questions are doc 46's; the tile and card layout is the rulebook's (`ai/layout-rules.md`); this file names them and does not repeat them.
+Status: **current design**, written 2026-11-20, updated 2026-11-21. The Brand System's one page: its two chapters, their tiles, what each asks, what it reads and writes, and the rules it follows. The questions are doc 46's; the tile and card layout is the rulebook's (`ai/layout-rules.md`); this file names them and does not repeat them.
 
 > **Keep this document true:** whoever changes a tile, a question, a draft or a read of this page changes this file in the same commit and writes the change in the log (`design/core/04-log.md`).
 
@@ -25,7 +25,7 @@ One page, titled "2. Brand System", its two chapters side by side as every page 
 
 ## 2. Chapter 1, Ambassador: the tiles
 
-Each tile is a text the founder writes about the brand as a person (doc 46, section 1). The tile lists the text's first lines (a column page's tile: layout rules, section 9, "The text on a column page's tile"); its dialog shows the tile's choices in bands, one question a band, the tints alternating (layout rules, section 6, "Page 3's cards: one band a section", the band rule), then the text a field gap (12px) under the last band (layout rules, section 6, "A text under its choices stands a field gap under them"). The text's guidance is the "i" beside the dialog's title (layout rules, section 13), from `src/assets/SystemQuestions/02_BrandSystemQuestions.md`.
+Each tile is a text the founder writes about the brand as a person (doc 46, section 1). The tile lists the text's first lines (a column page's tile: layout rules, section 9, "The text on a column page's tile"); its dialog shows the tile's choices in bands, one question a band, the tints alternating (layout rules, section 6, "Infrastructure & Capability's cards: one band a section", the band rule), then the text a field gap (12px) under the last band (layout rules, section 6, "A text under its choices stands a field gap under them"). The text's guidance is the "i" beside the dialog's title (layout rules, section 13), from `src/assets/SystemQuestions/02_BrandSystemQuestions.md`.
 
 ## 3. The Ambassador's questions and drafts
 

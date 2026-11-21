@@ -34,7 +34,7 @@ Status: **living list**, written 2026-10-14, updated 2026-11-21. Remove an item 
 
 ## 5.2 The task plan F to K: what is not done
 
-The plan of 33 tasks is locked (log, 4.5). F, G, H, I and J are committed; the engine files of I (Global Settings, cost nature, calculated lines, funds) are not individually re-verified, and the owner's one visual pass of J is not recorded. **Not done (a later batch):** K1, VAT as a pass-through, import VAT included, rates in Global Settings; K2, actuals: the Repair Record draws on the Contingency Fund, plan against actual.
+The plan of 33 tasks is locked ([the log's archive, 4.5](../../archive/log/log-archive-2026-07-to-10.md#45-the-task-plan-f-to-k-as-locked-on-2026-10-09)). F, G, H, I and J are committed; the engine files of I (Global Settings, cost nature, calculated lines, funds) are not individually re-verified, and the owner's one visual pass of J is not recorded. **Not done (a later batch):** K1, VAT as a pass-through, import VAT included, rates in Global Settings; K2, actuals: the Repair Record draws on the Contingency Fund, plan against actual.
 
 
 ## 5.3 Finish the Tile System
@@ -111,7 +111,7 @@ Ordering of work (decided): the **Tile System** is finished first (T1–T2), the
 | X1 | **Extraction readiness:** shared parts (reading mode, notes, calendar, search, review, undo, help, export, preferences) have no import from Systems 05–24; the operations and social-media branches in `Conversation` are removed; storage stays behind the store interface; the desktop opener is the only Tauri import. | S | New |
 | X2 | The examples load on demand, and are optional in the new app. | S | New |
 
-### 5.5.3 Business page 1 · Foundation
+### 5.5.3 Business Section 1 · Foundation
 
 #### 5.5.3.1 Customer Segment and Profile
 
@@ -120,7 +120,7 @@ Ordering of work (decided): the **Tile System** is finished first (T1–T2), the
 | F1 | A profile's **needs** have stable ids. Offerings and the value proposition refer to a need by id. | M | Fix |
 | F2 | **Pain points** are defined once: a need that is unmet or costly today, in the profile's words. The profile's challenges feed them; they are a choice list from the profile, not a new free text. | S | Gap |
 | F3 | Segment and profile fields that are used as **filters** elsewhere (channel fit, relationship type, offering) are choices, not free text. A table lists which field filters which (section 5). | S | New; partly built: the Segment and Profile ask choice questions (docs 35, 36), nothing yet filters by them |
-| F4 | A segment can mark its **touch preference** (self-serve, assisted, personal). It proposes the relationship type on page 2; the user can override. | C | New |
+| F4 | A segment can mark its **touch preference** (self-serve, assisted, personal). It proposes the relationship type on Customer Engagement; the user can override. | C | New |
 
 #### 5.5.3.2 Competitor
 
@@ -142,9 +142,9 @@ Ordering of work (decided): the **Tile System** is finished first (T1–T2), the
 | F8 | Offering type is validated against the list. **Decision:** should it drive anything? Candidates: Product shows a materials group and stock; Service shows delivery hours; Hybrid both. | S | Decision |
 | F9 | Each offering states how it is **bought**: one sale at a time, or every month. This is the single source, asked once; Delivery and Demand read it from there (today the Delivery card shows a mismatch note). | S | Fix |
 
-### 5.5.4 Business pages 2 and 3
+### 5.5.4 Business Sections 2 and 3
 
-#### 5.5.4.1 Page 2 · Customer Engagement
+#### 5.5.4.1 Section 2 · Customer Engagement
 
 **Channels, stages, actions**
 
@@ -191,9 +191,9 @@ Ordering of work (decided): the **Tile System** is finished first (T1–T2), the
 | C15 | The offering shares of a made card follow the demand of that channel, not equal parts, once demand is known. | C | Fix |
 | C16 | Channel fees (commission, fixed fee, chargeback) sit on the channel or subchannel and are found by channel id. | S | Fix |
 
-#### 5.5.4.2 Page 3 · Infrastructure & Capability
+#### 5.5.4.2 Section 3 · Infrastructure & Capability
 
-The Delivery card as built is described in the page 3 specification (specifications/business-system/page-2-infrastructure-and-capability.md, section 7).
+The Delivery card as built is described in the Infrastructure & Capability specification (specifications/business-system/page-2-infrastructure-and-capability.md, section 7).
 
 | Id | Requirement | P | State |
 |---|---|---|---|
@@ -280,7 +280,7 @@ The plans of 2026-10-14 for the clean-up round, the library automation and its s
 - **To leave behind:** Systems 05–24 content and menu rows, `CapabilityGenerator`, the operations and social-media branches in `Conversation`, and any editor only they use (Process Library, Operational Log, Roles & Responsibilities).
 - **Not to leave behind:** Financial Foundation, Sustainability and the financial model. They are the Business System's Sections 4 and 5, drawn on its page Financials. (The raw audit listed them as "likely other systems"; that is wrong.)
 - **Desktop-only code:** one import (`@tauri-apps/plugin-opener` in `InfoNote`, with a web fallback already in place), plus the Tauri folder and two port settings in the build file. A web build is straightforward.
-- **Storage:** all data is in the browser's local storage (about 5 MB), behind one store interface. A server or IndexedDB store fits behind the same interface. The two example organisations alone are about 600 KB.
+- **Storage:** the Organisations are kept in this device's IndexedDB, behind one store interface (`IndexedDbStorage.ts`, `LocalOrganizationStore.ts`); the theme, the notes and the preferences stay in local storage. A server store fits behind the same interface. The two example organisations alone are about 600 KB.
 - **Calendar: decided, it exists in the new app.** The earlier Foundation App Plan listed it as staying behind. It reads card dates, so it depends on the card engine and travels with it; its sources (card dates, Operational Log, schedules) are kept.
 - **Decision:** the form of the new app is open (5.8, item 8).
 
@@ -323,7 +323,7 @@ For the owner to decide, or work not done. Each item leaves this list when done 
 **Library (doc 8, 10, 11, 12)**
 - Step 7 of the library plan (the sync of the app to the tables, with a watch mode) is not built.
 - The hand-written rows of doc 10 (L0653 to L0659) and doc 11 (A0029 to A0034) hold facts the log does not (tipWords, aria-pressed, label-arrow.css, MultiPicker).
-- The older library log rows (L0001 to L0502) are kept in `docs/archive/library/library-log-archive.md`.
+- The older library log rows (L0001 to L0502) are kept in `docs/archive/log/library-log-archive.md`.
 
 **The design record (doc 1, 2, 3)**
 - Part F of doc 1 is doc 26; its repeated template for each card could be reduced, but the catalogue tool reads its table shapes.

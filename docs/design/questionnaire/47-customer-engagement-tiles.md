@@ -2,7 +2,7 @@
 
 Status: **specification**, written 2026-11-12, updated 2026-11-21. Customer Engagement: the Engagement subchapter of each Segment's chapter on the page Foundation & Engagement, beside its Business Foundation subchapter in one frame of the Segment's hue (layout rules, section 13): three Master Tiles, Channels & Journey, Customer's Relationship and Sales Forecast, the Offering's four faces and the journey rebuild, with the owner's decision D6. The section keeps its number and its saved answer, keyed by the Segment's id. Built in part: the tiles (section 3) and the answers the page reads from the Foundation (the suggested channels, the suggested relationship type, the proposed Demand rows; section 3, "Built"); still to build: the rest of step two (the stage-first Journey, the channel card with J1 and J2, the goals reading Demand, the cost per customer), in phase 5 of the order of work (doc 49, section 8). The dates of each step are in the log.
 
-Related: doc 28 (section 7, the journey and its questions J1, J2, J3, J7), doc 40 (the form), the page 2 specification (`specifications/business-system/page-1-channels.md`), `ai/layout-rules.md` (sections 8 and 11), doc 5 (5.3, C4, C7, C8), doc 48 (the Offering Economics card), doc 46 (the Body Language draft reads this page's relationship type, J3).
+Related: doc 28 (section 7, the journey and its questions J1, J2, J3, J7), doc 40 (the form), the Customer Engagement specification (`specifications/business-system/page-1-channels.md`), `ai/layout-rules.md` (sections 8 and 11), doc 5 (5.3, C4, C7, C8), doc 48 (the Offering Economics card), doc 46 (the Body Language draft reads this page's relationship type, J3).
 
 ## 1. What the page holds today
 
@@ -12,15 +12,15 @@ One card per Segment, in its colour, with the references (Segment, Profiles, Off
 
 | Face | Owner | Key fields | Starts from Page 1 |
 |---|---|---|---|
-| **Demand** | Page 2, Sales Forecast | sources, funnel figures, Customers Buy, Cancel / Month, Expected Sales | O3 |
-| **Delivery and capacity** | Page 3, Offering's Capability → Delivery card | Delivered, Hours Given, hours per unit or client, Calendar Time, Constraints; capacity = founders' delivery hours | O3, O15, O10 |
-| **Cost** | Page 3 cards linked to the Offering → Page 4, Financials (Costs, in Financial Foundation) | Resources, Activities, Partners, Suppliers with shares; cost per unit | none |
-| **Price and revenue** | Page 4, Financials (Revenue Streams, a stream card) | Charged, Unit, Price, Volume, Development, Payment Timing, variable cost per unit | O3, O3b |
+| **Demand** | Customer Engagement, Sales Forecast | sources, funnel figures, Customers Buy, Cancel / Month, Expected Sales | O3 |
+| **Delivery and capacity** | Infrastructure & Capability, Offering's Capability → Delivery card | Delivered, Hours Given, hours per unit or client, Calendar Time, Constraints; capacity = founders' delivery hours | O3, O15, O10 |
+| **Cost** | Infrastructure & Capability cards linked to the Offering → Financials, Costs, Funding & Position (Costs) | Resources, Activities, Partners, Suppliers with shares; cost per unit | none |
+| **Price and revenue** | Financials, Revenue & Pricing (Revenue Streams, a stream card) | Charged, Unit, Price, Volume, Development, Payment Timing, variable cost per unit | O3, O3b |
 | **Can it be delivered?** | Infrastructure & Capability, the Delivery dialog, at the normal level of sales; the Business Plan's Operations, Capacity, month by month as sales grow (the busiest month; doc 48, section 14) | expected sales × hours per unit against the founders' delivery hours | read |
 
-The Offering is the hub of pages 2 to 4 and each page holds one face; the founder never sees the four together. (Sections 4 and 5 are one page, Financials: doc 48, section 11; the cost and the price are its two sections, Costs, Funding & Position and Revenue & Pricing.)
+The Offering is the hub of Sections 2 to 5 and each section holds one face; the founder never sees the four together. (Sections 4 and 5 are one page, Financials: doc 48, section 11; the cost and the price are its two sections, Costs, Funding & Position and Revenue & Pricing.)
 
-**The delivery check stays where it is** (owner, 2026-11-12 15:54: "Leave Page 5 until step 7"). Page 3 already owns it at the normal level of sales: the Delivery dialog gives the founders' delivery capacity, each Offering's hours at the expected sales and what is left. Page 5's "Can the Expected Sales Be Delivered?" answers another question, the busiest month as sales grow, which needs page 5's growth figures; it stays, and in phase 7 it joins the Offering Economics card on the Revenue & Pricing page (doc 48, section 11).
+**The delivery check stays where it is** (owner, 2026-11-12 15:54: "Leave Page 5 until step 7"). Infrastructure & Capability already owns it at the normal level of sales: the Delivery dialog gives the founders' delivery capacity, each Offering's hours at the expected sales and what is left. Revenue & Pricing's "Can the Expected Sales Be Delivered?" answers another question, the busiest month as sales grow, which needs Revenue & Pricing's growth figures; it stays, and in phase 7 it joins the Offering Economics card on the Revenue & Pricing page (doc 48, section 11).
 
 ## 3. One chapter per Segment
 

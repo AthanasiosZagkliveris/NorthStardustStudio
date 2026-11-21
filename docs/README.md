@@ -43,7 +43,7 @@ How the app is entered, its Systems and pages, the places in it, and the terms.
 | [app/contents.md](app/contents.md) | contents | The contents of the app: how it is entered, the Systems and pages, where the figures and dates come from, where things are in the code. | 2026-11-21 |
 | [app/index.md](app/index.md) | index | An alphabetical index of the places in the app (pages, tiles, cards, the header): where each is, and which document describes it. | 2026-11-21 |
 | [app/glossary.md](app/glossary.md) | reference | One line per term: the framework, the app, the business stage, positioning, buyer and user, the question ids, the documents. | 2026-11-21 |
-| [app/guide-specs-and-future.md](app/guide-specs-and-future.md) | proposal | The app: what it is, where its guide and specifications are, how its answers connect, and its future features (an AI Assistant, Team working mode, Voice mode, more languages and countries), from online research. | 2026-11-21 |
+| [app/guide-specs-and-future.md](guide/guide-specs-and-future.md) | proposal | The app: what it is, where its guide and specifications are, how its answers connect, and its future features (an AI Assistant, Team working mode, Voice mode, more languages and countries), from online research. | 2026-11-21 |
 
 ## 3. The design and its records (`design/core/`, documents 1 to 7)
 
@@ -173,7 +173,7 @@ The pages of the four Systems (Identity, Brand, Business, Strategy), the Invento
 | [specifications/workbook/references-and-glossary.md](specifications/workbook/references-and-glossary.md) | current design | The Workbook's References and Glossary: the app's words and its sources. | 2026-11-20 |
 | [specifications/workbook/card-notes.md](specifications/workbook/card-notes.md) | current design | The Workbook's Card Notes: the Notes field of every card, page by page. | 2026-11-20 |
 | [specifications/settings/README.md](specifications/settings/README.md) | index | Settings: the Global Settings screen, the reading mode (Appearance) and Focus, all three in the header's Menu. | 2026-11-21 |
-| [specifications/global-settings.md](specifications/global-settings.md) | specification | Global Settings: how the screen is drawn and which rule each part follows, with the documents that own the rates and the decisions. | 2026-11-20 |
+| [specifications/global-settings.md](specifications/settings/global-settings.md) | specification | Global Settings: how the screen is drawn and which rule each part follows, with the documents that own the rates and the decisions. | 2026-11-20 |
 
 ## 9. The archive (`archive/`)
 
@@ -181,7 +181,7 @@ Documents that are finished or replaced; each is kept for its information.
 
 | Document | Kind | What it holds | Updated |
 |---|---|---|---|
-| [archive/library/library-log-archive.md](archive/library/library-log-archive.md) | archive | Older rows of the library log. | 2026-11-11 |
+| [archive/library/library-log-archive.md](archive/log/library-log-archive.md) | archive | Older rows of the library log. | 2026-11-11 |
 | [archive/engineering-phase-completion.md](archive/engineering-phase-completion.md) | archive | The engineering phase completion report. | 2026-11-11 |
 | [archive/plans/2026-09-29-workspace-D-duplicate-scenarios-compare.md](archive/plans/2026-09-29-workspace-D-duplicate-scenarios-compare.md) | archive | Brief: workspace features D, duplicate, scenarios, compare (not started). | 2026-11-11 |
 | [archive/plans/2026-09-29-workspace-E-founder-helpers.md](archive/plans/2026-09-29-workspace-E-founder-helpers.md) | archive | Brief: workspace features E, helpers for founders (not started). | 2026-11-11 |

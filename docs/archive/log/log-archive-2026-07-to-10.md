@@ -1,11 +1,13 @@
 # The log: older rows (2026-07-26 to 2026-10-31)
 
-Status: **archive**, written 2026-11-03, updated 2026-11-10. The rows of the log (document 4, `design/core/04-log.md`) dated before 2026-11-01: those before 2026-10-22 moved here on 2026-11-03, those from 2026-10-22 to 2026-10-31 on 2026-11-10, to keep document 4 short; newest first, unchanged. Where its information now lives: it is held only here; the rows from 2026-11-01 on, and sections 4.2, 4.3 and 4.5, are in document 4.
+Status: **archive**, written 2026-11-03, updated 2026-11-21. The rows of the log (document 4, `design/core/04-log.md`) dated before 2026-11-01: those before 2026-10-22 moved here on 2026-11-03, those from 2026-10-22 to 2026-10-31 on 2026-11-10, to keep document 4 short; newest first, unchanged. Where its information now lives: it is held only here; the rows from 2026-11-01 on, and section 4.3, are in document 4; sections 4.2 (the drafts' versions) and 4.5 (the task plan F to K) moved here from document 4 on 2026-11-21.
 
 **Contents**
 
 - [4.1 Timeline (older rows)](#41-timeline-older-rows)
 - [4.4 Changes to these documents (older rows)](#44-changes-to-these-documents-older-rows)
+- [4.2 Version history of the design drafts](#42-version-history-of-the-design-drafts)
+- [4.5 The task plan F to K (as locked on 2026-10-09)](#45-the-task-plan-f-to-k-as-locked-on-2026-10-09)
 
 ## 4.1 Timeline (older rows)
 
@@ -215,3 +217,71 @@ Status: **archive**, written 2026-11-03, updated 2026-11-10. The rows of the log
 | 2026-10-14 | **Library: the remove x as an asset:** contract `src/library/assets/removeX.ts`, gallery samples (cell and card variants, seven hues, page and card grounds, enabled and disabled), runner module `tools/scripts/library/assets/removeX.mjs`. Measured: the 32px square, the 2px stroke, the 6px corner, the two bars (14 x 2, turned +45 and -45 degrees, centred to 0.01px), the danger red, the 150ms swap, the accessible name, the disabled look, the contrast (3:1) of the red on the ground and of the X on the red, and with the real pointer and keyboard the swap (filled red, no stroke, the X in the ground colour), no change of size, the 2px focus ring and no reaction when disabled. 5562 checks, 0 failed; the runner fails when the size is changed. **Finding:** as for the "+" box, an enabled x is transparent at rest (the global wired-button rule), where the rulebook says it is filled with the card's ground. |
 | 2026-10-14 | **Library: the rails as an asset:** contract `src/library/assets/rails.ts`, gallery samples (the Pages rail on the left with status shapes and the Introduction in capitals, the Sections rail on the right; one lit item each), runner module `tools/scripts/library/assets/rails.mjs`. Covers `BulletRail` only (the carousel rails in dialogs and the rail tab are not covered yet). Measured at 768, 1440 and 1920 wide: the item's 12px gap and 2px padding, the list's 18px gap, the round 12px bullet, the ink of each bullet (status shape or plain, unlit or lit), the unlit label's subtle ink, the lit item (aria-current, bullet grown to 1.45 with a 4px bloom, label thickened and tracked), the label as a hidden tooltip below 1700px and inline from it, the target size (24px or the spacing exception), the contrast of status shapes (3:1), labels (4.5:1), the link colour (4.5:1) and the tooltip (4.5:1); with the real pointer and keyboard the hover look (link colour, underline, hover ink, 3px ring, growth to 1.3), the lit item keeping its look, the 2px focus ring and the tooltip appearing. 1092 checks, 0 failed, 1 known finding; the runner fails when the list gap is changed. **Finding (the open item of 5.12, now measured):** the unlit plain bullets (ice blue, `--rail-dot`) hold 1.53:1 on the page in light, 1.58 in dark and 1.39 in sepia; their hover ink holds 2.81 (light) and 2.55 (sepia); the page status shapes hold 3.73, 3.56 and 3.57. Nothing changed (the owner dropped the rule); it is the known finding `plain-bullet-contrast`. |
 | 2026-10-14 | **Library: the Back button as an asset:** contract `src/library/assets/backButton.ts`, gallery samples of the two live forms (the dialog foot's `.section-tile-back` and the rail tab's `.carousel-rail-back`, seven hues, page and card grounds), runner module `tools/scripts/library/assets/backButton.mjs`. Measured: the arrow (a solid triangle 0.8em high and 22/28 of it wide, in the word's colour), the gaps (6px in the foot, 12px in the rail), the padding, the body type size, the capitals and the 12px arrow box of the rail form, the colours at rest, the contrast (4.5:1) of the foot form at rest and under the pointer, and with the real pointer and keyboard the hover colour (the card's tint; the "+" box colour in the rail), the thickening (text shadow and tracking), the arrow growing 20% in the rail form, and the foot form's 2px focus ring. 2880 checks, 0 failed; the runner fails when the foot's gap is changed. **Notes:** the rail form's colours come from the dialog card's frame at run time, so the gallery's tab colours are stand-ins and no contrast is asserted for it; `.floating-card-back` is no longer drawn (the floating card has no Back) but its rules remain in `section-tiles.css`; the rail form is padded 2px above and below as drawn. Reading the stylesheet I had expected the rail form to rest in the tab ink; the measurement showed it rests in the tab edge colour, as the stylesheet's comment says, so there is no finding there. |
+
+## 4.2 Version history of the design drafts
+
+The drafts were HTML and PDF files in `docs/ai`, never committed to git. Only the current version of each family was converted into these documents; the earlier versions were intermediate iterations. Dates are the files' last-saved dates.
+
+| Family | Versions kept on disk | First | Last | Where it went |
+|---|---|---|---|---|
+| Classification (cost model iterations) | 41 | 2026-10-05 | 2026-10-08 | Became the cost model; not kept |
+| Card structure by group | 20 | 2026-10-08 | 2026-10-08 | Current version is document 1, part F |
+| Automatic rules | 17 | 2026-10-08 | 2026-10-08 | Current version is document 1, part E |
+| App compared with the specification, and tasks | 12 | 2026-10-08 | 2026-10-09 | Current version is in document 5 (tasks and status) |
+| Card access by type | 3 | 2026-10-08 | 2026-10-08 | Current version is document 1, part G (written from specification version 25; part F is later and prevails) |
+| Cost model | 2 | 2026-10-08 | 2026-10-09 | Current version is document 1, part D |
+| Help texts | 1 | to 2026-10-13 | 2026-10-13 | Document 1, part H; the test now reads that part (2026-10-14) |
+| Foundation colour map | 1 | 2026-10-04 | 2026-10-04 | Document 1, part I (the code reads it through the work colours) |
+| Research notes, activity model, event cards, per-project cards, industry costs | 8 files | 2026-10-05 | 2026-10-07 | Document 3 |
+
+## 4.5 The task plan F to K (as locked on 2026-10-09)
+
+Grouped in batches F to K, so that you try the result once per batch.
+
+| Task | What | Files | Needs | Size |
+|---|---|---|---|---|
+| F1 | Agree the mapping from the old kinds to the new groups and statuses as one list: kinds to groups; Provided to Rent; Partners & Providers to Partners & Suppliers; Needs Activity to Activity; Needs Investigation; Costs to Buy on spaces and vehicles; Already Exists / Free to Exists / Free | Specification | None | Small |
+| F2 | Data model: 9 categories and the groups per place; Offering resources gain groups; Providers become Suppliers with groups; Human Resources cards (Founders & Owners kept as the Founders tile, Admin Team, Delivery Team); activity groups by place with their periods and the Pre-Operational type | AnswerUtils.ts | F1 | Large |
+| F3 | Migration of saved organisations to the new groups and statuses: an automatic mapping, unmatched cards in “No category”, a format version | AnswerUtils.ts, OrganizationService.ts | F2 | Large |
+| F4 | Frequencies and quantity: add Quarterly and % of revenue; merge Per order into Per unit with a unit; remove Other; asset purchases from One-time to Per unit (existing cards migrate); Qty starts at 1, whole numbers except hours, metres, litres and kWh | AnswerUtils.ts, FinancialModel.ts, editor | F2 | Medium |
+| G1 | Page 3 tiles and dialogs for both places: category tiles and group chips from the fixed lists (no “Other…” to add one); Offering resources grouped; the help texts | BusinessCapabilityEditor.tsx, SectionTiles.tsx | F2 | Large |
+| G2 | Common card layout: Start date and End date straight after the name (founders Start only); one-option dropdowns as text; Exists / Free; the status “+” that adds status rows | BusinessCapabilityEditor.tsx, BusinessCardFields.tsx | G1 | Large |
+| G3 | Partner and supplier link: Category, Group, Name cascade; the link symbol beside each chosen name in place of the “Open …” lines; generated cards have no symbol and their name is the link | BusinessCapabilityEditor.tsx, CardBoxes.tsx | G2 | Large |
+| G4 | Rent and Buy: spaces and vehicles in both places (Rent opens only the supplier group of the place); replace the Workspace form (Provided becomes Rent, Costs becomes Buy) | BusinessCapabilityEditor.tsx, AnswerUtils.ts | G3 | Medium |
+| G5 | Activity status: a list of the activities that have not ended at the card's start date, with “Other…” to create one when there is none; remove the derived “Set up” and “Investigate” activities | BusinessCapabilityEditor.tsx | G3, H1 | Medium |
+| G6 | Cost row: Qty, Price, currency, Frequency, Unit (a dropdown by group, no label; text when one option besides “unit”); a single-option Frequency as text and a One-time Frequency hidden; useful life; warranty with its date beside the checkbox; the rate override | AnswerUtils.ts, BusinessCapabilityEditor.tsx | G2 | Large |
+| G7 | Extras, all optional: Commission and Bonus on people cards; Allowance on people cards; Minimum order, Customs duty, Clearance and handling, Other duties on Producers & Wholesalers; Commercial property tax and Service charge on a bought space; Road tax on a bought vehicle; the landlord's extras by what is connected | AnswerUtils.ts, editor, FinancialModel.ts | G4 | Large |
+| G8 | Payment Plan for Per project cards: Deposit & Balance, Instalments, Milestones with dates; the 100% validator | AnswerUtils.ts, editor, FinancialModel.ts | G6 | Medium |
+| G9 | Notes with an automatic record date and time and an Add Date button | BusinessCardFields.tsx | G2 | Small |
+| G10 | Linked offerings required on Offering cards, with a % beside each and a 100% check | BusinessCapabilityEditor.tsx, FinancialModel.ts | G2 | Medium |
+| G11 | All Tiles, funnel and table for the new structure; completed activities hidden by default and shown with the Completed filter; the currency in the column header; costs right aligned; tooltips above their icon | capabilityFloor.ts, CapabilityOverview.tsx, SectionTiles.tsx | G1 | Medium |
+| H1 | Activities: period by group, Start date required, End date optional (one day when empty), dates inside the period; Resources tick box with units and the date check; Cost or Total after the last resource; Performer with a number of people; the Pre-Operational type | BusinessCapabilityEditor.tsx, AnswerUtils.ts | G2 | Large |
+| H2 | Technical Support supplier group; a service linked to an asset is added to its value, an unlinked one is a Start-up expense or OpEx; the Repair Record stays in a later batch | AnswerUtils.ts, editor, FinancialModel.ts | H1 | Small |
+| H3 | Insurances and Certificates: renewal and expiry as the End date, details in the Description; insurance cards generated from vehicles, premises, workshops, machines, events and channels | AnswerUtils.ts, editor | G2 | Medium |
+| H4 | Channels: add the two categories; “Typical costs for this channel” creating the template cards T1 to T10 and T12 with Link existing; the channel-made name stays the link | AnswerUtils.ts, ChannelResources.ts, ChannelResources.tsx | G1 | Large |
+| H5 | Legal Entity: registrations and their expenses only; a Date after the name; exactly one linked registration; insurance moves out | LegalEntityEditor.tsx, AnswerUtils.ts | H3 | Small |
+| I1 | Global Settings: a central screen and store (on-cost coefficient, Channel Fee Table, default rates, capitalisation limit, default useful life, target reserve months, insurance per employee, income tax rate) | New settings module, PreferencesService.ts | F1 | Large |
+| I2 | Opening Date next to Plan Start on page 4, stored in Global Settings; a card splits by its dates around it | FinancialFoundationEditor.tsx, FinancialModel.ts | G2 | Medium |
+| I3 | Billing type and cost options for Platforms & Payments, Revenue Partners, Royalties, Insurances and Licences | AnswerUtils.ts, editor | G6, I1 | Large |
+| I4 | Financial engine: the cost nature rules C1 to C16, the capitalisation limit on one unit, services bundled into the asset, Startup and Pre-Operating Expenses | FinancialModel.ts, FinancialForecast.ts | G6, I1, I2 | Large |
+| I5 | Calculated lines: employer on-costs, channel fees, royalties, partner commissions, depreciation from useful life, amortisation, opening inventory released to COGS, the accumulated start-up row, income tax from the settings | FinancialModel.ts, FinancialForecast.ts | I4 | Large |
+| I6 | Contingency funds and cash to raise: the startup fund (10 to 15%), the operational fund up to the target reserve months, opening inventory outside the base | FinancialModel.ts, FinancialFoundationEditor.tsx | I4 | Large |
+| I7 | Page 4 screens: cost nature, the pre-operational budget, funds and cash to raise, updating the Costs, Funding Need and Financial Position sections; amounts with the currency in the column header | FinancialFoundationEditor.tsx | I4 to I6 | Large |
+| I8 | Scheduling of Per project costs by their payment plan, and of Per unit costs from the sales volumes | FinancialModel.ts | G8, I4 | Medium |
+| J1 | Update the example organisations to the new structure and run Reload | docs/examples, refreshExampleOrganizations | F3, H4 | Medium |
+| J2 | Rewrite the stale page 2, page 3 and page 4 specifications and docs/ai/layout-rules.md | docs/specifications, docs/ai/layout-rules.md | All | Medium |
+| J3 | Tests for each task, the full layout check, then one visual pass by you | Tests, tools/scripts/layout-check | All | Medium |
+| K1 | Later batch: VAT as a pass-through, import VAT included, rates in Global Settings | FinancialModel.ts, FinancialForecast.ts, settings | I5 | Large |
+| K2 | Later batch, actuals: the Repair Record draws on the Contingency Fund; plan against actual | FinancialModel.ts, editor | I6 | Large |
+
+### Suggested order (as locked)
+
+| Step | Tasks | What you can see afterwards |
+|---|---|---|
+| 1 | F1 to F4 | Mapping, data model, migration, frequencies. Nothing visible changes except the structure. |
+| 2 | G1 to G11 | Page 3 shows the new categories, groups, statuses, links, dates, cost row, extras, payment plan, notes and All Tiles. |
+| 3 | H1 to H5 | Activities, Technical Support, Insurances and Certificates, channel templates, Legal Entity. |
+| 4 | I1 to I8 | Global Settings, Opening Date, billing types, cost nature, calculated lines, funds and the page 4 screens. |
+| 5 | J1 to J3 | Examples, specifications, tests, the layout check and your one visual pass. |
+| 6 | Batch D, then Batch E | After the structure is stable: scenarios store overrides keyed by field, and the helpers read the model, so both would break if the structure changed afterwards. |
+ **Brand Images blocks keep one look on hover (2026-10-31):** each uploaded picture of the Brand Images tile is drawn from a thumbnail sized to its block (`ThumbBlock`, block width × screen density × 1.1), and the tile keeps one raster layer (`will-change: transform`), so the picture no longer looks denser when the tile scales up on hover.

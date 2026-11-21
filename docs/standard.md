@@ -7,16 +7,15 @@ Status: **rules**, written 2026-10-29, updated 2026-11-21. How a document in `do
 | Folder | Holds | Naming |
 |---|---|---|
 | `docs/app/` | The app: contents, index of its places, glossary | plain names |
-| `docs/guide/` | The user guide: how a founder uses the app, step by step | plain names |
+| `docs/guide/` | The user guide: how a founder uses the app, step by step, and the guide to the app's specifications and its future features | plain names |
 | `docs/design/core/` | The current design of the Foundation, the sources, the research, the log, the open list, the generated catalogue (documents 1 to 7) | `NN-name.md` |
 | `docs/design/library/` | The assets library, its generated lists and logs (8 to 15) | `NN-name.md` |
 | `docs/design/current/` | What the app is today in detail: texts, reactions, components, pop-ups, tooltips, folders, card structure (16 to 26) | `NN-name.md` |
 | `docs/design/questionnaire/` | The first version, its future features, the questions of each tile, the lists, the research, the questions register and the answers worked out from earlier ones (27 to 55) | `NN-name.md` |
 | `docs/ai/` | Rules, references and playbooks for an AI assistant | plain names |
 | `docs/specifications/<system>/` | The pages of each System (`identity-system/`, `brand-system/`, `business-system/`, `strategy-system/`), with a README for the System | `page-N-name.md` (N is the page in the pages rail) |
-| `docs/specifications/workbook/`, `inventory/`, `settings/` | The Workbook (one file for each of its sections), the Inventory and the Settings, with a README each | plain names |
-| `docs/specifications/global-settings.md` | The Global Settings screen | plain name |
-| `docs/archive/` | Finished or replaced documents, kept for their information | plain names |
+| `docs/specifications/workbook/`, `inventory/`, `settings/` | The Workbook (one file for each of its sections), the Inventory and the Settings (with the Global Settings screen), with a README each | plain names |
+| `docs/archive/` | Finished or replaced documents, kept for their information; the older rows of every log are in `archive/log/` | plain names |
 
 **Numbering** (checked): the design documents are numbered 1 to N in the order of the chapters, with no gap and no repeat. The number is in the file name (two digits), in the title, and it is how documents cite one another ("doc 28"). A new document takes the next number in its chapter; the numbers after it move up and the references are rewritten (the index fails on a gap). A document that leaves the numbered set goes to the archive with a plain name.
 

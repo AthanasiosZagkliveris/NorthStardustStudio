@@ -1,6 +1,6 @@
 # 41. The Competitor card: every question and option, as built
 
-Status: **specification**, written 2026-11-03, updated 2026-11-09; built. Every question of the Competitor card (Business System, page 1, tile "Competitors"), in the order it is asked. For each: its control, when it is asked, its options, what its "i" says and what it connects to. **Built (2026-11-04):** the Type, the text boxes kept as notes, and K1 to K10 (`CompetitorQuestions.ts`, the card in `foundation/CompetitorCard.tsx`). **Built (2026-11-08):** K14, the Differentiation, moved from Positioning (owner, "Move all three"), asked once per Segment after its Competitors and saved on the Segment. **Not built yet:** what reads the answers outside the card (the documents' strengths, weaknesses, opportunities and threats, the Review, Positioning and the Value Proposition).
+Status: **specification**, written 2026-11-03, updated 2026-11-21; built. Every question of the Competitor card (Business System, page 1, tile "Competitors"), in the order it is asked. For each: its control, when it is asked, its options, what its "i" says and what it connects to. **Built (2026-11-04):** the Type, the text boxes kept as notes, and K1 to K10 (`CompetitorQuestions.ts`, the card in `foundation/CompetitorCard.tsx`). **Built (2026-11-08):** K14, the Differentiation, moved from Positioning (owner, "Move all three"), asked once per Segment after its Competitors and saved on the Segment. **Not built yet:** what reads the answers outside the card (the documents' strengths, weaknesses, opportunities and threats, the Review, Positioning and the Value Proposition).
 
 Related: doc 35 (the Segment, whose answers give K2, K3 and K9 their options and rows), doc 36 (the Profile, whose priorities order K8's rows), doc 38 (Positioning, whose Differentiation moved here as K14 on 2026-11-08), doc 42 (the Value Proposition, which reads K8 and will read K10, not built yet), doc 43 (the Offering, whose Type list K1 shares; a Review check against the Offerings waits until one exists), doc 34 (the list L1 and the value crosswalk, 5.2a), doc 28 (6.6, the design this refines), doc 02 (FUN-47, FUN-50 to FUN-58, the sources of the 2026-11-04 research), `src/framework/engine/AnswerBusinessFoundation.ts` and `src/components/interview/editors/foundation/shared.tsx` (the card today).
 
@@ -132,7 +132,7 @@ This follows the type rules already built for the text boxes: a substitute has n
 - **Control:** a tick per channel, as many as apply, inside the Customer Acquisition band; once a channel that has sub-channels is ticked, a dropdown (`OptionPicker`) of them beside it, one sub-channel per row, a "+" adding a row under it and an × removing an added row; a sub-channel chosen in one row is not offered in another (owner, 2026-11-04: "defining the specific subchannels of the competitors, and compare them with the customers"). No rating (owner, 2026-11-04: the channels do not need the five rounds). The Customer Acquisition text box is kept as the note.
 - **Asked when:** the type is Direct competitor or Indirect competitor.
 - **Wording by type:** the same for both types.
-- **Options:** the channel categories of page 2 that reach customers, in their order, and the sub-channels of four of them:
+- **Options:** the channel categories of Customer Engagement that reach customers, in their order, and the sub-channels of four of them:
   - Social media: the Profile's own list (doc 36, C2): Instagram, Facebook, LinkedIn, YouTube, TikTok, Pinterest, X (Twitter)
   - Community: the Profile's own list (C3): Facebook Group, Discord, Reddit, Slack, Meetup
   - Website
@@ -149,9 +149,9 @@ This follows the type rules already built for the text boxes: a substitute has n
 - **Not yet:** the sub-channels in the order of the App User's industry and country, as K6's platforms are: no source by industry was found for social media, communities or events; they stay in the Profile's order.
 - **Options (owner, 2026-11-17):** Advertising, Print & mail and Samples & trials join the list; the channel groups the customers' own answers use come first, headed "Your customers' channels", then the rest, headed "Others" (`competitorChannelOptions`).
 - **Connections:**
-  - *Comes from:* the channel categories of page 2 by id (`BUSINESS_CHANNEL_CATEGORIES`); the sub-channel lists from the Profile's C2, C3 and C4 (doc 36).
+  - *Comes from:* the channel categories of Customer Engagement by id (`BUSINESS_CHANNEL_CATEGORIES`); the sub-channel lists from the Profile's C2, C3 and C4 (doc 36).
   - *Read by (built, 2026-11-04):* K10: once K5 is answered, each social medium, community or kind of event a Profile of the Segment ticks (C2 to C4) that this competitor's sub-channels do not hold is an opening: "Reach customers on TikTok", "Reach customers in Facebook groups", "Meet customers at workshops and classes". It compares with the customers, never with the App User's own channels (The purpose).
-  - *Read by (later, once page 2's channels are set):* the Review (doc 28, 11.5, rule 21); the order of the Discover channels on page 2. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-section-1-owner-2026-11-08).
+  - *Read by (later, once Customer Engagement's channels are set):* the Review (doc 28, 11.5, rule 21); the order of the Discover channels on Customer Engagement. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-section-1-owner-2026-11-08).
 - **Every channel opens its subchannels** (owner, 2026-11-18 02:31: "Online/live does not give an option drop-down list"): Website, Email, Online / live, Shops or wholesalers, Referrals or affiliates, Advertising, Print & mail and Samples & trials list Customer Engagement's subchannels of their category, by the same names (Online / live: Zoom, Google Meet, Microsoft Teams, Live Stream); Social media, Community and In person keep the Profile's lists (C2 to C4), which K10 compares; Marketplace its own.
 
 ## Box. Customer Experience
@@ -203,7 +203,7 @@ This follows the type rules already built for the text boxes: a substitute has n
 - **Control:** a rating group (`RatingScaleGroup`): one row for each of the app's Journey Stages, rated 1 (hard) to 5 (easy). A row left unrated is unanswered. No loyalty ticks (owner, 2026-11-04: they repeat K5's channels, Email and Community among them).
 - **Asked when:** the type is Direct competitor, Indirect competitor or Substitute.
 - **Wording by type:** Direct competitor, Indirect competitor: "How easy do they make each stage for customers?" Substitute: "How easy does this alternative make each stage for customers?"
-- **Rows:** the app's Journey Stages (`BUSINESS_JOURNEY_STAGES`, page 2, Customer Engagement), in their order:
+- **Rows:** the app's Journey Stages (`BUSINESS_JOURNEY_STAGES`, Customer Engagement, Customer Engagement), in their order:
   - Discover
   - Evaluation
   - Purchase
@@ -214,9 +214,9 @@ This follows the type rules already built for the text boxes: a substitute has n
   - To find out, look at their website and social media, sign up to their newsletter or buy from them once.
   - 1 = Hard, 5 = Easy.
 - **Connections:**
-  - *Comes from:* the owner's decisions (2026-11-04): the loyalty question overlapped the journey's last stage, then its ticks repeated K5's channels, so they went. Lemon and Verhoef describe the customer's journey in three stages, before, during and after the purchase, the "loyalty loop" after it [FUN-59]; page 2's five Journey Stages divide the same journey. Invest Northern Ireland lists a competitor's "customer loyalty devices" [FUN-51]; how many customers come back cannot be seen from outside, what a competitor does to bring them back can.
+  - *Comes from:* the owner's decisions (2026-11-04): the loyalty question overlapped the journey's last stage, then its ticks repeated K5's channels, so they went. Lemon and Verhoef describe the customer's journey in three stages, before, during and after the purchase, the "loyalty loop" after it [FUN-59]; Customer Engagement's five Journey Stages divide the same journey. Invest Northern Ireland lists a competitor's "customer loyalty devices" [FUN-51]; how many customers come back cannot be seen from outside, what a competitor does to bring them back can.
   - *Read by (built):* K10 ("Make buying easier" and the like, for a stage rated 1 or 2).
-  - *Read by (not built yet):* page 2's Journey Stages, where the App User plans each stage. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-section-1-owner-2026-11-08).
+  - *Read by (not built yet):* Customer Engagement's Journey Stages, where the App User plans each stage. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-section-1-owner-2026-11-08).
 
 For Internal solution and Status quo the box stays text only: it asks about the effort or the current behaviour, which K8 already rates.
 
@@ -403,12 +403,12 @@ Each row keeps the current question and proposes another way to answer it, with 
 - Degree and comfort questions use the 1 to 5 rating unless named ranges exist: K4 (2026-11-04).
 - No "Not sure" options (2026-11-02); no "Other" unless another answer can exist (2026-11-04).
 - Competitors belong to their Segment (2026-11-03).
-- Other ways to answer, K1, K2 and K5 (2026-11-04): each keeps its question. The ways that compare with the App User's own Offerings, area or channels are withdrawn ("Which of your Offerings do they compete with?" [FUN-56]; "Compared with you, where do they sell?" [FUN-53]; the App User's page 2 channels marked "They use it too" / "Only you" [FUN-53]): the App User may have no Offerings or channels yet (The purpose).
+- Other ways to answer, K1, K2 and K5 (2026-11-04): each keeps its question. The ways that compare with the App User's own Offerings, area or channels are withdrawn ("Which of your Offerings do they compete with?" [FUN-56]; "Compared with you, where do they sell?" [FUN-53]; the App User's Customer Engagement channels marked "They use it too" / "Only you" [FUN-53]): the App User may have no Offerings or channels yet (The purpose).
 - Other ways to answer, K7 (2026-11-04): the loyalty ticks went; Kotler's share of mind and share of heart ("Do customers name them first?", "Do customers prefer them?" [FUN-53, FUN-55]) are not added.
 - Other ways to answer, K8 and K9 (2026-11-04): the grid of Well / Partly / Poorly [FUN-55, FUN-57] and the marks Helps them / Hurts them / Both / Neither [FUN-53] are replaced by K8's and K9's 1 to 5 ratings.
 
 **Still to decide:**
-- Whether K5's words follow the plain words above ("Shops or wholesalers", "Referrals or affiliates") or the page 2 tile names ("Retail & Wholesale", "Referral & Affiliates"). The plain words follow the "or" rule, so the page 2 names would change with them.
+- Whether K5's words follow the plain words above ("Shops or wholesalers", "Referrals or affiliates") or the Customer Engagement tile names ("Retail & Wholesale", "Referral & Affiliates"). The plain words follow the "or" rule, so the Customer Engagement names would change with them.
 - The order of K6's platforms by industry and country rests on directory and vendor lists, not on a survey of use; a survey of UK consumers' use of review sites would improve it.
 - Considered, not added: "How much effort does buying from them take?" (customer effort [FUN-60]). It repeats L1's "Convenience", a row of K8, and K7's rating of each stage.
 - Porter's four corners (goals, assumptions, strategy, capabilities [FUN-52]) also ask how a competitor would react to you: proposed as an optional question in Insights, with Kotler's reaction patterns as its options (Other ways to answer, last row).

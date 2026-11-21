@@ -4,7 +4,7 @@ Status: **current design**, written 2026-10-14, updated 2026-11-21. One entry fo
 
 Related: document 1 (the rest of the current design; Part G is the access by type), document 6 and 7 (generated from this), document 21 (the shared components), document 41 (which groups could link to which).
 
-**Cards of questions.** The Segment card and the Profile card ask choice questions in sections, subsections and questions instead of a table of rows by group; they are not in the tables below. The questions are in docs 35 (the Segment) and 37 (the Profile); the pattern a card of questions follows (width, content line, three levels, the Note that ends each part, the audit `npm run check:card`) is in `docs/ai/layout-rules.md`, section 8 ("A floating card of questions"); the parts they are drawn with are in doc 21.
+**Cards of questions.** The Segment card and the Profile card ask choice questions in sections, subsections and questions instead of a table of rows by group; they are not in the tables below. The questions are in docs 35 (the Segment) and 36 (the Profile); the pattern a card of questions follows (width, content line, three levels, the Note that ends each part, the audit `npm run check:card`) is in `docs/ai/layout-rules.md`, section 8 ("A floating card of questions"); the parts they are drawn with are in doc 21.
 
 <!-- generated:in-force -->
 
@@ -1534,13 +1534,13 @@ Semi-variable when a percentage and a fixed part are both present on the card.
 
 #### How a channel-made card looks in the app
 
-The app has no per-template cards yet: the only generator on page 2 is the “+ Add expenses” button of a channel. It makes one blank Resource card in Offering > Resources, linked to the channel. Name, price, frequency and status are all empty. On page 3 the card is teal and has these differences from a card the user makes:
+The app has no per-template cards yet: the only generator on Customer Engagement is the “+ Add expenses” button of a channel. It makes one blank Resource card in Offering > Resources, linked to the channel. Name, price, frequency and status are all empty. On Infrastructure & Capability the card is teal and has these differences from a card the user makes:
 
-- The name is not typed on page 3: it is a button that opens the channel on page 2, where the name is edited.
-- There is no × (remove); the card is removed from the channel cell on page 2, which also removes it from page 3.
+- The name is not typed on Infrastructure & Capability: it is a button that opens the channel on Customer Engagement, where the name is edited.
+- There is no × (remove); the card is removed from the channel cell on Customer Engagement, which also removes it from Infrastructure & Capability.
 - There is no Category row (the Category tile is “Channel”) and the Group is “Channel”, not a group of the list above.
 - Status, Qty, price, Frequency, Linked to and Description behave as on any Offering resource.
-- On page 2 the channel shows the card with its name, its cost button (for example “£150 a month” or “No cost yet”) and its linked actions.
+- On Customer Engagement the channel shows the card with its name, its cost button (for example “£150 a month” or “No cost yet”) and its linked actions.
 
 #### What the templates below would add
 
