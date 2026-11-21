@@ -312,7 +312,7 @@ The confirmed problems that a diagnostic found and no turn has fixed (it was `do
 
 ## 5.10 What stayed in the project, and why
 
-- `src/data/examples/`: the one copy of the two examples (the app reads it). `UPDATE_EXAMPLES=1 npx vitest run src/services/ExampleDrift.test.ts` writes both from the app's own readers; the drift and review tests fail when an example is behind the interface.
+- `src/data/examples/`: the one copy of the two examples (the app reads it). `UPDATE_EXAMPLES=1 npx vitest run src/services/examples.test.ts` writes both from the app's own readers; the drift and review tests fail when an example is behind the interface.
 
 ## 5.11 Open from the documents review (2026-10-29)
 

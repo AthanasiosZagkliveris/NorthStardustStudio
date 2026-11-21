@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { segmentQuestionAsked } from "./SegmentQuestions";
 import {
     SEGMENT_INDUSTRIES,
     SEGMENT_QUESTIONS,
@@ -406,5 +407,21 @@ describe("where they discover: the traditional ways", () => {
         expect(ids(segmentQuestionsOf("purchasing", { discover: ["flyers"] }, people))).not.toContain("advertising");
         expect(segmentSettle({ discover: ["flyers"], advertising: ["radio"] }, people).advertising).toBeUndefined();
         expect(segmentSettle({ discover: ["adverts"], advertising: ["radio"] }, people).advertising).toEqual(["radio"]);
+    });
+});
+
+describe("2.8: how they pay, from who decides; no payment service where they buy on a marketplace", () => {
+    const question = (id: string) => SEGMENT_QUESTIONS.find(entry => entry.id === id)!;
+
+    it("starts Invoice or purchase order where a manager signs off or a formal procurement decides", () => {
+        expect(segmentAnswerStarts({ authorise: ["executive"] }, { authorise: ["executive"] }).pay).toEqual(["invoicepo"]);
+        expect(segmentAnswerStarts({}, { orgtype: ["public"] }).pay).toEqual(["invoicepo"]);
+        expect(segmentAnswerStarts({}, { setting: ["mobile"], authorise: ["procurement"] }).pay).toEqual(["wallet", "invoicepo"]);
+        expect(segmentAnswerStarts({ authorise: ["solo"] }, { authorise: ["solo"] }).pay).toBeUndefined();
+    });
+    it("asks for the payment services only where they do not shop on a marketplace", () => {
+        const context = { frame: "people" as const, lifeStages: [], scales: [], relations: [], userStages: [], stage: "manage", endsUser: false };
+        expect(segmentQuestionAsked(question("providers"), { pay: ["card"], setting: ["mobile"] }, context as never)).toBe(true);
+        expect(segmentQuestionAsked(question("providers"), { pay: ["card"], setting: ["marketplace"] }, context as never)).toBe(false);
     });
 });

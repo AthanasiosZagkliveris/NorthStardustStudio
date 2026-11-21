@@ -1,23 +1,9 @@
-import { afterEach, describe, expect, it } from "vitest";
-
-import {
-    clearFieldRegistry,
-    currentFieldKey,
-    fieldKey,
-    isYesNoPair,
-    isWithin,
-    pageKeyPrefix,
-    parseFieldKey,
-    readField,
-    registerField,
-    sectionSegment,
-    registeredFields,
-    slug,
-    writeField
-} from "./FieldKeys";
+import { afterEach, describe, expect, it, test } from "vitest";
+import { clearFieldRegistry, currentFieldKey, fieldKey, isWithin, isYesNoPair, pageKeyPrefix, parseFieldKey, readField, registerField, registeredFields, sectionSegment, slug, writeField } from "./FieldKeys";
 import { frameworkRegistry } from "../FrameworkRegistry";
 import { AnswerType } from "../../enums/AnswerType";
 import { pageFields } from "../../../components/interview/rails/railItems";
+import { fieldKindOf, kindIsAnswer } from "./FieldKinds.ts";
 
 afterEach(clearFieldRegistry);
 
@@ -123,6 +109,21 @@ describe("currentFieldKey", () => {
         // Anything else is itself.
         expect(currentFieldKey("1.3:organization/legal-form")).toBe("1.3:organization/legal-form");
         expect(currentFieldKey("not a key")).toBe("not a key");
+    });
+
+});
+
+describe("a field's kind", () => {
+
+    test("is an answer unless it is a status, a link, a display setting, a name or a choice with its own not-yet", () => {
+        expect(fieldKindOf(1, ["organization", "legal-form"]).kind).toBe("answer");
+        expect(fieldKindOf(3, ["infrastructure", "res-1", "status"])).toEqual({ kind: "none", why: "status" });
+        expect(fieldKindOf(3, ["infrastructure", "res-1", "performer"])).toEqual({ kind: "none", why: "link" });
+        expect(fieldKindOf(4, ["theme-1", "metric-1", "currency"])).toEqual({ kind: "none", why: "display" });
+        expect(fieldKindOf(3, ["income-tax"])).toEqual({ kind: "none", why: "has-own-option" });
+        expect(fieldKindOf(1, ["legal-entity-expenses", "exp-1", "name"])).toEqual({ kind: "none", why: "name" });
+        expect(kindIsAnswer("answer")).toBe(true);
+        expect(kindIsAnswer("none")).toBe(false);
     });
 
 });

@@ -1,10 +1,12 @@
 import { describe, expect, it } from "vitest";
 import { asBusinessFoundationValue } from "./AnswerBusinessFoundation";
-import { effectiveOfferingAnswers, effectiveProfileAnswers, effectiveSegmentAnswers, noPhysicalOffering, offeringIsPhysical, offeringStarts, offeringStartsById, withFieldSet } from "./EffectiveAnswers";
-import { segmentAnswerLines, segmentQuestionsOf, segmentSettle } from "../choices/SegmentQuestions";
-import { segmentContextFor, settledSegmentAnswers } from "../SegmentContext";
-import { offeringChoose, valuePropositionOpenItems } from "../choices/OfferingQuestions";
-import type { SegmentIdentity } from "../SegmentContext";
+import { effectiveOfferingAnswers, effectiveProfileAnswers, effectiveSegmentAnswers, noPhysicalOffering, offeringIsPhysical, offeringStarts, offeringStartsById, segmentForms, segmentTrials, withFieldSet } from "./EffectiveAnswers";
+import { SEGMENT_QUESTIONS, segmentAnswerLines, segmentAnswerStarts, segmentQuestionsOf, segmentSettle } from "../choices/SegmentQuestions";
+import { segmentContextFor, settledSegmentAnswers, type SegmentIdentity } from "../SegmentContext";
+import { offeringChoose, offeringShown, valuePropositionOpenItems } from "../choices/OfferingQuestions";
+import { competitorReviewStarts } from "../choices/CompetitorQuestions";
+import { businessFoundationSegments } from "./AnswerUtils.ts";
+import lumen from "../../../data/examples/lumen-and-loom-studio.json";
 
 /* Starting values follow their source answers until the user sets that field (Questions 13 and 16; owner, 2026-11-08: "App follows the docs"). */
 
@@ -194,4 +196,116 @@ describe("an Offering without a physical item (Questions 2, 11.7)", () => {
         expect(noPhysicalOffering(segmentOf([{ category: "Service" }, { category: "Product", o1: "physical" }]))).toBe(false);
         expect(noPhysicalOffering(segmentOf([]))).toBe(false);
     });
+});
+
+describe("1.5: lists filtered by O1 show everything until every Offering has its form", () => {
+    const segmentOf = (offerings: { id: string; category: string; questions?: Record<string, string[]> }[], questions: Record<string, string[]> = {}, profile: Record<string, string[]> = {}) => asBusinessFoundationValue({
+        segments: [{ id: "s", name: "Makers", questions, profiles: [{ id: "p", name: "A", questions: profile }], offerings: offerings.map(offering => ({ name: offering.id, ...offering })) }]
+    }).segments[0];
+
+    it("filters by the forms only once each Offering has one", () => {
+        expect(segmentForms(segmentOf([{ id: "a", category: "Product", questions: { o1: ["physical"] } }, { id: "b", category: "Product" }]))).toEqual([]);
+        expect(segmentForms(segmentOf([{ id: "a", category: "Product", questions: { o1: ["physical"] } }]))).toEqual(["physical"]);
+    });
+});
+
+describe("a start unticked to none stays none (owner, 2026-11-18: starts follow their source until edited)", () => {
+    const people: SegmentIdentity = { relationships: ["b2c"], marketType: "single", audience: ["adult"], stage: "manage" };
+    const segmentOf = (offerings: { id: string; category: string; questions?: Record<string, string[]> }[], questions: Record<string, string[]> = {}, profile: Record<string, string[]> = {}) => asBusinessFoundationValue({
+        segments: [{ id: "s", name: "Makers", questions, profiles: [{ id: "p", name: "A", questions: profile }], offerings: offerings.map(offering => ({ name: offering.id, ...offering })) }]
+    }).segments[0];
+    const question = (id: string) => SEGMENT_QUESTIONS.find(entry => entry.id === id)!;
+
+    const reload = <T,>(value: T): T => JSON.parse(JSON.stringify(value)) as T;
+    it("keeps the Segment's How they pay and Who decides empty, through a reload and a change of their source", async () => {
+        const { segmentChoose, segmentSettleSaved } = await import("../choices/SegmentQuestions");
+        const context = { frame: "business" as const, lifeStages: [], scales: [], relations: [], userStages: [], stage: "manage", endsUser: false };
+        let saved = segmentSettleSaved(segmentChoose(question("pay"), { orgtype: ["public"] }, []), context as never);
+        expect(saved.pay).toEqual([]);
+        saved = asBusinessFoundationValue(reload({ segments: [{ id: "s", name: "S", questions: saved, profiles: [], offerings: [] }] })).segments[0].questions;
+        expect(saved.pay).toEqual([]);
+        // (The source changes -- a manager signs off --: still none.)
+        saved = segmentSettleSaved(segmentChoose(question("authorise"), saved, []), context as never);
+        expect(segmentAnswerStarts(saved, { ...saved, size: ["large"] }).pay).toBeUndefined();
+        expect(segmentAnswerStarts(saved, { ...saved, size: ["large"] }).authorise).toBeUndefined();
+    });
+    it("keeps a Profile's D1 and D3, and an Offering's O20, empty through a reload and a change of their source", () => {
+        const segment = segmentOf([{ id: "rug", category: "Product", questions: { o1: ["physical"], o6: ["shipped"], o20: [] } }], { discover: ["samples", "media"], trigger: ["seasonal"], reach: ["country"] }, { d1: [], d3: [] });
+        const again = asBusinessFoundationValue(reload({ segments: [segment] })).segments[0];
+        const shown = effectiveProfileAnswers(again.profiles[0], again, people);
+        expect(shown.d1).toEqual([]);
+        expect(shown.d3).toEqual([]);
+        expect(again.offerings[0].questions?.o20).toEqual([]);
+        expect(offeringShown(again.offerings[0].questions ?? {}, { type: "Product", reach: ["countries"] }).o20 ?? []).toEqual([]);
+    });
+    it("keeps K6 empty once its starts are unticked, through the settle and a change of K5", async () => {
+        const { competitorSettle } = await import("../choices/CompetitorQuestions");
+        const settled = competitorSettle(reload({ k5: ["marketplace"], k6: [] }), "direct");
+        expect(settled.k6).toEqual([]);
+        expect(competitorReviewStarts({ ...settled, "k5-sub": ["social-media:facebook"] })).toEqual([]);
+    });
+    it("keeps DV12 unticked to none on the saved card", async () => {
+        const { asBusinessCapabilityValue } = await import("./AnswerUtils");
+        const capability = asBusinessCapabilityValue(reload({ delivery: { rug: { holdUps: [], duration: "", effort: "" } } }));
+        expect(capability.delivery.rug.holdUps).toEqual([]);
+    });
+});
+
+describe("B1: Calendar Time starts from O15 less the sending", () => {
+    const people: SegmentIdentity = { relationships: ["b2c"], marketType: "single", audience: ["adult"], stage: "manage" };
+    const segmentOf = (offerings: { id: string; category: string; questions?: Record<string, string[]> }[], questions: Record<string, string[]> = {}) => asBusinessFoundationValue({
+        segments: [{ id: "s", name: "Makers", questions, profiles: [{ id: "p", name: "A", questions: {} }], offerings: offerings.map(offering => ({ name: offering.id, ...offering })) }]
+    }).segments[0];
+
+    it("takes the sending weeks off O15's upper end, a week at least", () => {
+        const segment = segmentOf([
+            { id: "kit", category: "Product", questions: { o1: ["physical"], o6: ["shipped"], o15: ["weeks"], o20: ["courier"] } },
+            { id: "cushion", category: "Product", questions: { o1: ["physical"], o6: ["shipped"], o15: ["week"], o20: ["courier"] } }
+        ]);
+        expect(offeringStartsById([segment], "kit", people).duration).toBe("3");
+        expect(offeringStartsById([segment], "cushion", people).duration).toBe("1");
+    });
+});
+
+describe("B2: every way to try it first while no Offering says what it is", () => {
+    const segmentOf = (offerings: { id: string; category: string; questions?: Record<string, string[]> }[], questions: Record<string, string[]> = {}) => asBusinessFoundationValue({
+        segments: [{ id: "s", name: "Makers", questions, profiles: [{ id: "p", name: "A", questions: {} }], offerings: offerings.map(offering => ({ name: offering.id, ...offering })) }]
+    }).segments[0];
+
+    it("gives no list of ways (so all show) until an Offering has a Type or a form", () => {
+        expect(segmentTrials(segmentOf([]))).toBeUndefined();
+        expect(segmentTrials(segmentOf([{ id: "x", category: "" }]))).toBeUndefined();
+        // (An Offering whose form is unknown yet could be tried any way: 1.5, the second batch of the review; owner, 2026-11-18 00:46.)
+        expect(segmentTrials(segmentOf([{ id: "x", category: "Product" }]))).toEqual(["sample", "trial", "demo", "taster", "catalogue"]);
+        expect(segmentTrials(segmentOf([{ id: "x", category: "Product", questions: { o1: ["physical"] } }]))).toEqual(["sample", "catalogue"]);
+    });
+});
+
+describe("3.4, 3.7, 3.9: O3, O15 and O20 start from the answers above them", () => {
+    it("starts O20 with one way from the Segment's reach", () => {
+        expect(offeringShown({ o1: ["physical"], o6: ["shipped"] }, { type: "Product", reach: ["country"] }).o20).toEqual(["postal"]);
+        expect(offeringShown({ o1: ["physical"], o6: ["shipped"] }, { type: "Product", reach: ["countries"] }).o20).toEqual(["courier"]);
+        expect(offeringShown({ o1: ["physical"], o6: ["shipped"], o20: [] }, { type: "Product", reach: ["country"] }).o20).toBeUndefined();
+    });
+    it("starts O15 from how they receive it", () => {
+        expect(offeringShown({ o1: ["digital"], o6: ["auto"] }, { type: "Product" }).o15).toEqual(["now"]);
+        expect(offeringShown({ o1: ["physical"], o6: ["shipped"] }, { type: "Product", reach: ["countries"] }).o15).toEqual(["weeks"]);
+    });
+});
+
+/* A REVENUE STREAM'S PER, FROM THE OFFERING (owner, 2026-11-19 21:44 UTC+2: "Check which parts can be auto-filled by previous answers"). */
+describe("a revenue stream's Per starts from the Offering's terms and form", () => {
+
+    const segments = businessFoundationSegments((lumen as { systems: Record<string, { responses: { sectionNumber: number; value?: unknown }[] }> }).systems["3"].responses.find(response => response.sectionNumber === 1)!.value);
+    const unitOf = (name: string) => {
+        const offering = segments.flatMap(segment => segment.offerings).find(entry => entry.name === name)!;
+        return offeringStartsById(segments, offering.id).unit;
+    };
+
+    it("says what one sale is, as Lumen's own streams say it", () => {
+        expect(unitOf("Homeware Collection")).toBe("Product");
+        expect(unitOf("Weaving Workshops")).toBe("Participant");
+        expect(unitOf("Bespoke Commissions")).toBe("Project");
+    });
+
 });

@@ -1,5 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { asBusinessCompetitor } from "../answers/AnswerBusinessFoundation";
+import { competitorReviewStarts } from "./CompetitorQuestions";
+import { COMPETITOR_CHANNEL_OPTIONS, COMPETITOR_SUBCHANNELS } from "./CompetitorQuestions";
 
 import {
     competitorAsks,
@@ -321,4 +323,19 @@ describe("K14's options say which competitors each start came from (owner, 2026-
         expect([namesInSentence(["A"]), namesInSentence(["A", "B"]), namesInSentence(["A", "B", "C"])]).toEqual(["A", "A and B", "A, B and C"]);
     });
 
+});
+
+describe("2.15: K6's rows from K5", () => {
+    it("ticks the Marketplace and Facebook rows where they reach customers there, while K6 is never answered", () => {
+        expect(competitorReviewStarts({ k5: ["marketplace", "social-media"], "k5-sub": ["social-media:facebook"] })).toEqual(["marketplace", "facebook"]);
+        expect(competitorReviewStarts({ k5: ["marketplace"], k6: ["google"] })).toEqual(["google"]);
+    });
+});
+
+describe("K5: every channel a competitor uses opens its list of subchannels", () => {
+    it("gives each of K5's channels a list, Online / live's the live tools", () => {
+        expect(COMPETITOR_CHANNEL_OPTIONS.filter(option => (COMPETITOR_SUBCHANNELS[option.id] ?? []).length === 0).map(option => option.id)).toEqual([]);
+        expect(COMPETITOR_SUBCHANNELS["online-live"].map(option => option.label)).toEqual(["Zoom", "Google Meet", "Microsoft Teams", "Live Stream"]);
+        expect(COMPETITOR_SUBCHANNELS.email.map(option => option.label)).toContain("Newsletter");
+    });
 });

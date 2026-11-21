@@ -1,4 +1,4 @@
-import { describe, expect, test } from "vitest";
+import { describe, expect, test, it } from "vitest";
 import { asBusinessEngagementValue, asBusinessFoundationValue, createBusinessChannel } from "./answers/AnswerUtils.ts";
 import { DEFAULT_RELATIONSHIP_TYPE, autoRelationshipTypes, offeringRelationshipsFor, demandSuggestions, journeySuggestions, relationshipTypesOf, suggestionMet, withAnswerChannels, dismissedAfter, channelKey, startGoals, funnelIsTrial, demandSourceOf, demandSourceKey, withAnswerSources } from "./JourneySuggestions.ts";
 import { createDemand, createDemandSource } from "./DemandCapacity.ts";
@@ -8,6 +8,8 @@ import { PROFILE_QUESTIONS, TRIAL_OPTIONS, profileOptionsShown } from "./choices
 import { subchannelHidden } from "./businessFoundation/channelCategories.ts";
 import lumenText from "../../data/examples/lumen-and-loom-studio.json?raw";
 import quillText from "../../data/examples/quillfield-automation-llc.json?raw";
+import type { SegmentIdentity } from "./SegmentContext";
+import { BUSINESS_CHANNEL_ALL_OFFERINGS } from "./answers/AnswerUtils";
 
 /* Customer Engagement follows the Foundation (Questions 17, section 3; Questions 2, 7.4 and 7.5): each rule, then both examples. */
 
@@ -350,5 +352,57 @@ describe("one source of a kind", () => {
         expect(withAnswerSources(one, segment, offering.id, [insta, site], false)).toBe(one);
         const two = { ...createDemand(), sources: [saved, { ...createDemandSource("funnel", ""), id: "also" }] };
         expect(withAnswerSources(two, segment, offering.id, [insta, site], false)).toBe(two);
+    });
+});
+
+describe("1.12: O10 says where an in-person Offering is given", () => {
+    const people: SegmentIdentity = { relationships: ["b2c"], marketType: "single", audience: ["adult"], stage: "manage" };
+    const segmentOf = (offerings: { id: string; category: string; questions?: Record<string, string[]> }[], questions: Record<string, string[]> = {}, profile: Record<string, string[]> = {}) => asBusinessFoundationValue({
+        segments: [{ id: "s", name: "Makers", questions, profiles: [{ id: "p", name: "A", questions: profile }], offerings: offerings.map(offering => ({ name: offering.id, ...offering })) }]
+    }).segments[0];
+
+    it("makes Customer Location where they give access to their home or site, Studio / Shop where they give something else", () => {
+        const at = (o10?: string[]) => journeySuggestions(segmentOf([{ id: "fit", category: "Service", questions: { o1: ["inperson"], o6: ["inperson"], ...(o10 ? { o10 } : {}) } }]), people)
+            .filter(entry => entry.stage === "delivery" && entry.category === "In Person").map(entry => entry.name);
+        expect(at(["home"])).toContain("Customer Location");
+        expect(at(["brief"])).toContain("Studio / Shop");
+        expect(at()).toContain("Customer Location");
+    });
+});
+
+describe("B3: a channel the answers make serves the Offerings whose answers made it", () => {
+    const people: SegmentIdentity = { relationships: ["b2c"], marketType: "single", audience: ["adult"], stage: "manage" };
+    const segmentOf = (offerings: { id: string; category: string; questions?: Record<string, string[]> }[], questions: Record<string, string[]> = {}) => asBusinessFoundationValue({
+        segments: [{ id: "s", name: "Makers", questions, profiles: [{ id: "p", name: "A", questions: {} }], offerings: offerings.map(offering => ({ name: offering.id, ...offering })) }]
+    }).segments[0];
+
+    it("serves the Offerings received that way, and every Offering where the Segment's own answer made it", () => {
+        const segment = segmentOf([
+            { id: "kit", category: "Product", questions: { o1: ["physical"], o6: ["shipped"], o20: ["courier"] } },
+            { id: "class", category: "Service", questions: { o1: ["live"] } }
+        ], { discover: ["search"] });
+        const channels = withAnswerChannels([], [], segment, people);
+        const courier = channels.find(channel => channel.stages.includes("delivery") && channel.category !== "Online / Live");
+        expect(courier?.offerings).toEqual(["kit"]);
+        const booking = channels.find(channel => channel.name === "Booking / Registration Page");
+        expect(booking?.offerings).toEqual(["class"]);
+        const search = channels.find(channel => channel.stages.includes("discovery"));
+        expect(search?.offerings).toEqual([BUSINESS_CHANNEL_ALL_OFFERINGS]);
+        // (The suggestion says whose answer it is.)
+        expect(journeySuggestions(segment, people).find(entry => entry.stage === "purchase" && entry.name === "Booking / Registration Page")?.offeringIds).toEqual(["class"]);
+    });
+});
+
+describe("3.2: Visitors from where they buy", () => {
+    const people: SegmentIdentity = { relationships: ["b2c"], marketType: "single", audience: ["adult"], stage: "manage" };
+    const segmentOf = (offerings: { id: string; category: string; questions?: Record<string, string[]> }[], questions: Record<string, string[]> = {}) => asBusinessFoundationValue({
+        segments: [{ id: "s", name: "Makers", questions, profiles: [{ id: "p", name: "A", questions: {} }], offerings: offerings.map(offering => ({ name: offering.id, ...offering })) }]
+    }).segments[0];
+
+    it("makes a Visitors row from a Purchase channel of a marketplace, a shop or an online store", () => {
+        const segment = segmentOf([{ id: "kit", category: "Product", questions: { o1: ["physical"] } }]);
+        const etsy = { id: "etsy", category: "Marketplace", name: "Etsy", links: [""], offerings: [BUSINESS_CHANNEL_ALL_OFFERINGS], stages: ["purchase"], actionIds: {}, actions: {} };
+        const rows = demandSuggestions(segment, "kit", [etsy], { sources: [] }, people);
+        expect(rows.map(row => row.type)).toContain("marketplace");
     });
 });

@@ -1,11 +1,11 @@
-import { describe, expect, test } from "vitest";
-
+import { describe, expect, it, test } from "vitest";
 import { InterviewSession } from "../interview";
 import { AnswerType } from "../enums/AnswerType.ts";
 import { frameworkRegistry } from "./FrameworkRegistry.ts";
 import { systems } from "../../data/systems";
 import { asBusinessCapabilityValue, asBusinessFoundationValue, createBusinessActivity } from "./answers/AnswerUtils.ts";
-import { nothingOpen, headerCount, reviewCount, reviewCountText, reviewItems } from "./ReviewItems.ts";
+import { headerCount, nothingOpen, reviewCount, reviewCountText, reviewItems } from "./ReviewItems.ts";
+import { positioningLacks } from "./OpenItems.ts";
 import lumenText from "../../data/examples/lumen-and-loom-studio.json?raw";
 import quillText from "../../data/examples/quillfield-automation-llc.json?raw";
 
@@ -244,6 +244,24 @@ describe("Review across the whole app", () => {
             organisationName: "Lumen"
         });
         expect(items.filter(item => item.group === "open")).toEqual([]);
+    });
+
+});
+
+const none = { customerType: [] as string[], audience: [] as string[], buyerCategory: [] as string[], purpose: [] as string[], differentiation: [] as string[], outcome: [] as string[] };
+
+describe("what the Positioning tile still lacks (the Review's open item)", () => {
+
+    it("says every question of an empty tile, the audience and the category only once a relationship is chosen", () => {
+        // (The differentiation and the outcome are not Positioning's since 2026-11-08: an empty one is no open item of the tile.)
+        expect(positioningLacks(none)).toEqual(["the seller and buyer relationship", "the purpose"]);
+        expect(positioningLacks({ ...none, customerType: ["b2c"] })).toEqual(["the audience", "the buyer's category", "the purpose"]);
+    });
+
+    it("asks the audience and the category of each relationship chosen, and nothing of a complete tile", () => {
+        const b2cDone = { ...none, customerType: ["b2c", "b2b"], audience: ["adult"], buyerCategory: ["b2c:direct"], purpose: ["creation"], differentiation: ["premium"], outcome: ["prestige"] };
+        expect(positioningLacks(b2cDone)).toEqual(["the audience", "the buyer's category"]);
+        expect(positioningLacks({ ...b2cDone, audience: ["adult", "mid"], buyerCategory: ["b2c:direct", "b2b:proxy"] })).toEqual([]);
     });
 
 });
