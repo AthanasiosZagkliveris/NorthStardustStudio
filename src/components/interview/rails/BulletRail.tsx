@@ -7,11 +7,6 @@ import { slotMargin, useRailSlot } from "./useRailSlot.ts";
 import "../../../styles/status-shape.css";
 import "../../../styles/bullet-rail.css";
 
-// A narrow window's tooltip label sits this far from its bullet
-// (bullet-rail.css), and at least this far from the screen edge.
-const TOOLTIP_GAP = 12;
-const TOOLTIP_EDGE_MARGIN = 8;
-
 /**
  * A column of bullets beside the interview card, under its name:
  * pages on the left, the current page's sections on the right (both
@@ -24,8 +19,8 @@ const TOOLTIP_EDGE_MARGIN = 8;
  * An item with a `status` (a page's, or a section's) draws it as the
  * bullet's shape -- ○ not started, ◐ in progress, ● defined
  * (status-shape.css) -- inside the same active and hover looks,
- * and says it in words in the narrow layout's tooltip and in the
- * accessible name. No native `title`: the label is already on
+ * and says it in words in its accessible name, which is also its
+ * tooltip where the rail shows its bullets alone. No native `title`: the label is already on
  * screen (or in the app's own tooltip), and the browser's would only
  * repeat it over the page.
  */
@@ -59,34 +54,6 @@ export default function BulletRail({
 
 }) {
 
-    // Items whose tooltip label would be cut off by the screen edge
-    // on the outer side, so it shows over the card instead.
-    const [tooltipInside, setTooltipInside] = useState<Record<string, boolean>>({});
-
-    // Narrow windows only (the label is a tooltip, absolutely
-    // positioned): measure whether it fits on the outer side.
-    function placeTooltip(id: string, button: HTMLButtonElement) {
-
-        const tooltip = button.querySelector<HTMLElement>(".bullet-rail-label");
-
-        if (!tooltip || getComputedStyle(tooltip).position !== "absolute") {
-            return;
-        }
-
-        const bullet = button.getBoundingClientRect();
-
-        const needed = tooltip.offsetWidth + TOOLTIP_GAP + TOOLTIP_EDGE_MARGIN;
-
-        const fits = side === "left"
-            ? bullet.left - needed >= 0
-            : bullet.right + needed <= document.documentElement.clientWidth;
-
-        if (tooltipInside[id] !== !fits) {
-            setTooltipInside(previous => ({ ...previous, [id]: !fits }));
-        }
-
-    }
-
     // A label that does not fit on one line (it wraps in the gutter): the rail shows its bullets alone, and a name appears beside a bullet under the pointer.
     const nav = useRef<HTMLElement | null>(null);
     useLayoutEffect(() => {
@@ -110,14 +77,13 @@ export default function BulletRail({
             let wraps = false;
             Array.from(node.querySelectorAll<HTMLElement>(".bullet-rail-label")).forEach(label => {
                 const labelStyle = getComputedStyle(label);
-                if (labelStyle.position === "absolute") {
+                if (labelStyle.display === "none") {
                     return;
                 }
                 const size = parseFloat(labelStyle.fontSize) || 16;
                 const item = label.closest<HTMLElement>(".bullet-rail-item");
                 const lit = item?.classList.contains("active") ?? false;
-                // (The letters shown: the status word stands in the narrow window's tooltip only.)
-                const shown = (label.textContent ?? "").length - (label.querySelector(".bullet-rail-status-word")?.textContent ?? "").length;
+                const shown = (label.textContent ?? "").length;
                 const extra = lit ? 0 : shown * size * 0.05;
                 const beside = item ? item.getBoundingClientRect().width - label.getBoundingClientRect().width : 0;
                 need = Math.max(need, label.scrollWidth + extra + Math.max(beside, 0));
@@ -203,12 +169,6 @@ export default function BulletRail({
                             {numbered
                                 ? <><span className="list-number">{numbered[1]}</span> <span className="bullet-rail-label-text">{numbered[2]}</span></>
                                 : item.label}
-                            {/* In the narrow layout's tooltip only;
-                                wide windows show the shape beside
-                                the label and the word on hover. */}
-                            {statusWord && (
-                                <span className="bullet-rail-status-word">: {statusWord}</span>
-                            )}
                         </span>
                     );
 
@@ -216,12 +176,11 @@ export default function BulletRail({
                         <li key={item.id} style={slotMargin(slot, position) > 0 ? { marginTop: slotMargin(slot, position) } : undefined}>
                             <button
                                 type="button"
-                                className={"bullet-rail-item" + (active ? " active" : "") + (tooltipInside[item.id] ? " tooltip-inside" : "") + (item.capitals ? " bullet-rail-item-capitals" : "")}
+                                className={"bullet-rail-item" + (active ? " active" : "") + (item.capitals ? " bullet-rail-item-capitals" : "")}
                                 aria-current={active ? "true" : undefined}
-                                aria-label={statusWord ? name : undefined}
+                                // (Its name: read by a screen reader, and the app's tooltip where the rail shows its bullets alone.)
+                                aria-label={name}
                                 onClick={() => onSelect(item.id)}
-                                onMouseEnter={event => placeTooltip(item.id, event.currentTarget)}
-                                onFocus={event => placeTooltip(item.id, event.currentTarget)}
                             >
                                 {side === "left" ? <>{text}{dot}</> : <>{dot}{text}</>}
                             </button>

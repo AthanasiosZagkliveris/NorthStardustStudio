@@ -45,15 +45,15 @@ function openMenu() {
     }
 }
 
-/** Appearance's side menu, opened with a press on its row. */
+/** Appearance's reading modes (in the menu's own card, under its row), opened with a press on its row. */
 function appearanceMenu(): HTMLElement {
     openMenu();
-    const side = screen.queryByRole("menu", { name: "Appearance" });
+    const side = screen.queryByRole("group", { name: "Appearance" });
     if (side) {
         return side;
     }
     fireEvent.click(screen.getByRole("menuitem", { name: "Appearance" }));
-    return screen.getByRole("menu", { name: "Appearance" });
+    return screen.getByRole("group", { name: "Appearance" });
 }
 
 /** Chooses a mode the way a pointer does: open the menu, Appearance, press the mode. */
@@ -61,14 +61,14 @@ function pick(label: string) {
     fireEvent.click(within(appearanceMenu()).getByRole("menuitem", { name: label }));
 }
 
-/** The mode the side menu marks as chosen (the menu closed again after). */
+/** The mode the reading modes mark as chosen (the menu closed again after). */
 function shown(): string | null {
     const chosen = within(appearanceMenu()).getAllByRole("menuitem").find(row => row.getAttribute("aria-current") === "true");
     fireEvent.click(trigger());
     return chosen ? chosen.getAttribute("aria-label") : null;
 }
 
-/** The menu's own rows, by name (the side menu's apart). */
+/** The menu's own rows, by name (the reading modes apart). */
 const rowsOf = () => [...screen.getByRole("menu", { name: "Menu" }).querySelectorAll<HTMLElement>(":scope > [role=menuitem], :scope > .tools-menu-appearance > [role=menuitem]")].map(row => row.getAttribute("aria-label"));
 
 /** Where the app is: the page, and the state it was opened with. */
@@ -132,27 +132,28 @@ describe("the Menu (layout rules, section 6, \"The Menu\")", () => {
         expect(rowsOf()).toEqual(["Appearance"]);
     });
 
-    it("opens Appearance's side menu on the pointer, a press and the keyboard, and closes it with the left arrow or Escape", () => {
+    it("opens Appearance's reading modes in the same card on the pointer, a press and the keyboard, and closes it with the left arrow or Escape", () => {
         mockSystem(false);
         stop = ThemeService.start();
         renderMenu({ organizationOpen: true, focusable: false });
         fireEvent.click(trigger());
         const row = screen.getByRole("menuitem", { name: "Appearance" });
-        expect(row.getAttribute("aria-haspopup")).toBe("menu");
+        // (They open in the same card, under the row: no pop-up.)
+        expect(row.hasAttribute("aria-haspopup")).toBe(false);
         fireEvent.mouseEnter(row.parentElement!);
-        expect(screen.getByRole("menu", { name: "Appearance" })).toBeTruthy();
+        expect(screen.getByRole("group", { name: "Appearance" })).toBeTruthy();
         expect(row.getAttribute("aria-expanded")).toBe("true");
         fireEvent.mouseLeave(row.parentElement!);
-        expect(screen.queryByRole("menu", { name: "Appearance" })).toBeNull();
+        expect(screen.queryByRole("group", { name: "Appearance" })).toBeNull();
         fireEvent.keyDown(row, { key: "ArrowRight" });
-        const side = screen.getByRole("menu", { name: "Appearance" });
+        const side = screen.getByRole("group", { name: "Appearance" });
         expect(within(side).getAllByRole("menuitem").map(item => item.getAttribute("aria-label"))).toEqual(["Light", "Sepia", "Dark", "Auto"]);
         fireEvent.keyDown(side, { key: "ArrowLeft" });
-        expect(screen.queryByRole("menu", { name: "Appearance" })).toBeNull();
+        expect(screen.queryByRole("group", { name: "Appearance" })).toBeNull();
         fireEvent.keyDown(row, { key: "Enter" });
-        fireEvent.keyDown(screen.getByRole("menu", { name: "Appearance" }), { key: "Escape" });
-        expect(screen.queryByRole("menu", { name: "Appearance" })).toBeNull();
-        // (The menu itself stays open: Escape closed the side menu only.)
+        fireEvent.keyDown(screen.getByRole("group", { name: "Appearance" }), { key: "Escape" });
+        expect(screen.queryByRole("group", { name: "Appearance" })).toBeNull();
+        // (The menu itself stays open: Escape closed the reading modes only.)
         expect(screen.getByRole("menu", { name: "Menu" })).toBeTruthy();
     });
 

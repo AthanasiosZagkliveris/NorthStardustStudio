@@ -103,8 +103,9 @@ function themeState(): string {
  * Search … under a common umbrella"; 23:44: "Include the Reading Mode"; his notes of 03:40: "MENU" with the settings symbol, no inner title, "Appearance"
  * a row with a side menu, each tool's symbol on its row): ONE header button, Menu, its icon and word (the icon alone in a narrow header), opening the
  * dropdown card every menu a button opens has (MenuOption rows, usePopupDismiss): Search (Ctrl+K beside it), Notes (the count of notes), Calendar, Focus
- * (an interview page), Settings, then Appearance, whose side menu -- the same card, beside its row -- holds Light, Sepia, Dark and Auto, the chosen one
- * marked; it opens on the pointer, a press, Enter, Space or the right arrow, and the left arrow or Escape closes it. Each tool keeps its own way of working
+ * (an interview page), Settings, then Appearance, which opens IN THE SAME CARD, under its row -- the card grows down (owner, 2026-11-21 16:02 UTC+2: "The Reading
+ * Modes should be extended from the same menu card, hovering over the Appearance") -- to Light, Sepia, Dark and Auto, the chosen one marked; they open on the
+ * pointer, a press, Enter, Space or the right or down arrow, and the left arrow or Escape closes them. Each tool keeps its own way of working
  * (the search's dialog and Ctrl+K, the Notes' panel, Focus's Exit button, the Global Settings' page, the Calendar's rail on the page it is pressed on). With no Organisation
  * open the menu holds Appearance alone.
  */
@@ -122,7 +123,7 @@ export default function ToolsMenu({ organizationOpen, focusable }: { organizatio
     const sideMenu = useRef<HTMLDivElement | null>(null);
     usePopupDismiss(open, [box], () => { setOpen(false); setSide(false); });
 
-    /** The Appearance row: where the focus returns from its side menu. */
+    /** The Appearance row: where the focus returns from its reading modes. */
     const appearanceRow = () => box.current?.querySelector<HTMLButtonElement>(".tools-menu-appearance > button") ?? null;
 
     /** A row pressed: the menu closes, then the tool opens. */
@@ -132,7 +133,7 @@ export default function ToolsMenu({ organizationOpen, focusable }: { organizatio
         action();
     };
 
-    /** The side menu opened; from the keyboard its chosen row takes the focus. */
+    /** The reading modes opened; from the keyboard the chosen one takes the focus. */
     const openSide = (focus: boolean) => {
         setSide(true);
         if (focus) {
@@ -141,14 +142,14 @@ export default function ToolsMenu({ organizationOpen, focusable }: { organizatio
     };
 
     const onAppearanceKey = (event: KeyboardEvent<HTMLButtonElement>) => {
-        if (event.key === "ArrowRight" || event.key === "ArrowLeft" || event.key === "Enter" || event.key === " ") {
+        if (event.key === "ArrowRight" || event.key === "ArrowDown" && side || event.key === "Enter" || event.key === " ") {
             event.preventDefault();
             openSide(true);
         }
     };
 
     const onSideKey = (event: KeyboardEvent<HTMLDivElement>) => {
-        if (event.key === "ArrowLeft" || event.key === "ArrowRight" || event.key === "Escape") {
+        if (event.key === "ArrowLeft" || event.key === "Escape") {
             event.preventDefault();
             event.stopPropagation();
             setSide(false);
@@ -187,17 +188,16 @@ export default function ToolsMenu({ organizationOpen, focusable }: { organizatio
                     <div className="tools-menu-appearance" onMouseEnter={() => openSide(false)} onMouseLeave={() => setSide(false)}>
                         <MenuOption
                             aria-label="Appearance"
-                            aria-haspopup="menu"
                             aria-expanded={side}
                             onClick={() => (side ? setSide(false) : openSide(false))}
                             onKeyDown={onAppearanceKey}
                         >
                             {/* (Auto with the icon of what it comes to now.) */}
                             {row(<ThemeIcon value={choice === "auto" ? resolved : choice} />, "Appearance")}
-                            <span className="tools-menu-hint" aria-hidden="true">‹</span>
+                            <span className={"tools-menu-hint tools-menu-fold" + (side ? " tools-menu-fold-open" : "")} aria-hidden="true">›</span>
                         </MenuOption>
                         {side && (
-                            <div ref={sideMenu} className="strategy-sort-menu tools-menu-side" role="menu" aria-label="Appearance" onKeyDown={onSideKey}>
+                            <div ref={sideMenu} className="tools-menu-side" role="group" aria-label="Appearance" onKeyDown={onSideKey}>
                                 {READING_MODES.map(mode => (
                                     <MenuOption key={mode.value} aria-label={mode.label} marked chosen={mode.value === choice} title={mode.title} onClick={run(() => ThemeService.setChoice(mode.value))}>
                                         {row(<ThemeIcon value={mode.value} />, mode.label)}

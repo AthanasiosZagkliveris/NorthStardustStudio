@@ -4,8 +4,8 @@
    app-header.css) -- its icon and word, the icon alone in a narrow
    header -- opening the one dropdown card of every menu a button
    opens (.strategy-sort-menu) with the menu's rows (MenuOption),
-   each with its tool's symbol; Appearance's side menu is the same
-   card, beside its row.
+   each with its tool's symbol; Appearance's reading modes open in
+   the same card, under its row.
 ========================================================== */
 .theme-switch {
 
@@ -41,7 +41,7 @@
 
 }
 
-/* What stands at a row's end: Search's keys, the count of notes, Appearance's arrow to its side menu. */
+/* What stands at a row's end: Search's keys, the count of notes, Appearance's arrow to its reading modes. */
 .tools-menu-hint {
 
     margin-left: auto;
@@ -53,37 +53,37 @@
 
 }
 
-/* APPEARANCE'S SIDE MENU, AN EXTENSION OF THE MENU'S CARD (owner, 2026-11-21 04:05 UTC+2: "the reading options should appear as an extension of the
-   existing menu card"): the same card (.strategy-sort-menu: its ground, its inset light and shade, its shadow), joined to the card's left edge at
-   Appearance's row -- its top level with the row's, no gap, its corners on the joining side square, and its own shadow cut off on that side, so the two
-   read as one shape and the card's shadow is the only one between them. */
-.tools-menu-appearance {
+/* APPEARANCE'S READING MODES OPEN IN THE MENU'S OWN CARD (owner, 2026-11-21 16:02 UTC+2: "The Reading Modes should be extended from the same menu card,
+   hovering over the Appearance"; before, 04:05: "an extension of the existing menu card", drawn then as a second card beside it, which still read as two):
+   under Appearance's row the card grows down by their four rows, its own rows (MenuOption), each mode's symbol under Appearance's word -- one card, one
+   ground, one shadow. Appearance's arrow turns down while they are open. */
+.tools-menu-side {
 
-    position: relative;
+    display: flex;
 
-}
+    flex-direction: column;
 
-.tools-menu-appearance > .tools-menu-side {
-
-    /* (The card's own padding, 4px (.strategy-sort-menu), above the row and round it: the side card's rows stand level with the row, its right edge on the
-       card's left edge.) */
-    top: -4px;
-    right: calc(100% + 4px);
-
-    margin-top: 0;
-    margin-right: 0;
-
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-
-    clip-path: inset(-48px 0 -48px -48px);
+    /* (The symbol, 24px, and its gap, 8px: the modes' symbols stand under the word "Appearance".) */
+    padding-left: calc(var(--icon-size, 24px) + var(--gap-8));
 
 }
 
-/* The joined corner of the menu's card: square where the side card meets it. */
-.tools-menu-list:has(> .tools-menu-appearance > .tools-menu-side) {
+.tools-menu-fold {
 
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
+    display: inline-block;
+
+    transition: transform 0.15s ease;
+
+}
+
+.tools-menu-fold-open {
+
+    transform: rotate(90deg);
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .tools-menu-fold { transition: none; }
 
 }

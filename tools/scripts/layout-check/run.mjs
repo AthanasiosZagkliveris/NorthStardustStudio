@@ -304,9 +304,10 @@ async function checkRemoveLook(page, where, reference, sample = 12) {
  * keeps its ring, and still no tile grown.
  */
 /**
- * THE TOOLTIPS OF THE PAGE ARROWS AND THE RAILS' BULLETS (doc 24; owner, 2026-11-10 06:23 and 2026-11-21 01:01 and 01:04 UTC+2): under the real pointer, each
- * shown arrow's and bullet's tip stands beside its trigger (its box within 12px of the trigger's) and its text is never underlined -- the app's one
- * tooltip (.app-tooltip) and a rail's name shown as a tooltip (a bullet's .bullet-rail-label while it stands apart from the rail) alike.
+ * THE TOOLTIPS OF THE PAGE ARROWS AND THE RAILS' BULLETS (doc 24; owner, 2026-11-10 06:23, 2026-11-21 01:01 and 01:04, and 16:02 UTC+2: "Tooltips should have the
+ * same style, and use the same rules about how and where they appear"): under the real pointer, each shown arrow's and bullet's tip is the app's one tooltip
+ * (.app-tooltip; no rail draws a tip of its own), stands in the one place -- its bottom 6px over the trigger's top, its left edge on the trigger's left edge (moved
+ * in only by the window's 8px margin), or 6px under the trigger where the window has no room above -- and its text is never underlined.
  */
 export async function checkTooltips(page, where) {
     const failures = [];
@@ -322,15 +323,22 @@ export async function checkTooltips(page, where) {
         const found = await page.evaluate(({ x, y, w, h }) => {
             const near = (r) => r.right >= x - 12 && r.left <= x + w + 12 && r.bottom >= y - 12 && r.top <= y + h + 12;
             const tips = [...document.querySelectorAll(".app-tooltip")].filter(tip => getComputedStyle(tip).visibility !== "hidden" && tip.getBoundingClientRect().width > 0);
-            const labels = [...document.querySelectorAll(".bullet-rail-item:hover .bullet-rail-label")].filter(label => getComputedStyle(label).position === "absolute" && Number(getComputedStyle(label).opacity) > 0.5);
-            return [...tips, ...labels].map(tip => {
+            // (A name drawn by a rail itself, beside its bullet, is a tip of its own: there is none.)
+            const own = [...document.querySelectorAll(".bullet-rail-item:hover :is(.bullet-rail-label, .strategy-card-nav-tip)")].filter(label => getComputedStyle(label).position === "absolute" && getComputedStyle(label).display !== "none" && Number(getComputedStyle(label).opacity) > 0.5);
+            const inWindow = left => Math.max(8, Math.min(x, window.innerWidth - 8 - left));
+            return [...tips.map(tip => {
                 const r = tip.getBoundingClientRect();
                 const lines = [tip, ...tip.querySelectorAll("*")].map(node => getComputedStyle(node).textDecorationLine);
-                return { text: (tip.textContent || "").slice(0, 60), beside: near(r), underlined: lines.some(line => line.includes("underline")), left: Math.round(r.left), top: Math.round(r.top) };
-            });
+                const above = Math.abs(r.bottom - (y - 6)) <= 1.5;
+                const under = Math.abs(r.top - (y + h + 6)) <= 1.5 && y - 6 - r.height < 8;
+                const leftEdge = Math.abs(r.left - inWindow(r.width)) <= 1.5;
+                return { text: (tip.textContent || "").slice(0, 60), beside: near(r), placed: (above || under) && leftEdge, underlined: lines.some(line => line.includes("underline")), left: Math.round(r.left), top: Math.round(r.top) };
+            }), ...own.map(label => ({ text: (label.textContent || "").slice(0, 60), beside: true, placed: true, own: true, underlined: false, left: 0, top: 0 }))];
         }, { x: box.x, y: box.y, w: box.width, h: box.height });
         for (const tip of found) {
             if (!tip.beside) failures.push({ page: where, rule: "a tooltip stands beside its trigger", detail: { text: tip.text, left: tip.left, top: tip.top, trigger: { x: Math.round(box.x), y: Math.round(box.y) } } });
+            if (tip.beside && !tip.placed) failures.push({ page: where, rule: "a tooltip stands 6px above its trigger, on its left edge (under it only where there is no room)", detail: { text: tip.text, left: tip.left, top: tip.top, trigger: { x: Math.round(box.x), y: Math.round(box.y) } } });
+            if (tip.own) failures.push({ page: where, rule: "a rail's bullet shows the app's one tooltip, never a tip of its own", detail: { text: tip.text } });
             if (tip.underlined) failures.push({ page: where, rule: "a tooltip's text has no underline", detail: { text: tip.text } });
         }
     }
@@ -492,7 +500,8 @@ export async function checkChapters(page, where) {
                     const right = box.right - (parseFloat(style.paddingRight) || 0) + 0.5;
                     const left = box.left + (parseFloat(style.paddingLeft) || 0) - 0.5;
                     for (const label of nav.querySelectorAll(".bullet-rail-item.active .bullet-rail-label")) {
-                        if (getComputedStyle(label).position === "absolute") {
+                        // (A rail that shows its bullets alone does not draw its names: each is the app's tooltip.)
+                        if (getComputedStyle(label).display === "none") {
                             continue;
                         }
                         const edge = label.getBoundingClientRect();
