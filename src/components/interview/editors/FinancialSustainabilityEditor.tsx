@@ -373,7 +373,10 @@ export default function FinancialSustainabilityEditor({
         // Segment's competitors charge for a similar offer, from their K15 ranges, a line under the price; nothing is written into the price, and it is never
         // compared with it (doc 48, section 12.2).)
         const competitorsSegment = businessFoundationSegments(foundation).find(entry => entry.offerings.some(offering => offering.id === stream.offeringId));
-        const competitorsRange = competitorsSegment ? competitorsPriceRange(competitorsSegment.competitors) : null;
+        // (BY THE NEEDS MET (doc 48, 15.3; owner, 2026-11-20 23:44 UTC+2): the competitors that meet at least one need this Offering meets (their K16), each named in
+        // the line's "i"; while none ticks K16, every competitor of the Segment, said there.)
+        const competitorsNeeds = competitorsSegment?.offerings.find(offering => offering.id === stream.offeringId)?.needsAddressed ?? [];
+        const competitorsRange = competitorsSegment ? competitorsPriceRange(competitorsSegment.competitors, competitorsNeeds) : null;
         const groups: { key: string; title: string; info?: InfoPoint[]; body: ReactNode }[] = [
             {
                 key: "price", title: "Price", info: STREAM_HELP.price,
@@ -407,7 +410,15 @@ export default function FinancialSustainabilityEditor({
 
                 {competitorsRange && (
                     <p className="financial-muted financial-inline-note">
-                        Your competitors charge about {format(competitorsRange.low)}{competitorsRange.high > competitorsRange.low ? " to " + format(competitorsRange.high) : ""} for a similar offer.
+                        <InfoText text={(competitorsRange.byNeeds ? "Competitors meeting the same needs charge about " : "Your competitors charge about ") + format(competitorsRange.low) + (competitorsRange.high > competitorsRange.low ? " to " + format(competitorsRange.high) : "") + " for a similar offer."}>
+                            <InfoNote label="The price customers already pay" points={[
+                                competitorsRange.byNeeds
+                                    ? "From the competitors that meet at least one need this Offering meets (" + competitorsRange.names.join(", ") + "): their prices, lowest to highest."
+                                    : "From every competitor of the Segment with a price (" + competitorsRange.names.join(", ") + "). Tick which needs each one meets, on its card, and this counts only those that meet this Offering's needs.",
+                                "What customers already pay for these needs: a guide for your price, never a price the app sets.",
+                                "Based on: ICAEW, value-based pricing; Osterwalder et al. (2014), Value Proposition Design."
+                            ]} />
+                        </InfoText>
                     </p>
                 )}
 

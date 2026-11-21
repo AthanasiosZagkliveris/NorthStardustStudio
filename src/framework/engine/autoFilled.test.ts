@@ -43,8 +43,22 @@ describe("K15 and P7: what competitors charge", () => {
         // (Not asked of the status quo: its answer goes.)
         expect(competitorSettle({ k15: ["40", "120"] }, "status-quo").k15).toBeUndefined();
         expect(competitorsPriceRange([{ type: "direct", questions: { k15: ["40", "120"] } }, { type: "indirect", questions: { k15: ["90", "300"] } }, { type: "direct", questions: { "k15-unknown": ["yes"] } }]))
-            .toEqual({ low: 40, high: 300 });
+            .toMatchObject({ low: 40, high: 300, byNeeds: false });
         expect(competitorsPriceRange([{ type: "direct", questions: {} }])).toBeNull();
+        // K16 (doc 48, 15.3): only the competitors meeting at least one of the Offering's needs count; while none ticks K16, every one does.
+        const rivals = [
+            { type: "direct", name: "Loomcraft", questions: { k15: ["1800", "5000"], k16: ["need-a"] } },
+            { type: "indirect", name: "Market stall", questions: { k15: ["15", "60"], k16: ["need-b"] } },
+            { type: "direct", name: "Atelier", questions: { k15: ["2000", "6000"], k16: ["need-a", "need-b"] } }
+        ];
+        expect(competitorsPriceRange(rivals, ["need-a"])).toEqual({ low: 1800, high: 6000, names: ["Loomcraft", "Atelier"], byNeeds: true });
+        expect(competitorsPriceRange(rivals, ["need-b"])).toEqual({ low: 15, high: 6000, names: ["Market stall", "Atelier"], byNeeds: true });
+        expect(competitorsPriceRange(rivals, ["need-c"])).toBeNull();
+        expect(competitorsPriceRange(rivals.map(rival => ({ ...rival, questions: { k15: rival.questions.k15 } })), ["need-a"])).toMatchObject({ low: 15, high: 6000, byNeeds: false });
+        expect(competitorsPriceRange(rivals, [])).toMatchObject({ low: 15, high: 6000, byNeeds: false });
+        // (K16 is kept through saving, as ids; not asked of the status quo.)
+        expect(competitorSettle({ k16: ["need-a", "need-a", "need-b"] }, "direct").k16).toEqual(["need-a", "need-b"]);
+        expect(competitorSettle({ k16: ["need-a"] }, "status-quo").k16).toBeUndefined();
         const table = competitorTable([{ name: "A", type: "direct", questions: { k15: ["40", "120"] } }], { profiles: [], reach: undefined, currencySymbol: "£" });
         expect(table.rows.find(row => row[0] === "What they charge")).toEqual(["What they charge", "£40 to £120"]);
     });

@@ -191,7 +191,9 @@ This follows the type rules already built for the text boxes: a substitute has n
 *Built 2026-11-21 (owner, 2026-11-20 23:44 UTC+2: "I think they should be compared according the profile's needs and answers"; doc 48, section 15.3).*
 
 - **Where:** the Offerings part, after K15; asked of every competitor whose K15 is asked (direct and indirect competitors, substitutes).
-- **Control:** ticks (`BusinessTicks`) of the needs the Segment's Profiles name, each once, the same items an Offering ticks ("Which needs does it address?"); no limit.
+- **Control:** ticks (`BusinessTicks`) of the functional needs the Segment's Profiles name, each once, the same items an Offering ticks under Functional Needs Addressed; no limit. With no need named yet: "Add Functional Needs to a Customer Profile first, then choose them here."
+- **Wording by type:** Direct competitor, Indirect competitor: "Which of the Profile's needs do they meet?" Substitute: "Which of the Profile's needs does this alternative meet?"
+- **The line beside the price** (Financials, each Revenue Stream): "Competitors meeting the same needs charge about £60 to £220 for a similar offer.", its "i" naming the competitors counted; while none ticks K16, "Your competitors charge about …", its "i" saying how to narrow it. No line where no competitor counted has a price.
 - **The "i":** the customer needs this competitor meets, from your Profiles; the price range beside each of your Offerings then counts only the competitors that meet the needs it meets (doc 48, 15.3). Based on: Osterwalder et al. (2014), *Value Proposition Design*; Christensen et al. (2016), *Know your customers' jobs to be done* (last).
 - **Saved as:** `k16` [the need items' ids, as an Offering saves them].
 - **Read by:** the market price range beside each Revenue Stream's price (doc 48, 15.3): the lowest From to the highest To (K15) of the competitors whose K16 meets at least one need the Offering ticks; while none ticks K16, every competitor of the Segment.
