@@ -70,11 +70,11 @@ Do not turn this page into accounting, bookkeeping, CRM, sales-management, or pr
 
 ---
 
-# 2. Relationship with Financial Foundation
+## 2. Relationship with Financial Foundation
 
 Page 5 must use information already established in Page 4 rather than asking the user to recreate it.
 
-### Page 4 — Financial Foundation
+#### Page 4 — Financial Foundation
 
 Answers:
 
@@ -90,7 +90,7 @@ It establishes:
 - Funding timing
 - Financial runway / exhaustion risk
 
-### Page 5 — Financial Sustainability
+#### Page 5 — Financial Sustainability
 
 Answers:
 
@@ -113,7 +113,7 @@ Grants, investments, founder capital, loans, and other funding sources remain fi
 
 ---
 
-# 3. Page Structure
+## 3. Page Structure
 
 Use two main sections:
 
@@ -128,9 +128,9 @@ Recommended flow:
 
 ---
 
-# 4. Section 1 — Revenue
+## 4. Section 1 — Revenue
 
-## Purpose
+### Purpose
 
 Define how each existing Offering is expected to generate revenue and how that revenue is expected to develop over time.
 
@@ -142,16 +142,16 @@ Do not recreate Offerings here. Every revenue stream should reference an existin
 
 ---
 
-## 4.1 Revenue Stream
+### 4.1 Revenue Stream
 
 Allow the user to add one or more Revenue Streams.
 
 Each Revenue Stream should contain:
 
-### Offering
+#### Offering
 Select an existing Offering from the Foundation (Page 1).
 
-### Revenue Model
+#### Revenue Model
 (As built it is derived from how the stream is charged, above.) Use a conservative predefined list:
 
 - Product Sale
@@ -165,10 +165,10 @@ Select an existing Offering from the Foundation (Page 1).
 
 Do not create an unnecessarily long list. The purpose is to help the user identify the basic way money is generated.
 
-### Price
+#### Price
 The amount charged for the relevant revenue unit.
 
-### Revenue Unit
+#### Revenue Unit
 Define what the price applies to, such as:
 
 - Product
@@ -179,7 +179,7 @@ Define what the price applies to, such as:
 - Subscription
 - Other
 
-### Frequency
+#### Frequency
 Use a limited list:
 
 - One-time
@@ -192,14 +192,14 @@ Use a limited list:
 - Usage-based
 - Other
 
-### Expected Volume
+#### Expected Volume
 The expected number of units within the selected period.
 
 The system should calculate expected revenue from the defined price, volume, unit and frequency rather than requiring the user to manually calculate totals.
 
 ---
 
-# 5. Revenue Development Over Time
+## 5. Revenue Development Over Time
 
 Revenue must not be treated as a static mature-state number.
 
@@ -214,7 +214,7 @@ An organisation under development may initially have:
 
 Therefore the page must account for **when revenue begins and how it develops**.
 
-## Revenue Timeline
+### Revenue Timeline
 
 Allow the user to establish, at an appropriate level of simplicity:
 
@@ -245,7 +245,7 @@ Do not require detailed monthly forecasting if the user does not need it. Use pr
 
 ---
 
-# 6. Revenue Timing
+## 6. Revenue Timing
 
 Revenue generation and cash availability are not necessarily identical.
 
@@ -274,7 +274,7 @@ Keep this optional and progressive. Do not turn the section into an accounts-rec
 
 ---
 
-# 7. Revenue Summary
+## 7. Revenue Summary
 
 **As built (the round of 2026-11-20 18:35 UTC+2):** a record, no longer a page part: the Workbook's Financial Plan says it (doc 48, section 14).
 
@@ -297,9 +297,9 @@ Do not build a detailed analytics dashboard.
 
 ---
 
-# 8. Section 2 — Break Even
+## 8. Section 2 — Break Even
 
-## Purpose
+### Purpose
 
 Determine the level of revenue or activity required for the organisation's revenue to cover its costs.
 
@@ -313,7 +313,7 @@ And, critically:
 
 ---
 
-# 9. Break-Even Cost Inputs
+## 9. Break-Even Cost Inputs
 
 Break-even calculations should use cost information from Page 4.
 
@@ -325,19 +325,19 @@ Use the cost classification established in Financial Foundation:
 - Variable
 - Semi-variable
 
-## Fixed Costs
+### Fixed Costs
 
 Use costs identified as fixed.
 
 These generally do not change with the level of sales or activity within the relevant period.
 
-## Variable Costs
+### Variable Costs
 
 Use costs that vary with the level of activity.
 
 For an Offering, determine the variable cost associated with one relevant revenue unit where possible.
 
-## Semi-variable Costs
+### Semi-variable Costs
 
 Where possible, encourage the user to separate semi-variable costs into fixed and variable components.
 
@@ -345,7 +345,7 @@ Do not force unnecessary complexity. If the cost cannot reasonably be separated,
 
 ---
 
-# 10. Break-Even Point
+## 10. Break-Even Point
 
 For a simple Offering, calculate:
 
@@ -377,7 +377,7 @@ For example:
 
 ---
 
-# 11. Break-Even Revenue
+## 11. Break-Even Revenue
 
 Also calculate the revenue level required to cover costs.
 
@@ -404,17 +404,17 @@ Example:
 
 ---
 
-# 12. Multiple Offerings
+## 12. Multiple Offerings
 
 When an organisation has multiple Offerings, do not assume that each Offering independently represents the organisation's complete break-even position.
 
 Provide two levels where appropriate:
 
-### Offering Break Even
+#### Offering Break Even
 
 Shows the contribution and break-even implications of an individual Offering.
 
-### Organisation Break Even
+#### Organisation Break Even
 
 Shows the overall revenue/activity required for the organisation to cover its fixed costs.
 
@@ -424,7 +424,7 @@ Keep the underlying calculation understandable and avoid building a complex fina
 
 ---
 
-# 13. Break-Even Time
+## 13. Break-Even Time
 
 This is a core requirement of the page.
 
@@ -454,7 +454,7 @@ The calculation must use the actual revenue and cost timing where such informati
 
 ---
 
-# 14. Financial Exhaustion
+## 14. Financial Exhaustion
 
 The Page must use the financial position established in Page 4 to determine when the organisation's available financial resources are expected to be exhausted.
 
@@ -484,19 +484,19 @@ An organisation can:
 
 ---
 
-# 15. Sustainability Comparison
+## 15. Sustainability Comparison
 
 The most important output of Page 5 is the comparison between:
 
-### Break-Even Time
+#### Break-Even Time
 When the organisation is expected to become self-sustaining from its operations.
 
-### Financial Exhaustion
+#### Financial Exhaustion
 When its available financial resources are expected to run out.
 
 These two dates/periods must be compared.
 
-## Scenario A — Sustainable Before Exhaustion
+### Scenario A — Sustainable Before Exhaustion
 
 Example:
 
@@ -511,7 +511,7 @@ The organisation reaches break even approximately three months before its curren
 
 ---
 
-## Scenario B — Exhaustion Before Break Even
+### Scenario B — Exhaustion Before Break Even
 
 Example:
 
@@ -530,7 +530,7 @@ Do not prescribe a single solution automatically.
 
 ---
 
-## Scenario C — Already Sustainable
+### Scenario C — Already Sustainable
 
 If expected revenue already covers the relevant costs:
 
@@ -540,7 +540,7 @@ The system can still show the expected financial margin and the distance from ex
 
 ---
 
-## Scenario D — Break Even Not Expected
+### Scenario D — Break Even Not Expected
 
 If the current revenue assumptions never reach the break-even requirement within the defined planning period:
 
@@ -552,7 +552,7 @@ Do not claim that the organisation will fail. The result is based only on the cu
 
 ---
 
-# 16. Sustainability Buffer
+## 16. Sustainability Buffer
 
 When break even occurs before financial exhaustion, calculate:
 
@@ -572,7 +572,7 @@ This helps the founder understand how much time exists between becoming sustaina
 
 ---
 
-# 17. Revenue and Financial Runway Must Work Together
+## 17. Revenue and Financial Runway Must Work Together
 
 Page 4 may calculate a runway based on available funds and costs.
 
@@ -580,11 +580,11 @@ Page 5 should refine that picture by incorporating expected revenue.
 
 Therefore distinguish between:
 
-### Gross / Funding Runway
+#### Gross / Funding Runway
 
 How long the organisation can continue based on available funds and known outflows.
 
-### Revenue-Adjusted Financial Position
+#### Revenue-Adjusted Financial Position
 
 Drawn in the Workbook's Financial Forecast since the round of 2026-11-20 18:35 UTC+2, under the Cash-Flow Forecast, after the Funding Timeline (doc 48, section 14); shown once.
 
@@ -596,7 +596,7 @@ This is especially important when the organisation begins with low or zero reven
 
 ---
 
-# 18. Early-Stage Organisations and Zero Revenue
+## 18. Early-Stage Organisations and Zero Revenue
 
 The system must work correctly when:
 
@@ -615,13 +615,13 @@ Do not treat zero revenue as an invalid or incomplete model.
 
 ---
 
-# 19. Decision-Support Summary
+## 19. Decision-Support Summary
 
 At the end of the page, provide a concise financial sustainability summary.
 
 Example:
 
-## Financial Sustainability
+### Financial Sustainability
 
 | Indicator | Result |
 |---|---:|
@@ -632,7 +632,7 @@ Example:
 | Financial Exhaustion | Month 8 |
 | Sustainability Buffer | 3 months |
 
-### Status
+#### Status
 
 **Sustainable before financial exhaustion**
 
@@ -640,7 +640,7 @@ Example:
 
 ---
 
-# 20. Decision Signals
+## 20. Decision Signals
 
 Use a small number of clear signals rather than a complex dashboard.
 
@@ -659,7 +659,7 @@ These should be calculated from the information entered rather than manually sel
 
 ---
 
-# 21. Important Financial Rules
+## 21. Important Financial Rules
 
 The system must follow these rules:
 
@@ -681,7 +681,7 @@ The system must follow these rules:
 
 ---
 
-# 22. Scope Boundaries
+## 22. Scope Boundaries
 
 Do not turn Financial Sustainability into:
 
@@ -703,11 +703,11 @@ The page is a **decision-support model for founders and small organisations**, n
 
 ---
 
-# 23. Final Concept
+## 23. Final Concept
 
 The two Financial pages should work as one connected model:
 
-## Page 4 — Financial Foundation
+### Page 4 — Financial Foundation
 
 **Costs → Funding Need → Capital & Funding → Financial Position**
 
@@ -715,7 +715,7 @@ Answers:
 
 > **Can we establish and finance the organisation, and how long can our available resources support it?**
 
-## Page 5 — Financial Sustainability
+### Page 5 — Financial Sustainability
 
 **Offerings → Revenue → Revenue Development → Break Even → Sustainability**
 

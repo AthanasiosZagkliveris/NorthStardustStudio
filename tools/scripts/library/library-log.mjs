@@ -50,7 +50,9 @@ function append(file, title, intro, header, prefix, rows) {
     // (NEWEST FIRST: the new rows stand on top, the highest id first, under the table's header.)
     const at = text.indexOf("\n|---");
     const end = text.indexOf("\n", at + 1);
-    writeFileSync(file, text.slice(0, end + 1) + lines.reverse().join("\n") + (lines.length ? "\n" : "") + text.slice(end + 1));
+    // (A new row moves the status line's "updated" date to the newest row's.)
+    const head = lines.length ? text.slice(0, end + 1).replace(/^(Status: \*\*log\*\*, started \d{4}-\d{2}-\d{2}, updated )\d{4}-\d{2}-\d{2}/m, "$1" + rows.map(row => String(row[0])).sort().pop()) : text.slice(0, end + 1);
+    writeFileSync(file, head + lines.reverse().join("\n") + (lines.length ? "\n" : "") + text.slice(end + 1));
 }
 
 if (mode === "log") {

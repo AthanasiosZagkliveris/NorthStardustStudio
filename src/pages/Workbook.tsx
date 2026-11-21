@@ -40,7 +40,7 @@ export type { WorkbookState } from "../components/notepad/Notepad";
 
 export type WorkbookTab = NonNullable<WorkbookState["tab"]>;
 
-/** The Workbook's colour: the work done in it is reviewing (WorkColours.ts; docs/design/core/01-current-design.md, part I). */
+/** The Workbook's colour: the work done in it is reviewing (WorkColours.ts; docs/design/foundation/01-current-design.md, part I). */
 const WORKBOOK_HUE = workHue("review");
 
 const TAB_LABELS: Record<WorkbookTab, string> = { "card-notes": "Card Notes", review: "Review", glossary: "Glossary", references: "References", documents: "Business Documents", "financial-documents": "Financial Documents" };

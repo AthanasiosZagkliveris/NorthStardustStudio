@@ -100,9 +100,9 @@ The Financial Position is calculated from the information entered in the previou
 
 ---
 
-# 2. Core Design Principles
+## 2. Core Design Principles
 
-### 2.1 Build on information already recorded
+#### 2.1 Build on information already recorded
 
 Do not ask the user to re-enter costs that already exist in other systems.
 
@@ -115,7 +115,7 @@ Costs should be consolidated from relevant existing records, including:
 
 Where a cost originates elsewhere, show its **source** and provide a link/reference back to the originating record.
 
-### 2.2 Separate data entry from analysis
+#### 2.2 Separate data entry from analysis
 
 The page has two jobs:
 
@@ -124,7 +124,7 @@ The page has two jobs:
 
 Users enter the underlying financial information. The system calculates totals, funding positions, schedules, gaps and runway where possible.
 
-### 2.3 Progressive disclosure
+#### 2.3 Progressive disclosure
 
 Do not expose every financial parameter to every user.
 
@@ -139,7 +139,7 @@ For example:
 
 Only reveal additional fields when they are relevant.
 
-### 2.4 Conservative complexity
+#### 2.4 Conservative complexity
 
 The target audience is founders and small organisations, particularly organisations in development and their early years.
 
@@ -147,7 +147,7 @@ Do not turn this page into professional accounting or treasury software.
 
 ---
 
-# 3. Page Structure
+## 3. Page Structure
 
 **As built (doc 48, section 11):** the four sections are three Master Tiles of Financials' one chapter, Financial Foundation, after Revenue Streams: Costs, Capital & Funding, Financial Position (the Funding Need inside it).
 
@@ -170,43 +170,43 @@ The visual flow should communicate:
 
 ---
 
-# 4. Section 1 — Costs
+## 4. Section 1 — Costs
 
-## Purpose
+### Purpose
 
 Identify and consolidate the costs required to establish, operate and deliver the organisation's Offerings.
 
 The section should primarily be a **consolidated view**, rather than another independent cost-entry system.
 
-## 4.1 Cost Groups
+### 4.1 Cost Groups
 
 Use four primary cost groups:
 
-### Establishment
+#### Establishment
 
 Costs required to establish or launch the organisation.
 
-### Operating
+#### Operating
 
 Ongoing costs required to keep the organisation functioning independently of a particular Offering.
 
-### Offering
+#### Offering
 
 Costs directly associated with creating, delivering or supporting a particular Offering.
 
 Offering costs should link to the relevant Offering where applicable.
 
-### Other
+#### Other
 
 A controlled fallback for costs that do not reasonably fit the previous groups.
 
 ---
 
-# 5. Cost Analysis
+## 5. Cost Analysis
 
 Each cost should have three distinct dimensions.
 
-## 5.1 Cost Group
+### 5.1 Cost Group
 
 **Establishment / Operating / Offering / Other**
 
@@ -214,7 +214,7 @@ This answers:
 
 > What does this cost support?
 
-## 5.2 Cost Behaviour
+### 5.2 Cost Behaviour
 
 **Fixed / Variable / Semi-variable**
 
@@ -222,20 +222,20 @@ This answers:
 
 > How does this cost change as organisational activity changes?
 
-### Fixed
+#### Fixed
 A cost that does not materially change with the level of activity over the relevant period.
 
-### Variable
+#### Variable
 A cost that changes with production, sales, projects or usage.
 
-### Semi-variable
+#### Semi-variable
 A cost containing both a fixed component and a variable component.
 
 Where possible, semi-variable costs should be separated into their fixed and variable components for analysis.
 
 This classification supports the later Break-Even model.
 
-## 5.3 Payment Frequency / Timing
+### 5.3 Payment Frequency / Timing
 
 Possible values:
 
@@ -252,7 +252,7 @@ Do not confuse Cost Group with Payment Frequency.
 
 ---
 
-# 6. Cost Record
+## 6. Cost Record
 
 A cost record should contain, where applicable:
 
@@ -275,31 +275,31 @@ A **possible duplicate** is warned of ("Also recorded as ... Counted twice?") on
 
 ---
 
-# 7. Section 2 — Funding Need
+## 7. Section 2 — Funding Need
 
-## Purpose
+### Purpose
 
 Translate the identified costs into a clear understanding of **how much financial support is required, for what purpose and when**.
 
 Do not simply calculate one total number.
 
-## 7.1 Funding Need Categories
+### 7.1 Funding Need Categories
 
 Use:
 
-### Establishment
+#### Establishment
 Money required to establish and launch the organisation.
 
-### Initial Operating Requirement
+#### Initial Operating Requirement
 Money required to support operations before revenue becomes sufficient.
 
-### Offering Development / Launch
+#### Offering Development / Launch
 Money required to develop, prepare or launch an Offering before it can generate sufficient revenue.
 
-### Other
+#### Other
 For relevant requirements outside the above.
 
-## 7.2 Funding Need Record
+### 7.2 Funding Need Record
 
 Support:
 
@@ -326,17 +326,17 @@ The system must support both simple and scheduled requirements.
 
 ---
 
-# 8. Section 3 — Capital & Funding
+## 8. Section 3 — Capital & Funding
 
-## Purpose
+### Purpose
 
 Identify how the organisation intends to finance its financial requirements.
 
 The main categories are:
 
-### Internal
-### External
-### Other
+#### Internal
+#### External
+#### Other
 
 These categories describe the **origin of financial resources**.
 
@@ -344,7 +344,7 @@ They should not be confused with the specific funding type.
 
 ---
 
-# 9. Internal
+## 9. Internal
 
 (Removed from the Funding tile in the round of 2026-11-20 18:35 UTC+2: doc 48, section 14 says where the founders' own money stands and how a source saved under Internal is read.)
 
@@ -354,7 +354,7 @@ Possible types:
 - Reinvested Revenue
 - Existing Organisational Funds
 
-## Founder's Capital
+### Founder's Capital
 
 Where founder information and capital already exist in the Legal Entity, reference that information rather than duplicating it.
 
@@ -362,25 +362,25 @@ Founder's Capital is not Revenue.
 
 ---
 
-# 10. External
+## 10. External
 
 Use a conservative set of funding types.
 
-### Non-repayable
+#### Non-repayable
 
 - Grant
 - Subsidy
 - Award / Competition
 - Other Non-repayable Funding
 
-### Equity
+#### Equity
 
 - Angel Investment
 - Venture Investment
 - Equity Investment
 - Equity Crowdfunding
 
-### Debt
+#### Debt
 
 - Bank Loan
 - Business Loan
@@ -392,7 +392,7 @@ The system must distinguish these because they have different consequences.
 
 ---
 
-# 11. Other
+## 11. Other
 
 Possible types:
 
@@ -405,7 +405,7 @@ Keep this category deliberately limited.
 
 ---
 
-# 12. Funding Record
+## 12. Funding Record
 
 Every funding source should capture the information necessary to understand its real financial effect.
 
@@ -428,7 +428,7 @@ Common fields:
 
 ---
 
-# 13. Funding Status
+## 13. Funding Status
 
 Do not treat planned funding as available money.
 
@@ -455,7 +455,7 @@ The model should therefore show:
 
 ---
 
-# 14. Funding Schedules
+## 14. Funding Schedules
 
 Funding may be received:
 
@@ -466,10 +466,10 @@ Funding may be received:
 
 Support:
 
-### One-time
+#### One-time
 A single payment.
 
-### Periodic
+#### Periodic
 A repeated amount at a defined frequency.
 
 Parameters:
@@ -479,7 +479,7 @@ Parameters:
 - Start Date
 - End Date or Number of Periods
 
-### Milestone-based
+#### Milestone-based
 Funding is released when a defined condition or milestone is reached.
 
 Parameters:
@@ -488,14 +488,14 @@ Parameters:
 - Expected Date
 - Milestone / Condition
 
-### Other
+#### Other
 For arrangements that do not fit the above.
 
 The system should calculate resulting availability over time.
 
 ---
 
-# 15. Investment
+## 15. Investment
 
 For equity investment, capture only the information needed by the Business System:
 
@@ -513,7 +513,7 @@ The Legal Entity (1. Identity System, page 2) remains the authoritative location
 
 ---
 
-# 16. Loans
+## 16. Loans
 
 When the user selects **Loan**, progressively reveal:
 
@@ -533,7 +533,7 @@ The system should calculate the repayment schedule where sufficient information 
 
 ---
 
-# 17. Loan Repayment Schedule
+## 17. Loan Repayment Schedule
 
 A loan should be modelled as:
 
@@ -558,17 +558,17 @@ Do not require the user to manually create every repayment.
 
 ---
 
-# 18. Loan → Costs / Expenses
+## 18. Loan → Costs / Expenses
 
 Loan principal and interest must be treated differently.
 
-### Principal
+#### Principal
 
 Repayment of borrowed money.
 
 It is a financing cash outflow, not an operating cost of producing an Offering.
 
-### Interest
+#### Interest
 
 The cost of borrowing.
 
@@ -591,9 +591,9 @@ Use the relationship:
 
 ---
 
-# 19. Section 4 — Financial Position
+## 19. Section 4 — Financial Position
 
-## Purpose
+### Purpose
 
 Provide the user with the **big picture** required to make financial decisions.
 
@@ -613,31 +613,31 @@ This section should primarily be calculated rather than manually entered.
 
 ---
 
-# 20. Financial Overview
+## 20. Financial Overview
 
 Primary indicators:
 
-### Funding Need
+#### Funding Need
 Total identified financial requirement.
 
-### Available Now
+#### Available Now
 Financial resources currently available.
 
-### Confirmed Future
+#### Confirmed Future
 Financial resources confirmed but not yet available.
 
-### Pending
+#### Pending
 Funding expected but not yet confirmed.
 
-### Funding Gap
+#### Funding Gap
 Remaining amount required after considering available/confirmed financing.
 
-### Financial Runway
+#### Financial Runway
 Estimated period for which available financial resources can support the organisation before they are exhausted.
 
 ---
 
-# 21. Funding Gap
+## 21. Funding Gap
 
 Calculate the remaining uncovered requirement while considering timing.
 
@@ -653,7 +653,7 @@ The user should be able to trace the gap back to relevant funding needs and cost
 
 ---
 
-# 22. When There Is No Funding Gap
+## 22. When There Is No Funding Gap
 
 If identified financing covers the requirement:
 
@@ -667,7 +667,7 @@ Do not stop at:
 
 Instead calculate:
 
-### Financial Runway
+#### Financial Runway
 
 Estimate how long the organisation can continue operating before its available financial resources are exhausted.
 
@@ -683,7 +683,7 @@ Consider:
 
 ---
 
-# 23. Financial Timeline
+## 23. Financial Timeline
 
 Drawn in the Workbook's Financial Forecast since the round of 2026-11-20 18:35 UTC+2, under the Cash-Flow Forecast, as the Funding Timeline (doc 48, section 14); shown once.
 
@@ -703,7 +703,7 @@ The timeline should reveal cash-pressure periods even when total funding is suff
 
 ---
 
-# 24. Funding Mix
+## 24. Funding Mix
 
 Show where financial resources originate.
 
@@ -721,7 +721,7 @@ Avoid turning this into an automatic recommendation engine.
 
 ---
 
-# 25. Upcoming Obligations
+## 25. Upcoming Obligations
 
 Automatically surface significant future financial events, such as:
 
@@ -735,68 +735,68 @@ Automatically surface significant future financial events, such as:
 
 ---
 
-# 26. Decision Support
+## 26. Decision Support
 
 The Financial Position should provide useful financial signals, not just totals.
 
 Examples:
 
-### Funding Gap
+#### Funding Gap
 > Additional financing of €6,000 is required.
 
-### Funding Timing
+#### Funding Timing
 > Available funds may fall below the identified operating requirement before the next scheduled funding payment.
 
-### Loan
+#### Loan
 > Loan repayments begin in July and create an estimated monthly obligation of €430.
 
-### Runway
+#### Runway
 > Based on current available funds and identified financial requirements, the organisation can operate for approximately 8 months before available funds are exhausted.
 
-### Funding Dependency
+#### Funding Dependency
 > A significant proportion of planned financing depends on funding that has not yet been received.
 
 These are decision-support observations, not financial advice.
 
 ---
 
-# 27. Important Financial Distinctions
+## 27. Important Financial Distinctions
 
 Use `i` information controls to explain:
 
-### Cost
+#### Cost
 Money the organisation needs to spend.
 
-### Funding Need
+#### Funding Need
 Money the organisation needs to obtain to support its financial requirements.
 
-### Capital
+#### Capital
 Money contributed to the organisation, particularly by founders or investors.
 
-### Funding
+#### Funding
 Financial resources provided by another source to support the organisation.
 
-### Loan
+#### Loan
 Borrowed money that creates a repayment obligation.
 
-### Revenue
+#### Revenue
 Money generated through the organisation's Offerings.
 
-### Funding Gap
+#### Funding Gap
 The amount of identified financial requirement not covered by available/confirmed financing.
 
-### Financial Runway
+#### Financial Runway
 The estimated period for which available financial resources can support the organisation under current assumptions.
 
 Capital and funding are **not revenue** and should not be used to artificially improve operating performance or the core Break-Even calculation.
 
 ---
 
-# 28. Page layout
+## 28. Page layout
 
 Use the existing North Stardust visual language and progressive structure. The page is headed "3. Business System" and "3. Financials"; the four sections stand in the order of the logic (1. Costs, 2. Funding Need, 3. Capital & Funding, 4. Financial Position) as three Master Tiles of Financials' one chapter, Financial Foundation, after Revenue Streams: Costs, Capital & Funding and Financial Position, the Funding Need inside Financial Position, each tile with its "i". What each holds, as built, is the "As built" table at the top; the funds that stand under the Funding Need are section 30.3.
 
-# 29. Scope Boundary
+## 29. Scope Boundary
 
 This page should **not** become a full accounting or financial-management system.
 
@@ -816,7 +816,7 @@ Keep the following outside this page unless a future Finance System requires the
 
 The Financial Foundation should provide a **structured financial model for business planning and decision-making**.
 
-## Final Outcome
+### Final Outcome
 
 The page should help the founder move from:
 
@@ -829,18 +829,18 @@ to:
 
 ---
 
-# 30. Cost nature, funds and scheduling (as built)
+## 30. Cost nature, funds and scheduling (as built)
 
-## 30.1 Opening Date and Global Settings
+### 30.1 Opening Date and Global Settings
 
 - **Opening Date** is a field of the Identity System's Organisation tile (it moved from this page on 2026-10-24); the Global Settings show it. **Plan Start is never typed**: it is the earlier of the Opening Date's month and the earliest cost, a costed card's or a legal expense's. Until the Opening Date is given, the funds block asks for it; with it, costs are split into what falls before and from the opening.
 - **Global Settings** ([its specification](../settings/global-settings.md)) are kept per organisation on `/settings` (the header's Menu, its Settings row), never on this page: the business stages' durations, channel fee table ([Global Settings](../settings/global-settings.md)), royalty 10%, affiliate 15%, agent 10%, capitalisation limit, useful life by six asset groups, target reserve months (3), Startup Contingency rate (10%), Operational Contingency rate (4%), insurance per employee. The income tax basis and rate are this page's, in its Plan Settings (doc 5, section 5.5.6); the Global Settings screen shows the same Plan Settings and holds no rate of its own.
 
-## 30.2 Cost nature (rules C1 to C16)
+### 30.2 Cost nature (rules C1 to C16)
 
 Each cost line has a nature, shown in its own column (header "Cost nature", with an i): **Startup**, **Pre-Operating**, **CapEx**, **OpEx**, **COGS** or **Inventory**. Before the opening the nature follows the rules (a dated cost before the opening is in the budget; an asset above the capitalisation limit, tested on one unit with its bundled services, is CapEx). From the opening on, the row has a dropdown to choose CapEx, OpEx or COGS, or "Set by the rules"; the months before the opening stay in the budget. The Amount column header carries the currency, "Amount (EUR)", and the rows hold the figures alone.
 
-## 30.3 Funds (rules F1 to F6)
+### 30.3 Funds (rules F1 to F6)
 
 Under Funding Need, with an Opening Date:
 
@@ -850,23 +850,23 @@ Under Funding Need, with an Opening Date:
 - **Operational Contingency Fund**: after the opening, the Operational rate of monthly OpEx is set aside until the fund equals the target reserve months of OpEx; the card shows OpEx a month, the target, and the months to reach it.
 - The **Establishment** funding need is the cash to raise.
 
-## 30.4 Calculated lines
+### 30.4 Calculated lines
 
 Lines the page computes and the forecast uses, with no record behind them: employer on-costs, key-person insurance per employee, channel fees, royalties and commissions, depreciation (cost plus services over useful life; COGS for Offering, OpEx for Infrastructure), amortisation (franchise fee), opening inventory released to COGS, an accumulated Start-up and Pre-Operating row, and income tax. The balance sheet gains Inventory, Intangible assets, Pre-launch costs to be written off and **Payments due under payment plans**.
 
 **Channel fees (2026-11-15).** A "% of revenue" card is a rate of each Offering's own revenue, never shared out by its Offering shares; an expense a subchannel holds is charged on what each Offering's customers pay there (owner, 2026-11-17 09:09 UTC+2, option (a): "Fees follow where they pay"): the Offering's revenue shared equally among its Segment's Purchase-stage subchannels, none to Discover, a marketplace's sale paying its own fee only and the rest of the founder's own sales paying through the Segment's payment services (`offeringPayingRevenue`); a commission held by referral and affiliate subchannels only, on what the Customer Sources naming them bring (`offeringChannelRevenue`); the whole revenue where no subchannel holds it, or none of them serves the Offering (`revenueFractions`, as the Inventory). A card whose name takes the Legal Entity country's row of the Channel Fee Table is charged from that row; a payment service's card with no price is charged from its row too; a card is never charged twice. The table and its rows: [Global Settings](../settings/global-settings.md).
 
-## 30.5 Scheduling a per-project card
+### 30.5 Scheduling a per-project card
 
 A Per project card with a Start date or a ticked payment plan is a dated payment: the cost (price x Qty) is counted in full in the month of the Start date; the cash leaves by the plan (Deposit & Balance, Instalments, Milestones). The difference is held as prepaid (paid ahead) or as a payment due (paid after). Payments dated before the plan start come off opening cash. A per-project card with neither remains a cost of each project sold. The cost row's When says "Paid in full, May 2027" or "N payments, A to B". A Per unit cost follows the units sold.
 
-## 30.6 Dates, rates and floors
+### 30.6 Dates, rates and floors
 
 - **Dates place the cost.** A card's Start date puts a one-time cost in its month, starts a recurring one (monthly, quarterly, annually) in that month, and its End date stops it; a Per project card with a Start date or a plan is one dated payment.
 - **A rate is shown as a rate**: a Percentage cost (a payment fee, a royalty, a commission) reads "4%" under "Amount" and "% of Rev" under Frequency, never as money.
 - **Rate and floor extras**: Customs duty and Other duties add a line of the goods' own kind (price times the rate); a person's Commission is a calculated line of the revenue it follows; a Minimum order makes a month's purchases at least that many units, the excess carried as stock.
 - **The examples** (Lumen & Loom, Quillfield) are in the current structure: every card in its category and group, dated, linked to its Offerings, with their suppliers, activities, Opening Date and Global Settings.
 
-## 30.7 Not built
+### 30.7 Not built
 
 The Repair Record (the use of the contingency fund against actuals), and the plan against actual; VAT as a pass-through and import VAT included, and the rates in the Global Settings (document 5, section 5.2, K1 and K2).

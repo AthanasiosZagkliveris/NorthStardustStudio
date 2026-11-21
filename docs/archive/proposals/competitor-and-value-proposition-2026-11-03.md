@@ -1,6 +1,6 @@
 # The Competitor card and the Value Proposition tile: the proposal of 2026-11-03
 
-Status: **archive**, written 2026-11-03, moved here 2026-11-11. The tables of the Competitor card and the paragraph of the Value Proposition tile as proposed on 2026-11-03, kept for what they record. Their ids are not the built ones. What is built: document 41 (`design/questionnaire/41-competitor-questions.md`, the Competitor card) and document 42 (`design/questionnaire/42-value-proposition-questions.md`, the Value Proposition tile).
+Status: **archive**, written 2026-11-03, moved here 2026-11-11. The tables of the Competitor card and the paragraph of the Value Proposition tile as proposed on 2026-11-03, kept for what they record. Their ids are not the built ones. What is built: document 41 (`design/questions/41-competitor-questions.md`, the Competitor card) and document 42 (`design/questions/42-value-proposition-questions.md`, the Value Proposition tile).
 
 Moved here from document 28, sections 6.6 and 6.7, on 2026-11-11 (owner, 2026-11-11: "Do all, of them.", the folder report's item 4), so that docs 41 and 42 are the one owner of these questions.
 

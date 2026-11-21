@@ -20,7 +20,7 @@ const fieldsOf = code => fieldsIn(db, code);
 const out = [];
 const say = (...lines) => out.push(...lines);
 
-/** What happens under the pointer and the keyboard, in words (measured: docs/design/core/06-catalogue-record.md). */
+/** What happens under the pointer and the keyboard, in words (measured: docs/design/records/06-catalogue-record.md). */
 /** Where the scan found each asset or variant (a condition on the scan's records). */
 const FOUND = {
     "BTN.001": "type = 'x'", "BTN.ADD.001.001": "type = 'plus' and cls like '%plus-box%'", "BTN.002": "type = 'info'",

@@ -84,7 +84,7 @@ The section must not become a CRM system, marketing management system, or detail
 
 ---
 
-# 2. Relationship to the Foundation
+## 2. Relationship to the Foundation
 
 The Channels section uses information already defined in the Foundation (Page 1):
 
@@ -98,7 +98,7 @@ The Channels section should not require the user to re-enter the Foundation info
 
 ---
 
-# 3. Channel Card Structure
+## 3. Channel Card Structure
 
 Each Customer Channel Card should contain two main areas:
 
@@ -107,9 +107,9 @@ Each Customer Channel Card should contain two main areas:
 
 ---
 
-# 4. Information / References
+## 4. Information / References
 
-## Header
+### Header
 
 Display:
 
@@ -123,7 +123,7 @@ This section is a reference area, not a second input form.
 
 ---
 
-## Three Equal Columns
+### Three Equal Columns
 
 Create three equal-width columns:
 
@@ -132,7 +132,7 @@ Create three equal-width columns:
 
 Display the relevant linked information from the Foundation.
 
-### Customer Segment
+#### Customer Segment
 
 Show the selected Customer Segment name as a link.
 
@@ -150,7 +150,7 @@ The actual relevant information should be displayed underneath the title where a
 
 ---
 
-### Customer Profiles
+#### Customer Profiles
 
 Show the selected Customer Profile names as links.
 
@@ -166,7 +166,7 @@ Information help:
 
 ---
 
-### Offerings
+#### Offerings
 
 Show the selected Offering names as links.
 
@@ -182,7 +182,7 @@ Information help:
 
 ---
 
-# 5. Channel Structure
+## 5. Channel Structure
 
 Channels should use a nested hierarchy:
 
@@ -209,7 +209,7 @@ The category should appear once, with its channels nested underneath.
 
 ---
 
-# 6. Available Channel Categories
+## 6. Available Channel Categories
 
 Provide a conservative predefined list of channel categories.
 
@@ -239,7 +239,7 @@ The categories are intentionally limited to cover the main ways small organisati
 
 ---
 
-# 7. Adding a Channel
+## 7. Adding a Channel
 
 Provide:
 
@@ -270,7 +270,7 @@ The same category may contain multiple specific channels.
 
 ---
 
-# 8. Channel Table
+## 8. Channel Table
 
 Each channel should contain the following fields:
 
@@ -285,7 +285,7 @@ The purpose of the channel is incorporated into the Action.
 
 ---
 
-# 9. Channel
+## 9. Channel
 
 Display the specific channel name.
 
@@ -305,7 +305,7 @@ The category should be displayed once above its nested channels.
 
 ---
 
-# 10. Links
+## 10. Links
 
 The Links field stores the actual destination or access point for the channel.
 
@@ -333,7 +333,7 @@ Do not repeat the provider name for each link.
 
 ---
 
-# 11. Offerings
+## 11. Offerings
 
 Allow the user to associate one or more Offerings with the channel.
 
@@ -359,7 +359,7 @@ Do not allow users to create duplicate Offering records inside Channels.
 
 ---
 
-# 12. Journey Stage
+## 12. Journey Stage
 
 Journey Stage determines **where in the customer journey the channel is relevant**.
 
@@ -403,7 +403,7 @@ Journey Stage must therefore support **multiple selections per channel**.
 
 ---
 
-# 13. Action
+## 13. Action
 
 The Action describes:
 
@@ -437,7 +437,7 @@ Actions should explain enough to understand both **what happens** and **why it h
 
 ---
 
-# 14. Journey Stage → Action Relationship
+## 14. Journey Stage → Action Relationship
 
 The selected Journey Stages should control the Action structure.
 
@@ -477,7 +477,7 @@ This creates the relationship:
 
 ---
 
-# 15. Multiple Actions
+## 15. Multiple Actions
 
 Allow more than one Action under a Journey Stage when necessary.
 
@@ -497,29 +497,29 @@ Evaluation
 
 Do not impose unlimited complexity. Keep the interaction simple and suitable for small organisations.
 
-### Action order numbers, and sharing an action by its number
+#### Action order numbers, and sharing an action by its number
 
 Every distinct Action of a Segment has a **total order number** ("#12"): the Actions are counted in the order the table is read (Channel Category, channel, Journey Stage, line), each Action taking the next number the first time it appears. An Action shared by several rows (the same Action, placed in more than one channel or stage) has **one** number, shown on every row it stands in, so the numbers run 1..N without gaps. Folding or isolating rows renumbers nothing.
 
 An Action can be shared by typing "#" and its number in an Action line: the Action with that number is offered as the first (only) suggestion and, chosen with Enter or a click, is placed on that line — the same Action, not a copy — exactly as when it is picked from the suggestions of the Segment's other Actions. A number that refers to nothing (or to an Action the row already holds) offers nothing and the text stays as typed. An Action line left empty disappears when focus leaves it, unless it is the only line of its row (which keeps its one empty line to type the first Action in).
 
-### Linking a resource to an action of any channel
+#### Linking a resource to an action of any channel
 
 A resource's "# Link an action" finds an Action of the Segment's **whole** Customer Channel table, not only of its own channel: type its number ("12" or "#12") or words from it, or choose "Link an action" and click any Action line of that Segment's table. A resource linked to an Action that stands only in another channel stays on the channel it was made on and also shows in the cell of every channel whose rows hold that Action, marked "via shared action": "shared action" is a link that goes to the Action's line (one link per Action, "#3 #7", when it is shared through several). The Channel resources table lists those channels under the resource's home channel.
 
-### The isolated mode
+#### The isolated mode
 
 A click on the link or tag symbol of an Action isolates the rows involved (the others collapse away, and a shared Action shows every resource card linked to it in every channel kept). While a Segment is isolated nothing can be created in its table: every Add button is hidden, Enter in an Action line opens no new line, "Link an action" is inert, and the Links tick of a channel cannot open a new box; text already there stays editable. The isolation ends with a second click on the symbol, Escape, the note in the section's title row, or a click on empty space (anywhere that is not a control or a cell's content).
 
-### Column widths
+#### Column widths
 
 The Journey Stage column is wide enough for its "+ Add Journey Stage" button on one line, and the Channel column for the longest Channel Category ("Physical Delivery") and channel name, whether or not a category is open.
 
 ---
 
-# 16. Examples
+## 16. Examples
 
-### Social Media
+#### Social Media
 
 ```text
 Social Media
@@ -533,7 +533,7 @@ Social Media
 
 ---
 
-### Marketplace
+#### Marketplace
 
 ```text
 Marketplace
@@ -547,7 +547,7 @@ Marketplace
 
 ---
 
-### Direct Payment + File Delivery
+#### Direct Payment + File Delivery
 
 ```text
 Direct Payment
@@ -568,39 +568,39 @@ This separation must be supported by the data model.
 
 ---
 
-# 17. Design Principles
+## 17. Design Principles
 
 The interface should follow these principles:
 
-### Reference, not duplication
+#### Reference, not duplication
 Foundation information is referenced and linked rather than recreated.
 
-### Practical progression
+#### Practical progression
 The user should naturally move through:
 
 **Who → What → Where → When → What to do**
 
-### Conservative choices
+#### Conservative choices
 Use predefined Journey Stages and Channel Categories rather than unlimited choices.
 
-### Flexible relationships
+#### Flexible relationships
 One channel may support multiple offerings and multiple Journey Stages.
 
 One Offering may use multiple channels.
 
 One Customer Profile may use multiple channels.
 
-### Clear hierarchy
+#### Clear hierarchy
 Use:
 
 **Channel Category → Specific Channel → Journey Stage → Action**
 
-### Minimal complexity
+#### Minimal complexity
 Do not introduce CRM features, campaign planning, analytics, automation, conversion tracking, or detailed customer relationship management.
 
 ---
 
-# 18. Final UI Structure
+## 18. Final UI Structure
 
 ```text
 CUSTOMER CHANNELS

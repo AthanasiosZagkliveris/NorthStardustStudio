@@ -1,6 +1,6 @@
 # Business System — Page 2: Infrastructure & Capability
 
-Status: **specification**, written 2026-09-27, updated 2026-11-21. It says what the page asks and shows. Where it points elsewhere, that document owns the detail: the card rows are document 26 (card structure, in `design/current/`), the cost model is document 1, Part D, the measures and the look are the layout rulebook (`ai/layout-rules.md`, sections 8 to 12) and the pattern of tiles and cards is in the same rulebook (sections 6 and 8 to 10). The open requirements for this page are in document 5, section 5.5.4.2.
+Status: **specification**, written 2026-09-27, updated 2026-11-21. It says what the page asks and shows. Where it points elsewhere, that document owns the detail: the card rows are document 26 (card structure, in `design/foundation/`), the cost model is document 1, Part D, the measures and the look are the layout rulebook (`ai/layout-rules.md`, sections 8 to 12) and the pattern of tiles and cards is in the same rulebook (sections 6 and 8 to 10). The open requirements for this page are in document 5, section 5.5.4.2.
 
 > **3. Business System — Section 3, the page Infrastructure & Capability (the second of three pages).** It reads Customer Engagement (Section 2); the Financials' Costs (Section 5) read its costs.
 

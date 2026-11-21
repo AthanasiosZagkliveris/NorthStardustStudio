@@ -12,7 +12,7 @@ Related: doc 44 (the questions register), docs/ai/layout-rules.md ("A draft is w
 - **computed**: a figure or line worked out and shown read-only where an answer stands.
 
 **Doc abbreviations**
-- "doc NN" is docs/design/questionnaire/NN-*.md, except docs 1 to 26, which are in docs/design/core|current|library.
+- "doc NN" is the file numbered NN in docs/design/ (foundation/, interface/, questions/, research/, records/ or library/).
 - "spec Identity" is docs/specifications/identity-system/page-1-definition.md.
 - "spec Brand" is docs/specifications/brand-system/page-1-brand.md.
 - "Biz README" is docs/specifications/business-system/README.md, section "What crosses between the pages" and its table "What each later page reads from Section 1".

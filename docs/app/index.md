@@ -2,7 +2,7 @@
 
 Status: **index**, written 2026-10-29, updated 2026-11-21 (every place checked against the code; the Competitors, Offerings and Value Proposition rows 2026-11-09; the Business pages, the Financials tiles and the Legal Entity rows 2026-11-20; the Identity System's and the Financial Documents' rows 2026-11-21). An alphabetical list of the places and things in the app: where to find each in the app, and which document describes it. The order of the pages and how the app is entered are in `contents.md`; the meaning of the terms is in `glossary.md`; the alphabetical index of the documents is `docs/index.md`.
 
-Paths are written "System › page › tile". "Doc 28" is the document numbered 28 in `docs/README.md` (`design/questionnaire/28-questionnaire-specification.md`); "01 C.2" is its section C.2. "Section 3" is the specification of the Business System's Section 3, `specifications/business-system/page-2-infrastructure-and-capability.md`, and so for the other sections (the folder's `README.md` lists them).
+Paths are written "System › page › tile". "Doc 28" is the document numbered 28 in `docs/README.md` (`design/questions/28-questionnaire-specification.md`); "01 C.2" is its section C.2. "Section 3" is the specification of the Business System's Section 3, `specifications/business-system/page-2-infrastructure-and-capability.md`, and so for the other sections (the folder's `README.md` lists them).
 
 ## A
 

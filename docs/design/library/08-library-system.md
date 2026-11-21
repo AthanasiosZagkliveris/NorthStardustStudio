@@ -63,7 +63,7 @@ The owner's decision: **the app changes the table.** The table follows the app i
 
 **The two logs.** The **library log** states every change to the assets of the library (section 5). The **app structure log** records every change of the tables, that is, of the structure of the app (what stands where).
 
-**The sync between the app and the tables is not built** (step 7 of section 7): what it would do, how it would tell the three cases apart and what it would read are proposals, kept in `docs/design/core/05-not-done-yet.md`, section 5.6.
+**The sync between the app and the tables is not built** (step 7 of section 7): what it would do, how it would tell the three cases apart and what it would read are proposals, kept in `docs/design/records/05-not-done-yet.md`, section 5.6.
 
 **Checker (built).** `npm run library:check` holds a snapshot of the last logged state of the library and the tables, lists every difference, classifies it, and fails when a change has no log entry. `npm run library:log` writes the entries (docs 10 and 11) and stores the state.
 
@@ -75,7 +75,7 @@ The size of a component is written once, in the library (the look of the asset o
 2. **The contracts.** The older asset contracts of `src/library/assets` (plus box, info note, remove x, fold arrow, dropdown, floating card) take their sizes from the same place, so a size is not written twice there either.
 3. **The comparison.** `npm run library:compare` (`tools/scripts/library/app-compare.mjs`) puts the library's look of every component beside what the walk of the running app measured, and writes `docs/design/library/15-library-vs-app.md`; with the flag check it fails when the app differs from the library and the difference is not a known one. The walk is `tools/scripts/catalogue/app-crawl.mjs`.
 
-The library holds the looks (sizes, corners, type); the React components that draw them, and which of them are shared, are in doc 21 (`docs/design/current/21-shared-components.md`). A shared component that has no asset of its own (for example `FittingRadioChoice` or `OptionalNote`) is not in the library and not in the logs. The floating card's contract is in `src/library/assets/floatingCard.ts`; its pattern and `npm run check:card` are in `docs/ai/layout-rules.md`, section 8 ("A floating card of questions").
+The library holds the looks (sizes, corners, type); the React components that draw them, and which of them are shared, are in doc 21 (`docs/design/interface/21-shared-components.md`). A shared component that has no asset of its own (for example `FittingRadioChoice` or `OptionalNote`) is not in the library and not in the logs. The floating card's contract is in `src/library/assets/floatingCard.ts`; its pattern and `npm run check:card` are in `docs/ai/layout-rules.md`, section 8 ("A floating card of questions").
 
 To change a size: change the look in the library (section 4), run `npm run library:tokens`, walk the app and run the comparison. A component that differs is fixed in the stylesheet at the root (the one rule that draws it), not by a rule on top of it.
 

@@ -60,7 +60,7 @@ Do **not duplicate information that already exists in those sections. Use refere
 
 ---
 
-# 2. Core Structure
+## 2. Core Structure
 
 The relationship structure is:
 
@@ -88,7 +88,7 @@ The Goal is defined for the relevant relationship interaction.
 
 ---
 
-# 3. Customer Profile
+## 3. Customer Profile
 
 Each Customer Relationship is created under a **Customer Profile**.
 
@@ -109,9 +109,9 @@ A profile can have multiple Relationship Types.
 
 ---
 
-# 4. Relationship Type
+## 4. Relationship Type
 
-### Field
+#### Field
 
 **Relationship Type ⓘ**
 
@@ -121,7 +121,7 @@ The user may select more than one Relationship Type for the same Customer Profil
 
 Each selected Relationship Type creates its **own individual Relationship Type slot**.
 
-### Information / Help
+#### Information / Help
 
 The ⓘ should explain the available options:
 
@@ -146,15 +146,15 @@ This allows each type to have its own Purpose, Offerings, Channels, Approaches a
 
 ---
 
-# 5. Purpose
+## 5. Purpose
 
 Purpose belongs to each **Relationship Type**.
 
-### Field
+#### Field
 
 **Purpose**
 
-### Question
+#### Question
 
 > Why do we maintain this type of relationship with this customer?
 
@@ -178,7 +178,7 @@ The Relationship Purpose describes **why the organisation maintains the relation
 
 ---
 
-# 6. Offerings
+## 6. Offerings
 
 Within each Relationship Type, allow the user to select the relevant Offerings from the existing Offerings section.
 
@@ -206,11 +206,11 @@ If the profile does not use an Offering, do not create an empty slot for it.
 
 ---
 
-# 7. Journey Stage
+## 7. Journey Stage
 
 For each Offering within a Relationship Type, allow the user to select one or more Journey Stages.
 
-### Field
+#### Field
 
 **Journey Stage**
 
@@ -230,7 +230,7 @@ Do not confuse Journey Stage with Action.
 
 ---
 
-# 8. Channel
+## 8. Channel
 
 Under each selected Journey Stage, allow the user to select the relevant **Channel** from the existing Channels section.
 
@@ -269,11 +269,11 @@ Do not rewrite or duplicate the Action.
 
 ---
 
-# 9. Keep Journey Stage and Action Separate
+## 9. Keep Journey Stage and Action Separate
 
 These concepts must remain distinct.
 
-### Journey Stage
+#### Journey Stage
 
 Answers:
 
@@ -287,7 +287,7 @@ Examples:
 - Delivery
 - Support & Follow Up
 
-### Action
+#### Action
 
 Answers:
 
@@ -310,9 +310,9 @@ The Relationship section should reference the existing Channel Action rather tha
 
 ---
 
-# 10. Approach
+## 10. Approach
 
-### Field
+#### Field
 
 **Approach**
 
@@ -374,9 +374,9 @@ The Approach therefore explains **how the organisation conducts the relationship
 
 ---
 
-# 11. Goals
+## 11. Goals
 
-### Field
+#### Field
 
 **Goal ⓘ**
 
@@ -408,11 +408,11 @@ Goal ⓘ
 
 ---
 
-# 12. Do Not Duplicate Information
+## 12. Do Not Duplicate Information
 
 The Customer Relationships section should reuse information from the other Business System pages and sections.
 
-### From Customer Profiles
+#### From Customer Profiles
 
 Reference:
 
@@ -427,7 +427,7 @@ Do not repeat:
 - Objections
 - Needs
 
-### From Offerings
+#### From Offerings
 
 Reference:
 
@@ -440,7 +440,7 @@ Do not repeat:
 - Content & Scope
 - Purchase & Delivery
 
-### From Channels
+#### From Channels
 
 Reference:
 
@@ -459,11 +459,11 @@ The Relationship section adds new information:
 
 ---
 
-# 13. Dynamic Slot Behaviour
+## 13. Dynamic Slot Behaviour
 
 The interface should create slots based on the user's selections.
 
-### Example
+#### Example
 
 The user selects:
 
@@ -482,7 +482,7 @@ Relationship Types
 
 Create two independent Relationship Type slots.
 
-### Self-Service
+#### Self-Service
 
 ```text
 Purpose
@@ -504,7 +504,7 @@ Goal
 Get
 ```
 
-### Personal Assistance
+#### Personal Assistance
 
 ```text
 Purpose
@@ -532,7 +532,7 @@ Do not automatically create Website Development under Self-Service unless the us
 
 ---
 
-# 14. Multiple Relationship Types
+## 14. Multiple Relationship Types
 
 A Customer Profile may have multiple Relationship Types.
 
@@ -578,7 +578,7 @@ Internally, they are separate Relationship Type selections/slots, even if the in
 
 ---
 
-# 15. Multiple Offerings
+## 15. Multiple Offerings
 
 The same Relationship Type can apply to multiple Offerings.
 
@@ -613,41 +613,41 @@ The Approach must be individual to each Journey Stage because the interaction ca
 
 ---
 
-# 16. User Experience Principle
+## 16. User Experience Principle
 
 The system should progressively expose information rather than presenting a large empty form.
 
 Recommended interaction:
 
-### Step 1
+#### Step 1
 Select Customer Profile.
 
-### Step 2
+#### Step 2
 Select one or more Relationship Types.
 
-### Step 3
+#### Step 3
 For each Relationship Type, define its Purpose.
 
-### Step 4
+#### Step 4
 Select the relevant Offerings.
 
-### Step 5
+#### Step 5
 For each Offering, select the relevant Journey Stages.
 
-### Step 6
+#### Step 6
 For each Journey Stage, select the relevant existing Channel.
 
-### Step 7
+#### Step 7
 Define the Approach for that specific Journey Stage.
 
-### Step 8
+#### Step 8
 Select the relevant Goal.
 
 Only create slots for information that is relevant to the user's selections.
 
 ---
 
-# 17. Final Relationship Model
+## 17. Final Relationship Model
 
 The final structure should be:
 

@@ -1,4 +1,4 @@
-# Business System — Page 1: Foundation
+# Business System — Page 1, Foundation & Engagement: Foundation
 
 Status: **specification**, written 2026-09-27, updated 2026-11-21. The text from "Describe and implement" on is the owner's requirement as given (its wording is used exactly); "As built" says how the app draws it today.
 
@@ -23,9 +23,9 @@ The tile order in the frame is Segment Description, Competitors, Offerings, Valu
 
 **What the page asks.**
 
-- The Segment card keeps the five Description parameters below as five boxes, each with its title, its text (the owner's wording), its choice questions and its Notes. Business Data is never optional: a Segment is one group, of people or of businesses. Where Identity chooses both B2C and B2B, the page makes two Segments, the first of people and the second of businesses; a Segment added after them asks "Who is this Segment's customer?". Every question, option and "i" of the Segment card is in doc 35 (`design/questionnaire/35-segment-questions.md`).
-- The Profile card keeps its Name and the owner's boxes and asks choice questions in them. Every question, option and "i" of the Profile card is in doc 36 (`design/questionnaire/36-profile-questions.md`), which also says which questions are not built yet.
-- Every question, option and "i" of the Competitor card is in doc 41 (`design/questionnaire/41-competitor-questions.md`), of the Value Proposition in doc 42 (`42-value-proposition-questions.md`) and of the Offering card in doc 43 (`43-offering-questions.md`). The design behind the questions is in doc 28, section 6 (`design/questionnaire/28-questionnaire-specification.md`); what the later pages read from this page is in the coverage map (`README.md`, "What each later page reads from Page 1").
+- The Segment card keeps the five Description parameters below as five boxes, each with its title, its text (the owner's wording), its choice questions and its Notes. Business Data is never optional: a Segment is one group, of people or of businesses. Where Identity chooses both B2C and B2B, the page makes two Segments, the first of people and the second of businesses; a Segment added after them asks "Who is this Segment's customer?". Every question, option and "i" of the Segment card is in doc 35 (`design/questions/35-segment-questions.md`).
+- The Profile card keeps its Name and the owner's boxes and asks choice questions in them. Every question, option and "i" of the Profile card is in doc 36 (`design/questions/36-profile-questions.md`), which also says which questions are not built yet.
+- Every question, option and "i" of the Competitor card is in doc 41 (`design/questions/41-competitor-questions.md`), of the Value Proposition in doc 42 (`42-value-proposition-questions.md`) and of the Offering card in doc 43 (`43-offering-questions.md`). The design behind the questions is in doc 28, section 6 (`design/questions/28-questionnaire-specification.md`); what the later pages read from this page is in the coverage map (`README.md`, "What each later page reads from Page 1").
 - The floating cards share one pattern (`ai/layout-rules.md`, section 8, "A floating card of questions").
 
 The figures of the requirement (one primary Segment, a maximum of 2; up to 3 Profiles each) are **advice** given in the guidance: the Add buttons are always offered and nothing is cut off. A Competitor's Type options read in the singular ("Direct competitor"). The older four-column drawing is in the code (`BusinessFoundationEditor` without `asTiles`) but the app does not use it. The open requirements for this page are in document 5, section 5.5.3.

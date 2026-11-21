@@ -2,7 +2,7 @@
 
 Status: **contents**, written 2026-10-12, updated 2026-11-21 (checked against the code). How the app is entered, its Systems and pages, where the figures and dates come from, and where things are in the code. The alphabetical list of places is `index.md`; the terms are in `glossary.md`; the contents of the documents are `docs/README.md`.
 
-What each part of the app is for and what it holds is below. The rules of layout are in `ai/layout-rules.md`; the cost rules are in `design/core/01-current-design.md` (the cost model parts). Where each component is, and which are shared: `ai/code-map.md` and `design/current/21-shared-components.md`. The page-by-page content of the Business System is in `specifications/business-system/`.
+What each part of the app is for and what it holds is below. The rules of layout are in `ai/layout-rules.md`; the cost rules are in `design/foundation/01-current-design.md` (the cost model parts). Where each component is, and which are shared: `ai/code-map.md` and `design/interface/21-shared-components.md`. The page-by-page content of the Business System is in `specifications/business-system/`.
 
 ## How the app is entered
 
@@ -21,7 +21,7 @@ What each part of the app is for and what it holds is below. The rules of layout
 | 3. Business | 1 Foundation & Engagement, 2 Infrastructure & Capability, 3 Financials | What it sells, to whom, with what, and whether the money works |
 | 4. Strategy | One page, Situation & Direction: Current Situation Analysis, SWOT Analysis, Strategic Compass, Strategic Period (its dates, the Roadmap tile, the Theme cards with their Goals, Objectives and Metrics) | Where it is heading |
 
-(The saved sections 2 Goals & Objectives and 3 Roadmap of the Strategy System, and the Founders Profile of the Identity System, are hidden pages: their data is kept and drawn inside the tiles above. The table of every tile by page is `design/core/01-current-design.md`, B.1.)
+(The saved sections 2 Goals & Objectives and 3 Roadmap of the Strategy System, and the Founders Profile of the Identity System, are hidden pages: their data is kept and drawn inside the tiles above. The table of every tile by page is `design/foundation/01-current-design.md`, B.1.)
 
 ### Business, page by page
 - **1. Foundation & Engagement**: one Segment at a time (the Segments rail on the right), each Segment a chapter, its two subchapters side by side in its one frame: Business Foundation and Engagement (owner, 2026-11-20 13:28 UTC+2: "Segment - chapter, Business Foundation, and Engagement - subchapters"). Business Foundation: for each customer Segment, four tiles: Segment Description, Value Proposition, Competitors, Offerings. The Segment card asks choice questions in five boxes (Demographics, Geographics, Business Data, Purchasing Power & Behaviour, Market Size & Industry Outlook; a Proxy or Dual-Intent buyer adds a User part), which follow what Identity and Positioning chose (doc 35); under them stands the Profiles section, and a Profile asks its own questions (doc 36). A Profile, a Competitor and an Offering are cards that open floating.

@@ -50,7 +50,7 @@ A page of a System can be a **compound page**: several sections drawn as chapter
 | 3. Business | 3. Financials | One page of two sections (`PageGroups.ts`; built 2026-11-19, the owner's approved plan of 2026-11-18, step 1) drawn as ONE chapter, Financial Foundation (owner, 2026-11-20 02:11 UTC+2; `oneChapter`, `joinedChapter.ts`), each tile opening its blocks in a dialog; its tiles and the records in the Workbook's Financial Documents are doc 48, section 14. The title says the plan's months (doc 48, section 11). |
 | 4. Strategy | Strategy System: Situation & Direction (one page) | Current Situation Analysis, SWOT Analysis, Strategic Compass, Strategic Period (with the Roadmap and the Theme, Goal, Objective, Metric cards inside it). Sections 2 (Goals & Objectives) and 3 (Roadmap) are hidden pages; their saved data is kept. |
 
-Every chapter of the Foundation is drawn as Master Tiles, the two Financial pages too since 2026-11-17 (doc 48, sections 1, 2 and 11; doc 49, section 8, phase 7).
+Every chapter of the Foundation is drawn as Master Tiles, the two Financial pages too since 2026-11-17 (doc 48, sections 1, 2 and 11; doc 27, section 10, phase 7).
 
 ### B.2 Reading modes, screens and accessibility
 

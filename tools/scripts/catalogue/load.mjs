@@ -1,5 +1,5 @@
 /**
- * The catalogue's tables, built from their sources (docs/design/core/05-not-done-yet.md, the owner's
+ * The catalogue's tables, built from their sources (docs/design/records/05-not-done-yet.md, the owner's
  * plan of 2026-10-15: one internal table of every component, reaction, size,
  * colour, field and type, per card, tile, page and system, to find the
  * similarities, the differences and the gaps before the library is built).
@@ -99,7 +99,7 @@ export function parseVariants(text) {
                     category: parts.length > 3 ? parts[2] : "",
                     group: parts[parts.length - 1],
                     line: at + 1,
-                    source: "docs/design/current/26-card-structure.md"
+                    source: "docs/design/foundation/26-card-structure.md"
                 };
                 variants.push(current);
             } else if (!/^Category: |^Resources$|^Partners$|^Suppliers$|^Activities$/.test(title)) {

@@ -1,6 +1,6 @@
-# The app: its guide, its specifications and its future features
+# Overview of the app: its guide, its specifications and its future features
 
-Status: **proposal**, written 2026-11-21, updated 2026-11-21. Parts 1 to 4 describe the app as it is and point to the one document that owns each fact; part 5 proposes its future features (an AI Assistant, Team working mode, Voice mode, more languages and countries), from online research, nothing of it built; part 6 lists the sources. Asked by the owner on 2026-11-21 00:56 UTC+2: "create a new document with the app's guide and specs and its future features … Do online research and check what extra features the app needs now, or it could have in the future".
+Status: **reference**, written 2026-11-21, updated 2026-11-21 (part 5 is a proposal). Parts 1 to 4 describe the app as it is and point to the one document that owns each fact; part 5 proposes its future features (an AI Assistant, Team working mode, Voice mode, more languages and countries), from online research, nothing of it built; part 6 lists the sources. Asked by the owner on 2026-11-21 00:56 UTC+2: "create a new document with the app's guide and specs and its future features … Do online research and check what extra features the app needs now, or it could have in the future".
 
 ## Contents
 
@@ -42,11 +42,11 @@ Each page and screen has its specification under `docs/specifications/`:
 | Settings, Appearance (the reading modes), Focus | [settings](../specifications/settings/README.md), [Global Settings](../specifications/settings/global-settings.md) |
 | The Inventory | [inventory](../specifications/inventory/README.md) |
 
-The questions are in `docs/design/questionnaire/` (their register: doc 44); the layout is the rulebook's (`docs/ai/layout-rules.md`).
+The questions are in `docs/design/questions/` (their register: doc 44); the layout is the rulebook's (`docs/ai/layout-rules.md`).
 
 ## 4. How the answers connect
 
-The app fills, starts, offers or works out about 120 answers from earlier ones (drafts, starts, option lists, cards it makes, figures it computes): the list, with each one's source and code, is [doc 54](../design/questionnaire/54-auto-filled-answers.md). What waits for another answer (a city for its country) is recorded in `src/framework/engine/fields/FieldDependencies.ts`.
+The app fills, starts, offers or works out about 120 answers from earlier ones (drafts, starts, option lists, cards it makes, figures it computes): the list, with each one's source and code, is [doc 54](../design/questions/54-auto-filled-answers.md). What waits for another answer (a city for its country) is recorded in `src/framework/engine/fields/FieldDependencies.ts`.
 
 ## 5. Future features
 
