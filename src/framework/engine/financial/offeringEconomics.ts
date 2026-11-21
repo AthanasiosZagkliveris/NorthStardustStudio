@@ -3,6 +3,7 @@
 import { type CostLine } from "./costs.ts";
 import { offeringCosts } from "./offeringCosts.ts";
 import { type StreamAnalysis } from "./breakEven.ts";
+import { deliveryAllocation, deliveryHours, type DeliveryValue } from "../DemandCapacity.ts";
 
 /* ==========================================================
    The cost of each Offering (doc 48, 15.2)
@@ -101,4 +102,23 @@ export function offeringEconomics(
 
     return { running, own, shared, hoursAvailable, rate, rows };
 
+}
+
+/**
+ * The same, from Infrastructure & Capability's answer as the pages hold it: the founders' delivery hours available, and the founders' hours one sale of each
+ * Offering takes (Capacity & Delivery; an outside person's hours are a cost of their own, on their card). Cost of each Offering and each Revenue Stream read this.
+ */
+export function offeringEconomicsOf(
+    outlook: { inputs: { fixed: number }; streams: readonly StreamAnalysis[] },
+    lines: CostLine[],
+    capability: { founders: readonly (Parameters<typeof deliveryHours>[0][number] & { id: string })[]; delivery: Record<string, DeliveryValue | undefined> }
+): OfferingEconomics {
+    const founderIds = new Set(capability.founders.map(founder => founder.id));
+    const hoursPerSale = Object.fromEntries(outlook.streams.map(entry => {
+        const founders = Object.entries(deliveryAllocation(capability.delivery[entry.stream.offeringId]))
+            .filter(([personId]) => personId === "" || founderIds.has(personId))
+            .reduce((sum, [, hours]) => sum + hours, 0);
+        return [entry.stream.offeringId, founders > 0 ? founders : null];
+    }));
+    return offeringEconomics(outlook, lines, deliveryHours(capability.founders), hoursPerSale);
 }

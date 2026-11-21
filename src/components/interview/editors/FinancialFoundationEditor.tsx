@@ -1,4 +1,4 @@
-import { deliveryAllocation, deliveryHours, offeringShareWeights } from "../../../framework/engine/DemandCapacity.ts";
+import { offeringShareWeights } from "../../../framework/engine/DemandCapacity.ts";
 import { countedCapability } from "../../../framework/engine/CardCompleteness.ts";
 import { numberStep } from "./BusinessEngagementModel.ts";
 import TextBox from "../../controls/TextBox.tsx";
@@ -10,7 +10,7 @@ import { capitalisationLimitOf, createGlobalSettings, type GlobalSettingsValue }
 import { type CSSProperties, type ReactNode, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { JOINED_CHAPTER_KEY, useJoinedChapter } from "../tiles/joinedChapter.ts";
 import { type LegalEntityValue, type StrategyMonthValue, asBusinessCapabilityValue, asBusinessEngagementValue, asLegalEntityValue, businessFoundationSegments, withLegalEntityFounders } from "../../../framework/engine/AnswerUtils.ts";
-import { assetUnitCostsOf, incomeTaxRate, COST_FREQUENCIES, natureSplitOf, offeringEconomics, sustainability, FINANCIAL_FOUNDATION_SECTIONS, FUNDING_CATEGORIES, FUNDING_SCHEDULES, FUNDING_STATUSES, FUNDING_TYPES, LOAN_METHODS, PERIOD_FREQUENCIES, planLength, asFinancialFoundationValue, consolidateCosts, createFundingSource, createMilestone, financialPosition, founderCapitalSources, fundingNeeds, fundingStanding, fundingType, isNonCash, loanSchedule, moneyFormatter, monthlyEquivalent, planMonthLabel, withPlanStart, derivedPlanStart, legalExpenseDates, costStartDates, type CostLine, type FinancialFoundationValue, asFinancialSustainabilityValue, withDemand, type FundingSourceValue } from "../../../framework/engine/FinancialModel.ts";
+import { assetUnitCostsOf, incomeTaxRate, COST_FREQUENCIES, natureSplitOf, offeringEconomicsOf, sustainability, FINANCIAL_FOUNDATION_SECTIONS, FUNDING_CATEGORIES, FUNDING_SCHEDULES, FUNDING_STATUSES, FUNDING_TYPES, LOAN_METHODS, PERIOD_FREQUENCIES, planLength, asFinancialFoundationValue, consolidateCosts, createFundingSource, createMilestone, financialPosition, founderCapitalSources, fundingNeeds, fundingStanding, fundingType, isNonCash, loanSchedule, moneyFormatter, monthlyEquivalent, planMonthLabel, withPlanStart, derivedPlanStart, legalExpenseDates, costStartDates, type CostLine, type FinancialFoundationValue, asFinancialSustainabilityValue, withDemand, type FundingSourceValue } from "../../../framework/engine/FinancialModel.ts";
 import { costSourcesFor } from "../../../framework/engine/ExportRenderers.ts";
 import { BusinessAddButton, BusinessCard, BusinessEmpty, BusinessField, OptionalNote, BusinessRemove, BusinessTicks, uniqueChoices } from "../cards/BusinessCardFields.tsx";
 import { FigureTable, FigureTiles, PlanMonthField } from "./FinancialParts.tsx";
@@ -338,16 +338,8 @@ export default function FinancialFoundationEditor({
     }
 
     /** Each Offering's sale against its costs (doc 48, 15.2): the outlook break even reads, the founders' delivery hours available, and the hours one sale takes. */
-    function offeringEconomicsOf() {
-        const outlook = sustainability(revenuePage, page, lines, legalEntity, format, calculated);
-        const founderIds = new Set(capability.founders.map(founder => founder.id));
-        const hoursPerSale = Object.fromEntries(outlook.streams.map(entry => {
-            const founders = Object.entries(deliveryAllocation(capability.delivery[entry.stream.offeringId]))
-                .filter(([personId]) => personId === "" || founderIds.has(personId))
-                .reduce((sum, [, hours]) => sum + hours, 0);
-            return [entry.stream.offeringId, founders > 0 ? founders : null];
-        }));
-        return offeringEconomics(outlook, lines, deliveryHours(capability.founders), hoursPerSale);
+    function offeringEconomicsHere() {
+        return offeringEconomicsOf(sustainability(revenuePage, page, lines, legalEntity, format, calculated), lines, capability);
     }
 
     function costsSection() {
@@ -361,7 +353,7 @@ export default function FinancialFoundationEditor({
         // THE COST OF EACH OFFERING (doc 48, 15.2; owner, 2026-11-21 00:56 UTC+2: "I do not want the cost to present the same information with the inventory. It
         // would have been better to define the costs of each offering"): a row for each Offering sold, its direct cost, its share of the running costs and its full cost
         // against its price; the full list of costs is the Inventory's and the Financial Plan's (Costs in Full).
-        const economics = offeringEconomicsOf();
+        const economics = offeringEconomicsHere();
         const nameOfStream = (offeringId: string) => offerings.find(entry => entry.id === offeringId)?.label ?? "Unnamed Offering";
         const percent = (share: number | null) => share === null ? "\u2014" : Math.round(share * 100) + "%";
 
@@ -1040,7 +1032,7 @@ export default function FinancialFoundationEditor({
        23:08 UTC+2: "Financial tiles' lists should follow the shared tile list"). */
     const pair = (name: string, figure: string): FaceRow => ({ name, under: figure });
     // (THE FACE OF COST OF EACH OFFERING (doc 48, 15.2): each Offering sold, its full cost of one; with none sold yet, the running costs a month.)
-    const faceEconomics = offeringEconomicsOf();
+    const faceEconomics = offeringEconomicsHere();
     const costFace = faceEconomics.rows.length > 0
         ? faceEconomics.rows.map(row => pair(offerings.find(entry => entry.id === row.offeringId)?.label ?? "Unnamed Offering", format(row.full)))
         : [pair("Running costs a month", format(funds.monthlyOpEx))];

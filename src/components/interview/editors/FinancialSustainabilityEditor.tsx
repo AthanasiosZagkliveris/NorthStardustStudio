@@ -15,11 +15,11 @@ import { offeringStartsById } from "../../../framework/engine/EffectiveAnswers.t
 import { calculatedLines } from "../../../framework/engine/CalculatedLines.ts";
 import { ownersTakeDrawings } from "../../../framework/engine/FinancialForecast.ts";
 import { type GlobalSettingsValue } from "../../../framework/engine/GlobalSettings.ts";
-import { costStartDates, derivedPlanStart, incomeTaxRate, legalExpenseDates, PAYMENT_TIMINGS, planLength, REVENUE_DEVELOPMENTS, REVENUE_CHARGES, REVENUE_UNITS, asFinancialFoundationValue, asFinancialSustainabilityValue, consolidateCosts, createDetailedVolume, createRevenueStream, formatUnits, isRecurringRevenue, moneyFormatter, parseAmount, sustainability, withPlanStart, withDemand, type FinancialSustainabilityValue, type RevenueStreamValue } from "../../../framework/engine/FinancialModel.ts";
+import { costStartDates, derivedPlanStart, incomeTaxRate, legalExpenseDates, PAYMENT_TIMINGS, planLength, REVENUE_DEVELOPMENTS, REVENUE_CHARGES, REVENUE_UNITS, asFinancialFoundationValue, asFinancialSustainabilityValue, consolidateCosts, offeringEconomicsOf, createDetailedVolume, createRevenueStream, formatUnits, isRecurringRevenue, moneyFormatter, parseAmount, sustainability, withPlanStart, withDemand, type FinancialSustainabilityValue, type RevenueStreamValue } from "../../../framework/engine/FinancialModel.ts";
 import { costSourcesFor } from "../../../framework/engine/ExportRenderers.ts";
 import { deliveryAllocation, demandResult } from "../../../framework/engine/DemandCapacity.ts";
 import { BusinessAddButton, BusinessCard, BusinessEmpty, BusinessField, OptionalNote, BusinessRemove, uniqueChoices } from "../cards/BusinessCardFields.tsx";
-import { type FinancialSection, PlanMonthField } from "./FinancialParts.tsx";
+import { type FinancialSection, FigureTiles, PlanMonthField } from "./FinancialParts.tsx";
 import { summaryText } from "../cards/cardSummary.ts";
 import CardBoxes, { type CardBox } from "../cards/CardBoxes.tsx";
 import { SingleColumn } from "./foundation/shared.tsx";
@@ -145,6 +145,8 @@ export default function FinancialSustainabilityEditor({
         ? calculatedLines({ foundation: financial, revenuePage: effective, lines, capability: countedCapability(capability), settings: globalSettings, openingDate, drawings: ownersTakeDrawings(legalEntity.organisation.legalForm), country: legalEntity.organisation.country, engagement: asBusinessEngagementValue(engagement) }, incomeTaxRate(financial))
         : undefined;
     const result = sustainability(effective, financial, lines, legalEntity, format, calculated);
+    // (Each Offering's sale against its costs, as Cost of each Offering shows it: doc 48, 15.4.)
+    const economics = offeringEconomicsOf(result, lines, capability);
 
 
     const offerings = uniqueChoices(
@@ -672,7 +674,30 @@ export default function FinancialSustainabilityEditor({
                     </div>
                     </>
                 )
-            }] : [])
+            }] : []),
+            // THIS OFFERING'S ECONOMICS (doc 48, 15.4; owner, 2026-11-21 00:56 UTC+2: "we could calculate better the revenue of each offering, and the user could take
+            // the best decisions"): one sale's price against the market's and its costs, and its sales a month, as Cost of each Offering counts them.
+            ...((() => {
+                const own = economics.rows.find(row => row.streamId === stream.id);
+                if (!own || own.price === null) {
+                    return [];
+                }
+                const below = own.contribution !== null && own.contribution < 0;
+                return [{
+                    key: "economics", title: "This Offering's Economics",
+                    info: ["One sale of this Offering, as Cost of each Offering on Costs, Funding & Position counts it: its price beside what customers already pay, its own costs, and what is left.", "Based on: Kaplan and Anderson (2004), Time-driven activity-based costing; ICAEW, value-based pricing."] as InfoPoint[],
+                    body: (
+                        <FigureTiles tiles={[
+                            { label: "Price", value: format(own.price), ...(competitorsRange ? { detail: "Market " + format(competitorsRange.low) + (competitorsRange.high > competitorsRange.low ? " to " + format(competitorsRange.high) : "") } : {}) },
+                            { label: "Direct cost", value: format(own.direct) },
+                            { label: "Contribution", value: own.contribution === null ? "—" : format(own.contribution), ...(below ? { tone: "risk" as const, detail: "Each sale costs more than its price." } : {}) },
+                            { label: "Full cost", value: format(own.full), detail: "Running costs " + format(own.runningOfOne) },
+                            { label: "Margin", value: own.margin === null ? "—" : Math.round(own.margin * 100) + "%", ...(own.margin !== null && own.margin < 0 ? { tone: "risk" as const } : {}) },
+                            { label: recurring ? "Active " + capitalized(plural(unit, 2)) : "Sales a month", value: formatUnits(Math.round(own.sales * 10) / 10) }
+                        ]} />
+                    )
+                }];
+            })())
         ];
         const outcome = analysis && analysis.price !== null && (
                     <p className="financial-stream-result">

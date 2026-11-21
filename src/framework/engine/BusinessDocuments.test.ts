@@ -397,6 +397,7 @@ describe("Quillfield: the documents tie together", () => {
             "Marketing and Sales", "Operations", "Management and Organisation", "Strategy and Milestones", "Risks",
             "Financial Documents", "Appendix", "Financial Appendix A: Funding Request",
             "Financial Appendix A: Funding Request, Financial Projections", "Financial Appendix B: Financial Plan",
+            "Financial Appendix B: Financial Plan, Each Offering's Economics",
             "Financial Appendix B: Financial Plan, Costs in Full"]);
         const part = (title: string) => {
             const from = planMd.indexOf(title);
@@ -473,7 +474,9 @@ describe("Quillfield: the documents tie together", () => {
         expect(marketing).toContain("#### Body Language");
         expect(planMd).not.toMatch(/^## [0-9]+[.] Brand$/m);
         expect(at("## 11. Appendix")).toContain("### Brand Style Guide");
-        expect(at("## 15. Financial Appendix B: Financial Plan, Costs in Full")).toContain("### Costs");
+        expect(at("## 16. Financial Appendix B: Financial Plan, Costs in Full")).toContain("### Costs");
+        // (Each Offering's Economics, before the costs in full: doc 48, 15.4.)
+        expect(at("## 15. Financial Appendix B: Financial Plan, Each Offering's Economics")).toMatch(/Offering | Price | Direct cost | Contribution | Full cost | Margin | Sales a month/);
         // Products with their prices.
         expect(planMd).toContain("| $2,500 per project | Sale |");
         expect(planMd).toContain("| $1,200 per client a month | Subscription / Retainer |");
@@ -554,7 +557,7 @@ describe("Quillfield: the documents tie together", () => {
         expect(planMd).toContain("to NYC Service Firms.");
         expect(planMd).toContain("### For NYC Service Firms");
         // The costs, by group, with subtotals and a total, without their source.
-        const appendix = planMd.slice(planMd.indexOf("## 15. Financial Appendix B: Financial Plan, Costs in Full"));
+        const appendix = planMd.slice(planMd.indexOf("## 16. Financial Appendix B: Financial Plan, Costs in Full"));
         expect(appendix).toContain("#### Establishment");
         expect(appendix).toContain("| Subtotal | $535 one-time |");
         expect(appendix).toContain("**Total:** $535 one-time; $5,229 a month");

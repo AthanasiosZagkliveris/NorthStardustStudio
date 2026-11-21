@@ -21,10 +21,11 @@ The same panel, title, "i", text sizes, Export and tabs as Business Documents (`
 
 ## Financial Plan
 
-`financialPlan` (`businessDocuments/plan.ts`), two parts:
+`financialPlan` (`businessDocuments/plan.ts`), three parts:
 
 1. **Financial Plan:** the Funding Need (with its month-by-month table, its Loan repayments column only while a loan is recorded), the Capital & Funding, the Financial Position, the Revenue, the **Break Even** (the point, the time, the sustainability) with the **Stress Test** table (its four cases, each with its break even, lowest cash and shortfall).
-2. **Costs in Full:** the costs by group, with their subtotals and the total, without their source.
+2. **Each Offering's Economics** (2026-11-21; doc 48, 15.4): how the running costs are shared (each Offering's own, then a rate for each of the founders' delivery hours available), then a row an Offering sold: Price, Direct cost, Contribution, Full cost, Margin, Sales a month (`offeringEconomicsOf`). Left out where no Offering is sold yet.
+3. **Costs in Full:** the costs by group, with their subtotals and the total, without their source.
 
 ## Where it is in the code
 
