@@ -1,5 +1,5 @@
 /* ==========================================================
-   The title arrow (TitleHelpArrow.tsx, CardTitleHelp.tsx, docs/ai/layout-rules.md "The
+   The title arrow (TitleHelpArrow.tsx, CardTitleHelp.tsx, docs/ai/09-layout-rules.md "The
    title arrow"): the arrow beside a column title that folds that
    column's own guidance. NOT the 36px fold arrow: its glyph is the
    title's own size (--title-arrow-size, global.css: three quarters of

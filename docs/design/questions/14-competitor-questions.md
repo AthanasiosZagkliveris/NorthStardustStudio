@@ -151,7 +151,7 @@ This follows the type rules already built for the text boxes: a substitute has n
 - **Connections:**
   - *Comes from:* the channel categories of Customer Engagement by id (`BUSINESS_CHANNEL_CATEGORIES`); the sub-channel lists from the Profile's C2, C3 and C4 (Questions 13).
   - *Read by (built, 2026-11-04):* K10: once K5 is answered, each social medium, community or kind of event a Profile of the Segment ticks (C2 to C4) that this competitor's sub-channels do not hold is an opening: "Reach customers on TikTok", "Reach customers in Facebook groups", "Meet customers at workshops and classes". It compares with the customers, never with the App User's own channels (The purpose).
-  - *Read by (later, once Customer Engagement's channels are set):* the Review (Questions 2, 11.5, rule 21); the order of the Discover channels on Customer Engagement. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-section-1-owner-2026-11-08).
+  - *Read by (later, once Customer Engagement's channels are set):* the Review (Questions 2, 11.5, rule 21); the order of the Discover channels on Customer Engagement. Map: [what each later page reads](../../specifications/03-business-system/README.md#what-each-later-page-reads-from-section-1-owner-2026-11-08).
 - **Every channel opens its subchannels** (owner, 2026-11-18 02:31: "Online/live does not give an option drop-down list"): Website, Email, Online / live, Shops or wholesalers, Referrals or affiliates, Advertising, Print & mail and Samples & trials list Customer Engagement's subchannels of their category, by the same names (Online / live: Zoom, Google Meet, Microsoft Teams, Live Stream); Social media, Community and In person keep the Profile's lists (C2 to C4), which K10 compares; Marketplace its own.
 
 ## Box. Customer Experience
@@ -216,7 +216,7 @@ This follows the type rules already built for the text boxes: a substitute has n
 - **Connections:**
   - *Comes from:* the owner's decisions (2026-11-04): the loyalty question overlapped the journey's last stage, then its ticks repeated K5's channels, so they went. Lemon and Verhoef describe the customer's journey in three stages, before, during and after the purchase, the "loyalty loop" after it [FUN-59]; Customer Engagement's five Journey Stages divide the same journey. Invest Northern Ireland lists a competitor's "customer loyalty devices" [FUN-51]; how many customers come back cannot be seen from outside, what a competitor does to bring them back can.
   - *Read by (built):* K10 ("Make buying easier" and the like, for a stage rated 1 or 2).
-  - *Read by (not built yet):* Customer Engagement's Journey Stages, where the App User plans each stage. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-section-1-owner-2026-11-08).
+  - *Read by (not built yet):* Customer Engagement's Journey Stages, where the App User plans each stage. Map: [what each later page reads](../../specifications/03-business-system/README.md#what-each-later-page-reads-from-section-1-owner-2026-11-08).
 
 For Internal solution and Status quo the box stays text only: it asks about the effort or the current behaviour, which K8 already rates.
 

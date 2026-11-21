@@ -6,7 +6,7 @@
  *   answers, offeringContextOf and withFieldSet.
  * - The Business Plan (BusinessDocuments.ts): the Offering's answers. The export (ExportRenderers.ts): the Profile's, its end user's and the Offering's.
  * - The Review (OpenItems.ts): the Offering's O3.
- * - The later pages (specifications/business-system/README.md, "What each later page reads from Page 1"): offeringStartsById for Page 2's Customers Buy
+ * - The later pages (specifications/03-business-system/README.md, "What each later page reads from Page 1"): offeringStartsById for Page 2's Customers Buy
  *   (engagement/useEngagementDemand.tsx), Page 3's Delivery (capability/useCapabilityActivityAndDelivery.tsx) and Page 5's revenue stream
  *   (FinancialSustainabilityEditor.tsx); noPhysicalOffering for what Page 3 hides without a physical item (capability/useCapabilityState.tsx).
  * The Segment's answers (effectiveSegmentAnswers) are read here only, by offeringContextOf.
@@ -120,7 +120,7 @@ export function effectiveOfferingAnswers(offering: BusinessOfferingValue, segmen
     return offeringShown(offering.questions ?? {}, offeringContextOf(offering, segment, identity));
 }
 
-/* ---- What the later pages start from (specifications/business-system/README.md, "What each later page reads from Page 1"; phase 5f, 2026-11-09) ---- */
+/* ---- What the later pages start from (specifications/03-business-system/README.md, "What each later page reads from Page 1"; phase 5f, 2026-11-09) ---- */
 
 /** O3's terms paid once (one-off) and every month (recurring); Free to them is neither, so it starts nothing. */
 const O3_ONE_OFF: readonly string[] = ["once", "session", "rent", "commission", "project"];

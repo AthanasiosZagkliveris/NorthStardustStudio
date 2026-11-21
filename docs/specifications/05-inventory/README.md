@@ -2,7 +2,7 @@
 
 Status: **current design**, written 2026-11-20. The **Inventory** is the help tile of the Business System's page Infrastructure & Capability (the second of its three pages; Section 3) that holds every card of the page, and of the Legal Entity's expenses, in one place: as tiles or as a table, under one funnel. It asks nothing of its own: it shows and opens what the page's cards hold.
 
-> **Keep this document true:** whoever changes a column, a filter, an order, a count or what a press opens changes this file in the same commit, with a row in the log. The layout is the rulebook's (`ai/layout-rules.md`, section 13, "Where the Inventory and Completed tiles stand" and "The Inventory dialog", and rule 36); this file names it and does not repeat it.
+> **Keep this document true:** whoever changes a column, a filter, an order, a count or what a press opens changes this file in the same commit, with a row in the log. The layout is the rulebook's (`ai/09-layout-rules.md`, section 13, "Where the Inventory and Completed tiles stand" and "The Inventory dialog", and rule 36); this file names it and does not repeat it.
 
 ## Contents
 
@@ -29,7 +29,7 @@ Every Resource, Activity, Partner, Provider, the Workspace, the Founders and the
 
 ## 4. The table view
 
-Columns, in order: Name (always shown, fixed while the table scrolls sideways), Type, Section, Category, Group, Cost (its heading carries the currency's symbol), Frequency, Cost Nature, Behaviour, Status, Offering, Journey, Actions, Linked (`TABLE_COLUMNS`; Offering, Journey and Actions off at first). A Customer Channel is not a column: a channel expense's Group reads the channel over its subchannel. Cost Nature and Behaviour are classified by the same rules as the Financials' Costs (Section 5, `page-3-costs-funding-and-position.md`). Grouped rows merge a group's cell over its rows; the texts wrap, never cut (layout rules, section 13, "The table").
+Columns, in order: Name (always shown, fixed while the table scrolls sideways), Type, Section, Category, Group, Cost (its heading carries the currency's symbol), Frequency, Cost Nature, Behaviour, Status, Offering, Journey, Actions, Linked (`TABLE_COLUMNS`; Offering, Journey and Actions off at first). A Customer Channel is not a column: a channel expense's Group reads the channel over its subchannel. Cost Nature and Behaviour are classified by the same rules as the Financials' Costs (Section 5, `06-costs-funding-and-position.md`). Grouped rows merge a group's cell over its rows; the texts wrap, never cut (layout rules, section 13, "The table").
 
 ## 5. The funnel: filters and orders
 

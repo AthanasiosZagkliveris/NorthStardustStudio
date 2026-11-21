@@ -462,7 +462,7 @@ payments timeline
 
 ### Sources
 
-- Channel table and resource rules: read from the app's specification (page-1-channels.md) and from the Lumen example data.
+- Channel table and resource rules: read from the app's specification (02-channels.md) and from the Lumen example data.
 - Payment structures and cost allocation: see part 3. Break-even and cash-flow distinction: standard accounting practice; no new source was searched in this round.
 
 ## R5. Industry costs compared with the app, and graded insurances

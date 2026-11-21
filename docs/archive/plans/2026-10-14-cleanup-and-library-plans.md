@@ -1,6 +1,6 @@
 # The clean-up and library plans of 2026-10-14 (archive)
 
-Status: **archive**, written 2026-10-14, updated 2026-11-02 (moved here from `design/records/02-not-done-yet.md` on 2026-10-21). Where its information now lives: what was built is in the log (`design/records/01-log.md`) and `design/library/01-library-system.md`; what is left is `design/records/02-not-done-yet.md`, section 5.6; the layout check's rules are `ai/layout-rules.md`. **Held only here:** the triage of the 1,830 findings by class (5.11, with the second-pass measurements), the pipeline of the library automation with its risks and the owner's decisions (5.13) and the sizes left for the owner (5.14). These are the plans for the light clean-up (5.6), the triage of the layout check's first baseline (5.11), the open points after the arrows and rails work (5.12), the library automation (5.13) and the sizes left for the owner (5.14). The clean-up and the library automation steps 1 to 4 were built (see the log, `design/records/01-log.md`, and `design/library/01-library-system.md`); the section numbers are kept because code comments and scripts cite them ("docs/design/05, 5.13" means 5.13 here). What was not done is listed in `design/records/02-not-done-yet.md`, "Library and clean-up: what is left". The figures are those of 2026-10-14, not today's.
+Status: **archive**, written 2026-10-14, updated 2026-11-02 (moved here from `design/records/02-not-done-yet.md` on 2026-10-21). Where its information now lives: what was built is in the log (`design/records/01-log.md`) and `design/library/01-library-system.md`; what is left is `design/records/02-not-done-yet.md`, section 5.6; the layout check's rules are `ai/09-layout-rules.md`. **Held only here:** the triage of the 1,830 findings by class (5.11, with the second-pass measurements), the pipeline of the library automation with its risks and the owner's decisions (5.13) and the sizes left for the owner (5.14). These are the plans for the light clean-up (5.6), the triage of the layout check's first baseline (5.11), the open points after the arrows and rails work (5.12), the library automation (5.13) and the sizes left for the owner (5.14). The clean-up and the library automation steps 1 to 4 were built (see the log, `design/records/01-log.md`, and `design/library/01-library-system.md`); the section numbers are kept because code comments and scripts cite them ("docs/design/05, 5.13" means 5.13 here). What was not done is listed in `design/records/02-not-done-yet.md`, "Library and clean-up: what is left". The figures are those of 2026-10-14, not today's.
 
 ## 5.6 Clean-up, optimisation and asset library (plan)
 
@@ -20,7 +20,7 @@ Reading note: steps 1, 2, 3, 6 and 7 run **now** (they are prerequisites for the
 
 | Area | Finding |
 |---|---|
-| Rulebook | `docs/ai/layout-rules.md` is 194 KB, 1,552 lines. Sections 1–8 are the base rules; after them come about 25 appended "Batch" and "latest" addenda that sometimes restate or overrule earlier rules. |
+| Rulebook | `docs/ai/09-layout-rules.md` is 194 KB, 1,552 lines. Sections 1–8 are the base rules; after them come about 25 appended "Batch" and "latest" addenda that sometimes restate or overrule earlier rules. |
 | Stylesheets | About 1.07 MB of CSS. `conversation.css` 439 KB, `section-tiles.css` 262 KB, `global.css` 55 KB, `organization-calendar.css` 33 KB, `colors.css` 34 KB. New rules were appended in blocks; duplicates were removed once from `section-tiles.css` (selectors that tests read were left in place). |
 | Colours | 233 distinct colour tokens in `colors.css`, written by hand once for each reading mode (about 690 declarations); **41** colour literals outside it (measured again on 2026-10-14; the earlier "about 213" was a rougher count); 222 `color-mix()` uses. Four reading modes: light, sepia, dark, auto. The layout probe checks light only. |
 | Breakpoints | About 55 media/container rules with inconsistent values; no stated minimum width until now (768 px is now decided). |
@@ -38,7 +38,7 @@ Two of the three biggest groups are contrast rules. They match the WCAG 2.2 AA r
 | # | Step | What exactly | Checked by | Risk |
 |---|---|---|---|---|
 | 1 | Treat the drafts | **Done 2026-10-14:** the current drafts were converted into documents 1 to 5; the HTML and PDF drafts were removed (document 4, section 4.4) | | |
-| 2 | Reconcile the rulebook | **Done 2026-10-14** (`layout-rules.md` reconciled: topic sections 9 to 16, section 17 the check, Appendix A history, Appendix B still to settle) | | |
+| 2 | Reconcile the rulebook | **Done 2026-10-14** (`09-layout-rules.md` reconciled: topic sections 9 to 16, section 17 the check, Appendix A history, Appendix B still to settle) | | |
 | 3 | Triage the 1,830 baseline findings | **Done in part 2026-10-14** (section 5.11: probe corrected, baseline 1,830 to 677; real defects and owner decisions wait) | | |
 | 4 | Unused and duplicate CSS | Run a browser coverage pass over every page, both examples, all four modes; list selectors never used; remove them in small batches. Remove duplicate declarations in `conversation.css` as was done in `section-tiles.css`. Change the tests that read CSS text so they check behaviour or a token instead of exact text, where that can be done safely. | Coverage list reviewed; build size; layout check; screenshots. | **Highest.** CSS-reading tests and rarely opened floating cards. Batches must stay small. |
 | 5 | One colour source and one breakpoint set | Move the hard-coded colours into tokens in `colors.css`; gather the theme overrides in one file; align media/container rules to the agreed set (768, 1200, and the heights 900 and 1250 from the website). | Contrast report for light, sepia, dark; layout check in all modes. | Medium |
@@ -68,7 +68,7 @@ The **Tile** is the root asset (the Foundation is to be formed entirely by the T
 | A3 | Merge duplicates | Where two components do one job, one shared component. Visible result unchanged; checked by the layout check and screenshots. |
 | A4 | Write the contract per asset | One short entry per asset (below). |
 | A5 | Fold the rules in | Each rule from the cleaned rulebook moves to the asset it governs. Tie each contract line to the layout-check rule that tests it. |
-| A6 | Retire overlapping documents | `docs/ai/asset-library.md` becomes the single description. `tile-and-card-pattern.md` and `card-kinds.md` are absorbed (they stay until you approve). `layout-rules.md` keeps only the page-wide tokens and the check. |
+| A6 | Retire overlapping documents | `docs/ai/asset-library.md` becomes the single description. `tile-and-card-pattern.md` and `08-card-kinds.md` are absorbed (they stay until you approve). `09-layout-rules.md` keeps only the page-wide tokens and the check. |
 
 Where to record it: `docs/ai/asset-library.md` (Markdown, in the project).
 

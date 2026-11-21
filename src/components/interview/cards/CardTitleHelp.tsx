@@ -8,7 +8,7 @@ import { consumeKey } from "../fields/consumeKey.ts";
 /**
  * A card's title row (3. Infrastructure & Capability): the column title in
  * its card, the one label the card has, with the arrow that DROPS ITS
- * GUIDANCE DOWN (docs/ai/layout-rules.md, "The title arrow"). The guidance is
+ * GUIDANCE DOWN (docs/ai/09-layout-rules.md, "The title arrow"). The guidance is
  * a panel floating over the card under the title: it takes no room (the
  * card's content below does not move), closes on the arrow, Escape or a
  * click anywhere outside it, and starts closed. Which one is open is the

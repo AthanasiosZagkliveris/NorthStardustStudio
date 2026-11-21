@@ -1,7 +1,7 @@
 /**
  * THE RULES IN FORCE, AT A GLANCE (owner, 2026-11-11: "Go on, do all together", the optimisation's step 5): the two longest documents get a short
  * summary at their top, written from their own text so it can never say something they do not:
- *   - docs/ai/layout-rules.md: each section's rules, by the bold words that open each of them ("- **...**"), linked to the section;
+ *   - docs/ai/09-layout-rules.md: each section's rules, by the bold words that open each of them ("- **...**"), linked to the section;
  *   - docs/design/foundation/02-card-structure.md: each card's entry, by its headings, linked to them.
  * The summary stands between <!-- generated:in-force --> and <!-- /generated:in-force -->, under the document's head.
  *
@@ -77,7 +77,7 @@ function cardStructure(text) {
 }
 
 const DOCUMENTS = [
-    ["docs/ai/layout-rules.md", layoutRules],
+    ["docs/ai/09-layout-rules.md", layoutRules],
     ["docs/design/foundation/02-card-structure.md", cardStructure]
 ];
 

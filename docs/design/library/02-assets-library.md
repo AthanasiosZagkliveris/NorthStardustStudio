@@ -953,7 +953,7 @@ Criteria of the owner: where one look is used far more than the others (the othe
 | Touch target, physical | 1cm by 1cm | [Nielsen Norman Group](https://www.nngroup.com/articles/touch-target-size/) | A search summary; the article gives no pixel value |
 | Text input height | 40px (Carbon medium, default; 32 small, 48 large); USWDS 2.5rem (40px) | [IBM Carbon, text input](https://carbondesignsystem.com/components/text-input/usage/); USWDS compiled CSS | Carbon from its documentation; USWDS from compiled CSS |
 | Text field height, Material | 56dp (Compose default) | developer reports, not the M3 specification | Weak; check m3.material.io |
-| Text hierarchy of this app | 14 small, 18 body, 24 h3, 28 h2, 36 h1 | docs/ai/layout-rules.md, Title sizes | The app's own rule |
+| Text hierarchy of this app | 14 small, 18 body, 24 h3, 28 h2, 36 h1 | docs/ai/09-layout-rules.md, Title sizes | The app's own rule |
 
 The measured controls of this app are 44 to 45px high (text inputs), 32px (x and plus), 24px (the i and the tick box): the text inputs are above the 40px of the design systems, and the i and the tick box meet the 24px minimum. The reference sources are accepted by the owner.
 

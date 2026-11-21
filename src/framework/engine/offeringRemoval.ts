@@ -3,7 +3,7 @@
     Offering goes from the Business System's Foundation -- its card removed, or the Segment that held it --, its id is unticked on every card that stores
     Offering ids: Infrastructure & Capability's resources, activities, partners and suppliers (`offeringIds`, `offeringShares`), Customer Engagement's channels
     (`offerings`, a list of ids); the Legal Entity's expenses are the company's and hold none (owner, 2026-11-19 16:52). The fields are found by their NAME wherever they stand
-    in an answer, never by a card's place (ai-collaboration-rules.md, "Read the app's structure by what a thing is"), so a card kind added later is cleared
+    in an answer, never by a card's place (01-ai-collaboration-rules.md, "Read the app's structure by what a thing is"), so a card kind added later is cleared
     too. What is keyed by an Offering rather than ticked -- its demand, its relationships, its revenue stream (shown "Offering removed" on purpose) -- stays.
     The shared basis key of a split (OFFERING_BASIS_KEY) stays; a share of the removed Offering goes with it.
 */

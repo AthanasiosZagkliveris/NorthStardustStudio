@@ -1,8 +1,8 @@
 # 1. Questionnaire plan: from a few answers to a ready-made first draft
 
-Status: **proposal**, written 2026-10-23, updated 2026-11-21. Its Business page numbers are the old ones (`specifications/business-system/README.md`, "The old page numbers"). Built so far: the Organisation tile with its activity cascade, the business stage, the Early Positioning questions with their End User questions (Questions 2, 8.2, 8.2a, 8.5), the Segment card's questions (Questions 12), the Profile card's questions in part (Questions 13), the Competitor card (Questions 14), the Offering card in part (Questions 16) and the Value Proposition draft (Questions 15); the rest of this plan is not built. This is the plan: the goal, the order, what the user gets at each stage, what was cut and why, and what the owner must decide. The detail (every list with examples, the industry list in two levels, every question and option, the connection map and its evidence, the sources) is in Questions 2, `02-questionnaire-specification.md`, which has a contents block at its top; the flow of the questions is Questions 3; the sources are in `01-references.md`, section 2.7.
+Status: **proposal**, written 2026-10-23, updated 2026-11-21. Its Business page numbers are the old ones (`specifications/03-business-system/README.md`, "The old page numbers"). Built so far: the Organisation tile with its activity cascade, the business stage, the Early Positioning questions with their End User questions (Questions 2, 8.2, 8.2a, 8.5), the Segment card's questions (Questions 12), the Profile card's questions in part (Questions 13), the Competitor card (Questions 14), the Offering card in part (Questions 16) and the Value Proposition draft (Questions 15); the rest of this plan is not built. This is the plan: the goal, the order, what the user gets at each stage, what was cut and why, and what the owner must decide. The detail (every list with examples, the industry list in two levels, every question and option, the connection map and its evidence, the sources) is in Questions 2, `02-questionnaire-specification.md`, which has a contents block at its top; the flow of the questions is Questions 3; the sources are in `01-references.md`, section 2.7.
 
-> **First published version (owner, 2026-10-29):** English only; UK, Ireland, USA, Canada, Australia, New Zealand and Other; single-sided; B2C and/or B2B; the buyer's category separate from the buyer's life stage. **Questions 4 governs** where it differs from this document. Everything described here that the first version does not contain (B2G, G2B, multi-sided markets, other countries, accessibility, caregiving and the rest) is a future feature: Questions 4. Age limits are checked on the Offering (O12) and the Review (Questions 16; O12 is not built yet). Contents of the documents: `docs/README.md`; index: `docs/index.md`; glossary: `docs/app/glossary.md`.
+> **First published version (owner, 2026-10-29):** English only; UK, Ireland, USA, Canada, Australia, New Zealand and Other; single-sided; B2C and/or B2B; the buyer's category separate from the buyer's life stage. **Questions 4 governs** where it differs from this document. Everything described here that the first version does not contain (B2G, G2B, multi-sided markets, other countries, accessibility, caregiving and the rest) is a future feature: Questions 4. Age limits are checked on the Offering (O12) and the Review (Questions 16; O12 is not built yet). Contents of the documents: `docs/README.md`; index: `docs/index.md`; glossary: `docs/app/03-glossary.md`.
 
 ## 1. The goal, and the one test
 
@@ -111,7 +111,7 @@ The decisions are kept in one list, in Questions 2, section 13 (R1 to R61; it al
 - **The page 2 rebuild** is the one change to existing layout; it is isolated in stage D and tested first.
 ## 9. Where the detail is
 
-Questions 2 (a contents block at its top lists every section); Questions 3 for the flow of the questions as trees, the key branches, both, mixed, not sure and other, the order, and why each question matters; `docs/app/contents.md` for the index of the app and its documents.
+Questions 2 (a contents block at its top lists every section); Questions 3 for the flow of the questions as trees, the key branches, both, mixed, not sure and other, the order, and why each question matters; `docs/app/01-contents.md` for the index of the app and its documents.
 
 ## 10. The order of work for Questions 9, 11, 17, 20 and 21
 
@@ -157,7 +157,7 @@ A tile document is **one document for one tile or card**, in this order:
 
 **Codes are permanent ids, not positions (owner, 2026-11-08).** Never renumber; reorder freely; the register (Questions 6) shows the order. A new question takes the next free code; a retired code stays listed as retired with what replaced it. A tile document lists its questions in the card's order under their codes; the code map in `tools/scripts/docs/questions-register.mjs` gets one line for a new question, and `npm run docs:index` rewrites Questions 6.
 
-**Where the words are kept.** The words of a built tile are kept in one place in the code (the Segment: `src/framework/engine/choices/SegmentQuestions.ts`; the Profile: `src/framework/engine/choices/ProfileQuestions.ts`; the Competitor: `src/framework/engine/choices/CompetitorQuestions.ts`; the Offering, with the Value Proposition's draft and open items: `src/framework/engine/choices/OfferingQuestions.ts`), and the document is made from them; where the two differ, the most recent owner decision wins. How a floating card of questions is built (the engine file, the parts, the three levels, the notes) is in `docs/ai/layout-rules.md`, section 8 ("A floating card of questions").
+**Where the words are kept.** The words of a built tile are kept in one place in the code (the Segment: `src/framework/engine/choices/SegmentQuestions.ts`; the Profile: `src/framework/engine/choices/ProfileQuestions.ts`; the Competitor: `src/framework/engine/choices/CompetitorQuestions.ts`; the Offering, with the Value Proposition's draft and open items: `src/framework/engine/choices/OfferingQuestions.ts`), and the document is made from them; where the two differ, the most recent owner decision wins. How a floating card of questions is built (the engine file, the parts, the three levels, the notes) is in `docs/ai/09-layout-rules.md`, section 8 ("A floating card of questions").
 
 ### 11.2 Where each tile stands
 
@@ -167,7 +167,7 @@ A tile document is **one document for one tile or card**, in this order:
 | Identity 1: Early Positioning (Core Market, Corporate and Portfolio by stage) | 38 | built (specification) |
 | Identity 1: Purpose & Beliefs (Mission, Vision, Philosophy, Values, Principles, Manifesto) | 45 | built (specification) |
 | Identity 2: Legal Entity (Founders & Ownership, Capability, Registrations, Expenses) | none (Foundation 2; its legal starts: Questions 10) | not yet |
-| Brand: Ambassador and Style | 46 (the Ambassador); the page: `specifications/brand-system/page-1-brand.md` | built in part (specification) |
+| Brand: Ambassador and Style | 46 (the Ambassador); the page: `specifications/02-brand-system/01-brand.md` | built in part (specification) |
 | Business 1: Segment Description | 35 | built (specification) |
 | Business 1: Profile | 36 | built in part (specification) |
 | Business 1: Competitors | 41 | built (specification) |
@@ -175,7 +175,7 @@ A tile document is **one document for one tile or card**, in this order:
 | Business 1: Offerings | 43 | built in part (specification) |
 | Business 1 (Section 2): Customer Engagement | 47 | built in part (specification) |
 | Business 2 (Section 3): Infrastructure & Capability, the Capacity & Delivery tile | 52 | built in part (specification) |
-| Business 2 (Section 3): Infrastructure & Capability, the other tiles | none (Questions 2, section 9; the page: `specifications/business-system/page-2-infrastructure-and-capability.md`) | not yet |
+| Business 2 (Section 3): Infrastructure & Capability, the other tiles | none (Questions 2, section 9; the page: `specifications/03-business-system/04-infrastructure-and-capability.md`) | not yet |
 | Business 3 (Sections 4 and 5): Financials, one chapter, Financial Foundation, and the Inventory | 48 | built in part (specification) |
 | Strategy: Situation & Direction (Current Situation Analysis, SWOT Analysis, Strategic Compass, Strategic Period) | 49 | built in part (specification) |
 

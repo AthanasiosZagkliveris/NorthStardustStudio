@@ -20,7 +20,7 @@ export const LEGAL_FORM_OTHER = "Other (not listed)";
 
 /**
  * How LEGAL_FORM_OTHER is SHOWN: a picker option holds no bracketed
- * note (docs/ai/layout-rules.md), and the field that follows it names
+ * note (docs/ai/09-layout-rules.md), and the field that follows it names
  * the form. What is saved stays LEGAL_FORM_OTHER.
  */
 export const OTHER_OPTION = "Other";

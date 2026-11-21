@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 
 /**
- * THE SCROLLING RULES OF THE APP (docs/ai/layout-rules.md, "Scrolling"):
+ * THE SCROLLING RULES OF THE APP (docs/ai/09-layout-rules.md, "Scrolling"):
  *
  *  1. While a dialog or a floating card is open the page behind it does not scroll: the wheel scrolls what is under the pointer if that can still move that
  *     way, otherwise the open layer itself (a card taller than the window), and never the page.

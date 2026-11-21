@@ -39,7 +39,7 @@ Status: **specification**, written 2026-09-27, updated 2026-11-21. The requireme
 
 ## As built
 
-Section 4 is a Structure of its own, `Financial Sustainability` (editor `FinancialSustainabilityEditor`). Its editor draws Financials' one chapter, Financial Foundation (its tiles: Questions 20, section 14), its own Revenue Streams first (5.1 Revenue below), then the tiles Section 5 hands it. What 5.2 Break Even below works out and the Revenue Summary of 5.1 are records of the Workbook's Financial Plan, and the Delivery Check of 5.1 is the Business Plan's Operations, Capacity (Questions 20, section 14). It shares its model, its month field, its time and its currency with Section 5 (`page-3-costs-funding-and-position.md`, "As built"). The revenue stream card is also described in Questions 2, 10.2.
+Section 4 is a Structure of its own, `Financial Sustainability` (editor `FinancialSustainabilityEditor`). Its editor draws Financials' one chapter, Financial Foundation (its tiles: Questions 20, section 14), its own Revenue Streams first (5.1 Revenue below), then the tiles Section 5 hands it. What 5.2 Break Even below works out and the Revenue Summary of 5.1 are records of the Workbook's Financial Plan, and the Delivery Check of 5.1 is the Business Plan's Operations, Capacity (Questions 20, section 14). It shares its model, its month field, its time and its currency with Section 5 (`06-costs-funding-and-position.md`, "As built"). The revenue stream card is also described in Questions 2, 10.2.
 
 | Section | How it is built |
 |---|---|

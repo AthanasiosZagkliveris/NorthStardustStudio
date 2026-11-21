@@ -121,7 +121,7 @@ interface OptionPickerProps {
     /**
      * As wide as its widest option exactly, rather than the size step
      * that holds it: a side-label picker's allowed exception (a
-     * Competitor's or an Offering's Type, docs/ai/layout-rules.md).
+     * Competitor's or an Offering's Type, docs/ai/09-layout-rules.md).
      */
     hug?: boolean;
 
@@ -131,7 +131,7 @@ interface OptionPickerProps {
     /**
      * Fills the column it stands in, and asks for exactly the width its widest option (with the words of
      * `sizeFor`) needs: pickers that all `fill` one column make it as wide as the widest of them, and
-     * are every one that wide (the Workspace form: docs/ai/layout-rules.md). `"fit"` fills the column too but asks for
+     * are every one that wide (the Workspace form: docs/ai/09-layout-rules.md). `"fit"` fills the column too but asks for
      * nothing: its own options never widen it (a longer one ends in an ellipsis).
      */
     fill?: boolean | "fit";

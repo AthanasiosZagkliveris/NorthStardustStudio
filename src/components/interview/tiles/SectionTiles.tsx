@@ -586,7 +586,7 @@ export default function SectionTiles({
 
 
 /**
- * A PAGE TILE (docs/ai/layout-rules.md, "Tile anatomy" and "Reactions"): the tile's own button (title, the "+" of an empty
+ * A PAGE TILE (docs/ai/09-layout-rules.md, "Tile anatomy" and "Reactions"): the tile's own button (title, the "+" of an empty
  * section), the list of what it includes as real controls laid over it, and -- on the tiles that take new cards -- a "+"
  * box at the lower right. They stand in one slot, the grid item, which is what scales on hover and focus: 150%, the other
  * tiles staying where they are, from the corner (or edge) that keeps it inside its card.

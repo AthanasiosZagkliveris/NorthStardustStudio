@@ -150,14 +150,14 @@ export function incompleteTitle(missing: readonly string[]): string {
 
 
 /**
- * A LIST OF CARDS ONE ADDS TO (a dialog's cards with their Add Card; docs/ai/layout-rules.md, "Tile grids"): three in a row however many,
+ * A LIST OF CARDS ONE ADDS TO (a dialog's cards with their Add Card; docs/ai/09-layout-rules.md, "Tile grids"): three in a row however many,
  * the Add Card in the next free place (owner, 2026-11-09: "each row should fit 3 tiles like all the other cards"). Fewer across only where
  * the dialog is too narrow for three.
  */
 export const CARD_LIST_COLUMNS = 3;
 
 /**
- * THE ONE SHAPE of every set of tiles or boxes (docs/ai/layout-rules.md, "Tile grids"): how many
+ * THE ONE SHAPE of every set of tiles or boxes (docs/ai/09-layout-rules.md, "Tile grids"): how many
  * across for `count` of them -- 1 to 3 in a single row, exactly 4 as a 2 x 2 square, 5 or more in
  * two rows (ceil(count / 2) across, the last row possibly shorter).
  */
@@ -257,7 +257,7 @@ export function arrowLevel(): number | null {
 
 
 /**
- * THE DIALOG'S FRAME (docs/ai/layout-rules.md, "Section tiles and dialog"): it
+ * THE DIALOG'S FRAME (docs/ai/09-layout-rules.md, "Section tiles and dialog"): it
  * spans from the page heading's underline (`.interview-divider`, never above the
  * fixed header) down to the footer's top (`.workspace-footer`, the fixed band at
  * the bottom of the window; the window's bottom without one). EVERY dialog has this

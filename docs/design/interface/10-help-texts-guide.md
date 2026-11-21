@@ -2,7 +2,7 @@
 
 Status: **specification**, decided 2026-11-01, built in part, written 2026-11-01, updated 2026-11-08. This document owns what an "i" says; Questions 2, 4.1 owns how a question is worded. What the help texts of the app are (Interface 9 counts them), what is written about them (little), and the structure for the "i" of each kind of place and field, with the standard phrases, the size budget and a way to check them. **Built:** the 160-character budget and the warnings in Interface 9 (`tools/scripts/catalogue/help-texts-doc.mjs`); the rest applies when a field is next changed.
 
-Related: Interface 9 (the generated list of every help text, from the running app), Questions 2 (section 4, the plain wording, and 4.1, the rules for writing questions), Questions 7, 8 and 12 (what the "i" of the Segment, the Organisation and Positioning say today), Interface 1 (the `InfoNote` component), `docs/ai/layout-rules.md` (how the "i" looks and where it opens), `docs/specifications/business-system/page-1-foundation.md` (the owner's texts, which stay).
+Related: Interface 9 (the generated list of every help text, from the running app), Questions 2 (section 4, the plain wording, and 4.1, the rules for writing questions), Questions 7, 8 and 12 (what the "i" of the Segment, the Organisation and Positioning say today), Interface 1 (the `InfoNote` component), `docs/ai/09-layout-rules.md` (how the "i" looks and where it opens), `docs/specifications/03-business-system/01-foundation.md` (the owner's texts, which stay).
 
 ## 1. What is written today
 
@@ -117,7 +117,7 @@ Words to avoid in an "i": *tile, card, locked, frozen, driver, check, Segment fr
 
 ### 3.6 How to keep them right
 
-1. **When a field changes, its "i" changes in the same commit.** A pull request that changes a label, an option or a condition lists the "i" it touched (add to `docs/ai/review.md`, section 13).
+1. **When a field changes, its "i" changes in the same commit.** A pull request that changes a label, an option or a condition lists the "i" it touched (add to `docs/ai/02-review.md`, section 13).
 2. **The walk of Interface 9 is the check.** It already measures each text. Flag, in the generated list: a text over its budget, a text with more points than its place allows, two labels with identical text, a text with a word of the avoid list. The list of warnings is in Interface 9.
 3. **A stale prompt is a defect.** The owner's texts are changed only with the owner; the review lists the ones that no longer match what is asked.
 

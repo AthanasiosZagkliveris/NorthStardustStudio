@@ -335,7 +335,7 @@ export const modeSources: Record<Mode, ModeSource> = {
         ],
         rootGroups: [
             {
-                note: "TITLES AND CAPTIONS THAT TIRE THE EYE LEAST (app-wide): the ink of a title (the page title, a column title, a section heading, a tile or box title,\na dialog title) and of a floating card's caption. Not the extremes of the theme (#111827 on white was 17.7:1, #e6e8eb on the dark page 13.8:1, the\ncaption's white on the dark scrim 20:1): a step softer, each about 10:1 to 12:1 on its ground (not over 13:1), never under 4.5:1. Body text keeps\nits own ink (--text-default). docs/ai/layout-rules.md, \"Titles and captions\".",
+                note: "TITLES AND CAPTIONS THAT TIRE THE EYE LEAST (app-wide): the ink of a title (the page title, a column title, a section heading, a tile or box title,\na dialog title) and of a floating card's caption. Not the extremes of the theme (#111827 on white was 17.7:1, #e6e8eb on the dark page 13.8:1, the\ncaption's white on the dark scrim 20:1): a step softer, each about 10:1 to 12:1 on its ground (not over 13:1), never under 4.5:1. Body text keeps\nits own ink (--text-default). docs/ai/09-layout-rules.md, \"Titles and captions\".",
                 tokens: [
                     ["title-ink", "#303a49"],
                 ]

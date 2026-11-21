@@ -50,7 +50,7 @@
     display: flex;
     flex-direction: column;
 
-    /* THE WINDOW'S TYPE IS THE APP'S: the body size (docs/ai/review.md, "Typography"); its words in the text colour, as every dropdown card's (below). */
+    /* THE WINDOW'S TYPE IS THE APP'S: the body size (docs/ai/02-review.md, "Typography"); its words in the text colour, as every dropdown card's (below). */
     font-size: var(--font-body);
 
 }
@@ -356,7 +356,7 @@
 }
 
 /* ==========================================================
-   THE FUNNEL'S VERTICAL RHYTHM (docs/ai/layout-rules.md, "One rhythm in the funnel"): two tokens of the layout rulebook and nothing else.
+   THE FUNNEL'S VERTICAL RHYTHM (docs/ai/09-layout-rules.md, "One rhythm in the funnel"): two tokens of the layout rulebook and nothing else.
    --space-field (12px): the menu's padding; between its blocks (Include, Belongs to, Status / Frequency, Costs, Sort); between a block's label and its
    first row, and above a label; between a block's sub-lists (Type, Category, Group); between the fields of the Status / Frequency / Costs blocks.
    --space-label (6px): between rows of ticks, from a select's or an input's label to its control, between the two cost-order buttons and the two

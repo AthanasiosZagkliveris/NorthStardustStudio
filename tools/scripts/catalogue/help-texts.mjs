@@ -96,7 +96,7 @@ for (const [system, pages] of Object.entries(PAGES)) {
         await attempt(where, async () => {
             await open(system, name);
             await record(where + " / page");
-            // (EACH TILE BY WHAT IT IS, never by its place (ai-collaboration-rules.md, "Read the app's structure by what a thing is"): a page's tile by its chapter's
+            // (EACH TILE BY WHAT IT IS, never by its place (01-ai-collaboration-rules.md, "Read the app's structure by what a thing is"): a page's tile by its chapter's
             // anchor and its id -- two chapters may hold tiles of one id, Infrastructure's and Offering's Capability's Resources --; a tile in a dialog by its id,
             // else its name. Then each one's nested tiles, up to 16 (2026-11-17), and -- where a nested tile opens a list of cards in place (a sub tile:
             // Registrations & Expenses → Expenses) -- one of those cards, by its name, so the help on a card inside a sub tile is found too.)

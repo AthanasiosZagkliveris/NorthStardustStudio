@@ -52,7 +52,7 @@
 }
 
 /* TITLES AND CAPTIONS THAT TIRE THE EYE LEAST (app-wide): the ink of a title (the page title, a column title, a section heading, a tile or box title,
-   a dialog title) and of a floating card's caption (--title-ink and --floating-caption-ink, in the tokens). docs/ai/layout-rules.md, "Titles and captions". */
+   a dialog title) and of a floating card's caption (--title-ink and --floating-caption-ink, in the tokens). docs/ai/09-layout-rules.md, "Titles and captions". */
 .conversation-card h1,
 .app-header-organization-name.app-header-organization-name,
 .answer-column-label.answer-column-label,

@@ -1,6 +1,6 @@
 # 2. Brand System — the page
 
-Status: **current design**, written 2026-11-20, updated 2026-11-21. The Brand System's one page: its two chapters, their tiles, what each asks, what it reads and writes, and the rules it follows. The questions are Questions 11's; the tile and card layout is the rulebook's (`ai/layout-rules.md`); this file names them and does not repeat them.
+Status: **current design**, written 2026-11-20, updated 2026-11-21. The Brand System's one page: its two chapters, their tiles, what each asks, what it reads and writes, and the rules it follows. The questions are Questions 11's; the tile and card layout is the rulebook's (`ai/09-layout-rules.md`); this file names them and does not repeat them.
 
 > **Keep this document true:** whoever changes a tile, a question, a draft or a read of this page changes this file in the same commit and writes the change in the log (`design/records/01-log.md`).
 
@@ -18,7 +18,7 @@ Status: **current design**, written 2026-11-20, updated 2026-11-21. The Brand Sy
 
 (This was the folder's README until 2026-11-21.) The Brand System (System 2 of the Foundation) is ONE page, "2. Brand System" (`PageGroups.ts`: sections 1 and 2 on one page, no page name in the header), of two chapters, each its own section of the saved answer (`src/assets/system-answers/02_BrandSystemAnswer.md`).
 
-Each file here describes the app as it is; where it and the code differ, the code is the bug or this file is, and both are mended in one commit with a row in the log (`design/records/01-log.md`). The layout (tiles, cards, measures) is the rulebook's (`ai/layout-rules.md`, sections 8, 9 and 13); the questions are kept in their questionnaire documents (`design/questionnaire/`), not repeated here.
+Each file here describes the app as it is; where it and the code differ, the code is the bug or this file is, and both are mended in one commit with a row in the log (`design/records/01-log.md`). The layout (tiles, cards, measures) is the rulebook's (`ai/09-layout-rules.md`, sections 8, 9 and 13); the questions are kept in their questionnaire documents (`design/questionnaire/`), not repeated here.
 
 ### The page
 

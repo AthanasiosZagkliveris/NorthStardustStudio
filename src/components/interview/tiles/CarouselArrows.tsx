@@ -225,7 +225,7 @@ export function CarouselArrows({ target, step, hue, back, side: fixedSide }: { t
         return () => observer?.disconnect();
     }, [target]);
 
-    // THE ARROWS NEVER MOVE and THE TAB'S LIST FLOWS ROUND THE ARROW (docs/ai/layout-rules.md, section 10, "Page tab"; owner, 2026-11-09: "If the bullets are a lot,
+    // THE ARROWS NEVER MOVE and THE TAB'S LIST FLOWS ROUND THE ARROW (docs/ai/09-layout-rules.md, section 10, "Page tab"; owner, 2026-11-09: "If the bullets are a lot,
     // they should continue after the arrow"): both arrows stand at the middle of the layer; where the tab stands under an arrow, its lines run in order at their own
     // pitch and the arrow takes exactly one line's place among them -- the line that would reach it continues right after it, one line's gap on each side -- the list
     // set down by less than one pitch (`shift`) so that the gaps above and below the arrow are the list's own.

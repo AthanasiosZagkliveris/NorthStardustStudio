@@ -23,7 +23,7 @@ export function extractReferences(text: string): References {
         const code = match[1];
         for (const m of code.matchAll(/--[a-z][a-z0-9-]*/gi)) properties.add(m[0]);
         for (const m of code.matchAll(/(?:^|[\s>(,])\.([a-z][a-z0-9_-]{2,})/gi)) classes.add(m[1]);
-        for (const m of code.matchAll(/\b([A-Za-z][A-Za-z0-9_.-]*\.(?:tsx?|css|mjs|md|json))\b/g)) files.add(m[1]);
+        for (const m of code.matchAll(/(?<![A-Za-z0-9_.-])([A-Za-z0-9][A-Za-z0-9_.-]*\.(?:tsx?|css|mjs|md|json))\b/g)) files.add(m[1]);
     }
     return { properties, classes, files };
 }

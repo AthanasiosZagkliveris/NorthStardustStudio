@@ -131,7 +131,7 @@ describe("the Differentiation and the end user's outcome start from the Position
     });
 });
 
-/* What the later pages start from (specifications/business-system/README.md, "What each later page reads from Page 1"; phase 5f, 2026-11-09). */
+/* What the later pages start from (specifications/03-business-system/README.md, "What each later page reads from Page 1"; phase 5f, 2026-11-09). */
 describe("the later pages' starts follow the Offering's O3, O3b, O10 and O15", () => {
     const offeringWith = (questions: Record<string, string[]>, category = "Service") => {
         const segment = asBusinessFoundationValue({ segments: [{ id: "s", name: "Firms", offerings: [{ id: "o", name: "Audit", category, questions }] }] }).segments[0];

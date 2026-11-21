@@ -2,7 +2,7 @@
 
 Status: **current design**, written 2026-10-17, updated 2026-11-10. The kinds of reaction (R1 to R15), and which component takes which.
 
-What the app does when a part of it is pointed at, pressed, focused, ticked, opened or switched off: the kinds of reaction, and which fields and components take which. Written from the stylesheets. The rulebook (`docs/ai/layout-rules.md`, section 6, "Interactions: one set of reactions per kind") holds the same rules as the table the automatic layout check runs against, and fails a kind that does not react as its row says; this document is the lookup: the kinds, and which component takes which.
+What the app does when a part of it is pointed at, pressed, focused, ticked, opened or switched off: the kinds of reaction, and which fields and components take which. Written from the stylesheets. The rulebook (`docs/ai/09-layout-rules.md`, section 6, "Interactions: one set of reactions per kind") holds the same rules as the table the automatic layout check runs against, and fails a kind that does not react as its row says; this document is the lookup: the kinds, and which component takes which.
 
 ## 1. The kinds of reaction
 

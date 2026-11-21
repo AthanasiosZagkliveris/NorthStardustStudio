@@ -1,8 +1,8 @@
 # 2. Questionnaire specification: lists, questions, connections and evidence
 
-Status: **proposal**, written 2026-10-22, updated 2026-11-21; parts are built. It is the specification that goes with Questions 1 (the plan). **Built** (marked "as built" or "built" where described): the Organisation tile with its activity cascade (Research 3, 5.7 to 5.10, 8.5), the business stage and key dates (8.2a), the Early Positioning questions with the End User questions (8.2), the Legal Entity (8.5), the Segment card's questions (6.3a, Questions 12), the Profile card's questions in part (6.4, Questions 13), the Competitor card (6.6, Questions 14), the Value Proposition draft (6.7, Questions 15) and the Offering card in part (6.8, Questions 16). **Not built:** everything else (the shared lists as fields, the industry pack, the rest of the Profile, O12, the journey, the price questions). The **plan** (the goal, the order, what is built when, what was cut and why) is Questions 1, and **the flow of the questions as trees** (which answer leads to which question, the key branches, both, mixed, not sure and other, the order) is Questions 3. This document holds the detail the plan points to: the shared lists with examples, the industry list in two levels, every question with its wording and options, how every characteristic connects to the rest of the app and on what evidence, and the moves and decisions. Decisions for the owner are marked **[D]** and collected in section 13 (which also holds the decisions of Questions 1 and 3). The counts of questions, drivers, checks and notes are held only in Appendix B. Where the code and this document disagree, the latest dated decision wins (`standard.md`, section 3). Its Business page numbers are the old ones (`specifications/business-system/README.md`, "The old page numbers"). The sources are in `01-references.md`, section 2.7, and are cited here by id (for example `DIG-14`).
+Status: **proposal**, written 2026-10-22, updated 2026-11-21; parts are built. It is the specification that goes with Questions 1 (the plan). **Built** (marked "as built" or "built" where described): the Organisation tile with its activity cascade (Research 3, 5.7 to 5.10, 8.5), the business stage and key dates (8.2a), the Early Positioning questions with the End User questions (8.2), the Legal Entity (8.5), the Segment card's questions (6.3a, Questions 12), the Profile card's questions in part (6.4, Questions 13), the Competitor card (6.6, Questions 14), the Value Proposition draft (6.7, Questions 15) and the Offering card in part (6.8, Questions 16). **Not built:** everything else (the shared lists as fields, the industry pack, the rest of the Profile, O12, the journey, the price questions). The **plan** (the goal, the order, what is built when, what was cut and why) is Questions 1, and **the flow of the questions as trees** (which answer leads to which question, the key branches, both, mixed, not sure and other, the order) is Questions 3. This document holds the detail the plan points to: the shared lists with examples, the industry list in two levels, every question with its wording and options, how every characteristic connects to the rest of the app and on what evidence, and the moves and decisions. Decisions for the owner are marked **[D]** and collected in section 13 (which also holds the decisions of Questions 1 and 3). The counts of questions, drivers, checks and notes are held only in Appendix B. Where the code and this document disagree, the latest dated decision wins (`standard.md`, section 3). Its Business page numbers are the old ones (`specifications/03-business-system/README.md`, "The old page numbers"). The sources are in `01-references.md`, section 2.7, and are cited here by id (for example `DIG-14`).
 
-> **First published version (owner, 2026-10-29):** English only; UK, Ireland, USA, Canada, Australia, New Zealand and Other; single-sided; B2C and/or B2B; the buyer's category separate from the buyer's life stage. **Questions 4 governs** where it differs from this document. Everything described here that the first version does not contain (B2G, G2B, multi-sided markets, other countries, accessibility, caregiving and the rest) is a future feature: Questions 4. Age limits are checked on the Offering (O12) and the Review (Questions 16; O12 is not built yet). Contents of the documents: `docs/README.md`; index: `docs/index.md`; glossary: `docs/app/glossary.md`.
+> **First published version (owner, 2026-10-29):** English only; UK, Ireland, USA, Canada, Australia, New Zealand and Other; single-sided; B2C and/or B2B; the buyer's category separate from the buyer's life stage. **Questions 4 governs** where it differs from this document. Everything described here that the first version does not contain (B2G, G2B, multi-sided markets, other countries, accessibility, caregiving and the rest) is a future feature: Questions 4. Age limits are checked on the Offering (O12) and the Review (Questions 16; O12 is not built yet). Contents of the documents: `docs/README.md`; index: `docs/index.md`; glossary: `docs/app/03-glossary.md`.
 
 > **Where each part stands (2026-11-08).** What is built, tile by tile, is held in the questions README (`docs/design/questions/README.md`) and in Questions 1, section 11; this note says only which document governs each section. Current: 1 to 5 (the summary, the rules and the wording), 11 (the connection map and the evidence), 12 to 15. Governed by their tile documents: 6.3a by **Questions 12** (the Segment), 6.4 and 6.5 by **Questions 13** (the Profile), 6.6 to 6.8 by **Questions 14 to 16** (the Competitor, the Value Proposition, the Offering), 8.2 by **Questions 8** (Positioning), 8.5 by **Questions 7** (the Organisation); where they differ, those documents are right. Replaced and archived: 6.3 (the Segment's G-list), the 6.6 tables and the 6.7 paragraph of 2026-11-03. Not yet specified in that form: 7 (Customer Engagement), 9 and 10. Age limits by activity: **Research 4**. What an "i" says: **Interface 10**. The form every tile document takes: **Questions 1, section 11**.
 
@@ -50,10 +50,10 @@ Status: **proposal**, written 2026-10-22, updated 2026-11-21; parts are built. I
   - [8.5 The Organisation tile (page 1): layout](07-organisation-tile.md#85-the-organisation-tile-page-1-layout)
   - [8.6 The wording of the Organisation tile](07-organisation-tile.md#86-the-wording-of-the-organisation-tile)
 - [9. Founders and Capability](#9-founders-and-capability)
-  - [9.1 Three founder places today](../../specifications/business-system/page-2-infrastructure-and-capability.md#91-three-founder-places-today)
-  - [9.2 Target](../../specifications/business-system/page-2-infrastructure-and-capability.md#92-target-d)
-  - [9.3 The new questions](../../specifications/business-system/page-2-infrastructure-and-capability.md#93-the-new-questions)
-  - [9.4 What the skill areas are, and why](../../specifications/business-system/page-2-infrastructure-and-capability.md#94-what-the-skill-areas-are-and-why)
+  - [9.1 Three founder places today](../../specifications/03-business-system/04-infrastructure-and-capability.md#91-three-founder-places-today)
+  - [9.2 Target](../../specifications/03-business-system/04-infrastructure-and-capability.md#92-target-d)
+  - [9.3 The new questions](../../specifications/03-business-system/04-infrastructure-and-capability.md#93-the-new-questions)
+  - [9.4 What the skill areas are, and why](../../specifications/03-business-system/04-infrastructure-and-capability.md#94-what-the-skill-areas-are-and-why)
 - [10. Business 3 (Delivery) and Business 5 (price)](#10-business-3-delivery-and-business-5-price)
   - [10.1 Delivery card](19-capacity-and-delivery.md#101-delivery-card)
   - [10.2 Revenue stream card (page 5)](20-financials-and-inventory.md#102-revenue-stream-card-page-5)
@@ -92,7 +92,7 @@ Status: **proposal**, written 2026-10-22, updated 2026-11-21; parts are built. I
 
 **Read** (two read-only passes each, from the code): Business pages 1, 2, 3 and 5, the Identity System, the Founders Profile and the Business founder cards, the tile and card pattern and the shared components; the specifications of page 1, page 2 and the Offering's Capability part of page 3; the audience PDF, the two question files of 2026-10-15, and the owner's customer-segment text of 2026-10-23. **Research** (web, eleven passes, 2026-10-23, including an inventory of the Brand System and the industry classifications): official sources of the six countries on every list and connection in this document. Many official pages could not be opened by the research tool (ACCC, ATO, Ofcom, ACMA, several StatCan and CSO tables, NZQA, QQI, Stats NZ expenditure); those points rest on search excerpts and are marked in `01-references.md`, which also has a coverage table showing which country has what.
 
-**Not read:** the Brand and Strategy editors in detail; the rest of the page 3 specification; the Financial editors beyond price and revenue; `layout-rules.md` in full; the tests; the jurisdiction option lists beyond their shape. Nothing was run in a browser. Lists marked "author's proposal" have no source and need the owner's approval.
+**Not read:** the Brand and Strategy editors in detail; the rest of the page 3 specification; the Financial editors beyond price and revenue; `09-layout-rules.md` in full; the tests; the jurisdiction option lists beyond their shape. Nothing was run in a browser. Lists marked "author's proposal" have no source and need the owner's approval.
 
 ## 3. Rules for the changes
 
@@ -343,7 +343,7 @@ Moved on 2026-11-21 to [Questions 17, section 6](17-customer-engagement.md#6-the
 
 ### 8.1 What exists (as built, 2026-10-25)
 
-**The Identity System is one page**, of two chapters, Definition and Purpose; its tiles and what each holds are `specifications/identity-system/page-1-definition.md`, section 1 (the one owner).
+**The Identity System is one page**, of two chapters, Definition and Purpose; its tiles and what each holds are `specifications/01-identity-system/01-definition.md`, section 1 (the one owner).
 
 **Prose only:** the six texts of Purpose. The Positioning tile has four choice questions, the End User questions (asked only for one audience) and a Notes box (8.2). The Organisation tile holds the facts of the organisation (8.5).
 
@@ -427,7 +427,7 @@ Moved on 2026-11-21 to [Questions 7, section 4](07-organisation-tile.md#86-the-w
 
 ## 9. Founders and Capability
 
-Moved on 2026-11-21 to [the Infrastructure & Capability specification, section 12](../../specifications/business-system/page-2-infrastructure-and-capability.md#12-founders-and-capability-the-design-and-its-reasons), with the tile it designs.
+Moved on 2026-11-21 to [the Infrastructure & Capability specification, section 12](../../specifications/03-business-system/04-infrastructure-and-capability.md#12-founders-and-capability-the-design-and-its-reasons), with the tile it designs.
 
 ## 10. Business 3 (Delivery) and Business 5 (price)
 
@@ -675,7 +675,7 @@ The 28 rows that were *built* or *superseded* on 2026-11-21 are in [the archive]
 
 ## 14. Order of work
 
-The order, the stages, their sizes and their "done when" are in Questions 1, section 6 (the plan). The index of the app and its documents is `docs/app/contents.md`.
+The order, the stages, their sizes and their "done when" are in Questions 1, section 6 (the plan). The index of the app and its documents is `docs/app/01-contents.md`.
 
 ## 15. Evidence
 

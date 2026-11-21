@@ -4,9 +4,9 @@ Status: **current design**, written 2026-10-14, updated 2026-11-21. It is the si
 
 Part F is Foundation 2 (card structure). The catalogue tool (`tools/scripts/catalogue/load.mjs`) reads it from there, taking the headings with " > " and the numbered table rows between the headings of Part F and Part G, and the structure tables (Records 4) and the catalogue record (Records 3) are generated from it: its headings and row format stay as they are.
 
-The other documents of the project, with what each holds, are listed in `docs/README.md`; the map of the app is `docs/app/contents.md`. Every change is written in the log (Records 1) and nowhere else.
+The other documents of the project, with what each holds, are listed in `docs/README.md`; the map of the app is `docs/app/01-contents.md`. Every change is written in the log (Records 1) and nowhere else.
 
-Other current Markdown documents in the project that this one points to and does not repeat: `docs/ai/layout-rules.md` (the measured layout rulebook and the automatic check), `docs/ai/card-kinds.md`, `docs/app/contents.md`, `docs/specifications/business-system/*.md` (the page specifications), `docs/ai/framework-dsl-grammar.md` and `docs/ai/framework-conventions-and-patterns.md` (the framework).
+Other current Markdown documents in the project that this one points to and does not repeat: `docs/ai/09-layout-rules.md` (the measured layout rulebook and the automatic check), `docs/ai/08-card-kinds.md`, `docs/app/01-contents.md`, `docs/specifications/03-business-system/*.md` (the page specifications), `docs/ai/07-framework-dsl-grammar.md` and `docs/ai/06-framework-conventions-and-patterns.md` (the framework).
 
 ## Contents
 
@@ -63,18 +63,18 @@ Every chapter of the Foundation is drawn as Master Tiles, the two Financial page
 
 | Subject | File |
 |---|---|
-| Layout tokens, sizes, alignment, interactions, the automatic layout check | `docs/ai/layout-rules.md` |
-| Tile and card pattern | `docs/ai/layout-rules.md` (sections 6 and 8 to 10) |
-| Card kinds | `docs/ai/card-kinds.md` |
-| Page specifications (Business System) | `docs/specifications/business-system/` |
-| Where each part of the app is | `docs/app/contents.md` |
-| How to verify a change | `docs/ai/toolchain-and-verification-playbook.md` |
+| Layout tokens, sizes, alignment, interactions, the automatic layout check | `docs/ai/09-layout-rules.md` |
+| Tile and card pattern | `docs/ai/09-layout-rules.md` (sections 6 and 8 to 10) |
+| Card kinds | `docs/ai/08-card-kinds.md` |
+| Page specifications (Business System) | `docs/specifications/03-business-system/` |
+| Where each part of the app is | `docs/app/01-contents.md` |
+| How to verify a change | `docs/ai/03-toolchain-and-verification-playbook.md` |
 
 ## Part C. The interface elements
 
-This part records every kind of element the Foundation capability is built from, by layer, so that nothing is missing when the asset library is written (Records 2). It is checked for structure and exports; runtime behaviour is not checked line by line, and the document-reference test checks that every file, class and custom property named here exists. Paths: `I/` is `src/components/interview/`, `C/` is `src/components/`. The files of `I/` are in its folders `cards/`, `tiles/`, `fields/`, `editors/` and `tests/`, and the shared controls in `C/controls/`: a file is found by its name (see `docs/ai/code-map.md`).
+This part records every kind of element the Foundation capability is built from, by layer, so that nothing is missing when the asset library is written (Records 2). It is checked for structure and exports; runtime behaviour is not checked line by line, and the document-reference test checks that every file, class and custom property named here exists. Paths: `I/` is `src/components/interview/`, `C/` is `src/components/`. The files of `I/` are in its folders `cards/`, `tiles/`, `fields/`, `editors/` and `tests/`, and the shared controls in `C/controls/`: a file is found by its name (see `docs/ai/04-code-map.md`).
 
-Global rules that apply to every element (the sizes and states are in the rulebook `docs/ai/layout-rules.md` and in the contracts under `src/library`): an "i" stands 6px after its label's last word (`--info-gap`); text that goes bold under the pointer, or is bold by default, is 0.05em wider (`--bold-tracking`); a wired button (the "i", the "+" box, the remove x, an "Add ..." button) has no fill at rest.
+Global rules that apply to every element (the sizes and states are in the rulebook `docs/ai/09-layout-rules.md` and in the contracts under `src/library`): an "i" stands 6px after its label's last word (`--info-gap`); text that goes bold under the pointer, or is bold by default, is 0.05em wider (`--bold-tracking`); a wired button (the "i", the "+" box, the remove x, an "Add ..." button) has no fill at rest.
 
 ### C.0 The owner's vocabulary
 
@@ -190,9 +190,9 @@ Tile dialogs (`SectionTiles.tsx`): header with a trail and Back (`DialogHeading`
 
 ### C.6 Layer E: cards and their parts
 
-`docs/ai/card-kinds.md` lists 16 kinds: Resource; Activity; Partner, Provider or Professional; Offering delivery; Founder (Infrastructure); Channel and subchannel; Segment Profile, Competitor, Offering; Segment Description and Value Proposition; Legal requirement; Legal expense; Founders' profile; Brand colour; Brand typeface; Brand image; Strategy Theme, Goal, Objective, Metric; Initiatives (not a card).
+`docs/ai/08-card-kinds.md` lists 16 kinds: Resource; Activity; Partner, Provider or Professional; Offering delivery; Founder (Infrastructure); Channel and subchannel; Segment Profile, Competitor, Offering; Segment Description and Value Proposition; Legal requirement; Legal expense; Founders' profile; Brand colour; Brand typeface; Brand image; Strategy Theme, Goal, Objective, Metric; Initiatives (not a card).
 
-**Card kinds in the code that `card-kinds.md` does not list:** the Workspace (a Resource of the category Workspace); the Brand Text Hierarchy box; Strategy Situation and SWOT boxes and the Strategic Compass; the parts of a channel card (Actions, Expenses, channel Resource card); the Customer Relationship block; Financial cost, funding need and revenue stream cards; Global Settings asset rows; the Infrastructure card; the founder's Responsibilities card.
+**Card kinds in the code that `08-card-kinds.md` does not list:** the Workspace (a Resource of the category Workspace); the Brand Text Hierarchy box; Strategy Situation and SWOT boxes and the Strategic Compass; the parts of a channel card (Actions, Expenses, channel Resource card); the Customer Relationship block; Financial cost, funding need and revenue stream cards; Global Settings asset rows; the Infrastructure card; the founder's Responsibilities card.
 
 | Card part | Component |
 |---|---|
@@ -288,8 +288,8 @@ Tile dialogs (`SectionTiles.tsx`): header with a trail and Back (`DialogHeading`
 
 ### C.12 What the record shows
 
-- **In code, not named in `card-kinds.md`:** `SubTiles`, `PictureBoxes`, `CardBoxes`, `SectionView`, `SubcategoryBoxes`, `AddTile`, `CardNav`, `BoxActions`, `FoldAllToggle`, `FigureTiles`, `CashTimelineChart`, the Introduction page, the status line, Focus mode, the undo toast, the Notepad, the search dialog, the Inventory funnel, "Completed".
-- **Named in documents, not in code:** "Master Tile", "Chapter" and "help tile" are the owner's words and have no code counterpart. "Marker column" is gone, as `card-kinds.md` says.
+- **In code, not named in `08-card-kinds.md`:** `SubTiles`, `PictureBoxes`, `CardBoxes`, `SectionView`, `SubcategoryBoxes`, `AddTile`, `CardNav`, `BoxActions`, `FoldAllToggle`, `FigureTiles`, `CashTimelineChart`, the Introduction page, the status line, Focus mode, the undo toast, the Notepad, the search dialog, the Inventory funnel, "Completed".
+- **Named in documents, not in code:** "Master Tile", "Chapter" and "help tile" are the owner's words and have no code counterpart. "Marker column" is gone, as `08-card-kinds.md` says.
 - **Unused:** `InterviewProgress` is switched off.
 - **Near-duplicates (the shared components are in Interface 1):** the two funnels (`CapabilityOverview`, `CalendarFunnel`); the confirmation-dialog markup repeated in six places; `business-channel-table` and `business-relationship-table`; the three rails (`BulletRail`, `CardNav`, the dialog rail); several "empty note" classes.
 

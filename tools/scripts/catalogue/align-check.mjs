@@ -1,5 +1,5 @@
 /**
- * The check of the rule "connected components align as one" (docs/ai/layout-rules.md, section 5): in every opened card of
+ * The check of the rule "connected components align as one" (docs/ai/09-layout-rules.md, section 5): in every opened card of
  * the four Foundation systems, any two controls side by side in one row (their vertical ranges overlap, the gap between
  * them is at most 40px) share one centre line (within 1px), and two of the same height share one top.
  * Opens every master tile and the first two cards of each view, like app-crawl.mjs; presses only tiles.

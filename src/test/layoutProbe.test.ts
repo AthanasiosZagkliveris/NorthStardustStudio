@@ -4,7 +4,7 @@ import probe from "../../tools/scripts/layout-check/layout-probe.js?raw";
 
 /*
     The layout check's pure helpers (tools/scripts/layout-check/layout-probe.js,
-    docs/ai/layout-rules.md): the parts of the probe that decide what is
+    docs/ai/09-layout-rules.md): the parts of the probe that decide what is
     "equal", what is "one row" and what is misaligned, tested away from
     a browser. The in-page checks themselves are run by the layout check.
 */

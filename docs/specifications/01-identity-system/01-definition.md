@@ -2,7 +2,7 @@
 
 Status: **current design**, written 2026-10-30, updated 2026-11-21. The chapter "1. Definition" of the Identity System's one page, "1. Identity System": its layout, its tiles, how each opens and reacts, and what reads what it holds.
 
-Related: Questions 7 (the Organisation tile's fields), Questions 8 (the Positioning tile's questions), Foundation 2 (card structure), Questions 2 (the design, 8.1 to 8.6), Research 5 (the tables behind the Positioning lists, 10.7), Questions 4 (the first version, and the future features in sections 10 to 15), `docs/ai/layout-rules.md` (the measured rules).
+Related: Questions 7 (the Organisation tile's fields), Questions 8 (the Positioning tile's questions), Foundation 2 (card structure), Questions 2 (the design, 8.1 to 8.6), Research 5 (the tables behind the Positioning lists, 10.7), Questions 4 (the first version, and the future features in sections 10 to 15), `docs/ai/09-layout-rules.md` (the measured rules).
 
 > **Keep this document true (rule of this file):** it describes the app as it is. Whoever changes a tile, a field, a list, a limit or a reaction of the Definition changes this document in the same commit, and writes the change in the log (`design/records/01-log.md`). Where the code and this document disagree, the code is right and this document is the one to fix. What is described elsewhere but not in the app and not a future feature is collected in section 12, **Extra Information**, and nowhere else in this document.
 

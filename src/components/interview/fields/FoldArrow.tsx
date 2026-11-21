@@ -7,7 +7,7 @@ import "../../../styles/label-arrow.css";
  * pointer. Its name is "Minimise ..." / "Maximise ..." after what it folds (`label`), or the whole name a place gives it (`name`).
  *
  * Two sizes, one arrow: the `card` arrow (default) is a 36px control on a card's or a group's head; the `label` arrow stands INSIDE a label or after a title, in the
- * label's own colour and size (docs/ai/layout-rules.md, "The label arrow"). `controls` names the block it shows and hides.
+ * label's own colour and size (docs/ai/09-layout-rules.md, "The label arrow"). `controls` names the block it shows and hides.
  */
 export default function FoldArrow({
 

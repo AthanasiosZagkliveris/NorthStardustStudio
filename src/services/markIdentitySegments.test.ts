@@ -4,7 +4,7 @@ import { OrganizationService } from "./OrganizationService";
 import { markIdentitySegments } from "./storageMigrations";
 import { asBusinessFoundationValue, createBusinessCustomerSegment, segmentMadeByIdentity } from "../framework/engine/businessFoundation/foundationPage";
 
-/* THE SEGMENTS THE APP MADE ARE MARKED, BY ID (owner, 2026-11-19; ai-collaboration-rules.md, "Read the app's structure by what a thing is"): the backfill finds
+/* THE SEGMENTS THE APP MADE ARE MARKED, BY ID (owner, 2026-11-19; 01-ai-collaboration-rules.md, "Read the app's structure by what a thing is"): the backfill finds
    them once by the rule that made them; from then on `madeBy` says it, wherever the Segment stands. */
 beforeEach(() => {
     OrganizationService.flushPendingWrites();

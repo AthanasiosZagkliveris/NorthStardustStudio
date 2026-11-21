@@ -6,7 +6,7 @@ This folder is NorthStardustStudio's shared knowledge for AI assistants (Claude,
 
 Elsewhere in `docs/`:
 - `../README.md`: the contents of every document of the project (design, specifications, archive), with its kind and date; `../index.md`: the alphabetical index of the subjects. Both are written by `npm run docs:index`.
-- `../app/contents.md`: the contents of the app (how it is entered, the Systems and pages, the places in the code); `../app/index.md`: an alphabetical list of its places; `../app/glossary.md`: one line per term (framework, app, questionnaire, documents), with a pointer to the document that explains it. Start there to find your way into the product.
+- `../app/01-contents.md`: the contents of the app (how it is entered, the Systems and pages, the places in the code); `../app/02-index.md`: an alphabetical list of its places; `../app/03-glossary.md`: one line per term (framework, app, questionnaire, documents), with a pointer to the document that explains it. Start there to find your way into the product.
 - `../design/records/01-log.md`: every change, newest on top, and the only place a change is written; `../design/records/02-not-done-yet.md`: what is still open.
 - `../archive/`: proposals that were written and not built, and finished plans; nothing there is a rule.
 
@@ -16,32 +16,32 @@ Documents cite one another by number ("Interface 1" is `../design/interface/01-s
 
 | If you are going to... | Read first | Then |
 |---|---|---|
-| Do any work at all (every session) | `ai-collaboration-rules.md`, `toolchain-and-verification-playbook.md` | |
-| Change or add something on screen (a table, tile, card, page, control) | `review.md` (section 13, the checklist), then grep `layout-rules.md` for the name of the thing | `card-kinds.md`, `layout-assets.md`; from `../design/interface/`: `01-shared-components.md` (use the shared components), `05-reactions.md`, `08-tooltips.md`, `07-popups.md` |
-| Judge or review a screen | `review.md` (sections 1 to 12, the standard and how to measure it; section 13, the list to tick) | `layout-rules.md` |
-| Change the Customer Engagement page | `layout-rules.md`, section 11 | `card-kinds.md` |
-| Write or edit a System's content (the Markdown under `src/assets`) | `framework-dsl-grammar.md` | `framework-conventions-and-patterns.md` |
-| Change the framework's code (parser, model, engine, export, notes) | `framework-conventions-and-patterns.md` | `code-map.md` |
-| Find where something is in `src` | `code-map.md` | `../app/contents.md`, `folder-plan.md` (the folders outside `src`) |
+| Do any work at all (every session) | `01-ai-collaboration-rules.md`, `03-toolchain-and-verification-playbook.md` | |
+| Change or add something on screen (a table, tile, card, page, control) | `02-review.md` (section 13, the checklist), then grep `09-layout-rules.md` for the name of the thing | `08-card-kinds.md`, `10-layout-assets.md`; from `../design/interface/`: `01-shared-components.md` (use the shared components), `05-reactions.md`, `08-tooltips.md`, `07-popups.md` |
+| Judge or review a screen | `02-review.md` (sections 1 to 12, the standard and how to measure it; section 13, the list to tick) | `09-layout-rules.md` |
+| Change the Customer Engagement page | `09-layout-rules.md`, section 11 | `08-card-kinds.md` |
+| Write or edit a System's content (the Markdown under `src/assets`) | `07-framework-dsl-grammar.md` | `06-framework-conventions-and-patterns.md` |
+| Change the framework's code (parser, model, engine, export, notes) | `06-framework-conventions-and-patterns.md` | `04-code-map.md` |
+| Find where something is in `src` | `04-code-map.md` | `../app/01-contents.md`, `05-folder-plan.md` (the folders outside `src`) |
 | Run a diagnostic or a scan | `../design/records/02-not-done-yet.md`, section 5.9, the known open findings (check it first, add to it) | |
 
 ## The files
 
 **Standing rules and procedure**
-- `ai-collaboration-rules.md`: the standing rules (commit, never push without the owner's yes; no unrequested changes; ask or decide; what "done" requires) and how work flows.
-- `toolchain-and-verification-playbook.md`: the exact procedure (typecheck, tests, the checks, build, layout check, look) and the list of expected test failures.
+- `01-ai-collaboration-rules.md`: the standing rules (commit, never push without the owner's yes; no unrequested changes; ask or decide; what "done" requires) and how work flows.
+- `03-toolchain-and-verification-playbook.md`: the exact procedure (typecheck, tests, the checks, build, layout check, look) and the list of expected test failures.
 
 **Changing the screens (rules; a check enforces most of them)**
-- `layout-rules.md`: the measured rulebook of the Foundation pages (tokens, the closed set of sizes, alignment, the reactions per kind, the Inventory) and the automatic layout check that must pass; it also holds how tiles, frames, cards, rails (the page tab) and dialogs are built, the pattern of a floating card of questions (section 8, checked by `npm run check:card`), and the Customer Engagement tables, the Channel resources table and the action markers (section 11).
-- `layout-assets.md`: the generated numbers of each shared part (rulebook section 19), written from the contracts under `src/library` by `npm run docs:assets`.
-- `card-kinds.md`: the kinds of card, where each one's code is and how its head is built.
-- `review.md`: the standard a screen is judged by (type, spacing, controls, colour, tiles, cards, tables, pop-up windows, pages, data), how each is measured and the form of the report (sections 1 to 12), and the checklist to tick before saying done (section 13).
+- `09-layout-rules.md`: the measured rulebook of the Foundation pages (tokens, the closed set of sizes, alignment, the reactions per kind, the Inventory) and the automatic layout check that must pass; it also holds how tiles, frames, cards, rails (the page tab) and dialogs are built, the pattern of a floating card of questions (section 8, checked by `npm run check:card`), and the Customer Engagement tables, the Channel resources table and the action markers (section 11).
+- `10-layout-assets.md`: the generated numbers of each shared part (rulebook section 19), written from the contracts under `src/library` by `npm run docs:assets`.
+- `08-card-kinds.md`: the kinds of card, where each one's code is and how its head is built.
+- `02-review.md`: the standard a screen is judged by (type, spacing, controls, colour, tiles, cards, tables, pop-up windows, pages, data), how each is measured and the form of the report (sections 1 to 12), and the checklist to tick before saying done (section 13).
 
 **Changing the content and the code**
-- `framework-dsl-grammar.md`: the syntax of a System's content files.
-- `framework-conventions-and-patterns.md`: the non-obvious architectural patterns (cross-Section sharing, auto-ordering, the tabbed layout, the three special-case editors, sources, field keys, the Notepad) and the data model.
-- `code-map.md`: where things are in `src` (the folders and what is in each), and the rules for a new file.
-- `folder-plan.md`: the folders of the repository (the app files, the examples, the working files, the exports) and how the app alone is exported; it was document 25.
+- `07-framework-dsl-grammar.md`: the syntax of a System's content files.
+- `06-framework-conventions-and-patterns.md`: the non-obvious architectural patterns (cross-Section sharing, auto-ordering, the tabbed layout, the three special-case editors, sources, field keys, the Notepad) and the data model.
+- `04-code-map.md`: where things are in `src` (the folders and what is in each), and the rules for a new file.
+- `05-folder-plan.md`: the folders of the repository (the app files, the examples, the working files, the exports) and how the app alone is exported; it was document 25.
 
 ## How these files relate
 

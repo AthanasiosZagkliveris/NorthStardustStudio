@@ -95,7 +95,7 @@ export interface CardBoxAdd {
 }
 
 /**
- * A LIST OF CARDS AS CARD TILES (docs/ai/layout-rules.md, "Card tiles").
+ * A LIST OF CARDS AS CARD TILES (docs/ai/09-layout-rules.md, "Card tiles").
  *
  * Each card is a CardTile -- the one tile of the Inventory overlay: its number and name, where it belongs, its status and cost, a circle per link,
  * 215px; pressing it closes the dialog and opens THAT card as a FLOATING card on its section part of the page (OpenCardContext) -- the grid only lets

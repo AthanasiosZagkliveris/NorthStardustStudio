@@ -98,7 +98,7 @@
 /* THE NUMBER STARTS WHERE THE BODY STARTS, AND THE NAME FOLLOWS IT AT
    ONE GAP: "1." at the same x as the labels and fields under the head
    (--card-body-indent), only as wide as its digits, and the name 8px
-   after it on every card (docs/ai/layout-rules.md, the card head). */
+   after it on every card (docs/ai/09-layout-rules.md, the card head). */
 .fold-card-head > .legal-entity-card-number {
 
     /* Only as wide as its digits: the name follows it at the one 8px gap. */

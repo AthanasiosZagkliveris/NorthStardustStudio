@@ -43,10 +43,17 @@ for (const f of files) {
 // 3. numbering: each design folder runs from 01 without a gap or a repeat (owner, 2026-11-21: "Every folder should have its own sequences")
 const byFolder = {};
 for (const [folder, nn] of numbers) (byFolder[folder] ??= []).push(nn);
+// (The other folders number their files the same way, without the number in the title: ai/, app/, guide/, specifications/ and each System's folder in it.)
+for (const f of files) {
+    const m = /^docs\/((?:ai|app|guide|specifications)(?:\/[^/]+)*)\/(\d\d)-[^/]+$/.exec(f) ;
+    const sys = /^docs\/(specifications)\/(\d\d)-[^/]+\//.exec(f);
+    if (sys && !(byFolder[sys[1]] ?? []).includes(+sys[2])) (byFolder[sys[1]] ??= []).push(+sys[2]);
+    if (m && !(byFolder[m[1]] ?? []).includes(+m[2])) (byFolder[m[1]] ??= []).push(+m[2]);
+}
 for (const [folder, list] of Object.entries(byFolder)) {
     list.sort((a, b) => a - b);
-    for (let n = 1; n <= list[list.length - 1]; n++) if (!list.includes(n)) problems.push("docs/design/" + folder + ": no document is numbered " + n);
-    for (let i = 1; i < list.length; i++) if (list[i] === list[i - 1]) problems.push("docs/design/" + folder + ": the number " + list[i] + " is used twice");
+    for (let n = 1; n <= list[list.length - 1]; n++) if (!list.includes(n)) problems.push((folder.includes("/") || !["foundation", "questions", "interface", "research", "library", "records"].includes(folder) ? "docs/" : "docs/design/") + folder + ": no document is numbered " + n);
+    for (let i = 1; i < list.length; i++) if (list[i] === list[i - 1]) problems.push((folder.includes("/") || !["foundation", "questions", "interface", "research", "library", "records"].includes(folder) ? "docs/" : "docs/design/") + folder + ": the number " + list[i] + " is used twice");
 }
 // 4. relative links resolve
 for (const f of files) {
@@ -59,4 +66,4 @@ for (const f of files) {
 // 5. anchors find their headings (or an explicit <a id>)
 problems.push(...brokenAnchors(R));
 if (problems.length) { console.error("The documents do not meet docs/standard.md:\n" + problems.map(p => "  " + p).join("\n")); process.exit(1); }
-console.log("The " + files.length + " documents meet docs/standard.md (" + numbers.length + " numbered design documents in " + Object.keys(byFolder).length + " folders, each numbered from 1).");
+console.log("The " + files.length + " documents meet docs/standard.md (" + numbers.length + " numbered design documents; " + Object.keys(byFolder).length + " numbered folders, each from 1).");

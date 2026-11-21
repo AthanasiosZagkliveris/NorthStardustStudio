@@ -1,5 +1,5 @@
 /*
-    THE LAYOUT PROBE: measured in the page itself (docs/ai/layout-rules.md).
+    THE LAYOUT PROBE: measured in the page itself (docs/ai/09-layout-rules.md).
 
     Loaded into an open page of the app (see run.mjs), it adds
     window.__layoutProbe with two calls:
@@ -152,9 +152,9 @@
        swatch and its HEX, a list row's control beside its ×, a name typed
        with its suggestions. The group is the column. */
     const GROUPS = ".business-capability-price, .brand-colour-row, .legal-entity-number-row, .business-channel-resource-head, .strategy-metric-unit-currency, .suggested-input, .business-capability-quantity-price, .business-capability-performer, .business-channel-pick, .brand-image-text, .financial-milestone, .financial-schedule-row, .financial-cost-row, .legal-entity-founders, .strategy-period-box .month-picker, .strategy-objective-period .month-picker";
-    // Every card and section box (docs/ai/layout-rules.md, "Cards and section boxes").
+    // Every card and section box (docs/ai/09-layout-rules.md, "Cards and section boxes").
     const CARDS = ".legal-entity-section, .legal-entity-card, .business-foundation-card, .business-capability-activity, .financial-need-card, .financial-offering-cost-card, .financial-cost-row, .strategy-theme-box, .strategy-theme-panel, .strategy-goal-box, .strategy-objective-box, .strategy-metric-box, .roadmap-theme-box";
-    // The add buttons that span their list of cards (docs/ai/layout-rules.md,
+    // The add buttons that span their list of cards (docs/ai/09-layout-rules.md,
     // "Card-list add buttons"): an explicit list, not every add.
     const CARD_LIST_ADDS = ["+ Add legal requirement", "+ Add expense", "+ Add Profile", "+ Add Competitor", "+ Add Offering"];
     const GRIDS = ".founders-profile-row, .business-capability-cost-grid, .business-founder-grid, .card-field-pairs-grid, .legal-entity-grid, .strategy-metric-fields";
@@ -317,7 +317,7 @@
     }
 
     /**
-     * The rulebook's checks (docs/ai/layout-rules.md). `spec` holds the
+     * The rulebook's checks (docs/ai/09-layout-rules.md). `spec` holds the
      * values: { nameFromNumber, tolerance }.
      */
     /**
@@ -479,7 +479,7 @@
                 if (!control || !visible(control) || cell.classList.contains("business-field-inline") || cell.classList.contains("business-field-side") || cell.classList.contains("legal-entity-field-side") || cell.matches(".business-capability-cost-after:has(> .business-field-side), .legal-entity-tax-row, .legal-entity-registrations, .legal-entity-field-wide:has(.legal-entity-number-row), .legal-entity-field:has(> .numbered-list), .legal-entity-side-row, .founders-profile-row, .legal-entity-audience > .legal-entity-field + .legal-entity-field, .legal-entity-grid-requirement > *, .legal-entity-grid-expense-card > .legal-entity-field-wide, .founders-profile .founder-band, .business-segment-grid-single > .legal-entity-field")) {
                     continue;
                 }
-                // DECLARED (docs/ai/layout-rules.md, the tile and card pattern folded in on 2026-11-21, "Text holders and side cells"): in a box of bands (the Segment and Profile cards) a label with its cell beside it has the cell at the right end of the band, level with the label; `npm run check:card` measures it.
+                // DECLARED (docs/ai/09-layout-rules.md, the tile and card pattern folded in on 2026-11-21, "Text holders and side cells"): in a box of bands (the Segment and Profile cards) a label with its cell beside it has the cell at the right end of the band, level with the label; `npm run check:card` measures it.
                 const pairLabel = control.closest(".business-segment-box .legal-entity-pair")?.querySelector(".field-label");
                 if (pairLabel && visible(pairLabel) && rect(pairLabel).top < rect(control).bottom && rect(pairLabel).bottom > rect(control).top && rect(pairLabel).right <= rect(control).left) {
                     continue;
@@ -885,7 +885,7 @@
                     if (item.unchecked) {
                         continue;
                     }
-                    // DECLARED (docs/ai/layout-rules.md, the tile and card pattern folded in on 2026-11-21, "Three levels" and "Flush"): a box of bands (the Segment and Profile cards) stacks its questions as bands that follow each other with no gap, each with its own padding, not as fields a row gap apart; `npm run check:card` measures those bands.
+                    // DECLARED (docs/ai/09-layout-rules.md, the tile and card pattern folded in on 2026-11-21, "Three levels" and "Flush"): a box of bands (the Segment and Profile cards) stacks its questions as bands that follow each other with no gap, each with its own padding, not as fields a row gap apart; `npm run check:card` measures those bands.
                     // (The Profile's Needs are bands of the same grid, outside a box: since their Emotional and Social notes became the shared Notes,
                     // 2026-11-05, a box's text stands over the next band's question as in every box.)
                     // (The Value Proposition's bands, 2026-11-09: a section of bands straight in its full-width grid, as the Needs are in theirs.)
@@ -1123,7 +1123,7 @@
             }
         }
 
-        // 16d. EVERY TILE IS A SQUARE, AT EVERY WIDTH (docs/ai/layout-rules.md, section 23; owner, 2026-11-09: "Does not matter the screen's width, the tiles
+        // 16d. EVERY TILE IS A SQUARE, AT EVERY WIDTH (docs/ai/09-layout-rules.md, section 23; owner, 2026-11-09: "Does not matter the screen's width, the tiles
         //      should always be squares"): a master tile on a page, a sub tile, a card tile and an add box inside a dialog; width equals height within 1px.
         //      (The Inventory and Completed row's rectangles are no tiles of a grid: section 12.)
         for (const tile of [...document.querySelectorAll(".section-tile")].filter(visible)) {
@@ -1135,7 +1135,7 @@
             }
         }
 
-        // 16c. THE ARROWS NEVER MOVE, AND THE TAB'S LIST FLOWS ROUND THEM (docs/ai/layout-rules.md, section 10, "Carousel arrows" and "Page tab"): the two arrows
+        // 16c. THE ARROWS NEVER MOVE, AND THE TAB'S LIST FLOWS ROUND THEM (docs/ai/09-layout-rules.md, section 10, "Carousel arrows" and "Page tab"): the two arrows
         //      stand level with each other, and no line of the page tab lies under an arrow (the line that would reach it continues after it).
         {
             const arrows = [...document.querySelectorAll(".page-arrow.carousel-arrow")].filter(visible).filter(arrow => getComputedStyle(arrow).display !== "none");
@@ -1567,7 +1567,7 @@
             });
         }
 
-        // 17. SECTION TILES (docs/ai/layout-rules.md, "Section tiles and dialog"): every
+        // 17. SECTION TILES (docs/ai/09-layout-rules.md, "Section tiles and dialog"): every
         //     tile is a true square of the one size -- a third of its group's width less the
         //     two gaps (--section-tile-size, never under --section-tile-min), so three across
         //     fill the group -- the tiles of a group are 12px apart and left-aligned, the
@@ -1644,7 +1644,7 @@
                         }
                         void lines;
                     }
-                    // TILE ANATOMY (docs/ai/layout-rules.md, "Tile anatomy"): the title is centred across the
+                    // TILE ANATOMY (docs/ai/09-layout-rules.md, "Tile anatomy"): the title is centred across the
                     // square, its first line's centre one third down it (--tile-title-top), underlined by a rule
                     // of its own (a 1px bottom border on the title element); under it the list of what the
                     // section includes (small, muted, bulleted, one line each, inside the square) or, for an
@@ -1662,7 +1662,7 @@
                     if (aside > 2) {
                         fail("a section tile's title is centred across its square", tile, { aside });
                     }
-                    // THE TITLE'S FIRST LINE STANDS 24px FROM THE SQUARE'S TOP (+ the tile's 1px edge) on every tile of every size (docs/ai/layout-rules.md, the tile and card pattern folded in on 2026-11-21): a title of two lines keeps its first line there.
+                    // THE TITLE'S FIRST LINE STANDS 24px FROM THE SQUARE'S TOP (+ the tile's 1px edge) on every tile of every size (docs/ai/09-layout-rules.md, the tile and card pattern folded in on 2026-11-21): a title of two lines keeps its first line there.
                     // (A dialog's small tiles have it 12px from the top, so four lines of the list fit above the tile's foot: owner, 2026-11-09.)
                     const firstFromTop = titleBox.top - box.top;
                     const wantedTop = tile.closest(".section-tile-dialog") ? 13 : 25;
@@ -1840,7 +1840,7 @@
                 }
                 void root;
             }
-            // CARD TILES (docs/ai/layout-rules.md, "Card tiles"): every grid of cards (a dialog's, the Inventory overlay's) is the ONE card tile (CardTile.tsx),
+            // CARD TILES (docs/ai/09-layout-rules.md, "Card tiles"): every grid of cards (a dialog's, the Inventory overlay's) is the ONE card tile (CardTile.tsx),
             // squares of the page tile's own side, 12px apart from the left; the add box half the side, last in the flow, named "Add <item>"; titles 18px unless
             // they are too long for their room (14px); the tile lists at least one line.
             for (const grid of [...document.querySelectorAll(".card-tile-grid")].filter(visible)) {
@@ -1938,7 +1938,7 @@
                     }
                 }
             }
-            // THE ONE SHAPE (docs/ai/layout-rules.md, "Tile grids"): every group of tiles on the page is a row of up
+            // THE ONE SHAPE (docs/ai/09-layout-rules.md, "Tile grids"): every group of tiles on the page is a row of up
             // to 3, exactly 4 a 2 x 2 square, 5 or more two rows (ceil(n / 2) across) -- where the group is wide
             // enough for that many at the tile size (a narrow group wraps to fewer across).
             for (const group of [...document.querySelectorAll(".section-tiles")].filter(visible)) {
@@ -1997,7 +1997,7 @@
             }
         }
 
-        // 17j. A PAGE TILE'S SLOT (docs/ai/layout-rules.md, "Tile anatomy", "Reactions"): the tile's button, its list (a button an
+        // 17j. A PAGE TILE'S SLOT (docs/ai/09-layout-rules.md, "Tile anatomy", "Reactions"): the tile's button, its list (a button an
         //      item) and, on the tiles that take new cards, the "+" box all stand INSIDE the square -- nothing of the tile
         //      overflows it; the "+" box is a 36px square 12px from the square's lower right with the list clear of it; the
         //      slot is the tile's size (it is what scales); and at 150% (the hover) the tile stays inside its card's
@@ -2081,7 +2081,7 @@
             window.scrollTo(0, windowY);
         }
 
-        // 17b. THE TITLE ARROW (docs/ai/layout-rules.md, "The title arrow"): the column title is
+        // 17b. THE TITLE ARROW (docs/ai/09-layout-rules.md, "The title arrow"): the column title is
         //      the one label of its card, the card's first row (12px of padding above it, no head
         //      row of its own, nothing in the card folds); the arrow beside it is 24px or more to
         //      hit, 8px after the title's text, centred on the title's line, its glyph the
@@ -2173,7 +2173,7 @@
             }
         }
 
-        // 17d. THE WORKSPACE FORM (docs/ai/layout-rules.md, "The Workspace dialog"): one CARD (the shared
+        // 17d. THE WORKSPACE FORM (docs/ai/09-layout-rules.md, "The Workspace dialog"): one CARD (the shared
         //      glass ground, 12px padding, 560px wide at most) centred in its dialog and at its top, holding
         //      one form on two columns: a label column as wide as the widest label (no more than 2px
         //      over) and the control column 12px after it; every label at one x, every control at one x,
@@ -2484,7 +2484,7 @@
             }
         }
 
-        // 17e2. THE HEADER STANDS ABOVE THE LAYERS (docs/ai/layout-rules.md, "The header over the layers"): with a dialog or floating card open the app header
+        // 17e2. THE HEADER STANDS ABOVE THE LAYERS (docs/ai/09-layout-rules.md, "The header over the layers"): with a dialog or floating card open the app header
         //       is not inert, not covered (the element at its centre is the header's own) and not dimmed.
         {
             const header = document.querySelector(".app-header");
@@ -2500,7 +2500,7 @@
             }
         }
 
-        // 17f. THE CONTENT OF A DIALOG IS CENTRED, AT THE TOP (docs/ai/layout-rules.md, "Section tiles and
+        // 17f. THE CONTENT OF A DIALOG IS CENTRED, AT THE TOP (docs/ai/09-layout-rules.md, "Section tiles and
         //      dialog"): the block of a dialog's content -- a grid of tiles or boxes (its boxes left-aligned
         //      inside the block), the open card, the workspace card, a founder's cards, an empty message --
         //      is centred across the dialog's body (the same room left and right) and starts at the top,
@@ -2544,7 +2544,7 @@
             }
         }
 
-        // 17g. TITLE SIZES OF PAGE 3 (docs/ai/layout-rules.md, "Title sizes"): the type scale only, and a
+        // 17g. TITLE SIZES OF PAGE 3 (docs/ai/09-layout-rules.md, "Title sizes"): the type scale only, and a
         //      hierarchy -- page title 36, column title 28, dialog title and section heading 24, tile and
         //      box titles, subcategory headings and card names 18 (14 in a card box under 120px).
         {
@@ -2583,7 +2583,7 @@
             }
         }
 
-        // 17h. THE DIALOG HEADER (docs/ai/layout-rules.md, "The dialog header"): the views opened in a dialog follow the title
+        // 17h. THE DIALOG HEADER (docs/ai/09-layout-rules.md, "The dialog header"): the views opened in a dialog follow the title
         //      on the SAME line, after a slash (8px either side), the names regular and muted; one line high; a fixed
         //      subcategory has no head row of its own (an Other one keeps its name box).
         {
@@ -2624,7 +2624,7 @@
             }
         }
 
-        // 17i. THE OPENED CARD (docs/ai/layout-rules.md, "The opened card"): 480px at most; nothing stretched -- a currency hugging its code, a
+        // 17i. THE OPENED CARD (docs/ai/09-layout-rules.md, "The opened card"): 480px at most; nothing stretched -- a currency hugging its code, a
         //      picker hugging its longest option (never across the card); the COST ROW ([Qty] [Price] [currency] ... [Frequency]): the Qty as wide as
         //      its label's column (56px), 12px between Qty, Price and currency, the currency's left edge the side pickers' (Status's, Responsible's),
         //      the Frequency's right edge the name cell's.
@@ -2693,7 +2693,7 @@
             }
         }
 
-        // 17c. PAGE 3 SCROLLS IN ITS CARDS (docs/ai/layout-rules.md, "Section tiles and dialog"): with the
+        // 17c. PAGE 3 SCROLLS IN ITS CARDS (docs/ai/09-layout-rules.md, "Section tiles and dialog"): with the
         //      two cards side by side (a window from 1212px wide, 560px high) the PAGE does not scroll
         //      and its heading, the footer and each card's title row stay put; each card's body
         //      (.card-scroll) scrolls on its own below the title row (its clip edge is under the
@@ -2735,7 +2735,7 @@
             }
         }
 
-        // 18. THE ACTIVITY CARD (docs/ai/layout-rules.md, 5a "The Activity card"): the Performer's label and its dropdown on one line, 12px apart, the dropdown
+        // 18. THE ACTIVITY CARD (docs/ai/09-layout-rules.md, 5a "The Activity card"): the Performer's label and its dropdown on one line, 12px apart, the dropdown
         //     running to the right edge of the name cell above it; the "+" (first row) or the x (the rows after) in the x's column, the x's size
         //     (32px), centred on the dropdown; the Responsible's dropdown at the Performer's x; Completed's tick at the other ticks' x; a child
         //     has no name cell and no x; a finished activity is frozen but for its Completed tick.
@@ -2843,7 +2843,7 @@
                 fail("a parent says ONE thing under its Status: Open Activity “...”", card, { lines: lines.length });
             }
         }
-        // 18c. THE OPENED CARD'S COLUMNS (docs/ai/layout-rules.md, 5a "The opened card's columns"): in a Resource / Activity / Partner / Provider card
+        // 18c. THE OPENED CARD'S COLUMNS (docs/ai/09-layout-rules.md, 5a "The opened card's columns"): in a Resource / Activity / Partner / Provider card
         //      everything under the head starts at the name cell's LEFT edge (the number stands in the marker column) and ends at its RIGHT edge
         //      (the x column stays right, empty but for an Activity's "+" / x beside a performer); a picker that fills (Status, Responsible, Provider)
         //      and the Description's text box end exactly there; the number stands at the card's padding edge; nothing clips.
@@ -3032,7 +3032,7 @@
             }
         }
 
-        // 21. ONE QUESTION PER BAND (docs/ai/layout-rules.md, the tile and card pattern folded in on 2026-11-21, "One band pattern"): in a box of bands (the Foundation page's cards and dialogs, on the page or in a dialog) each band
+        // 21. ONE QUESTION PER BAND (docs/ai/09-layout-rules.md, the tile and card pattern folded in on 2026-11-21, "One band pattern"): in a box of bands (the Foundation page's cards and dialogs, on the page or in a dialog) each band
         // holds one question -- one labelled field row, the outermost in the band -- so the tints alternate question by question. `npm run check:card` measures it on the floating cards too.
         // (A band of a SECTION -- page 3's cards, data-section -- holds its section's questions, the card's thin line between them: owner, 2026-11-18 21:45 and 22:00
         // UTC+2; layout rules section 11, "Page 3's cards in bands".)
@@ -3413,7 +3413,7 @@
     }
 
     /**
-     * EVERY SECTION TILE'S DIALOG (docs/ai/layout-rules.md, "Section tiles and
+     * EVERY SECTION TILE'S DIALOG (docs/ai/09-layout-rules.md, "Section tiles and
      * dialog"): the sections of 3. Infrastructure & Capability are drawn only
      * while their tile's dialog is open, so the check opens each tile in turn,
      * unfolds everything in the dialog ("Expand all", then any arrow still
@@ -3597,7 +3597,7 @@
                 }
             }
             failures.push(...check(spec).filter(failure => !/^(a section tile|section tiles)/.test(failure.rule)).map(failure => ({ ...failure, tile: title })));
-            // The boxes inside the dialog, level by level (docs/ai/layout-rules.md, "Card boxes"): the dialog is only a GRID to choose from
+            // The boxes inside the dialog, level by level (docs/ai/09-layout-rules.md, "Card boxes"): the dialog is only a GRID to choose from
             // (a section's SUBCATEGORY boxes -- Utilities, Workstation, Equipment, Digital Infrastructure, Offering's Partners & Suppliers:
             // every one -- and the CARD boxes of a list: the first three of each). A box that leads to ONE card, or to none (a blank card is
             // made), or a card box, closes the grid and opens that card as a FLOATING card on its section part: it is checked as a floating
@@ -3810,7 +3810,7 @@
     }
 
     /**
-     * A FLOATING CARD (docs/ai/layout-rules.md, "Floating cards"): one card alone over the dimmed, inert page -- a role=dialog
+     * A FLOATING CARD (docs/ai/09-layout-rules.md, "Floating cards"): one card alone over the dimmed, inert page -- a role=dialog
      * with a drop shadow, a Back button under it, 480px wide (a founder's: the founder card width), centred over its
      * anchor (the page's card area, the card of the page the tile stands in, or the tile's group) and wholly in the window.
      * `anchor` says which. Returns the failures found, each naming `where`.
@@ -3841,7 +3841,7 @@
         if (!card || getComputedStyle(card).boxShadow === "none") {
             fail("a floating card has a drop shadow", { shadow: card && getComputedStyle(card).boxShadow });
         }
-        // A FLOATING CARD DOES NOT DARKEN THE PAGE BEHIND IT (docs/ai/layout-rules.md, the tile and card pattern folded in on 2026-11-21).
+        // A FLOATING CARD DOES NOT DARKEN THE PAGE BEHIND IT (docs/ai/09-layout-rules.md, the tile and card pattern folded in on 2026-11-21).
         if (overlay && !/rgba\(0, 0, 0, 0\)|transparent/.test(getComputedStyle(overlay).backgroundColor) && !document.querySelector(".section-tile-dialog")) {
             fail("a floating card does not darken the page behind it", { background: getComputedStyle(overlay).backgroundColor });
         }

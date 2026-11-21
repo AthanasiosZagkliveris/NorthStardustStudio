@@ -1,5 +1,5 @@
 /* ==========================================================
-   THE LABEL ARROW (LabelArrow.tsx, docs/ai/layout-rules.md "The label arrow"): ONE fold arrow for the arrows that stand beside a
+   THE LABEL ARROW (LabelArrow.tsx, docs/ai/09-layout-rules.md "The label arrow"): ONE fold arrow for the arrows that stand beside a
    label or a text -- the chapter titles (1. Infrastructure), a founder's Responsibilities, the Initiatives.
    - no frame, no ground: only the triangle;
    - at rest an outline, in the card's tint, the colour of its "+" box; under the pointer and the keyboard focus the same triangle filled;

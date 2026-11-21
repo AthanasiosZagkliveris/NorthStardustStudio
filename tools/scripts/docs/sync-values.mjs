@@ -19,7 +19,7 @@ const readSheet = path => readFileSync(new URL(path, styles), "utf8");
 const sheets = readdirSync(styles).filter(name => name.endsWith(".css")).map(name => ({ name, text: expandImports(readSheet(name).replace(/\r\n/g, "\n"), readSheet) }));
 const defs = collectDefinitions(sheets);
 
-const DOCUMENTS = ["docs/ai/layout-rules.md"];
+const DOCUMENTS = ["docs/ai/09-layout-rules.md"];
 const check = process.argv.includes("--check");
 let failed = false;
 for (const path of DOCUMENTS) {

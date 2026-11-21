@@ -69,7 +69,7 @@ say("");
 const measured = existsSync("tools/catalogue/measures/measure-quillfield-1920.json") ? JSON.parse(readFileSync("tools/catalogue/measures/measure-quillfield-1920.json", "utf8")) : { texts: [] };
 const SCALE = [[14, "--font-small", "list text, summaries, tool words, hints, verification"], [18, "--font-body", "tile titles, card names, labels, cells, links, help text, Back"], [24, "--font-h3", "section headings, dialog titles, the guiding question"], [28, "--font-h2", "chapter and column titles"], [36, "--font-h1", "the page title and the system title"]];
 const usedBy = size => rows.filter(r => r.l.fontSize === size).map(r => r.code);
-say("## Text sizes and the hierarchy", "", "The five sizes of the type scale (docs/ai/layout-rules.md) against what was measured: every visible text of every page of the Identity, Brand, Business and Strategy systems at 1920 px (" + measured.texts.length + " texts, tools/catalogue/measures/measure-quillfield-1920.json).", "",
+say("## Text sizes and the hierarchy", "", "The five sizes of the type scale (docs/ai/09-layout-rules.md) against what was measured: every visible text of every page of the Identity, Brand, Business and Strategy systems at 1920 px (" + measured.texts.length + " texts, tools/catalogue/measures/measure-quillfield-1920.json).", "",
     "| Size | Token | Role | Texts measured | Classes seen most | Components that use it |", "|---|---|---|---|---|---|");
 for (const [size, token, role] of SCALE) {
     const hits = measured.texts.filter(t => t.size === size);
@@ -91,7 +91,7 @@ const parts = existsSync("tools/catalogue/measures/parts-quillfield-1920.json") 
 // the fonts
 const fonts = {};
 for (const p of parts.fonts) for (const [k, v] of Object.entries(p.fonts)) fonts[k] = (fonts[k] ?? 0) + v;
-say("## Fonts", "", "Measured on " + parts.fonts.length + " pages: " + Object.entries(fonts).sort((x, y) => y[1] - x[1]).map(([k, v]) => k + " " + v + " texts").join("; ") + ". The app's font is Inter (docs/ai/layout-rules.md). Manrope and Source Sans 3 are the Brand page's typeface specimens. Arial is the browser's default for a button that does not inherit the font: the page arrow glyph, the fold arrows and the Expand all button of the Business page, so they are not in Inter.", "");
+say("## Fonts", "", "Measured on " + parts.fonts.length + " pages: " + Object.entries(fonts).sort((x, y) => y[1] - x[1]).map(([k, v]) => k + " " + v + " texts").join("; ") + ". The app's font is Inter (docs/ai/09-layout-rules.md). Manrope and Source Sans 3 are the Brand page's typeface specimens. Arial is the browser's default for a button that does not inherit the font: the page arrow glyph, the fold arrows and the Expand all button of the Business page, so they are not in Inter.", "");
 
 // the defaults that exist in the app
 const none = components.filter(a => a.look && !a.look.found).map(a => a.code + " " + a.name);
