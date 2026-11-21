@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 import NumberCell from "../../controls/NumberCell.tsx";
 import OptionPicker from "../fields/OptionPicker.tsx";
 import { BusinessEmpty, BusinessField, BusinessTicks } from "./BusinessCardFields.tsx";
-import { OFFERING_BASIS_KEY, SHARE_BASES, SHARE_BASIS_HELP, offeringFractions, offeringSharesFor, offeringSharesTotal, shareBasisOf, type ShareWeights } from "../../../framework/engine/AnswerUtils.ts";
+import { OFFERING_BASIS_KEY, SHARE_BASES, SHARE_BASIS_HELP, offeringFractions, offeringSharesFor, offeringSharesTotal, shareBasisOf, type ShareWeights } from "../../../framework/engine/answers/AnswerUtils.ts";
 
 /**
  * THE OFFERINGS A COST SERVES, AND HOW IT IS SHARED (one component for every card that carries it: a resource, an activity, a partner or supplier on

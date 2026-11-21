@@ -20,7 +20,7 @@ import {
     createBusinessCustomerSegment,
     createBusinessResourceSlot,
     createBusinessSegmentEngagement
-} from "../../../framework/engine/AnswerUtils";
+} from "../../../framework/engine/answers/AnswerUtils";
 
 afterEach(cleanup);
 

@@ -1,6 +1,6 @@
 import { CSSProperties, ReactNode, useLayoutEffect } from "react";
 import CardShell from "../cards/CardShell.tsx";
-import { BUSINESS_JOURNEY_STAGES, relationshipTypeLabel, segmentHue } from "../../../framework/engine/AnswerUtils.ts";
+import { BUSINESS_JOURNEY_STAGES, relationshipTypeLabel, segmentHue } from "../../../framework/engine/answers/AnswerUtils.ts";
 import { DEMAND_SOURCES, demandResult } from "../../../framework/engine/DemandCapacity.ts";
 import SectionTiles, { DialogHeading, stackedFace, type ItemMark, type SectionTile } from "../tiles/SectionTiles.tsx";
 import { useSegmentPage } from "../tiles/segmentPage.ts";

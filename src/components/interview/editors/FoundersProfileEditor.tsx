@@ -14,14 +14,14 @@ import {
     asFoundersProfileValue,
     founderProfiles,
     withFounderProfiles
-} from "../../../framework/engine/AnswerUtils.ts";
+} from "../../../framework/engine/answers/AnswerUtils.ts";
 
 import { railId } from "../rails/railItems.ts";
 import SectionTiles, { TILE_DIVIDER, type SectionTile } from "../tiles/SectionTiles.tsx";
 import { workHue } from "../../../framework/engine/WorkColours.ts";
 import SubTiles, { type SubTile } from "../tiles/SubTiles.tsx";
 import NumberCell from "../../controls/NumberCell.tsx";
-import { survivalMinimum } from "../../../framework/engine/AnswerLegal.ts";
+import { survivalMinimum } from "../../../framework/engine/answers/AnswerLegal.ts";
 import CardNameInput from "../cards/CardNameInput.tsx";
 import { summaryText } from "../cards/cardSummary.ts";
 import FoldAllToggle from "../fields/FoldAllToggle.tsx";

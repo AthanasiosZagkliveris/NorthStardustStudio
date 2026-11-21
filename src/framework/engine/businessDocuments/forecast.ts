@@ -1,9 +1,9 @@
 /* Part of BusinessDocuments.ts (split by its sections, 2026-11-10: the same code, in files of one topic each; BusinessDocuments.ts re-exports every part). */
 
-import { type ExportContent } from "../ExportContentBuilder.ts";
-import { financialForecast, forecastView, splitMonthlyTableByYear, type ForecastPeriod } from "../FinancialForecast.ts";
-import { list, paragraph } from "../ExportRenderers.ts";
-import { planYears, moneyFormatter } from "../FinancialModel.ts";
+import { type ExportContent } from "../export/ExportContentBuilder.ts";
+import { financialForecast, forecastView, splitMonthlyTableByYear, type ForecastPeriod } from "../financial/FinancialForecast.ts";
+import { list, paragraph } from "../export/ExportRenderers.ts";
+import { planYears, moneyFormatter } from "../financial/FinancialModel.ts";
 import { brandPictures, coverLines, readFoundation, section, type FoundationSessions } from "./reading.ts";
 import { forecastTableBlocks } from "./plan.ts";
 

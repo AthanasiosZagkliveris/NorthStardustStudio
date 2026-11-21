@@ -25,4 +25,4 @@ Status: **current design**, written 2026-11-20. The Workbook's first section: th
 
 ## Where it is in the code
 
-`src/components/BusinessDocumentsView.tsx`, `src/framework/engine/businessDocuments/plan.ts`, `canvas.ts`, `reading.ts`, `src/framework/engine/ExportRenderers.ts`; its tests `src/framework/engine/BusinessDocuments.test.ts`, the golden file of `FounderPeriod.test.ts`.
+`src/components/workbook/BusinessDocumentsView.tsx`, `src/framework/engine/businessDocuments/plan.ts`, `canvas.ts`, `reading.ts`, `src/framework/engine/export/ExportRenderers.ts`; its tests `src/framework/engine/BusinessDocuments.test.ts`, the golden file of `FounderPeriod.test.ts`.

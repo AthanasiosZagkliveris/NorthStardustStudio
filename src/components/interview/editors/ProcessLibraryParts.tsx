@@ -8,7 +8,7 @@ import RemoveButton from "../../controls/RemoveButton.tsx";
 import TextBox from "../../controls/TextBox.tsx";
 import OptionPicker, { ValuePicker } from "../fields/OptionPicker.tsx";
 import TextField from "../../controls/TextField.tsx";
-import { type ProcessRecordValue, type ProcessScheduleValue, type ProcessSopValue, type ProcessStepValue, createBlankProcessSop, createBlankProcessStep, sanitizeIdInitials, sopDisplaySequence } from "../../../framework/engine/AnswerUtils.ts";
+import { type ProcessRecordValue, type ProcessScheduleValue, type ProcessSopValue, type ProcessStepValue, createBlankProcessSop, createBlankProcessStep, sanitizeIdInitials, sopDisplaySequence } from "../../../framework/engine/answers/AnswerUtils.ts";
 import DateCellInput from "../fields/DateCellInput.tsx";
 import { toggledIn } from "../fields/toggledIn.ts";
 import { OWNER_SUGGESTIONS_DATALIST_ID, SOPS_SPACER_COLUMN_WIDTH, SOPS_STEPS_COLUMN_WIDTH, computeProcessLibraryTableWidth, isNewInitialsGroup } from "./processLibraryColumns.ts";

@@ -1,5 +1,5 @@
 import { FrameworkDocument, Section } from "../model";
-import { defaultAnswerValue, isAnswerEmpty } from "../engine/AnswerUtils.ts";
+import { defaultAnswerValue, isAnswerEmpty } from "../engine/answers/AnswerUtils.ts";
 
 /**
  * Stores the user's response for one Framework Section.

@@ -34,7 +34,7 @@ import { NotepadService } from "./NotepadService";
 import { systems } from "../data/systems";
 import { getCapabilityColor } from "../data/capabilities";
 import { AnswerType } from "../framework/enums/AnswerType.ts";
-import { capabilityCardDates, keyCardDates, legalEntityCardDates, type CardDate, type CardDateKind } from "../framework/engine/CalendarCardDates.ts";
+import { capabilityCardDates, keyCardDates, legalEntityCardDates, type CardDate, type CardDateKind } from "../framework/engine/cards/CalendarCardDates.ts";
 import { keyDatesOfSessions } from "../framework/engine/KeyDates.ts";
 import {
     OperationalLogAnswerValue,
@@ -47,7 +47,7 @@ import {
     resolveProcessLogLabel,
     sopDisplayId,
     visibleTableColumns
-} from "../framework/engine/AnswerUtils.ts";
+} from "../framework/engine/answers/AnswerUtils.ts";
 
 // How far around today a recurring/scheduled Process or SOP is
 // actually projected into real occurrence dates -- generous

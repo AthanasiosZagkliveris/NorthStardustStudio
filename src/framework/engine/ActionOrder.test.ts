@@ -1,6 +1,6 @@
 import { describe, expect, test } from "vitest";
 
-import { createBusinessChannel, createBusinessSegmentEngagement, type BusinessSegmentEngagementValue } from "./AnswerUtils.ts";
+import { createBusinessChannel, createBusinessSegmentEngagement, type BusinessSegmentEngagementValue } from "./answers/AnswerUtils.ts";
 import {
     actionAtOrder,
     actionPlacements,

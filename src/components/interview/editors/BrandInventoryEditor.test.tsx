@@ -3,7 +3,7 @@ import { useState } from "react";
 import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
 
 import BrandInventoryEditor from "./BrandInventoryEditor";
-import { BrandInventoryAnswerValue, asBrandInventoryValue } from "../../../framework/engine/AnswerUtils";
+import { BrandInventoryAnswerValue, asBrandInventoryValue } from "../../../framework/engine/answers/AnswerUtils";
 
 afterEach(cleanup);
 

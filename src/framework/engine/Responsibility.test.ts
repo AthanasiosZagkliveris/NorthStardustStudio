@@ -6,7 +6,7 @@ import {
     asBusinessCapabilityValue,
     strategyObjectiveOwnerId,
     type BusinessActivityValue
-} from "./AnswerUtils";
+} from "./answers/AnswerUtils";
 
 const founders = ["founder-ann", "founder-bob", "founder-cy"];
 

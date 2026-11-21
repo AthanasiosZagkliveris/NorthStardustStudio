@@ -5,8 +5,8 @@ import quillfield from "../data/examples/quillfield-automation-llc.json";
 import {
     asBrandStyleValue, asBusinessCapabilityValue, asBusinessEngagementValue, asBusinessFoundationValue, asFoundersProfileValue,
     asLegalEntityValue, asStrategicPeriodValue, asStrategyFoundationValue
-} from "../framework/engine/AnswerUtils";
-import { asFinancialFoundationValue, asFinancialSustainabilityValue } from "../framework/engine/FinancialModel";
+} from "../framework/engine/answers/AnswerUtils";
+import { asFinancialFoundationValue, asFinancialSustainabilityValue } from "../framework/engine/financial/FinancialModel";
 
 /**
  * THE EXAMPLES ARE CURRENT: each saved page of an example, read by the app's own reader for that page, comes back as it was saved. A field the interface gained since the

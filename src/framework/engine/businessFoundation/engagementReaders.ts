@@ -1,7 +1,7 @@
 /**
  * Split out of engagementPage.ts (2026-11-11, the folder report's item 6); that file re-exports what is exported here.
  */
-import { asObject, asText, randomId } from "../Readers.ts";
+import { asObject, asText, randomId } from "../answers/Readers.ts";
 import { type DemandValue, asDemandMap } from "../DemandCapacity.ts";
 import { businessNeedList } from "./foundationPage.ts";
 import { businessChannelCategoryLabel } from "./channelCategories.ts";

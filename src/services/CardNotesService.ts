@@ -1,6 +1,6 @@
 import { systems } from "../data/systems";
 import { frameworkRegistry } from "../framework/engine/FrameworkRegistry";
-import { BRAND_COLOUR_SLOTS, BRAND_TYPEFACE_SLOTS } from "../framework/engine/AnswerUtils";
+import { BRAND_COLOUR_SLOTS, BRAND_TYPEFACE_SLOTS } from "../framework/engine/answers/AnswerUtils";
 import { OrganizationService } from "./OrganizationService";
 
 /**

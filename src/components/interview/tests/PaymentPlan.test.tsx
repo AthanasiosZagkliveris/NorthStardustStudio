@@ -4,7 +4,7 @@ import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 
 import BusinessCapabilityEditor from "../editors/BusinessCapabilityEditor";
 import { openCard, openTile } from "../../../test/interviewTestUtils";
-import { incompleteCards } from "../../../framework/engine/CardCompleteness";
+import { incompleteCards } from "../../../framework/engine/cards/CardCompleteness";
 import {
     asBusinessCapabilityValue,
     createBusinessResourceSlot,
@@ -13,7 +13,7 @@ import {
     paymentPlanIncomplete,
     paymentPlanLines,
     paymentPlanTotal
-} from "../../../framework/engine/AnswerUtils";
+} from "../../../framework/engine/answers/AnswerUtils";
 
 /* G8: the payment plan of a Per project price: Deposit & Balance, Instalments or Milestones, and the 100% check. */
 

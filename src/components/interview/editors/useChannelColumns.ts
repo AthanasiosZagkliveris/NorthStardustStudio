@@ -1,6 +1,6 @@
 import { useLayoutEffect } from "react";
 
-import { channelPresetNames, fittedColumns, journeyStageLabels, shareTheRest, widest } from "../../../framework/engine/ChannelTableColumns.ts";
+import { channelPresetNames, fittedColumns, journeyStageLabels, shareTheRest, widest } from "../../../framework/engine/channels/ChannelTableColumns.ts";
 
 /*
     FITS THE CUSTOMER CHANNEL TABLE'S JOURNEY STAGE AND CHANNEL COLUMNS

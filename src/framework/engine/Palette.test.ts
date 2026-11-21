@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { PALETTE, hueDistance, nearestPaletteColour, nextPaletteHue, paletteHue, paletteHuesInOrder } from "./Palette";
-import { createBusinessCustomerSegment, segmentHue, stableCardHue, strategyThemeHues } from "./AnswerUtils";
+import { createBusinessCustomerSegment, segmentHue, stableCardHue, strategyThemeHues } from "./answers/AnswerUtils";
 import { themeBlock } from "../../test/stylesheet";
 
 const hues = PALETTE.map(colour => colour.hue);

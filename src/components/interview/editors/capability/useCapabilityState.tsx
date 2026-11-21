@@ -2,22 +2,22 @@
  * THE EDITOR'S STATE: the writes, the folds, the reads of the other pages and the numbers worked out from them.
  * One part of the Infrastructure & Capability editor (see BusinessCapabilityEditor.tsx): what it needs of the parts before it comes in as `scope`; what the parts after it need goes out.
  */
-import { asLegalEntityValue } from "../../../../framework/engine/AnswerUtils.ts";
-import { orphanedCards, withInheritedOfferings, type GeneratedCard , withoutGoneOfferings } from "../../../../framework/engine/GeneratedCards.ts";
+import { asLegalEntityValue } from "../../../../framework/engine/answers/AnswerUtils.ts";
+import { orphanedCards, withInheritedOfferings, type GeneratedCard , withoutGoneOfferings } from "../../../../framework/engine/cards/GeneratedCards.ts";
 import { useEffect, useRef, useState } from "react";
-import { BUSINESS_COST_FREQUENCIES, BUSINESS_RESOURCE_GROUPS, BUSINESS_OFFERING_RESOURCE_GROUPS, PHYSICAL_PARTNER_GROUP_IDS, PHYSICAL_RESOURCE_CATEGORY_IDS, businessFoundationSegments, offeringGroupsOf, soleGroupOf, BUSINESS_PARTNER_GROUPS, partnerGroupHelp, statusInGroup, RENT_SUPPLIER_GROUP, type BusinessPaymentPlan, BILLING_TYPES, billingOf, costOptionsOf, withNewInsurances, BUSINESS_WORKSPACE_KINDS, BusinessCategoryValue, partnerNoun, BusinessCapabilityValue, BusinessCostValue, BusinessPartnerValue, BusinessResourceSlotValue, asBusinessCapabilityValue, asBusinessEngagementValue, createBusinessPartner, orderedByDate, todayIsoDate, workspacesOf, withLegalEntityFounders } from "../../../../framework/engine/AnswerUtils.ts";
+import { BUSINESS_COST_FREQUENCIES, BUSINESS_RESOURCE_GROUPS, BUSINESS_OFFERING_RESOURCE_GROUPS, PHYSICAL_PARTNER_GROUP_IDS, PHYSICAL_RESOURCE_CATEGORY_IDS, businessFoundationSegments, offeringGroupsOf, soleGroupOf, BUSINESS_PARTNER_GROUPS, partnerGroupHelp, statusInGroup, RENT_SUPPLIER_GROUP, type BusinessPaymentPlan, BILLING_TYPES, billingOf, costOptionsOf, withNewInsurances, BUSINESS_WORKSPACE_KINDS, BusinessCategoryValue, partnerNoun, BusinessCapabilityValue, BusinessCostValue, BusinessPartnerValue, BusinessResourceSlotValue, asBusinessCapabilityValue, asBusinessEngagementValue, createBusinessPartner, orderedByDate, todayIsoDate, workspacesOf, withLegalEntityFounders } from "../../../../framework/engine/answers/AnswerUtils.ts";
 import { LinkSymbol, BusinessField, BusinessText, uniqueChoices } from "../../cards/BusinessCardFields.tsx";
-import { moneyFormatter, asFinancialFoundationValue, costStartDates, derivedPlanStart, legalExpenseDates, salesCapacity, withDemand, withPlanStart } from "../../../../framework/engine/FinancialModel.ts";
+import { moneyFormatter, asFinancialFoundationValue, costStartDates, derivedPlanStart, legalExpenseDates, salesCapacity, withDemand, withPlanStart } from "../../../../framework/engine/financial/FinancialModel.ts";
 import { PreferencesService } from "../../../../services/PreferencesService.ts";
-import { parseAmount } from "../../../../framework/engine/Amounts.ts";
-import { randomId } from "../../../../framework/engine/Readers.ts";
+import { parseAmount } from "../../../../framework/engine/financial/Amounts.ts";
+import { randomId } from "../../../../framework/engine/answers/Readers.ts";
 import DateCellInput, { isoToDisplay } from "../../fields/DateCellInput.tsx";
-import { capabilityCards, resourceChannels, resourceReach } from "../../../../framework/engine/ChannelResources.ts";
+import { capabilityCards, resourceChannels, resourceReach } from "../../../../framework/engine/channels/ChannelResources.ts";
 import { channelCards, channelFacts } from "../../tiles/channelInventory.ts";
 import OptionPicker from "../../fields/OptionPicker.tsx";
 import { useItemFolds } from "../../fields/useItemFolds.ts";
 import { ADD_ACTIVITY, Scope, newActivityFor, costInGroup, startOfCard, withActivity, withActivityPatched, OTHER_PARTNER, WORKSPACE_PROVIDER, NO_CATEGORY, NO_GROUP, blankSlot, blankActivity, blankPartner } from "../BusinessCapabilityModel.ts";
-import { noPhysicalOffering } from "../../../../framework/engine/EffectiveAnswers.ts";
+import { noPhysicalOffering } from "../../../../framework/engine/answers/EffectiveAnswers.ts";
 import type { BusinessCapabilityEditorProps } from "./types.ts";
 import { offeringShareWeights } from "../../../../framework/engine/DemandCapacity.ts";
 import { asFinancialSustainabilityValue } from "../../../../framework/engine/financial/revenueStored.ts";

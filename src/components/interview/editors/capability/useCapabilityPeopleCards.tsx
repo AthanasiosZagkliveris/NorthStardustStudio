@@ -2,20 +2,20 @@
  * THE FOUNDER AND PARTNER CARDS, and the choosers and category cells they hold.
  * One part of the Infrastructure & Capability editor (see BusinessCapabilityEditor.tsx): what it needs of the parts before it comes in as `scope`; what the parts after it need goes out.
  */
-import { costIsShared } from "../../../../framework/engine/AnswerUtils.ts";
+import { costIsShared } from "../../../../framework/engine/answers/AnswerUtils.ts";
 import ListStatic from "../../fields/ListStatic.tsx";
 import FieldLabel from "../../../controls/FieldLabel.tsx";
 import NumberCell from "../../../controls/NumberCell.tsx";
-import { connectedOfferings } from "../../../../framework/engine/GeneratedCards.ts";
+import { connectedOfferings } from "../../../../framework/engine/cards/GeneratedCards.ts";
 import { ReactNode } from "react";
-import { legalFormOptions } from "../../../../framework/engine/LegalEntityJurisdictions.ts";
-import { asLegalEntityValue } from "../../../../framework/engine/AnswerLegal.ts";
+import { legalFormOptions } from "../../../../framework/engine/legal/LegalEntityJurisdictions.ts";
+import { asLegalEntityValue } from "../../../../framework/engine/answers/AnswerLegal.ts";
 import ResponsibilityFilter, { RESPONSIBILITY_FILTER_OPTIONS } from "../../fields/ResponsibilityFilter.tsx";
-import { activityGroupsOf, activityCategoryLabel, soleGroupOf, givesWorkingHours, LEAD_TIME_GROUPS, BUSINESS_PARTNER_GROUPS, partnerGroupHelp, usesSupplier, PEOPLE_EXTRA_KEYS, partnerExtraFieldKeys, supplierConnections, billingOf, costWithOption, noteHint, partnerHasQuantity, businessQuantityText, BUSINESS_WORKSPACE_KINDS, BusinessActivityValue, BusinessCategoryValue, PARTNER_CATEGORIES, partnerCategoryLabel, BusinessCapabilityValue, BusinessFounderValue, BusinessPartnerValue, BusinessResourceSlotValue, businessDecimalText, businessAutoResponsibleId, businessPartnerResponsibleId, responsibleIsOff, businessFounderResponsibilities, businessResponsibilitiesTally, createBusinessResourceSlot, workspacesOf } from "../../../../framework/engine/AnswerUtils.ts";
+import { activityGroupsOf, activityCategoryLabel, soleGroupOf, givesWorkingHours, LEAD_TIME_GROUPS, BUSINESS_PARTNER_GROUPS, partnerGroupHelp, usesSupplier, PEOPLE_EXTRA_KEYS, partnerExtraFieldKeys, supplierConnections, billingOf, costWithOption, noteHint, partnerHasQuantity, businessQuantityText, BUSINESS_WORKSPACE_KINDS, BusinessActivityValue, BusinessCategoryValue, PARTNER_CATEGORIES, partnerCategoryLabel, BusinessCapabilityValue, BusinessFounderValue, BusinessPartnerValue, BusinessResourceSlotValue, businessDecimalText, businessAutoResponsibleId, businessPartnerResponsibleId, responsibleIsOff, businessFounderResponsibilities, businessResponsibilitiesTally, createBusinessResourceSlot, workspacesOf } from "../../../../framework/engine/answers/AnswerUtils.ts";
 import { BusinessCard, ResponsibleField, BusinessEmpty, BusinessField, BusinessFieldTick, OptionalNote, BusinessRemove, uniqueChoices } from "../../cards/BusinessCardFields.tsx";
 import { founderDeliveryHours, founderWorkingHours } from "../../../../framework/engine/DemandCapacity.ts";
-import { parseDecimal } from "../../../../framework/engine/Amounts.ts";
-import { labelWithCurrency, nameWithCurrency } from "../../../../framework/engine/Currencies.ts";
+import { parseDecimal } from "../../../../framework/engine/financial/Amounts.ts";
+import { labelWithCurrency, nameWithCurrency } from "../../../../framework/engine/financial/Currencies.ts";
 import { summaryText } from "../../cards/cardSummary.ts";
 import { TileAdd, OPEN_EVENT, type OpenRequest } from "../../tiles/SectionTiles.tsx";
 import InfoNote, { InfoPoint, InfoText } from "../../fields/InfoNote.tsx";

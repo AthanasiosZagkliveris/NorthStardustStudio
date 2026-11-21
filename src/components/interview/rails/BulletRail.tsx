@@ -1,7 +1,7 @@
 import { ReactNode, useEffect, useLayoutEffect, useRef, useState } from "react";
 
 import type { RailItem } from "./railItems";
-import { PAGE_STATUS_WORDS } from "../../../framework/engine/PageStatus";
+import { PAGE_STATUS_WORDS } from "../../../framework/engine/status/PageStatus";
 import { slotMargin, useRailSlot } from "./useRailSlot.ts";
 
 import "../../../styles/status-shape.css";

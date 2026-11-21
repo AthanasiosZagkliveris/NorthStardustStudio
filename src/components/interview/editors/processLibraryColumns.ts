@@ -7,7 +7,7 @@
 // time, so a fixed id is safe.
 export const OWNER_SUGGESTIONS_DATALIST_ID = "process-library-owner-suggestions";
 
-import { type ProcessRecordValue, type ProcessScheduleValue, type ProcessSopValue, type ProcessStepValue } from "../../../framework/engine/AnswerUtils.ts";
+import { type ProcessRecordValue, type ProcessScheduleValue, type ProcessSopValue, type ProcessStepValue } from "../../../framework/engine/answers/AnswerUtils.ts";
 
 export const PROCESS_STATUS_OPTIONS = ["Active", "Draft", "Retired"];
 

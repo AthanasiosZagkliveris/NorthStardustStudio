@@ -16,7 +16,7 @@ The sections are numbered 1 to 5 as the saved answer numbers them; the app's pag
 | 3 (Section 4) | Financials: Revenue & Pricing, drawing the page's one chapter, Financial Foundation (its tiles: doc 48, section 14) | `page-3-revenue-and-pricing.md` | `FinancialSustainabilityEditor` | `FinancialModel.ts` |
 | 3 (Section 5) | Financials: Costs, Funding & Position, its two tiles, Costs and Funding, in that chapter (the records in the Workbook's Financial Documents, doc 48 §14) | `page-3-costs-funding-and-position.md` | `FinancialFoundationEditor` | `FinancialModel.ts` |
 
-The editors are in `src/components/interview/editors/`. Each page is one Structure of the System's content (`src/assets/SystemAnswers/03_BusinessSystemAnswer.md`: Foundation, Customer Engagement, Infrastructure & Capability, Financial Foundation, Sustainability), so each is one editor, not a `MultiPart` of columns. The System is answered before the Strategy System: a founder describes the business before choosing a strategy for it.
+The editors are in `src/components/interview/editors/`. Each page is one Structure of the System's content (`src/assets/system-answers/03_BusinessSystemAnswer.md`: Foundation, Customer Engagement, Infrastructure & Capability, Financial Foundation, Sustainability), so each is one editor, not a `MultiPart` of columns. The System is answered before the Strategy System: a founder describes the business before choosing a strategy for it.
 
 Section 2 has three parts in the app, and only two are specified here: **1. Customer Channel** and **2. Customer Relationship**. The third, **Sales Forecast** (for each Offering, how its customers come, and so the expected sales), is described in document 28, 7.5 and laid out in `ai/layout-rules.md`, section 11; Section 5 reads its figures.
 
@@ -61,7 +61,7 @@ The one owner of this map: each row is one input a later page needs, where Secti
 | 4. Pricing | Packages or tiers | doc 43 O14 | Asked, not read: waits for Revenue & Pricing, step 7 (doc 48, section 11); Made to order already skips DV9 |
 | 4. Pricing | The price; the pricing basis; whether the price includes tax | none | Missing on Section 1 by design (doc 28, 10.2): Section 4 asks the price; the basis and tax are asked nowhere |
 
-**The starts** (`offeringStarts`, `src/framework/engine/EffectiveAnswers.ts`, which reads the Offering's answers as its card shows them). A later page shows them on an Offering's card it has not saved yet, and saves them with the first thing written on that card; from then on the later page's own answer wins and a change on Section 1 no longer moves it. A card not saved holds no figures, so a start never changes a calculation by itself. The starts narrow nothing: every option of the later field stays.
+**The starts** (`offeringStarts`, `src/framework/engine/answers/EffectiveAnswers.ts`, which reads the Offering's answers as its card shows them). A later page shows them on an Offering's card it has not saved yet, and saves them with the first thing written on that card; from then on the later page's own answer wins and a change on Section 1 no longer moves it. A card not saved holds no figures, so a start never changes a calculation by itself. The starts narrow nothing: every option of the later field stays.
 
 | Section 1 answer (O3) | Customers Buy (Section 2) | Delivered (Section 3) | Charged (Section 4) |
 |---|---|---|---|

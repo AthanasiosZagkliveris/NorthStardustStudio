@@ -1,11 +1,11 @@
 import { describe, expect, test } from "vitest";
 
 import { InterviewSession } from "../interview";
-import type { ExportBlock } from "./AnswerUtils.ts";
+import type { ExportBlock } from "./answers/AnswerUtils.ts";
 import { brandPictures, businessForecastContent, businessPlan } from "./BusinessDocuments.ts";
 import { frameworkRegistry } from "./FrameworkRegistry.ts";
-import { MARKDOWN_IMAGE_MAX_BYTES, MarkdownExporter } from "./MarkdownExporter.ts";
-import { PdfExporter, printableContent, svgAspect } from "./PdfExporter.ts";
+import { MARKDOWN_IMAGE_MAX_BYTES, MarkdownExporter } from "./export/MarkdownExporter.ts";
+import { PdfExporter, printableContent, svgAspect } from "./export/PdfExporter.ts";
 import exampleText from "../../data/examples/lumen-and-loom-studio.json?raw";
 
 /* The brand's logo, icon and images in the Business Documents, from

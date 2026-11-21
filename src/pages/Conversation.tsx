@@ -3,11 +3,11 @@ import TextLink from "../components/interview/fields/TextLink.tsx";
 import AddButton from "../components/controls/AddButton.tsx";
 import { useLocation, useNavigate } from "react-router-dom";
 
-import AppHeader from "../components/AppHeader";
-import AppFooter from "../components/AppFooter";
+import AppHeader from "../components/shell/AppHeader";
+import AppFooter from "../components/shell/AppFooter";
 import InterviewHeader from "../components/interview/editors/InterviewHeader";
-import InterviewProgress, { SHOW_PROGRESS_LINE } from "../components/InterviewProgress";
-import InterviewSection from "../components/InterviewSection";
+import InterviewProgress, { SHOW_PROGRESS_LINE } from "../components/systems/InterviewProgress";
+import InterviewSection from "../components/systems/InterviewSection";
 import { groupOf, isCompanion, primaryOf } from "../framework/engine/PageGroups";
 import { SHOW_SEGMENT_EVENT, SegmentPageContext, createTileStore, type SegmentPage } from "../components/interview/tiles/segmentPage";
 import { JoinedChapterContext } from "../components/interview/tiles/joinedChapter";
@@ -19,7 +19,7 @@ import { InterviewSession } from "../framework/interview";
 import { frameworkRegistry } from "../framework/engine/FrameworkRegistry";
 import { AnswerDefinition, Section, ValidationIssue } from "../framework/model";
 import { AnswerType } from "../framework/enums/AnswerType";
-import { asFinancialFoundationValue, costStartDates, derivedPlanStart, financialPlanPeriod, legalExpenseDates, withPlanStart } from "../framework/engine/FinancialModel.ts";
+import { asFinancialFoundationValue, costStartDates, derivedPlanStart, financialPlanPeriod, legalExpenseDates, withPlanStart } from "../framework/engine/financial/FinancialModel.ts";
 import {
     defaultAnswerValue,
     numberedUnitCount,
@@ -27,7 +27,7 @@ import {
     asLegalEntityValue,
     type StrategicPeriodValue,
     asStrategyFoundationValue,
-    titleWithPeriod, asBusinessCapabilityValue } from "../framework/engine/AnswerUtils.ts";
+    titleWithPeriod, asBusinessCapabilityValue } from "../framework/engine/answers/AnswerUtils.ts";
 
 import { StorageService } from "../services/StorageService";
 import { OrganizationService } from "../services/OrganizationService";
@@ -36,7 +36,7 @@ import { stageOf } from "../framework/engine/BusinessStage";
 import { fitPositioningToStage } from "../components/interview/editors/legal/shared";
 import { offerRemovalUndo, UndoService } from "../services/UndoService";
 import { FocusModeService } from "../services/FocusModeService";
-import { useFocusMode } from "../components/FocusModeButton";
+import { useFocusMode } from "../components/menu/FocusModeButton";
 import { systems } from "../data/systems";
 import { focusField, focusText } from "../components/interview/tiles/jumpTo.ts";
 import { FieldPageProvider } from "../components/interview/fields/fieldMarks.tsx";
@@ -47,8 +47,8 @@ import PageArrow, { pageKey } from "../components/interview/fields/PageArrow";
 const INTRODUCTION_RAIL_ID = "introduction";
 import ListStatic from "../components/interview/fields/ListStatic";
 import { drawnAsTiles, pageIndexFromRailId, pageRailItems, sectionRailItems } from "../components/interview/rails/railItems";
-import { pageStatuses } from "../framework/engine/PageStatus";
-import { sectionStatuses } from "../framework/engine/SectionStatus";
+import { pageStatuses } from "../framework/engine/status/PageStatus";
+import { sectionStatuses } from "../framework/engine/status/SectionStatus";
 import { scrollToRailSection, useActiveRailSection } from "../components/interview/rails/useActiveRailSection";
 
 import useRailTab from "../hooks/useRailTab.ts";

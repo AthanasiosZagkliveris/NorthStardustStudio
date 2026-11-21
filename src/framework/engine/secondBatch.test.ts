@@ -1,10 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { asBusinessFoundationValue } from "./AnswerBusinessFoundation";
-import { effectiveProfileAnswers, segmentForms } from "./EffectiveAnswers";
-import { offeringOptions, offeringShown } from "./OfferingQuestions";
-import { segmentAnswerStarts, segmentQuestionAsked, SEGMENT_QUESTIONS } from "./SegmentQuestions";
+import { asBusinessFoundationValue } from "./answers/AnswerBusinessFoundation";
+import { effectiveProfileAnswers, segmentForms } from "./answers/EffectiveAnswers";
+import { offeringOptions, offeringShown } from "./choices/OfferingQuestions";
+import { segmentAnswerStarts, segmentQuestionAsked, SEGMENT_QUESTIONS } from "./choices/SegmentQuestions";
 import { journeySuggestions } from "./JourneySuggestions";
-import { competitorReviewStarts } from "./CompetitorQuestions";
+import { competitorReviewStarts } from "./choices/CompetitorQuestions";
 import { relationshipApproachDraft, relationshipPurposeDraft } from "./RelationshipDrafts";
 import type { SegmentIdentity } from "./SegmentContext";
 
@@ -96,7 +96,7 @@ describe("2.14: a relationship type's drafts", () => {
 describe("a start unticked to none stays none (owner, 2026-11-18: starts follow their source until edited)", () => {
     const reload = <T,>(value: T): T => JSON.parse(JSON.stringify(value)) as T;
     it("keeps the Segment's How they pay and Who decides empty, through a reload and a change of their source", async () => {
-        const { segmentChoose, segmentSettleSaved } = await import("./SegmentQuestions");
+        const { segmentChoose, segmentSettleSaved } = await import("./choices/SegmentQuestions");
         const context = { frame: "business" as const, lifeStages: [], scales: [], relations: [], userStages: [], stage: "manage", endsUser: false };
         let saved = segmentSettleSaved(segmentChoose(question("pay"), { orgtype: ["public"] }, []), context as never);
         expect(saved.pay).toEqual([]);
@@ -117,13 +117,13 @@ describe("a start unticked to none stays none (owner, 2026-11-18: starts follow 
         expect(offeringShown(again.offerings[0].questions ?? {}, { type: "Product", reach: ["countries"] }).o20 ?? []).toEqual([]);
     });
     it("keeps K6 empty once its starts are unticked, through the settle and a change of K5", async () => {
-        const { competitorSettle } = await import("./CompetitorQuestions");
+        const { competitorSettle } = await import("./choices/CompetitorQuestions");
         const settled = competitorSettle(reload({ k5: ["marketplace"], k6: [] }), "direct");
         expect(settled.k6).toEqual([]);
         expect(competitorReviewStarts({ ...settled, "k5-sub": ["social-media:facebook"] })).toEqual([]);
     });
     it("keeps DV12 unticked to none on the saved card", async () => {
-        const { asBusinessCapabilityValue } = await import("./AnswerUtils");
+        const { asBusinessCapabilityValue } = await import("./answers/AnswerUtils");
         const capability = asBusinessCapabilityValue(reload({ delivery: { rug: { holdUps: [], duration: "", effort: "" } } }));
         expect(capability.delivery.rug.holdUps).toEqual([]);
     });

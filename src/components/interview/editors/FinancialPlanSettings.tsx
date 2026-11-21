@@ -6,11 +6,11 @@ import {
     planYears,
     vatBases,
     type FinancialFoundationValue
-} from "../../../framework/engine/FinancialModel.ts";
+} from "../../../framework/engine/financial/FinancialModel.ts";
 import NumberCell from "../../controls/NumberCell.tsx";
 import FieldLabel from "../../controls/FieldLabel.tsx";
-import type { LegalEntityValue, StrategyMonthValue } from "../../../framework/engine/AnswerUtils.ts";
-import { jurisdictionProfile } from "../../../framework/engine/LegalEntityJurisdictions.ts";
+import type { LegalEntityValue, StrategyMonthValue } from "../../../framework/engine/answers/AnswerUtils.ts";
+import { jurisdictionProfile } from "../../../framework/engine/legal/LegalEntityJurisdictions.ts";
 
 import InfoNote from "../fields/InfoNote.tsx";
 import { NUMBER_LIMITS, limitedNumberText, numberInputMode } from "../fields/numberInput.ts";

@@ -1,9 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { asBusinessFoundationValue } from "./AnswerBusinessFoundation";
-import { offeringStartsById } from "./EffectiveAnswers";
+import { asBusinessFoundationValue } from "./answers/AnswerBusinessFoundation";
+import { offeringStartsById } from "./answers/EffectiveAnswers";
 import { createDemand, demandFieldShown, marketShareLine, NOT_READY_NOTES } from "./DemandCapacity";
 import { demandSuggestions } from "./JourneySuggestions";
-import { withDemand } from "./FinancialModel";
+import { withDemand } from "./financial/FinancialModel";
 import type { SegmentIdentity } from "./SegmentContext";
 
 /* Sales Forecast reads the answers (the open decisions and gaps, Group 4d, item 23; owner, 2026-11-17). */

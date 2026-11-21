@@ -2,7 +2,7 @@
 
 Status: **specification**, written 2026-11-12, updated 2026-11-21. Strategy: SW1, the SWOT suggestions, SC1 to SC3 and the Compass draft, Themes, Goals and Metrics linked to the plan, the order of work for docs 45 to 49 (section 8), and the owner's decisions D7 to D10 and D16 to D22. It reads the Business System's three pages (Foundation & Engagement, Infrastructure & Capability, Financials) by section and key; its "Customer Engagement", "Sustainability" and page numbers name the sections. Built in part (`StrategyChoices.ts`): SW1 in its band above the Opportunities and Threats, its rated changes starting the SWOT's lines; SC1 to SC3 above the Compass's text, with their starts, and the Compass draft (`useAutoDraft`); still to build: the rest of the suggestions table with Add (2.3), the "waiting" line, the reminder, the Theme order (2.5), the Goal suggestions (2.6) and the Linked figure (2.7). The dates of each step are in the log.
 
-Related: doc 40 (the form), doc 45 (PB7 and PB8, which this page reads), doc 46 (BA1), doc 47 and doc 48 (the figures read), doc 28 (9.3 and 9.4, the skill areas), doc 5 (5.5.7), `src/framework/engine/AnswerStrategy.ts`, doc 2 (the sources).
+Related: doc 40 (the form), doc 45 (PB7 and PB8, which this page reads), doc 46 (BA1), doc 47 and doc 48 (the figures read), doc 28 (9.3 and 9.4, the skill areas), doc 5 (5.5.7), `src/framework/engine/answers/AnswerStrategy.ts`, doc 2 (the sources).
 
 ## 1. The wording rules
 

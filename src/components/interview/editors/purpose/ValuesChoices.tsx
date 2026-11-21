@@ -1,7 +1,7 @@
 import FieldRow from "../../fields/FieldRow.tsx";
 import { SingleColumn } from "../foundation/shared.tsx";
 import { BusinessTicks } from "../../cards/BusinessCardFields.tsx";
-import { PB13_INFO, PB13_LABEL, VALUE_KINDS, VALUE_KINDS_MAX, asValueKinds, manifestoDraft, principlesDraft, valuesDraft } from "../../../../framework/engine/MissionChoices.ts";
+import { PB13_INFO, PB13_LABEL, VALUE_KINDS, VALUE_KINDS_MAX, asValueKinds, manifestoDraft, principlesDraft, valuesDraft } from "../../../../framework/engine/choices/MissionChoices.ts";
 import { valueLines, withValuesText } from "../../../../framework/engine/ValueIds.ts";
 import { AutoDraft, useAutoDraft } from "../../fields/useAutoDraft.ts";
 

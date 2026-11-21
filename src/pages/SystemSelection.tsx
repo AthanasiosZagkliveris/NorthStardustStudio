@@ -10,17 +10,17 @@ import { Capability } from "../types/capability";
 
 import { getCapabilityDescription } from "../framework/engine/CapabilityDescriptions.ts";
 
-import AppHeader from "../components/AppHeader";
-import AppFooter from "../components/AppFooter";
-import OrganizationCalendarPanel from "../components/OrganizationCalendarPanel";
+import AppHeader from "../components/shell/AppHeader";
+import AppFooter from "../components/shell/AppFooter";
+import OrganizationCalendarPanel from "../components/calendar/OrganizationCalendarPanel";
 
-import CapabilityList from "../components/CapabilityList";
-import SystemList from "../components/SystemList";
-import CapabilityDescriptionDialog from "../components/CapabilityDescriptionDialog";
+import CapabilityList from "../components/capabilities/CapabilityList";
+import SystemList from "../components/systems/SystemList";
+import CapabilityDescriptionDialog from "../components/capabilities/CapabilityDescriptionDialog";
 
 import { OrganizationService } from "../services/OrganizationService";
 import { continuePlace, systemProgress, type ContinuePlace } from "../services/ProgressService";
-import type { PageStatus } from "../framework/engine/PageStatus";
+import type { PageStatus } from "../framework/engine/status/PageStatus";
 
 import "../styles/workspace.css";
 

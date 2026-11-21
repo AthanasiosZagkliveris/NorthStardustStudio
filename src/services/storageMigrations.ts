@@ -20,10 +20,10 @@ import {
     createProcessStepKey,
     seedProcessSnapshots,
     sortOperationalLogRows
-} from "../framework/engine/AnswerUtils.ts";
-import { type SegmentAnswers, withoutCopiedStarts } from "../framework/engine/SegmentQuestions.ts";
+} from "../framework/engine/answers/AnswerUtils.ts";
+import { type SegmentAnswers, withoutCopiedStarts } from "../framework/engine/choices/SegmentQuestions.ts";
 import { bothPeopleAndBusinesses } from "../framework/engine/businessFoundation/foundationPage.ts";
-import { asLegalEntityValue } from "../framework/engine/AnswerLegal.ts";
+import { asLegalEntityValue } from "../framework/engine/answers/AnswerLegal.ts";
 
 /**
  * The Identity System's System number (see data/systems.ts) --

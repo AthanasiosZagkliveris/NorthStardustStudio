@@ -312,8 +312,8 @@ body {
   --section-box-size: 160px;
   /* An open card in a dialog (a card box pressed): centred, this wide at most. */
   --open-card-width: 492px;
-  /* A PAGE OF ONE CHAPTER: as wide as one chapter of a page of two (half the page's grid plus 7px, see 06-floating-card-details-1.css) from a window of
-     1200px; the page's whole width below it (the grid and its 13px sides), where chapters stack: set in the one stacking query, 07-floating-card-details-2.css
+  /* A PAGE OF ONE CHAPTER: as wide as one chapter of a page of two (half the page's grid plus 7px, see 06-floating-card-links-and-rows.css) from a window of
+     1200px; the page's whole width below it (the grid and its 13px sides), where chapters stack: set in the one stacking query, 07-floating-cards-and-page-layout.css
      (layout rules sections 13 and 23). */
   --one-chapter-width: calc(50% + 7px);
   /* A founder's card: the marker column left of the content edge (a bullet, a number, the

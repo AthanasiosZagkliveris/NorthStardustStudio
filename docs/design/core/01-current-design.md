@@ -94,7 +94,7 @@ Note from the code: a help tile is not a separate kind in the code. "Completed" 
 
 ### C.1 What the Foundation is made of
 
-Pages come from `src/assets/SystemAnswers/01..04_*.md`. Each page's `Structure` selects an `AnswerType`, and `I/editors/AnswerRenderer.tsx` switches on it.
+Pages come from `src/assets/system-answers/01..04_*.md`. Each page's `Structure` selects an `AnswerType`, and `I/editors/AnswerRenderer.tsx` switches on it.
 
 | System | Pages | AnswerType and renderer |
 |---|---|---|

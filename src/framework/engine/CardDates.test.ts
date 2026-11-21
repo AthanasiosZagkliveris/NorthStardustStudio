@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
-import { asBusinessCapabilityValue, asLegalEntityValue, createBusinessResourceSlot } from "./AnswerUtils";
-import { asFinancialFoundationValue, consolidateCosts, costSchedule } from "./FinancialModel";
+import { asBusinessCapabilityValue, asLegalEntityValue, createBusinessResourceSlot } from "./answers/AnswerUtils";
+import { asFinancialFoundationValue, consolidateCosts, costSchedule } from "./financial/FinancialModel";
 
 /* A card's Start date places its cost in a month of the cash flow; its End date stops a recurring cost (cost model, section 2). */
 

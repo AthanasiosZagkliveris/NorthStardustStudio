@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { asBusinessCapabilityValue } from "../../../framework/engine/AnswerUtils.ts";
+import { asBusinessCapabilityValue } from "../../../framework/engine/answers/AnswerUtils.ts";
 import { DEFAULT_FLOOR_FILTER, FLOOR_PLACES, FloorFilter, FloorRow, filterFloor, floorColumnHasData, floorCategories, floorRows, floorSubgroups, kindClass, placeOf, subgroupKey, sortFloor, tileLines, typeClass, amountText } from "./capabilityFloor.ts";
 
 const slot = (fields: Record<string, unknown>) => ({

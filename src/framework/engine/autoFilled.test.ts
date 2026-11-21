@@ -19,7 +19,7 @@ describe("P1 and P2: a source's Basis draft and what the founders' hours allow",
 
 describe("P9: an Objective's drafts", () => {
     it("names an Objective from each open item and each uncovered skill", async () => {
-        const { openItemObjective } = await import("./OfferingQuestions");
+        const { openItemObjective } = await import("./choices/OfferingQuestions");
         expect(openItemObjective({ kind: "Unmet value", text: "", about: "Good support" })).toBe("Lead on good support");
         expect(openItemObjective({ kind: "Worry left open", text: "", about: "The price or their budget" })).toBe("Answer the worry about the price or their budget");
         expect(openItemObjective({ kind: "Unwanted benefit", text: "" })).toBeNull();
@@ -37,7 +37,7 @@ describe("P9: an Objective's drafts", () => {
 
 describe("K15 and P7: what competitors charge", () => {
     it("keeps From and To as typed, or Not known yet, and spans the Segment's competitors", async () => {
-        const { competitorSettle, competitorsPriceRange, competitorTable } = await import("./CompetitorQuestions");
+        const { competitorSettle, competitorsPriceRange, competitorTable } = await import("./choices/CompetitorQuestions");
         expect(competitorSettle({ k15: ["40", "120"] }, "direct").k15).toEqual(["40", "120"]);
         expect(competitorSettle({ k15: ["40", "120"], "k15-unknown": ["yes"] }, "direct")).toEqual({ "k15-unknown": ["yes"] });
         // (Not asked of the status quo: its answer goes.)
@@ -66,7 +66,7 @@ describe("K15 and P7: what competitors charge", () => {
 
 describe("a draft is added once (owner, 2026-11-18 10:38)", () => {
     it("fills an empty field, adds after the text once, and adds nothing the field holds", async () => {
-        const { withDraft, draftAdds } = await import("./CompetitorQuestions");
+        const { withDraft, draftAdds } = await import("./choices/CompetitorQuestions");
         const draft = "625 visitors a month, 1.6% buy: about 10 a month.";
         expect(withDraft("", draft)).toBe(draft);
         const once = withDraft("About 625 visitors a month.", draft);

@@ -3,7 +3,7 @@ import { cleanup, render } from "@testing-library/react";
 
 import { FieldPageProvider } from "./fieldMarks";
 import { BusinessField } from "../cards/BusinessCardFields";
-import { clearFieldRegistry, currentFieldKey, registeredFields } from "../../../framework/engine/FieldKeys";
+import { clearFieldRegistry, currentFieldKey, registeredFields } from "../../../framework/engine/fields/FieldKeys";
 
 afterEach(() => {
     cleanup();

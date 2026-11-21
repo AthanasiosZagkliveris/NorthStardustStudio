@@ -5,7 +5,7 @@ import { cleanup, fireEvent, render, screen, within } from "@testing-library/rea
 import LegalEntityEditor, { foundersTileFace } from "./LegalEntityEditor";
 import { differentiationOptionsFor, positioningName, userOutcomeOptionsFor } from "./legal/shared.tsx";
 import { typeInto } from "../../../test/interviewTestUtils";
-import { asLegalEntityValue, createLegalEntityExpense, createLegalEntityFounder, createLegalEntityRequirement, legalEntitySectionsEmpty } from "../../../framework/engine/AnswerUtils";
+import { asLegalEntityValue, createLegalEntityExpense, createLegalEntityFounder, createLegalEntityRequirement, legalEntitySectionsEmpty } from "../../../framework/engine/answers/AnswerUtils";
 import lumenText from "../../../data/examples/lumen-and-loom-studio.json?raw";
 import quillText from "../../../data/examples/quillfield-automation-llc.json?raw";
 

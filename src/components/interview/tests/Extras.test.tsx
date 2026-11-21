@@ -12,8 +12,8 @@ import {
     partnerExtraKeys,
     slotExtraKeys,
     supplierConnections
-} from "../../../framework/engine/AnswerUtils";
-import { asFinancialFoundationValue, consolidateCosts, type CostSources } from "../../../framework/engine/FinancialModel";
+} from "../../../framework/engine/answers/AnswerUtils";
+import { asFinancialFoundationValue, consolidateCosts, type CostSources } from "../../../framework/engine/financial/FinancialModel";
 
 /* G7: the extras, all optional: where each is offered, how it is kept, and which are costs. */
 

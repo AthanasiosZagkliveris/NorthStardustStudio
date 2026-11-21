@@ -5,7 +5,7 @@ import { cleanup, fireEvent, render, screen, within } from "@testing-library/rea
 import BusinessCapabilityEditor from "../editors/BusinessCapabilityEditor";
 import OptionPicker from "../fields/OptionPicker";
 import { captionText, closeTile, floatingCardHost, infrastructureCard, offeringCard, openBox, openCard, openTile, tileButton, topDialog } from "../../../test/interviewTestUtils";
-import { asBusinessCapabilityValue, createBusinessActivity, createBusinessPartner, createBusinessResourceSlot } from "../../../framework/engine/AnswerUtils";
+import { asBusinessCapabilityValue, createBusinessActivity, createBusinessPartner, createBusinessResourceSlot } from "../../../framework/engine/answers/AnswerUtils";
 import { stylesheet } from "../../../test/stylesheet";
 
 afterEach(cleanup);

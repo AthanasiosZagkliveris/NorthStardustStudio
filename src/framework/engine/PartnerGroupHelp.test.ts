@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import designDocument from "../../../docs/design/core/01-current-design.md?raw";
-import { BUSINESS_PARTNER_GROUPS, BUSINESS_OFFERING_RESOURCE_GROUPS, BUSINESS_RESOURCE_GROUPS, partnerGroupHelp } from "./AnswerUtils";
+import { BUSINESS_PARTNER_GROUPS, BUSINESS_OFFERING_RESOURCE_GROUPS, BUSINESS_RESOURCE_GROUPS, partnerGroupHelp } from "./answers/AnswerUtils";
 
 /* The help texts of docs/design/core/01-current-design.md (part H) are the ones the app shows: the 47 groups, the partner and supplier groups included. */
 

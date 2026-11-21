@@ -3,10 +3,10 @@
  * Pure functions, so the card, the documents and the tests read the same rules (in the engine, since the documents settle a Segment's answers against Identity too).
  */
 import { AUDIENCE_WORDS } from "./ActivityClassification.ts";
-import { type SegmentAnswers, type SegmentContext, SEGMENT_QUESTIONS, segmentAnswerStarts, segmentQuestionAsked, segmentSettle } from "./SegmentQuestions.ts";
+import { type SegmentAnswers, type SegmentContext, SEGMENT_QUESTIONS, segmentAnswerStarts, segmentQuestionAsked, segmentSettle } from "./choices/SegmentQuestions.ts";
 import { choiceLimit } from "./PositioningIds.ts";
 import { withOnlyUserStage } from "./RelationshipFit.ts";
-import { differentiationFromOpenings } from "./CompetitorQuestions.ts";
+import { differentiationFromOpenings } from "./choices/CompetitorQuestions.ts";
 
 /** The Identity answers the Segment card reads. Absent: nothing is known, and the card is as it was. */
 export interface SegmentIdentity {

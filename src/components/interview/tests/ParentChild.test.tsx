@@ -4,8 +4,8 @@ import { cleanup, fireEvent, render, screen, within } from "@testing-library/rea
 
 import BusinessCapabilityEditor from "../editors/BusinessCapabilityEditor";
 import { cardBoxes, floatingCardHost, infrastructureCard, openBox, openCard, openTile, tileButton } from "../../../test/interviewTestUtils";
-import { asBusinessCapabilityValue, createBusinessActivity, createBusinessResourceSlot, workspacesOf } from "../../../framework/engine/AnswerUtils";
-import { countedCapability, incompleteCards } from "../../../framework/engine/CardCompleteness";
+import { asBusinessCapabilityValue, createBusinessActivity, createBusinessResourceSlot, workspacesOf } from "../../../framework/engine/answers/AnswerUtils";
+import { countedCapability, incompleteCards } from "../../../framework/engine/cards/CardCompleteness";
 
 afterEach(cleanup);
 

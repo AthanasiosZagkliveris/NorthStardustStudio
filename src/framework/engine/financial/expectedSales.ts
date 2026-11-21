@@ -1,14 +1,14 @@
 /* Part of FinancialModel.ts (split by its sections, 2026-11-10: the same code, in files of one topic each; FinancialModel.ts re-exports every part). */
 
-import { type BusinessCapabilityValue } from "../AnswerUtils.ts";
+import { type BusinessCapabilityValue } from "../answers/AnswerUtils.ts";
 import { type CapacityCheck, type DemandValue, capacityCheck, demandResult } from "../DemandCapacity.ts";
 import { isRecurringRevenue, type FinancialSustainabilityValue } from "./revenueStored.ts";
 import { numberAsText } from "./breakEven.ts";
 import { type FinancialFoundationValue } from "./stored.ts";
 import { streamVolumes } from "./revenue.ts";
 import { planLength } from "./period.ts";
-import { businessFoundationSegments } from "../AnswerBusinessFoundation.ts";
-import { offeringStartsById } from "../EffectiveAnswers.ts";
+import { businessFoundationSegments } from "../answers/AnswerBusinessFoundation.ts";
+import { offeringStartsById } from "../answers/EffectiveAnswers.ts";
 import { monthOrdinal } from "./period.ts";
 
 /* ==========================================================

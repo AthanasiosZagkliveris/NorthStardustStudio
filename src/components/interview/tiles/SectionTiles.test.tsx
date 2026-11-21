@@ -5,7 +5,7 @@ import { cleanup, fireEvent, render, screen, waitFor, within } from "@testing-li
 
 import BusinessCapabilityEditor from "../editors/BusinessCapabilityEditor";
 import { cardBoxes, closeAllTiles, closeTile, descendSole, floatingCardHost, infrastructureCard, offeringCard, openBox, openCard, openTile, tileButton, toggles, topDialog } from "../../../test/interviewTestUtils";
-import { asBusinessCapabilityValue, createBusinessActivity, createBusinessPartner, createBusinessResourceSlot } from "../../../framework/engine/AnswerUtils";
+import { asBusinessCapabilityValue, createBusinessActivity, createBusinessPartner, createBusinessResourceSlot } from "../../../framework/engine/answers/AnswerUtils";
 import { stylesheet } from "../../../test/stylesheet";
 import { tableRows } from "./CapabilityOverview";
 import { belongsLines, floorSubgroups, filterFloor, DEFAULT_FLOOR_FILTER, subgroupKey } from "./capabilityFloor";

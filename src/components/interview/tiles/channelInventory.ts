@@ -1,6 +1,6 @@
-import { usesSupplier, type BusinessCapabilityValue, type BusinessEngagementValue } from "../../../framework/engine/AnswerUtils.ts";
-import { buildChannelResourceTable } from "../../../framework/engine/ChannelResourceTable.ts";
-import type { CostCard } from "../../../framework/engine/ChannelResources.ts";
+import { usesSupplier, type BusinessCapabilityValue, type BusinessEngagementValue } from "../../../framework/engine/answers/AnswerUtils.ts";
+import { buildChannelResourceTable } from "../../../framework/engine/channels/ChannelResourceTable.ts";
+import type { CostCard } from "../../../framework/engine/channels/ChannelResources.ts";
 import type { FloorChannel } from "./capabilityFloor.ts";
 
 /**

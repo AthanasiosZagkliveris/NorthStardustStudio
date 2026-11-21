@@ -24,15 +24,15 @@ import TextLink from "../../fields/TextLink.tsx";
 import { Values } from "../ChannelResourceTable.tsx";
 import { MarkIcon } from "../ActionMarkers.tsx";
 import { actionPlacements, orderIn } from "../../../../framework/engine/ActionOrder.ts";
-import { actionResourceLinks, costCardAmountText, costCardName } from "../../../../framework/engine/ChannelResources.ts";
+import { actionResourceLinks, costCardAmountText, costCardName } from "../../../../framework/engine/channels/ChannelResources.ts";
 import { TABLE_SIZES } from "../../tiles/CapabilityOverview.tsx";
-import { BUSINESS_CHANNEL_ALL_OFFERINGS, BUSINESS_CHANNEL_CATEGORIES, BUSINESS_CHANNEL_OTHER, BUSINESS_RELATIONSHIP_TYPES, relationshipTypeLabel, BusinessChannelValue, BusinessCustomerSegmentValue, channelCategoryHelp, channelCategoryHidden, businessProfileOfferings, businessRelationshipInteractions, createBusinessChannel, segmentHue } from "../../../../framework/engine/AnswerUtils.ts";
+import { BUSINESS_CHANNEL_ALL_OFFERINGS, BUSINESS_CHANNEL_CATEGORIES, BUSINESS_CHANNEL_OTHER, BUSINESS_RELATIONSHIP_TYPES, relationshipTypeLabel, BusinessChannelValue, BusinessCustomerSegmentValue, channelCategoryHelp, channelCategoryHidden, businessProfileOfferings, businessRelationshipInteractions, createBusinessChannel, segmentHue } from "../../../../framework/engine/answers/AnswerUtils.ts";
 import { BusinessEmpty, BusinessNote, BusinessRemove, BusinessStep, BusinessTicks } from "../../cards/BusinessCardFields.tsx";
 import FieldRow from "../../fields/FieldRow.tsx";
 import { SingleColumn } from "../foundation/shared.tsx";
 import { EngagementBox, EngagementBoxes, EngagementCard } from "./EngagementCard.tsx";
 import { autoRelationshipTypes, channelKey, journeySuggestions, startGoals, suggestionCovered, type ChannelSuggestion } from "../../../../framework/engine/JourneySuggestions.ts";
-import { BUSINESS_JOURNEY_STAGES } from "../../../../framework/engine/AnswerUtils.ts";
+import { BUSINESS_JOURNEY_STAGES } from "../../../../framework/engine/answers/AnswerUtils.ts";
 import { summaryText } from "../../cards/cardSummary.ts";
 import InfoNote, { InfoText } from "../../fields/InfoNote.tsx";
 import StrategyTextArea from "../../fields/StrategyTextArea.tsx";
@@ -44,8 +44,8 @@ import { SECTIONS, GOAL_OPTIONS, STAGE_LABELS, relativeInformationFor, channelCh
 
 import type { useEngagementState } from "./useEngagementState.tsx";
 import type { useEngagementChannelBoxes } from "./useEngagementChannelBoxes.tsx";
-import { offeringAnswersById } from "../../../../framework/engine/EffectiveAnswers.ts";
-import { supportPromise } from "../../../../framework/engine/OfferingQuestions.ts";
+import { offeringAnswersById } from "../../../../framework/engine/answers/EffectiveAnswers.ts";
+import { supportPromise } from "../../../../framework/engine/choices/OfferingQuestions.ts";
 import { relationshipApproachDraft, relationshipPurposeDraft } from "../../../../framework/engine/RelationshipDrafts.ts";
 
 type Earlier = ReturnType<typeof useEngagementState> & ReturnType<typeof useEngagementChannelBoxes>;

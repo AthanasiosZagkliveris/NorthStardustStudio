@@ -4,7 +4,7 @@ import { InterviewSession } from "../interview";
 import { AnswerType } from "../enums/AnswerType.ts";
 import { frameworkRegistry } from "./FrameworkRegistry.ts";
 import { systems } from "../../data/systems";
-import { asBusinessCapabilityValue, asBusinessFoundationValue, createBusinessActivity } from "./AnswerUtils.ts";
+import { asBusinessCapabilityValue, asBusinessFoundationValue, createBusinessActivity } from "./answers/AnswerUtils.ts";
 import { nothingOpen, headerCount, reviewCount, reviewCountText, reviewItems } from "./ReviewItems.ts";
 import lumenText from "../../data/examples/lumen-and-loom-studio.json?raw";
 import quillText from "../../data/examples/quillfield-automation-llc.json?raw";

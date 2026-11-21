@@ -1,12 +1,12 @@
 import { describe, expect, test, vi } from "vitest";
 
 import { InterviewSession } from "../interview";
-import { asBusinessCapabilityValue, asLegalEntityValue } from "./AnswerUtils.ts";
+import { asBusinessCapabilityValue, asLegalEntityValue } from "./answers/AnswerUtils.ts";
 import { founderMonthlySalary } from "./DemandCapacity.ts";
 import { businessForecast, businessPlan } from "./BusinessDocuments.ts";
-import { buildExportContent } from "./ExportContentBuilder.ts";
+import { buildExportContent } from "./export/ExportContentBuilder.ts";
 import { frameworkRegistry } from "./FrameworkRegistry.ts";
-import { MarkdownExporter } from "./MarkdownExporter.ts";
+import { MarkdownExporter } from "./export/MarkdownExporter.ts";
 import lumenText from "../../data/examples/lumen-and-loom-studio.json?raw";
 import quillText from "../../data/examples/quillfield-automation-llc.json?raw";
 import goldenText from "./founder-period-golden.json?raw";

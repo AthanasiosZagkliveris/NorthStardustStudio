@@ -1,12 +1,12 @@
 /* Part of BusinessDocuments.ts (split by its sections, 2026-11-10: the same code, in files of one topic each; BusinessDocuments.ts re-exports every part). */
 
-import { workspacesOf, WORKSPACE_GROUP_ID } from "../AnswerUtils.ts";
+import { workspacesOf, WORKSPACE_GROUP_ID } from "../answers/AnswerUtils.ts";
 import { offeringRelationshipsFor } from "../JourneySuggestions.ts";
 import { segmentIdentityOf } from "../SegmentContext.ts";
-import { relationshipTypeLabel, BUSINESS_RESOURCE_GROUPS, BUSINESS_WORKSPACE_KINDS, isPurchaseGroup } from "../AnswerUtils.ts";
-import { type ExportContent } from "../ExportContentBuilder.ts";
-import { list, offeringName, offeringNames, paragraph } from "../ExportRenderers.ts";
-import { allFunding, fundingType, isNonCash, isScheduled, paidBeforePlan, scheduledAmount, statusStanding, monthlyEquivalent, parseAmount, moneyFormatter } from "../FinancialModel.ts";
+import { relationshipTypeLabel, BUSINESS_RESOURCE_GROUPS, BUSINESS_WORKSPACE_KINDS, isPurchaseGroup } from "../answers/AnswerUtils.ts";
+import { type ExportContent } from "../export/ExportContentBuilder.ts";
+import { list, offeringName, offeringNames, paragraph } from "../export/ExportRenderers.ts";
+import { allFunding, fundingType, isNonCash, isScheduled, paidBeforePlan, scheduledAmount, statusStanding, monthlyEquivalent, parseAmount, moneyFormatter } from "../financial/FinancialModel.ts";
 import { costName, perUnit, priceText, readFoundation, section, text, type FoundationSessions } from "./reading.ts";
 import { isEngaged, joinNames, websiteOf } from "./plan.ts";
 

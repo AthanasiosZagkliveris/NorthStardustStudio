@@ -1,8 +1,8 @@
 /* Part of FinancialModel.ts (split by its sections, 2026-11-10: the same code, in files of one topic each; FinancialModel.ts re-exports every part). */
 
-import { parseAmount } from "../Amounts.ts";
-import { asObject, asText, randomId } from "../Readers.ts";
-import { type StrategyMonthValue } from "../AnswerUtils.ts";
+import { parseAmount } from "./Amounts.ts";
+import { asObject, asText, randomId } from "../answers/Readers.ts";
+import { type StrategyMonthValue } from "../answers/AnswerUtils.ts";
 import { COST_NATURES, type CostNature } from "./natures.ts";
 import { COST_BEHAVIOURS, COST_FREQUENCIES, COST_GROUPS, FUNDING_CATEGORIES, FUNDING_NEED_CATEGORIES, FUNDING_SCHEDULES, FUNDING_STATUSES, LOAN_METHODS, PERIOD_FREQUENCIES, type CostBehaviour, type CostFrequency, type CostGroup, type FundingCategory, type FundingNeedCategory, type FundingScheduleKind, type FundingStatus, type LoanMethod, type PeriodFrequency } from "./lists.ts";
 import { PLAN_YEAR_CHOICES, asList, asMonth, asTextList, oneOf } from "./period.ts";

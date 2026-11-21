@@ -1,9 +1,9 @@
 /* Part of AnswerBusinessFoundation.ts (split by its sections, 2026-11-10: the same code, in files of one topic each; AnswerBusinessFoundation.ts re-exports every part). */
 
-import { asProfileAnswers } from "../ProfileQuestions.ts";
-import { asObject, asText, randomId } from "../Readers.ts";
-import { pickHue } from "../AnswerStrategy.ts";
-import { type SegmentAnswers, asSegmentAnswers } from "../SegmentQuestions.ts";
+import { asProfileAnswers } from "../choices/ProfileQuestions.ts";
+import { asObject, asText, randomId } from "../answers/Readers.ts";
+import { pickHue } from "../answers/AnswerStrategy.ts";
+import { type SegmentAnswers, asSegmentAnswers } from "../choices/SegmentQuestions.ts";
 
 /* ==================================================================
    Business System -- Foundation (Page 1)

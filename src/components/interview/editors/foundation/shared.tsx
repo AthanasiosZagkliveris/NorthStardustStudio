@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import type { SegmentIdentity } from "./identityLink.ts";
-import { BUSINESS_COMPETITOR_TYPES, BusinessCustomerSegmentValue, BusinessFoundationValue } from "../../../../framework/engine/AnswerUtils.ts";
+import { BUSINESS_COMPETITOR_TYPES, BusinessCustomerSegmentValue, BusinessFoundationValue } from "../../../../framework/engine/answers/AnswerUtils.ts";
 
 /**
  * The instruction bullets for each subsection, and the parameter

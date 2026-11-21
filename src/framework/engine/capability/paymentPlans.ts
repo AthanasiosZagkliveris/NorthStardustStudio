@@ -1,8 +1,8 @@
 /**
  * Split out of AnswerBusinessCapability.ts (2026-11-11, the folder report's item 6); that file re-exports what is exported here.
  */
-import { parseAmount } from "../Amounts.ts";
-import { asObject, asText, randomId } from "../Readers.ts";
+import { parseAmount } from "../financial/Amounts.ts";
+import { asObject, asText, randomId } from "../answers/Readers.ts";
 import { type BusinessActivityResource, type BusinessPaymentPlan, type BusinessPaymentLine } from "./types.ts";
 
 /**

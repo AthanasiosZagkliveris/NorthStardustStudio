@@ -15,8 +15,8 @@ import {
     isPurchaseGroup,
     resourceUnitCount,
     workspacesOf
-} from "./AnswerUtils.ts";
-import { asFinancialFoundationValue, consolidateCosts, type CostSources } from "./FinancialModel.ts";
+} from "./answers/AnswerUtils.ts";
+import { asFinancialFoundationValue, consolidateCosts, type CostSources } from "./financial/FinancialModel.ts";
 
 /* F2 to F4: the nine categories with their groups, Partners & Suppliers, the new statuses and frequencies, and the move of a saved answer into them. */
 

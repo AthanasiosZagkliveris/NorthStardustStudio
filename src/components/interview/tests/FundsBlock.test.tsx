@@ -12,10 +12,10 @@ function render(ui: Parameters<typeof renderBase>[0], options?: Parameters<typeo
 }
 
 import FinancialFoundationEditor from "../editors/FinancialFoundationEditor";
-import { asBusinessCapabilityValue, asLegalEntityValue, createBusinessResourceSlot } from "../../../framework/engine/AnswerUtils";
-import { calculatedLines } from "../../../framework/engine/CalculatedLines";
-import { launchNeedOf } from "../../../framework/engine/ContingencyFunds";
-import { asFinancialFoundationValue, asFinancialSustainabilityValue, assetUnitCostsOf, consolidateCosts, financialPosition, fundingNeeds } from "../../../framework/engine/FinancialModel";
+import { asBusinessCapabilityValue, asLegalEntityValue, createBusinessResourceSlot } from "../../../framework/engine/answers/AnswerUtils";
+import { calculatedLines } from "../../../framework/engine/financial/CalculatedLines";
+import { launchNeedOf } from "../../../framework/engine/financial/ContingencyFunds";
+import { asFinancialFoundationValue, asFinancialSustainabilityValue, assetUnitCostsOf, consolidateCosts, financialPosition, fundingNeeds } from "../../../framework/engine/financial/FinancialModel";
 import { createGlobalSettings } from "../../../framework/engine/GlobalSettings";
 
 /* I6: the cash to raise before the opening and the Operational Contingency Fund, said by the Workbook's Funding Request (doc 48, section 14). */

@@ -12,7 +12,7 @@ import {
     normalCostOf,
     soleUnitOf,
     unitsOf
-} from "../../../framework/engine/AnswerUtils";
+} from "../../../framework/engine/answers/AnswerUtils";
 
 /* G6: the cost row (Qty, Price, currency, Frequency, Unit), the frequencies and units of each group, useful life, warranty and the rate override. */
 

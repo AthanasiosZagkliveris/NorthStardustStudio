@@ -5,34 +5,34 @@
 import TickField from "../../../controls/TickField.tsx";
 import AddButton from "../../../controls/AddButton.tsx";
 import { Fragment, ReactNode } from "react";
-import { BUSINESS_COMPETITOR_TYPES, BusinessCompetitorValue } from "../../../../framework/engine/AnswerUtils.ts";
+import { BUSINESS_COMPETITOR_TYPES, BusinessCompetitorValue } from "../../../../framework/engine/answers/AnswerUtils.ts";
 import FieldRow from "../../fields/FieldRow.tsx";
 import { BusinessEmpty, BusinessStep, BusinessTicks, OptionalNote } from "../../cards/BusinessCardFields.tsx";
-import { businessSegmentFunctionalItems } from "../../../../framework/engine/AnswerBusinessFoundation.ts";
+import { businessSegmentFunctionalItems } from "../../../../framework/engine/answers/AnswerBusinessFoundation.ts";
 import RadioChoice from "../../../controls/RadioChoice.tsx";
 import RatingScale, { type Rating } from "../../../controls/RatingScale.tsx";
 import { withRatingMeaning } from "../../../controls/RatingScaleEnds.tsx";
 import RatingScaleGroup from "../../../controls/RatingScaleGroup.tsx";
-import { type OtherQuestion, competitorOtherList, competitorOtherSettleAll, competitorOtherTick, competitorOthers, COMPETITOR_CHANNEL_OPTIONS, COMPETITOR_EXPERIENCE_HOW, COMPETITOR_INFO, COMPETITOR_OFFER_OPTIONS, COMPETITOR_RATINGS, COMPETITOR_REACH_OPTIONS, COMPETITOR_SIZE_OPTIONS, COMPETITOR_STAGES, type CompetitorAnswers, type CompetitorQuestionId, REVIEW_PLATFORM_EXAMPLES, competitorAsks, competitorOpenings, competitorRate, competitorRatings, competitorSettle, competitorWording, competitorValueRows, shownOpenings, COMPETITOR_SUBCHANNELS, COMPETITOR_BAND_LINE, bandTone, COMPETITOR_CHANGES, valueProfiles, hardToBeat, reviewPlatformOrder, competitorK10Info, competitorReviewStarts } from "../../../../framework/engine/CompetitorQuestions.ts";
+import { type OtherQuestion, competitorOtherList, competitorOtherSettleAll, competitorOtherTick, competitorOthers, COMPETITOR_CHANNEL_OPTIONS, COMPETITOR_EXPERIENCE_HOW, COMPETITOR_INFO, COMPETITOR_OFFER_OPTIONS, COMPETITOR_RATINGS, COMPETITOR_REACH_OPTIONS, COMPETITOR_SIZE_OPTIONS, COMPETITOR_STAGES, type CompetitorAnswers, type CompetitorQuestionId, REVIEW_PLATFORM_EXAMPLES, competitorAsks, competitorOpenings, competitorRate, competitorRatings, competitorSettle, competitorWording, competitorValueRows, shownOpenings, COMPETITOR_SUBCHANNELS, COMPETITOR_BAND_LINE, bandTone, COMPETITOR_CHANGES, valueProfiles, hardToBeat, reviewPlatformOrder, competitorK10Info, competitorReviewStarts } from "../../../../framework/engine/choices/CompetitorQuestions.ts";
 import FittingRadioChoice from "./FittingRadioChoice.tsx";
-import { type SegmentQuestion, segmentRowChoice, writtenInRows } from "../../../../framework/engine/SegmentQuestions.ts";
+import { type SegmentQuestion, segmentRowChoice, writtenInRows } from "../../../../framework/engine/choices/SegmentQuestions.ts";
 import NumberedListInput from "../../fields/NumberedListInput.tsx";
 import { summaryText } from "../../cards/cardSummary.ts";
 import OptionPicker from "../../fields/OptionPicker.tsx";
 import { COMPETITOR_TYPE_QUESTIONS, SUBSECTIONS, SingleColumn, competitorParts } from "./shared.tsx";
 import type { FoundationCardScope } from "./useFoundationSubsections.tsx";
-import { competitorChannelOptions, competitorPriceRange } from "../../../../framework/engine/CompetitorQuestions.ts";
+import { competitorChannelOptions, competitorPriceRange } from "../../../../framework/engine/choices/CompetitorQuestions.ts";
 import { BusinessField } from "../../cards/BusinessCardFields.tsx";
 import NumberCell from "../../../controls/NumberCell.tsx";
 import { NUMBER_LIMITS, limitedNumberText } from "../../fields/numberInput.ts";
-import { labelWithCurrency } from "../../../../framework/engine/Currencies.ts";
-import { countryCurrency } from "../../../../framework/engine/LegalEntityJurisdictions.ts";
-import { effectiveOfferingAnswers } from "../../../../framework/engine/EffectiveAnswers.ts";
+import { labelWithCurrency } from "../../../../framework/engine/financial/Currencies.ts";
+import { countryCurrency } from "../../../../framework/engine/legal/LegalEntityJurisdictions.ts";
+import { effectiveOfferingAnswers } from "../../../../framework/engine/answers/EffectiveAnswers.ts";
 
 /** The unit a K15 price is per, from the Segment's terms (O3). */
 const PRICE_PER: Readonly<Record<string, string>> = { once: "sale", session: "session", rent: "hire", commission: "sale", project: "project", subscription: "month", retainer: "month", payg: "month", licence: "year" };
 import { journeySuggestions } from "../../../../framework/engine/JourneySuggestions.ts";
-import { BUSINESS_CHANNEL_CATEGORIES } from "../../../../framework/engine/AnswerUtils.ts";
+import { BUSINESS_CHANNEL_CATEGORIES } from "../../../../framework/engine/answers/AnswerUtils.ts";
 
 /** Which of the card's questions each box of its Description asks (doc 41): K1 in Offerings, K2 to K4 in Market, K5 in Customer Acquisition, K6 and K7 in Customer Experience. */
 const PART_QUESTIONS: Record<string, CompetitorQuestionId[]> = { offerings: ["k1", "k15", "k16"], market: ["k2", "k3", "k4"], acquisition: ["k5"], experience: ["k6", "k7"] };

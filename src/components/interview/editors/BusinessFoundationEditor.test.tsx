@@ -13,7 +13,7 @@ import {
     createBusinessCustomerProfile,
     createBusinessCustomerSegment,
     createBusinessOffering
-} from "../../../framework/engine/AnswerUtils";
+} from "../../../framework/engine/answers/AnswerUtils";
 
 function Harness({ initial }: { initial: unknown }) {
     const [value, setValue] = useState<unknown>(initial);
@@ -504,7 +504,7 @@ describe("BusinessFoundationEditor's Segment title (layout rules, section 9, \"T
         expect(name.getAttribute("title")).toBe(long);
         expect(screen.getByRole("textbox", { name: "Segment 2 name" }).hasAttribute("title")).toBe(false);
 
-        const css = stylesheet("section-tiles/09-segment-card-1.css");
+        const css = stylesheet("section-tiles/09-segment-frame-and-dialogs.css");
         expect(css).toContain(".business-foundation-frame-head { padding-inline: calc(4px + var(--size-box-button) + var(--gap-12)); }");
         expect(css).toContain("overflow: hidden; white-space: nowrap; text-overflow: ellipsis;");
 

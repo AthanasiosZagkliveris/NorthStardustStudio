@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
-import { offeringEconomics, type CostLine, type StreamAnalysis } from "./FinancialModel.ts";
-import { createRevenueStream } from "./FinancialModel.ts";
+import { offeringEconomics, type CostLine, type StreamAnalysis } from "./financial/FinancialModel.ts";
+import { createRevenueStream } from "./financial/FinancialModel.ts";
 
 /** A stream as break even reads it. */
 function analysis(offeringId: string, price: number, variable: number, volume: number): StreamAnalysis {

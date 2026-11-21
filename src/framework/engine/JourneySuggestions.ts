@@ -1,9 +1,9 @@
-import type { BusinessCustomerSegmentValue } from "./AnswerBusinessFoundation.ts";
+import type { BusinessCustomerSegmentValue } from "./answers/AnswerBusinessFoundation.ts";
 import { BUSINESS_CHANNEL_ALL_OFFERINGS, OTHER_RELATIONSHIP_PREFIX, type BusinessChannelValue, type BusinessOfferingRelationshipEntryValue, type BusinessRelationshipTypeValue } from "./businessFoundation/engagementReaders.ts";
-import { effectiveOfferingAnswers, effectiveProfileAnswers, effectiveSegmentAnswers, offeringIsPhysical } from "./EffectiveAnswers.ts";
+import { effectiveOfferingAnswers, effectiveProfileAnswers, effectiveSegmentAnswers, offeringIsPhysical } from "./answers/EffectiveAnswers.ts";
 import { DEMAND_SOURCES, type DemandValue, createDemand, createDemandSource, demandChannelIds } from "./DemandCapacity.ts";
-import { writtenInNames } from "./SegmentQuestions.ts";
-import { TRIED_OPTIONS } from "./ProfileQuestions.ts";
+import { writtenInNames } from "./choices/SegmentQuestions.ts";
+import { TRIED_OPTIONS } from "./choices/ProfileQuestions.ts";
 import { businessProfileOfferings } from "./businessFoundation/engagementPage.ts";
 import { type SegmentIdentity, segmentIsBusiness } from "./SegmentContext.ts";
 

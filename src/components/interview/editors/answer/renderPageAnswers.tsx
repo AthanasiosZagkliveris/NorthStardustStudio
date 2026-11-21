@@ -1,7 +1,7 @@
 /**
  * THE PAGE ANSWERS of the Business, Financial, Identity and Brand Systems: each hands its value to the editor of its page. One function per Answer Structure, each given the scope of the renderer (scope.ts). Split out of AnswerRenderer.tsx.
  */
-import { paysAnyone } from "../../../../framework/engine/LegalStarts.ts";
+import { paysAnyone } from "../../../../framework/engine/legal/LegalStarts.ts";
 import BrandStyleEditor from "../BrandStyleEditor.tsx";
 import BusinessCapabilityEditor from "../BusinessCapabilityEditor.tsx";
 import BusinessEngagementEditor from "../BusinessEngagementEditor.tsx";
@@ -12,8 +12,8 @@ import LegalEntityEditor from "../LegalEntityEditor.tsx";
 import FoundersProfileEditor from "../FoundersProfileEditor.tsx";
 import BrandInventoryEditor from "../BrandInventoryEditor.tsx";
 
-import { asLegalEntityValue } from "../../../../framework/engine/AnswerUtils.ts";
-import type { FoundersProfileValue } from "../../../../framework/engine/AnswerUtils.ts";
+import { asLegalEntityValue } from "../../../../framework/engine/answers/AnswerUtils.ts";
+import type { FoundersProfileValue } from "../../../../framework/engine/answers/AnswerUtils.ts";
 import type { AnswerScope } from "./scope.ts";
 import { segmentIdentityOf } from "../../../../framework/engine/SegmentContext.ts";
 

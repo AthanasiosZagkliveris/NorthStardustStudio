@@ -1,9 +1,9 @@
 import { describe, expect, it } from "vitest";
 
-import { SEGMENT_QUESTIONS, segmentOptions, type SegmentContext } from "./SegmentQuestions";
-import { PROFILE_QUESTIONS, profileOptionsShown } from "./ProfileQuestions";
-import { offeringOptionsWith, offeringReachNote, offeringShown } from "./OfferingQuestions";
-import { competitorChannelOptions } from "./CompetitorQuestions";
+import { SEGMENT_QUESTIONS, segmentOptions, type SegmentContext } from "./choices/SegmentQuestions";
+import { PROFILE_QUESTIONS, profileOptionsShown } from "./choices/ProfileQuestions";
+import { offeringOptionsWith, offeringReachNote, offeringShown } from "./choices/OfferingQuestions";
+import { competitorChannelOptions } from "./choices/CompetitorQuestions";
 
 /* Long lists filtered, ordered and grouped by the answers above them, and the reach (the open decisions and gaps, Group 4b; owner, 2026-11-17). */
 const OPEN: SegmentContext = { frame: "open", stage: "manage", lifeStages: [], endsUser: false, userStages: [], relations: [], scales: [] };

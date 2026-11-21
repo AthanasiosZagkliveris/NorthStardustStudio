@@ -1,12 +1,12 @@
 import { CSSProperties, DragEvent, ReactNode, useRef, useState } from "react";
 import TextBox from "../../controls/TextBox.tsx";
 import CardShell from "../cards/CardShell.tsx";
-import { brandImageMissing } from "../../../framework/engine/SystemCardCompleteness.ts";
+import { brandImageMissing } from "../../../framework/engine/cards/SystemCardCompleteness.ts";
 import SectionTiles, { DialogHeading, type SectionTile } from "../tiles/SectionTiles.tsx";
 import PictureBoxes, { type PictureBox } from "../tiles/PictureBoxes.tsx";
 import type { CardBoxAdd } from "../cards/CardBoxes.tsx";
 import { UndoService } from "../../../services/UndoService";
-import { stableCardHue } from "../../../framework/engine/AnswerUtils.ts";
+import { stableCardHue } from "../../../framework/engine/answers/AnswerUtils.ts";
 import InfoNote, { InfoPoint, InfoText } from "../fields/InfoNote.tsx";
 import AssetPreviewImage from "./AssetPreviewImage.tsx";
 import { ColumnHeading, GuidanceBullets } from "../fields/ColumnHeads.tsx";
@@ -21,7 +21,7 @@ import {
     BrandInventoryAnswerValue,
     asBrandInventoryValue,
     brandMarkFile
-} from "../../../framework/engine/AnswerUtils.ts";
+} from "../../../framework/engine/answers/AnswerUtils.ts";
 import { railId } from "../rails/railItems.ts";
 import { inwardOrigin } from "../tiles/CardTile.tsx";
 import ThumbBlock from "../tiles/ThumbBlock.tsx";

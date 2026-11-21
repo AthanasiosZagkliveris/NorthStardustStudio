@@ -1,8 +1,8 @@
 import { describe, expect, test } from "vitest";
 import { readFileSync } from "node:fs";
-import { businessFoundationSegments } from "./AnswerUtils.ts";
+import { businessFoundationSegments } from "./answers/AnswerUtils.ts";
 import { funnelIsTrial, monthsToClose } from "./JourneySuggestions.ts";
-import type { BusinessCustomerSegmentValue } from "./AnswerBusinessFoundation.ts";
+import type { BusinessCustomerSegmentValue } from "./answers/AnswerBusinessFoundation.ts";
 
 const segmentsOf = (file: string): BusinessCustomerSegmentValue[] => {
     const organisation = JSON.parse(readFileSync("src/data/examples/" + file, "utf8"));

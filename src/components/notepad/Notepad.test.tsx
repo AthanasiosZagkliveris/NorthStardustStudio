@@ -4,11 +4,11 @@ import { MemoryRouter } from "react-router-dom";
 
 import { LocalNotepadStore, NotepadService, notepadStorageKey, DEFAULT_PROFILE } from "../../services/NotepadService";
 import { OrganizationService } from "../../services/OrganizationService";
-import { clearFieldRegistry } from "../../framework/engine/FieldKeys";
+import { clearFieldRegistry } from "../../framework/engine/fields/FieldKeys";
 import { BusinessField } from "../interview/cards/BusinessCardFields";
 import { FieldPageProvider } from "../interview/fields/fieldMarks";
 import { NotepadPanel, NotepadPicker, linkFor, noteMomentText, noteTodayText } from "./Notepad";
-import ToolsMenu from "../ToolsMenu";
+import ToolsMenu from "../menu/ToolsMenu";
 
 /** Notes in the Menu (ToolsMenu.tsx). */
 function pressNotes(name: string | RegExp = /^Notes/) {

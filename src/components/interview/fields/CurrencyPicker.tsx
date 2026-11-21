@@ -1,4 +1,4 @@
-import { CURRENCY_CODES, CURRENCY_SEARCH_ALIASES } from "../../../framework/engine/Currencies.ts";
+import { CURRENCY_CODES, CURRENCY_SEARCH_ALIASES } from "../../../framework/engine/financial/Currencies.ts";
 import OptionPicker from "./OptionPicker.tsx";
 
 /**

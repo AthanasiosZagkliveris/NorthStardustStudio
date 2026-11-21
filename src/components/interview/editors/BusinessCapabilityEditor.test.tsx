@@ -5,7 +5,7 @@ import { cleanup, fireEvent, render, screen, within } from "@testing-library/rea
 import BusinessCapabilityEditor from "./BusinessCapabilityEditor";
 import { newActivityFor } from "./BusinessCapabilityModel";
 import { cardBoxes, closeAllTiles, closeTile, infrastructureCard, offeringCard, openCard, openTile, tileButton, toggles, topDialog } from "../../../test/interviewTestUtils";
-import { BUSINESS_ACTIVITY_CATEGORIES, asBusinessCapabilityValue, createBusinessActivity, createBusinessPartner, createBusinessResourceSlot, businessAutoResponsibleId, businessPartnerResponsibleId, businessResponsibleId } from "../../../framework/engine/AnswerUtils";
+import { BUSINESS_ACTIVITY_CATEGORIES, asBusinessCapabilityValue, createBusinessActivity, createBusinessPartner, createBusinessResourceSlot, businessAutoResponsibleId, businessPartnerResponsibleId, businessResponsibleId } from "../../../framework/engine/answers/AnswerUtils";
 import { stylesheet } from "../../../test/stylesheet";
 
 

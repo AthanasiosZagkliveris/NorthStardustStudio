@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
-import { asBrandInventoryValue, brandMarkFile } from "./AnswerUtils";
-import { brandInventoryBlocks } from "./ExportRenderers";
+import { asBrandInventoryValue, brandMarkFile } from "./answers/AnswerUtils";
+import { brandInventoryBlocks } from "./export/ExportRenderers";
 
 const svg = { dataUrl: "data:image/svg+xml;base64,AA", fileName: "mark.svg" };
 const png = { dataUrl: "data:image/png;base64,AA", fileName: "mark.png" };

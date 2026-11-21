@@ -3,8 +3,8 @@ import {
     type BusinessCapabilityValue,
     type LegalEntityExpenseValue,
     type LegalEntityFounderValue
-} from "./AnswerUtils.ts";
-import { costSourcesFor } from "./ExportRenderers.ts";
+} from "./answers/AnswerUtils.ts";
+import { costSourcesFor } from "./export/ExportRenderers.ts";
 import {
     COST_BEHAVIOURS,
     COST_NATURE_LABELS,
@@ -17,9 +17,9 @@ import {
     costStartDates,
     type CostNature,
     type FinancialFoundationValue
-} from "./FinancialModel.ts";
+} from "./financial/FinancialModel.ts";
 import { capitalisationLimitOf, createGlobalSettings, type GlobalSettingsValue } from "./GlobalSettings.ts";
-import { countedCapability } from "./CardCompleteness.ts";
+import { countedCapability } from "./cards/CardCompleteness.ts";
 
 /** What the Inventory's Cost Nature and Behaviour columns say of one card. */
 export interface InventoryClassification {

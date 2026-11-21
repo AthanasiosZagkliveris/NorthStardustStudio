@@ -3,7 +3,7 @@ import { CSSProperties, ReactNode, useLayoutEffect, useRef, useState } from "rea
 import TextBox from "../../controls/TextBox.tsx";
 import CardShell from "../cards/CardShell.tsx";
 import TickBox from "../../controls/TickBox.tsx";
-import { brandColourMissing, brandTypefaceMissing } from "../../../framework/engine/SystemCardCompleteness.ts";
+import { brandColourMissing, brandTypefaceMissing } from "../../../framework/engine/cards/SystemCardCompleteness.ts";
 import ColourPicker from "../fields/ColourPicker.tsx";
 import {
     BRAND_COLOUR_SLOTS,
@@ -14,7 +14,7 @@ import {
     asBrandStyleValue,
     normalizeHex,
     relativeLuminance
-} from "../../../framework/engine/AnswerUtils.ts";
+} from "../../../framework/engine/answers/AnswerUtils.ts";
 import { SOURCES } from "../../../framework/engine/Sources.ts";
 import InfoNote, { InfoPoint, InfoText } from "../fields/InfoNote.tsx";
 import { ColumnHeading, GuidanceBullets } from "../fields/ColumnHeads.tsx";

@@ -67,8 +67,8 @@ Kept in doc 49 with its rule; listed here so this page's state is whole: the SWO
 
 | Part | File |
 |---|---|
-| The page's sections | `src/assets/SystemAnswers/04_StrategySystemAnswer.md`, `PageGroups.ts`, `AnswerStrategy.ts` |
+| The page's sections | `src/assets/system-answers/04_StrategySystemAnswer.md`, `PageGroups.ts`, `AnswerStrategy.ts` |
 | The four tiles and their dialogs | `src/components/interview/editors/StrategyFoundationEditor.tsx` |
-| SW1, SW2's labels, SC1 to SC3, the Compass draft | `src/framework/engine/StrategyChoices.ts` |
+| SW1, SW2's labels, SC1 to SC3, the Compass draft | `src/framework/engine/choices/StrategyChoices.ts` |
 | The drafts, the starts and the suggestions read from the Business System | `src/framework/engine/businessDocuments/reading.ts`, `swotSuggestions.ts`; `src/pages/strategyReaders.ts` |
 | The Themes' cards and the Roadmap | `StrategicPeriodEditor.tsx`, `StrategicRoadmapEditor.tsx` |

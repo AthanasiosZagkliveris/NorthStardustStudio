@@ -12,8 +12,8 @@ import {
     createBusinessPartner,
     createBusinessResourceSlot,
     optionFrequenciesOf
-} from "../../../framework/engine/AnswerUtils";
-import { incompleteCards } from "../../../framework/engine/CardCompleteness";
+} from "../../../framework/engine/answers/AnswerUtils";
+import { incompleteCards } from "../../../framework/engine/cards/CardCompleteness";
 import { createGlobalSettings } from "../../../framework/engine/GlobalSettings";
 
 /* I3: the cost option and billing type of Platforms & Payments, Revenue Partners, Royalties, Insurances and Licences (and the courier's and the campaign's options). */

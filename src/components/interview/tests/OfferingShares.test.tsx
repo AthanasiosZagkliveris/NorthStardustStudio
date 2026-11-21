@@ -4,7 +4,7 @@ import { cleanup, fireEvent, render, screen, within } from "@testing-library/rea
 
 import BusinessCapabilityEditor from "../editors/BusinessCapabilityEditor";
 import { openBox, openCard, openTile } from "../../../test/interviewTestUtils";
-import { incompleteCards, offeringLinksMissing } from "../../../framework/engine/CardCompleteness";
+import { incompleteCards, offeringLinksMissing } from "../../../framework/engine/cards/CardCompleteness";
 import {
     asBusinessCapabilityValue,
     asLegalEntityValue,
@@ -14,9 +14,9 @@ import {
     offeringSharesIncomplete,
     offeringSharesTotal,
     shareBasisOf
-} from "../../../framework/engine/AnswerUtils";
-import { withInheritedOfferings, withoutGoneOfferings } from "../../../framework/engine/GeneratedCards";
-import { asFinancialFoundationValue, consolidateCosts, offeringCosts, type CostSources } from "../../../framework/engine/FinancialModel";
+} from "../../../framework/engine/answers/AnswerUtils";
+import { withInheritedOfferings, withoutGoneOfferings } from "../../../framework/engine/cards/GeneratedCards";
+import { asFinancialFoundationValue, consolidateCosts, offeringCosts, type CostSources } from "../../../framework/engine/financial/FinancialModel";
 
 /* G10: an Offering card is linked to an Offering (required). A fixed or one-time cost linked to several is shared by a basis -- by hours, by revenue, in equal
    parts, or the user's own split, which totals 100% (owner, 2026-11-16; doc 3, R3). A cost paid per unit or as a share of revenue is each Offering's in full. */

@@ -1,7 +1,7 @@
 /* Part of FinancialModel.ts (split by its sections, 2026-11-10: the same code, in files of one topic each; FinancialModel.ts re-exports every part). */
 
-import { parseAmount } from "../Amounts.ts";
-import { type LegalEntityValue } from "../AnswerUtils.ts";
+import { parseAmount } from "./Amounts.ts";
+import { type LegalEntityValue } from "../answers/AnswerUtils.ts";
 import { type WhatIf, withWhatIf } from "./revenue.ts";
 import { type CostLine } from "./costs.ts";
 import { type FinancialFoundationValue } from "./stored.ts";

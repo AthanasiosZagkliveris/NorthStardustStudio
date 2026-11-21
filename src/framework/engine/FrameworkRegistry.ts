@@ -48,7 +48,7 @@ export class FrameworkRegistry {
         const introductionMarkdown =
             this.firstMarkdown(
                 import.meta.glob(
-                    "../../assets/SystemsIntroduction.md",
+                    "../../assets/systems-introduction.md",
                     {
                         eager: true,
                         import: "default",
@@ -60,7 +60,7 @@ export class FrameworkRegistry {
         const fieldsMarkdown =
             this.firstMarkdown(
                 import.meta.glob(
-                    "../../assets/Status_Scale_Frequency_Fields.md",
+                    "../../assets/status-scale-frequency-fields.md",
                     {
                         eager: true,
                         import: "default",
@@ -71,7 +71,7 @@ export class FrameworkRegistry {
 
         const questionFiles =
             import.meta.glob(
-                "../../assets/SystemQuestions/*.md",
+                "../../assets/system-questions/*.md",
                 {
                     eager: true,
                     import: "default",
@@ -81,7 +81,7 @@ export class FrameworkRegistry {
 
         const helpFiles =
             import.meta.glob(
-                "../../assets/SystemHelp/*.md",
+                "../../assets/system-help/*.md",
                 {
                     eager: true,
                     import: "default",
@@ -91,7 +91,7 @@ export class FrameworkRegistry {
 
         const answerFiles =
             import.meta.glob(
-                "../../assets/SystemAnswers/*.md",
+                "../../assets/system-answers/*.md",
                 {
                     eager: true,
                     import: "default",

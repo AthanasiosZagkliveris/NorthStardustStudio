@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { COMPETITOR_CHANNEL_OPTIONS, COMPETITOR_SUBCHANNELS } from "./CompetitorQuestions";
+import { COMPETITOR_CHANNEL_OPTIONS, COMPETITOR_SUBCHANNELS } from "./choices/CompetitorQuestions";
 import { givesWorkingHours } from "./capability/partnerGroups";
 
 /* The owner's points of 2026-11-18 02:31. */

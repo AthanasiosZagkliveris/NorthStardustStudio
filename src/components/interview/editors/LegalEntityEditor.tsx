@@ -1,7 +1,7 @@
 import { CSSProperties, ReactNode, useLayoutEffect } from "react";
 import { HANDED_TILES_KEY, useJoinedChapter } from "../tiles/joinedChapter.ts";
 import CardShell from "../cards/CardShell.tsx";
-import { legalExpenseMissing, legalRequirementMissing } from "../../../framework/engine/SystemCardCompleteness.ts";
+import { legalExpenseMissing, legalRequirementMissing } from "../../../framework/engine/cards/SystemCardCompleteness.ts";
 import type { FloorLink } from "../tiles/capabilityFloor.ts";
 import SectionTiles, { DialogHeading, type SectionTile } from "../tiles/SectionTiles.tsx";
 import CardBoxes, { type CardBox, type CardBoxAdd } from "../cards/CardBoxes.tsx";
@@ -9,9 +9,9 @@ import DialogSectionBand from "../tiles/DialogSectionBand.tsx";
 import SubTiles from "../tiles/SubTiles.tsx";
 import FoundersProfileEditor from "./FoundersProfileEditor.tsx";
 import { workHue } from "../../../framework/engine/WorkColours.ts";
-import { LEGAL_ENTITY_SECTIONS, LegalEntityValue, asLegalEntityValue, createLegalEntityExpense, createLegalEntityRequirement } from "../../../framework/engine/AnswerUtils.ts";
-import { LEGAL_REQUIREMENT_TYPES, legalFormOptions, registrationAuthorityFor } from "../../../framework/engine/LegalEntityJurisdictions.ts";
-import { moneyText } from "../../../framework/engine/ExportRenderers.ts";
+import { LEGAL_ENTITY_SECTIONS, LegalEntityValue, asLegalEntityValue, createLegalEntityExpense, createLegalEntityRequirement } from "../../../framework/engine/answers/AnswerUtils.ts";
+import { LEGAL_REQUIREMENT_TYPES, legalFormOptions, registrationAuthorityFor } from "../../../framework/engine/legal/LegalEntityJurisdictions.ts";
+import { moneyText } from "../../../framework/engine/export/ExportRenderers.ts";
 import { railId } from "../rails/railItems.ts";
 import { InfoPoint } from "../fields/InfoNote.tsx";
 

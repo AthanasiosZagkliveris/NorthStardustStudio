@@ -7,7 +7,7 @@ import NavArrow from "../../../controls/NavArrow.tsx";
 import RemoveButton from "../../../controls/RemoveButton.tsx";
 import TextBox from "../../../controls/TextBox.tsx";
 import TextField from "../../../controls/TextField.tsx";
-import { CardListAnswerValue, CardListItemValue, ChecklistItemValue, ProfileCardValue, ProfileCardsAnswerValue } from "../../../../framework/engine/AnswerUtils.ts";
+import { CardListAnswerValue, CardListItemValue, ChecklistItemValue, ProfileCardValue, ProfileCardsAnswerValue } from "../../../../framework/engine/answers/AnswerUtils.ts";
 import { ProfileCardInner, createCardListItemId, createChecklistItemId, createProfileCardId } from "./shared.tsx";
 import type { AnswerScope } from "./scope.ts";
 

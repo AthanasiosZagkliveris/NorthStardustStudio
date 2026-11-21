@@ -1,9 +1,9 @@
 import { describe, expect, it } from "vitest";
 
-import { asBusinessCapabilityValue, asLegalEntityValue, createBusinessPartner } from "./AnswerUtils";
-import { calculatedLines } from "./CalculatedLines";
-import { financialForecast } from "./FinancialForecast";
-import { asFinancialFoundationValue, asFinancialSustainabilityValue, consolidateCosts, createRevenueStream } from "./FinancialModel";
+import { asBusinessCapabilityValue, asLegalEntityValue, createBusinessPartner } from "./answers/AnswerUtils";
+import { calculatedLines } from "./financial/CalculatedLines";
+import { financialForecast } from "./financial/FinancialForecast";
+import { asFinancialFoundationValue, asFinancialSustainabilityValue, consolidateCosts, createRevenueStream } from "./financial/FinancialModel";
 import { createGlobalSettings } from "./GlobalSettings";
 
 /* X6, X7, P1: the extras that are a rate or a floor become lines or a purchase rule: customs duty and other duties on the goods, a person's commission, a minimum order. */

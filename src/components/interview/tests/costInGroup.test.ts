@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { unitsOf, type BusinessCostValue } from "../../../framework/engine/AnswerUtils.ts";
+import { unitsOf, type BusinessCostValue } from "../../../framework/engine/answers/AnswerUtils.ts";
 import { costInGroup } from "../editors/BusinessCapabilityModel.ts";
 
 const cost = { frequency: "monthly", frequencyOther: "x", price: "10", unit: "kg" } as unknown as BusinessCostValue;

@@ -2,11 +2,11 @@ import { describe, expect, test } from "vitest";
 
 import { InterviewSession } from "../interview";
 import { readFoundation } from "./BusinessDocuments.ts";
-import { buildExportContent } from "./ExportContentBuilder.ts";
+import { buildExportContent } from "./export/ExportContentBuilder.ts";
 import { frameworkRegistry } from "./FrameworkRegistry.ts";
-import { MarkdownExporter } from "./MarkdownExporter.ts";
+import { MarkdownExporter } from "./export/MarkdownExporter.ts";
 import { asGlobalSettings } from "./GlobalSettings.ts";
-import { planMonthLabel } from "./FinancialModel.ts";
+import { planMonthLabel } from "./financial/FinancialModel.ts";
 import lumenText from "../../data/examples/lumen-and-loom-studio.json?raw";
 import quillText from "../../data/examples/quillfield-automation-llc.json?raw";
 

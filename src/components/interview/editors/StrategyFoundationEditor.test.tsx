@@ -5,7 +5,7 @@ import StrategyFoundationEditor from "./StrategyFoundationEditor";
 import { sectionRailItems } from "../rails/railItems";
 import { AnswerType } from "../../../framework/enums/AnswerType";
 import type { AnswerDefinition } from "../../../framework/model/AnswerDefinition";
-import { SW1_CHANGES, changeEffectLines } from "../../../framework/engine/StrategyChoices";
+import { SW1_CHANGES, changeEffectLines } from "../../../framework/engine/choices/StrategyChoices";
 import { openTile } from "../../../test/interviewTestUtils";
 
 afterEach(cleanup);

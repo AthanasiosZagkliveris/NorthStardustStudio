@@ -10,9 +10,9 @@ import FieldLabel from "../../../controls/FieldLabel.tsx";
 import TextBox from "../../../controls/TextBox.tsx";
 import RemoveButton from "../../../controls/RemoveButton.tsx";
 import FoldArrow from "../../fields/FoldArrow.tsx";
-import { FIRST_VERSION_COUNTRIES } from "../../../../framework/engine/LegalEntityJurisdictions.ts";
+import { FIRST_VERSION_COUNTRIES } from "../../../../framework/engine/legal/LegalEntityJurisdictions.ts";
 import OptionPicker from "../../fields/OptionPicker.tsx";
-import { MAX_ACTIVITIES, type LegalEntityActivityValue } from "../../../../framework/engine/AnswerUtils.ts";
+import { MAX_ACTIVITIES, type LegalEntityActivityValue } from "../../../../framework/engine/answers/AnswerUtils.ts";
 import {
     SCHEME_CODE_LABEL,
     childrenOf,

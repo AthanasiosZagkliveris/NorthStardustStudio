@@ -1,6 +1,6 @@
 import { AnswerType } from "../../../framework/enums/AnswerType";
 import type { AnswerDefinition } from "../../../framework/model/AnswerDefinition";
-import type { PageStatus } from "../../../framework/engine/PageStatus";
+import type { PageStatus } from "../../../framework/engine/status/PageStatus";
 import {
     BRAND_INVENTORY_SECTIONS,
     BRAND_STYLE_PAGE_SECTIONS,
@@ -12,12 +12,12 @@ import {
     STRATEGY_FOUNDATION_SECTIONS,
     titleWithPeriod,
     type StrategyThemeValue
-} from "../../../framework/engine/AnswerUtils";
+} from "../../../framework/engine/answers/AnswerUtils";
 import {
     FINANCIAL_FOUNDATION_SECTIONS,
     FINANCIAL_SUSTAINABILITY_SECTIONS
-} from "../../../framework/engine/FinancialModel";
-import { fieldKey, sectionSegment, type FieldEntry } from "../../../framework/engine/FieldKeys";
+} from "../../../framework/engine/financial/FinancialModel";
+import { fieldKey, sectionSegment, type FieldEntry } from "../../../framework/engine/fields/FieldKeys";
 
 /**
  * One bullet on a rail. `id` matches a `data-rail` marker on the

@@ -7,7 +7,7 @@
 */
 import type { InterviewSession } from "../framework/interview";
 import { AnswerType } from "../framework/enums/AnswerType";
-import { asStrategicPeriodValue, formatRangeShort, isRangeSet, monthIndex, numberedUnitCount, strategyGoalsForTheme, strategyThemeHasContent, type StrategyFoundationValue, type StrategyRangeValue, type StrategyThemeValue } from "../framework/engine/AnswerUtils.ts";
+import { asStrategicPeriodValue, formatRangeShort, isRangeSet, monthIndex, numberedUnitCount, strategyGoalsForTheme, strategyThemeHasContent, type StrategyFoundationValue, type StrategyRangeValue, type StrategyThemeValue } from "../framework/engine/answers/AnswerUtils.ts";
 import { currentSituationDraft, financialPlanRange, strategyChoiceContext, strategyObjectiveDrafts, strategySwotStarts, strategySwotSuggestions } from "../framework/engine/BusinessDocuments.ts";
 import { StorageService } from "../services/StorageService";
 import { OrganizationService } from "../services/OrganizationService";

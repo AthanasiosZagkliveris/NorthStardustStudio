@@ -7,7 +7,7 @@ import { toggles } from "../../../test/interviewTestUtils";
 import {
     asFoundersProfileValue,
     type LegalEntityFounderValue
-} from "../../../framework/engine/AnswerUtils";
+} from "../../../framework/engine/answers/AnswerUtils";
 
 const founder = (id: string, name: string, extra: Partial<LegalEntityFounderValue> = {}): LegalEntityFounderValue =>
     ({ id, name, ownership: "", capital: "", roles: [""], experience: "", ...extra });

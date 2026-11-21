@@ -4,7 +4,7 @@ import { act, cleanup, fireEvent, render, screen } from "@testing-library/react"
 
 import BrandStyleEditor, { levelHeight } from "./BrandStyleEditor";
 import { typeInto } from "../../../test/interviewTestUtils";
-import { asBrandStyleValue, brandStyleSectionsEmpty, type BrandStyleAnswerValue } from "../../../framework/engine/AnswerUtils";
+import { asBrandStyleValue, brandStyleSectionsEmpty, type BrandStyleAnswerValue } from "../../../framework/engine/answers/AnswerUtils";
 import { UndoService } from "../../../services/UndoService";
 import { stylesheet } from "../../../test/stylesheet";
 import { cardTint, contrastBetween, readColour } from "./brandStyleParts";

@@ -13,7 +13,7 @@ function render(ui: Parameters<typeof renderBase>[0], options?: Parameters<typeo
 import FinancialFoundationEditor from "../editors/FinancialFoundationEditor";
 import FinancialSustainabilityEditor from "../editors/FinancialSustainabilityEditor";
 import FinancialPlanSettings from "../editors/FinancialPlanSettings";
-import { asLegalEntityValue } from "../../../framework/engine/AnswerUtils";
+import { asLegalEntityValue } from "../../../framework/engine/answers/AnswerUtils";
 import { openTile, typeInto } from "../../../test/interviewTestUtils";
 
 /** A revenue stream's card, opened from its tile in the Revenue Streams dialog (owner, 2026-11-18 10:38: the streams are tiles). */
@@ -23,7 +23,7 @@ function openStream(number: number) {
 }
 /** The words of the stream tiles. */
 const streamTiles = () => [...document.querySelectorAll<HTMLElement>(".section-tile-overlay [aria-label='Revenue Streams'] button.card-tile")].map(tile => tile.textContent ?? "");
-import { asFinancialFoundationValue, asFinancialSustainabilityValue, createFundingSource } from "../../../framework/engine/FinancialModel";
+import { asFinancialFoundationValue, asFinancialSustainabilityValue, createFundingSource } from "../../../framework/engine/financial/FinancialModel";
 
 function Harness({ initial }: { initial: unknown }) {
     const [value, setValue] = useState<unknown>(initial);

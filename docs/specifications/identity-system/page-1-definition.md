@@ -36,7 +36,7 @@ The master tile **1. Definition** holds these tiles, in this order (Mission and 
 | (3) | **Mission**, drawn in Purpose | PB10 to PB12 (who, what, what they gain) and the text, its draft written from them (doc 45, section 8) | the key "Mission" | the Mission & Vision dialog, its first text |
 | (4) | **Vision**, drawn in Purpose | PB8 and PB7 (where the customers will be, what the business will be) and the text, its draft written from them (doc 45, 3.8) | the key "Vision" | the Mission & Vision dialog, its second text |
 
-The questions behind the tiles are in `src/assets/SystemQuestions/01_IdentitySystemQuestions.md` (they are what the "i" of Mission and Vision says); the structure is in `src/assets/SystemAnswers/01_IdentitySystemAnswer.md` (a column layout of four free-text columns; the Organisation and Early Positioning tiles replace the text boxes of the first two columns with their own editors). The Identity System has no "Need Help?" text: the guidance is in each tile's "i".
+The questions behind the tiles are in `src/assets/system-questions/01_IdentitySystemQuestions.md` (they are what the "i" of Mission and Vision says); the structure is in `src/assets/system-answers/01_IdentitySystemAnswer.md` (a column layout of four free-text columns; the Organisation and Early Positioning tiles replace the text boxes of the first two columns with their own editors). The Identity System has no "Need Help?" text: the guidance is in each tile's "i".
 
 ## 2. The page and its frame
 
@@ -156,9 +156,9 @@ The business stage (Planning, Launching, Managing, Growing) is **not asked**: it
 | The fields and sections of both | `src/components/interview/editors/legal/useLegalFieldsAndSections.tsx` |
 | The state, the country and legal form choices | `src/components/interview/editors/legal/useLegalState.tsx` (`chooseCountry`) |
 | The lists, the information texts, the limits by stage | `src/components/interview/editors/legal/shared.tsx` (`choiceLimit`, `fitPositioningToStage`) |
-| The ids, the words and the reader of older answers | `src/framework/engine/PositioningIds.ts`, `src/framework/engine/ActivityClassification.ts`, `src/framework/engine/AnswerLegal.ts` |
+| The ids, the words and the reader of older answers | `src/framework/engine/PositioningIds.ts`, `src/framework/engine/ActivityClassification.ts`, `src/framework/engine/answers/AnswerLegal.ts` |
 | The tables that shape the lists | `src/framework/engine/PurposeRelevance.ts`, `src/framework/engine/RelationshipFit.ts` |
-| The countries and legal forms | `src/framework/engine/LegalEntityJurisdictions.ts` |
+| The countries and legal forms | `src/framework/engine/legal/LegalEntityJurisdictions.ts` |
 | The examples (an organisation with all four tiles filled: Lumen & Loom sells to people and to businesses, as Direct Buyers, and is in its Managing stage (opened 1 April 2025); Quillfield Automation is a direct B2B one, in Planning; neither has a user group) | `src/data/examples/lumen-and-loom-studio.json`, `src/data/examples/quillfield-automation-llc.json` |
 
 ## 12. Extra Information
@@ -171,7 +171,7 @@ What other documents describe for this master tile that **is not in the app and 
 4. **The audit of the lists under rule 14**, tile by tile (doc 28, section 3; doc 32): the legal forms of the six countries are not re-checked as complete and sourced.
 5. **The Business Plan's "Activities" row label** is marked to confirm by the owner (doc 28, 8.6, **[D]**).
 6. **The Value Proposition and the Competitors reading the Positioning** (doc 28, 8.2; doc 29, I7c): the differentiation, the outcomes, the purpose and the buyer's category shape no later question.
-7. **Help text for the Identity System:** the "Need Help?" text of the System is absent on purpose (`src/assets/SystemHelp/01_IdentitySystemHelp.md`); the guidance is the "i" of each tile only.
+7. **Help text for the Identity System:** the "Need Help?" text of the System is absent on purpose (`src/assets/system-help/01_IdentitySystemHelp.md`); the guidance is the "i" of each tile only.
 8. **The Positioning Notes prompt** is to be shortened (doc 29, the Notes row).
 9. **The master matrix of the owner's example paths** (doc 31, 10.7): its umbrella relationships (Landlord or property manager, Personal professional, Employer for work and life), "Direct Buyer (Self)" as a relationship and its B2B relationship and user names are not built; they were closed as a reference (doc 31, decision 38).
 10. **Marks on the options** (doc 31, decision 38): the ● and ○ of the user's life-stage matrix, and a "Recommended" tag on the differentiations the purposes drive, are not drawn; the options are ordered or hidden only.

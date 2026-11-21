@@ -67,7 +67,7 @@ describe.each([["Lumen & Loom Studio", lumen], ["Quillfield Automation LLC", qui
 describe.each([["Lumen & Loom Studio", lumen], ["Quillfield Automation LLC", quillfield]])("the example %s's channels", (_name, example) => {
 
     it("names every subchannel and answers every channel its answers suggest", async () => {
-        const { asBusinessEngagementValue, businessFoundationSegments } = await import("../framework/engine/AnswerUtils.ts");
+        const { asBusinessEngagementValue, businessFoundationSegments } = await import("../framework/engine/answers/AnswerUtils.ts");
         const { journeySuggestions, suggestionCovered } = await import("../framework/engine/JourneySuggestions.ts");
         const responses = (example as unknown as { systems: Record<string, { responses: { sectionNumber: number; value: unknown }[] }> }).systems["3"].responses;
         const segments = businessFoundationSegments(responses.find(response => response.sectionNumber === 1)!.value);

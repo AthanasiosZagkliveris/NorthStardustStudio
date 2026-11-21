@@ -1,6 +1,6 @@
 import { NUMBER_LIMITS, limitedNumberText } from "../fields/numberInput.ts";
 import { BUSINESS_JOURNEY_STAGES } from "../../../framework/engine/businessFoundation/engagementPage.ts";
-import { labelWithCurrency } from "../../../framework/engine/Currencies.ts";
+import { labelWithCurrency } from "../../../framework/engine/financial/Currencies.ts";
 import { referralOnly } from "../../../framework/engine/DemandCapacity.ts";
 import { CSSProperties, Fragment, ReactNode, useContext, useMemo, useState } from "react";
 import TextLink from "../fields/TextLink.tsx";
@@ -12,7 +12,7 @@ import FoldArrow from "../fields/FoldArrow.tsx";
 import MenuHead from "./MenuHead.tsx";
 import TileGrid from "./TileGrid.tsx";
 import ReportFrame from "./ReportFrame.tsx";
-import { BUSINESS_COST_FREQUENCIES, BUSINESS_RESOURCE_STATUSES } from "../../../framework/engine/AnswerUtils.ts";
+import { BUSINESS_COST_FREQUENCIES, BUSINESS_RESOURCE_STATUSES } from "../../../framework/engine/answers/AnswerUtils.ts";
 import { OpenCardContext, plainTitle, tileName } from "./SectionTiles.tsx";
 import CardTile, { Dots, SYMBOLS, inwardOrigin, toneHue } from "./CardTile.tsx";
 import "../../../styles/title-arrow.css";

@@ -4,7 +4,7 @@
  */
 import { useEffect, useMemo, useState } from "react";
 import { AnswerType } from "../../../../framework/enums/AnswerType.ts";
-import { CardListAnswerValue, ChecklistItemValue } from "../../../../framework/engine/AnswerUtils.ts";
+import { CardListAnswerValue, ChecklistItemValue } from "../../../../framework/engine/answers/AnswerUtils.ts";
 import { useDragToScroll } from "../../../../hooks/useDragToScroll.ts";
 import { createCardListItemId, createChecklistItemId, toTableColumns } from "./shared.tsx";
 import type { AnswerProps } from "./scope.ts";

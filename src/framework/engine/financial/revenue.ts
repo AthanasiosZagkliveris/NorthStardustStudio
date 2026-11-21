@@ -1,7 +1,7 @@
 /* Part of FinancialModel.ts (split by its sections, 2026-11-10: the same code, in files of one topic each; FinancialModel.ts re-exports every part). */
 
-import { parseAmount, parseDecimal } from "../Amounts.ts";
-import { type StrategyMonthValue } from "../AnswerUtils.ts";
+import { parseAmount, parseDecimal } from "./Amounts.ts";
+import { type StrategyMonthValue } from "../answers/AnswerUtils.ts";
 import { REVENUE_FREQUENCIES, type FinancialSustainabilityValue, type RevenueStreamValue } from "./revenueStored.ts";
 import { MAX_ITEMS, MAX_MONTHS, MODEL_MONTHS, monthOrdinal, parsePercent, planMonth } from "./period.ts";
 import { numberAsText, type BreakEvenInputs } from "./breakEven.ts";

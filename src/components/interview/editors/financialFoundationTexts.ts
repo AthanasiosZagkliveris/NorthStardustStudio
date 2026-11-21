@@ -1,6 +1,6 @@
 /* Part of FinancialFoundationEditor.tsx (moved out as it was, 2026-11-11: the owner, "can you do them all?"; FinancialFoundationEditor.tsx imports it). */
 
-import { type FundingCategory } from "../../../framework/engine/FinancialModel.ts";
+import { type FundingCategory } from "../../../framework/engine/financial/FinancialModel.ts";
 import { paletteHueNamed } from "../../../framework/engine/Palette.ts";
 import { type InfoPoint } from "../fields/InfoNote.tsx";
 import { SOURCES } from "../../../framework/engine/Sources.ts";

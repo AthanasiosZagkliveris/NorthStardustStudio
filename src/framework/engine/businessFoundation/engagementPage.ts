@@ -1,6 +1,6 @@
 /* Part of AnswerBusinessFoundation.ts (split by its sections, 2026-11-10: the same code, in files of one topic each; AnswerBusinessFoundation.ts re-exports every part). */
 
-import { asObject, randomId } from "../Readers.ts";
+import { asObject, randomId } from "../answers/Readers.ts";
 import { asBusinessFoundationValue, functionalNeedIds, type BusinessCustomerProfileValue, type BusinessCustomerSegmentValue, type BusinessOfferingValue } from "./foundationPage.ts";
 import { BUSINESS_CHANNEL_CATEGORIES } from "./channelCategories.ts";
 import { BUSINESS_CHANNEL_ALL_OFFERINGS, BUSINESS_JOURNEY_STAGES, type BusinessChannelValue, type BusinessRelationshipInteractionValue, businessInteractionKey, type BusinessSegmentEngagementValue } from "./engagementReaders.ts";

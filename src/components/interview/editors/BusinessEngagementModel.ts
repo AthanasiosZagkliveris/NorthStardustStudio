@@ -1,4 +1,4 @@
-import { BUSINESS_CHANNEL_CATEGORIES, BUSINESS_CHANNEL_OTHER, BUSINESS_JOURNEY_STAGES, BUSINESS_RELATIONSHIP_GOALS, BUSINESS_RELATIONSHIP_TYPES, BusinessChannelValue } from "../../../framework/engine/AnswerUtils.ts";
+import { BUSINESS_CHANNEL_CATEGORIES, BUSINESS_CHANNEL_OTHER, BUSINESS_JOURNEY_STAGES, BUSINESS_RELATIONSHIP_GOALS, BUSINESS_RELATIONSHIP_TYPES, BusinessChannelValue } from "../../../framework/engine/answers/AnswerUtils.ts";
 import { SOURCES } from "../../../framework/engine/Sources.ts";
 import { BusinessTickOption, uniqueChoices } from "../cards/BusinessCardFields.tsx";
 import { InfoPoint } from "../fields/InfoNote.tsx";

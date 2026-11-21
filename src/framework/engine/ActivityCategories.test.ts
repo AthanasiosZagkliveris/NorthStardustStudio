@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { activityCategoryLabel, asBusinessCapabilityValue, DERIVED_ACTIVITY_CATEGORY } from "./AnswerUtils.ts";
+import { activityCategoryLabel, asBusinessCapabilityValue, DERIVED_ACTIVITY_CATEGORY } from "./answers/AnswerUtils.ts";
 
 const activity = (fields: Record<string, unknown>) => ({ id: "a", name: "", description: "", performerIds: [], responsibleId: "", completed: false, offeringIds: [], type: "", ...fields });
 

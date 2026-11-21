@@ -31,13 +31,13 @@ import {
     businessCapabilitySectionsEmpty,
     businessEngagementSectionsEmpty,
     businessFoundationSubsectionsEmpty
-} from "./AnswerUtils.ts";
+} from "./answers/AnswerUtils.ts";
 import {
     FINANCIAL_FOUNDATION_SECTIONS,
     FINANCIAL_SUSTAINABILITY_SECTIONS,
     financialFoundationSectionsEmpty,
     financialSustainabilitySectionsEmpty
-} from "./FinancialModel.ts";
+} from "./financial/FinancialModel.ts";
 
 /**
  * Validates a completed Interview Session.

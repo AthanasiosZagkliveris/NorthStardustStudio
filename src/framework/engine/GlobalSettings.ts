@@ -1,7 +1,7 @@
-import { parseAmount } from "./Amounts.ts";
-import { randomId } from "./Readers.ts";
+import { parseAmount } from "./financial/Amounts.ts";
+import { randomId } from "./answers/Readers.ts";
 import { DEFAULT_STAGE_DURATIONS, type StageDurations } from "./BusinessStage.ts";
-import { CHANNEL_FEE_DATA, FEE_COUNTRIES, type ChannelFeeStatus } from "./ChannelFeeData.ts";
+import { CHANNEL_FEE_DATA, FEE_COUNTRIES, type ChannelFeeStatus } from "./channels/ChannelFeeData.ts";
 
 /*
     GLOBAL SETTINGS (the cost model, section 6): the rates and limits the calculated lines read, held in ONE place so that when a rate changes

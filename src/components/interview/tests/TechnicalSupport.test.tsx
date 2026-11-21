@@ -4,9 +4,9 @@ import { cleanup, render, screen } from "@testing-library/react";
 
 import BusinessCapabilityEditor from "../editors/BusinessCapabilityEditor";
 import { openCard, openTile } from "../../../test/interviewTestUtils";
-import { asBusinessCapabilityValue, createBusinessPartner, createBusinessResourceSlot, serviceAssetLinks, servicesOfAsset } from "../../../framework/engine/AnswerUtils";
-import { asLegalEntityValue } from "../../../framework/engine/AnswerUtils";
-import { assetValue, asFinancialFoundationValue, consolidateCosts } from "../../../framework/engine/FinancialModel";
+import { asBusinessCapabilityValue, createBusinessPartner, createBusinessResourceSlot, serviceAssetLinks, servicesOfAsset } from "../../../framework/engine/answers/AnswerUtils";
+import { asLegalEntityValue } from "../../../framework/engine/answers/AnswerUtils";
+import { assetValue, asFinancialFoundationValue, consolidateCosts } from "../../../framework/engine/financial/FinancialModel";
 
 /* H2: a Technical Support service named by an asset card is added to that asset's value; one not named stays its own cost. */
 

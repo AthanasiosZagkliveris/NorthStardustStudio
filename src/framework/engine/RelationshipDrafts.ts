@@ -1,5 +1,5 @@
 import { relationshipTypeLabel } from "./businessFoundation/engagementReaders.ts";
-import type { OfferingAnswers } from "./OfferingQuestions.ts";
+import type { OfferingAnswers } from "./choices/OfferingQuestions.ts";
 
 /*
     A RELATIONSHIP TYPE'S DRAFTS (2.14, the second batch of the review; owner, 2026-11-18 00:46): the draft written in by itself on a relationship type's card (useAutoDraft) is a starting

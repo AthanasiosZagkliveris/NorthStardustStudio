@@ -3,7 +3,7 @@ import { groupOf, isCompanion, primaryOf } from "../../framework/engine/PageGrou
 import { land } from "../interview/tiles/jumpTo";
 import { HIDDEN_SEGMENT_ATTRIBUTE, revealSegmentOf } from "../interview/tiles/segmentPage";
 import { frameworkRegistry } from "../../framework/engine/FrameworkRegistry";
-import { registeredFields, parseFieldKey } from "../../framework/engine/FieldKeys";
+import { registeredFields, parseFieldKey } from "../../framework/engine/fields/FieldKeys";
 import { OrganizationService } from "../../services/OrganizationService";
 import type { NoteLink } from "../../services/NotepadService";
 import { fieldLocation } from "../interview/tiles/openField";
