@@ -38,7 +38,7 @@ export function closeOwnTip() {
 
 /**
  * THE APP'S TOOLTIP ABOVE ITS ICON, by default (the card structure's display rules): pointing at an icon or focusing it shows the dark label above it,
- * centred on it and kept inside the window; below it only where there is no room above. Escape closes it. Nothing but the label's text is the icon's
+ * its left edge on the icon's left edge and kept inside the window; below it only where there is no room above. Escape closes it. Nothing but the label's text is the icon's
  * tooltip: the icon keeps its own accessible name.
  *
  * It stands where aboveTipPosition says, from the pointer and from the keyboard alike.
@@ -48,7 +48,7 @@ export function closeOwnTip() {
 export function useAboveTip<T extends HTMLElement>(text: string, options: {
     /** The box the tip stands above (default: the icon itself). */
     box?: (icon: T) => HTMLElement;
-    /** The tip's right edge on the box's right edge, instead of its middle under the pointer. */
+    /** The tip's right edge on the box's right edge, instead of its left edge on the box's left edge. */
     alignRight?: boolean;
 } = {}): {
     props: {

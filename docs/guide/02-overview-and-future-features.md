@@ -144,22 +144,22 @@ A proposal from online research (official, university and standards sources; par
 
 ### 5.5 Other features, ranked by value for an early-stage founder
 
-| # | Feature | One-line evidence | Source |
-|---|---|---|---|
-| 1 | **Backup, export and import (JSON project file)** | Browsers can delete an origin's stored data when storage runs low; persistence must be requested and may be refused. | [31] |
-| 2 | **Persistent-storage request and storage warning** | `navigator.storage.persist()` lowers the risk of the browser deleting data; the browser decides whether to grant it. | [31] |
-| 3 | **Lender-ready exports (Start Up Loans format: plan, 12-month cash flow, survival budget)** | Start Up Loans applicants must send a 12-month cash flow forecast and a personal survival budget. | [14] |
-| 4 | **Scenario planning (base, low, high) on the Financial Forecast** | Planning works best combined with learning and revision; competitors offer "what-if" scenarios. | [2][32] |
-| 5 | **Progress dashboard and plan-versus-actual review** | Regular revision is where planning pays off; LivePlan ties dashboards to actuals. | [2][4] |
-| 6 | **Data privacy controls (what is stored, clear all, redact for sharing)** | UK GDPR expects data protection by design; personal data in plans includes founders' finances. | [9] |
-| 7 | **Machine-readable export (CSV/JSON) of all answers** | The ICO names CSV, JSON and XML as suitable structured, machine-readable formats for portability. | [33] |
-| 8 | **Templates and examples by industry** | The SBA publishes sample plans by business type to help founders start. | [34] |
-| 9 | **Accounting software integration (Xero, QuickBooks, MTD-compatible)** | Accounting software is the most adopted digital tool among UK SMEs; MTD requires compatible software. | [26][35] |
-| 10 | **Investor pitch summary or deck export** | Equity investment in UK small businesses is a large, active market; a short pitch is the usual first step. LivePlan offers a one-page pitch builder. | [32][36] |
-| 11 | **Funding finder linked to the Funding section** | British Business Bank reports gaps in access to finance for some groups and regions. | [36] |
-| 12 | **Reminders and calendar export (.ics) for roadmap and tax dates** | MTD quarterly updates have fixed deadlines (first one due 7 August 2026). | [26] |
-| 13 | **Onboarding tour and sample project** | 53% of UK businesses with no employees used digital tools to run the business in 2024. Many solo founders are still new to such tools. | [37] |
-| 14 | **Tablet layout (768px and up, touch targets)** | WCAG 2.2 2.5.8 Target Size (Minimum) sets 24 by 24 CSS pixels for pointer targets. | [19] |
+| # | Feature | One-line evidence | Source | State (2026-11-21) |
+|---|---|---|---|---|
+| 1 | **Backup, export and import (JSON project file)** | Browsers can delete an origin's stored data when storage runs low; persistence must be requested and may be refused. | [31] | **Built**: Export and Import of an Organisation as a JSON file on the Landing page |
+| 2 | **Persistent-storage request and storage warning** | `navigator.storage.persist()` lowers the risk of the browser deleting data; the browser decides whether to grant it. | [31] | Not built |
+| 3 | **Lender-ready exports (Start Up Loans format: plan, 12-month cash flow, survival budget)** | Start Up Loans applicants must send a 12-month cash flow forecast and a personal survival budget. | [14] | Built in part: the personal survival budget (Questions 20, section 13) and the Financial Documents in the Workbook; no export in the Start Up Loans format |
+| 4 | **Scenario planning (base, low, high) on the Financial Forecast** | Planning works best combined with learning and revision; competitors offer "what-if" scenarios. | [2][32] | Not built (Workspace D3, Records 2, 5.4) |
+| 5 | **Progress dashboard and plan-versus-actual review** | Regular revision is where planning pays off; LivePlan ties dashboards to actuals. | [2][4] | Not built (K2, Records 2, 5.2) |
+| 6 | **Data privacy controls (what is stored, clear all, redact for sharing)** | UK GDPR expects data protection by design; personal data in plans includes founders' finances. | [9] | Not built |
+| 7 | **Machine-readable export (CSV/JSON) of all answers** | The ICO names CSV, JSON and XML as suitable structured, machine-readable formats for portability. | [33] | Built in part: the JSON export of an Organisation and the forecast as CSV |
+| 8 | **Templates and examples by industry** | The SBA publishes sample plans by business type to help founders start. | [34] | Not built: two example Organisations only |
+| 9 | **Accounting software integration (Xero, QuickBooks, MTD-compatible)** | Accounting software is the most adopted digital tool among UK SMEs; MTD requires compatible software. | [26][35] | Not built |
+| 10 | **Investor pitch summary or deck export** | Equity investment in UK small businesses is a large, active market; a short pitch is the usual first step. LivePlan offers a one-page pitch builder. | [32][36] | Not built (Workspace E3 One-Pager) |
+| 11 | **Funding finder linked to the Funding section** | British Business Bank reports gaps in access to finance for some groups and regions. | [36] | Not built |
+| 12 | **Reminders and calendar export (.ics) for roadmap and tax dates** | MTD quarterly updates have fixed deadlines (first one due 7 August 2026). | [26] | Not built |
+| 13 | **Onboarding tour and sample project** | 53% of UK businesses with no employees used digital tools to run the business in 2024. Many solo founders are still new to such tools. | [37] | Built in part: the two example Organisations; no tour |
+| 14 | **Tablet layout (768px and up, touch targets)** | WCAG 2.2 2.5.8 Target Size (Minimum) sets 24 by 24 CSS pixels for pointer targets. | [19] | Built in part: minimum width 768, the chapters stack below 1200 (AI 9, the layout rules); the touch targets are not checked |
 
 ### 5.6 The roadmap (local-first)
 
