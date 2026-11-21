@@ -31,8 +31,6 @@ export interface PageGroup {
 
 }
 
-/** Financials' two chapters, in their order: their headings, numbered by the page ("1. Revenue & Break Even"; layout rules section 13). */
-export const FINANCIALS_FRAMES = ["Revenue & Break Even", "Financial Foundation"] as const;
 
 export const PAGE_GROUPS: readonly PageGroup[] = [
     // (Mission and Vision are saved in Definition, the first section, and drawn in Purpose as one pair tile: doc 45.)
@@ -46,11 +44,10 @@ export const PAGE_GROUPS: readonly PageGroup[] = [
     // time, each Segment ONE chapter of its seven Master Tiles in its own hue (owner, 2026-11-19: "Place all the Tiles in the same chapter, adjusting the colours per
     // segment"), headed by its name. Each section keeps its number, its title and its saved answer.
     { systemNumber: 3, members: [1, 2], title: "Foundation & Engagement", inHeader: true, oneSegmentAtATime: true },
-    // FINANCIALS (owner, 2026-11-18, the approved plan, step 1): Revenue & Pricing and Costs, Funding & Position are one page, their chapters Revenue & Break
-    // Even and Financial Foundation side by side, in that order. Each section keeps its number, its title and its saved answer (doc 48, section 11).
-    // ONE CHAPTER (owner, 2026-11-20 02:11 UTC+2: "The financials should be in a single page. Maybe they should all be under only one chapter."): the six Master
-    // Tiles in one frame, in the order each reads only what stands before it (doc 48, section 11), named by doc 48's own name for its chapter.
-    { systemNumber: 3, members: [4, 5], title: "Financials", inHeader: true, frameTitles: FINANCIALS_FRAMES, oneChapter: "Financial Foundation" },
+    // FINANCIALS (owner, 2026-11-18, step 1; 2026-11-20 02:11 UTC+2: "Maybe they should all be under only one chapter."): Revenue & Pricing and Costs, Funding &
+    // Position are one page of ONE chapter, Financial Foundation: its three Master Tiles that ask, Revenue Streams, Costs and Funding (doc 48, sections 11 and 14).
+    // Each section keeps its number, its title and its saved answer.
+    { systemNumber: 3, members: [4, 5], title: "Financials", inHeader: true, oneChapter: "Financial Foundation" },
     // The Strategy System is one page: its Situation & Direction (the Strategic Period's Goals and Objectives are written in each Theme's card there).
     { systemNumber: 4, members: [1], title: "Strategy System", inHeader: false }
 ];

@@ -2,7 +2,7 @@ import { COUNTRIES } from "./LegalEntityJurisdictions.ts";
 
 /**
  * Every currency an amount can be in: the currencies of the countries
- * the Legal Entity page registers organisations in, once each, in
+ * the Legal Entity section registers organisations in, once each, in
  * code order.
  *
  * Found by typing a country as well as a code -- "Greece" finds EUR

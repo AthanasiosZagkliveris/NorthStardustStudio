@@ -31,51 +31,13 @@ export const ORDERS_HELP: InfoPoint[] = [
     "Items per Order shares that cost between the items in one order; the Delivery Charge is what the customer pays towards it."
 ];
 
-export const TAKE_INFO: InfoPoint[] = [
-    "Worked out from the plan: the smallest single change that keeps the cash at zero or above in every month of the plan, each tried on its own with everything else as planned.",
-    "The funding being sought is counted as if it arrives as planned, its repayments included, as in the Stress Test.",
-    "Where the plan already holds, it says how far sales, the start of revenue or costs could go against it instead."
-];
-
-/** The units formula behind Break Even Alone, added to the block's own info. */
-export const BREAK_EVEN_UNITS_FORMULA: InfoPoint = {
-    title: "Formula",
-    text: "Break-even units = Fixed costs ÷ (Price − Variable cost per unit)"
-};
-
 /* One primary source for both break-even formulas, so the two agree. */
 export const BREAK_EVEN_SOURCE: InfoPoint = { title: "Source", source: SOURCES.breakEvenPoint };
-
-/** The revenue formula behind Break-Even Revenue, added to its tile's own info. */
-export const BREAK_EVEN_REVENUE_FORMULA: InfoPoint = {
-    title: "Formula",
-    text: "Break-even revenue = Fixed costs ÷ Contribution margin ratio"
-};
-
-/* OpenStax follows BREAK_EVEN_SOURCE as the second reference the spec asks for. */
-export const BREAK_EVEN_REVENUE_SECOND_SOURCE: InfoPoint = { title: "Also", source: SOURCES.breakEvenInDollars };
 
 /** Expected Monthly Revenue's own tile "i" -- the only headline tile
     that had none, sitting beside figures that all carry one. Nothing
     to cite: it is added up from the Offerings' own prices and sales,
     not read from outside the plan. */
-export const EXPECTED_REVENUE_HELP: InfoPoint[] = [
-    { title: "Formula", text: "Σ price × expected sales per month, for each Offering" },
-    "The revenue the expected sales bring in a normal month.",
-    "Calculated from your Offerings' prices and expected sales."
-];
-
-/** Expected Break Even's own tile "i", the same gap as above. */
-export const EXPECTED_BREAK_EVEN_HELP: InfoPoint[] = [
-    "The first month revenue covers costs, based on the build-up of sales you entered."
-];
-
-/** Contribution's own formula, the "i" beside its figure on each Offering's card. */
-export const CONTRIBUTION_HELP: InfoPoint[] = [
-    { title: "Formula", text: "Contribution = Price − Variable costs; ratio = Contribution ÷ Price" },
-    "What each sale leaves to pay fixed costs and profit.",
-    { title: "Source", source: SOURCES.contributionMargin }
-];
 
 export const SECTIONS = {
     revenue: {
@@ -111,11 +73,3 @@ export const SECTIONS = {
 export const SECTION_HUES: Record<string, number> = {
     "sustainability-revenue": paletteHueNamed("lavender")
 };
-
-export const STATUS_TITLES = {
-    above: "Currently Above Break Even",
-    sustainable: "Sustainable Before Financial Exhaustion",
-    risk: "Financial Risk",
-    "not-reached": "Break Even Not Reached",
-    "no-revenue": "Revenue Not Yet Established"
-} as const;

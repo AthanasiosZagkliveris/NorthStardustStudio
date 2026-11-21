@@ -50,7 +50,7 @@ describe("FoundersProfileEditor founders", () => {
         expect(names).toEqual(["Ann Lee", "Bo Park"]);
         const numbers = [...document.querySelectorAll(".legal-entity-card-number")].map(node => node.textContent);
         expect(numbers).toEqual(["1.", "2."]);
-        // Named on the Legal Entity page: shown, never asked, never removed here.
+        // Named on the Legal Entity section: shown, never asked, never removed here.
         expect(screen.queryByRole("textbox", { name: /name$/i })).toBeNull();
         expect(screen.queryByRole("button", { name: /^Remove founder/ })).toBeNull();
 

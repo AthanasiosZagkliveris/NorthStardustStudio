@@ -3,7 +3,7 @@ import NavArrow from "../../controls/NavArrow.tsx";
 import { CSSProperties, RefObject, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { type CarouselStep } from "./SectionTileTypes.ts";
 import { arrowLevel } from "./SectionTileGeometry.tsx";
-import { slotMargin, useRailSlot } from "../rails/useRailSlot.ts";
+import { type RailSlot, slotMargin, useRailSlot } from "../rails/useRailSlot.ts";
 
 /** The carousel arrow's box: the page arrow's (24 x 44), 10% larger. */
 export const CAROUSEL_ARROW_WIDTH = 24;
@@ -115,6 +115,8 @@ export function CarouselArrows({ target, step, hue, back, side: fixedSide }: { t
     const tabCache = useRef<{ key: string; value: ReturnType<typeof tabColours> } | null>(null);
     const measureTick = useRef(0);
     const restSample = useRef<{ y: number; y0: number; top: number; withPage: boolean } | null>(null);
+    // (The room the bullets make round the arrow, as last placed: useRailSlot, below.)
+    const railSlot = useRef<RailSlot | null>(null);
 
     useLayoutEffect(() => {
         const node = target.current;
@@ -138,7 +140,11 @@ export function CarouselArrows({ target, step, hue, back, side: fixedSide }: { t
         // last bullet; layout check, 2026-11-14: its whole height, 12px clear, kept in the window where the window has it.)
         // (Its natural height: the bullets' list may be squeezed by the height it was given, so its own full height is counted.)
         const railList = railRef.current?.querySelector<HTMLElement>(".bullet-rail-list");
-        const railHeight = railRef.current ? railRef.current.scrollHeight + (railList ? Math.max(0, railList.scrollHeight - railList.clientHeight) : 0) : 0;
+        // (Less the room the bullets make round the arrow: where that room falls depends on where the tab stands, so counting it moved the tab, which moved the room, a pixel
+        // at a time, until React stopped -- a tab of nine Themes at 1366 x 768, layout check 2026-11-21. Measured without it, the height is the same wherever the tab stands;
+        // a tab the arrow then makes taller than the window allows scrolls, its Back in view, as any capped tab.)
+        const madeRound = railSlot.current ? railSlot.current.shift + railSlot.current.extra : 0;
+        const railHeight = railRef.current ? Math.max(0, railRef.current.scrollHeight + (railList ? Math.max(0, railList.scrollHeight - railList.clientHeight) : 0) - madeRound) : 0;
         const titleTop = Math.max(headerBottom + 12, Math.min(titleTopOf(node, restSample), window.innerHeight - Math.max(160, railHeight + 12)));
         // (The tab stands on the side of the layer that is nearer its end of the page: a layer in the left half has it at its left, one in the right half at its right.)
         const side: "left" | "right" = fixedSide ?? (box.left + box.width / 2 < window.innerWidth / 2 ? "left" : "right");
@@ -265,6 +271,7 @@ export function CarouselArrows({ target, step, hue, back, side: fixedSide }: { t
 
     // (The one placement of every rail: useRailSlot, shared with the page's rails.)
     const slot = useRailSlot(railRef, () => at ? { left: at.side === "left" ? at.left : window.innerWidth - at.right - CAROUSEL_ARROW_WIDTH, right: (at.side === "left" ? at.left : window.innerWidth - at.right - CAROUSEL_ARROW_WIDTH) + CAROUSEL_ARROW_WIDTH, top: at.top - 22, bottom: at.top + 22 } : null, !!at?.tab && !covered);
+    railSlot.current = slot;
 
     if (!at || !topmost || covered) {
         return null;

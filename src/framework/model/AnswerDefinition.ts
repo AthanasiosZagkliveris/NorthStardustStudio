@@ -107,7 +107,7 @@ export interface AnswerDefinition {
      * one and every Section in it declares the same thing.
      *
      * Example: the Identity System, whose Definition, Ethics and
-     * Legal Entity pages read 1-4, 1-4 and 1-6 rather than 1-4,
+     * Legal Entity sections read 1-4, 1-4 and 1-6 rather than 1-4,
      * 5-8 and 9.
      */
     nestedNumbering?: boolean;

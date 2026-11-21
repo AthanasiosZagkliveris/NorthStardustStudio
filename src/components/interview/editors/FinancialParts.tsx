@@ -1,18 +1,14 @@
-import { CSSProperties, ReactNode, useLayoutEffect, useRef, useState } from "react";
+import { ReactNode, useLayoutEffect, useRef, useState } from "react";
 
-import CardShell from "../cards/CardShell.tsx";
-import CardHead from "../cards/CardHead.tsx";
 import type { StrategyMonthValue } from "../../../framework/engine/AnswerUtils.ts";
 import {
     type CashMonth,
-    type Signal,
     withinPlan
 } from "../../../framework/engine/FinancialModel.ts";
 import { SOURCES } from "../../../framework/engine/Sources.ts";
 
 import { BusinessField } from "../cards/BusinessCardFields.tsx";
 import InfoNote, { InfoPoint, InfoText } from "../fields/InfoNote.tsx";
-import { FieldMark, FieldStatus } from "../fields/fieldMarks.tsx";
 import MonthYearPicker from "../fields/MonthYearPicker.tsx";
 import TextLink from "../fields/TextLink.tsx";
 
@@ -174,74 +170,8 @@ export function FigureTiles({ tiles }: { tiles: FigureTile[] }) {
     );
 }
 
-const SIGNAL_ICONS: Record<Signal["tone"], string> = {
-    risk: "!",
-    caution: "▲",
-    good: "✓",
-    info: "i"
-};
 
-/**
- * Decision signals: observations calculated from what was entered,
- * each with an icon and a title so the colour never carries the
- * meaning alone.
- */
-export function SignalList({ signals }: { signals: Signal[] }) {
 
-    if (signals.length === 0) {
-        return null;
-    }
-
-    return (
-        <ul className="financial-signals">
-            {signals.map((signal, index) => (
-                <li className={"financial-signal financial-signal-" + signal.tone} key={signal.title + index}>
-                    <span className="financial-signal-icon" aria-hidden="true">
-                        {SIGNAL_ICONS[signal.tone]}
-                    </span>
-                    <span>
-                        <strong>{signal.title}.</strong> {signal.text}
-                    </span>
-                </li>
-            ))}
-        </ul>
-    );
-
-}
-
-/** A titled block inside a calculated section. */
-export function FinancialBlock({
-
-    title,
-
-    info,
-
-    bare = false,
-
-    children
-
-}: {
-
-    title: string;
-    info?: InfoPoint[];
-    /** The block is a tile's dialog's whole subject (2026-11-17): the dialog's heading names it and carries its "i", so it draws no heading of its own. */
-    bare?: boolean;
-    children: ReactNode;
-
-}) {
-    return (
-        <div className="financial-block" aria-label={bare ? title : undefined} role={bare ? "group" : undefined}>
-            {!bare && <span className="business-foundation-label-info">
-                <span className="business-capability-subhead">
-                    <InfoText text={title}>
-                        {info && <InfoNote label={title} points={info} fullList />}
-                    </InfoText>
-                </span>
-            </span>}
-            {children}
-        </div>
-    );
-}
 
 /* ==========================================================
    The cash timeline
@@ -549,135 +479,4 @@ export interface FinancialSection {
     info: InfoPoint[];
 }
 
-/**
- * THE PAGE'S HEAD, as on Pages 1 to 3: a numbered title for each
- * section, its instructions beneath (hidden with the help), then the
- * progress line.
- */
-export function FinancialPageHead({
 
-    sections,
-
-    showInstructions,
-
-    columnsDivider
-
-}: {
-
-    sections: FinancialSection[];
-    showInstructions?: boolean;
-    columnsDivider?: ReactNode;
-
-}) {
-
-    return (
-        <div
-            className="answer-columns financial-page-head"
-            style={{ "--answer-column-count": sections.length } as CSSProperties}
-        >
-            {sections.map((section, position) => (
-                <h3 className="answer-column-label" key={"title-" + section.title}>
-                    <span className="answer-column-label-number">
-                        {(position + 1) + "."}
-                    </span>
-                    <span className="answer-column-label-text">{section.title}</span>
-                </h3>
-            ))}
-            {showInstructions && sections.map(section => (
-                <div className="answer-column-questions" key={"questions-" + section.title}>
-                    {section.instructions.map(line => (
-                        <span className="answer-question-line answer-question-line-bullet" key={line}>
-                            {"• " + line}
-                        </span>
-                    ))}
-                </div>
-            ))}
-            {columnsDivider && <div className="answer-columns-divider">{columnsDivider}</div>}
-        </div>
-    );
-
-}
-
-/**
- * One section of a Financial page: a folding card whose head is the
- * section's number and title (its "i" beside it), tinted by `hue`.
- */
-export function FinancialSectionCard({
-
-    rail,
-
-    number,
-
-    section,
-
-    hue,
-
-    open,
-
-    onToggle,
-
-    body,
-
-    anchor,
-
-    headClass,
-
-    titleExtra
-
-}: {
-
-    /** The section's name for the rail (see railId). */
-    rail: string;
-    number: number;
-    section: FinancialSection;
-    hue: number;
-    open: boolean;
-    onToggle: () => void;
-    /** Drawn only while the card is open. */
-    body: () => ReactNode;
-    /** Its name for a link that opens it (see jumpTo.ts). */
-    anchor?: string;
-    /** A class added to the head, e.g. fold-group-head for a head with an "Expand all". */
-    headClass?: string;
-    /** Anything at the far end of the title row. */
-    titleExtra?: ReactNode;
-
-}) {
-
-    return (
-        <CardShell
-            className="financial-section"
-            data-anchor={anchor}
-            data-rail={rail}
-            style={{ "--strategy-theme-hue": hue } as CSSProperties}
-        >
-
-            <CardHead
-                className={
-                    "strategy-box-head business-foundation-input-head business-capability-card-head fold-card-head" +
-                    (headClass ? " " + headClass : "")
-                }
-                onToggle={onToggle}
-                open={open}
-                foldLabel={section.title}
-                number={number}
-                name={(
-                    <span className="strategy-name-static">
-                        <InfoText text={section.title}>
-                            <InfoNote label={section.title} points={section.info} fullList />
-                        </InfoText>
-                        {rail && <FieldMark label={section.title} section={rail} />}
-                    </span>
-                )}
-            >
-                {titleExtra}
-            </CardHead>
-
-            {rail && <FieldStatus label={section.title} section={rail} />}
-
-            {open && body()}
-
-        </CardShell>
-    );
-
-}

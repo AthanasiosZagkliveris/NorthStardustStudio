@@ -81,7 +81,7 @@ export default function InterviewSection({ section, hideTitle }: InterviewSectio
 
     // Same reasoning, for a Section whose answer is ONE bespoke
     // Structure rather than a set of parts: the Business System's
-    // Foundation page and the Identity System's Legal Entity page
+    // Foundation page and the Identity System's Legal Entity section
     // both carry their guidance inside their own editor, so their
     // Questions section is deliberately a bare heading. A Section
     // holding an answer has content by definition -- the editor --

@@ -463,7 +463,7 @@ describe("Quillfield: the documents tie together", () => {
         expect(planMd).toContain("Formation date: Aug 2026");
         // The address's lines (street, city, ZIP), then the state and the country.
         expect(planMd).toContain("120 Clinton Street, Suite 3R, Brooklyn, 11201, New York, United States of America");
-        expect(planMd).toContain("| Jordan Ellis | 100% | Founder & Automation Consultant, Solutions Architect | Full-time (about 37 hours a week) | $4,500 a month (owner's drawings) |");
+        expect(planMd).toContain("| Jordan Ellis | 100% | $10,700 | Founder & Automation Consultant, Solutions Architect | Full-time (about 37 hours a week) | $4,500 a month (owner's drawings) |");
         expect(planMd).toContain("| Full-time (about 37 hours a week) | $4,500 a month (owner's drawings) |");
         // Brand & Voice under Marketing and Sales; the style guide in the Appendix.
         const marketing = planMd.slice(planMd.indexOf("## 5. Marketing and Sales"), planMd.indexOf("## 6. Operations"));
@@ -902,7 +902,7 @@ describe("the optional answers in the documents", () => {
 
         const given = partOf(planOf(base()), "## 7. Management and Organisation");
         expect(given).not.toContain("Not covered by the Foundation answers.");
-        expect(given).toContain("| Founder | Ownership | Roles | Commitment | Pay |");
+        expect(given).toContain("| Founder | Ownership | Capital | Roles | Commitment | Pay |");
         expect(given).toContain("| Founder & Automation Consultant, Solutions Architect | Full-time (about 37 hours a week) |");
         expect(given).toContain("Founder & Automation Consultant, Solutions Architect");
         expect(given).toContain("### Founder Profiles\n\n#### Jordan Ellis");
@@ -967,7 +967,8 @@ describe("the optional answers in the documents", () => {
         const identity = loadQuill(1, "identity");
         const md = new MarkdownExporter().toMarkdown(identity, "Foundation", buildExportContent(identity, "Foundation"));
         const legal = md.slice(md.indexOf("## 3. Legal Entity"), md.indexOf("## 4. Founders Profile"));
-        expect(legal).toContain("| Founder | Ownership |\n");
+        // (Quillfield records its founder's capital since 2026-11-21: review item 4, the owner's 22:56 UTC+2 "Fix them all".)
+        expect(legal).toContain("| Founder | Ownership | Capital |\n");
         expect(legal).not.toContain("Roles");
         expect(legal).not.toContain("Experience & Skills");
 

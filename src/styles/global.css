@@ -1109,6 +1109,10 @@ h6 {
   font-size: var(--font-small);
   font-weight: 500;
   overflow-wrap: anywhere;
+  /* (Its own text, whatever it opens from: never underlined, no tracking or capitals of the trigger; owner, 2026-11-10 and 2026-11-21; doc 24.) */
+  text-decoration: none;
+  letter-spacing: normal;
+  text-transform: none;
 
   pointer-events: none;
 }

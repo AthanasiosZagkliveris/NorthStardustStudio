@@ -127,7 +127,7 @@ export function useCapabilityPeopleCards(earlier: Earlier) {
     const FOUNDER_LINK_FILTER_OPTIONS = [...RESPONSIBILITY_FILTER_OPTIONS, "Team member", "Responsible"];
     /* ---------- 1. Founders ---------- */
 
-    // A legal form with ONE owner in law (a sole proprietorship, a sole trader ...): the Founders' dialog is the founder's card itself, as on the Legal Entity page -- no frame of its own inside the dialog's.
+    // A legal form with ONE owner in law (a sole proprietorship, a sole trader ...): the Founders' dialog is the founder's card itself, as on the Legal Entity section -- no frame of its own inside the dialog's.
     const organisation = asLegalEntityValue(legalEntity).organisation;
     const oneOwner = legalEntity !== undefined
         && legalFormOptions(organisation.country, organisation.subdivision).find(form => form.label === organisation.legalForm)?.soleFounder === true;
@@ -185,7 +185,7 @@ export function useCapabilityPeopleCards(earlier: Earlier) {
         const legacyShare = founder.deliveryShare.trim() !== "" &&
             founder.deliveryHours.trim() === "";
 
-        /* Named, added and removed on the Legal Entity page -- so
+        /* Named, added and removed on the Legal Entity section -- so
            the name is shown rather than asked, and there is no ×. */
         return (
             <BusinessCard

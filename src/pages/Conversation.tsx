@@ -1124,13 +1124,17 @@ export default function Conversation() {
     // columns are on. Where the numbering runs across the System
     // instead, the columns already carry that count and a Section
     // number in the title would be a second, unrelated one.
+    /** A section's page number: its place in the pages rail, or its own number where the rail does not list it. */
+    const pageNumberOf = (sectionNumber: number) => { const at = railPages.findIndex(page => page.id === "page-" + sectionNumber); return at >= 0 ? at + 1 : sectionNumber; };
     const pageTitleGroup = groupOf(groupSystemNumber, currentSection.number);
     const pageTitle = pageTitleGroup
         // A page of several sections is named for them all (and a System of one such page needs no page name).
         // (A page whose sections carry the plan's months, Financials, keeps them after its name: doc 48, section 1, "The plan's dates stay in the page title".)
         ? (!pageTitleGroup.inHeader ? undefined : (railPages.findIndex(page => page.id === "page-" + currentSection.number) + 1) + ". " + titleWithPeriod(pageTitleGroup.title + (/MM\/YY - MM\/YY/.test(currentSection.title) ? " MM/YY - MM/YY" : ""), titlePeriod))
+        // (A page is numbered by its place in the pages rail, never by its section's number: Infrastructure & Capability is the Business System's second
+        // page, its third section; owner, 2026-11-21 00:56 UTC+2, "Fix the page number of the 3. Infrastructure & Capability".)
         : effectiveAnswer?.nestedNumbering && resolvedSectionTitle
-        ? currentSection.number + ". " + resolvedSectionTitle
+        ? pageNumberOf(currentSection.number) + ". " + resolvedSectionTitle
         : resolvedSectionTitle;
 
     // Product Development System product picker (item 7): Section

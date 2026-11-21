@@ -1,6 +1,6 @@
 # 37. The Organisation tile: every field and option, as built
 
-Status: **specification**, written 2026-11-01, updated 2026-11-08. Every field of the Organisation tile (Identity System, page 1, the tile before Early Positioning) in the order it is asked, with its control, when it is asked, its options, what its "i" says and what it connects to.
+Status: **specification**, written 2026-11-01, updated 2026-11-21. Every field of the Organisation tile (Identity System, page 1, the tile before Early Positioning) in the order it is asked, with its control, when it is asked, its options, what its "i" says and what it connects to.
 
 Related: doc 38 (Early Positioning, the next tile, in the same form), doc 35 (the Segment's questions), doc 28 (8.5 the tile as designed; 8.2a the stage, the Opening Date and the key dates), doc 34 (the countries, the activity cascade and the codes), doc 33 (the first version: six countries and Other), `src/components/interview/editors/legal/`.
 
@@ -25,7 +25,7 @@ Related: doc 38 (Early Positioning, the next tile, in the same form), doc 35 (th
 - **The "i":** none.
 - **Connections:**
   - *Comes from:* nothing. Changing it empties what depends on it (the state or region, the legal form, the activities).
-  - *Read by (built):* the legal forms offered, the registry and the registration fields, the tax name, the currency, the activity classification and its code, the address lines' wording; the Legal Entity page, the financials, the Review, the Calendar and the exports.
+  - *Read by (built):* the legal forms offered, the registry and the registration fields, the tax name, the currency, the activity classification and its code, the address lines' wording; the Legal Entity's tiles, the financials, the Review, the Calendar and the exports.
   - *Read by (not built yet):* the Segment's first customer question and the lists by country (doc 28, 8.2, "What the Segment will read").
 
 ### 3. Other country
@@ -65,7 +65,7 @@ Related: doc 38 (Early Positioning, the next tile, in the same form), doc 35 (th
 - **The "i" says:** Decides who is liable for the organisation's debts: the organisation, or you personally. Decides how it is taxed, and whether it must hold share capital.
 - **Connections:**
   - *Comes from:* the country.
-  - *Read by (built):* the Name the legal form field; the tax, the Founders' capital question and the Legal Entity page; the documents and the exports.
+  - *Read by (built):* the Name the legal form field; the tax, the Founders' capital question and the Legal Entity's tiles; the documents and the exports.
 
 ### 7. Name the legal form
 
@@ -79,7 +79,7 @@ Related: doc 38 (Early Positioning, the next tile, in the same form), doc 35 (th
 - **Asked when:** always, except where the legal form is a sole trader or a sole proprietorship in the six countries: then it is not asked, not required and not checked (`registrationDateApplies`; see the note "Built on 2026-11-01" below). It cannot be later than today (the cell's limit), nor later than the Opening Date (an alert under the dates on the tile says so).
 - **The "i" says:** The day the organisation was registered with the registry of its country. It is today or earlier, and on or before the Opening Date: the company exists before the business opens.
 - **Connections:**
-  - *Comes from:* nothing; it is checked against the Opening Date. It is saved with the Legal Entity page's formation.
+  - *Comes from:* nothing; it is checked against the Opening Date. It is saved with the Legal Entity's formation.
   - *Read by (built):* the plan's start (the legal expenses), the key dates on the Review and the Calendar.
 
 ### 9. Opening Date

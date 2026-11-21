@@ -5,7 +5,7 @@ import InfoNote, { InfoPoint, InfoText } from "./InfoNote.tsx";
 import { FieldMark, FieldStatus } from "./fieldMarks.tsx";
 
 /**
- * THE HEAD OF A FIELD: its label (the field label) with its "i" 6px after the last word (`info`), its mark and its status line (inside the label, or after it inside the "i"'s holder: `statusAfter`), and what a place adds after its words (`extra`, a link symbol). The Business fields and the Legal Entity page's fields draw their label here; each passes its own classes.
+ * THE HEAD OF A FIELD: its label (the field label) with its "i" 6px after the last word (`info`), its mark and its status line (inside the label, or after it inside the "i"'s holder: `statusAfter`), and what a place adds after its words (`extra`, a link symbol). The Business fields and the Legal Entity section's fields draw their label here; each passes its own classes.
  */
 export function FieldHead({ label, info, fullList = false, infoLead = false, keyLabel, labelClass, infoClass, statusAfter = false, extra, note }: {
     label: string;

@@ -156,10 +156,6 @@ export const STAGE_LABELS: Record<string, string> = Object.fromEntries(
     BUSINESS_JOURNEY_STAGES.map(stage => [stage.id, stage.label])
 );
 
-export const TYPE_LABELS: Record<string, string> = Object.fromEntries(
-    BUSINESS_RELATIONSHIP_TYPES.map(type => [type.id, type.label])
-);
-
 /* How an Offering is bought: once, or every month until cancelled. */
 export const DEMAND_BUY_ONCE = "One sale at a time";
 export const DEMAND_BUY_MONTHLY = "Every month, until they cancel";

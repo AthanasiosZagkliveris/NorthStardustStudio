@@ -303,6 +303,41 @@ async function checkRemoveLook(page, where, reference, sample = 12) {
  * dialog, and -- on Escape -- return to the default page: no tile grown, no focus ring on the opener (a mouse opened it). One opened with the keyboard
  * keeps its ring, and still no tile grown.
  */
+/**
+ * THE TOOLTIPS OF THE PAGE ARROWS AND THE RAILS' BULLETS (doc 24; owner, 2026-11-10 06:23 and 2026-11-21 01:01 and 01:04 UTC+2): under the real pointer, each
+ * shown arrow's and bullet's tip stands beside its trigger (its box within 12px of the trigger's) and its text is never underlined -- the app's one
+ * tooltip (.app-tooltip) and a rail's name shown as a tooltip (a bullet's .bullet-rail-label while it stands apart from the rail) alike.
+ */
+export async function checkTooltips(page, where) {
+    const failures = [];
+    const triggers = page.locator(".page-arrow, .bullet-rail-item");
+    const count = await triggers.count();
+    for (let at = 0; at < count; at++) {
+        const trigger = triggers.nth(at);
+        if (!(await trigger.isVisible())) continue;
+        const box = await trigger.boundingBox();
+        if (!box || box.width === 0) continue;
+        await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+        await page.waitForTimeout(900);
+        const found = await page.evaluate(({ x, y, w, h }) => {
+            const near = (r) => r.right >= x - 12 && r.left <= x + w + 12 && r.bottom >= y - 12 && r.top <= y + h + 12;
+            const tips = [...document.querySelectorAll(".app-tooltip")].filter(tip => getComputedStyle(tip).visibility !== "hidden" && tip.getBoundingClientRect().width > 0);
+            const labels = [...document.querySelectorAll(".bullet-rail-item:hover .bullet-rail-label")].filter(label => getComputedStyle(label).position === "absolute" && Number(getComputedStyle(label).opacity) > 0.5);
+            return [...tips, ...labels].map(tip => {
+                const r = tip.getBoundingClientRect();
+                const lines = [tip, ...tip.querySelectorAll("*")].map(node => getComputedStyle(node).textDecorationLine);
+                return { text: (tip.textContent || "").slice(0, 60), beside: near(r), underlined: lines.some(line => line.includes("underline")), left: Math.round(r.left), top: Math.round(r.top) };
+            });
+        }, { x: box.x, y: box.y, w: box.width, h: box.height });
+        for (const tip of found) {
+            if (!tip.beside) failures.push({ page: where, rule: "a tooltip stands beside its trigger", detail: { text: tip.text, left: tip.left, top: tip.top, trigger: { x: Math.round(box.x), y: Math.round(box.y) } } });
+            if (tip.underlined) failures.push({ page: where, rule: "a tooltip's text has no underline", detail: { text: tip.text } });
+        }
+    }
+    await page.mouse.move(2, 2);
+    return failures;
+}
+
 export async function checkRealMouse(page, where) {
     const failures = [];
     const fail = (rule, detail) => failures.push({ page: where, rule, detail });
@@ -544,6 +579,103 @@ export async function checkDialogLevel(page, where) {
 }
 
 /**
+ * A LONG TAB IN A SHORT WINDOW (layout check, 2026-11-21): a dialog's tab with many bullets -- the Strategic Period's Themes, nine and more -- in a window too short for it.
+ * The tab was placed from its own height, and its height from where it stood (the bullets make room round the arrow), so each moved the other a pixel at a time until
+ * React stopped and the page failed. Thirteen Themes are made, the last one's dialog is opened (the case found) at 1366 x 768 and at 768 x 1000, and the page must stand:
+ * no failure, the Theme's dialog open, and its tab at rest (the same top over a second). The Organisation is put back as it was.
+ */
+export async function checkLongRail(page, base, where) {
+    const failures = [];
+    // (The Organisation open, read from where the app keeps it (IndexedDbStorage): the one stored that holds Themes. It is written back through localStorage, which the
+    // app moves in when the page is loaded again -- as seedExample does.)
+    const saved = await page.evaluate(async () => {
+        const db = await new Promise((resolve, reject) => { const opening = indexedDB.open("northstardust", 1); opening.onsuccess = () => resolve(opening.result); opening.onerror = () => reject(opening.error); });
+        const store = db.transaction("organizations", "readonly").objectStore("organizations");
+        const [keys, values] = await Promise.all([store.getAllKeys(), store.getAll()].map(asked => new Promise(resolve => { asked.onsuccess = () => resolve(asked.result); })));
+        db.close();
+        const at = keys.findIndex((name, index) => String(name).startsWith("northstardust-organization-") && String(values[index]).includes("\"themes\""));
+        return at < 0 ? { key: "", text: null } : { key: String(keys[at]), text: String(values[at]) };
+    });
+    if (!saved.text) {
+        return failures;
+    }
+    let crashed = false;
+    const onConsole = message => { if (/crashed while rendering|Maximum update depth/.test(message.text())) { crashed = true; } };
+    page.on("console", onConsole);
+    try {
+        const added = await page.evaluate(({ key, text }) => {
+            const org = JSON.parse(text);
+            let found = false;
+            const visit = (node) => {
+                if (!node || typeof node !== "object") { return; }
+                if (Array.isArray(node.themes) && node.themes.every(theme => theme && typeof theme.id === "string")) {
+                    found = true;
+                    for (let n = node.themes.length + 1; node.themes.length < 13; n++) {
+                        node.themes.push({ id: "theme-long" + n, name: "Theme " + n, description: "" });
+                    }
+                    return;
+                }
+                Object.values(node).forEach(visit);
+            };
+            visit(org);
+            localStorage.setItem(key, JSON.stringify(org));
+            // (Opened again with it: the page is loaded afresh.)
+            localStorage.setItem("northstardust-selected-organization", key.slice("northstardust-organization-".length));
+            return found;
+        }, saved);
+        // (An Organisation with no Strategic Period yet has no Themes to add to: nothing to check.)
+        if (!added) {
+            return failures;
+        }
+        if (!(await openPage(page, base, "Strategy System", "Strategy System"))) {
+            return failures;
+        }
+        for (const [width, height] of [[1366, 768], [768, 1000]]) {
+            const at = where + " (" + width + " x " + height + ")";
+            await page.setViewportSize({ width, height });
+            for (let tries = 0; tries < 4 && await page.evaluate(() => !!document.querySelector(".section-tile-dialog, .floating-card-host")); tries++) {
+                await page.keyboard.press("Escape");
+                await page.waitForTimeout(300);
+            }
+            await page.waitForTimeout(300);
+            const opened = await page.evaluate(() => {
+                const slot = [...document.querySelectorAll(".section-tile-slot")].find(candidate => (candidate.querySelector(".section-tile-title") || {}).textContent === "Strategic Period");
+                const link = slot && slot.querySelector(".section-tile-link[data-link]");
+                if (!link) { return false; }
+                link.click();
+                return true;
+            });
+            if (!opened) {
+                continue;
+            }
+            await page.waitForTimeout(800);
+            await page.evaluate(() => {
+                const dialog = [...document.querySelectorAll(".section-tile-dialog")].pop();
+                const theme = dialog && [...dialog.querySelectorAll("button.section-tile")].find(button => /Theme 13/.test(button.textContent || ""));
+                theme?.click();
+            });
+            await page.waitForTimeout(1500);
+            const tops = [];
+            for (let sample = 0; sample < 10; sample++) {
+                tops.push(await page.evaluate(() => { const tab = [...document.querySelectorAll(".carousel-rail-tab")].pop(); return tab ? Math.round(tab.getBoundingClientRect().top * 2) / 2 : null; }));
+                await page.waitForTimeout(100);
+            }
+            const dialogs = await page.evaluate(() => document.querySelectorAll(".section-tile-dialog").length);
+            if (crashed || dialogs < 2) {
+                failures.push({ page: where, width, height, rule: "a dialog with a long tab opens in a short window, and the page stands", where: at, detail: { crashed, dialogs } });
+            } else if (tops[0] === null || tops.some(top => top !== tops[0])) {
+                failures.push({ page: where, width, height, rule: "a long tab comes to rest", where: at, detail: { tops } });
+            }
+        }
+    } finally {
+        page.off("console", onConsole);
+        await page.evaluate(({ key, text }) => localStorage.setItem(key, text), saved);
+        await openPage(page, base, "Strategy System", "Strategy System");
+    }
+    return failures;
+}
+
+/**
  * A DIALOG OPENED FROM A SCROLLED PAGE (layout rules section 23, "Every dialog opens at its frame's top"; section 10, "One rail for every layer"; 2026-11-20): at 768 x 1000,
  * where the stacked chapters run below the window, the page scrolled to its foot and its last Master Tile opened as a reader opens it. The dialog stands 12px under the
  * page title's underline (or at its frame's top where that shows lower), and its tab 12px under the dialog's top.
@@ -637,6 +769,17 @@ export async function runLayoutCheck(page, { base = "http://localhost:1420", pro
             failures.push(...(await checkChapters(page, system + " › " + name)));
             failures.push(...(await checkDialogLevel(page, system + " › " + name)));
             failures.push(...(await checkScrolledDialog(page, system + " › " + name)));
+            if (/^Strategy System$/.test(name)) {
+                failures.push(...(await checkLongRail(page, base, system + " › " + name)));
+            }
+            // THE ARROWS' AND THE RAILS' TOOLTIPS, beside their triggers and never underlined (doc 24), at a wide and a narrow window.
+            for (const [width, height] of [[1920, 1100], [1366, 768]]) {
+                await page.setViewportSize({ width, height });
+                await page.waitForTimeout(300);
+                failures.push(...(await checkTooltips(page, system + " › " + name + " (" + width + " x " + height + ")")));
+            }
+            await page.setViewportSize({ width: 1920, height: 1000 });
+            await page.waitForTimeout(300);
             // The real mouse on the list items of the first-row tiles (3. Infrastructure & Capability), in a tall and a low window.
             if (/Infrastructure/.test(name)) {
                 await page.evaluate(value => document.documentElement.setAttribute("data-theme", value), "light");

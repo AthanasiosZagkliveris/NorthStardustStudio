@@ -256,7 +256,7 @@ export class InterviewValidator {
 
             }
 
-            // The Legal Entity page takes ONE number of its own and
+            // The Legal Entity section takes ONE number of its own and
             // numbers its six subsections 1-6 inside it, so an
             // unfinished part is reported by its own number, under
             // the page, rather than by the page's.
@@ -287,7 +287,7 @@ export class InterviewValidator {
             }
 
             // The Founders Profile takes one number of its own, like
-            // the Legal Entity page before it, and asks nothing
+            // the Legal Entity section before it, and asks nothing
             // required: it is counted, and never reported.
             if (section.answer?.type === AnswerType.FoundersProfile) {
 

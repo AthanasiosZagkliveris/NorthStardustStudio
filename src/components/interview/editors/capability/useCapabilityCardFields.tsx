@@ -42,7 +42,7 @@ export function useCapabilityCardFields(earlier: Earlier) {
      * THE CURRENCY BESIDE THE AMOUNT, in the one field: "30" is not
      * a price until it says 30 of what. It starts as the currency
      * of the country the organisation is registered in -- answered
-     * once, on the Legal Entity page -- and can be changed for this
+     * once, on the Legal Entity section -- and can be changed for this
      * price alone, for the software subscription billed in dollars.
      *
      * Choosing the registration's own currency back stores "", so

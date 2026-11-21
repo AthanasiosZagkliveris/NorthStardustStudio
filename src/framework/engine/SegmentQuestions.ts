@@ -699,11 +699,6 @@ export function segmentServesPeople(context: Pick<SegmentContext, "relations">):
     return context.relations.includes("rel:institution");
 }
 
-/** Whether the business stage is still planning or launching: the checks are held back. */
-export function segmentEarly(stage: string): boolean {
-    return stage !== "manage" && stage !== "grow";
-}
-
 function has(answers: SegmentAnswers, id: string, option: string): boolean {
     return (answers[id] ?? []).includes(option);
 }
