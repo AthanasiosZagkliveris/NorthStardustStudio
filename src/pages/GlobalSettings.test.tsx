@@ -3,7 +3,7 @@ import { act, cleanup, fireEvent, render, screen, within } from "@testing-librar
 import { MemoryRouter, Route, Routes, useLocation } from "react-router-dom";
 
 import GlobalSettings from "./GlobalSettings";
-import ToolsMenu from "../components/ToolsMenu";
+import ToolsMenu from "../components/menu/ToolsMenu";
 import { asGlobalSettings, createGlobalSettings } from "../framework/engine/GlobalSettings";
 import { OrganizationService } from "../services/OrganizationService";
 

@@ -10,8 +10,8 @@ import {
     useState
 } from "react";
 
-import { fieldKey, isYesNoPair, registerField, slug, type FieldKey, type FieldKind, type NoneReason } from "../../../framework/engine/FieldKeys";
-import { fieldKindOf } from "../../../framework/engine/FieldKinds";
+import { fieldKey, isYesNoPair, registerField, slug, type FieldKey, type FieldKind, type NoneReason } from "../../../framework/engine/fields/FieldKeys";
+import { fieldKindOf } from "../../../framework/engine/fields/FieldKinds";
 
 import FieldStatusLine from "./FieldStatusLine.tsx";
 import { NotepadService } from "../../../services/NotepadService";

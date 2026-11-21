@@ -17,7 +17,7 @@ import quillfield from "../data/examples/quillfield-automation-llc.json";
     that means to change what a page says updates the snapshot (npx vitest run -u) and says so.
 */
 
-vi.mock("../components/OrganizationCalendarPanel", () => ({ default: () => null }));
+vi.mock("../components/calendar/OrganizationCalendarPanel", () => ({ default: () => null }));
 
 const EXAMPLES = [lumen, quillfield] as unknown as Array<{ id: string; name: string; createdAt: number }>;
 const SYSTEMS = ["identity", "brand", "business", "strategy", "operations"];

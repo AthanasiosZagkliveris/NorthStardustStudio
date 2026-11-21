@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
 
 import { holdsOfferings, removedOfferingIds, withoutOfferings } from "./offeringRemoval.ts";
-import { asBusinessCapabilityValue } from "./AnswerBusinessCapability.ts";
-import { asLegalEntityValue } from "./AnswerLegal.ts";
+import { asBusinessCapabilityValue } from "./answers/AnswerBusinessCapability.ts";
+import { asLegalEntityValue } from "./answers/AnswerLegal.ts";
 import { asBusinessEngagementValue } from "./businessFoundation/engagementReaders.ts";
 
 /* AN OFFERING REMOVED LEAVES NO CARD POINTING AT IT (owner, 2026-11-19): its id is unticked on every card that stores Offering ids, found by the field's name. */

@@ -8,7 +8,7 @@ Read this instead of the parser source when authoring or auditing System content
 
 ## File triad
 
-Each System is authored as three separate Markdown files, one in each of `src/assets/SystemAnswers/`, `SystemQuestions/` and `SystemHelp/`:
+Each System is authored as three separate Markdown files, one in each of `src/assets/system-answers/`, `system-questions/` and `system-help/`:
 - `NN_<Name>SystemAnswer.md` — the structural definition (this grammar).
 - `NN_<Name>SystemQuestions.md` — the plain-language questions shown per Section.
 - `NN_<Name>SystemHelp.md` — longer explanatory help text per Section.
@@ -90,7 +90,7 @@ Each of these keywords opts a whole Section into a hand-built React editor. As w
 
 ## Shared Field Registry
 
-Referenced by suffix (`- Status Field`, `- Frequency Field`, etc.), defined once in `src/assets/Status_Scale_Frequency_Fields.md` (Status, Scale, Frequency, Category, Platform), not repeated per System. If a Table needs a new *shared* option set, add it to the registry rather than inlining a one-off Variant list on a Fixed Variant Text Section that's really acting as a dropdown definition.
+Referenced by suffix (`- Status Field`, `- Frequency Field`, etc.), defined once in `src/assets/status-scale-frequency-fields.md` (Status, Scale, Frequency, Category, Platform), not repeated per System. If a Table needs a new *shared* option set, add it to the registry rather than inlining a one-off Variant list on a Fixed Variant Text Section that's really acting as a dropdown definition.
 
 ## What's NOT in this grammar
 

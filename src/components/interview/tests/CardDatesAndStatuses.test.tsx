@@ -9,7 +9,7 @@ import {
     createBusinessActivity,
     createBusinessPartner,
     createBusinessResourceSlot
-} from "../../../framework/engine/AnswerUtils";
+} from "../../../framework/engine/answers/AnswerUtils";
 
 /* G2: Start date and End date after the name of every card, a one-option dropdown shown as text, and the status "+". */
 

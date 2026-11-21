@@ -4,7 +4,7 @@ import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 
 import BusinessCapabilityEditor from "../editors/BusinessCapabilityEditor";
 import { openTile, topDialog } from "../../../test/interviewTestUtils";
-import { incompleteCards } from "../../../framework/engine/CardCompleteness";
+import { incompleteCards } from "../../../framework/engine/cards/CardCompleteness";
 import {
     activityDateIssues,
     activityPeriod,
@@ -13,7 +13,7 @@ import {
     createBusinessPartner,
     createBusinessResourceSlot,
     resourcesStartingTooLate
-} from "../../../framework/engine/AnswerUtils";
+} from "../../../framework/engine/answers/AnswerUtils";
 
 /* H1: an activity's period, its Start date and Type, the resources it uses, and how many people a performer is. */
 

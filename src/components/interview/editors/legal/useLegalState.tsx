@@ -8,20 +8,20 @@ import FieldRow from "../../fields/FieldRow.tsx";
 import TextBox from "../../../controls/TextBox.tsx";
 import RemoveButton from "../../../controls/RemoveButton.tsx";
 import { OPEN_EVENT, type OpenRequest } from "../../tiles/SectionTiles.tsx";
-import { LEGAL_ENTITY_SECTIONS, LegalEntityFounderValue, LegalEntityValue, asLegalEntityValue, createLegalEntityFounder, founderProfileHasContent, founderProfileOf, legalEntityTotalCapital, legalEntityTotalOwnership } from "../../../../framework/engine/AnswerUtils.ts";
-import { LEGAL_REQUIREMENT_TYPES, countryCurrency, limitedRegistrationNumber, registrationNumberRule, jurisdictionIsProfiled, jurisdictionProfile, legalFormOptions, postalCodeLabel, registrationAuthorityFor, sharesTaxAndRegistrationNumber, subdivisionOption } from "../../../../framework/engine/LegalEntityJurisdictions.ts";
+import { LEGAL_ENTITY_SECTIONS, LegalEntityFounderValue, LegalEntityValue, asLegalEntityValue, createLegalEntityFounder, founderProfileHasContent, founderProfileOf, legalEntityTotalCapital, legalEntityTotalOwnership } from "../../../../framework/engine/answers/AnswerUtils.ts";
+import { LEGAL_REQUIREMENT_TYPES, countryCurrency, limitedRegistrationNumber, registrationNumberRule, jurisdictionIsProfiled, jurisdictionProfile, legalFormOptions, postalCodeLabel, registrationAuthorityFor, sharesTaxAndRegistrationNumber, subdivisionOption } from "../../../../framework/engine/legal/LegalEntityJurisdictions.ts";
 import { railId } from "../../rails/railItems.ts";
 import InfoNote, { InfoPoint } from "../../fields/InfoNote.tsx";
 import { FieldMark, FieldStatus } from "../../fields/fieldMarks.tsx";
-import { waitingHint } from "../../../../framework/engine/FieldDependencies.ts";
+import { waitingHint } from "../../../../framework/engine/fields/FieldDependencies.ts";
 import { SOURCES } from "../../../../framework/engine/Sources.ts";
 import { UndoService } from "../../../../services/UndoService";
 import { OptionalNote } from "../../cards/BusinessCardFields.tsx";
 import { useItemFolds } from "../../fields/useItemFolds.ts";
-import { labelWithCurrency, nameWithCurrency } from "../../../../framework/engine/Currencies.ts";
+import { labelWithCurrency, nameWithCurrency } from "../../../../framework/engine/financial/Currencies.ts";
 import { LEGAL_FORM_OTHER, LegalEntityEditorProps, withAutoExpenses, withExpensesInOrder } from "./shared.tsx";
-import { pendingLegalStarts, withLegalStarts } from "../../../../framework/engine/LegalStarts.ts";
-import { randomId } from "../../../../framework/engine/Readers.ts";
+import { pendingLegalStarts, withLegalStarts } from "../../../../framework/engine/legal/LegalStarts.ts";
+import { randomId } from "../../../../framework/engine/answers/Readers.ts";
 
 export function useLegalState(props: LegalEntityEditorProps) {
 

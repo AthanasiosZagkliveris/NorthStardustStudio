@@ -2,7 +2,7 @@ import { afterEach, describe, expect, it } from "vitest";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { useState } from "react";
 import ProcessLibraryEditor from "./ProcessLibraryEditor";
-import { createBlankProcess, type ProcessLibraryAnswerValue } from "../../../framework/engine/AnswerUtils.ts";
+import { createBlankProcess, type ProcessLibraryAnswerValue } from "../../../framework/engine/answers/AnswerUtils.ts";
 
 /*
     WHAT THE PROCESS LIBRARY DOES TODAY (written 2026-11-11 when its code was split into three files: the owner, "can you do them all?"): its rows

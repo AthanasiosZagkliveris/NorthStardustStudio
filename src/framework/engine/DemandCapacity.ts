@@ -21,8 +21,8 @@
     one that enters no hours simply sees no capacity check.
 */
 
-import { parseAmount, parseDecimal } from "./Amounts.ts";
-import { asObject, asText, randomId } from "./Readers.ts";
+import { parseAmount, parseDecimal } from "./financial/Amounts.ts";
+import { asObject, asText, randomId } from "./answers/Readers.ts";
 
 /* ==========================================================
    Small readers

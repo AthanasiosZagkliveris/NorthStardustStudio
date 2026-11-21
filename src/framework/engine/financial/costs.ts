@@ -1,11 +1,11 @@
 /* Part of FinancialModel.ts (split by its sections, 2026-11-10: the same code, in files of one topic each; FinancialModel.ts re-exports every part). */
 
-import { workspacesOf, WORKSPACE_GROUP_ID } from "../AnswerUtils.ts";
-import { parseAmount, parseDecimal } from "../Amounts.ts";
-import { type BillingType, type BusinessPaymentPlan, type BusinessCapabilityValue, type BusinessCostValue, type BusinessPartnerValue, type BusinessResourceSlotValue, type LegalEntityValue, type StrategyMonthValue } from "../AnswerUtils.ts";
-import { BUSINESS_EXTRAS, billingOf, isSpaceOnlyGroup, paymentPlanIncomplete, paymentPlanLines, type BusinessExtraKey, type BusinessExtrasValue, isCostingStatus, offeringFractions, isPurchaseGroup, partnerExtraKeys, PEOPLE_EXTRA_KEYS, partnerKindOf, resourceUnitCount, slotExtraKeys, supplierConnections, serviceAssetLinks, partnerHasQuantity, workspaceCardName , costIsShared, type ShareWeights } from "../AnswerUtils.ts";
+import { workspacesOf, WORKSPACE_GROUP_ID } from "../answers/AnswerUtils.ts";
+import { parseAmount, parseDecimal } from "./Amounts.ts";
+import { type BillingType, type BusinessPaymentPlan, type BusinessCapabilityValue, type BusinessCostValue, type BusinessPartnerValue, type BusinessResourceSlotValue, type LegalEntityValue, type StrategyMonthValue } from "../answers/AnswerUtils.ts";
+import { BUSINESS_EXTRAS, billingOf, isSpaceOnlyGroup, paymentPlanIncomplete, paymentPlanLines, type BusinessExtraKey, type BusinessExtrasValue, isCostingStatus, offeringFractions, isPurchaseGroup, partnerExtraKeys, PEOPLE_EXTRA_KEYS, partnerKindOf, resourceUnitCount, slotExtraKeys, supplierConnections, serviceAssetLinks, partnerHasQuantity, workspaceCardName , costIsShared, type ShareWeights } from "../answers/AnswerUtils.ts";
 import { founderMonthlySalary } from "../DemandCapacity.ts";
-import { survivalMinimum } from "../AnswerLegal.ts";
+import { survivalMinimum } from "../answers/AnswerLegal.ts";
 import { PER_UNIT_FREQUENCIES, SCHEDULED_FREQUENCIES, type CostBehaviour, type CostFrequency, type CostGroup } from "./lists.ts";
 import { EMPTY_MONTH, type CostAsset, type FinancialFoundationValue, type OwnCostValue } from "./stored.ts";
 import { MODEL_MONTHS, monthOrdinal, notNegative, planMonth } from "./period.ts";

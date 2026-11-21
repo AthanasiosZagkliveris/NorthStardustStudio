@@ -2,8 +2,8 @@ import FieldRow from "../../fields/FieldRow.tsx";
 import { SingleColumn } from "../foundation/shared.tsx";
 import RadioChoice from "../../../controls/RadioChoice.tsx";
 import { BusinessTicks } from "../../cards/BusinessCardFields.tsx";
-import { businessFoundationSegments } from "../../../../framework/engine/AnswerUtils.ts";
-import { PB7_INFO, PB8_INFO, VISION_AMBITIONS, VISION_AMBITIONS_MAX, VISION_REACH, asVisionAmbitions, asVisionReach, visionChoicesSentence, widestSegmentReach } from "../../../../framework/engine/VisionChoices.ts";
+import { businessFoundationSegments } from "../../../../framework/engine/answers/AnswerUtils.ts";
+import { PB7_INFO, PB8_INFO, VISION_AMBITIONS, VISION_AMBITIONS_MAX, VISION_REACH, asVisionAmbitions, asVisionReach, visionChoicesSentence, widestSegmentReach } from "../../../../framework/engine/choices/VisionChoices.ts";
 import { useAutoDraft } from "../../fields/useAutoDraft.ts";
 import InfoNote, { InfoText } from "../../fields/InfoNote.tsx";
 

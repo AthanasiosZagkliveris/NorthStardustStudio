@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { linkDetail } from "./notepadPlaces";
-import { clearFieldRegistry, registerField } from "../../framework/engine/FieldKeys";
+import { clearFieldRegistry, registerField } from "../../framework/engine/fields/FieldKeys";
 import { OrganizationService } from "../../services/OrganizationService";
 
 afterEach(() => {

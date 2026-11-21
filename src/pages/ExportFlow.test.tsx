@@ -3,7 +3,7 @@ import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import ExportFlow, { type ExportFlowProps } from "./ExportFlow";
 import { InterviewSession } from "../framework/interview";
 import { frameworkRegistry } from "../framework/engine/FrameworkRegistry";
-import { asLegalEntityValue } from "../framework/engine/AnswerUtils.ts";
+import { asLegalEntityValue } from "../framework/engine/answers/AnswerUtils.ts";
 import { reviewManager } from "./conversationHelpers";
 
 /*

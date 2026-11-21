@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import AppHeader from "../components/AppHeader";
-import AppFooter from "../components/AppFooter";
-import CapabilityInput from "../components/CapabilityInput";
+import AppHeader from "../components/shell/AppHeader";
+import AppFooter from "../components/shell/AppFooter";
+import CapabilityInput from "../components/capabilities/CapabilityInput";
 
 import "../styles/capability-generator.css";
 

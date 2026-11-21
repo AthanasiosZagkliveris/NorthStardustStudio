@@ -1,7 +1,7 @@
 /* Part of FinancialModel.ts (split by its sections, 2026-11-10: the same code, in files of one topic each; FinancialModel.ts re-exports every part). */
 
-import { parseAmount } from "../Amounts.ts";
-import { type LegalEntityValue, type StrategyMonthValue } from "../AnswerUtils.ts";
+import { parseAmount } from "./Amounts.ts";
+import { type LegalEntityValue, type StrategyMonthValue } from "../answers/AnswerUtils.ts";
 import { COST_FREQUENCIES, FUNDING_NEED_CATEGORIES, FUNDING_STATUSES, PERIOD_FREQUENCIES, fundingType, statusStanding, type CostGroup, type FundingNature, type FundingNeedCategory, type PeriodFrequency } from "./lists.ts";
 import { asFinancialFoundationValue, incomeTaxMissing, type FinancialFoundationValue, type FundingSourceValue, type VatBasis } from "./stored.ts";
 import { founderCapitalSources, fundingStanding, loanSchedule, type LoanSchedule } from "./funding.ts";

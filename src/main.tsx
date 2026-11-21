@@ -25,7 +25,7 @@ import "./styles/cell-focus.css";
 import "./styles/back-button.css";
 import { installTextLinkMarquee } from "./components/interview/fields/textLinks.ts";
 import { installFocusClearOfStickyTitle } from "./components/interview/stickyFocus.ts";
-import { ErrorBoundary } from "./components/ErrorBoundary";
+import { ErrorBoundary } from "./components/shell/ErrorBoundary";
 import { ThemeService } from "./services/ThemeService";
 import { IndexedDbStorage } from "./services/IndexedDbStorage";
 import { keepOrganizationsIn } from "./services/OrganizationService";

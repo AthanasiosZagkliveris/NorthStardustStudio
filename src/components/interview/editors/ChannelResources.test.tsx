@@ -3,8 +3,8 @@ import { useState } from "react";
 import { act, cleanup, fireEvent, render, screen, within } from "@testing-library/react";
 
 import ChannelResources, { ActionPickService, ActionPicker, useLatestEngagement } from "./ChannelResources";
-import { asBusinessCapabilityValue, asBusinessEngagementValue, type BusinessCapabilityValue, type BusinessEngagementValue } from "../../../framework/engine/AnswerUtils";
-import { capabilityCards } from "../../../framework/engine/ChannelResources";
+import { asBusinessCapabilityValue, asBusinessEngagementValue, type BusinessCapabilityValue, type BusinessEngagementValue } from "../../../framework/engine/answers/AnswerUtils";
+import { capabilityCards } from "../../../framework/engine/channels/ChannelResources";
 import { UndoService } from "../../../services/UndoService";
 
 afterEach(() => {

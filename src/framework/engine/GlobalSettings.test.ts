@@ -10,8 +10,8 @@ import {
     targetReserveMonthsOf,
     usefulLifeOf
 } from "./GlobalSettings";
-import { CHANNEL_FEE_DATA, CHANNEL_FEE_PROVIDERS, FEE_COUNTRIES, paymentServiceName, providerOffered } from "./ChannelFeeData";
-import { ownFeeChannelNames, resetChannelFees, shownChannelFees } from "./CalculatedLines";
+import { CHANNEL_FEE_DATA, CHANNEL_FEE_PROVIDERS, FEE_COUNTRIES, paymentServiceName, providerOffered } from "./channels/ChannelFeeData";
+import { ownFeeChannelNames, resetChannelFees, shownChannelFees } from "./financial/CalculatedLines";
 import { asBusinessEngagementValue } from "./businessFoundation/engagementReaders";
 import { BUSINESS_CHANNEL_CATEGORIES } from "./businessFoundation/channelCategories";
 

@@ -3,8 +3,8 @@
  * One part of LegalEntityEditor (see LegalEntityEditor.tsx): what it needs of the parts before it comes in as `earlier`; what the parts after it need goes out.
  */
 import { currentBrowserCountryHint } from "../../../../framework/engine/BrowserRegion.ts";
-import { professionFromCode } from "../../../../framework/engine/LegalFacts.ts";
-import { registrationDateApplies } from "../../../../framework/engine/LegalEntityJurisdictions.ts";
+import { professionFromCode } from "../../../../framework/engine/legal/LegalFacts.ts";
+import { registrationDateApplies } from "../../../../framework/engine/legal/LegalEntityJurisdictions.ts";
 import { ReactNode, useState } from "react";
 import FieldRow from "../../fields/FieldRow.tsx";
 import TickField from "../../../controls/TickField.tsx";
@@ -13,12 +13,12 @@ import NumberCell from "../../../controls/NumberCell.tsx";
 import RemoveButton from "../../../controls/RemoveButton.tsx";
 import { type OpenRequest } from "../../tiles/SectionTiles.tsx";
 import { BusinessTicks, LinkSymbol, OptionalNote } from "../../cards/BusinessCardFields.tsx";
-import { LEGAL_ENTITY_SECTIONS, LegalEntityNumberValue, createLegalEntityFounder } from "../../../../framework/engine/AnswerUtils.ts";
-import { COUNTRIES, FIRST_VERSION_COUNTRIES, countrySearchAliases, subdivisionSearchAliases } from "../../../../framework/engine/LegalEntityJurisdictions.ts";
+import { LEGAL_ENTITY_SECTIONS, LegalEntityNumberValue, createLegalEntityFounder } from "../../../../framework/engine/answers/AnswerUtils.ts";
+import { COUNTRIES, FIRST_VERSION_COUNTRIES, countrySearchAliases, subdivisionSearchAliases } from "../../../../framework/engine/legal/LegalEntityJurisdictions.ts";
 import InfoNote, { InfoText, type InfoPoint } from "../../fields/InfoNote.tsx";
 import CardNameInput from "../../cards/CardNameInput.tsx";
 import { FrozenUntil } from "../../fields/fieldMarks.tsx";
-import { waitingHint } from "../../../../framework/engine/FieldDependencies.ts";
+import { waitingHint } from "../../../../framework/engine/fields/FieldDependencies.ts";
 import { NUMBER_LIMITS, limitedNumberText } from "../../fields/numberInput.ts";
 import OptionPicker from "../../fields/OptionPicker.tsx";
 import StrategyTextArea from "../../fields/StrategyTextArea.tsx";
@@ -27,7 +27,7 @@ import ActivitiesField from "./ActivitiesField.tsx";
 import { orderedByRelevance, purposeRelevance } from "../../../../framework/engine/PurposeRelevance.ts";
 import { categoryOfModel, relationshipFits, relationshipFitsBuyerStage, relationshipFitsUserStages, userStageFits } from "../../../../framework/engine/RelationshipFit.ts";
 import DateCellInput from "../../fields/DateCellInput.tsx";
-import { todayIsoDate } from "../../../../framework/engine/AnswerUtils.ts";
+import { todayIsoDate } from "../../../../framework/engine/answers/AnswerUtils.ts";
 import { AUDIENCE_SCALES, BUYER_CATEGORIES, BUYER_USER_RELATIONS, FIRST_VERSION_CUSTOMER_TYPES, INFO, LIFE_STAGES, PURPOSES, RELATIONS_NOT_OFFERED, USER_LIFE_STAGES, choiceLimit, stageLimitLine, withStageLine, LEGAL_FORM_OTHER, activitiesInfo, formationIssues, MAX_OTHER_NUMBER_LENGTH, OTHER_OPTION, TOTAL_OWNERSHIP_HELP, savedOther, shownOther } from "./shared.tsx";
 import type { useLegalState } from "./useLegalState.tsx";
 

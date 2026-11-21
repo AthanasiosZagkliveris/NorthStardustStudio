@@ -23,10 +23,10 @@ const R = fileURLToPath(new URL("../../../", import.meta.url));
 const OUT = "docs/design/questionnaire/44-questions-register.md";
 const SCRIPT = "tools/scripts/docs/questions-register.mjs";
 const SOURCES = [
-    "src/framework/engine/SegmentQuestions.ts",
-    "src/framework/engine/ProfileQuestions.ts",
-    "src/framework/engine/CompetitorQuestions.ts",
-    "src/framework/engine/OfferingQuestions.ts",
+    "src/framework/engine/choices/SegmentQuestions.ts",
+    "src/framework/engine/choices/ProfileQuestions.ts",
+    "src/framework/engine/choices/CompetitorQuestions.ts",
+    "src/framework/engine/choices/OfferingQuestions.ts",
     "src/components/interview/editors/legal/shared.tsx",
     "src/components/interview/editors/foundation/shared.tsx"
 ];
@@ -284,14 +284,14 @@ const CITATION_ALLOW = [
 /** The definitions, bundled in memory: the engine files run as they are; the editors' shared files need their JSX, CSS imports and React. */
 async function loadCode() {
     const entry = [
-        "export * as segment from './src/framework/engine/SegmentQuestions.ts';",
-        "export * as profile from './src/framework/engine/ProfileQuestions.ts';",
-        "export * as competitor from './src/framework/engine/CompetitorQuestions.ts';",
-        "export * as offering from './src/framework/engine/OfferingQuestions.ts';",
+        "export * as segment from './src/framework/engine/choices/SegmentQuestions.ts';",
+        "export * as profile from './src/framework/engine/choices/ProfileQuestions.ts';",
+        "export * as competitor from './src/framework/engine/choices/CompetitorQuestions.ts';",
+        "export * as offering from './src/framework/engine/choices/OfferingQuestions.ts';",
         "export * as legal from './src/components/interview/editors/legal/shared.tsx';",
         "export * as foundation from './src/components/interview/editors/foundation/shared.tsx';",
         "export { ratingScaleMeaning, withRatingMeaning } from './src/components/controls/RatingScaleEnds.tsx';",
-        "export { FIRST_VERSION_COUNTRIES } from './src/framework/engine/LegalEntityJurisdictions.ts';"
+        "export { FIRST_VERSION_COUNTRIES } from './src/framework/engine/legal/LegalEntityJurisdictions.ts';"
     ].join("\n");
     const out = await build({
         stdin: { contents: entry, resolveDir: R, loader: "ts" }, bundle: true, write: false, format: "esm", platform: "node",
@@ -377,7 +377,7 @@ function rows(code) {
         const questions = [kind, ...S.SEGMENT_QUESTIONS];
         cards.push({
             title: "Segment", where: "Business System, page 1, the Segment's Description (the end user's part in the same card)", owner: "35",
-            source: "`SEGMENT_QUESTIONS` in `src/framework/engine/SegmentQuestions.ts` (the card adds Box 1, 0; the Differentiation, saved here too, is listed under the Competitor card as K14); saved under `questions` on the Segment. Max of End user, 9 is by stage: Planning / Launching / Managing / Growing. The words are a direct buyer's (\"your customers\"); a Proxy or Dual-Intent buyer reads \"your buyers\", and the end user's part \"your end users\" (`segmentWho`)",
+            source: "`SEGMENT_QUESTIONS` in `src/framework/engine/choices/SegmentQuestions.ts` (the card adds Box 1, 0; the Differentiation, saved here too, is listed under the Competitor card as K14); saved under `questions` on the Segment. Max of End user, 9 is by stage: Planning / Launching / Managing / Growing. The words are a direct buyer's (\"your customers\"); a Proxy or Dual-Intent buyer reads \"your buyers\", and the end user's part \"your end users\" (`segmentWho`)",
             boxes: boxes.map(([box, title]) => ({
                 title,
                 questions: questions.filter(question => question.box === box && !question.startsProfile).map(question => {
@@ -405,7 +405,7 @@ function rows(code) {
         ];
         cards.push({
             title: "Profile", where: "Business System, page 1, a Profile of a Segment; where the Segment's buyer is Proxy or Dual-Intent, in two parts, the buyer and the end user (doc 36, 2.1)", owner: "36",
-            source: "`PROFILE_QUESTIONS` in `src/framework/engine/ProfileQuestions.ts`; saved under `questions` on the Profile (a rating as `<id>-rating`, an Other as `<id>-other`). The words say \"this person\" until A2 is answered (`profileWho`). A3 and A3b, and the people's and the business's Needs, are one place on the card (one or the other is asked). Where the Segment has an end user, E1, E2 and the Needs stand in the end user's part (`profilePartOf`), written of the end user, the others in the buyer's; the end user's own questions (`PROFILE_USER_QUESTIONS`) are listed last, saved under `user.questions`",
+            source: "`PROFILE_QUESTIONS` in `src/framework/engine/choices/ProfileQuestions.ts`; saved under `questions` on the Profile (a rating as `<id>-rating`, an Other as `<id>-other`). The words say \"this person\" until A2 is answered (`profileWho`). A3 and A3b, and the people's and the business's Needs, are one place on the card (one or the other is asked). Where the Segment has an end user, E1, E2 and the Needs stand in the end user's part (`profilePartOf`), written of the end user, the others in the buyer's; the end user's own questions (`PROFILE_USER_QUESTIONS`) are listed last, saved under `user.questions`",
             boxes: boxes.map(([box, title]) => {
                 const built = P.PROFILE_QUESTIONS.filter(question => question.box === box).map(question => {
                     const [code, asked, starts, place] = PROFILE_CODES[question.id] ?? missing("Profile", question.id);
@@ -504,7 +504,7 @@ function rows(code) {
         const notBuilt = OFFERING_NOT_BUILT.map(([code, label, asked]) => ({ code, id: "–", label, control: "none", max: "", asked, starts: "", status: "not built", owner: "doc 43, " + code, unplaced: true }));
         cards.push({
             title: "Offering", where: "Business System, page 1, an Offering of a Segment", owner: "43",
-            source: "`OFFERING_QUESTIONS` and `OFFERING_BOX_QUESTIONS` in `src/framework/engine/OfferingQuestions.ts` (the options, `offeringOptions`); saved under `questions` on the Offering. Under the name the card asks the Type (Product, Service, Hybrid), and the Customer Benefit box opens with the Functional Needs Addressed (ticks of the Profiles' numbered tasks; owner, 2026-11-08), neither of them a coded question",
+            source: "`OFFERING_QUESTIONS` and `OFFERING_BOX_QUESTIONS` in `src/framework/engine/choices/OfferingQuestions.ts` (the options, `offeringOptions`); saved under `questions` on the Offering. Under the name the card asks the Type (Product, Service, Hybrid), and the Customer Benefit box opens with the Functional Needs Addressed (ticks of the Profiles' numbered tasks; owner, 2026-11-08), neither of them a coded question",
             boxes: [...F.SUBSECTIONS.offerings.description, ...F.SUBSECTIONS.offerings.terms].map(part => ({
                 title: part.title,
                 questions: [...(O.OFFERING_BOX_QUESTIONS[part.id] ?? []).map(id => {
@@ -539,7 +539,7 @@ function render(cards, commit) {
     const md = [
         "# 44. The questions register",
         "",
-        "Generated by `node " + SCRIPT + "` (run by `npm run docs:index`; checked by `npm run docs:check`) from the question definitions in the code (`src/framework/engine/SegmentQuestions.ts`, `ProfileQuestions.ts`, `CompetitorQuestions.ts`, `OfferingQuestions.ts`, `src/components/interview/editors/legal/shared.tsx`, `src/components/interview/editors/foundation/shared.tsx`) and the code map kept in the script. Do not edit by hand.",
+        "Generated by `node " + SCRIPT + "` (run by `npm run docs:index`; checked by `npm run docs:check`) from the question definitions in the code (`src/framework/engine/choices/SegmentQuestions.ts`, `ProfileQuestions.ts`, `CompetitorQuestions.ts`, `OfferingQuestions.ts`, `src/components/interview/editors/legal/shared.tsx`, `src/components/interview/editors/foundation/shared.tsx`) and the code map kept in the script. Do not edit by hand.",
         "",
         "Status: **generated**, written 2026-11-08. Every question of the Foundation's cards, card by card in page order and box by box in the card's order: its position, its permanent code, the key it is saved under, its words, control, limit, when it is asked, its starting value, its status and the document that owns it; under each box, its options and its \"i\".",
         "",

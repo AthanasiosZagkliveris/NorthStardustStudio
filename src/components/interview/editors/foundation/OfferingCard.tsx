@@ -3,17 +3,17 @@
  * One part of useFoundationSubsections (moved out whole on 2026-11-09, no change of behaviour): what it reads of the Segment and of the page comes in as `scope`.
  */
 import { Fragment, ReactNode } from "react";
-import { BUSINESS_OFFERING_CATEGORIES, BusinessOfferingValue, businessSegmentFunctionalItems } from "../../../../framework/engine/AnswerUtils.ts";
+import { BUSINESS_OFFERING_CATEGORIES, BusinessOfferingValue, businessSegmentFunctionalItems } from "../../../../framework/engine/answers/AnswerUtils.ts";
 import FieldRow from "../../fields/FieldRow.tsx";
 import { BusinessEmpty, BusinessTicks } from "../../cards/BusinessCardFields.tsx";
 import RadioChoice from "../../../controls/RadioChoice.tsx";
 import FittingRadioChoice from "./FittingRadioChoice.tsx";
-import { OFFERING_BOX_QUESTIONS, OFFERING_QUESTIONS, offeringChoose, type OfferingAnswers, type OfferingContext, type OfferingQuestionId, offeringAsks, offeringInfo, offeringOptionsWith, offeringReachNote, offeringWho } from "../../../../framework/engine/OfferingQuestions.ts";
-import { type SegmentQuestion, segmentRowChoice } from "../../../../framework/engine/SegmentQuestions.ts";
+import { OFFERING_BOX_QUESTIONS, OFFERING_QUESTIONS, offeringChoose, type OfferingAnswers, type OfferingContext, type OfferingQuestionId, offeringAsks, offeringInfo, offeringOptionsWith, offeringReachNote, offeringWho } from "../../../../framework/engine/choices/OfferingQuestions.ts";
+import { type SegmentQuestion, segmentRowChoice } from "../../../../framework/engine/choices/SegmentQuestions.ts";
 import { summaryText } from "../../cards/cardSummary.ts";
 import OptionPicker from "../../fields/OptionPicker.tsx";
 import NumberedListInput from "../../fields/NumberedListInput.tsx";
-import { writtenInNames, writtenInRows } from "../../../../framework/engine/SegmentQuestions.ts";
+import { writtenInNames, writtenInRows } from "../../../../framework/engine/choices/SegmentQuestions.ts";
 import { CATEGORY_OTHER, SUBSECTIONS } from "./shared.tsx";
 import type { FoundationCardScope } from "./useFoundationSubsections.tsx";
 

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
 import NumberCell from "../../controls/NumberCell.tsx";
-import { relativeLuminance } from "../../../framework/engine/AnswerUtils.ts";
+import { relativeLuminance } from "../../../framework/engine/answers/AnswerUtils.ts";
 import { NUMBER_LIMITS, limitedNumberText } from "../fields/numberInput.ts";
 
 /*

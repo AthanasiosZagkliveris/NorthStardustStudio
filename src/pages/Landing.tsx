@@ -5,8 +5,8 @@ import AddButton from "../components/controls/AddButton.tsx";
 import TextBox from "../components/controls/TextBox.tsx";
 import { useNavigate } from "react-router-dom";
 
-import AppHeader from "../components/AppHeader";
-import UserPreferencesDialog from "../components/UserPreferencesDialog";
+import AppHeader from "../components/shell/AppHeader";
+import UserPreferencesDialog from "../components/shell/UserPreferencesDialog";
 
 import {
     OrganizationService,

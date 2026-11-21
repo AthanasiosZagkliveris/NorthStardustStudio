@@ -1,4 +1,4 @@
-import { BUSINESS_EXTRAS, offeringFractions, slotExtraKeys, workspacesOf, WORKSPACE_GROUP_ID } from "../../../framework/engine/AnswerUtils.ts";
+import { BUSINESS_EXTRAS, offeringFractions, slotExtraKeys, workspacesOf, WORKSPACE_GROUP_ID } from "../../../framework/engine/answers/AnswerUtils.ts";
 import {
     BUSINESS_COST_FREQUENCIES,
     BUSINESS_OFFERING_RESOURCE_GROUPS,
@@ -20,11 +20,11 @@ import {
     partnerNoun,
     workspaceCardName,
     LegalEntityExpenseValue
-} from "../../../framework/engine/AnswerUtils.ts";
-import { parseAmount } from "../../../framework/engine/Amounts.ts";
+} from "../../../framework/engine/answers/AnswerUtils.ts";
+import { parseAmount } from "../../../framework/engine/financial/Amounts.ts";
 import { PreferencesService } from "../../../services/PreferencesService.ts";
 import { isoToDisplay } from "../fields/DateCellInput.tsx";
-import { incompleteCards } from "../../../framework/engine/CardCompleteness.ts";
+import { incompleteCards } from "../../../framework/engine/cards/CardCompleteness.ts";
 import { freshCards } from "../cards/freshCards.ts";
 import { founderMonthlySalary } from "../../../framework/engine/DemandCapacity.ts";
 import { costIsShared, type ShareWeights } from "../../../framework/engine/capability/offeringShares.ts";

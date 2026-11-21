@@ -11,7 +11,7 @@ import {
     isPartnered,
     resourceStatusIds,
     workspacesOf
-} from "./AnswerUtils.ts";
+} from "./answers/AnswerUtils.ts";
 
 const slot = (id: string, status: string) => ({ id, name: id, status });
 

@@ -1,10 +1,10 @@
 import { ReactNode, useLayoutEffect, useRef, useState } from "react";
 
-import type { StrategyMonthValue } from "../../../framework/engine/AnswerUtils.ts";
+import type { StrategyMonthValue } from "../../../framework/engine/answers/AnswerUtils.ts";
 import {
     type CashMonth,
     withinPlan
-} from "../../../framework/engine/FinancialModel.ts";
+} from "../../../framework/engine/financial/FinancialModel.ts";
 import { SOURCES } from "../../../framework/engine/Sources.ts";
 
 import { BusinessField } from "../cards/BusinessCardFields.tsx";

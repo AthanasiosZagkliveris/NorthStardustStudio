@@ -17,7 +17,7 @@ import {
     isRangeSet,
     STRATEGY_THEME_SUGGESTIONS,
     monthIndex
-} from "../../../framework/engine/AnswerUtils.ts";
+} from "../../../framework/engine/answers/AnswerUtils.ts";
 import { railId } from "../rails/railItems.ts";
 import { workHue } from "../../../framework/engine/WorkColours.ts";
 import { FieldMark, FieldStatus } from "../fields/fieldMarks.tsx";
@@ -36,12 +36,12 @@ import RatingScaleGroup from "../../controls/RatingScaleGroup.tsx";
 import type { Rating } from "../../controls/RatingScale.tsx";
 import { BusinessTicks } from "../cards/BusinessCardFields.tsx";
 import { SingleColumn } from "./foundation/shared.tsx";
-import { namesInSentence } from "../../../framework/engine/CompetitorQuestions.ts";
-import { DIFFERENTIATION_PHRASES } from "../../../framework/engine/AmbassadorChoices.ts";
+import { namesInSentence } from "../../../framework/engine/choices/CompetitorQuestions.ts";
+import { DIFFERENTIATION_PHRASES } from "../../../framework/engine/choices/AmbassadorChoices.ts";
 import {
     SC1_STANCES, SC2_MAX, SC_INFO, SC_LABELS, SW1_INFO, SW1_LABEL, SW2_INFO, SW2_LABEL, type StrategyChoiceContext,
     changeEffectLines, changeEffectsShown, changeRows, compassChoicesShown, compassDraft, growthOptions
-} from "../../../framework/engine/StrategyChoices.ts";
+} from "../../../framework/engine/choices/StrategyChoices.ts";
 
 interface StrategyFoundationEditorProps {
 

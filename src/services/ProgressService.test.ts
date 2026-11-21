@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 
-import type { PageStatus } from "../framework/engine/PageStatus";
+import type { PageStatus } from "../framework/engine/status/PageStatus";
 import type { FrameworkSystem } from "../types/system";
 import { continuePlace } from "./ProgressService";
 import { OrganizationService } from "./OrganizationService";

@@ -1,6 +1,6 @@
 
 import { systems } from "../../../data/systems";
-import { parseFieldKey, type FieldKey } from "../../../framework/engine/FieldKeys";
+import { parseFieldKey, type FieldKey } from "../../../framework/engine/fields/FieldKeys";
 import type { FrameworkSystem } from "../../../types/system";
 
 /**

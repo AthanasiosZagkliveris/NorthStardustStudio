@@ -1,10 +1,10 @@
 import ChoiceCard from "../../controls/ChoiceCard.tsx";
-import { salariedFounderIds } from "../../../framework/engine/LegalStarts.ts";
+import { salariedFounderIds } from "../../../framework/engine/legal/LegalStarts.ts";
 import VisionChoices from "./purpose/VisionChoices.tsx";
 import MissionChoices from "./purpose/MissionChoices.tsx";
 import ValuesChoices, { PurposeDrafts } from "./purpose/ValuesChoices.tsx";
 import AmbassadorChoices, { AMBASSADOR_PARTS } from "./brand/AmbassadorChoices.tsx";
-import { businessFoundationSegments } from "../../../framework/engine/AnswerUtils.ts";
+import { businessFoundationSegments } from "../../../framework/engine/answers/AnswerUtils.ts";
 import { asBusinessEngagementValue } from "../../../framework/engine/businessFoundation/engagementReaders.ts";
 import { segmentIdentityOf } from "../../../framework/engine/SegmentContext.ts";
 import { withValuesText } from "../../../framework/engine/ValueIds.ts";
@@ -15,13 +15,13 @@ import { OptionalNote } from "../cards/BusinessCardFields.tsx";
 import { BUYER_CATEGORIES, BUYER_USER_RELATIONS, USER_LIFE_STAGES, positioningName } from "./legal/shared.tsx";
 import { AUDIENCE_WORDS, CUSTOMER_TYPE_WORDS, PURPOSE_WORDS } from "../../../framework/engine/ActivityClassification.ts";
 import { AnswerType } from "../../../framework/enums/AnswerType.ts";
-import { asLegalEntityValue, isAnswerEmpty } from "../../../framework/engine/AnswerUtils.ts";
+import { asLegalEntityValue, isAnswerEmpty } from "../../../framework/engine/answers/AnswerUtils.ts";
 import { useDragToScroll } from "../../../hooks/useDragToScroll.ts";
 import { FieldMark, FieldPageProvider, FieldStatus, useFieldPage } from "../fields/fieldMarks.tsx";
 import SectionTiles, { DialogHeading, TILE_DIVIDER, type SectionTile } from "../tiles/SectionTiles.tsx";
 import LegalEntityEditor, { foundersTileFace } from "./LegalEntityEditor.tsx";
 import { railId } from "../rails/railItems.ts";
-import { LEGAL_ENTITY_SECTIONS } from "../../../framework/engine/AnswerUtils.ts";
+import { LEGAL_ENTITY_SECTIONS } from "../../../framework/engine/answers/AnswerUtils.ts";
 import { ImprintFields, NumberedTextList } from "../fields/ColumnFields.tsx";
 import { workHue } from "../../../framework/engine/WorkColours.ts";
 

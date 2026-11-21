@@ -1,7 +1,7 @@
 /* Part of FinancialModel.ts (split by its sections, 2026-11-10: the same code, in files of one topic each; FinancialModel.ts re-exports every part). */
 
-import { parseAmount, parseDecimal } from "../Amounts.ts";
-import { type LegalEntityValue, type StrategyMonthValue } from "../AnswerUtils.ts";
+import { parseAmount, parseDecimal } from "./Amounts.ts";
+import { type LegalEntityValue, type StrategyMonthValue } from "../answers/AnswerUtils.ts";
 import { createFundingSource, type FinancialFoundationValue, type FundingSourceValue } from "./stored.ts";
 import { MAX_PERIODS, notNegative, parsePercent, planMonth } from "./period.ts";
 import { fundingType, periodMonths, statusStanding } from "./lists.ts";

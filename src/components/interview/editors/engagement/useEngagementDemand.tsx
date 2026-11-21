@@ -7,7 +7,7 @@ import { AutoDraft } from "../../fields/useAutoDraft.ts";
 import type { ReactNode } from "react";
 import NumberCell from "../../../controls/NumberCell.tsx";
 import FieldLabel from "../../../controls/FieldLabel.tsx";
-import { BUSINESS_CHANNEL_ALL_OFFERINGS, BusinessCustomerSegmentValue } from "../../../../framework/engine/AnswerUtils.ts";
+import { BUSINESS_CHANNEL_ALL_OFFERINGS, BusinessCustomerSegmentValue } from "../../../../framework/engine/answers/AnswerUtils.ts";
 import { DEMAND_SOURCES, DemandSource, DemandValue, createDemand, createDemandSource, demandChannelIds, demandResult, capacityCeiling, demandBasisDraft } from "../../../../framework/engine/DemandCapacity.ts";
 import TextLink from "../../fields/TextLink.tsx";
 import { OPEN_EVENT, type OpenRequest } from "../../tiles/SectionTiles.tsx";
@@ -18,7 +18,7 @@ import OptionPicker from "../../fields/OptionPicker.tsx";
 import StrategyTextArea from "../../fields/StrategyTextArea.tsx";
 import FoldArrow from "../../fields/FoldArrow.tsx";
 import { DEMAND_COUNT_LIMITS, SECTIONS, DEMAND_BUY_ONCE, DEMAND_BUY_MONTHLY, DEMAND_BUYING_HELP, DEMAND_BY_FIGURE, DEMAND_BY_CALCULATION, DEMAND_CALCULATION_HELP, DEMAND_SOURCE_CHANNEL_HELP, DEMAND_ASSUMPTIONS_PLACEHOLDER, DEMAND_SOURCE_FORMULA_HELP, DEMAND_ACTIVE_CLIENTS_HELP, DEMAND_MONTHS_TO_NORMAL_HELP, capitalized, channelChoices, numberStep } from "../BusinessEngagementModel.ts";
-import { offeringStartsById } from "../../../../framework/engine/EffectiveAnswers.ts";
+import { offeringStartsById } from "../../../../framework/engine/answers/EffectiveAnswers.ts";
 import { demandSourceKey, demandSourceOf, demandSuggestions, funnelIsTrial, monthsToClose } from "../../../../framework/engine/JourneySuggestions.ts";
 import FoldList, { FoldListLine } from "../../fields/FoldList.tsx";
 import { BusinessStep } from "../../cards/BusinessCardFields.tsx";
@@ -30,7 +30,7 @@ import type { useEngagementChannelBoxes } from "./useEngagementChannelBoxes.tsx"
 import type { useEngagementRelationships } from "./useEngagementRelationships.tsx";
 import { demandFieldShown, marketShareLine, NOT_READY_NOTES } from "../../../../framework/engine/DemandCapacity.ts";
 import MonthYearPicker from "../../fields/MonthYearPicker.tsx";
-import { effectiveSegmentAnswers } from "../../../../framework/engine/EffectiveAnswers.ts";
+import { effectiveSegmentAnswers } from "../../../../framework/engine/answers/EffectiveAnswers.ts";
 
 type Earlier = ReturnType<typeof useEngagementState> & ReturnType<typeof useEngagementChannelBoxes> & ReturnType<typeof useEngagementRelationships>;
 

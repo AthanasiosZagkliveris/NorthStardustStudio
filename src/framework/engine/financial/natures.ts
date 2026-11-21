@@ -1,6 +1,6 @@
 /* Part of FinancialModel.ts (split by its sections, 2026-11-10: the same code, in files of one topic each; FinancialModel.ts re-exports every part). */
 
-import { parseDecimal } from "../Amounts.ts";
+import { parseDecimal } from "./Amounts.ts";
 import { type CostFrequency } from "./lists.ts";
 import { dayNumber, isProjectPayment, monthsBetween, projectTotal, type CostLine } from "./costs.ts";
 

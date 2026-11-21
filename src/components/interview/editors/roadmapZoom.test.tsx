@@ -14,7 +14,7 @@ import {
     asStrategicPeriodValue,
     asStrategyFoundationValue,
     monthIndex
-} from "../../../framework/engine/AnswerUtils";
+} from "../../../framework/engine/answers/AnswerUtils";
 
 /** January 2027 to December 2029: 12 quarters, 36 months. */
 const foundation = asStrategyFoundationValue({

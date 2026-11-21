@@ -5,9 +5,9 @@ import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import FinancialFoundationEditor from "../editors/FinancialFoundationEditor";
 import FinancialPlanSettings from "../editors/FinancialPlanSettings";
 import LegalEntityEditor from "../editors/LegalEntityEditor";
-import { asBusinessCapabilityValue } from "../../../framework/engine/AnswerUtils";
-import { asLegalEntityValue } from "../../../framework/engine/AnswerUtils";
-import { asFinancialFoundationValue, consolidateCosts, splitAtOpening, type CostLine } from "../../../framework/engine/FinancialModel";
+import { asBusinessCapabilityValue } from "../../../framework/engine/answers/AnswerUtils";
+import { asLegalEntityValue } from "../../../framework/engine/answers/AnswerUtils";
+import { asFinancialFoundationValue, consolidateCosts, splitAtOpening, type CostLine } from "../../../framework/engine/financial/FinancialModel";
 import { asGlobalSettings } from "../../../framework/engine/GlobalSettings";
 
 /* I2: the Opening Date, set on the Organization tile and kept in the Global Settings; a card splits by its dates around it. */

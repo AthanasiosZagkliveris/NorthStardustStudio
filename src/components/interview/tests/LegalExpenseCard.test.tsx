@@ -4,9 +4,9 @@ import { useState } from "react";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 
 import LegalEntityEditor from "../editors/LegalEntityEditor";
-import { asLegalEntityValue, createLegalEntityExpense } from "../../../framework/engine/AnswerUtils";
-import { asFinancialFoundationValue, consolidateCosts } from "../../../framework/engine/FinancialModel";
-import { asBusinessCapabilityValue } from "../../../framework/engine/AnswerUtils";
+import { asLegalEntityValue, createLegalEntityExpense } from "../../../framework/engine/answers/AnswerUtils";
+import { asFinancialFoundationValue, consolidateCosts } from "../../../framework/engine/financial/FinancialModel";
+import { asBusinessCapabilityValue } from "../../../framework/engine/answers/AnswerUtils";
 
 /* H5: a Legal Entity expense has a Date after its name, pays for exactly one registration, and is no place for insurance. */
 
@@ -107,7 +107,7 @@ describe("what cannot be in the Formation's date", () => {
 
 describe("what a registration number may hold", () => {
     it("takes digits only, no more than the country's, where its shape is digits", async () => {
-        const { registrationNumberRule, limitedRegistrationNumber } = await import("../../../framework/engine/LegalEntityJurisdictions.ts");
+        const { registrationNumberRule, limitedRegistrationNumber } = await import("../../../framework/engine/legal/LegalEntityJurisdictions.ts");
         const eight = registrationNumberRule("8 digits");
         expect(limitedRegistrationNumber("12a34-5678 9", eight)).toBe("12345678");
         expect(limitedRegistrationNumber("SC123456", registrationNumberRule("8 characters"))).toBe("SC123456");

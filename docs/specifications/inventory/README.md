@@ -46,4 +46,4 @@ From the not-done list (doc 05): **I7**, an Offering column and filter are built
 
 ## 8. Where it is in the code
 
-`src/components/interview/tiles/CapabilityOverview.tsx` (the dialog, its tiles, table and funnel), `src/components/interview/editors/BusinessCapabilityEditor.tsx` (the tile in the footer's band), `src/components/interview/editors/ChannelResourceTable.tsx` (the shared table's cells), `src/framework/engine/AnswerBusinessCapability.ts`, `CardCompleteness.ts`.
+`src/components/interview/tiles/CapabilityOverview.tsx` (the dialog, its tiles, table and funnel), `src/components/interview/editors/BusinessCapabilityEditor.tsx` (the tile in the footer's band), `src/components/interview/editors/ChannelResourceTable.tsx` (the shared table's cells), `src/framework/engine/answers/AnswerBusinessCapability.ts`, `CardCompleteness.ts`.

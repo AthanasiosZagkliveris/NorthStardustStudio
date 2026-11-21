@@ -2,10 +2,10 @@
  * THE FIELDS OF A CARD: cost, payment plan, deposit, warranty, rate, links and the resource card.
  * One part of the Infrastructure & Capability editor (see BusinessCapabilityEditor.tsx): what it needs of the parts before it comes in as `scope`; what the parts after it need goes out.
  */
-import { costIsShared } from "../../../../framework/engine/AnswerUtils.ts";
+import { costIsShared } from "../../../../framework/engine/answers/AnswerUtils.ts";
 import RadioChoice from "../../../controls/RadioChoice.tsx";
-import { COMPANY_FORM } from "../../../../framework/engine/LegalFacts.ts";
-import { BUSINESS_PEOPLE_GROUP_IDS, asLegalEntityValue } from "../../../../framework/engine/AnswerUtils.ts";
+import { COMPANY_FORM } from "../../../../framework/engine/legal/LegalFacts.ts";
+import { BUSINESS_PEOPLE_GROUP_IDS, asLegalEntityValue } from "../../../../framework/engine/answers/AnswerUtils.ts";
 /** LF3's "i": the close relatives HSE40 and gov.uk name (doc 53, stage 4). */
 const FAMILY_INFO = ["A close relative: husband, wife, civil partner, father, mother, grandfather, grandmother, stepfather, stepmother, son, daughter, grandson, granddaughter, stepson, stepdaughter, brother, sister, half-brother or half-sister.", "A business whose employees are all close relatives needs no employers' liability insurance.", "Based on: HSE40, the Health and Safety Executive's guide to the Employers' Liability (Compulsory Insurance) Act 1969."];
 import CurrencyPicker from "../../fields/CurrencyPicker.tsx";
@@ -14,11 +14,11 @@ import AddButton from "../../../controls/AddButton.tsx";
 import FoldList from "../../fields/FoldList.tsx";
 import NumberCell from "../../../controls/NumberCell.tsx";
 import { Fragment, ReactNode, useState } from "react";
-import { BUSINESS_COST_FREQUENCIES, BUSINESS_EXTRA_STATUS_IDS, PREMISES_GROUP_ID, BUSINESS_RESOURCE_STATUSES, resourceStatusIds, isSpaceOnlyGroup, buyCostOf, BUSINESS_PAYMENT_PLANS, type BusinessPaymentPlan, type BusinessPaymentLine, instalmentLines, paymentPlanLines, paymentPlanTotal, BUSINESS_EXTRAS, type BusinessExtraKey, type BusinessExtrasValue, servicesOfAsset, billingOf, costWithOption, optionFrequenciesOf, noteHint, slotExtraKeys, frequencyIdsOf, unitsOf, normalCostOf, isPurchaseGroup, isCostingStatus, businessQuantityText, isPartnered, BusinessCapabilityValue, BusinessStatusRow, BusinessCostValue, BusinessResourceSlotValue, businessFoundationSegments, todayIsoDate, resourceUnitCount } from "../../../../framework/engine/AnswerUtils.ts";
+import { BUSINESS_COST_FREQUENCIES, BUSINESS_EXTRA_STATUS_IDS, PREMISES_GROUP_ID, BUSINESS_RESOURCE_STATUSES, resourceStatusIds, isSpaceOnlyGroup, buyCostOf, BUSINESS_PAYMENT_PLANS, type BusinessPaymentPlan, type BusinessPaymentLine, instalmentLines, paymentPlanLines, paymentPlanTotal, BUSINESS_EXTRAS, type BusinessExtraKey, type BusinessExtrasValue, servicesOfAsset, billingOf, costWithOption, optionFrequenciesOf, noteHint, slotExtraKeys, frequencyIdsOf, unitsOf, normalCostOf, isPurchaseGroup, isCostingStatus, businessQuantityText, isPartnered, BusinessCapabilityValue, BusinessStatusRow, BusinessCostValue, BusinessResourceSlotValue, businessFoundationSegments, todayIsoDate, resourceUnitCount } from "../../../../framework/engine/answers/AnswerUtils.ts";
 import { BusinessCard, BusinessField, OptionalField, OptionalNote, BusinessRemove, BusinessText, uniqueChoices } from "../../cards/BusinessCardFields.tsx";
-import { moneyFormatter } from "../../../../framework/engine/FinancialModel.ts";
-import { parseAmount, parseDecimal } from "../../../../framework/engine/Amounts.ts";
-import { randomId } from "../../../../framework/engine/Readers.ts";
+import { moneyFormatter } from "../../../../framework/engine/financial/FinancialModel.ts";
+import { parseAmount, parseDecimal } from "../../../../framework/engine/financial/Amounts.ts";
+import { randomId } from "../../../../framework/engine/answers/Readers.ts";
 import DateCellInput from "../../fields/DateCellInput.tsx";
 import { NUMBER_LIMITS, limitedNumberText } from "../../fields/numberInput.ts";
 import { numberStep } from "../BusinessEngagementModel.ts";

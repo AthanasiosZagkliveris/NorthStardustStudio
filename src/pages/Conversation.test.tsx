@@ -17,7 +17,7 @@ vi.mock("../components/interview/editors/StrategyFoundationEditor.tsx", () => ({
     )
 }));
 
-vi.mock("../components/OrganizationCalendarPanel", () => ({
+vi.mock("../components/calendar/OrganizationCalendarPanel", () => ({
     default: () => null,
     openCalendar: () => undefined
 }));

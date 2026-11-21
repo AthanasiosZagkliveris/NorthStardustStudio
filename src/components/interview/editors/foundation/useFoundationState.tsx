@@ -5,7 +5,7 @@
 import TickField from "../../../controls/TickField.tsx";
 import { CSSProperties, Fragment, ReactNode, useEffect, useRef, useState } from "react";
 import FieldLabel from "../../../controls/FieldLabel.tsx";
-import { BusinessCustomerProfileValue, BusinessCustomerSegmentValue, BusinessDescriptionValue, BusinessFoundationValue, asBusinessFoundationValue } from "../../../../framework/engine/AnswerUtils.ts";
+import { BusinessCustomerProfileValue, BusinessCustomerSegmentValue, BusinessDescriptionValue, BusinessFoundationValue, asBusinessFoundationValue } from "../../../../framework/engine/answers/AnswerUtils.ts";
 import { BusinessField, BusinessGroup, BusinessNote, BusinessText, OptionalNote } from "../../cards/BusinessCardFields.tsx";
 import InfoNote, { InfoPoint, InfoText } from "../../fields/InfoNote.tsx";
 import { FieldMark, FieldStatus } from "../../fields/fieldMarks.tsx";
@@ -13,9 +13,9 @@ import StrategyTextArea from "../../fields/StrategyTextArea.tsx";
 import { useItemFolds } from "../../fields/useItemFolds.ts";
 import { toggledIn } from "../../fields/toggledIn.ts";
 import { BusinessFoundationEditorProps, DescriptionPart, OPTIONAL_DESCRIPTION_PART, SingleColumn } from "./shared.tsx";
-import { createBusinessCustomerSegment, segmentHue } from "../../../../framework/engine/AnswerUtils.ts";
+import { createBusinessCustomerSegment, segmentHue } from "../../../../framework/engine/answers/AnswerUtils.ts";
 import { bothPeopleAndBusinesses } from "../../../../framework/engine/businessFoundation/foundationPage.ts";
-import { segmentSettleSaved } from "../../../../framework/engine/SegmentQuestions.ts";
+import { segmentSettleSaved } from "../../../../framework/engine/choices/SegmentQuestions.ts";
 import { segmentContextFor } from "../../../../framework/engine/SegmentContext.ts";
 
 export function useFoundationState(props: BusinessFoundationEditorProps) {

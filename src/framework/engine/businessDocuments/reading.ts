@@ -3,25 +3,25 @@
 import { stageOf } from "../BusinessStage.ts";
 import { AnswerType } from "../../enums/AnswerType.ts";
 import { type InterviewSession } from "../../interview";
-import { STRATEGY_MONTH_NAMES, type ExportBlock, type ExportContext, type ExportImage, type LegalEntityValue, type StrategyMonthValue, asBrandInventoryValue, asBrandStyleValue, asBusinessEngagementValue, asLegalEntityValue, asStrategicPeriodValue, asStrategyFoundationValue, brandMarkFile, businessFoundationSegments, isExportableImage } from "../AnswerUtils.ts";
-import { type ExportSectionContent } from "../ExportContentBuilder.ts";
-import { sessionExportContext } from "../ExportContentBuilder.ts";
-import { ownersTakeDrawings } from "../FinancialForecast.ts";
-import { capabilityOf, costLines, heading, labelled } from "../ExportRenderers.ts";
-import { planLength, withDemand, allFunding, asFinancialFoundationValue, asFinancialSustainabilityValue, financialPosition, fundingType, isNonCash, statusStanding, parseAmount, moneyFormatter, planMonthLabel, incomeTaxRate, assetUnitCostsOf, sustainability, withPlanStart, derivedPlanStart, legalExpenseDates, costStartDates, type CostLine, type RevenueStreamValue } from "../FinancialModel.ts";
-import { calculatedLines } from "../CalculatedLines.ts";
-import { contingencyFunds, launchNeedOf } from "../ContingencyFunds.ts";
+import { STRATEGY_MONTH_NAMES, type ExportBlock, type ExportContext, type ExportImage, type LegalEntityValue, type StrategyMonthValue, asBrandInventoryValue, asBrandStyleValue, asBusinessEngagementValue, asLegalEntityValue, asStrategicPeriodValue, asStrategyFoundationValue, brandMarkFile, businessFoundationSegments, isExportableImage } from "../answers/AnswerUtils.ts";
+import { type ExportSectionContent } from "../export/ExportContentBuilder.ts";
+import { sessionExportContext } from "../export/ExportContentBuilder.ts";
+import { ownersTakeDrawings } from "../financial/FinancialForecast.ts";
+import { capabilityOf, costLines, heading, labelled } from "../export/ExportRenderers.ts";
+import { planLength, withDemand, allFunding, asFinancialFoundationValue, asFinancialSustainabilityValue, financialPosition, fundingType, isNonCash, statusStanding, parseAmount, moneyFormatter, planMonthLabel, incomeTaxRate, assetUnitCostsOf, sustainability, withPlanStart, derivedPlanStart, legalExpenseDates, costStartDates, type CostLine, type RevenueStreamValue } from "../financial/FinancialModel.ts";
+import { calculatedLines } from "../financial/CalculatedLines.ts";
+import { contingencyFunds, launchNeedOf } from "../financial/ContingencyFunds.ts";
 import { asGlobalSettings, capitalisationLimitOf, stageDurationsOf } from "../GlobalSettings.ts";
-import { countryCurrency } from "../LegalEntityJurisdictions.ts";
+import { countryCurrency } from "../legal/LegalEntityJurisdictions.ts";
 import { joinNames, preparedMonth, websiteOf } from "./plan.ts";
 import { segmentIdentityOf, settledSegmentAnswers } from "../SegmentContext.ts";
-import { effectiveOfferingAnswers, effectiveProfileAnswers } from "../EffectiveAnswers.ts";
-import { openItemObjective, valuePropositionOpenItems } from "../OfferingQuestions.ts";
+import { effectiveOfferingAnswers, effectiveProfileAnswers } from "../answers/EffectiveAnswers.ts";
+import { openItemObjective, valuePropositionOpenItems } from "../choices/OfferingQuestions.ts";
 import { neededSkills } from "../capability/skills.ts";
-import { asFoundersProfileValue } from "../AnswerUtils.ts";
-import { changeEffectLines, type StrategyChoiceContext } from "../StrategyChoices.ts";
-import { asVisionReach, reachRank, widestSegmentReach } from "../VisionChoices.ts";
-import { DIFFERENTIATION_PHRASES } from "../AmbassadorChoices.ts";
+import { asFoundersProfileValue } from "../answers/AnswerUtils.ts";
+import { changeEffectLines, type StrategyChoiceContext } from "../choices/StrategyChoices.ts";
+import { asVisionReach, reachRank, widestSegmentReach } from "../choices/VisionChoices.ts";
+import { DIFFERENTIATION_PHRASES } from "../choices/AmbassadorChoices.ts";
 
 /** The four Foundation Systems as saved -- any may be missing. */
 export interface FoundationSessions {

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { registrationDateApplies } from "./LegalEntityJurisdictions.ts";
+import { registrationDateApplies } from "./legal/LegalEntityJurisdictions.ts";
 
 describe("whether a registration date is asked", () => {
 

@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { segmentContext, segmentContextFor, segmentFrame, settledSegmentAnswers } from "./identityLink";
-import { SEGMENT_QUESTIONS, segmentOptions, segmentQuestionsOf } from "../../../../framework/engine/SegmentQuestions";
-import { PROFILE_QUESTIONS, profileQuestionAsked } from "../../../../framework/engine/ProfileQuestions";
+import { SEGMENT_QUESTIONS, segmentOptions, segmentQuestionsOf } from "../../../../framework/engine/choices/SegmentQuestions";
+import { PROFILE_QUESTIONS, profileQuestionAsked } from "../../../../framework/engine/choices/ProfileQuestions";
 
 const identity = (relationships: string[], audience: string[] = [], buyerCategory: string[] = []) => ({ relationships, marketType: "single", audience, buyerCategory });
 

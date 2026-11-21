@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { LegalEntityExpenseValue, BusinessCapabilityValue, LegalEntityFounderValue } from "../../../../framework/engine/AnswerUtils.ts";
+import { LegalEntityExpenseValue, BusinessCapabilityValue, LegalEntityFounderValue } from "../../../../framework/engine/answers/AnswerUtils.ts";
 import { type GlobalSettingsValue } from "../../../../framework/engine/GlobalSettings.ts";
 import type { OpenPage } from "../../tiles/jumpTo.ts";
 

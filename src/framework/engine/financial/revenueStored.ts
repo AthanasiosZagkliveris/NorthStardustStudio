@@ -1,7 +1,7 @@
 /* Part of FinancialModel.ts (split by its sections, 2026-11-10: the same code, in files of one topic each; FinancialModel.ts re-exports every part). */
 
-import { asObject, asText, randomId } from "../Readers.ts";
-import { type StrategyMonthValue } from "../AnswerUtils.ts";
+import { asObject, asText, randomId } from "../answers/Readers.ts";
+import { type StrategyMonthValue } from "../answers/AnswerUtils.ts";
 import { EMPTY_MONTH } from "./stored.ts";
 import { asList, asMonth, oneOf } from "./period.ts";
 

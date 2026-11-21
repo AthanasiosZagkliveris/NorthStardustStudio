@@ -11,8 +11,8 @@ import {
 
 import { AnswerType } from "../enums/AnswerType";
 import { AnswerParser } from "../parser/AnswerParser";
-import { FieldParser } from "./FieldParser";
-import { FieldRegistry } from "./FieldRegistry";
+import { FieldParser } from "./fields/FieldParser";
+import { FieldRegistry } from "./fields/FieldRegistry";
 
 export type FrameworkSource = {
     introductionMarkdown?: string;
@@ -983,7 +983,7 @@ export class FrameworkInterpreter {
     /**
      * Finds the introduction text for the
      * current system within the shared
-     * SystemsIntroduction file.
+     * systems-introduction.md file.
      */
     private findPackageIntroduction(
         markdown: string,

@@ -3,7 +3,7 @@ import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 
 import CapabilityOverview, { tableRows } from "../tiles/CapabilityOverview";
 import { DEFAULT_FLOOR_FILTER, filterFloor, floorRows, type FloorRow } from "../tiles/capabilityFloor";
-import { asBusinessCapabilityValue, createBusinessActivity, createBusinessPartner, createBusinessResourceSlot } from "../../../framework/engine/AnswerUtils";
+import { asBusinessCapabilityValue, createBusinessActivity, createBusinessPartner, createBusinessResourceSlot } from "../../../framework/engine/answers/AnswerUtils";
 
 /* G11: Inventory for the new structure: category and group paths, completed activities hidden unless asked for, the currency in the column header,
    costs right aligned, and the tooltip above its circle. */
@@ -217,7 +217,7 @@ describe("a channel's share of revenue (owner, 2026-11-14 20:25)", () => {
 describe("a share of revenue's whole fee, as the forecast charges it (owner, 2026-11-16)", () => {
     it("is the fee row's rate and its fixed fee on each order; a fixed fee in another currency is shown in it, left out, and said so", async () => {
         const { shareLines, costPerOfferingText, tableRows } = await import("../tiles/CapabilityOverview.tsx");
-        const { chargedFeeFor } = await import("../../../framework/engine/CalculatedLines.ts");
+        const { chargedFeeFor } = await import("../../../framework/engine/financial/CalculatedLines.ts");
         const { createGlobalSettings } = await import("../../../framework/engine/GlobalSettings.ts");
         const row = { id: "fees", tone: "offering", kind: "provider", name: "Stripe", path: [], status: "", statusLabel: "", frequency: "percent-revenue", frequencyLabel: "% of Rev", amount: 2, links: [], offeringIds: ["o1"] } as unknown as FloorRow;
         const offerings = [{ id: "o1", name: "Collection" }];

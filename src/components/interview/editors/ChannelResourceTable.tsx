@@ -1,11 +1,11 @@
 import type { ReactNode } from "react";
-import type { ChannelResourceRow, ChannelResourceTable as Table } from "../../../framework/engine/ChannelResourceTable.ts";
+import type { ChannelResourceRow, ChannelResourceTable as Table } from "../../../framework/engine/channels/ChannelResourceTable.ts";
 import { markTint } from "../../../framework/engine/ActionOrder.ts";
 import type { ActionLit } from "./ActionMarkers.tsx";
 
 import "../../../styles/channel-resource-table.css";
 import TextLink from "../fields/TextLink.tsx";
-import { labelWithCurrency } from "../../../framework/engine/Currencies.ts";
+import { labelWithCurrency } from "../../../framework/engine/financial/Currencies.ts";
 
 /*
     THE CHANNEL RESOURCES TABLE (ChannelResourceTable.ts): a Segment's

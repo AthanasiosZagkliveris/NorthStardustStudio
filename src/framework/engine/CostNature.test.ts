@@ -5,7 +5,7 @@ import {
     asLegalEntityValue,
     createBusinessPartner,
     createBusinessResourceSlot
-} from "./AnswerUtils";
+} from "./answers/AnswerUtils";
 import {
     asFinancialFoundationValue,
     assetUnitCostsOf,
@@ -14,7 +14,7 @@ import {
     preOperationalSchedule,
     type CostLine,
     type NatureContext
-} from "./FinancialModel";
+} from "./financial/FinancialModel";
 
 /* I4: the cost nature rules (C1 to C16), the capitalisation limit on one unit, services bundled into the asset, Startup and Pre-Operating Expenses. */
 

@@ -4,8 +4,8 @@ import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 
 import BusinessCapabilityEditor from "../editors/BusinessCapabilityEditor";
 import { openBox, openCard, openTile } from "../../../test/interviewTestUtils";
-import { incompleteCards } from "../../../framework/engine/CardCompleteness";
-import { asBusinessCapabilityValue, createBusinessPartner, createBusinessResourceSlot } from "../../../framework/engine/AnswerUtils";
+import { incompleteCards } from "../../../framework/engine/cards/CardCompleteness";
+import { asBusinessCapabilityValue, createBusinessPartner, createBusinessResourceSlot } from "../../../framework/engine/answers/AnswerUtils";
 
 /* G4: Rent and Buy for spaces and vehicles in both places; the Workspace form is the common card. */
 

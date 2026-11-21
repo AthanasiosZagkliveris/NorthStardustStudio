@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { asBusinessFoundationValue, businessOfferingNeedTexts, businessProfileOfferings, businessSegmentFunctionalItems, functionalNeedId, reconcileLineIds } from "./AnswerBusinessFoundation";
+import { asBusinessFoundationValue, businessOfferingNeedTexts, businessProfileOfferings, businessSegmentFunctionalItems, functionalNeedId, reconcileLineIds } from "./answers/AnswerBusinessFoundation";
 
 /** A saved answer of 2026-11-06: functional items with no ids, an Offering ticking them by their words. */
 const saved = {

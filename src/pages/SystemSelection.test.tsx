@@ -22,7 +22,7 @@ vi.mock("../services/OrganizationService", () => ({
     }
 }));
 
-vi.mock("../components/OrganizationCalendarPanel", () => ({
+vi.mock("../components/calendar/OrganizationCalendarPanel", () => ({
     default: () => null
 }));
 

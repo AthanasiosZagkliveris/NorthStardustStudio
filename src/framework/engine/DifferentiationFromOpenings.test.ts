@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
-import { asBusinessFoundationValue } from "./AnswerBusinessFoundation";
-import { differentiationFromOpenings, openingDifferentiation } from "./CompetitorQuestions";
-import { effectiveSegmentAnswers } from "./EffectiveAnswers";
+import { asBusinessFoundationValue } from "./answers/AnswerBusinessFoundation";
+import { differentiationFromOpenings, openingDifferentiation } from "./choices/CompetitorQuestions";
+import { effectiveSegmentAnswers } from "./answers/EffectiveAnswers";
 import type { SegmentIdentity } from "./SegmentContext";
 
 /* K10 → K14 (doc 41, 2026-11-09): the openings ticked on a Segment's Competitors start its Differentiation, through the crosswalk; a saved K14 wins. */

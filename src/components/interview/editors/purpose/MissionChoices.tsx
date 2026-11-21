@@ -1,11 +1,11 @@
 import FieldRow from "../../fields/FieldRow.tsx";
 import { SingleColumn } from "../foundation/shared.tsx";
 import { BusinessTicks } from "../../cards/BusinessCardFields.tsx";
-import { businessFoundationSegments } from "../../../../framework/engine/AnswerUtils.ts";
+import { businessFoundationSegments } from "../../../../framework/engine/answers/AnswerUtils.ts";
 import {
     MISSION_GAINS_MAX, MISSION_OFFERS_MAX, MISSION_SERVES_MAX, PB10_INFO, PB10_LABEL, PB11_INFO, PB11_LABEL, PB12_INFO, PB12_LABEL,
     asMissionGains, asMissionOffers, asMissionServes, missionDraft, missionGainOptions, missionOfferOptions, missionServeOptions
-} from "../../../../framework/engine/MissionChoices.ts";
+} from "../../../../framework/engine/choices/MissionChoices.ts";
 import { useAutoDraft } from "../../fields/useAutoDraft.ts";
 
 /**

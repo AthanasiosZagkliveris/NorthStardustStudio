@@ -27,7 +27,7 @@ import {
     createBusinessCustomerSegment,
     createBusinessResourceSlot,
     createBusinessSegmentEngagement
-} from "../../../framework/engine/AnswerUtils";
+} from "../../../framework/engine/answers/AnswerUtils";
 
 /** Opens a fold that is closed; where the item starts OPEN (Customer Engagement, the financial pages) it is left as it is. */
 function openFold(toggle: Element) {

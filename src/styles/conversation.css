@@ -4,21 +4,21 @@
 
 @import "./conversation/01-interview.css"; /* 632 lines */
 @import "./conversation/02-dynamic-tables.css"; /* 1330 lines */
-@import "./conversation/03-export-completeness-profiles.css"; /* 603 lines */
+@import "./conversation/03-profiles-and-export.css"; /* 603 lines */
 @import "./conversation/04-process-library.css"; /* 666 lines */
 @import "./conversation/05-operations-log-roles.css"; /* 662 lines */
 @import "./conversation/06-brand.css"; /* 1101 lines */
 @import "./conversation/07-strategy.css"; /* 978 lines */
 @import "./conversation/08-strategy-roadmap.css"; /* 1332 lines */
 @import "./conversation/09-brand-style-cards.css"; /* 606 lines */
-@import "./conversation/10-controls-in-themes.css"; /* 369 lines */
+@import "./conversation/10-remove-buttons.css"; /* 369 lines */
 @import "./conversation/11-legal-entity.css"; /* 1179 lines */
 @import "./conversation/12-info-note.css"; /* 575 lines */
 @import "./conversation/13-business-foundation.css"; /* 978 lines */
 @import "./conversation/14-business-customer-engagement-1.css"; /* 1106 lines */
 @import "./conversation/15-business-customer-engagement-2.css"; /* 887 lines */
 @import "./conversation/16-business-infrastructure.css"; /* 601 lines */
-@import "./conversation/17-business-financial-1.css"; /* 1112 lines */
-@import "./conversation/18-business-financial-2.css"; /* 1105 lines */
-@import "./conversation/19-business-financial-3.css"; /* 241 lines */
-@import "./conversation/20-roadmap-months.css"; /* 216 lines */
+@import "./conversation/17-numeric-tables-and-amount-lists.css"; /* 1112 lines */
+@import "./conversation/18-strategy-metrics-and-side-labels.css"; /* 1105 lines */
+@import "./conversation/19-strategy-situation-and-financial-notes.css"; /* 241 lines */
+@import "./conversation/20-costs-summary-and-date-cell.css"; /* 216 lines */

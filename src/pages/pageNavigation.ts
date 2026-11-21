@@ -8,7 +8,7 @@
 import type { InterviewSession } from "../framework/interview";
 import type { ValidationIssue } from "../framework/model";
 import { isCompanion } from "../framework/engine/PageGroups";
-import { generateOperationalLogEntriesFromProcessLibrary, OperationalLogRowValue, ProcessRecordValue } from "../framework/engine/AnswerUtils.ts";
+import { generateOperationalLogEntriesFromProcessLibrary, OperationalLogRowValue, ProcessRecordValue } from "../framework/engine/answers/AnswerUtils.ts";
 import { OrganizationService } from "../services/OrganizationService";
 import { StorageService } from "../services/StorageService";
 import { reviewManager, resolveSharedAnswerValue, validateProductDevelopmentForProduct, validateOperationsProcessOwnership, OPERATIONS_PROCESS_LIBRARY_SECTION, OPERATIONS_OPERATIONAL_LOG_SECTION, type ExportStep } from "./conversationHelpers";

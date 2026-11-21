@@ -1,21 +1,21 @@
 import type { AnswerDefinition } from "../model";
-import { legalSuggestions } from "./LegalSuggestions.ts";
+import { legalSuggestions } from "./legal/LegalSuggestions.ts";
 import type { InterviewSession } from "../interview";
 import { AnswerType } from "../enums/AnswerType.ts";
 import { businessPlan, readFoundation, type FoundationSessions } from "./BusinessDocuments.ts";
-import { fieldKey, type FieldKey } from "./FieldKeys.ts";
+import { fieldKey, type FieldKey } from "./fields/FieldKeys.ts";
 import { pageRailItems } from "../../components/interview/rails/railItems.ts";
 import { openItemsOf } from "./OpenItems.ts";
-import { pageStatuses } from "./PageStatus.ts";
+import { pageStatuses } from "./status/PageStatus.ts";
 import { stageMessages, stageOf } from "./BusinessStage.ts";
 import { positioningName } from "./ActivityClassification.ts";
 import { keyDateText, keyDatesOfSessions } from "./KeyDates.ts";
 import { asGlobalSettings, stageDurationsOf } from "./GlobalSettings.ts";
-import { clearOpenings, valueInSentence } from "./CompetitorQuestions.ts";
-import { BUSINESS_FOUNDATION_SUBSECTIONS } from "./AnswerBusinessFoundation.ts";
-import { sectionSegment } from "./FieldKeys.ts";
-import { BUSINESS_CAPABILITY_SECTIONS } from "./AnswerBusinessCapability.ts";
-import { asFoundersProfileValue } from "./AnswerFounders.ts";
+import { clearOpenings, valueInSentence } from "./choices/CompetitorQuestions.ts";
+import { BUSINESS_FOUNDATION_SUBSECTIONS } from "./answers/AnswerBusinessFoundation.ts";
+import { sectionSegment } from "./fields/FieldKeys.ts";
+import { BUSINESS_CAPABILITY_SECTIONS } from "./answers/AnswerBusinessCapability.ts";
+import { asFoundersProfileValue } from "./answers/AnswerFounders.ts";
 import { neededSkills } from "./capability/skills.ts";
 
 /** A page as the rail names it: "4. Revenue & Pricing". */

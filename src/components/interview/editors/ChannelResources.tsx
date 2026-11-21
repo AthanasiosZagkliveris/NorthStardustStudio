@@ -26,13 +26,13 @@ import {
     withRenamedCard,
     withResourceAction,
     withoutChannelResource
-} from "../../../framework/engine/ChannelResources.ts";
+} from "../../../framework/engine/channels/ChannelResources.ts";
 import type {
     BusinessCapabilityValue,
     BusinessChannelResourceValue,
     BusinessEngagementValue,
     BusinessSegmentEngagementValue
-} from "../../../framework/engine/AnswerUtils.ts";
+} from "../../../framework/engine/answers/AnswerUtils.ts";
 import { UndoService } from "../../../services/UndoService";
 import { consumeKey } from "../fields/consumeKey.ts";
 import type { ActionIsolation, ActionLit } from "./ActionMarkers.tsx";

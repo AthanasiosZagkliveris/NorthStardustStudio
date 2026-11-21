@@ -1,6 +1,6 @@
-import { BUSINESS_ACTIVITY_CATEGORIES, DERIVED_ACTIVITY_CATEGORY, BUSINESS_RESOURCE_GROUPS, frequencyIdsOf, unitsOf, BusinessActivityValue, BusinessCapabilityValue, BusinessCostValue, BusinessPartnerValue, BusinessResourceSlotValue, createBusinessActivity, createBusinessPartner, createBusinessResourceSlot } from "../../../framework/engine/AnswerUtils.ts";
+import { BUSINESS_ACTIVITY_CATEGORIES, DERIVED_ACTIVITY_CATEGORY, BUSINESS_RESOURCE_GROUPS, frequencyIdsOf, unitsOf, BusinessActivityValue, BusinessCapabilityValue, BusinessCostValue, BusinessPartnerValue, BusinessResourceSlotValue, createBusinessActivity, createBusinessPartner, createBusinessResourceSlot } from "../../../framework/engine/answers/AnswerUtils.ts";
 import { DeliveryValue } from "../../../framework/engine/DemandCapacity.ts";
-import { parseDecimal } from "../../../framework/engine/Amounts.ts";
+import { parseDecimal } from "../../../framework/engine/financial/Amounts.ts";
 import { SOURCES } from "../../../framework/engine/Sources.ts";
 import { InfoPoint } from "../fields/InfoNote.tsx";
 

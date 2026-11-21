@@ -7,7 +7,7 @@ import TextBox from "../../controls/TextBox.tsx";
 import CardShell from "../cards/CardShell.tsx";
 import FieldLabel from "../../controls/FieldLabel.tsx";
 import NumberCell from "../../controls/NumberCell.tsx";
-import { cardNameMissing } from "../../../framework/engine/SystemCardCompleteness.ts";
+import { cardNameMissing } from "../../../framework/engine/cards/SystemCardCompleteness.ts";
 import {
     STRATEGY_METRIC_CURRENCY_UNIT,
     STRATEGY_METRIC_FREQUENCIES,
@@ -27,7 +27,7 @@ import {
     monthIndex,
     strategyGoalsForTheme,
     strategyThemeName
-} from "../../../framework/engine/AnswerUtils.ts";
+} from "../../../framework/engine/answers/AnswerUtils.ts";
 
 import BoxActions, { reorder, useMovableBox } from "../fields/ReorderControls.tsx";
 import MonthYearPicker from "../fields/MonthYearPicker.tsx";

@@ -2,12 +2,12 @@ import { describe, expect, it } from "vitest";
 
 import lumen from "../data/examples/lumen-and-loom-studio.json";
 import quillfield from "../data/examples/quillfield-automation-llc.json";
-import { asBusinessFoundationValue, asLegalEntityValue } from "../framework/engine/AnswerUtils";
-import { SEGMENT_QUESTIONS, segmentQuestionAsked, segmentSettleSaved } from "../framework/engine/SegmentQuestions";
+import { asBusinessFoundationValue, asLegalEntityValue } from "../framework/engine/answers/AnswerUtils";
+import { SEGMENT_QUESTIONS, segmentQuestionAsked, segmentSettleSaved } from "../framework/engine/choices/SegmentQuestions";
 import { stageOf } from "../framework/engine/BusinessStage";
 import { fitPositioningToStage } from "../components/interview/editors/legal/shared";
 import { segmentContextFor, segmentPositioningShown } from "../components/interview/editors/foundation/identityLink";
-import { asProfileAnswers, profileSettle } from "../framework/engine/ProfileQuestions";
+import { asProfileAnswers, profileSettle } from "../framework/engine/choices/ProfileQuestions";
 
 /**
  * THE EXAMPLES ANSWER THE SEGMENT'S QUESTIONS: for each Segment of each example, read with the example's own Positioning answers, every question the Segment is asked has an answer

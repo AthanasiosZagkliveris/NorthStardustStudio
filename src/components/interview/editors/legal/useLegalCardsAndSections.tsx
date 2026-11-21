@@ -3,7 +3,7 @@
  * One part of LegalEntityEditor (see LegalEntityEditor.tsx): what it needs of the parts before it comes in as `earlier`; what the parts after it need goes out.
  */
 import TickField from "../../../controls/TickField.tsx";
-import { LEGAL_FEES_CHECKED, legalStartOf } from "../../../../framework/engine/LegalStarts.ts";
+import { LEGAL_FEES_CHECKED, legalStartOf } from "../../../../framework/engine/legal/LegalStarts.ts";
 import TextLink from "../../fields/TextLink.tsx";
 import { openExternal } from "../../../references/HarvardReference.tsx";
 import AddButton from "../../../controls/AddButton.tsx";
@@ -12,9 +12,9 @@ import NumberCell from "../../../controls/NumberCell.tsx";
 import RemoveButton from "../../../controls/RemoveButton.tsx";
 import { BusinessCard, LinkSymbol, ResponsibleField } from "../../cards/BusinessCardFields.tsx";
 import DateCellInput from "../../fields/DateCellInput.tsx";
-import { LegalEntityTaxStatus, LegalEntityValue, createLegalEntityExpense, createLegalEntityNumber, createLegalEntityRequirement } from "../../../../framework/engine/AnswerUtils.ts";
-import { LEGAL_ENTITY_EXPENSE_FREQUENCIES, LEGAL_REQUIREMENT_TYPES, limitedRegistrationNumber, registrationNumberRule, registrationAuthorityFor, sharesTaxAndRegistrationNumber } from "../../../../framework/engine/LegalEntityJurisdictions.ts";
-import { moneyText } from "../../../../framework/engine/ExportRenderers.ts";
+import { LegalEntityTaxStatus, LegalEntityValue, createLegalEntityExpense, createLegalEntityNumber, createLegalEntityRequirement } from "../../../../framework/engine/answers/AnswerUtils.ts";
+import { LEGAL_ENTITY_EXPENSE_FREQUENCIES, LEGAL_REQUIREMENT_TYPES, limitedRegistrationNumber, registrationNumberRule, registrationAuthorityFor, sharesTaxAndRegistrationNumber } from "../../../../framework/engine/legal/LegalEntityJurisdictions.ts";
+import { moneyText } from "../../../../framework/engine/export/ExportRenderers.ts";
 import { summaryText } from "../../cards/cardSummary.ts";
 import FoldAllToggle from "../../fields/FoldAllToggle.tsx";
 import InfoNote, { InfoText } from "../../fields/InfoNote.tsx";

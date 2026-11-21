@@ -5,8 +5,8 @@ Status: **index**, written 2026-11-20. What a founder sets outside the Systems' 
 | Setting | Where | Specification | Built by |
 |---|---|---|---|
 | Global Settings | **Menu**, then **Settings** (`/settings`) | [`global-settings.md`](global-settings.md) | `src/pages/GlobalSettings.tsx`, `src/framework/engine/GlobalSettings.ts` |
-| Appearance (the reading mode) | **Menu**, then **Appearance**'s side menu | this file, below | `src/components/ToolsMenu.tsx` |
-| Focus | **Menu**, then **Focus**, on an interview page | this file, below | `src/components/FocusModeButton.tsx`, `src/services/FocusModeService.ts` |
+| Appearance (the reading mode) | **Menu**, then **Appearance**'s side menu | this file, below | `src/components/menu/ToolsMenu.tsx` |
+| Focus | **Menu**, then **Focus**, on an interview page | this file, below | `src/components/menu/FocusModeButton.tsx`, `src/services/FocusModeService.ts` |
 
 ## Global Settings
 

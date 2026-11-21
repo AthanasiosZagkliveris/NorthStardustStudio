@@ -16,7 +16,7 @@
 /** The stylesheets in the order the app loads them (the cascade's order); a file not listed comes first. */
 export const LOAD_ORDER = [
     "colors.generated.css", "sizes.generated.css", "colors.css", "global.css", "remove-button.css", "notepad.css", "focus-mode.css", "search.css",
-    "option-picker.css", "theme-switch.css", "undo-toast.css", "app-header.css", "workspace.css", "section-tiles.css", "card-tile.css", "card-folding.css",
+    "option-picker.css", "tools-menu.css", "undo-toast.css", "app-header.css", "workspace.css", "section-tiles.css", "card-tile.css", "card-folding.css",
     "label-arrow.css", "title-arrow.css", "capability-overview.css", "numbered-list.css", "delivery.css", "capability-edges.css", "channel-resource-table.css",
     "demand.css", "status-shape.css", "bullet-rail.css", "conversation.css", "conversation-layout.css", "system-confirmation.css"
 ];

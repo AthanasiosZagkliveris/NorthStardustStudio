@@ -3,13 +3,13 @@ import { CSSProperties, ReactNode, useRef } from "react";
 import CardShell from "../cards/CardShell.tsx";
 import CardHead from "../cards/CardHead.tsx";
 import NameCell from "../cards/NameCell.tsx";
-import { cardNameMissing } from "../../../framework/engine/SystemCardCompleteness.ts";
+import { cardNameMissing } from "../../../framework/engine/cards/SystemCardCompleteness.ts";
 import { workHue } from "../../../framework/engine/WorkColours.ts";
 import CardBoxes, { type CardBox } from "../cards/CardBoxes.tsx";
 import DialogSectionBand from "../tiles/DialogSectionBand.tsx";
 import { titledLines } from "../tiles/SectionTileGeometry.tsx";
 import SectionTiles, { DialogHeading, useTitleSlide, type SectionTile, type TileAdd } from "../tiles/SectionTiles.tsx";
-import { BUSINESS_FOUNDATION_SUBSECTIONS, BusinessCustomerSegmentValue, createBusinessCompetitor, createBusinessCustomerProfile, createBusinessCustomerSegment, createBusinessOffering, segmentHue } from "../../../framework/engine/AnswerUtils.ts";
+import { BUSINESS_FOUNDATION_SUBSECTIONS, BusinessCustomerSegmentValue, createBusinessCompetitor, createBusinessCustomerProfile, createBusinessCustomerSegment, createBusinessOffering, segmentHue } from "../../../framework/engine/answers/AnswerUtils.ts";
 import FoldAllToggle from "../fields/FoldAllToggle.tsx";
 import InfoNote, { InfoPoint, InfoText } from "../fields/InfoNote.tsx";
 import { railId } from "../rails/railItems.ts";
@@ -17,7 +17,7 @@ import { FieldMark } from "../fields/fieldMarks.tsx";
 import { toggledIn } from "../fields/toggledIn.ts";
 import { segmentFrameAttributes, useCompanionTiles, useSegmentPage } from "../tiles/segmentPage.ts";
 import { segmentMadeByIdentity } from "../../../framework/engine/businessFoundation/foundationPage.ts";
-import { competitorFaceLines, offeringFaceLines, profileFaceLines } from "../../../framework/engine/CardFaces.ts";
+import { competitorFaceLines, offeringFaceLines, profileFaceLines } from "../../../framework/engine/cards/CardFaces.ts";
 
 import { BusinessFoundationEditorProps, SUBSECTIONS } from "./foundation/shared.tsx";
 

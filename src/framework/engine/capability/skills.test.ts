@@ -3,7 +3,7 @@ import { describe, expect, test } from "vitest";
 import { InterviewSession } from "../../interview";
 import { AnswerType } from "../../enums/AnswerType.ts";
 import { frameworkRegistry } from "../FrameworkRegistry.ts";
-import { asBusinessCapabilityValue } from "../AnswerUtils.ts";
+import { asBusinessCapabilityValue } from "../answers/AnswerUtils.ts";
 import { reviewItems } from "../ReviewItems.ts";
 import { neededSkillLine, neededSkills, skillCover, skillGroups, skillsOf, teamNames } from "./skills.ts";
 import lumenText from "../../../data/examples/lumen-and-loom-studio.json?raw";

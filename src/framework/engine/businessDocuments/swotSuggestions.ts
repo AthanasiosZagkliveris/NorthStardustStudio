@@ -2,11 +2,11 @@
 
 import { type Foundation, type FoundationSessions, readFoundation, swotStartsOf } from "./reading.ts";
 import { segmentIdentityOf, settledSegmentAnswers } from "../SegmentContext.ts";
-import { effectiveOfferingAnswers, effectiveProfileAnswers } from "../EffectiveAnswers.ts";
-import { COMPETITOR_VALUES, clearOpenings, competitorRatings, valueInSentence } from "../CompetitorQuestions.ts";
+import { effectiveOfferingAnswers, effectiveProfileAnswers } from "../answers/EffectiveAnswers.ts";
+import { COMPETITOR_VALUES, clearOpenings, competitorRatings, valueInSentence } from "../choices/CompetitorQuestions.ts";
 import { DIFFERENTIATION_WORDS } from "../ActivityClassification.ts";
-import { VISION_REACH, asVisionReach, reachRank, widestSegmentReach } from "../VisionChoices.ts";
-import { changeEffectLines } from "../StrategyChoices.ts";
+import { VISION_REACH, asVisionReach, reachRank, widestSegmentReach } from "../choices/VisionChoices.ts";
+import { changeEffectLines } from "../choices/StrategyChoices.ts";
 
 /** The four quadrants' suggestions, each a line as it is written into the quadrant. */
 export interface SwotSuggestions {

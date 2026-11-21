@@ -9,7 +9,7 @@ import {
     StrategyRangeValue,
     asStrategicPeriodValue,
     asStrategyFoundationValue
-} from "../../../framework/engine/AnswerUtils";
+} from "../../../framework/engine/answers/AnswerUtils";
 
 afterEach(cleanup);
 

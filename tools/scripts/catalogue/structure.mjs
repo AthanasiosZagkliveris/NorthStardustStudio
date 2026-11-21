@@ -65,8 +65,8 @@ const { readFileSync: readText, readdirSync: listDir } = await import("node:fs")
 const FOUNDATION_SYSTEMS = definitions.systems.filter(system => system.capability === "foundation");
 /** A System's sections, from its answer file: "## 04. Revenue & Pricing MM/YY - MM/YY" is section 4, "Revenue & Pricing". */
 function sectionsOf(system) {
-    const file = listDir("src/assets/SystemAnswers").find(name => name.startsWith(String(system.number).padStart(2, "0") + "_"));
-    return [...readText("src/assets/SystemAnswers/" + file, "utf8").matchAll(/^## (\d+)\. (.+?)\s*$/gm)]
+    const file = listDir("src/assets/system-answers").find(name => name.startsWith(String(system.number).padStart(2, "0") + "_"));
+    return [...readText("src/assets/system-answers/" + file, "utf8").matchAll(/^## (\d+)\. (.+?)\s*$/gm)]
         .map(match => ({ number: Number(match[1]), title: match[2].replace(/\s*MM\/YY - MM\/YY.*$/, "").trim() }));
 }
 /** The dates of the catalogue's files the tables still read (the card scan, the add probe). */

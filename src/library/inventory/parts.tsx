@@ -5,7 +5,7 @@ import CardNameInput from "../../components/interview/cards/CardNameInput";
 import DateCellInput from "../../components/interview/fields/DateCellInput";
 import ColourPicker from "../../components/interview/fields/ColourPicker";
 import MonthYearPicker from "../../components/interview/fields/MonthYearPicker";
-import type { StrategyMonthValue } from "../../framework/engine/AnswerUtils.ts";
+import type { StrategyMonthValue } from "../../framework/engine/answers/AnswerUtils.ts";
 import FoldArrow from "../../components/interview/fields/FoldArrow";
 import InfoNote, { InfoText } from "../../components/interview/fields/InfoNote";
 import NumberedListInput from "../../components/interview/fields/NumberedListInput";

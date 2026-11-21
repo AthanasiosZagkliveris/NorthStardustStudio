@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { BusinessEngagementValue } from "../../../../framework/engine/AnswerUtils.ts";
+import { BusinessEngagementValue } from "../../../../framework/engine/answers/AnswerUtils.ts";
 import { InfoPoint } from "../../fields/InfoNote.tsx";
 import type { OpenPage } from "../../tiles/jumpTo.ts";
 import type { SegmentIdentity } from "../../../../framework/engine/SegmentContext.ts";

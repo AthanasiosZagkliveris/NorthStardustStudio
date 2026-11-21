@@ -4,8 +4,8 @@ import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 
 import BusinessCapabilityEditor from "../editors/BusinessCapabilityEditor";
 import { openCard, openTile } from "../../../test/interviewTestUtils";
-import { asBusinessCapabilityValue, createBusinessResourceSlot, withNewInsurances } from "../../../framework/engine/AnswerUtils";
-import { incompleteCards } from "../../../framework/engine/CardCompleteness";
+import { asBusinessCapabilityValue, createBusinessResourceSlot, withNewInsurances } from "../../../framework/engine/answers/AnswerUtils";
+import { incompleteCards } from "../../../framework/engine/cards/CardCompleteness";
 
 /* H3: an Insurances card is generated, once, for a premises, vehicle, workshop, machine or event that is made. */
 

@@ -1,7 +1,7 @@
 /* Part of FinancialModel.ts (split by its sections, 2026-11-10: the same code, in files of one topic each; FinancialModel.ts re-exports every part). */
 
-import { type BusinessCapabilityValue, type BusinessResourceSlotValue, type LegalEntityValue } from "../AnswerUtils.ts";
-import { assetUnitCost, isSpaceOnlyGroup, isCostingStatus, isPurchaseGroup } from "../AnswerUtils.ts";
+import { type BusinessCapabilityValue, type BusinessResourceSlotValue, type LegalEntityValue } from "../answers/AnswerUtils.ts";
+import { assetUnitCost, isSpaceOnlyGroup, isCostingStatus, isPurchaseGroup } from "../answers/AnswerUtils.ts";
 import { type FinancialSustainabilityValue } from "./revenueStored.ts";
 import { type FinancialFoundationValue } from "./stored.ts";
 import { type CostLine } from "./costs.ts";

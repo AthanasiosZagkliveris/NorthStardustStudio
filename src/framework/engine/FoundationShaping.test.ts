@@ -1,9 +1,9 @@
 import { describe, expect, it } from "vitest";
 import { segmentContextFor } from "./SegmentContext";
 import type { SegmentIdentity } from "./SegmentContext";
-import { SEGMENT_QUESTIONS, segmentChoose, segmentOptions, segmentQuestionsOf, segmentAnswerStarts } from "./SegmentQuestions";
-import { PROFILE_QUESTIONS, PROFILE_USER_QUESTIONS, profileOptionsShown, profileShown, profileUserName, profileUserWho } from "./ProfileQuestions";
-import { OFFERING_QUESTIONS, offeringOptionsWith, offeringShown, offeringWho } from "./OfferingQuestions";
+import { SEGMENT_QUESTIONS, segmentChoose, segmentOptions, segmentQuestionsOf, segmentAnswerStarts } from "./choices/SegmentQuestions";
+import { PROFILE_QUESTIONS, PROFILE_USER_QUESTIONS, profileOptionsShown, profileShown, profileUserName, profileUserWho } from "./choices/ProfileQuestions";
+import { OFFERING_QUESTIONS, offeringOptionsWith, offeringShown, offeringWho } from "./choices/OfferingQuestions";
 
 /* Proxy and Dual-Intent tailoring, and earlier answers shaping later ones (2026-11-09; docs 35, 36 and 43): starts and orders only, never locks; a saved answer wins. */
 

@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
 
 import lumen from "../../data/examples/lumen-and-loom-studio.json";
-import { businessFoundationSegments } from "./AnswerUtils.ts";
-import { offeringStartsById } from "./EffectiveAnswers.ts";
+import { businessFoundationSegments } from "./answers/AnswerUtils.ts";
+import { offeringStartsById } from "./answers/EffectiveAnswers.ts";
 
 /* A REVENUE STREAM'S PER, FROM THE OFFERING (owner, 2026-11-19 21:44 UTC+2: "Check which parts can be auto-filled by previous answers"). */
 describe("a revenue stream's Per starts from the Offering's terms and form", () => {

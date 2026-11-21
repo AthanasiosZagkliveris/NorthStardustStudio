@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { DemandSource, DemandValue, asDemandValue, createDemand, createDemandSource, demandChannelIds, demandResult, capacityCheck, createDelivery, deliveryAllocation, deliveryEffort, founderDeliveryHours, WEEKS_PER_MONTH, founderWorkingHours, offeringChannelRevenue, PLANNING_CEILING, asDeliveryMap, holdUpsText, offeringCount } from "./DemandCapacity.ts";
-import { asFinancialSustainabilityValue, createRevenueStream, withDemand, type RevenueStreamValue } from "./FinancialModel.ts";
+import { asFinancialSustainabilityValue, createRevenueStream, withDemand, type RevenueStreamValue } from "./financial/FinancialModel.ts";
 
 /** Saved before several sources: one model and its inputs, read as it is on loading. */
 function demand(model: string, inputs: Record<string, string>): DemandValue {

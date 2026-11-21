@@ -1,4 +1,4 @@
-import type { BusinessEngagementValue, BusinessSegmentEngagementValue } from "./AnswerUtils.ts";
+import type { BusinessEngagementValue, BusinessSegmentEngagementValue } from "./answers/AnswerUtils.ts";
 
 /*
     WHERE A SEGMENT'S ACTIONS STAND IN THE CUSTOMER CHANNEL TABLE.

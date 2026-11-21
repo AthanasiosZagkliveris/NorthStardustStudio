@@ -4,7 +4,7 @@ import { cleanup, render, screen } from "@testing-library/react";
 
 import BusinessCapabilityEditor from "../editors/BusinessCapabilityEditor";
 import { openTile } from "../../../test/interviewTestUtils";
-import { asBusinessCapabilityValue, createBusinessPartner, createBusinessResourceSlot } from "../../../framework/engine/AnswerUtils";
+import { asBusinessCapabilityValue, createBusinessPartner, createBusinessResourceSlot } from "../../../framework/engine/answers/AnswerUtils";
 import { createGlobalSettings } from "../../../framework/engine/GlobalSettings";
 
 /* A card does not ask its useful life (Global Settings > Useful Life lists the assets at or above the capitalisation limit under their group). */

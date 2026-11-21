@@ -1,9 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { asBusinessFoundationValue } from "./AnswerBusinessFoundation";
-import { offeringStartsById, segmentTrials } from "./EffectiveAnswers";
-import { offeringShown } from "./OfferingQuestions";
+import { asBusinessFoundationValue } from "./answers/AnswerBusinessFoundation";
+import { offeringStartsById, segmentTrials } from "./answers/EffectiveAnswers";
+import { offeringShown } from "./choices/OfferingQuestions";
 import { demandSuggestions, journeySuggestions, withAnswerChannels } from "./JourneySuggestions";
-import { BUSINESS_CHANNEL_ALL_OFFERINGS } from "./AnswerUtils";
+import { BUSINESS_CHANNEL_ALL_OFFERINGS } from "./answers/AnswerUtils";
 import type { SegmentIdentity } from "./SegmentContext";
 
 /* The review's bugs and its first batch (owner, 2026-11-17 08:38: "Bugs plus the first batch"). */

@@ -1,8 +1,8 @@
 import { CSSProperties, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 
-import AppFooter from "../components/AppFooter";
-import AppHeader from "../components/AppHeader";
+import AppFooter from "../components/shell/AppFooter";
+import AppHeader from "../components/shell/AppHeader";
 import InterviewHeader from "../components/interview/editors/InterviewHeader";
 import CardShell from "../components/interview/cards/CardShell";
 import { CarouselArrows } from "../components/interview/tiles/CarouselArrows";
@@ -10,13 +10,13 @@ import RadioChoice from "../components/controls/RadioChoice";
 import { TABLE_SIZES } from "../components/interview/tiles/CapabilityOverview";
 import "../styles/capability-overview.css";
 import { DialogHeading } from "../components/interview/tiles/SectionTiles";
-import BusinessDocumentsView from "../components/BusinessDocumentsView";
+import BusinessDocumentsView from "../components/workbook/BusinessDocumentsView";
 import { workHue } from "../framework/engine/WorkColours";
 import ResponsibilityFilter from "../components/interview/fields/ResponsibilityFilter";
-import WorkbookTools, { WorkbookToolsSlot } from "../components/WorkbookTools";
+import WorkbookTools, { WorkbookToolsSlot } from "../components/workbook/WorkbookTools";
 import workbookIcon from "../assets/workbook-icon.svg";
-import GlossaryList, { YOUR_TERMS_HUE, anchorOf, letterOf, letterRanges, toggled } from "../components/GlossaryList";
-import OrganizationReview, { goToReviewPlace } from "../components/OrganizationReview";
+import GlossaryList, { YOUR_TERMS_HUE, anchorOf, letterOf, letterRanges, toggled } from "../components/workbook/GlossaryList";
+import OrganizationReview, { goToReviewPlace } from "../components/workbook/OrganizationReview";
 import { WorkbookCardNotes, type WorkbookState } from "../components/notepad/Notepad";
 import HarvardReference from "../components/references/HarvardReference";
 import { harvardReference, referenceList } from "../framework/engine/Sources";
@@ -35,7 +35,7 @@ import "../styles/glossary.css";
 import "../styles/review.css";
 
 // (The list and its letter ranges are the shared GlossaryList's; the tests and the search read them here as before.)
-export { letterRanges, REFERENCES_PER_RANGE, type LetterRange } from "../components/GlossaryList";
+export { letterRanges, REFERENCES_PER_RANGE, type LetterRange } from "../components/workbook/GlossaryList";
 export type { WorkbookState } from "../components/notepad/Notepad";
 
 export type WorkbookTab = NonNullable<WorkbookState["tab"]>;

@@ -19,4 +19,4 @@ The funnel chooses the kinds and the letter ranges. Its "i": "Every word the app
 
 ## Where it is in the code
 
-`src/components/GlossaryList.tsx`, `src/data/glossary.ts`, `src/framework/engine/Sources.ts`, `src/pages/Workbook.tsx`; the test `src/pages/Workbook.test.tsx`.
+`src/components/workbook/GlossaryList.tsx`, `src/data/glossary.ts`, `src/framework/engine/Sources.ts`, `src/pages/Workbook.tsx`; the test `src/pages/Workbook.test.tsx`.

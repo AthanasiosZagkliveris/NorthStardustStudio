@@ -6,8 +6,8 @@ import NumberCell from "../components/controls/NumberCell.tsx";
 import TextBox from "../components/controls/TextBox.tsx";
 import { useLocation, useNavigate } from "react-router-dom";
 
-import AppFooter from "../components/AppFooter";
-import AppHeader from "../components/AppHeader";
+import AppFooter from "../components/shell/AppFooter";
+import AppHeader from "../components/shell/AppHeader";
 import { limitedNumberText, NUMBER_LIMITS, numberInputMode, type NumberLimit } from "../components/interview/fields/numberInput";
 import {
     asGlobalSettings,
@@ -23,22 +23,22 @@ import {
     USEFUL_LIFE_GROUPS,
     type GlobalSettingsValue
 } from "../framework/engine/GlobalSettings";
-import { countryCurrency } from "../framework/engine/LegalEntityJurisdictions";
-import { costText } from "../framework/engine/ExportRenderers";
-import { assetUnitCost, isCostingStatus, isPurchaseGroup, type BusinessCapabilityValue, type BusinessResourceSlotValue } from "../framework/engine/AnswerUtils";
-import { channelFeeRowFor, ownFeeChannelNames, resetChannelFees, shownChannelFees } from "../framework/engine/CalculatedLines";
-import { capabilityCards, costCardName } from "../framework/engine/ChannelResources";
+import { countryCurrency } from "../framework/engine/legal/LegalEntityJurisdictions";
+import { costText } from "../framework/engine/export/ExportRenderers";
+import { assetUnitCost, isCostingStatus, isPurchaseGroup, type BusinessCapabilityValue, type BusinessResourceSlotValue } from "../framework/engine/answers/AnswerUtils";
+import { channelFeeRowFor, ownFeeChannelNames, resetChannelFees, shownChannelFees } from "../framework/engine/financial/CalculatedLines";
+import { capabilityCards, costCardName } from "../framework/engine/channels/ChannelResources";
 import { asBusinessEngagementValue } from "../framework/engine/businessFoundation/engagementReaders";
-import { businessFoundationSegments } from "../framework/engine/AnswerUtils";
-import { segmentPaymentServices } from "../framework/engine/SegmentQuestions";
+import { businessFoundationSegments } from "../framework/engine/answers/AnswerUtils";
+import { segmentPaymentServices } from "../framework/engine/choices/SegmentQuestions";
 import { segmentIdentityOf } from "../framework/engine/SegmentContext";
-import { effectiveSegmentAnswers } from "../framework/engine/EffectiveAnswers";
+import { effectiveSegmentAnswers } from "../framework/engine/answers/EffectiveAnswers";
 import { OrganizationService } from "../services/OrganizationService";
 import { systems } from "../data/systems";
 import { StorageService } from "../services/StorageService";
 import { AnswerType } from "../framework/enums/AnswerType";
-import { asBusinessCapabilityValue, asLegalEntityValue } from "../framework/engine/AnswerUtils";
-import { asFinancialFoundationValue, costStartDates, derivedPlanStart, legalExpenseDates, withPlanStart, type FinancialFoundationValue } from "../framework/engine/FinancialModel";
+import { asBusinessCapabilityValue, asLegalEntityValue } from "../framework/engine/answers/AnswerUtils";
+import { asFinancialFoundationValue, costStartDates, derivedPlanStart, legalExpenseDates, withPlanStart, type FinancialFoundationValue } from "../framework/engine/financial/FinancialModel";
 import FinancialPlanSettings from "../components/interview/editors/FinancialPlanSettings";
 import { STAGES, addMonthsIso, dayWords, stageEnds, stageOf, stageMessages, type StageKey } from "../framework/engine/BusinessStage";
 import { INFO as LEGAL_INFO } from "../components/interview/editors/legal/shared";

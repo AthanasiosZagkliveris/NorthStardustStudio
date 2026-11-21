@@ -1,9 +1,9 @@
 /* Part of FinancialModel.ts (split by its sections, 2026-11-10: the same code, in files of one topic each; FinancialModel.ts re-exports every part). */
 
-import { parseAmount, parseDecimal } from "../Amounts.ts";
-import { asObject, asText } from "../Readers.ts";
-import { type BusinessCapabilityValue, type LegalEntityValue, type StrategyMonthValue, type StrategyRangeValue } from "../AnswerUtils.ts";
-import { isCostingStatus } from "../AnswerUtils.ts";
+import { parseAmount, parseDecimal } from "./Amounts.ts";
+import { asObject, asText } from "../answers/Readers.ts";
+import { type BusinessCapabilityValue, type LegalEntityValue, type StrategyMonthValue, type StrategyRangeValue } from "../answers/AnswerUtils.ts";
+import { isCostingStatus } from "../answers/AnswerUtils.ts";
 import { asFinancialFoundationValue } from "./stored.ts";
 
 /**

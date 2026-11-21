@@ -1,28 +1,28 @@
 /* Part of BusinessDocuments.ts (split by its sections, 2026-11-10: the same code, in files of one topic each; BusinessDocuments.ts re-exports every part). */
 
-import { currencyMark } from "../Currencies.ts";
-import { asVisionAmbitions, asVisionReach, visionChoicesSentence } from "../VisionChoices.ts";
-import { ambassadorShown, asAmbassadorChoices, brandVoiceLine } from "../AmbassadorChoices.ts";
-import { OFFERING_QUESTIONS, offeringAnswerLines, offeringOptions } from "../OfferingQuestions.ts";
-import { workspacesOf, WORKSPACE_GROUP_ID } from "../AnswerUtils.ts";
+import { currencyMark } from "../financial/Currencies.ts";
+import { asVisionAmbitions, asVisionReach, visionChoicesSentence } from "../choices/VisionChoices.ts";
+import { ambassadorShown, asAmbassadorChoices, brandVoiceLine } from "../choices/AmbassadorChoices.ts";
+import { OFFERING_QUESTIONS, offeringAnswerLines, offeringOptions } from "../choices/OfferingQuestions.ts";
+import { workspacesOf, WORKSPACE_GROUP_ID } from "../answers/AnswerUtils.ts";
 import { offeringRelationshipsFor } from "../JourneySuggestions.ts";
 import { activitiesLine, positioningDocumentTitle } from "../ActivityClassification.ts";
-import { segmentAnswerLines, segmentBoxAnswered } from "../SegmentQuestions.ts";
+import { segmentAnswerLines, segmentBoxAnswered } from "../choices/SegmentQuestions.ts";
 import { segmentContextFor, segmentIdentityOf, segmentIsBusiness, settledSegmentAnswers } from "../SegmentContext.ts";
-import { effectiveOfferingAnswers, effectiveProfileAnswers, offeringContextOf } from "../EffectiveAnswers.ts";
-import { profilePersona } from "../ProfileQuestions.ts";
+import { effectiveOfferingAnswers, effectiveProfileAnswers, offeringContextOf } from "../answers/EffectiveAnswers.ts";
+import { profilePersona } from "../choices/ProfileQuestions.ts";
 import { AnswerType } from "../../enums/AnswerType.ts";
 import { WEEKS_PER_MONTH, demandResult, founderMonthlySalary, founderWorkingHours, hasDemand } from "../DemandCapacity.ts";
-import { addressCity, BUSINESS_ACTIVITY_CATEGORIES, BUSINESS_CHANNEL_ALL_OFFERINGS, BUSINESS_JOURNEY_STAGES, BUSINESS_COMPETITOR_TYPES, relationshipTypeLabel, BUSINESS_RESOURCE_GROUPS, BUSINESS_RESOURCE_STATUSES, BUSINESS_WORKSPACE_KINDS, isCostingStatus, type BusinessPartnerValue, type ExportBlock, type LegalEntityValue, type StrategyMonthValue, asFoundersProfileValue, type StrategyMetricValue, founderProfileHasText, founderProfileOf, founderProfiles, founderSkillLines, strategyObjectiveOwnerId, workspaceCardName } from "../AnswerUtils.ts";
-import { type ExportContent } from "../ExportContentBuilder.ts";
-import { financialForecast, forecastView, type ForecastViewTable } from "../FinancialForecast.ts";
-import { demandBasis, details, financialFoundationBlocks, financialSustainabilityBlocks, heading, labelled, labelledList, list, offeringName, offeringNames, capacityBlocks, brandStyleBlocks, paragraph, table, titled , offeringSplitText } from "../ExportRenderers.ts";
-import { COST_FREQUENCIES, COST_GROUPS, FUNDING_STATUSES, planLength, revenueModelLabel, planYears, salesCapacity, allFunding, asFinancialFoundationValue, fundingStanding, fundingType, isLoan, isNonCash, loanSchedule, isScheduled, monthlyEquivalent, parseAmount, moneyFormatter, planMonthLabel, spentBeforePlan, type CostLine, costAmountShown, offeringEconomicsOf } from "../FinancialModel.ts";
-import { COUNTRIES, jurisdictionProfile } from "../LegalEntityJurisdictions.ts";
+import { addressCity, BUSINESS_ACTIVITY_CATEGORIES, BUSINESS_CHANNEL_ALL_OFFERINGS, BUSINESS_JOURNEY_STAGES, BUSINESS_COMPETITOR_TYPES, relationshipTypeLabel, BUSINESS_RESOURCE_GROUPS, BUSINESS_RESOURCE_STATUSES, BUSINESS_WORKSPACE_KINDS, isCostingStatus, type BusinessPartnerValue, type ExportBlock, type LegalEntityValue, type StrategyMonthValue, asFoundersProfileValue, type StrategyMetricValue, founderProfileHasText, founderProfileOf, founderProfiles, founderSkillLines, strategyObjectiveOwnerId, workspaceCardName } from "../answers/AnswerUtils.ts";
+import { type ExportContent } from "../export/ExportContentBuilder.ts";
+import { financialForecast, forecastView, type ForecastViewTable } from "../financial/FinancialForecast.ts";
+import { demandBasis, details, financialFoundationBlocks, financialSustainabilityBlocks, heading, labelled, labelledList, list, offeringName, offeringNames, capacityBlocks, brandStyleBlocks, paragraph, table, titled , offeringSplitText } from "../export/ExportRenderers.ts";
+import { COST_FREQUENCIES, COST_GROUPS, FUNDING_STATUSES, planLength, revenueModelLabel, planYears, salesCapacity, allFunding, asFinancialFoundationValue, fundingStanding, fundingType, isLoan, isNonCash, loanSchedule, isScheduled, monthlyEquivalent, parseAmount, moneyFormatter, planMonthLabel, spentBeforePlan, type CostLine, costAmountShown, offeringEconomicsOf } from "../financial/FinancialModel.ts";
+import { COUNTRIES, jurisdictionProfile } from "../legal/LegalEntityJurisdictions.ts";
 import { brandGuidePictures, brandPictures, costName, coverLines, listItems, monthName, payWord, priceText, readFoundation, section, shortMonth, swotStartsOf, text, type Foundation, type FoundationSessions } from "./reading.ts";
 import { neededSkillLine, neededSkills, skillsOf } from "../capability/skills.ts";
-import { strategySwotShown } from "../AnswerStrategy.ts";
-import { competitorTable } from "../CompetitorQuestions.ts";
+import { strategySwotShown } from "../answers/AnswerStrategy.ts";
+import { competitorTable } from "../choices/CompetitorQuestions.ts";
 
 /* ==========================================================
    The Business Plan

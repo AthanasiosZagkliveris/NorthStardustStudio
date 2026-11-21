@@ -1,5 +1,5 @@
 export * from "./FrameworkInterpreter";
 export * from "./FrameworkRegistry";
 export * from "./InterviewValidator";
-export * from "./MarkdownExporter";
-export * from "./AnswerUtils";
+export * from "./export/MarkdownExporter";
+export * from "./answers/AnswerUtils";

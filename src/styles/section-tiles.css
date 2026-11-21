@@ -3,15 +3,15 @@
    between themselves, changes the cascade. A test that reads this sheet reads it with its imports in place. */
 
 @import "./section-tiles/01-tiles-and-dialog.css"; /* 533 lines */
-@import "./section-tiles/02-founders-and-card-boxes.css"; /* 684 lines */
+@import "./section-tiles/02-open-cards-and-boxes.css"; /* 684 lines */
 @import "./section-tiles/03-opened-card.css"; /* 283 lines */
 @import "./section-tiles/04-tile-slot-and-floating-card.css"; /* 441 lines */
-@import "./section-tiles/05-opened-card-rows.css"; /* 518 lines */
-@import "./section-tiles/06-floating-card-details-1.css"; /* 1103 lines */
-@import "./section-tiles/07-floating-card-details-2.css"; /* 1109 lines */
-@import "./section-tiles/08-floating-card-details-3.css"; /* 281 lines */
-@import "./section-tiles/09-segment-card-1.css"; /* 1106 lines */
-@import "./section-tiles/10-segment-card-2.css"; /* 1100 lines */
-@import "./section-tiles/11-segment-card-3.css"; /* 673 lines */
-@import "./section-tiles/12-name-cell-and-channel-card-1.css"; /* 1102 lines */
-@import "./section-tiles/13-name-cell-and-channel-card-2.css"; /* 643 lines */
+@import "./section-tiles/05-card-statuses-and-completed.css"; /* 518 lines */
+@import "./section-tiles/06-floating-card-links-and-rows.css"; /* 1103 lines */
+@import "./section-tiles/07-floating-cards-and-page-layout.css"; /* 1109 lines */
+@import "./section-tiles/08-card-costs-and-payment-plans.css"; /* 281 lines */
+@import "./section-tiles/09-segment-frame-and-dialogs.css"; /* 1106 lines */
+@import "./section-tiles/10-channel-and-strategy-cards.css"; /* 1100 lines */
+@import "./section-tiles/11-carousel-rail-and-strategic-period.css"; /* 673 lines */
+@import "./section-tiles/12-page-tabs-and-channel-card.css"; /* 1102 lines */
+@import "./section-tiles/13-tall-dialogs-and-channel-card-rhythm.css"; /* 643 lines */

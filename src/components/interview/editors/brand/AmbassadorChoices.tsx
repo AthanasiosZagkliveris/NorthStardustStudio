@@ -13,7 +13,7 @@ import { useAutoDraft } from "../../fields/useAutoDraft.ts";
 import {
     AMBASSADOR_CHARACTERS, AMBASSADOR_DRESS, AMBASSADOR_PRESENCE, AMBASSADOR_SETTINGS, AMBASSADOR_TICKS_MAX, AMBASSADOR_TONE, BA_INFO, BA_LABELS,
     type AmbassadorContext, aestheticsDraft, ambassadorShown, asAmbassadorChoices, bodyLanguageDraft, characterLimit, feelingOptions, firstImpressionDraft, lastingImpressionDraft, rememberedOptions, voiceDraft, wordsOptions
-} from "../../../../framework/engine/AmbassadorChoices.ts";
+} from "../../../../framework/engine/choices/AmbassadorChoices.ts";
 
 /** The Ambassador's four texts, by their saved keys (the Brand System's first section). */
 export const AMBASSADOR_PARTS = ["aesthetics", "attitude-body-language", "communication-voice", "imprint"] as const;

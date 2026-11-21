@@ -4,7 +4,7 @@ import { InterviewSession } from "../framework/interview";
 import { frameworkRegistry } from "../framework/engine/FrameworkRegistry";
 import { AnswerDefinition, Section, ValidationIssue, ValidationResult } from "../framework/model";
 import { AnswerType } from "../framework/enums/AnswerType";
-import { CardListAnswerValue, isAnswerEmpty, isTableRowComplete, ProcessRecordValue, TableAnswerRow, visibleTableColumns } from "../framework/engine/AnswerUtils.ts";
+import { CardListAnswerValue, isAnswerEmpty, isTableRowComplete, ProcessRecordValue, TableAnswerRow, visibleTableColumns } from "../framework/engine/answers/AnswerUtils.ts";
 import { StorageService } from "../services/StorageService";
 import { OrganizationService } from "../services/OrganizationService";
 import { systems } from "../data/systems";

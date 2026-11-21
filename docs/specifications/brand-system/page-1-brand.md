@@ -25,7 +25,7 @@ One page, titled "2. Brand System", its two chapters side by side as every page 
 
 ## 2. Chapter 1, Ambassador: the tiles
 
-Each tile is a text the founder writes about the brand as a person (doc 46, section 1). The tile lists the text's first lines (a column page's tile: layout rules, section 9, "The text on a column page's tile"); its dialog shows the tile's choices in bands, one question a band, the tints alternating (layout rules, section 6, "Infrastructure & Capability's cards: one band a section", the band rule), then the text a field gap (12px) under the last band (layout rules, section 6, "A text under its choices stands a field gap under them"). The text's guidance is the "i" beside the dialog's title (layout rules, section 13), from `src/assets/SystemQuestions/02_BrandSystemQuestions.md`.
+Each tile is a text the founder writes about the brand as a person (doc 46, section 1). The tile lists the text's first lines (a column page's tile: layout rules, section 9, "The text on a column page's tile"); its dialog shows the tile's choices in bands, one question a band, the tints alternating (layout rules, section 6, "Infrastructure & Capability's cards: one band a section", the band rule), then the text a field gap (12px) under the last band (layout rules, section 6, "A text under its choices stands a field gap under them"). The text's guidance is the "i" beside the dialog's title (layout rules, section 13), from `src/assets/system-questions/02_BrandSystemQuestions.md`.
 
 ## 3. The Ambassador's questions and drafts
 
@@ -67,7 +67,7 @@ The Brand pages' guidance opens in a note of double width (layout rules, section
 
 | Part | File |
 |---|---|
-| The page's sections | `src/assets/SystemAnswers/02_BrandSystemAnswer.md`, `PageGroups.ts` |
+| The page's sections | `src/assets/system-answers/02_BrandSystemAnswer.md`, `PageGroups.ts` |
 | The Ambassador's tiles and dialogs | `src/components/interview/editors/AnswerRenderer.tsx`, `brand/AmbassadorChoices.tsx`, `fields/ColumnFields.tsx` |
-| The Ambassador's questions and drafts | `src/framework/engine/AmbassadorChoices.ts` |
-| The Style | `src/components/interview/editors/BrandStyleEditor.tsx`, `BrandInventoryEditor.tsx`, `src/framework/engine/AnswerBrand.ts` |
+| The Ambassador's questions and drafts | `src/framework/engine/choices/AmbassadorChoices.ts` |
+| The Style | `src/components/interview/editors/BrandStyleEditor.tsx`, `BrandInventoryEditor.tsx`, `src/framework/engine/answers/AnswerBrand.ts` |

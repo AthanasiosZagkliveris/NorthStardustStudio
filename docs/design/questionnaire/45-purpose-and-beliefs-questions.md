@@ -21,9 +21,9 @@ Related: doc 40 (the form of a tile document), doc 39 (what an "i" says), doc 28
 | Principles | Identity section 2 (Ethics), key `principles` | numbered list |
 | Manifesto | Identity section 2 (Ethics), key `manifesto` | text box |
 
-The keys are made from the column titles of `src/assets/SystemAnswers/01_IdentitySystemAnswer.md` (the parser's slug), and `StorageService.ts` recognises an old Ethics save by them (`ETHICS_COLUMN_IDS`). **So the six column titles must not change**; a pair tile is a new drawing over them, not a new answer.
+The keys are made from the column titles of `src/assets/system-answers/01_IdentitySystemAnswer.md` (the parser's slug), and `StorageService.ts` recognises an old Ethics save by them (`ETHICS_COLUMN_IDS`). **So the six column titles must not change**; a pair tile is a new drawing over them, not a new answer.
 
-**What would change (the drawing only).** The chapter title (Ethics → Purpose & Beliefs), the tiles (eight single tiles → Organisation, Positioning, then three pair tiles), the order of the six, the "i" of each text (the bullets of `src/assets/SystemQuestions/01_IdentitySystemQuestions.md`, which the tile shows as its "i") and the generated library placements. The readers in section 3 are untouched.
+**What would change (the drawing only).** The chapter title (Ethics → Purpose & Beliefs), the tiles (eight single tiles → Organisation, Positioning, then three pair tiles), the order of the six, the "i" of each text (the bullets of `src/assets/system-questions/01_IdentitySystemQuestions.md`, which the tile shows as its "i") and the generated library placements. The readers in section 3 are untouched.
 
 ## 2. The structure
 

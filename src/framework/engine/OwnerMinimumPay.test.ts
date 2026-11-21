@@ -1,10 +1,10 @@
 import { describe, expect, it } from "vitest";
 
-import { asBusinessCapabilityValue, asLegalEntityValue } from "./AnswerUtils";
-import { survivalMinimum } from "./AnswerLegal";
-import { asFinancialFoundationValue, consolidateCosts } from "./FinancialModel";
-import { expenseNature } from "./FinancialForecast";
-import { salariedFounderIds } from "./LegalStarts";
+import { asBusinessCapabilityValue, asLegalEntityValue } from "./answers/AnswerUtils";
+import { survivalMinimum } from "./answers/AnswerLegal";
+import { asFinancialFoundationValue, consolidateCosts } from "./financial/FinancialModel";
+import { expenseNature } from "./financial/FinancialForecast";
+import { salariedFounderIds } from "./legal/LegalStarts";
 
 /* THE OWNER'S MINIMUM PAY AND THE PERSONAL SURVIVAL BUDGET (doc 48, section 13, step 2 and decision (d); Start Up Loans). */
 

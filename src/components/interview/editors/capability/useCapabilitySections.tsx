@@ -4,10 +4,10 @@
  */
 import TickField from "../../../controls/TickField.tsx";
 import TextBox from "../../../controls/TextBox.tsx";
-import { connectedOfferings } from "../../../../framework/engine/GeneratedCards.ts";
+import { connectedOfferings } from "../../../../framework/engine/cards/GeneratedCards.ts";
 import { ReactNode } from "react";
-import { activityGroupsOf, activityCategoryLabel, BUSINESS_RESOURCE_GROUPS, BUSINESS_OFFERING_RESOURCE_GROUPS, soleGroupOf, BUSINESS_PARTNER_GROUPS, groupHelpPoints, FOUNDERS_OWNERS_HELP, BUSINESS_RESOURCE_STATUSES, activityPeriod, activityDateIssues, BusinessActivityValue, PARTNER_CATEGORIES, partnerCategoryLabel, partnerNoun, BusinessCapabilityValue, BusinessPartnerValue, BusinessResourceSlotValue, businessAutoResponsibleId, responsibleIsOff, createBusinessActivity, UNASSIGNED_CATEGORY, createBusinessResourceSlot, stableCardHue } from "../../../../framework/engine/AnswerUtils.ts";
-import { costText } from "../../../../framework/engine/ExportRenderers.ts";
+import { activityGroupsOf, activityCategoryLabel, BUSINESS_RESOURCE_GROUPS, BUSINESS_OFFERING_RESOURCE_GROUPS, soleGroupOf, BUSINESS_PARTNER_GROUPS, groupHelpPoints, FOUNDERS_OWNERS_HELP, BUSINESS_RESOURCE_STATUSES, activityPeriod, activityDateIssues, BusinessActivityValue, PARTNER_CATEGORIES, partnerCategoryLabel, partnerNoun, BusinessCapabilityValue, BusinessPartnerValue, BusinessResourceSlotValue, businessAutoResponsibleId, responsibleIsOff, createBusinessActivity, UNASSIGNED_CATEGORY, createBusinessResourceSlot, stableCardHue } from "../../../../framework/engine/answers/AnswerUtils.ts";
+import { costText } from "../../../../framework/engine/export/ExportRenderers.ts";
 import { MissingScope, OptionalNote, BusinessRemove } from "../../cards/BusinessCardFields.tsx";
 import { PreferencesService } from "../../../../services/PreferencesService.ts";
 import { isoToDisplay } from "../../fields/DateCellInput.tsx";

@@ -23,4 +23,4 @@ The header is the Landing page's (only the Workbook button); every Organisation 
 
 ## Where it is in the code
 
-`src/components/OrganizationReview.tsx`, `src/framework/engine/ReviewItems.ts`, `src/pages/Workbook.tsx`; the tests `src/pages/Review.test.tsx`, `src/pages/Workbook.test.tsx`.
+`src/components/workbook/OrganizationReview.tsx`, `src/framework/engine/ReviewItems.ts`, `src/pages/Workbook.tsx`; the tests `src/pages/Review.test.tsx`, `src/pages/Workbook.test.tsx`.

@@ -1,6 +1,6 @@
 import type { AnswerDefinition, Section } from "../model";
 import type { InterviewSession } from "../interview";
-import { incompleteCards } from "./CardCompleteness.ts";
+import { incompleteCards } from "./cards/CardCompleteness.ts";
 import { AnswerType } from "../enums/AnswerType.ts";
 import {
     asBrandInventoryValue,
@@ -30,26 +30,26 @@ import {
     STRATEGY_FOUNDATION_SECTIONS,
     STRATEGY_SWOT_QUADRANTS,
     strategyGoalsForTheme
-} from "./AnswerUtils.ts";
+} from "./answers/AnswerUtils.ts";
 import {
     asFinancialFoundationValue,
     asFinancialSustainabilityValue,
     FINANCIAL_FOUNDATION_SECTIONS,
     FINANCIAL_SUSTAINABILITY_SECTIONS,
     incomeTaxMissing
-} from "./FinancialModel.ts";
-import { fieldKey, sectionSegment } from "./FieldKeys.ts";
-import { registrationDateApplies } from "./LegalEntityJurisdictions.ts";
+} from "./financial/FinancialModel.ts";
+import { fieldKey, sectionSegment } from "./fields/FieldKeys.ts";
+import { registrationDateApplies } from "./legal/LegalEntityJurisdictions.ts";
 import { InterviewValidator } from "./InterviewValidator.ts";
-import { monthOrdinal } from "./FinancialModel.ts";
-import { parseAmount } from "./Amounts.ts";
-import { pageStatus } from "./PageStatus.ts";
-import { asVisionAmbitions, asVisionReach } from "./VisionChoices.ts";
-import { asAmbassadorChoices } from "./AmbassadorChoices.ts";
+import { monthOrdinal } from "./financial/FinancialModel.ts";
+import { parseAmount } from "./financial/Amounts.ts";
+import { pageStatus } from "./status/PageStatus.ts";
+import { asVisionAmbitions, asVisionReach } from "./choices/VisionChoices.ts";
+import { asAmbassadorChoices } from "./choices/AmbassadorChoices.ts";
 
 /** The Ambassador's four texts, by their saved keys (doc 46). */
 const AMBASSADOR_TEXTS = ["aesthetics", "attitude-body-language", "communication-voice", "imprint"] as const;
-import { effectiveOfferingAnswers } from "./EffectiveAnswers.ts";
+import { effectiveOfferingAnswers } from "./answers/EffectiveAnswers.ts";
 
 /*
     STILL OPEN: what is missing, by the CARD (or, where a page has no

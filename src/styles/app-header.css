@@ -67,7 +67,7 @@
 /* The active Organization's name, on the opposite side of
    the header from the logo (item: "on the Header, on the
    right side, the other side of the logo"). The reading mode
-   picker before it (theme-switch.css) pushes the tools and the
+   picker before it (tools-menu.css) pushes the tools and the
    name to the far right;
    the name keeps 24px from the tool before it, and in a window too narrow for
    the logo, the tools and the whole name, the name ends in
@@ -140,7 +140,7 @@
 }
 
 /* The same narrow window in which the header's tools drop their words
-   (theme-switch.css): the glyph alone, the words kept for assistive
+   (tools-menu.css): the glyph alone, the words kept for assistive
    technology. */
 @media (max-width: 1099px) {
 

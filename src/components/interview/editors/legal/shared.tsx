@@ -4,10 +4,10 @@ import { BUSINESS_STAGE_WORDS, SCHEME_CODE_LABEL, schemeKeyOf } from "../../../.
 import { choiceLimit } from "../../../../framework/engine/PositioningIds.ts";
 import { isoToDisplay } from "../../fields/DateCellInput.tsx";
 import { PreferencesService } from "../../../../services/PreferencesService.ts";
-import { FoundersProfileValue, LegalEntityValue, todayIsoDate, createLegalEntityExpense } from "../../../../framework/engine/AnswerUtils.ts";
+import { FoundersProfileValue, LegalEntityValue, todayIsoDate, createLegalEntityExpense } from "../../../../framework/engine/answers/AnswerUtils.ts";
 import { InfoPoint } from "../../fields/InfoNote.tsx";
 import { SOURCES } from "../../../../framework/engine/Sources.ts";
-import { FIRST_VERSION_COUNTRIES } from "../../../../framework/engine/LegalEntityJurisdictions.ts";
+import { FIRST_VERSION_COUNTRIES } from "../../../../framework/engine/legal/LegalEntityJurisdictions.ts";
 import { categoryOfModel, orderedByCategory, relationshipFits, relationshipFitsBuyerStage, userStageFits } from "../../../../framework/engine/RelationshipFit.ts";
 import { differentiationByLifeStage, differentiationByPurpose, differentiationByRelationship, differentiationRelevance, orderedByRelevance, outcomesByLifeStage, userOutcomeByPurpose } from "../../../../framework/engine/PurposeRelevance.ts";
 

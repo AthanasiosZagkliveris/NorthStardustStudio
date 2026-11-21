@@ -5,7 +5,7 @@ import {
     RolesResponsibilitiesAnswerValue,
     groupRolesResponsibilities,
     processDisplayId
-} from "../../../framework/engine/AnswerUtils.ts";
+} from "../../../framework/engine/answers/AnswerUtils.ts";
 import NotesField from "../fields/NotesField.tsx";
 
 interface RolesResponsibilitiesEditorProps {

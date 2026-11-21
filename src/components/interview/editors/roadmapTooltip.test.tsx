@@ -6,7 +6,7 @@ import { TOOLTIP_EDGE_MARGIN, TOOLTIP_GAP, placeTooltip } from "./roadmapTooltip
 import {
     asStrategicPeriodValue,
     asStrategyFoundationValue
-} from "../../../framework/engine/AnswerUtils";
+} from "../../../framework/engine/answers/AnswerUtils";
 
 afterEach(cleanup);
 

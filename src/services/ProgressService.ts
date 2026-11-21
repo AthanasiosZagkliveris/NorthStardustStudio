@@ -1,7 +1,7 @@
 import { InterviewSession } from "../framework/interview";
 import type { AnswerDefinition } from "../framework/model";
 import { frameworkRegistry } from "../framework/engine/FrameworkRegistry";
-import { pageStatuses, systemStatus, type PageStatus } from "../framework/engine/PageStatus";
+import { pageStatuses, systemStatus, type PageStatus } from "../framework/engine/status/PageStatus";
 import { systems } from "../data/systems";
 import type { FrameworkSystem } from "../types/system";
 import { StorageService } from "./StorageService";

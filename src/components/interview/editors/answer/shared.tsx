@@ -1,12 +1,12 @@
 import type { StageKey } from "../../../../framework/engine/BusinessStage.ts";
-import type { StrategyChoiceContext } from "../../../../framework/engine/StrategyChoices.ts";
+import type { StrategyChoiceContext } from "../../../../framework/engine/choices/StrategyChoices.ts";
 import { ReactNode } from "react";
 import type { OpenPage } from "../../tiles/jumpTo.ts";
 import { TableColumn, TableRow } from "../../fields/DynamicTable.tsx";
 import type { GlobalSettingsValue } from "../../../../framework/engine/GlobalSettings.ts";
 import { AnswerDefinition, TableColumnDefinition } from "../../../../framework/model/index.ts";
 import { AnswerType } from "../../../../framework/enums/AnswerType.ts";
-import { LegalEntityFounderValue, LegalEntityValue, ProcessRecordValue, StrategicPeriodValue, StrategyFoundationValue, StrategyRangeValue, StrategyThemeValue, isDateColumn, visibleTableColumns } from "../../../../framework/engine/AnswerUtils.ts";
+import { LegalEntityFounderValue, LegalEntityValue, ProcessRecordValue, StrategicPeriodValue, StrategyFoundationValue, StrategyRangeValue, StrategyThemeValue, isDateColumn, visibleTableColumns } from "../../../../framework/engine/answers/AnswerUtils.ts";
 
 export let checklistItemCounter = 0;
 

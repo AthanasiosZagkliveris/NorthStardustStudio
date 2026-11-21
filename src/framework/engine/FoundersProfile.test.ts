@@ -16,7 +16,7 @@ import {
     withFounderProfiles,
     withLegalEntityFounders,
     asBusinessCapabilityValue
-} from "./AnswerUtils.ts";
+} from "./answers/AnswerUtils.ts";
 import { sectionRailItems } from "../../components/interview/rails/railItems.ts";
 import quillfieldText from "../../data/examples/quillfield-automation-llc.json?raw";
 

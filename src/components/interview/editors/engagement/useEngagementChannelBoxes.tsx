@@ -4,23 +4,23 @@
  */
 import { Fragment, ReactNode } from "react";
 import AddButton from "../../../controls/AddButton.tsx";
-import { BUSINESS_CHANNEL_ALL_OFFERINGS, BUSINESS_CHANNEL_CATEGORIES, BUSINESS_CHANNEL_OTHER, BUSINESS_ENGAGEMENT_SECTIONS, BUSINESS_JOURNEY_STAGES, BusinessChannelValue, BusinessCustomerSegmentValue, businessChannelNamePlaceholder, channelCategoryHelp, channelCategoryHidden, channelOptionHelp, createBusinessChannel, subchannelHidden } from "../../../../framework/engine/AnswerUtils.ts";
+import { BUSINESS_CHANNEL_ALL_OFFERINGS, BUSINESS_CHANNEL_CATEGORIES, BUSINESS_CHANNEL_OTHER, BUSINESS_ENGAGEMENT_SECTIONS, BUSINESS_JOURNEY_STAGES, BusinessChannelValue, BusinessCustomerSegmentValue, businessChannelNamePlaceholder, channelCategoryHelp, channelCategoryHidden, channelOptionHelp, createBusinessChannel, subchannelHidden } from "../../../../framework/engine/answers/AnswerUtils.ts";
 import { BusinessAddButton, BusinessEmpty, OptionalField, BusinessRemove, BusinessStep, BusinessTicks, uniqueChoices } from "../../cards/BusinessCardFields.tsx";
 import InfoNote, { InfoText } from "../../fields/InfoNote.tsx";
 import NumberedListInput from "../../fields/NumberedListInput.tsx";
 import OptionPicker from "../../fields/OptionPicker.tsx";
 import { railId } from "../../rails/railItems.ts";
 import SuggestedInput from "../../fields/SuggestedInput.tsx";
-import { journeyStageLabels } from "../../../../framework/engine/ChannelTableColumns.ts";
+import { journeyStageLabels } from "../../../../framework/engine/channels/ChannelTableColumns.ts";
 import { channelKey, journeySuggestions } from "../../../../framework/engine/JourneySuggestions.ts";
 import ChannelResourceTable from "../ChannelResourceTable.tsx";
-import { buildChannelResourceTable } from "../../../../framework/engine/ChannelResourceTable.ts";
+import { buildChannelResourceTable } from "../../../../framework/engine/channels/ChannelResourceTable.ts";
 import FoldArrow from "../../fields/FoldArrow.tsx";
 import TextLink from "../../fields/TextLink.tsx";
 import { SECTIONS, ALL_OFFERINGS_LABEL, STAGE_LABELS, NOTHING_RECORDED, RelativeQuestion, relativeInformation, relativeInformationFor, channelNameOptions, stageOptionsFor, stageIsUsual } from "../BusinessEngagementModel.ts";
 
 import type { useEngagementState } from "./useEngagementState.tsx";
-import { segmentPhonesOnly } from "../../../../framework/engine/EffectiveAnswers.ts";
+import { segmentPhonesOnly } from "../../../../framework/engine/answers/EffectiveAnswers.ts";
 
 type Earlier = ReturnType<typeof useEngagementState>;
 

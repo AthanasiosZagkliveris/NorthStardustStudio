@@ -1,6 +1,6 @@
 # 2. Brand System — the page and its specification
 
-Status: **index**, written 2026-11-20. The Brand System (System 2 of the Foundation) is ONE page, "2. Brand System" (`PageGroups.ts`: sections 1 and 2 on one page, no page name in the header), of two chapters, each its own section of the saved answer (`src/assets/SystemAnswers/02_BrandSystemAnswer.md`).
+Status: **index**, written 2026-11-20. The Brand System (System 2 of the Foundation) is ONE page, "2. Brand System" (`PageGroups.ts`: sections 1 and 2 on one page, no page name in the header), of two chapters, each its own section of the saved answer (`src/assets/system-answers/02_BrandSystemAnswer.md`).
 
 Each file here describes the app as it is; where it and the code differ, the code is the bug or this file is, and both are mended in one commit with a row in the log (`design/core/04-log.md`). The layout (tiles, cards, measures) is the rulebook's (`ai/layout-rules.md`, sections 8, 9 and 13); the questions are kept in their questionnaire documents (`design/questionnaire/`), not repeated here.
 

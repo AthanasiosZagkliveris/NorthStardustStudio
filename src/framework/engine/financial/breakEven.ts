@@ -1,6 +1,6 @@
 /* Part of FinancialModel.ts (split by its sections, 2026-11-10: the same code, in files of one topic each; FinancialModel.ts re-exports every part). */
 
-import { type LegalEntityValue } from "../AnswerUtils.ts";
+import { type LegalEntityValue } from "../answers/AnswerUtils.ts";
 import { type FinancialFoundationValue, type FundingSourceValue } from "./stored.ts";
 import { isPerUnit, isScheduled, type CostLine } from "./costs.ts";
 import { MODEL_MONTHS, monthOrdinal, planLength, planMonthLabel } from "./period.ts";
@@ -10,7 +10,7 @@ import { fundingStanding, loanSchedule } from "./funding.ts";
 import { type FinancialSustainabilityValue, type RevenueStreamValue } from "./revenueStored.ts";
 import { allFunding, cashTimeline, isNonCash, runwayOf, type CashMonth, type Signal } from "./position.ts";
 import { monthlyPrice, normalVolume, streamRevenue, streamVariableCost, streamVolumes } from "./revenue.ts";
-import type { CalculatedResult } from "../CalculatedLines.ts";
+import type { CalculatedResult } from "./CalculatedLines.ts";
 
 /* ==========================================================
    Page 5 -- break even

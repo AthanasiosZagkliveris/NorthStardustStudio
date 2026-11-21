@@ -1,10 +1,10 @@
 import { describe, expect, it } from "vitest";
 
-import { type SegmentContext } from "./SegmentQuestions";
-import { PROFILE_QUESTIONS, profileOptionsShown, profilePersona, profileShown } from "./ProfileQuestions";
-import { offeringOptionsWith, supportPromise } from "./OfferingQuestions";
-import { CROWDED_LINE, COMPETITOR_INFO, competitorK10Info, competitorOpenings, competitorTable } from "./CompetitorQuestions";
-import { strategySwotShown } from "./AnswerStrategy";
+import { type SegmentContext } from "./choices/SegmentQuestions";
+import { PROFILE_QUESTIONS, profileOptionsShown, profilePersona, profileShown } from "./choices/ProfileQuestions";
+import { offeringOptionsWith, supportPromise } from "./choices/OfferingQuestions";
+import { CROWDED_LINE, COMPETITOR_INFO, competitorK10Info, competitorOpenings, competitorTable } from "./choices/CompetitorQuestions";
+import { strategySwotShown } from "./answers/AnswerStrategy";
 
 /* The questions read at last (the open decisions and gaps, Group 4c, item 22; owner, 2026-11-17). */
 const PEOPLE: SegmentContext = { frame: "people", stage: "manage", lifeStages: [], endsUser: false, userStages: [], relations: [], scales: [] };

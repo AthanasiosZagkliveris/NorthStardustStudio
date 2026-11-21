@@ -6,9 +6,9 @@ import {
     createBusinessPartner,
     createBusinessResourceSlot,
     instalmentLines
-} from "./AnswerUtils";
-import { calculatedLines } from "./CalculatedLines";
-import { financialForecast } from "./FinancialForecast";
+} from "./answers/AnswerUtils";
+import { calculatedLines } from "./financial/CalculatedLines";
+import { financialForecast } from "./financial/FinancialForecast";
 import {
     asFinancialFoundationValue,
     asFinancialSustainabilityValue,
@@ -21,7 +21,7 @@ import {
     natureSplitOf,
     projectPayments,
     spentBeforePlan
-} from "./FinancialModel";
+} from "./financial/FinancialModel";
 import { createGlobalSettings } from "./GlobalSettings";
 
 /* I8: a Per project card is paid by its payment plan (rule X9); a Per unit cost follows the units sold. */

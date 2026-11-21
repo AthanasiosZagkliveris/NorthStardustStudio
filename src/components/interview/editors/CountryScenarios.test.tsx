@@ -3,8 +3,8 @@ import { useState } from "react";
 import { cleanup, render, screen } from "@testing-library/react";
 
 import LegalEntityEditor from "./LegalEntityEditor";
-import { asLegalEntityValue } from "../../../framework/engine/AnswerLegal.ts";
-import { COUNTRIES, legalFormOptions } from "../../../framework/engine/LegalEntityJurisdictions.ts";
+import { asLegalEntityValue } from "../../../framework/engine/answers/AnswerLegal.ts";
+import { COUNTRIES, legalFormOptions } from "../../../framework/engine/legal/LegalEntityJurisdictions.ts";
 import { SCHEME_CODE_LABEL, activitiesLine, loadClassification, pathOf, schemeKeyOf, type ClassificationScheme } from "../../../framework/engine/ActivityClassification.ts";
 import { fitPositioningToStage } from "./legal/shared.tsx";
 import { RELATIONSHIP_FITS, relationshipFits, relationshipFitsBuyerStage, userStageFits } from "../../../framework/engine/RelationshipFit.ts";

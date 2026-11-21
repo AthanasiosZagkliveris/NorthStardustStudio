@@ -2,7 +2,7 @@
 
 Status: **specification**, written 2026-11-14, updated 2026-11-18. Channel fees on Customer Engagement and what Sales Forecast adds, built as recommended (1.4, 2.5, 2.6): the UK fee rows (PayPal marked not checked), the match by name (`channelFeeFor`), the Fees line on a paying subchannel's card with the fee on each Offering's sale and the link to Global Settings; "Tried it (%)" (`funnelIsTrial`), the read-only time to buy (`monthsToClose`), the typical ranges, the market-size check, Ready From and the Identity answers in the source suggestions. The time to buy is shown and kept out of the forecast (Sustainability's ramp starts sales slowly); the seasons wait for step 7. The dates of each step are in the log.
 
-Related: doc 47 (Customer Engagement), doc 48 (the Financial pages), `src/framework/engine/GlobalSettings.ts` (the Channel Fee Table), `src/framework/engine/CalculatedLines.ts` (`channelFeeRowFor`), `src/framework/engine/DemandCapacity.ts` (`DEMAND_SOURCES`).
+Related: doc 47 (Customer Engagement), doc 48 (the Financial pages), `src/framework/engine/GlobalSettings.ts` (the Channel Fee Table), `src/framework/engine/financial/CalculatedLines.ts` (`channelFeeRowFor`), `src/framework/engine/DemandCapacity.ts` (`DEMAND_SOURCES`).
 
 ## 1. The Channel Fee Table on Customer Engagement
 

@@ -1,6 +1,6 @@
 import { describe, expect, test } from "vitest";
 
-import { STRATEGY_METRIC_UNITS, migratedMetricUnit } from "./AnswerUtils.ts";
+import { STRATEGY_METRIC_UNITS, migratedMetricUnit } from "./answers/AnswerUtils.ts";
 
 describe("a Metric's unit", () => {
 

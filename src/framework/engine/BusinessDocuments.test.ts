@@ -5,10 +5,10 @@ import { businessForecast, businessForecastContent, businessModelCanvas, busines
 
 /** The Business Plan as it exports: with the Financial Documents as its appendix (doc 48, section 14; owner, 2026-11-20 20:47 UTC+2). */
 const planExport = (sessions: Parameters<typeof businessPlan>[0]) => businessPlanForExport(businessPlan(sessions), [fundingRequest(sessions), financialPlan(sessions)]);
-import { financialPosition, stressTest, sustainability, whatItWouldTake, withWhatIf } from "./FinancialModel.ts";
-import { financialForecast, forecastCsv, forecastView, splitMonthlyTableByYear } from "./FinancialForecast.ts";
+import { financialPosition, stressTest, sustainability, whatItWouldTake, withWhatIf } from "./financial/FinancialModel.ts";
+import { financialForecast, forecastCsv, forecastView, splitMonthlyTableByYear } from "./financial/FinancialForecast.ts";
 import { frameworkRegistry } from "./FrameworkRegistry.ts";
-import { MarkdownExporter } from "./MarkdownExporter.ts";
+import { MarkdownExporter } from "./export/MarkdownExporter.ts";
 import exampleText from "../../data/examples/lumen-and-loom-studio.json?raw";
 
 /* The two documents, built from the Lumen & Loom Studio example. */
@@ -852,7 +852,7 @@ describe("the Quillfield example is complete", () => {
 
 /* The optional answers: shown where given, "not covered" where not. */
 import { AnswerType } from "../enums/AnswerType.ts";
-import { buildExportContent } from "./ExportContentBuilder.ts";
+import { buildExportContent } from "./export/ExportContentBuilder.ts";
 
 describe("the optional answers in the documents", () => {
 
@@ -1049,7 +1049,7 @@ describe("the industry outlook in the documents", () => {
 });
 
 /* Income tax: not chosen yet, none at business level, or a rate on profit. */
-import { asFinancialFoundationValue, financialFoundationSectionsEmpty } from "./FinancialModel.ts";
+import { asFinancialFoundationValue, financialFoundationSectionsEmpty } from "./financial/FinancialModel.ts";
 
 
 describe("income tax in the forecast", () => {

@@ -1,10 +1,10 @@
 import { describe, expect, test } from "vitest";
-import { asBusinessEngagementValue, asBusinessFoundationValue, createBusinessChannel } from "./AnswerUtils.ts";
+import { asBusinessEngagementValue, asBusinessFoundationValue, createBusinessChannel } from "./answers/AnswerUtils.ts";
 import { DEFAULT_RELATIONSHIP_TYPE, autoRelationshipTypes, offeringRelationshipsFor, demandSuggestions, journeySuggestions, relationshipTypesOf, suggestionMet, withAnswerChannels, dismissedAfter, channelKey, startGoals, funnelIsTrial, demandSourceOf, demandSourceKey, withAnswerSources } from "./JourneySuggestions.ts";
 import { createDemand, createDemandSource } from "./DemandCapacity.ts";
 import { relationshipTypeLabel } from "./businessFoundation/engagementReaders.ts";
-import { effectiveProfileAnswers, segmentTrials } from "./EffectiveAnswers.ts";
-import { PROFILE_QUESTIONS, TRIAL_OPTIONS, profileOptionsShown } from "./ProfileQuestions.ts";
+import { effectiveProfileAnswers, segmentTrials } from "./answers/EffectiveAnswers.ts";
+import { PROFILE_QUESTIONS, TRIAL_OPTIONS, profileOptionsShown } from "./choices/ProfileQuestions.ts";
 import { subchannelHidden } from "./businessFoundation/channelCategories.ts";
 import lumenText from "../../data/examples/lumen-and-loom-studio.json?raw";
 import quillText from "../../data/examples/quillfield-automation-llc.json?raw";

@@ -1,4 +1,4 @@
-import { type FieldKey, currentFieldKey } from "../framework/engine/FieldKeys";
+import { type FieldKey, currentFieldKey } from "../framework/engine/fields/FieldKeys";
 
 /*
     THE NOTEPAD: the person's own notes, kept apart from any
