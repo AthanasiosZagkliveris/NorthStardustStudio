@@ -59,7 +59,7 @@ What you sell, to whom, with what, and whether the money works. Three pages, bes
    - **Value Proposition**: what each Profile needs and how your offer answers it.
    - **Competitors**: who else serves the Segment, how they compare, and a SWOT Analysis.
    - **Offerings**: what you sell, its Description and its Terms & Service.
-   **Engagement**, beside it: how the Segment finds you, chooses and buys. Add the **Customer Channels** you use; a channel can make its own cost cards ("+ Add expenses", with the channel's typical costs). Customer Relationship and Demand & Conversion follow as folding cards.
+   **Engagement**, beside it: how the Segment finds you, chooses and buys. Add the **Customer Channels** you use; a channel can make its own cost cards ("+ Add expenses", with the channel's typical costs). Customer Relationship and Sales Forecast follow as folding cards.
 2. **Infrastructure & Capability**: two frames of four tiles. **Infrastructure**: Founders, Resources, Activities, Partners & Suppliers. **Offering's Capability**: Resources, Activities, Partners & Suppliers, Capacity & Delivery. Each card carries its cost, its dates and its status. At the bottom, the **Inventory** lists every card with its cost, as tiles or as a table with a filter, and **Completed** holds the activities you have ticked as done.
 3. **Financials**: one chapter, **Financial Foundation**, whose tiles ask for your revenue, your costs and your funding (the tiles in full: doc 48, section 14). What your answers work out is in the Workbook, under **Financial Documents**: the **Funding Request** (what you need, what you have, the gap, and what the money is for), the **Financial Plan** (your costs, your revenue, when the business breaks even and whether the money lasts until then) and the **Financial Forecast** (the money in and out, month by month, with its two charts).
 
@@ -69,7 +69,7 @@ The Foundation's answers write the **Business Documents** -- the **Business Plan
 
 ## 4. The tools
 
-The tools stand in the header at the top of every page with an Organisation open. On a wide window each shows its word; on a narrower one, its icon, with its name in the tooltip.
+Two buttons stand in the header at the top of every page with an Organisation open: **Workbook** and **Menu**. On a wide window each shows its word; on a narrower one, its icon, with its name in the tooltip. **Menu** opens a list, each with its symbol: Search, Notes, Calendar, Focus, Settings and Appearance.
 
 ### 4.1 Workbook
 
@@ -91,20 +91,20 @@ Back or Escape returns you to where you opened the Workbook.
 
 Your own notes, beside any page.
 
-1. Press **Notes** in the header: the panel opens at the right and stays open as you move from page to page.
+1. Open **Menu** and press **Notes**: the panel opens at the right and stays open as you move from page to page.
 2. Press **+ Add note** and write. A note can carry a date, which puts it in the Calendar.
 3. **Link a field** lets you point at a field, card or page: the note then opens that place, and the field shows a mark.
 4. The open Organisation's notes come first; other Organisations' notes and the General notes are in their own groups below. A note left empty is taken away.
 
-Press Notes again, the arrow beside the panel's title, or Escape to close it.
+Press Notes in the Menu again, the arrow beside the panel's title, or Escape to close it.
 
 ### 4.3 Search
 
-Press **Search** or **Ctrl+K**, and type. The results come in four groups: **Pages**, **Fields**, **Glossary** and **Your answers**. Press a result to go there: a page opens, a field opens with its card unfolded, a term opens in the Workbook's Glossary.
+Open **Menu** and press **Search**, or press **Ctrl+K**, and type. The results come in four groups: **Pages**, **Fields**, **Glossary** and **Your answers**. Press a result to go there: a page opens, a field opens with its card unfolded, a term opens in the Workbook's Glossary.
 
 ### 4.4 Settings
 
-Press **Settings** for the **Global Settings**: the rates and limits every calculated line uses. Change one and every figure that uses it follows.
+Open **Menu** and press **Settings** for the **Global Settings**: the rates and limits every calculated line uses. Change one and every figure that uses it follows.
 
 - **Financial plan**: the plan's start (worked out from the Opening Date) and its length.
 - **Business stages**: the Opening Date as recorded, and how long each stage lasts: Planning, Launching, Managing, Growing.
@@ -114,11 +114,11 @@ Each setting has its "i" with what it means.
 
 ### 4.5 Focus
 
-On a System's pages, press **Focus** to read and write without distraction: the rails, the help and the header step aside and the page stays at its usual width. Press **Exit focus** at the top right, or Escape, to return. The app remembers your choice on this device.
+On a System's pages, open **Tools** and press **Focus** to read and write without distraction: the rails, the help and the header step aside and the page stays at its usual width. Press **Exit focus** at the top right, or Escape, to return. The app remembers your choice on this device.
 
-### 4.6 Reading modes
+### 4.6 Appearance
 
-The reading-mode picker, first among the header tools, sets how the app looks:
+Point at **Appearance** in the **Menu** (or press it, or press the right arrow on it) and choose how the app looks, the chosen one marked:
 - **Light**: the standard look.
 - **Sepia**: warm paper, for long reading.
 - **Dark**: light text on a dark ground.
@@ -126,7 +126,7 @@ The reading-mode picker, first among the header tools, sets how the app looks:
 
 ### 4.7 Calendar
 
-On **System Selection**, the **Calendar** tab in the left rail opens the calendar of the selected Organisation. It shows every date your cards hold (the plan's start, the registration and opening dates, the end of each stage, legal fees, payments, warranties, deadlines) and your dated notes.
+Open **Menu** and press **Calendar**: the calendar of the open Organisation opens at the left of the page you are on (on **System Selection**, the **Calendar** tab in the left rail does the same). Press outside it or Escape to close it. It shows every date your cards hold (the plan's start, the registration and opening dates, the end of each stage, legal fees, payments, warranties, deadlines) and your dated notes.
 
 1. Press a day to see what falls on it; press an item to open the page it comes from, or your note.
 2. The funnel chooses the period, the kinds of date and the cards they come from.

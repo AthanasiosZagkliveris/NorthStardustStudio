@@ -57,7 +57,7 @@ describe("business documents", () => {
         // Sustainability numbers on from Financial Foundation's three headings (its costs are in the Appendix).
         expect(md).toContain("### 4. Revenue");
         expect(md).toContain("Lumen & Loom Studio Ltd, a private company limited by shares, based in London, United Kingdom, was founded by");
-        expect(md).toContain("is seeking £26,000 of additional funding towards a funding gap of £25,864");
+        expect(md).toContain("is seeking £26,000 of additional funding towards a funding gap of £23,724");
     });
 
     test("the financial forecast adds up, month by month and by year", () => {
@@ -199,10 +199,11 @@ describe("Quillfield: an unresolved funding gap", () => {
     });
 
     test("the Funding Need covers the whole plan", () => {
-        // $3,210 of establishment costs (the $450 video kit and the $60 webcam and headset included) and a $23,638 operating need.
+        // $3,210 of establishment costs (the $450 video kit and the $60 webcam and headset included) and the operating need. (The Care Retainer builds up as
+        // its Demand says, 0.5 new clients a month to 5 in 22 months, not from the 1 once typed on the stream: doc 48, 15.1; 2026-11-21.)
         // The channels' costs now sit on their own cards (Squarespace, Calendly, Mailchimp, Zoom, payment fees, referral
         // fees, meetups, LinkedIn Premium), counted once; the work tools moved to Infrastructure (QuickBooks, Miro and Loom).
-        expect(f.position.need).toBeCloseTo(24759.03, 1);
+        expect(f.position.need).toBeCloseTo(25135.44, 1);
     });
 
     test("the loan's repayments are scheduled", () => {
@@ -211,15 +212,15 @@ describe("Quillfield: an unresolved funding gap", () => {
         expect(loan.schedule.totalInterest).toBeCloseTo(1921.64, 1);
     });
 
-    test("the gap is found: $10,700 in hand against $24,759", () => {
+    test("the gap is found: $10,700 in hand against $25,135", () => {
         expect(f.position.availableNow).toBeCloseTo(10700, 6);
-        expect(f.position.gap).toBeCloseTo(14059.03, 1);
+        expect(f.position.gap).toBeCloseTo(14435.44, 1);
         expect(f.position.signals.some(signal => signal.title === "Funding Gap")).toBe(true);
     });
 
     test("the $15,000 being sought still leaves cash short once it is repaid", () => {
-        expect(f.position.sought).toMatchObject({ amount: 15000, lowestLabel: "Jul 2027" });
-        expect(f.position.sought!.shortfall).toBeCloseTo(1208.17, 1);
+        expect(f.position.sought).toMatchObject({ amount: 15000, lowestLabel: "Aug 2027" });
+        expect(f.position.sought!.shortfall).toBeCloseTo(1890.04, 1);
         expect(f.position.signals.some(signal => signal.title === "Funding Being Sought Falls Short")).toBe(true);
     });
 
@@ -227,21 +228,21 @@ describe("Quillfield: an unresolved funding gap", () => {
         const test = stressTest(f.revenuePage, f.financial, f.lines, f.legalEntity, f.format);
         expect(test.sought).toBe(15000);
         const short = Object.fromEntries(test.scenarios.map(scenario => [scenario.id, Math.round(scenario.shortfall)]));
-        expect(short).toEqual({ planned: 1208, sales: 5419, delay: 18599, costs: 2264, late: 7668, downside: 30959 });
-        expect(test.scenarios[0].lowestLabel).toBe("Jul 2027");
+        expect(short).toEqual({ planned: 1890, sales: 6795, delay: 19281, costs: 3090, late: 8395, downside: 32401 });
+        expect(test.scenarios[0].lowestLabel).toBe("Aug 2027");
     });
 
     test("what it would take: any one of these closes the gap", () => {
         const take = whatItWouldTake(f.revenuePage, f.financial, f.lines, f.legalEntity, f.format);
         expect(take.holds).toBe(false);
-        expect(Math.round(take.shortfall)).toBe(1208);
+        expect(Math.round(take.shortfall)).toBe(1890);
         expect(take.shortBy).toBe("Jun 2027");
         expect({ prices: take.prices, sales: take.sales, costs: take.costs, earlier: take.earlier })
-            .toEqual({ prices: 9, sales: 10, costs: 12, earlier: 1 });
+            .toEqual({ prices: 11, sales: 12, costs: 17, earlier: 1 });
     });
 
     test("what if: prices 30% higher close it; a $16,000 loan does not", () => {
-        // 9% is what it takes (above); the what-if is 30%.
+        // 11% is what it takes (above); the what-if is 30%.
         const dearer = withWhatIf(f.revenuePage, { price: 30, volume: 0, delay: 0 }, f.financial.planStart);
         const priced = financialPosition(f.financial, f.lines, f.legalEntity, f.currency, f.format, dearer);
         expect(priced.gap).toBeCloseTo(10648.23, 1);
@@ -252,8 +253,9 @@ describe("Quillfield: an unresolved funding gap", () => {
             funding: f.financial.funding.map(source => source.name === "SBA Microloan" ? { ...source, amount: "16000" } : source)
         };
         const borrowed = financialPosition(bigger, f.lines, f.legalEntity, f.currency, f.format, f.revenuePage);
-        expect(borrowed.sought!.shortfall).toBeCloseTo(364.85, 1);
+        expect(borrowed.sought!.shortfall).toBeCloseTo(1078.06, 1);
     });
+
 
 });
 
@@ -319,11 +321,11 @@ describe("Quillfield: the documents tie together", () => {
         const after = forecast.profitKept!.rows.find(row => row.label === "Profit kept in the business")!.values;
         outlook.months.forEach((month, index) => expect(after[index]).toBeCloseTo(month.revenue - month.costs, 6));
 
-        // With them, break even still falls in the same month: Jul 2027 (month 12 of a plan that starts in Aug 2026, with a registration; the costs start in Jan 2027, the sixth month).
+        // With them, break even still falls in the same month: Aug 2027 (month 13 of a plan that starts in Aug 2026, with a registration; the costs start in Jan 2027, the sixth month).
         const full = businessForecast(all).forecast.profitKept!.rows.find(row => row.label === "Profit kept in the business")!.values;
         const costsStart = 5;
         expect(full.findIndex((amount, index) => index >= costsStart && amount >= 0) + 1).toBe(f.outlook.breakEvenMonth);
-        expect(f.outlook.breakEvenMonth).toBe(12);
+        expect(f.outlook.breakEvenMonth).toBe(13);
     });
 
     test("founders' pay is the owner's drawings in the plan and the canvas", () => {
@@ -335,12 +337,12 @@ describe("Quillfield: the documents tie together", () => {
     test("the funding request reconciles", () => {
         expect(f.position.need - f.position.availableNow - f.position.confirmedFuture).toBeCloseTo(f.position.gap, 1);
         const request = planMd.slice(planMd.indexOf("Funding Request"));
-        expect(request).toContain("Funding need: $24,759");
+        expect(request).toContain("Funding need: $25,135");
         expect(request).toContain("Available now: $10,700");
-        expect(request).toContain("Funding gap: $14,059");
+        expect(request).toContain("Funding gap: $14,435");
         expect(request).toContain("Amount sought: $15,000 (SBA Microloan)");
-        expect(request).toContain("Still short after repayments: $1,208 at the lowest point, in Jul 2027");
-        expect(request).toContain("| Total | $24,759 |");
+        expect(request).toContain("Still short after repayments: $1,890 at the lowest point, in Aug 2027");
+        expect(request).toContain("| Total | $25,135 |");
     });
 
     test("with a grant sought instead of a loan, the funding request speaks of no repayments", () => {
@@ -364,7 +366,7 @@ describe("Quillfield: the documents tie together", () => {
 
     test("SW2 offers each quadrant the suggestions its answers support (doc 49, sections 2.3 and 10)", () => {
         const suggestions = strategySwotSuggestions(all);
-        expect(suggestions.weaknesses).toContain("Funding gap of $14,059");
+        expect(suggestions.weaknesses).toContain("Funding gap of $14,435");
         expect(suggestions.strengths.some(line => line.startsWith("Your chosen point of difference: "))).toBe(true);
         // (Each line once, in every quadrant.)
         for (const lines of Object.values(suggestions)) expect(new Set(lines).size).toBe(lines.length);
@@ -395,6 +397,7 @@ describe("Quillfield: the documents tie together", () => {
             "Marketing and Sales", "Operations", "Management and Organisation", "Strategy and Milestones", "Risks",
             "Financial Documents", "Appendix", "Financial Appendix A: Funding Request",
             "Financial Appendix A: Funding Request, Financial Projections", "Financial Appendix B: Financial Plan",
+            "Financial Appendix B: Financial Plan, Each Offering's Economics",
             "Financial Appendix B: Financial Plan, Costs in Full"]);
         const part = (title: string) => {
             const from = planMd.indexOf(title);
@@ -471,7 +474,9 @@ describe("Quillfield: the documents tie together", () => {
         expect(marketing).toContain("#### Body Language");
         expect(planMd).not.toMatch(/^## [0-9]+[.] Brand$/m);
         expect(at("## 11. Appendix")).toContain("### Brand Style Guide");
-        expect(at("## 15. Financial Appendix B: Financial Plan, Costs in Full")).toContain("### Costs");
+        expect(at("## 16. Financial Appendix B: Financial Plan, Costs in Full")).toContain("### Costs");
+        // (Each Offering's Economics, before the costs in full: doc 48, 15.4.)
+        expect(at("## 15. Financial Appendix B: Financial Plan, Each Offering's Economics")).toMatch(/Offering | Price | Direct cost | Contribution | Full cost | Margin | Sales a month/);
         // Products with their prices.
         expect(planMd).toContain("| $2,500 per project | Sale |");
         expect(planMd).toContain("| $1,200 per client a month | Subscription / Retainer |");
@@ -552,7 +557,7 @@ describe("Quillfield: the documents tie together", () => {
         expect(planMd).toContain("to NYC Service Firms.");
         expect(planMd).toContain("### For NYC Service Firms");
         // The costs, by group, with subtotals and a total, without their source.
-        const appendix = planMd.slice(planMd.indexOf("## 15. Financial Appendix B: Financial Plan, Costs in Full"));
+        const appendix = planMd.slice(planMd.indexOf("## 16. Financial Appendix B: Financial Plan, Costs in Full"));
         expect(appendix).toContain("#### Establishment");
         expect(appendix).toContain("| Subtotal | $535 one-time |");
         expect(appendix).toContain("**Total:** $535 one-time; $5,229 a month");

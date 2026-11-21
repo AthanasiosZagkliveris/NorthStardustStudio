@@ -95,7 +95,7 @@ export const CONTENT_OF_THE_TABLE = [
     ".numbered-list-row", ".business-channel-resource", ".notepad-chip", ".option-picker", ".app-tooltip", ".info-note"
 ].join(", ");
 
-/** What the Demand & Conversion block is for, and where its result goes: its title's "i". */
+/** What the Sales Forecast block is for, and where its result goes: its title's "i". */
 export const DEMAND_BLOCK_HELP: InfoPoint[] = [
     "Where this Offering\u2019s customers come from, and so how many sales to expect. One source with a figure is enough; add more, or calculate them, as the business develops.",
     "The Expected Sales are used for Capacity & Delivery on Infrastructure & Capability and for this Offering\u2019s revenue on Financials.",

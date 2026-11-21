@@ -275,7 +275,7 @@ export default function BusinessFoundationEditor(props: BusinessFoundationEditor
                                             {head}
                                             <div className="segment-chapter-groups">
                                                 {chapter(segment.id, "Customers, Competitors, Offerings, Value Proposition", tilesOf(segment, index), missingFoundation)}
-                                                {chapter("engagement-segment-" + segment.id, "Channels & Journey, Customer's Relationship, Demand & Conversion", segmentPage.companionTiles.get(segment.id))}
+                                                {chapter("engagement-segment-" + segment.id, "Channels & Journey, Customer's Relationship, Sales Forecast", segmentPage.companionTiles.get(segment.id))}
                                             </div>
                                         </div>
                                     </div>

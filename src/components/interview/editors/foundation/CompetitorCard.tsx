@@ -7,7 +7,8 @@ import AddButton from "../../../controls/AddButton.tsx";
 import { Fragment, ReactNode } from "react";
 import { BUSINESS_COMPETITOR_TYPES, BusinessCompetitorValue } from "../../../../framework/engine/AnswerUtils.ts";
 import FieldRow from "../../fields/FieldRow.tsx";
-import { BusinessStep, BusinessTicks, OptionalNote } from "../../cards/BusinessCardFields.tsx";
+import { BusinessEmpty, BusinessStep, BusinessTicks, OptionalNote } from "../../cards/BusinessCardFields.tsx";
+import { businessSegmentFunctionalItems } from "../../../../framework/engine/AnswerBusinessFoundation.ts";
 import RadioChoice from "../../../controls/RadioChoice.tsx";
 import RatingScale, { type Rating } from "../../../controls/RatingScale.tsx";
 import { withRatingMeaning } from "../../../controls/RatingScaleEnds.tsx";
@@ -34,7 +35,7 @@ import { journeySuggestions } from "../../../../framework/engine/JourneySuggesti
 import { BUSINESS_CHANNEL_CATEGORIES } from "../../../../framework/engine/AnswerUtils.ts";
 
 /** Which of the card's questions each box of its Description asks (doc 41): K1 in Offerings, K2 to K4 in Market, K5 in Customer Acquisition, K6 and K7 in Customer Experience. */
-const PART_QUESTIONS: Record<string, CompetitorQuestionId[]> = { offerings: ["k1", "k15"], market: ["k2", "k3", "k4"], acquisition: ["k5"], experience: ["k6", "k7"] };
+const PART_QUESTIONS: Record<string, CompetitorQuestionId[]> = { offerings: ["k1", "k15", "k16"], market: ["k2", "k3", "k4"], acquisition: ["k5"], experience: ["k6", "k7"] };
 
 export function competitorCard(scope: FoundationCardScope, competitor: BusinessCompetitorValue, index: number): ReactNode {
 
@@ -190,6 +191,29 @@ export function competitorCard(scope: FoundationCardScope, competitor: BusinessC
                     Not known yet
                 </TickField>
             </>
+        );
+    },
+    // K16 (owner, 2026-11-20 23:44 UTC+2: "they should be compared according the profile's needs and answers"; doc 41, K16; doc 48, 15.3): ticks of the needs the
+    // Segment's Profiles name, the same items an Offering ticks under Functional Needs Addressed, saved by their ids (the same words on two Profiles are one item).
+    k16: () => {
+        const needs = businessSegmentFunctionalItems(segment);
+        if (needs.length === 0) {
+            return <BusinessEmpty>Add Functional Needs to a Customer Profile first, then choose them here.</BusinessEmpty>;
+        }
+        const met = answers.k16 ?? [];
+        return (
+            <BusinessTicks
+                name={words("k16") + ", " + whose}
+                disabled={disabled}
+                options={needs.map(item => ({ id: item.ids[0], label: item.text }))}
+                chosen={needs.filter(item => item.ids.some(id => met.includes(id))).map(item => item.ids[0])}
+                onChange={(next) => {
+                    const itemIds = new Set(needs.flatMap(item => item.ids));
+                    const kept = met.filter(entry => !itemIds.has(entry));
+                    const ticked = needs.filter(item => next.includes(item.ids[0])).flatMap(item => item.ids);
+                    write({ ...answers, k16: [...kept, ...ticked] });
+                }}
+            />
         );
     },
     k2: () => radio("k2", COMPETITOR_REACH_OPTIONS),

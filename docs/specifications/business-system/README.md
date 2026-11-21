@@ -16,7 +16,7 @@ The sections are numbered 1 to 5 as the saved answer numbers them; the app's pag
 
 The editors are in `src/components/interview/editors/`. Each page is one Structure of the System's content (`src/assets/SystemAnswers/03_BusinessSystemAnswer.md`: Foundation, Customer Engagement, Infrastructure & Capability, Financial Foundation, Sustainability), so each is one editor, not a `MultiPart` of columns. The System is answered before the Strategy System: a founder describes the business before choosing a strategy for it.
 
-Section 2 has three parts in the app, and only two are specified here: **1. Customer Channel** and **2. Customer Relationship**. The third, **Demand & Conversion** (for each Offering, how its customers come, and so the expected sales), is described in document 28, 7.5 and laid out in `ai/layout-rules.md`, section 11; Section 5 reads its figures.
+Section 2 has three parts in the app, and only two are specified here: **1. Customer Channel** and **2. Customer Relationship**. The third, **Sales Forecast** (for each Offering, how its customers come, and so the expected sales), is described in document 28, 7.5 and laid out in `ai/layout-rules.md`, section 11; Section 5 reads its figures.
 
 ## What crosses between the pages
 
@@ -42,9 +42,9 @@ The one owner of this map: each row is one input a later page needs, where Secti
 | 2. Channels | Physical Delivery and Retail & Wholesale hidden without a physical item (doc 28, 11.7) | Offering Type; doc 43 O1 | Read (below) |
 | 2. Relationships | Which Profiles each Offering serves | doc 43 Functional Needs Addressed (by need id) | Read |
 | 2. Relationships | Relationship type suggestion | doc 36 D2, C3; doc 43 O7; doc 35 `authorise` | Read (`autoRelationshipTypes`) |
-| 2. Demand & Conversion | Customers Buy, one sale at a time or every month (doc 28, 7.5) | doc 43 O3 | Read: set by O3 and shown read-only where O3 says one-off or recurring; asked where it does not |
-| 2. Demand & Conversion | The tender row, the repeat row, the time to buy | doc 35 Box 4 Q9 (`authorise`), Box 4 Q6 (`path`); doc 43 O17 | Read (`demandSuggestions`, `monthsToClose`) |
-| 2. Demand & Conversion | Expected customers against the market size | doc 35 Box 5 Q1 | Read: the market-size check under Expected Sales, a check, never a cap (2026-11-17; doc 50, 2.6) |
+| 2. Sales Forecast | Customers Buy, one sale at a time or every month (doc 28, 7.5) | doc 43 O3 | Read: set by O3 and shown read-only where O3 says one-off or recurring; asked where it does not |
+| 2. Sales Forecast | The tender row, the repeat row, the time to buy | doc 35 Box 4 Q9 (`authorise`), Box 4 Q6 (`path`); doc 43 O17 | Read (`demandSuggestions`, `monthsToClose`) |
+| 2. Sales Forecast | Expected customers against the market size | doc 35 Box 5 Q1 | Read: the market-size check under Expected Sales, a check, never a cap (2026-11-17; doc 50, 2.6) |
 | 3. Delivery | The Offerings | Offering card | Read |
 | 3. Delivery | Delivered, per unit or every month (doc 28, 10.1) | doc 43 O3 | Starts from |
 | 3. Delivery | Calendar Time (weeks) | doc 43 O15 | Starts from |

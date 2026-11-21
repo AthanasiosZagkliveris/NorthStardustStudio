@@ -9,6 +9,7 @@ import TickBox from "../controls/TickBox.tsx";
 import RemoveButton from "../controls/RemoveButton.tsx";
 import { useLocation, useNavigate, type NavigateFunction } from "react-router-dom";
 
+import { useEscapeCloses } from "../interview/fields/useEscapeCloses";
 import { NotepadService, noteIsBlank, type Note, type NoteLink } from "../../services/NotepadService";
 import { UndoService } from "../../services/UndoService";
 import { markFieldsHot } from "./NotedHover";
@@ -44,7 +45,7 @@ import TextLink from "../interview/fields/TextLink.tsx";
 */
 
 /** The notepad's notes and view, kept current. */
-function useNotepad() {
+export function useNotepad() {
     const version = useSyncExternalStore(
         NotepadService.subscribe,
         () => NotepadService.notes().length + ":" + JSON.stringify(NotepadService.view()) + ":" + NotepadService.notes().map(note => note.text.length + "/" + note.links.length + "/" + (note.date ?? "")).join(",")
@@ -63,26 +64,6 @@ function places(): Promise<Places> {
 }
 
 
-/** The header button: icon and word (icon alone when narrow), and how many notes there are. */
-export function NotepadButton() {
-
-    const { notes, view } = useNotepad();
-
-    return (
-        <AddButton className="header-tool"
-            aria-expanded={view.open}
-            aria-label={"Notes, " + notes.length + (notes.length === 1 ? " note" : " notes")}
-            onClick={() => NotepadService.toggle()}>
-            <svg className="header-tool-icon" viewBox="2.4 1.9 16.22 16.22" aria-hidden="true">
-                <path d="M5 2.5h7.5L16 6v11.5H5z" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
-                <path d="M7.5 9h6M7.5 12h6M7.5 15h4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-            </svg>
-            <span className="header-tool-word">Notes</span>
-            {notes.length > 0 && <span className="header-tool-count">{notes.length}</span>}
-        </AddButton>
-    );
-
-}
 
 /** Where the Workbook page is opened with: its tab, the total review (the Landing page's), a term, and where to go back to. */
 export interface WorkbookState {
@@ -448,20 +429,8 @@ export function NotepadPanel() {
 
     const { notes, view } = useNotepad();
     const panel = useRef<HTMLElement | null>(null);
-    // Escape closes it -- and only it: the key goes no further.
-    useEffect(() => {
-        if (!view.open) {
-            return;
-        }
-        function onKey(event: globalThis.KeyboardEvent) {
-            if (event.key === "Escape" && !NotepadService.view().pickingFor) {
-                consumeKey(event);
-                NotepadService.close();
-            }
-        }
-        window.addEventListener("keydown", onKey, true);
-        return () => window.removeEventListener("keydown", onKey, true);
-    }, [view.open]);
+    // Escape closes it -- and only it: the key goes no further (the side panels' one Escape, useEscapeCloses); not while a field is being linked.
+    useEscapeCloses(view.open, () => NotepadService.close(), () => !!NotepadService.view().pickingFor);
 
     if (!view.open) {
         return null;

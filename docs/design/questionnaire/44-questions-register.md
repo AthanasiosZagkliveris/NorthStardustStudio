@@ -1156,6 +1156,7 @@ Registered before they are built, so their codes are fixed (the owner's approved
 | PB12 | What do they gain? | Identity, section 1, `missionGains` | built 2026-11-20 (approved 22:08 UTC+2) | doc 45, 8 |
 | PB13 | What matters most in how you work? | Identity, section 2, `valueKinds` | built 2026-11-20 (approved 22:08 UTC+2, option A) | doc 45, 8 |
 | SW2 | Which of these fit you? | Strategy, the quadrant's list, `strategyFoundation.swot` | built 2026-11-20 (approved 22:08 UTC+2) | doc 49, 10 |
+| K16 | Which of the Profile's needs do they meet? | Business, a Competitor card, `k16` | built 2026-11-21 (`CompetitorQuestions.ts`, `CompetitorCard.tsx`) | doc 41, K16; doc 48, 15.3 |
 | BA5 | How close does the business stay to its customers? | – | withdrawn | withdrawn 2026-11-12 before registration: the relationship type (J3, doc 47) answers it (doc 46, 7) |
 | LF4 | What do you keep people's details for? | – | withdrawn | withdrawn 2026-11-19 21:44 UTC+2 before release: the ICO suggestion names the exemption itself, so the question added nothing (owner: "What is the point of the: What do you keep people's details for?"; doc 53, 6) |
 
@@ -1170,5 +1171,5 @@ Registered before they are built, so their codes are fixed (the owner's approved
 | Competitor | 12 | 0 | 3 |
 | Value Proposition | 0 | 0 | 0 |
 | Offering | 19 | 1 | 4 |
-| Reserved (Purpose & Beliefs, Ambassador, SWOT, Compass, Legal facts, Financials) | 21 | 6 | 2 |
-| **All** | **132** | **13** | **25** |
+| Reserved (Purpose & Beliefs, Ambassador, SWOT, Compass, Legal facts, Financials) | 22 | 6 | 2 |
+| **All** | **133** | **13** | **25** |

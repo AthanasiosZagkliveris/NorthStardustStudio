@@ -42,7 +42,7 @@ Paths are written "System › page › tile". "Doc 28" is the document numbered 
 | Completed | Business › 2 Infrastructure & Capability › the footer band (a help tile; only while an activity is completed) | Section 3 |
 | Costs | Business › 3 Financials › Financial Foundation › Costs | Section 5 |
 | Current Situation Analysis | Strategy › Situation & Direction | Doc 1, B.1 |
-| Customer Engagement | Business › 1 Foundation & Engagement › Engagement, the chapter of each Segment: Channels & Journey, Customer's Relationship, Demand & Conversion | Section 2 (parts 1 and 2) |
+| Customer Engagement | Business › 1 Foundation & Engagement › Engagement, the chapter of each Segment: Channels & Journey, Customer's Relationship, Sales Forecast | Section 2 (parts 1 and 2) |
 | Customer Relationship | Business › 1 Foundation & Engagement › Engagement › Customer's Relationship | Section 2, part 2 |
 
 ## D
@@ -50,7 +50,7 @@ Paths are written "System › page › tile". "Doc 28" is the document numbered 
 | Item | Where in the app | Described in |
 |---|---|---|
 | Delivery | Business › 2 Infrastructure & Capability › Offering's Capability › Capacity & Delivery | Doc 28, 10.1; Section 3 |
-| Demand & Conversion | Business › 1 Foundation & Engagement › Engagement › Demand & Conversion | Doc 28, 7.5 |
+| Sales Forecast | Business › 1 Foundation & Engagement › Engagement › Sales Forecast | Doc 28, 7.5 |
 
 ## E
 

@@ -1,4 +1,4 @@
-# 50. Channel fees on Customer Engagement, and what Demand & Conversion could add
+# 50. Channel fees on Customer Engagement, and what Sales Forecast could add
 
 Status: **specification**, built 2026-11-14 and 2026-11-17 (2.6: the typical ranges, the market-size check, Ready From, the Identity answers in the source suggestions; seasons held for step 7), (owner, 12:00: "For the proposed changes (Fees, Demand recheck) check the best solution and apply them"): 1.4 and 2.5 as recommended -- the UK rows (PayPal marked not checked), the match by name (`channelFeeFor`), the Fees line on a paying subchannel's card with the fee on each Offering's sale and the link to Global Settings; "Tried it (%)" (`funnelIsTrial`) and the read-only time to buy (`monthsToClose`), not fed into the forecast (Sustainability's ramp already starts sales slowly; a shift would need the forecast to hold the contacts month by month). Written as a proposal 2026-11-14, for the owner's decision (owner, 2026-11-14 09:31: "Check the global settings, channel fees section, where it could be placed on the engagement page, and how"; "Make an online research, regarding Demand & Conversion, and check if there are any missing information as options"). 
 
@@ -48,7 +48,7 @@ Option A, read only. A subchannel the founder sells through is where the fee is 
 
 **Recommendation:** all four, in that order: the UK rows with their dates and sources, the match by name, the line on the card with the amount on a sale, Global Settings the one owner.
 
-## 2. Demand & Conversion: what the sources measure, and what the app asks
+## 2. Sales Forecast: what the sources measure, and what the app asks
 
 ### 2.1 What the app asks today
 

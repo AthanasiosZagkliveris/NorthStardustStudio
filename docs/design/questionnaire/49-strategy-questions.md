@@ -195,8 +195,8 @@ A Metric gains one optional field. When a figure is chosen:
 
   | Option | Owner | Unit | Better |
   |---|---|---|---|
-  | Expected sales a month: [Offering] | Demand & Conversion | Number | higher |
-  | Cancel / Month: [Offering] | Demand & Conversion | Percentage | lower |
+  | Expected sales a month: [Offering] | Sales Forecast | Number | higher |
+  | Cancel / Month: [Offering] | Sales Forecast | Percentage | lower |
   | Revenue a month | Financials, Revenue Streams | Currency | higher |
   | Margin per unit: [Offering] | Offering Economics | Currency | higher |
   | Break-even month | Workbook, Financial Plan, Break Even | Month | earlier |

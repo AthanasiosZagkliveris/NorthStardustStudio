@@ -229,7 +229,7 @@ export function offeringName(foundation: unknown, id: string): string {
     return offeringsOf(foundation).find(offering => offering.id === id)?.name.trim() || "";
 }
 
-/** Customer Engagement's Demand & Conversion, by Offering id. */
+/** Customer Engagement's Sales Forecast, by Offering id. */
 export function demandOf(context: ExportContext) {
     return asBusinessEngagementValue(context.responseOf?.(AnswerType.BusinessEngagement)).demand;
 }
@@ -682,7 +682,7 @@ function businessEngagementBlocks(value: unknown, context: ExportContext): Expor
 
     });
 
-    /* Demand & Conversion: where each Offering's customers come from, and the sales they give. */
+    /* Sales Forecast: where each Offering's customers come from, and the sales they give. */
     const offeringsById = new Map(segments.flatMap(segment => segment.offerings).map(offering => [offering.id, offering.name.trim()]));
     const demandRows = Object.entries(engagement.demand)
         .filter(([, entry]) => hasDemand(entry))
@@ -699,7 +699,7 @@ function businessEngagementBlocks(value: unknown, context: ExportContext): Expor
     return [
         ...bySegment,
         ...(demandRows.length > 0
-            ? [heading("Demand & Conversion"), ...table(["Offering", "Customer Sources", "Expected Sales", "Assumptions"], demandRows)]
+            ? [heading("Sales Forecast"), ...table(["Offering", "Customer Sources", "Expected Sales", "Assumptions"], demandRows)]
             : [])
     ];
 

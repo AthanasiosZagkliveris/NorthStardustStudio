@@ -42,15 +42,17 @@ export const LOAN_PRE_INTEREST_HELP: InfoPoint[] = [
 ];
 
 export const SECTIONS = {
+    // (THE COST OF EACH OFFERING (doc 48, 15.2; owner, 2026-11-21 00:56 UTC+2): the totals, then each Offering's sale against its costs; every cost in full is the
+    // Inventory's and the Financial Plan's.)
     costs: {
-        title: "Costs",
+        title: "Cost of each Offering",
         instructions: [
-            "Review the costs gathered from the Legal Entity and Infrastructure & Capability.",
-            "Each cost is grouped by what it supports, how it behaves, and when it is paid; to change one, change it where it was recorded."
+            "See what each Offering costs to sell: its own costs of each sale, its share of the running costs, and what is left of its price.",
+            "The costs come from the Legal Entity and Infrastructure & Capability; to change one, change it where it was recorded. Every cost in full is in the Inventory and the Workbook's Financial Plan."
         ],
         info: [
             DEFINITIONS.cost,
-            "Cost Group says what a cost supports; Behaviour says how it changes with activity; Frequency says when it is paid. They are three different things."
+            "The running costs that serve one Offering alone are its own; the rest are shared by the founders' delivery hours each sale takes."
         ] as InfoPoint[]
     },
     need: {

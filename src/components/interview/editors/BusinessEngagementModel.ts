@@ -101,7 +101,7 @@ export const SECTIONS = {
             "Choose the kind of relationship you maintain with each Customer Profile, and say why you maintain it.",
             "For each Offering, record when in the journey you interact and through which of your channels.",
             "Describe how you conduct that interaction, and what it should achieve.",
-            "For each Offering, estimate under Demand & Conversion where its customers come from and how many buy."
+            "For each Offering, estimate under Sales Forecast where its customers come from and how many buy."
         ],
         // "The ⓘ should explain the available options."
         types: BUSINESS_RELATIONSHIP_TYPES.map(type => ({

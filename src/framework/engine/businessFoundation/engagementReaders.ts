@@ -350,7 +350,7 @@ export interface BusinessEngagementValue {
     /** The channels' resources (see BusinessChannelResourceValue). */
     channelResources: BusinessChannelResourceValue[];
     /**
-     * Demand & Conversion, by Offering id: how each Offering's
+     * Sales Forecast, by Offering id: how each Offering's
      * customers come, and so its expected sales (see DemandCapacity.ts).
      * Optional: an Offering without one has its sales entered on
      * Sustainability.

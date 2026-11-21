@@ -55,7 +55,7 @@ describe("the funds before and after the opening", () => {
                 globalSettings={{ ...createGlobalSettings(), capitalisationLimit: "500" }}
             />
         );
-        openTile("Costs");
+        openTile("Cost of each Offering");
         expect(screen.getByText(/Give the Opening Date, on the Organization tile/)).toBeTruthy();
     });
 
@@ -92,29 +92,30 @@ describe("the Costs and Funding Need sections with the cost nature and the cash 
         );
     }
 
-    it("is a read-only table: the three totals on top, then a line for each cost under its heading, with its group, its amount and its nature, and nothing to type", () => {
+    it("is read only: the three totals on top, then the cost of each Offering (doc 48, 15.2); every cost in full is the Inventory's, and nothing is typed", () => {
         render(<Stateful />);
-        openTile("Costs");
+        openTile("Cost of each Offering");
         const costs = (document.querySelector("[data-anchor=financial-costs]") as HTMLElement).textContent ?? "";
         expect(costs).toMatch(/Launch budget/);
         expect(costs).toMatch(/Running costs a month/);
         expect(costs).toMatch(/Cost of each sale/);
-        const table = document.querySelector(".financial-costs-ledger") as HTMLElement;
-        expect(table).toBeTruthy();
-        expect(table.textContent).toMatch(/Establishment/);
-        expect(table.textContent).toMatch(/30,000/);
-        expect(screen.queryByLabelText(/cost nature/i)).toBeNull();
+        const table = document.querySelector(".financial-offering-costs") as HTMLElement;
+        expect(table.textContent).toMatch(/No Revenue Stream yet/);
+        // (The ledger of every cost and its filters are gone: they repeated the Inventory.)
+        expect(document.querySelector(".financial-cost-filters")).toBeNull();
+        expect(table.textContent).not.toMatch(/Establishment/);
+        expect(document.querySelector("[data-anchor=financial-costs] input, [data-anchor=financial-costs] textarea")).toBeNull();
     });
 
     it("says what the Global Settings contribute: the Opening Date, the capitalisation limit and the reserves", () => {
         render(<Stateful />);
-        openTile("Costs");
+        openTile("Cost of each Offering");
         expect(document.body.textContent).toMatch(/From the Global Settings: Opening Date 2027-04-01 .* capitalisation limit 500/);
     });
 
     it("shows the Total Pre-operational Budget under the costs", () => {
         render(<Stateful />);
-        openTile("Costs");
+        openTile("Cost of each Offering");
         const total = document.querySelector("[data-anchor='financial-pre-operational-budget']") as HTMLElement;
         expect(total.textContent).toMatch(/Total Pre-operational Budget.*: €30,000/);
         // (Its parts in its "i", no brackets: the round of 2026-11-20 18:35 UTC+2, item 9.)
@@ -160,3 +161,32 @@ describe("fundingNeeds and financialPosition with a launch", () => {
 
 });
 
+
+describe("Cost of each Offering, with an Offering sold (doc 48, 15.2)", () => {
+
+    it("draws a card for each Offering: its price, direct cost, contribution, full cost with its running share, and margin", async () => {
+        const { default: lumen } = await import("../../../data/examples/lumen-and-loom-studio.json");
+        const business = (lumen as unknown as { systems: Record<string, { responses: { sectionNumber: number; value: unknown }[] }> }).systems["3"].responses;
+        const valueOf = (section: number) => business.find(response => response.sectionNumber === section)?.value;
+        render(
+            <FinancialFoundationEditor
+                value={valueOf(5)}
+                onChange={() => undefined}
+                foundation={valueOf(1)}
+                engagement={valueOf(2)}
+                capability={valueOf(3)}
+                sustainability={valueOf(4)}
+                currency="GBP"
+                openingDate="2025-04-01"
+            />
+        );
+        openTile("Cost of each Offering");
+        const cards = [...document.querySelectorAll<HTMLElement>(".financial-offering-cost")];
+        expect(cards.map(card => card.querySelector(".financial-total")?.textContent)).toEqual(["Homeware Collection", "Weaving Workshops", "Bespoke Commissions", "Trade Collection"]);
+        const labels = [...cards[0].querySelectorAll(".financial-tile-label")].map(label => (label.textContent ?? "").replace(/i$/, ""));
+        expect(labels).toEqual(["Price", "Direct cost", "Contribution", "Full cost", "Margin"]);
+        expect(cards[0].textContent).toMatch(/Running costs £/);
+        expect(document.querySelector("[data-anchor=financial-offering-rate]")?.textContent).toMatch(/a delivery hour/);
+    });
+
+});

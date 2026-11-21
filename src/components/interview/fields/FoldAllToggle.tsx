@@ -9,7 +9,7 @@ import "../../../styles/card-folding.css";
  * card's own arrow.
  *
  * It CASCADES: `nested` names the item folds inside those cards (an
- * Offering's Demand & Conversion block, say), and they open and close
+ * Offering's Sales Forecast block, say), and they open and close
  * with them, so "Expand all" shows everything the group holds. It
  * reads "Collapse all" only once all of it is open.
  */

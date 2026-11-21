@@ -7,7 +7,14 @@ import { OrganizationService } from "../../services/OrganizationService";
 import { clearFieldRegistry } from "../../framework/engine/FieldKeys";
 import { BusinessField } from "../interview/cards/BusinessCardFields";
 import { FieldPageProvider } from "../interview/fields/fieldMarks";
-import { NotepadButton, NotepadPanel, NotepadPicker, linkFor, noteMomentText, noteTodayText } from "./Notepad";
+import { NotepadPanel, NotepadPicker, linkFor, noteMomentText, noteTodayText } from "./Notepad";
+import ToolsMenu from "../ToolsMenu";
+
+/** Notes in the Menu (ToolsMenu.tsx). */
+function pressNotes(name: string | RegExp = /^Notes/) {
+    fireEvent.click(screen.getByRole("button", { name: "Menu" }));
+    fireEvent.click(screen.getByRole("menuitem", { name }));
+}
 import { findPlaces, linkAvailable } from "./notepadPlaces";
 import { UndoService } from "../../services/UndoService";
 import { stylesheet } from "../../test/stylesheet";
@@ -89,7 +96,7 @@ describe("the notepad on the page", () => {
     function page(organizationId: string) {
         return render(
             <MemoryRouter>
-                <NotepadButton />
+                <ToolsMenu organizationOpen focusable={false} />
                 <NotepadPanel />
                 <NotepadPicker />
                 <FieldPageProvider organizationId={organizationId} systemNumber={3} sectionNumber={1} pageTitle="1. Foundation">
@@ -105,14 +112,13 @@ describe("the notepad on the page", () => {
         );
     }
 
-    it("opens from the header, with the count, and closes on Escape", () => {
+    it("opens from Notes in the Menu, with the count, and closes on Escape", () => {
         const organization = OrganizationService.create("Lumen");
         OrganizationService.setSelected(organization.id);
         NotepadService.addNote();
         page(organization.id);
 
-        const button = screen.getByRole("button", { name: "Notes, 1 note" });
-        act(() => { fireEvent.click(button); });
+        pressNotes("Notes, 1 note");
         expect(screen.getByRole("complementary", { name: "Notes" })).toBeTruthy();
 
         act(() => { fireEvent.keyDown(window, { key: "Escape" }); });
@@ -129,7 +135,7 @@ describe("the notepad on the page", () => {
         NotepadService.setText(newer, "Check the market size");
         NotepadService.addNote(organization.id);
         page(organization.id);
-        act(() => { fireEvent.click(screen.getByRole("button", { name: /^Notes, 3 notes/ })); });
+        pressNotes(/^Notes, 3 notes/);
 
         // An empty note just goes.
         act(() => { fireEvent.click(screen.getAllByRole("button", { name: "Delete note" })[0]); });
@@ -345,8 +351,8 @@ describe("the Notepad panel", () => {
     it("stays open when the page is clicked (fields are linked by clicking them)", () => {
         const organization = OrganizationService.create("Lumen");
         OrganizationService.setSelected(organization.id);
-        render(<MemoryRouter><NotepadButton /><NotepadPanel /><p>Page</p></MemoryRouter>);
-        act(() => { fireEvent.click(screen.getByRole("button", { name: /^Notes/ })); });
+        render(<MemoryRouter><ToolsMenu organizationOpen focusable={false} /><NotepadPanel /><p>Page</p></MemoryRouter>);
+        pressNotes();
         act(() => { fireEvent.mouseDown(screen.getByText("Page")); fireEvent.click(screen.getByText("Page")); });
         expect(screen.getByRole("complementary", { name: "Notes" })).toBeTruthy();
         act(() => { fireEvent.click(screen.getByRole("button", { name: "Close notes" })); });
@@ -356,14 +362,14 @@ describe("the Notepad panel", () => {
     it("holds the person's own notes, not the card notes (owner, 2026-11-09: the Card Notes are the Workbook page's)", () => {
         const organization = OrganizationService.create("Lumen");
         OrganizationService.setSelected(organization.id);
-        render(<MemoryRouter><NotepadButton /><NotepadPanel /></MemoryRouter>);
-        act(() => { fireEvent.click(screen.getByRole("button", { name: /^Notes/ })); });
+        render(<MemoryRouter><ToolsMenu organizationOpen focusable={false} /><NotepadPanel /></MemoryRouter>);
+        pressNotes();
         const panel = screen.getByRole("complementary", { name: "Notes" });
         expect(panel.querySelector("[role=tablist]")).toBeNull();
         expect(panel.querySelector(".notepad-card-note")).toBeNull();
         expect(screen.getByRole("button", { name: "+ Add note" })).toBeTruthy();
-        // The Notes button opens and closes it.
-        act(() => { fireEvent.click(screen.getByRole("button", { name: /^Notes/ })); });
+        // Notes in the Menu opens and closes it.
+        pressNotes();
         expect(screen.queryByRole("complementary", { name: "Notes" })).toBeNull();
     });
 

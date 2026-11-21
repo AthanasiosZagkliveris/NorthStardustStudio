@@ -42,7 +42,7 @@ const shown = (container: HTMLElement, prefix: string) => segmentIds.filter(id =
     return frame !== null && !frame.closest("[hidden]");
 });
 // (Compared without their spaces: a title of two lines is drawn on its lines, "Channels &" over "Journey".)
-const TILES = ["Segment Description", "Competitors", "Offerings", "Value Proposition", "Channels & Journey", "Customer's Relationship", "Demand & Conversion"].map(title => title.replace(/\s+/g, ""));
+const TILES = ["Segment Description", "Competitors", "Offerings", "Value Proposition", "Channels & Journey", "Customer's Relationship", "Sales Forecast"].map(title => title.replace(/\s+/g, ""));
 /** The titles of a Segment's tiles, in order: both its chapters, in the Segment's one frame. */
 const tilesOf = (container: HTMLElement, id: string) => [...container.querySelector<HTMLElement>('[data-anchor~="' + id + '"]')!.closest<HTMLElement>(".segment-chapter")!.querySelectorAll<HTMLElement>("button.section-tile")]
     .map(tile => (tile.querySelector(".section-tile-title")?.textContent ?? "").replace(/\s+/g, ""));
