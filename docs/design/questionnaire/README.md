@@ -1,4 +1,4 @@
-# The first version and the questionnaire (documents 27 to 53)
+# The first version and the questionnaire (documents 27 to 55)
 
 Status: **index**, updated 2026-11-21. Written by `npm run docs:index` from `tools/scripts/docs/write-index.mjs`; do not edit by hand.
 
@@ -35,3 +35,5 @@ The standard for these documents is [the standard of the documents](../../standa
 | [51-delivery-and-capacity-research.md](51-delivery-and-capacity-research.md) | proposal | Delivery and capacity: what the sources say, what the app asks today, what is missing, and seven additions in priority order; not built. | 2026-11-14 |
 | [52-capacity-and-delivery-tile.md](52-capacity-and-delivery-tile.md) | proposal | Capacity & Delivery: the Delivery tile renamed, doc 51's seven additions on the Delivery card (DV1 to DV11), the dialog and Sustainability's check, the Lumen Workshops through the Online Store, and the decisions; not built. | 2026-11-19 |
 | [53-legal-starts.md](53-legal-starts.md) | proposal | Legal starts: the registrations, taxes and legal expenses the Legal Entity can start from Definition and the Business pages, by country, each with its official source; the eight decisions; stage 1 built (the legal form's filings and fees, UK PAYE). | 2026-11-20 |
+| [54-auto-filled-answers.md](54-auto-filled-answers.md) | reference | Auto-filled answers: every answer the app drafts, starts, offers or works out from an earlier one (about 120): the field, the kind, its sources, the code and the document that describes it. | 2026-11-21 |
+| [55-beta-questionnaire.md](55-beta-questionnaire.md) | proposal | The Beta questionnaire: what the app would ask its Beta founders about the app, in sections, with the choices of each; nothing built. | 2026-11-21 |

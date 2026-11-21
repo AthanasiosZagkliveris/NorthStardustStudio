@@ -43,6 +43,7 @@ How the app is entered, its Systems and pages, the places in it, and the terms.
 | [app/contents.md](app/contents.md) | contents | The contents of the app: how it is entered, the Systems and pages, where the figures and dates come from, where things are in the code. | 2026-11-20 |
 | [app/index.md](app/index.md) | index | An alphabetical index of the places in the app (pages, tiles, cards, the header): where each is, and which document describes it. | 2026-11-20 |
 | [app/glossary.md](app/glossary.md) | reference | One line per term: the framework, the app, the business stage, positioning, buyer and user, the question ids, the documents. | 2026-11-20 |
+| [app/guide-specs-and-future.md](app/guide-specs-and-future.md) | proposal | The app: what it is, where its guide and specifications are, how its answers connect, and its future features (an AI Assistant, Team working mode, Voice mode, more languages and countries), from online research. | 2026-11-21 |
 
 ## 3. The design and its records (`design/core/`, documents 1 to 7)
 
@@ -124,6 +125,8 @@ What the first published version contains and what it leaves for later (33, whic
 | [design/questionnaire/51-delivery-and-capacity-research.md](design/questionnaire/51-delivery-and-capacity-research.md) | proposal | Delivery and capacity: what the sources say, what the app asks today, what is missing, and seven additions in priority order; not built. | 2026-11-14 |
 | [design/questionnaire/52-capacity-and-delivery-tile.md](design/questionnaire/52-capacity-and-delivery-tile.md) | proposal | Capacity & Delivery: the Delivery tile renamed, doc 51's seven additions on the Delivery card (DV1 to DV11), the dialog and Sustainability's check, the Lumen Workshops through the Online Store, and the decisions; not built. | 2026-11-19 |
 | [design/questionnaire/53-legal-starts.md](design/questionnaire/53-legal-starts.md) | proposal | Legal starts: the registrations, taxes and legal expenses the Legal Entity can start from Definition and the Business pages, by country, each with its official source; the eight decisions; stage 1 built (the legal form's filings and fees, UK PAYE). | 2026-11-20 |
+| [design/questionnaire/54-auto-filled-answers.md](design/questionnaire/54-auto-filled-answers.md) | reference | Auto-filled answers: every answer the app drafts, starts, offers or works out from an earlier one (about 120): the field, the kind, its sources, the code and the document that describes it. | 2026-11-21 |
+| [design/questionnaire/55-beta-questionnaire.md](design/questionnaire/55-beta-questionnaire.md) | proposal | The Beta questionnaire: what the app would ask its Beta founders about the app, in sections, with the choices of each; nothing built. | 2026-11-21 |
 
 ## 7. Rules for the assistant (`ai/`)
 
