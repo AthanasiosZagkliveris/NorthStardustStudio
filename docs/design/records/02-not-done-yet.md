@@ -308,7 +308,11 @@ The confirmed problems that a diagnostic found and no turn has fixed (it was `do
 - Before a new diagnostic scan, check here for anything already confirmed in the same area: re-verify it if the files changed since, confirm or correct the entry, and never add a second one beside it.
 - The form of an entry: `### <short title>`, then Found by: `<skill>` · Confirmed: `<what was verified independently, not only what a scan reported>` · Fix: `<the correct fix, if known>`.
 
-**Open today:** none.
+**Open today:**
+
+### The Finance System links to a Business Section that no longer exists
+
+Found by: `metadata-relationship-validator` · Confirmed: `src/assets/system-answers/17_FinanceSystemAnswer.md`, line 15, Financial Model's column "Revenue Stream - Dynamic Field (Business System / Revenue Model: Revenue Stream)"; the Business System has had no "Revenue Model" Section since it became Foundation, Customer Engagement, Infrastructure & Capability, Revenue & Pricing and Costs, Funding & Position (`03_BusinessSystemAnswer.md`), so the column offers no options · Fix: the owner decides the source (the Offerings' revenue streams on Revenue & Pricing, or a plain column), with the Systems pages' rebuild as Tiles.
 
 ## 5.10 What stayed in the project, and why
 
