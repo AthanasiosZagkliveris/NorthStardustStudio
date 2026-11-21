@@ -3,7 +3,7 @@
     Strategic Period's answer and its numbering, the Current Situation drafted from the Business System and the financial plan's dates, and the
     three questions asked first (removing a Theme with work under it, narrowing the Period past an Objective, refreshing the Current
     Situation). Moved out of Conversation.tsx as it was (2026-11-11, the owner: "Go on, do all together"): the same code, run in the same place
-    on every draw; Conversation.tsx calls readStrategy and uses what it returns. The pages are pinned by examplePages.test.tsx.
+    on every draw; Conversation.tsx calls readStrategy and uses what it returns. The pages are pinned by examplePages.lumen.test.tsx and examplePages.quillfield.test.tsx.
 */
 import type { InterviewSession } from "../framework/interview";
 import { AnswerType } from "../framework/enums/AnswerType";

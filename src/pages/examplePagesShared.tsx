@@ -15,11 +15,15 @@ import quillfield from "../data/examples/quillfield-automation-llc.json";
     snapshot: the large screens that had no test of their own (the two Financial pages, the Strategic Period and Roadmap, the Operational Log, the
     answers drawn by AnswerRenderer) are pinned with the rest, so a change that moves their code must leave every page reading the same. A change
     that means to change what a page says updates the snapshot (npx vitest run -u) and says so.
+
+    One test file for each example (examplePages.lumen.test.tsx, examplePages.quillfield.test.tsx; one file for both until 2026-11-21), so the
+    two run side by side: each file mocks the calendar panel itself (vi.mock is hoisted in its own file) and calls describeExamplePages.
 */
 
-vi.mock("../components/calendar/OrganizationCalendarPanel", () => ({ default: () => null }));
+type Example = { id: string; name: string; createdAt: number };
 
-const EXAMPLES = [lumen, quillfield] as unknown as Array<{ id: string; name: string; createdAt: number }>;
+export const EXAMPLES = { lumen: lumen as unknown as Example, quillfield: quillfield as unknown as Example };
+const ALL = [EXAMPLES.lumen, EXAMPLES.quillfield];
 const SYSTEMS = ["identity", "brand", "business", "strategy", "operations"];
 
 /** The words a person reads on the page: its text, its fields' values, with the spaces evened out. */
@@ -30,38 +34,48 @@ function pageWords(container: HTMLElement): string {
 
 let selected = "";
 
-beforeEach(() => {
-    localStorage.clear();
-    for (const example of EXAMPLES) {
-        localStorage.setItem("northstardust-organization-" + example.id, JSON.stringify(example));
-    }
-    localStorage.setItem("northstardust-organizations", JSON.stringify(EXAMPLES.map(example => ({ id: example.id, name: example.name, createdAt: example.createdAt }))));
-    vi.spyOn(OrganizationService, "getSelected").mockImplementation(() => selected);
-    // (One day for every run: a page that counts from today -- the business stage, a date default -- reads the same.)
-    vi.useFakeTimers({ toFake: ["Date"] });
-    vi.setSystemTime(new Date("2026-11-10T12:00:00"));
-});
+/** Both examples saved, the one being read selected, one day for every run; then cleaned up. */
+export function useExamplesSaved(): void {
+    beforeEach(() => {
+        localStorage.clear();
+        for (const example of ALL) {
+            localStorage.setItem("northstardust-organization-" + example.id, JSON.stringify(example));
+        }
+        localStorage.setItem("northstardust-organizations", JSON.stringify(ALL.map(example => ({ id: example.id, name: example.name, createdAt: example.createdAt }))));
+        vi.spyOn(OrganizationService, "getSelected").mockImplementation(() => selected);
+        // (One day for every run: a page that counts from today -- the business stage, a date default -- reads the same.)
+        vi.useFakeTimers({ toFake: ["Date"] });
+        vi.setSystemTime(new Date("2026-11-10T12:00:00"));
+    });
 
-afterEach(() => {
-    cleanup();
-    vi.useRealTimers();
-    vi.restoreAllMocks();
-});
+    afterEach(() => {
+        cleanup();
+        vi.useRealTimers();
+        vi.restoreAllMocks();
+    });
+}
 
-for (const example of EXAMPLES) {
+/** Opens a page of a System with an example selected. */
+export function openPage(exampleId: string, systemId: string, sectionNumber: number) {
+    selected = exampleId;
+    const system = systems.find(candidate => candidate.id === systemId)!;
+    return { system, ...render(
+        <MemoryRouter initialEntries={[{ pathname: "/conversation", state: { system, targetSectionNumber: sectionNumber, resume: {} } }]}>
+            <Routes>
+                <Route path="/conversation" element={<Conversation />} />
+            </Routes>
+        </MemoryRouter>
+    ) };
+}
+
+/** Every page of the Systems, and every section tile's dialog in turn, with one example's answers, kept in a snapshot. */
+export function describeExamplePages(example: Example): void {
     describe(example.name, () => {
         for (const id of SYSTEMS) {
             const system = systems.find(candidate => candidate.id === id)!;
             for (const section of frameworkRegistry.getFramework(system.id).sections) {
                 it(system.title + " › " + section.number + ". " + section.title, () => {
-                    selected = example.id;
-                    const { container } = render(
-                        <MemoryRouter initialEntries={[{ pathname: "/conversation", state: { system, targetSectionNumber: section.number, resume: {} } }]}>
-                            <Routes>
-                                <Route path="/conversation" element={<Conversation />} />
-                            </Routes>
-                        </MemoryRouter>
-                    );
+                    const { container } = openPage(example.id, system.id, section.number);
                     // (The page is drawn: its System's name heads it.)
                     expect(screen.getAllByText(new RegExp(system.title)).length).toBeGreaterThan(0);
                     expect(pageWords(container)).toMatchSnapshot();
@@ -87,23 +101,3 @@ for (const example of EXAMPLES) {
         }
     });
 }
-
-/* THE FINANCIALS IN ONE CHAPTER (owner, 2026-11-20 02:11 UTC+2: "The financials should be in a single page. Maybe they should all be under only one chapter."):
-   one frame, its six Master Tiles in the order each reads only what stands before it (Questions 20, section 11). */
-describe("the Financials page", () => {
-    it("draws one chapter of three Master Tiles that ask, each after what it reads (Questions 20, section 14: Cash Flow and Break-Even & Sustainability are records, in the Workbook)", () => {
-        selected = lumen.id;
-        const system = systems.find(candidate => candidate.id === "business")!;
-        const section = frameworkRegistry.getFramework(system.id).sections.find(candidate => candidate.title.startsWith("Revenue & Pricing"))!;
-        const { container } = render(
-            <MemoryRouter initialEntries={[{ pathname: "/conversation", state: { system, targetSectionNumber: section.number, resume: {} } }]}>
-                <Routes>
-                    <Route path="/conversation" element={<Conversation />} />
-                </Routes>
-            </MemoryRouter>
-        );
-        expect([...container.querySelectorAll(".tiles-frame-head")].map(head => head.textContent?.trim())).toEqual(["Financial Foundation"]);
-        const titles = [...container.querySelectorAll<HTMLElement>("[data-anchor^=\"column-tiles\"] .section-tile-title")].map(title => title.textContent?.replace(/\s+/g, " ").trim().toLowerCase());
-        expect(titles).toEqual(["revenue streams", "cost of each offering", "funding"]);
-    });
-});

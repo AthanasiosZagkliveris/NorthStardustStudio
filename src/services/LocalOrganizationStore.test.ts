@@ -166,4 +166,28 @@ describe("LocalOrganizationStore", () => {
 
     });
 
+    it("parses a saved Organisation once, and again only when the stored text changes", () => {
+
+        const { storage, items } = memoryStorage();
+        const store = new LocalOrganizationStore(storage);
+
+        items.set(DOCUMENT_KEY, JSON.stringify(organization("A")));
+        const first = store.loadDocument("org-1");
+
+        expect(store.loadDocument("org-1")).toBe(first);
+
+        items.set(DOCUMENT_KEY, JSON.stringify(organization("B")));
+        expect(store.loadDocument("org-1")?.name).toBe("B");
+
+        store.saveDocument(organization("C"));
+        vi.advanceTimersByTime(WRITE_DEBOUNCE_MS);
+        const written = store.loadDocument("org-1");
+        expect(written?.name).toBe("C");
+        expect(store.loadDocument("org-1")).toBe(written);
+
+        store.removeDocument("org-1");
+        expect(store.loadDocument("org-1")).toBeNull();
+
+    });
+
 });

@@ -77,6 +77,14 @@ export class LocalOrganizationStore implements OrganizationStore {
 
     private readonly listeners = new Set<() => void>();
 
+    /**
+     * The last document read or written for each key, with the text it was saved as. A read whose stored text is still
+     * that text returns the same object instead of parsing the whole Organisation again (38 places read it, often
+     * several times for one change). It is the same sharing a pending write already has: while a write waits, every
+     * read returns the object that was written.
+     */
+    private readonly parsed = new Map<string, { raw: string; value: unknown }>();
+
     private state: SaveState = { status: "saved" };
 
     constructor(
@@ -91,6 +99,7 @@ export class LocalOrganizationStore implements OrganizationStore {
      */
     useStorage(storage: Storage & { reportWritesTo?: (report: (key: string, failure: string | null) => void) => void }): void {
         this.storage = storage;
+        this.parsed.clear();
         storage.reportWritesTo?.((key, failure) => {
             if (failure) {
                 this.failures.set(key, failure);
@@ -155,15 +164,26 @@ export class LocalOrganizationStore implements OrganizationStore {
             return pending;
         }
 
-        const raw = this.storage.getItem(organizationDocumentKey(organizationId));
+        const key = organizationDocumentKey(organizationId);
+        const raw = this.storage.getItem(key);
 
         if (!raw) {
+            this.parsed.delete(key);
             return null;
         }
 
+        const known = this.parsed.get(key);
+
+        if (known && known.raw === raw) {
+            return known.value as OrganizationDocument;
+        }
+
         try {
-            return JSON.parse(raw) as OrganizationDocument;
+            const value = JSON.parse(raw) as OrganizationDocument;
+            this.parsed.set(key, { raw, value });
+            return value;
         } catch {
+            this.parsed.delete(key);
             return null;
         }
 
@@ -179,6 +199,7 @@ export class LocalOrganizationStore implements OrganizationStore {
         // document FIRST -- otherwise its debounce timer could still
         // fire after the removeItem below and silently resurrect it.
         this.discard(organizationDocumentKey(organizationId));
+        this.parsed.delete(organizationDocumentKey(organizationId));
         this.storage.removeItem(organizationDocumentKey(organizationId));
 
     }
@@ -256,7 +277,12 @@ export class LocalOrganizationStore implements OrganizationStore {
 
         try {
 
-            this.storage.setItem(key, JSON.stringify(entry.value));
+            const raw = JSON.stringify(entry.value);
+            this.storage.setItem(key, raw);
+
+            if (key.startsWith(organizationDocumentKey(""))) {
+                this.parsed.set(key, { raw, value: entry.value });
+            }
 
             this.pending.delete(key);
             this.failures.delete(key);
