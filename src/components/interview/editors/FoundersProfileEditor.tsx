@@ -238,7 +238,7 @@ export default function FoundersProfileEditor({
     /* ---------- Building blocks ---------- */
 
     /**
-     * The Legal Entity page's subsection box, numbered 1 and 2.
+     * The Legal Entity section's subsection box, numbered 1 and 2.
      * `info` puts an "i" on the title, for a subsection that is one
      * question and so has no field label of its own to carry it.
      */
@@ -291,7 +291,7 @@ export default function FoundersProfileEditor({
 
     }
 
-    /** A label with its "i", as the Legal Entity page draws one. */
+    /** A label with its "i", as the Legal Entity section draws one. */
     function label(text: string, info: string[]) {
         return (
             <span className="legal-entity-label-info">
@@ -413,7 +413,7 @@ export default function FoundersProfileEditor({
 
         return (
 
-            /* Named on the Legal Entity page, so the name is shown rather than asked, and there is no ×. */
+            /* Named on the Legal Entity section, so the name is shown rather than asked, and there is no ×. */
             <BusinessCard
                 legal
                 key={founder.id}

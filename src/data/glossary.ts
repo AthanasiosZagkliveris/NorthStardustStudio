@@ -169,7 +169,8 @@ export const APP_TERMS: readonly AppTerm[] = [
     {
         id: "capacity-utilisation",
         term: "Capacity utilisation",
-        places: [{ system: 3, page: 4, part: "Revenue Streams, Delivery Check", tile: "button.section-tile[data-tile=\"sustainability-revenue-streams\"]" }],
+        // (The Delivery Check is a record since 2026-11-20 (doc 48, section 14): capacity used is said on Capacity & Delivery's Delivery cards.)
+        places: [{ system: 3, page: 3, part: "Capacity & Delivery", tile: "button.section-tile[data-tile=\"delivery\"]" }],
         meaning: "How much of the time you have available the planned work needs: demand hours ÷ available hours. Above 100% means more work than capacity.",
         also: ["utilisation"],
         sources: ["capacityUtilisation"]

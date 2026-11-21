@@ -1,6 +1,6 @@
 # 1. Identity System — 1. Definition
 
-Status: **current design**, written 2026-10-30, updated 2026-11-20. The chapter "1. Definition" of the Identity System's one page, "1. Identity System": its layout, its tiles, how each opens and reacts, and what reads what it holds.
+Status: **current design**, written 2026-10-30, updated 2026-11-21. The chapter "1. Definition" of the Identity System's one page, "1. Identity System": its layout, its tiles, how each opens and reacts, and what reads what it holds.
 
 Related: doc 37 (the Organisation tile's fields), doc 38 (the Positioning tile's questions), doc 26 (card structure), doc 28 (the design, 8.1 to 8.6), doc 31 (the tables behind the Positioning lists, 10.7), doc 33 (the first version, and the future features in sections 10 to 15), `docs/ai/layout-rules.md` (the measured rules).
 
@@ -48,7 +48,7 @@ The questions behind the tiles are in `src/assets/SystemQuestions/01_IdentitySys
   - **Founders & Ownership:** the founders' names with bullets, each a link to that founder's card in the dialog (a one-owner form: no links).
   - **Mission & Vision** (in Purpose): the Mission's lines, a divider line, the Vision's.
 - **At the narrow width** (768px, the smallest the app supports) the chapters stack, one to a row, below a window of 1200px, as on every page (layout rules, section 23; owner, 2026-11-20 15:35 UTC+2); the tiles keep their grid.
-- **The page's own controls** stand in the header: Reading mode (Auto), Focus, Search (Ctrl+K), Notes, Review (with the number of items), Global Settings, and the organisation's name; the lower left has Back. The **Pages rail** (a navigation named "Pages": Introduction, 1. Definition and Ethics, 2. Legal Entity) with its previous and next arrows moves between the System's pages.
+- **The page's own controls** stand in the header: Reading mode (Auto), Focus, Search (Ctrl+K), Notes, Review (with the number of items), Global Settings, and the organisation's name; the lower left has Back. The **Pages rail** (a navigation named "Pages": Introduction, 1. Identity System) moves between the Introduction and the page; its previous arrow opens the Introduction (the System's one page is its last, so no next arrow stands there).
 
 ## 3. How a tile opens, moves and closes
 

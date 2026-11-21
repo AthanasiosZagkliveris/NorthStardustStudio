@@ -219,7 +219,7 @@ export enum AnswerType {
     StrategicRoadmap = "strategic-roadmap",
 
     /**
-     * The Identity System's Legal Entity page: what the organization
+     * The Identity System's Legal Entity section: what the organization
      * is legally, who owns it, how it was registered, how it is
      * identified for tax, what else the law asks of it, and what all
      * of that costs.
@@ -243,7 +243,7 @@ export enum AnswerType {
 
     /**
      * The Identity System's Founders Profile page: one card per
-     * founder the Legal Entity page names, asking what lenders and
+     * founder the Legal Entity section names, asking what lenders and
      * investors read to judge whether this team can carry out the
      * plan -- each founder's roles, industry and management
      * experience, key achievements and skills & qualifications --
@@ -284,7 +284,7 @@ export enum AnswerType {
      *   bespoke value.
      *
      * So the page is one Structure rather than an assembly of
-     * existing ones, for the same reason the Legal Entity page is
+     * existing ones, for the same reason the Legal Entity section is
      * (see Framework Conventions & Patterns). Its specification is
      * docs/specifications/business-system/page-1-foundation.md, and
      * the mapping that placed it here is the README beside it.

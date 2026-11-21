@@ -1,6 +1,6 @@
 # 42. The Value Proposition tile: the draft and the open items, as built in part
 
-Status: **specification**, written 2026-11-03, updated 2026-11-09. The Value Proposition tile (Business System, page 1): what it asks, the draft sentence it offers, and the open items it lists, with what each reads. The text is built; the draft and the open items are **built** (owner, 2026-11-07: "Update the Value Proposition and Offering card according to their docs"; `OfferingQuestions.ts`), with what is not yet built named in each section.
+Status: **specification**, written 2026-11-03, updated 2026-11-21. The Value Proposition tile (Business System, page 1): what it asks, the draft sentence it writes in, and the open items it lists, with what each reads. The text is built; the draft and the open items are **built** (owner, 2026-11-07: "Update the Value Proposition and Offering card according to their docs"; `OfferingQuestions.ts`), with what is not yet built named in each section.
 
 Related: doc 35 (the Segment), doc 36 (the Profile: the needs, goals, frustrations and worries), doc 38 (Positioning: the purpose; the differentiation and the outcomes it held until 2026-11-08), doc 41 (K14, the Segment's Differentiation), doc 41 (the Competitor: K8 and K10), doc 43 (the Offering: O1, O4, O8 and the needs addressed), doc 34 (the value crosswalk, 5.2a), doc 28 (6.7 and 8.2, the design this refines).
 
@@ -26,23 +26,23 @@ The sentence follows Moore's positioning template, as taught at Stanford [FUN-28
 
 ## 1. The draft
 
-- **Control:** a button above the text, "Add a draft". It adds the sentence at the end of the text and never overwrites it.
-- **Shown when:** the Segment has a name, at least one of its Profiles has answered E2 or holds a functional need, and at least one of its Offerings has a Type.
+- **How it is written** (owner, 2026-11-20 18:35 UTC+2: "Instead of appearing, an Add a draft option, add the draft automatically"; 19:17: "The app user could add or change the text as he wishes"): no button. The draft is written into the text by itself while the text is empty or still says what the app wrote, and keeps following the answers for as long as it does; once the App User writes in it, the text is theirs, and a text already saved stays as it is. The text is always editable (`useAutoDraft`, `AutoDraft`). Rule | was | now: the draft is the founder's to change | a button, "Add a draft", added the sentence at the end of the text | written in by itself, editable.
+- **Written when:** the Segment has a name, at least one of its Profiles has answered E2 or holds a functional need, and at least one of its Offerings has a Type.
 - **The words** (owner, 2026-11-07: "Approved. Please go ahead and write the updated specification sections"): "For [the Segment's name] who [the frustration's draft phrase] and want to [the goal's draft phrase], [the Offering's name] is [the Offering's form, O1, else its Type, with its article] that offers [the Offering's main benefit, the first ticked in O4], and it stands out for [the clear opening's value]." (The ending is affirmative, owner, 2026-11-09, `standard.md`, section 3.)
   - The goal and the frustration are the **highest-rated** across the Segment's Profiles (E1 and E2 are rated since 2026-11-04), ties in the list's order; each is written in its draft phrase (doc 34, 5.2d), never its one-word tick box ("who wait too long and want to grow their income").
   - "and it stands out for …" is taken from the clear opening as built (`clearOpenings`, `CompetitorQuestions.ts`: a value every Competitor of the Segment is weak on and a Profile rates Essential; the Review's second look and the first of K10's openings), not worked out again here. With no clear opening the sentence ends after the benefit.
   - A blank whose answer is missing is left in square brackets, so the App User sees what to add.
   - **A Segment with an end user** (its buyer is Proxy or Dual-Intent; doc 36, 2.4, owner, 2026-11-08): E1 and E2 are the end user's there, so the sentence says whose: "For [the Segment's name] whose end users [the frustration's draft phrase] and want to [the goal's draft phrase], …" (built 2026-11-08). "For [buyers] who want [the end user] to …" was considered and not used: the Segment's name is a plural noun of buyers, the end user has no name of its own, and the draft phrases are written for the people who feel them. The open items are unchanged: they read B1 and E3 (the buyer's) and the functional tasks (the end user's), each where it is kept.
-  - With several Offerings, one draft link for each Offering with a Type, "Add a draft for [its name]" (built 2026-11-07).
+  - With several Offerings, one sentence for each Offering with a Type, each in its own paragraph, one under the other (built 2026-11-07; written in by itself since 2026-11-20).
   - **The job it does and the end user's outcome** (owner, 2026-11-17; the open decisions and gaps, Group 4c): the highest-rated functional job of the Profiles' Needs is said after "that": "… is a product that keeps things in order and offers quality …" (Organisation, keeps things in order; Integration, works with the tools they already use; Connection, helps them reach other people; Information, gives them the answers they need; Variety, gives them more options). With an end user, the first outcome its Profiles tick (E4, doc 36) closes the draft: "Their end users get comfort and ease."
-- **The "i" says** (in the tile's "i", the first line prefixed "Add a draft: "):
-  - Add a draft: a starting sentence made from your answers on this page. It is yours once added: change it freely.
+- **The "i" says** (in the tile's "i", after its instructions):
+  - A starting sentence made from your answers on this page is written in while the text is empty. It is yours: change it freely.
   - Based on: Moore's positioning template, and the pains and gains of the Value Proposition Canvas.
 - **Connections:**
   - *Comes from:* the Segment's name; its Profiles' E1 and E2; its Offerings' O1 and O4 (doc 43); its Competitors' type and K8 (doc 41). Where the words of an answer do not read in the sentence, its crosswalk words are used (doc 34, 5.2a). The Segment's Differentiation (K14, doc 41; Positioning's question 8 until 2026-11-08, whose saved answer starts it) and the buyer's outcome saved on Positioning before (O4 owns it now, doc 43) come in through O4's starting ticks and the crosswalk; the draft reads O4 as the card shows it (`effectiveOfferingAnswers`). Positioning's purpose is not read.
   - *Read by:* nothing. The text is the user's, and the Business Plan reads the text as built.
 
-**As built (2026-11-07):** the draft and the open items read the Profiles' and the Offerings' answers as their cards show them, starting values included (2026-11-08). One link for each Offering with a Type, "Add a draft" (with several Offerings, "Add a draft for [its name]": one draft per Offering, decided, as section 1 says), above the text; it adds its sentence at the end, only what is not already there (`draftToAdd`), and goes once added. The sentence: "For [Segment] who [frustration phrase] and want to [goal phrase], [Offering] is [its form, O1, else its Type] that offers [its main benefit]. Unlike its competitors, it offers [the clear opening]." The "i" of the tile carries the two lines of the draft's "i" above. `valuePropositionDraft`, `draftOffered`.
+**As built (2026-11-07; written in by itself since 2026-11-20):** the draft and the open items read the Profiles' and the Offerings' answers as their cards show them, starting values included (2026-11-08). The draft is every Offering's sentence with a Type, one paragraph each (one draft per Offering, decided, as section 1 says), written into the text while it is empty or still the app's own (`AutoDraft`, `useFoundationSubsections.tsx`); the words are section 1's, the ending affirmative ("…, and it stands out for [the clear opening]."). The "i" of the tile carries the two lines of the draft's "i" above. `valuePropositionDraft`, `draftOffered`.
 
 ## 2. The open items (read-only, under the text)
 
@@ -65,7 +65,7 @@ Each item names the Profile, Offering or Competitor it is about, and opens it. T
 
 ## What changes when an answer above changes
 
-Nothing in the text changes: a draft once added is the App User's. The open items are worked out again from the answers as they stand.
+The draft follows the answers while the text still says what the app wrote; once the App User writes in it, nothing in the text changes. The open items are worked out again from the answers as they stand.
 
 ## Decided, and still to decide
 
@@ -78,6 +78,6 @@ Nothing in the text changes: a draft once added is the App User's. The open item
 
 **Built (2026-11-07):**
 - "Unanswered need" matched by the items' ids, not their words.
-- One draft link for each Offering with a Type ("Add a draft for [its name]" when there are several).
+- One draft sentence for each Offering with a Type (written in by itself since 2026-11-20, section 1).
 
 **Still to decide:** nothing for this tile.

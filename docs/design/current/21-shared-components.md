@@ -1,6 +1,6 @@
 # 21. Shared components: which are shared, which are not
 
-Status: **current design**, written 2026-10-17, updated 2026-11-09, checked against the code (`src/components/controls/`, `src/components/interview/`). Which component draws each kind of control, card, tile and field, and what is still hand-made.
+Status: **current design**, written 2026-10-17, updated 2026-11-21, checked against the code (`src/components/controls/`, `src/components/interview/`). Which component draws each kind of control, card, tile and field, and what is still hand-made.
 
 The aim of the owner: all similar things share ONE component, and no place draws its own markup for them (`docs/ai/layout-rules.md`, section 6, "Shared components"). A place passes a class that says only where the thing stands and how wide it is; the look and the reactions belong to the component. The looks of the library agree with the app (`15-library-vs-app.md`).
 
@@ -128,7 +128,7 @@ A rating beats ticks where a thing has degrees and the middle counts (a value do
 | Component | File | What it is |
 |---|---|---|
 | `CardHead`, `NameCell`, `CardShell` | `interview/cards/` | The head of a folding card (fold arrow, number, mark, name, actions, summary), the name in it (asked, a link, or text), and the outer box of every card and section panel. |
-| `BusinessCard` | `interview/cards/BusinessCardFields.tsx` | The shared card; with `legal` it draws the Legal Entity page's requirement, expense and founder cards (the CSS of the two stays separate on purpose: merging it moved the number and the glass ground). |
+| `BusinessCard` | `interview/cards/BusinessCardFields.tsx` | The shared card; with `legal` it draws the Legal Entity's requirement, expense and founder cards (the CSS of the two stays separate on purpose: merging it moved the number and the glass ground). |
 | `Tile`, `TileGrid`, `TileParts` | `interview/tiles/` | Every tile, every tile grid (the Inventory's is `bare`), and the shared parts: links layer, "+", hover origin. `CardBoxes` gives its grid the one shape (`gridColumns`: 1 to 3 in a row, 4 as 2 x 2, 5 or more in two rows) unless it is `threeAcross`; `SubTiles` keeps a tile's list clear of its "+" and circles (2026-11-09); its titles are one line, as every tile title in a dialog (`TileTitle`: cut, sliding under the pointer; a Master Tile's on the page wraps to three lines, layout rules section 8). |
 | `OrganizationReview`, `GlossaryList`, `BusinessDocumentsView` | `components/` | One Organisation's Review (its four groups by Capability, each item with "Go there": `goToReviewPlace`), the Glossary's A to Z list under its ONE funnel (the kinds, then the letter ranges) and the Business Documents (Plan, Canvas, Forecast as tabs): each drawn once, as a section of the Workbook page (`/workbook`, 2026-11-09). |
 | `WorkbookButton`, `WorkbookCardNotes`, `NotepadButton`, `NotepadPanel` | `components/notepad/Notepad.tsx` | The header's tool that opens the Workbook page (`pages/Workbook.tsx`, layout rules section 7, "The Workbook"; no count; on the Landing page the same button, `total`), the Card Notes on that page (every card's Notes text under a funnel of pages), and the Notes tool as it was before the Workbook: its header button and its side panel of the person's own notes (2026-11-09: "Card Notes and Notes tool are different"). |

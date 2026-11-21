@@ -1,5 +1,5 @@
 /**
- * What the Legal Entity page knows about where an organization is.
+ * What the Legal Entity section knows about where an organization is.
  *
  * The page adapts to the Country and Legal Form chosen at the top of
  * it: what the consumption tax is called, which legal forms are

@@ -97,7 +97,7 @@ export interface BusinessCostValue {
     /**
      * An ISO currency code, or "" for the organisation's own -- the
      * currency of the country it is registered in on the Identity
-     * System's Legal Entity page.
+     * System's Legal Entity section.
      *
      * "" rather than that code written in, so a price nobody has
      * changed follows the registration if it changes; only a price

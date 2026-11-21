@@ -26,12 +26,6 @@ import { PLAN_YEAR_CHOICES, asList, asMonth, asTextList, oneOf } from "./period.
  */
 export type CostAsset = "equipment" | "deposit";
 
-export const COST_ASSETS: { id: CostAsset | ""; label: string; explanation: string }[] = [
-    { id: "", label: "Expense", explanation: "Used up when it is paid: a fee, a service, a campaign." },
-    { id: "equipment", label: "Equipment", explanation: "Something the business owns and uses for years: counted as an asset and spread over three years in the profit and loss." },
-    { id: "deposit", label: "Deposit", explanation: "Money paid and returned later, such as a rent deposit: an asset, never a cost." }
-];
-
 export interface CostClassification {
     /** For a one-time cost: whether it buys equipment or is a deposit. */
     asset: CostAsset | "";
@@ -450,7 +444,8 @@ function parseFinancialFoundation(value: unknown): FinancialFoundationValue {
             return {
                 id: asText(row.id) || randomId("funding"),
                 name: asText(row.name),
-                category: oneOf(row.category, CATEGORY_IDS, "external"),
+                // (A source saved under Internal, removed 2026-11-20, is read under Other, its type and figures kept: doc 48, section 14.)
+                category: asText(row.category) === "internal" ? "other" : oneOf(row.category, CATEGORY_IDS, "external"),
                 type: asText(row.type),
                 provider: asText(row.provider),
                 amount: asText(row.amount),

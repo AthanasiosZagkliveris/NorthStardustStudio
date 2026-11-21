@@ -935,7 +935,7 @@ export function BusinessCard({
     onName?: (next: string) => void;
     /** For a card whose name belongs to another page (a Customer Channel's): its name is a link to that page, as an investigated activity's name is. */
     nameLink?: { title: string; onClick: () => void; className?: string; ariaLabel?: string };
-    /** A Legal Entity card (a requirement, an expense, a founder): the same card, in the Legal Entity page's own box, head and number (`legal-entity-*`). */
+    /** A Legal Entity card (a requirement, an expense, a founder): the same card, in the Legal Entity section's own box, head and number (`legal-entity-*`). */
     legal?: boolean;
     /** What the empty name box says (default: the kind and "name"). */
     placeholder?: string;

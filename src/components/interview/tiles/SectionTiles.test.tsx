@@ -1749,3 +1749,37 @@ describe("A DIALOG UNDER A FLOATING CARD (owner, 2026-11-17 00:22: \"Hide it\")"
     });
 
 });
+
+describe("an empty card is taken away however its layer is left (layout rules, section 11: \"An empty card is taken away when it is left\")", () => {
+
+    // (A dialog that holds tiles of its own -- the Strategic Period's Themes: Escape closes every layer at once, and the inner tiles go with their dialog still open.
+    // The blank Theme stayed, one more at each "+" (layout check, 2026-11-21: nine of them, then the page failed).)
+    function Nested({ discard }: { discard: () => void }) {
+        const inner = [{ id: "inner", title: "Inner", items: [], content: () => <p>Inner content</p>, discardIfBlank: discard }];
+        const outer = [{ id: "outer", title: "Outer", items: [], content: () => <SectionTiles label="Inner tiles" hue={200} tiles={inner} /> }];
+        return <SectionTiles label="Outer tiles" hue={200} tiles={outer} />;
+    }
+
+    it("removes a blank card whose dialog closes with the layer under it (Escape closes every layer)", async () => {
+        const discard = vi.fn();
+        render(<Nested discard={discard} />);
+        fireEvent.click(screen.getByRole("button", { name: /^Outer/ }));
+        fireEvent.click(await screen.findByRole("button", { name: /^Inner/ }));
+        await screen.findByText("Inner content");
+        expect(discard).not.toHaveBeenCalled();
+        fireEvent.keyDown(document.activeElement ?? document.body, { key: "Escape" });
+        await waitFor(() => expect(screen.queryAllByRole("dialog")).toHaveLength(0));
+        expect(discard).toHaveBeenCalledTimes(1);
+    });
+
+    it("removes it once when it is left with Back, a layer at a time", async () => {
+        const discard = vi.fn();
+        render(<Nested discard={discard} />);
+        fireEvent.click(screen.getByRole("button", { name: /^Outer/ }));
+        fireEvent.click(await screen.findByRole("button", { name: /^Inner/ }));
+        await screen.findByText("Inner content");
+        closeAllTiles();
+        await waitFor(() => expect(screen.queryAllByRole("dialog")).toHaveLength(0));
+        expect(discard).toHaveBeenCalledTimes(1);
+    });
+});

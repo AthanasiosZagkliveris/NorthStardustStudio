@@ -180,7 +180,7 @@ export default function StrategyFoundationEditor({
 
     /*
         SW1 AND SC1 TO SC3 (doc 49, 2.3 and 2.4; the owner's approved plan of 2026-11-18, §3, B2). The SWOT shown adds SW1's lines to the starts as they are rated;
-        the Compass's three choices follow their starts until chosen, and its "Add a draft" writes the Compass sentence once.
+        the Compass's three choices follow their starts until chosen, and its draft, the Compass sentence, is written in by itself (useAutoDraft).
     */
     const changeLines = changeEffectLines(foundation.changeEffects);
     // (Each line once: the starts read from the saved answers already hold SW1's saved lines, and the page adds them as they are rated.)
@@ -464,7 +464,7 @@ export default function StrategyFoundationEditor({
         (
             <>
 
-                {/* (SC1 to SC3, one question per band above the Compass's text, then "Add a draft": doc 49, 2.4.) */}
+                {/* (SC1 to SC3, one question per band above the Compass's text, then its draft written in by itself: doc 49, 2.4.) */}
                 {choices && compassShown && (
                     <SingleColumn>
                         {[

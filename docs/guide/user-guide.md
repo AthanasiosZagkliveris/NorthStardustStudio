@@ -1,6 +1,6 @@
 # User guide: the app's tools and the Foundation
 
-Status: **playbook**, written 2026-11-09, updated 2026-11-20. How a founder uses the app, step by step: the Organisations screen, the tools (Workbook, Notes, Search, Settings, Focus, the reading modes, the Calendar) and the Foundation with its Identity System and Business System.
+Status: **playbook**, written 2026-11-09, updated 2026-11-21. How a founder uses the app, step by step: the Organisations screen, the tools (Workbook, Notes, Search, Settings, Focus, the reading modes, the Calendar) and the Foundation with its Identity System and Business System.
 
 Related: `app/contents.md` (the map of the app, for the team), `app/index.md` (every place in the app), `app/glossary.md` (the terms). The app's own help is the "i" beside a title or a question: it says what the question is for and how to answer it.
 
@@ -46,17 +46,7 @@ The line "back to the last place worked" on System Selection takes you straight 
 
 ### 3.3 The Identity System
 
-Who the organisation is, in law and in purpose. Two pages.
-
-**Page 1, Definition and Purpose**
-1. **Organisation**: the name, the country, the legal form, the activities and the **Opening Date**. The Opening Date decides the business stage (Planning, Launching, Managing or Growing), the plan's start and the key dates, so set it first.
-2. **Positioning** (the tile is named by your business stage, for example Early Positioning): who buys (B2C, B2B or both), the buyer's category and life stage, and, for a buyer who buys for someone else, the end user. Your answers here shape the questions of the Business System.
-3. **Founders & Ownership**: each founder, their roles and what they bring: their industry, management, achievements and skills.
-4. **Purpose & Beliefs**: three pair tiles, Mission & Vision, Values & Principles, Philosophy & Manifesto, each a short text in your own words.
-
-**In the Definition chapter, Registrations & Expenses**: the fourth tile (one page for the whole Identity System since 20 November 2026), which opens two tiles.
-1. **Registrations**: the registry's and the tax's numbers, and inside them the **Additional Legal Requirements**: what you have registered and what the law asks of your activity in your country.
-2. **Expenses**: the legal costs (incorporation, trade marks, licences). Each becomes a cost card the Business System counts.
+Who the organisation is, in law and in purpose. One page, **Identity System**, of two chapters, **Definition** and **Purpose** (each tile in full: `specifications/identity-system/page-1-definition.md`, section 1). Set the **Opening Date** on the Organisation tile first: it decides the business stage (Planning, Launching, Managing or Growing), the plan's start and the key dates.
 
 The skills the business still needs are asked on the Business System's Infrastructure & Capability: Offering's Capability, Capacity & Delivery.
 
@@ -71,7 +61,7 @@ What you sell, to whom, with what, and whether the money works. Three pages, bes
    - **Offerings**: what you sell, its Description and its Terms & Service.
    **Engagement**, beside it: how the Segment finds you, chooses and buys. Add the **Customer Channels** you use; a channel can make its own cost cards ("+ Add expenses", with the channel's typical costs). Customer Relationship and Demand & Conversion follow as folding cards.
 2. **Infrastructure & Capability**: two frames of four tiles. **Infrastructure**: Founders, Resources, Activities, Partners & Suppliers. **Offering's Capability**: Resources, Activities, Partners & Suppliers, Capacity & Delivery. Each card carries its cost, its dates and its status. At the bottom, the **Inventory** lists every card with its cost, as tiles or as a table with a filter, and **Completed** holds the activities you have ticked as done.
-3. **Financials**: one chapter, **Financial Foundation**, three tiles read from left to right: your **Revenue Streams** (a stream you have not priced yet says "Not priced yet"), your **Costs** (a summary of what the other pages recorded) and your **Funding** (where the money comes from, starting with the founders' capital from Founders & Ownership). What your answers work out is in the Workbook, under **Financial Documents**: the **Funding Request** (what you need, what you have, the gap, and what the money is for), the **Financial Plan** (your costs, your revenue, when the business breaks even and whether the money lasts until then) and the **Financial Forecast** (the money in and out, month by month, with its two charts).
+3. **Financials**: one chapter, **Financial Foundation**, whose tiles ask for your revenue, your costs and your funding (the tiles in full: doc 48, section 14). What your answers work out is in the Workbook, under **Financial Documents**: the **Funding Request** (what you need, what you have, the gap, and what the money is for), the **Financial Plan** (your costs, your revenue, when the business breaks even and whether the money lasts until then) and the **Financial Forecast** (the money in and out, month by month, with its two charts).
 
 ### 3.5 Business and Financial Documents
 

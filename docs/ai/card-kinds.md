@@ -1,6 +1,6 @@
 # The kinds of card (internal list)
 
-Status: **reference**, written 2026-10-13, updated 2026-11-02. The kinds of card that open from a tile: where each one's code is and how its head is built.
+Status: **reference**, written 2026-10-13, updated 2026-11-21. The kinds of card that open from a tile: where each one's code is and how its head is built.
 
 Every card that opens from a tile (floating, or in a tile's dialog), by kind. Paths in the Code column are under `src/components/interview/editors/`. **The order number stands inside the name cell** on every card that has a name cell (drawn over the name's left, 10px in; the name's text starts at 38px); the name cell and everything under it start at the card's own 12px padding, and the x has its own 32px column (+8px) at the right.
 
@@ -23,6 +23,6 @@ Every card that opens from a tile (floating, or in a tile's dialog), by kind. Pa
 | 15 | Strategy: Theme, Goal, Objective, Metric | Strategy System: Strategic Period | `StrategicPeriodEditor.tsx` (`NumberedName`) | `.strategy-box-head` | yes (the model for the others) |
 | 16 | Strategy: Initiatives | inside an Objective | `StrategicPeriodEditor.tsx` | a box with a list, not a card | no head |
 
-Not cards (page frames with a fold arrow): the Financial page's numbered sections (`FinancialSectionCard`), the Segment frame's head, Customer Relationship's table bands.
+Not cards (page frames with a fold arrow): the Segment frame's head, Customer Relationship's table bands.
 
 The parts are shared (doc 21): `BusinessCard` draws a card (its box `CardShell`, head `CardHead`, name `NameCell`, number `CardNumber`); the number keeps its kind's class (`.legal-entity-card-number`, `.strategy-box-number`) and is placed over the name by the rules of `section-tiles/` ("THE ORDER NUMBER STANDS INSIDE THE NAME CELL"). The Strategy boxes' heads and the sub-channel's head stay their own, on purpose. A new kind of card takes one of these heads. A card of a completed activity is the Completed grey wherever it stands (layout rules, 36).

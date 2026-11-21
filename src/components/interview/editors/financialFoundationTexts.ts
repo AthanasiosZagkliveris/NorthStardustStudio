@@ -41,20 +41,6 @@ export const LOAN_PRE_INTEREST_HELP: InfoPoint[] = [
     { title: "Source", source: SOURCES.simpleInterest }
 ];
 
-/** The funding gap formula, added to that figure's own info. */
-export const FUNDING_GAP_FORMULA: InfoPoint = {
-    title: "Formula",
-    text: "Funding gap = Funding needed − Funding available and confirmed"
-};
-
-/** The runway formula, added to that figure's own info. */
-export const RUNWAY_FORMULA: InfoPoint = {
-    title: "Formula",
-    text: "Runway = Cash ÷ Monthly net burn (here: the first month the projected balance goes below zero)"
-};
-
-export const RUNWAY_SOURCE: InfoPoint = { title: "Based on", source: SOURCES.cashRunway };
-
 export const SECTIONS = {
     costs: {
         title: "Costs",
@@ -119,11 +105,10 @@ export const SECTION_HUES: Record<string, number> = {
 };
 
 export const CATEGORY_INFO: Record<FundingCategory, InfoPoint[]> = {
-    internal: ["Money from inside your organisation: its founders' capital, reinvested revenue or funds it already holds."],
     external: [
         { title: "Non-repayable", text: "Grants, subsidies and awards: nothing to repay, though often with conditions." },
         { title: "Equity", text: "Investment in exchange for a share of ownership." },
         { title: "Debt", text: "Loans and credit that must be repaid, with interest." }
     ],
-    other: ["Reward crowdfunding, friends & family, in-kind contributions and other arrangements."]
+    other: ["Reward crowdfunding, friends & family, in-kind contributions, funds your organisation already holds and other arrangements."]
 };

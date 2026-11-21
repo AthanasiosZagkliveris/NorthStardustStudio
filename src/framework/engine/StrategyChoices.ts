@@ -5,7 +5,7 @@ import { DIFFERENTIATION_PHRASES } from "./AmbassadorChoices.ts";
     THE STRATEGY PAGE'S CHOICE QUESTIONS, SW1 AND SC1 TO SC3 (doc 49, 2.3 and 2.4; owner, 2026-11-12, D16 to D22; built 2026-11-19, the owner's approved plan of
     2026-11-18, §3, B2). SW1, in the SWOT dialog above the Opportunities and Threats: how each change could affect the business, 1 = Threat to 5 = Opportunity, the
     changes the Segments named ticked first. SC1 to SC3, in the Strategic Compass dialog above its text: the stance (TOWS), where growth comes from (Ansoff), the
-    Segment that comes first; then "Add a draft" writes the Compass sentence. Saved in the Strategy Foundation (`changeEffects`, `stance`, `growth`,
+    Segment that comes first; then the Compass sentence is written in by itself (useAutoDraft). Saved in the Strategy Foundation (`changeEffects`, `stance`, `growth`,
     `firstSegmentId`); a key never saved follows its start (SW1's ticks, SC1 and SC2 from their answers above).
 */
 

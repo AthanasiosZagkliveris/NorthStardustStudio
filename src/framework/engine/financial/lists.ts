@@ -92,8 +92,9 @@ export const FUNDING_NEED_CATEGORIES = [
 
 export type FundingNeedCategory = typeof FUNDING_NEED_CATEGORIES[number]["id"];
 
+/* (INTERNAL IS REMOVED (owner, 2026-11-20 18:35 and 22:56 UTC+2; doc 48, section 14): the founders' own money is the Founders' Capital, read from Founders & Ownership;
+   reinvested revenue is the forecast's own cash; existing organisational funds are an Other source. A source saved under Internal is read under Other: stored.ts.) */
 export const FUNDING_CATEGORIES = [
-    { id: "internal", label: "Internal" },
     { id: "external", label: "External" },
     { id: "other", label: "Other" }
 ] as const;
@@ -114,9 +115,9 @@ export const FUNDING_TYPES: readonly {
     /** The heading it is listed under, inside External. */
     family?: string;
 }[] = [
-    { id: "founder-capital", label: "Founder's Capital", category: "internal", nature: "capital" },
-    { id: "reinvested-revenue", label: "Reinvested Revenue", category: "internal", nature: "capital" },
-    { id: "existing-funds", label: "Existing Organisational Funds", category: "internal", nature: "capital" },
+    { id: "founder-capital", label: "Founder's Capital", category: "other", nature: "capital" },
+    { id: "reinvested-revenue", label: "Reinvested Revenue", category: "other", nature: "capital" },
+    { id: "existing-funds", label: "Existing Organisational Funds", category: "other", nature: "capital" },
 
     { id: "grant", label: "Grant", category: "external", nature: "non-repayable", family: "Non-repayable" },
     { id: "subsidy", label: "Subsidy", category: "external", nature: "non-repayable", family: "Non-repayable" },

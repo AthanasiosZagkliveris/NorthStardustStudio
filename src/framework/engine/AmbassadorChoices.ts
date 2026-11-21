@@ -10,7 +10,7 @@ import { asText } from "./Readers.ts";
 
 /*
     THE AMBASSADOR'S CHOICES, BA1 TO BA4 AND BA6 TO BA8 (doc 46; owner, 2026-11-12, D3 to D5; built 2026-11-19, the owner's approved plan of 2026-11-18, §3, B2):
-    a few choices above each of the four texts of the Brand System's Ambassador, saved under the section's own key `ambassador`, and an "Add a draft" that writes
+    a few choices above each of the four texts of the Brand System's Ambassador, saved under the section's own key `ambassador`, and a draft, written in by itself (useAutoDraft), that writes
     a sentence at the end of the text (the Value Proposition's pattern, doc 42). Aesthetics holds BA1 to BA3, Body Language BA4, Communication & Voice BA6 and BA7,
     Imprint BA8 and BA9 (BA9 built once the Values had ids, doc 46, section 5; ValueIds.ts). A start follows its source until the founder changes it (doc 46, section 6): the
     ratings of BA4 and BA6 follow BA1; BA3, the surroundings the imagined Ambassador suits, has no start (2026-11-19); only what the founder sets is saved.
@@ -79,7 +79,6 @@ const RELATIONSHIP_PHRASES = [
     { id: "dedicated-support", phrase: "stay close to every customer" }
 ] as const;
 
-export type PresenceRow = (typeof AMBASSADOR_PRESENCE)[number]["id"];
 export type ToneRow = (typeof AMBASSADOR_TONE)[number]["id"];
 
 /** K14's phrases, one list shared with the Compass draft (doc 46, section 9; doc 49): what a Differentiation reads as in a sentence. */

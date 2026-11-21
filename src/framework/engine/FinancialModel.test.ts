@@ -15,6 +15,7 @@ import {
 
 import {
     asFinancialFoundationValue,
+    FUNDING_CATEGORIES,
     asFinancialSustainabilityValue,
     breakEvenInputs,
     consolidateCosts,
@@ -300,7 +301,7 @@ describe("financial position", () => {
         const value = foundation({
             costs: [{ ...createOwnCost("establishment"), amount: "20000", frequency: "one-time" as const }],
             funding: [
-                { ...createFundingSource("internal"), type: "existing-funds", amount: "10000", status: "received" },
+                { ...createFundingSource("other"), type: "existing-funds", amount: "10000", status: "received" },
                 { ...createFundingSource("external"), type: "grant", amount: "5000", status: "approved", schedule: { ...createFundingSource("external").schedule, month: month(3) } },
                 { ...createFundingSource("external"), type: "grant", amount: "8000", status: "requested" }
             ]
@@ -381,7 +382,7 @@ describe("financial position", () => {
 
         const value = foundation({
             costs: [{ ...createOwnCost("operating"), amount: "1000", frequency: "monthly" }],
-            funding: [{ ...createFundingSource("internal"), type: "existing-funds", amount: "6000", status: "received" }]
+            funding: [{ ...createFundingSource("other"), type: "existing-funds", amount: "6000", status: "received" }]
         });
 
         const lines = consolidateCosts(value, sources());
@@ -532,7 +533,7 @@ describe("recording costs once, and in the right shape", () => {
     test("in-kind contributions are not cash", () => {
         const value = foundation({
             funding: [
-                { ...createFundingSource("internal"), type: "existing-funds", amount: "1000", status: "received" },
+                { ...createFundingSource("other"), type: "existing-funds", amount: "1000", status: "received" },
                 { ...createFundingSource("other"), type: "in-kind", amount: "1500", status: "received" }
             ]
         });
@@ -636,7 +637,7 @@ describe("revenue and break even", () => {
         // variable cost. Contribution: 700, 1400, 2100 -> Month 3.
         const value = foundation({
             costs: [{ ...createOwnCost("operating"), amount: "2000", frequency: "monthly" }, PROJECT_COST],
-            funding: [{ ...createFundingSource("internal"), type: "existing-funds", amount: "10000", status: "received" }]
+            funding: [{ ...createFundingSource("other"), type: "existing-funds", amount: "10000", status: "received" }]
         });
         const lines = consolidateCosts(value, sources());
         const page = asFinancialSustainabilityValue({
@@ -666,7 +667,7 @@ describe("revenue and break even", () => {
 
         const value = foundation({
             costs: [{ ...createOwnCost("operating"), amount: "2000", frequency: "monthly" }, PROJECT_COST],
-            funding: [{ ...createFundingSource("internal"), type: "existing-funds", amount: "10000", status: "received" }]
+            funding: [{ ...createFundingSource("other"), type: "existing-funds", amount: "10000", status: "received" }]
         });
         const lines = consolidateCosts(value, sources());
         const page = asFinancialSustainabilityValue({
@@ -687,7 +688,7 @@ describe("revenue and break even", () => {
 
         const value = foundation({
             costs: [{ ...createOwnCost("operating"), amount: "1000", frequency: "monthly" }],
-            funding: [{ ...createFundingSource("internal"), type: "existing-funds", amount: "3000", status: "received" }]
+            funding: [{ ...createFundingSource("other"), type: "existing-funds", amount: "3000", status: "received" }]
         });
         const lines = consolidateCosts(value, sources());
 
@@ -704,7 +705,7 @@ describe("revenue and break even", () => {
 
         const value = foundation({
             costs: [{ ...createOwnCost("operating"), amount: "2000", frequency: "monthly" }],
-            funding: [{ ...createFundingSource("internal"), type: "existing-funds", amount: "3000", status: "received" }]
+            funding: [{ ...createFundingSource("other"), type: "existing-funds", amount: "3000", status: "received" }]
         });
         const lines = consolidateCosts(value, sources());
         const page = asFinancialSustainabilityValue({
@@ -1198,4 +1199,13 @@ describe("the Workspace's optional Deposit", () => {
         expect(deposits.map(line => [line.id, line.amount])).toEqual([["partner-3grgyco6:deposit", 3750]]);
     });
 
+});
+
+/* INTERNAL IS REMOVED (owner, 2026-11-20 18:35 and 22:56 UTC+2; doc 48, section 14): a source saved under it is read under Other, nothing lost; the founders' capital is made under Other. */
+describe("a funding source saved under Internal", () => {
+    test("is read under Other, its type, amount and status kept", () => {
+        const value = asFinancialFoundationValue({ funding: [{ id: "savings", category: "internal", type: "founder-capital", name: "Owner's savings", amount: "10700", status: "received" }] });
+        expect(value.funding[0]).toMatchObject({ id: "savings", category: "other", type: "founder-capital", name: "Owner's savings", amount: "10700", status: "received" });
+        expect(FUNDING_CATEGORIES.map(category => category.id)).toEqual(["external", "other"]);
+    });
 });

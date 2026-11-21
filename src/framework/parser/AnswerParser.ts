@@ -117,7 +117,7 @@ export class AnswerParser {
         const single = this.parseSingle(parts[0]?.body ?? markdown);
 
         // A Section declaring its own numbering carries that however
-        // it is structured -- the Identity System's Legal Entity page
+        // it is structured -- the Identity System's Legal Entity section
         // is one Structure rather than a set of columns, and still
         // numbers its six subsections 1 to 6 on their own.
         return this.isNestedNumbering(markdown)
