@@ -40,7 +40,7 @@ One tree, edited in place. There is no separate build tree and no sync step.
 
 
 1. **Typecheck:** `npx tsc --noEmit`. Clean before going on.
-2. **Unit tests:** `npx vitest run` (the 40-second timeout is set in `vitest.config.ts`; `npm run verify` runs this and the other checks in order). About 2,300 tests (2,313 pass and 2 are skipped on 2026-11-21); all must pass. A confirmed, not-yet-fixed bug is written as `it.fails`, never left as a red test (see below). An `it.fails` that starts to pass is itself reported as a failure: root-cause it, it means the tracked behaviour changed.
+2. **Unit tests:** `npx vitest run` (the 40-second timeout is set in `vitest.config.ts`; `npm run verify` runs this and the other checks in order). About 2,300 tests (2,311 pass and 2 are skipped on 2026-11-21); all must pass. A confirmed, not-yet-fixed bug is written as `it.fails`, never left as a red test (see below). An `it.fails` that starts to pass is itself reported as a failure: root-cause it, it means the tracked behaviour changed.
 3. **The checks that read the code against the rules** (all must be clean):
    - `npm run tokens:check`: the generated colour and size stylesheets match `src/styles/tokens/tokens.ts`.
    - `npm run lint:styles`: no literal colour, corner, gap or breakpoint outside the tokens (known ones are in `tools/scripts/lint/styles-baseline.json`; a new one fails).

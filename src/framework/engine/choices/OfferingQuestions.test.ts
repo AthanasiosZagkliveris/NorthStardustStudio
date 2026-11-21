@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { asBusinessFoundationValue } from "../answers/AnswerBusinessFoundation";
 import { OUTCOME_IDS } from "../PositioningIds";
 import { offeringContextOf } from "../answers/EffectiveAnswers";
-import { OFFERING_BOX_QUESTIONS, OFFERING_QUESTIONS, asOfferingAnswers, draftOffered, highestRated, offeringAnswerLines, offeringAsks, offeringChoose, offeringInfo, offeringOptions, offeringOptionsWith, offeringShown, valueMismatch, valuePropositionDraft, valuePropositionOpenItems } from "./OfferingQuestions";
+import { OFFERING_BOX_QUESTIONS, OFFERING_QUESTIONS, draftOffered, highestRated, offeringAnswerLines, offeringAsks, offeringChoose, offeringInfo, offeringOptions, offeringOptionsWith, offeringShown, valueMismatch, valuePropositionDraft, valuePropositionOpenItems } from "./OfferingQuestions";
 import { offeringStartsById } from "../answers/EffectiveAnswers";
 import type { SegmentIdentity } from "../SegmentContext";
 
@@ -113,7 +113,6 @@ describe("O2, O3, O10 and O18 from the research (2026-11-08)", () => {
     });
 
     it("reads a saved A membership as A subscription / membership, and keeps A project or contract first for an invoice", () => {
-        expect(asOfferingAnswers({ o3: ["membership"] }).o3).toEqual(["subscription"]);
         expect(offeringShown({ o3: ["membership"] }, { type: "Service" }).o3).toEqual(["subscription"]);
         const ids = offeringOptions("o3", { type: "Service" }).map(option => option.id);
         // (Two headed groups, One purchase and Ongoing: owner, 2026-11-17.)

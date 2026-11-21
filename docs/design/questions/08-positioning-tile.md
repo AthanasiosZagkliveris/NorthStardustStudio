@@ -49,7 +49,7 @@ Related: Questions 7 (the Organisation tile, whose Opening Date sets the stage),
 - **The "i" says:** What the buyer buys for. It tells the buyer who pays from the person who uses it, whatever the buyer's life stage or scale. Direct Buyers: purchasing exclusively for their own personal use. Proxy Buyers: purchasing exclusively on behalf of someone else (a gift, a parent buying for a child, an employer buying for its staff). Dual-Intent Buyers: purchasing a single offering to be used by themselves and their dependents (a family plan, a shared tier). For Proxy and Dual-Intent Buyers the questions about the end user follow. Based on the buying roles of the marketing literature.
 - **Connections:**
   - *Comes from:* the relationship.
-  - *Read by (built):* the end-user questions below (asked for Proxy and Dual-Intent only); the Segment card's End user part; the order of the purposes and outcomes.
+  - *Read by (built):* the end-user questions below (asked for Proxy and Dual-Intent only); the Segment card's End user part; the order of the purposes.
 
 ### 5. Buyer & End User relationship
 

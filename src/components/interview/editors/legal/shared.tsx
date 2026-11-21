@@ -152,8 +152,7 @@ export const DIFFERENTIATIONS = [
     { id: "personal", label: "Personal Service & Relationship" }
 ] as const;
 
-/* (The Outcome for the buyer left Positioning on 2026-11-08, owner: the Offering's O4 owns it; a saved answer starts O4 through the crosswalk, Research 3, 5.2a. Its words stay
-   for the saved answer: OUTCOME_WORDS, ActivityClassification.ts.) */
+/* (The Outcome for the buyer left Positioning on 2026-11-08, owner: the Offering's O4 owns it; a saved answer starts O4 through the crosswalk, Research 3, 5.2a.) */
 
 /** Outcome for the user, asked of a Proxy or Dual-Intent Buyer: what matters most to the user. Asked on the Segment's End user part since 2026-11-08 (SegmentQuestions.ts, `u-outcome`); the order below. */
 export const USER_OUTCOMES = [

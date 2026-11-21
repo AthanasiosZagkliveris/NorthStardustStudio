@@ -2,8 +2,12 @@ import { describe, expect, it } from "vitest";
 
 import { RELATION_IDS_B2B, RELATION_IDS_B2C } from "./PositioningIds.ts";
 import { RELATIONSHIP_FITS, categoryOfModel, relationshipFits, relationshipFitsUserStages, orderedByCategory, userStageFits, withOnlyUserStage } from "./RelationshipFit.ts";
-import { RELATIONSHIP_INTENT } from "./PurposeRelevance.ts";
 import { relationshipApproachDraft, relationshipPurposeDraft } from "./RelationshipDrafts";
+
+/** How a consumer relationship usually reads (the owner's table): a proxy buyer (buys for the other), a dual-intent buyer (the purchase is for both) or either. */
+const RELATIONSHIP_INTENT: Record<string, "proxy" | "dual" | "either"> = {
+    "rel:parent": "proxy", "rel:caregiver": "proxy", "rel:family": "either", "rel:partner": "dual", "rel:friend": "proxy", "rel:commercial": "proxy", "rel:otherpersonal": "either"
+};
 
 describe("which buyer and user relationships fit the buyer's category", () => {
 

@@ -3,7 +3,7 @@ import { useState } from "react";
 import { cleanup, render, screen } from "@testing-library/react";
 import { openCard, openTile } from "../../../../test/interviewTestUtils";
 import { asBusinessCapabilityValue, asLegalEntityValue, createBusinessPartner, createBusinessResourceSlot, serviceAssetLinks, servicesOfAsset } from "../../../../framework/engine/answers/AnswerUtils";
-import { asFinancialFoundationValue, assetValue, consolidateCosts } from "../../../../framework/engine/financial/FinancialModel";
+import { asFinancialFoundationValue, consolidateCosts } from "../../../../framework/engine/financial/FinancialModel";
 import { createGlobalSettings } from "../../../../framework/engine/GlobalSettings";
 import BusinessCapabilityEditor from "../BusinessCapabilityEditor";
 
@@ -45,7 +45,7 @@ describe("technical support", () => {
             const lines = consolidateCosts(asFinancialFoundationValue({}), sources);
             expect(lines.find(line => line.id === "elec")?.capitalisedInto).toBe("oven");
             expect(lines.find(line => line.id === "oven")?.capitalisedInto).toBeUndefined();
-            expect(assetValue(lines, "oven")).toBe(4800);
+            expect(lines.filter(line => line.counted && (line.id === "oven" || line.capitalisedInto === "oven")).reduce((total, line) => total + (line.amount ?? 0), 0)).toBe(4800);
         });
 
     });

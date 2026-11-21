@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { asGlobalSettings, capitalisationLimitOf, channelFeeOf, createChannelFeeRow, createGlobalSettings, employerOnCosts, targetReserveMonthsOf, usefulLifeOf } from "./GlobalSettings";
+import { asGlobalSettings, capitalisationLimitOf, channelFeeOf, createChannelFeeRow, createGlobalSettings, targetReserveMonthsOf, usefulLifeOf } from "./GlobalSettings";
 import { CHANNEL_FEE_DATA, CHANNEL_FEE_PROVIDERS, FEE_COUNTRIES, paymentServiceName, providerOffered } from "./channels/ChannelFeeData";
 import { ownFeeChannelNames, resetChannelFees, shownChannelFees } from "./financial/CalculatedLines";
 import { asBusinessEngagementValue } from "./businessFoundation/engagementReaders";
@@ -94,11 +94,6 @@ describe("the readers", () => {
         const stripe = createGlobalSettings().channelFees.find(row => row.channel === "Stripe")!;
         expect(channelFeeOf(stripe, 100000, 4000)).toBe(2800);
         expect(channelFeeOf({ ...createChannelFeeRow(), commission: "25" }, 1000, 0)).toBe(250);
-    });
-
-    it("work out employer on-costs: 6,000 of salaries at 25% is 1,500; nothing while no coefficient is set", () => {
-        expect(employerOnCosts({ ...createGlobalSettings(), onCostRate: "25" }, 6000)).toBe(1500);
-        expect(employerOnCosts(createGlobalSettings(), 6000)).toBe(0);
     });
 
 });

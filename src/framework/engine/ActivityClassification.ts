@@ -124,8 +124,6 @@ export const PURPOSE_WORDS: Record<string, string> = {
 };
 /** The differentiation: what the offering does differently from the competitors. */
 export const DIFFERENTIATION_WORDS: Record<string, string> = { cost: "Cost-driven", convenience: "Convenience-driven", compliance: "Compliance, Risk & Security", premium: "Status & Premium", performance: "Performance & Innovation", ecosystem: "Ecosystem & Integration", personal: "Personal Service & Relationship" };
-/** The outcome for the buyer: the measurable result. */
-export const OUTCOME_WORDS: Record<string, string> = { savings: "Lower costs", time: "Time saved", assurance: "Legal & data-protection cover", prestige: "Higher quality & prestige" };
 /** The outcome for the user (a Proxy or Dual-Intent Buyer's): what matters most to the user. */
 export const OUTCOME_USER_WORDS: Record<string, string> = { enjoy: "Enjoyment & fun", comfort: "Comfort & ease", safety: "Safety & care", learning: "Learning & growth", belong: "Looks & belonging", practical: "Practical use" };
 
