@@ -312,6 +312,8 @@ describe("a founder's Frequency, migrated", () => {
             if ((globalThis as unknown as { process?: { env: Record<string, string | undefined> } }).process?.env.WRITE_GOLDEN === "all") {
                 next[name].founders = now[name].founders;
                 next[name].forecast = now[name].forecast;
+                // (The forecast with the Global Settings moves with the figures too: 2026-11-21, a build-up taken from Demand.)
+                next[name].forecastSettings = now[name].forecastSettings;
             }
         }
         // (WRITE_GOLDEN=all: the weekly fixture's forecast words and numbers move with its example's figures, so they are written again too.)

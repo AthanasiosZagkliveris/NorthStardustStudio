@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { DemandSource, DemandValue, asDemandValue, createDemand, createDemandSource, demandChannelIds, demandResult, capacityCheck, createDelivery, deliveryAllocation, deliveryEffort, founderDeliveryHours, WEEKS_PER_MONTH, founderWorkingHours, offeringChannelRevenue, PLANNING_CEILING, asDeliveryMap, holdUpsText, offeringCount } from "./DemandCapacity.ts";
+import { asFinancialSustainabilityValue, createRevenueStream, withDemand, type RevenueStreamValue } from "./FinancialModel.ts";
 
 /** Saved before several sources: one model and its inputs, read as it is on loading. */
 function demand(model: string, inputs: Record<string, string>): DemandValue {
@@ -317,6 +318,27 @@ describe("Capacity & Delivery, doc 52 (owner, 2026-11-17)", () => {
         expect(offeringCount(3, "Bespoke Commissions")).toBe("3 Bespoke Commissions");
         expect(offeringCount(3, "Trade Collection")).toBe("3 Trade Collection orders");
         expect(offeringCount(1, "Trade Collection")).toBe("1 Trade Collection order");
+    });
+
+});
+
+describe("one owner for the build-up (doc 48, 15.1; 2026-11-21)", () => {
+
+    const recurring = { ...createDemand(), recurring: true, cancel: "10", sources: [source("other", { estimate: "0.5", basis: "Half of builds" })] };
+    const typed = { ...createRevenueStream(), offeringId: "retainer", volume: "9", development: "gradual" as RevenueStreamValue["development"], initialVolume: "1", rampMonths: "6" };
+    const streamOf = (demand: DemandValue | undefined, stream = typed) =>
+        withDemand({ ...asFinancialSustainabilityValue(undefined), streams: [stream] }, demand ? { retainer: demand } : undefined).streams[0];
+
+    it("builds a recurring Offering up as its Demand works it out: the clients of the first month to the level, in its months", () => {
+        expect(streamOf(recurring)).toMatchObject({ volume: "5", development: "gradual", initialVolume: "0.5", rampMonths: "22" });
+    });
+
+    it("keeps the stream's own build-up where Demand gives no months (a one-off Offering, or no cancelling), and a month-by-month list always", () => {
+        const oneOff = { ...createDemand(), sources: [source("other", { estimate: "3", basis: "Three a month" })] };
+        expect(streamOf(oneOff)).toMatchObject({ volume: "3", development: "gradual", initialVolume: "1", rampMonths: "6" });
+        expect(streamOf({ ...recurring, cancel: "" })).toMatchObject({ development: "gradual", initialVolume: "1", rampMonths: "6" });
+        expect(streamOf(recurring, { ...typed, development: "detailed" })).toMatchObject({ development: "detailed" });
+        expect(streamOf(undefined)).toEqual(typed);
     });
 
 });

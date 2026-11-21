@@ -478,6 +478,29 @@ export default function FinancialSustainabilityEditor({
                             true,
                             NUMBER_LIMITS.volume
                         )}
+                    {/* (ONE OWNER FOR THE BUILD-UP (doc 48, 15.1): where Demand & Conversion works it out -- a recurring Offering's clients joining and
+                        cancelling --, it is shown here and changed there; the stream's own Build-up is asked only where it is silent.) */}
+                    {fromDemand.monthsToNormal !== null && fromDemand.joining !== null && fromDemand.expected !== null && stream.development !== "detailed" ? (
+                        <BusinessField
+                            label="Build-up"
+                            info={["From this Offering's Demand & Conversion on Foundation & Engagement: " + fromDemand.working]}
+                            inline
+                        >
+                            <span className="financial-derived">
+                                From <strong className="business-demand-pill">{formatUnits(Math.min(fromDemand.joining, fromDemand.expected))}</strong> in the first month
+                                to <strong className="business-demand-pill">{formatUnits(fromDemand.expected)}</strong> in about {fromDemand.monthsToNormal} months
+                                {onOpenEngagement && (
+                                    <TextLink
+                                        type="button"
+                                        className="business-engagement-link financial-cost-link"
+                                        onClick={() => onOpenEngagement(demandPath(stream.offeringId))}
+                                    >
+                                        from Demand & Conversion
+                                    </TextLink>
+                                )}
+                            </span>
+                        </BusinessField>
+                    ) : (<>
                     {listPicker("Build-up", what + " revenue development",
                         REVENUE_DEVELOPMENTS.map(item => item.label),
                         REVENUE_DEVELOPMENTS.find(item => item.id === stream.development)?.label ?? "",
@@ -499,11 +522,7 @@ export default function FinancialSustainabilityEditor({
                         </>
                     )}
 
-                    {fromDemand.monthsToNormal !== null && (
-                        <p className="financial-muted financial-inline-note">
-                            Demand & Conversion suggests about {fromDemand.monthsToNormal} months to reach nine tenths of it.
-                        </p>
-                    )}
+                    </>)}
 
                 </div>
                 {/* (VOLUME FROM EACH MONTH FOLDS (owner, 2026-11-20 12:49 UTC+2, "proceed"): under Sales Volume, the one fold of a card's lists (FoldList), its count

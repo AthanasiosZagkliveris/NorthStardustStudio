@@ -15,7 +15,7 @@ The standard for these documents is [the standard of the documents](../../standa
 | [20-free-text-categories.md](20-free-text-categories.md) | current design | Free texts in four categories: the categories, the owner's decisions, the proposed limits and what is still to build. | 2026-11-03 |
 | [21-shared-components.md](21-shared-components.md) | current design | Which components are shared, with their props, and what is still hand-made. | 2026-11-21 |
 | [22-help-texts.md](22-help-texts.md) | generated | The help texts of the app, from the walk of the running app. | 2026-11-20 |
-| [23-popups.md](23-popups.md) | current design | Pop-ups in six categories, with their placement rules and the order of fallbacks. | 2026-11-19 |
+| [23-popups.md](23-popups.md) | current design | Pop-ups in six categories, with their placement rules and the order of fallbacks. | 2026-11-21 |
 | [24-tooltips.md](24-tooltips.md) | current design | Which controls have a tooltip, what it says, its look and its rules. This document owns the tip. | 2026-11-18 |
 | [25-folder-plan.md](25-folder-plan.md) | current design | The folders of the repository: the app files, the examples, the working files and the exports, and the documents folder. | 2026-11-12 |
 | [26-card-structure.md](26-card-structure.md) | current design | Card structure: what the user can reach in each card, row by row, and why. The structure tables and the catalogue record are generated from it. | 2026-11-21 |

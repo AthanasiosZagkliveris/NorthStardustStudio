@@ -48,8 +48,17 @@ export function withDemand(
         ...page,
         streams: page.streams.map(entry => {
             const stream = timed(entry);
-            const expected = demand ? demandResult(demand[stream.offeringId]).expected : null;
-            return expected === null ? stream : { ...stream, volume: numberAsText(expected) };
+            const result = demand ? demandResult(demand[stream.offeringId]) : null;
+            if (!result || result.expected === null) {
+                return stream;
+            }
+            // (ONE OWNER FOR THE BUILD-UP (doc 48, 15.1; owner, 2026-11-21 00:56 UTC+2, "which parts could be covered by existing answers"): where the Sales Forecast
+            // works out how long the sales take to reach their level -- a recurring Offering's clients joining and cancelling --, the stream builds up from the clients
+            // of its first month to the level in those months; the stream's own Build-up, First Month and Months to Normal are kept, read only where it is silent.)
+            if (result.monthsToNormal !== null && result.joining !== null && stream.development !== "detailed") {
+                return { ...stream, volume: numberAsText(result.expected), development: "gradual", initialVolume: numberAsText(Math.min(result.joining, result.expected)), rampMonths: String(result.monthsToNormal) };
+            }
+            return { ...stream, volume: numberAsText(result.expected) };
         })
     };
 }
