@@ -17,7 +17,7 @@ Status: **reference**, written 2026-11-21, updated 2026-11-21. The app's tests: 
 
 ### Where they are and how they run
 
-The app has 2,314 tests in 201 files (2,312 pass, 2 are skipped on purpose: they rewrite the saved examples and the saved document words, and run only when asked), counted on the Finance link fix, now on main. Most test files sit beside the file they test and carry its name with `.test.ts` or `.test.tsx` added, so `FinancialModel.ts` is tested by `FinancialModel.test.ts` next to it. The house-rule tests and the shared test helpers are in src/test/.
+The app has 2,316 tests in 202 files (2,314 pass, 2 are skipped on purpose: they rewrite the saved examples and the saved document words, and run only when asked), counted on the Finance link fix, now on main. Most test files sit beside the file they test and carry its name with `.test.ts` or `.test.tsx` added, so `FinancialModel.ts` is tested by `FinancialModel.test.ts` next to it. The house-rule tests and the shared test helpers are in src/test/.
 
 They are written with Vitest and come in two kinds:
 
@@ -47,7 +47,7 @@ More than four tests in five check either the screens (991) or the business rule
 | Business rules | 905 | 70 | `src/framework/engine/` | the questions, choices, money, legal and channel logic gives the right answers |
 | Saved data and examples | 126 | 10 | `src/services/`, `src/data/`, `src/hooks/` | saving, loading, old answers and the two example businesses |
 | Whole pages | 115 | 10 | `src/pages/` | each page opens, moves and exports as a whole |
-| Design system and docs | 114 | 17 | `src/library/`, `src/styles/`, `src/docs/`, `src/test/` | the look stays on the tokens; the docs name only what exists |
+| Design system and docs | 116 | 18 | `src/library/`, `src/styles/`, `src/docs/`, `src/test/` | the look stays on the tokens; the docs name only what exists |
 | Content files | 63 | 1 | `src/framework/parser/` | the Systems' Markdown links resolve and their three files agree |
 
 ### What each group checks
@@ -80,11 +80,11 @@ These run the app's logic without drawing anything, so they are fast and exact a
 
 Each page opened as a whole: Landing (importing an Organisation file), System selection, the Conversation, Review, Workbook, Global Settings and the export flow. `examplePages.lumen.test.tsx` and `examplePages.quillfield.test.tsx` draw every page of both examples and compare them with a saved snapshot, so an unplanned change to any page shows up.
 
-### Design system and docs: 114 tests
+### Design system and docs: 116 tests
 
 - **Library** (46): the design library's asset contracts, inventory and tables agree with the app.
 - **Styles** (46): every look uses the shared tokens.
-- **Docs** (15): every file, class and value a rulebook names exists in the code.
+- **Docs** (17): every file, class and value a rulebook names exists in the code, and this guide lists every test file.
 - **House rules** (7, `src/test/`): no em dash in the app's text, no page found by a fixed number, and the layout probe's own rules.
 
 ### Content files: 63 tests
@@ -112,7 +112,7 @@ Every test is listed, in its own words (tests that only repeat for another Syste
 
 ## Every test, in detail
 
-The tabs under this one list all 201 test files and every test in them, one tab for each of the six groups on the Overview tab (counts and paths are in its table). Each test is written in the words the test itself uses, under the heading its file gives it.
+The tabs under this one list all 202 test files and every test in them, one tab for each of the six groups on the Overview tab (counts and paths are in its table). Each test is written in the words the test itself uses, under the heading its file gives it.
 
 The lists come from the full run of 21 November 2026, on the Finance link fix, now on main. Tests that differ only by System, example or reading mode are written once, with the list of what varies; each of them is still counted.
 
@@ -3419,9 +3419,9 @@ Each test draws one page of an example organisation and compares it with the sav
 
 ## Design system and docs: every test
 
-17 files, 114 tests. They hold the docs to the code (every name and number a doc gives must exist in the code), the design library to its own rules, the stylesheets to their tokens and contrast, and the house rules on the app's text.
+18 files, 116 tests. They hold the docs to the code (every name and number a doc gives must exist in the code), the design library to its own rules, the stylesheets to their tokens and contrast, and the house rules on the app's text.
 
-### src/docs/ (3 files, 15 tests): the docs agree with the code
+### src/docs/ (4 files, 17 tests): the docs agree with the code
 
 #### documentAssets.test.ts (2)
 
@@ -3449,6 +3449,12 @@ Each test draws one page of an example organisation and compares it with the sav
   - find the token rows of a table and a number that differs
   - hold in the rulebook: every plain number in a token row is what the code gives
   - compare a good number of rows
+
+#### testsGuide.test.ts (2)
+
+- **the tests guide** (2)
+  - lists every test file under its folder, and only those
+  - says how many test files there are
 
 ### src/library/ with its subfolders (8 files, 46 tests): the design library
 
