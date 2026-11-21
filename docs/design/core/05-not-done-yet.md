@@ -39,7 +39,7 @@ The plan of 33 tasks is locked (log, 4.5). F, G, H, I and J are committed; the e
 
 ## 5.3 Finish the Tile System
 
-Every chapter is drawn as tiles since 2026-11-17, on one page, Financials, since 2026-11-19, one chapter since 2026-11-20: Financial Foundation, the tiles of Section 4 (Revenue & Pricing) and Section 5 (Costs, Funding & Position) in reading order (doc 48, sections 1, 2 and 11); its tiles and the records in the Workbook's Financial Documents are doc 48, section 14. Built 2026-11-20: the owner's minimum pay and the personal survival budget on the founder (doc 48, section 13). Not built yet on them: the Offering Economics card, RV1, O19, K15 as a record, FN1 and the fee on a VAT-inclusive price (phase 7a), the dialogs' nested sub tiles and the Cash Timeline as a Diagram tile (doc 48, section 1). The rest:
+Every chapter is drawn as tiles; the page Financials is one chapter, Financial Foundation: the tiles of Section 4 (Revenue & Pricing) and Section 5 (Costs, Funding & Position) in reading order (doc 48, sections 1, 2 and 11); its tiles and the records in the Workbook's Financial Documents are doc 48, section 14. Built 2026-11-20: the owner's minimum pay and the personal survival budget on the founder (doc 48, section 13). Not built yet on them: the Offering Economics card, RV1, O19, K15 as a record, FN1 and the fee on a VAT-inclusive price (phase 7a), the dialogs' nested sub tiles and the Cash Timeline as a Diagram tile (doc 48, section 1). The rest:
 
 | Where | State | What remains inline | Conversion (suggestion) |
 |---|---|---|---|

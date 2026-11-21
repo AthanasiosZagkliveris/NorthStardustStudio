@@ -873,7 +873,7 @@ The Channel card: a floating card with 7 common fields in a fixed order and 8 ki
 | FLD.040 | Delivery Hrs | VAR005, VAR006, VAR008 | TXS.001 (the label of the field); TXT.WHL.001.003 (number) | 1 | F049 |
 | FLD.041 | Responsibilities | VAR005, VAR006, VAR008 | TXS.001 (the label of the field); TXS.001 (shown, not edited) | 1 | F050 |
 | FLD.042 | Type | VAR005, VAR006, VAR008 | TXS.001 (the label of the field); DRP.001 (choice); TXT.ARE.001.001 (text) | 7 | F051, F117, F120, F138 |
-| FLD.043 | Performer | VAR005, VAR006, VAR008 | TXS.001 (the label of the field); DRP.001 (choice) | 5 | F052 |
+| FLD.043 | Team | VAR005, VAR006, VAR008 | TXS.001 (the label of the field); DRP.001 (choice) | 5 | F052 |
 | FLD.044 | Resources | VAR005, VAR006, VAR008 | TXS.001 (the label of the field); TIK.001 (tick) | 5 | F053 |
 | FLD.045 | Resource | VAR005, VAR006, VAR008 | TXS.001 (the label of the field); DRP.001 (choice) | 5 | F054 |
 | FLD.046 | Units | VAR005, VAR006, VAR008 | TXS.001 (the label of the field); TXT.WHL.001.003 (number) | 5 | F055 |

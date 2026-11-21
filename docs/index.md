@@ -8,14 +8,17 @@ Status: **index**, updated 2026-11-21, written by `npm run docs:index` (the subj
 - **Activities and codes (classifications)**: [34 sections 5.7 to 5.10](design/questionnaire/34-lists-and-classifications.md); [28 section 8.5](design/questionnaire/28-questionnaire-specification.md)
 - **Age limits by activity and country**: [30](design/questionnaire/30-age-limits-by-activity.md); [31 section 10.2](design/questionnaire/31-positioning-categories.md)
 - **Age stages**: [31 section 10.1](design/questionnaire/31-positioning-categories.md)
-- **Ambassador (Brand)**: [46 (built 2026-11-19, in part)](design/questionnaire/46-ambassador-questions.md)
+- **Ambassador (Brand)**: [46 (built in part)](design/questionnaire/46-ambassador-questions.md); [specifications, Brand System](specifications/brand-system/page-1-brand.md)
 - **App, contents**: [app/contents](app/contents.md)
 - **App, places (index)**: [app/index](app/index.md)
 - **Archive**: [README section 9](README.md)
 - **Assets library**: [8](design/library/08-library-system.md); [9](design/library/09-assets-library.md)
 - **Audience (Identity)**: [28 section 8.2](design/questionnaire/28-questionnaire-specification.md)
+- **Auto-filled answers (drafts, starts, worked-out figures)**: [54](design/questionnaire/54-auto-filled-answers.md)
 ## B
 
+- **Beta questionnaire**: [55 (proposal)](design/questionnaire/55-beta-questionnaire.md)
+- **Brand System pages**: [specifications](specifications/brand-system/README.md)
 - **Business stage and Opening Date**: [28 section 8.2a](design/questionnaire/28-questionnaire-specification.md)
 - **Business System pages**: [specifications](specifications/business-system/README.md)
 - **Buyer category and life stage**: [33 section 5](design/questionnaire/33-specs-and-limitations.md); [31](design/questionnaire/31-positioning-categories.md)
@@ -26,17 +29,19 @@ Status: **index**, updated 2026-11-21, written by `npm run docs:index` (the subj
 - **Card structure**: [26](design/current/26-card-structure.md); [layout-rules section 8](ai/layout-rules.md)
 - **Caregiving**: [31 section 4](design/questionnaire/31-positioning-categories.md)
 - **Catalogue record**: [6](design/core/06-catalogue-record.md)
-- **Change history (log)**: [4](design/core/04-log.md); [archive (before 2026-11-01)](archive/log/log-archive-2026-07-to-10.md); [archive (2026-11-01 to 07)](archive/log/log-archive-2026-11-01-to-07.md)
+- **Change history (log)**: [4](design/core/04-log.md); [archive (before 2026-11-01)](archive/log/log-archive-2026-07-to-10.md); [archive (2026-11-01 to 07)](archive/log/log-archive-2026-11-01-to-07.md); [archive (2026-11-08 to 10)](archive/log/log-archive-2026-11-08-to-10.md); [archive (2026-11-11 to 17)](archive/log/log-archive-2026-11-11-to-17.md)
+- **Channel fees and Sales Forecast additions**: [50](design/questionnaire/50-engagement-fees-and-demand-proposals.md); [Global Settings](specifications/global-settings.md)
 - **Colour map of the pages**: [1 Part I](design/core/01-current-design.md)
-- **Competitor card**: [41 (proposal)](design/questionnaire/41-competitor-questions.md); [28 section 6.6](design/questionnaire/28-questionnaire-specification.md)
+- **Competitor card**: [41 (as built)](design/questionnaire/41-competitor-questions.md); [28 section 6.6](design/questionnaire/28-questionnaire-specification.md)
 - **Components, defaults**: [12](design/library/12-component-defaults.md)
 - **Components, list**: [13](design/library/13-components-list.md)
 - **Components, shared**: [21](design/current/21-shared-components.md)
 - **Cost model**: [1 Part D](design/core/01-current-design.md)
 - **Countries of the first version**: [33 section 3](design/questionnaire/33-specs-and-limitations.md)
-- **Customer Engagement**: [47 (built in part)](design/questionnaire/47-customer-engagement-tiles.md); [specifications page 2](specifications/business-system/page-1-channels.md); [28 section 7](design/questionnaire/28-questionnaire-specification.md)
+- **Customer Engagement**: [47 (built in part)](design/questionnaire/47-customer-engagement-tiles.md); [specifications, page 1 (Engagement)](specifications/business-system/page-1-channels.md); [28 section 7](design/questionnaire/28-questionnaire-specification.md)
 ## D
 
+- **Delivery and capacity**: [52 (Capacity & Delivery, built in part)](design/questionnaire/52-capacity-and-delivery-tile.md); [51 (research)](design/questionnaire/51-delivery-and-capacity-research.md)
 - **Differentiation and Outcome**: [28 section 8.2](design/questionnaire/28-questionnaire-specification.md)
 - **Dual-Intent Buyer, Proxy Buyer**: [31 section 10.5](design/questionnaire/31-positioning-categories.md); [33 section 5](design/questionnaire/33-specs-and-limitations.md)
 ## E
@@ -45,22 +50,28 @@ Status: **index**, updated 2026-11-21, written by `npm run docs:index` (the subj
 ## F
 
 - **Fields, list**: [14](design/library/14-fields-list.md)
-- **Financial pages and Inventory (tiles)**: [48 (proposal)](design/questionnaire/48-financial-pages-tiles.md)
+- **Financial pages and Inventory (tiles)**: [48 (built in part)](design/questionnaire/48-financial-pages-tiles.md); [specifications, the Inventory](specifications/inventory/README.md)
 - **First version**: [33](design/questionnaire/33-specs-and-limitations.md)
 - **Folders of the repository**: [25](design/current/25-folder-plan.md)
 - **Free texts**: [20](design/current/20-free-text-categories.md); [16 (text holders)](design/current/16-text-holders.md)
 - **Frequency options**: [17](design/current/17-frequency-options.md)
 - **Future features**: [33](design/questionnaire/33-specs-and-limitations.md)
+- **Future features (AI Assistant, Team mode, Voice, more languages)**: [app/guide-specs-and-future section 5](app/guide-specs-and-future.md)
 ## G
 
 - **Glossary**: [app/glossary](app/glossary.md)
 ## H
 
 - **Help texts**: [22 (as built)](design/current/22-help-texts.md); [39 (what an "i" says)](design/questionnaire/39-help-texts-guide.md)
+## I
+
+- **Identity System pages**: [specifications](specifications/identity-system/README.md)
+- **Inventory**: [specifications](specifications/inventory/README.md); [48 (IN1 to IN5)](design/questionnaire/48-financial-pages-tiles.md)
 ## L
 
 - **Layout rules and the layout check**: [layout-rules](ai/layout-rules.md)
 - **Legal forms**: [33 section 3](design/questionnaire/33-specs-and-limitations.md)
+- **Legal starts (registrations, taxes, legal expenses)**: [53](design/questionnaire/53-legal-starts.md)
 - **Library log**: [10](design/library/10-library-log.md); [archive](archive/library/library-log-archive.md); [11 (app structure)](design/library/11-app-structure-log.md)
 - **Lists and classifications**: [34](design/questionnaire/34-lists-and-classifications.md)
 ## M
@@ -71,14 +82,14 @@ Status: **index**, updated 2026-11-21, written by `npm run docs:index` (the subj
 - **Not done yet**: [5](design/core/05-not-done-yet.md)
 ## O
 
-- **Offering card**: [43 (proposal)](design/questionnaire/43-offering-questions.md); [28 section 6.8](design/questionnaire/28-questionnaire-specification.md)
+- **Offering card**: [43 (built in part)](design/questionnaire/43-offering-questions.md); [28 section 6.8](design/questionnaire/28-questionnaire-specification.md)
 - **Organisation tile**: [37 (as built)](design/questionnaire/37-organization-fields.md); [28 section 8.5](design/questionnaire/28-questionnaire-specification.md)
 ## P
 
 - **Pop-ups**: [23](design/current/23-popups.md)
 - **Positioning**: [38 (the tile as built)](design/questionnaire/38-positioning-questions.md); [28 section 8.2](design/questionnaire/28-questionnaire-specification.md); [31](design/questionnaire/31-positioning-categories.md)
 - **Profile card**: [36 (as built)](design/questionnaire/36-profile-questions.md); [28 section 6.4](design/questionnaire/28-questionnaire-specification.md)
-- **Purpose & Beliefs (Mission, Vision, Values, Principles, Philosophy, Manifesto)**: [45 (proposal)](design/questionnaire/45-purpose-and-beliefs-questions.md); [28 section 8.1](design/questionnaire/28-questionnaire-specification.md)
+- **Purpose & Beliefs (Mission, Vision, Values, Principles, Philosophy, Manifesto)**: [45 (as built)](design/questionnaire/45-purpose-and-beliefs-questions.md); [28 section 8.1](design/questionnaire/28-questionnaire-specification.md)
 - **Purposes of an offering**: [31 sections 7 and 10.4](design/questionnaire/31-positioning-categories.md)
 ## Q
 
@@ -93,9 +104,11 @@ Status: **index**, updated 2026-11-21, written by `npm run docs:index` (the subj
 ## S
 
 - **Segment card**: [35 (as built)](design/questionnaire/35-segment-questions.md); [28 section 6.3](design/questionnaire/28-questionnaire-specification.md)
+- **Settings (Global Settings, Appearance, Focus)**: [specifications, Settings](specifications/settings/README.md); [Global Settings](specifications/global-settings.md)
 - **Shared components**: [21](design/current/21-shared-components.md)
 - **Standard of the documents**: [standard](standard.md)
-- **Strategy (SWOT, Compass, Themes, Metrics)**: [49 (built 2026-11-19, in part)](design/questionnaire/49-strategy-questions.md)
+- **Strategy (SWOT, Compass, Themes, Metrics)**: [49 (built in part)](design/questionnaire/49-strategy-questions.md); [specifications, Strategy System](specifications/strategy-system/page-1-situation-and-direction.md)
+- **Strategy System pages**: [specifications](specifications/strategy-system/README.md)
 - **Structure tables**: [7](design/core/07-structure-tables.md)
 ## T
 
@@ -109,5 +122,8 @@ Status: **index**, updated 2026-11-21, written by `npm run docs:index` (the subj
 - **User guide (how to use the app)**: [guide/user-guide](guide/user-guide.md)
 ## V
 
-- **Value Proposition**: [42 (proposal)](design/questionnaire/42-value-proposition-questions.md); [28 section 6.7](design/questionnaire/28-questionnaire-specification.md)
+- **Value Proposition**: [42 (built in part)](design/questionnaire/42-value-proposition-questions.md); [28 section 6.7](design/questionnaire/28-questionnaire-specification.md)
 - **Verification (what to run after a change)**: [toolchain playbook](ai/toolchain-and-verification-playbook.md)
+## W
+
+- **Workbook (Business and Financial Documents, Review, References, Glossary, Card Notes)**: [specifications, the Workbook](specifications/workbook/README.md)

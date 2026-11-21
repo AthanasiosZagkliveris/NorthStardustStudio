@@ -225,7 +225,7 @@ A cell that opens a list to choose one value from. 44px high, 6px corners, a bor
 **Kind and place**
 - Kind: Cell you choose in: one value from a list
 - Placed in: Cards
-- Fields: Group, Status, Category, Activity, Name, Frequency, Unit, Plan, Cost option, Resource, Performer, Rent and 4 more
+- Fields: Group, Status, Category, Activity, Name, Frequency, Unit, Plan, Cost option, Team, Resource, Rent and 4 more
 
 **Size**
 - Height: 44 px
@@ -1834,7 +1834,7 @@ Used by no field or card yet.
 
 110 assets use it: 2 tiles, 1 frame, 106 fields, 1 card.
 
-**Fields (106):** Activity; Allowance; Amortisation period; Balance date; Billing type; Category; Challenges & Problems; Colour; Colour name; Completed; Content & Scope; Cost; Cost ($); Cost option; Cost options; Currency; Customer Acquisition; Customer Benefit; Customer Experience; Date; Delivery Hrs; Deposit %; Description / Relevant Information; Emotional; End date; Expense name; Extra: Bonus; Extra: Clearance and handling; Extra: Commercial property tax; Extra: Commercial property tax (when bought); Extra: Commission; Extra: Customs duty; Extra: Deposit; Extra: Handling per pallet; Extra: Minimum order; Extra: Other duties; Extra: Road tax; Extra: Road tax (when bought); Extra: Service charge; Extra: Service charge (when bought); Frequency; Function; Functional; Functional Needs Addressed; Goals & Desires; Group; Image description; Image name; Information & Shopping Habits; Instalment lines; Instalments; Journey Stage; Legal requirement name; Linked Offerings; Linked registration; Links; Market; Milestone; Milestone %; Milestone date; Name; Number; Objections; Offerings; Opportunities; page tag; Payment Plan; Performer; Plan; Price; Psychographics; Purchase & Delivery; Qty; Rate override; Record date and time; Reference or Number; Rent; Requirements & Conditions; Resource; Resources; Responsibilities; Responsibility; Responsible; Role; Roles; Salary; Segment, Profile name; Social; Social & Interest Hubs; Specific Personal Information; Start date; Status; Strengths; Subchannel name; Support & Communication; Threats; Type; Typeface name; Unit; Units; Usage; Useful life; Warranty; Warranty until; Weaknesses; Working Hrs.
+**Fields (106):** Activity; Allowance; Amortisation period; Balance date; Billing type; Category; Challenges & Problems; Colour; Colour name; Completed; Content & Scope; Cost; Cost ($); Cost option; Cost options; Currency; Customer Acquisition; Customer Benefit; Customer Experience; Date; Delivery Hrs; Deposit %; Description / Relevant Information; Emotional; End date; Expense name; Extra: Bonus; Extra: Clearance and handling; Extra: Commercial property tax; Extra: Commercial property tax (when bought); Extra: Commission; Extra: Customs duty; Extra: Deposit; Extra: Handling per pallet; Extra: Minimum order; Extra: Other duties; Extra: Road tax; Extra: Road tax (when bought); Extra: Service charge; Extra: Service charge (when bought); Frequency; Function; Functional; Functional Needs Addressed; Goals & Desires; Group; Image description; Image name; Information & Shopping Habits; Instalment lines; Instalments; Journey Stage; Legal requirement name; Linked Offerings; Linked registration; Links; Market; Milestone; Milestone %; Milestone date; Name; Number; Objections; Offerings; Opportunities; page tag; Payment Plan; Plan; Price; Psychographics; Purchase & Delivery; Qty; Rate override; Record date and time; Reference or Number; Rent; Requirements & Conditions; Resource; Resources; Responsibilities; Responsibility; Responsible; Role; Roles; Salary; Segment, Profile name; Social; Social & Interest Hubs; Specific Personal Information; Start date; Status; Strengths; Subchannel name; Support & Communication; Team; Threats; Type; Typeface name; Unit; Units; Usage; Useful life; Warranty; Warranty until; Weaknesses; Working Hrs.
 
 **Other assets:** TIL.001 master tile; TIL.002 open tile; FRM.001 frame; CRD.001 floating card.
 
@@ -1924,7 +1924,7 @@ Used by no field or card yet.
 
 21 assets use it: 21 fields.
 
-**Fields (21):** Activity; Category; Cost option; Cost options; Currency; Frequency; Group; Journey Stage; Linked registration; Name; Performer; Plan; Rent; Resource; Responsibility; Responsible; Role; Status; Subchannel name; Type; Unit.
+**Fields (21):** Activity; Category; Cost option; Cost options; Currency; Frequency; Group; Journey Stage; Linked registration; Name; Plan; Rent; Resource; Responsibility; Responsible; Role; Status; Subchannel name; Team; Type; Unit.
 
 #### DRP.SRC.001.001 Searchable
 

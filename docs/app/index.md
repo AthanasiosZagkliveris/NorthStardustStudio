@@ -77,7 +77,7 @@ Paths are written "System › page › tile". "Doc 28" is the document numbered 
 
 | Item | Where in the app | Described in |
 |---|---|---|
-| Glossary | Header › Workbook (`/workbook`) › Glossary; also the Landing page's Workbook, Search and `/glossary`: the app's terms and yours, in two colours, under ONE funnel of the two kinds and the letter ranges (about twenty terms a range; one funnel since 2026-11-09); from the Landing page, every organisation's terms, each named with its organisation, and the organisations in the funnel; the second tab is References, with a funnel by letter range (A–I, K–Z) | Doc 1, C.2; doc 2, 2.1 |
+| Glossary | Header › Workbook (`/workbook`) › Glossary; also the Landing page's Workbook, Search and `/glossary`: the app's terms and yours, in two colours, under ONE funnel of the two kinds and the letter ranges (about twenty terms a range; one funnel); from the Landing page, every organisation's terms, each named with its organisation, and the organisations in the funnel; the second tab is References, with a funnel by letter range (A–I, K–Z) | Doc 1, C.2; doc 2, 2.1 |
 | Global Settings | Header › Settings (`/settings`) | Doc 28, 8.2a; doc 1, Part D 6; `contents.md` |
 
 ## H
@@ -100,7 +100,7 @@ Paths are written "System › page › tile". "Doc 28" is the document numbered 
 
 | Item | Where in the app | Described in |
 |---|---|---|
-| Legal Entity | Identity System › Definition › Founders & Ownership and Registrations & Expenses (the section draws no page of its own since 2026-11-20) | Doc 28, 8.5; doc 26 |
+| Legal Entity | Identity System › Definition › Founders & Ownership and Registrations & Expenses (the section draws no page of its own) | Doc 28, 8.5; doc 26 |
 
 ## M
 

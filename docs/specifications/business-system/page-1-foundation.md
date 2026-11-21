@@ -2,7 +2,7 @@
 
 Status: **specification**, written 2026-09-27, updated 2026-11-19. The text from "Describe and implement" on is the owner's requirement as given (its wording is used exactly); "As built" says how the app draws it today.
 
-> **3. Business System — Section 1 of 5, drawn on Page 1 of 3, Foundation & Engagement, since 2026-11-19.**
+> **3. Business System — Section 1 of 5, drawn on Page 1 of 3, Foundation & Engagement.**
 > Pages: **1. Foundation & Engagement** (Sections 1 and 2) · 2. Infrastructure & Capability ·
 > 3. Financials (Sections 4 and 5)
 

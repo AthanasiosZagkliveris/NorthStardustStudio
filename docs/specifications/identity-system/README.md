@@ -8,4 +8,4 @@ The pages are numbered as the app numbers them. A page's document describes the 
 
 | Page | Title | Document | Editor |
 |---|---|---|---|
-| 1 | Identity System, the System's one page (since 2026-11-20), of two chapters, **1. Definition** and **2. Purpose** (its tiles: `page-1-definition.md`, section 1; Purpose's questions: doc 45, section 8) | `page-1-definition.md` | `src/components/interview/editors/AnswerRenderer.tsx` and `src/components/interview/editors/LegalEntityEditor.tsx` |
+| 1 | Identity System, the System's one page, of two chapters, **1. Definition** and **2. Purpose** (its tiles: `page-1-definition.md`, section 1; Purpose's questions: doc 45, section 8) | `page-1-definition.md` | `src/components/interview/editors/AnswerRenderer.tsx` and `src/components/interview/editors/LegalEntityEditor.tsx` |
