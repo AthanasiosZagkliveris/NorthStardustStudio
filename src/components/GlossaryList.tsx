@@ -1,6 +1,6 @@
 import { CSSProperties, Fragment, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { openWorkbook } from "./notepad/Notepad";
+import { openWorkbook } from "./notepad/WorkbookButton";
 
 import TextLink from "./interview/fields/TextLink";
 import ResponsibilityFilter from "./interview/fields/ResponsibilityFilter";

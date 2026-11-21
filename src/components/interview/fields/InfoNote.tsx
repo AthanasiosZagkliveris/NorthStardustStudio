@@ -4,7 +4,7 @@ import PopupPanel from "../../controls/PopupPanel.tsx";
 
 import { SOURCES, harvardCitation, type Source, type SourceId } from "../../../framework/engine/Sources.ts";
 import { useInRouterContext, useLocation, useNavigate } from "react-router-dom";
-import { openWorkbook } from "../../notepad/Notepad.tsx";
+import { openWorkbook } from "../../notepad/WorkbookButton.tsx";
 import HarvardReference from "../../references/HarvardReference.tsx";
 
 import TextLink from "./TextLink.tsx";

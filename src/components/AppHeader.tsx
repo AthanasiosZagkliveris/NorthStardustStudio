@@ -1,18 +1,24 @@
 import logo from "../assets/NORTH STARDUST Organization Framework.svg";
 
+import { lazy, Suspense } from "react";
 import AddButton from "./controls/AddButton.tsx";
 import SaveStatus from "./SaveStatus";
-import { WorkbookButton, NotepadPanel, NotepadPicker } from "./notepad/Notepad";
+import { WorkbookButton } from "./notepad/WorkbookButton";
 import FocusModeButton from "./FocusModeButton";
 import SearchButton from "./SearchButton";
 import ToolsMenu from "./ToolsMenu";
-import OrganizationCalendarPanel from "./OrganizationCalendarPanel";
 import { useLocation, useNavigate } from "react-router-dom";
 import { systems } from "../data/systems";
 import { OrganizationService } from "../services/OrganizationService";
 import UndoToast from "./UndoToast";
 
 import "../styles/app-header.css";
+
+/* The Notes panel and the Calendar's rail are loaded when an Organisation is open, after the page is drawn: they read the whole
+   engine (every System's questions, the documents, the forecast), which the Landing page and the first paint do not need. */
+const NotepadPanel = lazy(() => import("./notepad/Notepad").then(module => ({ default: module.NotepadPanel })));
+const NotepadPicker = lazy(() => import("./notepad/Notepad").then(module => ({ default: module.NotepadPicker })));
+const OrganizationCalendarPanel = lazy(() => import("./OrganizationCalendarPanel"));
 
 interface AppHeaderProps {
     /**
@@ -77,27 +83,28 @@ export default function AppHeader({ organizationName, focusable = false, reloada
             {organizationName && <SearchButton />}
             {/* The Workbook: the same button on the Landing page (owner, 2026-11-09), there with the review of every Organisation, the Glossary and the References. */}
             {(organizationName || totalReview) && <WorkbookButton total={!organizationName} />}
-            {organizationName && <NotepadPanel />}
-            {organizationName && <NotepadPicker />}
+            {organizationName && <Suspense fallback={null}><NotepadPanel /><NotepadPicker /></Suspense>}
 
             {/* THE CALENDAR ON THIS PAGE (owner, 2026-11-21 04:05 UTC+2): Calendar in the Menu opens the Calendar's rail here, as Notes opens its panel; System
                 Selection holds the whole rail itself. An item pressed opens its page, as there. */}
             {organizationId && location.pathname !== "/assistant" && (
-                <OrganizationCalendarPanel
-                    alone
-                    organizationId={organizationId}
-                    capabilities={[]}
-                    systems={systems}
-                    onCapabilityOpen={() => undefined}
-                    onCapabilitySelect={() => undefined}
-                    onSystemOpen={() => undefined}
-                    onOpenTask={(systemNumber, sectionNumber) => {
-                        const system = systems.find(candidate => candidate.number === systemNumber);
-                        if (system) {
-                            navigate("/introduction", { state: { system, targetSectionNumber: sectionNumber } });
-                        }
-                    }}
-                />
+                <Suspense fallback={null}>
+                    <OrganizationCalendarPanel
+                        alone
+                        organizationId={organizationId}
+                        capabilities={[]}
+                        systems={systems}
+                        onCapabilityOpen={() => undefined}
+                        onCapabilitySelect={() => undefined}
+                        onSystemOpen={() => undefined}
+                        onOpenTask={(systemNumber, sectionNumber) => {
+                            const system = systems.find(candidate => candidate.number === systemNumber);
+                            if (system) {
+                                navigate("/introduction", { state: { system, targetSectionNumber: sectionNumber } });
+                            }
+                        }}
+                    />
+                </Suspense>
             )}
 
             {/* Undo after a removal: one toast for the whole app. */}

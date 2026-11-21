@@ -32,4 +32,5 @@ One line per folder: what is in it and what is not. A file's name is its compone
 - One component per file; its CSS in the stylesheet of its topic, not in a file of its own, unless it is a control (`back-button.css`).
 - A control that two places need is written in `components/controls/` before the second place is written.
 - A file over about 1,500 lines is split by card kind or by section before more is added to it.
+- The header (`AppHeader.tsx`, `ToolsMenu.tsx`) is drawn on every page, the Landing page first, so it imports only light files: a small helper it needs (`calendarOpen.ts`, `notepad/useNotepad.ts`, `notepad/WorkbookButton.tsx`) lives in a file of its own, and a panel that reads the engine (the Notes panel, the Calendar's rail) is loaded with `lazy` when it is first drawn. Measured 2026-11-21: the Landing page's first load went from 1,109 KB to 316 KB of JavaScript.
 - `docs/README.md` and `docs/index.md` index the documents; `npm run docs:index` rewrites them. The tools are in `tools/scripts/` and `tools/catalogue/`, not in `src`.

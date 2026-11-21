@@ -23,6 +23,7 @@ import { getCapabilityColor } from "../data/capabilities";
 
 import "../styles/organization-calendar.css";
 import "../styles/system-confirmation.css";
+import { OPEN_CALENDAR } from "./calendarOpen";
 
 interface OrganizationCalendarPanelProps {
 
@@ -165,13 +166,8 @@ const MAX_VISIBLE_DOTS = 3;
 // collapsed to just its three handles.
 type RailTab = "calendar" | "capabilities" | "systems" | null;
 
-/** What opens the Calendar from the Menu (ToolsMenu.tsx), on the page it is pressed on. */
-const OPEN_CALENDAR = "calendar:open";
-
-/** Opens the Calendar on this page: System Selection's rail, or the rail alone the header holds elsewhere. */
-export function openCalendar(): void {
-    window.dispatchEvent(new CustomEvent(OPEN_CALENDAR));
-}
+/** What opens the Calendar from the Menu (ToolsMenu.tsx): `calendarOpen.ts`. */
+export { openCalendar } from "./calendarOpen";
 
 function pad2(value: number): string {
     return String(value).padStart(2, "0");
