@@ -464,7 +464,7 @@ describe("BusinessEngagementEditor starts from Page 1 (phase 5f, 2026-11-09)", (
     });
 });
 
-describe("BusinessEngagementEditor without a physical item (doc 28, 11.7)", () => {
+describe("BusinessEngagementEditor without a physical item (Questions 2, 11.7)", () => {
 
     /** The channel tiles of one Segment whose Offerings are of these Types, with these channels already made. */
     function tileTitles(types: string[], channels: string[] = []) {
@@ -511,7 +511,7 @@ describe("BusinessEngagementEditor without a physical item (doc 28, 11.7)", () =
 
 });
 
-describe("Customer Engagement follows the Foundation (doc 47, section 3)", () => {
+describe("Customer Engagement follows the Foundation (Questions 17, section 3)", () => {
 
     it("suggests a channel from how the customers discover you, in the one grid of channels, and pressing it adds that channel at its stage", () => {
         const segment = { ...createBusinessCustomerSegment([]), name: "Firms", questions: { discover: ["search"] } };

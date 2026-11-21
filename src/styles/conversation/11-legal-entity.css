@@ -938,7 +938,7 @@
 
 }
 
-/* THE ORGANIZATION TILE'S TWO COLUMNS (design document 28, 8.5): two columns of sections, each section a label over its control (6px), the sections 12px apart (--space-field), a 1px divider down the middle of the gap with 12px clear on each side. The two columns follow the same rhythm (a cell's head row is 44px, a section's label and gap the same on both sides), so the rows of the Activities fall on the lines of the left column's sections (Primary beside the Name's box, the first level beside the Country, the second beside the Address) with no space put in by hand, and no column has a gap the rules do not give it. */
+/* THE ORGANIZATION TILE'S TWO COLUMNS (design Questions 2, 8.5): two columns of sections, each section a label over its control (6px), the sections 12px apart (--space-field), a 1px divider down the middle of the gap with 12px clear on each side. The two columns follow the same rhythm (a cell's head row is 44px, a section's label and gap the same on both sides), so the rows of the Activities fall on the lines of the left column's sections (Primary beside the Name's box, the first level beside the Country, the second beside the Address) with no space put in by hand, and no column has a gap the rules do not give it. */
 .legal-entity-grid-organization{
 
     position:relative;
@@ -994,7 +994,7 @@
 
 /* (The first label of a section is not nested: the column's gap is its space. A second label, the State or Region under the Country or the name of an Other legal form, is nested and keeps the space that tells it from the first.) */
 
-/* THE ACTIVITIES of the Organization tile (design document 28, 8.5): up to four rows in the pattern of an activity's Performers
+/* THE ACTIVITIES of the Organization tile (design Questions 2, 8.5): up to four rows in the pattern of an activity's Performers
    (.business-capability-performers / .business-capability-performer: 8px between cells, the box buttons 32px, one centre line).
    A row: the fold arrow and the sub-label at the left (.legal-entity-fold-cell), the "+" (first row) or the x in the x column at the right. What the row
    holds stands under its sub-label, from the sub-label's left edge to 8px before the x column: the folded lines (the code in bold, the last category
@@ -1430,7 +1430,7 @@
 }
 
 
-/* A founder's card in a ONE-OWNER FORM (design document 28, 8.5): the Name and the optional Capital on the card's two columns, the capital over the same column as a skill's kind (the Skills' type dropdown: 14em wide on every row). */
+/* A founder's card in a ONE-OWNER FORM (design Questions 2, 8.5): the Name and the optional Capital on the card's two columns, the capital over the same column as a skill's kind (the Skills' type dropdown: 14em wide on every row). */
 .founders-profile-sole-row {
 
     display: grid;
@@ -1539,7 +1539,7 @@
 
 }
 
-/* A TEXT UNDER ITS CHOICES (the Mission's, the Vision's, the Values', the Ambassador's texts; doc 45 and 46): the column stands its parts a label gap apart (6px),
+/* A TEXT UNDER ITS CHOICES (the Mission's, the Vision's, the Values', the Ambassador's texts; Questions 9 and 11): the column stands its parts a label gap apart (6px),
    but the text is a field of its own under the choices' last band -- a field gap (12px) under it, the band rule's 12px inside the band (owner, 2026-11-10). */
 .column-tile-content.legal-entity-field > .business-segment-grid-single + *{
 

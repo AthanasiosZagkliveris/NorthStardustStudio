@@ -19,8 +19,8 @@ import {
 export const AMBASSADOR_PARTS = ["aesthetics", "attitude-body-language", "communication-voice", "imprint"] as const;
 
 /**
- * THE AMBASSADOR'S CHOICES (doc 46; the owner's approved plan of 2026-11-18, §3, B2): above each of the four texts, its questions, one per band, as the Vision's
- * choices and the Positioning dialog's stand (layout rules section 13: bands, every other one tinted), then the draft written in by itself (useAutoDraft; formerly the "Add a draft" link, doc 42),
+ * THE AMBASSADOR'S CHOICES (Questions 11; the owner's approved plan of 2026-11-18, §3, B2): above each of the four texts, its questions, one per band, as the Vision's
+ * choices and the Positioning dialog's stand (layout rules section 13: bands, every other one tinted), then the draft written in by itself (useAutoDraft; formerly the "Add a draft" link, Questions 15),
  * which writes the tile's sentence at the end of its text once. The shared controls only: the field row with its label and "i" (`FieldRow`), the one choice
  * (`RadioChoice`), the ticks with their limit (`BusinessTicks`), the rated rows (`RatingScaleGroup`): BA4's and BA6's rows stand in their question's own band, one
  * field (owner, 2026-11-19 18:32: "Energy and Expression should belong to the field"). Saved under the section's key `ambassador`.
@@ -52,7 +52,7 @@ export default function AmbassadorChoices({ part, value, onChange, context, stag
             {control}
         </FieldRow>
     );
-    /** Rated rows, each with its row name and its own "i" (what 1 and 5 mean first: doc 46, 1.3). */
+    /** Rated rows, each with its row name and its own "i" (what 1 and 5 mean first: Questions 11, 1.3). */
     const rated = (label: string, group: string, rows: readonly { id: string; label: string; low: string; high: string; info?: string }[], values: Readonly<Partial<Record<string, number>>>, save: (row: string, next: Rating | undefined) => void) => (
         <RatingScaleGroup
             label={label}
@@ -99,7 +99,7 @@ export default function AmbassadorChoices({ part, value, onChange, context, stag
         bands.push(question("ba8", ticks(BA_LABELS.ba8, options, shown.feeling, AMBASSADOR_TICKS_MAX, (next) => set("feeling", next.filter(id => options.some(option => option.id === id)))), AMBASSADOR_TICKS_MAX));
         const remembered = rememberedOptions(context);
         bands.push(question("ba9", ticks(BA_LABELS.ba9, remembered.map(option => ({ id: option.id, label: option.label })), shown.remembered, AMBASSADOR_TICKS_MAX, (next) => set("remembered", next.filter(id => remembered.some(option => option.id === id)))), AMBASSADOR_TICKS_MAX));
-        // (Each sentence goes into its own text: the First impression's (BA8) and the Lasting impression's (BA9); doc 46, section 3. One draft, written in by itself, adds what each lacks.)
+        // (Each sentence goes into its own text: the First impression's (BA8) and the Lasting impression's (BA9); Questions 11, section 3. One draft, written in by itself, adds what each lacks.)
         const { first, lasting } = splitImprint(value[part]);
         const firstDraft = firstImpressionDraft(shown, context);
         const lastingDraft = lastingImpressionDraft(shown, context);

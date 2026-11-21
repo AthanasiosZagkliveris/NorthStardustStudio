@@ -25,7 +25,7 @@ for (const f of files) {
     if (!/^# \S/.test(lines[0])) problems.push(f + ": the first line is not a title");
     if (isDesign) {
         const nn = +/\/(\d\d)-/.exec(f)[1];
-        numbers.push(nn);
+        numbers.push([/^docs\/design\/([a-z]+)\//.exec(f)[1], nn]);
         const t = /^# (\d+)\. /.exec(lines[0]);
         if (!t || +t[1] !== nn) problems.push(f + ": the title must begin \"# " + nn + ". \" (the number of the file)");
     }
@@ -40,12 +40,14 @@ for (const f of files) {
         if (!/\d{4}-\d{2}-\d{2}/.test(status)) problems.push(f + ": the status line has no date (YYYY-MM-DD)");
     }
 }
-// 3. numbering without a gap or a repeat
-numbers.sort((a, b) => a - b);
-// (A retired number stays unused: its document left the design chapters, and the numbers are permanent ids. 12 is a section of 9 (Defaults); 25 is ai/folder-plan.md; 40 is doc 27, section 11.)
-const RETIRED = [12, 25, 40];
-for (let n = 1; n <= numbers[numbers.length - 1]; n++) if (!numbers.includes(n) && !RETIRED.includes(n)) problems.push("docs/design: no document is numbered " + n);
-for (let i = 1; i < numbers.length; i++) if (numbers[i] === numbers[i - 1]) problems.push("docs/design: the number " + numbers[i] + " is used twice");
+// 3. numbering: each design folder runs from 01 without a gap or a repeat (owner, 2026-11-21: "Every folder should have its own sequences")
+const byFolder = {};
+for (const [folder, nn] of numbers) (byFolder[folder] ??= []).push(nn);
+for (const [folder, list] of Object.entries(byFolder)) {
+    list.sort((a, b) => a - b);
+    for (let n = 1; n <= list[list.length - 1]; n++) if (!list.includes(n)) problems.push("docs/design/" + folder + ": no document is numbered " + n);
+    for (let i = 1; i < list.length; i++) if (list[i] === list[i - 1]) problems.push("docs/design/" + folder + ": the number " + list[i] + " is used twice");
+}
 // 4. relative links resolve
 for (const f of files) {
     const text = readFileSync(R + f, "utf8");
@@ -57,4 +59,4 @@ for (const f of files) {
 // 5. anchors find their headings (or an explicit <a id>)
 problems.push(...brokenAnchors(R));
 if (problems.length) { console.error("The documents do not meet docs/standard.md:\n" + problems.map(p => "  " + p).join("\n")); process.exit(1); }
-console.log("The " + files.length + " documents meet docs/standard.md (" + numbers.length + " numbered design documents, 1 to " + numbers[numbers.length - 1] + ", " + RETIRED.length + " numbers retired).");
+console.log("The " + files.length + " documents meet docs/standard.md (" + numbers.length + " numbered design documents in " + Object.keys(byFolder).length + " folders, each numbered from 1).");

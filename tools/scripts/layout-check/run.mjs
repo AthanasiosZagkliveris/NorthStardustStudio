@@ -304,7 +304,7 @@ async function checkRemoveLook(page, where, reference, sample = 12) {
  * keeps its ring, and still no tile grown.
  */
 /**
- * THE TOOLTIPS OF THE PAGE ARROWS AND THE RAILS' BULLETS (doc 24; owner, 2026-11-10 06:23, 2026-11-21 01:01 and 01:04, and 16:02 UTC+2: "Tooltips should have the
+ * THE TOOLTIPS OF THE PAGE ARROWS AND THE RAILS' BULLETS (Interface 8; owner, 2026-11-10 06:23, 2026-11-21 01:01 and 01:04, and 16:02 UTC+2: "Tooltips should have the
  * same style, and use the same rules about how and where they appear"): under the real pointer, each shown arrow's and bullet's tip is the app's one tooltip
  * (.app-tooltip; no rail draws a tip of its own), stands in the one place -- its bottom 6px over the trigger's top, its left edge on the trigger's left edge (moved
  * in only by the window's 8px margin), or 6px under the trigger where the window has no room above -- and its text is never underlined.
@@ -781,7 +781,7 @@ export async function runLayoutCheck(page, { base = "http://localhost:1420", pro
             if (/^Strategy System$/.test(name)) {
                 failures.push(...(await checkLongRail(page, base, system + " › " + name)));
             }
-            // THE ARROWS' AND THE RAILS' TOOLTIPS, beside their triggers and never underlined (doc 24), at a wide and a narrow window.
+            // THE ARROWS' AND THE RAILS' TOOLTIPS, beside their triggers and never underlined (Interface 8), at a wide and a narrow window.
             for (const [width, height] of [[1920, 1100], [1366, 768]]) {
                 await page.setViewportSize({ width, height });
                 await page.waitForTimeout(300);

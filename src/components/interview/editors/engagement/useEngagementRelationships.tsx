@@ -257,7 +257,7 @@ export function useEngagementRelationships(earlier: Earlier) {
         // The channels the page offers that this Segment does not use yet: tiles, faded; pressing one makes it (and opens it).
         const unused: SectionTile[] = BUSINESS_CHANNEL_CATEGORIES
             .filter(category => category.label !== BUSINESS_CHANNEL_OTHER && !groups.some(group => group.label === category.label))
-            // (Physical Delivery and Retail & Wholesale are not offered while no Offering has a physical item: doc 28, 11.7.)
+            // (Physical Delivery and Retail & Wholesale are not offered while no Offering has a physical item: Questions 2, 11.7.)
             .filter(category => !channelCategoryHidden(category.label, noPhysical, groups.map(group => group.label)))
             // (From your answers: only the channels the Foundation suggests; All: every channel the page offers.)
             .filter(category => suggestedIn(category.label).length > 0)

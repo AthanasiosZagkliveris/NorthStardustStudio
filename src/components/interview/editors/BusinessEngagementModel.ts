@@ -253,7 +253,7 @@ export interface RelativeQuestion {
  * depends on the Segment.
  *
  * Business Data is asked of a Segment of businesses only: a Segment
- * is one group, of people or of businesses (doc 35), and a Segment of
+ * is one group, of people or of businesses (Questions 12), and a Segment of
  * people has no Business Data. Asking it here would show "Nothing
  * recorded yet." against a question that does not apply.
  *

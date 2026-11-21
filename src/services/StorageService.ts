@@ -112,7 +112,7 @@ export class StorageService {
             followSegmentStarts(organizationId);
             // (The Segments the app made from the Identity System's answers are marked, so their x is read by id: 2026-11-19.)
             markIdentitySegments(organizationId);
-            // (Last of all: Revenue & Pricing to Section 4, Costs, Funding & Position to 5; doc 48, section 11.)
+            // (Last of all: Revenue & Pricing to Section 4, Costs, Funding & Position to 5; Questions 20, section 11.)
             swapFinancialPages(organizationId);
         }
 

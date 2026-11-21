@@ -2,7 +2,7 @@ import { COMPETITOR_CHANGES, namesInSentence } from "./CompetitorQuestions.ts";
 import { DIFFERENTIATION_PHRASES } from "./AmbassadorChoices.ts";
 
 /*
-    THE STRATEGY PAGE'S CHOICE QUESTIONS, SW1 AND SC1 TO SC3 (doc 49, 2.3 and 2.4; owner, 2026-11-12, D16 to D22; built 2026-11-19, the owner's approved plan of
+    THE STRATEGY PAGE'S CHOICE QUESTIONS, SW1 AND SC1 TO SC3 (Questions 21, 2.3 and 2.4; owner, 2026-11-12, D16 to D22; built 2026-11-19, the owner's approved plan of
     2026-11-18, §3, B2). SW1, in the SWOT dialog above the Opportunities and Threats: how each change could affect the business, 1 = Threat to 5 = Opportunity, the
     changes the Segments named ticked first. SC1 to SC3, in the Strategic Compass dialog above its text: the stance (TOWS), where growth comes from (Ansoff), the
     Segment that comes first; then the Compass sentence is written in by itself (useAutoDraft). Saved in the Strategy Foundation (`changeEffects`, `stance`, `growth`,
@@ -13,7 +13,7 @@ import { DIFFERENTIATION_PHRASES } from "./AmbassadorChoices.ts";
 export const SW1_CHANGES = COMPETITOR_CHANGES;
 
 export const SW1_LABEL = "How could these changes affect you?";
-/** SW2 (doc 49, sections 2.3 and 10; the owner's approval of 2026-11-20 22:08 UTC+2): each quadrant's suggestions from the Business System, ticked into its list. */
+/** SW2 (Questions 21, sections 2.3 and 10; the owner's approval of 2026-11-20 22:08 UTC+2): each quadrant's suggestions from the Business System, ticked into its list. */
 export const SW2_LABEL = "Which of these fit you?";
 export const SW2_INFO = ["Read from your answers on the Business System and the Profiles; a tick adds the line to the list above.", "Your own lines stay; untick one to take it out."] as const;
 export const SW1_INFO = [
@@ -22,7 +22,7 @@ export const SW1_INFO = [
     "Based on: Aguilar (1967), Scanning the business environment (the external scan behind PESTLE)."
 ];
 
-/** SC1's options (doc 49, SC1). */
+/** SC1's options (Questions 21, SC1). */
 export const SC1_STANCES = [
     { id: "so", label: "Use your strengths to seize opportunities", phrase: "using our strengths to seize opportunities" },
     { id: "wo", label: "Close your gaps by seizing opportunities", phrase: "closing our gaps by seizing opportunities" },
@@ -30,7 +30,7 @@ export const SC1_STANCES = [
     { id: "wt", label: "Close your gaps & steer clear of threats", phrase: "closing our gaps and steering clear of threats" }
 ] as const;
 
-/** SC2's options (doc 49, SC2); `launch` at Planning and Launching only. */
+/** SC2's options (Questions 21, SC2); `launch` at Planning and Launching only. */
 export const SC2_GROWTH = [
     { id: "launch", label: "Your first customers, won at launch", phrase: "win our first customers at launch" },
     { id: "penetration", label: "More sales to the customers you serve", phrase: "sell more to the customers we serve" },
@@ -61,7 +61,7 @@ export interface StrategyChoiceContext {
     changeStarts: string[];
     /** Each Segment: its id, its name and its Differentiation ids (K14), for SC3 and the Compass draft. */
     segments: { id: string; name: string; differentiation: string[] }[];
-    /** PB8's rank above every Segment's reach today (doc 45, 3.8): starts SC2's `market`. */
+    /** PB8's rank above every Segment's reach today (Questions 9, 3.8): starts SC2's `market`. */
     reachBeyond: boolean;
 }
 
@@ -82,7 +82,7 @@ export function changeRows(starts: readonly string[]): { id: string; label: stri
     return [...starts.map(id => SW1_CHANGES.find(change => change.id === id)).filter((change): change is (typeof SW1_CHANGES)[number] => !!change), ...SW1_CHANGES.filter(change => !starts.includes(change.id))].map(change => ({ id: change.id, label: change.label }));
 }
 
-/** The SWOT lines SW1 starts (doc 49, 2.3): a change rated 4 or 5 could help, 1 or 2 could hurt. */
+/** The SWOT lines SW1 starts (Questions 21, 2.3): a change rated 4 or 5 could help, 1 or 2 could hurt. */
 export function changeEffectLines(saved: Readonly<Record<string, number>> | undefined): { opportunities: string[]; threats: string[] } {
     const opportunities: string[] = [];
     const threats: string[] = [];
@@ -95,7 +95,7 @@ export function changeEffectLines(saved: Readonly<Record<string, number>> | unde
 }
 
 /**
- * SC1's start from the SWOT (doc 49, SC1): the pair of quadrants with the most lines, the first two lines of each list counting double; a tie in the options'
+ * SC1's start from the SWOT (Questions 21, SC1): the pair of quadrants with the most lines, the first two lines of each list counting double; a tie in the options'
  * order. At Planning and Launching it chooses between `so` and `wo` only. "" with an empty SWOT.
  */
 export function stanceStart(swot: Readonly<Record<string, readonly string[]>>, stage: string): string {
@@ -114,7 +114,7 @@ export function growthOptions(stage: string): { id: string; label: string }[] {
     return SC2_GROWTH.filter(option => option.id !== "launch" || early(stage)).map(option => ({ id: option.id, label: option.label }));
 }
 
-/** SC2's start (doc 49, SC2): Planning or Launching ticks `launch`; PB8 wider than every Segment's reach ticks `market`. */
+/** SC2's start (Questions 21, SC2): Planning or Launching ticks `launch`; PB8 wider than every Segment's reach ticks `market`. */
 export function growthStart(context: Pick<StrategyChoiceContext, "stage" | "reachBeyond">): string[] {
     return [...(early(context.stage) ? ["launch"] : []), ...(context.reachBeyond ? ["market"] : [])].slice(0, SC2_MAX);
 }
@@ -131,7 +131,7 @@ export function compassChoicesShown(saved: { stance?: string; growth?: string[];
 }
 
 /**
- * THE COMPASS DRAFT (doc 49, 2.4): "Over [the period], our focus is [SC3]. We will [SC2 phrases, joined with 'and'], [SC1 phrase], and stand out for [SC3's K14
+ * THE COMPASS DRAFT (Questions 21, 2.4): "Over [the period], our focus is [SC3]. We will [SC2 phrases, joined with 'and'], [SC1 phrase], and stand out for [SC3's K14
  * phrases]. This takes us towards our Vision." A part with no answer is left out; "" with none.
  */
 export function compassDraft(period: string, shown: ReturnType<typeof compassChoicesShown>, context: StrategyChoiceContext): string {

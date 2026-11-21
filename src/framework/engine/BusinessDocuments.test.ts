@@ -3,7 +3,7 @@ import { describe, expect, test } from "vitest";
 import { InterviewSession } from "../interview";
 import { businessForecast, businessForecastContent, businessModelCanvas, businessModelCanvasData, businessPlan, businessPlanForExport, financialPlan, fundingRequest, strategySwotSuggestions, currentSituationDraft, financialPlanRange, readFoundation } from "./BusinessDocuments.ts";
 
-/** The Business Plan as it exports: with the Financial Documents as its appendix (doc 48, section 14; owner, 2026-11-20 20:47 UTC+2). */
+/** The Business Plan as it exports: with the Financial Documents as its appendix (Questions 20, section 14; owner, 2026-11-20 20:47 UTC+2). */
 const planExport = (sessions: Parameters<typeof businessPlan>[0]) => businessPlanForExport(businessPlan(sessions), [fundingRequest(sessions), financialPlan(sessions)]);
 import { financialPosition, stressTest, sustainability, whatItWouldTake, withWhatIf } from "./financial/FinancialModel.ts";
 import { financialForecast, forecastCsv, forecastView, splitMonthlyTableByYear } from "./financial/FinancialForecast.ts";
@@ -200,7 +200,7 @@ describe("Quillfield: an unresolved funding gap", () => {
 
     test("the Funding Need covers the whole plan", () => {
         // $3,210 of establishment costs (the $450 video kit and the $60 webcam and headset included) and the operating need. (The Care Retainer builds up as
-        // its Demand says, 0.5 new clients a month to 5 in 22 months, not from the 1 once typed on the stream: doc 48, 15.1; 2026-11-21.)
+        // its Demand says, 0.5 new clients a month to 5 in 22 months, not from the 1 once typed on the stream: Questions 20, 15.1; 2026-11-21.)
         // The channels' costs now sit on their own cards (Squarespace, Calendly, Mailchimp, Zoom, payment fees, referral
         // fees, meetups, LinkedIn Premium), counted once; the work tools moved to Infrastructure (QuickBooks, Miro and Loom).
         expect(f.position.need).toBeCloseTo(25135.44, 1);
@@ -358,13 +358,13 @@ describe("Quillfield: the documents tie together", () => {
         expect(request).toMatch(/Still short with the funding sought: (\$[\d,]+ at the lowest point, in \w+ \d{4}, even with the funding sought|Nothing: with the funding sought, cash stays above zero)/);
     });
 
-    test("the Current Situation draft says the market and the competition, each Segment (doc 49, sections 2.3 and 10)", () => {
+    test("the Current Situation draft says the market and the competition, each Segment (Questions 21, sections 2.3 and 10)", () => {
         const draft = currentSituationDraft(all);
         expect(draft).toContain("The market for NYC Service Firms is growing.");
         expect(draft).toContain("We have named 4 competitors for NYC Service Firms; we stand out for making things easy.");
     });
 
-    test("SW2 offers each quadrant the suggestions its answers support (doc 49, sections 2.3 and 10)", () => {
+    test("SW2 offers each quadrant the suggestions its answers support (Questions 21, sections 2.3 and 10)", () => {
         const suggestions = strategySwotSuggestions(all);
         expect(suggestions.weaknesses).toContain("Funding gap of $14,435");
         expect(suggestions.strengths.some(line => line.startsWith("Your chosen point of difference: "))).toBe(true);
@@ -372,7 +372,7 @@ describe("Quillfield: the documents tie together", () => {
         for (const lines of Object.values(suggestions)) expect(new Set(lines).size).toBe(lines.length);
     });
 
-    test("the Funding Request says the contingency funds the Funding tile showed, from the Global Settings (doc 48, section 14)", () => {
+    test("the Funding Request says the contingency funds the Funding tile showed, from the Global Settings (Questions 20, section 14)", () => {
         const settings = (quill as unknown as { globalSettings?: unknown }).globalSettings;
         const md = new MarkdownExporter().toMarkdown(all.business, "Foundation", fundingRequest({ ...all, globalSettings: settings }));
         expect(md).toContain("### Cash to Raise Before the Opening");
@@ -475,7 +475,7 @@ describe("Quillfield: the documents tie together", () => {
         expect(planMd).not.toMatch(/^## [0-9]+[.] Brand$/m);
         expect(at("## 11. Appendix")).toContain("### Brand Style Guide");
         expect(at("## 16. Financial Appendix B: Financial Plan, Costs in Full")).toContain("### Costs");
-        // (Each Offering's Economics, before the costs in full: doc 48, 15.4.)
+        // (Each Offering's Economics, before the costs in full: Questions 20, 15.4.)
         expect(at("## 15. Financial Appendix B: Financial Plan, Each Offering's Economics")).toMatch(/Offering | Price | Direct cost | Contribution | Full cost | Margin | Sales a month/);
         // Products with their prices.
         expect(planMd).toContain("| $2,500 per project | Sale |");
@@ -1030,7 +1030,7 @@ describe("the industry outlook in the documents", () => {
         const md = new MarkdownExporter().toMarkdown(business, "Foundation", planExport(all(business)));
         return md.slice(md.indexOf("## 3. Market Analysis"), md.indexOf("## 4. Products and Services"));
     };
-    // A rating since 2026-11-04 (doc 35): the documents print its point and, at an end, its words.
+    // A rating since 2026-11-04 (Questions 12): the documents print its point and, at an end, its words.
     const trend = "5";
 
     test("the plan's Market Analysis gives each segment's market size and outlook, or says it is not covered", () => {

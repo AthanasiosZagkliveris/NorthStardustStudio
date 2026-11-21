@@ -22,7 +22,7 @@
  * rather than a guess dressed as knowledge.
  *
  * Nothing here is binding on the user. Legal Form offers the
- * country's list (no free text, doc 33, 9), capital is a switch the user
+ * country's list (no free text, Questions 4, 9), capital is a switch the user
  * controls whatever the profile suggests, and every requirement type
  * stays available however it is marked. The profile changes what is
  * OFFERED and what is EMPHASISED, never what is possible.
@@ -214,7 +214,7 @@ export const LEGAL_ENTITY_EXPENSE_FREQUENCIES = [
     "One time",
     "Monthly",
     "Annually",
-    // (A filing due every two years, from its first month: New York's Biennial Statement; doc 53, decision 2.)
+    // (A filing due every two years, from its first month: New York's Biennial Statement; Questions 10, decision 2.)
     "Every two years"
 ] as const;
 
@@ -978,7 +978,7 @@ export function legalFormOptions(
     subdivisionName: string
 ): LegalFormOption[] {
 
-    // The first published version (design document 33, section 3): the six countries keep their own lists; every other country is "Other" and has the four generic forms.
+    // The first published version (design Questions 4, section 3): the six countries keep their own lists; every other country is "Other" and has the four generic forms.
     if (!FIRST_VERSION_COUNTRIES.includes(countryCode)) {
         return GENERIC_LEGAL_FORMS;
     }
@@ -987,7 +987,7 @@ export function legalFormOptions(
 
 }
 
-/** The six countries of the first published version, by code: the United Kingdom, Ireland, the USA, Canada, Australia and New Zealand. Any other country is "Other" (document 33, section 3). */
+/** The six countries of the first published version, by code: the United Kingdom, Ireland, the USA, Canada, Australia and New Zealand. Any other country is "Other" (Questions 4, section 3). */
 export const FIRST_VERSION_COUNTRIES: readonly string[] = ["GB", "IE", "US", "CA", "AU", "NZ"];
 
 /**
@@ -1006,7 +1006,7 @@ export function registrationDateApplies(countryCode: string, subdivision: string
 
 }
 
-/** The legal forms of a country that is not one of the six (the owner's list, document 33): the same four whatever the country. */
+/** The legal forms of a country that is not one of the six (the owner's list, Questions 4): the same four whatever the country. */
 export const GENERIC_LEGAL_FORMS: LegalFormOption[] = [
     { label: "Sole Proprietorship", capital: false, soleFounder: true },
     { label: "General Partnership", capital: false },

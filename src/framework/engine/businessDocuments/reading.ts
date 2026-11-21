@@ -85,7 +85,7 @@ export function currentSituationDraft(sessions: FoundationSessions): string {
             .map(offering => priced(offering.id, offering.name.trim()))) +
             (segment.name.trim() ? " to " + segment.name.trim() : "") + ".");
 
-    /* THE MARKET, THE COMPETITION AND THE READINESS (doc 49, sections 2.3 and 10; the round of 2026-11-20 18:35 UTC+2, approved at 22:08): each Segment's market
+    /* THE MARKET, THE COMPETITION AND THE READINESS (Questions 21, sections 2.3 and 10; the round of 2026-11-20 18:35 UTC+2, approved at 22:08): each Segment's market
        growth and crowding, its named competitors and what it stands out for (K14), and, from Launching on, each Offering not ready to sell (O2). */
     const identity = segmentIdentityOf(f.legalEntity.organisation, f.stage);
     const market = f.segments.flatMap(segment => {
@@ -165,13 +165,13 @@ export function swotStartsOf(f: Foundation): { opportunities: string[]; threats:
             opportunities.push(market + " has few competitors yet.");
         }
     }
-    // (SW1's lines, where the founder rated a change: doc 49, 2.3. The Strategy page adds them from its own open answer, as it is typed.)
+    // (SW1's lines, where the founder rated a change: Questions 21, 2.3. The Strategy page adds them from its own open answer, as it is typed.)
     const changes = changeEffectLines(f.strategyFoundation.changeEffects);
     return { opportunities: [...opportunities, ...changes.opportunities], threats: [...threats, ...changes.threats] };
 }
 
 /**
- * WHAT THE STRATEGY PAGE'S CHOICES READ (doc 49, 2.3 and 2.4: SW1, SC1 to SC3): the business stage; each Segment's id, name and Differentiation (K14), as its card
+ * WHAT THE STRATEGY PAGE'S CHOICES READ (Questions 21, 2.3 and 2.4: SW1, SC1 to SC3): the business stage; each Segment's id, name and Differentiation (K14), as its card
  * shows them; the changes the Segments named, the most named first (SW1's start); whether the Vision's PB8 reaches wider than every Segment today (SC2's start).
  */
 export function strategyChoiceContextOf(f: Foundation): StrategyChoiceContext {
@@ -280,7 +280,7 @@ export function readFoundation(sessions: FoundationSessions, options?: { wholeOn
     const natureContext = settings ? { openingDate: settings.openingDate, capitalisationLimit: capitalisationLimitOf(settings), assetUnitCosts: assetUnitCostsOf(capability) } : undefined;
     const chosenNatures = Object.fromEntries(Object.entries(financial.classified).map(([id, entry]) => [id, entry.nature || undefined]));
     const launched = settings && natureContext ? launchNeedOf(lines, natureContext, settings, chosenNatures, calculated) : undefined;
-    // The contingency funds, once there is an Opening Date (as the Funding tile showed them; the Funding Request says them now: doc 48, section 14).
+    // The contingency funds, once there is an Opening Date (as the Funding tile showed them; the Funding Request says them now: Questions 20, section 14).
     const funds = settings && natureContext && settings.openingDate.trim() !== ""
         ? launched?.funds ?? contingencyFunds(lines, natureContext, settings, chosenNatures, calculated)
         : undefined;
@@ -297,7 +297,7 @@ export function readFoundation(sessions: FoundationSessions, options?: { wholeOn
         // The contingency funds worked out from the Global Settings (the rates and the target are inputs there), for the Funding Request.
         funds,
         definition: responseByTitle(sessions.identity, /^definition$/i),
-        // (The six texts of Purpose, doc 45: the Values, Principles, Philosophy and Manifesto are saved in its section; the Mission and Vision in Definition.)
+        // (The six texts of Purpose, Questions 9: the Values, Principles, Philosophy and Manifesto are saved in its section; the Mission and Vision in Definition.)
         ethics: responseByTitle(sessions.identity, /^purpose( & beliefs)?$/i),
         ambassador: responseByTitle(sessions.brand, /ambassador/i),
         brandStyle: asBrandStyleValue(responseByType(sessions.brand, AnswerType.BrandStyle)),

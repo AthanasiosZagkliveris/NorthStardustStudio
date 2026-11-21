@@ -36,17 +36,17 @@ Each page and screen has its specification under `docs/specifications/`:
 |---|---|
 | Identity System | [identity-system](../specifications/identity-system/page-1-definition.md) |
 | Brand System | [brand-system](../specifications/brand-system/page-1-brand.md) |
-| Business System | [business-system](../specifications/business-system/README.md): page 1, Foundation & Engagement; page 2, Infrastructure & Capability; page 3, Financials (its tiles: doc 48, section 14) |
+| Business System | [business-system](../specifications/business-system/README.md): page 1, Foundation & Engagement; page 2, Infrastructure & Capability; page 3, Financials (its tiles: Questions 20, section 14) |
 | Strategy System | [strategy-system](../specifications/strategy-system/page-1-situation-and-direction.md) |
 | The Workbook | [workbook](../specifications/workbook/README.md), a file for each section |
 | Settings, Appearance (the reading modes), Focus | [settings](../specifications/settings/README.md), [Global Settings](../specifications/settings/README.md#the-global-settings-screen) |
 | The Inventory | [inventory](../specifications/inventory/README.md) |
 
-The questions are in `docs/design/questions/` (their register: doc 44); the layout is the rulebook's (`docs/ai/layout-rules.md`).
+The questions are in `docs/design/questions/` (their register: Questions 6); the layout is the rulebook's (`docs/ai/layout-rules.md`).
 
 ## 4. How the answers connect
 
-The app fills, starts, offers or works out about 120 answers from earlier ones (drafts, starts, option lists, cards it makes, figures it computes): the list, with each one's source and code, is [doc 54](../design/questions/54-auto-filled-answers.md). What waits for another answer (a city for its country) is recorded in `src/framework/engine/fields/FieldDependencies.ts`.
+The app fills, starts, offers or works out about 120 answers from earlier ones (drafts, starts, option lists, cards it makes, figures it computes): the list, with each one's source and code, is [Questions 5](../design/questions/05-auto-filled-answers.md). What waits for another answer (a city for its country) is recorded in `src/framework/engine/fields/FieldDependencies.ts`.
 
 ## 5. Future features
 

@@ -1,5 +1,5 @@
 /**
- * HOW RELEVANT EACH PURPOSE IS to the buyer (the owner's tables of 2026-10-30, design document 31, 10.7): used to ORDER the purpose list, the most relevant first, and to leave out the purposes the table calls generally less directly
+ * HOW RELEVANT EACH PURPOSE IS to the buyer (the owner's tables of 2026-10-30, design Research 5, 10.7): used to ORDER the purpose list, the most relevant first, and to leave out the purposes the table calls generally less directly
  * relevant (fewer options help the user; the editor keeps one that is already chosen). It never chooses for the user. For each purpose the first table that covers it is used: the buyer's and the user's life stage (a consumer buyer), else the business buyer and user relationship, else the audience scale and the business buyer's category, else the consumer buyer and user relationship, else the buyer's category, else the relationship model (B2B or B2C).
  * Two levels: 2 primary relevance, 1 possible relevance; none is generally less directly relevant.
  */
@@ -21,7 +21,7 @@ const TABLES = {
     },
     /**
      * The relationships of a Proxy business buyer: an employer, a professional intermediary, a sponsor or funder, another business relationship (Social Connection, Business Growth and Creation
-     * are not in it), and an institution or membership body (Proxy or Dual-Intent; owner, 2026-11-09, decision 39 of doc 31: Learning, Health, Compliance and Access primary; Gifting, Everyday Needs and Protection, primary for
+     * are not in it), and an institution or membership body (Proxy or Dual-Intent; owner, 2026-11-09, decision 39 of Research 5: Learning, Health, Compliance and Access primary; Gifting, Everyday Needs and Protection, primary for
      * the employer, only possible; the others as the employer's).
      */
     businessProxy: {

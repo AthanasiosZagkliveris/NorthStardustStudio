@@ -36,7 +36,7 @@ export default function BusinessEngagementEditor(props: BusinessEngagementEditor
     const { channelTileId, removedSources, typeOf, profilesOf, asTiles, channelCategoryFoldKeys, channelResourceTable, channelTiles, channelViewChoice, channelsFor, clearIsolation, collapsed, columnsDivider, demandFor, engagement, engagedOfferingIds, foldingSection, folds, heads, isolated, isolationNames, offeringRelationshipsOf, referenceColumn, relationshipsFor, segmentOf, segments, toggle } = part4;
 
     /*
-        THE PAGE AS TILES (doc 47, section 3, step one): one chapter per Segment, in the Segment's colour, as Page 1's, holding three Master Tiles -- Channels &
+        THE PAGE AS TILES (Questions 17, section 3, step one): one chapter per Segment, in the Segment's colour, as Page 1's, holding three Master Tiles -- Channels &
         Journey, Customer's Relationship, Sales Forecast (the channel expenses are the Inventory's: owner, 2026-11-12 19:54). Each opens its section in a dialog;
         the section's help is the "i" beside the dialog's heading. Every channel comes from the Foundation's answers (owner, 2026-11-16 16:31). No saved key changes.
     */

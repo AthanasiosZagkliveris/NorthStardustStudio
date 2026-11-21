@@ -43,7 +43,7 @@ export type ActionIsolation =
     | null;
 
 /* Tabler's "link" and "tag" (24px, 2px strokes), drawn inline: the
-   app has no icon library, and its x is drawn the same way (doc 01, "The mark icons"). */
+   app has no icon library, and its x is drawn the same way (Foundation 1, "The mark icons"). */
 export function MarkIcon({ kind, size = 16 }: { kind: "link" | "tag"; size?: number }) {
     return (
         <svg

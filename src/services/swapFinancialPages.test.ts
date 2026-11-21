@@ -3,7 +3,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 import { OrganizationService } from "./OrganizationService";
 import { swapFinancialPages } from "./storageMigrations";
 
-/* THE TWO FINANCIAL PAGES CHANGE PLACES (doc 48, section 11; owner, 2026-11-17 07:36): Revenue & Pricing becomes Section 4, Costs, Funding & Position Section 5. */
+/* THE TWO FINANCIAL PAGES CHANGE PLACES (Questions 20, section 11; owner, 2026-11-17 07:36): Revenue & Pricing becomes Section 4, Costs, Funding & Position Section 5. */
 beforeEach(() => {
     OrganizationService.flushPendingWrites();
     localStorage.clear();

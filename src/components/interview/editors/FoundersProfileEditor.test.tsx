@@ -263,7 +263,7 @@ describe("FoundersProfileEditor founders", () => {
 
     });
 
-    // (THE PERSONAL SURVIVAL BUDGET, doc 48, section 13: asked of a founder with no salary; the least needed from the business said under the costs.)
+    // (THE PERSONAL SURVIVAL BUDGET, Questions 20, section 13: asked of a founder with no salary; the least needed from the business said under the costs.)
     it("asks the Personal Survival Budget of a founder with no salary, and says what the business must pay", () => {
 
         const budget: Record<string, { income: string; costs: string }> = { a: { income: "900", costs: "2100" } };

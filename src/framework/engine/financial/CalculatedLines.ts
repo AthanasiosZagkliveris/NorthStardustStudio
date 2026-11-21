@@ -199,7 +199,7 @@ export function shownChannelFees(table: readonly ChannelFeeRow[], country: strin
 }
 
 /**
- * THE ROW OF THE CHANNEL FEE TABLE A SUBCHANNEL PAYS (doc 50, section 1.4: "Match by the name, as the cost lines already do"): the row its own name takes
+ * THE ROW OF THE CHANNEL FEE TABLE A SUBCHANNEL PAYS (Questions 18, section 1.4: "Match by the name, as the cost lines already do"): the row its own name takes
  * ("Etsy"), else the row the first of its expense cards takes ("SumUp card reader", "Shopify Payments"); with the name it was matched by.
  */
 export function channelFeeFor(names: readonly string[], table: readonly ChannelFeeRow[], country = ""): { row: ChannelFeeRow; by: string } | undefined {
@@ -489,7 +489,7 @@ export function calculatedLines(input: CalculationInput, fromFoundationRate: num
         startupLineIds,
         inventoryLineIds,
         replaced,
-        // (Page 4's Plan Settings own the rate: doc 5, section 5.5.6.)
+        // (Page 4's Plan Settings own the rate: Records 2, section 5.5.6.)
         incomeTaxRate: fromFoundationRate,
         notes
     };

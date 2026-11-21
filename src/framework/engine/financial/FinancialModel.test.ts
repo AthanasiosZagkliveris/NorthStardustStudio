@@ -1201,7 +1201,7 @@ describe("the Workspace's optional Deposit", () => {
 
 });
 
-/* INTERNAL IS REMOVED (owner, 2026-11-20 18:35 and 22:56 UTC+2; doc 48, section 14): a source saved under it is read under Other, nothing lost; the founders' capital is made under Other. */
+/* INTERNAL IS REMOVED (owner, 2026-11-20 18:35 and 22:56 UTC+2; Questions 20, section 14): a source saved under it is read under Other, nothing lost; the founders' capital is made under Other. */
 describe("a funding source saved under Internal", () => {
     test("is read under Other, its type, amount and status kept", () => {
         const value = asFinancialFoundationValue({ funding: [{ id: "savings", category: "internal", type: "founder-capital", name: "Owner's savings", amount: "10700", status: "received" }] });

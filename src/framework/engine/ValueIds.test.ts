@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import { valueId, valuesWithIds, withValuesText } from "./ValueIds.ts";
 
-/* THE VALUES' IDS (doc 46, section 5, step 1). */
+/* THE VALUES' IDS (Questions 11, section 5, step 1). */
 describe("the Values gain ids", () => {
 
     /** A saved answer from before 2026-11-19: the Values as one numbered text, no ids. */

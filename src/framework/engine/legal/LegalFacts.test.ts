@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import { COMPANY_FORM, musicFromCode, personalDataFromCode, productKindsFromCode, professionFromCode } from "./LegalFacts.ts";
 
-/* THE FACTS READ FROM WHAT IS ALREADY ANSWERED (doc 53, stage 4; owner, 2026-11-19 20:59 and 21:05 UTC+2). */
+/* THE FACTS READ FROM WHAT IS ALREADY ANSWERED (Questions 10, stage 4; owner, 2026-11-19 20:59 and 21:05 UTC+2). */
 describe("the legal facts read from the activity code", () => {
 
     it("say what a product is where the code does, in each scheme family", () => {

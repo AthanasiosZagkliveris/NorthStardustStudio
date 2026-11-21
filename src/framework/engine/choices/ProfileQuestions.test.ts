@@ -101,7 +101,7 @@ describe("the Profile's questions follow the Segment", () => {
     });
 
     it("holds a limit, and keeps what is written under Other only while Other is ticked", () => {
-        // What matters most holds five since 2026-11-04 (doc 36, section 11).
+        // What matters most holds five since 2026-11-04 (Questions 13, section 11).
         expect(profileChoose(question("b1"), {}, ["lower-price", "speed", "ease-and-convenience", "quality-and-results", "trust-and-reputation", "expert-knowledge"]).b1).toHaveLength(5);
         expect(profileChoose(question("c1"), { c1: ["phone"] }, ["phone", "other"]).c1).toEqual(["phone", "other"]);
         expect(profileSettle({ c2: ["other"], "c2-other": ["Substack"] }, {}, people)).toEqual({ c2: ["other"], "c2-other": ["Substack"] });
@@ -110,7 +110,7 @@ describe("the Profile's questions follow the Segment", () => {
 
     it("starts the worry about price where the household income is Low, and the help from the comfort", () => {
         expect(profileShown({}, { income: ["1"] }, people).e3).toEqual(["the-price-or-their-budget"]);
-        // The online comfort is a rating (doc 35): 1 or 2 starts "Wants to talk to a person", 4 or 5 "Works it out alone", 3 nothing.
+        // The online comfort is a rating (Questions 12): 1 or 2 starts "Wants to talk to a person", 4 or 5 "Works it out alone", 3 nothing.
         expect(profileShown({}, { comfort: ["1"] }, people).d2).toEqual(["person"]);
         expect(profileShown({}, { comfort: ["2"] }, people).d2).toEqual(["person"]);
         expect(profileShown({}, { comfort: ["4"] }, people).d2).toEqual(["alone"]);
@@ -164,7 +164,7 @@ describe("the Profiles proposed for a business Segment, by buying role", () => {
 
 });
 
-describe("Psychographics and Motivations ticked and rated (doc 36, section 11)", () => {
+describe("Psychographics and Motivations ticked and rated (Questions 13, section 11)", () => {
 
     it("holds the limits: what matters most up to five, goals, frustrations and worries up to three", () => {
         expect(question("b1").max).toBe(5);
@@ -196,7 +196,7 @@ describe("Psychographics and Motivations ticked and rated (doc 36, section 11)",
 
 });
 
-describe("the Emotional and Social needs ticked and rated (doc 36, section 10)", () => {
+describe("the Emotional and Social needs ticked and rated (Questions 13, section 10)", () => {
 
     it("asks a person's lists of a people Segment and a business buyer's of a business one", () => {
         expect(profileQuestionsOf("needs", {}, people).map(entry => entry.id)).toEqual(["functional", "emotional", "social"]);
@@ -297,7 +297,7 @@ describe("goals, frustrations and worries from the research (2026-11-08)", () =>
 
 });
 
-/* The buyer and the end user (owner, 2026-11-08: "If the buyer is proxy, the profile should contain questions for both buyer and end user."; doc 36, 2.1). */
+/* The buyer and the end user (owner, 2026-11-08: "If the buyer is proxy, the profile should contain questions for both buyer and end user."; Questions 13, 2.1). */
 describe("a Proxy or Dual-Intent Segment's Profile holds the buyer and the end user", () => {
     const parent: SegmentIdentity = { relationships: ["b2c"], marketType: "single", audience: ["adult"], buyerCategory: ["b2c:proxy"], endUser: ["rel:parent", "age:minor"], stage: "launch", outcomeUser: ["learning"] };
     const family: SegmentIdentity = { relationships: ["b2c"], marketType: "single", audience: ["adult"], buyerCategory: ["b2c:dual"], endUser: ["rel:family"], stage: "manage" };

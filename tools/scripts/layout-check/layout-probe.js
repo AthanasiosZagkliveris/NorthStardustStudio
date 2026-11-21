@@ -3917,7 +3917,7 @@
             }
         }
         const wanted = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--open-card-width")) || 480;
-        // (Every floating card, whatever it holds: no Goal or Roadmap floats -- a Goal is nested in its Theme's card, the Roadmap is drawn in its dialog; doc 49.)
+        // (Every floating card, whatever it holds: no Goal or Roadmap floats -- a Goal is nested in its Theme's card, the Roadmap is drawn in its dialog; Questions 21.)
         // (The Workspace's form and a founder's card too: one width for every floating card; owner, 2026-11-19 01:41 UTC+2.)
         if (Math.abs(cardBox.width - Math.min(wanted, window.innerWidth - 16)) > 1.5) {
             fail("a floating card is the open card width", { width: cardBox.width, wanted, kind });

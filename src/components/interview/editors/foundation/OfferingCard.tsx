@@ -1,5 +1,5 @@
 /**
- * ONE OFFERING CARD (doc 43): its Type, then its six boxes in two sections (Description; Terms & Service), each box asking its questions in bands over its Notes.
+ * ONE OFFERING CARD (Questions 16): its Type, then its six boxes in two sections (Description; Terms & Service), each box asking its questions in bands over its Notes.
  * One part of useFoundationSubsections (moved out whole on 2026-11-09, no change of behaviour): what it reads of the Segment and of the page comes in as `scope`.
  */
 import { Fragment, ReactNode } from "react";
@@ -81,7 +81,7 @@ export function offeringCard(scope: FoundationCardScope, offering: BusinessOffer
         },
         <>
 
-            {/* The six Description boxes (doc 43; owner, 2026-11-07), as the Profile's and the Competitor's: each asks its questions, one band each
+            {/* The six Description boxes (Questions 16; owner, 2026-11-07), as the Profile's and the Competitor's: each asks its questions, one band each
                 (one question per band, O3b too), then its optional Notes, the box's saved text. A starting value shows until changed. */}
             {(() => {
                 const context = offeringContext(offering);

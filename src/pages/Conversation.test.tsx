@@ -239,7 +239,7 @@ describe("Conversation records the last place worked", () => {
 
     });
 
-    it("draws Purpose as three pair tiles, Mission & Vision saved in Definition under its own keys (doc 45)", () => {
+    it("draws Purpose as three pair tiles, Mission & Vision saved in Definition under its own keys (Questions 9)", () => {
 
         const organization = OrganizationService.create("Quillfield");
         vi.spyOn(OrganizationService, "getSelected").mockReturnValue(organization.id);

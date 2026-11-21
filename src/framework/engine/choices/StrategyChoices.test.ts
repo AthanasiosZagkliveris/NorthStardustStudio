@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import { changeEffectLines, changeEffectsShown, changeRows, compassChoicesShown, compassDraft, growthOptions, growthStart, stanceStart, SW1_CHANGES } from "./StrategyChoices.ts";
 
-/* SW1 AND SC1 TO SC3 (doc 49, 2.3 and 2.4). */
+/* SW1 AND SC1 TO SC3 (Questions 21, 2.3 and 2.4). */
 describe("the Strategy page's choices", () => {
 
     const [first, second, third] = SW1_CHANGES.map(change => change.id);
@@ -33,7 +33,7 @@ describe("the Strategy page's choices", () => {
         expect(growthStart({ stage: "grow", reachBeyond: false })).toEqual([]);
     });
 
-    it("writes the Compass draft, a part with no answer left out (doc 49, 2.4)", () => {
+    it("writes the Compass draft, a part with no answer left out (Questions 21, 2.4)", () => {
         const context = { stage: "plan", changeStarts: [], segments: [{ id: "s1", name: "Gift buyers", differentiation: ["premium"] }, { id: "s2", name: "Hotels", differentiation: [] }], reachBeyond: false };
         const shown = compassChoicesShown({ stance: "so", growth: ["launch", "penetration"] }, {}, context);
         expect(compassDraft("Jan 2027 – Dec 2029", shown, context)).toBe("Over Jan 2027 – Dec 2029, our focus is Gift buyers. We will win our first customers at launch and sell more to the customers we serve, using our strengths to seize opportunities, and stand out for high quality. This takes us towards our Vision.");

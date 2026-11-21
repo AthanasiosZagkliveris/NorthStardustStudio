@@ -32,7 +32,7 @@ import {
 const none = { profiles: [], others: [] };
 const ids = (list: readonly { id: string }[]) => list.map(entry => entry.id);
 
-describe("what each type of competitor is asked (doc 41)", () => {
+describe("what each type of competitor is asked (Questions 14)", () => {
 
     it("asks a rival business everything, a substitute no size or reach, the others the ratings only", () => {
         expect(["k1", "k2", "k3", "k4", "k5", "k6", "k7", "k8", "k9", "k10"].every(id => competitorAsks("direct", id as never))).toBe(true);

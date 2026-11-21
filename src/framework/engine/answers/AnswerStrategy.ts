@@ -102,9 +102,9 @@ export interface StrategyFoundationValue {
     compass: string;
     period: StrategyRangeValue;
     themes: StrategyThemeValue[];
-    /** SW1 (doc 49, 2.3): each change ticked, by its id, with its rating 1 (Threat) to 5 (Opportunity), 0 while unrated; missing until the founder ticks or rates (the Segments' changes start ticked). */
+    /** SW1 (Questions 21, 2.3): each change ticked, by its id, with its rating 1 (Threat) to 5 (Opportunity), 0 while unrated; missing until the founder ticks or rates (the Segments' changes start ticked). */
     changeEffects?: Record<string, number>;
-    /** SC1 (doc 49, 2.4): the stance; missing while it follows its start from the SWOT. */
+    /** SC1 (Questions 21, 2.4): the stance; missing while it follows its start from the SWOT. */
     stance?: string;
     /** SC2: where growth comes from, 2 at most; missing while it follows its start. */
     growth?: string[];

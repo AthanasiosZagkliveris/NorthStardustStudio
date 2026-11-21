@@ -287,7 +287,7 @@ export function useEngagementDemand(earlier: Earlier) {
                     />
                 </BusinessField>
             );
-            // (THE FUNNEL'S MIDDLE STEP, a trial where a Profile compares options by a demo, trial or sample (D1): "Tried it (%)"; doc 50, section 2.5.)
+            // (THE FUNNEL'S MIDDLE STEP, a trial where a Profile compares options by a demo, trial or sample (D1): "Tried it (%)"; Questions 18, section 2.5.)
             // (Or the source comes through a Samples & Trials channel: owner, 2026-11-16 19:18.)
             const trial = type?.id === "funnel" && funnelIsTrial(segment, identity, source.group ? { category: source.group } : segmentOf(segment.id).channels.find(channel => channel.id === source.channelId));
             // (The channels it comes through, for a rate's typical range: demandFieldShown; owner, 2026-11-17.)
@@ -324,7 +324,7 @@ export function useEngagementDemand(earlier: Earlier) {
                         own
                     )
             );
-            // (THE TIME TO BUY, read only, on the Sales funnel and Contracts sources: from "Who decides to buy?" and how they decide; doc 50, section 2.5.)
+            // (THE TIME TO BUY, read only, on the Sales funnel and Contracts sources: from "Who decides to buy?" and how they decide; Questions 18, section 2.5.)
             const close = type && !excluded && (type.id === "funnel" || type.id === "contracts") ? monthsToClose(segment, identity) : null;
             const closeText = close
                 ? "Sales arrive about " + (close.low === close.high ? close.low + (close.low === 1 ? " month" : " months") : close.low + " to " + close.high + " months") + " after first contact, as your buyers decide (Who decides to buy?)."
@@ -455,7 +455,7 @@ export function useEngagementDemand(earlier: Earlier) {
         }
 
         /* THE PIECES UNDER THE SOURCES, laid out by the page's block or by the floating card. */
-        // THE ROWS THE FOUNDATION PROPOSES (doc 28, 7.5): one for each Discover channel that serves this Offering, and Contracts or tenders where the buyer decides by a
+        // THE ROWS THE FOUNDATION PROPOSES (Questions 2, 7.5): one for each Discover channel that serves this Offering, and Contracts or tenders where the buyer decides by a
         // formal tender; each added by its own Add, never written by itself. A channel's row also records the channel.
         const suggestions = (() => {
                     // (With the Identity answers, as the channels are made: owner, 2026-11-17.)
@@ -735,7 +735,7 @@ export function useEngagementDemand(earlier: Earlier) {
 
                 <div className="business-demand-sources">
                     {demand.sources.map((source, index) => sourceCard(source, index))}
-                    {/* THE ROWS THE FOUNDATION PROPOSES (doc 28, 7.5): one for each Discover channel that serves this Offering, and Contracts or tenders where the
+                    {/* THE ROWS THE FOUNDATION PROPOSES (Questions 2, 7.5): one for each Discover channel that serves this Offering, and Contracts or tenders where the
                         buyer decides by a formal tender; each added by its own Add, never written by itself. A channel's row also records the channel. */}
                     {suggestions}
                     {addSource}

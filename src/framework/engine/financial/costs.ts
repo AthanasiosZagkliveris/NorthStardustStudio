@@ -396,7 +396,7 @@ export function consolidateCosts(
             );
             const monthly = founderMonthlySalary(founder);
             if (monthly === null) {
-                // (THE OWNER'S MINIMUM PAY (doc 48, section 13, step 2; Start Up Loans): a founder the business pays no salary still has to live. What the
+                // (THE OWNER'S MINIMUM PAY (Questions 20, section 13, step 2; Start Up Loans): a founder the business pays no salary still has to live. What the
                 // Personal Survival Budget on the founder's card says the household needs from the business is a cost of its own, a month: drawings, so no
                 // employer's on-costs (CalculatedLines reads only salary- lines).)
                 const legal = sources.legalEntity.founders.find(entry => entry.id === founder.id);

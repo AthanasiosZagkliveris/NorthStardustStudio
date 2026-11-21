@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import { asValueKinds, manifestoDraft, missionDraft, missionGainOptions, missionOfferOptions, missionServeOptions, principlesDraft, valuesDraft } from "./MissionChoices.ts";
 import type { BusinessCustomerSegmentValue } from "../businessFoundation/foundationPage.ts";
 
-/* PB10 to PB13 (doc 45, section 8; the owner's approval of 2026-11-20 22:08 UTC+2, "All, Values A"). */
+/* PB10 to PB13 (Questions 9, section 8; the owner's approval of 2026-11-20 22:08 UTC+2, "All, Values A"). */
 
 const segment = (id: string, name: string, offerings: { id: string; name: string }[], goals: string[][] = []): BusinessCustomerSegmentValue => ({
     id, name, description: {}, questions: {}, valueProposition: "", competitors: [],

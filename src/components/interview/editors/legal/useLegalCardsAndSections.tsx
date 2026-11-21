@@ -524,7 +524,7 @@ export function useLegalCardsAndSections(earlier: Earlier) {
                             false
                         )}
 
-                        {/* (AN OFFICIAL FEE THE APP FILLED IN, its source under it (doc 53, decision 5): "Official fee, checked 19 Nov 2026", a link to the official page; shown
+                        {/* (AN OFFICIAL FEE THE APP FILLED IN, its source under it (Questions 10, decision 5): "Official fee, checked 19 Nov 2026", a link to the official page; shown
                             while the cost is still the official one -- once the founder changes it, it is theirs, and the line goes.) */}
                         {(() => {
                             const start = expense.rule ? legalStartOf(entity, expense.rule) : undefined;

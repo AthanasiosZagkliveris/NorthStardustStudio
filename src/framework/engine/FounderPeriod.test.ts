@@ -143,7 +143,7 @@ type Example = { systems: Record<string, Parameters<typeof InterviewSession.from
     floor looms as what can hold it up ("8-shaft floor looms, holds 3 at once": the only new numbers) and its Bespoke Commissions FlameGuard's
     finishing (a week's lead time). No amount changed: the forecast and the plan are as they were.
 
-    2026-11-17, the Financial pages' order (doc 48, section 11): the export digests (and the weekly fixture's export words) written again when
+    2026-11-17, the Financial pages' order (Questions 20, section 11): the export digests (and the weekly fixture's export words) written again when
     Revenue & Pricing became page 4 and Costs, Funding & Position page 5: the two titles, and the pages printed in their new order (the weekly
     fixture's 613 numbers the same, in that order). The forecast, the plan and both Global Settings digests are as they were.
 
@@ -162,19 +162,19 @@ type Example = { systems: Record<string, Parameters<typeof InterviewSession.from
     2026-11-19, Financials (the owner's approved plan of 2026-11-18, step 1): the plan digests (and the weekly fixture's words) written again when the
     two Financial pages became one, Financials, and the plan's notes name it ("on Financials", "in Revenue Streams"). No amount changed.
 
-    2026-11-19, the Vision's future (PB7, PB8; doc 45, 3.8; B2): the plan digests written again when the Executive Summary prints "When our Vision comes
+    2026-11-19, the Vision's future (PB7, PB8; Questions 9, 3.8; B2): the plan digests written again when the Executive Summary prints "When our Vision comes
     true, the business will be ..." from the examples' new answers. No amount changed.
 
-    2026-11-19, the Ambassador's choices (BA1 to BA4, BA6 to BA8; doc 46; B2): the plan digests written again when Brand & Voice opens with "Our brand is ...,
+    2026-11-19, the Ambassador's choices (BA1 to BA4, BA6 to BA8; Questions 11; B2): the plan digests written again when Brand & Voice opens with "Our brand is ...,
     with a ... tone." from the examples' new answers. No amount changed.
 
-    2026-11-19, the legal starts (doc 53, stage 1): Lumen's confirmation statement is GB2's, at the official fee since 1 February 2026, £50 a year (it was £34),
+    2026-11-19, the legal starts (Questions 10, stage 1): Lumen's confirmation statement is GB2's, at the official fee since 1 February 2026, £50 a year (it was £34),
     and its four new requirements stand in the Legal Entity. WRITE_GOLDEN=all: Lumen's forecast moved by £16 a year from Mar 2027 (the funding gap £25,848 ->
     £25,864), its settings forecast with it; Quillfield is as it was.
 
-    2026-11-19, the legal facts (doc 53, stage 4): Lumen's two products answer O24, "None of these", and the export prints it. Words only; no amount changed.
+    2026-11-19, the legal facts (Questions 10, stage 4): Lumen's two products answer O24, "None of these", and the export prints it. Words only; no amount changed.
 
-    2026-11-21, one owner for each figure (doc 48, 15.1 and 15.5). WRITE_GOLDEN=all: Quillfield's Care Retainer builds up as its Demand says (0.5 new clients a
+    2026-11-21, one owner for each figure (Questions 20, 15.1 and 15.5). WRITE_GOLDEN=all: Quillfield's Care Retainer builds up as its Demand says (0.5 new clients a
     month to 5 in 22 months; the funding gap $14,059 -> $14,435); Lumen's DPD and Royal Mail couriers counted per order, as their cards say, and its weaving tutor
     paid for the 0.8 hour of a session the Delivery card gives (0.1 of an hour a participant; the funding gap £25,864 -> £23,724). The weekly fixture with them.
 */

@@ -68,7 +68,7 @@ function executiveSummary(f: Foundation): ExportBlock[] {
         ...paragraph([opening, offer].filter(Boolean).join(" ")),
         ...labelled("Mission", text(f.definition.mission)),
         ...labelled("Vision", text(f.definition.vision)),
-        // (The Vision's future, PB7 and PB8: "When our Vision comes true, the business will be ..., with customers ..." -- doc 45, 3.8.)
+        // (The Vision's future, PB7 and PB8: "When our Vision comes true, the business will be ..., with customers ..." -- Questions 9, 3.8.)
         ...(visionChoicesSentence(asVisionAmbitions(f.definition.visionAmbitions), asVisionReach(f.definition.visionReach)) ? paragraph(visionChoicesSentence(asVisionAmbitions(f.definition.visionAmbitions), asVisionReach(f.definition.visionReach))) : []),
         ...labelled("Financial outlook", [money, revenue].filter(Boolean).join(" ")),
         ...(outlook.signals[0] ? labelled(outlook.signals[0].title, outlook.signals[0].text) : []),
@@ -189,7 +189,7 @@ function marketBlocks(f: Foundation): ExportBlock[] {
         ...f.segments.flatMap((segment, index) => [
             heading("Segment " + (index + 1) + ": " + (segment.name.trim() || "Unnamed segment")),
             ...titled2("What we know of them", details(segmentAnswerLines(settledSegmentAnswers(segment, f.legalEntity.organisation), segmentContextFor(segmentIdentityOf(f.legalEntity.organisation, f.stage), segmentIsBusiness(segment))).map(line => [line.label, line.value]))),
-            // A Segment with an end user (Proxy or Dual-Intent): the goals, challenges and needs are the end user's (doc 36, 2.1).
+            // A Segment with an end user (Proxy or Dual-Intent): the goals, challenges and needs are the end user's (Questions 13, 2.1).
             // (Each Profile in a sentence first, its persona: profilePersona; owner, 2026-11-17.)
             ...titled2("Customer Profiles", [...list(segment.profiles.map(profile => profilePersona(profile.name, effectiveProfileAnswers(profile, segment, segmentIdentityOf(f.legalEntity.organisation, f.stage)))).filter(Boolean)), ...table(segmentContextFor(segmentIdentityOf(f.legalEntity.organisation), segmentIsBusiness(segment)).endsUser ? ["Profile", "End user's goals", "End user's challenges", "End user's needs"] : ["Profile", "Goals", "Challenges", "Needs"], segment.profiles.map(profile => [
                 profile.name,
@@ -301,7 +301,7 @@ function brandVoiceBlocks(f: Foundation): ExportBlock[] {
         ["Communication & Voice", f.ambassador["communication-voice"]],
         ["Imprint", f.ambassador.imprint]
     ] as [string, unknown][]).flatMap(([title, value]) => text(value) ? [heading(title, 2), ...paragraphs(value)] : []);
-    // (The opening line above the four texts, from the character and the tone (doc 46, section 3: BA1, BA6).)
+    // (The opening line above the four texts, from the character and the tone (Questions 11, section 3: BA1, BA6).)
     const identity = segmentIdentityOf(f.legalEntity.organisation, f.stage);
     const opening = brandVoiceLine(ambassadorShown(asAmbassadorChoices(f.ambassador), { segments: f.segments, engagement: f.engagement.segments, identity }));
     return parts.length > 0 || opening ? [heading("Brand & Voice"), ...(opening ? paragraph(opening) : []), ...parts] : [];
@@ -599,7 +599,7 @@ function fundingRequestBlocks(f: Foundation): ExportBlock[] {
             ...position.needs.map(need => [need.label, format(need.amount), need.when]),
             ["Total", format(position.need), ""]
         ])),
-        // Before the opening and after it: the contingency funds, worked out from the Global Settings' rates and target (doc 48, section 14).
+        // Before the opening and after it: the contingency funds, worked out from the Global Settings' rates and target (Questions 20, section 14).
         ...(f.funds ? [
             ...titled("Cash to Raise Before the Opening", table(["Part", "Amount"], [
                 ["Capital Expenditure", format(f.funds.schedule.capex)],
@@ -767,12 +767,12 @@ function notCovered(title: string): ExportBlock[] {
 function appendixBlocks(f: Foundation): ExportBlock[] {
     const demote = (blocks: ExportBlock[]) => blocks.map(block => block.kind === "subheading" ? { ...block, level: 2 as const } : block);
     const style = [...demote(brandStyleBlocks(f.brandStyleValue)), ...brandGuidePictures(f)];
-    // (The costs in full are the Financial Plan's, a Financial Document: doc 48, section 14.)
+    // (The costs in full are the Financial Plan's, a Financial Document: Questions 20, section 14.)
     return titled("Brand Style Guide", style);
 }
 
 /**
- * EACH OFFERING'S ECONOMICS (doc 48, 15.4): a row an Offering sold, one sale's price, direct cost, contribution, full cost and margin, and its sales a month,
+ * EACH OFFERING'S ECONOMICS (Questions 20, 15.4): a row an Offering sold, one sale's price, direct cost, contribution, full cost and margin, and its sales a month,
  * as Cost of each Offering counts them (time-driven activity-based costing by the founders' delivery hours).
  */
 function economicsBlocks(f: Foundation): ExportBlock[] {
@@ -798,7 +798,7 @@ function economicsBlocks(f: Foundation): ExportBlock[] {
     ];
 }
 
-/** The costs in full, by group: the Financial Plan's last part (doc 48, section 14). */
+/** The costs in full, by group: the Financial Plan's last part (Questions 20, section 14). */
 function costsBlocks(f: Foundation): ExportBlock[] {
     const frequencyOf = (line: CostLine) => line.frequency === "other"
         ? (line.frequencyOther || "Other")
@@ -874,7 +874,7 @@ function continueNumbering(blocks: ExportBlock[], before: ExportBlock[]): Export
         : block);
 }
 
-/** A Financial Document as the documents' content: its title, its cover and its numbered parts (doc 48, section 14). */
+/** A Financial Document as the documents' content: its title, its cover and its numbered parts (Questions 20, section 14). */
 function financialDocument(f: Foundation, title: string, parts: [string, ExportBlock[]][]): ExportContent {
     return {
         systemNumber: "",
@@ -888,7 +888,7 @@ function financialDocument(f: Foundation, title: string, parts: [string, ExportB
     };
 }
 
-/** THE FUNDING REQUEST, a Financial Document: what the plan needs and has, the gap, Use of Funds, Sources of Funds (doc 48, section 14). */
+/** THE FUNDING REQUEST, a Financial Document: what the plan needs and has, the gap, Use of Funds, Sources of Funds (Questions 20, section 14). */
 export function fundingRequest(sessions: FoundationSessions): ExportContent {
     const f = readFoundation(sessions, { wholeOnly: true });
     return financialDocument(f, "Funding Request", [["Funding Request", fundingRequestBlocks(f)], ["Financial Projections", projectionBlocks(f)]]);
@@ -925,7 +925,7 @@ export function businessPlan(sessions: FoundationSessions): ExportContent {
         ["Management and Organisation", teamBlocks(f)],
         ["Strategy and Milestones", strategyBlocks(f)],
         ["Risks", riskBlocks(f)],
-        // (THE FINANCIALS ARE THE FINANCIAL DOCUMENTS (doc 48, section 14; owner, 2026-11-20 20:46 UTC+2): the plan names where they are, one owner per fact.)
+        // (THE FINANCIALS ARE THE FINANCIAL DOCUMENTS (Questions 20, section 14; owner, 2026-11-20 20:46 UTC+2): the plan names where they are, one owner per fact.)
         ["Financial Documents", paragraph("The Funding Request, the Financial Plan and the Financial Forecast are the Financial Documents of the Workbook, each written from the same answers as this plan.")],
         ["Appendix", appendixBlocks(f)]
     ];
@@ -947,7 +947,7 @@ export function businessPlan(sessions: FoundationSessions): ExportContent {
 }
 
 /**
- * THE BUSINESS PLAN'S EXPORT CARRIES THE FINANCIAL DOCUMENTS AS ITS APPENDIX (owner, 2026-11-20 20:47 UTC+2, "the appendix"; doc 48, section 14): on screen
+ * THE BUSINESS PLAN'S EXPORT CARRIES THE FINANCIAL DOCUMENTS AS ITS APPENDIX (owner, 2026-11-20 20:47 UTC+2, "the appendix"; Questions 20, section 14): on screen
  * the plan names where they are; its Markdown and PDF end with the Funding Request, the Financial Plan and the Financial Forecast, written by their own code
  * (no second copy). Off, the plan exports alone and each Financial Document exports on its own.
  */

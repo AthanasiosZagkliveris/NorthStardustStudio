@@ -8,7 +8,7 @@ import { useAutoDraft } from "../../fields/useAutoDraft.ts";
 import InfoNote, { InfoText } from "../../fields/InfoNote.tsx";
 
 /**
- * THE VISION'S TWO CHOICES, PB8 THEN PB7, ABOVE ITS TEXT, AND "ADD A DRAFT" (doc 45, section 3.8; doc 49, section 9, P1 and P2; owner, 2026-11-20 12:49 UTC+2,
+ * THE VISION'S TWO CHOICES, PB8 THEN PB7, ABOVE ITS TEXT, AND "ADD A DRAFT" (Questions 9, section 3.8; Questions 21, section 9, P1 and P2; owner, 2026-11-20 12:49 UTC+2,
  * "proceed to changes"): where the customers will be first, then what the business will be, as the Vision's own guiding questions run; then the draft written in by itself (useAutoDraft),
  * the Value Proposition's and the Ambassador's link, writing the Business Plan's own sentence (visionChoicesSentence) at the end of the Vision. Formerly under the
  * Vision's text (the owner's approved plan of 2026-11-18, §3, B2), in the Mission & Vision

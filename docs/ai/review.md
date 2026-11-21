@@ -16,7 +16,7 @@ This document is the standard a table, a tile, a card, a floating card, a dialog
 ## 2. The rules of the work
 
 1. **Replace, never adjust.** A hand-made control is replaced by the app's own component of its kind; its style is not tuned. If no component of the kind exists, the review asks before writing one.
-2. **Components first** (doc 21, `../design/interface/`): `RemoveButton`, `AddButton` (shapes wide, box, tile; `look`), `TextLink`, `OptionPicker`, `ValuePicker`, `MultiPicker`, `TickField`, `TextBox`, `NumberCell`, `TextField`, `DateCellInput`, `FoldArrow`, `NavArrow`, `FunnelButton`, `InfoNote`, `CardShell`, `CardHead`, `Tile`, `TileGrid`, `BusinessCard`.
+2. **Components first** (Interface 1, `../design/interface/`): `RemoveButton`, `AddButton` (shapes wide, box, tile; `look`), `TextLink`, `OptionPicker`, `ValuePicker`, `MultiPicker`, `TickField`, `TextBox`, `NumberCell`, `TextField`, `DateCellInput`, `FoldArrow`, `NavArrow`, `FunnelButton`, `InfoNote`, `CardShell`, `CardHead`, `Tile`, `TileGrid`, `BusinessCard`.
 3. **Tokens, not values.** A size, a gap, a colour or a radius is a token (`global.css`, `colors.generated.css`, `components.generated.css`); a value written in a rule is a finding unless the rulebook lists it.
 4. **The style lives with the component.** What a shared control looks like is in the sheet the component imports, so it is the same on every page (the Landing, the System Selection, the Notes panel, the header and the documents load no interview sheet).
 5. **One of each.** One component, one rule, one reaction per kind. A second class that adds a look, a hover or a size to a shared control is a finding.
@@ -78,7 +78,7 @@ Measure: the box rectangles of the two neighbours; the gap is the distance betwe
 
 A dropdown is **one** component for one choice (`OptionPicker`) and **one** for several (`MultiPicker`): its trigger, its chevron, its list (no stroke, the raised edge and the drop shadow; options 43px; the chosen one bold) are the same on every page. A dropdown is never drawn as a button or as an input.
 
-Reactions (doc 18, `layout-rules.md` section 6): every control that can has **hover**, **focus**, **pressed** and **disabled**; measure each state's `boxShadow`, `backgroundColor`, `color`, `textShadow` against the kind's row and against a second control of the kind. A control that is not a button does not look like one, and a button does not look like a field.
+Reactions (Interface 5, `layout-rules.md` section 6): every control that can has **hover**, **focus**, **pressed** and **disabled**; measure each state's `boxShadow`, `backgroundColor`, `color`, `textShadow` against the kind's row and against a second control of the kind. A control that is not a button does not look like one, and a button does not look like a field.
 
 ## 6. Colour: what follows what
 
@@ -101,7 +101,7 @@ Reactions (doc 18, `layout-rules.md` section 6): every control that can has **ho
 1. **A table** fits its panel or scrolls sideways with its heading and its first column kept; a column is named by what it holds (not counted); a number is right-aligned in figures of one width, its unit once in the header; a short column never breaks a word; the first column is one row cut by an ellipsis; rows are one height per size step; the text size is one of the three steps (14, 18 and 24px) and the default is the one that fits.
 2. **A list** (a numbered list, a bulleted list, a tile's list) has the one gap between marker and text and the one line height (`--section-tile-line-height` 1.45 for a wrapping list).
 3. **A pop-up window** (a menu, a filter window, a dropdown's list, a note, the calendar's list) opens next to its control, is placed free of the boxes around it, is the card's family in colour (section 6), has the app's type scale (section 3: its labels are field labels, its group heads caps titles, its options the dropdown's options, not smaller than `--font-body` unless the rulebook says), the app's controls (section 5), a width of the closed set, a maximum height with its own scroll, and closes on a press outside and on Escape, the focus returning to its control.
-4. **A tooltip** follows doc 24 (`../design/interface/24-tooltips.md`): a pressed control only; an icon says its name; cut words whole; what the words do not say; never what is shown.
+4. **A tooltip** follows Interface 8 (`../design/interface/08-tooltips.md`): a pressed control only; an icon says its name; cut words whole; what the words do not say; never what is shown.
 5. **A dialog** has the one dialog ground and frame; its Back and its rails are the app's.
 
 ## 9. Pages
@@ -140,7 +140,7 @@ Then: **what was fixed** (with the component or the token used), **what was meas
 ## 13. The checklist: what to tick when reviewing a table, tile, card, page or control
 
 
-Read this before reviewing or changing anything on screen, and tick every line that applies before saying "done"; sections 1 to 12 give the standard behind each line. Each line is here because it was missed once. The rules it points to are in `layout-rules.md` and, in `../design/interface/`, doc 18 (the reactions), doc 21 (the shared components) and doc 24 (the tooltips).
+Read this before reviewing or changing anything on screen, and tick every line that applies before saying "done"; sections 1 to 12 give the standard behind each line. Each line is here because it was missed once. The rules it points to are in `layout-rules.md` and, in `../design/interface/`, Interface 5 (the reactions), Interface 1 (the shared components) and Interface 8 (the tooltips).
 
 ### 13.0 Before looking
 
@@ -174,7 +174,7 @@ Read this before reviewing or changing anything on screen, and tick every line t
 
 ### 13.4 Tooltips and names
 
-1. Only a pressed control has a tooltip; an icon says its name; cut text says itself whole; never what is already shown (doc 24). A dropdown, a field, a tick, a tile, a label: none.
+1. Only a pressed control has a tooltip; an icon says its name; cut text says itself whole; never what is already shown (Interface 8). A dropdown, a field, a tick, a tile, a label: none.
 2. Every control has an accessible name; an icon-only control has an `aria-label`; no `title` that repeats it.
 
 ### 13.5 Layout and behaviour
@@ -191,14 +191,14 @@ Read this before reviewing or changing anything on screen, and tick every line t
 1. **Words**: sentence case, no abbreviations that are not the app's, no bracketed hints in a dropdown option (the "i" says it), the same word for the same thing everywhere.
 2. **What it shows is what is stored**: change an answer and see every place that shows it change (the page, the Inventory, the calendar, the review, the documents).
 3. **A removed option**: what happens to old data that held it (cleared, said in the description, never lost silently).
-4. A change to a label, option or condition updates its "i" in the same commit (doc 39, 3.6).
+4. A change to a label, option or condition updates its "i" in the same commit (Interface 10, 3.6).
 5. **Voice**: every text is affirmative and natural, with no "unlike", "instead of", "rather than" or "not X but Y" framing (`standard.md`, section 3).
 
 ### 13.7 Proof before "done"
 
 1. The steps of `toolchain-and-verification-playbook.md`, in its order: typecheck, the whole test suite, the checks (`tokens:check`, `lint:styles`, `lint:controls`, `lint:css`, `docs:check`, `tables:check`, `library:check`), the build, the layout check (0 new findings), and `npm run check:card` for a floating card of questions.
 2. **The pictures after**, next to the pictures before, in the browser: say what was looked at and what was not (dark and sepia, the widths, the other pages that use the same component).
-3. **Documents**: step 7 of the playbook (the log row, the rule, the examples, `npm run docs:index`) and the component's state in doc 21.
+3. **Documents**: step 7 of the playbook (the log row, the rule, the examples, `npm run docs:index`) and the component's state in Interface 1.
 4. **Report per request**, one line each: what was done, how it was checked, what is left. Never "done" for what was not looked at.
 5. **Commit** only what was changed; no push, merge or tag without the owner's yes (`ai-collaboration-rules.md`).
 

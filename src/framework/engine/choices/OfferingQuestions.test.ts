@@ -15,7 +15,7 @@ const segment = asBusinessFoundationValue({
     }]
 }).segments[0];
 
-describe("the Offering's questions (doc 43; owner, 2026-11-07)", () => {
+describe("the Offering's questions (Questions 16; owner, 2026-11-07)", () => {
     it("asks O1 by Type, O10 of a Service or Hybrid, O8 only when a Profile has worries", () => {
         expect(offeringOptions("o1", { type: "Product" }).map(option => option.id)).toEqual(["physical", "digital", "app", "access"]);
         expect(offeringOptions("o1", { type: "Hybrid" })).toHaveLength(8);
@@ -30,11 +30,11 @@ describe("the Offering's questions (doc 43; owner, 2026-11-07)", () => {
         expect(offeringShown({ o2: ["idea"], o4: ["speed"] }, { type: "Product", stage: "grow", differentiation: ["cost"] })).toMatchObject({ o2: ["idea"], o4: ["speed"] });
         expect(offeringShown({ o1: ["physical"] }, { type: "Service" }).o1).toBeUndefined();
     });
-    it("starts O4 from Performance & Innovation and Ecosystem & Integration through the nearest L1 options (doc 34, 5.2a; owner, 2026-11-08)", () => {
+    it("starts O4 from Performance & Innovation and Ecosystem & Integration through the nearest L1 options (Research 3, 5.2a; owner, 2026-11-08)", () => {
         expect(offeringShown({}, { type: "Product", differentiation: ["performance"] }).o4).toEqual(["quality-and-results", "expert-knowledge"]);
         expect(offeringShown({}, { type: "Product", differentiation: ["ecosystem"] }).o4).toEqual(["ease-and-convenience"]);
     });
-    it("starts O4 from the buyer's outcome saved on Positioning before 2026-11-08 (O4 owns it now), through the crosswalk, after the differentiation's ticks (doc 34, 5.2a)", () => {
+    it("starts O4 from the buyer's outcome saved on Positioning before 2026-11-08 (O4 owns it now), through the crosswalk, after the differentiation's ticks (Research 3, 5.2a)", () => {
         // (Every outcome has its value in O4's list already: O4 needed no new option.)
         const values = offeringOptions("o4", { type: "Product" }).map(option => option.id);
         for (const outcome of OUTCOME_IDS) {
@@ -51,7 +51,7 @@ describe("the Offering's questions (doc 43; owner, 2026-11-07)", () => {
     });
 });
 
-describe("the Value Proposition's draft and open items (doc 42)", () => {
+describe("the Value Proposition's draft and open items (Questions 15)", () => {
     it("writes the draft with the highest-rated goal and frustration, the form and the main benefit, and the clear opening", () => {
         const offering = segment.offerings[0];
         const answers = offeringShown(offering.questions ?? {}, { type: "Service", worries: ["the-price-or-their-budget", "whether-it-fits-their-needs"] });
@@ -176,7 +176,7 @@ describe("the Offering's boxes", () => {
         // (O6 and O20 before O15, which starts from them: 1.7, the second batch of the review; owner, 2026-11-18 00:46.)
         expect(OFFERING_BOX_QUESTIONS.delivery).toEqual(["o2", "o3", "o3t", "o6", "o20", "o21", "o22", "o15"]);
     });
-    it("asks O24 of a physical product only where the activity code does not say what it is; None of these stands alone (doc 53, stage 4)", () => {
+    it("asks O24 of a physical product only where the activity code does not say what it is; None of these stands alone (Questions 10, stage 4)", () => {
         expect(offeringAsks("o24", { type: "Product", country: "GB", activityCode: "13921" }, { o1: ["physical"] })).toBe(true);
         expect(offeringAsks("o24", { type: "Product", country: "GB", activityCode: "10710" }, { o1: ["physical"] })).toBe(false);
         expect(offeringAsks("o24", { type: "Product", country: "GB" }, { o1: ["digital"] })).toBe(false);

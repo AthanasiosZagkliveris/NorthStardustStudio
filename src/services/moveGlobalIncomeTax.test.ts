@@ -3,7 +3,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 import { OrganizationService } from "./OrganizationService";
 import { moveGlobalIncomeTax } from "./storageMigrations";
 
-/* THE INCOME TAX RATE HAS ONE OWNER, Page 4's Plan Settings (doc 5, section 5.5.6): a rate saved in the Global Settings is moved there once. */
+/* THE INCOME TAX RATE HAS ONE OWNER, Page 4's Plan Settings (Records 2, section 5.5.6): a rate saved in the Global Settings is moved there once. */
 beforeEach(() => {
     OrganizationService.flushPendingWrites();
     localStorage.clear();

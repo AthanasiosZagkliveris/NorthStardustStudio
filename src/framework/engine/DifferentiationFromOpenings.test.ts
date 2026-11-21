@@ -4,7 +4,7 @@ import { differentiationFromOpenings, openingDifferentiation } from "./choices/C
 import { effectiveSegmentAnswers } from "./answers/EffectiveAnswers";
 import type { SegmentIdentity } from "./SegmentContext";
 
-/* K10 → K14 (doc 41, 2026-11-09): the openings ticked on a Segment's Competitors start its Differentiation, through the crosswalk; a saved K14 wins. */
+/* K10 → K14 (Questions 14, 2026-11-09): the openings ticked on a Segment's Competitors start its Differentiation, through the crosswalk; a saved K14 wins. */
 
 const people: SegmentIdentity = { relationships: ["b2c"], marketType: "single", audience: ["adult"], stage: "grow" };
 

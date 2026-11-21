@@ -174,7 +174,7 @@ export function renderLegalEntity(scope: AnswerScope) {
 
         <LegalEntityEditor
             value={value}
-            // (Whether anyone on the payroll is paid, for the PAYE registration the app makes: doc 53, GB10.)
+            // (Whether anyone on the payroll is paid, for the PAYE registration the app makes: Questions 10, GB10.)
             paysAnyone={paysAnyone(businessCapability)}
             prefill={legalEntityPrefill}
             foundersProfile={foundersProfile}

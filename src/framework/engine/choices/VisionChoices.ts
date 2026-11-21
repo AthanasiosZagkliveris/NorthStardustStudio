@@ -2,13 +2,13 @@ import { SEGMENT_QUESTIONS } from "./SegmentQuestions.ts";
 import { asText } from "../answers/Readers.ts";
 
 /*
-    THE VISION'S TWO CHOICES, PB7 AND PB8 (doc 45, section 3.8; owner, 2026-11-12, D1 and D21; built 2026-11-19, the owner's approved plan of 2026-11-18, §3, B2):
+    THE VISION'S TWO CHOICES, PB7 AND PB8 (Questions 9, section 3.8; owner, 2026-11-12, D1 and D21; built 2026-11-19, the owner's approved plan of 2026-11-18, §3, B2):
     in the Mission & Vision dialog, in the Vision's column, under its text, one question per band. PB7: what the business will be when the Vision comes true
     (ticks, 3 max), each option putting a Strategic Theme first. PB8: where its customers will be (one choice), sharing the Segment's reach ids and rank (D21),
     the Segment's widest answer shown under it. Saved in the Identity System's Definition (section 1) as `visionAmbitions` and `visionReach`.
 */
 
-/** PB7's options: each the Theme it puts first and its phrase for the Business Plan (doc 45, 3.8). */
+/** PB7's options: each the Theme it puts first and its phrase for the Business Plan (Questions 9, 3.8). */
 export const VISION_AMBITIONS = [
     { id: "customers", label: "Serving a large, growing customer base", theme: "Growth & Market", phrase: "serving a large, growing customer base" },
     { id: "loved", label: "Loved & recommended by its customers", theme: "Customers & Experience", phrase: "recommended by loyal customers" },
@@ -19,7 +19,7 @@ export const VISION_AMBITIONS = [
     { id: "partners", label: "Working closely with strong partners", theme: "Partnerships & Expansion", phrase: "working closely with strong partners" }
 ] as const;
 
-/** PB8's options, with the rank they share with the Segment's reach (D21) and the Business Plan's phrase (doc 45, 3.8). */
+/** PB8's options, with the rank they share with the Segment's reach (D21) and the Business Plan's phrase (Questions 9, 3.8). */
 export const VISION_REACH = [
     { id: "city", rank: 1, label: "In my city / town", phrase: "in our city / town" },
     { id: "region", rank: 2, label: "In my state / region", phrase: "across our state / region" },
@@ -31,7 +31,7 @@ export const VISION_REACH = [
 /** The most PB7 takes. */
 export const VISION_AMBITIONS_MAX = 3;
 
-/** The rank of a reach, the Vision's or a Segment's: the Segment's "Anywhere online" stands level with Worldwide (doc 45, 3.8). */
+/** The rank of a reach, the Vision's or a Segment's: the Segment's "Anywhere online" stands level with Worldwide (Questions 9, 3.8). */
 export function reachRank(id: string): number {
     return id === "online" ? 5 : VISION_REACH.find(entry => entry.id === id)?.rank ?? 0;
 }
@@ -65,7 +65,7 @@ export function widestSegmentReach(segments: readonly { name: string; questions?
     return best;
 }
 
-/** The Business Plan's sentence (doc 45, 3.8): "When our Vision comes true, the business will be [PB7 phrases, joined with commas and 'and'], with customers [PB8 phrase]."
+/** The Business Plan's sentence (Questions 9, 3.8): "When our Vision comes true, the business will be [PB7 phrases, joined with commas and 'and'], with customers [PB8 phrase]."
     It needs PB7 (the doc gives no sentence without it): "" until then; PB8's clause where it is answered. */
 export function visionChoicesSentence(ambitions: readonly string[], reach: string): string {
     const phrases = ambitions.map(id => VISION_AMBITIONS.find(entry => entry.id === id)?.phrase ?? "").filter(Boolean);

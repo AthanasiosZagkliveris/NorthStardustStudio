@@ -1,9 +1,9 @@
 /**
- * THE QUESTIONS REGISTER (doc 44): every question of the Foundation's cards, card by card in page order and box by box in the card's order, with its position,
+ * THE QUESTIONS REGISTER (Questions 6): every question of the Foundation's cards, card by card in page order and box by box in the card's order, with its position,
  * its permanent code, the key it is saved under, its words, its control, its limit, when it is asked, its starting value, its options and its "i".
  *
- *   node tools/scripts/docs/questions-register.mjs           write docs/design/questions/44-questions-register.md (npm run docs:index runs it)
- *   node tools/scripts/docs/questions-register.mjs --check   write nothing; fail when doc 44 differs from the code, or when a questionnaire
+ *   node tools/scripts/docs/questions-register.mjs           write docs/design/questions/06-questions-register.md (npm run docs:index runs it)
+ *   node tools/scripts/docs/questions-register.mjs --check   write nothing; fail when Questions 6 differs from the code, or when a questionnaire
  *                                                             document (27 to 43) cites a question code the register does not know
  *
  * The words, options, limits and "i" texts are read from the code itself: the engine files (`src/framework/engine/*Questions.ts`) and, for the
@@ -20,7 +20,7 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 import { build } from "esbuild";
 
 const R = fileURLToPath(new URL("../../../", import.meta.url));
-const OUT = "docs/design/questions/44-questions-register.md";
+const OUT = "docs/design/questions/06-questions-register.md";
 const SCRIPT = "tools/scripts/docs/questions-register.mjs";
 const SOURCES = [
     "src/framework/engine/choices/SegmentQuestions.ts",
@@ -30,7 +30,7 @@ const SOURCES = [
     "src/components/interview/editors/legal/shared.tsx",
     "src/components/interview/editors/foundation/shared.tsx"
 ];
-/** The line of doc 44 that names the commit it reflects: docs:check does not compare it (it moves with every commit to the sources). */
+/** The line of Questions 6 that names the commit it reflects: docs:check does not compare it (it moves with every commit to the sources). */
 const REFLECTS = "Reflects the code at commit ";
 
 /* ---------------------------------------------------------------------------------------------------------------------------------------------
@@ -45,7 +45,7 @@ const ORGANISATION = [
     { box: "left", code: "3", id: "organisation.country", label: "Other country", control: "OptionPicker (searchable)", asked: "Country is Other", options: "every country but the six" },
     { box: "left", code: "4", id: "organisation.subdivision", label: "State or Region (the country's own word)", control: "OptionPicker (searchable)", asked: "the country has a subdivision that changes an answer (registry, tax); frozen until the country is chosen", options: "the country's subdivisions, then Other" },
     { box: "left", code: "5", id: "organisation.addressLine1", label: "Address", control: "StrategyTextArea", asked: "a country is chosen, and its State or Region where that is asked", options: "none (placeholder: the lines in the country's words)" },
-    { box: "right", code: "6", id: "organisation.legalForm", label: "Legal Form", control: "OptionPicker", asked: "a country is chosen (frozen until then)", options: "the country's legal forms (doc 34), or the four generic forms", info: "legalForm" },
+    { box: "right", code: "6", id: "organisation.legalForm", label: "Legal Form", control: "OptionPicker", asked: "a country is chosen (frozen until then)", options: "the country's legal forms (Research 3), or the four generic forms", info: "legalForm" },
     { box: "right", code: "7", id: "organisation.legalFormOther", label: "Name the legal form", control: "text cell", asked: "the saved legal form is Other (an older answer only)", options: "none" },
     { box: "right", code: "8", id: "formation.date", label: "Registration Date", control: "DateCellInput", asked: "always, except a sole trader or sole proprietorship in the six countries", options: "a date, not later than today", info: "registrationDate" },
     { box: "right", code: "9", id: "`openingDate` (Global Settings)", label: "Opening Date", control: "DateCellInput", asked: "always", options: "a date", info: "openingDate" },
@@ -67,12 +67,12 @@ const POSITIONING = [
 const POSITIONING_BOXES = { left: "The left column: the relationship, then the consumer buyer (B2C), or the one relationship chosen", right: "The right column: the business buyer (B2B) when both are chosen, then what is offered", under: "Under both columns" };
 /** Positioning's questions that left the tile (owner, 2026-11-08: "Move all three"): their saved keys stay readable, and each old answer starts its new place. */
 const POSITIONING_RETIRED = [
-    ["8", "Differentiation (`organisation.differentiation`)", "moved to the Segment's own section Differentiation, once per Segment after its Competitors: K14 (doc 41); the old answer is its start"],
-    ["9", "Outcome for the buyer (`organisation.outcome`)", "moved to the Offering's O4, its one owner, through the crosswalk (doc 34, 5.2a; doc 43); the old answer starts O4's ticks"],
-    ["10", "Outcome for the end user (`organisation.outcomeUser`)", "moved to the Segment's End user part (End user, 9), then to each Profile's end-user part: E4 (doc 36, 2.1; 2026-11-08); the old answer is its start"]
+    ["8", "Differentiation (`organisation.differentiation`)", "moved to the Segment's own section Differentiation, once per Segment after its Competitors: K14 (Questions 14); the old answer is its start"],
+    ["9", "Outcome for the buyer (`organisation.outcome`)", "moved to the Offering's O4, its one owner, through the crosswalk (Research 3, 5.2a; Questions 16); the old answer starts O4's ticks"],
+    ["10", "Outcome for the end user (`organisation.outcomeUser`)", "moved to the Segment's End user part (End user, 9), then to each Profile's end-user part: E4 (Questions 13, 2.1; 2026-11-08); the old answer is its start"]
 ];
 
-/** The Segment (doc 35): saved id -> [code, asked when, starts]. The code of a box's question is "Box N, M"; the end user's, "End user, M". */
+/** The Segment (Questions 12): saved id -> [code, asked when, starts]. The code of a box's question is "Box N, M"; the end user's, "End user, M". */
 const SEGMENT_CODES = {
     kind: ["Box 1, 0", "Positioning chose both B2C and B2B, and this is the third Segment or a later one"],
     age: ["Box 1, 1", "the buyer is people; the terms follow the buyer's life stage (Positioning 3)"],
@@ -112,18 +112,18 @@ const SEGMENT_CODES = {
     "u-comfort": ["End user, 8", "an end user who is not a Baby"]
 };
 /** The Segment's question asked once in its Competitors column (box `competitors`): listed under the Competitor card, as K14. */
-const SEGMENT_ON_COMPETITOR = { differentiation: ["K14", "once per Segment, in its own section Differentiation after its Competitor cards (moved from Positioning 8, 2026-11-08); the options K10's ticks argue for first (the crosswalk, doc 41), then Positioning's order as built", "Positioning's answer saved before 2026-11-08 (`organisation.differentiation`), else the K10 ticks across the Segment's competitors through the crosswalk (doc 41; 2026-11-09), within the stage's limit; a saved answer wins"] };
+const SEGMENT_ON_COMPETITOR = { differentiation: ["K14", "once per Segment, in its own section Differentiation after its Competitor cards (moved from Positioning 8, 2026-11-08); the options K10's ticks argue for first (the crosswalk, Questions 14), then Positioning's order as built", "Positioning's answer saved before 2026-11-08 (`organisation.differentiation`), else the K10 ticks across the Segment's competitors through the crosswalk (Questions 14; 2026-11-09), within the stage's limit; a saved answer wins"] };
 /** The Segment's questions that moved on (owner, 2026-11-08): the saved key stays readable and settled, as the start of its new place. */
 const SEGMENT_RETIRED = [
-    { code: "End user, 3", was: "Are your customers working? (`u-work`)", by: "nothing reads it: retired (owner, 2026-11-17)", owner: "doc 35, The end user" },
-    { code: "End user, 4", was: "Why are your customers not working? (`u-work2`)", by: "nothing reads it: retired (owner, 2026-11-17)", owner: "doc 35, The end user" },
-    { code: "End user, 5", was: "What kind of work do your customers do? (`u-job`)", by: "nothing reads it: retired (owner, 2026-11-17)", owner: "doc 35, The end user" },
-    { code: "End user, 6", was: "What kind of organisation are their clients? (`u-orgtype`)", by: "nothing reads it: retired (owner, 2026-11-17)", owner: "doc 35, The end user" },
-    { code: "End user, 7", was: "How big are their clients' organisations? (`u-size`)", by: "nothing reads it: retired (owner, 2026-11-17)", owner: "doc 35, The end user" },
-    { code: "End user, 9", was: "Outcome for the end user (`u-outcome`; Positioning 10 until 2026-11-08)", by: "each Profile's end-user part: E4 (doc 36, 2.1; 2026-11-08); the Segment's saved answer is its start", owner: "doc 35, The end user" }
+    { code: "End user, 3", was: "Are your customers working? (`u-work`)", by: "nothing reads it: retired (owner, 2026-11-17)", owner: "Questions 12, The end user" },
+    { code: "End user, 4", was: "Why are your customers not working? (`u-work2`)", by: "nothing reads it: retired (owner, 2026-11-17)", owner: "Questions 12, The end user" },
+    { code: "End user, 5", was: "What kind of work do your customers do? (`u-job`)", by: "nothing reads it: retired (owner, 2026-11-17)", owner: "Questions 12, The end user" },
+    { code: "End user, 6", was: "What kind of organisation are their clients? (`u-orgtype`)", by: "nothing reads it: retired (owner, 2026-11-17)", owner: "Questions 12, The end user" },
+    { code: "End user, 7", was: "How big are their clients' organisations? (`u-size`)", by: "nothing reads it: retired (owner, 2026-11-17)", owner: "Questions 12, The end user" },
+    { code: "End user, 9", was: "Outcome for the end user (`u-outcome`; Positioning 10 until 2026-11-08)", by: "each Profile's end-user part: E4 (Questions 13, 2.1; 2026-11-08); the Segment's saved answer is its start", owner: "Questions 12, The end user" }
 ];
 
-/** The Profile (doc 36): saved id -> [code, asked when, starts]. A3 and A3b, and the people's and the business's Needs, are one place on the card. */
+/** The Profile (Questions 13): saved id -> [code, asked when, starts]. A3 and A3b, and the people's and the business's Needs, are one place on the card. */
 const PROFILE_CODES = {
     a2: ["A2", "a people Segment whose gender mix is answered and is not 3 (balanced)", "Man where the Segment's gender mix is 1 or 2, Woman where it is 4 or 5"],
     a1: ["A1", "always (held to the Segment's age group)"],
@@ -149,7 +149,7 @@ const PROFILE_CODES = {
     "social-b2b": ["N5", "a business Segment; in the end user's part where it has one", "", "social"]
 };
 /**
- * The end user's own questions (doc 36, 2.1; owner, 2026-11-08), saved under `user.questions` on the Profile: saved id -> [code, asked when, starts]. A question the buyer's part
+ * The end user's own questions (Questions 13, 2.1; owner, 2026-11-08), saved under `user.questions` on the Profile: saved id -> [code, asked when, starts]. A question the buyer's part
  * asks too keeps its code with the part after it ("A1 (end user)"); a question of the end user's only takes the next free code of its letter (A8, E4). Codes are permanent.
  */
 const PROFILE_USER_CODES = {
@@ -166,7 +166,7 @@ const PROFILE_NOT_BUILT = [
     ["A6c", "personal", "Do they balance high-intensity caregiving or family life roles?", "one choice", "the A6 tick is ticked", "a5"],
     ["A6d", "personal", "What is their household or caregiving structure?", "ticks (2 max)", "A6c is any Yes", "a5"]
 ];
-/** Codes the documents list as dropped or merged (doc 36, section 8: the codes of doc 28's Profile). */
+/** Codes the documents list as dropped or merged (Questions 13, section 8: the codes of Questions 2's Profile). */
 const PROFILE_RETIRED = [
     ["P11", "Where do they look (channel categories)", "split into C2, C3 and C4"],
     ["P13", "How do they usually buy", "the Segment asks it (Box 4, 7)"],
@@ -179,7 +179,7 @@ const PROFILE_RETIRED = [
 const PROFILE_BOX_TITLES = { goals: "Goals & Desires", challenges: "Challenges & Problems", objections: "Objections", needs: "Needs" };
 const PROFILE_SECTION = { personal: "3", psychographics: "4", hubs: "5", habits: "6", goals: "7", challenges: "7", objections: "7", needs: "10" };
 
-/** The Competitor (doc 41): the box of each question (as the card asks them: `PART_QUESTIONS` in `CompetitorCard.tsx`), the code is the id in capitals. */
+/** The Competitor (Questions 14): the box of each question (as the card asks them: `PART_QUESTIONS` in `CompetitorCard.tsx`), the code is the id in capitals. */
 const COMPETITOR_BOXES = [
     ["offerings", ["k1", "k15"]], ["market", ["k2", "k3", "k4"]], ["acquisition", ["k5"]], ["experience", ["k6", "k7"]],
     ["swot", ["k8", "k9"]], ["insights", ["k10"]]
@@ -194,7 +194,7 @@ const COMPETITOR_RETIRED = [
     ["K13", "What could you do differently? (its first number, 2026-11-04)", "K10 (renumbered before codes were permanent)"]
 ];
 
-/** The Offering (doc 43): saved id -> [code, asked when, starts]. */
+/** The Offering (Questions 16): saved id -> [code, asked when, starts]. */
 const OFFERING_CODES = {
     o1: ["O1", "the Type is chosen (the forms follow it)"],
     o2: ["O2", "always", "from the business stage: Planning, Still being built; Launching to Growing, Yes, now"],
@@ -214,7 +214,7 @@ const OFFERING_CODES = {
     o21: ["O21", "O6 has Sent automatically online or Sent by you online; ends in Other, written in as a numbered list"],
     o22: ["O22", "O6 has In a live online session; ends in Other, written in as a numbered list"],
     o23: ["O23", "always from Launching; held back while Planning, its saved answer kept (owner, 2026-11-16 16:31); Only when they get in touch stands alone; ends in Other, written in as a numbered list"],
-    o24: ["O24", "a Product or a Hybrid that is a physical item, and only where the activity code does not say what it is (doc 53, stage 4; owner, 2026-11-19 20:59 UTC+2); None of these stands alone"]
+    o24: ["O24", "a Product or a Hybrid that is a physical item, and only where the activity code does not say what it is (Questions 10, stage 4; owner, 2026-11-19 20:59 UTC+2); None of these stands alone"]
 };
 const OFFERING_NOT_BUILT = [
     ["O12", "Is a minimum age to buy it set by law?", "no longer a question: a derived Review item from the activities and the country (proposed, owner 2026-11-06)"]
@@ -222,64 +222,64 @@ const OFFERING_NOT_BUILT = [
 const OFFERING_RETIRED = [
     ["O5", "Benefits (merged)", "O4 (merged 2026-10-26)"],
     ["O9", "What else is included", "the Content & Scope Notes, and O14"],
-    ["O11", "What they spend on (doc 28, 6.8)", "not asked: nothing would read it (kept as a thought)"],
-    ["O13", "What job does it do for them?", "the Profile's Functional need (doc 36, section 10) and Functional Needs Addressed (retired 2026-11-07)"]
+    ["O11", "What they spend on (Questions 2, 6.8)", "not asked: nothing would read it (kept as a thought)"],
+    ["O13", "What job does it do for them?", "the Profile's Functional need (Questions 13, section 10) and Functional Needs Addressed (retired 2026-11-07)"]
 ];
 
 /**
  * RESERVED CODES (B2, the owner's approved plan of 2026-11-18, §3; registered before they are built, so their codes are fixed): the Identity System's Purpose &
- * Beliefs (doc 45, section 5), the Brand System's Ambassador (doc 46, section 7), the Strategy System's SWOT and Strategic Compass (doc 49, section 4) and
- * the Financials' price and funding questions (doc 48, sections 4 and 12.2). Each
+ * Beliefs (Questions 9, section 5), the Brand System's Ambassador (Questions 11, section 7), the Strategy System's SWOT and Strategic Compass (Questions 21, section 4) and
+ * the Financials' price and funding questions (Questions 20, sections 4 and 12.2). Each
  * leaves this list for its card's map when it is built. [code, the question or text, the key it is saved under, the owner].
  */
 const RESERVED = [
-    ["PB1", "Mission", "Identity, section 1, `mission`", "doc 45, 5"],
-    ["PB2", "Vision", "Identity, section 1, `vision`", "doc 45, 5"],
-    ["PB3", "Values", "Identity, section 2, `values`", "doc 45, 5"],
-    ["PB4", "Principles", "Identity, section 2, `principles`", "doc 45, 5"],
-    ["PB5", "Philosophy", "Identity, section 2, `philosophy`", "doc 45, 5"],
-    ["PB6", "Manifesto", "Identity, section 2, `manifesto`", "doc 45, 5"],
-    ["PB7", "What will your business be when your Vision comes true?", "Identity, section 1, `visionAmbitions`", "doc 45, 3.8", "built 2026-11-19 (`VisionChoices.ts`)"],
-    ["PB8", "Where will your customers be?", "Identity, section 1, `visionReach`", "doc 45, 3.8", "built 2026-11-19 (`VisionChoices.ts`)"],
-    ["BA1", "Which character fits your Ambassador best?", "Brand, `ambassador.character`", "doc 46, 2", "built 2026-11-19 (`AmbassadorChoices.ts`)"],
-    ["BA2", "How does your Ambassador dress?", "Brand, `ambassador.dress`", "doc 46, 2", "built 2026-11-19 (`AmbassadorChoices.ts`)"],
-    ["BA3", "What surroundings suit your Ambassador?", "Brand, `ambassador.setting`", "doc 46, 2", "built 2026-11-19 (`AmbassadorChoices.ts`)"],
-    ["BA4", "How does your Ambassador come across?", "Brand, `ambassador.energy`, `ambassador.expression`", "doc 46, 2", "built 2026-11-19 (`AmbassadorChoices.ts`)"],
-    ["BA6", "What tone does your Ambassador use?", "Brand, `ambassador.tone`", "doc 46, 2", "built 2026-11-19 (`AmbassadorChoices.ts`)"],
-    ["BA7", "Which words suit your customers?", "Brand, `ambassador.words`", "doc 46, 2", "built 2026-11-19 (`AmbassadorChoices.ts`)"],
-    ["BA8", "How should people feel when they first meet your brand?", "Brand, `ambassador.feeling`", "doc 46, 2", "built 2026-11-19 (`AmbassadorChoices.ts`)"],
-    ["BA9", "What should people remember you for?", "Brand, `ambassador.remembered`", "doc 46, 2", "built 2026-11-19 (`AmbassadorChoices.ts`)"],
-    ["SW1", "How could these changes affect you?", "Strategy, `strategyFoundation.changeEffects`", "doc 49, 4", "built 2026-11-19 (`StrategyChoices.ts`)"],
-    ["SC1", "What will this period's strategy mainly do?", "Strategy, `strategyFoundation.stance`", "doc 49, 4", "built 2026-11-19 (`StrategyChoices.ts`)"],
-    ["SC2", "Where will growth come from in this period?", "Strategy, `strategyFoundation.growth`", "doc 49, 4", "built 2026-11-19 (`StrategyChoices.ts`)"],
-    ["SC3", "Which Segment comes first?", "Strategy, `strategyFoundation.firstSegmentId`", "doc 49, 4", "built 2026-11-19 (`StrategyChoices.ts`)"],
-    ["LF2", "Is your work a regulated profession?", "Identity, Definition, `organisation.regulatedProfession`", "doc 53, 6", "built 2026-11-19 (`LegalFacts.ts`; only where no activity code is given)"],
-    ["LF3", "Is this person part of your family?", "Business, a paid Staff card, `family`", "doc 53, 6", "built 2026-11-19 (`LegalFacts.ts`; a business that is not a company only, HSE40)"],
-    ["PB10", "Who do you serve first?", "Identity, section 1, `missionServes`", "doc 45, 8", "built 2026-11-20 (approved 22:08 UTC+2)"],
-    ["PB11", "What do you offer them?", "Identity, section 1, `missionOffers`", "doc 45, 8", "built 2026-11-20 (approved 22:08 UTC+2)"],
-    ["PB12", "What do they gain?", "Identity, section 1, `missionGains`", "doc 45, 8", "built 2026-11-20 (approved 22:08 UTC+2)"],
-    ["PB13", "What matters most in how you work?", "Identity, section 2, `valueKinds`", "doc 45, 8", "built 2026-11-20 (approved 22:08 UTC+2, option A)"],
-    ["SW2", "Which of these fit you?", "Strategy, the quadrant's list, `strategyFoundation.swot`", "doc 49, 10", "built 2026-11-20 (approved 22:08 UTC+2)"],
-    ["K16", "Which of the Profile's needs do they meet?", "Business, a Competitor card, `k16`", "doc 41, K16; doc 48, 15.3", "built 2026-11-21 (`CompetitorQuestions.ts`, `CompetitorCard.tsx`)"]
+    ["PB1", "Mission", "Identity, section 1, `mission`", "Questions 9, 5"],
+    ["PB2", "Vision", "Identity, section 1, `vision`", "Questions 9, 5"],
+    ["PB3", "Values", "Identity, section 2, `values`", "Questions 9, 5"],
+    ["PB4", "Principles", "Identity, section 2, `principles`", "Questions 9, 5"],
+    ["PB5", "Philosophy", "Identity, section 2, `philosophy`", "Questions 9, 5"],
+    ["PB6", "Manifesto", "Identity, section 2, `manifesto`", "Questions 9, 5"],
+    ["PB7", "What will your business be when your Vision comes true?", "Identity, section 1, `visionAmbitions`", "Questions 9, 3.8", "built 2026-11-19 (`VisionChoices.ts`)"],
+    ["PB8", "Where will your customers be?", "Identity, section 1, `visionReach`", "Questions 9, 3.8", "built 2026-11-19 (`VisionChoices.ts`)"],
+    ["BA1", "Which character fits your Ambassador best?", "Brand, `ambassador.character`", "Questions 11, 2", "built 2026-11-19 (`AmbassadorChoices.ts`)"],
+    ["BA2", "How does your Ambassador dress?", "Brand, `ambassador.dress`", "Questions 11, 2", "built 2026-11-19 (`AmbassadorChoices.ts`)"],
+    ["BA3", "What surroundings suit your Ambassador?", "Brand, `ambassador.setting`", "Questions 11, 2", "built 2026-11-19 (`AmbassadorChoices.ts`)"],
+    ["BA4", "How does your Ambassador come across?", "Brand, `ambassador.energy`, `ambassador.expression`", "Questions 11, 2", "built 2026-11-19 (`AmbassadorChoices.ts`)"],
+    ["BA6", "What tone does your Ambassador use?", "Brand, `ambassador.tone`", "Questions 11, 2", "built 2026-11-19 (`AmbassadorChoices.ts`)"],
+    ["BA7", "Which words suit your customers?", "Brand, `ambassador.words`", "Questions 11, 2", "built 2026-11-19 (`AmbassadorChoices.ts`)"],
+    ["BA8", "How should people feel when they first meet your brand?", "Brand, `ambassador.feeling`", "Questions 11, 2", "built 2026-11-19 (`AmbassadorChoices.ts`)"],
+    ["BA9", "What should people remember you for?", "Brand, `ambassador.remembered`", "Questions 11, 2", "built 2026-11-19 (`AmbassadorChoices.ts`)"],
+    ["SW1", "How could these changes affect you?", "Strategy, `strategyFoundation.changeEffects`", "Questions 21, 4", "built 2026-11-19 (`StrategyChoices.ts`)"],
+    ["SC1", "What will this period's strategy mainly do?", "Strategy, `strategyFoundation.stance`", "Questions 21, 4", "built 2026-11-19 (`StrategyChoices.ts`)"],
+    ["SC2", "Where will growth come from in this period?", "Strategy, `strategyFoundation.growth`", "Questions 21, 4", "built 2026-11-19 (`StrategyChoices.ts`)"],
+    ["SC3", "Which Segment comes first?", "Strategy, `strategyFoundation.firstSegmentId`", "Questions 21, 4", "built 2026-11-19 (`StrategyChoices.ts`)"],
+    ["LF2", "Is your work a regulated profession?", "Identity, Definition, `organisation.regulatedProfession`", "Questions 10, 6", "built 2026-11-19 (`LegalFacts.ts`; only where no activity code is given)"],
+    ["LF3", "Is this person part of your family?", "Business, a paid Staff card, `family`", "Questions 10, 6", "built 2026-11-19 (`LegalFacts.ts`; a business that is not a company only, HSE40)"],
+    ["PB10", "Who do you serve first?", "Identity, section 1, `missionServes`", "Questions 9, 8", "built 2026-11-20 (approved 22:08 UTC+2)"],
+    ["PB11", "What do you offer them?", "Identity, section 1, `missionOffers`", "Questions 9, 8", "built 2026-11-20 (approved 22:08 UTC+2)"],
+    ["PB12", "What do they gain?", "Identity, section 1, `missionGains`", "Questions 9, 8", "built 2026-11-20 (approved 22:08 UTC+2)"],
+    ["PB13", "What matters most in how you work?", "Identity, section 2, `valueKinds`", "Questions 9, 8", "built 2026-11-20 (approved 22:08 UTC+2, option A)"],
+    ["SW2", "Which of these fit you?", "Strategy, the quadrant's list, `strategyFoundation.swot`", "Questions 21, 10", "built 2026-11-20 (approved 22:08 UTC+2)"],
+    ["K16", "Which of the Profile's needs do they meet?", "Business, a Competitor card, `k16`", "Questions 14, K16; Questions 20, 15.3", "built 2026-11-21 (`CompetitorQuestions.ts`, `CompetitorCard.tsx`)"]
 ];
 /** Codes withdrawn before they were ever registered: kept so they are never reused. [code, what it asked, why]. */
 const RESERVED_WITHDRAWN = [
-    ["BA5", "How close does the business stay to its customers?", "withdrawn 2026-11-12 before registration: the relationship type (J3, doc 47) answers it (doc 46, 7)"],
-    ["LF4", "What do you keep people's details for?", "withdrawn 2026-11-19 21:44 UTC+2 before release: the ICO suggestion names the exemption itself, so the question added nothing (owner: \"What is the point of the: What do you keep people's details for?\"; doc 53, 6)"]
+    ["BA5", "How close does the business stay to its customers?", "withdrawn 2026-11-12 before registration: the relationship type (J3, Questions 17) answers it (Questions 11, 7)"],
+    ["LF4", "What do you keep people's details for?", "withdrawn 2026-11-19 21:44 UTC+2 before release: the ICO suggestion names the exemption itself, so the question added nothing (owner: \"What is the point of the: What do you keep people's details for?\"; Questions 10, 6)"]
 ];
 
 /** False positives of the citation check: a token in a questionnaire document that looks like a question code and is not one. [doc number, token, why]. */
 const CITATION_ALLOW = [
-    ["28", "C5", "doc 28's own earlier ids (the withdrawn list of 2026-10-26), not a Profile code"],
-    ["29", "C5", "doc 29's earlier founder question (\"Do you plan to hire?\", merged into its C4), not a Profile code"],
-    ["43", "O19", "a proposed code, placed in Revenue & Pricing (doc 48, 12.2; owner, 2026-11-17 07:16): it enters the register when built"],
-    ["47", "O19", "the same proposed code (doc 48, 12.2)"],
-    ["48", "O19", "the same proposed code (doc 48, 12.2)"],
-    ["49", "O19", "the same proposed code (doc 48, 12.2)"],
-    ["27", "O19", "the same proposed code (doc 48, 12.2), in the order of work moved here from doc 49, section 8"],
-    ["27", "D4", "the owner's decision D4 of the order of work (moved from doc 49, section 8), not a Profile code"],
-    ["27", "D6", "the owner's decision D6 of the order of work (moved from doc 49, section 8), not a Profile code"],
-    ["49", "PB9", "a proposed code (doc 49, section 9, P3, waiting for the owner): it enters the register when built"]
+    ["questions/02-questionnaire-specification.md", "C5", "Questions 2's own earlier ids (the withdrawn list of 2026-10-26), not a Profile code"],
+    ["questions/03-question-guide.md", "C5", "Questions 3's earlier founder question (\"Do you plan to hire?\", merged into its C4), not a Profile code"],
+    ["questions/16-offering-questions.md", "O19", "a proposed code, placed in Revenue & Pricing (Questions 20, 12.2; owner, 2026-11-17 07:16): it enters the register when built"],
+    ["questions/17-customer-engagement.md", "O19", "the same proposed code (Questions 20, 12.2)"],
+    ["questions/20-financials-and-inventory.md", "O19", "the same proposed code (Questions 20, 12.2)"],
+    ["questions/21-strategy.md", "O19", "the same proposed code (Questions 20, 12.2)"],
+    ["questions/01-questionnaire-plan.md", "O19", "the same proposed code (Questions 20, 12.2), in the order of work moved here from Questions 21, section 8"],
+    ["questions/01-questionnaire-plan.md", "D4", "the owner's decision D4 of the order of work (moved from Questions 21, section 8), not a Profile code"],
+    ["questions/01-questionnaire-plan.md", "D6", "the owner's decision D6 of the order of work (moved from Questions 21, section 8), not a Profile code"],
+    ["questions/21-strategy.md", "PB9", "a proposed code (Questions 21, section 9, P3, waiting for the owner): it enters the register when built"]
 ];
 
 /* --------------------------------------------------------------------------------------------------------------------------------------------- */
@@ -338,7 +338,7 @@ function rows(code) {
                 title,
                 questions: ORGANISATION.filter(entry => entry.box === box).map(entry => ({
                     code: entry.code, id: entry.id, label: entry.label, control: entry.control, max: "", asked: entry.asked, starts: entry.starts ?? "",
-                    status: "built", owner: "doc 37, " + entry.code,
+                    status: "built", owner: "Questions 7, " + entry.code,
                     options: entry.options === "countries" ? countries : entry.options, info: info(entry.info)
                 }))
             }))
@@ -359,11 +359,11 @@ function rows(code) {
                 questions: POSITIONING.filter(entry => entry.box === box).map(entry => ({
                     code: entry.code, id: entry.id, label: entry.label,
                     control: entry.limit === "note" ? "OptionalNote" : entry.limit === "one" ? "RadioChoice" : "RadioChoice at 1, BusinessTicks above",
-                    max: limits(entry.limit), asked: entry.asked, starts: "", status: "built", owner: "doc 38, " + entry.code,
+                    max: limits(entry.limit), asked: entry.asked, starts: "", status: "built", owner: "Questions 8, " + entry.code,
                     options: optionsOf(entry.options), info: entry.info ? L.INFO[entry.info].map(point) : ["none (the guidance on the statement is on the \"i\" of the dialog's title)"]
                 }))
             })),
-            retired: POSITIONING_RETIRED.map(([code, was, by]) => ({ code, was, by, owner: "doc 38, 8 to 10" }))
+            retired: POSITIONING_RETIRED.map(([code, was, by]) => ({ code, was, by, owner: "Questions 8, 8 to 10" }))
         });
     }
 
@@ -392,7 +392,7 @@ function rows(code) {
                     return {
                         code, id: question.id === "kind" ? "the Description's `" + F.OPTIONAL_DESCRIPTION_PART + "` key, present or not" : question.id,
                         label: question.label, control: moved ? "RadioChoice at 1, BusinessTicks above" : control(question, question.options), max: moved ? STAGES.map(([stage]) => L.choiceLimit(stage, "outcome") ?? "any").join(" / ") : question.max ?? "", asked, starts: starts ?? "",
-                        status: "built", owner: "doc 35, " + (box === "user" ? "The end user" : "Box " + boxNumber[box]), options, info: ratingInfo(question)
+                        status: "built", owner: "Questions 12, " + (box === "user" ? "The end user" : "Box " + boxNumber[box]), options, info: ratingInfo(question)
                     };
                 })
             })),
@@ -407,7 +407,7 @@ function rows(code) {
             ...Object.entries(PROFILE_BOX_TITLES)
         ];
         cards.push({
-            title: "Profile", where: "Business System, page 1, a Profile of a Segment; where the Segment's buyer is Proxy or Dual-Intent, in two parts, the buyer and the end user (doc 36, 2.1)", owner: "36",
+            title: "Profile", where: "Business System, page 1, a Profile of a Segment; where the Segment's buyer is Proxy or Dual-Intent, in two parts, the buyer and the end user (Questions 13, 2.1)", owner: "36",
             source: "`PROFILE_QUESTIONS` in `src/framework/engine/choices/ProfileQuestions.ts`; saved under `questions` on the Profile (a rating as `<id>-rating`, an Other as `<id>-other`). The words say \"this person\" until A2 is answered (`profileWho`). A3 and A3b, and the people's and the business's Needs, are one place on the card (one or the other is asked). Where the Segment has an end user, E1, E2 and the Needs stand in the end user's part (`profilePartOf`), written of the end user, the others in the buyer's; the end user's own questions (`PROFILE_USER_QUESTIONS`) are listed last, saved under `user.questions`",
             boxes: boxes.map(([box, title]) => {
                 const built = P.PROFILE_QUESTIONS.filter(question => question.box === box).map(question => {
@@ -416,12 +416,12 @@ function rows(code) {
                         : question.rating ? ratingOptions(question) : question.options.map(option => option.id === "other" && question.other ? "Other (written in)" : option.label).join("; ");
                     return {
                         code, id: question.id, label: P.profileWho(question.label), control: control(question, question.options), max: question.max ?? "", asked, starts: starts ?? "",
-                        status: "built", owner: "doc 36, " + (PROFILE_SECTION[box] === "10" ? "10" : code), options, info: ratingInfo(question), place, after: question.id
+                        status: "built", owner: "Questions 13, " + (PROFILE_SECTION[box] === "10" ? "10" : code), options, info: ratingInfo(question), place, after: question.id
                     };
                 });
                 for (const [code, inBox, label, kindOf, asked, after] of PROFILE_NOT_BUILT.filter(entry => entry[1] === box)) {
                     const at = built.findLastIndex(entry => entry.after === after || entry.notAfter === after);
-                    built.splice(at + 1, 0, { code, id: "–", label, control: kindOf, max: "", asked, starts: "", status: "not built", owner: "doc 36, " + code.slice(0, 2), notAfter: after, unplaced: true });
+                    built.splice(at + 1, 0, { code, id: "–", label, control: kindOf, max: "", asked, starts: "", status: "not built", owner: "Questions 13, " + code.slice(0, 2), notAfter: after, unplaced: true });
                 }
                 return { title, questions: built };
             }).concat([{
@@ -435,11 +435,11 @@ function rows(code) {
                         code, id: "`user.questions." + question.id + "`", label: P.profileUserWho(question.label),
                         control: outcome ? "RadioChoice at 1, BusinessTicks above" : control(question, question.options),
                         max: outcome ? STAGES.map(([stage]) => L.choiceLimit(stage, "outcome") ?? "any").join(" / ") : question.max ?? "", asked, starts: starts ?? "",
-                        status: "built", owner: "doc 36, 2.1", options, info: ratingInfo(question)
+                        status: "built", owner: "Questions 13, 2.1", options, info: ratingInfo(question)
                     };
                 })
             }]),
-            retired: PROFILE_RETIRED.map(([code, was, by]) => ({ code, was, by, owner: "doc 36, 8" }))
+            retired: PROFILE_RETIRED.map(([code, was, by]) => ({ code, was, by, owner: "Questions 13, 8" }))
         });
     }
 
@@ -476,23 +476,23 @@ function rows(code) {
                     return {
                         code: id.toUpperCase(), id, label: C.competitorWording("direct", id), control: COMPETITOR_CONTROLS[id] ?? radio, max: id === "k10" ? 3 : "",
                         asked: (asked.length === TYPES.length ? "every type" : asked.map(type => typeNames[type]).join(", ")) + (id === "k10" ? ", once an opening exists" : "") + (C.COMPETITOR_HELD_WHILE_PLANNING.includes(id) ? "; held back while Planning (owner, 2026-11-08), its saved answer kept" : ""),
-                        starts: "", status: "built", owner: "doc 41, " + id.toUpperCase(), options: OPTIONS[id], info, words
+                        starts: "", status: "built", owner: "Questions 14, " + id.toUpperCase(), options: OPTIONS[id], info, words
                     };
                 }), ...(box === "insights" ? Object.entries(SEGMENT_ON_COMPETITOR).map(([id, [code, asked, starts]]) => {
                     const question = S.SEGMENT_QUESTIONS.find(entry => entry.id === id) ?? missing("Competitor", id);
                     return {
                         code, id: "`" + id + "` on the Segment (`questions`)", label: "How will you stand apart? (" + question.label + ")", control: "RadioChoice at 1, BusinessTicks above",
-                        max: STAGES.map(([stage]) => L.choiceLimit(stage, "outcome") ?? "any").join(" / "), asked, starts, status: "built", owner: "doc 41, " + code,
+                        max: STAGES.map(([stage]) => L.choiceLimit(stage, "outcome") ?? "any").join(" / "), asked, starts, status: "built", owner: "Questions 14, " + code,
                         options: list(L.DIFFERENTIATIONS), info: [L.INFO.differentiation[0], "Started from the openings you ticked on your Competitors (What could you do differently?); change it freely.", ...L.INFO.differentiation.slice(1)].map(point)
                     };
                 }) : [])]
             })),
-            retired: COMPETITOR_RETIRED.map(([code, was, by]) => ({ code, was, by, owner: "doc 41, Numbers changed on 2026-11-04" }))
+            retired: COMPETITOR_RETIRED.map(([code, was, by]) => ({ code, was, by, owner: "Questions 14, Numbers changed on 2026-11-04" }))
         });
     }
 
     /* ---- Value Proposition ---- */
-    cards.push({ title: "Value Proposition", where: "Business System, page 1, the Segment's Value Proposition", owner: "42", none: "No questions: the tile shows a draft sentence and the open items, read from the answers of the cards above (`valuePropositionDraft`, `valuePropositionOpenItems` in `OfferingQuestions.ts`); doc 42 holds it." });
+    cards.push({ title: "Value Proposition", where: "Business System, page 1, the Segment's Value Proposition", owner: "42", none: "No questions: the tile shows a draft sentence and the open items, read from the answers of the cards above (`valuePropositionDraft`, `valuePropositionOpenItems` in `OfferingQuestions.ts`); Questions 15 holds it." });
 
     /* ---- Offering ---- */
     {
@@ -504,7 +504,7 @@ function rows(code) {
                     : id === "o4" ? list(O.offeringOptions("o4", {})) + " (the list of B1 and K8)"
                         : id === "o7" ? list(O.offeringOptions("o7", {})) + " (None stands alone; It depends on the plan no longer offered since 2026-11-09, a saved one shown until unticked)"
                         : list(O.offeringOptions(id, {}));
-        const notBuilt = OFFERING_NOT_BUILT.map(([code, label, asked]) => ({ code, id: "–", label, control: "none", max: "", asked, starts: "", status: "not built", owner: "doc 43, " + code, unplaced: true }));
+        const notBuilt = OFFERING_NOT_BUILT.map(([code, label, asked]) => ({ code, id: "–", label, control: "none", max: "", asked, starts: "", status: "not built", owner: "Questions 16, " + code, unplaced: true }));
         cards.push({
             title: "Offering", where: "Business System, page 1, an Offering of a Segment", owner: "43",
             source: "`OFFERING_QUESTIONS` and `OFFERING_BOX_QUESTIONS` in `src/framework/engine/choices/OfferingQuestions.ts` (the options, `offeringOptions`); saved under `questions` on the Offering. Under the name the card asks the Type (Product, Service, Hybrid), and the Customer Benefit box opens with the Functional Needs Addressed (ticks of the Profiles' numbered tasks; owner, 2026-11-08), neither of them a coded question",
@@ -516,12 +516,12 @@ function rows(code) {
                     const shown = O.offeringOptions(id, id === "o8" ? hybrid : { type: "Hybrid" });
                     return {
                         code, id, label: question.label, control: control(question, shown), max: question.max ?? "", asked, starts: starts ?? "",
-                        status: "built", owner: "doc 43, " + code.split(" ")[0], options: optionsOf(id),
+                        status: "built", owner: "Questions 16, " + code.split(" ")[0], options: optionsOf(id),
                         info: id === "o18" ? [...question.info, "(With the Organisation's country chosen, the second line is that country's rule, and its source ends the list, for example: " + O.offeringInfo("o18", { type: "Hybrid", country: "GB" }).slice(1, -2).join(" ") + ")"] : [...question.info]
                     };
                 }), ...(part.id === "requirements" ? notBuilt : [])]
             })),
-            retired: OFFERING_RETIRED.map(([code, was, by]) => ({ code, was, by, owner: code === "O13" ? "doc 43, O13" : "doc 43, Decided, and still to decide" }))
+            retired: OFFERING_RETIRED.map(([code, was, by]) => ({ code, was, by, owner: code === "O13" ? "Questions 16, O13" : "Questions 16, Decided, and still to decide" }))
         });
     }
 
@@ -540,7 +540,7 @@ function missing(card, id) {
 
 function render(cards, commit) {
     const md = [
-        "# 44. The questions register",
+        "# 6. The questions register",
         "",
         "Generated by `node " + SCRIPT + "` (run by `npm run docs:index`; checked by `npm run docs:check`) from the question definitions in the code (`src/framework/engine/choices/SegmentQuestions.ts`, `ProfileQuestions.ts`, `CompetitorQuestions.ts`, `OfferingQuestions.ts`, `src/components/interview/editors/legal/shared.tsx`, `src/components/interview/editors/foundation/shared.tsx`) and the code map kept in the script. Do not edit by hand.",
         "",
@@ -548,7 +548,7 @@ function render(cards, commit) {
         "",
         REFLECTS + "`" + commit + "` (the last commit that changed the files the questions are read from; `npm run docs:check` does not compare this line).",
         "",
-        "Related: doc 37 (the Organisation), doc 38 (Positioning), doc 35 (the Segment), doc 36 (the Profile), doc 41 (the Competitor), doc 42 (the Value Proposition), doc 43 (the Offering), doc 27, section 11 (the form of a tile document), [the standard of the documents](../../standard.md).",
+        "Related: Questions 7 (the Organisation), Questions 8 (Positioning), Questions 12 (the Segment), Questions 13 (the Profile), Questions 14 (the Competitor), Questions 15 (the Value Proposition), Questions 16 (the Offering), Questions 1, section 11 (the form of a tile document), [the standard of the documents](../../standard.md).",
         "",
         "> **Codes are permanent ids, not positions (owner, 2026-11-08).** Never renumber; reorder freely; the register shows the order. A new question takes the next free code; a retired code stays listed as retired with what replaced it.",
         "",
@@ -624,18 +624,46 @@ export function knownCodes(cards) {
 }
 
 /**
- * The citations of the questionnaire documents (27 to 55, without the register itself, 44): a token shaped as an Offering code (O1), a Competitor code (K1),
- * a Purpose & Beliefs, Ambassador or Strategy code (PB1, BA1, SW1, SC1) or, in 27 to 43, a Profile code (A1 to E3, with a letter after it as A3b) that the
- * register does not know. From 45 on, A1 to E3 stand for other things (the owner's decisions D1 to D22, for example), so they are not read there. Links and URLs are left out; a line that says "retired" is not checked; the allow-list
+ * The citations of the questionnaire documents (CITED_DOCS, without the register itself, Questions 6): a token shaped as an Offering code (O1), a Competitor code (K1),
+ * a Purpose & Beliefs, Ambassador or Strategy code (PB1, BA1, SW1, SC1) or, where CITED_DOCS says so, a Profile code (A1 to E3, with a letter after it as A3b) that the
+ * register does not know. In the other documents A1 to E3 stand for other things (the owner's decisions D1 to D22, for example), so they are not read there. Links and URLs are left out; a line that says "retired" is not checked; CITATION_ALLOW
  * holds the false positives.
  */
+/** The questionnaire documents the citation check reads, and whether a Profile code (A1 to E3) is read in each (true for the documents written before the order of work, false for those from Purpose & Beliefs on, where A1 to E3 stand for other things). */
+const CITED_DOCS = [
+    ["questions/01-questionnaire-plan.md", true],
+    ["questions/02-questionnaire-specification.md", true],
+    ["questions/03-question-guide.md", true],
+    ["research/04-age-limits-by-activity.md", true],
+    ["research/05-positioning-categories.md", true],
+    ["research/06-positioning-sources.md", true],
+    ["questions/04-specs-and-limitations.md", true],
+    ["research/03-lists-and-classifications.md", true],
+    ["questions/12-segment-questions.md", true],
+    ["questions/13-profile-questions.md", true],
+    ["questions/07-organisation-tile.md", true],
+    ["questions/08-positioning-tile.md", true],
+    ["interface/10-help-texts-guide.md", true],
+    ["questions/14-competitor-questions.md", true],
+    ["questions/15-value-proposition.md", true],
+    ["questions/16-offering-questions.md", true],
+    ["questions/09-purpose-and-beliefs.md", false],
+    ["questions/11-ambassador.md", false],
+    ["questions/17-customer-engagement.md", false],
+    ["questions/20-financials-and-inventory.md", false],
+    ["questions/21-strategy.md", false],
+    ["questions/18-channel-fees-and-sales-forecast.md", false],
+    ["research/07-delivery-and-capacity-research.md", false],
+    ["questions/19-capacity-and-delivery.md", false],
+    ["questions/10-legal-starts.md", false],
+    ["questions/05-auto-filled-answers.md", false],
+    ["research/08-beta-questionnaire.md", false]
+];
 function citations(known) {
-    // (The questionnaire documents keep their numbers in the folders of what they hold: questions/, research/ and interface/ for 39.)
-    const dirs = ["questions", "research", "interface"].map(folder => R + "docs/design/" + folder + "/");
     const found = [];
-    for (const [dir, name] of dirs.flatMap(dir => readdirSync(dir).filter(file => /^(2[7-9]|3\d|4[0-3]|4[5-9]|5\d)-.*\.md$/.test(file)).map(file => [dir, file]))) {
-        const doc = name.slice(0, 2);
-        const shape = +doc <= 43 ? /\b(?:O\d{1,2}|K\d{1,2}|PB\d{1,2}|BA\d{1,2}|SW\d{1,2}|SC\d{1,2}|[A-E]\d{1,2}[a-d]?)\b/g : /\b(?:O\d{1,2}|K\d{1,2}|PB\d{1,2}|BA\d{1,2}|SW\d{1,2}|SC\d{1,2})\b/g;
+    for (const [file, profileCodes] of CITED_DOCS) {
+        const dir = R + "docs/design/" + file.split("/")[0] + "/", name = file.split("/")[1], doc = file;
+        const shape = profileCodes ? /\b(?:O\d{1,2}|K\d{1,2}|PB\d{1,2}|BA\d{1,2}|SW\d{1,2}|SC\d{1,2}|[A-E]\d{1,2}[a-d]?)\b/g : /\b(?:O\d{1,2}|K\d{1,2}|PB\d{1,2}|BA\d{1,2}|SW\d{1,2}|SC\d{1,2})\b/g;
         readFileSync(dir + name, "utf8").replace(/\r\n/g, "\n").split("\n").forEach((line, at) => {
             if (/retired/i.test(line)) return;
             const text = line.replace(/\]\([^)]*\)/g, "]").replace(/https?:\/\/\S+/g, "");
@@ -666,7 +694,7 @@ async function main() {
             console.error("The questions register does not hold:\n" + problems.map(problem => "  " + problem).join("\n"));
             process.exit(1);
         }
-        console.log("The questions register (doc 44) matches the code, and the questionnaire documents cite only codes it knows.");
+        console.log("The questions register (Questions 6) matches the code, and the questionnaire documents cite only codes it knows.");
         return;
     }
     // (Written with CRLF, as its neighbours in docs/design/questions are.)

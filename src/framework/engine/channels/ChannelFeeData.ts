@@ -6,7 +6,7 @@
       - not checked: the provider is there, its rate not read yet (no rate is stored, or a figure from a secondary source, said so in its note);
       - not available: the provider does not sell there (or charges no selling fee there, its note says why).
     A new Organization's Channel Fee Table starts from these rows; the Global Settings show only those of the Organization's country that its answers use.
-    A row with no rate is never charged (channelFeeRowFor). The figures here are the one owner; docs 50 and the specifications point here.
+    A row with no rate is never charged (channelFeeRowFor). The figures here are the one owner; Questions 18 and the specifications point here.
 */
 
 /** The channel categories whose subchannels take a fee of each sale (a payment, a website's checkout, a marketplace): their cards show the Fees, and a

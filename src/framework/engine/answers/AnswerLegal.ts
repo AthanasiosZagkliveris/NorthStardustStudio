@@ -32,7 +32,7 @@ export const LEGAL_ENTITY_SECTIONS = [
 /** What the organization legally is, and where. */
 /**
  * One activity: a final code of the classification of the organization's country, and the edition of that classification. For a country the first version has no classification of
- * (the Other countries, design document 33, section 3) the user types both: the activity in `name` and its code in `code`, with no edition.
+ * (the Other countries, design Questions 4, section 3) the user types both: the activity in `name` and its code in `code`, with no edition.
  */
 export interface LegalEntityActivityValue {
     code: string;
@@ -64,7 +64,7 @@ export interface LegalEntityOrganisationValue {
      */
     legalFormOther: string;
     mainActivity: string;
-    /** LF2 (doc 53, stage 4): "Is your work a regulated profession?" -- "yes", "no", or "" unasked; asked only where there is no activity code. */
+    /** LF2 (Questions 10, stage 4): "Is your work a regulated profession?" -- "yes", "no", or "" unasked; asked only where there is no activity code. */
     regulatedProfession?: "" | "yes" | "no";
     /**
      * The jurisdiction's own classification code, asked for only
@@ -148,7 +148,7 @@ export interface LegalEntityFounderValue {
      */
     experience: string;
     /**
-     * THE PERSONAL SURVIVAL BUDGET (doc 48, section 13; built 2026-11-20): what the founder's household has a month without the business, and what it
+     * THE PERSONAL SURVIVAL BUDGET (Questions 20, section 13; built 2026-11-20): what the founder's household has a month without the business, and what it
      * costs a month, as typed. Asked on the founder's card in Founders & Ownership where Infrastructure & Capability gives the founder no salary; the
      * difference is the owner's minimum pay counted in Costs (survivalMinimum). Absent on a founder saved before, and written only once typed.
      */
@@ -174,7 +174,7 @@ export interface LegalEntityNumberValue {
      */
     label: string;
     number: string;
-    /** The rule that made it (doc 53, LegalStarts.ts: "GB2"), where the app made it; absent where the founder did. */
+    /** The rule that made it (Questions 10, LegalStarts.ts: "GB2"), where the app made it; absent where the founder did. */
     rule?: string;
 }
 
@@ -214,7 +214,7 @@ export interface LegalEntityRequirementValue {
      * where an expense already links to it.
      */
     offerInExpenses: boolean;
-    /** The rule that made it (doc 53, LegalStarts.ts: "GB2"), where the app made it; absent where the founder did. */
+    /** The rule that made it (Questions 10, LegalStarts.ts: "GB2"), where the app made it; absent where the founder did. */
     rule?: string;
 }
 
@@ -242,7 +242,7 @@ export interface LegalEntityExpenseValue {
     description: string;
     /** The id of the requirement that made this expense ("Add to Legal Entity Expenses"), or "": such an expense is named and linked by its requirement. */
     fromRequirement: string;
-    /** The rule that made it (doc 53, LegalStarts.ts: "GB2"), where the app made it; absent where the founder did. */
+    /** The rule that made it (Questions 10, LegalStarts.ts: "GB2"), where the app made it; absent where the founder did. */
     rule?: string;
 }
 
@@ -260,7 +260,7 @@ export interface LegalEntityValue {
     tax: LegalEntityTaxValue;
     requirements: LegalEntityRequirementValue[];
     expenses: LegalEntityExpenseValue[];
-    /** The rules whose items the founder removed (doc 53, decision 8): never made again unseen. */
+    /** The rules whose items the founder removed (Questions 10, decision 8): never made again unseen. */
     dismissedStarts: string[];
 }
 
@@ -456,7 +456,7 @@ export function asLegalEntityValue(value: unknown): LegalEntityValue {
                 .filter((entry): entry is LegalEntityActivityValue => entry !== null && (entry.code.length > 0 || (entry.name ?? "").length > 0))
                 .slice(0, MAX_ACTIVITIES),
             businessStage: asText(organisationSource.businessStage),
-            // (The first version: B2C and B2B, a single-sided market; an older answer's B2G, G2B and multi-sided market are read without them: document 33.)
+            // (The first version: B2C and B2B, a single-sided market; an older answer's B2G, G2B and multi-sided market are read without them: Questions 4.)
             customerType: [...new Set(asChoices(organisationSource.customerType).flatMap(id => id === "both" ? ["b2b", "b2c"] : [id]))].filter(id => (MODEL_IDS as readonly string[]).includes(id)),
             marketType: "single",
             audience: asChoices(organisationSource.audience).filter(id => (AUDIENCE_IDS as readonly string[]).includes(id)),

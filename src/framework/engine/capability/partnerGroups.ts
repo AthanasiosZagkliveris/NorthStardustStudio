@@ -18,7 +18,7 @@ export const PARTNER_CATEGORIES = [
 export const WORKING_PARTNER_GROUPS: readonly string[] = ["contractors-advisers", "technical-support", "creative-it-services", ""];
 
 /** WHO TAKES WEEKS TO DELIVER WHAT YOU ORDER (owner, 2026-11-19 16:52 UTC+2, 3.5): a producer's or wholesaler's materials and a contractor's part of the job; a card
-    with no group yet too. The Supplier cards in these groups ask "Weeks to deliver", read by Capacity & Delivery (doc 52, 16). */
+    with no group yet too. The Supplier cards in these groups ask "Weeks to deliver", read by Capacity & Delivery (Questions 19, 16). */
 export const LEAD_TIME_GROUPS: readonly string[] = ["producers-wholesalers", "contractors-advisers", ""];
 
 export function givesWorkingHours(card: { group: string; hoursAvailable: string; cost: { frequency: string } }, heldHours = false): boolean {

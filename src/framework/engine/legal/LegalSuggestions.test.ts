@@ -9,7 +9,7 @@ import { asBusinessCapabilityValue, createBusinessResourceSlot } from "../answer
 import lumenText from "../../../data/examples/lumen-and-loom-studio.json?raw";
 import quillText from "../../../data/examples/quillfield-automation-llc.json?raw";
 
-/* THE LEGAL SUGGESTIONS, STAGE 2 (doc 53, section 6, decisions 1 (b) and (c), 5 and 6). */
+/* THE LEGAL SUGGESTIONS, STAGE 2 (Questions 10, section 6, decisions 1 (b) and (c), 5 and 6). */
 type Saved = { systems: Record<string, Parameters<typeof InterviewSession.fromJSON>[0]> };
 const examples: Record<string, Saved> = { Lumen: JSON.parse(lumenText), Quillfield: JSON.parse(quillText) };
 const ids: Record<number, string> = { 1: "identity", 2: "brand", 3: "business", 4: "strategy" };

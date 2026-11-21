@@ -1,5 +1,5 @@
 /**
- * THE BUSINESS STAGE, FROM THE OPENING DATE AND THE STAGES' DURATIONS (design document 28, 8.2; the owner's rule, 2026-10-24): the user sets the Opening Date, and the stage follows it. Before the opening
+ * THE BUSINESS STAGE, FROM THE OPENING DATE AND THE STAGES' DURATIONS (design Questions 2, 8.2; the owner's rule, 2026-10-24): the user sets the Opening Date, and the stage follows it. Before the opening
  * the business is Planning; from the opening it is Launching for the Launching duration (months), then Managing for the Managing duration (months), then Growing for the Growing duration (years).
  * With no Opening Date it is Planning. The durations are the Global Settings' (their defaults are below): the user can change them, and the Opening Date, at any time, and the stage follows.
  * The windows are indicators, not rules of law: the Review says how much of the stage's window is left.

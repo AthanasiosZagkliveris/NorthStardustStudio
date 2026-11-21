@@ -176,11 +176,11 @@ export function readStrategy({ session, system, organizationId, organizationName
     const situationDraft = businessSessions ? currentSituationDraft(businessSessions) : "";
     // (The SWOT's starts from the market answers: swotStartsOf; owner, 2026-11-17.)
     const swotStarts = businessSessions ? strategySwotStarts(businessSessions) : undefined;
-    // (SW2's suggestions, ticked into the quadrants: doc 49, sections 2.3 and 10; the owner's approval of 2026-11-20 22:08 UTC+2.)
+    // (SW2's suggestions, ticked into the quadrants: Questions 21, sections 2.3 and 10; the owner's approval of 2026-11-20 22:08 UTC+2.)
     const swotSuggestions = businessSessions ? strategySwotSuggestions(businessSessions) : undefined;
     // (An Objective's drafts: each open item of a Value Proposition and each uncovered skill; P9; owner, 2026-11-18 03:01, "All, P1 to P9".)
     const objectiveDrafts = businessSessions ? strategyObjectiveDrafts(businessSessions) : [];
-    // (What SW1 and SC1 to SC3 read: doc 49, 2.3 and 2.4.)
+    // (What SW1 and SC1 to SC3 read: Questions 21, 2.3 and 2.4.)
     const choices = businessSessions ? strategyChoiceContext(businessSessions) : undefined;
 
     /* The financial plan's dates, for the Strategic Period to be compared with. */

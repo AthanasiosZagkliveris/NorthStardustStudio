@@ -5,19 +5,19 @@ import { founderMonthlySalary } from "../DemandCapacity.ts";
 import { usStateOf } from "./UsStates.ts";
 
 /*
-    THE LEGAL STARTS, STAGE 1 (doc 53, section 6, decisions 1 (a), 5 and 8; the owner's delegation of 2026-11-19 19:48 UTC+2): what a fact the app holds makes
+    THE LEGAL STARTS, STAGE 1 (Questions 10, section 6, decisions 1 (a), 5 and 8; the owner's delegation of 2026-11-19 19:48 UTC+2): what a fact the app holds makes
     mandatory, with no exemption, the Legal Entity makes on its own -- the legal form's filings and their official fees, and the United Kingdom's PAYE employer
     registration once anyone on the payroll is paid. Each item carries its rule's id: an item the founder removes is remembered (`dismissedStarts`) and never made
     again unseen; an item already there, by its rule or by its name, is not made twice. A fee is the official one, checked on the date given, with its source;
-    what is not an official fixed fee (a premium, a quote) is left empty (doc 28, rule 6). Ireland's figures wait for their official pages (doc 53, section 5).
+    what is not an official fixed fee (a premium, a quote) is left empty (Questions 2, rule 6). Ireland's figures wait for their official pages (Questions 10, section 5).
 */
 
-/** The date the official fees below were checked (doc 53, section 2). */
+/** The date the official fees below were checked (Questions 10, section 2). */
 export const LEGAL_FEES_CHECKED = "2026-11-19";
 
 /** What a rule makes: a requirement card (with an expense paying for it, where there is a fixed fee), an expense on the registration number, or a tax registration row. */
 export interface LegalStart {
-    /** The rule's id (doc 53: GB2, US3, ...): the item made carries it. */
+    /** The rule's id (Questions 10: GB2, US3, ...): the item made carries it. */
     rule: string;
     kind: "requirement" | "expense" | "tax-row";
     name: string;
@@ -40,7 +40,7 @@ export interface LegalFacts {
 
 const GOV_FEES = "https://www.gov.uk/government/publications/companies-house-fees/companies-house-fees";
 
-/** The rules of level (a), by country, from the legal form (doc 53, section 2). */
+/** The rules of level (a), by country, from the legal form (Questions 10, section 2). */
 export function legalStartsFor({ entity, paid }: LegalFacts): LegalStart[] {
     const { country, subdivision, legalForm } = entity.organisation;
     const form = legalForm.trim();
@@ -75,7 +75,7 @@ export function legalStartsFor({ entity, paid }: LegalFacts): LegalStart[] {
         if (formed || paid) {
             starts.push({ rule: "US1", kind: "requirement", type: "additional", name: "EIN from the IRS", says: "Applied for once the state has formed the business; there is no fee.", source: "https://www.irs.gov/businesses/small-businesses-self-employed/get-an-employer-identification-number" });
         }
-        // EVERY STATE FROM ITS ROW (owner, 2026-11-19 21:44 UTC+2: "I need the registrations, tax and legal docs to cover the whole USA, not only NY"; doc 53): the state's
+        // EVERY STATE FROM ITS ROW (owner, 2026-11-19 21:44 UTC+2: "I need the registrations, tax and legal docs to cover the whole USA, not only NY"; Questions 10): the state's
         // formation filing and fee while the business is planned, its publication where the state asks for one, its periodic report (yearly or every two years) and
         // a fixed yearly tax or licence fee owed whatever the profit -- each only where the state's official page confirms it (UsStates.ts, checked 2026-11-19).
         const state = usStateOf(subdivision);
@@ -124,7 +124,7 @@ export function legalStartsFor({ entity, paid }: LegalFacts): LegalStart[] {
         starts.push({ rule: "NZ2", kind: "requirement", type: "additional", name: "Annual return", says: "Filed with the Companies Office every year from the calendar year after incorporation.", fee: { amount: "57.20", frequency: "Annually", expenseName: "Annual return fee" }, source: fees });
     }
     if (country === "IE" && /\((LTD|DAC|CLG)\)/.test(form)) {
-        // (Ireland's fees wait for their official pages, which refused the fetch: doc 53, section 5.)
+        // (Ireland's fees wait for their official pages, which refused the fetch: Questions 10, section 5.)
         starts.push({ rule: "IE2", kind: "requirement", type: "additional", name: "Annual return (Form B1)", says: "Filed with the Companies Registration Office every year.", source: "https://cro.ie/" });
         starts.push({ rule: "IE3", kind: "requirement", type: "beneficial-owner", name: "Register of Beneficial Ownership (RBO)", says: "Filed within 5 months of incorporation; changes within 14 days.", source: "https://rbo.gov.ie/" });
     }
@@ -176,7 +176,7 @@ export function legalStartOf(entity: LegalEntityValue, rule: string): LegalStart
     return legalStartsFor({ entity, paid: true }).find(start => start.rule === rule);
 }
 
-/** Whether anyone on the payroll is paid (doc 53, GB10): a founder with a salary, or a member of staff, on Infrastructure & Capability. */
+/** Whether anyone on the payroll is paid (Questions 10, GB10): a founder with a salary, or a member of staff, on Infrastructure & Capability. */
 export function paysAnyone(capabilityValue: unknown): boolean {
     if (capabilityValue === undefined || capabilityValue === null) {
         return false;
@@ -185,7 +185,7 @@ export function paysAnyone(capabilityValue: unknown): boolean {
     return capability.founders.some(founder => (founderMonthlySalary(founder) ?? 0) > 0) || paidStaffOf(capabilityValue).length > 0;
 }
 
-/** The founders Infrastructure & Capability pays a salary (their ids): every other founder is asked the Personal Survival Budget (doc 48, section 13). */
+/** The founders Infrastructure & Capability pays a salary (their ids): every other founder is asked the Personal Survival Budget (Questions 20, section 13). */
 export function salariedFounderIds(capabilityValue: unknown, legal?: LegalEntityValue): string[] {
     if (capabilityValue === undefined || capabilityValue === null) {
         return [];
@@ -196,7 +196,7 @@ export function salariedFounderIds(capabilityValue: unknown, legal?: LegalEntity
 }
 
 /**
- * THE PAID PEOPLE CARDS (doc 53, GB10 and GB11; owner, 2026-11-19): a Staff card (Human Resources, Infrastructure's or the Offering's) whose Status costs and whose
+ * THE PAID PEOPLE CARDS (Questions 10, GB10 and GB11; owner, 2026-11-19): a Staff card (Human Resources, Infrastructure's or the Offering's) whose Status costs and whose
  * price is above 0 -- an employee. A Partner's or Supplier's card is never one: a contractor is not employed.
  */
 export function paidStaffOf(capabilityValue: unknown): { id: string; name: string; family?: "" | "yes" | "no" }[] {

@@ -265,7 +265,7 @@ describe("the Workbook, a whole page (owner, 2026-11-09)", () => {
         expect(document.querySelector(".workbook .workbook-panel.section-tile-dialog .section-tile-dialog-body")).toBeTruthy();
         const rail = screen.getByRole("navigation", { name: "Go to a section" });
         expect(rail.querySelector(".bullet-rail-item.active")?.getAttribute("aria-label")).toBe("Business Documents");
-        // (Financial Documents, second, under Business Documents: owner, 2026-11-20 20:46 UTC+2; doc 48, section 14.)
+        // (Financial Documents, second, under Business Documents: owner, 2026-11-20 20:46 UTC+2; Questions 20, section 14.)
         act(() => { fireEvent.click(screen.getByRole("button", { name: "Next section" })); });
         expect(screen.getByRole("heading", { level: 2, name: /^Financial Documents/ })).toBeTruthy();
         act(() => { fireEvent.click(screen.getByRole("button", { name: "Previous section" })); });

@@ -741,7 +741,7 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
         };
     }
     /*
-        ONCE, WHERE IT HOLDS TEXT (owner, 2026-11-17; doc 52, DV12): a Delivery card's saved Constraints (DV5, retired) move into "What can hold up delivery?" as Other,
+        ONCE, WHERE IT HOLDS TEXT (owner, 2026-11-17; Questions 19, DV12): a Delivery card's saved Constraints (DV5, retired) move into "What can hold up delivery?" as Other,
         one row a sentence. And DV1 is a record (deliveryModeOf): a saved card whose Delivered differs from what O3, or else Customers Buy, says takes theirs.
     */
     useEffect(() => {
@@ -1134,7 +1134,7 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
                 })()
                         ]} />,
                         (sessions || batches) && <EngagementBox key="at-once" title="How Many at Once" bands={[
-                            /* DV6, customers in one session: a class, a workshop, an event (doc 52; owner, 2026-11-17). */
+                            /* DV6, customers in one session: a class, a workshop, an event (Questions 19; owner, 2026-11-17). */
                             /* (Under its label, its cell as wide as its content: a label longer than the side column sits off the box's centre line beside it;
                                 owner, 2026-11-18 12:41, "Fix the fields and their cells properly", and the layout check.) */
                             sessions && (
@@ -1300,7 +1300,7 @@ batches && (
         "Hiring takes about 5 weeks in the UK, then notice and training: about 8 weeks in all. A first employee also needs PAYE registration and Employers' Liability insurance.",
         "Based on: Totaljobs, Hiring Trends Index, Q4 2024 (2025); GOV.UK."
     ];
-    /** A person's month as a bar: the hours used of the hours they have, with the planning ceiling marked at 85% (doc 52, 4.1). */
+    /** A person's month as a bar: the hours used of the hours they have, with the planning ceiling marked at 85% (Questions 19, 4.1). */
     function budgetBar(label: string, used: number, available: number) {
         return (
             <div
@@ -1444,7 +1444,7 @@ batches && (
                                         <InfoNote label="Capacity used" points={[...CAPACITY_UTILISATION_HELP, CEILING_HELP]} />
                                     </InfoText>
                                 </p>
-                                {/* WHAT FITS (doc 52, 4.2): above the ceiling, the last Offering in the budget gives way; the sales beyond it stay out of the forecast. */}
+                                {/* WHAT FITS (Questions 19, 4.2): above the ceiling, the last Offering in the budget gives way; the sales beyond it stay out of the forecast. */}
                                 {(() => {
                                     // (The last Offering in the budget gives way first; where it cannot take all of the excess, the one before it gives way too.)
                                     let excess = used - available * PLANNING_CEILING;
@@ -1479,7 +1479,7 @@ batches && (
                                         : "At 85% of " + label + "'s hours, " + and([...giving].reverse().map(entry => offeringCount(entry.lost, entry.name))) + " a month" + money + ", need more hours or help.";
                                     return <p className="delivery-muted">{text}</p>;
                                 })()}
-                                {/* WHEN TO ADD HELP (doc 52, 4.3): the month the plan passes 85%, and 8 weeks before it to start looking (5 to hire, 3 for notice and training). */}
+                                {/* WHEN TO ADD HELP (Questions 19, 4.3): the month the plan passes 85%, and 8 weeks before it to start looking (5 to hire, 3 for notice and training). */}
                                 {(() => {
                                     const load = capacityRamp?.founders.find(entry => entry.id === founder.id);
                                     if (!load || load.firstAboveCeiling === null) {
@@ -1503,7 +1503,7 @@ batches && (
                         );
                     })}
 
-                    {/* PEOPLE WHO SAY THE HOURS THEY CAN GIVE (doc 52, 14): Staff, Partners and Suppliers on a Delivery card, each a row and bar of their own. */}
+                    {/* PEOPLE WHO SAY THE HOURS THEY CAN GIVE (Questions 19, 14): Staff, Partners and Suppliers on a Delivery card, each a row and bar of their own. */}
                     {[...staffOf("offering"), ...capability.offering.professionals, ...capability.offering.providers].map(card => {
                         const given = readHours(card.hoursAvailable) ?? 0;
                         const needed = offeringChoices.reduce((sum, choice) => {
@@ -1522,7 +1522,7 @@ batches && (
                         );
                     })}
 
-                    {/* BUSY TIMES (doc 52, 4.4): customers who buy in the evenings or at weekends, of an Offering delivered live. */}
+                    {/* BUSY TIMES (Questions 19, 4.4): customers who buy in the evenings or at weekends, of an Offering delivered live. */}
                     {busyLine()}
 
                     {/* An Offering whose hours are recorded but whose

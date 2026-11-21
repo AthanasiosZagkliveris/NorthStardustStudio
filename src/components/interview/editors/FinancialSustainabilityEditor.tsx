@@ -35,7 +35,7 @@ import { labelWithCurrency, nameWithCurrency } from "../../../framework/engine/f
 import TextLink from "../fields/TextLink.tsx";
 import { ORDERS_HELP, SECTIONS, SECTION_HUES, STREAM_HELP } from "./financialSustainabilityTexts.ts";
 
-/* The "i" of the blocks that are a Break Even or Revenue tile's whole subject: the tile's dialog heading carries it (doc 48, section 2). */
+/* The "i" of the blocks that are a Break Even or Revenue tile's whole subject: the tile's dialog heading carries it (Questions 20, section 2). */
 
 interface FinancialSustainabilityEditorProps {
     value: unknown;
@@ -145,7 +145,7 @@ export default function FinancialSustainabilityEditor({
         ? calculatedLines({ foundation: financial, revenuePage: effective, lines, capability: countedCapability(capability), settings: globalSettings, openingDate, drawings: ownersTakeDrawings(legalEntity.organisation.legalForm), country: legalEntity.organisation.country, engagement: asBusinessEngagementValue(engagement) }, incomeTaxRate(financial))
         : undefined;
     const result = sustainability(effective, financial, lines, legalEntity, format, calculated);
-    // (Each Offering's sale against its costs, as Cost of each Offering shows it: doc 48, 15.4.)
+    // (Each Offering's sale against its costs, as Cost of each Offering shows it: Questions 20, 15.4.)
     const economics = offeringEconomicsOf(result, lines, capability);
 
 
@@ -373,9 +373,9 @@ export default function FinancialSustainabilityEditor({
 
         // (THE COMPETITORS' RANGE BESIDE THE PRICE (P7, owner, 2026-11-18 03:01 and 03:08; on the card since 2026-11-20, owner 12:49 UTC+2, "proceed"): what the
         // Segment's competitors charge for a similar offer, from their K15 ranges, a line under the price; nothing is written into the price, and it is never
-        // compared with it (doc 48, section 12.2).)
+        // compared with it (Questions 20, section 12.2).)
         const competitorsSegment = businessFoundationSegments(foundation).find(entry => entry.offerings.some(offering => offering.id === stream.offeringId));
-        // (BY THE NEEDS MET (doc 48, 15.3; owner, 2026-11-20 23:44 UTC+2): the competitors that meet at least one need this Offering meets (their K16), each named in
+        // (BY THE NEEDS MET (Questions 20, 15.3; owner, 2026-11-20 23:44 UTC+2): the competitors that meet at least one need this Offering meets (their K16), each named in
         // the line's "i"; while none ticks K16, every competitor of the Segment, said there.)
         const competitorsNeeds = competitorsSegment?.offerings.find(offering => offering.id === stream.offeringId)?.needsAddressed ?? [];
         const competitorsRange = competitorsSegment ? competitorsPriceRange(competitorsSegment.competitors, competitorsNeeds) : null;
@@ -491,7 +491,7 @@ export default function FinancialSustainabilityEditor({
                             true,
                             NUMBER_LIMITS.volume
                         )}
-                    {/* (ONE OWNER FOR THE BUILD-UP (doc 48, 15.1): where Sales Forecast works it out -- a recurring Offering's clients joining and
+                    {/* (ONE OWNER FOR THE BUILD-UP (Questions 20, 15.1): where Sales Forecast works it out -- a recurring Offering's clients joining and
                         cancelling --, it is shown here and changed there; the stream's own Build-up is asked only where it is silent.) */}
                     {fromDemand.monthsToNormal !== null && fromDemand.joining !== null && fromDemand.expected !== null && stream.development !== "detailed" ? (
                         <BusinessField
@@ -675,7 +675,7 @@ export default function FinancialSustainabilityEditor({
                     </>
                 )
             }] : []),
-            // THIS OFFERING'S ECONOMICS (doc 48, 15.4; owner, 2026-11-21 00:56 UTC+2: "we could calculate better the revenue of each offering, and the user could take
+            // THIS OFFERING'S ECONOMICS (Questions 20, 15.4; owner, 2026-11-21 00:56 UTC+2: "we could calculate better the revenue of each offering, and the user could take
             // the best decisions"): one sale's price against the market's and its costs, and its sales a month, as Cost of each Offering counts them.
             ...((() => {
                 const own = economics.rows.find(row => row.streamId === stream.id);
@@ -789,7 +789,7 @@ export default function FinancialSustainabilityEditor({
     }
 
 
-    /** REVENUE (doc 48, sections 2 and 14): the Revenue Streams tile, its face and its dialog; the Delivery Check and the Revenue Summary are records of the Workbook's Financial Plan. */
+    /** REVENUE (Questions 20, sections 2 and 14): the Revenue Streams tile, its face and its dialog; the Delivery Check and the Revenue Summary are records of the Workbook's Financial Plan. */
     function revenueParts() {
 
 
@@ -823,13 +823,13 @@ export default function FinancialSustainabilityEditor({
 
         const pair = (name: string, figure: string): FaceRow => ({ name, under: figure });
         return {
-            // (NOT PRICED YET (doc 48, section 13, step 1; owner, 2026-11-20 12:49 UTC+2, "proceed to changes"): an Offering with no price says so on the face; the founder sets the price.)
+            // (NOT PRICED YET (Questions 20, section 13, step 1; owner, 2026-11-20 12:49 UTC+2, "proceed to changes"): an Offering with no price says so on the face; the founder sets the price.)
             streams: { body: streams, face: shownStreams.map(entry => pair(offeringName(entry.stream), summaryPrice(entry.stream) || "Not priced yet")) }
         };
 
     }
 
-    /* ---------- The chapters (doc 48, sections 2 and 11; owner, 2026-11-17 07:36) ---------- */
+    /* ---------- The chapters (Questions 20, sections 2 and 11; owner, 2026-11-17 07:36) ---------- */
 
     /** A chapter's tiles, each opening its blocks in a dialog with the chapter's heading and "i", as Financial Foundation's are. */
     function chapterTiles(prefix: string, section: FinancialSection, entries: readonly { id: string; title: string; body: ReactNode; face: readonly FaceRow[]; extra?: ReactNode; info?: InfoPoint[] }[]): SectionTile[] {
@@ -869,7 +869,7 @@ export default function FinancialSustainabilityEditor({
     }
 
     // (BREAK-EVEN & SUSTAINABILITY AND CASH FLOW ARE RECORDS: they ask nothing, and the Workbook says them -- the Business Plan's "2. Break Even" with its Stress
-    // Test, the Financial Forecast's Cash-Flow Forecast with its two charts (doc 48, section 14; owner, 2026-11-20 18:35 UTC+2). The page keeps what asks.)
+    // Test, the Financial Forecast's Cash-Flow Forecast with its two charts (Questions 20, section 14; owner, 2026-11-20 18:35 UTC+2). The page keeps what asks.)
 
     // (REVENUE STREAMS (owner, 2026-11-18 10:38: "Revenue streams should be tiles"): its tile opens a dialog of a tile for each stream (the dialog's card list,
     // three in a row, each opening its stream's card floating). No settings box: the plan's months are in the page title, and the currency beside every amount.)
@@ -901,7 +901,7 @@ export default function FinancialSustainabilityEditor({
                 </>
             )
         }])[0],
-        // (A dialog of its own, whatever the number of streams; the Delivery Check and the Revenue Summary are the Business Plan's, doc 48, section 14.)
+        // (A dialog of its own, whatever the number of streams; the Delivery Check and the Revenue Summary are the Business Plan's, Questions 20, section 14.)
         view: true,
         holds: shownStreams.map(entry => streamCardId(entry.stream)),
         cardFor: (id: string) => {
@@ -909,7 +909,7 @@ export default function FinancialSustainabilityEditor({
             return at < 0 ? null : <div className="column-tile-content financial-page financial-stream-floating">{streamCard(shownStreams[at], at, true)}</div>;
         }
     };
-    // (THE ONE CHAPTER OF FINANCIALS, THREE MASTER TILES THAT ASK (doc 48, section 14): Revenue Streams, Costs, Funding, in the 2 x 2, its fourth place empty
+    // (THE ONE CHAPTER OF FINANCIALS, THREE MASTER TILES THAT ASK (Questions 20, section 14): Revenue Streams, Costs, Funding, in the 2 x 2, its fourth place empty
     // (layout rules section 23).)
     const chapterTilesShown = joined ? [revenueTile, ...joined.get(JOINED_CHAPTER_KEY)] : [revenueTile];
     return (

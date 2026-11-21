@@ -1,5 +1,5 @@
 /**
- * WHAT THE SEGMENT CARD READS OF THE IDENTITY ANSWERS (design document 28, 6.3 and 8.2, "What the Segment will read"): the Seller and Buyer Relationship (I3) and the audience (I7b). The Market Structure (I11) is carried in `marketType`: single-sided in the first version, so no question reads it; the export prints it (doc 28, 8.2, I11; the multi-sided platform is a future feature, doc 33, item 5).
+ * WHAT THE SEGMENT CARD READS OF THE IDENTITY ANSWERS (design Questions 2, 6.3 and 8.2, "What the Segment will read"): the Seller and Buyer Relationship (I3) and the audience (I7b). The Market Structure (I11) is carried in `marketType`: single-sided in the first version, so no question reads it; the export prints it (Questions 2, 8.2, I11; the multi-sided platform is a future feature, Questions 4, item 5).
  * Pure functions, so the card, the documents and the tests read the same rules (in the engine, since the documents settle a Segment's answers against Identity too).
  */
 import { AUDIENCE_WORDS } from "./ActivityClassification.ts";
@@ -22,12 +22,12 @@ export interface SegmentIdentity {
     endUser?: readonly string[];
     /** The business stage (plan, launch, manage, grow). */
     stage?: string;
-    /** The Organisation's country (ISO code) and its first activity's code: the order of the Competitor's review platforms (doc 41, K6). */
+    /** The Organisation's country (ISO code) and its first activity's code: the order of the Competitor's review platforms (Questions 14, K6). */
     country?: string;
     activityCode?: string;
     /**
-     * The Positioning answers saved before they left Positioning (owner, 2026-11-08): the differentiation starts each Segment's own (K14, doc 41), the end user's outcome each Segment's
-     * End user, 9 (doc 35), the buyer's outcome the Offering's O4 (doc 43, through the crosswalk of doc 34, 5.2a). Never asked again; read only as starts.
+     * The Positioning answers saved before they left Positioning (owner, 2026-11-08): the differentiation starts each Segment's own (K14, Questions 14), the end user's outcome each Segment's
+     * End user, 9 (Questions 12), the buyer's outcome the Offering's O4 (Questions 16, through the crosswalk of Research 3, 5.2a). Never asked again; read only as starts.
      */
     differentiation?: readonly string[];
     outcome?: readonly string[];
@@ -79,7 +79,7 @@ const POSITIONING_STARTS: readonly { id: string; from: "differentiation" | "outc
  * A SEGMENT'S ANSWERS WITH THE POSITIONING STARTS (owner, 2026-11-08: the Differentiation and the end user's outcome left Positioning for each Segment): where the Segment never answered
  * one (no key saved), the Positioning answer saved before is its starting value, within the stage's limit; a value saved on the Segment wins, even an empty one (cleared). The end user's
  * outcome is started only where the Segment has an end user. What the card shows, and what the documents, the exports and the Offering's O4 read.
- * Where Positioning saved no Differentiation, the K10 ticks across the Segment's `competitors` start it, through the crosswalk (doc 41, K14; 2026-11-09), within the same limit.
+ * Where Positioning saved no Differentiation, the K10 ticks across the Segment's `competitors` start it, through the crosswalk (Questions 14, K14; 2026-11-09), within the same limit.
  */
 export function segmentPositioningShown(answers: SegmentAnswers, identity: Pick<SegmentIdentity, "differentiation" | "outcomeUser"> | undefined, context: SegmentContext, competitors: readonly { questions?: Readonly<Record<string, readonly string[]>> }[] = []): SegmentAnswers {
     const shown: SegmentAnswers = { ...answers };

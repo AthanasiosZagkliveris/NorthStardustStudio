@@ -2,7 +2,7 @@ import { reconcileLineIds } from "./businessFoundation/foundationPage.ts";
 import { randomId } from "./answers/Readers.ts";
 
 /*
-    THE VALUES' IDS (doc 46, section 5, step 1; the owner's approved plan of 2026-11-18, §3, B2): the Identity System's Values (`values`, a numbered list saved as one
+    THE VALUES' IDS (Questions 11, section 5, step 1; the owner's approved plan of 2026-11-18, §3, B2): the Identity System's Values (`values`, a numbered list saved as one
     text, "1. ...\n2. ...") keep their text exactly as saved; each line gains an id, kept beside them line for line in `valueIds`, as the Profiles' functional
     items gained theirs (`functionalIds`, 2026-11-07). A saved answer with no ids is read with ids made from each line's words only (by content, never its place:
     owner, 2026-11-19), a suffix added only to tell apart two lines of the same words, the same on every read;

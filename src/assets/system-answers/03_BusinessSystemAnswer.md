@@ -26,7 +26,7 @@
 -->
 
 <!--
-    The order of the two (doc 48, section 11; owner, 2026-11-17 07:36): Revenue & Pricing first, then Costs, Funding & Position, so each page reads only
+    The order of the two (Questions 20, section 11; owner, 2026-11-17 07:36): Revenue & Pricing first, then Costs, Funding & Position, so each page reads only
     the pages before it. Their answers changed Sections once (storageMigrations.swapFinancialPages); the keys inside them are as they were.
 -->
 

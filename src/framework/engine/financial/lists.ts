@@ -92,7 +92,7 @@ export const FUNDING_NEED_CATEGORIES = [
 
 export type FundingNeedCategory = typeof FUNDING_NEED_CATEGORIES[number]["id"];
 
-/* (INTERNAL IS REMOVED (owner, 2026-11-20 18:35 and 22:56 UTC+2; doc 48, section 14): the founders' own money is the Founders' Capital, read from Founders & Ownership;
+/* (INTERNAL IS REMOVED (owner, 2026-11-20 18:35 and 22:56 UTC+2; Questions 20, section 14): the founders' own money is the Founders' Capital, read from Founders & Ownership;
    reinvested revenue is the forecast's own cash; existing organisational funds are an Other source. A source saved under Internal is read under Other: stored.ts.) */
 export const FUNDING_CATEGORIES = [
     { id: "external", label: "External" },

@@ -117,7 +117,7 @@ export function useLegalState(props: LegalEntityEditorProps) {
     function update(patch: Partial<LegalEntityValue>) {
         // (The expense a ticked requirement makes is made when the requirements change -- the tick, the name -- and not by whatever else is edited: ticking the founders' capital must not make an expense, and an expense the user removed stays removed.)
         const next = withExpensesInOrder(withAutoExpenses({ ...entity, ...patch }, patch.requirements !== undefined));
-        // (AN ITEM THE APP MADE AND THE FOUNDER REMOVED STAYS REMOVED (doc 53, decision 8): its rule is remembered, wherever the item stood -- a requirement, an
+        // (AN ITEM THE APP MADE AND THE FOUNDER REMOVED STAYS REMOVED (Questions 10, decision 8): its rule is remembered, wherever the item stood -- a requirement, an
         // expense, a tax row -- so the rules never make it again unseen.)
         const rules = (value: LegalEntityValue) => [...value.requirements, ...value.expenses, ...value.tax.additionalRegistrations].map(item => item.rule ?? "").filter(Boolean);
         const kept = new Set(rules(next));
@@ -138,7 +138,7 @@ export function useLegalState(props: LegalEntityEditorProps) {
     */
     const prefilled = useRef(false);
     /*
-        THE ITEMS THE LAW MAKES CERTAIN, MADE BY THE APP (doc 53, section 6, decisions 1 (a), 5 and 8; LegalStarts.ts): on the Legal Entity section itself -- not where
+        THE ITEMS THE LAW MAKES CERTAIN, MADE BY THE APP (Questions 10, section 6, decisions 1 (a), 5 and 8; LegalStarts.ts): on the Legal Entity section itself -- not where
         its cards float over another page, nor the Founders' dialog --, the legal form's filings and their official fees, and the PAYE registration once anyone is
         paid, each once; one the founder removed stays removed. Dated by the registration, else the Opening Date.
     */
@@ -277,7 +277,7 @@ export function useLegalState(props: LegalEntityEditorProps) {
      */
     function chooseCountry(country: string) {
 
-        // Choosing the same country again changes nothing (doc 33, section 9; owner, 2026-10-30).
+        // Choosing the same country again changes nothing (Questions 4, section 9; owner, 2026-10-30).
         if (country === entity.organisation.country) {
             return;
         }

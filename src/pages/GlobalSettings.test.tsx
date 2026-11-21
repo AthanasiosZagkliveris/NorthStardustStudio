@@ -64,7 +64,7 @@ describe("the Global Settings screen", () => {
             expect(screen.getByLabelText(name)).toBeTruthy();
         }
         expect((screen.getByLabelText("Target operating reserve") as HTMLInputElement).value).toBe("3");
-        // (No income tax rate of its own: Page 4's Plan Settings own it, doc 5, section 5.5.6.)
+        // (No income tax rate of its own: Page 4's Plan Settings own it, Records 2, section 5.5.6.)
         expect(screen.queryByLabelText("Corporate income tax rate")).toBeNull();
         // (Only a group that holds an asset is listed: this organization has none.)
         expect(screen.queryByLabelText("Production Machinery")).toBeNull();

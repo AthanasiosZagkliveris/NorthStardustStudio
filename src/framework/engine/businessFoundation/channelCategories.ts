@@ -298,7 +298,7 @@ export const BUSINESS_CHANNEL_CATEGORIES = [
 ] as const;
 
 /**
- * The channels that serve a physical item only (doc 28, 11.7): Physical Delivery and Retail & Wholesale. While no Offering on Page 1 has a physical item
+ * The channels that serve a physical item only (Questions 2, 11.7): Physical Delivery and Retail & Wholesale. While no Offering on Page 1 has a physical item
  * (noPhysicalOffering, EffectiveAnswers.ts), Page 2 hides each of them that holds no subchannel, as Page 3 hides its physical categories: hidden, never deleted,
  * and shown again when an Offering's Type or form (O1) changes.
  */

@@ -54,7 +54,7 @@ describe("the SWOT's starts", () => {
 
 describe("SW2, Which of these fit you?", () => {
 
-    it("writes a ticked suggestion into its quadrant's list and keeps the founder's own lines (doc 49, section 10)", () => {
+    it("writes a ticked suggestion into its quadrant's list and keeps the founder's own lines (Questions 21, section 10)", () => {
         let saved: Record<string, unknown> = {};
         render(
             <StrategyFoundationEditor

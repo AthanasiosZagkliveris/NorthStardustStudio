@@ -44,7 +44,7 @@ const FOUNDATION = systems.filter(system => system.capability === "foundation");
 
 type DocumentId = "plan" | "canvas" | "forecast" | "funding" | "financial-plan";
 
-/** THE TWO KINDS OF DOCUMENT (doc 48, section 14; owner, 2026-11-20 20:46 UTC+2): the Business Documents and the Financial Documents, each its tabs. */
+/** THE TWO KINDS OF DOCUMENT (Questions 20, section 14; owner, 2026-11-20 20:46 UTC+2): the Business Documents and the Financial Documents, each its tabs. */
 export type DocumentGroup = "business" | "financial";
 const GROUP_TABS: Record<DocumentGroup, { id: DocumentId; label: string }[]> = {
     business: [{ id: "plan", label: "Business Plan" }, { id: "canvas", label: "Business Model Canvas" }],
@@ -305,7 +305,7 @@ export default function BusinessDocumentsView({ organizationId, group = "busines
                         {view.tables.map(table => (
                             <Fragment key={table.title}>
                                 <ForecastTable table={table} currency={loaded.forecast.currency} format={loaded.forecast.format} annual={period === "annual"} />
-                                {/* (UNDER THE CASH-FLOW FORECAST, ITS TWO CHARTS (doc 48, section 14; owner, 2026-11-20 18:35 UTC+2: records go to the Workbook): the funding's
+                                {/* (UNDER THE CASH-FLOW FORECAST, ITS TWO CHARTS (Questions 20, section 14; owner, 2026-11-20 18:35 UTC+2: records go to the Workbook): the funding's
                                     month by month, then with the expected revenue; each once.) */}
                                 {table.title === "Cash-Flow Forecast" && (
                                     <>

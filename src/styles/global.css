@@ -152,7 +152,7 @@ body {
                      field grid's columns, a pair row, a list's cells) */
 
 /* THE TINTS (owner, 2026-11-04): one family, the app's blue. The cards' alternating question band is the lightest; the importance bands of a
-   rating group (the Competitor's K8, doc 21) step darker by how many Profiles chose a row (1, 2, 3, 4 or more), the same shades for every banded question. */
+   rating group (the Competitor's K8, Interface 1) step darker by how many Profiles chose a row (1, 2, 3, 4 or more), the same shades for every banded question. */
 :root {
   --tint-row-band: color-mix(in srgb, var(--bg-primary) 6%, transparent);
   --tint-importance-1: color-mix(in srgb, var(--bg-primary) 14%, transparent);
@@ -1079,7 +1079,7 @@ h6 {
 
    The one tooltip look, for every tooltip of the app (TooltipBox:
    the icons', the rails' bullets', the action symbols'; design
-   document 24). Placed in window coordinates in the one place
+   Interface 8). Placed in window coordinates in the one place
    (tipPlace, Tooltip.tsx), kept inside the window's edges, and
    never in the way of the pointer.
 ========================================================== */
@@ -1111,7 +1111,7 @@ h6 {
   font-size: var(--font-small);
   font-weight: 500;
   overflow-wrap: anywhere;
-  /* (Its own text, whatever it opens from: never underlined, no tracking or capitals of the trigger; owner, 2026-11-10 and 2026-11-21; doc 24.) */
+  /* (Its own text, whatever it opens from: never underlined, no tracking or capitals of the trigger; owner, 2026-11-10 and 2026-11-21; Interface 8.) */
   text-decoration: none;
   letter-spacing: normal;
   text-transform: none;
@@ -1292,7 +1292,7 @@ h6 {
 /* THE FOCUS RING'S STRENGTH, one for every control in the app (owner, 2026-11-07: "make consistent all the components, and adjust the colours"): the
    ring is the glow colour at this share, 3:1 and more on the cards' grounds in light, sepia and dark (WCAG 1.4.11). Every ring reads it.
    THE FILL OF A CHOSEN BOX (a ticked tick box, a chosen round, the Rating Scale's too) and the mark on it: the app's blue and white; in dark, where the
-   blue holds only 2.6 to 2.8 on the cards, the lighter blue the focus edge uses, with a dark mark (doc 18, R3). */
+   blue holds only 2.6 to 2.8 on the cards, the lighter blue the focus edge uses, with a dark mark (Interface 5, R3). */
 :root {
   --focus-ring-mix: 70%;
   --choice-fill: var(--bg-primary);
@@ -1490,7 +1490,7 @@ label:has(> input[type="checkbox"]:not(:disabled)):hover > :not(input),
   --tint-row-band: color-mix(in srgb, var(--card-band-ink) 12%, transparent);
   --tint-box-title: color-mix(in srgb, var(--card-band-ink) 24%, transparent);
   /* THE COMPLETED BAND (owner, 2026-11-19 00:20 and 01:08 UTC+2): the bands' own saturation and lightness, a hue of its own -- 150, a green no page-3 card is drawn
-     in (doc 01, "The band hues inside a card") -- at a band's strength. */
+     in (Foundation 1, "The band hues inside a card") -- at a band's strength. */
   --completed-band-hue: 150;
   --tint-completed-band: color-mix(in srgb, hsl(var(--completed-band-hue) var(--theme-bg-ink)) 12%, transparent);
   /* (The line between two bands is a light tint of the card's colour (owner, 2026-11-10: "I did not say white, but a light card's colour tint!"):

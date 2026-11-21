@@ -24,7 +24,7 @@ describe("a card's dates in the cash flow", () => {
         expect(months.slice(0, 6)).toEqual([0, 0, 0, 30, 30, 30]);
     });
 
-    it("a cost every two years falls in its first month, then 24 months on (doc 53, decision 2)", () => {
+    it("a cost every two years falls in its first month, then 24 months on (Questions 10, decision 2)", () => {
         const months = schedule({ cost: cost("90", "biennially"), startDate: "2027-03-01" });
         expect(months.slice(0, 30).map((amount, at) => amount > 0 ? at : -1).filter(at => at >= 0)).toEqual([2, 26]);
         expect(months[2]).toBe(90);

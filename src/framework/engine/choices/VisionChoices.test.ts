@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import { asVisionAmbitions, asVisionReach, reachRank, visionChoicesSentence, widestSegmentReach } from "./VisionChoices.ts";
 
-/* THE VISION'S TWO CHOICES, PB7 AND PB8 (doc 45, section 3.8). */
+/* THE VISION'S TWO CHOICES, PB7 AND PB8 (Questions 9, section 3.8). */
 describe("the Vision's choices", () => {
 
     it("keeps PB7's known ids, each once, three at most; PB8's one known id", () => {

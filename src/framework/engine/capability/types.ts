@@ -142,9 +142,9 @@ export interface BusinessResourceSlotValue {
     id: string;
     name: string;
     quantity: string;
-    /** A Staff (Human Resources) card's hours a month they can give (doc 52, 14): their own row and bar in Capacity & Delivery; "" where not said. */
+    /** A Staff (Human Resources) card's hours a month they can give (Questions 19, 14): their own row and bar in Capacity & Delivery; "" where not said. */
     hoursAvailable: string;
-    /** LF3 (doc 53, stage 4): "Is this person part of your family?" -- "yes", "no", or "" unasked; asked on a paid Staff card of a business that is not a company. */
+    /** LF3 (Questions 10, stage 4): "Is this person part of your family?" -- "yes", "no", or "" unasked; asked on a paid Staff card of a business that is not a company. */
     family?: "" | "yes" | "no";
     description: string;
     /** One of BUSINESS_RESOURCE_STATUSES' ids, or "". */
@@ -314,7 +314,7 @@ export interface BusinessPartnerValue {
     costOption: string;
     /** A supplier connected to a rented vehicle: how many vehicles its price is for ("" is one). */
     quantity: string;
-    /** A Partner's or Supplier's hours a month they can give (doc 52, 14): their own row and bar in Capacity & Delivery; "" where not said. */
+    /** A Partner's or Supplier's hours a month they can give (Questions 19, 14): their own row and bar in Capacity & Delivery; "" where not said. */
     hoursAvailable: string;
     /** A Supplier's lead time in weeks (DV13): added to the Calendar Time of an Offering it can hold up; "" where not said. */
     leadWeeks: string;

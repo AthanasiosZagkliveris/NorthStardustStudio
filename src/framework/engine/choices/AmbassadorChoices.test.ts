@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import { aestheticsDraft, ambassadorShown, asAmbassadorChoices, brandVoiceLine, characterLimit, lastingImpressionDraft, presenceWords, rememberedOptions, toneWords, voiceDraft, wordsOptions } from "./AmbassadorChoices.ts";
 
-/* THE AMBASSADOR'S CHOICES, BA1 TO BA4 AND BA6 TO BA8 (doc 46). */
+/* THE AMBASSADOR'S CHOICES, BA1 TO BA4 AND BA6 TO BA8 (Questions 11). */
 describe("the Ambassador's choices", () => {
 
     const none = { segments: [] };
@@ -40,7 +40,7 @@ describe("the Ambassador's choices", () => {
         expect(toneWords({})).toBe("");
     });
 
-    it("writes the drafts and the Business Plan's line (doc 46, section 3)", () => {
+    it("writes the drafts and the Business Plan's line (Questions 11, section 3)", () => {
         const shown = ambassadorShown({ character: ["sincere"], dress: "smart", setting: ["workshop", "outdoors"], words: "plain" }, none);
         expect(aestheticsDraft(shown)).toBe("Our Ambassador is warm and honest, dresses in a smart casual way and is pictured in a workshop or studio and outdoors.");
         expect(voiceDraft(shown)).toBe("They speak in plain, everyday words, with a casual, respectful tone.");
@@ -49,7 +49,7 @@ describe("the Ambassador's choices", () => {
         expect(aestheticsDraft(ambassadorShown({ character: ["sincere", "competent"] }, none))).toBe("Our Ambassador is warm and honest as well as capable and reliable.");
     });
 
-    it("offers BA9 the Values by their ids, keeps a tick on a Value still there, and writes the Lasting impression (doc 46, BA9)", () => {
+    it("offers BA9 the Values by their ids, keeps a tick on a Value still there, and writes the Lasting impression (Questions 11, BA9)", () => {
         const context = { segments: [], values: [{ id: "value-a", text: "Craft over speed" }, { id: "value-b", text: "Honest prices" }] };
         expect(rememberedOptions(context).map(option => option.id)).toEqual(["value-a", "value-b"]);
         const shown = ambassadorShown({ remembered: ["value-b", "value-gone", "value-a"] }, context);

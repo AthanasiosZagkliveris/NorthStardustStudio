@@ -52,7 +52,7 @@ describe("the Review page's items", () => {
         }]);
     });
 
-    test("an empty Mission is said where it is drawn, Purpose, and keeps its saved key in Definition (doc 45)", () => {
+    test("an empty Mission is said where it is drawn, Purpose, and keeps its saved key in Definition (Questions 9)", () => {
         const sessions = load();
         const identity = sessions[1]!;
         identity.saveResponse(1, { ...(identity.getResponse(1) as object), mission: "" });
@@ -64,7 +64,7 @@ describe("the Review page's items", () => {
         }]);
     });
 
-    // THE VISION'S FUTURE (doc 45, 3.8): once the Vision has text and PB7 or PB8 is empty, an item where the Mission & Vision is drawn, keyed to the Vision.
+    // THE VISION'S FUTURE (Questions 9, 3.8): once the Vision has text and PB7 or PB8 is empty, an item where the Mission & Vision is drawn, keyed to the Vision.
     test("a Vision with no future chosen is said where the Mission & Vision is drawn (PB7, PB8)", () => {
         const sessions = load();
         const identity = sessions[1]!;
@@ -80,7 +80,7 @@ describe("the Review page's items", () => {
         expect(reviewItems({ sessions, titles, organisationName: "Lumen" }).some(item => item.text.includes("Vision's future"))).toBe(false);
     });
 
-    test("an Ambassador with text and no character chosen is said at its Aesthetics (BA1, doc 46, section 5)", () => {
+    test("an Ambassador with text and no character chosen is said at its Aesthetics (BA1, Questions 11, section 5)", () => {
         const sessions = load();
         const brand = sessions[2]!;
         const saved = brand.getResponse(1) as Record<string, unknown>;

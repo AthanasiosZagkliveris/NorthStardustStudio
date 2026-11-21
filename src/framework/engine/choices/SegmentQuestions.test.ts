@@ -193,7 +193,7 @@ describe("the Segment's questions", () => {
         expect(asSegmentAnswers(null)).toEqual({});
     });
 
-    it("reads a degree saved before it became a rating as its point (doc 35)", () => {
+    it("reads a degree saved before it became a rating as its point (Questions 12)", () => {
         expect(asSegmentAnswers({ comfort: ["averse"], "u-comfort": ["savvy"] })).toEqual({ comfort: ["1"], "u-comfort": ["5"] });
         expect(asSegmentAnswers({ comfort: ["moderate"] })).toEqual({ comfort: ["3"] });
         expect(asSegmentAnswers({ trajectory: ["declining"] })).toEqual({ trajectory: ["1"] });

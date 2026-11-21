@@ -6,7 +6,7 @@ import { asObject, asText } from "../answers/Readers.ts";
 import { businessDecimalText } from "./paymentPlans.ts";
 
 /**
- * HOW A SHARED COST IS SHARED (owner, 2026-11-16; closes doc 3, R3): a fixed or one-time cost linked to several Offerings is shared by the hours each uses (its
+ * HOW A SHARED COST IS SHARED (owner, 2026-11-16; closes Research 2, R3): a fixed or one-time cost linked to several Offerings is shared by the hours each uses (its
  * Delivery card), by the revenue each brings, in equal parts, or by the user's own split (whole percents totalling 100%). A cost paid per unit or as a share of
  * revenue needs no share: each Offering pays it in full on what it sells. The basis is a reserved entry of the shares, OFFERING_BASIS_KEY; with none saved the
  * default stands -- by hours where the Offerings have Delivery cards, else by revenue.

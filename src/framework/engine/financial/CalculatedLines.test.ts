@@ -243,7 +243,7 @@ describe("which lines are written off at the opening (X12)", () => {
 
 });
 
-describe("income tax: Page 4's Plan Settings own the rate (doc 5, section 5.5.6)", () => {
+describe("income tax: Page 4's Plan Settings own the rate (Records 2, section 5.5.6)", () => {
 
     it("is the Financial Foundation's rate, whatever the Global Settings hold", () => {
         const ready = scenario({});
@@ -321,7 +321,7 @@ describe("the forecast with the calculated lines", () => {
 
 });
 
-describe("the fees a subchannel pays (doc 50, section 1.4; owner, 2026-11-14 12:00)", () => {
+describe("the fees a subchannel pays (Questions 18, section 1.4; owner, 2026-11-14 12:00)", () => {
     const table = createGlobalSettings().channelFees;
 
     test("the defaults start from the checked rates, Stripe Terminal before Stripe, each country its own row (owner, 2026-11-15 15:10)", () => {
