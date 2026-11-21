@@ -454,3 +454,20 @@ describe("the Profile's answers the Segment's education and end user shape (owne
         expect(order("a3", "postgraduate").slice(0, 2)).toEqual(["professional", "manager"]);
     });
 });
+
+describe("1.3, 2.6 and 2.12: the Profile's starts from where the Segment discovers and what makes it shop", () => {
+    const people: SegmentIdentity = { relationships: ["b2c"], marketType: "single", audience: ["adult"], stage: "manage" };
+    const segmentOf = (offerings: { id: string; category: string; questions?: Record<string, string[]> }[], questions: Record<string, string[]> = {}, profile: Record<string, string[]> = {}) => asBusinessFoundationValue({
+        segments: [{ id: "s", name: "Makers", questions, profiles: [{ id: "p", name: "A", questions: profile }], offerings: offerings.map(offering => ({ name: offering.id, ...offering })) }]
+    }).segments[0];
+
+    it("starts D1 from free samples (the ways the Offerings fit) and from media and reviews, D3 from seasons", () => {
+        const segment = segmentOf([{ id: "rug", category: "Product", questions: { o1: ["physical"] } }], { discover: ["samples", "media"], trigger: ["seasonal"] });
+        const shown = effectiveProfileAnswers(segment.profiles[0], segment, people);
+        expect(shown.d1).toEqual(expect.arrayContaining(["a-free-sample", "reviews-and-recommendations-online"]));
+        expect(shown.d3).toContain("around-seasons-holidays");
+        // (No way to try it first while an Offering's form is unknown.)
+        const unknown = segmentOf([{ id: "rug", category: "Product" }], { discover: ["samples"] });
+        expect(effectiveProfileAnswers(unknown.profiles[0], unknown, people).d1 ?? []).not.toContain("a-free-sample");
+    });
+});

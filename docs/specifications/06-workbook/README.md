@@ -150,4 +150,4 @@ The Workbook's last section, with an Organisation open: the Notes field of every
 
 ### Where it is in the code
 
-`src/components/notepad/Notepad.tsx` (`WorkbookCardNotes`), `src/services/CardNotesService.ts`, drawn by `src/pages/Workbook.tsx`; the tests `src/services/CardNotesService.test.ts`, `src/pages/Workbook.test.tsx`.
+`src/components/notepad/Notepad.tsx` (`WorkbookCardNotes`), `src/services/CardNotesService.ts`, drawn by `src/pages/Workbook.tsx`; the tests `src/services/cardServices.test.ts`, `src/pages/Workbook.test.tsx`.

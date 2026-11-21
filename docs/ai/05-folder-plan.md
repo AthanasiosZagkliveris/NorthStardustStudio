@@ -12,7 +12,7 @@ Status: **reference**, written 2026-10-22, updated 2026-11-21 (it was document 2
 | The test and check settings | `vitest.config.ts` | no |
 | **Tests** | `src/**/*.test.*` and `src/test/` | no |
 | **The component library** | `src/library/`; its gallery is reached only by `npm run dev` (`import.meta.env.DEV` in `App.tsx`) and is absent from the build | no (development only) |
-| **The examples** | `src/data/examples/` (two organisations; the app loads them through `services/ExampleOrganizations.ts`); one copy only (`ExampleDrift.test.ts` updates it) | yes (they are the demo data) |
+| **The examples** | `src/data/examples/` (two organisations; the app loads them through `services/ExampleOrganizations.ts`); one copy only (`examples.test.ts` updates it) | yes (they are the demo data) |
 | **Documents** | `docs/` and `src/docs/` (the tests of the documents) | no |
 | **Working tools** | `tools/scripts/` (library, catalogue, docs, lint, tokens, layout check, cards, export) and `tools/catalogue/` (measures, probes, scans, exports) | no |
 | Automation | `.github/workflows/ci.yml` | no |

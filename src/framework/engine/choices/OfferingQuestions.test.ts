@@ -3,6 +3,8 @@ import { asBusinessFoundationValue } from "../answers/AnswerBusinessFoundation";
 import { OUTCOME_IDS } from "../PositioningIds";
 import { offeringContextOf } from "../answers/EffectiveAnswers";
 import { OFFERING_BOX_QUESTIONS, OFFERING_QUESTIONS, asOfferingAnswers, draftOffered, highestRated, offeringAnswerLines, offeringAsks, offeringChoose, offeringInfo, offeringOptions, offeringOptionsWith, offeringShown, valueMismatch, valuePropositionDraft, valuePropositionOpenItems } from "./OfferingQuestions";
+import { offeringStartsById } from "../answers/EffectiveAnswers";
+import type { SegmentIdentity } from "../SegmentContext";
 
 const segment = asBusinessFoundationValue({
     segments: [{
@@ -280,5 +282,40 @@ describe("O6's follow-ups", () => {
         const collected = offeringShown({ o1: ["physical"], o6: ["collect"], o20: ["courier"] }, context);
         expect(collected.o20).toBeUndefined();
         expect(offeringOptions("o22", context).map(option => option.id)).toEqual(["zoom", "meet", "teams", "stream", "other"]);
+    });
+});
+
+describe("1.13, 2.11 and 2.13: the Offering's orders and starts", () => {
+    it("puts the Ongoing terms first for a fixed salary, Per session first for hourly or variable pay", () => {
+        expect(offeringOptions("o3", { type: "Service", workincome: "salary" })[0]).toMatchObject({ heading: "Ongoing" });
+        expect(offeringOptions("o3", { type: "Service", workincome: "hourly" })[0]).toMatchObject({ id: "session", heading: "One purchase" });
+        expect(offeringOptions("o3", { type: "Service" })[0]).toMatchObject({ id: "once" });
+    });
+    it("orders O4 and O8 by the Profiles' ratings, the rest in their own order", () => {
+        const values = offeringOptions("o4", { type: "Product", valueWeights: { "good-support": 5, "lower-price": 2 } }).map(option => option.id);
+        expect(values.slice(0, 2)).toEqual(["good-support", "lower-price"]);
+        const worries = offeringOptions("o8", { type: "Product", worries: ["the-price-or-their-budget", "whether-they-can-trust-you"], worryWeights: { "whether-they-can-trust-you": 4, "the-price-or-their-budget": 1 } }).map(option => option.id);
+        expect(worries).toEqual(["whether-they-can-trust-you", "the-price-or-their-budget"]);
+    });
+    it("starts O3t from O3: per session and a licence before they get it, commission when it is done", () => {
+        expect(offeringShown({ o1: ["live"], o3: ["session"] }, { type: "Service" }).o3t).toEqual(["before"]);
+        expect(offeringShown({ o1: ["digital"], o3: ["licence"] }, { type: "Product" }).o3t).toEqual(["before"]);
+        expect(offeringShown({ o1: ["project"], o3: ["commission"] }, { type: "Service" }).o3t).toEqual(["after"]);
+    });
+});
+
+describe("2.8: a batch's set-up is asked of a physical item only", () => {
+    const people: SegmentIdentity = { relationships: ["b2c"], marketType: "single", audience: ["adult"], stage: "manage" };
+    const segmentOf = (offerings: { id: string; category: string; questions?: Record<string, string[]> }[], questions: Record<string, string[]> = {}) => asBusinessFoundationValue({
+        segments: [{ id: "s", name: "Makers", questions, profiles: [{ id: "p", name: "A", questions: {} }], offerings: offerings.map(offering => ({ name: offering.id, ...offering })) }]
+    }).segments[0];
+
+    it("asks it of a physical Product, not of a digital one", () => {
+        const segment = segmentOf([
+            { id: "rug", category: "Product", questions: { o1: ["physical"] } },
+            { id: "pattern", category: "Product", questions: { o1: ["digital"] } }
+        ]);
+        expect(offeringStartsById([segment], "rug", people).batches).toBe(true);
+        expect(offeringStartsById([segment], "pattern", people).batches).toBeUndefined();
     });
 });

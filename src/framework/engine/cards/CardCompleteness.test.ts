@@ -1,6 +1,9 @@
-import { describe, expect, test } from "vitest";
-import { asBusinessCapabilityValue, workspacesOf } from "../answers/AnswerUtils.ts";
+import { describe, expect, it, test } from "vitest";
+import { asBusinessCapabilityValue, businessFoundationSegments, workspacesOf } from "../answers/AnswerUtils.ts";
 import { countedCapability, incompleteCards } from "./CardCompleteness.ts";
+import { competitorFaceLines, offeringFaceLines, profileFaceLines } from "./CardFaces.ts";
+import { brandColourMissing, brandImageMissing, cardNameMissing, hasContent, legalExpenseMissing, legalRequirementMissing } from "./SystemCardCompleteness.ts";
+import lumen from "../../../data/examples/lumen-and-loom-studio.json";
 
 const cost = (price: string, frequency: string) => ({ price, frequency, frequencyOther: "", currency: "" });
 const slot = (fields: Record<string, unknown>) => ({ id: "s", name: "Thing", status: "exists", startDate: "2027-01-01", cost: cost("", ""), ...fields });
@@ -114,6 +117,48 @@ describe("a card with no category yet", () => {
         // (Left out of every count till a Category is chosen.)
         expect(countedCapability(value).activities[0].activities).toEqual([]);
         expect(countedCapability(value).professionals.map(entry => entry.id)).toEqual(["p2"]);
+    });
+
+});
+
+/* WHAT A CARD'S TILE SAYS (owner, 2026-11-19 16:52 UTC+2, 1.2). */
+describe("a card's tile", () => {
+
+    const segments = businessFoundationSegments((lumen as { systems: Record<string, { responses: { sectionNumber: number; value?: unknown }[] }> }).systems["3"].responses.find(response => response.sectionNumber === 1)!.value);
+    const homes = segments[0];
+
+    it("says a Profile's age, kind of work and first goal", () => {
+        expect(profileFaceLines(homes.profiles[0], homes, undefined)).toEqual(["36 years old", "Professional", "Expression"]);
+    });
+
+    it("says an Offering's Type, form, whether it can be bought today and how it is paid for", () => {
+        expect(offeringFaceLines(homes.offerings[0], homes, undefined)).toEqual(["Product", "A physical item", "Available now", "One purchase"]);
+    });
+
+    it("says a Competitor's Type, reach and size, leaving out what is not answered", () => {
+        expect(competitorFaceLines(homes.competitors[0])).toEqual(["Direct competitor", "Anywhere online", "Micro, 1–9 employees"]);
+        expect(competitorFaceLines({ ...homes.competitors[0], type: "", questions: {} })).toEqual([]);
+    });
+
+});
+
+describe("what a card of the Identity, Brand, Foundation and Strategy Systems still lacks", () => {
+
+    test("a card that holds nothing is not flagged; one that holds something but not what it needs is", () => {
+        expect(legalExpenseMissing({ name: "", cost: "", frequency: "", description: "", responsibility: "" })).toEqual([]);
+        expect(legalExpenseMissing({ name: "Fee", cost: "", frequency: "", description: "", responsibility: "" })).toEqual(["Cost", "Frequency"]);
+        expect(legalExpenseMissing({ name: "Fee", cost: "50", frequency: "Annually", description: "", responsibility: "" })).toEqual([]);
+        expect(legalRequirementMissing({ type: "", name: "", reference: "", notes: "x" })).toEqual(["Type", "Name"]);
+        expect(brandColourMissing({ name: "Indigo", hex: "", usage: "" })).toEqual(["Colour"]);
+        expect(brandImageMissing({ dataUrl: "data:x", name: "", description: "" })).toEqual(["Name"]);
+    });
+
+    test("a card of a Segment or a Strategy card needs its name once anything else is written", () => {
+        expect(cardNameMissing({ id: "a", name: "", notes: [""] })).toEqual([]);
+        expect(cardNameMissing({ id: "a", name: "", notes: ["x"] })).toEqual(["Name"]);
+        expect(cardNameMissing({ id: "a", name: "", objectives: [{ name: "x" }] }, ["objectives"])).toEqual([]);
+        expect(hasContent({ a: [{ b: " " }] })).toBe(false);
+        expect(hasContent({ a: [{ b: "x" }] })).toBe(true);
     });
 
 });

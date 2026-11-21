@@ -1,6 +1,6 @@
-import { describe, expect, it } from "vitest";
-
-import { changeEffectLines, changeEffectsShown, changeRows, compassChoicesShown, compassDraft, growthOptions, growthStart, stanceStart, SW1_CHANGES } from "./StrategyChoices.ts";
+import { describe, expect, it, test } from "vitest";
+import { SW1_CHANGES, changeEffectLines, changeEffectsShown, changeRows, compassChoicesShown, compassDraft, growthOptions, growthStart, stanceStart } from "./StrategyChoices.ts";
+import { STRATEGY_METRIC_UNITS, migratedMetricUnit } from "../answers/AnswerUtils.ts";
 
 /* SW1 AND SC1 TO SC3 (Questions 21, 2.3 and 2.4). */
 describe("the Strategy page's choices", () => {
@@ -39,6 +39,27 @@ describe("the Strategy page's choices", () => {
         expect(compassDraft("Jan 2027 – Dec 2029", shown, context)).toBe("Over Jan 2027 – Dec 2029, our focus is Gift buyers. We will win our first customers at launch and sell more to the customers we serve, using our strengths to seize opportunities, and stand out for high quality. This takes us towards our Vision.");
         expect(compassDraft("", compassChoicesShown({ firstSegmentId: "s2", growth: [] }, {}, context), context)).toBe("Our focus is Hotels. This takes us towards our Vision.");
         expect(compassDraft("", compassChoicesShown({}, {}, { ...context, segments: [] }), { ...context, segments: [] })).toBe("We will win our first customers at launch. This takes us towards our Vision.");
+    });
+
+});
+
+describe("a Metric's unit", () => {
+
+    test("offers Number, Percentage and Currency only", () => {
+        expect([...STRATEGY_METRIC_UNITS]).toEqual(["Number", "Percentage", "Currency"]);
+    });
+
+    test("reads a saved Custom unit as one of them, keeping any words in the Description", () => {
+        expect(migratedMetricUnit("Custom", "£", "", "Funding confirmed")).toEqual({ unit: "Currency", currency: "GBP", description: "Funding confirmed" });
+        expect(migratedMetricUnit("Custom", "usd", "", "")).toMatchObject({ unit: "Currency", currency: "USD" });
+        expect(migratedMetricUnit("Custom", "€", "", "")).toMatchObject({ unit: "Currency", currency: "EUR" });
+        expect(migratedMetricUnit("Custom", "%", "", "")).toMatchObject({ unit: "Percentage" });
+        expect(migratedMetricUnit("Custom", "", "", "")).toMatchObject({ unit: "Number" });
+        expect(migratedMetricUnit("Custom", "hours per build", "", "Time on a build")).toEqual({
+            unit: "Number", currency: "", description: "Time on a build\nUnit: hours per build"
+        });
+        // Any other unit is as it was.
+        expect(migratedMetricUnit("Percentage", "", "", "x")).toEqual({ unit: "Percentage", currency: "", description: "x" });
     });
 
 });

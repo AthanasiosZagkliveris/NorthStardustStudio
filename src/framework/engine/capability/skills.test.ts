@@ -1,4 +1,4 @@
-import { describe, expect, test } from "vitest";
+import { describe, expect, test, it } from "vitest";
 
 import { InterviewSession } from "../../interview";
 import { AnswerType } from "../../enums/AnswerType.ts";
@@ -8,6 +8,7 @@ import { reviewItems } from "../ReviewItems.ts";
 import { neededSkillLine, neededSkills, skillCover, skillGroups, skillsOf, teamNames } from "./skills.ts";
 import lumenText from "../../../data/examples/lumen-and-loom-studio.json?raw";
 import quillText from "../../../data/examples/quillfield-automation-llc.json?raw";
+import { givesWorkingHours } from "./partnerGroups";
 
 type Saved = { systems: Record<string, Parameters<typeof InterviewSession.fromJSON>[0]> & Record<string, { responses: Record<string, { value: unknown }> }> };
 const lumen = JSON.parse(lumenText) as Saved;
@@ -86,4 +87,15 @@ describe("LC1, the skills the business still needs (Capacity & Delivery; owner, 
         expect(items[0].place).toMatchObject({ systemNumber: 3, sectionNumber: page.number, anchors: ["section-offering-delivery"] });
     });
 
+});
+
+describe("Delivery: only the people who give working hours", () => {
+    const card = (group: string, frequency: string, hoursAvailable = "") => ({ group, hoursAvailable, cost: { frequency } });
+    it("keeps a contractor, leaves out a courier and a payment service, keeps one that says its hours or holds some", () => {
+        expect(givesWorkingHours(card("contractors-advisers", "per-unit"))).toBe(true);
+        expect(givesWorkingHours(card("logistics-fulfilment", "per-unit"))).toBe(false);
+        expect(givesWorkingHours(card("platforms-payments", "percent-revenue"))).toBe(false);
+        expect(givesWorkingHours(card("logistics-fulfilment", "per-unit", "10"))).toBe(true);
+        expect(givesWorkingHours(card("producers-wholesalers", "per-unit"), true)).toBe(true);
+    });
 });

@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import { RELATION_IDS_B2B, RELATION_IDS_B2C } from "./PositioningIds.ts";
 import { RELATIONSHIP_FITS, categoryOfModel, relationshipFits, relationshipFitsUserStages, orderedByCategory, userStageFits, withOnlyUserStage } from "./RelationshipFit.ts";
 import { RELATIONSHIP_INTENT } from "./PurposeRelevance.ts";
+import { relationshipApproachDraft, relationshipPurposeDraft } from "./RelationshipDrafts";
 
 describe("which buyer and user relationships fit the buyer's category", () => {
 
@@ -82,5 +83,13 @@ describe("the user's life stage when only one fits", () => {
         expect(withOnlyUserStage(direct)).toBe(direct);
         const business = org(["smb"], ["rel:employer"], ["b2b:proxy"], ["b2b"]);
         expect(withOnlyUserStage(business)).toBe(business);
+    });
+});
+
+describe("2.14: a relationship type's drafts", () => {
+    it("drafts a Purpose from the type and the Offering's answers, and an Approach from a stage's channels", () => {
+        expect(relationshipPurposeDraft("personal-assistance", "Weaving Workshops", { o16: ["oneday"] })).toBe("A person helps each customer of Weaving Workshops whenever they need it, replying within one working day.");
+        expect(relationshipApproachDraft("personal-assistance", ["Instagram", "Email", "Instagram"])).toBe("A personal reply through Instagram and Email.");
+        expect(relationshipApproachDraft("community", [])).toBe("");
     });
 });

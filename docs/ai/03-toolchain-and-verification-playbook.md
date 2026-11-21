@@ -55,13 +55,13 @@ One tree, edited in place. There is no separate build tree and no sync step.
 
 ## What the unit tests cover, and what they do not
 
-Vitest is the only unit-test layer: parsing, number and date logic, data transforms, what a component or a hook computes, the generated documents, and the examples (`ExampleDrift`, `ExampleCompleteness`, the golden files). `environment: "jsdom"` is set in `vitest.config.ts` (a separate file from `vite.config.ts`, whose `server` block is for Tauri). A test stands beside what it tests; tests that cross components are in `components/interview/tests/`.
+Vitest is the only unit-test layer: parsing, number and date logic, data transforms, what a component or a hook computes, the generated documents, and the examples (`ExampleDrift`, `ExampleCompleteness`, the golden files). `environment: "jsdom"` is set in `vitest.config.ts` (a separate file from `vite.config.ts`, whose `server` block is for Tauri). A test stands beside what it tests, and a test that crosses components stands beside the screen it tests: the Infrastructure & Capability screen's in `components/interview/editors/capability/`, one file per part of its cards (owner, 2026-11-21: the tests grouped by what they test). A test file is named by its subject, never by a review round or a date.
 
 Document tests: `src/docs/documentReferences.test.ts` (the rulebook, `08-card-kinds.md`, the Infrastructure & Capability specification, Foundation 1 and 2 name only properties, classes and files the code has), `documentValues.test.ts` and `documentAssets.test.ts` (the generated parts of the rulebook). Run them with `npx vitest run src/docs` after editing any of these documents.
 
 A green run proves the logic, not the look. How the app renders and responds to the pointer is checked by the layout check and by looking (steps 5 and 6).
 
-To rewrite the examples after an interface change: `UPDATE_EXAMPLES=1 npx vitest run src/services/ExampleDrift.test.ts` (it writes both examples, in `src/data/examples/`, from the app's own readers); the golden figures are rewritten with `WRITE_GOLDEN=all`.
+To rewrite the examples after an interface change: `UPDATE_EXAMPLES=1 npx vitest run src/services/examples.test.ts` (it writes both examples, in `src/data/examples/`, from the app's own readers); the golden figures are rewritten with `WRITE_GOLDEN=all`.
 
 ## The screen snapshot
 
