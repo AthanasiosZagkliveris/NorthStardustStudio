@@ -12,7 +12,7 @@
 
 **Columns:**
 - Column 1: #
-- Column 2: Revenue Stream - Dynamic Field (Business System / Revenue Model: Revenue Stream)
+- Column 2: Revenue Stream - Dynamic Field (Business System / Revenue & Pricing: Revenue Streams)
 - Column 3: Description
 
 **Funding Sources**

@@ -12,7 +12,7 @@ The rendering layer never hardcodes a System's fields — a small set of generic
 
 ## `dynamicSource` sharing pattern
 
-When one Section's column should offer exactly the same set of options as another Section's column (e.g. a "Data Asset" picked in one place should be selectable from the same list defined somewhere else), use `- Dynamic Field (Section: Column)` rather than duplicating a Variant list. This is resolved live at render time, not baked in at parse time — so the source Section's actual entered data (not just its column definition) is what populates the dropdown. Cross-System form exists (`System Title / Section Title: Column Title`) for sharing across Systems, not just within one.
+When one Section's column should offer exactly the same set of options as another Section's column (e.g. a "Data Asset" picked in one place should be selectable from the same list defined somewhere else), use `- Dynamic Field (Section: Column)` rather than duplicating a Variant list. This is resolved live at render time, not baked in at parse time — so the source Section's actual entered data (not just its column definition) is what populates the dropdown. Cross-System form exists (`System Title / Section Title: Column Title`) for sharing across Systems, not just within one. A page built by its own editor can be a source too, through `BESPOKE_DYNAMIC_SOURCES` (`ai/07-framework-dsl-grammar.md`, the suffixes); `src/framework/parser/contentRelations.test.ts` checks every link resolves.
 
 ## Field-column ordering
 

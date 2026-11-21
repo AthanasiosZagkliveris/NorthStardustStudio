@@ -37,7 +37,7 @@ A Section with no `Structure:` line, sitting before the first labelled sub-part 
 
 ### Column suffixes (mutually exclusive — checked in this order)
 
-1. **`- Dynamic Field (Section: Column)`** — this column's options are sourced live from another Section's own column of the same name. Cross-System form: `- Dynamic Field (System Title / Section Title: Column Title)`. Omit the System part to stay scoped to the current System.
+1. **`- Dynamic Field (Section: Column)`** — this column's options are sourced live from another Section's own column of the same name. Cross-System form: `- Dynamic Field (System Title / Section Title: Column Title)`. Omit the System part to stay scoped to the current System. The Section title is matched without its period placeholder (`Revenue & Pricing MM/YY - MM/YY` is `Revenue & Pricing`). The source is a Card List's card, a Table's column, a Multi-Part's part, or a name a page built by its own editor gives, listed in `BESPOKE_DYNAMIC_SOURCES` (`src/framework/engine/answers/dynamicSources.ts`): today Financial Sustainability's `Revenue Streams` (each stream by its Offering's name), as in the Finance System's `Dynamic Field (Business System / Revenue & Pricing: Revenue Streams)`.
 2. **`- Autofill`** — column value is computed, not user-entered.
 3. **`- <Word> Field`** — column draws its options from a shared Field definition (see Field Registry). The word before "Field" becomes the field's internal id (slugified). Known shared Fields: Status, Scale, Frequency, Category, Platform.
 

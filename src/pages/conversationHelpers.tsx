@@ -8,6 +8,7 @@ import { CardListAnswerValue, isAnswerEmpty, isTableRowComplete, ProcessRecordVa
 import { StorageService } from "../services/StorageService";
 import { OrganizationService } from "../services/OrganizationService";
 import { systems } from "../data/systems";
+import { bespokeDynamicOptions, sectionName } from "../framework/engine/answers/dynamicSources.ts";
 
 /** What the interview page (Conversation.tsx) reads and checks before it draws: where a System's sections are, what is shared between Systems, the validation of a section, and the bold in a sentence. No state, no hooks. */
 
@@ -43,7 +44,7 @@ export function findSystemSection(systemTitle: string, sectionTitle: string) {
     const section = frameworkRegistry
         .getFramework(system.id)
         .sections
-        .find(candidate => normalize(candidate.title) === normalize(sectionTitle));
+        .find(candidate => normalize(sectionName(candidate.title)) === normalize(sectionName(sectionTitle)));
 
     return section ? { system, section } : null;
 
@@ -334,6 +335,29 @@ export function extractProductNames(rows: unknown): string[] {
         .filter(name => name.length > 0);
 
     return Array.from(new Set(names));
+
+}
+
+/**
+ * A Dynamic Field's options from its source page: a page built by its own
+ * editor (Revenue & Pricing's Revenue Streams, see BESPOKE_DYNAMIC_SOURCES)
+ * first, else a Card List's card or a Table's column. `session` is the
+ * source System's own saved session, which the bespoke reader uses to read
+ * that System's other pages (the Offerings' names on Foundation).
+ */
+export function dynamicOptionsOf(
+    session: InterviewSession | null,
+    answer: AnswerDefinition,
+    value: unknown,
+    cardTitle: string
+): string[] {
+
+    const bespoke = bespokeDynamicOptions(answer.type, value, cardTitle, type => {
+        const page = session?.getFramework().sections.find(candidate => candidate.answer.type === type);
+        return page && session ? session.getResponse(page.number) : undefined;
+    });
+
+    return bespoke.length > 0 ? bespoke : extractDynamicOptions(answer, value, cardTitle, normalize);
 
 }
 

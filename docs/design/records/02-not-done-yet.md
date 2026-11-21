@@ -308,11 +308,7 @@ The confirmed problems that a diagnostic found and no turn has fixed (it was `do
 - Before a new diagnostic scan, check here for anything already confirmed in the same area: re-verify it if the files changed since, confirm or correct the entry, and never add a second one beside it.
 - The form of an entry: `### <short title>`, then Found by: `<skill>` · Confirmed: `<what was verified independently, not only what a scan reported>` · Fix: `<the correct fix, if known>`.
 
-**Open today:**
-
-### The Finance System links to a Business Section that no longer exists
-
-Found by: `metadata-relationship-validator` · Confirmed: `src/assets/system-answers/17_FinanceSystemAnswer.md`, line 15, Financial Model's column "Revenue Stream - Dynamic Field (Business System / Revenue Model: Revenue Stream)"; the Business System has had no "Revenue Model" Section since it became Foundation, Customer Engagement, Infrastructure & Capability, Revenue & Pricing and Costs, Funding & Position (`03_BusinessSystemAnswer.md`), so the column offers no options · Fix: the owner decides the source (the Offerings' revenue streams on Revenue & Pricing, or a plain column), with the Systems pages' rebuild as Tiles.
+**Open today:** none.
 
 ## 5.10 What stayed in the project, and why
 
@@ -352,7 +348,6 @@ For the owner to decide, or work not done. Each item leaves this list when done 
 - The Shared Workspace proposal (`docs/archive/proposals/shared-workspace.md`) has no item in this list; its place is to be decided.
 - `docs/ai/09-layout-rules.md`, section 11 ("The Engagement Strategy"), says every Journey Stage band starts folded; the code (`useItemFolds(true)` in `useEngagementState.tsx`) starts them open (the comment there says closed) and a test expects no fold arrow: the sentence and the comment are stale.
 - `docs/ai/09-layout-rules.md`: section 8 says a dropdown list is exactly the width of its cell, section 10 says it is as wide as its longest option; the tile title in section 8 (a multi-line title) disagrees with `.section-tile-title` (nowrap, ellipsis). `tools/scripts/layout-check/run.mjs` cites a rulebook heading "Run the check" that does not exist.
-- The Finance dynamic field points at the retired Revenue Model page (recorded in the specifications README only).
 - Section 6 of `09-layout-rules.md` (Interactions) holds rows that Interface 5 lacks (a parent's status line, a child's name, the Add button, a text holder): move them into Interface 5, then keep one text.
 - `src/library/assets/floatingCard.ts` line 86 still cites "docs/design/05, 5.8"; the generated section 19 of the rulebook repeats it.
 
