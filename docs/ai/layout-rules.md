@@ -1435,6 +1435,8 @@ The check starts the dev server itself when none answers (port 1420) and stops i
 
 **The real mouse.** `checkRealMouse(page, where)` in `run.mjs` (called for page 3 at 1366 x 1000, 1366 x 700 and 1920 x 1000) presses every list item of every first-row tile, the page scrolled to its top, with real mouse events (move, down, up): the item must not move 0.5px between the press and the release, its card or dialog must open, Escape must return to the default page (no tile grown, no ring on a mouse-opened opener), and one Enter-opened item must keep its ring on closing with no tile grown. (The old code fails it: 38 failures at 1600 x 780.)
 
+**A long tab in a short window.** `checkLongRail(page, base, where)` in `run.mjs` (called for the Strategy System's page) makes thirteen Themes, opens the last one's dialog at 1366 x 768 and at 768 x 1000, and fails where the page stops or the Theme's dialog is not open, or where the tab's top is not the same over a second; the Organisation is put back as it was. (The old code fails it: the page stopped at 1366 x 768, 2026-11-21.)
+
 **Section tiles.** The page is measured as drawn, then
 `await window.__layoutProbe.checkWithTiles(spec)` (what `run.mjs` calls) opens each
 `.section-tile` in turn, unfolds the dialog ("Expand all", then any arrow
