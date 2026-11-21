@@ -727,7 +727,7 @@ export class AnswerParser {
                 // The Section part may itself be qualified with a
                 // leading "System Title / " to point at a Section
                 // belonging to a DIFFERENT System (e.g. "Business
-                // System / Revenue Model") -- unqualified stays
+                // System / Revenue & Pricing") -- unqualified stays
                 // scoped to the current System, exactly as before.
                 const sectionPart = dynamicMatch[2].trim();
                 const systemQualifiedMatch = sectionPart.match(/^(.+?)\s*\/\s*(.+)$/);

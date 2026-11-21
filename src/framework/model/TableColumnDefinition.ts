@@ -44,9 +44,9 @@ export interface TableColumnDefinition {
      *
      * Example: a "Revenue Stream" column
      * whose choices should always match
-     * whatever the user has entered under
-     * the Revenue Model Section's "Revenue
-     * Stream" card.
+     * the Revenue Streams the user has
+     * entered on the Business System's
+     * Revenue & Pricing page.
      */
     dynamicSource?: {
 
@@ -63,7 +63,7 @@ export interface TableColumnDefinition {
          *
          * Example: Finance System's Revenue Streams
          * column sourcing its options from the
-         * Business System's Revenue Model Section.
+         * Business System's Revenue & Pricing page.
          */
         systemTitle?: string;
 

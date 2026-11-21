@@ -57,8 +57,9 @@ import "../styles/conversation.css";
 import "../styles/conversation-layout.css";
 import "../styles/system-confirmation.css";
 
-import { IDENTITY_SYSTEM_NUMBER, interviewManager, normalize, findSystemSection, resolveSharedAnswerValue, ExportStep, OPERATIONS_PROCESS_LIBRARY_SECTION, sectionTitleOf, isSharedProductRegisterSection, findSharedTargetAudiencePartBinding, isSocialMediaAudienceProfilesSection, extractSharedAudienceRows, mergeSharedAudienceIntoSocialMediaRows, extractProductNames, extractDynamicOptions, splitIntoSentences, withBold } from "./conversationHelpers";
+import { IDENTITY_SYSTEM_NUMBER, interviewManager, normalize, findSystemSection, resolveSharedAnswerValue, ExportStep, OPERATIONS_PROCESS_LIBRARY_SECTION, sectionTitleOf, isSharedProductRegisterSection, findSharedTargetAudiencePartBinding, isSocialMediaAudienceProfilesSection, extractSharedAudienceRows, mergeSharedAudienceIntoSocialMediaRows, extractProductNames, dynamicOptionsOf, splitIntoSentences, withBold } from "./conversationHelpers";
 import { readCrossSystem } from "./crossSystemReaders.ts";
+import { sectionName } from "../framework/engine/answers/dynamicSources.ts";
 import { readStrategy } from "./strategyReaders.ts";
 import ExportFlow from "./ExportFlow.tsx";
 import { pageNavigation } from "./pageNavigation.ts";
@@ -554,23 +555,25 @@ export default function Conversation() {
     // Resolves a Table column's live dropdown options from another
     // Section's response (see TableColumnDefinition.dynamicSource) --
     // e.g. a "Revenue Stream" column whose choices should always
-    // match whatever the user has entered under the Revenue Model
-    // Section's "Revenue Stream" card, or a "Stakeholder" column
+    // match the Revenue Streams entered on the Business System's
+    // Revenue & Pricing page, or a "Stakeholder" column
     // whose choices should always match the Stakeholder Register
     // Table's own "Stakeholder" column. Matched by normalized title
-    // text, the same way Questions/Answers Sections are matched to
-    // each other -- and the same "Section: Card" markdown syntax
-    // works whether the source is a Card List's card, a Table's
-    // column, or (recursing one level) a named part of a Multi-Part
-    // Section's own Table/Card List part, so a System's Answer
-    // Definition never needs to say which kind of source it's
-    // pointing at.
+    // text (a page's "MM/YY - MM/YY" period placeholder left out,
+    // see sectionName), the same way Questions/Answers Sections are
+    // matched to each other -- and the same "Section: Card" markdown
+    // syntax works whether the source is a Card List's card, a
+    // Table's column, (recursing one level) a named part of a
+    // Multi-Part Section's own Table/Card List part, or a page built
+    // by its own editor (BESPOKE_DYNAMIC_SOURCES, dynamicOptionsOf),
+    // so a System's Answer Definition never needs to say which kind
+    // of source it's pointing at.
     //
     // `systemTitle`, when present, points at a Section of a
     // DIFFERENT System than the one this session is currently
     // interviewing (e.g. Finance System's Revenue Streams column
     // sourcing its options from the Business System's Revenue
-    // Model). That other System's own saved Interview state is
+    // & Pricing). That other System's own saved Interview state is
     // read directly through StorageService/OrganizationService --
     // never through `session`, which only ever holds the CURRENT
     // System's Sections/responses -- falling back to that System's
@@ -611,7 +614,7 @@ export default function Conversation() {
         if (!isCrossSystem) {
 
             const sourceSection = currentFramework.sections.find(
-                candidate => normalize(candidate.title) === normalize(sectionTitle)
+                candidate => normalize(sectionName(candidate.title)) === normalize(sectionName(sectionTitle))
             );
 
             if (!sourceSection) {
@@ -620,7 +623,7 @@ export default function Conversation() {
 
             const response = session.getResponse(sourceSection.number);
 
-            return extractDynamicOptions(sourceSection.answer, response, cardTitle, normalize);
+            return dynamicOptionsOf(session, sourceSection.answer, response, cardTitle);
 
         }
 
@@ -636,7 +639,7 @@ export default function Conversation() {
 
         const response = otherSession ? otherSession.getResponse(source.section.number) : undefined;
 
-        return extractDynamicOptions(source.section.answer, response, cardTitle, normalize);
+        return dynamicOptionsOf(otherSession, source.section.answer, response, cardTitle);
 
     }, [session, organizationId]);
 

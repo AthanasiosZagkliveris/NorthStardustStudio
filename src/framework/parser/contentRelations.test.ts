@@ -1,5 +1,6 @@
 import { readdirSync, readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
+import { BESPOKE_DYNAMIC_SOURCES, sectionName } from "../engine/answers/dynamicSources.ts";
 
 /**
  * The structural references in the Systems' content, read straight from
@@ -7,7 +8,9 @@ import { describe, expect, it } from "vitest";
  *
  * - every `- Dynamic Field (Section: Column)` or
  *   `(System / Section: Column)` names a Section that exists and a column,
- *   card or variant of that title inside it;
+ *   card or variant of that title inside it, or, on a page built by its own
+ *   editor, a name its Structure gives (BESPOKE_DYNAMIC_SOURCES); a title's
+ *   period placeholder ("MM/YY - MM/YY") is not part of its name;
  * - every `- <Word> Field` suffix names a Field of the shared registry
  *   (`src/assets/status-scale-frequency-fields.md`);
  * - each System's Answer, Questions and Help files list the same Sections,
@@ -59,11 +62,7 @@ const registry = [...readFileSync(ROOT + "status-scale-frequency-fields.md", "ut
     .matchAll(/^## (\w+) Field\s*$/gm)].map((match) => match[1]);
 
 /** Known broken links, by "file:line". Remove an entry once its link is fixed. */
-const KNOWN = new Set([
-    // The Business System has no "Revenue Model" Section since it became
-    // three pages (Foundation, Customer Engagement, Infrastructure & Capability).
-    "system-answers/17_FinanceSystemAnswer.md:15",
-]);
+const KNOWN = new Set<string>([]);
 
 describe("dynamic field links", () => {
     const links = answers.flatMap((answer) => answer.sections.flatMap((section) =>
@@ -82,9 +81,11 @@ describe("dynamic field links", () => {
             const [sectionTitle, column] = rest.split(":").map((part) => part.trim());
             const target = bySystem.get(systemPart);
             expect(target, "System " + systemPart).toBeDefined();
-            const section = target!.sections.find((candidate) => candidate.title === sectionTitle);
+            const section = target!.sections.find((candidate) => sectionName(candidate.title) === sectionName(sectionTitle));
             expect(section, "Section " + sectionTitle + " in " + systemPart).toBeDefined();
-            const named = section!.lines.some(({ text }) =>
+            const structure = section!.lines.map(({ text }) => /^\*\*Structure:\*\*\s*(.+?)\s*$/.exec(text)?.[1]).find(Boolean);
+            const bespoke = structure ? BESPOKE_DYNAMIC_SOURCES[structure] ?? [] : [];
+            const named = bespoke.includes(column) || section!.lines.some(({ text }) =>
                 new RegExp("^\\s*- (Column|Card|Variant|Part) \\d+: " + column.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "(\\s|$)").test(text));
             expect(named, "column " + column + " in " + sectionTitle).toBe(true);
         });
