@@ -93,11 +93,6 @@ export function noteMomentText(moment: number | Date): string {
     return isoToDisplay(iso, PreferencesService.getDateFormat()) + " " + two(at.getHours()) + ":" + two(at.getMinutes());
 }
 
-/** Today, written as the app writes dates. */
-export function noteTodayText(now = new Date()): string {
-    return noteMomentText(now).split(" ")[0];
-}
-
 /** "#query" just before the caret, if the person is naming a place. */
 function hashQuery(box: HTMLTextAreaElement): { query: string; start: number } | null {
     const before = box.value.slice(0, box.selectionStart ?? box.value.length);

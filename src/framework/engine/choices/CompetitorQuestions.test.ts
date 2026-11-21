@@ -12,7 +12,6 @@ import {
     competitorOtherTick,
     competitorOthers,
     otherMatch,
-    draftToAdd,
     competitorOpenings,
     competitorRate,
     competitorRatings,
@@ -25,9 +24,8 @@ import {
     valueProfiles,
     competitorValueRows,
     industryOfActivity,
-    insightsDraft,
     reviewPlatformOrder,
-    differentiationSources,
+    differentiationSourceCards,
     namesInSentence
 } from "./CompetitorQuestions";
 
@@ -152,19 +150,6 @@ describe("K10: the openings, from the card's own answers", () => {
         const answers = { "k8-rating": ["lower-price:5", "speed:1"], "k9-rating": ["regulation:2"] };
         expect(competitorOpenings(answers, "status-quo", none).map(opening => opening.label)).toEqual(["Show what doing nothing costs them in speed", "Use changes in rules and law as a reason to act now"]);
         expect(competitorOpenings({ "k8-rating": ["speed:2"] }, "internal", none).map(opening => opening.label)).toEqual(["Be faster", "Make it easier than doing it themselves"]);
-    });
-
-    it("drafts the lines for the Insights text: the values customers want that competitors fall short on, then the openings ticked", () => {
-        const mine = { "k8-rating": ["speed:2", "lower-price:1"], k10: ["better:speed"] };
-        const other = { "k8-rating": ["speed:1"] };
-        const context = { profiles: [{ b1: ["speed"] }], others: [other], names: [{ name: "Etsy weavers", answers: mine }, { name: "High street", answers: other }] };
-        const openings = competitorOpenings(mine, "direct", context);
-        const draft = insightsDraft("Etsy weavers", mine, context, openings);
-        // "Add to text" adds only what is not in the text yet, and nothing once all of it is.
-        expect(draftToAdd("", draft)).toBe(draft);
-        expect(draftToAdd("Notes.\n\n  You could   be faster. ", draft)).toBe("Customers want speed, and Etsy weavers, High street fall short there.");
-        expect(draftToAdd(draft + "\nMore.", draft)).toBe("");
-        expect(insightsDraft("Etsy weavers", mine, context, openings)).toBe("Customers want speed, and Etsy weavers, High street fall short there.\nYou could be faster.");
     });
 
 });
@@ -314,12 +299,15 @@ describe("K3 held back while Planning", () => {
 describe("K14's options say which competitors each start came from (owner, 2026-11-09)", () => {
 
     it("names, in the competitors' order, those whose K10 ticks argue for each Differentiation", () => {
-        const sources = differentiationSources([
-            { name: "Kvadrat", questions: { k10: ["better:lower-price", "standout:good-support"] } },
-            { name: " ", questions: { k10: ["better:lower-price", "reach:online"] } },
-            { name: "Designers Guild", questions: { k10: ["stage:support"] } }
+        const sources = differentiationSourceCards([
+            { id: "k", name: "Kvadrat", questions: { k10: ["better:lower-price", "standout:good-support"] } },
+            { id: "c2", name: " ", questions: { k10: ["better:lower-price", "reach:online"] } },
+            { id: "dg", name: "Designers Guild", questions: { k10: ["stage:support"] } }
         ]);
-        expect(sources).toEqual({ cost: ["Kvadrat", "Competitor 2"], personal: ["Kvadrat", "Designers Guild"] });
+        expect(sources).toEqual({
+            cost: [{ id: "k", name: "Kvadrat" }, { id: "c2", name: "Competitor 2" }],
+            personal: [{ id: "k", name: "Kvadrat" }, { id: "dg", name: "Designers Guild" }]
+        });
         expect([namesInSentence(["A"]), namesInSentence(["A", "B"]), namesInSentence(["A", "B", "C"])]).toEqual(["A", "A and B", "A, B and C"]);
     });
 

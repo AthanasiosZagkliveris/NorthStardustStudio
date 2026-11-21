@@ -34,6 +34,16 @@ const markdown = (content: ReturnType<typeof businessPlan>) =>
 
 describe("business documents", () => {
 
+    test("the plan exports alone with the appendix switched off, and with the Financial Documents after its own sections with it on", () => {
+        const plan = businessPlan(sessions);
+        const documents = [fundingRequest(sessions), financialPlan(sessions)];
+        expect(businessPlanForExport(plan, documents, false)).toBe(plan);
+        const withAppendix = businessPlanForExport(plan, documents, true);
+        expect(withAppendix.sections.slice(0, plan.sections.length)).toEqual(plan.sections);
+        expect(withAppendix.sections.slice(plan.sections.length).map(section => section.title).every(title => title.startsWith("Financial Appendix "))).toBe(true);
+        expect(withAppendix.sections.length).toBeGreaterThan(plan.sections.length);
+    });
+
     test("the canvas fills all nine blocks", () => {
         const data = businessModelCanvasData(sessions);
         for (const [block, entries] of Object.entries(data.blocks)) {

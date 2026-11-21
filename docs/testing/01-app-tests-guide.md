@@ -17,7 +17,7 @@ Status: **reference**, written 2026-11-21, updated 2026-11-21. The app's tests: 
 
 ### Where they are and how they run
 
-The app has 2,314 tests in 198 files (2,312 pass, 2 are skipped on purpose: they rewrite the saved examples and the saved document words, and run only when asked), counted on the Finance link fix, now on main. Most test files sit beside the file they test and carry its name with `.test.ts` or `.test.tsx` added, so `FinancialModel.ts` is tested by `FinancialModel.test.ts` next to it. The house-rule tests and the shared test helpers are in src/test/.
+The app has 2,315 tests in 200 files (2,313 pass, 2 are skipped on purpose: they rewrite the saved examples and the saved document words, and run only when asked), counted on the Finance link fix, now on main. Most test files sit beside the file they test and carry its name with `.test.ts` or `.test.tsx` added, so `FinancialModel.ts` is tested by `FinancialModel.test.ts` next to it. The house-rule tests and the shared test helpers are in src/test/.
 
 They are written with Vitest and come in two kinds:
 
@@ -35,12 +35,12 @@ How to run them:
 
 ### The six groups
 
-More than four tests in five check either the screens (986) or the business rules behind them (911).
+More than four tests in five check either the screens (991) or the business rules behind them (907).
 
 | Group | Tests | Files | Where | What it protects |
 | --- | --- | --- | --- | --- |
-| Screens | 986 | 91 | `src/components/` | every card, tile, field, rail and dialog draws and behaves as specified |
-| Business rules | 911 | 70 | `src/framework/engine/` | the questions, choices, money, legal and channel logic gives the right answers |
+| Screens | 991 | 93 | `src/components/` | every card, tile, field, rail and dialog draws and behaves as specified |
+| Business rules | 907 | 70 | `src/framework/engine/` | the questions, choices, money, legal and channel logic gives the right answers |
 | Saved data and examples | 125 | 10 | `src/services/`, `src/data/`, `src/hooks/` | saving, loading, old answers and the two example businesses |
 | Whole pages | 115 | 9 | `src/pages/` | each page opens, moves and exports as a whole |
 | Design system and docs | 114 | 17 | `src/library/`, `src/styles/`, `src/docs/`, `src/test/` | the look stays on the tokens; the docs name only what exists |
@@ -48,24 +48,24 @@ More than four tests in five check either the screens (986) or the business rule
 
 ### What each group checks
 
-### Screens: 986 tests
+### Screens: 991 tests
 
 These draw a part of the app and use it as a founder would: open a tile, tick a box, add a card, fold a band. Each test checks one rule from the specifications or the layout rules.
 
-- **Page editors** (590, `components/interview/editors/`): the Business pages (Foundation, Customer Engagement, Infrastructure & Capability, Financials), Legal Entity, Strategy and the others. Example: removing an Offering unticks it on every card that ticked it.
+- **Page editors** (592, `components/interview/editors/`): the Business pages (Foundation, Customer Engagement, Infrastructure & Capability, Financials), Legal Entity, Strategy and the others. Example: removing an Offering unticks it on every card that ticked it.
 - **Tiles and dialogs** (189, `tiles/`): Master Tiles, carousels, floating cards, and a walk that opens every link in both examples and a fresh Organisation.
 - **Fields** (57, `fields/`): tables, dropdowns, ratings, notes, date cells.
 - **Rails** (38, `rails/`) and **cards** (24, `cards/`): the side dots, the page arrows, card faces and their completeness.
-- **The rest of the frame** (88): the Menu, Notes, Calendar, header, shared controls.
+- **The rest of the frame** (91): the Menu, Notes, Calendar, header, shared controls and the Workbook's Financial Documents.
 
-### Business rules: 911 tests
+### Business rules: 907 tests
 
 These run the app's logic without drawing anything, so they are fast and exact about numbers and words.
 
-- **Questions and choices** (162, `choices/`): what each Segment, Profile, Offering and Competitor is asked, and the Mission, Vision, Ambassador and Strategy options. Example: a Profile's questions follow its Segment's answers.
+- **Questions and choices** (161, `choices/`): what each Segment, Profile, Offering and Competitor is asked, and the Mission, Vision, Ambassador and Strategy options. Example: a Profile's questions follow its Segment's answers.
 - **Money** (132 in `financial/`): amounts, the cash flow, funding, position, contingency, the cost of each Offering, the owner's minimum pay. The forecast, payment and cost files beside the folder are counted under Everything else.
 - **Channels** (39) and **legal** (29): channel resources and fees; legal facts, starts, suggestions and the US states.
-- **Everything else in `framework/engine/`** (549): the Business Documents and forecast, demand against capacity, journey suggestions, search, statuses, card dates, the palette, labels with "&".
+- **Everything else in `framework/engine/`** (546): the Business Documents and forecast, demand against capacity, journey suggestions, search, statuses, card dates, the palette, labels with "&".
 
 ### Saved data and examples: 125 tests
 
@@ -108,13 +108,13 @@ Every test is listed, in its own words (tests that only repeat for another Syste
 
 ## Every test, in detail
 
-The tabs under this one list all 198 test files and every test in them, one tab for each of the six groups on the Overview tab (counts and paths are in its table). Each test is written in the words the test itself uses, under the heading its file gives it.
+The tabs under this one list all 200 test files and every test in them, one tab for each of the six groups on the Overview tab (counts and paths are in its table). Each test is written in the words the test itself uses, under the heading its file gives it.
 
 The lists come from the full run of 21 November 2026, on the Finance link fix, now on main. Tests that differ only by System, example or reading mode are written once, with the list of what varies; each of them is still counted.
 
 ## Screens: every test
 
-91 files, 986 tests. Each one draws a part of a screen (a card, an editor, a field, a tile, a rail, the Menu or the Notes) in a test browser, then presses, types and reads it as a person would. The largest folders are the editors (one per page of the interview) and the tiles.
+93 files, 991 tests. Each one draws a part of a screen (a card, an editor, a field, a tile, a rail, the Menu or the Notes) in a test browser, then presses, types and reads it as a person would. The largest folders are the editors (one per page of the interview) and the tiles.
 
 ### src/components/calendar/ (1 file, 3 tests)
 
@@ -214,7 +214,7 @@ The lists come from the full run of 21 November 2026, on the Finance link fix, n
   - joins the non-empty parts with a middle dot
   - is empty when nothing is filled in
 
-### src/components/interview/editors/ (18 files, 238 tests)
+### src/components/interview/editors/ (18 files, 237 tests)
 
 #### AssetPreviewImage.test.tsx (2)
 
@@ -548,11 +548,10 @@ The lists come from the full run of 21 November 2026, on the Finance link fix, n
   - shows an Initiative with its Objective's dates on keyboard focus, and Escape hides it
   - does not stand in the way of the wheel
 
-#### roadmapZoom.test.tsx (10)
+#### roadmapZoom.test.tsx (9)
 
-- **roadmap zoom arithmetic** (4)
+- **roadmap zoom arithmetic** (3)
   - zooms in on wheel up and out on wheel down, and only when the level can change
-  - maps a date to the same share of the track at both levels
   - moves a bar's name in by as much as the bar is hidden, never past the bar's end
   - keeps the moment under the pointer in place when the track widens
 - **StrategicRoadmapEditor wheel zoom** (6)
@@ -563,7 +562,7 @@ The lists come from the full run of 21 November 2026, on the Finance link fix, n
   - gives every year heading its own box and every bar a pin offset
   - places a bar on its months at both levels
 
-### src/components/interview/editors/capability/ (21 files, 260 tests): Infrastructure & Capability
+### src/components/interview/editors/capability/ (21 files, 259 tests): Infrastructure & Capability
 
 The largest folder: the resource, activity, partner and supplier cards of the Capability pages, how they look, what they ask and how their costs are worked out.
 
@@ -714,10 +713,9 @@ The largest folder: the resource, activity, partner and supplier cards of the Ca
   - adds a row of Partners & Suppliers beside the first status, names its supplier, and takes it away with the ×
   - a status row is saved and read back
 
-#### CategoryHelp.test.tsx (3)
+#### CategoryHelp.test.tsx (2)
 
-- **the help of a category's header** (3)
-  - groupHelpLines: one group is its text; several are one line each, the group's name first
+- **the help of a category's header** (2)
   - Equipment (one group in Infrastructure) says the text of Devices & Tools, not a general sentence
   - Vehicles (two groups) says one line for each
 
@@ -1125,6 +1123,17 @@ The largest folder: the resource, activity, partner and supplier cards of the Ca
   - ticks a saved requirement an expense already links to, and leaves the others unticked
 - **LegalEntityEditor requirement note** (1)
   - names a requirement's note as the expenses name theirs
+
+### src/components/interview/editors/purpose/ (1 file, 4 tests): Purpose & Beliefs
+
+#### PurposeChoices.test.tsx (4)
+
+- **the Mission's choices, PB10 to PB12** (2)
+  - draw the three questions from the Business System's Segments, and write the Mission's draft into an empty Mission
+  - never write into a Mission the founder wrote
+- **the Values' kinds, PB13** (2)
+  - start a line of the Values for each kind ticked, in empty Values
+  - never write into Values the founder wrote
 
 ### src/components/interview/fields/ (12 files, 57 tests): the shared fields
 
@@ -1706,11 +1715,20 @@ The largest folder: the resource, activity, partner and supplier cards of the Ca
 - **the progress line** (1)
   - is hidden for now by ONE switch (SHOW\_PROGRESS\_LINE), which draws nothing, not even a gap
 
+### src/components/workbook/ (1 file, 3 tests): the Workbook's Financial Documents
+
+#### FinancialDocuments.test.tsx (3)
+
+- **the Workbook's Financial Documents** (3)
+  - draw each document on its own tab: the Forecast with its two charts, the Funding Request, the Financial Plan with its Stress Test
+  - opens on the document a link names
+  - are where a Glossary place with a document leads: the Financial Documents, on that document's tab
+
 ## Business rules: every test
 
-70 files, 911 tests. They check the app's engine without drawing a screen: the money (costs, revenue, the forecast and its statements), the dates and stages, the choices that follow earlier answers, the channels, the legal rules, and the moving of older saves. Many tests run on the two example organisations, Lumen & Loom Studio and Quillfield Automation LLC.
+70 files, 907 tests. They check the app's engine without drawing a screen: the money (costs, revenue, the forecast and its statements), the dates and stages, the choices that follow earlier answers, the channels, the legal rules, and the moving of older saves. Many tests run on the two example organisations, Lumen & Loom Studio and Quillfield Automation LLC.
 
-### src/framework/engine/ (40 files, 459 tests)
+### src/framework/engine/ (40 files, 458 tests)
 
 #### ActionOrder.test.ts (8)
 
@@ -1749,9 +1767,10 @@ The largest folder: the resource, activity, partner and supplier cards of the Ca
   - an SVG is drawn in its own shape, read from its viewBox or its size
   - a logo that will not load leaves the cover and page heads without one
 
-#### BusinessDocuments.test.ts (14)
+#### BusinessDocuments.test.ts (15)
 
-- **business documents** (3)
+- **business documents** (4)
+  - the plan exports alone with the appendix switched off, and with the Financial Documents after its own sections with it on
   - the canvas fills all nine blocks
   - the plan has every section, answered
   - the financial forecast adds up, month by month and by year
@@ -2032,7 +2051,7 @@ The largest folder: the resource, activity, partner and supplier cards of the Ca
 #### FoundersProfile.test.ts (10)
 
 - **the Founders Profile page** (3)
-  - is the Identity System's fourth page, after Legal Entity
+  - is the Identity System's fourth section, after Legal Entity
   - stores an object from the start, takes one number, and is never incomplete
   - never holds the Identity System up
 - **founders' profiles and the Legal Entity saved before them** (7)
@@ -2258,9 +2277,9 @@ The largest folder: the resource, activity, partner and supplier cards of the Ca
   - an Offering activity saved without a category is Production; one saved with a category keeps it, and an unknown one is Production
   - an answer saved before the nine categories: an activity whose category its place no longer has is in No category, its old category named in its description
 
-#### ReviewItems.test.ts (19)
+#### ReviewItems.test.ts (18)
 
-- **the Review page's items** (15)
+- **the Review page's items** (14)
   - Lumen, fully answered, is ready: nothing still open or missing
   - Quillfield, fully answered, is ready: nothing still open or missing
   - a System not started is one item, with the way to it
@@ -2275,7 +2294,6 @@ The largest folder: the resource, activity, partner and supplier cards of the Ca
   - an Offering with no Type, or no terms (O3), is open, as the later pages read them (phase 5f)
   - a second named Segment with no Offering and no competitor of its own is open; one with either is not (phase 5f)
   - lists nothing the Foundation never asks for
-  - counts what is still open or worth a second look
 - **Review across the whole app** (2)
   - lists a System beyond the Foundation once it holds an answer, under its Capability
   - leaves out a System never answered
@@ -2337,7 +2355,7 @@ The largest folder: the resource, activity, partner and supplier cards of the Ca
 - **the Strategy SWOT's starts** (1)
   - shows a quadrant's starts until the founder edits it
 
-#### autoFilled.test.ts (5)
+#### autoFilled.test.ts (4)
 
 - **P1 and P2: a source's Basis draft and what the founders' hours allow** (2)
   - drafts the Basis from the source's own working
@@ -2346,8 +2364,6 @@ The largest folder: the resource, activity, partner and supplier cards of the Ca
   - names an Objective from each open item and each uncovered skill
 - **K15 and P7: what competitors charge** (1)
   - keeps From and To as typed, or Not known yet, and spans the Segment's competitors
-- **a draft is added once (owner, 2026-11-18 10:38)** (1)
-  - fills an empty field, adds after the text once, and adds nothing the field holds
 
 #### demandReaders.test.ts (7)
 
@@ -2552,7 +2568,7 @@ A "start" is an answer the app fills in from an earlier one; it follows its sour
 - **the Journey Stage column keeps its add button on one line** (1)
   - it is never narrower than the button (with the slack) and the cell padding at both sides
 
-### src/framework/engine/choices/ (8 files, 162 tests)
+### src/framework/engine/choices/ (8 files, 161 tests)
 
 These files hold the interview's questions: which are asked, in what order, which options are offered, and which answers start from earlier ones.
 
@@ -2568,7 +2584,7 @@ These files hold the interview's questions: which are asked, in what order, whic
   - offers BA9 the Values by their ids, keeps a tick on a Value still there, and writes the Lasting impression (Questions 11, BA9)
   - puts the trade's own terms first only where every Segment is a business
 
-#### CompetitorQuestions.test.ts (24)
+#### CompetitorQuestions.test.ts (23)
 
 - **what each type of competitor is asked (Questions 14)** (4)
   - asks a rival business everything, a substitute no size or reach, the others the ratings only
@@ -2578,12 +2594,11 @@ These files hold the interview's questions: which are asked, in what order, whic
 - **the review platforms in the order of the App User's industry and country (L18)** (2)
   - reads the industry from the first activity's code, through the crosswalk L7
   - puts Google and Facebook first, then the industry's, then the country's; the rest after them
-- **K10: the openings, from the card's own answers** (5)
+- **K10: the openings, from the card's own answers** (4)
   - scores the values (5 − rating) × weight and words each by its rating
   - breaks a tie by how many of the Segment's competitors rate the value low
   - reads the stages, the reviews, the growth and the changes
   - words the status quo's and the internal solution's openings for what they are
-  - drafts the lines for the Insights text: the values customers want that competitors fall short on, then the openings ticked
 - **Customer Acquisition and Other (owner, 2026-11-04)** (9)
   - keeps a channel's sub-channels while it is ticked, and opens where the customers are and the competitor is not
   - keeps an Other row while Other is ticked; a name that means a listed item becomes it, its rating kept
@@ -2808,18 +2823,16 @@ These files hold the interview's questions: which are asked, in what order, whic
 - **Page 5's export, for Lumen & Loom Studio and for Quillfield Automation** (2)
   - gives the break-even and the exhaustion month the page gives (one test each)
 
-### src/framework/engine/fields/ (1 file, 12 tests)
+### src/framework/engine/fields/ (1 file, 10 tests)
 
-#### FieldKeys.test.ts (12)
+#### FieldKeys.test.ts (10)
 
-- **field keys** (5)
+- **field keys** (4)
   - keeps a key saved under the US spelling when its label is written in UK English
   - names a field by System, page and path, and reads the name back
   - keeps a segment holding / or : whole
   - turns a label into a segment
-  - tells whether a key lies inside another
-- **reading and writing by path** (2)
-  - walks objects by key and arrays by an element's id
+- **reading and writing by path** (1)
   - writes a copy along the path, sharing the rest
 - **the field registry** (2)
   - lists a page's fields as they are recorded

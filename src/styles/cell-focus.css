@@ -238,7 +238,7 @@ label:has(> .brand-tick-box) :is(span, strong, em) {
     font-weight: 400;
 }
 
-/* The Legal Entity cards (floating or in their dialog) have the label colour of the Legal Entity page's own frames. */
+/* The Legal Entity cards (floating or in their dialog) have the label colour of the Legal Entity section's own frames. */
 .legal-entity-card {
     --label-color: hsl(var(--legal-label-hue, 172) var(--theme-text-ink));
 }

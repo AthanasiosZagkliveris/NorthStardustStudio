@@ -46,7 +46,7 @@ The questions are in `docs/design/questions/` (their register: Questions 6); the
 
 ## 4. How the answers connect
 
-The app fills, starts, offers or works out about 120 answers from earlier ones (drafts, starts, option lists, cards it makes, figures it computes): the list, with each one's source and code, is [Questions 5](../design/questions/05-auto-filled-answers.md). What waits for another answer (a city for its country) is recorded in `src/framework/engine/fields/FieldDependencies.ts`.
+The app fills, starts, offers or works out about 120 answers from earlier ones (drafts, starts, option lists, cards it makes, figures it computes): the list, with each one's source and code, is [Questions 5](../design/questions/05-auto-filled-answers.md). What waits for another answer (a city for its country) is listed in [AI 6, Chained answers](../ai/06-framework-conventions-and-patterns.md#chained-answers).
 
 ## 5. Future features
 

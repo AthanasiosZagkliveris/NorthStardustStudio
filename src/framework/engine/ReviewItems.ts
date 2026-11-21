@@ -312,17 +312,3 @@ export function nothingOpen(items: readonly ReviewItem[]): boolean {
     return !items.some(item => item.group === "open" || item.group === "missing");
 }
 
-/** How many items there are to act on: those with a place to go. */
-export function reviewCount(items: readonly ReviewItem[]): number {
-    return items.filter(item => item.place).length;
-}
-
-/** How the count of what is left reads: "3 items to look at", or "Nothing open". */
-export function reviewCountText(count: number): string {
-    return count === 0 ? "Nothing open" : count + (count === 1 ? " item" : " items") + " to look at";
-}
-
-/** The header's Review count: what is still open or worth a second look. */
-export function headerCount(items: readonly ReviewItem[]): number {
-    return items.filter(item => item.group === "open" || item.group === "second-look").length;
-}

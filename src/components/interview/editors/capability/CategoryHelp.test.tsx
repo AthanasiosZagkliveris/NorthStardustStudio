@@ -3,7 +3,7 @@ import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 
 import BusinessCapabilityEditor from "../BusinessCapabilityEditor";
 import { openTile } from "../../../../test/interviewTestUtils";
-import { asBusinessCapabilityValue, groupHelpLines } from "../../../../framework/engine/answers/AnswerUtils";
+import { asBusinessCapabilityValue } from "../../../../framework/engine/answers/AnswerUtils";
 
 /* The help-texts document: a category's "i" says what its groups are, under the category's name in the dialog's header. */
 
@@ -17,11 +17,6 @@ function noteOf(name: string): string {
 }
 
 describe("the help of a category's header", () => {
-
-    it("groupHelpLines: one group is its text; several are one line each, the group's name first", () => {
-        expect(groupHelpLines([{ label: "A", help: "Alpha things." }])).toEqual(["Alpha things."]);
-        expect(groupHelpLines([{ label: "A", help: "Alpha things." }, { label: "B", help: "Beta things." }])).toEqual(["A: alpha things.", "B: beta things."]);
-    });
 
     it("Equipment (one group in Infrastructure) says the text of Devices & Tools, not a general sentence", () => {
         show();

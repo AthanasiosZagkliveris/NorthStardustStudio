@@ -166,11 +166,6 @@ export function isAcceptedUrl(url: string): boolean {
     return url.startsWith("https://") && isAcceptedHost(hostOf(url));
 }
 
-/** How a source is named in one line of plain text: its full Harvard reference. */
-export function sourceLabel(source: Source): string {
-    return harvardReference(source);
-}
-
 const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
 /** "2026-10-01" as Harvard writes an accessed date: "1 October 2026". */

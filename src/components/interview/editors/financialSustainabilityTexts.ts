@@ -1,7 +1,6 @@
 /* Part of FinancialSustainabilityEditor.tsx (moved out as it was, 2026-11-11: the owner, "can you do them all?"; FinancialSustainabilityEditor.tsx imports it). */
 
 import { paletteHueNamed } from "../../../framework/engine/Palette.ts";
-import { SOURCES } from "../../../framework/engine/Sources.ts";
 import { type InfoPoint } from "../fields/InfoNote.tsx";
 
 /** How to estimate each group of a revenue stream: the "i" beside its title. */
@@ -30,9 +29,6 @@ export const ORDERS_HELP: InfoPoint[] = [
     "Asked because this Offering has a cost per order, such as delivery, on Infrastructure & Capability.",
     "Items per Order shares that cost between the items in one order; the Delivery Charge is what the customer pays towards it."
 ];
-
-/* One primary source for both break-even formulas, so the two agree. */
-export const BREAK_EVEN_SOURCE: InfoPoint = { title: "Source", source: SOURCES.breakEvenPoint };
 
 /** Expected Monthly Revenue's own tile "i" -- the only headline tile
     that had none, sitting beside figures that all carry one. Nothing

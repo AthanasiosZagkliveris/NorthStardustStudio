@@ -63,16 +63,3 @@ describe("K15 and P7: what competitors charge", () => {
         expect(table.rows.find(row => row[0] === "What they charge")).toEqual(["What they charge", "£40 to £120"]);
     });
 });
-
-describe("a draft is added once (owner, 2026-11-18 10:38)", () => {
-    it("fills an empty field, adds after the text once, and adds nothing the field holds", async () => {
-        const { withDraft, draftAdds } = await import("./choices/CompetitorQuestions");
-        const draft = "625 visitors a month, 1.6% buy: about 10 a month.";
-        expect(withDraft("", draft)).toBe(draft);
-        const once = withDraft("About 625 visitors a month.", draft);
-        expect(once).toBe("About 625 visitors a month.\n\n" + draft);
-        expect(withDraft(once, draft)).toBe(once);
-        expect(draftAdds(once, draft)).toBe(false);
-        expect(draftAdds("", "")).toBe(false);
-    });
-});

@@ -1,7 +1,6 @@
 /* Part of FinancialFoundationEditor.tsx (moved out as it was, 2026-11-11: the owner, "can you do them all?"; FinancialFoundationEditor.tsx imports it). */
 
 import { type FundingCategory } from "../../../framework/engine/financial/FinancialModel.ts";
-import { paletteHueNamed } from "../../../framework/engine/Palette.ts";
 import { type InfoPoint } from "../fields/InfoNote.tsx";
 import { SOURCES } from "../../../framework/engine/Sources.ts";
 
@@ -90,20 +89,6 @@ export const SECTIONS = {
             "Every figure here is an estimate based on the information entered, not financial advice."
         ] as InfoPoint[]
     }
-};
-
-/**
- * Each section's own palette colour, as every card on the earlier
- * Business pages has one: rose, periwinkle, sage, sky -- no two
- * neighbours close on the wheel, so none read alike. Fixed rather than
- * hashed from the id, because these four never change and a hash
- * can land two of them side by side.
- */
-export const SECTION_HUES: Record<string, number> = {
-    "financial-costs": paletteHueNamed("rose"),
-    "financial-need": paletteHueNamed("periwinkle"),
-    "financial-funding": paletteHueNamed("sage"),
-    "financial-position": paletteHueNamed("sky")
 };
 
 export const CATEGORY_INFO: Record<FundingCategory, InfoPoint[]> = {

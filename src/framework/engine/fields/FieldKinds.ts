@@ -57,7 +57,3 @@ export function fieldKindOf(_systemNumber: number, path: readonly string[], card
 
 }
 
-/** Whether a kind is one of the person's own answers. */
-export function kindIsAnswer(kind: FieldKind | undefined): boolean {
-    return kind === "answer";
-}

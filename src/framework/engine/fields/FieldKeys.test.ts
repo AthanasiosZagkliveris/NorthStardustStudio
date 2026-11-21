@@ -1,9 +1,9 @@
 import { afterEach, describe, expect, it, test } from "vitest";
-import { clearFieldRegistry, currentFieldKey, fieldKey, isWithin, isYesNoPair, pageKeyPrefix, parseFieldKey, readField, registerField, registeredFields, sectionSegment, slug, writeField } from "./FieldKeys";
+import { clearFieldRegistry, currentFieldKey, fieldKey, isYesNoPair, parseFieldKey, registerField, registeredFields, sectionSegment, slug, writeField } from "./FieldKeys";
 import { frameworkRegistry } from "../FrameworkRegistry";
 import { AnswerType } from "../../enums/AnswerType";
 import { pageFields } from "../../../components/interview/rails/railItems";
-import { fieldKindOf, kindIsAnswer } from "./FieldKinds.ts";
+import { fieldKindOf } from "./FieldKinds.ts";
 
 afterEach(clearFieldRegistry);
 
@@ -33,25 +33,11 @@ describe("field keys", () => {
         expect(slug("  Working Hours / Month ")).toBe("working-hours-month");
     });
 
-    it("tells whether a key lies inside another", () => {
-        expect(isWithin("1.3:organization/legal-form", "1.3:organization")).toBe(true);
-        expect(isWithin("1.3:organizations", "1.3:organization")).toBe(false);
-        expect(isWithin("1.3:organization", pageKeyPrefix(1, 3))).toBe(true);
-        expect(isWithin("1.4:x", pageKeyPrefix(1, 3))).toBe(false);
-    });
-
 });
 
 describe("reading and writing by path", () => {
 
     const value = { segments: [{ id: "seg-1", name: "Studios", offerings: [{ id: "off-1", price: "40" }] }] };
-
-    it("walks objects by key and arrays by an element's id", () => {
-        expect(readField(value, ["segments", "seg-1", "name"])).toBe("Studios");
-        expect(readField(value, ["segments", "seg-1", "offerings", "off-1", "price"])).toBe("40");
-        expect(readField(value, ["segments", "0", "name"])).toBe("Studios");
-        expect(readField(value, ["segments", "missing", "name"])).toBeUndefined();
-    });
 
     it("writes a copy along the path, sharing the rest", () => {
         const next = writeField(value, ["segments", "seg-1", "offerings", "off-1", "price"], "45") as typeof value;
@@ -122,8 +108,6 @@ describe("a field's kind", () => {
         expect(fieldKindOf(4, ["theme-1", "metric-1", "currency"])).toEqual({ kind: "none", why: "display" });
         expect(fieldKindOf(3, ["income-tax"])).toEqual({ kind: "none", why: "has-own-option" });
         expect(fieldKindOf(1, ["legal-entity-expenses", "exp-1", "name"])).toEqual({ kind: "none", why: "name" });
-        expect(kindIsAnswer("answer")).toBe(true);
-        expect(kindIsAnswer("none")).toBe(false);
     });
 
 });

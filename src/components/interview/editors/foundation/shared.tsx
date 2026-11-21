@@ -322,8 +322,8 @@ export type BusinessNeedKind = "functional" | "emotional" | "social";
  *
  * Offered as a Profile is typed into, so the same need is recorded
  * in the same words across the Segment. Profiles in one Segment
- * share their needs -- see businessSegmentNeeds, which pools them
- * -- and two spellings of one need pool as two.
+ * share their needs -- see businessSegmentFunctionalItems, which pools
+ * them -- and two spellings of one need pool as two.
  *
  * The Profile being typed into is left out: a list does not
  * suggest itself back.

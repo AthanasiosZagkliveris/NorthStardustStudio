@@ -24,7 +24,7 @@ const legal = (founders: Record<string, unknown>[]) => asLegalEntityValue({ foun
 
 describe("the Founders Profile page", () => {
 
-    test("is the Identity System's fourth page, after Legal Entity", () => {
+    test("is the Identity System's fourth section, after Legal Entity", () => {
         const sections = frameworkRegistry.getFramework("identity").sections;
         expect(sections.map(section => section.title)).toEqual(["Definition", "Purpose", "Legal Entity", "Founders Profile"]);
         expect(sections[3].number).toBe(4);

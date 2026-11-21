@@ -1,5 +1,4 @@
 import {
-    BUSINESS_JOURNEY_STAGES,
     type BusinessChannelActionValue,
     type BusinessSegmentEngagementValue
 } from "../answers/AnswerUtils.ts";
@@ -100,10 +99,3 @@ export function withChosenAction(
     return withRow(segment, channelId, stage, ids, segment.actions);
 }
 
-/** The rows that hold an action, in the table's words: "Instagram › Discovery". */
-export function actionPlaces(segment: BusinessSegmentEngagementValue, actionId: string): string[] {
-    return segment.channels.flatMap(channel => Object.entries(channel.actionIds)
-        .filter(([, ids]) => ids.includes(actionId))
-        .map(([stage]) => (channel.name.trim() || "Unnamed channel") + " › " +
-            (BUSINESS_JOURNEY_STAGES.find(candidate => candidate.id === stage)?.label ?? stage)));
-}
