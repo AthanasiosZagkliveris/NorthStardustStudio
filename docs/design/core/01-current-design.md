@@ -1,6 +1,6 @@
 # 1. Current design of the Foundation capability
 
-Status: **current design**, written 2026-10-14, updated 2026-11-21. It is the single description of what the Foundation capability (Identity, Brand, Business and Strategy Systems) is and what has been decided for it. Where the code and this document disagree, the code is right.
+Status: **current design**, written 2026-10-14, updated 2026-11-21. It is the single description of what the Foundation capability (Identity, Brand, Business and Strategy Systems) is and what has been decided for it. Where the code and this document disagree, the latest dated decision wins (standard.md, section 3).
 
 Part F is document 26 (card structure). The catalogue tool (`tools/scripts/catalogue/load.mjs`) reads it from there, taking the headings with " > " and the numbered table rows between the headings of Part F and Part G, and the structure tables (document 7) and the catalogue record (document 6) are generated from it: its headings and row format stay as they are.
 

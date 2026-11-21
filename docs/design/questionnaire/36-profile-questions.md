@@ -6,6 +6,20 @@ Related: doc 35 (the Segment's questions, built, in the same form), doc 28 (6.4 
 
 > **What the Profile does not ask again (owner, 2026-11-01).** The Segment (doc 35) asks the group: the age group, education, work status, household income, gender mix, where they are, how comfortable they are online, how they discover ideas, how they buy and pay, how the decision is authorised, the market. The Profile asks a **typical person** of that group, and only what the Segment cannot: an exact age, who they live with, the kind of work or the job level, which devices and which social media, communities and events, how they compare options, what they want, what frustrates them and what stops them. It never repeats a Segment question, and it can only choose within what the Segment allowed (section 2).
 
+**Contents**
+
+- [1. What a Profile holds, and the rules](#1-what-a-profile-holds-and-the-rules)
+- [2. What the Segment sets and the Profile chooses within](#2-what-the-segment-sets-and-the-profile-chooses-within)
+- [3. Box A. Specific Personal Information](#3-box-a-specific-personal-information)
+- [4. Box B. Psychographics](#4-box-b-psychographics)
+- [5. Box C. Social & Interest Hubs](#5-box-c-social--interest-hubs)
+- [6. Box D. Information & Shopping Habits](#6-box-d-information--shopping-habits)
+- [7. Box E. Motivations](#7-box-e-motivations)
+- [8. Dropped, merged or left to the note](#8-dropped-merged-or-left-to-the-note)
+- [9. Decided, and still to decide](#9-decided-and-still-to-decide)
+- [10. The Needs as choices (decided, 2026-11-03)](#10-the-needs-as-choices-decided-2026-11-03)
+- [11. Psychographics and Motivations ticked and rated (owner 2026-11-04; built 2026-11-04)](#11-psychographics-and-motivations-ticked-and-rated-owner-2026-11-04-built-2026-11-04)
+
 ## 1. What a Profile holds, and the rules
 
 **What a Profile holds.** A Name; seven boxes of two parts each (the questions below, then the box's note): *Specific Personal Information*, *Psychographics*, *Social & Interest Hubs* and *Information & Shopping Habits* (the section Description), *Goals & Desires*, *Challenges & Problems* and *Objections* (Motivations); and the three *Needs* (Functional, Emotional, Social): Emotional and Social are rated ticks with their Notes, and Functional is rated ticks above the numbered list of their own tasks (2026-11-07, section 10). The answers are kept as `questions` on the Profile and are listed in the documents and the exports (`profileAnswerLines`, `ExportRenderers.ts`). On a Proxy or Dual-Intent Segment the card holds two parts, the buyer and the end user (2.4), the end user's own answers kept as `user.questions` and its Personal note as `user.note`. The Offering reads the needs. The words of each question's "i" are in `info` in `ProfileQuestions.ts`; the "i would say" texts below are the fuller design, and the shorter texts in the code are the ones shown.

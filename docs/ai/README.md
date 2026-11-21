@@ -46,7 +46,7 @@ Documents cite one another by number ("doc 21" is `../design/current/21-shared-c
 
 ## How these files relate
 
-Nothing here should duplicate another file's knowledge. If two files seem to say the same thing, flag it rather than trusting whichever was read first. For the look of the Foundation pages, each fact has one home: colours, sizes and breakpoints in `src/styles/tokens/tokens.ts` (generated into the stylesheets), and an asset's geometry, states and variants in its contract under `src/library`. The rulebook, the page specifications and `../design/core/01-current-design.md` describe them in words; where one of them disagrees with the code, the code is right and the document is the one to fix.
+Nothing here should duplicate another file's knowledge. If two files seem to say the same thing, flag it rather than trusting whichever was read first. For the look of the Foundation pages, each fact has one home: colours, sizes and breakpoints in `src/styles/tokens/tokens.ts` (generated into the stylesheets), and an asset's geometry, states and variants in its contract under `src/library`. The rulebook, the page specifications and `../design/core/01-current-design.md` describe them in words; where one of them disagrees with the code, the latest dated decision wins (`../standard.md`, section 3).
 
 Skills (kept outside this folder) point at files here by path; this folder is the single source of truth they read, and a skill carries no copy of it. Do not move or rename a file here.
 

@@ -4,6 +4,25 @@ Status: **specification**, written 2026-11-12, updated 2026-11-21. The page Fina
 
 Related: doc 40 (the form), the page 4 and page 5 specifications (`specifications/business-system/`), doc 5 (5.3, I7, I9, K1), `ai/layout-rules.md` (section 12, the Inventory), doc 47 (the Offering's four faces), doc 49 (Strategy reads these figures).
 
+**Contents**
+
+- [1. Financial Foundation: the costs, the funding and the position](#1-financial-foundation-the-costs-the-funding-and-the-position)
+- [2. Revenue and Break Even: the Master Tiles](#2-revenue-and-break-even-the-master-tiles)
+- [3. The Offering Economics card (read-only)](#3-the-offering-economics-card-read-only)
+- [4. Two questions](#4-two-questions)
+- [5. The Review](#5-the-review)
+- [6. The Inventory](#6-the-inventory)
+- [7. Codes](#7-codes)
+- [8. Decided](#8-decided)
+- [9. Phrases for the Business Plan](#9-phrases-for-the-business-plan)
+- [10. Sources](#10-sources)
+- [11. The order of the Financial pages](#11-the-order-of-the-financial-pages)
+- [12. Pricing inputs](#12-pricing-inputs)
+- [12.3 The Revenue card, 2026-11-20](#123-the-revenue-card-2026-11-20)
+- [13. The Financials chapter: one proposal for the page (2026-11-20)](#13-the-financials-chapter-one-proposal-for-the-page-2026-11-20)
+- [14. Inputs on the page, records in the Workbook (owner, 2026-11-20 18:35 UTC+2)](#14-inputs-on-the-page-records-in-the-workbook-owner-2026-11-20-1835-utc2)
+- [15. Each Offering's sales, cost, price and margin (the round of 2026-11-21 00:56 UTC+2)](#15-each-offerings-sales-cost-price-and-margin-the-round-of-2026-11-21-0056-utc2)
+
 ## 1. Financial Foundation: the costs, the funding and the position
 
 | Master Tile | Its face lists | Dialog: nested sub tiles | Cards |
