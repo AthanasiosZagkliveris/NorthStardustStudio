@@ -165,7 +165,8 @@ const SPEC = [
 ];
 const PROPOSALS = [
   ["docs/proposals/workspace-d-duplicate-scenarios-compare.md", "proposal", "Workspace features D, not started: duplicate an Organisation or a card, financial scenarios, compare.", true],
-  ["docs/proposals/workspace-e-founder-helpers.md", "proposal", "Workspace features E, not started: helpers for founders (what would it take, the lender-ready check, the one-pager, glossary hints).", true]
+  ["docs/proposals/workspace-e-founder-helpers.md", "proposal", "Workspace features E, not started: helpers for founders (what would it take, the lender-ready check, the one-pager, glossary hints).", true],
+  ["docs/proposals/app-review-2026-11-21.md", "proposal", "The whole app reviewed on 2026-11-21 (repository, speed, code, checks, tests, documents): 21 measured items and an order; the owner picks.", true]
 ];
 const ARCHIVE = [
   ["docs/engineering-phase-completion.md", "docs/archive/reports/engineering-phase-completion.md", "archive", "The engineering phase completion report."],
