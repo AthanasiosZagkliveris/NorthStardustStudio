@@ -1,15 +1,22 @@
-# Every push: the typecheck, the tests, the build and the fast checks that need no browser (the same as npm run verify).
-# Pull requests to main and runs started by hand: the layout check too, in its own job.
+# Pushes to main, pull requests to main and runs started by hand: the typecheck, the tests, the build and the fast checks
+# that need no browser (the same as npm run verify). A branch is checked once, by its pull request (until 2026-11-21 every
+# push to any branch ran too, so each pull request ran the same job twice). Pull requests and runs started by hand: the
+# layout check too, in its own job.
 # See docs/ai/03-toolchain-and-verification-playbook.md, "Continuous integration".
 name: CI
 
 # "on" is quoted so strict YAML 1.1 readers do not read it as true.
 "on":
   push:
-    branches: ["**"]
+    branches: [main]
   pull_request:
     branches: [main]
   workflow_dispatch:
+
+# A newer push to the same pull request or branch cancels the run it replaces.
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
   verify:

@@ -17,7 +17,7 @@ Status: **reference**, written 2026-11-21, updated 2026-11-21. The app's tests: 
 
 ### Where they are and how they run
 
-The app has 2,313 tests in 200 files (2,311 pass, 2 are skipped on purpose: they rewrite the saved examples and the saved document words, and run only when asked), counted on the Finance link fix, now on main. Most test files sit beside the file they test and carry its name with `.test.ts` or `.test.tsx` added, so `FinancialModel.ts` is tested by `FinancialModel.test.ts` next to it. The house-rule tests and the shared test helpers are in src/test/.
+The app has 2,314 tests in 201 files (2,312 pass, 2 are skipped on purpose: they rewrite the saved examples and the saved document words, and run only when asked), counted on the Finance link fix, now on main. Most test files sit beside the file they test and carry its name with `.test.ts` or `.test.tsx` added, so `FinancialModel.ts` is tested by `FinancialModel.test.ts` next to it. The house-rule tests and the shared test helpers are in src/test/.
 
 They are written with Vitest and come in two kinds:
 
@@ -33,6 +33,10 @@ How to run them:
 | `npm run verify` | every test, then the code and docs checks | before a push; CI runs the same checks, plus a build, on every push |
 | `npx vitest run src/framework/engine/financial` | one folder or one file | when looking at one area |
 
+### How much of the code the tests reach
+
+Measured on 2026-11-22 with `npx vitest run --coverage` (`@vitest/coverage-v8`, installed only for the run): 79.0% of the lines of `src/`, 72.7% of the branches, 77.8% of the functions. The parts the tests reach least are the answers of Systems 05 to 24 (the checklist and card lists, the Process Library), the export (`AnswerExport.ts` 25%, `ExportFlow.tsx` 45%), `CalendarTaskService.ts` (27%), `jumpTo.ts` (28%) and `Landing.tsx` (35%); the review of 2026-11-21 (`docs/proposals/app-review-2026-11-21.md`, T3) says which to test.
+
 ### The six groups
 
 More than four tests in five check either the screens (991) or the business rules behind them (905).
@@ -41,8 +45,8 @@ More than four tests in five check either the screens (991) or the business rule
 | --- | --- | --- | --- | --- |
 | Screens | 991 | 93 | `src/components/` | every card, tile, field, rail and dialog draws and behaves as specified |
 | Business rules | 905 | 70 | `src/framework/engine/` | the questions, choices, money, legal and channel logic gives the right answers |
-| Saved data and examples | 125 | 10 | `src/services/`, `src/data/`, `src/hooks/` | saving, loading, old answers and the two example businesses |
-| Whole pages | 115 | 9 | `src/pages/` | each page opens, moves and exports as a whole |
+| Saved data and examples | 126 | 10 | `src/services/`, `src/data/`, `src/hooks/` | saving, loading, old answers and the two example businesses |
+| Whole pages | 115 | 10 | `src/pages/` | each page opens, moves and exports as a whole |
 | Design system and docs | 114 | 17 | `src/library/`, `src/styles/`, `src/docs/`, `src/test/` | the look stays on the tokens; the docs name only what exists |
 | Content files | 63 | 1 | `src/framework/parser/` | the Systems' Markdown links resolve and their three files agree |
 
@@ -67,14 +71,14 @@ These run the app's logic without drawing anything, so they are fast and exact a
 - **Channels** (39) and **legal** (29): channel resources and fees; legal facts, starts, suggestions and the US states.
 - **Everything else in `framework/engine/`** (544): the Business Documents and forecast, demand against capacity, journey suggestions, search, statuses, card dates, the palette, labels with "&".
 
-### Saved data and examples: 125 tests
+### Saved data and examples: 126 tests
 
 - **Services** (95): saving and loading an Organisation, bringing old answers up to date, and the two example businesses (Quillfield and Lumen & Loom) checked for drift and completeness.
 - **Data** (26) and **hooks** (4): the glossary places and the shared hooks.
 
 ### Whole pages: 115 tests
 
-Each page opened as a whole: Landing (importing an Organisation file), System selection, the Conversation, Review, Workbook, Global Settings and the export flow. `examplePages.test.tsx` draws every page of both examples and compares them with a saved snapshot, so an unplanned change to any page shows up.
+Each page opened as a whole: Landing (importing an Organisation file), System selection, the Conversation, Review, Workbook, Global Settings and the export flow. `examplePages.lumen.test.tsx` and `examplePages.quillfield.test.tsx` draw every page of both examples and compare them with a saved snapshot, so an unplanned change to any page shows up.
 
 ### Design system and docs: 114 tests
 
@@ -108,7 +112,7 @@ Every test is listed, in its own words (tests that only repeat for another Syste
 
 ## Every test, in detail
 
-The tabs under this one list all 200 test files and every test in them, one tab for each of the six groups on the Overview tab (counts and paths are in its table). Each test is written in the words the test itself uses, under the heading its file gives it.
+The tabs under this one list all 201 test files and every test in them, one tab for each of the six groups on the Overview tab (counts and paths are in its table). Each test is written in the words the test itself uses, under the heading its file gives it.
 
 The lists come from the full run of 21 November 2026, on the Finance link fix, now on main. Tests that differ only by System, example or reading mode are written once, with the list of what varies; each of them is still counted.
 
@@ -3104,7 +3108,7 @@ These files hold the interview's questions: which are asked, in what order, whic
 
 ## Saved data and examples: every test
 
-10 files, 125 tests. They check how an Organisation is saved, read back and moved from older saves, and that the two example organisations (Lumen & Loom Studio and Quillfield Automation LLC) are complete and read the way the app reads them.
+10 files, 126 tests. They check how an Organisation is saved, read back and moved from older saves, and that the two example organisations (Lumen & Loom Studio and Quillfield Automation LLC) are complete and read the way the app reads them.
 
 ### src/data/ (1 file, 26 tests)
 
@@ -3166,9 +3170,9 @@ These files hold the interview's questions: which are asked, in what order, whic
   - adds an Organization seeded in localStorage later to the ones already kept, by id
   - keeps the store's debounce and saved signal: saving, then saved once IndexedDB has it
 
-#### LocalOrganizationStore.test.ts (7)
+#### LocalOrganizationStore.test.ts (8)
 
-- **LocalOrganizationStore** (7)
+- **LocalOrganizationStore** (8)
   - collapses a burst of writes into one, after the debounce, while reads see the latest at once
   - writes everything pending at once on flush
   - flushes when the page is hidden or left
@@ -3176,6 +3180,7 @@ These files hold the interview's questions: which are asked, in what order, whic
   - surfaces a full store as an error, keeps the edit, and recovers on the next successful write
   - names any other failed write as unavailable storage
   - never resurrects a removed document from a pending write
+  - parses a saved Organisation once, and again only when the stored text changes
 
 #### OrganizationService.test.ts (7)
 
@@ -3271,9 +3276,9 @@ Each heading is a change to how answers are saved; the tests check that an older
 
 ## Whole pages: every test
 
-9 files, 115 tests. Each one draws a whole screen of the app, as the person sees it, and presses, types and moves around it.
+10 files, 115 tests. Each one draws a whole screen of the app, as the person sees it, and presses, types and moves around it.
 
-### src/pages/ (9 files, 115 tests)
+### src/pages/ (10 files, 115 tests)
 
 #### Conversation.test.tsx (21): the interview screen
 
@@ -3392,9 +3397,9 @@ Each heading is a change to how answers are saved; the tests check that an older
   - lists the open Organisation's terms alone, with no Organisation in the funnel, inside an Organisation
   - keeps the old addresses: /glossary, /review and /documents open the Workbook on their section
 
-#### examplePages.test.tsx (37): every page of both examples, against a saved picture
+#### examplePages.lumen.test.tsx (19) and examplePages.quillfield.test.tsx (18): every page of both examples, against a saved picture
 
-Each test draws one page of an example organisation and compares it with the saved snapshot (src/pages/\_\_snapshots\_\_/examplePages.test.tsx.snap), so any change to what a page shows is noticed.
+Each test draws one page of an example organisation and compares it with the saved snapshot (src/pages/\_\_snapshots\_\_/, one snapshot file for each example), so any change to what a page shows is noticed.
 
 - **Lumen & Loom Studio** (18) and **Quillfield Automation** (18), the same 18 pages each:
   - Identity System › 1. Definition, 2. Purpose, 3. Legal Entity, 4. Founders Profile
