@@ -167,6 +167,15 @@ export default function SectionTiles({
             latest.current.find(tile => tile.id === was)?.discardIfBlank?.();
         }
     }, [openId]);
+    // (Left with the layer under it too: Escape closes every layer at once, and these tiles go with their dialog still open -- the Strategic Period's Themes. A blank
+    // Theme stayed at each "+", nine of them, then the page failed; layout check, 2026-11-21.)
+    useEffect(() => () => {
+        const was = lastOpenId.current;
+        lastOpenId.current = null;
+        if (was !== null) {
+            latest.current.find(tile => tile.id === was)?.discardIfBlank?.();
+        }
+    }, []);
 
     // The shape counts every tile but the tail one (if any), which is placed beside the last of them.
     const others = tiles.filter(tile => !tile.tail);
