@@ -22,10 +22,11 @@ Status: **index**, updated 2026-11-21. One line per document: where it is, what 
 7. [The research and the sources (`design/research/`, Research 1 to 8)](#7-the-research-and-the-sources-designresearch-research-1-to-8)
 8. [The library (`design/library/`, Library 1 to 7)](#8-the-library-designlibrary-library-1-to-7)
 9. [The records (`design/records/`, Records 1 to 4)](#9-the-records-designrecords-records-1-to-4)
-10. [Rules for the assistant](#10-rules-for-the-assistant-ai)
-11. [The specifications](#11-the-specifications-specifications)
-12. [The proposals](#12-the-proposals-proposals)
-13. [The archive](#13-the-archive-archive)
+10. [The tests](#10-the-tests-testing)
+11. [Rules for the assistant](#11-rules-for-the-assistant-ai)
+12. [The specifications](#12-the-specifications-specifications)
+13. [The proposals](#13-the-proposals-proposals)
+14. [The archive](#14-the-archive-archive)
 
 The design documents are grouped by what they hold, and each folder has its own sequence from 1, in the order the app shows things (the questions run Identity, Brand, Business, Strategy). A document is cited by its folder and number, "Questions 2" or "Interface 1"; the number is in the file name and the title. Until 2026-11-21 the documents had one sequence for all the folders (1 to 55); the old numbers are in the last table here, for reading older log rows, commits and PRs. The alphabetical index of the subjects is [index.md](index.md); the index of the places in the app is [app/02-index.md](app/02-index.md); the terms are in [app/03-glossary.md](app/03-glossary.md).
 
@@ -150,7 +151,15 @@ The log of every change (1), what has not been done (2), and the generated catal
 | [design/records/03-catalogue-record.md](design/records/03-catalogue-record.md) | generated | The catalogue record of the app's pages, tiles, cards and controls, from the card scan and the probes. | 2026-11-21 |
 | [design/records/04-structure-tables.md](design/records/04-structure-tables.md) | generated | The structure tables of the app (pages, chapters, tiles, views, components, fields, card kinds), from the catalogue. | 2026-11-21 |
 
-## 10. Rules for the assistant (`ai/`)
+## 10. The tests (`testing/`)
+
+What the app's tests check, file by file, and how they run.
+
+| Document | Kind | What it holds | Updated |
+|---|---|---|---|
+| [testing/01-app-tests-guide.md](testing/01-app-tests-guide.md) | reference | The app's tests: where they are, how they run (Vitest, the pre-commit hook, CI), and what every test file checks, in six groups (screens, business rules, saved data and examples, whole pages, design system and docs, content files). | 2026-11-21 |
+
+## 11. Rules for the assistant (`ai/`)
 
 Standing rules, references and playbooks for an AI assistant working on the project, the code map and the folder plan.
 
@@ -167,7 +176,7 @@ Standing rules, references and playbooks for an AI assistant working on the proj
 | [ai/08-card-kinds.md](ai/08-card-kinds.md) | reference | The kinds of card, where each one's code is, how its head is built. | 2026-11-21 |
 | [ai/05-folder-plan.md](ai/05-folder-plan.md) | reference | The folders of the repository: the app files, the examples, the working files and the exports, and the documents folder (it was document 25; the number is retired). | 2026-11-21 |
 
-## 11. The specifications (`specifications/`)
+## 12. The specifications (`specifications/`)
 
 The pages of the four Systems (Identity, Brand, Business, Strategy), the Inventory, the Workbook and the Settings.
 
@@ -187,7 +196,7 @@ The pages of the four Systems (Identity, Brand, Business, Strategy), the Invento
 | [specifications/06-workbook/README.md](specifications/06-workbook/README.md) | current design | The Workbook: the page drawn as a dialog, and each of its sections: Business Documents, Financial Documents, Review, References and Glossary, Card Notes. | 2026-11-21 |
 | [specifications/07-settings/README.md](specifications/07-settings/README.md) | specification | Settings: the Global Settings screen (how it is drawn and the rule each part follows), the reading mode (Appearance) and Focus, all three in the header's Menu. | 2026-11-21 |
 
-## 12. The proposals (`proposals/`)
+## 13. The proposals (`proposals/`)
 
 Plans that are still open and not started; each leaves for the archive when it is built or replaced.
 
@@ -196,7 +205,7 @@ Plans that are still open and not started; each leaves for the archive when it i
 | [proposals/workspace-d-duplicate-scenarios-compare.md](proposals/workspace-d-duplicate-scenarios-compare.md) | proposal | Workspace features D, not started: duplicate an Organisation or a card, financial scenarios, compare. | 2026-11-21 |
 | [proposals/workspace-e-founder-helpers.md](proposals/workspace-e-founder-helpers.md) | proposal | Workspace features E, not started: helpers for founders (what would it take, the lender-ready check, the one-pager, glossary hints). | 2026-11-21 |
 
-## 13. The archive (`archive/`)
+## 14. The archive (`archive/`)
 
 Documents that are finished or replaced; each is kept for its information.
 
