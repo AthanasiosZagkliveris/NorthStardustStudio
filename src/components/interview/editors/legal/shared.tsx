@@ -13,7 +13,7 @@ import { differentiationByLifeStage, differentiationByPurpose, differentiationBy
 
 /**
  * A Legal Form saved as "Other (not listed)" before 2026-10-30. The list no
- * longer offers it (doc 33, section 9; the owner): an older answer still
+ * longer offers it (Questions 4, section 9; the owner): an older answer still
  * shows, with its typed name, until it is changed.
  */
 export const LEGAL_FORM_OTHER = "Other (not listed)";
@@ -48,7 +48,7 @@ export const MAX_MORE_NUMBERS = 5;
 /** The longest further number (a trade mark, a licence): any characters, no more than this. */
 export const MAX_OTHER_NUMBER_LENGTH = 30;
 
-/** Seller & Buyer Relationship (design document 28, 8.2): the owner's words as written, one choice. */
+/** Seller & Buyer Relationship (design Questions 2, 8.2): the owner's words as written, one choice. */
 export const CUSTOMER_TYPES = [
     { id: "b2c", label: "B2C (Business-to-Consumer)" },
     { id: "b2b", label: "B2B (Business-to-Business)" },
@@ -80,12 +80,12 @@ export const JURISDICTIONS = [
 ] as const;
 
 /**
- * THE FIRST VERSION (design document 33, section 4): a single-sided market, and the seller and buyer relationships B2C and B2B. B2G and G2B, and the multi-sided market, are built and hidden:
- * they are a future feature (document 33), and an older answer that holds them is read without them (AnswerLegal.ts).
+ * THE FIRST VERSION (design Questions 4, section 4): a single-sided market, and the seller and buyer relationships B2C and B2B. B2G and G2B, and the multi-sided market, are built and hidden:
+ * they are a future feature (Questions 4), and an older answer that holds them is read without them (AnswerLegal.ts).
  */
 export const FIRST_VERSION_CUSTOMER_TYPES = CUSTOMER_TYPES.filter(type => type.id === "b2c" || type.id === "b2b");
 
-/** The buyer's category (document 33, section 5): what the buyer buys for. One choice for each relationship, saved as "b2c:proxy". */
+/** The buyer's category (Questions 4, section 5): what the buyer buys for. One choice for each relationship, saved as "b2c:proxy". */
 export const BUYER_CATEGORIES = [
     { id: "direct", label: "Direct Buyers" },
     { id: "proxy", label: "Proxy Buyers" },
@@ -125,7 +125,7 @@ export const USER_LIFE_STAGES = [
     { id: "age:senior", label: "Seniors" }
 ] as const;
 
-/** The purpose of the offering: the twelve of document 31, section 7. */
+/** The purpose of the offering: the twelve of Research 5, section 7. */
 export const PURPOSES = [
     { id: "learning", label: "Learning & Development" },
     { id: "health", label: "Health, Care & Wellbeing" },
@@ -152,7 +152,7 @@ export const DIFFERENTIATIONS = [
     { id: "personal", label: "Personal Service & Relationship" }
 ] as const;
 
-/* (The Outcome for the buyer left Positioning on 2026-11-08, owner: the Offering's O4 owns it; a saved answer starts O4 through the crosswalk, doc 34, 5.2a. Its words stay
+/* (The Outcome for the buyer left Positioning on 2026-11-08, owner: the Offering's O4 owns it; a saved answer starts O4 through the crosswalk, Research 3, 5.2a. Its words stay
    for the saved answer: OUTCOME_WORDS, ActivityClassification.ts.) */
 
 /** Outcome for the user, asked of a Proxy or Dual-Intent Buyer: what matters most to the user. Asked on the Segment's End user part since 2026-11-08 (SegmentQuestions.ts, `u-outcome`); the order below. */
@@ -189,7 +189,7 @@ function lifeStagesOf(order: PositioningOrder): { buyer: string[]; user: string[
 }
 
 /**
- * THE DIFFERENTIATIONS IN THEIR ORDER (as built on Positioning; doc 31, the owner's tables): a business buyer's audience scale and category order them (a blank of the scale's table is not
+ * THE DIFFERENTIATIONS IN THEIR ORDER (as built on Positioning; Research 5, the owner's tables): a business buyer's audience scale and category order them (a blank of the scale's table is not
  * offered; one already chosen stays), otherwise the buyer's category does; the business relationships, the purposes chosen and the life stages come before them, in that precedence.
  */
 export function differentiationOptionsFor(order: PositioningOrder, chosen: readonly string[]): { id: string; label: string }[] {
@@ -468,10 +468,10 @@ export interface LegalEntityEditorProps {
 
     value: unknown;
 
-    /** The founders Infrastructure & Capability pays a salary (their ids): the founder's card asks the Personal Survival Budget of every other founder (doc 48, section 13). */
+    /** The founders Infrastructure & Capability pays a salary (their ids): the founder's card asks the Personal Survival Budget of every other founder (Questions 20, section 13). */
     salariedFounderIds?: readonly string[];
 
-    /** Whether anyone on the payroll is paid (a founder's salary, a member of staff: Infrastructure & Capability), for the PAYE registration the app makes (doc 53). */
+    /** Whether anyone on the payroll is paid (a founder's salary, a member of staff: Infrastructure & Capability), for the PAYE registration the app makes (Questions 10). */
     paysAnyone?: boolean;
 
     /** The Opening Date of the Global Settings: the company cannot be formed after it. */
@@ -505,7 +505,7 @@ export interface LegalEntityEditorProps {
     /** Only the Founders & Ownership tile's dialog (the tile stands on 1. Definition; its answer is this page's). */
     foundersOnly?: boolean;
 
-    /** Only the Positioning questions (market structure, seller and buyer relationship, audience, outcome): the body of the Positioning tile's dialog, above its Notes (design document 28, 8.2). */
+    /** Only the Positioning questions (market structure, seller and buyer relationship, audience, outcome): the body of the Positioning tile's dialog, above its Notes (design Questions 2, 8.2). */
     audienceOnly?: boolean;
 
     /** The Description, which the Identity System's Definition keeps (its saved value); where it is given the Description box reads and writes it, else the organisation's own text (the old Main Activity). */

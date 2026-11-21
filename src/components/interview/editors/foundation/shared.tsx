@@ -75,7 +75,7 @@ export const SUBSECTIONS = {
             objections: ["What concerns or reasons might stop the customer from choosing a solution?"]
         },
         // A Profile of a Segment with an end user (owner, 2026-11-08: "If the buyer is proxy, the profile should contain questions for both buyer and end user."): its two
-        // parts, each a section with its "i" (doc 36, 2.1). Choosing, paying and deciding are the buyer's; who they are, how they use it and what they want from it, the end user's.
+        // parts, each a section with its "i" (Questions 13, 2.1). Choosing, paying and deciding are the buyer's; who they are, how they use it and what they want from it, the end user's.
         profileParts: {
             buyer: ["The person who chooses and pays: what matters to them when choosing, where they find you, how they compare and what might hold them back."],
             user: ["The person it is for, who uses it: who they are, what they want from it, what frustrates them and what they need."],
@@ -115,7 +115,7 @@ export const SUBSECTIONS = {
             { id: "offerings", title: "Offerings", text: "What do they sell or provide?" },
             // K2 to K4 (owner, 2026-11-08, S10): the box asks where they sell, how big they are and whether they are growing; it no longer promises industries.
             { id: "market", title: "Market", text: "Where do they sell, how big are they, and are they growing?" },
-            // "and attract" dropped (2026-11-06): the box asks only where they reach customers (K5), since the attract question went (doc 41).
+            // "and attract" dropped (2026-11-06): the box asks only where they reach customers (K5), since the attract question went (Questions 14).
             { id: "acquisition", title: "Customer Acquisition", text: "How do they reach customers?" },
             { id: "experience", title: "Customer Experience", text: "What do customers say about their experience?" }
         ],
@@ -178,7 +178,7 @@ export interface DescriptionPart {
     /** The heading level of its title (3 where it is a section of its card, 4 where it stands under a section: the Profile's boxes). */
     level?: number;
     /**
-     * Where its note is kept, when not in the Description's own text under its id (a Profile's Objections, Goals and Challenges notes, and the end user's Personal note: doc 36,
+     * Where its note is kept, when not in the Description's own text under its id (a Profile's Objections, Goals and Challenges notes, and the end user's Personal note: Questions 13,
      * 2.1): the note's text, how it is written, and the key of its field where the title is used twice on one card.
      */
     noteValue?: string;

@@ -1,5 +1,5 @@
 /**
- * WHICH BUYER AND USER RELATIONSHIPS FIT THE BUYER'S CATEGORY (the owner's tables of 2026-10-30, design document 31, 10.7 and 10.6): fewer options help the user, so the End User question shows only
+ * WHICH BUYER AND USER RELATIONSHIPS FIT THE BUYER'S CATEGORY (the owner's tables of 2026-10-30, design Research 5, 10.7 and 10.6): fewer options help the user, so the End User question shows only
  * the relationships that can be a Proxy Buyer's (the buyer buys for the other) or a Dual-Intent Buyer's (one purchase for the buyer and the dependents). A relationship that cannot be the chosen
  * category is not offered, and an answer already given for one goes with a change of category. Both lists are the owner's judgement, one line each; the buyer's own answer still decides the category.
  */

@@ -50,14 +50,14 @@ One tree, edited in place. There is no separate build tree and no sync step.
 4. **Build:** `npm run build` (`tsc && vite build`). Must succeed.
 5. **Layout check** (for any change to a page, tile, card or style): `npm run check:layout` (it starts `npm run dev` on port 1420 itself when no server answers, and stops it at the end; it restarts an example when a page reloads under it; Playwright is a dev dependency). That is the quick run: every Foundation page of the Quillfield example at 1920 wide in the light page, failing on any finding that is not in `tools/scripts/layout-check/baseline.json` (empty today, so any finding fails). `node tools/scripts/layout-check/run.mjs` without `--quick` runs every width (1920, 1536, 1366, 768; 1536 added 2026-11-20: a 1920 screen at 125% scaling), both themes and both examples (about 25 minutes). **Every scene starts from a known scroll** (2026-11-20): the probe scrolls the window to its top and brings each tile into view as a reader does, then lets the scroll settle, so a run never starts where the last scene left the page and two runs give the same findings; the scrolled case has a scene of its own (`checkScrolledDialog`: at 768 the page scrolled to its foot, its last Master Tile opened, the dialog 12px under the page title's underline and its tab 12px under the dialog). `npm run check:layout:wide` is the long run (three modes, seven windows, both examples); its baseline (`baseline-wide.json`) was written on 2026-11-13 from commit 4723cbf5 (6,553 known findings), so a later run reports only what is new. `CHECK_PAGES="Customer Engagement" npm run check:layout` runs one page; a finding of a sub-pixel size can come and go between runs. Rewrite a baseline only by the owner's decision. What the check measures: `layout-rules.md`, section 18. For a floating card of questions, `npm run check:card` opens the card (`CARD_OPEN="<tile name>"`, `BASE_URL` for a running app; the other variables are in the head of `tools/scripts/layout-check/floating-card-audit.mjs`) in sepia, light and dark at 1440 wide and in sepia at 520, and checks the pattern of `layout-rules.md`, section 8 ("A floating card of questions").
 6. **Look at it** in a browser as the owner sees it, in the way `review.md` (section 13) says; the automatic checks do not replace it. `npm run tauri dev` runs the same frontend in the desktop shell.
-7. **Documents:** the log row in `../design/records/04-log.md`, the rule if a rule changed, the examples if the interface changed (`src/data/examples/`, below), then `npm run docs:index`.
+7. **Documents:** the log row in `../design/records/01-log.md`, the rule if a rule changed, the examples if the interface changed (`src/data/examples/`, below), then `npm run docs:index`.
 8. **Commit** only what was changed. Do not push, merge or tag without the owner's yes.
 
 ## What the unit tests cover, and what they do not
 
 Vitest is the only unit-test layer: parsing, number and date logic, data transforms, what a component or a hook computes, the generated documents, and the examples (`ExampleDrift`, `ExampleCompleteness`, the golden files). `environment: "jsdom"` is set in `vitest.config.ts` (a separate file from `vite.config.ts`, whose `server` block is for Tauri). A test stands beside what it tests; tests that cross components are in `components/interview/tests/`.
 
-Document tests: `src/docs/documentReferences.test.ts` (the rulebook, `card-kinds.md`, the Infrastructure & Capability specification, doc 1 and doc 26 name only properties, classes and files the code has), `documentValues.test.ts` and `documentAssets.test.ts` (the generated parts of the rulebook). Run them with `npx vitest run src/docs` after editing any of these documents.
+Document tests: `src/docs/documentReferences.test.ts` (the rulebook, `card-kinds.md`, the Infrastructure & Capability specification, Foundation 1 and 2 name only properties, classes and files the code has), `documentValues.test.ts` and `documentAssets.test.ts` (the generated parts of the rulebook). Run them with `npx vitest run src/docs` after editing any of these documents.
 
 A green run proves the logic, not the look. How the app renders and responds to the pointer is checked by the layout check and by looking (steps 5 and 6).
 
@@ -71,7 +71,7 @@ Before and after a change that must not change the screen (code moved between fi
 
 **The page snapshot test** (`src/pages/examplePages.test.tsx`): every page of the Identity, Brand, Business, Strategy and Operations Systems, and every section tile's dialog, opened with both examples; what each reads is kept in `src/pages/__snapshots__/`. A change that means to change what a page says updates it with `npx vitest run src/pages/examplePages.test.tsx -u` and says so in the log.
 
-**The rules-in-force summaries**: `npm run docs:in-force` writes, at the top of the rulebook and of doc 26, a summary from their own text (`npm run docs:check` fails where one is stale).
+**The rules-in-force summaries**: `npm run docs:in-force` writes, at the top of the rulebook and of Foundation 2, a summary from their own text (`npm run docs:check` fails where one is stale).
 
 ## Finding where something is styled
 
@@ -101,7 +101,7 @@ A git hook (`.githooks/pre-commit`) runs the three quick checks, about 15 second
 - **Package versions:** Playwright is pinned (1.64.1): a newer one needs its own browser downloaded before the checks run (`npx playwright install chromium`). The Tauri packages (`@tauri-apps/cli`, `@tauri-apps/plugin-opener`) move only together with their Rust crates in `src-tauri/Cargo.lock`, or the desktop build stops on the mismatch.
 - **Filename guesses fail:** a System's file triad is not named alike everywhere (`framework-dsl-grammar.md`, "File triad"). List the directory first.
 - **A test looks wrong but the app is right:** check whether the assertion's assumption (an old label, a stale fixture) is what is stale. Decide which side is wrong before fixing either.
-- **A test of a document fails after a rename:** `documentReferences.test.ts` fails when one of its documents names a property, class or file the code does not have (a bare file name such as `21-shared-components.md` is read as a file: write "doc 21" instead); fix the document's reference, not the test.
+- **A test of a document fails after a rename:** `documentReferences.test.ts` fails when one of its documents names a property, class or file the code does not have (a bare file name such as `01-shared-components.md` is read as a file: write "Interface 1" instead); fix the document's reference, not the test.
 
 ## How to triage a red result
 

@@ -2,7 +2,7 @@ import "../../styles/business-documents.css";
 import { type ForecastViewTable } from "../../framework/engine/financial/FinancialForecast.ts";
 
 /**
- * ONE FORECAST TABLE, WHEREVER IT STANDS (the Workbook's Financial Forecast; owner, 2026-11-20 12:49 UTC+2; the Financials' Cash Flow tile drew it until it became a record, doc 48, section 14):
+ * ONE FORECAST TABLE, WHEREVER IT STANDS (the Workbook's Financial Forecast; owner, 2026-11-20 12:49 UTC+2; the Financials' Cash Flow tile drew it until it became a record, Questions 20, section 14):
  * its caption, its note, a column per period, the subtotal columns set apart, a heading row, a row of words in place of figures, and the figures.
  */
 export default function ForecastTable({ table, currency, format, annual = false }: { table: ForecastViewTable; currency: string; format: (amount: number) => string; annual?: boolean }) {

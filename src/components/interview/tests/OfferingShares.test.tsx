@@ -19,7 +19,7 @@ import { withInheritedOfferings, withoutGoneOfferings } from "../../../framework
 import { asFinancialFoundationValue, consolidateCosts, offeringCosts, type CostSources } from "../../../framework/engine/financial/FinancialModel";
 
 /* G10: an Offering card is linked to an Offering (required). A fixed or one-time cost linked to several is shared by a basis -- by hours, by revenue, in equal
-   parts, or the user's own split, which totals 100% (owner, 2026-11-16; doc 3, R3). A cost paid per unit or as a share of revenue is each Offering's in full. */
+   parts, or the user's own split, which totals 100% (owner, 2026-11-16; Research 2, R3). A cost paid per unit or as a share of revenue is each Offering's in full. */
 
 afterEach(cleanup);
 

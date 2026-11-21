@@ -42,7 +42,7 @@ export const LOAN_PRE_INTEREST_HELP: InfoPoint[] = [
 ];
 
 export const SECTIONS = {
-    // (THE COST OF EACH OFFERING (doc 48, 15.2; owner, 2026-11-21 00:56 UTC+2): the totals, then each Offering's sale against its costs; every cost in full is the
+    // (THE COST OF EACH OFFERING (Questions 20, 15.2; owner, 2026-11-21 00:56 UTC+2): the totals, then each Offering's sale against its costs; every cost in full is the
     // Inventory's and the Financial Plan's.)
     costs: {
         title: "Cost of each Offering",

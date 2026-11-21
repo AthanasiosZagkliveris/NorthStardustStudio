@@ -95,7 +95,7 @@ export function useFloatingPanel(
      */
     free = false,
     /**
-     * A panel (a calendar, a colour card) opens BELOW its control first, as doc 23 sets a P2 panel (owner, 2026-11-10: "check that it opens at the
+     * A panel (a calendar, a colour card) opens BELOW its control first, as Interface 7 sets a P2 panel (owner, 2026-11-10: "check that it opens at the
      * proper place, follows the rules"); a note over its "i" keeps the place above.
      */
     belowFirst = false

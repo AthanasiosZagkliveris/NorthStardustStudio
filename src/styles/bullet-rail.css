@@ -339,7 +339,7 @@
 .bullet-rail-item:focus-visible { outline: 2px solid var(--line-primary); outline-offset: 4px; border-radius: var(--radius-sm); }
 
 /* A RAIL THAT SHOWS ITS BULLETS ALONE (a window under 1700px, or a compact rail) does not draw its names: each bullet's name is the app's one tooltip
-   (TitleTooltips, from the bullet's aria-label), in the tooltip's one look and place (docs/design/interface/24-tooltips.md; owner, 2026-11-21 16:02 UTC+2: "Tooltips
+   (TitleTooltips, from the bullet's aria-label), in the tooltip's one look and place (docs/design/interface/08-tooltips.md; owner, 2026-11-21 16:02 UTC+2: "Tooltips
    should have the same style, and use the same rules about how and where they appear"). */
 .bullet-rail-label {
 

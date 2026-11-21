@@ -9,7 +9,7 @@ import { subchannelHidden } from "./businessFoundation/channelCategories.ts";
 import lumenText from "../../data/examples/lumen-and-loom-studio.json?raw";
 import quillText from "../../data/examples/quillfield-automation-llc.json?raw";
 
-/* Customer Engagement follows the Foundation (doc 47, section 3; doc 28, 7.4 and 7.5): each rule, then both examples. */
+/* Customer Engagement follows the Foundation (Questions 17, section 3; Questions 2, 7.4 and 7.5): each rule, then both examples. */
 
 function example(text: string) {
     const json = JSON.parse(text) as { systems: Record<string, { responses: { sectionNumber: number; value: unknown }[] }> };

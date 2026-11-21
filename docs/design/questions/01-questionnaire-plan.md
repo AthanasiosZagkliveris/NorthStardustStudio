@@ -1,0 +1,182 @@
+# 1. Questionnaire plan: from a few answers to a ready-made first draft
+
+Status: **proposal**, written 2026-10-23, updated 2026-11-21. Its Business page numbers are the old ones (`specifications/business-system/README.md`, "The old page numbers"). Built so far: the Organisation tile with its activity cascade, the business stage, the Early Positioning questions with their End User questions (Questions 2, 8.2, 8.2a, 8.5), the Segment card's questions (Questions 12), the Profile card's questions in part (Questions 13), the Competitor card (Questions 14), the Offering card in part (Questions 16) and the Value Proposition draft (Questions 15); the rest of this plan is not built. This is the plan: the goal, the order, what the user gets at each stage, what was cut and why, and what the owner must decide. The detail (every list with examples, the industry list in two levels, every question and option, the connection map and its evidence, the sources) is in Questions 2, `02-questionnaire-specification.md`, which has a contents block at its top; the flow of the questions is Questions 3; the sources are in `01-references.md`, section 2.7.
+
+> **First published version (owner, 2026-10-29):** English only; UK, Ireland, USA, Canada, Australia, New Zealand and Other; single-sided; B2C and/or B2B; the buyer's category separate from the buyer's life stage. **Questions 4 governs** where it differs from this document. Everything described here that the first version does not contain (B2G, G2B, multi-sided markets, other countries, accessibility, caregiving and the rest) is a future feature: Questions 4. Age limits are checked on the Offering (O12) and the Review (Questions 16; O12 is not built yet). Contents of the documents: `docs/README.md`; index: `docs/index.md`; glossary: `docs/app/glossary.md`.
+
+## 1. The goal, and the one test
+
+The app is for start-ups and small teams in the UK, USA, Canada, Australia, Ireland and New Zealand. A founder should not have to build the business model by hand: a few clear choices should give a **ready-made first draft** of the Segment, the Profile, the channels at every stage, the relationships, the demand rows, the value proposition, the skills needed and the brand starting points, which the founder then confirms and corrects.
+
+So every question must pass **one test: does its answer save the founder work?**
+
+- **Driver**: the answer produces a proposal (it pre-fills a field, proposes a card or a channel, drafts a text, or narrows a later list). These are built first.
+- **Check**: the answer only raises a Review item or an evidence line. Built after the drivers.
+- **Note**: nothing reads the answer. It is not asked; it stays as the optional note.
+
+Specific information (an age, an education, an income, a device) is asked **to connect it with the next part** (the channels, the payments, the help the customer wants), not to place it in a category. Where the evidence does not support a connection, the app does not make it (Questions 2, 11.6).
+
+## 2. The funnel
+
+| Step | What the user answers | What the app proposes in return |
+|---|---|---|
+| **1. Identity** (the Organisation and Early Positioning tiles; the free text stays) | What kind of work you do (two levels, with examples); where you are; what you compete on | The industry pack (example Segment, Offering, skill areas, resource groups, Discover channels); the country's activity code; a draft Description and Positioning sentence |
+| **2. Segment** (a narrow group: one choice for who they are; more is another Segment; Questions 12) | Who you sell to and where; the age group; education; work status; household income; the gender mix; for businesses their type, size, sector and industry; how comfortable online; where they discover, shop and pay; who decides | The Profile's options **follow the Segment's answers** (Questions 13, section 2); the national lists of the customers' country; the equality notice |
+| **3. Profile** (a typical person, specifics and behaviour; Questions 13) | An exact age within the Segment's group; gender; kind of work or job level; role in buying; what matters most; devices, social media, communities and events; how they compare options; the help they want; when they buy; goals, frustrations, worries | **The journey**: the channels at each of the five stages; the Direct Payment subchannels; the relationship type; the demand rows; the Value Proposition draft |
+| **4. Offering** | Form; ready or not; how it is bought; benefit; how it is received; what help is included | The presets (a service business hides stock and vehicles); one source for three "how it is bought" fields; the delivery roles and the capability **gap**; Support channels |
+| **5. Price and tax** | Whether the price includes the tax; what supports it | The tax arithmetic by country |
+| **6. Review** | Nothing | The checks and the rules of Questions 2, 11.5, as a short, ordered list of open items |
+
+## 3. A worked example (the author's illustration)
+
+A three-person web studio in the UK.
+
+| The founder answers | The app proposes |
+|---|---|
+| Identity: Software, IT, media and telecoms › web design and development; compete on quality and ease; setting up, not earning yet | "We are a web design and development studio." The code 62.01 for the Organisation tile. Example Offerings (a website build, a monthly care plan). Skill areas: delivering, marketing, sales and customer care, running the business. Workspace and software resources shown; stock and vehicles hidden |
+| Segment 1: businesses, across the country, Micro (1 to 9 employees), in hospitality (retail would be a second Segment); fairly comfortable online; pay by card and by invoice or bank transfer | The Profile's kind-of-business list (A4, not built) is hospitality's, with examples (hotels, restaurants and cafés, bars, catering) |
+| Profile: the owner of a restaurant or café; cares about ease and trust; uses Instagram and Facebook; compares by website, reviews and a quote; wants a little guidance | Discover: Website, Instagram, Facebook. Evaluate: Website, Email (quote), reviews. Purchase: Invoice, Bank Transfer, Card. Support: Email, Website. Relationship type: personal help. Demand rows: Website and social leads, Referrals. A Value Proposition draft built from ease and trust |
+
+The founder answered closed questions and typed names and notes; the first draft of four pages exists. Every proposal can be ignored or edited.
+
+## 4. What was cut
+
+Candidate questions were tested against the one test of section 1. **67 remain numbered: 41 drivers, 21 checks and 4 notes, with the Brand question parked** (the totals by area and the ids withdrawn, merged or no longer numbered are in Questions 2, Appendix B, the one place that holds them). The first release builds the **drivers**; the checks follow; the notes are never asked.
+
+## 5. The building blocks (five now, one parked)
+
+1. **The industry in two levels, with an example under each option.** Level 1 is 18 plain industries (every section of the UK, USA, Canada, Australia, Ireland and New Zealand schemes is covered; households and extraterritorial bodies are left out; non-profit and creative industries are not industries in any scheme). Level 2 is about 100 kinds of business, each mapped to the national codes by **division**, because the UK and the EU have a new edition that moves the section letters. The target audience's business types are fully covered. (28, 5.3, 5.4) Note: the seller's own activity (the Organisation tile, built) already uses the country's official levels instead (28, 5.7); the two-level plain list is for the customers' industry (G15, P24), which is still to be settled.
+2. **An example under every option** of every list ("Quality: fewer errors, a better finish"), so the user understands a choice without leaving the card. (28, 5.5)
+3. **The industry pack**: what a kind of business gives the user as one-click suggestions: example customers, offerings, skill areas, resource groups, Discover channels, the activity code, a typeface fit. Examples are labelled "for example", never "typical", because no source gives typical customers or channels by industry. The packs of the Tier 1 and Tier 2 types come first (about twelve). (28, 5.6)
+4. **The cascade**: the Segment is a narrow group (one choice per question; more is another Segment); the Profile follows it and defines it further (an exact age within the age group, one kind of business within the industry). Questions 13, section 2, owns what the Segment sets and the Profile chooses within it, and 2.2 what happens when a Segment answer changes.
+5. **The journey proposals**: where the customer looks, compares, buys and pays, how the offering is received and what help is wanted, become the channels of each stage, the payment subchannels, the relationship type and the demand rows. Customer Engagement is rebuilt as five stage tiles with a card per channel. (28, 7)
+6. **Brand starting points: parked.** The owner asked on 2026-10-23 to ignore the Brand system for now. The research and the mapping are kept for later (28, 8.3; `01-references.md`, BRD).
+
+## 6. The stages
+
+### Working one tile at a time
+
+We settle one tile at a time: its questions and their option lists (written as lists), what each answer drives, then the documents are updated, and only then is it built. Brand is parked.
+
+| Step | Tile | Status |
+|---|---|---|
+| 1 | Business 1, the Segment card (tile "Segment Description") | Built: the card asks its questions and reads Identity (Questions 12) |
+| 2 | Business 1, the Profile cards (same tile) | Built in part (Questions 13): A1 to A3, A3b, A5, A7, B1, C1 to C4, D1 to D3, E1 to E3 (B1 and E1 to E3 ticked and rated, 2026-11-04), and the Needs (Functional, Emotional, Social); not built: the kind of business, the specialised needs, the proposed Profiles, the user's own Profile |
+| 3 | Business 1, Competitors | Built (Questions 14): the Type on each competitor's tile and K1 to K10 on the card (2026-11-04); not built: what reads the answers outside the card |
+| 4 | Business 1, Offerings, with the Value Proposition draft | Built in part: the Offering's Type, Functional Needs Addressed and O1 to O10 (2026-11-07) and O14 to O18 in its six boxes with Notes (2026-11-08) (Questions 16); the Value Proposition draft and its open items (2026-11-07, Questions 15); not built: O12 |
+| 5 | Identity: the Organisation and Early Positioning tiles (Mission, Vision and the Ethics tiles stay prose) | Built in part: the Organisation tile and the Early Positioning questions (28, 8.2, 8.5); not built: the industry pack, the Description and Positioning drafts |
+| 6 | Business 2, the journey | |
+| 7 | Business 3, delivery and capability; the founders | |
+| 8 | Business 5, price and tax | |
+
+### The stages
+
+Each stage is one branch from `main`, tried once by the owner, with a browser check in three reading modes, the layout and console checks, `npm run verify`, the examples and a row in the log.
+
+| Stage | What the user gets | Questions | Depends on | Done when | Size |
+|---|---|---|---|---|---|
+| **A. Data foundations** | Nothing visible; stops later rework | none | none | Need ids (with a migration), "how it is bought" held once, the Offering Type drives presets, the industry keyed on divisions, both examples migrated | M |
+| **B. Identity entry** | Choices beside the free text of the Organisation and Early Positioning tiles (built in part); the industry pack; the activity code suggested (built); a draft Description and Positioning sentence | the 5 Identity drivers (I1, I3, I7, I8, I11) and the 2 checks later | A | The web-studio example above runs end to end | L |
+| **C. Segment and Profile** | The cascade; the national lists; the Value Proposition draft; the equality notice | 10 Segment, 12 Profile and 2 Competitor drivers | B | A Profile only offers what its Segment allowed; the draft appears; both examples updated | L |
+| **D. The journey** | Page 2 as stages and channel cards, proposed from page 1 | 2 Journey drivers and the proposals | C | The stage card passes the layout check first; the proposals fill every stage; demand rows appear | L |
+| **E. Offering, delivery, capability, founders** | The presets; the capability gap derived; the founder's profile inside Founders & Ownership; Capability as a Business 3 card | 6 Offering, 1 Delivery and 2 Capability drivers | C | A skill area an offering needs and no founder covers is listed with its cover options | M |
+| **F. Price and tax** | The price asked with the country's tax name and default | 1 driver | A | Revenue, contribution and break-even strip or add the tax | M |
+| **G. Checks** | The Review page as an ordered list of open items | the checks and the rules of Questions 2, 11.5 | A to F | Each check has a test and a message in the app's wording | M |
+| **H. Optional** | A guided, step-by-step overlay | none | G | Built from existing parts; only if wanted | S |
+
+## 7. Decisions for the owner
+
+The decisions are kept in one list, in Questions 2, section 13 (R1 to R61; it also holds the decisions of Questions 3). These ten unblock the work; the recommendation follows each.
+
+| Decision | Where it is decided (28, section 13) | Recommendation |
+|---|---|---|
+| Rebuild page 2 as a journey (stage tiles, a card per channel) | R1 | Yes, stage-first; prototype the stage card first |
+| Two-level industry list with examples, keyed on divisions | R26 | Approve; start with the Tier 1 and Tier 2 sectors; check the UK activity-code hint, which cites SIC 2007 while the UK has moved to SIC 2026 |
+| Identity choices beside the free text of the Organisation and Early Positioning tiles | R25 | Yes |
+| Industry packs: Tier 1 and Tier 2 first (about twelve), the rest generic | R27 | Yes; the owner approves each pack's examples |
+| Brand starting points | R28 | Parked by the owner; not now |
+| The cascade: the Profile chooses only within the Segment's ticks | R29 | Yes |
+| The first release builds the drivers | R30 | Yes |
+| Founders' profile into Founders & Ownership; Capability as a Business 3 card with the gap derived | R2, R3 | Yes; the editor first, storage unchanged |
+| No ethnicity or race list; country, language and need instead; the equality notice per country | R22 | Yes |
+| The plain wording, the lists and their examples (author's, no source) | R8, R31 | Review list by list; approve or amend |
+
+## 8. Risks
+
+- **Authoring effort.** The packs and the examples are written by hand and must be approved; the plan limits the first release to the target audience's business types.
+- **The classifications change.** The UK and the EU moved to a new edition in 2025 and 2026, NAICS has a 2027 revision proposed; keying on divisions and storing the edition keeps the lists stable.
+- **Too many suggestions.** A tile that offers ten suggestions is work, not help; each tile shows a short, ordered set with a "show more".
+- **Thin evidence.** New Zealand and Canada have the least; the Ofcom, ACMA, StatCan and CSO tables were not opened. The app says "tends to" and shows the source; it does not fill in numbers.
+- **Sensitive characteristics.** Gender is asked only when relevant; no ethnicity list; a visible notice that a segment must not be used to exclude or price differently by a protected characteristic.
+- **The page 2 rebuild** is the one change to existing layout; it is isolated in stage D and tested first.
+## 9. Where the detail is
+
+Questions 2 (a contents block at its top lists every section); Questions 3 for the flow of the questions as trees, the key branches, both, mixed, not sure and other, the order, and why each question matters; `docs/app/contents.md` for the index of the app and its documents.
+
+## 10. The order of work for Questions 9, 11, 17, 20 and 21
+
+(Moved here from Questions 21, section 8, on 2026-11-21.)
+
+Each phase is one branch and one pull request from a fresh `main`, in the owner's folder first. A phase brief opens by reading the sources its "i" texts cite and closes with its tests, the layout check where shared styles change, the documents updated and the log row. Documentation-only steps push and merge once the checks are green; every code step waits for the owner's yes (owner, 2026-11-12 14:18). Sizes: S a day or less, M a few days, L a week or more.
+
+| Phase | Content | New questions | Size | Depends on |
+|---|---|---|---|---|
+| **1. Customer Engagement as tiles** | one chapter per Segment, four tiles opening today's sections; layout only (Questions 17, section 3, step one) (built 2026-11-12); the page follows the Foundation: suggested channels by stage, a suggested relationship type and proposed Demand rows (built 2026-11-12, Questions 17, section 3; owner, 2026-11-12 16:19); the delivery check stays as it is: Capacity & Delivery owns it at the normal level of sales, and the busiest-month view (Financials' Delivery Check then; the Business Plan's Operations, Capacity, since 2026-11-20, Questions 20, section 14) joins the Offering Economics card in phase 7 (Questions 17, section 2; owner, 2026-11-12 15:54); the folded-funnel documentation fix (done 2026-11-12, PR #32) | none | L | nothing |
+| **2. Strategy reads the Business** | SW1; the SWOT suggestions, priority, reminder (the market's Opportunity and Threat starts built 2026-11-17, 2.3); the Current Situation's new lines; Theme order and the balance check; Metric "Linked figure"; Roadmap markers. It reads today's financial calculations as they stand | SW1 | L | phase 1 (one folder, one branch at a time) |
+| **3. Direction** | PB7, PB8; SC1 to SC3 and the Compass draft; Goal, Objective, Initiative suggestions; the skill areas (Questions 2, 9.3) | PB7, PB8, SC1 to SC3 (+ C1, W1 to W3, C4) | L | phase 2 |
+| **4. Ambassador** | the Values migration to `{ id, text }` first (with its test); BA1 to BA4, BA6 to BA9 with the drafts; Style suggestions | BA1 to BA4, BA6 to BA9 | M | D4 |
+| **5. Journey rebuild** | the stage-first Journey, the channel card with J1 and J2, the goals reading Demand, cost per customer (the suggested channels, the relationship type suggestion and the Demand rows are built in phase 1) | J1, J2 | L | the stage card prototype; phase 1 |
+| **6. Initiatives and Activities** | an Initiative linked to a Infrastructure & Capability Activity; IN5 | none | L | phase 3 |
+| **7. Financials** | In this order (Questions 20, section 11). **Layout built:** the sections' order and their tiles (2026-11-17), one page, Financials (2026-11-19), and one chapter, Financial Foundation (2026-11-20; its tiles and the records in the Workbook's Financial Documents: Questions 20, section 14); the questions and the Offering Economics card are next. **(a) Revenue & Pricing first:** the price with RV1, the revenue streams, the Offering Economics card and its signals, and the two pricing questions: O19 and RV1 asked in the Revenue & Pricing section beside the price, K15 asked on the Competitor card and shown there as a record (Questions 20, section 12; owner, 2026-11-17 07:16: "Yes to all"); the fee on a VAT-inclusive price (a calculation, named without a code: C1 is the founder's skill area, Questions 2, 9.3); O14's tiers and add-on stream and D3's seasons wait here too (Questions 20, section 11; 2026-11-17). **(b) Then Costs, Funding & Position:** Costs, Capital & Funding with FN1, Financial Position with the Funding Need (net of revenue, read from Revenue & Pricing before it), then Break-Even and Sustainability with the Stress Test. With them: the review in the Library proposal "2026-11-12-financial-pages-one-owner-per-fact" (decisions D1 to D6 open); the Inventory's IN1 to IN4 and IN6 (IN6 in that proposal) | RV1, FN1, K15, O19 | L | phase 1 |
+
+The financials come last (owner, Thanos, 2026-11-12 15:18: "I think it is better to rearrange the working sequence, and place the financials for later").
+
+The order inside phase 7, revenue and pricing before costs and funding, follows the placement research (owner, Thanos, 2026-11-12 15:37: "Update the plan and report back."). Its basis, each read in excerpt only and to be opened in full before an "i" cites it: University of Wisconsin-Madison, Wisconsin SBDC, *Beginner's Guide to Financial Projections* (Business Model, then Revenue, Costs and Funding); MIT OpenCourseWare 15.818 *Pricing* (cost, customer and competition); MIT OpenCourseWare 15.760B *Introduction to Operations Management*, lecture 3, *Capacity* (demand against capacity). Also named, found by the project's assistant and not yet opened here: Thomas and Wasserstein (2024) *A Primer on Breakeven Analysis*, Yale School of Management.
+
+## 11. The tile documents: the form, and where each tile stands
+
+(It was Questions 1, section 11 until 2026-11-21; the number is retired.) The form every document about a tile or a card takes (so that one can be read like the others), the list of the tiles and the document each one has, and what is still missing.
+
+Related: Questions 12 (the Segment), Questions 13 (the Profile), Questions 7 (the Organisation), Questions 8 (Positioning), Interface 10 (what an "i" says), Questions 6 (the questions register: every question by card and position, with its code), Questions 2 (the design these documents refine), Interface 1 (the shared components).
+
+### 11.1 The form
+
+A tile document is **one document for one tile or card**, in this order:
+
+1. **The head:** the title ("The X: every question and option, as built", "as built in part" or "as proposed"), the status line (specification where it is built or built in part with the status line saying what is built, proposal where it is not), a *Related* line.
+2. **What the tile is:** where it stands, how it is laid out (the columns, the bands, the groups), the controls it uses (existing ones only) and what makes a question appear or leave.
+3. **One section for each box or group**, and in it **one entry for each question or field:**
+   - the question as the user reads it (the heading);
+   - **Control:** one choice (a radio), ticks (with the limit), a number, a date, a picker, a text box;
+   - **Asked when:** the conditions, from Identity and from the tile's own earlier answers;
+   - **Options:** the words of each option (what is in brackets or after a colon is in the "i");
+   - **The "i" says:** the help text, in the structure of Interface 10;
+   - **Connections:** *Comes from* (what it takes), *Read by (built)* and *Read by (not built yet)*.
+4. **What changes when an answer above changes:** what is removed and what is kept (the rule of every tile: an answer to a question no longer asked, or to an option no longer offered, is removed on the next choice).
+5. **Decided, and still to decide:** the owner's decisions with their dates, and what is open.
+
+**Codes are permanent ids, not positions (owner, 2026-11-08).** Never renumber; reorder freely; the register (Questions 6) shows the order. A new question takes the next free code; a retired code stays listed as retired with what replaced it. A tile document lists its questions in the card's order under their codes; the code map in `tools/scripts/docs/questions-register.mjs` gets one line for a new question, and `npm run docs:index` rewrites Questions 6.
+
+**Where the words are kept.** The words of a built tile are kept in one place in the code (the Segment: `src/framework/engine/choices/SegmentQuestions.ts`; the Profile: `src/framework/engine/choices/ProfileQuestions.ts`; the Competitor: `src/framework/engine/choices/CompetitorQuestions.ts`; the Offering, with the Value Proposition's draft and open items: `src/framework/engine/choices/OfferingQuestions.ts`), and the document is made from them; where the two differ, the most recent owner decision wins. How a floating card of questions is built (the engine file, the parts, the three levels, the notes) is in `docs/ai/layout-rules.md`, section 8 ("A floating card of questions").
+
+### 11.2 Where each tile stands
+
+| Page and tile | Document | Status |
+|---|---|---|
+| Identity 1: Organisation | 37 | built (specification) |
+| Identity 1: Early Positioning (Core Market, Corporate and Portfolio by stage) | 38 | built (specification) |
+| Identity 1: Purpose & Beliefs (Mission, Vision, Philosophy, Values, Principles, Manifesto) | 45 | built (specification) |
+| Identity 2: Legal Entity (Founders & Ownership, Capability, Registrations, Expenses) | none (Foundation 2; its legal starts: Questions 10) | not yet |
+| Brand: Ambassador and Style | 46 (the Ambassador); the page: `specifications/brand-system/page-1-brand.md` | built in part (specification) |
+| Business 1: Segment Description | 35 | built (specification) |
+| Business 1: Profile | 36 | built in part (specification) |
+| Business 1: Competitors | 41 | built (specification) |
+| Business 1: Value Proposition | 42 | built in part (specification) |
+| Business 1: Offerings | 43 | built in part (specification) |
+| Business 1 (Section 2): Customer Engagement | 47 | built in part (specification) |
+| Business 2 (Section 3): Infrastructure & Capability, the Capacity & Delivery tile | 52 | built in part (specification) |
+| Business 2 (Section 3): Infrastructure & Capability, the other tiles | none (Questions 2, section 9; the page: `specifications/business-system/page-2-infrastructure-and-capability.md`) | not yet |
+| Business 3 (Sections 4 and 5): Financials, one chapter, Financial Foundation, and the Inventory | 48 | built in part (specification) |
+| Strategy: Situation & Direction (Current Situation Analysis, SWOT Analysis, Strategic Compass, Strategic Period) | 49 | built in part (specification) |
+
+A tile gets its document when it is built or about to be; the tile's design in Questions 2 is then marked as governed by it, as 6.3a, 8.2 and 8.5 are.

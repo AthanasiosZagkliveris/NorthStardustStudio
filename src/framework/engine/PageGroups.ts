@@ -33,7 +33,7 @@ export interface PageGroup {
 
 
 export const PAGE_GROUPS: readonly PageGroup[] = [
-    // (Mission and Vision are saved in Definition, the first section, and drawn in Purpose as one pair tile: doc 45.)
+    // (Mission and Vision are saved in Definition, the first section, and drawn in Purpose as one pair tile: Questions 9.)
     // THE IDENTITY SYSTEM, ONE PAGE (owner, 2026-11-20 13:02 UTC+2: "Legal Entity - Move the master Tile to the 1st page, in the Definition Chapter. 1. Identity System
     // will have only one page."): the Legal Entity (section 3) draws no frame; its Registrations & Expenses tile stands in the Definition chapter's fourth place. It keeps
     // its number, its saved answer, its ids and its dialog.
@@ -45,7 +45,7 @@ export const PAGE_GROUPS: readonly PageGroup[] = [
     // segment"), headed by its name. Each section keeps its number, its title and its saved answer.
     { systemNumber: 3, members: [1, 2], title: "Foundation & Engagement", inHeader: true, oneSegmentAtATime: true },
     // FINANCIALS (owner, 2026-11-18, step 1; 2026-11-20 02:11 UTC+2: "Maybe they should all be under only one chapter."): Revenue & Pricing and Costs, Funding &
-    // Position are one page of ONE chapter, Financial Foundation: its three Master Tiles that ask, Revenue Streams, Costs and Funding (doc 48, sections 11 and 14).
+    // Position are one page of ONE chapter, Financial Foundation: its three Master Tiles that ask, Revenue Streams, Costs and Funding (Questions 20, sections 11 and 14).
     // Each section keeps its number, its title and its saved answer.
     { systemNumber: 3, members: [4, 5], title: "Financials", inHeader: true, oneChapter: "Financial Foundation" },
     // The Strategy System is one page: its Situation & Direction (the Strategic Period's Goals and Objectives are written in each Theme's card there).

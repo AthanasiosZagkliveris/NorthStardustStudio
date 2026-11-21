@@ -1,13 +1,13 @@
 import { schemeKeyOf } from "../ActivityClassification.ts";
 
 /*
-    THE FACTS THE LAW TURNS ON, READ FROM WHAT IS ALREADY ANSWERED (doc 53, stage 4; owner, 2026-11-19 20:59 UTC+2: "Build only the necessary questions that their
+    THE FACTS THE LAW TURNS ON, READ FROM WHAT IS ALREADY ANSWERED (Questions 10, stage 4; owner, 2026-11-19 20:59 UTC+2: "Build only the necessary questions that their
     information cannot be extracted by the existing answers. The questions should be placed to the related section."). The activity code settles most of them:
     what a product is (food, toys, electrical, cosmetics), whether music is part of the business, whether the work is a regulated profession, whether it keeps
     people's details beyond its own staff, marketing and accounts. A question is asked only where the code does not settle it (LegalFacts' `settled...`).
 */
 
-/** The kinds of product a law turns on (O24's options; doc 53, LF6 merged with LF1). "none" stands alone. */
+/** The kinds of product a law turns on (O24's options; Questions 10, LF6 merged with LF1). "none" stands alone. */
 export const PRODUCT_KINDS = [
     { id: "food", label: "Food or drink" },
     { id: "toys", label: "Toys" },

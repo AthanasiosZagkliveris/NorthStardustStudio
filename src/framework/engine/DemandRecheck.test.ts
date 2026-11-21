@@ -11,7 +11,7 @@ const segmentsOf = (file: string): BusinessCustomerSegmentValue[] => {
 const withAnswers = (segment: BusinessCustomerSegmentValue, answers: Record<string, string[]>): BusinessCustomerSegmentValue =>
     ({ ...segment, questions: { ...segment.questions, ...answers } });
 
-describe("the Demand recheck (doc 50, section 2.5; owner, 2026-11-14 12:00)", () => {
+describe("the Demand recheck (Questions 18, section 2.5; owner, 2026-11-14 12:00)", () => {
     const [first] = segmentsOf("quillfield-automation-llc.json");
 
     test("the time to buy follows who decides: the longest the answers name", () => {

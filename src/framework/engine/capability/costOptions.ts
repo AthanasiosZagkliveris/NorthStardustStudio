@@ -15,7 +15,7 @@ export const BUSINESS_COST_FREQUENCIES = [
     { id: "monthly", label: "Monthly" },
     { id: "quarterly", label: "Quarterly" },
     { id: "annually", label: "Annually" },
-    // (Every two years, from its first month: a biennial filing, a two-year licence; doc 53, decision 2.)
+    // (Every two years, from its first month: a biennial filing, a two-year licence; Questions 10, decision 2.)
     { id: "biennially", label: "Every two years" },
     { id: "per-unit", label: "Per unit" },
     { id: "per-project", label: "Per project" },

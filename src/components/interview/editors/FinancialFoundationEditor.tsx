@@ -72,7 +72,7 @@ interface FinancialFoundationEditorProps {
  * AnswerType.FinancialFoundation, and FinancialModel.ts for every
  * calculation it shows).
  *
- * Two tiles, Costs and Funding (doc 48, section 14): the Funding Need and the
+ * Two tiles, Costs and Funding (Questions 20, section 14): the Funding Need and the
  * Financial Position it works out are records in the Workbook's Financial
  * Documents (the Funding Request, the Financial Plan).
  */
@@ -337,7 +337,7 @@ export default function FinancialFoundationEditor({
         return sales.length === 0 ? format(0) : format(perSale) + (shares ? " + " + shares : "");
     }
 
-    /** Each Offering's sale against its costs (doc 48, 15.2): the outlook break even reads, the founders' delivery hours available, and the hours one sale takes. */
+    /** Each Offering's sale against its costs (Questions 20, 15.2): the outlook break even reads, the founders' delivery hours available, and the hours one sale takes. */
     function offeringEconomicsHere() {
         return offeringEconomicsOf(sustainability(revenuePage, page, lines, legalEntity, format, calculated), lines, capability);
     }
@@ -350,7 +350,7 @@ export default function FinancialFoundationEditor({
 
         const saleText = saleTextOf(rows);
 
-        // THE COST OF EACH OFFERING (doc 48, 15.2; owner, 2026-11-21 00:56 UTC+2: "I do not want the cost to present the same information with the inventory. It
+        // THE COST OF EACH OFFERING (Questions 20, 15.2; owner, 2026-11-21 00:56 UTC+2: "I do not want the cost to present the same information with the inventory. It
         // would have been better to define the costs of each offering"): a row for each Offering sold, its direct cost, its share of the running costs and its full cost
         // against its price; the full list of costs is the Inventory's and the Financial Plan's (Costs in Full).
         const economics = offeringEconomicsHere();
@@ -428,7 +428,7 @@ export default function FinancialFoundationEditor({
                     </p>
                 )}
 
-                {/* A CARD FOR EACH OFFERING SOLD (doc 48, 15.2): its name, then the figures of one sale as the totals above are drawn (FigureTiles), so they wrap at
+                {/* A CARD FOR EACH OFFERING SOLD (Questions 20, 15.2): its name, then the figures of one sale as the totals above are drawn (FigureTiles), so they wrap at
                     any width; a sale below its direct cost, or a margin below nothing, in the risk tone. */}
                 <div className="financial-offering-costs" data-anchor="financial-offering-costs">
                     {economics.rows.map(row => {
@@ -504,7 +504,7 @@ export default function FinancialFoundationEditor({
                         " \u00b7 target reserve " + setting(settings.targetReserveMonths) + (settings.targetReserveMonths.trim() ? " months" : "")}
                 </p>
 
-                {/* While there is no Opening Date, where it is given (the funds it opens are in the Workbook's Funding Request: doc 48, section 14). */}
+                {/* While there is no Opening Date, where it is given (the funds it opens are in the Workbook's Funding Request: Questions 20, section 14). */}
                 {openingDate === "" && (
                     <p className="financial-muted">Give the Opening Date, on the Organization tile (Identity System), to see the cash to raise before the opening and the contingency funds in the Workbook's Funding Request.</p>
                 )}
@@ -770,9 +770,9 @@ export default function FinancialFoundationEditor({
         const what = source.name.trim() || type?.label || "Funding Source " + (index + 1);
         const confirmedStatus = source.status === "approved" || source.status === "received" || source.status === "closed";
 
-        // (THE FOUNDERS' CAPITAL IS READ, NEVER ADDED (doc 48, section 13, step 3; one owner per fact): it comes from Founders & Ownership, so a new source does not
+        // (THE FOUNDERS' CAPITAL IS READ, NEVER ADDED (Questions 20, section 13, step 3; one owner per fact): it comes from Founders & Ownership, so a new source does not
         // offer it; a source saved with it keeps it.)
-        // (Reinvested revenue is the forecast's own cash, never a source to add (doc 48, section 14): a source saved with it keeps it, as the founders' capital.)
+        // (Reinvested revenue is the forecast's own cash, never a source to add (Questions 20, section 14): a source saved with it keeps it, as the founders' capital.)
         const typeEntries = FUNDING_TYPES
             .filter(entry => entry.category === source.category && ((entry.id !== "founder-capital" && entry.id !== "reinvested-revenue") || source.type === entry.id));
         const types = typeEntries.map(entry => ({ id: entry.id, label: entry.label }));
@@ -964,7 +964,7 @@ export default function FinancialFoundationEditor({
                         </DialogSectionBand>
                     </div>
                 )}
-                {/* (NO INTERNAL SECTION (doc 48, section 14; owner, 2026-11-20 18:35 UTC+2): the founders' money is their capital, above; a source saved under Internal
+                {/* (NO INTERNAL SECTION (Questions 20, section 14; owner, 2026-11-20 18:35 UTC+2): the founders' money is their capital, above; a source saved under Internal
                     is read under Other, its type and figures kept.) */}
                 {FUNDING_CATEGORIES.map(category => {
 
@@ -1026,12 +1026,12 @@ export default function FinancialFoundationEditor({
     const covered = position.need > 0 && position.gap <= 0.005;
 
 
-    /* ---------- The page: one chapter of four Master Tiles (doc 48, section 1), each opening its section in a dialog ---------- */
+    /* ---------- The page: one chapter of four Master Tiles (Questions 20, section 1), each opening its section in a dialog ---------- */
 
-    /* What each tile says of its section (doc 48, section 1): each name, its figure in bold under it -- the tile list's one face (stackedFace; owner, 2026-11-18
+    /* What each tile says of its section (Questions 20, section 1): each name, its figure in bold under it -- the tile list's one face (stackedFace; owner, 2026-11-18
        23:08 UTC+2: "Financial tiles' lists should follow the shared tile list"). */
     const pair = (name: string, figure: string): FaceRow => ({ name, under: figure });
-    // (THE FACE OF COST OF EACH OFFERING (doc 48, 15.2): each Offering sold, its full cost of one; with none sold yet, the running costs a month.)
+    // (THE FACE OF COST OF EACH OFFERING (Questions 20, 15.2): each Offering sold, its full cost of one; with none sold yet, the running costs a month.)
     const faceEconomics = offeringEconomicsHere();
     const costFace = faceEconomics.rows.length > 0
         ? faceEconomics.rows.map(row => pair(offerings.find(entry => entry.id === row.offeringId)?.label ?? "Unnamed Offering", format(row.full)))
@@ -1044,14 +1044,14 @@ export default function FinancialFoundationEditor({
 
     const sections = [
         { id: "financial-costs", section: SECTIONS.costs, title: undefined as string | undefined, body: costsSection, items: stackedFace(costFace), anchor: "financial-costs financial-pre-operational-budget" },
-        // (STEP 3, FUNDING: CAPITAL & FUNDING AND FINANCIAL POSITION, ONE TILE (doc 48, section 13; owner, 2026-11-20 12:49 UTC+2, "proceed to changes"): the money in --
+        // (STEP 3, FUNDING: CAPITAL & FUNDING AND FINANCIAL POSITION, ONE TILE (Questions 20, section 13; owner, 2026-11-20 12:49 UTC+2, "proceed to changes"): the money in --
         // the founders' capital, then each source -- and, under it, the position it gives: the headline and figures, then the Funding Need, what the money is for.
         // The tile keeps Capital & Funding's id and sources; the position's anchors answer every jump, note and link made to it, and to the need.)
         {
             id: "financial-funding", section: SECTIONS.funding, title: "Funding",
             body: () => (
                 <>
-                    {/* (THE SOURCES, WHAT THE FUNDING TILE ASKS (doc 48, section 14; owner, 2026-11-20 18:35 UTC+2): the founders' capital, then External and Other, a titled section
+                    {/* (THE SOURCES, WHAT THE FUNDING TILE ASKS (Questions 20, section 14; owner, 2026-11-20 18:35 UTC+2): the founders' capital, then External and Other, a titled section
                         each. The Uses and the Financial Position are records: the Business Plan's Funding Request says them.) */}
                     {fundingSection()}
                 </>

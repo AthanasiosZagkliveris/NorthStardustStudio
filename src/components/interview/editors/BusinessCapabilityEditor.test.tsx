@@ -1238,7 +1238,7 @@ describe("BusinessCapabilityEditor starts from Page 1 (phase 5f, 2026-11-09)", (
 
 });
 
-describe("BusinessCapabilityEditor without a physical item (doc 28, 11.7; phase 5f)", () => {
+describe("BusinessCapabilityEditor without a physical item (Questions 2, 11.7; phase 5f)", () => {
 
     const services = { segments: [{ id: "s", name: "Firms", offerings: [{ id: "offering-1", name: "Build", category: "Service", questions: { o1: ["project"] } }] }] };
     const goods = { segments: [{ id: "s", name: "Homes", offerings: [{ id: "offering-1", name: "Throws", category: "Product", questions: { o1: ["physical"] } }] }] };
@@ -1267,7 +1267,7 @@ describe("BusinessCapabilityEditor without a physical item (doc 28, 11.7; phase 
 
 });
 
-describe("Capacity & Delivery, doc 52 (owner, 2026-11-17)", () => {
+describe("Capacity & Delivery, Questions 19 (owner, 2026-11-17)", () => {
 
     const founders = [{ id: "f1", name: "Ann", ownership: "100", capital: "", roles: [""], experience: "" }];
     const foundation = { segments: [{ id: "s", name: "Makers", offerings: [

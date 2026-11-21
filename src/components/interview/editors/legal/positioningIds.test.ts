@@ -7,7 +7,7 @@ import { AUDIENCE_SCALES, BUYER_CATEGORIES, BUYER_USER_RELATIONS, DIFFERENTIATIO
 
 const ids = (list: readonly { id: string }[]) => list.map(option => option.id);
 
-describe("the ids of Early Positioning (design document 33): the lists the user sees, the ids a saved answer may hold, and the words of the exports agree", () => {
+describe("the ids of Early Positioning (design Questions 4): the lists the user sees, the ids a saved answer may hold, and the words of the exports agree", () => {
 
     it("holds the lists of the editor to the ids the reader accepts", () => {
         expect(ids(FIRST_VERSION_CUSTOMER_TYPES)).toEqual([...MODEL_IDS]);

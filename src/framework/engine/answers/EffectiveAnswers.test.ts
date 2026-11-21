@@ -6,7 +6,7 @@ import { segmentContextFor, settledSegmentAnswers } from "../SegmentContext";
 import { offeringChoose, valuePropositionOpenItems } from "../choices/OfferingQuestions";
 import type { SegmentIdentity } from "../SegmentContext";
 
-/* Starting values follow their source answers until the user sets that field (docs 36 and 43; owner, 2026-11-08: "App follows the docs"). */
+/* Starting values follow their source answers until the user sets that field (Questions 13 and 16; owner, 2026-11-08: "App follows the docs"). */
 
 const people: SegmentIdentity = { relationships: ["b2c"], marketType: "single", audience: ["adult"], stage: "plan", differentiation: ["cost"] };
 
@@ -54,7 +54,7 @@ describe("the Offering's starts follow their sources until the field is set", ()
     });
 });
 
-describe("O4 keeps the order ticked (doc 43, O4: the first ticked is the main benefit)", () => {
+describe("O4 keeps the order ticked (Questions 16, O4: the first ticked is the main benefit)", () => {
     it("keeps the ticks already there in their place and puts a new one last", () => {
         expect(offeringChoose("o4", ["quality-and-results"], ["speed", "quality-and-results"])).toEqual(["quality-and-results", "speed"]);
         expect(offeringChoose("o4", ["quality-and-results", "speed"], ["speed"])).toEqual(["speed"]);
@@ -179,7 +179,7 @@ describe("the later pages' starts follow the Offering's O3, O3b, O10 and O15", (
     });
 });
 
-describe("an Offering without a physical item (doc 28, 11.7)", () => {
+describe("an Offering without a physical item (Questions 2, 11.7)", () => {
     const segmentOf = (offerings: { category: string; o1?: string }[]) => asBusinessFoundationValue({
         segments: [{ id: "s", name: "Firms", offerings: offerings.map((entry, at) => ({ id: "o" + at, name: "O" + at, category: entry.category, questions: entry.o1 ? { o1: [entry.o1] } : {} })) }]
     }).segments;

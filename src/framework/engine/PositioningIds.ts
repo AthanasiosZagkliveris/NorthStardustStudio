@@ -1,7 +1,7 @@
 /**
- * THE IDS OF EARLY POSITIONING in the first published version (design document 33, sections 4 and 5): what a saved answer may hold. The words and the order the user sees are in
+ * THE IDS OF EARLY POSITIONING in the first published version (design Questions 4, sections 4 and 5): what a saved answer may hold. The words and the order the user sees are in
  * `components/interview/editors/legal/shared.tsx`, which a test holds to these ids. What the first version leaves out (a multi-sided market, B2G, G2B, "who chooses", "what
- * matters most") is a future feature (document 33): an older answer that holds it is read without it.
+ * matters most") is a future feature (Questions 4): an older answer that holds it is read without it.
  */
 
 /** The seller and buyer relationships of the first version. */
@@ -15,21 +15,21 @@ export const AUDIENCE_IDS = ["solo", "smb", "mid", "enterprise", "young", "adult
 
 /**
  * The differentiation: what the OFFERING does differently from the competitors (it was the first half of "Differentiation & Outcome"; an older answer's outcome is the differentiation).
- * Asked on the Business System since 2026-11-08, once per Segment after its Competitors (doc 41, K14); the Positioning answer saved before (`organisation.differentiation`) is its start.
+ * Asked on the Business System since 2026-11-08, once per Segment after its Competitors (Questions 14, K14); the Positioning answer saved before (`organisation.differentiation`) is its start.
  */
 export const DIFFERENTIATION_IDS = ["cost", "convenience", "compliance", "premium", "performance", "ecosystem", "personal"] as const;
 
-/** The outcome for the buyer: the measurable result the buyer gets. No longer asked (2026-11-08): the Offering's O4 owns it, and a saved answer starts O4 (doc 34, 5.2a). */
+/** The outcome for the buyer: the measurable result the buyer gets. No longer asked (2026-11-08): the Offering's O4 owns it, and a saved answer starts O4 (Research 3, 5.2a). */
 export const OUTCOME_IDS = ["savings", "time", "assurance", "prestige"] as const;
 
 /**
  * The outcome for the user, asked when the buyer is a Proxy or Dual-Intent Buyer (the buyer and the user want different things): what matters most to the user. Asked on the Segment's
- * End user part since 2026-11-08 (doc 35, End user, 9); the Positioning answer saved before (`organisation.outcomeUser`) is its start.
+ * End user part since 2026-11-08 (Questions 12, End user, 9); the Positioning answer saved before (`organisation.outcomeUser`) is its start.
  */
 export const USER_OUTCOME_IDS = ["enjoy", "comfort", "safety", "learning", "belong", "practical"] as const;
 
 /**
- * HOW MANY CHOICES EACH QUESTION OF EARLY POSITIONING ALLOWS follows the business stage (design document 28, 8.2, the owner's matrix): the earlier the business, the narrower the focus.
+ * HOW MANY CHOICES EACH QUESTION OF EARLY POSITIONING ALLOWS follows the business stage (design Questions 2, 8.2, the owner's matrix): the earlier the business, the narrower the focus.
  * Planning (and no stage yet): one everywhere. Launching: one, except two in the outcome. Managing: two in each. Growing: free (null). The Differentiation and the end user's outcome keep
  * the outcome's limit where they are asked now (the Segment, 2026-11-08).
  */
@@ -47,10 +47,10 @@ export function choiceLimit(stage: string, question: PositioningQuestion): numbe
     return 1;
 }
 
-/** The twelve purposes of an offering (document 31, section 7). */
+/** The twelve purposes of an offering (Research 5, section 7). */
 export const PURPOSE_IDS = ["learning", "health", "gifting", "entertainment", "social", "productivity", "growth", "creation", "everyday", "protection", "compliance", "access"] as const;
 
-/** The buyer and user relationships (document 31, 6.1 and 6.2), saved in the End User answers. */
+/** The buyer and user relationships (Research 5, 6.1 and 6.2), saved in the End User answers. */
 export const RELATION_IDS_B2C = ["rel:parent", "rel:caregiver", "rel:family", "rel:partner", "rel:friend", "rel:commercial", "rel:otherpersonal"] as const;
 export const RELATION_IDS_B2B = ["rel:employer", "rel:copartner", "rel:serving", "rel:intermediary", "rel:sponsor", "rel:institution", "rel:otherbusiness"] as const;
 

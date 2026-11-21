@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import { tipPlace } from "./Tooltip.tsx";
 
-/* EVERY TOOLTIP STANDS IN ONE PLACE (owner, 2026-11-21 16:02 UTC+2; doc 24): above its control, its left edge on the control's left edge, 6px over its top;
+/* EVERY TOOLTIP STANDS IN ONE PLACE (owner, 2026-11-21 16:02 UTC+2; Interface 8): above its control, its left edge on the control's left edge, 6px over its top;
    under it only where the window has no room above. */
 describe("tipPlace", () => {
 

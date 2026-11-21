@@ -9,7 +9,7 @@ describe("the financial label-and-amount lists", () => {
     const css = stylesheet("conversation.css");
 
     it("space their rows by --space-field, in one rule", () => {
-        // (The coverage, obligations and mix lists were the Financial Position's and the Break-Even's, records now in the Workbook: doc 48, section 14.)
+        // (The coverage, obligations and mix lists were the Financial Position's and the Break-Even's, records now in the Workbook: Questions 20, section 14.)
         expect(css).toMatch(/\.financial-cost-inputs\s*\{[^}]*gap:\s*var\(--space-field\)/);
     });
 

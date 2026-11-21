@@ -7,7 +7,7 @@ import { OFFERING_BASIS_KEY, SHARE_BASES, SHARE_BASIS_HELP, offeringFractions, o
 /**
  * THE OFFERINGS A COST SERVES, AND HOW IT IS SHARED (one component for every card that carries it: a resource, an activity, a partner or supplier on
  * Infrastructure & Capability, and a Legal Entity expense -- the owner's approved plan of 2026-11-18, step 3): the Offerings ticked, one or several; with
- * several, how the cost is shared (owner, 2026-11-16; doc 3, R3) -- by the hours each uses, the revenue each brings, in equal parts, or the user's own
+ * several, how the cost is shared (owner, 2026-11-16; Research 2, R3) -- by the hours each uses, the revenue each brings, in equal parts, or the user's own
  * split, each Offering's percent at the end of its row. None ticked: the cost is the whole company's.
  */
 export interface OfferingsFieldProps {
@@ -37,7 +37,7 @@ export interface OfferingsFieldProps {
 export default function OfferingsField({ current, onNext, name, empty, shares, choices, shareWeights, disabled = false, locked = false, kept = [], whole = false }: OfferingsFieldProps) {
     const total = offeringSharesTotal(current, shares);
     const split = !whole && choices.length > 0 && current.length > 1;
-    // HOW IS IT SHARED (owner, 2026-11-16; doc 3, R3): by the hours each Offering uses, by the revenue each brings, in equal parts, or the user's own split.
+    // HOW IS IT SHARED (owner, 2026-11-16; Research 2, R3): by the hours each Offering uses, by the revenue each brings, in equal parts, or the user's own split.
     const basis = shareBasisOf(current, shares, shareWeights);
     const own = basis === "own";
     const fractions = offeringFractions(current, shares, shareWeights);

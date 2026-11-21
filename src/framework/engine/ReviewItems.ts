@@ -192,7 +192,7 @@ function secondLook(input: ReviewInput): ReviewItem[] {
         });
     }
 
-    // THE LEGAL SUGGESTIONS (doc 53, stage 2: LegalSuggestions.ts): a threshold the forecast crosses, a duty an exemption may lift, a state the app holds no rules
+    // THE LEGAL SUGGESTIONS (Questions 10, stage 2: LegalSuggestions.ts): a threshold the forecast crosses, a duty an exemption may lift, a state the app holds no rules
     // for yet, a fee checked over a year ago -- each with its official page, at the Legal Entity.
     const identity = input.sessions[1];
     const legal = pageOf(identity, AnswerType.LegalEntity);

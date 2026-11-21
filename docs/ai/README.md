@@ -7,23 +7,23 @@ This folder is NorthStardustStudio's shared knowledge for AI assistants (Claude,
 Elsewhere in `docs/`:
 - `../README.md`: the contents of every document of the project (design, specifications, archive), with its kind and date; `../index.md`: the alphabetical index of the subjects. Both are written by `npm run docs:index`.
 - `../app/contents.md`: the contents of the app (how it is entered, the Systems and pages, the places in the code); `../app/index.md`: an alphabetical list of its places; `../app/glossary.md`: one line per term (framework, app, questionnaire, documents), with a pointer to the document that explains it. Start there to find your way into the product.
-- `../design/records/04-log.md`: every change, newest on top, and the only place a change is written; `../design/records/05-not-done-yet.md`: what is still open.
+- `../design/records/01-log.md`: every change, newest on top, and the only place a change is written; `../design/records/02-not-done-yet.md`: what is still open.
 - `../archive/`: proposals that were written and not built, and finished plans; nothing there is a rule.
 
-Documents cite one another by number ("doc 21" is `../design/interface/21-shared-components.md`); the number is in the file name, whatever the folder.
+Documents cite one another by number ("Interface 1" is `../design/interface/01-shared-components.md`); the number is in the file name, whatever the folder.
 
 ## Read first, by task
 
 | If you are going to... | Read first | Then |
 |---|---|---|
 | Do any work at all (every session) | `ai-collaboration-rules.md`, `toolchain-and-verification-playbook.md` | |
-| Change or add something on screen (a table, tile, card, page, control) | `review.md` (section 13, the checklist), then grep `layout-rules.md` for the name of the thing | `card-kinds.md`, `layout-assets.md`; from `../design/interface/`: `21-shared-components.md` (use the shared components), `18-reactions.md`, `24-tooltips.md`, `23-popups.md` |
+| Change or add something on screen (a table, tile, card, page, control) | `review.md` (section 13, the checklist), then grep `layout-rules.md` for the name of the thing | `card-kinds.md`, `layout-assets.md`; from `../design/interface/`: `01-shared-components.md` (use the shared components), `05-reactions.md`, `08-tooltips.md`, `07-popups.md` |
 | Judge or review a screen | `review.md` (sections 1 to 12, the standard and how to measure it; section 13, the list to tick) | `layout-rules.md` |
 | Change the Customer Engagement page | `layout-rules.md`, section 11 | `card-kinds.md` |
 | Write or edit a System's content (the Markdown under `src/assets`) | `framework-dsl-grammar.md` | `framework-conventions-and-patterns.md` |
 | Change the framework's code (parser, model, engine, export, notes) | `framework-conventions-and-patterns.md` | `code-map.md` |
 | Find where something is in `src` | `code-map.md` | `../app/contents.md`, `folder-plan.md` (the folders outside `src`) |
-| Run a diagnostic or a scan | `../design/records/05-not-done-yet.md`, section 5.9, the known open findings (check it first, add to it) | |
+| Run a diagnostic or a scan | `../design/records/02-not-done-yet.md`, section 5.9, the known open findings (check it first, add to it) | |
 
 ## The files
 

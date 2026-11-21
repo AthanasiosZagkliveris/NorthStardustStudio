@@ -8,7 +8,7 @@ import { AutoDraft, useAutoDraft } from "../../fields/useAutoDraft.ts";
 const text = (value: unknown) => (typeof value === "string" ? value : "");
 
 /**
- * THE VALUES' KINDS, PB13, ABOVE THE VALUES (doc 45, section 8; the owner's approval of 2026-11-20 22:08 UTC+2, "All, Values A"): the kind of value that matters
+ * THE VALUES' KINDS, PB13, ABOVE THE VALUES (Questions 9, section 8; the owner's approval of 2026-11-20 22:08 UTC+2, "All, Values A"): the kind of value that matters
  * most in how the business works (the Competing Values Framework), each tick starting a line of the Values ("Care: ") that the founder finishes; written in by
  * itself while the Values are empty or still the app's own. The same field row and ticks as the Vision's and the Mission's choices.
  */
@@ -42,7 +42,7 @@ export default function ValuesChoices({ value, onChange, disabled = false }: {
 }
 
 /**
- * THE PRINCIPLES' AND THE MANIFESTO'S DRAFTS (doc 45, section 8): a "We always ..." line under each Value, and "We are for [the Values]." with the Philosophy's
+ * THE PRINCIPLES' AND THE MANIFESTO'S DRAFTS (Questions 9, section 8): a "We always ..." line under each Value, and "We are for [the Values]." with the Philosophy's
  * first sentence; each written in by itself while its text is empty or still the app's own. It draws nothing.
  */
 export function PurposeDrafts({ part, value, onChange, disabled = false }: {

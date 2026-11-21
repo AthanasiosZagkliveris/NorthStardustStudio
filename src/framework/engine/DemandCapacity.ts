@@ -135,7 +135,7 @@ export const DEMAND_SOURCES: DemandSourceType[] = [
 ];
 
 /**
- * TYPICAL RANGES IN A RATE'S "i" (doc 28, rule 6; owner, 2026-11-17 00:10): only where a checked source supports them, each with its reference last, and the
+ * TYPICAL RANGES IN A RATE'S "i" (Questions 2, rule 6; owner, 2026-11-17 00:10): only where a checked source supports them, each with its reference last, and the
  * placeholder the typical figure; no figure is ever filled in. Online shop visitors (a Visitors source through a Website channel), landing page enquiries (a
  * Sales funnel's prospects through a Landing Page), the funnel's buy rate and the tenders won. None for cancellations, shop footfall, marketplaces, trials or
  * buying again.
@@ -187,7 +187,7 @@ export const NOT_READY_NOTES: Readonly<Record<string, string>> = {
 const MARKET_SIZE: Readonly<Record<string, number>> = { micro: 1000, boutique: 50000, mid: 500000, mass: 500000 };
 
 /**
- * THE MARKET-SIZE CHECK (doc 50, 2.3; owner, 2026-11-17): the customers a year the Expected Sales give (a one-off Offering's sales a month, a recurring one's
+ * THE MARKET-SIZE CHECK (Questions 18, 2.3; owner, 2026-11-17): the customers a year the Expected Sales give (a one-off Offering's sales a month, a recurring one's
  * new clients a month, times 12) as a share of the Segment's market (`tam`, at its band's upper end, so a large share is a real warning). A check, never a
  * cap: nothing is changed by it. Null where either is unknown.
  */
@@ -297,7 +297,7 @@ function asDemandSource(value: unknown, position: number): DemandSource {
 
 /**
  * THE CHANNELS THAT BRING AN OFFERING'S CUSTOMERS: each of its Customer Sources' channels, once, in the sources' order (owner, 2026-11-12: "Fill it from the
- * sources"). The ticks saved before (`channelIds`) are not read: this list wins. It feeds the cost per customer per channel (doc 47, step two).
+ * sources"). The ticks saved before (`channelIds`) are not read: this list wins. It feeds the cost per customer per channel (Questions 17, step two).
  */
 export function demandChannelIds(demand: { sources: readonly { channelId: string; channelIds?: readonly string[] }[] }): string[] {
     return [...new Set(demand.sources.flatMap(source => [source.channelId, ...((source as { channelIds?: readonly string[] }).channelIds ?? [])]).filter(id => id !== ""))];
@@ -699,7 +699,7 @@ export const HOLD_UPS = [
 const HOLD_UP_IDS: readonly string[] = HOLD_UPS.map(entry => entry.id);
 
 /**
- * A COUNT OF AN OFFERING'S SALES, in words (doc 52, 4.2): a name said in the plural counts itself ("1 Bespoke Commission", "3 Bespoke Commissions"); any other
+ * A COUNT OF AN OFFERING'S SALES, in words (Questions 19, 4.2): a name said in the plural counts itself ("1 Bespoke Commission", "3 Bespoke Commissions"); any other
  * name counts orders of it ("1 Trade Collection order", "3 Trade Collection orders").
  */
 export function offeringCount(count: number, name: string): string {
@@ -720,7 +720,7 @@ export function holdUpsText(delivery: DeliveryValue, nameOf: (id: string) => str
     ].join("; ");
 }
 
-/** The planning ceiling (doc 52, 4.1): a plan holds best with each person's delivery hours at 85% or less (Choo, 2016, after Kingman). */
+/** The planning ceiling (Questions 19, 4.1): a plan holds best with each person's delivery hours at 85% or less (Choo, 2016, after Kingman). */
 export const PLANNING_CEILING = 0.85;
 
 /** DV6 as a number: the customers one session serves (one where it is not said). */

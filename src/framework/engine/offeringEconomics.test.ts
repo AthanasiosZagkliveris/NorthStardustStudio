@@ -16,7 +16,7 @@ function monthly(name: string, amount: number, offeringIds: string[] = []): Cost
     return { name, amount, frequency: "monthly", offeringIds, counted: true, behaviour: "fixed" } as unknown as CostLine;
 }
 
-describe("the cost of each Offering (doc 48, 15.2: time-driven activity-based costing by the founders' delivery hours)", () => {
+describe("the cost of each Offering (Questions 20, 15.2: time-driven activity-based costing by the founders' delivery hours)", () => {
 
     // Two Offerings; $2,000 of running costs a month, $200 of them the workshop's own; 100 delivery hours available a month.
     const outlook = { inputs: { fixed: 2000 }, streams: [analysis("product", 160, 90, 10), analysis("workshop", 85, 25, 20)] };

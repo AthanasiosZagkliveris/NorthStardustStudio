@@ -279,7 +279,7 @@ describe("offeringChannelRevenue (owner, 2026-11-14 20:25)", () => {
     });
 });
 
-describe("Capacity & Delivery, doc 52 (owner, 2026-11-17)", () => {
+describe("Capacity & Delivery, Questions 19 (owner, 2026-11-17)", () => {
 
     it("a session's hours are shared by its customers (DV6); a batch's set-up is spread over its units, each person in proportion (DV9, DV10)", () => {
         const session = { ...createDelivery(), hours: { maya: "3.2", tutor: "0.8" }, perSession: "8" };
@@ -322,7 +322,7 @@ describe("Capacity & Delivery, doc 52 (owner, 2026-11-17)", () => {
 
 });
 
-describe("one owner for the build-up (doc 48, 15.1; 2026-11-21)", () => {
+describe("one owner for the build-up (Questions 20, 15.1; 2026-11-21)", () => {
 
     const recurring = { ...createDemand(), recurring: true, cancel: "10", sources: [source("other", { estimate: "0.5", basis: "Half of builds" })] };
     const typed = { ...createRevenueStream(), offeringId: "retainer", volume: "9", development: "gradual" as RevenueStreamValue["development"], initialVolume: "1", rampMonths: "6" };

@@ -90,7 +90,7 @@ export default function LegalEntityEditor(props: LegalEntityEditorProps) {
     /* THE PAGE AS TILES (the page's tile system), one for each of its six sections. A tile opens its section in its dialog: Organization and Founders & Ownership with no
        frame around them, Formation & Registration and Tax & Business Registration in theirs; Additional Legal Requirements and Legal Entity Expenses open a box for each card
        (as the Business System's cards do), and a box opens its card floating. */
-    /* THE ORGANIZATION TILE OF PAGE 1 (Definition): only its dialog, as the tile opens it (design document 28, 8.5). */
+    /* THE ORGANIZATION TILE OF PAGE 1 (Definition): only its dialog, as the tile opens it (design Questions 2, 8.5). */
     if (audienceOnly) {
         return (
             <div className="legal-entity legal-entity-unframed legal-entity-body legal-entity-org-body">
@@ -251,7 +251,7 @@ export default function LegalEntityEditor(props: LegalEntityEditorProps) {
                                     placeholder: currency || "Amount"
                                 } : undefined}
                                 subTilesWith={<div className="legal-entity-body legal-entity-subview">{section1}</div>}
-                                // (THE PERSONAL SURVIVAL BUDGET (doc 48, section 13): saved on the Legal Entity's founder, beside the capital; asked of a founder the business
+                                // (THE PERSONAL SURVIVAL BUDGET (Questions 20, section 13): saved on the Legal Entity's founder, beside the capital; asked of a founder the business
                                 // pays no salary.)
                                 survival={{
                                     asked: (id) => !(props.salariedFounderIds ?? []).includes(id) && entity.founders.some(founder => founder.id === id),

@@ -544,7 +544,7 @@ describe("LegalEntityEditor organisation columns", () => {
         const labels = (column: Element) => [...column.querySelectorAll(".field-label")].map(label => label.textContent?.replace(/\s+/g, " ").replace(/i$/, "").trim());
         expect(labels(columns[0])).toEqual(["Organisation Name", "Country", "Address"]);
         expect(columns[1].classList.contains("legal-entity-questions")).toBe(true);
-        // (With no activity code yet, the profession it would settle is asked beside the activities: doc 53, stage 4.)
+        // (With no activity code yet, the profession it would settle is asked beside the activities: Questions 10, stage 4.)
         expect(labels(columns[1])).toEqual(["Legal Form", "Registration Date", "Opening Date", "Activities", "Primary", "Is your work a regulated profession?"]);
         // The Description stands below both columns, after a divider line.
         const below = document.querySelector("[data-anchor='legal-section-0'] .legal-entity-org-body > .legal-entity-org-description")!;
@@ -1291,7 +1291,7 @@ describe("LegalEntityEditor: a change of country empties the state and the addre
 
     });
 
-    it("keeps the state, the legal form and the activities when the same country is chosen again (doc 33, section 9)", () => {
+    it("keeps the state, the legal form and the activities when the same country is chosen again (Questions 4, section 9)", () => {
 
         const empty = asLegalEntityValue(undefined);
         const activities = [{ code: "541511", edition: "" }];

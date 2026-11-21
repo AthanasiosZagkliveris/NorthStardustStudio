@@ -52,7 +52,7 @@ export function withDemand(
             if (!result || result.expected === null) {
                 return stream;
             }
-            // (ONE OWNER FOR THE BUILD-UP (doc 48, 15.1; owner, 2026-11-21 00:56 UTC+2, "which parts could be covered by existing answers"): where the Sales Forecast
+            // (ONE OWNER FOR THE BUILD-UP (Questions 20, 15.1; owner, 2026-11-21 00:56 UTC+2, "which parts could be covered by existing answers"): where the Sales Forecast
             // works out how long the sales take to reach their level -- a recurring Offering's clients joining and cancelling --, the stream builds up from the clients
             // of its first month to the level in those months; the stream's own Build-up, First Month and Months to Normal are kept, read only where it is silent.)
             if (result.monthsToNormal !== null && result.joining !== null && stream.development !== "detailed") {

@@ -6,7 +6,7 @@ import quill from "../../../data/examples/quillfield-automation-llc.json";
 import { asLegalEntityValue } from "../answers/AnswerLegal.ts";
 import { legalStartsFor, paysAnyone, pendingLegalStarts, withLegalStarts } from "./LegalStarts.ts";
 
-/* THE LEGAL STARTS, STAGE 1 (doc 53, section 6, decisions 1 (a), 5 and 8). */
+/* THE LEGAL STARTS, STAGE 1 (Questions 10, section 6, decisions 1 (a), 5 and 8). */
 type Example = { systems: Record<string, { responses: { sectionNumber: number; value?: { formation?: unknown } }[] }> };
 const legalOf = (example: Example) => asLegalEntityValue(example.systems["1"].responses.find(response => response.value?.formation)!.value);
 const capabilityOf = (example: Example) => example.systems["3"].responses.find(response => response.sectionNumber === 3)!.value;

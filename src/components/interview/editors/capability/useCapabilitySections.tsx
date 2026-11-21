@@ -1081,7 +1081,7 @@ export function useCapabilitySections(earlier: Earlier) {
                 id: "delivery",
                 // (Capacity and Capability unified: owner, 2026-11-16 20:25, the design of 20:39 -- the capacity, the skills still needed, the Delivery cards.)
                 title: "Capacity & Delivery",
-                // (An Offering's card floats under "Delivery": it holds that Offering's delivery only; doc 52, decision 1.)
+                // (An Offering's card floats under "Delivery": it holds that Offering's delivery only; Questions 19, decision 1.)
                 group: "Delivery",
                 anchor: "section-offering-delivery",
                 holds: offeringChoices.map(choice => "delivery-" + choice.id),

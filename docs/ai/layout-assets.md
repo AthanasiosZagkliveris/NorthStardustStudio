@@ -382,7 +382,7 @@ A rating from 1 to 5: five radio rounds from low to high, the numbers 1 to 5 ove
 - **Kind:** choice control. **Code:** `src/components/controls/RatingScale.tsx, RatingScaleGroup.tsx, RatingScaleEnds.tsx`. **Stylesheet:** `src/styles/rating-scale.css` (also `src/styles/radio-choice.css`).
 - **Parts:** the row's words, or a tick and its words (a group's row); the track: five radio rounds, spread evenly; the numbers 1 to 5, once per group, each over its round.
 - **States:** rest, hover, focus, disabled.
-- **Used in:** the Segment card: household income, gender mix, kind of area, online comfort (and the end user's), market growth, crowding (doc 35); the Profile card: B1 and E1 to E3, the Emotional and Social needs (doc 36); the Competitor card: K4 and K6 to K9, K8 and K9 banded (doc 41).
+- **Used in:** the Segment card: household income, gender mix, kind of area, online comfort (and the end user's), market growth, crowding (Questions 12); the Profile card: B1 and E1 to E3, the Emotional and Social needs (Questions 13); the Competitor card: K4 and K6 to K9, K8 and K9 banded (Questions 14).
 - **Custom properties it reads:** `--space-label`, `--space-cell`, `--space-row`, `--font-small`, `--font-body`, `--gap-8`.
 
 | Variant | Where | Note |

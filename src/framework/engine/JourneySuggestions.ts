@@ -8,10 +8,10 @@ import { businessProfileOfferings } from "./businessFoundation/engagementPage.ts
 import { type SegmentIdentity, segmentIsBusiness } from "./SegmentContext.ts";
 
 /*
-    CUSTOMER ENGAGEMENT FOLLOWS THE FOUNDATION (doc 47, section 3; doc 28, section 7.4): what Page 1 already says about a Segment proposes its channels, stage by
+    CUSTOMER ENGAGEMENT FOLLOWS THE FOUNDATION (Questions 17, section 3; Questions 2, section 7.4): what Page 1 already says about a Segment proposes its channels, stage by
     stage, a relationship type for each Offering, and the rows of each Offering's Demand. Everything here is a SUGGESTION the founder adds or leaves: nothing is
     written by itself. Every rule maps a Page 1 option id to a channel category and subchannel by their labels (channelCategories.ts); an option with no channel
-    is left out (listed in doc 47).
+    is left out (listed in Questions 17).
 */
 
 /** One channel the Foundation suggests for a stage: its category, its subchannel ("" for the category alone) and where it comes from. */
@@ -219,7 +219,7 @@ export function journeySuggestions(segment: BusinessCustomerSegmentValue, identi
     ids(profiles, "c4").forEach(id => EVENTS[id] && add("discovery", ["In Person", EVENTS[id]], "your Profiles' events", true));
     writtenIn(profiles, "c4").forEach(name => add("discovery", ["In Person", name], "your Profiles' events", true));
     discover.push(...out.splice(before));
-    // A Segment in one city or town meets its customers in person first (doc 28, 7.4).
+    // A Segment in one city or town meets its customers in person first (Questions 2, 7.4).
     const local = (answers.reach ?? []).includes("city");
     const first = (entry: ChannelSuggestion) => local && (entry.category === "In Person" || entry.category === "Community") ? 0 : 1;
     out.push(...discover.map((entry, at) => ({ entry, at })).sort((a, b) => first(a.entry) - first(b.entry) || a.at - b.at).map(item => item.entry));
@@ -572,7 +572,7 @@ export function withAnswerSources(demand: DemandValue | undefined, segment: Busi
     return changed ? { ...base, sources } : demand;
 }
 
-/** A Discover channel's category → the Customer Source its customers come by (doc 28, 7.5). */
+/** A Discover channel's category → the Customer Source its customers come by (Questions 2, 7.5). */
 const SOURCE_OF: Readonly<Record<string, string>> = {
     "Referral & Affiliates": "referrals",
     Marketplace: "marketplace", "In Person": "marketplace", "Retail & Wholesale": "marketplace",
@@ -593,7 +593,7 @@ export const demandSourceOf = (category: string, name = "") =>
     (VISITED[category] ?? []).includes(name.trim()) ? "marketplace" : SOURCE_OF[category] ?? "other";
 
 /**
- * The Demand rows the Foundation proposes for one Offering (doc 28, 7.5): one for each Discover channel that serves it and is not yet among the channels that
+ * The Demand rows the Foundation proposes for one Offering (Questions 2, 7.5): one for each Discover channel that serves it and is not yet among the channels that
  * bring its customers (the channels its sources name), and Contracts or tenders where the Segment's buyer decides by a formal tender and no such row exists yet.
  */
 export function demandSuggestions(segment: BusinessCustomerSegmentValue, offeringId: string, channels: readonly BusinessChannelValue[], demand: { sources: readonly { type: string; channelId: string }[] }, identity?: SegmentIdentity): DemandSuggestion[] {
@@ -635,7 +635,7 @@ export function demandSuggestions(segment: BusinessCustomerSegmentValue, offerin
     if (((effectiveSegmentAnswers(segment, identity).authorise ?? []).includes("procurement") || government) && !demand.sources.some(source => source.type === "contracts")) {
         out.push({ type: "contracts", channelId: "", label: "Contracts or tenders", source: government ? "you sell to government" : "how they decide to buy" });
     }
-    // REPEAT CUSTOMERS, where the answers say they come back (doc 28, 7.5): customers who buy out of habit (the Segment's `path`), or an Offering kept up after the
+    // REPEAT CUSTOMERS, where the answers say they come back (Questions 2, 7.5): customers who buy out of habit (the Segment's `path`), or an Offering kept up after the
     // sale -- repairs and maintenance, replacements and refills (O17). A subscription keeps its clients and is never offered it (DEMAND_SOURCES, oneOffOnly).
     const offering = segment.offerings.find(entry => entry.id === offeringId);
     const after = offering ? effectiveOfferingAnswers(offering, segment, identity).o17 ?? [] : [];
@@ -648,7 +648,7 @@ export function demandSuggestions(segment: BusinessCustomerSegmentValue, offerin
 
 
 /**
- * THE FUNNEL'S MIDDLE STEP IS A TRIAL (doc 50, section 2.5; owner, 2026-11-14 12:00): where a Profile of the Segment compares options by "A demo, trial or
+ * THE FUNNEL'S MIDDLE STEP IS A TRIAL (Questions 18, section 2.5; owner, 2026-11-14 12:00): where a Profile of the Segment compares options by "A demo, trial or
  * sample" (D1), the Sales funnel's Qualified step is the people who tried it -- its label "Tried it (%)". No new kind of source.
  */
 export function funnelIsTrial(segment: BusinessCustomerSegmentValue, identity?: SegmentIdentity, channel?: { category: string }): boolean {
@@ -660,7 +660,7 @@ export function funnelIsTrial(segment: BusinessCustomerSegmentValue, identity?: 
 }
 
 /**
- * THE TIME TO BUY, from the answers (doc 50, section 2.5): how long a sale takes from first contact, by who decides ("Who decides to buy?") and how they
+ * THE TIME TO BUY, from the answers (Questions 18, section 2.5): how long a sale takes from first contact, by who decides ("Who decides to buy?") and how they
  * decide ("How do your customers usually decide to buy?"). On impulse or out of habit: none. Formal procurement: three to six months; a manager signing off
  * or several departments checking: two to three; one person deciding or the team agreeing: about one. The longest the answers name. Read only: it is shown on
  * the Sales funnel and Contracts sources, and the forecast does not shift the sales by it (the ramp of Sustainability already starts them slowly).

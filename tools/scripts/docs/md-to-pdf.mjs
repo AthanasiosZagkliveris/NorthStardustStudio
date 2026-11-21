@@ -1,7 +1,7 @@
 /**
  * Writes any repo document (Markdown) as a PDF in exports/ (an export; PDFs are never kept in docs/). The converter is markdown-pdf.mjs.
  *
- *   PW_CHANNEL=msedge node tools/scripts/docs/md-to-pdf.mjs docs/design/interface/22-help-texts.md exports/The-help-texts.pdf "The help texts" [landscape]
+ *   PW_CHANNEL=msedge node tools/scripts/docs/md-to-pdf.mjs docs/design/interface/09-help-texts.md exports/The-help-texts.pdf "The help texts" [landscape]
  */
 import { readFileSync } from "node:fs";
 import { writePdf } from "./markdown-pdf.mjs";

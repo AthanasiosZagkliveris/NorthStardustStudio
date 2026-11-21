@@ -533,7 +533,7 @@ function segmentBlocks(segment: BusinessCustomerSegmentValue, index: number, org
                 ...paragraph(profile.needs.emotional.filter(Boolean).join("; "), "Emotional needs"),
                 ...paragraph(profile.needs.social.filter(Boolean).join("; "), "Social needs")
             ];
-            // A Segment with an end user (Proxy or Dual-Intent; doc 36, 2.1): the Profile is printed in its two parts, the buyer's and the end user's.
+            // A Segment with an end user (Proxy or Dual-Intent; Questions 13, 2.1): the Profile is printed in its two parts, the buyer's and the end user's.
             if (segmentContextFor(identity, segmentIsBusiness(segment)).endsUser) {
                 return [
                     head,
@@ -586,7 +586,7 @@ function segmentBlocks(segment: BusinessCustomerSegmentValue, index: number, org
         ...segment.offerings.flatMap(offering => [
             ...paragraph((offering.name.trim() || "Unnamed offering") + (offering.category ? " (" + offering.category + ")" : "")),
             ...paragraph(businessOfferingNeedTexts(segment, offering).join("; "), "Needs addressed"),
-            // The card's answers (doc 43, O1 to O18), each with its question.
+            // The card's answers (Questions 16, O1 to O18), each with its question.
             ...details(offeringAnswerLines(effectiveOfferingAnswers(offering, segment, identity), offeringContextOf(offering, segment, identity)).map((line): [string, string] => [line.label, line.value])),
             ...describe(offering.description, OFFERING_FIELDS)
         ])
@@ -1119,7 +1119,7 @@ export function financialSustainabilityBlocks(value: unknown, context: ExportCon
             entry.breakEvenAlone === null ? "" : formatUnits(entry.breakEvenAlone) + " a month"
         ])),
         ...list(result.inputs.caveats.map(caveat => "Estimate: " + caveat)),
-        // (THE STRESS TEST, the Financials' record moved here (doc 48, section 14; owner, 2026-11-20 18:35 UTC+2: "Any doc that are just records ... should be placed in the
+        // (THE STRESS TEST, the Financials' record moved here (Questions 20, section 14; owner, 2026-11-20 18:35 UTC+2: "Any doc that are just records ... should be placed in the
         // Business Documents"): each hard case, when it breaks even and the shortfall at its lowest point.)
         ...(() => {
             const test = stressTest(revenuePage, foundationPage, lines, legalEntity, format);

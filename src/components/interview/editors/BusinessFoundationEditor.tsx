@@ -126,7 +126,7 @@ export default function BusinessFoundationEditor(props: BusinessFoundationEditor
             name: entry.name,
             unnamed: "Unnamed " + NOUN[kind].toLowerCase(),
             // (WHAT ITS TILE SAYS, a line each (owner, 2026-11-19 16:52 UTC+2, 1.2; CardFaces.ts): a Profile's age, kind of work and first goal; a Competitor's Type,
-            // in the Type select's own words (doc 41), its reach and its size; an Offering's Type, form, whether it can be bought today and how it is paid for.)
+            // in the Type select's own words (Questions 14), its reach and its size; an Offering's Type, form, whether it can be bought today and how it is paid for.)
             lines: kind === "profiles" ? profileFaceLines(segment.profiles[at], segment, identity)
                 : kind === "competitors" ? competitorFaceLines(segment.competitors[at])
                     : offeringFaceLines(segment.offerings[at], segment, identity),
@@ -167,7 +167,7 @@ export default function BusinessFoundationEditor(props: BusinessFoundationEditor
                     content: () => dialog(section, title, kind === "competitors" ? (
                         <>
                             <CardBoxes items={boxesOf(segment, kind)} label={title} what={NOUN[kind]} add={add} autoStart={false} />
-                            {/* THE DIFFERENTIATION (doc 41, K14; owner, 2026-11-08): once for the Segment, under its Competitors' tiles, a section of the dialog as the Segment
+                            {/* THE DIFFERENTIATION (Questions 14, K14; owner, 2026-11-08): once for the Segment, under its Competitors' tiles, a section of the dialog as the Segment
                                 Description's Profiles are: split by the shared double rule, its title a band on the primary fill, its question in a band under it. */}
                             <DialogSectionBand title="Differentiation">
                                 {subsectionsFor(segment, index).differentiation}

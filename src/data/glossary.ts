@@ -26,7 +26,7 @@ export interface AppTerm {
     /** WHERE IN THE APP THE TERM IS USED (owner, 2026-11-10: "where in the app does this term exist"; "Clicking on it should direct the user to that specific
      *  field"): its System, its page (the section's number) and the part of it in words; the tile to open there and the field to bring into view (selectors). */
     places?: readonly { system: number; page: number; part: string; tile?: string; field?: string; card?: "amortisationYears" | "usefulLife"; has?: string;
-        /** A record of the Workbook's Financial Documents (doc 48, section 14): the place opens that tab, not a page. */
+        /** A record of the Workbook's Financial Documents (Questions 20, section 14): the place opens that tab, not a page. */
         document?: "forecast" | "funding" | "financial-plan" }[];
 }
 
@@ -169,7 +169,7 @@ export const APP_TERMS: readonly AppTerm[] = [
     {
         id: "capacity-utilisation",
         term: "Capacity utilisation",
-        // (The Delivery Check is a record since 2026-11-20 (doc 48, section 14): capacity used is said on Capacity & Delivery's Delivery cards.)
+        // (The Delivery Check is a record since 2026-11-20 (Questions 20, section 14): capacity used is said on Capacity & Delivery's Delivery cards.)
         places: [{ system: 3, page: 3, part: "Capacity & Delivery", tile: "button.section-tile[data-tile=\"delivery\"]" }],
         meaning: "How much of the time you have available the planned work needs: demand hours ÷ available hours. Above 100% means more work than capacity.",
         also: ["utilisation"],

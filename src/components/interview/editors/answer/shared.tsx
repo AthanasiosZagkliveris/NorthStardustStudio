@@ -178,7 +178,7 @@ export interface AnswerRendererProps {
     /**
      * The other sections of a page of several sections (PageGroups.ts), each with its saved answer and its saver, for a
      * tile drawn in one frame from another section's answer: Purpose' Mission & Vision, saved in Definition
-     * (doc 45). Each answer keeps its own keys. Ignored by every other page.
+     * (Questions 9). Each answer keeps its own keys. Ignored by every other page.
      */
     pageSections?: readonly PageSectionAnswer[];
 
@@ -213,7 +213,7 @@ export interface AnswerRendererProps {
     /** The Identity System's Vision: shown beside the Strategic Compass. */
     identityVision?: string;
 
-    /** The Identity System's Values with their ids (ValueIds.ts): the Ambassador's BA9 offers them (doc 46). */
+    /** The Identity System's Values with their ids (ValueIds.ts): the Ambassador's BA9 offers them (Questions 11). */
     identityValues?: readonly { id: string; text: string }[];
 
     /**
@@ -369,7 +369,7 @@ export interface AnswerRendererProps {
         /** The names an Objective's draft is written from (strategyObjectiveDrafts; P9; owner, 2026-11-18 03:01, "All, P1 to P9"). */
         objectiveDrafts?: readonly string[];
 
-        /** What SW1 and SC1 to SC3 read (strategyChoiceContext; doc 49, 2.3 and 2.4). */
+        /** What SW1 and SC1 to SC3 read (strategyChoiceContext; Questions 21, 2.3 and 2.4). */
         choices?: StrategyChoiceContext;
 
         /** Asks before a Refresh replaces the founder's own words. */

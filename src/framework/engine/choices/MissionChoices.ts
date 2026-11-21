@@ -5,8 +5,8 @@ import type { BusinessCustomerSegmentValue } from "../businessFoundation/foundat
 import type { SegmentIdentity } from "../SegmentContext.ts";
 
 /*
-    THE MISSION'S THREE CHOICES, PB10 TO PB12, AND THE VALUES' KINDS, PB13 (doc 45, section 8; the round of 2026-11-20 18:35 UTC+2, approved by the owner at
-    22:08: "All, Values A"). Every part of a Mission -- who, what, why (doc 45, 3.1) -- is already answered on the Business System: PB10 the Segments served
+    THE MISSION'S THREE CHOICES, PB10 TO PB12, AND THE VALUES' KINDS, PB13 (Questions 9, section 8; the round of 2026-11-20 18:35 UTC+2, approved by the owner at
+    22:08: "All, Values A"). Every part of a Mission -- who, what, why (Questions 9, 3.1) -- is already answered on the Business System: PB10 the Segments served
     first, PB11 their Offerings, PB12 what they gain (the goals ticked on their Profiles, "What does this person want to achieve?", the Value Proposition
     Canvas's gains). The Mission's draft is written from them; the founder edits it freely. PB13 the kind of value that matters most in how the business works
     (the Competing Values Framework: Cameron and Quinn, 2011, University of Michigan), each tick starting a line of the Values. Saved in the Identity System:
@@ -105,7 +105,7 @@ function joined(names: readonly string[]): string {
 }
 
 /**
- * The Mission's draft (doc 45, section 8): "We help [PB10] with [PB11], so that they can [PB12]." It needs PB10 and PB11: "" until then; PB12's clause where it
+ * The Mission's draft (Questions 9, section 8): "We help [PB10] with [PB11], so that they can [PB12]." It needs PB10 and PB11: "" until then; PB12's clause where it
  * is answered. The goals are said in their own words, in lower case after "can" ("so that they can save time / money"); the choices show their short words, as the Profiles do.
  */
 export function missionDraft(segments: readonly BusinessCustomerSegmentValue[], serves: readonly string[], offers: readonly string[], gains: readonly string[]): string {
@@ -118,17 +118,17 @@ export function missionDraft(segments: readonly BusinessCustomerSegmentValue[], 
     return "We help " + joined(who) + " with " + joined(what) + (goals.length > 0 ? ", so that they can " + joined(goals) : "") + ".";
 }
 
-/** The Values' draft (doc 45, section 8): one line a kind ticked, its word then a colon, for the founder to finish ("Care: "). */
+/** The Values' draft (Questions 9, section 8): one line a kind ticked, its word then a colon, for the founder to finish ("Care: "). */
 export function valuesDraft(kinds: readonly string[]): string {
     return VALUE_KINDS.filter(kind => kinds.includes(kind.id)).map(kind => kind.word + ": ").join("\n");
 }
 
-/** The Principles' draft (doc 45, section 8): one "We always ..." line under each Value, the Value's word before it. */
+/** The Principles' draft (Questions 9, section 8): one "We always ..." line under each Value, the Value's word before it. */
 export function principlesDraft(values: readonly string[]): string {
     return values.map(line => line.split(":")[0].trim()).filter(Boolean).map(word => word + ": We always ").join("\n");
 }
 
-/** The Manifesto's draft (doc 45, section 8): "We are for [the Values' words]." and the Philosophy's first sentence. */
+/** The Manifesto's draft (Questions 9, section 8): "We are for [the Values' words]." and the Philosophy's first sentence. */
 export function manifestoDraft(values: readonly string[], philosophy: string): string {
     const words = values.map(line => line.split(":")[0].trim().toLowerCase()).filter(Boolean);
     const first = (philosophy.trim().match(/^[^.!?]*[.!?]/)?.[0] ?? "").trim();

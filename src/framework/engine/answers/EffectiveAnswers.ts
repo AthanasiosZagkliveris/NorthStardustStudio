@@ -1,5 +1,5 @@
 /**
- * THE EFFECTIVE ANSWERS of a Segment, a Profile and an Offering (docs 35, 36 and 43; owner, 2026-11-08: "App follows the docs"): what is saved where the user set it,
+ * THE EFFECTIVE ANSWERS of a Segment, a Profile and an Offering (Questions 12, 13 and 16; owner, 2026-11-08: "App follows the docs"): what is saved where the user set it,
  * otherwise the starting value the card shows. Only the fields the user set are saved; every other field keeps following its source answers. The one place every reader
  * of Page 1's answers goes through, so they cannot drift apart:
  * - Page 1's cards and the Value Proposition's draft and open items (editors/foundation/useFoundationSubsections.tsx): the Profile's, its end user's and the Offering's
@@ -74,7 +74,7 @@ export function effectiveProfileAnswers(profile: BusinessCustomerProfileValue, s
 }
 
 /**
- * The end user's own answers of a Profile (doc 36, 2.1; owner, 2026-11-08), as its end-user part shows them: saved under `user.questions` (A8 is retired: the Segment's End user, 8 owns it; owner, 2026-11-17), with
+ * The end user's own answers of a Profile (Questions 13, 2.1; owner, 2026-11-08), as its end-user part shows them: saved under `user.questions` (A8 is retired: the Segment's End user, 8 owns it; owner, 2026-11-17), with
  * E4 from the Segment's End user, 9 (itself started from Positioning's answer saved before) where never answered. Empty where the Segment has no end user. The end
  * user's E1, E2 and Needs are in `effectiveProfileAnswers` (the part they stand in: `profilePartOf`).
  */
@@ -198,7 +198,7 @@ export function offeringStarts(offering: BusinessOfferingValue, segment: Busines
     if (when !== "") {
         starts.paymentTimingAnswered = true;
     }
-    // (Doc 52, DV6 and DV9/DV10; owner, 2026-11-17.)
+    // (Questions 19, DV6 and DV9/DV10; owner, 2026-11-17.)
     if ((answers.o1 ?? []).some(form => form === "live" || form === "inperson") || terms === "session") {
         starts.sessions = true;
     }
@@ -237,14 +237,14 @@ export function offeringStartsById(segments: readonly BusinessCustomerSegmentVal
     return segment && offering ? offeringStarts(offering, segment, identity) : {};
 }
 
-/** O1's forms with no physical item (doc 43, O1): a digital file, an app, online access, a live online session, project work, an ongoing service. */
+/** O1's forms with no physical item (Questions 16, O1): a digital file, an app, online access, a live online session, project work, an ongoing service. */
 const NOT_PHYSICAL_FORMS: readonly string[] = ["digital", "app", "access", "live", "project", "ongoing"];
 
 /** O6's ways a customer receives a physical item: posted or shipped, or collected. */
 const PHYSICAL_RECEIVE: readonly string[] = ["shipped", "collect"];
 
 /**
- * Whether an Offering has a physical item (doc 28, 11.7): an Offering posted, shipped or collected (O6), or sent a way O20 names, has one, whatever its Type and form;
+ * Whether an Offering has a physical item (Questions 2, 11.7): an Offering posted, shipped or collected (O6), or sent a way O20 names, has one, whatever its Type and form;
  * otherwise not where its Type is Service, or its form (O1) is one of NOT_PHYSICAL_FORMS. An Offering with no Type or form yet (or Other) may have one, so it counts as
  * having one.
  */

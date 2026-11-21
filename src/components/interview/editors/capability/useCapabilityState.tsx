@@ -185,12 +185,12 @@ export function useCapabilityState(props: BusinessCapabilityEditorProps) {
     const engagementValue = asBusinessEngagementValue(engagement);
     // (What each Offering uses a month -- its delivery hours and its revenue --: a shared cost's split by hours or by revenue; owner, 2026-11-16.)
     const shareWeights = offeringShareWeights(capability.delivery, engagementValue.demand, asFinancialSustainabilityValue(props.financialSustainability).streams);
-    // (THE PLAN'S MONTHS AT THE EXPECTED SALES, as Sustainability reads them: when each founder passes the planning ceiling; doc 52, 4.3; owner, 2026-11-17.)
+    // (THE PLAN'S MONTHS AT THE EXPECTED SALES, as Sustainability reads them: when each founder passes the planning ceiling; Questions 19, 4.3; owner, 2026-11-17.)
     const rampPlan = withPlanStart(asFinancialFoundationValue(financialFoundation), undefined,
         derivedPlanStart(openingDate, [...costStartDates(capability), ...legalExpenseDates(asLegalEntityValue(legalEntity))], withPlanStart(asFinancialFoundationValue(financialFoundation)).planStart));
     const capacityRamp = salesCapacity(withDemand(asFinancialSustainabilityValue(props.financialSustainability), engagementValue.demand, foundation), rampPlan, capability);
     /*
-        NO PHYSICAL ITEM (doc 28, 11.7): while no Offering on Page 1 has one (each is a Service, or its form, O1, is digital, online or project work), the Offering's
+        NO PHYSICAL ITEM (Questions 2, 11.7): while no Offering on Page 1 has one (each is a Service, or its form, O1, is digital, online or project work), the Offering's
         Vehicles and Materials & Inventory categories and the Logistics & Fulfilment group are hidden where they hold no card: never deleted, back when a Type or form changes.
     */
     const noPhysical = noPhysicalOffering(businessFoundationSegments(foundation));

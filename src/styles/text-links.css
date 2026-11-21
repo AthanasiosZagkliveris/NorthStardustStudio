@@ -26,7 +26,7 @@
     font: inherit;
     font-size: var(--font-body) !important;
     font-weight: 400 !important;
-    /* (A link drawn as a button starts from no tracking of its own -- not a button's 10% -- so it has the bold's letter spacing alone, as doc 19 says: it stood at
+    /* (A link drawn as a button starts from no tracking of its own -- not a button's 10% -- so it has the bold's letter spacing alone, as Interface 6 says: it stood at
        0.15em, letter-spaced, on every link button; owner's screenshots, 2026-11-19 00:45 UTC+2, the 2026-11-19 reconciliation.) */
     --rest-tracking: 0em;
     letter-spacing: var(--bold-tracking) !important;

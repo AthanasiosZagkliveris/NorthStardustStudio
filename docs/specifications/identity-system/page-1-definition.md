@@ -2,9 +2,9 @@
 
 Status: **current design**, written 2026-10-30, updated 2026-11-21. The chapter "1. Definition" of the Identity System's one page, "1. Identity System": its layout, its tiles, how each opens and reacts, and what reads what it holds.
 
-Related: doc 37 (the Organisation tile's fields), doc 38 (the Positioning tile's questions), doc 26 (card structure), doc 28 (the design, 8.1 to 8.6), doc 31 (the tables behind the Positioning lists, 10.7), doc 33 (the first version, and the future features in sections 10 to 15), `docs/ai/layout-rules.md` (the measured rules).
+Related: Questions 7 (the Organisation tile's fields), Questions 8 (the Positioning tile's questions), Foundation 2 (card structure), Questions 2 (the design, 8.1 to 8.6), Research 5 (the tables behind the Positioning lists, 10.7), Questions 4 (the first version, and the future features in sections 10 to 15), `docs/ai/layout-rules.md` (the measured rules).
 
-> **Keep this document true (rule of this file):** it describes the app as it is. Whoever changes a tile, a field, a list, a limit or a reaction of the Definition changes this document in the same commit, and writes the change in the log (`design/records/04-log.md`). Where the code and this document disagree, the code is right and this document is the one to fix. What is described elsewhere but not in the app and not a future feature is collected in section 12, **Extra Information**, and nowhere else in this document.
+> **Keep this document true (rule of this file):** it describes the app as it is. Whoever changes a tile, a field, a list, a limit or a reaction of the Definition changes this document in the same commit, and writes the change in the log (`design/records/01-log.md`). Where the code and this document disagree, the code is right and this document is the one to fix. What is described elsewhere but not in the app and not a future feature is collected in section 12, **Extra Information**, and nowhere else in this document.
 
 ## Contents
 
@@ -25,19 +25,19 @@ Related: doc 37 (the Organisation tile's fields), doc 38 (the Positioning tile's
 
 (This was the folder's README until 2026-11-21.) The one page of the Identity System (System 1 of the Foundation), the documents of its chapters, and where each is built.
 
-The page is numbered as the app numbers it. A page's document describes the app as it is (layout, tiles, reactions, what reads what), points to the field-by-field documents of its tiles (doc 37, the Organisation tile; doc 38, the Positioning tile; both in `design/questions/`) and ends with the **Extra Information** that is described elsewhere but is neither in the app nor a future feature.
+The page is numbered as the app numbers it. A page's document describes the app as it is (layout, tiles, reactions, what reads what), points to the field-by-field documents of its tiles (Questions 7, the Organisation tile; Questions 8, the Positioning tile; both in `design/questions/`) and ends with the **Extra Information** that is described elsewhere but is neither in the app nor a future feature.
 
 ### The page
 
 | Page | Title | Document | Editor |
 |---|---|---|---|
-| 1 | Identity System, the System's one page, of two chapters, **1. Definition** and **2. Purpose** (its tiles: this file, section 1; Purpose's questions: doc 45, section 8) | this file | `src/components/interview/editors/AnswerRenderer.tsx` and `src/components/interview/editors/LegalEntityEditor.tsx` |
+| 1 | Identity System, the System's one page, of two chapters, **1. Definition** and **2. Purpose** (its tiles: this file, section 1; Purpose's questions: Questions 9, section 8) | this file | `src/components/interview/editors/AnswerRenderer.tsx` and `src/components/interview/editors/LegalEntityEditor.tsx` |
 
 ## 1. What the master tile is
 
-The Identity System (System 1, Foundation) is ONE page, **"1. Identity System"** (since 2026-11-20; owner, 13:02 UTC+2: "1. Identity System will have only one page"). The page holds two **chapters** (frames), side by side: **1. Definition** and **2. Purpose** (Mission & Vision, Values & Principles, Philosophy & Manifesto: doc 45). The Legal Entity has no page of its own: its Founders & Ownership and Registrations & Expenses are tiles of the Definition (`handsTiles`, `PageGroups.ts`); the Founders Profile is drawn inside Founders & Ownership.
+The Identity System (System 1, Foundation) is ONE page, **"1. Identity System"** (since 2026-11-20; owner, 13:02 UTC+2: "1. Identity System will have only one page"). The page holds two **chapters** (frames), side by side: **1. Definition** and **2. Purpose** (Mission & Vision, Values & Principles, Philosophy & Manifesto: Questions 9). The Legal Entity has no page of its own: its Founders & Ownership and Registrations & Expenses are tiles of the Definition (`handsTiles`, `PageGroups.ts`); the Founders Profile is drawn inside Founders & Ownership.
 
-The master tile **1. Definition** holds these tiles, in this order (Mission and Vision are saved here and drawn in 2. Purpose, in its pair tile Mission & Vision, doc 45):
+The master tile **1. Definition** holds these tiles, in this order (Mission and Vision are saved here and drawn in 2. Purpose, in its pair tile Mission & Vision, Questions 9):
 
 | # | Tile | Holds | Saved in | Opens |
 |---|---|---|---|---|
@@ -45,8 +45,8 @@ The master tile **1. Definition** holds these tiles, in this order (Mission and 
 | 2 | **Early Positioning** (named by the stage, section 8) | Who the business sells to, why, how it differs, and the result | the Legal Entity answer (`organisation`); its Notes under the key "Positioning" | dialog with choice questions |
 | 3 | **Founders & Ownership** (owner, 2026-11-09) | The owners, their shares and capital, and a tile for each founder's profile | the Legal Entity answer (`founders`) and the Founders Profile; its fields keep the Legal Entity's keys | dialog: the Ownership, then the founders' tiles (a one-owner form: the founder's card) |
 | 4 | **Registrations & Expenses** (owner, 2026-11-20 13:02 UTC+2: "Move the master Tile to the 1st page, in the Definition Chapter") | The registry's and the tax's numbers with the Additional Legal Requirements, and the Legal Entity's expenses | the Legal Entity answer; its tile, dialog and cards keep the Legal Entity's ids and keys (`handsTiles`, `SectionTile.section`) | dialog of two tiles, Registrations and Expenses |
-| (3) | **Mission**, drawn in Purpose | PB10 to PB12 (who, what, what they gain) and the text, its draft written from them (doc 45, section 8) | the key "Mission" | the Mission & Vision dialog, its first text |
-| (4) | **Vision**, drawn in Purpose | PB8 and PB7 (where the customers will be, what the business will be) and the text, its draft written from them (doc 45, 3.8) | the key "Vision" | the Mission & Vision dialog, its second text |
+| (3) | **Mission**, drawn in Purpose | PB10 to PB12 (who, what, what they gain) and the text, its draft written from them (Questions 9, section 8) | the key "Mission" | the Mission & Vision dialog, its first text |
+| (4) | **Vision**, drawn in Purpose | PB8 and PB7 (where the customers will be, what the business will be) and the text, its draft written from them (Questions 9, 3.8) | the key "Vision" | the Mission & Vision dialog, its second text |
 
 The questions behind the tiles are in `src/assets/system-questions/01_IdentitySystemQuestions.md` (they are what the "i" of Mission and Vision says); the structure is in `src/assets/system-answers/01_IdentitySystemAnswer.md` (a column layout of four free-text columns; the Organisation and Early Positioning tiles replace the text boxes of the first two columns with their own editors). The Identity System has no "Need Help?" text: the guidance is in each tile's "i".
 
@@ -54,7 +54,7 @@ The questions behind the tiles are in `src/assets/system-questions/01_IdentitySy
 
 - **Page title:** "1. Identity System", one line, with the System's icon; the page underline carries the frames edge to edge.
 - **The frame** of the master tile: 12px padding, 8px corners, one hairline edge in its hue, its heading "1. DEFINITION" in capitals, centred, 28px semi-bold. The Definition takes the colour of the work "create"; Purpose the colour of "decide" (`WorkColours.ts`). A tile, its dialog and its floating cards take the frame's hue.
-- **The tiles** are squares in the 2 × 2 grid of every chapter, one size by the window's width and height (layout rules, section 23), each in the frame's tint with the box's inset light and shade, a 110% rise under the pointer growing inwards (doc 18). A tile's title is in capitals (18px, semi-bold, centred, underlined by a hairline), and below it a list or a text in 14px muted colour:
+- **The tiles** are squares in the 2 × 2 grid of every chapter, one size by the window's width and height (layout rules, section 23), each in the frame's tint with the box's inset light and shade, a 110% rise under the pointer growing inwards (Interface 5). A tile's title is in capitals (18px, semi-bold, centred, underlined by a hairline), and below it a list or a text in 14px muted colour:
   - **Organisation:** the name in bold, the legal form, a divider line, then the address (a long address keeps its first lines and joins the last two). Until something is written it shows the first line of what the column asks.
   - **Early Positioning:** four groups, **no subtitles**, a divider line between two groups (the divider lines and the title's line of every tile are one line: 1px, the title ink at 40%), each option on a line of its own with a bullet, in its own words (nothing stands for options left out): the business (the audience and the buyer's category: "Workers / Professionals", "Proxy"), the user (only for a Proxy or Dual-Intent buyer: the relationship and the life stage: "Friend", "Young Adults"), the offering (the purposes and the differentiations) and the outcome (the buyer's and the user's). The words are the card's, shortened to their first part ("Proxy", "Friend"); a group with no answer is left out. **The square holds about six lines**: where there are more, the tile ends at a whole line, as every tile does, and the card has them all.
   - **Founders & Ownership:** the founders' names with bullets, each a link to that founder's card in the dialog (a one-owner form: no links).
@@ -72,17 +72,17 @@ The behaviour is the shared one of `src/components/interview/tiles/SectionTiles.
 | Presses another tile's bullet in the **section rail** ("Go to a section": Organisation, Early Positioning, Founders & Ownership, Registrations & Expenses) | That tile's dialog opens in place of the open one |
 | Presses the **Previous section / Next section** arrows, or ← and → | The dialog moves to the previous or next tile of the frame |
 | Presses **Escape**, the **Back** button, or the shaded space | The dialog closes; the page is as it was (the scroll position, the folds); the focus returns to the tile (with a visible ring after the keyboard) |
-| Presses the **"i"** beside the title | A pop-up with what the tile asks (the questions of the column); it closes as every pop-up does (doc 23) |
+| Presses the **"i"** beside the title | A pop-up with what the tile asks (the questions of the column); it closes as every pop-up does (Interface 7) |
 | Types in a field | The answer is saved at once (the header shows "Saved"); no Save button |
 
 Only one dialog is open at a time; which one is open is view state and is never saved. A tile's dialog has the title (18px semi-bold) with its "i", then its content, in one smooth scroll with no steps.
 
 ## 4. The Organisation tile
 
-**Dialog:** two columns with a 1px divider (12px clear on each side), the **Notes** across the whole width below a divider line. The left column is where the organisation is (name, country, address); the right is what it is and does (legal form, Registration Date, Opening Date, activities). **Every field, its control, its options, its "i" and what it connects to are in doc 37** (`design/questions/37-organization-fields.md`); this section keeps what the tile does as a whole.
+**Dialog:** two columns with a 1px divider (12px clear on each side), the **Notes** across the whole width below a divider line. The left column is where the organisation is (name, country, address); the right is what it is and does (legal form, Registration Date, Opening Date, activities). **Every field, its control, its options, its "i" and what it connects to are in Questions 7** (`design/questions/07-organisation-tile.md`); this section keeps what the tile does as a whole.
 
 - **Frozen until a country is chosen:** Address, Legal Form, State and the activities show the hint "Choose a country first." and keep what they hold.
-- **Country:** the six of the first version and **Other**; it drives the legal forms, the activity scheme and its code name, the registration numbers, the currency and the date format. For Other, the legal forms are the four generic ones (Sole Proprietorship, General Partnership, Private Limited Company, Limited Liability Partnership; `GENERIC_LEGAL_FORMS`) and the activity and its code are typed. Public company, nonprofit and cooperative forms are not offered (doc 33, section 3).
+- **Country:** the six of the first version and **Other**; it drives the legal forms, the activity scheme and its code name, the registration numbers, the currency and the date format. For Other, the legal forms are the four generic ones (Sole Proprietorship, General Partnership, Private Limited Company, Limited Liability Partnership; `GENERIC_LEGAL_FORMS`) and the activity and its code are typed. Public company, nonprofit and cooperative forms are not offered (Questions 4, section 3).
 - **Legal Form:** a one-owner form removes the ownership questions of Founders & Ownership.
 - **Registration Date:** not asked where the legal form is a sole trader or a sole proprietorship in the six countries (`registrationDateApplies`). A warning stands under it for a date that has not come or a company formed after the Opening Date.
 - **Opening Date:** saved in the Global Settings; it decides the business stage (section 8).
@@ -103,15 +103,15 @@ Only one dialog is open at a time; which one is open is view state and is never 
 
 The tile's name follows the stage: **Early Positioning** (Planning, Launching), **Core Market Positioning** (Managing), **Corporate & Portfolio Positioning** (Growing; `positioningName`).
 
-**Dialog:** two columns, each with two groups, told apart by a **double divider line** (two 1px lines 2px apart) and not by subtitles (the page's tile shows the same four groups, told apart by hairlines): Business then User on the left, Offering then Outcome on the right. The User group (and its divider) appears only for a Proxy or Dual-Intent buyer; the right group is titled "Outcomes" where the user has an outcome of their own. **The left column is as wide as its longest option and the right takes the rest, with a 1px divider between them, so every option stands on one line from a window about 1440px wide** (below it a long option wraps; under 901px the columns are one). **Every question, its control, its options, its "i" and what it connects to are in doc 38** (`design/questions/38-positioning-questions.md`), which also says how many choices the stage allows; this section keeps what the tile does as a whole.
+**Dialog:** two columns, each with two groups, told apart by a **double divider line** (two 1px lines 2px apart) and not by subtitles (the page's tile shows the same four groups, told apart by hairlines): Business then User on the left, Offering then Outcome on the right. The User group (and its divider) appears only for a Proxy or Dual-Intent buyer; the right group is titled "Outcomes" where the user has an outcome of their own. **The left column is as wide as its longest option and the right takes the rest, with a 1px divider between them, so every option stands on one line from a window about 1440px wide** (below it a long option wraps; under 901px the columns are one). **Every question, its control, its options, its "i" and what it connects to are in Questions 8** (`design/questions/08-positioning-tile.md`), which also says how many choices the stage allows; this section keeps what the tile does as a whole.
 
 The audience scale is **the app user's audience** (the customers of the business described), not the app's audience (the people who use the app).
 
-**Limits by stage not stated in doc 38:** the Buyer's category is one choice in every stage; the audience question of each relationship follows the relationship's limit (one in Planning and Launching, two in Managing, free in Growing).
+**Limits by stage not stated in Questions 8:** the Buyer's category is one choice in every stage; the audience question of each relationship follows the relationship's limit (one in Planning and Launching, two in Managing, free in Growing).
 
-**How the lists are shaped** (the owner's tables, doc 31, 10.7; the tile never chooses for the user, and an answer already given always stays visible). The order of the options of each question is in doc 38; two rules cross questions:
+**How the lists are shaped** (the owner's tables, Research 5, 10.7; the tile never chooses for the user, and an answer already given always stays visible). The order of the options of each question is in Questions 8; two rules cross questions:
 
-- **The life stages come first** (consumer buyer, once the buyer's and the user's life stages are both answered): they re-sort the Differentiation (a Student: Cost-driven and Convenience-driven; a Worker: Convenience-driven and Compliance, Risk & Security; a Senior: Compliance, Risk & Security and Status & Premium) and the two Outcome lists (by the purposes the life stages make primary), before the purposes chosen (doc 31, 10.7).
+- **The life stages come first** (consumer buyer, once the buyer's and the user's life stages are both answered): they re-sort the Differentiation (a Student: Cost-driven and Convenience-driven; a Worker: Convenience-driven and Compliance, Risk & Security; a Senior: Compliance, Risk & Security and Status & Premium) and the two Outcome lists (by the purposes the life stages make primary), before the purposes chosen (Research 5, 10.7).
 - **Outcome for the buyer and Outcome for the user:** the outcomes the purposes chosen drive come first (the buyer's by the buyer's category; a Direct Buyer has no user outcome); nothing is hidden or ticked.
 
 **How it reacts**
@@ -126,21 +126,21 @@ The audience scale is **the app user's audience** (the customers of the business
 
 ## 6. The Mission tile
 
-**Drawn in 2. Purpose**, as the first text of the pair tile Mission & Vision (doc 45); saved here. **Dialog:** the heading "Mission" with its "i" (doc 45, 3.1); then, one question a band, **PB10** "Who do you serve first?" (the Segments, 2 max), **PB11** "What do you offer them?" (those Segments' Offerings, 3 max), **PB12** "What do they gain?" (the goals ticked on their Profiles, the most chosen first, 2 max) (doc 45, section 8; saved as `missionServes`, `missionOffers`, `missionGains`); then, a field gap under the last band, **one text box** that grows with its text, its draft ("We help … with …, so that they can ….") written in while it is empty or still the app's own (layout rules, section 6). Shown only where the Business System has Segments. **On the page:** its lines, first on the pair tile. **Read by:** the Business Plan's summary (a labelled "Mission" line).
+**Drawn in 2. Purpose**, as the first text of the pair tile Mission & Vision (Questions 9); saved here. **Dialog:** the heading "Mission" with its "i" (Questions 9, 3.1); then, one question a band, **PB10** "Who do you serve first?" (the Segments, 2 max), **PB11** "What do you offer them?" (those Segments' Offerings, 3 max), **PB12** "What do they gain?" (the goals ticked on their Profiles, the most chosen first, 2 max) (Questions 9, section 8; saved as `missionServes`, `missionOffers`, `missionGains`); then, a field gap under the last band, **one text box** that grows with its text, its draft ("We help … with …, so that they can ….") written in while it is empty or still the app's own (layout rules, section 6). Shown only where the Business System has Segments. **On the page:** its lines, first on the pair tile. **Read by:** the Business Plan's summary (a labelled "Mission" line).
 
 ## 7. The Vision tile
 
-**Drawn in 2. Purpose**, beside the Mission in the same dialog, a divider between them (doc 45). **Dialog:** headed "Vision" (its "i": doc 45, 3.2); PB8 "Where will your customers be?" with today's widest reach under it, PB7 "What will your business be when your Vision comes true?" (3 max), then the text, its draft written in (doc 45, 3.8). **On the page:** its lines, after a divider line on the pair tile. **Read by:** the Business Plan's summary (a labelled "Vision" line).
+**Drawn in 2. Purpose**, beside the Mission in the same dialog, a divider between them (Questions 9). **Dialog:** headed "Vision" (its "i": Questions 9, 3.2); PB8 "Where will your customers be?" with today's widest reach under it, PB7 "What will your business be when your Vision comes true?" (3 max), then the text, its draft written in (Questions 9, 3.8). **On the page:** its lines, after a divider line on the pair tile. **Read by:** the Business Plan's summary (a labelled "Vision" line).
 
 ## 8. The stage, the Opening Date and what follows them
 
-The business stage (Planning, Launching, Managing, Growing) is **not asked**: it is worked out from the Opening Date and the durations of the Global Settings; an organisation with no Opening Date is Planning. The stage sets, in the Early Positioning tile: the tile's name, the limits of every question (section 5), and the options locked. When the Opening Date or a duration moves the business into another stage, the answers are checked against the new stage's set-up (section 5, last row). The rules of the stage, the Opening Date, the key dates and the Review's messages are in doc 28, 8.2a.
+The business stage (Planning, Launching, Managing, Growing) is **not asked**: it is worked out from the Opening Date and the durations of the Global Settings; an organisation with no Opening Date is Planning. The stage sets, in the Early Positioning tile: the tile's name, the limits of every question (section 5), and the options locked. When the Opening Date or a duration moves the business into another stage, the answers are checked against the new stage's set-up (section 5, last row). The rules of the stage, the Opening Date, the key dates and the Review's messages are in Questions 2, 8.2a.
 
 ## 9. What reads the Definition
 
 | Answer | Read by |
 |---|---|
-| Name, country, address, legal form, dates | Registrations & Expenses (Definition's fourth tile), the registration numbers and the jurisdiction profile, the currency and the tax name, the financials, the Calendar's key dates, the Review, the Business Plan and the exports (doc 28, 8.1) |
+| Name, country, address, legal form, dates | Registrations & Expenses (Definition's fourth tile), the registration numbers and the jurisdiction profile, the currency and the tax name, the financials, the Calendar's key dates, the Review, the Business Plan and the exports (Questions 2, 8.1) |
 | Legal Form | The ownership questions (a one-owner form has none), owners' drawings, the open items |
 | Opening Date | The stage; the plan start; key dates; the Review's messages; the exported title |
 | Activities | The exports only (as codes with the scheme's initials) |
@@ -153,9 +153,9 @@ The business stage (Planning, Launching, Managing, Growing) is **not asked**: it
 ## 10. Saving, review and checks
 
 - **Saving:** every change is saved at once into the organisation (browser storage); the header shows "Saved". An older answer is read in the new form (an audience, a purpose or a legal form that no longer exists is dropped or kept as text; `AnswerLegal.ts`).
-- **Review items** the Definition raises (doc 28, 8.6a): for the Organisation, what is missing among the name, country, address and legal form ("1. Definition: Organisation: …"); for the Early Positioning (named by the stage), each question with no choice ("…: the purpose and the outcome not chosen yet."); for Mission and Vision, "not answered yet" while empty. The two Notes are optional and raise nothing. The Review's "go there" opens the tile.
+- **Review items** the Definition raises (Questions 2, 8.6a): for the Organisation, what is missing among the name, country, address and legal form ("1. Definition: Organisation: …"); for the Early Positioning (named by the stage), each question with no choice ("…: the purpose and the outcome not chosen yet."); for Mission and Vision, "not answered yet" while empty. The two Notes are optional and raise nothing. The Review's "go there" opens the tile.
 - **Scenario tests:** `src/components/interview/editors/CountryScenarios.test.tsx` runs ten seeded random organisations for each of the six countries through the answer and the editor (the legal form is the country's own, the activity is a final code with every level named and its scheme's initials, the Positioning answers survive and are complete); **three of the ten are the owner's target audience** (the document "Target Audience Selection": Tier 1, knowledge-based service businesses such as AI automation and software development agencies, UI/UX and design studios, marketing agencies and business consulting firms; Tier 2, such as architecture and engineering practices, game studios, digital product studios and early-stage SaaS companies): a software agency, a marketing agency and a consulting firm, each with its country's code.
-- **Layout:** the Definition page (the dialogs of the Organisation and the Early Positioning, and the page's tiles) is covered by the layout check (`tools/scripts/layout-check/run.mjs`; the Lumen & Loom example is a Proxy business, so the User group is open), and the tick boxes and the radios are drawn from the same tokens (doc 21).
+- **Layout:** the Definition page (the dialogs of the Organisation and the Early Positioning, and the page's tiles) is covered by the layout check (`tools/scripts/layout-check/run.mjs`; the Lumen & Loom example is a Proxy business, so the User group is open), and the tick boxes and the radios are drawn from the same tokens (Interface 1).
 - **Checks that keep it true:** the component tests of the tiles (`src/components/interview/tiles/SectionTiles.test.tsx`, `src/components/interview/editors/LegalEntityEditor.test.tsx`), the tests of the lists (`src/framework/engine/PurposeRelevance.test.ts`, `src/framework/engine/RelationshipFit.test.ts`, `src/components/interview/editors/legal/fitPositioning.test.ts`, `src/components/interview/editors/legal/positioningIds.test.ts`), the layout check (`tools/scripts/layout-check/run.mjs`), `npm run docs:check` and the document-reference test.
 
 ## 11. Where it is in the code
@@ -175,16 +175,16 @@ The business stage (Planning, Launching, Managing, Growing) is **not asked**: it
 
 ## 12. Extra Information
 
-What other documents describe for this master tile that **is not in the app and is not listed as a future feature** (doc 33). The owner decides for each whether it becomes a future feature, is built, or is dropped.
+What other documents describe for this master tile that **is not in the app and is not listed as a future feature** (Questions 4). The owner decides for each whether it becomes a future feature, is built, or is dropped.
 
-1. **The shortlist with "Show all" in the activity dropdowns** (doc 28, 8.5; doc 34, 5.9): every dropdown lists all its entries.
-2. **The completeness rule for the primary activity** (doc 28, 8.5): the Review does not flag a missing primary activity.
-3. **The industry pack** (doc 34, 5.6): suggestions for the Segment's name and the kinds of business of the Profiles from the activities; nothing reads the activities but the exports.
-4. **The audit of the lists under rule 14**, tile by tile (doc 28, section 3; doc 32): the legal forms of the six countries are not re-checked as complete and sourced.
-5. **The Business Plan's "Activities" row label** is marked to confirm by the owner (doc 28, 8.6, **[D]**).
-6. **The Value Proposition and the Competitors reading the Positioning** (doc 28, 8.2; doc 29, I7c): the differentiation, the outcomes, the purpose and the buyer's category shape no later question.
+1. **The shortlist with "Show all" in the activity dropdowns** (Questions 2, 8.5; Research 3, 5.9): every dropdown lists all its entries.
+2. **The completeness rule for the primary activity** (Questions 2, 8.5): the Review does not flag a missing primary activity.
+3. **The industry pack** (Research 3, 5.6): suggestions for the Segment's name and the kinds of business of the Profiles from the activities; nothing reads the activities but the exports.
+4. **The audit of the lists under rule 14**, tile by tile (Questions 2, section 3; Research 6): the legal forms of the six countries are not re-checked as complete and sourced.
+5. **The Business Plan's "Activities" row label** is marked to confirm by the owner (Questions 2, 8.6, **[D]**).
+6. **The Value Proposition and the Competitors reading the Positioning** (Questions 2, 8.2; Questions 3, I7c): the differentiation, the outcomes, the purpose and the buyer's category shape no later question.
 7. **Help text for the Identity System:** the "Need Help?" text of the System is absent on purpose (`src/assets/system-help/01_IdentitySystemHelp.md`); the guidance is the "i" of each tile only.
-8. **The Positioning Notes prompt** is to be shortened (doc 29, the Notes row).
-9. **The master matrix of the owner's example paths** (doc 31, 10.7): its umbrella relationships (Landlord or property manager, Personal professional, Employer for work and life), "Direct Buyer (Self)" as a relationship and its B2B relationship and user names are not built; they were closed as a reference (doc 31, decision 38).
-10. **Marks on the options** (doc 31, decision 38): the ● and ○ of the user's life-stage matrix, and a "Recommended" tag on the differentiations the purposes drive, are not drawn; the options are ordered or hidden only.
-11. **Mission and Vision guidance:** the "i" carries the guiding questions, the length and one example (doc 45); no completeness rule beyond "not empty" is in the app.
+8. **The Positioning Notes prompt** is to be shortened (Questions 3, the Notes row).
+9. **The master matrix of the owner's example paths** (Research 5, 10.7): its umbrella relationships (Landlord or property manager, Personal professional, Employer for work and life), "Direct Buyer (Self)" as a relationship and its B2B relationship and user names are not built; they were closed as a reference (Research 5, decision 38).
+10. **Marks on the options** (Research 5, decision 38): the ● and ○ of the user's life-stage matrix, and a "Recommended" tag on the differentiations the purposes drive, are not drawn; the options are ordered or hidden only.
+11. **Mission and Vision guidance:** the "i" carries the guiding questions, the length and one example (Questions 9); no completeness rule beyond "not empty" is in the app.

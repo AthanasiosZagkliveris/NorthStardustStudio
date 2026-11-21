@@ -6,7 +6,7 @@ import { asFinancialFoundationValue, consolidateCosts } from "./financial/Financ
 import { expenseNature } from "./financial/FinancialForecast";
 import { salariedFounderIds } from "./legal/LegalStarts";
 
-/* THE OWNER'S MINIMUM PAY AND THE PERSONAL SURVIVAL BUDGET (doc 48, section 13, step 2 and decision (d); Start Up Loans). */
+/* THE OWNER'S MINIMUM PAY AND THE PERSONAL SURVIVAL BUDGET (Questions 20, section 13, step 2 and decision (d); Start Up Loans). */
 
 const legalFounder = (id: string, name: string, extra: object = {}) => ({ id, name, ownership: "100", capital: "", roles: [""], experience: "", ...extra });
 

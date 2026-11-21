@@ -45,7 +45,7 @@ describe("K15 and P7: what competitors charge", () => {
         expect(competitorsPriceRange([{ type: "direct", questions: { k15: ["40", "120"] } }, { type: "indirect", questions: { k15: ["90", "300"] } }, { type: "direct", questions: { "k15-unknown": ["yes"] } }]))
             .toMatchObject({ low: 40, high: 300, byNeeds: false });
         expect(competitorsPriceRange([{ type: "direct", questions: {} }])).toBeNull();
-        // K16 (doc 48, 15.3): only the competitors meeting at least one of the Offering's needs count; while none ticks K16, every one does.
+        // K16 (Questions 20, 15.3): only the competitors meeting at least one of the Offering's needs count; while none ticks K16, every one does.
         const rivals = [
             { type: "direct", name: "Loomcraft", questions: { k15: ["1800", "5000"], k16: ["need-a"] } },
             { type: "indirect", name: "Market stall", questions: { k15: ["15", "60"], k16: ["need-b"] } },

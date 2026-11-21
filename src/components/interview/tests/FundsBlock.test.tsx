@@ -18,7 +18,7 @@ import { launchNeedOf } from "../../../framework/engine/financial/ContingencyFun
 import { asFinancialFoundationValue, asFinancialSustainabilityValue, assetUnitCostsOf, consolidateCosts, financialPosition, fundingNeeds } from "../../../framework/engine/financial/FinancialModel";
 import { createGlobalSettings } from "../../../framework/engine/GlobalSettings";
 
-/* I6: the cash to raise before the opening and the Operational Contingency Fund, said by the Workbook's Funding Request (doc 48, section 14). */
+/* I6: the cash to raise before the opening and the Operational Contingency Fund, said by the Workbook's Funding Request (Questions 20, section 14). */
 
 afterEach(cleanup);
 
@@ -32,7 +32,7 @@ const capability = {
     }
 };
 
-/** The launch need and its contingency funds, as the Funding Request reads them (doc 48, section 14). */
+/** The launch need and its contingency funds, as the Funding Request reads them (Questions 20, section 14). */
 function launchedOf(openingDate: string) {
     const foundation = { ...asFinancialFoundationValue({}), planStart: { month: "01", year: "2027" } };
     const value = asBusinessCapabilityValue(capability);
@@ -92,7 +92,7 @@ describe("the Costs and Funding Need sections with the cost nature and the cash 
         );
     }
 
-    it("is read only: the three totals on top, then the cost of each Offering (doc 48, 15.2); every cost in full is the Inventory's, and nothing is typed", () => {
+    it("is read only: the three totals on top, then the cost of each Offering (Questions 20, 15.2); every cost in full is the Inventory's, and nothing is typed", () => {
         render(<Stateful />);
         openTile("Cost of each Offering");
         const costs = (document.querySelector("[data-anchor=financial-costs]") as HTMLElement).textContent ?? "";
@@ -123,7 +123,7 @@ describe("the Costs and Funding Need sections with the cost nature and the cash 
     });
 
     it("the Establishment need is the cash to raise before the opening: the 30,000 of CapEx and its 3,000 contingency, not counted again as running costs", () => {
-        // (The Funding Need is a record, in the Workbook's Funding Request since 2026-11-20: doc 48, section 14. Its figures, from the engine.)
+        // (The Funding Need is a record, in the Workbook's Funding Request since 2026-11-20: Questions 20, section 14. Its figures, from the engine.)
         const { funds } = launchedOf("2027-04-01")!;
         expect(funds.schedule.capex).toBe(30000);
         expect(funds.startupFund).toBe(3000);
@@ -162,7 +162,7 @@ describe("fundingNeeds and financialPosition with a launch", () => {
 });
 
 
-describe("Cost of each Offering, with an Offering sold (doc 48, 15.2)", () => {
+describe("Cost of each Offering, with an Offering sold (Questions 20, 15.2)", () => {
 
     it("draws a card for each Offering: its price, direct cost, contribution, full cost with its running share, and margin", async () => {
         const { default: lumen } = await import("../../../data/examples/lumen-and-loom-studio.json");

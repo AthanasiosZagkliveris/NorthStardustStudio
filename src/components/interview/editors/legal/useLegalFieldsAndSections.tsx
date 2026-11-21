@@ -37,7 +37,7 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
 
     const { openingDate, onChangeOpeningDate, businessStage, updateFormation, description, onDescriptionChange, amountLabel, amountName, chooseCountry, chooseLegalForm, chooseSubdivision, countryChosen, currency, disabled, entity, forms, founderLabel, labelled, openOnPage, ownershipComplete, ownershipOver, ownershipShort, percent, placeChosen, placeHint, postalLabel, profiled, removeFieldButton, removeFounder, soleFounderForm, soleFounderSettled, soleFounderSurplus, subdivisionSpec, subsection, subsectionNumber, textControl, totalCapital, totalOwnership, update, updateFounder, updateOrganisation } = earlier;
 
-    // THE COUNTRY is one of the six of the first published version or "Other" (design document 33, section 3): "Other" opens a second list of every other country. The choice of "Other" before a country is picked is held here.
+    // THE COUNTRY is one of the six of the first published version or "Other" (design Questions 4, section 3): "Other" opens a second list of every other country. The choice of "Other" before a country is picked is held here.
     const [otherChosen, setOtherChosen] = useState(false);
     const sixCountries = COUNTRIES.filter(country => FIRST_VERSION_COUNTRIES.includes(country.code));
     const otherCountries = COUNTRIES.filter(country => !FIRST_VERSION_COUNTRIES.includes(country.code));
@@ -147,13 +147,13 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
         ));
 
     }
-    // THE QUESTIONS OF EARLY POSITIONING (design documents 28, 8.2, and 33, sections 4 and 5), in the first published version: the structure of the market is single-sided (no question), the seller and
+    // THE QUESTIONS OF EARLY POSITIONING (design Questions 2, 8.2, and 33, sections 4 and 5), in the first published version: the structure of the market is single-sided (no question), the seller and
     // buyer relationship is B2C or B2B, and each relationship asks its audience (a scale for a business, a life stage for a consumer), the buyer's category (direct, proxy or dual-intent), the End User
     // (for a proxy or dual-intent buyer: the buyer and user relationship and, for a consumer, the user's life stage), then, once, the purpose. (The differentiation and the outcomes left for the
     // Business System on 2026-11-08, owner: the Differentiation after the Segment's Competitors, the buyer's outcome in the Offering's O4, the end user's in the Segment's End user part.) How many choices a
     // question takes follows the business stage (one while planning, up to two while managing, free while growing): a question of one choice is a radio, a question of several is a tick group that LOCKS its
     // other options once the limit is reached (no warning), with its limit beside the label ("2 max"). Saved with the organisation, as its other answers are.
-    // (B2G, G2B and the multi-sided market are built and hidden: a future feature, document 33.)
+    // (B2G, G2B and the multi-sided market are built and hidden: a future feature, Questions 4.)
     const stage = businessStage;
     // The country the browser suggests (a soft hint in the empty picker, never chosen), and whether the legal form is registered as a company: a sole trader or sole proprietorship is not, so no Registration Date is asked.
     const hintCode = currentBrowserCountryHint(FIRST_VERSION_COUNTRIES);
@@ -243,7 +243,7 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
         return frozen ? <FrozenUntil answered={frozen.answered} hint={frozen.hint}>{row}</FrozenUntil> : row;
     }
 
-    // THE PURPOSES in the order of their relevance (the owner's tables, document 31, 10.7): the buyer and user relationship, else the buyer's category, else the seller and buyer relationship. The ones the
+    // THE PURPOSES in the order of their relevance (the owner's tables, Research 5, 10.7): the buyer and user relationship, else the buyer's category, else the seller and buyer relationship. The ones the
     // owner's table calls generally less directly relevant are not offered (fewer options help the user); one already chosen stays.
     const relevance = purposeRelevance({
         models,
@@ -395,7 +395,7 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
 
                 {rightGroup}
 
-                {/* THE OFFERING: its purpose. (The Differentiation and the Outcomes are asked on the Business System since 2026-11-08: docs 41, 43 and 35.) */}
+                {/* THE OFFERING: its purpose. (The Differentiation and the Outcomes are asked on the Business System since 2026-11-08: Questions 14 and 16 and 35.) */}
                 {purposeQuestion}
 
             </div>
@@ -411,7 +411,7 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
 
             {/*
                 Two columns on the card's two-column grid (design
-                document 28, 8.5): the left one is where the organization
+                Questions 2, 8.5): the left one is where the organization
                 is (its name, country, address); the right one is what it
                 is and does (its legal form, its stage, its activities). The
                 description stands below both, across the dialog.
@@ -637,7 +637,7 @@ export function useLegalFieldsAndSections(earlier: Earlier) {
                     undefined,
                     [activitiesInfo(entity.organisation.country)]
                 )}
-                {/* (THE TWO FACTS THE ACTIVITY CODE MAY LEAVE OPEN (doc 53, stage 4; owner, 2026-11-19 20:59 UTC+2: "Build only the necessary questions that their information
+                {/* (THE TWO FACTS THE ACTIVITY CODE MAY LEAVE OPEN (Questions 10, stage 4; owner, 2026-11-19 20:59 UTC+2: "Build only the necessary questions that their information
                     cannot be extracted by the existing answers"; LegalFacts.ts): LF2, a regulated profession, only where no activity code is given; LF4 withdrawn 2026-11-19 21:44 UTC+2: the ICO
                     suggestion names the exemption itself. Each beside the activities it follows from.) */}
                 {professionFromCode(entity.organisation.country, entity.organisation.activities[0]?.code ?? "") === null && labelled(

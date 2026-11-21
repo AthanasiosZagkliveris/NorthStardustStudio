@@ -5,7 +5,7 @@ import { SEGMENT_QUESTIONS, segmentChoose, segmentOptions, segmentQuestionsOf, s
 import { PROFILE_QUESTIONS, PROFILE_USER_QUESTIONS, profileOptionsShown, profileShown, profileUserName, profileUserWho } from "./choices/ProfileQuestions";
 import { OFFERING_QUESTIONS, offeringOptionsWith, offeringShown, offeringWho } from "./choices/OfferingQuestions";
 
-/* Proxy and Dual-Intent tailoring, and earlier answers shaping later ones (2026-11-09; docs 35, 36 and 43): starts and orders only, never locks; a saved answer wins. */
+/* Proxy and Dual-Intent tailoring, and earlier answers shaping later ones (2026-11-09; Questions 12, 13 and 16): starts and orders only, never locks; a saved answer wins. */
 
 const base: SegmentIdentity = { relationships: ["b2c"], marketType: "single", audience: ["adult"], stage: "grow" };
 const proxyParent = segmentContextFor({ ...base, buyerCategory: ["b2c:proxy"], endUser: ["rel:parent", "age:minor"] }, false);

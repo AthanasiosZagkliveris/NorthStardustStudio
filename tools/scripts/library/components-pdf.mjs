@@ -1,6 +1,6 @@
 /**
  * Writes the components document as a PDF to read or download (an export; the PDF is never kept in the
- * project): the text of docs/design/library/13-components-list.md, laid out for reading, with a picture of each
+ * project): the text of docs/design/library/03-components-list.md, laid out for reading, with a picture of each
  * component taken from the inventory page (the dev server must be running). The converter is docs/markdown-pdf.mjs.
  *
  *   PW_CHANNEL=msedge node tools/scripts/library/components-pdf.mjs OUTPUT.pdf
@@ -11,7 +11,7 @@ import { writePdf } from "../docs/markdown-pdf.mjs";
 
 const output = process.argv[2];
 if (!output) { console.error("usage: node tools/scripts/library/components-pdf.mjs OUTPUT.pdf"); process.exit(1); }
-const markdown = readFileSync(process.env.DOC ?? "docs/design/library/13-components-list.md", "utf8").split("\r").join("");
+const markdown = readFileSync(process.env.DOC ?? "docs/design/library/03-components-list.md", "utf8").split("\r").join("");
 
 const browser = await chromium.launch(process.env.PW_CHANNEL ? { channel: process.env.PW_CHANNEL } : {});
 const context = await browser.newContext({ viewport: { width: 1200, height: 900 } });

@@ -39,7 +39,7 @@ describe("FinancialFoundationEditor folding", () => {
 
         const initial = {
             ...asFinancialFoundationValue(undefined),
-            // (Internal is removed, 2026-11-20: a source saved under it is read under Other, its figures kept; doc 48, section 14.)
+            // (Internal is removed, 2026-11-20: a source saved under it is read under Other, its figures kept; Questions 20, section 14.)
             funding: [{ ...createFundingSource("other"), category: "internal" as unknown as "other", name: "Savings" }, { ...createFundingSource("other"), name: "Reinvested" }]
         };
 
@@ -332,7 +332,7 @@ describe("FinancialSustainabilityEditor starts from Page 1 (phase 5f, 2026-11-09
 
 });
 
-/* FINANCIALS' ONE CHAPTER, FINANCIAL FOUNDATION (PageGroups.ts, oneChapter; doc 48, sections 11 and 14): Revenue & Pricing draws Revenue Streams, Costs, Funding & Position its
+/* FINANCIALS' ONE CHAPTER, FINANCIAL FOUNDATION (PageGroups.ts, oneChapter; Questions 20, sections 11 and 14): Revenue & Pricing draws Revenue Streams, Costs, Funding & Position its
    Costs and Funding; each editor alone (outside the page) titles its frame "Financial Foundation" too. */
 describe("Financials' chapters", () => {
 
@@ -341,7 +341,7 @@ describe("Financials' chapters", () => {
         render(<FinancialSustainabilityEditor value={asFinancialSustainabilityValue(undefined)} onChange={() => { wrote = true; }} />);
         expect(screen.getByText("Financial Foundation")).toBeTruthy();
         const tiles = screen.getAllByRole("button").map(button => (button.textContent ?? "").replace(/\s+/g, " "));
-        // (Break-Even & Sustainability is a record, in the Workbook's Financial Plan since the round of 2026-11-20 18:35 UTC+2: doc 48, section 14.)
+        // (Break-Even & Sustainability is a record, in the Workbook's Financial Plan since the round of 2026-11-20 18:35 UTC+2: Questions 20, section 14.)
         for (const title of ["Revenue Streams"]) {
             expect(tiles.some(text => text.startsWith(title))).toBe(true);
         }
@@ -357,7 +357,7 @@ describe("Financials' chapters", () => {
         render(<FinancialFoundationEditor value={asFinancialFoundationValue(undefined)} onChange={() => {}} />);
         expect(screen.getByText("Financial Foundation")).toBeTruthy();
         const tiles = screen.getAllByRole("button").map(button => (button.textContent ?? "").replace(/\s+/g, " "));
-        // (Capital & Funding and Financial Position, one tile, Funding, since 2026-11-20: doc 48, section 13, step 3.)
+        // (Capital & Funding and Financial Position, one tile, Funding, since 2026-11-20: Questions 20, section 13, step 3.)
         for (const title of ["Cost of each Offering", "Funding"]) {
             expect(tiles.some(text => text.startsWith(title))).toBe(true);
         }
@@ -368,7 +368,7 @@ describe("Financials' chapters", () => {
 
 });
 
-/* THE REVENUE CARD, 2026-11-20 (owner, 12:49 UTC+2: "proceed to changes"; doc 48, sections 8 and 12.2): the competitors' range under the price, Volume from
+/* THE REVENUE CARD, 2026-11-20 (owner, 12:49 UTC+2: "proceed to changes"; Questions 20, sections 8 and 12.2): the competitors' range under the price, Volume from
    Each Month folded under Sales Volume, and the one click that charges a stream as its customers buy. */
 describe("a revenue stream's card, 2026-11-20", () => {
 

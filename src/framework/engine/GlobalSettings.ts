@@ -65,7 +65,7 @@ export interface GlobalSettingsValue {
     operationalContingencyRate: string;
     /** An amount a month, for key-person and health cover. */
     insurancePerEmployee: string;
-    // (No income tax rate: Page 4's Plan Settings own it, doc 5, section 5.5.6. A rate saved here before is moved there once: moveGlobalIncomeTax.)
+    // (No income tax rate: Page 4's Plan Settings own it, Records 2, section 5.5.6. A rate saved here before is moved there once: moveGlobalIncomeTax.)
 }
 
 /** The asset groups whose cards have a useful life, in the order the screen lists them. */

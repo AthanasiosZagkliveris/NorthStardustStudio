@@ -68,7 +68,7 @@ export const SECTIONS = {
 };
 
 /**
- * The section's own palette colour: lavender for Revenue. (Break Even's teal went with its tile, a record in the Workbook since 2026-11-20: doc 48, section 14.)
+ * The section's own palette colour: lavender for Revenue. (Break Even's teal went with its tile, a record in the Workbook since 2026-11-20: Questions 20, section 14.)
  */
 export const SECTION_HUES: Record<string, number> = {
     "sustainability-revenue": paletteHueNamed("lavender")

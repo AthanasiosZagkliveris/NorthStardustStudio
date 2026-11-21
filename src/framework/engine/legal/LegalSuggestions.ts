@@ -12,20 +12,20 @@ import type { Foundation } from "../businessDocuments/reading.ts";
     (Stage 3, decisions 3 and 4: an insurance premium is costed once, on its Insurance card in Infrastructure & Capability, and business rates with the premises;
     the suggestions say where. The Legal Entity keeps only the requirement.)
 
-    THE LEGAL SUGGESTIONS, STAGE 2 (doc 53, section 6, decisions 1 (b) and (c), 5 and 6; the owner's delegation of 2026-11-19 19:48 UTC+2): what the law asks only
+    THE LEGAL SUGGESTIONS, STAGE 2 (Questions 10, section 6, decisions 1 (b) and (c), 5 and 6; the owner's delegation of 2026-11-19 19:48 UTC+2): what the law asks only
     past a threshold, or where an exemption may apply, is said on the Review, never made unseen -- each with its reason, the month it is required from where a
     forecast says it, and the official page that settles it. A suggestion the Legal Entity already answers (the tax registered, a requirement of that name) is not
     said. Also said: a fee whose official check is over 12 months old, and a United States state the app holds no rules for yet.
 */
 
 export interface LegalSuggestion {
-    /** The rule (doc 53): "GB8", "GB13", ... */
+    /** The rule (Questions 10): "GB8", "GB13", ... */
     rule: string;
     text: string;
     source: string;
 }
 
-/** Each country's consumption-tax threshold over 12 months, in its currency, and its tax's name (doc 53, section 2). Ireland's services figure; its goods figure where
+/** Each country's consumption-tax threshold over 12 months, in its currency, and its tax's name (Questions 10, section 2). Ireland's services figure; its goods figure where
     an Offering is a product. */
 const THRESHOLDS: Readonly<Record<string, { name: string; amount: number; goods?: number; symbol: string; source: string }>> = {
     GB: { name: "VAT", amount: 90000, symbol: "£", source: "https://www.gov.uk/register-for-vat" },
@@ -55,7 +55,7 @@ export function thresholdMonth(earned: readonly number[], threshold: number): nu
     return null;
 }
 
-/** The legal suggestions for the Review (doc 53, stage 2). `today` dates the fees' check. */
+/** The legal suggestions for the Review (Questions 10, stage 2). `today` dates the fees' check. */
 export function legalSuggestions(f: Foundation, today: Date = new Date()): LegalSuggestion[] {
     const { country, subdivision, legalForm } = f.legalEntity.organisation;
     const out: LegalSuggestion[] = [];
@@ -79,7 +79,7 @@ export function legalSuggestions(f: Foundation, today: Date = new Date()): Legal
         }
     }
 
-    // A REGULATED PROFESSION (doc 53, stage 4): by the activity code, else the founder's answer in Definition (LF2); its body's registration, in every country.
+    // A REGULATED PROFESSION (Questions 10, stage 4): by the activity code, else the founder's answer in Definition (LF2); its body's registration, in every country.
     const code = f.legalEntity.organisation.activities[0]?.code ?? "";
     if ((professionFromCode(country, code) ?? f.legalEntity.organisation.regulatedProfession === "yes") && !said(f, /professional (body|registration)/i)) {
         out.push({ rule: "professional", text: "Professional registration: a regulated profession works under its body's registration -- an accountant's, a solicitor's, an architect's, a financial adviser's, a health professional's. Add it under Additional Legal Requirements with its number.", source: "" });
@@ -94,7 +94,7 @@ export function legalSuggestions(f: Foundation, today: Date = new Date()): Legal
         if ((online || personalDataFromCode(country, code) === "other") && !said(f, /\bICO\b|data protection/i)) {
             out.push({ rule: "GB13", text: "Data protection fee (ICO): a business that keeps its customers' details on a computer usually pays it each year (£52 at the smallest tier, £5 less by Direct Debit); one that keeps them only for its own staff, marketing and accounts is exempt. The ICO's self-assessment, on ico.org.uk, says which.", source: "https://www.gov.uk/government/consultations/data-protection-fee-regime-proposed-changes/outcome/data-protection-fee-regime-government-response" });
         }
-        // FOOD OR DRINK (GB20) and A SAFETY MARKING (GB16), from the activity code or the Offering's O24 (doc 53, stage 4).
+        // FOOD OR DRINK (GB20) and A SAFETY MARKING (GB16), from the activity code or the Offering's O24 (Questions 10, stage 4).
         const kinds = new Set([...productKindsFromCode(country, code), ...f.segments.flatMap(segment => segment.offerings.flatMap(offering => effectiveOfferingAnswers(offering, segment, identityOf(f)).o24 ?? []))]);
         if (kinds.has("food") && !said(f, /food business/i)) {
             out.push({ rule: "GB20", text: "Food business registration: register each place you make, sell or serve food with your local council, at least 28 days before you start trading; it is free.", source: "https://www.gov.uk/food-business-registration" });
@@ -125,7 +125,7 @@ export function legalSuggestions(f: Foundation, today: Date = new Date()): Legal
             });
         }
         // (c) BUSINESS RATES on premises of the business's own; small business rate relief takes them to nothing at a rateable value up to £12,000, tapering to £15,000.
-        // (A home is no business premises: the Workspace's kind says it, with no question; doc 53, stage 4.)
+        // (A home is no business premises: the Workspace's kind says it, with no question; Questions 10, stage 4.)
         const premises = (f.capability.resources[WORKSPACE_GROUP_ID] ?? []).some(subsection => subsection.id === PREMISES_GROUP_ID && subsection.slots.some(slot => slot.workspaceKind !== "home"));
         if (premises && !said(f, /business rates/i)) {
             out.push({ rule: "GB17", text: "Business rates: premises of the business's own pay them to the council; small business rate relief takes them to nothing at a rateable value up to £12,000, tapering to £15,000. Your council's bill says which; they are costed with the premises, on Infrastructure & Capability.", source: "https://www.gov.uk/introduction-to-business-rates" });

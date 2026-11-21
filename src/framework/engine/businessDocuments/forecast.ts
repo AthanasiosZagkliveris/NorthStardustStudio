@@ -20,7 +20,7 @@ export function businessForecast(sessions: FoundationSessions) {
         currency: f.currency,
         format: f.format,
         name: f.name,
-        // (THE TWO CASH CHARTS, the Financials' records moved here (doc 48, section 14): the funding's month by month, then with the revenue, each once.)
+        // (THE TWO CASH CHARTS, the Financials' records moved here (Questions 20, section 14): the funding's month by month, then with the revenue, each once.)
         timeline: f.position.timeline,
         runwayMonths: f.position.runwayMonths,
         revenueTimeline: f.outlook.revenueTimeline,

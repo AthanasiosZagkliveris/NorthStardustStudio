@@ -10,7 +10,7 @@ import { asFinancialSustainabilityValue } from "../../../../framework/engine/fin
 import { channelFeeFor } from "../../../../framework/engine/financial/CalculatedLines.ts";
 import { moneyText } from "../../../../framework/engine/export/ExportRenderers.ts";
 
-/** The channel categories that take a fee on a sale: a fee line on their subchannels' cards (doc 50, section 1.3). */
+/** The channel categories that take a fee on a sale: a fee line on their subchannels' cards (Questions 18, section 1.3). */
 import { FEE_CHANNEL_CATEGORIES as FEE_CATEGORIES } from "../../../../framework/engine/channels/ChannelFeeData.ts";
 import { segmentPaymentServices } from "../../../../framework/engine/choices/SegmentQuestions.ts";
 import { withAnswerServiceCards } from "../../../../framework/engine/channels/ChannelResources.ts";
@@ -302,7 +302,7 @@ export function useEngagementState(props: BusinessEngagementEditorProps) {
     // (Read again whenever the answer or the Foundation changes.)
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [value, foundation, identity, disabled]);
-    /** NO PHYSICAL ITEM (doc 28, 11.7): while no Offering on Page 1 has one, the Physical Delivery and Retail & Wholesale channels are hidden where a Segment has none (channelCategoryHidden), as Page 3 hides its physical categories. */
+    /** NO PHYSICAL ITEM (Questions 2, 11.7): while no Offering on Page 1 has one, the Physical Delivery and Retail & Wholesale channels are hidden where a Segment has none (channelCategoryHidden), as Page 3 hides its physical categories. */
     const noPhysical = noPhysicalOffering(segments);
     /** The cards folded away, by key. Not stored with the answer:
      *  which cards a reader has closed is how they are looking at
@@ -781,7 +781,7 @@ export function useEngagementState(props: BusinessEngagementEditorProps) {
     }
 
     /*
-        THE FEES A SUBCHANNEL PAYS (doc 50, section 1.4; owner, 2026-11-14 12:00: "For the proposed changes (Fees, Demand recheck) check the best solution and apply
+        THE FEES A SUBCHANNEL PAYS (Questions 18, section 1.4; owner, 2026-11-14 12:00: "For the proposed changes (Fees, Demand recheck) check the best solution and apply
         them"): on a Direct Payment, Website or Marketplace subchannel's card, read only, the row of the Global Settings' Channel Fee Table its name -- or one of its
         expense cards' names -- takes, the date it was checked, and what it takes from one sale of each Offering it serves; the Global Settings stay the one place
         to change it.

@@ -703,7 +703,7 @@ label:has(> input[type="checkbox"]) > :not(input) {
 
 }
 
-/* A PAYING SUBCHANNEL'S FEES (doc 50, section 1.4), under its expenses in the same section, 12px under them; their lines one under another; the heading, Fees, is the link to the Global Settings. */
+/* A PAYING SUBCHANNEL'S FEES (Questions 18, section 1.4), under its expenses in the same section, 12px under them; their lines one under another; the heading, Fees, is the link to the Global Settings. */
 .business-subchannel-card .business-channel-expenses > .business-channel-fees {
 
     margin-top: var(--gap-12);

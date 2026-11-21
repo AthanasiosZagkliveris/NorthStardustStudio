@@ -8,7 +8,7 @@ Status: **rules**, written 2026-10-29, updated 2026-11-21. How a document in `do
 |---|---|---|
 | `docs/app/` | The app: contents, index of its places, glossary | plain names |
 | `docs/guide/` | The user guide: how a founder uses the app, step by step, and the overview of the app, its specifications and its future features | plain names |
-| `docs/design/foundation/` | The single description of the Foundation and its card structure (documents 1 and 26) | `NN-name.md` |
+| `docs/design/foundation/` | The single description of the Foundation and its card structure (Foundation 1 and 2) | `NN-name.md` |
 | `docs/design/interface/` | What every screen shares: texts, reactions, links, components, help texts and what an "i" says, pop-ups, tooltips (16 to 24, 39) | `NN-name.md` |
 | `docs/design/questions/` | The first version and what it leaves for later, the plan, the specification and the guide of the questions, the questions of each tile, the register, the legal starts and the answers worked out from earlier ones (27 to 29, 33, 35 to 38, 41 to 50, 52 to 54) | `NN-name.md` |
 | `docs/design/research/` | The sources, the research, the owner's data as given, the lists and classifications, and the survey of the Beta founders (2, 3, 30 to 32, 34, 51, 55) | `NN-name.md` |
@@ -20,9 +20,9 @@ Status: **rules**, written 2026-10-29, updated 2026-11-21. How a document in `do
 | `docs/proposals/` | Plans still open and not started; one leaves for the archive when it is built or replaced | plain names |
 | `docs/archive/` | Finished or replaced documents, kept for their information; the older rows of every log are in `archive/log/` | plain names |
 
-**Numbering** (checked): every design document has a number, 1 to N, with no repeat; the number is a permanent id, like a question code. It is in the file name (two digits) and in the title, and it is how documents cite one another ("doc 28"). The folders group the documents by what they hold, so a folder's numbers need not run on; a document that moves folder keeps its number. A new document takes the next free number. A document that leaves the numbered set (to `ai/`, `proposals/` or the archive) takes a plain name and its number is retired, never reused: 12 (the component defaults, now a section of 9), 25 (now `ai/folder-plan.md`), 40 (the tile documents, now doc 27, section 11). The check fails on a gap that is not a retired number. (Owner, 2026-11-21: "Keep the numbers".)
+**Numbering** (checked): each design folder has its own sequence, 1 to N with no gap or repeat, in the order the app shows things (the questions run Identity, Brand, Business, Strategy, each in the order of its pages and tiles). The number is in the file name (two digits) and in the title, and a document is cited by its folder and number ("Questions 2", "Interface 1"). A new document goes where it belongs in its folder's order, and the documents after it move up one, with every citation updated in the same change (`docs:check` finds a citation left behind by its broken link or anchor). A document that leaves the numbered set (to `ai/`, `proposals/` or the archive) takes a plain name and the folder closes the gap. Until 2026-11-21 the documents had one sequence for all the folders; the index lists the old numbers. (Owner, 2026-11-21: "Could the files be numbered and named according to the app sequence or a logical order?" and "Every folder should have its own sequences"; this replaces "Keep the numbers" of the same day.)
 
-**Question codes** (checked): codes are permanent ids, not positions. Never renumber; reorder freely; the register (doc 44) shows the order. A new question takes the next free code; a retired code stays listed as retired with what replaced it. The codes are kept in `tools/scripts/docs/questions-register.mjs`, which writes doc 44; `npm run docs:check` fails when doc 44 is stale or when a questionnaire document (27 to 55, without doc 44) cites an Offering, Competitor, Purpose & Beliefs, Ambassador or Strategy code (O1, K1, PB1, BA1, SW1, SC1), or, in 27 to 43, a Profile code (A1 to E3), that the register does not know; a proposed code waiting to be built is listed in the script's `CITATION_ALLOW`.
+**Question codes** (checked): codes are permanent ids, not positions. Never renumber; reorder freely; the register (Questions 6) shows the order. A new question takes the next free code; a retired code stays listed as retired with what replaced it. The codes are kept in `tools/scripts/docs/questions-register.mjs`, which writes Questions 6; `npm run docs:check` fails when Questions 6 is stale or when a questionnaire document (27 to 55, without Questions 6) cites an Offering, Competitor, Purpose & Beliefs, Ambassador or Strategy code (O1, K1, PB1, BA1, SW1, SC1), or, in 27 to 43, a Profile code (A1 to E3), that the register does not know; a proposed code waiting to be built is listed in the script's `CITATION_ALLOW`.
 
 ## 2. The head of a document
 
@@ -32,7 +32,7 @@ Every document opens with these lines, in this order (checked):
 2. **Status line**: `Status: **kind**, written YYYY-MM-DD, updated YYYY-MM-DD.` and, after it, one sentence saying what the document holds. The kind is one of the list below; both dates are ISO (checked: the kind and a date).
 3. **Generated documents** carry instead (or beside the status) a line that begins "Generated by", names the command and the source, and ends "Do not edit by hand." (checked).
 4. **Related line** (optional): `Related: doc N (what), doc M (what).`
-5. **Banners** (optional): a block quote `> **Title (owner, date):** text` for a rule that governs the whole document (for example the first-version banner in documents 27 to 32).
+5. **Banners** (optional): a block quote `> **Title (owner, date):** text` for a rule that governs the whole document (for example the first-version banner in Questions 1 to 3 and Research 4 to 6).
 6. **Contents block**: a list of the sections with links, when the document is longer than 60 KB or has more than 12 sections.
 
 ### The kinds
@@ -56,14 +56,14 @@ Every document opens with these lines, in this order (checked):
 
 ## 3. How a document is written
 
-- **Present tense.** A document says what is true now. **A change is written in the log** (`design/records/04-log.md`) and nowhere else: no "since", "was changed on" or round-by-round history in a describing document.
-- **One owner for each fact.** A fact is written once, in the document that owns it, and the others point to it ("see doc 21, section 3"). The owner of a topic is named in `index.md`.
-- **Sections** of a long document are numbered `## 1.`, `### 1.1`; the numbers do not change once other documents cite them (a section that moves to a new document keeps its numbers, as 5.x did in document 34).
+- **Present tense.** A document says what is true now. **A change is written in the log** (`design/records/01-log.md`) and nowhere else: no "since", "was changed on" or round-by-round history in a describing document.
+- **One owner for each fact.** A fact is written once, in the document that owns it, and the others point to it ("see Interface 1, section 3"). The owner of a topic is named in `index.md`.
+- **Sections** of a long document are numbered `## 1.`, `### 1.1`; the numbers do not change once other documents cite them (a section that moves to a new document keeps its numbers, as 5.x did in Research 3).
 - **Where the code and a document disagree, the latest dated decision wins** (owner, 2026-11-19: "the doc is the rule"; 2026-11-21: "Check how the app works at the moment and which update was the last one"). A written rule newer than the code's last change to that part makes the app the one to fix; a code change made on a later owner decision makes the document the one to fix, in the same commit, with a row in the log. Names of files, classes, properties and functions in backticks always follow the code and must exist (the document-reference test checks the documents it lists).
 - **Affirmative, natural voice** (Thanos, 2026-11-09). Every text, in a document and in everything the app shows or writes (questions, options, "i" texts, notes, empty states, tooltips, generated drafts and exports), uses a natural, flowing human voice and affirmative sentences: it says what something is and does. Contrast and negative framing are avoided: "unlike", "instead of", "rather than", "not X but Y", "unlikely", "as opposed to" and "no longer", where a plain affirmative sentence says the same. Option labels that really are choices ("Do it themselves", "None") stay; code comments are outside this rule.
 - **Plain English**, sentence case headings, ISO dates, "doc N" for a design document and "document N" in running prose; a file is named in backticks with its path from `docs/`.
 - **Relative links** between documents are written as Markdown links and must resolve, and a link to a heading must find it (both checked).
-- **Decisions** the owner has not made are marked **[D]**; a rule of the first version is marked in place and the rest is a future feature (doc 33).
+- **Decisions** the owner has not made are marked **[D]**; a rule of the first version is marked in place and the rest is a future feature (Questions 4).
 - **Generated documents** are never edited by hand; the generator and its source are named in the document.
 
 ## 4. Each chapter has a README
@@ -72,7 +72,7 @@ Every document opens with these lines, in this order (checked):
 
 ## 5. Adding a document
 
-1. Pick the folder by what the document holds, and the next free number (section 1); never renumber another document.
+1. Pick the folder by what the document holds and its place in that folder's order (section 1); renumber the documents after it and update their citations in the same change.
 2. Write the head (section 2).
 3. Add the document to the list in `tools/scripts/docs/write-index.mjs` with its kind and a one-sentence description; add subjects to `TOPICS` if people will look it up.
 4. Run `npm run docs:index` and `npm run docs:check` (it includes `docs:standard`).

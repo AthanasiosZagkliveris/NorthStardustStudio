@@ -110,7 +110,7 @@ export function readCrossSystem({ session, organizationId, systemNumber, navigat
     })();
 
     /* The Values with their ids (ValueIds.ts), from the Identity section that holds them, found by its Values' key, never its number: the Brand System's
-       Ambassador offers them for BA9 (doc 46). */
+       Ambassador offers them for BA9 (Questions 11). */
     const identityValues = (() => {
         const identity = systems.find(candidate => candidate.id === "identity");
         if (!organizationId || !identity || !frameworkRegistry.exists(identity.id)) {
@@ -203,7 +203,7 @@ export function readCrossSystem({ session, organizationId, systemNumber, navigat
     /*
         ON EVERY OTHER SYSTEM the Business System's answers are read as saved: its Foundation, Infrastructure & Capability, Customer Engagement and Financials, each
         found by its answer's type in the Business framework (the section's id), so the Vision's PB8 says the Segment's reach today
-        and the Ambassador's choices read the Offerings, the Profiles and the relationships (the owner's approved plan of 2026-11-18, §3; doc 46).
+        and the Ambassador's choices read the Offerings, the Profiles and the relationships (the owner's approved plan of 2026-11-18, §3; Questions 11).
         The Business System's own pages read their open session.
     */
     const savedBusiness = (type: AnswerType): unknown => {

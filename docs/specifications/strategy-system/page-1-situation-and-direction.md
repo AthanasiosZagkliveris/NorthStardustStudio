@@ -1,8 +1,8 @@
 # 4. Strategy System — Situation & Direction
 
-Status: **current design**, written 2026-11-20, updated 2026-11-21. The Strategy System's one page and its one chapter: the four Master Tiles, what each asks, the cards of the Strategic Period, what the page reads and writes, and the rules it follows. The questions, their options and "i" are doc 49's; the layout is the rulebook's; this file names them and does not repeat them.
+Status: **current design**, written 2026-11-20, updated 2026-11-21. The Strategy System's one page and its one chapter: the four Master Tiles, what each asks, the cards of the Strategic Period, what the page reads and writes, and the rules it follows. The questions, their options and "i" are Questions 21's; the layout is the rulebook's; this file names them and does not repeat them.
 
-> **Keep this document true:** whoever changes a tile, a question, a draft, a card's field or a read of this page changes this file in the same commit and writes the change in the log (`design/records/04-log.md`).
+> **Keep this document true:** whoever changes a tile, a question, a draft, a card's field or a read of this page changes this file in the same commit and writes the change in the log (`design/records/01-log.md`).
 
 ## Contents
 
@@ -20,7 +20,7 @@ Status: **current design**, written 2026-11-20, updated 2026-11-21. The Strategy
 
 (This was the folder's README until 2026-11-21.) The Strategy System (System 4 of the Foundation) is ONE page, "4. Strategy System", of one chapter, **Situation & Direction** (`PageGroups.ts`: section 1 the page; sections 2, Goals & Objectives, and 3, Roadmap, hidden, their answers drawn inside the chapter's Strategic Period tile). The System is answered after the Business System: a founder describes the business before choosing a strategy for it.
 
-Each file here describes the app as it is; where it and the code differ, both are mended in one commit with a row in the log (`design/records/04-log.md`). The layout is the rulebook's (`ai/layout-rules.md`, sections 13 and 23); the questions are doc 49's (`design/questions/49-strategy-questions.md`), the codes the register's (doc 44, section 8).
+Each file here describes the app as it is; where it and the code differ, both are mended in one commit with a row in the log (`design/records/01-log.md`). The layout is the rulebook's (`ai/layout-rules.md`, sections 13 and 23); the questions are Questions 21's (`design/questions/21-strategy.md`), the codes the register's (Questions 6, section 8).
 
 ### The page
 
@@ -51,26 +51,26 @@ One page, "4. Strategy System", one chapter, **Situation & Direction**, of four 
 
 ## 2. Current Situation
 
-One text, its draft written from the Business System and followed until the founder edits it; "Refresh" replaces it with a new draft, asked first ("Replace your Current Situation?"). The draft says, a line each where answered (`currentSituationDraft`; doc 49, 2.3 and 10): what is sold to whom with its price; each Segment's market (growing, shrinking, crowded, open); its named competitors and what it stands out for (K14); each Offering still being built, from Launching on (O2); how customers find and reach the business (the Discover, Evaluation and Purchase channels); the money in hand and sought, the expected revenue and the break even, the funding gap. Its "i": three linked questions (what you sell and to whom, how people reach you, how you are supported).
+One text, its draft written from the Business System and followed until the founder edits it; "Refresh" replaces it with a new draft, asked first ("Replace your Current Situation?"). The draft says, a line each where answered (`currentSituationDraft`; Questions 21, 2.3 and 10): what is sold to whom with its price; each Segment's market (growing, shrinking, crowded, open); its named competitors and what it stands out for (K14); each Offering still being built, from Launching on (O2); how customers find and reach the business (the Discover, Evaluation and Purchase channels); the money in hand and sought, the expected revenue and the break even, the funding gap. Its "i": three linked questions (what you sell and to whom, how people reach you, how you are supported).
 
 ## 3. SWOT Analysis
 
-Four numbered lists: Strengths, Weaknesses (inside the business), Opportunities, Threats (outside it). The dialog shows the Vision first ("the aim the SWOT is read against", P6, doc 49, 9).
+Four numbered lists: Strengths, Weaknesses (inside the business), Opportunities, Threats (outside it). The dialog shows the Vision first ("the aim the SWOT is read against", P6, Questions 21, 9).
 
-- **Starts** (doc 49, 2.3): a quadrant never edited shows the market's starts (each Segment's growth and crowding) and SW1's lines; once edited, the founder's lines stand. Each start line once (a rated change's line, written twice before the round of 2026-11-20 18:35, is once; a test).
-- **SW1**, "How could these changes affect you?", above Opportunities and Threats: a rating per change ticked (1 = Threat, 5 = Opportunity), the Segments' changes first and ticked (doc 49, 2.3).
-- **SW2**, "Which of these fit you?", under each list: ticks of the suggestions the answers support, a ticked one a line of the list (the list is the one owner) (doc 49, 2.3 and 10; `swotSuggestionsOf`): the Differentiation, the funding need covered, the break even month (Strengths); the funding gap, the break even beyond the plan, an Offering still being built (Weaknesses); the market's starts, SW1's lines, the clear opening, customers beyond today's reach (Opportunities); the market's starts, SW1's lines, a Competitor hard to beat, a growing Competitor (Threats).
+- **Starts** (Questions 21, 2.3): a quadrant never edited shows the market's starts (each Segment's growth and crowding) and SW1's lines; once edited, the founder's lines stand. Each start line once (a rated change's line, written twice before the round of 2026-11-20 18:35, is once; a test).
+- **SW1**, "How could these changes affect you?", above Opportunities and Threats: a rating per change ticked (1 = Threat, 5 = Opportunity), the Segments' changes first and ticked (Questions 21, 2.3).
+- **SW2**, "Which of these fit you?", under each list: ticks of the suggestions the answers support, a ticked one a line of the list (the list is the one owner) (Questions 21, 2.3 and 10; `swotSuggestionsOf`): the Differentiation, the funding need covered, the break even month (Strengths); the funding gap, the break even beyond the plan, an Offering still being built (Weaknesses); the market's starts, SW1's lines, the clear opening, customers beyond today's reach (Opportunities); the market's starts, SW1's lines, a Competitor hard to beat, a growing Competitor (Threats).
 - Each choice band stands in the shared bands (layout rules, section 6, the band rule).
 
 ## 4. Strategic Compass
 
-Three choices above the text, in this order (doc 49, 2.4 and 9): **SC3** "Which Segment comes first?" (with two Segments or more), **SC2** "Where will growth come from in this period?" (2 max; Ansoff, and a first launch while Planning and Launching), **SC1** "What will this period's strategy mainly do?" (TOWS; at Planning and Launching the two options that seize opportunities), each with its start from the SWOT and the answers; under SC1, a line per Segment saying what it stands out for (P8). The text's draft is written in from the three (`compassDraft`; layout rules, section 6, "A draft is written in by itself"); its "i" holds the Vision.
+Three choices above the text, in this order (Questions 21, 2.4 and 9): **SC3** "Which Segment comes first?" (with two Segments or more), **SC2** "Where will growth come from in this period?" (2 max; Ansoff, and a first launch while Planning and Launching), **SC1** "What will this period's strategy mainly do?" (TOWS; at Planning and Launching the two options that seize opportunities), each with its start from the SWOT and the answers; under SC1, a line per Segment saying what it stands out for (P8). The text's draft is written in from the three (`compassDraft`; layout rules, section 6, "A draft is written in by itself"); its "i" holds the Vision.
 
 ## 5. Strategic Period: the Themes and their cards
 
 - **Start and End**, month and year (three to five years; the Start up to 24 months back), beside the Financial Plan's dates.
 - **Themes**: a tile each, added from seven suggestions (Growth & Market … Partnerships & Expansion) or named by the founder; a Theme's dialog is its card.
-- **The cards** (layout rules, section 13, the strategy cards' heads and navigation): a **Theme** (its name, "What will you build?", and an optional description) holds **Goals** ("What will you achieve?"), a Goal **Objectives** ("What will be done, by when?", its name drafted from the open items of the Value Propositions and the uncovered skills, P9; a Start and End inside the period; a Responsible where there are founders), an Objective its **Initiatives** (a numbered list) and **Metrics** ("What will you count?": a description, a frequency, a unit with its currency, a baseline at the start and a target at the end). The names' questions are their placeholders (doc 49, 10).
+- **The cards** (layout rules, section 13, the strategy cards' heads and navigation): a **Theme** (its name, "What will you build?", and an optional description) holds **Goals** ("What will you achieve?"), a Goal **Objectives** ("What will be done, by when?", its name drafted from the open items of the Value Propositions and the uncovered skills, P9; a Start and End inside the period; a Responsible where there are founders), an Objective its **Initiatives** (a numbered list) and **Metrics** ("What will you count?": a description, a frequency, a unit with its currency, a baseline at the start and a target at the end). The names' questions are their placeholders (Questions 21, 10).
 
 ## 6. The Roadmap
 
@@ -83,7 +83,7 @@ A diagram tile in the Strategic Period dialog (layout rules, section 9, "Diagram
 
 ## 8. Not built yet
 
-Kept in doc 49 with its rule; listed here so this page's state is whole: the SWOT's suggestions and Current Situation lines that need the founders' skill areas (2.9), the spare hours and the delivery shortfall, the Stress Test's case, the price below the cost of each sale, the unmet value and the K10 openings (2.3, 10); the "waiting" line and the six-month reminder (2.3); the Themes' order with its reasons and the balance check (2.5); the Goals' and Initiatives' suggestions (2.6); a Metric's linked figure and the Month unit (2.7); the Roadmap's markers (2.8).
+Kept in Questions 21 with its rule; listed here so this page's state is whole: the SWOT's suggestions and Current Situation lines that need the founders' skill areas (2.9), the spare hours and the delivery shortfall, the Stress Test's case, the price below the cost of each sale, the unmet value and the K10 openings (2.3, 10); the "waiting" line and the six-month reminder (2.3); the Themes' order with its reasons and the balance check (2.5); the Goals' and Initiatives' suggestions (2.6); a Metric's linked figure and the Month unit (2.7); the Roadmap's markers (2.8).
 
 ## 9. Where it is in the code
 

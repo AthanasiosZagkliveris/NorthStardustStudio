@@ -79,7 +79,7 @@ export const BUSINESS_COMPETITOR_TYPES = [
     }
 ] as const;
 
-/** Offering categories, as the specification lists them: no "Other" (owner, 2026-11-04; doc 43). A saved "Other" still shows until it is changed. */
+/** Offering categories, as the specification lists them: no "Other" (owner, 2026-11-04; Questions 16). A saved "Other" still shows until it is changed. */
 export const BUSINESS_OFFERING_CATEGORIES = [
     "Product",
     "Service",
@@ -162,7 +162,7 @@ export interface BusinessCustomerProfileValue {
     /** The Profile's choice questions (ProfileQuestions.ts): question id -> the option ids chosen. */
     questions?: Record<string, string[]>;
     /**
-     * The end user's own part, on a Segment whose buyer is Proxy or Dual-Intent (owner, 2026-11-08; doc 36, 2.1): its answers to the questions both parts ask (A1, A7) and to its
+     * The end user's own part, on a Segment whose buyer is Proxy or Dual-Intent (owner, 2026-11-08; Questions 13, 2.1): its answers to the questions both parts ask (A1, A7) and to its
      * own (A8, E4), by question, and its Personal note. The end user's E1, E2 and Needs are kept with the other answers above (`questions`, `goals`, `challenges`, `needs`).
      */
     user?: { questions?: Record<string, string[]>; note?: string };
@@ -243,7 +243,7 @@ export interface BusinessCompetitorValue {
     opportunities: string;
     threats: string;
     insights: string;
-    /** The answers to the card's questions K1 to K10 (doc 41, CompetitorQuestions.ts): question id to the ids chosen, a rating as "option:point" under "<id>-rating". */
+    /** The answers to the card's questions K1 to K10 (Questions 14, CompetitorQuestions.ts): question id to the ids chosen, a rating as "option:point" under "<id>-rating". */
     questions?: Record<string, string[]>;
 }
 
@@ -258,7 +258,7 @@ export interface BusinessOfferingValue {
     /** Named when the category is "Other". */
     categoryOther: string;
     description: BusinessDescriptionValue;
-    /** The answers to the card's questions O1 to O18 (doc 43, OfferingQuestions.ts; owner 2026-11-07): question id to the option ids chosen. */
+    /** The answers to the card's questions O1 to O18 (Questions 16, OfferingQuestions.ts; owner 2026-11-07): question id to the option ids chosen. */
     questions?: Record<string, string[]>;
 }
 
@@ -488,7 +488,7 @@ function joinedNote(firstName: string, first: string, secondName: string, second
     return [first.trim() ? firstName + ": " + first.trim() : "", secondName + ": " + second.trim()].filter(Boolean).join("\n");
 }
 
-/** A Competitor's saved questions: lists of words only (doc 41; read by CompetitorQuestions.ts). */
+/** A Competitor's saved questions: lists of words only (Questions 14; read by CompetitorQuestions.ts). */
 function competitorQuestionsOf(source: unknown): { questions?: Record<string, string[]> } {
     if (!source || typeof source !== "object" || Array.isArray(source)) {
         return {};
@@ -604,7 +604,7 @@ export function asBusinessFoundationValue(value: unknown): BusinessFoundationVal
                 .map(candidate => {
 
                     const profile = asObject(candidate);
-                    // The end user's part (doc 36, 2.1): kept where it holds anything.
+                    // The end user's part (Questions 13, 2.1): kept where it holds anything.
                     const userSource = asObject(profile.user);
                     const userQuestions = asProfileAnswers(userSource.questions);
                     const userNote = asText(userSource.note);

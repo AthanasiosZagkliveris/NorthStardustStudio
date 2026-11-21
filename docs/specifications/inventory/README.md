@@ -42,7 +42,7 @@ Include (each kind, the Workspace and the Founders among the resources), Sort, B
 
 ## 7. Not built yet
 
-From the not-done list (doc 05): **I7**, an Offering column and filter are built; the count of missing prices on the tile is not yet. **IN4**, the Costs sub tiles of the Financials opening the Inventory's table filtered to them.
+From the not-done list (Records 2): **I7**, an Offering column and filter are built; the count of missing prices on the tile is not yet. **IN4**, the Costs sub tiles of the Financials opening the Inventory's table filtered to them.
 
 ## 8. Where it is in the code
 

@@ -46,7 +46,7 @@ const WORKBOOK_HUE = workHue("review");
 const TAB_LABELS: Record<WorkbookTab, string> = { "card-notes": "Card Notes", review: "Review", glossary: "Glossary", references: "References", documents: "Business Documents", "financial-documents": "Financial Documents" };
 
 /**
- * What the Glossary's and the References' titles' "i" says (doc 39, 3.3: a page title's note, at most three points of at most 160
+ * What the Glossary's and the References' titles' "i" says (Interface 10, 3.3: a page title's note, at most three points of at most 160
  * characters; an option's meaning as "Name: meaning"). What the tab is, how to use it, and what its two colours or its style mean:
  * nothing of it repeats the title. (The Card Notes and the Review carry no "i", as before.)
  */
@@ -67,7 +67,7 @@ export const GLOSSARY_INFO: Record<"glossary" | "references" | "documents" | "fi
         "The plan's figures are the Financial Documents: its export ends with them as its appendix.",
         "To change a line, change the answer it came from. Export each one as Markdown or PDF."
     ],
-    // (THE FINANCIAL DOCUMENTS (doc 48, section 14; owner, 2026-11-20 20:46 UTC+2): the records of 3. Business System → Financials.)
+    // (THE FINANCIAL DOCUMENTS (Questions 20, section 14; owner, 2026-11-20 20:46 UTC+2): the records of 3. Business System → Financials.)
     "financial-documents": [
         "Your Financial Forecast, Funding Request and Financial Plan, written from your answers each time you open them.",
         "Figures are estimates over the plan's length, from its first month: set them on 3. Business System → Financials.",

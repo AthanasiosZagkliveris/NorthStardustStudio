@@ -62,7 +62,7 @@ export interface FoundationCardScope extends Pick<Earlier, "description" | "disa
     segmentPath: string;
 }
 
-/** K14's "i": how it links to K10 (doc 41). */
+/** K14's "i": how it links to K10 (Questions 14). */
 /**
  * EACH DIFFERENTIATION'S OWN "i" (owner, 2026-11-10: "put the options in the question's sequence and place the related i next to each option"): its line of the
  * Positioning "i" (the line that starts with its name), beside it; the question's "i" keeps what is said of them all.
@@ -275,7 +275,7 @@ export function useFoundationSubsections(earlier: Earlier) {
 
         // The questions that left Positioning for the Segment (owner, 2026-11-08): the Differentiation (K14, under the Competitors) and the end user's outcome (End user, 9). The Positioning
         // answer saved before starts each where the Segment has none saved (segmentPositioningShown); the business stage sets their limit, and they keep Positioning's order and "i".
-        // (Where Positioning saved none, the Differentiation starts from the Competitors' K10 ticks, through the crosswalk: doc 41, K14.)
+        // (Where Positioning saved none, the Differentiation starts from the Competitors' K10 ticks, through the crosswalk: Questions 14, K14.)
         const shownAnswers = segmentPositioningShown(segment.questions, identity, asked, segment.competitors);
         // (Beside each Differentiation the K10 ticks argue for, the competitors it came from: owner, 2026-11-09.)
         const sources = differentiationSourceCards(segment.competitors);
@@ -318,7 +318,7 @@ export function useFoundationSubsections(earlier: Earlier) {
                     labelNote={max !== undefined && !radio ? <span className="business-foundation-tick-note">{max + " max"}</span> : undefined}
                 >
                     {question.rating
-                        // A degree is a rating from 1 to 5 (doc 35): its end words over its rounds; pressing the chosen round again clears it.
+                        // A degree is a rating from 1 to 5 (Questions 12): its end words over its rounds; pressing the chosen round again clears it.
                         ? (
                             <RatingScale
                                 label={label}
@@ -466,7 +466,7 @@ export function useFoundationSubsections(earlier: Earlier) {
 
         /**
          * One question of a Profile box: as the Segment's are drawn (a radio, ticks or the number of the age), against what the Segment answered. `part` says where it stands and is
-         * kept (doc 36, 2.1): "buyer" (a Direct Segment's one person too) and "user" (E1, E2 and the Needs in the end user's part) are kept in `questions`; "own", the end user's own
+         * kept (Questions 13, 2.1): "buyer" (a Direct Segment's one person too) and "user" (E1, E2 and the Needs in the end user's part) are kept in `questions`; "own", the end user's own
          * answers (A1, A7, A8, E4), in `user.questions`. The end user's questions are written of the end user.
          */
         const profileQuestionOf = (profile: BusinessCustomerProfileValue, profileIndex: number, shown: Record<string, string[]>, question: ProfileQuestion, part: "buyer" | "user" | "own" = "buyer") => {
@@ -477,10 +477,10 @@ export function useFoundationSubsections(earlier: Earlier) {
             const label = part === "buyer" ? profileWho(question.label, shown.a2?.[0]) : profileUserWho(question.label, part === "user" && asked.dual ? DUAL_USER : profileUserName(asked));
             const ageRange = question.number ? (own ? profileUserAgeRange(shownAnswers, asked) : profileAgeRange(shownAnswers)) : null;
             const chosen = shown[question.id] ?? [];
-            // Only this field is saved (with its ratings and Other); every other field keeps following its start (docs 36 and 43; owner, 2026-11-08).
+            // Only this field is saved (with its ratings and Other); every other field keeps following its start (Questions 13 and 16; owner, 2026-11-08).
             const saved = (own ? profile.user?.questions : profile.questions) ?? {};
             const settle = (answers: Record<string, string[]>) => own ? profileUserSettle(answers, shownAnswers, asked) : profileSettle(answers, shownAnswers, asked);
-            // (A Profile whose Segment has no end user any more loses its end user's part with its next answer: doc 36, 2.2.)
+            // (A Profile whose Segment has no end user any more loses its end user's part with its next answer: Questions 13, 2.2.)
             const put = (answers: Record<string, string[]>) => updateProfile(segmentIndex, profileIndex, own ? { user: { ...profile.user, questions: answers } } : { questions: answers, ...(!asked.endsUser && profile.user ? { user: undefined } : {}) });
             const write = (next: Record<string, string[]>) => put(settle(withFieldSet(saved, next, question.id)));
             const choose = (next: string[]) => write(profileChoose(question, shown, next));
@@ -537,7 +537,7 @@ export function useFoundationSubsections(earlier: Earlier) {
                                 </div>
                             )
                         : question.rating
-                            // Ticked, then each tick rated from 1 to 5 (doc 36, section 11): the limit holds the ticks; an untick takes its rating with it (profileSettle).
+                            // Ticked, then each tick rated from 1 to 5 (Questions 13, section 11): the limit holds the ticks; an untick takes its rating with it (profileSettle).
                             ? (
                                 <RatingScaleGroup
                                     label={label}
@@ -646,12 +646,12 @@ export function useFoundationSubsections(earlier: Earlier) {
 
         /**
          * The bands of a Profile's Needs: Functional (the jobs ticked and rated, then the numbered list of their own tasks), Emotional and Social (ticked and rated, then their Notes).
-         * One band pattern everywhere (the Needs section of a Direct Segment's Profile and the end user's Needs box, doc 36, 2.1): under the title band the ticks untinted, their Notes
+         * One band pattern everywhere (the Needs section of a Direct Segment's Profile and the end user's Needs box, Questions 13, 2.1): under the title band the ticks untinted, their Notes
          * (or own tasks) the next tint. In the end user's box the questions are written of the end user.
          */
         const NEEDS_INFO = ["Functional: tick and rate up to three jobs, then write their own tasks, one numbered line each; the Offerings choose from these lines.", "Emotional and Social: tick and rate up to three each, then add Notes."];
         const needsBands = (profile: BusinessCustomerProfileValue, profileIndex: number, inBox: boolean) => SUBSECTIONS.segments.needs.map((kind, at) => {
-            // Emotional and Social are ticked and rated (doc 36, section 10), their numbered list kept as the note; Functional stays the list.
+            // Emotional and Social are ticked and rated (Questions 13, section 10), their numbered list kept as the note; Functional stays the list.
             const choices = profileQuestionsOf("needs", shownAnswers, asked).find(question => question.id.split("-")[0] === kind.id);
             const shown = effectiveProfileAnswers(profile, segment, identity);
             return (
@@ -713,7 +713,7 @@ export function useFoundationSubsections(earlier: Earlier) {
         });
 
         /**
-         * A PROFILE OF A SEGMENT WITH AN END USER (owner, 2026-11-08: "If the buyer is proxy, the profile should contain questions for both buyer and end user."; doc 36, 2.1): two
+         * A PROFILE OF A SEGMENT WITH AN END USER (owner, 2026-11-08: "If the buyer is proxy, the profile should contain questions for both buyer and end user."; Questions 13, 2.1): two
          * sections in the one card, the buyer's and the end user's, each a section as the Description is, its boxes the Profile's boxes with their Notes. The buyer, who chooses and
          * pays: the Description's four boxes and Objections. The end user, who it is for: its own Personal box, Goals & Desires (E4, then E1), Challenges & Problems (E2) and Needs.
          */
@@ -833,7 +833,7 @@ export function useFoundationSubsections(earlier: Earlier) {
                     above the line -- a founder with a fourth Profile
                     to describe is not served by the button quietly
                     going away. */}
-                {/* The Profiles proposed by buying role (doc 36, 2), read from the Segment's "Who decides to buy?": each is added
+                {/* The Profiles proposed by buying role (Questions 13, 2), read from the Segment's "Who decides to buy?": each is added
                     with its name and its roles in buying ticked, and is not offered again once a Profile has its name. */}
                 {(() => {
                     const proposals = proposedBusinessProfiles(shownAnswers, asked, segment.profiles.map(profile => profile.name));
@@ -868,7 +868,7 @@ export function useFoundationSubsections(earlier: Earlier) {
         /** What a Competitor's and an Offering's card read of this Segment and of the page (CompetitorCard.tsx, OfferingCard.tsx). */
         const scope: FoundationCardScope = { card, description, disabled, group, groupFold, identity, labelled, remove, segment, segmentEndsUser, segmentIndex, segmentPath, updateSegment };
         /**
-         * THE DIFFERENTIATION (doc 41, K14; owner, 2026-11-08: "Move all three"): once for the Segment, after its Competitors, since what the offering does differently is set against all
+         * THE DIFFERENTIATION (Questions 14, K14; owner, 2026-11-08: "Move all three"): once for the Segment, after its Competitors, since what the offering does differently is set against all
          * of them (Dunford, Obviously Awesome). A question of the Segment, drawn as the Segment's are; the Competitors' dialog stands it under their tiles, the column under their cards.
          */
         const differentiationQuestion = SEGMENT_QUESTIONS.find(question => question.id === "differentiation");
@@ -916,7 +916,7 @@ export function useFoundationSubsections(earlier: Earlier) {
             two kinds of need it exists to address are recalled
             beneath it.
         */
-        /* The Offerings' answers as their cards show them (doc 43: starting values included), read by the Value Proposition's draft and open items too. */
+        /* The Offerings' answers as their cards show them (Questions 16: starting values included), read by the Value Proposition's draft and open items too. */
         // (EffectiveAnswers.ts: the same answers the Business Plan and the export read.)
         const offeringContext = (offering: BusinessOfferingValue): OfferingContext => offeringContextOf(offering, segment, identity);
         const offeringAnswers = segment.offerings.map(offering => effectiveOfferingAnswers(offering, segment, identity));
@@ -938,7 +938,7 @@ export function useFoundationSubsections(earlier: Earlier) {
             <div className="legal-entity-field">
             <div className="legal-entity-org-section business-foundation-field">
 
-                {/* (THE DRAFT, WRITTEN IN BY ITSELF (doc 42, 1; owner, 2026-11-20 18:35 UTC+2): each Offering's sentence, one under the other, while the text is empty or
+                {/* (THE DRAFT, WRITTEN IN BY ITSELF (Questions 15, 1; owner, 2026-11-20 18:35 UTC+2): each Offering's sentence, one under the other, while the text is empty or
                     still the app's; the details go in its Notes, under it.) */}
                 <AutoDraft text={segment.valueProposition} draft={fullDraft} write={(next) => updateSegment(segmentIndex, { valueProposition: next })} disabled={disabled} />
 
@@ -1042,7 +1042,7 @@ export function useFoundationSubsections(earlier: Earlier) {
 
                 })()}
 
-                {/* The open items (doc 42, 2): read-only, under the needs; untinted after the needs' band (tinted where the needs stand one under the other, 13-business-foundation.css). */}
+                {/* The open items (Questions 15, 2): read-only, under the needs; untinted after the needs' band (tinted where the needs stand one under the other, 13-business-foundation.css). */}
                 {openItems.length > 0 && (
                     <div className="legal-entity-org-section business-proposition-items">
                         <FieldRow pair fullList label="Open items" info={["Gaps between what your customers want and what your Offerings give. Each one is a reminder to look at."]}>

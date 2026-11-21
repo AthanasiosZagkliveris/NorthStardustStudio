@@ -1,5 +1,5 @@
 /**
- * THE SEGMENT CARD'S QUESTIONS (design document 28, 6.3 and 8.2, as the owner revised them on 2026-11-01): the choice questions asked in each of the card's five boxes, and in the user block of a Proxy or
+ * THE SEGMENT CARD'S QUESTIONS (design Questions 2, 6.3 and 8.2, as the owner revised them on 2026-11-01): the choice questions asked in each of the card's five boxes, and in the user block of a Proxy or
  * Dual-Intent buyer. Pure data and rules, so the card, the saved answer and the documents read the same words: which questions a Segment is asked, which options each offers, what a choice clears.
  * The words are the owner's. Where a list names platforms or brands they stand in the question's "i" as examples, never in the option.
  */
@@ -9,7 +9,7 @@ import { choiceLimit } from "../PositioningIds.ts";
 import { onlyPlanning } from "../BusinessStage.ts";
 import { paymentServiceName, providerOffered } from "../channels/ChannelFeeData.ts";
 
-/** The boxes of the Segment's Description, its user block, and "competitors": a question of the Segment asked once in its Competitors column, after the Competitor cards (doc 41, K14). */
+/** The boxes of the Segment's Description, its user block, and "competitors": a question of the Segment asked once in its Competitors column, after the Competitor cards (Questions 14, K14). */
 export type SegmentBox = "demographics" | "geographics" | "business-data" | "purchasing" | "market-size" | "user" | "competitors";
 
 export interface SegmentOption {
@@ -53,7 +53,7 @@ export interface SegmentQuestion {
     info: readonly string[];
     /** A short name for the notes that say what Positioning or the answers above set ("Size: Medium-sized business"). */
     name?: string;
-    /** A degree, asked as a rating from 1 to 5 (RatingScale): the words over its ends (doc 35, owner 2026-11-04). The answer is the point, "1" to "5". */
+    /** A degree, asked as a rating from 1 to 5 (RatingScale): the words over its ends (Questions 12, owner 2026-11-04). The answer is the point, "1" to "5". */
     rating?: { low: string; high: string };
     /**
      * A question that left Positioning for the Segment (owner, 2026-11-08): its limit is the business stage's (Positioning's outcome limit, `choiceLimit`), an answer over it goes back to
@@ -61,7 +61,7 @@ export interface SegmentQuestion {
      */
     fromPositioning?: boolean;
     /**
-     * Moved on to the Profile (owner, 2026-11-08: the end user's outcome is asked in each Profile's end-user part, doc 36, E4): not shown on the Segment and not printed with its
+     * Moved on to the Profile (owner, 2026-11-08: the end user's outcome is asked in each Profile's end-user part, Questions 13, E4): not shown on the Segment and not printed with its
      * answers; a saved answer stays readable and settled, as the Profile's start.
      */
     startsProfile?: boolean;
@@ -115,7 +115,7 @@ const NOT_WORKING_INFO = ["Choose the main reason.", "Unable to work: sidelined 
 
 /**
  * A RATING'S POINTS as options, so a rating is saved and settled as every choice is: the ids "1" to "5" ("3 of 5"). Its end words (at 1 and 5) are added where it is printed (ratingWords).
- * Degree and comfort questions are ratings unless named ranges exist (doc 35, owner 2026-11-04).
+ * Degree and comfort questions are ratings unless named ranges exist (Questions 12, owner 2026-11-04).
  */
 export function ratingOptions(_rating: { low: string; high: string }): SegmentOption[] {
     return ["1", "2", "3", "4", "5"].map(point => ({ id: point, label: point + " of 5" }));
@@ -133,7 +133,7 @@ const INCOME_RATING = { low: "Low", high: "High" };
 const GENDER_RATING = { low: "Mostly men", high: "Mostly women" };
 const AREA_RATING = { low: "Rural", high: "Urban" };
 
-/** The answers saved before a question became a rating, and the point each now is (doc 35). */
+/** The answers saved before a question became a rating, and the point each now is (Questions 12). */
 const RATED_BEFORE: Record<string, Record<string, string>> = {
     comfort: { averse: "1", moderate: "3", savvy: "5" },
     "u-comfort": { averse: "1", moderate: "3", savvy: "5" },
@@ -158,7 +158,7 @@ const ORG_SIZES = [
     { id: "large", label: "Large, 250+ employees" }
 ] as const;
 
-/** The six classes of industries, each over the industries of document 28 (G15) that sit in it. */
+/** The six classes of industries, each over the industries of Questions 2 (G15) that sit in it. */
 export const SEGMENT_SECTORS = [
     { id: "resources", label: "Resource extraction & energy" },
     { id: "making", label: "Manufacturing & construction" },
@@ -189,7 +189,7 @@ export const SEGMENT_INDUSTRIES: readonly (SegmentOption & { sector: string })[]
     { id: "other", sector: "human", label: "Other services" }
 ];
 
-/** The buyer's age terms (document 31, 10.1: the term leads, the age defines it), and the Positioning life stage each belongs to. */
+/** The buyer's age terms (Research 5, 10.1: the term leads, the age defines it), and the Positioning life stage each belongs to. */
 const BUYER_AGES = [
     { id: "minor", stage: "young", label: "Minors, semi-dependent 13–17" },
     { id: "young", stage: "young", label: "Young adults 18–24" },
@@ -372,7 +372,7 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
 
     /* ---- Box 4, Purchasing Power & Behaviour ----
        In the order of a purchase (owner, 2026-11-08, P3): online comfort and how they socialise, what makes them shop, where they discover, how they decide (a business:
-       who decides), where they shop, how they pay, then how they share it. The codes stay Box 4, 1 to 9 (doc 44: codes are ids, not positions). */
+       who decides), where they shop, how they pay, then how they share it. The codes stay Box 4, 1 to 9 (Questions 6: codes are ids, not positions). */
 
     {
         id: "comfort", box: "purchasing", group: "Finding & Choosing", label: "How comfortable are your customers online?", many: false,
@@ -621,7 +621,7 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
         rating: COMFORT_RATING, options: ratingOptions(COMFORT_RATING),
         info: ["How easily they use websites, apps and online payment."]
     },
-    // Positioning's question 10, moved here on 2026-11-08 (owner: "Move all three"), its options and "i" as built; moved on the same day to each Profile's end-user part (doc 36, E4),
+    // Positioning's question 10, moved here on 2026-11-08 (owner: "Move all three"), its options and "i" as built; moved on the same day to each Profile's end-user part (Questions 13, E4),
     // where a saved answer here is the start: kept and settled, no longer shown.
     {
         id: "u-outcome", box: "user", label: "Outcome for the end user", many: true, fromPositioning: true, startsProfile: true,
@@ -632,7 +632,7 @@ const RAW_QUESTIONS: readonly SegmentQuestion[] = [
         ]
     },
 
-    /* ---- Asked once in the Segment's Competitors column, after its Competitors (doc 41, K14) ---- */
+    /* ---- Asked once in the Segment's Competitors column, after its Competitors (Questions 14, K14) ---- */
 
     // Positioning's question 8, moved here on 2026-11-08 (owner: "Move all three"; differentiation is set against the alternatives, Dunford): its options as built; its "i" and its order
     // are the Positioning ones (`INFO.differentiation`, `differentiationOptionsFor` in legal/shared.tsx), drawn by the card.
@@ -675,7 +675,7 @@ const QUESTIONS: readonly SegmentQuestion[] = RAW_QUESTIONS.map(question => {
 
 export const SEGMENT_QUESTIONS = QUESTIONS;
 
-/** The sizes each Positioning scale of a business buyer holds (the mapping of doc 28, 8.2; the owner approved it 2026-11-01): a solo buyer has no employees, so no size is asked. */
+/** The sizes each Positioning scale of a business buyer holds (the mapping of Questions 2, 8.2; the owner approved it 2026-11-01): a solo buyer has no employees, so no size is asked. */
 const SIZES_OF_SCALE: Record<string, readonly string[]> = { solo: [], smb: ["micro", "small"], mid: ["medium"], enterprise: ["large"] };
 
 /** Only Solopreneurs & Freelancers were chosen: the customers are self-employed, with no employees. */
@@ -1159,7 +1159,7 @@ export function asSegmentAnswers(source: unknown): SegmentAnswers {
         }
     }
 
-    // A degree saved before it became a rating (doc 35, 2026-11-04): the old answer is the point it now is.
+    // A degree saved before it became a rating (Questions 12, 2026-11-04): the old answer is the point it now is.
     for (const [id, points] of Object.entries(RATED_BEFORE)) {
         const old = Array.isArray(migrated[id]) ? (migrated[id] as unknown[])[0] : undefined;
         if (typeof old === "string" && points[old]) {
@@ -1235,7 +1235,7 @@ export function segmentBoxAnswered(answers: SegmentAnswers, box: SegmentBox): bo
  */
 export function segmentAnswerLines(answers: SegmentAnswers, context?: SegmentContext): { label: string; value: string }[] {
 
-    // (A question moved on to the Profile is printed there: doc 36, E4.)
+    // (A question moved on to the Profile is printed there: Questions 13, E4.)
     return QUESTIONS.filter(question => !question.startsProfile).flatMap(question => {
 
         const chosen = answers[question.id] ?? [];

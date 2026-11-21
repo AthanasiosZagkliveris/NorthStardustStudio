@@ -19,7 +19,7 @@ const PAGES: { system: number; section: number; name: string; read: (value: unkn
     { system: 3, section: 1, name: "Business Foundation", read: asBusinessFoundationValue },
     { system: 3, section: 2, name: "Customer Engagement", read: asBusinessEngagementValue },
     { system: 3, section: 3, name: "Infrastructure & Capability", read: asBusinessCapabilityValue },
-    // (Revenue & Pricing is Section 4, Costs, Funding & Position Section 5 since 2026-11-17: doc 48, section 11.)
+    // (Revenue & Pricing is Section 4, Costs, Funding & Position Section 5 since 2026-11-17: Questions 20, section 11.)
     { system: 3, section: 4, name: "Revenue & Pricing", read: asFinancialSustainabilityValue },
     { system: 3, section: 5, name: "Costs, Funding & Position", read: asFinancialFoundationValue },
     { system: 4, section: 1, name: "Situation & Direction", read: asStrategyFoundationValue },

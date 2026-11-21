@@ -9,7 +9,7 @@ import {
 import { useAutoDraft } from "../../fields/useAutoDraft.ts";
 
 /**
- * THE MISSION'S THREE CHOICES, PB10 TO PB12, ABOVE ITS TEXT (doc 45, section 8; the owner's approval of 2026-11-20 22:08 UTC+2, "All, Values A"): who the
+ * THE MISSION'S THREE CHOICES, PB10 TO PB12, ABOVE ITS TEXT (Questions 9, section 8; the owner's approval of 2026-11-20 22:08 UTC+2, "All, Values A"): who the
  * business serves first, what it offers them, what they gain -- read from the Business System's Segments, their Offerings and their Profiles' goals -- then the
  * Mission's draft written in by itself while the Mission is empty or still the app's own (`useAutoDraft`). The Vision's choices are its pattern: one band a
  * question, the shared field row with its label and "i" (`FieldRow`), the ticks with their limit (`BusinessTicks`).

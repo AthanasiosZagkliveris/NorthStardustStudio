@@ -655,7 +655,7 @@ export function useEngagementChannelBoxes(earlier: Earlier) {
                                                                 other.label === category.label
                                                             )
                                                         )
-                                                        // (Physical Delivery and Retail & Wholesale are not offered while no Offering has a physical item: doc 28, 11.7.)
+                                                        // (Physical Delivery and Retail & Wholesale are not offered while no Offering has a physical item: Questions 2, 11.7.)
                                                         .filter(category => !channelCategoryHidden(category.label, noPhysical, groups.map(other => other.label)))
                                                         .map(category => category.label),
                                                     BUSINESS_CHANNEL_OTHER
@@ -966,7 +966,7 @@ export function useEngagementChannelBoxes(earlier: Earlier) {
                                                         ? (
                                                             <div className="business-channel-expenses">
                                                                 {channelResources(answers, channel.id, "Subchannel " + number, "Expenses")}
-                                                                {/* (Its fees, read from the Global Settings, under its expenses: a paying subchannel's card only; doc 50, section 1.4.) */}
+                                                                {/* (Its fees, read from the Global Settings, under its expenses: a paying subchannel's card only; Questions 18, section 1.4.) */}
                                                                 {feeBand(channel, segment.offerings.map(offering => ({ id: offering.id, name: offering.name })))}
                                                             </div>
                                                         )

@@ -2,7 +2,7 @@ import { JOB_INFO, JOB_LEVELS, JOB_RENAMED, SEGMENT_QUESTIONS, ratingWords, segm
 import { choiceLimit } from "../PositioningIds.ts";
 
 /**
- * THE PROFILE'S QUESTIONS (document 36): a typical person of the Segment, asked only what the Segment cannot. A Profile keeps its answers as `questions` (question id -> the option ids chosen; the
+ * THE PROFILE'S QUESTIONS (Questions 13): a typical person of the Segment, asked only what the Segment cannot. A Profile keeps its answers as `questions` (question id -> the option ids chosen; the
  * exact age, A1, is the number as text). Which are asked follows the Segment's own answers; an answer to a question no longer asked is removed; starting values come from the Segment and
  * can be changed. Not built yet: A4 (the kind of business) and A6 (the specialised needs).
  * The job (owner, 2026-11-03): one question per Profile, A3 the kind of work (B2C) or A3b the job level (B2B); A7 who they live with (B2C).
@@ -23,7 +23,7 @@ export interface ProfileQuestion {
     options: readonly SegmentOption[];
     /** The list ends with an Other that the user writes in: its words are kept as the answer `<id>-other`. */
     other?: boolean;
-    /** Each tick is rated from 1 to 5 (doc 36, section 11): the words over its ends. The ratings are kept as the answer `<id>-rating`, one "option:point" each. */
+    /** Each tick is rated from 1 to 5 (Questions 13, section 11): the words over its ends. The ratings are kept as the answer `<id>-rating`, one "option:point" each. */
     rating?: { low: string; high: string };
     info: readonly string[];
 }
@@ -88,13 +88,13 @@ const WORDS: Record<string, string> = {
 };
 const WORRIES = ["The price or their budget", "Whether they can trust you", "How long it takes to start", "How hard it is to use", "Risk or security", "Whether it fits their needs", "Support after they buy", "The effort of switching from what they use now", "What others will think"];
 
-/** The Emotional and Social needs as choices (doc 36, section 10; owner 2026-11-03): Bain's Elements of Value [FUN-48, FUN-49] in plain words, by the Segment's kind. */
+/** The Emotional and Social needs as choices (Questions 13, section 10; owner 2026-11-03): Bain's Elements of Value [FUN-48, FUN-49] in plain words, by the Segment's kind. */
 const EMOTIONAL_PEOPLE = ["Calm and worry-free", "Rewarded / treated", "Relaxed / looked after", "Entertained", "Attractive", "Healthy and well", "Delighted by how it looks", "Reminded of good times", "Motivated", "Hopeful", "Fulfilled, as they grow", "Proud of what they own or made"];
 const EMOTIONAL_BUSINESS = ["Sure they made the right choice", "Glad to work with you", "Growing in their work", "Hopeful about their business", "Inspired about what comes next"];
 const SOCIAL_PEOPLE = ["As having good taste / style", "As part of a group they value", "As one of the few with access", "As caring for others or the planet", "As leaving something for their family"];
-/** When they buy (owner, 2026-11-07; L25, doc 34): optional, a people Segment's Profiles only. */
+/** When they buy (owner, 2026-11-07; L25, Research 3): optional, a people Segment's Profiles only. */
 const BUY_TIMES = ["Weekday daytime", "Evenings", "Weekends", "Around seasons / holidays"];
-/** The functional jobs (owner, 2026-11-07; L17, doc 34, 5.2c): Bain's functional elements no other question already holds [FUN-48], one word each. */
+/** The functional jobs (owner, 2026-11-07; L17, Research 3, 5.2c): Bain's functional elements no other question already holds [FUN-48], one word each. */
 const FUNCTIONAL = ["Organisation", "Integration", "Connection", "Information", "Variety"];
 const SOCIAL_BUSINESS = ["As someone others trust", "As well connected", "As more valued in their field", "As a responsible business"];
 const NEEDS_INFO = (what: string, example: string) => ["The " + what + " that decide whether they buy. Choose up to three, then rate each.", example, "Based on: Bain's Elements of Value (HBR, 2016 and 2018)."];
@@ -181,7 +181,7 @@ const QUESTIONS: readonly ProfileQuestion[] = [
     { id: "d3", box: "habits", label: "When does {s} usually buy?", many: true, options: list(BUY_TIMES), info: ["When they actually buy; the Segment's work schedule says when they work."] },
     { id: "e1", box: "goals", label: "What does {s} want to achieve?", many: true, max: 3, options: list(GOALS), rating: { low: "Minor", high: "Main" }, info: ["The results they are after; what they weigh when choosing goes in \"What matters most\". Choose up to three, then rate each.", "For example, to learn a new craft, or to win more clients.", "Accessibility: getting something hard to reach.", "Development: learning something new.", "Expression: showing who they are.", "Revenue: winning customers or income.", "Compliance: meeting a requirement or staying within the rules, at work or by law.", "Efficiency: saving time or money.", "Resolution: getting a specific problem fixed.", "Enjoyment: having fun or a good time.", "Based on: gains (Value Proposition Canvas)."] },
     { id: "e2", box: "challenges", label: "What frustrates {o} today?", many: true, max: 3, options: list(FRUSTRATIONS), rating: { low: "Mild", high: "Severe" }, info: ["What goes wrong with the way they do it now, before they buy from you. Choose up to three, then rate how much each bothers them.", "For example, the cheap version breaks too soon, or nobody explains how to start.", "Cost: too costly, or unclear prices.", "Delays: it takes too long.", "Inconsistency: results vary.", "Trust: hard to find someone reliable.", "Skills gap: not knowing how, or fearing a mistake.", "Capacity: no time or staff.", "Hassle: too complicated, or poor support.", "Based on: pains (Value Proposition Canvas)."] },
-    // The Needs (doc 36, section 10): Emotional and Social ticked and rated, by the Segment's kind; Functional stays the numbered list. Each kind's list stays as its note.
+    // The Needs (Questions 13, section 10): Emotional and Social ticked and rated, by the Segment's kind; Functional stays the numbered list. Each kind's list stays as its note.
     { id: "functional", box: "needs", label: "What kind of job does {s} need done?", many: true, max: 3, options: list(FUNCTIONAL), rating: { low: "Mild", high: "Strong" }, info: ["The main jobs they need done. Choose up to three and rate each, then add their own tasks in the list below.", "Organisation: keeps tasks, records or belongings in order.", "Integration: works with the tools or routines they already use.", "Connection: helps them reach or work with other people.", "Variety: gives more options than they had.", "Information: gives the answers or facts they need right now.", "Based on: Bain's Elements of Value (HBR, 2016)."] },
     { id: "emotional", box: "needs", label: "How does {s} want to feel?", many: true, max: 3, options: list(EMOTIONAL_PEOPLE), rating: { low: "Mild", high: "Strong" }, info: [...NEEDS_INFO("feelings", "For example, calm when a delivery arrives on time, or delighted by how a room looks."), "Rewarded: treated to something special.", "Nurtured: looked after.", "Delighted: by how it looks.", "Nostalgic: reminded of good times.", "Fulfilled: growing as a person.", "Proud: a sense of self-worth or achievement in what they own or made (Desmet's 25 product emotions, 2012)."] },
     { id: "emotional-b2b", box: "needs", label: "How does {s} want to feel?", many: true, max: 3, options: list(EMOTIONAL_BUSINESS), rating: { low: "Mild", high: "Strong" }, info: [...NEEDS_INFO("feelings", "For example, sure they chose the right supplier, or glad to work with you again."), "Confident: sure they made the right choice.", "Prosperous: growing in their work.", "Optimistic: hopeful about their business."] },
@@ -475,7 +475,7 @@ export function profileQuestionAsked(question: ProfileQuestion, segment: Segment
         case "a5":
             return business || context.endsUser || (segment.age ?? []).includes("minor");
         case "c2":
-            // Asked unless the Segment's online comfort is rated 1, Uneasy (doc 36).
+            // Asked unless the Segment's online comfort is rated 1, Uneasy (Questions 13).
             return !(segment.comfort ?? []).includes("1");
         case "c3":
             return (segment.discover ?? []).includes("communities");
@@ -488,7 +488,7 @@ export function profileQuestionAsked(question: ProfileQuestion, segment: Segment
         // When they buy (owner, 2026-11-07): a people Segment's Profiles only.
         case "d3":
             return !business;
-        // The Needs' lists follow the Segment's kind: a business buyer's, or a person's (doc 36, section 10).
+        // The Needs' lists follow the Segment's kind: a business buyer's, or a person's (Questions 13, section 10).
         case "emotional": case "social":
             return !business;
         case "emotional-b2b": case "social-b2b":
@@ -796,7 +796,7 @@ export function profileAnswerLines(answers: SegmentAnswers, part?: ProfilePart):
         }
         const other = (answers[question.id + "-other"]?.[0] ?? "").trim();
         const ratings = question.rating ? profileRatings(answers, question) : {};
-        // A rated list prints each tick with its rating, the highest first; a tick not rated follows, in the order ticked (doc 36, section 11).
+        // A rated list prints each tick with its rating, the highest first; a tick not rated follows, in the order ticked (Questions 13, section 11).
         const order = question.rating ? [...chosen].sort((a, b) => (ratings[b] ?? 0) - (ratings[a] ?? 0)) : chosen;
         const words = question.number ? chosen[0] + " years" : order.map(id => {
             const label = id === "other" && other ? "Other: " + other : question.options.find(option => option.id === id)?.label ?? id;

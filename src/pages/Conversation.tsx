@@ -1129,7 +1129,7 @@ export default function Conversation() {
     const pageTitleGroup = groupOf(groupSystemNumber, currentSection.number);
     const pageTitle = pageTitleGroup
         // A page of several sections is named for them all (and a System of one such page needs no page name).
-        // (A page whose sections carry the plan's months, Financials, keeps them after its name: doc 48, section 1, "The plan's dates stay in the page title".)
+        // (A page whose sections carry the plan's months, Financials, keeps them after its name: Questions 20, section 1, "The plan's dates stay in the page title".)
         ? (!pageTitleGroup.inHeader ? undefined : (railPages.findIndex(page => page.id === "page-" + currentSection.number) + 1) + ". " + titleWithPeriod(pageTitleGroup.title + (/MM\/YY - MM\/YY/.test(currentSection.title) ? " MM/YY - MM/YY" : ""), titlePeriod))
         // (A page is numbered by its place in the pages rail, never by its section's number: Infrastructure & Capability is the Business System's second
         // page, its third section; owner, 2026-11-21 00:56 UTC+2, "Fix the page number of the 3. Infrastructure & Capability".)
@@ -1210,7 +1210,7 @@ export default function Conversation() {
           }
         : undefined;
 
-    /** The other sections of the page a section stands on (PageGroups.ts), each with its saved answer and its saver: a tile of one frame may draw another section's answer (doc 45). */
+    /** The other sections of the page a section stands on (PageGroups.ts), each with its saved answer and its saver: a tile of one frame may draw another section's answer (Questions 9). */
     const pageSectionsBeside = (section: typeof currentSection): PageSectionAnswer[] | undefined => {
         const group = groupOf(groupSystemNumber, section.number);
         if (!group || group.members.length < 2) {

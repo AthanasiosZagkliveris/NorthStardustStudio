@@ -190,7 +190,7 @@ function MultiPartAnswerRenderer({
         // The column's guidance is the "i" beside its title.
         const guidance = (part: (typeof parts)[number]): string[] => (part.questions ?? "").split("\n").map(firstWords).map(line => line.replace(/^[-•]\s*/, "")).filter(line => line.length > 0);
 
-        // THE ORGANIZATION TILE takes the Description's place on the Identity System's Definition (design document 28, 8.5): the organization's own fields in its dialog;
+        // THE ORGANIZATION TILE takes the Description's place on the Identity System's Definition (design Questions 2, 8.5): the organization's own fields in its dialog;
         // its Description box is this page's saved Description (the old Main Activity text where nothing was written here).
         const organisation = asLegalEntityValue(legalEntity).organisation;
         const written = organisation.addressLine1.split("\n").map(text => text.trim()).filter(text => text.length > 0);
@@ -251,7 +251,7 @@ function MultiPartAnswerRenderer({
                     // The Early Positioning text under its questions is the shared optional note (the Notes of every card).
                     ? <OptionalNote label="Notes" fieldId={part.label} ariaLabel="Notes" value={typeof from[part.id] === "string" ? from[part.id] as string : ""} onChange={(next) => save({ ...from, [part.id]: next })} disabled={disabled} />
                 : part.id === "values" || part.id === "principles"
-                    // (The Values keep an id for each line, beside their text: withValuesText, doc 46, section 5.)
+                    // (The Values keep an id for each line, beside their text: withValuesText, Questions 11, section 5.)
                     ? <NumberedTextList label={part.label} value={from[part.id]} onChange={(next) => save(part.id === "values" ? withValuesText(from, next) : { ...from, [part.id]: next })} disabled={disabled} />
                     : (
                         <SingleAnswerRenderer
@@ -270,11 +270,11 @@ function MultiPartAnswerRenderer({
                     )
         );
 
-        // PURPOSE (doc 45): the Identity System's second chapter draws its six texts as three pair tiles, Mission & Vision, Values & Principles,
+        // PURPOSE (Questions 9): the Identity System's second chapter draws its six texts as three pair tiles, Mission & Vision, Values & Principles,
         // Philosophy & Manifesto. Mission and Vision are saved in Definition, the page's first section, under their own keys; Definition does not draw them.
         const holdsPurpose = (candidate: readonly (typeof parts)[number][] | undefined) => !!candidate?.some(part => part.id === "philosophy") && !!candidate?.some(part => part.id === "manifesto");
         const purposeHere = holdsPurpose(parts);
-        // THE AMBASSADOR (doc 46): the Brand System's first section, found by its four texts' keys.
+        // THE AMBASSADOR (Questions 11): the Brand System's first section, found by its four texts' keys.
         const ambassadorHere = AMBASSADOR_PARTS.every(id => parts.some(part => part.id === id));
         const purposeBeside = !purposeHere && !!pageSections?.some(section => holdsPurpose(section.definition.parts));
         const definitionBeside = purposeHere ? pageSections?.find(section => section.definition.parts?.some(part => part.id === "mission")) : undefined;
@@ -311,10 +311,10 @@ function MultiPartAnswerRenderer({
                                 <div className="business-engagement-section-head">
                                     <DialogHeading title={text.part.label} info={guidance(text.part)} />
                                 </div>
-                                {/* (The Vision's two choices above its text, PB8 then PB7, and its draft written in: doc 45, 3.8; doc 49, section 9, P1 and P2.) */}
-                                {/* (The Mission's three choices above its text, PB10 to PB12, and its draft written in: doc 45, section 8.) */}
+                                {/* (The Vision's two choices above its text, PB8 then PB7, and its draft written in: Questions 9, 3.8; Questions 21, section 9, P1 and P2.) */}
+                                {/* (The Mission's three choices above its text, PB10 to PB12, and its draft written in: Questions 9, section 8.) */}
                                 {text.part.id === "mission" && <MissionChoices value={text.from} onChange={text.save} foundation={businessFoundation} disabled={disabled} />}
-                                {/* (The Values' kinds above the Values, PB13, and the Principles' and the Manifesto's drafts written in: doc 45, section 8.) */}
+                                {/* (The Values' kinds above the Values, PB13, and the Principles' and the Manifesto's drafts written in: Questions 9, section 8.) */}
                                 {text.part.id === "values" && <ValuesChoices value={text.from} onChange={text.save} disabled={disabled} />}
                                 {(text.part.id === "principles" || text.part.id === "manifesto") && <PurposeDrafts part={text.part.id} value={text.from} onChange={text.save} disabled={disabled} />}
                                 {text.part.id === "vision" && <VisionChoices value={text.from} onChange={text.save} foundation={businessFoundation} disabled={disabled} />}
@@ -355,7 +355,7 @@ function MultiPartAnswerRenderer({
                     <div className="business-engagement-section-head">
                         <DialogHeading title={part.id === "positioning" ? positioningName(businessStage) : part.label} info={guidance(part)} />
                     </div>
-                    {/* The Positioning tile opens with who the business sells to and the kind of market (design document 28, 8.2), saved in the Legal Entity answer, above its own text. */}
+                    {/* The Positioning tile opens with who the business sells to and the kind of market (design Questions 2, 8.2), saved in the Legal Entity answer, above its own text. */}
                     {part.id === "positioning" && onChangeLegalEntity && (
                         <LegalEntityEditor
                             value={legalEntity}
@@ -365,7 +365,7 @@ function MultiPartAnswerRenderer({
                             disabled={disabled}
                         />
                     )}
-                    {/* (The Ambassador's choices above each of its texts, and its drafts written in: doc 46.) */}
+                    {/* (The Ambassador's choices above each of its texts, and its drafts written in: Questions 11.) */}
                     {ambassadorHere && (
                         <AmbassadorChoices
                             part={part.id}

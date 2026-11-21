@@ -9,14 +9,14 @@ import { DIFFERENTIATION_WORDS } from "../ActivityClassification.ts";
 import { asText } from "../answers/Readers.ts";
 
 /*
-    THE AMBASSADOR'S CHOICES, BA1 TO BA4 AND BA6 TO BA8 (doc 46; owner, 2026-11-12, D3 to D5; built 2026-11-19, the owner's approved plan of 2026-11-18, §3, B2):
+    THE AMBASSADOR'S CHOICES, BA1 TO BA4 AND BA6 TO BA8 (Questions 11; owner, 2026-11-12, D3 to D5; built 2026-11-19, the owner's approved plan of 2026-11-18, §3, B2):
     a few choices above each of the four texts of the Brand System's Ambassador, saved under the section's own key `ambassador`, and a draft, written in by itself (useAutoDraft), that writes
-    a sentence at the end of the text (the Value Proposition's pattern, doc 42). Aesthetics holds BA1 to BA3, Body Language BA4, Communication & Voice BA6 and BA7,
-    Imprint BA8 and BA9 (BA9 built once the Values had ids, doc 46, section 5; ValueIds.ts). A start follows its source until the founder changes it (doc 46, section 6): the
+    a sentence at the end of the text (the Value Proposition's pattern, Questions 15). Aesthetics holds BA1 to BA3, Body Language BA4, Communication & Voice BA6 and BA7,
+    Imprint BA8 and BA9 (BA9 built once the Values had ids, Questions 11, section 5; ValueIds.ts). A start follows its source until the founder changes it (Questions 11, section 6): the
     ratings of BA4 and BA6 follow BA1; BA3, the surroundings the imagined Ambassador suits, has no start (2026-11-19); only what the founder sets is saved.
 */
 
-/** BA1's options: Aaker's five dimensions, each "i" in Aaker's own facet words (Aaker, 1997; doc 49, section 9, P4; owner, 2026-11-20 12:49 UTC+2), for the imagined Ambassador, each with its "i", its draft phrase and the ratings it starts (BA4: Energy, Expression; BA6: Formality, Humour, Respect, Enthusiasm). */
+/** BA1's options: Aaker's five dimensions, each "i" in Aaker's own facet words (Aaker, 1997; Questions 21, section 9, P4; owner, 2026-11-20 12:49 UTC+2), for the imagined Ambassador, each with its "i", its draft phrase and the ratings it starts (BA4: Energy, Expression; BA6: Formality, Humour, Respect, Enthusiasm). */
 export const AMBASSADOR_CHARACTERS = [
     { id: "sincere", label: "Warm & honest", info: "Down-to-earth, honest, wholesome and cheerful (Aaker's Sincerity).", phrase: "warm and honest", energy: 3, expression: 4, tone: { formality: 2, humour: 3, respect: 4, enthusiasm: 4 } },
     { id: "exciting", label: "Lively & bold", info: "Daring, spirited, imaginative and up-to-date (Aaker's Excitement).", phrase: "lively and bold", energy: 5, expression: 5, tone: { formality: 2, humour: 4, respect: 3, enthusiasm: 5 } },
@@ -25,7 +25,7 @@ export const AMBASSADOR_CHARACTERS = [
     { id: "rugged", label: "Tough & practical", info: "Outdoorsy and tough (Aaker's Ruggedness).", phrase: "tough and practical", energy: 3, expression: 2, tone: { formality: 2, humour: 3, respect: 3, enthusiasm: 2 } }
 ] as const;
 
-/** BA2's options (doc 46, BA2). */
+/** BA2's options (Questions 11, BA2). */
 export const AMBASSADOR_DRESS = [
     { id: "formal", label: "Formal / tailored", phrase: "formal, tailored" },
     { id: "smart", label: "Smart casual", phrase: "smart casual" },
@@ -35,7 +35,7 @@ export const AMBASSADOR_DRESS = [
 ] as const;
 
 /**
- * BA3's options (doc 46, BA3): THE SURROUNDINGS THE IMAGINED AMBASSADOR SUITS (owner, 2026-11-19 21:44 UTC+2: "He is not a real person, but an idea that the app user could think
+ * BA3's options (Questions 11, BA3): THE SURROUNDINGS THE IMAGINED AMBASSADOR SUITS (owner, 2026-11-19 21:44 UTC+2: "He is not a real person, but an idea that the app user could think
  * about him/her. You cannot find him/her in a real place."): settings the founder pictures the persona in -- the feel of the brand's photos and spaces --, never where the
  * business meets its customers. The ids kept from before keep their answers (workshop, office, home, outdoors).
  */
@@ -49,13 +49,13 @@ export const AMBASSADOR_SETTINGS = [
     { id: "cafe", label: "A café or market", phrase: "in a café or market" }
 ] as const;
 
-/** BA4's two rows, each its own single Rating Scale: its row name at 5, what 1 and 5 mean first in its "i" (doc 46, 1.3). */
+/** BA4's two rows, each its own single Rating Scale: its row name at 5, what 1 and 5 mean first in its "i" (Questions 11, 1.3). */
 export const AMBASSADOR_PRESENCE = [
     { id: "energy", label: "Energy", low: "Calm", high: "Energetic", info: "The pace and movement your Ambassador brings." },
     { id: "expression", label: "Expression", low: "Reserved", high: "Expressive", info: "How openly your Ambassador shows feeling." }
 ] as const;
 
-/** BA6's four rows (NN/g's four dimensions of tone), in the order a tie goes by (doc 46, section 9). */
+/** BA6's four rows (NN/g's four dimensions of tone), in the order a tie goes by (Questions 11, section 9). */
 export const AMBASSADOR_TONE = [
     { id: "formality", label: "Formality", low: "Casual", high: "Formal" },
     { id: "humour", label: "Humour", low: "Serious", high: "Funny" },
@@ -63,14 +63,14 @@ export const AMBASSADOR_TONE = [
     { id: "enthusiasm", label: "Enthusiasm", low: "Matter-of-fact", high: "Enthusiastic" }
 ] as const;
 
-/** BA7's options (doc 46, BA7). */
+/** BA7's options (Questions 11, BA7). */
 export const AMBASSADOR_WORDS = [
     { id: "plain", label: "Plain, everyday words", phrase: "plain, everyday words" },
     { id: "explained", label: "Expert words, explained", phrase: "expert words, explained simply" },
     { id: "trade", label: "The trade's own terms", phrase: "the trade's own terms" }
 ] as const;
 
-/** The relationship types (J3, doc 47) from the least to the most personal, each with its Body Language phrase (doc 46, section 3). */
+/** The relationship types (J3, Questions 17) from the least to the most personal, each with its Body Language phrase (Questions 11, section 3). */
 const RELATIONSHIP_PHRASES = [
     { id: "self-service", phrase: "let customers help themselves, with help close at hand" },
     { id: "automated-service", phrase: "help customers at any hour" },
@@ -81,7 +81,7 @@ const RELATIONSHIP_PHRASES = [
 
 export type ToneRow = (typeof AMBASSADOR_TONE)[number]["id"];
 
-/** K14's phrases, one list shared with the Compass draft (doc 46, section 9; doc 49): what a Differentiation reads as in a sentence. */
+/** K14's phrases, one list shared with the Compass draft (Questions 11, section 9; Questions 21): what a Differentiation reads as in a sentence. */
 export const DIFFERENTIATION_PHRASES: Readonly<Record<string, string>> = {
     cost: "good value", convenience: "making things easy", compliance: "keeping customers safe", premium: "high quality",
     performance: "high performance", ecosystem: "fitting the tools customers already use", personal: "personal service"
@@ -149,7 +149,7 @@ export function asAmbassadorChoices(sectionValue: unknown): AmbassadorChoices {
     return out;
 }
 
-/** BA1's limit by the business stage (K14's pattern, doc 46, BA1): one choice at Planning and Launching, 2 from Managing on. */
+/** BA1's limit by the business stage (K14's pattern, Questions 11, BA1): one choice at Planning and Launching, 2 from Managing on. */
 export function characterLimit(stage: string): number {
     return stage === "manage" || stage === "grow" ? AMBASSADOR_TICKS_MAX : 1;
 }
@@ -164,7 +164,7 @@ export interface AmbassadorContext {
     values?: readonly { id: string; text: string }[];
 }
 
-/** BA7's options in their order: the trade's own terms first where every Segment is a business (doc 46, BA7). */
+/** BA7's options in their order: the trade's own terms first where every Segment is a business (Questions 11, BA7). */
 export function wordsOptions(context: AmbassadorContext): { id: string; label: string }[] {
     const trade = context.segments.length > 0 && context.segments.every(segmentIsBusiness);
     const options = AMBASSADOR_WORDS.map(option => ({ id: option.id, label: option.label }));
@@ -172,7 +172,7 @@ export function wordsOptions(context: AmbassadorContext): { id: string; label: s
 }
 
 /**
- * BA8's options (doc 46, BA8): the emotional and social needs ticked on the Profiles of every Segment, the most chosen first (ties in the lists' order), each in its
+ * BA8's options (Questions 11, BA8): the emotional and social needs ticked on the Profiles of every Segment, the most chosen first (ties in the lists' order), each in its
  * short word ("Calm", "Confident"); with none ticked yet, the full emotional list (the business one where every Segment is a business).
  */
 export function feelingOptions(context: AmbassadorContext): { id: string; label: string }[] {
@@ -196,7 +196,7 @@ export function feelingOptions(context: AmbassadorContext): { id: string; label:
     return every.filter(option => counts.has(option.id)).map((option, order) => ({ ...option, order })).sort((a, b) => (counts.get(b.id) ?? 0) - (counts.get(a.id) ?? 0) || a.order - b.order).map(({ id, label }) => ({ id, label }));
 }
 
-/** BA9's options (doc 46, BA9): the Values' lines, then each Differentiation chosen on the Segments (K14), each once. */
+/** BA9's options (Questions 11, BA9): the Values' lines, then each Differentiation chosen on the Segments (K14), each once. */
 export function rememberedOptions(context: AmbassadorContext): { id: string; label: string; phrase: string }[] {
     const differentiations = [...new Set(context.segments.flatMap(segment => {
         const asked = segmentContextFor(context.identity, segmentIsBusiness(segment));
@@ -221,14 +221,14 @@ export function ambassadorShown(saved: AmbassadorChoices, context: AmbassadorCon
         expression: saved.expression ?? first?.expression,
         tone: { ...(first?.tone ?? {}), ...(saved.tone ?? {}) },
         words: saved.words ?? "",
-        // (A need no Profile holds any more is not shown, and leaves on the next choice: doc 46, section 6.)
+        // (A need no Profile holds any more is not shown, and leaves on the next choice: Questions 11, section 6.)
         feeling: (saved.feeling ?? []).filter(id => offered.has(id)),
         // (So does a Value or a Differentiation no longer there.)
         remembered: (saved.remembered ?? []).filter(id => rememberedOptions(context).some(option => option.id === id))
     };
 }
 
-/* ---- The drafts (doc 46, section 3 and section 9) ---- */
+/* ---- The drafts (Questions 11, section 3 and section 9) ---- */
 
 /** BA1's phrase: two characters join with "as well as". */
 function characterPhrase(character: readonly string[]): string {

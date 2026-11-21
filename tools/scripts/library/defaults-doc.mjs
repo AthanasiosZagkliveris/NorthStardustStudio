@@ -1,12 +1,12 @@
 /**
- * The defaults section of the assets library document (docs/design/library/09-assets-library.md, "Defaults"; it was document 12,
+ * The defaults section of the assets library document (docs/design/library/02-assets-library.md, "Defaults"; it was Library 2,
  * Component defaults, until 2026-11-21): the default look of each
  * component and variant (the most used one measured), the looks merged into it and the looks kept for the
  * owner, each default checked against the text hierarchy of the app (14, 18, 24, 28, 36) and against the
  * target sizes of WCAG 2.2 (24px minimum, 44px enhanced), with the sources.
  *
- * generate-library-doc.mjs calls defaultsSection(library) and writes it at the end of document 9. The looks merged and kept are
- * not repeated here: document 9 lists them under each asset.
+ * generate-library-doc.mjs calls defaultsSection(library) and writes it at the end of Library 2. The looks merged and kept are
+ * not repeated here: Library 2 lists them under each asset.
  */
 export function defaultsSection(library) {
 const out = [];

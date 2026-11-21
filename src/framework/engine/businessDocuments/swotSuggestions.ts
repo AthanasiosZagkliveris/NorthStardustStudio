@@ -1,4 +1,4 @@
-/* Part of BusinessDocuments.ts: the Strategy page's SWOT suggestions, SW2 (doc 49, sections 2.3 and 10). */
+/* Part of BusinessDocuments.ts: the Strategy page's SWOT suggestions, SW2 (Questions 21, sections 2.3 and 10). */
 
 import { type Foundation, type FoundationSessions, readFoundation, swotStartsOf } from "./reading.ts";
 import { segmentIdentityOf, settledSegmentAnswers } from "../SegmentContext.ts";
@@ -17,7 +17,7 @@ export interface SwotSuggestions {
 }
 
 /**
- * SW2, "WHICH OF THESE FIT YOU?" (doc 49, sections 2.3 and 10; the round of 2026-11-20 18:35 UTC+2, approved by the owner at 22:08, "All, Values A"): the
+ * SW2, "WHICH OF THESE FIT YOU?" (Questions 21, sections 2.3 and 10; the round of 2026-11-20 18:35 UTC+2, approved by the owner at 22:08, "All, Values A"): the
  * suggestions of section 2.3 for each quadrant, read from what the Business System records, each a line the founder ticks into the quadrant's list. A line is
  * offered once; the market's starts and SW1's lines (swotStartsOf) are among them, in their own words, so a ticked one is the same line as the start.
  * Built: the Differentiation, the funding and the break even (Strengths); the funding gap, the break even beyond the plan and an Offering still being built

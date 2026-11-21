@@ -1,5 +1,5 @@
 /**
- * ONE COMPETITOR CARD (doc 41): its Type, its Description boxes with K1 to K7, the SWOT with K8 and K9, and the Insights with K10.
+ * ONE COMPETITOR CARD (Questions 14): its Type, its Description boxes with K1 to K7, the SWOT with K8 and K9, and the Insights with K10.
  * One part of useFoundationSubsections (moved out whole on 2026-11-09, no change of behaviour): what it reads of the Segment and of the page comes in as `scope`.
  */
 import TickField from "../../../controls/TickField.tsx";
@@ -34,7 +34,7 @@ const PRICE_PER: Readonly<Record<string, string>> = { once: "sale", session: "se
 import { journeySuggestions } from "../../../../framework/engine/JourneySuggestions.ts";
 import { BUSINESS_CHANNEL_CATEGORIES } from "../../../../framework/engine/answers/AnswerUtils.ts";
 
-/** Which of the card's questions each box of its Description asks (doc 41): K1 in Offerings, K2 to K4 in Market, K5 in Customer Acquisition, K6 and K7 in Customer Experience. */
+/** Which of the card's questions each box of its Description asks (Questions 14): K1 in Offerings, K2 to K4 in Market, K5 in Customer Acquisition, K6 and K7 in Customer Experience. */
 const PART_QUESTIONS: Record<string, CompetitorQuestionId[]> = { offerings: ["k1", "k15", "k16"], market: ["k2", "k3", "k4"], acquisition: ["k5"], experience: ["k6", "k7"] };
 
 export function competitorCard(scope: FoundationCardScope, competitor: BusinessCompetitorValue, index: number): ReactNode {
@@ -59,7 +59,7 @@ export function competitorCard(scope: FoundationCardScope, competitor: BusinessC
     // if anything.
     const asked = COMPETITOR_TYPE_QUESTIONS[competitor.type] ?? {};
 
-    /* ---- The card's questions (doc 41): K1 to K10, each in its box or band ---- */
+    /* ---- The card's questions (Questions 14): K1 to K10, each in its box or band ---- */
     const whose = segmentPath + ", Competitor " + (index + 1);
     const answers: CompetitorAnswers = competitor.questions ?? {};
     // A change of answers is settled against the type: a question it does not ask, an option or a row not offered, loses its answer.
@@ -138,7 +138,7 @@ export function competitorCard(scope: FoundationCardScope, competitor: BusinessC
     const reviewed = competitorReviewStarts(answers);
     const platformRows = [...platforms.first, ...platforms.rest.filter(platform => reviewed.includes(platform.id))];
     const context = { profiles: segment.profiles.map(profile => profile.questions ?? {}), others: segment.competitors.filter(other => other.id !== competitor.id).map(other => other.questions ?? {}), reach: segment.questions.reach?.[0] };
-    // K8 (doc 41; owner, 2026-11-04): every value, the Profiles' highest rated first, each chosen value with a band of one colour, darker the more
+    // K8 (Questions 14; owner, 2026-11-04): every value, the Profiles' highest rated first, each chosen value with a band of one colour, darker the more
     // Profiles chose it (bandTone: the count only).
     const valueRows = competitorValueRows(context).map(value => ({ ...value, tone: bandTone(valueProfiles(value.id, context)) }));
     const valuesBanded = valueRows.some(row => row.tone > 0);
@@ -150,7 +150,7 @@ export function competitorCard(scope: FoundationCardScope, competitor: BusinessC
     const openingTicks = (answers.k10 ?? []).filter(id => openings.some(opening => opening.id === id));
     const controls: Record<CompetitorQuestionId, () => ReactNode> = {
     k1: () => <FittingRadioChoice label={words("k1")} group={competitor.id + "-k1"} disabled={disabled} value={answers.k1?.[0] ?? ""} onChange={(next) => write({ ...answers, k1: [next] })} options={COMPETITOR_OFFER_OPTIONS} />,
-    // K15 (owner, 2026-11-18 03:08: "Build K15 and P7 now"; doc 48, 12.2): From and To in the organisation's currency, per the Segment's terms (O3), or Not known
+    // K15 (owner, 2026-11-18 03:08: "Build K15 and P7 now"; Questions 20, 12.2): From and To in the organisation's currency, per the Segment's terms (O3), or Not known
     // yet, which clears them. The competitor's own facts: never compared with the founder's price.
     k15: () => {
         const range = competitorPriceRange(answers);
@@ -193,7 +193,7 @@ export function competitorCard(scope: FoundationCardScope, competitor: BusinessC
             </>
         );
     },
-    // K16 (owner, 2026-11-20 23:44 UTC+2: "they should be compared according the profile's needs and answers"; doc 41, K16; doc 48, 15.3): ticks of the needs the
+    // K16 (owner, 2026-11-20 23:44 UTC+2: "they should be compared according the profile's needs and answers"; Questions 14, K16; Questions 20, 15.3): ticks of the needs the
     // Segment's Profiles name, the same items an Offering ticks under Functional Needs Addressed, saved by their ids (the same words on two Profiles are one item).
     k16: () => {
         const needs = businessSegmentFunctionalItems(segment);
@@ -395,7 +395,7 @@ export function competitorCard(scope: FoundationCardScope, competitor: BusinessC
     },
     <>
 
-        {/* What this TYPE of competitor is asked (doc 41, K1 to K7, COMPETITOR_TYPE_QUESTIONS for the boxes): each box asks its questions as bands and keeps its built text as the note. */}
+        {/* What this TYPE of competitor is asked (Questions 14, K1 to K7, COMPETITOR_TYPE_QUESTIONS for the boxes): each box asks its questions as bands and keeps its built text as the note. */}
         {description(
             whose,
             competitorParts(competitor.type).map(part => {
@@ -420,7 +420,7 @@ export function competitorCard(scope: FoundationCardScope, competitor: BusinessC
 
         {group("SWOT Analysis", <>
 
-        {/* K8, one band over Strengths and Weaknesses; K9, one over Opportunities and Threats (doc 41): the built boxes stay as the notes. */}
+        {/* K8, one band over Strengths and Weaknesses; K9, one over Opportunities and Threats (Questions 14): the built boxes stay as the notes. */}
         {/* One Notes under each rating (owner, 2026-11-05): what no rating says, kept under `strengths` and `opportunities`. */}
         {band(question("k8"), (
             <OptionalNote
@@ -449,7 +449,7 @@ export function competitorCard(scope: FoundationCardScope, competitor: BusinessC
         {/* What the SWOT above it was for, so
             it is titled like the SWOT rather
             than labelled like one more field
-            inside it. K10 above the text: openings drawn from the answers above (doc 41). */}
+            inside it. K10 above the text: openings drawn from the answers above (Questions 14). */}
         {/* "Insights" (2026-11-09): the Differentiation is the Segment's, once, under its Competitors (K14); the Business Plan's table says Insights too. */}
 
         {group(

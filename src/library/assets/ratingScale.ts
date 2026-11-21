@@ -1,7 +1,7 @@
 import type { AssetContract } from "../contract.ts";
 
 /**
- * The Rating Scale (RatingScale, RatingScaleGroup and RatingScaleEnds in src/components/controls/, rating-scale.css; doc 21, "Rating Scale"): five rounds of the
+ * The Rating Scale (RatingScale, RatingScaleGroup and RatingScaleEnds in src/components/controls/, rating-scale.css; Interface 1, "Rating Scale"): five rounds of the
  * radio choice from 1 (low) to 5 (high), the numbers 1 to 5 over them (what 1 and 5 mean is the first line of the question's "i"). Two layouts:
  *   vertical    a single rating under its question: the rounds spread evenly across the whole width of their place, the numbers over them;
  *   horizontal  a group: each row's words (or a tick and its words) in the left half, its rounds in the right half, the numbers said once over that half; a row can carry a band, light to dark (--tint-importance-1 to -3).
@@ -46,8 +46,8 @@ export const ratingScale: AssetContract = {
         accessibleName: "each row a radio group named by its words; each round \"1 of 5, [low word]\" to \"5 of 5, [high word]\""
     },
     uses: [
-        "the Segment card: household income, gender mix, kind of area, online comfort (and the end user's), market growth, crowding (doc 35)",
-        "the Profile card: B1 and E1 to E3, the Emotional and Social needs (doc 36)",
-        "the Competitor card: K4 and K6 to K9, K8 and K9 banded (doc 41)"
+        "the Segment card: household income, gender mix, kind of area, online comfort (and the end user's), market growth, crowding (Questions 12)",
+        "the Profile card: B1 and E1 to E3, the Emotional and Social needs (Questions 13)",
+        "the Competitor card: K4 and K6 to K9, K8 and K9 banded (Questions 14)"
     ]
 };

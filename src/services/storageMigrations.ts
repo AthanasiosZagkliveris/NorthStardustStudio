@@ -553,7 +553,7 @@ export function markIdentitySegments(organizationId: string): void {
 const FINANCIAL_FOUNDATION_SECTION = 4;
 
 /**
- * THE TWO FINANCIAL PAGES CHANGE PLACES (doc 48, section 11; owner, 2026-11-17 07:36): Revenue & Pricing (the Financial Sustainability answer) becomes
+ * THE TWO FINANCIAL PAGES CHANGE PLACES (Questions 20, section 11; owner, 2026-11-17 07:36): Revenue & Pricing (the Financial Sustainability answer) becomes
  * Section 4 and Costs, Funding & Position (the Financial Foundation answer) Section 5, so each page reads only the pages before it. Each answer moves whole
  * to the other's Section -- not a field changes --, a page answered alone moves alone, and a reader left on one of them stays on the same page. A flag: run
  * twice, it would swap them back. A new Organization runs it before anything is saved, on its first load, and so starts in the new order.
@@ -600,7 +600,7 @@ export function swapFinancialPages(organizationId: string): void {
     }
 
 /**
- * THE INCOME TAX RATE HAS ONE OWNER, Page 4's Plan Settings (doc 5, section 5.5.6): a rate saved in the Global Settings before is moved there once -- as the
+ * THE INCOME TAX RATE HAS ONE OWNER, Page 4's Plan Settings (Records 2, section 5.5.6): a rate saved in the Global Settings before is moved there once -- as the
  * plan's rate where the plan has no basis yet -- and taken out of the Global Settings. A plan with a basis of its own keeps it. A flag: it runs once.
  */
 export function moveGlobalIncomeTax(organizationId: string): void {

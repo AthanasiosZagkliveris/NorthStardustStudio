@@ -1,0 +1,83 @@
+# 15. The Value Proposition tile: the draft and the open items, as built in part
+
+Status: **specification**, written 2026-11-03, updated 2026-11-21. The Value Proposition tile (Business System, page 1): what it asks, the draft sentence it writes in, and the open items it lists, with what each reads. The text is built; the draft and the open items are **built** (owner, 2026-11-07: "Update the Value Proposition and Offering card according to their docs"; `OfferingQuestions.ts`), with what is not yet built named in each section.
+
+Related: Questions 12 (the Segment), Questions 13 (the Profile: the needs, goals, frustrations and worries), Questions 8 (Positioning: the purpose; the differentiation and the outcomes it held until 2026-11-08), Questions 14 (K14, the Segment's Differentiation), Questions 14 (the Competitor: K8 and K10), Questions 16 (the Offering: O1, O4, O8 and the needs addressed), Research 3 (the value crosswalk, 5.2a), Questions 2 (6.7 and 8.2, the design this refines).
+
+**What the tile is.** There is one Value Proposition per Segment (built). It is a string on the Segment, `valueProposition`. The tile opens one text, with the instructions as built:
+- "Define a clear, concise Value Proposition for each Customer Segment."
+- "State the specific problem you solve and the key benefits you provide."
+- "Explain what makes your offering different or better than competitors."
+
+**It asks no new question.** Everything it needs has already been answered by the time the App User reaches it: it is the last tile of the Segment's frame, after the Segment Description with its Profiles, the Competitors and the Offerings (owner, 2026-11-08: the Offerings before the Value Proposition; built the same day). A question here would ask a second time what the Profile, the Offering or the Competitor already holds, and break one owner per fact (Questions 2, rule 3.1). So the tile gives a **draft** and **open items**, and the text stays the App User's own.
+
+**Why this structure.** The tile follows the Value Proposition Canvas [FUN-46], which fits what a Segment's customers want to what an offering gives them. On the customer's side are their jobs, pains and gains. On the offering's side are its pain relievers and gain creators. The app already asks all of these:
+
+| Canvas | Where it is asked |
+|---|---|
+| Customer jobs (functional, social, emotional) | the Profile's Needs (Questions 13, Needs) |
+| Pains | the Profile's E2, frustrations, and E3, worries |
+| Gains | the Profile's E1, goals, and B1, what matters most |
+| Products and services | the Offering's Type and O1 (Questions 16) |
+| Pain relievers | the Offering's O8 (the worries it answers) and its needs addressed |
+| Gain creators | the Offering's O4 (what it does best) |
+
+The sentence follows Moore's positioning template, as taught at Stanford [FUN-28]: for whom, their need, the product and its category, the key benefit, and what sets it apart.
+
+## 1. The draft
+
+- **How it is written** (owner, 2026-11-20 18:35 UTC+2: "Instead of appearing, an Add a draft option, add the draft automatically"; 19:17: "The app user could add or change the text as he wishes"): no button. The draft is written into the text by itself while the text is empty or still says what the app wrote, and keeps following the answers for as long as it does; once the App User writes in it, the text is theirs, and a text already saved stays as it is. The text is always editable (`useAutoDraft`, `AutoDraft`). Rule | was | now: the draft is the founder's to change | a button, "Add a draft", added the sentence at the end of the text | written in by itself, editable.
+- **Written when:** the Segment has a name, at least one of its Profiles has answered E2 or holds a functional need, and at least one of its Offerings has a Type.
+- **The words** (owner, 2026-11-07: "Approved. Please go ahead and write the updated specification sections"): "For [the Segment's name] who [the frustration's draft phrase] and want to [the goal's draft phrase], [the Offering's name] is [the Offering's form, O1, else its Type, with its article] that offers [the Offering's main benefit, the first ticked in O4], and it stands out for [the clear opening's value]." (The ending is affirmative, owner, 2026-11-09, `standard.md`, section 3.)
+  - The goal and the frustration are the **highest-rated** across the Segment's Profiles (E1 and E2 are rated since 2026-11-04), ties in the list's order; each is written in its draft phrase (Research 3, 5.2d), never its one-word tick box ("who wait too long and want to grow their income").
+  - "and it stands out for …" is taken from the clear opening as built (`clearOpenings`, `CompetitorQuestions.ts`: a value every Competitor of the Segment is weak on and a Profile rates Essential; the Review's second look and the first of K10's openings), not worked out again here. With no clear opening the sentence ends after the benefit.
+  - A blank whose answer is missing is left in square brackets, so the App User sees what to add.
+  - **A Segment with an end user** (its buyer is Proxy or Dual-Intent; Questions 13, 2.4, owner, 2026-11-08): E1 and E2 are the end user's there, so the sentence says whose: "For [the Segment's name] whose end users [the frustration's draft phrase] and want to [the goal's draft phrase], …" (built 2026-11-08). "For [buyers] who want [the end user] to …" was considered and not used: the Segment's name is a plural noun of buyers, the end user has no name of its own, and the draft phrases are written for the people who feel them. The open items are unchanged: they read B1 and E3 (the buyer's) and the functional tasks (the end user's), each where it is kept.
+  - With several Offerings, one sentence for each Offering with a Type, each in its own paragraph, one under the other (built 2026-11-07; written in by itself since 2026-11-20).
+  - **The job it does and the end user's outcome** (owner, 2026-11-17; the open decisions and gaps, Group 4c): the highest-rated functional job of the Profiles' Needs is said after "that": "… is a product that keeps things in order and offers quality …" (Organisation, keeps things in order; Integration, works with the tools they already use; Connection, helps them reach other people; Information, gives them the answers they need; Variety, gives them more options). With an end user, the first outcome its Profiles tick (E4, Questions 13) closes the draft: "Their end users get comfort and ease."
+- **The "i" says** (in the tile's "i", after its instructions):
+  - A starting sentence made from your answers on this page is written in while the text is empty. It is yours: change it freely.
+  - Based on: Moore's positioning template, and the pains and gains of the Value Proposition Canvas.
+- **Connections:**
+  - *Comes from:* the Segment's name; its Profiles' E1 and E2; its Offerings' O1 and O4 (Questions 16); its Competitors' type and K8 (Questions 14). Where the words of an answer do not read in the sentence, its crosswalk words are used (Research 3, 5.2a). The Segment's Differentiation (K14, Questions 14; Positioning's question 8 until 2026-11-08, whose saved answer starts it) and the buyer's outcome saved on Positioning before (O4 owns it now, Questions 16) come in through O4's starting ticks and the crosswalk; the draft reads O4 as the card shows it (`effectiveOfferingAnswers`). Positioning's purpose is not read.
+  - *Read by:* nothing. The text is the user's, and the Business Plan reads the text as built.
+
+**As built (2026-11-07; written in by itself since 2026-11-20):** the draft and the open items read the Profiles' and the Offerings' answers as their cards show them, starting values included (2026-11-08). The draft is every Offering's sentence with a Type, one paragraph each (one draft per Offering, decided, as section 1 says), written into the text while it is empty or still the app's own (`AutoDraft`, `useFoundationSubsections.tsx`); the words are section 1's, the ending affirmative ("…, and it stands out for [the clear opening]."). The "i" of the tile carries the two lines of the draft's "i" above. `valuePropositionDraft`, `draftOffered`.
+
+## 2. The open items (read-only, under the text)
+
+Each item names the Profile, Offering or Competitor it is about, and opens it. These come from Questions 2, 6.7, and the review of 2026-11-03.
+
+| Item | Shown when |
+|---|---|
+| **Unmet value** | Something the Profiles care about (B1) that no Offering does best (O4) |
+| **Unwanted benefit** | A benefit an Offering claims (O4) that no Profile cares about (B1); only the O4 ticks the App User saved count, not the starting ticks from the Segment's Differentiation and the buyer's outcome saved before (owner, 2026-11-08) |
+| **Unanswered need** | A numbered functional item of a Profile (by its id) that no Offering ticks; no text is matched, so an item edited on the Profile stays the same item. Matched by id since 2026-11-07 (built). The functional categories (L17) are the Profile's own ticks, also built on 2026-11-07, and are not ticked again on the Offering |
+| **Unused offering** | An Offering that answers no need of the Segment |
+| **Worry left open** | A worry a Profile ticked (E3) that no Offering answers (O8). The worry Support is answered when an Offering's O7, the help after the sale, is anything but None (built 2026-11-07) |
+| **Emotional and social needs** | The Value Proposition is the one owner of these (owner, 2026-11-06; the Offering does not tick them, Questions 16): each emotional or social need ticked on the Segment's Profiles (Questions 13, section 10), the strongest first, until the text says how it answers it. **Built in part (owner, 2026-11-07):** under the text, Emotional Needs and Social Needs list every need ticked on the Segment's Profiles, each once, the strongest first (its highest rating on any Profile; ties in the options' order), numbered; under them, apart from the numbers, the label "From the Profiles' Notes" and the lines of the Profiles' Notes as bullets, each followed by its Profile's name (small, muted), a line written twice shown once with both names (owner, 2026-11-09: "Needs and notes should not have a common numbered sequence. Either the notes go under the related needs, or they are placed separately"; built as placed separately, the recommendation); "None recorded." only when there are neither (`segmentNeedTicks`, `ProfileQuestions.ts`). The tile's "i": "Say how it meets the emotional and social needs below: those ticked on the Profiles, strongest first, then the lines of their Notes." **Laid out (owner, 2026-11-09: "Place needs next to each other."):** the text first, then Emotional Needs and Social Needs side by side, then Open items (`docs/ai/layout-rules.md`, the Value Proposition dialog). Still proposed: an item stays until the text answers it. |
+
+- **The "i" says:** Gaps between what your customers want and what your Offerings give. Each one is a reminder to look at.
+- **As built (2026-11-07):** "Open items" under the needs, one bullet each, "[kind]: [what it says]", shown only when there is one: Unmet value and Unwanted benefit from one function (`valueMismatch`, for the Review to read too), Unanswered need by item id, Unused offering (an Offering with a Type that addresses none of the Segment's items), Worry left open (O8; the worry Support is answered by any help after the sale, O7, since 2026-11-07). **Not built:** an item opening the card it is about; the Review listing the same items; "Emotional and social needs" as an item (the needs are listed above the items, as built on 2026-11-07, and nothing yet says when one is answered).
+- **Connections:**
+  - *Comes from:* Questions 13 (B1, E3, the Needs); Questions 16 (O4, O8, the needs addressed).
+  - *Read by (not built yet):* the Review page, which lists the same items.
+
+## What changes when an answer above changes
+
+The draft follows the answers while the text still says what the app wrote; once the App User writes in it, nothing in the text changes. The open items are worked out again from the answers as they stand.
+
+## Decided, and still to decide
+
+**Decided (owner, 2026-11-03):**
+- The positioning statement is drafted per Segment in this tile.
+- No new Positioning cells are added for the pain point, the category or the status quo (Questions 2, 8.2).
+- Emotional and Social needs are ticks (Questions 13, section 10) and the Value Proposition alone answers them (owner, 2026-11-06), so the "Emotional and social needs" item lists the ticked needs, not an Offering's ticks; "Unanswered need" compares the Profiles' numbered functional items by id.
+- With several Offerings, one draft per Offering with a Type, not one naming the main Offering (2026-11-07; section 1).
+- "Job left to a competitor" withdrawn as an open item (2026-11-04): Questions 14's job question went to the Offering, so there is no Competitor's job to compare with (Questions 16, O13, itself retired 2026-11-07).
+
+**Built (2026-11-07):**
+- "Unanswered need" matched by the items' ids, not their words.
+- One draft sentence for each Offering with a Type (written in by itself since 2026-11-20, section 1).
+
+**Still to decide:** nothing for this tile.

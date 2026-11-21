@@ -444,7 +444,7 @@ function parseFinancialFoundation(value: unknown): FinancialFoundationValue {
             return {
                 id: asText(row.id) || randomId("funding"),
                 name: asText(row.name),
-                // (A source saved under Internal, removed 2026-11-20, is read under Other, its type and figures kept: doc 48, section 14.)
+                // (A source saved under Internal, removed 2026-11-20, is read under Other, its type and figures kept: Questions 20, section 14.)
                 category: asText(row.category) === "internal" ? "other" : oneOf(row.category, CATEGORY_IDS, "external"),
                 type: asText(row.type),
                 provider: asText(row.provider),

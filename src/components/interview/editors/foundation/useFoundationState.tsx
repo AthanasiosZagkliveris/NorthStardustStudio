@@ -241,7 +241,7 @@ export function useFoundationState(props: BusinessFoundationEditorProps) {
         fold?: { open: boolean; label: string; onToggle: () => void },
         /** The boxes of questions in ONE column, in their order (the Profile's card, which floats at the width every floating card has). */
         oneColumn = false,
-        /** The section's title and its "i": a Profile with an end user has two, "The buyer" and "The end user" (doc 36, 2.1). */
+        /** The section's title and its "i": a Profile with an end user has two, "The buyer" and "The end user" (Questions 13, 2.1). */
         title = "Description",
         info?: InfoPoint[]
     ) {

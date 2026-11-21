@@ -303,7 +303,7 @@ describe("BusinessFoundationEditor asks the questions that left Positioning", ()
         expect(screen.queryByLabelText("How old is the end user?")).toBeNull();
     });
 
-    it("starts the Differentiation from the openings ticked on the Competitors where Positioning saved none, in the question's own order (doc 41, K14)", () => {
+    it("starts the Differentiation from the openings ticked on the Competitors where Positioning saved none, in the question's own order (Questions 14, K14)", () => {
         function Ticked() {
             const [value, setValue] = useState<unknown>(() => {
                 const segment = createBusinessCustomerSegment([]);

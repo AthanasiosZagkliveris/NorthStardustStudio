@@ -921,7 +921,7 @@ export function useCapabilityPeopleCards(earlier: Earlier) {
                 )}
 
                 {/* (THE HOURS THEY CAN GIVE, and a Supplier's time to deliver: read by Capacity & Delivery -- their own row and bar, and the Calendar Time of an Offering
-                    they can hold up; doc 52, 14 and 16; owner, 2026-11-17. In the Team section, before the Notes (the card's order), and only where they mean
+                    they can hold up; Questions 19, 14 and 16; owner, 2026-11-17. In the Team section, before the Notes (the card's order), and only where they mean
                     something (owner, 2026-11-19 16:52 UTC+2, 3.5: "Check if these fields are necessary, whether their wording and layout could be improved"): the
                     hours on a card whose people do part of the job (givesWorkingHours), the weeks on a producer's, a wholesaler's or a contractor's card; a card that
                     holds an answer keeps showing it.) */}

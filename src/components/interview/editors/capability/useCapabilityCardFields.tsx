@@ -6,7 +6,7 @@ import { costIsShared } from "../../../../framework/engine/answers/AnswerUtils.t
 import RadioChoice from "../../../controls/RadioChoice.tsx";
 import { COMPANY_FORM } from "../../../../framework/engine/legal/LegalFacts.ts";
 import { BUSINESS_PEOPLE_GROUP_IDS, asLegalEntityValue } from "../../../../framework/engine/answers/AnswerUtils.ts";
-/** LF3's "i": the close relatives HSE40 and gov.uk name (doc 53, stage 4). */
+/** LF3's "i": the close relatives HSE40 and gov.uk name (Questions 10, stage 4). */
 const FAMILY_INFO = ["A close relative: husband, wife, civil partner, father, mother, grandfather, grandmother, stepfather, stepmother, son, daughter, grandson, granddaughter, stepson, stepdaughter, brother, sister, half-brother or half-sister.", "A business whose employees are all close relatives needs no employers' liability insurance.", "Based on: HSE40, the Health and Safety Executive's guide to the Employers' Liability (Compulsory Insurance) Act 1969."];
 import CurrencyPicker from "../../fields/CurrencyPicker.tsx";
 import TextBox from "../../../controls/TextBox.tsx";
@@ -978,10 +978,10 @@ export function useCapabilityCardFields(earlier: Earlier) {
                 {extrasFields("Resource " + number, slotExtraKeys(groupId, slot.status), slot.extras, slot.cost.currency || organisationCurrency, (next) => onSlot({ extras: next }))}
                 </BandSection>
 
-                {/* (A Staff card's hours a month they can give: their own row and bar in Capacity & Delivery; doc 52, 14; owner, 2026-11-17. In the Team section, before the Notes:
+                {/* (A Staff card's hours a month they can give: their own row and bar in Capacity & Delivery; Questions 19, 14; owner, 2026-11-17. In the Team section, before the Notes:
                     owner, 2026-11-19 16:52, 3.5.) */}
                 <BandSection name="team">
-                {/* (LF3, A CLOSE RELATIVE (doc 53, stage 4; owner, 2026-11-19 20:59 UTC+2: only what no earlier answer says): on a paid Staff card of a business that is not
+                {/* (LF3, A CLOSE RELATIVE (Questions 10, stage 4; owner, 2026-11-19 20:59 UTC+2: only what no earlier answer says): on a paid Staff card of a business that is not
                     a company -- HSE40: the close relatives' exemption from employers' liability insurance "does not apply to family businesses which are incorporated as
                     limited companies"; never on a Partner's or Supplier's card, a contractor not being employed.) */}
                 {BUSINESS_PEOPLE_GROUP_IDS.includes(groupId as never) && isCostingStatus(slot.status) && (parseAmount(slot.cost.price) ?? 0) > 0 && !COMPANY_FORM.test(asLegalEntityValue(legalEntity).organisation.legalForm) && (

@@ -59,10 +59,10 @@ interface StrategyFoundationEditorProps {
 
     /** The SWOT's starts from the Business System's market answers (swotStartsOf), shown in a quadrant never edited (strategySwotShown). */
     swotStarts?: { opportunities: string[]; threats: string[] };
-    /** SW2's suggestions for each quadrant (swotSuggestionsOf): ticked into its list (doc 49, sections 2.3 and 10). */
+    /** SW2's suggestions for each quadrant (swotSuggestionsOf): ticked into its list (Questions 21, sections 2.3 and 10). */
     swotSuggestions?: { strengths: string[]; weaknesses: string[]; opportunities: string[]; threats: string[] };
 
-    /** What SW1 and SC1 to SC3 read from the other Systems (strategyChoiceContext; doc 49, 2.3 and 2.4). */
+    /** What SW1 and SC1 to SC3 read from the other Systems (strategyChoiceContext; Questions 21, 2.3 and 2.4). */
     choices?: StrategyChoiceContext;
 
     /** Asks before a Refresh replaces the founder's own words. */
@@ -179,7 +179,7 @@ export default function StrategyFoundationEditor({
     }
 
     /*
-        SW1 AND SC1 TO SC3 (doc 49, 2.3 and 2.4; the owner's approved plan of 2026-11-18, §3, B2). The SWOT shown adds SW1's lines to the starts as they are rated;
+        SW1 AND SC1 TO SC3 (Questions 21, 2.3 and 2.4; the owner's approved plan of 2026-11-18, §3, B2). The SWOT shown adds SW1's lines to the starts as they are rated;
         the Compass's three choices follow their starts until chosen, and its draft, the Compass sentence, is written in by itself (useAutoDraft).
     */
     const changeLines = changeEffectLines(foundation.changeEffects);
@@ -372,7 +372,7 @@ export default function StrategyFoundationEditor({
         (
             <>
 
-                {/* (THE VISION AT THE TOP OF THE SWOT, AS ITS AIM (doc 49, section 9, P6; owner, 2026-11-20 12:49 UTC+2, "proceed to changes"): read from the
+                {/* (THE VISION AT THE TOP OF THE SWOT, AS ITS AIM (Questions 21, section 9, P6; owner, 2026-11-20 12:49 UTC+2, "proceed to changes"): read from the
                     Identity System's Definition, shown, never edited here.) */}
                 <SingleColumn>
                     {band(
@@ -387,7 +387,7 @@ export default function StrategyFoundationEditor({
 
                     <Fragment key={quadrant.id}>
 
-                    {/* (SW1, in its band above the Opportunities and Threats: doc 49, 2.3.) */}
+                    {/* (SW1, in its band above the Opportunities and Threats: Questions 21, 2.3.) */}
                     {quadrant.id === "opportunities" && choices && (
                         <SingleColumn>
                             {band(
@@ -430,7 +430,7 @@ export default function StrategyFoundationEditor({
                             })}
                         />
 
-                        {/* SW2, "WHICH OF THESE FIT YOU?" (doc 49, sections 2.3 and 10; the owner's approval of 2026-11-20 22:08 UTC+2): the quadrant's suggestions as ticks,
+                        {/* SW2, "WHICH OF THESE FIT YOU?" (Questions 21, sections 2.3 and 10; the owner's approval of 2026-11-20 22:08 UTC+2): the quadrant's suggestions as ticks,
                             a ticked one a line of the list (the list is the one owner: a line written there is ticked here), the founder's own lines kept. */}
                         {suggestedFor(quadrant.id).length > 0 && (<SingleColumn>{band((
                             <FieldRow pair fullList label={SW2_LABEL} info={[...SW2_INFO]}>
@@ -464,11 +464,11 @@ export default function StrategyFoundationEditor({
         (
             <>
 
-                {/* (SC1 to SC3, one question per band above the Compass's text, then its draft written in by itself: doc 49, 2.4.) */}
+                {/* (SC1 to SC3, one question per band above the Compass's text, then its draft written in by itself: Questions 21, 2.4.) */}
                 {choices && compassShown && (
                     <SingleColumn>
                         {[
-                        // (THE COMPASS IN THE ORDER IT IS DECIDED (doc 49, section 9, P7; owner, 2026-11-20 12:49 UTC+2): which Segment first, where growth comes from, then
+                        // (THE COMPASS IN THE ORDER IT IS DECIDED (Questions 21, section 9, P7; owner, 2026-11-20 12:49 UTC+2): which Segment first, where growth comes from, then
                         // what the strategy mainly does.)
                             // (SC3 is asked with two Segments or more; with one, that Segment is the answer.)
                             ...(choices.segments.length >= 2 ? [
@@ -487,7 +487,7 @@ export default function StrategyFoundationEditor({
                                 <RadioChoice label={SC_LABELS.sc1} group="strategy-stance" className="legal-entity-radio-stack" disabled={disabled} value={compassShown.stance}
                                     onChange={(next) => update({ stance: next })}
                                     options={SC1_STANCES.filter(stance => !(choices.stage === "plan" || choices.stage === "launch") || stance.id === "so" || stance.id === "wo" || stance.id === compassShown.stance).map(stance => ({ id: stance.id, label: stance.label }))} />
-                                {/* (EACH SEGMENT'S POINT OF DIFFERENCE, K14, AS A RECORD UNDER SC1 (doc 49, section 9, P8; owner, 2026-11-20 12:49 UTC+2, "proceed to changes"): read from
+                                {/* (EACH SEGMENT'S POINT OF DIFFERENCE, K14, AS A RECORD UNDER SC1 (Questions 21, section 9, P8; owner, 2026-11-20 12:49 UTC+2, "proceed to changes"): read from
                                     the Competitors' Differentiation, in the Compass draft's words; nothing is asked here.) */}
                                 {choices.segments.filter(segment => segment.differentiation.length > 0).map((segment, at) => (
                                     <p key={segment.id} className="legal-entity-empty-note">

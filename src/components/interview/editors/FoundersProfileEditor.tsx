@@ -118,12 +118,12 @@ interface FoundersProfileEditorProps {
     /** The frame's heading, on top of its tiles (a page of several sections). */
     frameTitle?: string;
 
-    /** Only the founders, as the tiles under the owners in the Founders & Ownership dialog (design document 28, 8.5): what is given here (the Ownership: the founders, their shares and capital) stands above, one tile for each founder under it. */
+    /** Only the founders, as the tiles under the owners in the Founders & Ownership dialog (design Questions 2, 8.5): what is given here (the Ownership: the founders, their shares and capital) stands above, one tile for each founder under it. */
     subTilesWith?: ReactNode;
 
     /**
      * A one-owner legal form (a sole proprietorship, a sole trader): there is one founder and no ownership to ask, so the dialog is the founder's card itself, its name
-     * a cell in the head and, beside it, the capital the founder puts in, which is optional (design document 28, 8.5).
+     * a cell in the head and, beside it, the capital the founder puts in, which is optional (design Questions 2, 8.5).
      */
     soleFounder?: {
         onName: (next: string) => void;
@@ -136,7 +136,7 @@ interface FoundersProfileEditorProps {
 
 
     /**
-     * THE PERSONAL SURVIVAL BUDGET (doc 48, section 13; Start Up Loans): asked of a founder the business pays no salary, saved on the Legal Entity's founder
+     * THE PERSONAL SURVIVAL BUDGET (Questions 20, section 13; Start Up Loans): asked of a founder the business pays no salary, saved on the Legal Entity's founder
      * (beside the capital); the household's income and costs a month, and the least the founder needs from the business.
      */
     survival?: {
@@ -361,7 +361,7 @@ export default function FoundersProfileEditor({
     }
 
     /**
-     * ROW 3, THE PERSONAL SURVIVAL BUDGET (doc 48, section 13), TWO EQUAL COLUMNS: the household's income a month | its costs a month, then, in the costs'
+     * ROW 3, THE PERSONAL SURVIVAL BUDGET (Questions 20, section 13), TWO EQUAL COLUMNS: the household's income a month | its costs a month, then, in the costs'
      * band, the least the founder needs from the business (the costs less the income, never below nothing).
      */
     function survivalRow(founder: FounderProfileValue & { name: string }, who: string) {
