@@ -53,8 +53,6 @@
     "library:check": "node tools/scripts/library/library-log.mjs",
     "library:log": "node tools/scripts/library/library-log.mjs log",
     "library:looks": "node tools/scripts/library/looks.mjs",
-    "library:defaults": "node tools/scripts/library/defaults-doc.mjs",
-    "library:defaults:check": "node tools/scripts/library/defaults-doc.mjs --check",
     "library:components": "node tools/scripts/library/components-list.mjs",
     "library:components:check": "node tools/scripts/library/components-list.mjs --check",
     "library:fields-list": "node tools/scripts/library/fields-list.mjs",

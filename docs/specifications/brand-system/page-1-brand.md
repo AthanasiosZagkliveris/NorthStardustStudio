@@ -14,6 +14,26 @@ Status: **current design**, written 2026-11-20, updated 2026-11-21. The Brand Sy
 6. [What reads the page](#6-what-reads-the-page)
 7. [Where it is in the code](#7-where-it-is-in-the-code)
 
+## The System: its page, what it holds and what crosses it
+
+(This was the folder's README until 2026-11-21.) The Brand System (System 2 of the Foundation) is ONE page, "2. Brand System" (`PageGroups.ts`: sections 1 and 2 on one page, no page name in the header), of two chapters, each its own section of the saved answer (`src/assets/system-answers/02_BrandSystemAnswer.md`).
+
+Each file here describes the app as it is; where it and the code differ, the code is the bug or this file is, and both are mended in one commit with a row in the log (`design/records/04-log.md`). The layout (tiles, cards, measures) is the rulebook's (`ai/layout-rules.md`, sections 8, 9 and 13); the questions are kept in their questionnaire documents (`design/questionnaire/`), not repeated here.
+
+### The page
+
+| Section | Chapter | Specification | Editor | Data (`src/framework/engine/`) |
+|---|---|---|---|---|
+| 1 | Ambassador | this file, sections 2 and 3; the questions in doc 46 | `AnswerRenderer` (the column page as tiles), `brand/AmbassadorChoices.tsx`, `fields/ColumnFields.tsx` (Imprint) | `AmbassadorChoices.ts` |
+| 2 | Style | this file, sections 4 and 5 | `BrandStyleEditor`, `BrandInventoryEditor` | `AnswerBrand.ts` |
+
+The editors are in `src/components/interview/editors/`.
+
+### What crosses into and out of the page
+
+1. **In:** the Identity System's Values (BA9's options, with their ids: `ValueIds.ts`, doc 46, section 5), the Business System's Segments, Profiles and Customer Engagement (BA1's limit by the business stage, BA7's order, BA8's options, the Body Language draft's relationship phrase: doc 46, section 2), the business stage (doc 28, 8.2).
+2. **Out:** the Business Plan's Marketing and Sales, "Brand & Voice", and its Appendix, the Brand Style Guide (`businessDocuments/plan.ts`; the Workbook's Business Documents); the logo on every exported document's cover (`brandPictures`).
+
 ## 1. The page
 
 One page, titled "2. Brand System", its two chapters side by side as every page of two chapters (layout rules, section 23: one chapter size in a window; below 1200px they stack). Each chapter is a frame of four Master Tiles in the 2 x 2 (layout rules, section 23), every tile a square of the one size, its title in capitals (layout rules, section 9, "A tile's title is in capitals, but a card tile's"), its list centred under it (section 8, "Tile anatomy").

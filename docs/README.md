@@ -18,16 +18,16 @@ Status: **index**, updated 2026-11-21. One line per document: where it is, what 
 3. [The user guide](#3-the-user-guide-guide)
 4. [The design of the Foundation (`design/foundation/`, documents 1 and 26)](#4-the-design-of-the-foundation-designfoundation-documents-1-and-26)
 5. [The interface (`design/interface/`, documents 16 to 24 and 39)](#5-the-interface-designinterface-documents-16-to-24-and-39)
-6. [The questions (`design/questions/`, documents 27 to 29, 33, 35 to 38, 40 to 50, 52 to 54)](#6-the-questions-designquestions-documents-27-to-29-33-35-to-38-40-to-50-52-to-54)
+6. [The questions (`design/questions/`, documents 27 to 29, 33, 35 to 38, 41 to 50, 52 to 54)](#6-the-questions-designquestions-documents-27-to-29-33-35-to-38-41-to-50-52-to-54)
 7. [The research and the sources (`design/research/`, documents 2, 3, 30 to 32, 34, 51 and 55)](#7-the-research-and-the-sources-designresearch-documents-2-3-30-to-32-34-51-and-55)
 8. [The records (`design/records/`, documents 4 to 7)](#8-the-records-designrecords-documents-4-to-7)
-9. [The library (`design/library/`, documents 8 to 15)](#9-the-library-designlibrary-documents-8-to-15)
+9. [The library (`design/library/`, documents 8 to 11 and 13 to 15)](#9-the-library-designlibrary-documents-8-to-11-and-13-to-15)
 10. [Rules for the assistant](#10-rules-for-the-assistant-ai)
 11. [The specifications](#11-the-specifications-specifications)
 12. [The proposals](#12-the-proposals-proposals)
 13. [The archive](#13-the-archive-archive)
 
-The design documents are grouped by what they hold, and each keeps its number wherever it stands: the number is a permanent id (in the file name and the title, and it is how they cite one another: "doc 28"); a retired number stays unused (25, the folder plan, is now `ai/folder-plan.md`). The alphabetical index of the subjects is [index.md](index.md); the index of the places in the app is [app/index.md](app/index.md); the terms are in [app/glossary.md](app/glossary.md).
+The design documents are grouped by what they hold, and each keeps its number wherever it stands: the number is a permanent id (in the file name and the title, and it is how they cite one another: "doc 28"); a retired number stays unused (12, the component defaults, is now a section of 9; 25, the folder plan, is `ai/folder-plan.md`; 40, the tile documents, is section 11 of 27). The alphabetical index of the subjects is [index.md](index.md); the index of the places in the app is [app/index.md](app/index.md); the terms are in [app/glossary.md](app/glossary.md).
 
 ## 1. The standard of the documents
 
@@ -82,13 +82,13 @@ What every screen shares: the text holders, the Frequency options, the reactions
 | [design/interface/24-tooltips.md](design/interface/24-tooltips.md) | current design | Which controls have a tooltip, what it says, its look and its rules. This document owns the tip. | 2026-11-21 |
 | [design/interface/39-help-texts-guide.md](design/interface/39-help-texts-guide.md) | specification | What a help text says: the analysis of the 159 help texts and a proposed structure per place and field, standard phrases, size budgets and a check. | 2026-11-21 |
 
-## 6. The questions (`design/questions/`, documents 27 to 29, 33, 35 to 38, 40 to 50, 52 to 54)
+## 6. The questions (`design/questions/`, documents 27 to 29, 33, 35 to 38, 41 to 50, 52 to 54)
 
-What the first published version contains and what it leaves for later, and the questions of each tile. **What governs:** 33 (the first version, sections 1 to 9; what is left for later, sections 10 to 15). **The design behind them:** 27 (the plan, and the order of work for 45 to 49), 28 (every question, the connections and the evidence), 29 (the flow). **The tiles, one document each (40 gives the form and where each tile stands):** 37 (the Organisation), 38 (Positioning), 45 (Purpose & Beliefs), 35 (the Segment), 36 (the Profile), 41 (the Competitor), 42 (the Value Proposition), 43 (the Offering), 46 (the Ambassador), 47 (Customer Engagement), 52 (Capacity & Delivery), 48 (Financials and the Inventory), 49 (Strategy). **Built from the answers:** 50 (channel fees and Sales Forecast), 53 (the legal starts), 54 (every auto-filled answer). **Every question in one table, by card and position, with its permanent code:** 44 (generated). **How to word them:** 39 (in the interface chapter) and, in 28, sections 3 and 4.
+What the first published version contains and what it leaves for later, and the questions of each tile. **What governs:** 33 (the first version, sections 1 to 9; what is left for later, sections 10 to 15). **The design behind them:** 27 (the plan, and the order of work for 45 to 49), 28 (every question, the connections and the evidence), 29 (the flow). **The tiles, one document each (27, section 11, gives the form and where each tile stands):** 37 (the Organisation), 38 (Positioning), 45 (Purpose & Beliefs), 35 (the Segment), 36 (the Profile), 41 (the Competitor), 42 (the Value Proposition), 43 (the Offering), 46 (the Ambassador), 47 (Customer Engagement), 52 (Capacity & Delivery), 48 (Financials and the Inventory), 49 (Strategy). **Built from the answers:** 50 (channel fees and Sales Forecast), 53 (the legal starts), 54 (every auto-filled answer). **Every question in one table, by card and position, with its permanent code:** 44 (generated). **How to word them:** 39 (in the interface chapter) and, in 28, sections 3 and 4.
 
 | Document | Kind | What it holds | Updated |
 |---|---|---|---|
-| [design/questions/27-questionnaire-plan.md](design/questions/27-questionnaire-plan.md) | proposal | The questionnaire plan: the goal, the funnel, the one test (does an answer save the founder work?), the order of building and what was cut. | 2026-11-21 |
+| [design/questions/27-questionnaire-plan.md](design/questions/27-questionnaire-plan.md) | proposal | The questionnaire plan: the goal, the funnel, the one test (does an answer save the founder work?), the order of building and what was cut, the order of work for docs 45 to 49 (section 10), and the form of a tile document with where each tile stands (section 11). | 2026-11-21 |
 | [design/questions/28-questionnaire-specification.md](design/questions/28-questionnaire-specification.md) | proposal | The questionnaire specification: every question, option and rule for the Identity, Segment, Profile, Competitor, Offering and Engagement cards, the connections and the evidence. | 2026-11-21 |
 | [design/questions/29-question-guide.md](design/questions/29-question-guide.md) | proposal | The question guide: the flow of the questions as trees, the key branches and how a question earns its place. | 2026-11-21 |
 | [design/questions/33-specs-and-limitations.md](design/questions/33-specs-and-limitations.md) | specification | The first published version (language, countries, legal forms, market structure, relationships, buyer and user, ages; it governs the other questionnaire documents, sections 1 to 9) and everything left for later (sections 10 to 15: other languages and countries, multi-sided, B2G, G2B, the detailed positioning data, age rules, research to do). | 2026-11-21 |
@@ -96,7 +96,6 @@ What the first published version contains and what it leaves for later, and the 
 | [design/questions/36-profile-questions.md](design/questions/36-profile-questions.md) | specification | The Profile card's questions, built in part: every question and option in order (the specialised needs and the kind of business are not built yet), when it is asked, the starting values, the help, and the layout of the card. | 2026-11-21 |
 | [design/questions/37-organization-fields.md](design/questions/37-organization-fields.md) | specification | The Organisation tile's fields as built: control, when asked, options, the help and the connections. | 2026-11-21 |
 | [design/questions/38-positioning-questions.md](design/questions/38-positioning-questions.md) | specification | The Positioning tile's questions as built, by stage: control, limits, options, the help and the connections. | 2026-11-21 |
-| [design/questions/40-tile-documents.md](design/questions/40-tile-documents.md) | rules | The form every tile document takes (one for each tile or card), and where each tile stands: which has a document and which does not yet. | 2026-11-21 |
 | [design/questions/41-competitor-questions.md](design/questions/41-competitor-questions.md) | specification | The Competitor card: every question and option, as built (K1 to K10, in the card's order, by the competitor's type). | 2026-11-21 |
 | [design/questions/42-value-proposition-questions.md](design/questions/42-value-proposition-questions.md) | specification | The Value Proposition tile: what it asks, the draft sentence it writes and the open items it lists, built in part. | 2026-11-21 |
 | [design/questions/43-offering-questions.md](design/questions/43-offering-questions.md) | specification | The Offering card: every question and option (O1 to O18), built in part. | 2026-11-21 |
@@ -137,7 +136,7 @@ The log of every change (4), what has not been done (5), and the generated catal
 | [design/records/06-catalogue-record.md](design/records/06-catalogue-record.md) | generated | The catalogue record of the app's pages, tiles, cards and controls, from the card scan and the probes. | 2026-11-21 |
 | [design/records/07-structure-tables.md](design/records/07-structure-tables.md) | generated | The structure tables of the app (pages, chapters, tiles, views, components, fields, card kinds), from the catalogue. | 2026-11-21 |
 
-## 9. The library (`design/library/`, documents 8 to 15)
+## 9. The library (`design/library/`, documents 8 to 11 and 13 to 15)
 
 The assets library, its generated lists, its logs, and the library measured against the app.
 
@@ -147,7 +146,6 @@ The assets library, its generated lists, its logs, and the library measured agai
 | [design/library/09-assets-library.md](design/library/09-assets-library.md) | generated | The assets library: every asset, its variants and its contract. | 2026-11-21 |
 | [design/library/10-library-log.md](design/library/10-library-log.md) | log | The library log: every change to an asset of the library, newest on top. | 2026-11-21 |
 | [design/library/11-app-structure-log.md](design/library/11-app-structure-log.md) | log | The app structure log: every change of the tables, that is of the structure of the app, newest on top. | 2026-11-21 |
-| [design/library/12-component-defaults.md](design/library/12-component-defaults.md) | generated | The default of each component: the reference sizes and the criteria. | 2026-11-14 |
 | [design/library/13-components-list.md](design/library/13-components-list.md) | generated | The components, and which fields and cards use each. | 2026-11-21 |
 | [design/library/14-fields-list.md](design/library/14-fields-list.md) | generated | The fields, the add buttons and the field names. | 2026-11-21 |
 | [design/library/15-library-vs-app.md](design/library/15-library-vs-app.md) | generated | The library measured against the running app. | 2026-10-29 |
@@ -163,12 +161,10 @@ Standing rules, references and playbooks for an AI assistant working on the proj
 | [ai/toolchain-and-verification-playbook.md](ai/toolchain-and-verification-playbook.md) | playbook | What to run after a change (typecheck, tests, the lints and document checks, build, layout check) and the list of expected test failures. | 2026-11-21 |
 | [ai/framework-dsl-grammar.md](ai/framework-dsl-grammar.md) | reference | Grammar of the Markdown that defines a System's content. | 2026-11-21 |
 | [ai/framework-conventions-and-patterns.md](ai/framework-conventions-and-patterns.md) | reference | The architectural patterns and the data model of the framework. | 2026-11-21 |
-| [ai/review-criteria.md](ai/review-criteria.md) | rules | The standard a screen is judged by: criteria by kind (type, spacing, controls, colour, tiles, cards, tables, windows, pages, data), how each is measured, the report. | 2026-11-21 |
-| [ai/review-checklist.md](ai/review-checklist.md) | rules | What to check when reviewing a table, tile, card, page or control, and the proof before saying done. | 2026-11-21 |
+| [ai/review.md](ai/review.md) | rules | The standard a screen is judged by: criteria by kind (type, spacing, controls, colour, tiles, cards, tables, windows, pages, data), how each is measured and the report (sections 1 to 12), and the checklist to tick before saying done (section 13). | 2026-11-21 |
 | [ai/code-map.md](ai/code-map.md) | reference | Where things are in src: the folders and what is in each; the rules for a new file. | 2026-11-21 |
 | [ai/layout-rules.md](ai/layout-rules.md) | rules | The measured rulebook of the Foundation pages (tokens, sizes, alignment, interactions) and the layout check. | 2026-11-21 |
 | [ai/card-kinds.md](ai/card-kinds.md) | reference | The kinds of card, where each one's code is, how its head is built. | 2026-11-21 |
-| [ai/outstanding-findings.md](ai/outstanding-findings.md) | living list | Confirmed problems found by diagnostic skills and not yet fixed. | 2026-11-10 |
 | [ai/folder-plan.md](ai/folder-plan.md) | reference | The folders of the repository: the app files, the examples, the working files and the exports, and the documents folder (it was document 25; the number is retired). | 2026-11-21 |
 
 ## 11. The specifications (`specifications/`)
@@ -177,9 +173,7 @@ The pages of the four Systems (Identity, Brand, Business, Strategy), the Invento
 
 | Document | Kind | What it holds | Updated |
 |---|---|---|---|
-| [specifications/identity-system/README.md](specifications/identity-system/README.md) | index | The Identity System: index of the pages that have a document of their own. | 2026-11-21 |
 | [specifications/identity-system/page-1-definition.md](specifications/identity-system/page-1-definition.md) | current design | 1. Identity System, 1. Definition: the master tile with its four tiles (Organisation, Early Positioning, Mission, Vision), its layout, reactions and readers, and the extra information that is neither built nor a future feature. | 2026-11-21 |
-| [specifications/brand-system/README.md](specifications/brand-system/README.md) | index | The Brand System: its one page, its two chapters and the file that specifies them. | 2026-11-21 |
 | [specifications/brand-system/page-1-brand.md](specifications/brand-system/page-1-brand.md) | current design | 2. Brand System: the one page, its two chapters and their tiles, what each asks, reads and writes, and the rules it follows. | 2026-11-21 |
 | [specifications/business-system/README.md](specifications/business-system/README.md) | index | The Business System: its five sections on three pages, the file, editor and data module of each, and what crosses between the pages. | 2026-11-21 |
 | [specifications/business-system/page-1-foundation.md](specifications/business-system/page-1-foundation.md) | specification | Page 1, Foundation & Engagement, Section 1: the Foundation. | 2026-11-21 |
@@ -189,16 +183,9 @@ The pages of the four Systems (Identity, Brand, Business, Strategy), the Invento
 | [specifications/business-system/page-3-revenue-and-pricing.md](specifications/business-system/page-3-revenue-and-pricing.md) | specification | Section 4: Revenue & Pricing, drawn on the page Financials. | 2026-11-21 |
 | [specifications/business-system/page-3-costs-funding-and-position.md](specifications/business-system/page-3-costs-funding-and-position.md) | specification | Section 5: Costs, Funding & Position, drawn on the page Financials. | 2026-11-21 |
 | [specifications/inventory/README.md](specifications/inventory/README.md) | current design | The Inventory: the help tile of Infrastructure & Capability that holds every card of the page, as tiles or a table, under one funnel. | 2026-11-21 |
-| [specifications/strategy-system/README.md](specifications/strategy-system/README.md) | index | The Strategy System: its one page, Situation & Direction, and the file that specifies it. | 2026-11-21 |
 | [specifications/strategy-system/page-1-situation-and-direction.md](specifications/strategy-system/page-1-situation-and-direction.md) | current design | 4. Strategy System, Situation & Direction: the four Master Tiles, the cards of the Strategic Period, what the page reads and writes, and the rules it follows. | 2026-11-21 |
-| [specifications/workbook/README.md](specifications/workbook/README.md) | index | The Workbook: the page drawn as a dialog, its sections and the file that specifies each. | 2026-11-21 |
-| [specifications/workbook/business-documents.md](specifications/workbook/business-documents.md) | current design | The Workbook's Business Documents: the documents the answers write that are not figures of money. | 2026-11-21 |
-| [specifications/workbook/financial-documents.md](specifications/workbook/financial-documents.md) | current design | The Workbook's Financial Documents: the records the page Financials works out, each a tab. | 2026-11-21 |
-| [specifications/workbook/review.md](specifications/workbook/review.md) | current design | The Workbook's Review: what is still to answer, worth a second look or missing, the dates that matter, and the Total review of every Organisation. | 2026-11-21 |
-| [specifications/workbook/references-and-glossary.md](specifications/workbook/references-and-glossary.md) | current design | The Workbook's References and Glossary: the app's words and its sources. | 2026-11-21 |
-| [specifications/workbook/card-notes.md](specifications/workbook/card-notes.md) | current design | The Workbook's Card Notes: the Notes field of every card, page by page. | 2026-11-20 |
-| [specifications/settings/README.md](specifications/settings/README.md) | index | Settings: the Global Settings screen, the reading mode (Appearance) and Focus, all three in the header's Menu. | 2026-11-21 |
-| [specifications/settings/global-settings.md](specifications/settings/global-settings.md) | specification | Global Settings: how the screen is drawn and which rule each part follows, with the documents that own the rates and the decisions. | 2026-11-21 |
+| [specifications/workbook/README.md](specifications/workbook/README.md) | current design | The Workbook: the page drawn as a dialog, and each of its sections: Business Documents, Financial Documents, Review, References and Glossary, Card Notes. | 2026-11-21 |
+| [specifications/settings/README.md](specifications/settings/README.md) | specification | Settings: the Global Settings screen (how it is drawn and the rule each part follows), the reading mode (Appearance) and Focus, all three in the header's Menu. | 2026-11-21 |
 
 ## 12. The proposals (`proposals/`)
 
@@ -217,6 +204,7 @@ Documents that are finished or replaced; each is kept for its information.
 |---|---|---|---|
 | [archive/log/library-log-archive.md](archive/log/library-log-archive.md) | archive | Older rows of the library log. | 2026-11-21 |
 | [archive/reports/engineering-phase-completion.md](archive/reports/engineering-phase-completion.md) | archive | The engineering phase completion report. | 2026-11-21 |
+| [archive/reports/questionnaire-decisions-done-2026-11-21.md](archive/reports/questionnaire-decisions-done-2026-11-21.md) | archive | The rows of doc 28, section 13 (rebuilds, moves and decisions) that were built or superseded on 2026-11-21. | 2026-11-21 |
 | [archive/reports/question-guide-review-2026-10-26.md](archive/reports/question-guide-review-2026-10-26.md) | archive | The question guide's review of 2026-10-26 (doc 29, sections 10 to 12): where each question stood, the conflicts decided and what was merged or deleted. | 2026-11-21 |
 | [archive/plans/2026-10-14-cleanup-and-library-plans.md](archive/plans/2026-10-14-cleanup-and-library-plans.md) | archive | The clean-up and library plans of 2026-10-14 (old sections 5.6, 5.11 to 5.14 of document 5); what is left is in document 5. | 2026-11-21 |
 | [archive/log/log-archive-2026-07-to-10.md](archive/log/log-archive-2026-07-to-10.md) | archive | Older rows of the log (document 4): sections 4.1 and 4.4 before 2026-11-01, and sections 4.2 (the drafts' versions) and 4.5 (the task plan F to K). | 2026-11-21 |

@@ -520,7 +520,7 @@ The buyer is a business, or the Segment is of businesses where both relationship
 - **Options:** Etsy · Amazon · eBay · Not On The High Street · Folksy · Gumroad · Fiverr · Upwork · Other.
 - **The "i" says:** The marketplaces where they find and buy what you sell: each becomes a channel on Customer Engagement, with its fees. · Tick Other to write another.
 - **Filtered (owner, 2026-11-17):** by the forms of the Segment's Offerings (O1): a physical item, Etsy, Folksy, Not On The High Street, Amazon, eBay; a digital file, Gumroad and Etsy; a service, Fiverr and Upwork; Other always; every one while no form is known. A marketplace saved before stays.
-- **Connections:** *Read by (built):* each tick, and each name written in, is the Marketplace subchannel of that name at Purchase (doc 47); its fees are the Channel Fee Table's row for the Legal Entity's country ([Global Settings](../../specifications/settings/global-settings.md)).
+- **Connections:** *Read by (built):* each tick, and each name written in, is the Marketplace subchannel of that name at Purchase (doc 47); its fees are the Channel Fee Table's row for the Legal Entity's country ([Global Settings](../../specifications/settings/README.md#the-global-settings-screen)).
 
 ### 7b. Which shops or sellers do they buy from?
 
@@ -564,7 +564,7 @@ The buyer is a business, or the Segment is of businesses where both relationship
 - **Options:** Stripe · SumUp · Square · Zettle · PayPal · Shopify Payments · Other.
 - **The "i" says:** The services that take the card and wallet payments: each one's fees come from the Global Settings' Channel Fee Table for your country. · Tick Other to write another.
 - **Ordered (owner, 2026-11-17):** by where they shop (question 7): in a shop, SumUp, Square and Zettle first; online, Stripe, PayPal and Shopify Payments first; never locked.
-- **Connections:** *Read by (built):* each service is a "Payment processing fees" card on the Segment's Direct Payment channel, one card a service for the Organisation, made and kept by the rule of the subchannels the answers make (doc 47); its fees are the country's row ([Global Settings](../../specifications/settings/global-settings.md)), charged in the forecast with or without a price on the card ([Costs, Funding & Position, 30.4](../../specifications/business-system/page-3-costs-funding-and-position.md#304-calculated-lines)).
+- **Connections:** *Read by (built):* each service is a "Payment processing fees" card on the Segment's Direct Payment channel, one card a service for the Organisation, made and kept by the rule of the subchannels the answers make (doc 47); its fees are the country's row ([Global Settings](../../specifications/settings/README.md#the-global-settings-screen)), charged in the forecast with or without a price on the card ([Costs, Funding & Position, 30.4](../../specifications/business-system/page-3-costs-funding-and-position.md#304-calculated-lines)).
 - **Not asked where they shop on a marketplace** (built; owner, 2026-11-18 00:46, the review's second batch, 2.8): the marketplace takes the payment and its own fee, so no payment service of the founder's is charged there (the fee rule of 2026-11-17, doc 47, section 5); a card made from an earlier answer goes with it, while untouched.
 
 ### 4. How do your customers share what they like?

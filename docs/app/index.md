@@ -21,7 +21,7 @@ Paths are written "System › page › tile". "Doc 28" is the document numbered 
 | Brand Images | Brand › Brand System › Style | Doc 1, B.1 |
 | Break Even | Workbook › Financial Documents › Financial Plan, Break Even (with the Stress Test) | Section 4; doc 48, section 14 |
 | Business | System 3: Foundation & Engagement, Infrastructure & Capability, Financials | `specifications/business-system/README.md` |
-| Business Documents | Header › Workbook › Business Documents (also System Selection › Foundation › the Business Documents button, and `/documents`): Business Plan, Business Model Canvas | Doc 1, C.2 and C.11; `specifications/workbook/business-documents.md` |
+| Business Documents | Header › Workbook › Business Documents (also System Selection › Foundation › the Business Documents button, and `/documents`): Business Plan, Business Model Canvas | Doc 1, C.2 and C.11; `specifications/workbook/README.md` |
 | Business stages | Global Settings › Business stages (the four durations); worked out from the Opening Date | Doc 28, 8.2a; doc 37 |
 
 ## C

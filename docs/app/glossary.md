@@ -156,6 +156,6 @@ Doc 28 is the questionnaire specification, doc 33 the first version and what it 
 
 **Skill** — a packaged set of instructions (a `SKILL.md`) that an assistant uses for one kind of task; it owns behaviour, facts stay in a reference. *Owner: `ai-collaboration-rules.md`.*
 
-**Outstanding Finding** — a real, confirmed problem found by a diagnostic and not fixed in that turn, recorded so it is not lost. *Owner: `outstanding-findings.md`.*
+**Outstanding Finding** — a real, confirmed problem found by a diagnostic and not fixed in that turn, recorded so it is not lost. *Owner: doc 5, section 5.9 (`design/records/05-not-done-yet.md`).*
 
 **Log** — `design/records/04-log.md`: every change, newest row on top, and nowhere else. **Generated document** — written by a script, never edited by hand (`docs/README.md` says which). **Kinds** of document (rules, reference, current design, living list, proposal, specification, playbook, archive) — defined in `docs/README.md`.

@@ -34,12 +34,12 @@ Each page and screen has its specification under `docs/specifications/`:
 
 | Part of the app | Specification |
 |---|---|
-| Identity System | [identity-system](../specifications/identity-system/README.md) |
-| Brand System | [brand-system](../specifications/brand-system/README.md) |
+| Identity System | [identity-system](../specifications/identity-system/page-1-definition.md) |
+| Brand System | [brand-system](../specifications/brand-system/page-1-brand.md) |
 | Business System | [business-system](../specifications/business-system/README.md): page 1, Foundation & Engagement; page 2, Infrastructure & Capability; page 3, Financials (its tiles: doc 48, section 14) |
-| Strategy System | [strategy-system](../specifications/strategy-system/README.md) |
+| Strategy System | [strategy-system](../specifications/strategy-system/page-1-situation-and-direction.md) |
 | The Workbook | [workbook](../specifications/workbook/README.md), a file for each section |
-| Settings, Appearance (the reading modes), Focus | [settings](../specifications/settings/README.md), [Global Settings](../specifications/settings/global-settings.md) |
+| Settings, Appearance (the reading modes), Focus | [settings](../specifications/settings/README.md), [Global Settings](../specifications/settings/README.md#the-global-settings-screen) |
 | The Inventory | [inventory](../specifications/inventory/README.md) |
 
 The questions are in `docs/design/questions/` (their register: doc 44); the layout is the rulebook's (`docs/ai/layout-rules.md`).

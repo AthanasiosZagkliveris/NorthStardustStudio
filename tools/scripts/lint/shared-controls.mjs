@@ -1,7 +1,7 @@
 /**
  * THE SHARED-CONTROL LINT: a shared control (AddButton, TextLink, OptionPicker, MenuOption ...) has ONE look, written in its own stylesheet. A rule in any other stylesheet that sets the
  * LOOK of such a control (its ground, its line, its letters, its height, its padding) is a second look: a place says only where the control stands (its margin, width, position, grid),
- * never how it looks (docs/ai/review-checklist.md, section 1: "No second class that adds a look to a shared control").
+ * never how it looks (docs/ai/review.md, section 13.1: "No second class that adds a look to a shared control").
  *
  *   npm run lint:controls             fail on a finding beyond the baseline
  *   npm run lint:controls:baseline    record what the stylesheets hold now (only after the owner decided that a second look stays,

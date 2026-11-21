@@ -1,6 +1,6 @@
 # 4. Strategy System — Situation & Direction
 
-Status: **current design**, written 2026-11-20. The Strategy System's one page and its one chapter: the four Master Tiles, what each asks, the cards of the Strategic Period, what the page reads and writes, and the rules it follows. The questions, their options and "i" are doc 49's; the layout is the rulebook's; this file names them and does not repeat them.
+Status: **current design**, written 2026-11-20, updated 2026-11-21. The Strategy System's one page and its one chapter: the four Master Tiles, what each asks, the cards of the Strategic Period, what the page reads and writes, and the rules it follows. The questions, their options and "i" are doc 49's; the layout is the rulebook's; this file names them and does not repeat them.
 
 > **Keep this document true:** whoever changes a tile, a question, a draft, a card's field or a read of this page changes this file in the same commit and writes the change in the log (`design/records/04-log.md`).
 
@@ -15,6 +15,28 @@ Status: **current design**, written 2026-11-20. The Strategy System's one page a
 7. [What reads the page](#7-what-reads-the-page)
 8. [Not built yet](#8-not-built-yet)
 9. [Where it is in the code](#9-where-it-is-in-the-code)
+
+## The System: its page, what it holds and what crosses it
+
+(This was the folder's README until 2026-11-21.) The Strategy System (System 4 of the Foundation) is ONE page, "4. Strategy System", of one chapter, **Situation & Direction** (`PageGroups.ts`: section 1 the page; sections 2, Goals & Objectives, and 3, Roadmap, hidden, their answers drawn inside the chapter's Strategic Period tile). The System is answered after the Business System: a founder describes the business before choosing a strategy for it.
+
+Each file here describes the app as it is; where it and the code differ, both are mended in one commit with a row in the log (`design/records/04-log.md`). The layout is the rulebook's (`ai/layout-rules.md`, sections 13 and 23); the questions are doc 49's (`design/questions/49-strategy-questions.md`), the codes the register's (doc 44, section 8).
+
+### The page
+
+| Section | Part | Specification | Editor | Data (`src/framework/engine/`) |
+|---|---|---|---|---|
+| 1 | Situation & Direction: Current Situation, SWOT Analysis, Strategic Compass, Strategic Period | this file | `StrategyFoundationEditor` | `AnswerStrategy.ts`, `StrategyChoices.ts`, `businessDocuments/reading.ts`, `businessDocuments/swotSuggestions.ts` |
+| 2 (hidden) | Goals & Objectives: the Themes' cards, drawn in the Strategic Period tile | this file, section 5 | `StrategicPeriodEditor` | `AnswerStrategy.ts` |
+| 3 (hidden) | Roadmap: the diagram tile in the Strategic Period dialog | this file, section 6 | `StrategicRoadmapEditor` | `AnswerStrategy.ts` |
+
+The editors are in `src/components/interview/editors/`; what the page reads from the other Systems is assembled in `src/pages/strategyReaders.ts`.
+
+### What crosses into and out of the page
+
+1. **In, from the Business System** (`strategyReaders.ts`, with the Global Settings): the Current Situation's draft, the SWOT's starts and SW2's suggestions, the Compass choices' context (the Segments, their Differentiation, the changes they named), the Objectives' drafts, the Financial Plan's dates.
+2. **In, from the Identity System:** the Vision (shown above the SWOT and in the Compass's "i"), PB7 (the Themes' order) and PB8 (SC2's start, an Opportunity).
+3. **Out:** the Business Plan's **Strategy and Milestones** (the situation, the SWOT, the Compass, the Themes, Goals, Objectives and Metrics, the Roadmap) and its Risks (pointing to the SWOT's Weaknesses and Threats) (`businessDocuments/plan.ts`).
 
 ## 1. The page
 

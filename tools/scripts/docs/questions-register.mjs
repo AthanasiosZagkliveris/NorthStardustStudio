@@ -548,7 +548,7 @@ function render(cards, commit) {
         "",
         REFLECTS + "`" + commit + "` (the last commit that changed the files the questions are read from; `npm run docs:check` does not compare this line).",
         "",
-        "Related: doc 37 (the Organisation), doc 38 (Positioning), doc 35 (the Segment), doc 36 (the Profile), doc 41 (the Competitor), doc 42 (the Value Proposition), doc 43 (the Offering), doc 40 (the form of a tile document), [the standard of the documents](../../standard.md).",
+        "Related: doc 37 (the Organisation), doc 38 (Positioning), doc 35 (the Segment), doc 36 (the Profile), doc 41 (the Competitor), doc 42 (the Value Proposition), doc 43 (the Offering), doc 27, section 11 (the form of a tile document), [the standard of the documents](../../standard.md).",
         "",
         "> **Codes are permanent ids, not positions (owner, 2026-11-08).** Never renumber; reorder freely; the register shows the order. A new question takes the next free code; a retired code stays listed as retired with what replaced it.",
         "",
