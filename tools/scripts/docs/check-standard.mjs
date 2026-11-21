@@ -43,9 +43,9 @@ for (const f of files) {
 // 3. numbering: each design folder runs from 01 without a gap or a repeat (owner, 2026-11-21: "Every folder should have its own sequences")
 const byFolder = {};
 for (const [folder, nn] of numbers) (byFolder[folder] ??= []).push(nn);
-// (The other folders number their files the same way, without the number in the title: ai/, app/, guide/, specifications/ and each System's folder in it.)
+// (The other folders number their files the same way, without the number in the title: ai/, app/, guide/, testing/, specifications/ and each System's folder in it.)
 for (const f of files) {
-    const m = /^docs\/((?:ai|app|guide|specifications)(?:\/[^/]+)*)\/(\d\d)-[^/]+$/.exec(f) ;
+    const m = /^docs\/((?:ai|app|guide|specifications|testing)(?:\/[^/]+)*)\/(\d\d)-[^/]+$/.exec(f) ;
     const sys = /^docs\/(specifications)\/(\d\d)-[^/]+\//.exec(f);
     if (sys && !(byFolder[sys[1]] ?? []).includes(+sys[2])) (byFolder[sys[1]] ??= []).push(+sys[2]);
     if (m && !(byFolder[m[1]] ?? []).includes(+m[2])) (byFolder[m[1]] ??= []).push(+m[2]);

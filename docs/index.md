@@ -113,6 +113,7 @@ Status: **index**, updated 2026-11-21, written by `npm run docs:index` (the subj
 - **Structure tables**: [Records 4](design/records/04-structure-tables.md)
 ## T
 
+- **Tests (what each one checks)**: [testing/app-tests-guide](testing/01-app-tests-guide.md)
 - **Text holders**: [Interface 2](design/interface/02-text-holders.md)
 - **Text links**: [Interface 6](design/interface/06-text-links.md)
 - **Tile and card pattern**: [layout-rules sections 6, 8 to 10](ai/09-layout-rules.md)
