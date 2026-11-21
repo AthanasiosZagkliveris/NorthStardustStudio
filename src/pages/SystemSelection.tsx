@@ -225,6 +225,7 @@ export default function SystemSelection() {
                 onOpenChange={setRailOpen}
                 closeSignal={railCloseSignal}
                 suppressClose={openCapability !== null}
+                openCalendar={typeof location.state?.calendar === "number" ? location.state.calendar : undefined}
             />
 
             <div className="workspace-main">

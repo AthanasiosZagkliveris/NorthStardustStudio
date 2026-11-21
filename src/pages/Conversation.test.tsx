@@ -87,9 +87,13 @@ describe("Conversation Escape", () => {
         vi.spyOn(OrganizationService, "getSelected").mockReturnValue(organization.id);
         renderConversation();
 
-        expect(screen.queryByRole("button", { name: "Focus" })).toBeNull();
+        // (Focus in the Tools menu, on an interview page only.)
+        fireEvent.click(screen.getByRole("button", { name: "Tools" }));
+        expect(screen.queryByRole("menuitem", { name: "Focus" })).toBeNull();
+        fireEvent.click(screen.getByRole("button", { name: "Tools" }));
         fireEvent.click(screen.getByRole("button", { name: "Start Interview" }));
-        fireEvent.click(screen.getByRole("button", { name: "Focus" }));
+        fireEvent.click(screen.getByRole("button", { name: "Tools" }));
+        fireEvent.click(screen.getByRole("menuitem", { name: "Focus" }));
         expect(document.documentElement.classList.contains("focus-mode")).toBe(true);
 
         // A dialog closes first ...

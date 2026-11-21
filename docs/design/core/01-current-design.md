@@ -116,9 +116,9 @@ Pages come from `src/assets/SystemAnswers/01..04_*.md`. Each page's `Structure` 
 | Element | Contains and does | File | Used on |
 |---|---|---|---|
 | App header | Logo, save status, reading-mode picker, Focus mode, Search, Workbook, Notes, Settings, undo toast, organisation name | `C/AppHeader.tsx` | All pages |
-| Header tools | Icon plus word (the icon alone below 1700px): Search (Ctrl+K), Workbook (no count, a closed notebook icon; 2026-11-09), Notes (with the count of notes), Settings, Focus mode | `SearchButton`, `WorkbookButton`, `NotepadButton` (`notepad/Notepad.tsx`), `SettingsButton`, `FocusModeButton` | With an organisation open; on the Landing page the same `WorkbookButton` (`total`: the review of every organisation, the Glossary and the References) |
+| Header tools | Icon plus word (the icon alone below 1700px): **Tools** and Workbook (no count, a closed notebook icon; 2026-11-09). Tools opens one menu (2026-11-21): Search (Ctrl+K), Notes (with the count of notes), Calendar, Focus (an interview page), Settings, then the reading modes (layout rules, section 6, the Tools menu) | `ToolsMenu`, `WorkbookButton` (`notepad/Notepad.tsx`); behind the menu: `SearchButton` (the search and Ctrl+K), `NotepadPanel`, `FocusModeButton` (the page's look and Exit focus), `openSettings` | With an organisation open; on the Landing page the Tools menu holds the reading modes alone, and the same `WorkbookButton` (`total`: the review of every organisation, the Glossary and the References) |
 | Save status | Saved or failed-save hint | `C/SaveStatus.tsx` | Header |
-| Theme switch | Reading mode | `C/ThemeSwitch.tsx` | Header |
+| Reading mode | Light, Sepia, Dark, Auto, in the Tools menu | `C/ToolsMenu.tsx` | Header |
 | Footer | Back button | `C/AppFooter.tsx` | Interview, Workbook, Settings |
 | Landing | Organisation list, add button, cards, delete confirmation, first-run preferences | `pages/Landing.tsx`, `C/UserPreferencesDialog.tsx` | `/` |
 | System selection | Capability list, System list, Continue, Documents button | `pages/SystemSelection.tsx`, `CapabilityList`, `SystemList`, `SystemItem` | `/assistant` |

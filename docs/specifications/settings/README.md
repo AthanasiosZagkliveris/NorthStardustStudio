@@ -5,7 +5,7 @@ Status: **index**, written 2026-11-20. What a founder sets outside the Systems' 
 | Setting | Where | Specification | Built by |
 |---|---|---|---|
 | Global Settings | **Tools**, then **Settings** (`/settings`) | [`../global-settings.md`](../global-settings.md) | `src/pages/GlobalSettings.tsx`, `src/framework/engine/GlobalSettings.ts` |
-| Reading mode | **Tools**, the **Reading mode** options under the divider | this file, below | `src/components/ThemeSwitch.tsx` |
+| Reading mode | **Tools**, the **Reading mode** options under their title | this file, below | `src/components/ToolsMenu.tsx` |
 | Focus | **Tools**, then **Focus**, on an interview page | this file, below | `src/components/FocusModeButton.tsx`, `src/services/FocusModeService.ts` |
 
 ## Global Settings
@@ -14,7 +14,7 @@ The rates and limits the calculated lines read, in one place (the cost model, se
 
 ## Reading mode
 
-Four options in the Tools menu, under its divider, the chosen one ticked: **Light**, **Sepia** (warm paper for long reading), **Dark** and **Auto** (follows the system's light or dark; it says "Auto" with the icon of what it comes to now) (`ThemeSwitch.tsx`). Every colour is a token of each mode (layout rules, section 2, Tokens; WCAG 2.2 AA in every mode: the contrast checks of the layout probe). The choice is the person's, kept on this device (`ThemeService`), never in an Organisation's answers.
+Four options in the Tools menu, under their title, the chosen one marked: **Light**, **Sepia** (warm paper for long reading), **Dark** and **Auto** (follows the system's light or dark; it says "Auto" with the icon of what it comes to now) (`ThemeSwitch.tsx`). Every colour is a token of each mode (layout rules, section 2, Tokens; WCAG 2.2 AA in every mode: the contrast checks of the layout probe). The choice is the person's, kept on this device (`ThemeService`), never in an Organisation's answers.
 
 ## Focus
 

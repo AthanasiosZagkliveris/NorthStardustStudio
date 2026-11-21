@@ -2,11 +2,10 @@ import logo from "../assets/NORTH STARDUST Organization Framework.svg";
 
 import AddButton from "./controls/AddButton.tsx";
 import SaveStatus from "./SaveStatus";
-import { WorkbookButton, NotepadButton, NotepadPanel, NotepadPicker } from "./notepad/Notepad";
+import { WorkbookButton, NotepadPanel, NotepadPicker } from "./notepad/Notepad";
 import FocusModeButton from "./FocusModeButton";
 import SearchButton from "./SearchButton";
-import SettingsButton from "./SettingsButton";
-import ThemeSwitch from "./ThemeSwitch";
+import ToolsMenu from "./ToolsMenu";
 import UndoToast from "./UndoToast";
 
 import "../styles/app-header.css";
@@ -48,7 +47,9 @@ export default function AppHeader({ organizationName, focusable = false, reloada
                 only where one is open. */}
             {organizationName && <SaveStatus />}
 
-            <ThemeSwitch />
+            {/* THE TOOLS (owner, 2026-11-21 00:56 and 23:44 UTC+2): one menu for Search, Notes, Calendar, Focus, Settings and the reading mode (ToolsMenu.tsx);
+                the reading mode alone where no Organisation is open. */}
+            <ToolsMenu organizationOpen={!!organizationName} focusable={!!organizationName && focusable} />
 
             {reloadable && (
                 <AddButton className="header-tool app-reload"
@@ -61,15 +62,13 @@ export default function AppHeader({ organizationName, focusable = false, reloada
                 </AddButton>
             )}
 
-            {/* Focus mode: on an interview page. */}
+            {/* Focus mode, on an interview page: the page's look and its Exit focus button (turned on from the Tools menu). */}
             {organizationName && focusable && <FocusModeButton />}
 
-            {/* Search (Ctrl+K), the Workbook (the Card Notes, the Review, the Glossary and the References: one page, /workbook; owner, 2026-11-09) and the person's own notes (the Notes tool, its side panel, as before: "Card Notes and Notes tool are different"): wherever an Organization is open. */}
+            {/* The search (opened from the Tools menu or with Ctrl+K), the Workbook (the Card Notes, the Review, the Glossary and the References: one page, /workbook; owner, 2026-11-09) and the person's own notes (the Notes tool, its side panel, as before: "Card Notes and Notes tool are different"): wherever an Organization is open. */}
             {organizationName && <SearchButton />}
             {/* The Workbook: the same button on the Landing page (owner, 2026-11-09), there with the review of every Organisation, the Glossary and the References. */}
             {(organizationName || totalReview) && <WorkbookButton total={!organizationName} />}
-            {organizationName && <NotepadButton />}
-            {organizationName && <SettingsButton />}
             {organizationName && <NotepadPanel />}
             {organizationName && <NotepadPicker />}
 

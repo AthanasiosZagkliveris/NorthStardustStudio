@@ -1,6 +1,5 @@
 import { lazy, Suspense, useEffect, useRef, useState } from "react";
 
-import AddButton from "./controls/AddButton.tsx";
 import { OrganizationService } from "../services/OrganizationService";
 
 import "../styles/search.css";
@@ -9,11 +8,19 @@ import "../styles/search.css";
 // answers, are loaded when the search first opens, never with the page.
 const SearchDialog = lazy(() => import("./SearchDialog"));
 
+/** What opens the search from the Tools menu (ToolsMenu.tsx). */
+const OPEN_SEARCH = "search:open";
+
+/** Opens the search, as Ctrl+K does. */
+export function openSearch(): void {
+    window.dispatchEvent(new CustomEvent(OPEN_SEARCH));
+}
+
 /**
- * The header's Search button, beside Notes and Review and like them:
- * a magnifier and the word (the magnifier alone in a narrow header).
- * It, or Ctrl+K / ⌘K anywhere, opens the search (SearchDialog); focus
- * returns where it was when the search closes without opening anything.
+ * THE SEARCH, wherever an Organisation is open: Search in the Tools menu
+ * (ToolsMenu.tsx, openSearch), or Ctrl+K / ⌘K anywhere, opens it
+ * (SearchDialog); focus returns where it was when the search closes
+ * without opening anything.
  */
 export default function SearchButton() {
 
@@ -34,42 +41,33 @@ export default function SearchButton() {
                 }
             }
         }
+        function onAsk() {
+            if (!open) {
+                start();
+            }
+        }
         window.addEventListener("keydown", onKeyDown);
-        return () => window.removeEventListener("keydown", onKeyDown);
+        window.addEventListener(OPEN_SEARCH, onAsk);
+        return () => {
+            window.removeEventListener("keydown", onKeyDown);
+            window.removeEventListener(OPEN_SEARCH, onAsk);
+        };
     }, [open]);
 
     const organizationId = OrganizationService.getSelected();
 
-    return (
-        <>
-            <AddButton className="header-tool"
-                aria-label="Search"
-                aria-keyshortcuts="Control+K Meta+K"
-                title="Search (Ctrl+K)"
-                aria-haspopup="dialog"
-                aria-expanded={open}
-                onClick={start}>
-                <svg className="header-tool-icon" viewBox="2.69 2.69 14.86 14.86" aria-hidden="true">
-                    <circle cx="8.5" cy="8.5" r="5.25" fill="none" stroke="currentColor" strokeWidth="1.5" />
-                    <path d="M12.5 12.5l4.5 4.5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-                </svg>
-                <span className="header-tool-word">Search</span>
-            </AddButton>
-
-            {open && organizationId && (
-                <Suspense fallback={null}>
-                    <SearchDialog
-                        organizationId={organizationId}
-                        onClose={(opened) => {
-                            setOpen(false);
-                            if (!opened) {
-                                returnTo.current?.focus({ preventScroll: true });
-                            }
-                        }}
-                    />
-                </Suspense>
-            )}
-        </>
-    );
+    return open && organizationId ? (
+        <Suspense fallback={null}>
+            <SearchDialog
+                organizationId={organizationId}
+                onClose={(opened) => {
+                    setOpen(false);
+                    if (!opened) {
+                        returnTo.current?.focus({ preventScroll: true });
+                    }
+                }}
+            />
+        </Suspense>
+    ) : null;
 
 }

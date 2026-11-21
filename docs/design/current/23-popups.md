@@ -21,7 +21,7 @@ Everything in the app that appears over the page when something is pressed, poin
 |---|---|---|
 | Dropdown cell's list (Status, Group, Frequency, Currency, Role...) | P1 | `OptionPicker` |
 | Suggestions under a name or a list line | P1 | `SuggestedInput`, `NumberedListInput` |
-| Theme switch list (the header's Auto / Light / Dark) | P1 | `ThemeSwitch` |
+| The Tools menu (the header's Search, Notes, Calendar, Focus, Settings and reading modes) | P1 | `ToolsMenu` |
 | Channel resource list | P1 | `ChannelResources` |
 | Notes picker (which field a note links to) | P1 | `NotepadPicker` |
 | Calendar (day) | P2 | `DateCellInput` |

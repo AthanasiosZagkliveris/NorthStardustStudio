@@ -24,6 +24,8 @@ vi.mock("../services/SearchService", () => ({
 
 import SearchDialog from "./SearchDialog";
 import SearchButton from "./SearchButton";
+import ToolsMenu from "./ToolsMenu";
+import { MemoryRouter } from "react-router-dom";
 import { OrganizationService } from "../services/OrganizationService";
 
 afterEach(() => {
@@ -109,21 +111,28 @@ describe("the search dialog", () => {
 
 });
 
-describe("the header's Search button", () => {
+describe("the search, from the Tools menu or Ctrl+K", () => {
 
-    it("opens the search on a click or on Ctrl+K / Cmd+K, and gives the focus back when it closes", async () => {
+    it("opens on Search in the Tools menu or on Ctrl+K / Cmd+K, and gives the focus back when it closes", async () => {
         const organization = OrganizationService.create("Lumen");
         OrganizationService.setSelected(organization.id);
-        render(<SearchButton />);
-        const button = screen.getByRole("button", { name: "Search" });
-        expect(button.getAttribute("aria-keyshortcuts")).toBe("Control+K Meta+K");
+        render(<MemoryRouter><ToolsMenu organizationOpen focusable={false} /><SearchButton /><button type="button">Elsewhere</button></MemoryRouter>);
+        const tools = screen.getByRole("button", { name: "Tools" });
+        fireEvent.click(tools);
+        const row = screen.getByRole("menuitem", { name: /^Search/ });
+        expect(row.getAttribute("aria-keyshortcuts")).toBe("Control+K Meta+K");
+        fireEvent.click(row);
+        expect(await screen.findByRole("dialog", { name: "Search" })).toBeTruthy();
+        fireEvent.keyDown(box(), { key: "Escape" });
+        expect(screen.queryByRole("dialog")).toBeNull();
 
-        button.focus();
+        const elsewhere = screen.getByRole("button", { name: "Elsewhere" });
+        elsewhere.focus();
         fireEvent.keyDown(window, { key: "k", ctrlKey: true });
         expect(await screen.findByRole("dialog", { name: "Search" })).toBeTruthy();
         fireEvent.keyDown(box(), { key: "Escape" });
         expect(screen.queryByRole("dialog")).toBeNull();
-        expect(document.activeElement).toBe(button);
+        expect(document.activeElement).toBe(elsewhere);
 
         await act(async () => { fireEvent.keyDown(window, { key: "K", metaKey: true }); });
         expect(await screen.findByRole("dialog", { name: "Search" })).toBeTruthy();

@@ -132,6 +132,8 @@ interface OrganizationCalendarPanelProps {
      * leaves afterward.
      */
     suppressClose?: boolean;
+    /** A request to open the Calendar tab (Calendar in the Tools menu, ToolsMenu.tsx): a new number at each press, so a second press opens it again. */
+    openCalendar?: number;
 
 }
 
@@ -250,11 +252,19 @@ export default function OrganizationCalendarPanel({
     onOpenTask,
     onOpenChange,
     closeSignal,
-    suppressClose
+    suppressClose,
+    openCalendar
 
 }: OrganizationCalendarPanelProps) {
 
-    const [activeTab, setActiveTab] = useState<RailTab>(null);
+    const [activeTab, setActiveTab] = useState<RailTab>(openCalendar ? "calendar" : null);
+
+    // (Calendar in the Tools menu, from any page: System Selection opens with this tab open; owner, 2026-11-21 00:56 UTC+2.)
+    useEffect(() => {
+        if (openCalendar) {
+            setActiveTab("calendar");
+        }
+    }, [openCalendar]);
 
     const panelRef = useRef<HTMLDivElement | null>(null);
 
@@ -371,11 +381,14 @@ export default function OrganizationCalendarPanel({
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [activeTab]);
 
+    // (Only a NEW signal closes it: the first value, as the panel mounts, is no request -- it closed the Calendar the Tools menu had just asked for.)
+    const firstCloseSignal = useRef(closeSignal);
     useEffect(() => {
 
-        if (closeSignal === undefined) {
+        if (closeSignal === undefined || closeSignal === firstCloseSignal.current) {
             return;
         }
+        firstCloseSignal.current = undefined;
 
         setActiveTab(null);
 

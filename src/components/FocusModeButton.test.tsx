@@ -1,7 +1,19 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { act, cleanup, fireEvent, render, screen } from "@testing-library/react";
 
+import { MemoryRouter } from "react-router-dom";
+
 import FocusModeButton from "./FocusModeButton";
+import ToolsMenu from "./ToolsMenu";
+
+/** The interview page's header: the Tools menu, and Focus's own host. */
+const Header = () => <MemoryRouter><ToolsMenu organizationOpen focusable /><FocusModeButton /></MemoryRouter>;
+
+/** Focus in the Tools menu. */
+function pressFocus() {
+    fireEvent.click(screen.getByRole("button", { name: "Tools" }));
+    fireEvent.click(screen.getByRole("menuitem", { name: "Focus" }));
+}
 import { FOCUS_KEY, FocusModeService } from "../services/FocusModeService";
 import { stylesheet } from "../test/stylesheet";
 
@@ -21,12 +33,12 @@ const focused = () => document.documentElement.classList.contains("focus-mode");
 
 describe("focus mode", () => {
 
-    it("turns on from the header's Focus tool, and off from the one Exit focus button", () => {
-        render(<FocusModeButton />);
+    it("turns on from Focus in the Tools menu, and off from the one Exit focus button", () => {
+        render(<Header />);
         expect(focused()).toBe(false);
         expect(screen.queryByRole("button", { name: "Exit focus" })).toBeNull();
 
-        fireEvent.click(screen.getByRole("button", { name: "Focus" }));
+        pressFocus();
         expect(focused()).toBe(true);
         expect(localStorage.getItem(FOCUS_KEY)).toBe("on");
         const exit = screen.getByRole("button", { name: "Exit focus" });
@@ -51,8 +63,8 @@ describe("focus mode", () => {
 
     it("still works when storage cannot be written", () => {
         vi.spyOn(Storage.prototype, "setItem").mockImplementation(() => { throw new Error("blocked"); });
-        render(<FocusModeButton />);
-        fireEvent.click(screen.getByRole("button", { name: "Focus" }));
+        render(<Header />);
+        pressFocus();
         expect(focused()).toBe(true);
     });
 

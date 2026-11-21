@@ -30,8 +30,8 @@ function FocusIcon({ exit = false }: { exit?: boolean }) {
 }
 
 /**
- * FOCUS MODE, on an interview page: the header's Focus tool (an icon
- * and the word, the icon alone in a narrow header) turns it on; then
+ * FOCUS MODE, on an interview page: Focus in the Tools menu turns it
+ * on (ToolsMenu.tsx); then
  * the rails, the Help, the header and the progress line are hidden,
  * the page is centred at a reading width (focus-mode.css), and one
  * small "Exit focus" button stays in the top-right corner. Escape
@@ -49,17 +49,9 @@ export default function FocusModeButton() {
         return () => root.classList.remove("focus-mode");
     }, [on]);
 
+    // (It is turned on from Focus in the Tools menu, ToolsMenu.tsx: owner, 2026-11-21 23:44 UTC+2, "A Tools - Include the Reading Mode".)
     return (
         <>
-            <AddButton className="header-tool focus-mode-enter"
-                aria-label="Focus"
-                aria-pressed={on}
-                title="Show the page alone"
-                onClick={() => FocusModeService.set(true)}>
-                <FocusIcon />
-                <span className="header-tool-word">Focus</span>
-            </AddButton>
-
             {on && createPortal(
                 <AddButton className="header-tool focus-mode-exit"
                     title="Exit focus (Escape)"
