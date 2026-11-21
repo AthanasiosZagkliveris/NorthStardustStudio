@@ -1,0 +1,248 @@
+# The app: its guide, its specifications and its future features
+
+Status: **proposal**, written 2026-11-21. Parts 1 to 4 describe the app as it is and point to the one document that owns each fact; part 5 proposes its future features (an AI Assistant, Team working mode, Voice mode, more languages and countries), from online research, nothing of it built; part 6 lists the sources. Asked by the owner on 2026-11-21 00:56 UTC+2: "create a new document with the app's guide and specs and its future features … Do online research and check what extra features the app needs now, or it could have in the future".
+
+## Contents
+
+1. [What the app is](#1-what-the-app-is)
+2. [The guide](#2-the-guide)
+3. [The specifications](#3-the-specifications)
+4. [How the answers connect](#4-how-the-answers-connect)
+5. [Future features](#5-future-features)
+6. [Sources](#6-sources)
+
+## 1. What the app is
+
+North Stardust interviews an early-stage founder -- on their own or in a small team -- and writes their business documents from the answers. Four Systems, answered in order, each a page or pages of tiles that open their questions in dialogs and floating cards:
+
+| System | Pages | What it asks |
+|---|---|---|
+| 1. Identity | one page: Definition, Purpose | the organisation, its positioning, founders and ownership, registrations and expenses; mission, vision, values, principles, philosophy, manifesto |
+| 2. Brand | one page: Ambassador, Style | the brand as a person; colours, typography, text hierarchy, icon and logo, images |
+| 3. Business | three pages: Foundation & Engagement, Infrastructure & Capability, Financials | segments, profiles, competitors, offerings, value propositions, channels, relationships, expected sales; founders' hours, resources, activities, partners and suppliers, capacity and delivery; revenue streams, costs, funding |
+| 4. Strategy | one page: Situation & Direction | the current situation, the SWOT, the strategic compass, the strategic period with its themes, goals, objectives, metrics and roadmap |
+
+The **Workbook** records what the answers work out: the Business Documents (Business Plan, Business Model Canvas), the Financial Documents (Financial Forecast, Funding Request, Financial Plan), the Review, the References, the Glossary and the Card Notes. The answers stay in the browser on the founder's device; there is no account or server yet. Desktop web, from a window 768px wide; WCAG 2.2 AA; UK English.
+
+## 2. The guide
+
+How a founder uses the app, step by step, is [the user guide](../guide/user-guide.md) (the one owner): the Organisations screen (section 2), the Systems and their pages (section 3), the header's Menu and Workbook (section 4), the Workbook (section 4.1). This document does not repeat it.
+
+## 3. The specifications
+
+Each page and screen has its specification under `docs/specifications/`:
+
+| Part of the app | Specification |
+|---|---|
+| Identity System | [identity-system](../specifications/identity-system/README.md) |
+| Brand System | [brand-system](../specifications/brand-system/README.md) |
+| Business System | [business-system](../specifications/business-system/README.md): page 1, Foundation & Engagement; page 2, Infrastructure & Capability; page 3, Financials (its tiles: doc 48, section 14) |
+| Strategy System | [strategy-system](../specifications/strategy-system/README.md) |
+| The Workbook | [workbook](../specifications/workbook/README.md), a file for each section |
+| Settings, Appearance (the reading modes), Focus | [settings](../specifications/settings/README.md), [Global Settings](../specifications/global-settings.md) |
+| The Inventory | [inventory](../specifications/inventory/README.md) |
+
+The questions are in `docs/design/questionnaire/` (their register: doc 44); the layout is the rulebook's (`docs/ai/layout-rules.md`).
+
+## 4. How the answers connect
+
+The app fills, starts, offers or works out about 120 answers from earlier ones (drafts, starts, option lists, cards it makes, figures it computes): the list, with each one's source and code, is [doc 54](../design/questionnaire/54-auto-filled-answers.md). What waits for another answer (a city for its country) is recorded in `src/framework/engine/FieldDependencies.ts`.
+
+## 5. Future features
+
+A proposal from online research (official, university and standards sources; part 6). Product claims about other tools come from their own pages and are described, not quoted; check them again before publishing. Fixed constraints throughout: desktop web, React, from 768px, WCAG 2.2 AA, UK English, data in the browser.
+
+### 5.1 AI Assistant
+
+#### What founders need (evidence)
+- A randomised field experiment with 640 Kenyan entrepreneurs gave half a GPT-4 business mentor. The average effect on performance was close to zero: high performers gained about 15%, low performers lost about 8%. The gap came from which advice people chose to act on, not from the questions they asked [1]. The lesson: an assistant should help founders judge advice against their own answers, not just produce more of it.
+- Planning helps small firms, and the effect is stronger when planning runs alongside learning and revision [2]. An assistant that prompts founders to revisit and test answers fits this better than one that writes a finished plan in one go.
+- The SBA describes two plan formats (traditional and lean) and encourages founders to use the sections that suit their business [3]. An assistant can help match depth to purpose (a loan application versus an internal plan).
+
+#### What comparable tools offer
+- **LivePlan:** section-by-section writing help (ideas, rewrites, tone), suggested revenue and expense lines, and forecast-versus-actuals commentary when QuickBooks or Xero is connected [4].
+- **Upmetrics:** asks a few questions and drafts a whole plan, then rewrites, shortens, expands or translates sections; it also offers research and "business question" assistants [5].
+- **Notion AI:** general writing and summarising inside documents. Its help centre says customer data is not used to train models; providers keep data for up to 30 days on lower plans and zero days on Enterprise [6].
+
+#### Design requirements and risks
+- **Accuracy and hallucination:** NIST AI 600-1 names "confabulation" (confident false output) as a core generative-AI risk. It recommends checking sources and citations before release and while in use [7]. For North Stardust this means: the assistant cites which of the founder's answers it used; it marks figures as "suggested" until the founder accepts them; it never adds References entries that cannot be verified; and its suggestions for Financial Forecast numbers stay apart from the founder's own figures.
+- **Disclosure:** EU AI Act Article 50(1), in force from 2 August 2026, requires users to be told before an interaction that they are dealing with an AI system, unless that is obvious [8]. Label the assistant clearly, and label AI-drafted text in the Workbook.
+- **Privacy and GDPR:** the ICO's AI guidance applies even when personal data is processed "incidentally" [9]. Founder names, ownership splits and salaries are personal data. Sending them to a model provider makes that provider a processor (Article 28 contract), and a non-UK provider can create a restricted international transfer [10]. Needed: an opt-in switch, a preview of exactly what is sent, a provider with no training on the data and short or zero retention, and a "send without names" option.
+- **Local-first fit:** today's data stays in the browser. A remote AI call is the first time data leaves the device, so it needs explicit consent for each use or each session.
+
+#### Phased proposal
+- **Now:** rule-based "assistant" with no model. It checks for gaps and contradictions using data the app already holds (for example a revenue stream with no channel, or costs higher than funding). This costs nothing in privacy and tests what founders find useful.
+- **Next:** opt-in, bring-your-own-key or proxied LLM for rewording, summaries for Review, and Glossary explanations. It shows what it sends, cites the answers it used, and labels all output.
+- **Later:** guided coaching that compares the plan with external benchmarks and sources (CRAAP-checked), plus scenario commentary on the Financial Forecast.
+
+### 5.2 Team working mode
+
+#### What founders need (evidence)
+- Carta data shows solo-founded start-ups rose from 23.7% to 36.3% of new companies between 2019 and the first half of 2025 [11]. Teams are still the majority, so both solo and team modes matter.
+- Research on founding teams is mixed: one study found solo for-profit founders more likely to survive [12], while a 2026 Bank of England working paper argues team firms can do better once team selection is taken into account [13]. Practical need: teams must agree on ownership, roles and the numbers. North Stardust already asks about these in "Founders & ownership".
+- Founders also share plans with outside people (lenders, advisers, accelerators). Start Up Loans asks applicants for a business plan and a 12-month cash flow forecast [14].
+
+#### What comparable tools offer
+- **Google Docs:** roles (viewer, commenter, editor), Suggesting mode, comments, and version history with restore [15].
+- **IdeaBuddy:** invited "Guests" who view and "Buddies" who edit, with a collaborator limit on each plan [16].
+- **Upmetrics:** a shared workspace with real-time editing and secure sharing to investors and advisers [5]; **Enloop** lets you invite team members and consultants to review [17].
+
+#### Design requirements and risks
+- **Architecture:** real-time collaboration needs sync. The Ink & Switch "local-first" principles (fast, works offline, multi-device, collaboration, longevity, privacy, user control) describe how to add collaboration without giving up local ownership, typically using CRDT-based sync [18].
+- **Roles that match the app:** owner, editor, commenter, viewer. Comments can reuse the existing Card Notes; a "suggest" state per card fits the Review section.
+- **Privacy:** a server or relay makes the operator a controller or processor. Co-founders' personal data (equity, salary) needs field-level visibility, for example hiding personal finances from advisers. Data residency: host in the UK or EU, or document the transfer safeguards [10].
+- **Conflicts:** two founders editing the same figure needs a visible merge rule. The Financial Forecast should show who changed which input, and when.
+- **Accessibility:** presence indicators and live changes must be announced politely to screen readers. Content must not move under the cursor (WCAG 2.2 [19]).
+
+#### Phased proposal
+- **Now:** file-based teamwork. Export and import a project file (JSON), and a read-only "share pack" (PDF Workbook). Add a "prepared by" field per card.
+- **Next:** async collaboration. Comments and suggestions in Card Notes, merged on import, with a change log per card.
+- **Later:** optional end-to-end encrypted sync (local-first, CRDT) with roles, presence and adviser view links.
+
+### 5.3 Voice mode
+
+#### What users need (evidence)
+- W3C WAI lists speech recognition users: people who cannot use a keyboard or mouse, people with RSI, and people with cognitive or learning disabilities who would rather speak than type [20].
+- For a long interview-style app, dictating free-text answers (mission, value propositions, customer profiles) lowers the effort of typing.
+
+#### What comparable tools offer
+- **Google Docs voice typing:** dictation in Chrome, Edge and Safari; voice editing commands only in English [21].
+- None of the planning tools reviewed (LivePlan, Upmetrics, IdeaBuddy, Enloop) presents voice input as a feature. This is a gap North Stardust could fill.
+
+#### Design requirements and risks
+- **WCAG 2.2:** 2.5.3 Label in Name. Every control's accessible name must contain its visible label, so speech users can say what they see [22]. Also 2.1.4 Character Key Shortcuts (no single-key shortcuts that dictation could trigger by mistake) and 3.3.2 Labels or Instructions [19]. Voice mode must add to keyboard and pointer input, never replace them, and nothing may require speech [20].
+- **Privacy:** the Web Speech API in many browsers sends audio to a cloud service. A newer `processLocally` option asks for recognition on the device. Edge supports it from version 139; Firefox does not yet; support elsewhere is still changing [23][24]. Show where audio goes, ask for microphone permission only when voice mode is turned on, and prefer on-device recognition.
+- **Accuracy:** dictated numbers ("fifteen hundred" versus "15,000") are risky for financial fields. Limit voice to text cells, or confirm numbers by reading them back.
+- **Read-aloud:** text-to-speech of questions and the "i" help supports users with low vision or reading difficulties. Use UK English voices.
+
+#### Phased proposal
+- **Now:** audit Label in Name across shared components (one rule at the source, with a probe in the layout check). Rely on operating-system dictation (Windows Voice Access, macOS Voice Control), which already works with well-labelled fields.
+- **Next:** an in-app microphone button on text cells using the Web Speech API, on-device where the browser supports it, off by default.
+- **Later:** a hands-free "interview mode": questions read aloud, answers dictated, spoken navigation ("next card"), with a transcript the user reviews before saving.
+
+### 5.4 Extra languages and countries
+
+#### What founders need (evidence)
+- Legal forms differ by country, with different names, liability and capital rules. Your Europe advises checking national rules before registering [25]. The app's legal-entity and Financials sections are tied to UK forms today.
+- Tax and reporting duties also differ by country. For example, UK Making Tax Digital for Income Tax applies to sole traders and landlords with qualifying income over £50,000 from April 2026, falling to £30,000 in 2027 and £20,000 in 2028 [26]. Any country pack needs its own rules and dates.
+
+#### What comparable tools offer
+- **Upmetrics:** AI translation of plan sections [5].
+- **LivePlan:** SBA-style formatting for US lenders [4]. Its country support is mostly limited to currency and formatting, not legal or tax content (vendor listings).
+
+#### Design requirements and risks
+- **Formats:** use the browser's `Intl` APIs (NumberFormat, DateTimeFormat, currency), backed by Unicode CLDR data, for numbers, dates and ISO 4217 currencies [27][28]. Store values without formatting (ISO dates, numbers in minor units plus a currency code) and format them only for display.
+- **Country packs:** legal forms, tax bases, fee tables and official sources (rule 14) belong in data files per country. Keep them out of the code. Each pack needs a named source and a review date.
+- **Right-to-left:** set `dir` on the `html` element, use CSS logical properties (inline-start/end) instead of left/right, and mirror rails and arrows [29]. The current 12px arrows and rails would need direction-aware variants.
+- **Translation workflow:** pull out all strings (including "i" texts and references) into message catalogues. Exchange them with translators as XLIFF 2.1, the OASIS and ISO standard [30]. Use ICU plurals and keep the writing style rules (affirmative voice) in a style guide for each language. Machine translation can produce a first draft, but a person must review legal and financial terms.
+- **Accessibility:** set the `lang` attribute per page and per passage (WCAG 3.1.1 and 3.1.2 [19]) so screen readers pronounce text correctly.
+
+#### Phased proposal
+- **Now:** make the code ready for other locales without adding languages. Store values in neutral form, format through `Intl`, use logical CSS properties, and keep country data (UK) in a separate data file.
+- **Next:** country packs in English for Ireland, the US and one EU country (legal forms, currency, tax notes, sources).
+- **Later:** full translation (for example French, German, Spanish, then Arabic as the right-to-left test) through an XLIFF workflow with human review.
+
+### 5.5 Other features, ranked by value for an early-stage founder
+
+| # | Feature | One-line evidence | Source |
+|---|---|---|---|
+| 1 | **Backup, export and import (JSON project file)** | Browsers can delete an origin's stored data when storage runs low; persistence must be requested and may be refused. | [31] |
+| 2 | **Persistent-storage request and storage warning** | `navigator.storage.persist()` lowers the risk of the browser deleting data; the browser decides whether to grant it. | [31] |
+| 3 | **Lender-ready exports (Start Up Loans format: plan, 12-month cash flow, survival budget)** | Start Up Loans applicants must send a 12-month cash flow forecast and a personal survival budget. | [14] |
+| 4 | **Scenario planning (base, low, high) on the Financial Forecast** | Planning works best combined with learning and revision; competitors offer "what-if" scenarios. | [2][32] |
+| 5 | **Progress dashboard and plan-versus-actual review** | Regular revision is where planning pays off; LivePlan ties dashboards to actuals. | [2][4] |
+| 6 | **Data privacy controls (what is stored, clear all, redact for sharing)** | UK GDPR expects data protection by design; personal data in plans includes founders' finances. | [9] |
+| 7 | **Machine-readable export (CSV/JSON) of all answers** | The ICO names CSV, JSON and XML as suitable structured, machine-readable formats for portability. | [33] |
+| 8 | **Templates and examples by industry** | The SBA publishes sample plans by business type to help founders start. | [34] |
+| 9 | **Accounting software integration (Xero, QuickBooks, MTD-compatible)** | Accounting software is the most adopted digital tool among UK SMEs; MTD requires compatible software. | [26][35] |
+| 10 | **Investor pitch summary or deck export** | Equity investment in UK small businesses is a large, active market; a short pitch is the usual first step. LivePlan offers a one-page pitch builder. | [32][36] |
+| 11 | **Funding finder linked to the Funding section** | British Business Bank reports gaps in access to finance for some groups and regions. | [36] |
+| 12 | **Reminders and calendar export (.ics) for roadmap and tax dates** | MTD quarterly updates have fixed deadlines (first one due 7 August 2026). | [26] |
+| 13 | **Onboarding tour and sample project** | 53% of UK businesses with no employees used digital tools to run the business in 2024. Many solo founders are still new to such tools. | [37] |
+| 14 | **Tablet layout (768px and up, touch targets)** | WCAG 2.2 2.5.8 Target Size (Minimum) sets 24 by 24 CSS pixels for pointer targets. | [19] |
+
+### 5.6 The roadmap (local-first)
+
+| Phase | AI Assistant | Team | Voice | Languages and countries | Other |
+|---|---|---|---|---|---|
+| **Now** | Rule-based gap and contradiction checks | Project file export and import; PDF share pack | Label-in-Name audit; works with operating-system dictation | Neutral storage, `Intl` formatting, logical CSS, UK data file | Backup, persist(), lender exports, privacy controls |
+| **Next** | Opt-in LLM with send preview, citations, labels | Comments and suggestions merged on import | Microphone on text cells, on-device first | English country packs (IE, US, one EU) | Scenarios, dashboard, templates, .ics |
+| **Later** | Coaching with benchmarks | Encrypted CRDT sync, roles, adviser links | Hands-free interview mode | Translations via XLIFF; right-to-left | Accounting sync, pitch deck, funding finder |
+
+## 6. Sources
+
+[1] Otis, N., Clarke, R., Delecourt, S., Holtz, D. and Koning, R. (2023) *The Uneven Impact of Generative AI on Entrepreneurial Performance*. Harvard Business School Working Paper 24-042. Available at: https://pubsonline.informs.org/doi/10.1287/mnsc.2024.06909 (Accessed: 21 November 2026).
+
+[2] Brinckmann, J., Grichnik, D. and Kapsa, D. (2010) 'Should entrepreneurs plan or just storm the castle? A meta-analysis on contextual factors impacting the business planning–performance relationship in small firms', *Journal of Business Venturing*, 25(1), pp. 24–40. Available at: https://ideas.repec.org/a/eee/jbvent/v25y2010i1p24-40.html (Accessed: 21 November 2026).
+
+[3] U.S. Small Business Administration (n.d.) *Write your business plan*. Available at: https://www.sba.gov/business-guide/plan-your-business/write-your-business-plan (Accessed: 21 November 2026).
+
+[4] Palo Alto Software (n.d.) *Business plan software (LivePlan)*. Available at: https://www.bplans.com/business-plan-software/ (Accessed: 21 November 2026).
+
+[5] Upmetrics (n.d.) *AI Assistant* and *Business plan collaboration*. Available at: https://upmetrics.co/features/ai-assistant and https://upmetrics.co/features/business-plan-collaboration (Accessed: 21 November 2026).
+
+[6] Notion Labs (n.d.) *Notion AI security & privacy practices*. Available at: https://www.notion.com/help/notion-ai-security-practices (Accessed: 21 November 2026).
+
+[7] National Institute of Standards and Technology (2024) *Artificial Intelligence Risk Management Framework: Generative Artificial Intelligence Profile* (NIST AI 600-1). Available at: https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf (Accessed: 21 November 2026).
+
+[8] European Commission (2026) *Transparency obligations under Article 50 AI Act (FAQ)*. Available at: https://digital-strategy.ec.europa.eu/en/faqs/transparency-obligations-under-article-50-ai-act (Accessed: 21 November 2026).
+
+[9] Information Commissioner's Office (2023) *Guidance on AI and data protection*. Available at: https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/artificial-intelligence/guidance-on-ai-and-data-protection/ (Accessed: 21 November 2026).
+
+[10] Information Commissioner's Office (n.d.) *What are our other key UK GDPR obligations in the context of international transfers?* Available at: https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/international-transfers/a-guide-to-international-transfers/what-are-our-other-key-uk-gdpr-obligations-in-the-context-of-international-transfers (Accessed: 21 November 2026).
+
+[11] Carta (2025) *Solo Founders Report 2025*. Available at: https://carta.com/data/solo-founders-report (Accessed: 21 November 2026).
+
+[12] NYU Stern School of Business (n.d.) *Venture investors take note: solo founders outperform teams* (Greenberg, J. and Mollick, E.). Available at: https://www.stern.nyu.edu/experience-stern/faculty-research/venture-investors-take-note-solo-founders-outperform-teams (Accessed: 21 November 2026).
+
+[13] Bank of England (2026) *Sorting into entrepreneurial teams* (Staff Working Paper). Available at: https://www.bankofengland.co.uk/-/media/boe/files/working-paper/2026/sorting-into-entrepreneurial-teams.pdf (Accessed: 21 November 2026).
+
+[14] Start Up Loans (n.d.) *Cash flow forecast template* and *Planning templates & free guides*. Available at: https://www.startuploans.co.uk/cash-flow-forecast-template and https://www.startuploans.co.uk/free-start-up-guides (Accessed: 21 November 2026).
+
+[15] Google (n.d.) *Google Docs Help: collaborate, suggest edits and version history*. Available at: https://support.google.com/a/users/answer/13004165 (Accessed: 21 November 2026).
+
+[16] IdeaBuddy (n.d.) *New collaboration feature – work on ideas together* and *Pricing*. Available at: https://ideabuddy.com/blog/collaboration-feature-work-on-ideas-together/ and https://ideabuddy.com/pricing/ (Accessed: 21 November 2026).
+
+[17] Entrepreneur (2011) *A business plan tool that helps size up your odds of success* (Enloop). Available at: https://www.entrepreneur.com/starting-a-business/a-business-plan-tool-that-helps-size-up-your-odds-of-success/220250 (Accessed: 21 November 2026).
+
+[18] Kleppmann, M., Wiggins, A., van Hardenberg, P. and McGranaghan, M. (2019) *Local-first software: you own your data, in spite of the cloud*. Ink & Switch / Onward! 2019. Available at: https://www.inkandswitch.com/local-first/ (Accessed: 21 November 2026).
+
+[19] W3C (2024) *Web Content Accessibility Guidelines (WCAG) 2.2*. W3C Recommendation. Available at: https://www.w3.org/TR/WCAG22/ (Accessed: 21 November 2026).
+
+[20] W3C Web Accessibility Initiative (n.d.) *Speech recognition (Perspectives)* and *Input – How people with disabilities use the web*. Available at: https://www.w3.org/WAI/perspective-videos/voice/ and https://www.w3.org/WAI/people-use-web/tools-techniques/input/ (Accessed: 21 November 2026).
+
+[21] Google (n.d.) *Type & edit with your voice*. Available at: https://support.google.com/docs/answer/4492226 (Accessed: 21 November 2026).
+
+[22] W3C Web Accessibility Initiative (n.d.) *Understanding SC 2.5.3: Label in Name*. Available at: https://www.w3.org/WAI/WCAG22/Understanding/label-in-name.html (Accessed: 21 November 2026).
+
+[23] MDN Web Docs (n.d.) *SpeechRecognition: processLocally property*. Available at: https://developer.mozilla.org/docs/Web/API/SpeechRecognition/processLocally (Accessed: 21 November 2026).
+
+[24] Microsoft (n.d.) *Speech recognition API (Microsoft Edge)*. Available at: https://learn.microsoft.com/en-us/microsoft-edge/web-platform/speech-recognition-api (Accessed: 21 November 2026).
+
+[25] European Union (n.d.) *Your Europe – Starting a business*. Available at: https://europa.eu/youreurope/business/lifecycle/starting/startups/index_en.htm (Accessed: 21 November 2026).
+
+[26] HM Revenue & Customs (n.d.) *Making Tax Digital for Income Tax for sole traders and landlords: step by step*. Available at: https://www.gov.uk/government/collections/making-tax-digital-for-income-tax-for-sole-traders-and-landlords-step-by-step (Accessed: 21 November 2026).
+
+[27] Unicode Consortium (2026) *Unicode CLDR Project* (CLDR 48). Available at: https://cldr.unicode.org/ (Accessed: 21 November 2026).
+
+[28] MDN Web Docs (n.d.) *Intl*. Available at: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl (Accessed: 21 November 2026).
+
+[29] W3C Internationalization (n.d.) *Structural markup and right-to-left text in HTML*. Available at: https://www.w3.org/International/questions/qa-html-dir (Accessed: 21 November 2026).
+
+[30] OASIS (2018) *XLIFF Version 2.1*. OASIS Standard. Available at: https://docs.oasis-open.org/xliff/xliff-core/v2.1/xliff-core-v2.1.html (Accessed: 21 November 2026).
+
+[31] MDN Web Docs (n.d.) *Storage quotas and eviction criteria*. Available at: https://developer.mozilla.org/docs/Web/API/Storage_API/Storage_quotas_and_eviction_criteria (Accessed: 21 November 2026).
+
+[32] GetApp (n.d.) *LivePlan: features and pricing*. Available at: https://www.getapp.com/operations-management-software/a/liveplan/ (Accessed: 21 November 2026).
+
+[33] Information Commissioner's Office (n.d.) *Right to data portability*. Available at: https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/individual-rights/individual-rights/right-to-data-portability (Accessed: 21 November 2026).
+
+[34] U.S. Small Business Administration (n.d.) *Sample business plans*. Available at: https://www.sba.gov/document/support-sample-business-plans (Accessed: 21 November 2026).
+
+[35] Department for Business and Trade (2025) *Understanding technology adoption among UK SMEs*. Available at: https://www.gov.uk/government/publications/understanding-technology-adoption-among-uk-smes (Accessed: 21 November 2026).
+
+[36] British Business Bank (2026) *Small Business Finance Markets Report 2026* and *Small Business Equity Tracker 2026*. Available at: https://www.british-business-bank.co.uk/about/research-and-publications/small-business-finance-markets-report-2026 and https://www.british-business-bank.co.uk/about/research-and-publications/small-business-equity-tracker-2026 (Accessed: 21 November 2026).
+
+[37] Department for Business and Trade (2025) *Longitudinal Small Business Survey 2024: businesses with no employees*. Available at: https://www.gov.uk/government/statistics/small-business-survey-2024-businesses-with-no-employees/longitudinal-small-business-survey-2024-businesses-with-no-employees (Accessed: 21 November 2026).
+
+**Notes on sources.** Competitor features [4][5][16][17][32] are vendor-reported or listing-reported and were not tested. ICO guidance [9][10][33] is under review after the Data (Use and Access) Act 2025. Browser support for on-device speech [23][24] is still changing. Bizplan was searched for but no reliable feature documentation was found, so it is left out.
