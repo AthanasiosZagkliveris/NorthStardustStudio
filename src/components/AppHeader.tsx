@@ -6,6 +6,10 @@ import { WorkbookButton, NotepadPanel, NotepadPicker } from "./notepad/Notepad";
 import FocusModeButton from "./FocusModeButton";
 import SearchButton from "./SearchButton";
 import ToolsMenu from "./ToolsMenu";
+import OrganizationCalendarPanel from "./OrganizationCalendarPanel";
+import { useLocation, useNavigate } from "react-router-dom";
+import { systems } from "../data/systems";
+import { OrganizationService } from "../services/OrganizationService";
 import UndoToast from "./UndoToast";
 
 import "../styles/app-header.css";
@@ -32,6 +36,10 @@ interface AppHeaderProps {
 }
 
 export default function AppHeader({ organizationName, focusable = false, reloadable = false, totalReview = false, onReload }: AppHeaderProps) {
+
+    const location = useLocation();
+    const navigate = useNavigate();
+    const organizationId = organizationName ? OrganizationService.getSelected() : null;
 
     return (
 
@@ -71,6 +79,26 @@ export default function AppHeader({ organizationName, focusable = false, reloada
             {(organizationName || totalReview) && <WorkbookButton total={!organizationName} />}
             {organizationName && <NotepadPanel />}
             {organizationName && <NotepadPicker />}
+
+            {/* THE CALENDAR ON THIS PAGE (owner, 2026-11-21 04:05 UTC+2): Calendar in the Menu opens the Calendar's rail here, as Notes opens its panel; System
+                Selection holds the whole rail itself. An item pressed opens its page, as there. */}
+            {organizationId && location.pathname !== "/assistant" && (
+                <OrganizationCalendarPanel
+                    alone
+                    organizationId={organizationId}
+                    capabilities={[]}
+                    systems={systems}
+                    onCapabilityOpen={() => undefined}
+                    onCapabilitySelect={() => undefined}
+                    onSystemOpen={() => undefined}
+                    onOpenTask={(systemNumber, sectionNumber) => {
+                        const system = systems.find(candidate => candidate.number === systemNumber);
+                        if (system) {
+                            navigate("/introduction", { state: { system, targetSectionNumber: sectionNumber } });
+                        }
+                    }}
+                />
+            )}
 
             {/* Undo after a removal: one toast for the whole app. */}
             {organizationName && <UndoToast />}

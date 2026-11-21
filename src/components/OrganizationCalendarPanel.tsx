@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 
 import AddButton from "./controls/AddButton.tsx";
 import RadioChoice from "./controls/RadioChoice.tsx";
+import { useEscapeCloses } from "./interview/fields/useEscapeCloses";
 import TextLink from "./interview/fields/TextLink.tsx";
 import NavArrow from "./controls/NavArrow.tsx";
 import { CalendarTaskAnnotation, OrganizationService } from "../services/OrganizationService";
@@ -132,8 +133,12 @@ interface OrganizationCalendarPanelProps {
      * leaves afterward.
      */
     suppressClose?: boolean;
-    /** A request to open the Calendar tab (Calendar in the Tools menu, ToolsMenu.tsx): a new number at each press, so a second press opens it again. */
-    openCalendar?: number;
+    /**
+     * THE CALENDAR ALONE, on any page (owner, 2026-11-21 04:05 UTC+2: "Selecting the Calendar should not move back to the beginning, but should open the side
+     * panel"): the rail with its Calendar handle and flyout only, drawn while the Calendar is open and nothing at all while it is closed; it closes as the
+     * rail does (a press outside, the pointer leaving, Escape). The header mounts it on every page but System Selection, which has the whole rail.
+     */
+    alone?: boolean;
 
 }
 
@@ -159,6 +164,14 @@ const MAX_VISIBLE_DOTS = 3;
 // the shared content pane -- `null` means the rail is fully
 // collapsed to just its three handles.
 type RailTab = "calendar" | "capabilities" | "systems" | null;
+
+/** What opens the Calendar from the Menu (ToolsMenu.tsx), on the page it is pressed on. */
+const OPEN_CALENDAR = "calendar:open";
+
+/** Opens the Calendar on this page: System Selection's rail, or the rail alone the header holds elsewhere. */
+export function openCalendar(): void {
+    window.dispatchEvent(new CustomEvent(OPEN_CALENDAR));
+}
 
 function pad2(value: number): string {
     return String(value).padStart(2, "0");
@@ -253,18 +266,22 @@ export default function OrganizationCalendarPanel({
     onOpenChange,
     closeSignal,
     suppressClose,
-    openCalendar
+    alone = false
 
 }: OrganizationCalendarPanelProps) {
 
-    const [activeTab, setActiveTab] = useState<RailTab>(openCalendar ? "calendar" : null);
+    const [activeTab, setActiveTab] = useState<RailTab>(null);
 
-    // (Calendar in the Tools menu, from any page: System Selection opens with this tab open; owner, 2026-11-21 00:56 UTC+2.)
+    // (Calendar in the Menu, on the page it is pressed on: the rail here opens its Calendar tab; owner, 2026-11-21 04:05 UTC+2.)
     useEffect(() => {
-        if (openCalendar) {
-            setActiveTab("calendar");
-        }
-    }, [openCalendar]);
+        const open = () => setActiveTab("calendar");
+        window.addEventListener(OPEN_CALENDAR, open);
+        return () => window.removeEventListener(OPEN_CALENDAR, open);
+    }, []);
+
+    // (Alone, Escape closes it -- and only it, as the Notes panel's: the key goes no further, so the interview page does not take it as Back. System
+    // Selection's own Escape closes the whole rail there, through closeSignal.)
+    useEscapeCloses(alone && activeTab !== null, () => setActiveTab(null), () => !!suppressClose);
 
     const panelRef = useRef<HTMLDivElement | null>(null);
 
@@ -963,6 +980,11 @@ export default function OrganizationCalendarPanel({
 
     );
 
+    // (Alone and closed: nothing on the page.)
+    if (alone && activeTab !== "calendar") {
+        return null;
+    }
+
     return (
 
         <div
@@ -1043,6 +1065,7 @@ export default function OrganizationCalendarPanel({
 
                     </div>
 
+                    {!alone && (<>
                     <div className="org-rail-handle-group">
 
                         <PressRow
@@ -1072,6 +1095,7 @@ export default function OrganizationCalendarPanel({
                         {activeTab === "systems" && flyoutContent}
 
                     </div>
+                    </>)}
 
                 </div>
 

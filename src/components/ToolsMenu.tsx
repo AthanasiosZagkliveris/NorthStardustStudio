@@ -7,6 +7,7 @@ import { usePopupDismiss } from "./controls/PopupPanel.tsx";
 import { openSearch } from "./SearchButton";
 import { openSettings } from "./SettingsButton";
 import { FocusIcon } from "./FocusModeButton";
+import { openCalendar } from "./OrganizationCalendarPanel";
 import { useNotepad } from "./notepad/Notepad";
 import { NotepadService } from "../services/NotepadService";
 import { FocusModeService } from "../services/FocusModeService";
@@ -104,7 +105,7 @@ function themeState(): string {
  * dropdown card every menu a button opens has (MenuOption rows, usePopupDismiss): Search (Ctrl+K beside it), Notes (the count of notes), Calendar, Focus
  * (an interview page), Settings, then Appearance, whose side menu -- the same card, beside its row -- holds Light, Sepia, Dark and Auto, the chosen one
  * marked; it opens on the pointer, a press, Enter, Space or the right arrow, and the left arrow or Escape closes it. Each tool keeps its own way of working
- * (the search's dialog and Ctrl+K, the Notes' panel, Focus's Exit button, the Global Settings' page, System Selection's Calendar tab). With no Organisation
+ * (the search's dialog and Ctrl+K, the Notes' panel, Focus's Exit button, the Global Settings' page, the Calendar's rail on the page it is pressed on). With no Organisation
  * open the menu holds Appearance alone.
  */
 export default function ToolsMenu({ organizationOpen, focusable }: { organizationOpen: boolean; focusable: boolean }) {
@@ -178,7 +179,7 @@ export default function ToolsMenu({ organizationOpen, focusable }: { organizatio
                             <MenuOption aria-label={"Notes, " + notes.length + (notes.length === 1 ? " note" : " notes")} onClick={run(() => NotepadService.toggle())}>
                                 {row(ICONS.notes, "Notes")}{notes.length > 0 && <span className="tools-menu-hint">{notes.length}</span>}
                             </MenuOption>
-                            <MenuOption aria-label="Calendar" onClick={run(() => navigate("/assistant", { state: { ...(location.pathname === "/assistant" && location.state && typeof location.state === "object" ? location.state : {}), calendar: Date.now() } }))}>{row(ICONS.calendar, "Calendar")}</MenuOption>
+                            <MenuOption aria-label="Calendar" onClick={run(openCalendar)}>{row(ICONS.calendar, "Calendar")}</MenuOption>
                             {focusable && <MenuOption aria-label="Focus" onClick={run(() => FocusModeService.set(true))}>{row(<FocusIcon />, "Focus")}</MenuOption>}
                             <MenuOption aria-label="Settings" chosen={location.pathname === "/settings"} onClick={run(() => openSettings(navigate, location))}>{row(ICONS.settings, "Settings")}</MenuOption>
                         </>

@@ -53,7 +53,10 @@
 
 }
 
-/* Appearance and its side menu: the side menu stands beside the row, on the side away from the window's edge (the menu stands at the right). */
+/* APPEARANCE'S SIDE MENU, AN EXTENSION OF THE MENU'S CARD (owner, 2026-11-21 04:05 UTC+2: "the reading options should appear as an extension of the
+   existing menu card"): the same card (.strategy-sort-menu: its ground, its inset light and shade, its shadow), joined to the card's left edge at
+   Appearance's row -- its top level with the row's, no gap, its corners on the joining side square, and its own shadow cut off on that side, so the two
+   read as one shape and the card's shadow is the only one between them. */
 .tools-menu-appearance {
 
     position: relative;
@@ -62,11 +65,25 @@
 
 .tools-menu-appearance > .tools-menu-side {
 
-    top: 0;
-    right: 100%;
+    /* (The card's own padding, 4px (.strategy-sort-menu), above the row and round it: the side card's rows stand level with the row, its right edge on the
+       card's left edge.) */
+    top: -4px;
+    right: calc(100% + 4px);
 
-    /* (Touching its row: the pointer crosses into it without leaving Appearance.) */
     margin-top: 0;
     margin-right: 0;
+
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+
+    clip-path: inset(-48px 0 -48px -48px);
+
+}
+
+/* The joined corner of the menu's card: square where the side card meets it. */
+.tools-menu-list:has(> .tools-menu-appearance > .tools-menu-side) {
+
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
 
 }

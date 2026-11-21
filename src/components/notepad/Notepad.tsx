@@ -9,6 +9,7 @@ import TickBox from "../controls/TickBox.tsx";
 import RemoveButton from "../controls/RemoveButton.tsx";
 import { useLocation, useNavigate, type NavigateFunction } from "react-router-dom";
 
+import { useEscapeCloses } from "../interview/fields/useEscapeCloses";
 import { NotepadService, noteIsBlank, type Note, type NoteLink } from "../../services/NotepadService";
 import { UndoService } from "../../services/UndoService";
 import { markFieldsHot } from "./NotedHover";
@@ -428,20 +429,8 @@ export function NotepadPanel() {
 
     const { notes, view } = useNotepad();
     const panel = useRef<HTMLElement | null>(null);
-    // Escape closes it -- and only it: the key goes no further.
-    useEffect(() => {
-        if (!view.open) {
-            return;
-        }
-        function onKey(event: globalThis.KeyboardEvent) {
-            if (event.key === "Escape" && !NotepadService.view().pickingFor) {
-                consumeKey(event);
-                NotepadService.close();
-            }
-        }
-        window.addEventListener("keydown", onKey, true);
-        return () => window.removeEventListener("keydown", onKey, true);
-    }, [view.open]);
+    // Escape closes it -- and only it: the key goes no further (the side panels' one Escape, useEscapeCloses); not while a field is being linked.
+    useEscapeCloses(view.open, () => NotepadService.close(), () => !!NotepadService.view().pickingFor);
 
     if (!view.open) {
         return null;

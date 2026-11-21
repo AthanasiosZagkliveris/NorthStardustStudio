@@ -219,7 +219,9 @@ export function CarouselArrows({ target, step, hue, back, side: fixedSide }: { t
         };
         check();
         const observer = typeof MutationObserver === "undefined" ? null : new MutationObserver(check);
-        observer?.observe(document.body, { childList: true });
+        // (A layer added, or a layer that becomes a carousel after it is drawn -- its data-carousel set once its step is known: the new Theme of a Strategic Period's "+"
+        // was one, and the layer under it kept its arrows under the new one's when the page was busy; layout check, 2026-11-21.)
+        observer?.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ["data-carousel"] });
         return () => observer?.disconnect();
     }, [target]);
 

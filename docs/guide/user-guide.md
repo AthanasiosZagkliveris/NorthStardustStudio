@@ -126,7 +126,7 @@ Point at **Appearance** in the **Menu** (or press it, or press the right arrow o
 
 ### 4.7 Calendar
 
-Open **Menu** and press **Calendar**, from any page, or on **System Selection** press the **Calendar** tab in the left rail: the calendar of the open Organisation opens. It shows every date your cards hold (the plan's start, the registration and opening dates, the end of each stage, legal fees, payments, warranties, deadlines) and your dated notes.
+Open **Menu** and press **Calendar**: the calendar of the open Organisation opens at the left of the page you are on (on **System Selection**, the **Calendar** tab in the left rail does the same). Press outside it or Escape to close it. It shows every date your cards hold (the plan's start, the registration and opening dates, the end of each stage, legal fees, payments, warranties, deadlines) and your dated notes.
 
 1. Press a day to see what falls on it; press an item to open the page it comes from, or your note.
 2. The funnel chooses the period, the kinds of date and the cards they come from.

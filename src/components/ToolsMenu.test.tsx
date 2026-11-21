@@ -156,7 +156,7 @@ describe("the Menu (layout rules, section 6, \"The Menu\")", () => {
         expect(screen.getByRole("menu", { name: "Menu" })).toBeTruthy();
     });
 
-    it("opens each tool and closes: Search's dialog, the Notes' panel, Focus, the Global Settings and System Selection's Calendar", () => {
+    it("opens each tool and closes: Search's dialog, the Notes' panel, Focus, the Global Settings and the Calendar on the page it is pressed on", () => {
         mockSystem(false);
         stop = ThemeService.start();
         renderMenu({ organizationOpen: true, focusable: true });
@@ -183,9 +183,14 @@ describe("the Menu (layout rules, section 6, \"The Menu\")", () => {
         expect(where.pathname).toBe("/settings");
         expect((where.state as { from?: { pathname: string } }).from?.pathname).toBe("/conversation");
 
+        // (The Calendar opens on the page it is pressed on: no page changes; the rail there hears it.)
+        const calendar = vi.fn();
+        window.addEventListener("calendar:open", calendar);
+        const before = where.pathname;
         press(/^Calendar/);
-        expect(where.pathname).toBe("/assistant");
-        expect(typeof (where.state as { calendar?: unknown }).calendar).toBe("number");
+        window.removeEventListener("calendar:open", calendar);
+        expect(calendar).toHaveBeenCalledTimes(1);
+        expect(where.pathname).toBe(before);
     });
 
 });

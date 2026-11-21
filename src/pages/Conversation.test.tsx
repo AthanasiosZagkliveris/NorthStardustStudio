@@ -18,7 +18,8 @@ vi.mock("../components/interview/editors/StrategyFoundationEditor.tsx", () => ({
 }));
 
 vi.mock("../components/OrganizationCalendarPanel", () => ({
-    default: () => null
+    default: () => null,
+    openCalendar: () => undefined
 }));
 
 const strategy = systems.find(system => system.id === "strategy")!;
