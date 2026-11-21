@@ -7,7 +7,7 @@ import { organizationSearchIndex } from "../services/SearchService";
 import { fieldLocation } from "./interview/tiles/openField";
 import { consumeKey } from "./interview/fields/consumeKey";
 import { PALETTE } from "../framework/engine/Palette";
-import type { WorkbookState } from "./notepad/Notepad";
+import type { WorkbookState } from "./notepad/WorkbookButton";
 
 type Navigate = ReturnType<typeof useNavigate>;
 
