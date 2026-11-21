@@ -12,8 +12,6 @@ import { definedProperties, extractReferences, missingReferences, type Code } fr
 
 const DOCUMENTS = [
     "docs/ai/layout-rules.md",
-    "docs/ai/customer-engagement-layout.md",
-    "docs/ai/tile-and-card-pattern.md",
     "docs/specifications/business-system/page-2-infrastructure-and-capability.md",
     "docs/design/core/01-current-design.md",
     "docs/design/current/26-card-structure.md",

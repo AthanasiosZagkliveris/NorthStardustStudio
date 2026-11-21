@@ -449,7 +449,7 @@ main.conversation-content[data-reserve],
 }
 
 /* ==========================================================
-   GLOBAL STYLE OF A FIELD'S LABEL AND OF A CARD'S TITLE (docs/ai/tile-and-card-pattern.md, "Labels and titles").
+   GLOBAL STYLE OF A FIELD'S LABEL AND OF A CARD'S TITLE (docs/ai/layout-rules.md, the tile and card pattern folded in on 2026-11-21, "Labels and titles").
    A LABEL: the body size (18px), regular, the card's label colour -- a field's name, the name of an optional field ("Links", "Description"), and the part labels
    of a channel card ("Offerings", "Actions", "Expenses") alike. A TITLE of a card that has no name cell (a name the app wrote: a channel's, a founder's, a
    requirement's of the Founders' profile): the body size, semi-bold, the strong text colour, on the same line as its number. A typed name is the cell's value

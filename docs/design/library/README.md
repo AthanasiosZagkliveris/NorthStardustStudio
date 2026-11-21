@@ -8,7 +8,7 @@ The standard for these documents is [the standard of the documents](../../standa
 
 | Document | Kind | What it holds | Updated |
 |---|---|---|---|
-| [08-library-system.md](08-library-system.md) | specification | The library system: the tables, the library, the inventory and the two logs, with the procedure to change an asset and the steps built. | 2026-11-02 |
+| [08-library-system.md](08-library-system.md) | specification | The library system: the tables, the library, the inventory and the two logs, with the procedure to change an asset and the steps built. | 2026-11-21 |
 | [09-assets-library.md](09-assets-library.md) | generated | The assets library: every asset, its variants and its contract. | 2026-11-14 |
 | [10-library-log.md](10-library-log.md) | log | The library log: every change to an asset of the library, newest on top. | 2026-11-17 |
 | [11-app-structure-log.md](11-app-structure-log.md) | log | The app structure log: every change of the tables, that is of the structure of the app, newest on top. | 2026-11-20 |

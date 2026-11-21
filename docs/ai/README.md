@@ -1,6 +1,6 @@
 # AI knowledge base: `docs/ai/`
 
-Status: **index**, written 2026-08-02, updated 2026-11-02. The map of the knowledge base for AI assistants: which file to read for which task, and what each file owns.
+Status: **index**, written 2026-08-02, updated 2026-11-21. The map of the knowledge base for AI assistants: which file to read for which task, and what each file owns.
 
 This folder is NorthStardustStudio's shared knowledge for AI assistants (Claude, ChatGPT, or any other coding assistant working on this project). It exists so an assistant does not have to re-derive facts about the code every session. This file is the map. It does not explain any concept itself; every concept below is owned by exactly one other file.
 
@@ -17,9 +17,9 @@ Documents cite one another by number ("doc 21" is `../design/current/21-shared-c
 | If you are going to... | Read first | Then |
 |---|---|---|
 | Do any work at all (every session) | `ai-collaboration-rules.md`, `toolchain-and-verification-playbook.md` | |
-| Change or add something on screen (a table, tile, card, page, control) | `review-checklist.md`, then grep `layout-rules.md` for the name of the thing | `tile-and-card-pattern.md`, `card-kinds.md`; from `../design/current/`: `21-shared-components.md` (use the shared components), `18-reactions.md`, `24-tooltips.md`, `23-popups.md` |
+| Change or add something on screen (a table, tile, card, page, control) | `review-checklist.md`, then grep `layout-rules.md` for the name of the thing | `card-kinds.md`, `layout-assets.md`; from `../design/current/`: `21-shared-components.md` (use the shared components), `18-reactions.md`, `24-tooltips.md`, `23-popups.md` |
 | Judge or review a screen | `review-criteria.md` (the standard and how to measure it), `review-checklist.md` (the list to tick) | `layout-rules.md` |
-| Change the Customer Engagement page | `customer-engagement-layout.md` | `layout-rules.md` |
+| Change the Customer Engagement page | `layout-rules.md`, section 11 | `card-kinds.md` |
 | Write or edit a System's content (the Markdown under `src/assets`) | `framework-dsl-grammar.md` | `framework-conventions-and-patterns.md` |
 | Change the framework's code (parser, model, engine, export, notes) | `framework-conventions-and-patterns.md` | `code-map.md` |
 | Find where something is in `src` | `code-map.md` | `../app/contents.md` |
@@ -33,9 +33,8 @@ Documents cite one another by number ("doc 21" is `../design/current/21-shared-c
 - `outstanding-findings.md`: confirmed problems a diagnostic found and did not fix.
 
 **Changing the screens (rules; a check enforces most of them)**
-- `layout-rules.md`: the measured rulebook of the Foundation pages (tokens, the closed set of sizes, alignment, the reactions per kind, the Inventory) and the automatic layout check that must pass.
-- `tile-and-card-pattern.md`: the short, visual brief of how tiles, frames, cards, rails (the page tab) and dialogs are built, the pattern of a floating card of questions (checked by `npm run check:card`), and the rules that are global.
-- `customer-engagement-layout.md`: the layout of the Customer Engagement tables, the Channel resources table and the action markers.
+- `layout-rules.md`: the measured rulebook of the Foundation pages (tokens, the closed set of sizes, alignment, the reactions per kind, the Inventory) and the automatic layout check that must pass; it also holds how tiles, frames, cards, rails (the page tab) and dialogs are built, the pattern of a floating card of questions (section 8, checked by `npm run check:card`), and the Customer Engagement tables, the Channel resources table and the action markers (section 11).
+- `layout-assets.md`: the generated numbers of each shared part (rulebook section 19), written from the contracts under `src/library` by `npm run docs:assets`.
 - `card-kinds.md`: the kinds of card, where each one's code is and how its head is built.
 - `review-criteria.md`: the standard a screen is judged by (type, spacing, controls, colour, tiles, cards, tables, pop-up windows, pages, data), how each criterion is measured, and the form of the report.
 - `review-checklist.md`: what to check when reviewing a table, tile, card, page or control, and the proof before saying done.
@@ -47,7 +46,7 @@ Documents cite one another by number ("doc 21" is `../design/current/21-shared-c
 
 ## How these files relate
 
-Nothing here should duplicate another file's knowledge. If two files seem to say the same thing, flag it rather than trusting whichever was read first. For the look of the Foundation pages, each fact has one home: colours, sizes and breakpoints in `src/styles/tokens/tokens.ts` (generated into the stylesheets), and an asset's geometry, states and variants in its contract under `src/library`. The rulebook, `tile-and-card-pattern.md`, the page specifications and `../design/core/01-current-design.md` describe them in words; where one of them disagrees with the code, the code is right and the document is the one to fix.
+Nothing here should duplicate another file's knowledge. If two files seem to say the same thing, flag it rather than trusting whichever was read first. For the look of the Foundation pages, each fact has one home: colours, sizes and breakpoints in `src/styles/tokens/tokens.ts` (generated into the stylesheets), and an asset's geometry, states and variants in its contract under `src/library`. The rulebook, the page specifications and `../design/core/01-current-design.md` describe them in words; where one of them disagrees with the code, the code is right and the document is the one to fix.
 
 Skills (kept outside this folder) point at files here by path; this folder is the single source of truth they read, and a skill carries no copy of it. Do not move or rename a file here.
 

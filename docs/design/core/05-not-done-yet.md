@@ -339,7 +339,7 @@ For the owner to decide, or work not done. Each item leaves this list when done 
 
 **Added by the review of the docs folder (2026-10-29)**
 - The Shared Workspace proposal (`docs/archive/proposals/shared-workspace.md`) has no item in this list; its place is to be decided.
-- `docs/ai/customer-engagement-layout.md` says every Journey Stage band starts folded; the code (`useItemFolds(true)` in `useEngagementState.tsx`) starts them open (the comment there says closed) and a test expects no fold arrow: the sentence and the comment are stale.
+- `docs/ai/layout-rules.md`, section 11 ("The Engagement Strategy"), says every Journey Stage band starts folded; the code (`useItemFolds(true)` in `useEngagementState.tsx`) starts them open (the comment there says closed) and a test expects no fold arrow: the sentence and the comment are stale.
 - `docs/ai/layout-rules.md`: section 8 says a dropdown list is exactly the width of its cell, section 10 says it is as wide as its longest option; the tile title in section 8 (a multi-line title) disagrees with `.section-tile-title` (nowrap, ellipsis). `tools/scripts/layout-check/run.mjs` cites a rulebook heading "Run the check" that does not exist.
 - The Finance dynamic field points at the retired Revenue Model page (recorded in the specifications README only).
 - Section 6 of `layout-rules.md` (Interactions) holds rows that doc 18 lacks (a parent's status line, a child's name, the Add button, a text holder): move them into doc 18, then keep one text.

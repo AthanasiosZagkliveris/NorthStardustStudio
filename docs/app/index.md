@@ -176,4 +176,4 @@ Paths are written "System › page › tile". "Doc 28" is the document numbered 
 | Value Proposition | Business › 1 Foundation & Engagement › Foundation › Value Proposition | Doc 42; doc 28, 6.7; Section 1 |
 | Values | Identity System › Purpose › Values & Principles | Doc 45, 3.3 |
 | Vision | Identity System › Purpose › Mission & Vision (saved in Definition) | Doc 45, 3.2 |
-| Workbook | Header, wherever an Organisation is open, and the Landing page (one button, no count): the Workbook page (`/workbook`), sections Business Documents, Financial Documents, Review, References, Glossary and Card Notes; on the Landing page Review (every Organisation), Glossary and References; Back or Escape returns | `contents.md`; layout rules 22.37 |
+| Workbook | Header, wherever an Organisation is open, and the Landing page (one button, no count): the Workbook page (`/workbook`), sections Business Documents, Financial Documents, Review, References, Glossary and Card Notes; on the Landing page Review (every Organisation), Glossary and References; Back or Escape returns | `contents.md`; layout rules section 7, "The Workbook" |

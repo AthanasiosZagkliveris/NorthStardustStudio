@@ -2,7 +2,7 @@
 
 Status: **current design**, written 2026-10-17, updated 2026-11-21, checked against the code (`src/components/controls/`, `src/components/interview/`). Which component draws each kind of control, card, tile and field, and what is still hand-made.
 
-The aim of the owner: all similar things share ONE component, and no place draws its own markup for them (rule 22.24 of `docs/ai/layout-rules.md`). A place passes a class that says only where the thing stands and how wide it is; the look and the reactions belong to the component. The looks of the library agree with the app (`15-library-vs-app.md`).
+The aim of the owner: all similar things share ONE component, and no place draws its own markup for them (`docs/ai/layout-rules.md`, section 6, "Shared components"). A place passes a class that says only where the thing stands and how wide it is; the look and the reactions belong to the component. The looks of the library agree with the app (`15-library-vs-app.md`).
 
 A shared control loads its own stylesheet (it imports it), never only a page's sheet, because the Notes panel and the header are on every page.
 

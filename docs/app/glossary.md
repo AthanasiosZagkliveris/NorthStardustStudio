@@ -28,13 +28,13 @@ One-line definitions, so that terminology is the same in every document and Skil
 
 **Page** — one screen of a System, with its title and rails. **Chapter** — a frame on a page that holds Master Tiles. *Owner: doc 1, C.0.*
 
-**Master Tile / Tile** — the square on a page that opens a dialog (the page tile), and the other tile drawings (a section tile in a dialog, a category tile, a card tile); all are drawn by one `Tile` component. A **Diagram tile** is a Master Tile that stands for a drawing (the Roadmap). *Owner: `tile-and-card-pattern.md`; doc 21.*
+**Master Tile / Tile** — the square on a page that opens a dialog (the page tile), and the other tile drawings (a section tile in a dialog, a category tile, a card tile); all are drawn by one `Tile` component. A **Diagram tile** is a Master Tile that stands for a drawing (the Roadmap). *Owner: `layout-rules.md`; doc 21.*
 
-**Card / Floating card** — a card is an opened tile; a floating card is a card placed over the page (a placement, not a type); every floating card shares one width, content line and double rule between its sections. A card of a completed activity is grey. *Owner: `card-kinds.md`, `tile-and-card-pattern.md`.*
+**Card / Floating card** — a card is an opened tile; a floating card is a card placed over the page (a placement, not a type); every floating card shares one width, content line and double rule between its sections. A card of a completed activity is grey. *Owner: `card-kinds.md`, `layout-rules.md`.*
 
 **Help tile** — a tile that holds no information of its own and only filters and presents records: the **Inventory** (every card with its cost, as tiles or a table, with a filter and sort window) and **Completed**. They stand in the footer band of the Business page Infrastructure & Capability (2 in the pages rail). *Owner: `layout-rules.md`, section 12.*
 
-**Rail / page tab** — the bullets and page tags at the side of a page (Pages on the left, Sections on the right), and the tab that holds them with the Back button. *Owner: `tile-and-card-pattern.md`.*
+**Rail / page tab** — the bullets and page tags at the side of a page (Pages on the left, Sections on the right), and the tab that holds them with the Back button. *Owner: `layout-rules.md`.*
 
 **Reading mode** — light, sepia, dark or auto, chosen in the header. **Token** — a named colour or size in `src/styles/tokens/tokens.ts`, generated into the stylesheets; the colours are tokens per mode. *Owner: `layout-rules.md`, section 2.*
 
@@ -42,7 +42,7 @@ One-line definitions, so that terminology is the same in every document and Skil
 
 **Tooltip** — a dark label above a pressed control that says in one sentence, beginning "Click to ...", what a click does. *Owner: doc 24.*
 
-**Layout check** — the automatic check of every Foundation page against the rulebook (`npm run check:layout`), with a baseline of known findings. *Owner: `layout-rules.md`, section 18.* **Card audit** — the check of one floating card against the card pattern: its width, content line and double rule (`npm run check:card`). *Owner: `tile-and-card-pattern.md`.*
+**Layout check** — the automatic check of every Foundation page against the rulebook (`npm run check:layout`), with a baseline of known findings. *Owner: `layout-rules.md`, section 18.* **Card audit** — the check of one floating card against the card pattern: its width, content line and double rule (`npm run check:card`). *Owner: `layout-rules.md`.*
 
 **Library / contract / placement** — the assets library records every asset once with its variants and a contract (`src/library`); a placement says where an asset stands in the app; two logs record the changes. *Owner: doc 8.*
 
