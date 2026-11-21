@@ -14,38 +14,14 @@ export function aboveTipPosition(at: DOMRect, size: DOMRect, alignRight = false)
     };
 }
 
-/** Whether a tooltip placed there would cover a control the person may want next (a button, a field, a select): sampled at its corners and its middle. */
-function coversControl(left: number, top: number, size: DOMRect, own: HTMLElement): boolean {
-    // (Where the page cannot be hit-tested -- a page drawn without a layout -- nothing is covered.)
-    if (typeof document.elementFromPoint !== "function") {
-        return false;
-    }
-    const points = [[left + 2, top + 2], [left + size.width - 2, top + 2], [left + 2, top + size.height - 2], [left + size.width - 2, top + size.height - 2], [left + size.width / 2, top + size.height / 2]];
-    return points.some(([x, y]) => {
-        const hit = document.elementFromPoint(x, y)?.closest("button, select, input, textarea, a[href], [role=combobox], [contenteditable=true]");
-        return !!hit && !own.contains(hit) && !hit.contains(own);
-    });
-}
-
 /**
- * WHERE A TIP STANDS SO IT COVERS NO CONTROL (owner, 2026-11-14 12:40: a tip over the Purchase select): above its box (aboveTipPosition); where that covers a
- * control (a select, a button, a field), the first place that covers none -- under the box, then beside the control, after its right edge or before its left, on its
- * middle; above where every place covers one. Every tooltip of the app stands by it (the icons', the action symbols', the titles').
+ * WHERE EVERY TIP STANDS, ONE RULE (owner, 2026-11-21 16:02 UTC+2: "Tooltips should have the same style, and use the same rules about how and where they appear"):
+ * above its box, its left edge on the box's left edge (aboveTipPosition); under it only where the window has no room above. The same for every tooltip of the app
+ * (the icons', the bullets', the action symbols', the titles'). (Until 2026-11-21 a tip that would cover a control moved under it or beside it, so tips stood in
+ * three places; one tip shows at a time, and it goes when the pointer leaves.)
  */
-export function tipPlace(box: DOMRect, size: DOMRect, own: HTMLElement, alignRight = false): { left: number; top: number } {
-    const above = aboveTipPosition(box, size, alignRight);
-    // (Beside the control itself, not its box: next to the icon the person points at.)
-    const icon = own.getBoundingClientRect();
-    const middle = Math.max(8, Math.min(icon.top + icon.height / 2 - size.height / 2, window.innerHeight - 8 - size.height));
-    const places = [
-        above,
-        { left: above.left, top: box.bottom + 6 },
-        { left: icon.right + 6, top: middle },
-        { left: icon.left - 6 - size.width, top: middle }
-        // (NEVER AT THE WINDOW'S EDGE, AWAY FROM ITS CONTROL (owner, 2026-11-21 01:04 UTC+2: the left page arrow's tip stood at the window's right edge, where the
-        // hidden next arrow would be; doc 24, one place beside the control): every place touches the control's box, 6px off it; where none is clear, above it.)
-    ].filter(place => place.left >= 8 && place.left + size.width <= window.innerWidth - 8 && place.top >= 8 && place.top + size.height <= window.innerHeight - 8);
-    return places.find(place => !coversControl(place.left, place.top, size, own)) ?? above;
+export function tipPlace(box: DOMRect, size: DOMRect, _own: HTMLElement, alignRight = false): { left: number; top: number } {
+    return aboveTipPosition(box, size, alignRight);
 }
 
 /** ONE TOOLTIP AT A TIME, app-wide (owner, 2026-11-14 12:40: two "Linked to 2 resources" tips showed at once): the one opened last closes the one before. */

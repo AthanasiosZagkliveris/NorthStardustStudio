@@ -203,12 +203,6 @@
 
 }
 
-.strategy-card-nav .bullet-rail-item:is(:hover, :focus-visible) .strategy-card-nav-tip {
-
-    opacity: 1;
-
-}
-
 /* THE RAIL UNDER ANY CAROUSEL ARROWS (a card's or a section's): a bullet for each of the list, under the right arrow, with the tooltip of its name on hovering (the page rail's bullets and look). */
 .carousel-rail {
 
@@ -678,26 +672,6 @@
     min-width: 0;
 
     max-width: 100%;
-
-}
-
-/* A BULLET'S NAME SHOWN AS A TOOLTIP stands where every tooltip of the app stands (docs/design/current/24-tooltips.md, section 1; owner, 2026-11-10: "Tooltips
-   should not be underlined and should appear in a specific position"): its bottom 6px over the bullet's top, its left edge on the bullet's left edge (so it stays
-   inside the window whichever side the tab stands on), never underlined. Where the names stand beside the bullets, they are
-   names, not tooltips, and keep their place. */
-.carousel-rail:not(.carousel-rail-named) .strategy-card-nav-tip {
-
-    top: auto;
-
-    bottom: calc(100% + 6px);
-
-    right: auto;
-
-    left: 0;
-
-    transform: none;
-
-    text-decoration: none;
 
 }
 

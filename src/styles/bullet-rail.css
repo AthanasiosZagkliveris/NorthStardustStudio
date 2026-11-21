@@ -338,44 +338,14 @@
 
 .bullet-rail-item:focus-visible { outline: 2px solid var(--line-primary); outline-offset: 4px; border-radius: var(--radius-sm); }
 
-/* Narrow windows: dots only; the label appears beside the dot on
-   hover/focus, like a tooltip -- on the outer side, or over the
-   card (`.tooltip-inside`, set by BulletRail when the outer side
-   has no room), so the screen edge never cuts it off. */
+/* A RAIL THAT SHOWS ITS BULLETS ALONE (a window under 1700px, or a compact rail) does not draw its names: each bullet's name is the app's one tooltip
+   (TitleTooltips, from the bullet's aria-label), in the tooltip's one look and place (docs/design/current/24-tooltips.md; owner, 2026-11-21 16:02 UTC+2: "Tooltips
+   should have the same style, and use the same rules about how and where they appear"). */
 .bullet-rail-label {
 
-    position: absolute;
-    top: 50%;
-
-    padding: 4px 8px;
-
-    /* The one tooltip's colours (colors.css --tooltip-*). */
-    border: 1px solid var(--tooltip-border);
-    border-radius: var(--radius-md);
-    background: var(--tooltip-bg);
-    box-shadow: var(--tooltip-shadow);
-    color: var(--tooltip-text);
-
-    white-space: nowrap;
-    font-weight: 500;
-
-    transform: translateY(-50%);
-    opacity: 0;
-    pointer-events: none;
+    display: none;
 
 }
-
-/* (A name always stands INWARDS, over the page, so the window's edge never cuts it.) */
-.bullet-rail-left .bullet-rail-label { left: 24px; }
-
-.bullet-rail-right .bullet-rail-label { right: 24px; }
-
-.bullet-rail-left .tooltip-inside .bullet-rail-label { right: auto; left: 24px; }
-
-.bullet-rail-right .tooltip-inside .bullet-rail-label { left: auto; right: 24px; }
-
-.bullet-rail-item:hover .bullet-rail-label,
-.bullet-rail-item:focus-visible .bullet-rail-label { opacity: 1; }
 
 /* Wide windows: the gutters have room, so labels sit inline, on the
    outer side of the bullet, wrapping where the gutter ends. */
@@ -430,6 +400,7 @@
        bullet stays centred on the item. */
     .bullet-rail-label {
 
+        display: inline;
         position: static;
 
         min-width: 0;
@@ -473,11 +444,6 @@
 
     }
 
-    /* The label is inline here: the status word is left to the
-       button's accessible name (and the shape), rather than
-       lengthening every label. */
-    .bullet-rail-status-word { display: none; }
-
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -492,42 +458,8 @@
 
     .bullet-rail.bullet-rail-compact .bullet-rail-title { display: none; }
 
-    .bullet-rail.bullet-rail-compact .bullet-rail-label {
-
-        position: absolute;
-        top: 50%;
-
-        max-width: none;
-        padding: 4px 8px;
-
-        white-space: nowrap;
-
-        border: 1px solid var(--tooltip-border);
-        border-radius: var(--radius-md);
-        background: var(--tooltip-bg);
-        box-shadow: var(--tooltip-shadow);
-        color: var(--tooltip-text);
-        font-weight: 500;
-
-        text-indent: 0;
-        margin-left: 0;
-
-        transform: translateY(-50%);
-        opacity: 0;
-        pointer-events: none;
-
-    }
-
-    /* Its names are tooltips and its bullets glow: nothing may clip either. */
-    .bullet-rail.bullet-rail-compact .bullet-rail-list { overflow: visible; }
-
-    /* The name stands INWARDS, over the page (never out toward the window's edge, where it would be cut). */
-    .bullet-rail-left.bullet-rail-compact .bullet-rail-label { left: 24px; right: auto; }
-
-    .bullet-rail-right.bullet-rail-compact .bullet-rail-label { right: 24px; left: auto; }
-
-    .bullet-rail.bullet-rail-compact .bullet-rail-item:hover .bullet-rail-label,
-    .bullet-rail.bullet-rail-compact .bullet-rail-item:focus-visible .bullet-rail-label { opacity: 1; }
+    /* (Its names are the app's tooltips: not drawn here.) */
+    .bullet-rail.bullet-rail-compact .bullet-rail-label { display: none; }
 
 }
 
@@ -794,40 +726,3 @@ body:has(.section-tile-overlay, .floating-overlay) .bullet-rails {
 
 }
 
-/* A RAIL'S NAME SHOWN AS A TOOLTIP IS A TOOLTIP (owner, 2026-11-10 06:23: "Tooltips should not be underlined and should appear in a specific position"; again
-   2026-11-21 01:01 UTC+2: "I have said the Tooltips should not be underlined!"; doc 24): where a rail shows its bullets alone -- a window under 1700px, or a
-   compact rail -- a bullet's name appears beside it as a tooltip, with the tooltip's own text: never underlined, and none of its item's bold tracking, shadow
-   or capitals. (Where the names stand inline, from 1700px, the hover underline stays: it is the rail's, not a tooltip's.) */
-@media not all and (min-width: 1700px) {
-
-    .bullet-rail .bullet-rail-item .bullet-rail-label,
-    .bullet-rail .bullet-rail-item:hover .bullet-rail-label,
-    .bullet-rail .bullet-rail-item:focus-visible .bullet-rail-label,
-    .bullet-rail .bullet-rail-item:hover .bullet-rail-label .list-number,
-    .bullet-rail .bullet-rail-item:focus-visible .bullet-rail-label .list-number {
-
-        text-decoration: none;
-        letter-spacing: normal;
-        text-transform: none;
-        text-shadow: none;
-
-    }
-
-}
-
-@media (min-width: 1700px) {
-
-    .bullet-rail.bullet-rail-compact .bullet-rail-item .bullet-rail-label,
-    .bullet-rail.bullet-rail-compact .bullet-rail-item:hover .bullet-rail-label,
-    .bullet-rail.bullet-rail-compact .bullet-rail-item:focus-visible .bullet-rail-label,
-    .bullet-rail.bullet-rail-compact .bullet-rail-item:hover .bullet-rail-label .list-number,
-    .bullet-rail.bullet-rail-compact .bullet-rail-item:focus-visible .bullet-rail-label .list-number {
-
-        text-decoration: none;
-        letter-spacing: normal;
-        text-transform: none;
-        text-shadow: none;
-
-    }
-
-}

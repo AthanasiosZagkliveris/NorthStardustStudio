@@ -127,6 +127,14 @@
 
 }
 
+/* (The words beside the arrow take that line too, so the arrow, the words and the "i" after them share one middle: the Initiatives' head set its capitals on a
+   21px line, and the arrow and the "i" stood 3px under them; owner, 2026-11-21 16:02 UTC+2: "The initiatives is not aligned with its folded arrow and its i".) */
+.strategy-box-number:has(> .label-arrow) {
+
+    line-height: var(--label-line);
+
+}
+
 /* A chapter title's arrow: after the title and its "i", the title's size. */
 .card-title-row > .label-arrow {
 

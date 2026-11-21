@@ -125,8 +125,9 @@ describe("BulletRail", () => {
         // The active page keeps its active look, its shape inside it.
         expect(row.classList.contains("active")).toBe(true);
         expect(row.querySelector(".bullet-rail-dot")?.getAttribute("data-status")).toBe("in-progress");
-        // The narrow layout's tooltip is the label: the word is in it.
-        expect(row.querySelector(".bullet-rail-label")?.textContent).toBe("2. Customer Engagement: in progress");
+        // The label shows the name alone; the status word is in the name, which is the app's tooltip where the rail shows its bullets alone (doc 24).
+        expect(row.querySelector(".bullet-rail-label")?.textContent).toBe("2. Customer Engagement");
+        expect(row.getAttribute("aria-label")).toBe("2. Customer Engagement: in progress");
 
         expect(screen.getByRole("button", { name: "1. Foundation: defined" })).toBeTruthy();
         expect(screen.getByRole("button", { name: "3. Infrastructure & Capability: not started" })).toBeTruthy();

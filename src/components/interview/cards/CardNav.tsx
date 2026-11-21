@@ -76,10 +76,11 @@ export default function CardNav({
                                 className={"bullet-rail-item" + (at === index ? " active" : "")}
                                 aria-current={at === index ? "true" : undefined}
                                 aria-label={kind + " " + (at + 1) + (names?.[at]?.trim() ? ": " + names[at].trim() : "")}
+                                // (Its name in the app's one tooltip, as every rail's bullet says it: TitleTooltips, docs/design/current/24-tooltips.md.)
+                                title={(at + 1) + ". " + (names?.[at]?.trim() || "Unnamed " + kind.toLowerCase())}
                                 onClick={() => onGo(id)}
                             >
                                 <span className="bullet-rail-dot status-shape" aria-hidden="true" />
-                                <span className="strategy-card-nav-tip" aria-hidden="true">{(at + 1) + ". " + (names?.[at]?.trim() || "Unnamed " + kind.toLowerCase())}</span>
                             </button>
                         </li>
                     ))}

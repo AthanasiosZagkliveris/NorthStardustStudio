@@ -1077,12 +1077,11 @@ h6 {
 /* ==========================================================
    Tooltip
 
-   The one tooltip look: the dark label the navigation rails show
-   beside a bullet in a narrow window (.bullet-rail-label in
-   bullet-rail.css -- the same ground, text colour, padding,
-   corners and weight). Placed in window coordinates by whoever
-   shows it, kept inside the window's edges, and never in the way
-   of the pointer.
+   The one tooltip look, for every tooltip of the app (TooltipBox:
+   the icons', the rails' bullets', the action symbols'; design
+   document 24). Placed in window coordinates in the one place
+   (tipPlace, Tooltip.tsx), kept inside the window's edges, and
+   never in the way of the pointer.
 ========================================================== */
 .app-tooltip {
   position: fixed;
@@ -1090,6 +1089,9 @@ h6 {
      question asked inside one (1100) -- a tip is read whole, whatever it stands over. */
   z-index: 1200;
 
+  /* As wide as its words (up to 360px), wherever it is first drawn: a tip measured at a control by the window's right edge was squeezed into the room left
+     there and wrapped (a rail bullet's name, 2026-11-21). */
+  width: max-content;
   max-width: min(360px, calc(100vw - 16px));
   /* One row of the pop-up cells' pitch: 32px, the words centred in it. */
   display: flex;
