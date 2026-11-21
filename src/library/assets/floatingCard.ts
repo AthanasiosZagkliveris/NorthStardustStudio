@@ -21,7 +21,7 @@ export const floatingCard: AssetContract = {
     summary: "The one surface every floating card stands on: 492px wide, every kind (a founder's too), 8px corners, 12px padding and 12px between everything, a height that follows its contents, an inset light and shade edge and a drop shadow, in the tint of its tile and the colours of the reading mode.",
     component: "src/components/interview/tiles/SectionTiles.tsx, the FloatingCards component",
     stylesheet: "src/styles/section-tiles.css",
-    alsoStylesheets: ["src/styles/page-3-edges.css", "src/styles/global.css"],
+    alsoStylesheets: ["src/styles/capability-edges.css", "src/styles/global.css"],
     parts: [
         "host (a dialog over the page, which is neither darkened nor inert, placed by its tile)",
         "stack (one card, or a parent above its child)",

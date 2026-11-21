@@ -32,7 +32,7 @@ function openOfferingResource(name: string) {
 
 const css = stylesheet("section-tiles.css");
 const global = stylesheet("global.css");
-const edges = stylesheet("page-3-edges.css");
+const edges = stylesheet("capability-edges.css");
 const foldArrowCss = stylesheet("fold-arrow.css");
 const titleArrowCss = stylesheet("title-arrow.css");
 

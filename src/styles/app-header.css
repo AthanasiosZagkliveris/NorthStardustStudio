@@ -53,14 +53,14 @@
    white, is drawn light instead. */
 :root[data-theme="dark"] .app-logo {
 
-    content: url("../assets/NORTH STARDUST Organization Framework - dark.svg");
+    content: url("../assets/organization-framework-dark.svg");
 
 }
 
 /* In the sepia theme the lettering takes the sepia ink. */
 :root[data-theme="sepia"] .app-logo {
 
-    content: url("../assets/NORTH STARDUST Organization Framework - sepia.svg");
+    content: url("../assets/organization-framework-sepia.svg");
 
 }
 

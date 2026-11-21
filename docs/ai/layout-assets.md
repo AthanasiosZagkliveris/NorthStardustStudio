@@ -75,7 +75,7 @@ A square button with a drawn plus that adds a card or a row. A swap of two colou
 
 A 24px round "i" after a label that opens a note. A swap of two colours under the pointer (the disc filled, the letter in the ground colour); it never changes size.
 
-- **Kind:** round button. **Code:** `src/components/interview/fields/InfoNote.tsx`. **Stylesheet:** `src/styles/conversation.css` (also `src/styles/section-tiles.css`, `src/styles/page-3-edges.css`, `src/styles/global.css`).
+- **Kind:** round button. **Code:** `src/components/interview/fields/InfoNote.tsx`. **Stylesheet:** `src/styles/conversation.css` (also `src/styles/section-tiles.css`, `src/styles/capability-edges.css`, `src/styles/global.css`).
 - **Parts:** button (24px disc with a stroke); the letter i (bold italic, small size); an invisible 24px hit area (::after).
 - **States:** rest, hover, focus, open.
 - **Used in:** after the label of nearly every field and every section or column title; dialog headers and the box names over a floating card; a tick box's label (outside it).
@@ -85,7 +85,7 @@ A 24px round "i" after a label that opens a note. A swap of two colours under th
 |---|---|---|
 | plain | page | the base look: blue stroke and letter on a white disc, in a label outside any card of a hue |
 | tinted | hue | inside a card or tile of a hue: stroke and letter in the card's tint (section-tiles.css) |
-| page-3 | answer-columns business-capability | the page-3 card look: ground fill, 1.5px stroke, letter in --info-ink, a full swap on hover, focus and open (page-3-edges.css) |
+| page-3 | answer-columns business-capability | the page-3 card look: ground fill, 1.5px stroke, letter in --info-ink, a full swap on hover, focus and open (capability-edges.css) |
 
 | Number | Value |
 |---|---|
@@ -318,7 +318,7 @@ A drawn dropdown: a 44px trigger in one of the standard widths (or hugging its w
 
 The one surface every floating card stands on: 492px wide, every kind (a founder's too), 8px corners, 12px padding and 12px between everything, a height that follows its contents, an inset light and shade edge and a drop shadow, in the tint of its tile and the colours of the reading mode.
 
-- **Kind:** card base. **Code:** `src/components/interview/tiles/SectionTiles.tsx, the FloatingCards component`. **Stylesheet:** `src/styles/section-tiles.css` (also `src/styles/page-3-edges.css`, `src/styles/global.css`).
+- **Kind:** card base. **Code:** `src/components/interview/tiles/SectionTiles.tsx, the FloatingCards component`. **Stylesheet:** `src/styles/section-tiles.css` (also `src/styles/capability-edges.css`, `src/styles/global.css`).
 - **Parts:** host (a dialog over the page, which is neither darkened nor inert, placed by its tile); stack (one card, or a parent above its child); item (the box name, then the card); caption (the box name, with the box's "i"); body (the card: its ground, edge and shadow).
 - **States:** rest, open.
 - **Used in:** every floating card on the Foundation pages (Identity, Brand, Business, Strategy); the Resource, Activity, Partner, Provider, Founder, Legal Entity and Brand cards.

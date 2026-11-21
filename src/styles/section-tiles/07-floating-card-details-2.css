@@ -841,6 +841,14 @@ body:has(.floating-overlay) .section-tile-overlay:not(.floating-overlay) > .caro
 
 }
 
+/* The same for a dialog under a dialog (a Strategic Period's "+" opens its new Theme over the Period): a carousel layer with a later one after it keeps its arrows and
+   its rail out of sight at once, in the same frame the new layer is drawn, before CarouselArrows has drawn it again; layout check, 2026-11-21. */
+.section-tile-overlay[data-carousel]:has(~ .section-tile-overlay[data-carousel]) > :is(.carousel-arrow, .carousel-rail) {
+
+    display: none;
+
+}
+
 /* ---- A LEGAL REQUIREMENT'S OR EXPENSE'S FLOATING CARD ON THE BUSINESS CARD'S GEOMETRY ----
    The same three columns (the marker, the content, the x) and the same rows: a side-label row is the label in --card-label-col, then the cell, to the content's right
    edge (the Date, the Cost, the Frequency, the Responsible, the Type): the name cell, every cell and the x stand where a Resource card's do. */

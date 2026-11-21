@@ -2,15 +2,15 @@
  * Maps every Framework System's number to its
  * icon asset URL.
  *
- * Icons live in assets/Icons, one SVG per System,
- * named "<number>. <Name> Icon.svg" (e.g.
- * "07. Product Development Icon.svg"). The leading
+ * Icons live in assets/system-icons, one SVG per
+ * System, named "<number>-<name>.svg" (e.g.
+ * "07-product-development.svg"). The leading
  * number is all that's needed to match an icon to
  * a System -- the rest of the filename is just for
  * humans browsing the folder.
  */
 const iconFiles = import.meta.glob(
-    "../assets/Icons/*.svg",
+    "../assets/system-icons/*.svg",
     {
         eager: true,
         import: "default"
@@ -22,7 +22,7 @@ const iconsByNumber = new Map<number, string>();
 for (const [path, url] of Object.entries(iconFiles)) {
 
     const filename = path.split("/").pop() ?? "";
-    const match = /^(\d{1,2})\./.exec(filename);
+    const match = /^(\d{1,2})-/.exec(filename);
 
     if (!match) {
         continue;

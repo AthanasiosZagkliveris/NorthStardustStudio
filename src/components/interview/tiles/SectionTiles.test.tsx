@@ -1189,7 +1189,7 @@ describe("a Workspace is one tidy resource card", () => {
     });
 
     it("is styled by the resource card's rules: no stylesheet rule names a Workspace form or card any more", () => {
-        for (const sheet of ["section-tiles.css", "global.css", "page-3-edges.css"]) {
+        for (const sheet of ["section-tiles.css", "global.css", "capability-edges.css"]) {
             expect(stylesheet(sheet)).not.toMatch(/\.workspace-(form|card)\b|--workspace-form-width/);
         }
     });

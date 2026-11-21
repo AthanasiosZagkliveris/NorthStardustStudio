@@ -25,7 +25,7 @@ import { asLegalEntityValue } from "../../../framework/engine/AnswerUtils.ts";
 import { SECTIONS } from "./BusinessCapabilityModel.ts";
 import "../../../styles/system-confirmation.css";
 import "../../../styles/delivery.css";
-import "../../../styles/page-3-edges.css";
+import "../../../styles/capability-edges.css";
 import type { BusinessCapabilityEditorProps } from "./capability/types.ts";
 import { useCapabilityState } from "./capability/useCapabilityState.tsx";
 import { useCapabilityCardFields } from "./capability/useCapabilityCardFields.tsx";

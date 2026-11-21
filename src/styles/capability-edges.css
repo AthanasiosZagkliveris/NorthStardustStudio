@@ -1,6 +1,6 @@
 /* ==========================================================
-   PAGE 3 (Infrastructure & Capability): THE EDGES OF THE OPENED CARDS AND OF WHAT IS IN THEM, and the small controls
-   of that page (docs/ai/layout-rules.md, 5a "The edge of a box" and "Small controls").
+   INFRASTRUCTURE & CAPABILITY: THE EDGES OF THE OPENED CARDS AND OF WHAT IS IN THEM, and the small controls
+   of that section (docs/ai/layout-rules.md, 5a "The edge of a box" and "Small controls").
 
    The grouped boxes (tiles, subcategory boxes, card boxes) have no stroke: their edge is an inset light from the top left and an inset shade to the
    bottom right (--box-light, --box-shade). The OPENED cards (founder, resource, activity, partner, provider), their CELLS (inputs, pickers, text
