@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { opaque, shownFrame } from "./shownFrame.ts";
 
 /**
- * THE PAGE TAB (docs/ai/tile-and-card-pattern.md, "Rails as a page tab"): the Pages rail and the Sections rail stand in a tab attached to the side of the
+ * THE PAGE TAB (docs/ai/layout-rules.md, the tile and card pattern folded in on 2026-11-21, "Rails as a page tab"): the Pages rail and the Sections rail stand in a tab attached to the side of the
  * page's frame, in the frame's own colours -- its ground, its edge, its heading ink -- so the bullets and their names read as part of the page they belong to.
  *
  * The rails stand outside the page's cards, so they cannot inherit a card's colours: this reads them from the first frame (for the left tab) and the last frame (for

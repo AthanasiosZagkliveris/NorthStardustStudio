@@ -23,7 +23,7 @@ Status: **index**, updated 2026-11-21, written by `npm run docs:index` (the subj
 
 - **Card kinds**: [card-kinds](ai/card-kinds.md)
 - **Card links (proposal)**: [archive](archive/proposals/card-links.md)
-- **Card structure**: [26](design/current/26-card-structure.md); [tile and card pattern](ai/tile-and-card-pattern.md)
+- **Card structure**: [26](design/current/26-card-structure.md); [layout-rules section 8](ai/layout-rules.md)
 - **Caregiving**: [31 section 4](design/questionnaire/31-positioning-categories.md)
 - **Catalogue record**: [6](design/core/06-catalogue-record.md)
 - **Change history (log)**: [4](design/core/04-log.md); [archive (before 2026-11-01)](archive/log/log-archive-2026-07-to-10.md); [archive (2026-11-01 to 07)](archive/log/log-archive-2026-11-01-to-07.md)
@@ -101,7 +101,7 @@ Status: **index**, updated 2026-11-21, written by `npm run docs:index` (the subj
 
 - **Text holders**: [16](design/current/16-text-holders.md)
 - **Text links**: [19](design/current/19-text-links.md)
-- **Tile and card pattern**: [tile-and-card-pattern](ai/tile-and-card-pattern.md)
+- **Tile and card pattern**: [layout-rules sections 6, 8 to 10](ai/layout-rules.md)
 - **Tile documents (the form and the list)**: [40](design/questionnaire/40-tile-documents.md)
 - **Tooltips**: [24](design/current/24-tooltips.md)
 ## U

@@ -6,7 +6,7 @@ Part F is document 26 (card structure). The catalogue tool (`tools/scripts/catal
 
 The other documents of the project, with what each holds, are listed in `docs/README.md`; the map of the app is `docs/app/contents.md`. Every change is written in the log (document 4) and nowhere else.
 
-Other current Markdown documents in the project that this one points to and does not repeat: `docs/ai/layout-rules.md` (the measured layout rulebook and the automatic check), `docs/ai/tile-and-card-pattern.md`, `docs/ai/card-kinds.md`, `docs/app/contents.md`, `docs/specifications/business-system/*.md` (the page specifications), `docs/ai/framework-dsl-grammar.md` and `docs/ai/framework-conventions-and-patterns.md` (the framework).
+Other current Markdown documents in the project that this one points to and does not repeat: `docs/ai/layout-rules.md` (the measured layout rulebook and the automatic check), `docs/ai/card-kinds.md`, `docs/app/contents.md`, `docs/specifications/business-system/*.md` (the page specifications), `docs/ai/framework-dsl-grammar.md` and `docs/ai/framework-conventions-and-patterns.md` (the framework).
 
 ## Contents
 
@@ -64,7 +64,7 @@ Every chapter of the Foundation is drawn as Master Tiles, the two Financial page
 | Subject | File |
 |---|---|
 | Layout tokens, sizes, alignment, interactions, the automatic layout check | `docs/ai/layout-rules.md` |
-| Tile and card pattern | `docs/ai/tile-and-card-pattern.md` |
+| Tile and card pattern | `docs/ai/layout-rules.md` (sections 6 and 8 to 10) |
 | Card kinds | `docs/ai/card-kinds.md` |
 | Page specifications (Business System) | `docs/specifications/business-system/` |
 | Where each part of the app is | `docs/app/contents.md` |
@@ -126,7 +126,7 @@ Pages come from `src/assets/SystemAnswers/01..04_*.md`. Each page's `Structure` 
 | Notepad panel | Right slide-in, opened by the header's Notes (as before the Workbook, 2026-11-09); notes linked to fields or cards; "pick" banner; empty state; marks on linked fields | `C/notepad/Notepad.tsx`, `NotedHover.tsx` | All pages with an organisation |
 | Search dialog | Results in four groups (Pages, Fields, Glossary, Your answers) open a System, page, field (card unfolded), a term on the Workbook page's Glossary, or an answer | `C/SearchDialog.tsx`, `services/SearchService.ts` | Header |
 | Undo toast | One toast for the app, after a removal | `C/UndoToast.tsx`, `services/UndoService.ts` | Header |
-| Workbook page | One page drawn as a dialog: the title "Workbook", one framed panel with the carousel arrows and a tab of bullets; sections Business Documents (Business Plan, Business Model Canvas), Financial Documents (Financial Forecast, Funding Request, Financial Plan), Review, References, Glossary and Card Notes; the Business Plan's export ends with the three Financial Documents as its appendix (owner, 2026-11-20 20:47 UTC+2, his decision; `PLAN_EXPORT_WITH_FINANCIAL_APPENDIX`, doc 48, section 14); from the Landing page, the total review, the Glossary of every Organisation and the References. Its shape: layout rules 22.37. Review: four groups (Still open, Worth a second look, Missing from the documents, Key dates), each item with "Go there". Glossary: the app's terms (`data/glossary.ts`) in blue and the user's own (`services/GlossaryService.ts`) in terracotta, A to Z, under ONE funnel. References: `Sources.ts` as a Harvard list, a funnel of letter ranges (`letterRanges`) | `pages/Workbook.tsx`, `C/notepad/Notepad.tsx`, `C/OrganizationReview.tsx`, `C/GlossaryList.tsx`, `C/BusinessDocumentsView.tsx`, `C/references/HarvardReference.tsx` | `/workbook` (`/glossary`, `/review` and `/documents` open it on their section) |
+| Workbook page | One page drawn as a dialog: the title "Workbook", one framed panel with the carousel arrows and a tab of bullets; sections Business Documents (Business Plan, Business Model Canvas), Financial Documents (Financial Forecast, Funding Request, Financial Plan), Review, References, Glossary and Card Notes; the Business Plan's export ends with the three Financial Documents as its appendix (owner, 2026-11-20 20:47 UTC+2, his decision; `PLAN_EXPORT_WITH_FINANCIAL_APPENDIX`, doc 48, section 14); from the Landing page, the total review, the Glossary of every Organisation and the References. Its shape: layout rules section 7, "The Workbook". Review: four groups (Still open, Worth a second look, Missing from the documents, Key dates), each item with "Go there". Glossary: the app's terms (`data/glossary.ts`) in blue and the user's own (`services/GlossaryService.ts`) in terracotta, A to Z, under ONE funnel. References: `Sources.ts` as a Harvard list, a funnel of letter ranges (`letterRanges`) | `pages/Workbook.tsx`, `C/notepad/Notepad.tsx`, `C/OrganizationReview.tsx`, `C/GlossaryList.tsx`, `C/BusinessDocumentsView.tsx`, `C/references/HarvardReference.tsx` | `/workbook` (`/glossary`, `/review` and `/documents` open it on their section) |
 | Global Settings page | Financial plan, Business stages, Pay & tax, Assets (useful life, amortisation), Rates, Reserve, Channel Fee Table | `pages/GlobalSettings.tsx`, `FinancialPlanSettings.tsx` | `/settings` |
 | Business Documents | A section of the Workbook page (2026-11-09): tabs Business Plan and Business Model Canvas, downloads | `C/BusinessDocumentsView.tsx` | `/workbook` (`/documents` opens it there) |
 | Financial Documents | A section of the Workbook page (2026-11-20, owner 20:46 UTC+2), under Business Documents, drawn by the same view: tabs Financial Forecast (period picker, the two cash charts), Funding Request, Financial Plan; downloads (doc 48, section 14) | `C/BusinessDocumentsView.tsx` (`group="financial"`) | `/workbook` |
@@ -289,7 +289,7 @@ Tile dialogs (`SectionTiles.tsx`): header with a trail and Back (`DialogHeading`
 
 ### C.12 What the record shows
 
-- **In code, not named in `tile-and-card-pattern.md` or `card-kinds.md`:** `SubTiles`, `PictureBoxes`, `CardBoxes`, `SectionView`, `SubcategoryBoxes`, `AddTile`, `CardNav`, `BoxActions`, `FoldAllToggle`, `FigureTiles`, `SignalList`, `CashTimelineChart`, the Introduction page, the status line, Focus mode, the undo toast, the Notepad, the search dialog, the Inventory funnel, "Completed".
+- **In code, not named in `card-kinds.md`:** `SubTiles`, `PictureBoxes`, `CardBoxes`, `SectionView`, `SubcategoryBoxes`, `AddTile`, `CardNav`, `BoxActions`, `FoldAllToggle`, `FigureTiles`, `SignalList`, `CashTimelineChart`, the Introduction page, the status line, Focus mode, the undo toast, the Notepad, the search dialog, the Inventory funnel, "Completed".
 - **Named in documents, not in code:** "Master Tile", "Chapter" and "help tile" are the owner's words and have no code counterpart. "Marker column" is gone, as `card-kinds.md` says.
 - **Unused:** `InterviewProgress` is switched off.
 - **Near-duplicates (the shared components are in document 21):** the two funnels (`CapabilityOverview`, `CalendarFunnel`); the confirmation-dialog markup repeated in six places; `business-channel-table` and `business-relationship-table`; the three rails (`BulletRail`, `CardNav`, the dialog rail); several "empty note" classes.

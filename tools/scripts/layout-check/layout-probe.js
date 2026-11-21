@@ -479,7 +479,7 @@
                 if (!control || !visible(control) || cell.classList.contains("business-field-inline") || cell.classList.contains("business-field-side") || cell.classList.contains("legal-entity-field-side") || cell.matches(".business-capability-cost-after:has(> .business-field-side), .legal-entity-tax-row, .legal-entity-registrations, .legal-entity-field-wide:has(.legal-entity-number-row), .legal-entity-field:has(> .numbered-list), .legal-entity-side-row, .founders-profile-row, .legal-entity-audience > .legal-entity-field + .legal-entity-field, .legal-entity-grid-requirement > *, .legal-entity-grid-expense-card > .legal-entity-field-wide, .founders-profile .founder-band, .business-segment-grid-single > .legal-entity-field")) {
                     continue;
                 }
-                // DECLARED (docs/ai/tile-and-card-pattern.md, "Text holders and side cells"): in a box of bands (the Segment and Profile cards) a label with its cell beside it has the cell at the right end of the band, level with the label; `npm run check:card` measures it.
+                // DECLARED (docs/ai/layout-rules.md, the tile and card pattern folded in on 2026-11-21, "Text holders and side cells"): in a box of bands (the Segment and Profile cards) a label with its cell beside it has the cell at the right end of the band, level with the label; `npm run check:card` measures it.
                 const pairLabel = control.closest(".business-segment-box .legal-entity-pair")?.querySelector(".field-label");
                 if (pairLabel && visible(pairLabel) && rect(pairLabel).top < rect(control).bottom && rect(pairLabel).bottom > rect(control).top && rect(pairLabel).right <= rect(control).left) {
                     continue;
@@ -885,7 +885,7 @@
                     if (item.unchecked) {
                         continue;
                     }
-                    // DECLARED (docs/ai/tile-and-card-pattern.md, "Three levels" and "Flush"): a box of bands (the Segment and Profile cards) stacks its questions as bands that follow each other with no gap, each with its own padding, not as fields a row gap apart; `npm run check:card` measures those bands.
+                    // DECLARED (docs/ai/layout-rules.md, the tile and card pattern folded in on 2026-11-21, "Three levels" and "Flush"): a box of bands (the Segment and Profile cards) stacks its questions as bands that follow each other with no gap, each with its own padding, not as fields a row gap apart; `npm run check:card` measures those bands.
                     // (The Profile's Needs are bands of the same grid, outside a box: since their Emotional and Social notes became the shared Notes,
                     // 2026-11-05, a box's text stands over the next band's question as in every box.)
                     // (The Value Proposition's bands, 2026-11-09: a section of bands straight in its full-width grid, as the Needs are in theirs.)
@@ -1662,7 +1662,7 @@
                     if (aside > 2) {
                         fail("a section tile's title is centred across its square", tile, { aside });
                     }
-                    // THE TITLE'S FIRST LINE STANDS 24px FROM THE SQUARE'S TOP (+ the tile's 1px edge) on every tile of every size (docs/ai/tile-and-card-pattern.md): a title of two lines keeps its first line there.
+                    // THE TITLE'S FIRST LINE STANDS 24px FROM THE SQUARE'S TOP (+ the tile's 1px edge) on every tile of every size (docs/ai/layout-rules.md, the tile and card pattern folded in on 2026-11-21): a title of two lines keeps its first line there.
                     // (A dialog's small tiles have it 12px from the top, so four lines of the list fit above the tile's foot: owner, 2026-11-09.)
                     const firstFromTop = titleBox.top - box.top;
                     const wantedTop = tile.closest(".section-tile-dialog") ? 13 : 25;
@@ -3032,7 +3032,7 @@
             }
         }
 
-        // 21. ONE QUESTION PER BAND (docs/ai/tile-and-card-pattern.md, "One band pattern"): in a box of bands (the Foundation page's cards and dialogs, on the page or in a dialog) each band
+        // 21. ONE QUESTION PER BAND (docs/ai/layout-rules.md, the tile and card pattern folded in on 2026-11-21, "One band pattern"): in a box of bands (the Foundation page's cards and dialogs, on the page or in a dialog) each band
         // holds one question -- one labelled field row, the outermost in the band -- so the tints alternate question by question. `npm run check:card` measures it on the floating cards too.
         // (A band of a SECTION -- page 3's cards, data-section -- holds its section's questions, the card's thin line between them: owner, 2026-11-18 21:45 and 22:00
         // UTC+2; layout rules section 11, "Page 3's cards in bands".)
@@ -3841,7 +3841,7 @@
         if (!card || getComputedStyle(card).boxShadow === "none") {
             fail("a floating card has a drop shadow", { shadow: card && getComputedStyle(card).boxShadow });
         }
-        // A FLOATING CARD DOES NOT DARKEN THE PAGE BEHIND IT (docs/ai/tile-and-card-pattern.md).
+        // A FLOATING CARD DOES NOT DARKEN THE PAGE BEHIND IT (docs/ai/layout-rules.md, the tile and card pattern folded in on 2026-11-21).
         if (overlay && !/rgba\(0, 0, 0, 0\)|transparent/.test(getComputedStyle(overlay).backgroundColor) && !document.querySelector(".section-tile-dialog")) {
             fail("a floating card does not darken the page behind it", { background: getComputedStyle(overlay).backgroundColor });
         }

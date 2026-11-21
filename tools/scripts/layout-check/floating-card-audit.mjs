@@ -1,5 +1,5 @@
 /**
- * THE AUDIT OF A FLOATING CARD OF QUESTIONS (docs/ai/tile-and-card-pattern.md, "A floating card of questions"): the Profile card is the model, and a new card of this kind is run
+ * THE AUDIT OF A FLOATING CARD OF QUESTIONS (docs/ai/layout-rules.md, the tile and card pattern folded in on 2026-11-21, "A floating card of questions"): the Profile card is the model, and a new card of this kind is run
  * through this before it is called done. It opens the card in the running app (a Vite server on BASE_URL, 1420 by default), in light, sepia and dark and at two widths, and checks:
  *   width and reflow; the one content line; bands, lines and rules from side to side; bands flush; rules (the shared double rule between sections, one line between subsections);
  *   one band pattern, by the colours drawn (under a title band the first band untinted, then the tints alternate, the Notes the next tint); one question per band; heading levels that never skip; no "None of these" in an option; text 4.5:1 and a control's boundary 3:1 (measured on the pixels); targets of 24px; names; console errors.
@@ -103,7 +103,7 @@ const structure = () => {
             if (tinted && gap > 1 && body.dataset.endGround !== ground) fail("card end", "the end shows another colour under the last band (" + Math.round(gap) + "px)");
         }
     }
-    // words: no "None of these" (an Other the user writes in). (The word "or" is right between two different things, a slash between similar ones: owner, 2026-11-03, docs/ai/tile-and-card-pattern.md, "Options".)
+    // words: no "None of these" (an Other the user writes in). (The word "or" is right between two different things, a slash between similar ones: owner, 2026-11-03, docs/ai/layout-rules.md, the tile and card pattern folded in on 2026-11-21, "Options".)
     const words = [...card.querySelectorAll(".radio-choice-option span, .business-foundation-tick-label")].map(e => e.textContent.trim()).filter(w => /None of these/.test(w));
     if (words.length) fail("option words", words.slice(0, 4).join(" | "));
     const cap = document.querySelector(".floating-card-caption")?.textContent.trim().replace(/i$/, "").trim();

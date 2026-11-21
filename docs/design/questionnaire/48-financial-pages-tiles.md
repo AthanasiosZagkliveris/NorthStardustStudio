@@ -226,7 +226,7 @@ Built (owner, 2026-11-20 12:49 UTC+2: "proceed to changes"): rule | was | now.
 | Rule | Was | Now |
 |---|---|---|
 | The start-up rule: the competitors' range is shown, never compared with the price (section 12.2) | Last in the Price's "i" | A line under the price: "Your competitors charge about [From] to [To] for a similar offer."; out of the "i", one owner |
-| A card's lists fold alike (layout rules section 21, `FoldList`) | Volume from Each Month always open | Folded under Sales Volume with its count; open while it holds no month |
+| A card's lists fold alike (layout rules section 6, `FoldList`) | Volume from Each Month always open | Folded under Sales Volume with its count; open while it holds no month |
 | Affirmative voice; a note that names a fix offers it | "... customers buy this Offering every month, but it is charged once here ..." | "On Customer Engagement, customers buy this Offering every month. Charged monthly, its active clients count as clients each month." and the link "Charge it monthly" (or per sale), which sets Charged |
 
 ## 13. The Financials chapter: one proposal for the page (2026-11-20)

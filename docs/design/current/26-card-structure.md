@@ -4,7 +4,7 @@ Status: **current design**, written 2026-10-14, updated 2026-11-02. One entry fo
 
 Related: document 1 (the rest of the current design; Part G is the access by type), document 6 and 7 (generated from this), document 21 (the shared components), document 41 (which groups could link to which).
 
-**Cards of questions.** The Segment card and the Profile card ask choice questions in sections, subsections and questions instead of a table of rows by group; they are not in the tables below. The questions are in docs 35 (the Segment) and 37 (the Profile); the pattern a card of questions follows (width, content line, three levels, the Note that ends each part, the audit `npm run check:card`) is in `docs/ai/tile-and-card-pattern.md`; the parts they are drawn with are in doc 21.
+**Cards of questions.** The Segment card and the Profile card ask choice questions in sections, subsections and questions instead of a table of rows by group; they are not in the tables below. The questions are in docs 35 (the Segment) and 37 (the Profile); the pattern a card of questions follows (width, content line, three levels, the Note that ends each part, the audit `npm run check:card`) is in `docs/ai/layout-rules.md`, section 8 ("A floating card of questions"); the parts they are drawn with are in doc 21.
 
 <!-- generated:in-force -->
 

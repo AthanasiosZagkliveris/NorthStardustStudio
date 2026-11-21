@@ -1,6 +1,6 @@
 # The Workbook — the page and its specification
 
-Status: **index**, written 2026-11-20. The Workbook is one page of the app drawn as a dialog (layout rules, section 22, rule 37): the title "Workbook" over its rule, one framed panel with the carousel arrows and a tab of bullets, a section a bullet. It opens from the header's **Workbook** button on every page with an Organisation open, and from the Landing page, where it covers every Organisation (`src/pages/Workbook.tsx`).
+Status: **index**, written 2026-11-20. The Workbook is one page of the app drawn as a dialog (layout rules, section 7, "The Workbook"): the title "Workbook" over its rule, one framed panel with the carousel arrows and a tab of bullets, a section a bullet. It opens from the header's **Workbook** button on every page with an Organisation open, and from the Landing page, where it covers every Organisation (`src/pages/Workbook.tsx`).
 
 Each file here describes the app as it is; where it and the code differ, both are mended in one commit with a row in the log (`design/core/04-log.md`). The documents' contents are the engine's (`src/framework/engine/businessDocuments/`); their rules are doc 48, section 14, for the financial ones, and the Business System's specifications for what each page feeds them.
 

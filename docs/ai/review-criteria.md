@@ -132,7 +132,7 @@ Then: **what was fixed** (with the component or the token used), **what was meas
 
 ## 12. The measuring tools
 
-- **The automatic check**: `npm run check:layout` (0 new findings; it measures widths, gaps, alignment, the reactions of each kind and the ×); `npm run check:layout:wide` adds the three reading modes and the screen classes; `npm run check:card` audits one floating card of questions (the pattern: `tile-and-card-pattern.md`). How to run each: `toolchain-and-verification-playbook.md`.
+- **The automatic check**: `npm run check:layout` (0 new findings; it measures widths, gaps, alignment, the reactions of each kind and the ×); `npm run check:layout:wide` adds the three reading modes and the screen classes; `npm run check:card` audits one floating card of questions (the pattern: `layout-rules.md`, section 8, "A floating card of questions"). How to run each: `toolchain-and-verification-playbook.md`.
 - **The lints**: `npm run lint:css` (dead and shadowed rules), `npm run lint:styles` (colours, sizes and values written in rules), `npm run lint:controls` (a second look set on a shared control), `npm run tokens:check` (contrast), `npm run docs:check`, `npm run tables:check`, `npm run library:check`.
 - **The tests**: the whole suite; a test that reads a stylesheet is a guard on a criterion above.
 - **The browser**: a script that opens the page, drives the state, and prints the computed style and the box of each element under review; the pictures before and after.
