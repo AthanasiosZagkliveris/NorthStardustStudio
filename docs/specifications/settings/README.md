@@ -14,7 +14,7 @@ The rates and limits the calculated lines read, in one place (the cost model, se
 
 ## Appearance (the reading mode)
 
-Four options in Appearance's side menu, in the Menu, the chosen one marked: **Light**, **Sepia** (warm paper for long reading), **Dark** and **Auto** (follows the system's light or dark; it says "Auto" with the icon of what it comes to now) (`ThemeSwitch.tsx`). Every colour is a token of each mode (layout rules, section 2, Tokens; WCAG 2.2 AA in every mode: the contrast checks of the layout probe). The choice is the person's, kept on this device (`ThemeService`), never in an Organisation's answers.
+Four options in Appearance's side menu, in the Menu, the chosen one marked: **Light**, **Sepia** (warm paper for long reading), **Dark** and **Auto** (follows the system's light or dark; it says "Auto" with the icon of what it comes to now) (`ToolsMenu.tsx`). Every colour is a token of each mode (layout rules, section 2, Tokens; WCAG 2.2 AA in every mode: the contrast checks of the layout probe). The choice is the person's, kept on this device (`ThemeService`), never in an Organisation's answers.
 
 ## Focus
 

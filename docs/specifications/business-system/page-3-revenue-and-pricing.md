@@ -1,12 +1,12 @@
 # Business System — Page 3, Financials: Revenue & Pricing
 
-**Moved, 2026-11-17 (doc 48, section 11; owner, 2026-11-17 07:36):** this section was Page 5, "Sustainability", then Page 4, Revenue & Pricing; since 2026-11-19 it is drawn on Page 3, Financials. Its answer moved once to Section 4 (`storageMigrations.swapFinancialPages`), every key inside it as it was. Not built yet, the rest of phase 7a: RV1, O19, K15 as a record, the fee on a VAT-inclusive price, the Offering Economics card (doc 48, sections 3, 4, 11 and 12). In the requirement below, "Page 5 — Financial Sustainability" is this section, Section 4, and "Page 4 — Financial Foundation" is Section 5, Costs, Funding & Position; both are drawn on Page 3, Financials.
+**Where it stands (doc 48, section 11):** Section 4 of the saved answer, drawn on Page 3, Financials, before Section 5, so each section reads only the sections before it. Its answer moved once to Section 4 (`storageMigrations.swapFinancialPages`), every key inside it as it was; the dates of the move are in the log. Not built yet, the rest of phase 7a: RV1, O19, K15 as a record, the fee on a VAT-inclusive price, the Offering Economics card (doc 48, sections 3, 4, 11 and 12). In the requirement below, "Page 5 — Financial Sustainability" is this section, Section 4, and "Page 4 — Financial Foundation" is Section 5, Costs, Funding & Position; both are drawn on Page 3, Financials.
 
 **One page, Financials (as built since the round of 2026-11-20 18:35 UTC+2):** this section is drawn on one page with Section 5: the pages rail's "3. Financials" (`PageGroups.ts`), the title "3. Financials" and the plan's months. This editor draws the page's one chapter, Financial Foundation, its own Revenue Streams first (a stream with no price says "Not priced yet"); the chapter's tiles, and the records that left them for the Workbook's Financial Documents, are doc 48, section 14. Sections 5.1 to 7 below keep the requirement as written; where they describe a block on the page, the block is now in those documents. The history of the page: doc 48, sections 11 to 14, and the log.
 
 Status: **specification**, written 2026-09-27, updated 2026-11-21. The requirement as written (sections 1 to 23) is preceded by "As built", which wins where they differ.
 
-> **3. Business System — Section 4 of 5** (Page 5 until 2026-11-17), **drawn on Page 3 of 3, Financials, since 2026-11-19**.
+> **3. Business System — Section 4 of 5, drawn on Page 3 of 3, Financials.**
 > The first of the two Financial sections; **Section 5 — Costs, Funding & Position** follows it, in Financials' one chapter, Financial Foundation.
 
 ## Contents

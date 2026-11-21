@@ -1,12 +1,12 @@
 # Business System — Page 3, Financials: Costs, Funding & Position
 
-**Moved, 2026-11-17 (doc 48, section 11; owner, 2026-11-17 07:36):** this section was Page 4, "Financial Foundation", then Page 5, Costs, Funding & Position, so each section reads only the sections before it: its Funding Need reads revenue from Section 4, Revenue & Pricing; since 2026-11-19 both are drawn on Page 3, Financials. Its answer moved once to Section 5 (`storageMigrations.swapFinancialPages`), every key inside it as it was. In the requirement below, "Page 4 — Financial Foundation" is this section, Section 5, and "Page 5" is Section 4, Revenue & Pricing.
+**Where it stands (doc 48, section 11):** Section 5 of the saved answer, drawn on Page 3, Financials, after Section 4, so each section reads only the sections before it: its Funding Need reads revenue from Section 4, Revenue & Pricing; the dates of the move are in the log. Its answer moved once to Section 5 (`storageMigrations.swapFinancialPages`), every key inside it as it was. In the requirement below, "Page 4 — Financial Foundation" is this section, Section 5, and "Page 5" is Section 4, Revenue & Pricing.
 
 **One page, Financials (as built since the round of 2026-11-20 18:35 UTC+2):** this section is drawn on one page with Section 4: the pages rail's "3. Financials" (`PageGroups.ts`), the title "3. Financials" and the plan's months. Its editor draws no frame and hands its tiles, Costs and Funding, to the page's one chapter, Financial Foundation; the chapter's tiles, Funding's sources and the records that left them for the Workbook's Financial Documents are doc 48, section 14. The section keeps its number, its title and its saved answer; nothing saved moved. The history: doc 48, sections 11 to 14, and the log.
 
 Status: **specification**, written 2026-09-27, updated 2026-11-21. The requirement as written (sections 1 to 29) is preceded by "As built", which wins where they differ; section 30 gives the rules of the cost nature, the funds and the scheduling.
 
-> **3. Business System — Section 5 of 5** (Page 4 until 2026-11-17), **drawn on Page 3 of 3, Financials, since 2026-11-19**.
+> **3. Business System — Section 5 of 5, drawn on Page 3 of 3, Financials.**
 > The second of the two Financial sections; it follows **Section 4 — Revenue & Pricing**, in Financials' one chapter, Financial Foundation.
 
 ## Contents

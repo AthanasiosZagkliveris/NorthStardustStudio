@@ -1,6 +1,6 @@
 # 40. The tile documents: the form, and where each tile stands
 
-Status: **rules**, written 2026-11-01, updated 2026-11-12. The form every document about a tile or a card takes (so that one can be read like the others), the list of the tiles and the document each one has, and what is still missing.
+Status: **rules**, written 2026-11-01, updated 2026-11-21. The form every document about a tile or a card takes (so that one can be read like the others), the list of the tiles and the document each one has, and what is still missing.
 
 Related: doc 35 (the Segment), doc 36 (the Profile), doc 37 (the Organisation), doc 38 (Positioning), doc 39 (what an "i" says), doc 44 (the questions register: every question by card and position, with its code), doc 28 (the design these documents refine), doc 21 (the shared components).
 
@@ -30,17 +30,18 @@ A tile document is **one document for one tile or card**, in this order:
 |---|---|---|
 | Identity 1: Organisation | 37 | built (specification) |
 | Identity 1: Early Positioning (Core Market, Corporate and Portfolio by stage) | 38 | built (specification) |
-| Identity 1: Purpose (Mission, Vision, Philosophy, Values, Principles, Manifesto) | 45 | proposal |
-| Identity 2: Legal Entity (Founders & Ownership, Capability, Registrations, Expenses) | none (doc 26) | not yet |
-| Brand: Ambassador and Style (the nine tiles) | 46 (the Ambassador) | proposal |
+| Identity 1: Purpose & Beliefs (Mission, Vision, Philosophy, Values, Principles, Manifesto) | 45 | built (specification) |
+| Identity 2: Legal Entity (Founders & Ownership, Capability, Registrations, Expenses) | none (doc 26; its legal starts: doc 53) | not yet |
+| Brand: Ambassador and Style | 46 (the Ambassador); the page: `specifications/brand-system/page-1-brand.md` | built in part (specification) |
 | Business 1: Segment Description | 35 | built (specification) |
 | Business 1: Profile | 36 | built in part (specification) |
 | Business 1: Competitors | 41 | built (specification) |
 | Business 1: Value Proposition | 42 | built in part (specification) |
 | Business 1: Offerings | 43 | built in part (specification) |
-| Business 2: Customer Engagement | 47 | built in part (specification) |
-| Business 3: Business Capability | none (doc 28, section 9) | not yet |
-| Business 4 and 5: Financial Foundation, Sustainability, and the Inventory | 48 | built in part (specification) |
-| Strategy: Situation & Direction (Current Situation Analysis, SWOT Analysis, Strategic Compass, Strategic Period) | 49 | proposal |
+| Business 1 (Section 2): Customer Engagement | 47 | built in part (specification) |
+| Business 2 (Section 3): Infrastructure & Capability, the Capacity & Delivery tile | 52 | built in part (specification) |
+| Business 2 (Section 3): Infrastructure & Capability, the other tiles | none (doc 28, section 9; the page: `specifications/business-system/page-2-infrastructure-and-capability.md`) | not yet |
+| Business 3 (Sections 4 and 5): Financials, one chapter, Financial Foundation, and the Inventory | 48 | built in part (specification) |
+| Strategy: Situation & Direction (Current Situation Analysis, SWOT Analysis, Strategic Compass, Strategic Period) | 49 | built in part (specification) |
 
 A tile gets its document when it is built or about to be; the tile's design in doc 28 is then marked as governed by it, as 6.3a, 8.2 and 8.5 are.

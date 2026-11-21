@@ -1,6 +1,6 @@
 # 25. Folders: the app files, the examples and the working files
 
-Status: **current design**, written 2026-10-22, updated 2026-11-11. Where the app's files, the examples and the working files are kept apart, and how the app alone is exported.
+Status: **current design**, written 2026-10-22, updated 2026-11-21. Where the app's files, the examples and the working files are kept apart, and how the app alone is exported.
 
 ## Where things are
 
@@ -69,15 +69,4 @@ The app files alone are one command away (`npm run export:app`), the examples ex
 
 `docs/README.md` is the contents of the documents (by chapter) and `docs/index.md` the alphabetical index; both are written by `npm run docs:index`, which also writes a README in each design chapter folder. `docs/standard.md` is the standard every document follows; `npm run docs:standard` checks it.
 
-| Folder | Holds |
-|---|---|
-| `docs/app/` | The app: contents, index of its places, glossary |
-| `docs/design/questionnaire/` | The first version (33), its future features (34), the questions, the lists, the positioning decisions and the research (27 to 41) |
-| `docs/design/current/` | What the app is today: the elements, the card structure, shared components, texts, pop-ups, tooltips, reactions, folders (16 to 26) |
-| `docs/design/library/` | The assets library, its generated lists and its logs (8 to 15) |
-| `docs/design/core/` | The current design of the Foundation, the sources, the research, the log, what is not done, the catalogue record and the structure tables (1 to 7) |
-| `docs/ai/` | Rules and references for an assistant |
-| `docs/specifications/` | The pages of the Business System and of the Identity System |
-| `docs/archive/` | Finished or replaced documents, kept for their information (plans, proposals, the older library log) |
-
-The numbering and the head of a document are in `docs/standard.md`.
+What each folder of `docs/` holds, how a document is numbered and the head it opens with are in `docs/standard.md`, sections 1 and 2 (the one owner of that list).
