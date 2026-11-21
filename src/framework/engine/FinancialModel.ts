@@ -45,6 +45,7 @@ export * from "./financial/revenue.ts";
 export * from "./financial/breakEven.ts";
 export * from "./financial/presenting.ts";
 export * from "./financial/offeringCosts.ts";
+export * from "./financial/offeringEconomics.ts";
 export * from "./financial/expectedSales.ts";
 export * from "./financial/stressTest.ts";
 export * from "./financial/whatItWouldTake.ts";

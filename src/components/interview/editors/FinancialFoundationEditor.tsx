@@ -1,4 +1,4 @@
-import { offeringShareWeights } from "../../../framework/engine/DemandCapacity.ts";
+import { deliveryAllocation, deliveryHours, offeringShareWeights } from "../../../framework/engine/DemandCapacity.ts";
 import { countedCapability } from "../../../framework/engine/CardCompleteness.ts";
 import { numberStep } from "./BusinessEngagementModel.ts";
 import TextBox from "../../controls/TextBox.tsx";
@@ -10,7 +10,7 @@ import { capitalisationLimitOf, createGlobalSettings, type GlobalSettingsValue }
 import { type CSSProperties, type ReactNode, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { JOINED_CHAPTER_KEY, useJoinedChapter } from "../tiles/joinedChapter.ts";
 import { type LegalEntityValue, type StrategyMonthValue, asBusinessCapabilityValue, asBusinessEngagementValue, asLegalEntityValue, businessFoundationSegments, withLegalEntityFounders } from "../../../framework/engine/AnswerUtils.ts";
-import { assetUnitCostsOf, incomeTaxRate, COST_GROUPS, COST_FREQUENCIES, COST_NATURES, COST_NATURE_LABELS, natureSplitOf, FINANCIAL_FOUNDATION_SECTIONS, FUNDING_CATEGORIES, FUNDING_SCHEDULES, FUNDING_STATUSES, FUNDING_TYPES, LOAN_METHODS, PERIOD_FREQUENCIES, planLength, asFinancialFoundationValue, consolidateCosts, createFundingSource, createMilestone, financialPosition, founderCapitalSources, fundingNeeds, fundingStanding, fundingType, isNonCash, loanSchedule, moneyFormatter, monthlyEquivalent, planMonthLabel, withPlanStart, derivedPlanStart, legalExpenseDates, costStartDates, type CostLine, type FinancialFoundationValue, asFinancialSustainabilityValue, withDemand, type FundingSourceValue } from "../../../framework/engine/FinancialModel.ts";
+import { assetUnitCostsOf, incomeTaxRate, COST_FREQUENCIES, natureSplitOf, offeringEconomics, sustainability, FINANCIAL_FOUNDATION_SECTIONS, FUNDING_CATEGORIES, FUNDING_SCHEDULES, FUNDING_STATUSES, FUNDING_TYPES, LOAN_METHODS, PERIOD_FREQUENCIES, planLength, asFinancialFoundationValue, consolidateCosts, createFundingSource, createMilestone, financialPosition, founderCapitalSources, fundingNeeds, fundingStanding, fundingType, isNonCash, loanSchedule, moneyFormatter, monthlyEquivalent, planMonthLabel, withPlanStart, derivedPlanStart, legalExpenseDates, costStartDates, type CostLine, type FinancialFoundationValue, asFinancialSustainabilityValue, withDemand, type FundingSourceValue } from "../../../framework/engine/FinancialModel.ts";
 import { costSourcesFor } from "../../../framework/engine/ExportRenderers.ts";
 import { BusinessAddButton, BusinessCard, BusinessEmpty, BusinessField, OptionalNote, BusinessRemove, BusinessTicks, uniqueChoices } from "../cards/BusinessCardFields.tsx";
 import { FigureTable, FigureTiles, PlanMonthField } from "./FinancialParts.tsx";
@@ -173,7 +173,6 @@ export default function FinancialFoundationEditor({
 
 
     /* The Costs table's filters (by group, by Offering, by nature) and its order. */
-    const [costFilter, setCostFilter] = useState({ group: "", offering: "", nature: "", sort: "amount" });
 
     const [schedulesOpen, setSchedulesOpen] = useState<ReadonlySet<string>>(new Set());
 
@@ -287,12 +286,6 @@ export default function FinancialFoundationEditor({
     /** One part of a cost: where it stands in the Costs table, what it comes to, and what kind of cost it is. */
     interface CostRow { key: string; line: CostLine; bucket: "launch" | "running" | "sale" | "later"; amount: number; text: string; when: string; nature: string }
 
-    const COST_BUCKETS: { id: CostRow["bucket"]; title: string; note: string }[] = [
-        { id: "launch", title: "Launch: before the opening", note: "Costs dated before the Opening Date: capital expenditure (assets), startup expenses and pre-operating expenses. They make the Total Pre-operational Budget." },
-        { id: "running", title: "Running costs: every month", note: "Fixed costs that recur after the opening, as a monthly equivalent. They set the cash buffer: one-time costs plus months of running costs." },
-        { id: "sale", title: "Cost of each sale", note: "Variable costs that move with sales (cost of goods sold): a price per unit or a percent of revenue. They decide the break-even." },
-        { id: "later", title: "One-time costs after the opening", note: "One-time costs paid from the opening on. They are in the Funding Need of their group." }
-    ];
 
     function costRows(): { rows: CostRow[]; uncounted: CostLine[] } {
         const rows: CostRow[] = [];
@@ -344,42 +337,33 @@ export default function FinancialFoundationEditor({
         return sales.length === 0 ? format(0) : format(perSale) + (shares ? " + " + shares : "");
     }
 
+    /** Each Offering's sale against its costs (doc 48, 15.2): the outlook break even reads, the founders' delivery hours available, and the hours one sale takes. */
+    function offeringEconomicsOf() {
+        const outlook = sustainability(revenuePage, page, lines, legalEntity, format, calculated);
+        const founderIds = new Set(capability.founders.map(founder => founder.id));
+        const hoursPerSale = Object.fromEntries(outlook.streams.map(entry => {
+            const founders = Object.entries(deliveryAllocation(capability.delivery[entry.stream.offeringId]))
+                .filter(([personId]) => personId === "" || founderIds.has(personId))
+                .reduce((sum, [, hours]) => sum + hours, 0);
+            return [entry.stream.offeringId, founders > 0 ? founders : null];
+        }));
+        return offeringEconomics(outlook, lines, deliveryHours(capability.founders), hoursPerSale);
+    }
+
     function costsSection() {
 
         const setting = (text: string, empty = "not set") => text.trim() !== "" ? text.trim() : empty;
         const { rows, uncounted } = costRows();
 
-        const offeringNameOf = (line: CostLine) => line.offeringIds.length === 0
-            ? "No Offering"
-            : line.offeringIds.map(id => offerings.find(entry => entry.id === id)?.label ?? "").filter(name => name !== "").join(", ") || "No Offering";
-
-        const keeps = (line: CostLine, nature?: string) =>
-            (costFilter.group === "" || line.group === costFilter.group) &&
-            (costFilter.offering === "" || (costFilter.offering === "org" ? line.offeringIds.length === 0 : line.offeringIds.includes(costFilter.offering))) &&
-            (nature === undefined || costFilter.nature === "" || costFilter.nature === nature);
-        const shown = rows.filter(row => keeps(row.line, row.nature));
-        const shownUncounted = uncounted.filter(line => keeps(line));
-        const order = (left: CostRow, right: CostRow) => costFilter.sort === "date"
-            ? (left.line.startDate ?? "~").localeCompare(right.line.startDate ?? "~")
-            : costFilter.sort === "name" ? left.line.name.localeCompare(right.line.name) : right.amount - left.amount;
 
         const saleText = saleTextOf(rows);
 
-        const filterOptions = (list: readonly { id: string; label: string }[], all: string) => [{ id: "", label: all }, ...list];
-        const groupInfo = COST_GROUPS.map(group => ({ title: group.label, text: group.explanation }));
-        const filter = (label: string, current: string, options: readonly { id: string; label: string }[], key: keyof typeof costFilter, all: string) => (
-            <BusinessField label={label} info={label === "Group" ? groupInfo : undefined}>
-                <OptionPicker
-                    label={"Costs: " + label}
-                    placeholder={all}
-                    hug
-                    options={options.map(option => option.label)}
-                    disabled={false}
-                    value={options.find(option => option.id === current)?.label ?? all}
-                    onChange={(next) => setCostFilter(previous => ({ ...previous, [key]: options.find(option => option.label === next)?.id ?? "" }))}
-                />
-            </BusinessField>
-        );
+        // THE COST OF EACH OFFERING (doc 48, 15.2; owner, 2026-11-21 00:56 UTC+2: "I do not want the cost to present the same information with the inventory. It
+        // would have been better to define the costs of each offering"): a row for each Offering sold, its direct cost, its share of the running costs and its full cost
+        // against its price; the full list of costs is the Inventory's and the Financial Plan's (Costs in Full).
+        const economics = offeringEconomicsOf();
+        const nameOfStream = (offeringId: string) => offerings.find(entry => entry.id === offeringId)?.label ?? "Unnamed Offering";
+        const percent = (share: number | null) => share === null ? "\u2014" : Math.round(share * 100) + "%";
 
         return (
             <div className="financial-section-body">
@@ -429,90 +413,95 @@ export default function FinancialFoundationEditor({
                     </p>
                 )}
 
-                {/* THE FILTERS and the order of the table. */}
-                <div className="financial-cost-filters">
-                    {filter("Group", costFilter.group, filterOptions(COST_GROUPS.filter(group => lines.some(line => line.group === group.id)).map(group => ({ id: group.id, label: group.label })), "All groups"), "group", "All groups")}
-                    {filter("Offering", costFilter.offering, filterOptions([...(lines.some(line => line.offeringIds.length === 0) ? [{ id: "org", label: "Not tied to an Offering" }] : []), ...offerings.map(entry => ({ id: entry.id, label: entry.label }))], "All costs"), "offering", "All costs")}
-                    {filter("Nature", costFilter.nature, filterOptions(COST_NATURES.filter(nature => rows.some(row => row.nature === nature)).map(nature => ({ id: nature, label: COST_NATURE_LABELS[nature] })), "All natures"), "nature", "All natures")}
-                    {filter("Order", costFilter.sort, [{ id: "amount", label: "Largest first" }, { id: "date", label: "Earliest first" }, { id: "name", label: "Name" }], "sort", "Largest first")}
-                </div>
+                {/* How the running costs are shared: what serves one Offering alone is its own; the rest at a rate for each of the founders' delivery hours available. */}
+                {economics.rows.length > 0 && (
+                    <p className="financial-total" data-anchor="financial-offering-rate">
+                        <strong>
+                            <InfoText text="Running costs shared">
+                                <InfoNote
+                                    label="Running costs shared"
+                                    points={[
+                                        "The running costs a month, " + format(economics.running) + ": " + format(economics.own) + " serve one Offering alone and are its own; the other " + format(economics.shared) + " are shared.",
+                                        economics.rate !== null
+                                            ? "Shared at " + format(economics.rate) + " for each of the founders' " + Math.round(economics.hoursAvailable ?? 0) + " delivery hours available a month: each Offering carries the hours one sale takes. Hours left over are capacity still free."
+                                            : "Shared by each Offering's revenue: give the founders' delivery hours on Infrastructure & Capability to share them by the time each sale takes.",
+                                        "How they are shared changes each Offering's cost, never the total profit.",
+                                        "Based on: Kaplan and Anderson (2004), Time-driven activity-based costing, Harvard Business Review; CIMA (2005), Management Accounting Official Terminology."
+                                    ]}
+                                    fullList
+                                />
+                            </InfoText>
+                        </strong>
+                        {economics.rate !== null ? ": " + format(economics.rate) + " a delivery hour" : ": by revenue"}
+                    </p>
+                )}
 
-                {/* ONE TABLE, a line for each cost, under the three headings; a cost with a part before the opening and a part after has a line in each. */}
-                <table className="financial-costs-ledger">
-                    <thead>
-                        <tr>
-                            <th scope="col">Cost</th>
-                            <th scope="col">
-                                <InfoText text="Group">
-                                    <InfoNote label="Group" points={groupInfo} fullList />
-                                </InfoText>
-                            </th>
-                            <th scope="col">When</th>
-                            <th scope="col" className="financial-ledger-amount">Amount</th>
-                            <th scope="col">Nature</th>
-                            <th scope="col">Offering</th>
-                        </tr>
-                    </thead>
-                    {COST_BUCKETS.map(bucket => {
-                        const inBucket = shown.filter(row => row.bucket === bucket.id).sort(order);
-                        if (inBucket.length === 0) {
-                            return null;
-                        }
+                {/* A CARD FOR EACH OFFERING SOLD (doc 48, 15.2): its name, then the figures of one sale as the totals above are drawn (FigureTiles), so they wrap at
+                    any width; a sale below its direct cost, or a margin below nothing, in the risk tone. */}
+                <div className="financial-offering-costs" data-anchor="financial-offering-costs">
+                    {economics.rows.map(row => {
+                        const below = row.contribution !== null && row.contribution < 0;
                         return (
-                            <tbody key={bucket.id} data-anchor={"cost-bucket-" + bucket.id}>
-                                <tr className="financial-cost-bucket">
-                                    <th scope="rowgroup" colSpan={6}>
-                                        <InfoText text={bucket.title + " (" + inBucket.length + ")"}>
-                                            <InfoNote label={bucket.title} points={[bucket.note]} />
-                                        </InfoText>
-                                    </th>
-                                </tr>
-                                {inBucket.map(row => (
-                                    <tr key={row.key}>
-                                        <th scope="row">
-                                            <span>{row.line.name || "Unnamed cost"}</span>
-                                            <span className="financial-muted financial-ledger-source">{row.line.sourceLabel}</span>
-                                        </th>
-                                        <td>{COST_GROUPS.find(group => group.id === row.line.group)?.label ?? row.line.group}</td>
-                                        <td>{row.when}</td>
-                                        <td className="financial-ledger-amount">{row.text}</td>
-                                        <td>{COST_NATURE_LABELS[row.nature as keyof typeof COST_NATURE_LABELS] ?? row.nature}</td>
-                                        <td>{offeringNameOf(row.line)}</td>
-                                    </tr>
-                                ))}
-                            </tbody>
+                            <div key={row.streamId} className="financial-offering-cost">
+                                <p className="financial-total"><strong>{nameOfStream(row.offeringId)}</strong></p>
+                                <FigureTiles tiles={[
+                                    { label: "Price", value: row.price === null ? "\u2014" : format(row.price) },
+                                    { label: "Direct cost", value: format(row.direct), info: ["Its own costs of each sale: materials, per-order and per-project costs, and the fees of the channels it sells through, as the break even counts them."] },
+                                    {
+                                        label: "Contribution",
+                                        value: row.contribution === null ? "\u2014" : format(row.contribution),
+                                        ...(below ? { tone: "risk" as const, detail: "Each sale costs more than its price." } : {}),
+                                        info: ["The price less the direct cost: what one sale gives towards the running costs."]
+                                    },
+                                    {
+                                        label: "Full cost",
+                                        value: format(row.full),
+                                        detail: "Running costs " + format(row.runningOfOne),
+                                        info: [
+                                            "The direct cost and its share of the running costs for one sale.",
+                                            row.sharedBy === "hours" && row.hours !== null
+                                                ? "Its share: " + row.hours.toLocaleString("en-GB", { maximumFractionDigits: 2 }) + " delivery hours a sale at the rate above" + (row.ownMonthly > 0.005 ? ", and its own " + format(row.ownMonthly) + " a month over its sales." : ".")
+                                                : "Its share by its revenue: no delivery hours a sale are given for it on Capacity & Delivery" + (row.ownMonthly > 0.005 ? "; and its own " + format(row.ownMonthly) + " a month over its sales." : ".")
+                                        ]
+                                    },
+                                    {
+                                        label: "Margin",
+                                        value: percent(row.margin),
+                                        ...(row.margin !== null && row.margin < 0 ? { tone: "risk" as const } : {}),
+                                        info: ["The price less the full cost, as a share of the price. A sale with a margin below nothing and a contribution above it still helps cover the running costs; the full cost is for planning and long-run pricing."]
+                                    }
+                                ]} />
+                            </div>
                         );
                     })}
-                    {shownUncounted.length > 0 && (
+                    {economics.rows.length === 0 && (
+                        <p className="financial-muted">No Revenue Stream yet: each Offering's cost shows once it is sold on Revenue Streams.</p>
+                    )}
+                </div>
+
+                {/* The costs not counted yet, each with where it was recorded. */}
+                {uncounted.length > 0 && (
+                <table className="financial-costs-ledger">
                         <tbody data-anchor="cost-bucket-uncounted">
                             <tr className="financial-cost-bucket">
-                                <th scope="rowgroup" colSpan={6}>
-                                    <InfoText text={"Not counted yet (" + shownUncounted.length + ")"}>
+                                <th scope="rowgroup" colSpan={2}>
+                                    <InfoText text={"Not counted yet (" + uncounted.length + ")"}>
                                         <InfoNote label="Not counted yet" points={["A cost with no price, or in another currency than the organisation's, or on a card that lacks a detail, is listed here and left out of every total until it is complete."]} />
                                     </InfoText>
                                 </th>
                             </tr>
-                            {shownUncounted.map(line => (
+                            {uncounted.map(line => (
                                 <tr key={line.id}>
                                     <th scope="row">
                                         <span>{line.name || "Unnamed cost"}</span>
                                         <span className="financial-muted financial-ledger-source">{line.sourceLabel}</span>
                                     </th>
-                                    <td>{COST_GROUPS.find(group => group.id === line.group)?.label ?? line.group}</td>
-                                    <td>{line.startDate ? line.startDate : "\u2014"}</td>
                                     <td className="financial-ledger-amount">{line.amountText !== "" ? line.amountText + (line.currency !== "" && line.currency !== currency ? " " + line.currency : "") : "no price"}</td>
-                                    <td>{"\u2014"}</td>
-                                    <td>{offeringNameOf(line)}</td>
                                 </tr>
                             ))}
                         </tbody>
-                    )}
-                    {shown.length === 0 && shownUncounted.length === 0 && (
-                        <tbody>
-                            <tr><td colSpan={6} className="financial-muted">{lines.length === 0 ? "No cost recorded yet." : "No cost matches the filters."}</td></tr>
-                        </tbody>
-                    )}
                 </table>
+                )}
 
                 {/* What the Global Settings say that shapes these figures. */}
                 <p className="financial-muted financial-cost-note">
@@ -1050,19 +1039,11 @@ export default function FinancialFoundationEditor({
     /* What each tile says of its section (doc 48, section 1): each name, its figure in bold under it -- the tile list's one face (stackedFace; owner, 2026-11-18
        23:08 UTC+2: "Financial tiles' lists should follow the shared tile list"). */
     const pair = (name: string, figure: string): FaceRow => ({ name, under: figure });
-    const costFace = [
-        // (A LINE ONLY WHERE IT SAYS SOMETHING (owner, 2026-11-19 22:48 UTC+2; doc 48 section 13): the Launch budget where there is one.)
-        ...(funds.schedule.total > 0.005 ? [pair("Launch budget", format(funds.schedule.total))] : []),
-        pair("Running costs a month", format(funds.monthlyOpEx)),
-        // (A share of revenue on its own line, so the face never cuts it: owner, 2026-11-18 10:38.)
-        ...(() => {
-            const sales = costRows().rows.filter(row => row.bucket === "sale");
-            const perSale = sales.filter(row => row.line.frequency !== "usage-based").reduce((sum, row) => sum + (row.line.variablePerUnit ?? row.amount), 0);
-            // (Each share named on the face: one is "% of revenue", several each with its cost's name; coordinator, 2026-11-18.)
-            const shares = revenueShareLines(costRows().rows);
-            return [pair("Cost of each sale", format(perSale)), ...(shares.length === 1 ? [pair("Share of revenue", shares[0].share)] : shares.map(line => pair(line.name, line.share)))];
-        })()
-    ];
+    // (THE FACE OF COST OF EACH OFFERING (doc 48, 15.2): each Offering sold, its full cost of one; with none sold yet, the running costs a month.)
+    const faceEconomics = offeringEconomicsOf();
+    const costFace = faceEconomics.rows.length > 0
+        ? faceEconomics.rows.map(row => pair(offerings.find(entry => entry.id === row.offeringId)?.label ?? "Unnamed Offering", format(row.full)))
+        : [pair("Running costs a month", format(funds.monthlyOpEx))];
     const positionFace: FaceRow[] = position.gap > 0.005
         ? [pair("Funding Gap", format(position.gap))]
         : covered

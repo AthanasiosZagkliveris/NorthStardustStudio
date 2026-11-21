@@ -173,6 +173,10 @@ type Example = { systems: Record<string, Parameters<typeof InterviewSession.from
     £25,864), its settings forecast with it; Quillfield is as it was.
 
     2026-11-19, the legal facts (doc 53, stage 4): Lumen's two products answer O24, "None of these", and the export prints it. Words only; no amount changed.
+
+    2026-11-21, one owner for each figure (doc 48, 15.1 and 15.5). WRITE_GOLDEN=all: Quillfield's Care Retainer builds up as its Demand says (0.5 new clients a
+    month to 5 in 22 months; the funding gap $14,059 -> $14,435); Lumen's DPD and Royal Mail couriers counted per order, as their cards say, and its weaving tutor
+    paid for the 0.8 hour of a session the Delivery card gives (0.1 of an hour a participant; the funding gap £25,864 -> £23,724). The weekly fixture with them.
 */
 const ENGAGEMENT = JSON.parse(engagementText) as Record<string, unknown>;
 

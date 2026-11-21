@@ -324,7 +324,7 @@ Sources: SBA (2017; n.d.), driver-based forecasts built from reach and conversio
 
 ### 15.2 The cost of each Offering
 
-The **Costs** tile becomes **Cost of each Offering** (rule | was | now: one owner for a list | the Costs dialog listed every cost card, the Inventory's lines again (C5) | a card for each Offering; the full list of costs stays in the Inventory and the Workbook's Financial Plan, "Costs in Full"). Its face: each Offering, its full cost of one. Its dialog: a card for each Offering, and over them the running costs a month, the founders' delivery hours available and the rate.
+The **Costs** tile becomes **Cost of each Offering** (rule | was | now: one owner for a list | the Costs dialog listed every cost card, the Inventory's lines again (C5), with its filters | the three totals (Launch budget, Running costs a month, Cost of each sale) and the Total Pre-operational Budget stay on top, then **Running costs shared** (the rate, with its working in the "i"), a card for each Offering sold, and the costs not counted yet; every cost in full is the Inventory's and the Workbook's Financial Plan's, "Costs in Full"). Nothing on the tile takes an answer: its Opening Date is a note pointing to the Organisation tile; the ledger's filters were a view only, saved nowhere. Its face: each Offering sold, its full cost of one (none sold yet: the running costs a month). Each card: the Offering's name, then its figures as the totals are drawn (`FigureTiles`): Price, Direct cost, Contribution, Full cost (its running share under it, the working in its "i"), Margin; a contribution or margin below nothing in the risk tone (`offeringEconomics`, `FinancialFoundationEditor.tsx`). (A table of seven columns ran past the dialog's edge at 1920: the cards wrap at any width.)
 
 Each Offering's card (time-driven activity-based costing with the founders' delivery hours as the one driver: Kaplan and Anderson, 2004; HBS Working Knowledge, 2004; Garrett, n.d.):
 
@@ -343,7 +343,7 @@ Margin                      = (price − full cost of one) ÷ price
 - A cost that serves one Offering alone (its equipment, its own tool) is charged to it, never shared (Garrett, n.d.).
 - An Offering with no hours per sale yet takes its share by its revenue, and its card says so in its "i".
 - The card shows the **contribution beside the full cost**: a sale whose price is below its full cost but above its direct cost still helps cover the running costs; the full cost is for planning and long-run pricing (CIMA, 2005; Kaplan and Anderson, 2004). How the running costs are shared changes each Offering's cost, never the total profit.
-- A price below the direct cost (Lumen's Trade Collection, £48 against about £72) is said plainly, in the card's alert colour: "Each sale costs more than its price." The price stays the founder's.
+- A price below the direct cost is said plainly under its Contribution, in the risk tone: "Each sale costs more than its price." The price stays the founder's. (Lumen's Trade Collection, £48 a product, has a direct cost of £22 and a full cost of £159: a margin of -232%, its contribution £26 still towards the running costs; the earlier proposal's £72 counted the founders' hours as a direct cost.)
 
 ### 15.3 The price customers already pay elsewhere
 
@@ -355,7 +355,7 @@ Each Revenue Stream's card closes with **This Offering's economics**: its price,
 
 ### 15.5 The examples
 
-Rule | was | now: an example's data agrees with itself | Lumen's courier, priced per parcel, was counted per item; the freelance tutor's hours differed between the cost card and the Delivery card | the courier counted per order; the tutor's hours one figure. Lumen's Trade Collection keeps its £48: the example shows the warning.
+Rule | was | now: an example's data agrees with itself | Lumen's DPD and Royal Mail couriers, "one parcel per order" on their cards, were priced per parcel and counted per item; the weaving tutor's cost card paid 0.4 of an hour a participant ("a six-hour workshop for about fifteen") while the Workshops' Delivery card gives the tutor 0.8 of an hour a session of eight | the couriers priced per order (the unit "order", which the costs count per order); the tutor paid 0.1 of an hour a participant, £2.35, as the Delivery card says (Maya leads the workshops: "Heavy reliance on Maya for weaving and teaching"; the tutor covers the evening course when she is on commissions). Lumen's funding gap £25,864 -> £23,724. Trade Collection keeps its £48.
 
 ### 15.6 Sources
 

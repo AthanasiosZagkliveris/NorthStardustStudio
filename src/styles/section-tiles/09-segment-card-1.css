@@ -685,15 +685,6 @@
 }
 
 /* THE COSTS OF 4. Financial Foundation: the filters in a row, then one table, a line for each cost under its heading. */
-.financial-cost-filters {
-
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-end;
-
-    gap: var(--space-field) var(--space-card);
-
-}
 
 .financial-costs-ledger {
 

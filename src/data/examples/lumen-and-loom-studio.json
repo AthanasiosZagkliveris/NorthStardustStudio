@@ -6247,7 +6247,7 @@
                   "group": "contractors-advisers",
                   "rateOverride": "",
                   "costOption": "",
-                  "quantity": "0.4",
+                  "quantity": "0.1",
                   "hoursAvailable": "16",
                   "leadWeeks": "1",
                   "extras": {},
@@ -6262,7 +6262,7 @@
                   "startDate": "2026-10-01",
                   "endDate": "",
                   "name": "Freelance weaving tutor",
-                  "description": "Covers the 4-week evening course when Maya is on commissions. £23.50 an hour; a six-hour workshop for about fifteen people is roughly 0.4 of an hour, £9.40, each participant.",
+                  "description": "Covers the 4-week evening course when Maya is on commissions. £23.50 an hour; a three-hour workshop for eight takes about 0.8 of an hour of the tutor's time (the Delivery card), 0.1 of an hour, £2.35, each participant.",
                   "responsibleId": "founder-3aux8uyh",
                   "cost": {
                     "price": "23.5",
@@ -6336,7 +6336,7 @@
                     "price": "7.50",
                     "frequency": "per-unit",
                     "frequencyOther": "",
-                    "unit": "parcel",
+                    "unit": "order",
                     "currency": ""
                   },
                   "offeringIds": [
@@ -6370,7 +6370,7 @@
                     "price": "6.2",
                     "frequency": "per-unit",
                     "frequencyOther": "",
-                    "unit": "parcel",
+                    "unit": "order",
                     "currency": ""
                   },
                   "offeringIds": [
