@@ -9,9 +9,9 @@ import ToolsMenu from "./ToolsMenu";
 /** The interview page's header: the Tools menu, and Focus's own host. */
 const Header = () => <MemoryRouter><ToolsMenu organizationOpen focusable /><FocusModeButton /></MemoryRouter>;
 
-/** Focus in the Tools menu. */
+/** Focus in the Menu. */
 function pressFocus() {
-    fireEvent.click(screen.getByRole("button", { name: "Tools" }));
+    fireEvent.click(screen.getByRole("button", { name: "Menu" }));
     fireEvent.click(screen.getByRole("menuitem", { name: "Focus" }));
 }
 import { FOCUS_KEY, FocusModeService } from "../services/FocusModeService";
@@ -33,7 +33,7 @@ const focused = () => document.documentElement.classList.contains("focus-mode");
 
 describe("focus mode", () => {
 
-    it("turns on from Focus in the Tools menu, and off from the one Exit focus button", () => {
+    it("turns on from Focus in the Menu, and off from the one Exit focus button", () => {
         render(<Header />);
         expect(focused()).toBe(false);
         expect(screen.queryByRole("button", { name: "Exit focus" })).toBeNull();

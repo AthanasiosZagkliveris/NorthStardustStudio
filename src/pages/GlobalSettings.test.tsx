@@ -44,7 +44,7 @@ describe("opening Global Settings", () => {
                 </Routes>
             </MemoryRouter>
         );
-        act(() => { fireEvent.click(screen.getByRole("button", { name: "Tools" })); });
+        act(() => { fireEvent.click(screen.getByRole("button", { name: "Menu" })); });
         act(() => { fireEvent.click(screen.getByRole("menuitem", { name: "Settings" })); });
         expect(screen.getByRole("heading", { name: /^Global Settings/ })).toBeTruthy();
         act(() => { fireEvent.keyDown(window, { key: "Escape" }); });

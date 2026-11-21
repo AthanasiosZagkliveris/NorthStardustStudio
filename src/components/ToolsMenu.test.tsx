@@ -35,8 +35,8 @@ function mockSystem(prefersDark: boolean) {
 
 const theme = () => document.documentElement.getAttribute("data-theme");
 
-/** The header's Tools button. */
-const trigger = () => screen.getByRole("button", { name: "Tools" });
+/** The header's Menu button. */
+const trigger = () => screen.getByRole("button", { name: "Menu" });
 
 /** Opens the menu where it is closed. */
 function openMenu() {
@@ -45,19 +45,31 @@ function openMenu() {
     }
 }
 
-/** Chooses a mode the way a pointer does: open the menu, press the mode. */
-function pick(label: string) {
+/** Appearance's side menu, opened with a press on its row. */
+function appearanceMenu(): HTMLElement {
     openMenu();
-    fireEvent.click(within(screen.getByRole("group", { name: "Reading mode" })).getByRole("menuitem", { name: label }));
+    const side = screen.queryByRole("menu", { name: "Appearance" });
+    if (side) {
+        return side;
+    }
+    fireEvent.click(screen.getByRole("menuitem", { name: "Appearance" }));
+    return screen.getByRole("menu", { name: "Appearance" });
 }
 
-/** The mode the menu marks as chosen (the menu closed again after). */
-function shown(): string | null {
-    openMenu();
-    const chosen = within(screen.getByRole("group", { name: "Reading mode" })).getAllByRole("menuitem").find(row => row.getAttribute("aria-current") === "true");
-    fireEvent.click(trigger());
-    return chosen ? (chosen.textContent ?? "").replace("•", "") : null;
+/** Chooses a mode the way a pointer does: open the menu, Appearance, press the mode. */
+function pick(label: string) {
+    fireEvent.click(within(appearanceMenu()).getByRole("menuitem", { name: label }));
 }
+
+/** The mode the side menu marks as chosen (the menu closed again after). */
+function shown(): string | null {
+    const chosen = within(appearanceMenu()).getAllByRole("menuitem").find(row => row.getAttribute("aria-current") === "true");
+    fireEvent.click(trigger());
+    return chosen ? chosen.getAttribute("aria-label") : null;
+}
+
+/** The menu's own rows, by name (the side menu's apart). */
+const rowsOf = () => [...screen.getByRole("menu", { name: "Menu" }).querySelectorAll<HTMLElement>(":scope > [role=menuitem], :scope > .tools-menu-appearance > [role=menuitem]")].map(row => row.getAttribute("aria-label"));
 
 /** Where the app is: the page, and the state it was opened with. */
 let where: { pathname: string; state: unknown } = { pathname: "", state: null };
@@ -92,30 +104,56 @@ afterEach(() => {
     localStorage.clear();
 });
 
-describe("the Tools menu (layout rules, section 6, \"The Tools menu\")", () => {
+describe("the Menu (layout rules, section 6, \"The Menu\")", () => {
 
-    it("holds Search, Notes, Calendar, Focus and Settings, then the reading modes, under their titles; Focus on an interview page only", () => {
+    it("holds Search, Notes, Calendar, Focus, Settings and Appearance, each with its symbol and no title; Focus on an interview page only", () => {
         mockSystem(false);
         stop = ThemeService.start();
         renderMenu({ organizationOpen: true, focusable: true });
         expect(trigger().getAttribute("aria-haspopup")).toBe("menu");
+        expect(trigger().querySelector("svg")).toBeTruthy();
         fireEvent.click(trigger());
-        const tools = screen.getByRole("group", { name: "Tools" });
-        expect(within(tools).getAllByRole("menuitem").map(row => row.getAttribute("aria-label") ?? (row.textContent ?? "").replace("•", "").replace("Ctrl+K", ""))).toEqual(["Search", "Notes, 0 notes", "Calendar", "Focus", "Settings"]);
-        expect(within(screen.getByRole("group", { name: "Reading mode" })).getAllByRole("menuitem").map(row => (row.textContent ?? "").replace("•", ""))).toEqual(["Light", "Sepia", "Dark", "Auto"]);
+        expect(rowsOf()).toEqual(["Search", "Notes, 0 notes", "Calendar", "Focus", "Settings", "Appearance"]);
+        const menu = screen.getByRole("menu", { name: "Menu" });
+        expect(menu.querySelectorAll(":scope [role=menuitem] .tools-menu-icon svg")).toHaveLength(6);
+        expect(menu.querySelector(".capability-overview-menu-section-title")).toBeNull();
+        expect(within(menu).queryByText("Tools")).toBeNull();
         cleanup();
         renderMenu({ organizationOpen: true, focusable: false });
         fireEvent.click(trigger());
-        expect(within(screen.getByRole("group", { name: "Tools" })).queryByRole("menuitem", { name: "Focus" })).toBeNull();
+        expect(rowsOf()).not.toContain("Focus");
     });
 
-    it("holds the reading modes alone where no Organisation is open", () => {
+    it("holds Appearance alone where no Organisation is open", () => {
         mockSystem(false);
         stop = ThemeService.start();
         renderMenu();
         fireEvent.click(trigger());
-        expect(screen.queryByRole("group", { name: "Tools" })).toBeNull();
-        expect(screen.getByRole("group", { name: "Reading mode" })).toBeTruthy();
+        expect(rowsOf()).toEqual(["Appearance"]);
+    });
+
+    it("opens Appearance's side menu on the pointer, a press and the keyboard, and closes it with the left arrow or Escape", () => {
+        mockSystem(false);
+        stop = ThemeService.start();
+        renderMenu({ organizationOpen: true, focusable: false });
+        fireEvent.click(trigger());
+        const row = screen.getByRole("menuitem", { name: "Appearance" });
+        expect(row.getAttribute("aria-haspopup")).toBe("menu");
+        fireEvent.mouseEnter(row.parentElement!);
+        expect(screen.getByRole("menu", { name: "Appearance" })).toBeTruthy();
+        expect(row.getAttribute("aria-expanded")).toBe("true");
+        fireEvent.mouseLeave(row.parentElement!);
+        expect(screen.queryByRole("menu", { name: "Appearance" })).toBeNull();
+        fireEvent.keyDown(row, { key: "ArrowRight" });
+        const side = screen.getByRole("menu", { name: "Appearance" });
+        expect(within(side).getAllByRole("menuitem").map(item => item.getAttribute("aria-label"))).toEqual(["Light", "Sepia", "Dark", "Auto"]);
+        fireEvent.keyDown(side, { key: "ArrowLeft" });
+        expect(screen.queryByRole("menu", { name: "Appearance" })).toBeNull();
+        fireEvent.keyDown(row, { key: "Enter" });
+        fireEvent.keyDown(screen.getByRole("menu", { name: "Appearance" }), { key: "Escape" });
+        expect(screen.queryByRole("menu", { name: "Appearance" })).toBeNull();
+        // (The menu itself stays open: Escape closed the side menu only.)
+        expect(screen.getByRole("menu", { name: "Menu" })).toBeTruthy();
     });
 
     it("opens each tool and closes: Search's dialog, the Notes' panel, Focus, the Global Settings and System Selection's Calendar", () => {
@@ -124,7 +162,7 @@ describe("the Tools menu (layout rules, section 6, \"The Tools menu\")", () => {
         renderMenu({ organizationOpen: true, focusable: true });
         const press = (name: RegExp) => {
             openMenu();
-            fireEvent.click(within(screen.getByRole("group", { name: "Tools" })).getByRole("menuitem", { name }));
+            fireEvent.click(within(screen.getByRole("menu", { name: "Menu" })).getByRole("menuitem", { name }));
             expect(screen.queryByRole("menu")).toBeNull();
         };
         const asked = vi.fn();
@@ -152,7 +190,7 @@ describe("the Tools menu (layout rules, section 6, \"The Tools menu\")", () => {
 
 });
 
-describe("the Tools menu's reading modes", () => {
+describe("the Menu's Appearance: the reading modes", () => {
 
     it("offers Light, Sepia, Dark and Auto, Auto by default", () => {
         mockSystem(false);
@@ -228,7 +266,7 @@ describe("the Tools menu's reading modes", () => {
         fireEvent.mouseDown(document.body);
         expect(screen.queryByRole("menu")).toBeNull();
         fireEvent.click(trigger());
-        fireEvent.keyDown(screen.getByRole("menu"), { key: "Escape" });
+        fireEvent.keyDown(screen.getByRole("menu", { name: "Menu" }), { key: "Escape" });
         expect(screen.queryByRole("menu")).toBeNull();
         expect(shown()).toBe("Auto");
     });

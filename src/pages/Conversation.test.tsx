@@ -87,12 +87,12 @@ describe("Conversation Escape", () => {
         vi.spyOn(OrganizationService, "getSelected").mockReturnValue(organization.id);
         renderConversation();
 
-        // (Focus in the Tools menu, on an interview page only.)
-        fireEvent.click(screen.getByRole("button", { name: "Tools" }));
+        // (Focus in the Menu, on an interview page only.)
+        fireEvent.click(screen.getByRole("button", { name: "Menu" }));
         expect(screen.queryByRole("menuitem", { name: "Focus" })).toBeNull();
-        fireEvent.click(screen.getByRole("button", { name: "Tools" }));
+        fireEvent.click(screen.getByRole("button", { name: "Menu" }));
         fireEvent.click(screen.getByRole("button", { name: "Start Interview" }));
-        fireEvent.click(screen.getByRole("button", { name: "Tools" }));
+        fireEvent.click(screen.getByRole("button", { name: "Menu" }));
         fireEvent.click(screen.getByRole("menuitem", { name: "Focus" }));
         expect(document.documentElement.classList.contains("focus-mode")).toBe(true);
 

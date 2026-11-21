@@ -113,11 +113,11 @@ describe("the search dialog", () => {
 
 describe("the search, from the Tools menu or Ctrl+K", () => {
 
-    it("opens on Search in the Tools menu or on Ctrl+K / Cmd+K, and gives the focus back when it closes", async () => {
+    it("opens on Search in the Menu or on Ctrl+K / Cmd+K, and gives the focus back when it closes", async () => {
         const organization = OrganizationService.create("Lumen");
         OrganizationService.setSelected(organization.id);
         render(<MemoryRouter><ToolsMenu organizationOpen focusable={false} /><SearchButton /><button type="button">Elsewhere</button></MemoryRouter>);
-        const tools = screen.getByRole("button", { name: "Tools" });
+        const tools = screen.getByRole("button", { name: "Menu" });
         fireEvent.click(tools);
         const row = screen.getByRole("menuitem", { name: /^Search/ });
         expect(row.getAttribute("aria-keyshortcuts")).toBe("Control+K Meta+K");

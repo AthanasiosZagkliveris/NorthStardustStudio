@@ -1,11 +1,11 @@
 /* ==========================================================
-   The Tools menu (ToolsMenu.tsx), in the app header where the
-   reading mode picker stood: one of the header's tools
-   (.header-tool, app-header.css) -- its icon and word, the icon
-   alone in a narrow header -- opening the one dropdown card of
-   every menu a button opens (.strategy-sort-menu) with the
-   menu's rows (MenuOption) under the Inventory panel's section
-   titles: Tools, then Reading mode.
+   The Menu (ToolsMenu.tsx), in the app header where the reading
+   mode picker stood: one of the header's tools (.header-tool,
+   app-header.css) -- its icon and word, the icon alone in a narrow
+   header -- opening the one dropdown card of every menu a button
+   opens (.strategy-sort-menu) with the menu's rows (MenuOption),
+   each with its tool's symbol; Appearance's side menu is the same
+   card, beside its row.
 ========================================================== */
 .theme-switch {
 
@@ -30,7 +30,18 @@
 
 }
 
-/* What stands at a row's end: Search's keys, the count of notes. */
+/* A row's symbol: the header tools' 24px icon, in their blue, before its word. */
+.tools-menu-icon {
+
+    display: inline-flex;
+
+    margin-right: var(--gap-8);
+
+    color: var(--text-primary);
+
+}
+
+/* What stands at a row's end: Search's keys, the count of notes, Appearance's arrow to its side menu. */
 .tools-menu-hint {
 
     margin-left: auto;
@@ -42,17 +53,20 @@
 
 }
 
-/* The menu's two parts, Tools and Reading mode: each under its title (the Inventory panel's section title), its words over the rows' words, the rows
-   at the dropdown's own pitch; a row's bullet column on every row, so every row's words start at one line. */
-.tools-menu-section + .tools-menu-section {
+/* Appearance and its side menu: the side menu stands beside the row, on the side away from the window's edge (the menu stands at the right). */
+.tools-menu-appearance {
 
-    margin-top: var(--gap-8);
+    position: relative;
 
 }
 
-.tools-menu-section > .capability-overview-menu-section-title {
+.tools-menu-appearance > .tools-menu-side {
 
-    /* (Over the rows' words: the row's 10px and its bullet column, 1em of the row's type.) */
-    padding: var(--gap-8) 10px var(--space-label) calc(10px + var(--font-body));
+    top: 0;
+    right: 100%;
+
+    /* (Touching its row: the pointer crosses into it without leaving Appearance.) */
+    margin-top: 0;
+    margin-right: 0;
 
 }

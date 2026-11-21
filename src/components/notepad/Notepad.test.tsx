@@ -10,9 +10,9 @@ import { FieldPageProvider } from "../interview/fields/fieldMarks";
 import { NotepadPanel, NotepadPicker, linkFor, noteMomentText, noteTodayText } from "./Notepad";
 import ToolsMenu from "../ToolsMenu";
 
-/** Notes in the Tools menu (ToolsMenu.tsx). */
+/** Notes in the Menu (ToolsMenu.tsx). */
 function pressNotes(name: string | RegExp = /^Notes/) {
-    fireEvent.click(screen.getByRole("button", { name: "Tools" }));
+    fireEvent.click(screen.getByRole("button", { name: "Menu" }));
     fireEvent.click(screen.getByRole("menuitem", { name }));
 }
 import { findPlaces, linkAvailable } from "./notepadPlaces";
@@ -112,7 +112,7 @@ describe("the notepad on the page", () => {
         );
     }
 
-    it("opens from Notes in the Tools menu, with the count, and closes on Escape", () => {
+    it("opens from Notes in the Menu, with the count, and closes on Escape", () => {
         const organization = OrganizationService.create("Lumen");
         OrganizationService.setSelected(organization.id);
         NotepadService.addNote();
@@ -368,7 +368,7 @@ describe("the Notepad panel", () => {
         expect(panel.querySelector("[role=tablist]")).toBeNull();
         expect(panel.querySelector(".notepad-card-note")).toBeNull();
         expect(screen.getByRole("button", { name: "+ Add note" })).toBeTruthy();
-        // Notes in the Tools menu opens and closes it.
+        // Notes in the Menu opens and closes it.
         pressNotes();
         expect(screen.queryByRole("complementary", { name: "Notes" })).toBeNull();
     });

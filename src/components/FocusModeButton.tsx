@@ -12,7 +12,7 @@ export function useFocusMode(): boolean {
 }
 
 /** Four corners drawn in: the page, closed in on. */
-function FocusIcon({ exit = false }: { exit?: boolean }) {
+export function FocusIcon({ exit = false }: { exit?: boolean }) {
     return (
         <svg className="header-tool-icon" viewBox="2.43 2.43 15.13 15.13" aria-hidden="true">
             <path
