@@ -18,7 +18,7 @@ Status: **living list**, written 2026-10-14, updated 2026-11-21 (every item chec
 
 **The catalogue records** (`03-catalogue-record.md` and the crawl behind it) still show Quillfield as an LLC (its "Form the LLC and get an EIN" activity); the next full crawl rewrites them. Quillfield is a sole proprietorship in the example now, and its figures moved with it (Funding Need $24,734, cash in hand $10,675, still short after the SBA loan's repayments $1,208; the golden files: `WRITE_GOLDEN=all`).
 
-**The checks**: the wide layout check (`npm run check:layout:wide`) has no baseline yet; the standard baseline is rewritten only by the owner's decision.
+**The checks**: the wide layout check (`npm run check:layout:wide`) has a baseline (`baseline-wide.json`, 2026-11-21) that accepts 6,553 findings, so it shows only new ones (the review of 2026-11-21, `docs/proposals/app-review-2026-11-21.md`, section 4); the standard baseline (31 findings, all the 24px target size) is rewritten only by the owner's decision.
 
 **The library and the documents**: see 5.6 for the library (`npm run library:check` says whether it has drifted from the app). The names of files, symbols and scripts in Foundation 1 and Research 1 and 2 are checked (the document-reference test for Foundation 1); their statements, and 5.1 to 5.5, 5.7 and 5.8 below, are not re-checked line by line: where the log says an item is done, it is done. The clean-up and library plans of 2026-10-14 (old 5.6, 5.11 to 5.14) are in `../archive/plans/2026-10-14-cleanup-and-library-plans.md`.
 
@@ -373,15 +373,16 @@ Each line points to the one place its design lives; the item is removed here whe
 | What | Where its design lives | State |
 |---|---|---|
 | AI Assistant, Team working mode, Voice mode, extra languages and countries | [Guide 2, sections 5.1 to 5.4](../../guide/02-overview-and-future-features.md#5-future-features) | Not built |
-| Other features ranked for an early-stage founder (persistent-storage request, lender-ready exports, scenarios, dashboard and plan against actual, privacy controls, industry templates, accounting integration, pitch export, funding finder, `.ics` reminders, onboarding tour) | [Guide 2, section 5.5](../../guide/02-overview-and-future-features.md#55-other-features-ranked-by-value-for-an-early-stage-founder) and its roadmap, 5.6 | Not built, except the rows that section marks built |
+| Other features ranked for an early-stage founder, and every future feature scored (persistent-storage request, lender-ready exports, scenarios, dashboard and plan against actual, privacy controls, industry templates, accounting integration, pitch export, funding finder, `.ics` reminders, onboarding tour) | [Guide 2, section 5.5](../../guide/02-overview-and-future-features.md#55-other-features-ranked-by-value-for-an-early-stage-founder), its roadmap (5.6) and every feature scored 1 to 10 (5.7) | Not built, except the rows that section marks built |
 | Workspace D (duplicate an organisation or a card, scenarios, Compare) and E (What would it take, lender check, One-Pager, glossary hints) | [docs/proposals/](../../proposals/) and section 5.4 above | Not built |
 | The open points of the first version, the research still to do, the heavy and public options, the Thoughts | [Questions 4](../questions/04-specs-and-limitations.md), sections 9, 12, 14 and 15 | Open, not scheduled |
 | The Beta questionnaire for the app's first founders | [Research 8](../research/08-beta-questionnaire.md) | Proposal, nothing built |
 | Delivery and capacity additions not yet on the cards | [Research 7](../research/07-delivery-and-capacity-research.md) and [Questions 19](../questions/19-capacity-and-delivery.md) (its status names the built parts) | Built in part |
 | The Financials still to build (Offering Economics card, RV1, O19, K15 as a record, FN1, nested sub tiles, the Cash Timeline) | [Questions 20](../questions/20-financials-and-inventory.md), sections 1 and 14, and section 5.3 above | Not built |
 | The Strategy's Current Situation lines (the market, the competition, the capacity check) | [Questions 21](../questions/21-strategy.md), section 10 (from section 2.3) | Not built |
+| The review of the whole app: repository, speed, code, checks, tests, documents (21 items) | [docs/proposals/app-review-2026-11-21.md](../../proposals/app-review-2026-11-21.md) | Proposal, the owner picks |
 | The free-text character limits and one component per category | [Interface 3](../interface/03-free-text-categories.md) | Proposal |
 | The help texts' structure beyond the size budget | [Interface 10](../interface/10-help-texts-guide.md) | Built in part |
 | The library's sync of the app to the tables (step 7) | [Library 1](../library/01-library-system.md), section 7, and section 5.6 above | Not built |
 | Lists and classifications for more countries | [Research 3](../research/03-lists-and-classifications.md) (Questions 4 governs) | Future feature |
-| Engine functions kept for a later screen: `whatItWouldTake` (E1) and `loanRepaymentNotes` | `engine/financial/whatItWouldTake.ts`, `engine/financial/position.ts` | Tested, no screen shows them |
+| What It Would Take (E1) and the loan repayment notes, built in the engine for a later screen | [Guide 2, section 5.5](../../guide/02-overview-and-future-features.md#55-other-features-ranked-by-value-for-an-early-stage-founder), rows 15 and 16 | Tested, no screen shows them |

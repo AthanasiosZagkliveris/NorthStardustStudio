@@ -204,6 +204,7 @@ Plans that are still open and not started; each leaves for the archive when it i
 |---|---|---|---|
 | [proposals/workspace-d-duplicate-scenarios-compare.md](proposals/workspace-d-duplicate-scenarios-compare.md) | proposal | Workspace features D, not started: duplicate an Organisation or a card, financial scenarios, compare. | 2026-11-21 |
 | [proposals/workspace-e-founder-helpers.md](proposals/workspace-e-founder-helpers.md) | proposal | Workspace features E, not started: helpers for founders (what would it take, the lender-ready check, the one-pager, glossary hints). | 2026-11-21 |
+| [proposals/app-review-2026-11-21.md](proposals/app-review-2026-11-21.md) | proposal | The whole app reviewed on 2026-11-21 (repository, speed, code, checks, tests, documents): 21 measured items and an order; the owner picks. | 2026-11-21 |
 
 ## 14. The archive (`archive/`)
 

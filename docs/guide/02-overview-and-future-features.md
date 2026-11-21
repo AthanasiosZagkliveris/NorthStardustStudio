@@ -160,6 +160,8 @@ A proposal from online research (official, university and standards sources; par
 | 12 | **Reminders and calendar export (.ics) for roadmap and tax dates** | MTD quarterly updates have fixed deadlines (first one due 7 August 2026). | [26] | Not built |
 | 13 | **Onboarding tour and sample project** | 53% of UK businesses with no employees used digital tools to run the business in 2024. Many solo founders are still new to such tools. | [37] | Built in part: the two example Organisations; no tour |
 | 14 | **Tablet layout (768px and up, touch targets)** | WCAG 2.2 2.5.8 Target Size (Minimum) sets 24 by 24 CSS pixels for pointer targets. | [19] | Built in part: minimum width 768, the chapters stack below 1200 (AI 9, the layout rules); the touch targets are not checked |
+| 15 | **What It Would Take on the Financials** (the smallest single change that keeps the cash at zero or above: more sales, a higher price, lower costs, a later start) | Founders without sales need to know what has to change before they borrow; a lever per answer turns a shortfall into a decision. | [2][14] | Built in the engine, tested, no screen shows it (`engine/financial/whatItWouldTake.ts`; Records 2, 5.4, E1) |
+| 16 | **Loan repayment notes** (why each loan's repayments are, or are not yet, counted in the forecast, from its status) | Start Up Loans and lenders read the repayments in the 12-month cash flow; a requested loan that is counted overstates the cash. | [14] | Built in the engine, tested, no screen shows it (`loanRepaymentNotes` in `engine/financial/position.ts`) |
 
 ### 5.6 The roadmap (local-first)
 
@@ -168,6 +170,52 @@ A proposal from online research (official, university and standards sources; par
 | **Now** | Rule-based gap and contradiction checks | Project file export and import; PDF share pack | Label-in-Name audit; works with operating-system dictation | Neutral storage, `Intl` formatting, logical CSS, UK data file | Backup, persist(), lender exports, privacy controls |
 | **Next** | Opt-in LLM with send preview, citations, labels | Comments and suggestions merged on import | Microphone on text cells, on-device first | English country packs (IE, US, one EU) | Scenarios, dashboard, templates, .ics |
 | **Later** | Coaching with benchmarks | Encrypted CRDT sync, roles, adviser links | Hands-free interview mode | Translations via XLIFF; right-to-left | Accounting sync, pitch deck, funding finder |
+
+### 5.7 The future features scored, 1 to 10 (2026-11-21)
+
+Asked by the owner on 2026-11-21 23:53 UTC+2: "Evaluate the future features, in a scale from 1-10 according importance, popularity, and effort to be build." Every feature of 5.1 to 5.5 and of the Workspace briefs (Records 2, 5.4) that is not built. The scores are a judgement from the evidence and sources of 5.1 to 5.5, not a measurement: the Beta questionnaire (Research 8) is the way to measure popularity with real founders.
+
+- **Importance**: what it is worth to an early-stage founder who may not have sold anything yet (10 = the plan is wrong or lost without it).
+- **Popularity**: how often comparable tools offer it and founders ask for it (10 = every comparable tool has it).
+- **Effort**: how much there is to build in this app as it stands today (10 = the largest; 1 = an hour or two, the engine already built).
+- **Priority** = Importance + Popularity − Effort (from −8 to 19): the higher, the sooner. Ties go to the more important.
+
+| Rank | Feature | Importance | Popularity | Effort | Priority |
+|---|---|---|---|---|---|
+| 1 | #2 Persistent-storage request and warning | 9 | 4 | 1 | 12 |
+| 2 | #3 Lender-ready exports (Start Up Loans format) | 9 | 7 | 4 | 12 |
+| 3 | AI: rule-based gap and contradiction checks (5.1, Now) | 8 | 7 | 4 | 11 |
+| 4 | #15 What It Would Take on the Financials | 8 | 5 | 2 | 11 |
+| 5 | #13 Onboarding tour (sample organisations built) | 6 | 8 | 3 | 11 |
+| 6 | Team: PDF share pack and "prepared by" (5.2, Now; export and import built) | 6 | 6 | 2 | 10 |
+| 7 | #10 Pitch summary or One-Pager (Workspace E3) | 6 | 8 | 4 | 10 |
+| 8 | Workspace D1: duplicate an Organisation | 5 | 7 | 2 | 10 |
+| 9 | Workspace E2: lender-ready check | 8 | 5 | 4 | 9 |
+| 10 | AI: opt-in language model with send preview and citations (5.1, Next) | 7 | 9 | 7 | 9 |
+| 11 | #4 Scenarios, base, low, high (Workspace D3) | 7 | 9 | 8 | 8 |
+| 12 | #5 Dashboard and plan against actual (K2) | 7 | 8 | 7 | 8 |
+| 13 | #6 Privacy controls (clear all, redact for sharing) | 6 | 5 | 3 | 8 |
+| 14 | #8 Templates and examples by industry | 6 | 8 | 6 | 8 |
+| 15 | #16 Loan repayment notes on the Financials | 6 | 3 | 1 | 8 |
+| 16 | Workspace E4: glossary hints | 5 | 6 | 4 | 7 |
+| 17 | #12 Reminders and `.ics` export | 4 | 5 | 2 | 7 |
+| 18 | Voice: Label-in-Name audit, operating-system dictation (5.3, Now) | 5 | 3 | 2 | 6 |
+| 19 | #14 Touch targets of 24px at tablet sizes | 5 | 6 | 5 | 6 |
+| 20 | Workspace D4: Compare (needs `planOutcomes` and D3) | 5 | 6 | 5 | 6 |
+| 21 | #11 Funding finder | 6 | 5 | 6 | 5 |
+| 22 | Team: comments and suggestions merged on import (5.2, Next) | 5 | 6 | 6 | 5 |
+| 23 | Workspace D2: duplicate a card | 4 | 6 | 5 | 5 |
+| 24 | #7 CSV of all answers (JSON built) | 3 | 4 | 2 | 5 |
+| 25 | #9 Accounting software integration | 5 | 8 | 9 | 4 |
+| 26 | Languages: neutral storage, `Intl`, logical CSS (5.4, Now) | 4 | 5 | 5 | 4 |
+| 27 | Languages: English country packs, IE, US, one EU (5.4, Next) | 6 | 5 | 8 | 3 |
+| 28 | Team: encrypted sync, roles, adviser links (5.2, Later) | 5 | 8 | 10 | 3 |
+| 29 | Voice: microphone on text cells (5.3, Next) | 4 | 3 | 4 | 3 |
+| 30 | AI: coaching against benchmarks (5.1, Later) | 5 | 5 | 9 | 1 |
+| 31 | Languages: translations through XLIFF (5.4, Later) | 4 | 6 | 9 | 1 |
+| 32 | Voice: hands-free interview mode (5.3, Later) | 2 | 1 | 8 | -5 |
+
+**Reading it:** the first ten, but the language model (rank 10), are small builds of high worth, most of them on parts that already exist (the storage request, the lender exports and check, the rule-based checks, What It Would Take, the tour, the share pack, the One-Pager, duplicating an Organisation). The loan notes are the smallest build of all (rank 15: worth less alone, best shipped with What It Would Take). Scenarios, the dashboard and the language model are wanted and popular but large; sync, accounting integration and hands-free voice are the largest and come last.
 
 ## 6. Sources
 
