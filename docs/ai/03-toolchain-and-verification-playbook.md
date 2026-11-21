@@ -40,7 +40,7 @@ One tree, edited in place. There is no separate build tree and no sync step.
 
 
 1. **Typecheck:** `npx tsc --noEmit`. Clean before going on.
-2. **Unit tests:** `npx vitest run` (the 40-second timeout is set in `vitest.config.ts`; `npm run verify` runs this and the other checks in order). About 1,500 tests; all must pass. A confirmed, not-yet-fixed bug is written as `it.fails`, never left as a red test (see below). An `it.fails` that starts to pass is itself reported as a failure: root-cause it, it means the tracked behaviour changed.
+2. **Unit tests:** `npx vitest run` (the 40-second timeout is set in `vitest.config.ts`; `npm run verify` runs this and the other checks in order). About 2,250 tests (2,245 pass and 2 are skipped on 2026-11-21); all must pass. A confirmed, not-yet-fixed bug is written as `it.fails`, never left as a red test (see below). An `it.fails` that starts to pass is itself reported as a failure: root-cause it, it means the tracked behaviour changed.
 3. **The checks that read the code against the rules** (all must be clean):
    - `npm run tokens:check`: the generated colour and size stylesheets match `src/styles/tokens/tokens.ts`.
    - `npm run lint:styles`: no literal colour, corner, gap or breakpoint outside the tokens (known ones are in `tools/scripts/lint/styles-baseline.json`; a new one fails).
@@ -55,7 +55,7 @@ One tree, edited in place. There is no separate build tree and no sync step.
 
 ## What the unit tests cover, and what they do not
 
-Vitest is the only unit-test layer: parsing, number and date logic, data transforms, what a component or a hook computes, the generated documents, and the examples (`ExampleDrift`, `ExampleCompleteness`, the golden files). `environment: "jsdom"` is set in `vitest.config.ts` (a separate file from `vite.config.ts`, whose `server` block is for Tauri). A test stands beside what it tests, and a test that crosses components stands beside the screen it tests: the Infrastructure & Capability screen's in `components/interview/editors/capability/`, one file per part of its cards (owner, 2026-11-21: the tests grouped by what they test). A test file is named by its subject, never by a review round or a date.
+Vitest is the only unit-test layer: parsing, number and date logic, data transforms, what a component or a hook computes, the generated documents, and the examples (`services/examples.test.ts`: drift and completeness; the golden figures in `framework/engine/FounderPeriod.test.ts`). `environment: "jsdom"` is set in `vitest.config.ts` (a separate file from `vite.config.ts`, whose `server` block is for Tauri). A test stands beside what it tests, and a test that crosses components stands beside the screen it tests: the Infrastructure & Capability screen's in `components/interview/editors/capability/`, one file per part of its cards (owner, 2026-11-21: the tests grouped by what they test). A test file is named by its subject, never by a review round or a date.
 
 Document tests: `src/docs/documentReferences.test.ts` (the rulebook, `08-card-kinds.md`, the Infrastructure & Capability specification, Foundation 1 and 2 name only properties, classes and files the code has), `documentValues.test.ts` and `documentAssets.test.ts` (the generated parts of the rulebook). Run them with `npx vitest run src/docs` after editing any of these documents.
 
