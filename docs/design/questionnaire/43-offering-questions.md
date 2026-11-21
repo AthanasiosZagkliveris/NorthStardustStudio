@@ -162,7 +162,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
 - **Starts from the business stage** (owner 2026-11-06; `BusinessStage.ts`, from the Opening Date): Planning → "Still being built"; Launching → "Yes, now" (was "Almost ready" until 2026-11-08, the options-and-wording research: a business that is launching sells); Managing or Growing → "Yes, now". Only a starting value: an answer chosen is never overwritten, and every option stays (a growing business can still plan a new Offering, "Just an idea").
 - **The "i" says:**
   - It starts from your business stage; change it for this Offering.
-- **Read by (built (owner, 2026-11-17; the open decisions and gaps, Group 4d)):** Demand & Conversion's Ready From, asked where it is Just an idea or Still being built, with its note; the revenue on Sustainability begins no earlier (doc 50, 2.6).
+- **Read by (built (owner, 2026-11-17; the open decisions and gaps, Group 4d)):** Sales Forecast's Ready From, asked where it is Just an idea or Still being built, with its note; the revenue on Sustainability begins no earlier (doc 50, 2.6).
 - **Connections:**
   - *Comes from:* the business stage (Organisation: the Opening Date and the Global Settings' durations).
   - *Read by (not built yet):* the Review (a Demand estimate for an Offering that is not ready; a mismatch with the stage: Planning with an Offering "Yes, now", sales before the opening, or Managing with every Offering "Just an idea"); the Business Plan's product section. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-section-1-owner-2026-11-08).
@@ -296,7 +296,7 @@ Related: doc 35 (the Segment: age, how they pay, the kind of area), doc 36 (the 
 - **The "i" says:**
   - What else comes with it after the sale; the help you give is the question above.
   - None stands alone: ticking it clears the others.
-- **Connections:** *Read by (built):* the Keep and Grow goals (`startGoals`) and, for repairs or replacements, the Repeat customers row of Demand & Conversion (`demandSuggestions`, doc 47); the export.
+- **Connections:** *Read by (built):* the Keep and Grow goals (`startGoals`) and, for repairs or replacements, the Repeat customers row of Sales Forecast (`demandSuggestions`, doc 47); the export.
 
 ### O23. How do you keep in touch after the sale?
 

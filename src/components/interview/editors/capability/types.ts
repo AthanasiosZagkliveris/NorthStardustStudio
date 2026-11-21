@@ -52,7 +52,7 @@ export interface BusinessCapabilityEditorProps {
     legalEntityPrefill?: { organisationName: string; founderName: string };
     /** 1. Identity System — 4. Founders Profile, as saved: each founder's Roles. */
     foundersProfile?: unknown;
-    /** Customer Engagement: its Demand & Conversion gives each Offering's expected sales. */
+    /** Customer Engagement: its Sales Forecast gives each Offering's expected sales. */
     engagement?: unknown;
     /** 4. Finances' saved value: its Plan Start (and its Opening Date) bound the dates of an activity. */
     financialFoundation?: unknown;

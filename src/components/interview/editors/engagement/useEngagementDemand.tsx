@@ -40,7 +40,7 @@ export function useEngagementDemand(earlier: Earlier) {
     // (The folds of the floating card's sections: open until folded.)
     const sectionFold = useSectionFolds();
 
-    /* ---------- Demand & Conversion ---------- */
+    /* ---------- Sales Forecast ---------- */
 
     /**
      * What is recorded about how one Offering's customers come, or an
@@ -67,7 +67,7 @@ export function useEngagementDemand(earlier: Earlier) {
         });
     }
     /**
-     * The Demand & Conversion group under one Offering's relationship:
+     * The Sales Forecast group under one Offering's relationship:
      * how the Offering is bought, the sources its customers come from
      * (each with a figure, or a calculation), the Expected Sales they
      * add up to, the channels that bring them and what it rests on.
@@ -79,7 +79,7 @@ export function useEngagementDemand(earlier: Earlier) {
         segment: BusinessCustomerSegmentValue,
         offeringId: string,
         offeringLabel: string,
-        /** As a floating card (opened from its tile in the Demand & Conversion dialog): always open, its title with no fold arrow. */
+        /** As a floating card (opened from its tile in the Sales Forecast dialog): always open, its title with no fold arrow. */
         asCard = false,
         /**
          * THE OFFERING'S DIALOG OF CARDS (owner, 2026-11-13 16:12: "Make the offering tiles, as a dialogue card, with each Source as an individual Nested Tile"):
@@ -645,7 +645,7 @@ export function useEngagementDemand(earlier: Earlier) {
         );
 
         /*
-            ONE OFFERING'S DEMAND & CONVERSION AS A FLOATING CARD, IN THE DEFAULT LAYOUT (owner, 2026-11-12 18:41: "does not follow the default floated card's lay out ...
+            ONE OFFERING'S SALES FORECAST AS A FLOATING CARD, IN THE DEFAULT LAYOUT (owner, 2026-11-12 18:41: "does not follow the default floated card's lay out ...
             Compare it with a Profile, Competitor or offering floated card"): the Offering card's head (its number and name, the name a link to the Foundation), how its
             customers buy under the name, as the Offering's Type; then three sections: Customer Sources (a box per source; a source is added from the Offering's tile -- a suggested one from its faded line, any other by its "+" with All),
             Expected Sales (the result, the assumptions) and Channels That Bring Them. The same fields and saved answers as the page's block.
@@ -704,7 +704,7 @@ export function useEngagementDemand(earlier: Earlier) {
                         {!asCard && (
                             <FoldArrow
                                 open={open}
-                                label={"Demand & Conversion for " + offeringLabel}
+                                label={"Sales Forecast for " + offeringLabel}
                                 onToggle={() => folds.toggle(foldKey)}
                             />
                         )}
@@ -713,7 +713,7 @@ export function useEngagementDemand(earlier: Earlier) {
                             paragraphs around the fields. */}
                         <span className="field-group-title business-foundation-subhead business-demand-title">
                             <InfoText text={offeringLabel}>
-                                <InfoNote label="Demand & Conversion" points={DEMAND_BLOCK_HELP} fullList />
+                                <InfoNote label="Sales Forecast" points={DEMAND_BLOCK_HELP} fullList />
                             </InfoText>
                         </span>
                         {!open && result.expected !== null && (
@@ -796,7 +796,7 @@ export function useEngagementDemand(earlier: Earlier) {
             window.setTimeout(() => document.dispatchEvent(new CustomEvent<OpenRequest>(OPEN_EVENT, { detail: { tile: channelTileId(segment.id, first.id), card: channel.id } })), 300);
         }
     }
-    /** The sources the Foundation suggests for an Offering, each with its words (the faded lines of its tile in Demand & Conversion). */
+    /** The sources the Foundation suggests for an Offering, each with its words (the faded lines of its tile in Sales Forecast). */
     function suggestedSources(segment: BusinessCustomerSegmentValue, offeringId: string) {
         return demandSuggestions(segment, offeringId, segmentOf(segment.id).channels, demandOf(offeringId), identity).map(row => {
             const sourceLabel = DEMAND_SOURCES.find(type => type.id === row.type)?.label ?? "Other";
@@ -810,7 +810,7 @@ export function useEngagementDemand(earlier: Earlier) {
         updateDemand(offeringId, { sources: [...demandOf(offeringId).sources, made] });
         return made.id;
     }
-    /** The "+" on an Offering's tile in Demand & Conversion (with All): a new Customer Source, its card then opened. */
+    /** The "+" on an Offering's tile in Sales Forecast (with All): a new Customer Source, its card then opened. */
     function addCustomerSource(offeringId: string): string {
         const made = createDemandSource();
         updateDemand(offeringId, { sources: [...demandOf(offeringId).sources, made] });

@@ -37,7 +37,7 @@ export default function BusinessEngagementEditor(props: BusinessEngagementEditor
 
     /*
         THE PAGE AS TILES (doc 47, section 3, step one): one chapter per Segment, in the Segment's colour, as Page 1's, holding three Master Tiles -- Channels &
-        Journey, Customer's Relationship, Demand & Conversion (the channel expenses are the Inventory's: owner, 2026-11-12 19:54). Each opens its section in a dialog;
+        Journey, Customer's Relationship, Sales Forecast (the channel expenses are the Inventory's: owner, 2026-11-12 19:54). Each opens its section in a dialog;
         the section's help is the "i" beside the dialog's heading. Every channel comes from the Foundation's answers (owner, 2026-11-16 16:31). No saved key changes.
     */
     if (asTiles && segments.length > 0) {
@@ -122,7 +122,7 @@ export default function BusinessEngagementEditor(props: BusinessEngagementEditor
                         <>
                         {demandFor(segment, offeringId, name, true, "expected")}
                         <CardBoxes
-                            label={"Demand & Conversion of " + name}
+                            label={"Sales Forecast of " + name}
                             what="Customer Source"
                             autoStart={false}
                             add={add}
@@ -159,7 +159,7 @@ export default function BusinessEngagementEditor(props: BusinessEngagementEditor
                 const add: TileAdd | undefined = undefined;
                 return {
                     id: segment.id + ":rel:" + offeringId,
-                    // (Numbered as the Offering's tile in Demand & Conversion.)
+                    // (Numbered as the Offering's tile in Sales Forecast.)
                     title: (at + 1) + ". " + name,
                     view: true,
                     // (A type's card, opened from the Offering's dialog, carries no box name: the dialog's heading says it.)
@@ -238,7 +238,8 @@ export default function BusinessEngagementEditor(props: BusinessEngagementEditor
                 },
                 {
                     id: segment.id + ":demand",
-                    title: "Demand &\nConversion",
+                    // (Sales Forecast, formerly Demand & Conversion: owner, 2026-11-20 23:49 UTC+2; on one line, as Channel Costs.)
+                    title: "Sales Forecast",
                     large: true,
                     anchor: "engagement-section-" + segment.id + "-demand",
                     // Each Offering with its expected sales a month (active clients for a recurring one), laid out as Customer's Relationship's: the Offering, its
@@ -249,9 +250,9 @@ export default function BusinessEngagementEditor(props: BusinessEngagementEditor
                     })),
                     // (Each Offering a link to its tile in the dialog; the lines between them none.)
                     links: offeringIds.flatMap((offeringId, at) => [...(at > 0 ? [undefined] : []), { box: segment.id + ":dem:" + offeringId }]),
-                    group: "Demand & Conversion",
-                    content: () => dialog("Demand & Conversion", [SECTIONS.relationships.instructions[3], ...DEMAND_BLOCK_HELP.map(point => typeof point === "string" ? point : "")].filter(Boolean) as string[], offeringIds.length > 0
-                        ? <SectionTiles label={"Demand & Conversion of " + (segment.name.trim() || "this Segment")} hue={segmentHue(segment)} tiles={demTiles()} />
+                    group: "Sales Forecast",
+                    content: () => dialog("Sales Forecast", [SECTIONS.relationships.instructions[3], ...DEMAND_BLOCK_HELP.map(point => typeof point === "string" ? point : "")].filter(Boolean) as string[], offeringIds.length > 0
+                        ? <SectionTiles label={"Sales Forecast of " + (segment.name.trim() || "this Segment")} hue={segmentHue(segment)} tiles={demTiles()} />
                         : null)
                 }
             // (Channel Costs is no tile of its own: the channel expenses are the Inventory's, its Channel Costs set-up; owner, 2026-11-12 19:54.)
@@ -283,7 +284,7 @@ export default function BusinessEngagementEditor(props: BusinessEngagementEditor
                                     <div className="business-capability-section business-capability-tiles-section">
                                         {/* The Segment's chapter, named as on Page 1 (its name is edited there). */}
                                         <div className="business-engagement-section-head tiles-frame-head"><span className="field-group-title business-foundation-subhead">{name}</span></div>
-                                        <SectionTiles label={name + ": Channels & Journey, Customer's Relationship, Demand & Conversion"} hue={segmentHue(segment)} tiles={tilesOf(segment)} />
+                                        <SectionTiles label={name + ": Channels & Journey, Customer's Relationship, Sales Forecast"} hue={segmentHue(segment)} tiles={tilesOf(segment)} />
                                     </div>
                                 </div>
                             </CardShell>
@@ -483,7 +484,7 @@ export default function BusinessEngagementEditor(props: BusinessEngagementEditor
                                             offeringId => "relationship-offering-" + offeringId
                                         )}
                                         /* Cascades into each Offering's
-                                           Demand & Conversion block. */
+                                           Sales Forecast block. */
                                         nested={engagedOfferingIds(segment).map(
                                             offeringId => "demand-" + offeringId
                                         )}
@@ -492,10 +493,10 @@ export default function BusinessEngagementEditor(props: BusinessEngagementEditor
                                     />
                                 )}
 
-                                {/* DEMAND & CONVERSION, a section of its own after the table: for each Offering, how its customers come, and so how many sales to expect. */}
+                                {/* SALES FORECAST, a section of its own after the table: for each Offering, how its customers come, and so how many sales to expect. */}
                                 {foldingSection(
                                     segment.id + "-demand",
-                                    "3. Demand & Conversion",
+                                    "3. Sales Forecast",
                                     () => (
                                         <div className="business-demand-section">
                                             {engagedOfferingIds(segment).map(offeringId => (

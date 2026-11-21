@@ -358,7 +358,7 @@ describe("Financials' chapters", () => {
         expect(screen.getByText("Financial Foundation")).toBeTruthy();
         const tiles = screen.getAllByRole("button").map(button => (button.textContent ?? "").replace(/\s+/g, " "));
         // (Capital & Funding and Financial Position, one tile, Funding, since 2026-11-20: doc 48, section 13, step 3.)
-        for (const title of ["Costs", "Funding"]) {
+        for (const title of ["Cost of each Offering", "Funding"]) {
             expect(tiles.some(text => text.startsWith(title))).toBe(true);
         }
         for (const title of ["Financial Position", "Capital & Funding", "Break-Even", "Sustainability", "Revenue Streams"]) {

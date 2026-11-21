@@ -3,7 +3,7 @@
 
     Three questions the Business System keeps apart, each answered on
     its own page:
-    - Demand & Conversion (Customer Engagement): can enough customers
+    - Sales Forecast (Customer Engagement): can enough customers
       be won, and from which sources? It gives each Offering's
       EXPECTED SALES.
     - Delivery (Infrastructure & Capability): can what is sold be
@@ -37,7 +37,7 @@ function readNumber(text: string | undefined): number | null {
 }
 
 /* ==========================================================
-   Demand & Conversion
+   Sales Forecast
 ========================================================== */
 
 /*
@@ -1002,7 +1002,7 @@ export function capacityCheck(
 
 
 /**
- * EACH OFFERING'S REVENUE A MONTH, as the page's figures give it: Demand & Conversion's expected sales (active clients for an Offering bought every month)
+ * EACH OFFERING'S REVENUE A MONTH, as the page's figures give it: Sales Forecast's expected sales (active clients for an Offering bought every month)
  * x the Offering's price on Sustainability x its items per order -- the figures a subchannel's Fees line works the fee on a sale from. An Offering with no
  * expected sales or no price is left out (owner, 2026-11-14 14:17: the Inventory's Cost per Offering of a cost that is a share of revenue).
  */

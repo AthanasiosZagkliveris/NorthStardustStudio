@@ -2,7 +2,7 @@
 
 Status: **rules**, written 2026-10-17, updated 2026-10-29. The layout of the Customer Engagement page: its tables, the Channel resources table and the action markers.
 
-The layout of the Customer Engagement page: its tables, the Segment card, the action markers and Demand & Conversion. This is the page's specification. The rules of the rulebook (sizes, gaps, the one x, the reactions) apply to everything here.
+The layout of the Customer Engagement page: its tables, the Segment card, the action markers and Sales Forecast. This is the page's specification. The rules of the rulebook (sizes, gaps, the one x, the reactions) apply to everything here.
 
 ## The Customer Channel table
 
@@ -50,7 +50,7 @@ A card shared into another channel's cell reads its name and cost, then "via sha
 
 Starting an isolation takes the top of that Segment's Customer Channel section (its title row, with the note) to just under the app header (smooth, none under reduced motion); ending one scrolls nothing. Pointing at a shared row lights its twins, and at a resource card or symbol its actions, on the tint's wash.
 
-## Demand & Conversion
+## Sales Forecast
 
 what the block is for and where its Expected Sales are used are the points of one "i" on its title, not paragraphs around its fields. A Customer Source card's fields stand on one row (Customer Source, Estimated, then the figure or the calculation's figures), each as narrow as it can be: the pickers hug their longest option, a number takes the step its largest value needs (XS to six characters, Code to ten), a cell gap apart, labels above, tops aligned; a row too long for the card wraps from the same left edge (at 768px every type with a calculation does, "Other" does not). The Basis stays under them at the card's width.
 

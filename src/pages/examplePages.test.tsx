@@ -104,6 +104,6 @@ describe("the Financials page", () => {
         );
         expect([...container.querySelectorAll(".tiles-frame-head")].map(head => head.textContent?.trim())).toEqual(["Financial Foundation"]);
         const titles = [...container.querySelectorAll<HTMLElement>("[data-anchor^=\"column-tiles\"] .section-tile-title")].map(title => title.textContent?.replace(/\s+/g, " ").trim().toLowerCase());
-        expect(titles).toEqual(["revenue streams", "costs", "funding"]);
+        expect(titles).toEqual(["revenue streams", "cost of each offering", "funding"]);
     });
 });

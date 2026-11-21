@@ -15,11 +15,11 @@ import { offeringStartsById } from "../../../framework/engine/EffectiveAnswers.t
 import { calculatedLines } from "../../../framework/engine/CalculatedLines.ts";
 import { ownersTakeDrawings } from "../../../framework/engine/FinancialForecast.ts";
 import { type GlobalSettingsValue } from "../../../framework/engine/GlobalSettings.ts";
-import { costStartDates, derivedPlanStart, incomeTaxRate, legalExpenseDates, PAYMENT_TIMINGS, planLength, REVENUE_DEVELOPMENTS, REVENUE_CHARGES, REVENUE_UNITS, asFinancialFoundationValue, asFinancialSustainabilityValue, consolidateCosts, createDetailedVolume, createRevenueStream, formatUnits, isRecurringRevenue, moneyFormatter, parseAmount, sustainability, withPlanStart, withDemand, type FinancialSustainabilityValue, type RevenueStreamValue } from "../../../framework/engine/FinancialModel.ts";
+import { costStartDates, derivedPlanStart, incomeTaxRate, legalExpenseDates, PAYMENT_TIMINGS, planLength, REVENUE_DEVELOPMENTS, REVENUE_CHARGES, REVENUE_UNITS, asFinancialFoundationValue, asFinancialSustainabilityValue, consolidateCosts, offeringEconomicsOf, createDetailedVolume, createRevenueStream, formatUnits, isRecurringRevenue, moneyFormatter, parseAmount, sustainability, withPlanStart, withDemand, type FinancialSustainabilityValue, type RevenueStreamValue } from "../../../framework/engine/FinancialModel.ts";
 import { costSourcesFor } from "../../../framework/engine/ExportRenderers.ts";
 import { deliveryAllocation, demandResult } from "../../../framework/engine/DemandCapacity.ts";
 import { BusinessAddButton, BusinessCard, BusinessEmpty, BusinessField, OptionalNote, BusinessRemove, uniqueChoices } from "../cards/BusinessCardFields.tsx";
-import { type FinancialSection, PlanMonthField } from "./FinancialParts.tsx";
+import { type FinancialSection, FigureTiles, PlanMonthField } from "./FinancialParts.tsx";
 import { summaryText } from "../cards/cardSummary.ts";
 import CardBoxes, { type CardBox } from "../cards/CardBoxes.tsx";
 import { SingleColumn } from "./foundation/shared.tsx";
@@ -55,7 +55,7 @@ interface FinancialSustainabilityEditorProps {
     currency?: string;
     onOpenFoundation?: OpenPage;
     onOpenFinancialFoundation?: OpenPage;
-    /** Customer Engagement: its Demand & Conversion gives expected sales. */
+    /** Customer Engagement: its Sales Forecast gives expected sales. */
     engagement?: unknown;
     onOpenEngagement?: OpenPage;
     onOpenCapability?: OpenPage;
@@ -134,7 +134,7 @@ export default function FinancialSustainabilityEditor({
     // formatter, so nobody's own pence are ever hidden by it.
     const format = moneyFormatter(currency, { wholeOnly: true });
 
-    /* Where an Offering's Demand & Conversion gives expected sales,
+    /* Where an Offering's Sales Forecast gives expected sales,
        every figure uses them (withDemand); the page shows them, and
        keeps asking only where there is none. */
     const demand = asBusinessEngagementValue(engagement).demand;
@@ -145,6 +145,8 @@ export default function FinancialSustainabilityEditor({
         ? calculatedLines({ foundation: financial, revenuePage: effective, lines, capability: countedCapability(capability), settings: globalSettings, openingDate, drawings: ownersTakeDrawings(legalEntity.organisation.legalForm), country: legalEntity.organisation.country, engagement: asBusinessEngagementValue(engagement) }, incomeTaxRate(financial))
         : undefined;
     const result = sustainability(effective, financial, lines, legalEntity, format, calculated);
+    // (Each Offering's sale against its costs, as Cost of each Offering shows it: doc 48, 15.4.)
+    const economics = offeringEconomicsOf(result, lines, capability);
 
 
     const offerings = uniqueChoices(
@@ -310,7 +312,7 @@ export default function FinancialSustainabilityEditor({
     }
 
 
-    /** Where an Offering's Demand & Conversion is, as a jump path (see jumpTo.ts). */
+    /** Where an Offering's Sales Forecast is, as a jump path (see jumpTo.ts). */
     function demandPath(offeringId: string): string[] {
         const segment = businessFoundationSegments(foundation)
             .find(entry => entry.offerings.some(offering => offering.id === offeringId));
@@ -373,7 +375,10 @@ export default function FinancialSustainabilityEditor({
         // Segment's competitors charge for a similar offer, from their K15 ranges, a line under the price; nothing is written into the price, and it is never
         // compared with it (doc 48, section 12.2).)
         const competitorsSegment = businessFoundationSegments(foundation).find(entry => entry.offerings.some(offering => offering.id === stream.offeringId));
-        const competitorsRange = competitorsSegment ? competitorsPriceRange(competitorsSegment.competitors) : null;
+        // (BY THE NEEDS MET (doc 48, 15.3; owner, 2026-11-20 23:44 UTC+2): the competitors that meet at least one need this Offering meets (their K16), each named in
+        // the line's "i"; while none ticks K16, every competitor of the Segment, said there.)
+        const competitorsNeeds = competitorsSegment?.offerings.find(offering => offering.id === stream.offeringId)?.needsAddressed ?? [];
+        const competitorsRange = competitorsSegment ? competitorsPriceRange(competitorsSegment.competitors, competitorsNeeds) : null;
         const groups: { key: string; title: string; info?: InfoPoint[]; body: ReactNode }[] = [
             {
                 key: "price", title: "Price", info: STREAM_HELP.price,
@@ -391,7 +396,7 @@ export default function FinancialSustainabilityEditor({
                             "Per sale: paid once for each unit sold (a product, a session, an hour).",
                             "Per project: paid once for each project or contract.",
                             "Monthly, quarterly or annually: paid every period by each client subscribed or on a retainer.",
-                            "Use Monthly, Quarterly or Annually when customers buy every month under Demand & Conversion on Foundation & Engagement."
+                            "Use Monthly, Quarterly or Annually when customers buy every month under Sales Forecast on Foundation & Engagement."
                         ],
                         true)}
 
@@ -407,7 +412,15 @@ export default function FinancialSustainabilityEditor({
 
                 {competitorsRange && (
                     <p className="financial-muted financial-inline-note">
-                        Your competitors charge about {format(competitorsRange.low)}{competitorsRange.high > competitorsRange.low ? " to " + format(competitorsRange.high) : ""} for a similar offer.
+                        <InfoText text={(competitorsRange.byNeeds ? "Competitors meeting the same needs charge about " : "Your competitors charge about ") + format(competitorsRange.low) + (competitorsRange.high > competitorsRange.low ? " to " + format(competitorsRange.high) : "") + " for a similar offer."}>
+                            <InfoNote label="The price customers already pay" points={[
+                                competitorsRange.byNeeds
+                                    ? "From the competitors that meet at least one need this Offering meets (" + competitorsRange.names.join(", ") + "): their prices, lowest to highest."
+                                    : "From every competitor of the Segment with a price (" + competitorsRange.names.join(", ") + "). Tick which needs each one meets, on its card, and this counts only those that meet this Offering's needs.",
+                                "What customers already pay for these needs: a guide for your price, never a price the app sets.",
+                                "Based on: ICAEW, value-based pricing; Osterwalder et al. (2014), Value Proposition Design."
+                            ]} />
+                        </InfoText>
                     </p>
                 )}
 
@@ -442,11 +455,11 @@ export default function FinancialSustainabilityEditor({
 
                     {fromDemand.expected !== null
                         ? (
-                            /* Taken from Demand & Conversion: shown, and
+                            /* Taken from Sales Forecast: shown, and
                                changed there, never entered twice. */
                             <BusinessField
                                 label={recurring ? "Active " + capitalized(plural(unit, 2)) : "Expected Sales"}
-                                info={["From this Offering's Demand & Conversion on Foundation & Engagement: " + fromDemand.working]}
+                                info={["From this Offering's Sales Forecast on Foundation & Engagement: " + fromDemand.working]}
                                 inline
                             >
                                 <span className="financial-derived">
@@ -458,7 +471,7 @@ export default function FinancialSustainabilityEditor({
                                             className="business-engagement-link financial-cost-link"
                                             onClick={() => onOpenEngagement(demandPath(stream.offeringId))}
                                         >
-                                            from Demand & Conversion
+                                            from Sales Forecast
                                         </TextLink>
                                     )}
                                 </span>
@@ -473,11 +486,34 @@ export default function FinancialSustainabilityEditor({
                                 recurring
                                     ? "How many " + plural(unit, 2) + " are paying at the normal operating level. The price is spread evenly over the months it covers."
                                     : "How many " + plural(unit, 2) + " are sold in a month at the normal operating level.",
-                                "To work it out from where customers come from (referrals, a sales funnel, repeat customers and more), fill in Demand & Conversion for this Offering on Foundation & Engagement: it then fills this in."
+                                "To work it out from where customers come from (referrals, a sales funnel, repeat customers and more), fill in Sales Forecast for this Offering on Foundation & Engagement: it then fills this in."
                             ],
                             true,
                             NUMBER_LIMITS.volume
                         )}
+                    {/* (ONE OWNER FOR THE BUILD-UP (doc 48, 15.1): where Sales Forecast works it out -- a recurring Offering's clients joining and
+                        cancelling --, it is shown here and changed there; the stream's own Build-up is asked only where it is silent.) */}
+                    {fromDemand.monthsToNormal !== null && fromDemand.joining !== null && fromDemand.expected !== null && stream.development !== "detailed" ? (
+                        <BusinessField
+                            label="Build-up"
+                            info={["From this Offering's Sales Forecast on Foundation & Engagement: " + fromDemand.working]}
+                            inline
+                        >
+                            <span className="financial-derived">
+                                From <strong className="business-demand-pill">{formatUnits(Math.min(fromDemand.joining, fromDemand.expected))}</strong> in the first month
+                                to <strong className="business-demand-pill">{formatUnits(fromDemand.expected)}</strong> in about {fromDemand.monthsToNormal} months
+                                {onOpenEngagement && (
+                                    <TextLink
+                                        type="button"
+                                        className="business-engagement-link financial-cost-link"
+                                        onClick={() => onOpenEngagement(demandPath(stream.offeringId))}
+                                    >
+                                        from Sales Forecast
+                                    </TextLink>
+                                )}
+                            </span>
+                        </BusinessField>
+                    ) : (<>
                     {listPicker("Build-up", what + " revenue development",
                         REVENUE_DEVELOPMENTS.map(item => item.label),
                         REVENUE_DEVELOPMENTS.find(item => item.id === stream.development)?.label ?? "",
@@ -499,11 +535,7 @@ export default function FinancialSustainabilityEditor({
                         </>
                     )}
 
-                    {fromDemand.monthsToNormal !== null && (
-                        <p className="financial-muted financial-inline-note">
-                            Demand & Conversion suggests about {fromDemand.monthsToNormal} months to reach nine tenths of it.
-                        </p>
-                    )}
+                    </>)}
 
                 </div>
                 {/* (VOLUME FROM EACH MONTH FOLDS (owner, 2026-11-20 12:49 UTC+2, "proceed"): under Sales Volume, the one fold of a card's lists (FoldList), its count
@@ -642,7 +674,30 @@ export default function FinancialSustainabilityEditor({
                     </div>
                     </>
                 )
-            }] : [])
+            }] : []),
+            // THIS OFFERING'S ECONOMICS (doc 48, 15.4; owner, 2026-11-21 00:56 UTC+2: "we could calculate better the revenue of each offering, and the user could take
+            // the best decisions"): one sale's price against the market's and its costs, and its sales a month, as Cost of each Offering counts them.
+            ...((() => {
+                const own = economics.rows.find(row => row.streamId === stream.id);
+                if (!own || own.price === null) {
+                    return [];
+                }
+                const below = own.contribution !== null && own.contribution < 0;
+                return [{
+                    key: "economics", title: "This Offering's Economics",
+                    info: ["One sale of this Offering, as Cost of each Offering on Costs, Funding & Position counts it: its price beside what customers already pay, its own costs, and what is left.", "Based on: Kaplan and Anderson (2004), Time-driven activity-based costing; ICAEW, value-based pricing."] as InfoPoint[],
+                    body: (
+                        <FigureTiles tiles={[
+                            { label: "Price", value: format(own.price), ...(competitorsRange ? { detail: "Market " + format(competitorsRange.low) + (competitorsRange.high > competitorsRange.low ? " to " + format(competitorsRange.high) : "") } : {}) },
+                            { label: "Direct cost", value: format(own.direct) },
+                            { label: "Contribution", value: own.contribution === null ? "—" : format(own.contribution), ...(below ? { tone: "risk" as const, detail: "Each sale costs more than its price." } : {}) },
+                            { label: "Full cost", value: format(own.full), detail: "Running costs " + format(own.runningOfOne) },
+                            { label: "Margin", value: own.margin === null ? "—" : Math.round(own.margin * 100) + "%", ...(own.margin !== null && own.margin < 0 ? { tone: "risk" as const } : {}) },
+                            { label: recurring ? "Active " + capitalized(plural(unit, 2)) : "Sales a month", value: formatUnits(Math.round(own.sales * 10) / 10) }
+                        ]} />
+                    )
+                }];
+            })())
         ];
         const outcome = analysis && analysis.price !== null && (
                     <p className="financial-stream-result">

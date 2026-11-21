@@ -3,7 +3,7 @@ import { act, cleanup, fireEvent, render, screen, within } from "@testing-librar
 import { MemoryRouter, Route, Routes, useLocation } from "react-router-dom";
 
 import GlobalSettings from "./GlobalSettings";
-import SettingsButton from "../components/SettingsButton";
+import ToolsMenu from "../components/ToolsMenu";
 import { asGlobalSettings, createGlobalSettings } from "../framework/engine/GlobalSettings";
 import { OrganizationService } from "../services/OrganizationService";
 
@@ -37,14 +37,15 @@ describe("opening Global Settings", () => {
     it("opens from the header button, and returns to where it was opened from on Escape", () => {
         render(
             <MemoryRouter initialEntries={["/introduction"]}>
-                <SettingsButton />
+                <ToolsMenu organizationOpen focusable={false} />
                 <Routes>
                     <Route path="/introduction" element={<Where name="The interview" />} />
                     <Route path="/settings" element={<GlobalSettings />} />
                 </Routes>
             </MemoryRouter>
         );
-        act(() => { fireEvent.click(screen.getByRole("button", { name: "Global Settings" })); });
+        act(() => { fireEvent.click(screen.getByRole("button", { name: "Menu" })); });
+        act(() => { fireEvent.click(screen.getByRole("menuitem", { name: "Settings" })); });
         expect(screen.getByRole("heading", { name: /^Global Settings/ })).toBeTruthy();
         act(() => { fireEvent.keyDown(window, { key: "Escape" }); });
         expect(screen.getByText("The interview at /introduction")).toBeTruthy();

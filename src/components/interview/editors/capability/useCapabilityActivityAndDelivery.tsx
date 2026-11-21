@@ -694,7 +694,7 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
      */
     /**
      * DV1, DELIVERED, AS A RECORD (owner, 2026-11-17; 1.2, the second batch of the review, 2026-11-18 00:46): O3's where it says how customers are charged, else
-     * Demand & Conversion's Customers Buy where it is answered (every month, until they cancel: Every month); undefined while neither says, so the card asks.
+     * Sales Forecast's Customers Buy where it is answered (every month, until they cancel: Every month); undefined while neither says, so the card asks.
      */
     function deliveryModeOf(offeringId: string, segments: ReturnType<typeof businessFoundationSegments>): "unit" | "monthly" | undefined {
         const fromTerms = offeringStartsById(segments, offeringId).deliveryMode;
@@ -790,7 +790,7 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
     function expectedFor(offeringId: string): { volume: number; source: string } | null {
         const fromDemand = demandResult(demandByOffering[offeringId]).expected;
         return fromDemand !== null && fromDemand > 0
-            ? { volume: fromDemand, source: "Demand & Conversion" }
+            ? { volume: fromDemand, source: "Sales Forecast" }
             : null;
     }
     /* Hours in the unit the founders think in: a week if any founder
@@ -874,7 +874,7 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
                     )
                     : (
                         <p className="delivery-muted">
-                            Add this Offering's expected sales under Demand & Conversion on Foundation & Engagement to see the hours it takes a month.
+                            Add this Offering's expected sales under Sales Forecast on Foundation & Engagement to see the hours it takes a month.
                         </p>
                     )}
 
@@ -962,7 +962,7 @@ export function useCapabilityActivityAndDelivery(earlier: Earlier) {
         /* THE FOUNDER CHOOSES how it is delivered: once per unit, over
            some weeks; or every month, for each active client (a
            retainer, a subscription), with no duration. */
-        // (DV1 IS O3'S RECORD where O3 is answered: how customers are charged says how it is delivered; owner, 2026-11-17. And Demand & Conversion's Customers Buy's
+        // (DV1 IS O3'S RECORD where O3 is answered: how customers are charged says how it is delivered; owner, 2026-11-17. And Sales Forecast's Customers Buy's
         // where O3 leaves it open -- unanswered or Free --: one fact, one owner (1.2, the second batch of the review; owner, 2026-11-18 00:46).)
         const starts = offeringStartsById(businessFoundationSegments(foundation), offering.id);
         const recorded = deliveryModeOf(offering.id, businessFoundationSegments(foundation));
@@ -1536,7 +1536,7 @@ batches && (
                         return missing.length > 0 && (
                             <p className="delivery-muted">
                                 Not in the budgets yet, with no expected sales: {missing.map(choice => choice.label).join(", ")}.
-                                Add them under Demand &amp; Conversion on Foundation & Engagement.
+                                Add them under Sales Forecast on Foundation & Engagement.
                             </p>
                         );
                     })()}

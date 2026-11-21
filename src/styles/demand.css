@@ -1,5 +1,5 @@
 /* ==========================================================
-   Demand & Conversion (Business System, Page 2)
+   Sales Forecast (Business System, Page 2)
 
    One group at the foot of each Offering's relationship card: how
    the Offering is bought, the sources its customers come from (each
@@ -256,7 +256,7 @@
 :is(.business-demand-source > .business-demand-fields, .business-demand-buying) .business-demand-number[data-size="code"]{ width:var(--control-code); }
 :is(.business-demand-source > .business-demand-fields, .business-demand-buying) .business-demand-number[data-size="s"]{ width:var(--control-s); }
 
-/* ON THE DEMAND & CONVERSION CARD'S BANDS (owner, 2026-11-13 00:27: "their cells are by far too wide"): every input as wide as its content, short fields side by
+/* ON THE SALES FORECAST CARD'S BANDS (owner, 2026-11-13 00:27: "their cells are by far too wide"): every input as wide as its content, short fields side by
    side, a field that does not fit beside the one before it on the next line (a picker always shows its whole text). */
 .floating-card-body .business-foundation-card :is(.business-segment-box, .legal-entity-field > .legal-entity-org-section) .business-demand-fields .business-demand-number[data-size="xs"]{ width:var(--control-xs); }
 .floating-card-body .business-foundation-card :is(.business-segment-box, .legal-entity-field > .legal-entity-org-section) .business-demand-fields .business-demand-number[data-size="code"]{ width:var(--control-code); }

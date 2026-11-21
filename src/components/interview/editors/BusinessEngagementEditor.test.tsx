@@ -123,7 +123,7 @@ describe("BusinessEngagementEditor folding", () => {
         render(<Harness />);
 
         expect(screen.getAllByRole("button", { name: "Collapse all offerings" })).toHaveLength(1);
-        expect(screen.queryByRole("button", { name: /demand and conversion blocks/ })).toBeNull();
+        expect(screen.queryByRole("button", { name: /sales forecast blocks/ })).toBeNull();
 
     });
 
@@ -233,7 +233,7 @@ describe("BusinessEngagementEditor number limits", () => {
 
         render(<DemandHarness />);
 
-        // Expand all cascades into the Demand & Conversion blocks.
+        // Expand all cascades into the Sales Forecast blocks.
         expandAll("Expand all offerings");
 
         const buy = screen.getByLabelText("Buy (%), customer source 1 for Audit") as HTMLInputElement;
@@ -278,7 +278,7 @@ describe("BusinessEngagementEditor formula references", () => {
 
         render(<DemandHarness />);
 
-        // Expand all cascades into the Demand & Conversion blocks.
+        // Expand all cascades into the Sales Forecast blocks.
         expandAll("Expand all offerings");
 
         fireEvent.click(screen.getByRole("button", { name: "Sales funnel result: what this means" }));
@@ -584,7 +584,7 @@ describe("Customer Engagement follows the Foundation (doc 47, section 3)", () =>
             return <BusinessEngagementEditor value={value} onChange={setValue} foundation={foundation} asTiles />;
         }
         render(<Harness />);
-        openTile("Demand & Conversion");
+        openTile("Sales Forecast");
         openTile("1. Audit");
         const tiles = () => [...document.querySelectorAll<HTMLElement>(".section-tile-overlay .card-tile")].map(tile => tile.textContent ?? "");
         // (A sales funnel through the website, and an Other source by its channel's name.)
@@ -660,11 +660,11 @@ describe("a Customer Source's choices narrowed by the earlier answers (owner, 20
             return <BusinessEngagementEditor value={value} onChange={(next) => { saved = asBusinessEngagementValue(next); setValue(next); }} foundation={foundation} asTiles />;
         }
         render(<Harness />);
-        openTile("Demand & Conversion");
+        openTile("Sales Forecast");
         // (The Audit's dialog: its Expected Sales section, then its source's tile; owner, 2026-11-13 16:35.)
         openTile("1. Audit");
         expect(document.body.textContent).toContain("Expected Sales");
-        fireEvent.click([...document.querySelectorAll<HTMLElement>(".section-tile-overlay [aria-label^='Demand & Conversion of'] button.card-tile")][0]);
+        fireEvent.click([...document.querySelectorAll<HTMLElement>(".section-tile-overlay [aria-label^='Sales Forecast of'] button.card-tile")][0]);
         const optionsOf = (label: string) => {
             // (One option is a record, not a dropdown: its value, read only; owner, 2026-11-14 14:21.)
             const record = screen.queryByRole("textbox", { name: new RegExp("^" + label) });
@@ -705,9 +705,9 @@ describe("a Customer Source's kind narrows its channels (owner, 2026-11-14 11:15
             return <BusinessEngagementEditor value={value} onChange={setValue} foundation={foundation} asTiles />;
         }
         render(<Harness />);
-        openTile("Demand & Conversion");
+        openTile("Sales Forecast");
         openTile("1. Audit");
-        fireEvent.click([...document.querySelectorAll<HTMLElement>(".section-tile-overlay [aria-label^='Demand & Conversion of'] button.card-tile")][0]);
+        fireEvent.click([...document.querySelectorAll<HTMLElement>(".section-tile-overlay [aria-label^='Sales Forecast of'] button.card-tile")][0]);
         const channels = () => {
             // (One option is a record, not a dropdown: its value, read only; owner, 2026-11-14 14:21.)
             const record = screen.queryByRole("textbox", { name: /^Channel, / });
@@ -729,7 +729,7 @@ describe("a Customer Source's kind narrows its channels (owner, 2026-11-14 11:15
 });
 
 /* Owner, 2026-11-16 19:18: a relationship type or a Customer Source the answers make and the founder removed comes back from the dialog's folded "Removed" list. */
-describe("the Removed lists of Customer's Relationship and Demand & Conversion", () => {
+describe("the Removed lists of Customer's Relationship and Sales Forecast", () => {
 
     it("opens a lone type's card at once from its Offering's tile while nothing is removed (owner, 2026-11-14 13:54; kept 2026-11-16 19:18)", async () => {
         const offering = { ...createBusinessOffering(), name: "Audit", questions: { o7: ["personal"] } };
@@ -767,7 +767,7 @@ describe("the Removed lists of Customer's Relationship and Demand & Conversion",
         closeAllTiles();
         // The source: not made while removed; Restore makes it again.
         expect(saved().demand[offering.id]?.sources.some(source => (source.channelIds ?? []).includes("site")) ?? false).toBe(false);
-        openTile("Demand & Conversion");
+        openTile("Sales Forecast");
         openTile("1. Audit");
         fireEvent.click(screen.getByRole("button", { name: "Maximise Removed customer sources" }));
         fireEvent.click(screen.getByRole("button", { name: "Restore" }));

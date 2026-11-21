@@ -15,7 +15,7 @@ import { BUSINESS_CHANNEL_CATEGORIES } from "./businessFoundation/channelCategor
 /** One saved answer: question id to the ids chosen. */
 export type CompetitorAnswers = Record<string, string[]>;
 
-export type CompetitorQuestionId = "k1" | "k2" | "k3" | "k4" | "k5" | "k6" | "k7" | "k8" | "k9" | "k10" | "k15";
+export type CompetitorQuestionId = "k1" | "k2" | "k3" | "k4" | "k5" | "k6" | "k7" | "k8" | "k9" | "k10" | "k15" | "k16";
 
 /** The five types of competitor (BUSINESS_COMPETITOR_TYPES' ids); no type chosen is asked as a direct competitor. */
 type TypeId = "direct" | "indirect" | "substitutes" | "internal" | "status-quo";
@@ -26,7 +26,7 @@ const ALL: readonly TypeId[] = ["direct", "indirect", "substitutes", "internal",
 
 /** Which types are asked each question (doc 41, "What the type asks"). */
 const ASKED: Record<CompetitorQuestionId, readonly TypeId[]> = {
-    k1: SOLD, k2: SOLD, k3: RIVALS, k4: SOLD, k5: RIVALS, k6: SOLD, k7: SOLD, k8: ALL, k9: ALL, k10: ALL, k15: SOLD
+    k1: SOLD, k2: SOLD, k3: RIVALS, k4: SOLD, k5: RIVALS, k6: SOLD, k7: SOLD, k8: ALL, k9: ALL, k10: ALL, k15: SOLD, k16: SOLD
 };
 
 const typeOf = (type: string): TypeId => (ALL as readonly string[]).includes(type) ? type as TypeId : "direct";
@@ -69,7 +69,9 @@ const WORDING: Record<CompetitorQuestionId, Partial<Record<TypeId, string>> & { 
     },
     k10: { direct: "What could you do differently?" },
     // (K15 (owner, 2026-11-18 03:08: "Build K15 and P7 now"; doc 48, 12.2): the price range customers see today.)
-    k15: { direct: "What do they charge for a similar offer?", substitutes: "What does this alternative cost?" }
+    k15: { direct: "What do they charge for a similar offer?", substitutes: "What does this alternative cost?" },
+    // (K16 (owner, 2026-11-20 23:44 UTC+2: "they should be compared according the profile's needs and answers"; doc 41, K16; doc 48, 15.3): the needs they meet.)
+    k16: { direct: "Which of the Profile's needs do they meet?", substitutes: "Which of the Profile's needs does this alternative meet?" }
 };
 
 /** A question's words for a type of competitor. */
@@ -109,7 +111,8 @@ export const COMPETITOR_INFO: Record<CompetitorQuestionId, readonly string[]> = 
     k8: ["Rate each from what their customers say and what you have seen."],
     k9: ["How each change could help or hurt them. The changes and their examples are your Segment's."],
     k10: ["Openings drawn from what you answered above. Tick the ones you will act on, then write how in the text.", "Your ticks here start the Segment's Differentiation, under your Competitors: an opening on price, ease, safety, quality, expertise or service starts its match."],
-    k15: ["The price range customers see today, From and To in your currency. It helps you place your own price.", "Tick Not known yet until you find out: their website, a quote or what their customers say.", "Based on: MIT OpenCourseWare 15.818 Pricing; Penn State Extension, Choosing a pricing method."]
+    k15: ["The price range customers see today, From and To in your currency. It helps you place your own price.", "Tick Not known yet until you find out: their website, a quote or what their customers say.", "Based on: MIT OpenCourseWare 15.818 Pricing; Penn State Extension, Choosing a pricing method."],
+    k16: ["The customer needs this competitor meets, from your Profiles. The price beside each of your Offerings on Financials then counts only the competitors that meet the needs it meets.", "Based on: Osterwalder et al. (2014), Value Proposition Design; Christensen et al. (2016), Know your customers' jobs to be done."]
 };
 
 /** K8's "i" line for the band (owner, 2026-11-04). */
@@ -540,11 +543,21 @@ export function competitorPriceRange(answers: CompetitorAnswers): { from: string
 /**
  * P7 (owner, 2026-11-18 03:01 and 03:08): what the Segment's competitors charge for a similar offer, the lowest From to the highest To across the competitors
  * whose K15 says it; null where none does. Never compared with the founder's own price (the start-up rule).
+ * BY THE NEEDS MET (doc 48, 15.3; owner, 2026-11-20 23:44 UTC+2: "they should be compared according the profile's needs and answers"): given an Offering's
+ * needs (its "Functional Needs Addressed", by id), only the competitors whose K16 meets at least one of them count; while no competitor of the Segment ticks K16,
+ * every one counts (`byNeeds` false). `names` are the competitors counted, for the range's "i".
  */
-export function competitorsPriceRange(competitors: readonly { type: string; questions?: CompetitorAnswers }[]): { low: number; high: number } | null {
-    const amounts = competitors.filter(competitor => competitorAsks(competitor.type, "k15")).map(competitor => competitorPriceRange(competitor.questions ?? {}))
-        .filter(range => !range.unknown).flatMap(range => [range.from, range.to]).map(text => Number.parseFloat(text)).filter(value => Number.isFinite(value) && value > 0);
-    return amounts.length > 0 ? { low: Math.min(...amounts), high: Math.max(...amounts) } : null;
+export function competitorsPriceRange(competitors: readonly { type: string; name?: string; questions?: CompetitorAnswers }[], needs?: readonly string[]): { low: number; high: number; names: string[]; byNeeds: boolean } | null {
+    const priced = competitors.filter(competitor => competitorAsks(competitor.type, "k15"));
+    const ticking = priced.some(competitor => (competitor.questions?.k16 ?? []).length > 0);
+    const byNeeds = !!needs && needs.length > 0 && ticking;
+    const counted = byNeeds ? priced.filter(competitor => (competitor.questions?.k16 ?? []).some(id => needs!.includes(id))) : priced;
+    const ranges = counted.map(competitor => ({ name: competitor.name ?? "", range: competitorPriceRange(competitor.questions ?? {}) }))
+        .filter(entry => !entry.range.unknown)
+        .map(entry => ({ name: entry.name, amounts: [entry.range.from, entry.range.to].map(text => Number.parseFloat(text)).filter(value => Number.isFinite(value) && value > 0) }))
+        .filter(entry => entry.amounts.length > 0);
+    const amounts = ranges.flatMap(entry => entry.amounts);
+    return amounts.length > 0 ? { low: Math.min(...amounts), high: Math.max(...amounts), names: ranges.map(entry => entry.name.trim()).filter(Boolean), byNeeds } : null;
 }
 
 export function competitorSettle(answers: CompetitorAnswers, type: string): CompetitorAnswers {

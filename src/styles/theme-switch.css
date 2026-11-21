@@ -1,9 +1,11 @@
 /* ==========================================================
-   The reading mode picker (ThemeSwitch.tsx), in the app header
-   before Notes and Review: one of the header's tools (.header-tool,
-   app-header.css) -- the current mode's icon and name, the icon
-   alone in a narrow header -- with a chevron, opening the option
-   picker's own list (option-picker.css) of the four modes.
+   The Menu (ToolsMenu.tsx), in the app header where the reading
+   mode picker stood: one of the header's tools (.header-tool,
+   app-header.css) -- its icon and word, the icon alone in a narrow
+   header -- opening the one dropdown card of every menu a button
+   opens (.strategy-sort-menu) with the menu's rows (MenuOption),
+   each with its tool's symbol; Appearance's side menu is the same
+   card, beside its row.
 ========================================================== */
 .theme-switch {
 
@@ -11,23 +13,8 @@
 
     flex-shrink: 0;
 
-    /* Pushes the picker, and the tools and name after it, to the right. */
+    /* Pushes the menu, and the tools and name after it, to the right. */
     margin: 0 0 0 auto;
-
-}
-
-.theme-switch > .theme-switch-trigger {
-
-    margin-left: 0;
-
-}
-
-.theme-switch-chevron {
-
-    width: 12px;
-    height: 8px;
-
-    flex: none;
 
 }
 
@@ -43,24 +30,60 @@
 
 }
 
-/* Each mode: its icon and its name, on one line. */
-.theme-switch-option {
+/* A row's symbol: the header tools' 24px icon, in their blue, before its word. */
+.tools-menu-icon {
 
-    display: flex;
-    align-items: center;
-    gap: var(--gap-8);
+    display: inline-flex;
 
-    white-space: nowrap;
+    margin-right: var(--gap-8);
+
+    color: var(--text-primary);
 
 }
 
-.theme-switch-option .theme-switch-icon {
+/* What stands at a row's end: Search's keys, the count of notes, Appearance's arrow to its side menu. */
+.tools-menu-hint {
 
-    width: var(--icon-size);
-    height: var(--icon-size);
+    margin-left: auto;
+    padding-left: var(--gap-16);
 
-    /* (The header tools' blue, as on the button above them, the words keeping the list's ink; owner, 2026-11-10: "change their default colour to something
-       other than black, to fit to the app".) */
-    color: var(--text-primary);
+    font-size: var(--font-small);
+
+    color: var(--text-muted);
+
+}
+
+/* APPEARANCE'S SIDE MENU, AN EXTENSION OF THE MENU'S CARD (owner, 2026-11-21 04:05 UTC+2: "the reading options should appear as an extension of the
+   existing menu card"): the same card (.strategy-sort-menu: its ground, its inset light and shade, its shadow), joined to the card's left edge at
+   Appearance's row -- its top level with the row's, no gap, its corners on the joining side square, and its own shadow cut off on that side, so the two
+   read as one shape and the card's shadow is the only one between them. */
+.tools-menu-appearance {
+
+    position: relative;
+
+}
+
+.tools-menu-appearance > .tools-menu-side {
+
+    /* (The card's own padding, 4px (.strategy-sort-menu), above the row and round it: the side card's rows stand level with the row, its right edge on the
+       card's left edge.) */
+    top: -4px;
+    right: calc(100% + 4px);
+
+    margin-top: 0;
+    margin-right: 0;
+
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+
+    clip-path: inset(-48px 0 -48px -48px);
+
+}
+
+/* The joined corner of the menu's card: square where the side card meets it. */
+.tools-menu-list:has(> .tools-menu-appearance > .tools-menu-side) {
+
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
 
 }

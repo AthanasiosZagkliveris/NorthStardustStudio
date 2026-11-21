@@ -762,7 +762,7 @@
   {
    "label": "Revenue Streams",
    "place": "tile dialog",
-   "text": "Each Offering has its revenue stream below. For each, say how it is priced, how much sells, and when the money arrives.\nExpected sales come from Demand & Conversion on Foundation & Engagement where it is filled in; otherwise enter them here. Not sure of a figure? The \"i\" beside Price, Sales Volume, and Begins and Payment says how to estimate it.\nWrite down what each figure rests on under Assumptions: lenders read those first.\nRevenue: Money generated through the organisation's Offerings.\nFunding, loans, founder capital, grants and investment are financing, and this list counts revenue only.\nRevenue may be zero at first. That is a valid model for an organisation under development.",
+   "text": "Each Offering has its revenue stream below. For each, say how it is priced, how much sells, and when the money arrives.\nExpected sales come from Sales Forecast on Foundation & Engagement where it is filled in; otherwise enter them here. Not sure of a figure? The \"i\" beside Price, Sales Volume, and Begins and Payment says how to estimate it.\nWrite down what each figure rests on under Assumptions: lenders read those first.\nRevenue: Money generated through the organisation's Offerings.\nFunding, loans, founder capital, grants and investment are financing, and this list counts revenue only.\nRevenue may be zero at first. That is a valid model for an organisation under development.",
    "lines": 30,
    "points": 6,
    "w": 360,
@@ -791,7 +791,7 @@
   {
    "label": "Charged",
    "place": "floating card",
-   "text": "Per sale: paid once for each unit sold (a product, a session, an hour).\nPer project: paid once for each project or contract.\nMonthly, quarterly or annually: paid every period by each client subscribed or on a retainer.\nUse Monthly, Quarterly or Annually when customers buy every month under Demand & Conversion on Foundation & Engagement.",
+   "text": "Per sale: paid once for each unit sold (a product, a session, an hour).\nPer project: paid once for each project or contract.\nMonthly, quarterly or annually: paid every period by each client subscribed or on a retainer.\nUse Monthly, Quarterly or Annually when customers buy every month under Sales Forecast on Foundation & Engagement.",
    "lines": 15,
    "points": 4,
    "w": 360,
@@ -819,7 +819,7 @@
   {
    "label": "Expected Sales",
    "place": "floating card",
-   "text": "From this Offering's Demand & Conversion on Foundation & Engagement: Sales funnel: 24 prospects a month, 15% qualified, 25% of those buy: about 0.9 a month. Referrals: 1.5 referrals a month, 40% buy: about 0.6 a month. Visitors: estimated at 0 a month. Together about 1.5 a month.",
+   "text": "From this Offering's Sales Forecast on Foundation & Engagement: Sales funnel: 24 prospects a month, 15% qualified, 25% of those buy: about 0.9 a month. Referrals: 1.5 referrals a month, 40% buy: about 0.6 a month. Visitors: estimated at 0 a month. Together about 1.5 a month.",
    "lines": 12,
    "points": 1,
    "w": 360,
@@ -925,7 +925,7 @@
   {
    "label": "Active Clients",
    "place": "floating card",
-   "text": "From this Offering's Demand & Conversion on Foundation & Engagement: Other: estimated at 0.3 new a month. Referrals: 0.5 referrals a month, 40% buy: about 0.2 new a month. Sales funnel: estimated at 0 new a month. Together about 0.5 new a month. With 10% cancelling a month, they level off at about 5 active clients, reached in about 22 months.",
+   "text": "From this Offering's Sales Forecast on Foundation & Engagement: Other: estimated at 0.3 new a month. Referrals: 0.5 referrals a month, 40% buy: about 0.2 new a month. Sales funnel: estimated at 0 new a month. Together about 0.5 new a month. With 10% cancelling a month, they level off at about 5 active clients, reached in about 22 months.",
    "lines": 13,
    "points": 1,
    "w": 360,
@@ -2334,9 +2334,9 @@
    ]
   },
   {
-   "label": "Demand & Conversion",
+   "label": "Sales Forecast",
    "place": "tile dialog",
-   "text": "For each Offering, estimate under Demand & Conversion where its customers come from and how many buy.\nWhere this Offering’s customers come from, and so how many sales to expect. One source with a figure is enough; add more, or calculate them, as the business develops.\nThe Expected Sales are used for Capacity & Delivery on Infrastructure & Capability and for this Offering’s revenue on Financials.\nCount each new customer once, under the source that brought the sale. Repeat customers are worked out from the others, so they are never counted twice.",
+   "text": "For each Offering, estimate under Sales Forecast where its customers come from and how many buy.\nWhere this Offering’s customers come from, and so how many sales to expect. One source with a figure is enough; add more, or calculate them, as the business develops.\nThe Expected Sales are used for Capacity & Delivery on Infrastructure & Capability and for this Offering’s revenue on Financials.\nCount each new customer once, under the source that brought the sale. Repeat customers are worked out from the others, so they are never counted twice.",
    "lines": 24,
    "points": 4,
    "w": 360,
@@ -2354,7 +2354,7 @@
   {
    "label": "AI Workflow Audit",
    "place": "tile dialog",
-   "text": "For each Offering, estimate under Demand & Conversion where its customers come from and how many buy.\nWhere this Offering’s customers come from, and so how many sales to expect. One source with a figure is enough; add more, or calculate them, as the business develops.\nThe Expected Sales are used for Capacity & Delivery on Infrastructure & Capability and for this Offering’s revenue on Financials.\nCount each new customer once, under the source that brought the sale. Repeat customers are worked out from the others, so they are never counted twice.",
+   "text": "For each Offering, estimate under Sales Forecast where its customers come from and how many buy.\nWhere this Offering’s customers come from, and so how many sales to expect. One source with a figure is enough; add more, or calculate them, as the business develops.\nThe Expected Sales are used for Capacity & Delivery on Infrastructure & Capability and for this Offering’s revenue on Financials.\nCount each new customer once, under the source that brought the sale. Repeat customers are worked out from the others, so they are never counted twice.",
    "lines": 24,
    "points": 4,
    "w": 360,
@@ -2394,7 +2394,7 @@
   {
    "label": "Automation Build",
    "place": "tile dialog",
-   "text": "For each Offering, estimate under Demand & Conversion where its customers come from and how many buy.\nWhere this Offering’s customers come from, and so how many sales to expect. One source with a figure is enough; add more, or calculate them, as the business develops.\nThe Expected Sales are used for Capacity & Delivery on Infrastructure & Capability and for this Offering’s revenue on Financials.\nCount each new customer once, under the source that brought the sale. Repeat customers are worked out from the others, so they are never counted twice.",
+   "text": "For each Offering, estimate under Sales Forecast where its customers come from and how many buy.\nWhere this Offering’s customers come from, and so how many sales to expect. One source with a figure is enough; add more, or calculate them, as the business develops.\nThe Expected Sales are used for Capacity & Delivery on Infrastructure & Capability and for this Offering’s revenue on Financials.\nCount each new customer once, under the source that brought the sale. Repeat customers are worked out from the others, so they are never counted twice.",
    "lines": 24,
    "points": 4,
    "w": 360,
@@ -2406,7 +2406,7 @@
   {
    "label": "Automation Care Retainer",
    "place": "tile dialog",
-   "text": "For each Offering, estimate under Demand & Conversion where its customers come from and how many buy.\nWhere this Offering’s customers come from, and so how many sales to expect. One source with a figure is enough; add more, or calculate them, as the business develops.\nThe Expected Sales are used for Capacity & Delivery on Infrastructure & Capability and for this Offering’s revenue on Financials.\nCount each new customer once, under the source that brought the sale. Repeat customers are worked out from the others, so they are never counted twice.",
+   "text": "For each Offering, estimate under Sales Forecast where its customers come from and how many buy.\nWhere this Offering’s customers come from, and so how many sales to expect. One source with a figure is enough; add more, or calculate them, as the business develops.\nThe Expected Sales are used for Capacity & Delivery on Infrastructure & Capability and for this Offering’s revenue on Financials.\nCount each new customer once, under the source that brought the sale. Repeat customers are worked out from the others, so they are never counted twice.",
    "lines": 24,
    "points": 4,
    "w": 360,
@@ -3027,7 +3027,7 @@
   {
    "label": "Delivered",
    "place": "floating card",
-   "text": "Per unit: Done once for each unit sold (a project, a product, a session), over its Calendar Time in weeks.\nEvery month: Ongoing work for each active client every month (a retainer, a subscription). It has no Calendar Time, and it uses founders' hours first.\nMatch how customers buy under Demand & Conversion on Foundation & Engagement: an Offering bought every month is delivered every month.",
+   "text": "Per unit: Done once for each unit sold (a project, a product, a session), over its Calendar Time in weeks.\nEvery month: Ongoing work for each active client every month (a retainer, a subscription). It has no Calendar Time, and it uses founders' hours first.\nMatch how customers buy under Sales Forecast on Foundation & Engagement: an Offering bought every month is delivered every month.",
    "lines": 18,
    "points": 3,
    "w": 360,
@@ -3093,7 +3093,7 @@
   {
    "label": "Expected sales",
    "place": "floating card",
-   "text": "Expected: 1.5 a month.\nThe expected sales are the Offering's, from Demand & Conversion on Foundation & Engagement.",
+   "text": "Expected: 1.5 a month.\nThe expected sales are the Offering's, from Sales Forecast on Foundation & Engagement.",
    "lines": 7,
    "points": 2,
    "w": 360,
@@ -3117,7 +3117,7 @@
   {
    "label": "Expected sales",
    "place": "floating card",
-   "text": "Expected: 0.6 a month.\nThe expected sales are the Offering's, from Demand & Conversion on Foundation & Engagement.",
+   "text": "Expected: 0.6 a month.\nThe expected sales are the Offering's, from Sales Forecast on Foundation & Engagement.",
    "lines": 7,
    "points": 2,
    "w": 360,
@@ -3165,7 +3165,7 @@
   {
    "label": "Expected sales",
    "place": "floating card",
-   "text": "Expected: 5 active clients.\nThe expected sales are the Offering's, from Demand & Conversion on Foundation & Engagement.",
+   "text": "Expected: 5 active clients.\nThe expected sales are the Offering's, from Sales Forecast on Foundation & Engagement.",
    "lines": 7,
    "points": 2,
    "w": 360,

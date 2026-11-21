@@ -47,6 +47,6 @@ The walk opens every page of the four systems, every master tile and the first t
 | Business System / Infrastructure / tile Inventory | Activity | `text-link` | rgb(11, 87, 208) | 400 |
 | Business System / Infrastructure / tile Inventory | Partner | `text-link` | rgb(11, 87, 208) | 400 |
 | Business System / Infrastructure / tile Inventory | Supplier | `text-link` | rgb(11, 87, 208) | 400 |
-| Business System / Sustainability | from Demand & Conversion | `text-link.business-engagement-link.financial-cost-link` | rgb(11, 87, 208) | 400 |
+| Business System / Sustainability | from Sales Forecast | `text-link.business-engagement-link.financial-cost-link` | rgb(11, 87, 208) | 400 |
 | Business System / Sustainability | Review the costs on Financial Foundation | `text-link.business-engagement-link` | rgb(11, 87, 208) | 400 |
 | Identity System / 1. Definition | Back | `back-button.back-link` | rgb(11, 87, 208) | 400 |

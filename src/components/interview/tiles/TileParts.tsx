@@ -252,7 +252,7 @@ export function TileList({
 }) {
     // ONE FACE FOR EVERY TILE (owner, 2026-11-18 22:56 UTC+2: "fix the listed items on the financial tiles, to follow the other tiles"): a list of names and figures
     // stands in two columns while every figure is one word (a count, a sum, a percent: Channels & Journey, Costs); where a figure has words ("10 a month", "£11,204 a
-    // month", "Jun 2027"), each name has its figure under it in bold and a line between one and the next, as Demand & Conversion's -- the same on every page.
+    // month", "Jun 2027"), each name has its figure under it in bold and a line between one and the next, as Sales Forecast's -- the same on every page.
     const figureWords = (item: string) => {
         const figure = item.includes("\u0001") ? item.split("\u0001")[1] : "";
         return /^\*\*[^*]*[ \u00a0][^*]*\*\*$/.test(figure);

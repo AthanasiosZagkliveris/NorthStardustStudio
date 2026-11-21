@@ -17,7 +17,7 @@ import { addressCity, BUSINESS_ACTIVITY_CATEGORIES, BUSINESS_CHANNEL_ALL_OFFERIN
 import { type ExportContent } from "../ExportContentBuilder.ts";
 import { financialForecast, forecastView, type ForecastViewTable } from "../FinancialForecast.ts";
 import { demandBasis, details, financialFoundationBlocks, financialSustainabilityBlocks, heading, labelled, labelledList, list, offeringName, offeringNames, capacityBlocks, brandStyleBlocks, paragraph, table, titled , offeringSplitText } from "../ExportRenderers.ts";
-import { COST_FREQUENCIES, COST_GROUPS, FUNDING_STATUSES, planLength, revenueModelLabel, planYears, salesCapacity, allFunding, asFinancialFoundationValue, fundingStanding, fundingType, isLoan, isNonCash, loanSchedule, isScheduled, monthlyEquivalent, parseAmount, moneyFormatter, planMonthLabel, spentBeforePlan, type CostLine, costAmountShown } from "../FinancialModel.ts";
+import { COST_FREQUENCIES, COST_GROUPS, FUNDING_STATUSES, planLength, revenueModelLabel, planYears, salesCapacity, allFunding, asFinancialFoundationValue, fundingStanding, fundingType, isLoan, isNonCash, loanSchedule, isScheduled, monthlyEquivalent, parseAmount, moneyFormatter, planMonthLabel, spentBeforePlan, type CostLine, costAmountShown, offeringEconomicsOf } from "../FinancialModel.ts";
 import { COUNTRIES, jurisdictionProfile } from "../LegalEntityJurisdictions.ts";
 import { brandGuidePictures, brandPictures, costName, coverLines, listItems, monthName, payWord, priceText, readFoundation, section, shortMonth, swotStartsOf, text, type Foundation, type FoundationSessions } from "./reading.ts";
 import { neededSkillLine, neededSkills, skillsOf } from "../capability/skills.ts";
@@ -771,6 +771,33 @@ function appendixBlocks(f: Foundation): ExportBlock[] {
     return titled("Brand Style Guide", style);
 }
 
+/**
+ * EACH OFFERING'S ECONOMICS (doc 48, 15.4): a row an Offering sold, one sale's price, direct cost, contribution, full cost and margin, and its sales a month,
+ * as Cost of each Offering counts them (time-driven activity-based costing by the founders' delivery hours).
+ */
+function economicsBlocks(f: Foundation): ExportBlock[] {
+    const economics = offeringEconomicsOf(f.outlook, f.lines, f.capability);
+    const rows = economics.rows.filter(row => row.price !== null);
+    if (rows.length === 0) {
+        return [];
+    }
+    const percent = (share: number | null) => share === null ? "" : Math.round(share * 100) + "%";
+    return [
+        ...paragraph(economics.rate !== null
+            ? "The running costs, " + f.format(economics.running) + " a month, are each Offering's own where they serve it alone (" + f.format(economics.own) + "); the rest are shared at " + f.format(economics.rate) + " for each of the founders' " + Math.round(economics.hoursAvailable ?? 0) + " delivery hours available a month, by the hours one sale takes."
+            : "The running costs, " + f.format(economics.running) + " a month, are each Offering's own where they serve it alone; the rest are shared by each Offering's revenue."),
+        ...table(["Offering", "Price", "Direct cost", "Contribution", "Full cost", "Margin", "Sales a month"], rows.map(row => [
+            offeringName(f.foundationValue, row.offeringId) || "Unnamed Offering",
+            f.format(row.price ?? 0),
+            f.format(row.direct),
+            row.contribution === null ? "" : f.format(row.contribution),
+            f.format(row.full),
+            percent(row.margin),
+            String(Math.round(row.sales * 10) / 10)
+        ]))
+    ];
+}
+
 /** The costs in full, by group: the Financial Plan's last part (doc 48, section 14). */
 function costsBlocks(f: Foundation): ExportBlock[] {
     const frequencyOf = (line: CostLine) => line.frequency === "other"
@@ -879,6 +906,7 @@ export function financialPlan(sessions: FoundationSessions): ExportContent {
                 financialSustainabilityBlocks(f.business.responseOf?.(AnswerType.FinancialSustainability), f.business, asDocument),
                 financialFoundation)
         ]],
+        ...(economicsBlocks(f).length > 0 ? [["Each Offering's Economics", economicsBlocks(f)] as [string, ExportBlock[]]] : []),
         ["Costs in Full", costsBlocks(f)]
     ]);
 }

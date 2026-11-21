@@ -75,7 +75,7 @@
 
 }
 
-/* A Customer Source's own card (Demand & Conversion): its fields one side-label row each, as the Delivery card's; owner, 2026-11-18 02:31. */
+/* A Customer Source's own card (Sales Forecast): its fields one side-label row each, as the Delivery card's; owner, 2026-11-18 02:31. */
 .business-demand-side{
 
     display:flex;
