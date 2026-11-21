@@ -426,3 +426,32 @@ The answer is already in the app: the Organisation's business activities (doc 28
 - **Not asked:**
   - O5 (merged into O4, 2026-10-26).
   - O9: what else is included is written in Content & Scope.
+
+## The minimum ages to buy (O12): the design and its reasons
+
+(Moved here from doc 28, section 10.3, on 2026-11-21: the tile's design and its reasons stand with what was built. The sub-section numbers are doc 28's, so a citation such as "doc 28, 10.3" finds its text here.)
+
+### 10.3 Minimum ages to buy, by product and country (O12)
+
+> **Doc 30 owns the age limits by activity** (the kinds of business, six countries, direct or possible, with their sources) and its section 4 holds the corrections to this table and the open conflicts; where the two differ, doc 30 is right. This table is kept because it holds what doc 30 does not: the kinds of goods behind O12 with a source id ([S1] to [S24]) and a status for each cell, and what O12 does with them.
+
+What the founder needs: **if your customers include people under a certain age, you cannot lawfully sell some products to them.** In the UK the seller commits the offence even if the buyer lies, unless it took reasonable steps to check age [S1]. The table is the lookup behind O12. **Status:** *Opened* = the official page was read in full; *Excerpt* = a search summary of an official page, to be re-checked by a person; *Not found* = no official page surfaced (this does not mean there is no rule). **Only Opened and Excerpt rows from an official source may drive a Review check**; Not found cells show "check the rule for your area" and drive nothing.
+
+| Kind | UK | USA | Canada | Australia | Ireland | New Zealand |
+|---|---|---|---|---|---|---|
+| Alcohol | 18 [S1, opened] | 21 in every state [S12, excerpt] | 18 in AB, MB, QC; 19 elsewhere [S14, opened] | 18 [S17, excerpt]; rules on adults supplying a minor vary by state | 18 [S19, excerpt] | 18 [S22, excerpt] |
+| Tobacco | 18; from 1 Jan 2027 not to anyone born on or after 1 Jan 2009 [S2, opened] | 21 federal [S11, opened] | 18 federal baseline; some provinces 19 or 21 [S13, opened] | Not found (state laws) | 18; 21 from 1 Feb 2028 [S20, excerpt] | 18 [S21, excerpt] |
+| Vapes | 18 in England and Wales [S3, opened]; **all vapes and nicotine products, pouches included, 18, in force since 29 Oct 2026** (Tobacco and Vapes Act 2026 s.10); single-use vapes banned in England from 1 Jun 2025 (SI 2024/1216 [doc 30, opened]) | 21 federal [S11, opened] | 18 federal baseline; provinces may go higher [S13, opened] | Pharmacy only; under 18 needs a prescription [S16, excerpt] | 18 [S19, excerpt] | 18 [S21, excerpt] |
+| Gambling, betting, lotteries | Most 18; National Lottery 18 since 2021 [S4 opened, S5 excerpt] | Not found (state-set) | Not found (provincial) | Not found (state and territory) | 18 [S23, excerpt] | Not found |
+| Knives and blades | 18; Scotland 16 for domestic knives [S1, S6, opened] | Not found | Not found | Not found | Not found | Not found |
+| Fireworks | F2 and F3 18 [gov.uk, opened]; F1 and party poppers: no age stated on that page (the earlier "16" is unconfirmed, doc 30) | Not found | Not found | Not found | F1 not sold under 12 [S19, excerpt] | Not found |
+| Films and games with ratings | Legal ratings 12, 15, 18 for video recordings; PEGI 12, 16, 18 enforced [S1, opened] | Not found (the ESRB system is voluntary, not verified) | Not found | Enforced by state and territory law; R18+ not to under 18; MA15+ not to under 15 without a parent [S18, excerpt, NSW only] | Not found | Not found |
+| Credit, loans, BNPL | 18 [non-official excerpt] | Credit card under 21 needs own income or a co-signer [S10, excerpt] | Primary cardholder of age [FCAC, opened] | Not found | Not found | Not found |
+| Tattoos, sunbeds, fillers | Tattoo 18 [S8, opened]; sunbeds 18; Botox and fillers 18 in England [S1, opened] | Not found | Not found | Not found | Not found | Not found |
+| Pets | **12** (Pet Animals Act 1951 s.3; England, Wales and Scotland; 16 only in some councils' licence conditions) [doc 30, opened] | Not found | Not found | Not found | Not found | Not found |
+| Medicines | No legal age found; paracetamol pack limits [S7, excerpt] | Not found | Not found | Under-18 vapes need a prescription [S16] | Not found | Not found |
+| Adult content, online age checks | "Highly effective" age assurance, enforceable from 25 Jul 2025 [S15, excerpt] | Not found (state laws exist, not researched) | Not found | Social media minimum age 16 from 10 Dec 2025; platforms must take reasonable steps, no penalty on children or parents [S16b, excerpt] | Online Safety Code: self-declaration is not enough [S24, excerpt] | Not found |
+
+**Where it varies:** Canada by province (alcohol 18 or 19; tobacco and vapes can be higher); the USA by state (gambling, knives, fireworks); Australia by state and territory (classification, supply to minors); the UK by nation (Scotland's knives, England's cosmetic rules; the Tobacco and Vapes Act 2026 has separate Scottish and Northern Irish sections). **Recent changes:** UK generational tobacco ban from 1 Jan 2027 and vape sale rules in force since 29 Oct 2026; Ireland's tobacco age rises to 21 on 1 Feb 2028; Australia's social media age of 16 started 10 Dec 2025. Not covered: driving; gambling outside the UK and Ireland; knives and fireworks outside the UK and Ireland; financial products outside the UK, USA and Canada.
+
+**What O12 does with it.** (1) Ticks a kind: shows that kind's age for the main country (G3) with its status. (2) Review: "Offering X is restricted to age N in the UK; Segment Y starts at M." (3) When someone else uses it (the audience Proxy Buyers / Gifters, I7b, for example a gift) and the kind is alcohol, tobacco or vapes: a note that selling to an adult who buys for a child can still be an offence in some places. (4) For an online seller of an age-restricted kind: the age-check note. (5) For another country (G3): "check the law of that country". The sale restriction concerns the **customer** (G6); the restriction on use concerns the **user** (the second Profile, P21 "They will use it"; G25 is withdrawn).

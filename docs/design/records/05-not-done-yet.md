@@ -4,7 +4,7 @@ Status: **living list**, written 2026-10-14, updated 2026-11-21. Remove an item 
 
 ## Open now
 
-**The questionnaire build**: built are the Segment card's questions (doc 35), the Profile card's questions A1 to A3, A5, B1, C1 to C4, D1, D2 and E1 to E3 (doc 36), and the Organisation and Positioning tiles (docs 37 and 38). Not built: the Profile's A4 (kind of business) and A6 (specialised needs), the proposed Profiles and the user's own Profile (the second Profile of a Proxy or Dual-Intent Segment), and every read of the Segment's and Profile's answers listed as "Read by (not built yet)" in docs 35 and 36. What else is left of the first version is doc 33; where each tile stands is doc 40. The help texts follow doc 39 (a proposal: only its size budget is built).
+**The questionnaire build**: built are the Segment card's questions (doc 35), the Profile card's questions A1 to A3, A5, B1, C1 to C4, D1, D2 and E1 to E3 (doc 36), and the Organisation and Positioning tiles (docs 37 and 38). Not built: the Profile's A4 (kind of business) and A6 (specialised needs), the proposed Profiles and the user's own Profile (the second Profile of a Proxy or Dual-Intent Segment), and every read of the Segment's and Profile's answers listed as "Read by (not built yet)" in docs 35 and 36. What else is left of the first version is doc 33; where each tile stands is doc 27, section 11. The help texts follow doc 39 (a proposal: only its size budget is built).
 
 **The release**: `chore/light-cleanup` is merged into `main` (log, 2026-10-22). Next: the Tile System (5.3), then Batches D and E (5.4), then the extraction (5.7).
 
@@ -301,7 +301,14 @@ Still open (the requirement ids are those of 5.5):
 
 ## 5.9 Known open findings
 
-The confirmed problems that no turn has fixed are kept in one place: `docs/ai/outstanding-findings.md`.
+The confirmed problems that a diagnostic found and no turn has fixed (it was `docs/ai/outstanding-findings.md` until 2026-11-21).
+
+- A diagnostic appends an entry here when it confirms a real problem and is not authorised to fix it in the same turn.
+- An entry is removed (not marked done) once the problem is fixed and re-verified, and the log records it: this list holds what is still true.
+- Before a new diagnostic scan, check here for anything already confirmed in the same area: re-verify it if the files changed since, confirm or correct the entry, and never add a second one beside it.
+- The form of an entry: `### <short title>`, then Found by: `<skill>` · Confirmed: `<what was verified independently, not only what a scan reported>` · Fix: `<the correct fix, if known>`.
+
+**Open today:** none.
 
 ## 5.10 What stayed in the project, and why
 
@@ -335,7 +342,7 @@ For the owner to decide, or work not done. Each item leaves this list when done 
 - 25 ids are listed as withdrawn or merged, but 91 minus 67 is 24: the 91 or one id is wrong (doc 28, Appendix B).
 - I6 is counted as a check while 8.2 withdraws it, and I7 is counted as a driver while described as merged into I7c. Without I6 the count is 20 checks and 66 questions.
 - The customers' industry list (G15, P24): 5.7 says the 18 plain industries are retired, but 6.3, 27 section 5 and 29 still use them. Marked [D] in doc 28.
-- Doc 28 is about 180 KB (sections 6 to 15 remain after section 5 became doc 34); docs 35 to 38 are the tile documents taken out of it (doc 40).
+- Doc 28 is about 180 KB (sections 6 to 15 remain after section 5 became doc 34); docs 35 to 38 are the tile documents taken out of it (doc 27, section 11).
 
 **Added by the review of the docs folder (2026-10-29)**
 - The Shared Workspace proposal (`docs/archive/proposals/shared-workspace.md`) has no item in this list; its place is to be decided.

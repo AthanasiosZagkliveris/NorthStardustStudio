@@ -21,6 +21,18 @@ Related: doc 37 (the Organisation tile's fields), doc 38 (the Positioning tile's
 11. [Where it is in the code](#11-where-it-is-in-the-code)
 12. [Extra Information](#12-extra-information)
 
+## The System: its page, what it holds and what crosses it
+
+(This was the folder's README until 2026-11-21.) The one page of the Identity System (System 1 of the Foundation), the documents of its chapters, and where each is built.
+
+The page is numbered as the app numbers it. A page's document describes the app as it is (layout, tiles, reactions, what reads what), points to the field-by-field documents of its tiles (doc 37, the Organisation tile; doc 38, the Positioning tile; both in `design/questions/`) and ends with the **Extra Information** that is described elsewhere but is neither in the app nor a future feature.
+
+### The page
+
+| Page | Title | Document | Editor |
+|---|---|---|---|
+| 1 | Identity System, the System's one page, of two chapters, **1. Definition** and **2. Purpose** (its tiles: this file, section 1; Purpose's questions: doc 45, section 8) | this file | `src/components/interview/editors/AnswerRenderer.tsx` and `src/components/interview/editors/LegalEntityEditor.tsx` |
+
 ## 1. What the master tile is
 
 The Identity System (System 1, Foundation) is ONE page, **"1. Identity System"** (since 2026-11-20; owner, 13:02 UTC+2: "1. Identity System will have only one page"). The page holds two **chapters** (frames), side by side: **1. Definition** and **2. Purpose** (Mission & Vision, Values & Principles, Philosophy & Manifesto: doc 45). The Legal Entity has no page of its own: its Founders & Ownership and Registrations & Expenses are tiles of the Definition (`handsTiles`, `PageGroups.ts`); the Founders Profile is drawn inside Founders & Ownership.

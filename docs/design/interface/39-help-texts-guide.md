@@ -117,7 +117,7 @@ Words to avoid in an "i": *tile, card, locked, frozen, driver, check, Segment fr
 
 ### 3.6 How to keep them right
 
-1. **When a field changes, its "i" changes in the same commit.** A pull request that changes a label, an option or a condition lists the "i" it touched (add to `docs/ai/review-checklist.md`).
+1. **When a field changes, its "i" changes in the same commit.** A pull request that changes a label, an option or a condition lists the "i" it touched (add to `docs/ai/review.md`, section 13).
 2. **The walk of doc 22 is the check.** It already measures each text. Flag, in the generated list: a text over its budget, a text with more points than its place allows, two labels with identical text, a text with a word of the avoid list. The list of warnings is in doc 22.
 3. **A stale prompt is a defect.** The owner's texts are changed only with the owner; the review lists the ones that no longer match what is asked.
 

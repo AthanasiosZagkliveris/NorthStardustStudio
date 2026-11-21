@@ -18,7 +18,7 @@ Related: doc 44 (the questions register), docs/ai/layout-rules.md ("A draft is w
 - "Biz README" is docs/specifications/business-system/README.md, section "What crosses between the pages" and its table "What each later page reads from Section 1".
 - "spec Channels", "spec Relationships", "spec P2", "spec Revenue", "spec Costs" are docs/specifications/business-system/page-1-channels.md, page-1-customer-relationships.md, page-2-infrastructure-and-capability.md, page-3-revenue-and-pricing.md and page-3-costs-funding-and-position.md.
 - "spec Strategy" is docs/specifications/strategy-system/page-1-situation-and-direction.md.
-- "spec GS" is docs/specifications/settings/global-settings.md.
+- "spec GS" is docs/specifications/settings/README.md.
 - "layout-rules" is docs/ai/layout-rules.md. Its rule "A draft is written in by itself" (section "The shared components") covers every auto draft generally.
 
 Section names come from the headings of each doc. A doc cell holding "unverified" means a heading matched but I did not read the whole section to confirm the item is described there.

@@ -78,4 +78,4 @@ The icons' tooltips (the "i", the ×, the +, the arrows, the funnel, the fold ar
 
 ### Look of a tooltip
 
-One pop-up cell of the 32px pitch (the words centred, 12px at each side), the small size (14px) at weight 500, the tooltip's own ground; over a card its ground is mixed with the card's hue (78% of the tooltip's own ground) and its line is the card's accent line (the pop-ups' rule, `review-criteria.md` section 6).
+One pop-up cell of the 32px pitch (the words centred, 12px at each side), the small size (14px) at weight 500, the tooltip's own ground; over a card its ground is mixed with the card's hue (78% of the tooltip's own ground) and its line is the card's accent line (the pop-ups' rule, `ai/review.md` section 6).

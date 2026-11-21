@@ -2,7 +2,7 @@
 
 Status: **specification**, written 2026-11-12, updated 2026-11-21. The Ambassador: the Brand System's four tiles, their choices BA1 to BA4 and BA6 to BA9 with their starts, the drafts and the Style suggestions, with the owner's decisions D3 to D5. Built in part: BA1 to BA4 and BA6 to BA9, the drafts of section 3, the Values' ids (section 5, step 1; `valueIds`, `ValueIds.ts`), the Review item and the Business Plan's opening line (`AmbassadorChoices.ts`, `brand/AmbassadorChoices.tsx`); still to build: the Style suggestions (section 4). The dates of each step are in the log.
 
-Related: doc 40 (the form of a tile document), doc 39 (what an "i" says), doc 28 (8.3, the Brand System and its evidence), doc 45 (the Values this card reads), doc 47 (the relationship type, J3), doc 44 (the register and the code rule), doc 2 (the sources).
+Related: doc 27, section 11 (the form of a tile document), doc 39 (what an "i" says), doc 28 (8.3, the Brand System and its evidence), doc 45 (the Values this card reads), doc 47 (the relationship type, J3), doc 44 (the register and the code rule), doc 2 (the sources).
 
 ## 1. What the tile is
 

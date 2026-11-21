@@ -17,27 +17,25 @@ Documents cite one another by number ("doc 21" is `../design/interface/21-shared
 | If you are going to... | Read first | Then |
 |---|---|---|
 | Do any work at all (every session) | `ai-collaboration-rules.md`, `toolchain-and-verification-playbook.md` | |
-| Change or add something on screen (a table, tile, card, page, control) | `review-checklist.md`, then grep `layout-rules.md` for the name of the thing | `card-kinds.md`, `layout-assets.md`; from `../design/interface/`: `21-shared-components.md` (use the shared components), `18-reactions.md`, `24-tooltips.md`, `23-popups.md` |
-| Judge or review a screen | `review-criteria.md` (the standard and how to measure it), `review-checklist.md` (the list to tick) | `layout-rules.md` |
+| Change or add something on screen (a table, tile, card, page, control) | `review.md` (section 13, the checklist), then grep `layout-rules.md` for the name of the thing | `card-kinds.md`, `layout-assets.md`; from `../design/interface/`: `21-shared-components.md` (use the shared components), `18-reactions.md`, `24-tooltips.md`, `23-popups.md` |
+| Judge or review a screen | `review.md` (sections 1 to 12, the standard and how to measure it; section 13, the list to tick) | `layout-rules.md` |
 | Change the Customer Engagement page | `layout-rules.md`, section 11 | `card-kinds.md` |
 | Write or edit a System's content (the Markdown under `src/assets`) | `framework-dsl-grammar.md` | `framework-conventions-and-patterns.md` |
 | Change the framework's code (parser, model, engine, export, notes) | `framework-conventions-and-patterns.md` | `code-map.md` |
 | Find where something is in `src` | `code-map.md` | `../app/contents.md`, `folder-plan.md` (the folders outside `src`) |
-| Run a diagnostic or a scan | `outstanding-findings.md` (check it first, add to it) | |
+| Run a diagnostic or a scan | `../design/records/05-not-done-yet.md`, section 5.9, the known open findings (check it first, add to it) | |
 
 ## The files
 
 **Standing rules and procedure**
 - `ai-collaboration-rules.md`: the standing rules (commit, never push without the owner's yes; no unrequested changes; ask or decide; what "done" requires) and how work flows.
 - `toolchain-and-verification-playbook.md`: the exact procedure (typecheck, tests, the checks, build, layout check, look) and the list of expected test failures.
-- `outstanding-findings.md`: confirmed problems a diagnostic found and did not fix.
 
 **Changing the screens (rules; a check enforces most of them)**
 - `layout-rules.md`: the measured rulebook of the Foundation pages (tokens, the closed set of sizes, alignment, the reactions per kind, the Inventory) and the automatic layout check that must pass; it also holds how tiles, frames, cards, rails (the page tab) and dialogs are built, the pattern of a floating card of questions (section 8, checked by `npm run check:card`), and the Customer Engagement tables, the Channel resources table and the action markers (section 11).
 - `layout-assets.md`: the generated numbers of each shared part (rulebook section 19), written from the contracts under `src/library` by `npm run docs:assets`.
 - `card-kinds.md`: the kinds of card, where each one's code is and how its head is built.
-- `review-criteria.md`: the standard a screen is judged by (type, spacing, controls, colour, tiles, cards, tables, pop-up windows, pages, data), how each criterion is measured, and the form of the report.
-- `review-checklist.md`: what to check when reviewing a table, tile, card, page or control, and the proof before saying done.
+- `review.md`: the standard a screen is judged by (type, spacing, controls, colour, tiles, cards, tables, pop-up windows, pages, data), how each is measured and the form of the report (sections 1 to 12), and the checklist to tick before saying done (section 13).
 
 **Changing the content and the code**
 - `framework-dsl-grammar.md`: the syntax of a System's content files.

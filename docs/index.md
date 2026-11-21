@@ -5,7 +5,7 @@ Status: **index**, updated 2026-11-21, written by `npm run docs:index` (the subj
 ## A
 
 - **Accessibility (user needs)**: [31 section 3](design/research/31-positioning-categories.md); [33 (future)](design/questions/33-specs-and-limitations.md)
-- **Activities and codes (classifications)**: [34 sections 5.7 to 5.10](design/research/34-lists-and-classifications.md); [28 section 8.5](design/questions/28-questionnaire-specification.md)
+- **Activities and codes (classifications)**: [34 sections 5.7 to 5.10](design/research/34-lists-and-classifications.md); [37 section 4 (was 28, 8.5)](design/questions/37-organization-fields.md)
 - **Age limits by activity and country**: [30](design/research/30-age-limits-by-activity.md); [31 section 10.2](design/research/31-positioning-categories.md)
 - **Age stages**: [31 section 10.1](design/research/31-positioning-categories.md)
 - **Ambassador (Brand)**: [46 (built in part)](design/questions/46-ambassador-questions.md); [specifications, Brand System](specifications/brand-system/page-1-brand.md)
@@ -13,12 +13,12 @@ Status: **index**, updated 2026-11-21, written by `npm run docs:index` (the subj
 - **App, places (index)**: [app/index](app/index.md)
 - **Archive**: [README section 13](README.md)
 - **Assets library**: [8](design/library/08-library-system.md); [9](design/library/09-assets-library.md)
-- **Audience (Identity)**: [28 section 8.2](design/questions/28-questionnaire-specification.md)
+- **Audience (Identity)**: [38 section 4 (was 28, 8.2)](design/questions/38-positioning-questions.md)
 - **Auto-filled answers (drafts, starts, worked-out figures)**: [54](design/questions/54-auto-filled-answers.md)
 ## B
 
 - **Beta questionnaire**: [55 (proposal)](design/research/55-beta-questionnaire.md)
-- **Brand System pages**: [specifications](specifications/brand-system/README.md)
+- **Brand System pages**: [specifications](specifications/brand-system/page-1-brand.md)
 - **Business stage and Opening Date**: [28 section 8.2a](design/questions/28-questionnaire-specification.md)
 - **Business System pages**: [specifications](specifications/business-system/README.md)
 - **Buyer category and life stage**: [33 section 5](design/questions/33-specs-and-limitations.md); [31](design/research/31-positioning-categories.md)
@@ -30,23 +30,23 @@ Status: **index**, updated 2026-11-21, written by `npm run docs:index` (the subj
 - **Caregiving**: [31 section 4](design/research/31-positioning-categories.md)
 - **Catalogue record**: [6](design/records/06-catalogue-record.md)
 - **Change history (log)**: [4](design/records/04-log.md); [archive (before 2026-11-01)](archive/log/log-archive-2026-07-to-10.md); [archive (2026-11-01 to 07)](archive/log/log-archive-2026-11-01-to-07.md); [archive (2026-11-08 to 10)](archive/log/log-archive-2026-11-08-to-10.md); [archive (2026-11-11 to 17)](archive/log/log-archive-2026-11-11-to-17.md)
-- **Channel fees and Sales Forecast additions**: [50](design/questions/50-channel-fees-and-sales-forecast.md); [Global Settings](specifications/settings/global-settings.md)
+- **Channel fees and Sales Forecast additions**: [50](design/questions/50-channel-fees-and-sales-forecast.md); [Global Settings](specifications/settings/README.md)
 - **Colour map of the pages**: [1 Part I](design/foundation/01-current-design.md)
 - **Competitor card**: [41 (as built)](design/questions/41-competitor-questions.md); [28 section 6.6](design/questions/28-questionnaire-specification.md)
-- **Components, defaults**: [12](design/library/12-component-defaults.md)
+- **Components, defaults**: [9, Defaults](design/library/09-assets-library.md)
 - **Components, list**: [13](design/library/13-components-list.md)
 - **Components, shared**: [21](design/interface/21-shared-components.md)
 - **Cost model**: [1 Part D](design/foundation/01-current-design.md)
 - **Countries of the first version**: [33 section 3](design/questions/33-specs-and-limitations.md)
-- **Customer Engagement**: [47 (built in part)](design/questions/47-customer-engagement-tiles.md); [specifications, page 1 (Engagement)](specifications/business-system/page-1-channels.md); [28 section 7](design/questions/28-questionnaire-specification.md)
+- **Customer Engagement**: [47 (built in part)](design/questions/47-customer-engagement-tiles.md); [specifications, page 1 (Engagement)](specifications/business-system/page-1-channels.md); [47 section 6 (was 28, 7)](design/questions/47-customer-engagement-tiles.md)
 ## D
 
 - **Delivery and capacity**: [52 (Capacity & Delivery, built in part)](design/questions/52-capacity-and-delivery-tile.md); [51 (research)](design/research/51-delivery-and-capacity-research.md)
-- **Differentiation and Outcome**: [28 section 8.2](design/questions/28-questionnaire-specification.md)
+- **Differentiation and Outcome**: [38 section 4 (was 28, 8.2)](design/questions/38-positioning-questions.md)
 - **Dual-Intent Buyer, Proxy Buyer**: [31 section 10.5](design/research/31-positioning-categories.md); [33 section 5](design/questions/33-specs-and-limitations.md)
 ## E
 
-- **End User questions**: [31 section 9](design/research/31-positioning-categories.md); [28 section 8.2](design/questions/28-questionnaire-specification.md)
+- **End User questions**: [31 section 9](design/research/31-positioning-categories.md); [38 section 4 (was 28, 8.2)](design/questions/38-positioning-questions.md)
 ## F
 
 - **Fields, list**: [14](design/library/14-fields-list.md)
@@ -65,7 +65,7 @@ Status: **index**, updated 2026-11-21, written by `npm run docs:index` (the subj
 - **Help texts**: [22 (as built)](design/interface/22-help-texts.md); [39 (what an "i" says)](design/interface/39-help-texts-guide.md)
 ## I
 
-- **Identity System pages**: [specifications](specifications/identity-system/README.md)
+- **Identity System pages**: [specifications](specifications/identity-system/page-1-definition.md)
 - **Inventory**: [specifications](specifications/inventory/README.md); [48 (IN1 to IN5)](design/questions/48-financials-and-inventory.md)
 ## L
 
@@ -76,18 +76,18 @@ Status: **index**, updated 2026-11-21, written by `npm run docs:index` (the subj
 - **Lists and classifications**: [34](design/research/34-lists-and-classifications.md)
 ## M
 
-- **Market structure (single- and multi-sided)**: [28 section 8.2](design/questions/28-questionnaire-specification.md); [33 (multi-sided is future)](design/questions/33-specs-and-limitations.md)
+- **Market structure (single- and multi-sided)**: [38 section 4 (was 28, 8.2)](design/questions/38-positioning-questions.md); [33 (multi-sided is future)](design/questions/33-specs-and-limitations.md)
 ## N
 
 - **Not done yet**: [5](design/records/05-not-done-yet.md)
 ## O
 
 - **Offering card**: [43 (built in part)](design/questions/43-offering-questions.md); [28 section 6.8](design/questions/28-questionnaire-specification.md)
-- **Organisation tile**: [37 (as built)](design/questions/37-organization-fields.md); [28 section 8.5](design/questions/28-questionnaire-specification.md)
+- **Organisation tile**: [37 (as built)](design/questions/37-organization-fields.md); [37 section 4 (was 28, 8.5)](design/questions/37-organization-fields.md)
 ## P
 
 - **Pop-ups**: [23](design/interface/23-popups.md)
-- **Positioning**: [38 (the tile as built)](design/questions/38-positioning-questions.md); [28 section 8.2](design/questions/28-questionnaire-specification.md); [31](design/research/31-positioning-categories.md)
+- **Positioning**: [38 (the tile as built)](design/questions/38-positioning-questions.md); [38 section 4 (was 28, 8.2)](design/questions/38-positioning-questions.md); [31](design/research/31-positioning-categories.md)
 - **Profile card**: [36 (as built)](design/questions/36-profile-questions.md); [28 section 6.4](design/questions/28-questionnaire-specification.md)
 - **Proposals (open, not started)**: [README section 12](README.md)
 - **Purpose & Beliefs (Mission, Vision, Values, Principles, Philosophy, Manifesto)**: [45 (as built)](design/questions/45-purpose-and-beliefs-questions.md); [28 section 8.1](design/questions/28-questionnaire-specification.md)
@@ -105,18 +105,18 @@ Status: **index**, updated 2026-11-21, written by `npm run docs:index` (the subj
 ## S
 
 - **Segment card**: [35 (as built)](design/questions/35-segment-questions.md); [28 section 6.3](design/questions/28-questionnaire-specification.md)
-- **Settings (Global Settings, Appearance, Focus)**: [specifications, Settings](specifications/settings/README.md); [Global Settings](specifications/settings/global-settings.md)
+- **Settings (Global Settings, Appearance, Focus)**: [specifications, Settings](specifications/settings/README.md); [Global Settings](specifications/settings/README.md)
 - **Shared components**: [21](design/interface/21-shared-components.md)
 - **Standard of the documents**: [standard](standard.md)
 - **Strategy (SWOT, Compass, Themes, Metrics)**: [49 (built in part)](design/questions/49-strategy-questions.md); [specifications, Strategy System](specifications/strategy-system/page-1-situation-and-direction.md)
-- **Strategy System pages**: [specifications](specifications/strategy-system/README.md)
+- **Strategy System pages**: [specifications](specifications/strategy-system/page-1-situation-and-direction.md)
 - **Structure tables**: [7](design/records/07-structure-tables.md)
 ## T
 
 - **Text holders**: [16](design/interface/16-text-holders.md)
 - **Text links**: [19](design/interface/19-text-links.md)
 - **Tile and card pattern**: [layout-rules sections 6, 8 to 10](ai/layout-rules.md)
-- **Tile documents (the form and the list)**: [40](design/questions/40-tile-documents.md)
+- **Tile documents (the form and the list)**: [27 section 11](design/questions/27-questionnaire-plan.md)
 - **Tooltips**: [24](design/interface/24-tooltips.md)
 ## U
 

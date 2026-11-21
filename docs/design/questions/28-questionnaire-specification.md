@@ -4,7 +4,7 @@ Status: **proposal**, written 2026-10-22, updated 2026-11-21; parts are built. I
 
 > **First published version (owner, 2026-10-29):** English only; UK, Ireland, USA, Canada, Australia, New Zealand and Other; single-sided; B2C and/or B2B; the buyer's category separate from the buyer's life stage. **Doc 33 governs** where it differs from this document. Everything described here that the first version does not contain (B2G, G2B, multi-sided markets, other countries, accessibility, caregiving and the rest) is a future feature: doc 33. Age limits are checked on the Offering (O12) and the Review (doc 43; O12 is not built yet). Contents of the documents: `docs/README.md`; index: `docs/index.md`; glossary: `docs/app/glossary.md`.
 
-> **Where each part stands (2026-11-08).** What is built, tile by tile, is held in the questions README (`docs/design/questions/README.md`) and in document 40; this note says only which document governs each section. Current: 1 to 5 (the summary, the rules and the wording), 11 (the connection map and the evidence), 12 to 15. Governed by their tile documents: 6.3a by **document 35** (the Segment), 6.4 and 6.5 by **document 36** (the Profile), 6.6 to 6.8 by **documents 41, 42 and 43** (the Competitor, the Value Proposition, the Offering), 8.2 by **document 38** (Positioning), 8.5 by **document 37** (the Organisation); where they differ, those documents are right. Replaced and archived: 6.3 (the Segment's G-list), the 6.6 tables and the 6.7 paragraph of 2026-11-03. Not yet specified in that form: 7 (Customer Engagement), 9 and 10. Age limits by activity: **document 30**. What an "i" says: **document 39**. The form every tile document takes: **document 40**.
+> **Where each part stands (2026-11-08).** What is built, tile by tile, is held in the questions README (`docs/design/questions/README.md`) and in document 27, section 11; this note says only which document governs each section. Current: 1 to 5 (the summary, the rules and the wording), 11 (the connection map and the evidence), 12 to 15. Governed by their tile documents: 6.3a by **document 35** (the Segment), 6.4 and 6.5 by **document 36** (the Profile), 6.6 to 6.8 by **documents 41, 42 and 43** (the Competitor, the Value Proposition, the Offering), 8.2 by **document 38** (Positioning), 8.5 by **document 37** (the Organisation); where they differ, those documents are right. Replaced and archived: 6.3 (the Segment's G-list), the 6.6 tables and the 6.7 paragraph of 2026-11-03. Not yet specified in that form: 7 (Customer Engagement), 9 and 10. Age limits by activity: **document 30**. What an "i" says: **document 39**. The form every tile document takes: **document 27, section 11**.
 
 **Contents**
 
@@ -36,28 +36,28 @@ Status: **proposal**, written 2026-10-22, updated 2026-11-21; parts are built. I
   - [6.9 Required answers (proposal)](#69-required-answers-proposal-d)
   - [6.10 Information the earlier files expect that has no field](#610-information-the-earlier-files-expect-that-has-no-field)
 - [7. Business 2 · Customer Engagement, rebuilt as a journey](#7-business-2--customer-engagement-rebuilt-as-a-journey)
-  - [7.1 Why it changes](#71-why-it-changes)
-  - [7.2 Target structure (per Segment)](#72-target-structure-per-segment-d)
-  - [7.3 Stage card](#73-stage-card)
-  - [7.4 The proposals (rules; all suggestions the user can ignore)](#74-the-proposals-rules-all-suggestions-the-user-can-ignore)
-  - [7.5 Demand card (one per Offering)](#75-demand-card-one-per-offering)
+  - [7.1 Why it changes](47-customer-engagement-tiles.md#71-why-it-changes)
+  - [7.2 Target structure (per Segment)](47-customer-engagement-tiles.md#72-target-structure-per-segment-d)
+  - [7.3 Stage card](47-customer-engagement-tiles.md#73-stage-card)
+  - [7.4 The proposals (rules; all suggestions the user can ignore)](47-customer-engagement-tiles.md#74-the-proposals-rules-all-suggestions-the-user-can-ignore)
+  - [7.5 Demand card (one per Offering)](47-customer-engagement-tiles.md#75-demand-card-one-per-offering)
 - [8. Identity · what to ask](#8-identity--what-to-ask)
   - [8.1 What exists (as built, 2026-10-25)](#81-what-exists-as-built-2026-10-25)
-  - [8.2 The Positioning tile and the Identity questions](#82-the-positioning-tile-and-the-identity-questions)
+  - [8.2 The Positioning tile and the Identity questions](38-positioning-questions.md#82-the-positioning-tile-and-the-identity-questions)
   - [8.2a The business stage, the Opening Date and the key dates (as built, 2026-10-24 and 25)](#82a-the-business-stage-the-opening-date-and-the-key-dates-as-built-2026-10-24-and-25)
   - [8.3 Brand starting points from Identity (parked)](#83-brand-starting-points-from-identity-parked)
   - [8.4 Brand and Strategy: the rest](#84-brand-and-strategy-the-rest)
-  - [8.5 The Organisation tile (page 1): layout](#85-the-organisation-tile-page-1-layout)
-  - [8.6 The wording of the Organisation tile](#86-the-wording-of-the-organisation-tile)
+  - [8.5 The Organisation tile (page 1): layout](37-organization-fields.md#85-the-organisation-tile-page-1-layout)
+  - [8.6 The wording of the Organisation tile](37-organization-fields.md#86-the-wording-of-the-organisation-tile)
 - [9. Founders and Capability](#9-founders-and-capability)
-  - [9.1 Three founder places today](#91-three-founder-places-today)
-  - [9.2 Target](#92-target-d)
-  - [9.3 The new questions](#93-the-new-questions)
-  - [9.4 What the skill areas are, and why](#94-what-the-skill-areas-are-and-why)
+  - [9.1 Three founder places today](../../specifications/business-system/page-2-infrastructure-and-capability.md#91-three-founder-places-today)
+  - [9.2 Target](../../specifications/business-system/page-2-infrastructure-and-capability.md#92-target-d)
+  - [9.3 The new questions](../../specifications/business-system/page-2-infrastructure-and-capability.md#93-the-new-questions)
+  - [9.4 What the skill areas are, and why](../../specifications/business-system/page-2-infrastructure-and-capability.md#94-what-the-skill-areas-are-and-why)
 - [10. Business 3 (Delivery) and Business 5 (price)](#10-business-3-delivery-and-business-5-price)
-  - [10.1 Delivery card](#101-delivery-card)
-  - [10.2 Revenue stream card (page 5)](#102-revenue-stream-card-page-5)
-  - [10.3 Minimum ages to buy, by product and country (O12)](#103-minimum-ages-to-buy-by-product-and-country-o12)
+  - [10.1 Delivery card](52-capacity-and-delivery-tile.md#101-delivery-card)
+  - [10.2 Revenue stream card (page 5)](48-financials-and-inventory.md#102-revenue-stream-card-page-5)
+  - [10.3 Minimum ages to buy, by product and country (O12)](43-offering-questions.md#103-minimum-ages-to-buy-by-product-and-country-o12)
 - [11. The connection map](#11-the-connection-map)
   - [11.1 The kinds of connection, and what the app does](#111-the-kinds-of-connection-and-what-the-app-does)
   - [11.2 The eleven connections of the owner's text](#112-the-eleven-connections-of-the-owners-text)
@@ -127,7 +127,7 @@ The wording follows these author's rules (no outside style guide was opened for 
 
 This section owns how a question is worded; doc 39 owns what its "i" says. From official survey and style guidance (sources in `02-references.md`, QST). Most were read; the gaps are stated there.
 
-**Before a new question is added** (it was doc 29, section 8): it has one owner, the card where it is asked (rule 3.1); it passes the value test and is a driver, a check or a note with an id and a row in Appendix B (rules 3.9 and 3.11; doc 29, section 7); it sits where it prunes early or waits for the draft (doc 29, section 6); what each answer shows, hides or proposes is written in its tile document's connections (doc 40); a connection that is not certain shows its evidence and says "tends to" (rule 3.5); its options have examples (doc 34, 5.5) and it has an "i" (doc 39); and its wording follows the tables below.
+**Before a new question is added** (it was doc 29, section 8): it has one owner, the card where it is asked (rule 3.1); it passes the value test and is a driver, a check or a note with an id and a row in Appendix B (rules 3.9 and 3.11; doc 29, section 7); it sits where it prunes early or waits for the draft (doc 29, section 6); what each answer shows, hides or proposes is written in its tile document's connections (doc 27, section 11); a connection that is not certain shows its evidence and says "tends to" (rule 3.5); its options have examples (doc 34, 5.5) and it has an "i" (doc 39); and its wording follows the tables below.
 
 | Do | Source |
 |---|---|
@@ -337,82 +337,7 @@ A competitor's website and numeric price; buying timing (dropped); nationality a
 
 ## 7. Business 2 · Customer Engagement, rebuilt as a journey
 
-### 7.1 Why it changes
-
-Today page 2 starts from channels (13 category tiles), then a relationship table, then a demand table; it asks the user to invent the channels. After page 1 the app already knows where the customers look (P11), how they compare (P12), how they buy and pay (P13, P14), how comfortable they are online (P16), how the offering reaches them (O6) and what help they want and get (P20, O7). So the page can **propose** a journey and ask the user to confirm and complete it. Two of its three sections are also tables, not tiles (document 5, item 5.3).
-
-### 7.2 Target structure (per Segment) **[D]**
-
-| Chapter | Tile | Opens | Cards |
-|---|---|---|---|
-| **Journey** | **Discover** | the channels used at this stage | a **stage card** per channel, and above them tiles of **suggested** channels, each with an Add button |
-| | **Evaluate** | the same | the same |
-| | **Purchase** | the same | the same |
-| | **Deliver** | the same | the same |
-| | **Support & Follow Up** | the same | the same |
-| **Conversion** | **Sales Forecast** | one card per Offering | the **demand card** |
-| | **Channel Costs** | a read-only table of channel expenses and the cost per customer | none |
-
-The stage names are the app's own. Official and university pages describe the journey as New Zealand's business.govt.nz does (trigger, researching, shortlisting, choosing, buying, follow-up) [CHN-01] and the Open University (problem recognition, information search, evaluation of alternatives, choice, post-purchase evaluation) [CHN-02]: "Discover" is the trigger or problem recognition, "Evaluate" is researching and shortlisting, "Purchase" is choosing and buying, "Support & Follow Up" is follow-up; **"Deliver" has a stage of its own in none of them** (it sits inside buying or after-purchase), **but the Business Model Canvas, which the app's channels follow, gives it one**: its five channel phases are Awareness, Evaluation, Purchase, Delivery and After sales [CHN-09], the app's five stages one for one; and the owner's page 2 specification (section 12) says "Do not combine Purchase and Delivery". It is kept because a business plans delivery separately. **Decided (owner, 2026-11-03): the five stages stay, under the app's names: Discover (stored `discovery`), Evaluation, Purchase, Delivery, Support & Follow Up**; where this document writes "Evaluate" or "Deliver" it means Evaluation and Delivery. Under each stage name the tile shows one plain line ("How customers first hear about you", "How they compare you", "How they buy", "How they receive it", "How you help afterwards"). The 13 channel categories are no longer tiles; the category becomes a field on the stage card, limited to the categories usual for the stage (the app already stores the usual stages of each category). This reverses today's order (channel, then stage, then action). It is the largest change of the plan, and a card is 480 px wide: the stage card is prototyped and run through the layout check before anything else is built on it.
-
-### 7.3 Stage card
-
-| Field | Component | Status | Options |
-|---|---|---|---|
-| Channel category | Dropdown (combo) | keep, filtered by stage | the usual categories of the stage (L6) |
-| Subchannel | Dropdown (combo) | keep | the category's list |
-| Links | List | keep | |
-| Offerings served | Ticks ("All offerings" first) | keep | |
-| **J1** Are you using this channel yet? | Dropdown | new, Core | Yes, it is active; Set up but not launched; Planned; Testing it; I have stopped using it |
-| **J2** What do you do here? | Dropdown | new, Core | by stage (below); the existing free action lines stay as a note |
-| **J3** How do you keep the relationship? | Dropdown | keep (the relationship type), **suggested** (7.4) | Do-it-yourself help (Self-Service); Personal help (Personal Assistance); A dedicated person or team (Dedicated Support); A customer community (Community); Automatic help (Automated Service) |
-| Approach | Text | keep (a note) | |
-| **J7** What should this achieve? | Ticks | keep (Get, Keep, Grow), **pre-ticked** (Discover, Evaluate, Purchase: Get; Deliver and Support: Keep; renewal or repeat: Grow) | Win customers (Get); Keep them (Keep); Grow what they buy (Grow) |
-| Expenses (+ Add expense menu) | menu | keep | |
-
-**J2 by stage (author's draft; to be approved):**
-
-| Stage | Options |
-|---|---|
-| Discover | Publish content; Run advertising; Attend or host events; Ask for referrals; Be listed or featured; Contact people directly; Other |
-| Evaluate | Share information; Offer a demo, trial or sample; Send a quote or proposal; Show proof (case studies, reviews); Answer questions; Other |
-| Purchase | Take an online order; Send an invoice or payment link; Sign a contract; Take a booking; Take payment in person; Other |
-| Deliver | Send files; Ship the order; Deliver in person; Deliver online or live; Get the customer started; Other |
-| Support & Follow Up | Answer questions; Ask for feedback; Remind them to renew; Offer an upgrade or add-on; Run a community; Other |
-
-**Relationship type per card.** Today the relationship is set per offering. In the journey it is set per stage card (a customer may help themselves while comparing and be assisted after buying), and applies to the offerings that card serves **[D]**.
-
-### 7.4 The proposals (rules; all suggestions the user can ignore)
-
-| Stage | Proposed from | Rule |
-|---|---|---|
-| Discover | P11, G2 | The ticked categories and subchannels; for a local scope the In Person and Community categories come first |
-| Evaluate | P12 | Your website → Website; Online reviews / ratings, Comparison sites → Marketplace or Website; A demo, trial or sample → Online / Live (digital) or In Person (physical); A quote or proposal → Email; What other people recommend → Referral & Affiliates; A meeting or call → Online / Live |
-| Purchase | P13 | Online checkout → Website (Online Store) or Marketplace; An invoice → Direct Payment (Invoice); In person → In Person; By phone or email → Email; A contract or tender → Direct Payment (Invoice); By booking → Website (Booking page) |
-| Purchase (payment) | P14 | Debit or credit card → Direct Payment (Card); Cash → Cash; Bank transfer → Bank Transfer; Mobile wallet or payment app → Payment Link (the nearest existing subchannel **[D]**); Invoice → Invoice; Buy now, pay later → no subchannel (a note) |
-| Deliver | O6 | Digital delivery → File Delivery; Online or live → Online / Live; In person → In Person; Shipped → Physical Delivery; They collect it → In Person (Pickup); Ongoing online access → Website |
-| Support & Follow Up | O7, P20 | Do-it-yourself or automatic help → Website, Automated Email; Personal help → Email, Online / Live; A dedicated person → Online / Live; Community → Community |
-| Relationship type (J3) | P20 and O7 | They work it out themselves with no, guide-only or automatic help → Do-it-yourself or Automatic; a little guidance with personal help when needed → Personal help; a formal demonstration with a dedicated person → A dedicated person or team |
-
-Age is not used to pick a channel by rule (section 11.4). The channel categories match the lists in official small-business guidance [CHN-03, CHN-04].
-
-### 7.5 Demand card (one per Offering)
-
-Rows are no longer typed from a source list: **one row is proposed for each Discover-stage channel that serves the offering**, plus "Repeat customers" for a recurring offering and "Contracts or tenders" when P13 includes a contract or tender or P22 says so. The six existing sources keep their formulas; a channel category maps to one of them (Referral & Affiliates → Referrals; Marketplace, In Person, Retail & Wholesale → Marketplace or walk-in; Website, Social Media, Email, Community, Online / Live → Sales funnel).
-
-| Field | Component | Status | Options |
-|---|---|---|---|
-| Customers Buy | Dropdown | keep, **derived** from O3 | One sale at a time; Every month, until they cancel |
-| Cancel / Month (%) | Number | keep, recurring only | |
-| Row: channel or source | Dropdown | keep, **proposed** | Referrals; Sales funnel; Repeat customers; Contracts or tenders; Visitors (formerly "Marketplace or walk-in", its id `marketplace` kept; 2026-11-14); Other |
-| Row: Estimated | Dropdown | keep | Enter a figure; Calculate |
-| Row: numbers (visitors, prospects, qualified %, buy %, bids, won %, units, sales) | Number | keep | |
-| **D1** What is this estimate based on? | Dropdown, per row | new, Core | L16 without "My costs plus a margin" |
-| Basis, Assumptions | Text | keep (notes) | |
-| Channels That Bring Them | Ticks | **replaced** by the rows | |
-| Expected Sales | read-only | keep | |
-
-`demand.channelIds` is finally read: spend on a channel divided by the customers its row brings gives the **cost per customer** shown in the Channel Costs tile. The app proposes **no default conversion percentage and no sales-cycle length** (11.6).
+Moved on 2026-11-21 to [doc 47, section 6](47-customer-engagement-tiles.md#6-the-journey-rebuild-the-design-and-its-reasons), with the tile it designs.
 
 ## 8. Identity · what to ask
 
@@ -438,147 +363,7 @@ Rows are no longer typed from a source list: **one row is proposed for each Disc
 
 ### 8.2 The Positioning tile and the Identity questions
 
-> **As built: document 38** lists every question and option of the tile, by stage, with what each comes from and is read by. This section keeps the design, its reasons and the reads still to be built.
-
-> **First published version (doc 33, doc 33).** Single-sided only: the Multi-sided option of I11, the anchor-side rule and the `side:outcome` answers are future features (doc 33, item 5). B2C and B2B only: B2G and G2B in I3, the B2G and G2B audiences of I7b and the locked audiences are future features (doc 33, items 6 and 7); they are built and stay in the code. The buyer's category (Direct, Proxy, Dual-Intent) is a question of its own, and I7b keeps three life stages, so "Proxy Buyers / Gifters" leaves the life-stage list (doc 33, section 5; built on 2026-10-29). In the End User block only the relationship and, for B2C, the user's life stage are in the first version: I7f and I7g and the routing of the End User answers into the second Profile are future features (doc 33, items 12 and 13). **Built on 2026-10-29:** the tile asks what the tables below say; the Organisation tile (8.5) takes the six countries and Other (doc 33, section 3).
-
-#### What it asks
-
-The tile keeps its free-text box (the **Notes**, the shared optional note) and gains four choice questions before it (the owner's request, 2026-10-23, the owner's words as written, 2026-10-24). The choices come first and **narrow** what the user has to think about; the Notes then say the rest in the user's own words: what problem the business solves, for whom, and why its solution is different. The same answers are meant to narrow every later list, name the first Segment and Offering and suggest examples (8.2, "What the Segment will read"). Mission, Philosophy, Principles and Manifesto stay prose: nothing downstream could read a list from them.
-
-| Id | Question (the owner's label) | Component | Options (the owner's words; brackets are in the "i") | Saved as |
-|---|---|---|---|---|
-| I11 | **Market Structure** | **Not asked in the first version** (built 2026-10-29: the answer is single-sided, saved as "single") | Single-sided Market. The Multi-sided Market / Platform option is built and hidden: a future feature (doc 33, item 5) | `marketType` (always `single`; an older "multi" is read as single) |
-| I3 | **Seller and Buyer Relationship** (who pays) | Radio where one choice is allowed, ticks with a limit where several are, by the stage | **B2C (Business-to-Consumer)**; **B2B (Business-to-Business)**. B2G and G2B are built and hidden: a future feature (doc 33, items 6 and 7) | `customerType` (a list of ids; "both" is read as B2B and B2C) |
-| I7b | One **audience** question for each relationship chosen; frozen until one is chosen; emptied for a relationship that is removed | As I3 | **B2B, Audience Specialisation & Scale:** Solopreneurs & Freelancers; Startups & SMBs; Mid-Market (50 to 249 employees); Enterprise or Public Sector. **B2C, Buyer's Life-Stage:** Students / Young Adults; Workers / Professionals; Seniors. The option Proxy Buyers / Gifters is now the buyer's category (I7h) | `audience` (a list of ids) |
-| I7h | **Buyer's category** (new 2026-10-29), one for each relationship chosen | Radio, one choice | **Direct Buyers** (for their own personal use); **Proxy Buyers** (on behalf of someone else); **Dual-Intent Buyers** (one offering for themselves and their dependents) | `buyerCategory`: `b2c:direct`, `b2c:proxy`, `b2c:dual`, `b2b:...` |
-| I7i | **Purpose** (new 2026-10-29), asked once | As I7c | The twelve purposes of doc 31, section 7: Learning & Development; Health, Care & Wellbeing; Gifting & Appreciation; Entertainment & Enjoyment; Social Connection & Relationships; Productivity & Efficiency; Business Growth & Performance; Creation & Expression; Everyday Needs & Convenience; Protection & Risk Reduction; Compliance & Obligations; Access & Social Support | `purpose` (a list of ids) |
-| I7c | **Differentiation** (split from the old "Differentiation & Outcome" on 2026-10-30): what the **offering** does differently from the competitors; asked once | As I3 | **Cost-driven**; **Convenience-driven**; **Compliance, Risk & Security**; **Status & Premium**; **Performance & Innovation**; **Ecosystem & Integration** (the last two added 2026-10-30); **Personal Service & Relationship** (added 2026-11-08, doc 38, question 8) | `differentiation` (a list of ids; an older answer's `outcome` ids, and `side:outcome`, are read as the differentiation) |
-| I7j | **Outcome** (for the buyer: **Outcome for the buyer** where the user has one of their own); the measurable result the buyer gets; asked once | As I3 | **Lower costs**; **Time saved**; **Legal & data-protection cover**; **Higher quality & prestige** | `outcome`: `savings`, `time`, `assurance`, `prestige` |
-| I7k | **Outcome for the user**: asked only where some buyer is a Proxy or Dual-Intent Buyer (the buyer and the user want different things) | As I3 | **Enjoyment & fun**; **Comfort & ease**; **Safety & care**; **Learning & growth**; **Looks & belonging**; **Practical use** (the former I7g, now the user's outcome) | `outcomeUser`: `enjoy`, `comfort`, `safety`, `learning`, `belong`, `practical` |
-
-Older answers read as lists: a single id is a list of one, and "both" is B2B and B2C. I5 (brand personality) is parked (8.3); I6 and I7 are withdrawn (I6: the Harvard Business School's two routes already say the price, a premium price or lower costs [FUN-19]; I7 was merged into I7c).
-
-#### What the words mean (corrected 2026-10-25)
-
-Three different things were mixed in the earlier text, and the sources separate them [FUN-34 to FUN-39, FUN-43]:
-
-1. **Customer and user.** The **customer** is the user who pays (or an entity that pays); the **user** is who uses it. They can be the same people, or different (a parent who buys for a child, an employer who buys software its staff use, an insurer who pays for a patient). The **economic buyer** approves the budget; the functional and technical buyers are other roles in the purchase. **The Seller and Buyer Relationship question is about the economic buyer** (who pays), and it says so in its "i". The buyer who is not the user is **not** a question of the market structure.
-2. **Single-sided and multi-sided market.** A **single-sided market** sells a product or service directly to one audience of buyers; one group pays, and the product does not need another group to be worth buying. A **multi-sided market (a platform)** connects two or more distinct groups that transact with each other, and its value to one group depends on the other (a marketplace, a delivery app, an advertising-funded service). Each group is a **side**. Any market brings buyers and sellers together, so "getting both sides on board" alone does not make a platform; the structure does [FUN-36, FUN-38].
-3. **Where the buyer is not the user, in a single-sided market.** A parent who buys for a child, or a corporate buyer for its staff, is a buyer-and-user split in a **single-sided** market. The Positioning answer for it is the B2C life stage **Proxy Buyers / Gifters** (the buyer pays and decides, the product is for someone else); other cases (an employer, a hospital's procurement) are a second Profile with P21 "They will use it" (6.3); there is no Segment question for it.
-
-**Platforms and the stage.** While **Planning and Launching** a platform business answers every question for **one side only**, the *anchor side* (the critical side for the start, usually the one that pays); the one-choice limits enforce it and the "i" says it. While **Managing and Growing** several relationships can be chosen, each opens its own audience question, and Differentiation & Outcome is asked **once for each side** ("Differentiation & Outcome (B2C)", "(B2B)"), the answers saved as `side:outcome` (for example `b2c:cost`). In a single-sided market the same relationships are one hybrid, and the last question is asked once.
-
-#### The buyer's category and the End User (built 2026-10-29; first version, doc 33, section 5)
-
-**Why.** Who pays and who uses it are two different things, whatever the buyer's life stage or scale. The buyer's category (I7h) says which: a **Direct Buyer** buys for personal use; a **Proxy Buyer** buys on behalf of someone else; a **Dual-Intent Buyer** buys one offering for themselves and their dependents. The earlier option Proxy Buyers / Gifters of the life-stage list is the category now, so the life stage keeps its three options. For a Proxy or Dual-Intent Buyer the End User questions follow, in the same column, directly under the category.
-
-| Id | Question (label) | Asked of | Component | Options | Limit by stage | Saved as |
-|---|---|---|---|---|---|---|
-| I7e | **Buyer & User relationship** | A relationship whose category is Proxy or Dual-Intent | Radio or ticks | **B2C:** Parent or guardian; Caregiver; Family member; Spouse or partner; Friend or acquaintance; Commercial & Professional (a proxy buyer; added 2026-10-30). **B2B:** Employer; Business partner; Business serving clients; Professional intermediary; Sponsor or funder; Institution or membership body (Proxy or Dual-Intent; added 2026-11-09). *Note (owner, 2026-11-09, doc 31 decision 39): "Other" is no longer offered in either list; a saved one still reads and keeps its questions* | As the audience: 1, 1, 2, any | `rel:parent`, `rel:caregiver`, `rel:family`, `rel:partner`, `rel:friend`, `rel:commercial`, `rel:otherpersonal` (saved only); `rel:employer`, `rel:copartner`, `rel:serving`, `rel:intermediary`, `rel:sponsor`, `rel:institution`, `rel:otherbusiness` (saved only) |
-| I7d | **User's Life-Stage** | B2C only | Radio or ticks | Minors; Young Adults; Adults; Seniors | As the audience | `age:minor`, `age:young`, `age:adult`, `age:senior` |
-
-**What the first version does not ask.** "Who chooses" (the former I7f) is a future feature (doc 33, item 12); its saved answers are read without it. "What matters most to the End User" (the former I7g) is the **outcome for the user** (I7k); its saved answers (`wants:safety`) are read as that outcome. The routing of the six into the second Profile's ticks (P9, P17) is still future (doc 33, item 13). Older ages are read as the four life stages: the three under 18 are Minors, the older adults are Seniors; the three relationships already saved (`rel:parent`, `rel:family`, `rel:friend`) keep their ids. The relationship only suggests the category; the buyer's own answer decides it (doc 31, decision 8).
-
-**The words of the card (2026-10-30).** In the card the options are written short: "and" is "&" ("Learning & Development"), a word the question's name already says is not repeated ("Commercial & Professional", "Other"), and a relationship is named by its role ("Caregiver", "Employer", "Business partner"); the page's tile and the exports use the same names. The documents name the questions in full ("Seller and Buyer Relationship"; the card says "Seller & Buyer Relationship").
-
-**Where they are asked (arranged 2026-10-30).** Early Positioning has two columns, each of two groups told apart by a **double divider line** (two 1px lines 2px apart; no subtitles in the card): **Business** (the relationship, its audience or life stage and its buyer's category), then **User** (a Proxy or Dual-Intent buyer's relationship and user's life stage), in the left column; **Offering** (the Purpose and the Differentiation), then **Outcome** (the buyer's and, for a Proxy or Dual-Intent buyer, the user's), in the right column. **The left column is as wide as its longest option (the right takes the rest) so that every option is on one line from a window about 1440px wide, a hairline stands under the title of each question, and every other question of a column is a tinted band (the card's label colour at 12%), as the parts of the channel card are.** **The page's tile has the same four groups, with no subtitles**: each option on a bulleted line of its own, in its own words, a hairline between two groups (the square holds about six lines: where there are more, the tile ends at a whole line; the card has them all). **Left, every question before the Purpose (moved on 2026-10-30):** the Seller and Buyer Relationship and, for each relationship chosen, its audience question (Buyer's Life-Stage, or Audience Specialisation & Scale), its Buyer's category and, for a Proxy or Dual-Intent category, the buyer and user relationship and, for B2C, the user's life stage. **Right, the offering:** the Purpose, the Differentiation and the Outcome (and the user's), once. Each is a `legal-entity-org-section` block of the same kind as before (a label over a radio or tick group, an "i" on each). The **Purpose** options come in the order of their relevance (doc 31, 10.7): for a business buyer the audience scale and the buyer's category; for a consumer buyer the buyer's and the user's life stage, else the buyer and user relationship, else the buyer's category, else the seller and buyer relationship (purpose by purpose); the **User's Life-Stage** offers only the stages the owner's matrix allows for the buyer's life stage and the relationship (doc 31, 10.7; before a buyer's life stage is chosen, a Parent or legal guardian leaves only Minors and Young Adults); the **Outcome for the buyer** and the **Outcome for the user** list first the outcomes the purposes chosen drive (doc 31, 10.7; nothing is hidden or ticked); the **Buyer and User relationship** hides what does not fit the category, the buyer's life stage and the user's life stages chosen; the purposes the table calls generally less directly relevant to those answers are not offered (an answer already chosen stays). **No new component.** An answer is dropped with its question: a category that no longer applies, or a relationship that is removed, takes its End User answers with it.
-
-**Only the relationships that can be the category are offered (2026-10-30).** A Proxy Buyer buys for the other, so the Spouse or romantic partner (a shared purchase) is not offered; a Dual-Intent Buyer shares the purchase, so the Friend or acquaintance and the Commercial & Professional relationship (a buyer for another) are not offered; for a business buyer an employer, a professional intermediary, a sponsor or funder and another business relationship are Proxy, a business partner and a business serving its clients are Dual-Intent (doc 31, 10.7). A relationship already chosen that no longer fits goes with the change of category. Fewer options help the user; the buyer's own answer still decides the category.
-
-**What reads them (designed, not built).** The Segment proposes a second Profile for the person who uses it: its age from I7d (P1), "They will use it" ticked (P21), and the buyer's relationship in P25 (doc 31, decision 18). Nothing in Business 1 reads the category, the relationship or the purpose yet.
-
-#### How the stage shapes the questions
-
-The earlier the business, the narrower its focus. The stage is not chosen: it is worked out from the Opening Date and the durations of the Global Settings (8.2a). An organisation with no Opening Date is Planning.
-
-| Question | Planning | Launching | Managing | Growing |
-|---|---|---|---|---|
-| Seller and Buyer Relationship | 1 | 1 | 2 | any |
-| Each audience question | 1 | 1 | 2 | any |
-| Differentiation | 1 | 2 | 2 | any |
-| Outcome (and the user's outcome) | 1 | 2 | 2 | any |
-| Buyer's category | 1 | 1 | 1 | 1 |
-| Purpose | 1 | 2 | 2 | any |
-
-- A question of one choice is a **radio**; a question of several is the existing tick group `BusinessTicks` with its optional `max`, which **locks** the other options once the limit is reached (grey, not ticked; no warning, no red mark; a ticked option can always be unticked), and the limit stands beside the label ("2 max", the existing `business-foundation-tick-note`; it is one unbreakable piece, on the label's row where it fits and on the next row where it does not). A free question has no note and no lock.
-- **Locked while Planning and Launching:** Central Government & Ministries (B2G) and Heavily Regulated Markets (G2B); **open from Managing** (`lockedAudience`). Local Government and General Commerce / Mass Market are the named beachhead in their "i" and are open at every stage. The owner's "hard-locked or hidden" is built as **locked and visible**; hiding them is the alternative.
-- **The answers follow the stage (owner, 2026-10-25).** When a new Opening Date or duration puts the business in another stage, each question is checked against that stage's set-up. A question with more answers than the stage allows, or with an option it locks, goes back to its default, **empty**; a question that still fits keeps its answers; the last question is also emptied where its form changes (once, or once for each side). The check runs on every page of the Conversation (`fitPositioningToStage`, `legal/shared.tsx`, called from `Conversation.tsx`).
-- **The name follows the stage:** **Early Positioning** (Planning, Launching: a temporary, highly targeted statement that locks the first market and attracts the first customers), **Core Market Positioning** (Managing: the firm positioning once the business has found its product-market fit), **Corporate & Portfolio Positioning** (Growing: the umbrella over the statements of the products and markets). The tile, its rail entry and its dialog heading carry it (`positioningName`); the saved answer keeps the key `positioning`. The exported heading is **Early Positioning Statement**, **Core Market Positioning** or **Corporate & Portfolio Positioning** (`positioningDocumentTitle`).
-
-#### How the options react to each other
-
-| The user does | What happens |
-|---|---|
-| Opens the dialog with no relationship chosen | The audience question is frozen with the hint "Choose a seller and buyer relationship first"; the outcome question is open |
-| Chooses a relationship | Its audience question opens; nothing answered is lost |
-| Chooses a second relationship (Managing, Growing) | A second audience question opens beside the first |
-| Removes a relationship | The answers of its audience question go; those of the others stay; where outcomes are per side, its outcomes go |
-| Chooses Multi-sided while Planning or Launching | Nothing splits; the "i" says to answer for the anchor side |
-| Chooses Multi-sided while Managing or Growing, with two or more relationships | The outcome question is asked once per side; plain outcomes already chosen are dropped |
-| Switches back to Single-sided | The outcome question is one question again; the side outcomes are dropped |
-| Chooses a relationship while Single-sided | Nothing else changes: the market structure does not restrict the relationships, only the stage's limit does |
-| Reaches a question's limit | The unchosen options lock; unticking one unlocks the rest |
-| Chooses B2G or G2B while Planning or Launching | Central Government & Ministries, or Heavily Regulated Markets, is locked |
-| Changes the Opening Date or a duration so the stage changes | Limits, locks, the tile's name, the "i" notes and the exported title change at once; questions whose answers no longer fit go back to empty (no notice appears; the "i" of the Opening Date and the "i" of each choice question say it) |
-| Writes in Notes | Nothing else changes |
-
-What does not react, on purpose: the market structure does not limit the relationships; an audience answer does not limit an outcome; the outcome list is the same for every relationship; the Notes depend on nothing.
-
-#### The "i" notes and their sources
-
-Each question's "i" lists every option (the words that were taken out of the labels are there), says what the question decides and what the **current stage** allows ("At this stage (Launching): choose up to 2", with the options not yet open and when they open), and shows only what holds now (the multi-sided point of the other stage, and the sentences about locks and the beachhead where they do not apply, are left out). Every "i" lists all its points (`fullList`), because the three-point cap would cut the options. References, all opened on 2026-10-25 [FUN-45]: HBS Institute for Strategy & Competitiveness, *Strategic Positioning* (premium price or lower costs; "stuck in the middle"), for Differentiation & Outcome; eCornell, *How to Write Market Positioning Statements* (target market, differentiation, frame of reference, reason to believe), for the relationship; Stanford E145 (Moore's two-sentence template), for the relationship and the outcome; the SBA's *Market research and competitive analysis* (customers by age, wealth, family status and interests; a business "won't be for everybody"), for the audience; HBS Online, *Crafting the Perfect Brand Positioning Statement* (age and life stage), for the life stage. **No accepted source was found for the multi-sided definition, the administrative levels and the regulatory intensity** (the OECD note could not be opened), so those "i" notes cite none and stand on the owner's wording. Every positioning template read has the same parts (target, need, category, benefit, competitor, difference, reason to believe) [FUN-24, FUN-29, FUN-40]; the four bases of segmentation (geographic, demographic, psychographic, behavioural) belong to the **Segment** of Business 1, not here [FUN-41].
-
-#### What the Segment will read
-
-**Built:** the Segment card asks its questions (6.3a, doc 35) and reads Identity: the Seller and Buyer Relationship decides the kind of a Segment (people or businesses; where both are chosen, two Segment cards are made, the first of people and the second of businesses), the buyer's life stage decides the age terms offered, the audience's scale sets the organisation's type and size, and the audience chosen in Identity is shown in the "i" of the box it belongs to. There is no question "Who uses it?" (6.3): the user is a part of the Segment for a Proxy or Dual-Intent buyer. The questions G2 to G8, G10, G13 to G16 and G23 are the earlier ids (6.3 maps them to doc 35). Which questions exist, where, and what they should be called or where they should sit is in doc 29, section 10.
-
-The rows of the table below that doc 35 does not describe are the design and are not built; they are for the owner to approve **[D]** (the B2G, G2B and multi-sided rows are future features in the first version, doc 33); each rule only suggests a default, and warns where something looks wrong, as 6.3 already does:
-
-| Identity answer | What it does to the Segment (a starting value the user confirms; never a hidden option) |
-|---|---|
-| **Country** (Organisation) | G3 starts there; the currency symbol of G8 and G16; the national lists of G7, G14, G15 and G23; the examples; the equality notice |
-| **Legal form, founders** | Nothing: they describe the seller, not the customers |
-| **Activities** (industry, pack) | Suggests the Segment's name and the kinds of business of the Profiles (doc 34, 5.6, not built). **Never fills G15**: G15 is the customers' industry, not the seller's |
-| **Opening Date, Registration Date** | Nothing directly; through the stage |
-| **Business stage** | Planning and Launching: **one Segment**, drivers only; the checks (G4, G5, G16) are held back and figures are labelled forecast. Managing: up to two. Growing: any number. A stage change flags a Segment that no longer fits and deletes nothing. (The app's instruction text says "1 primary segment (maximum 2)"; it is the owner's wording and stays until the owner decides) |
-| **B2C** | Box 1 (people) is asked; Box 3 is not |
-| **B2B** | Box 3 is asked; G23 offers the four types (a public body allowed); Box 1 is not |
-| **B2G** (future feature, doc 33) | Box 3; G23 starts at "A public body" (not asked); G15 starts at "Government and public administration" (the pack may start at Education or Health); the tender row; the administrative level is shown in the "i" |
-| **G2B Context** (future feature, doc 33) | Box 3; G23 asked; G15 asked first, the regulated industries listed first; the regulatory intensity is shown in the "i" and a Heavily Regulated Markets answer adds a Review item |
-| **Several relationships** | One Segment frame for each (people first), within the stage's limit; the second starts with G2 and G3 copied |
-| **Multi-sided** (future feature, doc 33) | Each side is one of the relationships, so **each side is its own Segment frame**, with its own outcome (I7c). There is no Buyer part or User part (6.3) |
-| **Single-sided with several relationships** | A hybrid: still one frame for each |
-| **Audience: scale** | Solopreneurs & Freelancers: G23 starts at "Self-employed or freelancer" and G14 is skipped. Startups & SMBs: G14 starts at "1 to 9" to "10 to 49". Mid-Market: "50 to 249". Enterprise or Public Sector: "250 to 499" and over, and "a public body" is offered. **Built on 2026-11-01** (owner's decision; the Segment takes the sizes and the type from the scale: doc 35). The mapping is the author's: the EU's own SME line is under 250 employees, so the owner's Mid-Market lies inside the official medium size |
-| **Audience: life stage** | Proxy Buyers / Gifters: G6 starts at an adult range and a **second Profile for the person who uses it** is proposed (P21 "They will use it"). Students / Young Adults: G6 starts at 18 to 24 (it may widen to 16 to 17, with the under-18 box) and G13 at "In full-time education". Workers / Professionals: G13 starts at employed or self-employed; no G6 range is set, because 25 to 64 is wider than three bands ("choose up to three"). Seniors: G6 starts at 65 to 74 and 75 or older, G13 at "Retired"; comfort with online tools (P16) is **not** inferred from age |
-| **Audience: administrative level, regulatory intensity** (future features, doc 33) | Shown in the "i" of Business Data; Local Government keeps the tender row visible |
-| **Differentiation** (I7c, doc 38 question 8; for each side of a platform) | Frames the Value Proposition prompt and the Competitor questions, and **replaces G17**: Cost-driven starts the Value Proposition at "Lower price" and asks K1 (their price against yours) first; Convenience-driven at "Ease and convenience" and "Speed" and P16 and P20; Compliance, Risk & Security at "Safety and low risk" and "Trust and reputation" and the worry "Risk or security" in P19; Status & Premium at "Quality and results" and "Shared values or identity". They are starting ticks in P9, O4 and K2 (list L1) that the user can change |
-| **Positioning Notes** (free text) | Shown behind the "i" ("Your Positioning (Identity)"); it shapes no question |
-
-
-A second Segment starts from the first one's answers. Build order proposed: the relationship and the market structure; the audience defaults; the outcome and the stage; the country and the industry pack.
-
-#### Not built, and open decisions **[D]**
-
-- **The output templates** of the owner's text (Template A, single-sided: "For [niche] who are struggling with [pain point], our product is a [category] that delivers [outcome]. Unlike [status quo / competitors]."; Template B, the bridge for a platform), which need three things no Positioning question asks (the pain point, the category, the status quo). **Decided (owner, 2026-11-03): no new Positioning cells.** The Business answers hold all three (the pain point is the Profile's E2, the category the Offering's Type or O1, the status quo a Competitor of type Status quo or Direct competitor), so the statement is drafted **per Segment in the Value Proposition tile** (6.7) from them; Identity's Notes stay the user's own text, written before Business is answered. Shorten the Notes' prompt to "What problem are you solving, for whom, and why is your solution different from the competition?"; add the optional "What makes people believe it?" (reason to believe, in every template).
-- **The Future Positioning tab** and its strategic shift matrix (optional while Planning and Launching, mandatory while Growing), the strategic output (a present strategy or a transformation roadmap), the strategic goal line of each stage, and the number of statements by stage (one, one, one with two angles for a platform, several).
-- **The time horizon** beside the stage (current: today to 12 months; future: 3 to 5 years) and a runway question: **the Financial Foundation already computes the Financial Runway, so it should be read, not asked again**; the owner's rule is a lock with a short note, not a red alert.
-- A hybrid **B2B2C** option, tool-tips for the stages, and the export and the Foundation note still saying "Positioning".
-- **A source** for the multi-sided definition, the administrative levels and the regulatory intensity; the owner's lists are the owner's own wording (rule 14 allows it). Supporting literature named by the owner and not opened: Kotler and Keller, *Marketing Management*; Moore, *Crossing the Chasm* (its slots opened in Stanford E145 [FUN-28]); Osterwalder and Pigneur, the Business Model Canvas and the Value Proposition Canvas; Evans, *Platform Economics* (text read from the owner's PDF [FUN-43]).
-- Small-team limits from the owner's text (beachhead market, product limit, runway and pivot milestone, time-boxing) are Strategy or Business matters, not Positioning; parked until the owner says where.
-
-#### The other Identity questions
-
-| Id | Question | Component | Options | Type | What it saves or reads |
-|---|---|---|---|---|---|
-| I1 | What does your business do? (up to four activities, in order of importance) | Cascade of dropdowns, one path per activity | The country's own levels (doc 34, 5.7), down to the final code; a shortlist plus "Show all" **(not built: every dropdown lists all its entries)** | Driver | Fills the code at the end of each activity; the industry pack of doc 34, 5.6 (example Segment, Offering, skill areas, resource groups, Discover channels) and the drafted Description sentence are **not built** |
-| I2 | (merged into I1, 2026-10-23) | | | | |
-| I4 | (withdrawn 2026-10-23) | | | | Where your customers are is asked once, on the Segment (G2) |
-| I5 | How do you want to be seen? | Dropdown | Aaker's five dimensions of brand personality (Stanford GSB, 1997) [FUN-20]: Sincerity; Excitement; Competence; Sophistication; Ruggedness | Parked | Brand starting points (8.3) |
-| I8 | Business stage | **Not a question**: worked out from the Opening Date (8.2a) | Planning; Launching; Managing; Growing (the SBA's four headings [FUN-18]) | Driver | The estimate basis (D1: "sales I have made" and "website data" appear from "Manage your business"); labels figures forecast before launch and actual after; sets the Positioning limits |
-| I9 | What do you want the business to become? | Dropdown | Keep it small and steady; Grow steadily; Grow fast; Build it to sell or hand over; Not sure yet (the UK Longitudinal Small Business Survey asks about growth aims [PLN-05]; the two extra options are the author's and fail rule 14) | Check | Later: suggestions for the funding route and the hiring question (C4) |
-
-The legal-form label is matched by text to decide drawings or salary, which breaks for a free-text "Other" and translated labels; document 5 (I6) already asks for a legal-form *kind* and this plan keeps that request. The activity code that I1 suggests does not replace the typed code; it fills it in for the user to confirm.
+Moved on 2026-11-21 to [doc 38, section 4](38-positioning-questions.md#82-the-positioning-tile-and-the-identity-questions), with the tile it designs.
 
 ### 8.2a The business stage, the Opening Date and the key dates (as built, 2026-10-24 and 25)
 
@@ -630,190 +415,33 @@ Not changed by this plan. Strategy could later read the competitors' SWOT notes 
 
 ### 8.5 The Organisation tile (page 1): layout
 
-> **As built: document 37** lists every field of the tile. This section keeps the layout decisions and what was built with it.
-
-Settled with the owner on 2026-10-23; **built 2026-10-24 and 25.** The Organisation is the first tile of page 1 (Definition), in the Description's place; its Notes box is that page's saved Description (the old Main Activity text where nothing was written there). (The Identity System is one page: `specifications/identity-system/page-1-definition.md`, section 1.) The export, the Business Plan and the open items read the new answers: the Activities as codes with the scheme's initials (the export names codes only, not their titles), the dates, the legal form; the open items of the organisation point to page 1.
-
-**Also built with it (the Legal Entity's tiles).** **One-owner forms (2026-10-24):** where the legal form has one owner in law (Sole Proprietorship, Sole Trader, and the like) there is nothing to ask about ownership, so the Founders & Ownership dialog is the founder's card itself, with **no number and no head** (one person needs no number): its first row is **the Name cell and, on the card's second column, the Capital as an optional field** (the tick box and its word `Capital ($)`, the amount cell appearing under it once ticked, as every optional field of the page does: `OptionalField`; **unticked (the default), the tick and its word stand on the Name cell's own line** (centres 0.5px apart: 281.7 and 282.2 px); **ticked, they move up to the Name label's line and the amount cell stands level with the Name cell** (the row is 78px high in both states, so nothing under it moves); the tick's line is the Name label's line, `--label-line`, so the two labels' centres and the two cells' tops and bottoms are on one line: measured 43px cells, tops 260 and bottoms 303 px on both), the Capital over the same column as a skill's kind (14em wide on every row), then the founder's roles, experience, achievements and skills. There is no ownership table and no "Founders contribute capital" tick: the capital's tick switches the capital on, unticking it empties it and switches it off. **The amount cell takes only a figure** (`limitedNumberText` with the money limit, like every cost, price and expense cell: a letter is refused and the box keeps what it had); the cost filter's From and To cells of the capability overview now do the same. **Capital makes no expense** (it had made one: an expense of a ticked requirement whose own expense was missing was made by whatever the next edit was; an expense is now made only when the requirements change, and one the user removes stays removed). **Founders built 2026-10-24:** the Founders & Ownership dialog is a nested card: **the Ownership itself in the opened master tile** (the founders' names, their shares and capital, and the totals), and, **under a divider line** (edge to edge, 12px of space either side), **one tile for each founder named there** (its dialog is the founder's card: roles, experience, achievements, skills); the tile on the page lists **the founders' profiles, each name a link that opens that founder's card in the dialog** (no longer the names with their shares). (The Capability tile that stood beside it is removed: owner, 2026-11-16 20:25.) **The Legal Entity page's frame is headed "Legal Entity"** (the chapter's name, centred over the tiles as the Strategy's "Situation & Direction" is; a page of one chapter has its heading without a number). **One chapter has the size of one of two** (measured at a 1500px window: the frame 688 by 736px, its tiles 325px, 13px of padding, the heading 12px over the tiles: the same as each frame of Definition and Ethics; it had been 700px wide, 12px more). **A page of one chapter stands at the left, as the Strategy's does** (the Legal Entity page, and every column page drawn as tiles with a single frame).
-
-**Not yet built:** the shortlist with "Show all" (every dropdown lists all its entries, in the official order), the completeness rule for the primary activity, and the industry pack of doc 34, 5.6.
-
-**Pages.** Page 1, chapter Definition, has four tiles in this order: **Organisation** (takes the Description's place, first), Early Positioning (named by the business stage, 8.2), Mission, Vision. Ethics is unchanged. Page 2 has one frame with four tiles: **Founders & Ownership** (the founder tiles of the old chapter "Founders & Capability" become sub tiles inside its dialog: Ownership first, then one tile per founder), **Capability** (its own tile for now; it changes when Business is reached), **Registrations** and **Expenses**. Page 2 is named **Legal Entity** (the owner, 2026-10-23; built 2026-10-24: one frame with four tiles, Founders & Ownership, Capability, Registrations, Expenses; the Founders Profile is no page or frame of its own, a hidden section that keeps its saved answer). The chapter hue of Definition is purple (the "Create" work colour, `#8a6bd1`); under the layout rule the Organisation tile takes it and no tile is an exception.
-
-**The dialog** is one smooth scroll, no steps: two columns, a divider line across, and the Notes below.
-
-```
-LEFT: where it is                       | RIGHT: what it is and does
-Organisation Name                       | Legal Form (+ Name the legal form, only for an older answer saved as Other)
-Country (and State or Region)           | Registration Date (not asked for a sole trader or sole proprietorship in the six countries)
-Address (free text)                     | Opening Date
-                                        | Activities (i)
-                                        |   Primary  SIC 62012            [+]
-                                        |   Secondary  SIC 74100          [x]
-                                        |              Industry, Division, Group, Class  [dropdowns]
--------------------------------------------------------------------- (a divider line across both columns)
-Notes (the page's Description)  [auto-growing, the whole width]
-
-(The business stage is not asked here: it follows the Opening Date, 8.2a. Who pays, the kind of market, the audience and the outcome are on the Early Positioning tile, 8.2.)
-```
-
-**On the page** the tile shows the name in bold, the legal form, a divider, then the address; until something is written it shows the first line of what the column asks.
-
-**The fields** (every field is a `FieldRow pair`: label above, control below; `nested` after the first):
-
-- **Organisation Name** (`TextBox`), **Country** and **Legal Form** (`OptionPicker`), **Address** (`StrategyTextArea`, class `legal-entity-address`, free text). The country drives the legal forms, the activity scheme and its code name, the registration numbers, the currency and the date format. Legal Form is the country's official list, in the official order, with no "Other" (owner, 2026-10-30; doc 33, section 9: a legal form saved earlier as "Other" still shows with its typed name), and stays frozen until a country is chosen; it decides what is asked later (a form with one owner in law has no ownership questions).
-- **Registration Date** (`DateCellInput`), **not asked for a sole trader or sole proprietorship in the six countries** (owner, 2026-11-01; doc 37), **and independent of the Registration Number** (owner, 2026-10-26): the date does not need a number and the number does not need the date. It cannot be later than today or later than the Opening Date. The warnings that go with it (a date that has not come; a company formed after the Opening Date) stand under it. The Key dates read it whenever it is filled.
-- **Opening Date** (`DateCellInput`, with an "i"), saved in the Global Settings (`openingDate`). It decides the business stage (8.2a), the plan start where it is the earliest date recorded, the key dates and the Review's messages, and it can be changed at any time. Registration Date and Opening Date stand one under the other: side by side they do not fit a column that ends before the x column.
-- **Activities:** below.
-- **Notes** is the shared optional note, `OptionalNote` (a tick box and the word, the box opening on ticking; bullets and numbered lists, regular weight, grows with its text), named **Notes**, with no placeholder (owner, 2026-11-12). It still saves the page's Description (its field key stays "Description"), which the Business Plan prints.
-
-**How the options react.**
-
-| The user does | What happens |
-|---|---|
-| Chooses or changes the **Country** | The Legal Form, the State or subdivision, the Address and the activities are cleared (nothing carries over to another country), and so are the registration numbers issued by the country left; the activity scheme, its level names and the postal label change to the new country's. Choosing the same country again changes nothing |
-| Has no country yet | Legal Form, the State or subdivision and the Activities are frozen |
-| Chooses a **Legal Form** | A one-owner form removes the ownership questions of Founders & Ownership |
-| Changes an activity's **level** | Every level below it is emptied, and the code at the end of that activity empties |
-| Adds **activities** | Up to four; the "+" disappears at four and returns when one is removed; only the primary is required |
-| Fills or empties the Registration Number | Nothing happens to the Registration Date (it is independent) |
-| Sets or changes the **Opening Date** | The stage is recalculated (and with it every limit, lock, name and title, 8.2), the plan start may move, the key dates and the Review's messages update |
-
-*Activities, the Performer pattern.* **The first row is the primary activity; Secondary, Tertiary and Quaternary may be added** (no row is required by the app: the section is complete once the main activity is given, doc 37) (a row exists only once the "+" has added it, and its x takes it away). The "i" of "Activities" says so: "The first is the primary activity; add others, up to four in all. Each one ends in one official code of your country (the SIC code in the UK)." It changes with the country's code name (doc 34, 5.8). The list is the Performer list of an activity (`business-capability-performers` holding one `business-capability-performer` row per activity: 8px between cells, every cell 44px, the box buttons 32px, all on one centre line):
-- Each row: the **sub-label** (`FieldLabel`: Primary, Secondary, Tertiary, Quaternary; 92px, the same width on every row), the **cell**, and the **x column**.
-- **The "+" is in the first row's x column** (`AddButton shape="box" small`, "Add activity"), as the Performer's is; every other row has the remove x (`RemoveButton`). At four activities the "+" gives way to the empty slot (`business-capability-performer-slot`), so the cells still end at one x.
-- **A finished activity** (it has its code) is folded. The **fold arrow** (`FoldArrow`, the label arrow) stands **inside the sub-label, left of its words**, as the label-arrow rule says (its glyph on the content edge, the words 26px from it; arrow, then "Primary"; the arrow points right when folded and down when open, so an open one can be folded too). **The code with its scheme's initials, in bold, stands on the same line, next to the sub-label** ("Primary  SIC 59112"; the code label of the country, doc 34, 5.8: SIC, NACE, NAICS, ANZSIC, BIC), and **under them, from the column's left edge, the last category** (the class, or the sub-class where there is one) as one plain line in regular weight, **not a link and not blue**; a name longer than its place ends in an ellipsis and **slides across as a marquee under the pointer** (the slide the long tile titles and the text links already have; it needs the same small hook for plain text). The code and the name are 6px apart vertically; the arrow, or the folded line, opens it. **Every text of the list is the body size (18px) and the labels' own weight and colour**: the sub-labels and the level names are labels (regular, the label colour), the code is semibold and the name regular in the text colour, as the cells' values are (measured: 18px on all of them; the code and name had been 16px, the dialog's default). **The code stays beside the sub-label while the row is open** (a finished row that is opened to be changed keeps its code in view); what differs between the two states is only what stands under the sub-label (the name, or the dropdowns) and nothing else: **the head row is 44px, a cell's height, in both states**, its arrow, sub-label, code and button on the centre line, so the Primary row is centred on the Organisation Name's box whether it is folded or open (measured: the centres of the box, the row, the sub-label, the code, the arrow and the "+" are one line in both states).
-- **An open activity** shows, under its sub-label, the cascade's dropdowns, each as a label above an `OptionPicker` (the country's own level names, the first too: Section, Sector or Division), starting on the column's left edge (the edge of every label and control of the column, the folded lines too) and ending 8px before the x column's left edge, **the edge every control of the right column ends on** (Business stage included: measured 413 to 691 px for the column's labels, the five dropdowns and the Business stage; the "+" and the x from 699 to 731 px). The level labels carry the country's names (doc 34, 5.8); their "i" is not built yet.
-- One left edge for everything under a sub-label (the folded lines and the dropdowns) and one right edge; every "+" and x has one right edge (measured in the mock at the 694px dialog: left 389, right 661, x 669 to 701 px).
-
-*Measured in the mock (694px dialog, 3 loops).* Loop 1, alignment: the two columns start on one line; cells 44px, buttons 32px; the centres of the sub-label, cell and x of each row are equal; the "+" and the x have one right edge. Loop 2, behaviour: "+" adds a row up to four and disappears at four; an x removes a row and the "+" returns. Loop 3, widths: no sub-label is clipped; the folded cells and the dropdowns share their edges.
-
-*Columns, divider and rows (owner, 2026-10-24; built as `.legal-entity-grid-organization` in `11-legal-entity.css`).* Two columns of sections, each section a label over its control (6px), the sections **12px apart in both columns** (the rule; no column has a gap the rules do not give it), the columns 25px apart with a 1px divider (`--line-divider`) down the middle and **12px clear on each side of it**. The columns follow the same rhythm, so **the rows are on the same lines without any space put in by hand**: an open activity's head row is as high as a cell (44px), so the Primary row stands beside the Organisation Name's box, the first level beside the Country, the second beside the Address (measured within 1px). The Legal Form now stands beside the Organisation Name (labels at 226 px, cells at 260 px in both columns), the Registration Date beside the Country and the Opening Date beside the Address, the Activities beneath; the vertical divider ends with the columns; the columns are not forced onto each other's lines, which had left holes of 40 to 200px. **A dropdown's list** is as wide as its longest official title (never narrower than the cell, never wider than 560px or the dialog: the picker's own rule, `layout-rules.md` section 10) and a title wider than that wraps instead of being cut; it is as tall as the window's room allows, up to 30 options, and scrolls beyond that (the picker's `visibleOptions`, 10 by default).
-
-*Also noted.* The "Activities" label stands 2px lower than "Organisation Name": a label with an "i" sits in its holder (`legal-entity-label-info`); the same 2px exists for every label with an "i" beside one without, so it is the page's existing behaviour and not changed here.
-
-- **At the narrow width (768 px)** the left column is followed by the right: Name, Country, Address, then Legal Form, Registration Date, Opening Date, the activities (each ending in its code), and the Notes under a divider line.
-- **The code is at the end of each activity** (the owner, 2026-10-23), in place of the single code row at the bottom of the column: the cascade's final code **generates** it and the user may edit it (in the app, built: the generated code cannot be edited, and a row stopped before the last level is not saved). Its label and its description come from the country (SIC code, NACE code, principal business activity code, industry code, ANZSIC code, BIC code; not built yet: the app shows the scheme's initials, SIC, NACE, NAICS, ANZSIC, BIC). A folded activity shows its path and code on one line. Today's tick ("has a code") goes: the code is always shown once the last level is chosen.
-- **Level labels:** every level, the first too, carries the country's own official name (doc 34, 5.7), each with an "i" (the "i" not built yet). **Everything the user reads in this part switches with the country:** the slot labels, the level names, the code label and the "i" (doc 34, 5.8). Built: the level names. Not built yet: the per-country slot labels (the app shows Primary to Quaternary everywhere), the code labels (the app shows SIC, NACE, NAICS, ANZSIC, BIC) and the per-country "i" (one "i" for all six countries).
-- **Changing a level resets the levels below it** in that activity, and the code at the end of the activity empties (doc 34, 5.8, rule 3).
-- **Options per level (doc 34, 5.9):** each dropdown shows all its children when there are six or fewer, else the shortlist that covers 90% of the businesses under that parent (never more than ten) plus "Show all"; **the options are in the official order of the classification (doc 34, 5.10), never by popularity**; the "i" says how many items businesses of the industry usually list (doc 34, 5.9); the only limit is four codes.
-- **Storage (settled 2026-10-23, "codes only"):** the Legal Entity answer holds a list of up to four entries, each the code and the classification edition. The levels and titles are looked up from the code, because codes nest. Today's activity-code field and its tick are read as a fallback for the first entry until it is replaced. A change of level or of country empties the entry or the list.
-- **Description** is the former Main Activity box, renamed. Its "i" carries both former Description prompts as general information: "Who are you, and what do you do? What do you create or provide?"; the old line "Name and legal details go in 3. Legal Entity" changes to say they are in this dialog. No label anywhere is "Main Activity".
-- **Saved text.** The box saves into the Description's saved value, which the Business Plan prints as its paragraph. The old Main Activity text is read as a fallback until replaced. The Business Plan's Organisation table row "Main activity" becomes "Activities", filled from the cascade (primary first) **[D, label to confirm]**. The export row says "description". **The Notes box is optional, so an empty one is no open item** (the Review's "not answered yet" is for the free texts that are required: Mission, Vision and the Ethics). What the Review says of the Definition is in 8.6a.
-- **Answers read elsewhere:** see 8.1. The country, the legal form, the dates and the activities' codes are read by the Legal Entity's tiles, the financials, the Review, the Calendar and the exports; the Segment of Business 1 does not read the Organisation yet (8.2, "What the Segment will read").
-- **Impacts to change together:** `PageGroups.ts` (both pages), the Review "go there" places and `MISSING_PLACES`, the rail and arrows, the colour map, `LegalEntityEditor`, the document and export builders that name Main Activity or the founders' profile, `SectionStatus`, the tests that read them.
-- **Open:** the audit of lists under rule 14 (section 3), tile by tile. The examples hold the new fields (the Positioning answers: Lumen & Loom a Proxy business selling to gift buyers, a friend buying for a young adult, Quillfield a direct B2B one; the activities' codes: Lumen & Loom 13921, Quillfield 541512; the Positioning answers; the Opening Dates).
-
+Moved on 2026-11-21 to [doc 37, section 4](37-organization-fields.md#85-the-organisation-tile-page-1-layout), with the tile it designs.
 
 ### 8.6a What the Review says of the Organisation and the Positioning
 
-- **Organisation:** "1. Definition: Organisation: name, country, address and legal form." for what is empty among them; nothing for the Description (the Notes are optional).
-- **Positioning:** "1. Definition: <the tile's name at the stage>: the seller and buyer relationship, the audience, the buyer's category, the purpose, the differentiation and the outcome not chosen yet." for each question with no choice (the audience and the buyer's category are asked of each relationship chosen). The Positioning's Notes are optional: an empty one is no item. The item uses the tile's name, which follows the stage (Early Positioning, Core Market Positioning, Corporate & Portfolio Positioning).
-- **Mission, Vision:** "not answered yet" while empty.
+Moved on 2026-11-21 to [doc 37, section 4](37-organization-fields.md#86a-what-the-review-says-of-the-organisation-and-the-positioning), with the tile it designs.
 
 ### 8.6 The wording of the Organisation tile
 
-What the app says today, what changes, and what is new. Lists come only from official documents (rule 14); the owner's own words are used where the owner gave them. The wording of the choice questions (Market Structure, Seller and Buyer Relationship, the audience and the outcome) and of the business stage is in 8.2 and 8.2a.
-
-| Element | Wording today (in the app) | Wording from now |
-|---|---|---|
-| The text box label | "Main Activity" | **"Description"** |
-| The text box "i" (`INFO.mainActivity`) | "The work the organisation actually does, described factually. Write it as a registry or a bank would expect to read it. Some countries classify it with an official activity code." | "Who are you, and what do you do? What do you create or provide? Write it as a registry or a bank would expect to read it." (the page-1 prompts, one existing sentence kept, the code sentence dropped) |
-| The text box placeholder | "What the organisation does, in plain words" | unchanged |
-| The activity-code "i" (`INFO.activityCode`) | "The official code for the organisation's main activity: it classifies what the organisation does. Asked for when the organisation is registered, and on its annual filings where they apply." | The country's sentence of doc 34, 5.8, then "Generated from your choices; you can edit it." |
-| The code label | the country's code name ("SIC code", and so on) | one label per country, at the end of each activity (doc 34, 5.8) |
-| Organisation Name, Country, Address, Subdivision, Legal Form, "Select a legal form", "Name the legal form", the "waiting for country" hint | as in the app | **unchanged** |
-| Activity heading, slot labels, level names | none | per country (doc 34, 5.8); every level the scheme's own name |
-| Level dropdown placeholders | none | "Select an industry", "Select a division", and so on, with the country's level name (the style of "Select a legal form") (not built yet: the app shows "Select") |
-| Buttons and tooltips | none | "+ Add another activity" (the existing add-button style); tooltips "Click to add another activity", "Click to remove this activity", "Click to show all" (not built yet: the app shows a "+" with the tooltip "Add activity", and no "Show all") |
-| A long list | none | the last entry "Show all" opens the whole list, in the official order |
-| Export row, Business Plan table row, open item, completeness | "Main Activity", "Main activity", "main activity" | "Description" in the export (no open item: the Notes are optional); the Business Plan's table row becomes "Activities" |
-| Page names | page 2 "Organisation"; page 1 tile "Description" | page 2 **"Legal Entity"**; the Description tile is removed |
+Moved on 2026-11-21 to [doc 37, section 4](37-organization-fields.md#86-the-wording-of-the-organisation-tile), with the tile it designs.
 
 ## 9. Founders and Capability
 
-### 9.1 Three founder places today
-
-| Place | Holds |
-|---|---|
-| Identity 1 › Definition › Founders & Ownership (saved in the Legal Entity) | a table: name; ownership %; capital; totals; one-founder organisations hide ownership and the add and remove buttons |
-| Identity 2 › Founders Profile | one tile per founder (roles; industry experience; management experience; key achievements; skills with a type: Skill, Professional / Technical Expertise, Degree / Qualification, Certification, Licence, Membership / Other Credential); the Capability tile (two free-text boxes) is removed, its question asked on Capacity & Delivery (doc 52, section 9) |
-| Business 3 › Infrastructure › Founders | pay, frequency (Weekly, Monthly, Annually), working hours, delivery hours, start date, allowance, commission, bonus; name, id and roles are overwritten from Identity |
-
-The id is created in the Legal Entity; roles and experience are owned by the profile and shown read-only on page 3; nothing in the cost model or capacity reads the profile or the capability text.
-
-**Built differently, 2026-11-16 (owner, 20:25):** the skills the business still needs are one question on Capacity & Delivery, each skill's cover read from the Team of its activities (doc 52, section 9). The target below stays a proposal.
-
-### 9.2 Target **[D]**
-
-- **The founder's profile moves into Founders & Ownership.** **Settled 2026-10-23: the founder tiles become sub tiles inside the Founders & Ownership dialog (Ownership first, then one tile per founder)**, in place of the table: part **Ownership** (name, ownership %, capital) and part **Profile** (roles, industry experience, management experience, key achievements, skills with type, and the new questions below). The totals move to the dialog heading. The chapter "Founders & Capability" disappears; Identity 2 keeps its one chapter. **Storage is unchanged in the first step** (only the editor moves), so no saved answer migrates. **The Personal Survival Budget (built 2026-11-20; doc 48, section 13):** a founder to whom Infrastructure & Capability gives no salary has one more band on the card, the household's income and costs a month, which give the owner's minimum pay counted in Costs; saved on the Legal Entity's founder, beside the capital.
-- **Pay and hours stay on Business 3** (the cost model reads them and completeness flags a missing start date, salary or hours).
-- **Capability stays its own tile on page 2 for now** (owner, 2026-10-23); its change to a card in Business 3 › Infrastructure, beside Founders, is considered when Business is reached. The derived gap (founders' skill areas against what the offerings need) needs Business 3 and cannot sit in Identity.
-- Impacts to change together: `PageGroups.ts`, the Review "go there" places and `MISSING_PLACES`, the rail, the document and export builders that name the profile section, `SectionStatus`, the tests that read the profile editor, both examples. Risk: a founder card of ten-plus fields in a 480 px card, checked first.
-
-### 9.3 The new questions
-
-| Id | Where | Question (plain) | Component | Options | Tier |
-|---|---|---|---|---|---|
-| C1 | founder card, Profile | Which of these can you do yourself? (tick all that apply) | Ticks | L5 | Core |
-| W1 | Delivery card | Who will do the work? | Dropdown | You or your team; An outside partner or provider; An automatic system; Shared between your team and a partner | Core |
-| W2 | Delivery card | What skills does the work need? (tick all that apply) | Ticks | L5 | Core |
-| W3 | Delivery card | What could slow the work down? (tick all that apply) | Ticks | The customer's approvals; The customer's materials or access; Special equipment or software; Licences or permits; Supplier lead times; Your team's capacity; Rules or quality standards; Nothing I know of | Optional |
-| C4 | Capability card | How will you cover each gap? (one answer per gap) | Dropdown | I plan to hire; An advisor or mentor; A partner; A contractor or freelancer; Training; I will learn it myself; Not covered yet | Core |
-
-(C3, management experience, is not asked.) The only official form found, the UK Start Up Loans plan guide, asks about relevant work, education, transferable skills and gaps, in free text [PLN-07].
-
-### 9.4 What the skill areas are, and why
-
-A **skill area** is a short name for a kind of work the business needs done well (for example Marketing). The areas are the one vocabulary that joins three things that are separate today: what an **offering needs** (W2, on the Delivery card), what the **founders have** (C1, on each founder), and **how a shortage is filled** (C4). With them:
-
-- a **gap is derived**, not typed: an area an offering needs and no founder covers; the Capability card lists it and asks only how it will be covered;
-- the cover can **act**: "A partner" or "A contractor" proposes a Partner card, "I plan to hire" proposes a people-cost line, and "Not covered yet" is a Review item;
-- the question that lenders and investors ask, "is every capability the plan needs covered by someone?", which the app's help already names but no code answers, finally has an answer.
-
-Without areas, gaps and cover stay two free-text boxes read by nothing. **Where the six areas come from.** Business-plan guides of the six countries use the same headings: marketing (all); sales as its own heading (Business Queensland, GOV.UK; the SBA joins it to marketing); operations (Business Queensland "Operating plan", the Dublin Local Enterprise Office "Production and Operations"); finance (all); management and organisation (SBA, Local Enterprise Office); legal as a heading only in Business Queensland ("Legal matters and risk management"); people as a heading in Business Queensland ("Human resources plan") [PLN-01 to PLN-04]. So the six are supported in the main, with these choices that are the author's: "Production" is renamed "Delivering your product or service" because it reads oddly for a service business; finance and legal are combined; operations includes administration and technology (Queensland's "Digital services"); people and hiring sit under Leadership. They also reuse names the app already has (the activity groups Production, Marketing and Sales & Customer; Operational with the Admin Team; the partner group Business Services; "Management Experience" in the founder profile). Risk management and product development are not areas **[D]**. Approving the list is a **[D]**.
+Moved on 2026-11-21 to [the Infrastructure & Capability specification, section 12](../../specifications/business-system/page-2-infrastructure-and-capability.md#12-founders-and-capability-the-design-and-its-reasons), with the tile it designs.
 
 ## 10. Business 3 (Delivery) and Business 5 (price)
 
 ### 10.1 Delivery card
 
-Kept: Delivered (Per unit; Every month), now **derived** from O3; Hours Given (Per month; Per week), recurring only; working hours per person; Calendar Time in weeks, one-off only; Constraints (now **W3** ticks plus the note). New: **W1**, **W2**. Delivery capacity counts founders only; employees and contractors are not modelled **[D]**.
+Moved on 2026-11-21 to [doc 52, section 12](52-capacity-and-delivery-tile.md#101-delivery-card), with the tile it designs.
 
 ### 10.2 Revenue stream card (page 5)
 
-The price stays here: price, unit, "Charged", payment timing, volume. The stream already owns them, and moving them means a migration for both examples and every consumer. Changes: **"Charged" is narrowed by O3** (proposed mapping: one purchase → Per sale; project or contract → Per project; subscription, membership, retainer → Monthly, Quarterly, Annually; licence → Annually or Per sale; pay for what they use → Per sale); new:
-
-| Id | Question (plain) | Component | Options | Tier |
-|---|---|---|---|---|
-| R1 | Does your price include {tax name}? (VAT, GST or sales tax, from the Legal Entity's country) | Radio | Yes, the price includes it; No, it is added on top. Default: the price includes it when the customers are people (I3) in the UK, Ireland, Australia or New Zealand; it is added on top for businesses and in the USA and Canada | Core |
-| R2 | What is your price based on? | Dropdown | L16 (the sales and website options appear once the stage is earning, as in D1) | Core |
-
-R1 is the only answer that changes the arithmetic: the plan's VAT basis is display-only today, so a gross price typed under an "excluding VAT" plan gives wrong figures. The defaults follow the regulators (table doc 34, 5.1: TAX-01 to TAX-11). The registration thresholds could also feed a Review item (expected sales above the threshold while the consumption-tax tick is off) **[D]**. **Pricing methods** in official guidance (the US SBA, Canada's BDC, New Zealand's business.govt.nz) are cost-plus, hourly, competitor-based and value-based [PRC-01 to PRC-03]; **no official source in the six countries names a retainer or a project fee as a method**, so those are the app's own categories. A setup fee plus a recurring price needs a second charge on the stream and is **not** included **[D]**.
+Moved on 2026-11-21 to [doc 48, section 16](48-financials-and-inventory.md#102-revenue-stream-card-page-5), with the tile it designs.
 
 ### 10.3 Minimum ages to buy, by product and country (O12)
 
-> **Doc 30 owns the age limits by activity** (the kinds of business, six countries, direct or possible, with their sources) and its section 4 holds the corrections to this table and the open conflicts; where the two differ, doc 30 is right. This table is kept because it holds what doc 30 does not: the kinds of goods behind O12 with a source id ([S1] to [S24]) and a status for each cell, and what O12 does with them.
-
-What the founder needs: **if your customers include people under a certain age, you cannot lawfully sell some products to them.** In the UK the seller commits the offence even if the buyer lies, unless it took reasonable steps to check age [S1]. The table is the lookup behind O12. **Status:** *Opened* = the official page was read in full; *Excerpt* = a search summary of an official page, to be re-checked by a person; *Not found* = no official page surfaced (this does not mean there is no rule). **Only Opened and Excerpt rows from an official source may drive a Review check**; Not found cells show "check the rule for your area" and drive nothing.
-
-| Kind | UK | USA | Canada | Australia | Ireland | New Zealand |
-|---|---|---|---|---|---|---|
-| Alcohol | 18 [S1, opened] | 21 in every state [S12, excerpt] | 18 in AB, MB, QC; 19 elsewhere [S14, opened] | 18 [S17, excerpt]; rules on adults supplying a minor vary by state | 18 [S19, excerpt] | 18 [S22, excerpt] |
-| Tobacco | 18; from 1 Jan 2027 not to anyone born on or after 1 Jan 2009 [S2, opened] | 21 federal [S11, opened] | 18 federal baseline; some provinces 19 or 21 [S13, opened] | Not found (state laws) | 18; 21 from 1 Feb 2028 [S20, excerpt] | 18 [S21, excerpt] |
-| Vapes | 18 in England and Wales [S3, opened]; **all vapes and nicotine products, pouches included, 18, in force since 29 Oct 2026** (Tobacco and Vapes Act 2026 s.10); single-use vapes banned in England from 1 Jun 2025 (SI 2024/1216 [doc 30, opened]) | 21 federal [S11, opened] | 18 federal baseline; provinces may go higher [S13, opened] | Pharmacy only; under 18 needs a prescription [S16, excerpt] | 18 [S19, excerpt] | 18 [S21, excerpt] |
-| Gambling, betting, lotteries | Most 18; National Lottery 18 since 2021 [S4 opened, S5 excerpt] | Not found (state-set) | Not found (provincial) | Not found (state and territory) | 18 [S23, excerpt] | Not found |
-| Knives and blades | 18; Scotland 16 for domestic knives [S1, S6, opened] | Not found | Not found | Not found | Not found | Not found |
-| Fireworks | F2 and F3 18 [gov.uk, opened]; F1 and party poppers: no age stated on that page (the earlier "16" is unconfirmed, doc 30) | Not found | Not found | Not found | F1 not sold under 12 [S19, excerpt] | Not found |
-| Films and games with ratings | Legal ratings 12, 15, 18 for video recordings; PEGI 12, 16, 18 enforced [S1, opened] | Not found (the ESRB system is voluntary, not verified) | Not found | Enforced by state and territory law; R18+ not to under 18; MA15+ not to under 15 without a parent [S18, excerpt, NSW only] | Not found | Not found |
-| Credit, loans, BNPL | 18 [non-official excerpt] | Credit card under 21 needs own income or a co-signer [S10, excerpt] | Primary cardholder of age [FCAC, opened] | Not found | Not found | Not found |
-| Tattoos, sunbeds, fillers | Tattoo 18 [S8, opened]; sunbeds 18; Botox and fillers 18 in England [S1, opened] | Not found | Not found | Not found | Not found | Not found |
-| Pets | **12** (Pet Animals Act 1951 s.3; England, Wales and Scotland; 16 only in some councils' licence conditions) [doc 30, opened] | Not found | Not found | Not found | Not found | Not found |
-| Medicines | No legal age found; paracetamol pack limits [S7, excerpt] | Not found | Not found | Under-18 vapes need a prescription [S16] | Not found | Not found |
-| Adult content, online age checks | "Highly effective" age assurance, enforceable from 25 Jul 2025 [S15, excerpt] | Not found (state laws exist, not researched) | Not found | Social media minimum age 16 from 10 Dec 2025; platforms must take reasonable steps, no penalty on children or parents [S16b, excerpt] | Online Safety Code: self-declaration is not enough [S24, excerpt] | Not found |
-
-**Where it varies:** Canada by province (alcohol 18 or 19; tobacco and vapes can be higher); the USA by state (gambling, knives, fireworks); Australia by state and territory (classification, supply to minors); the UK by nation (Scotland's knives, England's cosmetic rules; the Tobacco and Vapes Act 2026 has separate Scottish and Northern Irish sections). **Recent changes:** UK generational tobacco ban from 1 Jan 2027 and vape sale rules in force since 29 Oct 2026; Ireland's tobacco age rises to 21 on 1 Feb 2028; Australia's social media age of 16 started 10 Dec 2025. Not covered: driving; gambling outside the UK and Ireland; knives and fireworks outside the UK and Ireland; financial products outside the UK, USA and Canada.
-
-**What O12 does with it.** (1) Ticks a kind: shows that kind's age for the main country (G3) with its status. (2) Review: "Offering X is restricted to age N in the UK; Segment Y starts at M." (3) When someone else uses it (the audience Proxy Buyers / Gifters, I7b, for example a gift) and the kind is alcohol, tobacco or vapes: a note that selling to an adult who buys for a child can still be an offence in some places. (4) For an online seller of an age-restricted kind: the age-check note. (5) For another country (G3): "check the law of that country". The sale restriction concerns the **customer** (G6); the restriction on use concerns the **user** (the second Profile, P21 "They will use it"; G25 is withdrawn).
+Moved on 2026-11-21 to [doc 43](43-offering-questions.md#103-minimum-ages-to-buy-by-product-and-country-o12), with the tile it designs.
 
 ## 11. The connection map
 
@@ -1005,14 +633,14 @@ The app must not build a segment such as "exclude a group" or "one group pays mo
 
 **Status** (2026-11-08): *built* (in the app as decided), *superseded by doc N* (the tile document decided otherwise and governs) or *open* (not built, or still to decide).
 
+The 28 rows that were *built* or *superseded* on 2026-11-21 are in [the archive](../../archive/reports/questionnaire-decisions-done-2026-11-21.md); the rows below are open.
+
 | # | Status | Change | Kind | Decision |
 |---|---|---|---|---|
 | R1 | open | Page 2 rebuilt as a journey of stage tiles and cards (section 7) | rebuild of existing layout | **[D]** yes or no; stage-first or keep channel-first; five stages or four |
 | R2 | open | The founders' profile moves into Founders & Ownership (9.2) | move, editor only | **[D]** |
 | R3 | open | Capability becomes a Business 3 tile, derived from founders and offerings (9.2, 9.4) | move and change | **[D]** Business 3, or stay in Identity |
 | R4 | open (O3 is built, doc 43; the three read-only fields are not) | "How it is bought" asked once on the Offering (O3) | merge of three questions | confirm: three read-only fields replace three inputs |
-| R5 | superseded by doc 35 and doc 36, section 2 (one choice per Segment question) | The Segment keeps ranges and the Profile keeps specifics, with a Review check (6.5) | rule | confirm |
-| R6 | built (docs 41 and 43: each box keeps its title, with its Notes) | A box that becomes a question keeps its title plus a note | wording rule | confirm for page 1 (its texts are specified as exact) |
 | R7 | open | The six skill areas (L5) | list | approve or replace |
 | R8 | open (the lists now run to L25, doc 34, 5.2) | The shared lists L1 to L16 and their plain wording | lists | approve each, or amend |
 | R9 | open | Relationship type per stage card, not per offering | model | **[D]** |
@@ -1022,52 +650,26 @@ The app must not build a segment such as "exclude a group" or "one group pays mo
 | R13 | open | Setup fee plus recurring price | scope | leave out or add a second charge |
 | R14 | open | Gender, relationship status, household and nationality; competitor website and price | scope | per item |
 | R15 | open | Identity prompts "Description" and "Positioning" shortened or derived (8.2) | wording | **[D]** |
-| R16 | superseded by R30 | (replaced by R30) | | |
 | R17 | open | The industry list is one plain list with a crosswalk to each country's scheme | list | approve |
-| R18 | superseded by doc 35 (household income as one choice, Low to High) | Income is a number range, in the organisation's currency or the customers' | rule | confirm; which currency when G3 is another country |
 | R19 | open | Tax defaults by country; a Review item at the registration threshold | rule | confirm; threshold item yes or no |
 | R20 | open | The customer model kept as one content table that generates fields, options, rules and help (6.1) | architecture | **[D]** |
 | R21 | open | The connection rules of 11.5 (28 rules) and what is not built (11.6) | rules | approve; add or remove |
 | R22 | open (no ethnicity or race list is asked, as built; the equality notice is not built) | No ethnicity or race list; country, language and need instead; the equality notice (section 12) | rule | confirm |
 | R23 | open | The Profile's values shown beside the Brand voice tile (6.1) | display | yes or no |
 | R24 | open | Digital-only channels moved down and labelled, not hidden (rule 6 of 11.5) | rule | confirm |
-| R25 | built (docs 37 and 38) | Identity choices sit beside the free text: the activities on the Organisation tile (8.5) and the market, relationship, audience and outcome questions on the Early Positioning tile (8.2); none on Mission, Vision or the Ethics tiles, which stay prose (as built) | placement | confirm |
 | R26 | open | The industry in two levels with examples, keyed on divisions; the UK activity-code edition (UK SIC 2026 is current; the app's hint cites SIC 2007) (doc 34, 5.3, 5.4) | list, data | approve the list; decide the hint |
 | R27 | open | Industry packs: the Tier 1 and Tier 2 packs first (about twelve), the others show generic examples; examples labelled "for example" (doc 34, 5.6) | scope | approve |
 | R28 | open (parked) | **Parked by the owner, 2026-10-23.** Brand starting points, when lifted: from I5 only, not from industry or price; suggestions only, with the evidence strength shown; update the colour-association help and its WCAG 2.1 note (8.3) | rule | approve |
-| R29 | built (doc 36, section 2) | The cascade: the Profile may only choose within the Segment's ticks (6.5) | rule | confirm |
 | R30 | open | The first release builds the 41 drivers; the 21 checks later; the 4 notes are never asked (Appendix B) | scope | choose |
 | R31 | open | An example under every option, for every list (doc 34, 5.5) | content | approve and complete |
-| R32 | superseded by doc 35 (one choice per question, no ranges) | A Segment is narrow: an ordered fact is a range (From, To), an unordered fact is one value, and more is another Segment; a range wider than three bands warns (6.3) | rule | confirm; the limit of three |
-| R33 | superseded by doc 35 (the age group as a term of the life stage, doc 31) | Thirteen age bands, finer below 18, with an "i" under each, and the children's notice (6.3) | list | approve the bands and the i lines |
-| R34 | superseded by doc 35 (household income, Low to High) | Household income as one of five relative steps shown with the currency symbol, computed from the country's typical income; 60, 100, 150, 200% (6.3) | list, data | approve the steps; the 100% and 150% lines are the author's |
-| R35 | built (docs 38 and 35) | Who you sell to (the Seller and Buyer Relationship, I3, which replaces G1) is asked in Identity so Business 1 opens arranged; where is asked once on the Segment (G2); I4, G9 and G11 withdrawn (6.3, 8.2). Replaces the earlier decision that the Segment owned G1 | rule | confirm |
-| R36 | superseded by doc 35 (the end user is a part of the Segment card) | The buyer (who pays) and the user (who uses) are **one Segment**: the Segment describes the buyer (G6, G7, G8, G13, G23, G14, G15), the user is a **second Profile** (P21 "They will use it"), proposed for Proxy Buyers / Gifters (I7b). **G24 "Who uses it?" and G25 are withdrawn (owner, 2026-10-25: "there is no such question")**; each side of a multi-sided market is one Segment frame; the word "consumer" is not used (6.3). Replaces the earlier proposals of a second Segment for the payer and of a Buyer part and a User part. **A buyer who is not the user is not a multi-sided market** (corrected 2026-10-25) | rule | decided 2026-10-25 |
 | R37 | open (O12 is derived, not ticked, doc 43; not built) | O12 and the minimum-age table (10.3): only rows with an official source drive a Review check; the other cells say "check the rule" | list, data | approve; have each Excerpt row re-checked before it is built |
 | R38 | open | Customers under 18 who pay: allowed, with notes and Review lines and a filter on P14; the app states no rule on contracts and gives no legal advice (6.3) | rule | confirm |
 | R39 | open (future feature, doc 33) | (multi-sided part: future feature, doc 33) I11 "Market Structure" (single-sided, or a multi-sided platform of two or more distinct groups; the owner's wording, the meaning corrected 2026-10-25) is asked once in Identity and decides whether the last Positioning question splits per side, and (with I3) that each side is one Segment frame. **Who uses it, when not the buyer, is read from I7b (Proxy Buyers / Gifters) and made a second Profile; there is no Segment question** (6.3, 8.2) | field | corrected 2026-10-25 |
 | R40 | open (future feature, doc 33) | (multi-sided: future feature, doc 33) When both parts pay (diners pay for the food, restaurants pay a commission) the Segment holds one payer part; the other payment is noted on O3 and confirmed on the Review page. Alternative: allow a payer flag on each part | rule | choose |
-| R41 | built | The Organisation tile moves to page 1 as its first tile (Organisation, Positioning, Mission, Vision); the Description tile is removed; page 2 is named **Legal Entity**: Founders & Ownership (founder tiles inside), Capability, Registrations, Expenses (8.5) | structure | confirmed 2026-10-23 |
-| R42 | superseded by doc 37 (the left column is where the organisation is, the right what it is and does) | The Organisation dialog: information on the left (Name, Country, Address, Legal Form, Description), questions on the right (the activities, each ending in its code, then Customers and Who uses it) (8.5) | layout | confirmed |
-| R43 | built (doc 37) | What the business does is up to four activities, each a complete path of dropdowns in the country's scheme ending in one final code; any combination, no "+" inside an activity; the first is the main one (doc 34, 5.7) | field | confirmed 2026-10-23 |
-| R44 | built (doc 37) | "Main Activity" is renamed "Description" and placed last; "Other" options are removed in favour of placements with an "i" | label | confirmed |
 | R45 | open | The Business Plan's "Main activity" row becomes "Activities", filled from the cascade; the box saves into the Description's value (8.5) | label, rule | confirm the label |
-| R46 | built (doc 37) | The cascade generates the code; the heading, slot labels, level names, code label and "i" switch with the organisation's country, in the registry's own words (doc 34, 5.8) | rule, labels | confirmed 2026-10-23; the wording follows the registries' own pages and the Irish statute (doc 34, 5.8 lists which were opened) |
-| R47 | built (doc 37) | A change at a higher level of the cascade resets the levels below it; the slot count is four in every country, with the "i" saying which the register uses; another country defaults to ISIC (doc 34, 5.8) | rule | confirmed 2026-10-23; the ISIC default is a judgement |
-| R48 | built (doc 37) | The generated code is shown at the end of each activity, not in one row at the bottom (8.5) | layout | confirmed 2026-10-23 |
-| R49 | built (from the UK data; provisional elsewhere) | The sufficient numbers: options shown per level and activities per parent, by level and by industry (doc 34, 5.9) | numbers | settled from the UK data; provisional elsewhere |
-| R50 | built (doc 37) | A change of country resets every activity and code; nothing is carried over even where the schemes share codes (doc 34, 5.8, rule 4) | rule | confirmed 2026-10-23 |
 | R51 | open (the audit, tile by tile) | Lists come only from official documents; the owner's wording where given; the audit of the other lists is planned tile by tile (rule 14) | rule | confirmed 2026-10-23 |
-| R52 | built (8.2a) | "Where are you with the business?" sits after the Description with the SBA's four stages (8.2, 8.5) | field | confirmed |
-| R53 | built | Storage of the activities: codes only, with the edition (8.5) | storage | confirmed |
-| R54 | built | Options appear in the official order; a shortlist keeps that order and ends with "Show all" (doc 34, 5.9, 5.10) | rule | confirmed |
-| R55 | built (doc 37) | The Organisation tile's labels: Registration Date and Opening Date (the stage follows the Opening Date, 8.2a; the Seller and Buyer Relationship and the Market Structure are on the Positioning tile, 8.2); a folded activity is the fold arrow left of the sub-label, then the code in bold and the last category under it, plain text with a marquee | wording, layout | proposed 2026-10-23; updated 2026-10-25 |
 | R56 | open | Candidate additions to lists (doc 29, former decision 3): P12 (industry reports or trade press; an AI assistant; asking the supplier's other customers), P13 (a reseller, distributor or agent; an event or trade show; an approved-supplier list or framework), P14 (**someone else pays**; direct debit; cheque or voucher), O1 (a rental or hire; a booking of seats, tickets or rooms), O3 (**free to the customer**; a commission or a share of sales), L5 (research and product development). All are the author's, from reading the lists against the statistics offices' categories | list | approve one by one; "Someone else pays" in P14 and "Free to the customer" in O3 first |
-| R57 | superseded by doc 36 (the order of the card's boxes) | The Profile's behaviour (P9, P11 to P20, P22, P24) is asked first and its specifics (P1, P5, P6) after the first draft; every check is asked only after the first draft (doc 29, section 6; former decisions 4 and 5) | order | recommended: yes |
 | R58 | open | "Copy a Profile": start a Profile from another and change what differs (doc 29, section 6; former decision 6) | feature | recommended: yes |
-| R59 | superseded by doc 35 (the order of Box 1) | G10 (the gender mix) is asked last in its box, because it only reveals the notice (doc 29, former decision 7) | order | recommended: yes |
-| R60 | superseded by doc 35 (one age group per Segment, no ranges) | A split is offered when a range mixes children and adults (G6; doc 29, section 4; former decision 8) | rule | recommended: yes |
-| R61 | superseded by doc 43 (O3's options as built) | "Free to the customer" and "A commission on sales" in O3 are proposed options, not only candidates: a funded service or a non-profit needs them (doc 29, former decision 14) | list | recommended: yes (the platform case is a future feature, doc 33) |
 
 **Where the earlier decision lists went.** Documents 27 (section 7, ten decisions) and 29 (section 9, twelve decisions) no longer hold their own lists; every item is in this table. Document 27's ten decisions are R1 (page 2 as a journey), R26 (the two-level industry list; the UK hint), R25 (Identity choices), R27 (industry packs), R28 (Brand, parked), R29 (the cascade), R30 (build the drivers), R2 and R3 (founders and capability), R22 (no ethnicity list) and R8 with R31 (the plain wording, lists and examples). Document 29's twelve are R35 (several relationships make a Segment frame each; Identity asks "Who do you sell to?"), R44 (the "Another type" of G23 and the "Other" of P6 are withdrawn, placed with an "i"), R56 to R61 (candidates, order, copy, G10 last, split, O3 options), R36 (decided 2026-10-25: no "Who uses it?"), R40 (both parts pay), R37 (O12 and the minimum-age lookup) and R38 (customers under 18 who pay).
 

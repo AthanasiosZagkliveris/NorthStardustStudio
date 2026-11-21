@@ -9,6 +9,7 @@ import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { library } from "../../../src/library/data/library.ts";
 import { placements } from "../../../src/library/data/placements.ts";
 import { KINDS } from "../../../src/library/model/types.ts";
+import { defaultsSection } from "./defaults-doc.mjs";
 
 const file = "docs/design/library/09-assets-library.md";
 const cell = value => String(value ?? "").replace(/\|/g, "/").replace(/\s+/g, " ").trim();
@@ -59,6 +60,9 @@ for (const category of ["component", "tile", "frame", "card", "field"]) {
         }
     }
 }
+
+// THE DEFAULTS (it was document 12 until 2026-11-21): the reference sizes and the default look of each component, checked against the text hierarchy and WCAG 2.5.8.
+say(...defaultsSection(library));
 
 const text = out.join("\n") + "\n";
 if (process.argv.includes("--check")) {

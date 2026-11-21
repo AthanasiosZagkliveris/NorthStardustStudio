@@ -2,7 +2,7 @@
 
 Status: **specification**, written 2026-11-12, updated 2026-11-21. The page Financials: Revenue & Pricing (Section 4) and Costs, Funding & Position (Section 5) drawn as one chapter, **Financial Foundation** (`PageGroups.ts`, `oneChapter`, `joinedChapter.ts`), of three Master Tiles that ask, Revenue Streams, Costs and Funding (section 14, the one owner of the chapter's tiles), with the Offering Economics card, the questions RV1 and FN1, the Inventory's changes IN1 to IN5 and the owner's decisions D12 to D15. Each section keeps its number, its title and its saved answer (section 11). Built in part: the page, its order and its tiles (sections 1, 2, 11 and 14); still to build, in phase 7a: the Offering Economics card (section 3), RV1 (section 4), O19 and K15 as a record (section 12), the fee on a VAT-inclusive price (section 11), FN1, the dialogs' nested sub tiles and the Cash Timeline as a Diagram tile, with IN1 to IN4; IN5 comes with phase 6 (doc 27, section 10). The dates of each step are in the log.
 
-Related: doc 40 (the form), the two Financials specifications (`specifications/business-system/page-3-*.md`), doc 5 (5.3, I7, I9, K1), `ai/layout-rules.md` (section 12, the Inventory), doc 47 (the Offering's four faces), doc 49 (Strategy reads these figures).
+Related: doc 27, section 11 (the form), the two Financials specifications (`specifications/business-system/page-3-*.md`), doc 5 (5.3, I7, I9, K1), `ai/layout-rules.md` (section 12, the Inventory), doc 47 (the Offering's four faces), doc 49 (Strategy reads these figures).
 
 **Contents**
 
@@ -415,3 +415,18 @@ Start Up Loans (n.d.-b) *Loan repayments*. Available at: https://www.startuploan
 Strategyzer (n.d.) *Value Proposition Canvas*. Available at: https://www.strategyzer.com/canvas/value-proposition-canvas (Accessed: 21 November 2026).
 
 University of Wisconsin SBDC (n.d.) *Financial projections templates*. Available at: https://projections.sbdc.wisc.edu/ (Accessed: 21 November 2026).
+
+## 16. The Revenue stream card: the first design
+
+(Moved here from doc 28, section 10.2, on 2026-11-21: the tile's design and its reasons stand with what was built. The sub-section numbers are doc 28's, so a citation such as "doc 28, 10.2" finds its text here.)
+
+### 10.2 Revenue stream card (page 5)
+
+The price stays here: price, unit, "Charged", payment timing, volume. The stream already owns them, and moving them means a migration for both examples and every consumer. Changes: **"Charged" is narrowed by O3** (proposed mapping: one purchase → Per sale; project or contract → Per project; subscription, membership, retainer → Monthly, Quarterly, Annually; licence → Annually or Per sale; pay for what they use → Per sale); new:
+
+| Id | Question (plain) | Component | Options | Tier |
+|---|---|---|---|---|
+| R1 | Does your price include {tax name}? (VAT, GST or sales tax, from the Legal Entity's country) | Radio | Yes, the price includes it; No, it is added on top. Default: the price includes it when the customers are people (I3) in the UK, Ireland, Australia or New Zealand; it is added on top for businesses and in the USA and Canada | Core |
+| R2 | What is your price based on? | Dropdown | L16 (the sales and website options appear once the stage is earning, as in D1) | Core |
+
+R1 is the only answer that changes the arithmetic: the plan's VAT basis is display-only today, so a gross price typed under an "excluding VAT" plan gives wrong figures. The defaults follow the regulators (table doc 34, 5.1: TAX-01 to TAX-11). The registration thresholds could also feed a Review item (expected sales above the threshold while the consumption-tax tick is off) **[D]**. **Pricing methods** in official guidance (the US SBA, Canada's BDC, New Zealand's business.govt.nz) are cost-plus, hourly, competitor-based and value-based [PRC-01 to PRC-03]; **no official source in the six countries names a retainer or a project fee as a method**, so those are the app's own categories. A setup fee plus a recurring price needs a second charge on the stream and is **not** included **[D]**.

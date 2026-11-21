@@ -2,7 +2,7 @@
 
 Status: **specification**, written 2026-11-12, updated 2026-11-21. Customer Engagement: the Engagement subchapter of each Segment's chapter on the page Foundation & Engagement, beside its Business Foundation subchapter in one frame of the Segment's hue (layout rules, section 13): three Master Tiles, Channels & Journey, Customer's Relationship and Sales Forecast, the Offering's four faces and the journey rebuild, with the owner's decision D6. The section keeps its number and its saved answer, keyed by the Segment's id. Built in part: the tiles (section 3) and the answers the page reads from the Foundation (the suggested channels, the suggested relationship type, the proposed Demand rows; section 3, "Built"); still to build: the rest of step two (the stage-first Journey, the channel card with J1 and J2, the goals reading Demand, the cost per customer), in phase 5 of the order of work (doc 27, section 10). The dates of each step are in the log.
 
-Related: doc 28 (section 7, the journey and its questions J1, J2, J3, J7), doc 40 (the form), the Customer Engagement specification (`specifications/business-system/page-1-channels.md`), `ai/layout-rules.md` (sections 8 and 11), doc 5 (5.3, C4, C7, C8), doc 48 (the Offering Economics card), doc 46 (the Body Language draft reads this page's relationship type, J3).
+Related: doc 28 (section 7, the journey and its questions J1, J2, J3, J7), doc 27, section 11 (the form), the Customer Engagement specification (`specifications/business-system/page-1-channels.md`), `ai/layout-rules.md` (sections 8 and 11), doc 5 (5.3, C4, C7, C8), doc 48 (the Offering Economics card), doc 46 (the Body Language draft reads this page's relationship type, J3).
 
 ## 1. What the page holds today
 
@@ -149,3 +149,85 @@ The channel card's questions are worded in doc 28, section 7.3, with their optio
 - **The channels that bring the customers as tiles** (owner, 2026-11-18 10:38): in an Offering's Sales Forecast dialog, each channel its tile (the dialog's card list, three in a row: its name, its group), pressed to open that channel; the line asking to choose a channel stays while a source has none.
 - **The channels that bring the customers are each source's** (owner, 2026-11-18 12:41: "remove the Channels That Bring Them part. This information should be on the source Tiles, and Channels That Bring Them in their floated cards"): the Offering's Sales Forecast dialog holds Expected Sales and the source tiles; each source tile lists its channels, one a line, then what it gives; a source's floating card ends with a Channels That Bring Them box, one band a channel -- its name a link that opens it, its group beside it -- (18:01: "I do not want the Channels that bring them as Tiles"). A group's source lists its channels there alone. This replaces the dialog's channel tiles of the 10:38 round.
 - **A Customer Source's card without dead space** (owner, 2026-11-18 10:38): its pickers and figures fill their column to the card's content edge (no longer as narrow as their content), and its Channels, read only, take the card's width under their label.
+
+## 6. The journey rebuild: the design and its reasons
+
+(Moved here from doc 28, section 7, on 2026-11-21: the tile's design and its reasons stand with what was built. The sub-section numbers are doc 28's, so a citation such as "doc 28, 7.3" finds its text here.)
+
+
+### 7.1 Why it changes
+
+Today page 2 starts from channels (13 category tiles), then a relationship table, then a demand table; it asks the user to invent the channels. After page 1 the app already knows where the customers look (P11), how they compare (P12), how they buy and pay (P13, P14), how comfortable they are online (P16), how the offering reaches them (O6) and what help they want and get (P20, O7). So the page can **propose** a journey and ask the user to confirm and complete it. Two of its three sections are also tables, not tiles (document 5, item 5.3).
+
+### 7.2 Target structure (per Segment) **[D]**
+
+| Chapter | Tile | Opens | Cards |
+|---|---|---|---|
+| **Journey** | **Discover** | the channels used at this stage | a **stage card** per channel, and above them tiles of **suggested** channels, each with an Add button |
+| | **Evaluate** | the same | the same |
+| | **Purchase** | the same | the same |
+| | **Deliver** | the same | the same |
+| | **Support & Follow Up** | the same | the same |
+| **Conversion** | **Sales Forecast** | one card per Offering | the **demand card** |
+| | **Channel Costs** | a read-only table of channel expenses and the cost per customer | none |
+
+The stage names are the app's own. Official and university pages describe the journey as New Zealand's business.govt.nz does (trigger, researching, shortlisting, choosing, buying, follow-up) [CHN-01] and the Open University (problem recognition, information search, evaluation of alternatives, choice, post-purchase evaluation) [CHN-02]: "Discover" is the trigger or problem recognition, "Evaluate" is researching and shortlisting, "Purchase" is choosing and buying, "Support & Follow Up" is follow-up; **"Deliver" has a stage of its own in none of them** (it sits inside buying or after-purchase), **but the Business Model Canvas, which the app's channels follow, gives it one**: its five channel phases are Awareness, Evaluation, Purchase, Delivery and After sales [CHN-09], the app's five stages one for one; and the owner's page 2 specification (section 12) says "Do not combine Purchase and Delivery". It is kept because a business plans delivery separately. **Decided (owner, 2026-11-03): the five stages stay, under the app's names: Discover (stored `discovery`), Evaluation, Purchase, Delivery, Support & Follow Up**; where this document writes "Evaluate" or "Deliver" it means Evaluation and Delivery. Under each stage name the tile shows one plain line ("How customers first hear about you", "How they compare you", "How they buy", "How they receive it", "How you help afterwards"). The 13 channel categories are no longer tiles; the category becomes a field on the stage card, limited to the categories usual for the stage (the app already stores the usual stages of each category). This reverses today's order (channel, then stage, then action). It is the largest change of the plan, and a card is 480 px wide: the stage card is prototyped and run through the layout check before anything else is built on it.
+
+### 7.3 Stage card
+
+| Field | Component | Status | Options |
+|---|---|---|---|
+| Channel category | Dropdown (combo) | keep, filtered by stage | the usual categories of the stage (L6) |
+| Subchannel | Dropdown (combo) | keep | the category's list |
+| Links | List | keep | |
+| Offerings served | Ticks ("All offerings" first) | keep | |
+| **J1** Are you using this channel yet? | Dropdown | new, Core | Yes, it is active; Set up but not launched; Planned; Testing it; I have stopped using it |
+| **J2** What do you do here? | Dropdown | new, Core | by stage (below); the existing free action lines stay as a note |
+| **J3** How do you keep the relationship? | Dropdown | keep (the relationship type), **suggested** (7.4) | Do-it-yourself help (Self-Service); Personal help (Personal Assistance); A dedicated person or team (Dedicated Support); A customer community (Community); Automatic help (Automated Service) |
+| Approach | Text | keep (a note) | |
+| **J7** What should this achieve? | Ticks | keep (Get, Keep, Grow), **pre-ticked** (Discover, Evaluate, Purchase: Get; Deliver and Support: Keep; renewal or repeat: Grow) | Win customers (Get); Keep them (Keep); Grow what they buy (Grow) |
+| Expenses (+ Add expense menu) | menu | keep | |
+
+**J2 by stage (author's draft; to be approved):**
+
+| Stage | Options |
+|---|---|
+| Discover | Publish content; Run advertising; Attend or host events; Ask for referrals; Be listed or featured; Contact people directly; Other |
+| Evaluate | Share information; Offer a demo, trial or sample; Send a quote or proposal; Show proof (case studies, reviews); Answer questions; Other |
+| Purchase | Take an online order; Send an invoice or payment link; Sign a contract; Take a booking; Take payment in person; Other |
+| Deliver | Send files; Ship the order; Deliver in person; Deliver online or live; Get the customer started; Other |
+| Support & Follow Up | Answer questions; Ask for feedback; Remind them to renew; Offer an upgrade or add-on; Run a community; Other |
+
+**Relationship type per card.** Today the relationship is set per offering. In the journey it is set per stage card (a customer may help themselves while comparing and be assisted after buying), and applies to the offerings that card serves **[D]**.
+
+### 7.4 The proposals (rules; all suggestions the user can ignore)
+
+| Stage | Proposed from | Rule |
+|---|---|---|
+| Discover | P11, G2 | The ticked categories and subchannels; for a local scope the In Person and Community categories come first |
+| Evaluate | P12 | Your website → Website; Online reviews / ratings, Comparison sites → Marketplace or Website; A demo, trial or sample → Online / Live (digital) or In Person (physical); A quote or proposal → Email; What other people recommend → Referral & Affiliates; A meeting or call → Online / Live |
+| Purchase | P13 | Online checkout → Website (Online Store) or Marketplace; An invoice → Direct Payment (Invoice); In person → In Person; By phone or email → Email; A contract or tender → Direct Payment (Invoice); By booking → Website (Booking page) |
+| Purchase (payment) | P14 | Debit or credit card → Direct Payment (Card); Cash → Cash; Bank transfer → Bank Transfer; Mobile wallet or payment app → Payment Link (the nearest existing subchannel **[D]**); Invoice → Invoice; Buy now, pay later → no subchannel (a note) |
+| Deliver | O6 | Digital delivery → File Delivery; Online or live → Online / Live; In person → In Person; Shipped → Physical Delivery; They collect it → In Person (Pickup); Ongoing online access → Website |
+| Support & Follow Up | O7, P20 | Do-it-yourself or automatic help → Website, Automated Email; Personal help → Email, Online / Live; A dedicated person → Online / Live; Community → Community |
+| Relationship type (J3) | P20 and O7 | They work it out themselves with no, guide-only or automatic help → Do-it-yourself or Automatic; a little guidance with personal help when needed → Personal help; a formal demonstration with a dedicated person → A dedicated person or team |
+
+Age is not used to pick a channel by rule (section 11.4). The channel categories match the lists in official small-business guidance [CHN-03, CHN-04].
+
+### 7.5 Demand card (one per Offering)
+
+Rows are no longer typed from a source list: **one row is proposed for each Discover-stage channel that serves the offering**, plus "Repeat customers" for a recurring offering and "Contracts or tenders" when P13 includes a contract or tender or P22 says so. The six existing sources keep their formulas; a channel category maps to one of them (Referral & Affiliates → Referrals; Marketplace, In Person, Retail & Wholesale → Marketplace or walk-in; Website, Social Media, Email, Community, Online / Live → Sales funnel).
+
+| Field | Component | Status | Options |
+|---|---|---|---|
+| Customers Buy | Dropdown | keep, **derived** from O3 | One sale at a time; Every month, until they cancel |
+| Cancel / Month (%) | Number | keep, recurring only | |
+| Row: channel or source | Dropdown | keep, **proposed** | Referrals; Sales funnel; Repeat customers; Contracts or tenders; Visitors (formerly "Marketplace or walk-in", its id `marketplace` kept; 2026-11-14); Other |
+| Row: Estimated | Dropdown | keep | Enter a figure; Calculate |
+| Row: numbers (visitors, prospects, qualified %, buy %, bids, won %, units, sales) | Number | keep | |
+| **D1** What is this estimate based on? | Dropdown, per row | new, Core | L16 without "My costs plus a margin" |
+| Basis, Assumptions | Text | keep (notes) | |
+| Channels That Bring Them | Ticks | **replaced** by the rows | |
+| Expected Sales | read-only | keep | |
+
+`demand.channelIds` is finally read: spend on a channel divided by the customers its row brings gives the **cost per customer** shown in the Channel Costs tile. The app proposes **no default conversion percentage and no sales-cycle length** (11.6).

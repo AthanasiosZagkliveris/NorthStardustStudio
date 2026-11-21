@@ -2,7 +2,7 @@
 
 Status: **specification**, written 2026-11-09, updated 2026-11-21. How the Identity System's six texts (Mission, Vision, Values, Principles, Philosophy, Manifesto) become one chapter, "Purpose & Beliefs", of three pair tiles, and, for each text, the guiding questions, the control, the length, the "i" and the connections. **Built 2026-11-09** as the owner decided (section 6): the chapter, its three pair tiles, the page name and the "i" of the six texts; the saved keys stay as they are. Not built: the Positioning note beside the Mission (section 6, 7) and the codes in the register (section 5).
 
-Related: doc 40 (the form of a tile document), doc 39 (what an "i" says), doc 28 (4.1, the wording rules; 8.1, the page as built; 8.6a, the Review), doc 38 (Positioning, which comes before), doc 44 (the questions register and the code rule), doc 2 (the source rule).
+Related: doc 27, section 11 (the form of a tile document), doc 39 (what an "i" says), doc 28 (4.1, the wording rules; 8.1, the page as built; 8.6a, the Review), doc 38 (Positioning, which comes before), doc 44 (the questions register and the code rule), doc 2 (the source rule).
 
 ## 1. Purpose and scope
 
@@ -48,7 +48,7 @@ The keys are made from the column titles of `src/assets/system-answers/01_Identi
 
 ## 3. The six texts
 
-Each entry follows doc 40. The "i" follows doc 39, 3.2: the guiding questions first (the owner's prompts, revised here and approved, section 6, 3; the app says them in its affirmative voice), then how to answer, then one example; each point at most 160 characters. The examples use the project's example business Lumen & Loom (a textile maker selling gifts).
+Each entry follows doc 27, section 11. The "i" follows doc 39, 3.2: the guiding questions first (the owner's prompts, revised here and approved, section 6, 3; the app says them in its affirmative voice), then how to answer, then one example; each point at most 160 characters. The examples use the project's example business Lumen & Loom (a textile maker selling gifts).
 
 ### 3.1 Mission (proposed code PB1)
 
@@ -212,7 +212,7 @@ Added 2026-11-12 (owner approved, D1). In the Mission & Vision dialog, in the Vi
 
 ## 5. Codes
 
-The Identity texts have no codes in the register (doc 44 lists the Foundation's cards only). Under the code rule of doc 40 (permanent ids; the next free code), the card takes a new prefix, **PB** (Purpose & Beliefs), not used by any card:
+The Identity texts have no codes in the register (doc 44 lists the Foundation's cards only). Under the code rule of doc 27, section 11 (permanent ids; the next free code), the card takes a new prefix, **PB** (Purpose & Beliefs), not used by any card:
 
 | Code | Text | Saved key | Status |
 |---|---|---|---|
