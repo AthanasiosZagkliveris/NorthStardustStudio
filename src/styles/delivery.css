@@ -7,7 +7,7 @@
    inline-label styles (conversation.css); only what is new here.
 ========================================================== */
 
-/* A few digits: the XS step (docs/ai/layout-rules.md, sizes). */
+/* A few digits: the XS step (docs/ai/09-layout-rules.md, sizes). */
 .delivery-number.interview-input{
 
     max-width:var(--control-xs);

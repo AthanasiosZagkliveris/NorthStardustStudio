@@ -9,7 +9,7 @@ import type { SourceId } from "../framework/engine/Sources.ts";
  * page).
  *
  * This list is the owner of what an app term means TO THE APP USER. The
- * developers' glossary (docs/app/glossary.md) says where each one is
+ * developers' glossary (docs/app/03-glossary.md) says where each one is
  * decided in the documents; where the two meet, the document decides and
  * this sentence follows it. The terms the app user coins (the names of
  * their Segments, Profiles, Offerings ...) are not here: they are read

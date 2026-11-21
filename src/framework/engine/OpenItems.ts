@@ -287,7 +287,7 @@ export function openItemsOf(
                     named.filter(segment => !segment.offerings.some(offering => !blank(offering.name)) && !segment.competitors.some(competitor => !blank(competitor.name))).forEach(segment =>
                         add(segment.name.trim() + ": a named Offering and a named competitor or alternative.", { key: key(sectionSegment(BUSINESS_FOUNDATION_SUBSECTIONS[0])), anchors: [segment.id] }));
                 }
-                // What the later pages read of each Offering (specifications/business-system/README.md): its Type (Page 3 hides stock for a service) and its terms, O3 (Pages 2, 3 and 5 start from them).
+                // What the later pages read of each Offering (specifications/03-business-system/README.md): its Type (Page 3 hides stock for a service) and its terms, O3 (Pages 2, 3 and 5 start from them).
                 foundation.segments.forEach(segment => segment.offerings.forEach((offering, at) => {
                     const name = offering.name.trim() || "Offering " + (at + 1);
                     const place = { key: key(sectionSegment(BUSINESS_FOUNDATION_SUBSECTIONS[2])), anchors: [offering.id] };

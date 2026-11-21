@@ -10,7 +10,7 @@ This document is the standard a table, a tile, a card, a floating card, a dialog
 2. **Open it as the owner does**: in a browser, from the real example (Lumen & Loom, and Quillfield where it differs), reached through the pages, at 1440 wide, in the light mode first. A test render is not a look.
 3. **Take the picture** before any change, in light and dark (and sepia where the subject has its own ground).
 4. **Measure, do not read by eye.** Every number in sections 3 to 8 is measured from the running page (computed style and box), not guessed from a picture. A difference of more than 1px, or of a token, is a finding.
-5. **Compare with the same kind elsewhere.** A control, a heading, a card or a pop-up is correct when it is the same as the other of its kind (rule 8 of `layout-rules.md`: a difference is a defect). Measure one other of the kind beside it.
+5. **Compare with the same kind elsewhere.** A control, a heading, a card or a pop-up is correct when it is the same as the other of its kind (rule 8 of `09-layout-rules.md`: a difference is a defect). Measure one other of the kind beside it.
 6. **Write the findings** as in section 11, fix them by the rules of section 2, and measure again.
 
 ## 2. The rules of the work
@@ -78,7 +78,7 @@ Measure: the box rectangles of the two neighbours; the gap is the distance betwe
 
 A dropdown is **one** component for one choice (`OptionPicker`) and **one** for several (`MultiPicker`): its trigger, its chevron, its list (no stroke, the raised edge and the drop shadow; options 43px; the chosen one bold) are the same on every page. A dropdown is never drawn as a button or as an input.
 
-Reactions (Interface 5, `layout-rules.md` section 6): every control that can has **hover**, **focus**, **pressed** and **disabled**; measure each state's `boxShadow`, `backgroundColor`, `color`, `textShadow` against the kind's row and against a second control of the kind. A control that is not a button does not look like one, and a button does not look like a field.
+Reactions (Interface 5, `09-layout-rules.md` section 6): every control that can has **hover**, **focus**, **pressed** and **disabled**; measure each state's `boxShadow`, `backgroundColor`, `color`, `textShadow` against the kind's row and against a second control of the kind. A control that is not a button does not look like one, and a button does not look like a field.
 
 ## 6. Colour: what follows what
 
@@ -132,7 +132,7 @@ Then: **what was fixed** (with the component or the token used), **what was meas
 
 ## 12. The measuring tools
 
-- **The automatic check**: `npm run check:layout` (0 new findings; it measures widths, gaps, alignment, the reactions of each kind and the ×); `npm run check:layout:wide` adds the three reading modes and the screen classes; `npm run check:card` audits one floating card of questions (the pattern: `layout-rules.md`, section 8, "A floating card of questions"). How to run each: `toolchain-and-verification-playbook.md`.
+- **The automatic check**: `npm run check:layout` (0 new findings; it measures widths, gaps, alignment, the reactions of each kind and the ×); `npm run check:layout:wide` adds the three reading modes and the screen classes; `npm run check:card` audits one floating card of questions (the pattern: `09-layout-rules.md`, section 8, "A floating card of questions"). How to run each: `03-toolchain-and-verification-playbook.md`.
 - **The lints**: `npm run lint:css` (dead and shadowed rules), `npm run lint:styles` (colours, sizes and values written in rules), `npm run lint:controls` (a second look set on a shared control), `npm run tokens:check` (contrast), `npm run docs:check`, `npm run tables:check`, `npm run library:check`.
 - **The tests**: the whole suite; a test that reads a stylesheet is a guard on a criterion above.
 - **The browser**: a script that opens the page, drives the state, and prints the computed style and the box of each element under review; the pictures before and after.
@@ -140,7 +140,7 @@ Then: **what was fixed** (with the component or the token used), **what was meas
 ## 13. The checklist: what to tick when reviewing a table, tile, card, page or control
 
 
-Read this before reviewing or changing anything on screen, and tick every line that applies before saying "done"; sections 1 to 12 give the standard behind each line. Each line is here because it was missed once. The rules it points to are in `layout-rules.md` and, in `../design/interface/`, Interface 5 (the reactions), Interface 1 (the shared components) and Interface 8 (the tooltips).
+Read this before reviewing or changing anything on screen, and tick every line that applies before saying "done"; sections 1 to 12 give the standard behind each line. Each line is here because it was missed once. The rules it points to are in `09-layout-rules.md` and, in `../design/interface/`, Interface 5 (the reactions), Interface 1 (the shared components) and Interface 8 (the tooltips).
 
 ### 13.0 Before looking
 
@@ -196,11 +196,11 @@ Read this before reviewing or changing anything on screen, and tick every line t
 
 ### 13.7 Proof before "done"
 
-1. The steps of `toolchain-and-verification-playbook.md`, in its order: typecheck, the whole test suite, the checks (`tokens:check`, `lint:styles`, `lint:controls`, `lint:css`, `docs:check`, `tables:check`, `library:check`), the build, the layout check (0 new findings), and `npm run check:card` for a floating card of questions.
+1. The steps of `03-toolchain-and-verification-playbook.md`, in its order: typecheck, the whole test suite, the checks (`tokens:check`, `lint:styles`, `lint:controls`, `lint:css`, `docs:check`, `tables:check`, `library:check`), the build, the layout check (0 new findings), and `npm run check:card` for a floating card of questions.
 2. **The pictures after**, next to the pictures before, in the browser: say what was looked at and what was not (dark and sepia, the widths, the other pages that use the same component).
 3. **Documents**: step 7 of the playbook (the log row, the rule, the examples, `npm run docs:index`) and the component's state in Interface 1.
 4. **Report per request**, one line each: what was done, how it was checked, what is left. Never "done" for what was not looked at.
-5. **Commit** only what was changed; no push, merge or tag without the owner's yes (`ai-collaboration-rules.md`).
+5. **Commit** only what was changed; no push, merge or tag without the owner's yes (`01-ai-collaboration-rules.md`).
 
 ### 13.8 What the headless browser cannot see
 

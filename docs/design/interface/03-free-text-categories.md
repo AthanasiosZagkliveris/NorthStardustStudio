@@ -24,7 +24,7 @@ Name cells, numbers, dates, colours and search boxes are not free texts (they ha
 
 ## What every category shares
 
-- The one look of a cell you write into: the same edge, ground and focus ring (rule 13 in `layout-rules.md`), 18px text, the text left-aligned.
+- The one look of a cell you write into: the same edge, ground and focus ring (rule 13 in `09-layout-rules.md`), 18px text, the text left-aligned.
 - A holder grows with its text from its opening rows to its maximum, and never changes the layout beside it.
 - A character count under the holder only when it is within 20% of its limit.
 

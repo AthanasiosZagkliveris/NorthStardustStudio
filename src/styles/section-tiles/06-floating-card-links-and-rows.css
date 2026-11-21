@@ -262,7 +262,7 @@ body:has([data-pair]) .section-tile-overlay.floating-overlay.business-foundation
 
 }
 
-/* ---------- THE MARKS OF A TILE'S LIST LINES (docs/ai/layout-rules.md, "Marks on the lines of a tile's list") ---------- */
+/* ---------- THE MARKS OF A TILE'S LIST LINES (docs/ai/09-layout-rules.md, "Marks on the lines of a tile's list") ---------- */
 
 /* The teal of a Customer Channel's cards (CHANNEL_TILE_HUE, 172). */
 :root {

@@ -27,7 +27,7 @@ export { type FounderResponsibility, type BusinessCapabilityValue, type Business
    Business System -- Infrastructure & Capability (Page 3)
 
    See AnswerType.BusinessCapability, and the specification at
-   docs/specifications/business-system/page-2-infrastructure-and-capability.md.
+   docs/specifications/03-business-system/04-infrastructure-and-capability.md.
 
    Two sections holding the same three subsections:
 

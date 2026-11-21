@@ -15,7 +15,7 @@ const names = Object.keys(import.meta.glob("../styles/*.css")).map(path => path.
 const sheets = names.map(name => ({ name, text: sheetSource(name) }));
 const defs = collectDefinitions(sheets);
 // (a built path, not a literal: Vite turns new URL("literal", import.meta.url) into an asset URL)
-const RULEBOOK = "docs/ai/layout-rules.md";
+const RULEBOOK = "docs/ai/09-layout-rules.md";
 const rulebook = readFileSync(new URL("../../" + RULEBOOK, import.meta.url), "utf8").replace(/\r\n/g, "\n");
 
 describe("the token values of the documents", () => {

@@ -134,7 +134,7 @@
 
 }
 
-/* A NAMED EXCEPTION (docs/ai/layout-rules.md): a colour or typeface
+/* A NAMED EXCEPTION (docs/ai/09-layout-rules.md): a colour or typeface
    card's body stands under its NAME BOX, from the box's left edge to
    its right edge, not from the number's x to the card's edge. The card
    is a grid whose head shares its columns (arrow, number, name, x):

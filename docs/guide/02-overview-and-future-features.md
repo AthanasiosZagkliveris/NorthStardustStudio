@@ -26,7 +26,7 @@ The **Workbook** records what the answers work out: the Business Documents (Busi
 
 ## 2. The guide
 
-How a founder uses the app, step by step, is [the user guide](user-guide.md) (the one owner): the Organisations screen (section 2), the Systems and their pages (section 3), the header's Menu and Workbook (section 4), the Workbook (section 4.1). This document does not repeat it.
+How a founder uses the app, step by step, is [the user guide](01-user-guide.md) (the one owner): the Organisations screen (section 2), the Systems and their pages (section 3), the header's Menu and Workbook (section 4), the Workbook (section 4.1). This document does not repeat it.
 
 ## 3. The specifications
 
@@ -34,15 +34,15 @@ Each page and screen has its specification under `docs/specifications/`:
 
 | Part of the app | Specification |
 |---|---|
-| Identity System | [identity-system](../specifications/identity-system/page-1-definition.md) |
-| Brand System | [brand-system](../specifications/brand-system/page-1-brand.md) |
-| Business System | [business-system](../specifications/business-system/README.md): page 1, Foundation & Engagement; page 2, Infrastructure & Capability; page 3, Financials (its tiles: Questions 20, section 14) |
-| Strategy System | [strategy-system](../specifications/strategy-system/page-1-situation-and-direction.md) |
-| The Workbook | [workbook](../specifications/workbook/README.md), a file for each section |
-| Settings, Appearance (the reading modes), Focus | [settings](../specifications/settings/README.md), [Global Settings](../specifications/settings/README.md#the-global-settings-screen) |
-| The Inventory | [inventory](../specifications/inventory/README.md) |
+| Identity System | [identity-system](../specifications/01-identity-system/01-definition.md) |
+| Brand System | [brand-system](../specifications/02-brand-system/01-brand.md) |
+| Business System | [business-system](../specifications/03-business-system/README.md): page 1, Foundation & Engagement; page 2, Infrastructure & Capability; page 3, Financials (its tiles: Questions 20, section 14) |
+| Strategy System | [strategy-system](../specifications/04-strategy-system/01-situation-and-direction.md) |
+| The Workbook | [workbook](../specifications/06-workbook/README.md), a file for each section |
+| Settings, Appearance (the reading modes), Focus | [settings](../specifications/07-settings/README.md), [Global Settings](../specifications/07-settings/README.md#the-global-settings-screen) |
+| The Inventory | [inventory](../specifications/05-inventory/README.md) |
 
-The questions are in `docs/design/questions/` (their register: Questions 6); the layout is the rulebook's (`docs/ai/layout-rules.md`).
+The questions are in `docs/design/questions/` (their register: Questions 6); the layout is the rulebook's (`docs/ai/09-layout-rules.md`).
 
 ## 4. How the answers connect
 

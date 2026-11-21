@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 /*
-    NO PAGE IS WRITTEN WITH A FIXED NUMBER (ai-collaboration-rules.md, "Read the app's structure by what a thing is"; owner, 2026-11-19): a text the app shows
+    NO PAGE IS WRITTEN WITH A FIXED NUMBER (01-ai-collaboration-rules.md, "Read the app's structure by what a thing is"; owner, 2026-11-19): a text the app shows
     names a page or a chapter by its name ("1. Identity System → Definition & Purpose → Founders & Ownership"), never by a number written into it
     ("→ 3. Legal Entity", "under 2. Activities"): a page's number is its place in the rail, worked out when it is drawn, and it moves when pages are joined. A
     System keeps its number, which is its id ("1. Identity System"). Comments are not texts the app shows.

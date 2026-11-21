@@ -99,7 +99,7 @@ function themeState(): string {
 }
 
 /**
- * THE MENU (docs/ai/layout-rules.md, section 6, "The Menu"; owner, 2026-11-21 00:56 UTC+2: "I want to place the global settings, Calendar, Notes, Focus,
+ * THE MENU (docs/ai/09-layout-rules.md, section 6, "The Menu"; owner, 2026-11-21 00:56 UTC+2: "I want to place the global settings, Calendar, Notes, Focus,
  * Search … under a common umbrella"; 23:44: "Include the Reading Mode"; his notes of 03:40: "MENU" with the settings symbol, no inner title, "Appearance"
  * a row with a side menu, each tool's symbol on its row): ONE header button, Menu, its icon and word (the icon alone in a narrow header), opening the
  * dropdown card every menu a button opens has (MenuOption rows, usePopupDismiss): Search (Ctrl+K beside it), Notes (the count of notes), Calendar, Focus

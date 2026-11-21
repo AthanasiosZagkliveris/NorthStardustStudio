@@ -193,7 +193,7 @@ Ordering of work (decided): the **Tile System** is finished first (T1–T2), the
 
 #### 5.5.4.2 Section 3 · Infrastructure & Capability
 
-The Delivery card as built is described in the Infrastructure & Capability specification (specifications/business-system/page-2-infrastructure-and-capability.md, section 7).
+The Delivery card as built is described in the Infrastructure & Capability specification (specifications/03-business-system/04-infrastructure-and-capability.md, section 7).
 
 | Id | Requirement | P | State |
 |---|---|---|---|
@@ -346,10 +346,10 @@ For the owner to decide, or work not done. Each item leaves this list when done 
 
 **Added by the review of the docs folder (2026-10-29)**
 - The Shared Workspace proposal (`docs/archive/proposals/shared-workspace.md`) has no item in this list; its place is to be decided.
-- `docs/ai/layout-rules.md`, section 11 ("The Engagement Strategy"), says every Journey Stage band starts folded; the code (`useItemFolds(true)` in `useEngagementState.tsx`) starts them open (the comment there says closed) and a test expects no fold arrow: the sentence and the comment are stale.
-- `docs/ai/layout-rules.md`: section 8 says a dropdown list is exactly the width of its cell, section 10 says it is as wide as its longest option; the tile title in section 8 (a multi-line title) disagrees with `.section-tile-title` (nowrap, ellipsis). `tools/scripts/layout-check/run.mjs` cites a rulebook heading "Run the check" that does not exist.
+- `docs/ai/09-layout-rules.md`, section 11 ("The Engagement Strategy"), says every Journey Stage band starts folded; the code (`useItemFolds(true)` in `useEngagementState.tsx`) starts them open (the comment there says closed) and a test expects no fold arrow: the sentence and the comment are stale.
+- `docs/ai/09-layout-rules.md`: section 8 says a dropdown list is exactly the width of its cell, section 10 says it is as wide as its longest option; the tile title in section 8 (a multi-line title) disagrees with `.section-tile-title` (nowrap, ellipsis). `tools/scripts/layout-check/run.mjs` cites a rulebook heading "Run the check" that does not exist.
 - The Finance dynamic field points at the retired Revenue Model page (recorded in the specifications README only).
-- Section 6 of `layout-rules.md` (Interactions) holds rows that Interface 5 lacks (a parent's status line, a child's name, the Add button, a text holder): move them into Interface 5, then keep one text.
+- Section 6 of `09-layout-rules.md` (Interactions) holds rows that Interface 5 lacks (a parent's status line, a child's name, the Add button, a text holder): move them into Interface 5, then keep one text.
 - `src/library/assets/floatingCard.ts` line 86 still cites "docs/design/05, 5.8"; the generated section 19 of the rulebook repeats it.
 
 **Left by the first-version build of the Organisation and Positioning tiles (2026-10-29)**

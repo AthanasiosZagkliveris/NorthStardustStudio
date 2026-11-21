@@ -1,6 +1,6 @@
 # Layout assets: the numbers of each shared part
 
-Status: **rules**, written 2026-11-11, generated. The section of the layout rulebook (`layout-rules.md`, section 19) on the assets, in a file of its own so the rulebook stays short to read. Everything between the markers is written from the asset contracts in `src/library` by `npm run docs:assets`; do not edit it by hand.
+Status: **rules**, written 2026-11-11, generated. The section of the layout rulebook (`09-layout-rules.md`, section 19) on the assets, in a file of its own so the rulebook stays short to read. Everything between the markers is written from the asset contracts in `src/library` by `npm run docs:assets`; do not edit it by hand.
 
 <!-- generated:assets (from src/library; do not edit; run npm run docs:assets) -->
 

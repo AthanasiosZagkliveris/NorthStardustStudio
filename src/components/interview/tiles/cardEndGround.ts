@@ -1,7 +1,7 @@
 import { useEffect, type RefObject } from "react";
 
 /**
- * THE CARD'S END TAKES ITS LAST BAND'S COLOUR (owner, 2026-11-09: "The end of all the cards' colour should follow the last field's colour"; docs/ai/layout-rules.md, the tile and card pattern folded in on 2026-11-21,
+ * THE CARD'S END TAKES ITS LAST BAND'S COLOUR (owner, 2026-11-09: "The end of all the cards' colour should follow the last field's colour"; docs/ai/09-layout-rules.md, the tile and card pattern folded in on 2026-11-21,
  * "One band pattern"). A card or a dialog whose bands end above its own foot (its padding, the room a dialog keeps under its content) is painted from the foot of its LAST band
  * down to its end in that band's colour: a tinted last band runs to the card's end, an untinted one leaves the card's own ground. The bands are the `legal-entity-org-section`s, the rows of a Legal card and
  * a founder's bands (owner, 2026-11-11: the Founder card's end in its Skills band's colour); the last is the one that ends lowest (two side by side end together). The colour drawn is said in `data-end-ground` for the card audit.
@@ -12,7 +12,7 @@ import { useEffect, type RefObject } from "react";
  * painted from the middle of that line down, under the band too, and the band itself is drawn clear (`data-end-band` keeps its colour): the one edge is under the line.
  */
 /**
- * THE BANDS OF A CARD, in one place (docs/ai/layout-rules.md, the tile and card pattern folded in on 2026-11-21, "One band pattern"): an Organisation section, a Legal card's row, an Expense card's row,
+ * THE BANDS OF A CARD, in one place (docs/ai/09-layout-rules.md, the tile and card pattern folded in on 2026-11-21, "One band pattern"): an Organisation section, a Legal card's row, an Expense card's row,
  * a founder's band and a Brand inventory's row (its Notes the last). Every band draws the same tokens (--tint-row-band, --space-cell, --band-divider); a new kind of band is added here, and the layout check
  * ("a card ends in its last band's colour", measured from the colours drawn) fails on any band this list does not know.
  */

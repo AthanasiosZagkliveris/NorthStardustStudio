@@ -67,7 +67,7 @@
 
 }
 
-/* PAGE 3 SCROLLS IN ITS CARDS (docs/ai/layout-rules.md, "Section tiles and dialog"):
+/* PAGE 3 SCROLLS IN ITS CARDS (docs/ai/09-layout-rules.md, "Section tiles and dialog"):
    with the two cards side by side (the page card 1100px wide or more: a window from
    1212px) the page does not scroll. The app header, the page heading with its
    underline and the footer stay where they are; each card keeps its title row (its

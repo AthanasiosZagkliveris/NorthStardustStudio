@@ -11,11 +11,11 @@ import { definedProperties, extractReferences, missingReferences, type Code } fr
    it to ALLOWED with the reason. */
 
 const DOCUMENTS = [
-    "docs/ai/layout-rules.md",
-    "docs/specifications/business-system/page-2-infrastructure-and-capability.md",
+    "docs/ai/09-layout-rules.md",
+    "docs/specifications/03-business-system/04-infrastructure-and-capability.md",
     "docs/design/foundation/01-current-design.md",
     "docs/design/foundation/02-card-structure.md",
-    "docs/ai/card-kinds.md"
+    "docs/ai/08-card-kinds.md"
 ];
 
 /** Names a document may use without the code having them, each with its reason. */

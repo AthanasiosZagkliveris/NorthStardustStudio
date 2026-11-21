@@ -2,7 +2,7 @@
 
 Status: **specification**, written 2026-10-29, updated 2026-11-21, as given by the owner. What the first published version of the app contains and what it does not. The owner's items are written as given; the assistant's checks against the app, Questions 2 and Research 5 are marked **Check** and are for the owner to confirm. The Organisation tile, Early Positioning and the Segment card follow it (section 8); the Profile card is built in part (Questions 13). What the first version leaves out is in sections 10 to 15 (the future features: **all other existing information is a future feature**; nothing there is scheduled; items already built stay in the code, hidden or unused, and are not deleted; they were Questions 4 until 2026-11-02, a living list).
 
-Related: Questions 2 (questionnaire specification), Research 5 (positioning categories), Research 6 (sources), `docs/README.md` (contents), `docs/index.md` (index) and `docs/app/glossary.md` (glossary).
+Related: Questions 2 (questionnaire specification), Research 5 (positioning categories), Research 6 (sources), `docs/README.md` (contents), `docs/index.md` (index) and `docs/app/03-glossary.md` (glossary).
 
 **Contents**
 

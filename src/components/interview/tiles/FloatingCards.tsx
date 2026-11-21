@@ -42,7 +42,7 @@ export const CLOSE_TILES_EVENT = "section-tiles:close";
 
 
 /**
- * FLOATING CARDS (docs/ai/layout-rules.md, "Floating cards"): one card alone -- a founder's, a resource's, an activity's, a
+ * FLOATING CARDS (docs/ai/09-layout-rules.md, "Floating cards"): one card alone -- a founder's, a resource's, an activity's, a
  * partner's, the Workspace form -- or a PAIR stacked (a parent card above its child), over the dimmed page (inert), each with its box
  * name centred above it (the caption, on the backdrop, outside the card), a drop shadow, and a Back button under the stack. Escape,
  * Back and a click on the dimmed space close it. It stands centred over its anchor: the card of the page it belongs to

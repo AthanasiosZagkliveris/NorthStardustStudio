@@ -2,7 +2,7 @@
 
 Status: **playbook**, written 2026-11-09, updated 2026-11-21. How a founder uses the app, step by step: the Organisations screen, the tools (Workbook, Notes, Search, Settings, Focus, the reading modes, the Calendar) and the Foundation with its Identity System and Business System.
 
-Related: `app/contents.md` (the map of the app, for the team), `app/index.md` (every place in the app), `app/glossary.md` (the terms). The app's own help is the "i" beside a title or a question: it says what the question is for and how to answer it.
+Related: `app/01-contents.md` (the map of the app, for the team), `app/02-index.md` (every place in the app), `app/03-glossary.md` (the terms). The app's own help is the "i" beside a title or a question: it says what the question is for and how to answer it.
 
 ## 1. Before you start
 
@@ -46,7 +46,7 @@ The line "back to the last place worked" on System Selection takes you straight 
 
 ### 3.3 The Identity System
 
-Who the organisation is, in law and in purpose. One page, **Identity System**, of two chapters, **Definition** and **Purpose** (each tile in full: `specifications/identity-system/page-1-definition.md`, section 1). Set the **Opening Date** on the Organisation tile first: it decides the business stage (Planning, Launching, Managing or Growing), the plan's start and the key dates.
+Who the organisation is, in law and in purpose. One page, **Identity System**, of two chapters, **Definition** and **Purpose** (each tile in full: `specifications/01-identity-system/01-definition.md`, section 1). Set the **Opening Date** on the Organisation tile first: it decides the business stage (Planning, Launching, Managing or Growing), the plan's start and the key dates.
 
 The skills the business still needs are asked on the Business System's Infrastructure & Capability: Offering's Capability, Capacity & Delivery.
 

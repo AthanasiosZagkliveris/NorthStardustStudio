@@ -147,7 +147,7 @@ The people who pay (the buyer is people: B2C alone, or the first of the two Segm
 - **Connections:**
   - *Comes from:* This Segment's work status.
   - *Read by (built):* The Market document and the export.
-  - *Read by (not built yet):* Channel order (desktop and daytime channels for remote workers) and the customer journey (a thought, Questions 4, row 7). Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-section-1-owner-2026-11-08).
+  - *Read by (not built yet):* Channel order (desktop and daytime channels for remote workers) and the customer journey (a thought, Questions 4, row 7). Map: [what each later page reads](../../specifications/03-business-system/README.md#what-each-later-page-reads-from-section-1-owner-2026-11-08).
 
 ### 6. What is your customers' work schedule?
 
@@ -166,7 +166,7 @@ The people who pay (the buyer is people: B2C alone, or the first of the two Segm
 - **Connections:**
   - *Comes from:* This Segment's work status.
   - *Read by (built):* The Market document and the export.
-  - *Read by (not built yet):* The times to reach them in the customer journey (a thought, Questions 4, row 7). Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-section-1-owner-2026-11-08).
+  - *Read by (not built yet):* The times to reach them in the customer journey (a thought, Questions 4, row 7). Map: [what each later page reads](../../specifications/03-business-system/README.md#what-each-later-page-reads-from-section-1-owner-2026-11-08).
 
 ### 7. How are your customers paid?
 
@@ -239,7 +239,7 @@ Both.
   - *Comes from:* Nothing.
   - *Read by (built, 2026-11-04):* the Competitor's K2 takes this list as its options, this Segment's answer first (Questions 14).
   - *Read by (built):* The Market document and the export.
-  - *Read by (built):* a Segment in one city or town puts the In Person and Community Discover channels first, and Box 4, 3's in-person and printed ways first (Questions 17); anywhere online puts Box 4, 3's online ways first. *Not built yet:* channel suggestions by country; the Review (distant customers and delivery). Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-section-1-owner-2026-11-08).
+  - *Read by (built):* a Segment in one city or town puts the In Person and Community Discover channels first, and Box 4, 3's in-person and printed ways first (Questions 17); anywhere online puts Box 4, 3's online ways first. *Not built yet:* channel suggestions by country; the Review (distant customers and delivery). Map: [what each later page reads](../../specifications/03-business-system/README.md#what-each-later-page-reads-from-section-1-owner-2026-11-08).
 
 ### 2. Where do your customers live or work?
 
@@ -277,7 +277,7 @@ The buyer is a business, or the Segment is of businesses where both relationship
 - **Connections:**
   - *Comes from:* Early Positioning: the seller and buyer relationship (business), (Business Data has no tick).
   - *Read by (built):* The Market document and the export; Self-employed sets the Profile's A3b (job level) to Owner / partner and does not show it (Questions 13).
-  - *Read by (not built yet):* The tender row for a public body on the Customer Engagement page; the Profile's kind of business. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-section-1-owner-2026-11-08).
+  - *Read by (not built yet):* The tender row for a public body on the Customer Engagement page; the Profile's kind of business. Map: [what each later page reads](../../specifications/03-business-system/README.md#what-each-later-page-reads-from-section-1-owner-2026-11-08).
 
 ### 2. How big are your customers' organisations?
 
@@ -297,7 +297,7 @@ The buyer is a business, or the Segment is of businesses where both relationship
   - *Comes from:* This Segment's type of organisation.
   - *Read by (built, 2026-11-04):* the Competitor's K3 takes this list as its options (Questions 14).
   - *Read by (built):* The Market document and the export.
-  - *Read by (not built yet):* Channel suggestions by size. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-section-1-owner-2026-11-08).
+  - *Read by (not built yet):* Channel suggestions by size. Map: [what each later page reads](../../specifications/03-business-system/README.md#what-each-later-page-reads-from-section-1-owner-2026-11-08).
 
 ### 3. Which sector are your customers in?
 
@@ -348,7 +348,7 @@ The buyer is a business, or the Segment is of businesses where both relationship
 - **Connections:**
   - *Comes from:* This Segment's sector.
   - *Read by (built):* The Market document and the export.
-  - *Read by (not built yet):* The Profile's kind of business; competitor industry overlap; channel suggestions by industry. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-section-1-owner-2026-11-08).
+  - *Read by (not built yet):* The Profile's kind of business; competitor industry overlap; channel suggestions by industry. Map: [what each later page reads](../../specifications/03-business-system/README.md#what-each-later-page-reads-from-section-1-owner-2026-11-08).
 - **One list under the sectors' headings** (built; owner, 2026-11-18 00:46, the review's second batch, 1.1): asked of every business Segment, all eighteen industries under their six sectors' headings (`RadioChoice` headings); the sector is its record.
 
 ## Box 4. Purchasing Power & Behaviour
@@ -367,7 +367,7 @@ The buyer is a business, or the Segment is of businesses where both relationship
   - *Comes from:* Nothing.
   - *Read by (built, 2026-11-04):* the Profile's C2, not asked when this is rated 1, and D2's start: 4 or 5 starts "Works it out alone", 1 or 2 "Wants to talk to a person" (Questions 13).
   - *Read by (built):* The Market document and the export.
-  - *Read by (not built yet):* Channel order (digital-only channels lower, personal help higher). Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-section-1-owner-2026-11-08).
+  - *Read by (not built yet):* Channel order (digital-only channels lower, personal help higher). Map: [what each later page reads](../../specifications/03-business-system/README.md#what-each-later-page-reads-from-section-1-owner-2026-11-08).
 
 ### 2. How do your customers like to socialise?
 
@@ -402,7 +402,7 @@ The buyer is a business, or the Segment is of businesses where both relationship
 - **Connections:**
   - *Comes from:* Early Positioning: the relationship (people).
   - *Read by (built):* The Market document and the export.
-  - *Read by (not built yet):* The customer journey. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-section-1-owner-2026-11-08).
+  - *Read by (not built yet):* The customer journey. Map: [what each later page reads](../../specifications/03-business-system/README.md#what-each-later-page-reads-from-section-1-owner-2026-11-08).
 
 **Box 4 in two sections (owner, 2026-11-16 16:31).** Finding & Choosing: questions 1, 2, 5, 3, 4 (how they share, moved up) and 6, then 9 for a business. Buying & Paying: 7, 7a, 7b, 8, 8a. The codes stay; each section is headed as a group of fields.
 
@@ -433,7 +433,7 @@ The buyer is a business, or the Segment is of businesses where both relationship
 - **Connections:**
   - *Comes from:* Nothing.
   - *Read by (built):* The Market document and the export; "Online communities / forums" makes the Profile ask C3 (Questions 13).
-  - *Read by (built):* each option its Discover channel (Questions 17); the order of its options (comfort and reach, 2026-11-16). *Not built yet:* the Profile's related platforms first. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-section-1-owner-2026-11-08).
+  - *Read by (built):* each option its Discover channel (Questions 17); the order of its options (comfort and reach, 2026-11-16). *Not built yet:* the Profile's related platforms first. Map: [what each later page reads](../../specifications/03-business-system/README.md#what-each-later-page-reads-from-section-1-owner-2026-11-08).
 - **Added 2026-11-16 (owner, 16:31):** Partner businesses → Referral & Affiliates › Referral Partner; Affiliate sites / blogs → Affiliate; Other, written in as a numbered list → a channel of the Other category at Discover per name. The "i" adds: Partner businesses: a shop, venue or firm that sends its customers to you. The most ticks stay three.
 
 - **Added 2026-11-16 (owner, 17:38):** Adverts in newspapers, magazines, radio or TV → Box 4, 3a; Flyers or posters → Print & Mail › Flyers / Posters; Letters or catalogues in the post → Print & Mail › Direct Mail; Free samples, tasters or trials → Samples & Trials, one subchannel per Offering's form (a physical item Free Sample, an app or online access Free Trial, a live or in-person session Taster Session / Free Class, otherwise Demo); each named at Discover (Questions 17).
@@ -470,7 +470,7 @@ The buyer is a business, or the Segment is of businesses where both relationship
   - *Comes from:* Early Positioning: the relationship (people).
   - *Comes from (an order, 2026-11-09):* What makes them go shopping (Box 4, 5): Boredom or entertainment, or Seeing a friend or creator use it, puts On impulse first; A need / problem to solve puts When they urgently need it and After comparing options first. Never a lock.
   - *Read by (built):* The Market document and the export; the Profile's D1 is not asked on "On impulse" or "When they urgently need it" (neither compares first), is asked with no start on "Out of habit", and otherwise starts from this answer (Questions 13).
-  - *Read by (built):* the Profiles' D1 (asked unless on impulse or urgently; its starts) and the Repeat customers row of Sales Forecast (out of habit); the time to buy shown on a funnel or contracts source (`monthsToClose`); the Keep and Grow goals (`startGoals`). Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-section-1-owner-2026-11-08).
+  - *Read by (built):* the Profiles' D1 (asked unless on impulse or urgently; its starts) and the Repeat customers row of Sales Forecast (out of habit); the time to buy shown on a funnel or contracts source (`monthsToClose`); the Keep and Grow goals (`startGoals`). Map: [what each later page reads](../../specifications/03-business-system/README.md#what-each-later-page-reads-from-section-1-owner-2026-11-08).
 
 ### 9. Who decides to buy?
 
@@ -492,7 +492,7 @@ The buyer is a business, or the Segment is of businesses where both relationship
 - **Connections:**
   - *Comes from:* Early Positioning: the relationship (business). **Starts (2026-11-09):** where it is not answered yet, choosing a Public body (Box 3, 1) or Large (Box 3, 2) sets Formal procurement, and Micro or Self-employed sets One person decides; change it freely (a saved answer wins).
   - *Read by (built):* The Market document and the export; the Profile's role in buying (A5 starts with every role where one person decides) and the proposed B2B Profiles by buying role (Questions 13, 2); Formal procurement starts the Profile's D2 at "formal" (Questions 13).
-  - *Read by (built):* the Contracts or tenders row of Sales Forecast and Direct Payment › Invoice at Purchase (formal procurement); the time to buy (`monthsToClose`); the relationship types (`autoRelationshipTypes`); the Profiles' A5 and D2 starts (Questions 17). Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-section-1-owner-2026-11-08).
+  - *Read by (built):* the Contracts or tenders row of Sales Forecast and Direct Payment › Invoice at Purchase (formal procurement); the time to buy (`monthsToClose`); the relationship types (`autoRelationshipTypes`); the Profiles' A5 and D2 starts (Questions 17). Map: [what each later page reads](../../specifications/03-business-system/README.md#what-each-later-page-reads-from-section-1-owner-2026-11-08).
 - **Its start follows its source** (owner, 2026-11-17 08:38: "Bugs plus the first batch" of the review): Formal procurement for a public body or a large organisation, One person decides for a micro or self-employed one, worked out each time from Box 3, 1 and 2 until answered (Micro then Large: Formal procurement); a saved copy unchanged since was taken out once.
 
 ### 7. Where do your customers usually shop?
@@ -511,7 +511,7 @@ The buyer is a business, or the Segment is of businesses where both relationship
   - *Comes from:* Nothing.
   - *Read by (built):* The Market document and the export; the Profile's C1 (devices) starts from this answer (Questions 13).
   - *Read by (built):* Customer Engagement's Purchase channels (Website › Online Store, In Person › Studio / Shop, the Marketplace channel; Questions 17).
-  - *Read by (not built yet):* the customer journey. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-section-1-owner-2026-11-08).
+  - *Read by (not built yet):* the customer journey. Map: [what each later page reads](../../specifications/03-business-system/README.md#what-each-later-page-reads-from-section-1-owner-2026-11-08).
 
 ### 7a. Which marketplaces do your customers shop on?
 
@@ -520,7 +520,7 @@ The buyer is a business, or the Segment is of businesses where both relationship
 - **Options:** Etsy · Amazon · eBay · Not On The High Street · Folksy · Gumroad · Fiverr · Upwork · Other.
 - **The "i" says:** The marketplaces where they find and buy what you sell: each becomes a channel on Customer Engagement, with its fees. · Tick Other to write another.
 - **Filtered (owner, 2026-11-17):** by the forms of the Segment's Offerings (O1): a physical item, Etsy, Folksy, Not On The High Street, Amazon, eBay; a digital file, Gumroad and Etsy; a service, Fiverr and Upwork; Other always; every one while no form is known. A marketplace saved before stays.
-- **Connections:** *Read by (built):* each tick, and each name written in, is the Marketplace subchannel of that name at Purchase (Questions 17); its fees are the Channel Fee Table's row for the Legal Entity's country ([Global Settings](../../specifications/settings/README.md#the-global-settings-screen)).
+- **Connections:** *Read by (built):* each tick, and each name written in, is the Marketplace subchannel of that name at Purchase (Questions 17); its fees are the Channel Fee Table's row for the Legal Entity's country ([Global Settings](../../specifications/07-settings/README.md#the-global-settings-screen)).
 
 ### 7b. Which shops or sellers do they buy from?
 
@@ -552,7 +552,7 @@ The buyer is a business, or the Segment is of businesses where both relationship
   - *Comes from:* This Segment's age (credit and Buy Now, Pay Later not for Minors) and Early Positioning's relationship (invoicing for business).
   - *Read by (built):* The Market document and the export; the Offering's O3, whose options it orders (Invoice or purchase order puts A project or contract first; the settled answer is read, 2026-11-08; Questions 16, O3).
   - *Read by (built):* Customer Engagement's Direct Payment channels (Card, Payment Link, Cash, Invoice, Bank Transfer; Questions 17).
-  - *Read by (not built yet):* The Offering's payment plan (instalments, invoicing). Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-section-1-owner-2026-11-08).
+  - *Read by (not built yet):* The Offering's payment plan (instalments, invoicing). Map: [what each later page reads](../../specifications/03-business-system/README.md#what-each-later-page-reads-from-section-1-owner-2026-11-08).
 - **Its start follows its source** (owner, 2026-11-17 08:38: "Bugs plus the first batch" of the review): Digital wallets while they buy on a phone, until answered; a saved copy unchanged since was taken out once.
 - **Invoice or purchase order starts** (built; owner, 2026-11-18 00:46, the review's second batch, 2.8) where a manager signs off or a formal procurement decides (Who decides to buy, itself possibly a start), beside Digital wallets on a phone; a start, following its source until answered (`segmentAnswerStarts`).
 - **A start unticked to none stays none** (owner, 2026-11-18: a start follows its source until edited, and unticking every tick is an edit): the empty answer is saved and read back (`SEGMENT_TICK_STARTS`: How they pay, Who decides to buy), so neither start comes back when its source changes.
@@ -564,7 +564,7 @@ The buyer is a business, or the Segment is of businesses where both relationship
 - **Options:** Stripe · SumUp · Square · Zettle · PayPal · Shopify Payments · Other.
 - **The "i" says:** The services that take the card and wallet payments: each one's fees come from the Global Settings' Channel Fee Table for your country. · Tick Other to write another.
 - **Ordered (owner, 2026-11-17):** by where they shop (question 7): in a shop, SumUp, Square and Zettle first; online, Stripe, PayPal and Shopify Payments first; never locked.
-- **Connections:** *Read by (built):* each service is a "Payment processing fees" card on the Segment's Direct Payment channel, one card a service for the Organisation, made and kept by the rule of the subchannels the answers make (Questions 17); its fees are the country's row ([Global Settings](../../specifications/settings/README.md#the-global-settings-screen)), charged in the forecast with or without a price on the card ([Costs, Funding & Position, 30.4](../../specifications/business-system/page-3-costs-funding-and-position.md#304-calculated-lines)).
+- **Connections:** *Read by (built):* each service is a "Payment processing fees" card on the Segment's Direct Payment channel, one card a service for the Organisation, made and kept by the rule of the subchannels the answers make (Questions 17); its fees are the country's row ([Global Settings](../../specifications/07-settings/README.md#the-global-settings-screen)), charged in the forecast with or without a price on the card ([Costs, Funding & Position, 30.4](../../specifications/03-business-system/06-costs-funding-and-position.md#304-calculated-lines)).
 - **Not asked where they shop on a marketplace** (built; owner, 2026-11-18 00:46, the review's second batch, 2.8): the marketplace takes the payment and its own fee, so no payment service of the founder's is charged there (the fee rule of 2026-11-17, Questions 17, section 5); a card made from an earlier answer goes with it, while untouched.
 
 ### 4. How do your customers share what they like?
@@ -814,7 +814,7 @@ Asked when the Segment's own buyer relationship has a Proxy or Dual-Intent buyer
 - **Connections:**
   - *Comes from:* Early Positioning: the buyer's category.
   - *Read by (built):* the end user's A8, as its starting value (Questions 13); the Market document and the export.
-  - *Read by (not built yet):* Channel order for the end user's side. Map: [what each later page reads](../../specifications/business-system/README.md#what-each-later-page-reads-from-section-1-owner-2026-11-08).
+  - *Read by (not built yet):* Channel order for the end user's side. Map: [what each later page reads](../../specifications/03-business-system/README.md#what-each-later-page-reads-from-section-1-owner-2026-11-08).
 
 ### 9. Outcome for the end user (moved from Positioning, then to the Profile, owner, 2026-11-08; retired here)
 

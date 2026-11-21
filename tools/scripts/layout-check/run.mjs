@@ -1,5 +1,5 @@
 /*
-    THE LAYOUT CHECK (docs/ai/layout-rules.md): every Foundation page,
+    THE LAYOUT CHECK (docs/ai/09-layout-rules.md): every Foundation page,
     every card unfolded, at 1920, 1366 and 768, in light and dark,
     checked by layout-probe.js against the rulebook. Any failure fails.
 
@@ -11,7 +11,7 @@
                                                      "playwright" package)
 
     or, from an agent's Playwright browser tool, paste the body of
-    runLayoutCheck with `page` bound (see docs/ai/layout-rules.md, "Run
+    runLayoutCheck with `page` bound (see docs/ai/09-layout-rules.md, "Run
     the check").
 
     It prints the failures as JSON lines, and exits 1 if there are any.
@@ -67,13 +67,13 @@ export async function pagesOf(page, base, capability, system) {
         await page.waitForTimeout(600);
     }
     const labels = await page.getByRole("navigation", { name: "Pages" }).getByRole("button").allTextContents();
-    // (Each page by its NAME, whatever number the rail gives it now: ai-collaboration-rules.md, "Read the app's structure by what a thing is".)
+    // (Each page by its NAME, whatever number the rail gives it now: 01-ai-collaboration-rules.md, "Read the app's structure by what a thing is".)
     // (openPage matches a name after the rail's number, so the name is handed on with its pattern's characters escaped.)
     return labels.map(label => label.match(/^\d+\. (.+)$/)).filter(Boolean).map(m => m[1].trim().replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
 }
 
 export const PAGES = [
-    // EACH PAGE BY ITS NAME (ai-collaboration-rules.md, "Read the app's structure by what a thing is"): matched from the start of the page's
+    // EACH PAGE BY ITS NAME (01-ai-collaboration-rules.md, "Read the app's structure by what a thing is"): matched from the start of the page's
     // button after the rail's number, whatever it is ("^(\d+\. )?Foundation"), so "Foundation" does not also find "Financial Foundation".
     ["Identity System", ["Identity System"]],
     ["Brand System", ["Brand System"]],
@@ -159,7 +159,7 @@ export async function seedExample(page, base, exampleText) {
 }
 
 /**
- * ONE SET OF REACTIONS PER KIND OF ELEMENT (docs/ai/layout-rules.md,
+ * ONE SET OF REACTIONS PER KIND OF ELEMENT (docs/ai/09-layout-rules.md,
  * "Interactions"): up to `sample` of each kind on the page is hovered,
  * and what changes is compared with the kind's rule. A kind that does not
  * react, or reacts differently, fails.
@@ -221,7 +221,7 @@ export async function checkReactions(page, where, sample = 3) {
 }
 
 /**
- * THE ONE x (docs/ai/layout-rules.md, "Interactions"): every remove
+ * THE ONE x (docs/ai/09-layout-rules.md, "Interactions"): every remove
  * button looks as a Legal Entity card's does, at rest, under the pointer
  * and focused -- its square, edge, corners, ground, colour, ring and its
  * drawn X (the two bars). The look of one x, in those three states.
@@ -294,7 +294,7 @@ async function checkRemoveLook(page, where, reference, sample = 12) {
 }
 
 /**
- * THE REAL MOUSE ON THE LIST ITEMS OF THE PAGE TILES (3. Infrastructure & Capability; docs/ai/layout-rules.md, "The page tile's slot"): every
+ * THE REAL MOUSE ON THE LIST ITEMS OF THE PAGE TILES (3. Infrastructure & Capability; docs/ai/09-layout-rules.md, "The page tile's slot"): every
  * list item of every tile of a group's FIRST ROW, with the page scrolled to its top, is pressed with real mouse events (move, down, up -- not a
  * scripted click). A tile grows to 150% under the pointer; the press moves the focus; the old code measured the tile again then (the tile already
  * grown, its transition still on its first frame), took another origin and slid the tile under the pointer between the press and the release, so

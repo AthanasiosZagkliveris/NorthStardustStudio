@@ -6,43 +6,43 @@ One-line definitions, so that terminology is the same in every document and Skil
 
 ## 1. The framework
 
-**Capability** — one of the 6 top-level groupings (for example Foundation, Deliver Value) under which the 24 Systems are organised. *Owner: `framework-conventions-and-patterns.md`.*
+**Capability** — one of the 6 top-level groupings (for example Foundation, Deliver Value) under which the 24 Systems are organised. *Owner: `06-framework-conventions-and-patterns.md`.*
 
-**System** — one of the 24 units of the Framework (for example the Identity System), each delivered as a structured interview. *Owner: `framework-conventions-and-patterns.md`.*
+**System** — one of the 24 units of the Framework (for example the Identity System), each delivered as a structured interview. *Owner: `06-framework-conventions-and-patterns.md`.*
 
-**Section** — a numbered subdivision of a System (`## N. Title`), the unit that a `Structure:` and its content belong to. *Owner: `framework-dsl-grammar.md`.*
+**Section** — a numbered subdivision of a System (`## N. Title`), the unit that a `Structure:` and its content belong to. *Owner: `07-framework-dsl-grammar.md`.*
 
-**Content triad** — the three Markdown files that define one System: its Answer file (structure), Questions file (plain-language prompts) and Help file (explanatory text); they are joined by section title, so the three must stay in step. *Owner: `framework-dsl-grammar.md`.*
+**Content triad** — the three Markdown files that define one System: its Answer file (structure), Questions file (plain-language prompts) and Help file (explanatory text); they are joined by section title, so the three must stay in step. *Owner: `07-framework-dsl-grammar.md`.*
 
-**AnswerType / AnswerDefinition** — the typed structure a Section's content parses into (Table, Free Text, Multi-Part, and others); an `AnswerDefinition` is one Section's instance of an `AnswerType`. *Owner: `framework-conventions-and-patterns.md`.*
+**AnswerType / AnswerDefinition** — the typed structure a Section's content parses into (Table, Free Text, Multi-Part, and others); an `AnswerDefinition` is one Section's instance of an `AnswerType`. *Owner: `06-framework-conventions-and-patterns.md`.*
 
-**Field / Field Registry** — a shared, named dropdown option set (Status, Scale, Frequency, Category, Platform) that a Table column can name by suffix instead of repeating its own list. *Owner: `framework-dsl-grammar.md`.*
+**Field / Field Registry** — a shared, named dropdown option set (Status, Scale, Frequency, Category, Platform) that a Table column can name by suffix instead of repeating its own list. *Owner: `07-framework-dsl-grammar.md`.*
 
-**dynamicSource** — a column whose options are read live from another Section's column, by the `- Dynamic Field (Section: Column)` suffix, instead of a fixed list. *Owner: `framework-dsl-grammar.md`.*
+**dynamicSource** — a column whose options are read live from another Section's column, by the `- Dynamic Field (Section: Column)` suffix, instead of a fixed list. *Owner: `07-framework-dsl-grammar.md`.*
 
-**Tab Group / tabbed Multi-Part** — a Multi-Part Section drawn as one flat tab bar (one tab per part, each part with its own Structure), switched on by `**Tab Group:** Yes`. *Owner: `framework-dsl-grammar.md`.*
+**Tab Group / tabbed Multi-Part** — a Multi-Part Section drawn as one flat tab bar (one tab per part, each part with its own Structure), switched on by `**Tab Group:** Yes`. *Owner: `07-framework-dsl-grammar.md`.*
 
-**The three special-case editors** — Process Library, Operational Log and Roles Responsibilities: hand-built code, not generic-renderer output, for the one hierarchical or derived relationship in the Framework. *Owner: `framework-conventions-and-patterns.md`.*
+**The three special-case editors** — Process Library, Operational Log and Roles Responsibilities: hand-built code, not generic-renderer output, for the one hierarchical or derived relationship in the Framework. *Owner: `06-framework-conventions-and-patterns.md`.*
 
 ## 2. The app
 
 **Page** — one screen of a System, with its title and rails. **Chapter** — a frame on a page that holds Master Tiles. *Owner: Foundation 1, C.0.*
 
-**Master Tile / Tile** — the square on a page that opens a dialog (the page tile), and the other tile drawings (a section tile in a dialog, a category tile, a card tile); all are drawn by one `Tile` component. A **Diagram tile** is a Master Tile that stands for a drawing (the Roadmap). *Owner: `layout-rules.md`; Interface 1.*
+**Master Tile / Tile** — the square on a page that opens a dialog (the page tile), and the other tile drawings (a section tile in a dialog, a category tile, a card tile); all are drawn by one `Tile` component. A **Diagram tile** is a Master Tile that stands for a drawing (the Roadmap). *Owner: `09-layout-rules.md`; Interface 1.*
 
-**Card / Floating card** — a card is an opened tile; a floating card is a card placed over the page (a placement, not a type); every floating card shares one width, content line and double rule between its sections. A card of a completed activity is grey. *Owner: `card-kinds.md`, `layout-rules.md`.*
+**Card / Floating card** — a card is an opened tile; a floating card is a card placed over the page (a placement, not a type); every floating card shares one width, content line and double rule between its sections. A card of a completed activity is grey. *Owner: `08-card-kinds.md`, `09-layout-rules.md`.*
 
-**Help tile** — a tile that holds no information of its own and only filters and presents records: the **Inventory** (every card with its cost, as tiles or a table, with a filter and sort window) and **Completed**. They stand in the footer band of the Business page Infrastructure & Capability (2 in the pages rail). *Owner: `layout-rules.md`, section 12.*
+**Help tile** — a tile that holds no information of its own and only filters and presents records: the **Inventory** (every card with its cost, as tiles or a table, with a filter and sort window) and **Completed**. They stand in the footer band of the Business page Infrastructure & Capability (2 in the pages rail). *Owner: `09-layout-rules.md`, section 12.*
 
-**Rail / page tab** — the bullets and page tags at the side of a page (Pages on the left, Sections on the right), and the tab that holds them with the Back button. *Owner: `layout-rules.md`.*
+**Rail / page tab** — the bullets and page tags at the side of a page (Pages on the left, Sections on the right), and the tab that holds them with the Back button. *Owner: `09-layout-rules.md`.*
 
-**Reading mode** — light, sepia, dark or auto, chosen in the header. **Token** — a named colour or size in `src/styles/tokens/tokens.ts`, generated into the stylesheets; the colours are tokens per mode. *Owner: `layout-rules.md`, section 2.*
+**Reading mode** — light, sepia, dark or auto, chosen in the header. **Token** — a named colour or size in `src/styles/tokens/tokens.ts`, generated into the stylesheets; the colours are tokens per mode. *Owner: `09-layout-rules.md`, section 2.*
 
 **Shared component** — a control or part drawn once and used everywhere (`AddButton`, `RemoveButton`, `NavArrow`, `FoldArrow`, `RadioChoice`, `TextLink`, `OptionPicker` and the rest); a look is a token or a global rule, never one page's own. *Owner: Interface 1.*
 
 **Tooltip** — a dark label above a pressed control that says in one sentence, beginning "Click to ...", what a click does. *Owner: Interface 8.*
 
-**Layout check** — the automatic check of every Foundation page against the rulebook (`npm run check:layout`), with a baseline of known findings. *Owner: `layout-rules.md`, section 18.* **Card audit** — the check of one floating card against the card pattern: its width, content line and double rule (`npm run check:card`). *Owner: `layout-rules.md`.*
+**Layout check** — the automatic check of every Foundation page against the rulebook (`npm run check:layout`), with a baseline of known findings. *Owner: `09-layout-rules.md`, section 18.* **Card audit** — the check of one floating card against the card pattern: its width, content line and double rule (`npm run check:card`). *Owner: `09-layout-rules.md`.*
 
 **Library / contract / placement** — the assets library records every asset once with its variants and a contract (`src/library`); a placement says where an asset stands in the app; two logs record the changes. *Owner: Library 1.*
 
@@ -152,9 +152,9 @@ Questions 2 is the questionnaire specification, Questions 4 the first version an
 
 **Reference** — a stable knowledge file in `docs/ai/` that skills and assistants use rather than duplicate. *Owner: `README.md`.*
 
-**Playbook** — a procedure plus a living record, as opposed to a static spec (`toolchain-and-verification-playbook.md`, with its list of expected failures). *Owner: `toolchain-and-verification-playbook.md`.*
+**Playbook** — a procedure plus a living record, as opposed to a static spec (`03-toolchain-and-verification-playbook.md`, with its list of expected failures). *Owner: `03-toolchain-and-verification-playbook.md`.*
 
-**Skill** — a packaged set of instructions (a `SKILL.md`) that an assistant uses for one kind of task; it owns behaviour, facts stay in a reference. *Owner: `ai-collaboration-rules.md`.*
+**Skill** — a packaged set of instructions (a `SKILL.md`) that an assistant uses for one kind of task; it owns behaviour, facts stay in a reference. *Owner: `01-ai-collaboration-rules.md`.*
 
 **Outstanding Finding** — a real, confirmed problem found by a diagnostic and not fixed in that turn, recorded so it is not lost. *Owner: Records 2, section 5.9 (`design/records/02-not-done-yet.md`).*
 

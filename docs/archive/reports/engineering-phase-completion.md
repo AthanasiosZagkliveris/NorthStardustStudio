@@ -1,6 +1,6 @@
 # Engineering phase completion report
 
-Status: **archive**, written 2026-08-02, updated 2026-11-02. A finished milestone report, kept for the record. Where its information now lives: the summary is the log row of 2026-08-02 (`archive/log/log-archive-2026-07-to-10.md`, the older rows of the log); the toolchain and the expected failures are `ai/toolchain-and-verification-playbook.md`; the open findings are `ai/outstanding-findings.md`. **Held only here:** that the interpreter joins a System's three files by normalised section title (not by number) and falls back silently to a Free Text answer when a title does not match (Work Completed, 1; still true in `FrameworkInterpreter.ts`), the finding that no Playwright suite ever existed in this repository, and the lessons and the future considerations at the end.
+Status: **archive**, written 2026-08-02, updated 2026-11-02. A finished milestone report, kept for the record. Where its information now lives: the summary is the log row of 2026-08-02 (`archive/log/log-archive-2026-07-to-10.md`, the older rows of the log); the toolchain and the expected failures are `ai/03-toolchain-and-verification-playbook.md`; the open findings are `ai/outstanding-findings.md`. **Held only here:** that the interpreter joins a System's three files by normalised section title (not by number) and falls back silently to a Free Text answer when a title does not match (Work Completed, 1; still true in `FrameworkInterpreter.ts`), the finding that no Playwright suite ever existed in this repository, and the lessons and the future considerations at the end.
 
 **Project:** North Stardust Studio
 **Milestone:** Conclusion of the Engineering Phase; transition to Application Development Mode
@@ -202,7 +202,7 @@ Four documents were synchronised with the repository. In every case the correcti
 |---|---|---|
 | `docs/ai/environment-and-toolchain-playbook.md` | Removed the sync step, preview-server commands, and Playwright steps; renumbered the procedure to 1–5; replaced step 4 with the supported way to run the application; corrected the layout section, CI section, two failure-mode entries, and the stability note | Described a Linux sandbox toolchain and a test suite that have never existed in this repository |
 | `docs/ai/verification-and-regression-playbook.md` | Removed all ten `verify_*.mjs` entries; retained the `it.fails` entry unchanged | Those scripts do not exist. The document's own reasoning holds that an out-of-date known-failures list is worse than none, because it invites dismissing a real regression as already known |
-| `docs/ai/ai-collaboration-rules.md` | Corrected the assertion that no tool in the environment can run `git commit`; redirected ambiguous-decision logging to the existing references | The first claim was factually incorrect and load-bearing. The second pointed at a Decision Log that was never created |
+| `docs/ai/01-ai-collaboration-rules.md` | Corrected the assertion that no tool in the environment can run `git commit`; redirected ambiguous-decision logging to the existing references | The first claim was factually incorrect and load-bearing. The second pointed at a Decision Log that was never created |
 | `.github/workflows/ci.yml` | Comment-only correction: step numbering and removal of the Playwright reference | Left uncorrected, the repository would continue to reference a suite that never existed. Workflow logic was not altered |
 
 ### Content deliberately preserved
@@ -218,7 +218,7 @@ Verification confirmed the following claims remain accurate; they were left unto
 
 ### Decision recorded: the Decision Log
 
-The `ai-collaboration-rules.md` instruction to log ambiguous decisions referenced a Decision Log that had never been created. Two resolutions were available: create the file, or revise the instruction. The instruction was revised to direct such records into whichever `docs/ai/` reference already owns the relevant subject area, consistent with the established principle of correcting existing documentation in preference to creating new documentation, and with the knowledge base's own rule that knowledge belongs beside its subject rather than in a parallel history. This decision is reversible in a single edit should a dedicated log later prove necessary.
+The `01-ai-collaboration-rules.md` instruction to log ambiguous decisions referenced a Decision Log that had never been created. Two resolutions were available: create the file, or revise the instruction. The instruction was revised to direct such records into whichever `docs/ai/` reference already owns the relevant subject area, consistent with the established principle of correcting existing documentation in preference to creating new documentation, and with the knowledge base's own rule that knowledge belongs beside its subject rather than in a parallel history. This decision is reversible in a single edit should a dedicated log later prove necessary.
 
 ---
 
@@ -232,7 +232,7 @@ All changes were delivered in commit `ca1497f`.
 - `src/assets/SystemQuestions/13_AssetSystemQuestions.md` — one heading
 - `docs/ai/environment-and-toolchain-playbook.md`
 - `docs/ai/verification-and-regression-playbook.md`
-- `docs/ai/ai-collaboration-rules.md`
+- `docs/ai/01-ai-collaboration-rules.md`
 - `docs/ai/outstanding-findings.md`
 - `.github/workflows/ci.yml` — comments only
 

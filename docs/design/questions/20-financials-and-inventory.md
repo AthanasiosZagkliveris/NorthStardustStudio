@@ -2,7 +2,7 @@
 
 Status: **specification**, written 2026-11-12, updated 2026-11-21. The page Financials: Revenue & Pricing (Section 4) and Costs, Funding & Position (Section 5) drawn as one chapter, **Financial Foundation** (`PageGroups.ts`, `oneChapter`, `joinedChapter.ts`), of three Master Tiles that ask, Revenue Streams, Costs and Funding (section 14, the one owner of the chapter's tiles), with the Offering Economics card, the questions RV1 and FN1, the Inventory's changes IN1 to IN5 and the owner's decisions D12 to D15. Each section keeps its number, its title and its saved answer (section 11). Built in part: the page, its order and its tiles (sections 1, 2, 11 and 14); still to build, in phase 7a: the Offering Economics card (section 3), RV1 (section 4), O19 and K15 as a record (section 12), the fee on a VAT-inclusive price (section 11), FN1, the dialogs' nested sub tiles and the Cash Timeline as a Diagram tile, with IN1 to IN4; IN5 comes with phase 6 (Questions 1, section 10). The dates of each step are in the log.
 
-Related: Questions 1, section 11 (the form), the two Financials specifications (`specifications/business-system/page-3-*.md`), Records 2 (5.3, I7, I9, K1), `ai/layout-rules.md` (section 12, the Inventory), Questions 17 (the Offering's four faces), Questions 21 (Strategy reads these figures).
+Related: Questions 1, section 11 (the form), the two Financials specifications (`specifications/03-business-system/page-3-*.md`), Records 2 (5.3, I7, I9, K1), `ai/09-layout-rules.md` (section 12, the Inventory), Questions 17 (the Offering's four faces), Questions 21 (Strategy reads these figures).
 
 **Contents**
 

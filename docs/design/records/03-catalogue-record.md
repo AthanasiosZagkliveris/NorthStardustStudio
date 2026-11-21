@@ -1002,7 +1002,7 @@ The owner's instruction: continue with the rest of the cards.
 - **Channel cards** (likely to change). The journey fields use a dropdown with a list cell of two lines. That field and the Description field each hold two connected elements one above the other (a tick box with its text below, or a dropdown cell with its text below): the gap between them is 6px.
 - **Questions the owner asked** (answered in chat): where the dark and sepia summaries are recorded; whether the Subchannel card was interacted with (offerings ticks, journey stages, links, expenses); whether the rails and page tabs were checked on chapters, cards, nested cards and floating cards, and at other screen sizes; whether every option of the Resource, Activity and Partner & Supplier cards was checked (category, group, status, cost option, billing type, frequency, payment plan); whether the effects of a missed fill or an error were checked; whether Notes, Calendar, Search, Review, Global Settings, Inventory and Completed were interacted with.
 
-### Rules review: the owner's statements against the rulebook (docs/ai/layout-rules.md)
+### Rules review: the owner's statements against the rulebook (docs/ai/09-layout-rules.md)
 
 | Statement | In the rulebook? | Where or what is missing |
 |---|---|---|

@@ -7,7 +7,7 @@ import { BUSINESS_COMPETITOR_TYPES, BusinessCustomerSegmentValue, BusinessFounda
  * lists its "i" notes carry.
  *
  * Every string here is the specification's own
- * (docs/specifications/business-system/page-1-foundation.md), which
+ * (docs/specifications/03-business-system/01-foundation.md), which
  * says so twice: "Do not alter the wording of the provided texts"
  * and "must be used exactly as provided. Do not rewrite, shorten,
  * expand, reinterpret, replace, or add examples". So they are quoted

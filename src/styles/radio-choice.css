@@ -88,7 +88,7 @@
 
 }
 
-/* AN OPTION UNDER THE POINTER reacts as a tick box does (docs/ai/layout-rules.md, "Interactions"): its words underlined, and the round the soft glow ring of a field you write into (4px at 18%, no wire), round as the radio is. */
+/* AN OPTION UNDER THE POINTER reacts as a tick box does (docs/ai/09-layout-rules.md, "Interactions"): its words underlined, and the round the soft glow ring of a field you write into (4px at 18%, no wire), round as the radio is. */
 .radio-choice-option > input[type="radio"]:hover:not(:disabled):not(:focus-visible) {
 
     box-shadow: var(--cell-inset-recess), var(--choice-glow);

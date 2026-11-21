@@ -94,4 +94,4 @@ Referenced by suffix (`- Status Field`, `- Frequency Field`, etc.), defined once
 
 ## What's NOT in this grammar
 
-The three hand-built editors — Process Library, Operational Log, Roles Responsibilities — use these same `Structure:` keywords to opt in, but their actual field-level behaviour (the Process→SOP→Step hierarchy, auto-generated log rows, derived role collection) is real application code, not further Markdown DSL. See `framework-conventions-and-patterns.md` for what that code does — don't try to express their behaviour by adding more columns/tags here.
+The three hand-built editors — Process Library, Operational Log, Roles Responsibilities — use these same `Structure:` keywords to opt in, but their actual field-level behaviour (the Process→SOP→Step hierarchy, auto-generated log rows, derived role collection) is real application code, not further Markdown DSL. See `06-framework-conventions-and-patterns.md` for what that code does — don't try to express their behaviour by adding more columns/tags here.

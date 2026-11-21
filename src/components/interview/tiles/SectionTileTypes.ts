@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 import { InfoPoint } from "../fields/InfoNote.tsx";
 
 /**
- * One tile of a SectionTiles grid (docs/ai/layout-rules.md, "Section tiles
+ * One tile of a SectionTiles grid (docs/ai/09-layout-rules.md, "Section tiles
  * and dialog").
  */
 export interface SectionTile {

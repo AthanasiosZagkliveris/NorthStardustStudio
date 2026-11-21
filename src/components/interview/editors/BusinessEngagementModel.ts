@@ -21,8 +21,8 @@ export const DEMAND_COUNT_LIMITS: Record<string, NumberLimit> = {
  * The questions this page asks, and the help behind its "i"s.
  *
  * The specifications for this page
- * (docs/specifications/business-system/page-1-channels.md
- * and page-1-customer-relationships.md) dictate the
+ * (docs/specifications/03-business-system/02-channels.md
+ * and 03-customer-relationships.md) dictate the
  * wording of the HELP: the five relationship type explanations, the
  * three goal meanings, the Purpose and Approach questions, the
  * three "Relative Information" lists and the definition of an

@@ -175,7 +175,7 @@ export const InitialBoxContext = createContext<string | null>(null);
 
 
 /**
- * A DIALOG'S TITLE (docs/ai/layout-rules.md, "The dialog header"): the section's heading, and -- on the SAME
+ * A DIALOG'S TITLE (docs/ai/09-layout-rules.md, "The dialog header"): the section's heading, and -- on the SAME
  * line -- each view shown inside it after a slash: "6. Digital Infrastructure / Software", "Utilities / Electricity /
  * Studio electricity". The title keeps the title style; the slash (8px either side) and the names are the same size, regular,
  * muted; the "i" note stands after the last name (the nearest one that has a note), and a long header cuts the names with an

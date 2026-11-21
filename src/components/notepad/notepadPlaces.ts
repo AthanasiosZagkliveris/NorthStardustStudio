@@ -141,7 +141,7 @@ export function pagePlace(systemNumber: number, sectionNumber: number): string {
     }
     // (A page is said as the pages rail names it: its group's title, else its section's, numbered by its place among the pages the rail shows -- each section
     // that is no companion of another --, worked out when said; a System of one page names it with no number. Never by the section's number, which is its id
-    // in the saved answer: ai-collaboration-rules.md, "Read the app's structure by what a thing is". Without the System's sections, its name alone.)
+    // in the saved answer: 01-ai-collaboration-rules.md, "Read the app's structure by what a thing is". Without the System's sections, its name alone.)
     const group = groupOf(systemNumber, sectionNumber);
     const primary = primaryOf(systemNumber, sectionNumber);
     const shown = sections.filter(section => !isCompanion(systemNumber, section.number));

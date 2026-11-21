@@ -1,5 +1,5 @@
 /**
- * Pairing survey (rules 6-8 of docs/ai/layout-rules.md): opens every page of the four Foundation systems, every tile and
+ * Pairing survey (rules 6-8 of docs/ai/09-layout-rules.md): opens every page of the four Foundation systems, every tile and
  * every nested tile/card (to a depth of 2), and records each field whose label is above its holder (label, holder kind,
  * size, shape, and the labels of the fields on its row), plus every label that names an amount, a frequency or hours.
  *

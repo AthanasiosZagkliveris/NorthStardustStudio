@@ -1,8 +1,8 @@
 # NorthStardust: index of the app
 
-Status: **index**, written 2026-10-29, updated 2026-11-21 (every place checked against the code; the Competitors, Offerings and Value Proposition rows 2026-11-09; the Business pages, the Financials tiles and the Legal Entity rows 2026-11-20; the Identity System's and the Financial Documents' rows 2026-11-21). An alphabetical list of the places and things in the app: where to find each in the app, and which document describes it. The order of the pages and how the app is entered are in `contents.md`; the meaning of the terms is in `glossary.md`; the alphabetical index of the documents is `docs/index.md`.
+Status: **index**, written 2026-10-29, updated 2026-11-21 (every place checked against the code; the Competitors, Offerings and Value Proposition rows 2026-11-09; the Business pages, the Financials tiles and the Legal Entity rows 2026-11-20; the Identity System's and the Financial Documents' rows 2026-11-21). An alphabetical list of the places and things in the app: where to find each in the app, and which document describes it. The order of the pages and how the app is entered are in `01-contents.md`; the meaning of the terms is in `03-glossary.md`; the alphabetical index of the documents is `docs/index.md`.
 
-Paths are written "System › page › tile". "Questions 2" is the document numbered 28 in `docs/README.md` (`design/questions/02-questionnaire-specification.md`); "01 C.2" is its section C.2. "Section 3" is the specification of the Business System's Section 3, `specifications/business-system/page-2-infrastructure-and-capability.md`, and so for the other sections (the folder's `README.md` lists them).
+Paths are written "System › page › tile". "Questions 2" is the document numbered 28 in `docs/README.md` (`design/questions/02-questionnaire-specification.md`); "01 C.2" is its section C.2. "Section 3" is the specification of the Business System's Section 3, `specifications/03-business-system/04-infrastructure-and-capability.md`, and so for the other sections (the folder's `README.md` lists them).
 
 ## A
 
@@ -20,20 +20,20 @@ Paths are written "System › page › tile". "Questions 2" is the document numb
 | Brand | System 2: one page, Brand System (Ambassador, Style) | Foundation 1, B.1 |
 | Brand Images | Brand › Brand System › Style | Foundation 1, B.1 |
 | Break Even | Workbook › Financial Documents › Financial Plan, Break Even (with the Stress Test) | Section 4; Questions 20, section 14 |
-| Business | System 3: Foundation & Engagement, Infrastructure & Capability, Financials | `specifications/business-system/README.md` |
-| Business Documents | Header › Workbook › Business Documents (also System Selection › Foundation › the Business Documents button, and `/documents`): Business Plan, Business Model Canvas | Foundation 1, C.2 and C.11; `specifications/workbook/README.md` |
+| Business | System 3: Foundation & Engagement, Infrastructure & Capability, Financials | `specifications/03-business-system/README.md` |
+| Business Documents | Header › Workbook › Business Documents (also System Selection › Foundation › the Business Documents button, and `/documents`): Business Plan, Business Model Canvas | Foundation 1, C.2 and C.11; `specifications/06-workbook/README.md` |
 | Business stages | Global Settings › Business stages (the four durations); worked out from the Opening Date | Questions 2, 8.2a; Questions 7 |
 
 ## C
 
 | Item | Where in the app | Described in |
 |---|---|---|
-| Calendar | System Selection › the left rail (the Framework Navigator) | Foundation 1, C.2; `contents.md` |
-| Capabilities | System Selection › the left rail and the list: Foundation, Deliver Value, Manage Information, Manage the Organisation, Communicate, Measure & Improve | `contents.md` |
+| Calendar | System Selection › the left rail (the Framework Navigator) | Foundation 1, C.2; `01-contents.md` |
+| Capabilities | System Selection › the left rail and the list: Foundation, Deliver Value, Manage Information, Manage the Organisation, Communicate, Measure & Improve | `01-contents.md` |
 | Capability (founders) | Business › 2 Infrastructure & Capability › Offering's Capability › Capacity & Delivery (the skills the business still needs, LC1) | Questions 2, 9; Foundation 2 |
-| Capability Generator | Organisations (home) › the Capability Generator button; an unfinished page (a text box, and "Analyse Capability" does nothing yet) | `contents.md` |
+| Capability Generator | Organisations (home) › the Capability Generator button; an unfinished page (a text box, and "Analyse Capability" does nothing yet) | `01-contents.md` |
 | Capital & Funding | Business › 3 Financials › Financial Foundation › Funding (its sources) | Section 5; Questions 20, section 14 |
-| Card notes | Header › Workbook (`/workbook`) › Card Notes | `contents.md` |
+| Card notes | Header › Workbook (`/workbook`) › Card Notes | `01-contents.md` |
 | Cash Flow | Workbook › Financial Documents › Financial Forecast › Cash-Flow Forecast | Section 5; Questions 20, section 14 |
 | Channel Fee Table | Global Settings › Channel Fee Table | Foundation 1, Part D 6 |
 | Channels | Business › 1 Foundation & Engagement › Engagement › Channels & Journey | Section 2, part 1 |
@@ -58,7 +58,7 @@ Paths are written "System › page › tile". "Questions 2" is the document numb
 |---|---|---|
 | Early Positioning (tile) | Identity System › Definition › Early Positioning; named by the business stage (Early, Core Market, Corporate & Portfolio Positioning) | Questions 8; Questions 2, 8.2; Questions 4 |
 | Ethics | See Purpose | Questions 9 |
-| Examples | Organisations (home): Lumen & Loom Studio, Quillfield Automation | ai/folder-plan.md |
+| Examples | Organisations (home): Lumen & Loom Studio, Quillfield Automation | ai/05-folder-plan.md |
 | Expenses (Legal Entity) | Identity System › Definition › Registrations & Expenses › Expenses | Foundation 2 |
 
 ## F
@@ -68,7 +68,7 @@ Paths are written "System › page › tile". "Questions 2" is the document numb
 | Financial Documents | Workbook › Financial Documents: Financial Forecast (with the Funding Timeline and the Revenue-Adjusted Financial Position), Funding Request, Financial Plan | Questions 20, section 14 |
 | Financial Foundation | Business › 3 Financials, the page's one chapter | Sections 4 and 5; its tiles: Questions 20, section 14 |
 | Financial Position | Workbook › Financial Documents › Funding Request (the need, what is available, the gap) and Financial Forecast (the Revenue-Adjusted Financial Position) | Section 5; Questions 20, section 14 |
-| Focus (reading aid) | Header, on a System's pages | `contents.md` |
+| Focus (reading aid) | Header, on a System's pages | `01-contents.md` |
 | Founders | Identity System › Definition › Founders & Ownership (saved in the Legal Entity); Business › 2 Infrastructure & Capability › Infrastructure › Founders | Questions 2, 9; Section 3 |
 | Funding | Business › 3 Financials › Financial Foundation › Funding (the sources) | Section 5; Questions 20, section 14 |
 | Funding Need | Workbook › Financial Documents › Funding Request (the need, Use of Funds) | Section 5; Questions 20, section 14 |
@@ -78,13 +78,13 @@ Paths are written "System › page › tile". "Questions 2" is the document numb
 | Item | Where in the app | Described in |
 |---|---|---|
 | Glossary | Header › Workbook (`/workbook`) › Glossary; also the Landing page's Workbook, Search and `/glossary`: the app's terms and yours, in two colours, under ONE funnel of the two kinds and the letter ranges (about twenty terms a range; one funnel); from the Landing page, every organisation's terms, each named with its organisation, and the organisations in the funnel; the second tab is References, with a funnel by letter range (A–I, K–Z) | Foundation 1, C.2; Research 1, 2.1 |
-| Global Settings | Header › Settings (`/settings`) | Questions 2, 8.2a; Foundation 1, Part D 6; `contents.md` |
+| Global Settings | Header › Settings (`/settings`) | Questions 2, 8.2a; Foundation 1, Part D 6; `01-contents.md` |
 
 ## H
 
 | Item | Where in the app | Described in |
 |---|---|---|
-| Header | Every page with an Organisation open: save status, reading mode, Focus, Search, Workbook (the Workbook page), Notes (the Notes panel), Settings; the Landing page: reading mode, Reload, the same Workbook (Review of every organisation, Glossary, References) | `contents.md` |
+| Header | Every page with an Organisation open: save status, reading mode, Focus, Search, Workbook (the Workbook page), Notes (the Notes panel), Settings; the Landing page: reading mode, Reload, the same Workbook (Review of every organisation, Glossary, References) | `01-contents.md` |
 | Help tile | Business › 2 Infrastructure & Capability › the footer band: Inventory and Completed | Section 3; Foundation 1, C.5 |
 
 ## I
@@ -92,7 +92,7 @@ Paths are written "System › page › tile". "Questions 2" is the document numb
 | Item | Where in the app | Described in |
 |---|---|---|
 | Icon & Logo | Brand › Brand System › Style | Foundation 1, B.1 |
-| Identity | System 1: one page, Identity System (its chapters and tiles: `specifications/identity-system/page-1-definition.md`, section 1) | Foundation 1, B.1; Questions 2, 8 |
+| Identity | System 1: one page, Identity System (its chapters and tiles: `specifications/01-identity-system/01-definition.md`, section 1) | Foundation 1, B.1; Questions 2, 8 |
 | Infrastructure | Business › 2 Infrastructure & Capability, the first chapter: Founders, Resources, Activities, Partners & Suppliers | Section 3 |
 | Inventory | Business › 2 Infrastructure & Capability › the footer band (a help tile): every card with its cost, as tiles or a table | Section 3; Foundation 2 |
 
@@ -113,7 +113,7 @@ Paths are written "System › page › tile". "Questions 2" is the document numb
 
 | Item | Where in the app | Described in |
 |---|---|---|
-| Notes | Header › Notes (the user's own notes, in the panel on the right; "Link a field" picks a field on the page; the card notes are the Workbook's Card Notes) | `contents.md` |
+| Notes | Header › Notes (the user's own notes, in the panel on the right; "Link a field" picks a field on the page; the card notes are the Workbook's Card Notes) | `01-contents.md` |
 
 ## O
 
@@ -123,7 +123,7 @@ Paths are written "System › page › tile". "Questions 2" is the document numb
 | Offerings | Business › 1 Foundation & Engagement › Foundation › Offerings | Questions 16; Questions 2, 6.8; Section 1 |
 | Opening Date | Identity System › Definition › Organisation; it decides the business stage and the plan start | Questions 7; Questions 2, 8.2a |
 | Organisation (tile) | Identity System › Definition › Organisation | Questions 7; Questions 2, 8.5 |
-| Organisations (home) | The first screen: create, import, export or delete an Organisation; Reload; System Selection; Capability Generator | `contents.md` |
+| Organisations (home) | The first screen: create, import, export or delete an Organisation; Reload; System Selection; Capability Generator | `01-contents.md` |
 
 ## P
 
@@ -133,7 +133,7 @@ Paths are written "System › page › tile". "Questions 2" is the document numb
 | Philosophy | Identity System › Purpose › Philosophy & Manifesto | Questions 9, 3.5 |
 | Positioning (tile) | Identity System › Definition; its name follows the business stage (see Early Positioning) | Questions 8 |
 | Principles | Identity System › Purpose › Values & Principles | Questions 9, 3.4 |
-| Purpose | Identity System › Purpose, the second chapter (its tiles: `specifications/identity-system/page-1-definition.md`, section 1) | Questions 9 |
+| Purpose | Identity System › Purpose, the second chapter (its tiles: `specifications/01-identity-system/01-definition.md`, section 1) | Questions 9 |
 | Profile | Business › 1 Foundation & Engagement › Foundation › Segment Description, the Profiles section under the Segment's boxes (a card that opens floating) | Questions 13; Questions 2, 6.4 |
 
 ## R
@@ -160,7 +160,7 @@ Paths are written "System › page › tile". "Questions 2" is the document numb
 | Style | Brand › Brand System, the second frame: Colours, Typography, Text Hierarchy, Icon & Logo, Brand Images | Foundation 1, B.1 |
 | Sustainability | Workbook › Financial Documents › Financial Plan, Break Even (with the Stress Test) | Section 4; Questions 20, section 14 |
 | SWOT Analysis | Strategy › Situation & Direction | Foundation 1, B.1 |
-| System Selection | The screen of the Capabilities and their Systems (`/assistant`) | `contents.md` |
+| System Selection | The screen of the Capabilities and their Systems (`/assistant`) | `01-contents.md` |
 
 ## T
 
@@ -176,4 +176,4 @@ Paths are written "System › page › tile". "Questions 2" is the document numb
 | Value Proposition | Business › 1 Foundation & Engagement › Foundation › Value Proposition | Questions 15; Questions 2, 6.7; Section 1 |
 | Values | Identity System › Purpose › Values & Principles | Questions 9, 3.3 |
 | Vision | Identity System › Purpose › Mission & Vision (saved in Definition) | Questions 9, 3.2 |
-| Workbook | Header, wherever an Organisation is open, and the Landing page (one button, no count): the Workbook page (`/workbook`), sections Business Documents, Financial Documents, Review, References, Glossary and Card Notes; on the Landing page Review (every Organisation), Glossary and References; Back or Escape returns | `contents.md`; layout rules section 7, "The Workbook" |
+| Workbook | Header, wherever an Organisation is open, and the Landing page (one button, no count): the Workbook page (`/workbook`), sections Business Documents, Financial Documents, Review, References, Glossary and Card Notes; on the Landing page Review (every Organisation), Glossary and References; Back or Escape returns | `01-contents.md`; layout rules section 7, "The Workbook" |

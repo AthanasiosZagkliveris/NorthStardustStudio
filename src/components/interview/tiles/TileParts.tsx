@@ -101,7 +101,7 @@ export function useTitleSlide(ref: RefObject<HTMLElement | null>) {
 
 
 /**
- * A TILE'S TITLE (docs/ai/layout-rules.md, "Tile anatomy"): its last line stands on the line one third
+ * A TILE'S TITLE (docs/ai/09-layout-rules.md, "Tile anatomy"): its last line stands on the line one third
  * down the square, so a long title grows upward. The room above that line holds three lines of the title
  * size at the usual tile; where a title does not fit it (a narrow tile, a long word), it drops to the small
  * size of the type scale -- that title only -- so its first line stays 12px or more from the square's top.
@@ -187,7 +187,7 @@ export function TileTitle({ children, className }: { children: ReactNode; classN
 
 
 /**
- * WHAT A SECTION INCLUDES, under its tile's title (docs/ai/layout-rules.md, "Tile anatomy"): a
+ * WHAT A SECTION INCLUDES, under its tile's title (docs/ai/09-layout-rules.md, "Tile anatomy"): a
  * bulleted list in small muted text, one line per item cut by an ellipsis; it holds every item and scrolls
  * (a thin themed scrollbar) where they are more than the room under the title. On a page tile the items that lead
  * somewhere are real controls (`links`: a button each, underlined under the pointer and the focus, opening

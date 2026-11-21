@@ -8,7 +8,7 @@ import { systems } from "./systems";
 import quillfield from "./examples/quillfield-automation-llc.json";
 import { APP_TERMS } from "./glossary";
 
-/* A GLOSSARY PLACE LANDS ON WHAT IT NAMES (ai-collaboration-rules.md, "Read the app's structure by what a thing is"): each place's tile or field is found
+/* A GLOSSARY PLACE LANDS ON WHAT IT NAMES (01-ai-collaboration-rules.md, "Read the app's structure by what a thing is"): each place's tile or field is found
    on the page it names, in the Quillfield example, by its id -- a target that matches nothing would open the page and land nowhere. */
 const EXAMPLE = quillfield as unknown as { id: string; name: string; createdAt: number };
 
