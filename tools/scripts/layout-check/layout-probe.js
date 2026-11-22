@@ -1537,9 +1537,10 @@
         //      the shared grid -- one side, two columns and two rows of that side, one gap apart, the first place top left -- so three tiles leave the fourth
         //      place empty and nothing overlaps at rest. (Measured at rest: the probe's own style holds the hover growth back.)
         // (And ONE CHAPTER SIZE ON EVERY PAGE (owner, 2026-11-11 and 2026-11-20 21:33 UTC+2, the Financials: "fix the size of the Financial Tile and its chapter"):
-        //  from a window of 1200px a chapter of a 2 x 2 is half the page card less the 12px between two chapters, on every page, one chapter or two; a Segment's
-        //  chapter, two groups in one frame, is its own kind (section 13).)
-        if (window.innerWidth >= 1200) {
+        //  where chapters stand side by side (a window of 1100px and wider than tall: owner, 2026-11-22 09:58 UTC+2, replacing the 1200px line) a chapter of a 2 x 2 is
+        //  half the page card less the 12px between two chapters, on every page, one chapter or two; a Segment's chapter, two groups in one frame, is its own kind
+        //  (section 13).)
+        if (!window.matchMedia("(max-width: 1099px), (orientation: portrait)").matches) {
             const card = document.querySelector(".conversation-card");
             for (const frame of [...document.querySelectorAll(".business-foundation-card")].filter(visible).filter(frame => frame.querySelector(".section-tiles-quad") && !frame.closest(".segment-chapter, .section-tile-dialog"))) {
                 const expected = card ? (rect(card).width - 12) / 2 : rect(frame).width;
@@ -1853,7 +1854,11 @@
                 // (offsetWidth: the tile under the pointer is grown on hover, and a rect would read that.)
                 // (The tile of every dialog is the one a page card of three across would have; the four tiles of a page card are scaled up from it.)
                 const quadBox = pageTile ? pageTile.closest(".section-tiles-quad") : null;
-                const side = quadBox ? Math.floor((quadBox.clientWidth - 2 * spec.fieldGap) / 3 - 0.01) : pageTile ? pageTile.offsetWidth : (boxes.length > 0 ? boxes[0].offsetWidth : null);
+                // (THE VERTICAL LAYOUT (layout rules section 23; owner, 2026-11-22 09:58 UTC+2, "Two a row on tablet, one on phone"): where chapters stack, a dialog's
+                // grid of cards is two a row, one on a phone (600px and under), each its share of the grid's box (TileGrid, useVerticalAcross).)
+                const verticalAcross = grid.closest(".capability-overview-scroll") || !window.matchMedia("(max-width: 1099px), (orientation: portrait)").matches ? 0 : window.matchMedia("(max-width: 600px)").matches ? 1 : 2;
+                const verticalSide = verticalAcross && grid.parentElement ? Math.max(72, (grid.parentElement.clientWidth - (verticalAcross - 1) * spec.fieldGap) / verticalAcross - 0.01) : null;
+                const side = verticalSide ?? (quadBox ? Math.floor((quadBox.clientWidth - 2 * spec.fieldGap) / 3 - 0.01) : pageTile ? pageTile.offsetWidth : (boxes.length > 0 ? boxes[0].offsetWidth : null));
                 // (The Inventory's tiles fill their row to the last pixel, its last tile 12px before the bar (owner, 2026-11-10): squares of the page tile's side
                 // or a little more, never more than one tile and gap shared across the row.)
                 const fills = !!grid.closest(".capability-overview-scroll");
