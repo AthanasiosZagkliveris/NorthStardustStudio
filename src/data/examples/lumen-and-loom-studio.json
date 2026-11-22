@@ -1759,7 +1759,7 @@
                       "scope": "8 core designs in 3 colourways; a trade price list; a sample swatch box.",
                       "delivery": "Orders through the trade portal or by email; courier delivery UK-wide; 3 weeks.",
                       "support": "An account manager; a quarterly trade newsletter; marketing images for retailers.",
-                      "requirements": "Minimum order of 6 pieces (about £300); trade prices are the RRP divided by 2.4, the usual markup of UK homeware shops, before VAT; 30-day terms."
+                      "requirements": "Minimum order of 6 pieces (about £400); trade prices are half the RRP, before VAT; 30-day terms."
                     },
                     "questions": {
                       "o1": [
@@ -4985,10 +4985,10 @@
                   "name": "Yarn",
                   "quantity": "1",
                   "hoursAvailable": "",
-                  "description": "About 0.45 kg of yarn per piece on average (a cushion about 0.35 kg, a throw about 1.1 kg) at about £40 per kg (British wool cones run about £44 a kg, organic cotton less), with loom waste. Bought in cones as needed.\nBritish wool and organic cotton.",
+                  "description": "About 0.6 kg of yarn per piece of the collection on average (a cushion about 0.35 kg, a throw about 1.1 kg, a third of the pieces throws) at about £40 per kg (British wool cones run about £44 a kg, organic cotton less), with loom waste. Bought in cones as needed.",
                   "status": "costs",
                   "cost": {
-                    "price": "19",
+                    "price": "26",
                     "frequency": "per-unit",
                     "frequencyOther": "",
                     "unit": "piece",
@@ -4996,7 +4996,52 @@
                   },
                   "providerId": "",
                   "offeringIds": [
-                    "offering-nvfuu2km",
+                    "offering-nvfuu2km"
+                  ],
+                  "workspaceKind": "",
+                  "workspaceKindOther": "",
+                  "deposit": "",
+                  "category": "materials",
+                  "group": "materials-stock",
+                  "startDate": "2025-04-01",
+                  "endDate": "",
+                  "activityId": "",
+                  "usefulLife": "",
+                  "warranty": false,
+                  "warrantyUntil": "",
+                  "rateOverride": "",
+                  "costOption": "",
+                  "amortisationYears": "",
+                  "extras": {},
+                  "paymentPlan": {
+                    "on": false,
+                    "type": "",
+                    "count": "",
+                    "lines": []
+                  },
+                  "offeringShares": {
+                    "offering-nvfuu2km": "100"
+                  },
+                  "extraStatuses": [],
+                  "insuranceId": "",
+                  "insuresId": ""
+                },
+                {
+                  "id": "resource-lntradeyarn",
+                  "name": "Yarn for the trade range",
+                  "quantity": "1",
+                  "hoursAvailable": "",
+                  "description": "About 0.37 kg of yarn per cushion or runner of the core range at about £40 per kg, with loom waste; bought by the cone with the collection's yarn.",
+                  "status": "costs",
+                  "cost": {
+                    "price": "16",
+                    "frequency": "per-unit",
+                    "frequencyOther": "",
+                    "unit": "piece",
+                    "currency": ""
+                  },
+                  "providerId": "",
+                  "offeringIds": [
                     "offering-kfyakcw5"
                   ],
                   "workspaceKind": "",
@@ -5021,8 +5066,7 @@
                     "lines": []
                   },
                   "offeringShares": {
-                    "offering-nvfuu2km": "50",
-                    "offering-kfyakcw5": "50"
+                    "offering-kfyakcw5": "100"
                   },
                   "extraStatuses": [],
                   "insuranceId": "",
@@ -6535,8 +6579,8 @@
             "delivery": {
               "offering-nvfuu2km": {
                 "hours": {
-                  "founder-3aux8uyh": "3.5",
-                  "founder-3fhkh0cm": "1.75"
+                  "founder-3aux8uyh": "2.5",
+                  "founder-3fhkh0cm": "0.5"
                 },
                 "duration": "2",
                 "constraints": "",
@@ -6552,7 +6596,7 @@
                 "supplierId": "",
                 "holdUpsOther": [
                   "One weaver keeps about two of the three looms busy on long warps.",
-                  "A cushion is about 3 hours, a runner 4 and a throw 10, finishing included (hand fringing alone is about 1.5 hours an end)."
+                  "Woven on long warps of one design: a cushion is about 2 hours, a runner 2.5 and a throw 4, finishing included; Priya packs and dispatches in about half an hour."
                 ],
                 "effort": "",
                 "deliverers": [],
@@ -6610,9 +6654,9 @@
               },
               "offering-kfyakcw5": {
                 "hours": {
-                  "founder-3aux8uyh": "2.5",
-                  "founder-3fhkh0cm": "1",
-                  "founder-z2jgpf8v": "0.5"
+                  "founder-3aux8uyh": "0.75",
+                  "founder-3fhkh0cm": "0.15",
+                  "founder-z2jgpf8v": "0.05"
                 },
                 "duration": "2",
                 "constraints": "",
@@ -6626,7 +6670,7 @@
                 "holdsAtOnce": "",
                 "supplierId": "",
                 "holdUpsOther": [
-                  "Core range only: fewer colour changes than the retail collection."
+                  "Core range only: one design to a long warp, woven with a fly shuttle and finished ten at a time, so a cushion front takes under an hour."
                 ],
                 "effort": "",
                 "deliverers": [],
@@ -6921,7 +6965,7 @@
                 "offeringId": "offering-nvfuu2km",
                 "model": "Product Sale",
                 "modelOther": "",
-                "price": "156",
+                "price": "180",
                 "unit": "Product",
                 "unitOther": "",
                 "frequency": "per-sale",
@@ -6940,7 +6984,7 @@
                 "paymentTiming": "",
                 "paymentDelay": "",
                 "firstPercent": "",
-                "description": "Average price before VAT across cushions (£120 with VAT; woven studio cushions sell at £77–£196), table runners (£95) and throws (£275 small, £395 single; Wallace Sewell's start at £385), online and at markets. About a third of the pieces are throws, so about £187 a piece with VAT, £156 without."
+                "description": "Average price before VAT across cushions (£135 with VAT; woven studio cushions sell at £77–£196), table runners (£110) and throws (£345 small, £450 single; Wallace Sewell's start at £385), online and at markets. About a third of the pieces are throws, so about £216 a piece with VAT, £180 without."
               },
               {
                 "id": "stream-2bibg9vb",
@@ -6999,7 +7043,7 @@
                 "offeringId": "offering-kfyakcw5",
                 "model": "Product Sale",
                 "modelOther": "",
-                "price": "50",
+                "price": "68",
                 "unit": "Product",
                 "unitOther": "",
                 "frequency": "per-sale",
@@ -7018,7 +7062,7 @@
                 "paymentTiming": "completion",
                 "paymentDelay": "1",
                 "firstPercent": "",
-                "description": "Trade price before VAT: the RRP divided by 2.4, the usual markup of UK homeware shops (a £120 cushion is £50 to the shop); cushions and runners of the core range only; 30-day payment terms."
+                "description": "Trade price before VAT: half the RRP, the trade discount makers of handmade homeware give (a £135 cushion is £68 to the shop); cushions and runners of the core range only; 30-day payment terms."
               }
             ]
           }
@@ -7035,7 +7079,7 @@
         {
           "sectionNumber": 1,
           "value": {
-            "situation": "Lumen & Loom Studio Ltd was incorporated in March 2025 by Maya Chen, Oliver Grant and Priya Shah and opened its Hackney Wick studio in April 2025. We sell a handwoven homeware collection online and at London markets, run beginner weaving workshops, and are starting bespoke commissions and a trade collection for interior designers and boutique hotels. Customers find us through Instagram, markets, word of mouth and design fairs. We are funded by £13,000 of founders’ capital, a £25,000 Start Up Loan and an £8,000 Hackney grant (half received at the opening). Monthly fixed costs are about £7,300, mostly three modest director salaries and rent; revenue starts small and is expected to cover costs from November 2025. To close a funding gap of about £15,200 before then, we are raising £20,000 from angels under SEIS (closing in August 2025) and £6,000 on Kickstarter in May 2025.",
+            "situation": "Lumen & Loom Studio Ltd was incorporated in March 2025 by Maya Chen, Oliver Grant and Priya Shah and opened its Hackney Wick studio in April 2025. We sell a handwoven homeware collection online and at London markets, run beginner weaving workshops, and are starting bespoke commissions and a trade collection for interior designers and boutique hotels. Customers find us through Instagram, markets, word of mouth and design fairs. We are funded by £13,000 of founders’ capital, a £25,000 Start Up Loan and an £8,000 Hackney grant (half received at the opening). Monthly fixed costs are about £7,300, mostly three modest director salaries and rent; revenue starts small and is expected to cover costs from November 2025. To close a funding gap of about £14,200 before then, we are raising £20,000 from angels under SEIS (closing in August 2025) and £6,000 on Kickstarter in May 2025.",
             "situationSource": "",
             "swot": {
               "strengths": [
@@ -7153,7 +7197,7 @@
                           "frequency": "Monthly",
                           "unit": "Currency",
                           "currency": "GBP",
-                          "description": "Funding received or agreed: £46,000 now, £72,000 with the angel round and the Kickstarter, against the £61.2k Funding Need"
+                          "description": "Funding received or agreed: £46,000 now, £72,000 with the angel round and the Kickstarter, against the £60.2k Funding Need"
                         }
                       ],
                       "ownerId": "founder-3fhkh0cm"
