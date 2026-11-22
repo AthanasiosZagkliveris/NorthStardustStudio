@@ -1014,17 +1014,18 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
     const plain = text => text.replace(/(?<=-)[a-z0-9]{8}(?![a-z0-9])/g, "~");
     const BASELINE_FILE = wide ? fileURLToPath(new URL("./baseline-wide.json", import.meta.url)) : STANDARD_BASELINE_FILE;
     const keyOf = failure => plain([failure.example, failure.page, failure.theme, failure.width, ...(failure.height ? [failure.height] : []), failure.rule, failure.where, failure.tile].join("|"));
+    // WHAT THIS RUN COVERED (2026-11-22): the pages it opened, not the pages it found something on. A page checked with no findings had kept its old
+    // entries, so the wide baseline held 2,709 entries no run found any more (all 397 under the 24px rule, and two pages since renamed). A full run
+    // (every example, page, window and mode) covers every entry, old page names too; a run of some pages covers the entries of the pages it opened.
+    const fullRun = !pageFilter && !exampleFilter && !sizeText && !widths && !only("CHECK_THEMES");
+    const covered = entry => fullRun || jobs.some(job => job.example === entry.example && String(entry.page).startsWith(job.system + " › " + job.name));
     if (process.argv.includes("--write-baseline")) {
         const merged = new Map();
         if (existsSync(BASELINE_FILE)) {
             // (A run of some pages only keeps the others' findings.)
             for (const entry of JSON.parse(readFileSync(BASELINE_FILE, "utf8"))) {
-                merged.set(entry.key, entry);
-            }
-            const ran = new Set(failures.map(failure => failure.example + "|" + failure.page));
-            for (const [key, entry] of [...merged]) {
-                if (ran.has(entry.example + "|" + entry.page)) {
-                    merged.delete(key);
+                if (!covered(entry)) {
+                    merged.set(entry.key, entry);
                 }
             }
         }
@@ -1038,8 +1039,7 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
     shown.forEach(failure => console.log(JSON.stringify(failure)));
     if (known) {
         const now = new Set(failures.map(keyOf));
-        const ran = new Set(failures.map(failure => failure.example + "|" + failure.page));
-        const gone = JSON.parse(readFileSync(BASELINE_FILE, "utf8")).filter(entry => ran.has(entry.example + "|" + entry.page) && !now.has(plain(entry.key))).length;
+        const gone = JSON.parse(readFileSync(BASELINE_FILE, "utf8")).filter(entry => covered(entry) && !now.has(plain(entry.key))).length;
         console.log("Layout check: " + shown.length + " NEW findings (" + (failures.length - shown.length) + " known in the baseline" + (gone > 0 ? ", " + gone + " of the baseline gone: rewrite it with --write-baseline" : "") + ").");
     } else {
         console.log(failures.length === 0 ? "Layout check: 0 failures." : "Layout check: " + failures.length + " failures.");
